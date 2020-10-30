@@ -5,12 +5,12 @@ import {
   PermissionService,
   UserGroup,
   UserGroupService,
+  OrganizationItemStatus,
 } from '@spartacus/organization/administration/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { OrganizationSubListService } from '../../shared/organization-sub-list/organization-sub-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
-import { OrganizationItemStatus } from '../../../core/model/organization-item-status';
 
 @Injectable({
   providedIn: 'root',

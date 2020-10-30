@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { B2BUser, EntitiesModel, PaginationModel } from '@spartacus/core';
-import { B2BUserService } from '@spartacus/organization/administration/core';
+import {
+  B2BUserService,
+  OrganizationItemStatus,
+} from '@spartacus/organization/administration/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { OrganizationSubListService } from '../../shared/organization-sub-list/organization-sub-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
-import { OrganizationItemStatus } from '../../../core/model/organization-item-status';
 
 @Injectable({
   providedIn: 'root',
