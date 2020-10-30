@@ -71,7 +71,7 @@ export function registerNewUserAndLogin(
   hiddenConsent?
 ) {
   const loginPage = waitForPage('/login', 'getLoginPage');
-  cy.findByText(/Sign in \/ Register/i).click();
+  cy.get('cx-login [role="link"]').click();
   cy.wait(`@${loginPage}`).its('status').should('eq', 200);
   const registerPage = waitForPage('/login/register', 'getRegisterPage');
   cy.findByText('Register').click();
@@ -258,7 +258,7 @@ export function moveAnonymousUserToLoggedInUser() {
     closeDialog();
 
     const loginPage = waitForPage('/login', 'getLoginPage');
-    cy.findByText(/Sign in \/ Register/i).click();
+    cy.get('cx-login [role="link"]').click();
     cy.wait(`@${loginPage}`).its('status').should('eq', 200);
 
     login(
@@ -292,7 +292,7 @@ export function testAsLoggedInUser() {
     closeDialog();
 
     const loginPage = waitForPage('/login', 'getLoginPage');
-    cy.findByText(/Sign in \/ Register/i).click();
+    cy.get('cx-login [role="link"]').click();
     cy.wait(`@${loginPage}`).its('status').should('eq', 200);
 
     login(

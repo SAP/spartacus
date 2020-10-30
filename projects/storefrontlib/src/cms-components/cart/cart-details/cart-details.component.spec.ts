@@ -17,7 +17,6 @@ import {
 import { Observable, of } from 'rxjs';
 import { PromotionService } from '../../../shared/services/promotion/promotion.service';
 import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
-import { Item } from '../cart-shared/cart-item/cart-item.component';
 import { CartDetailsComponent } from './cart-details.component';
 
 class MockActiveCartService {
@@ -53,7 +52,7 @@ class MockPromotionService {
 })
 class MockCartItemListComponent {
   @Input()
-  items: Item[];
+  items: OrderEntry[];
   @Input()
   cartIsLoading: Observable<boolean>;
   @Input()
