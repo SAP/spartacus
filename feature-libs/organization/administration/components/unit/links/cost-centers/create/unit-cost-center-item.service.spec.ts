@@ -16,6 +16,8 @@ class MockRoutingService {
   go() {}
 }
 
+const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
+
 class MockCostCenterService {
   load() {}
   get() {
@@ -23,7 +25,7 @@ class MockCostCenterService {
   }
   update() {}
   getLoadingStatus(): Observable<OrganizationItemStatus<Budget>> {
-    return of({ status: LoadStatus.SUCCESS, item: {} });
+    return mockItemStatus;
   }
   create() {}
 }
@@ -68,8 +70,8 @@ describe('UnitCostCenterItemService', () => {
       })
     );
     form.get('unit').disable();
-    service.save(form);
 
+    expect(service.save(form)).toEqual(mockItemStatus);
     expect(costCenterService.create).toHaveBeenCalledWith({
       name: 'cc name',
       unit: { uid: 'unit-uid' },
