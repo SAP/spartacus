@@ -119,8 +119,7 @@ describe('UnitApproverListService', () => {
     spyOn(unitService, 'assignApprover').and.callThrough();
     spyOn(userService, 'getLoadingStatus').and.callThrough();
 
-    service.assign(unitId, approverId);
-
+    expect(service.assign(unitId, approverId)).toEqual(mockItemStatus);
     expect(unitService.assignApprover).toHaveBeenCalledWith(
       unitId,
       approverId,
@@ -133,8 +132,7 @@ describe('UnitApproverListService', () => {
     spyOn(unitService, 'unassignApprover').and.callThrough();
     spyOn(userService, 'getLoadingStatus').and.callThrough();
 
-    service.unassign(unitId, approverId);
-
+    expect(service.unassign(unitId, approverId)).toEqual(mockItemStatus);
     expect(unitService.unassignApprover).toHaveBeenCalledWith(
       unitId,
       approverId,
