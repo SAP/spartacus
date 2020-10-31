@@ -46,10 +46,12 @@ class MockTableService {
   }
 }
 
+const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
+
 @Injectable()
 class MockBudgetService {
   getLoadingStatus(): Observable<OrganizationItemStatus<Budget>> {
-    return of({ status: LoadStatus.SUCCESS, item: {} });
+    return mockItemStatus;
   }
 }
 
@@ -96,11 +98,10 @@ describe('CostCenterBudgetListService', () => {
   });
 
   it('should assign budget', () => {
-    spyOn(costCenterService, 'assignBudget');
-    spyOn(budgetService, 'getLoadingStatus');
+    spyOn(costCenterService, 'assignBudget').and.callThrough();
+    spyOn(budgetService, 'getLoadingStatus').and.callThrough();
 
-    service.assign(costCenterCode, budgetCode);
-
+    expect(service.assign(costCenterCode, budgetCode)).toEqual(mockItemStatus);
     expect(costCenterService.assignBudget).toHaveBeenCalledWith(
       costCenterCode,
       budgetCode
@@ -109,11 +110,12 @@ describe('CostCenterBudgetListService', () => {
   });
 
   it('should unassign budget', () => {
-    spyOn(costCenterService, 'unassignBudget');
-    spyOn(budgetService, 'getLoadingStatus');
+    spyOn(costCenterService, 'unassignBudget').and.callThrough();
+    spyOn(budgetService, 'getLoadingStatus').and.callThrough();
 
-    service.unassign(costCenterCode, budgetCode);
-
+    expect(service.unassign(costCenterCode, budgetCode)).toEqual(
+      mockItemStatus
+    );
     expect(costCenterService.unassignBudget).toHaveBeenCalledWith(
       costCenterCode,
       budgetCode

@@ -44,16 +44,18 @@ class MockTableService {
     return of({ type });
   }
 }
+const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
 
 class MockPermissionService {
   getLoadingStatus(): Observable<OrganizationItemStatus<Permission>> {
-    return of({ status: LoadStatus.SUCCESS, item: {} });
+    return mockItemStatus;
   }
 }
 
 describe('UserPermissionListService', () => {
   let service: UserPermissionListService;
   let userService: B2BUserService;
+  let permissionService: PermissionService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -76,6 +78,7 @@ describe('UserPermissionListService', () => {
     });
     service = TestBed.inject(UserPermissionListService);
     userService = TestBed.inject(B2BUserService);
+    permissionService = TestBed.inject(PermissionService);
   });
 
   it('should inject service', () => {
@@ -92,19 +95,33 @@ describe('UserPermissionListService', () => {
   });
 
   it('should assign permission', () => {
-    spyOn(userService, 'assignPermission');
-    service.assign('customerId', 'permissionCode');
+    spyOn(userService, 'assignPermission').and.callThrough();
+    spyOn(permissionService, 'getLoadingStatus').and.callThrough();
+
+    expect(service.assign('customerId', 'permissionCode')).toEqual(
+      mockItemStatus
+    );
     expect(userService.assignPermission).toHaveBeenCalledWith(
       'customerId',
+      'permissionCode'
+    );
+    expect(permissionService.getLoadingStatus).toHaveBeenCalledWith(
       'permissionCode'
     );
   });
 
   it('should unassign permission', () => {
-    spyOn(userService, 'unassignPermission');
-    service.unassign('customerId', 'permissionCode');
+    spyOn(userService, 'unassignPermission').and.callThrough();
+    spyOn(permissionService, 'getLoadingStatus').and.callThrough();
+
+    expect(service.unassign('customerId', 'permissionCode')).toEqual(
+      mockItemStatus
+    );
     expect(userService.unassignPermission).toHaveBeenCalledWith(
       'customerId',
+      'permissionCode'
+    );
+    expect(permissionService.getLoadingStatus).toHaveBeenCalledWith(
       'permissionCode'
     );
   });

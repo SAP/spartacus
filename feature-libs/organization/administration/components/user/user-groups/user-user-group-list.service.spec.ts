@@ -37,10 +37,12 @@ class MockB2BUserService {
   unassignUserGroup() {}
 }
 
+const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
+
 @Injectable()
 class MockUserGroupService implements Partial<UserGroupService> {
   getLoadingStatus(_id) {
-    return of({ status: LoadStatus.SUCCESS, item: {} });
+    return mockItemStatus;
   }
 }
 
@@ -95,19 +97,32 @@ describe('UserUserGroupListService', () => {
 
   it('should assign permission', () => {
     spyOn(userService, 'assignUserGroup');
-    spyOn(userGroupService, 'getLoadingStatus');
-    service.assign('customerId', 'userGroupUid');
+    spyOn(userGroupService, 'getLoadingStatus').and.callThrough();
+
+    expect(service.assign('customerId', 'userGroupUid')).toEqual(
+      mockItemStatus
+    );
     expect(userService.assignUserGroup).toHaveBeenCalledWith(
       'customerId',
+      'userGroupUid'
+    );
+    expect(userGroupService.getLoadingStatus).toHaveBeenCalledWith(
       'userGroupUid'
     );
   });
 
   it('should unassign permission', () => {
-    spyOn(userService, 'unassignUserGroup');
-    service.unassign('customerId', 'userGroupUid');
+    spyOn(userService, 'unassignUserGroup').and.callThrough();
+    spyOn(userGroupService, 'getLoadingStatus').and.callThrough();
+
+    expect(service.unassign('customerId', 'userGroupUid')).toEqual(
+      mockItemStatus
+    );
     expect(userService.unassignUserGroup).toHaveBeenCalledWith(
       'customerId',
+      'userGroupUid'
+    );
+    expect(userGroupService.getLoadingStatus).toHaveBeenCalledWith(
       'userGroupUid'
     );
   });

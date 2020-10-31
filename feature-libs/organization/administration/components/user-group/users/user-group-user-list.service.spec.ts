@@ -44,17 +44,19 @@ class MockTableService {
     return of({ type });
   }
 }
+const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
 
 @Injectable()
 class MockB2BUserService {
   getLoadingStatus(): Observable<OrganizationItemStatus<B2BUser>> {
-    return of({ status: LoadStatus.SUCCESS, item: {} });
+    return mockItemStatus;
   }
 }
 
 describe('UserGroupUserListService', () => {
   let service: UserGroupUserListService;
   let userGroupService: UserGroupService;
+  let userService: B2BUserService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -77,6 +79,7 @@ describe('UserGroupUserListService', () => {
     });
     service = TestBed.inject(UserGroupUserListService);
     userGroupService = TestBed.inject(UserGroupService);
+    userService = TestBed.inject(B2BUserService);
   });
 
   it('should inject service', () => {
@@ -90,20 +93,30 @@ describe('UserGroupUserListService', () => {
   });
 
   it('should assign permission', () => {
-    spyOn(userGroupService, 'assignMember');
-    service.assign('userGroupCode', 'customerId');
+    spyOn(userGroupService, 'assignMember').and.callThrough();
+    spyOn(userService, 'getLoadingStatus').and.callThrough();
+
+    expect(service.assign('userGroupCode', 'customerId')).toEqual(
+      mockItemStatus
+    );
     expect(userGroupService.assignMember).toHaveBeenCalledWith(
       'userGroupCode',
       'customerId'
     );
+    expect(userService.getLoadingStatus).toHaveBeenCalledWith('customerId');
   });
 
   it('should unassign permission', () => {
-    spyOn(userGroupService, 'unassignMember');
-    service.unassign('userGroupCode', 'customerId');
+    spyOn(userGroupService, 'unassignMember').and.callThrough();
+    spyOn(userService, 'getLoadingStatus').and.callThrough();
+
+    expect(service.unassign('userGroupCode', 'customerId')).toEqual(
+      mockItemStatus
+    );
     expect(userGroupService.unassignMember).toHaveBeenCalledWith(
       'userGroupCode',
       'customerId'
     );
+    expect(userService.getLoadingStatus).toHaveBeenCalledWith('customerId');
   });
 });

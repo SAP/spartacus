@@ -47,17 +47,20 @@ class MockTableService {
   }
 }
 
+const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
+
 class MockPermissionService {
   getLoadingStatus(
     _id: string
   ): Observable<OrganizationItemStatus<Permission>> {
-    return of({ status: LoadStatus.SUCCESS, item: {} });
+    return mockItemStatus;
   }
 }
 
 describe('UserGroupPermissionListService', () => {
   let service: UserGroupPermissionListService;
   let userGroupService: UserGroupService;
+  let permissionService: PermissionService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -80,6 +83,7 @@ describe('UserGroupPermissionListService', () => {
     });
     service = TestBed.inject(UserGroupPermissionListService);
     userGroupService = TestBed.inject(UserGroupService);
+    permissionService = TestBed.inject(PermissionService);
   });
 
   it('should inject service', () => {
@@ -93,19 +97,32 @@ describe('UserGroupPermissionListService', () => {
   });
 
   it('should assign permission', () => {
-    spyOn(userGroupService, 'assignPermission');
-    service.assign('userGroupCode', 'permissionCode');
+    spyOn(userGroupService, 'assignPermission').and.callThrough();
+    spyOn(permissionService, 'getLoadingStatus').and.callThrough();
+
+    expect(service.assign('userGroupCode', 'permissionCode')).toEqual(
+      mockItemStatus
+    );
     expect(userGroupService.assignPermission).toHaveBeenCalledWith(
       'userGroupCode',
+      'permissionCode'
+    );
+    expect(permissionService.getLoadingStatus).toHaveBeenCalledWith(
       'permissionCode'
     );
   });
 
   it('should unassign permission', () => {
-    spyOn(userGroupService, 'unassignPermission');
-    service.unassign('userGroupCode', 'permissionCode');
+    spyOn(userGroupService, 'unassignPermission').and.callThrough();
+    spyOn(permissionService, 'getLoadingStatus').and.callThrough();
+    expect(service.unassign('userGroupCode', 'permissionCode')).toEqual(
+      mockItemStatus
+    );
     expect(userGroupService.unassignPermission).toHaveBeenCalledWith(
       'userGroupCode',
+      'permissionCode'
+    );
+    expect(permissionService.getLoadingStatus).toHaveBeenCalledWith(
       'permissionCode'
     );
   });
