@@ -93,15 +93,13 @@ export class AssignCellComponent<T> extends OrganizationCellComponent {
   }
 
   protected notify(item, state) {
-    if (item) {
-      this.messageService.add({
-        message: {
-          key: `${this.organizationSubListService.viewType}.${state}`,
-          params: {
-            item,
-          },
+    this.messageService.add({
+      message: {
+        key: `${this.organizationSubListService.viewType}.${state}`,
+        params: {
+          item,
         },
-      });
-    }
+      },
+    });
   }
 }

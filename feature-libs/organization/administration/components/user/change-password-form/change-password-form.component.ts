@@ -41,15 +41,13 @@ export class ChangePasswordFormComponent {
   }
 
   protected notify(item: User) {
-    if (item) {
-      this.messageService.add({
-        message: {
-          key: `user.messages.updatePassword`,
-          params: {
-            item,
-          },
+    this.messageService.add({
+      message: {
+        key: `user.messages.updatePassword`,
+        params: {
+          item,
         },
-      });
-    }
+      },
+    });
   }
 }

@@ -43,15 +43,13 @@ export class UserGroupUserListComponent {
   }
 
   protected notify(item: UserGroup) {
-    if (item) {
-      this.messageService.add({
-        message: {
-          key: `userGroupUsers.unassignAllConfirmation`,
-          params: {
-            item,
-          },
+    this.messageService.add({
+      message: {
+        key: `userGroupUsers.unassignAllConfirmation`,
+        params: {
+          item,
         },
-      });
-    }
+      },
+    });
   }
 }

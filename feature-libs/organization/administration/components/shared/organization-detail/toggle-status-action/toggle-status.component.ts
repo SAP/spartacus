@@ -110,16 +110,14 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   }
 
   protected notify(item: T) {
-    if (item) {
-      this.messageService.add({
-        message: {
-          key: item.active
-            ? this.i18nRoot + '.messages.confirmEnabled'
-            : this.i18nRoot + '.messages.confirmDisabled',
-          params: { item },
-        },
-      });
-    }
+    this.messageService.add({
+      message: {
+        key: `${this.i18nRoot}.messages.${
+          item.active ? 'confirmEnabled' : 'confirmDisabled'
+        }`,
+        params: { item },
+      },
+    });
   }
 
   ngOnDestroy() {

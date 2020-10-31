@@ -54,24 +54,25 @@ export class OrganizationFormComponent<T> {
           this.itemService.save(form, key).pipe(
             take(1),
             filter((data) => data.status === LoadStatus.SUCCESS),
-            map((data) => ({ item: data.item, key }))
+            map((data) => ({
+              item: data.item,
+              action: key ? 'update' : 'create',
+            }))
           )
         )
       )
-      .subscribe(({ item, key }) => this.notify(item, key));
+      .subscribe(({ item, action }) => this.notify(item, action));
   }
 
-  protected notify(item: T, key: string) {
-    if (item) {
-      this.messageService.add({
-        message: {
-          key: `${this.i18nRoot}.messages.${key ? 'update' : 'create'}`,
-          params: {
-            item,
-          },
+  protected notify(item: T, action: string) {
+    this.messageService.add({
+      message: {
+        key: `${this.i18nRoot}.messages.${action}`,
+        params: {
+          item,
         },
-      });
-    }
+      },
+    });
   }
 
   protected setI18nRoot(item: T): void {
