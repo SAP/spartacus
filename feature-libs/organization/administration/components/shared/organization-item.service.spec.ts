@@ -25,6 +25,7 @@ class MockOrganizationFormService {
     return mockForm;
   }
 }
+const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
 
 @Injectable()
 class MockItemService extends OrganizationItemService<any> {
@@ -35,10 +36,10 @@ class MockItemService extends OrganizationItemService<any> {
     return of();
   }
   create(_item): Observable<OrganizationItemStatus<any>> {
-    return of({ status: LoadStatus.SUCCESS, item: {} });
+    return mockItemStatus;
   }
   update(_code, _item): Observable<OrganizationItemStatus<any>> {
-    return of({ status: LoadStatus.SUCCESS, item: {} });
+    return mockItemStatus;
   }
 }
 
@@ -94,7 +95,7 @@ describe('OrganizationItemService', () => {
         spyOn(service, 'create').and.callThrough();
         const form = new FormGroup({});
         form.addControl('name', new FormControl('foo bar'));
-        service.save(form);
+        expect(service.save(form)).toEqual(mockItemStatus);
         expect(service.create).toHaveBeenCalledWith({
           name: 'foo bar',
         });
@@ -106,7 +107,8 @@ describe('OrganizationItemService', () => {
         spyOn(service, 'update').and.callThrough();
         const form = new FormGroup({});
         form.addControl('name', new FormControl('foo bar'));
-        service.save(form, 'existingCode');
+
+        expect(service.save(form, 'existingCode')).toEqual(mockItemStatus);
         expect(service.update).toHaveBeenCalledWith('existingCode', {
           name: 'foo bar',
         });

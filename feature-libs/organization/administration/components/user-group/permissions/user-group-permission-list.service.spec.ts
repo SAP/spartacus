@@ -115,6 +115,7 @@ describe('UserGroupPermissionListService', () => {
   it('should unassign permission', () => {
     spyOn(userGroupService, 'unassignPermission').and.callThrough();
     spyOn(permissionService, 'getLoadingStatus').and.callThrough();
+
     expect(service.unassign('userGroupCode', 'permissionCode')).toEqual(
       mockItemStatus
     );

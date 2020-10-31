@@ -76,7 +76,7 @@ describe('BudgetItemService', () => {
     spyOn(budgetService, 'update').and.callThrough();
     spyOn(budgetService, 'getLoadingStatus').and.callThrough();
 
-    service.save(form, 'existingCode');
+    expect(service.save(form, 'existingCode')).toEqual(mockItemStatus);
     expect(budgetService.update).toHaveBeenCalledWith('existingCode', {
       name: 'foo bar',
       code: 'new code',
@@ -88,7 +88,7 @@ describe('BudgetItemService', () => {
     spyOn(budgetService, 'create').and.callThrough();
     spyOn(budgetService, 'getLoadingStatus').and.callThrough();
 
-    service.save(form);
+    expect(service.save(form)).toEqual(mockItemStatus);
     expect(budgetService.create).toHaveBeenCalledWith({
       name: 'foo bar',
       code: 'new code',
