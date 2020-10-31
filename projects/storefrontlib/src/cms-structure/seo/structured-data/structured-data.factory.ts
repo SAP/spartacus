@@ -1,9 +1,13 @@
 import { Inject, Injectable, OnDestroy, Optional } from '@angular/core';
-import { combineLatest, Observable, of, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { SchemaBuilder } from './builders/schema.interface';
 import { SCHEMA_BUILDER } from './builders/tokens';
 import { JsonLdScriptFactory } from './json-ld-script.factory';
 
+/**
+ * Factory service that is used to build the structured data for
+ * all configured schema builders.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -15,26 +19,32 @@ export class StructuredDataFactory implements OnDestroy {
     private builders: SchemaBuilder[]
   ) {}
 
-  private subscription: Subscription;
+  protected subscription: Subscription = new Subscription();
 
-  build() {
-    this.subscription = this.collectSchemas().subscribe((schema: {}[]) => {
-      this.scriptBuilder.build(schema);
-    });
+  /**
+   * Initiates the build of structured data by collecting all schema
+   * builders.
+   */
+  build(): void {
+    if (this.scriptBuilder.isJsonLdRequired() && this.builders) {
+      this.subscription.add(
+        this.collectSchemas().subscribe((schema: {}[]) => {
+          this.scriptBuilder.build(schema);
+        })
+      );
+    }
   }
 
-  private collectSchemas(): Observable<any[]> {
-    if (!this.scriptBuilder.isJsonLdRequired() || !this.builders) {
-      return of();
-    }
+  /**
+   * Collects all schema builders and observe their structured data.
+   */
+  protected collectSchemas(): Observable<any[]> {
     return combineLatest(
       this.builders.map((builder) => builder.build())
     ).pipe();
   }
 
   ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscription.unsubscribe();
   }
 }
