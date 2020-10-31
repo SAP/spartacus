@@ -24,7 +24,10 @@ export class UnitUserRolesItemService extends OrganizationItemService<B2BUser> {
     super(currentItemService, routingService, formService);
   }
 
-  save(form: FormGroup, key?: string) {
+  save(
+    form: FormGroup,
+    key?: string
+  ): Observable<OrganizationItemStatus<B2BUser>> {
     // we enable the unit so that the underlying
     // save method can read the complete form.value.
     form.get('orgUnit').enable();

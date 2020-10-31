@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { B2BUnit, RoutingService } from '@spartacus/core';
-import { OrgUnitService } from '@spartacus/organization/administration/core';
+import {
+  OrgUnitService,
+  OrganizationItemStatus,
+} from '@spartacus/organization/administration/core';
 import { UnitFormService } from '../../../form/unit-form.service';
 import { UnitItemService } from '../../../services/unit-item.service';
 import { CurrentChildUnitService } from './current-child-unit.service';
@@ -19,7 +23,10 @@ export class ChildUnitItemService extends UnitItemService {
     super(currentItemService, routingService, formService, unitService);
   }
 
-  save(form: FormGroup, key?: string) {
+  save(
+    form: FormGroup,
+    key?: string
+  ): Observable<OrganizationItemStatus<B2BUnit>> {
     // we enable the parentOrgUnit temporarily so that the underlying
     // save method can read the complete form.value.
     form.get('parentOrgUnit')?.enable();
