@@ -307,6 +307,8 @@ export const ONLY_NUMBER_DIRECTIVE_MODULE = 'OnlyNumberDirectiveModule';
 export const ONLY_NUMBER_DIRECTIVE = 'OnlyNumberDirective';
 export const AUTO_FOCUS_DIRECTIVE = 'AutoFocusDirective';
 export const AUTO_FOCUS_DIRECTIVE_MODULE = 'AutoFocusDirectiveModule';
+export const SEARCH_CONFIG = 'SearchConfig';
+export const STORE_FINDER_SEARCH_CONFIG = 'StoreFinderSearchConfig';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
@@ -314,6 +316,8 @@ export const CMS_COMPONENT_DATA_PROPERTY_NAME = 'componentData';
 export const KYMA_ENABLED = 'kyma_enabled';
 export const ANONYMOUS_CONSENTS = 'anonymousConsents';
 export const SUB = 'sub';
+export const SORT_CODE = 'sortCode';
+export const SORT = 'sort';
 
 /***** Properties end *****/
 
