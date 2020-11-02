@@ -33,6 +33,35 @@ describe('ExternalJsFileLoader', () => {
     jsDomElement = document.createElement('script');
   });
 
+  it('should load script with params and load/error callbacks', () => {
+    // given
+    spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
+    spyOn(documentMock, 'appendChild').and.callThrough();
+    spyOn(jsDomElement, 'addEventListener').and.callThrough();
+    const params = { param1: 'value1', param2: 'value2' };
+    const callback = function () {};
+    const errorCallback = function () {};
+
+    // when
+    externalJsFileLoader.load(SCRIPT_LOAD_URL, params, callback, errorCallback);
+
+    // then
+    expect(documentMock.createElement).toHaveBeenCalledWith('script');
+    expect(jsDomElement.type).toEqual('text/javascript');
+    expect(jsDomElement.src).toContain(SCRIPT_LOAD_URL);
+    expect(jsDomElement.src.split('?')[1]).toEqual(
+      'param1=value1&param2=value2'
+    );
+    expect(jsDomElement.addEventListener).toHaveBeenCalledWith(
+      'load',
+      callback
+    );
+    expect(jsDomElement.addEventListener).toHaveBeenCalledWith(
+      'error',
+      errorCallback
+    );
+  });
+
   it('should load script with params and callback', () => {
     // given
     spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);

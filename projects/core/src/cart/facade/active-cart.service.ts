@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { EMPTY, Observable, timer } from 'rxjs';
+import { combineLatest, EMPTY, Observable, Subscription, timer } from 'rxjs';
 import {
+  auditTime,
   debounce,
   distinctUntilChanged,
   filter,
@@ -12,7 +13,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { AuthService } from '../../auth/index';
+import { UserIdService } from '../../auth/index';
 import { Cart } from '../../model/cart.model';
 import { User } from '../../model/misc.model';
 import { OrderEntry } from '../../model/order.model';
@@ -31,11 +32,12 @@ import { MultiCartService } from './multi-cart.service';
 @Injectable({
   providedIn: 'root',
 })
-export class ActiveCartService {
+export class ActiveCartService implements OnDestroy {
   private readonly PREVIOUS_USER_ID_INITIAL_VALUE =
     'PREVIOUS_USER_ID_INITIAL_VALUE';
   private previousUserId = this.PREVIOUS_USER_ID_INITIAL_VALUE;
   private activeCart$: Observable<Cart>;
+  protected subscription = new Subscription();
 
   private userId = OCC_USER_ID_ANONYMOUS;
   private cartId;
@@ -43,6 +45,7 @@ export class ActiveCartService {
 
   private activeCartId$ = this.store.pipe(
     select(MultiCartSelectors.getActiveCartId),
+    filter((cartId) => typeof cartId !== 'undefined'),
     map((cartId) => {
       if (!cartId) {
         return OCC_CART_ID_CURRENT;
@@ -56,27 +59,40 @@ export class ActiveCartService {
 
   constructor(
     protected store: Store<StateWithMultiCart>,
-    protected authService: AuthService,
+    protected userIdService: UserIdService,
     protected multiCartService: MultiCartService
   ) {
-    this.authService.getOccUserId().subscribe((userId) => {
-      this.userId = userId;
-      if (this.userId !== OCC_USER_ID_ANONYMOUS) {
-        if (this.isJustLoggedIn(userId)) {
-          this.loadOrMerge(this.cartId);
-        }
-      }
-      this.previousUserId = userId;
-    });
-
-    this.activeCartId$.subscribe((cartId) => {
-      this.cartId = cartId;
-    });
-
     this.initActiveCart();
   }
 
-  private initActiveCart() {
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  protected initActiveCart() {
+    this.subscription.add(
+      combineLatest([
+        this.userIdService.getUserId(),
+        this.activeCartId$.pipe(auditTime(0)),
+      ])
+        .pipe(map(([userId]) => userId))
+        .subscribe((userId) => {
+          this.userId = userId;
+          if (this.userId !== OCC_USER_ID_ANONYMOUS) {
+            if (this.isJustLoggedIn(userId)) {
+              this.loadOrMerge(this.cartId);
+            }
+          }
+          this.previousUserId = userId;
+        })
+    );
+
+    this.subscription.add(
+      this.activeCartId$.subscribe((cartId) => {
+        this.cartId = cartId;
+      })
+    );
+
     this.activeCart$ = this.cartSelector$.pipe(
       withLatestFrom(this.activeCartId$),
       map(([cartEntity, activeCartId]: [ProcessesLoaderState<Cart>, string]): {
@@ -146,6 +162,22 @@ export class ActiveCartService {
   }
 
   /**
+   * Returns last cart entry for provided product code.
+   * Needed to cover processes where multiple entries can share the same product code
+   * (e.g. promotions or configurable products)
+   *
+   * @param productCode
+   */
+  getLastEntry(productCode: string): Observable<OrderEntry> {
+    return this.activeCartId$.pipe(
+      switchMap((cartId) =>
+        this.multiCartService.getLastEntry(cartId, productCode)
+      ),
+      distinctUntilChanged()
+    );
+  }
+
+  /**
    * Returns cart loading state
    */
   getLoading(): Observable<boolean> {
@@ -183,6 +215,20 @@ export class ActiveCartService {
       });
     } else if (this.isGuestCart()) {
       this.guestCartMerge(cartId);
+    } else if (
+      this.userId !== this.previousUserId &&
+      this.userId !== OCC_USER_ID_ANONYMOUS &&
+      this.previousUserId !== OCC_USER_ID_ANONYMOUS
+    ) {
+      // This case covers the case when you are logged in and then asm user logs in and you don't want to merge, but only load emulated user cart
+      // Similarly when you are logged in as asm user and you logout and want to resume previous user session
+      this.multiCartService.loadCart({
+        userId: this.userId,
+        cartId,
+        extraData: {
+          active: true,
+        },
+      });
     } else {
       this.multiCartService.mergeToCurrentCart({
         userId: this.userId,
@@ -413,11 +459,9 @@ export class ActiveCartService {
       .pipe(take(1))
       .subscribe((entries) => {
         cartEntries = entries;
+        this.multiCartService.deleteCart(cartId, OCC_USER_ID_ANONYMOUS);
+        this.addEntriesGuestMerge(cartEntries);
       });
-
-    this.multiCartService.deleteCart(cartId, OCC_USER_ID_ANONYMOUS);
-
-    this.addEntriesGuestMerge(cartEntries);
   }
 
   private isEmpty(cart: Cart): boolean {

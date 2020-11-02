@@ -5,7 +5,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { AuthActions } from '../../../auth/store/actions/index';
+import { AuthActions } from '../../../auth/user-auth/store/actions/index';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { CmsRoute } from '../../models/cms-route';
 import { RoutingActions } from '../actions/index';

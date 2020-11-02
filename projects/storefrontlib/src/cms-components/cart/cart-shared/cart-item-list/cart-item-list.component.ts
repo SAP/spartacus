@@ -3,15 +3,13 @@ import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartService,
   ConsignmentEntry,
+  OrderEntry,
   PromotionLocation,
   SelectiveCartService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import {
-  CartItemComponentOptions,
-  Item,
-} from '../cart-item/cart-item.component';
+import { CartItemComponentOptions } from '../cart-item/cart-item.component';
 
 @Component({
   selector: 'cx-cart-item-list',
@@ -28,18 +26,18 @@ export class CartItemListComponent {
     optionalBtn: null,
   };
 
-  private _items: Item[] = [];
+  private _items: OrderEntry[] = [];
   form: FormGroup;
 
   @Input('items')
   // TODO: currently we're getting a new array of items if the cart changes.
   // pretty annoying as it forces a repaint on the screen,
   // which is noticable in the UI.
-  set items(items: Item[]) {
+  set items(items: OrderEntry[]) {
     this.resolveItems(items);
     this.createForm();
   }
-  get items(): Item[] {
+  get items(): OrderEntry[] {
     return this._items;
   }
 
@@ -64,7 +62,12 @@ export class CartItemListComponent {
    * The items we're getting form the input do not have a consistent model.
    * In case of a `consignmentEntry`, we need to normalize the data from the orderEntry.
    */
-  private resolveItems(items: Item[]): void {
+  private resolveItems(items: OrderEntry[]): void {
+    if (!items) {
+      this._items = [];
+      return;
+    }
+
     if (items.every((item) => item.hasOwnProperty('orderEntry'))) {
       this._items = items.map((consignmentEntry) => {
         const entry = Object.assign(
@@ -82,29 +85,33 @@ export class CartItemListComponent {
   private createForm(): void {
     this.form = new FormGroup({});
     this._items.forEach((item) => {
-      const { code } = item.product;
+      const controlName = this.getControlName(item);
       const group = new FormGroup({
-        entryNumber: new FormControl((<any>item).entryNumber),
+        entryNumber: new FormControl(item.entryNumber),
         quantity: new FormControl(item.quantity, { updateOn: 'blur' }),
       });
       if (!item.updateable || this.readonly) {
         group.disable();
       }
-      this.form.addControl(code, group);
+      this.form.addControl(controlName, group);
     });
   }
 
-  removeEntry(item: Item): void {
+  protected getControlName(item: OrderEntry): string {
+    return item.entryNumber.toString();
+  }
+
+  removeEntry(item: OrderEntry): void {
     if (this.selectiveCartService && this.options.isSaveForLater) {
       this.selectiveCartService.removeEntry(item);
     } else {
       this.activeCartService.removeEntry(item);
     }
-    delete this.form.controls[item.product.code];
+    delete this.form.controls[this.getControlName(item)];
   }
 
-  getControl(item: Item): Observable<FormGroup> {
-    return this.form.get(item.product.code).valueChanges.pipe(
+  getControl(item: OrderEntry): Observable<FormGroup> {
+    return this.form.get(this.getControlName(item)).valueChanges.pipe(
       // tslint:disable-next-line:deprecation
       startWith(null),
       map((value) => {
@@ -117,7 +124,7 @@ export class CartItemListComponent {
           this.activeCartService.updateEntry(value.entryNumber, value.quantity);
         }
       }),
-      map(() => <FormGroup>this.form.get(item.product.code))
+      map(() => <FormGroup>this.form.get(this.getControlName(item)))
     );
   }
 }

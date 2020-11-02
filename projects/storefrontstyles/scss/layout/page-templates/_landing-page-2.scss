@@ -15,7 +15,7 @@
     }
 
     &.Section1 {
-      max-width: 1140px;
+      max-width: var(--cx-page-width-max);
       margin: auto;
       margin-top: 30px;
 
@@ -25,11 +25,11 @@
     }
 
     &.Section2A {
-      margin-left: auto;
+      margin-inline-start: auto;
     }
 
     &.Section2B {
-      margin-right: auto;
+      margin-inline-end: auto;
     }
 
     &.Section2A,
@@ -52,7 +52,7 @@
     }
 
     &.Section3 {
-      max-width: 1140px;
+      max-width: var(--cx-page-width-max);
       margin: auto;
     }
 
@@ -65,7 +65,7 @@
         > * {
           --cx-flex-basis: 50%;
           border-bottom: solid 1px currentColor;
-          border-right: solid 1px currentColor;
+          border-inline-end: solid 1px currentColor;
         }
       }
 

@@ -1,49 +1,38 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  ActiveCartService,
-  Cart,
-  RoutingConfigService,
-  RoutingService,
-} from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ActiveCartService, Cart } from '@spartacus/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { CheckoutConfig } from '../../../config/checkout-config';
 import { CheckoutStep } from '../../../model/checkout-step.model';
+import { CheckoutStepService } from '../../../services/checkout-step.service';
 
 @Component({
   selector: 'cx-checkout-progress-mobile-top',
   templateUrl: './checkout-progress-mobile-top.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutProgressMobileTopComponent implements OnInit {
+  private _steps$: BehaviorSubject<CheckoutStep[]> = this.checkoutStepService
+    .steps$;
+
   constructor(
-    protected config: CheckoutConfig,
-    protected routingService: RoutingService,
-    protected routingConfigService: RoutingConfigService,
+    protected checkoutStepService: CheckoutStepService,
     protected activeCartService: ActiveCartService
   ) {}
 
-  steps: Array<CheckoutStep>;
-  routerState$: Observable<any>;
   cart$: Observable<Cart>;
+
   activeStepIndex: number;
-  activeStepUrl: string;
+  activeStepIndex$: Observable<
+    number
+  > = this.checkoutStepService.activeStepIndex$.pipe(
+    tap((index) => (this.activeStepIndex = index))
+  );
+
+  get steps$(): Observable<CheckoutStep[]> {
+    return this._steps$.asObservable();
+  }
 
   ngOnInit(): void {
-    this.steps = this.config.checkout.steps;
     this.cart$ = this.activeCartService.getActive();
-    this.routerState$ = this.routingService.getRouterState().pipe(
-      tap((router) => {
-        this.activeStepUrl = router.state.context.id;
-
-        this.steps.forEach((step, index) => {
-          const routeUrl = `/${
-            this.routingConfigService.getRouteConfig(step.routeName).paths[0]
-          }`;
-          if (routeUrl === this.activeStepUrl) {
-            this.activeStepIndex = index;
-          }
-        });
-      })
-    );
   }
 }

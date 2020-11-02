@@ -23,7 +23,7 @@ export function checkForAppliedPromotions() {
 
 export function addProductToCart() {
   cy.get('cx-add-to-cart')
-    .getByText(/Add To Cart/i)
+    .findByText(/Add To Cart/i)
     .click();
   cy.server();
   cy.route(
@@ -36,12 +36,12 @@ export function addProductToCart() {
 
 export function goToCartDetailsViewFromCartDialog() {
   cy.get('cx-added-to-cart-dialog').within(() => {
-    cy.getByText(/view cart/i).click();
+    cy.findByText(/view cart/i).click();
   });
 }
 
 export function selectShippingAddress() {
-  cy.getByText(/proceed to checkout/i).click();
+  cy.findByText(/proceed to checkout/i).click();
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .find('.cx-summary-amount')
@@ -65,7 +65,7 @@ export function selectPaymentMethod() {
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
     .should('not.be.empty');
-  cy.get('.cx-card-title').should('contain', 'Default Payment Method');
+  cy.get('.cx-card-title').should('contain', '✓ DEFAULT');
   cy.get('.card-header').should('contain', 'Selected');
   cy.get('button.btn-primary').click();
   // cannot use cy.visit here, as review order is unavailable
@@ -130,7 +130,7 @@ export function decreaseQuantityOfCartEntry() {
 
 export function removeCartEntry() {
   cy.get('.cx-item-list-items').within(() => {
-    cy.getByText(/Remove/i).click();
+    cy.findByText(/Remove/i).click();
   });
 }
 

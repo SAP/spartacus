@@ -76,7 +76,7 @@ export function addToWishListAnonymous(product: TestProduct) {
 
   cy.get('cx-breadcrumb > h1').should('contain', 'Login');
 
-  cy.get('cx-login-form .btn-register').click({ force: true });
+  cy.get('cx-login-register .btn-register').click({ force: true });
 
   registerWishListUser();
 
@@ -177,7 +177,7 @@ export function checkWishListPersisted(product: TestProduct) {
     option: 'Sign Out',
   });
 
-  cy.getByText(/Sign in \/ Register/i).click();
+  cy.findByText(/Sign in \/ Register/i).click();
 
   loginWishListUser();
 
@@ -230,7 +230,7 @@ function proceedToCheckout() {
     '/checkout/shipping-address',
     'getShippingAddressPage'
   );
-  cy.getByText(/proceed to checkout/i).click();
+  cy.findByText(/proceed to checkout/i).click();
   cy.wait(`@${shippingAddressPage}`).its('status').should('eq', 200);
 }
 
@@ -261,7 +261,7 @@ function placeOrderWithProducts(checkoutProducts: TestProduct[]) {
     cy.get('cx-cart-item-list').contains('cx-cart-item', product.code);
   }
 
-  cy.getByText('Terms & Conditions')
+  cy.findByText('Terms & Conditions')
     .should('have.attr', 'target', '_blank')
     .should(
       'have.attr',

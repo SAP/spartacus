@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { AuthService } from '../../auth/facade/auth.service';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import {
   ReturnRequest,
   ReturnRequestEntryInputList,
   ReturnRequestList,
   ReturnRequestModification,
 } from '../../model/order.model';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessLoadingFactory,
@@ -24,7 +25,7 @@ import { CANCEL_RETURN_PROCESS_ID, StateWithUser } from '../store/user-state';
 export class OrderReturnRequestService {
   constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
-    protected authService: AuthService
+    protected userIdService: UserIdService
   ) {}
 
   /**
@@ -35,7 +36,7 @@ export class OrderReturnRequestService {
   createOrderReturnRequest(
     returnRequestInput: ReturnRequestEntryInputList
   ): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.CreateOrderReturnRequest({
           userId,
@@ -76,7 +77,7 @@ export class OrderReturnRequestService {
    * @param returnRequestCode
    */
   loadOrderReturnRequestDetail(returnRequestCode: string): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.LoadOrderReturnRequest({
           userId,
@@ -97,15 +98,17 @@ export class OrderReturnRequestService {
     currentPage?: number,
     sort?: string
   ): void {
-    this.authService.invokeWithUserId((userId) => {
-      this.store.dispatch(
-        new UserActions.LoadOrderReturnRequestList({
-          userId,
-          pageSize,
-          currentPage,
-          sort,
-        })
-      );
+    this.userIdService.invokeWithUserId((userId) => {
+      if (userId !== OCC_USER_ID_ANONYMOUS) {
+        this.store.dispatch(
+          new UserActions.LoadOrderReturnRequestList({
+            userId,
+            pageSize,
+            currentPage,
+            sort,
+          })
+        );
+      }
     });
   }
 
@@ -144,7 +147,7 @@ export class OrderReturnRequestService {
     returnRequestCode: string,
     returnRequestModification: ReturnRequestModification
   ): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.CancelOrderReturnRequest({
           userId,

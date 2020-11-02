@@ -1,0 +1,50 @@
+<ng-container *ngIf="unit$ | async as unit">
+  <cx-organization-card
+    *ngIf="model$ | async as model"
+    i18nRoot="unitAddress.details"
+  >
+    <button class="button" actions (click)="deleteAddress(unit.uid, model.id)">
+      {{ 'organization.delete' | cxTranslate }}
+    </button>
+    <a class="link" actions routerLink="edit">
+      {{ 'organization.edit' | cxTranslate }}
+    </a>
+
+    <section main class="details">
+      <div class="property">
+        <label>{{ 'unit.name' | cxTranslate }}</label>
+        <span class="value"> {{ model.firstName }} {{ model.lastName }} </span>
+      </div>
+
+      <div class="property">
+        <label>{{ 'unit.unit' | cxTranslate }}</label>
+        <span class="value">
+          <a
+            [routerLink]="
+              {
+                cxRoute: 'unitDetails',
+                params: unit
+              } | cxUrl
+            "
+          >
+            {{ unit.name }}
+          </a>
+        </span>
+      </div>
+
+      <div class="property full-width">
+        <label>{{ 'unitAddress.formattedAddress' | cxTranslate }}</label>
+        <span class="value">
+          {{ model.formattedAddress }}
+        </span>
+      </div>
+
+      <div class="property">
+        <label>{{ 'unitAddress.country' | cxTranslate }}</label>
+        <span class="value">
+          {{ (getCountry(model.country.isocode) | async)?.name }}
+        </span>
+      </div>
+    </section>
+  </cx-organization-card>
+</ng-container>

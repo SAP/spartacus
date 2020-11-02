@@ -55,11 +55,11 @@ export interface Applicable {
  * @param priorityParams - array of parameters passed for getPriority calls
  */
 export function resolveApplicable<T extends Applicable>(
-  applicables: T[] = [],
+  applicables: T[],
   matchParams: any[] = [],
   priorityParams: any[] = []
 ): T | undefined {
-  const matchedApplicables = applicables.filter(
+  const matchedApplicables = (applicables ?? []).filter(
     (applicable) => !applicable.hasMatch || applicable.hasMatch(...matchParams)
   );
 

@@ -1,7 +1,5 @@
 export function checkBanner() {
-  cy.get(
-    'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras"]'
-  ).should('exist');
+  cy.get('cx-page-slot cx-banner img').should('exist');
 }
 
 export function clickHamburger() {

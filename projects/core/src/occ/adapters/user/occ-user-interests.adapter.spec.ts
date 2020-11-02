@@ -4,7 +4,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { OccConfig } from '../../../occ/config/occ-config';
+import { OccConfig } from '../../config/occ-config';
 
 import { OccUserInterestsAdapter } from './occ-user-interests.adapter';
 import {

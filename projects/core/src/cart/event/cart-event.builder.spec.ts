@@ -2,8 +2,8 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
 import { of, Subject } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { EventService } from '../../event/event.service';
+import { Cart } from '../../model';
 import { createFrom } from '../../util/create-from';
 import { ActiveCartService } from '../facade/active-cart.service';
 import { CartActions } from '../store/actions';
@@ -12,6 +12,8 @@ import {
   CartAddEntryEvent,
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
+  CartRemoveEntrySuccessEvent,
+  CartUpdateEntrySuccessEvent,
 } from './cart.events';
 
 interface ActionWithPayload extends Action {
@@ -20,9 +22,16 @@ interface ActionWithPayload extends Action {
 
 const MOCK_ACTIVE_CART_ID = 'activeCartId';
 const MOCK_NOT_ACTIVE_CART_ID = 'notActiveCartId';
-
+const MOCK_ACTIVE_CART: Cart = {
+  entries: [
+    { quantity: 2, product: { code: '123' } },
+    { quantity: 3, product: { code: '234' } },
+  ],
+  guid: MOCK_ACTIVE_CART_ID,
+  code: '00000123',
+};
 class MockActiveCartService implements Partial<ActiveCartService> {
-  getActiveCartId = () => of(MOCK_ACTIVE_CART_ID);
+  getActive = () => of(MOCK_ACTIVE_CART);
 }
 
 const MOCK_NOT_ACTIVE_CART_EVENT = Object.freeze({
@@ -69,7 +78,6 @@ describe('CartEventBuilder', () => {
     const result = [];
     eventService
       .get(event.constructor as Type<any>)
-      .pipe(take(1))
       .subscribe((e) => result.push(e));
 
     actions$.next(actionActive as any);
@@ -83,6 +91,7 @@ describe('CartEventBuilder', () => {
   describe('should register event', () => {
     it('CartAddEntryEvent', () => {
       const eventData: CartAddEntryEvent = {
+        cartCode: MOCK_ACTIVE_CART.code,
         productCode: 'productCode',
         quantity: 123,
         ...MOCK_ACTIVE_CART_EVENT,
@@ -100,10 +109,11 @@ describe('CartEventBuilder', () => {
 
     it('CartAddEntrySuccessEvent', () => {
       const eventData: CartAddEntrySuccessEvent = {
+        cartCode: MOCK_ACTIVE_CART.code,
         productCode: 'productCode',
         quantity: 123,
         deliveryModeChanged: true,
-        entry: null,
+        entry: {},
         quantityAdded: 1,
         ...MOCK_ACTIVE_CART_EVENT,
       };
@@ -127,6 +137,7 @@ describe('CartEventBuilder', () => {
     it('CartAddEntryFailEvent', () => {
       const eventData: CartAddEntryFailEvent = {
         productCode: 'productCode',
+        cartCode: MOCK_ACTIVE_CART.code,
         quantity: 123,
         ...MOCK_ACTIVE_CART_EVENT,
       };
@@ -143,6 +154,79 @@ describe('CartEventBuilder', () => {
           ...MOCK_NOT_ACTIVE_CART_EVENT,
         }),
       });
+    });
+
+    it('CartRemoveEntrySuccessEvent', () => {
+      const firstEventData: CartRemoveEntrySuccessEvent = {
+        cartCode: MOCK_ACTIVE_CART.code,
+        entry: MOCK_ACTIVE_CART.entries[0],
+        ...MOCK_ACTIVE_CART_EVENT,
+      };
+
+      const secondEventData: CartRemoveEntrySuccessEvent = {
+        cartCode: MOCK_ACTIVE_CART.code,
+        entry: MOCK_ACTIVE_CART.entries[1],
+        ...MOCK_ACTIVE_CART_EVENT,
+      };
+
+      const result = [];
+      const subscription = eventService
+        .get(CartRemoveEntrySuccessEvent)
+        .subscribe((e) => result.push(e));
+
+      actions$.next(
+        new CartActions.CartRemoveEntrySuccess({
+          entryNumber: '0',
+          ...MOCK_ACTIVE_CART_EVENT,
+        })
+      );
+      actions$.next(
+        new CartActions.CartRemoveEntrySuccess({
+          entryNumber: '0',
+          ...MOCK_NOT_ACTIVE_CART_EVENT,
+        })
+      );
+
+      actions$.next(
+        new CartActions.CartRemoveEntrySuccess({
+          entryNumber: '1',
+          ...MOCK_ACTIVE_CART_EVENT,
+        })
+      );
+
+      expect(result.length).toBe(2);
+      expect(result[0].constructor).toEqual(CartRemoveEntrySuccessEvent);
+      expect(result[0]).toEqual(jasmine.objectContaining(firstEventData));
+      expect(result[1]).toEqual(jasmine.objectContaining(secondEventData));
+
+      subscription.unsubscribe();
+    });
+
+    it('CartModifiedEntrySuccessEvent', () => {
+      const firstEventData: CartUpdateEntrySuccessEvent = {
+        cartCode: MOCK_ACTIVE_CART.code,
+        entry: MOCK_ACTIVE_CART.entries[0],
+        quantity: 2,
+        ...MOCK_ACTIVE_CART_EVENT,
+      };
+
+      const result = [];
+      const subscription = eventService
+        .get(CartUpdateEntrySuccessEvent)
+        .subscribe((e) => result.push(e));
+
+      actions$.next(
+        new CartActions.CartUpdateEntrySuccess({
+          entryNumber: '0',
+          quantity: 2,
+          ...MOCK_ACTIVE_CART_EVENT,
+        })
+      );
+      expect(result.length).toBe(1);
+      expect(result[0].constructor).toEqual(CartUpdateEntrySuccessEvent);
+      expect(result[0]).toEqual(jasmine.objectContaining(firstEventData));
+
+      subscription.unsubscribe();
     });
   });
 });

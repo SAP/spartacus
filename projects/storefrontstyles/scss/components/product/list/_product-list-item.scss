@@ -26,7 +26,7 @@
 
   .cx-product-name {
     @include type('5');
-    text-align: left;
+    text-align: start;
     display: block;
     margin: 0 0 3px 0;
     color: var(--cx-color-dark);
@@ -39,7 +39,7 @@
 
   .cx-product-price {
     @include type('3');
-    text-align: left;
+    text-align: start;
     margin: 15px 0 0 0;
 
     &.old {
@@ -48,7 +48,10 @@
     }
 
     &.new {
-      margin: 0 0 0 5px;
+      margin-top: 0;
+      margin-inline-end: 0;
+      margin-bottom: 0;
+      margin-inline-start: 5px;
       color: var(--cx-color-primary);
     }
   }

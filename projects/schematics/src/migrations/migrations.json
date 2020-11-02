@@ -1,33 +1,33 @@
 {
   "schematics": {
     "migration-v2-validate-01": {
-      "version": "2-rc.2",
+      "version": "2.1.0-next.1",
       "factory": "./2_0/validate#validate",
       "description": "Performs some validations before proceeding to upgrade Spartacus to v2"
     },
     "migration-v2-methods-and-properties-deprecations-02": {
-      "version": "2-rc.2",
+      "version": "2.1.0-next.1",
       "factory": "./2_0/methods-and-properties-deprecations/methods-and-properties-deprecations#migrate",
       "description": "Comment about usage of remove public methods or properties"
     },
     "migration-v2-constructor-deprecations-03": {
-      "version": "2-rc.2",
+      "version": "2.1.0-next.1",
       "factory": "./2_0/constructor-deprecations/constructor-deprecations#migrate",
       "description": "Add or remove constructor parameters"
     },
     "migration-v2-removed-public-api-deprecation-04": {
-      "version": "2-rc.2",
+      "version": "2.1.0-next.1",
       "factory": "./2_0/removed-public-api-deprecations/removed-public-api-deprecation#migrate",
       "description": "Comment about usage of removed public api"
     },
     "migration-v2-component-deprecations-05": {
-      "version": "2-rc.2",
+      "version": "2.1.0-next.1",
       "factory": "./2_0/component-deprecations/component-deprecations#migrate",
       "description": "Handle deprecated Spartacus components"
     },
     "migration-v2-css-06": {
-      "version": "2-rc.2",
-      "factory": "./2_0/css#migrate",
+      "version": "2.1.0-next.1",
+      "factory": "./mechanism/css#migrate",
       "description": "Handle deprecated CSS"
     },
     "migration-v2-ssr-07": {
@@ -41,9 +41,40 @@
       "description": "Run ng add @angular/localize"
     },
     "migration-v2-config-deprecations-09": {
-      "version": "2-rc.2",
+      "version": "2.1.0-next.1",
       "factory": "./2_0/config-deprecations/config-deprecation#migrate",
       "description": "Handle deprecated configuration properties"
+    },
+
+    "migration-v3-component-deprecations-01": {
+      "version": "3.0.0-next.6",
+      "factory": "./3_0/component-deprecations/component-deprecations#migrate",
+      "description": "Handle deprecated Spartacus components"
+    },
+    "migration-v3-config-deprecations-02": {
+      "version": "3.0.0-next.6",
+      "factory": "./3_0/config-deprecations/config-deprecation#migrate",
+      "description": "Handle deprecated configuration properties"
+    },
+    "migration-v3-constructor-deprecations-03": {
+      "version": "3.0.0-next.6",
+      "factory": "./3_0/constructor-deprecations/constructor-deprecations#migrate",
+      "description": "Add or remove constructor parameters"
+    },
+    "migration-v3-methods-and-properties-deprecations-04": {
+      "version": "3.0.0-next.6",
+      "factory": "./3_0/methods-and-properties-deprecations/methods-and-properties-deprecations#migrate",
+      "description": "Comment about usage of remove public methods or properties"
+    },
+    "migration-v3-removed-public-api-deprecation-05": {
+      "version": "3.0.0-next.6",
+      "factory": "./3_0/removed-public-api-deprecations/removed-public-api-deprecation#migrate",
+      "description": "Comment about usage of removed public api"
+    },
+    "migration-v3-css-06": {
+      "version": "3.0.0-next.6",
+      "factory": "./mechanism/css#migrate",
+      "description": "Handle deprecated CSS"
     }
   }
 }

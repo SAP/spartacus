@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, ComponentFactoryResolver, Inject } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FeaturesConfig } from '@spartacus/core';
-import { of } from 'rxjs';
+import { By } from '@angular/platform-browser';
+import { FeaturesConfig, getLastValueSync } from '@spartacus/core';
+import { OutletService } from '@spartacus/storefront';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { DeferLoaderService } from '../../layout/loading/defer-loader.service';
 import { OutletRefDirective } from './outlet-ref/outlet-ref.directive';
 import { OutletDirective } from './outlet.directive';
-import { OutletPosition } from './outlet.model';
+import { OutletContextData, OutletPosition } from './outlet.model';
 
 const keptOutlet = 'keptOutlet';
 const replacedOutlet = 'replacedOutlet';
@@ -326,6 +328,156 @@ describe('OutletDirective', () => {
       hostFixture.detectChanges();
 
       expect(getContent(hostFixture)).toContain('B');
+    });
+  });
+
+  describe('ComponentFactory in outlet', () => {
+    let mockContextSubject$: BehaviorSubject<string>;
+
+    @Component({
+      template: `
+        <div id="kept">
+          <ng-template
+            [cxOutlet]="'${keptOutlet}'"
+            [cxOutletContext]="mockContext$ | async"
+          >
+            <div id="original">whatever</div>
+          </ng-template>
+        </div>
+      `,
+    })
+    class MockTemplateComponent {
+      constructor(
+        @Inject('mockContext') public mockContext$: Observable<string>
+      ) {}
+    }
+
+    @Component({
+      template: ` <div id="component">TestData</div> `,
+      selector: 'cx-test-component',
+    })
+    class MockOutletComponent {
+      constructor(public outlet: OutletContextData) {}
+    }
+
+    beforeEach(async(() => {
+      mockContextSubject$ = new BehaviorSubject('fakeContext');
+
+      TestBed.configureTestingModule({
+        imports: [],
+        declarations: [
+          MockTemplateComponent,
+          MockOutletComponent,
+          OutletDirective,
+          OutletRefDirective,
+        ],
+        providers: [
+          {
+            provide: DeferLoaderService,
+            useClass: MockDeferLoaderService,
+          },
+          {
+            provide: 'mockContext',
+            useValue: mockContextSubject$,
+          },
+          {
+            provide: FeaturesConfig,
+            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #8201
+          },
+        ],
+      }).compileComponents();
+    }));
+
+    it('should render component', () => {
+      const outletService = TestBed.inject(OutletService);
+      const cfr = TestBed.inject(ComponentFactoryResolver);
+      outletService.add(
+        keptOutlet,
+        cfr.resolveComponentFactory(MockOutletComponent)
+      );
+      const fixture = TestBed.createComponent(MockTemplateComponent);
+      fixture.detectChanges();
+      const compiled = fixture.debugElement.nativeElement;
+      expect(compiled.querySelector('#kept #original')).toBeFalsy();
+      expect(compiled.querySelector('#kept #component')).toBeTruthy();
+    });
+
+    it('should render component BEFORE', () => {
+      const outletService = TestBed.inject(OutletService);
+      const cfr = TestBed.inject(ComponentFactoryResolver);
+      outletService.add(
+        keptOutlet,
+        cfr.resolveComponentFactory(MockOutletComponent),
+        OutletPosition.BEFORE
+      );
+      const fixture = TestBed.createComponent(MockTemplateComponent);
+      fixture.detectChanges();
+      const compiled = fixture.debugElement.nativeElement;
+      expect(compiled.querySelector('#kept #original')).toBeTruthy();
+      expect(compiled.querySelector('#kept #component')).toBeTruthy();
+      expect(
+        compiled.querySelector('cx-test-component ~ #original')
+      ).toBeTruthy();
+    });
+
+    it('should render component AFTER', () => {
+      const outletService = TestBed.inject(OutletService);
+      const cfr = TestBed.inject(ComponentFactoryResolver);
+      outletService.add(
+        keptOutlet,
+        cfr.resolveComponentFactory(MockOutletComponent),
+        OutletPosition.AFTER
+      );
+      const fixture = TestBed.createComponent(MockTemplateComponent);
+      fixture.detectChanges();
+      const compiled = fixture.debugElement.nativeElement;
+      expect(compiled.querySelector('#kept #original')).toBeTruthy();
+      expect(compiled.querySelector('#kept #component')).toBeTruthy();
+      expect(
+        compiled.querySelector('#original ~ cx-test-component')
+      ).toBeTruthy();
+    });
+
+    it('should inject OutletContextData into component', () => {
+      const outletService = TestBed.inject(OutletService);
+      const cfr = TestBed.inject(ComponentFactoryResolver);
+      outletService.add(
+        keptOutlet,
+        cfr.resolveComponentFactory(MockOutletComponent)
+      );
+      const fixture = TestBed.createComponent(MockTemplateComponent);
+      fixture.detectChanges();
+      const testComponent = fixture.debugElement.query(
+        By.css('cx-test-component')
+      );
+      const outletData: OutletContextData =
+        testComponent.componentInstance.outlet;
+
+      expect(outletData.reference).toEqual(keptOutlet);
+      expect(outletData.context).toEqual('fakeContext');
+      expect(getLastValueSync(outletData.context$)).toEqual('fakeContext');
+      expect(outletData.position).toEqual(OutletPosition.REPLACE);
+    });
+
+    it('should emit new context to OutletContextData.context$ observable', () => {
+      const outletService = TestBed.inject(OutletService);
+      const cfr = TestBed.inject(ComponentFactoryResolver);
+      outletService.add(
+        keptOutlet,
+        cfr.resolveComponentFactory(MockOutletComponent)
+      );
+      const fixture = TestBed.createComponent(MockTemplateComponent);
+      fixture.detectChanges();
+      const testComponent = fixture.debugElement.query(
+        By.css('cx-test-component')
+      );
+      const outletData: OutletContextData =
+        testComponent.componentInstance.outlet;
+
+      expect(getLastValueSync(outletData.context$)).toEqual('fakeContext');
+      mockContextSubject$.next('newFakeContext');
+      fixture.detectChanges();
+      expect(getLastValueSync(outletData.context$)).toEqual('newFakeContext');
     });
   });
 });

@@ -10,6 +10,8 @@ export const common = {
     save: 'Save',
     done: 'Done',
     home: 'Home',
+    noData: 'No data.',
+    confirm: 'Confirm',
   },
   pageMetaResolver: {
     category: {
@@ -51,16 +53,20 @@ export const common = {
     date: 'Date',
     orderNumber: 'Order Number',
     rma: 'Return Number',
+    replenishmentNumber: 'Replenishment Number',
+    nextOrderDate: 'Next Order Date',
   },
   httpHandlers: {
     badGateway: 'A server error occurred. Please try again later.',
     badRequestPleaseLoginAgain: '{{ errorMessage }}. Please login again.',
     badRequestOldPasswordIncorrect: 'Old password incorrect.',
     conflict: 'Already exists',
-    forbidden: 'You are not authorized to perform this action.',
+    forbidden:
+      'You are not authorized to perform this action. Please contact your administrator if you think this is a mistake.',
     gatewayTimeout: 'The server did not respond, please try again later.',
     internalServerError:
       'An Internal Server Error occurred. Please try again later.',
+    sessionExpired: 'Your session has expired. Please login again.',
     unknownError: 'An unknown error occurred',
     unauthorized: {
       common: 'An unknown authorization error occured',
@@ -132,5 +138,13 @@ export const common = {
     cxEmailsMustMatch: 'Email fields must match',
     cxStarRatingEmpty: 'Rating field is required',
     cxNoSelectedItemToCancel: 'Select at least one item to cancel',
+    cxDateMin: 'Date cannot be before {{min}}',
+    cxDateMax: 'Date cannot be after {{max}}',
+    cxNegativeAmount: 'Amount must be equal or greater than zero',
+    cxContainsSpecialCharacters: 'Field cannot contain special characters',
+  },
+  errorHandlers: {
+    scriptFailedToLoad: 'Failed to load the script.',
+    refreshThePage: 'Please refresh the page.',
   },
 };

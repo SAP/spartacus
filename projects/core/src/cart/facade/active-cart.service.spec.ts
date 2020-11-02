@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { AuthService } from '../../auth/index';
+import { UserIdService } from '../../auth/index';
 import * as fromReducers from '../../cart/store/reducers/index';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
@@ -21,8 +21,8 @@ import { MultiCartService } from './multi-cart.service';
 
 const userId$ = new BehaviorSubject<string>(OCC_USER_ID_ANONYMOUS);
 
-class AuthServiceStub {
-  getOccUserId(): Observable<string> {
+class UserIdServiceStub implements Partial<UserIdService> {
+  getUserId(): Observable<string> {
     return userId$.asObservable();
   }
 }
@@ -38,9 +38,14 @@ class MultiCartServiceStub {
   getEntry() {
     return of();
   }
+  getLastEntry() {
+    return of();
+  }
   updateEntry() {}
   removeEntry() {}
-  getEntries() {}
+  getEntries() {
+    return of([]);
+  }
   createCart() {}
   mergeToCurrentCart() {}
   addEntry() {}
@@ -73,7 +78,7 @@ describe('ActiveCartService', () => {
       providers: [
         ActiveCartService,
         { provide: MultiCartService, useClass: MultiCartServiceStub },
-        { provide: AuthService, useClass: AuthServiceStub },
+        { provide: UserIdService, useClass: UserIdServiceStub },
       ],
     });
     service = TestBed.inject(ActiveCartService);
@@ -216,6 +221,27 @@ describe('ActiveCartService', () => {
     });
   });
 
+  describe('getLastEntry', () => {
+    it('should return last entry by product code', () => {
+      spyOn(multiCartService, 'getLastEntry').and.returnValue(
+        of(mockCartEntry)
+      );
+      service['activeCartId$'] = of('cartId');
+
+      let result;
+      service
+        .getLastEntry('code123')
+        .subscribe((entry) => (result = entry))
+        .unsubscribe();
+
+      expect(result).toEqual(mockCartEntry);
+      expect(multiCartService['getLastEntry']).toHaveBeenCalledWith(
+        'cartId',
+        'code123'
+      );
+    });
+  });
+
   describe('isStable', () => {
     it('should return true when isStable returns true', (done) => {
       spyOn(multiCartService, 'isStable').and.returnValue(of(true));
@@ -265,10 +291,27 @@ describe('ActiveCartService', () => {
       expect(service['guestCartMerge']).toHaveBeenCalledWith('cartId');
     });
 
+    it('should dispatch load for current -> emulated user switch', () => {
+      service['userId'] = 'ala-ma-kota';
+      service['previousUserId'] = 'current';
+
+      spyOn(multiCartService, 'loadCart').and.callThrough();
+
+      service['loadOrMerge']('cartId');
+      expect(multiCartService['loadCart']).toHaveBeenCalledWith({
+        userId: 'ala-ma-kota',
+        cartId: 'cartId',
+        extraData: {
+          active: true,
+        },
+      });
+    });
+
     it('should dispatch merge for non guest cart', () => {
       spyOn(multiCartService, 'mergeToCurrentCart').and.stub();
 
       service['userId'] = 'userId';
+      service['previousUserId'] = 'anonymous';
       service['loadOrMerge']('cartId');
 
       expect(multiCartService.mergeToCurrentCart).toHaveBeenCalledWith({
@@ -546,11 +589,15 @@ describe('ActiveCartService', () => {
 
   describe('isJustLoggedIn', () => {
     it('should only return true after user change', () => {
+      // set to anonymous value as other tests altered that value
+      service['previousUserId'] = 'anonymous';
       const result = service['isJustLoggedIn'](OCC_USER_ID_CURRENT);
       expect(result).toBe(true);
     });
 
     it('should return false when previous user is identical', () => {
+      // simulate that we got current user after initialization
+      service['previousUserId'] = 'current';
       userId$.next(OCC_CART_ID_CURRENT);
       const result = service['isJustLoggedIn'](OCC_USER_ID_CURRENT);
       expect(result).toBe(false);

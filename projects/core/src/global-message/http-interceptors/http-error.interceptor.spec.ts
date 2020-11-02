@@ -5,6 +5,7 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
+  AuthService,
   ErrorModel,
   GlobalMessageService,
   GlobalMessageType,
@@ -29,12 +30,17 @@ import createSpy = jasmine.createSpy;
 describe('HttpErrorInterceptor', () => {
   let httpMock: HttpTestingController;
   let mockMessageService: any;
+  let mockAuthService: any;
   let http: HttpClient;
 
   beforeEach(() => {
     mockMessageService = {
       add: createSpy(),
       remove: createSpy(),
+    };
+
+    mockAuthService = {
+      logout() {},
     };
 
     TestBed.configureTestingModule({
@@ -86,6 +92,7 @@ describe('HttpErrorInterceptor', () => {
           multi: true,
         },
         { provide: GlobalMessageService, useValue: mockMessageService },
+        { provide: AuthService, useValue: mockAuthService },
       ],
     });
 
@@ -144,7 +151,11 @@ describe('HttpErrorInterceptor', () => {
           .pipe(catchError((error: any) => throwError(error)))
           .subscribe(
             (_result) => {},
-            (error) => (this.error = error)
+            (error) => ({
+              if(this) {
+                this.error = error;
+              },
+            })
           );
 
         httpMock
@@ -166,7 +177,11 @@ describe('HttpErrorInterceptor', () => {
           .pipe(catchError((error: any) => throwError(error)))
           .subscribe(
             (_result) => {},
-            (error) => (this.error = error)
+            (error) => ({
+              if(this) {
+                this.error = error;
+              },
+            })
           );
 
         const mockReq = httpMock.expectOne((req) => {

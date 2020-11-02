@@ -34,11 +34,24 @@ doItFor () {
 }
 
 SKIP_BUILD="$1"
+cd ../
 
-cd ..
 if [[ -z "$SKIP_BUILD" ]]; then
   rm -rf dist
-  yarn build:core:lib:cds
+fi
+
+cd projects/schematics
+yarn && yarn build
+cd ../../
+cd feature-libs/organization
+yarn && yarn build:schematics
+cd ../../
+
+if [[ -z "$SKIP_BUILD" ]]; then
+  yarn build:libs
+else
+  # this also builds the organization schematics
+  yarn build:organization
 fi
 cd dist
 
@@ -48,14 +61,12 @@ if [[ -z "$SKIP_BUILD" ]]; then
   cd ../../dist
 fi
 
-cd ../projects/schematics
-yarn && yarn build
-cd ../../dist
-
 doItFor "assets"
 doItFor "core"
 doItFor "storefrontlib"
 doItFor "cds"
+doItFor "organization"
+doItFor "setup"
 
 cd ../projects/storefrontstyles
 unpublish "styles" && publish "styles"

@@ -2,17 +2,20 @@ $caretSize: 7px;
 
 %cx-site-context-selector {
   position: relative;
-  margin: 14px 8px 14px 0;
+  margin-top: 14px;
+  margin-inline-end: 8px;
+  margin-bottom: 14px;
+  margin-inline-start: 0;
 
   @include media-breakpoint-down(md) {
     display: inline-block;
 
     &:first-child {
-      margin-left: 0;
+      margin-inline-start: 0;
     }
     &:not(:first-child) {
-      padding-left: 16px;
-      border-left: 1px solid var(--cx-color-secondary);
+      padding-inline-start: 16px;
+      border-inline-start: 1px solid var(--cx-color-secondary);
     }
   }
   label {
@@ -23,7 +26,7 @@ $caretSize: 7px;
     }
   }
   cx-icon {
-    margin-left: -10px;
+    margin-inline-start: -10px;
     z-index: 1;
   }
 
@@ -36,7 +39,7 @@ $caretSize: 7px;
     -moz-appearance: none;
     appearance: none;
 
-    padding-right: $caretSize * 2;
+    padding-inline-end: $caretSize * 2;
 
     outline: none;
 

@@ -1,37 +1,29 @@
 import { TestBed } from '@angular/core/testing';
-import { NavigationExtras } from '@angular/router';
+import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartService,
   AuthRedirectService,
   AuthService,
-  RoutingService,
-  UrlCommands,
+  B2BUserGroup,
+  GlobalMessageService,
+  GlobalMessageType,
+  SemanticPathService,
   User,
-  UserToken,
+  UserService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CheckoutConfigService } from '../services';
 import { CheckoutAuthGuard } from './checkout-auth.guard';
+import createSpy = jasmine.createSpy;
 
-const mockUserToken = {
-  access_token: 'Mock Access Token',
-  token_type: 'test',
-  refresh_token: 'test',
-  expires_in: 1,
-  scope: ['test'],
-  userId: 'test',
-} as UserToken;
-
-class AuthServiceStub {
-  getUserToken(): Observable<UserToken> {
+class AuthServiceStub implements Partial<AuthService> {
+  isUserLoggedIn(): Observable<boolean> {
     return of();
   }
 }
-class RoutingServiceStub {
-  go(_path: any[] | UrlCommands, _query?: object, _extras?: NavigationExtras) {}
-}
-class ActiveCartServiceStub {
+
+class ActiveCartServiceStub implements Partial<ActiveCartService> {
   getAssignedUser(): Observable<User> {
     return of();
   }
@@ -40,31 +32,48 @@ class ActiveCartServiceStub {
   }
 }
 
-class MockAuthRedirectService {
+class SemanticPathServiceStub implements Partial<SemanticPathService> {
+  get(a: string) {
+    return `/${a}`;
+  }
+}
+
+class MockAuthRedirectService implements Partial<AuthRedirectService> {
   reportAuthGuard = jasmine.createSpy('reportAuthGuard');
 }
 
-class MockCheckoutConfigService {
+class MockCheckoutConfigService implements Partial<CheckoutConfigService> {
   isGuestCheckout() {
     return false;
   }
 }
 
+class MockUserService implements Partial<UserService> {
+  get(): Observable<User> {
+    return of({});
+  }
+}
+
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy();
+}
+
 describe('CheckoutAuthGuard', () => {
   let checkoutGuard: CheckoutAuthGuard;
-  let service: RoutingService;
   let authService: AuthService;
   let authRedirectService: AuthRedirectService;
   let activeCartService: ActiveCartService;
   let checkoutConfigService: CheckoutConfigService;
+  let userService: UserService;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         CheckoutAuthGuard,
         {
-          provide: RoutingService,
-          useClass: RoutingServiceStub,
+          provide: SemanticPathService,
+          useClass: SemanticPathServiceStub,
         },
         {
           provide: AuthRedirectService,
@@ -82,24 +91,29 @@ describe('CheckoutAuthGuard', () => {
           provide: CheckoutConfigService,
           useClass: MockCheckoutConfigService,
         },
+        {
+          provide: UserService,
+          useClass: MockUserService,
+        },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
       ],
       imports: [RouterTestingModule],
     });
     checkoutGuard = TestBed.inject(CheckoutAuthGuard);
-    service = TestBed.inject(RoutingService);
     authService = TestBed.inject(AuthService);
     authRedirectService = TestBed.inject(AuthRedirectService);
     activeCartService = TestBed.inject(ActiveCartService);
     checkoutConfigService = TestBed.inject(CheckoutConfigService);
-
-    spyOn(service, 'go').and.stub();
+    userService = TestBed.inject(UserService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   describe(', when user is NOT authorized,', () => {
     beforeEach(() => {
-      spyOn(authService, 'getUserToken').and.returnValue(
-        of({ access_token: undefined } as UserToken)
-      );
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     });
 
     describe('and cart does NOT have a user, ', () => {
@@ -108,27 +122,23 @@ describe('CheckoutAuthGuard', () => {
         spyOn(activeCartService, 'isGuestCart').and.returnValue(false);
       });
 
-      it('should return false', () => {
-        let result: boolean;
+      it('should return url to login with forced flag when guestCheckout feature enabled', () => {
+        spyOn(checkoutConfigService, 'isGuestCheckout').and.returnValue(true);
+        let result: boolean | UrlTree;
         checkoutGuard
           .canActivate()
           .subscribe((value) => (result = value))
           .unsubscribe();
-        expect(result).toBe(false);
+        expect(result.toString()).toEqual(`/login?forced=true`);
       });
 
-      it('should redirect to login with forced flag when guestCheckout feature enabled', () => {
-        spyOn(checkoutConfigService, 'isGuestCheckout').and.returnValue(true);
-        checkoutGuard.canActivate().subscribe().unsubscribe();
-        expect(service.go).toHaveBeenCalledWith(
-          { cxRoute: 'login' },
-          { forced: true }
-        );
-      });
-
-      it('should redirect to login without forced flag when guestCheckout feature disabled', () => {
-        checkoutGuard.canActivate().subscribe().unsubscribe();
-        expect(service.go).toHaveBeenCalledWith({ cxRoute: 'login' });
+      it('should return url to login without forced flag when guestCheckout feature disabled', () => {
+        let result: boolean | UrlTree;
+        checkoutGuard
+          .canActivate()
+          .subscribe((value) => (result = value))
+          .unsubscribe();
+        expect(result.toString()).toEqual(`/login`);
       });
 
       it('should notify AuthRedirectService with the current navigation', () => {
@@ -145,7 +155,7 @@ describe('CheckoutAuthGuard', () => {
       });
 
       it('should return true', () => {
-        let result: boolean;
+        let result: boolean | UrlTree;
         checkoutGuard
           .canActivate()
           .subscribe((value) => (result = value))
@@ -157,7 +167,7 @@ describe('CheckoutAuthGuard', () => {
 
   describe(', when user is authorized,', () => {
     beforeEach(() => {
-      spyOn(authService, 'getUserToken').and.returnValue(of(mockUserToken));
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     });
 
     describe('and cart does NOT have a user, ', () => {
@@ -166,7 +176,7 @@ describe('CheckoutAuthGuard', () => {
       });
 
       it('should return true', () => {
-        let result: boolean;
+        let result: boolean | UrlTree;
         checkoutGuard
           .canActivate()
           .subscribe((value) => (result = value))
@@ -183,12 +193,46 @@ describe('CheckoutAuthGuard', () => {
       });
 
       it('should return true', () => {
-        let result: boolean;
+        let result: boolean | UrlTree;
         checkoutGuard
           .canActivate()
           .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toBe(true);
+      });
+    });
+
+    describe('and user is b2b user, ', () => {
+      beforeEach(() => {
+        spyOn(activeCartService, 'getAssignedUser').and.returnValue(of({}));
+      });
+
+      it('should return true when user roles has b2bcustomergroup', () => {
+        spyOn(userService, 'get').and.returnValue(
+          of({ uid: 'testUser', roles: [B2BUserGroup.B2B_CUSTOMER_GROUP] })
+        );
+        let result: boolean | UrlTree;
+        checkoutGuard
+          .canActivate()
+          .subscribe((value) => (result = value))
+          .unsubscribe();
+        expect(result).toBe(true);
+      });
+
+      it('should return false when user roles does not have b2bcustomergroup', () => {
+        spyOn(userService, 'get').and.returnValue(
+          of({ uid: 'testUser', roles: [B2BUserGroup.B2B_ADMIN_GROUP] })
+        );
+        let result: boolean | UrlTree;
+        checkoutGuard
+          .canActivate()
+          .subscribe((value) => (result = value))
+          .unsubscribe();
+        expect(result).toBe(false);
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          { key: 'checkout.invalid.accountType' },
+          GlobalMessageType.MSG_TYPE_WARNING
+        );
       });
     });
   });
