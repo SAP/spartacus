@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { from, Observable } from 'rxjs';
 import { catchError, groupBy, mergeMap, switchMap } from 'rxjs/operators';
-import { AuthActions } from '../../../auth/store/actions/index';
+import { AuthActions } from '../../../auth/user-auth/store/actions/index';
 import { CmsComponent } from '../../../model/cms.model';
 import { PageContext } from '../../../routing/index';
 import { SiteContextActions } from '../../../site-context/store/actions/index';

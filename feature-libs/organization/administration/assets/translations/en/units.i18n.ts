@@ -11,11 +11,11 @@ export const unit = {
     subtitle: 'Unit: {{ item.name }}',
   },
   edit: {
-    title: 'Edit unit',
+    title: 'Edit Unit',
     subtitle: 'Unit: {{ item.name }}',
   },
   create: {
-    title: 'Create unit',
+    title: 'Create Unit',
     subtitle: '',
   },
 
@@ -23,6 +23,8 @@ export const unit = {
     deactivate: 'Are you sure you want to disable this unit?',
     confirmEnabled: 'Unit {{item.name}} enabled successfully',
     confirmDisabled: 'Unit {{item.name}} disabled successfully',
+    update: 'Unit {{ item.name }} updated successfully',
+    create: 'Unit {{ item.name }} created successfully',
   },
 
   links: {
@@ -137,7 +139,7 @@ export const unitUsers = {
 
 export const unitUserRoles = {
   title: 'User roles',
-  subtitle: 'User: {{item.orgUnit.name}}',
+  subtitle: 'User: {{item.name}}',
   messages: {
     rolesUpdated: 'Roles successfully updated for {{item.name}}',
   },
@@ -156,6 +158,7 @@ export const unitAddress = {
   titles: 'Title',
   firstName: 'First name',
   lastName: 'Last name',
+  formattedAddress: 'Address',
   address1: 'Address',
   address2: '2nd address (optional)',
   city: 'City',
@@ -168,7 +171,7 @@ export const unitAddress = {
 
   details: {
     title: 'Address details',
-    subtitle: 'Unit {{item.name}}',
+    subtitle: 'Unit: {{item.name}} (TODO)',
   },
   edit: {
     title: 'Edit Address',
@@ -178,24 +181,8 @@ export const unitAddress = {
     title: 'Create Address',
     subtitle: 'Unit: {{ item.name }} (TODO)',
   },
-
-  formattedAddress: 'Address',
-
-  // confirmDeleteAddress: {
-  //   title: 'Confirm address delete',
-  //   message: 'Are you sure you want to delete this address?',
-  // },
+  messages: {
+    update:
+      'Address {{ item.firstName }} {{ item.lastName }} updated successfully',
+  },
 };
-
-// addressCreate: {
-//   header: 'New shipping address for {{code}}',
-// },
-// addressForm: {
-// },
-// addressDetails: {
-//   header: 'Details for {{name}}',
-// },
-// addressEdit: {
-//   header: 'Edit shipping address for {{code}}',
-// },
-// }

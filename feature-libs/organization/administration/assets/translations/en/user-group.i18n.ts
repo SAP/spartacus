@@ -31,6 +31,11 @@ export const userGroup = {
     permission: 'Purchase limits',
   },
 
+  messages: {
+    update: 'User Group {{ item.name }} updated successfully',
+    create: 'User Group {{ item.name }} created successfully',
+  },
+
   breadcrumbs: {
     list: 'All user groups',
     details: '{{name}}',
@@ -52,6 +57,7 @@ export const userGroupUsers = {
   assigned: 'User {{item.name}} assigned successfully',
   unassigned: 'User {{item.name}} unassigned successfully',
   unassignAll: 'Unassign All',
+  unassignAllConfirmation: 'All users unassigned successfully',
 };
 export const userGroupAssignedPermissions = {
   title: 'Assigned purchase limits',

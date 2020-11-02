@@ -77,7 +77,7 @@ describe('MultiCartStatePersistenceService', () => {
     spyOn(siteContextParamsService, 'getValues').and.returnValue(context$);
     spyOn(service as any, 'getCartState').and.returnValue(state$);
 
-    service.sync();
+    service.initSync();
     expect(persistenceService.syncWithStorage).toHaveBeenCalledWith(
       jasmine.objectContaining({
         key: 'cart',
@@ -91,11 +91,12 @@ describe('MultiCartStatePersistenceService', () => {
     ]);
   });
 
-  it('should return active from cart state', () => {
+  it('should return active from cart state', (done) => {
     service['getCartState']()
       .pipe(take(1))
       .subscribe((state) => {
         expect(state).toEqual({ active: '' });
+        done();
       });
   });
 });

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { AsmConnector } from '../../connectors/asm.connector';
 import { CustomerSearchPage } from '../../models/asm.models';
 import { AsmActions } from '../actions/index';
@@ -19,7 +19,7 @@ export class CustomerEffects {
           return new AsmActions.CustomerSearchSuccess(customerSearchResults);
         }),
         catchError((error) =>
-          of(new AsmActions.CustomerSearchFail(makeErrorSerializable(error)))
+          of(new AsmActions.CustomerSearchFail(normalizeHttpError(error)))
         )
       )
     )

@@ -111,9 +111,11 @@ const merchandisingCarouselModelMetadata: MerchandisingMetadata = {
   'custom-metadata-field-1': 'custom-metadata-data-value-1',
 };
 const merchandisingCarouselModel: MerchandisingCarouselModel = {
+  id:'testCarouselId',
   items$: merchandisingCarouselModelProducts.map((merchandisingProduct) =>
     of(merchandisingProduct)
   ),
+  productIds: ['1','2'],
   metadata: merchandisingCarouselModelMetadata,
   title: mockComponentData.title,
   backgroundColor: mockComponentData.backgroundColour,
