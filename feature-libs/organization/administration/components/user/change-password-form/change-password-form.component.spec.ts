@@ -10,6 +10,7 @@ import { OrganizationCardTestingModule } from '../../shared/organization-card/or
 import { UserItemService } from '../services/user-item.service';
 import { ChangePasswordFormComponent } from './change-password-form.component';
 import { ChangePasswordFormService } from './change-password-form.service';
+import { MessageService } from '@spartacus/organization/administration/components';
 
 const mockForm = new FormGroup({
   password: new FormControl(),
@@ -47,6 +48,7 @@ describe('ChangePasswordFormComponent', () => {
           provide: ChangePasswordFormService,
           useClass: MockChangePasswordFormService,
         },
+        MessageService,
       ],
     }).compileComponents();
     formService = TestBed.inject(ChangePasswordFormService);

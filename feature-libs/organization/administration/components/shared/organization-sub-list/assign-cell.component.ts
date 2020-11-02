@@ -1,13 +1,19 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { filter, first, switchMap, take } from 'rxjs/operators';
 import {
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
+import {
+  LoadStatus,
+  OrganizationItemStatus,
+} from '@spartacus/organization/administration/core';
 import { OrganizationItemService } from '../organization-item.service';
 import { OrganizationListService } from '../organization-list/organization-list.service';
 import { MessageService } from '../organization-message/services/message.service';
 import { OrganizationSubListService } from '../organization-sub-list/organization-sub-list.service';
 import { OrganizationCellComponent } from '../organization-table/organization-cell.component';
+import { Observable } from 'rxjs';
 
 @Component({
   template: `
@@ -17,14 +23,7 @@ import { OrganizationCellComponent } from '../organization-table/organization-ce
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AssignCellComponent<T>
-  extends OrganizationCellComponent
-  implements OnDestroy {
-  /**
-   * Indicates that we need to show a notification message.
-   */
-  notify = false;
-
+export class AssignCellComponent<T> extends OrganizationCellComponent {
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
     protected organizationItemService: OrganizationItemService<T>,
@@ -39,28 +38,42 @@ export class AssignCellComponent<T>
   }
 
   toggleAssign() {
-    this.notify = true;
+    const isAssigned = this.isAssigned;
     this.organizationItemService.key$
-      .subscribe((key) => {
-        this.isAssigned
-          ? this.unassign(key, this.link)
-          : this.assign(key, this.link);
-      })
-      .unsubscribe();
+      .pipe(
+        first(),
+        switchMap((key) =>
+          isAssigned
+            ? this.unassign(key, this.link)
+            : this.assign(key, this.link)
+        ),
+        take(1),
+        filter(
+          (data: OrganizationItemStatus<T>) =>
+            data.status === LoadStatus.SUCCESS
+        )
+      )
+      .subscribe((data) =>
+        this.notify(data.item, isAssigned ? 'unassigned' : 'assigned')
+      );
   }
 
-  protected assign(key: string, linkKey: string): void {
-    (this.organizationSubListService as OrganizationSubListService<T>).assign(
-      key,
-      linkKey
-    );
+  protected assign(
+    key: string,
+    linkKey: string
+  ): Observable<OrganizationItemStatus<T>> {
+    return (this.organizationSubListService as OrganizationSubListService<
+      T
+    >).assign(key, linkKey);
   }
 
-  protected unassign(key: string, linkKey: string): void {
-    (this.organizationSubListService as OrganizationSubListService<T>).unassign(
-      key,
-      linkKey
-    );
+  protected unassign(
+    key: string,
+    linkKey: string
+  ): Observable<OrganizationItemStatus<T>> {
+    return (this.organizationSubListService as OrganizationSubListService<
+      T
+    >).unassign(key, linkKey);
   }
 
   /**
@@ -79,22 +92,14 @@ export class AssignCellComponent<T>
     );
   }
 
-  ngOnDestroy() {
-    // We're playing a dirty trick here; The store is not equipped with a
-    // selector to select any updated assignments. Moreover, as soon as
-    // an item is unassigned, it might not be available anymore. This is
-    // why we add the message when this action is destroyed.
-    if (this.notify) {
-      this.messageService.add({
-        message: {
-          key: this.outlet.context.selected
-            ? this.organizationSubListService.viewType + '.unassigned'
-            : this.organizationSubListService.viewType + '.assigned',
-          params: {
-            item: this.outlet.context,
-          },
+  protected notify(item, state) {
+    this.messageService.add({
+      message: {
+        key: `${this.organizationSubListService.viewType}.${state}`,
+        params: {
+          item,
         },
-      });
-    }
+      },
+    });
   }
 }
