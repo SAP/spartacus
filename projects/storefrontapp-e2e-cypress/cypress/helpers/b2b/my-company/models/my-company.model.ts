@@ -6,6 +6,7 @@ export enum INPUT_TYPE {
 }
 export const DEFAULT_SORT_LABEL = 'name';
 export const MAX_PAGES = 2;
+export const ENTITY_UID_COOKIE_KEY = 'spartacus-entity-uid';
 
 export enum ASSIGNMENT_LABELS {
   MANAGE = 'Manage',

@@ -36,6 +36,11 @@ export interface MyCompanyConfig {
   objectType?: string;
 
   /**
+   * Configurations of preserve cookie value.
+   */
+  preserveCookies?: boolean;
+
+  /**
    * Configurations of sub-categories generally used for assignments to corresponding parent categories.
    */
   // TODO: Subcategory examples
