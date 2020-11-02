@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-// import { Store } from '@ngrx/store';
-import { provideMockStore } from '@ngrx/store/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { Permission } from '@spartacus/organization/administration/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
@@ -23,17 +21,14 @@ class MockPermissionItemService
   implements Partial<OrganizationItemService<Permission>> {
   key$ = of(mockCode);
   load = createSpy('load').and.returnValue(of());
+  error$ = of(false);
 }
-// const mockState = new BehaviorSubject(null);
-
-// const mockStore: Partial<Store<any>> = {
-//   select: () => mockState,
-// };
 
 class MockMessageService {
   add() {
     return new Subject();
   }
+  clear() {}
   close() {}
 }
 
@@ -55,17 +50,22 @@ describe('PermissionDetailsComponent', () => {
       declarations: [PermissionDetailsComponent, ExistGuardDirective],
       providers: [
         {
-          provide: MessageService,
-          useClass: MockMessageService,
-        },
-        {
           provide: OrganizationItemService,
           useClass: MockPermissionItemService,
         },
-        // { provide: Store, useValue: mockStore },
-        provideMockStore({}),
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(PermissionDetailsComponent, {
+        set: {
+          providers: [
+            {
+              provide: MessageService,
+              useClass: MockMessageService,
+            },
+          ],
+        },
+      })
+      .compileComponents();
 
     itemService = TestBed.inject(OrganizationItemService);
 
