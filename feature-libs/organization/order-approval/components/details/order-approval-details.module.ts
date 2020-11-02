@@ -12,7 +12,6 @@ import {
 import {
   CartSharedModule,
   FormErrorsModule,
-  OrderDetailApprovalDetailsComponent,
   OrderDetailItemsComponent,
   OrderDetailShippingComponent,
   OrderDetailsService,
@@ -21,6 +20,7 @@ import {
 } from '@spartacus/storefront';
 import { OrderApprovalDetailFormComponent } from './order-approval-detail-form/order-approval-detail-form.component';
 import { OrderApprovalDetailService } from './order-approval-detail.service';
+import { OrderDetailPermissionResultsComponent } from './order-detail-permission-results/order-detail-permission-results.component';
 
 @NgModule({
   imports: [
@@ -45,7 +45,7 @@ import { OrderApprovalDetailService } from './order-approval-detail.service';
           guards: [AuthGuard],
         },
         OrderApprovalDetailApprovalDetailsComponent: {
-          component: OrderDetailApprovalDetailsComponent,
+          component: OrderDetailPermissionResultsComponent,
           providers: [
             {
               provide: OrderDetailsService,
@@ -54,6 +54,10 @@ import { OrderApprovalDetailService } from './order-approval-detail.service';
           ],
           guards: [AuthGuard],
         },
+        AccountOrderDetailsApprovalDetailsComponent: {
+          component: OrderDetailPermissionResultsComponent,
+        },
+
         OrderApprovalDetailShippingComponent: {
           component: OrderDetailShippingComponent,
           providers: [
@@ -81,8 +85,17 @@ import { OrderApprovalDetailService } from './order-approval-detail.service';
       },
     }),
   ],
-  declarations: [OrderApprovalDetailFormComponent],
-  exports: [OrderApprovalDetailFormComponent],
-  entryComponents: [OrderApprovalDetailFormComponent],
+  declarations: [
+    OrderApprovalDetailFormComponent,
+    OrderDetailPermissionResultsComponent,
+  ],
+  exports: [
+    OrderApprovalDetailFormComponent,
+    OrderDetailPermissionResultsComponent,
+  ],
+  entryComponents: [
+    OrderApprovalDetailFormComponent,
+    OrderDetailPermissionResultsComponent,
+  ],
 })
 export class OrderApprovalDetailsModule {}
