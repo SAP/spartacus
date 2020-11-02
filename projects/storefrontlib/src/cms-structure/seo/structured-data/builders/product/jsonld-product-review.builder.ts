@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Product, ProductReviewService, Review } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+import { SeoConfig } from '../../../config';
 import { JsonLdBuilder } from '../schema.interface';
 
 /**
@@ -12,21 +13,25 @@ import { JsonLdBuilder } from '../schema.interface';
   providedIn: 'root',
 })
 export class JsonLdProductReviewBuilder implements JsonLdBuilder<Product> {
-  constructor(private reviewService: ProductReviewService) {}
+  constructor(
+    protected reviewService: ProductReviewService,
+    protected config: SeoConfig
+  ) {}
 
   build(product: Product): Observable<any> {
     return this.reviewService.getByProductCode(product.code).pipe(
-      filter(Boolean),
-      map((reviews: Review[]) => {
-        return {
-          aggregateRating: this.buildAggregatedReviews(product, reviews),
-          review: reviews.map((review) => this.buildReviews(review)),
-        };
-      })
+      map((reviews: Review[]) =>
+        reviews?.length > 0
+          ? {
+              aggregateRating: this.buildAggregatedReviews(product, reviews),
+              review: reviews.map((review) => this.buildReviews(review)),
+            }
+          : {}
+      )
     );
   }
 
-  private buildAggregatedReviews(product: Product, reviews: Review[]) {
+  protected buildAggregatedReviews(product: Product, reviews: Review[]) {
     const aggregated: any = {
       '@type': 'AggregateRating',
     };
@@ -40,7 +45,7 @@ export class JsonLdProductReviewBuilder implements JsonLdBuilder<Product> {
     return aggregated;
   }
 
-  private buildReviews(review: Review) {
+  protected buildReviews(review: Review) {
     const reviewSchema: any = {
       '@type': 'review',
     };
