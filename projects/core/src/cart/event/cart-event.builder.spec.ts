@@ -28,6 +28,7 @@ const MOCK_ACTIVE_CART: Cart = {
     { quantity: 3, product: { code: '234' } },
   ],
   guid: MOCK_ACTIVE_CART_ID,
+  code: '00000123',
 };
 class MockActiveCartService implements Partial<ActiveCartService> {
   getActive = () => of(MOCK_ACTIVE_CART);
@@ -90,6 +91,7 @@ describe('CartEventBuilder', () => {
   describe('should register event', () => {
     it('CartAddEntryEvent', () => {
       const eventData: CartAddEntryEvent = {
+        cartCode: MOCK_ACTIVE_CART.code,
         productCode: 'productCode',
         quantity: 123,
         ...MOCK_ACTIVE_CART_EVENT,
@@ -107,6 +109,7 @@ describe('CartEventBuilder', () => {
 
     it('CartAddEntrySuccessEvent', () => {
       const eventData: CartAddEntrySuccessEvent = {
+        cartCode: MOCK_ACTIVE_CART.code,
         productCode: 'productCode',
         quantity: 123,
         deliveryModeChanged: true,
@@ -134,6 +137,7 @@ describe('CartEventBuilder', () => {
     it('CartAddEntryFailEvent', () => {
       const eventData: CartAddEntryFailEvent = {
         productCode: 'productCode',
+        cartCode: MOCK_ACTIVE_CART.code,
         quantity: 123,
         ...MOCK_ACTIVE_CART_EVENT,
       };
@@ -154,11 +158,13 @@ describe('CartEventBuilder', () => {
 
     it('CartRemoveEntrySuccessEvent', () => {
       const firstEventData: CartRemoveEntrySuccessEvent = {
+        cartCode: MOCK_ACTIVE_CART.code,
         entry: MOCK_ACTIVE_CART.entries[0],
         ...MOCK_ACTIVE_CART_EVENT,
       };
 
       const secondEventData: CartRemoveEntrySuccessEvent = {
+        cartCode: MOCK_ACTIVE_CART.code,
         entry: MOCK_ACTIVE_CART.entries[1],
         ...MOCK_ACTIVE_CART_EVENT,
       };
@@ -198,6 +204,7 @@ describe('CartEventBuilder', () => {
 
     it('CartModifiedEntrySuccessEvent', () => {
       const firstEventData: CartUpdateEntrySuccessEvent = {
+        cartCode: MOCK_ACTIVE_CART.code,
         entry: MOCK_ACTIVE_CART.entries[0],
         quantity: 2,
         ...MOCK_ACTIVE_CART_EVENT,

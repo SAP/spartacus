@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { User } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { OrganizationFormService } from '../../shared/organization-form/organization-form.service';
 
@@ -33,5 +34,11 @@ export class ChangePasswordFormService extends OrganizationFormService<any> {
       CustomFormValidators.passwordsMustMatch('password', 'confirmPassword')
     );
     this.form = form;
+  }
+
+  getForm(item?: User): FormGroup {
+    // we need do cleanup, to avoid have filled form after next open of that
+    this.form = null;
+    return super.getForm(item);
   }
 }

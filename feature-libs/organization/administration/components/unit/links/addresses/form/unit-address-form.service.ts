@@ -41,8 +41,7 @@ export class UnitAddressFormService extends OrganizationFormService<Address> {
     form.setControl(
       'region',
       new FormGroup({
-        isocode: new FormControl(null),
-        // , Validators.required
+        isocode: new FormControl(null, Validators.required),
       })
     );
     form.setControl('postalCode', new FormControl('', Validators.required));
@@ -79,8 +78,8 @@ export class UnitAddressFormService extends OrganizationFormService<Address> {
         switchMap((countryIsoCode) =>
           this.userAddressService.getRegions(countryIsoCode)
         ),
-        tap((regions) => {
-          const regionControl = this.form.get('region');
+        tap((regions: Region[]) => {
+          const regionControl = this.form.get('region.isocode');
           if (!regions || regions.length === 0) {
             regionControl.disable();
           } else {

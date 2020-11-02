@@ -11,6 +11,9 @@ export class OccB2bUserSerializer implements Converter<B2BUser, Occ.B2BUser> {
         ...(source as any),
       };
       delete (target as B2BUser).isAssignedToApprovers;
+      if (target.active === false) {
+        target.roles = [];
+      }
     }
     return target;
   }
