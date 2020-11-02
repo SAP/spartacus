@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { filter, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { BaseSite } from '../../model/misc.model';
 import { getContextParameterDefault } from '../config/context-config-utils';
 import { SiteContextConfig } from '../config/site-context-config';
@@ -45,6 +45,25 @@ export class BaseSiteService implements SiteContext<BaseSite> {
     );
   }
 
+  /**
+   * Get base site data based on site uid
+   */
+  get(siteUid?: string): Observable<BaseSite> {
+    if (siteUid) {
+      return this.getAll().pipe(
+        map((sites) => sites.find((site) => site.uid === siteUid))
+      );
+    }
+
+    return this.getActive().pipe(
+      switchMap((activeSiteUid) =>
+        this.getAll().pipe(
+          map((sites) => sites.find((site) => site.uid === activeSiteUid))
+        )
+      )
+    );
+  }
+
   setActive(baseSite: string): Subscription {
     return this.store
       .pipe(select(SiteContextSelectors.getActiveBaseSite), take(1))
@@ -76,7 +95,8 @@ export class BaseSiteService implements SiteContext<BaseSite> {
   }
 
   /**
-   * Get the base site details data
+   * @deprecated since 3.0, use function get() instead
+   * handle breaking change in #9601
    */
   getBaseSiteData(): Observable<BaseSite> {
     return this.store.pipe(

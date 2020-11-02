@@ -78,11 +78,8 @@ export class SmartEditService {
 
   protected getDefaultPreviewCode() {
     this.baseSiteService
-      .getBaseSiteData()
-      .pipe(
-        filter((site) => Object.keys(site).length !== 0),
-        take(1)
-      )
+      .get()
+      .pipe(filter(Boolean), take(1))
       .subscribe((site: BaseSite) => {
         this.defaultPreviewCategoryCode = site.defaultPreviewCategoryCode;
         this.defaultPreviewProductCode = site.defaultPreviewProductCode;
