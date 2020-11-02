@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { EntitiesModel, PaginationModel } from '@spartacus/core';
 import {
   Permission,
+  PermissionService,
+  UserGroup,
   UserGroupService,
+  OrganizationItemStatus,
 } from '@spartacus/organization/administration/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -20,7 +23,8 @@ export class UserGroupPermissionListService extends OrganizationSubListService<
 
   constructor(
     protected tableService: TableService,
-    protected userGroupService: UserGroupService
+    protected userGroupService: UserGroupService,
+    protected permissionService: PermissionService
   ) {
     super(tableService);
   }
@@ -46,15 +50,23 @@ export class UserGroupPermissionListService extends OrganizationSubListService<
    * @override
    * Assign user to the user group.
    */
-  assign(userGroupCode: string, permissionCode: string) {
+  assign(
+    userGroupCode: string,
+    permissionCode: string
+  ): Observable<OrganizationItemStatus<UserGroup>> {
     this.userGroupService.assignPermission(userGroupCode, permissionCode);
+    return this.permissionService.getLoadingStatus(permissionCode);
   }
 
   /**
    * @override
    * Unassigns the user from the user group.
    */
-  unassign(userGroupCode: string, permissionCode: string) {
+  unassign(
+    userGroupCode: string,
+    permissionCode: string
+  ): Observable<OrganizationItemStatus<UserGroup>> {
     this.userGroupService.unassignPermission(userGroupCode, permissionCode);
+    return this.permissionService.getLoadingStatus(permissionCode);
   }
 }

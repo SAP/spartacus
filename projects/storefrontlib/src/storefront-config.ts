@@ -18,6 +18,7 @@ import { CheckoutConfig } from './cms-components/checkout/config/checkout-config
 import { IconConfig } from './cms-components/misc/icon/icon.model';
 import { QualtricsConfig } from './cms-components/misc/qualtrics/config/qualtrics-config';
 import { PWAModuleConfig } from './cms-structure/pwa/pwa.module-config';
+import { SeoConfig } from './cms-structure/seo/config';
 import { FeatureToggles } from './feature-toggles';
 import { SkipLinkConfig } from './layout/a11y/skip-link/config/index';
 import { LayoutConfig } from './layout/config/layout-config';
@@ -51,4 +52,5 @@ export type StorefrontConfig =
   | SkipLinkConfig
   | PaginationConfig
   | StoreFinderConfig
-  | CartConfig;
+  | CartConfig
+  | SeoConfig;

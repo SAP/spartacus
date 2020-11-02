@@ -36,8 +36,11 @@ export class UserGroupItemService extends OrganizationItemService<UserGroup> {
     return this.userGroupService.getLoadingStatus(code);
   }
 
-  protected create(value: UserGroup) {
+  protected create(
+    value: UserGroup
+  ): Observable<OrganizationItemStatus<UserGroup>> {
     this.userGroupService.create(value);
+    return this.userGroupService.getLoadingStatus(value.uid);
   }
 
   protected getDetailsRoute(): string {
