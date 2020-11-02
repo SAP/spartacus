@@ -14,11 +14,10 @@ export function initializeContext(
 ) {
   return () => {
     configInit.getStableConfig('context').then(() => {
-      siteContextRoutesHandler.init().then(() => {
-        baseSiteService.initialize();
-        langService.initialize();
-        currService.initialize();
-      });
+      siteContextRoutesHandler.init();
+      baseSiteService.initialize();
+      langService.initialize();
+      currService.initialize();
     });
   };
 }
