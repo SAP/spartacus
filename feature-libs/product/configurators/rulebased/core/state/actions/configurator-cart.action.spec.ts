@@ -74,7 +74,7 @@ describe('ConfiguratorCartActions', () => {
       productCode: PRODUCT_CODE,
       quantity: 1,
       configId: CONFIGURATION.configId,
-      ownerKey: CONFIGURATION.owner.key,
+      owner: CONFIGURATION.owner,
     };
     it('should carry expected meta data', () => {
       const action = new ConfiguratorActions.AddToCart(params);

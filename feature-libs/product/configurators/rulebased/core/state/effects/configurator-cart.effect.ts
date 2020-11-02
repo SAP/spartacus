@@ -35,7 +35,7 @@ export class ConfiguratorCartEffects {
         switchMap((entry: CartModification) => {
           return [
             new ConfiguratorActions.AddNextOwner({
-              ownerKey: payload.ownerKey,
+              ownerKey: payload.owner.key,
               cartEntryNo: '' + entry.entry.entryNumber,
             }),
             new CartActions.CartAddEntrySuccess({

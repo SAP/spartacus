@@ -30,6 +30,10 @@ export class VariantConfiguratorOccAdapter
     protected converterService: ConverterService
   ) {}
 
+  getConfiguratorType(): string {
+    return 'CPQCONFIGURATOR';
+  }
+
   createConfiguration(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {

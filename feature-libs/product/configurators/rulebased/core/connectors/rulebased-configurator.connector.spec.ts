@@ -78,6 +78,9 @@ class MockRulebasedConfiguratorAdapter implements RulebasedConfiguratorAdapter {
   addToCart = createSpy().and.callFake((configId) =>
     of('addToCart' + configId)
   );
+  getConfiguratorType(): string {
+    return 'cpqconfigurator';
+  }
 }
 
 describe('ConfiguratorCommonsConnector', () => {
@@ -225,7 +228,7 @@ describe('ConfiguratorCommonsConnector', () => {
 
     let result;
     service
-      .getConfigurationOverview(productConfiguration.configId)
+      .getConfigurationOverview(productConfiguration)
       .subscribe((res) => (result = res));
     expect(result).toBe(
       'getConfigurationOverview' + productConfiguration.configId
@@ -246,7 +249,7 @@ describe('ConfiguratorCommonsConnector', () => {
       productCode: PRODUCT_CODE,
       quantity: QUANTITY,
       configId: CONFIG_ID,
-      ownerKey: 'theKey',
+      owner: productConfiguration.owner,
     };
     let result;
     service.addToCart(parameters).subscribe((res) => (result = res));

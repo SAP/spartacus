@@ -312,7 +312,7 @@ describe('OccConfigurationVariantAdapter', () => {
       productCode: 'Product',
       quantity: 1,
       configId: configId,
-      ownerKey: productConfiguration.owner.key,
+      owner: productConfiguration.owner,
       userId: userId,
       cartId: documentId,
     };

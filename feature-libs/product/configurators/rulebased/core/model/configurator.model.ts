@@ -119,7 +119,7 @@ export namespace Configurator {
     productCode: string;
     quantity: number;
     configId: string;
-    ownerKey: string;
+    owner: GenericConfigurator.Owner;
   }
 
   export interface UpdateConfigurationForCartEntryParameters {

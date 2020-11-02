@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ConfigModule } from '@spartacus/core';
-import { RulebasedConfiguratorAdapter } from '../../core/connectors/rulebased-configurator.adapter';
 import {
   CONFIGURATION_ADD_TO_CART_SERIALIZER,
   CONFIGURATION_NORMALIZER,
@@ -9,6 +8,7 @@ import {
   CONFIGURATION_PRICE_SUMMARY_NORMALIZER,
   CONFIGURATION_SERIALIZER,
   CONFIGURATION_UPDATE_CART_ENTRY_SERIALIZER,
+  CONFIGURATOR_ADAPTER_LIST,
 } from '../../core/connectors/rulebased-configurator.converters';
 import { OccConfiguratorVariantAddToCartSerializer } from './converters/occ-configurator-variant-add-to-cart-serializer';
 import { OccConfiguratorVariantNormalizer } from './converters/occ-configurator-variant-normalizer';
@@ -26,8 +26,9 @@ import { VariantConfiguratorOccAdapter } from './variant-configurator-occ.adapte
   ],
   providers: [
     {
-      provide: RulebasedConfiguratorAdapter,
+      provide: CONFIGURATOR_ADAPTER_LIST,
       useClass: VariantConfiguratorOccAdapter,
+      multi: true,
     },
     {
       provide: CONFIGURATION_NORMALIZER,

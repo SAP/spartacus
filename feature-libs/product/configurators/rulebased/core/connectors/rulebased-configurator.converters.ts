@@ -1,6 +1,11 @@
 import { InjectionToken } from '@angular/core';
 import { Converter } from '@spartacus/core';
 import { Configurator } from '../model/configurator.model';
+import { RulebasedConfiguratorAdapter } from './rulebased-configurator.adapter';
+
+export const CONFIGURATOR_ADAPTER_LIST = new InjectionToken<
+  RulebasedConfiguratorAdapter
+>('ConfiguratorAdapterList');
 
 export const CONFIGURATION_NORMALIZER = new InjectionToken<
   Converter<any, Configurator.Configuration>

@@ -177,7 +177,7 @@ export class ConfiguratorAddToCartButtonComponent {
       this.configuratorCartService.addToCart(
         owner.id,
         configuration.configId,
-        owner.key
+        owner
       );
 
       this.configuratorCommonsService

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import {
   CartModification,
   GenericConfigurator,
@@ -7,12 +7,14 @@ import {
 import { Observable } from 'rxjs';
 import { Configurator } from '../model/configurator.model';
 import { RulebasedConfiguratorAdapter } from './rulebased-configurator.adapter';
+import { CONFIGURATOR_ADAPTER_LIST } from './rulebased-configurator.converters';
 
 //Not provided in root, as this would break lazy loading
 @Injectable()
 export class RulebasedConfiguratorConnector {
   constructor(
-    protected adapter: RulebasedConfiguratorAdapter,
+    @Inject(CONFIGURATOR_ADAPTER_LIST)
+    protected adapters: RulebasedConfiguratorAdapter[],
     protected configUtilsService: GenericConfiguratorUtilsService
   ) {}
 
@@ -24,7 +26,7 @@ export class RulebasedConfiguratorConnector {
       type: GenericConfigurator.OwnerType.PRODUCT,
     };
     this.configUtilsService.setOwnerKey(owner);
-    return this.adapter.createConfiguration(owner);
+    return this.getAdapter(owner.configuratorType).createConfiguration(owner);
   }
 
   readConfiguration(
@@ -32,52 +34,70 @@ export class RulebasedConfiguratorConnector {
     groupId: string,
     configurationOwner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
-    return this.adapter.readConfiguration(
-      configId,
-      groupId,
-      configurationOwner
-    );
+    return this.getAdapter(
+      configurationOwner.configuratorType
+    ).readConfiguration(configId, groupId, configurationOwner);
   }
 
   updateConfiguration(
-    Configuration: Configurator.Configuration
+    configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
-    return this.adapter.updateConfiguration(Configuration);
+    return this.getAdapter(
+      configuration.owner.configuratorType
+    ).updateConfiguration(configuration);
   }
 
   addToCart(
     parameters: Configurator.AddToCartParameters
   ): Observable<CartModification> {
-    return this.adapter.addToCart(parameters);
+    return this.getAdapter(parameters.owner.configuratorType).addToCart(
+      parameters
+    );
   }
 
   readConfigurationForCartEntry(
     parameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters
   ): Observable<Configurator.Configuration> {
-    return this.adapter.readConfigurationForCartEntry(parameters);
+    return this.getAdapter(
+      parameters.owner.configuratorType
+    ).readConfigurationForCartEntry(parameters);
   }
 
   updateConfigurationForCartEntry(
     parameters: Configurator.UpdateConfigurationForCartEntryParameters
   ): Observable<CartModification> {
-    return this.adapter.updateConfigurationForCartEntry(parameters);
+    return this.getAdapter(
+      parameters.configuration.owner.configuratorType
+    ).updateConfigurationForCartEntry(parameters);
   }
 
   readConfigurationForOrderEntry(
     parameters: GenericConfigurator.ReadConfigurationFromOrderEntryParameters
   ): Observable<Configurator.Configuration> {
-    return this.adapter.readConfigurationForOrderEntry(parameters);
+    return this.getAdapter(
+      parameters.owner.configuratorType
+    ).readConfigurationForOrderEntry(parameters);
   }
 
   readPriceSummary(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
-    return this.adapter.readPriceSummary(configuration);
+    return this.getAdapter(
+      configuration.owner.configuratorType
+    ).readPriceSummary(configuration);
   }
 
   getConfigurationOverview(
-    configId: string
+    configuration: Configurator.Configuration
   ): Observable<Configurator.Overview> {
-    return this.adapter.getConfigurationOverview(configId);
+    return this.getAdapter(
+      configuration.owner.configuratorType
+    ).getConfigurationOverview(configuration.configId);
+  }
+
+  protected getAdapter(configuratorType: string): RulebasedConfiguratorAdapter {
+    return this.adapters.find(
+      (adapter) => adapter.getConfiguratorType() === configuratorType
+    );
   }
 }

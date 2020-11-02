@@ -161,7 +161,7 @@ export class ConfiguratorBasicEffects {
     ),
     mergeMap((payload) => {
       return this.configuratorCommonsConnector
-        .getConfigurationOverview(payload.configId)
+        .getConfigurationOverview(payload)
         .pipe(
           map((overview: Configurator.Overview) => {
             return new ConfiguratorActions.GetConfigurationOverviewSuccess({
