@@ -24,9 +24,9 @@ export class UnitItemService extends OrganizationItemService<B2BUnit> {
 
   /**
    * @override
-   * Returns the budget for the given code.
+   * Returns the unit for the given code.
    *
-   * Loads the budget each time, to ensure accurate data is resolved.
+   * Loads the unit each time, to ensure accurate data is resolved.
    */
   load(code: string): Observable<B2BUnit> {
     this.unitService.load(code);
@@ -38,8 +38,11 @@ export class UnitItemService extends OrganizationItemService<B2BUnit> {
     return this.unitService.getLoadingStatus(code);
   }
 
-  protected create(value: B2BUnit) {
+  protected create(
+    value: B2BUnit
+  ): Observable<OrganizationItemStatus<B2BUnit>> {
     this.unitService.create(value);
+    return this.unitService.getLoadingStatus(value.uid);
   }
 
   /**

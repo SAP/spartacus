@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { I18nModule } from '@spartacus/core';
 import { OrganizationCardModule } from '../organization-card/organization-card.module';
 import { OrganizationFormComponent } from './organization-form.component';
+import { MessageService } from '../organization-message/services/message.service';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { OrganizationFormComponent } from './organization-form.component';
     OrganizationCardModule,
   ],
   declarations: [OrganizationFormComponent],
+  providers: [MessageService],
   exports: [OrganizationFormComponent],
 })
 export class OrganizationFormModule {}
