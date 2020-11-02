@@ -7,7 +7,7 @@ import { userConfig } from './user';
 export const unitConfig: MyCompanyConfig = {
   name: 'Unit',
   baseUrl: `${FULL_BASE_URL_EN_USD}/organization/units`,
-  apiEndpoint: '/orgUnitsRootNodeTree',
+  apiEndpoint: '/orgUnits',
   objectType: 'children',
   nestedTableRows: true,
   rows: [
@@ -128,7 +128,6 @@ export const unitConfig: MyCompanyConfig = {
       apiEndpoint: '**/availableOrgCustomers**',
       objectType: 'members',
       createConfig: userConfig,
-      // canManageRoles: true,
     },
     {
       name: 'Approvers',
@@ -146,8 +145,8 @@ export const unitConfig: MyCompanyConfig = {
         rows: [
           {
             inputType: INPUT_TYPE.NG_SELECT,
-            createValue: `New Zealand`,
-            updateValue: `Australia`,
+            createValue: `Cyprus`,
+            updateValue: `Canada`,
             formLabel: 'Country',
           },
           {
@@ -173,6 +172,7 @@ export const unitConfig: MyCompanyConfig = {
             createValue: `123 Uratiti`,
             updateValue: `456 Waiwhakamukau`,
             formLabel: 'Address',
+            sortLabel: 'name',
           },
           {
             inputType: INPUT_TYPE.TEXT,
