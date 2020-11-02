@@ -13,8 +13,8 @@ import { ProductAttributesComponent } from './product-attributes.component';
 import { By } from '@angular/platform-browser';
 
 const createMock = function (mockFeatures: Feature[]): Product {
-  let mockClass: Classification = { features: mockFeatures };
-  let mockProduct: Product = {
+  const mockClass: Classification = { features: mockFeatures };
+  const mockProduct: Product = {
     name: 'mockProduct',
     classifications: [mockClass],
   };
@@ -53,7 +53,7 @@ class MockCurrentProductService {
   }
 }
 
-fdescribe('ProductAttributesComponent in product', () => {
+describe('ProductAttributesComponent in product', () => {
   let productAttributesComponent: ProductAttributesComponent;
   let fixture: ComponentFixture<ProductAttributesComponent>;
 
