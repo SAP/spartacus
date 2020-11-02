@@ -313,6 +313,8 @@ export const AUTO_FOCUS_DIRECTIVE_MODULE = 'AutoFocusDirectiveModule';
 export const CMS_COMPONENT_DATA_PROPERTY_NAME = 'componentData';
 export const KYMA_ENABLED = 'kyma_enabled';
 export const ANONYMOUS_CONSENTS = 'anonymousConsents';
+export const SUB = 'sub';
+
 /***** Properties end *****/
 
 /***** APIs start *****/
@@ -337,6 +339,9 @@ export const GET_MULTIPLE_PATHS_URL_MATCHER = 'getMultiplePathsUrlMatcher';
 export const GET_PATH_URL_MATCHER = 'getPathUrlMatcher';
 export const GET_OPPOSITE_URL_MATCHER = 'getOppositeUrlMatcher';
 export const GET_GLOB_URL_MATCHER = 'getGlobUrlMatcher';
+export const SET_QUERY = 'setQuery';
+export const VIEW_PAGE = 'viewPage';
+
 /***** APIs end *****/
 
 /***** Misc start *****/
