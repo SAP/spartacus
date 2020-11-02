@@ -48,6 +48,8 @@ describe('Profile-tag events', () => {
         expect(addedToCartEvent.data.categories).to.contain('brand_745');
         expect(addedToCartEvent.data.productCategory).to.eq('brand_745');
         expect(addedToCartEvent.data.productPrice).to.eq(8.2);
+        expect(addedToCartEvent.data.cartId.length).to.eq(36);
+        expect(addedToCartEvent.data.cartCode.length).to.eq(8);
       });
     });
 
@@ -79,6 +81,8 @@ describe('Profile-tag events', () => {
         expect(modifiedCart.data.categories).to.contain('577');
         expect(modifiedCart.data.categories).to.contain('brand_745');
         expect(modifiedCart.data.productCategory).to.eq('brand_745');
+        expect(modifiedCart.data.cartId.length).to.eq(36);
+        expect(modifiedCart.data.cartCode.length).to.eq(8);
       });
     });
 
@@ -111,6 +115,8 @@ describe('Profile-tag events', () => {
         expect(removedFromCart.data.categories).to.contain('577');
         expect(removedFromCart.data.categories).to.contain('brand_745');
         expect(removedFromCart.data.productCategory).to.eq('brand_745');
+        expect(removedFromCart.data.cartId.length).to.eq(36);
+        expect(removedFromCart.data.cartCode.length).to.eq(8);
       });
     });
   });
