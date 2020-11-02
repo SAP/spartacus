@@ -15,7 +15,7 @@ import { CurrentChildUnitService } from './current-child-unit.service';
 class MockRoutingService {
   go() {}
 }
-
+const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
 class MockOrgUnitService {
   get() {
     return of();
@@ -24,7 +24,7 @@ class MockOrgUnitService {
   update() {}
   create() {}
   getLoadingStatus(): Observable<OrganizationItemStatus<Budget>> {
-    return of({ status: LoadStatus.SUCCESS, item: {} });
+    return mockItemStatus;
   }
 }
 
@@ -68,8 +68,8 @@ describe('ChildUnitItemService', () => {
       })
     );
     form.get('parentOrgUnit').disable();
-    service.save(form);
 
+    expect(service.save(form)).toEqual(mockItemStatus);
     expect(unitService.create).toHaveBeenCalledWith({
       name: 'Child Unit Name',
       parentOrgUnit: { uid: 'child-unit-uid' },

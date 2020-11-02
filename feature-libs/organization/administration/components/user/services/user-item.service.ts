@@ -33,8 +33,11 @@ export class UserItemService extends OrganizationItemService<B2BUser> {
     return this.userService.getLoadingStatus(code);
   }
 
-  protected create(value: B2BUser) {
+  protected create(
+    value: B2BUser
+  ): Observable<OrganizationItemStatus<B2BUser>> {
     this.userService.create(value);
+    return this.userService.getLoadingStatus(null);
   }
 
   protected getDetailsRoute(): string {

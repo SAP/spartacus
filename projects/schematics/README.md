@@ -115,15 +115,18 @@ This section is for developers who do the release, and it specifies how to manag
 
 The migration scripts that are listed here should be executed each time customers perform the automatic upgrade by running `ng update @spartacus/schematics --next`:
 
-- `migration-v2-validate-01`
-- `migration-v2-methods-and-properties-deprecations-02`
-- `migration-v2-constructor-deprecations-03`
-- `migration-v2-removed-public-api-deprecation-04`
-- `migration-v2-component-deprecations-05`
-- `migration-v2-css-06`
-- `migration-v2-config-deprecations-09`
+- `migration-v*-validate-01`
+- `migration-v*-methods-and-properties-deprecations-02`
+- `migration-v*-constructor-deprecations-03`
+- `migration-v*-removed-public-api-deprecation-04`
+- `migration-v*-component-deprecations-05`
+- `migration-v*-css-06`
+- `migration-v*-config-deprecations-09`
+
+The `v*` refers _only_ to the _latest major_ Spartacus version (v3 as of this moment).
 
 Please bump the `version` in `migration.json` only for the migration scripts listed above, and _do not change the other script's versions_.
+This means that the scripts for the older major Spartacus versions should _also **not** be updated_.
 
 This is _really_ important for the Angular's update mechanism, as it is used to automatically execute the required migration scripts for the current project's version.
 It's also important to note that after we release a Spartacus _next.x_, or an _rc.x_ version, all the migration scripts that are written after the release _have_ to specify the future release version.

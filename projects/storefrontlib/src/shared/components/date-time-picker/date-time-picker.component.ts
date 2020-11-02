@@ -11,7 +11,7 @@ import {
   NG_VALUE_ACCESSOR,
   Validator,
 } from '@angular/forms';
-import { DateTimePickerFormatterService } from './date-time-picker-formatter.service';
+import { DateTimePickerFormatterService } from '@spartacus/core';
 
 /**
  * This component serves the browser's native `<input type="datetime-local">` HTML element
