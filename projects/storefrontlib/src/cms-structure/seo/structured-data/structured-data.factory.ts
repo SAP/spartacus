@@ -39,9 +39,7 @@ export class StructuredDataFactory implements OnDestroy {
    * Collects all schema builders and observe their structured data.
    */
   protected collectSchemas(): Observable<any[]> {
-    return combineLatest(
-      this.builders.map((builder) => builder.build())
-    ).pipe();
+    return combineLatest(this.builders.map((builder) => builder.build()));
   }
 
   ngOnDestroy(): void {

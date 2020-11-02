@@ -20,14 +20,14 @@ export class JsonLdProductReviewBuilder implements JsonLdBuilder<Product> {
 
   build(product: Product): Observable<any> {
     return this.reviewService.getByProductCode(product.code).pipe(
-      map((reviews: Review[]) => {
-        return reviews?.length > 0
+      map((reviews: Review[]) =>
+        reviews?.length > 0
           ? {
               aggregateRating: this.buildAggregatedReviews(product, reviews),
               review: reviews.map((review) => this.buildReviews(review)),
             }
-          : {};
-      })
+          : {}
+      )
     );
   }
 
