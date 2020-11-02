@@ -23,7 +23,6 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { PromotionsModule } from '../../..';
-import { Item } from '../../../../cms-components/cart/index';
 import { Card } from '../../../../shared/components/card/card.component';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { IconTestingModule } from '../../../misc/icon/testing/icon-testing.module';
@@ -85,7 +84,7 @@ const mockPaymentTypes: PaymentType[] = [
   template: '',
 })
 class MockCartItemListComponent {
-  @Input() items: Item[];
+  @Input() items: OrderEntry[];
   @Input() readonly: boolean;
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 }
