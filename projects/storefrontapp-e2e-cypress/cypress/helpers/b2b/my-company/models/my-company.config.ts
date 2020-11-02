@@ -36,7 +36,7 @@ export interface MyCompanyConfig {
   objectType?: string;
 
   /**
-   * Configurations of preserve cookie value.
+   * Configuration of preserve cookies value.
    */
   preserveCookies?: boolean;
 
