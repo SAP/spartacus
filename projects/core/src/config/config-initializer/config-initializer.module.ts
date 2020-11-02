@@ -10,6 +10,7 @@ import {
   CONFIG_INITIALIZER_FORROOT_GUARD,
   ConfigInitializer,
 } from './config-initializer';
+import { LOCATION_INITIALIZED } from '@angular/common';
 
 export function configInitializerFactory(
   configInitializer: ConfigInitializerService,
@@ -17,6 +18,12 @@ export function configInitializerFactory(
 ) {
   const isReady = () => configInitializer.initialize(initializers);
   return isReady;
+}
+
+export function locationInitializedFactory(
+  configInitializer: ConfigInitializerService
+) {
+  return configInitializer.getStableConfig();
 }
 
 @NgModule({})
@@ -37,6 +44,11 @@ export class ConfigInitializerModule {
             ConfigInitializerService,
             [new Optional(), CONFIG_INITIALIZER],
           ],
+        },
+        {
+          provide: LOCATION_INITIALIZED,
+          useFactory: locationInitializedFactory,
+          deps: [ConfigInitializerService],
         },
       ],
     };
