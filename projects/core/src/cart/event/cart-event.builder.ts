@@ -85,6 +85,7 @@ export class CartEventBuilder {
       map(([action, activeCart]) =>
         createFrom(mapping.event, {
           ...action.payload,
+          cartCode: activeCart.code,
           entry: action.payload.entry
             ? action.payload.entry
             : activeCart.entries[Number(action.payload.entryNumber)],

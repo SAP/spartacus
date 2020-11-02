@@ -10,7 +10,7 @@ import { JSONLD_PRODUCT_BUILDER, SCHEMA_BUILDER } from './tokens';
 
 /**
  * Provides several standard json-ld builders that contribute
- * to colleting and building json-ld data.
+ * to collecting and building json-ld data.
  */
 @NgModule({
   providers: [
@@ -24,8 +24,8 @@ import { JSONLD_PRODUCT_BUILDER, SCHEMA_BUILDER } from './tokens';
       useExisting: BreadcrumbSchemaBuilder,
       multi: true,
     },
-    // lower level json-ld builder classes offering fine-graiend control
-    // for product related schema's
+    // lower level json-ld builder classes offering fine-grained control
+    // for product related schemas
     {
       provide: JSONLD_PRODUCT_BUILDER,
       useExisting: JsonLdBaseProductBuilder,
