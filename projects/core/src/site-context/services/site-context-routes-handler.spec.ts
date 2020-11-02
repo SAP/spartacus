@@ -29,6 +29,7 @@ describe('SiteContextRoutesHandler', () => {
 
     mockLocation = {
       replaceState: createSpy(),
+      path: () => 'test',
     };
 
     activeLanguage = new BehaviorSubject('en');

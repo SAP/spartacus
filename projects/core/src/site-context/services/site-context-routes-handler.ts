@@ -49,7 +49,7 @@ export class SiteContextRoutesHandler implements OnDestroy {
     const routingParams = this.siteContextParams.getUrlEncodingParameters();
 
     if (routingParams.length) {
-      this.setContextParamsFromRoute(this.router.url);
+      this.setContextParamsFromRoute(this.location.path(true));
       this.subscribeChanges(routingParams);
       this.subscribeRouting();
     }
