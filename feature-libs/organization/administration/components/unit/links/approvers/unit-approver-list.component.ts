@@ -3,6 +3,7 @@ import { OrganizationListService } from '../../../shared/organization-list/organ
 import { UnitApproverListService } from './unit-approver-list.service';
 
 @Component({
+  selector: 'cx-unit-approver-list',
   templateUrl: './unit-approver-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [

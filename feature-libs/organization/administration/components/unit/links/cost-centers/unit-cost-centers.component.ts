@@ -3,6 +3,7 @@ import { OrganizationListService } from '../../../shared/organization-list/organ
 import { UnitCostCenterListService } from './unit-cost-centers.service';
 
 @Component({
+  selector: 'cx-unit-cost-centers',
   templateUrl: './unit-cost-centers.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [

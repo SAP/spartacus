@@ -3,6 +3,7 @@ import { OrganizationListService } from '../../../shared/organization-list/organ
 import { UserGroupAssignedUserListService } from './user-group-assigned-user-list.service';
 
 @Component({
+  selector: 'cx-user-group-assigned-user-list',
   templateUrl: './user-group-assigned-user-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [

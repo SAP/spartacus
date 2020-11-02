@@ -4,6 +4,7 @@ import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitUserItemService } from './unit-user-item.service';
 
 @Component({
+  selector: 'cx-unit-user-create',
   templateUrl: './unit-user-create.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [

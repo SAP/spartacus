@@ -13,6 +13,7 @@ import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitAddressItemService } from '../services/unit-address-item.service';
 
 @Component({
+  selector: 'cx-unit-address-details',
   templateUrl: './unit-address-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [

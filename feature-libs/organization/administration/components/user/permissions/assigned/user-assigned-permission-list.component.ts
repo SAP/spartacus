@@ -3,6 +3,7 @@ import { OrganizationListService } from '../../../shared/organization-list/organ
 import { UserAssignedPermissionListService } from './user-assigned-permission-list.service';
 
 @Component({
+  selector: 'cx-user-assigned-permission-list',
   templateUrl: './user-assigned-permission-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [

@@ -3,6 +3,7 @@ import { OrganizationListService } from '../../../shared/organization-list/organ
 import { UnitChildrenService } from './unit-children.service';
 
 @Component({
+  selector: 'cx-unit-children',
   templateUrl: './unit-children.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [

@@ -5,6 +5,7 @@ import { shareReplay, switchMap } from 'rxjs/operators';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 
 @Component({
+  selector: 'cx-unit-details',
   templateUrl: './unit-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

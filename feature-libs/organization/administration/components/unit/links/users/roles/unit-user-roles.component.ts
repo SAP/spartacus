@@ -14,6 +14,7 @@ import { UnitUserRolesItemService } from './unit-user-roles-item.service';
 import { UserItemService } from '../../../../user/services/user-item.service';
 
 @Component({
+  selector: 'cx-unit-user-roles',
   templateUrl: './unit-user-roles.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
