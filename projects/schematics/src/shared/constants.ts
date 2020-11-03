@@ -316,8 +316,6 @@ export const CMS_COMPONENT_DATA_PROPERTY_NAME = 'componentData';
 export const KYMA_ENABLED = 'kyma_enabled';
 export const ANONYMOUS_CONSENTS = 'anonymousConsents';
 export const SUB = 'sub';
-export const SORT_CODE = 'sortCode';
-export const SORT = 'sort';
 
 /***** Properties end *****/
 
