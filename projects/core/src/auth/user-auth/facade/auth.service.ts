@@ -1,29 +1,55 @@
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { BasicAuthService } from '../services/basic-auth.service';
+import { distinctUntilChanged, map } from 'rxjs/operators';
+import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
+import { RoutingService } from '../../../routing/facade/routing.service';
+import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
+import { AuthRedirectService } from '../services/auth-redirect.service';
+import { AuthStorageService } from '../services/auth-storage.service';
+import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
+import { AuthActions } from '../store/actions/index';
+import { UserIdService } from './user-id.service';
 
 /**
- * Auth facade on BasicAuthService and AsmAuthService.
- * This service should be used in components, other core features.
+ * Auth service for normal user authentication.
+ * Use to check auth status, login/logout with different OAuth flows.
  */
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(protected basicAuthService: BasicAuthService) {}
+  constructor(
+    protected store: Store<StateWithClientAuth>,
+    protected userIdService: UserIdService,
+    protected oAuthLibWrapperService: OAuthLibWrapperService,
+    protected authStorageService: AuthStorageService,
+    protected authRedirectService: AuthRedirectService,
+    protected routingService: RoutingService
+  ) {}
 
   /**
    * Check params in url and if there is an code/token then try to login with those.
    */
-  public checkOAuthParamsInUrl(): void {
-    this.basicAuthService.checkOAuthParamsInUrl();
+  async checkOAuthParamsInUrl(): Promise<void> {
+    try {
+      const result = await this.oAuthLibWrapperService.tryLogin();
+      const token = this.authStorageService.getItem('access_token');
+      // We get the result in the code flow even if we did not logged in that why we also need to check if we have access_token
+      if (result && token) {
+        this.userIdService.setUserId(OCC_USER_ID_CURRENT);
+        this.store.dispatch(new AuthActions.Login());
+        this.authRedirectService.redirect();
+      }
+    } catch {}
   }
 
   /**
    * Initialize Implicit/Authorization Code flow by redirecting to OAuth server.
    */
-  public loginWithRedirect(): boolean {
-    return this.basicAuthService.loginWithRedirect();
+  loginWithRedirect(): boolean {
+    this.oAuthLibWrapperService.initLoginFlow();
+    return true;
   }
 
   /**
@@ -31,28 +57,48 @@ export class AuthService {
    * @param userId
    * @param password
    */
-  public authorize(userId: string, password: string): void {
-    this.basicAuthService.authorize(userId, password);
+  public async authorize(userId: string, password: string): Promise<void> {
+    try {
+      await this.oAuthLibWrapperService.authorizeWithPasswordFlow(
+        userId,
+        password
+      );
+      // OCC specific user id handling. Customize when implementing different backend
+      this.userIdService.setUserId(OCC_USER_ID_CURRENT);
+
+      this.store.dispatch(new AuthActions.Login());
+
+      this.authRedirectService.redirect();
+    } catch {}
   }
 
   /**
    * Logout a storefront customer.
    */
   public logout(): Promise<any> {
-    return this.basicAuthService.logout();
+    this.userIdService.clearUserId();
+    return new Promise((resolve) => {
+      this.oAuthLibWrapperService.revokeAndLogout().finally(() => {
+        this.store.dispatch(new AuthActions.Logout());
+        resolve();
+      });
+    });
   }
 
   /**
    * Returns `true` if the user is logged in; and `false` if the user is anonymous.
    */
   public isUserLoggedIn(): Observable<boolean> {
-    return this.basicAuthService.isUserLoggedIn();
+    return this.authStorageService.getToken().pipe(
+      map((userToken) => Boolean(userToken?.access_token)),
+      distinctUntilChanged()
+    );
   }
 
   /**
    * Initialize logout procedure by redirecting to the `logout` endpoint.
    */
   public initLogout(): void {
-    this.basicAuthService.initLogout();
+    this.routingService.go({ cxRoute: 'logout' });
   }
 }
