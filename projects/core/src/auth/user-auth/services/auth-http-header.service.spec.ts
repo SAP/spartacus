@@ -14,7 +14,7 @@ import { AuthStorageService } from './auth-storage.service';
 import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
 
 class MockAuthService implements Partial<AuthService> {
-  logout() {
+  internalLogout() {
     return Promise.resolve();
   }
 }
@@ -172,13 +172,13 @@ describe('AuthHttpHeaderService', () => {
 
   describe('handleExpiredRefreshToken', () => {
     it('should logout user and redirect to login page', () => {
-      spyOn(authService, 'logout').and.callThrough();
+      spyOn(authService, 'internalLogout').and.callThrough();
       spyOn(routingService, 'go').and.callThrough();
       spyOn(globalMessageService, 'add').and.callThrough();
 
       service.handleExpiredRefreshToken();
 
-      expect(authService.logout).toHaveBeenCalled();
+      expect(authService.internalLogout).toHaveBeenCalled();
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {

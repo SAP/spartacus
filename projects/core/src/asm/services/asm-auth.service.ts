@@ -74,9 +74,12 @@ export class AsmAuthService extends AuthService {
    * @param userId
    * @param password
    */
-  public async authorize(userId: string, password: string): Promise<void> {
+  public async loginWithCredentials(
+    userId: string,
+    password: string
+  ): Promise<void> {
     if (this.canUserLogin()) {
-      await super.authorize(userId, password);
+      await super.loginWithCredentials(userId, password);
     } else {
       this.warnAboutLoggedCSAgent();
     }
@@ -98,7 +101,7 @@ export class AsmAuthService extends AuthService {
   /**
    * Logout a storefront customer.
    */
-  public logout(): Promise<any> {
+  public internalLogout(): Promise<any> {
     return this.userIdService
       .isEmulated()
       .pipe(
@@ -110,7 +113,7 @@ export class AsmAuthService extends AuthService {
             this.store.dispatch(new AuthActions.Logout());
             return of(true);
           } else {
-            return from(super.logout());
+            return from(super.internalLogout());
           }
         })
       )

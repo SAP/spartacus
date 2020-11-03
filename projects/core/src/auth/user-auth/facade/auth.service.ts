@@ -57,7 +57,10 @@ export class AuthService {
    * @param userId
    * @param password
    */
-  public async authorize(userId: string, password: string): Promise<void> {
+  public async loginWithCredentials(
+    userId: string,
+    password: string
+  ): Promise<void> {
     try {
       await this.oAuthLibWrapperService.authorizeWithPasswordFlow(
         userId,
@@ -75,7 +78,7 @@ export class AuthService {
   /**
    * Logout a storefront customer.
    */
-  public logout(): Promise<any> {
+  public internalLogout(): Promise<any> {
     this.userIdService.clearUserId();
     return new Promise((resolve) => {
       this.oAuthLibWrapperService.revokeAndLogout().finally(() => {
@@ -98,7 +101,7 @@ export class AuthService {
   /**
    * Initialize logout procedure by redirecting to the `logout` endpoint.
    */
-  public initLogout(): void {
+  public logout(): void {
     this.routingService.go({ cxRoute: 'logout' });
   }
 }
