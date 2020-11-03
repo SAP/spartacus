@@ -13,6 +13,9 @@ context('Currency switch - cart page', () => {
     cy.requireLoggedIn();
 
     cy.window().then((win) => {
+      // clear currency and language data from session storage
+      win.sessionStorage.clear();
+
       const savedState = JSON.parse(
         win.localStorage.getItem('spartacus-local-data')
       );
