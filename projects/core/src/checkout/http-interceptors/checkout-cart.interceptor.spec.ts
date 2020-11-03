@@ -2,6 +2,7 @@ import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
+  TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
@@ -9,6 +10,18 @@ import { catchError } from 'rxjs/operators';
 import { MultiCartService } from '../../cart';
 import { RoutingService } from '../../routing';
 import { CheckoutCartInterceptor } from './checkout-cart.interceptor';
+
+const cartNotFoundStatus = { status: 400, statusText: 'Error' };
+const cartNotFoundError = {
+  errors: [
+    {
+      type: 'CartError',
+      message: 'Cart not found',
+      reason: 'notFound',
+      subject: '123',
+    },
+  ],
+};
 
 class MockRoutingService {
   go() {}
@@ -57,34 +70,9 @@ describe('CheckoutCartInterceptor', () => {
         of({ state: { semanticRoute: 'checkoutDelivery' } } as any)
       );
 
-      http
-        .get('/test')
-        .pipe(catchError((error: any) => throwError(error)))
-        .subscribe(
-          (_result) => {},
-          (error) => ({
-            if(this) {
-              this.error = error;
-            },
-          })
-        );
+      const mockReq = createRequest();
 
-      const mockReq = httpMock.expectOne((req) => {
-        return req.method === 'GET';
-      });
-      mockReq.flush(
-        {
-          errors: [
-            {
-              type: 'CartError',
-              message: 'Cart not found',
-              reason: 'notFound',
-              subject: '123',
-            },
-          ],
-        },
-        { status: 400, statusText: 'Error' }
-      );
+      mockReq.flush(cartNotFoundError, cartNotFoundStatus);
 
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'cart' });
       expect(multiCartService.reloadCart).toHaveBeenCalledWith('123');
@@ -95,34 +83,9 @@ describe('CheckoutCartInterceptor', () => {
         of({ state: { semanticRoute: 'orderConfirmation' } } as any)
       );
 
-      http
-        .get('/test')
-        .pipe(catchError((error: any) => throwError(error)))
-        .subscribe(
-          (_result) => {},
-          (error) => ({
-            if(this) {
-              this.error = error;
-            },
-          })
-        );
+      const mockReq = createRequest();
 
-      const mockReq = httpMock.expectOne((req) => {
-        return req.method === 'GET';
-      });
-      mockReq.flush(
-        {
-          errors: [
-            {
-              type: 'CartError',
-              message: 'Cart not found',
-              reason: 'notFound',
-              subject: '123',
-            },
-          ],
-        },
-        { status: 400, statusText: 'Error' }
-      );
+      mockReq.flush(cartNotFoundError, cartNotFoundStatus);
 
       expect(routingService.go).not.toHaveBeenCalled();
       expect(multiCartService.reloadCart).not.toHaveBeenCalled();
@@ -133,21 +96,8 @@ describe('CheckoutCartInterceptor', () => {
         of({ state: { semanticRoute: 'checkoutDelivery' } } as any)
       );
 
-      http
-        .get('/test')
-        .pipe(catchError((error: any) => throwError(error)))
-        .subscribe(
-          (_result) => {},
-          (error) => ({
-            if(this) {
-              this.error = error;
-            },
-          })
-        );
+      const mockReq = createRequest();
 
-      const mockReq = httpMock.expectOne((req) => {
-        return req.method === 'GET';
-      });
       mockReq.flush(
         {
           errors: [
@@ -158,7 +108,7 @@ describe('CheckoutCartInterceptor', () => {
             },
           ],
         },
-        { status: 400, statusText: 'Error' }
+        cartNotFoundStatus
       );
 
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'cart' });
@@ -170,37 +120,26 @@ describe('CheckoutCartInterceptor', () => {
         of({ state: { semanticRoute: 'checkoutDelivery' } } as any)
       );
 
-      http
-        .get('/test')
-        .pipe(catchError((error: any) => throwError(error)))
-        .subscribe(
-          (_result) => {},
-          (error) => ({
-            if(this) {
-              this.error = error;
-            },
-          })
-        );
+      const mockReq = createRequest();
 
-      const mockReq = httpMock.expectOne((req) => {
-        return req.method === 'GET';
-      });
-      mockReq.flush(
-        {
-          errors: [
-            {
-              type: 'CartError',
-              message: 'Cart not found',
-              reason: 'notFound',
-              subject: '123',
-            },
-          ],
-        },
-        { status: 404, statusText: 'Error' }
-      );
+      mockReq.flush(cartNotFoundError, { status: 404, statusText: 'Error' });
 
       expect(routingService.go).not.toHaveBeenCalled();
       expect(multiCartService.reloadCart).not.toHaveBeenCalled();
     });
   });
+
+  function createRequest(): TestRequest {
+    http
+      .get('/test')
+      .pipe(catchError((error: any) => throwError(error)))
+      .subscribe(
+        (_result) => {},
+        (_error) => {}
+      );
+
+    return httpMock.expectOne((req) => {
+      return req.method === 'GET';
+    });
+  }
 });
