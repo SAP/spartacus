@@ -6,7 +6,7 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
   config?.subCategories?.forEach((subConfig: MyCompanyConfig) => {
     describe(`${config.name} Assignment - ${subConfig.name}`, () => {
       let firstOption: string;
-      const codeRow = config.rows?.find((row) => row.useInUrl);
+      const codeRow = config.rows?.find((row) => row.useInUrl || row.useCookie);
 
       before(() => {
         loginAsMyCompanyAdmin();

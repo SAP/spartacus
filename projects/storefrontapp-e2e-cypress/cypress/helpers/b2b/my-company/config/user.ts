@@ -8,7 +8,7 @@ export const userConfig: MyCompanyConfig = {
   apiEndpoint: '/users/current/orgCustomers',
   objectType: 'users',
   entityIdField: 'customerId',
-  preserveCookies: false,
+  preserveCookies: true,
   rows: [
     {
       label: 'Name',
