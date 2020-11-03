@@ -68,7 +68,6 @@ export const userConfig: MyCompanyConfig = {
       showInTable: true,
       showInDetails: true,
       formLabel: 'Unit',
-      skipInSubCategory: true,
     },
     {
       label: 'Title',

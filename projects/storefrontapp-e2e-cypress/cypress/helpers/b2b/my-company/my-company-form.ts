@@ -71,17 +71,21 @@ export function completeForm(
   valueKey: string
 ) {
   rowConfigs.forEach((input) => {
-    if (input.formLabel && !input.skipInSubCategory) {
-      switch (input.inputType) {
-        case INPUT_TYPE.TEXT:
-          return fillTextInput(input);
-        case INPUT_TYPE.DATE_TIME:
-          return fillDateTimePicker(input);
-        case INPUT_TYPE.NG_SELECT:
-          return fillNgSelect(input);
-        case INPUT_TYPE.CHECKBOX:
-          return selectCheckbox(input);
-      }
+    if (input.formLabel) {
+      getFieldByLabel(input.formLabel).then((el) => {
+        if (!el.html().includes('disabled')) {
+          switch (input.inputType) {
+            case INPUT_TYPE.TEXT:
+              return fillTextInput(input);
+            case INPUT_TYPE.DATE_TIME:
+              return fillDateTimePicker(input);
+            case INPUT_TYPE.NG_SELECT:
+              return fillNgSelect(input);
+            case INPUT_TYPE.CHECKBOX:
+              return selectCheckbox(input);
+          }
+        }
+      });
     }
   });
 

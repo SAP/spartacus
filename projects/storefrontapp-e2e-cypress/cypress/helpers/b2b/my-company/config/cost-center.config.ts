@@ -59,7 +59,6 @@ export const costCenterConfig: MyCompanyConfig = {
       showInTable: true,
       formLabel: 'Parent Unit',
       showInDetails: true,
-      skipInSubCategory: true,
     },
   ],
   subCategories: [

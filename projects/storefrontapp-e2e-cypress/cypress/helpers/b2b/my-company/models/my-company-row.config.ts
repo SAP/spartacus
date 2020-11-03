@@ -63,8 +63,4 @@ export interface MyCompanyRowConfig {
    * Custom selector for form element
    */
   selector?: string;
-  /**
-   * Skips checking field when performing subCategory actions
-   */
-  skipInSubCategory?: boolean;
 }
