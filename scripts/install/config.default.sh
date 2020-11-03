@@ -16,7 +16,7 @@ SPARTACUS_PROJECTS=(
         "projects/storefrontlib"
         "projects/storefrontstyles"
         "projects/schematics"
-        "projects/cds"
+        "integration-libs/cds"
         "core-libs/setup"
         "feature-libs/organization"
         )

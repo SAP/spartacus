@@ -12,6 +12,12 @@ function validatestyles {
     popd
 }
 
+function validateStylesLint {
+    echo "----"
+    echo "Running styleslint"
+    yarn lint:styles
+}
+
 function validateTsConfigFile {
     echo "Validating ${TSCONFIGFILE_TO_VALIDATE} integrity"
     LOCAL_ENV_LIB_PATH_OCCURENCES=$(grep -c "projects/storefrontlib/src/public_api" ${TSCONFIGFILE_TO_VALIDATE} || true)
@@ -55,11 +61,19 @@ else
 fi
 
 validatestyles
+validateStylesLint
 
 echo "Validating code linting"
 ng lint
 
 echo "-----"
+
+echo "Cleaning projects/schematics and feature-libs/organization schematics before prettier runs..."
+yarn --cwd projects/schematics
+yarn --cwd projects/schematics run clean
+yarn --cwd feature-libs/organization
+yarn --cwd feature-libs/organization run clean:schematics
+
 echo "Validating code formatting (using prettier)"
 yarn prettier 2>&1 |  tee prettier.log
 results=$(tail -1 prettier.log | grep projects || true)

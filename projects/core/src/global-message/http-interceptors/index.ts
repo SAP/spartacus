@@ -9,7 +9,6 @@ import {
   HttpErrorHandler,
   InternalServerErrorHandler,
   NotFoundHandler,
-  UnauthorizedErrorHandler,
   UnknownErrorHandler,
 } from './handlers/index';
 import { HttpErrorInterceptor } from './http-error.interceptor';
@@ -53,11 +52,6 @@ export const errorHandlers: Provider[] = [
   {
     provide: HttpErrorHandler,
     useExisting: NotFoundHandler,
-    multi: true,
-  },
-  {
-    provide: HttpErrorHandler,
-    useExisting: UnauthorizedErrorHandler,
     multi: true,
   },
 ];

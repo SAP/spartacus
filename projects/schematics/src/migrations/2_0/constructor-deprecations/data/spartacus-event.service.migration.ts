@@ -12,7 +12,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CDS_SPARTACUS_EVENT_SERVICE_MIGRATION: ConstructorDeprecation = {
-  // projects/cds/src/profiletag/services/spartacus-event.service.ts
+  // integration-libs/cds/src/profiletag/services/spartacus-event.service.ts
   class: CDS_SPARTACUS_EVENT_SERVICE,
   importPath: SPARTACUS_CDS,
   deprecatedParams: [

@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
 import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
 import { FormUtils } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CurrentOrganizationItemService } from './current-organization-item.service';
 import { OrganizationFormService } from './organization-form/organization-form.service';
 
@@ -31,23 +31,22 @@ export abstract class OrganizationItemService<T> {
    */
   unit$: Observable<string> = this.currentItemService.b2bUnit$;
 
-  save(form: FormGroup, key?: string): void {
+  save(form: FormGroup, key?: string): Observable<OrganizationItemStatus<T>> {
     if (form.invalid) {
       form.markAllAsTouched();
       FormUtils.deepUpdateValueAndValidity(form);
+      return of();
     } else {
-      const formValue = form.value;
       form.disable();
 
-      if (key) {
-        this.update(key, formValue);
-      } else {
-        this.create(formValue);
-      }
       // this potentially fails when creating/saving takes time:
-      // - the new item might not yet exists and therefor will fail with a 404 in case of routing
-      // - the new item  might not yet be saved, thus the detailed route would not reflect the changes
-      this.launchDetails(formValue);
+      // - the new item might not yet exists and therefore will fail with
+      //   a 404 in case of routing
+      // - the new item  might not yet be saved, thus the detailed route
+      //   would not reflect the changes
+      this.launchDetails(form.value);
+
+      return key ? this.update(key, form.value) : this.create(form.value);
     }
   }
 
@@ -59,7 +58,7 @@ export abstract class OrganizationItemService<T> {
   /**
    * Creates a new item.
    */
-  protected abstract create(value: T): void;
+  protected abstract create(value: T): Observable<OrganizationItemStatus<T>>;
 
   /**
    * Updates an existing item.
@@ -80,7 +79,7 @@ export abstract class OrganizationItemService<T> {
    */
   launchDetails(item: T): void {
     const cxRoute = this.getDetailsRoute();
-    const params = this.getRouteParams(item);
+    const params = this.buildRouteParams(item);
     if (cxRoute && item && Object.keys(item).length > 0) {
       this.routingService.go({ cxRoute, params });
     }
@@ -95,7 +94,11 @@ export abstract class OrganizationItemService<T> {
    * doesn't match the expected route parameters. You can manipulate
    * the parameter data.
    */
-  protected getRouteParams(item: T): any {
+  protected buildRouteParams(item: T): any {
     return item;
+  }
+
+  getRouterParam(key: string): Observable<string> {
+    return this.currentItemService.getRouterParam(key);
   }
 }

@@ -14,15 +14,15 @@ export const permission = {
   actions: '',
 
   details: {
-    title: 'Purchase limits details',
-    subtitle: 'Purchase limits: {{ item.code }}',
+    title: 'Purchase Limit Details',
+    subtitle: 'Purchase Limit: {{ item.code }}',
   },
   edit: {
-    title: 'Edit Purchase limit',
+    title: 'Edit Purchase Limit',
     subtitle: 'Purchase limits : {{ item.code }}',
   },
   create: {
-    title: 'Create Purchase limit',
+    title: 'Create Purchase Limit',
     subtitle: '',
   },
 
@@ -31,8 +31,10 @@ export const permission = {
 
   messages: {
     deactivate: 'Are you sure you want to disable this purchase limit?',
-    confirmEnabled: 'Purchase Limit {{ item.name }} enabled successfully',
-    confirmDisabled: 'Purchase Limit {{ item.name }} disabled successfully',
+    confirmEnabled: 'Purchase Limit {{ item.code }} enabled successfully',
+    confirmDisabled: 'Purchase Limit {{ item.code }} disabled successfully',
+    update: 'Purchase Limit {{ item.code }} updated successfully',
+    create: 'Purchase Limit {{ item.code }} created successfully',
   },
 
   per: {

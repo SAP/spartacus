@@ -1,16 +1,17 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { EntitiesModel, normalizeHttpError } from '@spartacus/core';
+import {
+  EntitiesModel,
+  normalizeHttpError,
+  OrderApprovalPermissionType,
+  StateUtils,
+} from '@spartacus/core';
 import { from, Observable, of } from 'rxjs';
 import { catchError, filter, map, switchMap } from 'rxjs/operators';
 import { PermissionConnector } from '../../connectors/permission/permission.connector';
-import {
-  OrderApprovalPermissionType,
-  Permission,
-} from '../../model/permission.model';
+import { Permission } from '../../model/permission.model';
 import { isValidUser } from '../../utils/check-user';
-import { normalizeListPage } from '../../utils/serializer';
 import { OrganizationActions, PermissionActions } from '../actions';
 
 @Injectable()
@@ -52,7 +53,10 @@ export class PermissionEffects {
     switchMap((payload) =>
       this.permissionConnector.getList(payload.userId, payload.params).pipe(
         switchMap((permissions: EntitiesModel<Permission>) => {
-          const { values, page } = normalizeListPage(permissions, 'code');
+          const { values, page } = StateUtils.normalizeListPage(
+            permissions,
+            'code'
+          );
           return [
             new PermissionActions.LoadPermissionSuccess(values),
             new PermissionActions.LoadPermissionsSuccess({

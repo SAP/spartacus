@@ -1,7 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { B2BUser, EntitiesModel, normalizeHttpError } from '@spartacus/core';
+import {
+  B2BUser,
+  EntitiesModel,
+  normalizeHttpError,
+  StateUtils,
+} from '@spartacus/core';
 import { from, Observable, of } from 'rxjs';
 import {
   catchError,
@@ -15,7 +20,6 @@ import { UserGroupConnector } from '../../connectors/user-group/user-group.conne
 import { Permission } from '../../model/permission.model';
 import { UserGroup } from '../../model/user-group.model';
 import { isValidUser } from '../../utils/check-user';
-import { normalizeListPage, serializeParams } from '../../utils/serializer';
 import {
   B2BUserActions,
   OrganizationActions,
@@ -61,7 +65,10 @@ export class UserGroupEffects {
     switchMap((payload) =>
       this.userGroupConnector.getList(payload.userId, payload.params).pipe(
         switchMap((userGroups: EntitiesModel<UserGroup>) => {
-          const { values, page } = normalizeListPage(userGroups, 'uid');
+          const { values, page } = StateUtils.normalizeListPage(
+            userGroups,
+            'uid'
+          );
           return [
             new UserGroupActions.LoadUserGroupSuccess(values),
             new UserGroupActions.LoadUserGroupsSuccess({
@@ -91,7 +98,9 @@ export class UserGroupEffects {
     ofType(UserGroupActions.LOAD_USER_GROUP_PERMISSIONS),
     map((action: UserGroupActions.LoadPermissions) => action.payload),
     filter((payload) => isValidUser(payload.userId)),
-    groupBy(({ userGroupId, params }) => serializeParams(userGroupId, params)),
+    groupBy(({ userGroupId, params }) =>
+      StateUtils.serializeParams(userGroupId, params)
+    ),
     mergeMap((group) =>
       group.pipe(
         switchMap((payload) =>
@@ -103,7 +112,10 @@ export class UserGroupEffects {
             )
             .pipe(
               switchMap((permissions: EntitiesModel<Permission>) => {
-                const { values, page } = normalizeListPage(permissions, 'code');
+                const { values, page } = StateUtils.normalizeListPage(
+                  permissions,
+                  'code'
+                );
                 return [
                   new PermissionActions.LoadPermissionSuccess(values),
                   new UserGroupActions.LoadPermissionsSuccess({
@@ -137,7 +149,9 @@ export class UserGroupEffects {
     ofType(UserGroupActions.LOAD_USER_GROUP_AVAILABLE_CUSTOMERS),
     map((action: UserGroupActions.LoadAvailableOrgCustomers) => action.payload),
     filter((payload) => isValidUser(payload.userId)),
-    groupBy(({ userGroupId, params }) => serializeParams(userGroupId, params)),
+    groupBy(({ userGroupId, params }) =>
+      StateUtils.serializeParams(userGroupId, params)
+    ),
     mergeMap((group) =>
       group.pipe(
         switchMap((payload) =>
@@ -149,7 +163,7 @@ export class UserGroupEffects {
             )
             .pipe(
               switchMap((customers: EntitiesModel<B2BUser>) => {
-                const { values, page } = normalizeListPage(
+                const { values, page } = StateUtils.normalizeListPage(
                   customers,
                   'customerId'
                 );
