@@ -34,6 +34,7 @@
         formControlName="startDate"
         [max]="form.controls.endDate.value"
         (change)="form.controls.endDate.updateValueAndValidity()"
+        [inputType]="'date'"
       ></cx-date-time-picker>
       <cx-form-errors
         [control]="form.get('startDate')"

@@ -13,6 +13,13 @@ import {
 } from '@angular/forms';
 import { DateTimePickerFormatterService } from '@spartacus/core';
 
+export enum DATETIME_PICKER_INPUT_TYPE {
+  DATETIME_LOCAL = 'datetime-local',
+  DATE = 'date',
+  TIME = 'time',
+  TEXT = 'text',
+}
+
 /**
  * This component serves the browser's native `<input type="datetime-local">` HTML element
  * in whilst projecting the value in the standard date format with regards to timezone offsets.
@@ -39,10 +46,18 @@ export class DateTimePickerComponent
   nativeValue: string = null;
 
   /**
-   * Reference to input element of type 'datetime-local'.
+   * Reference to input element.
    */
   @ViewChild('inputElement', { static: false, read: ElementRef })
   input: ElementRef;
+
+  /**
+   * Type attribute on input element to manipulate datetime-like value.
+   * Defaults to 'datetime-local'.
+   */
+  @Input()
+  inputType?: DATETIME_PICKER_INPUT_TYPE =
+    DATETIME_PICKER_INPUT_TYPE.DATETIME_LOCAL;
 
   /**
    * Minimum value allowed for input element.
