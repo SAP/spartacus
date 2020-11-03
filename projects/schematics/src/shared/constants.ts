@@ -80,6 +80,8 @@ export const CHECKOUT_PAGE_META_RESOLVER = 'CheckoutPageMetaResolver';
 
 export const PRODUCT_SEARCH_SERVICE = 'ProductSearchService';
 export const CHECKOUT_SERVICE = 'CheckoutService';
+export const CHECKOUT_CONNECTOR = 'CheckoutConnector';
+export const CHECKOUT_ADAPTER = 'CheckoutAdapter';
 export const CHECKOUT_PAYMENT_SERVICE = 'CheckoutPaymentService';
 export const CHECKOUT_DELIVERY_SERVICE = 'CheckoutDeliveryService';
 export const CART_DATA_SERVICE = 'CartDataService';
@@ -332,6 +334,7 @@ export const GET_MULTIPLE_PATHS_URL_MATCHER = 'getMultiplePathsUrlMatcher';
 export const GET_PATH_URL_MATCHER = 'getPathUrlMatcher';
 export const GET_OPPOSITE_URL_MATCHER = 'getOppositeUrlMatcher';
 export const GET_GLOB_URL_MATCHER = 'getGlobUrlMatcher';
+export const PLACE_ORDER = 'placeOrder';
 /***** APIs end *****/
 
 /***** Misc start *****/
