@@ -4,7 +4,6 @@ import {
   AuthActions,
   AuthStorageService,
   AuthToken,
-  BasicAuthService,
   GlobalMessageService,
   GlobalMessageType,
   OCC_USER_ID_CURRENT,
@@ -28,12 +27,6 @@ const mockedWindowRef = {
   },
 };
 
-class MockBasicAuthService implements Partial<BasicAuthService> {
-  logout() {
-    return Promise.resolve();
-  }
-}
-
 class MockAuthStorageService implements Partial<AuthStorageService> {
   setItem() {}
 }
@@ -50,7 +43,6 @@ describe('CdcAuthService', () => {
   let service: CdcAuthService;
   let store: Store;
   let winRef: WindowRef;
-  let basicAuthService: BasicAuthService;
   let authStorageService: AuthStorageService;
   let userIdService: UserIdService;
   let globalMessageService: GlobalMessageService;
@@ -60,7 +52,6 @@ describe('CdcAuthService', () => {
       imports: [StoreModule.forRoot({})],
       providers: [
         CdcAuthService,
-        { provide: BasicAuthService, useClass: MockBasicAuthService },
         { provide: AuthStorageService, useClass: MockAuthStorageService },
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
@@ -71,7 +62,6 @@ describe('CdcAuthService', () => {
     service = TestBed.inject(CdcAuthService);
     winRef = TestBed.inject(WindowRef);
     store = TestBed.inject(Store);
-    basicAuthService = TestBed.inject(BasicAuthService);
     authStorageService = TestBed.inject(AuthStorageService);
     userIdService = TestBed.inject(UserIdService);
     globalMessageService = TestBed.inject(GlobalMessageService);
@@ -100,15 +90,6 @@ describe('CdcAuthService', () => {
         baseSite: 'baseSite',
       })
     );
-  });
-
-  it('should dispatch proper actions for logout standard customer', () => {
-    spyOn(service as any, 'logoutFromCdc').and.stub();
-    spyOn(basicAuthService, 'logout').and.callThrough();
-
-    service.logout();
-    expect(service['logoutFromCdc']).toHaveBeenCalled();
-    expect(basicAuthService.logout).toHaveBeenCalled();
   });
 
   it('should logout user from CDC', () => {
