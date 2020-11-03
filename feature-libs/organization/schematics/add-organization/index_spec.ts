@@ -108,6 +108,29 @@ describe('Spartacus Organization schematics: ng-add', () => {
         'src/styles/spartacus-organization.scss',
       ]);
     });
+
+    it('should add update angular.json with spartacus-organization.scss', async () => {
+      const buffer = appTree.read('/angular.json');
+      expect(buffer).toBeTruthy();
+      if (!buffer) {
+        throw new Error('angular.json missing?');
+      }
+
+      const angularJson = JSON.parse(buffer.toString(UTF_8));
+      const buildStyles: string[] =
+        angularJson.projects['schematics-test'].architect.build.options.styles;
+      expect(buildStyles).toEqual([
+        'src/styles.scss',
+        'src/styles/spartacus-organization.scss',
+      ]);
+
+      const testStyles: string[] =
+        angularJson.projects['schematics-test'].architect.test.options.styles;
+      expect(testStyles).toEqual([
+        'src/styles.scss',
+        'src/styles/spartacus-organization.scss',
+      ]);
+    });
   });
 
   describe('Administration feature', () => {
