@@ -12,13 +12,11 @@ import {
   OrderEntry,
   PromotionLocation,
   PromotionResult,
-  RoutingService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import {
   filter,
   map,
-  pluck,
   shareReplay,
   startWith,
   switchMap,
@@ -63,8 +61,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
   constructor(
     protected modalService: ModalService,
     protected cartService: ActiveCartService,
-    protected promotionService: PromotionService,
-    protected routingService: RoutingService
+    protected promotionService: PromotionService
   ) {}
   /**
    * Returns an observable formControl with the quantity of the cartEntry,
@@ -110,19 +107,6 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
       filter((loaded) => loaded),
       switchMapTo(this.cartService.getEntries()),
       map((entries) => entries.length === this.numberOfEntriesBeforeAdd)
-    );
-
-    // close modal on the router navigation (i.e. after clicking link):
-    this.subscription.add(
-      this.routingService
-        .getRouterState()
-        .pipe(
-          pluck('nextState'),
-          filter((nextState) => !!nextState) // wait for navigation start
-        )
-        .subscribe((nextState) => {
-          this.dismissModal(`Navigation to URL: ${nextState.url}`);
-        })
     );
   }
 

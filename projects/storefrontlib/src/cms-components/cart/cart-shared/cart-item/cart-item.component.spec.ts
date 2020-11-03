@@ -1,6 +1,7 @@
 import {
   Component,
   DebugElement,
+  Directive,
   Input,
   Pipe,
   PipeTransform,
@@ -14,6 +15,7 @@ import {
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
+import { ModalDirective } from 'projects/storefrontlib/src/shared/components/modal/modal.directive';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { CartItemComponent } from './cart-item.component';
@@ -23,6 +25,13 @@ import { CartItemComponent } from './cart-item.component';
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
+}
+
+@Directive({
+  selector: '[cxModal]',
+})
+class MockModalDirective implements Partial<ModalDirective> {
+  @Input() cxModal;
 }
 
 @Component({
@@ -108,6 +117,7 @@ describe('CartItemComponent', () => {
         MockPromotionsComponent,
         MockUrlPipe,
         MockFeatureLevelDirective,
+        MockModalDirective,
       ],
       providers: [
         {

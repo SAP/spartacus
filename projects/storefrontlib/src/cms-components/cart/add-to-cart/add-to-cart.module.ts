@@ -9,6 +9,7 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
+import { ModalModule } from 'projects/storefrontlib/src/shared/components/modal/modal.module';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/keyboard-focus.module';
 import { ItemCounterModule, SpinnerModule } from '../../../shared/index';
@@ -31,6 +32,7 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart
     I18nModule,
     ItemCounterModule,
     KeyboardFocusModule,
+    ModalModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

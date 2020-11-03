@@ -1,6 +1,7 @@
 import {
   Component,
   DebugElement,
+  Directive,
   Input,
   Pipe,
   PipeTransform,
@@ -19,14 +20,22 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { ModalService } from 'projects/storefrontlib/src/shared/components/modal/modal.service';
+import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components';
-import { ModalService } from '../../../../shared/components/modal/index';
+import { ModalDirective } from '../../../../shared/components/modal/modal.directive';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
+
+@Directive({
+  selector: '[cxModal]',
+})
+class MockModalDirective implements Partial<ModalDirective> {
+  @Input() cxModal;
+}
 
 class MockActiveCartService {
   isStable(): Observable<boolean> {
@@ -125,6 +134,7 @@ describe('AddedToCartDialogComponent', () => {
         MockCartItemComponent,
         MockUrlPipe,
         MockCxIconComponent,
+        MockModalDirective,
       ],
       providers: [
         {
@@ -269,21 +279,6 @@ describe('AddedToCartDialogComponent', () => {
     component.loaded$ = of(false);
     component.modalIsOpen = true;
     expect(el.query(By.css('cx-cart-item'))).toBeDefined();
-  });
-
-  it('should close modal on router navigation', () => {
-    const mockRouterState$ = new BehaviorSubject<RouterState>(
-      {} as RouterState
-    );
-    const routingService = TestBed.inject(RoutingService);
-    spyOn(routingService, 'getRouterState').and.returnValue(mockRouterState$);
-    fixture.detectChanges();
-    expect(mockModalService.dismissActiveModal).not.toHaveBeenCalled();
-
-    mockRouterState$.next({
-      nextState: { url: '/anticipated/url' },
-    } as RouterState);
-    expect(mockModalService.dismissActiveModal).toHaveBeenCalled();
   });
 
   it('should close modal after removing cart item', (done) => {

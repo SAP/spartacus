@@ -14,7 +14,8 @@
         type="button"
         class="close"
         aria-label="Close"
-        (click)="dismissModal('Cross click')"
+        cxModal="dismiss"
+        cxModalReason="Cross click"
       >
         <span aria-hidden="true">
           <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
@@ -62,6 +63,7 @@
             <a
               [class.disabled]="form.dirty"
               [routerLink]="{ cxRoute: 'cart' } | cxUrl"
+              cxModal="dismiss"
               class="btn btn-primary"
               autofocus
               >{{ 'addToCart.viewCart' | cxTranslate }}</a
@@ -69,6 +71,7 @@
             <a
               [class.disabled]="form.dirty"
               [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
+              cxModal="dismiss"
               class="btn btn-secondary"
               >{{ 'addToCart.proceedToCheckout' | cxTranslate }}</a
             >
@@ -87,7 +90,8 @@
         type="button"
         class="close"
         aria-label="Close"
-        (click)="dismissModal('Cross click')"
+        cxModal="dismiss"
+        cxModalReason="Cross click"
       >
         <span aria-hidden="true">
           <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
