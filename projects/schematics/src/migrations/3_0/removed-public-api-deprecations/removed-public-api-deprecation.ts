@@ -12,7 +12,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: STORE_FINDER_SEARCH_CONFIG,
     importPath: SPARTACUS_CORE,
-    comment: `'${STORE_FINDER_SEARCH_CONFIG}' is no longer part of the public API. Instead use the Interface '${SEARCH_CONFIG}'.`,
+    comment: `'${STORE_FINDER_SEARCH_CONFIG}' is no longer part of the public API. Instead use the interface '${SEARCH_CONFIG}'.`,
   },
 ];
 
