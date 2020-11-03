@@ -31,7 +31,6 @@ const navParamsOverview: any = {
 const attributes = {};
 
 const mockRouterData: ConfiguratorRouter.Data = {
-  configuratorType: configuratorType,
   pageType: ConfiguratorRouter.PageType.CONFIGURATION,
   isOwnerCartEntry: false,
   owner: mockProductConfiguration.owner,

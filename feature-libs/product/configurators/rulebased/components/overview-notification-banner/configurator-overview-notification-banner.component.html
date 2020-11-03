@@ -10,7 +10,7 @@
         class="link cx-action-link"
         [routerLink]="
           {
-            cxRoute: 'configure' + routerData.configuratorType,
+            cxRoute: 'configure' + routerData.owner.configuratorType,
             params: {
               entityKey: routerData.owner.id,
               ownerType: routerData.owner.type

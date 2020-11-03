@@ -5,7 +5,7 @@
       [class.active]="!(isOverviewPage$ | async)"
       [routerLink]="
         {
-          cxRoute: 'configure' + routerData.configuratorType,
+          cxRoute: 'configure' + routerData.owner.configuratorType,
           params: {
             entityKey: routerData.owner.id,
             ownerType: routerData.owner.type
@@ -20,7 +20,7 @@
       [class.active]="isOverviewPage$ | async"
       [routerLink]="
         {
-          cxRoute: 'configureOverview' + routerData.configuratorType,
+          cxRoute: 'configureOverview' + routerData.owner.configuratorType,
           params: {
             entityKey: routerData.owner.id,
             ownerType: routerData.owner.type
