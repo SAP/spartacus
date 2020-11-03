@@ -222,6 +222,11 @@ export const ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE =
   'AnonymousConsentLaunchDialogService';
 export const ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT =
   'AnonymousConsentOpenDialogComponent';
+export const PROFILE_TAG_INJECTOR_SERVICE = 'ProfileTagInjectorService';
+export const PROFILE_TAG_EVENT_SERVICE = 'ProfileTagEventService';
+export const PROFILE_TAG_LIFECYCLE_SERVICE = 'ProfileTagLifecycleService';
+export const CDS_BACKEND_CONNECTOR = 'CdsBackendConnector';
+export const ATTRIBUTES_DIRECTIVE = 'AttributesDirective';
 
 export const TEST_OUTLET_MODULE = 'TestOutletModule';
 export const TEST_CONFIG_MODULE = 'TestConfigModule';
