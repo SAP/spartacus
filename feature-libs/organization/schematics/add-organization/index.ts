@@ -54,11 +54,11 @@ import { Schema as SpartacusOrganizationOptions } from './schema';
 
 interface FeatureConfig {
   name: string;
-  featureModule: FeatureModule;
-  rootModule: FeatureModule;
+  featureModule: Module;
+  rootModule: Module;
 }
 
-interface FeatureModule {
+interface Module {
   name: string;
   importPath: string;
 }
