@@ -13,7 +13,7 @@ import {
   PromotionLocation,
   PromotionResult,
 } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   filter,
   map,
@@ -55,8 +55,6 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
   form: FormGroup = new FormGroup({});
 
   private quantityControl$: Observable<FormControl>;
-
-  private subscription = new Subscription();
 
   constructor(
     protected modalService: ModalService,
@@ -123,9 +121,5 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
 
   dismissModal(reason?: any): void {
     this.modalService.dismissActiveModal(reason);
-  }
-
-  ngOnDestroy() {
-    this.subscription?.unsubscribe();
   }
 }
