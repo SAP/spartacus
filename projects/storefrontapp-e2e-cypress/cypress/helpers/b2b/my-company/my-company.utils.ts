@@ -1,4 +1,4 @@
-import { MyCompanyConfig } from './models/index';
+import { ENTITY_UID_COOKIE_KEY, MyCompanyConfig } from './models/index';
 import { testListFromConfig } from './my-company-list';
 import { testCreateUpdateFromConfig } from './my-company-form';
 import { testAssignmentFromConfig } from './my-company-assign';
@@ -14,6 +14,12 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
   describe(`My Company - ${config.name}${config.nameSuffix || ''}`, () => {
     before(() => {
       Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+    });
+
+    beforeEach(() => {
+      if (config.preserveCookies) {
+        Cypress.Cookies.preserveOnce(ENTITY_UID_COOKIE_KEY);
+      }
     });
 
     testListFromConfig(config);

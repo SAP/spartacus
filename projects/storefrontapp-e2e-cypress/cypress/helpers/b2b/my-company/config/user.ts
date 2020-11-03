@@ -1,6 +1,6 @@
 import { FULL_BASE_URL_EN_USD } from '../../../site-context-selector';
 import { randomString } from '../../../user';
-import { INPUT_TYPE, MyCompanyConfig } from '../models';
+import { ENTITY_UID_COOKIE_KEY, INPUT_TYPE, MyCompanyConfig } from '../models';
 
 export const userConfig: MyCompanyConfig = {
   name: 'User',
@@ -8,6 +8,7 @@ export const userConfig: MyCompanyConfig = {
   apiEndpoint: '/users/current/orgCustomers',
   objectType: 'users',
   entityIdField: 'customerId',
+  preserveCookies: false,
   rows: [
     {
       label: 'Name',
@@ -19,6 +20,7 @@ export const userConfig: MyCompanyConfig = {
       sortLabel: 'name',
       showInTable: true,
       showInDetails: false,
+      useCookie: ENTITY_UID_COOKIE_KEY,
     },
     {
       label: 'Status',
@@ -102,32 +104,30 @@ export const userConfig: MyCompanyConfig = {
       useInHeader: true,
     },
   ],
-
-  // TODO subCategories requires different approach for users
-  // subCategories: [
-  //   {
-  //     name: 'Approvers',
-  //     baseUrl: `/approvers`,
-  //     apiEndpoint: '**/approvers**',
-  //     entityIdField: 'customerId',
-  //     objectType: 'users',
-  //     manageAssignments: true,
-  //   },
-  //   {
-  //     name: 'User groups',
-  //     baseUrl: `/user-groups`,
-  //     apiEndpoint: '**/orgUserGroups**',
-  //     entityIdField: 'uid',
-  //     objectType: 'orgUnitUserGroups',
-  //     manageAssignments: true,
-  //   },
-  //   {
-  //     name: 'Purchase limits',
-  //     baseUrl: `/purchase-limits`,
-  //     apiEndpoint: '**/availableOrderApprovalPermissions**',
-  //     entityIdField: 'code',
-  //     objectType: 'orderApprovalPermissions',
-  //     manageAssignments: true,
-  //   },
-  // ],
+  subCategories: [
+    {
+      name: 'Approvers',
+      baseUrl: `/approvers`,
+      apiEndpoint: '**/approvers**',
+      entityIdField: 'customerId',
+      objectType: 'users',
+      manageAssignments: true,
+    },
+    {
+      name: 'User groups',
+      baseUrl: `/user-groups`,
+      apiEndpoint: '**/orgUserGroups**',
+      entityIdField: 'uid',
+      objectType: 'orgUnitUserGroups',
+      manageAssignments: true,
+    },
+    {
+      name: 'Purchase limits',
+      baseUrl: `/purchase-limits`,
+      apiEndpoint: '**/availableOrderApprovalPermissions**',
+      entityIdField: 'code',
+      objectType: 'orderApprovalPermissions',
+      manageAssignments: true,
+    },
+  ],
 };

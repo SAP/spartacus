@@ -10,7 +10,13 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
 
       before(() => {
         loginAsMyCompanyAdmin();
-        cy.visit(`${config.baseUrl}/${codeRow.updateValue}`);
+        if (codeRow.useCookie) {
+          cy.getCookie(codeRow.useCookie).then((cookie) => {
+            cy.visit(`${config.baseUrl}/${cookie.value}`);
+          });
+        } else {
+          cy.visit(`${config.baseUrl}/${codeRow.updateValue}`);
+        }
       });
 
       beforeEach(() => {
@@ -22,10 +28,20 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
           .contains(subConfig.name, IGNORE_CASE)
           .click();
 
-        cy.url().should(
-          'contain',
-          `${config.baseUrl}/${codeRow.updateValue}${subConfig.baseUrl}`
-        );
+        if (codeRow.useCookie) {
+          cy.getCookie(codeRow.useCookie).then((cookie) => {
+            cy.url().should(
+              'contain',
+              `${config.baseUrl}/${cookie.value}${subConfig.baseUrl}`
+            );
+          });
+        } else {
+          cy.url().should(
+            'contain',
+            `${config.baseUrl}/${codeRow.updateValue}${subConfig.baseUrl}`
+          );
+        }
+
         cy.get('cx-organization-card .header h3').contains(
           subConfig.name,
           IGNORE_CASE

@@ -1,4 +1,5 @@
 import {
+  ENTITY_UID_COOKIE_KEY,
   INPUT_TYPE,
   MyCompanyConfig,
   MyCompanyRowConfig,
@@ -43,6 +44,10 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
     it(`should update`, () => {
       const entityId =
         entityUId ?? config.rows?.find((row) => row.useInUrl).createValue;
+
+      if (config.preserveCookies) {
+        cy.setCookie(ENTITY_UID_COOKIE_KEY, entityUId);
+      }
 
       cy.wait(2000);
       cy.visit(`${config.baseUrl}/${entityId}`);
