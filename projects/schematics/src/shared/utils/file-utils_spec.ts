@@ -10,7 +10,7 @@ import {
 } from '@schematics/angular/utility/change';
 import * as path from 'path';
 import * as ts from 'typescript';
-import { COMPONENT_DEPRECATION_DATA } from '../../migrations/2_0/component-deprecations/component-deprecations-data';
+import { COMPONENT_DEPRECATION_DATA } from '../../migrations/2_0/component-deprecations/component-deprecations';
 import {
   ANONYMOUS_CONSENTS,
   AUTH_SERVICE,
