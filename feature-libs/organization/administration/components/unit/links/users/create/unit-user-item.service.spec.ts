@@ -18,6 +18,8 @@ class MockRoutingService {
   }
 }
 
+const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
+
 class MockB2bUserService {
   get() {
     return of();
@@ -26,7 +28,7 @@ class MockB2bUserService {
   update() {}
   create() {}
   getLoadingStatus(): Observable<OrganizationItemStatus<Budget>> {
-    return of({ status: LoadStatus.SUCCESS, item: {} });
+    return mockItemStatus;
   }
 }
 
@@ -65,8 +67,8 @@ describe('ChildUnitItemService', () => {
       })
     );
     form.get('orgUnit').disable();
-    service.save(form);
 
+    expect(service.save(form)).toEqual(mockItemStatus);
     expect(userService.create).toHaveBeenCalledWith({
       name: 'User name',
       orgUnit: { uid: 'unit-uid' },

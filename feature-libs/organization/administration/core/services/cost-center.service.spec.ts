@@ -1,13 +1,18 @@
 import { inject, TestBed } from '@angular/core/testing';
+import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store, StoreModule } from '@ngrx/store';
 import {
-  AuthService,
   CostCenter,
   EntitiesModel,
   SearchConfig,
+  UserIdService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { Budget } from '../model/budget.model';
+import {
+  LoadStatus,
+  OrganizationItemStatus,
+} from '../model/organization-item-status';
 import { BudgetActions, CostCenterActions } from '../store/actions/index';
 import {
   ORGANIZATION_FEATURE,
@@ -15,13 +20,7 @@ import {
 } from '../store/organization-state';
 import * as fromReducers from '../store/reducers/index';
 import { CostCenterService } from './cost-center.service';
-import {
-  LoadStatus,
-  OrganizationItemStatus,
-} from '../model/organization-item-status';
 import createSpy = jasmine.createSpy;
-import { ofType } from '@ngrx/effects';
-import { take } from 'rxjs/operators';
 
 const userId = 'current';
 const costCenterCode = 'testCostCenter';
@@ -44,13 +43,13 @@ const budgetList: EntitiesModel<Budget> = {
   sorts,
 };
 
-class MockAuthService {
-  getOccUserId = createSpy().and.returnValue(of(userId));
+class MockUserIdService implements Partial<UserIdService> {
+  invokeWithUserId = createSpy().and.callFake((cb) => cb(userId));
 }
 
 describe('CostCenterService', () => {
   let service: CostCenterService;
-  let authService: AuthService;
+  let userIdService: UserIdService;
   let store: Store<StateWithOrganization>;
   let actions$: ActionsSubject;
 
@@ -65,13 +64,13 @@ describe('CostCenterService', () => {
       ],
       providers: [
         CostCenterService,
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: UserIdService, useClass: MockUserIdService },
       ],
     });
 
     store = TestBed.inject(Store);
     service = TestBed.inject(CostCenterService);
-    authService = TestBed.inject(AuthService);
+    userIdService = TestBed.inject(UserIdService);
     spyOn(store, 'dispatch').and.callThrough();
     actions$ = TestBed.inject(ActionsSubject);
   });
@@ -110,7 +109,7 @@ describe('CostCenterService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).not.toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
       expect(costCenterDetails).toEqual(costCenter);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
@@ -130,7 +129,7 @@ describe('CostCenterService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(costCenters).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new CostCenterActions.LoadCostCenters({ userId, params })
@@ -159,7 +158,7 @@ describe('CostCenterService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).not.toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
       expect(costCenters).toEqual(costCenterList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new CostCenterActions.LoadCostCenters({ userId, params })
@@ -171,7 +170,7 @@ describe('CostCenterService', () => {
     it('create() should should dispatch CreateCostCenter action', () => {
       service.create(costCenter);
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new CostCenterActions.CreateCostCenter({ userId, costCenter })
       );
@@ -182,7 +181,7 @@ describe('CostCenterService', () => {
     it('update() should should dispatch UpdateCostCenter action', () => {
       service.update(costCenterCode, costCenter);
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new CostCenterActions.UpdateCostCenter({
           userId,
@@ -205,7 +204,7 @@ describe('CostCenterService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(budgets).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new CostCenterActions.LoadAssignedBudgets({
@@ -237,7 +236,7 @@ describe('CostCenterService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).not.toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
       expect(budgets).toEqual(budgetList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new BudgetActions.LoadBudgets({ userId, params })
@@ -249,7 +248,7 @@ describe('CostCenterService', () => {
     it('assignBudget() should should dispatch AssignBudget action', () => {
       service.assignBudget(costCenterCode, budgetCode);
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new CostCenterActions.AssignBudget({
           userId,
@@ -264,7 +263,7 @@ describe('CostCenterService', () => {
     it('unassignBudget() should should dispatch UnassignBudget action', () => {
       service.unassignBudget(costCenterCode, budgetCode);
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new CostCenterActions.UnassignBudget({
           userId,

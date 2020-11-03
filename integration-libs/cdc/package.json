@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/cdc",
-  "version": "0.300.0-next.4",
+  "version": "0.300.0-next.6",
   "description": "Customer Data Cloud Integration library for Spartacus",
   "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
@@ -24,7 +24,7 @@
     "@angular/core": "^10.1.0",
     "@angular/router": "^10.1.0",
     "rxjs": "^6.6.0",
-    "@spartacus/core": "3.0.0-next.4",
-    "@spartacus/storefront": "3.0.0-next.4"
+    "@spartacus/core": "3.0.0-next.6",
+    "@spartacus/storefront": "3.0.0-next.6"
   }
 }

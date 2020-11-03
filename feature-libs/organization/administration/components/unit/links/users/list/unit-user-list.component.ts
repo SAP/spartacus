@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ROUTE_PARAMS } from '../../../../constants';
 import { OrganizationListService } from '../../../../shared/organization-list/organization-list.service';
 import { UnitUserListService } from '../services/unit-user-list.service';
 
@@ -12,4 +13,6 @@ import { UnitUserListService } from '../services/unit-user-list.service';
     },
   ],
 })
-export class UnitUserListComponent {}
+export class UnitUserListComponent {
+  routerKey = ROUTE_PARAMS.userCode;
+}

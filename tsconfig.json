@@ -20,7 +20,7 @@
       "@spartacus/storefront": ["projects/storefrontlib/src/public_api"],
       "@spartacus/vendor": ["projects/vendor/public_api"],
       "@spartacus/assets": ["projects/assets/src/public_api"],
-      "@spartacus/cds": ["projects/cds/public_api"],
+      "@spartacus/cds": ["integration-libs/cds/public_api"],
       "@spartacus/incubator": ["projects/incubator/public_api"],
       "@spartacus/schematics": ["projects/schematics/src/public_api"],
       "@spartacus/organization": ["feature-libs/organization/public_api"],
@@ -41,6 +41,15 @@
       ],
       "@spartacus/organization/administration/root": [
         "feature-libs/organization/administration/root/public_api"
+      ],
+      "@spartacus/organization/order-approval": [
+        "feature-libs/organization/order-approval/public_api"
+      ],
+      "@spartacus/organization/order-approval/assets": [
+        "feature-libs/organization/order-approval/assets/public_api"
+      ],
+      "@spartacus/organization/order-approval/root": [
+        "feature-libs/organization/order-approval/root/public_api"
       ],
       "@spartacus/product": ["feature-libs/product/public_api"],
       "@spartacus/product/configurators": [

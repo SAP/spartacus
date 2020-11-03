@@ -1,50 +1,26 @@
-import { Rule, Tree } from '@angular-devkit/schematics';
-import { isImported } from '@schematics/angular/utility/ast-utils';
-import { TODO_SPARTACUS } from '../../../shared/constants';
-import {
-  commitChanges,
-  getAllTsSourceFiles,
-  getTsSourceFile,
-  insertCommentAboveIdentifier,
-  InsertDirection,
-} from '../../../shared/utils/file-utils';
-import { getSourceRoot } from '../../../shared/utils/workspace-utils';
-import { METHOD_PROPERTY_DATA } from './methods-and-properties-deprecations-data';
+import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { MethodPropertyDeprecation } from '../../../shared/utils/file-utils';
+import { migrateMethodPropertiesDeprecation } from '../../mechanism/methods-and-properties-deprecations/methods-and-properties-deprecations';
+import { CMS_ACTIONS_MIGRATION } from './data/cms-group.actions.migration';
+import { CMS_SELECTORS_MIGRATION } from './data/cms-group.selectors.migration';
+import { CMS_SERVICE_MIGRATION } from './data/cms-service.migration';
+import { DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION } from './data/dynamic-attribute.service.migration';
+import { URL_MATCHER_FACTORY_SERVICE_MIGRATION } from './data/url-matcher-factory.service.migration';
+
+export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
+  ...CMS_SELECTORS_MIGRATION,
+  ...CMS_ACTIONS_MIGRATION,
+  ...CMS_SERVICE_MIGRATION,
+  ...DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION,
+  ...URL_MATCHER_FACTORY_SERVICE_MIGRATION,
+];
 
 export function migrate(): Rule {
-  return (tree: Tree) => {
-    const project = getSourceRoot(tree, {});
-    const sourceFiles = getAllTsSourceFiles(tree, project);
-    for (const originalSource of sourceFiles) {
-      const sourcePath = originalSource.fileName;
-
-      for (const data of METHOD_PROPERTY_DATA) {
-        // 'source' has to be reloaded after each committed change
-        const source = getTsSourceFile(tree, sourcePath);
-        if (isImported(source, data.class, data.importPath)) {
-          const changes = insertCommentAboveIdentifier(
-            sourcePath,
-            source,
-            data.deprecatedNode,
-            data.comment
-              ? `${data.comment}\n`
-              : `${buildMethodComment(data.deprecatedNode, data.newNode)}\n`
-          );
-          commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
-        }
-      }
-    }
-
-    return tree;
+  return (tree: Tree, context: SchematicContext) => {
+    return migrateMethodPropertiesDeprecation(
+      tree,
+      context,
+      METHOD_PROPERTY_DATA
+    );
   };
-}
-
-export function buildMethodComment(
-  oldApiMethod: string,
-  newApiMethod?: string
-): string {
-  const comment = `// ${TODO_SPARTACUS} '${oldApiMethod}' has been removed.`;
-  return newApiMethod
-    ? `${comment} Please try using '${newApiMethod}' instead.`
-    : comment;
 }
