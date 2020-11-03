@@ -13,7 +13,11 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
+import {
+  FeaturesConfigModule,
+  I18nTestingModule,
+  OrderEntryStatus,
+} from '@spartacus/core';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { GenericConfiguratorModule } from '../../../configurator/generic/generic-configurator.module';
@@ -230,7 +234,7 @@ describe('CartItemComponent', () => {
 
     it('should not display resolve errors message if number of issues is greater than 0 and readOnly is true', () => {
       cartItemComponent.item.statusSummaryList = [
-        { numberOfIssues: 1, status: 'ERROR' },
+        { numberOfIssues: 1, status: OrderEntryStatus.Error },
       ];
       cartItemComponent.readonly = true;
       fixture.detectChanges();
@@ -244,7 +248,7 @@ describe('CartItemComponent', () => {
 
     it('should display resolve errors message if number of issues is greater than 0 and read only is false', () => {
       cartItemComponent.item.statusSummaryList = [
-        { numberOfIssues: 1, status: 'ERROR' },
+        { numberOfIssues: 1, status: OrderEntryStatus.Error },
       ];
       cartItemComponent.readonly = false;
       fixture.detectChanges();
