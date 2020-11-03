@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontapp-e2e-cypress/cypress/support/ng-select.commands.ts</code>
+            <code>projects/storefrontapp-e2e-cypress/cypress/support/require-logged-in.commands.ts</code>
         </p>
 
 
@@ -79,7 +79,7 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#ngSelect">ngSelect</a>
+                                        <a href="#requireLoggedIn">requireLoggedIn</a>
                                 </li>
                             </ul>
                         </td>
@@ -96,13 +96,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="ngSelect"></a>
-                                        <span class="name"><b>ngSelect</b><a href="#ngSelect"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="requireLoggedIn"></a>
+                                        <span class="name"><b>requireLoggedIn</b><a href="#requireLoggedIn"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>ngSelect:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                        <code>requireLoggedIn:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -121,7 +121,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Selects in ng select</p>
+                                    <div class="io-description"><p>Make sure you are logged in. Returns generated email.</p>
 </div>
                                 </td>
                             </tr>
@@ -132,30 +132,123 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">declare namespace Cypress {
-  interface Chainable {
-    /**
-       * Selects in ng select
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { generateMail, randomString } from &#x27;../helpers/user&#x27;;
+import { config, login, setSessionData } from &#x27;./utils/login&#x27;;
+
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      /**
+       * Make sure you are logged in. Returns generated email.
        *
        * @memberof Cypress.Chainable
        *
        * @example
         &#x60;&#x60;&#x60;
-        cy.get(&#x27;[name&#x3D;&quot;title&quot;]&#x27;).ngSelect(&#x27;Mr.&#x27;)
+        cy.requireLoggedIn(user)
         &#x60;&#x60;&#x60;
        */
-    ngSelect: (option: string) &#x3D;&gt; void;
+      requireLoggedIn: (
+        user?: AccountData,
+        options?: RequireLoggedInDebugOptions
+      ) &#x3D;&gt; Cypress.Chainable&lt;{ username: string }&gt;;
+    }
   }
 }
 
+export interface AccountData {
+  user: string;
+  registrationData: RegistrationData;
+}
+
+export interface RegistrationData {
+  firstName: string;
+  lastName: string;
+  password: string;
+  titleCode: string;
+  email?: string;
+}
+
+export interface RequireLoggedInDebugOptions {
+  freshUserOnTestRefresh?: boolean;
+}
+
 Cypress.Commands.add(
-  &#x27;ngSelect&#x27;,
-  {
-    prevSubject: &#x27;element&#x27;,
-  },
-  (element, option) &#x3D;&gt; {
-    cy.wrap(element).click();
-    cy.get(&#x27;.ng-dropdown-panel-items&#x27;).contains(option).click({ force: true });
+  &#x27;requireLoggedIn&#x27;,
+  (accountData?: AccountData, options: RequireLoggedInDebugOptions &#x3D; {}) &#x3D;&gt; {
+    function loginAsGuest() {
+      return cy.request({
+        method: &#x27;POST&#x27;,
+        url: config.tokenUrl,
+        body: {
+          ...config.client,
+          grant_type: &#x27;client_credentials&#x27;,
+        },
+        form: true,
+      });
+    }
+
+    function registerUser(
+      uid: string,
+      registrationData: RegistrationData,
+      access_token: string
+    ) {
+      return cy.request({
+        method: &#x27;POST&#x27;,
+        url: config.newUserUrl,
+        body: {
+          firstName: registrationData.firstName,
+          lastName: registrationData.lastName,
+          password: registrationData.password,
+          titleCode: registrationData.titleCode,
+          uid,
+        },
+        headers: {
+          Authorization: &#x60;bearer ${access_token}&#x60;,
+        },
+      });
+    }
+
+    const defaultAccount: AccountData &#x3D; {
+      user: randomString(),
+      registrationData: {
+        firstName: &#x27;Winston&#x27;,
+        lastName: &#x27;Rumfoord&#x27;,
+        password: &#x27;Password123.&#x27;,
+        titleCode: &#x27;mr&#x27;,
+      },
+    };
+    const account &#x3D; accountData || defaultAccount;
+    const username &#x3D;
+      account.registrationData.email ||
+      generateMail(account.user, options.freshUserOnTestRefresh);
+
+    cy.server();
+    login(username, account.registrationData.password, false).then((res) &#x3D;&gt; {
+      if (res.status &#x3D;&#x3D;&#x3D; 200) {
+        // User is already registered - only set session in sessionStorage
+        setSessionData(res.body);
+      } else {
+        /* User needs to be registered
+           1. Login as guest for access token
+           2. Create new user
+           3. Login as a new user
+        */
+        loginAsGuest()
+          .then((response) &#x3D;&gt;
+            registerUser(
+              username,
+              account.registrationData,
+              response.body.access_token
+            )
+          )
+          .then(() &#x3D;&gt; login(username, account.registrationData.password))
+          .then((response) &#x3D;&gt; {
+            setSessionData(response.body);
+          });
+      }
+    });
+    return cy.wrap({ username });
   }
 );
 </code></pre>
@@ -186,7 +279,6 @@ Cypress.Commands.add(
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'Chainable-5.html';
-            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

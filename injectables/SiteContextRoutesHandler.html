@@ -283,8 +283,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="138"
-                            class="link-to-prism">projects/core/src/site-context/services/site-context-routes-handler.ts:138</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="126"
+                            class="link-to-prism">projects/core/src/site-context/services/site-context-routes-handler.ts:126</a></div>
                 </td>
             </tr>
 
@@ -324,8 +324,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="131"
-                            class="link-to-prism">projects/core/src/site-context/services/site-context-routes-handler.ts:131</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="119"
+                            class="link-to-prism">projects/core/src/site-context/services/site-context-routes-handler.ts:119</a></div>
                 </td>
             </tr>
 
@@ -471,15 +471,15 @@ But it happens only for the parameters configured to be persisted in the URL.</p
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>subscribeRouting(onContextInitialized: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" target="_blank">Function</a>)</code>
+                    <code>subscribeRouting()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="98"
-                            class="link-to-prism">projects/core/src/site-context/services/site-context-routes-handler.ts:98</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="93"
+                            class="link-to-prism">projects/core/src/site-context/services/site-context-routes-handler.ts:93</a></div>
                 </td>
             </tr>
 
@@ -488,49 +488,11 @@ But it happens only for the parameters configured to be persisted in the URL.</p
                 <td class="col-md-4">
                     <div class="io-description"><p>After each Angular NavigationStart event it updates the site context state based on
 site context params encoded in the anticipated URL.</p>
-<p>In particular, it&#39;s responsible for initializing the state of the context params
-on page start, reading the values from the URL.</p>
 </div>
 
                     <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>onContextInitialized</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" target="_blank" >Function</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>notify that the initialization of the context was done based on the URL</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
                     </div>
                 </td>
             </tr>
@@ -748,19 +710,19 @@ export class SiteContextRoutesHandler implements OnDestroy {
    * @returns Promise that is resolved when the site context state is initialized (updated for the first time) based on the URL.
    */
   init(): Promise&lt;void&gt; {
-    return new Promise((resolve) &#x3D;&gt; {
-      this.router &#x3D; this.injector.get&lt;Router&gt;(Router);
+    this.router &#x3D; this.injector.get&lt;Router&gt;(Router);
 
-      this.location &#x3D; this.injector.get&lt;Location&gt;(Location);
-      const routingParams &#x3D; this.siteContextParams.getUrlEncodingParameters();
+    this.location &#x3D; this.injector.get&lt;Location&gt;(Location);
+    const routingParams &#x3D; this.siteContextParams.getUrlEncodingParameters();
 
-      if (routingParams.length) {
-        this.subscribeChanges(routingParams);
-        this.subscribeRouting(resolve);
-      } else {
-        resolve();
-      }
-    });
+    if (routingParams.length) {
+      this.setContextParamsFromRoute(this.location.path(true));
+      this.subscribeChanges(routingParams);
+      this.subscribeRouting();
+    }
+
+    // for backward compatibility
+    return Promise.resolve();
   }
 
   /**
@@ -792,15 +754,8 @@ export class SiteContextRoutesHandler implements OnDestroy {
   /**
    * After each Angular NavigationStart event it updates the site context state based on
    * site context params encoded in the anticipated URL.
-   *
-   * In particular, it&#x27;s responsible for initializing the state of the context params
-   * on page start, reading the values from the URL.
-   *
-   * @param onContextInitialized notify that the initialization of the context was done based on the URL
    */
-  private subscribeRouting(onContextInitialized: Function) {
-    let contextInitialized &#x3D; false;
-
+  private subscribeRouting() {
     this.subscription.add(
       this.router.events
         .pipe(
@@ -816,11 +771,6 @@ export class SiteContextRoutesHandler implements OnDestroy {
           this.isNavigating &#x3D; event instanceof NavigationStart;
           if (this.isNavigating) {
             this.setContextParamsFromRoute(event.url);
-
-            if (!contextInitialized) {
-              contextInitialized &#x3D; true;
-              onContextInitialized();
-            }
           }
         })
     );
@@ -876,7 +826,6 @@ export class SiteContextRoutesHandler implements OnDestroy {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'SiteContextRoutesHandler.html';
-            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

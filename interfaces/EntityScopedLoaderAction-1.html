@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/state/utils/scoped-loader/entity-scoped-loader.actions.ts</code>
+            <code>projects/core/src/product/store/actions/product.action.ts</code>
         </p>
 
 
@@ -113,7 +113,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>meta:         <code><a href="../interfaces/EntityScopedLoaderMeta.html" target="_self" >EntityScopedLoaderMeta</a></code>
+                                        <code>meta:         <code><a href="../interfaces/ProductMeta.html" target="_self" >ProductMeta</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -121,7 +121,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="../interfaces/EntityScopedLoaderMeta.html" target="_self" >EntityScopedLoaderMeta</a></code>
+                                            <i>Type : </i>        <code><a href="../interfaces/ProductMeta.html" target="_self" >ProductMeta</a></code>
 
                                         </td>
                                     </tr>
@@ -176,116 +176,48 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-  ENTITY_FAIL_ACTION,
-  ENTITY_LOAD_ACTION,
-  ENTITY_RESET_ACTION,
-  ENTITY_SUCCESS_ACTION,
-  entityFailMeta,
-  EntityLoaderMeta,
-  entityLoadMeta,
-  entityResetMeta,
-  entitySuccessMeta,
-} from &#x27;../entity-loader/entity-loader.action&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Product } from &#x27;../../../model/product.model&#x27;;
+import { PRODUCT_DETAIL_ENTITY } from &#x27;../product-state&#x27;;
+import { EntityLoaderMeta } from &#x27;../../../state/utils/entity-loader/entity-loader.action&#x27;;
 import { Action } from &#x27;@ngrx/store&#x27;;
+import { EntityScopedLoaderActions } from &#x27;../../../state/utils/scoped-loader/entity-scoped-loader.actions&#x27;;
 
-export namespace EntityScopedLoaderActions {
-  export interface EntityScopedLoaderMeta extends EntityLoaderMeta {
-    scope?: string;
-  }
+export const LOAD_PRODUCT &#x3D; &#x27;[Product] Load Product Data&#x27;;
+export const LOAD_PRODUCT_FAIL &#x3D; &#x27;[Product] Load Product Data Fail&#x27;;
+export const LOAD_PRODUCT_SUCCESS &#x3D; &#x27;[Product] Load Product Data Success&#x27;;
 
-  export interface EntityScopedLoaderAction extends Action {
-    readonly payload?: any;
-    readonly meta?: EntityScopedLoaderMeta;
-  }
+export interface ProductMeta extends EntityLoaderMeta {
+  scope?: string;
+}
 
-  export function entityScopedLoadMeta(
-    entityType: string,
-    id: string | string[],
-    scope?: string
-  ): EntityScopedLoaderMeta {
-    return {
-      ...entityLoadMeta(entityType, id),
-      scope,
-    };
-  }
+export interface EntityScopedLoaderAction extends Action {
+  readonly payload?: any;
+  readonly meta?: ProductMeta;
+}
 
-  export function entityScopedFailMeta(
-    entityType: string,
-    id: string | string[],
-    scope?: string,
-    error?: any
-  ): EntityScopedLoaderMeta {
-    return {
-      ...entityFailMeta(entityType, id, error),
-      scope,
-    };
-  }
-
-  export function entityScopedSuccessMeta(
-    entityType: string,
-    id: string | string[],
-    scope?: string
-  ): EntityScopedLoaderMeta {
-    return {
-      ...entitySuccessMeta(entityType, id),
-      scope,
-    };
-  }
-
-  export function entityScopedResetMeta(
-    entityType: string,
-    id: string | string[],
-    scope?: string
-  ): EntityScopedLoaderMeta {
-    return {
-      ...entityResetMeta(entityType, id),
-      scope,
-    };
-  }
-
-  export class EntityScopedLoadAction implements EntityScopedLoaderAction {
-    type &#x3D; ENTITY_LOAD_ACTION;
-    readonly meta: EntityScopedLoaderMeta;
-    constructor(entityType: string, id: string | string[], scope?: string) {
-      this.meta &#x3D; entityScopedLoadMeta(entityType, id, scope);
-    }
-  }
-
-  export class EntityScopedFailAction implements EntityScopedLoaderAction {
-    type &#x3D; ENTITY_FAIL_ACTION;
-    readonly meta: EntityScopedLoaderMeta;
-    constructor(
-      entityType: string,
-      id: string | string[],
-      scope?: string,
-      error?: any
-    ) {
-      this.meta &#x3D; entityScopedFailMeta(entityType, id, scope, error);
-    }
-  }
-
-  export class EntityScopedSuccessAction implements EntityScopedLoaderAction {
-    type &#x3D; ENTITY_SUCCESS_ACTION;
-    readonly meta: EntityScopedLoaderMeta;
-    constructor(
-      entityType: string,
-      id: string | string[],
-      scope?: string,
-      public payload?: any
-    ) {
-      this.meta &#x3D; entityScopedSuccessMeta(entityType, id, scope);
-    }
-  }
-
-  export class EntityScopedResetAction implements EntityScopedLoaderAction {
-    type &#x3D; ENTITY_RESET_ACTION;
-    readonly meta: EntityScopedLoaderMeta;
-    constructor(entityType: string, id: string | string[], scope?: string) {
-      this.meta &#x3D; entityScopedResetMeta(entityType, id, scope);
-    }
+export class LoadProduct extends EntityScopedLoaderActions.EntityScopedLoadAction {
+  readonly type &#x3D; LOAD_PRODUCT;
+  constructor(public payload: string, scope &#x3D; &#x27;&#x27;) {
+    super(PRODUCT_DETAIL_ENTITY, payload, scope);
   }
 }
+
+export class LoadProductFail extends EntityScopedLoaderActions.EntityScopedFailAction {
+  readonly type &#x3D; LOAD_PRODUCT_FAIL;
+  constructor(productCode: string, public payload: any, scope &#x3D; &#x27;&#x27;) {
+    super(PRODUCT_DETAIL_ENTITY, productCode, scope, payload);
+  }
+}
+
+export class LoadProductSuccess extends EntityScopedLoaderActions.EntityScopedSuccessAction {
+  readonly type &#x3D; LOAD_PRODUCT_SUCCESS;
+  constructor(public payload: Product, scope &#x3D; &#x27;&#x27;) {
+    super(PRODUCT_DETAIL_ENTITY, payload.code, scope);
+  }
+}
+
+// action types
+export type ProductAction &#x3D; LoadProduct | LoadProductFail | LoadProductSuccess;
 </code></pre>
     </div>
 </div>
@@ -314,7 +246,6 @@ export namespace EntityScopedLoaderActions {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'EntityScopedLoaderAction-1.html';
-            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

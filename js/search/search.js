@@ -1,5 +1,8 @@
 (function(compodoc) {
-    var usePushState = (typeof history.pushState !== 'undefined'),
+    var MAX_RESULTS = 15,
+        MAX_DESCRIPTION_SIZE = 500,
+
+        usePushState = (typeof history.pushState !== 'undefined'),
 
     // DOM Elements
         $body = $('body'),
@@ -117,7 +120,7 @@
             $mainContainer.css('margin-top', '100px');
         }
 
-        throttle(compodoc.search.query(q, 0, MAX_SEARCH_RESULTS)
+        throttle(compodoc.search.query(q, 0, MAX_RESULTS)
         .then(function(results) {
             displayResults(results);
         }), 1000);

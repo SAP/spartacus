@@ -94,8 +94,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.module.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="31"
+                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.module.ts:31</a></div>
                 </td>
             </tr>
 
@@ -128,6 +128,7 @@ import {
   CONFIG_INITIALIZER_FORROOT_GUARD,
   ConfigInitializer,
 } from &#x27;./config-initializer&#x27;;
+import { LOCATION_INITIALIZED } from &#x27;@angular/common&#x27;;
 
 export function configInitializerFactory(
   configInitializer: ConfigInitializerService,
@@ -135,6 +136,12 @@ export function configInitializerFactory(
 ) {
   const isReady &#x3D; () &#x3D;&gt; configInitializer.initialize(initializers);
   return isReady;
+}
+
+export function locationInitializedFactory(
+  configInitializer: ConfigInitializerService
+) {
+  return configInitializer.getStableConfig();
 }
 
 @NgModule({})
@@ -155,6 +162,13 @@ export class ConfigInitializerModule {
             ConfigInitializerService,
             [new Optional(), CONFIG_INITIALIZER],
           ],
+        },
+        {
+          // Used to indicate when a location is initialized.
+          // specifically to hold on navigation before configuration is stable
+          provide: LOCATION_INITIALIZED,
+          useFactory: locationInitializedFactory,
+          deps: [ConfigInitializerService],
         },
       ],
     };
@@ -196,7 +210,6 @@ export class ConfigInitializerModule {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
             var COMPODOC_CURRENT_PAGE_URL = 'ConfigInitializerModule.html';
-            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>
