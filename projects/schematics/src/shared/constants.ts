@@ -234,6 +234,7 @@ export const DELIVERY_MODE_COMPONENT = 'DeliveryModeComponent';
 export const SHIPPING_ADDRESS_SET_GUARD = 'ShippingAddressSetGuard';
 export const DELIVERY_MODE_SET_GUARD = 'DeliveryModeSetGuard';
 export const PAYMENT_DETAILS_SET_GUARD = 'PaymentDetailsSetGuard';
+export const ORDER_DETAILS_SHIPPING_COMPONENT = 'OrderDetailShippingComponent';
 
 export const TEST_OUTLET_MODULE = 'TestOutletModule';
 export const TEST_CONFIG_MODULE = 'TestConfigModule';
@@ -360,6 +361,7 @@ export const GET_NEXT_CHECKOUT_STEP_URL = 'getNextCheckoutStepUrl';
 export const GET_PREVIOUS_CHECKOUT_STEP_URL = 'getPreviousCheckoutStepUrl';
 export const GET_CURRENT_STEP_INDEX = 'getCurrentStepIndex';
 export const STEP = 'step';
+export const CAN_ACTIVATE = 'canActivate';
 /***** APIs end *****/
 
 /***** Misc start *****/

@@ -1,12 +1,16 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { ConstructorDeprecation } from '../../../shared/utils/file-utils';
 import { migrateConstructorDeprecation } from '../../mechanism/constructor-deprecations/constructor-deprecations';
+import { CHECKOUT_AUTH_GUARD_MIGRATION } from './data/checkout-auth.guard.migration';
 import { CHECKOUT_CONFIG_SERVICE_MIGRATION } from './data/checkout-config.service.migration';
 import { CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT_MIGRATION } from './data/checkout-progress-mobile-bottom.component.migration';
 import { CHECKOUT_PROGRESS_MOBILE_TOP_COMPONENT_MIGRATION } from './data/checkout-progress-mobile-top.component.migration';
 import { CHECKOUT_PROGRESS_COMPONENT_MIGRATION } from './data/checkout-progress.component.migration';
+import { CHECKOUT_GUARD_MIGRATIONS } from './data/checkout.guard.migration';
 import { DELIVERY_MODE_SET_GUARD_MIGRATION } from './data/delivery-mode-set.guard.migration';
 import { DELIVERY_MODE_COMPONENT_MIGRATION } from './data/delivery-mode.component.migration';
+import { LOGIN_FORM_COMPONENT_MIGRATION } from './data/login-form.component.migration';
+import { ORDER_DETAILS_SHIPPING_COMPONENT_MIGRATION } from './data/order-details-shipping.component.migration';
 import { PAYMENT_DETAILS_SET_GUARD_MIGRATION } from './data/payment-details-set.guard.migration';
 import { PAYMENT_METHOD_COMPONENT_MIGRATION } from './data/payment-method.component.migration';
 import { REVIEW_SUBMIT_COMPONENT_MIGRATION } from './data/review-submit.component.migration';
@@ -25,6 +29,10 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   DELIVERY_MODE_SET_GUARD_MIGRATION,
   PAYMENT_DETAILS_SET_GUARD_MIGRATION,
   CHECKOUT_CONFIG_SERVICE_MIGRATION,
+  LOGIN_FORM_COMPONENT_MIGRATION,
+  CHECKOUT_GUARD_MIGRATIONS,
+  CHECKOUT_AUTH_GUARD_MIGRATION,
+  ORDER_DETAILS_SHIPPING_COMPONENT_MIGRATION,
 ];
 
 export function migrate(): Rule {
