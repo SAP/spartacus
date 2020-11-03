@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartService,
@@ -31,7 +25,7 @@ import { PromotionService } from '../../../../shared/services/promotion/promotio
   selector: 'cx-added-to-cart-dialog',
   templateUrl: './added-to-cart-dialog.component.html',
 })
-export class AddedToCartDialogComponent implements OnInit, OnDestroy {
+export class AddedToCartDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
   entry$: Observable<OrderEntry>;
