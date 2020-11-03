@@ -38,7 +38,8 @@ export class CheckoutAuthGuard implements CanActivate {
       this.userService.get(),
       this.activeCartService.isStable(),
     ]).pipe(
-      map(([isLoggedIn, cartUser, user]: [boolean, User, User | B2BUser]) => {
+      filter(([, , , isStable]) => Boolean(isStable)),
+      map(([isLoggedIn, cartUser, user]: [boolean, User, User | B2BUser, boolean]) => {
         if (!isLoggedIn) {
           if (this.activeCartService.isGuestCart()) {
             return Boolean(cartUser);
@@ -56,14 +57,12 @@ export class CheckoutAuthGuard implements CanActivate {
           const roles = (<B2BUser>user).roles;
           if (roles.includes(B2BUserGroup.B2B_CUSTOMER_GROUP)) {
             return true;
-          } else {
-            this.globalMessageService.add(
-              { key: 'checkout.invalid.accountType' },
-              GlobalMessageType.MSG_TYPE_WARNING
-            );
-            return false;
-          }
-          return !!token.access_token;
+          }  
+          this.globalMessageService.add(
+            { key: 'checkout.invalid.accountType' },
+            GlobalMessageType.MSG_TYPE_WARNING
+          );
+          return false;      
         }
         return isLoggedIn;
       })

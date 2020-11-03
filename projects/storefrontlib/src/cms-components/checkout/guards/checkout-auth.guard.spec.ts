@@ -15,6 +15,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { CheckoutConfigService } from '../services';
 import { CheckoutAuthGuard } from './checkout-auth.guard';
+
 import createSpy = jasmine.createSpy;
 
 class AuthServiceStub implements Partial<AuthService> {
@@ -60,6 +61,7 @@ class MockUserService implements Partial<UserService> {
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
 }
+
 
 describe('CheckoutAuthGuard', () => {
   let checkoutGuard: CheckoutAuthGuard;
@@ -169,11 +171,13 @@ describe('CheckoutAuthGuard', () => {
   });
 
   describe(', when user is in checkout pages,', () => {
-    it('should not redirect route when cart is unstable', () => {
-      spyOn(authService, 'getUserToken').and.returnValue(of(mockUserToken));
+    it('should NOT redirect route when cart is unstable', () => {
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
       spyOn(activeCartService, 'isStable').and.returnValue(of(false));
+      spyOn(activeCartService, 'isGuestCart').and.returnValue(false);
+
       checkoutGuard.canActivate().subscribe().unsubscribe();
-      expect(service.go).not.toHaveBeenCalled();
+      expect(authRedirectService.reportAuthGuard).not.toHaveBeenCalled();
     });
   });
 
@@ -208,7 +212,7 @@ describe('CheckoutAuthGuard', () => {
         let result: boolean;
         checkoutGuard
           .canActivate()
-          .subscribe((value) => (result = value))
+          .subscribe((value) => (result = value != null))
           .unsubscribe();
         expect(result).toBeTruthy();
       });
