@@ -66,19 +66,26 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
   });
 }
 
-function completeForm(rowConfigs: MyCompanyRowConfig[], valueKey: string) {
+export function completeForm(
+  rowConfigs: MyCompanyRowConfig[],
+  valueKey: string
+) {
   rowConfigs.forEach((input) => {
     if (input.formLabel) {
-      switch (input.inputType) {
-        case INPUT_TYPE.TEXT:
-          return fillTextInput(input);
-        case INPUT_TYPE.DATE_TIME:
-          return fillDateTimePicker(input);
-        case INPUT_TYPE.NG_SELECT:
-          return fillNgSelect(input);
-        case INPUT_TYPE.CHECKBOX:
-          return selectCheckbox(input);
-      }
+      getFieldByLabel(input.formLabel).then((el) => {
+        if (!el.html().includes('disabled')) {
+          switch (input.inputType) {
+            case INPUT_TYPE.TEXT:
+              return fillTextInput(input);
+            case INPUT_TYPE.DATE_TIME:
+              return fillDateTimePicker(input);
+            case INPUT_TYPE.NG_SELECT:
+              return fillNgSelect(input);
+            case INPUT_TYPE.CHECKBOX:
+              return selectCheckbox(input);
+          }
+        }
+      });
     }
   });
 
@@ -117,7 +124,7 @@ function completeForm(rowConfigs: MyCompanyRowConfig[], valueKey: string) {
       getFieldByLabel(input.formLabel).within(() => {
         cy.get(`ng-select`).click();
       });
-      cy.wait(1000);
+      cy.wait(1000); // Allow time for options to draw
       cy.get('div.ng-option').contains(input[valueKey]).click({ force: true });
     }
   }
