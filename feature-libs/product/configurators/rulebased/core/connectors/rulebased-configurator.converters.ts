@@ -4,7 +4,7 @@ import { Configurator } from '../model/configurator.model';
 import { RulebasedConfiguratorAdapter } from './rulebased-configurator.adapter';
 
 export const CONFIGURATOR_ADAPTER_LIST = new InjectionToken<
-  RulebasedConfiguratorAdapter
+  RulebasedConfiguratorAdapter[]
 >('ConfiguratorAdapterList');
 
 export const CONFIGURATION_NORMALIZER = new InjectionToken<

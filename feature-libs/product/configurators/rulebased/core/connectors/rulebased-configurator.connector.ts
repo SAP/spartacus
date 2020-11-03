@@ -19,13 +19,8 @@ export class RulebasedConfiguratorConnector {
   ) {}
 
   createConfiguration(
-    productCode: string
+    owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
-    const owner: GenericConfigurator.Owner = {
-      id: productCode,
-      type: GenericConfigurator.OwnerType.PRODUCT,
-    };
-    this.configUtilsService.setOwnerKey(owner);
     return this.getAdapter(owner.configuratorType).createConfiguration(owner);
   }
 
@@ -96,8 +91,15 @@ export class RulebasedConfiguratorConnector {
   }
 
   protected getAdapter(configuratorType: string): RulebasedConfiguratorAdapter {
-    return this.adapters.find(
+    const adapterResult = this.adapters.find(
       (adapter) => adapter.getConfiguratorType() === configuratorType
     );
+    if (adapterResult) {
+      return adapterResult;
+    } else {
+      throw new Error(
+        'No adapter found for configurator type: ' + configuratorType
+      );
+    }
   }
 }
