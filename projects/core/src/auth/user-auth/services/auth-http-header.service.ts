@@ -17,7 +17,7 @@ import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthHeaderService {
+export class AuthHttpHeaderService {
   constructor(
     protected authService: AuthService,
     protected authStorageService: AuthStorageService,

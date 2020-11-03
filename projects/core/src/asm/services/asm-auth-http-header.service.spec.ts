@@ -11,7 +11,7 @@ import { GlobalMessageType } from '../../global-message/models/global-message.mo
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { CsAgentAuthService } from '../facade/csagent-auth.service';
-import { AsmAuthHeaderService } from './asm-auth.header.service';
+import { AsmAuthHttpHeaderService } from './asm-auth-http-header.service';
 
 class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
   isCustomerSupportAgentLoggedIn() {
@@ -50,8 +50,8 @@ class MockOccEndpointsService implements Partial<OccEndpointsService> {
   }
 }
 
-describe('AsmAuthHeaderService', () => {
-  let service: AsmAuthHeaderService;
+describe('AsmAuthHttpHeaderService', () => {
+  let service: AsmAuthHttpHeaderService;
   let authService: AuthService;
   let routingService: RoutingService;
   let csAgentAuthService: CsAgentAuthService;
@@ -61,7 +61,7 @@ describe('AsmAuthHeaderService', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        AsmAuthHeaderService,
+        AsmAuthHttpHeaderService,
         { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
         { provide: AuthService, useClass: MockAuthService },
         {
@@ -75,7 +75,7 @@ describe('AsmAuthHeaderService', () => {
       ],
     });
 
-    service = TestBed.inject(AsmAuthHeaderService);
+    service = TestBed.inject(AsmAuthHttpHeaderService);
     authService = TestBed.inject(AuthService);
     routingService = TestBed.inject(RoutingService);
     csAgentAuthService = TestBed.inject(CsAgentAuthService);

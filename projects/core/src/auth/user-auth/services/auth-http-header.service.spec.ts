@@ -9,7 +9,7 @@ import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
 import { AuthToken } from '../models/auth-token.model';
-import { AuthHeaderService } from './auth-header.service';
+import { AuthHttpHeaderService } from './auth-http-header.service';
 import { AuthStorageService } from './auth-storage.service';
 import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
 
@@ -43,8 +43,8 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add() {}
 }
 
-describe('AuthHeaderService', () => {
-  let service: AuthHeaderService;
+describe('AuthHttpHeaderService', () => {
+  let service: AuthHttpHeaderService;
   let oAuthLibWrapperService: OAuthLibWrapperService;
   let authService: AuthService;
   let authStorageService: AuthStorageService;
@@ -54,7 +54,7 @@ describe('AuthHeaderService', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        AuthHeaderService,
+        AuthHttpHeaderService,
         { provide: AuthService, useClass: MockAuthService },
         {
           provide: OAuthLibWrapperService,
@@ -68,7 +68,7 @@ describe('AuthHeaderService', () => {
     });
 
     authService = TestBed.inject(AuthService);
-    service = TestBed.inject(AuthHeaderService);
+    service = TestBed.inject(AuthHttpHeaderService);
     oAuthLibWrapperService = TestBed.inject(OAuthLibWrapperService);
     routingService = TestBed.inject(RoutingService);
     globalMessageService = TestBed.inject(GlobalMessageService);
