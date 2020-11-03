@@ -1,4 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   AuthService,
   GlobalMessageService,
@@ -11,17 +16,26 @@ import { Observable, Subscription } from 'rxjs';
 @Component({
   selector: 'cx-update-email',
   templateUrl: './update-email.component.html',
+  // change detection!
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpdateEmailComponent implements OnInit, OnDestroy {
+  // try to min constr arguments
   constructor(
     private routingService: RoutingService,
     private globalMessageService: GlobalMessageService,
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService // bring in comp service
   ) {}
 
+  // try to avoid comp subscription, we like to use the async pipe.
   private subscription = new Subscription();
+
+  // try to avoid private accessors.
   private newUid: string;
+
+  // try to avoid isLoading altogether, we like ghost/skeletons with startWith data
+  // see organizationListService
   isLoading$: Observable<boolean>;
 
   ngOnInit() {
