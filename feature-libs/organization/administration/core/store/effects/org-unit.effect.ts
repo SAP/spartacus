@@ -118,7 +118,9 @@ export class OrgUnitEffects {
 
   @Effect()
   updateUnit$: Observable<
-    OrgUnitActions.UpdateUnitFail | OrganizationActions.OrganizationClearData
+    | OrgUnitActions.UpdateUnitSuccess
+    | OrgUnitActions.UpdateUnitFail
+    | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UPDATE_ORG_UNIT),
     map((action: OrgUnitActions.UpdateUnit) => action.payload),
@@ -127,7 +129,11 @@ export class OrgUnitEffects {
       this.orgUnitConnector
         .update(payload.userId, payload.unitCode, payload.unit)
         .pipe(
-          switchMap(() => [new OrganizationActions.OrganizationClearData()]),
+          switchMap((_data) => [
+            // Workaround for empty response
+            new OrgUnitActions.UpdateUnitSuccess(payload.unit),
+            new OrganizationActions.OrganizationClearData(),
+          ]),
           catchError((error: HttpErrorResponse) =>
             from([
               new OrgUnitActions.UpdateUnitFail({
