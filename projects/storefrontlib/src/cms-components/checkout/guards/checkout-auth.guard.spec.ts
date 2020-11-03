@@ -62,7 +62,6 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
 }
 
-
 describe('CheckoutAuthGuard', () => {
   let checkoutGuard: CheckoutAuthGuard;
   let authService: AuthService;

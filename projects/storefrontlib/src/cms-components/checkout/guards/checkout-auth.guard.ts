@@ -39,33 +39,42 @@ export class CheckoutAuthGuard implements CanActivate {
       this.activeCartService.isStable(),
     ]).pipe(
       filter(([, , , isStable]) => Boolean(isStable)),
-      map(([isLoggedIn, cartUser, user]: [boolean, User, User | B2BUser, boolean]) => {
-        if (!isLoggedIn) {
-          if (this.activeCartService.isGuestCart()) {
-            return Boolean(cartUser);
-          }
-          this.authRedirectService.reportAuthGuard();
-          if (this.checkoutConfigService.isGuestCheckout()) {
-            return this.router.createUrlTree(
-              [this.semanticPathService.get('login')],
-              { queryParams: { forced: true } }
+      map(
+        ([isLoggedIn, cartUser, user]: [
+          boolean,
+          User,
+          User | B2BUser,
+          boolean
+        ]) => {
+          if (!isLoggedIn) {
+            if (this.activeCartService.isGuestCart()) {
+              return Boolean(cartUser);
+            }
+            this.authRedirectService.reportAuthGuard();
+            if (this.checkoutConfigService.isGuestCheckout()) {
+              return this.router.createUrlTree(
+                [this.semanticPathService.get('login')],
+                { queryParams: { forced: true } }
+              );
+            } else {
+              return this.router.parseUrl(
+                this.semanticPathService.get('login')
+              );
+            }
+          } else if ('roles' in user) {
+            const roles = (<B2BUser>user).roles;
+            if (roles.includes(B2BUserGroup.B2B_CUSTOMER_GROUP)) {
+              return true;
+            }
+            this.globalMessageService.add(
+              { key: 'checkout.invalid.accountType' },
+              GlobalMessageType.MSG_TYPE_WARNING
             );
-          } else {
-            return this.router.parseUrl(this.semanticPathService.get('login'));
+            return false;
           }
-        } else if ('roles' in user) {
-          const roles = (<B2BUser>user).roles;
-          if (roles.includes(B2BUserGroup.B2B_CUSTOMER_GROUP)) {
-            return true;
-          }  
-          this.globalMessageService.add(
-            { key: 'checkout.invalid.accountType' },
-            GlobalMessageType.MSG_TYPE_WARNING
-          );
-          return false;      
+          return isLoggedIn;
         }
-        return isLoggedIn;
-      })
+      )
     );
   }
 }
