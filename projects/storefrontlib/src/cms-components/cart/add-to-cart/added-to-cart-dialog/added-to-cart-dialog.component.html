@@ -64,6 +64,7 @@
               [class.disabled]="form.dirty"
               [routerLink]="{ cxRoute: 'cart' } | cxUrl"
               cxModal="dismiss"
+              cxModalReason="View Cart click"
               class="btn btn-primary"
               autofocus
               >{{ 'addToCart.viewCart' | cxTranslate }}</a
@@ -72,6 +73,7 @@
               [class.disabled]="form.dirty"
               [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
               cxModal="dismiss"
+              cxModalReason="Proceed To Checkout click"
               class="btn btn-secondary"
               >{{ 'addToCart.proceedToCheckout' | cxTranslate }}</a
             >
