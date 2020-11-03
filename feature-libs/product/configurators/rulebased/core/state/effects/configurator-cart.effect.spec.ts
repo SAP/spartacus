@@ -301,7 +301,7 @@ describe('ConfiguratorCartEffect', () => {
         productCode: productCode,
         quantity: quantity,
         configId: configId,
-        ownerKey: owner.key,
+        owner: owner,
       };
       const action = new ConfiguratorActions.AddToCart(payloadInput);
       const cartAddEntrySuccess = new CartActions.CartAddEntrySuccess({
@@ -337,7 +337,7 @@ describe('ConfiguratorCartEffect', () => {
         productCode: productCode,
         quantity: quantity,
         configId: configId,
-        ownerKey: owner.key,
+        owner: owner,
       };
       const action = new ConfiguratorActions.AddToCart(payloadInput);
       const cartAddEntryFail = new CartActions.CartAddEntryFail({

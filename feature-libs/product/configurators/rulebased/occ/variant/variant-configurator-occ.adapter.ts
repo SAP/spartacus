@@ -10,15 +10,15 @@ import {
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RulebasedConfiguratorAdapter } from '../../core/connectors/rulebased-configurator.adapter';
-import {
-  CONFIGURATION_ADD_TO_CART_SERIALIZER,
-  CONFIGURATION_NORMALIZER,
-  CONFIGURATION_OVERVIEW_NORMALIZER,
-  CONFIGURATION_PRICE_SUMMARY_NORMALIZER,
-  CONFIGURATION_SERIALIZER,
-  CONFIGURATION_UPDATE_CART_ENTRY_SERIALIZER,
-} from '../../core/connectors/rulebased-configurator.converters';
 import { Configurator } from '../../core/model/configurator.model';
+import {
+  VARIANT_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
+  VARIANT_CONFIGURATOR_NORMALIZER,
+  VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER,
+  VARIANT_CONFIGURATOR_PRICE_SUMMARY_NORMALIZER,
+  VARIANT_CONFIGURATOR_SERIALIZER,
+  VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
+} from './variant-configurator-occ.converters';
 import { OccConfigurator } from './variant-configurator-occ.models';
 
 @Injectable()
@@ -30,6 +30,10 @@ export class VariantConfiguratorOccAdapter
     protected converterService: ConverterService
   ) {}
 
+  getConfiguratorType(): string {
+    return 'CPQCONFIGURATOR';
+  }
+
   createConfiguration(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
@@ -39,7 +43,7 @@ export class VariantConfiguratorOccAdapter
         this.occEndpointsService.getUrl('createConfiguration', { productCode })
       )
       .pipe(
-        this.converterService.pipeable(CONFIGURATION_NORMALIZER),
+        this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
         map((resultConfiguration) => {
           return {
             ...resultConfiguration,
@@ -63,7 +67,7 @@ export class VariantConfiguratorOccAdapter
         )
       )
       .pipe(
-        this.converterService.pipeable(CONFIGURATION_NORMALIZER),
+        this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
         map((resultConfiguration) => {
           return {
             ...resultConfiguration,
@@ -82,11 +86,11 @@ export class VariantConfiguratorOccAdapter
     });
     const occConfiguration = this.converterService.convert(
       configuration,
-      CONFIGURATION_SERIALIZER
+      VARIANT_CONFIGURATOR_SERIALIZER
     );
 
     return this.http.patch(url, occConfiguration).pipe(
-      this.converterService.pipeable(CONFIGURATION_NORMALIZER),
+      this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
       map((resultConfiguration) => {
         return {
           ...resultConfiguration,
@@ -106,7 +110,7 @@ export class VariantConfiguratorOccAdapter
 
     const occAddToCartParameters = this.converterService.convert(
       parameters,
-      CONFIGURATION_ADD_TO_CART_SERIALIZER
+      VARIANT_CONFIGURATOR_ADD_TO_CART_SERIALIZER
     );
 
     const headers = new HttpHeaders({
@@ -130,8 +134,8 @@ export class VariantConfiguratorOccAdapter
       }
     );
 
-    return this.http.get<Configurator.Configuration>(url).pipe(
-      this.converterService.pipeable(CONFIGURATION_NORMALIZER),
+    return this.http.get<OccConfigurator.Configuration>(url).pipe(
+      this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
       map((resultConfiguration) => {
         return {
           ...resultConfiguration,
@@ -159,7 +163,7 @@ export class VariantConfiguratorOccAdapter
 
     const occUpdateCartEntryParameters = this.converterService.convert(
       parameters,
-      CONFIGURATION_UPDATE_CART_ENTRY_SERIALIZER
+      VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER
     );
 
     return this.http
@@ -179,8 +183,8 @@ export class VariantConfiguratorOccAdapter
       }
     );
 
-    return this.http.get<Configurator.Overview>(url).pipe(
-      this.converterService.pipeable(CONFIGURATION_OVERVIEW_NORMALIZER),
+    return this.http.get<OccConfigurator.Overview>(url).pipe(
+      this.converterService.pipeable(VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER),
       map((overview) => {
         const configuration: Configurator.Configuration = {
           configId: overview.configId,
@@ -205,7 +209,9 @@ export class VariantConfiguratorOccAdapter
     });
 
     return this.http.get(url).pipe(
-      this.converterService.pipeable(CONFIGURATION_PRICE_SUMMARY_NORMALIZER),
+      this.converterService.pipeable(
+        VARIANT_CONFIGURATOR_PRICE_SUMMARY_NORMALIZER
+      ),
       map((pricingResult) => {
         const result: Configurator.Configuration = {
           configId: configuration.configId,
@@ -230,6 +236,8 @@ export class VariantConfiguratorOccAdapter
 
     return this.http
       .get(url)
-      .pipe(this.converterService.pipeable(CONFIGURATION_OVERVIEW_NORMALIZER));
+      .pipe(
+        this.converterService.pipeable(VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER)
+      );
   }
 }

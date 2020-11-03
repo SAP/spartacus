@@ -31,22 +31,22 @@ class MockUrlPipe implements PipeTransform {
 const configuratorType = 'cpqconfigurator';
 
 const routerData: ConfiguratorRouter.Data = {
-  configuratorType: configuratorType,
   pageType: ConfiguratorRouter.PageType.OVERVIEW,
   isOwnerCartEntry: true,
   owner: {
     type: GenericConfigurator.OwnerType.CART_ENTRY,
     id: '3',
+    configuratorType: configuratorType,
   },
 };
 
 const orderRouterData: ConfiguratorRouter.Data = {
-  configuratorType: configuratorType,
   pageType: ConfiguratorRouter.PageType.OVERVIEW,
   isOwnerCartEntry: true,
   owner: {
     type: GenericConfigurator.OwnerType.ORDER_ENTRY,
     id: '3',
+    configuratorType: configuratorType,
   },
 };
 

@@ -111,7 +111,7 @@ describe('ConfigRouterExtractorService', () => {
       serviceUnderTest
         .extractRouterData()
         .subscribe((data) => (routerData = data));
-      expect(routerData.configuratorType).toBe(CONFIGURATOR_TYPE);
+      expect(routerData.owner.configuratorType).toBe(CONFIGURATOR_TYPE);
       expect(routerData.isOwnerCartEntry).toBe(false);
       expect(routerData.pageType).toBe(
         ConfiguratorRouter.PageType.CONFIGURATION
@@ -128,7 +128,7 @@ describe('ConfigRouterExtractorService', () => {
         .extractRouterData()
         .subscribe((data) => (routerData = data))
         .unsubscribe();
-      expect(routerData.configuratorType).toBe(CONFIGURATOR_TYPE);
+      expect(routerData.owner.configuratorType).toBe(CONFIGURATOR_TYPE);
       expect(routerData.isOwnerCartEntry).toBe(true);
       expect(routerData.pageType).toBe(ConfiguratorRouter.PageType.OVERVIEW);
       expect(routerData.forceReload).toBe(false);

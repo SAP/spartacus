@@ -277,12 +277,12 @@ describe('ConfiguratorCartService', () => {
         productCode: PRODUCT_CODE,
         quantity: 1,
         configId: CONFIG_ID,
-        ownerKey: OWNER_PRODUCT.key,
+        owner: OWNER_PRODUCT,
       };
 
       spyOn(store, 'dispatch').and.callThrough();
 
-      serviceUnderTest.addToCart(PRODUCT_CODE, CONFIG_ID, OWNER_PRODUCT.key);
+      serviceUnderTest.addToCart(PRODUCT_CODE, CONFIG_ID, OWNER_PRODUCT);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new ConfiguratorActions.AddToCart(addToCartParams)

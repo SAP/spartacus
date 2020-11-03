@@ -163,7 +163,7 @@ describe('ConfiguratorCommonsService', () => {
           useClass: MockconfiguratorUtilsService,
         },
       ],
-    }).compileComponents();
+    });
   }));
   beforeEach(() => {
     configOrderObservable = of(productConfiguration);

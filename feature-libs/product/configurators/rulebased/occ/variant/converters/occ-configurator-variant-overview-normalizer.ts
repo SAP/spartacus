@@ -5,9 +5,9 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { take } from 'rxjs/operators';
-import { CONFIGURATION_PRICE_SUMMARY_NORMALIZER } from '../../../core/connectors/rulebased-configurator.converters';
 import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
+import { VARIANT_CONFIGURATOR_PRICE_SUMMARY_NORMALIZER } from './../variant-configurator-occ.converters';
 
 @Injectable({ providedIn: 'root' })
 export class OccConfiguratorVariantOverviewNormalizer
@@ -26,10 +26,10 @@ export class OccConfiguratorVariantOverviewNormalizer
       ...target,
       configId: source.id,
       totalNumberOfIssues: source.totalNumberOfIssues,
-      groups: source.groups.flatMap((group) => this.convertGroup(group)),
+      groups: source.groups?.flatMap((group) => this.convertGroup(group)),
       priceSummary: this.converterService.convert(
         prices,
-        CONFIGURATION_PRICE_SUMMARY_NORMALIZER
+        VARIANT_CONFIGURATOR_PRICE_SUMMARY_NORMALIZER
       ),
       productCode: source.productCode,
     };

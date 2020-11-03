@@ -147,7 +147,7 @@ export class ConfiguratorAddToCartButtonComponent {
     routerData: ConfiguratorRouter.Data
   ): void {
     const pageType = routerData.pageType;
-    const configuratorType = routerData.configuratorType;
+    const configuratorType = configuration.owner.configuratorType;
     const isOverview = pageType === ConfiguratorRouter.PageType.OVERVIEW;
     const isOwnerCartEntry =
       routerData.owner.type === GenericConfigurator.OwnerType.CART_ENTRY;
@@ -177,7 +177,7 @@ export class ConfiguratorAddToCartButtonComponent {
       this.configuratorCartService.addToCart(
         owner.id,
         configuration.configId,
-        owner.key
+        owner
       );
 
       this.configuratorCommonsService

@@ -37,7 +37,7 @@ export class ConfiguratorBasicEffects {
     ofType(ConfiguratorActions.CREATE_CONFIGURATION),
     mergeMap((action: ConfiguratorActions.CreateConfiguration) => {
       return this.configuratorCommonsConnector
-        .createConfiguration(action.payload.id)
+        .createConfiguration(action.payload)
         .pipe(
           switchMap((configuration: Configurator.Configuration) => {
             this.store.dispatch(
@@ -161,7 +161,7 @@ export class ConfiguratorBasicEffects {
     ),
     mergeMap((payload) => {
       return this.configuratorCommonsConnector
-        .getConfigurationOverview(payload.configId)
+        .getConfigurationOverview(payload)
         .pipe(
           map((overview: Configurator.Overview) => {
             return new ConfiguratorActions.GetConfigurationOverviewSuccess({

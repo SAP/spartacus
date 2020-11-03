@@ -16,6 +16,10 @@ export namespace GenericConfigurator {
      * Can be a product code, a cart entry number, or an order code with order entry number
      */
     id?: string;
+    /**
+     * Configurator type. Derived from the cxRoute
+     */
+    configuratorType?: string;
   }
 
   export interface ReadConfigurationFromCartEntryParameters {

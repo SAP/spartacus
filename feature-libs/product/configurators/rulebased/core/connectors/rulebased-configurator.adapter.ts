@@ -91,4 +91,12 @@ export abstract class RulebasedConfiguratorAdapter {
   abstract getConfigurationOverview(
     configId: string
   ): Observable<Configurator.Overview>;
+
+  /**
+   * Abstract method to get configuration overview
+   *
+   * @param configId configuration id
+   * @param owner configuration owner
+   */
+  abstract getConfiguratorType(): string;
 }

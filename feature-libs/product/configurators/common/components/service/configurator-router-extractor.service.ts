@@ -35,9 +35,6 @@ export class ConfiguratorRouterExtractorService {
           owner: owner,
           isOwnerCartEntry:
             owner.type === GenericConfigurator.OwnerType.CART_ENTRY,
-          configuratorType: this.getConfiguratorTypeFromSemanticRoute(
-            routingData.state.semanticRoute
-          ),
           displayOnly: routingData.state.params.displayOnly,
           resolveIssues:
             routingData.state.queryParams?.resolveIssues === 'true',
@@ -68,6 +65,10 @@ export class ConfiguratorRouterExtractorService {
       owner.type = GenericConfigurator.OwnerType.PRODUCT;
       owner.id = params.rootProduct;
     }
+    const configuratorType = this.getConfiguratorTypeFromSemanticRoute(
+      routerState.state.semanticRoute
+    );
+    owner.configuratorType = configuratorType;
     this.configUtilsService.setOwnerKey(owner);
     return owner;
   }

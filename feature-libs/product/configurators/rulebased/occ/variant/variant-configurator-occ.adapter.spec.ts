@@ -13,13 +13,13 @@ import {
 import { CART_MODIFICATION_NORMALIZER } from 'projects/core/src/cart';
 import { of } from 'rxjs';
 import { VariantConfiguratorOccAdapter } from '.';
-import {
-  CONFIGURATION_NORMALIZER,
-  CONFIGURATION_OVERVIEW_NORMALIZER,
-  CONFIGURATION_PRICE_SUMMARY_NORMALIZER,
-  CONFIGURATION_SERIALIZER,
-} from '../../core/connectors/rulebased-configurator.converters';
 import { Configurator } from '../../core/model/configurator.model';
+import {
+  VARIANT_CONFIGURATOR_NORMALIZER,
+  VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER,
+  VARIANT_CONFIGURATOR_PRICE_SUMMARY_NORMALIZER,
+  VARIANT_CONFIGURATOR_SERIALIZER,
+} from './variant-configurator-occ.converters';
 import { OccConfigurator } from './variant-configurator-occ.models';
 
 class MockOccEndpointsService {
@@ -120,7 +120,7 @@ describe('OccConfigurationVariantAdapter', () => {
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CONFIGURATION_NORMALIZER
+      VARIANT_CONFIGURATOR_NORMALIZER
     );
     mockReq.flush(productConfiguration);
   });
@@ -144,7 +144,7 @@ describe('OccConfigurationVariantAdapter', () => {
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CONFIGURATION_NORMALIZER
+      VARIANT_CONFIGURATOR_NORMALIZER
     );
     mockReq.flush(productConfiguration);
   });
@@ -169,11 +169,11 @@ describe('OccConfigurationVariantAdapter', () => {
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CONFIGURATION_NORMALIZER
+      VARIANT_CONFIGURATOR_NORMALIZER
     );
     expect(converterService.convert).toHaveBeenCalledWith(
       productConfiguration,
-      CONFIGURATION_SERIALIZER
+      VARIANT_CONFIGURATOR_SERIALIZER
     );
     mockReq.flush(productConfiguration);
   });
@@ -195,7 +195,7 @@ describe('OccConfigurationVariantAdapter', () => {
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CONFIGURATION_PRICE_SUMMARY_NORMALIZER
+      VARIANT_CONFIGURATOR_PRICE_SUMMARY_NORMALIZER
     );
     const priceSummary: OccConfigurator.Prices = {};
     mockReq.flush(priceSummary);
@@ -231,7 +231,7 @@ describe('OccConfigurationVariantAdapter', () => {
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CONFIGURATION_NORMALIZER
+      VARIANT_CONFIGURATOR_NORMALIZER
     );
     mockReq.flush(productConfiguration);
   });
@@ -267,7 +267,7 @@ describe('OccConfigurationVariantAdapter', () => {
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CONFIGURATION_OVERVIEW_NORMALIZER
+      VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER
     );
     mockReq.flush(overview);
   });
@@ -312,7 +312,7 @@ describe('OccConfigurationVariantAdapter', () => {
       productCode: 'Product',
       quantity: 1,
       configId: configId,
-      ownerKey: productConfiguration.owner.key,
+      owner: productConfiguration.owner,
       userId: userId,
       cartId: documentId,
     };
@@ -369,7 +369,7 @@ describe('OccConfigurationVariantAdapter', () => {
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      CONFIGURATION_OVERVIEW_NORMALIZER
+      VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER
     );
     mockReq.flush(overview);
   });
