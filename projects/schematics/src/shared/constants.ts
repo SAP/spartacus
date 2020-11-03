@@ -227,6 +227,13 @@ export const ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE =
   'AnonymousConsentLaunchDialogService';
 export const ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT =
   'AnonymousConsentOpenDialogComponent';
+export const CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT =
+  'CheckoutProgressMobileBottomComponent';
+export const CHECKOUT_PROGRESS_COMPONENT = 'CheckoutProgressComponent';
+export const DELIVERY_MODE_COMPONENT = 'DeliveryModeComponent';
+export const SHIPPING_ADDRESS_SET_GUARD = 'ShippingAddressSetGuard';
+export const DELIVERY_MODE_SET_GUARD = 'DeliveryModeSetGuard';
+export const PAYMENT_DETAILS_SET_GUARD = 'PaymentDetailsSetGuard';
 
 export const TEST_OUTLET_MODULE = 'TestOutletModule';
 export const TEST_CONFIG_MODULE = 'TestConfigModule';
@@ -307,6 +314,14 @@ export const ONLY_NUMBER_DIRECTIVE_MODULE = 'OnlyNumberDirectiveModule';
 export const ONLY_NUMBER_DIRECTIVE = 'OnlyNumberDirective';
 export const AUTO_FOCUS_DIRECTIVE = 'AutoFocusDirective';
 export const AUTO_FOCUS_DIRECTIVE_MODULE = 'AutoFocusDirectiveModule';
+
+export const CHECKOUT_ACTIONS = 'CheckoutActions';
+export const PLACE_ORDER_ACTION = 'PlaceOrder';
+export const CHECKOUT_STEP_SERVICE = 'CheckoutStepService';
+export const USER_COST_CENTER_SERVICE = 'UserCostCenterService';
+export const CHECKOUT_COST_CENTER_SERVICE = 'CheckoutCostCenterService';
+export const PAYMENT_TYPE_SERVICE = 'PaymentTypeService';
+
 /***** Removed public api end *****/
 
 /***** Properties start *****/
@@ -337,6 +352,14 @@ export const GET_MULTIPLE_PATHS_URL_MATCHER = 'getMultiplePathsUrlMatcher';
 export const GET_PATH_URL_MATCHER = 'getPathUrlMatcher';
 export const GET_OPPOSITE_URL_MATCHER = 'getOppositeUrlMatcher';
 export const GET_GLOB_URL_MATCHER = 'getGlobUrlMatcher';
+
+export const GET_CHECKOUT_STEP = 'getCheckoutStep';
+export const GET_CHECKOUT_STEP_ROUTE = 'getCheckoutStepRoute';
+export const GET_FIRST_CHECKOUT_STEP_ROUTE = 'getFirstCheckoutStepRoute';
+export const GET_NEXT_CHECKOUT_STEP_URL = 'getNextCheckoutStepUrl';
+export const GET_PREVIOUS_CHECKOUT_STEP_URL = 'getPreviousCheckoutStepUrl';
+export const GET_CURRENT_STEP_INDEX = 'getCurrentStepIndex';
+export const STEP = 'step';
 /***** APIs end *****/
 
 /***** Misc start *****/

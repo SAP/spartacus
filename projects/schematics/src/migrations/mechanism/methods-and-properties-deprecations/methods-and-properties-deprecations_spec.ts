@@ -23,7 +23,7 @@ import { runMigration, writeFile } from '../../../shared/utils/test-utils';
 import { buildMethodComment } from './methods-and-properties-deprecations';
 
 const MIGRATION_SCRIPT_NAME =
-  'migration-v2-methods-and-properties-deprecations-02';
+  'migration-v3-methods-and-properties-deprecations-04';
 const GET_COMPONENT_STATE_TEST_CLASS = `
     import { MemoizedSelector, select, Store } from '@ngrx/store';
     import {
@@ -131,11 +131,26 @@ const COMPONENT_SELECTOR_FACTORY_TEST_CLASS = `
     }
 `;
 const ACTION_CONST_TEST_NO_SPARTACUS_IMPORT_CLASS = `
-    export class TestClass {
-      constructor() {
-        console.log(CmsActions.CMS_GET_COMPONENET_FROM_PAGE);
-      }
-    }
+import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { CheckoutActions, CheckoutState, User } from '@spartacus/core';
+
+@Injectable({ providedIn: 'root' })
+export class CustomCheckoutService {
+  constructor(public store: Store<CheckoutState>) {}
+
+  doSomethingFancy(userId: string, cartId: string): void {
+    // DO something fancy here
+    this.store.dispatch(new CheckoutActions.PlaceOrder({ userId, cartId }));
+  }
+}
+
+class CoolAction extends CheckoutActions.PlaceOrder {
+  readonly type = CheckoutActions.PLACE_ORDER;
+  constructor(public payload: { userId: string; cartId: string; user: User }) {
+    super({ userId, cartId });
+  }
+}
 `;
 const CMS_COMPONENT_ACTIONS_TEST_CLASS = `
     import { CmsActions } from '@spartacus/core';
@@ -278,7 +293,7 @@ describe('updateCmsComponentState migration', () => {
     expect(commentOccurrences).toEqual(3);
   });
 
-  it('should NOT do the update if there is no Spartacus import present', async () => {
+  fit('should NOT do the update if there is no Spartacus import present', async () => {
     writeFile(
       host,
       '/src/index.ts',
@@ -288,6 +303,8 @@ describe('updateCmsComponentState migration', () => {
     await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
     const content = appTree.readContent('/src/index.ts');
+
+    console.log(content);
 
     const regexOld = new RegExp('CMS_GET_COMPONENET_FROM_PAGE', 'g');
     const oldOccurrences = (content.match(regexOld) || []).length;
