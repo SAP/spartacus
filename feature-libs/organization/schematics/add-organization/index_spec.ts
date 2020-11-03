@@ -87,8 +87,8 @@ describe('Spartacus Organization schematics: ng-add', () => {
     });
 
     describe('styling', () => {
-      it('should add style import to /src/styles/spartacus-organization.scss', async () => {
-        const buffer = appTree.read('/src/styles/spartacus-organization.scss');
+      it('should add style import to /src/styles/spartacus/organization.scss', async () => {
+        const buffer = appTree.read('/src/styles/spartacus/organization.scss');
         expect(buffer).toBeTruthy();
         const content = buffer?.toString(UTF_8);
         expect(content).toEqual(`@import "@spartacus/organization";`);
@@ -107,14 +107,14 @@ describe('Spartacus Organization schematics: ng-add', () => {
             .styles;
         expect(buildStyles).toEqual([
           'src/styles.scss',
-          'src/styles/spartacus-organization.scss',
+          'src/styles/spartacus/organization.scss',
         ]);
 
         const testStyles: string[] =
           angularJson.projects['schematics-test'].architect.test.options.styles;
         expect(testStyles).toEqual([
           'src/styles.scss',
-          'src/styles/spartacus-organization.scss',
+          'src/styles/spartacus/organization.scss',
         ]);
       });
     });
