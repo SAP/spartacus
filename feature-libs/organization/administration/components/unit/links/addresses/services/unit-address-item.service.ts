@@ -44,10 +44,13 @@ export class UnitAddressItemService extends OrganizationItemService<Address> {
     return this.unitService.getAddressLoadingStatus(addressCode);
   }
 
-  protected create(value: Address) {
+  protected create(
+    value: Address
+  ): Observable<OrganizationItemStatus<Address>> {
     this.unitRouteParam$
       .pipe(first())
       .subscribe((unitCode) => this.unitService.createAddress(unitCode, value));
+    return this.unitService.getAddressLoadingStatus(null);
   }
 
   protected getDetailsRoute(): string {

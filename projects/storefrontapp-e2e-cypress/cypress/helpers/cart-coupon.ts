@@ -57,8 +57,7 @@ export function claimCoupon(couponCode: string) {
     )}/users/current/customercoupons/${couponCode}/claim`,
     headers: {
       Authorization: `bearer ${
-        JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
-          .token.access_token
+        JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token.access_token
       }`,
     },
   }).then((response) => {
@@ -254,8 +253,7 @@ export function verifyProductInCart(productCode: string) {
 }
 
 export function verifyOrderPlacingWithCouponAndCustomerCoupon() {
-  const stateAuth = JSON.parse(localStorage.getItem('spartacus-local-data'))
-    .auth;
+  const stateAuth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token;
   addProductToCart(productCode4);
   verifyProductInCart(productCode4);
   verifyEmptyCoupons();
@@ -276,8 +274,7 @@ export function verifyOrderPlacingWithCouponAndCustomerCoupon() {
 }
 
 export function verifyCustomerCouponRemoving() {
-  const stateAuth = JSON.parse(localStorage.getItem('spartacus-local-data'))
-    .auth;
+  const stateAuth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token;
   claimCoupon(myCouponCode2);
   addProductToCart(productCode4);
   ApplyMyCoupons(myCouponCode2);

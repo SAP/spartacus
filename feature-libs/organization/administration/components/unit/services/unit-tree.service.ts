@@ -14,62 +14,85 @@ import { TREE_TOGGLE } from './unit-tree.model';
   providedIn: 'root',
 })
 export class UnitTreeService {
+  /**
+   * Indicates the minimum number of (initial) expanded units.
+   */
   protected minimalExpanded = 1;
-  private _cachedMinimalExpanded;
+
+  protected globalToggle$: BehaviorSubject<TREE_TOGGLE> = new BehaviorSubject(
+    undefined
+  );
 
   treeToggle$: BehaviorSubject<Map<string, TREE_TOGGLE>> = new BehaviorSubject(
     new Map()
   );
 
-  initialize(root: B2BUnitNode, key: string): void {
-    if (key) {
-      this.expandUntilActiveNode(root, key);
+  /**
+   * Initializes the unit tree with an active unit.
+   *
+   * The active unit will be collapsed.
+   */
+  initialize(root: B2BUnitNode, activeUnitId: string): void {
+    if (activeUnitId) {
+      this.expandUntilActiveNode(root, activeUnitId);
     }
   }
 
-  collapseAll(unitId: string) {
-    this._cachedMinimalExpanded = this.minimalExpanded;
-    this.minimalExpanded = 0;
-    this.treeToggle$.next(new Map().set(unitId, TREE_TOGGLE.COLLAPSE_ALL));
+  /**
+   * Sets the global toggle state to _collapsed_ and clears the toggle state
+   * for individual units.
+   */
+  collapseAll() {
+    this.globalToggle$.next(TREE_TOGGLE.COLLAPSED);
+    this.treeToggle$.next(new Map());
   }
 
-  expandAll(unitId: string) {
-    if (this._cachedMinimalExpanded) {
-      this.minimalExpanded = this._cachedMinimalExpanded;
+  /**
+   * Sets the global toggle state to _expanded_ and clears the toggle state
+   * for individual units.
+   */
+  expandAll() {
+    this.globalToggle$.next(TREE_TOGGLE.EXPANDED);
+    this.treeToggle$.next(new Map());
+  }
+
+  /**
+   * Indicates whether the give unit is expanded.
+   *
+   * The returned (boolean) expand state is driven by the global toggle
+   * state (expand / collapse all) and the toggle state for individual units.
+   * There's also the `minimalExpanded` taken into consideration.
+   */
+  isExpanded(unitId: string, level: number): boolean {
+    const toggleState = this.treeToggle$.value?.get(unitId);
+
+    if (
+      this.globalToggle$.value === TREE_TOGGLE.COLLAPSED &&
+      toggleState !== TREE_TOGGLE.EXPANDED
+    ) {
+      return false;
     }
-    this.treeToggle$.next(new Map().set(unitId, TREE_TOGGLE.EXPAND_ALL));
-  }
 
-  isExpanded(unitId: string, level: number, parent?: TREE_TOGGLE): boolean {
-    const toggle = this.treeToggle$.value?.get(unitId);
     return (
-      toggle === TREE_TOGGLE.EXPANDED ||
-      toggle === TREE_TOGGLE.EXPAND_ALL ||
-      parent === TREE_TOGGLE.EXPAND_ALL ||
-      (toggle !== TREE_TOGGLE.COLLAPSED && level < this.minimalExpanded) ||
-      (toggle === TREE_TOGGLE.COLLAPSE_ALL && level < this.minimalExpanded)
+      // the current node is expanded
+      toggleState === TREE_TOGGLE.EXPANDED ||
+      // the node is not collapsed, but globally expanded ("expand all") or above
+      // the minimum visible nodes
+      ((this.globalToggle$.value === TREE_TOGGLE.EXPANDED ||
+        level < this.minimalExpanded) &&
+        toggleState !== TREE_TOGGLE.COLLAPSED)
     );
   }
 
   toggle(unit: B2BUnitTreeNode) {
     const currentState = this.treeToggle$.value;
-    const root = currentState?.values().next().value;
-    if (root === TREE_TOGGLE.EXPAND_ALL) {
-      currentState.clear();
-    }
-
-    const newState =
-      root === TREE_TOGGLE.EXPAND_ALL ||
+    currentState.set(
+      unit.id,
       this.isExpanded(unit.id, unit.depthLevel)
         ? TREE_TOGGLE.COLLAPSED
-        : TREE_TOGGLE.EXPANDED;
-
-    currentState.set(unit.uid, newState);
+        : TREE_TOGGLE.EXPANDED
+    );
     this.treeToggle$.next(currentState);
-  }
-
-  getToggleState(unitId: string): TREE_TOGGLE {
-    return this.treeToggle$.value?.get(unitId);
   }
 
   /**
