@@ -46,6 +46,8 @@ export class ConfigInitializerModule {
           ],
         },
         {
+          // Used to indicate when a location is initialized.
+          // specifically to hold on navigation before configuration is stable
           provide: LOCATION_INITIALIZED,
           useFactory: locationInitializedFactory,
           deps: [ConfigInitializerService],
