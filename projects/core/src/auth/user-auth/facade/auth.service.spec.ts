@@ -1,46 +1,91 @@
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { Store, StoreModule } from '@ngrx/store';
+import { TokenResponse } from 'angular-oauth2-oidc';
+import { OCC_USER_ID_CURRENT } from 'projects/core/src/occ';
+import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { BasicAuthService } from '../services/basic-auth.service';
+import { RoutingService } from '../../../routing/facade/routing.service';
+import { AuthToken } from '../models/auth-token.model';
+import { AuthRedirectService } from '../services/auth-redirect.service';
+import { AuthStorageService } from '../services/auth-storage.service';
+import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
+import { AuthActions } from '../store/actions';
 import { AuthService } from './auth.service';
+import { UserIdService } from './user-id.service';
 
-class MockBasicAuthService implements Partial<BasicAuthService> {
-  checkOAuthParamsInUrl() {
+class MockUserIdService implements Partial<UserIdService> {
+  getUserId(): Observable<string> {
+    return of('');
+  }
+  clearUserId() {}
+  setUserId() {}
+}
+
+class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
+  revokeAndLogout() {
     return Promise.resolve();
   }
-  loginWithRedirect() {
-    return true;
+  authorizeWithPasswordFlow() {
+    return Promise.resolve({} as TokenResponse);
   }
-  authorize() {
-    return Promise.resolve();
+  initLoginFlow() {}
+  tryLogin() {
+    return Promise.resolve(true);
   }
-  logout() {
-    return Promise.resolve();
+}
+
+class MockAuthStorageService implements Partial<AuthStorageService> {
+  getToken() {
+    return of({ access_token: 'token' } as AuthToken);
   }
-  initLogout() {}
-  isUserLoggedIn() {
-    return of(true);
+  getItem() {
+    return 'value';
   }
+}
+
+class MockAuthRedirectService implements Partial<AuthRedirectService> {
+  redirect() {}
+}
+
+class MockRoutingService implements Partial<RoutingService> {
+  go() {}
 }
 
 describe('AuthService', () => {
   let service: AuthService;
-  let basicAuthService: BasicAuthService;
+  let routingService: RoutingService;
+  let authStorageService: AuthStorageService;
+  let userIdService: UserIdService;
+  let oAuthLibWrapperService: OAuthLibWrapperService;
+  let authRedirectService: AuthRedirectService;
+  let store: Store;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [StoreModule.forRoot({})],
       providers: [
         AuthService,
         {
-          provide: BasicAuthService,
-          useClass: MockBasicAuthService,
+          provide: UserIdService,
+          useClass: MockUserIdService,
         },
+        {
+          provide: OAuthLibWrapperService,
+          useClass: MockOAuthLibWrapperService,
+        },
+        { provide: AuthStorageService, useClass: MockAuthStorageService },
+        { provide: AuthRedirectService, useClass: MockAuthRedirectService },
+        { provide: RoutingService, useClass: MockRoutingService },
       ],
     });
 
     service = TestBed.inject(AuthService);
-    basicAuthService = TestBed.inject(BasicAuthService);
+    routingService = TestBed.inject(RoutingService);
+    authStorageService = TestBed.inject(AuthStorageService);
+    userIdService = TestBed.inject(UserIdService);
+    oAuthLibWrapperService = TestBed.inject(OAuthLibWrapperService);
+    authRedirectService = TestBed.inject(AuthRedirectService);
+    store = TestBed.inject(Store);
   });
 
   it('should be created', () => {
@@ -48,46 +93,65 @@ describe('AuthService', () => {
   });
 
   describe('checkOAuthParamsInUrl()', () => {
-    it('should call basic auth checkOAuthParamsInUrl method', () => {
-      spyOn(basicAuthService, 'checkOAuthParamsInUrl').and.callThrough();
+    it('should login user when token is present', async () => {
+      spyOn(oAuthLibWrapperService, 'tryLogin').and.callThrough();
+      spyOn(userIdService, 'setUserId').and.callThrough();
+      spyOn(authRedirectService, 'redirect').and.callThrough();
+      spyOn(store, 'dispatch').and.callThrough();
+      spyOn(authStorageService, 'getItem').and.returnValue('token');
 
-      service.checkOAuthParamsInUrl();
+      await service.checkOAuthParamsInUrl();
 
-      expect(basicAuthService.checkOAuthParamsInUrl).toHaveBeenCalled();
+      expect(oAuthLibWrapperService.tryLogin).toHaveBeenCalled();
+      expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
+      expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
+      expect(authRedirectService.redirect).toHaveBeenCalled();
     });
   });
 
   describe('loginWithRedirect()', () => {
-    it('should call basic auth loginWithRedirect method', () => {
-      spyOn(basicAuthService, 'loginWithRedirect').and.callThrough();
+    it('should initialize login flow', () => {
+      spyOn(oAuthLibWrapperService, 'initLoginFlow').and.callThrough();
 
       const result = service.loginWithRedirect();
 
       expect(result).toBeTrue();
-      expect(basicAuthService.loginWithRedirect).toHaveBeenCalled();
+      expect(oAuthLibWrapperService.initLoginFlow).toHaveBeenCalled();
     });
   });
 
   describe('authorize()', () => {
-    it('should call basic auth authorize method', () => {
-      spyOn(basicAuthService, 'authorize').and.callThrough();
+    it('should login user', async () => {
+      spyOn(
+        oAuthLibWrapperService,
+        'authorizeWithPasswordFlow'
+      ).and.callThrough();
+      spyOn(userIdService, 'setUserId').and.callThrough();
+      spyOn(authRedirectService, 'redirect').and.callThrough();
+      spyOn(store, 'dispatch').and.callThrough();
 
-      service.authorize('username', 'pass');
+      await service.authorize('username', 'pass');
 
-      expect(basicAuthService.authorize).toHaveBeenCalledWith(
-        'username',
-        'pass'
-      );
+      expect(
+        oAuthLibWrapperService.authorizeWithPasswordFlow
+      ).toHaveBeenCalledWith('username', 'pass');
+      expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
+      expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
+      expect(authRedirectService.redirect).toHaveBeenCalled();
     });
   });
 
   describe('logout()', () => {
-    it('should call basic auth logout method', () => {
-      spyOn(basicAuthService, 'logout').and.callThrough();
+    it('should revoke tokens and logout', async () => {
+      spyOn(userIdService, 'clearUserId').and.callThrough();
+      spyOn(oAuthLibWrapperService, 'revokeAndLogout').and.callThrough();
+      spyOn(store, 'dispatch').and.callThrough();
 
-      service.logout();
+      await service.logout();
 
-      expect(basicAuthService.logout).toHaveBeenCalled();
+      expect(userIdService.clearUserId).toHaveBeenCalled();
+      expect(oAuthLibWrapperService.revokeAndLogout).toHaveBeenCalled();
+      expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
     });
   });
 
@@ -103,7 +167,7 @@ describe('AuthService', () => {
     });
 
     it('should return false when there is not access_token', (done) => {
-      spyOn(basicAuthService, 'isUserLoggedIn').and.returnValue(of(false));
+      spyOn(authStorageService, 'getToken').and.returnValue(of(undefined));
 
       service
         .isUserLoggedIn()
@@ -116,12 +180,12 @@ describe('AuthService', () => {
   });
 
   describe('initLogout()', () => {
-    it('should call basic auth initLogout method', () => {
-      spyOn(basicAuthService, 'initLogout').and.callThrough();
+    it('should redirect url to logout page', () => {
+      spyOn(routingService, 'go').and.callThrough();
 
       service.initLogout();
 
-      expect(basicAuthService.initLogout).toHaveBeenCalledWith();
+      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'logout' });
     });
   });
 });
