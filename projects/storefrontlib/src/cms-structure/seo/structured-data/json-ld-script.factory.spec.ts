@@ -100,7 +100,7 @@ describe('JsonLdScriptFactory', () => {
         : expect(scriptElement.innerHTML).not.toEqual('[{"foo":"bar-a"}]');
     });
 
-    it('should build the browser in dev mode', () => {
+    it('should build in dev mode', () => {
       spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => true);
       service.build([{ foo: 'bar-b' }]);
       const scriptElement = winRef.document.getElementById('json-ld');

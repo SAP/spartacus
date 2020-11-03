@@ -2,12 +2,15 @@ import { Injectable } from '@angular/core';
 import { ScheduleReplenishmentForm } from '../../../../model/replenishment-order.model';
 import { Converter } from '../../../../util/converter.service';
 import { Occ } from '../../../occ-models/occ.models';
+import { DateTimePickerFormatterService } from '../../../../util/date-time-picker-formatter.service';
 
 @Injectable({ providedIn: 'root' })
 export class OccReplenishmentOrderFormSerializer
   implements
     Converter<Occ.ScheduleReplenishmentForm, ScheduleReplenishmentForm> {
-  constructor() {}
+  constructor(
+    protected dateTimePickerFormatterService: DateTimePickerFormatterService
+  ) {}
 
   convert(
     source: Occ.ScheduleReplenishmentForm,
@@ -27,10 +30,17 @@ export class OccReplenishmentOrderFormSerializer
   }
 
   /**
-   * Converts the date string to the Standard ISO 8601 format
+   * Adds the current timestamp (including timezone offset) to a date string in the format YYYY-mm-dd
+   * @Example
+   * Converts 2021-10-15 to 2021-10-15T15:38:05-05:00
    */
   private convertDate(date: string): string {
-    const dateTime = '00:00:00';
-    return new Date(date).toISOString().split('T')[0] + 'T' + dateTime + 'Z';
+    const localTime = new Date().toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    });
+    const modelDate = `${date}T${localTime}`;
+    return this.dateTimePickerFormatterService.toModel(modelDate);
   }
 }

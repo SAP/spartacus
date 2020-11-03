@@ -14,10 +14,6 @@ import {
   BUDGETS_NORMALIZER,
   BUDGET_NORMALIZER,
   CostCenterAdapter,
-  OrderApprovalAdapter,
-  ORDER_APPROVALS_NORMALIZER,
-  ORDER_APPROVAL_DECISION_NORMALIZER,
-  ORDER_APPROVAL_NORMALIZER,
   OrgUnitAdapter,
   PermissionAdapter,
   PERMISSIONS_NORMALIZER,
@@ -31,7 +27,6 @@ import {
 import { OccB2BUserAdapter } from './adapters/occ-b2b-users.adapter';
 import { OccBudgetAdapter } from './adapters/occ-budget.adapter';
 import { OccCostCenterAdapter } from './adapters/occ-cost-center.adapter';
-import { OccOrderApprovalAdapter } from './adapters/occ-order-approval.adapter';
 import { OccOrgUnitAdapter } from './adapters/occ-org-unit.adapter';
 import { OccPermissionAdapter } from './adapters/occ-permission.adapter';
 import { OccUserGroupAdapter } from './adapters/occ-user-group.adapter';
@@ -40,9 +35,6 @@ import { OccB2BUserNormalizer } from './converters/occ-b2b-user-normalizer';
 import { OccB2bUserSerializer } from './converters/occ-b2b-user-serializer';
 import { OccBudgetListNormalizer } from './converters/occ-budget-list-normalizer';
 import { OccBudgetNormalizer } from './converters/occ-budget-normalizer';
-import { OccOrderApprovalDecisionNormalizer } from './converters/occ-order-approval-decision-normalizer';
-import { OccOrderApprovalListNormalizer } from './converters/occ-order-approval-list-normalizer';
-import { OccOrderApprovalNormalizer } from './converters/occ-order-approval-normalizer';
 import { OccOrgUnitApprovalProcessNormalizer } from './converters/occ-org-unit-approval-processes-normalizer';
 import { OccOrgUnitNodeListNormalizer } from './converters/occ-org-unit-node-list-normalizer';
 import { OccOrgUnitNodeNormalizer } from './converters/occ-org-unit-node-normalizer';
@@ -152,25 +144,6 @@ import { OccUserListNormalizer } from './converters/occ-user-list-normalizer';
     {
       provide: B2B_USERS_NORMALIZER,
       useClass: OccUserListNormalizer,
-      multi: true,
-    },
-    {
-      provide: OrderApprovalAdapter,
-      useClass: OccOrderApprovalAdapter,
-    },
-    {
-      provide: ORDER_APPROVAL_NORMALIZER,
-      useClass: OccOrderApprovalNormalizer,
-      multi: true,
-    },
-    {
-      provide: ORDER_APPROVALS_NORMALIZER,
-      useClass: OccOrderApprovalListNormalizer,
-      multi: true,
-    },
-    {
-      provide: ORDER_APPROVAL_DECISION_NORMALIZER,
-      useClass: OccOrderApprovalDecisionNormalizer,
       multi: true,
     },
   ],

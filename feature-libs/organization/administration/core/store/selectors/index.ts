@@ -4,7 +4,6 @@ import * as OrgUnitSelectors from './org-unit.selector';
 import * as UserGroupSelectors from './user-group.selector';
 import * as CostCenterSelectors from './cost-center.selector';
 import * as B2BUserSelectors from './b2b-user.selector';
-import * as OrderApprovalSelectors from './order-approval.selector';
 
 export {
   BudgetSelectors,
@@ -13,5 +12,4 @@ export {
   PermissionSelectors,
   CostCenterSelectors,
   B2BUserSelectors,
-  OrderApprovalSelectors,
 };

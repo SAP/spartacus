@@ -1,10 +1,17 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { PromotionLocation, PromotionResult } from '@spartacus/core';
+import {
+  OrderEntry,
+  PromotionLocation,
+  PromotionResult,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
 
+/**
+ * @deprecated since 3.0 - use `OrderEntry` instead
+ */
 export interface Item {
   entryNumber?: number;
   product?: any;
@@ -27,7 +34,7 @@ export interface CartItemComponentOptions {
 })
 export class CartItemComponent implements OnInit {
   @Input() compact = false;
-  @Input() item: Item;
+  @Input() item: OrderEntry;
   @Input() readonly = false;
   @Input() quantityControl: FormControl;
 
