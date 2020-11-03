@@ -19,6 +19,7 @@ export enum ASSIGNMENT_LABELS {
 }
 
 export interface TestListOptions {
+  trigger?: Function;
   nested?: {
     expandAll?: boolean;
     collapseAll?: boolean;
