@@ -9,7 +9,7 @@ import { of } from 'rxjs';
 import { Configurator } from '../model/configurator.model';
 import { RulebasedConfiguratorAdapter } from './rulebased-configurator.adapter';
 import { RulebasedConfiguratorConnector } from './rulebased-configurator.connector';
-import { CONFIGURATOR_ADAPTER_LIST } from './rulebased-configurator.converters';
+
 import createSpy = jasmine.createSpy;
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -99,7 +99,7 @@ describe('RulebasedConfiguratorConnector', () => {
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: CONFIGURATOR_ADAPTER_LIST,
+          provide: RulebasedConfiguratorConnector.CONFIGURATOR_ADAPTER_LIST,
           useClass: MockRulebasedConfiguratorAdapter,
           multi: true,
         },
@@ -115,7 +115,9 @@ describe('RulebasedConfiguratorConnector', () => {
     configuratorUtils = TestBed.inject(
       GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
     );
-    adapter = TestBed.inject(CONFIGURATOR_ADAPTER_LIST);
+    adapter = TestBed.inject(
+      RulebasedConfiguratorConnector.CONFIGURATOR_ADAPTER_LIST
+    );
     configuratorUtils.setOwnerKey(productConfiguration.owner);
   });
 

@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
 import {
   CartModification,
   GenericConfigurator,
@@ -7,13 +7,16 @@ import {
 import { Observable } from 'rxjs';
 import { Configurator } from '../model/configurator.model';
 import { RulebasedConfiguratorAdapter } from './rulebased-configurator.adapter';
-import { CONFIGURATOR_ADAPTER_LIST } from './rulebased-configurator.converters';
 
 //Not provided in root, as this would break lazy loading
 @Injectable()
 export class RulebasedConfiguratorConnector {
+  static CONFIGURATOR_ADAPTER_LIST = new InjectionToken<
+    RulebasedConfiguratorAdapter[]
+  >('ConfiguratorAdapterList');
+
   constructor(
-    @Inject(CONFIGURATOR_ADAPTER_LIST)
+    @Inject(RulebasedConfiguratorConnector.CONFIGURATOR_ADAPTER_LIST)
     protected adapters: RulebasedConfiguratorAdapter[],
     protected configUtilsService: GenericConfiguratorUtilsService
   ) {}
