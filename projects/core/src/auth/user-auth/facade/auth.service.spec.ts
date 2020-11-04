@@ -120,7 +120,7 @@ describe('AuthService', () => {
     });
   });
 
-  describe('authorize()', () => {
+  describe('loginWithCredentials()', () => {
     it('should login user', async () => {
       spyOn(
         oAuthLibWrapperService,
@@ -130,7 +130,7 @@ describe('AuthService', () => {
       spyOn(authRedirectService, 'redirect').and.callThrough();
       spyOn(store, 'dispatch').and.callThrough();
 
-      await service.authorize('username', 'pass');
+      await service.loginWithCredentials('username', 'pass');
 
       expect(
         oAuthLibWrapperService.authorizeWithPasswordFlow
@@ -141,13 +141,13 @@ describe('AuthService', () => {
     });
   });
 
-  describe('logout()', () => {
+  describe('coreLogout()', () => {
     it('should revoke tokens and logout', async () => {
       spyOn(userIdService, 'clearUserId').and.callThrough();
       spyOn(oAuthLibWrapperService, 'revokeAndLogout').and.callThrough();
       spyOn(store, 'dispatch').and.callThrough();
 
-      await service.logout();
+      await service.coreLogout();
 
       expect(userIdService.clearUserId).toHaveBeenCalled();
       expect(oAuthLibWrapperService.revokeAndLogout).toHaveBeenCalled();
@@ -183,7 +183,7 @@ describe('AuthService', () => {
     it('should redirect url to logout page', () => {
       spyOn(routingService, 'go').and.callThrough();
 
-      service.initLogout();
+      service.logout();
 
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'logout' });
     });
