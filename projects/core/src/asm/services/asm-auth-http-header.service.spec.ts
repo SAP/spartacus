@@ -11,7 +11,7 @@ import { GlobalMessageType } from '../../global-message/models/global-message.mo
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { CsAgentAuthService } from '../facade/csagent-auth.service';
-import { AsmAuthHeaderService } from './asm-auth.header.service';
+import { AsmAuthHttpHeaderService } from './asm-auth-http-header.service';
 
 class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
   isCustomerSupportAgentLoggedIn() {
@@ -23,7 +23,7 @@ class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
 }
 
 class MockAuthService implements Partial<AuthService> {
-  logout() {
+  coreLogout() {
     return Promise.resolve();
   }
 }
@@ -50,8 +50,8 @@ class MockOccEndpointsService implements Partial<OccEndpointsService> {
   }
 }
 
-describe('AsmAuthHeaderService', () => {
-  let service: AsmAuthHeaderService;
+describe('AsmAuthHttpHeaderService', () => {
+  let service: AsmAuthHttpHeaderService;
   let authService: AuthService;
   let routingService: RoutingService;
   let csAgentAuthService: CsAgentAuthService;
@@ -61,7 +61,7 @@ describe('AsmAuthHeaderService', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        AsmAuthHeaderService,
+        AsmAuthHttpHeaderService,
         { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
         { provide: AuthService, useClass: MockAuthService },
         {
@@ -75,7 +75,7 @@ describe('AsmAuthHeaderService', () => {
       ],
     });
 
-    service = TestBed.inject(AsmAuthHeaderService);
+    service = TestBed.inject(AsmAuthHttpHeaderService);
     authService = TestBed.inject(AuthService);
     routingService = TestBed.inject(RoutingService);
     csAgentAuthService = TestBed.inject(CsAgentAuthService);
@@ -146,17 +146,17 @@ describe('AsmAuthHeaderService', () => {
 
   describe('handleExpiredRefreshToken', () => {
     it('should work the same as in AuthHeaderService when there is normally logged user', () => {
-      spyOn(authService, 'logout').and.callThrough();
+      spyOn(authService, 'coreLogout').and.callThrough();
       spyOn(routingService, 'go').and.callThrough();
 
       service.handleExpiredRefreshToken();
 
-      expect(authService.logout).toHaveBeenCalled();
+      expect(authService.coreLogout).toHaveBeenCalled();
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
     });
 
     it('should logoutCustomerSupportAgent when cs agent is logged in', () => {
-      spyOn(authService, 'logout').and.callThrough();
+      spyOn(authService, 'coreLogout').and.callThrough();
       spyOn(
         csAgentAuthService,
         'isCustomerSupportAgentLoggedIn'
@@ -166,7 +166,7 @@ describe('AsmAuthHeaderService', () => {
 
       service.handleExpiredRefreshToken();
 
-      expect(authService.logout).not.toHaveBeenCalled();
+      expect(authService.coreLogout).not.toHaveBeenCalled();
       expect(csAgentAuthService.logoutCustomerSupportAgent).toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {
