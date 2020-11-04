@@ -6,7 +6,7 @@ import { nextPage } from '../../product-search';
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
 import { myCompanyAdminUser } from '../../../sample-data/shared-users';
 
-export const IGNORE_CASE = {
+export const IGNORE_CASE: any = {
   matchCase: false,
 };
 

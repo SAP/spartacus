@@ -1,3 +1,4 @@
+import { Partial } from 'cypress/types/lodash';
 import { ASSIGNMENT_LABELS, MyCompanyConfig } from './models/index';
 import { completeForm } from './my-company-form';
 import { IGNORE_CASE, loginAsMyCompanyAdmin } from './my-company.utils';
@@ -43,10 +44,9 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
         }
 
         cy.get('cx-organization-card .header h3').contains(
-          subConfig.name,
+          `${subConfig.name.toLowerCase()}`,
           IGNORE_CASE
         );
-        // TODO: Check h4 header
 
         checkListEmpty();
       });
@@ -92,7 +92,7 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
               firstOption = el.text();
 
               clickAssign(firstOption);
-              cy.get('cx-organization-card .header a')
+              cy.get('cx-organization-card .header')
                 .contains(ASSIGNMENT_LABELS.DONE)
                 .click();
 
@@ -112,7 +112,7 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
             .parent()
             .contains(ASSIGNMENT_LABELS.ASSIGN);
 
-          cy.get('cx-organization-card .header a')
+          cy.get('cx-organization-card .header')
             .contains(ASSIGNMENT_LABELS.DONE)
             .click();
 
