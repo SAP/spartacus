@@ -1,9 +1,10 @@
 import {
+  ENTITY_UID_COOKIE_KEY,
   INPUT_TYPE,
   MyCompanyConfig,
   MyCompanyRowConfig,
 } from './models/index';
-import { IGNORE_CASE, loginAsMyCompanyAdmin } from './my-company.utils';
+import { ignoreCaseSensivity, loginAsMyCompanyAdmin } from './my-company.utils';
 
 export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
   describe(`${config.name} Create / Update`, () => {
@@ -24,8 +25,7 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
       cy.url().should('contain', `${config.baseUrl}/create`);
 
       cy.get('cx-organization-form div.header h3').contains(
-        `Create ${config.name}`,
-        IGNORE_CASE
+        ignoreCaseSensivity(`Create ${config.name}`)
       );
 
       completeForm(config.rows, 'createValue');
@@ -44,6 +44,10 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
       const entityId =
         entityUId ?? config.rows?.find((row) => row.useInUrl).createValue;
 
+      if (config.preserveCookies) {
+        cy.setCookie(ENTITY_UID_COOKIE_KEY, entityUId);
+      }
+
       cy.wait(2000);
       cy.visit(`${config.baseUrl}/${entityId}`);
       cy.url().should('contain', `${config.baseUrl}/${entityId}`);
@@ -52,8 +56,7 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
       cy.url().should('contain', `${config.baseUrl}/${entityId}/edit`);
 
       cy.get('cx-organization-form div.header h3').contains(
-        `Edit ${config.name}`,
-        IGNORE_CASE
+        ignoreCaseSensivity(`Edit ${config.name}`)
       );
 
       completeForm(config.rows, 'updateValue');
@@ -66,19 +69,26 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
   });
 }
 
-function completeForm(rowConfigs: MyCompanyRowConfig[], valueKey: string) {
+export function completeForm(
+  rowConfigs: MyCompanyRowConfig[],
+  valueKey: string
+) {
   rowConfigs.forEach((input) => {
     if (input.formLabel) {
-      switch (input.inputType) {
-        case INPUT_TYPE.TEXT:
-          return fillTextInput(input);
-        case INPUT_TYPE.DATE_TIME:
-          return fillDateTimePicker(input);
-        case INPUT_TYPE.NG_SELECT:
-          return fillNgSelect(input);
-        case INPUT_TYPE.CHECKBOX:
-          return selectCheckbox(input);
-      }
+      getFieldByLabel(input.formLabel).then((el) => {
+        if (!el.html().includes('disabled')) {
+          switch (input.inputType) {
+            case INPUT_TYPE.TEXT:
+              return fillTextInput(input);
+            case INPUT_TYPE.DATE_TIME:
+              return fillDateTimePicker(input);
+            case INPUT_TYPE.NG_SELECT:
+              return fillNgSelect(input);
+            case INPUT_TYPE.CHECKBOX:
+              return selectCheckbox(input);
+          }
+        }
+      });
     }
   });
 
@@ -117,7 +127,7 @@ function completeForm(rowConfigs: MyCompanyRowConfig[], valueKey: string) {
       getFieldByLabel(input.formLabel).within(() => {
         cy.get(`ng-select`).click();
       });
-      cy.wait(1000);
+      cy.wait(1000); // Allow time for options to draw
       cy.get('div.ng-option').contains(input[valueKey]).click({ force: true });
     }
   }
@@ -139,14 +149,13 @@ function verifyDetails(config: MyCompanyConfig, valueKey: string) {
 
   cy.wait(2000);
   cy.get('cx-organization-card div.header h3').contains(
-    `${config.name} Details`,
-    IGNORE_CASE
+    ignoreCaseSensivity(`${config.name} Details`)
   );
 
   headerRows.forEach((hRow) => {
-    cy.get('cx-organization-card div.header h4').contains(hRow[valueKey], {
-      matchCase: false,
-    });
+    cy.get('cx-organization-card div.header h4').contains(
+      ignoreCaseSensivity(hRow[valueKey])
+    );
   });
 
   config.rows.forEach((rowConfig) => {

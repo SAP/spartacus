@@ -41,23 +41,18 @@ export class SiteContextRoutesHandler implements OnDestroy {
 
   /**
    * Initializes the two-way synchronization between the site context state and the URL.
-   *
-   * @returns Promise that is resolved when the site context state is initialized (updated for the first time) based on the URL.
    */
-  init(): Promise<void> {
-    return new Promise((resolve) => {
-      this.router = this.injector.get<Router>(Router);
+  init() {
+    this.router = this.injector.get<Router>(Router);
 
-      this.location = this.injector.get<Location>(Location);
-      const routingParams = this.siteContextParams.getUrlEncodingParameters();
+    this.location = this.injector.get<Location>(Location);
+    const routingParams = this.siteContextParams.getUrlEncodingParameters();
 
-      if (routingParams.length) {
-        this.subscribeChanges(routingParams);
-        this.subscribeRouting(resolve);
-      } else {
-        resolve();
-      }
-    });
+    if (routingParams.length) {
+      this.setContextParamsFromRoute(this.location.path(true));
+      this.subscribeChanges(routingParams);
+      this.subscribeRouting();
+    }
   }
 
   /**
@@ -89,15 +84,8 @@ export class SiteContextRoutesHandler implements OnDestroy {
   /**
    * After each Angular NavigationStart event it updates the site context state based on
    * site context params encoded in the anticipated URL.
-   *
-   * In particular, it's responsible for initializing the state of the context params
-   * on page start, reading the values from the URL.
-   *
-   * @param onContextInitialized notify that the initialization of the context was done based on the URL
    */
-  private subscribeRouting(onContextInitialized: Function) {
-    let contextInitialized = false;
-
+  private subscribeRouting() {
     this.subscription.add(
       this.router.events
         .pipe(
@@ -113,11 +101,6 @@ export class SiteContextRoutesHandler implements OnDestroy {
           this.isNavigating = event instanceof NavigationStart;
           if (this.isNavigating) {
             this.setContextParamsFromRoute(event.url);
-
-            if (!contextInitialized) {
-              contextInitialized = true;
-              onContextInitialized();
-            }
           }
         })
     );

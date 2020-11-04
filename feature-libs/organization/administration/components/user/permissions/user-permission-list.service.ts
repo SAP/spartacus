@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { B2BUser, EntitiesModel, PaginationModel } from '@spartacus/core';
 import {
   B2BUserService,
+  PermissionService,
   Permission,
+  OrganizationItemStatus,
 } from '@spartacus/organization/administration/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -20,7 +22,8 @@ export class UserPermissionListService extends OrganizationSubListService<
 
   constructor(
     protected tableService: TableService,
-    protected userService: B2BUserService
+    protected userService: B2BUserService,
+    protected permissionService: PermissionService
   ) {
     super(tableService);
   }
@@ -36,15 +39,23 @@ export class UserPermissionListService extends OrganizationSubListService<
    * @override
    * Assign permission to the user.
    */
-  assign(userCode: string, code: string) {
+  assign(
+    userCode: string,
+    code: string
+  ): Observable<OrganizationItemStatus<Permission>> {
     this.userService.assignPermission(userCode, code);
+    return this.permissionService.getLoadingStatus(code);
   }
 
   /**
    * @override
    * Unassign the permission from the user.
    */
-  unassign(userCode: string, code: string) {
+  unassign(
+    userCode: string,
+    code: string
+  ): Observable<OrganizationItemStatus<Permission>> {
     this.userService.unassignPermission(userCode, code);
+    return this.permissionService.getLoadingStatus(code);
   }
 }
