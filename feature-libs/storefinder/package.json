@@ -1,0 +1,28 @@
+{
+  "name": "@spartacus/storefinder",
+  "version": "3.0.0-next.6",
+  "description": "Organization library for Spartacus",
+  "homepage": "https://github.com/SAP/spartacus",
+  "keywords": [
+    "spartacus",
+    "framework",
+    "storefront",
+    "stprefinder"
+  ],
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/stprefinder",
+  "peerDependencies": {
+    "@angular/common": "^10.1.0",
+    "@angular/core": "^10.1.0",
+    "@angular/router": "^10.1.0",
+    "rxjs": "^6.6.0",
+    "@spartacus/core": "3.0.0-next.6",
+    "@spartacus/storefront": "3.0.0-next.6"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  }
+}
