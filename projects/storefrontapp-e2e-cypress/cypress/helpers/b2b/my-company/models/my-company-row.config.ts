@@ -48,6 +48,10 @@ export interface MyCompanyRowConfig {
    */
   useInUrl?: boolean;
   /**
+   * Name of shared cookie key
+   */
+  useCookie?: string;
+  /**
    * Label to identify property in form
    */
   formLabel?: string;

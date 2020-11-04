@@ -23,9 +23,6 @@ export const ANGULAR_PLATFORM_BROWSER = '@angular/platform-browser';
 
 export const SPARTACUS_CORE = '@spartacus/core';
 export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';
-export const SPARTACUS_ORGANIZATION = '@spartacus/organization';
-export const SPARTACUS_ADMINISTRATION = `${SPARTACUS_ORGANIZATION}/administration`;
-export const SPARTACUS_ADMINISTRATION_ROOT = `${SPARTACUS_ADMINISTRATION}/root`;
 export const SPARTACUS_SETUP = '@spartacus/setup';
 export const SPARTACUS_CDS = '@spartacus/cds';
 export const SPARTACUS_ASSETS = '@spartacus/assets';
@@ -57,8 +54,6 @@ export const COMPONENT_FACTORY_RESOLVER = 'ComponentFactoryResolver';
 export const HTTP_CLIENT = 'HttpClient';
 
 export const B2C_STOREFRONT_MODULE = 'B2cStorefrontModule';
-export const ADMINISTRATION_MODULE = 'AdministrationModule';
-export const ADMINISTRATION_ROOT_MODULE = 'AdministrationRootModule';
 export const CONFIG_MODULE_CLASS = 'ConfigModule';
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
 export const PROVIDE_DEFAULT_CONFIG = 'provideDefaultConfig';
@@ -221,6 +216,7 @@ export const SKIP_LINK_CONFIG = 'SkipLinkConfig';
 export const KEYBOARD_FOCUS_SERVICE = 'KeyboardFocusService';
 export const STOREFRONT_COMPONENT = 'StorefrontComponent';
 export const HAMBURGER_MENU_SERVICE = 'HamburgerMenuService';
+export const ROUTING_PARAMS_SERVICE = 'RoutingParamsService';
 export const ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT =
   'AnonymousConsentManagementBannerComponent';
 export const ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE =

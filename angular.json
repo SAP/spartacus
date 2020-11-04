@@ -28,7 +28,10 @@
               "projects/storefrontapp/src/manifest.json",
               "projects/storefrontapp/src/webApplicationInjector.js"
             ],
-            "styles": ["projects/storefrontapp/src/styles.scss"],
+            "styles": [
+              "projects/storefrontapp/src/styles.scss",
+              "projects/storefrontapp/src/styles/lib-organization.scss"
+            ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "./projects",
