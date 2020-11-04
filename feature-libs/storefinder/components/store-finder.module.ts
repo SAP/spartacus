@@ -76,11 +76,6 @@ import { StoreFinderStoresCountComponent } from './store-finder-stores-count/sto
           ],
         },
       },
-      layoutSlots: {
-        StoreFinderPageTemplate: {
-          slots: ['MiddleContent', 'SideContent'],
-        },
-      },
     }),
   ],
   declarations: [
