@@ -1,4 +1,5 @@
 %buttons {
+  @import 'node_modules/bootstrap/scss/buttons';
   a.link,
   button.link {
     @extend .btn, .btn-link, .btn-sm;
