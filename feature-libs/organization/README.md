@@ -1,4 +1,4 @@
-# Spartacus My Account
+# Spartacus Organization
 
 `@spartacus/organization` is a package that you can include in your application, which allows you to use various my-account features.
 
