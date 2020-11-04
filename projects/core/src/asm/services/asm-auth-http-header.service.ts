@@ -2,7 +2,7 @@ import { HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { AuthService } from '../../auth/user-auth/facade/auth.service';
-import { AuthHeaderService } from '../../auth/user-auth/services/auth-header.service';
+import { AuthHttpHeaderService } from '../../auth/user-auth/services/auth-http-header.service';
 import { AuthStorageService } from '../../auth/user-auth/services/auth-storage.service';
 import { OAuthLibWrapperService } from '../../auth/user-auth/services/oauth-lib-wrapper.service';
 import { GlobalMessageService } from '../../global-message/facade/global-message.service';
@@ -16,13 +16,13 @@ import { RoutingService } from '../../routing/facade/routing.service';
 import { CsAgentAuthService } from '../facade/csagent-auth.service';
 
 /**
- * Overrides `AuthHeaderService` to handle asm calls as well (not only OCC)
+ * Overrides `AuthHttpHeaderService` to handle asm calls as well (not only OCC)
  * in cases of normal user session and on customer emulation.
  */
 @Injectable({
   providedIn: 'root',
 })
-export class AsmAuthHeaderService extends AuthHeaderService {
+export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
   constructor(
     protected authService: AuthService,
     protected authStorageService: AuthStorageService,
