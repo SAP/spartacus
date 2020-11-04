@@ -1,7 +1,6 @@
-import { Partial } from 'cypress/types/lodash';
 import { ASSIGNMENT_LABELS, MyCompanyConfig } from './models/index';
 import { completeForm } from './my-company-form';
-import { IGNORE_CASE, loginAsMyCompanyAdmin } from './my-company.utils';
+import { ignoreCaseSensivity, loginAsMyCompanyAdmin } from './my-company.utils';
 
 export function testAssignmentFromConfig(config: MyCompanyConfig) {
   config?.subCategories?.forEach((subConfig: MyCompanyConfig) => {
@@ -26,7 +25,7 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
 
       it('should show no assignments', () => {
         cy.get('cx-organization-card section.link-list')
-          .contains(subConfig.name, IGNORE_CASE)
+          .contains(ignoreCaseSensivity(subConfig.name))
           .click();
 
         if (codeRow.useCookie) {
@@ -44,8 +43,7 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
         }
 
         cy.get('cx-organization-card .header h3').contains(
-          `${subConfig.name.toLowerCase()}`,
-          IGNORE_CASE
+          ignoreCaseSensivity(subConfig.name)
         );
 
         checkListEmpty();
@@ -65,10 +63,7 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
           if (headerRows.length) {
             headerRows.forEach((hRow) => {
               cy.get('cx-organization-sub-list table tr td').contains(
-                hRow.createValue,
-                {
-                  matchCase: false,
-                }
+                ignoreCaseSensivity(hRow.createValue)
               );
             });
           } else {

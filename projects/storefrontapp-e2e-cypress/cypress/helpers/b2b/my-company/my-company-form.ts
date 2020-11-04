@@ -4,7 +4,7 @@ import {
   MyCompanyConfig,
   MyCompanyRowConfig,
 } from './models/index';
-import { IGNORE_CASE, loginAsMyCompanyAdmin } from './my-company.utils';
+import { ignoreCaseSensivity, loginAsMyCompanyAdmin } from './my-company.utils';
 
 export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
   describe(`${config.name} Create / Update`, () => {
@@ -25,8 +25,7 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
       cy.url().should('contain', `${config.baseUrl}/create`);
 
       cy.get('cx-organization-form div.header h3').contains(
-        `Create ${config.name}`,
-        IGNORE_CASE
+        ignoreCaseSensivity(`Create ${config.name}`)
       );
 
       completeForm(config.rows, 'createValue');
@@ -57,8 +56,7 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
       cy.url().should('contain', `${config.baseUrl}/${entityId}/edit`);
 
       cy.get('cx-organization-form div.header h3').contains(
-        `Edit ${config.name}`,
-        IGNORE_CASE
+        ignoreCaseSensivity(`Edit ${config.name}`)
       );
 
       completeForm(config.rows, 'updateValue');
@@ -151,14 +149,13 @@ function verifyDetails(config: MyCompanyConfig, valueKey: string) {
 
   cy.wait(2000);
   cy.get('cx-organization-card div.header h3').contains(
-    `${config.name} Details`,
-    IGNORE_CASE
+    ignoreCaseSensivity(`${config.name} Details`)
   );
 
   headerRows.forEach((hRow) => {
-    cy.get('cx-organization-card div.header h4').contains(hRow[valueKey], {
-      matchCase: false,
-    });
+    cy.get('cx-organization-card div.header h4').contains(
+      ignoreCaseSensivity(hRow[valueKey])
+    );
   });
 
   config.rows.forEach((rowConfig) => {

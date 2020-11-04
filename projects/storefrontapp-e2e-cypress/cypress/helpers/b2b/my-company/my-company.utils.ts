@@ -6,10 +6,6 @@ import { nextPage } from '../../product-search';
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
 import { myCompanyAdminUser } from '../../../sample-data/shared-users';
 
-export const IGNORE_CASE: any = {
-  matchCase: false,
-};
-
 export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
   describe(`My Company - ${config.name}${config.nameSuffix || ''}`, () => {
     before(() => {
@@ -69,4 +65,11 @@ export function scanTablePagesForText(
       }
     }
   });
+}
+
+/**
+ * Converts string value to RegExp ignoring case sensivity.
+ */
+export function ignoreCaseSensivity(base: string): RegExp {
+  return new RegExp(base, 'i');
 }
