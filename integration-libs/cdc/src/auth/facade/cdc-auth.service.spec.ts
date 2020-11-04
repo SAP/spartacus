@@ -71,10 +71,10 @@ describe('CdcAuthService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should dispatch proper action for authorize', () => {
+  it('should dispatch proper action for loginWithCustomCdcFlow', () => {
     spyOn(store, 'dispatch').and.stub();
 
-    service.authorizeWithCustomCdcFlow(
+    service.loginWithCustomCdcFlow(
       'UID',
       'UIDSignature',
       'signatureTimestamp',
