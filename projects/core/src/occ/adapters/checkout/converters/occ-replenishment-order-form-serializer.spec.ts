@@ -1,6 +1,9 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { OccReplenishmentOrderFormSerializer } from './occ-replenishment-order-form-serializer';
-import { DateTimePickerFormatterService } from '../../../../util/date-time-picker-formatter.service';
+import {
+  DateTimePickerFormatterService,
+  DATETIME_PICKER_INPUT_TYPE,
+} from '../../../../util/date-time-picker-formatter.service';
 
 const mockTime = '10:00:00';
 const mockDate = '2021-06-01';
@@ -53,7 +56,10 @@ describe('OccReplenishmentOrderFormSerializer', () => {
         replenishmentStartDate: mockDate,
       });
 
-      expect(service.toModel).toHaveBeenCalledWith(mockParamDate);
+      expect(service.toModel).toHaveBeenCalledWith(
+        mockParamDate,
+        DATETIME_PICKER_INPUT_TYPE.DATETIME_LOCAL
+      );
       expect(result.replenishmentStartDate).toEqual(mockModelValue);
     });
   });

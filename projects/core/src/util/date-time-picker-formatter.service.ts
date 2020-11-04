@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
 
+export enum DATETIME_PICKER_INPUT_TYPE {
+  DATETIME_LOCAL = 'datetime-local',
+  DATE = 'date',
+}
+
 /**
  * Service responsible for converting date-like strings to/from formats compatible with the `<input type="datetime-local">`
  * HTML element and valid strings compatible with the `Date` object.
@@ -17,13 +22,18 @@ export class DateTimePickerFormatterService {
    * @example
    * With UTC-0 local offset, `toNative('2010-01-01T00:00+0000')` returns `'2010-01-01T00:00'`.
    */
-  toNative(value: string): string {
-    return value
-      ? this.formatDateStringWithTimezone(
-          value,
-          this.getLocalTimezoneOffset(true)
-        )
-      : null;
+  toNative(value: string, inputType: DATETIME_PICKER_INPUT_TYPE): string {
+    switch (inputType) {
+      case DATETIME_PICKER_INPUT_TYPE.DATETIME_LOCAL:
+        return value
+          ? this.formatDateStringWithTimezone(
+              value,
+              this.getLocalTimezoneOffset(true)
+            )
+          : null;
+      case DATETIME_PICKER_INPUT_TYPE.DATE:
+        return value ? new Date(value).toLocaleDateString() : null;
+    }
   }
 
   /**
@@ -33,8 +43,15 @@ export class DateTimePickerFormatterService {
    * @example
    * With UTC-0 locale offset, `toModel('2010-01-01T00:00')` returns `'2010-01-01T00:00:00+00:00'`.
    */
-  toModel(value: string): string {
-    return value ? `${value}:00${this.getLocalTimezoneOffset()}` : null;
+  toModel(value: string, inputType: DATETIME_PICKER_INPUT_TYPE): string {
+    switch (inputType) {
+      case DATETIME_PICKER_INPUT_TYPE.DATETIME_LOCAL:
+        return value ? `${value}:00${this.getLocalTimezoneOffset()}` : null;
+      case DATETIME_PICKER_INPUT_TYPE.DATE:
+        return value
+          ? `${value}T00:00:00${this.getLocalTimezoneOffset()}`
+          : null;
+    }
   }
 
   /**

@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { ScheduleReplenishmentForm } from '../../../../model/replenishment-order.model';
 import { Converter } from '../../../../util/converter.service';
 import { Occ } from '../../../occ-models/occ.models';
-import { DateTimePickerFormatterService } from '../../../../util/date-time-picker-formatter.service';
+import {
+  DateTimePickerFormatterService,
+  DATETIME_PICKER_INPUT_TYPE,
+} from '../../../../util/date-time-picker-formatter.service';
 
 @Injectable({ providedIn: 'root' })
 export class OccReplenishmentOrderFormSerializer
@@ -41,6 +44,9 @@ export class OccReplenishmentOrderFormSerializer
       hour12: false,
     });
     const modelDate = `${date}T${localTime}`;
-    return this.dateTimePickerFormatterService.toModel(modelDate);
+    return this.dateTimePickerFormatterService.toModel(
+      modelDate,
+      DATETIME_PICKER_INPUT_TYPE.DATETIME_LOCAL
+    );
   }
 }

@@ -11,14 +11,10 @@ import {
   NG_VALUE_ACCESSOR,
   Validator,
 } from '@angular/forms';
-import { DateTimePickerFormatterService } from '@spartacus/core';
-
-export enum DATETIME_PICKER_INPUT_TYPE {
-  DATETIME_LOCAL = 'datetime-local',
-  DATE = 'date',
-  TIME = 'time',
-  TEXT = 'text',
-}
+import {
+  DateTimePickerFormatterService,
+  DATETIME_PICKER_INPUT_TYPE,
+} from '@spartacus/core';
 
 /**
  * This component serves the browser's native `<input type="datetime-local">` HTML element
@@ -90,7 +86,10 @@ export class DateTimePickerComponent
    * @param event: Input event.
    */
   onInput(event) {
-    this.value = this.dateFormatterService.toModel(event.target.value);
+    this.value = this.dateFormatterService.toModel(
+      event.target.value,
+      this.inputType
+    );
     this.nativeValue = event.target.value;
     this.onChange(this.value);
   }
@@ -127,7 +126,10 @@ export class DateTimePickerComponent
   writeValue(value: string): void {
     if (value) {
       this.value = value;
-      this.nativeValue = this.dateFormatterService.toNative(value);
+      this.nativeValue = this.dateFormatterService.toNative(
+        value,
+        this.inputType
+      );
     }
   }
 
@@ -135,14 +137,14 @@ export class DateTimePickerComponent
    * Get the minimum value allowed for the input.
    */
   getMin(): string {
-    return this.dateFormatterService.toNative(this.min);
+    return this.dateFormatterService.toNative(this.min, this.inputType);
   }
 
   /**
    * Get the maximum value allowed for the input.
    */
   getMax(): string {
-    return this.dateFormatterService.toNative(this.max);
+    return this.dateFormatterService.toNative(this.max, this.inputType);
   }
 
   /**

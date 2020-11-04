@@ -48,6 +48,7 @@
         formControlName="endDate"
         [min]="form.controls.startDate.value"
         (change)="form.controls.startDate.updateValueAndValidity()"
+        [inputType]="'date'"
       ></cx-date-time-picker>
       <cx-form-errors
         [control]="form.get('endDate')"

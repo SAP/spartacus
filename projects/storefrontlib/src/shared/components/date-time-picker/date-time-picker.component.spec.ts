@@ -1,11 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DateTimePickerFormatterService } from '@spartacus/core';
+import {
+  DateTimePickerFormatterService,
+  DATETIME_PICKER_INPUT_TYPE,
+} from '@spartacus/core';
 import { DateTimePickerComponent } from './date-time-picker.component';
 
 import createSpy = jasmine.createSpy;
 
 const nativeValue = '2010-06-01T00:00';
 const modelValue = '2010-06-01T00:00:00+0000';
+const defaultType = DATETIME_PICKER_INPUT_TYPE.DATETIME_LOCAL;
 
 class MockDateTimePickerFormatterService
   implements Partial<DateTimePickerFormatterService> {
@@ -44,7 +48,7 @@ describe('Date Time Picker Component', () => {
     describe('onInput', () => {
       it('should setup nativeValue and value', () => {
         component.onInput({ target: { value: nativeValue } });
-        expect(service.toModel).toHaveBeenCalledWith(nativeValue);
+        expect(service.toModel).toHaveBeenCalledWith(nativeValue, defaultType);
         expect(component.nativeValue).toEqual(nativeValue);
         expect(component.value).toEqual(modelValue);
       });
@@ -53,7 +57,7 @@ describe('Date Time Picker Component', () => {
     describe('writeValue', () => {
       it('should setup nativeValue and value', () => {
         component.writeValue(modelValue);
-        expect(service.toNative).toHaveBeenCalledWith(modelValue);
+        expect(service.toNative).toHaveBeenCalledWith(modelValue, defaultType);
         expect(component.nativeValue).toEqual(nativeValue);
         expect(component.value).toEqual(modelValue);
       });
@@ -63,7 +67,7 @@ describe('Date Time Picker Component', () => {
       it('should return min value in native format', () => {
         component.min = modelValue;
         expect(component.getMin()).toEqual(nativeValue);
-        expect(service.toNative).toHaveBeenCalledWith(modelValue);
+        expect(service.toNative).toHaveBeenCalledWith(modelValue, defaultType);
       });
     });
 
@@ -71,7 +75,7 @@ describe('Date Time Picker Component', () => {
       it('should return max value in native format', () => {
         component.max = modelValue;
         expect(component.getMax()).toEqual(nativeValue);
-        expect(service.toNative).toHaveBeenCalledWith(modelValue);
+        expect(service.toNative).toHaveBeenCalledWith(modelValue, defaultType);
       });
     });
 
