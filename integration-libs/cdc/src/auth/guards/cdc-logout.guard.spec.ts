@@ -14,7 +14,7 @@ import { CdcAuthService } from '../facade/cdc-auth.service';
 import { CdcLogoutGuard } from './cdc-logout.guard';
 
 class MockAuthService implements Partial<AuthService> {
-  logout() {
+  coreLogout() {
     return Promise.resolve();
   }
 }
@@ -98,11 +98,11 @@ describe('CdcLogoutGuard', () => {
   });
 
   it('should logout in spartacus and from CDC', async () => {
-    spyOn(authService, 'logout').and.callThrough();
+    spyOn(authService, 'coreLogout').and.callThrough();
     spyOn(cdcAuthService, 'logoutFromCdc').and.callThrough();
 
     await zone.run(() => router.navigateByUrl('/logout'));
-    expect(authService.logout).toHaveBeenCalled();
+    expect(authService.coreLogout).toHaveBeenCalled();
     expect(cdcAuthService.logoutFromCdc).toHaveBeenCalled();
   });
 });

@@ -1,6 +1,7 @@
 import {
   Component,
   DebugElement,
+  Directive,
   Input,
   Pipe,
   PipeTransform,
@@ -16,14 +17,25 @@ import {
   I18nTestingModule,
   OrderEntry,
   PromotionLocation,
+  RouterState,
+  RoutingService,
 } from '@spartacus/core';
+import { ModalService } from 'projects/storefrontlib/src/shared/components/modal/modal.service';
 import { Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components';
-import { ModalService } from '../../../../shared/components/modal/index';
+import { ModalDirective } from '../../../../shared/components/modal/modal.directive';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
+
+@Directive({
+  selector: '[cxModal]',
+})
+class MockModalDirective implements Partial<ModalDirective> {
+  @Input() cxModal;
+}
 
 class MockActiveCartService {
   isStable(): Observable<boolean> {
@@ -66,6 +78,10 @@ class MockCxIconComponent {
 
 class MockModalService {
   dismissActiveModal(): void {}
+}
+
+class MockRoutingService implements Partial<RoutingService> {
+  getRouterState = () => of({ nextState: undefined } as RouterState);
 }
 
 @Component({
@@ -118,6 +134,7 @@ describe('AddedToCartDialogComponent', () => {
         MockCartItemComponent,
         MockUrlPipe,
         MockCxIconComponent,
+        MockModalDirective,
       ],
       providers: [
         {
@@ -131,6 +148,10 @@ describe('AddedToCartDialogComponent', () => {
         {
           provide: PromotionService,
           useClass: MockPromotionService,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
         },
         {
           provide: FeaturesConfig,
@@ -198,15 +219,19 @@ describe('AddedToCartDialogComponent', () => {
     expect(cartTotalEl.children[1].textContent).toEqual('$100.00');
   });
 
-  it('should return formControl with order entry quantity', () => {
+  it('should return formControl with order entry quantity', (done) => {
     component.entry$ = of({
       quantity: 5,
       entryNumber: 0,
     } as OrderEntry);
 
-    component.getQuantityControl().subscribe((control) => {
-      expect(control.value).toEqual(5);
-    });
+    component
+      .getQuantityControl()
+      .pipe(take(1))
+      .subscribe((control) => {
+        expect(control.value).toEqual(5);
+        done();
+      });
   });
 
   it('should show added dialog title message in case new entry appears in cart', () => {
@@ -254,5 +279,17 @@ describe('AddedToCartDialogComponent', () => {
     component.loaded$ = of(false);
     component.modalIsOpen = true;
     expect(el.query(By.css('cx-cart-item'))).toBeDefined();
+  });
+
+  it('should close modal after removing cart item', (done) => {
+    fixture.detectChanges();
+    component
+      .getQuantityControl()
+      .pipe(take(1))
+      .subscribe((control) => {
+        control.setValue(0);
+        expect(mockModalService.dismissActiveModal).toHaveBeenCalled();
+        done();
+      });
   });
 });
