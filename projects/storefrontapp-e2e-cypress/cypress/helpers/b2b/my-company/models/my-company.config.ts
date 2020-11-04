@@ -94,13 +94,29 @@ export interface MyCompanyConfig {
    * Set to true to test assignment management of a given subCategory
    */
   manageAssignments?: boolean;
+
   /**
    * Set to true to test the "unassign all" function of a category (if available).
    */
   canUnassignAll?: boolean;
 
   /**
+   * Determine entity ID for possible route checks and usage between tests
+   */
+  entityIdField?: string;
+
+  /**
+   * Test list utilizing a nested tree ux.
+   */
+  nestedTableRows?: boolean;
+
+  /**
    * Set to true if checking list features for such config is not needed.
    */
   disableListChecking?: boolean;
+
+  /**
+   * SUBCATEGORY: Config for creating entities from submenu
+   */
+  createConfig?: MyCompanyConfig;
 }

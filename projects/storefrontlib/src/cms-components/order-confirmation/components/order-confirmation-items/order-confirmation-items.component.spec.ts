@@ -7,11 +7,11 @@ import {
   FeaturesConfigModule,
   I18nTestingModule,
   Order,
+  OrderEntry,
   PromotionLocation,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
-import { Item } from '../../../cart/cart-shared/cart-item/cart-item.component';
 import { PromotionsModule } from '../../../checkout';
 import { OrderConfirmationItemsComponent } from './order-confirmation-items.component';
 
@@ -19,7 +19,7 @@ import createSpy = jasmine.createSpy;
 
 @Component({ selector: 'cx-cart-item-list', template: '' })
 class MockReviewSubmitComponent {
-  @Input() items: Item[];
+  @Input() items: OrderEntry[];
   @Input() readonly: boolean;
   @Input() promotionLocation: PromotionLocation = PromotionLocation.Checkout;
 }

@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DateTimePickerFormatterService } from './date-time-picker-formatter.service';
+import { DateTimePickerFormatterService } from '@spartacus/core';
 import { DateTimePickerComponent } from './date-time-picker.component';
 
 import createSpy = jasmine.createSpy;

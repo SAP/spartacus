@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   EntitiesModel,
+  OrderApprovalPermissionType,
   SearchConfig,
   StateUtils,
   StateWithProcess,
@@ -10,10 +11,7 @@ import {
 import { Observable, queueScheduler, using } from 'rxjs';
 import { auditTime, filter, map, observeOn, tap } from 'rxjs/operators';
 import { OrganizationItemStatus } from '../model/organization-item-status';
-import {
-  OrderApprovalPermissionType,
-  Permission,
-} from '../model/permission.model';
+import { Permission } from '../model/permission.model';
 import { PermissionActions } from '../store/actions/index';
 import { StateWithOrganization } from '../store/organization-state';
 import {

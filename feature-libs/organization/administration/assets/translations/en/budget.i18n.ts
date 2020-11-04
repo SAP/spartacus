@@ -37,6 +37,8 @@ export const budget = {
     deactivate: 'Are you sure you want to disable this budget?',
     confirmEnabled: 'Budget {{ item.name }} enabled successfully',
     confirmDisabled: 'Budget {{ item.name }} disabled successfully',
+    update: 'Budget {{ item.name }} updated successfully',
+    create: 'Budget {{ item.name }} created successfully',
   },
 
   links: {

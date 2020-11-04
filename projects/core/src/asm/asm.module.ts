@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
+import { AuthService } from '../auth/user-auth/facade/auth.service';
 import { AuthHeaderService } from '../auth/user-auth/services/auth-header.service';
 import { AuthStorageService } from '../auth/user-auth/services/auth-storage.service';
-import { BasicAuthService } from '../auth/user-auth/services/basic-auth.service';
 import { provideDefaultConfig } from '../config/config-providers';
 import { defaultAsmConfig } from './config/default-asm-config';
 import { AsmAuthStorageService } from './services/asm-auth-storage.service';
@@ -32,7 +32,7 @@ export class AsmModule {
           useExisting: AsmAuthStorageService,
         },
         {
-          provide: BasicAuthService,
+          provide: AuthService,
           useExisting: AsmAuthService,
         },
         {

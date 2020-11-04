@@ -1,9 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Currency, CurrencyService } from '@spartacus/core';
+import {
+  Currency,
+  CurrencyService,
+  OrderApprovalPermissionType,
+} from '@spartacus/core';
 import {
   B2BUnitNode,
-  OrderApprovalPermissionType,
   OrgUnitService,
   Period,
   Permission,
