@@ -10,6 +10,9 @@ assignees: ''
 **Describe the bug**
 A clear and concise description of what the bug is.
 
+**Tell us the version of Spartacus**
+- Library version: [e.g. 2.1]
+
 **To Reproduce**
 Steps to reproduce the behavior:
 1. Go to '...'
