@@ -1,8 +1,9 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Input, ViewChild } from '@angular/core';
-import { StoreDataService, PointOfService } from '@spartacus/core';
+import { PointOfService } from '@spartacus/core';
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
-import { ICON_TYPE } from './../../../../misc/icon/icon.model';
+import { ICON_TYPE } from '@spartacus/storefront';
+import { StoreDataService } from '@spartacus/storefinder/core';
 
 @Component({
   selector: 'cx-store-finder-list',

@@ -1,12 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {
-  StoreFinderService,
-  PointOfService,
-  RoutingService,
-} from '@spartacus/core';
+import { PointOfService, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { ICON_TYPE } from '../../../misc/icon';
+import { ICON_TYPE } from '@spartacus/storefront';
+import { StoreFinderService } from '@spartacus/storefinder/core';
 
 @Component({
   selector: 'cx-store-finder-store',

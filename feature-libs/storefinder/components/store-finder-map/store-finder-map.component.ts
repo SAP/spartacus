@@ -8,7 +8,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { GoogleMapRendererService } from '@spartacus/core';
+import { GoogleMapRendererService } from '@spartacus/storefinder/core';
 
 @Component({
   selector: 'cx-store-finder-map',

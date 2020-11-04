@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { StoreFinderService } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { StoreFinderService } from '@spartacus/storefinder/core';
 
 @Component({
   selector: 'cx-store-finder-stores-count',

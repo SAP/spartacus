@@ -12,3 +12,4 @@ export * from './store-finder-store-description/store-finder-store-description.c
 export * from './store-finder-stores-count/store-finder-stores-count.component';
 export * from './store-finder/store-finder.component';
 export * from './store-finder-store/store-finder-store.component';
+export * from './store-finder.module';

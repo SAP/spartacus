@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { StoreDataService, PointOfService } from '@spartacus/core';
+import { PointOfService } from '@spartacus/core';
 import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
+import { StoreDataService } from '@spartacus/storefinder/core';
 
 @Component({
   selector: 'cx-store-finder-store-description',

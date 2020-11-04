@@ -1,5 +1,5 @@
 import { Input, Directive } from '@angular/core';
-import { StoreDataService } from '@spartacus/core';
+import { StoreDataService } from '@spartacus/storefinder/core';
 
 // tslint:disable:directive-class-suffix
 @Directive()

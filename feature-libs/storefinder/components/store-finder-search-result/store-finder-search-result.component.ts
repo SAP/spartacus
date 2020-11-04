@@ -1,13 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { GeoPoint, SearchConfig } from '@spartacus/core';
+import { Observable, Subscription } from 'rxjs';
 import {
-  GeoPoint,
-  SearchConfig,
   StoreFinderSearchQuery,
   StoreFinderService,
   StoreFinderConfig,
-} from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
+} from '@spartacus/storefinder/core';
 
 @Component({
   selector: 'cx-store-finder-search-result',
