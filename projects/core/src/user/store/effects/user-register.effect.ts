@@ -35,7 +35,7 @@ export class UserRegisterEffects {
     mergeMap(({ guid, password }) =>
       this.userConnector.registerGuest(guid, password).pipe(
         switchMap((user) => {
-          this.authService.authorize(user.uid, password);
+          this.authService.loginWithCredentials(user.uid, password);
           return [new UserActions.RegisterGuestSuccess()];
         }),
         catchError((error) =>
@@ -54,7 +54,7 @@ export class UserRegisterEffects {
     mergeMap((userId: string) => {
       return this.userConnector.remove(userId).pipe(
         switchMap(() => {
-          this.authService.initLogout();
+          this.authService.logout();
           return [new UserActions.RemoveUserSuccess()];
         }),
         catchError((error) =>

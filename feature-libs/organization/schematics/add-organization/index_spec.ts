@@ -4,6 +4,10 @@ import {
 } from '@angular-devkit/schematics/testing';
 import { SpartacusOptions, UTF_8 } from '@spartacus/schematics';
 import * as path from 'path';
+import {
+  CLI_ADMINISTRATION_FEATURE,
+  CLI_ORDER_APPROVAL_FEATURE,
+} from '../constants';
 import { Schema as SpartacusOrganizationOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
@@ -31,6 +35,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
   const defaultOptions: SpartacusOrganizationOptions = {
     project: 'schematics-test',
     lazy: true,
+    features: [CLI_ADMINISTRATION_FEATURE, CLI_ORDER_APPROVAL_FEATURE],
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {
@@ -74,14 +79,14 @@ describe('Spartacus Organization schematics: ng-add', () => {
         .toPromise();
     });
 
-    it('should add style import to /src/styles/spartacus-organization.scss', async () => {
-      const buffer = appTree.read('/src/styles/spartacus-organization.scss');
+    it('should add style import to /src/styles/spartacus/organization.scss', async () => {
+      const buffer = appTree.read('/src/styles/spartacus/organization.scss');
       expect(buffer).toBeTruthy();
       const content = buffer?.toString(UTF_8);
       expect(content).toEqual(`@import "@spartacus/organization";`);
     });
 
-    it('should add update angular.json with spartacus-organization.scss', async () => {
+    it('should add update angular.json with spartacus/organization.scss', async () => {
       const buffer = appTree.read('/angular.json');
       expect(buffer).toBeTruthy();
       if (!buffer) {
@@ -93,14 +98,14 @@ describe('Spartacus Organization schematics: ng-add', () => {
         angularJson.projects['schematics-test'].architect.build.options.styles;
       expect(buildStyles).toEqual([
         'src/styles.scss',
-        'src/styles/spartacus-organization.scss',
+        'src/styles/spartacus/organization.scss',
       ]);
 
       const testStyles: string[] =
         angularJson.projects['schematics-test'].architect.test.options.styles;
       expect(testStyles).toEqual([
         'src/styles.scss',
-        'src/styles/spartacus-organization.scss',
+        'src/styles/spartacus/organization.scss',
       ]);
     });
   });
