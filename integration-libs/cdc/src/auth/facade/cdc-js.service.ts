@@ -151,7 +151,7 @@ export class CdcJsService implements OnDestroy {
    */
   onLoginEventHandler(baseSite: string, response?: any) {
     if (response) {
-      this.cdcAuth.authorizeWithCustomCdcFlow(
+      this.cdcAuth.loginWithCustomCdcFlow(
         response.UID,
         response.UIDSignature,
         response.signatureTimestamp,
