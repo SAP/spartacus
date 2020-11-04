@@ -86,7 +86,7 @@ export class ModalDirective {
   /**
    * Returns URL in case when the directive is in the scope of a `routerLink` directive at the same time.
    */
-  protected getUrl(): string {
+  protected getUrl(): string | undefined {
     const routerLink = this.routerLink ?? this.routerLinkWithHref;
     return routerLink
       ? this.router.serializeUrl(routerLink.urlTree)
@@ -100,6 +100,9 @@ export class ModalDirective {
     }
   }
 
+  /**
+   * Converts the directive's inputs to the shape of modal directive options
+   */
   protected get options(): ModalDirectiveOptions {
     return { type: this.cxModal, reason: this.cxModalReason };
   }
