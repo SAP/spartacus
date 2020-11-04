@@ -5,6 +5,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
+  User,
   UserService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -22,7 +23,7 @@ export class AdminGuard implements CanActivate {
 
   canActivate(): Observable<boolean> {
     return this.userService.get().pipe(
-      filter((user) => Object.keys(user).length > 0),
+      filter((user: User) => Object.keys(user).length > 0),
       pluck('roles'),
       map((roles: string[]) => {
         const hasRole =
