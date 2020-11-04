@@ -116,4 +116,4 @@ import { StoreFinderStoresCountComponent } from './store-finder-stores-count/sto
     StoreFinderStoreComponent,
   ],
 })
-export class StoreFinderModule {}
+export class StoreFinderComponentsModule {}

@@ -1,1 +1,1 @@
-export * from './default-storefinder-layout-config';
+export * from './default-store-finder-layout-config';

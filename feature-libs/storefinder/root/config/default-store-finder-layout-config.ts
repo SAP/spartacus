@@ -1,6 +1,6 @@
 import { LayoutConfig } from '@spartacus/storefront';
 
-export const defaultStorefinderLayoutConfig: LayoutConfig = {
+export const defaultStoreFinderLayoutConfig: LayoutConfig = {
   layoutSlots: {
     StoreFinderPageTemplate: {
       slots: ['MiddleContent', 'SideContent'],

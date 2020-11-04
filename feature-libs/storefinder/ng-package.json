@@ -2,7 +2,7 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/storefinder",
   "lib": {
-    "entryFile": "src/feature-libs.ts",
+    "entryFile": "./public_api.ts",
     "umdModuleIds": {
       "@spartacus/core": "core",
       "@spartacus/storefront": "storefront",

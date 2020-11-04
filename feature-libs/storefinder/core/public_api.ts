@@ -1,4 +1,4 @@
-export * from './store-finder.module';
+export * from './store-finder-core.module';
 export * from './config/store-finder-config';
 export * from './connectors/index';
 export * from './facade/index';
