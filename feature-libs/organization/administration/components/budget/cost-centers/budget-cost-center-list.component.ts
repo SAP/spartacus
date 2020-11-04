@@ -6,6 +6,7 @@ import { BudgetCostCenterListService } from './budget-cost-center-list.service';
   selector: 'cx-budget-cost-center-list',
   templateUrl: './budget-cost-center-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
       provide: OrganizationListService,

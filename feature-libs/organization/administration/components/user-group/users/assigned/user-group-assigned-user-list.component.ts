@@ -6,6 +6,7 @@ import { UserGroupAssignedUserListService } from './user-group-assigned-user-lis
   selector: 'cx-user-group-assigned-user-list',
   templateUrl: './user-group-assigned-user-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
       provide: OrganizationListService,

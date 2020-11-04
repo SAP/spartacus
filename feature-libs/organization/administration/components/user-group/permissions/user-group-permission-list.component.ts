@@ -6,6 +6,7 @@ import { UserGroupPermissionListService } from './user-group-permission-list.ser
   selector: 'cx-user-group-permission-list',
   templateUrl: './user-group-permission-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
       provide: OrganizationListService,

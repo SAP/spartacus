@@ -14,6 +14,7 @@ import { BudgetItemService } from '../services/budget-item.service';
   selector: 'cx-budget-form',
   templateUrl: './budget-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
       provide: OrganizationItemService,

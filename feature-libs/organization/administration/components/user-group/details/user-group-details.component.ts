@@ -8,6 +8,7 @@ import { OrganizationItemService } from '../../shared/organization-item.service'
   selector: 'cx-user-group-details',
   templateUrl: './user-group-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
 })
 export class UserGroupDetailsComponent {
   model$: Observable<UserGroup> = this.itemService.key$.pipe(

@@ -6,6 +6,7 @@ import { UserAssignedPermissionListService } from './user-assigned-permission-li
   selector: 'cx-user-assigned-permission-list',
   templateUrl: './user-assigned-permission-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
       provide: OrganizationListService,

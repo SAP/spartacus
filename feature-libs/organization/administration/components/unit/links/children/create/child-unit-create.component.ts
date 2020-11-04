@@ -7,6 +7,7 @@ import { ChildUnitItemService } from './child-unit-item.service';
   selector: 'cx-child-unit-create',
   templateUrl: './child-unit-create.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     // we provide a specific version of the `UnitItemService` to
     // let the form component work with child units.

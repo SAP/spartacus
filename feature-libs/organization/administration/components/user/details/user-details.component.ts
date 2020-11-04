@@ -8,6 +8,7 @@ import { OrganizationItemService } from '../../shared/organization-item.service'
   selector: 'cx-user-details',
   templateUrl: './user-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
 })
 export class UserDetailsComponent {
   model$: Observable<B2BUser> = this.itemService.key$.pipe(

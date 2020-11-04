@@ -8,6 +8,7 @@ import { OrganizationItemService } from '../../shared/organization-item.service'
   selector: 'cx-unit-details',
   templateUrl: './unit-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
 })
 export class UnitDetailsComponent {
   model$: Observable<B2BUnit> = this.itemService.key$.pipe(

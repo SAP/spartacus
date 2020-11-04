@@ -16,6 +16,7 @@ import { UnitAddressItemService } from '../services/unit-address-item.service';
   selector: 'cx-unit-address-details',
   templateUrl: './unit-address-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
       provide: OrganizationItemService,

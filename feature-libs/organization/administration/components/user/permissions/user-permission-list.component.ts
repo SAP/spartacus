@@ -6,6 +6,7 @@ import { UserPermissionListService } from './user-permission-list.service';
   selector: 'cx-user-permission-list',
   templateUrl: './user-permission-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
       provide: OrganizationListService,

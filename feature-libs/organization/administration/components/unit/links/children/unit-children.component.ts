@@ -6,6 +6,7 @@ import { UnitChildrenService } from './unit-children.service';
   selector: 'cx-unit-children',
   templateUrl: './unit-children.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
       provide: OrganizationListService,

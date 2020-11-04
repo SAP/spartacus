@@ -7,6 +7,7 @@ import { UnitUserItemService } from './unit-user-item.service';
   selector: 'cx-unit-user-create',
   templateUrl: './unit-user-create.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     // we provide a specific version of the `UnitItemService` to
     // let the form component work with child units.

@@ -6,6 +6,7 @@ import { UnitApproverListService } from './unit-approver-list.service';
   selector: 'cx-unit-approver-list',
   templateUrl: './unit-approver-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
       provide: OrganizationListService,

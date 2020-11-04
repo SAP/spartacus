@@ -7,6 +7,7 @@ import { UnitCostCenterItemService } from './unit-cost-center-item.service';
   selector: 'cx-unit-cost-center-create',
   templateUrl: './unit-cost-center-create.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     // we provide a specific version of the `CostCenterItemService` to
     // let the form component work with unit cost centers.

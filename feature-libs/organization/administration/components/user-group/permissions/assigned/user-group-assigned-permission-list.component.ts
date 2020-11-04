@@ -6,6 +6,7 @@ import { UserGroupAssignedPermissionsListService } from './user-group-assigned-p
   selector: 'cx-user-group-assigned-permission-list',
   templateUrl: './user-group-assigned-permission-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
       provide: OrganizationListService,

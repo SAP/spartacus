@@ -6,6 +6,7 @@ import { CostCenterAssignedBudgetListService } from './cost-center-assigned-budg
   selector: 'cx-cost-center-assigned-budget-list',
   templateUrl: './cost-center-assigned-budget-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
       provide: OrganizationListService,

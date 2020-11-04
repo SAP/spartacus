@@ -6,6 +6,7 @@ import { UserApproverListService } from './user-approver-list.service';
   selector: 'cx-user-approver-list',
   templateUrl: './user-approver-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
       provide: OrganizationListService,

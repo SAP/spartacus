@@ -6,6 +6,7 @@ import { UnitCostCenterListService } from './unit-cost-centers.service';
   selector: 'cx-unit-cost-centers',
   templateUrl: './unit-cost-centers.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
       provide: OrganizationListService,

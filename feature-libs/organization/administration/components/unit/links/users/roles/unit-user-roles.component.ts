@@ -17,6 +17,7 @@ import { UserItemService } from '../../../../user/services/user-item.service';
   selector: 'cx-unit-user-roles',
   templateUrl: './unit-user-roles.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
       provide: OrganizationItemService,

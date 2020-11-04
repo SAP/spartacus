@@ -13,6 +13,7 @@ import { MessageService } from '../../shared/organization-message/services/messa
   selector: 'cx-user-group-user-list',
   templateUrl: './user-group-user-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
       provide: OrganizationListService,

@@ -13,6 +13,7 @@ import { UserGroupItemService } from '../services/user-group-item.service';
   selector: 'cx-user-group-form',
   templateUrl: './user-group-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
       provide: OrganizationItemService,

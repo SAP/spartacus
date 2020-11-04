@@ -10,6 +10,7 @@ import { UnitAddressFormService } from './unit-address-form.service';
   selector: 'cx-unit-address-form',
   templateUrl: './unit-address-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
       provide: OrganizationItemService,
