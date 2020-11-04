@@ -9,10 +9,13 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { ModalModule } from 'projects/storefrontlib/src/shared/components/modal/modal.module';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/keyboard-focus.module';
-import { ItemCounterModule, SpinnerModule } from '../../../shared/index';
+import {
+  ItemCounterModule,
+  ModalModule,
+  SpinnerModule,
+} from '../../../shared/index';
 import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
 import { CartSharedModule } from './../cart-shared/cart-shared.module';
 import { AddToCartComponent } from './add-to-cart.component';
