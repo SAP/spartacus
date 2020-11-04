@@ -116,6 +116,11 @@ export interface MyCompanyConfig {
   disableListChecking?: boolean;
 
   /**
+   * Configuration of preserve cookies value.
+   */
+  preserveCookies?: boolean;
+
+  /**
    * SUBCATEGORY: Config for creating entities from submenu
    */
   createConfig?: MyCompanyConfig;

@@ -1,16 +1,22 @@
 import { ASSIGNMENT_LABELS, MyCompanyConfig } from './models/index';
 import { completeForm } from './my-company-form';
-import { IGNORE_CASE, loginAsMyCompanyAdmin } from './my-company.utils';
+import { ignoreCaseSensivity, loginAsMyCompanyAdmin } from './my-company.utils';
 
 export function testAssignmentFromConfig(config: MyCompanyConfig) {
   config?.subCategories?.forEach((subConfig: MyCompanyConfig) => {
     describe(`${config.name} Assignment - ${subConfig.name}`, () => {
       let firstOption: string;
-      const codeRow = config.rows?.find((row) => row.useInUrl);
+      const codeRow = config.rows?.find((row) => row.useInUrl || row.useCookie);
 
       before(() => {
         loginAsMyCompanyAdmin();
-        cy.visit(`${config.baseUrl}/${codeRow.updateValue}`);
+        if (codeRow.useCookie) {
+          cy.getCookie(codeRow.useCookie).then((cookie) => {
+            cy.visit(`${config.baseUrl}/${cookie.value}`);
+          });
+        } else {
+          cy.visit(`${config.baseUrl}/${codeRow.updateValue}`);
+        }
       });
 
       beforeEach(() => {
@@ -19,18 +25,26 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
 
       it('should show no assignments', () => {
         cy.get('cx-organization-card section.link-list')
-          .contains(subConfig.name, IGNORE_CASE)
+          .contains(ignoreCaseSensivity(subConfig.name))
           .click();
 
-        cy.url().should(
-          'contain',
-          `${config.baseUrl}/${codeRow.updateValue}${subConfig.baseUrl}`
-        );
+        if (codeRow.useCookie) {
+          cy.getCookie(codeRow.useCookie).then((cookie) => {
+            cy.url().should(
+              'contain',
+              `${config.baseUrl}/${cookie.value}${subConfig.baseUrl}`
+            );
+          });
+        } else {
+          cy.url().should(
+            'contain',
+            `${config.baseUrl}/${codeRow.updateValue}${subConfig.baseUrl}`
+          );
+        }
+
         cy.get('cx-organization-card .header h3').contains(
-          subConfig.name,
-          IGNORE_CASE
+          ignoreCaseSensivity(subConfig.name)
         );
-        // TODO: Check h4 header
 
         checkListEmpty();
       });
@@ -49,10 +63,7 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
           if (headerRows.length) {
             headerRows.forEach((hRow) => {
               cy.get('cx-organization-sub-list table tr td').contains(
-                hRow.createValue,
-                {
-                  matchCase: false,
-                }
+                ignoreCaseSensivity(hRow.createValue)
               );
             });
           } else {
@@ -76,7 +87,7 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
               firstOption = el.text();
 
               clickAssign(firstOption);
-              cy.get('cx-organization-card .header a')
+              cy.get('cx-organization-card .header')
                 .contains(ASSIGNMENT_LABELS.DONE)
                 .click();
 
@@ -96,7 +107,7 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
             .parent()
             .contains(ASSIGNMENT_LABELS.ASSIGN);
 
-          cy.get('cx-organization-card .header a')
+          cy.get('cx-organization-card .header')
             .contains(ASSIGNMENT_LABELS.DONE)
             .click();
 
