@@ -2,19 +2,14 @@ import { Component, DebugElement, EventEmitter, Output } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { NavigationExtras } from '@angular/router';
 import {
-  AuthService,
   GlobalMessage,
-  GlobalMessageService,
-  GlobalMessageType,
-  RoutingService,
-  UrlCommands,
-  User,
-  UserService,
+  GlobalMessageType, UrlCommands,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { UpdateEmailComponent } from './update-email.component';
+import { UpdateEmailService } from './update-email.service';
+import { NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'cx-update-email-form',
@@ -34,44 +29,38 @@ class MockUpdateEmailFormComponent {
 })
 class MockCxSpinnerComponent {}
 
-class MockUserService {
-  get(): Observable<User> {
-    return of();
+class MockUpdateEmailService {
+  updateEmail(): void {
   }
-  updateEmail(): void {}
   resetUpdateEmailResultState(): void {}
-  getUpdateEmailResultLoading(): Observable<boolean> {
-    return of(true);
-  }
-  getUpdateEmailResultSuccess(): Observable<boolean> {
-    return of();
-  }
-}
 
-class MockAuthService {
-  logout(): void {}
-}
-
-class MockRoutingService {
-  go(
+  goToRoute(
     _commands: any[] | UrlCommands,
     _query?: object,
     _extras?: NavigationExtras
-  ): void {}
-}
-class MockGlobalMessageService {
-  add(_message: GlobalMessage): void {}
+  ): void {
+  }
+
+  logout(): void {
+  }
+
+  getUpdateEmailResultLoading(): Observable<boolean> {
+    return of(true);
+  }
+
+  getUpdateEmailResultSuccess(): Observable<boolean> {
+    return of();
+  }
+
+  addGlobalMessage(_message: GlobalMessage): void {}
 }
 
-describe('UpdateEmailComponent', () => {
+fdescribe('UpdateEmailComponent', () => {
   let component: UpdateEmailComponent;
   let fixture: ComponentFixture<UpdateEmailComponent>;
   let el: DebugElement;
 
-  let userService: UserService;
-  let authService: AuthService;
-  let routingService: RoutingService;
-  let globalMessageService: GlobalMessageService;
+  let updateEmailService: UpdateEmailService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -83,21 +72,9 @@ describe('UpdateEmailComponent', () => {
       ],
       providers: [
         {
-          provide: UserService,
-          useClass: MockUserService,
-        },
-        {
-          provide: AuthService,
-          useClass: MockAuthService,
-        },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: GlobalMessageService,
-          useClass: MockGlobalMessageService,
-        },
+          provide: UpdateEmailService,
+          useClass: MockUpdateEmailService,
+        }
       ],
     }).compileComponents();
   }));
@@ -106,11 +83,7 @@ describe('UpdateEmailComponent', () => {
     fixture = TestBed.createComponent(UpdateEmailComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-
-    userService = TestBed.inject(UserService);
-    authService = TestBed.inject(AuthService);
-    routingService = TestBed.inject(RoutingService);
-    globalMessageService = TestBed.inject(GlobalMessageService);
+    updateEmailService = TestBed.inject(UpdateEmailService);
 
     fixture.detectChanges();
   });
@@ -120,14 +93,14 @@ describe('UpdateEmailComponent', () => {
   });
 
   it('should reset the loading state when the component is initialized', () => {
-    spyOn(userService, 'resetUpdateEmailResultState').and.stub();
+    spyOn(updateEmailService, 'resetUpdateEmailResultState').and.stub();
 
     component.ngOnInit();
-    expect(userService.resetUpdateEmailResultState).toHaveBeenCalled();
+    expect(updateEmailService.resetUpdateEmailResultState).toHaveBeenCalled();
   });
 
   it('should show the spinner when updating', () => {
-    spyOn(userService, 'getUpdateEmailResultLoading').and.returnValue(of(true));
+    spyOn(updateEmailService, 'getUpdateEmailResultLoading').and.returnValue(of(true));
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -135,25 +108,25 @@ describe('UpdateEmailComponent', () => {
   });
 
   it('should navigate to home when cancelled', () => {
-    spyOn(routingService, 'go').and.stub();
+    spyOn(updateEmailService, 'goToRoute').and.stub();
 
     component.onCancel();
-    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
+    expect(updateEmailService.goToRoute).toHaveBeenCalledWith({cxRoute: 'home'});
   });
 
   it('should call updateEmail on submit', () => {
-    spyOn(userService, 'updateEmail').and.stub();
+    spyOn(updateEmailService, 'updateEmail').and.stub();
 
     const newUid = 'tester@sap.com';
     const password = 'Qwe123!';
 
-    component.onSubmit({ newUid, password });
-    expect(userService.updateEmail).toHaveBeenCalledWith(password, newUid);
+    component.onSubmit({newUid, password});
+    expect(updateEmailService.updateEmail).toHaveBeenCalledWith(password, newUid);
   });
 
   it('should call the internal onSuccess() method when the user was successfully updated', () => {
     spyOn(component, 'onSuccess').and.stub();
-    spyOn(userService, 'getUpdateEmailResultSuccess').and.returnValue(of(true));
+    spyOn(updateEmailService, 'getUpdateEmailResultSuccess').and.returnValue(of(true));
 
     component.ngOnInit();
 
@@ -163,19 +136,19 @@ describe('UpdateEmailComponent', () => {
   describe('onSuccess', () => {
     describe('when the user was successfully updated', () => {
       it('should add a global message and navigate to a url ', async () => {
-        spyOn(userService, 'updateEmail').and.stub();
-        spyOn(authService, 'logout').and.stub();
+        spyOn(updateEmailService, 'updateEmail').and.stub();
+        spyOn(updateEmailService, 'logout').and.stub();
 
         const newUid = 'new@sap.com';
 
         component['newUid'] = newUid;
 
-        spyOn(globalMessageService, 'add').and.stub();
-        spyOn(routingService, 'go').and.stub();
+        spyOn(updateEmailService, 'addGlobalMessage').and.stub();
+        spyOn(updateEmailService, 'goToRoute').and.stub();
 
         await component.onSuccess(true);
 
-        expect(globalMessageService.add).toHaveBeenCalledWith(
+        expect(updateEmailService.addGlobalMessage).toHaveBeenCalledWith(
           {
             key: 'updateEmailForm.emailUpdateSuccess',
             params: { newUid: 'new@sap.com' },
@@ -183,10 +156,10 @@ describe('UpdateEmailComponent', () => {
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
 
-        expect(authService.logout).toHaveBeenCalled();
+        expect(updateEmailService.logout).toHaveBeenCalled();
 
-        expect(routingService.go).toHaveBeenCalledWith(
-          { cxRoute: 'login' },
+        expect(updateEmailService.goToRoute).toHaveBeenCalledWith(
+          {cxRoute: 'login'},
           null,
           {
             state: {
@@ -199,12 +172,12 @@ describe('UpdateEmailComponent', () => {
 
     describe('when the email was NOT successfully updated', () => {
       it('should NOT add a global message and NOT navigate to a url ', () => {
-        spyOn(globalMessageService, 'add').and.stub();
-        spyOn(routingService, 'go').and.stub();
+        spyOn(updateEmailService, 'addGlobalMessage').and.stub();
+        spyOn(updateEmailService, 'goToRoute').and.stub();
 
         component.onSuccess(false);
-        expect(routingService.go).not.toHaveBeenCalled();
-        expect(globalMessageService.add).not.toHaveBeenCalled();
+        expect(updateEmailService.goToRoute).not.toHaveBeenCalled();
+        expect(updateEmailService.addGlobalMessage).not.toHaveBeenCalled();
       });
     });
   });

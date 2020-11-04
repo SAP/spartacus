@@ -11,6 +11,7 @@ import { SpinnerModule } from '../../../shared/components/spinner/spinner.module
 import { UpdateEmailFormComponent } from './update-email-form/update-email-form.component';
 import { UpdateEmailComponent } from './update-email.component';
 import { FormErrorsModule } from '../../../shared/index';
+import { UpdateEmailService } from './update-email.service';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { FormErrorsModule } from '../../../shared/index';
         },
       },
     }),
+    UpdateEmailService
   ],
   declarations: [UpdateEmailFormComponent, UpdateEmailComponent],
   exports: [UpdateEmailComponent, UpdateEmailFormComponent],
