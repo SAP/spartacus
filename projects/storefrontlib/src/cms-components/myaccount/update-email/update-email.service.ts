@@ -17,10 +17,10 @@ import { Translatable } from '../../../../../core/src/i18n';
 
 export class UpdateEmailService {
   constructor(
-    private routingService: RoutingService,
-    private globalMessageService: GlobalMessageService,
-    private userService: UserService,
-    private authService: AuthService
+    protected routingService: RoutingService,
+    protected globalMessageService: GlobalMessageService,
+    protected userService: UserService,
+    protected authService: AuthService
   ) {
   }
 

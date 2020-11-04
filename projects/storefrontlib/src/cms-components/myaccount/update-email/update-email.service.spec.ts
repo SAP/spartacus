@@ -39,7 +39,7 @@ class MockGlobalMessageService {
   add(_message: GlobalMessage): void {}
 }
 
-fdescribe('UpdateEmailService', () => {
+describe('UpdateEmailService', () => {
   let service: UpdateEmailService;
   let userService: UserService;
   let authService: AuthService;

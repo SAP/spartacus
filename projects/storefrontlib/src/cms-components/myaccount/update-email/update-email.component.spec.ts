@@ -55,7 +55,7 @@ class MockUpdateEmailService {
   addGlobalMessage(_message: GlobalMessage): void {}
 }
 
-fdescribe('UpdateEmailComponent', () => {
+describe('UpdateEmailComponent', () => {
   let component: UpdateEmailComponent;
   let fixture: ComponentFixture<UpdateEmailComponent>;
   let el: DebugElement;
