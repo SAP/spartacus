@@ -14,11 +14,20 @@ Navigate to `$ cd projects/schematics` and install the dependencies using `$ yar
 
 ### Unit testing
 
-To run schematics unit tests:
+To run all the schematics unit tests:
 
 1. `$ cd projects/schematics`
 2. `$ yarn` - to install dependencies
 3. `$ yarn test`
+
+If you wish to unit test a migration task, you can do it in the following way:
+
+- let's say you're working on a constructor deprecation task. You would open the `projects/schematics/src/migrations/mechanism/constructor-deprecations/constructor-deprecations_spec.ts`.
+- first thing to change is the `MIGRATION_SCRIPT_NAME`. If you're testing a migration task for v3, you would change the value of the `MIGRATION_SCRIPT_NAME` constant to `migration-v3-constructor-deprecations-03` (notice the **v3** in the name). To see the exact name of the migration script, you can go to `projects/schematics/src/migrations/migrations.json` and copy-paste the script name you're testing to the spec file.
+- next, you can pick and choose a test that's using a class as an input (where the class is a made up testing class from customers' perspective, represented as a string). The output of the test is also a class, modified by the schematics (basically the expected result); again, this class is also represented as a string. These two strings are compared and the test will either succeed or fail based on the string comparing result. So, in case of the constructor deprecation, you can modify e.g. `ADD_AND_REMOVE_PARAMETER_VALID_TEST_CLASS` constant to match your made up input, and also modify the `ADD_AND_REMOVE_PARAMETER_EXPECTED_CLASS` to match your expected result.
+- in order to save yourself some time, it's recommended to `fdescribe` (or `fit`) the test that's using the constants from the previous step. To run the tests, follow the steps from the beginning of this section.
+
+_NOTE_ that this method is not perfect, and it will fail if you don't make your expected class to match all the formatting changes that schematics will perform (added comma at end of the import list, indendations, etc.). For this reason, you can grab the input (your made up class) and output (expected class) and compare them using a diff tool (an online tool, a git diff tool, etc.).
 
 ### Integration testing
 
