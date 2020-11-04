@@ -6,7 +6,7 @@ import {
 } from '../../../../shared';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
-export const CHECKOUT_connector_migrations: MethodPropertyDeprecation[] = [
+export const CHECKOUT_CONNECTOR_MIGRATION: MethodPropertyDeprecation[] = [
   {
     class: CHECKOUT_CONNECTOR,
     importPath: SPARTACUS_CORE,
