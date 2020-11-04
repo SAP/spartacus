@@ -18,7 +18,7 @@ export class AsmComponentService {
   }
 
   logoutCustomer(): void {
-    this.authService.initLogout();
+    this.authService.logout();
   }
 
   isCustomerEmulationSessionInProgress(): Observable<boolean> {
