@@ -53,7 +53,7 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
       // TODO(#9638): Use logout route when it will support passing redirect url
-      await this.authService.internalLogout();
+      await this.authService.coreLogout();
       this.routingService.go({ cxRoute: 'login' }, null, {
         state: {
           newUid: this.newUid,

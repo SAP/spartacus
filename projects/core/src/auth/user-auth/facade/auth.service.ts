@@ -57,10 +57,7 @@ export class AuthService {
    * @param userId
    * @param password
    */
-  public async loginWithCredentials(
-    userId: string,
-    password: string
-  ): Promise<void> {
+  async loginWithCredentials(userId: string, password: string): Promise<void> {
     try {
       await this.oAuthLibWrapperService.authorizeWithPasswordFlow(
         userId,
@@ -76,9 +73,10 @@ export class AuthService {
   }
 
   /**
-   * Logout a storefront customer.
+   * Revokes tokens and clears state for logged user (tokens, userId).
+   * To perform logout it is best to use `logout` method. Use this method with caution.
    */
-  public internalLogout(): Promise<any> {
+  coreLogout(): Promise<any> {
     this.userIdService.clearUserId();
     return new Promise((resolve) => {
       this.oAuthLibWrapperService.revokeAndLogout().finally(() => {
@@ -91,7 +89,7 @@ export class AuthService {
   /**
    * Returns `true` if the user is logged in; and `false` if the user is anonymous.
    */
-  public isUserLoggedIn(): Observable<boolean> {
+  isUserLoggedIn(): Observable<boolean> {
     return this.authStorageService.getToken().pipe(
       map((userToken) => Boolean(userToken?.access_token)),
       distinctUntilChanged()
@@ -99,9 +97,9 @@ export class AuthService {
   }
 
   /**
-   * Initialize logout procedure by redirecting to the `logout` endpoint.
+   * Logout a storefront customer. It will initialize logout procedure by redirecting to the `logout` endpoint.
    */
-  public logout(): void {
+  logout(): void {
     this.routingService.go({ cxRoute: 'logout' });
   }
 }

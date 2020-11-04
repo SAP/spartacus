@@ -141,13 +141,13 @@ describe('AuthService', () => {
     });
   });
 
-  describe('internalLogout()', () => {
+  describe('coreLogout()', () => {
     it('should revoke tokens and logout', async () => {
       spyOn(userIdService, 'clearUserId').and.callThrough();
       spyOn(oAuthLibWrapperService, 'revokeAndLogout').and.callThrough();
       spyOn(store, 'dispatch').and.callThrough();
 
-      await service.internalLogout();
+      await service.coreLogout();
 
       expect(userIdService.clearUserId).toHaveBeenCalled();
       expect(oAuthLibWrapperService.revokeAndLogout).toHaveBeenCalled();

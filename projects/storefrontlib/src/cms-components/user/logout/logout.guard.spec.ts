@@ -14,7 +14,7 @@ import { take } from 'rxjs/operators';
 import { LogoutGuard } from './logout.guard';
 
 class MockAuthService implements Partial<AuthService> {
-  internalLogout() {
+  coreLogout() {
     return Promise.resolve();
   }
 }
@@ -96,12 +96,12 @@ describe('LogoutGuard', () => {
 
   describe('When user is authorized,', () => {
     beforeEach(() => {
-      spyOn(authService, 'internalLogout').and.callThrough();
+      spyOn(authService, 'coreLogout').and.callThrough();
     });
 
     it('should logout and clear user state', async () => {
       await zone.run(() => router.navigateByUrl('/logout'));
-      expect(authService.internalLogout).toHaveBeenCalled();
+      expect(authService.coreLogout).toHaveBeenCalled();
     });
 
     it('should return redirect url to home page if app not protected', (done) => {

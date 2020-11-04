@@ -55,7 +55,7 @@ export class LogoutGuard implements CanActivate {
   }
 
   protected logout(): Promise<any> {
-    return this.auth.internalLogout();
+    return this.auth.coreLogout();
   }
 
   /**

@@ -49,7 +49,7 @@ class MockUserService {
 }
 
 class MockAuthService implements Partial<AuthService> {
-  internalLogout() {
+  coreLogout() {
     return Promise.resolve();
   }
 }
@@ -166,7 +166,7 @@ describe('UpdateEmailComponent', () => {
     describe('when the user was successfully updated', () => {
       it('should add a global message and navigate to a url ', async () => {
         spyOn(userService, 'updateEmail').and.stub();
-        spyOn(authService, 'internalLogout').and.stub();
+        spyOn(authService, 'coreLogout').and.stub();
 
         const newUid = 'new@sap.com';
 
@@ -185,7 +185,7 @@ describe('UpdateEmailComponent', () => {
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
 
-        expect(authService.internalLogout).toHaveBeenCalled();
+        expect(authService.coreLogout).toHaveBeenCalled();
 
         expect(routingService.go).toHaveBeenCalledWith(
           { cxRoute: 'login' },

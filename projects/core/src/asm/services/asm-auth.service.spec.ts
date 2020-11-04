@@ -162,9 +162,9 @@ describe('AsmAuthService', () => {
     });
   });
 
-  describe('internalLogout()', () => {
+  describe('coreLogout()', () => {
     it('should logout when user not emulated', () => {
-      service.internalLogout();
+      service.coreLogout();
 
       expect(userIdService.clearUserId).toHaveBeenCalled();
       expect(oAuthLibWrapperService.revokeAndLogout).toHaveBeenCalled();
@@ -173,7 +173,7 @@ describe('AsmAuthService', () => {
     it('should logout when emulating user', (done: DoneFn) => {
       isEmulated$.next(true);
 
-      service.internalLogout().then(() => {
+      service.coreLogout().then(() => {
         expect(asmAuthStorageService.clearEmulatedUserToken).toHaveBeenCalled();
         expect(userIdService.clearUserId).toHaveBeenCalled();
         expect(store.dispatch).toHaveBeenCalled();
