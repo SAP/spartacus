@@ -126,7 +126,7 @@ function addStyles(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const myAccountScssPath = `${getSourceRoot(
       tree
-    )}/styles/spartacus-organization.scss`;
+    )}/styles/spartacus/organization.scss`;
     if (tree.exists(myAccountScssPath)) {
       context.logger.info(
         `Skipping the creation of '${myAccountScssPath}', as it already exists.`
