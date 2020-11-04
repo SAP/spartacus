@@ -49,6 +49,7 @@
       "@spartacus/product/configurators/textfield": [
         "dist/product/configurators/textfield"
       ],
+      "@spartacus/storefinder": ["dist/storefinder"],
       "@spartacus/cdc": ["dist/cdc"],
       "@spartacus/setup": ["dist/setup"]
     }

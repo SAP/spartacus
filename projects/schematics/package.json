@@ -50,6 +50,7 @@
       "@spartacus/incubator",
       "@spartacus/organization",
       "@spartacus/product",
+      "@spartacus/stprefinder",
       "@spartacus/cdc",
       "@spartacus/setup"
     ]

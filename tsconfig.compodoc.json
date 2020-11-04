@@ -57,6 +57,7 @@
       "@spartacus/product/configurators/textfield": [
         "feature-libs/product/configurators/textfield/public_api"
       ],
+      "@spartacus/storefinder": ["feature-libs/storefinder/public_api"],
       "@spartacus/cdc": ["integration-libs/cdc/public_api"],
       "@spartacus/setup": ["core-libs/setup/public_api"]
     }
