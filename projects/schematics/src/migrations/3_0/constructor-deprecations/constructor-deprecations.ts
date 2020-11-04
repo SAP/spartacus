@@ -14,6 +14,7 @@ import { ORDER_DETAILS_SHIPPING_COMPONENT_MIGRATION } from './data/order-details
 import { PAYMENT_DETAILS_SET_GUARD_MIGRATION } from './data/payment-details-set.guard.migration';
 import { PAYMENT_METHOD_COMPONENT_MIGRATION } from './data/payment-method.component.migration';
 import { REVIEW_SUBMIT_COMPONENT_MIGRATION } from './data/review-submit.component.migration';
+import { ROUTING_SERVICE_MIGRATION } from './data/routing.service.migration';
 import { SHIPPING_ADDRESS_SET_GUARD_MIGRATION } from './data/shipping-address-set.guard.migration';
 import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
 
@@ -33,6 +34,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CHECKOUT_GUARD_MIGRATIONS,
   CHECKOUT_AUTH_GUARD_MIGRATION,
   ORDER_DETAILS_SHIPPING_COMPONENT_MIGRATION,
+  ROUTING_SERVICE_MIGRATION,
 ];
 
 export function migrate(): Rule {
