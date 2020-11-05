@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { filter, map, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { BaseSite } from '../../model/misc.model';
 import { getContextParameterDefault } from '../config/context-config-utils';
 import { SiteContextConfig } from '../config/site-context-config';
@@ -12,7 +12,8 @@ import { StateWithSiteContext } from '../store/state';
 import { SiteContext } from './site-context.interface';
 
 @Injectable()
-export class BaseSiteService implements SiteContext<string> {
+// handle breaking change in #9601
+export class BaseSiteService implements SiteContext<BaseSite> {
   constructor(
     protected store: Store<StateWithSiteContext>,
     protected config: SiteContextConfig
@@ -29,10 +30,38 @@ export class BaseSiteService implements SiteContext<string> {
   }
 
   /**
-   * We currently don't support switching baseSite at run time
+   * Get all base sites data
    */
-  getAll(): Observable<string[]> {
-    return this.getActive().pipe(map((baseSite) => [baseSite]));
+  // handle breaking change in #9601
+  getAll(): Observable<BaseSite[]> {
+    return this.store.pipe(
+      select(SiteContextSelectors.getAllBaseSites),
+      tap((sites) => {
+        if (!sites) {
+          this.store.dispatch(new SiteContextActions.LoadBaseSites());
+        }
+      }),
+      filter((sites) => Boolean(sites))
+    );
+  }
+
+  /**
+   * Get base site data based on site uid
+   */
+  get(siteUid?: string): Observable<BaseSite> {
+    if (siteUid) {
+      return this.getAll().pipe(
+        map((sites) => sites.find((site) => site.uid === siteUid))
+      );
+    }
+
+    return this.getActive().pipe(
+      switchMap((activeSiteUid) =>
+        this.getAll().pipe(
+          map((sites) => sites.find((site) => site.uid === activeSiteUid))
+        )
+      )
+    );
   }
 
   setActive(baseSite: string): Subscription {
@@ -66,7 +95,8 @@ export class BaseSiteService implements SiteContext<string> {
   }
 
   /**
-   * Get the base site details data
+   * @deprecated since 3.0, use function get() instead
+   * handle breaking change in #9601
    */
   getBaseSiteData(): Observable<BaseSite> {
     return this.store.pipe(
