@@ -5,7 +5,6 @@ import { UnitTreeService } from '../services/unit-tree.service';
   selector: 'cx-unit-list',
   templateUrl: './unit-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'organization' },
 })
 export class UnitListComponent {
   constructor(protected unitTreeService: UnitTreeService) {}

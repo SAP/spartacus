@@ -6,7 +6,12 @@
 @import './form';
 @import './page-template';
 
-.organization {
+// wrapper for organization
+cx-unit-list {
+  display: contents;
+}
+
+cx-organization-list {
   // https://yoksel.github.io/url-encoder/
   // <?xml version="1.0" encoding="utf-8"?>
   // <svg version="1.1"  viewBox="0 0 44.21 69.76" >

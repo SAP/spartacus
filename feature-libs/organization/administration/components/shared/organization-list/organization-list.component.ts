@@ -15,7 +15,6 @@ import { OrganizationListService } from './organization-list.service';
   selector: 'cx-organization-list',
   templateUrl: './organization-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'organization' },
 })
 export class OrganizationListComponent<T = any, P = PaginationModel> {
   @HostBinding('class.ghost') hasGhostData = false;
