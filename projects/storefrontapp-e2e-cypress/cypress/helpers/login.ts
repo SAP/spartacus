@@ -57,14 +57,10 @@ export function loginAsDefaultUser() {
   login(defaultUser.name, defaultUser.password);
 }
 
-export function listenForTokenRevocationRequest(stub = false): string {
+export function listenForTokenRevocationRequest(): string {
   const aliasName = 'tokenRevocation';
   cy.server();
+  cy.route('POST', '/authorizationserver/oauth/revoke').as(aliasName);
 
-  if (stub) {
-    cy.route('POST', '/authorizationserver/oauth/revoke', {}).as(aliasName);
-  } else {
-    cy.route('POST', '/authorizationserver/oauth/revoke').as(aliasName);
-  }
   return `@${aliasName}`;
 }
