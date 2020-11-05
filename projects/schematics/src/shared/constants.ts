@@ -103,6 +103,8 @@ export const ADDED_TO_CART_DIALOG_COMPONENT = 'AddedToCartDialogComponent';
 export const MODAL_SERVICE = 'ModalService';
 export const CURRENT_PRODUCT_SERVICE = 'CurrentProductService';
 export const CART_NOT_EMPTY_GUARD = 'CartNotEmptyGuard';
+export const CONTENT_PAGE_META_RESOLVER = 'ContentPageMetaResolver';
+export const ROUTING_PAGE_META_RESOLVER = 'RoutingPageMetaResolver';
 export const CART_TOTALS_COMPONENT = 'CartTotalsComponent';
 export const MINI_CART_COMPONENT = 'MiniCartComponent';
 export const CHECKOUT_ORDER_SUMMARY_COMPONENT = 'CheckoutOrderSummaryComponent';
@@ -219,6 +221,7 @@ export const SKIP_LINK_CONFIG = 'SkipLinkConfig';
 export const KEYBOARD_FOCUS_SERVICE = 'KeyboardFocusService';
 export const STOREFRONT_COMPONENT = 'StorefrontComponent';
 export const HAMBURGER_MENU_SERVICE = 'HamburgerMenuService';
+export const ROUTING_PARAMS_SERVICE = 'RoutingParamsService';
 export const ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT =
   'AnonymousConsentManagementBannerComponent';
 export const ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE =
@@ -336,6 +339,7 @@ export const GET_PATH_URL_MATCHER = 'getPathUrlMatcher';
 export const GET_OPPOSITE_URL_MATCHER = 'getOppositeUrlMatcher';
 export const GET_GLOB_URL_MATCHER = 'getGlobUrlMatcher';
 export const PLACE_ORDER = 'placeOrder';
+export const GET_CHILD_ROUTES = 'getChildRoutes';
 /***** APIs end *****/
 
 /***** Misc start *****/

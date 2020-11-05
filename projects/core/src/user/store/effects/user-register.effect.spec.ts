@@ -20,10 +20,10 @@ const user: UserSignUp = {
 };
 
 class MockAuthService implements Partial<AuthService> {
-  authorize() {
+  loginWithCredentials() {
     return Promise.resolve();
   }
-  initLogout() {}
+  logout() {}
 }
 
 describe('UserRegister effect', () => {
@@ -73,7 +73,7 @@ describe('UserRegister effect', () => {
 
   describe('registerGuest$', () => {
     it('should register guest', () => {
-      spyOn(authService, 'authorize');
+      spyOn(authService, 'loginWithCredentials');
       const action = new UserActions.RegisterGuest({
         guid: 'guid',
         password: 'password',
@@ -86,13 +86,16 @@ describe('UserRegister effect', () => {
       });
 
       expect(effect.registerGuest$).toBeObservable(expected);
-      expect(authService.authorize).toHaveBeenCalledWith('test', 'password');
+      expect(authService.loginWithCredentials).toHaveBeenCalledWith(
+        'test',
+        'password'
+      );
     });
   });
 
   describe('removeUser$', () => {
     it('should remove user', () => {
-      spyOn(authService, 'initLogout');
+      spyOn(authService, 'logout');
 
       const action = new UserActions.RemoveUser('testUserId');
       const completion = new UserActions.RemoveUserSuccess();
@@ -103,7 +106,7 @@ describe('UserRegister effect', () => {
       });
 
       expect(effect.removeUser$).toBeObservable(expected);
-      expect(authService.initLogout).toHaveBeenCalled();
+      expect(authService.logout).toHaveBeenCalled();
     });
   });
 });

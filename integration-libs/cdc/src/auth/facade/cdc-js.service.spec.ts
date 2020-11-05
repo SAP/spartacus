@@ -53,7 +53,7 @@ class ExternalJsFileLoaderMock {
 }
 
 class MockCdcAuthService implements Partial<CdcAuthService> {
-  authorizeWithCustomCdcFlow(): void {}
+  loginWithCustomCdcFlow(): void {}
 }
 
 class MockAuthService implements Partial<AuthService> {
@@ -268,7 +268,7 @@ describe('CdcJsService', () => {
 
   describe('onLoginEventHandler', () => {
     it('should login user when on login event is triggered', () => {
-      spyOn(cdcAuth, 'authorizeWithCustomCdcFlow');
+      spyOn(cdcAuth, 'loginWithCustomCdcFlow');
 
       const response = {
         UID: 'UID',
@@ -279,7 +279,7 @@ describe('CdcJsService', () => {
 
       service.onLoginEventHandler('electronics-spa', response);
 
-      expect(cdcAuth.authorizeWithCustomCdcFlow).toHaveBeenCalledWith(
+      expect(cdcAuth.loginWithCustomCdcFlow).toHaveBeenCalledWith(
         response.UID,
         response.UIDSignature,
         response.signatureTimestamp,
@@ -289,11 +289,11 @@ describe('CdcJsService', () => {
     });
 
     it('should not login user when on login event have empty payload', () => {
-      spyOn(cdcAuth, 'authorizeWithCustomCdcFlow');
+      spyOn(cdcAuth, 'loginWithCustomCdcFlow');
 
       service.onLoginEventHandler('electronics-spa');
 
-      expect(cdcAuth.authorizeWithCustomCdcFlow).not.toHaveBeenCalled();
+      expect(cdcAuth.loginWithCustomCdcFlow).not.toHaveBeenCalled();
     });
   });
 

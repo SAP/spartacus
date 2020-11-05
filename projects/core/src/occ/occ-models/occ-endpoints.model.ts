@@ -629,7 +629,12 @@ export interface OccEndpoints {
    */
   orderApprovalDecision?: string | OccEndpoint;
   /**
-   * Endpoint to returns active cost centers
+   * Endpoint for getting all base sites
+   *
+   * @member {string}
+   */
+  baseSites?: string | OccEndpoint;
+  /** Endpoint to returns active cost centers
    *
    * @member {string}
    */
