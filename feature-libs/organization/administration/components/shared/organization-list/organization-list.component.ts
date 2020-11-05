@@ -17,9 +17,6 @@ import { OrganizationListService } from './organization-list.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrganizationListComponent<T = any, P = PaginationModel> {
-  // temp as long as unit tree is not merged
-  @HostBinding('class.organization') orgCls = true;
-
   @HostBinding('class.ghost') hasGhostData = false;
 
   constructor(
