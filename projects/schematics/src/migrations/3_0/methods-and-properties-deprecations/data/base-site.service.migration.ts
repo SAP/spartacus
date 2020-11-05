@@ -20,6 +20,6 @@ export const BASE_SITE_SERVICE_MIGRATION: MethodPropertyDeprecation[] = [
     class: BASE_SITE_SERVICE,
     importPath: SPARTACUS_CORE,
     deprecatedNode: GET_BASE_SITE_DATA,
-    comment: `// ${TODO_SPARTACUS} Method '${GET_BASE_SITE_DATA}' is replaced by function 'get()'`,
+    comment: `// ${TODO_SPARTACUS} Method '${GET_BASE_SITE_DATA}' is replaced by method 'get()'`,
   },
 ];
