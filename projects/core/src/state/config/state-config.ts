@@ -17,6 +17,9 @@ export enum StateTransferType {
 })
 export abstract class StateConfig {
   state?: {
+    /**
+     * @deprecated since 3.0
+     */
     storageSync?: {
       /**
        * A key name for the data stored in `localStorage`.
