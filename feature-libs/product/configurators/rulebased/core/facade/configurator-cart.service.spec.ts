@@ -76,7 +76,7 @@ class MockActiveCartService {
 }
 
 class MockCheckoutService {
-  getCheckoutLoading(): Observable<boolean> {
+  isLoading(): Observable<boolean> {
     return checkoutLoadingObs;
   }
 }

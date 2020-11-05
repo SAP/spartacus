@@ -149,7 +149,7 @@ describe('CheckoutService', () => {
       });
     });
 
-    describe('get checkout loading', () => {
+    describe('is loading', () => {
       it('should return true in case loading was triggered', () => {
         store.dispatch(
           new CheckoutActions.LoadCheckoutDetails({
@@ -160,7 +160,7 @@ describe('CheckoutService', () => {
 
         let loaded: boolean;
         service
-          .getCheckoutLoading()
+          .isLoading()
           .subscribe((data) => {
             loaded = data;
           })
@@ -174,7 +174,7 @@ describe('CheckoutService', () => {
 
       let loaded: boolean;
       service
-        .getCheckoutLoading()
+        .isLoading()
         .subscribe((data) => {
           loaded = data;
         })
