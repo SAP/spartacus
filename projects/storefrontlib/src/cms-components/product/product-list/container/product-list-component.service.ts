@@ -11,6 +11,7 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import {
+  debounceTime,
   distinctUntilChanged,
   filter,
   map,
@@ -80,6 +81,7 @@ export class ProductListComponentService {
     ),
     ...this.siteContext,
   ]).pipe(
+    debounceTime(0),
     map(([routerState, ..._context]) => (routerState as RouterState).state),
     tap((state: ActivatedRouterStateSnapshot) => {
       const criteria = this.getCriteriaFromRoute(
