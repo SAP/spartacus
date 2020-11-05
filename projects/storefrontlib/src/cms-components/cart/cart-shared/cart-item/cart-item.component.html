@@ -3,7 +3,7 @@
   <div class="col-2 cx-image-container">
     <a
       [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
-      (click)="viewItem()"
+      cxModal="dismiss"
       tabindex="-1"
     >
       <cx-media [container]="item.product.images?.PRIMARY"></cx-media>
@@ -18,7 +18,7 @@
           <a
             class="cx-link"
             [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
-            (click)="viewItem()"
+            cxModal="dismiss"
             >{{ item.product.name }}</a
           >
         </div>
