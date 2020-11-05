@@ -18,7 +18,7 @@ export enum StateTransferType {
 export abstract class StateConfig {
   state?: {
     /**
-     * @deprecated since 3.0
+     * @deprecated Since 3.0, to synchronize state from the browser storage, use StatePersistentService
      */
     storageSync?: {
       /**
