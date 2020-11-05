@@ -14,6 +14,7 @@ import { BaseItem } from '../organization.model';
   selector: 'cx-organization-card',
   templateUrl: './organization-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [MessageService],
 })
 export class OrganizationCardComponent<T extends BaseItem> {
