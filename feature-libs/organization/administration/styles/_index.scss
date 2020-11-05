@@ -6,7 +6,10 @@
 @import './form';
 @import './page-template';
 
-cx-unit-list,
+cx-unit-list {
+  display: contents;
+}
+
 cx-organization-list {
   // https://yoksel.github.io/url-encoder/
   // <?xml version="1.0" encoding="utf-8"?>
