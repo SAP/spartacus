@@ -305,7 +305,7 @@ export const ONLY_NUMBER_DIRECTIVE = 'OnlyNumberDirective';
 export const AUTO_FOCUS_DIRECTIVE = 'AutoFocusDirective';
 export const AUTO_FOCUS_DIRECTIVE_MODULE = 'AutoFocusDirectiveModule';
 
-export const STORE_FINDER_GROUP_ACTIONS = 'StoreFinderGroupActions';
+export const StoreFinderActions = 'StoreFinderActions';
 export const FIND_STORES_CLASS = 'FindStores';
 export const SEARCH_CONFIG = 'SearchConfig';
 
