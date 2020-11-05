@@ -3,6 +3,8 @@ import { EntitiesModel, PaginationModel } from '@spartacus/core';
 import {
   B2BUserService,
   UserGroup,
+  UserGroupService,
+  OrganizationItemStatus,
 } from '@spartacus/organization/administration/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -21,7 +23,8 @@ export class UserUserGroupListService extends OrganizationSubListService<
 
   constructor(
     protected tableService: TableService,
-    protected userService: B2BUserService
+    protected userService: B2BUserService,
+    protected userGroupService: UserGroupService
   ) {
     super(tableService);
   }
@@ -39,15 +42,23 @@ export class UserUserGroupListService extends OrganizationSubListService<
    * @override
    * Assign user group to the user.
    */
-  assign(userCode: string, userGroupCode: string) {
+  assign(
+    userCode: string,
+    userGroupCode: string
+  ): Observable<OrganizationItemStatus<UserGroup>> {
     this.userService.assignUserGroup(userCode, userGroupCode);
+    return this.userGroupService.getLoadingStatus(userGroupCode);
   }
 
   /**
    * @override
    * Unassign the user group from the user.
    */
-  unassign(userCode: string, userGroupCode: string) {
+  unassign(
+    userCode: string,
+    userGroupCode: string
+  ): Observable<OrganizationItemStatus<UserGroup>> {
     this.userService.unassignUserGroup(userCode, userGroupCode);
+    return this.userGroupService.getLoadingStatus(userGroupCode);
   }
 }

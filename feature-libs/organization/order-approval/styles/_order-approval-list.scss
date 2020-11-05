@@ -23,10 +23,10 @@ cx-order-approval-list {
 
     th {
       padding: 1.5rem 0 1.125rem 0;
-      text-align: left;
+      text-align: start;
 
       &:last-child {
-        text-align: right;
+        text-align: end;
       }
     }
 
@@ -35,10 +35,10 @@ cx-order-approval-list {
       padding: 1.625rem 0;
 
       @include media-breakpoint-up(md) {
-        text-align: left;
+        text-align: start;
 
         &:last-child {
-          text-align: right;
+          text-align: end;
         }
       }
 
@@ -79,7 +79,7 @@ cx-order-approval-list {
     text-align: center;
 
     @include media-breakpoint-down(sm) {
-      text-align: left;
+      text-align: start;
     }
   }
 
@@ -88,7 +88,9 @@ cx-order-approval-list {
     color: var(--cx-color-secondary);
 
     @include media-breakpoint-down(sm) {
-      @include type('8');
+      font-size: var(--cx-font-size, 0.875rem);
+      font-weight: var(--cx-font-weight-bold);
+      line-height: var(--cx-line-height, 1.2222222222);
       min-width: 110px;
     }
   }
@@ -97,8 +99,9 @@ cx-order-approval-list {
     color: var(--cx-color-text);
 
     @include media-breakpoint-down(sm) {
-      @include type('5');
+      font-size: var(--cx-font-size, 1rem);
       font-weight: $font-weight-normal;
+      line-height: var(--cx-line-height, 1.2222222222);
     }
   }
 
@@ -144,14 +147,15 @@ cx-order-approval-list {
   }
 
   .cx-order-approval-no-order {
-    @include type('5');
+    font-size: var(--cx-font-size, 1rem);
     font-weight: $font-weight-normal;
+    line-height: var(--cx-line-height, 1.2222222222);
     min-height: 415px;
 
     @include media-breakpoint-down(sm) {
       min-height: 474px;
-      padding-left: 1.25rem;
-      padding-right: 1.25rem;
+      padding-inline-start: 1.25rem;
+      padding-inline-end: 1.25rem;
     }
 
     .btn {
