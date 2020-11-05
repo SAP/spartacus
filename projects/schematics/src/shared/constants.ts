@@ -223,6 +223,7 @@ export const ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE =
   'AnonymousConsentLaunchDialogService';
 export const ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT =
   'AnonymousConsentOpenDialogComponent';
+export const ITEM_COUNTER_COMPONENT = 'ItemCounterComponent';
 
 export const TEST_OUTLET_MODULE = 'TestOutletModule';
 export const TEST_CONFIG_MODULE = 'TestConfigModule';
@@ -303,6 +304,11 @@ export const ONLY_NUMBER_DIRECTIVE_MODULE = 'OnlyNumberDirectiveModule';
 export const ONLY_NUMBER_DIRECTIVE = 'OnlyNumberDirective';
 export const AUTO_FOCUS_DIRECTIVE = 'AutoFocusDirective';
 export const AUTO_FOCUS_DIRECTIVE_MODULE = 'AutoFocusDirectiveModule';
+
+export const STORE_FINDER_GROUP_ACTIONS = 'StoreFinderGroupActions';
+export const FIND_STORES_CLASS = 'FindStores';
+export const SEARCH_CONFIG = 'SearchConfig';
+
 /***** Removed public api end *****/
 
 /***** Properties start *****/
@@ -333,6 +339,7 @@ export const GET_MULTIPLE_PATHS_URL_MATCHER = 'getMultiplePathsUrlMatcher';
 export const GET_PATH_URL_MATCHER = 'getPathUrlMatcher';
 export const GET_OPPOSITE_URL_MATCHER = 'getOppositeUrlMatcher';
 export const GET_GLOB_URL_MATCHER = 'getGlobUrlMatcher';
+export const GET_CONTROL = 'getControl';
 /***** APIs end *****/
 
 /***** Misc start *****/
