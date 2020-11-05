@@ -224,6 +224,7 @@ export const ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE =
 export const ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT =
   'AnonymousConsentOpenDialogComponent';
 export const ITEM_COUNTER_COMPONENT = 'ItemCounterComponent';
+export const UPDATE_EMAIL_COMPONENT = 'UpdateEmailComponent';
 
 export const TEST_OUTLET_MODULE = 'TestOutletModule';
 export const TEST_CONFIG_MODULE = 'TestConfigModule';
@@ -308,6 +309,8 @@ export const AUTO_FOCUS_DIRECTIVE_MODULE = 'AutoFocusDirectiveModule';
 export const StoreFinderActions = 'StoreFinderActions';
 export const FIND_STORES_CLASS = 'FindStores';
 export const SEARCH_CONFIG = 'SearchConfig';
+
+export const ON_SUCCESS = 'onSuccess';
 
 /***** Removed public api end *****/
 
