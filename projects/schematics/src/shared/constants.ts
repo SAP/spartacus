@@ -82,6 +82,7 @@ export const PRODUCT_SEARCH_SERVICE = 'ProductSearchService';
 export const CHECKOUT_SERVICE = 'CheckoutService';
 export const CHECKOUT_CONNECTOR = 'CheckoutConnector';
 export const CHECKOUT_ADAPTER = 'CheckoutAdapter';
+export const OCC_CHECKOUT_ADAPTER = 'OccCheckoutAdapter';
 export const CHECKOUT_PAYMENT_SERVICE = 'CheckoutPaymentService';
 export const CHECKOUT_DELIVERY_SERVICE = 'CheckoutDeliveryService';
 export const CART_DATA_SERVICE = 'CartDataService';
