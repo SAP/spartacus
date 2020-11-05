@@ -7,11 +7,11 @@ export const CART_ITEM_COMPONENT_MIGRATION: ComponentData = {
   removedProperties: [
     {
       name: 'view',
-      comment: `'view' output was removed. Instead use '[cxModal]' directive to close modal on click link.`,
+      comment: `'view' output was removed. Instead use '[cxModal]' directive to close modal on link click.`,
     },
     {
       name: 'viewItem',
-      comment: `'viewItem' method was removed. Instead use '[cxModal]' directive to close modal on click link.`,
+      comment: `'viewItem' method was removed. Instead use '[cxModal]' directive to close modal on link click.`,
     },
   ],
 };
