@@ -336,6 +336,8 @@ export const GET_PATH_URL_MATCHER = 'getPathUrlMatcher';
 export const GET_OPPOSITE_URL_MATCHER = 'getOppositeUrlMatcher';
 export const GET_GLOB_URL_MATCHER = 'getGlobUrlMatcher';
 export const GET_CHILD_ROUTES = 'getChildRoutes';
+export const GET_ALL = 'getAll';
+export const GET_BASE_SITE_DATA = 'getBaseSiteData';
 /***** APIs end *****/
 
 /***** Misc start *****/
