@@ -189,7 +189,12 @@ export class ShippingAddressComponent implements OnInit {
 
   addAddress(address: Address): void {
     this.forceLoader = true;
-    this.checkoutDeliveryService.createAndSetAddress(address);
+    if (Boolean(address)) {
+      this.checkoutDeliveryService.createAndSetAddress(address);
+    } else {
+      this.forceLoader = false;
+      this.next();
+    }
   }
 
   showNewAddressForm(): void {
