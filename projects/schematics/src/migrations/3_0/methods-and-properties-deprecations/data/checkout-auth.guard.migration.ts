@@ -13,6 +13,6 @@ export const CHECKOUT_AUTH_GUARD_MIGRATION: MethodPropertyDeprecation[] = [
     importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedNode: CAN_ACTIVATE,
     newNode: CAN_ACTIVATE,
-    comment: `// ${TODO_SPARTACUS} Method '${CAN_ACTIVATE}' now returns type 'Observable<boolean | UrlTree'.`,
+    comment: `// ${TODO_SPARTACUS} Method '${CAN_ACTIVATE}' now returns type 'Observable<boolean | UrlTree>'.`,
   },
 ];

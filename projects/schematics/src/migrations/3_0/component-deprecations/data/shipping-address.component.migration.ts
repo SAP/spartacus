@@ -12,7 +12,7 @@ export const SHIPPING_ADDRESS_COMPONENT_MIGRATION: ComponentData = {
     },
     {
       name: 'newAddressFormManuallyOpened',
-      comment: `'newAddressFormManuallyOpened' propertiy has been renamed to 'addressFormOpened'`,
+      comment: `'newAddressFormManuallyOpened' property has been renamed to 'addressFormOpened'`,
     },
     {
       name: 'goNext',

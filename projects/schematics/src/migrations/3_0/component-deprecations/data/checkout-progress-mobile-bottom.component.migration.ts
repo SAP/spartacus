@@ -16,7 +16,7 @@ export const CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT_MIGRATION: ComponentData 
     },
     {
       name: 'steps',
-      comment: `'steps' property has been removed.`,
+      comment: `'steps' property has been removed. Use '$steps' observable instead`,
     },
   ],
 };

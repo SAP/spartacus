@@ -315,7 +315,7 @@ export const AUTO_FOCUS_DIRECTIVE = 'AutoFocusDirective';
 export const AUTO_FOCUS_DIRECTIVE_MODULE = 'AutoFocusDirectiveModule';
 
 export const CHECKOUT_ACTIONS = 'CheckoutActions';
-export const PLACE_ORDER_ACTION = 'PlaceOrder';
+export const PLACE_ORDER_CLASS = 'PlaceOrder';
 export const CHECKOUT_STEP_SERVICE = 'CheckoutStepService';
 export const USER_COST_CENTER_SERVICE = 'UserCostCenterService';
 export const CHECKOUT_COST_CENTER_SERVICE = 'CheckoutCostCenterService';

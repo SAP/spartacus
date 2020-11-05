@@ -6,11 +6,11 @@ import { CHECKOUT_CONFIG_SERVICE_MIGRATION } from './data/checkout-config.servic
 import { CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT_MIGRATION } from './data/checkout-progress-mobile-bottom.component.migration';
 import { CHECKOUT_PROGRESS_MOBILE_TOP_COMPONENT_MIGRATION } from './data/checkout-progress-mobile-top.component.migration';
 import { CHECKOUT_PROGRESS_COMPONENT_MIGRATION } from './data/checkout-progress.component.migration';
-import { CHECKOUT_GUARD_MIGRATIONS } from './data/checkout.guard.migration';
+import { CHECKOUT_GUARD_MIGRATION } from './data/checkout.guard.migration';
 import { DELIVERY_MODE_SET_GUARD_MIGRATION } from './data/delivery-mode-set.guard.migration';
 import { DELIVERY_MODE_COMPONENT_MIGRATION } from './data/delivery-mode.component.migration';
 import { LOGIN_FORM_COMPONENT_MIGRATION } from './data/login-form.component.migration';
-import { ORDER_DETAILS_SHIPPING_COMPONENT_MIGRATION } from './data/order-details-shipping.component.migration';
+import { ORDER_DETAILS_SHIPPING_COMPONENT_MIGRATION } from './data/order-detail-shipping.component.migration';
 import { PAYMENT_DETAILS_SET_GUARD_MIGRATION } from './data/payment-details-set.guard.migration';
 import { PAYMENT_METHOD_COMPONENT_MIGRATION } from './data/payment-method.component.migration';
 import { REVIEW_SUBMIT_COMPONENT_MIGRATION } from './data/review-submit.component.migration';
@@ -31,7 +31,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   PAYMENT_DETAILS_SET_GUARD_MIGRATION,
   CHECKOUT_CONFIG_SERVICE_MIGRATION,
   LOGIN_FORM_COMPONENT_MIGRATION,
-  CHECKOUT_GUARD_MIGRATIONS,
+  CHECKOUT_GUARD_MIGRATION,
   CHECKOUT_AUTH_GUARD_MIGRATION,
   ORDER_DETAILS_SHIPPING_COMPONENT_MIGRATION,
   ROUTING_SERVICE_MIGRATION,

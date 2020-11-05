@@ -7,6 +7,10 @@ export const ORDER_DETAILS_SHIPPING_COMPONENT_MIGRATION: ComponentData = {
   componentClassName: ORDER_DETAILS_SHIPPING_COMPONENT,
   removedProperties: [
     {
+      name: '$order',
+      comment: `'$order' property return type was changed from 'Observable<Order>' to 'Observable<any>'`,
+    },
+    {
       name: 'getPaymentCardContent',
       comment: `'getPaymentCardContent' was removed, please check the 'OrderOverviewComponent' instead.`,
     },

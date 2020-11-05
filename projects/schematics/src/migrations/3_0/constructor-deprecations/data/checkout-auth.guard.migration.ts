@@ -34,7 +34,7 @@ export const CHECKOUT_AUTH_GUARD_MIGRATION: ConstructorDeprecation = {
     },
     {
       className: CHECKOUT_CONFIG_SERVICE,
-      importPath: SPARTACUS_CORE,
+      importPath: SPARTACUS_STOREFRONTLIB,
     },
     {
       className: ACTIVE_CART_SERVICE,
