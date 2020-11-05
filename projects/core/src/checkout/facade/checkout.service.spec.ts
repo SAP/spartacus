@@ -132,14 +132,49 @@ describe('CheckoutService', () => {
           .unsubscribe();
         expect(loaded).toBeTruthy();
       });
+
+      it('should return false for fail', () => {
+        store.dispatch(
+          new CheckoutActions.LoadCheckoutDetailsFail(new Error())
+        );
+
+        let loaded: boolean;
+        service
+          .getCheckoutDetailsLoaded()
+          .subscribe((data) => {
+            loaded = data;
+          })
+          .unsubscribe();
+        expect(loaded).toBeFalsy();
+      });
     });
 
-    it('should return false for fail', () => {
+    describe('get checkout loading', () => {
+      it('should return true in case loading was triggered', () => {
+        store.dispatch(
+          new CheckoutActions.LoadCheckoutDetails({
+            userId: userId,
+            cartId: cart.code,
+          })
+        );
+
+        let loaded: boolean;
+        service
+          .getCheckoutLoading()
+          .subscribe((data) => {
+            loaded = data;
+          })
+          .unsubscribe();
+        expect(loaded).toBeTruthy();
+      });
+    });
+
+    it('should return false in case checkout load failed', () => {
       store.dispatch(new CheckoutActions.LoadCheckoutDetailsFail(new Error()));
 
       let loaded: boolean;
       service
-        .getCheckoutDetailsLoaded()
+        .getCheckoutLoading()
         .subscribe((data) => {
           loaded = data;
         })

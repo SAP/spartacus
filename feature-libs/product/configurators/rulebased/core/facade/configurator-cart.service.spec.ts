@@ -65,7 +65,7 @@ const cartState: StateUtils.ProcessesLoaderState<Cart> = {
 };
 let cartStateObs = null;
 let isStableObs = null;
-let checkoutStableObs = null;
+let checkoutLoadingObs = null;
 class MockActiveCartService {
   requireLoadedCart(): Observable<StateUtils.ProcessesLoaderState<Cart>> {
     return cartStateObs;
@@ -76,8 +76,8 @@ class MockActiveCartService {
 }
 
 class MockCheckoutService {
-  getCheckoutDetailsStable(): Observable<boolean> {
-    return checkoutStableObs;
+  getCheckoutLoading(): Observable<boolean> {
+    return checkoutLoadingObs;
   }
 }
 
@@ -89,7 +89,7 @@ describe('ConfiguratorCartService', () => {
   beforeEach(async(() => {
     cartStateObs = of(cartState);
     isStableObs = of(true);
-    checkoutStableObs = of(true);
+    checkoutLoadingObs = of(true);
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
@@ -185,8 +185,8 @@ describe('ConfiguratorCartService', () => {
         x: false,
         y: true,
       });
-      checkoutStableObs = cold('a', {
-        a: true,
+      checkoutLoadingObs = cold('a', {
+        a: false,
       });
 
       const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
@@ -206,9 +206,9 @@ describe('ConfiguratorCartService', () => {
       isStableObs = cold('a', {
         a: true,
       });
-      checkoutStableObs = cold('xxy', {
-        x: false,
-        y: true,
+      checkoutLoadingObs = cold('xxy', {
+        x: true,
+        y: false,
       });
 
       const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
