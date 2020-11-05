@@ -5,6 +5,7 @@ import {
   DaysOfWeek,
   I18nTestingModule,
   ORDER_TYPE,
+  recurrencePeriod,
   ScheduleReplenishmentForm,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -13,11 +14,11 @@ import { CheckoutReplenishmentFormService } from '../../services/checkout-replen
 import { ScheduleReplenishmentOrderComponent } from './schedule-replenishment-order.component';
 
 const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
-  numberOfDays: 'test-number-days',
-  nthDayOfMonth: 'test-day-month',
-  recurrencePeriod: 'test-daily',
-  numberOfWeeks: 'test-num-of-weeks',
-  replenishmentStartDate: 'test-date',
+  numberOfDays: '14',
+  nthDayOfMonth: '1',
+  recurrencePeriod: recurrencePeriod.WEEKLY,
+  numberOfWeeks: '1',
+  replenishmentStartDate: '2025-01-30',
   daysOfWeek: [],
 };
 
@@ -72,10 +73,6 @@ describe('ScheduleReplenishmentOrderComponent', () => {
     component.scheduleReplenishmentFormData = mockReplenishmentOrderFormData;
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
   it('should get selected order type', () => {
     let result: ORDER_TYPE;
 
@@ -102,7 +99,7 @@ describe('ScheduleReplenishmentOrderComponent', () => {
       'setScheduleReplenishmentFormData'
     ).and.callThrough();
 
-    const mockNumberOfDays = 'new-test-num-days';
+    const mockNumberOfDays = '20';
 
     component.changeNumberOfDays(mockNumberOfDays);
 
@@ -120,7 +117,7 @@ describe('ScheduleReplenishmentOrderComponent', () => {
       'setScheduleReplenishmentFormData'
     ).and.callThrough();
 
-    const mockNumberOfWeeks = 'new-test-num-weeks';
+    const mockNumberOfWeeks = '5';
 
     component.changeNumberOfWeeks(mockNumberOfWeeks);
 
@@ -138,7 +135,7 @@ describe('ScheduleReplenishmentOrderComponent', () => {
       'setScheduleReplenishmentFormData'
     ).and.callThrough();
 
-    const mockPeriodType = 'test-monthly';
+    const mockPeriodType = recurrencePeriod.MONTHLY;
 
     component.changeRecurrencePeriodType(mockPeriodType);
 
@@ -156,7 +153,7 @@ describe('ScheduleReplenishmentOrderComponent', () => {
       'setScheduleReplenishmentFormData'
     ).and.callThrough();
 
-    const mockDayOfMonth = 'new-test-day-month';
+    const mockDayOfMonth = '31';
 
     component.changeDayOfTheMonth(mockDayOfMonth);
 
@@ -174,7 +171,7 @@ describe('ScheduleReplenishmentOrderComponent', () => {
       'setScheduleReplenishmentFormData'
     ).and.callThrough();
 
-    const mockStartDate = 'new-test-start-date';
+    const mockStartDate = '2021-10-31';
 
     component.changeReplenishmentStartDate(mockStartDate);
 
@@ -204,7 +201,7 @@ describe('ScheduleReplenishmentOrderComponent', () => {
     });
   });
 
-  it('should return TRUE if the day does exist in the currentDaysOfWeek array', () => {
+  it('should return TRUE if the day exist in the currentDaysOfWeek array', () => {
     component.currentDaysOfWeek = [DaysOfWeek.FRIDAY];
 
     const result = component.hasDaysOfWeekChecked(DaysOfWeek.FRIDAY);
@@ -218,13 +215,5 @@ describe('ScheduleReplenishmentOrderComponent', () => {
     const result = component.hasDaysOfWeekChecked(DaysOfWeek.MONDAY);
 
     expect(result).toBeFalsy();
-  });
-
-  it('should get the date and format to YYYY-MM-DD', () => {
-    const ISODateFormat = '1994-01-11T00:00Z';
-
-    const result = component.currentISODate(ISODateFormat);
-
-    expect(result).toEqual('1994-01-11');
   });
 });

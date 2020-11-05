@@ -4,18 +4,18 @@ import {
   organizationTranslations,
 } from '@spartacus/organization/administration/assets';
 import { AdministrationRootModule } from '@spartacus/organization/administration/root';
-import { OrderApprovalModule } from '@spartacus/organization/order-approval';
 import {
   orderApprovalTranslationChunksConfig,
   orderApprovalTranslations,
 } from '@spartacus/organization/order-approval/assets';
+import { OrderApprovalRootModule } from '@spartacus/organization/order-approval/root';
 import { B2bStorefrontModule } from '@spartacus/setup';
 import { FeatureEnvironment } from '../models/feature.model';
 
 export const b2bFeature: FeatureEnvironment = {
   imports: [
-    OrderApprovalModule,
     AdministrationRootModule,
+    OrderApprovalRootModule,
 
     B2bStorefrontModule.withConfig({
       context: {
@@ -28,6 +28,12 @@ export const b2bFeature: FeatureEnvironment = {
           module: () =>
             import('@spartacus/organization/administration').then(
               (m) => m.AdministrationModule
+            ),
+        },
+        organizationOrderApproval: {
+          module: () =>
+            import('@spartacus/organization/order-approval').then(
+              (m) => m.OrderApprovalModule
             ),
         },
       },
