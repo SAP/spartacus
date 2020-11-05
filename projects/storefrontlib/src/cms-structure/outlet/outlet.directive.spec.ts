@@ -1,7 +1,7 @@
 import { Component, ComponentFactoryResolver, Inject } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { FeaturesConfig, getLastValueSync } from '@spartacus/core';
+import { getLastValueSync } from '@spartacus/core';
 import { OutletService } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { DeferLoaderService } from '../../layout/loading/defer-loader.service';
@@ -87,10 +87,6 @@ describe('OutletDirective', () => {
           {
             provide: DeferLoaderService,
             useClass: MockDeferLoaderService,
-          },
-          {
-            provide: FeaturesConfig,
-            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #8201
           },
         ],
       }).compileComponents();
@@ -189,10 +185,6 @@ describe('OutletDirective', () => {
             provide: DeferLoaderService,
             useClass: MockDeferLoaderService,
           },
-          {
-            provide: FeaturesConfig,
-            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #8201
-          },
         ],
       }).compileComponents();
     }));
@@ -258,10 +250,6 @@ describe('OutletDirective', () => {
             provide: DeferLoaderService,
             useClass: MockDeferLoaderService,
           },
-          {
-            provide: FeaturesConfig,
-            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #8201
-          },
         ],
       }).compileComponents();
 
@@ -305,10 +293,6 @@ describe('OutletDirective', () => {
           {
             provide: DeferLoaderService,
             useClass: MockDeferLoaderService,
-          },
-          {
-            provide: FeaturesConfig,
-            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #8201
           },
         ],
       }).compileComponents();
@@ -379,10 +363,6 @@ describe('OutletDirective', () => {
           {
             provide: 'mockContext',
             useValue: mockContextSubject$,
-          },
-          {
-            provide: FeaturesConfig,
-            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #8201
           },
         ],
       }).compileComponents();
