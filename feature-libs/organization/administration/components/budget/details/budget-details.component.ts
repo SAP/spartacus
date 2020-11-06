@@ -5,8 +5,10 @@ import { shareReplay, switchMap } from 'rxjs/operators';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 
 @Component({
+  selector: 'cx-budget-details',
   templateUrl: './budget-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
 })
 export class BudgetDetailsComponent {
   model$: Observable<Budget> = this.itemService.key$.pipe(

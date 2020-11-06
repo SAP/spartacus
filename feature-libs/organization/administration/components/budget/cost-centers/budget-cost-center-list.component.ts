@@ -3,8 +3,10 @@ import { OrganizationListService } from '../../shared/organization-list/organiza
 import { BudgetCostCenterListService } from './budget-cost-center-list.service';
 
 @Component({
+  selector: 'cx-budget-cost-center-list',
   templateUrl: './budget-cost-center-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
       provide: OrganizationListService,
