@@ -66,6 +66,7 @@ export const LOAD_CMS_COMPONENT_FAIL_CLASS = 'LoadCmsComponentFail';
 export const LOAD_CMS_COMPONENT_SUCCESS_CLASS = 'LoadCmsComponentSuccess';
 export const CMS_GET_COMPONENT_FROM_PAGE = 'CmsGetComponentFromPage';
 export const USER_ADDRESS_SERVICE = 'UserAddressService';
+export const USER_ID_SERVICE = 'UserIdService';
 export const AUTH_SERVICE = 'AuthService';
 export const FEATURE_CONFIG_SERVICE = 'FeatureConfigService';
 export const SEMANTIC_PATH_SERVICE = 'SemanticPathService';
