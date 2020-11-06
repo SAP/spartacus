@@ -350,6 +350,8 @@ export const GET_CHILD_ROUTES = 'getChildRoutes';
 
 /***** Misc start *****/
 export const TODO_SPARTACUS = 'TODO:Spartacus -';
-export const CSS_DOCS_URL =
-  'https://sap.github.io/spartacus-docs/updating-to-version-2/css';
+export const CSS_V2_DOCS_URL =
+  'https://sap.github.io/spartacus-docs/css-changes-in-version-2/';
+export const CSS_V3_DOCS_URL =
+  'https://sap.github.io/spartacus-docs/css-changes-in-version-3/';
 /***** Misc end *****/
