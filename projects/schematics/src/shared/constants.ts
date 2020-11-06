@@ -233,6 +233,8 @@ export const SHIPPING_ADDRESS_SET_GUARD = 'ShippingAddressSetGuard';
 export const DELIVERY_MODE_SET_GUARD = 'DeliveryModeSetGuard';
 export const PAYMENT_DETAILS_SET_GUARD = 'PaymentDetailsSetGuard';
 export const ORDER_DETAILS_SHIPPING_COMPONENT = 'OrderDetailShippingComponent';
+export const ITEM_COUNTER_COMPONENT = 'ItemCounterComponent';
+export const UPDATE_EMAIL_COMPONENT = 'UpdateEmailComponent';
 
 export const TEST_OUTLET_MODULE = 'TestOutletModule';
 export const TEST_CONFIG_MODULE = 'TestConfigModule';
@@ -314,6 +316,12 @@ export const ONLY_NUMBER_DIRECTIVE = 'OnlyNumberDirective';
 export const AUTO_FOCUS_DIRECTIVE = 'AutoFocusDirective';
 export const AUTO_FOCUS_DIRECTIVE_MODULE = 'AutoFocusDirectiveModule';
 
+export const STORE_FINDER_ACTIONS = 'StoreFinderActions';
+export const FIND_STORES_CLASS = 'FindStores';
+export const SEARCH_CONFIG = 'SearchConfig';
+
+export const ON_SUCCESS = 'onSuccess';
+
 export const CHECKOUT_ACTIONS = 'CheckoutActions';
 export const PLACE_ORDER_CLASS = 'PlaceOrder';
 export const CHECKOUT_STEP_SERVICE = 'CheckoutStepService';
@@ -351,7 +359,7 @@ export const GET_MULTIPLE_PATHS_URL_MATCHER = 'getMultiplePathsUrlMatcher';
 export const GET_PATH_URL_MATCHER = 'getPathUrlMatcher';
 export const GET_OPPOSITE_URL_MATCHER = 'getOppositeUrlMatcher';
 export const GET_GLOB_URL_MATCHER = 'getGlobUrlMatcher';
-
+export const GET_CONTROL = 'getControl';
 export const GET_CHECKOUT_STEP = 'getCheckoutStep';
 export const GET_CHECKOUT_STEP_ROUTE = 'getCheckoutStepRoute';
 export const GET_FIRST_CHECKOUT_STEP_ROUTE = 'getFirstCheckoutStepRoute';
