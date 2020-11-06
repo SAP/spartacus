@@ -18,6 +18,8 @@ export class UnitAssignedApproverListService extends UnitApproverListService {
     return this.unitService.getApprovers(code).pipe(
       map((wrapper) => {
         return {
+          // forcing to override `selected` prop in objects coming from backend to avoid breaking UI
+          // this is dictated by change of information source from store to specific entity object
           values: wrapper.values.map((approver) => {
             return { ...approver, selected: true };
           }),
