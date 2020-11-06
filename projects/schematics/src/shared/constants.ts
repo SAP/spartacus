@@ -235,6 +235,8 @@ export const PAYMENT_DETAILS_SET_GUARD = 'PaymentDetailsSetGuard';
 export const ORDER_DETAILS_SHIPPING_COMPONENT = 'OrderDetailShippingComponent';
 export const ITEM_COUNTER_COMPONENT = 'ItemCounterComponent';
 export const UPDATE_EMAIL_COMPONENT = 'UpdateEmailComponent';
+export const PRODUCT_CAROUSEL_SERVICE = 'ProductCarouselService';
+export const PRODUCT_REFERENCE_SERVICE = 'ProductReferenceService';
 
 export const TEST_OUTLET_MODULE = 'TestOutletModule';
 export const TEST_CONFIG_MODULE = 'TestConfigModule';
@@ -371,6 +373,9 @@ export const CAN_ACTIVATE = 'canActivate';
 export const GET_CHILD_ROUTES = 'getChildRoutes';
 export const GET_ALL = 'getAll';
 export const GET_BASE_SITE_DATA = 'getBaseSiteData';
+export const LOAD_PRODUCT_REFERENCES = 'loadProductReferences';
+export const GET_PRODUCT_REFERENCES = 'getProductReferences';
+export const GET = 'get';
 /***** APIs end *****/
 
 /***** Misc start *****/
