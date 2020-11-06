@@ -1,15 +1,11 @@
 import { Injectable } from '@angular/core';
-import {
-  B2BUser,
-  B2BUserGroup,
-  EntitiesModel,
-  PaginationModel,
-} from '@spartacus/core';
+import { B2BUser, EntitiesModel, PaginationModel } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { OrganizationSubListService } from '../../../../shared/organization-sub-list/organization-sub-list.service';
 import { OrganizationTableType } from '../../../../shared/organization.model';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -26,13 +22,17 @@ export class UnitUserListService extends OrganizationSubListService<B2BUser> {
   }
 
   protected load(
-    pagination: PaginationModel,
+    _pagination: PaginationModel,
     code: string
   ): Observable<EntitiesModel<B2BUser>> {
-    return this.unitService.getUsers(
-      code,
-      B2BUserGroup.B2B_CUSTOMER_GROUP,
-      pagination
+    return this.unitService.getCustomers(code).pipe(
+      map((wrapper) => {
+        return {
+          values: wrapper.values.map((customer) => {
+            return { ...customer, selected: true };
+          }),
+        };
+      })
     );
   }
 }

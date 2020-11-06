@@ -36,6 +36,7 @@ const orgUnit: Partial<B2BUnit> = {
   costCenters: [],
   addresses: [address],
   approvers: [],
+  customers: [],
 };
 
 const mockedTree = {
@@ -693,6 +694,21 @@ describe('OrgUnitService', () => {
         status: LoadStatus.ERROR,
         item: undefined,
       });
+    });
+  });
+
+  describe('getCustomers', () => {
+    it('getCustomers() should trigger get()', () => {
+      store.dispatch(new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]));
+      let customers: EntitiesModel<B2BUser>;
+      service
+        .getCustomers(orgUnitId)
+        .subscribe((data) => {
+          customers = data;
+        })
+        .unsubscribe();
+
+      expect(customers).toEqual({ values: orgUnit.customers });
     });
   });
 

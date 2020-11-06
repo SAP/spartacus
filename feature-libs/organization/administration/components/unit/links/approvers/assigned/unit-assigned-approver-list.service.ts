@@ -3,6 +3,7 @@ import { B2BUser, EntitiesModel, PaginationModel } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { OrganizationTableType } from '../../../../shared/index';
 import { UnitApproverListService } from '../unit-approver-list.service';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -14,11 +15,14 @@ export class UnitAssignedApproverListService extends UnitApproverListService {
     _pagination: PaginationModel,
     code: string
   ): Observable<EntitiesModel<B2BUser>> {
-    return this.unitService.getApprovers(code);
-  }
-
-  // forcing to override filtering due to false flags for selected prop in object
-  protected filterSelected(list) {
-    return list;
+    return this.unitService.getApprovers(code).pipe(
+      map((wrapper) => {
+        return {
+          values: wrapper.values.map((approver) => {
+            return { ...approver, selected: true };
+          }),
+        };
+      })
+    );
   }
 }
