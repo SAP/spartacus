@@ -6,6 +6,7 @@ import {
 } from '../../../../shared/constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
+// projects/core/src/checkout/store/actions/index.ts
 export const CHECKOUT_GROUP_ACTIONS_MIGRATION: MethodPropertyDeprecation[] = [
   {
     class: CHECKOUT_ACTIONS,

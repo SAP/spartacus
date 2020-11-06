@@ -8,7 +8,7 @@ import {
   GET_NEXT_CHECKOUT_STEP_URL,
   GET_PREVIOUS_CHECKOUT_STEP_URL,
   SPARTACUS_STOREFRONTLIB,
-  STEP,
+  STEPS,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
@@ -18,8 +18,8 @@ export const CHECKOUT_CONFIG_SERVICE_MIGRATION: MethodPropertyDeprecation[] = [
   {
     class: CHECKOUT_CONFIG_SERVICE,
     importPath: SPARTACUS_STOREFRONTLIB,
-    deprecatedNode: STEP,
-    comment: `// ${TODO_SPARTACUS} Method '${STEP}' was removed from '${CHECKOUT_CONFIG_SERVICE}'. Instead use ${CHECKOUT_STEP_SERVICE}'.`,
+    deprecatedNode: STEPS,
+    comment: `// ${TODO_SPARTACUS} Method '${STEPS}' was removed from '${CHECKOUT_CONFIG_SERVICE}'. Instead use ${CHECKOUT_STEP_SERVICE}'.`,
   },
   {
     class: CHECKOUT_CONFIG_SERVICE,
