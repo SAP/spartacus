@@ -360,6 +360,7 @@ export const GET_PREVIOUS_CHECKOUT_STEP_URL = 'getPreviousCheckoutStepUrl';
 export const GET_CURRENT_STEP_INDEX = 'getCurrentStepIndex';
 export const STEP = 'step';
 export const CAN_ACTIVATE = 'canActivate';
+export const GET_CHILD_ROUTES = 'getChildRoutes';
 /***** APIs end *****/
 
 /***** Misc start *****/
