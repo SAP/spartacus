@@ -19,7 +19,7 @@ import { REVIEW_SUBMIT_COMPONENT_MIGRATION } from './data/review-submit.componen
 import { ROUTING_SERVICE_MIGRATION } from './data/routing.service.migration';
 import { SHIPPING_ADDRESS_SET_GUARD_MIGRATION } from './data/shipping-address-set.guard.migration';
 import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
-import { USER_ORDER_EFFECT_MIGRATION } from './data/user-order.effect.migration';
+import { USER_ORDERS_EFFECT_MIGRATION } from './data/user-order.effect.migration';
 import { USER_ORDER_SERVICE_MIGRATION } from './data/user-order.service.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
@@ -42,7 +42,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   ORDER_DETAIL_SHIPPING_COMPONENT_MIGRATION,
   ORDER_HISTORY_COMPONENT_MIGRATION,
   USER_ORDER_SERVICE_MIGRATION,
-  USER_ORDER_EFFECT_MIGRATION,
+  USER_ORDERS_EFFECT_MIGRATION,
 ];
 
 export function migrate(): Rule {
