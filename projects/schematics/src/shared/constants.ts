@@ -361,6 +361,8 @@ export const GET_CURRENT_STEP_INDEX = 'getCurrentStepIndex';
 export const STEPS = 'steps';
 export const CAN_ACTIVATE = 'canActivate';
 export const GET_CHILD_ROUTES = 'getChildRoutes';
+export const GET_ALL = 'getAll';
+export const GET_BASE_SITE_DATA = 'getBaseSiteData';
 /***** APIs end *****/
 
 /***** Misc start *****/
