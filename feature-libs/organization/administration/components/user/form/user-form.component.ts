@@ -19,6 +19,7 @@ import { UserItemService } from '../services/user-item.service';
   selector: 'cx-user-form',
   templateUrl: './user-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
       provide: OrganizationItemService,
