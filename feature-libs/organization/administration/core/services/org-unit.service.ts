@@ -394,11 +394,25 @@ export class OrgUnitService {
     );
   }
 
-  getCustomers(orgUnitId: string): Observable<EntitiesModel<B2BUser>> {
+  getAssociatedUsers(orgUnitId: string): Observable<EntitiesModel<B2BUser>> {
     return this.get(orgUnitId).pipe(
-      map((orgUnit) => ({
-        values: orgUnit.customers ?? [],
-      }))
+      map((orgUnit) => {
+        // we need to provide full list of users associated with unit entity
+        // which are spread across few properties
+        const users = [
+          ...(orgUnit.administrators ?? []),
+          ...(orgUnit.approvers ?? []),
+          ...(orgUnit.customers ?? []),
+          ...(orgUnit.managers ?? []),
+        ];
+        return {
+          values: Array.from(new Set(users.map((a) => a.customerId))).map(
+            (id) => {
+              return users.find((a) => a.customerId === id);
+            }
+          ),
+        };
+      })
     );
   }
 

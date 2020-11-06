@@ -25,9 +25,11 @@ export class UnitUserListService extends OrganizationSubListService<B2BUser> {
     _pagination: PaginationModel,
     code: string
   ): Observable<EntitiesModel<B2BUser>> {
-    return this.unitService.getCustomers(code).pipe(
+    return this.unitService.getAssociatedUsers(code).pipe(
       map((wrapper) => {
         return {
+          // forcing to override `selected` prop in objects coming from backend to avoid breaking UI
+          // this is dictated by change of information source from store to specific entity object
           values: wrapper.values.map((customer) => {
             return { ...customer, selected: true };
           }),

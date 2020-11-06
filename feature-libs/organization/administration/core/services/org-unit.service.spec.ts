@@ -35,8 +35,8 @@ const orgUnit: Partial<B2BUnit> = {
   uid: orgUnitId,
   costCenters: [],
   addresses: [address],
-  approvers: [],
-  customers: [],
+  approvers: [{ customerId: 'test1' }],
+  customers: [{ customerId: 'test1' }, { customerId: 'test2' }],
 };
 
 const mockedTree = {
@@ -697,18 +697,30 @@ describe('OrgUnitService', () => {
     });
   });
 
-  describe('getCustomers', () => {
-    it('getCustomers() should trigger get()', () => {
+  describe('getAssociatedUsers', () => {
+    it('getAssociatedUsers() should trigger get()', () => {
       store.dispatch(new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]));
-      let customers: EntitiesModel<B2BUser>;
+      let associatedUsers: EntitiesModel<B2BUser>;
       service
-        .getCustomers(orgUnitId)
+        .getAssociatedUsers(orgUnitId)
         .subscribe((data) => {
-          customers = data;
+          associatedUsers = data;
         })
         .unsubscribe();
 
-      expect(customers).toEqual({ values: orgUnit.customers });
+      expect(associatedUsers).toEqual({ values: orgUnit.customers });
+    });
+    it('getAssociatedUsers() should filter out duplicates by customerId field', () => {
+      store.dispatch(new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]));
+      let associatedUsers: EntitiesModel<B2BUser>;
+      service
+        .getAssociatedUsers(orgUnitId)
+        .subscribe((data) => {
+          associatedUsers = data;
+        })
+        .unsubscribe();
+
+      expect(associatedUsers.values.length).toEqual(2);
     });
   });
 
