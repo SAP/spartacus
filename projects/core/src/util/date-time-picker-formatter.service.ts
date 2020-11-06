@@ -6,7 +6,7 @@ export enum DATETIME_PICKER_INPUT_TYPE {
 }
 
 /**
- * Service responsible for converting date-like strings to/from formats compatible with the `<input type="datetime-local">`
+ * Service responsible for converting date-like strings to/from formats compatible with the date-like input element
  * HTML element and valid strings compatible with the `Date` object.
  *
  * Date values used are relative to the local timezone of the user.
@@ -16,11 +16,12 @@ export enum DATETIME_PICKER_INPUT_TYPE {
 })
 export class DateTimePickerFormatterService {
   /**
-   * Convert date string into a string format compatable with the browser's native `<input type="datetime-local">` HTML element.
+   * Convert date string into a string format compatable with the browser's native date-like input element.
    * @param value: date string to convert
    *
    * @example
-   * With UTC-0 local offset, `toNative('2010-01-01T00:00+0000')` returns `'2010-01-01T00:00'`.
+   * With UTC-0 local offset, `toNative('2010-01-01T00:00+0000')` returns `'2010-01-01T00:00' or `'2010-01-01'`
+   * depending on the input type.
    */
   toNative(value: string, inputType: DATETIME_PICKER_INPUT_TYPE): string {
     switch (inputType) {
@@ -38,10 +39,12 @@ export class DateTimePickerFormatterService {
 
   /**
    * Convert datetime-local native string into a valid datetime string.
-   * @param value: datetime-local string to convert
+   * @param value: input date-like string to convert
    *
    * @example
-   * With UTC-0 locale offset, `toModel('2010-01-01T00:00')` returns `'2010-01-01T00:00:00+00:00'`.
+   
+   * datetime-locatl: With UTC-0 locale offset, `toModel('2010-01-01T00:00')` returns `'2010-01-01T00:00:00+00:00'`.
+   * date: With UTC-0 locale offset, `toModel('2010-01-01')` returns `'2010-01-01T00:00:00+00:00'`.
    */
   toModel(value: string, inputType: DATETIME_PICKER_INPUT_TYPE): string {
     switch (inputType) {

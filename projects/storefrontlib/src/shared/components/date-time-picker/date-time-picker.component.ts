@@ -17,7 +17,7 @@ import {
 } from '@spartacus/core';
 
 /**
- * This component serves the browser's native `<input type="datetime-local">` HTML element
+ * This component serves the browser's date-like input HTML element
  * in whilst projecting the value in the standard date format with regards to timezone offsets.
  */
 @Component({
