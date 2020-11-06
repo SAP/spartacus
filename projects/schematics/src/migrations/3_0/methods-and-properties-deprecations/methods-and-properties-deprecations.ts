@@ -11,6 +11,7 @@ import { ITEM_COUNTER_COMPONENT_MIGRATION } from './data/item-counter.component.
 import { PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION } from './data/product-list-component.service.migration';
 import { STORE_FINDER_ACTIONS_MIGRATION } from './data/store-finder-group.actions.migration';
 import { UPDATE_EMAIL_COMPONENT_MIGRATION } from './data/update-email.component.migration';
+import { STOREFRONT_COMPONENT_MIGRATION } from './data/storefront-component.migration';
 
 export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION,
@@ -23,6 +24,7 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...STORE_FINDER_ACTIONS_MIGRATION,
   ...UPDATE_EMAIL_COMPONENT_MIGRATION,
   ...BASE_SITE_SERVICE_MIGRATION,
+  ...STOREFRONT_COMPONENT_MIGRATION,
 ];
 
 export function migrate(): Rule {
