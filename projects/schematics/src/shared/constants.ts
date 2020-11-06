@@ -225,6 +225,14 @@ export const ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE =
   'AnonymousConsentLaunchDialogService';
 export const ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT =
   'AnonymousConsentOpenDialogComponent';
+export const CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT =
+  'CheckoutProgressMobileBottomComponent';
+export const CHECKOUT_PROGRESS_COMPONENT = 'CheckoutProgressComponent';
+export const DELIVERY_MODE_COMPONENT = 'DeliveryModeComponent';
+export const SHIPPING_ADDRESS_SET_GUARD = 'ShippingAddressSetGuard';
+export const DELIVERY_MODE_SET_GUARD = 'DeliveryModeSetGuard';
+export const PAYMENT_DETAILS_SET_GUARD = 'PaymentDetailsSetGuard';
+export const ORDER_DETAILS_SHIPPING_COMPONENT = 'OrderDetailShippingComponent';
 export const ITEM_COUNTER_COMPONENT = 'ItemCounterComponent';
 export const UPDATE_EMAIL_COMPONENT = 'UpdateEmailComponent';
 
@@ -314,6 +322,13 @@ export const SEARCH_CONFIG = 'SearchConfig';
 
 export const ON_SUCCESS = 'onSuccess';
 
+export const CHECKOUT_ACTIONS = 'CheckoutActions';
+export const PLACE_ORDER_CLASS = 'PlaceOrder';
+export const CHECKOUT_STEP_SERVICE = 'CheckoutStepService';
+export const USER_COST_CENTER_SERVICE = 'UserCostCenterService';
+export const CHECKOUT_COST_CENTER_SERVICE = 'CheckoutCostCenterService';
+export const PAYMENT_TYPE_SERVICE = 'PaymentTypeService';
+
 /***** Removed public api end *****/
 
 /***** Properties start *****/
@@ -345,7 +360,17 @@ export const GET_PATH_URL_MATCHER = 'getPathUrlMatcher';
 export const GET_OPPOSITE_URL_MATCHER = 'getOppositeUrlMatcher';
 export const GET_GLOB_URL_MATCHER = 'getGlobUrlMatcher';
 export const GET_CONTROL = 'getControl';
+export const GET_CHECKOUT_STEP = 'getCheckoutStep';
+export const GET_CHECKOUT_STEP_ROUTE = 'getCheckoutStepRoute';
+export const GET_FIRST_CHECKOUT_STEP_ROUTE = 'getFirstCheckoutStepRoute';
+export const GET_NEXT_CHECKOUT_STEP_URL = 'getNextCheckoutStepUrl';
+export const GET_PREVIOUS_CHECKOUT_STEP_URL = 'getPreviousCheckoutStepUrl';
+export const GET_CURRENT_STEP_INDEX = 'getCurrentStepIndex';
+export const STEPS = 'steps';
+export const CAN_ACTIVATE = 'canActivate';
 export const GET_CHILD_ROUTES = 'getChildRoutes';
+export const GET_ALL = 'getAll';
+export const GET_BASE_SITE_DATA = 'getBaseSiteData';
 /***** APIs end *****/
 
 /***** Misc start *****/
