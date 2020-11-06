@@ -335,6 +335,7 @@ export const GET_MULTIPLE_PATHS_URL_MATCHER = 'getMultiplePathsUrlMatcher';
 export const GET_PATH_URL_MATCHER = 'getPathUrlMatcher';
 export const GET_OPPOSITE_URL_MATCHER = 'getOppositeUrlMatcher';
 export const GET_GLOB_URL_MATCHER = 'getGlobUrlMatcher';
+export const GET_CHILD_ROUTES = 'getChildRoutes';
 export const GET_WINDOW = 'window';
 export const GET_CLOSEST = 'getClosest';
 export const GET_BREAKPOINT = 'getBreakpoint';

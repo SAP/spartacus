@@ -8,8 +8,10 @@ import { ChangePasswordFormService } from './change-password-form.service';
 import { MessageService } from '../../shared/organization-message/services/message.service';
 
 @Component({
+  selector: 'cx-change-password-form',
   templateUrl: './change-password-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
 })
 export class ChangePasswordFormComponent {
   form$ = this.itemService.current$.pipe(
