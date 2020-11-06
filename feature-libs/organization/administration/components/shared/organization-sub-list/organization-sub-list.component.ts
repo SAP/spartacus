@@ -14,6 +14,7 @@ import { OrganizationListComponent } from '../organization-list/organization-lis
   selector: 'cx-organization-sub-list',
   templateUrl: './organization-sub-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
 })
 export class OrganizationSubListComponent extends OrganizationListComponent {
   hostClass = '';
