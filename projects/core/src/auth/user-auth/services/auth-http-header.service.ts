@@ -17,7 +17,7 @@ import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthHeaderService {
+export class AuthHttpHeaderService {
   constructor(
     protected authService: AuthService,
     protected authStorageService: AuthStorageService,
@@ -93,7 +93,8 @@ export class AuthHeaderService {
    */
   public handleExpiredRefreshToken(): void {
     // Logout user
-    this.authService.logout();
+    // TODO(#9638): Use logout route when it will support passing redirect url
+    this.authService.coreLogout();
     this.routingService.go({ cxRoute: 'login' });
     this.globalMessageService.add(
       {

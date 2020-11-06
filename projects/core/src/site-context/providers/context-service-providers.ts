@@ -12,14 +12,12 @@ export function initializeContext(
   configInit: ConfigInitializerService,
   siteContextRoutesHandler: SiteContextRoutesHandler
 ) {
-  return () => {
-    configInit.getStableConfig('context').then(() => {
-      siteContextRoutesHandler.init().then(() => {
-        baseSiteService.initialize();
-        langService.initialize();
-        currService.initialize();
-      });
-    });
+  return async () => {
+    await configInit.getStableConfig('context');
+    siteContextRoutesHandler.init();
+    baseSiteService.initialize();
+    langService.initialize();
+    currService.initialize();
   };
 }
 
