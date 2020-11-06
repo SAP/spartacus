@@ -7,6 +7,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Optional,
   Renderer2,
 } from '@angular/core';
 import {
@@ -101,7 +102,7 @@ export class PageSlotComponent implements OnInit, OnDestroy {
     protected elementRef: ElementRef,
     protected cmsComponentsService: CmsComponentsService,
     protected cd: ChangeDetectorRef,
-    protected pageSlotService: PageSlotService
+    @Optional() protected pageSlotService?: PageSlotService
   ) {}
 
   ngOnInit() {
@@ -163,7 +164,7 @@ export class PageSlotComponent implements OnInit, OnDestroy {
    * rendered instantly or whether it should be deferred.
    */
   getComponentDeferOptions(componentType: string): IntersectionOptions {
-    if (this.pageSlotService.shouldNotDefer(this.position)) {
+    if (this.pageSlotService?.shouldNotDefer(this.position)) {
       return { deferLoading: DeferLoadingStrategy.INSTANT };
     }
     const deferLoading = this.cmsComponentsService.getDeferLoadingStrategy(
