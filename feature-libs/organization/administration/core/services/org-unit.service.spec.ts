@@ -35,6 +35,7 @@ const orgUnit: Partial<B2BUnit> = {
   uid: orgUnitId,
   costCenters: [],
   addresses: [address],
+  approvers: [],
 };
 
 const mockedTree = {
@@ -692,6 +693,21 @@ describe('OrgUnitService', () => {
         status: LoadStatus.ERROR,
         item: undefined,
       });
+    });
+  });
+
+  describe('getApprovers', () => {
+    it('getApprovers() should trigger get()', () => {
+      store.dispatch(new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]));
+      let approvers: EntitiesModel<B2BUser>;
+      service
+        .getApprovers(orgUnitId)
+        .subscribe((data) => {
+          approvers = data;
+        })
+        .unsubscribe();
+
+      expect(approvers).toEqual({ values: orgUnit.approvers });
     });
   });
 });

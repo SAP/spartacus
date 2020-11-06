@@ -393,4 +393,12 @@ export class OrgUnitService {
       )
     );
   }
+
+  getApprovers(orgUnitId: string): Observable<EntitiesModel<B2BUser>> {
+    return this.get(orgUnitId).pipe(
+      map((orgUnit) => ({
+        values: orgUnit.approvers ?? [],
+      }))
+    );
+  }
 }
