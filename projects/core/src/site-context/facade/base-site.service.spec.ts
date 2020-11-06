@@ -21,9 +21,6 @@ const mockActiveBaseSiteUidSelect = createSpy('select').and.returnValue(() =>
 const mockBaseSitesSelect = createSpy('select').and.returnValue(() =>
   of([{ uid: 'mock-active-base-site-uid' }, { uid: 'test-baseSite' }])
 );
-const mockBaseSiteDetailsSelect = createSpy('select').and.returnValue(() =>
-  of({ uid: 'test-basesite' })
-);
 
 describe('BaseSiteService', () => {
   let service: BaseSiteService;
@@ -123,26 +120,5 @@ describe('BaseSiteService', () => {
     let result;
     service.get('test-baseSite').subscribe((res) => (result = res));
     expect(result).toEqual({ uid: 'test-baseSite' });
-  });
-
-  it('getBaseSiteData should return active baseSite details', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(
-      mockBaseSiteDetailsSelect
-    );
-
-    let result;
-    service.getBaseSiteData().subscribe((res) => (result = res));
-    expect(result).toEqual({ uid: 'test-basesite' });
-  });
-
-  it('getBaseSiteData should load base site data if it does not exist', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(
-      createSpy('select').and.returnValue(() => of({}))
-    );
-
-    service.getBaseSiteData().subscribe();
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new SiteContextActions.LoadBaseSite()
-    );
   });
 });
