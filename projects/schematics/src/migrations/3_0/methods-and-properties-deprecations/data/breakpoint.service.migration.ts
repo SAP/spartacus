@@ -15,7 +15,7 @@ export const BREAKPOINT_SERVICE_MIGRATION: MethodPropertyDeprecation[] = [
     class: BREAKPOINT_SERVICE,
     importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedNode: GET_WINDOW,
-    comment: `// ${TODO_SPARTACUS} Method '${GET_WINDOW}' was removed from '${BREAKPOINT_SERVICE}'. Instead use '${WINDOW_REF}' directly.`,
+    comment: `// ${TODO_SPARTACUS} Getter method of property '${GET_WINDOW}' was removed from '${BREAKPOINT_SERVICE}'. Instead use '${WINDOW_REF}' directly.`,
   },
   {
     class: BREAKPOINT_SERVICE,
