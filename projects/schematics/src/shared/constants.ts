@@ -100,6 +100,8 @@ export const ADDED_TO_CART_DIALOG_COMPONENT = 'AddedToCartDialogComponent';
 export const MODAL_SERVICE = 'ModalService';
 export const CURRENT_PRODUCT_SERVICE = 'CurrentProductService';
 export const CART_NOT_EMPTY_GUARD = 'CartNotEmptyGuard';
+export const CONTENT_PAGE_META_RESOLVER = 'ContentPageMetaResolver';
+export const ROUTING_PAGE_META_RESOLVER = 'RoutingPageMetaResolver';
 export const CART_TOTALS_COMPONENT = 'CartTotalsComponent';
 export const MINI_CART_COMPONENT = 'MiniCartComponent';
 export const CHECKOUT_ORDER_SUMMARY_COMPONENT = 'CheckoutOrderSummaryComponent';
@@ -333,6 +335,7 @@ export const GET_MULTIPLE_PATHS_URL_MATCHER = 'getMultiplePathsUrlMatcher';
 export const GET_PATH_URL_MATCHER = 'getPathUrlMatcher';
 export const GET_OPPOSITE_URL_MATCHER = 'getOppositeUrlMatcher';
 export const GET_GLOB_URL_MATCHER = 'getGlobUrlMatcher';
+export const GET_CHILD_ROUTES = 'getChildRoutes';
 /***** APIs end *****/
 
 /***** Misc start *****/
