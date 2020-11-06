@@ -50,16 +50,16 @@ export const LOGIN_FORM_COMPONENT_MIGRATION: ConstructorDeprecation = {
   ],
   removeParams: [
     {
+      className: AUTH_REDIRECT_SERVICE,
+      importPath: SPARTACUS_CORE,
+    },
+    {
       className: ACTIVATED_ROUTE,
       importPath: ANGULAR_ROUTER,
     },
     {
       className: CHECKOUT_CONFIG_SERVICE,
       importPath: SPARTACUS_STOREFRONTLIB,
-    },
-    {
-      className: AUTH_REDIRECT_SERVICE,
-      importPath: SPARTACUS_CORE,
     },
   ],
 };
