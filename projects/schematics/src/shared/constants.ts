@@ -239,6 +239,8 @@ export const USER_ID_SERVICE = 'UserIdService';
 
 export const TEST_OUTLET_MODULE = 'TestOutletModule';
 export const TEST_CONFIG_MODULE = 'TestConfigModule';
+
+export const COLLAPSE_MENU_IF_CLICK_OUTSIDE = 'collapseMenuIfClickOutside';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
