@@ -148,10 +148,10 @@ describe('DateTimePickerFormatter Service', () => {
           fakeDateTimezoneOffset(0, () => {
             expect(
               service.toNative('2010-01-01T00:00+0000', inputType)
-            ).toEqual('01/01/2010');
+            ).toEqual(new Date('01/01/2010').toLocaleDateString());
             expect(
               service.toNative('2034-07-12T23:59+0000', inputType)
-            ).toEqual('13/07/2034');
+            ).toEqual(new Date('7-13-2034').toLocaleDateString());
           });
         });
 
@@ -159,10 +159,10 @@ describe('DateTimePickerFormatter Service', () => {
           fakeDateTimezoneOffset(120, () => {
             expect(
               service.toNative('2010-01-01T00:00+0000', inputType)
-            ).toEqual('01/01/2010');
+            ).toEqual(new Date('01/01/2010').toLocaleDateString());
             expect(
               service.toNative('2034-07-12T23:59+0000', inputType)
-            ).toEqual('13/07/2034');
+            ).toEqual(new Date('7-13-2034').toLocaleDateString());
           });
         });
 
@@ -170,10 +170,10 @@ describe('DateTimePickerFormatter Service', () => {
           fakeDateTimezoneOffset(0, () => {
             expect(
               service.toNative('2010-01-01T00:00+02:00', inputType)
-            ).toEqual('31/12/2009');
+            ).toEqual(new Date('12-31-2009').toLocaleDateString());
             expect(
               service.toNative('2034-07-12T23:59+02:00', inputType)
-            ).toEqual('12/07/2034');
+            ).toEqual(new Date('7-12-2034').toLocaleDateString());
           });
         });
 
@@ -181,10 +181,10 @@ describe('DateTimePickerFormatter Service', () => {
           fakeDateTimezoneOffset(-180, () => {
             expect(
               service.toNative('2010-01-01T00:00+0000', inputType)
-            ).toEqual('01/01/2010');
+            ).toEqual(new Date('01/01/2010').toLocaleDateString());
             expect(
               service.toNative('2034-07-12T23:59+0000', inputType)
-            ).toEqual('13/07/2034');
+            ).toEqual(new Date('7-13-2034').toLocaleDateString());
           });
         });
 
@@ -192,10 +192,10 @@ describe('DateTimePickerFormatter Service', () => {
           fakeDateTimezoneOffset(0, () => {
             expect(
               service.toNative('2010-01-01T00:00-03:00', inputType)
-            ).toEqual('01/01/2010');
+            ).toEqual(new Date('01/01/2010').toLocaleDateString());
             expect(
               service.toNative('2034-07-12T23:59-03:00', inputType)
-            ).toEqual('13/07/2034');
+            ).toEqual(new Date('7-13-2034').toLocaleDateString());
           });
         });
       });
