@@ -13,12 +13,14 @@ import {
   CmsService,
   ContentSlotComponentData,
   ContentSlotData,
+  DeferLoadingStrategy,
   DynamicAttributeService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { IntersectionOptions } from '../../../layout/loading/intersection.model';
 import { CmsComponentsService } from '../../services/cms-components.service';
+import { PageSlotService } from './page-slot.service';
 
 /**
  * The `PageSlotComponent` is used to render the CMS page slot and it's components.
@@ -98,7 +100,8 @@ export class PageSlotComponent implements OnInit, OnDestroy {
     protected renderer: Renderer2,
     protected elementRef: ElementRef,
     protected cmsComponentsService: CmsComponentsService,
-    protected cd: ChangeDetectorRef
+    protected cd: ChangeDetectorRef,
+    protected pageSlotService: PageSlotService
   ) {}
 
   ngOnInit() {
@@ -160,6 +163,9 @@ export class PageSlotComponent implements OnInit, OnDestroy {
    * rendered instantly or whether it should be deferred.
    */
   getComponentDeferOptions(componentType: string): IntersectionOptions {
+    if (this.pageSlotService.shouldNotDefer(this.position)) {
+      return { deferLoading: DeferLoadingStrategy.INSTANT };
+    }
     const deferLoading = this.cmsComponentsService.getDeferLoadingStrategy(
       componentType
     );
