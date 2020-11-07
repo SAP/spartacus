@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontapp-e2e-cypress/cypress/support/require-logged-in.commands.ts</code>
+            <code>projects/storefrontapp-e2e-cypress/cypress/support/order-placed.commands.ts</code>
         </p>
 
 
@@ -79,7 +79,7 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#requireLoggedIn">requireLoggedIn</a>
+                                        <a href="#waitForOrderToBePlacedRequest">waitForOrderToBePlacedRequest</a>
                                 </li>
                             </ul>
                         </td>
@@ -96,13 +96,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="requireLoggedIn"></a>
-                                        <span class="name"><b>requireLoggedIn</b><a href="#requireLoggedIn"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="waitForOrderToBePlacedRequest"></a>
+                                        <span class="name"><b>waitForOrderToBePlacedRequest</b><a href="#waitForOrderToBePlacedRequest"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>requireLoggedIn:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                        <code>waitForOrderToBePlacedRequest:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -121,7 +121,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Make sure you are logged in. Returns generated email.</p>
+                                    <div class="io-description"><p>Wait for backend to create order after completing checkout.</p>
 </div>
                                 </td>
                             </tr>
@@ -132,123 +132,34 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { generateMail, randomString } from &#x27;../helpers/user&#x27;;
-import { config, login, setSessionData } from &#x27;./utils/login&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { waitForOrderToBePlacedRequest } from &#x27;./utils/order-placed&#x27;;
 
 declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Make sure you are logged in. Returns generated email.
+       * Wait for backend to create order after completing checkout.
        *
        * @memberof Cypress.Chainable
        *
        * @example
         &#x60;&#x60;&#x60;
-        cy.requireLoggedIn(user)
+        cy.waitForOrderToBePlacedRequest(contentCatalog, currency, orderNumber);
         &#x60;&#x60;&#x60;
        */
-      requireLoggedIn: (
-        user?: AccountData,
-        options?: RequireLoggedInDebugOptions
-      ) &#x3D;&gt; Cypress.Chainable&lt;{ username: string }&gt;;
+      waitForOrderToBePlacedRequest: (
+        contentCatalog?: string,
+        currency?: string,
+        orderNumber?: string
+      ) &#x3D;&gt; void;
     }
   }
 }
 
-export interface AccountData {
-  user: string;
-  registrationData: RegistrationData;
-}
-
-export interface RegistrationData {
-  firstName: string;
-  lastName: string;
-  password: string;
-  titleCode: string;
-  email?: string;
-}
-
-export interface RequireLoggedInDebugOptions {
-  freshUserOnTestRefresh?: boolean;
-}
-
 Cypress.Commands.add(
-  &#x27;requireLoggedIn&#x27;,
-  (accountData?: AccountData, options: RequireLoggedInDebugOptions &#x3D; {}) &#x3D;&gt; {
-    function loginAsGuest() {
-      return cy.request({
-        method: &#x27;POST&#x27;,
-        url: config.tokenUrl,
-        body: {
-          ...config.client,
-          grant_type: &#x27;client_credentials&#x27;,
-        },
-        form: true,
-      });
-    }
-
-    function registerUser(
-      uid: string,
-      registrationData: RegistrationData,
-      access_token: string
-    ) {
-      return cy.request({
-        method: &#x27;POST&#x27;,
-        url: config.newUserUrl,
-        body: {
-          firstName: registrationData.firstName,
-          lastName: registrationData.lastName,
-          password: registrationData.password,
-          titleCode: registrationData.titleCode,
-          uid,
-        },
-        headers: {
-          Authorization: &#x60;bearer ${access_token}&#x60;,
-        },
-      });
-    }
-
-    const defaultAccount: AccountData &#x3D; {
-      user: randomString(),
-      registrationData: {
-        firstName: &#x27;Winston&#x27;,
-        lastName: &#x27;Rumfoord&#x27;,
-        password: &#x27;Password123.&#x27;,
-        titleCode: &#x27;mr&#x27;,
-      },
-    };
-    const account &#x3D; accountData || defaultAccount;
-    const username &#x3D;
-      account.registrationData.email ||
-      generateMail(account.user, options.freshUserOnTestRefresh);
-
-    cy.server();
-    login(username, account.registrationData.password, false).then((res) &#x3D;&gt; {
-      if (res.status &#x3D;&#x3D;&#x3D; 200) {
-        // User is already registered - only set session in sessionStorage
-        setSessionData(res.body);
-      } else {
-        /* User needs to be registered
-           1. Login as guest for access token
-           2. Create new user
-           3. Login as a new user
-        */
-        loginAsGuest()
-          .then((response) &#x3D;&gt;
-            registerUser(
-              username,
-              account.registrationData,
-              response.body.access_token
-            )
-          )
-          .then(() &#x3D;&gt; login(username, account.registrationData.password))
-          .then((response) &#x3D;&gt; {
-            setSessionData(response.body);
-          });
-      }
-    });
-    return cy.wrap({ username });
+  &#x27;waitForOrderToBePlacedRequest&#x27;,
+  (contentCatalog &#x3D; &#x27;electronics-spa&#x27;, currency &#x3D; &#x27;USD&#x27;, orderNumber) &#x3D;&gt; {
+    waitForOrderToBePlacedRequest(orderNumber, contentCatalog, currency);
   }
 );
 </code></pre>

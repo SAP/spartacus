@@ -1676,13 +1676,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/PageSlotModule.html" data-type="entity-link">PageSlotModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-PageSlotModule-ae8b9b3d52c432748d09633e6607d027"' : 'data-target="#xs-components-links-module-PageSlotModule-ae8b9b3d52c432748d09633e6607d027"' }>
+                                            'data-target="#components-links-module-PageSlotModule-1911a850c428c79532d155ec4243bb27"' : 'data-target="#xs-components-links-module-PageSlotModule-1911a850c428c79532d155ec4243bb27"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-PageSlotModule-ae8b9b3d52c432748d09633e6607d027"' :
-                                            'id="xs-components-links-module-PageSlotModule-ae8b9b3d52c432748d09633e6607d027"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-PageSlotModule-1911a850c428c79532d155ec4243bb27"' :
+                                            'id="xs-components-links-module-PageSlotModule-1911a850c428c79532d155ec4243bb27"' }>
                                             <li class="link">
                                                 <a href="components/PageSlotComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">PageSlotComponent</a>
@@ -4782,6 +4782,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 </li>
                                 <li class="link">
                                     <a href="injectables/PageMetaService.html" data-type="entity-link">PageMetaService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="injectables/PageSlotService.html" data-type="entity-link">PageSlotService</a>
                                 </li>
                                 <li class="link">
                                     <a href="injectables/PageTemplateStyleService.html" data-type="entity-link">PageTemplateStyleService</a>

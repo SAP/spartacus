@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontapp-e2e-cypress/cypress/support/ng-select.commands.ts</code>
+            <code>projects/storefrontapp-e2e-cypress/cypress/support/cx-config.commands.ts</code>
         </p>
 
 
@@ -79,7 +79,7 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#ngSelect">ngSelect</a>
+                                        <a href="#cxConfig">cxConfig</a>
                                 </li>
                             </ul>
                         </td>
@@ -96,13 +96,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="ngSelect"></a>
-                                        <span class="name"><b>ngSelect</b><a href="#ngSelect"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="cxConfig"></a>
+                                        <span class="name"><b>cxConfig</b><a href="#cxConfig"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>ngSelect:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                        <code>cxConfig:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -121,7 +121,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Selects in ng select</p>
+                                    <div class="io-description"><p>Provides dynamically a chunk of the <code>StorefrontConfig</code>.</p>
 </div>
                                 </td>
                             </tr>
@@ -132,32 +132,29 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">declare namespace Cypress {
-  interface Chainable {
-    /**
-       * Selects in ng select
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { StorefrontConfig } from &#x27;@spartacus/storefront&#x27;;
+
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      /**
+       * Provides dynamically a chunk of the &#x60;StorefrontConfig&#x60;.
        *
        * @memberof Cypress.Chainable
        *
        * @example
         &#x60;&#x60;&#x60;
-        cy.get(&#x27;[name&#x3D;&quot;title&quot;]&#x27;).ngSelect(&#x27;Mr.&#x27;)
+        cy.cxConfig(config)
         &#x60;&#x60;&#x60;
        */
-    ngSelect: (option: string) &#x3D;&gt; void;
+      cxConfig: (config: StorefrontConfig) &#x3D;&gt; void;
+    }
   }
 }
 
-Cypress.Commands.add(
-  &#x27;ngSelect&#x27;,
-  {
-    prevSubject: &#x27;element&#x27;,
-  },
-  (element, option) &#x3D;&gt; {
-    cy.wrap(element).click();
-    cy.get(&#x27;.ng-dropdown-panel-items&#x27;).contains(option).click({ force: true });
-  }
-);
+Cypress.Commands.add(&#x27;cxConfig&#x27;, (config) &#x3D;&gt; {
+  cy.setCookie(&#x27;cxConfigE2E&#x27;, encodeURIComponent(JSON.stringify(config)));
+});
 </code></pre>
     </div>
 </div>
