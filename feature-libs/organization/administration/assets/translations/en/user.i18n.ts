@@ -42,8 +42,14 @@ export const user = {
 
   messages: {
     deactivate: 'Are you sure you want to disable this user?',
-    confirmEnabled: 'User {{item.name}} enabled successfully',
-    confirmDisabled: 'User {{item.name}}  disabled successfully',
+    confirmEnabled:
+      'User {{item.firstName}} {{item.lastName}} enabled successfully',
+    confirmDisabled:
+      'User {{item.firstName}} {{item.lastName}} disabled successfully',
+    update: 'User {{item.firstName}} {{item.lastName}} updated successfully',
+    create: 'User {{item.firstName}} {{item.lastName}} created successfully',
+    updatePassword:
+      'User {{item.firstName}} {{item.lastName}} password updated successfully',
   },
 
   approver: {
@@ -96,7 +102,7 @@ export const user = {
 
   password: {
     title: 'Change password',
-    subtitle: '',
+    subtitle: 'User: {{ item.email }}',
     newPassword: 'New password',
     confirmPassword: 'Retype new password',
   },
@@ -113,40 +119,40 @@ export const user = {
 export const userAssignedApprovers = {
   title: 'Assigned approvers',
   subtitle: 'User: {{ item.name }}',
-  assigned: 'Approver assigned successfully',
-  unassigned: 'Approver unassigned successfully',
+  assigned: 'Approver {{ item.name }} assigned successfully',
+  unassigned: 'Approver {{ item.name }} unassigned successfully',
 };
 export const userApprovers = {
   title: 'Manage approvers',
   subtitle: 'User: {{ item.name }}',
-  assigned: 'Approver assigned successfully',
-  unassigned: 'Approver unassigned successfully',
+  assigned: 'Approver {{ item.name }} assigned successfully',
+  unassigned: 'Approver {{ item.name }} unassigned successfully',
 };
 
 export const userAssignedPermissions = {
   title: 'Assigned purchase limits',
   subtitle: 'User: {{ item.name }}',
-  assigned: 'Purchase limit assigned successfully',
-  unassigned: 'Purchase limit unassigned successfully',
+  assigned: 'Purchase limit {{ item.code }} assigned successfully',
+  unassigned: 'Purchase limit {{ item.code }} unassigned successfully',
 };
 
 export const userPermissions = {
   title: 'Manage purchase limits',
   subtitle: 'User: {{ item.name }}',
-  assigned: 'Purchase limit assigned successfully',
-  unassigned: 'Purchase limit unassigned successfully',
+  assigned: 'Purchase limit {{ item.code }} assigned successfully',
+  unassigned: 'Purchase limit {{ item.code }} unassigned successfully',
 };
 
 export const userAssignedUserGroups = {
   title: 'Assigned user groups',
   subtitle: 'User: {{ item.name }}',
-  assigned: 'User group "{{item.name}}" assigned successfully',
-  unassigned: 'User group "{{item.name}}" unassigned successfully',
+  assigned: 'User group {{item.name}} assigned successfully',
+  unassigned: 'User group {{item.name}} unassigned successfully',
 };
 
 export const userUserGroups = {
   title: 'Manage user groups',
   subtitle: 'User: {{ item.name }}',
-  assigned: 'User group "{{item.name}}" assigned successfully',
-  unassigned: 'User group "{{item.name}}" unassigned successfully',
+  assigned: 'User group {{item.name}} assigned successfully',
+  unassigned: 'User group {{item.name}} unassigned successfully',
 };

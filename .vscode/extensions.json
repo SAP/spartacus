@@ -7,6 +7,8 @@
     // Prettier - Code formatter
     "esbenp.prettier-vscode",
     // The ng lint command uses TSLint under the hood.
-    "ms-vscode.vscode-typescript-tslint-plugin"
+    "ms-vscode.vscode-typescript-tslint-plugin",
+    // Modern CSS/SCSS/Less linter
+    "stylelint.vscode-stylelint"
   ]
 }

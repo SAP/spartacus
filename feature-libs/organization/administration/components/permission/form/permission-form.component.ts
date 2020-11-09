@@ -17,8 +17,10 @@ import { OrganizationItemService } from '../../shared/organization-item.service'
 import { PermissionItemService } from '../services/permission-item.service';
 
 @Component({
+  selector: 'cx-permission-form',
   templateUrl: './permission-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
       provide: OrganizationItemService,

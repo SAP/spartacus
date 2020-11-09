@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
 import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
 import { FormUtils } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CurrentOrganizationItemService } from './current-organization-item.service';
 import { OrganizationFormService } from './organization-form/organization-form.service';
 
@@ -31,23 +31,25 @@ export abstract class OrganizationItemService<T> {
    */
   unit$: Observable<string> = this.currentItemService.b2bUnit$;
 
-  save(form: FormGroup, key?: string): void {
+  save(form: FormGroup, key?: string): Observable<OrganizationItemStatus<T>> {
     if (form.invalid) {
       form.markAllAsTouched();
       FormUtils.deepUpdateValueAndValidity(form);
+      return of();
     } else {
+      // This assignment is needed to re-use form value after `form.disable()` call
+      // In some cases value was converted by `form.disable()` into empty object
       const formValue = form.value;
       form.disable();
 
-      if (key) {
-        this.update(key, formValue);
-      } else {
-        this.create(formValue);
-      }
       // this potentially fails when creating/saving takes time:
-      // - the new item might not yet exists and therefor will fail with a 404 in case of routing
-      // - the new item  might not yet be saved, thus the detailed route would not reflect the changes
+      // - the new item might not yet exists and therefore will fail with
+      //   a 404 in case of routing
+      // - the new item  might not yet be saved, thus the detailed route
+      //   would not reflect the changes
       this.launchDetails(formValue);
+
+      return key ? this.update(key, formValue) : this.create(formValue);
     }
   }
 
@@ -59,7 +61,7 @@ export abstract class OrganizationItemService<T> {
   /**
    * Creates a new item.
    */
-  protected abstract create(value: T): void;
+  protected abstract create(value: T): Observable<OrganizationItemStatus<T>>;
 
   /**
    * Updates an existing item.
