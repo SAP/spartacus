@@ -4,9 +4,6 @@ import { IntersectionOptions } from '../../../layout/loading/intersection.model'
 import { DeferLoadingStrategy } from '@spartacus/core';
 import { CmsComponentsService } from '../../services/cms-components.service';
 
-/**
- *
- */
 @Injectable({
   providedIn: 'root',
 })
@@ -39,8 +36,11 @@ export class PageSlotService {
   }
 
   /**
-   * Indicates if certain component should be rendered instantly.
-   * When transtio
+   * Indicates if certain slot should be rendered instantly.
+   *
+   * It's especially useful when transitioning from SSR to CSR application,
+   * where we don't want to apply deferring logic to slots that are visible
+   * to avoid unnecessary flickering.
    */
   shouldNotDefer(slot: string): boolean {
     if (this.instantSsrSlots?.includes(slot)) {

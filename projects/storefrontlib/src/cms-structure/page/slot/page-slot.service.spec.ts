@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { PageSlotService } from './page-slot.service';
 import { DOCUMENT } from '@angular/common';
+import { CmsComponentsService } from '@spartacus/storefront';
 
 function createSlotElementStub(slotName, top) {
   return {
-    classList: [slotName],
+    getAttribute: () => slotName,
     getBoundingClientRect: () => ({ top }),
   };
 }
@@ -56,6 +57,24 @@ describe('PageSlotService', () => {
       it('should return false', () => {
         expect(pageSlotService.shouldNotDefer('test-2')).toBeFalse();
       });
+    });
+  });
+
+  describe('Component Defer Options', () => {
+    it('should call cmsComponentsService.getDeferLoadingStrategy', () => {
+      const cmsComponentsService = TestBed.inject(CmsComponentsService);
+      spyOn(cmsComponentsService, 'getDeferLoadingStrategy').and.callThrough();
+
+      pageSlotService.getComponentDeferOptions('test-slot', 'test-component');
+      expect(cmsComponentsService.getDeferLoadingStrategy).toHaveBeenCalledWith(
+        'test-component'
+      );
+    });
+
+    it('should call shouldNotDefer', () => {
+      spyOn(pageSlotService, 'shouldNotDefer').and.callThrough();
+      pageSlotService.getComponentDeferOptions('test-slot', 'test-component');
+      expect(pageSlotService.shouldNotDefer).toHaveBeenCalledWith('test-slot');
     });
   });
 });
