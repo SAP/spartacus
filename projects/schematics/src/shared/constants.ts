@@ -318,6 +318,19 @@ export const USER_TOKEN_STATE = 'UserTokenState';
 export const AUTH_FEATURE = 'AUTH_FEATURE';
 export const AUTH_ACTIONS = 'AuthActions';
 export const USER_TOKEN = 'UserToken';
+
+export const KYMA_SELECTORS = 'KymaSelectors';
+export const KYMA_FEATURE = 'KYMA_FEATURE';
+export const OPEN_ID_TOKEN_DATA = 'OPEN_ID_TOKEN_DATA';
+export const STATE_WITH_KYMA = 'StateWithKyma';
+export const KYMA_STATE = 'KymaState';
+export const KYMA_ACTIONS = 'KymaActions';
+export const OPEN_ID_AUTHENTICATION_TOKEN_SERVICE =
+  'OpenIdAuthenticationTokenService';
+export const OPEN_ID_TOKEN = 'OpenIdToken';
+export const KYMA_MODULE = 'KymaModule';
+export const KYMA_SERVICE = 'KymaService';
+export const KYMA_CONFIG = 'KymaConfig';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
