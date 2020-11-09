@@ -376,6 +376,9 @@ export const CAN_ACTIVATE = 'canActivate';
 export const GET_CHILD_ROUTES = 'getChildRoutes';
 export const GET_ALL = 'getAll';
 export const GET_BASE_SITE_DATA = 'getBaseSiteData';
+export const GET_WINDOW = 'window';
+export const GET_CLOSEST = 'getClosest';
+export const GET_BREAKPOINT = 'getBreakpoint';
 /***** APIs end *****/
 
 /***** Misc start *****/
