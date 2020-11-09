@@ -7,7 +7,6 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   Renderer2,
 } from '@angular/core';
 import {
@@ -101,7 +100,7 @@ export class PageSlotComponent implements OnInit, OnDestroy {
     protected renderer: Renderer2,
     protected elementRef: ElementRef,
     protected cd: ChangeDetectorRef,
-    @Optional() protected pageSlotService?: PageSlotService
+    protected pageSlotService: PageSlotService
   ) {}
 
   ngOnInit() {
