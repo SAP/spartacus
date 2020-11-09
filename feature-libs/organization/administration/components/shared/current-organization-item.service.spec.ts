@@ -4,7 +4,7 @@ import { RoutingService } from '@spartacus/core';
 import { Observable, of, Subject } from 'rxjs';
 import { CurrentOrganizationItemService } from './current-organization-item.service';
 
-const mockCode = 'b1';
+const mockCode = 'code1';
 const PARAM = 'myParam';
 
 const mockParams = new Subject();
@@ -24,6 +24,8 @@ interface Mock {
 
 @Injectable({ providedIn: 'root' })
 class MockCurrentService extends CurrentOrganizationItemService<Mock> {
+  key$;
+  error$ = of(false);
   getParamKey(): string {
     return PARAM;
   }
