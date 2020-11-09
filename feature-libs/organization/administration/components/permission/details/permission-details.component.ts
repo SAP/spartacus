@@ -6,6 +6,7 @@ import { OrganizationItemService } from '../../shared/organization-item.service'
 import { PermissionItemService } from '../services/permission-item.service';
 
 @Component({
+  selector: 'cx-permission-details',
   templateUrl: './permission-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -14,6 +15,7 @@ import { PermissionItemService } from '../services/permission-item.service';
       useExisting: PermissionItemService,
     },
   ],
+  host: { class: 'content-wrapper' },
 })
 export class PermissionDetailsComponent {
   model$: Observable<Permission> = this.itemService.key$.pipe(

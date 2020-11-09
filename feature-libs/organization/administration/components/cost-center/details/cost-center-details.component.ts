@@ -6,6 +6,7 @@ import { OrganizationItemService } from '../../shared/organization-item.service'
 import { CostCenterItemService } from '../services/cost-center-item.service';
 
 @Component({
+  selector: 'cx-cost-center-details',
   templateUrl: './cost-center-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -14,6 +15,7 @@ import { CostCenterItemService } from '../services/cost-center-item.service';
       useExisting: CostCenterItemService,
     },
   ],
+  host: { class: 'content-wrapper' },
 })
 export class CostCenterDetailsComponent {
   model$: Observable<CostCenter> = this.itemService.key$.pipe(

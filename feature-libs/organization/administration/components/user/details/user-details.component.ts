@@ -6,6 +6,7 @@ import { OrganizationItemService } from '../../shared/organization-item.service'
 import { UserItemService } from '../services/user-item.service';
 
 @Component({
+  selector: 'cx-user-details',
   templateUrl: './user-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -14,6 +15,7 @@ import { UserItemService } from '../services/user-item.service';
       useExisting: UserItemService,
     },
   ],
+  host: { class: 'content-wrapper' },
 })
 export class UserDetailsComponent {
   userGuardSubscription: Subscription;

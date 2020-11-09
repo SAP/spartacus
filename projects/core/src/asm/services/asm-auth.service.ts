@@ -74,9 +74,9 @@ export class AsmAuthService extends AuthService {
    * @param userId
    * @param password
    */
-  public async authorize(userId: string, password: string): Promise<void> {
+  async loginWithCredentials(userId: string, password: string): Promise<void> {
     if (this.canUserLogin()) {
-      await super.authorize(userId, password);
+      await super.loginWithCredentials(userId, password);
     } else {
       this.warnAboutLoggedCSAgent();
     }
@@ -85,7 +85,7 @@ export class AsmAuthService extends AuthService {
   /**
    * Initialize Implicit/Authorization Code flow by redirecting to OAuth server when CS agent is not logged in.
    */
-  public loginWithRedirect(): boolean {
+  loginWithRedirect(): boolean {
     if (this.canUserLogin()) {
       super.loginWithRedirect();
       return true;
@@ -96,9 +96,10 @@ export class AsmAuthService extends AuthService {
   }
 
   /**
-   * Logout a storefront customer.
+   * Revokes tokens and clears state for logged user (tokens, userId).
+   * To perform logout it is best to use `logout` method. Use this method with caution.
    */
-  public logout(): Promise<any> {
+  coreLogout(): Promise<any> {
     return this.userIdService
       .isEmulated()
       .pipe(
@@ -110,7 +111,7 @@ export class AsmAuthService extends AuthService {
             this.store.dispatch(new AuthActions.Logout());
             return of(true);
           } else {
-            return from(super.logout());
+            return from(super.coreLogout());
           }
         })
       )
@@ -120,7 +121,7 @@ export class AsmAuthService extends AuthService {
   /**
    * Returns `true` if user is logged in or being emulated.
    */
-  public isUserLoggedIn(): Observable<boolean> {
+  isUserLoggedIn(): Observable<boolean> {
     return combineLatest([
       this.authStorageService.getToken(),
       this.userIdService.isEmulated(),

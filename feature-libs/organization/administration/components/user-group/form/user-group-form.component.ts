@@ -10,8 +10,10 @@ import { OrganizationItemService } from '../../shared/organization-item.service'
 import { UserGroupItemService } from '../services/user-group-item.service';
 
 @Component({
+  selector: 'cx-user-group-form',
   templateUrl: './user-group-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
       provide: OrganizationItemService,

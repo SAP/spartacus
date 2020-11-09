@@ -6,6 +6,7 @@ import { OrganizationItemService } from '../../shared/organization-item.service'
 import { UserGroupItemService } from '../services/user-group-item.service';
 
 @Component({
+  selector: 'cx-user-group-details',
   templateUrl: './user-group-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -14,6 +15,7 @@ import { UserGroupItemService } from '../services/user-group-item.service';
       useExisting: UserGroupItemService,
     },
   ],
+  host: { class: 'content-wrapper' },
 })
 export class UserGroupDetailsComponent {
   model$: Observable<UserGroup> = this.itemService.key$.pipe(

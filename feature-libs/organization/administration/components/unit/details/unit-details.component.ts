@@ -6,6 +6,7 @@ import { OrganizationItemService } from '../../shared/organization-item.service'
 import { UnitItemService } from '../services/unit-item.service';
 
 @Component({
+  selector: 'cx-unit-details',
   templateUrl: './unit-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -14,6 +15,7 @@ import { UnitItemService } from '../services/unit-item.service';
       useExisting: UnitItemService,
     },
   ],
+  host: { class: 'content-wrapper' },
 })
 export class UnitDetailsComponent {
   model$: Observable<B2BUnit> = this.itemService.key$.pipe(

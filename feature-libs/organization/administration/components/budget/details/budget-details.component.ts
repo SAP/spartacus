@@ -6,6 +6,7 @@ import { OrganizationItemService } from '../../shared/organization-item.service'
 import { BudgetItemService } from '../services/budget-item.service';
 
 @Component({
+  selector: 'cx-budget-details',
   templateUrl: './budget-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -14,6 +15,7 @@ import { BudgetItemService } from '../services/budget-item.service';
       useExisting: BudgetItemService,
     },
   ],
+  host: { class: 'content-wrapper' },
 })
 export class BudgetDetailsComponent implements OnInit {
   model$: Observable<Budget>;
