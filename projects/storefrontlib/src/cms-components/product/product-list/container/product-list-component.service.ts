@@ -9,7 +9,7 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -31,12 +31,6 @@ import { ProductListRouteParams, SearchCriteria } from './product-list.model';
  */
 @Injectable({ providedIn: 'root' })
 export class ProductListComponentService {
-  /**
-   * @deprecated will be removed in version 3.0 as this is the
-   *   subscription is longer used
-   */
-  protected sub: Subscription;
-
   // TODO: make it configurable
   protected defaultPageSize = 10;
 
@@ -222,19 +216,5 @@ export class ProductListComponentService {
     // from the constructor, and query a ContextService for all contexts.
 
     return [this.languageService.getActive(), this.currencyService.getActive()];
-  }
-
-  /**
-   * @deprecated will be dropped in version 3.0 as it's no longer in use
-   */
-  setQuery(query: string): void {
-    this.route({ query, currentPage: undefined });
-  }
-
-  /**
-   * @deprecated will be dropped in version 3.0 as it's no longer in use
-   */
-  viewPage(pageNumber: number): void {
-    this.route({ currentPage: pageNumber });
   }
 }

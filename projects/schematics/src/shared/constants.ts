@@ -230,8 +230,18 @@ export const MERCHANDISING_CAROUSEL_COMPONENT =
 export const MERCHANDISING_CAROUSEL_COMPONENT_SERVICE =
   'MerchandisingCarouselComponentService';
 export const INTERSECTION_SERVICE = 'IntersectionService';
-export const USER_ID_SERVICE = 'UserIdService';
 export const WISH_LIST_SERVICE = 'WishListService';
+export const CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT =
+  'CheckoutProgressMobileBottomComponent';
+export const CHECKOUT_PROGRESS_COMPONENT = 'CheckoutProgressComponent';
+export const DELIVERY_MODE_COMPONENT = 'DeliveryModeComponent';
+export const SHIPPING_ADDRESS_SET_GUARD = 'ShippingAddressSetGuard';
+export const DELIVERY_MODE_SET_GUARD = 'DeliveryModeSetGuard';
+export const PAYMENT_DETAILS_SET_GUARD = 'PaymentDetailsSetGuard';
+export const ORDER_DETAILS_SHIPPING_COMPONENT = 'OrderDetailShippingComponent';
+export const ITEM_COUNTER_COMPONENT = 'ItemCounterComponent';
+export const UPDATE_EMAIL_COMPONENT = 'UpdateEmailComponent';
+export const USER_ID_SERVICE = 'UserIdService';
 
 export const TEST_OUTLET_MODULE = 'TestOutletModule';
 export const TEST_CONFIG_MODULE = 'TestConfigModule';
@@ -312,12 +322,29 @@ export const ONLY_NUMBER_DIRECTIVE_MODULE = 'OnlyNumberDirectiveModule';
 export const ONLY_NUMBER_DIRECTIVE = 'OnlyNumberDirective';
 export const AUTO_FOCUS_DIRECTIVE = 'AutoFocusDirective';
 export const AUTO_FOCUS_DIRECTIVE_MODULE = 'AutoFocusDirectiveModule';
+export const SEARCH_CONFIG = 'SearchConfig';
+export const STORE_FINDER_SEARCH_CONFIG = 'StoreFinderSearchConfig';
+
+export const STORE_FINDER_ACTIONS = 'StoreFinderActions';
+export const FIND_STORES_CLASS = 'FindStores';
+
+export const ON_SUCCESS = 'onSuccess';
+
+export const CHECKOUT_ACTIONS = 'CheckoutActions';
+export const PLACE_ORDER_CLASS = 'PlaceOrder';
+export const CHECKOUT_STEP_SERVICE = 'CheckoutStepService';
+export const USER_COST_CENTER_SERVICE = 'UserCostCenterService';
+export const CHECKOUT_COST_CENTER_SERVICE = 'CheckoutCostCenterService';
+export const PAYMENT_TYPE_SERVICE = 'PaymentTypeService';
+
 /***** Removed public api end *****/
 
 /***** Properties start *****/
 export const CMS_COMPONENT_DATA_PROPERTY_NAME = 'componentData';
 export const KYMA_ENABLED = 'kyma_enabled';
 export const ANONYMOUS_CONSENTS = 'anonymousConsents';
+export const SUB = 'sub';
+
 /***** Properties end *****/
 
 /***** APIs start *****/
@@ -342,11 +369,30 @@ export const GET_MULTIPLE_PATHS_URL_MATCHER = 'getMultiplePathsUrlMatcher';
 export const GET_PATH_URL_MATCHER = 'getPathUrlMatcher';
 export const GET_OPPOSITE_URL_MATCHER = 'getOppositeUrlMatcher';
 export const GET_GLOB_URL_MATCHER = 'getGlobUrlMatcher';
+export const SET_QUERY = 'setQuery';
+export const VIEW_PAGE = 'viewPage';
+
+export const GET_CONTROL = 'getControl';
+export const GET_CHECKOUT_STEP = 'getCheckoutStep';
+export const GET_CHECKOUT_STEP_ROUTE = 'getCheckoutStepRoute';
+export const GET_FIRST_CHECKOUT_STEP_ROUTE = 'getFirstCheckoutStepRoute';
+export const GET_NEXT_CHECKOUT_STEP_URL = 'getNextCheckoutStepUrl';
+export const GET_PREVIOUS_CHECKOUT_STEP_URL = 'getPreviousCheckoutStepUrl';
+export const GET_CURRENT_STEP_INDEX = 'getCurrentStepIndex';
+export const STEPS = 'steps';
+export const CAN_ACTIVATE = 'canActivate';
 export const GET_CHILD_ROUTES = 'getChildRoutes';
+export const GET_ALL = 'getAll';
+export const GET_BASE_SITE_DATA = 'getBaseSiteData';
+export const GET_WINDOW = 'window';
+export const GET_CLOSEST = 'getClosest';
+export const GET_BREAKPOINT = 'getBreakpoint';
 /***** APIs end *****/
 
 /***** Misc start *****/
 export const TODO_SPARTACUS = 'TODO:Spartacus -';
-export const CSS_DOCS_URL =
-  'https://sap.github.io/spartacus-docs/updating-to-version-2/css';
+export const CSS_V2_DOCS_URL =
+  'https://sap.github.io/spartacus-docs/css-changes-in-version-2/';
+export const CSS_V3_DOCS_URL =
+  'https://sap.github.io/spartacus-docs/css-changes-in-version-3/';
 /***** Misc end *****/
