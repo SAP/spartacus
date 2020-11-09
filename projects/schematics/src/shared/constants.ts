@@ -315,10 +315,11 @@ export const ONLY_NUMBER_DIRECTIVE_MODULE = 'OnlyNumberDirectiveModule';
 export const ONLY_NUMBER_DIRECTIVE = 'OnlyNumberDirective';
 export const AUTO_FOCUS_DIRECTIVE = 'AutoFocusDirective';
 export const AUTO_FOCUS_DIRECTIVE_MODULE = 'AutoFocusDirectiveModule';
+export const SEARCH_CONFIG = 'SearchConfig';
+export const STORE_FINDER_SEARCH_CONFIG = 'StoreFinderSearchConfig';
 
 export const STORE_FINDER_ACTIONS = 'StoreFinderActions';
 export const FIND_STORES_CLASS = 'FindStores';
-export const SEARCH_CONFIG = 'SearchConfig';
 
 export const ON_SUCCESS = 'onSuccess';
 
@@ -335,6 +336,8 @@ export const PAYMENT_TYPE_SERVICE = 'PaymentTypeService';
 export const CMS_COMPONENT_DATA_PROPERTY_NAME = 'componentData';
 export const KYMA_ENABLED = 'kyma_enabled';
 export const ANONYMOUS_CONSENTS = 'anonymousConsents';
+export const SUB = 'sub';
+
 /***** Properties end *****/
 
 /***** APIs start *****/
@@ -359,6 +362,9 @@ export const GET_MULTIPLE_PATHS_URL_MATCHER = 'getMultiplePathsUrlMatcher';
 export const GET_PATH_URL_MATCHER = 'getPathUrlMatcher';
 export const GET_OPPOSITE_URL_MATCHER = 'getOppositeUrlMatcher';
 export const GET_GLOB_URL_MATCHER = 'getGlobUrlMatcher';
+export const SET_QUERY = 'setQuery';
+export const VIEW_PAGE = 'viewPage';
+
 export const GET_CONTROL = 'getControl';
 export const GET_CHECKOUT_STEP = 'getCheckoutStep';
 export const GET_CHECKOUT_STEP_ROUTE = 'getCheckoutStepRoute';
