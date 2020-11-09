@@ -27,7 +27,7 @@
     },
     "migration-v2-css-06": {
       "version": "2.1.0-next.1",
-      "factory": "./mechanism/css#migrate",
+      "factory": "./2_0/css/css#migrate",
       "description": "Handle deprecated CSS"
     },
     "migration-v2-ssr-07": {
@@ -73,7 +73,7 @@
     },
     "migration-v3-css-06": {
       "version": "3.0.0-next.6",
-      "factory": "./mechanism/css#migrate",
+      "factory": "./3_0/css/css#migrate",
       "description": "Handle deprecated CSS"
     }
   }
