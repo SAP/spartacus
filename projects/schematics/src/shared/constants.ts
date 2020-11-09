@@ -226,6 +226,13 @@ export const ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT =
 
 export const TEST_OUTLET_MODULE = 'TestOutletModule';
 export const TEST_CONFIG_MODULE = 'TestConfigModule';
+
+export const NOT_AUTH_GUARD = 'NotAuthGuard';
+export const AUTH_GUARD = 'AuthGuard';
+export const AUTH_REDIRECT_STORAGE_SERVICE = 'AuthRedirectStorageService';
+export const USER_ID_SERVICE = 'UserIdService';
+export const OAUTH_LIB_WRAPPER_SERVICE = 'OAuthLibWrapperService';
+export const AUTH_STORAGE_SERVICE = 'AuthStorageService';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -303,12 +310,48 @@ export const ONLY_NUMBER_DIRECTIVE_MODULE = 'OnlyNumberDirectiveModule';
 export const ONLY_NUMBER_DIRECTIVE = 'OnlyNumberDirective';
 export const AUTO_FOCUS_DIRECTIVE = 'AutoFocusDirective';
 export const AUTO_FOCUS_DIRECTIVE_MODULE = 'AutoFocusDirectiveModule';
+
+export const AUTH_SELECTORS = 'AuthSelectors';
+export const STATE_WITH_AUTH = 'StateWithAuth';
+export const AUTH_STATE = 'AuthState';
+export const USER_TOKEN_STATE = 'UserTokenState';
+export const AUTH_FEATURE = 'AUTH_FEATURE';
+export const AUTH_ACTIONS = 'AuthActions';
+export const USER_TOKEN = 'UserToken';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
 export const CMS_COMPONENT_DATA_PROPERTY_NAME = 'componentData';
 export const KYMA_ENABLED = 'kyma_enabled';
 export const ANONYMOUS_CONSENTS = 'anonymousConsents';
+
+export const LOAD_CLIENT_TOKEN_CLASS = 'LoadClientToken';
+export const LOAD_CLIENT_TOKEN = 'LOAD_CLIENT_TOKEN';
+export const LOAD_CLIENT_TOKEN_SUCCESS_CLASS = 'LoadClientTokenSuccess';
+export const LOAD_CLIENT_TOKEN_SUCCESS = 'LOAD_CLIENT_TOKEN_SUCCESS';
+export const LOAD_CLIENT_TOKEN_FAIL_CLASS = 'LoadClientTokenFail';
+export const LOAD_CLIENT_TOKEN_FAIL = 'LOAD_CLIENT_TOKEN_FAIL';
+export const LOGOUT_CUSTOMER_SUPPORT_AGENT = 'LOGOUT_CUSTOMER_SUPPORT_AGENT';
+export const LOAD_USER_TOKEN = 'LOAD_USER_TOKEN';
+export const LOAD_USER_TOKEN_FAIL = 'LOAD_USER_TOKEN_FAIL';
+export const LOAD_USER_TOKEN_SUCCESS = 'LOAD_USER_TOKEN_SUCCESS';
+export const REFRESH_USER_TOKEN = 'REFRESH_USER_TOKEN';
+export const REFRESH_USER_TOKEN_FAIL = 'REFRESH_USER_TOKEN_FAIL';
+export const REFRESH_USER_TOKEN_SUCCESS = 'REFRESH_USER_TOKEN_SUCCESS';
+export const REVOKE_USER_TOKEN = 'REVOKE_USER_TOKEN';
+export const REVOKE_USER_TOKEN_FAIL = 'REVOKE_USER_TOKEN_FAIL';
+export const REVOKE_USER_TOKEN_SUCCESS = 'REVOKE_USER_TOKEN_SUCCESS';
+export const LOAD_USER_TOKEN_CLASS = 'LoadUserToken';
+export const LOAD_USER_TOKEN_FAIL_CLASS = 'LoadUserTokenFail';
+export const LOAD_USER_TOKEN_SUCCESS_CLASS = 'LoadUserTokenSuccess';
+export const REFRESH_USER_TOKEN_CLASS = 'RefreshUserToken';
+export const REFRESH_USER_TOKEN_FAIL_CLASS = 'RefreshUserTokenSuccess';
+export const REFRESH_USER_TOKEN_SUCCESS_CLASS = 'RefreshUserTokenFail';
+export const REVOKE_USER_TOKEN_CLASS = 'RevokeUserToken';
+export const REVOKE_USER_TOKEN_FAIL_CLASS = 'RevokeUserTokenSuccess';
+export const REVOKE_USER_TOKEN_SUCCESS_CLASS = 'RevokeUserTokenFail';
+
+export const CAN_ACTIVATE = 'canActivate';
 /***** Properties end *****/
 
 /***** APIs start *****/
