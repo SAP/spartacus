@@ -6,6 +6,7 @@ import {
 } from '../../../../shared';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
+//projects/core/src/checkout/connectors/checkout/checkout.adapter.ts
 export const CHECKOUT_ADAPTER_MIGRATION: MethodPropertyDeprecation[] = [
   {
     class: CHECKOUT_ADAPTER,

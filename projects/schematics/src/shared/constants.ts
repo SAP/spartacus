@@ -381,6 +381,13 @@ export const PLACE_ORDER = 'placeOrder';
 export const SET_QUERY = 'setQuery';
 export const VIEW_PAGE = 'viewPage';
 
+export const GET_ADDRESS_CARD_CONTENT = 'getAddressCardContent';
+export const GET_DELIVERY_MODE_CARD_CONTENT = 'getDeliveryModeCardContent';
+export const GET_PAYMENT_INFO_CARD_CONTENT = 'getPaymentInfoCardContent';
+export const GET_BILLING_ADDRESS_CARD_CONTENT = 'getBillingAddressCardContent';
+export const GET_PAYMENT_CARD_CONTENT = 'getPaymentCardContent';
+export const GET_SHIPPING_METHOD_CARD_CONTENT = 'getShippingMethodCardContent';
+
 export const GET_CONTROL = 'getControl';
 export const GET_CHECKOUT_STEP = 'getCheckoutStep';
 export const GET_CHECKOUT_STEP_ROUTE = 'getCheckoutStepRoute';
