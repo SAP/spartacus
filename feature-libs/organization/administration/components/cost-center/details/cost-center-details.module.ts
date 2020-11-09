@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { I18nModule, UrlModule } from '@spartacus/core';
-import { ExistGuardDirective } from '../../shared/exist-guard.directive';
+import { ExistGuardModule } from '../../shared/exist-guard.module';
 import { OrganizationCardModule } from '../../shared/organization-card/organization-card.module';
 import { ToggleStatusModule } from '../../shared/organization-detail/toggle-status-action/toggle-status.module';
 import { CostCenterDetailsComponent } from './cost-center-details.component';
@@ -15,8 +15,9 @@ import { CostCenterDetailsComponent } from './cost-center-details.component';
     UrlModule,
     I18nModule,
     ToggleStatusModule,
+    ExistGuardModule,
   ],
-  declarations: [CostCenterDetailsComponent, ExistGuardDirective],
+  declarations: [CostCenterDetailsComponent],
   exports: [CostCenterDetailsComponent],
 })
 export class CostCenterDetailsModule {}

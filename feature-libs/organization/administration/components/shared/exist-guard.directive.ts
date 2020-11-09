@@ -17,6 +17,8 @@ export class ExistGuardDirective<T = BaseItem> implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    console.log('exist guard triggered!');
+
     this.subscription = this.itemService.error$
       .pipe(tap((error) => this.handleErrorMessage(error)))
       .subscribe();

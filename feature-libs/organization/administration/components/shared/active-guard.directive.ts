@@ -17,6 +17,7 @@ export class ActiveGuardDirective<T = BaseItem> implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    console.log('active guard triggered!');
     this.subscription = this.currentItemService.item$
       .pipe(tap((item) => this.handleErrorMessage(item)))
       .subscribe();
