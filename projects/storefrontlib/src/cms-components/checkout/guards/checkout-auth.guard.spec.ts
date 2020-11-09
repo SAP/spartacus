@@ -15,6 +15,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { CheckoutConfigService } from '../services';
 import { CheckoutAuthGuard } from './checkout-auth.guard';
+
 import createSpy = jasmine.createSpy;
 
 class AuthServiceStub implements Partial<AuthService> {
@@ -29,6 +30,9 @@ class ActiveCartServiceStub implements Partial<ActiveCartService> {
   }
   isGuestCart(): boolean {
     return true;
+  }
+  isStable(): Observable<boolean> {
+    return of(true);
   }
 }
 
@@ -165,6 +169,17 @@ describe('CheckoutAuthGuard', () => {
     });
   });
 
+  describe(', when user is in checkout pages,', () => {
+    it('should NOT redirect route when cart is unstable', () => {
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+      spyOn(activeCartService, 'isStable').and.returnValue(of(false));
+      spyOn(activeCartService, 'isGuestCart').and.returnValue(false);
+
+      checkoutGuard.canActivate().subscribe().unsubscribe();
+      expect(authRedirectService.reportAuthGuard).not.toHaveBeenCalled();
+    });
+  });
+
   describe(', when user is authorized,', () => {
     beforeEach(() => {
       spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
@@ -190,6 +205,15 @@ describe('CheckoutAuthGuard', () => {
         spyOn(activeCartService, 'getAssignedUser').and.returnValue(
           of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User)
         );
+      });
+
+      it('should redirect to same route when cart is stable', () => {
+        let result: boolean;
+        checkoutGuard
+          .canActivate()
+          .subscribe((value) => (result = value != null))
+          .unsubscribe();
+        expect(result).toBeTruthy();
       });
 
       it('should return true', () => {

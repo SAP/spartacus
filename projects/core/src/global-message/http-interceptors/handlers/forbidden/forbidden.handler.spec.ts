@@ -1,17 +1,17 @@
 import { TestBed } from '@angular/core/testing';
+import { OccEndpointsService } from '@spartacus/core';
+import { AuthService } from '../../../../auth/user-auth/facade/auth.service';
+import { MockOccEndpointsService } from '../../../../occ/adapters/user/unit-test.helper';
 import { GlobalMessageService } from '../../../facade';
 import { GlobalMessageType } from '../../../models/global-message.model';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { ForbiddenHandler } from './forbidden.handler';
-import { AuthService } from '../../../../auth/user-auth/facade/auth.service';
-import { MockOccEndpointsService } from '../../../../occ/adapters/user/unit-test.helper';
-import { OccEndpointsService } from '@spartacus/core';
 
-class MockGlobalMessageService {
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add() {}
 }
 
-class MockAuthService {
+class MockAuthService implements Partial<AuthService> {
   logout() {}
 }
 
@@ -53,7 +53,7 @@ describe('ForbiddenHandler', () => {
     expect(service.responseStatus).toEqual(HttpResponseStatus.FORBIDDEN);
   });
 
-  it('should logout unauthorised user while logging', () => {
+  it('should logout unauthorized user while logging', () => {
     spyOn(authService, 'logout');
     spyOn(occEndpoints, 'getUrl').and.returnValue('/user');
     service.handleError({ url: '/user' });
@@ -64,7 +64,7 @@ describe('ForbiddenHandler', () => {
     expect(authService.logout).toHaveBeenCalledWith();
   });
 
-  it('should not logout unauthorised user in other case', () => {
+  it('should not logout unauthorized user in other case', () => {
     spyOn(authService, 'logout');
 
     service.handleError({ url: '' });
