@@ -5,7 +5,6 @@ import { ACTIVE_CART_SERVICE_MIGRATION } from './data/active-cart.service.migrat
 import { CART_VOUCHER_SERVICE_MIGRATION } from './data/cart-voucher.service.migration';
 import { CHECKOUT_DELIVERY_SERVICE_MIGRATION } from './data/checkout-delivery.service.migration';
 import { MERCHANDISING_CAROUSEL_COMPONENT_MIGRATION } from './data/merchandising-carousel.component.migration';
-import { ROUTING_SERVICE_MIGRATION } from './data/routing.service.migration';
 import { SELECTIVE_CART_SERVICE_MIGRATION } from './data/selective-cart.service.migration';
 import { WISH_LIST_SERVICE_MIGRATION } from './data/wish-list.service.migration';
 import { CHECKOUT_AUTH_GUARD_MIGRATION } from './data/checkout-auth.guard.migration';
