@@ -3,7 +3,12 @@ import { Config, Image, OccConfig } from '@spartacus/core';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 import { StorefrontConfig } from '../../../storefront-config';
 import { MediaConfig } from './media.config';
-import { Media, MediaContainer, MediaFormatSize } from './media.model';
+import {
+  ImageLoadingStrategy,
+  Media,
+  MediaContainer,
+  MediaFormatSize,
+} from './media.model';
 
 /**
  * Service which generates media URLs. It leverage the MediaContainer and MediaFormats so
@@ -34,6 +39,8 @@ export class MediaService {
      * The BreakpointService is no longer used in version 2.0 as the different size formats are
      * driven by configuration only. There's however a change that this service will play a role
      * in the near future, which is why we keep the constructor as-is.
+     *
+     * @deprecated
      */
     protected breakpointService: BreakpointService
   ) {}
@@ -60,6 +67,18 @@ export class MediaService {
       alt: alt || mainMedia?.altText,
       srcset: this.resolveSrcSet(mediaContainer),
     };
+  }
+
+  /**
+   * Reads the loading strategy from the `MediaConfig`.
+   *
+   * Defaults to `ImageLoadingStrategy.EAGER`.
+   */
+  get loadingStrategy(): ImageLoadingStrategy {
+    return (
+      (this.config as MediaConfig)?.imageLoadingStrategy ??
+      ImageLoadingStrategy.EAGER
+    );
   }
 
   /**
@@ -125,7 +144,7 @@ export class MediaService {
   }
 
   /**
-   * Returns a set of media for the available media formats. Additionally, the congiured media
+   * Returns a set of media for the available media formats. Additionally, the configured media
    * format width is added to the srcset, so that browsers can select the appropriate media.
    */
   protected resolveSrcSet(media: MediaContainer | Image): string {
