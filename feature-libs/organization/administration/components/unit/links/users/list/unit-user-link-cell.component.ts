@@ -8,6 +8,7 @@ import { OrganizationItemService } from '../../../../shared/organization-item.se
 import { OrganizationCellComponent } from '../../../../shared/organization-table/organization-cell.component';
 
 @Component({
+  selector: 'cx-unit-user-link-cell',
   template: `
     <a
       *ngIf="hasItem && unitKey$ | async as uid"
