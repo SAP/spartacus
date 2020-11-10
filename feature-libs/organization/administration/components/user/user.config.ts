@@ -202,9 +202,6 @@ export const userTableConfig: TableConfig = {
     [OrganizationTableType.USER]: {
       cells: ['name', 'active', 'uid', 'roles', 'unit'],
       options: {
-        pagination: {
-          sort: 'byName',
-        },
         cells: {
           name: {
             dataComponent: ActiveLinkCellComponent,

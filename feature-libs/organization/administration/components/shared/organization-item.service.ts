@@ -42,6 +42,9 @@ export abstract class OrganizationItemService<T> {
       FormUtils.deepUpdateValueAndValidity(form);
       return of();
     } else {
+      // This assignment is needed to re-use form value after `form.disable()` call
+      // In some cases value was converted by `form.disable()` into empty object
+      const formValue = form.value;
       form.disable();
 
       // this potentially fails when creating/saving takes time:
@@ -49,9 +52,9 @@ export abstract class OrganizationItemService<T> {
       //   a 404 in case of routing
       // - the new item  might not yet be saved, thus the detailed route
       //   would not reflect the changes
-      this.launchDetails(form.value);
+      this.launchDetails(formValue);
 
-      return key ? this.update(key, form.value) : this.create(form.value);
+      return key ? this.update(key, formValue) : this.create(formValue);
     }
   }
 
