@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { take } from 'rxjs/operators';
+import { UserIdService } from '../../auth';
 import * as fromReducers from '../../cart/store/reducers/index';
 import { Cart } from '../../model/cart.model';
 import { CartActions } from '../store/actions';
@@ -9,6 +10,7 @@ import {
   StateWithMultiCart,
 } from '../store/multi-cart-state';
 import { MultiCartService } from './multi-cart.service';
+import createSpy = jasmine.createSpy;
 
 const testCart: Cart = {
   code: 'xxx',
@@ -28,6 +30,11 @@ const testCart: Cart = {
   },
   user: { uid: 'test' },
 };
+const userId = 'currentUserId';
+
+class MockUserIdService implements Partial<UserIdService> {
+  invokeWithUserId = createSpy().and.callFake((cb) => cb(userId));
+}
 
 describe('MultiCartService', () => {
   let service: MultiCartService;
@@ -42,7 +49,10 @@ describe('MultiCartService', () => {
           fromReducers.getMultiCartReducers()
         ),
       ],
-      providers: [MultiCartService],
+      providers: [
+        MultiCartService,
+        { provide: UserIdService, useClass: MockUserIdService },
+      ],
     });
 
     store = TestBed.inject(Store);
@@ -457,6 +467,24 @@ describe('MultiCartService', () => {
         new CartActions.DeleteCart({
           userId: 'userId',
           cartId: 'cartId',
+        })
+      );
+    });
+  });
+
+  describe('reloadCart', () => {
+    it('should dispatch load cart action', () => {
+      service.reloadCart('cartId', {
+        active: true,
+      });
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.LoadCart({
+          cartId: 'cartId',
+          userId,
+          extraData: {
+            active: true,
+          },
         })
       );
     });

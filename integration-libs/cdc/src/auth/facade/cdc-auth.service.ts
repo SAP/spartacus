@@ -38,7 +38,7 @@ export class CdcAuthService {
    * @param idToken
    * @param baseSite
    */
-  public authorizeWithCustomCdcFlow(
+  public loginWithCustomCdcFlow(
     UID: string,
     UIDSignature: string,
     signatureTimestamp: string,

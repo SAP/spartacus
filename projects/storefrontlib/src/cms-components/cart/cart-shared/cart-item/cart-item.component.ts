@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import {
   OrderEntry,
@@ -38,8 +38,6 @@ export class CartItemComponent implements OnInit {
   @Input() readonly = false;
   @Input() quantityControl: FormControl;
 
-  @Output() view = new EventEmitter<any>();
-
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   // TODO: evaluate whether this is generic enough
@@ -72,10 +70,6 @@ export class CartItemComponent implements OnInit {
   removeItem() {
     this.quantityControl.setValue(0);
     this.quantityControl.markAsDirty();
-  }
-
-  viewItem() {
-    this.view.emit();
   }
 
   /**

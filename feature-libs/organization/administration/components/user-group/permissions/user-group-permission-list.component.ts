@@ -3,8 +3,10 @@ import { OrganizationListService } from '../../shared/organization-list/organiza
 import { UserGroupPermissionListService } from './user-group-permission-list.service';
 
 @Component({
+  selector: 'cx-user-group-permission-list',
   templateUrl: './user-group-permission-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
       provide: OrganizationListService,
