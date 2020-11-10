@@ -45,6 +45,8 @@ export namespace Configurator {
     description?: string;
     groupType?: GroupType;
     configurable?: boolean;
+    complete?: boolean;
+    consistent?: boolean;
     subGroups?: Group[];
   }
 

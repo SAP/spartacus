@@ -45,6 +45,8 @@ export namespace OccConfigurator {
 
   export interface Group {
     configurable?: boolean;
+    complete?: boolean;
+    consistent?: boolean;
     attributes?: Attribute[];
     description?: string;
     groupType?: GroupType;

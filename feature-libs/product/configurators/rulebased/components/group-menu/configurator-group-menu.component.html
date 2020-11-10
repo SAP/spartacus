@@ -18,11 +18,15 @@
       <ng-container *ngIf="currentGroup$ | async as currentGroup">
         <ng-container *ngFor="let group of groups">
           <li
-            class="cx-menu-item {{
-              getGroupStatus(group, configuration) | async
-            }}"
+            class="cx-menu-item"
             [class.cx-menu-conflict]="isConflictGroupType(group.groupType)"
-            [class.WARNING]="isConflictGroupType(group.groupType)"
+            [class.COMPLETE]="
+              group.complete && (isGroupVisited(group, configuration) | async)
+            "
+            [class.ERROR]="
+              !group.complete && (isGroupVisited(group, configuration) | async)
+            "
+            [class.WARNING]="!group.consistent"
             [class.DISABLED]="!group.configurable"
           >
             <a

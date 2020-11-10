@@ -214,27 +214,24 @@ export class ConfiguratorGroupMenuComponent {
   }
 
   /**
-   * Retrieves the status of the current group.
+   * Returns true if group has been visited and if the group is not a conflict group.
    *
    * @param {Configurator.Group} group - Current group
    * @param {Configurator.Configuration} configuration - Configuration
-   * @return {Observable<string>} - Group status
+   * @return {Observable<boolean>} - true if visited and not a conflict group
    */
-  getGroupStatus(
+  isGroupVisited(
     group: Configurator.Group,
     configuration: Configurator.Configuration
-  ): Observable<string> {
+  ): Observable<boolean> {
     return this.configuratorGroupsService
       .isGroupVisited(configuration.owner, group.id)
       .pipe(
         switchMap((isVisited) => {
           if (isVisited && !this.isConflictGroupType(group.groupType)) {
-            return this.configuratorGroupsService.getGroupStatus(
-              configuration.owner,
-              group.id
-            );
+            return of(true);
           } else {
-            return of(null);
+            return of(false);
           }
         }),
         take(1)

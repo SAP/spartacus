@@ -94,7 +94,9 @@ class MockConfiguratorGroupService {
   getParentGroup(): Configurator.Group {
     return null;
   }
-  isConflictGroupType() {}
+  isConflictGroupType() {
+    return isConflictGroupType;
+  }
 }
 
 class MockConfiguratorCommonsService {
@@ -126,6 +128,7 @@ let configuratorUtils: GenericConfiguratorUtilsService;
 let routerStateObservable;
 let groupVisitedObservable;
 let productConfigurationObservable;
+let isConflictGroupType;
 
 function initialize() {
   groupVisitedObservable = of(mockGroupVisited);
@@ -190,7 +193,8 @@ describe('ConfigurationGroupMenuComponent', () => {
     spyOn(configuratorGroupsService, 'getGroupStatus').and.callThrough();
     spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
     spyOn(configuratorGroupsService, 'isGroupVisited').and.callThrough();
-    spyOn(configuratorGroupsService, 'isConflictGroupType').and.stub();
+    isConflictGroupType = false;
+    spyOn(configuratorGroupsService, 'isConflictGroupType').and.callThrough();
     spyOn(hamburgerMenuService, 'toggle').and.stub();
   });
 
@@ -322,7 +326,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     mockGroupVisited = false;
     initialize();
     component
-      .getGroupStatus(
+      .getCompleteOrErrorGroupStatus(
         mockProductConfiguration.groups[0],
         mockProductConfiguration
       )
@@ -355,20 +359,66 @@ describe('ConfigurationGroupMenuComponent', () => {
     expect(component.getConflictNumber(attributeGroup)).toBe('');
   });
 
-  it('should call status method if group has been visited', () => {
-    productConfigurationObservable = of(mockProductConfiguration);
-    routerStateObservable = of(mockRouterState);
-    mockGroupVisited = true;
-    initialize();
-    component
-      .getGroupStatus(
-        mockProductConfiguration.groups[0],
-        mockProductConfiguration
-      )
-      .pipe(take(1))
-      .subscribe();
+  describe('isGroupVisited', () => {
+    it('should call status method if group has been visited', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      initialize();
+      component
+        .isGroupVisited(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe();
 
-    expect(configuratorGroupsService.isGroupVisited).toHaveBeenCalled();
-    expect(configuratorGroupsService.getGroupStatus).toHaveBeenCalled();
+      expect(configuratorGroupsService.isGroupVisited).toHaveBeenCalled();
+      expect(configuratorGroupsService.isConflictGroupType).toHaveBeenCalled();
+    });
+
+    it('should return true if visited and not conflict group', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      initialize();
+      component
+        .isGroupVisited(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((visited) => expect(visited).toBeTrue());
+    });
+
+    it('should return false if visited and if it is a conflict group', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      isConflictGroupType = true;
+      initialize();
+      component
+        .isGroupVisited(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((visited) => expect(visited).toBeFalse());
+    });
+
+    it('should return false if not visited and not conflict group', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = false;
+      isConflictGroupType = false;
+      initialize();
+      component
+        .isGroupVisited(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((visited) => expect(visited).toBeFalse());
+    });
   });
 });
