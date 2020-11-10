@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { CmsPageGuard } from 'projects/storefrontlib/src/cms-structure';
 import {
   PageLayoutComponent,
   PageLayoutModule,
@@ -12,7 +13,7 @@ import { LogoutGuard } from './logout.guard';
     RouterModule.forChild([
       {
         path: null,
-        canActivate: [LogoutGuard],
+        canActivate: [CmsPageGuard, LogoutGuard],
         component: PageLayoutComponent,
         data: { cxRoute: 'logout' },
       },
