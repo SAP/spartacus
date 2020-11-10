@@ -3,6 +3,7 @@ import { Permission } from '@spartacus/organization/administration/core';
 import { OrganizationCellComponent } from '../organization-cell.component';
 
 @Component({
+  selector: 'cx-limit-cell',
   templateUrl: './limit-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
