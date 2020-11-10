@@ -61,6 +61,7 @@ export const DEFAULT_B2B_OCC_CONFIG = 'defaultB2bOccConfig';
 export const CMS_CONFIG = 'CmsConfig';
 export const CMS_SELECTORS = 'CmsSelectors';
 export const CMS_ACTIONS = 'CmsActions';
+export const STOCK_NOTIFICATION_COMPONENT = 'StockNotificationComponent';
 export const LOAD_CMS_COMPONENT_CLASS = 'LoadCmsComponent';
 export const LOAD_CMS_COMPONENT_FAIL_CLASS = 'LoadCmsComponentFail';
 export const LOAD_CMS_COMPONENT_SUCCESS_CLASS = 'LoadCmsComponentSuccess';

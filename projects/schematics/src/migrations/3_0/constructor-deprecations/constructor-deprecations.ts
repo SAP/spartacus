@@ -13,19 +13,21 @@ import { DELIVERY_MODE_COMPONENT_MIGRATION } from './data/delivery-mode.componen
 import { LOGIN_FORM_COMPONENT_MIGRATION } from './data/login-form.component.migration';
 import { MULTI_CART_SERVICE_MIGRATION } from './data/multi-cart.service.migration';
 import { ORDER_DETAILS_SHIPPING_COMPONENT_MIGRATION } from './data/order-detail-shipping.component.migration';
+import { PAGE_SLOT_COMPONENT_MIGRATION } from './data/page-slot.component.migration';
 import { PAYMENT_DETAILS_SET_GUARD_MIGRATION } from './data/payment-details-set.guard.migration';
 import { PAYMENT_METHOD_COMPONENT_MIGRATION } from './data/payment-method.component.migration';
 import { REVIEW_SUBMIT_COMPONENT_MIGRATION } from './data/review-submit.component.migration';
 import { ROUTING_SERVICE_MIGRATION } from './data/routing.service.migration';
 import { SHIPPING_ADDRESS_SET_GUARD_MIGRATION } from './data/shipping-address-set.guard.migration';
 import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
-import { PAGE_SLOT_COMPONENT_MIGRATION } from './data/page-slot.component.migration';
+import { STOCK_NOTIFICATION_COMPONENT_MIGRATION } from './data/stock-notification.component.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT_MIGRATION,
   CHECKOUT_PROGRESS_MOBILE_TOP_COMPONENT_MIGRATION,
   CHECKOUT_PROGRESS_COMPONENT_MIGRATION,
   DELIVERY_MODE_COMPONENT_MIGRATION,
+  STOCK_NOTIFICATION_COMPONENT_MIGRATION,
   PAYMENT_METHOD_COMPONENT_MIGRATION,
   REVIEW_SUBMIT_COMPONENT_MIGRATION,
   SHIPPING_ADDRESS_COMPONENT_MIGRATION,
