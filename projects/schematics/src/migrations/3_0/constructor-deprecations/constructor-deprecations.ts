@@ -17,6 +17,7 @@ import { NOT_CHECKOUT_AUTH_GUARD_MIGRATION } from './data/not-checkout-auth.guar
 import { ORDER_CANCELLATION_GUARD_MIGRATION } from './data/order-cancellation.guard.migration';
 import { ORDER_DETAILS_SHIPPING_COMPONENT_MIGRATION } from './data/order-detail-shipping.component.migration';
 import { ORDER_RETURN_GUARD_MIGRATION } from './data/order-return.guard.migration';
+import { PAGE_SLOT_COMPONENT_MIGRATION } from './data/page-slot.component.migration';
 import { PAYMENT_DETAILS_SET_GUARD_MIGRATION } from './data/payment-details-set.guard.migration';
 import { PAYMENT_METHOD_COMPONENT_MIGRATION } from './data/payment-method.component.migration';
 import { PRODUCT_VARIANT_GUARD_MIGRATION } from './data/product-variant.guard.migration';
@@ -49,6 +50,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   ORDER_CANCELLATION_GUARD_MIGRATION,
   ORDER_RETURN_GUARD_MIGRATION,
   PRODUCT_VARIANT_GUARD_MIGRATION,
+  PAGE_SLOT_COMPONENT_MIGRATION,
 ];
 
 export function migrate(): Rule {
