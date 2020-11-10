@@ -8,7 +8,7 @@ import { CmsComponentsService } from '../../services/cms-components.service';
   providedIn: 'root',
 })
 export class PageSlotService {
-  protected prerenderedSsrSlots: string[] | undefined;
+  protected prerenderedSlots: string[] | undefined;
 
   constructor(
     protected cmsComponentsService: CmsComponentsService,
@@ -23,7 +23,7 @@ export class PageSlotService {
    */
   protected resolvePrerenderedSlots(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.prerenderedSsrSlots = Array.from(
+      this.prerenderedSlots = Array.from(
         this.document.querySelectorAll('cx-page-slot')
       )
         .filter(
@@ -43,11 +43,8 @@ export class PageSlotService {
    * to avoid unnecessary flickering.
    */
   shouldNotDefer(slot: string): boolean {
-    if (this.prerenderedSsrSlots?.includes(slot)) {
-      this.prerenderedSsrSlots.splice(
-        this.prerenderedSsrSlots.indexOf(slot),
-        1
-      );
+    if (this.prerenderedSlots?.includes(slot)) {
+      this.prerenderedSlots.splice(this.prerenderedSlots.indexOf(slot), 1);
       return true;
     }
     return false;
