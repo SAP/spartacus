@@ -13,6 +13,7 @@ import {
   BudgetAdapter,
   BUDGETS_NORMALIZER,
   BUDGET_NORMALIZER,
+  BUDGET_SERIALIZER,
   CostCenterAdapter,
   OrgUnitAdapter,
   PermissionAdapter,
@@ -31,6 +32,7 @@ import { OccOrgUnitAdapter } from './adapters/occ-org-unit.adapter';
 import { OccPermissionAdapter } from './adapters/occ-permission.adapter';
 import { OccUserGroupAdapter } from './adapters/occ-user-group.adapter';
 import { defaultOccOrganizationConfig } from './config/default-occ-organization-config';
+import { OccBudgetSerializer } from './converters';
 import { OccB2BUserNormalizer } from './converters/occ-b2b-user-normalizer';
 import { OccB2bUserSerializer } from './converters/occ-b2b-user-serializer';
 import { OccBudgetListNormalizer } from './converters/occ-budget-list-normalizer';
@@ -56,6 +58,7 @@ import { OccUserListNormalizer } from './converters/occ-user-list-normalizer';
       useClass: OccBudgetAdapter,
     },
     { provide: BUDGET_NORMALIZER, useClass: OccBudgetNormalizer, multi: true },
+    { provide: BUDGET_SERIALIZER, useClass: OccBudgetSerializer, multi: true },
     {
       provide: BUDGETS_NORMALIZER,
       useClass: OccBudgetListNormalizer,

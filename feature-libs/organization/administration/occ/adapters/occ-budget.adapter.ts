@@ -12,6 +12,7 @@ import {
   BudgetAdapter,
   BUDGETS_NORMALIZER,
   BUDGET_NORMALIZER,
+  BUDGET_SERIALIZER,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 
@@ -39,6 +40,10 @@ export class OccBudgetAdapter implements BudgetAdapter {
   }
 
   create(userId: string, budget: Budget): Observable<Budget> {
+    budget = (this.converter.convert(
+      budget,
+      BUDGET_SERIALIZER
+    ) as unknown) as Budget;
     return this.http
       .post<Occ.Budget>(this.getBudgetsEndpoint(userId), budget)
       .pipe(this.converter.pipeable(BUDGET_NORMALIZER));
@@ -49,6 +54,10 @@ export class OccBudgetAdapter implements BudgetAdapter {
     budgetCode: string,
     budget: Budget
   ): Observable<Budget> {
+    budget = (this.converter.convert(
+      budget,
+      BUDGET_SERIALIZER
+    ) as unknown) as Budget;
     return this.http
       .patch<Occ.Budget>(this.getBudgetEndpoint(userId, budgetCode), budget)
       .pipe(this.converter.pipeable(BUDGET_NORMALIZER));

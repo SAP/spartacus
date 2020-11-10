@@ -30,12 +30,13 @@
 
     <label>
       <span class="label-content">{{ 'budget.startDate' | cxTranslate }}</span>
-      <cx-date-time-picker
+      <input
+        type="date"
+        placeholder="yyyy-mm-dd"
         formControlName="startDate"
         [max]="form.controls.endDate.value"
         (change)="form.controls.endDate.updateValueAndValidity()"
-        [inputType]="'date'"
-      ></cx-date-time-picker>
+      />
       <cx-form-errors
         [control]="form.get('startDate')"
         [translationParams]="{ max: form.controls.endDate.value | cxDate }"
@@ -44,12 +45,13 @@
 
     <label>
       <span class="label-content">{{ 'budget.endDate' | cxTranslate }}</span>
-      <cx-date-time-picker
+      <input
+        type="date"
+        placeholder="yyyy-mm-dd"
         formControlName="endDate"
         [min]="form.controls.startDate.value"
         (change)="form.controls.startDate.updateValueAndValidity()"
-        [inputType]="'date'"
-      ></cx-date-time-picker>
+      />
       <cx-form-errors
         [control]="form.get('endDate')"
         [translationParams]="{

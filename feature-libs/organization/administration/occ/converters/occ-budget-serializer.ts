@@ -1,35 +1,36 @@
 import { Injectable } from '@angular/core';
 import { Converter, Occ } from '@spartacus/core';
-import { Budget } from '@spartacus/organization/administration/core';
+import { Budget } from '../../core/model';
 
-@Injectable()
-export class OccBudgetNormalizer implements Converter<Occ.Budget, Budget> {
-  convert(source: Occ.Budget, target?: Budget): Budget {
+@Injectable({ providedIn: 'root' })
+export class OccBudgetSerializer implements Converter<Budget, Occ.Budget> {
+  constructor() {}
+
+  convert(source: Budget, target?: Occ.Budget): Occ.Budget {
     if (target === undefined) {
-      target = {
-        ...(source as any),
-      };
+      target = { ...(source as any) };
     }
 
     if (source.startDate) {
-      target.startDate = new Date(
-        `${source.startDate.substring(0, 19)}${this.getLocalTimezoneOffset(
-          true
-        )}`
-      )
-        .toISOString()
-        .substring(0, 10);
+      target.startDate = this.convertDate(source.startDate);
     }
 
     if (source.endDate) {
-      target.endDate = new Date(
-        `${source.endDate.substring(0, 19)}${this.getLocalTimezoneOffset(true)}`
-      )
-        .toISOString()
-        .substring(0, 10);
+      target.endDate = this.convertDate(source.endDate, true);
     }
 
     return target;
+  }
+
+  /**
+   * Adds the current timestamp (including timezone offset) to a date string in the format YYYY-mm-dd
+   * @Example
+   * Converts 2021-10-15 to 2021-10-15T15:38:05-05:00
+   */
+  private convertDate(date: string, endOfDay?: boolean): string {
+    return `${date}T${
+      !endOfDay ? '00:00:00' : '23:59:59'
+    }${this.getLocalTimezoneOffset()}`;
   }
 
   /**
