@@ -16,6 +16,7 @@ import { OrganizationCellComponent } from '../organization-table/organization-ce
 import { Observable } from 'rxjs';
 
 @Component({
+  selector: 'cx-assign-cell',
   template: `
     <button *ngIf="hasItem" (click)="toggleAssign()" class="link">
       {{ isAssigned ? 'unassign' : 'assign' }}

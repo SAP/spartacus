@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { OrganizationCellComponent } from '../organization-cell.component';
 
 @Component({
+  selector: 'cx-status-cell',
   templateUrl: './status-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
