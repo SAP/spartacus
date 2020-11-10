@@ -18,10 +18,7 @@
     },
     "occPrefix": {
       "type": "string",
-      "description": "The OCC API prefix. E.g.: /occ/v2/",
-      "default": "/occ/v2/",
-      "minLength": 1,
-      "x-prompt": "Please specify the OCC API prefix"
+      "description": "The OCC API prefix. E.g.: /occ/v2/"
     },
     "baseSite": {
       "type": "string",

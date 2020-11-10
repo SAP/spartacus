@@ -171,14 +171,18 @@ function prepareSiteContextConfig(options: SpartacusOptions): string {
   return context;
 }
 
-function getStorefrontConfig(options: SpartacusOptions): string {
-  const baseUrlPart = `\n          baseUrl: '${options.baseUrl}',`;
+function createStorefrontConfig(options: SpartacusOptions): string {
+  const baseUrlPart = `\n          baseUrl: '${options.baseUrl}'`;
   const context = prepareSiteContextConfig(options);
+
+  const occPrefixPart = options.occPrefix
+    ? `,
+          prefix: '${options.occPrefix}'`
+    : '';
 
   return `{
       backend: {
-        occ: {${options.useMetaTags ? '' : baseUrlPart}
-          prefix: '${options.occPrefix}'
+        occ: {${options.useMetaTags ? '' : baseUrlPart}${occPrefixPart}
         }
       },${context}
       i18n: {
@@ -223,7 +227,9 @@ function updateAppModule(options: SpartacusOptions): Rule {
       addToModuleImportsAndCommitChanges(
         host,
         modulePath,
-        `${B2C_STOREFRONT_MODULE}.withConfig(${getStorefrontConfig(options)})`
+        `${B2C_STOREFRONT_MODULE}.withConfig(${createStorefrontConfig(
+          options
+        )})`
       );
     }
 
