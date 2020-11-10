@@ -36,22 +36,6 @@ export class ConfiguratorGroupStatusService {
   }
 
   /**
-   * Returns the group status for a group specified by its ID
-   *
-   * @param {GenericConfigurator.Owner} owner - Configuration owner
-   * @param {string} groupId - Group ID
-   * @returns {Observable<Configurator.GroupStatus>} Group status
-   */
-  getGroupStatus(
-    owner: GenericConfigurator.Owner,
-    groupId: string
-  ): Observable<Configurator.GroupStatus> {
-    return this.store.select(
-      ConfiguratorSelectors.getGroupStatus(owner.key, groupId)
-    );
-  }
-
-  /**
    * Returns the first non-conflict group of the configuration which is not completed
    * and undefined if all are completed.
    *

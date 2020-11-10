@@ -266,20 +266,6 @@ export class ConfiguratorGroupsService {
   }
 
   /**
-   * Returns the group status for the given group ID.
-   *
-   * @param {GenericConfigurator.Owner} owner - Configuration owner
-   * @param {string} groupId - Group ID
-   * @return {Observable<Configurator.GroupStatus>} Group status
-   */
-  getGroupStatus(
-    owner: GenericConfigurator.Owner,
-    groupId: string
-  ): Observable<Configurator.GroupStatus> {
-    return this.configuratorGroupStatusService.getGroupStatus(owner, groupId);
-  }
-
-  /**
    * Returns a parent group for the given group.
    *
    * @param {Configurator.Group[]} groups - List of groups where we search for the parent group

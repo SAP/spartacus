@@ -223,7 +223,6 @@ export const productConfiguration: Configurator.Configuration = {
   interactionState: {
     currentGroup: GROUP_ID_2,
     menuParentGroup: GROUP_ID_3,
-    groupsStatus: {},
     groupsVisited: {},
     issueNavigationDone: true,
   },
@@ -507,7 +506,6 @@ export const productConfigurationWithConflicts: Configurator.Configuration = {
   interactionState: {
     currentGroup: GROUP_ID_2,
     menuParentGroup: GROUP_ID_3,
-    groupsStatus: {},
     groupsVisited: {},
   },
 };

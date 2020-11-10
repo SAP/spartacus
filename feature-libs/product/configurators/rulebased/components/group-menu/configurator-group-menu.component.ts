@@ -78,7 +78,6 @@ export class ConfiguratorGroupMenuComponent {
   );
 
   iconTypes = ICON_TYPE;
-  groupStatus = Configurator.GroupStatus;
 
   constructor(
     protected configCommonsService: ConfiguratorCommonsService,

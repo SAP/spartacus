@@ -190,7 +190,6 @@ describe('ConfigurationGroupMenuComponent', () => {
     configuratorUtils.setOwnerKey(mockProductConfiguration.owner);
     spyOn(configuratorGroupsService, 'navigateToGroup').and.stub();
     spyOn(configuratorGroupsService, 'setMenuParentGroup').and.stub();
-    spyOn(configuratorGroupsService, 'getGroupStatus').and.callThrough();
     spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
     spyOn(configuratorGroupsService, 'isGroupVisited').and.callThrough();
     isConflictGroupType = false;

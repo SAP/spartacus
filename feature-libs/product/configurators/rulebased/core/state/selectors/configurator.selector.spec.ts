@@ -26,7 +26,6 @@ describe('Configurator selectors', () => {
     ...configuration,
     interactionState: {
       currentGroup: null,
-      groupsStatus: {},
       groupsVisited: {},
       menuParentGroup: null,
       issueNavigationDone: true,
@@ -196,46 +195,5 @@ describe('Configurator selectors', () => {
         )
       )
       .subscribe((value) => expect(value).toEqual(true));
-  });
-
-  it('should get group status for group', () => {
-    store.dispatch(
-      new ConfiguratorActions.SetGroupsError({
-        entityKey: configuration.owner.key,
-        errorGroups: [GROUP_ID],
-      })
-    );
-    store.dispatch(
-      new ConfiguratorActions.SetGroupsCompleted({
-        entityKey: configuration.owner.key,
-        completedGroups: [GROUP_ID2],
-      })
-    );
-
-    store
-      .pipe(
-        select(
-          ConfiguratorSelectors.getGroupStatus(
-            configuration.owner.key,
-            GROUP_ID
-          )
-        )
-      )
-      .subscribe((value) =>
-        expect(value).toEqual(Configurator.GroupStatus.ERROR)
-      );
-
-    store
-      .pipe(
-        select(
-          ConfiguratorSelectors.getGroupStatus(
-            configuration.owner.key,
-            GROUP_ID2
-          )
-        )
-      )
-      .subscribe((value) =>
-        expect(value).toEqual(Configurator.GroupStatus.COMPLETE)
-      );
   });
 });

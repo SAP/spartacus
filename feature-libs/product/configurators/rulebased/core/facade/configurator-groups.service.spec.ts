@@ -71,7 +71,6 @@ describe('ConfiguratorGroupsService', () => {
     spyOn(store, 'pipe').and.returnValue(of(productConfiguration));
 
     spyOn(configGroupStatusService, 'setGroupStatus').and.callThrough();
-    spyOn(configGroupStatusService, 'getGroupStatus').and.callThrough();
     spyOn(configGroupStatusService, 'isGroupVisited').and.callThrough();
     spyOn(configFacadeUtilsService, 'getParentGroup').and.callThrough();
     spyOn(configFacadeUtilsService, 'hasSubGroups').and.callThrough();
@@ -224,15 +223,6 @@ describe('ConfiguratorGroupsService', () => {
       GROUP_ID_4
     );
     expect(configGroupStatusService.isGroupVisited).toHaveBeenCalled();
-  });
-
-  it('should check whether getGroupStatus has been called by the configuration group utils service', () => {
-    classUnderTest.getGroupStatus(productConfiguration.owner, GROUP_ID_4);
-    expect(configGroupStatusService.getGroupStatus).toHaveBeenCalledWith(
-      productConfiguration.owner,
-      GROUP_ID_4
-    );
-    expect(configGroupStatusService.getGroupStatus).toHaveBeenCalled();
   });
 
   it('should get first conflict group from configuration, no conflicts', () => {
