@@ -50,8 +50,16 @@ import { USER_CONSENT_SERVICE_MIGRATION } from './data/user-consent.service.migr
 import { USER_INTERESTS_SERVICE_MIGRATION } from './data/user-interests.service.migration';
 import { USER_NOTIFICATION_PREFERENCE_SERVICE_MIGRATION } from './data/user-notification-preference.service.migration';
 import { USER_ORDERS_EFFECT_MIGRATION } from './data/user-order.effect.migration';
-import { USER_ORDER_SERVICE_MIGRATION } from './data/user-order.service.migration';
 import { WISH_LIST_SERVICE_MIGRATION } from './data/wish-list.service.migration';
+
+import { ASM_COMPONENT_SERVICE_MIGRATION } from './data/asm-component.service.migration';
+import { ASM_MAIN_UI_COMPONENT_MIGRATION } from './data/asm-main-ui.component.migration';
+import { ASM_SESSION_TIMER_COMPONENT_MIGRATION } from './data/asm-session-timer.component.migration';
+import { FORGOT_PASSWORD_COMPONENT_MIGRATION } from './data/forgot-password.component.migration';
+import { USER_ORDER_SERVICE_MIGRATION } from './data/user-order.service.migration';
+import { USER_PAYMENT_SERVICE_MIGRATION } from './data/user-payment.service.migration';
+import { USER_REGISTER_EFFECT_MIGRATION } from './data/user-register.effect.migration';
+import { USER_SERVICE_MIGRATION } from './data/user.service.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT_MIGRATION,
@@ -105,6 +113,14 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CHECKOUT_PAYMENT_SERVICE_MIGRATION,
   CHECKOUT_SERVICE_MIGRATION,
   JSONLD_PRODUCT_REVIEW_BUILDER_MIGRATION,
+  ASM_COMPONENT_SERVICE_MIGRATION,
+  ASM_MAIN_UI_COMPONENT_MIGRATION,
+  ASM_SESSION_TIMER_COMPONENT_MIGRATION,
+  FORGOT_PASSWORD_COMPONENT_MIGRATION,
+  USER_ORDER_SERVICE_MIGRATION,
+  USER_PAYMENT_SERVICE_MIGRATION,
+  USER_REGISTER_EFFECT_MIGRATION,
+  USER_SERVICE_MIGRATION,
 ];
 
 export function migrate(): Rule {
