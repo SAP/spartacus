@@ -9,6 +9,7 @@ import { CHECKOUT_CONFIG_SERVICE_MIGRATION } from './data/checkout-config.servic
 import { CHECKOUT_GROUP_ACTIONS_MIGRATION } from './data/checkout-group.actions.migration';
 import { CMS_COMPONENTS_SERVICE_MIGRATION } from './data/cms-components.service.migration';
 import { ITEM_COUNTER_COMPONENT_MIGRATION } from './data/item-counter.component.migration';
+import { LOGOUT_GUARD_MIGRATION } from './data/logout.guard.migration';
 import { NOT_CHECKOUT_AUTH_GUARD_MIGRATION } from './data/not-checkout-auth.guard.migration';
 import { PRODUCT_CAROUSEL_SERVICE_MIGRATION } from './data/product-carousel.service.migration';
 import { PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION } from './data/product-list-component.service.migration';
@@ -33,6 +34,7 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...PRODUCT_CAROUSEL_SERVICE_MIGRATION,
   ...PRODUCT_REFERENCE_SERVICE_MIGRATION,
   ...STOREFRONT_COMPONENT_MIGRATION,
+  ...LOGOUT_GUARD_MIGRATION,
 ];
 
 export function migrate(): Rule {

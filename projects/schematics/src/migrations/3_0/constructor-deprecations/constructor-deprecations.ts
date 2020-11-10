@@ -12,6 +12,7 @@ import { CONTENT_PAGE_META_RESOLVER_MIGRATION } from './data/content-page-meta.r
 import { DELIVERY_MODE_SET_GUARD_MIGRATION } from './data/delivery-mode-set.guard.migration';
 import { DELIVERY_MODE_COMPONENT_MIGRATION } from './data/delivery-mode.component.migration';
 import { LOGIN_FORM_COMPONENT_MIGRATION } from './data/login-form.component.migration';
+import { LOGOUT_GUARD_MIGRATION } from './data/logout-guard.migration';
 import { MULTI_CART_SERVICE_MIGRATION } from './data/multi-cart.service.migration';
 import { NOT_CHECKOUT_AUTH_GUARD_MIGRATION } from './data/not-checkout-auth.guard.migration';
 import { ORDER_CANCELLATION_GUARD_MIGRATION } from './data/order-cancellation.guard.migration';
@@ -51,6 +52,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   ORDER_RETURN_GUARD_MIGRATION,
   PRODUCT_VARIANT_GUARD_MIGRATION,
   PAGE_SLOT_COMPONENT_MIGRATION,
+  LOGOUT_GUARD_MIGRATION,
 ];
 
 export function migrate(): Rule {

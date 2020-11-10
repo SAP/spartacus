@@ -394,6 +394,8 @@ export const GET = 'get';
 export const GET_WINDOW = 'window';
 export const GET_CLOSEST = 'getClosest';
 export const GET_BREAKPOINT = 'getBreakpoint';
+export const LOGOUT = 'logout';
+export const REDIRECT = 'redirect';
 /***** APIs end *****/
 
 /***** Misc start *****/
