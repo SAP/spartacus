@@ -45,10 +45,9 @@ describe('ConfiguratorGroupStatusService', () => {
 
   describe('Group Status Tests', () => {
     it('should call setGroupVisisted action on setGroupStatus method call', () => {
-      classUnderTest.setGroupStatus(
+      classUnderTest.setGroupStatusVisited(
         productConfiguration,
-        productConfiguration.groups[0].id,
-        true
+        productConfiguration.groups[0].id
       );
 
       const expectedAction = new ConfiguratorActions.SetGroupsVisited({
@@ -61,7 +60,7 @@ describe('ConfiguratorGroupStatusService', () => {
 
     it('should get parent group, when all subgroups are visited', () => {
       spyOn(store, 'select').and.returnValue(of(true));
-      classUnderTest.setGroupStatus(productConfiguration, GROUP_ID_4, true);
+      classUnderTest.setGroupStatusVisited(productConfiguration, GROUP_ID_4);
 
       const expectedAction = new ConfiguratorActions.SetGroupsVisited({
         entityKey: productConfiguration.owner.key,
@@ -75,7 +74,7 @@ describe('ConfiguratorGroupStatusService', () => {
       //Not all subgroups are visited
       spyOn(store, 'select').and.returnValue(of(false));
 
-      classUnderTest.setGroupStatus(productConfiguration, GROUP_ID_6, true);
+      classUnderTest.setGroupStatusVisited(productConfiguration, GROUP_ID_6);
 
       const expectedAction = new ConfiguratorActions.SetGroupsVisited({
         entityKey: productConfiguration.owner.key,
@@ -88,7 +87,7 @@ describe('ConfiguratorGroupStatusService', () => {
     it('should get all parent groups, when lowest subgroup are visited', () => {
       spyOn(store, 'select').and.returnValue(of(true));
 
-      classUnderTest.setGroupStatus(productConfiguration, GROUP_ID_8, true);
+      classUnderTest.setGroupStatusVisited(productConfiguration, GROUP_ID_8);
 
       const expectedAction = new ConfiguratorActions.SetGroupsVisited({
         entityKey: productConfiguration.owner.key,
@@ -110,35 +109,6 @@ describe('ConfiguratorGroupStatusService', () => {
           productConfigurationWithConflicts
         )
       ).toBe(productConfigurationWithConflicts.flatGroups[3]);
-    });
-
-    it('should return status completed if required fields are filled for different groups', () => {
-      // required checkbox not filled
-      expect(
-        classUnderTest.checkIsGroupComplete(productConfiguration.groups[0])
-      ).toBe(false);
-      //no required attributes in group
-      expect(
-        classUnderTest.checkIsGroupComplete(productConfiguration.groups[1])
-      ).toBe(true);
-      //two required attributes, only one is filled
-      expect(
-        classUnderTest.checkIsGroupComplete(
-          productConfiguration.groups[2].subGroups[0]
-        )
-      ).toBe(false);
-      //required single selection image not filled
-      expect(
-        classUnderTest.checkIsGroupComplete(
-          productConfiguration.groups[3].subGroups[0]
-        )
-      ).toBe(false);
-      //has a conflict
-      expect(
-        classUnderTest.checkIsGroupComplete(
-          productConfigurationWithConflicts.groups[5].subGroups[0]
-        )
-      ).toBe(false);
     });
   });
 });

@@ -70,7 +70,7 @@ describe('ConfiguratorGroupsService', () => {
     spyOn(store, 'dispatch').and.stub();
     spyOn(store, 'pipe').and.returnValue(of(productConfiguration));
 
-    spyOn(configGroupStatusService, 'setGroupStatus').and.callThrough();
+    spyOn(configGroupStatusService, 'setGroupStatusVisited').and.callThrough();
     spyOn(configGroupStatusService, 'isGroupVisited').and.callThrough();
     spyOn(configFacadeUtilsService, 'getParentGroup').and.callThrough();
     spyOn(configFacadeUtilsService, 'hasSubGroups').and.callThrough();
@@ -189,21 +189,6 @@ describe('ConfiguratorGroupsService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should read configuration and call set group status on set group status method call', () => {
-    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
-      of(productConfiguration)
-    );
-
-    classUnderTest.setGroupStatus(
-      productConfiguration.owner,
-      productConfiguration.groups[2].id,
-      false
-    );
-
-    expect(configuratorCommonsService.getConfiguration).toHaveBeenCalled();
-    expect(configGroupStatusService.setGroupStatus).toHaveBeenCalled();
-  });
-
   it('should call group status in navigate to different group', () => {
     spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
       of(productConfiguration)
@@ -213,7 +198,7 @@ describe('ConfiguratorGroupsService', () => {
       productConfiguration.groups[2].id
     );
 
-    expect(configGroupStatusService.setGroupStatus).toHaveBeenCalled();
+    expect(configGroupStatusService.setGroupStatusVisited).toHaveBeenCalled();
   });
 
   it('should check whether isGroupVisited has been called by the configuration group utils service', () => {

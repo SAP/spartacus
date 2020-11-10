@@ -47,8 +47,6 @@ export const SET_MENU_PARENT_GROUP =
   '[Configurator] Set current parent group for menu to State';
 
 export const SET_GROUPS_VISITED = '[Configurator] Set groups to visited';
-export const SET_GROUPS_COMPLETED = '[Configurator] Set groups complete status';
-export const SET_GROUPS_ERROR = '[Configurator] Set groups error status';
 
 export class CreateConfiguration extends StateUtils.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
@@ -255,25 +253,6 @@ export class SetGroupsVisited extends StateUtils.EntitySuccessAction {
   }
 }
 
-export class SetGroupsCompleted extends StateUtils.EntitySuccessAction {
-  readonly type = SET_GROUPS_COMPLETED;
-
-  constructor(
-    public payload: { entityKey: string; completedGroups: string[] }
-  ) {
-    super(CONFIGURATOR_DATA, payload.entityKey, payload.completedGroups);
-  }
-}
-
-//This is still a success action as the group status is successfully updated
-export class SetGroupsError extends StateUtils.EntitySuccessAction {
-  readonly type = SET_GROUPS_ERROR;
-
-  constructor(public payload: { entityKey: string; errorGroups: string[] }) {
-    super(CONFIGURATOR_DATA, payload.entityKey, payload.errorGroups);
-  }
-}
-
 export type ConfiguratorAction =
   | CreateConfiguration
   | CreateConfigurationFail
@@ -298,6 +277,4 @@ export type ConfiguratorAction =
   | SetInteractionState
   | SetMenuParentGroup
   | SetCurrentGroup
-  | SetGroupsVisited
-  | SetGroupsCompleted
-  | SetGroupsError;
+  | SetGroupsVisited;
