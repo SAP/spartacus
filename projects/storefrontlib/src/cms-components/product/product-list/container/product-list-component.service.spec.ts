@@ -1,12 +1,14 @@
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
+  ActivatedRouterStateSnapshot,
   CurrencyService,
   LanguageService,
+  ProductSearchPage,
   ProductSearchService,
   RoutingService,
 } from '@spartacus/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, Subscription } from 'rxjs';
 import { ProductListComponentService } from './product-list-component.service';
 
 class MockRouter {
@@ -20,6 +22,22 @@ class MockProductSearchService {
   search = jasmine.createSpy('search');
   clearResults = jasmine.createSpy('clearResults');
 }
+
+class MockRoutingService {
+  getRouterState = jasmine
+    .createSpy('getRouterState')
+    .and.returnValue(mockRoutingState$);
+}
+
+const mockDefaultRouterState = {
+  url: '/',
+  params: {},
+  queryParams: {},
+} as ActivatedRouterStateSnapshot;
+
+const mockRoutingState$ = new BehaviorSubject({
+  state: mockDefaultRouterState,
+});
 
 class MockCurrencyService {
   getActive() {
@@ -37,32 +55,26 @@ describe('ProductListComponentService', () => {
   let activatedRoute: ActivatedRoute;
   let productSearchService: ProductSearchService;
   let router: Router;
-  let routingState;
 
-  function mockRoutingState(state: { params?: object; queryParams?: object }) {
-    routingState.next({
+  function mockRoutingState(state: {
+    url?: string;
+    params?: object;
+    queryParams?: object;
+  }) {
+    mockRoutingState$.next({
       state: {
+        url: state.url || '/',
         params: state.params || {},
         queryParams: state.queryParams || {},
-      },
+      } as ActivatedRouterStateSnapshot,
     });
   }
 
   beforeEach(() => {
-    routingState = new BehaviorSubject({
-      state: { params: {}, queryParams: {} },
-    });
-
-    const mockRoutingService = {
-      getRouterState: jasmine
-        .createSpy('getRouterState')
-        .and.returnValue(routingState),
-    };
-
     TestBed.configureTestingModule({
       providers: [
         ProductListComponentService,
-        { provide: RoutingService, useValue: mockRoutingService },
+        { provide: RoutingService, useClass: MockRoutingService },
         { provide: Router, useClass: MockRouter },
         { provide: ActivatedRoute, useValue: 'ActivatedRoute' },
         { provide: ProductSearchService, useClass: MockProductSearchService },
@@ -77,24 +89,6 @@ describe('ProductListComponentService', () => {
     productSearchService = TestBed.inject(ProductSearchService);
   });
 
-  it('setQuery should set query param "query" in the url and reset "currentPage"', () => {
-    service.setQuery('testQuery');
-    expect(router.navigate).toHaveBeenCalledWith([], {
-      queryParams: { query: 'testQuery', currentPage: undefined },
-      queryParamsHandling: 'merge',
-      relativeTo: activatedRoute,
-    });
-  });
-
-  it('viewPage should set query param "currentPage" in the url', () => {
-    service.viewPage(123);
-    expect(router.navigate).toHaveBeenCalledWith([], {
-      queryParams: { currentPage: 123 },
-      queryParamsHandling: 'merge',
-      relativeTo: activatedRoute,
-    });
-  });
-
   it('sort should set query param "sortCode" in the url', () => {
     service.sort('testSortCode');
     expect(router.navigate).toHaveBeenCalledWith([], {
@@ -104,121 +98,194 @@ describe('ProductListComponentService', () => {
     });
   });
 
+  it('should emit new route state when url changes', fakeAsync(() => {
+    const mockNewActivatedRouteState = {
+      ...mockDefaultRouterState,
+      url: '/newRoute',
+    };
+
+    let activatedRouteState: ActivatedRouterStateSnapshot;
+    const subscription: Subscription = service['searchByRouting$'].subscribe(
+      (res) => (activatedRouteState = res)
+    );
+
+    tick();
+    expect(activatedRouteState).toEqual(mockDefaultRouterState);
+
+    mockRoutingState(mockNewActivatedRouteState);
+
+    tick();
+    expect(activatedRouteState).toEqual(mockNewActivatedRouteState);
+
+    subscription.unsubscribe();
+  }));
+
   describe('model$', () => {
-    it('should return search results', () => {
-      let result;
-      service.model$.subscribe((res) => (result = res));
+    it('should return search results', fakeAsync(() => {
+      let result: ProductSearchPage;
+      const subscription: Subscription = service.model$.subscribe(
+        (res) => (result = res)
+      );
+
+      tick();
+
+      subscription.unsubscribe();
+
       expect(result).toEqual({ products: [] });
-    });
+    }));
 
     describe('should perform search on change of routing', () => {
-      it('with default "pageSize" 10', () => {
-        service.model$.subscribe();
+      it('with default "pageSize" 10', fakeAsync(() => {
+        const subscription: Subscription = service.model$.subscribe();
+
+        tick();
+
+        subscription.unsubscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(undefined, {
           pageSize: 10,
         });
-      });
+      }));
 
-      it('param "categoryCode"', () => {
+      it('param "categoryCode"', fakeAsync(() => {
         mockRoutingState({
           params: { categoryCode: 'testCategory' },
         });
-        service.model$.subscribe();
+
+        const subscription: Subscription = service.model$.subscribe();
+
+        tick();
+
+        subscription.unsubscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(
           ':relevance:allCategories:testCategory',
           jasmine.any(Object)
         );
-      });
+      }));
 
-      it('param "brandCode"', () => {
+      it('param "brandCode"', fakeAsync(() => {
         mockRoutingState({
           params: { brandCode: 'testBrand' },
         });
-        service.model$.subscribe();
+
+        const subscription: Subscription = service.model$.subscribe();
+
+        tick();
+
+        subscription.unsubscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(
           ':relevance:allCategories:testBrand',
           jasmine.any(Object)
         );
-      });
+      }));
 
-      it('param "query"', () => {
+      it('param "query"', fakeAsync(() => {
         mockRoutingState({
           params: { query: 'testQuery' },
         });
-        service.model$.subscribe();
+
+        const subscription: Subscription = service.model$.subscribe();
+
+        tick();
+
+        subscription.unsubscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(
           'testQuery',
           jasmine.any(Object)
         );
-      });
+      }));
 
-      it('query param "query"', () => {
+      it('query param "query"', fakeAsync(() => {
         mockRoutingState({
           queryParams: { query: 'testQuery' },
         });
-        service.model$.subscribe();
+
+        const subscription: Subscription = service.model$.subscribe();
+
+        tick();
+
+        subscription.unsubscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(
           'testQuery',
           jasmine.any(Object)
         );
-      });
+      }));
 
-      it('param "query" and query param "query"', () => {
+      it('param "query" and query param "query"', fakeAsync(() => {
         mockRoutingState({
           params: { query: 'testQuery1' },
           queryParams: { query: 'testQuery2' },
         });
-        service.model$.subscribe();
+
+        const subscription: Subscription = service.model$.subscribe();
+
+        tick();
+
+        subscription.unsubscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(
           'testQuery2',
           jasmine.any(Object)
         );
-      });
+      }));
 
-      it('query param "currentPage"', () => {
+      it('query param "currentPage"', fakeAsync(() => {
         mockRoutingState({
           params: { query: 'testQuery' },
           queryParams: { currentPage: 123 },
         });
-        service.model$.subscribe();
+
+        const subscription: Subscription = service.model$.subscribe();
+
+        tick();
+
+        subscription.unsubscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(
           'testQuery',
           jasmine.objectContaining({ currentPage: 123 })
         );
-      });
+      }));
 
-      it('query param "pageSize"', () => {
+      it('query param "pageSize"', fakeAsync(() => {
         mockRoutingState({
           params: { query: 'testQuery' },
           queryParams: { pageSize: 20 },
         });
-        service.model$.subscribe();
+
+        const subscription: Subscription = service.model$.subscribe();
+
+        tick();
+
+        subscription.unsubscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(
           'testQuery',
           jasmine.objectContaining({ pageSize: 20 })
         );
-      });
+      }));
 
-      it('query param "sortCode"', () => {
+      it('query param "sortCode"', fakeAsync(() => {
         mockRoutingState({
           params: { query: 'testQuery' },
           queryParams: { sortCode: 'name-asc' },
         });
-        service.model$.subscribe();
+
+        const subscription: Subscription = service.model$.subscribe();
+
+        tick();
+
+        subscription.unsubscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(
           'testQuery',
-          jasmine.objectContaining({ sortCode: 'name-asc' })
+          jasmine.objectContaining({ sort: 'name-asc' })
         );
-      });
+      }));
     });
   });
 });

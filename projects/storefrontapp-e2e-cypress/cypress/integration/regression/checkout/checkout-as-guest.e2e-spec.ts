@@ -13,6 +13,14 @@ context('Checkout as guest', () => {
     cy.cxConfig({ checkout: { guest: true } } as CheckoutConfig);
   });
 
+  beforeEach(() => {
+    cy.restoreLocalStorage();
+  });
+
+  afterEach(() => {
+    cy.saveLocalStorage();
+  });
+
   describe('Add product and proceed to checkout', () => {
     it('should add product to cart and go to login', () => {
       checkout.goToCheapProductDetailsPage();
@@ -20,7 +28,7 @@ context('Checkout as guest', () => {
     });
 
     it('should show the guest checkout button', () => {
-      cy.get('.register').getByText(/Guest Checkout/i);
+      cy.get('.register').findByText(/Guest Checkout/i);
     });
   });
 
@@ -109,6 +117,7 @@ context('Checkout as guest', () => {
       cy.cxConfig({ checkout: { guest: true } } as CheckoutConfig);
     });
     it('should keep guest cart content and restart checkout', () => {
+      cy.clearLocalStorage();
       checkout.goToCheapProductDetailsPage();
       checkout.addCheapProductToCartAndProceedToCheckout();
 
@@ -122,7 +131,7 @@ context('Checkout as guest', () => {
       );
 
       const loginPage = waitForPage('/login', 'getLoginPage');
-      cy.getByText(/Sign in \/ Register/i).click();
+      cy.findByText(/Sign in \/ Register/i).click();
       cy.wait(`@${loginPage}`).its('status').should('eq', 200);
 
       login(user.email, user.password);

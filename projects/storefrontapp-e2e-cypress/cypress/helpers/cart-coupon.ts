@@ -18,12 +18,12 @@ export function addProductToCart(productCode: string) {
     .clear({ force: true })
     .type(`${productCode}{enter}`, { force: true });
   cy.get('cx-add-to-cart')
-    .getAllByText(/Add To Cart/i)
+    .findAllByText(/Add To Cart/i)
     .first()
     .click();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-code').should('contain', productCode);
-    cy.getByText(/view cart/i).click();
+    cy.findByText(/view cart/i).click();
   });
 }
 
@@ -39,7 +39,7 @@ export function verifyMyCoupons() {
 
 export function ApplyMyCoupons(couponCode: string) {
   cy.get('.cx-available-coupon').within(() => {
-    cy.getByText(couponCode).parent().click();
+    cy.findByText(couponCode).parent().click();
   });
   cy.get('cx-global-message').should(
     'contain',
@@ -57,8 +57,7 @@ export function claimCoupon(couponCode: string) {
     )}/users/current/customercoupons/${couponCode}/claim`,
     headers: {
       Authorization: `bearer ${
-        JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
-          .token.access_token
+        JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token.access_token
       }`,
     },
   }).then((response) => {
@@ -254,8 +253,7 @@ export function verifyProductInCart(productCode: string) {
 }
 
 export function verifyOrderPlacingWithCouponAndCustomerCoupon() {
-  const stateAuth = JSON.parse(localStorage.getItem('spartacus-local-data'))
-    .auth;
+  const stateAuth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token;
   addProductToCart(productCode4);
   verifyProductInCart(productCode4);
   verifyEmptyCoupons();
@@ -276,8 +274,7 @@ export function verifyOrderPlacingWithCouponAndCustomerCoupon() {
 }
 
 export function verifyCustomerCouponRemoving() {
-  const stateAuth = JSON.parse(localStorage.getItem('spartacus-local-data'))
-    .auth;
+  const stateAuth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token;
   claimCoupon(myCouponCode2);
   addProductToCart(productCode4);
   ApplyMyCoupons(myCouponCode2);

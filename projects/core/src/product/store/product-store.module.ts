@@ -1,9 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { provideDefaultConfigFactory } from '../../config/config.module';
 import {
   StateConfig,
   StateTransferType,
@@ -11,6 +9,7 @@ import {
 import { effects } from './effects/index';
 import { PRODUCT_FEATURE } from './product-state';
 import { metaReducers, reducerProvider, reducerToken } from './reducers/index';
+import { provideDefaultConfigFactory } from '../../config/config-providers';
 
 export function productStoreConfigFactory(): StateConfig {
   // if we want to reuse PRODUCT_FEATURE const in config, we have to use factory instead of plain object
@@ -27,7 +26,6 @@ export function productStoreConfigFactory(): StateConfig {
 @NgModule({
   imports: [
     CommonModule,
-    HttpClientModule,
     StoreModule.forFeature(PRODUCT_FEATURE, reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
   ],

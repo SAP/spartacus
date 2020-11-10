@@ -5,7 +5,7 @@ import {
   PageLayoutComponent,
   PageLayoutModule,
 } from '../../../cms-structure/page/index';
-import { LogoutGuard } from './logout-guard';
+import { LogoutGuard } from './logout.guard';
 
 @NgModule({
   imports: [

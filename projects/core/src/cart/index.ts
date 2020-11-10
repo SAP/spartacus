@@ -1,3 +1,4 @@
+export { CartPersistenceModule } from './cart-persistence.module';
 export { CartModule } from './cart.module';
 export * from './config/cart-config';
 export * from './connectors/index';

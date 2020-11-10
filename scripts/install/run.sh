@@ -67,14 +67,12 @@ function update_projects_versions {
     fi
     for i in $projects
         do
-            (cd "${CLONE_DIR}/projects/${i}" && pwd && sed -i -E 's/"version": "[^"]+/"version": "'"${SPARTACUS_VERSION}"'/g' package.json);
+            (cd "${CLONE_DIR}/${i}" && pwd && sed -i -E 's/"version": "[^"]+/"version": "'"${SPARTACUS_VERSION}"'/g' package.json);
         done
 }
 
 function npm_install {
     pre_install
-
-    clone_repo
 
     create_apps
 }
@@ -96,15 +94,27 @@ function create_ssr_pwa {
 }
 
 function add_spartacus_csr {
-    ( cd ${INSTALLATION_DIR} && cd csr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} )
+    ( cd ${INSTALLATION_DIR} && cd csr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX}
+        if [ "$ADD_B2B_LIBS" = true ] ; then
+            npm install @spartacus/setup@${SPARTACUS_VERSION} && npm install @spartacus/organization@${SPARTACUS_VERSION} # TODO: change it to `ng add` once those libs support schematics explicitly
+        fi
+    )
 }
 
 function add_spartacus_ssr {
-    ( cd ${INSTALLATION_DIR} && cd ssr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr )
+    ( cd ${INSTALLATION_DIR} && cd ssr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr
+        if [ "$ADD_B2B_LIBS" = true ] ; then
+            npm install @spartacus/setup@${SPARTACUS_VERSION} && npm install @spartacus/organization@${SPARTACUS_VERSION} # TODO: change it to `ng add` once those libs support schematics explicitly
+        fi
+    )
 }
 
 function add_spartacus_ssr_pwa {
-    ( cd ${INSTALLATION_DIR} && cd ssr_pwa && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa )
+    ( cd ${INSTALLATION_DIR} && cd ssr_pwa && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa
+        if [ "$ADD_B2B_LIBS" = true ] ; then
+            npm install @spartacus/setup@${SPARTACUS_VERSION} && npm install @spartacus/organization@${SPARTACUS_VERSION} # TODO: change it to `ng add` once those libs support schematics explicitly
+        fi
+    )
 }
 
 function create_apps {
@@ -144,7 +154,7 @@ function local_install {
     ( cd ${CLONE_DIR} && yarn install )
 
     printh "Building spa libraries from source."
-    ( cd ${CLONE_DIR} && yarn build:core:lib)
+    ( cd ${CLONE_DIR} && yarn build:libs)
 
     printh "Updating projects versions."
     update_projects_versions ${SPARTACUS_PROJECTS[@]}
@@ -170,6 +180,15 @@ function local_install {
 
     printh "Creating schematics npm package"
     ( cd ${CLONE_DIR}/projects/schematics && yarn && yarn build && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
+
+    printh "Creating cds npm package"
+    ( cd ${CLONE_DIR}/dist/cds && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
+
+    printh "Creating setup npm package"
+    ( cd ${CLONE_DIR}/dist/setup && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
+
+    printh "Creating organization npm package"
+    ( cd ${CLONE_DIR}/dist/organization && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 
     create_apps
 

@@ -1,10 +1,18 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { PromotionLocation, PromotionResult } from '@spartacus/core';
+import {
+  OrderEntry,
+  PromotionLocation,
+  PromotionResult,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
+/**
+ * @deprecated since 3.0 - use `OrderEntry` instead
+ */
 export interface Item {
+  entryNumber?: number;
   product?: any;
   quantity?: any;
   basePrice?: any;
@@ -23,11 +31,9 @@ export interface CartItemComponentOptions {
 })
 export class CartItemComponent implements OnInit {
   @Input() compact = false;
-  @Input() item: Item;
+  @Input() item: OrderEntry;
   @Input() readonly = false;
   @Input() quantityControl: FormControl;
-
-  @Output() view = new EventEmitter<any>();
 
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
@@ -60,9 +66,5 @@ export class CartItemComponent implements OnInit {
   removeItem() {
     this.quantityControl.setValue(0);
     this.quantityControl.markAsDirty();
-  }
-
-  viewItem() {
-    this.view.emit();
   }
 }

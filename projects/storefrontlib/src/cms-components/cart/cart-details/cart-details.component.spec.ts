@@ -17,7 +17,6 @@ import {
 import { Observable, of } from 'rxjs';
 import { PromotionService } from '../../../shared/services/promotion/promotion.service';
 import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
-import { Item } from '../cart-shared/cart-item/cart-item.component';
 import { CartDetailsComponent } from './cart-details.component';
 
 class MockActiveCartService {
@@ -53,7 +52,7 @@ class MockPromotionService {
 })
 class MockCartItemListComponent {
   @Input()
-  items: Item[];
+  items: OrderEntry[];
   @Input()
   cartIsLoading: Observable<boolean>;
   @Input()
@@ -170,14 +169,14 @@ describe('CartDetailsComponent', () => {
         code: 'PR0000',
       },
     };
-    mockAuthService.isUserLoggedIn.and.returnValue(false);
+    mockAuthService.isUserLoggedIn.and.returnValue(of(false));
     component.saveForLater(mockItem);
     fixture.detectChanges();
     expect(mockRoutingService.go).toHaveBeenCalled();
   });
 
   it('should not show save for later when selective cart is disabled', () => {
-    mockSelectiveCartService.isEnabled.and.returnValue(false);
+    mockSelectiveCartService.isEnabled.and.returnValue(of(false));
     fixture.detectChanges();
     const el = fixture.debugElement.query(By.css('button'));
     expect(el).toBe(null);

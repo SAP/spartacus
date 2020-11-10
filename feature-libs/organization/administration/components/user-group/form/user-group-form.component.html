@@ -1,0 +1,49 @@
+<cx-organization-form i18nRoot="userGroup">
+  <ng-container *ngIf="form" [formGroup]="form" main>
+    <label>
+      <span class="label-content required">{{
+        'userGroup.name' | cxTranslate
+      }}</span>
+      <input
+        type="text"
+        class="form-control"
+        required
+        placeholder="{{ 'userGroup.name' | cxTranslate }}"
+        formControlName="name"
+      />
+      <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+    </label>
+
+    <label>
+      <span class="label-content required">{{
+        'userGroup.uid' | cxTranslate
+      }}</span>
+      <input
+        class="form-control"
+        type="text"
+        required
+        placeholder="{{ 'userGroup.uid' | cxTranslate }}"
+        formControlName="uid"
+      />
+      <cx-form-errors [control]="form.get('uid')"></cx-form-errors>
+    </label>
+
+    <label aria-required="true" [formGroup]="form.get('orgUnit')">
+      <span class="label-content required">{{
+        'userGroup.orgUnit' | cxTranslate
+      }}</span>
+      <ng-select
+        formControlName="uid"
+        [searchable]="false"
+        [clearable]="false"
+        [items]="units$ | async"
+        bindLabel="name"
+        bindValue="id"
+        [readonly]="form.get('orgUnit.uid').disabled"
+        appendTo="cx-organization-list"
+      >
+      </ng-select>
+      <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>
+    </label>
+  </ng-container>
+</cx-organization-form>

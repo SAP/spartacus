@@ -1,0 +1,25 @@
+{
+  "name": "@spartacus/setup",
+  "version": "3.0.0-next.6",
+  "description": "Includes features that makes Spartacus and it's setup easier and streamlined.",
+  "homepage": "https://github.com/SAP/spartacus",
+  "keywords": [
+    "spartacus",
+    "framework",
+    "storefront",
+    "setup",
+    "recipe"
+  ],
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "https://github.com/SAP/spartacus/tree/develop/core-libs/setup",
+  "peerDependencies": {
+    "@angular/common": "^10.1.0",
+    "@angular/core": "^10.1.0",
+    "rxjs": "^6.6.0",
+    "@spartacus/core": "3.0.0-next.6",
+    "@spartacus/storefront": "3.0.0-next.6"
+  }
+}

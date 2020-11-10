@@ -1,5 +1,12 @@
 import { experimental, JsonParseMode, parseJson } from '@angular-devkit/core';
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
+import { getWorkspace as getWorkspaceAngular } from '@schematics/angular/utility/config';
+import {
+  ProjectType,
+  WorkspaceProject,
+  WorkspaceSchema,
+  WorkspaceTargets,
+} from '@schematics/angular/utility/workspace-models';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 
 const DEFAULT_POSSIBLE_PROJECT_FILES = ['/angular.json', '/.angular.json'];
@@ -89,4 +96,63 @@ export function getDefaultProjectNameFromWorkspace(tree: Tree): string {
   return workspace.defaultProject !== undefined
     ? workspace.defaultProject
     : Object.keys(workspace.projects)[0];
+}
+
+export function getProjectTargets(project: WorkspaceProject): WorkspaceTargets;
+export function getProjectTargets(
+  workspaceOrHost: WorkspaceSchema | Tree,
+  projectName: string
+): WorkspaceTargets;
+export function getProjectTargets(
+  projectOrHost: WorkspaceProject | Tree | WorkspaceSchema,
+  projectName = ''
+): WorkspaceTargets {
+  const project = isWorkspaceProject(projectOrHost)
+    ? projectOrHost
+    : getProject(projectOrHost, projectName);
+
+  const projectTargets = project.targets || project.architect;
+  if (!projectTargets) {
+    throw new Error('Project target not found.');
+  }
+
+  return projectTargets;
+}
+
+/**
+ * Build a default project path for generating.
+ * @param project The project to build the path for.
+ */
+export function buildDefaultPath(project: WorkspaceProject): string {
+  const root = project.sourceRoot
+    ? `/${project.sourceRoot}/`
+    : `/${project.root}/src/`;
+
+  const projectDirName =
+    project.projectType === ProjectType.Application ? 'app' : 'lib';
+
+  return `${root}${projectDirName}`;
+}
+
+export function getProject<
+  TProjectType extends ProjectType = ProjectType.Application
+>(
+  workspaceOrHost: WorkspaceSchema | Tree,
+  projectName: string
+): WorkspaceProject<TProjectType> {
+  const workspace = isWorkspaceSchema(workspaceOrHost)
+    ? workspaceOrHost
+    : getWorkspaceAngular(workspaceOrHost);
+
+  return workspace.projects[projectName] as WorkspaceProject<TProjectType>;
+}
+
+export function isWorkspaceSchema(
+  workspace: any
+): workspace is WorkspaceSchema {
+  return !!(workspace && (workspace as WorkspaceSchema).projects);
+}
+
+export function isWorkspaceProject(project: any): project is WorkspaceProject {
+  return !!(project && (project as WorkspaceProject).projectType);
 }
