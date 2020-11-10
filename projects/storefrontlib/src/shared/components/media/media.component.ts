@@ -7,7 +7,7 @@ import {
   OnChanges,
   Output,
 } from '@angular/core';
-import { Media, MediaContainer } from './media.model';
+import { ImageLoadingStrategy, Media, MediaContainer } from './media.model';
 import { MediaService } from './media.service';
 
 @Component({
@@ -94,6 +94,15 @@ export class MediaComponent implements OnChanges {
     this.isInitialized = true;
     this.isMissing = false;
     this.loaded.emit(true);
+  }
+
+  /**
+   * Indicates whether the browser should lazy load the image.
+   */
+  get loadingStrategy(): string {
+    return this.mediaService.loadingStrategy === ImageLoadingStrategy.LAZY
+      ? 'lazy'
+      : null;
   }
 
   /**
