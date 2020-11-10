@@ -42,7 +42,8 @@
           &:before {
             content: '';
             position: absolute;
-            width: calc(100% - 25px);
+            width: calc(100% - 20px);
+            margin-inline-start: 20px;
             height: 20px;
             background: var(--cx-color-ghost);
             border-radius: var(--cx-ghost-radius);
@@ -51,6 +52,13 @@
               top: 25px;
               left: 0;
             }
+          }
+        }
+
+        td:last-child {
+          &:before {
+            width: calc(100% - 40px);
+            margin-inline-end: 20px;
           }
         }
 
@@ -63,27 +71,11 @@
       }
     }
   }
-
-  cx-organization-sub-list.ghost cx-table.vertical table tr td:before {
-    // width: calc(100% - 50px);
-    // left: 25px;
-    margin-top: 25px;
-    left: 25px;
-    width: calc(100% - 50px);
-  }
 }
 
 %organizationList {
-  // A lot of components that are inside the split view should disappear, so that the
-  // alignment of nested cx-view elements will flow nicely.
-  ng-component,
-  cx-organization-sub-list,
-  form,
-  cx-unit-list,
-  cx-organization-card,
-  cx-organization-form,
-  // we have only a few components that have specific selectors that should disappear
-  cx-unit-form {
+  .content-wrapper,
+  form {
     display: contents;
   }
 
@@ -188,7 +180,7 @@
 
       th,
       td {
-        .content-wrapper {
+        cx-table-data-cell {
           min-height: auto;
           a {
             padding-top: 0;
@@ -235,28 +227,43 @@
     }
   }
 
-  &.unit {
-    .list > cx-table {
-      .name {
-        ng-component {
-          padding-inline-start: calc((var(--cx-depth-level) + 1) * 20px);
-          button.tree-item-toggle {
-            margin-inline-start: -40px;
-          }
-        }
+  cx-toggle-link-cell {
+    padding-inline-start: calc((var(--cx-depth-level) + 1) * 20px);
+    button.tree-item-toggle {
+      margin-inline-start: -40px;
+    }
+  }
 
-        @include media-breakpoint-down(md) {
-          ng-component {
-            padding-inline-start: calc(2.5rem + var(--cx-depth-level) * 1.5rem);
-          }
-        }
-      }
+  @include media-breakpoint-down(md) {
+    cx-toggle-link-cell {
+      padding-inline-start: calc(2.5rem + var(--cx-depth-level) * 1.5rem);
     }
   }
 }
 
 // generic table styles for both vertical and stacked tables
 %table {
+  cx-table {
+    &.vertical-stacked tbody,
+    &.vertical tr {
+      // highlight the items on hovering
+      &:hover:not(.is-current) {
+        background-color: var(--cx-color-background);
+      }
+      // highlight current items
+      &.is-current {
+        outline: solid 3px var(--cx-color-primary);
+        outline-offset: -3px;
+        background: var(--cx-color-background-focus);
+      }
+
+      &:focus-within {
+        @include visible-focus();
+        outline-offset: -2px;
+      }
+    }
+  }
+
   cx-organization-sub-list {
     &:not(.has-nested-view) {
       cx-table.vertical,
@@ -274,11 +281,7 @@
           display: none;
         }
         tr {
-          &:focus-within {
-            outline: none;
-          }
           td {
-            // width: 100%;
             &.actions {
               width: 1px;
               &:last-child {
@@ -295,28 +298,11 @@
           th:last-child,
           td:last-child {
             width: 1px;
+
+            &:not(:only-child) {
+              max-width: none;
+            }
           }
-        }
-      }
-    }
-  }
-
-  .list {
-    cx-table {
-      &.vertical-stacked tbody,
-      &.vertical tr {
-        // highlight the items on hovering
-        &:hover:not(.is-current) {
-          background-color: var(--cx-color-background);
-        }
-        // highlight current items
-        &.is-current {
-          @include is-current-active-selection;
-        }
-
-        &:focus-within {
-          @include visible-focus();
-          outline-offset: -2px;
         }
       }
     }
@@ -325,8 +311,12 @@
   cx-table {
     width: 100%;
 
-    &.vertical td .content-wrapper {
-      display: flex;
+    &.vertical td {
+      height: 74px;
+    }
+
+    &.vertical td cx-table-data-cell {
+      display: inline;
       align-items: center;
       height: 74px;
       padding-inline-start: 20px;
@@ -370,11 +360,16 @@
 
     td {
       font-size: 16px;
+      max-width: 1px;
 
       .text {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+
+        @include media-breakpoint-up(lg) {
+          padding-inline-start: 20px;
+        }
       }
       ul.text {
         margin: 0;
@@ -395,6 +390,10 @@
           align-items: center;
           width: 100%;
           min-height: 74px;
+
+          .text {
+            padding-inline-start: 0; // reset padding for .text, when it's already added for parent <a>
+          }
         }
 
         &[tabindex='0'],

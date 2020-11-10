@@ -33,7 +33,7 @@ export class OccEndpointsService {
   }
 
   /**
-   * Returns and endpoint starting from the OCC baseUrl (no baseSite)
+   * Returns an endpoint starting from the OCC baseUrl (no baseSite)
    * @param endpoint Endpoint suffix
    */
   getRawEndpoint(endpoint: string): string {
@@ -47,6 +47,34 @@ export class OccEndpointsService {
     }
 
     return this.config.backend.occ.baseUrl + endpoint;
+  }
+
+  /**
+   * Returns an endpoint starting from the OCC prefix (no baseSite), i.e. /occ/v2/{endpoint}
+   * Most OCC endpoints are related to a baseSite context and are therefor prefixed
+   * with the baseSite. The `/basesites` endpoint does not relate to a specific baseSite
+   * as it will load all baseSites.
+   *
+   * @param endpoint Endpoint suffix
+   */
+  getOccEndpoint(endpoint: string): string {
+    if (!this.config?.backend?.occ) {
+      return '';
+    }
+    endpoint = this.config.backend.occ.endpoints?.[endpoint];
+
+    if (
+      !endpoint.startsWith('/') &&
+      !this.config.backend.occ.prefix.endsWith('/')
+    ) {
+      endpoint = '/' + endpoint;
+    }
+
+    return (
+      this.config.backend.occ.baseUrl +
+      this.config.backend.occ.prefix +
+      endpoint
+    );
   }
 
   /**

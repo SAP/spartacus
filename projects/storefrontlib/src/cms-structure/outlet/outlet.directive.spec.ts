@@ -1,13 +1,13 @@
-import { Component, ComponentFactoryResolver } from '@angular/core';
+import { Component, ComponentFactoryResolver, Inject } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FeaturesConfig } from '@spartacus/core';
-import { of } from 'rxjs';
+import { By } from '@angular/platform-browser';
+import { getLastValueSync } from '@spartacus/core';
+import { OutletService } from '@spartacus/storefront';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { DeferLoaderService } from '../../layout/loading/defer-loader.service';
 import { OutletRefDirective } from './outlet-ref/outlet-ref.directive';
 import { OutletDirective } from './outlet.directive';
 import { OutletContextData, OutletPosition } from './outlet.model';
-import { OutletService } from '@spartacus/storefront';
-import { By } from '@angular/platform-browser';
 
 const keptOutlet = 'keptOutlet';
 const replacedOutlet = 'replacedOutlet';
@@ -87,10 +87,6 @@ describe('OutletDirective', () => {
           {
             provide: DeferLoaderService,
             useClass: MockDeferLoaderService,
-          },
-          {
-            provide: FeaturesConfig,
-            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #8201
           },
         ],
       }).compileComponents();
@@ -189,10 +185,6 @@ describe('OutletDirective', () => {
             provide: DeferLoaderService,
             useClass: MockDeferLoaderService,
           },
-          {
-            provide: FeaturesConfig,
-            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #8201
-          },
         ],
       }).compileComponents();
     }));
@@ -258,10 +250,6 @@ describe('OutletDirective', () => {
             provide: DeferLoaderService,
             useClass: MockDeferLoaderService,
           },
-          {
-            provide: FeaturesConfig,
-            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #8201
-          },
         ],
       }).compileComponents();
 
@@ -306,10 +294,6 @@ describe('OutletDirective', () => {
             provide: DeferLoaderService,
             useClass: MockDeferLoaderService,
           },
-          {
-            provide: FeaturesConfig,
-            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #8201
-          },
         ],
       }).compileComponents();
 
@@ -332,19 +316,25 @@ describe('OutletDirective', () => {
   });
 
   describe('ComponentFactory in outlet', () => {
+    let mockContextSubject$: BehaviorSubject<string>;
+
     @Component({
       template: `
         <div id="kept">
           <ng-template
             [cxOutlet]="'${keptOutlet}'"
-            [cxOutletContext]="'fakeContext'"
+            [cxOutletContext]="mockContext$ | async"
           >
             <div id="original">whatever</div>
           </ng-template>
         </div>
       `,
     })
-    class MockTemplateComponent {}
+    class MockTemplateComponent {
+      constructor(
+        @Inject('mockContext') public mockContext$: Observable<string>
+      ) {}
+    }
 
     @Component({
       template: ` <div id="component">TestData</div> `,
@@ -355,6 +345,8 @@ describe('OutletDirective', () => {
     }
 
     beforeEach(async(() => {
+      mockContextSubject$ = new BehaviorSubject('fakeContext');
+
       TestBed.configureTestingModule({
         imports: [],
         declarations: [
@@ -369,8 +361,8 @@ describe('OutletDirective', () => {
             useClass: MockDeferLoaderService,
           },
           {
-            provide: FeaturesConfig,
-            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #8201
+            provide: 'mockContext',
+            useValue: mockContextSubject$,
           },
         ],
       }).compileComponents();
@@ -443,7 +435,29 @@ describe('OutletDirective', () => {
 
       expect(outletData.reference).toEqual(keptOutlet);
       expect(outletData.context).toEqual('fakeContext');
+      expect(getLastValueSync(outletData.context$)).toEqual('fakeContext');
       expect(outletData.position).toEqual(OutletPosition.REPLACE);
+    });
+
+    it('should emit new context to OutletContextData.context$ observable', () => {
+      const outletService = TestBed.inject(OutletService);
+      const cfr = TestBed.inject(ComponentFactoryResolver);
+      outletService.add(
+        keptOutlet,
+        cfr.resolveComponentFactory(MockOutletComponent)
+      );
+      const fixture = TestBed.createComponent(MockTemplateComponent);
+      fixture.detectChanges();
+      const testComponent = fixture.debugElement.query(
+        By.css('cx-test-component')
+      );
+      const outletData: OutletContextData =
+        testComponent.componentInstance.outlet;
+
+      expect(getLastValueSync(outletData.context$)).toEqual('fakeContext');
+      mockContextSubject$.next('newFakeContext');
+      fixture.detectChanges();
+      expect(getLastValueSync(outletData.context$)).toEqual('newFakeContext');
     });
   });
 });
