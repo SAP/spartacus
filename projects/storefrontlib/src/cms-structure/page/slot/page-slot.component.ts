@@ -27,7 +27,7 @@ import { PageSlotService } from './page-slot.service';
  * can be fully controlled by customers:
  * - The page slot _position_ is added as a css class by default.
  * - The `cx-pending` is added for as long as the slot hasn't start loading.
- * - The `page-fold` style class is added for the page slot which is configured as the page fold.
+ * - The `page-fold` style class is added for the page slot which is configured   as the page fold.
  */
 @Component({
   selector: 'cx-page-slot,[cx-page-slot]',

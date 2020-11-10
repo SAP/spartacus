@@ -8,22 +8,22 @@ import { CmsComponentsService } from '../../services/cms-components.service';
   providedIn: 'root',
 })
 export class PageSlotService {
-  protected instantSsrSlots: string[] | undefined;
+  protected prerenderedSsrSlots: string[] | undefined;
 
   constructor(
     protected cmsComponentsService: CmsComponentsService,
     @Inject(PLATFORM_ID) protected platformId: any,
     @Inject(DOCUMENT) protected document
   ) {
-    this.discoverInstantSsrSlots();
+    this.resolvePrerenderedSlots();
   }
 
   /**
    * Finds all slots visible in the SSR pre-rendered DOM
    */
-  protected discoverInstantSsrSlots() {
+  protected resolvePrerenderedSlots(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.instantSsrSlots = Array.from(
+      this.prerenderedSsrSlots = Array.from(
         this.document.querySelectorAll('cx-page-slot')
       )
         .filter(
@@ -43,13 +43,20 @@ export class PageSlotService {
    * to avoid unnecessary flickering.
    */
   shouldNotDefer(slot: string): boolean {
-    if (this.instantSsrSlots?.includes(slot)) {
-      this.instantSsrSlots.splice(this.instantSsrSlots.indexOf(slot), 1);
+    if (this.prerenderedSsrSlots?.includes(slot)) {
+      this.prerenderedSsrSlots.splice(
+        this.prerenderedSsrSlots.indexOf(slot),
+        1
+      );
       return true;
     }
     return false;
   }
 
+  /**
+   * Returns the defer options for the given component. If the wrapping
+   * page slot is prerendered, we would ignore the defer options altogether.
+   */
   getComponentDeferOptions(
     slot: string,
     componentType: string
