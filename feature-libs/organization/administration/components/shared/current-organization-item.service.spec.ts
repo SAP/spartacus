@@ -24,8 +24,6 @@ interface Mock {
 
 @Injectable({ providedIn: 'root' })
 class MockCurrentService extends CurrentOrganizationItemService<Mock> {
-  key$;
-  error$ = of(false);
   getParamKey(): string {
     return PARAM;
   }
@@ -157,16 +155,6 @@ describe('CurrentOrganizationItemService', () => {
       expect(result).toBe(mockBudget);
     });
 
-    it('should not call getModel() with route parameter', () => {
-      spyOn(service, 'getItem');
-
-      let result;
-      service.item$.subscribe((value) => (result = value));
-      mockParams.next({ foo: 'bar' });
-      expect(service.getItem).not.toHaveBeenCalled();
-      expect(result).toBe(null);
-    });
-
     it('should resolve model', () => {
       spyOn(service, 'getItem').and.returnValue(
         of({
@@ -180,21 +168,6 @@ describe('CurrentOrganizationItemService', () => {
       mockParams.next({ [PARAM]: '123' });
       expect(result.code).toBe(mockCode);
       expect(result.name).toBe('I am a mock');
-    });
-
-    it('should no longer resolve model', () => {
-      spyOn(service, 'getItem').and.returnValue(
-        of({
-          code: mockCode,
-          name: 'I am a mock',
-        })
-      );
-
-      let result: Mock;
-      service.item$.subscribe((value) => (result = value));
-      mockParams.next({ [PARAM]: '123' });
-      mockParams.next({ foo: 'bar' });
-      expect(result).toBe(null);
     });
   });
 });
