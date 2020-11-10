@@ -102,7 +102,7 @@ export const user = {
 
   password: {
     title: 'Change password',
-    subtitle: '',
+    subtitle: 'User: {{ item.email }}',
     newPassword: 'New password',
     confirmPassword: 'Retype new password',
   },
