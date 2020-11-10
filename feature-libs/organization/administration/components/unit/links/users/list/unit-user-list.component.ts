@@ -4,8 +4,10 @@ import { OrganizationListService } from '../../../../shared/organization-list/or
 import { UnitUserListService } from '../services/unit-user-list.service';
 
 @Component({
+  selector: 'cx-unit-user-list',
   templateUrl: './unit-user-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
       provide: OrganizationListService,

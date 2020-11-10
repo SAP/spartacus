@@ -1,7 +1,7 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { MediaComponent } from './media.component';
-import { Media } from './media.model';
+import { ImageLoadingStrategy, Media } from './media.model';
 import { MediaService } from './media.service';
 
 const mediaUrl = 'mockProductImageUrl.jpg';
@@ -19,6 +19,9 @@ class MockMediaService {
       src: 'missing.jpg',
     };
   }
+  get loadingStrategy(): ImageLoadingStrategy {
+    return ImageLoadingStrategy.EAGER;
+  }
 }
 
 const mockImageContainer = {
@@ -32,14 +35,12 @@ describe('MediaComponent', () => {
   let fixture: ComponentFixture<MediaComponent>;
   let service: MediaService;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [MediaComponent],
       providers: [{ provide: MediaService, useClass: MockMediaService }],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(MediaComponent);
     service = TestBed.inject(MediaService);
     component = fixture.componentInstance;
@@ -63,6 +64,29 @@ describe('MediaComponent', () => {
         fixture.debugElement.query(By.css('img')).nativeElement
       )).src
     ).toContain(mediaUrl);
+  });
+
+  it('should not contain the loading attribute for the image element', () => {
+    const el: HTMLElement = <HTMLImageElement>(
+      fixture.debugElement.query(By.css('img')).nativeElement
+    );
+    fixture.detectChanges();
+    expect(el.getAttribute('loading')).toBeNull();
+  });
+
+  it('should contain loading="lazy" for the image element', () => {
+    spyOnProperty(service, 'loadingStrategy').and.returnValue(
+      ImageLoadingStrategy.LAZY
+    );
+    const lazyFixture = TestBed.createComponent(MediaComponent);
+    const lazyComponent = lazyFixture.componentInstance;
+    lazyComponent.container = mockImageContainer;
+    lazyComponent.ngOnChanges();
+    lazyFixture.detectChanges();
+    const el: HTMLElement = <HTMLImageElement>(
+      lazyFixture.debugElement.query(By.css('img')).nativeElement
+    );
+    expect(el.getAttribute('loading')).toEqual('lazy');
   });
 
   it('should contain is-loading classes while loading', () => {

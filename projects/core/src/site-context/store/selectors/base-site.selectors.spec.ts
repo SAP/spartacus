@@ -6,6 +6,16 @@ import * as fromReducers from '../reducers/index';
 import { SiteContextSelectors } from '../selectors/index';
 import { SITE_CONTEXT_FEATURE, StateWithSiteContext } from '../state';
 
+const site: BaseSite = {
+  uid: 'test',
+  defaultPreviewCategoryCode: 'test category code',
+  defaultPreviewProductCode: 'test product code',
+};
+const baseSites: BaseSite[] = [site];
+const entities: { [key: string]: BaseSite } = {
+  test: baseSites[0],
+};
+
 describe('BaseSite Selectors', () => {
   let store: Store<StateWithSiteContext>;
 
@@ -40,12 +50,6 @@ describe('BaseSite Selectors', () => {
 
   describe('getBaseSiteData', () => {
     it('should return base site details data', () => {
-      const site: BaseSite = {
-        uid: 'test',
-        defaultPreviewCategoryCode: 'test category code',
-        defaultPreviewProductCode: 'test product code',
-      };
-
       let result: BaseSite;
       store
         .pipe(select(SiteContextSelectors.getBaseSiteData))
@@ -55,6 +59,36 @@ describe('BaseSite Selectors', () => {
 
       store.dispatch(new SiteContextActions.LoadBaseSiteSuccess(site));
       expect(result).toEqual(site);
+    });
+  });
+
+  describe('getBaseSitesEntities', () => {
+    it('should return baseSite entities', () => {
+      let result: any;
+
+      store
+        .pipe(select(SiteContextSelectors.getBaseSitesEntities))
+        .subscribe((value) => (result = value));
+
+      expect(result).toEqual(null);
+
+      store.dispatch(new SiteContextActions.LoadBaseSitesSuccess(baseSites));
+      expect(result).toEqual(entities);
+    });
+  });
+
+  describe('getAllBaseSites', () => {
+    it('should return all baseSites', () => {
+      let result: BaseSite[];
+
+      store
+        .pipe(select(SiteContextSelectors.getAllBaseSites))
+        .subscribe((value) => (result = value));
+
+      expect(result).toEqual(null);
+
+      store.dispatch(new SiteContextActions.LoadBaseSitesSuccess(baseSites));
+      expect(result).toEqual(baseSites);
     });
   });
 });

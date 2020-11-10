@@ -6,6 +6,7 @@ import {
 } from '@spartacus/storefront';
 
 @Component({
+  selector: 'cx-organization-cell',
   templateUrl: './organization-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
