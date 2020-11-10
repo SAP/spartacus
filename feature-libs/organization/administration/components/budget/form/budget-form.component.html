@@ -70,7 +70,7 @@
         bindLabel="name"
         bindValue="isocode"
         [class.invalid]="form.get('currency.isocode').invalid"
-        appendTo=".organization"
+        appendTo="cx-organization-list"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('currency.isocode')"></cx-form-errors>
@@ -103,7 +103,7 @@
         bindLabel="name"
         bindValue="id"
         [readonly]="form.get('orgUnit.uid').disabled"
-        appendTo=".organization"
+        appendTo="cx-organization-list"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>
