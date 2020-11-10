@@ -33,7 +33,7 @@ export class OccConfiguratorTextfieldAdapter
   ): Observable<ConfiguratorTextfield.Configuration> {
     return this.http
       .get<OccConfiguratorTextfield.Configuration>(
-        this.occEndpointsService.getUrl('createConfigurationTextfield', {
+        this.occEndpointsService.getUrl('createTextfieldConfiguration', {
           productCode,
         })
       )
@@ -54,7 +54,7 @@ export class OccConfiguratorTextfieldAdapter
     parameters: ConfiguratorTextfield.AddToCartParameters
   ): Observable<CartModification> {
     const url = this.occEndpointsService.getUrl(
-      'addConfigurationTextfieldToCart',
+      'addTextfieldConfigurationToCart',
       {
         userId: parameters.userId,
         cartId: parameters.cartId,
@@ -75,7 +75,7 @@ export class OccConfiguratorTextfieldAdapter
     parameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters
   ): Observable<ConfiguratorTextfield.Configuration> {
     const url = this.occEndpointsService.getUrl(
-      'readConfigurationTextfieldForCartEntry',
+      'readTextfieldConfigurationForCartEntry',
       {
         userId: parameters.userId,
         cartId: parameters.cartId,
@@ -99,7 +99,7 @@ export class OccConfiguratorTextfieldAdapter
     parameters: ConfiguratorTextfield.UpdateCartEntryParameters
   ): Observable<CartModification> {
     const url = this.occEndpointsService.getUrl(
-      'updateConfigurationTextfieldForCartEntry',
+      'updateTextfieldConfigurationForCartEntry',
       {
         userId: parameters.userId,
         cartId: parameters.cartId,

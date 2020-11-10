@@ -98,17 +98,17 @@ describe('OccConfigurationTextfieldAdapter', () => {
     httpMock.verify();
   });
 
-  it('should call createConfiguration endpoint', () => {
+  it('should call createTextfieldConfiguration endpoint', () => {
     occConfiguratorVariantAdapter
       .createConfiguration(productCode, null)
       .subscribe();
 
     const mockReq = httpMock.expectOne((req) => {
-      return req.method === 'GET' && req.url === 'createConfigurationTextfield';
+      return req.method === 'GET' && req.url === 'createTextfieldConfiguration';
     });
 
     expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
-      'createConfigurationTextfield',
+      'createTextfieldConfiguration',
       {
         productCode,
       }
@@ -121,7 +121,7 @@ describe('OccConfigurationTextfieldAdapter', () => {
     );
   });
 
-  it('should call readConfigurationForCartEntry endpoint', () => {
+  it('should call readTextfieldConfigurationForCartEntry endpoint', () => {
     occConfiguratorVariantAdapter
       .readConfigurationForCartEntry(readParams)
       .subscribe();
@@ -129,12 +129,12 @@ describe('OccConfigurationTextfieldAdapter', () => {
     const mockReq = httpMock.expectOne((req) => {
       return (
         req.method === 'GET' &&
-        req.url === 'readConfigurationTextfieldForCartEntry'
+        req.url === 'readTextfieldConfigurationForCartEntry'
       );
     });
 
     expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
-      'readConfigurationTextfieldForCartEntry',
+      'readTextfieldConfigurationForCartEntry',
       readParams
     );
 
@@ -150,12 +150,12 @@ describe('OccConfigurationTextfieldAdapter', () => {
 
     const mockReq = httpMock.expectOne((req) => {
       return (
-        req.method === 'POST' && req.url === 'addConfigurationTextfieldToCart'
+        req.method === 'POST' && req.url === 'addTextfieldConfigurationToCart'
       );
     });
 
     expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
-      'addConfigurationTextfieldToCart',
+      'addTextfieldConfigurationToCart',
       {
         userId: USER_ID,
         cartId: CART_ID,
@@ -177,12 +177,12 @@ describe('OccConfigurationTextfieldAdapter', () => {
     const mockReq = httpMock.expectOne((req) => {
       return (
         req.method === 'POST' &&
-        req.url === 'updateConfigurationTextfieldForCartEntry'
+        req.url === 'updateTextfieldConfigurationForCartEntry'
       );
     });
 
     expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
-      'updateConfigurationTextfieldForCartEntry',
+      'updateTextfieldConfigurationForCartEntry',
       {
         userId: USER_ID,
         cartId: CART_ID,
