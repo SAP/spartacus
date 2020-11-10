@@ -320,23 +320,6 @@ describe('ConfigurationGroupMenuComponent', () => {
     expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
   });
 
-  it('should not call status method if group has not been visited', () => {
-    productConfigurationObservable = of(mockProductConfiguration);
-    routerStateObservable = of(mockRouterState);
-    mockGroupVisited = false;
-    initialize();
-    component
-      .getCompleteOrErrorGroupStatus(
-        mockProductConfiguration.groups[0],
-        mockProductConfiguration
-      )
-      .pipe(take(1))
-      .subscribe();
-
-    expect(configuratorGroupsService.isGroupVisited).toHaveBeenCalled();
-    expect(configuratorGroupsService.getGroupStatus).toHaveBeenCalledTimes(0);
-  });
-
   it('should return number of conflicts only for conflict header group', () => {
     productConfigurationObservable = of(mockProductConfiguration);
     routerStateObservable = of(mockRouterState);
