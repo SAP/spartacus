@@ -3,6 +3,8 @@ import {
   AUTH_FEATURE,
   AUTH_SELECTORS,
   AUTH_STATE,
+  CSAGENT_TOKEN_DATA,
+  CUSTOMER_SUPPORT_AGENT_TOKEN_INTERCEPTOR,
   KYMA_ACTIONS,
   KYMA_CONFIG,
   KYMA_FEATURE,
@@ -125,6 +127,18 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: SPARTACUS_CORE,
     comment: `'${KYMA_CONFIG}' was removed. For replacement look into 3.0 migration documentation.`
   },
+  // projects/core/src/asm/store/asm-state.ts
+  {
+    node: CSAGENT_TOKEN_DATA,
+    importPath: SPARTACUS_CORE,
+    comment: `'${CSAGENT_TOKEN_DATA}' was removed. Token is now stored in 'AuthStorageService'.`
+  },
+  // projects/core/src/asm/http-interceptors/csagent-token.interceptor.ts
+  {
+    node: CUSTOMER_SUPPORT_AGENT_TOKEN_INTERCEPTOR,
+    importPath: SPARTACUS_CORE,
+    comment: `'${CUSTOMER_SUPPORT_AGENT_TOKEN_INTERCEPTOR} was removed. The functionality is now provided by 'AuthInterceptor' and 'AsmAuthHttpHeaderService'.`
+  }
 ];
 
 export function migrate(): Rule {

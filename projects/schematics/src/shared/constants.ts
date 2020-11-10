@@ -233,6 +233,8 @@ export const AUTH_REDIRECT_STORAGE_SERVICE = 'AuthRedirectStorageService';
 export const USER_ID_SERVICE = 'UserIdService';
 export const OAUTH_LIB_WRAPPER_SERVICE = 'OAuthLibWrapperService';
 export const AUTH_STORAGE_SERVICE = 'AuthStorageService';
+
+export const ASM_AUTH_SERVICE = 'AsmAuthService';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -331,6 +333,12 @@ export const OPEN_ID_TOKEN = 'OpenIdToken';
 export const KYMA_MODULE = 'KymaModule';
 export const KYMA_SERVICE = 'KymaService';
 export const KYMA_CONFIG = 'KymaConfig';
+
+export const ASM_SELECTORS = 'AsmSelectors';
+export const ASM_ACTIONS = 'AsmActions';
+export const CSAGENT_TOKEN_DATA = 'CSAGENT_TOKEN_DATA';
+export const CUSTOMER_SUPPORT_AGENT_TOKEN_INTERCEPTOR =
+  'CustomerSupportAgentTokenInterceptor ';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
@@ -365,6 +373,25 @@ export const REVOKE_USER_TOKEN_FAIL_CLASS = 'RevokeUserTokenSuccess';
 export const REVOKE_USER_TOKEN_SUCCESS_CLASS = 'RevokeUserTokenFail';
 
 export const CAN_ACTIVATE = 'canActivate';
+
+export const GET_CUSTOMER_AGENT_TOKEN_STATE =
+  'getCustomerSupportAgentTokenState';
+export const GET_CUSTOMER_AGENT_TOKEN = 'getCustomerSupportAgentToken';
+export const GET_CUSTOMER_AGENT_TOKEN_LOADING =
+  'getCustomerSupportAgentTokenLoading';
+
+export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN =
+  'LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN';
+export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_FAIL =
+  'LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_FAIL';
+export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_SUCCESS =
+  'LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_SUCCESS';
+export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_CLASS =
+  'LoadCustomerSupportAgentToken';
+export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_FAIL_CLASS =
+  'LoadCustomerSupportAgentTokenFail';
+export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_SUCCESS_CLASS =
+  'LoadCustomerSupportAgentTokenSuccess';
 /***** Properties end *****/
 
 /***** APIs start *****/
