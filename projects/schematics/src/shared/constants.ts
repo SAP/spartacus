@@ -40,6 +40,7 @@ export const INJECTOR = 'Injector';
 export const STORE = 'Store';
 
 export const FORM_BUILDER = 'FormBuilder';
+export const JSONLD_PRODUCT_REVIEW_BUILDER = 'JsonLdProductReviewBuilder';
 
 export const CHANGE_DETECTOR_REF = 'ChangeDetectorRef';
 
@@ -108,6 +109,7 @@ export const CHECKOUT_ORDER_SUMMARY_COMPONENT = 'CheckoutOrderSummaryComponent';
 export const CHECKOUT_PROGRESS_MOBILE_TOP_COMPONENT =
   'CheckoutProgressMobileTopComponent';
 export const CHECKOUT_CONFIG = 'CheckoutConfig';
+export const SEO_CONFIG = 'SeoConfig';
 export const ROUTING_CONFIG_SERVICE = 'RoutingConfigService';
 export const PAYMENT_METHOD_COMPONENT = 'PaymentMethodComponent';
 export const USER_PAYMENT_SERVICE = 'UserPaymentService';
