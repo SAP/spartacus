@@ -8,6 +8,7 @@ import { of } from 'rxjs';
 import { Subject } from 'rxjs/internal/Subject';
 import { ExistGuardDirective } from '../../shared/exist-guard.directive';
 import { OrganizationCardTestingModule } from '../../shared/organization-card/organization-card.testing.module';
+import { ToggleStatusModule } from '../../shared/organization-detail/toggle-status-action/toggle-status.module';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { MessageTestingModule } from '../../shared/organization-message/message.testing.module';
 import { MessageService } from '../../shared/organization-message/services/message.service';
@@ -46,6 +47,7 @@ describe('PermissionDetailsComponent', () => {
         UrlTestingModule,
         OrganizationCardTestingModule,
         MessageTestingModule,
+        ToggleStatusModule,
       ],
       declarations: [PermissionDetailsComponent, ExistGuardDirective],
       providers: [
