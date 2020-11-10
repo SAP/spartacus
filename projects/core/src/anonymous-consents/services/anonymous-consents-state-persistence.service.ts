@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { StatePersistenceService } from '../../state/index';
 import {
+  LoadAnonymousConsentTemplates,
   SetAnonymousConsents,
   ToggleAnonymousConsentsBannerDissmissed,
   ToggleAnonymousConsentTemplatesUpdated,
@@ -65,6 +66,7 @@ export class AnonymousConsentsStatePersistenceService implements OnDestroy {
   protected onRead(state: SyncedAnonymousConsentsState) {
     if (state) {
       if (state.templates) {
+        this.store.dispatch(new LoadAnonymousConsentTemplates());
       }
       if (state.consents) {
         this.store.dispatch(new SetAnonymousConsents(state.consents));
