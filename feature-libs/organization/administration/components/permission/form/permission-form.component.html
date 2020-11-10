@@ -30,7 +30,7 @@
         bindLabel="name"
         bindValue="code"
         [readonly]="form.disabled"
-        appendTo=".organization"
+        appendTo="cx-organization-list"
       >
       </ng-select>
       <cx-form-errors
@@ -47,7 +47,7 @@
         [searchable]="false"
         [clearable]="false"
         [items]="periods"
-        appendTo=".organization"
+        appendTo="cx-organization-list"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('periodRange')"></cx-form-errors>
@@ -100,7 +100,7 @@
         bindLabel="name"
         bindValue="id"
         [readonly]="form.get('orgUnit').disabled"
-        appendTo=".organization"
+        appendTo="cx-organization-list"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>

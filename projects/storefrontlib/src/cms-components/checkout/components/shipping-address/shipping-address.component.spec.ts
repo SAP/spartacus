@@ -234,6 +234,13 @@ describe('ShippingAddressComponent', () => {
       component.ngOnInit();
       expect(userAddressService.loadAddresses).not.toHaveBeenCalled();
     });
+
+    it('should not invoke addAddress when address is undefined/ not modified.', () => {
+      component.addAddress(undefined);
+      expect(
+        checkoutDeliveryService.createAndSetAddress
+      ).not.toHaveBeenCalled();
+    });
   });
 
   it('should call showNewAddressForm()', () => {
