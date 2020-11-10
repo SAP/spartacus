@@ -19,11 +19,11 @@ export const CART_VOUCHER_SERVICE_MIGRATION: ConstructorDeprecation = {
       importPath: NGRX_STORE,
     },
     {
-      className: ACTIVE_CART_SERVICE,
+      className: AUTH_SERVICE,
       importPath: SPARTACUS_CORE,
     },
     {
-      className: AUTH_SERVICE,
+      className: ACTIVE_CART_SERVICE,
       importPath: SPARTACUS_CORE,
     },
   ],

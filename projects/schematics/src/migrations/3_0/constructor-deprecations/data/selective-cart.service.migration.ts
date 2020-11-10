@@ -8,6 +8,7 @@ import {
   SPARTACUS_CORE,
   STORE,
   USER_ID_SERVICE,
+  USER_SERVICE,
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
@@ -19,6 +20,10 @@ export const SELECTIVE_CART_SERVICE_MIGRATION: ConstructorDeprecation = {
     {
       className: STORE,
       importPath: NGRX_STORE,
+    },
+    {
+      className: USER_SERVICE,
+      importPath: SPARTACUS_CORE,
     },
     {
       className: AUTH_SERVICE,
