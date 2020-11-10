@@ -385,6 +385,10 @@ export const GET_BREAKPOINT = 'getBreakpoint';
 /***** APIs end *****/
 
 /***** Misc start *****/
+export const SPARTACUS_CONFIGURATION_FILE_NAME = 'spartacus-configuration';
+export const SPARTACUS_CONFIGURATION_FILE_PATH = `src/app/${SPARTACUS_CONFIGURATION_FILE_NAME}.ts`;
+export const SPARTACUS_CONFIGURATION_NAME = 'spartacusConfiguration';
+export const PROVIDE_CONFIG_FUNCTION = 'provideConfig';
 export const TODO_SPARTACUS = 'TODO:Spartacus -';
 export const CSS_V2_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-2/';

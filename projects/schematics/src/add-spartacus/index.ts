@@ -24,15 +24,24 @@ import {
   ANGULAR_LOCALIZE,
   B2C_STOREFRONT_MODULE,
   DEFAULT_NGRX_VERSION,
+  PROVIDE_CONFIG_FUNCTION,
   SPARTACUS_ASSETS,
+  SPARTACUS_CONFIGURATION_FILE_NAME,
+  SPARTACUS_CONFIGURATION_FILE_PATH,
+  SPARTACUS_CONFIGURATION_NAME,
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_STYLES,
 } from '../shared/constants';
-import { getIndexHtmlPath, getTsSourceFile } from '../shared/utils/file-utils';
+import {
+  commitChanges,
+  getIndexHtmlPath,
+  getTsSourceFile,
+} from '../shared/utils/file-utils';
 import {
   addImport,
-  addToModuleImportsAndCommitChanges,
+  addToModuleImports,
+  addToModuleProviders,
 } from '../shared/utils/module-file-utils';
 import {
   getAngularVersion,
@@ -156,40 +165,40 @@ function prepareSiteContextConfig(options: SpartacusOptions): string {
   const currency = parseCSV(options.currency, ['USD']).toUpperCase();
   const language = parseCSV(options.language, ['en']).toLowerCase();
   let context = `
-      context: {
-        currency: [${currency}],
-        language: [${language}],`;
+  context: {
+    currency: [${currency}],
+    language: [${language}],`;
 
   if (options.baseSite) {
     const baseSites = parseCSV(options.baseSite);
     context += `
-        baseSite: [${baseSites}]`;
+    baseSite: [${baseSites}]`;
   }
   context += `
-      },`;
+  },`;
 
   return context;
 }
 
 function getStorefrontConfig(options: SpartacusOptions): string {
-  const baseUrlPart = `\n          baseUrl: '${options.baseUrl}',`;
+  const baseUrlPart = `\n      baseUrl: '${options.baseUrl}',`;
   const context = prepareSiteContextConfig(options);
 
   return `{
-      backend: {
-        occ: {${options.useMetaTags ? '' : baseUrlPart}
-          prefix: '${options.occPrefix}'
-        }
-      },${context}
-      i18n: {
-        resources: translations,
-        chunks: translationChunksConfig,
-        fallbackLang: 'en'
-      },
-      features: {
-        level: '${options.featureLevel || getSpartacusCurrentFeatureLevel()}'
-      }
-    }`;
+  backend: {
+    occ: {${options.useMetaTags ? '' : baseUrlPart}
+      prefix: '${options.occPrefix}'
+    }
+  },${context}
+  i18n: {
+    resources: translations,
+    chunks: translationChunksConfig,
+    fallbackLang: 'en'
+  },
+  features: {
+    level: '${options.featureLevel || getSpartacusCurrentFeatureLevel()}'
+  }
+}`;
 }
 
 function updateAppModule(options: SpartacusOptions): Rule {
@@ -198,7 +207,6 @@ function updateAppModule(options: SpartacusOptions): Rule {
 
     // find app module
     const projectTargets = getProjectTargets(host, options.project);
-
     if (!projectTargets.build) {
       throw new SchematicsException(`Project target "build" not found.`);
     }
@@ -211,20 +219,44 @@ function updateAppModule(options: SpartacusOptions): Rule {
       !isImported(moduleSource, B2C_STOREFRONT_MODULE, SPARTACUS_STOREFRONTLIB)
     ) {
       // add imports
-      addImport(host, modulePath, 'translations', SPARTACUS_ASSETS);
-      addImport(host, modulePath, 'translationChunksConfig', SPARTACUS_ASSETS);
       addImport(
         host,
         modulePath,
         B2C_STOREFRONT_MODULE,
         SPARTACUS_STOREFRONTLIB
       );
-
-      addToModuleImportsAndCommitChanges(
+      addImport(host, modulePath, PROVIDE_CONFIG_FUNCTION, SPARTACUS_CORE);
+      addImport(
         host,
         modulePath,
-        `${B2C_STOREFRONT_MODULE}.withConfig(${getStorefrontConfig(options)})`
+        SPARTACUS_CONFIGURATION_NAME,
+        `./${SPARTACUS_CONFIGURATION_FILE_NAME}`
       );
+
+      const moduleImportedChange = addToModuleImports(
+        host,
+        modulePath,
+        `${B2C_STOREFRONT_MODULE}`
+      );
+      const configurationProvidedChange = addToModuleProviders(
+        host,
+        modulePath,
+        `provideConfig(${SPARTACUS_CONFIGURATION_NAME})`
+      );
+
+      const configurationFile = `import { translationChunksConfig, translations } from '@spartacus/assets';
+import { StorefrontConfig } from '@spartacus/storefront';
+      
+export const ${SPARTACUS_CONFIGURATION_NAME}: StorefrontConfig = ${getStorefrontConfig(
+        options
+      )};
+`;
+      host.create(SPARTACUS_CONFIGURATION_FILE_PATH, configurationFile);
+
+      commitChanges(host, modulePath, [
+        ...moduleImportedChange,
+        ...configurationProvidedChange,
+      ]);
     }
 
     return host;
