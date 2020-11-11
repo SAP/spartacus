@@ -1,4 +1,3 @@
-import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -13,7 +12,6 @@ import { CartItemOutletConfiguratorComponent } from './cart-item-outlet-configur
 describe('CartItemOutletConfiguratorComponent', () => {
   let cartItemComponent: CartItemOutletConfiguratorComponent;
   let fixture: ComponentFixture<CartItemOutletConfiguratorComponent>;
-  let el: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -39,7 +37,6 @@ describe('CartItemOutletConfiguratorComponent', () => {
     cartItemComponent = fixture.componentInstance;
 
     fixture.detectChanges();
-    el = fixture.debugElement;
   });
 
   it('should create CartItemComponent', () => {

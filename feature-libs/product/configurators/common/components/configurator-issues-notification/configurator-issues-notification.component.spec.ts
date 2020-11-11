@@ -42,17 +42,6 @@ describe('ConfigureIssuesNotificationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return no issue message key if the number of issues is null/undefined or equals zero', () => {
-    let result = component.getIssueMessageKey(null);
-    expect(result).toEqual('');
-
-    result = component.getIssueMessageKey(undefined);
-    expect(result).toEqual('');
-
-    result = component.getIssueMessageKey(0);
-    expect(result).toEqual('');
-  });
-
   it('should return number of issues of ERROR status', () => {
     component.item.statusSummaryList = [
       { numberOfIssues: 2, status: OrderEntryStatus.Error },
