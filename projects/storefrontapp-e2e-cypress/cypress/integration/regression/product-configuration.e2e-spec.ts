@@ -14,6 +14,7 @@ const checkBoxList = 'checkBoxList';
 // Group Status
 const ERROR = 'ERROR';
 const COMPLETE = 'COMPLETE';
+const WARNING = 'WARNING';
 
 // List of groups
 const BASICS = 'Basics';
@@ -213,8 +214,6 @@ context('Product Configuration', () => {
       // and check whether status changes to complete
       configuration.selectAttribute(CAMERA_FORMAT_PICTURES, radioGroup, JPEG);
       cy.wait('@updateConfig');
-      configuration.selectAttribute(CAMERA_FORMAT_PICTURES, radioGroup, RAW);
-      cy.wait('@updateConfig');
       configuration.isStatusIconDisplayed(BASICS, ERROR);
       configuration.isStatusIconDisplayed(SPECIFICATION, COMPLETE);
       configuration.isStatusIconDisplayed(DISPLAY, COMPLETE);
@@ -352,12 +351,16 @@ context('Product Configuration', () => {
         1
       );
       cy.wait('@updateConfig');
+      configuration.isStatusIconDisplayed(SOURCE_COMPONENTS, WARNING);
+      configuration.isStatusIconDisplayed(VIDEO_SYSTEM, WARNING);
       configuration.deselectConflictingValue(
         GAMING_CONSOLE,
         radioGroup,
         GAMING_CONSOLE_NO
       );
       cy.wait('@updateConfig');
+      configuration.isStatusIconNotDisplayed(SOURCE_COMPONENTS);
+      configuration.isStatusIconNotDisplayed(VIDEO_SYSTEM);
       configuration.selectConflictingValue(
         GAMING_CONSOLE,
         radioGroup,
@@ -376,6 +379,10 @@ context('Product Configuration', () => {
       configuration.clickOnPreviousBtn(CONFLICT_FOR_GAMING_CONSOLE);
       configuration.isConflictDescriptionDisplayed(Conflict_msg_gaming_console);
       configuration.clickOnNextBtn(GENERAL);
+      configuration.isStatusIconDisplayed(SOURCE_COMPONENTS, WARNING);
+      configuration.isStatusIconDisplayed(SOURCE_COMPONENTS, COMPLETE);
+      configuration.isStatusIconDisplayed(VIDEO_SYSTEM, WARNING);
+      configuration.isStatusIconDisplayed(VIDEO_SYSTEM, COMPLETE);
       configuration.clickAddToCartBtn();
       // Navigate to Overview page and verify whether the resolve issues banner is displayed and how many issues are there
       configurationOverview.verifyNotificationBannerOnOP(1);
