@@ -61,6 +61,7 @@ describe('ConfigureCartEntryComponent', () => {
   });
 
   it('should find correct default owner type', () => {
+    orderOrCartEntry.orderCode = undefined;
     expect(component.getOwnerType()).toBe(
       GenericConfigurator.OwnerType.CART_ENTRY
     );
