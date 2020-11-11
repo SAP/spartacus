@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, map, pluck, switchMap } from 'rxjs/operators';
 import { ROUTE_PARAMS } from '../constants';
 
@@ -31,7 +31,7 @@ export abstract class CurrentOrganizationItemService<T> {
    * The active item is loaded by the active `key$`.
    */
   readonly item$: Observable<T> = this.key$.pipe(
-    switchMap((code: string) => this.getItem(code))
+    switchMap((code: string) => (code ? this.getItem(code) : of(null)))
   );
 
   /**
