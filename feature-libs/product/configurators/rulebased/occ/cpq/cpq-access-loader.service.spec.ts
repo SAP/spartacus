@@ -18,7 +18,7 @@ class MockOccEndpointsService {
 }
 
 const accessData: Cpq.AccessData = {
-  token: '8273635',
+  accessToken: '8273635',
   endpoint: 'https://cpq',
   tokenExpirationTime: 1605004667020,
 };

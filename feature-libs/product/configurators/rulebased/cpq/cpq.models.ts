@@ -7,7 +7,7 @@ export namespace Cpq {
     /**
      * CPQ Access token
      */
-    token?: string;
+    accessToken?: string;
     /**
      * Token expiration time in milli seconds
      */
