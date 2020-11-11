@@ -25,6 +25,7 @@ export const SPARTACUS_CORE = '@spartacus/core';
 export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';
 export const SPARTACUS_SETUP = '@spartacus/setup';
 export const SPARTACUS_CDS = '@spartacus/cds';
+export const SPARTACUS_CDC = '@spartacus/cdc';
 export const SPARTACUS_ASSETS = '@spartacus/assets';
 export const SPARTACUS_STYLES = '@spartacus/styles';
 
@@ -235,6 +236,8 @@ export const OAUTH_LIB_WRAPPER_SERVICE = 'OAuthLibWrapperService';
 export const AUTH_STORAGE_SERVICE = 'AuthStorageService';
 
 export const ASM_AUTH_SERVICE = 'AsmAuthService';
+
+export const CDC_AUTH_SERVICE = 'CdcAuthService';
 /***** Classes end *****/
 
 /***** Removed public api start *****/

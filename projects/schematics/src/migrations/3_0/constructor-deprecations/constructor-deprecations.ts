@@ -4,6 +4,7 @@ import { migrateConstructorDeprecation } from '../../mechanism/constructor-depre
 import { AUTH_REDIRECT_SERVICE_CONSTRUCTOR_MIGRATION } from './data/auth-redirect.service.migration';
 import { AUTH_GUARD_CONSTRUCTOR_MIGRATION } from './data/auth.guard.migration';
 import { AUTH_SERVICE_CONSTRUCTOR_MIGRATION } from './data/auth.service.migration';
+import { CDC_AUTH_SERVICE_CONSTRUCTOR_MIGRATION } from './data/cdc-auth.service.migration';
 import { NOT_AUTH_GUARD_CONSTRUCTOR_MIGRATION } from './data/not-auth.guard.migration';
 import { ROUTING_SERVICE_MIGRATION } from './data/routing.service.migration';
 
@@ -13,6 +14,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   AUTH_GUARD_CONSTRUCTOR_MIGRATION,
   AUTH_REDIRECT_SERVICE_CONSTRUCTOR_MIGRATION,
   AUTH_SERVICE_CONSTRUCTOR_MIGRATION,
+  CDC_AUTH_SERVICE_CONSTRUCTOR_MIGRATION,
 ];
 
 export function migrate(): Rule {

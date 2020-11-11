@@ -7,6 +7,7 @@ import { ASM_SELECTORS_MIGRATION } from './data/asm-group.selectors.migration';
 import { AUTH_ACTIONS_MIGRATION } from './data/auth-group.actions.migration';
 import { AUTH_GUARD_MIGRATION } from './data/auth.guard.migration';
 import { AUTH_SERVICE_MIGRATION } from './data/auth.service.migration';
+import { CDC_AUTH_SERVICE_MIGRATION } from './data/cdc-auth.service.migration';
 import { NOT_AUTH_GUARD_MIGRATION } from './data/not-auth.guard.migration';
 
 export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
@@ -17,6 +18,7 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...ASM_SELECTORS_MIGRATION,
   ...ASM_ACTIONS_MIGRATION,
   ...ASM_AUTH_SERVICE_MIGRATION,
+  ...CDC_AUTH_SERVICE_MIGRATION,
 ];
 
 export function migrate(): Rule {
