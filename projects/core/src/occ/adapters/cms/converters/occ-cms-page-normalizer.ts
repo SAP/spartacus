@@ -87,7 +87,7 @@ export class OccCmsPageNormalizer
         Array.isArray(slot.components.component)
       ) {
         for (const component of slot.components.component as any) {
-          // we dont put properties into component state
+          // we don't put properties into component state
           if (component.properties) {
             component.properties = undefined;
           }
