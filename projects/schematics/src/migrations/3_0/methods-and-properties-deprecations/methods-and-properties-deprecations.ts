@@ -7,10 +7,36 @@ import { ASM_SELECTORS_MIGRATION } from './data/asm-group.selectors.migration';
 import { AUTH_ACTIONS_MIGRATION } from './data/auth-group.actions.migration';
 import { AUTH_GUARD_MIGRATION } from './data/auth.guard.migration';
 import { AUTH_SERVICE_MIGRATION } from './data/auth.service.migration';
+import { BASE_SITE_SERVICE_MIGRATION } from './data/base-site.service.migration';
+import { BREAKPOINT_SERVICE_MIGRATION } from './data/breakpoint.service.migration';
 import { CDC_AUTH_SERVICE_MIGRATION } from './data/cdc-auth.service.migration';
+import { CHECKOUT_AUTH_GUARD_MIGRATION } from './data/checkout-auth.guard.migration';
+import { CHECKOUT_CONFIG_SERVICE_MIGRATION } from './data/checkout-config.service.migration';
+import { CHECKOUT_GROUP_ACTIONS_MIGRATION } from './data/checkout-group.actions.migration';
+import { CMS_COMPONENTS_SERVICE_MIGRATION } from './data/cms-components.service.migration';
+import { ITEM_COUNTER_COMPONENT_MIGRATION } from './data/item-counter.component.migration';
 import { NOT_AUTH_GUARD_MIGRATION } from './data/not-auth.guard.migration';
+import { PRODUCT_CAROUSEL_SERVICE_MIGRATION } from './data/product-carousel.service.migration';
+import { PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION } from './data/product-list-component.service.migration';
+import { PRODUCT_REFERENCE_SERVICE_MIGRATION } from './data/product-reference.service.migration';
+import { STORE_FINDER_ACTIONS_MIGRATION } from './data/store-finder-group.actions.migration';
+import { STOREFRONT_COMPONENT_MIGRATION } from './data/storefront-component.migration';
+import { UPDATE_EMAIL_COMPONENT_MIGRATION } from './data/update-email.component.migration';
 
 export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
+  ...PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION,
+  ...CHECKOUT_GROUP_ACTIONS_MIGRATION,
+  ...CHECKOUT_CONFIG_SERVICE_MIGRATION,
+  ...CHECKOUT_AUTH_GUARD_MIGRATION,
+  ...CMS_COMPONENTS_SERVICE_MIGRATION,
+  ...BREAKPOINT_SERVICE_MIGRATION,
+  ...ITEM_COUNTER_COMPONENT_MIGRATION,
+  ...STORE_FINDER_ACTIONS_MIGRATION,
+  ...UPDATE_EMAIL_COMPONENT_MIGRATION,
+  ...BASE_SITE_SERVICE_MIGRATION,
+  ...PRODUCT_CAROUSEL_SERVICE_MIGRATION,
+  ...PRODUCT_REFERENCE_SERVICE_MIGRATION,
+  ...STOREFRONT_COMPONENT_MIGRATION,
   ...AUTH_ACTIONS_MIGRATION,
   ...NOT_AUTH_GUARD_MIGRATION,
   ...AUTH_GUARD_MIGRATION,

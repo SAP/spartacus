@@ -1,4 +1,4 @@
-<cx-organization-form i18nRoot="unitAddress" [animateBack]="false">
+<cx-organization-form i18nRoot="unitAddress" [animateBack]="!(key$ | async)">
   <ng-container *ngIf="form" [formGroup]="form" main>
     <label aria-required="true" formGroupName="country">
       <span class="label-content required">{{
@@ -13,7 +13,7 @@
         bindLabel="name"
         bindValue="isocode"
         placeholder="{{ 'unitAddress.selectOne' | cxTranslate }}"
-        appendTo=".organization"
+        appendTo="cx-organization-list"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('country.isocode')"></cx-form-errors>
@@ -31,7 +31,7 @@
         bindLabel="name"
         bindValue="code"
         placeholder="{{ 'unitAddress.selectOne' | cxTranslate }}"
-        appendTo=".organization"
+        appendTo="cx-organization-list"
       >
       </ng-select>
     </label>
@@ -145,7 +145,7 @@
           bindLabel="name"
           bindValue="isocode"
           placeholder="{{ 'unitAddress.selectOne' | cxTranslate }}"
-          appendTo=".organization"
+          appendTo="cx-organization-list"
         >
         </ng-select>
         <cx-form-errors [control]="form.get('region.isocode')"></cx-form-errors>

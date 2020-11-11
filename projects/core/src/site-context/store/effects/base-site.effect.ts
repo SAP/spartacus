@@ -27,6 +27,28 @@ export class BaseSiteEffects {
     })
   );
 
+  @Effect()
+  loadBaseSites$: Observable<
+    | SiteContextActions.LoadBaseSitesSuccess
+    | SiteContextActions.LoadBaseSitesFail
+  > = this.actions$.pipe(
+    ofType(SiteContextActions.LOAD_BASE_SITES),
+    exhaustMap(() => {
+      return this.siteConnector.getBaseSites().pipe(
+        map(
+          (baseSites) => new SiteContextActions.LoadBaseSitesSuccess(baseSites)
+        ),
+        catchError((error) =>
+          of(
+            new SiteContextActions.LoadBaseSitesFail(
+              makeErrorSerializable(error)
+            )
+          )
+        )
+      );
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private siteConnector: SiteConnector
