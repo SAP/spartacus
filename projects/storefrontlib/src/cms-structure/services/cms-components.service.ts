@@ -25,10 +25,6 @@ export class CmsComponentsService {
     Observable<CmsComponentMapping>
   > = new Map();
 
-  /**
-   * @deprecated since 2.1
-   * constructor(config: CmsConfig, platformId: Object);
-   */
   constructor(
     protected config: CmsConfig,
     @Inject(PLATFORM_ID) protected platformId: Object,
