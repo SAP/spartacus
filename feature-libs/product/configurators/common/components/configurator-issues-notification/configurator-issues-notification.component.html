@@ -11,7 +11,7 @@
         }}
         <cx-configure-cart-entry
           class="cx-error-msg-action"
-          *ngIf="item.product.configurable"
+          *ngIf="item?.product?.configurable"
           [cartEntry]="item"
           [readOnly]="readonly"
           [msgBanner]="true"

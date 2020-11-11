@@ -1,9 +1,4 @@
-<cx-configurator-issues-notification
-  [compact]="compact"
-  [readonly]="readonly"
-  [item]="item"
-  [disabled]="quantityControl.disabled"
-></cx-configurator-issues-notification>
+<ng-template [cxOutlet]="Outlets.CONFIGURATOR_ISSUES"> </ng-template>
 <div [ngClass]="compact ? 'cx-compact row' : 'row'">
   <!-- Item Image -->
   <div class="col-2 cx-image-container">
@@ -31,27 +26,7 @@
         <div *ngIf="item.product.code" class="cx-code">
           {{ 'cartItems.id' | cxTranslate }} {{ item.product.code }}
         </div>
-        <div class="cx-configuration-info-container" *ngIf="hasStatus()">
-          <div
-            class="cx-configuration-info"
-            *ngFor="let info of item.configurationInfos"
-          >
-            <div class="cx-configuration-info-label">
-              {{ info?.configurationLabel }}:
-            </div>
-            <div class="cx-configuration-info-value">
-              {{ info?.configurationValue }}
-            </div>
-          </div>
-        </div>
-        <!-- Generic Configuration-->
-        <cx-configure-cart-entry
-          *ngIf="item.product.configurable"
-          [cartEntry]="item"
-          [readOnly]="readonly"
-          [msgBanner]="false"
-          [disabled]="quantityControl.disabled"
-        ></cx-configure-cart-entry>
+        <ng-template [cxOutlet]="Outlets.CONFIGURATOR"> </ng-template>
 
         <!-- Variants -->
         <ng-container *ngIf="item.product.baseOptions?.length">
