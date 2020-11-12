@@ -172,6 +172,7 @@ export const CONFIGURABLE_ROUTES_SERVICE = 'ConfigurableRoutesService';
 export const EXTERNAL_ROUTES_SERVICE = 'ExternalRoutesService';
 export const EXTERNAL_ROUTES_CONFIG = 'ExternalRoutesConfig';
 export const PAGE_SLOT_COMPONENT = 'PageSlotComponent';
+export const PAGE_SLOT_SERVICE = 'PageSlotService';
 export const DYNAMIC_ATTRIBUTE_SERVICE = 'DynamicAttributeService';
 export const OUTLET_DIRECTIVE = 'OutletDirective';
 export const OUTLET_SERVICE = 'OutletService';
@@ -225,6 +226,12 @@ export const ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE =
   'AnonymousConsentLaunchDialogService';
 export const ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT =
   'AnonymousConsentOpenDialogComponent';
+export const MERCHANDISING_CAROUSEL_COMPONENT =
+  'MerchandisingCarouselComponent';
+export const MERCHANDISING_CAROUSEL_COMPONENT_SERVICE =
+  'MerchandisingCarouselComponentService';
+export const INTERSECTION_SERVICE = 'IntersectionService';
+export const WISH_LIST_SERVICE = 'WishListService';
 export const CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT =
   'CheckoutProgressMobileBottomComponent';
 export const CHECKOUT_PROGRESS_COMPONENT = 'CheckoutProgressComponent';
@@ -235,10 +242,14 @@ export const PAYMENT_DETAILS_SET_GUARD = 'PaymentDetailsSetGuard';
 export const ORDER_DETAILS_SHIPPING_COMPONENT = 'OrderDetailShippingComponent';
 export const ITEM_COUNTER_COMPONENT = 'ItemCounterComponent';
 export const UPDATE_EMAIL_COMPONENT = 'UpdateEmailComponent';
+export const PRODUCT_CAROUSEL_SERVICE = 'ProductCarouselService';
+export const PRODUCT_REFERENCE_SERVICE = 'ProductReferenceService';
 export const USER_ID_SERVICE = 'UserIdService';
 
 export const TEST_OUTLET_MODULE = 'TestOutletModule';
 export const TEST_CONFIG_MODULE = 'TestConfigModule';
+
+export const COLLAPSE_MENU_IF_CLICK_OUTSIDE = 'collapseMenuIfClickOutside';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -378,6 +389,9 @@ export const CAN_ACTIVATE = 'canActivate';
 export const GET_CHILD_ROUTES = 'getChildRoutes';
 export const GET_ALL = 'getAll';
 export const GET_BASE_SITE_DATA = 'getBaseSiteData';
+export const LOAD_PRODUCT_REFERENCES = 'loadProductReferences';
+export const GET_PRODUCT_REFERENCES = 'getProductReferences';
+export const GET = 'get';
 export const GET_WINDOW = 'window';
 export const GET_CLOSEST = 'getClosest';
 export const GET_BREAKPOINT = 'getBreakpoint';
