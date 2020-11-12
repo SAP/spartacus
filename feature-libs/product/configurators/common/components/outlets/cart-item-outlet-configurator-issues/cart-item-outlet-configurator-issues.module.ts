@@ -21,7 +21,7 @@ import { CartItemOutletConfiguratorIssuesComponent } from './cart-item-outlet-co
 
   providers: [
     provideOutlet({
-      id: CartItemComponentOutlets.CONFIGURATOR_ISSUES,
+      id: CartItemComponentOutlets.INFORMATION,
       component: CartItemOutletConfiguratorIssuesComponent,
     }),
   ],

@@ -5,8 +5,8 @@ import { ReplaySubject } from 'rxjs';
 import { CartItemComponentOptions } from './cart-item.component';
 
 export enum CartItemComponentOutlets {
-  CONFIGURATOR = 'cx-cart-item.configurator',
-  CONFIGURATOR_ISSUES = 'cx-cart-item.configurator-issues',
+  START = 'cx-cart-item.start',
+  INFORMATION = 'cx-cart-item.information',
 }
 
 export interface CartItemContextModel {

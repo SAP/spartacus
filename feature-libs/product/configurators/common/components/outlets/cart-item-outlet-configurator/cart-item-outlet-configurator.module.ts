@@ -23,7 +23,7 @@ import { CartItemOutletConfiguratorComponent } from './cart-item-outlet-configur
 
   providers: [
     provideOutlet({
-      id: CartItemComponentOutlets.CONFIGURATOR,
+      id: CartItemComponentOutlets.START,
       component: CartItemOutletConfiguratorComponent,
     }),
   ],
