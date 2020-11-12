@@ -87,6 +87,7 @@ export const CART_SERVICE = 'CartService';
 export const ACTIVE_CART_SERVICE = 'ActiveCartService';
 export const PROMOTION_SERVICE = 'PromotionService';
 export const ORDER_DETAILS_SERVICE = 'OrderDetailsService';
+export const ORDER_RETURN_REQUEST_SERVICE = 'OrderReturnRequestService';
 export const CHECKOUT_LOGIN_COMPONENT = 'CheckoutLoginComponent';
 export const AUTH_REDIRECT_SERVICE = 'AuthRedirectService';
 export const CHECKOUT_DETAILS_SERVICE = 'CheckoutDetailsService';
