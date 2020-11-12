@@ -30,9 +30,6 @@ export class ExistGuardDirective<T = BaseItem> implements OnInit, OnDestroy {
         },
         type: GlobalMessageType.MSG_TYPE_ERROR,
       });
-    } else {
-      console.log('we clear messages probably too aggressively!');
-      this.messageService.clear();
     }
   }
 

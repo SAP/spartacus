@@ -44,8 +44,6 @@ export class ActiveGuardDirective<T = BaseItem> implements OnInit, OnDestroy {
         },
         type: GlobalMessageType.MSG_TYPE_ERROR,
       });
-    } else {
-      this.messageService.clear();
     }
   }
 
