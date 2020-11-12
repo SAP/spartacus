@@ -180,14 +180,22 @@ function prepareSiteContextConfig(options: SpartacusOptions): string {
   return context;
 }
 
-function getStorefrontConfig(options: SpartacusOptions): string {
-  const baseUrlPart = `\n      baseUrl: '${options.baseUrl}',`;
+/**
+ * Creates a spartacus config based on the provided `options`.
+ * @param options
+ */
+function createStorefrontConfig(options: SpartacusOptions): string {
+  const baseUrlPart = `\n      baseUrl: '${options.baseUrl}'`;
   const context = prepareSiteContextConfig(options);
+
+  const occPrefixPart = options.occPrefix
+    ? `,
+      prefix: '${options.occPrefix}'`
+    : '';
 
   return `{
   backend: {
-    occ: {${options.useMetaTags ? '' : baseUrlPart}
-      prefix: '${options.occPrefix}'
+    occ: {${options.useMetaTags ? '' : baseUrlPart}${occPrefixPart}
     }
   },${context}
   i18n: {
@@ -206,7 +214,7 @@ function createConfiguration(options: SpartacusOptions): Rule {
     const configurationFile = `import { translationChunksConfig, translations } from '@spartacus/assets';
 import { StorefrontConfig } from '@spartacus/storefront';
           
-export const ${SPARTACUS_CONFIGURATION_NAME}: StorefrontConfig = ${getStorefrontConfig(
+export const ${SPARTACUS_CONFIGURATION_NAME}: StorefrontConfig = ${createStorefrontConfig(
       options
     )};
 `;
