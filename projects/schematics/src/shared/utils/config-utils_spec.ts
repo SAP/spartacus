@@ -8,9 +8,10 @@ import {
   createNewConfig,
   getConfig,
   getExistingStorefrontConfigNode,
+  getSpartacusConfigurationFile,
   mergeConfig,
 } from './config-utils';
-import { commitChanges, getTsSourceFile } from './file-utils';
+import { commitChanges } from './file-utils';
 
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -58,22 +59,34 @@ describe('Storefront config utils', () => {
 
   describe('getExistingStorefrontConfigNode', () => {
     it('should get the Storefront config from app.module.ts file', async () => {
-      const appModuleFile = getTsSourceFile(appTree, appModulePath);
+      const { configurationFile, isAppModule } = getSpartacusConfigurationFile(
+        appTree,
+        defaultOptions.project
+      );
       const config = getExistingStorefrontConfigNode(
-        appModuleFile
-      ) as ts.CallExpression;
+        configurationFile,
+        isAppModule
+      ) as ts.ObjectLiteralExpression;
 
       expect(config).toBeTruthy();
-      expect(config.getFullText()).toContain('B2cStorefrontModule.withConfig');
+      expect(config.getFullText()).toContain(`currency: ['USD'],`);
+      expect(config.getFullText()).toContain(`resources: translations,`);
+      expect(config.getFullText()).toContain(
+        `baseUrl: 'https://localhost:9002',`
+      );
     });
   });
 
   describe('getConfig', () => {
     it('should return the specified config from Storefront CallExpression AST node object', async () => {
-      const appModuleFile = getTsSourceFile(appTree, appModulePath);
+      const { configurationFile, isAppModule } = getSpartacusConfigurationFile(
+        appTree,
+        defaultOptions.project
+      );
       const config = getExistingStorefrontConfigNode(
-        appModuleFile
-      ) as ts.CallExpression;
+        configurationFile,
+        isAppModule
+      ) as ts.ObjectLiteralExpression;
       const currentContextConfig = getConfig(config, 'context');
 
       expect(currentContextConfig).toBeTruthy();
@@ -81,10 +94,14 @@ describe('Storefront config utils', () => {
     });
 
     it('should return an undefined if the provided configName was not found', async () => {
-      const appModuleFile = getTsSourceFile(appTree, appModulePath);
+      const { configurationFile, isAppModule } = getSpartacusConfigurationFile(
+        appTree,
+        defaultOptions.project
+      );
       const config = getExistingStorefrontConfigNode(
-        appModuleFile
-      ) as ts.CallExpression;
+        configurationFile,
+        isAppModule
+      ) as ts.ObjectLiteralExpression;
       const configByName = getConfig(config, 'test');
 
       expect(configByName).toBeFalsy();
@@ -94,10 +111,14 @@ describe('Storefront config utils', () => {
 
   describe('mergeConfig', () => {
     it('should merge the provided configs', async () => {
-      const appModuleFile = getTsSourceFile(appTree, appModulePath);
+      const { configurationFile, isAppModule } = getSpartacusConfigurationFile(
+        appTree,
+        defaultOptions.project
+      );
       const config = getExistingStorefrontConfigNode(
-        appModuleFile
-      ) as ts.CallExpression;
+        configurationFile,
+        isAppModule
+      ) as ts.ObjectLiteralExpression;
       const currentContextConfig = getConfig(
         config,
         'context'
@@ -119,10 +140,14 @@ describe('Storefront config utils', () => {
     });
 
     it('should create a new config if nothing to be merge', async () => {
-      const appModuleFile = getTsSourceFile(appTree, appModulePath);
+      const { configurationFile, isAppModule } = getSpartacusConfigurationFile(
+        appTree,
+        defaultOptions.project
+      );
       const config = getExistingStorefrontConfigNode(
-        appModuleFile
-      ) as ts.CallExpression;
+        configurationFile,
+        isAppModule
+      ) as ts.ObjectLiteralExpression;
       const currentContextConfig = getConfig(
         config,
         'context'
@@ -146,10 +171,14 @@ describe('Storefront config utils', () => {
 
   describe('createNewConfig', () => {
     it('should create a new config as property assignment based provided config object', async () => {
-      const appModuleFile = getTsSourceFile(appTree, appModulePath);
+      const { configurationFile, isAppModule } = getSpartacusConfigurationFile(
+        appTree,
+        defaultOptions.project
+      );
       const config = getExistingStorefrontConfigNode(
-        appModuleFile
-      ) as ts.CallExpression;
+        configurationFile,
+        isAppModule
+      ) as ts.ObjectLiteralExpression;
       const currentContextConfig = getConfig(
         config,
         'context'

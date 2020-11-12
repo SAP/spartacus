@@ -2,54 +2,51 @@ import {
   chain,
   Rule,
   SchematicContext,
-  SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
-import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import {
   B2C_STOREFRONT_MODULE,
   commitChanges,
   getConfig,
   getExistingStorefrontConfigNode,
-  getProjectTargets,
-  getTsSourceFile,
   mergeConfig,
 } from '@spartacus/schematics';
+import { getSpartacusConfigurationFile } from '../../../schematics/src/shared/utils/config-utils';
 import { Schema as SpartacusDevSchematicsOptions } from '../ng-add/schema';
 
 function provideTestBaseSites(options: SpartacusDevSchematicsOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const projectTargets = getProjectTargets(tree, options.project);
-
-    if (!projectTargets.build) {
-      throw new SchematicsException(`Project target "build" not found.`);
-    }
-
-    const mainPath = projectTargets.build.options.main;
-    const appModulePath = getAppModulePath(tree, mainPath);
-    const appModule = getTsSourceFile(tree, appModulePath);
-    const storefrontConfig = getExistingStorefrontConfigNode(appModule);
+    const { configurationFile, isAppModule } = getSpartacusConfigurationFile(
+      tree,
+      options.project
+    );
+    const storefrontConfig = getExistingStorefrontConfigNode(
+      configurationFile,
+      isAppModule
+    );
     if (!storefrontConfig) {
       context.logger.warn(
-        `No ${B2C_STOREFRONT_MODULE} config found in the ${appModulePath}`
+        `No ${B2C_STOREFRONT_MODULE} config found in the ${configurationFile.fileName}`
       );
       return;
     }
 
     const currentContextConfig = getConfig(storefrontConfig, 'context');
     if (!currentContextConfig) {
-      context.logger.warn(`No 'context' config found in the ${appModulePath}`);
+      context.logger.warn(
+        `No 'context' config found in the ${configurationFile.fileName}`
+      );
       return;
     }
 
     const urlParametersConfigChange = mergeConfig(
-      appModulePath,
+      configurationFile.fileName,
       currentContextConfig,
       'urlParameters',
       ['baseSite', 'language', 'currency']
     );
     const baseSite = mergeConfig(
-      appModulePath,
+      configurationFile.fileName,
       currentContextConfig,
       'baseSite',
       [
@@ -61,7 +58,10 @@ function provideTestBaseSites(options: SpartacusDevSchematicsOptions): Rule {
       ]
     );
 
-    commitChanges(tree, appModulePath, [urlParametersConfigChange, baseSite]);
+    commitChanges(tree, configurationFile.fileName, [
+      urlParametersConfigChange,
+      baseSite,
+    ]);
   };
 }
 

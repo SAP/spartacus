@@ -1,3 +1,4 @@
+import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import {
   findNode,
   findNodes,
@@ -9,18 +10,37 @@ import {
   InsertChange,
   ReplaceChange,
 } from '@schematics/angular/utility/change';
+import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import * as ts from 'typescript';
-import { ANGULAR_CORE, B2C_STOREFRONT_MODULE } from '../constants';
+import {
+  ANGULAR_CORE,
+  B2C_STOREFRONT_MODULE,
+  SPARTACUS_CONFIGURATION_FILE_PATH,
+  SPARTACUS_CONFIGURATION_NAME,
+} from '../constants';
+import { getTsSourceFile } from './file-utils';
+import { getProjectTargets } from './workspace-utils';
 
 /**
  * Finds the Storefront config in the given app.module.ts
- * @param appModuleSourceFile
+ * @param configurationSourceFile
  */
 export function getExistingStorefrontConfigNode(
-  appModuleSourceFile: ts.SourceFile
-): ts.CallExpression | undefined {
+  configurationSourceFile: ts.SourceFile,
+  isAppModule: boolean
+): ts.ObjectLiteralExpression | undefined {
+  if (isAppModule) {
+    return getStorefrontConfigFromAppModule(configurationSourceFile);
+  }
+
+  return getStorefrontConfigFromConfigFile(configurationSourceFile);
+}
+
+function getStorefrontConfigFromAppModule(
+  configurationSourceFile: ts.SourceFile
+): ts.ObjectLiteralExpression | undefined {
   const metadata = getDecoratorMetadata(
-    appModuleSourceFile,
+    configurationSourceFile,
     'NgModule',
     ANGULAR_CORE
   )[0] as ts.ObjectLiteralExpression;
@@ -41,25 +61,83 @@ export function getExistingStorefrontConfigNode(
   }
 
   // find the B2cStorefrontModule.withConfig call expression node
-  return arrayLiteral.elements.filter(
+  const storefrontConfigCallExpression = arrayLiteral.elements.filter(
     (node) =>
       ts.isCallExpression(node) &&
       node.getFullText().indexOf(`${B2C_STOREFRONT_MODULE}.withConfig`) !== -1
   )[0] as ts.CallExpression;
+
+  const syntaxList = findNodes(
+    storefrontConfigCallExpression,
+    ts.SyntaxKind.SyntaxList,
+    1
+  )[0];
+  if (!syntaxList) {
+    return undefined;
+  }
+
+  /**
+   * returns: 
+   * ```ts
+   * {
+      backend: {
+        occ: {...}
+        ...
+      }
+      ...
+    }
+    ```
+ */
+  return findNodes(
+    syntaxList,
+    ts.SyntaxKind.ObjectLiteralExpression,
+    1
+  )[0] as ts.ObjectLiteralExpression;
+}
+
+function getStorefrontConfigFromConfigFile(
+  configurationSourceFile: ts.SourceFile
+): ts.ObjectLiteralExpression | undefined {
+  let configurationVariable: ts.VariableDeclaration | null = null;
+
+  configurationSourceFile.getChildren().every((node) => {
+    const results = findNodes(
+      node,
+      ts.SyntaxKind.Identifier,
+      Number.MAX_VALUE,
+      true
+    )
+      .filter((idNode) => idNode.getText() === SPARTACUS_CONFIGURATION_NAME)
+      .map((spartacusConfiguration) => spartacusConfiguration.parent);
+    if (results.length) {
+      configurationVariable = results[0] as ts.VariableDeclaration;
+      return;
+    }
+  });
+
+  if (!configurationVariable) {
+    return undefined;
+  }
+
+  return findNodes(
+    configurationVariable,
+    ts.SyntaxKind.ObjectLiteralExpression,
+    1
+  )[0] as ts.ObjectLiteralExpression;
 }
 
 /**
- * Find the given `configName` in the given `callExpressionNode`.
+ * Find the given `configName` in the given `objectLiteral`.
  *
- * @param callExpressionNode
+ * @param objectLiteral
  * @param configName
  */
 export function getConfig(
-  callExpressionNode: ts.CallExpression,
+  objectLiteral: ts.ObjectLiteralExpression,
   configName: string
 ): ts.SyntaxList | undefined {
   const propertyAssignments = findNodes(
-    callExpressionNode,
+    objectLiteral,
     ts.SyntaxKind.PropertyAssignment
   );
   for (const propertyAssignment of propertyAssignments) {
@@ -257,4 +335,48 @@ function convert(newValues: string | string[]): string {
     configValue = newValues;
   }
   return configValue;
+}
+
+export function getSpartacusConfigurationFilePath(
+  host: Tree,
+  project: string
+): { path: string; isAppModule: boolean } {
+  // try the separate config file
+  if (host.exists(SPARTACUS_CONFIGURATION_FILE_PATH)) {
+    return {
+      path: SPARTACUS_CONFIGURATION_FILE_PATH,
+      isAppModule: false,
+    };
+  }
+
+  // check the app.module.path
+  const projectTargets = getProjectTargets(host, project);
+  if (!projectTargets.build) {
+    throw new SchematicsException(`Project target "build" not found.`);
+  }
+
+  const appModulePath = projectTargets.build.options.main;
+  const path = getAppModulePath(host, appModulePath);
+  return {
+    path,
+    isAppModule: true,
+  };
+}
+
+export function getSpartacusConfigurationFile(
+  host: Tree,
+  project: string
+): {
+  configurationFile: ts.SourceFile;
+  isAppModule: boolean;
+} {
+  const { path, isAppModule } = getSpartacusConfigurationFilePath(
+    host,
+    project
+  );
+  const configurationFile = getTsSourceFile(host, path);
+  return {
+    configurationFile,
+    isAppModule,
+  };
 }
