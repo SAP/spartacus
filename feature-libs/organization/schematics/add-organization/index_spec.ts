@@ -131,9 +131,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
       });
 
       it('should import appropriate modules', async () => {
-        const appServerModuleBuffer = appTree.read('src/app/app.module.ts');
-        expect(appServerModuleBuffer).toBeTruthy();
-        const appModule = appServerModuleBuffer?.toString(UTF_8);
+        const appModule = appTree.readContent('/src/app/app.module.ts');
         expect(appModule).toContain(
           `import { AdministrationRootModule } from '@spartacus/organization/administration/root';`
         );
@@ -143,10 +141,10 @@ describe('Spartacus Organization schematics: ng-add', () => {
       });
 
       it('should not contain lazy loading syntax', async () => {
-        const appServerModuleBuffer = appTree.read('src/app/app.module.ts');
-        expect(appServerModuleBuffer).toBeTruthy();
-        const appModule = appServerModuleBuffer?.toString(UTF_8);
-        expect(appModule).not.toContain(
+        const configFile = appTree.readContent(
+          '/src/app/spartacus-configuration.ts'
+        );
+        expect(configFile).not.toContain(
           `import('@spartacus/organization/administration').then(`
         );
       });
@@ -160,21 +158,21 @@ describe('Spartacus Organization schematics: ng-add', () => {
       });
 
       it('should import AdministrationRootModule and contain the lazy loading syntax', async () => {
-        const appServerModuleBuffer = appTree.read('src/app/app.module.ts');
-        expect(appServerModuleBuffer).toBeTruthy();
-        const appModule = appServerModuleBuffer?.toString(UTF_8);
+        const configFile = appTree.readContent(
+          '/src/app/spartacus-configuration.ts'
+        );
+        expect(configFile).toContain(
+          `import('@spartacus/organization/administration').then(`
+        );
+
+        const appModule = appTree.readContent('/src/app/app.module.ts');
         expect(appModule).toContain(
           `import { AdministrationRootModule } from '@spartacus/organization/administration/root';`
-        );
-        expect(appModule).toContain(
-          `import('@spartacus/organization/administration').then(`
         );
       });
 
       it('should not contain the AdministrationModule import', () => {
-        const appServerModuleBuffer = appTree.read('src/app/app.module.ts');
-        expect(appServerModuleBuffer).toBeTruthy();
-        const appModule = appServerModuleBuffer?.toString(UTF_8);
+        const appModule = appTree.readContent('/src/app/app.module.ts');
         expect(appModule).not.toContain(
           `import { AdministrationModule } from '@spartacus/organization/administration';`
         );
@@ -207,10 +205,10 @@ describe('Spartacus Organization schematics: ng-add', () => {
       });
 
       it('should not contain lazy loading syntax', async () => {
-        const appServerModuleBuffer = appTree.read('src/app/app.module.ts');
-        expect(appServerModuleBuffer).toBeTruthy();
-        const appModule = appServerModuleBuffer?.toString(UTF_8);
-        expect(appModule).not.toContain(
+        const configFile = appTree.readContent(
+          '/src/app/spartacus-configuration.ts'
+        );
+        expect(configFile).not.toContain(
           `import('@spartacus/organization/order-approval').then(`
         );
       });
@@ -224,21 +222,21 @@ describe('Spartacus Organization schematics: ng-add', () => {
       });
 
       it('should import OrderApprovalRootModule and contain the lazy loading syntax', async () => {
-        const appServerModuleBuffer = appTree.read('src/app/app.module.ts');
-        expect(appServerModuleBuffer).toBeTruthy();
-        const appModule = appServerModuleBuffer?.toString(UTF_8);
+        const configFile = appTree.readContent(
+          '/src/app/spartacus-configuration.ts'
+        );
+        expect(configFile).toContain(
+          `import('@spartacus/organization/order-approval').then(`
+        );
+
+        const appModule = appTree.readContent('/src/app/app.module.ts');
         expect(appModule).toContain(
           `import { OrderApprovalRootModule } from '@spartacus/organization/order-approval/root';`
-        );
-        expect(appModule).toContain(
-          `import('@spartacus/organization/order-approval').then(`
         );
       });
 
       it('should not contain the OrderApprovalModule import', () => {
-        const appServerModuleBuffer = appTree.read('src/app/app.module.ts');
-        expect(appServerModuleBuffer).toBeTruthy();
-        const appModule = appServerModuleBuffer?.toString(UTF_8);
+        const appModule = appTree.readContent('/src/app/app.module.ts');
         expect(appModule).not.toContain(
           `import { OrderApprovalModule } from '@spartacus/organization/order-approval';`
         );
