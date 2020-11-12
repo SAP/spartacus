@@ -2,12 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { StatePersistenceService } from '../../state/index';
-import {
-  LoadAnonymousConsentTemplates,
-  SetAnonymousConsents,
-  ToggleAnonymousConsentsBannerDissmissed,
-  ToggleAnonymousConsentTemplatesUpdated,
-} from '../store/actions/anonymous-consents.action';
+import { AnonymousConsentsService } from '../facade/index';
 import {
   AnonymousConsentsState,
   StateWithAnonymousConsents,
@@ -30,7 +25,8 @@ export class AnonymousConsentsStatePersistenceService implements OnDestroy {
 
   constructor(
     protected statePersistenceService: StatePersistenceService,
-    protected store: Store<StateWithAnonymousConsents>
+    protected store: Store<StateWithAnonymousConsents>,
+    protected anonymousConsentsService: AnonymousConsentsService
   ) {}
 
   /**
@@ -66,18 +62,16 @@ export class AnonymousConsentsStatePersistenceService implements OnDestroy {
   protected onRead(state: SyncedAnonymousConsentsState) {
     if (state) {
       if (state.templates) {
-        this.store.dispatch(new LoadAnonymousConsentTemplates());
+        this.anonymousConsentsService.getTemplates();
       }
       if (state.consents) {
-        this.store.dispatch(new SetAnonymousConsents(state.consents));
+        this.anonymousConsentsService.setConsents(state.consents);
       }
       if (state.ui) {
-        this.store.dispatch(
-          new ToggleAnonymousConsentsBannerDissmissed(state.ui?.bannerDismissed)
+        this.anonymousConsentsService.toggleBannerDismissed(
+          state.ui?.bannerDismissed
         );
-        this.store.dispatch(
-          new ToggleAnonymousConsentTemplatesUpdated(state.ui?.updated)
-        );
+        this.anonymousConsentsService.toggleTemplatesUpdated(state.ui?.updated);
       }
     }
   }
