@@ -329,7 +329,7 @@ describe('OccConfigurationVariantAdapter', () => {
     );
   });
 
-  it('should set owner on readConfigurationForCartEntry according to parameters', () => {
+  it('should set owner on readConfigurationForCartEntry according to parameters', (done) => {
     const params: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
       owner: productConfigurationForCartEntry.owner,
       userId: userId,
@@ -346,6 +346,7 @@ describe('OccConfigurationVariantAdapter', () => {
         expect(owner).toBeDefined();
         expect(owner.type).toBe(GenericConfigurator.OwnerType.CART_ENTRY);
         expect(owner.key).toBeUndefined();
+        done();
       });
   });
 

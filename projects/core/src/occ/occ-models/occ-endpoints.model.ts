@@ -334,6 +334,12 @@ export interface OccEndpoints {
    */
   getConfigurationOverview?: string;
   /**
+   * Endpoint to get Cpq token
+   *
+   * @member {string}
+   */
+  getCpqAccessData?: string;
+  /**
    * Endpoint for consignment tracking
    *
    * @member {string}
