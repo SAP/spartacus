@@ -30,7 +30,6 @@ import {
   getSpartacusSchematicsVersion,
   getTsSourceFile,
   getWorkspace,
-  mergeConfig,
   PROVIDE_DEFAULT_CONFIG,
   SPARTACUS_CORE,
   SPARTACUS_SETUP,
@@ -339,8 +338,7 @@ function handleFeature(
         getTsSourceFile(host, appModulePath),
         {
           name: config.name,
-          moduleName: config.featureModule.name,
-          importPath: config.featureModule.importPath,
+          module: config.featureModule,
         }
       );
       changes.push(lazyLoadingChange);
@@ -378,14 +376,13 @@ function mergeLazyLoadingConfig(
   moduleSource: ts.SourceFile,
   config: {
     name: string;
-    moduleName: string;
-    importPath: string;
+    module: Module;
   }
 ): Change {
   const storefrontConfig = getExistingStorefrontConfigNode(moduleSource);
   const lazyLoadingModule = `
-    module: () => import('${config.importPath}').then(
-      (m) => m.${config.moduleName}
+    module: () => import('${config.module.importPath}').then(
+      (m) => m.${config.module.name}
     ),
 `;
   const lazyLoadingFeatureModule = `featureModules: {
@@ -408,31 +405,65 @@ ${lazyLoadingFeatureModule}
     storefrontConfig,
     'featureModules'
   );
+  if (!currentFeatureModulesConfig) {
+    const syntaxListNode = findNodes(
+      storefrontConfig,
+      ts.SyntaxKind.SyntaxList,
+      1,
+      true
+    )[0] as ts.SyntaxList;
+    const objectLiteralExpression = findNodes(
+      syntaxListNode,
+      ts.SyntaxKind.ObjectLiteralExpression,
+      1,
+      true
+    )[0] as ts.ObjectLiteralExpression;
 
-  if (currentFeatureModulesConfig) {
-    return mergeConfig(
+    const change = createNewConfig(
+      moduleSource.fileName,
+      objectLiteralExpression,
+      '',
+      `\n${lazyLoadingFeatureModule}`
+    );
+    return change;
+  }
+
+  let configChange = `{
+    ${lazyLoadingModule}
+}
+`;
+
+  const featureModuleConfig = getConfig(
+    currentFeatureModulesConfig,
+    config.name
+  );
+  if (featureModuleConfig) {
+    const lazyLoadConfig = getConfig(featureModuleConfig, 'module');
+    if (lazyLoadConfig) {
+      return new NoopChange();
+    }
+    configChange = lazyLoadingModule;
+
+    const nestedProperty = findNodes(
+      featureModuleConfig,
+      ts.SyntaxKind.PropertyAssignment,
+      1,
+      true
+    )[0] as ts.PropertyAssignment;
+    return createNewConfig(
+      moduleSource.fileName,
+      nestedProperty,
+      config.name,
+      configChange
+    );
+  } else {
+    return createNewConfig(
       moduleSource.fileName,
       currentFeatureModulesConfig,
       config.name,
       `{
-  ${lazyLoadingModule}
-  }`
+        ${lazyLoadingModule}
+        }`
     );
   }
-
-  const syntaxListNodes = findNodes(
-    storefrontConfig,
-    ts.SyntaxKind.SyntaxList,
-    1,
-    true
-  )[0] as ts.SyntaxList;
-
-  const change = createNewConfig(
-    moduleSource.fileName,
-    syntaxListNodes,
-    '',
-    `\n${lazyLoadingFeatureModule}`
-  );
-  change.pos = change.pos + 1;
-  return change;
 }
