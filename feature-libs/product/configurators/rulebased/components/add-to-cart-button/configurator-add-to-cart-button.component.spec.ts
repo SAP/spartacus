@@ -73,7 +73,7 @@ class MockConfiguratorCartService {
 }
 
 class MockConfiguratorGroupsService {
-  setGroupStatus() {}
+  setGroupStatusVisited() {}
 }
 
 function setRouterTestDataCartBoundAndConfigPage() {
@@ -207,7 +207,7 @@ describe('ConfigAddToCartButtonComponent', () => {
     configuratorGroupsService = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
     );
-    spyOn(configuratorGroupsService, 'setGroupStatus').and.callThrough();
+    spyOn(configuratorGroupsService, 'setGroupStatusVisited').and.callThrough();
     spyOn(routingService, 'go').and.callThrough();
     spyOn(globalMessageService, 'add').and.callThrough();
     spyOn(configuratorCommonsService, 'removeConfiguration').and.callThrough();
@@ -238,7 +238,9 @@ describe('ConfigAddToCartButtonComponent', () => {
         attributes
       );
 
-      expect(configuratorGroupsService.setGroupStatus).toHaveBeenCalled();
+      expect(
+        configuratorGroupsService.setGroupStatusVisited
+      ).toHaveBeenCalled();
     });
 
     it('should navigate to cart in case configuration is cart bound and we are on OV config page', () => {

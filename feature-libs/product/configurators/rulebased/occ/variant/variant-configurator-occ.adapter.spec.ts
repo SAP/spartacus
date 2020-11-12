@@ -107,11 +107,11 @@ describe('OccConfigurationVariantAdapter', () => {
       .subscribe();
 
     const mockReq = httpMock.expectOne((req) => {
-      return req.method === 'GET' && req.url === 'createConfiguration';
+      return req.method === 'GET' && req.url === 'createVariantConfiguration';
     });
 
     expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
-      'createConfiguration',
+      'createVariantConfiguration',
       {
         productCode,
       }
@@ -132,11 +132,11 @@ describe('OccConfigurationVariantAdapter', () => {
       .subscribe();
 
     const mockReq = httpMock.expectOne((req) => {
-      return req.method === 'GET' && req.url === 'readConfiguration';
+      return req.method === 'GET' && req.url === 'readVariantConfiguration';
     });
 
     expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
-      'readConfiguration',
+      'readVariantConfiguration',
       { configId },
       { groupId }
     );
@@ -156,11 +156,11 @@ describe('OccConfigurationVariantAdapter', () => {
       .subscribe();
 
     const mockReq = httpMock.expectOne((req) => {
-      return req.method === 'PATCH' && req.url === 'updateConfiguration';
+      return req.method === 'PATCH' && req.url === 'updateVariantConfiguration';
     });
 
     expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
-      'updateConfiguration',
+      'updateVariantConfiguration',
       {
         configId,
       }
@@ -185,12 +185,18 @@ describe('OccConfigurationVariantAdapter', () => {
       .subscribe();
 
     const mockReq = httpMock.expectOne((req) => {
-      return req.method === 'GET' && req.url === 'readPriceSummary';
+      return (
+        req.method === 'GET' &&
+        req.url === 'readVariantConfigurationPriceSummary'
+      );
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith('readPriceSummary', {
-      configId,
-    });
+    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      'readVariantConfigurationPriceSummary',
+      {
+        configId,
+      }
+    );
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
@@ -215,12 +221,13 @@ describe('OccConfigurationVariantAdapter', () => {
 
     const mockReq = httpMock.expectOne((req) => {
       return (
-        req.method === 'GET' && req.url === 'readConfigurationForCartEntry'
+        req.method === 'GET' &&
+        req.url === 'readVariantConfigurationForCartEntry'
       );
     });
 
     expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
-      'readConfigurationForCartEntry',
+      'readVariantConfigurationForCartEntry',
       {
         userId,
         cartId: documentId,
@@ -236,7 +243,7 @@ describe('OccConfigurationVariantAdapter', () => {
     mockReq.flush(productConfiguration);
   });
 
-  it('should call readConfigurationOverviewForOrderEntry endpoint', () => {
+  it('should call readVariantConfigurationOverviewForOrderEntry endpoint', () => {
     spyOn(converterService, 'pipeable').and.callThrough();
     const params: GenericConfigurator.ReadConfigurationFromOrderEntryParameters = {
       owner: productConfiguration.owner,
@@ -251,12 +258,12 @@ describe('OccConfigurationVariantAdapter', () => {
     const mockReq = httpMock.expectOne((req) => {
       return (
         req.method === 'GET' &&
-        req.url === 'readConfigurationOverviewForOrderEntry'
+        req.url === 'readVariantConfigurationOverviewForOrderEntry'
       );
     });
 
     expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
-      'readConfigurationOverviewForOrderEntry',
+      'readVariantConfigurationOverviewForOrderEntry',
       {
         userId,
         orderId: documentId,
@@ -272,7 +279,7 @@ describe('OccConfigurationVariantAdapter', () => {
     mockReq.flush(overview);
   });
 
-  it('should call updateConfigurationForCartEntry endpoint', () => {
+  it('should call updateVariantConfigurationForCartEntry endpoint', () => {
     spyOn(converterService, 'pipeable').and.callThrough();
     const params: Configurator.UpdateConfigurationForCartEntryParameters = {
       configuration: productConfiguration,
@@ -286,12 +293,13 @@ describe('OccConfigurationVariantAdapter', () => {
 
     const mockReq = httpMock.expectOne((req) => {
       return (
-        req.method === 'PUT' && req.url === 'updateConfigurationForCartEntry'
+        req.method === 'PUT' &&
+        req.url === 'updateVariantConfigurationForCartEntry'
       );
     });
 
     expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
-      'updateConfigurationForCartEntry',
+      'updateVariantConfigurationForCartEntry',
       {
         userId,
         cartId: documentId,
@@ -319,7 +327,9 @@ describe('OccConfigurationVariantAdapter', () => {
     occConfiguratorVariantAdapter.addToCart(params).subscribe();
 
     const mockReq = httpMock.expectOne((req) => {
-      return req.method === 'POST' && req.url === 'addConfigurationToCart';
+      return (
+        req.method === 'POST' && req.url === 'addVariantConfigurationToCart'
+      );
     });
 
     expect(mockReq.cancelled).toBeFalsy();
@@ -350,18 +360,20 @@ describe('OccConfigurationVariantAdapter', () => {
       });
   });
 
-  it('should call getConfigurationOverview endpoint', () => {
+  it('should call getVariantConfigurationOverview endpoint', () => {
     spyOn(converterService, 'pipeable').and.callThrough();
     occConfiguratorVariantAdapter
       .getConfigurationOverview(productConfiguration.configId)
       .subscribe();
 
     const mockReq = httpMock.expectOne((req) => {
-      return req.method === 'GET' && req.url === 'getConfigurationOverview';
+      return (
+        req.method === 'GET' && req.url === 'getVariantConfigurationOverview'
+      );
     });
 
     expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
-      'getConfigurationOverview',
+      'getVariantConfigurationOverview',
       {
         configId,
       }

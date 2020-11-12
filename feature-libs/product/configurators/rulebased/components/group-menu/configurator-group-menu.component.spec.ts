@@ -20,9 +20,12 @@ import {
   mockRouterState,
   productConfiguration,
   PRODUCT_CODE,
+  GROUP_ID_1,
+  ATTRIBUTE_1_CHECKBOX,
 } from '../../shared/testing/configurator-test-data';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
+import { ConfiguratorComponentTestUtilsService } from '@spartacus/product/configurators/rulebased';
 
 let mockGroupVisited = false;
 const mockProductConfiguration: Configurator.Configuration = productConfiguration;
@@ -32,6 +35,31 @@ class MockRoutingService {
     return routerStateObservable;
   }
 }
+
+const simpleConfig: Configurator.Configuration = {
+  configId: mockProductConfiguration.configId,
+  groups: [
+    {
+      id: GROUP_ID_1,
+      complete: true,
+      configurable: true,
+      consistent: true,
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      attributes: [
+        {
+          name: ATTRIBUTE_1_CHECKBOX,
+          uiType: Configurator.UiType.CHECKBOXLIST,
+          required: true,
+          incomplete: true,
+        },
+      ],
+      subGroups: [],
+    },
+  ],
+  interactionState: {
+    issueNavigationDone: false,
+  },
+};
 
 const inconsistentConfig: Configurator.Configuration = {
   configId: mockProductConfiguration.configId,
@@ -72,29 +100,40 @@ const mockRouterStateIssueNavigation: any = {
 
 class MockConfiguratorGroupService {
   setMenuParentGroup() {}
+
   getGroupStatus() {
     return of(null);
   }
+
   isGroupVisited() {
     return groupVisitedObservable;
   }
+
   findParentGroup() {
     return null;
   }
+
   navigateToGroup() {}
+
   getCurrentGroup(): Observable<Configurator.Group> {
     return of(mockProductConfiguration.groups[0]);
   }
+
   getMenuParentGroup(): Observable<Configurator.Group> {
     return of(null);
   }
+
   hasSubGroups(group: Configurator.Group): boolean {
     return group.subGroups ? group.subGroups.length > 0 : false;
   }
+
   getParentGroup(): Configurator.Group {
     return null;
   }
-  isConflictGroupType() {}
+
+  isConflictGroupType() {
+    return isConflictGroupType;
+  }
 }
 
 class MockConfiguratorCommonsService {
@@ -102,6 +141,7 @@ class MockConfiguratorCommonsService {
     return productConfigurationObservable;
   }
 }
+
 @Directive({
   selector: '[cxFocus]',
 })
@@ -126,6 +166,7 @@ let configuratorUtils: GenericConfiguratorUtilsService;
 let routerStateObservable;
 let groupVisitedObservable;
 let productConfigurationObservable;
+let isConflictGroupType;
 
 function initialize() {
   groupVisitedObservable = of(mockGroupVisited);
@@ -187,10 +228,10 @@ describe('ConfigurationGroupMenuComponent', () => {
     configuratorUtils.setOwnerKey(mockProductConfiguration.owner);
     spyOn(configuratorGroupsService, 'navigateToGroup').and.stub();
     spyOn(configuratorGroupsService, 'setMenuParentGroup').and.stub();
-    spyOn(configuratorGroupsService, 'getGroupStatus').and.callThrough();
     spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
     spyOn(configuratorGroupsService, 'isGroupVisited').and.callThrough();
-    spyOn(configuratorGroupsService, 'isConflictGroupType').and.stub();
+    isConflictGroupType = false;
+    spyOn(configuratorGroupsService, 'isConflictGroupType').and.callThrough();
     spyOn(hamburgerMenuService, 'toggle').and.stub();
   });
 
@@ -316,23 +357,6 @@ describe('ConfigurationGroupMenuComponent', () => {
     expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
   });
 
-  it('should not call status method if group has not been visited', () => {
-    productConfigurationObservable = of(mockProductConfiguration);
-    routerStateObservable = of(mockRouterState);
-    mockGroupVisited = false;
-    initialize();
-    component
-      .getGroupStatus(
-        mockProductConfiguration.groups[0],
-        mockProductConfiguration
-      )
-      .pipe(take(1))
-      .subscribe();
-
-    expect(configuratorGroupsService.isGroupVisited).toHaveBeenCalled();
-    expect(configuratorGroupsService.getGroupStatus).toHaveBeenCalledTimes(0);
-  });
-
   it('should return number of conflicts only for conflict header group', () => {
     productConfigurationObservable = of(mockProductConfiguration);
     routerStateObservable = of(mockRouterState);
@@ -355,20 +379,173 @@ describe('ConfigurationGroupMenuComponent', () => {
     expect(component.getConflictNumber(attributeGroup)).toBe('');
   });
 
-  it('should call status method if group has been visited', () => {
-    productConfigurationObservable = of(mockProductConfiguration);
-    routerStateObservable = of(mockRouterState);
-    mockGroupVisited = true;
-    initialize();
-    component
-      .getGroupStatus(
-        mockProductConfiguration.groups[0],
-        mockProductConfiguration
-      )
-      .pipe(take(1))
-      .subscribe();
+  describe('isGroupVisited', () => {
+    it('should call status method if group has been visited', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      initialize();
+      component
+        .isGroupVisited(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe();
 
-    expect(configuratorGroupsService.isGroupVisited).toHaveBeenCalled();
-    expect(configuratorGroupsService.getGroupStatus).toHaveBeenCalled();
+      expect(configuratorGroupsService.isGroupVisited).toHaveBeenCalled();
+      expect(configuratorGroupsService.isConflictGroupType).toHaveBeenCalled();
+    });
+
+    it('should return true if visited and not conflict group', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      initialize();
+      component
+        .isGroupVisited(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((visited) => expect(visited).toBeTrue());
+    });
+
+    it('should return false if visited and if it is a conflict group', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      isConflictGroupType = true;
+      initialize();
+      component
+        .isGroupVisited(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((visited) => expect(visited).toBeFalse());
+    });
+
+    it('should return false if not visited and not conflict group', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = false;
+      isConflictGroupType = false;
+      initialize();
+      component
+        .isGroupVisited(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((visited) => expect(visited).toBeFalse());
+    });
+  });
+
+  describe('verify whether the corresponding group status class stands at cx-menu-item element', () => {
+    it("should contain 'WARNING' class despite the group has not been visited", () => {
+      simpleConfig.consistent = false;
+      simpleConfig.groups[0].consistent = false;
+      productConfigurationObservable = of(simpleConfig);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = false;
+      isConflictGroupType = true;
+      initialize();
+      ConfiguratorComponentTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'li.cx-menu-item.WARNING'
+      );
+    });
+
+    it("should contain 'WARNING' class because the group has been visited and has some conflicts", () => {
+      simpleConfig.consistent = false;
+      simpleConfig.groups[0].consistent = false;
+      productConfigurationObservable = of(simpleConfig);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      isConflictGroupType = true;
+      initialize();
+      ConfiguratorComponentTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'li.cx-menu-item.WARNING'
+      );
+    });
+
+    it("should not contain 'COMPLETE' class despite the group is complete but it has not been visited", () => {
+      simpleConfig.complete = true;
+      simpleConfig.groups[0].complete = true;
+      productConfigurationObservable = of(simpleConfig);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = false;
+      isConflictGroupType = false;
+      initialize();
+      ConfiguratorComponentTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'li.cx-menu-item.COMPLETE'
+      );
+    });
+
+    it("should contain 'COMPLETE' class because the group is complete and has been visited", () => {
+      simpleConfig.complete = true;
+      simpleConfig.groups[0].complete = true;
+      productConfigurationObservable = of(simpleConfig);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      isConflictGroupType = false;
+      initialize();
+      ConfiguratorComponentTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'li.cx-menu-item.COMPLETE'
+      );
+    });
+
+    it("should not contain 'ERROR' class despite the group is incomplete but it has not been visited", () => {
+      simpleConfig.complete = false;
+      simpleConfig.groups[0].complete = false;
+      productConfigurationObservable = of(simpleConfig);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = false;
+      isConflictGroupType = false;
+      initialize();
+      ConfiguratorComponentTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'li.cx-menu-item.ERROR'
+      );
+    });
+
+    it("should contain 'ERROR' class because the group is incomplete and has been visited", () => {
+      simpleConfig.complete = false;
+      simpleConfig.groups[0].complete = false;
+      productConfigurationObservable = of(simpleConfig);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      isConflictGroupType = false;
+      initialize();
+      ConfiguratorComponentTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'li.cx-menu-item.ERROR'
+      );
+    });
+
+    it("should contain 'DISABLED' class despite the group is empty", () => {
+      simpleConfig.complete = true;
+      simpleConfig.groups[0].configurable = false;
+      productConfigurationObservable = of(simpleConfig);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = false;
+      isConflictGroupType = false;
+      initialize();
+      ConfiguratorComponentTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'li.cx-menu-item.DISABLED'
+      );
+    });
   });
 });

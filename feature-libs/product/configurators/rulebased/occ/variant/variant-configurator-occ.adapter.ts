@@ -40,7 +40,9 @@ export class VariantConfiguratorOccAdapter
     const productCode = owner.id;
     return this.http
       .get<OccConfigurator.Configuration>(
-        this.occEndpointsService.getUrl('createConfiguration', { productCode })
+        this.occEndpointsService.getUrl('createVariantConfiguration', {
+          productCode,
+        })
       )
       .pipe(
         this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
@@ -61,7 +63,7 @@ export class VariantConfiguratorOccAdapter
     return this.http
       .get<OccConfigurator.Configuration>(
         this.occEndpointsService.getUrl(
-          'readConfiguration',
+          'readVariantConfiguration',
           { configId },
           { groupId: groupId }
         )
@@ -81,7 +83,7 @@ export class VariantConfiguratorOccAdapter
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
     const configId = configuration.configId;
-    const url = this.occEndpointsService.getUrl('updateConfiguration', {
+    const url = this.occEndpointsService.getUrl('updateVariantConfiguration', {
       configId,
     });
     const occConfiguration = this.converterService.convert(
@@ -103,10 +105,13 @@ export class VariantConfiguratorOccAdapter
   addToCart(
     parameters: Configurator.AddToCartParameters
   ): Observable<CartModification> {
-    const url = this.occEndpointsService.getUrl('addConfigurationToCart', {
-      userId: parameters.userId,
-      cartId: parameters.cartId,
-    });
+    const url = this.occEndpointsService.getUrl(
+      'addVariantConfigurationToCart',
+      {
+        userId: parameters.userId,
+        cartId: parameters.cartId,
+      }
+    );
 
     const occAddToCartParameters = this.converterService.convert(
       parameters,
@@ -126,7 +131,7 @@ export class VariantConfiguratorOccAdapter
     parameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters
   ): Observable<Configurator.Configuration> {
     const url = this.occEndpointsService.getUrl(
-      'readConfigurationForCartEntry',
+      'readVariantConfigurationForCartEntry',
       {
         userId: parameters.userId,
         cartId: parameters.cartId,
@@ -149,7 +154,7 @@ export class VariantConfiguratorOccAdapter
     parameters: Configurator.UpdateConfigurationForCartEntryParameters
   ): Observable<CartModification> {
     const url = this.occEndpointsService.getUrl(
-      'updateConfigurationForCartEntry',
+      'updateVariantConfigurationForCartEntry',
       {
         userId: parameters.userId,
         cartId: parameters.cartId,
@@ -175,7 +180,7 @@ export class VariantConfiguratorOccAdapter
     parameters: GenericConfigurator.ReadConfigurationFromOrderEntryParameters
   ): Observable<Configurator.Configuration> {
     const url = this.occEndpointsService.getUrl(
-      'readConfigurationOverviewForOrderEntry',
+      'readVariantConfigurationOverviewForOrderEntry',
       {
         userId: parameters.userId,
         orderId: parameters.orderId,
@@ -204,9 +209,12 @@ export class VariantConfiguratorOccAdapter
   readPriceSummary(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
-    const url = this.occEndpointsService.getUrl('readPriceSummary', {
-      configId: configuration.configId,
-    });
+    const url = this.occEndpointsService.getUrl(
+      'readVariantConfigurationPriceSummary',
+      {
+        configId: configuration.configId,
+      }
+    );
 
     return this.http.get(url).pipe(
       this.converterService.pipeable(
@@ -230,9 +238,12 @@ export class VariantConfiguratorOccAdapter
   getConfigurationOverview(
     configId: string
   ): Observable<Configurator.Overview> {
-    const url = this.occEndpointsService.getUrl('getConfigurationOverview', {
-      configId,
-    });
+    const url = this.occEndpointsService.getUrl(
+      'getVariantConfigurationOverview',
+      {
+        configId,
+      }
+    );
 
     return this.http
       .get(url)

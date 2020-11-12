@@ -113,7 +113,7 @@ class MockConfiguratorGroupsService {
     return of('');
   }
   subscribeToUpdateConfiguration() {}
-  setGroupStatus(): void {}
+  setGroupStatusVisited(): void {}
   navigateToConflictSolver(): void {}
   navigateToFirstIncompleteGroup(): void {}
   isConflictGroupType() {}
@@ -225,7 +225,7 @@ describe('ConfigurationFormComponent', () => {
       configurationCommonsService,
       'isConfigurationLoading'
     ).and.callThrough();
-    spyOn(configuratorGroupsService, 'setGroupStatus').and.callThrough();
+    spyOn(configuratorGroupsService, 'setGroupStatusVisited').and.callThrough();
 
     configuratorUtils.setOwnerKey(owner);
     configuratorCommonsService = TestBed.inject(

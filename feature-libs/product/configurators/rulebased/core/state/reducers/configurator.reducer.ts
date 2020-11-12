@@ -6,7 +6,6 @@ export const initialState: Configurator.Configuration = {
   configId: '',
   interactionState: {
     currentGroup: null,
-    groupsStatus: {},
     groupsVisited: {},
     menuParentGroup: null,
   },
@@ -133,20 +132,6 @@ export function configuratorReducer(
         },
       };
     }
-    case ConfiguratorActions.SET_GROUPS_COMPLETED: {
-      return setGroupStatus(
-        state,
-        action.payload.completedGroups,
-        Configurator.GroupStatus.COMPLETE
-      );
-    }
-    case ConfiguratorActions.SET_GROUPS_ERROR: {
-      return setGroupStatus(
-        state,
-        action.payload.errorGroups,
-        Configurator.GroupStatus.ERROR
-      );
-    }
   }
   return state;
 }
@@ -195,34 +180,4 @@ function takeOverChanges(
     },
   };
   return result;
-}
-
-function setGroupStatus(
-  state: Configurator.Configuration,
-  groups: string[],
-  status: Configurator.GroupStatus
-): Configurator.Configuration {
-  const changedInteractionState: Configurator.InteractionState = {
-    groupsStatus: {},
-  };
-
-  //Set Current state items
-  Object.keys(state.interactionState.groupsStatus).forEach(
-    (groupId) =>
-      (changedInteractionState.groupsStatus[groupId] =
-        state.interactionState.groupsStatus[groupId])
-  );
-
-  //Add status for groups
-  groups.forEach(
-    (groupId) => (changedInteractionState.groupsStatus[groupId] = status)
-  );
-
-  return {
-    ...state,
-    interactionState: {
-      ...state.interactionState,
-      groupsStatus: changedInteractionState.groupsStatus,
-    },
-  };
 }

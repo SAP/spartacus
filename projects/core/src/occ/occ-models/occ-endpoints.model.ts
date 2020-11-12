@@ -270,69 +270,69 @@ export interface OccEndpoints {
    *
    * @member {string}
    */
-  createConfiguration?: string;
+  createVariantConfiguration?: string;
   /**
    * Endpoint for create configuration for the textfield configurator
    *
    * @member {string}
    */
-  createConfigurationTextfield?: string;
+  createTextfieldConfiguration?: string;
   /**
    * Endpoint for add textfield configuration to cart
    *
    * @member {string}
    */
-  addConfigurationTextfieldToCart?: string;
+  addTextfieldConfigurationToCart?: string;
   /**
    * Endpoint for reading textfield configuration attached to the cart entry
    */
-  readConfigurationTextfieldForCartEntry?: string;
+  readTextfieldConfigurationForCartEntry?: string;
   /**
    * Endpoint for updating textfield configuration attached to the cart entry
    */
-  updateConfigurationTextfieldForCartEntry?: string;
+  updateTextfieldConfigurationForCartEntry?: string;
   /**
    * Endpoint to read configuration
    *
    * @member {string}
    */
-  readConfiguration?: string;
+  readVariantConfiguration?: string;
   /**
    * Endpoint to update configuration
    *
    * @member {string}
    */
-  updateConfiguration?: string;
+  updateVariantConfiguration?: string;
   /**
    * Endpoint to add configuration to cart
    *
    * @member {string}
    */
-  addConfigurationToCart?: string;
+  addVariantConfigurationToCart?: string;
   /**
    * Endpoint for reading configuration attached to the cart entry
    */
-  readConfigurationForCartEntry?: string;
+  readVariantConfigurationForCartEntry?: string;
   /**
    * Endpoint for updating configuration attached to the cart entry
    */
-  updateConfigurationForCartEntry?: string;
+  updateVariantConfigurationForCartEntry?: string;
   /**
    * Endpoint for reading configuration overview attached to the order entry
    */
-  readConfigurationOverviewForOrderEntry?: string;
+  readVariantConfigurationOverviewForOrderEntry?: string;
   /**
    * Endpoint to read configuration price
    *
    * @member {string}
    */
-  readPriceSummary?: string;
+  readVariantConfigurationPriceSummary?: string;
   /**
    * Endpoint to get configuration Overview
    *
    * @member {string}
    */
-  getConfigurationOverview?: string;
+  getVariantConfigurationOverview?: string;
   /**
    * Endpoint to get Cpq token
    *

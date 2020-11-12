@@ -23,7 +23,6 @@ const configuration: Configurator.Configuration = {
   isCartEntryUpdateRequired: false,
   interactionState: {
     currentGroup: 'firstGroup',
-    groupsStatus: {},
     groupsVisited: {},
     menuParentGroup: null,
     issueNavigationDone: true,
@@ -278,94 +277,6 @@ describe('Configurator reducer', () => {
         group2: true,
         group3: true,
         group4: true,
-      });
-    });
-
-    it('should reduce Group Complete Reducer with initial state', () => {
-      const { initialState } = StateReduce;
-
-      const action = new ConfiguratorActions.SetGroupsCompleted({
-        entityKey: PRODUCT_CODE,
-        completedGroups: ['group1', 'group2', 'group3'],
-      });
-
-      const state = StateReduce.configuratorReducer(initialState, action);
-
-      expect(state.interactionState.groupsStatus).toEqual({
-        group1: Configurator.GroupStatus.COMPLETE,
-        group2: Configurator.GroupStatus.COMPLETE,
-        group3: Configurator.GroupStatus.COMPLETE,
-      });
-    });
-
-    it('should reduce Group Complete Reducer with existing state', () => {
-      const initialState = {
-        ...StateReduce.initialState,
-        interactionState: {
-          groupsStatus: {
-            group1: Configurator.GroupStatus.COMPLETE,
-            group2: Configurator.GroupStatus.ERROR,
-            group3: Configurator.GroupStatus.COMPLETE,
-          },
-        },
-      };
-
-      const action = new ConfiguratorActions.SetGroupsCompleted({
-        entityKey: PRODUCT_CODE,
-        completedGroups: ['group4'],
-      });
-
-      const state = StateReduce.configuratorReducer(initialState, action);
-
-      expect(state.interactionState.groupsStatus).toEqual({
-        group1: Configurator.GroupStatus.COMPLETE,
-        group2: Configurator.GroupStatus.ERROR,
-        group3: Configurator.GroupStatus.COMPLETE,
-        group4: Configurator.GroupStatus.COMPLETE,
-      });
-    });
-
-    it('should reduce Group Error Reducer with initial state', () => {
-      const { initialState } = StateReduce;
-
-      const action = new ConfiguratorActions.SetGroupsError({
-        entityKey: PRODUCT_CODE,
-        errorGroups: ['group1', 'group2', 'group3'],
-      });
-
-      const state = StateReduce.configuratorReducer(initialState, action);
-
-      expect(state.interactionState.groupsStatus).toEqual({
-        group1: Configurator.GroupStatus.ERROR,
-        group2: Configurator.GroupStatus.ERROR,
-        group3: Configurator.GroupStatus.ERROR,
-      });
-    });
-
-    it('should reduce Group Error Reducer with existing state', () => {
-      const initialState = {
-        ...StateReduce.initialState,
-        interactionState: {
-          groupsStatus: {
-            group1: Configurator.GroupStatus.ERROR,
-            group2: Configurator.GroupStatus.COMPLETE,
-            group3: Configurator.GroupStatus.ERROR,
-          },
-        },
-      };
-
-      const action = new ConfiguratorActions.SetGroupsError({
-        entityKey: PRODUCT_CODE,
-        errorGroups: ['group4'],
-      });
-
-      const state = StateReduce.configuratorReducer(initialState, action);
-
-      expect(state.interactionState.groupsStatus).toEqual({
-        group1: Configurator.GroupStatus.ERROR,
-        group2: Configurator.GroupStatus.COMPLETE,
-        group3: Configurator.GroupStatus.ERROR,
-        group4: Configurator.GroupStatus.ERROR,
       });
     });
   });

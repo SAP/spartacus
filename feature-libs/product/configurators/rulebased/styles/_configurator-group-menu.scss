@@ -65,10 +65,13 @@
           display: flex;
           flex-direction: row;
           align-self: flex-start;
-          inline-size: 75px;
+          inline-size: 100px;
 
           .groupStatusIndicator {
             inline-size: 25px;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
             cx-icon.ERROR,
             cx-icon.WARNING,
             cx-icon.COMPLETE {
@@ -77,13 +80,16 @@
 
             cx-icon.ERROR {
               color: var(--cx-color-danger);
+              padding-inline-end: 5px;
             }
             cx-icon.WARNING {
               color: var(--cx-color-warning);
+              padding-inline-end: 5px;
             }
 
             cx-icon.COMPLETE {
               color: var(--cx-color-text);
+              padding-inline-end: 5px;
             }
           }
 

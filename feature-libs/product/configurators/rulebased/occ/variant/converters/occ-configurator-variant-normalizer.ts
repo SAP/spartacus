@@ -47,6 +47,8 @@ export class OccConfiguratorVariantNormalizer
     const group = {
       description: source.description,
       configurable: source.configurable,
+      complete: source.complete,
+      consistent: source.consistent,
       groupType: this.convertGroupType(source.groupType),
       name: source.name,
       id: source.id,

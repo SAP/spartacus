@@ -213,11 +213,6 @@ export class ConfiguratorBasicEffects {
                 ),
                 null
               );
-              this.configuratorGroupStatusService.setGroupStatus(
-                payload,
-                currentGroupId,
-                false
-              );
               return {
                 currentGroupId,
                 groupIdFromPayload,
@@ -322,11 +317,6 @@ export class ConfiguratorBasicEffects {
             )
             .pipe(
               switchMap((configuration: Configurator.Configuration) => {
-                this.configuratorGroupStatusService.setGroupStatus(
-                  configuration,
-                  action.payload.groupId,
-                  false
-                );
                 return [
                   new ConfiguratorActions.SetCurrentGroup({
                     entityKey: action.payload.configuration.owner.key,

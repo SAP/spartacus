@@ -45,6 +45,8 @@ export namespace Configurator {
     description?: string;
     groupType?: GroupType;
     configurable?: boolean;
+    complete?: boolean;
+    consistent?: boolean;
     subGroups?: Group[];
   }
 
@@ -69,9 +71,6 @@ export namespace Configurator {
     menuParentGroup?: string;
     groupsVisited?: {
       [id: string]: boolean;
-    };
-    groupsStatus?: {
-      [id: string]: Configurator.GroupStatus;
     };
     issueNavigationDone?: boolean;
   }
@@ -168,10 +167,5 @@ export namespace Configurator {
   export enum ImageType {
     PRIMARY = 'PRIMARY',
     GALLERY = 'GALLERY',
-  }
-
-  export enum GroupStatus {
-    COMPLETE = 'COMPLETE',
-    ERROR = 'ERROR',
   }
 }

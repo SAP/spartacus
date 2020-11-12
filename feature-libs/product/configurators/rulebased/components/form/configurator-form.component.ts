@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { GenericConfigurator, LanguageService } from '@spartacus/core';
+import { LanguageService } from '@spartacus/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, filter, switchMap, take } from 'rxjs/operators';
+import { filter, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -88,28 +88,10 @@ export class ConfiguratorFormComponent implements OnInit {
   }
 
   updateConfiguration(event: ConfigFormUpdateEvent): void {
-    const owner: GenericConfigurator.Owner = { key: event.ownerKey };
-
     this.configuratorCommonsService.updateConfiguration(
       event.ownerKey,
       event.changedAttribute
     );
-
-    // Wait until update is done until setting the group status
-    this.configuratorCommonsService
-      .isConfigurationLoading(owner)
-      .pipe(
-        distinctUntilChanged(),
-        filter((isLoading) => !isLoading),
-        take(1)
-      )
-      .subscribe(() =>
-        this.configuratorGroupsService.setGroupStatus(
-          owner,
-          event.changedAttribute.groupId,
-          false
-        )
-      );
   }
 
   isConflictGroupType(groupType: Configurator.GroupType): boolean {
