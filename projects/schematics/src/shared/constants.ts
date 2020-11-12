@@ -247,6 +247,8 @@ export const TEST_CONFIG_MODULE = 'TestConfigModule';
 export const COLLAPSE_MENU_IF_CLICK_OUTSIDE = 'collapseMenuIfClickOutside';
 
 export const FORBIDDEN_HANDLER = 'ForbiddenHandler';
+export const MULTI_CART_STATE_PERSISTENCE_SERVICE =
+  'MultiCartStatePersistenceService';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -392,6 +394,8 @@ export const GET = 'get';
 export const GET_WINDOW = 'window';
 export const GET_CLOSEST = 'getClosest';
 export const GET_BREAKPOINT = 'getBreakpoint';
+export const SYNC = 'sync';
+export const INIT_SYNC = 'initSync';
 /***** APIs end *****/
 
 /***** Misc start *****/
