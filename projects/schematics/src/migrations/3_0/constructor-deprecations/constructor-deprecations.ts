@@ -20,6 +20,12 @@ import { ROUTING_SERVICE_MIGRATION } from './data/routing.service.migration';
 import { SHIPPING_ADDRESS_SET_GUARD_MIGRATION } from './data/shipping-address-set.guard.migration';
 import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
 import { PAGE_SLOT_COMPONENT_MIGRATION } from './data/page-slot.component.migration';
+import { USER_NOTIFICATION_PREFERENCE_SERVICE_MIGRATION } from './data/user-notification-preference.service.migration';
+import { USER_INTERESTS_SERVICE_MIGRATION } from './data/user-interests.service.migration';
+import { USER_CONSENT_SERVICE_MIGRATION } from './data/user-consent.service.migration';
+import { USER_ADDRESS_SERVICE_MIGRATION } from './data/user-address.service.migration';
+import { ORDER_RETURN_REQUEST_SERVICE_MIGRATION } from './data/order-return-request.service.migration';
+import { CUSTOMER_COUPON_SERVICE_MIGRATION } from './data/customer-coupon.service.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT_MIGRATION,
@@ -41,6 +47,12 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   MULTI_CART_SERVICE_MIGRATION,
   CONTENT_PAGE_META_RESOLVER_MIGRATION,
   PAGE_SLOT_COMPONENT_MIGRATION,
+  USER_NOTIFICATION_PREFERENCE_SERVICE_MIGRATION,
+  USER_INTERESTS_SERVICE_MIGRATION,
+  USER_CONSENT_SERVICE_MIGRATION,
+  USER_ADDRESS_SERVICE_MIGRATION,
+  ORDER_RETURN_REQUEST_SERVICE_MIGRATION,
+  CUSTOMER_COUPON_SERVICE_MIGRATION,
 ];
 
 export function migrate(): Rule {
