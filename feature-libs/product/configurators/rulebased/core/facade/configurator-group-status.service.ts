@@ -36,22 +36,6 @@ export class ConfiguratorGroupStatusService {
   }
 
   /**
-   * Returns the group status for a group specified by its ID
-   *
-   * @param {GenericConfigurator.Owner} owner - Configuration owner
-   * @param {string} groupId - Group ID
-   * @returns {Observable<Configurator.GroupStatus>} Group status
-   */
-  getGroupStatus(
-    owner: GenericConfigurator.Owner,
-    groupId: string
-  ): Observable<Configurator.GroupStatus> {
-    return this.store.select(
-      ConfiguratorSelectors.getGroupStatus(owner.key, groupId)
-    );
-  }
-
-  /**
    * Returns the first non-conflict group of the configuration which is not completed
    * and undefined if all are completed.
    *
@@ -66,30 +50,18 @@ export class ConfiguratorGroupStatusService {
       .filter(
         (group) => group.groupType !== Configurator.GroupType.CONFLICT_GROUP
       )
-      .find((group) => !this.checkIsGroupComplete(group));
-  }
-
-  checkIsGroupComplete(group: Configurator.Group): Boolean {
-    return group.attributes
-      ? group.attributes.filter(
-          (attribute) =>
-            attribute.hasConflicts ||
-            (attribute.required && attribute.incomplete)
-        ).length === 0
-      : true;
+      .find((group) => !group.complete);
   }
 
   /**
-   * Determines the group status by the group ID and the switcher that defines whether the group has been visited or not.
+   * Determines whether the group has been visited or not.
    *
    * @param {Configurator.Configuration} configuration - Configuration
    * @param {string} groupId - Group ID
-   * @param {boolean} setGroupVisited - Determines whether the group has to be set as visited or not
    */
-  setGroupStatus(
+  setGroupStatusVisited(
     configuration: Configurator.Configuration,
-    groupId: string,
-    setGroupVisited: boolean
+    groupId: string
   ): void {
     const group = this.configuratorUtilsService.getGroupById(
       configuration.groups,
@@ -100,18 +72,6 @@ export class ConfiguratorGroupStatusService {
       this.configuratorUtilsService.getGroupById(configuration.groups, groupId)
     );
 
-    this.setGroupStatusCompletedOrError(configuration, group, parentGroup);
-
-    if (setGroupVisited) {
-      this.setGroupStatusVisited(configuration, group, parentGroup);
-    }
-  }
-
-  protected setGroupStatusVisited(
-    configuration: Configurator.Configuration,
-    group: Configurator.Group,
-    parentGroup: Configurator.Group
-  ): void {
     const visitedGroupIds = [];
     visitedGroupIds.push(group.id);
     this.getParentGroupStatusVisited(
@@ -135,43 +95,6 @@ export class ConfiguratorGroupStatusService {
   ): Observable<boolean> {
     return this.store.select(
       ConfiguratorSelectors.areGroupsVisited(owner.key, groupIds)
-    );
-  }
-
-  protected getParentGroupStatusCompleted(
-    configuration: Configurator.Configuration,
-    parentGroup: Configurator.Group,
-    completedGroupIds: string[],
-    incompleteGroupdIds: string[]
-  ) {
-    if (parentGroup === null) {
-      return;
-    }
-
-    let allSubGroupsComplete = true;
-    parentGroup.subGroups.forEach((subGroup) => {
-      if (!this.checkIsGroupComplete(subGroup)) {
-        allSubGroupsComplete = false;
-      }
-    });
-
-    if (allSubGroupsComplete) {
-      completedGroupIds.push(parentGroup.id);
-    } else {
-      incompleteGroupdIds.push(parentGroup.id);
-    }
-
-    this.getParentGroupStatusCompleted(
-      configuration,
-      this.configuratorUtilsService.getParentGroup(
-        configuration.groups,
-        this.configuratorUtilsService.getGroupById(
-          configuration.groups,
-          parentGroup.id
-        )
-      ),
-      completedGroupIds,
-      incompleteGroupdIds
     );
   }
 
@@ -214,46 +137,5 @@ export class ConfiguratorGroupStatusService {
           );
         }
       });
-  }
-  protected setGroupStatusCompletedOrError(
-    configuration: Configurator.Configuration,
-    group: Configurator.Group,
-    parentGroup: Configurator.Group
-  ): void {
-    const completedGroupIds = [];
-    const incompleteOrErrorGroupIds = [];
-
-    // Group is undefined if last conflict was resolved
-    if (group === undefined) {
-      return;
-    }
-
-    //Currently only check for completeness, no validation of input types
-    if (this.checkIsGroupComplete(group)) {
-      completedGroupIds.push(group.id);
-    } else {
-      incompleteOrErrorGroupIds.push(group.id);
-    }
-
-    this.getParentGroupStatusCompleted(
-      configuration,
-      parentGroup,
-      completedGroupIds,
-      incompleteOrErrorGroupIds
-    );
-
-    this.store.dispatch(
-      new ConfiguratorActions.SetGroupsCompleted({
-        entityKey: configuration.owner.key,
-        completedGroups: completedGroupIds,
-      })
-    );
-
-    this.store.dispatch(
-      new ConfiguratorActions.SetGroupsError({
-        entityKey: configuration.owner.key,
-        errorGroups: incompleteOrErrorGroupIds,
-      })
-    );
   }
 }

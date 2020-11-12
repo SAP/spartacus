@@ -153,10 +153,9 @@ export class ConfiguratorAddToCartButtonComponent {
       routerData.owner.type === GenericConfigurator.OwnerType.CART_ENTRY;
     const owner = configuration.owner;
 
-    this.configuratorGroupsService.setGroupStatus(
+    this.configuratorGroupsService.setGroupStatusVisited(
       configuration.owner,
-      configuration.interactionState.currentGroup,
-      true
+      configuration.interactionState.currentGroup
     );
 
     if (isOwnerCartEntry) {

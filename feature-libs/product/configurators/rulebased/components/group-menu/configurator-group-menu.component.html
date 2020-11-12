@@ -18,11 +18,15 @@
       <ng-container *ngIf="currentGroup$ | async as currentGroup">
         <ng-container *ngFor="let group of groups">
           <li
-            class="cx-menu-item {{
-              getGroupStatus(group, configuration) | async
-            }}"
+            class="cx-menu-item"
             [class.cx-menu-conflict]="isConflictGroupType(group.groupType)"
-            [class.WARNING]="isConflictGroupType(group.groupType)"
+            [class.COMPLETE]="
+              group.complete && (isGroupVisited(group, configuration) | async)
+            "
+            [class.ERROR]="
+              !group.complete && (isGroupVisited(group, configuration) | async)
+            "
+            [class.WARNING]="!group.consistent"
             [class.DISABLED]="!group.configurable"
           >
             <a
@@ -40,11 +44,13 @@
                   {{ getConflictNumber(group) }}
                 </div>
                 <div class="groupStatusIndicator">
+                  <cx-icon class="WARNING" [type]="iconTypes.WARNING"></cx-icon>
+                </div>
+                <div class="groupStatusIndicator">
                   <ng-container *ngIf="!group.configurable">
                     <cx-icon class="DISABLE" [type]="iconTypes.TRASH"></cx-icon>
                   </ng-container>
                   <cx-icon class="ERROR" [type]="iconTypes.ERROR"></cx-icon>
-                  <cx-icon class="WARNING" [type]="iconTypes.WARNING"></cx-icon>
                   <cx-icon
                     class="COMPLETE"
                     [type]="iconTypes.SUCCESS"

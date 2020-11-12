@@ -62,17 +62,6 @@ export const getCurrentGroup = (
   );
 };
 
-export const getGroupStatus = (
-  ownerKey: string,
-  groupId: string
-): MemoizedSelector<StateWithConfigurator, Configurator.GroupStatus> => {
-  return createSelector(
-    getConfigurationFactory(ownerKey),
-    (configuration) =>
-      configuration?.interactionState?.groupsStatus[groupId] || undefined
-  );
-};
-
 export const isGroupVisited = (
   ownerKey: string,
   groupId: string

@@ -70,8 +70,7 @@ describe('ConfiguratorGroupsService', () => {
     spyOn(store, 'dispatch').and.stub();
     spyOn(store, 'pipe').and.returnValue(of(productConfiguration));
 
-    spyOn(configGroupStatusService, 'setGroupStatus').and.callThrough();
-    spyOn(configGroupStatusService, 'getGroupStatus').and.callThrough();
+    spyOn(configGroupStatusService, 'setGroupStatusVisited').and.callThrough();
     spyOn(configGroupStatusService, 'isGroupVisited').and.callThrough();
     spyOn(configFacadeUtilsService, 'getParentGroup').and.callThrough();
     spyOn(configFacadeUtilsService, 'hasSubGroups').and.callThrough();
@@ -190,21 +189,6 @@ describe('ConfiguratorGroupsService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should read configuration and call set group status on set group status method call', () => {
-    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
-      of(productConfiguration)
-    );
-
-    classUnderTest.setGroupStatus(
-      productConfiguration.owner,
-      productConfiguration.groups[2].id,
-      false
-    );
-
-    expect(configuratorCommonsService.getConfiguration).toHaveBeenCalled();
-    expect(configGroupStatusService.setGroupStatus).toHaveBeenCalled();
-  });
-
   it('should call group status in navigate to different group', () => {
     spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
       of(productConfiguration)
@@ -214,7 +198,7 @@ describe('ConfiguratorGroupsService', () => {
       productConfiguration.groups[2].id
     );
 
-    expect(configGroupStatusService.setGroupStatus).toHaveBeenCalled();
+    expect(configGroupStatusService.setGroupStatusVisited).toHaveBeenCalled();
   });
 
   it('should check whether isGroupVisited has been called by the configuration group utils service', () => {
@@ -224,15 +208,6 @@ describe('ConfiguratorGroupsService', () => {
       GROUP_ID_4
     );
     expect(configGroupStatusService.isGroupVisited).toHaveBeenCalled();
-  });
-
-  it('should check whether getGroupStatus has been called by the configuration group utils service', () => {
-    classUnderTest.getGroupStatus(productConfiguration.owner, GROUP_ID_4);
-    expect(configGroupStatusService.getGroupStatus).toHaveBeenCalledWith(
-      productConfiguration.owner,
-      GROUP_ID_4
-    );
-    expect(configGroupStatusService.getGroupStatus).toHaveBeenCalled();
   });
 
   it('should get first conflict group from configuration, no conflicts', () => {

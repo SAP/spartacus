@@ -166,25 +166,22 @@ export class ConfiguratorGroupsService {
   }
 
   /**
-   * Determines the group status by the group ID and the switcher that defines whether the group has been visited or not.
+   * Determines whether the group has been visited or not.
    *
    * @param {GenericConfigurator.Owner} owner - Owner
    * @param {string} groupId - Group ID
-   * @param {boolean} setGroupVisited - Determines whether the group has to be set as visited or not
    */
-  setGroupStatus(
+  setGroupStatusVisited(
     owner: GenericConfigurator.Owner,
-    groupId: string,
-    setGroupVisited: boolean
+    groupId: string
   ): void {
     this.configuratorCommonsService
       .getConfiguration(owner)
       .pipe(
         map((configuration) =>
-          this.configuratorGroupStatusService.setGroupStatus(
+          this.configuratorGroupStatusService.setGroupStatusVisited(
             configuration,
-            groupId,
-            setGroupVisited
+            groupId
           )
         ),
         take(1)
@@ -209,10 +206,9 @@ export class ConfiguratorGroupsService {
       this.getCurrentGroup(configuration.owner)
         .pipe(take(1))
         .subscribe((currentGroup) => {
-          this.configuratorGroupStatusService.setGroupStatus(
+          this.configuratorGroupStatusService.setGroupStatusVisited(
             configuration,
-            currentGroup.id,
-            true
+            currentGroup.id
           );
         });
     }
@@ -263,20 +259,6 @@ export class ConfiguratorGroupsService {
     groupId: string
   ): Observable<boolean> {
     return this.configuratorGroupStatusService.isGroupVisited(owner, groupId);
-  }
-
-  /**
-   * Returns the group status for the given group ID.
-   *
-   * @param {GenericConfigurator.Owner} owner - Configuration owner
-   * @param {string} groupId - Group ID
-   * @return {Observable<Configurator.GroupStatus>} Group status
-   */
-  getGroupStatus(
-    owner: GenericConfigurator.Owner,
-    groupId: string
-  ): Observable<Configurator.GroupStatus> {
-    return this.configuratorGroupStatusService.getGroupStatus(owner, groupId);
   }
 
   /**
