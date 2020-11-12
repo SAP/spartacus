@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { OrderEntry, PromotionLocation } from '@spartacus/core';
-import { ReplaySubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { CartItemComponentOptions } from './cart-item.component';
 
 export enum CartItemComponentOutlets {
@@ -20,6 +20,7 @@ export interface CartItemContextModel {
 
 @Injectable()
 export class CartItemContext {
-  private readonly context$$ = new ReplaySubject<CartItemContextModel>();
-  readonly context$ = this.context$$.asObservable();
+  context$: Observable<CartItemContextModel> = new BehaviorSubject<
+    CartItemContextModel
+  >({});
 }

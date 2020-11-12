@@ -13,6 +13,7 @@ import {
   CartItemContextModel,
   GenericConfiguratorModule,
 } from '@spartacus/storefront';
+import { BehaviorSubject } from 'rxjs';
 import { ConfiguratorCartEntryInfoComponent } from './configurator-cart-entry-info.component';
 
 function setContext(
@@ -28,15 +29,9 @@ function setContext(
     },
     readonly: readOnly,
   };
-  let oldChunk: CartItemContextModel;
-  cartItemOutletConfiguratorComponent.cartItem.context$
-    .subscribe((val) => (oldChunk = val ?? {}))
-    .unsubscribe();
-
-  cartItemOutletConfiguratorComponent.cartItem['context$$'].next({
-    ...oldChunk,
-    ...newChunk,
-  });
+  const context$ = cartItemOutletConfiguratorComponent.cartItemContext
+    .context$ as BehaviorSubject<CartItemContextModel>;
+  context$.next({ ...context$.value, ...newChunk });
 }
 
 describe('ConfiguratorCartEntryInfoComponent', () => {
@@ -76,7 +71,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
   });
 
   it('should know cart item context', () => {
-    expect(configuratorCartEntryInfoComponent.cartItem).toBeTruthy();
+    expect(configuratorCartEntryInfoComponent.cartItemContext).toBeTruthy();
   });
 
   describe('Depicting configurable products in the cart', () => {

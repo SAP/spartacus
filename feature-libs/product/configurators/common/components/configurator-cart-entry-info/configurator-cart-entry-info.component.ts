@@ -7,7 +7,7 @@ import { CartItemContext } from '@spartacus/storefront';
   templateUrl: './configurator-cart-entry-info.component.html',
 })
 export class ConfiguratorCartEntryInfoComponent {
-  constructor(@Optional() public cartItem?: CartItemContext) {}
+  constructor(@Optional() public cartItemContext?: CartItemContext) {}
 
   /**
    * Verifies whether the configuration infos has any entries and the entry has any status.

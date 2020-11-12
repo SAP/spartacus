@@ -7,6 +7,7 @@ import {
   StatusSummary,
 } from '@spartacus/core';
 import { CartItemContext, CartItemContextModel } from '@spartacus/storefront';
+import { BehaviorSubject } from 'rxjs';
 import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-notification.component';
 
 @Pipe({
@@ -34,15 +35,9 @@ function setContext(
     readonly: readOnly,
     quantityControl: {},
   };
-  let oldChunk: CartItemContextModel;
-  cartItemOutletConfiguratorComponent.cartItemContext.context$
-    .subscribe((val) => (oldChunk = val ?? {}))
-    .unsubscribe();
-
-  cartItemOutletConfiguratorComponent.cartItemContext['context$$'].next({
-    ...oldChunk,
-    ...newChunk,
-  });
+  const context$ = cartItemOutletConfiguratorComponent.cartItemContext
+    .context$ as BehaviorSubject<CartItemContextModel>;
+  context$.next({ ...context$.value, ...newChunk });
 }
 
 describe('ConfigureIssuesNotificationComponent', () => {

@@ -1,8 +1,5 @@
-<ng-container *ngIf="cartItem?.context$ | async as ctx">
-  <div
-    class="cx-configuration-info-container"
-    *ngIf="hasStatus(ctx.item)"
-  >
+<ng-container *ngIf="cartItemContext?.context$ | async as ctx">
+  <div class="cx-configuration-info-container" *ngIf="hasStatus(ctx.item)">
     <div
       class="cx-configuration-info"
       *ngFor="let info of ctx.item.configurationInfos"

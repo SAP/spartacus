@@ -12,7 +12,7 @@ import {
   PromotionLocation,
   PromotionResult,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import {
@@ -86,12 +86,10 @@ export class CartItemComponent implements OnInit, OnChanges {
         {} as CartItemContextModel
       );
 
-      let oldChunk: CartItemContextModel;
-      this.cartItemContext.context$
-        .subscribe((val) => (oldChunk = val ?? {}))
-        .unsubscribe();
-
-      this.cartItemContext['context$$'].next({ ...oldChunk, ...newChunk });
+      const context$ = this.cartItemContext.context$ as BehaviorSubject<
+        CartItemContextModel
+      >;
+      context$.next({ ...context$.value, ...newChunk });
     }
   }
 

@@ -5,6 +5,7 @@ import {
   Input,
   Pipe,
   PipeTransform,
+  SimpleChange,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
@@ -19,6 +20,7 @@ import { ModalDirective } from 'projects/storefrontlib/src/shared/components/mod
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { GenericConfiguratorModule } from '../../../configurator/generic/generic-configurator.module';
+import { CartItemContext } from './cart-item-component.model';
 import { CartItemComponent } from './cart-item.component';
 
 @Pipe({
@@ -151,6 +153,41 @@ describe('CartItemComponent', () => {
 
   it('should create CartItemComponent', () => {
     expect(cartItemComponent).toBeTruthy();
+  });
+
+  it('should know initial empty item context', () => {
+    const cartItemContext: CartItemContext = cartItemComponent[
+      'cartItemContext'
+    ] as CartItemContext;
+    expect(cartItemContext).toBeDefined();
+
+    cartItemContext.context$
+      .subscribe((cartContextModel) => {
+        expect(cartContextModel).toEqual({});
+      })
+      .unsubscribe();
+  });
+  it('should know item context content after onChanges fired', () => {
+    const cartItemContext: CartItemContext = cartItemComponent[
+      'cartItemContext'
+    ] as CartItemContext;
+    expect(cartItemContext).toBeDefined();
+    cartItemComponent.ngOnChanges({
+      item: new SimpleChange(
+        undefined,
+        {
+          product: mockProduct,
+          updateable: true,
+          statusSummaryList: [],
+        },
+        false
+      ),
+    });
+    cartItemContext.context$
+      .subscribe((cartContextModel) => {
+        expect(cartContextModel.item.product).toEqual(mockProduct);
+      })
+      .unsubscribe();
   });
 
   it('should create cart details component', () => {
