@@ -16,7 +16,7 @@ import { Observable, queueScheduler, using } from 'rxjs';
 import { auditTime, filter, map, observeOn, tap } from 'rxjs/operators';
 import { OrganizationItemStatus } from '../model/organization-item-status';
 import { B2BUnitNode } from '../model/unit-node.model';
-import { OrgUnitActions } from '../store/actions/index';
+import { OrganizationActions, OrgUnitActions } from '../store/actions/index';
 import { StateWithOrganization } from '../store/organization-state';
 import {
   getApprovalProcesses,
@@ -36,6 +36,10 @@ export class OrgUnitService {
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,
     protected userIdService: UserIdService
   ) {}
+
+  clearData() {
+    this.store.dispatch(new OrganizationActions.OrganizationClearData());
+  }
 
   load(orgUnitId: string): void {
     this.userIdService.invokeWithUserId((userId) =>
