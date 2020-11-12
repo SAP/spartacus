@@ -29,7 +29,7 @@ const accessData: Cpq.AccessData = {
   tokenExpirationTime: 1605004667020,
 };
 
-describe('OccConfigurationCpqAdapter', () => {
+describe('CpqConfiguratorRestAdapter', () => {
   let adapterUnderTest: CpqConfiguratorRestAdapter;
   let httpMock: HttpTestingController;
 
@@ -61,11 +61,12 @@ describe('OccConfigurationCpqAdapter', () => {
     );
   });
 
-  it('should fetch token when creating config', () => {
+  it('should fetch token when creating config', (done) => {
     adapterUnderTest
       .createConfiguration(productConfiguration.owner)
       .subscribe((config) => {
         expect(config.configId).toEqual(token);
+        done();
       });
     const mockReq = httpMock.expectOne((req) => {
       return req.method === 'GET' && req.url === '/getCpqAccessData';
