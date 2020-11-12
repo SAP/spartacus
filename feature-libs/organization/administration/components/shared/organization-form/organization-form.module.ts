@@ -6,6 +6,7 @@ import { I18nModule } from '@spartacus/core';
 import { OrganizationCardModule } from '../organization-card/organization-card.module';
 import { OrganizationFormComponent } from './organization-form.component';
 import { MessageService } from '../organization-message/services/message.service';
+import { MessageModule } from '../organization-message/message.module';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { MessageService } from '../organization-message/services/message.service
     I18nModule,
     RouterModule,
     OrganizationCardModule,
+    MessageModule,
   ],
   declarations: [OrganizationFormComponent],
   providers: [MessageService],

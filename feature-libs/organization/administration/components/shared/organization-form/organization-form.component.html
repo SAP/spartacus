@@ -4,8 +4,8 @@
       {{ 'organization.save' | cxTranslate }}
     </button>
     <button actions class="link" routerLink="../" type="button">
-      <!-- 
-        We leverage the soft-close feature from the split view, so that the animation 
+      <!--
+        We leverage the soft-close feature from the split view, so that the animation
         has time to kick in before the router outlet is deleted.
        -->
       <span (click)="back($event, card)">{{
@@ -14,6 +14,7 @@
     </button>
 
     <section main class="details">
+      <cx-message></cx-message>
       <ng-content select="[main]" ngProjectAs="[main]"></ng-content>
     </section>
   </cx-organization-card>

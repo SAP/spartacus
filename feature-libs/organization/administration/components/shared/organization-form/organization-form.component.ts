@@ -15,6 +15,7 @@ import { LoadStatus } from '@spartacus/organization/administration/core';
   selector: 'cx-organization-form',
   templateUrl: './organization-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [MessageService],
   host: { class: 'content-wrapper' },
 })
 export class OrganizationFormComponent<T> {
@@ -48,6 +49,10 @@ export class OrganizationFormComponent<T> {
   ) {}
 
   save(form: FormGroup): void {
+    if (form.disabled) {
+      return;
+    }
+
     this.itemService.key$
       .pipe(
         first(),

@@ -1,7 +1,9 @@
-import { Directive, OnDestroy, OnInit } from '@angular/core';
+import { Directive, Input, OnDestroy, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { GlobalMessageType } from '@spartacus/core';
 import { tap } from 'rxjs/operators';
-import { CurrentOrganizationItemService } from './current-organization-item.service';
+import { OrganizationItemService } from './organization-item.service';
 import { MessageService } from './organization-message/services/message.service';
 import { BaseItem } from './organization.model';
 
@@ -11,15 +13,27 @@ import { BaseItem } from './organization.model';
 export class ActiveGuardDirective<T = BaseItem> implements OnInit, OnDestroy {
   protected subscription;
 
+  @Input() cxActiveGuard: FormGroup;
+
   constructor(
-    protected currentItemService: CurrentOrganizationItemService<T>,
-    protected messageService: MessageService
+    protected itemService: OrganizationItemService<T>,
+    protected messageService: MessageService,
+    protected activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.subscription = this.currentItemService.item$
-      .pipe(tap((item) => this.handleErrorMessage(item)))
-      .subscribe();
+    if (this.activatedRoute.snapshot.routeConfig.path === 'edit') {
+      this.subscription = this.itemService.current$
+        .pipe(
+          tap((item) => {
+            if (item && item !== null) {
+              this.handleErrorMessage(item);
+              this.cxActiveGuard.disable();
+            }
+          })
+        )
+        .subscribe();
+    }
   }
 
   protected handleErrorMessage(item: BaseItem) {

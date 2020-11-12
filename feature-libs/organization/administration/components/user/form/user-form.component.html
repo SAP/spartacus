@@ -1,5 +1,5 @@
 <cx-organization-form i18nRoot="user">
-  <ng-container main *ngIf="form" [formGroup]="form" cxActiveGuard>
+  <ng-container main *ngIf="form" [formGroup]="form" [cxActiveGuard]="form">
     <label>
       <span class="label-content required">{{
         'user.title' | cxTranslate
