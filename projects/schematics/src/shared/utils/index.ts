@@ -17,6 +17,7 @@ export {
   retrieveAppModulePath,
 } from './module-file-utils';
 export { getSpartacusSchematicsVersion } from './package-utils';
+export { moveConfigToAppModule } from './test-utils';
 export {
   getDefaultProjectNameFromWorkspace,
   getProjectTargets,
