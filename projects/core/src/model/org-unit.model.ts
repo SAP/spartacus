@@ -9,7 +9,7 @@ export interface CostCenter {
   unit?: B2BUnit;
 }
 
-export enum B2BUserGroup {
+export enum B2BUserRole {
   B2B_ADMIN_GROUP = 'b2badmingroup',
   B2B_CUSTOMER_GROUP = 'b2bcustomergroup',
   B2B_MANAGER_GROUP = 'b2bmanagergroup',

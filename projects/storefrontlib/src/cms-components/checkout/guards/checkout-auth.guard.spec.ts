@@ -5,7 +5,7 @@ import {
   ActiveCartService,
   AuthRedirectService,
   AuthService,
-  B2BUserGroup,
+  B2BUserRole,
   GlobalMessageService,
   GlobalMessageType,
   SemanticPathService,
@@ -233,7 +233,7 @@ describe('CheckoutAuthGuard', () => {
 
       it('should return true when user roles has b2bcustomergroup', () => {
         spyOn(userService, 'get').and.returnValue(
-          of({ uid: 'testUser', roles: [B2BUserGroup.B2B_CUSTOMER_GROUP] })
+          of({ uid: 'testUser', roles: [B2BUserRole.B2B_CUSTOMER_GROUP] })
         );
         let result: boolean | UrlTree;
         checkoutGuard
@@ -245,7 +245,7 @@ describe('CheckoutAuthGuard', () => {
 
       it('should return false when user roles does not have b2bcustomergroup', () => {
         spyOn(userService, 'get').and.returnValue(
-          of({ uid: 'testUser', roles: [B2BUserGroup.B2B_ADMIN_GROUP] })
+          of({ uid: 'testUser', roles: [B2BUserRole.B2B_ADMIN_GROUP] })
         );
         let result: boolean | UrlTree;
         checkoutGuard

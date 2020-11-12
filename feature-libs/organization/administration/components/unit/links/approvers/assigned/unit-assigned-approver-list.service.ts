@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   B2BUser,
-  B2BUserGroup,
+  B2BUserRole,
   EntitiesModel,
   PaginationModel,
 } from '@spartacus/core';
@@ -22,7 +22,7 @@ export class UnitAssignedApproverListService extends UnitApproverListService {
   ): Observable<EntitiesModel<B2BUser>> {
     this.unitService.clearUsersData(
       code,
-      B2BUserGroup.B2B_APPROVER_GROUP,
+      B2BUserRole.B2B_APPROVER_GROUP,
       pagination
     );
     return super

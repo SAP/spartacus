@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   B2BUser,
-  B2BUserGroup,
+  B2BUserRole,
   EntitiesModel,
   PaginationModel,
 } from '@spartacus/core';
@@ -38,7 +38,7 @@ export class UnitApproverListService extends OrganizationSubListService<
   ): Observable<EntitiesModel<B2BUser>> {
     return this.unitService.getUsers(
       code,
-      B2BUserGroup.B2B_APPROVER_GROUP,
+      B2BUserRole.B2B_APPROVER_GROUP,
       pagination
     );
   }
@@ -54,7 +54,7 @@ export class UnitApproverListService extends OrganizationSubListService<
     this.unitService.assignApprover(
       unitId,
       customerId,
-      B2BUserGroup.B2B_APPROVER_GROUP
+      B2BUserRole.B2B_APPROVER_GROUP
     );
     return this.userService.getLoadingStatus(customerId);
   }
@@ -70,7 +70,7 @@ export class UnitApproverListService extends OrganizationSubListService<
     this.unitService.unassignApprover(
       unitId,
       customerId,
-      B2BUserGroup.B2B_APPROVER_GROUP
+      B2BUserRole.B2B_APPROVER_GROUP
     );
     return this.userService.getLoadingStatus(customerId);
   }
