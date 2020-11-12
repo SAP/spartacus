@@ -5,28 +5,29 @@ export function defaultOccVariantConfiguratorConfigFactory(): OccConfig {
     backend: {
       occ: {
         endpoints: {
-          createConfiguration:
+          createVariantConfiguration:
             'products/${productCode}/configurators/ccpconfigurator',
 
-          readConfiguration: 'ccpconfigurator/${configId}',
+          readVariantConfiguration: 'ccpconfigurator/${configId}',
 
-          updateConfiguration: 'ccpconfigurator/${configId}',
+          updateVariantConfiguration: 'ccpconfigurator/${configId}',
 
-          addConfigurationToCart:
+          addVariantConfigurationToCart:
             'users/${userId}/carts/${cartId}/entries/ccpconfigurator',
 
-          readConfigurationForCartEntry:
+          readVariantConfigurationForCartEntry:
             'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/ccpconfigurator',
 
-          updateConfigurationForCartEntry:
+          updateVariantConfigurationForCartEntry:
             'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/ccpconfigurator',
 
-          readConfigurationOverviewForOrderEntry:
+          readVariantConfigurationOverviewForOrderEntry:
             'users/${userId}/orders/${orderId}/entries/${orderEntryNumber}/ccpconfigurator/configurationOverview',
 
-          readPriceSummary: 'ccpconfigurator/${configId}/pricing',
+          readVariantConfigurationPriceSummary:
+            'ccpconfigurator/${configId}/pricing',
 
-          getConfigurationOverview:
+          getVariantConfigurationOverview:
             'ccpconfigurator/${configId}/configurationOverview',
         },
       },

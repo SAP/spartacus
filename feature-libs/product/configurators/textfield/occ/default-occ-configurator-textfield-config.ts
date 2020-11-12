@@ -5,16 +5,16 @@ export function defaultOccConfiguratorTextfieldConfigFactory(): OccConfig {
     backend: {
       occ: {
         endpoints: {
-          createConfigurationTextfield:
+          createTextfieldConfiguration:
             'products/${productCode}/configurator/textfield',
 
-          addConfigurationTextfieldToCart:
+          addTextfieldConfigurationToCart:
             'users/${userId}/carts/${cartId}/entries/configurator/textfield',
 
-          readConfigurationTextfieldForCartEntry:
+          readTextfieldConfigurationForCartEntry:
             'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/configurator/textfield',
 
-          updateConfigurationTextfieldForCartEntry:
+          updateTextfieldConfigurationForCartEntry:
             'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/configurator/textfield',
         },
       },
