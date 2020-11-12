@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Converter, Occ } from '@spartacus/core';
-import { Budget } from '../../core/model';
+import { Budget, Converter, Occ } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
 export class OccBudgetSerializer implements Converter<Budget, Occ.Budget> {

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
+  Budget,
   ConverterService,
   EntitiesModel,
   Occ,
@@ -8,7 +9,6 @@ import {
   SearchConfig,
 } from '@spartacus/core';
 import {
-  Budget,
   BudgetAdapter,
   BUDGETS_NORMALIZER,
   BUDGET_NORMALIZER,
@@ -40,10 +40,7 @@ export class OccBudgetAdapter implements BudgetAdapter {
   }
 
   create(userId: string, budget: Budget): Observable<Budget> {
-    budget = (this.converter.convert(
-      budget,
-      BUDGET_SERIALIZER
-    ) as unknown) as Budget;
+    budget = this.converter.convert(budget, BUDGET_SERIALIZER) as Budget;
     return this.http
       .post<Occ.Budget>(this.getBudgetsEndpoint(userId), budget)
       .pipe(this.converter.pipeable(BUDGET_NORMALIZER));
@@ -54,10 +51,7 @@ export class OccBudgetAdapter implements BudgetAdapter {
     budgetCode: string,
     budget: Budget
   ): Observable<Budget> {
-    budget = (this.converter.convert(
-      budget,
-      BUDGET_SERIALIZER
-    ) as unknown) as Budget;
+    budget = this.converter.convert(budget, BUDGET_SERIALIZER);
     return this.http
       .patch<Occ.Budget>(this.getBudgetEndpoint(userId, budgetCode), budget)
       .pipe(this.converter.pipeable(BUDGET_NORMALIZER));

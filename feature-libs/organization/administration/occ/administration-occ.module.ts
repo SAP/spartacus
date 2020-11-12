@@ -32,7 +32,7 @@ import { OccOrgUnitAdapter } from './adapters/occ-org-unit.adapter';
 import { OccPermissionAdapter } from './adapters/occ-permission.adapter';
 import { OccUserGroupAdapter } from './adapters/occ-user-group.adapter';
 import { defaultOccOrganizationConfig } from './config/default-occ-organization-config';
-import { OccBudgetSerializer } from './converters';
+import { OccBudgetSerializer } from './converters/occ-budget-serializer';
 import { OccB2BUserNormalizer } from './converters/occ-b2b-user-normalizer';
 import { OccB2bUserSerializer } from './converters/occ-b2b-user-serializer';
 import { OccBudgetListNormalizer } from './converters/occ-budget-list-normalizer';

@@ -24,4 +24,9 @@ declare module '@spartacus/core' {
     currency?: Currency;
     originalCode?: string;
   }
+
+  interface Budget {
+    endDate?: string;
+    startDate?: string;
+  }
 }
