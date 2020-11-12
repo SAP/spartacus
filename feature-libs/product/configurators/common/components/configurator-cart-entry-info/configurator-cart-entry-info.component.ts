@@ -3,10 +3,10 @@ import { OrderEntry } from '@spartacus/core';
 import { CartItemContext } from '@spartacus/storefront';
 
 @Component({
-  selector: 'cx-cart-item-outlet-configurator',
-  templateUrl: './cart-item-outlet-configurator.component.html',
+  selector: 'cx-configurator-cart-entry-info',
+  templateUrl: './configurator-cart-entry-info.component.html',
 })
-export class CartItemOutletConfiguratorComponent {
+export class ConfiguratorCartEntryInfoComponent {
   constructor(@Optional() public cartItem?: CartItemContext) {}
 
   /**

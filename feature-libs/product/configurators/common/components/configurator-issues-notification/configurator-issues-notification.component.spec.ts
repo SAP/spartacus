@@ -1,7 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { OrderEntryStatus } from '@spartacus/core';
-import { ConfigComponentTestUtilsService } from 'projects/storefrontlib/src/cms-components/configurator/generic/service/configurator-component-test-utils.service';
+import {
+  ConfigurationInfo,
+  OrderEntry,
+  OrderEntryStatus,
+  StatusSummary,
+} from '@spartacus/core';
+import { CartItemContext, CartItemContextModel } from '@spartacus/storefront';
 import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-notification.component';
 
 @Pipe({
@@ -9,6 +14,35 @@ import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-n
 })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
+}
+
+let item: OrderEntry;
+function setContext(
+  cartItemOutletConfiguratorComponent: ConfiguratorIssuesNotificationComponent,
+  statusSummary: StatusSummary[],
+  configurationInfos: ConfigurationInfo[],
+  readOnly: boolean,
+  productConfigurable: boolean = true
+) {
+  item = {
+    statusSummaryList: statusSummary,
+    configurationInfos: configurationInfos,
+    product: { configurable: productConfigurable },
+  };
+  const newChunk: any = {
+    item: item,
+    readonly: readOnly,
+    quantityControl: {},
+  };
+  let oldChunk: CartItemContextModel;
+  cartItemOutletConfiguratorComponent.cartItemContext.context$
+    .subscribe((val) => (oldChunk = val ?? {}))
+    .unsubscribe();
+
+  cartItemOutletConfiguratorComponent.cartItemContext['context$$'].next({
+    ...oldChunk,
+    ...newChunk,
+  });
 }
 
 describe('ConfigureIssuesNotificationComponent', () => {
@@ -22,6 +56,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
         ConfiguratorIssuesNotificationComponent,
         MockTranslatePipe,
       ],
+      providers: [CartItemContext],
     }).compileComponents();
   }));
 
@@ -29,12 +64,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
     fixture = TestBed.createComponent(ConfiguratorIssuesNotificationComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
-    component.item = {
-      statusSummaryList: [],
-      product: {
-        configurable: true,
-      },
-    };
+
     fixture.detectChanges();
   });
 
@@ -42,61 +72,108 @@ describe('ConfigureIssuesNotificationComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should know cart context', () => {
+    expect(component.cartItemContext).toBeDefined();
+  });
+
   it('should return number of issues of ERROR status', () => {
-    component.item.statusSummaryList = [
-      { numberOfIssues: 2, status: OrderEntryStatus.Error },
-    ];
-    expect(component.getNumberOfIssues()).toBe(2);
+    setContext(
+      component,
+      [{ numberOfIssues: 2, status: OrderEntryStatus.Error }],
+      null,
+      false
+    );
+    expect(component.getNumberOfIssues(item)).toBe(2);
   });
 
   it('should return number of issues of ERROR status if ERROR and SUCCESS statuses are present', () => {
-    component.item.statusSummaryList = [
-      { numberOfIssues: 1, status: OrderEntryStatus.Success },
-      { numberOfIssues: 3, status: OrderEntryStatus.Error },
-    ];
-    expect(component.getNumberOfIssues()).toBe(3);
+    setContext(
+      component,
+      [
+        { numberOfIssues: 1, status: OrderEntryStatus.Success },
+        { numberOfIssues: 3, status: OrderEntryStatus.Error },
+      ],
+      null,
+      false
+    );
+
+    expect(component.getNumberOfIssues(item)).toBe(3);
   });
 
   it('should return number of issues as 0 if only SUCCESS status is present', () => {
-    component.item.statusSummaryList = [
-      { numberOfIssues: 2, status: OrderEntryStatus.Success },
-    ];
-    expect(component.getNumberOfIssues()).toBe(0);
+    setContext(
+      component,
+      [{ numberOfIssues: 2, status: OrderEntryStatus.Success }],
+      null,
+      false
+    );
+
+    expect(component.getNumberOfIssues(item)).toBe(0);
   });
 
   it('should return number of issues as 0 if statusSummaryList is undefined', () => {
-    component.item.statusSummaryList = undefined;
-    expect(component.getNumberOfIssues()).toBe(0);
+    setContext(component, null, null, false);
+    expect(component.getNumberOfIssues(item)).toBe(0);
   });
 
   it('should return number of issues as 0 if statusSummaryList is empty', () => {
-    component.item.statusSummaryList = [];
-    expect(component.getNumberOfIssues()).toBe(0);
+    setContext(component, [], null, false);
+    expect(component.getNumberOfIssues(item)).toBe(0);
   });
 
-  it('should return true if number of issues of ERROR status is > 0', () => {
-    component.item.statusSummaryList = [
-      { numberOfIssues: 2, status: OrderEntryStatus.Error },
-    ];
+  it('should display configure from cart in case issues are present', () => {
+    setContext(
+      component,
+      [{ numberOfIssues: 2, status: OrderEntryStatus.Error }],
+      null,
+      false
+    );
+
     fixture.detectChanges();
-    expect(component.hasIssues()).toBeTrue();
-    ConfigComponentTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      'cx-configure-cart-entry'
+    expect(component.hasIssues(item)).toBeTrue();
+
+    expect(
+      htmlElem.querySelectorAll('cx-configure-cart-entry').length
+    ).toBeGreaterThan(
+      0,
+      'expected configure cart entry to be present, but it is not; innerHtml: ' +
+        htmlElem.innerHTML
+    );
+  });
+
+  it('should not display configure from cart in case issues are present but product not configurable', () => {
+    setContext(
+      component,
+      [{ numberOfIssues: 2, status: OrderEntryStatus.Error }],
+      null,
+      false,
+      false
+    );
+
+    fixture.detectChanges();
+    expect(component.hasIssues(item)).toBeTrue();
+
+    expect(htmlElem.querySelectorAll('cx-configure-cart-entry').length).toBe(
+      0,
+      'expected configure cart entry not to be present, but it is; innerHtml: ' +
+        htmlElem.innerHTML
     );
   });
 
   it('should return false if number of issues of ERROR status is = 0', () => {
-    component.item.statusSummaryList = [
-      { numberOfIssues: 2, status: OrderEntryStatus.Success },
-    ];
+    setContext(
+      component,
+      [{ numberOfIssues: 2, status: OrderEntryStatus.Success }],
+      null,
+      false
+    );
+
     fixture.detectChanges();
-    expect(component.hasIssues()).toBeFalse();
-    ConfigComponentTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      'cx-configure-cart-entry'
+    expect(component.hasIssues(item)).toBeFalse();
+    expect(htmlElem.querySelectorAll('cx-configure-cart-entry').length).toBe(
+      0,
+      'expected configure cart entry not to be present, but it is; innerHtml: ' +
+        htmlElem.innerHTML
     );
   });
 });

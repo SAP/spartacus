@@ -6,8 +6,9 @@ import {
   IconModule,
   provideOutlet,
 } from '@spartacus/storefront';
+import { ConfiguratorIssuesNotificationModule } from '../configurator-issues-notification/configurator-issues-notification.module';
 import { ConfigureCartEntryModule } from '../configure-cart-entry/configure-cart-entry.module';
-import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-notification.component';
+import { ConfiguratorCartEntryInfoComponent } from './configurator-cart-entry-info.component';
 
 @NgModule({
   imports: [
@@ -15,15 +16,16 @@ import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-n
     UrlModule,
     I18nModule,
     IconModule,
+    ConfiguratorIssuesNotificationModule,
     ConfigureCartEntryModule,
   ],
-  declarations: [ConfiguratorIssuesNotificationComponent],
+  declarations: [ConfiguratorCartEntryInfoComponent],
+
   providers: [
     provideOutlet({
-      id: CartItemComponentOutlets.START,
-      component: ConfiguratorIssuesNotificationComponent,
+      id: CartItemComponentOutlets.INFORMATION,
+      component: ConfiguratorCartEntryInfoComponent,
     }),
   ],
-  exports: [ConfiguratorIssuesNotificationComponent],
 })
-export class ConfiguratorIssuesNotificationModule {}
+export class ConfiguratorCartEntryInfoModule {}

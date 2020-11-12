@@ -1,23 +1,25 @@
-<ng-container *ngIf="hasIssues() && !readonly">
-  <div [ngClass]="compact ? 'cx-compact row' : 'row'">
-    <div class="cx-error-container">
-      <div [ngClass]="compact ? 'col-2' : 'cx-error-icon-container'">
-        <cx-icon class="cx-error-icon" [type]="iconTypes.ERROR"></cx-icon>
-      </div>
-      <div [ngClass]="compact ? 'col-10' : 'cx-error-msg-container'">
-        {{
-          'configurator.notificationBanner.numberOfIssues'
-            | cxTranslate: { count: getNumberOfIssues() }
-        }}
-        <cx-configure-cart-entry
-          class="cx-error-msg-action"
-          *ngIf="item?.product?.configurable"
-          [cartEntry]="item"
-          [readOnly]="readonly"
-          [msgBanner]="true"
-          [disabled]="disabled"
-        ></cx-configure-cart-entry>
+<ng-container *ngIf="cartItemContext?.context$ | async as ctx">
+  <ng-container *ngIf="hasIssues(ctx.item) && !ctx.readonly">
+    <div [ngClass]="ctx.compact ? 'cx-compact row' : 'row'">
+      <div class="cx-error-container">
+        <div [ngClass]="ctx.compact ? 'col-2' : 'cx-error-icon-container'">
+          <cx-icon class="cx-error-icon" [type]="iconTypes.ERROR"></cx-icon>
+        </div>
+        <div [ngClass]="ctx.compact ? 'col-10' : 'cx-error-msg-container'">
+          {{
+            'configurator.notificationBanner.numberOfIssues'
+              | cxTranslate: { count: getNumberOfIssues(ctx.item) }
+          }}
+          <cx-configure-cart-entry
+            class="cx-error-msg-action"
+            *ngIf="ctx.item?.product?.configurable"
+            [cartEntry]="ctx.item"
+            [readOnly]="ctx.readonly"
+            [msgBanner]="true"
+            [disabled]="ctx.quantityControl.disabled"
+          ></cx-configure-cart-entry>
+        </div>
       </div>
     </div>
-  </div>
+  </ng-container>
 </ng-container>

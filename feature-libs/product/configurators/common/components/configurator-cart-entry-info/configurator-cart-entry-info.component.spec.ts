@@ -13,10 +13,10 @@ import {
   CartItemContextModel,
   GenericConfiguratorModule,
 } from '@spartacus/storefront';
-import { CartItemOutletConfiguratorComponent } from './cart-item-outlet-configurator.component';
+import { ConfiguratorCartEntryInfoComponent } from './configurator-cart-entry-info.component';
 
 function setContext(
-  cartItemOutletConfiguratorComponent: CartItemOutletConfiguratorComponent,
+  cartItemOutletConfiguratorComponent: ConfiguratorCartEntryInfoComponent,
   statusSummary: StatusSummary[],
   configurationInfos: ConfigurationInfo[],
   readOnly: boolean
@@ -39,9 +39,9 @@ function setContext(
   });
 }
 
-describe('CartItemOutletConfiguratorComponent', () => {
-  let cartItemOutletConfiguratorComponent: CartItemOutletConfiguratorComponent;
-  let fixture: ComponentFixture<CartItemOutletConfiguratorComponent>;
+describe('ConfiguratorCartEntryInfoComponent', () => {
+  let configuratorCartEntryInfoComponent: ConfiguratorCartEntryInfoComponent;
+  let fixture: ComponentFixture<ConfiguratorCartEntryInfoComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -53,7 +53,7 @@ describe('CartItemOutletConfiguratorComponent', () => {
 
         FeaturesConfigModule,
       ],
-      declarations: [CartItemOutletConfiguratorComponent],
+      declarations: [ConfiguratorCartEntryInfoComponent],
       providers: [
         CartItemContext,
         {
@@ -64,24 +64,24 @@ describe('CartItemOutletConfiguratorComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CartItemOutletConfiguratorComponent);
+    fixture = TestBed.createComponent(ConfiguratorCartEntryInfoComponent);
 
-    cartItemOutletConfiguratorComponent = fixture.componentInstance;
+    configuratorCartEntryInfoComponent = fixture.componentInstance;
 
     fixture.detectChanges();
   });
 
   it('should create CartItemOutletConfiguratorComponent', () => {
-    expect(cartItemOutletConfiguratorComponent).toBeTruthy();
+    expect(configuratorCartEntryInfoComponent).toBeTruthy();
   });
 
   it('should know cart item context', () => {
-    expect(cartItemOutletConfiguratorComponent.cartItem).toBeTruthy();
+    expect(configuratorCartEntryInfoComponent.cartItem).toBeTruthy();
   });
 
   describe('Depicting configurable products in the cart', () => {
     it('should not display configuration info if array of configurationInfo is empty', () => {
-      setContext(cartItemOutletConfiguratorComponent, null, null, false);
+      setContext(configuratorCartEntryInfoComponent, null, null, false);
       const htmlElem = fixture.nativeElement;
       expect(htmlElem.querySelectorAll('.cx-configuration-info').length).toBe(
         0,
@@ -92,7 +92,7 @@ describe('CartItemOutletConfiguratorComponent', () => {
 
     it('should display configuration info if array of configurationInfo is not empty and of status success', () => {
       setContext(
-        cartItemOutletConfiguratorComponent,
+        configuratorCartEntryInfoComponent,
         null,
         [
           {
@@ -123,12 +123,12 @@ describe('CartItemOutletConfiguratorComponent', () => {
 
     it('should return false if first entry of configuration infos does not have NONE status', () => {
       const entry: OrderEntry = { configurationInfos: [{ status: 'ERROR' }] };
-      expect(cartItemOutletConfiguratorComponent.hasStatus(entry)).toBe(true);
+      expect(configuratorCartEntryInfoComponent.hasStatus(entry)).toBe(true);
     });
 
     it('should return true if first entry of configuration infos does not have NONE status', () => {
       const entry: OrderEntry = { configurationInfos: [{ status: 'NONE' }] };
-      expect(cartItemOutletConfiguratorComponent.hasStatus(entry)).toBe(false);
+      expect(configuratorCartEntryInfoComponent.hasStatus(entry)).toBe(false);
     });
   });
 });

@@ -1,8 +1,0 @@
-<ng-container *ngIf="cartItem?.context$ | async as ctx">
-  <cx-configurator-issues-notification
-    [compact]="ctx.compact"
-    [readonly]="ctx.readonly"
-    [item]="ctx.item"
-    [disabled]="ctx.quantityControl.disabled"
-  ></cx-configurator-issues-notification>
-</ng-container>
