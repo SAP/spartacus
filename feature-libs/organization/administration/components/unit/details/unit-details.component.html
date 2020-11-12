@@ -8,13 +8,7 @@
     {{ 'organization.edit' | cxTranslate }}
   </a>
 
-  <cx-toggle-status
-    *ngIf="model.parentOrgUnit"
-    actions
-    [disabled]="!model.parentOrgUnit.active"
-    key="uid"
-    i18nRoot="unit"
-  ></cx-toggle-status>
+  <cx-toggle-status actions key="uid" i18nRoot="unit"></cx-toggle-status>
 
   <section main class="details" cxExistGuard>
     <div class="property">
