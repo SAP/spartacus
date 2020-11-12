@@ -80,10 +80,19 @@ describe('UnitAssignedApproverListService', () => {
   });
 
   it('should filter selected approvers', () => {
-    spyOn(unitService, 'clearUsersData');
-
     let result: EntitiesModel<B2BUser>;
-    service.getData('u1').subscribe((table) => (result = table));
+    service.getData().subscribe((table) => (result = table));
+
+    expect(result.values.length).toEqual(2);
+    expect(result.values[0].uid).toEqual('first');
+    expect(result.values[1].uid).toEqual('third');
+  });
+
+  it('should clear approvers data before load', () => {
+    spyOn(unitService, 'clearUsersData');
+    spyOn(unitService, 'getUsers').and.returnValue(of());
+
+    service.getData('u1').subscribe();
     expect(unitService.clearUsersData).toHaveBeenCalledWith(
       'u1',
       B2BUserGroup.B2B_APPROVER_GROUP,
@@ -91,8 +100,12 @@ describe('UnitAssignedApproverListService', () => {
         pageSize: 10,
       }
     );
-    expect(result.values.length).toEqual(2);
-    expect(result.values[0].uid).toEqual('first');
-    expect(result.values[1].uid).toEqual('third');
+    expect(unitService.getUsers).toHaveBeenCalledWith(
+      'u1',
+      B2BUserGroup.B2B_APPROVER_GROUP,
+      {
+        pageSize: 10,
+      }
+    );
   });
 });
