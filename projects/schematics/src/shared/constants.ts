@@ -29,6 +29,7 @@ export const SPARTACUS_ASSETS = '@spartacus/assets';
 export const SPARTACUS_STYLES = '@spartacus/styles';
 
 export const NGRX_STORE = '@ngrx/store';
+export const NGRX_EFFECTS = '@ngrx/effects';
 /***** Imports end *****/
 
 /***** Classes start *****/
@@ -82,14 +83,25 @@ export const CHECKOUT_PAGE_META_RESOLVER = 'CheckoutPageMetaResolver';
 
 export const PRODUCT_SEARCH_SERVICE = 'ProductSearchService';
 export const CHECKOUT_SERVICE = 'CheckoutService';
+export const CHECKOUT_CONNECTOR = 'CheckoutConnector';
+export const USER_ORDER_CONNECTOR = 'UserOrderConnector';
+export const REPLENISHMENT_ORDER_CONNECTOR = 'ReplenishmentOrderConnector';
+export const USER_REPLENISHMENT_ORDER_SERVICE = 'UserReplenishmentOrderService';
+export const CHECKOUT_ADAPTER = 'CheckoutAdapter';
+export const OCC_CHECKOUT_ADAPTER = 'OccCheckoutAdapter';
 export const CHECKOUT_PAYMENT_SERVICE = 'CheckoutPaymentService';
 export const CHECKOUT_DELIVERY_SERVICE = 'CheckoutDeliveryService';
 export const CART_DATA_SERVICE = 'CartDataService';
 export const CART_SERVICE = 'CartService';
 export const ACTIVE_CART_SERVICE = 'ActiveCartService';
+export const USER_ORDER_SERVICE = 'UserOrderService';
+export const USER_ORDERS_EFFECT = 'UserOrdersEffect';
 export const PROMOTION_SERVICE = 'PromotionService';
 export const ORDER_DETAILS_SERVICE = 'OrderDetailsService';
 export const CHECKOUT_LOGIN_COMPONENT = 'CheckoutLoginComponent';
+export const ORDER_CONFIRMATION_OVERVIEW_COMPONENT =
+  'OrderConfirmationOverviewComponent';
+export const ORDER_HISTORY_COMPONENT = 'OrderHistoryComponent';
 export const AUTH_REDIRECT_SERVICE = 'AuthRedirectService';
 export const CHECKOUT_DETAILS_SERVICE = 'CheckoutDetailsService';
 export const NOT_CHECKOUT_AUTH_GUARD = 'NotCheckoutAuthGuard';
@@ -142,7 +154,6 @@ export const ANONYMOUS_CONSENT_DIALOG_COMPONENT =
   'AnonymousConsentDialogComponent';
 export const PRODUCT_IMAGES_COMPONENT = 'ProductImagesComponent';
 export const USER_CONSENT_SERVICE = 'UserConsentService';
-export const USER_ORDER_SERVICE = 'UserOrderService';
 export const USER_SERVICE = 'UserService';
 export const CART_DETAILS_COMPONENT = 'CartDetailsComponent';
 export const ORDER_DETAIL_ITEMS_COMPONENT = 'OrderDetailItemsComponent';
@@ -338,6 +349,7 @@ export const FIND_STORES_CLASS = 'FindStores';
 
 export const ON_SUCCESS = 'onSuccess';
 
+export const ACTIONS = 'Actions';
 export const CHECKOUT_ACTIONS = 'CheckoutActions';
 export const PLACE_ORDER_CLASS = 'PlaceOrder';
 export const CHECKOUT_STEP_SERVICE = 'CheckoutStepService';
@@ -377,8 +389,16 @@ export const GET_MULTIPLE_PATHS_URL_MATCHER = 'getMultiplePathsUrlMatcher';
 export const GET_PATH_URL_MATCHER = 'getPathUrlMatcher';
 export const GET_OPPOSITE_URL_MATCHER = 'getOppositeUrlMatcher';
 export const GET_GLOB_URL_MATCHER = 'getGlobUrlMatcher';
+export const PLACE_ORDER = 'placeOrder';
 export const SET_QUERY = 'setQuery';
 export const VIEW_PAGE = 'viewPage';
+
+export const GET_ADDRESS_CARD_CONTENT = 'getAddressCardContent';
+export const GET_DELIVERY_MODE_CARD_CONTENT = 'getDeliveryModeCardContent';
+export const GET_PAYMENT_INFO_CARD_CONTENT = 'getPaymentInfoCardContent';
+export const GET_BILLING_ADDRESS_CARD_CONTENT = 'getBillingAddressCardContent';
+export const GET_PAYMENT_CARD_CONTENT = 'getPaymentCardContent';
+export const GET_SHIPPING_METHOD_CARD_CONTENT = 'getShippingMethodCardContent';
 
 export const GET_CONTROL = 'getControl';
 export const GET_CHECKOUT_STEP = 'getCheckoutStep';
