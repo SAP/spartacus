@@ -36,7 +36,7 @@ export class ActiveGuardDirective<T = BaseItem> implements OnInit, OnDestroy {
   }
 
   protected handleDisabledItems(item: BaseItem) {
-    if (!item?.active) {
+    if (!item?.active && this.form) {
       this.form.disable();
       this.messageService.add({
         message: {
