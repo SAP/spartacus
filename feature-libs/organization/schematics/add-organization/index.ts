@@ -31,9 +31,9 @@ import {
   getTsSourceFile,
   getWorkspace,
   PROVIDE_DEFAULT_CONFIG,
+  readPackageJson,
   SPARTACUS_CORE,
   SPARTACUS_SETUP,
-  UTF_8,
 } from '@spartacus/schematics';
 import * as ts from 'typescript';
 import {
@@ -204,16 +204,6 @@ function installPackageJsonDependencies(): Rule {
     context.logger.log('info', `🔍 Installing packages...`);
     return tree;
   };
-}
-
-function readPackageJson(tree: Tree): any {
-  const pkgPath = '/package.json';
-  const buffer = tree.read(pkgPath);
-  if (!buffer) {
-    throw new SchematicsException('Could not find package.json');
-  }
-
-  return JSON.parse(buffer.toString(UTF_8));
 }
 
 function getAppModule(
