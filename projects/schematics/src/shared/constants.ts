@@ -226,6 +226,12 @@ export const ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE =
   'AnonymousConsentLaunchDialogService';
 export const ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT =
   'AnonymousConsentOpenDialogComponent';
+export const MERCHANDISING_CAROUSEL_COMPONENT =
+  'MerchandisingCarouselComponent';
+export const MERCHANDISING_CAROUSEL_COMPONENT_SERVICE =
+  'MerchandisingCarouselComponentService';
+export const INTERSECTION_SERVICE = 'IntersectionService';
+export const WISH_LIST_SERVICE = 'WishListService';
 export const CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT =
   'CheckoutProgressMobileBottomComponent';
 export const CHECKOUT_PROGRESS_COMPONENT = 'CheckoutProgressComponent';
