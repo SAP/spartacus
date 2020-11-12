@@ -59,8 +59,8 @@ export class ActiveCartService implements OnDestroy {
 
   constructor(
     protected store: Store<StateWithMultiCart>,
-    protected userIdService: UserIdService,
-    protected multiCartService: MultiCartService
+    protected multiCartService: MultiCartService,
+    protected userIdService: UserIdService
   ) {
     this.initActiveCart();
   }
