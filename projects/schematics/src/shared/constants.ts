@@ -41,6 +41,7 @@ export const INJECTOR = 'Injector';
 export const STORE = 'Store';
 
 export const FORM_BUILDER = 'FormBuilder';
+export const JSONLD_PRODUCT_REVIEW_BUILDER = 'JsonLdProductReviewBuilder';
 
 export const CHANGE_DETECTOR_REF = 'ChangeDetectorRef';
 
@@ -122,6 +123,7 @@ export const CHECKOUT_ORDER_SUMMARY_COMPONENT = 'CheckoutOrderSummaryComponent';
 export const CHECKOUT_PROGRESS_MOBILE_TOP_COMPONENT =
   'CheckoutProgressMobileTopComponent';
 export const CHECKOUT_CONFIG = 'CheckoutConfig';
+export const SEO_CONFIG = 'SeoConfig';
 export const ROUTING_CONFIG_SERVICE = 'RoutingConfigService';
 export const PAYMENT_METHOD_COMPONENT = 'PaymentMethodComponent';
 export const USER_PAYMENT_SERVICE = 'UserPaymentService';
@@ -252,7 +254,7 @@ export const DELIVERY_MODE_COMPONENT = 'DeliveryModeComponent';
 export const SHIPPING_ADDRESS_SET_GUARD = 'ShippingAddressSetGuard';
 export const DELIVERY_MODE_SET_GUARD = 'DeliveryModeSetGuard';
 export const PAYMENT_DETAILS_SET_GUARD = 'PaymentDetailsSetGuard';
-export const ORDER_DETAILS_SHIPPING_COMPONENT = 'OrderDetailShippingComponent';
+export const ORDER_DETAIL_SHIPPING_COMPONENT = 'OrderDetailShippingComponent';
 export const ITEM_COUNTER_COMPONENT = 'ItemCounterComponent';
 export const UPDATE_EMAIL_COMPONENT = 'UpdateEmailComponent';
 export const PRODUCT_CAROUSEL_SERVICE = 'ProductCarouselService';
