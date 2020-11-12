@@ -122,7 +122,7 @@ describe('Storefront config utils', () => {
       const currentContextConfig = getConfig(
         config,
         'context'
-      ) as ts.SyntaxList;
+      ) as ts.PropertyAssignment;
       const currencyChange = mergeConfig(
         appModulePath,
         currentContextConfig,
@@ -151,7 +151,7 @@ describe('Storefront config utils', () => {
       const currentContextConfig = getConfig(
         config,
         'context'
-      ) as ts.SyntaxList;
+      ) as ts.PropertyAssignment;
       const baseSiteChange = mergeConfig(
         appModulePath,
         currentContextConfig,
@@ -170,7 +170,7 @@ describe('Storefront config utils', () => {
   });
 
   describe('createNewConfig', () => {
-    it('should create a new config as property assignment based provided config object', async () => {
+    it('should nest the given new config in the given config object', async () => {
       const { configurationFile, isAppModule } = getSpartacusConfigurationFile(
         appTree,
         defaultOptions.project
@@ -182,7 +182,7 @@ describe('Storefront config utils', () => {
       const currentContextConfig = getConfig(
         config,
         'context'
-      ) as ts.SyntaxList;
+      ) as ts.PropertyAssignment;
       const testConfigChange = createNewConfig(
         appModulePath,
         currentContextConfig,
