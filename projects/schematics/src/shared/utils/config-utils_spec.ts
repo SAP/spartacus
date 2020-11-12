@@ -58,7 +58,7 @@ describe('Storefront config utils', () => {
   });
 
   describe('getExistingStorefrontConfigNode', () => {
-    it('should get the Storefront config from app.module.ts file', async () => {
+    it('should get the Storefront config', async () => {
       const { configurationFile } = getSpartacusConfigurationFile(
         appTree,
         defaultOptions.project
