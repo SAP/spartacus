@@ -40,7 +40,7 @@
         [items]="approvalProcess$ | async"
         bindLabel="name"
         bindValue="code"
-        appendTo=".organization"
+        appendTo="cx-organization-list"
       >
       </ng-select>
       <cx-form-errors
@@ -63,7 +63,7 @@
         [items]="units$ | async"
         bindLabel="name"
         bindValue="id"
-        appendTo=".organization"
+        appendTo="cx-organization-list"
       >
       </ng-select>
       <cx-form-errors
