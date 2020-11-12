@@ -16,14 +16,11 @@ import { Schema as SpartacusDevSchematicsOptions } from '../ng-add/schema';
 
 function provideTestBaseSites(options: SpartacusDevSchematicsOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const { configurationFile, isAppModule } = getSpartacusConfigurationFile(
+    const { configurationFile } = getSpartacusConfigurationFile(
       tree,
       options.project
     );
-    const storefrontConfig = getExistingStorefrontConfigNode(
-      configurationFile,
-      isAppModule
-    );
+    const storefrontConfig = getExistingStorefrontConfigNode(configurationFile);
     if (!storefrontConfig) {
       context.logger.warn(
         `No ${B2C_STOREFRONT_MODULE} config found in the ${configurationFile.fileName}`

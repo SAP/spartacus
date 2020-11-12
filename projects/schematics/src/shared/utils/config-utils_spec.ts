@@ -59,13 +59,12 @@ describe('Storefront config utils', () => {
 
   describe('getExistingStorefrontConfigNode', () => {
     it('should get the Storefront config from app.module.ts file', async () => {
-      const { configurationFile, isAppModule } = getSpartacusConfigurationFile(
+      const { configurationFile } = getSpartacusConfigurationFile(
         appTree,
         defaultOptions.project
       );
       const config = getExistingStorefrontConfigNode(
-        configurationFile,
-        isAppModule
+        configurationFile
       ) as ts.ObjectLiteralExpression;
 
       expect(config).toBeTruthy();
@@ -79,13 +78,12 @@ describe('Storefront config utils', () => {
 
   describe('getConfig', () => {
     it('should return the specified config from Storefront CallExpression AST node object', async () => {
-      const { configurationFile, isAppModule } = getSpartacusConfigurationFile(
+      const { configurationFile } = getSpartacusConfigurationFile(
         appTree,
         defaultOptions.project
       );
       const config = getExistingStorefrontConfigNode(
-        configurationFile,
-        isAppModule
+        configurationFile
       ) as ts.ObjectLiteralExpression;
       const currentContextConfig = getConfig(config, 'context');
 
@@ -94,13 +92,12 @@ describe('Storefront config utils', () => {
     });
 
     it('should return an undefined if the provided configName was not found', async () => {
-      const { configurationFile, isAppModule } = getSpartacusConfigurationFile(
+      const { configurationFile } = getSpartacusConfigurationFile(
         appTree,
         defaultOptions.project
       );
       const config = getExistingStorefrontConfigNode(
-        configurationFile,
-        isAppModule
+        configurationFile
       ) as ts.ObjectLiteralExpression;
       const configByName = getConfig(config, 'test');
 
@@ -111,13 +108,12 @@ describe('Storefront config utils', () => {
 
   describe('mergeConfig', () => {
     it('should merge the provided configs', async () => {
-      const { configurationFile, isAppModule } = getSpartacusConfigurationFile(
+      const { configurationFile } = getSpartacusConfigurationFile(
         appTree,
         defaultOptions.project
       );
       const config = getExistingStorefrontConfigNode(
-        configurationFile,
-        isAppModule
+        configurationFile
       ) as ts.ObjectLiteralExpression;
       const currentContextConfig = getConfig(
         config,
@@ -140,13 +136,12 @@ describe('Storefront config utils', () => {
     });
 
     it('should create a new config if nothing to be merge', async () => {
-      const { configurationFile, isAppModule } = getSpartacusConfigurationFile(
+      const { configurationFile } = getSpartacusConfigurationFile(
         appTree,
         defaultOptions.project
       );
       const config = getExistingStorefrontConfigNode(
-        configurationFile,
-        isAppModule
+        configurationFile
       ) as ts.ObjectLiteralExpression;
       const currentContextConfig = getConfig(
         config,
@@ -171,13 +166,12 @@ describe('Storefront config utils', () => {
 
   describe('createNewConfig', () => {
     it('should nest the given new config in the given config object', async () => {
-      const { configurationFile, isAppModule } = getSpartacusConfigurationFile(
+      const { configurationFile } = getSpartacusConfigurationFile(
         appTree,
         defaultOptions.project
       );
       const config = getExistingStorefrontConfigNode(
-        configurationFile,
-        isAppModule
+        configurationFile
       ) as ts.ObjectLiteralExpression;
       const currentContextConfig = getConfig(
         config,

@@ -26,14 +26,14 @@ import { getProjectTargets } from './workspace-utils';
  * @param configurationSourceFile
  */
 export function getExistingStorefrontConfigNode(
-  configurationSourceFile: ts.SourceFile,
-  isAppModule: boolean
+  configurationSourceFile: ts.SourceFile
 ): ts.ObjectLiteralExpression | undefined {
-  if (isAppModule) {
-    return getStorefrontConfigFromAppModule(configurationSourceFile);
-  }
-
-  return getStorefrontConfigFromConfigFile(configurationSourceFile);
+  const configObjectFromSeparateFile = getStorefrontConfigFromConfigFile(
+    configurationSourceFile
+  );
+  return configObjectFromSeparateFile
+    ? configObjectFromSeparateFile
+    : getStorefrontConfigFromAppModule(configurationSourceFile);
 }
 
 function getStorefrontConfigFromAppModule(
