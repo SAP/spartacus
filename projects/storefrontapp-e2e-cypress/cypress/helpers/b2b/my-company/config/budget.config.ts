@@ -60,7 +60,7 @@ export const budgetConfig: MyCompanyConfig = {
     {
       label: 'Start',
       variableName: 'startDate',
-      inputType: INPUT_TYPE.DATE_TIME,
+      inputType: INPUT_TYPE.DATE,
       formLabel: 'Start',
       createValue: '3020-10-10',
       updateValue: '3025-01-10',
@@ -68,7 +68,7 @@ export const budgetConfig: MyCompanyConfig = {
     {
       label: 'End',
       variableName: 'endDate',
-      inputType: INPUT_TYPE.DATE_TIME,
+      inputType: INPUT_TYPE.DATE,
       formLabel: 'End',
       createValue: '3020-11-10',
       updateValue: '3026-05-15',
