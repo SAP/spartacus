@@ -8,6 +8,7 @@ import { CHECKOUT_CONFIG_SERVICE_MIGRATION } from './data/checkout-config.servic
 import { CHECKOUT_GROUP_ACTIONS_MIGRATION } from './data/checkout-group.actions.migration';
 import { CMS_COMPONENTS_SERVICE_MIGRATION } from './data/cms-components.service.migration';
 import { ITEM_COUNTER_COMPONENT_MIGRATION } from './data/item-counter.component.migration';
+import { LOGIN_FORM_COMPONENT_MIGRATION } from './data/login-form.component.migration';
 import { PRODUCT_CAROUSEL_SERVICE_MIGRATION } from './data/product-carousel.service.migration';
 import { PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION } from './data/product-list-component.service.migration';
 import { PRODUCT_REFERENCE_SERVICE_MIGRATION } from './data/product-reference.service.migration';
@@ -22,6 +23,7 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...CHECKOUT_AUTH_GUARD_MIGRATION,
   ...CMS_COMPONENTS_SERVICE_MIGRATION,
   ...BREAKPOINT_SERVICE_MIGRATION,
+  ...LOGIN_FORM_COMPONENT_MIGRATION,
   ...ITEM_COUNTER_COMPONENT_MIGRATION,
   ...STORE_FINDER_ACTIONS_MIGRATION,
   ...UPDATE_EMAIL_COMPONENT_MIGRATION,
