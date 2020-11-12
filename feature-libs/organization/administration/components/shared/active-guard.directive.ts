@@ -13,7 +13,7 @@ import { BaseItem } from './organization.model';
 export class ActiveGuardDirective<T = BaseItem> implements OnInit, OnDestroy {
   protected subscription;
 
-  @Input() cxActiveGuard: FormGroup;
+  @Input('cxActiveGuard') form: FormGroup;
 
   constructor(
     protected itemService: OrganizationItemService<T>,
@@ -28,7 +28,7 @@ export class ActiveGuardDirective<T = BaseItem> implements OnInit, OnDestroy {
           tap((item) => {
             if (item && item !== null) {
               this.handleErrorMessage(item);
-              this.cxActiveGuard.disable();
+              this.form.disable();
             }
           })
         )

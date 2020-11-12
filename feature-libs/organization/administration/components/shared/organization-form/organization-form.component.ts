@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { filter, first, map, switchMap, take } from 'rxjs/operators';
 import { OrganizationCardComponent } from '../organization-card/organization-card.component';
 import { OrganizationItemService } from '../organization-item.service';
 import { MessageService } from '../organization-message/services/message.service';
-import { LoadStatus } from '@spartacus/organization/administration/core';
 
 /**
  * Reusable component for creating and editing organization items. The component does not
@@ -15,7 +15,6 @@ import { LoadStatus } from '@spartacus/organization/administration/core';
   selector: 'cx-organization-form',
   templateUrl: './organization-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [MessageService],
   host: { class: 'content-wrapper' },
 })
 export class OrganizationFormComponent<T> {
@@ -49,10 +48,6 @@ export class OrganizationFormComponent<T> {
   ) {}
 
   save(form: FormGroup): void {
-    if (form.disabled) {
-      return;
-    }
-
     this.itemService.key$
       .pipe(
         first(),
