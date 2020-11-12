@@ -110,6 +110,16 @@ describe('add-spartacus', () => {
       expect(appModule.includes(`prefix: '/occ/v2/'`)).toBe(true);
     });
 
+    it('should not set occPrefix', async () => {
+      const tree = await schematicRunner
+        .runSchematicAsync('add-spartacus', { ...defaultOptions }, appTree)
+        .toPromise();
+      const appModule = tree.readContent(
+        '/projects/schematics-test/src/app/app.module.ts'
+      );
+      expect(appModule.includes(`prefix: '/occ/v2/'`)).toBe(false);
+    });
+
     it('should set feature level', async () => {
       const tree = await schematicRunner
         .runSchematicAsync(
