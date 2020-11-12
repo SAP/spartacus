@@ -5,6 +5,7 @@ import {
   Input,
   Pipe,
   PipeTransform,
+  SimpleChange,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
@@ -14,15 +15,12 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  FeaturesConfigModule,
-  I18nTestingModule,
-  OrderEntryStatus,
-} from '@spartacus/core';
+import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { ModalDirective } from 'projects/storefrontlib/src/shared/components/modal/modal.directive';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { GenericConfiguratorModule } from '../../../configurator/generic/generic-configurator.module';
+import { CartItemContext } from './cart-item-component.model';
 import { CartItemComponent } from './cart-item.component';
 
 @Pipe({
@@ -157,6 +155,41 @@ describe('CartItemComponent', () => {
     expect(cartItemComponent).toBeTruthy();
   });
 
+  it('should know initial empty item context', () => {
+    const cartItemContext: CartItemContext = cartItemComponent[
+      'cartItemContext'
+    ] as CartItemContext;
+    expect(cartItemContext).toBeDefined();
+
+    cartItemContext.context$
+      .subscribe((cartContextModel) => {
+        expect(cartContextModel).toEqual({});
+      })
+      .unsubscribe();
+  });
+  it('should know item context content after onChanges fired', () => {
+    const cartItemContext: CartItemContext = cartItemComponent[
+      'cartItemContext'
+    ] as CartItemContext;
+    expect(cartItemContext).toBeDefined();
+    cartItemComponent.ngOnChanges({
+      item: new SimpleChange(
+        undefined,
+        {
+          product: mockProduct,
+          updateable: true,
+          statusSummaryList: [],
+        },
+        false
+      ),
+    });
+    cartItemContext.context$
+      .subscribe((cartContextModel) => {
+        expect(cartContextModel.item.product).toEqual(mockProduct);
+      })
+      .unsubscribe();
+  });
+
   it('should create cart details component', () => {
     featureConfig.isEnabled.and.returnValue(true);
     expect(cartItemComponent).toBeTruthy();
@@ -212,101 +245,6 @@ describe('CartItemComponent', () => {
       expect(infoContainer.innerText).toContain(
         `${variant.name}: ${variant.value}`
       );
-    });
-  });
-
-  describe('Depicting configurable products in the cart', () => {
-    it('should not display resolve errors message if array of statusSummary is empty', () => {
-      const htmlElem = fixture.nativeElement;
-      expect(htmlElem.querySelectorAll('.cx-error-container').length).toBe(
-        0,
-        "expected resolve errors message identified by selector '.cx-error-container' not to be present, but it is! innerHtml: " +
-          htmlElem.innerHTML
-      );
-    });
-
-    it('should not display resolve errors message if number of issues is 0', () => {
-      cartItemComponent.item.statusSummaryList = [{ numberOfIssues: 0 }];
-      fixture.detectChanges();
-      const htmlElem = fixture.nativeElement;
-      expect(htmlElem.querySelectorAll('.cx-error-container').length).toBe(
-        0,
-        "expected resolve errors message identified by selector '.cx-error-container' not to be present, but it is! innerHtml: " +
-          htmlElem.innerHTML
-      );
-    });
-
-    it('should not display resolve errors message if number of issues is greater than 0 and readOnly is true', () => {
-      cartItemComponent.item.statusSummaryList = [
-        { numberOfIssues: 1, status: OrderEntryStatus.Error },
-      ];
-      cartItemComponent.readonly = true;
-      fixture.detectChanges();
-      const htmlElem = fixture.nativeElement;
-      expect(htmlElem.querySelectorAll('.cx-error-container').length).toBe(
-        0,
-        "expected resolve errors message identified by selector '.cx-error-container' not to be present, but it is! innerHtml: " +
-          htmlElem.innerHTML
-      );
-    });
-
-    it('should display resolve errors message if number of issues is greater than 0 and read only is false', () => {
-      cartItemComponent.item.statusSummaryList = [
-        { numberOfIssues: 1, status: OrderEntryStatus.Error },
-      ];
-      cartItemComponent.readonly = false;
-      fixture.detectChanges();
-      const htmlElem = fixture.nativeElement;
-      expect(
-        htmlElem.querySelectorAll('.cx-error-container').length
-      ).toBeGreaterThan(
-        0,
-        "expected resolve errors message identified by selector '.cx-error-container' to be present, but it is NOT! innerHtml: " +
-          htmlElem.innerHTML
-      );
-    });
-
-    it('should not display configuration info if array of configurationInfo is empty', () => {
-      const htmlElem = fixture.nativeElement;
-      expect(htmlElem.querySelectorAll('.cx-configuration-info').length).toBe(
-        0,
-        "expected configuration info identified by selector '.cx-configuration-info' not to be present, but it is! innerHtml: " +
-          htmlElem.innerHTML
-      );
-    });
-
-    it('should display configuration info if array of configurationInfo is not empty', () => {
-      const configurationInfo = {
-        configurationLabel: 'Color',
-        configurationValue: 'Blue',
-        configuratorType: 'CPQCONFIGURATOR',
-        status: 'SUCCESS',
-      };
-      cartItemComponent.item.configurationInfos = [configurationInfo];
-      fixture.detectChanges();
-      const htmlElem = fixture.nativeElement;
-      expect(htmlElem.querySelectorAll('.cx-configuration-info').length).toBe(
-        1,
-        "expected configuration info identified by selector '.cx-configuration-info' to be present, but it is! innerHtml: " +
-          htmlElem.innerHTML
-      );
-      expect(
-        htmlElem.querySelectorAll('.cx-configuration-info-error').length
-      ).toBe(
-        0,
-        "expected configuration info identified by selector '.cx-configuration-info-error' not to be present, but it is! innerHtml: " +
-          htmlElem.innerHTML
-      );
-    });
-
-    it('should return false if first entry of configuration infos does not have NONE status', () => {
-      cartItemComponent.item.configurationInfos = [{ status: 'ERROR' }];
-      expect(cartItemComponent.hasStatus()).toBe(true);
-    });
-
-    it('should return true if first entry of configuration infos does not have NONE status', () => {
-      cartItemComponent.item.configurationInfos = [{ status: 'NONE' }];
-      expect(cartItemComponent.hasStatus()).toBe(false);
     });
   });
 });

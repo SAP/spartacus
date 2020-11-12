@@ -1,13 +1,25 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  Optional,
+  SimpleChanges,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import {
   OrderEntry,
   PromotionLocation,
   PromotionResult,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
+import {
+  CartItemComponentOutlets,
+  CartItemContext,
+  CartItemContextModel,
+} from './cart-item-component.model';
 
 /**
  * @deprecated since 3.0 - use `OrderEntry` instead
@@ -31,8 +43,9 @@ export interface CartItemComponentOptions {
 @Component({
   selector: 'cx-cart-item',
   templateUrl: './cart-item.component.html',
+  providers: [CartItemContext],
 })
-export class CartItemComponent implements OnInit {
+export class CartItemComponent implements OnInit, OnChanges {
   @Input() compact = false;
   @Input() item: OrderEntry;
   @Input() readonly = false;
@@ -48,14 +61,36 @@ export class CartItemComponent implements OnInit {
 
   appliedProductPromotions$: Observable<PromotionResult[]>;
   iconTypes = ICON_TYPE;
+  readonly Outlets = CartItemComponentOutlets;
 
-  constructor(protected promotionService: PromotionService) {}
+  constructor(
+    protected promotionService: PromotionService,
+    @Optional() protected cartItemContext?: CartItemContext
+  ) {}
 
   ngOnInit() {
     this.appliedProductPromotions$ = this.promotionService.getProductPromotionForEntry(
       this.item,
       this.promotionLocation
     );
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.populateCartItemContext(changes);
+  }
+
+  private populateCartItemContext(changes: SimpleChanges) {
+    if (this.cartItemContext) {
+      const newChunk = Object.entries(changes).reduce(
+        (acc, [key, change]) => ({ ...acc, [key]: change.currentValue }),
+        {} as CartItemContextModel
+      );
+
+      const context$ = this.cartItemContext.context$ as BehaviorSubject<
+        CartItemContextModel
+      >;
+      context$.next({ ...context$.value, ...newChunk });
+    }
   }
 
   isProductOutOfStock(product: any) {
@@ -70,17 +105,5 @@ export class CartItemComponent implements OnInit {
   removeItem() {
     this.quantityControl.setValue(0);
     this.quantityControl.markAsDirty();
-  }
-
-  /**
-   * Verifies whether the configuration infos has any entries and the entry has any status.
-   *
-   * @returns {boolean} - whether the status of configuration infos entry has status
-   */
-  hasStatus(): boolean {
-    return (
-      this.item.configurationInfos?.length > 0 &&
-      this.item.configurationInfos[0]?.status !== 'NONE'
-    );
   }
 }

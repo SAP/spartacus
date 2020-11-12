@@ -1,0 +1,23 @@
+<ng-container *ngIf="cartItemContext?.context$ | async as ctx">
+  <div class="cx-configuration-info-container" *ngIf="hasStatus(ctx.item)">
+    <div
+      class="cx-configuration-info"
+      *ngFor="let info of ctx.item.configurationInfos"
+    >
+      <div class="cx-configuration-info-label">
+        {{ info?.configurationLabel }}:
+      </div>
+      <div class="cx-configuration-info-value">
+        {{ info?.configurationValue }}
+      </div>
+    </div>
+  </div>
+
+  <cx-configure-cart-entry
+    *ngIf="ctx.item?.product?.configurable"
+    [cartEntry]="ctx.item"
+    [readOnly]="ctx.readonly"
+    [msgBanner]="false"
+    [disabled]="ctx.quantityControl.disabled"
+  ></cx-configure-cart-entry>
+</ng-container>
