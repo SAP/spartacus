@@ -14,9 +14,12 @@ import { CONTENT_PAGE_META_RESOLVER_MIGRATION } from './data/content-page-meta.r
 import { DELIVERY_MODE_SET_GUARD_MIGRATION } from './data/delivery-mode-set.guard.migration';
 import { DELIVERY_MODE_COMPONENT_MIGRATION } from './data/delivery-mode.component.migration';
 import { FEATURE_MODULES_SERVICE_MIGRATION } from './data/feature-modules.service.migration';
+import { JSONLD_PRODUCT_REVIEW_BUILDER_MIGRATION } from './data/jsonld-product-review.builder.migration';
 import { LOGIN_FORM_COMPONENT_MIGRATION } from './data/login-form.component.migration';
 import { MULTI_CART_SERVICE_MIGRATION } from './data/multi-cart.service.migration';
-import { ORDER_DETAILS_SHIPPING_COMPONENT_MIGRATION } from './data/order-detail-shipping.component.migration';
+import { ORDER_CONFIRMATION_OVERVIEW_COMPONENT_MIGRATION } from './data/order-confirmation-overview.component.migration';
+import { ORDER_DETAIL_SHIPPING_COMPONENT_MIGRATION } from './data/order-detail-shipping.component.migration';
+import { ORDER_HISTORY_COMPONENT_MIGRATION } from './data/order-history-component.migration';
 import { PAGE_SLOT_COMPONENT_MIGRATION } from './data/page-slot.component.migration';
 import { PAYMENT_DETAILS_SET_GUARD_MIGRATION } from './data/payment-details-set.guard.migration';
 import { PAYMENT_METHOD_COMPONENT_MIGRATION } from './data/payment-method.component.migration';
@@ -26,6 +29,8 @@ import { SELECTIVE_CART_SERVICE_MIGRATION } from './data/selective-cart.service.
 import { SHIPPING_ADDRESS_SET_GUARD_MIGRATION } from './data/shipping-address-set.guard.migration';
 import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
 import { STOCK_NOTIFICATION_COMPONENT_MIGRATION } from './data/stock-notification.component.migration';
+import { USER_ORDERS_EFFECT_MIGRATION } from './data/user-order.effect.migration';
+import { USER_ORDER_SERVICE_MIGRATION } from './data/user-order.service.migration';
 import { WISH_LIST_SERVICE_MIGRATION } from './data/wish-list.service.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
@@ -44,9 +49,13 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   LOGIN_FORM_COMPONENT_MIGRATION,
   CHECKOUT_GUARD_MIGRATION,
   CHECKOUT_AUTH_GUARD_MIGRATION,
-  ORDER_DETAILS_SHIPPING_COMPONENT_MIGRATION,
   ROUTING_SERVICE_MIGRATION,
   FEATURE_MODULES_SERVICE_MIGRATION,
+  ORDER_CONFIRMATION_OVERVIEW_COMPONENT_MIGRATION,
+  ORDER_DETAIL_SHIPPING_COMPONENT_MIGRATION,
+  ORDER_HISTORY_COMPONENT_MIGRATION,
+  USER_ORDER_SERVICE_MIGRATION,
+  USER_ORDERS_EFFECT_MIGRATION,
   ACTIVE_CART_SERVICE_MIGRATION,
   CART_VOUCHER_SERVICE_MIGRATION,
   SELECTIVE_CART_SERVICE_MIGRATION,
@@ -55,6 +64,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   MULTI_CART_SERVICE_MIGRATION,
   CONTENT_PAGE_META_RESOLVER_MIGRATION,
   PAGE_SLOT_COMPONENT_MIGRATION,
+  JSONLD_PRODUCT_REVIEW_BUILDER_MIGRATION,
 ];
 
 export function migrate(): Rule {
