@@ -11,11 +11,15 @@ import { CHECKOUT_CONNECTOR_MIGRATION } from './data/checkout.connector.migratio
 import { CHECKOUT_SERVICE_MIGRATION } from './data/checkout.service.migration';
 import { CMS_COMPONENTS_SERVICE_MIGRATION } from './data/cms-components.service.migration';
 import { ITEM_COUNTER_COMPONENT_MIGRATION } from './data/item-counter.component.migration';
+import { LOGIN_FORM_COMPONENT_MIGRATION } from './data/login-form.component.migration';
 import { OCC_CHECKOUT_ADAPTER_MIGRATION } from './data/occ-checkout.adapter.migration';
 import { ORDER_CONFIRMATION_OVERVIEW_COMPONENT_MIGRATION } from './data/order-confirmation-overview.component.migration';
 import { ORDER_DETAIL_SHIPPING_COMPONENT_MIGRATION } from './data/order-detail-shipping.component.migration';
+import { PRODUCT_CAROUSEL_SERVICE_MIGRATION } from './data/product-carousel.service.migration';
 import { PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION } from './data/product-list-component.service.migration';
+import { PRODUCT_REFERENCE_SERVICE_MIGRATION } from './data/product-reference.service.migration';
 import { STORE_FINDER_ACTIONS_MIGRATION } from './data/store-finder-group.actions.migration';
+import { STOREFRONT_COMPONENT_MIGRATION } from './data/storefront-component.migration';
 import { UPDATE_EMAIL_COMPONENT_MIGRATION } from './data/update-email.component.migration';
 
 export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
@@ -30,12 +34,16 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...CHECKOUT_AUTH_GUARD_MIGRATION,
   ...CMS_COMPONENTS_SERVICE_MIGRATION,
   ...BREAKPOINT_SERVICE_MIGRATION,
+  ...LOGIN_FORM_COMPONENT_MIGRATION,
   ...ITEM_COUNTER_COMPONENT_MIGRATION,
   ...STORE_FINDER_ACTIONS_MIGRATION,
   ...UPDATE_EMAIL_COMPONENT_MIGRATION,
   ...BASE_SITE_SERVICE_MIGRATION,
   ...ORDER_CONFIRMATION_OVERVIEW_COMPONENT_MIGRATION,
   ...ORDER_DETAIL_SHIPPING_COMPONENT_MIGRATION,
+  ...PRODUCT_CAROUSEL_SERVICE_MIGRATION,
+  ...PRODUCT_REFERENCE_SERVICE_MIGRATION,
+  ...STOREFRONT_COMPONENT_MIGRATION,
 ];
 
 export function migrate(): Rule {
