@@ -201,6 +201,19 @@ function getStorefrontConfig(options: SpartacusOptions): string {
 }`;
 }
 
+function createConfiguration(options: SpartacusOptions): Rule {
+  return (host: Tree, _context: SchematicContext) => {
+    const configurationFile = `import { translationChunksConfig, translations } from '@spartacus/assets';
+    import { StorefrontConfig } from '@spartacus/storefront';
+          
+    export const ${SPARTACUS_CONFIGURATION_NAME}: StorefrontConfig = ${getStorefrontConfig(
+      options
+    )};
+    `;
+    host.create(SPARTACUS_CONFIGURATION_FILE_PATH, configurationFile);
+  };
+}
+
 function updateAppModule(options: SpartacusOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
     context.logger.debug('Updating main module');
@@ -243,15 +256,6 @@ function updateAppModule(options: SpartacusOptions): Rule {
         modulePath,
         `provideConfig(${SPARTACUS_CONFIGURATION_NAME})`
       );
-
-      const configurationFile = `import { translationChunksConfig, translations } from '@spartacus/assets';
-import { StorefrontConfig } from '@spartacus/storefront';
-      
-export const ${SPARTACUS_CONFIGURATION_NAME}: StorefrontConfig = ${getStorefrontConfig(
-        options
-      )};
-`;
-      host.create(SPARTACUS_CONFIGURATION_FILE_PATH, configurationFile);
 
       commitChanges(host, modulePath, [
         ...moduleImportedChange,
@@ -383,6 +387,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
 
     return chain([
       addPackageJsonDependencies(),
+      createConfiguration(options),
       updateAppModule(options),
       installStyles(project, options),
       updateMainComponent(project, options),
