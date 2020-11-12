@@ -256,6 +256,25 @@ export class LoadAssignedUsers extends StateUtils.EntityLoadAction {
   }
 }
 
+export class ClearAssignedUsers extends StateUtils.EntityRemoveAction {
+  readonly type = LOAD_ASSIGNED_USERS;
+  constructor(
+    public payload: {
+      orgUnitId: string;
+      roleId: string;
+      params: SearchConfig;
+    }
+  ) {
+    super(
+      ORG_UNIT_ASSIGNED_USERS,
+      StateUtils.serializeSearchConfig(
+        payload.params,
+        `${payload.orgUnitId},${payload.roleId}`
+      )
+    );
+  }
+}
+
 export class LoadAssignedUsersFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_ASSIGNED_USERS_FAIL;
   constructor(

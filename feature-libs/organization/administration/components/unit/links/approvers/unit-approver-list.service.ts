@@ -36,7 +36,11 @@ export class UnitApproverListService extends OrganizationSubListService<
     pagination: PaginationModel,
     code: string
   ): Observable<EntitiesModel<B2BUser>> {
-    this.unitService.clearData();
+    this.unitService.clearUsersData(
+      code,
+      B2BUserGroup.B2B_APPROVER_GROUP,
+      pagination
+    );
     return this.unitService.getUsers(
       code,
       B2BUserGroup.B2B_APPROVER_GROUP,
