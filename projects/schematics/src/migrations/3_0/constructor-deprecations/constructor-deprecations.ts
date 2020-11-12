@@ -28,6 +28,7 @@ import { ORDER_RETURN_REQUEST_SERVICE_MIGRATION } from './data/order-return-requ
 import { CUSTOMER_COUPON_SERVICE_MIGRATION } from './data/customer-coupon.service.migration';
 import { FORBIDDEN_HANDLER_MIGRATION } from './data/forbidden.handler.migration';
 import { CHECKOUT_PAYMENT_SERVICE_MIGRATION } from './data/checkout-payment.service.migration';
+import { CHECKOUT_SERVICE_MIGRATION } from './data/checkout.service.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT_MIGRATION,
@@ -57,6 +58,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CUSTOMER_COUPON_SERVICE_MIGRATION,
   FORBIDDEN_HANDLER_MIGRATION,
   CHECKOUT_PAYMENT_SERVICE_MIGRATION,
+  CHECKOUT_SERVICE_MIGRATION,
 ];
 
 export function migrate(): Rule {
