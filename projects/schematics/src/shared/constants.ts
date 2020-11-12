@@ -245,6 +245,8 @@ export const TEST_OUTLET_MODULE = 'TestOutletModule';
 export const TEST_CONFIG_MODULE = 'TestConfigModule';
 
 export const COLLAPSE_MENU_IF_CLICK_OUTSIDE = 'collapseMenuIfClickOutside';
+
+export const FORBIDDEN_HANDLER = 'ForbiddenHandler';
 /***** Classes end *****/
 
 /***** Removed public api start *****/

@@ -20,6 +20,7 @@ import { ROUTING_SERVICE_MIGRATION } from './data/routing.service.migration';
 import { SHIPPING_ADDRESS_SET_GUARD_MIGRATION } from './data/shipping-address-set.guard.migration';
 import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
 import { PAGE_SLOT_COMPONENT_MIGRATION } from './data/page-slot.component.migration';
+import { FORBIDDEN_HANDLER_MIGRATION } from './data/forbidden.handler.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT_MIGRATION,
@@ -41,6 +42,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   MULTI_CART_SERVICE_MIGRATION,
   CONTENT_PAGE_META_RESOLVER_MIGRATION,
   PAGE_SLOT_COMPONENT_MIGRATION,
+  FORBIDDEN_HANDLER_MIGRATION,
 ];
 
 export function migrate(): Rule {
