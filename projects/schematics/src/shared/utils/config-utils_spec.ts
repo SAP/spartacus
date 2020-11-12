@@ -4,14 +4,17 @@ import {
 } from '@angular-devkit/schematics/testing';
 import path from 'path';
 import * as ts from 'typescript';
+import { SPARTACUS_CONFIGURATION_FILE_PATH } from '../constants';
 import {
   createNewConfig,
   getConfig,
   getExistingStorefrontConfigNode,
   getSpartacusConfigurationFile,
+  getSpartacusConfigurationFilePath,
   mergeConfig,
 } from './config-utils';
 import { commitChanges } from './file-utils';
+import { moveConfigToAppModule } from './test-utils';
 
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -34,7 +37,7 @@ describe('Storefront config utils', () => {
   const defaultOptions = {
     project: 'schematics-test',
   };
-  const appModulePath = 'src/app/app.module.ts';
+  const appModulePath = '/src/app/app.module.ts';
 
   beforeEach(async () => {
     appTree = await schematicRunner
@@ -71,7 +74,7 @@ describe('Storefront config utils', () => {
       expect(config.getFullText()).toContain(`currency: ['USD'],`);
       expect(config.getFullText()).toContain(`resources: translations,`);
       expect(config.getFullText()).toContain(
-        `baseUrl: 'https://localhost:9002',`
+        `baseUrl: 'https://localhost:9002'`
       );
     });
   });
@@ -193,6 +196,45 @@ describe('Storefront config utils', () => {
       expect(appTree.readContent(appModulePath)).toContain('testObjectConfig:');
       expect(appTree.readContent(appModulePath)).toContain('value1');
       expect(appTree.readContent(appModulePath)).toContain('value2');
+    });
+  });
+
+  describe('getSpartacusConfigurationFilePath', () => {
+    describe(`when the '${SPARTACUS_CONFIGURATION_FILE_PATH}' exists`, () => {
+      it(`should return it as the path, and set 'isAppModule' to false`, async () => {
+        const {
+          path: resultPath,
+          isAppModule,
+        } = getSpartacusConfigurationFilePath(appTree, defaultOptions.project);
+        expect(resultPath).toEqual(SPARTACUS_CONFIGURATION_FILE_PATH);
+        expect(isAppModule).toEqual(false);
+      });
+    });
+    describe(`when the '${SPARTACUS_CONFIGURATION_FILE_PATH}' does NOT exist`, () => {
+      beforeEach(() => {
+        moveConfigToAppModule(appTree);
+      });
+      it(`should return app.module.ts as the path, and set 'isAppModule' to true`, async () => {
+        const {
+          path: resultPath,
+          isAppModule,
+        } = getSpartacusConfigurationFilePath(appTree, defaultOptions.project);
+        expect(resultPath).toEqual(appModulePath);
+        expect(isAppModule).toEqual(true);
+      });
+    });
+  });
+
+  describe('getSpartacusConfigurationFile', () => {
+    it('should return the source file', async () => {
+      const { configurationFile, isAppModule } = getSpartacusConfigurationFile(
+        appTree,
+        defaultOptions.project
+      );
+      expect(configurationFile.fileName).toEqual(
+        SPARTACUS_CONFIGURATION_FILE_PATH
+      );
+      expect(isAppModule).toEqual(false);
     });
   });
 });

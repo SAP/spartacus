@@ -4,9 +4,21 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import { findNodes } from '@schematics/angular/utility/ast-utils';
+import {
+  findNode,
+  findNodes,
+  getDecoratorMetadata,
+  getMetadataField,
+} from '@schematics/angular/utility/ast-utils';
+import { InsertChange } from '@schematics/angular/utility/change';
 import * as ts from 'typescript';
-import { findConstructor } from './file-utils';
+import {
+  ANGULAR_CORE,
+  B2C_STOREFRONT_MODULE,
+  SPARTACUS_CONFIGURATION_FILE_PATH,
+} from '../constants';
+import { getExistingStorefrontConfigNode } from './config-utils';
+import { commitChanges, findConstructor, getTsSourceFile } from './file-utils';
 
 export function writeFile(
   host: TempScopedNodeJsSyncHost,
@@ -92,4 +104,45 @@ export function updatePackageJson(
   }
 
   appTree.overwrite(filePath, JSON.stringify(packageJson));
+}
+
+export function moveConfigToAppModule(appTree: UnitTestTree): void {
+  const configurationSourceFile = getTsSourceFile(
+    appTree,
+    SPARTACUS_CONFIGURATION_FILE_PATH
+  );
+  const configNode = getExistingStorefrontConfigNode(configurationSourceFile);
+  appTree.delete(SPARTACUS_CONFIGURATION_FILE_PATH);
+
+  const appModuleSourceFile = getTsSourceFile(
+    appTree,
+    '/src/app/app.module.ts'
+  );
+  const node = getDecoratorMetadata(
+    appModuleSourceFile,
+    'NgModule',
+    ANGULAR_CORE
+  )[0];
+  const assignment = getMetadataField(
+    node as ts.ObjectLiteralExpression,
+    'imports'
+  )[0];
+  const b2cNode = findNode(
+    assignment,
+    ts.SyntaxKind.Identifier,
+    B2C_STOREFRONT_MODULE
+  );
+  if (!b2cNode) {
+    throw new Error(
+      'The app module does not seem to be valid: \n' +
+        appModuleSourceFile.getText()
+    );
+  }
+
+  const change = new InsertChange(
+    appModuleSourceFile.fileName,
+    b2cNode?.end,
+    `.withConfig(${configNode?.getText()})`
+  );
+  commitChanges(appTree, appModuleSourceFile.fileName, [change]);
 }

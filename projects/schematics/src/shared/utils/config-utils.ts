@@ -1,4 +1,4 @@
-import { SchematicsException, Tree } from '@angular-devkit/schematics';
+import { Tree } from '@angular-devkit/schematics';
 import {
   findNode,
   findNodes,
@@ -10,7 +10,6 @@ import {
   InsertChange,
   ReplaceChange,
 } from '@schematics/angular/utility/change';
-import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import * as ts from 'typescript';
 import {
   ANGULAR_CORE,
@@ -19,7 +18,7 @@ import {
   SPARTACUS_CONFIGURATION_NAME,
 } from '../constants';
 import { getTsSourceFile } from './file-utils';
-import { getProjectTargets } from './workspace-utils';
+import { retrieveAppModulePath } from './module-file-utils';
 
 /**
  * Finds the Storefront config in the given app.module.ts
@@ -369,14 +368,7 @@ export function getSpartacusConfigurationFilePath(
     };
   }
 
-  // check the app.module.path
-  const projectTargets = getProjectTargets(host, project);
-  if (!projectTargets.build) {
-    throw new SchematicsException(`Project target "build" not found.`);
-  }
-
-  const appModulePath = projectTargets.build.options.main;
-  const path = getAppModulePath(host, appModulePath);
+  const path = retrieveAppModulePath(host, project);
   return {
     path,
     isAppModule: true,
