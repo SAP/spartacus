@@ -27,8 +27,7 @@ export class ActiveGuardDirective<T = BaseItem> implements OnInit, OnDestroy {
         .pipe(
           tap((item) => {
             if (item && item !== null) {
-              this.handleErrorMessage(item);
-              this.form.disable();
+              this.handleDisabledItems(item);
             }
           })
         )
@@ -36,8 +35,9 @@ export class ActiveGuardDirective<T = BaseItem> implements OnInit, OnDestroy {
     }
   }
 
-  protected handleErrorMessage(item: BaseItem) {
+  protected handleDisabledItems(item: BaseItem) {
     if (!item?.active) {
+      this.form.disable();
       this.messageService.add({
         message: {
           key: 'organization.notification.disabled',
