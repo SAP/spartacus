@@ -11,6 +11,7 @@ export const FORBIDDEN_HANDLER_MIGRATION: ConstructorDeprecation = {
   // projects/core/src/global-message/http-interceptors/handlers/forbidden/forbidden.handler.ts
   class: FORBIDDEN_HANDLER,
   importPath: SPARTACUS_CORE,
+  deprecatedParams: [],
   addParams: [
     {
       className: GLOBAL_MESSAGE_SERVICE,
