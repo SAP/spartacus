@@ -335,18 +335,18 @@ function handleFeature(
     } else {
       if (
         !isImported(
-          configurationFile,
+          appModule,
           config.featureModule.name,
           config.featureModule.importPath
         )
       ) {
         const featureModuleImportChange = createImportChange(
           host,
-          configurationFile.fileName,
+          appModule.fileName,
           config.featureModule.name,
           config.featureModule.importPath
         );
-        configurationFileChanges.push(featureModuleImportChange);
+        appModuleChanges.push(featureModuleImportChange);
       }
 
       const addedToImportsChanges = addToModuleImports(

@@ -9,9 +9,9 @@ import {
   commitChanges,
   getConfig,
   getExistingStorefrontConfigNode,
+  getSpartacusConfigurationFile,
   mergeConfig,
 } from '@spartacus/schematics';
-import { getSpartacusConfigurationFile } from '../../../schematics/src/shared/utils/config-utils';
 import { Schema as SpartacusDevSchematicsOptions } from '../ng-add/schema';
 
 function provideTestBaseSites(options: SpartacusDevSchematicsOptions): Rule {
