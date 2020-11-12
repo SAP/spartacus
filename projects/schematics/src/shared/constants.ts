@@ -99,7 +99,6 @@ export const USER_ORDERS_EFFECT = 'UserOrdersEffect';
 export const PROMOTION_SERVICE = 'PromotionService';
 export const ORDER_DETAILS_SERVICE = 'OrderDetailsService';
 export const CHECKOUT_LOGIN_COMPONENT = 'CheckoutLoginComponent';
-export const ORDER_DETAIL_SHIPPING_COMPONENT = 'OrderDetailShippingComponent';
 export const ORDER_CONFIRMATION_OVERVIEW_COMPONENT =
   'OrderConfirmationOverviewComponent';
 export const ORDER_HISTORY_COMPONENT = 'OrderHistoryComponent';
