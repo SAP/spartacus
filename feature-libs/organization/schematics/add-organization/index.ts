@@ -268,8 +268,8 @@ function handleFeature(
     const configurationFile = getTsSourceFile(host, configurationFilePath);
     const appModule = getTsSourceFile(host, appModulePath);
 
-    const configurationFileChanges: Change[] = [];
     const appModuleChanges: Change[] = [];
+    const configurationFileChanges: Change[] = [];
     const providersChanges = addToModuleProviders(
       host,
       appModule.fileName,
@@ -331,7 +331,10 @@ function handleFeature(
           module: config.featureModule,
         }
       );
-      configurationFileChanges.push(lazyLoadingChange);
+
+      appModulePath === configurationFilePath
+        ? appModuleChanges.push(lazyLoadingChange)
+        : configurationFileChanges.push(lazyLoadingChange);
     } else {
       if (
         !isImported(
