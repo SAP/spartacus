@@ -1,105 +1,107 @@
-import {
-  Component,
-  ElementRef,
-  forwardRef,
-  Input,
-  ViewChild,
-} from '@angular/core';
-import {
-  ControlValueAccessor,
-  NG_VALIDATORS,
-  NG_VALUE_ACCESSOR,
-  Validator,
-} from '@angular/forms';
-import { DatePickerFormatterService } from '@spartacus/core';
+// TODO: Reenable and improve for usage #9753
 
-@Component({
-  selector: 'cx-date-picker',
-  templateUrl: './date-picker.component.html',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => DatePickerComponent),
-      multi: true,
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => DatePickerComponent),
-      multi: true,
-    },
-  ],
-})
-export class DatePickerComponent implements ControlValueAccessor, Validator {
-  value: string;
-  nativeValue: string = null;
+// import {
+//   Component,
+//   ElementRef,
+//   forwardRef,
+//   Input,
+//   ViewChild,
+// } from '@angular/core';
+// import {
+//   ControlValueAccessor,
+//   NG_VALIDATORS,
+//   NG_VALUE_ACCESSOR,
+//   Validator,
+// } from '@angular/forms';
+// import { DatePickerFormatterService } from '@spartacus/core';
 
-  @ViewChild('inputElement', { static: false, read: ElementRef })
-  input: ElementRef;
+// @Component({
+//   selector: 'cx-date-picker',
+//   templateUrl: './date-picker.component.html',
+//   providers: [
+//     {
+//       provide: NG_VALUE_ACCESSOR,
+//       useExisting: forwardRef(() => DatePickerComponent),
+//       multi: true,
+//     },
+//     {
+//       provide: NG_VALIDATORS,
+//       useExisting: forwardRef(() => DatePickerComponent),
+//       multi: true,
+//     },
+//   ],
+// })
+// export class DatePickerComponent implements ControlValueAccessor, Validator {
+//   value: string;
+//   nativeValue: string = null;
 
-  @Input()
-  min?: string;
+//   @ViewChild('inputElement', { static: false, read: ElementRef })
+//   input: ElementRef;
 
-  @Input()
-  max?: string;
+//   @Input()
+//   min?: string;
 
-  @Input()
-  endOfDay = false;
+//   @Input()
+//   max?: string;
 
-  @Input()
-  required?: boolean;
+//   @Input()
+//   endOfDay = false;
 
-  @Input()
-  invalid?: boolean;
+//   @Input()
+//   required?: boolean;
 
-  constructor(protected dateFormatterService: DatePickerFormatterService) {}
+//   @Input()
+//   invalid?: boolean;
 
-  onInput(event) {
-    this.value = this.dateFormatterService.toModel(
-      event.target.value,
-      this.endOfDay
-    );
-    this.nativeValue = event.target.value;
-    this.onChange(this.value);
-  }
+//   constructor(protected dateFormatterService: DatePickerFormatterService) {}
 
-  onChange(_event: any) {}
+//   onInput(event) {
+//     this.value = this.dateFormatterService.toModel(
+//       event.target.value,
+//       this.endOfDay
+//     );
+//     this.nativeValue = event.target.value;
+//     this.onChange(this.value);
+//   }
 
-  onTouched() {}
+//   onChange(_event: any) {}
 
-  registerOnChange(fn: (_: any) => void): void {
-    this.onChange = fn;
-  }
+//   onTouched() {}
 
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
-  }
+//   registerOnChange(fn: (_: any) => void): void {
+//     this.onChange = fn;
+//   }
 
-  writeValue(value: string): void {
-    if (value) {
-      this.value = value;
-      this.nativeValue = this.dateFormatterService.toNative(value);
-    }
-  }
+//   registerOnTouched(fn: () => void): void {
+//     this.onTouched = fn;
+//   }
 
-  getMin(): string {
-    return this.dateFormatterService.toNative(this.min);
-  }
+//   writeValue(value: string): void {
+//     if (value) {
+//       this.value = value;
+//       this.nativeValue = this.dateFormatterService.toNative(value);
+//     }
+//   }
 
-  getMax(): string {
-    return this.dateFormatterService.toNative(this.max);
-  }
+//   getMin(): string {
+//     return this.dateFormatterService.toNative(this.min);
+//   }
 
-  validate(): { [key: string]: any } {
-    if (this.input && !this.input.nativeElement.validity.valid) {
-      const validity = this.input.nativeElement.validity;
-      const validators: { [key: string]: boolean } = {};
-      if (validity.rangeOverflow) {
-        validators.cxDateMax = true;
-      }
-      if (validity.rangeUnderflow) {
-        validators.cxDateMin = true;
-      }
-      return validators;
-    }
-  }
-}
+//   getMax(): string {
+//     return this.dateFormatterService.toNative(this.max);
+//   }
+
+//   validate(): { [key: string]: any } {
+//     if (this.input && !this.input.nativeElement.validity.valid) {
+//       const validity = this.input.nativeElement.validity;
+//       const validators: { [key: string]: boolean } = {};
+//       if (validity.rangeOverflow) {
+//         validators.cxDateMax = true;
+//       }
+//       if (validity.rangeUnderflow) {
+//         validators.cxDateMin = true;
+//       }
+//       return validators;
+//     }
+//   }
+// }
