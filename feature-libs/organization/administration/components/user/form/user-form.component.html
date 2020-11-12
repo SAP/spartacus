@@ -73,6 +73,7 @@
           [value]="role"
           [checked]="roles?.value?.includes(role)"
           (change)="updateRoles($event)"
+          [disabled]="form?.status === 'DISABLED'"
         />
         <span class="form-check-label">
           {{ 'organization.userRoles.' + role | cxTranslate }}
