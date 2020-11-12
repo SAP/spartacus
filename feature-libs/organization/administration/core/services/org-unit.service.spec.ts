@@ -694,4 +694,15 @@ describe('OrgUnitService', () => {
       });
     });
   });
+
+  describe('clear users data', () => {
+    const params: SearchConfig = { sort: 'code' };
+
+    it('should clear users data from store', () => {
+      service.clearUsersData(orgUnitId, roleId, params);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new OrgUnitActions.ClearAssignedUsers({ orgUnitId, roleId, params })
+      );
+    });
+  });
 });

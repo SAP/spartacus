@@ -92,6 +92,8 @@ export const LOAD_ADDRESSES = '[B2BUnit] Load addresses';
 export const LOAD_ADDRESSES_SUCCESS = '[B2BUnit] Load addresses success';
 export const LOAD_ADDRESSES_FAIL = '[B2BUnit] Load addresses fail';
 
+export const CLEAR_ASSIGNED_USERS = '[B2BUnit] Clear Users';
+
 export class LoadOrgUnit extends StateUtils.EntityLoadAction {
   readonly type = LOAD_ORG_UNIT;
   constructor(public payload: { userId: string; orgUnitId: string }) {
@@ -257,7 +259,7 @@ export class LoadAssignedUsers extends StateUtils.EntityLoadAction {
 }
 
 export class ClearAssignedUsers extends StateUtils.EntityRemoveAction {
-  readonly type = LOAD_ASSIGNED_USERS;
+  readonly type = CLEAR_ASSIGNED_USERS;
   constructor(
     public payload: {
       orgUnitId: string;
