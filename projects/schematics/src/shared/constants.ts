@@ -29,6 +29,7 @@ export const SPARTACUS_ASSETS = '@spartacus/assets';
 export const SPARTACUS_STYLES = '@spartacus/styles';
 
 export const NGRX_STORE = '@ngrx/store';
+export const NGRX_EFFECTS = '@ngrx/effects';
 /***** Imports end *****/
 
 /***** Classes start *****/
@@ -40,6 +41,7 @@ export const INJECTOR = 'Injector';
 export const STORE = 'Store';
 
 export const FORM_BUILDER = 'FormBuilder';
+export const JSONLD_PRODUCT_REVIEW_BUILDER = 'JsonLdProductReviewBuilder';
 
 export const CHANGE_DETECTOR_REF = 'ChangeDetectorRef';
 
@@ -61,6 +63,7 @@ export const DEFAULT_B2B_OCC_CONFIG = 'defaultB2bOccConfig';
 export const CMS_CONFIG = 'CmsConfig';
 export const CMS_SELECTORS = 'CmsSelectors';
 export const CMS_ACTIONS = 'CmsActions';
+export const STOCK_NOTIFICATION_COMPONENT = 'StockNotificationComponent';
 export const LOAD_CMS_COMPONENT_CLASS = 'LoadCmsComponent';
 export const LOAD_CMS_COMPONENT_FAIL_CLASS = 'LoadCmsComponentFail';
 export const LOAD_CMS_COMPONENT_SUCCESS_CLASS = 'LoadCmsComponentSuccess';
@@ -80,15 +83,26 @@ export const CHECKOUT_PAGE_META_RESOLVER = 'CheckoutPageMetaResolver';
 
 export const PRODUCT_SEARCH_SERVICE = 'ProductSearchService';
 export const CHECKOUT_SERVICE = 'CheckoutService';
+export const CHECKOUT_CONNECTOR = 'CheckoutConnector';
+export const USER_ORDER_CONNECTOR = 'UserOrderConnector';
+export const REPLENISHMENT_ORDER_CONNECTOR = 'ReplenishmentOrderConnector';
+export const USER_REPLENISHMENT_ORDER_SERVICE = 'UserReplenishmentOrderService';
+export const CHECKOUT_ADAPTER = 'CheckoutAdapter';
+export const OCC_CHECKOUT_ADAPTER = 'OccCheckoutAdapter';
 export const CHECKOUT_PAYMENT_SERVICE = 'CheckoutPaymentService';
 export const CHECKOUT_DELIVERY_SERVICE = 'CheckoutDeliveryService';
 export const CART_DATA_SERVICE = 'CartDataService';
 export const CART_SERVICE = 'CartService';
 export const ACTIVE_CART_SERVICE = 'ActiveCartService';
+export const USER_ORDER_SERVICE = 'UserOrderService';
+export const USER_ORDERS_EFFECT = 'UserOrdersEffect';
 export const PROMOTION_SERVICE = 'PromotionService';
 export const ORDER_DETAILS_SERVICE = 'OrderDetailsService';
 export const ORDER_RETURN_REQUEST_SERVICE = 'OrderReturnRequestService';
 export const CHECKOUT_LOGIN_COMPONENT = 'CheckoutLoginComponent';
+export const ORDER_CONFIRMATION_OVERVIEW_COMPONENT =
+  'OrderConfirmationOverviewComponent';
+export const ORDER_HISTORY_COMPONENT = 'OrderHistoryComponent';
 export const AUTH_REDIRECT_SERVICE = 'AuthRedirectService';
 export const CHECKOUT_DETAILS_SERVICE = 'CheckoutDetailsService';
 export const NOT_CHECKOUT_AUTH_GUARD = 'NotCheckoutAuthGuard';
@@ -109,6 +123,7 @@ export const CHECKOUT_ORDER_SUMMARY_COMPONENT = 'CheckoutOrderSummaryComponent';
 export const CHECKOUT_PROGRESS_MOBILE_TOP_COMPONENT =
   'CheckoutProgressMobileTopComponent';
 export const CHECKOUT_CONFIG = 'CheckoutConfig';
+export const SEO_CONFIG = 'SeoConfig';
 export const ROUTING_CONFIG_SERVICE = 'RoutingConfigService';
 export const PAYMENT_METHOD_COMPONENT = 'PaymentMethodComponent';
 export const USER_PAYMENT_SERVICE = 'UserPaymentService';
@@ -140,7 +155,6 @@ export const ANONYMOUS_CONSENT_DIALOG_COMPONENT =
   'AnonymousConsentDialogComponent';
 export const PRODUCT_IMAGES_COMPONENT = 'ProductImagesComponent';
 export const USER_CONSENT_SERVICE = 'UserConsentService';
-export const USER_ORDER_SERVICE = 'UserOrderService';
 export const USER_SERVICE = 'UserService';
 export const CART_DETAILS_COMPONENT = 'CartDetailsComponent';
 export const ORDER_DETAIL_ITEMS_COMPONENT = 'OrderDetailItemsComponent';
@@ -227,6 +241,12 @@ export const ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE =
   'AnonymousConsentLaunchDialogService';
 export const ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT =
   'AnonymousConsentOpenDialogComponent';
+export const MERCHANDISING_CAROUSEL_COMPONENT =
+  'MerchandisingCarouselComponent';
+export const MERCHANDISING_CAROUSEL_COMPONENT_SERVICE =
+  'MerchandisingCarouselComponentService';
+export const INTERSECTION_SERVICE = 'IntersectionService';
+export const WISH_LIST_SERVICE = 'WishListService';
 export const CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT =
   'CheckoutProgressMobileBottomComponent';
 export const CHECKOUT_PROGRESS_COMPONENT = 'CheckoutProgressComponent';
@@ -234,7 +254,7 @@ export const DELIVERY_MODE_COMPONENT = 'DeliveryModeComponent';
 export const SHIPPING_ADDRESS_SET_GUARD = 'ShippingAddressSetGuard';
 export const DELIVERY_MODE_SET_GUARD = 'DeliveryModeSetGuard';
 export const PAYMENT_DETAILS_SET_GUARD = 'PaymentDetailsSetGuard';
-export const ORDER_DETAILS_SHIPPING_COMPONENT = 'OrderDetailShippingComponent';
+export const ORDER_DETAIL_SHIPPING_COMPONENT = 'OrderDetailShippingComponent';
 export const ITEM_COUNTER_COMPONENT = 'ItemCounterComponent';
 export const UPDATE_EMAIL_COMPONENT = 'UpdateEmailComponent';
 export const PRODUCT_CAROUSEL_SERVICE = 'ProductCarouselService';
@@ -334,6 +354,7 @@ export const FIND_STORES_CLASS = 'FindStores';
 
 export const ON_SUCCESS = 'onSuccess';
 
+export const ACTIONS = 'Actions';
 export const CHECKOUT_ACTIONS = 'CheckoutActions';
 export const PLACE_ORDER_CLASS = 'PlaceOrder';
 export const CHECKOUT_STEP_SERVICE = 'CheckoutStepService';
@@ -373,8 +394,16 @@ export const GET_MULTIPLE_PATHS_URL_MATCHER = 'getMultiplePathsUrlMatcher';
 export const GET_PATH_URL_MATCHER = 'getPathUrlMatcher';
 export const GET_OPPOSITE_URL_MATCHER = 'getOppositeUrlMatcher';
 export const GET_GLOB_URL_MATCHER = 'getGlobUrlMatcher';
+export const PLACE_ORDER = 'placeOrder';
 export const SET_QUERY = 'setQuery';
 export const VIEW_PAGE = 'viewPage';
+
+export const GET_ADDRESS_CARD_CONTENT = 'getAddressCardContent';
+export const GET_DELIVERY_MODE_CARD_CONTENT = 'getDeliveryModeCardContent';
+export const GET_PAYMENT_INFO_CARD_CONTENT = 'getPaymentInfoCardContent';
+export const GET_BILLING_ADDRESS_CARD_CONTENT = 'getBillingAddressCardContent';
+export const GET_PAYMENT_CARD_CONTENT = 'getPaymentCardContent';
+export const GET_SHIPPING_METHOD_CARD_CONTENT = 'getShippingMethodCardContent';
 
 export const GET_CONTROL = 'getControl';
 export const GET_CHECKOUT_STEP = 'getCheckoutStep';
@@ -387,6 +416,8 @@ export const STEPS = 'steps';
 export const CAN_ACTIVATE = 'canActivate';
 export const GET_CHILD_ROUTES = 'getChildRoutes';
 export const GET_ALL = 'getAll';
+export const NG_ON_DESTROY = 'ngOnDestroy';
+export const LOGIN_AS_GUEST = 'loginAsGuest';
 export const GET_BASE_SITE_DATA = 'getBaseSiteData';
 export const LOAD_PRODUCT_REFERENCES = 'loadProductReferences';
 export const GET_PRODUCT_REFERENCES = 'getProductReferences';
