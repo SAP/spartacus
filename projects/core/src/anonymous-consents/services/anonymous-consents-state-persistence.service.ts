@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { StatePersistenceService } from '../../state/index';
 import { AnonymousConsentsService } from '../facade/index';
+import { LoadAnonymousConsentTemplatesSuccess } from '../store/actions/anonymous-consents-group';
 import {
   AnonymousConsentsState,
   StateWithAnonymousConsents,
@@ -62,7 +63,9 @@ export class AnonymousConsentsStatePersistenceService implements OnDestroy {
   protected onRead(state: SyncedAnonymousConsentsState) {
     if (state) {
       if (state.templates) {
-        this.anonymousConsentsService.getTemplates();
+        this.store.dispatch(
+          new LoadAnonymousConsentTemplatesSuccess(state.templates.value)
+        );
       }
       if (state.consents) {
         this.anonymousConsentsService.setConsents(state.consents);

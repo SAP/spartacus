@@ -4,6 +4,7 @@ import { of } from 'rxjs';
 import { AnonymousConsent, ANONYMOUS_CONSENT_STATUS } from '../../model/index';
 import { StatePersistenceService } from '../../state/index';
 import { AnonymousConsentsService } from '../facade/index';
+import { LoadAnonymousConsentTemplatesSuccess } from '../store/actions/anonymous-consents-group';
 import {
   ANONYMOUS_CONSENTS_STORE_FEATURE,
   StateWithAnonymousConsents,
@@ -73,7 +74,7 @@ describe('AnonymousConsentsStatePersistenceService', () => {
     store = TestBed.inject(Store);
     anonymousConsentsService = TestBed.inject(AnonymousConsentsService);
 
-    spyOn(store, 'dispatch').and.stub();
+    spyOn(store, 'dispatch').and.callThrough();
     spyOn(persistenceService, 'syncWithStorage').and.stub();
   });
 
@@ -116,24 +117,36 @@ describe('AnonymousConsentsStatePersistenceService', () => {
 
   describe('onRead()', () => {
     it('should handle templates', () => {
-      service['onRead']({ templates: mockState.templates });
+      const stateObj = { templates: mockState.templates };
 
-      expect(anonymousConsentsService.getTemplates).toHaveBeenCalled();
+      service['onRead'](stateObj);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new LoadAnonymousConsentTemplatesSuccess(stateObj.templates.value)
+      );
     });
 
     it('should handle consents', () => {
-      service['onRead']({ consents: mockState.consents });
+      const stateObj = { consents: mockState.consents };
 
-      expect(anonymousConsentsService.setConsents).toHaveBeenCalled();
+      service['onRead'](stateObj);
+
+      expect(anonymousConsentsService.setConsents).toHaveBeenCalledWith(
+        stateObj.consents
+      );
     });
 
     it('should handle ui', () => {
-      service['onRead']({ ui: mockState.ui });
+      const stateObj = { ui: mockState.ui };
 
-      expect(anonymousConsentsService.toggleBannerDismissed).toHaveBeenCalled();
+      service['onRead'](stateObj);
+
+      expect(
+        anonymousConsentsService.toggleBannerDismissed
+      ).toHaveBeenCalledWith(stateObj.ui.bannerDismissed);
       expect(
         anonymousConsentsService.toggleTemplatesUpdated
-      ).toHaveBeenCalled();
+      ).toHaveBeenCalledWith(stateObj.ui.updated);
     });
   });
 });
