@@ -143,7 +143,7 @@ describe('B2B - Order Approval', () => {
         cy.saveLocalStorage();
       });
 
-      it('should NOT be allowed to access order approval dashboard directly', () => {
+      it.skip('should NOT be allowed to access order approval dashboard directly', () => {
         cy.restoreLocalStorage();
         cy.visit(APPROVAL_DASHBOARD_ROUTE);
         cy.location('pathname').should('contain', '/login');
