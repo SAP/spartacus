@@ -13,6 +13,6 @@ export const MULTI_CART_STATE_PERSISTENCE_SERVICE_MIGRATION: MethodPropertyDepre
     class: MULTI_CART_STATE_PERSISTENCE_SERVICE,
     importPath: SPARTACUS_CORE,
     deprecatedNode: SYNC,
-    comment: `// ${TODO_SPARTACUS} Method '${SYNC}' was removed from '${MULTI_CART_STATE_PERSISTENCE_SERVICE}'. Use ${INIT_SYNC} instead.`,
+    comment: `// ${TODO_SPARTACUS} Method '${SYNC}' was renamed to ${INIT_SYNC}.`,
   },
 ];
