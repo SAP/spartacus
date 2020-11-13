@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, switchMap, tap } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 import { PageContext } from '../../../routing/models/page-context.model';
 import { CmsStructureModel } from '../../model/page.model';
 import { CmsStructureConfigService } from '../../services/cms-structure-config.service';
@@ -43,8 +43,7 @@ export class CmsPageConnector {
             return of({});
           }
         }),
-        switchMap((page) => this.mergeDefaultPageStructure(pageContext, page)),
-        tap(console.log)
+        switchMap((page) => this.mergeDefaultPageStructure(pageContext, page))
       );
   }
 
