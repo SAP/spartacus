@@ -50,5 +50,6 @@ export class ActiveGuardDirective<T = BaseItem> implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription?.unsubscribe();
+    this.itemService.toggleChange$.next(false);
   }
 }
