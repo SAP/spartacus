@@ -37,6 +37,16 @@ export class OrgUnitService {
     protected userIdService: UserIdService
   ) {}
 
+  clearAssignedUsersList(
+    orgUnitId: string,
+    roleId: string,
+    params: SearchConfig
+  ): void {
+    this.store.dispatch(
+      new OrgUnitActions.ClearAssignedUsers({ orgUnitId, roleId, params })
+    );
+  }
+
   load(orgUnitId: string): void {
     this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId }))
