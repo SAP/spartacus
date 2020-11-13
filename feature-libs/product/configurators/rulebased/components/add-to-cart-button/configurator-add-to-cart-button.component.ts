@@ -5,9 +5,9 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import {
+  CommonConfigurator,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
-  GenericConfigurator,
 } from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
@@ -62,7 +62,7 @@ export class ConfiguratorAddToCartButtonComponent {
 
   protected navigateToOverview(
     configuratorType: string,
-    owner: GenericConfigurator.Owner
+    owner: CommonConfigurator.Owner
   ): void {
     this.routingService.go(
       {
@@ -84,14 +84,14 @@ export class ConfiguratorAddToCartButtonComponent {
    * Performs the navigation to the corresponding location (cart or overview pages).
    *
    * @param {string} configuratorType - Configurator type
-   * @param {GenericConfigurator.Owner} owner - Owner
+   * @param {CommonConfigurator.Owner} owner - Owner
    * @param {boolean} isAdd - Is add to cart
    * @param {boolean} isOverview - Is overview page
    * @param {boolean} showMessage - Show message
    */
   performNavigation(
     configuratorType: string,
-    owner: GenericConfigurator.Owner,
+    owner: CommonConfigurator.Owner,
     isAdd: boolean,
     isOverview: boolean,
     showMessage: boolean
@@ -150,7 +150,7 @@ export class ConfiguratorAddToCartButtonComponent {
     const configuratorType = configuration.owner.configuratorType;
     const isOverview = pageType === ConfiguratorRouter.PageType.OVERVIEW;
     const isOwnerCartEntry =
-      routerData.owner.type === GenericConfigurator.OwnerType.CART_ENTRY;
+      routerData.owner.type === CommonConfigurator.OwnerType.CART_ENTRY;
     const owner = configuration.owner;
 
     this.configuratorGroupsService.setGroupStatusVisited(

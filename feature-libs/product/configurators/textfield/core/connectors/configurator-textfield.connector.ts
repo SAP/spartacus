@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CartModification } from '@spartacus/core';
-import { GenericConfigurator } from '@spartacus/product/configurators/common';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 import { ConfiguratorTextfieldAdapter } from './configurator-textfield.adapter';
@@ -17,7 +17,7 @@ export class ConfiguratorTextfieldConnector {
    */
   createConfiguration(
     productCode: string,
-    owner: GenericConfigurator.Owner
+    owner: CommonConfigurator.Owner
   ): Observable<ConfiguratorTextfield.Configuration> {
     return this.adapter.createConfiguration(productCode, owner);
   }
@@ -27,7 +27,7 @@ export class ConfiguratorTextfieldConnector {
    * @returns Observable of product configurations
    */
   readConfigurationForCartEntry(
-    parameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
   ): Observable<ConfiguratorTextfield.Configuration> {
     return this.adapter.readConfigurationForCartEntry(parameters);
   }

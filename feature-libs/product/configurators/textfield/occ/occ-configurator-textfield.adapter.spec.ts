@@ -9,7 +9,7 @@ import {
   ConverterService,
   OccEndpointsService,
 } from '@spartacus/core';
-import { GenericConfigurator } from '@spartacus/product/configurators/common';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { OccConfiguratorTextfieldAdapter } from '.';
 import { CONFIGURATION_TEXTFIELD_NORMALIZER } from '../core/connectors/converters';
 import { ConfiguratorTextfield } from '../core/model/configurator-textfield.model';
@@ -54,7 +54,7 @@ const updateCartEntryParameters: ConfiguratorTextfield.UpdateCartEntryParameters
   cartEntryNumber: CART_ENTRY_NUMBER,
   configuration: configuration,
 };
-const readParams: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
+const readParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
   userId: USER_ID,
   cartId: CART_ID,
   cartEntryNumber: '0',

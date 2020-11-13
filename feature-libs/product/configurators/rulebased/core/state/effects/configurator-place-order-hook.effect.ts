@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { ActiveCartService, CheckoutActions } from '@spartacus/core';
 import {
-  GenericConfigurator,
-  GenericConfiguratorUtilsService,
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
 } from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -33,11 +33,11 @@ export class ConfiguratorPlaceOrderHookEffects {
               return;
             }
 
-            const owner: GenericConfigurator.Owner = {
-              type: GenericConfigurator.OwnerType.CART_ENTRY,
+            const owner: CommonConfigurator.Owner = {
+              type: CommonConfigurator.OwnerType.CART_ENTRY,
               id: String(entry.entryNumber),
             };
-            this.genericConfigUtilsService.setOwnerKey(owner);
+            this.commonConfigUtilsService.setOwnerKey(owner);
 
             ownerKeys.push(owner.key);
           });
@@ -51,6 +51,6 @@ export class ConfiguratorPlaceOrderHookEffects {
   constructor(
     protected actions$: Actions,
     protected activeCartService: ActiveCartService,
-    protected genericConfigUtilsService: GenericConfiguratorUtilsService
+    protected commonConfigUtilsService: CommonConfiguratorUtilsService
   ) {}
 }

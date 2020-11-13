@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import {
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
-  GenericConfigurator,
-  GenericConfiguratorUtilsService,
 } from '@spartacus/product/configurators/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -28,8 +28,8 @@ export class ConfiguratorOverviewNotificationBannerComponent {
   numberOfIssues$: Observable<number> = this.routerData$.pipe(
     filter(
       (routerData) =>
-        routerData.owner.type === GenericConfigurator.OwnerType.PRODUCT ||
-        routerData.owner.type === GenericConfigurator.OwnerType.CART_ENTRY
+        routerData.owner.type === CommonConfigurator.OwnerType.PRODUCT ||
+        routerData.owner.type === CommonConfigurator.OwnerType.CART_ENTRY
     ),
     switchMap((routerData) =>
       this.configuratorCommonsService.getConfiguration(routerData.owner)
@@ -49,7 +49,7 @@ export class ConfiguratorOverviewNotificationBannerComponent {
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected genericConfigUtilsService: GenericConfiguratorUtilsService
+    protected commonConfigUtilsService: CommonConfiguratorUtilsService
   ) {}
 
   /**

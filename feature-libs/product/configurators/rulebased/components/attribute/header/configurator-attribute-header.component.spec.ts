@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { GenericConfigurator } from '@spartacus/product/configurators/common';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import {
   IconLoaderService,
   IconModule,
@@ -36,9 +36,9 @@ describe('ConfigAttributeHeaderComponent', () => {
   let classUnderTest: ConfiguratorAttributeHeaderComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeHeaderComponent>;
 
-  const owner: GenericConfigurator.Owner = {
+  const owner: CommonConfigurator.Owner = {
     id: 'PRODUCT_CODE',
-    type: GenericConfigurator.OwnerType.CART_ENTRY,
+    type: CommonConfigurator.OwnerType.CART_ENTRY,
   };
 
   const currentAttribute: Configurator.Attribute = {
@@ -205,7 +205,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
 
     it('should render a required message if the group has already been visited.', () => {
-      classUnderTest.owner.type = GenericConfigurator.OwnerType.PRODUCT;
+      classUnderTest.owner.type = CommonConfigurator.OwnerType.PRODUCT;
       isCartEntryOrGroupVisited = true;
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
@@ -216,7 +216,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
 
     it("shouldn't render a required message if attribute has not been added to the cart yet.", () => {
-      classUnderTest.owner.type = GenericConfigurator.OwnerType.PRODUCT;
+      classUnderTest.owner.type = CommonConfigurator.OwnerType.PRODUCT;
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,

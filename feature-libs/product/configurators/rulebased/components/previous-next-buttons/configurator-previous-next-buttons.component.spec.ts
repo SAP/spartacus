@@ -6,7 +6,7 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { GenericConfiguratorUtilsService } from '@spartacus/product/configurators/common';
+import { CommonConfiguratorUtilsService } from '@spartacus/product/configurators/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -63,7 +63,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   let classUnderTest: ConfiguratorPreviousNextButtonsComponent;
   let fixture: ComponentFixture<ConfiguratorPreviousNextButtonsComponent>;
   let configurationGroupsService: ConfiguratorGroupsService;
-  let configuratorUtils: GenericConfiguratorUtilsService;
+  let configuratorUtils: CommonConfiguratorUtilsService;
 
   beforeEach(async(() => {
     routerStateObservable = of(ConfigurationTestData.mockRouterState);
@@ -108,7 +108,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     );
     fixture.detectChanges();
     configuratorUtils = TestBed.inject(
-      GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
     configuratorUtils.setOwnerKey(config.owner);
   });

@@ -6,7 +6,7 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { GenericConfigurator } from '@spartacus/product/configurators/common';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
 
@@ -18,7 +18,7 @@ const mockRouterState: any = {
   state: {
     params: {
       entityKey: PRODUCT_CODE,
-      ownerType: GenericConfigurator.OwnerType.PRODUCT,
+      ownerType: CommonConfigurator.OwnerType.PRODUCT,
     },
     queryParams: {},
     semanticRoute: CONFIG_OVERVIEW_ROUTE,

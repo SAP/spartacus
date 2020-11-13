@@ -1,5 +1,5 @@
 import { CartModification } from '@spartacus/core';
-import { GenericConfigurator } from '@spartacus/product/configurators/common';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { Configurator } from '../model/configurator.model';
 
@@ -10,7 +10,7 @@ export abstract class RulebasedConfiguratorAdapter {
    * @param productCode Root product code
    */
   abstract createConfiguration(
-    owner: GenericConfigurator.Owner
+    owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration>;
 
   /**
@@ -24,7 +24,7 @@ export abstract class RulebasedConfiguratorAdapter {
   abstract readConfiguration(
     configId: string,
     groupId: string,
-    configurationOwner: GenericConfigurator.Owner
+    configurationOwner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration>;
 
   /**
@@ -52,7 +52,7 @@ export abstract class RulebasedConfiguratorAdapter {
    * @param parameters read from cart entry parameters object
    */
   abstract readConfigurationForCartEntry(
-    parameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
   ): Observable<Configurator.Configuration>;
 
   /**
@@ -71,7 +71,7 @@ export abstract class RulebasedConfiguratorAdapter {
    * @returns  {Observable<Configurator.Configuration>} Configuration with only the overview aspect provided
    */
   abstract readConfigurationForOrderEntry(
-    parameters: GenericConfigurator.ReadConfigurationFromOrderEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
   ): Observable<Configurator.Configuration>;
 
   /**

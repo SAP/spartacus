@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, OrderEntry } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
-import { GenericConfigurator } from '../../core/model/generic-configurator.model';
+import { CommonConfigurator } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorTestUtilsService } from '../../shared/testing/common-configurator-test-utils.service';
 import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
 
@@ -60,7 +60,7 @@ describe('ConfigureCartEntryComponent', () => {
   it('should find correct default owner type', () => {
     orderOrCartEntry.orderCode = undefined;
     expect(component.getOwnerType()).toBe(
-      GenericConfigurator.OwnerType.CART_ENTRY
+      CommonConfigurator.OwnerType.CART_ENTRY
     );
   });
 
@@ -68,7 +68,7 @@ describe('ConfigureCartEntryComponent', () => {
     component.readOnly = true;
     orderOrCartEntry.orderCode = '112';
     expect(component.getOwnerType()).toBe(
-      GenericConfigurator.OwnerType.ORDER_ENTRY
+      CommonConfigurator.OwnerType.ORDER_ENTRY
     );
   });
 

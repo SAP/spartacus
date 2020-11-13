@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {
+  CommonConfigurator,
   ConfiguratorRouterExtractorService,
-  GenericConfigurator,
 } from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -18,11 +18,11 @@ export class ConfiguratorTextfieldFormComponent {
   > = this.configRouterExtractorService.extractRouterData().pipe(
     switchMap((routerData) => {
       switch (routerData.owner.type) {
-        case GenericConfigurator.OwnerType.PRODUCT:
+        case CommonConfigurator.OwnerType.PRODUCT:
           return this.configuratorTextfieldService.createConfiguration(
             routerData.owner
           );
-        case GenericConfigurator.OwnerType.CART_ENTRY:
+        case CommonConfigurator.OwnerType.CART_ENTRY:
           return this.configuratorTextfieldService.readConfigurationForCartEntry(
             routerData.owner
           );

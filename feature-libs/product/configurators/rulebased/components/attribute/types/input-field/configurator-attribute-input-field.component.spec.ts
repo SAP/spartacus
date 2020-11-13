@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { GenericConfigurator } from '@spartacus/product/configurators/common';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribute-input-field.component';
@@ -45,7 +45,7 @@ describe('ConfigAttributeInputFieldComponent', () => {
       required: true,
       incomplete: true,
     };
-    component.ownerType = GenericConfigurator.OwnerType.CART_ENTRY;
+    component.ownerType = CommonConfigurator.OwnerType.CART_ENTRY;
     fixture.detectChanges();
   });
 

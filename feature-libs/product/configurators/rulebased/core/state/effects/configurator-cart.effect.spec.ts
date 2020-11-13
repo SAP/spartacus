@@ -11,8 +11,8 @@ import {
   normalizeHttpError,
 } from '@spartacus/core';
 import {
-  GenericConfigurator,
-  GenericConfiguratorUtilsService,
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
 } from '@spartacus/product/configurators/common';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
@@ -37,8 +37,8 @@ const errorResponse: HttpErrorResponse = new HttpErrorResponse({
   error: 'notFound',
   status: 404,
 });
-const owner: GenericConfigurator.Owner = {
-  type: GenericConfigurator.OwnerType.PRODUCT,
+const owner: CommonConfigurator.Owner = {
+  type: CommonConfigurator.OwnerType.PRODUCT,
   id: productCode,
   key: 'product/CONF_LAPTOP',
 };
@@ -90,7 +90,7 @@ describe('ConfiguratorCartEffect', () => {
   let readConfigurationForCartEntryMock: jasmine.Spy;
   let readConfigurationForOrderEntryMock: jasmine.Spy;
   let configCartEffects: fromEffects.ConfiguratorCartEffects;
-  let configuratorUtils: GenericConfiguratorUtilsService;
+  let configuratorUtils: CommonConfiguratorUtilsService;
 
   let actions$: Observable<any>;
 
@@ -142,7 +142,7 @@ describe('ConfiguratorCartEffect', () => {
       >
     );
     configuratorUtils = TestBed.inject(
-      GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
 
     payloadInputUpdateConfiguration = {
@@ -171,8 +171,8 @@ describe('ConfiguratorCartEffect', () => {
         configuration: productConfiguration,
         cartEntryNo: cartEntryNumber,
       });
-      const newCartEntryOwner: GenericConfigurator.Owner = {
-        type: GenericConfigurator.OwnerType.CART_ENTRY,
+      const newCartEntryOwner: CommonConfigurator.Owner = {
+        type: CommonConfigurator.OwnerType.CART_ENTRY,
         id: cartEntryNumber,
       };
       configuratorUtils.setOwnerKey(newCartEntryOwner);
@@ -194,7 +194,7 @@ describe('ConfiguratorCartEffect', () => {
 
   describe('Effect readConfigurationForCartEntry', () => {
     it('should emit a success action with content for an action of type readConfigurationForCartEntry', () => {
-      const readFromCartEntry: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
+      const readFromCartEntry: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
         owner: owner,
       };
       const action = new ConfiguratorActions.ReadCartEntryConfiguration(
@@ -224,7 +224,7 @@ describe('ConfiguratorCartEffect', () => {
       readConfigurationForCartEntryMock.and.returnValue(
         throwError(errorResponse)
       );
-      const readFromCartEntry: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
+      const readFromCartEntry: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
         owner: owner,
       };
       const action = new ConfiguratorActions.ReadCartEntryConfiguration(
@@ -248,7 +248,7 @@ describe('ConfiguratorCartEffect', () => {
 
   describe('Effect readConfigurationForOrderEntry', () => {
     it('should emit a success action with content in case call is successful', () => {
-      const readFromOrderEntry: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
+      const readFromOrderEntry: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
         owner: owner,
       };
       const action = new ConfiguratorActions.ReadOrderEntryConfiguration(
@@ -273,7 +273,7 @@ describe('ConfiguratorCartEffect', () => {
       readConfigurationForOrderEntryMock.and.returnValue(
         throwError(errorResponse)
       );
-      const readFromOrderEntry: GenericConfigurator.ReadConfigurationFromOrderEntryParameters = {
+      const readFromOrderEntry: CommonConfigurator.ReadConfigurationFromOrderEntryParameters = {
         owner: owner,
       };
       const action = new ConfiguratorActions.ReadOrderEntryConfiguration(

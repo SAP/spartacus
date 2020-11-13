@@ -5,7 +5,7 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { GenericConfigurator } from '@spartacus/product/configurators/common';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -17,7 +17,7 @@ const mockRouterState: any = {
   state: {
     params: {
       entityKey: PRODUCT_CODE,
-      ownerType: GenericConfigurator.OwnerType.PRODUCT,
+      ownerType: CommonConfigurator.OwnerType.PRODUCT,
     },
     queryParams: {},
     semanticRoute: 'configureOverviewCPQCONFIGURATOR',

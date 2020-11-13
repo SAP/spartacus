@@ -6,8 +6,8 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import {
-  GenericConfigurator,
-  GenericConfiguratorUtilsService,
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
 } from '@spartacus/product/configurators/common';
 import { CART_MODIFICATION_NORMALIZER } from 'projects/core/src/cart';
 import { of } from 'rxjs';
@@ -41,7 +41,7 @@ const productConfiguration: Configurator.Configuration = {
   configId: configId,
   productCode: productCode,
   owner: {
-    type: GenericConfigurator.OwnerType.PRODUCT,
+    type: CommonConfigurator.OwnerType.PRODUCT,
     id: productCode,
   },
 };
@@ -50,7 +50,7 @@ const productConfigurationForCartEntry: Configurator.Configuration = {
   configId: configId,
   productCode: productCode,
   owner: {
-    type: GenericConfigurator.OwnerType.CART_ENTRY,
+    type: CommonConfigurator.OwnerType.CART_ENTRY,
     id: cartEntryNo,
   },
 };
@@ -62,7 +62,7 @@ describe('OccConfigurationVariantAdapter', () => {
   let httpMock: HttpTestingController;
   let converterService: ConverterService;
   let occEnpointsService: OccEndpointsService;
-  let configuratorUtils: GenericConfiguratorUtilsService;
+  let configuratorUtils: CommonConfiguratorUtilsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -87,7 +87,7 @@ describe('OccConfigurationVariantAdapter', () => {
       VariantConfiguratorOccAdapter as Type<VariantConfiguratorOccAdapter>
     );
     configuratorUtils = TestBed.inject(
-      GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
     configuratorUtils.setOwnerKey(productConfiguration.owner);
 
@@ -208,7 +208,7 @@ describe('OccConfigurationVariantAdapter', () => {
 
   it('should call readConfigurationForCartEntry endpoint', () => {
     spyOn(converterService, 'pipeable').and.callThrough();
-    const params: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
+    const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
       owner: productConfiguration.owner,
       userId: userId,
       cartId: documentId,
@@ -244,7 +244,7 @@ describe('OccConfigurationVariantAdapter', () => {
 
   it('should call readVariantConfigurationOverviewForOrderEntry endpoint', () => {
     spyOn(converterService, 'pipeable').and.callThrough();
-    const params: GenericConfigurator.ReadConfigurationFromOrderEntryParameters = {
+    const params: CommonConfigurator.ReadConfigurationFromOrderEntryParameters = {
       owner: productConfiguration.owner,
       userId: userId,
       orderId: documentId,
@@ -339,7 +339,7 @@ describe('OccConfigurationVariantAdapter', () => {
   });
 
   it('should set owner on readVariantConfigurationForCartEntry according to parameters', () => {
-    const params: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
+    const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
       owner: productConfigurationForCartEntry.owner,
       userId: userId,
       cartId: documentId,
@@ -353,7 +353,7 @@ describe('OccConfigurationVariantAdapter', () => {
       .subscribe((result) => {
         const owner = result.owner;
         expect(owner).toBeDefined();
-        expect(owner.type).toBe(GenericConfigurator.OwnerType.CART_ENTRY);
+        expect(owner.type).toBe(CommonConfigurator.OwnerType.CART_ENTRY);
         expect(owner.key).toBeUndefined();
       });
   });

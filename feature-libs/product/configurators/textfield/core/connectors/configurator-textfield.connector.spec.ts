@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { GenericConfigurator } from '@spartacus/product/configurators/common';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { of } from 'rxjs';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 import { ConfiguratorTextfieldAdapter } from './configurator-textfield.adapter';
@@ -83,7 +83,7 @@ describe('ConfiguratorTextfieldConnector', () => {
       ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>
     );
 
-    const params: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {};
+    const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {};
     let result;
     service
       .readConfigurationForCartEntry(params)

@@ -4,7 +4,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { GenericConfigurator } from '@spartacus/product/configurators/common';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -18,7 +18,7 @@ import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-s
 })
 export class ConfiguratorAttributeFooterComponent implements OnInit {
   @Input() attribute: Configurator.Attribute;
-  @Input() owner: GenericConfigurator.Owner;
+  @Input() owner: CommonConfigurator.Owner;
   @Input() groupId: string;
 
   constructor(protected configUtils: ConfiguratorStorefrontUtilsService) {}

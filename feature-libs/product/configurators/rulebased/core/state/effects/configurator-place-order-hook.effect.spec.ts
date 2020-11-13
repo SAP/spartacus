@@ -7,7 +7,7 @@ import {
   CheckoutActions,
   OrderEntry,
 } from '@spartacus/core';
-import { GenericConfiguratorUtilsService } from '@spartacus/product/configurators/common';
+import { CommonConfiguratorUtilsService } from '@spartacus/product/configurators/common';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorActions } from '../actions/index';
@@ -66,7 +66,7 @@ class MockActiveCartService {
 describe('ConfiguratorPlaceOrderHookEffects', () => {
   let actions$: Observable<any>;
   let configPlaceOrderHookEffects: fromEffects.ConfiguratorPlaceOrderHookEffects;
-  let configuratorUtils: GenericConfiguratorUtilsService;
+  let configuratorUtils: CommonConfiguratorUtilsService;
   let activeCartService: ActiveCartService;
 
   beforeEach(() => {
@@ -95,7 +95,7 @@ describe('ConfiguratorPlaceOrderHookEffects', () => {
       >
     );
     configuratorUtils = TestBed.inject(
-      GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
     activeCartService = TestBed.inject(
       ActiveCartService as Type<ActiveCartService>

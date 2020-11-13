@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { normalizeHttpError } from '@spartacus/core';
-import { GenericConfiguratorUtilsService } from '@spartacus/product/configurators/common';
+import { CommonConfiguratorUtilsService } from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import {
   catchError,
@@ -363,7 +363,7 @@ export class ConfiguratorBasicEffects {
   constructor(
     protected actions$: Actions,
     protected configuratorCommonsConnector: RulebasedConfiguratorConnector,
-    protected genericConfigUtilsService: GenericConfiguratorUtilsService,
+    protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     protected configuratorGroupUtilsService: ConfiguratorUtilsService,
     protected configuratorGroupStatusService: ConfiguratorGroupStatusService,
     protected store: Store<StateWithConfigurator>

@@ -1,4 +1,4 @@
-import { GenericConfigurator } from '@spartacus/product/configurators/common';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { Configurator } from '../../../rulebased/core/model/configurator.model';
 
 export const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -28,7 +28,7 @@ export const mockRouterState: any = {
   state: {
     params: {
       entityKey: PRODUCT_CODE,
-      ownerType: GenericConfigurator.OwnerType.PRODUCT,
+      ownerType: CommonConfigurator.OwnerType.PRODUCT,
     },
     queryParams: {},
     semanticRoute: CONFIGURATOR_ROUTE,
@@ -54,7 +54,7 @@ export const productConfigurationWithoutIssues: Configurator.Configuration = {
   totalNumberOfIssues: 0,
   owner: {
     id: PRODUCT_CODE,
-    type: GenericConfigurator.OwnerType.PRODUCT,
+    type: CommonConfigurator.OwnerType.PRODUCT,
   },
   groups: [groupsWithoutIssues],
   flatGroups: [groupsWithoutIssues],
@@ -216,7 +216,7 @@ export const productConfiguration: Configurator.Configuration = {
   ],
   owner: {
     id: PRODUCT_CODE,
-    type: GenericConfigurator.OwnerType.PRODUCT,
+    type: CommonConfigurator.OwnerType.PRODUCT,
     configuratorType: CONFIGURATOR_TYPE,
   },
   nextOwner: {},
@@ -501,7 +501,7 @@ export const productConfigurationWithConflicts: Configurator.Configuration = {
   ],
   owner: {
     id: PRODUCT_CODE,
-    type: GenericConfigurator.OwnerType.PRODUCT,
+    type: CommonConfigurator.OwnerType.PRODUCT,
   },
   interactionState: {
     currentGroup: GROUP_ID_2,

@@ -1,8 +1,8 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
+  CommonConfigurator,
   ConfiguratorRouterExtractorService,
-  GenericConfigurator,
 } from '@spartacus/product/configurators/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
@@ -36,7 +36,7 @@ const routerData: ConfiguratorRouter.Data = {
   pageType: ConfiguratorRouter.PageType.OVERVIEW,
   isOwnerCartEntry: true,
   owner: {
-    type: GenericConfigurator.OwnerType.CART_ENTRY,
+    type: CommonConfigurator.OwnerType.CART_ENTRY,
     id: '3',
     configuratorType: configuratorType,
   },
@@ -46,7 +46,7 @@ const orderRouterData: ConfiguratorRouter.Data = {
   pageType: ConfiguratorRouter.PageType.OVERVIEW,
   isOwnerCartEntry: true,
   owner: {
-    type: GenericConfigurator.OwnerType.ORDER_ENTRY,
+    type: CommonConfigurator.OwnerType.ORDER_ENTRY,
     id: '3',
     configuratorType: configuratorType,
   },

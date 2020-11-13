@@ -10,7 +10,7 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { GenericConfigurator } from '@spartacus/product/configurators/common';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
@@ -18,8 +18,8 @@ import { ConfiguratorTextfieldAddToCartButtonComponent } from './configurator-te
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const URL_CONFIGURATION = 'host:port/electronics-spa/en/USD/configureTEXTFIELD';
-const OWNER: GenericConfigurator.Owner = {
-  type: GenericConfigurator.OwnerType.PRODUCT,
+const OWNER: CommonConfigurator.Owner = {
+  type: CommonConfigurator.OwnerType.PRODUCT,
   id: PRODUCT_CODE,
 };
 const configurationTextField: ConfiguratorTextfield.Configuration = {
@@ -31,7 +31,7 @@ const mockRouterState: any = {
     url: URL_CONFIGURATION,
     params: {
       entityKey: PRODUCT_CODE,
-      ownerType: GenericConfigurator.OwnerType.PRODUCT,
+      ownerType: CommonConfigurator.OwnerType.PRODUCT,
     },
     queryParams: {},
   },
@@ -110,9 +110,9 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
       ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>
     );
 
-    OWNER.type = GenericConfigurator.OwnerType.PRODUCT;
+    OWNER.type = CommonConfigurator.OwnerType.PRODUCT;
     mockRouterState.state.params.ownerType =
-      GenericConfigurator.OwnerType.PRODUCT;
+      CommonConfigurator.OwnerType.PRODUCT;
   });
 
   it('should create component', () => {
@@ -126,7 +126,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
 
   it('should display "done" text in case router points to cart entry', () => {
     classUnderTest.configuration.owner.type =
-      GenericConfigurator.OwnerType.CART_ENTRY;
+      CommonConfigurator.OwnerType.CART_ENTRY;
     checkButtonText('configurator.addToCart.buttonUpdateCart');
   });
 
@@ -142,7 +142,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
   });
 
   it('should navigate to cart when onAddToCart was triggered and owner points to cart entry ', () => {
-    OWNER.type = GenericConfigurator.OwnerType.CART_ENTRY;
+    OWNER.type = CommonConfigurator.OwnerType.CART_ENTRY;
 
     spyOn(textfieldService, 'updateCartEntry').and.callThrough();
 

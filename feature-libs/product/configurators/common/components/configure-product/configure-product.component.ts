@@ -4,7 +4,7 @@ import {
   OutletContextData,
 } from '@spartacus/storefront';
 import { map } from 'rxjs/operators';
-import { GenericConfigurator } from '../../core/model/generic-configurator.model';
+import { CommonConfigurator } from '../../core/model/common-configurator.model';
 
 @Component({
   selector: 'cx-configure-product',
@@ -13,8 +13,8 @@ import { GenericConfigurator } from '../../core/model/generic-configurator.model
 })
 export class ConfigureProductComponent {
   productContext: OutletContextData;
-  ownerTypeProduct: GenericConfigurator.OwnerType =
-    GenericConfigurator.OwnerType.PRODUCT;
+  ownerTypeProduct: CommonConfigurator.OwnerType =
+    CommonConfigurator.OwnerType.PRODUCT;
 
   constructor(
     protected currentProductService: CurrentProductService,

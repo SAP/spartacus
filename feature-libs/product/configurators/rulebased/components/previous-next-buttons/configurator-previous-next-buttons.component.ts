@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
+  CommonConfigurator,
   ConfiguratorRouterExtractorService,
-  GenericConfigurator,
 } from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
@@ -59,13 +59,13 @@ export class ConfiguratorPreviousNextButtonsComponent {
     );
   }
 
-  isFirstGroup(owner: GenericConfigurator.Owner): Observable<boolean> {
+  isFirstGroup(owner: CommonConfigurator.Owner): Observable<boolean> {
     return this.configuratorGroupsService
       .getPreviousGroupId(owner)
       .pipe(map((group) => !group));
   }
 
-  isLastGroup(owner: GenericConfigurator.Owner): Observable<boolean> {
+  isLastGroup(owner: CommonConfigurator.Owner): Observable<boolean> {
     return this.configuratorGroupsService
       .getNextGroupId(owner)
       .pipe(map((group) => !group));

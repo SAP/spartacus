@@ -5,7 +5,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { normalizeHttpError } from '@spartacus/core';
-import { GenericConfigurator } from '@spartacus/product/configurators/common';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { ConfiguratorComponentTestUtilsService } from '../../../shared/testing/configurator-component-test-utils.service';
@@ -28,8 +28,8 @@ const errorResponse: HttpErrorResponse = new HttpErrorResponse({
   error: 'notFound',
   status: 404,
 });
-const owner: GenericConfigurator.Owner = {
-  type: GenericConfigurator.OwnerType.PRODUCT,
+const owner: CommonConfigurator.Owner = {
+  type: CommonConfigurator.OwnerType.PRODUCT,
   id: productCode,
   key: 'product/CONF_LAPTOP',
 };

@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { GenericConfigurator } from '@spartacus/product/configurators/common';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
@@ -21,7 +21,7 @@ export class ConfiguratorAttributeInputFieldComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit {
   attributeInputForm = new FormControl('');
-  @Input() ownerType: GenericConfigurator.OwnerType;
+  @Input() ownerType: CommonConfigurator.OwnerType;
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
   @Input() ownerKey: string;
@@ -31,7 +31,7 @@ export class ConfiguratorAttributeInputFieldComponent
   ngOnInit() {
     this.attributeInputForm.setValue(this.attribute.userInput);
     if (
-      this.ownerType === GenericConfigurator.OwnerType.CART_ENTRY &&
+      this.ownerType === CommonConfigurator.OwnerType.CART_ENTRY &&
       this.attribute.required &&
       this.attribute.incomplete &&
       !this.attributeInputForm.value

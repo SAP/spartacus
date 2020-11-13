@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { MULTI_CART_DATA, StateUtils } from '@spartacus/core';
-import { GenericConfigurator } from '@spartacus/product/configurators/common';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { Configurator } from '../../model/configurator.model';
 import { CONFIGURATOR_DATA } from '../configurator-state';
 
@@ -29,7 +29,7 @@ export const SET_NEXT_OWNER_CART_ENTRY =
 export class ReadCartEntryConfiguration extends StateUtils.EntityLoadAction {
   readonly type = READ_CART_ENTRY_CONFIGURATION;
   constructor(
-    public payload: GenericConfigurator.ReadConfigurationFromCartEntryParameters
+    public payload: CommonConfigurator.ReadConfigurationFromCartEntryParameters
   ) {
     super(CONFIGURATOR_DATA, payload.owner.key);
   }
@@ -52,7 +52,7 @@ export class ReadCartEntryConfigurationFail extends StateUtils.EntityFailAction 
 export class ReadOrderEntryConfiguration extends StateUtils.EntityLoadAction {
   readonly type = READ_ORDER_ENTRY_CONFIGURATION;
   constructor(
-    public payload: GenericConfigurator.ReadConfigurationFromOrderEntryParameters
+    public payload: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
   ) {
     super(CONFIGURATOR_DATA, payload.owner.key);
   }

@@ -7,7 +7,7 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { GenericConfigurator } from '@spartacus/product/configurators/common';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { PageLayoutModule } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
@@ -24,7 +24,7 @@ const ROUTE_CONFIGURATION = 'configureTEXTFIELD';
 const mockRouterState: any = {
   state: {
     params: {
-      ownerType: GenericConfigurator.OwnerType.PRODUCT,
+      ownerType: CommonConfigurator.OwnerType.PRODUCT,
       entityKey: PRODUCT_CODE,
     },
     semanticRoute: ROUTE_CONFIGURATION,
@@ -109,7 +109,7 @@ describe('TextfieldFormComponent', () => {
   it('should know product configuration after init when starting from cart', () => {
     mockRouterState.state = {
       params: {
-        ownerType: GenericConfigurator.OwnerType.CART_ENTRY,
+        ownerType: CommonConfigurator.OwnerType.CART_ENTRY,
         entityKey: CART_ENTRY_KEY,
       },
       semanticRoute: ROUTE_CONFIGURATION,

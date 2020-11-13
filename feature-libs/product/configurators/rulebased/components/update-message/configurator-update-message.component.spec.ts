@@ -5,8 +5,8 @@ import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
-  GenericConfigurator,
-  GenericConfiguratorUtilsService,
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
 } from '@spartacus/product/configurators/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -21,7 +21,7 @@ class MockRoutingService {
   }
 }
 
-const owner: GenericConfigurator.Owner =
+const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
 
 let isConfigurationLoading = false;
@@ -49,7 +49,7 @@ class MockMessageConfig {
 class MockCxSpinnerComponent {}
 describe('ConfigurationUpdateMessageComponent', () => {
   let component: ConfiguratorUpdateMessageComponent;
-  let configuratorUtils: GenericConfiguratorUtilsService;
+  let configuratorUtils: CommonConfiguratorUtilsService;
   let fixture: ComponentFixture<ConfiguratorUpdateMessageComponent>;
   let htmlElem: HTMLElement;
 
@@ -83,7 +83,7 @@ describe('ConfigurationUpdateMessageComponent', () => {
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     configuratorUtils = TestBed.inject(
-      GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
     configuratorUtils.setOwnerKey(owner);
   });

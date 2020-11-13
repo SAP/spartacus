@@ -8,8 +8,8 @@ import {
   StateWithMultiCart,
 } from '@spartacus/core';
 import {
-  GenericConfigurator,
-  GenericConfiguratorUtilsService,
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
 } from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { delayWhen, filter, map, take, tap } from 'rxjs/operators';
@@ -24,7 +24,7 @@ export class ConfiguratorCartService {
     protected cartStore: Store<StateWithMultiCart>,
     protected store: Store<StateWithConfigurator>,
     protected activeCartService: ActiveCartService,
-    protected genericConfigUtilsService: GenericConfiguratorUtilsService,
+    protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     protected checkoutService: CheckoutService
   ) {}
 
@@ -34,7 +34,7 @@ export class ConfiguratorCartService {
    * @returns Observable of product configurations
    */
   readConfigurationForCartEntry(
-    owner: GenericConfigurator.Owner
+    owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
       select(
@@ -56,11 +56,11 @@ export class ConfiguratorCartService {
             .requireLoadedCart()
             .pipe(take(1))
             .subscribe((cartState) => {
-              const readFromCartEntryParameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
-                userId: this.genericConfigUtilsService.getUserId(
+              const readFromCartEntryParameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
+                userId: this.commonConfigUtilsService.getUserId(
                   cartState.value
                 ),
-                cartId: this.genericConfigUtilsService.getCartId(
+                cartId: this.commonConfigUtilsService.getCartId(
                   cartState.value
                 ),
                 cartEntryNumber: owner.id,
@@ -87,7 +87,7 @@ export class ConfiguratorCartService {
    * @returns Observable of product configurations
    */
   readConfigurationForOrderEntry(
-    owner: GenericConfigurator.Owner
+    owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
       select(
@@ -97,10 +97,10 @@ export class ConfiguratorCartService {
       ),
       tap((configurationState) => {
         if (this.configurationNeedsReading(configurationState)) {
-          const ownerIdParts = this.genericConfigUtilsService.decomposeOwnerId(
+          const ownerIdParts = this.commonConfigUtilsService.decomposeOwnerId(
             owner.id
           );
-          const readFromOrderEntryParameters: GenericConfigurator.ReadConfigurationFromOrderEntryParameters = {
+          const readFromOrderEntryParameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters = {
             userId: OCC_USER_ID_CURRENT,
             orderId: ownerIdParts.documentId,
             orderEntryNumber: ownerIdParts.entryNumber,
@@ -130,15 +130,15 @@ export class ConfiguratorCartService {
   addToCart(
     productCode: string,
     configId: string,
-    owner: GenericConfigurator.Owner
+    owner: CommonConfigurator.Owner
   ): void {
     this.activeCartService
       .requireLoadedCart()
       .pipe(take(1))
       .subscribe((cartState) => {
         const addToCartParameters: Configurator.AddToCartParameters = {
-          userId: this.genericConfigUtilsService.getUserId(cartState.value),
-          cartId: this.genericConfigUtilsService.getCartId(cartState.value),
+          userId: this.commonConfigUtilsService.getUserId(cartState.value),
+          cartId: this.commonConfigUtilsService.getCartId(cartState.value),
           productCode: productCode,
           quantity: 1,
           configId: configId,
@@ -162,11 +162,9 @@ export class ConfiguratorCartService {
       .requireLoadedCart()
       .pipe(take(1))
       .subscribe((cartState) => {
-        const cartId = this.genericConfigUtilsService.getCartId(
-          cartState.value
-        );
+        const cartId = this.commonConfigUtilsService.getCartId(cartState.value);
         const parameters: Configurator.UpdateConfigurationForCartEntryParameters = {
-          userId: this.genericConfigUtilsService.getUserId(cartState.value),
+          userId: this.commonConfigUtilsService.getUserId(cartState.value),
           cartId: cartId,
           cartEntryNumber: configuration.owner.id,
           configuration: configuration,
@@ -187,7 +185,7 @@ export class ConfiguratorCartService {
       map((entries) =>
         entries
           ? entries.filter((entry) =>
-              this.genericConfigUtilsService.getNumberOfIssues(entry)
+              this.commonConfigUtilsService.getNumberOfIssues(entry)
             )
           : []
       ),

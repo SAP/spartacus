@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { GenericConfigurator } from '@spartacus/product/configurators/common';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 
@@ -20,15 +20,15 @@ export class ConfiguratorTextfieldAddToCartButtonComponent {
    * Adds the textfield configuration to the cart or updates it
    */
   onAddToCart(): void {
-    const owner: GenericConfigurator.Owner = this.configuration.owner;
+    const owner: CommonConfigurator.Owner = this.configuration.owner;
     switch (owner.type) {
-      case GenericConfigurator.OwnerType.PRODUCT:
+      case CommonConfigurator.OwnerType.PRODUCT:
         this.configuratorTextfieldService.addToCart(
           owner.id,
           this.configuration
         );
         break;
-      case GenericConfigurator.OwnerType.CART_ENTRY:
+      case CommonConfigurator.OwnerType.CART_ENTRY:
         this.configuratorTextfieldService.updateCartEntry(
           owner.id,
           this.configuration
@@ -43,7 +43,7 @@ export class ConfiguratorTextfieldAddToCartButtonComponent {
    */
   getButtonText(): string {
     return this.configuration.owner.type ===
-      GenericConfigurator.OwnerType.CART_ENTRY
+      CommonConfigurator.OwnerType.CART_ENTRY
       ? 'configurator.addToCart.buttonUpdateCart'
       : 'configurator.addToCart.button';
   }

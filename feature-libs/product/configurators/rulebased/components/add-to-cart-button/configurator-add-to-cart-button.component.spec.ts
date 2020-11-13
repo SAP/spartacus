@@ -7,8 +7,8 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import {
+  CommonConfigurator,
   ConfiguratorRouter,
-  GenericConfigurator,
 } from '@spartacus/product/configurators/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
@@ -81,11 +81,11 @@ class MockConfiguratorGroupsService {
 function setRouterTestDataCartBoundAndConfigPage() {
   mockRouterState.state.params = {
     entityKey: CART_ENTRY_KEY,
-    ownerType: GenericConfigurator.OwnerType.CART_ENTRY,
+    ownerType: CommonConfigurator.OwnerType.CART_ENTRY,
   };
   mockRouterState.state.semanticRoute = ROUTE_CONFIGURATION;
   mockRouterData.isOwnerCartEntry = true;
-  mockRouterData.owner.type = GenericConfigurator.OwnerType.CART_ENTRY;
+  mockRouterData.owner.type = CommonConfigurator.OwnerType.CART_ENTRY;
   mockRouterData.owner.id = CART_ENTRY_KEY;
   mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
 }
@@ -93,11 +93,11 @@ function setRouterTestDataCartBoundAndConfigPage() {
 function setRouterTestDataProductBoundAndConfigPage() {
   mockRouterState.state.params = {
     entityKey: ConfigurationTestData.PRODUCT_CODE,
-    ownerType: GenericConfigurator.OwnerType.PRODUCT,
+    ownerType: CommonConfigurator.OwnerType.PRODUCT,
   };
   mockRouterState.state.semanticRoute = ROUTE_CONFIGURATION;
   mockRouterData.isOwnerCartEntry = false;
-  mockRouterData.owner.type = GenericConfigurator.OwnerType.PRODUCT;
+  mockRouterData.owner.type = CommonConfigurator.OwnerType.PRODUCT;
   mockRouterData.owner.id = ConfigurationTestData.PRODUCT_CODE;
   mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
 }
@@ -144,7 +144,7 @@ const mockRouterState: any = {
     semanticRoute: ROUTE_CONFIGURATION,
     params: {
       entityKey: ConfigurationTestData.PRODUCT_CODE,
-      ownerType: GenericConfigurator.OwnerType.PRODUCT,
+      ownerType: CommonConfigurator.OwnerType.PRODUCT,
     },
     queryParams: {},
   },

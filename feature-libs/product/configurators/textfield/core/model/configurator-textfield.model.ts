@@ -1,4 +1,4 @@
-import { GenericConfigurator } from '@spartacus/product/configurators/common';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 
 export namespace ConfiguratorTextfield {
   /**
@@ -6,7 +6,7 @@ export namespace ConfiguratorTextfield {
    */
   export interface Configuration {
     configurationInfos: ConfigurationInfo[];
-    owner?: GenericConfigurator.Owner;
+    owner?: CommonConfigurator.Owner;
   }
   /**
    * Represents a textfield configuration attribute. Carries a label, an alphanumeric value and a status

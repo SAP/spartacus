@@ -7,7 +7,7 @@ import {
   Cart,
   OCC_USER_ID_ANONYMOUS,
 } from '@spartacus/core';
-import { GenericConfigurator } from '@spartacus/product/configurators/common';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { of } from 'rxjs';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../state/actions/index';
@@ -27,16 +27,16 @@ const CHANGED_VALUE = 'theNewValue';
 const CART_CODE = '0000009336';
 const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
 const CART_ENTRY_NUMBER = '2';
-const owner: GenericConfigurator.Owner = {
+const owner: CommonConfigurator.Owner = {
   id: PRODUCT_CODE,
-  type: GenericConfigurator.OwnerType.PRODUCT,
+  type: CommonConfigurator.OwnerType.PRODUCT,
 };
 
-const ownerCartRelated: GenericConfigurator.Owner = {
+const ownerCartRelated: CommonConfigurator.Owner = {
   id: CART_ENTRY_NUMBER,
-  type: GenericConfigurator.OwnerType.CART_ENTRY,
+  type: CommonConfigurator.OwnerType.CART_ENTRY,
 };
-const readFromCartEntryParams: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
+const readFromCartEntryParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
   userId: 'anonymous',
   cartId: CART_GUID,
   cartEntryNumber: CART_ENTRY_NUMBER,
@@ -49,7 +49,7 @@ const productConfiguration: ConfiguratorTextfield.Configuration = {
   ],
   owner: {
     id: PRODUCT_CODE,
-    type: GenericConfigurator.OwnerType.PRODUCT,
+    type: CommonConfigurator.OwnerType.PRODUCT,
   },
 };
 
@@ -83,7 +83,7 @@ const changedProductConfiguration: ConfiguratorTextfield.Configuration = {
   ],
   owner: {
     id: PRODUCT_CODE,
-    type: GenericConfigurator.OwnerType.PRODUCT,
+    type: CommonConfigurator.OwnerType.PRODUCT,
   },
 };
 

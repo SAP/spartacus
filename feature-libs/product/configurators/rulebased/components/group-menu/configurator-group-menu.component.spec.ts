@@ -5,9 +5,9 @@ import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
+  CommonConfigurator,
   CommonConfiguratorTestUtilsService,
-  GenericConfigurator,
-  GenericConfiguratorUtilsService,
+  CommonConfiguratorUtilsService,
 } from '@spartacus/product/configurators/common';
 import { HamburgerMenuService, ICON_TYPE } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -90,7 +90,7 @@ const mockRouterStateIssueNavigation: any = {
   state: {
     params: {
       entityKey: PRODUCT_CODE,
-      ownerType: GenericConfigurator.OwnerType.PRODUCT,
+      ownerType: CommonConfigurator.OwnerType.PRODUCT,
     },
     queryParams: { resolveIssues: 'true' },
     semanticRoute: CONFIGURATOR_ROUTE,
@@ -161,7 +161,7 @@ let fixture: ComponentFixture<ConfiguratorGroupMenuComponent>;
 let configuratorGroupsService: ConfiguratorGroupsService;
 let hamburgerMenuService: HamburgerMenuService;
 let htmlElem: HTMLElement;
-let configuratorUtils: GenericConfiguratorUtilsService;
+let configuratorUtils: CommonConfiguratorUtilsService;
 let routerStateObservable;
 let groupVisitedObservable;
 let productConfigurationObservable;
@@ -222,7 +222,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       HamburgerMenuService as Type<HamburgerMenuService>
     );
     configuratorUtils = TestBed.inject(
-      GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
     configuratorUtils.setOwnerKey(mockProductConfiguration.owner);
     spyOn(configuratorGroupsService, 'navigateToGroup').and.stub();

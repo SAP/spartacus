@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { RouterState, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { GenericConfigurator } from '../../core/model/generic-configurator.model';
-import { GenericConfiguratorUtilsService } from '../../shared/utils/generic-configurator-utils.service';
+import { CommonConfigurator } from '../../core/model/common-configurator.model';
+import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 import { ConfiguratorRouter } from './configurator-router-data';
 
 /**
@@ -14,7 +14,7 @@ export class ConfiguratorRouterExtractorService {
   protected readonly ROUTE_FRAGMENT_CONFIGURE = 'configure';
   protected readonly ROUTE_FRAGMENT_OVERVIEW = 'configureOverview';
   constructor(
-    protected configUtilsService: GenericConfiguratorUtilsService,
+    protected configUtilsService: CommonConfiguratorUtilsService,
     protected routingService: RoutingService
   ) {}
 
@@ -31,7 +31,7 @@ export class ConfiguratorRouterExtractorService {
         const routerData: ConfiguratorRouter.Data = {
           owner: owner,
           isOwnerCartEntry:
-            owner.type === GenericConfigurator.OwnerType.CART_ENTRY,
+            owner.type === CommonConfigurator.OwnerType.CART_ENTRY,
           displayOnly: routingData.state.params.displayOnly,
           resolveIssues:
             routingData.state.queryParams?.resolveIssues === 'true',
@@ -50,8 +50,8 @@ export class ConfiguratorRouterExtractorService {
 
   createOwnerFromRouterState(
     routerState: RouterState
-  ): GenericConfigurator.Owner {
-    const owner: GenericConfigurator.Owner = {};
+  ): CommonConfigurator.Owner {
+    const owner: CommonConfigurator.Owner = {};
     const params = routerState.state.params;
     if (params.ownerType) {
       const entityKey = params.entityKey;
@@ -59,7 +59,7 @@ export class ConfiguratorRouterExtractorService {
 
       owner.id = entityKey;
     } else {
-      owner.type = GenericConfigurator.OwnerType.PRODUCT;
+      owner.type = CommonConfigurator.OwnerType.PRODUCT;
       owner.id = params.rootProduct;
     }
     const configuratorType = this.getConfiguratorTypeFromSemanticRoute(

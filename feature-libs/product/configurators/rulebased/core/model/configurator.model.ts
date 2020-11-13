@@ -1,4 +1,4 @@
-import { GenericConfigurator } from '@spartacus/product/configurators/common';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 
 export namespace Configurator {
   export interface Attribute {
@@ -60,8 +60,8 @@ export namespace Configurator {
     flatGroups?: Group[];
     priceSummary?: PriceSummary;
     overview?: Overview;
-    owner?: GenericConfigurator.Owner;
-    nextOwner?: GenericConfigurator.Owner;
+    owner?: CommonConfigurator.Owner;
+    nextOwner?: CommonConfigurator.Owner;
     isCartEntryUpdateRequired?: boolean;
     interactionState?: InteractionState;
   }
@@ -118,7 +118,7 @@ export namespace Configurator {
     productCode: string;
     quantity: number;
     configId: string;
-    owner: GenericConfigurator.Owner;
+    owner: CommonConfigurator.Owner;
   }
 
   export interface UpdateConfigurationForCartEntryParameters {

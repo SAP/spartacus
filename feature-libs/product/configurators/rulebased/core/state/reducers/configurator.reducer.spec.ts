@@ -1,11 +1,11 @@
-import { GenericConfigurator } from '@spartacus/product/configurators/common';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
 import * as StateReduce from './configurator.reducer';
 
 const productCode = 'CONF_LAPTOP';
-const owner: GenericConfigurator.Owner = {
-  type: GenericConfigurator.OwnerType.PRODUCT,
+const owner: CommonConfigurator.Owner = {
+  type: CommonConfigurator.OwnerType.PRODUCT,
   id: productCode,
 };
 const configuration: Configurator.Configuration = {
@@ -356,7 +356,7 @@ describe('Configurator reducer', () => {
 
       expect(state.nextOwner).toBeDefined();
       expect(state.nextOwner.type).toBe(
-        GenericConfigurator.OwnerType.CART_ENTRY
+        CommonConfigurator.OwnerType.CART_ENTRY
       );
     });
   });

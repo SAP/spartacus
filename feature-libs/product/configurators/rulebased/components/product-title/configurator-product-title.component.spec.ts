@@ -10,9 +10,9 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import {
+  CommonConfigurator,
   CommonConfiguratorTestUtilsService,
-  GenericConfigurator,
-  GenericConfiguratorUtilsService,
+  CommonConfiguratorUtilsService,
 } from '@spartacus/product/configurators/common';
 import { IconLoaderService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -29,7 +29,7 @@ const mockRouterState: any = {
   state: {
     params: {
       entityKey: PRODUCT_CODE,
-      ownerType: GenericConfigurator.OwnerType.PRODUCT,
+      ownerType: CommonConfigurator.OwnerType.PRODUCT,
     },
     semanticRoute: CONFIGURATOR_ROUTE,
   },
@@ -38,7 +38,7 @@ const mockRouterState: any = {
 const config: Configurator.Configuration = {
   owner: {
     id: PRODUCT_CODE,
-    type: GenericConfigurator.OwnerType.PRODUCT,
+    type: CommonConfigurator.OwnerType.PRODUCT,
   },
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
@@ -47,7 +47,7 @@ const config: Configurator.Configuration = {
 const orderEntryconfig: Configurator.Configuration = {
   owner: {
     id: PRODUCT_CODE,
-    type: GenericConfigurator.OwnerType.ORDER_ENTRY,
+    type: CommonConfigurator.OwnerType.ORDER_ENTRY,
   },
   configId: CONFIG_ID,
   overview: {
@@ -117,7 +117,7 @@ class MockCxIconComponent {
 describe('ConfigProductTitleComponent', () => {
   let component: ConfiguratorProductTitleComponent;
   let fixture: ComponentFixture<ConfiguratorProductTitleComponent>;
-  let configuratorUtils: GenericConfiguratorUtilsService;
+  let configuratorUtils: CommonConfiguratorUtilsService;
   let htmlElem: HTMLElement;
 
   beforeEach(async(() => {
@@ -151,7 +151,7 @@ describe('ConfigProductTitleComponent', () => {
     component = fixture.componentInstance;
 
     configuratorUtils = TestBed.inject(
-      GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
     configuratorUtils.setOwnerKey(config.owner);
     configuratorUtils.setOwnerKey(orderEntryconfig.owner);

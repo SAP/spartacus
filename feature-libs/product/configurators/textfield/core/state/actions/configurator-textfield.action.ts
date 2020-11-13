@@ -1,5 +1,5 @@
 import { StateUtils } from '@spartacus/core';
-import { GenericConfigurator } from '@spartacus/product/configurators/common';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
 import { CONFIGURATION_TEXTFIELD_DATA } from '../configuration-textfield-state';
 
@@ -30,7 +30,7 @@ export const REMOVE_CONFIGURATION =
 export class CreateConfiguration extends StateUtils.LoaderLoadAction {
   readonly type = CREATE_CONFIGURATION;
   constructor(
-    public payload: { productCode: string; owner: GenericConfigurator.Owner }
+    public payload: { productCode: string; owner: CommonConfigurator.Owner }
   ) {
     super(CONFIGURATION_TEXTFIELD_DATA);
   }
@@ -88,7 +88,7 @@ export class UpdateCartEntryConfigurationFail extends StateUtils.LoaderFailActio
 export class ReadCartEntryConfiguration extends StateUtils.LoaderLoadAction {
   readonly type = READ_CART_ENTRY_CONFIGURATION;
   constructor(
-    public payload: GenericConfigurator.ReadConfigurationFromCartEntryParameters
+    public payload: CommonConfigurator.ReadConfigurationFromCartEntryParameters
   ) {
     super(CONFIGURATION_TEXTFIELD_DATA);
   }

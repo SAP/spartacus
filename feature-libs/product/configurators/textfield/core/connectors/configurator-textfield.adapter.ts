@@ -1,5 +1,5 @@
 import { CartModification } from '@spartacus/core';
-import { GenericConfigurator } from '@spartacus/product/configurators/common';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 
@@ -14,7 +14,7 @@ export abstract class ConfiguratorTextfieldAdapter {
    */
   abstract createConfiguration(
     productCode: string,
-    owner: GenericConfigurator.Owner
+    owner: CommonConfigurator.Owner
   ): Observable<ConfiguratorTextfield.Configuration>;
 
   /**
@@ -35,7 +35,7 @@ export abstract class ConfiguratorTextfieldAdapter {
    * @returns Observable of configurations
    */
   abstract readConfigurationForCartEntry(
-    parameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
   ): Observable<ConfiguratorTextfield.Configuration>;
 
   /**

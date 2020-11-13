@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { GenericConfigurator } from '@spartacus/product/configurators/common';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import {
   IconLoaderService,
   IconModule,
@@ -47,9 +47,9 @@ describe('ConfigAttributeFooterComponent', () => {
   };
   let htmlElem: HTMLElement;
 
-  const owner: GenericConfigurator.Owner = {
+  const owner: CommonConfigurator.Owner = {
     id: 'PRODUCT_CODE',
-    type: GenericConfigurator.OwnerType.CART_ENTRY,
+    type: CommonConfigurator.OwnerType.CART_ENTRY,
   };
 
   beforeEach(async(() => {
@@ -101,7 +101,7 @@ describe('ConfigAttributeFooterComponent', () => {
   });
 
   it('should render a required message because the group has already been visited.', () => {
-    classUnderTest.owner.type = GenericConfigurator.OwnerType.PRODUCT;
+    classUnderTest.owner.type = CommonConfigurator.OwnerType.PRODUCT;
     fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,

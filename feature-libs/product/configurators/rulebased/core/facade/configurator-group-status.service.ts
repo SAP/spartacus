@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { GenericConfigurator } from '@spartacus/product/configurators/common';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Configurator } from '../model/configurator.model';
@@ -22,12 +22,12 @@ export class ConfiguratorGroupStatusService {
   /**
    * Verifies whether the group has been visited.
    *
-   * @param {GenericConfigurator.Owner} owner - Configuration owner
+   * @param {CommonConfigurator.Owner} owner - Configuration owner
    * @param {string} groupId - Group ID
    * @returns {Observable<boolean>} Has group been visited?
    */
   isGroupVisited(
-    owner: GenericConfigurator.Owner,
+    owner: CommonConfigurator.Owner,
     groupId: string
   ): Observable<boolean> {
     return this.store.select(
@@ -90,7 +90,7 @@ export class ConfiguratorGroupStatusService {
   }
 
   protected areGroupsVisited(
-    owner: GenericConfigurator.Owner,
+    owner: CommonConfigurator.Owner,
     groupIds: string[]
   ): Observable<boolean> {
     return this.store.select(
