@@ -1,9 +1,13 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import {
+  ASM_AUTH_SERVICE,
+  AUTHENTICATION_TOKEN,
   AUTH_FEATURE,
   AUTH_SELECTORS,
+  AUTH_SERVICE,
   AUTH_STATE,
   CSAGENT_TOKEN_DATA,
+  CS_AGENT_AUTH_SERVICE,
   CUSTOMER_SUPPORT_AGENT_TOKEN_INTERCEPTOR,
   KYMA_ACTIONS,
   KYMA_CONFIG,
@@ -62,6 +66,12 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: USER_TOKEN,
     importPath: SPARTACUS_CORE,
     comment: `'${USER_TOKEN} was removed. Instead of 'AuthToken'. Adjust old properties to new interface shape.`,
+  },
+  // projects/core/src/auth/models/token-types.model.ts
+  {
+    node: AUTHENTICATION_TOKEN,
+    importPath: SPARTACUS_CORE,
+    comment: `'${AUTHENTICATION_TOKEN} was removed. Instead use directly 'AuthToken' or 'ClientToken'.`,
   },
   // projects/core/src/kyma/store/selectors/index.ts
   {
@@ -128,6 +138,12 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: KYMA_CONFIG,
     importPath: SPARTACUS_CORE,
     comment: `'${KYMA_CONFIG}' was removed. For replacement look into 3.0 migration documentation.`,
+  },
+  // projects/core/src/asm/facade/asm-auth.service.ts
+  {
+    node: ASM_AUTH_SERVICE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${ASM_AUTH_SERVICE}' was renamed to ${CS_AGENT_AUTH_SERVICE}. New '${ASM_AUTH_SERVICE}' is responsible for making '${AUTH_SERVICE}' aware of ASM, but not for managing CS agent session.`,
   },
   // projects/core/src/asm/store/asm-state.ts
   {

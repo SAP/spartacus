@@ -340,6 +340,7 @@ export const USER_TOKEN_STATE = 'UserTokenState';
 export const AUTH_FEATURE = 'AUTH_FEATURE';
 export const AUTH_ACTIONS = 'AuthActions';
 export const USER_TOKEN = 'UserToken';
+export const AUTHENTICATION_TOKEN = 'AuthenticationToken';
 
 export const KYMA_SELECTORS = 'KymaSelectors';
 export const KYMA_FEATURE = 'KYMA_FEATURE';
@@ -354,6 +355,7 @@ export const KYMA_MODULE = 'KymaModule';
 export const KYMA_SERVICE = 'KymaService';
 export const KYMA_CONFIG = 'KymaConfig';
 
+export const CS_AGENT_AUTH_SERVICE = 'CsAgentAuthService';
 export const ASM_SELECTORS = 'AsmSelectors';
 export const ASM_ACTIONS = 'AsmActions';
 export const CSAGENT_TOKEN_DATA = 'CSAGENT_TOKEN_DATA';
@@ -402,11 +404,11 @@ export const LOAD_USER_TOKEN_CLASS = 'LoadUserToken';
 export const LOAD_USER_TOKEN_FAIL_CLASS = 'LoadUserTokenFail';
 export const LOAD_USER_TOKEN_SUCCESS_CLASS = 'LoadUserTokenSuccess';
 export const REFRESH_USER_TOKEN_CLASS = 'RefreshUserToken';
-export const REFRESH_USER_TOKEN_FAIL_CLASS = 'RefreshUserTokenSuccess';
-export const REFRESH_USER_TOKEN_SUCCESS_CLASS = 'RefreshUserTokenFail';
+export const REFRESH_USER_TOKEN_FAIL_CLASS = 'RefreshUserTokenFail';
+export const REFRESH_USER_TOKEN_SUCCESS_CLASS = 'RefreshUserTokenSuccess';
 export const REVOKE_USER_TOKEN_CLASS = 'RevokeUserToken';
-export const REVOKE_USER_TOKEN_FAIL_CLASS = 'RevokeUserTokenSuccess';
-export const REVOKE_USER_TOKEN_SUCCESS_CLASS = 'RevokeUserTokenFail';
+export const REVOKE_USER_TOKEN_FAIL_CLASS = 'RevokeUserTokenFail';
+export const REVOKE_USER_TOKEN_SUCCESS_CLASS = 'RevokeUserTokenSuccess';
 
 export const CAN_ACTIVATE = 'canActivate';
 
