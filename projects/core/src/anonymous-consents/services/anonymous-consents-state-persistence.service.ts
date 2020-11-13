@@ -62,7 +62,7 @@ export class AnonymousConsentsStatePersistenceService implements OnDestroy {
    */
   protected onRead(state: SyncedAnonymousConsentsState) {
     if (state) {
-      if (state.templates) {
+      if (state.templates && state.templates.success) {
         this.store.dispatch(
           new LoadAnonymousConsentTemplatesSuccess(state.templates.value)
         );
