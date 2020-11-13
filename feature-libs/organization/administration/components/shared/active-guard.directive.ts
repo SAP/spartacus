@@ -26,7 +26,7 @@ export class ActiveGuardDirective<T = BaseItem> implements OnInit, OnDestroy {
       this.subscription = this.itemService.current$
         .pipe(
           tap((item) => {
-            if (item && item !== null) {
+            if (item) {
               this.handleDisabledItems(item);
             }
           })

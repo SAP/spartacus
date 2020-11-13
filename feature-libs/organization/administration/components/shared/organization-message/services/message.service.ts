@@ -45,7 +45,6 @@ export class MessageService<
   }
 
   clear(): void {
-    console.log('clear');
     this.data$.next();
   }
 }
