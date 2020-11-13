@@ -147,7 +147,6 @@ export interface Order {
   orderDiscounts?: Price;
   orgCustomer?: B2BUser;
   paymentInfo?: PaymentDetails;
-  permissionResults?: any[]; //OrderApprovalPermissionResult[];
   pickupItemsQuantity?: number;
   pickupOrderGroups?: PickupOrderEntryGroup[];
   productDiscounts?: Price;

@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import {
   AuthRedirectService,
+  AuthService,
   BaseSiteService,
   ExternalJsFileLoader,
   GlobalMessageService,
@@ -36,7 +37,8 @@ export class CdcJsService implements OnDestroy {
     protected languageService: LanguageService,
     protected externalJsFileLoader: ExternalJsFileLoader,
     protected winRef: WindowRef,
-    protected auth: CdcAuthService,
+    protected cdcAuth: CdcAuthService,
+    protected auth: AuthService,
     protected globalMessageService: GlobalMessageService,
     protected authRedirectService: AuthRedirectService,
     protected zone: NgZone,
@@ -118,8 +120,8 @@ export class CdcJsService implements OnDestroy {
    */
   protected registerEventListeners(baseSite: string): void {
     this.subscription.add(
-      this.auth.getUserToken().subscribe((data) => {
-        if (data && data.access_token) {
+      this.auth.isUserLoggedIn().subscribe((isLoggedIn) => {
+        if (isLoggedIn) {
           this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
           this.authRedirectService.redirect();
         }
@@ -149,7 +151,7 @@ export class CdcJsService implements OnDestroy {
    */
   onLoginEventHandler(baseSite: string, response?: any) {
     if (response) {
-      this.auth.authorizeWithCustomCdcFlow(
+      this.cdcAuth.loginWithCustomCdcFlow(
         response.UID,
         response.UIDSignature,
         response.signatureTimestamp,

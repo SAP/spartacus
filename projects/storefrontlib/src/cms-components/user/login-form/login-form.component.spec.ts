@@ -3,12 +3,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  AuthRedirectService,
   AuthService,
   FeaturesConfigModule,
   GlobalMessageService,
+  GlobalMessageType,
   I18nTestingModule,
-  UserToken,
   WindowRef,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -23,16 +22,15 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-class MockAuthService {
-  authorize = createSpy();
-  getUserToken(): Observable<UserToken> {
-    return of({ access_token: 'test' } as UserToken);
+class MockAuthService implements Partial<AuthService> {
+  loginWithCredentials() {
+    return Promise.resolve();
+  }
+  isUserLoggedIn(): Observable<boolean> {
+    return of(true);
   }
 }
 
-class MockRedirectAfterAuthService {
-  redirect = createSpy('AuthRedirectService.redirect');
-}
 class MockGlobalMessageService {
   remove = createSpy();
 }
@@ -40,9 +38,9 @@ class MockGlobalMessageService {
 describe('LoginFormComponent', () => {
   let component: LoginFormComponent;
   let fixture: ComponentFixture<LoginFormComponent>;
+  let globalMessageService: GlobalMessageService;
 
   let authService: AuthService;
-  let authRedirectService: AuthRedirectService;
   let windowRef: WindowRef;
 
   beforeEach(async(() => {
@@ -58,10 +56,6 @@ describe('LoginFormComponent', () => {
       providers: [
         WindowRef,
         { provide: AuthService, useClass: MockAuthService },
-        {
-          provide: AuthRedirectService,
-          useClass: MockRedirectAfterAuthService,
-        },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     }).compileComponents();
@@ -71,8 +65,8 @@ describe('LoginFormComponent', () => {
     fixture = TestBed.createComponent(LoginFormComponent);
     component = fixture.componentInstance;
     authService = TestBed.inject(AuthService);
-    authRedirectService = TestBed.inject(AuthRedirectService);
     windowRef = TestBed.inject(WindowRef);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   beforeEach(() => {
@@ -108,6 +102,10 @@ describe('LoginFormComponent', () => {
   });
 
   describe('login()', () => {
+    beforeEach(() => {
+      spyOn(authService, 'loginWithCredentials').and.callThrough();
+    });
+
     it('should login and redirect to return url after auth', () => {
       const email = 'test@email.com';
       const password = 'secret';
@@ -116,8 +114,10 @@ describe('LoginFormComponent', () => {
       component.loginForm.controls['password'].setValue(password);
       component.submitForm();
 
-      expect(authService.authorize).toHaveBeenCalledWith(email, password);
-      expect(authRedirectService.redirect).toHaveBeenCalled();
+      expect(authService.loginWithCredentials).toHaveBeenCalledWith(
+        email,
+        password
+      );
     });
 
     it('should not login when form not valid', () => {
@@ -126,8 +126,7 @@ describe('LoginFormComponent', () => {
       component.loginForm.controls['userId'].setValue(email);
       component.submitForm();
 
-      expect(authService.authorize).not.toHaveBeenCalled();
-      expect(authRedirectService.redirect).not.toHaveBeenCalled();
+      expect(authService.loginWithCredentials).not.toHaveBeenCalled();
     });
 
     it('should handle changing email to lowercase', () => {
@@ -139,10 +138,42 @@ describe('LoginFormComponent', () => {
       component.loginForm.controls['password'].setValue(password);
       component.submitForm();
 
-      expect(authService.authorize).toHaveBeenCalledWith(
+      expect(authService.loginWithCredentials).toHaveBeenCalledWith(
         email_lowercase,
         password
       );
+    });
+
+    it('should remove error messages after successful login', (done) => {
+      const email_lowercase = 'test@email.com';
+      const password = 'secret';
+
+      component.loginForm.controls['userId'].setValue(email_lowercase);
+      component.loginForm.controls['password'].setValue(password);
+      component.submitForm();
+
+      setTimeout(() => {
+        expect(globalMessageService.remove).toHaveBeenCalledWith(
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+        done();
+      }, 0);
+    });
+
+    it('should not remove error messages after failed login', (done) => {
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+
+      const email_lowercase = 'test@email.com';
+      const password = 'secret';
+
+      component.loginForm.controls['userId'].setValue(email_lowercase);
+      component.loginForm.controls['password'].setValue(password);
+      component.submitForm();
+
+      setTimeout(() => {
+        expect(globalMessageService.remove).not.toHaveBeenCalled();
+        done();
+      }, 0);
     });
   });
 });

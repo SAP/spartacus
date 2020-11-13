@@ -19,7 +19,7 @@ export class RoutingService {
     protected store: Store<RouterState>,
     protected winRef: WindowRef,
     protected semanticPathService: SemanticPathService,
-    protected routingParamsService?: RoutingParamsService
+    protected routingParamsService: RoutingParamsService
   ) {}
 
   /**

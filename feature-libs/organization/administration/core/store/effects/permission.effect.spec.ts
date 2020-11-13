@@ -3,7 +3,12 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { normalizeHttpError, OccConfig, SearchConfig } from '@spartacus/core';
+import {
+  normalizeHttpError,
+  OccConfig,
+  SearchConfig,
+  OrderApprovalPermissionType,
+} from '@spartacus/core';
 import {
   OrganizationActions,
   PermissionConnector,
@@ -12,10 +17,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
 import { defaultOccOrganizationConfig } from '../../../occ/config/default-occ-organization-config';
-import {
-  OrderApprovalPermissionType,
-  Permission,
-} from '../../model/permission.model';
+import { Permission } from '../../model/permission.model';
 import { PermissionActions } from '../actions/index';
 import * as fromEffects from './permission.effect';
 import createSpy = jasmine.createSpy;

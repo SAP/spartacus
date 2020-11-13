@@ -1,5 +1,6 @@
 import { user } from '../sample-data/checkout-flow';
 import { login, register } from './auth-forms';
+import { waitForPage } from './checkout-flow';
 import * as alerts from './global-message';
 
 export const userGreetSelector = 'cx-login .cx-login-greet';
@@ -10,13 +11,35 @@ export const defaultUser = {
   password: 'Password123.',
 };
 
-export function registerUser() {
-  cy.get(loginLinkSelector).click();
+/**
+ * Use only if you already are on the `/login` page.
+ * Redirects to `/register` page and registers the user.
+ *
+ * @returns Newly registered user
+ */
+export function registerUserFromLoginPage() {
+  const registerPage = waitForPage('/login/register', 'getRegisterPage');
   cy.get('cx-page-layout > cx-page-slot > cx-login-register')
     .findByText('Register')
     .click();
+  cy.wait(`@${registerPage}`).its('status').should('eq', 200);
+
   register(user);
   return user;
+}
+
+/**
+ * Use only if you are outside of `/login` page.
+ * Redirects to `/login` page, then uses `registerUserFromLoginPage()` helper function.
+ *
+ * @returns Newly registered user
+ */
+export function registerUser() {
+  const loginPage = waitForPage('/login', 'getLoginPage');
+  cy.get(loginLinkSelector).click();
+  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+
+  return registerUserFromLoginPage();
 }
 
 export function signOutUser() {
@@ -32,7 +55,9 @@ export function loginUser() {
 }
 
 export function loginWithBadCredentials() {
+  const loginPage = waitForPage('/login', 'getLoginPage');
   cy.get(loginLinkSelector).click();
+  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
 
   login(user.email, 'Password321');
 
@@ -44,13 +69,17 @@ export function loginWithBadCredentials() {
 }
 
 export function loginAsDefaultUser() {
+  const loginPage = waitForPage('/login', 'getLoginPage');
   cy.get(loginLinkSelector).click();
+  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+
   login(defaultUser.name, defaultUser.password);
 }
 
-export function listenForTokenRevocationReqest(): string {
+export function listenForTokenRevocationRequest(): string {
   const aliasName = 'tokenRevocation';
   cy.server();
   cy.route('POST', '/authorizationserver/oauth/revoke').as(aliasName);
+
   return `@${aliasName}`;
 }

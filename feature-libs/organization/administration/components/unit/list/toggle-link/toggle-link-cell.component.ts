@@ -9,6 +9,7 @@ import { OrganizationCellComponent } from '../../../shared/organization-table/or
 import { UnitTreeService } from '../../services/unit-tree.service';
 
 @Component({
+  selector: 'cx-toggle-link-cell',
   templateUrl: './toggle-link-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -17,8 +18,6 @@ export class ToggleLinkCellComponent extends OrganizationCellComponent {
   get depthLevel() {
     return this.model.depthLevel;
   }
-
-  @HostBinding('class.content-wrapper') cls = true;
 
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,

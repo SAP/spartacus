@@ -84,9 +84,13 @@ const mockCdsConfig: CdsConfig = {
   },
 };
 
+const mockCarouselId =
+  mockComponentData.uid + '_' + mockComponentData.strategy + '_1_2';
 const mockMerchandisingCarouselModel: MerchandisingCarouselModel = {
+  id: mockCarouselId,
   title: mockComponentData.title,
   items$: [of(mockProducts['1']), of(mockProducts['2'])],
+  productIds: ['1', '2'],
   metadata: {
     id: 'mock-carousel-id',
     name: mockComponentData.name,
@@ -211,20 +215,28 @@ describe('MerchandisingCarouselComponentService', () => {
           };
         }
       );
+      const expectedProductIds: string[] = ['1', '2'];
 
       let actualCarouselMetadata: MerchandisingMetadata;
       const actualCarouselProducts: MerchandisingProduct[] = [];
+      let actualProductIds: string[];
+      let actualModelId: string;
+
       componentService
         .getMerchandisingCarouselModel(mockComponentData)
-        .subscribe((merchandisingProducts) => {
-          actualCarouselMetadata = merchandisingProducts.metadata;
-          merchandisingProducts.items$.forEach((observableProduct) =>
+        .subscribe((model) => {
+          actualModelId = model.id;
+          actualProductIds = model.productIds;
+          actualCarouselMetadata = model.metadata;
+          model.items$.forEach((observableProduct) =>
             observableProduct.subscribe((product) =>
               actualCarouselProducts.push(product)
             )
           );
         });
 
+      expect(actualModelId).toEqual(mockCarouselId);
+      expect(actualProductIds).toEqual(expectedProductIds);
       expect(actualCarouselMetadata).toEqual(
         expectedMerchandisingCarouselModelMetadata
       );
@@ -245,15 +257,34 @@ describe('MerchandisingCarouselComponentService', () => {
         },
         [mockProducts[1].code, mockProducts[2].code]
       );
-
+      let actualCarouselModel: MerchandisingCarouselModel;
       componentService
-        .sendCarouselViewEvent(of(mockMerchandisingCarouselModel))
-        .subscribe()
-        .unsubscribe();
+        .sendCarouselViewEvent('', of(mockMerchandisingCarouselModel))
+        .subscribe((model) => {
+          actualCarouselModel = model;
+        });
 
+      expect(actualCarouselModel).toEqual(mockMerchandisingCarouselModel);
       expect(
         profileTagEventService.notifyProfileTagOfEventOccurence
       ).toHaveBeenCalledWith(expectedCarouselViewEvent);
+    });
+
+    it('should not send duplicated carousel view event to profile tag', () => {
+      let actualCarouselModel: MerchandisingCarouselModel = null;
+      componentService
+        .sendCarouselViewEvent(
+          mockCarouselId,
+          of(mockMerchandisingCarouselModel)
+        )
+        .subscribe((model) => {
+          actualCarouselModel = model;
+        });
+
+      expect(actualCarouselModel).toBeNull();
+      expect(
+        profileTagEventService.notifyProfileTagOfEventOccurence
+      ).toHaveBeenCalledTimes(0);
     });
   });
 

@@ -1,9 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Currency, CurrencyService } from '@spartacus/core';
+import {
+  Currency,
+  CurrencyService,
+  OrderApprovalPermissionType,
+} from '@spartacus/core';
 import {
   B2BUnitNode,
-  OrderApprovalPermissionType,
   OrgUnitService,
   Period,
   Permission,
@@ -14,8 +17,10 @@ import { OrganizationItemService } from '../../shared/organization-item.service'
 import { PermissionItemService } from '../services/permission-item.service';
 
 @Component({
+  selector: 'cx-permission-form',
   templateUrl: './permission-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
       provide: OrganizationItemService,

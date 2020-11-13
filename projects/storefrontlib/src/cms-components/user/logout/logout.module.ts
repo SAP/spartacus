@@ -4,7 +4,8 @@ import {
   PageLayoutComponent,
   PageLayoutModule,
 } from '../../../cms-structure/page/index';
-import { LogoutGuard } from './logout-guard';
+import { LogoutGuard } from './logout.guard';
+import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 
 @NgModule({
   imports: [
@@ -12,7 +13,7 @@ import { LogoutGuard } from './logout-guard';
     RouterModule.forChild([
       {
         path: null,
-        canActivate: [LogoutGuard],
+        canActivate: [CmsPageGuard, LogoutGuard],
         component: PageLayoutComponent,
         data: { cxRoute: 'logout' },
       },

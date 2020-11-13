@@ -20,7 +20,6 @@ import {
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
-import { getProjectTargets } from '../shared/utils/workspace-utils';
 import {
   ANGULAR_LOCALIZE,
   B2C_STOREFRONT_MODULE,
@@ -41,7 +40,10 @@ import {
   getSpartacusSchematicsVersion,
 } from '../shared/utils/package-utils';
 import { parseCSV } from '../shared/utils/transform-utils';
-import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
+import {
+  getProjectFromWorkspace,
+  getProjectTargets,
+} from '../shared/utils/workspace-utils';
 import { Schema as SpartacusOptions } from './schema';
 
 function addPackageJsonDependencies(): Rule {
@@ -124,6 +126,11 @@ function addPackageJsonDependencies(): Rule {
         version: '^8.0.0',
         name: 'ngx-infinite-scroll',
       },
+      {
+        type: NodeDependencyType.Default,
+        version: '^10.0.0',
+        name: 'angular-oauth2-oidc',
+      },
     ];
 
     dependencies.forEach((dependency) => {
@@ -164,14 +171,22 @@ function prepareSiteContextConfig(options: SpartacusOptions): string {
   return context;
 }
 
-function getStorefrontConfig(options: SpartacusOptions): string {
-  const baseUrlPart = `\n          baseUrl: '${options.baseUrl}',`;
+/**
+ * Creates a spartacus config based on the provided `options`.
+ * @param options
+ */
+function createStorefrontConfig(options: SpartacusOptions): string {
+  const baseUrlPart = `\n          baseUrl: '${options.baseUrl}'`;
   const context = prepareSiteContextConfig(options);
+
+  const occPrefixPart = options.occPrefix
+    ? `,
+          prefix: '${options.occPrefix}'`
+    : '';
 
   return `{
       backend: {
-        occ: {${options.useMetaTags ? '' : baseUrlPart}
-          prefix: '${options.occPrefix}'
+        occ: {${options.useMetaTags ? '' : baseUrlPart}${occPrefixPart}
         }
       },${context}
       i18n: {
@@ -216,7 +231,9 @@ function updateAppModule(options: SpartacusOptions): Rule {
       addToModuleImportsAndCommitChanges(
         host,
         modulePath,
-        `${B2C_STOREFRONT_MODULE}.withConfig(${getStorefrontConfig(options)})`
+        `${B2C_STOREFRONT_MODULE}.withConfig(${createStorefrontConfig(
+          options
+        )})`
       );
     }
 

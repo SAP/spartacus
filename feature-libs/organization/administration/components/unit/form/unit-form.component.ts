@@ -18,6 +18,7 @@ import { UnitItemService } from '../services/unit-item.service';
   selector: 'cx-unit-form',
   templateUrl: './unit-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
       provide: OrganizationItemService,
