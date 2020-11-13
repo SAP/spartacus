@@ -25,10 +25,12 @@ export const SPARTACUS_CORE = '@spartacus/core';
 export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';
 export const SPARTACUS_SETUP = '@spartacus/setup';
 export const SPARTACUS_CDS = '@spartacus/cds';
+export const SPARTACUS_CDC = '@spartacus/cdc';
 export const SPARTACUS_ASSETS = '@spartacus/assets';
 export const SPARTACUS_STYLES = '@spartacus/styles';
 
 export const NGRX_STORE = '@ngrx/store';
+export const NGRX_EFFECTS = '@ngrx/effects';
 /***** Imports end *****/
 
 /***** Classes start *****/
@@ -40,6 +42,7 @@ export const INJECTOR = 'Injector';
 export const STORE = 'Store';
 
 export const FORM_BUILDER = 'FormBuilder';
+export const JSONLD_PRODUCT_REVIEW_BUILDER = 'JsonLdProductReviewBuilder';
 
 export const CHANGE_DETECTOR_REF = 'ChangeDetectorRef';
 
@@ -81,14 +84,26 @@ export const CHECKOUT_PAGE_META_RESOLVER = 'CheckoutPageMetaResolver';
 
 export const PRODUCT_SEARCH_SERVICE = 'ProductSearchService';
 export const CHECKOUT_SERVICE = 'CheckoutService';
+export const CHECKOUT_CONNECTOR = 'CheckoutConnector';
+export const USER_ORDER_CONNECTOR = 'UserOrderConnector';
+export const REPLENISHMENT_ORDER_CONNECTOR = 'ReplenishmentOrderConnector';
+export const USER_REPLENISHMENT_ORDER_SERVICE = 'UserReplenishmentOrderService';
+export const CHECKOUT_ADAPTER = 'CheckoutAdapter';
+export const OCC_CHECKOUT_ADAPTER = 'OccCheckoutAdapter';
 export const CHECKOUT_PAYMENT_SERVICE = 'CheckoutPaymentService';
 export const CHECKOUT_DELIVERY_SERVICE = 'CheckoutDeliveryService';
 export const CART_DATA_SERVICE = 'CartDataService';
 export const CART_SERVICE = 'CartService';
 export const ACTIVE_CART_SERVICE = 'ActiveCartService';
+export const USER_ORDER_SERVICE = 'UserOrderService';
+export const USER_ORDERS_EFFECT = 'UserOrdersEffect';
 export const PROMOTION_SERVICE = 'PromotionService';
 export const ORDER_DETAILS_SERVICE = 'OrderDetailsService';
+export const ORDER_RETURN_REQUEST_SERVICE = 'OrderReturnRequestService';
 export const CHECKOUT_LOGIN_COMPONENT = 'CheckoutLoginComponent';
+export const ORDER_CONFIRMATION_OVERVIEW_COMPONENT =
+  'OrderConfirmationOverviewComponent';
+export const ORDER_HISTORY_COMPONENT = 'OrderHistoryComponent';
 export const AUTH_REDIRECT_SERVICE = 'AuthRedirectService';
 export const CHECKOUT_DETAILS_SERVICE = 'CheckoutDetailsService';
 export const NOT_CHECKOUT_AUTH_GUARD = 'NotCheckoutAuthGuard';
@@ -109,6 +124,7 @@ export const CHECKOUT_ORDER_SUMMARY_COMPONENT = 'CheckoutOrderSummaryComponent';
 export const CHECKOUT_PROGRESS_MOBILE_TOP_COMPONENT =
   'CheckoutProgressMobileTopComponent';
 export const CHECKOUT_CONFIG = 'CheckoutConfig';
+export const SEO_CONFIG = 'SeoConfig';
 export const ROUTING_CONFIG_SERVICE = 'RoutingConfigService';
 export const PAYMENT_METHOD_COMPONENT = 'PaymentMethodComponent';
 export const USER_PAYMENT_SERVICE = 'UserPaymentService';
@@ -140,7 +156,6 @@ export const ANONYMOUS_CONSENT_DIALOG_COMPONENT =
   'AnonymousConsentDialogComponent';
 export const PRODUCT_IMAGES_COMPONENT = 'ProductImagesComponent';
 export const USER_CONSENT_SERVICE = 'UserConsentService';
-export const USER_ORDER_SERVICE = 'UserOrderService';
 export const USER_SERVICE = 'UserService';
 export const CART_DETAILS_COMPONENT = 'CartDetailsComponent';
 export const ORDER_DETAIL_ITEMS_COMPONENT = 'OrderDetailItemsComponent';
@@ -240,12 +255,11 @@ export const DELIVERY_MODE_COMPONENT = 'DeliveryModeComponent';
 export const SHIPPING_ADDRESS_SET_GUARD = 'ShippingAddressSetGuard';
 export const DELIVERY_MODE_SET_GUARD = 'DeliveryModeSetGuard';
 export const PAYMENT_DETAILS_SET_GUARD = 'PaymentDetailsSetGuard';
-export const ORDER_DETAILS_SHIPPING_COMPONENT = 'OrderDetailShippingComponent';
+export const ORDER_DETAIL_SHIPPING_COMPONENT = 'OrderDetailShippingComponent';
 export const ITEM_COUNTER_COMPONENT = 'ItemCounterComponent';
 export const UPDATE_EMAIL_COMPONENT = 'UpdateEmailComponent';
 export const PRODUCT_CAROUSEL_SERVICE = 'ProductCarouselService';
 export const PRODUCT_REFERENCE_SERVICE = 'ProductReferenceService';
-export const USER_ID_SERVICE = 'UserIdService';
 export const ORDER_CANCELLATION_GUARD = 'OrderCancellationGuard';
 export const ORDER_CANCELLATION_SERVICE = 'OrderCancellationService';
 export const ORDER_RETURN_GUARD = 'OrderReturnGuard';
@@ -255,7 +269,22 @@ export const PRODUCT_VARIANT_GUARD = 'ProductVariantGuard';
 export const TEST_OUTLET_MODULE = 'TestOutletModule';
 export const TEST_CONFIG_MODULE = 'TestConfigModule';
 
+export const NOT_AUTH_GUARD = 'NotAuthGuard';
+export const AUTH_GUARD = 'AuthGuard';
+export const AUTH_REDIRECT_STORAGE_SERVICE = 'AuthRedirectStorageService';
+export const USER_ID_SERVICE = 'UserIdService';
+export const OAUTH_LIB_WRAPPER_SERVICE = 'OAuthLibWrapperService';
+export const AUTH_STORAGE_SERVICE = 'AuthStorageService';
+
+export const ASM_AUTH_SERVICE = 'AsmAuthService';
+
+export const CDC_AUTH_SERVICE = 'CdcAuthService';
+
 export const COLLAPSE_MENU_IF_CLICK_OUTSIDE = 'collapseMenuIfClickOutside';
+
+export const FORBIDDEN_HANDLER = 'ForbiddenHandler';
+export const MULTI_CART_STATE_PERSISTENCE_SERVICE =
+  'MultiCartStatePersistenceService';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -333,6 +362,36 @@ export const ONLY_NUMBER_DIRECTIVE_MODULE = 'OnlyNumberDirectiveModule';
 export const ONLY_NUMBER_DIRECTIVE = 'OnlyNumberDirective';
 export const AUTO_FOCUS_DIRECTIVE = 'AutoFocusDirective';
 export const AUTO_FOCUS_DIRECTIVE_MODULE = 'AutoFocusDirectiveModule';
+
+export const AUTH_SELECTORS = 'AuthSelectors';
+export const STATE_WITH_AUTH = 'StateWithAuth';
+export const AUTH_STATE = 'AuthState';
+export const USER_TOKEN_STATE = 'UserTokenState';
+export const AUTH_FEATURE = 'AUTH_FEATURE';
+export const AUTH_ACTIONS = 'AuthActions';
+export const USER_TOKEN = 'UserToken';
+export const AUTHENTICATION_TOKEN = 'AuthenticationToken';
+
+export const KYMA_SELECTORS = 'KymaSelectors';
+export const KYMA_FEATURE = 'KYMA_FEATURE';
+export const OPEN_ID_TOKEN_DATA = 'OPEN_ID_TOKEN_DATA';
+export const STATE_WITH_KYMA = 'StateWithKyma';
+export const KYMA_STATE = 'KymaState';
+export const KYMA_ACTIONS = 'KymaActions';
+export const OPEN_ID_AUTHENTICATION_TOKEN_SERVICE =
+  'OpenIdAuthenticationTokenService';
+export const OPEN_ID_TOKEN = 'OpenIdToken';
+export const KYMA_MODULE = 'KymaModule';
+export const KYMA_SERVICE = 'KymaService';
+export const KYMA_CONFIG = 'KymaConfig';
+
+export const CS_AGENT_AUTH_SERVICE = 'CsAgentAuthService';
+export const ASM_SELECTORS = 'AsmSelectors';
+export const ASM_ACTIONS = 'AsmActions';
+export const CSAGENT_TOKEN_DATA = 'CSAGENT_TOKEN_DATA';
+export const CUSTOMER_SUPPORT_AGENT_TOKEN_INTERCEPTOR =
+  'CustomerSupportAgentTokenInterceptor ';
+
 export const SEARCH_CONFIG = 'SearchConfig';
 export const STORE_FINDER_SEARCH_CONFIG = 'StoreFinderSearchConfig';
 
@@ -341,6 +400,7 @@ export const FIND_STORES_CLASS = 'FindStores';
 
 export const ON_SUCCESS = 'onSuccess';
 
+export const ACTIONS = 'Actions';
 export const CHECKOUT_ACTIONS = 'CheckoutActions';
 export const PLACE_ORDER_CLASS = 'PlaceOrder';
 export const CHECKOUT_STEP_SERVICE = 'CheckoutStepService';
@@ -348,12 +408,62 @@ export const USER_COST_CENTER_SERVICE = 'UserCostCenterService';
 export const CHECKOUT_COST_CENTER_SERVICE = 'CheckoutCostCenterService';
 export const PAYMENT_TYPE_SERVICE = 'PaymentTypeService';
 
+export const UNAUTHORIZED_ERROR_HANDLER = 'UnauthorizedErrorHandler';
+
 /***** Removed public api end *****/
 
 /***** Properties start *****/
 export const CMS_COMPONENT_DATA_PROPERTY_NAME = 'componentData';
 export const KYMA_ENABLED = 'kyma_enabled';
 export const ANONYMOUS_CONSENTS = 'anonymousConsents';
+
+export const LOAD_CLIENT_TOKEN_CLASS = 'LoadClientToken';
+export const LOAD_CLIENT_TOKEN = 'LOAD_CLIENT_TOKEN';
+export const LOAD_CLIENT_TOKEN_SUCCESS_CLASS = 'LoadClientTokenSuccess';
+export const LOAD_CLIENT_TOKEN_SUCCESS = 'LOAD_CLIENT_TOKEN_SUCCESS';
+export const LOAD_CLIENT_TOKEN_FAIL_CLASS = 'LoadClientTokenFail';
+export const LOAD_CLIENT_TOKEN_FAIL = 'LOAD_CLIENT_TOKEN_FAIL';
+export const LOGOUT_CUSTOMER_SUPPORT_AGENT = 'LOGOUT_CUSTOMER_SUPPORT_AGENT';
+export const LOAD_USER_TOKEN = 'LOAD_USER_TOKEN';
+export const LOAD_USER_TOKEN_FAIL = 'LOAD_USER_TOKEN_FAIL';
+export const LOAD_USER_TOKEN_SUCCESS = 'LOAD_USER_TOKEN_SUCCESS';
+export const REFRESH_USER_TOKEN = 'REFRESH_USER_TOKEN';
+export const REFRESH_USER_TOKEN_FAIL = 'REFRESH_USER_TOKEN_FAIL';
+export const REFRESH_USER_TOKEN_SUCCESS = 'REFRESH_USER_TOKEN_SUCCESS';
+export const REVOKE_USER_TOKEN = 'REVOKE_USER_TOKEN';
+export const REVOKE_USER_TOKEN_FAIL = 'REVOKE_USER_TOKEN_FAIL';
+export const REVOKE_USER_TOKEN_SUCCESS = 'REVOKE_USER_TOKEN_SUCCESS';
+export const LOAD_USER_TOKEN_CLASS = 'LoadUserToken';
+export const LOAD_USER_TOKEN_FAIL_CLASS = 'LoadUserTokenFail';
+export const LOAD_USER_TOKEN_SUCCESS_CLASS = 'LoadUserTokenSuccess';
+export const REFRESH_USER_TOKEN_CLASS = 'RefreshUserToken';
+export const REFRESH_USER_TOKEN_FAIL_CLASS = 'RefreshUserTokenFail';
+export const REFRESH_USER_TOKEN_SUCCESS_CLASS = 'RefreshUserTokenSuccess';
+export const REVOKE_USER_TOKEN_CLASS = 'RevokeUserToken';
+export const REVOKE_USER_TOKEN_FAIL_CLASS = 'RevokeUserTokenFail';
+export const REVOKE_USER_TOKEN_SUCCESS_CLASS = 'RevokeUserTokenSuccess';
+
+export const CAN_ACTIVATE = 'canActivate';
+
+export const GET_CUSTOMER_AGENT_TOKEN_STATE =
+  'getCustomerSupportAgentTokenState';
+export const GET_CUSTOMER_AGENT_TOKEN = 'getCustomerSupportAgentToken';
+export const GET_CUSTOMER_AGENT_TOKEN_LOADING =
+  'getCustomerSupportAgentTokenLoading';
+
+export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN =
+  'LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN';
+export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_FAIL =
+  'LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_FAIL';
+export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_SUCCESS =
+  'LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_SUCCESS';
+export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_CLASS =
+  'LoadCustomerSupportAgentToken';
+export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_FAIL_CLASS =
+  'LoadCustomerSupportAgentTokenFail';
+export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_SUCCESS_CLASS =
+  'LoadCustomerSupportAgentTokenSuccess';
+
 export const SUB = 'sub';
 
 /***** Properties end *****/
@@ -380,8 +490,16 @@ export const GET_MULTIPLE_PATHS_URL_MATCHER = 'getMultiplePathsUrlMatcher';
 export const GET_PATH_URL_MATCHER = 'getPathUrlMatcher';
 export const GET_OPPOSITE_URL_MATCHER = 'getOppositeUrlMatcher';
 export const GET_GLOB_URL_MATCHER = 'getGlobUrlMatcher';
+export const PLACE_ORDER = 'placeOrder';
 export const SET_QUERY = 'setQuery';
 export const VIEW_PAGE = 'viewPage';
+
+export const GET_ADDRESS_CARD_CONTENT = 'getAddressCardContent';
+export const GET_DELIVERY_MODE_CARD_CONTENT = 'getDeliveryModeCardContent';
+export const GET_PAYMENT_INFO_CARD_CONTENT = 'getPaymentInfoCardContent';
+export const GET_BILLING_ADDRESS_CARD_CONTENT = 'getBillingAddressCardContent';
+export const GET_PAYMENT_CARD_CONTENT = 'getPaymentCardContent';
+export const GET_SHIPPING_METHOD_CARD_CONTENT = 'getShippingMethodCardContent';
 
 export const GET_CONTROL = 'getControl';
 export const GET_CHECKOUT_STEP = 'getCheckoutStep';
@@ -391,7 +509,6 @@ export const GET_NEXT_CHECKOUT_STEP_URL = 'getNextCheckoutStepUrl';
 export const GET_PREVIOUS_CHECKOUT_STEP_URL = 'getPreviousCheckoutStepUrl';
 export const GET_CURRENT_STEP_INDEX = 'getCurrentStepIndex';
 export const STEPS = 'steps';
-export const CAN_ACTIVATE = 'canActivate';
 export const GET_CHILD_ROUTES = 'getChildRoutes';
 export const GET_ALL = 'getAll';
 export const NG_ON_DESTROY = 'ngOnDestroy';
@@ -405,6 +522,8 @@ export const GET_CLOSEST = 'getClosest';
 export const GET_BREAKPOINT = 'getBreakpoint';
 export const LOGOUT = 'logout';
 export const REDIRECT = 'redirect';
+export const SYNC = 'sync';
+export const INIT_SYNC = 'initSync';
 /***** APIs end *****/
 
 /***** Misc start *****/
