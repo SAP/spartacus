@@ -1,6 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { Occ, OccConfig } from '@spartacus/core';
-import { Budget } from '@spartacus/organization/administration/core';
+import { Budget, Occ, OccConfig } from '@spartacus/core';
 import { OccBudgetNormalizer } from './occ-budget-normalizer';
 
 const MockOccModuleConfig: OccConfig = {
@@ -11,6 +10,13 @@ const MockOccModuleConfig: OccConfig = {
     },
   },
 };
+
+function fakeDateTimezoneOffset(offset: number, callback: Function): any {
+  const original = Date.prototype.getTimezoneOffset;
+  Date.prototype.getTimezoneOffset = () => offset;
+  callback();
+  Date.prototype.getTimezoneOffset = original;
+}
 
 describe('BudgetNormalizer', () => {
   let service: OccBudgetNormalizer;
@@ -51,5 +57,17 @@ describe('BudgetNormalizer', () => {
   it('should convert budget with applied target', () => {
     const result = service.convert(budget, {});
     expect(result).toEqual({});
+  });
+
+  it('should convert with start date and end date', () => {
+    fakeDateTimezoneOffset(-120, () => {
+      const result = service.convert({
+        startDate: `2021-05-31T22:00:00+02:00`,
+        endDate: `2021-06-11T21:59:59+02:00`,
+      });
+
+      expect(result.startDate).toEqual('2021-06-01');
+      expect(result.endDate).toEqual('2021-06-11');
+    });
   });
 });

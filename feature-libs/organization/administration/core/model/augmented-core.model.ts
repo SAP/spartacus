@@ -26,7 +26,12 @@ declare module '@spartacus/core' {
   }
 
   interface Budget {
+    budget?: number;
+    code?: string;
+    currency?: Currency;
     endDate?: string;
     startDate?: string;
+    name?: string;
+    orgUnit?: B2BUnit;
   }
 }
