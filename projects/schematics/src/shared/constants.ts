@@ -302,7 +302,6 @@ export const ASM_SERVICE = 'AsmService';
 export const ASM_SESSION_TIMER_COMPONENT = 'AsmSessionTimerComponent';
 export const ASM_CONFIG = 'AsmConfig';
 
-
 export const FORGOT_PASSWORD_COMPONENT = 'ForgotPasswordComponent';
 export const AUTH_CONFIG_SERVICE = 'AuthConfigService';
 export const CLOSE_ACCOUNT_MODAL_COMPONENT = 'CloseAccountModalComponent';

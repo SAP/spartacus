@@ -8,13 +8,8 @@ import {
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
-<<<<<<< HEAD
-export const USER_REGISTER_EFFECT_MIGRATION: ConstructorDeprecation = {
-  // projects\core\src\user\store\effects\user-register.effect.ts
-=======
 export const USER_REGISTER_EFFECT_MIGRATION : ConstructorDeprecation = {
   // projects/core/src/user/store/effects/user-register.effect.ts
->>>>>>> 518695c47 (Applied PR feedback/fixes for migration. (#9713).)
   class: USER_REGISTER_EFFECT,
   importPath: SPARTACUS_CORE,
   deprecatedParams: [

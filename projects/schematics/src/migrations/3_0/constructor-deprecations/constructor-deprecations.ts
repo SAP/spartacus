@@ -51,10 +51,6 @@ import { USER_INTERESTS_SERVICE_MIGRATION } from './data/user-interests.service.
 import { USER_NOTIFICATION_PREFERENCE_SERVICE_MIGRATION } from './data/user-notification-preference.service.migration';
 import { USER_ORDERS_EFFECT_MIGRATION } from './data/user-order.effect.migration';
 import { WISH_LIST_SERVICE_MIGRATION } from './data/wish-list.service.migration';
-
-import { ASM_COMPONENT_SERVICE_MIGRATION } from './data/asm-component.service.migration';
-import { ASM_MAIN_UI_COMPONENT_MIGRATION } from './data/asm-main-ui.component.migration';
-import { ASM_SESSION_TIMER_COMPONENT_MIGRATION } from './data/asm-session-timer.component.migration';
 import { FORGOT_PASSWORD_COMPONENT_MIGRATION } from './data/forgot-password.component.migration';
 import { USER_ORDER_SERVICE_MIGRATION } from './data/user-order.service.migration';
 import { USER_PAYMENT_SERVICE_MIGRATION } from './data/user-payment.service.migration';
@@ -113,9 +109,6 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CHECKOUT_PAYMENT_SERVICE_MIGRATION,
   CHECKOUT_SERVICE_MIGRATION,
   JSONLD_PRODUCT_REVIEW_BUILDER_MIGRATION,
-  ASM_COMPONENT_SERVICE_MIGRATION,
-  ASM_MAIN_UI_COMPONENT_MIGRATION,
-  ASM_SESSION_TIMER_COMPONENT_MIGRATION,
   FORGOT_PASSWORD_COMPONENT_MIGRATION,
   USER_ORDER_SERVICE_MIGRATION,
   USER_PAYMENT_SERVICE_MIGRATION,
