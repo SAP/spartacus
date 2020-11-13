@@ -42,8 +42,10 @@
   [showQuantity]="false"
   [product]="product"
 ></cx-add-to-cart>
-<cx-configure-product
-  *ngIf="product.configurable"
-  [productCode]="product.code"
-  [configuratorType]="product.configuratorType"
-></cx-configure-product>
+
+<!-- Grid Item Outlet -->
+<ng-template
+  [cxOutlet]="Outlets.GRID_ITEM_END"
+  [cxOutletContext]="{ product: product }"
+>
+</ng-template>

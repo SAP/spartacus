@@ -1,50 +1,37 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
-import { GenericConfigurator, Product } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
+import { GenericConfigurator } from '@spartacus/core';
+import { map } from 'rxjs/operators';
+import { OutletContextData } from '../../../../cms-structure/outlet/outlet.model';
 import { CurrentProductService } from '../../../product/current-product.service';
+//import { ProductContext } from '../../../product/product-outlets.model';
 
 @Component({
   selector: 'cx-configure-product',
   templateUrl: './configure-product.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfigureProductComponent implements OnInit, OnDestroy {
-  @Input() productCode: string;
-  @Input() configuratorType: string;
-
-  product$: Observable<Product> = this.currentProductService.getProduct();
-  subscription: Subscription;
+export class ConfigureProductComponent {
+  productContext: OutletContextData;
   ownerTypeProduct: GenericConfigurator.OwnerType =
     GenericConfigurator.OwnerType.PRODUCT;
 
   constructor(
-    private currentProductService: CurrentProductService,
-    private changeDetector: ChangeDetectorRef
-  ) {}
-
-  ngOnInit(): void {
-    if (!this.productCode) {
-      this.subscription = this.currentProductService
-        .getProduct()
-        .pipe(filter(Boolean))
-        .subscribe((product: Product) => {
-          this.productCode = product.code;
-          this.configuratorType = product.configuratorType;
-          this.changeDetector.markForCheck();
-        });
-    }
-  }
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
+    protected currentProductService: CurrentProductService,
+    @Optional() protected outletContext?: OutletContextData
+  ) {
+    if (outletContext) {
+      this.productContext = outletContext;
+    } else {
+      //in this case component was instantiated via CMS, and no
+      //outlet context is available
+      this.productContext = {
+        reference: undefined,
+        position: undefined,
+        context: undefined,
+        context$: this.currentProductService
+          .getProduct()
+          .pipe(map((prod) => ({ product: prod }))),
+      };
     }
   }
 }

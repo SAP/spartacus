@@ -1,13 +1,18 @@
-<ng-container *ngIf="productCode && configuratorType">
-  <a
-    [routerLink]="
-      {
-        cxRoute: 'configure' + configuratorType,
-        params: { ownerType: ownerTypeProduct, entityKey: productCode }
-      } | cxUrl
-    "
-    class="btn btn-primary btn-block"
-    cxAutoFocus
-    >{{ 'configurator.header.toconfig' | cxTranslate }}</a
-  >
+<ng-container *ngIf="productContext?.context$ | async as ctx">
+  <ng-container *ngIf="ctx.product.configurable">
+    <a
+      [routerLink]="
+        {
+          cxRoute: 'configure' + ctx.product.configuratorType,
+          params: {
+            ownerType: ownerTypeProduct,
+            entityKey: ctx.product.code
+          }
+        } | cxUrl
+      "
+      class="btn btn-primary btn-block"
+      cxAutoFocus
+      >{{ 'configurator.header.toconfig' | cxTranslate }}</a
+    >
+  </ng-container>
 </ng-container>
