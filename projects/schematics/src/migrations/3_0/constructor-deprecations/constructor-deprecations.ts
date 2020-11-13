@@ -17,6 +17,7 @@ import { CHECKOUT_GUARD_MIGRATION } from './data/checkout.guard.migration';
 import { CONTENT_PAGE_META_RESOLVER_MIGRATION } from './data/content-page-meta.resolver.migration';
 import { DELIVERY_MODE_SET_GUARD_MIGRATION } from './data/delivery-mode-set.guard.migration';
 import { DELIVERY_MODE_COMPONENT_MIGRATION } from './data/delivery-mode.component.migration';
+import { FEATURE_MODULES_SERVICE_MIGRATION } from './data/feature-modules.service.migration';
 import { JSONLD_PRODUCT_REVIEW_BUILDER_MIGRATION } from './data/jsonld-product-review.builder.migration';
 import { LOGIN_FORM_COMPONENT_MIGRATION } from './data/login-form.component.migration';
 import { MULTI_CART_SERVICE_MIGRATION } from './data/multi-cart.service.migration';
@@ -63,6 +64,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CHECKOUT_GUARD_MIGRATION,
   CHECKOUT_AUTH_GUARD_MIGRATION,
   ROUTING_SERVICE_MIGRATION,
+  FEATURE_MODULES_SERVICE_MIGRATION,
   NOT_AUTH_GUARD_CONSTRUCTOR_MIGRATION,
   AUTH_GUARD_CONSTRUCTOR_MIGRATION,
   AUTH_REDIRECT_SERVICE_CONSTRUCTOR_MIGRATION,
