@@ -8,12 +8,12 @@ import { MessageService } from './organization-message/services/message.service'
 import { BaseItem } from './organization.model';
 
 @Directive({
-  selector: '[cxActiveGuard]',
+  selector: '[cxOrgItemActive]',
 })
-export class ActiveGuardDirective<T = BaseItem> implements OnInit, OnDestroy {
+export class ItemActiveDirective<T = BaseItem> implements OnInit, OnDestroy {
   protected subscription;
 
-  @Input('cxActiveGuard') form: FormGroup;
+  @Input('cxOrgItemActive') form: FormGroup;
 
   constructor(
     protected itemService: OrganizationItemService<T>,

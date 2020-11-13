@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { ActiveGuardModule } from '../../shared/active-guard.module';
+import { ItemActiveModule } from '../../shared/item-active.module';
 import { OrganizationFormModule } from '../../shared/organization-form/organization-form.module';
 import { PermissionFormComponent } from './permission-form.component';
 
@@ -19,7 +19,7 @@ import { PermissionFormComponent } from './permission-form.component';
     ReactiveFormsModule,
     FormErrorsModule,
     OrganizationFormModule,
-    ActiveGuardModule,
+    ItemActiveModule,
   ],
   declarations: [PermissionFormComponent],
   exports: [PermissionFormComponent],

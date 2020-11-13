@@ -6,9 +6,9 @@ import { MessageService } from './organization-message/services/message.service'
 import { BaseItem } from './organization.model';
 
 @Directive({
-  selector: '[cxExistGuard]',
+  selector: '[cxOrgItemExists]',
 })
-export class ExistGuardDirective<T = BaseItem> implements OnInit, OnDestroy {
+export class ItemExistsDirective<T = BaseItem> implements OnInit, OnDestroy {
   protected subscription;
 
   constructor(

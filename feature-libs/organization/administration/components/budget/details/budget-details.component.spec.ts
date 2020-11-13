@@ -7,7 +7,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { of } from 'rxjs';
 import { Subject } from 'rxjs/internal/Subject';
 import {
-  ExistGuardDirective,
+  ItemExistsDirective,
   MessageService,
   ToggleStatusModule,
 } from '../../shared';
@@ -50,7 +50,7 @@ describe('BudgetDetailsComponent', () => {
         MessageTestingModule,
         ToggleStatusModule,
       ],
-      declarations: [BudgetDetailsComponent, ExistGuardDirective],
+      declarations: [BudgetDetailsComponent, ItemExistsDirective],
       providers: [
         { provide: OrganizationItemService, useClass: MockBudgetItemService },
       ],

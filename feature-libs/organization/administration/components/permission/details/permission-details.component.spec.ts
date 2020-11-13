@@ -6,7 +6,7 @@ import { Permission } from '@spartacus/organization/administration/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of } from 'rxjs';
 import { Subject } from 'rxjs/internal/Subject';
-import { ExistGuardDirective } from '../../shared/exist-guard.directive';
+import { ItemExistsDirective } from '../../shared/item-exists.directive';
 import { OrganizationCardTestingModule } from '../../shared/organization-card/organization-card.testing.module';
 import { ToggleStatusModule } from '../../shared/organization-detail/toggle-status-action/toggle-status.module';
 import { OrganizationItemService } from '../../shared/organization-item.service';
@@ -49,7 +49,7 @@ describe('PermissionDetailsComponent', () => {
         MessageTestingModule,
         ToggleStatusModule,
       ],
-      declarations: [PermissionDetailsComponent, ExistGuardDirective],
+      declarations: [PermissionDetailsComponent, ItemExistsDirective],
       providers: [
         {
           provide: OrganizationItemService,

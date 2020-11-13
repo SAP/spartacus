@@ -10,7 +10,7 @@ import { ToggleStatusModule } from '../../shared/organization-detail/toggle-stat
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { MessageTestingModule } from '../../shared/organization-message/message.testing.module';
 import { MessageService } from '../../shared/organization-message/services/message.service';
-import { ExistGuardDirective } from '../../shared/exist-guard.directive';
+import { ItemExistsDirective } from '../../shared/item-exists.directive';
 import { UserDetailsComponent } from './user-details.component';
 import createSpy = jasmine.createSpy;
 
@@ -46,7 +46,7 @@ describe('UserDetailsComponent', () => {
         MessageTestingModule,
         ToggleStatusModule,
       ],
-      declarations: [UserDetailsComponent, ExistGuardDirective],
+      declarations: [UserDetailsComponent, ItemExistsDirective],
       providers: [
         { provide: OrganizationItemService, useClass: MockUserItemService },
       ],
