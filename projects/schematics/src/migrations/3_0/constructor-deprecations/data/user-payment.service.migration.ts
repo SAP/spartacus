@@ -9,7 +9,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const USER_PAYMENT_SERVICE_MIGRATION: ConstructorDeprecation = {
-  // projects\core\src\user\facade\user-payment.service.ts
+  // projects/core/src/user/facade/user-payment.service.ts
   class: USER_PAYMENT_SERVICE,
   importPath: SPARTACUS_CORE,
   deprecatedParams: [

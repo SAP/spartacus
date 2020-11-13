@@ -7,8 +7,8 @@ export const CLOSE_ACCOUNT_MODAL_COMPONENT_MIGRATION: ComponentData = {
   componentClassName: CLOSE_ACCOUNT_MODAL_COMPONENT,
   removedProperties: [
     {
-      name: 'userToken',
-      comment: `'userToken' property has been replaced with isLoggedIn$ Observable.`,
+      name: 'userToken$',
+      comment: `'userToken$' property has been replaced with isLoggedIn$ Observable.`,
     },
   ],
 };
