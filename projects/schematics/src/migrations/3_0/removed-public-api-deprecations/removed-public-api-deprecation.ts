@@ -24,6 +24,7 @@ import {
   STATE_WITH_AUTH,
   STATE_WITH_KYMA,
   STORE_FINDER_SEARCH_CONFIG,
+  UNAUTHORIZED_ERROR_HANDLER,
   USER_TOKEN,
   USER_TOKEN_STATE,
 } from '../../../shared/constants';
@@ -162,6 +163,12 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: STORE_FINDER_SEARCH_CONFIG,
     importPath: SPARTACUS_CORE,
     comment: `'${STORE_FINDER_SEARCH_CONFIG}' is no longer part of the public API. Instead use the interface '${SEARCH_CONFIG}'.`,
+  },
+  // projects/core/src/global-message/http-interceptors/handlers/unauthorized/unauthorized.handler.ts
+  {
+    node: UNAUTHORIZED_ERROR_HANDLER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${UNAUTHORIZED_ERROR_HANDLER}' has been removed and is no longer part of the public API.`,
   },
 ];
 
