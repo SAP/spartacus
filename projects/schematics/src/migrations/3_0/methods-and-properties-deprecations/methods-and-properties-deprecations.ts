@@ -29,6 +29,7 @@ import { PRODUCT_REFERENCE_SERVICE_MIGRATION } from './data/product-reference.se
 import { STORE_FINDER_ACTIONS_MIGRATION } from './data/store-finder-group.actions.migration';
 import { STOREFRONT_COMPONENT_MIGRATION } from './data/storefront-component.migration';
 import { UPDATE_EMAIL_COMPONENT_MIGRATION } from './data/update-email.component.migration';
+import { MULTI_CART_STATE_PERSISTENCE_SERVICE_MIGRATION } from './data/multi-cart-state-persistence.service.migration';
 
 export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...CHECKOUT_CONNECTOR_MIGRATION,
@@ -52,6 +53,7 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...PRODUCT_CAROUSEL_SERVICE_MIGRATION,
   ...PRODUCT_REFERENCE_SERVICE_MIGRATION,
   ...STOREFRONT_COMPONENT_MIGRATION,
+  ...MULTI_CART_STATE_PERSISTENCE_SERVICE_MIGRATION,
   ...AUTH_ACTIONS_MIGRATION,
   ...NOT_AUTH_GUARD_MIGRATION,
   ...AUTH_GUARD_MIGRATION,

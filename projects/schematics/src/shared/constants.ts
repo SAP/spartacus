@@ -99,6 +99,7 @@ export const USER_ORDER_SERVICE = 'UserOrderService';
 export const USER_ORDERS_EFFECT = 'UserOrdersEffect';
 export const PROMOTION_SERVICE = 'PromotionService';
 export const ORDER_DETAILS_SERVICE = 'OrderDetailsService';
+export const ORDER_RETURN_REQUEST_SERVICE = 'OrderReturnRequestService';
 export const CHECKOUT_LOGIN_COMPONENT = 'CheckoutLoginComponent';
 export const ORDER_CONFIRMATION_OVERVIEW_COMPONENT =
   'OrderConfirmationOverviewComponent';
@@ -275,6 +276,10 @@ export const ASM_AUTH_SERVICE = 'AsmAuthService';
 export const CDC_AUTH_SERVICE = 'CdcAuthService';
 
 export const COLLAPSE_MENU_IF_CLICK_OUTSIDE = 'collapseMenuIfClickOutside';
+
+export const FORBIDDEN_HANDLER = 'ForbiddenHandler';
+export const MULTI_CART_STATE_PERSISTENCE_SERVICE =
+  'MultiCartStatePersistenceService';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -398,6 +403,8 @@ export const USER_COST_CENTER_SERVICE = 'UserCostCenterService';
 export const CHECKOUT_COST_CENTER_SERVICE = 'CheckoutCostCenterService';
 export const PAYMENT_TYPE_SERVICE = 'PaymentTypeService';
 
+export const UNAUTHORIZED_ERROR_HANDLER = 'UnauthorizedErrorHandler';
+
 /***** Removed public api end *****/
 
 /***** Properties start *****/
@@ -508,6 +515,8 @@ export const GET = 'get';
 export const GET_WINDOW = 'window';
 export const GET_CLOSEST = 'getClosest';
 export const GET_BREAKPOINT = 'getBreakpoint';
+export const SYNC = 'sync';
+export const INIT_SYNC = 'initSync';
 /***** APIs end *****/
 
 /***** Misc start *****/
