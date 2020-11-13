@@ -9,7 +9,9 @@ import { PageContext } from '../../../routing';
 import { ConverterService } from '../../../util/converter.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OccCmsPageAdapter implements CmsPageAdapter {
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
@@ -50,7 +52,7 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
       .pipe(this.converter.pipeable(CMS_PAGE_NORMALIZER));
   }
 
-  private getPagesEndpoint(
+  protected getPagesEndpoint(
     params: {
       [key: string]: string;
     },
@@ -60,7 +62,7 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
     return this.occEndpoints.getUrl('pages', {}, { fields, ...params });
   }
 
-  private getPagesRequestParams(
+  protected getPagesRequestParams(
     pageContext: PageContext
   ): { [key: string]: any } {
     let httpParams = {};
