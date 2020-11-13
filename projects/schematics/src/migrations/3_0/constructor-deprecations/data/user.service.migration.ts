@@ -4,7 +4,7 @@ import {
   STORE,
   AUTH_SERVICE,
   USER_ID_SERVICE,
-  NGRX_STORE
+  NGRX_STORE,
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 

@@ -5,7 +5,7 @@ import {
   USER_ID_SERVICE,
   AUTH_SERVICE,
   ROUTING_SERVICE,
-  NGRX_STORE
+  NGRX_STORE,
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 

@@ -284,8 +284,6 @@ export const AUTH_REDIRECT_STORAGE_SERVICE = 'AuthRedirectStorageService';
 export const USER_ID_SERVICE = 'UserIdService';
 export const OAUTH_LIB_WRAPPER_SERVICE = 'OAuthLibWrapperService';
 export const AUTH_STORAGE_SERVICE = 'AuthStorageService';
-export const ASM_AUTH_SERVICE = 'AsmAuthService';
-
 
 export const CDC_AUTH_SERVICE = 'CdcAuthService';
 export const COLLAPSE_MENU_IF_CLICK_OUTSIDE = 'collapseMenuIfClickOutside';
@@ -301,6 +299,7 @@ export const ASM_COMPONENT_SERVICE = 'AsmComponentService';
 export const ASM_SERVICE = 'AsmService';
 export const ASM_SESSION_TIMER_COMPONENT = 'AsmSessionTimerComponent';
 export const ASM_CONFIG = 'AsmConfig';
+export const ASM_AUTH_SERVICE = 'AsmAuthService';
 
 export const FORGOT_PASSWORD_COMPONENT = 'ForgotPasswordComponent';
 export const AUTH_CONFIG_SERVICE = 'AuthConfigService';

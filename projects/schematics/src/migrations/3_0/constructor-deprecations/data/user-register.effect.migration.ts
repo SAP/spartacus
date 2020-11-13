@@ -8,7 +8,7 @@ import {
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
-export const USER_REGISTER_EFFECT_MIGRATION : ConstructorDeprecation = {
+export const USER_REGISTER_EFFECT_MIGRATION: ConstructorDeprecation = {
   // projects/core/src/user/store/effects/user-register.effect.ts
   class: USER_REGISTER_EFFECT,
   importPath: SPARTACUS_CORE,
