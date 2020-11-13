@@ -2,7 +2,11 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { ConstructorDeprecation } from '../../../shared/utils/file-utils';
 import { migrateConstructorDeprecation } from '../../mechanism/constructor-deprecations/constructor-deprecations';
 import { ACTIVE_CART_SERVICE_MIGRATION } from './data/active-cart.service.migration';
+import { AUTH_REDIRECT_SERVICE_CONSTRUCTOR_MIGRATION } from './data/auth-redirect.service.migration';
+import { AUTH_GUARD_CONSTRUCTOR_MIGRATION } from './data/auth.guard.migration';
+import { AUTH_SERVICE_CONSTRUCTOR_MIGRATION } from './data/auth.service.migration';
 import { CART_VOUCHER_SERVICE_MIGRATION } from './data/cart-voucher.service.migration';
+import { CDC_AUTH_SERVICE_CONSTRUCTOR_MIGRATION } from './data/cdc-auth.service.migration';
 import { CHECKOUT_AUTH_GUARD_MIGRATION } from './data/checkout-auth.guard.migration';
 import { CHECKOUT_CONFIG_SERVICE_MIGRATION } from './data/checkout-config.service.migration';
 import { CHECKOUT_DELIVERY_SERVICE_MIGRATION } from './data/checkout-delivery.service.migration';
@@ -16,6 +20,7 @@ import { DELIVERY_MODE_COMPONENT_MIGRATION } from './data/delivery-mode.componen
 import { JSONLD_PRODUCT_REVIEW_BUILDER_MIGRATION } from './data/jsonld-product-review.builder.migration';
 import { LOGIN_FORM_COMPONENT_MIGRATION } from './data/login-form.component.migration';
 import { MULTI_CART_SERVICE_MIGRATION } from './data/multi-cart.service.migration';
+import { NOT_AUTH_GUARD_CONSTRUCTOR_MIGRATION } from './data/not-auth.guard.migration';
 import { ORDER_CONFIRMATION_OVERVIEW_COMPONENT_MIGRATION } from './data/order-confirmation-overview.component.migration';
 import { ORDER_DETAIL_SHIPPING_COMPONENT_MIGRATION } from './data/order-detail-shipping.component.migration';
 import { ORDER_HISTORY_COMPONENT_MIGRATION } from './data/order-history-component.migration';
@@ -58,6 +63,11 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CHECKOUT_GUARD_MIGRATION,
   CHECKOUT_AUTH_GUARD_MIGRATION,
   ROUTING_SERVICE_MIGRATION,
+  NOT_AUTH_GUARD_CONSTRUCTOR_MIGRATION,
+  AUTH_GUARD_CONSTRUCTOR_MIGRATION,
+  AUTH_REDIRECT_SERVICE_CONSTRUCTOR_MIGRATION,
+  AUTH_SERVICE_CONSTRUCTOR_MIGRATION,
+  CDC_AUTH_SERVICE_CONSTRUCTOR_MIGRATION,
   ORDER_CONFIRMATION_OVERVIEW_COMPONENT_MIGRATION,
   ORDER_DETAIL_SHIPPING_COMPONENT_MIGRATION,
   ORDER_HISTORY_COMPONENT_MIGRATION,

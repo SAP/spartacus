@@ -25,6 +25,7 @@ export const SPARTACUS_CORE = '@spartacus/core';
 export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';
 export const SPARTACUS_SETUP = '@spartacus/setup';
 export const SPARTACUS_CDS = '@spartacus/cds';
+export const SPARTACUS_CDC = '@spartacus/cdc';
 export const SPARTACUS_ASSETS = '@spartacus/assets';
 export const SPARTACUS_STYLES = '@spartacus/styles';
 
@@ -259,10 +260,20 @@ export const ITEM_COUNTER_COMPONENT = 'ItemCounterComponent';
 export const UPDATE_EMAIL_COMPONENT = 'UpdateEmailComponent';
 export const PRODUCT_CAROUSEL_SERVICE = 'ProductCarouselService';
 export const PRODUCT_REFERENCE_SERVICE = 'ProductReferenceService';
-export const USER_ID_SERVICE = 'UserIdService';
 
 export const TEST_OUTLET_MODULE = 'TestOutletModule';
 export const TEST_CONFIG_MODULE = 'TestConfigModule';
+
+export const NOT_AUTH_GUARD = 'NotAuthGuard';
+export const AUTH_GUARD = 'AuthGuard';
+export const AUTH_REDIRECT_STORAGE_SERVICE = 'AuthRedirectStorageService';
+export const USER_ID_SERVICE = 'UserIdService';
+export const OAUTH_LIB_WRAPPER_SERVICE = 'OAuthLibWrapperService';
+export const AUTH_STORAGE_SERVICE = 'AuthStorageService';
+
+export const ASM_AUTH_SERVICE = 'AsmAuthService';
+
+export const CDC_AUTH_SERVICE = 'CdcAuthService';
 
 export const COLLAPSE_MENU_IF_CLICK_OUTSIDE = 'collapseMenuIfClickOutside';
 
@@ -346,6 +357,36 @@ export const ONLY_NUMBER_DIRECTIVE_MODULE = 'OnlyNumberDirectiveModule';
 export const ONLY_NUMBER_DIRECTIVE = 'OnlyNumberDirective';
 export const AUTO_FOCUS_DIRECTIVE = 'AutoFocusDirective';
 export const AUTO_FOCUS_DIRECTIVE_MODULE = 'AutoFocusDirectiveModule';
+
+export const AUTH_SELECTORS = 'AuthSelectors';
+export const STATE_WITH_AUTH = 'StateWithAuth';
+export const AUTH_STATE = 'AuthState';
+export const USER_TOKEN_STATE = 'UserTokenState';
+export const AUTH_FEATURE = 'AUTH_FEATURE';
+export const AUTH_ACTIONS = 'AuthActions';
+export const USER_TOKEN = 'UserToken';
+export const AUTHENTICATION_TOKEN = 'AuthenticationToken';
+
+export const KYMA_SELECTORS = 'KymaSelectors';
+export const KYMA_FEATURE = 'KYMA_FEATURE';
+export const OPEN_ID_TOKEN_DATA = 'OPEN_ID_TOKEN_DATA';
+export const STATE_WITH_KYMA = 'StateWithKyma';
+export const KYMA_STATE = 'KymaState';
+export const KYMA_ACTIONS = 'KymaActions';
+export const OPEN_ID_AUTHENTICATION_TOKEN_SERVICE =
+  'OpenIdAuthenticationTokenService';
+export const OPEN_ID_TOKEN = 'OpenIdToken';
+export const KYMA_MODULE = 'KymaModule';
+export const KYMA_SERVICE = 'KymaService';
+export const KYMA_CONFIG = 'KymaConfig';
+
+export const CS_AGENT_AUTH_SERVICE = 'CsAgentAuthService';
+export const ASM_SELECTORS = 'AsmSelectors';
+export const ASM_ACTIONS = 'AsmActions';
+export const CSAGENT_TOKEN_DATA = 'CSAGENT_TOKEN_DATA';
+export const CUSTOMER_SUPPORT_AGENT_TOKEN_INTERCEPTOR =
+  'CustomerSupportAgentTokenInterceptor ';
+
 export const SEARCH_CONFIG = 'SearchConfig';
 export const STORE_FINDER_SEARCH_CONFIG = 'StoreFinderSearchConfig';
 
@@ -370,6 +411,54 @@ export const UNAUTHORIZED_ERROR_HANDLER = 'UnauthorizedErrorHandler';
 export const CMS_COMPONENT_DATA_PROPERTY_NAME = 'componentData';
 export const KYMA_ENABLED = 'kyma_enabled';
 export const ANONYMOUS_CONSENTS = 'anonymousConsents';
+
+export const LOAD_CLIENT_TOKEN_CLASS = 'LoadClientToken';
+export const LOAD_CLIENT_TOKEN = 'LOAD_CLIENT_TOKEN';
+export const LOAD_CLIENT_TOKEN_SUCCESS_CLASS = 'LoadClientTokenSuccess';
+export const LOAD_CLIENT_TOKEN_SUCCESS = 'LOAD_CLIENT_TOKEN_SUCCESS';
+export const LOAD_CLIENT_TOKEN_FAIL_CLASS = 'LoadClientTokenFail';
+export const LOAD_CLIENT_TOKEN_FAIL = 'LOAD_CLIENT_TOKEN_FAIL';
+export const LOGOUT_CUSTOMER_SUPPORT_AGENT = 'LOGOUT_CUSTOMER_SUPPORT_AGENT';
+export const LOAD_USER_TOKEN = 'LOAD_USER_TOKEN';
+export const LOAD_USER_TOKEN_FAIL = 'LOAD_USER_TOKEN_FAIL';
+export const LOAD_USER_TOKEN_SUCCESS = 'LOAD_USER_TOKEN_SUCCESS';
+export const REFRESH_USER_TOKEN = 'REFRESH_USER_TOKEN';
+export const REFRESH_USER_TOKEN_FAIL = 'REFRESH_USER_TOKEN_FAIL';
+export const REFRESH_USER_TOKEN_SUCCESS = 'REFRESH_USER_TOKEN_SUCCESS';
+export const REVOKE_USER_TOKEN = 'REVOKE_USER_TOKEN';
+export const REVOKE_USER_TOKEN_FAIL = 'REVOKE_USER_TOKEN_FAIL';
+export const REVOKE_USER_TOKEN_SUCCESS = 'REVOKE_USER_TOKEN_SUCCESS';
+export const LOAD_USER_TOKEN_CLASS = 'LoadUserToken';
+export const LOAD_USER_TOKEN_FAIL_CLASS = 'LoadUserTokenFail';
+export const LOAD_USER_TOKEN_SUCCESS_CLASS = 'LoadUserTokenSuccess';
+export const REFRESH_USER_TOKEN_CLASS = 'RefreshUserToken';
+export const REFRESH_USER_TOKEN_FAIL_CLASS = 'RefreshUserTokenFail';
+export const REFRESH_USER_TOKEN_SUCCESS_CLASS = 'RefreshUserTokenSuccess';
+export const REVOKE_USER_TOKEN_CLASS = 'RevokeUserToken';
+export const REVOKE_USER_TOKEN_FAIL_CLASS = 'RevokeUserTokenFail';
+export const REVOKE_USER_TOKEN_SUCCESS_CLASS = 'RevokeUserTokenSuccess';
+
+export const CAN_ACTIVATE = 'canActivate';
+
+export const GET_CUSTOMER_AGENT_TOKEN_STATE =
+  'getCustomerSupportAgentTokenState';
+export const GET_CUSTOMER_AGENT_TOKEN = 'getCustomerSupportAgentToken';
+export const GET_CUSTOMER_AGENT_TOKEN_LOADING =
+  'getCustomerSupportAgentTokenLoading';
+
+export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN =
+  'LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN';
+export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_FAIL =
+  'LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_FAIL';
+export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_SUCCESS =
+  'LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_SUCCESS';
+export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_CLASS =
+  'LoadCustomerSupportAgentToken';
+export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_FAIL_CLASS =
+  'LoadCustomerSupportAgentTokenFail';
+export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_SUCCESS_CLASS =
+  'LoadCustomerSupportAgentTokenSuccess';
+
 export const SUB = 'sub';
 
 /***** Properties end *****/
@@ -415,7 +504,6 @@ export const GET_NEXT_CHECKOUT_STEP_URL = 'getNextCheckoutStepUrl';
 export const GET_PREVIOUS_CHECKOUT_STEP_URL = 'getPreviousCheckoutStepUrl';
 export const GET_CURRENT_STEP_INDEX = 'getCurrentStepIndex';
 export const STEPS = 'steps';
-export const CAN_ACTIVATE = 'canActivate';
 export const GET_CHILD_ROUTES = 'getChildRoutes';
 export const GET_ALL = 'getAll';
 export const NG_ON_DESTROY = 'ngOnDestroy';
