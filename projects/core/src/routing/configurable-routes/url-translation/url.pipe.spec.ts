@@ -22,7 +22,7 @@ describe('UrlPipe', () => {
       const serviceResult = 'test-sevice-result';
       spyOn(service, 'transform').and.returnValue(serviceResult as any);
       expect(pipe.transform({ cxRoute: 'testRoute' })).toBe(serviceResult);
-      expect(service.transform).toHaveBeenCalled();
+      expect(service.transform).not.toHaveBeenCalled(); // make travis fail - test
     });
   });
 });
