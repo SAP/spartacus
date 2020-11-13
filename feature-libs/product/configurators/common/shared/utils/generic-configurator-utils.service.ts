@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Cart, OrderEntry } from '../../../model';
-import { GenericConfigurator } from '../../../model/generic-configurator.model';
-import { OrderEntryStatus } from '../../../model/order.model';
-import { OCC_USER_ID_ANONYMOUS, OCC_USER_ID_CURRENT } from '../../../occ';
+import {
+  Cart,
+  GenericConfigurator,
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+  OrderEntry,
+  OrderEntryStatus,
+} from '@spartacus/core';
 
 /**
  * Utilities for generic configuration

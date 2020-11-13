@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CommonConfiguratorTestUtilsService } from '../../../../../common/shared/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorComponentTestUtilsService } from '../../../../shared/testing/configurator-component-test-utils.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
 
@@ -56,12 +56,12 @@ describe('ConfigAttributeReadOnlyComponent', () => {
   });
 
   it('should display selectedSingleValue for attribute without domain', () => {
-    ConfiguratorComponentTestUtilsService.expectElementPresent(
+    CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
       '.cx-read-only-label'
     );
-    ConfiguratorComponentTestUtilsService.expectElementToContainText(
+    CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-read-only-label',
@@ -73,12 +73,12 @@ describe('ConfigAttributeReadOnlyComponent', () => {
     myValues[0].selected = false;
     component.attribute.values = myValues;
     fixture.detectChanges();
-    ConfiguratorComponentTestUtilsService.expectElementPresent(
+    CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
       '.cx-read-only-label'
     );
-    ConfiguratorComponentTestUtilsService.expectElementToContainText(
+    CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-read-only-label',
@@ -90,7 +90,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
     myValues[0].selected = true;
     component.attribute.values = myValues;
     fixture.detectChanges();
-    ConfiguratorComponentTestUtilsService.expectElementPresent(
+    CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
       '.cx-read-only-label'

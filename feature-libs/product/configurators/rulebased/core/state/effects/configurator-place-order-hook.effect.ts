@@ -4,8 +4,8 @@ import {
   ActiveCartService,
   CheckoutActions,
   GenericConfigurator,
-  GenericConfiguratorUtilsService,
 } from '@spartacus/core';
+import { GenericConfiguratorUtilsService } from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { ConfiguratorActions } from '../actions/index';

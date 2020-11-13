@@ -6,9 +6,9 @@ import {
   ActiveCartService,
   Cart,
   GenericConfigurator,
-  GenericConfiguratorUtilsService,
   StateUtils,
 } from '@spartacus/core';
+import { GenericConfiguratorUtilsService } from '@spartacus/product/configurators/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { productConfigurationWithConflicts } from '../../shared/testing/configurator-test-data';

@@ -7,18 +7,11 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { GenericConfiguratorModule, IconModule } from '@spartacus/storefront';
+import { IconModule } from '@spartacus/storefront';
 import { ConfiguratorOverviewNotificationBannerComponent } from './configurator-overview-notification-banner.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    UrlModule,
-    IconModule,
-    RouterModule,
-    GenericConfiguratorModule,
-  ],
+  imports: [CommonModule, I18nModule, UrlModule, IconModule, RouterModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

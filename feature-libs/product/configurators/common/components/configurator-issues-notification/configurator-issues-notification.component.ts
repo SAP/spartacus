@@ -1,6 +1,7 @@
 import { Component, Optional } from '@angular/core';
-import { GenericConfiguratorUtilsService, OrderEntry } from '@spartacus/core';
+import { OrderEntry } from '@spartacus/core';
 import { CartItemContext, ICON_TYPE } from '@spartacus/storefront';
+import { GenericConfiguratorUtilsService } from '../../shared/utils/generic-configurator-utils.service';
 
 @Component({
   selector: 'cx-configurator-issues-notification',

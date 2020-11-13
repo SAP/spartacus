@@ -20,7 +20,6 @@ import {
   StarRatingModule,
 } from '../../../shared/index';
 import { AddToCartModule } from '../../cart/index';
-import { GenericConfiguratorModule } from '../../configurator/generic/generic-configurator.module';
 import { IconModule } from '../../misc/icon/index';
 import { defaultScrollConfig } from '../config/default-scroll-config';
 import { ProductVariantsModule } from '../product-variants/product-variants.module';
@@ -46,7 +45,7 @@ import { ProductViewComponent } from './product-view/product-view.component';
     SpinnerModule,
     InfiniteScrollModule,
     ViewConfigModule,
-    GenericConfiguratorModule,
+
     ProductVariantsModule,
     FeaturesConfigModule,
     OutletModule,

@@ -5,9 +5,9 @@ import { StoreModule } from '@ngrx/store';
 import {
   ActiveCartService,
   CheckoutActions,
-  GenericConfiguratorUtilsService,
   OrderEntry,
 } from '@spartacus/core';
+import { GenericConfiguratorUtilsService } from '@spartacus/product/configurators/common';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorActions } from '../actions/index';

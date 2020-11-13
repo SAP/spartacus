@@ -4,8 +4,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, Product } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { OutletContextData } from '../../../../cms-structure/outlet/outlet.model';
-import { CurrentProductService } from '../../../product';
+import { CurrentProductService } from '../../../../../../projects/storefrontlib/src/cms-components/product';
+import { OutletContextData } from '../../../../../../projects/storefrontlib/src/cms-structure/outlet/outlet.model';
 import { ConfigureProductComponent } from './configure-product.component';
 
 const productCode = 'CONF_LAPTOP';

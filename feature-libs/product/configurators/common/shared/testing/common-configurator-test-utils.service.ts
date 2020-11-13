@@ -1,10 +1,8 @@
-import { Injectable } from '@angular/core';
-
 /**
- * Configurator component test utils service provides helper functions for the component tests.
+ * Common configurator component test utils service provides helper functions for the component tests.
  */
-@Injectable({ providedIn: 'root' })
-export class ConfigComponentTestUtilsService {
+
+export class CommonConfiguratorTestUtilsService {
   /**
    * Helper function for proving whether the element is present in the DOM tree.
    *

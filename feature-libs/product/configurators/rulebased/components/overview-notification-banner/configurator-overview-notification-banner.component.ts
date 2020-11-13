@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
-import {
-  GenericConfigurator,
-  GenericConfiguratorUtilsService,
-} from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
+  GenericConfiguratorUtilsService,
 } from '@spartacus/product/configurators/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';

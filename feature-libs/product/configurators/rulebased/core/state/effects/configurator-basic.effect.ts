@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import {
-  GenericConfiguratorUtilsService,
-  normalizeHttpError,
-} from '@spartacus/core';
+import { normalizeHttpError } from '@spartacus/core';
+import { GenericConfiguratorUtilsService } from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import {
   catchError,

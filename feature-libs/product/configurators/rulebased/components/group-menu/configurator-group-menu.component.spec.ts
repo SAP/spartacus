@@ -5,10 +5,13 @@ import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   GenericConfigurator,
-  GenericConfiguratorUtilsService,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
+import {
+  CommonConfiguratorTestUtilsService,
+  GenericConfiguratorUtilsService,
+} from '@spartacus/product/configurators/common';
 import { HamburgerMenuService, ICON_TYPE } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -16,16 +19,15 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import {
+  ATTRIBUTE_1_CHECKBOX,
   CONFIGURATOR_ROUTE,
+  GROUP_ID_1,
   mockRouterState,
   productConfiguration,
   PRODUCT_CODE,
-  GROUP_ID_1,
-  ATTRIBUTE_1_CHECKBOX,
 } from '../../shared/testing/configurator-test-data';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
-import { ConfiguratorComponentTestUtilsService } from '@spartacus/product/configurators/rulebased';
 
 let mockGroupVisited = false;
 const mockProductConfiguration: Configurator.Configuration = productConfiguration;
@@ -451,7 +453,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       mockGroupVisited = false;
       isConflictGroupType = true;
       initialize();
-      ConfiguratorComponentTestUtilsService.expectElementPresent(
+      CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
         'li.cx-menu-item.WARNING'
@@ -466,7 +468,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       mockGroupVisited = true;
       isConflictGroupType = true;
       initialize();
-      ConfiguratorComponentTestUtilsService.expectElementPresent(
+      CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
         'li.cx-menu-item.WARNING'
@@ -481,7 +483,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       mockGroupVisited = false;
       isConflictGroupType = false;
       initialize();
-      ConfiguratorComponentTestUtilsService.expectElementNotPresent(
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
         'li.cx-menu-item.COMPLETE'
@@ -496,7 +498,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       mockGroupVisited = true;
       isConflictGroupType = false;
       initialize();
-      ConfiguratorComponentTestUtilsService.expectElementPresent(
+      CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
         'li.cx-menu-item.COMPLETE'
@@ -511,7 +513,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       mockGroupVisited = false;
       isConflictGroupType = false;
       initialize();
-      ConfiguratorComponentTestUtilsService.expectElementNotPresent(
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
         'li.cx-menu-item.ERROR'
@@ -526,7 +528,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       mockGroupVisited = true;
       isConflictGroupType = false;
       initialize();
-      ConfiguratorComponentTestUtilsService.expectElementPresent(
+      CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
         'li.cx-menu-item.ERROR'
@@ -541,7 +543,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       mockGroupVisited = false;
       isConflictGroupType = false;
       initialize();
-      ConfiguratorComponentTestUtilsService.expectElementPresent(
+      CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
         'li.cx-menu-item.DISABLED'

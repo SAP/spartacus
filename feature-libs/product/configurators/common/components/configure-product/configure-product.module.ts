@@ -7,10 +7,13 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import { IconModule } from '../../../cms-components/misc/icon/icon.module';
-import { provideOutlet } from '../../../cms-structure/outlet/outlet.providers';
-import { ProductListOutlets } from '../../product/product-outlets.model';
-import { ConfigureProductComponent } from './configure-product/configure-product.component';
+import {
+  IconModule,
+  ProductListOutlets,
+  provideOutlet,
+} from '@spartacus/storefront';
+import { ConfigureProductComponent } from './configure-product.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -44,4 +47,4 @@ import { ConfigureProductComponent } from './configure-product/configure-product
   entryComponents: [ConfigureProductComponent],
   exports: [ConfigureProductComponent],
 })
-export class GenericConfiguratorModule {}
+export class ConfigureProductModule {}

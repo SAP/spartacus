@@ -5,9 +5,9 @@ import {
   CartActions,
   CartModification,
   GenericConfigurator,
-  GenericConfiguratorUtilsService,
   normalizeHttpError,
 } from '@spartacus/core';
+import { GenericConfiguratorUtilsService } from '@spartacus/product/configurators/common';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';

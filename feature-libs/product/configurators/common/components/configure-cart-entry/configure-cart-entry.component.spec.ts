@@ -8,7 +8,7 @@ import {
   OrderEntry,
 } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
-import { ConfigComponentTestUtilsService } from 'projects/storefrontlib/src/cms-components/configurator/generic/service/configurator-component-test-utils.service';
+import { CommonConfiguratorTestUtilsService } from '../../shared/testing/common-configurator-test-utils.service';
 import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
 
 @Pipe({
@@ -121,7 +121,7 @@ describe('ConfigureCartEntryComponent', () => {
         product: { configuratorType: configuratorType },
       };
       fixture.detectChanges();
-      ConfigComponentTestUtilsService.expectElementToContainText(
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
         'button',
@@ -138,7 +138,7 @@ describe('ConfigureCartEntryComponent', () => {
         product: { configuratorType: configuratorType },
       };
       fixture.detectChanges();
-      ConfigComponentTestUtilsService.expectElementToContainText(
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
         'button',
@@ -154,7 +154,7 @@ describe('ConfigureCartEntryComponent', () => {
         product: { configuratorType: configuratorType },
       };
       fixture.detectChanges();
-      ConfigComponentTestUtilsService.expectElementToContainText(
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
         'button',

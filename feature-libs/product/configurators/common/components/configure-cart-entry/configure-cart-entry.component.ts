@@ -1,10 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import {
-  GenericConfigurator,
-  GenericConfiguratorUtilsService,
-  OrderEntry,
-} from '@spartacus/core';
+import { GenericConfigurator, OrderEntry } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
+import { GenericConfiguratorUtilsService } from '../../shared/utils/generic-configurator-utils.service';
 
 @Component({
   selector: 'cx-configure-cart-entry',

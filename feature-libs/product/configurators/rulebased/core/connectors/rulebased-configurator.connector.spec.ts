@@ -1,10 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import {
-  CartModification,
-  GenericConfigurator,
-  GenericConfiguratorUtilsService,
-} from '@spartacus/core';
+import { CartModification, GenericConfigurator } from '@spartacus/core';
+import { GenericConfiguratorUtilsService } from '@spartacus/product/configurators/common';
 import { of } from 'rxjs';
 import { Configurator } from '../model/configurator.model';
 import { RulebasedConfiguratorAdapter } from './rulebased-configurator.adapter';

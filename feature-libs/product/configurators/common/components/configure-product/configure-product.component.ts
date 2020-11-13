@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
 import { GenericConfigurator } from '@spartacus/core';
+import {
+  CurrentProductService,
+  OutletContextData,
+} from '@spartacus/storefront';
 import { map } from 'rxjs/operators';
-import { OutletContextData } from '../../../../cms-structure/outlet/outlet.model';
-import { CurrentProductService } from '../../../product/current-product.service';
-//import { ProductContext } from '../../../product/product-outlets.model';
 
 @Component({
   selector: 'cx-configure-product',

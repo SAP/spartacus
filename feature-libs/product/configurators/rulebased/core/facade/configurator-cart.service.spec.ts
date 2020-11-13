@@ -7,12 +7,12 @@ import {
   Cart,
   CheckoutService,
   GenericConfigurator,
-  GenericConfiguratorUtilsService,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   OrderEntryStatus,
   StateUtils,
 } from '@spartacus/core';
+import { GenericConfiguratorUtilsService } from '@spartacus/product/configurators/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { Configurator } from '../model/configurator.model';

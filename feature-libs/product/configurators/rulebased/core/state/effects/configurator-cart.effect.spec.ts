@@ -9,9 +9,9 @@ import {
   CartActions,
   CartModification,
   GenericConfigurator,
-  GenericConfiguratorUtilsService,
   normalizeHttpError,
 } from '@spartacus/core';
+import { GenericConfiguratorUtilsService } from '@spartacus/product/configurators/common';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { ConfiguratorComponentTestUtilsService } from '../../../shared/testing/configurator-component-test-utils.service';

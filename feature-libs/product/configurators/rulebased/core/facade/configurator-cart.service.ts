@@ -4,11 +4,11 @@ import {
   ActiveCartService,
   CheckoutService,
   GenericConfigurator,
-  GenericConfiguratorUtilsService,
   OCC_USER_ID_CURRENT,
   StateUtils,
   StateWithMultiCart,
 } from '@spartacus/core';
+import { GenericConfiguratorUtilsService } from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { delayWhen, filter, map, take, tap } from 'rxjs/operators';
 import { Configurator } from '../model/configurator.model';

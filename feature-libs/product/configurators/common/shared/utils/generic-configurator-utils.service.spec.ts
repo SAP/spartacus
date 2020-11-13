@@ -1,9 +1,12 @@
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
-import { Cart, OCC_USER_ID_ANONYMOUS } from '@spartacus/core';
-import { OrderEntry } from 'projects/core/src/model';
-import { GenericConfigurator } from '../../../model/generic-configurator.model';
-import { OrderEntryStatus } from '../../../model/order.model';
+import {
+  Cart,
+  GenericConfigurator,
+  OCC_USER_ID_ANONYMOUS,
+  OrderEntry,
+  OrderEntryStatus,
+} from '@spartacus/core';
 import { GenericConfiguratorUtilsService } from './generic-configurator-utils.service';
 
 const productCode = 'CONF_LAPTOP';

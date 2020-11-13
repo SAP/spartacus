@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, Directive, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  GenericConfiguratorUtilsService,
   I18nTestingModule,
   RouterState,
   RoutingService,
 } from '@spartacus/core';
+import { GenericConfiguratorUtilsService } from '@spartacus/product/configurators/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';

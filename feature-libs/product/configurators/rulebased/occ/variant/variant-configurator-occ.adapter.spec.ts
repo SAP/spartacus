@@ -7,9 +7,9 @@ import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
   GenericConfigurator,
-  GenericConfiguratorUtilsService,
   OccEndpointsService,
 } from '@spartacus/core';
+import { GenericConfiguratorUtilsService } from '@spartacus/product/configurators/common';
 import { CART_MODIFICATION_NORMALIZER } from 'projects/core/src/cart';
 import { of } from 'rxjs';
 import { VariantConfiguratorOccAdapter } from '.';

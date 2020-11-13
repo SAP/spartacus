@@ -7,8 +7,8 @@ import {
   ICON_TYPE,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../../common/shared/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../core/model/configurator.model';
-import { ConfiguratorComponentTestUtilsService } from '../../../shared/testing/configurator-component-test-utils.service';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
 
@@ -93,12 +93,12 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   describe('Render corresponding part of the component', () => {
     it('should render a label', () => {
-      ConfiguratorComponentTestUtilsService.expectElementPresent(
+      CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
         'label'
       );
-      ConfiguratorComponentTestUtilsService.expectElementToContainText(
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
         'label',
@@ -112,7 +112,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       expect(
         htmlElem.querySelector('label').getAttribute('aria-label')
       ).toEqual(classUnderTest.attribute.label);
-      ConfiguratorComponentTestUtilsService.expectElementNotPresent(
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
         '.cx-required-icon'
@@ -122,7 +122,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     it('should render a label as required', () => {
       classUnderTest.attribute.required = true;
       fixture.detectChanges();
-      ConfiguratorComponentTestUtilsService.expectElementPresent(
+      CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
         '.cx-required-icon'
@@ -130,7 +130,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
 
     it('should render an image', () => {
-      ConfiguratorComponentTestUtilsService.expectElementPresent(
+      CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
         '.cx-attribute-img'
@@ -196,7 +196,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       classUnderTest.attribute.uiType = Configurator.UiType.RADIOBUTTON;
       classUnderTest.ngOnInit();
       fixture.detectChanges();
-      ConfiguratorComponentTestUtilsService.expectElementPresent(
+      CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
         '.cx-required-error-msg'
@@ -207,7 +207,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       classUnderTest.owner.type = GenericConfigurator.OwnerType.PRODUCT;
       isCartEntryOrGroupVisited = true;
       fixture.detectChanges();
-      ConfiguratorComponentTestUtilsService.expectElementNotPresent(
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
         '.cx-required-error-msg'
@@ -217,7 +217,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     it("shouldn't render a required message if attribute has not been added to the cart yet.", () => {
       classUnderTest.owner.type = GenericConfigurator.OwnerType.PRODUCT;
       fixture.detectChanges();
-      ConfiguratorComponentTestUtilsService.expectElementNotPresent(
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
         '.cx-required-error-msg'
@@ -227,7 +227,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     it("shouldn't render a required message if attribute is not required.", () => {
       classUnderTest.attribute.required = false;
       fixture.detectChanges();
-      ConfiguratorComponentTestUtilsService.expectElementNotPresent(
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
         '.cx-required-error-msg'
@@ -237,7 +237,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     it("shouldn't render a required message if attribute is complete.", () => {
       classUnderTest.attribute.incomplete = true;
       fixture.detectChanges();
-      ConfiguratorComponentTestUtilsService.expectElementNotPresent(
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
         '.cx-required-error-msg'
@@ -247,7 +247,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     it("shouldn't render a required message if ui type is string.", () => {
       classUnderTest.attribute.uiType = Configurator.UiType.STRING;
       fixture.detectChanges();
-      ConfiguratorComponentTestUtilsService.expectElementNotPresent(
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
         '.cx-required-error-msg'
@@ -261,13 +261,13 @@ describe('ConfigAttributeHeaderComponent', () => {
       classUnderTest.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
       fixture.detectChanges();
 
-      ConfiguratorComponentTestUtilsService.expectElementPresent(
+      CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
         '.cx-conflict-msg'
       );
 
-      ConfiguratorComponentTestUtilsService.expectElementPresent(
+      CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
         'cx-icon'
@@ -279,13 +279,13 @@ describe('ConfigAttributeHeaderComponent', () => {
       classUnderTest.groupType = Configurator.GroupType.CONFLICT_GROUP;
       fixture.detectChanges();
 
-      ConfiguratorComponentTestUtilsService.expectElementPresent(
+      CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
         '.cx-conflict-msg'
       );
 
-      ConfiguratorComponentTestUtilsService.expectElementNotPresent(
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
         'cx-icon'
@@ -296,7 +296,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       classUnderTest.attribute.hasConflicts = false;
       fixture.detectChanges();
 
-      ConfiguratorComponentTestUtilsService.expectElementNotPresent(
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
         '.cx-conflict-container'
