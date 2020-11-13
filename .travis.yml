@@ -7,7 +7,7 @@ git:
   depth: false
 branches:
   only:
-      - develop
+    - develop
     - "/^feature\\/.*$/"
     - "/^epic\\/.*$/"
     - "/^hotfix\\/.*$/"
