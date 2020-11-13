@@ -265,6 +265,11 @@ export const ITEM_COUNTER_COMPONENT = 'ItemCounterComponent';
 export const UPDATE_EMAIL_COMPONENT = 'UpdateEmailComponent';
 export const PRODUCT_CAROUSEL_SERVICE = 'ProductCarouselService';
 export const PRODUCT_REFERENCE_SERVICE = 'ProductReferenceService';
+export const ORDER_CANCELLATION_GUARD = 'OrderCancellationGuard';
+export const ORDER_CANCELLATION_SERVICE = 'OrderCancellationService';
+export const ORDER_RETURN_GUARD = 'OrderReturnGuard';
+export const ORDER_RETURN_SERVICE = 'OrderReturnService';
+export const PRODUCT_VARIANT_GUARD = 'ProductVariantGuard';
 
 export const TEST_OUTLET_MODULE = 'TestOutletModule';
 export const TEST_CONFIG_MODULE = 'TestConfigModule';
@@ -520,6 +525,8 @@ export const GET = 'get';
 export const GET_WINDOW = 'window';
 export const GET_CLOSEST = 'getClosest';
 export const GET_BREAKPOINT = 'getBreakpoint';
+export const LOGOUT = 'logout';
+export const REDIRECT = 'redirect';
 export const SYNC = 'sync';
 export const INIT_SYNC = 'initSync';
 /***** APIs end *****/
