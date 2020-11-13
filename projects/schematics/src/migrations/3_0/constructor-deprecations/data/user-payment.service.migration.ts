@@ -4,6 +4,7 @@ import {
   STORE,
   AUTH_SERVICE,
   USER_ID_SERVICE,
+  NGRX_STORE
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
@@ -14,7 +15,7 @@ export const USER_PAYMENT_SERVICE_MIGRATION: ConstructorDeprecation = {
   deprecatedParams: [
     {
       className: STORE,
-      importPath: SPARTACUS_CORE,
+      importPath: NGRX_STORE,
     },
     {
       className: AUTH_SERVICE,

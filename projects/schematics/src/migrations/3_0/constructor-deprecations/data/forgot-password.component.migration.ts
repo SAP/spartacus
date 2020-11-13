@@ -12,7 +12,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const FORGOT_PASSWORD_COMPONENT_MIGRATION: ConstructorDeprecation = {
-  // projects\storefrontlib\src\cms-components\myaccount\forgot-password\forgot-password.component.ts
+  // projects/storefrontlib/src/cms-components/myaccount/forgot-password/forgot-password.component.ts
   class: FORGOT_PASSWORD_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [
@@ -29,7 +29,6 @@ export const FORGOT_PASSWORD_COMPONENT_MIGRATION: ConstructorDeprecation = {
       importPath: SPARTACUS_CORE,
     },
   ],
-  removeParams: [],
   addParams: [
     {
       className: AUTH_CONFIG_SERVICE,
