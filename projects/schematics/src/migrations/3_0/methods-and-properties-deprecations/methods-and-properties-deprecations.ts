@@ -1,8 +1,15 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { MethodPropertyDeprecation } from '../../../shared/utils/file-utils';
 import { migrateMethodPropertiesDeprecation } from '../../mechanism/methods-and-properties-deprecations/methods-and-properties-deprecations';
+import { ASM_AUTH_SERVICE_MIGRATION } from './data/asm-auth.service.migration';
+import { ASM_ACTIONS_MIGRATION } from './data/asm-group.actions.migration';
+import { ASM_SELECTORS_MIGRATION } from './data/asm-group.selectors.migration';
+import { AUTH_ACTIONS_MIGRATION } from './data/auth-group.actions.migration';
+import { AUTH_GUARD_MIGRATION } from './data/auth.guard.migration';
+import { AUTH_SERVICE_MIGRATION } from './data/auth.service.migration';
 import { BASE_SITE_SERVICE_MIGRATION } from './data/base-site.service.migration';
 import { BREAKPOINT_SERVICE_MIGRATION } from './data/breakpoint.service.migration';
+import { CDC_AUTH_SERVICE_MIGRATION } from './data/cdc-auth.service.migration';
 import { CHECKOUT_AUTH_GUARD_MIGRATION } from './data/checkout-auth.guard.migration';
 import { CHECKOUT_CONFIG_SERVICE_MIGRATION } from './data/checkout-config.service.migration';
 import { CHECKOUT_GROUP_ACTIONS_MIGRATION } from './data/checkout-group.actions.migration';
@@ -12,6 +19,7 @@ import { CHECKOUT_SERVICE_MIGRATION } from './data/checkout.service.migration';
 import { CMS_COMPONENTS_SERVICE_MIGRATION } from './data/cms-components.service.migration';
 import { ITEM_COUNTER_COMPONENT_MIGRATION } from './data/item-counter.component.migration';
 import { LOGIN_FORM_COMPONENT_MIGRATION } from './data/login-form.component.migration';
+import { NOT_AUTH_GUARD_MIGRATION } from './data/not-auth.guard.migration';
 import { OCC_CHECKOUT_ADAPTER_MIGRATION } from './data/occ-checkout.adapter.migration';
 import { ORDER_CONFIRMATION_OVERVIEW_COMPONENT_MIGRATION } from './data/order-confirmation-overview.component.migration';
 import { ORDER_DETAIL_SHIPPING_COMPONENT_MIGRATION } from './data/order-detail-shipping.component.migration';
@@ -44,6 +52,14 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...PRODUCT_CAROUSEL_SERVICE_MIGRATION,
   ...PRODUCT_REFERENCE_SERVICE_MIGRATION,
   ...STOREFRONT_COMPONENT_MIGRATION,
+  ...AUTH_ACTIONS_MIGRATION,
+  ...NOT_AUTH_GUARD_MIGRATION,
+  ...AUTH_GUARD_MIGRATION,
+  ...AUTH_SERVICE_MIGRATION,
+  ...ASM_SELECTORS_MIGRATION,
+  ...ASM_ACTIONS_MIGRATION,
+  ...ASM_AUTH_SERVICE_MIGRATION,
+  ...CDC_AUTH_SERVICE_MIGRATION,
 ];
 
 export function migrate(): Rule {
