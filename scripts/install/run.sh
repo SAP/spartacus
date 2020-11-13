@@ -78,7 +78,7 @@ function npm_install {
 }
 
 function create_app {
-    ( cd ${INSTALLATION_DIR} && ng new $1 --style=scss --routing=true )
+    ( cd ${INSTALLATION_DIR} && ng new $1 --style=scss --routing=false)
 }
 
 function create_csr {
