@@ -24,8 +24,8 @@ describe('TrackingService', () => {
     postBehaviour = new ReplaySubject<boolean>();
     pushEvents = new ReplaySubject<ProfileTagPushEvent>();
     profileTagLifecycleServiceMock = <ProfileTagLifecycleService>(<unknown>{
-      consentGranted: jasmine
-        .createSpy('consentGranted')
+      consentChanged: jasmine
+        .createSpy('consentChanged')
         .and.callFake(() => consentBehavior),
       loginSuccessful: jasmine
         .createSpy('loginSuccessful')
@@ -71,13 +71,17 @@ describe('TrackingService', () => {
   it('Should notify profile tag of consent granted', () => {
     trackingService.trackEvents();
     consentBehavior.next(new ConsentChangedPushEvent(true));
+    consentBehavior.next(new ConsentChangedPushEvent(false));
     expect(
       profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
-    ).toHaveBeenCalledTimes(1);
+    ).toHaveBeenCalledTimes(2);
 
     expect(
       profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
     ).toHaveBeenCalledWith(new ConsentChangedPushEvent(true));
+    expect(
+      profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
+    ).toHaveBeenCalledWith(new ConsentChangedPushEvent(false));
   });
 
   it('Should notify profile tag of when push events happen', () => {

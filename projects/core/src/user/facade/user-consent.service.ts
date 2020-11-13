@@ -25,8 +25,8 @@ import {
 export class UserConsentService {
   constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
-    protected userIdService: UserIdService,
-    protected authService: AuthService
+    protected authService: AuthService,
+    protected userIdService: UserIdService
   ) {}
 
   /**
