@@ -3,7 +3,7 @@ import {
   SEARCH_CONFIG,
   SPARTACUS_CORE,
   STORE_FINDER_SEARCH_CONFIG,
-  UNAUTHORIZED_HANDLER,
+  UNAUTHORIZED_ERROR_HANDLER,
 } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
@@ -17,9 +17,9 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   },
   // projects/core/src/global-message/http-interceptors/handlers/unauthorized/unauthorized.handler.ts
   {
-    node: UNAUTHORIZED_HANDLER,
+    node: UNAUTHORIZED_ERROR_HANDLER,
     importPath: SPARTACUS_CORE,
-    comment: `'${UNAUTHORIZED_HANDLER}' has been removed and is no longer part of the public API.`,
+    comment: `'${UNAUTHORIZED_ERROR_HANDLER}' has been removed and is no longer part of the public API.`,
   },
 ];
 

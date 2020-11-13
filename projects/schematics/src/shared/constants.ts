@@ -362,7 +362,7 @@ export const USER_COST_CENTER_SERVICE = 'UserCostCenterService';
 export const CHECKOUT_COST_CENTER_SERVICE = 'CheckoutCostCenterService';
 export const PAYMENT_TYPE_SERVICE = 'PaymentTypeService';
 
-export const UNAUTHORIZED_HANDLER = 'UnauthorizedHandler';
+export const UNAUTHORIZED_ERROR_HANDLER = 'UnauthorizedErrorHandler';
 
 /***** Removed public api end *****/
 
