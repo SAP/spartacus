@@ -85,10 +85,7 @@ describe('profileTagLifecycleService', () => {
       let timesCalled = 0;
       const subscription = profileTagLifecycleService
         .consentChanged()
-        .pipe(
-          filter((event) => Boolean(event.data.granted)),
-          tap(() => timesCalled++)
-        )
+        .pipe(tap(() => timesCalled++))
         .subscribe();
       isConsentGivenValue = true;
       getConsentBehavior.next({ consent: 'test' });
