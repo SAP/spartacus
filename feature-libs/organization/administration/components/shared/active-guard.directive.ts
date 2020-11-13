@@ -36,7 +36,7 @@ export class ActiveGuardDirective<T = BaseItem> implements OnInit, OnDestroy {
   }
 
   protected handleDisabledItems(item: BaseItem) {
-    if (!item?.active && this.form) {
+    if (!item?.active) {
       this.form.disable();
       this.messageService.add({
         message: {
@@ -44,6 +44,7 @@ export class ActiveGuardDirective<T = BaseItem> implements OnInit, OnDestroy {
         },
         type: GlobalMessageType.MSG_TYPE_ERROR,
       });
+      this.itemService.toggleChange$.next(true);
     }
   }
 

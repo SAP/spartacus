@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
 import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
 import { FormUtils } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { CurrentOrganizationItemService } from './current-organization-item.service';
 import { OrganizationFormService } from './organization-form/organization-form.service';
@@ -24,6 +24,9 @@ export abstract class OrganizationItemService<T> {
 
   key$ = this.currentItemService.key$;
   current$ = this.currentItemService.item$;
+
+  toggleChange$ = new BehaviorSubject<boolean>(false);
+  toggleChanged$ = this.toggleChange$.asObservable();
 
   /**
    * Returns the current business unit code.
