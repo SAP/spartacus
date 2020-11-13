@@ -4,7 +4,7 @@ import {
   GenericConfiguratorUtilsService,
   OrderEntry,
 } from '@spartacus/core';
-import { ModalService } from '../../../../shared/components/modal/modal.service';
+import { ModalService } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-configure-cart-entry',
