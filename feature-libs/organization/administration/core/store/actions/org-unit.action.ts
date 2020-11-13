@@ -92,7 +92,7 @@ export const LOAD_ADDRESSES = '[B2BUnit] Load addresses';
 export const LOAD_ADDRESSES_SUCCESS = '[B2BUnit] Load addresses success';
 export const LOAD_ADDRESSES_FAIL = '[B2BUnit] Load addresses fail';
 
-export const CLEAR_ASSIGNED_USERS = '[B2BUnit] Clear Users';
+export const CLEAR_ASSIGNED_USERS = '[B2BUnit] Clear Assigned Users';
 
 export class LoadOrgUnit extends StateUtils.EntityLoadAction {
   readonly type = LOAD_ORG_UNIT;
@@ -615,4 +615,5 @@ export type OrgUnitAction =
   | LoadAddresses
   | LoadAddressesFail
   | LoadAddressesSuccess
-  | LoadAddressSuccess;
+  | LoadAddressSuccess
+  | ClearAssignedUsers;

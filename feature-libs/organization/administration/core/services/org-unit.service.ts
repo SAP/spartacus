@@ -37,7 +37,7 @@ export class OrgUnitService {
     protected userIdService: UserIdService
   ) {}
 
-  clearUsersData(
+  clearAssignedUsersList(
     orgUnitId: string,
     roleId: string,
     params: SearchConfig

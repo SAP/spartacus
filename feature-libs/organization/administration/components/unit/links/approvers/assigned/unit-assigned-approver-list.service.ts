@@ -20,7 +20,7 @@ export class UnitAssignedApproverListService extends UnitApproverListService {
     pagination: PaginationModel,
     code: string
   ): Observable<EntitiesModel<B2BUser>> {
-    this.unitService.clearUsersData(
+    this.unitService.clearAssignedUsersList(
       code,
       B2BUserGroup.B2B_APPROVER_GROUP,
       pagination

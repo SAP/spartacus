@@ -32,7 +32,7 @@ class MockOrgUnitService {
   getUsers(): Observable<EntitiesModel<B2BUnit>> {
     return of(mockUnitEntities);
   }
-  clearUsersData(): void {}
+  clearAssignedUsersList(): void {}
 }
 
 @Injectable()
@@ -89,11 +89,11 @@ describe('UnitAssignedApproverListService', () => {
   });
 
   it('should clear approvers data before load', () => {
-    spyOn(unitService, 'clearUsersData');
+    spyOn(unitService, 'clearAssignedUsersList');
     spyOn(unitService, 'getUsers').and.returnValue(of());
 
     service.getData('u1').subscribe();
-    expect(unitService.clearUsersData).toHaveBeenCalledWith(
+    expect(unitService.clearAssignedUsersList).toHaveBeenCalledWith(
       'u1',
       B2BUserGroup.B2B_APPROVER_GROUP,
       {

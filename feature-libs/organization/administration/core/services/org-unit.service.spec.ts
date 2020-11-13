@@ -699,7 +699,7 @@ describe('OrgUnitService', () => {
     const params: SearchConfig = { sort: 'code' };
 
     it('should clear users data from store', () => {
-      service.clearUsersData(orgUnitId, roleId, params);
+      service.clearAssignedUsersList(orgUnitId, roleId, params);
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrgUnitActions.ClearAssignedUsers({ orgUnitId, roleId, params })
       );
