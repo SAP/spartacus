@@ -38,6 +38,7 @@ export const OBSERVABLE_CLASS = 'Observable';
 export const RENDERER_2 = 'Renderer2';
 export const ELEMENT_REF = 'ElementRef';
 export const INJECTOR = 'Injector';
+export const COMPILER = 'Compiler';
 
 export const STORE = 'Store';
 
@@ -72,6 +73,7 @@ export const CMS_GET_COMPONENT_FROM_PAGE = 'CmsGetComponentFromPage';
 export const USER_ADDRESS_SERVICE = 'UserAddressService';
 export const AUTH_SERVICE = 'AuthService';
 export const FEATURE_CONFIG_SERVICE = 'FeatureConfigService';
+export const FEATURE_MODULES_SERVICE = 'FeatureModulesService';
 export const SEMANTIC_PATH_SERVICE = 'SemanticPathService';
 export const CMS_SERVICE = 'CmsService';
 export const PAGE_META_SERVICE = 'PageMetaService';
@@ -134,6 +136,7 @@ export const CART_PAGE_LAYOUT_HANDLER = 'CartPageLayoutHandler';
 export const SELECTIVE_CART_SERVICE = 'SelectiveCartService';
 export const CDS_SPARTACUS_EVENT_SERVICE = 'SpartacusEventService';
 export const CONSENT_SERVICE = 'ConsentService';
+export const EVENT_SERVICE = 'EventService';
 export const CDS_CONFIG = 'CdsConfig';
 export const ADDRESS_BOOK_COMPONENT_SERVICE = 'AddressBookComponentService';
 export const CHECKOUT_GUARD = 'CheckoutGuard';
@@ -236,6 +239,8 @@ export const KEYBOARD_FOCUS_SERVICE = 'KeyboardFocusService';
 export const STOREFRONT_COMPONENT = 'StorefrontComponent';
 export const HAMBURGER_MENU_SERVICE = 'HamburgerMenuService';
 export const ROUTING_PARAMS_SERVICE = 'RoutingParamsService';
+export const CONFIG_INITIALIZER_SERVICE = 'ConfigInitializerService';
+export const LAZY_MODULES_SERVICE = 'LazyModulesService';
 export const ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT =
   'AnonymousConsentManagementBannerComponent';
 export const ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE =
@@ -260,6 +265,11 @@ export const ITEM_COUNTER_COMPONENT = 'ItemCounterComponent';
 export const UPDATE_EMAIL_COMPONENT = 'UpdateEmailComponent';
 export const PRODUCT_CAROUSEL_SERVICE = 'ProductCarouselService';
 export const PRODUCT_REFERENCE_SERVICE = 'ProductReferenceService';
+export const ORDER_CANCELLATION_GUARD = 'OrderCancellationGuard';
+export const ORDER_CANCELLATION_SERVICE = 'OrderCancellationService';
+export const ORDER_RETURN_GUARD = 'OrderReturnGuard';
+export const ORDER_RETURN_SERVICE = 'OrderReturnService';
+export const PRODUCT_VARIANT_GUARD = 'ProductVariantGuard';
 
 export const TEST_OUTLET_MODULE = 'TestOutletModule';
 export const TEST_CONFIG_MODULE = 'TestConfigModule';
@@ -515,6 +525,8 @@ export const GET = 'get';
 export const GET_WINDOW = 'window';
 export const GET_CLOSEST = 'getClosest';
 export const GET_BREAKPOINT = 'getBreakpoint';
+export const LOGOUT = 'logout';
+export const REDIRECT = 'redirect';
 export const SYNC = 'sync';
 export const INIT_SYNC = 'initSync';
 /***** APIs end *****/
