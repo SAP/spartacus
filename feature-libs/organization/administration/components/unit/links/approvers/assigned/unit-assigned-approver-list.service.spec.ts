@@ -95,14 +95,14 @@ describe('UnitAssignedApproverListService', () => {
     service.getData('u1').subscribe();
     expect(unitService.clearAssignedUsersList).toHaveBeenCalledWith(
       'u1',
-      B2BUserRole.B2B_APPROVER_GROUP,
+      B2BUserRole.APPROVER,
       {
         pageSize: 10,
       }
     );
     expect(unitService.getUsers).toHaveBeenCalledWith(
       'u1',
-      B2BUserRole.B2B_APPROVER_GROUP,
+      B2BUserRole.APPROVER,
       {
         pageSize: 10,
       }

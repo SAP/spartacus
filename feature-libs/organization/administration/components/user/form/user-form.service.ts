@@ -31,7 +31,7 @@ export class UserFormService extends OrganizationFormService<B2BUser> {
     form.setControl('isAssignedToApprovers', new FormControl(false));
 
     form.get('roles').valueChanges.subscribe((roles: string[]) => {
-      if (roles.includes(B2BUserRole.B2B_APPROVER_GROUP)) {
+      if (roles.includes(B2BUserRole.APPROVER)) {
         form.get('isAssignedToApprovers').enable();
       } else {
         form.get('isAssignedToApprovers').disable();

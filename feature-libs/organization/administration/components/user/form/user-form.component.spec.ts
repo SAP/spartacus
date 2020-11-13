@@ -52,10 +52,10 @@ class MockUserService {
 class MockB2BUserService implements Partial<B2BUserService> {
   getAllRoles() {
     return [
-      B2BUserRole.B2B_CUSTOMER_GROUP,
-      B2BUserRole.B2B_MANAGER_GROUP,
-      B2BUserRole.B2B_APPROVER_GROUP,
-      B2BUserRole.B2B_ADMIN_GROUP,
+      B2BUserRole.CUSTOMER,
+      B2BUserRole.MANAGER,
+      B2BUserRole.APPROVER,
+      B2BUserRole.ADMIN,
     ];
   }
 }

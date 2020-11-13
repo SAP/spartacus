@@ -233,7 +233,7 @@ describe('CheckoutAuthGuard', () => {
 
       it('should return true when user roles has b2bcustomergroup', () => {
         spyOn(userService, 'get').and.returnValue(
-          of({ uid: 'testUser', roles: [B2BUserRole.B2B_CUSTOMER_GROUP] })
+          of({ uid: 'testUser', roles: [B2BUserRole.CUSTOMER] })
         );
         let result: boolean | UrlTree;
         checkoutGuard
@@ -245,7 +245,7 @@ describe('CheckoutAuthGuard', () => {
 
       it('should return false when user roles does not have b2bcustomergroup', () => {
         spyOn(userService, 'get').and.returnValue(
-          of({ uid: 'testUser', roles: [B2BUserRole.B2B_ADMIN_GROUP] })
+          of({ uid: 'testUser', roles: [B2BUserRole.ADMIN] })
         );
         let result: boolean | UrlTree;
         checkoutGuard

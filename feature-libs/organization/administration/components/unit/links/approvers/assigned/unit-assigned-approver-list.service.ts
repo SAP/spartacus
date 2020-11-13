@@ -22,7 +22,7 @@ export class UnitAssignedApproverListService extends UnitApproverListService {
   ): Observable<EntitiesModel<B2BUser>> {
     this.unitService.clearAssignedUsersList(
       code,
-      B2BUserRole.B2B_APPROVER_GROUP,
+      B2BUserRole.APPROVER,
       pagination
     );
     return super

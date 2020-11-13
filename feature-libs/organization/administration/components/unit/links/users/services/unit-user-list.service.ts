@@ -29,10 +29,6 @@ export class UnitUserListService extends OrganizationSubListService<B2BUser> {
     pagination: PaginationModel,
     code: string
   ): Observable<EntitiesModel<B2BUser>> {
-    return this.unitService.getUsers(
-      code,
-      B2BUserRole.B2B_CUSTOMER_GROUP,
-      pagination
-    );
+    return this.unitService.getUsers(code, B2BUserRole.CUSTOMER, pagination);
   }
 }

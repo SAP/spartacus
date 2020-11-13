@@ -27,7 +27,7 @@ export class AdminGuard implements CanActivate {
       pluck('roles'),
       map((roles: string[]) => {
         const hasRole =
-          Array.isArray(roles) && roles.includes(B2BUserRole.B2B_ADMIN_GROUP);
+          Array.isArray(roles) && roles.includes(B2BUserRole.ADMIN);
 
         if (!hasRole) {
           // routing as temporary solution until /organization won't

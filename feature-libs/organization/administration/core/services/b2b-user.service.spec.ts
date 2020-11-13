@@ -550,10 +550,10 @@ describe('B2BUserService', () => {
   describe('getAllRoles()', () => {
     it('should return all possible b2b user roles in order', () => {
       expect(service.getAllRoles()).toEqual([
-        B2BUserRole.B2B_CUSTOMER_GROUP,
-        B2BUserRole.B2B_MANAGER_GROUP,
-        B2BUserRole.B2B_APPROVER_GROUP,
-        B2BUserRole.B2B_ADMIN_GROUP,
+        B2BUserRole.CUSTOMER,
+        B2BUserRole.MANAGER,
+        B2BUserRole.APPROVER,
+        B2BUserRole.ADMIN,
       ]);
     });
   });

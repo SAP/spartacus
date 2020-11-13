@@ -108,7 +108,7 @@ describe('UnitApproverListService', () => {
 
     expect(unitService.getUsers).toHaveBeenCalledWith(
       'u1',
-      B2BUserRole.B2B_APPROVER_GROUP,
+      B2BUserRole.APPROVER,
       {
         pageSize: 10,
       }
@@ -123,7 +123,7 @@ describe('UnitApproverListService', () => {
     expect(unitService.assignApprover).toHaveBeenCalledWith(
       unitId,
       approverId,
-      B2BUserRole.B2B_APPROVER_GROUP
+      B2BUserRole.APPROVER
     );
     expect(userService.getLoadingStatus).toHaveBeenCalledWith(approverId);
   });
@@ -136,7 +136,7 @@ describe('UnitApproverListService', () => {
     expect(unitService.unassignApprover).toHaveBeenCalledWith(
       unitId,
       approverId,
-      B2BUserRole.B2B_APPROVER_GROUP
+      B2BUserRole.APPROVER
     );
     expect(userService.getLoadingStatus).toHaveBeenCalledWith(approverId);
   });
