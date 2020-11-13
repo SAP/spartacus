@@ -36,7 +36,7 @@ export class ActiveGuardDirective<T = BaseItem> implements OnInit, OnDestroy {
   }
 
   protected handleDisabledItems(item: BaseItem) {
-    if (!item?.active) {
+    if (!item?.active && this.form) {
       this.form.disable();
       this.messageService.add({
         message: {
@@ -44,12 +44,10 @@ export class ActiveGuardDirective<T = BaseItem> implements OnInit, OnDestroy {
         },
         type: GlobalMessageType.MSG_TYPE_ERROR,
       });
-      this.itemService.toggleChange$.next(true);
     }
   }
 
   ngOnDestroy() {
     this.subscription?.unsubscribe();
-    this.itemService.toggleChange$.next(false);
   }
 }

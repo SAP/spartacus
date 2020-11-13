@@ -3,9 +3,7 @@ import {
   Component,
   Input,
   OnDestroy,
-  OnInit,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Subject, Subscription } from 'rxjs';
 import { filter, first, take } from 'rxjs/operators';
@@ -24,8 +22,7 @@ import { BaseItem } from '../../organization.model';
   templateUrl: './toggle-status.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ToggleStatusComponent<T extends BaseItem>
-  implements OnInit, OnDestroy {
+export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   /**
    * The localization of messages is based on the i18n root. Messages are
    * concatenated to the root, such as:
@@ -46,7 +43,6 @@ export class ToggleStatusComponent<T extends BaseItem>
    */
   @Input() disabled: boolean;
 
-  shouldBeDisabled: boolean;
   /**
    * resolves the current item.
    */
@@ -57,8 +53,7 @@ export class ToggleStatusComponent<T extends BaseItem>
 
   constructor(
     protected itemService: OrganizationItemService<T>,
-    protected messageService: MessageService<ConfirmationMessageData>,
-    protected activatedRoute: ActivatedRoute
+    protected messageService: MessageService<ConfirmationMessageData>
   ) {}
 
   toggle(item: T) {
@@ -94,9 +89,6 @@ export class ToggleStatusComponent<T extends BaseItem>
    * Indicates whether the status can be toggled or not.
    */
   isDisabled(item: T): boolean {
-    if (this.shouldBeDisabled === true) {
-      return true;
-    }
     return (
       this.disabled ??
       !(item.orgUnit || (item as any).unit || (item as any).parentOrgUnit)
@@ -130,12 +122,6 @@ export class ToggleStatusComponent<T extends BaseItem>
         params: { item },
       },
     });
-  }
-
-  ngOnInit() {
-    this.itemService.toggleChanged$.subscribe(
-      (toggleChanged) => (this.shouldBeDisabled = toggleChanged)
-    );
   }
 
   ngOnDestroy() {
