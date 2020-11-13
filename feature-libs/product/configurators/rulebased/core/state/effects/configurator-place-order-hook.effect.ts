@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { ActiveCartService, CheckoutActions } from '@spartacus/core';
 import {
-  ActiveCartService,
-  CheckoutActions,
   GenericConfigurator,
-} from '@spartacus/core';
-import { GenericConfiguratorUtilsService } from '@spartacus/product/configurators/common';
+  GenericConfiguratorUtilsService,
+} from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { ConfiguratorActions } from '../actions/index';

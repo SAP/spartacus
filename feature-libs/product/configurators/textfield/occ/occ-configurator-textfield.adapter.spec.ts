@@ -9,7 +9,7 @@ import {
   ConverterService,
   OccEndpointsService,
 } from '@spartacus/core';
-import { GenericConfigurator } from 'projects/core/src/model';
+import { GenericConfigurator } from '@spartacus/product/configurators/common';
 import { OccConfiguratorTextfieldAdapter } from '.';
 import { CONFIGURATION_TEXTFIELD_NORMALIZER } from '../core/connectors/converters';
 import { ConfiguratorTextfield } from '../core/model/configurator-textfield.model';

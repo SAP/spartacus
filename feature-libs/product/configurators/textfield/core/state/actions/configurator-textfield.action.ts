@@ -1,4 +1,5 @@
-import { GenericConfigurator, StateUtils } from '@spartacus/core';
+import { StateUtils } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/product/configurators/common';
 import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
 import { CONFIGURATION_TEXTFIELD_DATA } from '../configuration-textfield-state';
 

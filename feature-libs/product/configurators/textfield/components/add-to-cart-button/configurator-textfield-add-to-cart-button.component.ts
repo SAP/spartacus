@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { GenericConfigurator } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/product/configurators/common';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 

@@ -1,8 +1,10 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { GenericConfigurator } from '@spartacus/core';
-import { GenericConfiguratorUtilsService } from '@spartacus/product/configurators/common';
+import {
+  GenericConfigurator,
+  GenericConfiguratorUtilsService,
+} from '@spartacus/product/configurators/common';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions';
 import {

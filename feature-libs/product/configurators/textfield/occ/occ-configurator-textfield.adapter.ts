@@ -4,9 +4,9 @@ import {
   CartModification,
   CART_MODIFICATION_NORMALIZER,
   ConverterService,
-  GenericConfigurator,
   OccEndpointsService,
 } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ConfiguratorTextfieldAdapter } from '../core/connectors/configurator-textfield.adapter';

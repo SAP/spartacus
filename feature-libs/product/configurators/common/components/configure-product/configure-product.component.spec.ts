@@ -2,10 +2,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, Product } from '@spartacus/core';
+import {
+  CurrentProductService,
+  OutletContextData,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CurrentProductService } from '../../../../../../projects/storefrontlib/src/cms-components/product';
-import { OutletContextData } from '../../../../../../projects/storefrontlib/src/cms-structure/outlet/outlet.model';
 import { ConfigureProductComponent } from './configure-product.component';
 
 const productCode = 'CONF_LAPTOP';

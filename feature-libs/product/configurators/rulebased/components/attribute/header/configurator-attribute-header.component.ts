@@ -4,7 +4,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { GenericConfigurator } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/product/configurators/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';

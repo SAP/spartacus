@@ -2,12 +2,9 @@ import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  GenericConfigurator,
-  I18nTestingModule,
-  OrderEntry,
-} from '@spartacus/core';
+import { I18nTestingModule, OrderEntry } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
+import { GenericConfigurator } from '../../core/model/generic-configurator.model';
 import { CommonConfiguratorTestUtilsService } from '../../shared/testing/common-configurator-test-utils.service';
 import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
 

@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { GenericConfigurator } from '@spartacus/core';
-import { ConfiguratorRouterExtractorService } from '@spartacus/product/configurators/common';
+import {
+  ConfiguratorRouterExtractorService,
+  GenericConfigurator,
+} from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';

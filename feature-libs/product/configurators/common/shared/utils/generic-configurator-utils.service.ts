@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import {
   Cart,
-  GenericConfigurator,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   OrderEntry,
   OrderEntryStatus,
 } from '@spartacus/core';
+import { GenericConfigurator } from '../../core/model/generic-configurator.model';
 
 /**
  * Utilities for generic configuration

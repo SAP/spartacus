@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { GenericConfigurator, OrderEntry } from '@spartacus/core';
+import { OrderEntry } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
+import { GenericConfigurator } from '../../core/model/generic-configurator.model';
 import { GenericConfiguratorUtilsService } from '../../shared/utils/generic-configurator-utils.service';
 
 @Component({

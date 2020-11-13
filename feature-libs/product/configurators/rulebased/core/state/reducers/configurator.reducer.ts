@@ -1,4 +1,4 @@
-import { GenericConfigurator } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/product/configurators/common';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
 

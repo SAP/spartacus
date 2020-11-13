@@ -4,12 +4,11 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import {
-  ConverterService,
   GenericConfigurator,
-  OccEndpointsService,
-} from '@spartacus/core';
-import { GenericConfiguratorUtilsService } from '@spartacus/product/configurators/common';
+  GenericConfiguratorUtilsService,
+} from '@spartacus/product/configurators/common';
 import { CART_MODIFICATION_NORMALIZER } from 'projects/core/src/cart';
 import { of } from 'rxjs';
 import { VariantConfiguratorOccAdapter } from '.';

@@ -4,12 +4,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  GenericConfigurator,
   I18nTestingModule,
   LanguageService,
   RoutingService,
 } from '@spartacus/core';
-import { GenericConfiguratorUtilsService } from '@spartacus/product/configurators/common';
+import {
+  GenericConfigurator,
+  GenericConfiguratorUtilsService,
+} from '@spartacus/product/configurators/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';

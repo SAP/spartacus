@@ -3,12 +3,14 @@ import { select, Store } from '@ngrx/store';
 import {
   ActiveCartService,
   CheckoutService,
-  GenericConfigurator,
   OCC_USER_ID_CURRENT,
   StateUtils,
   StateWithMultiCart,
 } from '@spartacus/core';
-import { GenericConfiguratorUtilsService } from '@spartacus/product/configurators/common';
+import {
+  GenericConfigurator,
+  GenericConfiguratorUtilsService,
+} from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { delayWhen, filter, map, take, tap } from 'rxjs/operators';
 import { Configurator } from '../model/configurator.model';

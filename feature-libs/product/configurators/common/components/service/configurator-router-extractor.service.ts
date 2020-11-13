@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
-import {
-  GenericConfigurator,
-  RouterState,
-  RoutingService,
-} from '@spartacus/core';
+import { RouterState, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { GenericConfigurator } from '../../core/model/generic-configurator.model';
 import { GenericConfiguratorUtilsService } from '../../shared/utils/generic-configurator-utils.service';
 import { ConfiguratorRouter } from './configurator-router-data';
 

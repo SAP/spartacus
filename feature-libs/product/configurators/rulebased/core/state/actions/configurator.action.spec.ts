@@ -1,7 +1,10 @@
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
-import { GenericConfigurator, StateUtils } from '@spartacus/core';
-import { GenericConfiguratorUtilsService } from '@spartacus/product/configurators/common';
+import { StateUtils } from '@spartacus/core';
+import {
+  GenericConfigurator,
+  GenericConfiguratorUtilsService,
+} from '@spartacus/product/configurators/common';
 import { Configurator } from '../../model/configurator.model';
 import { CONFIGURATOR_DATA } from '../configurator-state';
 import * as ConfiguratorActions from './configurator.action';

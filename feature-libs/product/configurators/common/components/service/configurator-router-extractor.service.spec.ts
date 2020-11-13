@@ -2,12 +2,12 @@ import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  GenericConfigurator,
   I18nTestingModule,
   RouterState,
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { GenericConfigurator } from '../../core/model/generic-configurator.model';
 import { ConfiguratorRouter } from './configurator-router-data';
 import { ConfiguratorRouterExtractorService } from './configurator-router-extractor.service';
 

@@ -2,11 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {
-  GenericConfigurator,
-  I18nTestingModule,
-  RoutingService,
-} from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/product/configurators/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';

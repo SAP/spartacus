@@ -1,4 +1,4 @@
-import { GenericConfigurator } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/product/configurators/common';
 import { Configurator } from '../../../rulebased/core/model/configurator.model';
 
 export const PRODUCT_CODE = 'CONF_LAPTOP';

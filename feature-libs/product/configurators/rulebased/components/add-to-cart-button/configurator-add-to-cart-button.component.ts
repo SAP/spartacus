@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
-  GenericConfigurator,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
@@ -8,6 +7,7 @@ import {
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
+  GenericConfigurator,
 } from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';

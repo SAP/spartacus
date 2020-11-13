@@ -1,7 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { GenericConfigurator } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';

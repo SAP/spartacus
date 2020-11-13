@@ -1,7 +1,9 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { GenericConfigurator } from '@spartacus/core';
-import { ConfiguratorRouterExtractorService } from '@spartacus/product/configurators/common';
+import {
+  ConfiguratorRouterExtractorService,
+  GenericConfigurator,
+} from '@spartacus/product/configurators/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
 import { CommonConfiguratorTestUtilsService } from '../../../common/shared/testing/common-configurator-test-utils.service';

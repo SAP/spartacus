@@ -1,4 +1,5 @@
-import { CartModification, GenericConfigurator } from '@spartacus/core';
+import { CartModification } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 

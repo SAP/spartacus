@@ -2,13 +2,11 @@ import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
+import { ActiveCartService, Cart, StateUtils } from '@spartacus/core';
 import {
-  ActiveCartService,
-  Cart,
   GenericConfigurator,
-  StateUtils,
-} from '@spartacus/core';
-import { GenericConfiguratorUtilsService } from '@spartacus/product/configurators/common';
+  GenericConfiguratorUtilsService,
+} from '@spartacus/product/configurators/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { productConfigurationWithConflicts } from '../../shared/testing/configurator-test-data';

@@ -3,11 +3,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  GenericConfigurator,
   I18nTestingModule,
   RouterState,
   RoutingService,
 } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/product/configurators/common';
 import { PageLayoutModule } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { Observable } from 'rxjs';

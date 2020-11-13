@@ -4,7 +4,6 @@ export * from './cms.model';
 export * from './consent.model';
 export * from './consignment-tracking.model';
 export * from './customer-coupon.model';
-export * from './generic-configurator.model';
 export * from './image.model';
 export * from './misc.model';
 export * from './notification-preference.model';

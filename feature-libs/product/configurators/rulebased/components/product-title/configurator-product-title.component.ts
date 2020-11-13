@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { GenericConfigurator, Product, ProductService } from '@spartacus/core';
-import { ConfiguratorRouterExtractorService } from '@spartacus/product/configurators/common';
+import { Product, ProductService } from '@spartacus/core';
+import {
+  ConfiguratorRouterExtractorService,
+  GenericConfigurator,
+} from '@spartacus/product/configurators/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';

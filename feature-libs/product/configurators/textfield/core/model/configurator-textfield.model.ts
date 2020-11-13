@@ -1,4 +1,4 @@
-import { GenericConfigurator } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/product/configurators/common';
 
 export namespace ConfiguratorTextfield {
   /**

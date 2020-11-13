@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { GenericConfigurator, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/product/configurators/common';
 import {
   IconLoaderService,
   IconModule,

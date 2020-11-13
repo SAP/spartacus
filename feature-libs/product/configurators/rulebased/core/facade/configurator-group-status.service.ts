@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { GenericConfigurator } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Configurator } from '../model/configurator.model';

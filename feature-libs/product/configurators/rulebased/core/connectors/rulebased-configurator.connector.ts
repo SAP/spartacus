@@ -1,6 +1,9 @@
 import { Inject, Injectable, InjectionToken } from '@angular/core';
-import { CartModification, GenericConfigurator } from '@spartacus/core';
-import { GenericConfiguratorUtilsService } from '@spartacus/product/configurators/common';
+import { CartModification } from '@spartacus/core';
+import {
+  GenericConfigurator,
+  GenericConfiguratorUtilsService,
+} from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { Configurator } from '../model/configurator.model';
 import { RulebasedConfiguratorAdapter } from './rulebased-configurator.adapter';

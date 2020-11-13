@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  GenericConfigurator,
   I18nTestingModule,
   Product,
   ProductService,
@@ -12,6 +11,7 @@ import {
 } from '@spartacus/core';
 import {
   CommonConfiguratorTestUtilsService,
+  GenericConfigurator,
   GenericConfiguratorUtilsService,
 } from '@spartacus/product/configurators/common';
 import { IconLoaderService } from '@spartacus/storefront';

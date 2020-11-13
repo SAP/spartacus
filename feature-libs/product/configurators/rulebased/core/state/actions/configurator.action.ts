@@ -1,4 +1,5 @@
-import { GenericConfigurator, StateUtils } from '@spartacus/core';
+import { StateUtils } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/product/configurators/common';
 import { Configurator } from '../../model/configurator.model';
 import { CONFIGURATOR_DATA } from '../configurator-state';
 

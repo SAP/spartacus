@@ -1,13 +1,15 @@
 import { ChangeDetectionStrategy, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  GenericConfigurator,
   GlobalMessageService,
   I18nTestingModule,
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { ConfiguratorRouter } from '@spartacus/product/configurators/common';
+import {
+  ConfiguratorRouter,
+  GenericConfigurator,
+} from '@spartacus/product/configurators/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';

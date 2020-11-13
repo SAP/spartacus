@@ -1,4 +1,4 @@
-import { GenericConfigurator } from '@spartacus/core';
+import { GenericConfigurator } from '../../core/model/generic-configurator.model';
 export namespace ConfiguratorRouter {
   export enum PageType {
     CONFIGURATION = 'configuration',

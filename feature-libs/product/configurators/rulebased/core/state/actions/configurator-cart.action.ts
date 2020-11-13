@@ -1,9 +1,6 @@
 import { Action } from '@ngrx/store';
-import {
-  GenericConfigurator,
-  MULTI_CART_DATA,
-  StateUtils,
-} from '@spartacus/core';
+import { MULTI_CART_DATA, StateUtils } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/product/configurators/common';
 import { Configurator } from '../../model/configurator.model';
 import { CONFIGURATOR_DATA } from '../configurator-state';
 

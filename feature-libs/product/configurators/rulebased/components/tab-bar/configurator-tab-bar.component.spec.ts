@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  GenericConfigurator,
   I18nTestingModule,
   RouterState,
   RoutingService,
 } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/product/configurators/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
 

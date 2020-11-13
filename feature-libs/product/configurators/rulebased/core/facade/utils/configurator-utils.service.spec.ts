@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
-import { GenericConfigurator } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/product/configurators/common';
 import {
   ATTRIBUTE_1_CHECKBOX,
   GROUP_ID_1,

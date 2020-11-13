@@ -5,9 +5,9 @@ import { Store, StoreModule } from '@ngrx/store';
 import {
   ActiveCartService,
   Cart,
-  GenericConfigurator,
   OCC_USER_ID_ANONYMOUS,
 } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/product/configurators/common';
 import { of } from 'rxjs';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../state/actions/index';

@@ -7,9 +7,9 @@ import { StoreModule } from '@ngrx/store';
 import {
   CartActions,
   CartModification,
-  GenericConfigurator,
   normalizeHttpError,
 } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/product/configurators/common';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { ConfiguratorTextfieldConnector } from '../../connectors/configurator-textfield.connector';

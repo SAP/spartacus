@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { GenericConfigurator } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/product/configurators/common';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
