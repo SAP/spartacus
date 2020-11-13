@@ -204,10 +204,10 @@ describe('Storefront config utils', () => {
       it(`should return it as the path, and set 'isAppModule' to false`, async () => {
         const {
           path: resultPath,
-          isAppModule,
+          isAppModuleConfig,
         } = getSpartacusConfigurationFilePath(appTree, defaultOptions.project);
         expect(resultPath).toEqual(SPARTACUS_CONFIGURATION_FILE_PATH);
-        expect(isAppModule).toEqual(false);
+        expect(isAppModuleConfig).toEqual(false);
       });
     });
     describe(`when the '${SPARTACUS_CONFIGURATION_FILE_PATH}' does NOT exist`, () => {
@@ -217,24 +217,24 @@ describe('Storefront config utils', () => {
       it(`should return app.module.ts as the path, and set 'isAppModule' to true`, async () => {
         const {
           path: resultPath,
-          isAppModule,
+          isAppModuleConfig,
         } = getSpartacusConfigurationFilePath(appTree, defaultOptions.project);
         expect(resultPath).toEqual(appModulePath);
-        expect(isAppModule).toEqual(true);
+        expect(isAppModuleConfig).toEqual(true);
       });
     });
   });
 
   describe('getSpartacusConfigurationFile', () => {
     it('should return the source file', async () => {
-      const { configurationFile, isAppModule } = getSpartacusConfigurationFile(
-        appTree,
-        defaultOptions.project
-      );
+      const {
+        configurationFile,
+        isAppModuleConfig,
+      } = getSpartacusConfigurationFile(appTree, defaultOptions.project);
       expect(configurationFile.fileName).toEqual(
         SPARTACUS_CONFIGURATION_FILE_PATH
       );
-      expect(isAppModule).toEqual(false);
+      expect(isAppModuleConfig).toEqual(false);
     });
   });
 });

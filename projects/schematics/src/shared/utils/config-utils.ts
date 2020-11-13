@@ -359,19 +359,19 @@ function convert(newValues: string | string[]): string {
 export function getSpartacusConfigurationFilePath(
   host: Tree,
   project: string
-): { path: string; isAppModule: boolean } {
+): { path: string; isAppModuleConfig: boolean } {
   // try the separate config file
   if (host.exists(SPARTACUS_CONFIGURATION_FILE_PATH)) {
     return {
       path: SPARTACUS_CONFIGURATION_FILE_PATH,
-      isAppModule: false,
+      isAppModuleConfig: false,
     };
   }
 
   const path = retrieveAppModulePath(host, project);
   return {
     path,
-    isAppModule: true,
+    isAppModuleConfig: true,
   };
 }
 
@@ -380,15 +380,15 @@ export function getSpartacusConfigurationFile(
   project: string
 ): {
   configurationFile: ts.SourceFile;
-  isAppModule: boolean;
+  isAppModuleConfig: boolean;
 } {
-  const { path, isAppModule } = getSpartacusConfigurationFilePath(
+  const { path, isAppModuleConfig } = getSpartacusConfigurationFilePath(
     host,
     project
   );
   const configurationFile = getTsSourceFile(host, path);
   return {
     configurationFile,
-    isAppModule,
+    isAppModuleConfig,
   };
 }

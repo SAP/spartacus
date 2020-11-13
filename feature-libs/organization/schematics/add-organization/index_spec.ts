@@ -17,6 +17,7 @@ import { Schema as SpartacusOrganizationOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const appModulePath = '/src/app/app.module.ts';
+const configurationFilePath = '/src/app/spartacus-configuration.ts';
 
 describe('Spartacus Organization schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -147,9 +148,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
       });
 
       it('should not contain lazy loading syntax', async () => {
-        const configFile = appTree.readContent(
-          '/src/app/spartacus-configuration.ts'
-        );
+        const configFile = appTree.readContent(configurationFilePath);
         expect(configFile).not.toContain(
           `import('@spartacus/organization/administration').then(`
         );
@@ -164,9 +163,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
       });
 
       it('should import AdministrationRootModule and contain the lazy loading syntax', async () => {
-        const configFile = appTree.readContent(
-          '/src/app/spartacus-configuration.ts'
-        );
+        const configFile = appTree.readContent(configurationFilePath);
         expect(configFile).toContain(
           `import('@spartacus/organization/administration').then(`
         );
@@ -211,9 +208,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
       });
 
       it('should not contain lazy loading syntax', async () => {
-        const configFile = appTree.readContent(
-          '/src/app/spartacus-configuration.ts'
-        );
+        const configFile = appTree.readContent(configurationFilePath);
         expect(configFile).not.toContain(
           `import('@spartacus/organization/order-approval').then(`
         );
@@ -228,9 +223,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
       });
 
       it('should import OrderApprovalRootModule and contain the lazy loading syntax', async () => {
-        const configFile = appTree.readContent(
-          '/src/app/spartacus-configuration.ts'
-        );
+        const configFile = appTree.readContent(configurationFilePath);
         expect(configFile).toContain(
           `import('@spartacus/organization/order-approval').then(`
         );

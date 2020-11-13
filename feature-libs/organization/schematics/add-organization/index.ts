@@ -73,9 +73,9 @@ export function addSpartacusOrganization(
 
     const {
       path: configurationFile,
-      isAppModule,
+      isAppModuleConfig,
     } = getSpartacusConfigurationFilePath(tree, options.project);
-    const appModulePath = isAppModule
+    const appModulePath = isAppModuleConfig
       ? configurationFile
       : retrieveAppModulePath(tree, options.project);
 

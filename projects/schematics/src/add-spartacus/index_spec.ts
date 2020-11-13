@@ -6,6 +6,8 @@ import * as path from 'path';
 import { Schema as SpartacusOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
+const appModuleFilePath = '/projects/schematics-test/src/app/app.module.ts';
+const configurationFilePath = '/src/app/spartacus-configuration.ts';
 
 describe('add-spartacus', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -70,9 +72,7 @@ describe('add-spartacus', () => {
     const tree = await schematicRunner
       .runSchematicAsync('add-spartacus', defaultOptions, appTree)
       .toPromise();
-    const appModule = tree.readContent(
-      '/projects/schematics-test/src/app/app.module.ts'
-    );
+    const appModule = tree.readContent(appModuleFilePath);
     expect(
       appModule.includes(
         `import { B2cStorefrontModule } from '@spartacus/storefront';`
@@ -89,9 +89,7 @@ describe('add-spartacus', () => {
           appTree
         )
         .toPromise();
-      const configFile = tree.readContent(
-        '/src/app/spartacus-configuration.ts'
-      );
+      const configFile = tree.readContent(configurationFilePath);
       expect(configFile.includes(`baseUrl: 'test-url'`)).toBe(true);
     });
 
@@ -101,9 +99,7 @@ describe('add-spartacus', () => {
           const tree = await schematicRunner
             .runSchematicAsync('add-spartacus', { ...defaultOptions }, appTree)
             .toPromise();
-          const appModule = tree.readContent(
-            '/projects/schematics-test/src/app/app.module.ts'
-          );
+          const appModule = tree.readContent(appModuleFilePath);
           expect(appModule.includes(`prefix: '/occ/v2/'`)).toBe(false);
         });
       });
@@ -117,9 +113,7 @@ describe('add-spartacus', () => {
               appTree
             )
             .toPromise();
-          const configFile = tree.readContent(
-            '/src/app/spartacus-configuration.ts'
-          );
+          const configFile = tree.readContent(configurationFilePath);
           expect(configFile.includes(`prefix: '/occ/v2/'`)).toBe(true);
         });
       });
@@ -133,9 +127,7 @@ describe('add-spartacus', () => {
           appTree
         )
         .toPromise();
-      const configFile = tree.readContent(
-        '/src/app/spartacus-configuration.ts'
-      );
+      const configFile = tree.readContent(configurationFilePath);
       expect(configFile.includes(`level: '1.5'`)).toBe(true);
     });
 
@@ -163,9 +155,7 @@ describe('add-spartacus', () => {
               appTree
             )
             .toPromise();
-          const configFile = tree.readContent(
-            '/src/app/spartacus-configuration.ts'
-          );
+          const configFile = tree.readContent(configurationFilePath);
           expect(configFile.includes(`baseSite: ['test-site']`)).toBe(true);
         });
 
@@ -181,9 +171,7 @@ describe('add-spartacus', () => {
               appTree
             )
             .toPromise();
-          const configFile = tree.readContent(
-            '/src/app/spartacus-configuration.ts'
-          );
+          const configFile = tree.readContent(configurationFilePath);
 
           expect(
             configFile.includes(
@@ -204,9 +192,7 @@ describe('add-spartacus', () => {
             appTree
           )
           .toPromise();
-        const configFile = tree.readContent(
-          '/src/app/spartacus-configuration.ts'
-        );
+        const configFile = tree.readContent(configurationFilePath);
 
         expect(configFile.includes(`baseSite: [`)).toBeFalsy();
       });
@@ -222,9 +208,7 @@ describe('add-spartacus', () => {
               appTree
             )
             .toPromise();
-          const configFile = tree.readContent(
-            '/src/app/spartacus-configuration.ts'
-          );
+          const configFile = tree.readContent(configurationFilePath);
 
           expect(configFile.includes(`currency: ['USD']`)).toBe(true);
         });
@@ -239,9 +223,7 @@ describe('add-spartacus', () => {
               appTree
             )
             .toPromise();
-          const configFile = tree.readContent(
-            '/src/app/spartacus-configuration.ts'
-          );
+          const configFile = tree.readContent(configurationFilePath);
 
           expect(configFile.includes(`currency: ['RSD']`)).toBe(true);
         });
@@ -256,9 +238,7 @@ describe('add-spartacus', () => {
               appTree
             )
             .toPromise();
-          const configFile = tree.readContent(
-            '/src/app/spartacus-configuration.ts'
-          );
+          const configFile = tree.readContent(configurationFilePath);
 
           expect(configFile.includes(`currency: ['CAD', 'RSD']`)).toBe(true);
         });
@@ -275,9 +255,7 @@ describe('add-spartacus', () => {
               appTree
             )
             .toPromise();
-          const configFile = tree.readContent(
-            '/src/app/spartacus-configuration.ts'
-          );
+          const configFile = tree.readContent(configurationFilePath);
 
           expect(configFile.includes(`language: ['en']`)).toBe(true);
         });
@@ -292,9 +270,7 @@ describe('add-spartacus', () => {
               appTree
             )
             .toPromise();
-          const configFile = tree.readContent(
-            '/src/app/spartacus-configuration.ts'
-          );
+          const configFile = tree.readContent(configurationFilePath);
 
           expect(configFile.includes(`language: ['sr']`)).toBe(true);
         });
@@ -309,9 +285,7 @@ describe('add-spartacus', () => {
               appTree
             )
             .toPromise();
-          const configFile = tree.readContent(
-            '/src/app/spartacus-configuration.ts'
-          );
+          const configFile = tree.readContent(configurationFilePath);
 
           expect(configFile.includes(`language: ['en', 'sr']`)).toBe(true);
         });
@@ -332,9 +306,7 @@ describe('add-spartacus', () => {
               appTree
             )
             .toPromise();
-          const configFile = tree.readContent(
-            '/src/app/spartacus-configuration.ts'
-          );
+          const configFile = tree.readContent(configurationFilePath);
 
           expect(
             configFile.includes(`
@@ -442,9 +414,7 @@ describe('add-spartacus', () => {
       const indexHtmlFile = tree.readContent(
         '/projects/schematics-test/src/index.html'
       );
-      const configFile = tree.readContent(
-        '/src/app/spartacus-configuration.ts'
-      );
+      const configFile = tree.readContent(configurationFilePath);
       expect(
         indexHtmlFile.includes(
           `<meta name="occ-backend-base-url" content="test-url" />`
