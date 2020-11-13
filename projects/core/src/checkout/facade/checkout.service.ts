@@ -30,8 +30,8 @@ import { CheckoutSelectors } from '../store/selectors/index';
 export class CheckoutService {
   constructor(
     protected checkoutStore: Store<StateWithCheckout | StateWithProcess<void>>,
-    protected userIdService: UserIdService,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartService,
+    protected userIdService: UserIdService
   ) {}
 
   /**

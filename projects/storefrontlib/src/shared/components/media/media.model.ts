@@ -27,7 +27,7 @@ export interface MediaContainer {
 }
 
 /**
- * Specificies media size information that can be used to generate information for the
+ * Specifies media size information that can be used to generate information for the
  * browser to resolve the right media for the right layout or device.
  */
 export interface MediaFormatSize {
@@ -37,4 +37,28 @@ export interface MediaFormatSize {
    * different media's can be used in a responsive layout.
    */
   width?: number;
+}
+
+/**
+ * Indicates how the browser should load the image.
+ *
+ * While this might not add too much value in some scenarios, as we have other
+ * optimizations to defer loading of larger pieces of the DOM, there might be
+ * components who haven't implemented other lazy loading techniques. Moreover,
+ * a server sides rendered page that lands directly in the browser could benefit
+ * enormously from the lazy loading of images.
+ */
+export enum ImageLoadingStrategy {
+  /**
+   * Loads the image immediately, regardless of whether or not the image
+   * is currently within the visible viewport (this is the default value).
+   */
+  EAGER = 'eager',
+  /**
+   * Defers loading the image until it reaches a calculated distance from the viewport,
+   * as defined by the browser. The intent is to avoid the network and storage bandwidth
+   * needed to handle the image until it's reasonably certain that it will be needed.
+   * This generally improves the performance of the content in most typical use cases.
+   */
+  LAZY = 'lazy',
 }

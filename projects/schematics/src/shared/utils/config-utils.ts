@@ -55,29 +55,28 @@ export function getExistingStorefrontConfigNode(
  * @param configName
  */
 export function getConfig(
-  callExpressionNode: ts.CallExpression,
+  inputNode: ts.Node,
   configName: string
-): ts.SyntaxList | undefined {
+): ts.PropertyAssignment | undefined {
+  const objectLiteralExpression = findNodes(
+    inputNode,
+    ts.SyntaxKind.ObjectLiteralExpression
+  )[0];
+
   const propertyAssignments = findNodes(
-    callExpressionNode,
+    objectLiteralExpression,
     ts.SyntaxKind.PropertyAssignment
-  );
+  ) as ts.PropertyAssignment[];
+
   for (const propertyAssignment of propertyAssignments) {
     const config = findNode(
       propertyAssignment,
       ts.SyntaxKind.Identifier,
       configName
     );
+
     if (config) {
-      const syntaxListNodes = findNodes(
-        config.parent,
-        ts.SyntaxKind.SyntaxList,
-        1,
-        true
-      );
-      return syntaxListNodes.length
-        ? (syntaxListNodes[0] as ts.SyntaxList)
-        : undefined;
+      return propertyAssignment;
     }
   }
 
@@ -96,7 +95,7 @@ export function getConfig(
  */
 export function mergeConfig(
   path: string,
-  configObject: ts.SyntaxList,
+  configObject: ts.PropertyAssignment,
   configName: string,
   newValues: string | string[]
 ): Change {
@@ -161,20 +160,41 @@ function handleRegularConfigMerge(
  */
 export function createNewConfig(
   path: string,
-  configObject: ts.SyntaxList,
+  configObject: ts.PropertyAssignment | ts.ObjectLiteralExpression,
   configPropertyName: string,
   newValues: string | string[]
 ): InsertChange {
   const configValue = convert(newValues);
+
+  let node: ts.Node;
+  if (configObject.kind === ts.SyntaxKind.ObjectLiteralExpression) {
+    const syntaxListNode = findNodes(
+      configObject,
+      ts.SyntaxKind.SyntaxList,
+      1,
+      true
+    )[0] as ts.SyntaxList;
+    node = syntaxListNode;
+  } else {
+    const nestedProperties = findNodes(
+      configObject,
+      ts.SyntaxKind.PropertyAssignment,
+      2,
+      true
+    ) as ts.PropertyAssignment[];
+    node = configObject;
+    if (nestedProperties.length) {
+      node = nestedProperties[nestedProperties.length - 1];
+    }
+  }
+
   const leadingTriviaWidth =
-    configObject.getLeadingTriviaWidth() !== 0
-      ? configObject.getLeadingTriviaWidth()
-      : 1;
+    node.getLeadingTriviaWidth() !== 0 ? node.getLeadingTriviaWidth() : 1;
   const indentation = ' '.repeat(leadingTriviaWidth - 1);
   const property = configPropertyName !== '' ? `${configPropertyName}: ` : '';
   const insertChange = new InsertChange(
     path,
-    configObject.getStart(),
+    node.getStart(),
     `${property}${configValue},\n${indentation}`
   );
   return insertChange;

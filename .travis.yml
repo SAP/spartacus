@@ -8,6 +8,8 @@ git:
 branches:
   only:
     - develop
+    - "/^feature\\/.*$/"
+    - "/^epic\\/.*$/"
     - "/^hotfix\\/.*$/"
     - "/^release\\/.*$/"
 env:
