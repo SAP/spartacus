@@ -261,6 +261,10 @@
         @include visible-focus();
         outline-offset: -2px;
       }
+
+      & td cx-toggle-link-cell a.invisible-focus-border {
+        outline-width: 0px;
+      }
     }
   }
 
