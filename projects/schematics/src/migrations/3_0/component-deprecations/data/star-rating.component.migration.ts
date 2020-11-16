@@ -12,7 +12,7 @@ export const STAR_RATING_COMPONENT_MIGRATION: ComponentData = {
   removedProperties: [
     {
       name: SET_RATE_ON_EVENT,
-      comment: `'${SET_RATE_ON_EVENT}' output was removed. The '${SET_RATE}' method should be used instead`,
+      comment: `'${SET_RATE_ON_EVENT}' method was removed. The '${SET_RATE}' method should be used instead`,
     },
   ],
 };
