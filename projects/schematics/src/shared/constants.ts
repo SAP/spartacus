@@ -293,12 +293,6 @@ export const MULTI_CART_STATE_PERSISTENCE_SERVICE =
 export const LANGUAGE_SERVICE = 'LanguageService';
 export const CURRENCY_SERVICE = 'CurrencyService';
 
-
-export const ASM_MAIN_UI_COMPONENT = 'AsmMainUiComponent';
-export const ASM_COMPONENT_SERVICE = 'AsmComponentService';
-export const ASM_SERVICE = 'AsmService';
-export const ASM_SESSION_TIMER_COMPONENT = 'AsmSessionTimerComponent';
-export const ASM_CONFIG = 'AsmConfig';
 export const ASM_AUTH_SERVICE = 'AsmAuthService';
 
 export const FORGOT_PASSWORD_COMPONENT = 'ForgotPasswordComponent';
