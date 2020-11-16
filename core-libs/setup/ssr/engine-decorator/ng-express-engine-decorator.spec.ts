@@ -7,7 +7,7 @@ import {
 } from './ng-express-engine-decorator';
 import { SERVER_REQUEST_URL } from '@spartacus/core';
 
-fdescribe('NgExpressEngineDecorator', () => {
+describe('NgExpressEngineDecorator', () => {
   describe('get', () => {
     let originalEngine: NgExpressEngine;
     let originalEngineInstance: NgExpressEngineInstance;
