@@ -1,32 +1,46 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   EventEmitter,
   HostBinding,
+  HostListener,
   Input,
-  OnInit,
   Output,
-  Renderer2,
 } from '@angular/core';
 import { ICON_TYPE } from '../../../cms-components/misc/index';
 
+/**
+ * Star rating component can be used to view existing ratings as well
+ * as create new ratings. The component can be used for any ratings.
+ *
+ * The rating component has a few import inputs/outputs:
+ */
 @Component({
   selector: 'cx-star-rating',
   templateUrl: './star-rating.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StarRatingComponent implements OnInit {
-  /**
-   * The rating component can be used in disabled mode,
-   * so that the interation is not provided.
-   */
-  @Input() @HostBinding('attr.disabled') disabled = false;
+export class StarRatingComponent {
+  protected initialRate = 0;
+
+  icon = ICON_TYPE.STAR;
 
   /**
-   * The rating will be used to render some colorful stars in the UI.
+   * The rating component can be used in disabled mode,
+   * so that the interaction is not provided.
+   *
+   * Defaults to true.
    */
-  @Input() rating: number;
+  @Input() @HostBinding('attr.disabled') disabled = true;
+
+  /**
+   * The rating is used to color the rating stars. It can have a
+   * precise number. The rating number is used for a CSS custom property
+   * (AKA css variable) value. The actually coloring is done in CSS.
+   */
+  @Input()
+  @HostBinding('style.--star-fill')
+  rating: number = this.initialRate;
 
   /**
    * Emits the given rating when the user clicks on a star.
@@ -34,24 +48,19 @@ export class StarRatingComponent implements OnInit {
   // tslint:disable-next-line:no-output-native
   @Output() change = new EventEmitter<number>();
 
-  private initialRate = 0;
-
-  iconTypes = ICON_TYPE;
-
-  constructor(protected el: ElementRef, protected renderer: Renderer2) {}
-
-  ngOnInit(): void {
-    this.setRate(this.rating, true);
+  setRate(value: number): void {
+    if (this.disabled) {
+      return;
+    }
+    this.rating = value;
   }
 
-  setRate(value: number, force?: boolean): void {
-    if (!this.disabled || force) {
-      this.renderer.setAttribute(
-        this.el.nativeElement,
-        'style',
-        `--star-fill:${value || this.initialRate};`
-      );
+  @HostListener('mouseout')
+  reset() {
+    if (this.disabled) {
+      return;
     }
+    this.rating = this.initialRate ?? 0;
   }
 
   saveRate(rating: number): void {
@@ -61,12 +70,5 @@ export class StarRatingComponent implements OnInit {
     this.initialRate = rating;
     this.setRate(rating);
     this.change.emit(rating);
-  }
-
-  setRateOnEvent(event: any, rating: number) {
-    if (event.code === 'Space') {
-      event.preventDefault();
-      this.setRate(rating);
-    }
   }
 }

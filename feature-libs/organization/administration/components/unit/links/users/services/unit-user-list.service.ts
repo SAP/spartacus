@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   B2BUser,
-  B2BUserGroup,
+  B2BUserRole,
   EntitiesModel,
   PaginationModel,
 } from '@spartacus/core';
@@ -29,10 +29,6 @@ export class UnitUserListService extends OrganizationSubListService<B2BUser> {
     pagination: PaginationModel,
     code: string
   ): Observable<EntitiesModel<B2BUser>> {
-    return this.unitService.getUsers(
-      code,
-      B2BUserGroup.B2B_CUSTOMER_GROUP,
-      pagination
-    );
+    return this.unitService.getUsers(code, B2BUserRole.CUSTOMER, pagination);
   }
 }
