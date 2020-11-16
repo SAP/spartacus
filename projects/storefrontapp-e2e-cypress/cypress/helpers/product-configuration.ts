@@ -557,7 +557,7 @@ export function checkNotificationBanner(
 ): void {
   const resolveIssuesText = 'must be resolved before checkout.  Resolve Issues';
   element
-    .get('.cx-error-msg-container')
+    .get('.cx-error-msg')
     .first()
     .invoke('text')
     .then((text) => {

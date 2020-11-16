@@ -1,7 +1,11 @@
 %cx-configurator-issues-notification {
-  .cx-error-container {
+  display: none;
+
+  &:not(:empty) {
     display: flex;
-    width: 100%;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
     background-color: rgba(245, 206, 206, 1);
     padding-inline-start: 5px;
     padding-inline-end: 5px;
@@ -10,33 +14,34 @@
     margin-block-start: 1.25rem;
     margin-block-end: 1.25rem;
 
-    .cx-error-icon-container {
+    @include media-breakpoint-up(xs) {
+      align-items: center;
+    }
+
+    cx-icon {
+      align-self: flex-start;
+      color: var(--cx-color-danger);
+      font-size: 30px;
       padding-inline-start: 15px;
       padding-inline-end: 15px;
       padding-block-start: 5px;
       padding-block-end: 5px;
     }
 
-    .cx-error-msg-container {
-      padding-block-start: 10px;
-      padding-block-end: 10px;
-    }
+    .cx-error-msg {
+      padding-inline-end: 15px;
 
-    .cx-error-msg-action {
-      button.link {
-        color: var(--cx-color-text);
-        text-decoration: underline;
+      .cx-error-msg-action {
+        button.link {
+          color: var(--cx-color-text);
+          text-decoration: underline;
 
-        &:hover {
-          color: var(--cx-color-primary);
-          text-decoration: none;
+          &:hover {
+            color: var(--cx-color-primary);
+            text-decoration: none;
+          }
         }
       }
-    }
-
-    .cx-error-icon {
-      color: var(--cx-color-danger);
-      font-size: 30px;
     }
   }
 }

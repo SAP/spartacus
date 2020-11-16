@@ -50,7 +50,6 @@ const SPEAKER_TYPE_FRONT = 'SPEAKER_TYPE_FRONT';
 const WHITE = 'COLOUR_HT_WHITE';
 const TITAN = 'COLOUR_HT_TITAN';
 const SDHC = 'SDHC';
-const RAW = 'RAW';
 const JPEG = 'JPEG';
 const PROJECTOR_LCD = 'PROJECTOR_LCD';
 const P5 = 'P5';
@@ -86,7 +85,7 @@ context('Product Configuration', () => {
     cy.visit('/');
   });
 
-  describe('Navigate to Product Configuration Page', () => {
+  describe.skip('Navigate to Product Configuration Page', () => {
     it('should be able to navigate from the product search result', () => {
       cy.server();
       cy.route(
@@ -136,7 +135,7 @@ context('Product Configuration', () => {
     });
   });
 
-  describe('Configure Product', () => {
+  describe.skip('Configure Product', () => {
     it('Image Attribute Types - Single Selection', () => {
       configuration.goToConfigurationPage(testProductMultiLevel);
       configuration.isAttributeDisplayed(ROOM_SIZE, radioGroup);
@@ -165,7 +164,7 @@ context('Product Configuration', () => {
     });
   });
 
-  describe('Group Status', () => {
+  describe.skip('Group Status', () => {
     it('should set group status for single level product', () => {
       cy.server();
       cy.route(
@@ -283,7 +282,7 @@ context('Product Configuration', () => {
     });
   });
 
-  describe('Group Handling', () => {
+  describe.skip('Group Handling', () => {
     it('should navigate between groups', () => {
       configuration.goToConfigurationPage(testProduct);
       configuration.clickOnNextBtn(SPECIFICATION);
