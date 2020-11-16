@@ -8,7 +8,7 @@ describe('B2B - Order Approval', () => {
     cy.window().then((win) => win.sessionStorage.clear());
   });
 
-  describe('B2B - Check order approval in Order details page for customer', () => {
+  describe('Check order approval in Order details page for customer', () => {
     it('should display order approval details in order details page', () => {
       orderApproval.loginB2bUser();
       orderApproval.getStubbedPendingOrderDetails();
@@ -18,7 +18,7 @@ describe('B2B - Order Approval', () => {
     });
   });
 
-  describe('B2B - Order approval list and details for order approver', () => {
+  describe('Order approval list and details for order approver', () => {
     before(() => {
       orderApproval.loginB2bApprover();
       cy.saveLocalStorage();
@@ -121,7 +121,7 @@ describe('B2B - Order Approval', () => {
     });
   });
 
-  describe('B2B - Order Approval dashboard', () => {
+  describe('Auhtorized access tests', () => {
     const APPROVAL_DASHBOARD_ROUTE =
       'powertools-spa/en/USD/my-account/approval-dashboard';
 
@@ -189,12 +189,12 @@ function assertButtons() {
 }
 
 function assertPermissionResults(order) {
-  cy.get('cx-order-details-approval-details').within(() => {
+  cy.get('cx-order-detail-permission-results').within(() => {
     cy.get('tr').should('have.length', order.permissionResults.length);
   });
 
   order.permissionResults.forEach((permission, index) => {
-    cy.get('cx-order-details-approval-details tr')
+    cy.get('cx-order-detail-permission-results tr')
       .eq(index)
       .within(() => {
         cy.get('.cx-approval-approverName').should(
