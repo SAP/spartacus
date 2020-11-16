@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   B2BUser,
-  B2BUserGroup,
+  B2BUserRole,
   EntitiesModel,
   SearchConfig,
   StateUtils,
@@ -297,12 +297,12 @@ export class B2BUserService {
    * If you reconfigure those roles in the backend or extend the list, you should change
    * this implementation accordingly.
    */
-  getAllRoles(): B2BUserGroup[] {
+  getAllRoles(): B2BUserRole[] {
     return [
-      B2BUserGroup.B2B_CUSTOMER_GROUP,
-      B2BUserGroup.B2B_MANAGER_GROUP,
-      B2BUserGroup.B2B_APPROVER_GROUP,
-      B2BUserGroup.B2B_ADMIN_GROUP,
+      B2BUserRole.CUSTOMER,
+      B2BUserRole.MANAGER,
+      B2BUserRole.APPROVER,
+      B2BUserRole.ADMIN,
     ];
   }
 

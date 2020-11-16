@@ -60,6 +60,7 @@ export const HTTP_CLIENT = 'HttpClient';
 export const B2C_STOREFRONT_MODULE = 'B2cStorefrontModule';
 export const CONFIG_MODULE_CLASS = 'ConfigModule';
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
+export const PROVIDE_CONFIG_FUNCTION = 'provideConfig';
 export const PROVIDE_DEFAULT_CONFIG = 'provideDefaultConfig';
 export const DEFAULT_B2B_OCC_CONFIG = 'defaultB2bOccConfig';
 export const CMS_CONFIG = 'CmsConfig';
