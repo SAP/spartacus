@@ -42,6 +42,8 @@ export const COMPILER = 'Compiler';
 
 export const STORE = 'Store';
 
+export const ACTIONS = 'Actions';
+
 export const FORM_BUILDER = 'FormBuilder';
 export const JSONLD_PRODUCT_REVIEW_BUILDER = 'JsonLdProductReviewBuilder';
 
@@ -271,6 +273,9 @@ export const ORDER_CANCELLATION_SERVICE = 'OrderCancellationService';
 export const ORDER_RETURN_GUARD = 'OrderReturnGuard';
 export const ORDER_RETURN_SERVICE = 'OrderReturnService';
 export const PRODUCT_VARIANT_GUARD = 'ProductVariantGuard';
+export const USER_CONNECTOR = 'UserConnector';
+export const USER_REGISTER_EFFECT = 'UserRegisterEffects';
+
 export const TEST_OUTLET_MODULE = 'TestOutletModule';
 export const TEST_CONFIG_MODULE = 'TestConfigModule';
 export const NOT_AUTH_GUARD = 'NotAuthGuard';
@@ -279,7 +284,7 @@ export const AUTH_REDIRECT_STORAGE_SERVICE = 'AuthRedirectStorageService';
 export const USER_ID_SERVICE = 'UserIdService';
 export const OAUTH_LIB_WRAPPER_SERVICE = 'OAuthLibWrapperService';
 export const AUTH_STORAGE_SERVICE = 'AuthStorageService';
-export const ASM_AUTH_SERVICE = 'AsmAuthService';
+
 export const CDC_AUTH_SERVICE = 'CdcAuthService';
 export const COLLAPSE_MENU_IF_CLICK_OUTSIDE = 'collapseMenuIfClickOutside';
 export const FORBIDDEN_HANDLER = 'ForbiddenHandler';
@@ -287,6 +292,12 @@ export const MULTI_CART_STATE_PERSISTENCE_SERVICE =
   'MultiCartStatePersistenceService';
 export const LANGUAGE_SERVICE = 'LanguageService';
 export const CURRENCY_SERVICE = 'CurrencyService';
+
+export const ASM_AUTH_SERVICE = 'AsmAuthService';
+
+export const FORGOT_PASSWORD_COMPONENT = 'ForgotPasswordComponent';
+export const AUTH_CONFIG_SERVICE = 'AuthConfigService';
+export const CLOSE_ACCOUNT_MODAL_COMPONENT = 'CloseAccountModalComponent';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -402,7 +413,6 @@ export const FIND_STORES_CLASS = 'FindStores';
 
 export const ON_SUCCESS = 'onSuccess';
 
-export const ACTIONS = 'Actions';
 export const CHECKOUT_ACTIONS = 'CheckoutActions';
 export const PLACE_ORDER_CLASS = 'PlaceOrder';
 export const CHECKOUT_STEP_SERVICE = 'CheckoutStepService';
@@ -514,6 +524,7 @@ export const STEPS = 'steps';
 export const GET_CHILD_ROUTES = 'getChildRoutes';
 export const GET_ALL = 'getAll';
 export const NG_ON_DESTROY = 'ngOnDestroy';
+export const NG_ON_INIT = 'ngOnInit';
 export const LOGIN_AS_GUEST = 'loginAsGuest';
 export const GET_BASE_SITE_DATA = 'getBaseSiteData';
 export const LOAD_PRODUCT_REFERENCES = 'loadProductReferences';
@@ -527,6 +538,8 @@ export const REDIRECT = 'redirect';
 export const SYNC = 'sync';
 export const INIT_SYNC = 'initSync';
 export const SET_ACTIVE = 'setActive';
+export const SET_RATE_ON_EVENT = 'setRateOnEvent';
+export const SET_RATE = 'setRate';
 /***** APIs end *****/
 
 /***** Misc start *****/

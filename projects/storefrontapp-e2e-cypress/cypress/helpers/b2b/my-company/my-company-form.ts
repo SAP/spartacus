@@ -82,6 +82,8 @@ export function completeForm(
               return fillTextInput(input);
             case INPUT_TYPE.DATE_TIME:
               return fillDateTimePicker(input);
+            case INPUT_TYPE.DATE:
+              return fillTextInput(input);
             case INPUT_TYPE.NG_SELECT:
               return fillNgSelect(input);
             case INPUT_TYPE.CHECKBOX:
