@@ -44,6 +44,7 @@ import { ROUTING_SERVICE_MIGRATION } from './data/routing.service.migration';
 import { SELECTIVE_CART_SERVICE_MIGRATION } from './data/selective-cart.service.migration';
 import { SHIPPING_ADDRESS_SET_GUARD_MIGRATION } from './data/shipping-address-set.guard.migration';
 import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
+import { STAR_RATING_COMPONENT_MIGRATION } from './data/star-rating.component.migration';
 import { STOCK_NOTIFICATION_COMPONENT_MIGRATION } from './data/stock-notification.component.migration';
 import { USER_ADDRESS_SERVICE_MIGRATION } from './data/user-address.service.migration';
 import { USER_CONSENT_SERVICE_MIGRATION } from './data/user-consent.service.migration';
@@ -105,6 +106,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CHECKOUT_PAYMENT_SERVICE_MIGRATION,
   CHECKOUT_SERVICE_MIGRATION,
   JSONLD_PRODUCT_REVIEW_BUILDER_MIGRATION,
+  STAR_RATING_COMPONENT_MIGRATION,
 ];
 
 export function migrate(): Rule {
