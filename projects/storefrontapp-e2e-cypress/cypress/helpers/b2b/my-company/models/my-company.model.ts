@@ -1,6 +1,7 @@
 export enum INPUT_TYPE {
   TEXT = 'text',
   DATE_TIME = 'datetime',
+  DATE = 'date',
   NG_SELECT = 'ngSelect',
   CHECKBOX = 'checkbox',
 }
