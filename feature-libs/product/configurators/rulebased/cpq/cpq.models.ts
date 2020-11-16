@@ -35,4 +35,39 @@ export namespace Cpq {
      */
     sessionId: string;
   }
+
+  /**
+   * An interface representing the CPQ configuration .
+   */
+  export interface Configuration {
+    productSystemId: string;
+    productName?: string;
+    tabs?: Tab[];
+    attributes?: Attribute[];
+    rootProduct?: string;
+  }
+
+  export interface Tab {
+    id: number;
+    name?: string;
+    displayName?: string;
+    isIncomplete?: boolean;
+    isSelected?: boolean;
+  }
+
+  export interface Attribute {
+    pA_ID: number;
+    name?: string;
+    description?: string;
+    values?: Value[];
+  }
+
+  export interface Value {
+    paV_ID: number;
+    productSystemId: string;
+    description?: string;
+    selected?: boolean;
+    price: number;
+    quantity: number;
+  }
 }
