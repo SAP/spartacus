@@ -19,10 +19,6 @@ export const USER_ORDER_SERVICE_MIGRATION: ConstructorDeprecation = {
       importPath: NGRX_STORE,
     },
     {
-      className: USER_ID_SERVICE,
-      importPath: SPARTACUS_CORE,
-    },
-    {
       className: AUTH_SERVICE,
       importPath: SPARTACUS_CORE,
     },
