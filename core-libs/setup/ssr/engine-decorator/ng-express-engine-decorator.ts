@@ -1,5 +1,8 @@
 import { NgModuleFactory, StaticProvider, Type } from '@angular/core';
-import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from './ssr.providers';
+import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '@spartacus/core';
+import { OptimizedSsrEngine } from '../optimized-engine/optimized-ssr-engine';
+import { SsrOptimizationOptions } from '../optimized-engine/ssr-optimization-options';
+import { REQUEST } from '@nguniversal/express-engine/tokens';
 
 /**
  * These are the allowed options for the engine
@@ -43,23 +46,38 @@ export class NgExpressEngineDecorator {
    *
    * @param ngExpressEngine
    */
-  static get(ngExpressEngine: NgExpressEngine): NgExpressEngine {
-    const result = function cxNgExpressEngine(
-      setupOptions: NgSetupOptions
-    ): NgExpressEngineInstance {
-      return (filePath, options, callback) => {
-        const engineInstance = ngExpressEngine({
-          ...setupOptions,
-          providers: [
-            ...getServerRequestProviders(options),
-            ...(setupOptions.providers || []),
-          ],
-        });
-        return engineInstance(filePath, options, callback);
-      };
-    };
+  static get(
+    ngExpressEngine: NgExpressEngine,
+    optimizationOptions?: SsrOptimizationOptions
+  ): NgExpressEngine {
+    const result = decorateExpressEngine(ngExpressEngine, optimizationOptions);
     return result;
   }
+}
+
+export function decorateExpressEngine(
+  ngExpressEngine: NgExpressEngine,
+  optimizationOptions: SsrOptimizationOptions = {
+    concurrency: 20,
+    timeout: 3000,
+  }
+) {
+  return function (setupOptions: NgSetupOptions) {
+    const engineInstance = ngExpressEngine({
+      ...setupOptions,
+      providers: [
+        // add spartacus related providers
+        ...getServerRequestProviders(),
+        ...(setupOptions.providers ?? []),
+      ],
+    });
+
+    // apply optimization wrapper if optimization options were defined
+    return optimizationOptions
+      ? new OptimizedSsrEngine(engineInstance, optimizationOptions)
+          .engineInstance
+      : engineInstance;
+  };
 }
 
 /**
@@ -67,17 +85,17 @@ export class NgExpressEngineDecorator {
  *
  * @param options
  */
-export function getServerRequestProviders(
-  options: RenderOptions
-): StaticProvider[] {
+export function getServerRequestProviders(): StaticProvider[] {
   return [
     {
       provide: SERVER_REQUEST_URL,
-      useValue: getRequestUrl(options.req),
+      useFactory: getRequestUrl,
+      deps: [REQUEST],
     },
     {
       provide: SERVER_REQUEST_ORIGIN,
-      useValue: getRequestOrigin(options.req),
+      useFactory: getRequestOrigin,
+      deps: [REQUEST],
     },
   ];
 }
