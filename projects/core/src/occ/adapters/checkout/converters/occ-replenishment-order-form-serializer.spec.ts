@@ -1,6 +1,7 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { TimeUtils } from '@spartacus/core';
 import { OccReplenishmentOrderFormSerializer } from './occ-replenishment-order-form-serializer';
+import { TestingTimeUtils } from '../../../../../../../projects/core/src/util/testing-time-utils';
 
 const mockTime = '10:00';
 const mockDate = '2021-06-01';
@@ -26,8 +27,8 @@ describe('OccReplenishmentOrderFormSerializer', () => {
   });
 
   it('should convert with replenishment start date', () => {
-    TimeUtils.fakeToLocaleTimeString(mockTime, () => {
-      TimeUtils.fakeDateTimezoneOffset(-120, () => {
+    TestingTimeUtils.fakeToLocaleTimeString(mockTime, () => {
+      TestingTimeUtils.fakeDateTimezoneOffset(-120, () => {
         const mockModelValue = `${mockDate}T${mockTime}:00${TimeUtils.getLocalTimezoneOffset()}`;
         const result = serializer.convert({
           replenishmentStartDate: mockDate,
