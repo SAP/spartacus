@@ -148,7 +148,6 @@ export class OccCmsPageNormalizer
             component.properties = undefined;
           }
           if (!target.components) {
-            // console.log('add components[]', component);
             target.components = [];
           }
           target.components.push(component);
