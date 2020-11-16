@@ -1,5 +1,5 @@
 @mixin is-current-active-selection {
-  outline: solid 3px var(--cx-color-primary);
+  outline: solid 3px green;
   outline-offset: -3px;
   background: var(--cx-color-background-focus);
 }
@@ -262,7 +262,7 @@
         outline-offset: -2px;
       }
 
-      & td cx-toggle-link-cell a.invisible-focus-border {
+      .invisible-focus-border {
         outline-width: 0px;
       }
     }
