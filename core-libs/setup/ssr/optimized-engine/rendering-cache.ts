@@ -8,46 +8,46 @@ export interface RenderingEntry {
 }
 
 export class RenderingCache {
-  protected renderedUrls: {
-    [filePath: string]: RenderingEntry;
+  protected renderings: {
+    [requestKey: string]: RenderingEntry;
   } = {};
 
-  constructor(private options: SsrOptimizationOptions) {}
+  constructor(private options?: SsrOptimizationOptions) {}
 
   setAsRendering(key: string) {
-    this.renderedUrls[key] = { rendering: true };
+    this.renderings[key] = { rendering: true };
   }
 
   isRendering(key: string): boolean {
-    return this.renderedUrls[key]?.rendering;
+    return !!this.renderings[key]?.rendering;
   }
 
   store(key: string, err?: Error | null, html?: string) {
-    this.renderedUrls[key] = { err, html };
-    if (this.options.ttl) {
-      this.renderedUrls[key].time = Date.now();
+    this.renderings[key] = { err, html };
+    if (this.options?.ttl) {
+      this.renderings[key].time = Date.now();
     }
   }
 
   get(key: string): RenderingEntry {
-    return this.renderedUrls[key];
+    return this.renderings[key];
   }
 
   clear(key: string) {
-    delete this.renderedUrls[key];
+    delete this.renderings[key];
   }
 
   isReady(key: string): boolean {
     const isRenderPresent =
-      this.renderedUrls[key]?.html || this.renderedUrls[key]?.err;
+      this.renderings[key]?.html || this.renderings[key]?.err;
     return isRenderPresent && this.isFresh(key);
   }
 
   isFresh(key: string): boolean {
-    if (!this.options.ttl) {
+    if (!this.options?.ttl) {
       return true;
     }
 
-    return Date.now() - (this.renderedUrls[key]?.time ?? 0) < this.options.ttl;
+    return Date.now() - (this.renderings[key]?.time ?? 0) < this.options?.ttl;
   }
 }

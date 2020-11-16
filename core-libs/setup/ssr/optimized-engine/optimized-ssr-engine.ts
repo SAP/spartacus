@@ -41,19 +41,19 @@ export class OptimizedSsrEngine {
   }
 
   protected getRenderingKey(request: Request): string {
-    return this.ssrOptions.renderKeyResolver
+    return this.ssrOptions?.renderKeyResolver
       ? this.ssrOptions.renderKeyResolver(request)
       : request.originalUrl;
   }
 
   protected getRenderingStrategy(request: Request): RenderingStrategy {
-    return this.ssrOptions.renderingStrategyResolver
+    return this.ssrOptions?.renderingStrategyResolver
       ? this.ssrOptions.renderingStrategyResolver(request)
       : RenderingStrategy.DEFAULT;
   }
 
   protected shouldRender(request: Request): boolean {
-    const concurrencyLimitExceed = this.ssrOptions.concurrency
+    const concurrencyLimitExceed = this.ssrOptions?.concurrency
       ? this.currentConcurrency > this.ssrOptions.concurrency
       : false;
 
@@ -74,8 +74,8 @@ export class OptimizedSsrEngine {
 
   protected getTimeout(request: Request): number {
     return this.getRenderingStrategy(request) === RenderingStrategy.ALWAYS_SSR
-      ? this.ssrOptions.forcedSsrTimeout ?? 60000
-      : this.ssrOptions.timeout;
+      ? this.ssrOptions?.forcedSsrTimeout ?? 60000
+      : this.ssrOptions?.timeout ?? 0;
   }
 
   protected returnCachedRender(
@@ -118,9 +118,9 @@ export class OptimizedSsrEngine {
             waitingForRender = undefined;
             this.fallbackToCsr(response, filePath, callback);
             console.log(
-              `SSR rendering exceeded timeout, fallbacking to CSR for ${options.req?.url}`
+              `SSR rendering exceeded timeout, fallbacking to CSR for ${request?.url}`
             );
-          }, this.getTimeout(options.req));
+          }, this.getTimeout(request));
         } else {
           this.fallbackToCsr(response, filePath, callback);
         }

@@ -3,6 +3,7 @@ import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '@spartacus/core';
 import { OptimizedSsrEngine } from '../optimized-engine/optimized-ssr-engine';
 import { SsrOptimizationOptions } from '../optimized-engine/ssr-optimization-options';
 import { REQUEST } from '@nguniversal/express-engine/tokens';
+import { Request } from 'express';
 
 /**
  * These are the allowed options for the engine
@@ -100,10 +101,10 @@ export function getServerRequestProviders(): StaticProvider[] {
   ];
 }
 
-function getRequestUrl(req: any): string {
+function getRequestUrl(req: Request): string {
   return getRequestOrigin(req) + req.originalUrl;
 }
 
-function getRequestOrigin(req: any): string {
+function getRequestOrigin(req: Request): string {
   return req.protocol + '://' + req.get('host');
 }
