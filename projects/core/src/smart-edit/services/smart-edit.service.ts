@@ -3,6 +3,7 @@ import { combineLatest } from 'rxjs';
 import { filter, take, takeWhile } from 'rxjs/operators';
 import { CmsService } from '../../cms/facade/cms.service';
 import { Page } from '../../cms/model/page.model';
+import { BaseSite } from '../../model';
 import { PageType } from '../../model/cms.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
@@ -77,12 +78,9 @@ export class SmartEditService {
 
   protected getDefaultPreviewCode() {
     this.baseSiteService
-      .getBaseSiteData()
-      .pipe(
-        filter((site) => Object.keys(site).length !== 0),
-        take(1)
-      )
-      .subscribe((site) => {
+      .get()
+      .pipe(filter(Boolean), take(1))
+      .subscribe((site: BaseSite) => {
         this.defaultPreviewCategoryCode = site.defaultPreviewCategoryCode;
         this.defaultPreviewProductCode = site.defaultPreviewProductCode;
 

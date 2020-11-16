@@ -31,7 +31,8 @@ class MockUpdateEmailService {
   ): void {
   }
 
-  logout(): void {
+  coreLogout() {
+    return Promise.resolve();
   }
 
   getUpdateEmailResultLoading(): Observable<boolean> {
@@ -148,7 +149,7 @@ describe('UpdateEmailComponent', () => {
     describe('when the user was successfully updated', () => {
       it('should add a global message and navigate to a url ', async () => {
         spyOn(updateEmailService, 'updateEmail').and.stub();
-        spyOn(updateEmailService, 'logout').and.stub();
+        spyOn(updateEmailService, 'coreLogout').and.stub();
 
         const newUid = 'new@sap.com';
 
@@ -167,7 +168,7 @@ describe('UpdateEmailComponent', () => {
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
 
-        expect(updateEmailService.logout).toHaveBeenCalled();
+        expect(updateEmailService.coreLogout).toHaveBeenCalled();
 
         expect(updateEmailService.goToRoute).toHaveBeenCalledWith(
           {cxRoute: 'login'},

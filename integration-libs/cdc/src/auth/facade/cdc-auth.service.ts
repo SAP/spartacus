@@ -3,10 +3,8 @@ import { Store } from '@ngrx/store';
 import {
   AsmAuthStorageService,
   AuthActions,
-  AuthService,
   AuthStorageService,
   AuthToken,
-  BasicAuthService,
   GlobalMessageService,
   GlobalMessageType,
   OCC_USER_ID_CURRENT,
@@ -17,22 +15,19 @@ import {
 import { CdcAuthActions } from '../store/actions';
 
 /**
- * Overrides AuthService to hook CDC modifications and custom OAuth flow used by CDC extension.
+ * Service to support custom CDC OAuth flow.
  */
 @Injectable({
   providedIn: 'root',
 })
-export class CdcAuthService extends AuthService {
+export class CdcAuthService {
   constructor(
-    protected winRef: WindowRef,
     protected store: Store,
+    protected winRef: WindowRef,
     protected authStorageService: AuthStorageService,
     protected userIdService: UserIdService,
-    protected basicAuthService: BasicAuthService,
     protected globalMessageService: GlobalMessageService
-  ) {
-    super(basicAuthService);
-  }
+  ) {}
 
   /**
    * Loads a new user token using custom oauth flow
@@ -43,7 +38,7 @@ export class CdcAuthService extends AuthService {
    * @param idToken
    * @param baseSite
    */
-  public authorizeWithCustomCdcFlow(
+  loginWithCustomCdcFlow(
     UID: string,
     UIDSignature: string,
     signatureTimestamp: string,
@@ -66,9 +61,7 @@ export class CdcAuthService extends AuthService {
    *
    * @param token
    */
-  public loginWithToken(
-    token: Partial<AuthToken> & { expires_in?: number }
-  ): void {
+  loginWithToken(token: Partial<AuthToken> & { expires_in?: number }): void {
     let tokenTarget: TokenTarget;
     let currentToken: AuthToken;
     if ('getTokenTarget' in this.authStorageService) {
@@ -124,24 +117,9 @@ export class CdcAuthService extends AuthService {
   }
 
   /**
-   * @override
-   *
-   * Logout a customer in storefront and CDC.
-   *
-   * @returns promise which resolves after completing logout
-   */
-  public logout(): Promise<any> {
-    return Promise.all([
-      super.logout(),
-      // trigger logout from CDC
-      this.logoutFromCdc(),
-    ]);
-  }
-
-  /**
    * Logout user from CDC
    */
-  protected logoutFromCdc(): void {
+  logoutFromCdc(): void {
     this.winRef.nativeWindow?.['gigya']?.accounts?.logout();
   }
 }
