@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { B2BUser, B2BUserGroup } from '@spartacus/core';
+import { B2BUser, B2BUserRole } from '@spartacus/core';
 import {
   B2BUserService,
   LoadStatus,
@@ -43,7 +43,7 @@ export class UnitUserRolesFormComponent {
     map((item) => this.formService.getForm(item))
   );
 
-  availableRoles: B2BUserGroup[] = this.userService.getAllRoles();
+  availableRoles: B2BUserRole[] = this.userService.getAllRoles();
 
   constructor(
     protected itemService: OrganizationItemService<B2BUser>,

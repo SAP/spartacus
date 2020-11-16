@@ -38,6 +38,7 @@ export const OBSERVABLE_CLASS = 'Observable';
 export const RENDERER_2 = 'Renderer2';
 export const ELEMENT_REF = 'ElementRef';
 export const INJECTOR = 'Injector';
+export const COMPILER = 'Compiler';
 
 export const STORE = 'Store';
 
@@ -59,6 +60,7 @@ export const HTTP_CLIENT = 'HttpClient';
 export const B2C_STOREFRONT_MODULE = 'B2cStorefrontModule';
 export const CONFIG_MODULE_CLASS = 'ConfigModule';
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
+export const PROVIDE_CONFIG_FUNCTION = 'provideConfig';
 export const PROVIDE_DEFAULT_CONFIG = 'provideDefaultConfig';
 export const DEFAULT_B2B_OCC_CONFIG = 'defaultB2bOccConfig';
 export const CMS_CONFIG = 'CmsConfig';
@@ -72,6 +74,7 @@ export const CMS_GET_COMPONENT_FROM_PAGE = 'CmsGetComponentFromPage';
 export const USER_ADDRESS_SERVICE = 'UserAddressService';
 export const AUTH_SERVICE = 'AuthService';
 export const FEATURE_CONFIG_SERVICE = 'FeatureConfigService';
+export const FEATURE_MODULES_SERVICE = 'FeatureModulesService';
 export const SEMANTIC_PATH_SERVICE = 'SemanticPathService';
 export const CMS_SERVICE = 'CmsService';
 export const PAGE_META_SERVICE = 'PageMetaService';
@@ -134,6 +137,7 @@ export const CART_PAGE_LAYOUT_HANDLER = 'CartPageLayoutHandler';
 export const SELECTIVE_CART_SERVICE = 'SelectiveCartService';
 export const CDS_SPARTACUS_EVENT_SERVICE = 'SpartacusEventService';
 export const CONSENT_SERVICE = 'ConsentService';
+export const EVENT_SERVICE = 'EventService';
 export const CDS_CONFIG = 'CdsConfig';
 export const ADDRESS_BOOK_COMPONENT_SERVICE = 'AddressBookComponentService';
 export const CHECKOUT_GUARD = 'CheckoutGuard';
@@ -236,6 +240,8 @@ export const KEYBOARD_FOCUS_SERVICE = 'KeyboardFocusService';
 export const STOREFRONT_COMPONENT = 'StorefrontComponent';
 export const HAMBURGER_MENU_SERVICE = 'HamburgerMenuService';
 export const ROUTING_PARAMS_SERVICE = 'RoutingParamsService';
+export const CONFIG_INITIALIZER_SERVICE = 'ConfigInitializerService';
+export const LAZY_MODULES_SERVICE = 'LazyModulesService';
 export const ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT =
   'AnonymousConsentManagementBannerComponent';
 export const ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE =
@@ -260,26 +266,27 @@ export const ITEM_COUNTER_COMPONENT = 'ItemCounterComponent';
 export const UPDATE_EMAIL_COMPONENT = 'UpdateEmailComponent';
 export const PRODUCT_CAROUSEL_SERVICE = 'ProductCarouselService';
 export const PRODUCT_REFERENCE_SERVICE = 'ProductReferenceService';
-
+export const ORDER_CANCELLATION_GUARD = 'OrderCancellationGuard';
+export const ORDER_CANCELLATION_SERVICE = 'OrderCancellationService';
+export const ORDER_RETURN_GUARD = 'OrderReturnGuard';
+export const ORDER_RETURN_SERVICE = 'OrderReturnService';
+export const PRODUCT_VARIANT_GUARD = 'ProductVariantGuard';
 export const TEST_OUTLET_MODULE = 'TestOutletModule';
 export const TEST_CONFIG_MODULE = 'TestConfigModule';
-
 export const NOT_AUTH_GUARD = 'NotAuthGuard';
 export const AUTH_GUARD = 'AuthGuard';
 export const AUTH_REDIRECT_STORAGE_SERVICE = 'AuthRedirectStorageService';
 export const USER_ID_SERVICE = 'UserIdService';
 export const OAUTH_LIB_WRAPPER_SERVICE = 'OAuthLibWrapperService';
 export const AUTH_STORAGE_SERVICE = 'AuthStorageService';
-
 export const ASM_AUTH_SERVICE = 'AsmAuthService';
-
 export const CDC_AUTH_SERVICE = 'CdcAuthService';
-
 export const COLLAPSE_MENU_IF_CLICK_OUTSIDE = 'collapseMenuIfClickOutside';
-
 export const FORBIDDEN_HANDLER = 'ForbiddenHandler';
 export const MULTI_CART_STATE_PERSISTENCE_SERVICE =
   'MultiCartStatePersistenceService';
+export const LANGUAGE_SERVICE = 'LanguageService';
+export const CURRENCY_SERVICE = 'CurrencyService';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -507,6 +514,7 @@ export const STEPS = 'steps';
 export const GET_CHILD_ROUTES = 'getChildRoutes';
 export const GET_ALL = 'getAll';
 export const NG_ON_DESTROY = 'ngOnDestroy';
+export const NG_ON_INIT = 'ngOnInit';
 export const LOGIN_AS_GUEST = 'loginAsGuest';
 export const GET_BASE_SITE_DATA = 'getBaseSiteData';
 export const LOAD_PRODUCT_REFERENCES = 'loadProductReferences';
@@ -515,8 +523,13 @@ export const GET = 'get';
 export const GET_WINDOW = 'window';
 export const GET_CLOSEST = 'getClosest';
 export const GET_BREAKPOINT = 'getBreakpoint';
+export const LOGOUT = 'logout';
+export const REDIRECT = 'redirect';
 export const SYNC = 'sync';
 export const INIT_SYNC = 'initSync';
+export const SET_ACTIVE = 'setActive';
+export const SET_RATE_ON_EVENT = 'setRateOnEvent';
+export const SET_RATE = 'setRate';
 /***** APIs end *****/
 
 /***** Misc start *****/

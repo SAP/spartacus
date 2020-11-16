@@ -19,7 +19,6 @@
   <cx-star-rating
     *ngIf="product.averageRating"
     [rating]="product?.averageRating"
-    [disabled]="true"
   ></cx-star-rating>
   <div *ngIf="!product.averageRating">
     {{ 'productDetails.noReviews' | cxTranslate }}
