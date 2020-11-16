@@ -1,5 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Budget, Occ, OccConfig, TimeUtils } from '@spartacus/core';
+import { TestingTimeUtils } from '../../../../../projects/core/src/util/testing-time-utils';
 import { OccBudgetSerializer } from './occ-budget-serializer';
 
 const MockOccModuleConfig: OccConfig = {
@@ -57,8 +58,8 @@ describe('BudgetSerializer', () => {
   });
 
   it('should convert with start date and end date', () => {
-    TimeUtils.fakeToLocaleTimeString(mockTime, () => {
-      TimeUtils.fakeDateTimezoneOffset(-120, () => {
+    TestingTimeUtils.fakeToLocaleTimeString(mockTime, () => {
+      TestingTimeUtils.fakeDateTimezoneOffset(-120, () => {
         const mockModelStartValue = `${mockStartDate}T00:00:00${TimeUtils.getLocalTimezoneOffset()}`;
         const mockModelEndValue = `${mockEndDate}T23:59:59${TimeUtils.getLocalTimezoneOffset()}`;
 
