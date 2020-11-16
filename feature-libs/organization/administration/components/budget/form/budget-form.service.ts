@@ -20,7 +20,13 @@ export class BudgetFormService extends OrganizationFormService<Budget> {
     form.setControl('name', new FormControl('', Validators.required));
     form.setControl('startDate', new FormControl('', Validators.required));
     form.setControl('endDate', new FormControl('', Validators.required));
-    form.setControl('budget', new FormControl('', Validators.required));
+    form.setControl(
+      'budget',
+      new FormControl('', [
+        Validators.required,
+        CustomFormValidators.mustBePositive,
+      ])
+    );
 
     form.setControl(
       'currency',
