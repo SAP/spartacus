@@ -81,7 +81,7 @@ export function decorateExpressEngine(
 }
 
 /**
- * Returns Spartacus' providers to be passed to the Angular express engine (in SSR)
+ * Returns Spartacus providers to be passed to the Angular express engine (in SSR)
  *
  * @param options
  */
