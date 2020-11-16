@@ -108,6 +108,7 @@ export const common = {
     },
     cartNotFound: 'Cart not found.',
     invalidCodeProvided: 'Invalid code provided.',
+    modelSavingError: 'Could not save.',
   },
   miniCart: {
     item: '{{count}} item currently in your cart',

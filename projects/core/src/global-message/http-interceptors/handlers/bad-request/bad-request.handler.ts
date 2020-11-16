@@ -21,6 +21,7 @@ export class BadRequestHandler extends HttpErrorHandler {
     this.handleBadCartRequest(request, response);
     this.handleValidationError(request, response);
     this.handleVoucherOperationError(request, response);
+    this.handleModelSavingError(request, response);
   }
 
   protected handleBadPassword(
@@ -103,6 +104,22 @@ export class BadRequestHandler extends HttpErrorHandler {
       .forEach(() => {
         this.globalMessageService.add(
           { key: 'httpHandlers.invalidCodeProvided' },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      });
+  }
+
+  protected handleModelSavingError(
+    _request: HttpRequest<any>,
+    response: HttpErrorResponse
+  ): void {
+    this.getErrors(response)
+      .filter((e) => e.type === 'ModelSavingError')
+      .forEach(() => {
+        this.globalMessageService.add(
+          {
+            key: `httpHandlers.modelSavingError`,
+          },
           GlobalMessageType.MSG_TYPE_ERROR
         );
       });
