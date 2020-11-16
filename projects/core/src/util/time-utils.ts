@@ -20,12 +20,12 @@ export class TimeUtils {
   static convertDateToDatetime(date: string, endOfDay?: boolean): string {
     return `${date}T${
       !endOfDay ? '00:00:00' : '23:59:59'
-    }${this.getLocalTimezoneOffset()}`;
+    }${TimeUtils.getLocalTimezoneOffset()}`;
   }
 
   static convertDatetimeToDate(datetime: string): string {
     return new Date(
-      `${datetime.substring(0, 19)}${this.getLocalTimezoneOffset(true)}`
+      `${datetime.substring(0, 19)}${TimeUtils.getLocalTimezoneOffset(true)}`
     )
       .toISOString()
       .substring(0, 10);
