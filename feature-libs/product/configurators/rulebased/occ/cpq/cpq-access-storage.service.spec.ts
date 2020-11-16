@@ -47,7 +47,7 @@ describe('CpqAccessStorgeService', () => {
     expect(serviceUnderTest).toBeDefined();
   });
 
-  it('should return access data', (done) => {
+  it('should return access data', () => {
     serviceUnderTest.getCachedCpqAccessData().subscribe((returnedData) => {
       expect(returnedData).toBeDefined();
       expect(returnedData.accessToken).toEqual(accessData.accessToken);
@@ -55,7 +55,6 @@ describe('CpqAccessStorgeService', () => {
         accessData.tokenExpirationTime
       );
       expect(returnedData.endpoint).toEqual(accessData.endpoint);
-      done();
     });
     const mockReq = httpMock.expectOne((req) => {
       return req.method === 'GET' && req.url === '/getCpqAccessData';
@@ -63,7 +62,7 @@ describe('CpqAccessStorgeService', () => {
     mockReq.flush(accessData);
   });
 
-  it('should cache access data', (done) => {
+  it('should cache access data', () => {
     let counter = 0;
     // first request
     serviceUnderTest.getCachedCpqAccessData().subscribe((returnedData) => {
@@ -84,7 +83,6 @@ describe('CpqAccessStorgeService', () => {
     serviceUnderTest.getCachedCpqAccessData().subscribe((returnedData) => {
       expect(returnedData).toBeDefined();
       counter++;
-      done();
     });
 
     httpMock.expectNone('/getCpqAccessData');

@@ -62,12 +62,11 @@ describe('CpqConfiguratorRestAdapter', () => {
     );
   });
 
-  it('should fetch token when creating config', (done) => {
+  it('should fetch token when creating config', () => {
     adapterUnderTest
       .createConfiguration(productConfiguration.owner)
       .subscribe((config) => {
         expect(config.configId).toEqual(token);
-        done();
       });
     const mockReq = httpMock.expectOne((req) => {
       return req.method === 'GET' && req.url === '/getCpqAccessData';
