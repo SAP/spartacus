@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TimeUtils } from '@spartacus/core';
+import { TimeUtils } from '../../../../util/time-utils';
 import { ScheduleReplenishmentForm } from '../../../../model/replenishment-order.model';
 import { Converter } from '../../../../util/converter.service';
 import { Occ } from '../../../occ-models/occ.models';
