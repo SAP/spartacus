@@ -11,6 +11,7 @@ import { ORDER_DETAIL_SHIPPING_COMPONENT_MIGRATION } from './data/order-detail-s
 import { PAYMENT_METHOD_COMPONENT_MIGRATION } from './data/payment-method.component.migration';
 import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
 import { CLOSE_ACCOUNT_MODAL_COMPONENT_MIGRATION } from './data/close-account-modal.component.migration';
+import { STAR_RATING_COMPONENT_MIGRATION } from './data/star-rating.component.migration';
 
 export const COMPONENT_DEPRECATION_DATA: ComponentData[] = [
   CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT_MIGRATION,
@@ -23,6 +24,7 @@ export const COMPONENT_DEPRECATION_DATA: ComponentData[] = [
   ADDED_TO_CART_DIALOG_COMPONENT_MIGRATION,
   CART_ITEM_COMPONENT_MIGRATION,
   CLOSE_ACCOUNT_MODAL_COMPONENT_MIGRATION,
+  STAR_RATING_COMPONENT_MIGRATION,
 ];
 
 export function migrate(): Rule {

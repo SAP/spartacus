@@ -524,6 +524,7 @@ export const STEPS = 'steps';
 export const GET_CHILD_ROUTES = 'getChildRoutes';
 export const GET_ALL = 'getAll';
 export const NG_ON_DESTROY = 'ngOnDestroy';
+export const NG_ON_INIT = 'ngOnInit';
 export const LOGIN_AS_GUEST = 'loginAsGuest';
 export const GET_BASE_SITE_DATA = 'getBaseSiteData';
 export const LOAD_PRODUCT_REFERENCES = 'loadProductReferences';
@@ -537,6 +538,8 @@ export const REDIRECT = 'redirect';
 export const SYNC = 'sync';
 export const INIT_SYNC = 'initSync';
 export const SET_ACTIVE = 'setActive';
+export const SET_RATE_ON_EVENT = 'setRateOnEvent';
+export const SET_RATE = 'setRate';
 /***** APIs end *****/
 
 /***** Misc start *****/
