@@ -5,17 +5,9 @@ import {
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { OccEndpointsService } from '@spartacus/core';
+import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
 import { Cpq } from '../../cpq/cpq.models';
 import { CpqAccessLoaderService } from './cpq-access-loader.service';
-
-class MockOccEndpointsService {
-  getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
-    return this.getEndpoint(endpoint);
-  }
-  getEndpoint(url: string) {
-    return url;
-  }
-}
 
 const accessData: Cpq.AccessData = {
   accessToken: '8273635',
@@ -65,7 +57,7 @@ describe('CpqAccessLoaderService', () => {
     serviceUnderTest.getCpqAccessData().subscribe();
 
     const mockReq = httpMock.expectOne((req) => {
-      return req.method === 'GET' && req.url === 'getCpqAccessData';
+      return req.method === 'GET' && req.url === '/getCpqAccessData';
     });
 
     expect(occEnpointsService.getUrl).toHaveBeenCalledWith('getCpqAccessData');
