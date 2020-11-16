@@ -38,7 +38,7 @@ class MockCurrentService extends CurrentOrganizationItemService<Mock> {
   }
 }
 
-fdescribe('CurrentOrganizationItemService', () => {
+describe('CurrentOrganizationItemService', () => {
   let service: MockCurrentService;
 
   beforeEach(() => {
