@@ -8,12 +8,12 @@ import {
   CheckoutService,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
-  OrderEntryStatus,
   StateUtils,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
+  ConfiguratorOrderEntryStatus,
 } from '@spartacus/product/configurators/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
@@ -43,16 +43,18 @@ const cart: Cart = {
   entries: [
     {
       statusSummaryList: [
-        { status: OrderEntryStatus.Success, numberOfIssues: 1 },
+        { status: ConfiguratorOrderEntryStatus.Success, numberOfIssues: 1 },
       ],
     },
     {
       statusSummaryList: [
-        { status: OrderEntryStatus.Error, numberOfIssues: 0 },
+        { status: ConfiguratorOrderEntryStatus.Error, numberOfIssues: 0 },
       ],
     },
     {
-      statusSummaryList: [{ status: OrderEntryStatus.Info, numberOfIssues: 3 }],
+      statusSummaryList: [
+        { status: ConfiguratorOrderEntryStatus.Info, numberOfIssues: 3 },
+      ],
     },
   ],
 };
@@ -327,7 +329,7 @@ describe('ConfiguratorCartService', () => {
         entries: [
           {
             statusSummaryList: [
-              { status: OrderEntryStatus.Error, numberOfIssues: 1 },
+              { status: ConfiguratorOrderEntryStatus.Error, numberOfIssues: 1 },
             ],
           },
         ],
