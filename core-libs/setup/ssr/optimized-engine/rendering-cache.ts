@@ -1,13 +1,15 @@
 import { SsrOptimizationOptions } from './ssr-optimization-options';
 
+export interface RenderingEntry {
+  html?: any;
+  err?: any;
+  time?: number;
+  rendering?: boolean;
+}
+
 export class RenderingCache {
   protected renderedUrls: {
-    [filePath: string]: {
-      html?: any;
-      err?: any;
-      time?: number;
-      rendering?: boolean;
-    };
+    [filePath: string]: RenderingEntry;
   } = {};
 
   constructor(private options: SsrOptimizationOptions) {}
@@ -27,7 +29,7 @@ export class RenderingCache {
     }
   }
 
-  get(key) {
+  get(key): RenderingEntry {
     return this.renderedUrls[key];
   }
 
@@ -35,17 +37,17 @@ export class RenderingCache {
     delete this.renderedUrls[key];
   }
 
-  isReady(key) {
+  isReady(key): boolean {
     const isRenderPresent =
       this.renderedUrls[key]?.html || this.renderedUrls[key]?.err;
     return isRenderPresent && this.isFresh(key);
   }
 
-  isFresh(key) {
+  isFresh(key): boolean {
     if (!this.options.ttl) {
       return true;
     }
 
-    return Date.now() - this.renderedUrls[key]?.time ?? 0 < this.options.ttl;
+    return Date.now() - (this.renderedUrls[key]?.time ?? 0) < this.options.ttl;
   }
 }

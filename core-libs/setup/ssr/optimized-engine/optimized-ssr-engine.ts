@@ -16,7 +16,7 @@ export class OptimizedSsrEngine {
   protected renderingCache = new RenderingCache(this.ssrOptions);
   private templateCache = new Map<string, string>();
 
-  get engineInstance() {
+  get engineInstance(): NgExpressEngineInstance {
     return this.renderResponse.bind(this);
   }
 
@@ -35,13 +35,13 @@ export class OptimizedSsrEngine {
     callback(undefined, this.getDocument(filePath));
   }
 
-  protected getRenderingKey(req) {
+  protected getRenderingKey(req): string {
     return this.ssrOptions.renderKeyResolver
       ? this.ssrOptions.renderKeyResolver(req)
       : req.originalUrl;
   }
 
-  protected getRenderingStrategy(req) {
+  protected getRenderingStrategy(req): RenderingStrategy {
     return this.ssrOptions.renderingStrategyResolver
       ? this.ssrOptions.renderingStrategyResolver(req)
       : RenderingStrategy.DEFAULT;
