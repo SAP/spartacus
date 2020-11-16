@@ -20,16 +20,21 @@ export namespace Cpq {
 
   /**
    *
-   * An interface representing the CPQ configuration .
+   * An interface representing the CPQ configuration.
    */
   export interface Configuration {
     productSystemId: string;
     productName?: string;
     tabs?: Tab[];
     attributes?: Attribute[];
-    rootProduct?: string;
+    conflictMessages?: string[];
+    numberOfConflicts?: number;
   }
 
+  /**
+   *
+   * An interface representing the CPQ configuration tab.
+   */
   export interface Tab {
     id: number;
     name?: string;
@@ -38,20 +43,38 @@ export namespace Cpq {
     isSelected?: boolean;
   }
 
+  /**
+   *
+   * An interface representing the CPQ configuration attribute.
+   */
   export interface Attribute {
     pA_ID: number;
     name?: string;
     description?: string;
+    displayAs: number;
+    incomplete?: boolean;
+    selected?: boolean;
+    label?: string;
+    stdAttrCode: number;
+    quantity?: number;
+    isEnabled?: boolean;
+    isLineItem?: boolean;
     values?: Value[];
   }
 
+  /**
+   *
+   * An interface representing the CPQ configuration attribute value.
+   */
   export interface Value {
     paV_ID: number;
     productSystemId: string;
+    valueDisplay?: string;
     description?: string;
     selected?: boolean;
-    price: number;
-    quantity: number;
+    price?: number;
+    quantity?: number;
+    valueCode?: string;
   }
 
 }
