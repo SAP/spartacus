@@ -45,7 +45,7 @@ describe('CurrentChildUnitService', () => {
   });
 
   describe('model$', () => {
-    xit('should not load unit for child units', () => {
+    it('should not load unit for child units', () => {
       spyOn(unitService, 'get').and.callThrough();
       service.item$.subscribe();
       mockParams.next({ [ROUTE_PARAMS.unitCode]: '123' });
