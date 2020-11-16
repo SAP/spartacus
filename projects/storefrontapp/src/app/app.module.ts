@@ -9,7 +9,12 @@ import {
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
-import { ConfigModule, TestConfigModule } from '@spartacus/core';
+import {
+  CartAddEntrySuccessEvent,
+  ConfigModule,
+  EventService,
+  TestConfigModule,
+} from '@spartacus/core';
 import {
   JsonLdBuilderModule,
   StorefrontComponent,
@@ -88,4 +93,10 @@ if (environment.cdc) {
 
   bootstrap: [StorefrontComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(events: EventService) {
+    events
+      .get(CartAddEntrySuccessEvent)
+      .subscribe((x) => console.log('xxx: ', x));
+  }
+}
