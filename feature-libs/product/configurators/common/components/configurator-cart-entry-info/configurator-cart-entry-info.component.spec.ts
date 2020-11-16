@@ -8,11 +8,7 @@ import {
   OrderEntry,
   StatusSummary,
 } from '@spartacus/core';
-import {
-  CartItemContext,
-  CartItemContextModel,
-  GenericConfiguratorModule,
-} from '@spartacus/storefront';
+import { CartItemContext, CartItemContextModel } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { ConfiguratorCartEntryInfoComponent } from './configurator-cart-entry-info.component';
 
@@ -41,7 +37,6 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        GenericConfiguratorModule,
         RouterTestingModule,
         ReactiveFormsModule,
         I18nTestingModule,

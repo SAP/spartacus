@@ -1,11 +1,10 @@
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
+import { MULTI_CART_DATA, StateUtils } from '@spartacus/core';
 import {
-  GenericConfigurator,
-  GenericConfiguratorUtilsService,
-  MULTI_CART_DATA,
-  StateUtils,
-} from '@spartacus/core';
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
+} from '@spartacus/product/configurators/common';
 import { Configurator } from '../../model/configurator.model';
 import { CONFIGURATOR_DATA } from '../configurator-state';
 import * as ConfiguratorActions from './configurator-cart.action';
@@ -16,15 +15,15 @@ const CONFIG_ID = '15468-5464-9852-54682';
 const CONFIGURATION: Configurator.Configuration = {
   productCode: PRODUCT_CODE,
   configId: CONFIG_ID,
-  owner: { id: PRODUCT_CODE, type: GenericConfigurator.OwnerType.PRODUCT },
+  owner: { id: PRODUCT_CODE, type: CommonConfigurator.OwnerType.PRODUCT },
 };
 
 describe('ConfiguratorCartActions', () => {
-  let configuratorUtils: GenericConfiguratorUtilsService;
+  let configuratorUtils: CommonConfiguratorUtilsService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({}).compileComponents();
     configuratorUtils = TestBed.inject(
-      GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
     configuratorUtils.setOwnerKey(CONFIGURATION.owner);
   }));

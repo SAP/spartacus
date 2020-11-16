@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { GenericConfigurator, Product, ProductService } from '@spartacus/core';
-import { ConfiguratorRouterExtractorService } from '@spartacus/product/configurators/common';
+import { Product, ProductService } from '@spartacus/core';
+import {
+  CommonConfigurator,
+  ConfiguratorRouterExtractorService,
+} from '@spartacus/product/configurators/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -19,10 +22,10 @@ export class ConfiguratorProductTitleComponent {
     ),
     map((configuration) => {
       switch (configuration.owner.type) {
-        case GenericConfigurator.OwnerType.PRODUCT:
-        case GenericConfigurator.OwnerType.CART_ENTRY:
+        case CommonConfigurator.OwnerType.PRODUCT:
+        case CommonConfigurator.OwnerType.CART_ENTRY:
           return configuration.productCode;
-        case GenericConfigurator.OwnerType.ORDER_ENTRY:
+        case CommonConfigurator.OwnerType.ORDER_ENTRY:
           return configuration.overview.productCode;
       }
     }),

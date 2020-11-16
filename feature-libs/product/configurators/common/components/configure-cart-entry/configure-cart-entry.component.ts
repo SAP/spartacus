@@ -1,10 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import {
-  GenericConfigurator,
-  GenericConfiguratorUtilsService,
-  OrderEntry,
-} from '@spartacus/core';
+import { OrderEntry } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
+import { CommonConfigurator } from '../../core/model/common-configurator.model';
+import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 
 @Component({
   selector: 'cx-configure-cart-entry',
@@ -23,18 +21,18 @@ export class ConfigureCartEntryComponent {
    * @returns {boolean} - whether there are any issues
    */
   hasIssues(): boolean {
-    return this.genericConfigUtilsService.hasIssues(this.cartEntry);
+    return this.commonConfigUtilsService.hasIssues(this.cartEntry);
   }
 
-  public getOwnerType(): GenericConfigurator.OwnerType {
+  public getOwnerType(): CommonConfigurator.OwnerType {
     return this.cartEntry.orderCode !== undefined
-      ? GenericConfigurator.OwnerType.ORDER_ENTRY
-      : GenericConfigurator.OwnerType.CART_ENTRY;
+      ? CommonConfigurator.OwnerType.ORDER_ENTRY
+      : CommonConfigurator.OwnerType.CART_ENTRY;
   }
 
   public getEntityKey(): string {
     return this.cartEntry.orderCode !== undefined
-      ? this.genericConfigUtilsService.getComposedOwnerId(
+      ? this.commonConfigUtilsService.getComposedOwnerId(
           this.cartEntry.orderCode,
           this.cartEntry.entryNumber
         )
@@ -72,7 +70,7 @@ export class ConfigureCartEntryComponent {
   }
 
   constructor(
-    private genericConfigUtilsService: GenericConfiguratorUtilsService,
+    private commonConfigUtilsService: CommonConfiguratorUtilsService,
     private modalService: ModalService
   ) {}
 }

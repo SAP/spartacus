@@ -3,7 +3,6 @@ export * from './asm/asm.module';
 export * from './cart/index';
 export * from './checkout/index';
 export * from './cms-lib.module';
-export * from './configurator/index';
 export * from './content/index';
 export * from './misc/index';
 export * from './myaccount/index';

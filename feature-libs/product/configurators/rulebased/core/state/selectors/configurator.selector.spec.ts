@@ -2,9 +2,9 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import {
-  GenericConfigurator,
-  GenericConfiguratorUtilsService,
-} from '@spartacus/core';
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
+} from '@spartacus/product/configurators/common';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions';
 import {
@@ -16,9 +16,9 @@ import { ConfiguratorSelectors } from './index';
 
 describe('Configurator selectors', () => {
   let store: Store<StateWithConfigurator>;
-  let configuratorUtils: GenericConfiguratorUtilsService;
+  let configuratorUtils: CommonConfiguratorUtilsService;
   const productCode = 'CONF_LAPTOP';
-  let owner: GenericConfigurator.Owner = {};
+  let owner: CommonConfigurator.Owner = {};
   let configuration: Configurator.Configuration = {
     configId: 'a',
   };
@@ -47,10 +47,10 @@ describe('Configurator selectors', () => {
 
     store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
     configuratorUtils = TestBed.inject(
-      GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
     owner = {
-      type: GenericConfigurator.OwnerType.PRODUCT,
+      type: CommonConfigurator.OwnerType.PRODUCT,
       id: productCode,
     };
     configuration = {

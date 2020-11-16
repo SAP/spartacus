@@ -4,7 +4,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { GenericConfigurator } from '@spartacus/core';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -21,7 +21,7 @@ export class ConfiguratorAttributeHeaderComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit {
   @Input() attribute: Configurator.Attribute;
-  @Input() owner: GenericConfigurator.Owner;
+  @Input() owner: CommonConfigurator.Owner;
   @Input() groupId: string;
   @Input() groupType: Configurator.GroupType;
 

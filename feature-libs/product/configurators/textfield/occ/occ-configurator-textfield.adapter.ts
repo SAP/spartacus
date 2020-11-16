@@ -4,9 +4,9 @@ import {
   CartModification,
   CART_MODIFICATION_NORMALIZER,
   ConverterService,
-  GenericConfigurator,
   OccEndpointsService,
 } from '@spartacus/core';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ConfiguratorTextfieldAdapter } from '../core/connectors/configurator-textfield.adapter';
@@ -29,7 +29,7 @@ export class OccConfiguratorTextfieldAdapter
 
   createConfiguration(
     productCode: string,
-    owner: GenericConfigurator.Owner
+    owner: CommonConfigurator.Owner
   ): Observable<ConfiguratorTextfield.Configuration> {
     return this.http
       .get<OccConfiguratorTextfield.Configuration>(
@@ -72,7 +72,7 @@ export class OccConfiguratorTextfieldAdapter
   }
 
   readConfigurationForCartEntry(
-    parameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
   ): Observable<ConfiguratorTextfield.Configuration> {
     const url = this.occEndpointsService.getUrl(
       'readTextfieldConfigurationForCartEntry',

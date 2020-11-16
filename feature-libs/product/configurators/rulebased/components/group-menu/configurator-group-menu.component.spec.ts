@@ -3,12 +3,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
-  GenericConfigurator,
-  GenericConfiguratorUtilsService,
-  I18nTestingModule,
-  RoutingService,
-} from '@spartacus/core';
+  CommonConfigurator,
+  CommonConfiguratorTestUtilsService,
+  CommonConfiguratorUtilsService,
+} from '@spartacus/product/configurators/common';
 import { HamburgerMenuService, ICON_TYPE } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -16,16 +16,15 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import {
+  ATTRIBUTE_1_CHECKBOX,
   CONFIGURATOR_ROUTE,
+  GROUP_ID_1,
   mockRouterState,
   productConfiguration,
   PRODUCT_CODE,
-  GROUP_ID_1,
-  ATTRIBUTE_1_CHECKBOX,
 } from '../../shared/testing/configurator-test-data';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
-import { ConfiguratorComponentTestUtilsService } from '@spartacus/product/configurators/rulebased';
 
 let mockGroupVisited = false;
 const mockProductConfiguration: Configurator.Configuration = productConfiguration;
@@ -91,7 +90,7 @@ const mockRouterStateIssueNavigation: any = {
   state: {
     params: {
       entityKey: PRODUCT_CODE,
-      ownerType: GenericConfigurator.OwnerType.PRODUCT,
+      ownerType: CommonConfigurator.OwnerType.PRODUCT,
     },
     queryParams: { resolveIssues: 'true' },
     semanticRoute: CONFIGURATOR_ROUTE,
@@ -162,7 +161,7 @@ let fixture: ComponentFixture<ConfiguratorGroupMenuComponent>;
 let configuratorGroupsService: ConfiguratorGroupsService;
 let hamburgerMenuService: HamburgerMenuService;
 let htmlElem: HTMLElement;
-let configuratorUtils: GenericConfiguratorUtilsService;
+let configuratorUtils: CommonConfiguratorUtilsService;
 let routerStateObservable;
 let groupVisitedObservable;
 let productConfigurationObservable;
@@ -223,7 +222,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       HamburgerMenuService as Type<HamburgerMenuService>
     );
     configuratorUtils = TestBed.inject(
-      GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
     configuratorUtils.setOwnerKey(mockProductConfiguration.owner);
     spyOn(configuratorGroupsService, 'navigateToGroup').and.stub();
@@ -451,7 +450,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       mockGroupVisited = false;
       isConflictGroupType = true;
       initialize();
-      ConfiguratorComponentTestUtilsService.expectElementPresent(
+      CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
         'li.cx-menu-item.WARNING'
@@ -466,7 +465,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       mockGroupVisited = true;
       isConflictGroupType = true;
       initialize();
-      ConfiguratorComponentTestUtilsService.expectElementPresent(
+      CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
         'li.cx-menu-item.WARNING'
@@ -481,7 +480,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       mockGroupVisited = false;
       isConflictGroupType = false;
       initialize();
-      ConfiguratorComponentTestUtilsService.expectElementNotPresent(
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
         'li.cx-menu-item.COMPLETE'
@@ -496,7 +495,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       mockGroupVisited = true;
       isConflictGroupType = false;
       initialize();
-      ConfiguratorComponentTestUtilsService.expectElementPresent(
+      CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
         'li.cx-menu-item.COMPLETE'
@@ -511,7 +510,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       mockGroupVisited = false;
       isConflictGroupType = false;
       initialize();
-      ConfiguratorComponentTestUtilsService.expectElementNotPresent(
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
         'li.cx-menu-item.ERROR'
@@ -526,7 +525,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       mockGroupVisited = true;
       isConflictGroupType = false;
       initialize();
-      ConfiguratorComponentTestUtilsService.expectElementPresent(
+      CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
         'li.cx-menu-item.ERROR'
@@ -541,7 +540,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       mockGroupVisited = false;
       isConflictGroupType = false;
       initialize();
-      ConfiguratorComponentTestUtilsService.expectElementPresent(
+      CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
         'li.cx-menu-item.DISABLED'

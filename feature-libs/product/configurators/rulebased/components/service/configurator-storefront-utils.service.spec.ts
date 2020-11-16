@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
-import { GenericConfigurator } from '@spartacus/core';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -17,9 +17,9 @@ class MockConfiguratorGroupsService {
 describe('ConfigUtilsService', () => {
   let classUnderTest: ConfiguratorStorefrontUtilsService;
 
-  const owner: GenericConfigurator.Owner = {
+  const owner: CommonConfigurator.Owner = {
     id: 'testProduct',
-    type: GenericConfigurator.OwnerType.PRODUCT,
+    type: CommonConfigurator.OwnerType.PRODUCT,
   };
 
   beforeEach(() => {
@@ -49,13 +49,13 @@ describe('ConfigUtilsService', () => {
 
   it('should return false because the product has not been added to the cart and the current group was not visited', () => {
     isGroupVisited = of(false);
-    owner.type = GenericConfigurator.OwnerType.PRODUCT;
+    owner.type = CommonConfigurator.OwnerType.PRODUCT;
     expect(getCurrentResult()).toBe(false);
   });
 
   it('should return true because the product has been added to the cart', () => {
     isGroupVisited = of(false);
-    owner.type = GenericConfigurator.OwnerType.CART_ENTRY;
+    owner.type = CommonConfigurator.OwnerType.CART_ENTRY;
     expect(getCurrentResult()).toBe(true);
   });
 

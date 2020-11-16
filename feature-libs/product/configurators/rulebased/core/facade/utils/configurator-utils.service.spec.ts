@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
-import { GenericConfigurator } from '@spartacus/core';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import {
   ATTRIBUTE_1_CHECKBOX,
   GROUP_ID_1,
@@ -25,7 +25,7 @@ const ATTRIBUTE_NAME_2 = 'Attribute_DropDown';
 const ATTRIBUTE_NAME_3_1 = 'Attribute_1';
 const ATTRIBUTE_NAME_3_2 = 'Attribute_DropDown';
 const PRODUCT_CODE = 'CONF_LAPTOP';
-const OWNER_PRODUCT: GenericConfigurator.Owner = {};
+const OWNER_PRODUCT: CommonConfigurator.Owner = {};
 const group1: Configurator.Group = {
   id: GROUP_ID_1,
   name: GROUP_NAME,

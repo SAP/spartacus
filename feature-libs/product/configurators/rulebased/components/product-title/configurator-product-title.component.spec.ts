@@ -4,18 +4,20 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  GenericConfigurator,
-  GenericConfiguratorUtilsService,
   I18nTestingModule,
   Product,
   ProductService,
   RoutingService,
 } from '@spartacus/core';
+import {
+  CommonConfigurator,
+  CommonConfiguratorTestUtilsService,
+  CommonConfiguratorUtilsService,
+} from '@spartacus/product/configurators/common';
 import { IconLoaderService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorComponentTestUtilsService } from '../../shared/testing/configurator-component-test-utils.service';
 import { ConfiguratorProductTitleComponent } from './configurator-product-title.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -27,7 +29,7 @@ const mockRouterState: any = {
   state: {
     params: {
       entityKey: PRODUCT_CODE,
-      ownerType: GenericConfigurator.OwnerType.PRODUCT,
+      ownerType: CommonConfigurator.OwnerType.PRODUCT,
     },
     semanticRoute: CONFIGURATOR_ROUTE,
   },
@@ -36,7 +38,7 @@ const mockRouterState: any = {
 const config: Configurator.Configuration = {
   owner: {
     id: PRODUCT_CODE,
-    type: GenericConfigurator.OwnerType.PRODUCT,
+    type: CommonConfigurator.OwnerType.PRODUCT,
   },
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
@@ -45,7 +47,7 @@ const config: Configurator.Configuration = {
 const orderEntryconfig: Configurator.Configuration = {
   owner: {
     id: PRODUCT_CODE,
-    type: GenericConfigurator.OwnerType.ORDER_ENTRY,
+    type: CommonConfigurator.OwnerType.ORDER_ENTRY,
   },
   configId: CONFIG_ID,
   overview: {
@@ -115,7 +117,7 @@ class MockCxIconComponent {
 describe('ConfigProductTitleComponent', () => {
   let component: ConfiguratorProductTitleComponent;
   let fixture: ComponentFixture<ConfiguratorProductTitleComponent>;
-  let configuratorUtils: GenericConfiguratorUtilsService;
+  let configuratorUtils: CommonConfiguratorUtilsService;
   let htmlElem: HTMLElement;
 
   beforeEach(async(() => {
@@ -149,7 +151,7 @@ describe('ConfigProductTitleComponent', () => {
     component = fixture.componentInstance;
 
     configuratorUtils = TestBed.inject(
-      GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
     configuratorUtils.setOwnerKey(config.owner);
     configuratorUtils.setOwnerKey(orderEntryconfig.owner);
@@ -169,24 +171,24 @@ describe('ConfigProductTitleComponent', () => {
   });
 
   it('should render initial content properly', () => {
-    ConfiguratorComponentTestUtilsService.expectElementPresent(
+    CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
       '.cx-title'
     );
-    ConfiguratorComponentTestUtilsService.expectElementToContainText(
+    CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-title',
       PRODUCT_NAME
     );
 
-    ConfiguratorComponentTestUtilsService.expectElementNotPresent(
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
       '.cx-details.open'
     );
-    ConfiguratorComponentTestUtilsService.expectElementToContainText(
+    CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-toggle-details-link-text',
@@ -199,13 +201,13 @@ describe('ConfigProductTitleComponent', () => {
     fixture.detectChanges();
 
     expect(component.showMore).toBe(true);
-    ConfiguratorComponentTestUtilsService.expectElementPresent(
+    CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
       '.cx-details.open'
     );
 
-    ConfiguratorComponentTestUtilsService.expectElementToContainText(
+    CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-toggle-details-link-text',
@@ -215,12 +217,12 @@ describe('ConfigProductTitleComponent', () => {
 
   it('should render properly for navigation from order entry', () => {
     configuration = orderEntryconfig;
-    ConfiguratorComponentTestUtilsService.expectElementPresent(
+    CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
       '.cx-title'
     );
-    ConfiguratorComponentTestUtilsService.expectElementToContainText(
+    CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-title',

@@ -4,9 +4,9 @@ import {
   CartModification,
   CART_MODIFICATION_NORMALIZER,
   ConverterService,
-  GenericConfigurator,
   OccEndpointsService,
 } from '@spartacus/core';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RulebasedConfiguratorAdapter } from '../../core/connectors/rulebased-configurator.adapter';
@@ -35,7 +35,7 @@ export class VariantConfiguratorOccAdapter
   }
 
   createConfiguration(
-    owner: GenericConfigurator.Owner
+    owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     const productCode = owner.id;
     return this.http
@@ -58,7 +58,7 @@ export class VariantConfiguratorOccAdapter
   readConfiguration(
     configId: string,
     groupId: string,
-    configurationOwner: GenericConfigurator.Owner
+    configurationOwner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     return this.http
       .get<OccConfigurator.Configuration>(
@@ -128,7 +128,7 @@ export class VariantConfiguratorOccAdapter
   }
 
   readConfigurationForCartEntry(
-    parameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
   ): Observable<Configurator.Configuration> {
     const url = this.occEndpointsService.getUrl(
       'readVariantConfigurationForCartEntry',
@@ -177,7 +177,7 @@ export class VariantConfiguratorOccAdapter
   }
 
   readConfigurationForOrderEntry(
-    parameters: GenericConfigurator.ReadConfigurationFromOrderEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
   ): Observable<Configurator.Configuration> {
     const url = this.occEndpointsService.getUrl(
       'readVariantConfigurationOverviewForOrderEntry',

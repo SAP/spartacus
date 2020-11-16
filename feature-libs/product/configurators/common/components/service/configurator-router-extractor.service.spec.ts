@@ -2,12 +2,12 @@ import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  GenericConfigurator,
   I18nTestingModule,
   RouterState,
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { CommonConfigurator } from '../../core/model/common-configurator.model';
 import { ConfiguratorRouter } from './configurator-router-data';
 import { ConfiguratorRouterExtractorService } from './configurator-router-extractor.service';
 
@@ -50,7 +50,7 @@ describe('ConfigRouterExtractorService', () => {
       state: {
         params: {
           entityKey: PRODUCT_CODE,
-          ownerType: GenericConfigurator.OwnerType.PRODUCT,
+          ownerType: CommonConfigurator.OwnerType.PRODUCT,
         },
         queryParams: {},
         semanticRoute: CONFIGURATOR_ROUTE,
@@ -63,45 +63,45 @@ describe('ConfigRouterExtractorService', () => {
   });
   describe('extractRouterData', () => {
     it('should find proper owner for route based purely on product code', () => {
-      let owner: GenericConfigurator.Owner;
+      let owner: CommonConfigurator.Owner;
       serviceUnderTest
         .extractRouterData()
         .subscribe((routerData) => (owner = routerData.owner));
       expect(owner.id).toBe(PRODUCT_CODE);
-      expect(owner.type).toBe(GenericConfigurator.OwnerType.PRODUCT);
-      expect(owner.key.includes(GenericConfigurator.OwnerType.PRODUCT)).toBe(
+      expect(owner.type).toBe(CommonConfigurator.OwnerType.PRODUCT);
+      expect(owner.key.includes(CommonConfigurator.OwnerType.PRODUCT)).toBe(
         true
       );
     });
 
     it('should find proper owner for route based on owner type PRODUCT and product code', () => {
-      let owner: GenericConfigurator.Owner;
+      let owner: CommonConfigurator.Owner;
       mockRouterState.state.params.ownerType =
-        GenericConfigurator.OwnerType.PRODUCT;
+        CommonConfigurator.OwnerType.PRODUCT;
       mockRouterState.state.params.entityKey = PRODUCT_CODE;
 
       serviceUnderTest
         .extractRouterData()
         .subscribe((routerData) => (owner = routerData.owner));
       expect(owner.id).toBe(PRODUCT_CODE);
-      expect(owner.type).toBe(GenericConfigurator.OwnerType.PRODUCT);
-      expect(owner.key.includes(GenericConfigurator.OwnerType.PRODUCT)).toBe(
+      expect(owner.type).toBe(CommonConfigurator.OwnerType.PRODUCT);
+      expect(owner.key.includes(CommonConfigurator.OwnerType.PRODUCT)).toBe(
         true
       );
     });
 
     it('should find proper owner for route based on owner type CART_ENTRY and cart entry number', () => {
-      let owner: GenericConfigurator.Owner;
+      let owner: CommonConfigurator.Owner;
       mockRouterState.state.params.ownerType =
-        GenericConfigurator.OwnerType.CART_ENTRY;
+        CommonConfigurator.OwnerType.CART_ENTRY;
       mockRouterState.state.params.entityKey = CART_ENTRY_NUMBER;
 
       serviceUnderTest
         .extractRouterData()
         .subscribe((routerData) => (owner = routerData.owner));
       expect(owner.id).toBe(CART_ENTRY_NUMBER);
-      expect(owner.type).toBe(GenericConfigurator.OwnerType.CART_ENTRY);
-      expect(owner.key.includes(GenericConfigurator.OwnerType.CART_ENTRY)).toBe(
+      expect(owner.type).toBe(CommonConfigurator.OwnerType.CART_ENTRY);
+      expect(owner.key.includes(CommonConfigurator.OwnerType.CART_ENTRY)).toBe(
         true
       );
     });
@@ -120,7 +120,7 @@ describe('ConfigRouterExtractorService', () => {
 
     it('should determine configurator and page type from router based on owner type CART_ENTRY and cart entry number ', () => {
       mockRouterState.state.params.ownerType =
-        GenericConfigurator.OwnerType.CART_ENTRY;
+        CommonConfigurator.OwnerType.CART_ENTRY;
       mockRouterState.state.params.entityKey = CART_ENTRY_NUMBER;
       mockRouterState.state.semanticRoute = OVERVIEW_ROUTE;
       let routerData: ConfiguratorRouter.Data;
@@ -159,34 +159,34 @@ describe('ConfigRouterExtractorService', () => {
 
   describe('createOwnerFromRouterState', () => {
     it('should create owner from router state correctly', () => {
-      const owner: GenericConfigurator.Owner = serviceUnderTest.createOwnerFromRouterState(
+      const owner: CommonConfigurator.Owner = serviceUnderTest.createOwnerFromRouterState(
         mockRouterState
       );
 
-      expect(owner.type).toBe(GenericConfigurator.OwnerType.PRODUCT);
+      expect(owner.type).toBe(CommonConfigurator.OwnerType.PRODUCT);
     });
 
     it('should create owner from router state if owner type is not provided', () => {
       mockRouterState.state.params = {
         rootProduct: PRODUCT_CODE,
       };
-      const owner: GenericConfigurator.Owner = serviceUnderTest.createOwnerFromRouterState(
+      const owner: CommonConfigurator.Owner = serviceUnderTest.createOwnerFromRouterState(
         mockRouterState
       );
 
-      expect(owner.type).toBe(GenericConfigurator.OwnerType.PRODUCT);
+      expect(owner.type).toBe(CommonConfigurator.OwnerType.PRODUCT);
     });
 
     it('should detect an obsolete state of a cart related owner type', () => {
       mockRouterState.state.params.ownerType =
-        GenericConfigurator.OwnerType.CART_ENTRY;
+        CommonConfigurator.OwnerType.CART_ENTRY;
       mockRouterState.state.params.entityKey = CART_ENTRY_NUMBER;
 
-      const owner: GenericConfigurator.Owner = serviceUnderTest.createOwnerFromRouterState(
+      const owner: CommonConfigurator.Owner = serviceUnderTest.createOwnerFromRouterState(
         mockRouterState
       );
 
-      expect(owner.type).toBe(GenericConfigurator.OwnerType.CART_ENTRY);
+      expect(owner.type).toBe(CommonConfigurator.OwnerType.CART_ENTRY);
     });
   });
 });

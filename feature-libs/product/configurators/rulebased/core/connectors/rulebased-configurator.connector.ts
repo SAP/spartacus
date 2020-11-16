@@ -1,9 +1,9 @@
 import { Inject, Injectable, InjectionToken } from '@angular/core';
+import { CartModification } from '@spartacus/core';
 import {
-  CartModification,
-  GenericConfigurator,
-  GenericConfiguratorUtilsService,
-} from '@spartacus/core';
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
+} from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { Configurator } from '../model/configurator.model';
 import { RulebasedConfiguratorAdapter } from './rulebased-configurator.adapter';
@@ -18,11 +18,11 @@ export class RulebasedConfiguratorConnector {
   constructor(
     @Inject(RulebasedConfiguratorConnector.CONFIGURATOR_ADAPTER_LIST)
     protected adapters: RulebasedConfiguratorAdapter[],
-    protected configUtilsService: GenericConfiguratorUtilsService
+    protected configUtilsService: CommonConfiguratorUtilsService
   ) {}
 
   createConfiguration(
-    owner: GenericConfigurator.Owner
+    owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     return this.getAdapter(owner.configuratorType).createConfiguration(owner);
   }
@@ -30,7 +30,7 @@ export class RulebasedConfiguratorConnector {
   readConfiguration(
     configId: string,
     groupId: string,
-    configurationOwner: GenericConfigurator.Owner
+    configurationOwner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     return this.getAdapter(
       configurationOwner.configuratorType
@@ -54,7 +54,7 @@ export class RulebasedConfiguratorConnector {
   }
 
   readConfigurationForCartEntry(
-    parameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
   ): Observable<Configurator.Configuration> {
     return this.getAdapter(
       parameters.owner.configuratorType
@@ -70,7 +70,7 @@ export class RulebasedConfiguratorConnector {
   }
 
   readConfigurationForOrderEntry(
-    parameters: GenericConfigurator.ReadConfigurationFromOrderEntryParameters
+    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
   ): Observable<Configurator.Configuration> {
     return this.getAdapter(
       parameters.owner.configuratorType

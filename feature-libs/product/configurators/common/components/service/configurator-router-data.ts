@@ -1,4 +1,4 @@
-import { GenericConfigurator } from '@spartacus/core';
+import { CommonConfigurator } from '../../core/model/common-configurator.model';
 export namespace ConfiguratorRouter {
   export enum PageType {
     CONFIGURATION = 'configuration',
@@ -7,7 +7,7 @@ export namespace ConfiguratorRouter {
   export interface Data {
     pageType?: PageType;
     isOwnerCartEntry?: boolean;
-    owner?: GenericConfigurator.Owner;
+    owner?: CommonConfigurator.Owner;
     displayOnly?: boolean;
     forceReload?: boolean;
     resolveIssues?: boolean;

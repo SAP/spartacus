@@ -1,4 +1,5 @@
-import { GenericConfigurator, StateUtils } from '@spartacus/core';
+import { StateUtils } from '@spartacus/core';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { Configurator } from '../../model/configurator.model';
 import { CONFIGURATOR_DATA } from '../configurator-state';
 
@@ -50,7 +51,7 @@ export const SET_GROUPS_VISITED = '[Configurator] Set groups to visited';
 
 export class CreateConfiguration extends StateUtils.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
-  constructor(public payload: GenericConfigurator.Owner) {
+  constructor(public payload: CommonConfigurator.Owner) {
     super(CONFIGURATOR_DATA, payload.key);
   }
 }

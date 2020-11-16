@@ -1,12 +1,14 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { GenericConfigurator } from '@spartacus/core';
-import { ConfiguratorRouterExtractorService } from '@spartacus/product/configurators/common';
+import {
+  CommonConfigurator,
+  ConfiguratorRouterExtractorService,
+} from '@spartacus/product/configurators/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
+import { CommonConfiguratorTestUtilsService } from '../../../common/shared/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorComponentTestUtilsService } from '../../shared/testing/configurator-component-test-utils.service';
 import {
   productConfiguration,
   productConfigurationWithConflicts,
@@ -34,7 +36,7 @@ const routerData: ConfiguratorRouter.Data = {
   pageType: ConfiguratorRouter.PageType.OVERVIEW,
   isOwnerCartEntry: true,
   owner: {
-    type: GenericConfigurator.OwnerType.CART_ENTRY,
+    type: CommonConfigurator.OwnerType.CART_ENTRY,
     id: '3',
     configuratorType: configuratorType,
   },
@@ -44,7 +46,7 @@ const orderRouterData: ConfiguratorRouter.Data = {
   pageType: ConfiguratorRouter.PageType.OVERVIEW,
   isOwnerCartEntry: true,
   owner: {
-    type: GenericConfigurator.OwnerType.ORDER_ENTRY,
+    type: CommonConfigurator.OwnerType.ORDER_ENTRY,
     id: '3',
     configuratorType: configuratorType,
   },
@@ -118,12 +120,12 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
   it('should display no banner when there are no issues', () => {
     configurationObs = of(productConfigurationWithoutIssues);
     initialize(routerData);
-    ConfiguratorComponentTestUtilsService.expectElementNotPresent(
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
       'cx-icon'
     );
-    ConfiguratorComponentTestUtilsService.expectElementNotPresent(
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
       '.cx-error-msg'
@@ -133,12 +135,12 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
   it('should display banner when there are issues', () => {
     configurationObs = of(productConfigurationWithConflicts);
     initialize(routerData);
-    ConfiguratorComponentTestUtilsService.expectElementPresent(
+    CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
       'cx-icon'
     );
-    ConfiguratorComponentTestUtilsService.expectElementPresent(
+    CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
       '.cx-error-msg'
@@ -148,12 +150,12 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
   it('should display no banner in order history when there are issues', () => {
     configurationObs = of(productConfiguration);
     initialize(orderRouterData);
-    ConfiguratorComponentTestUtilsService.expectElementNotPresent(
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
       'cx-icon'
     );
-    ConfiguratorComponentTestUtilsService.expectElementNotPresent(
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
       '.cx-error-msg'

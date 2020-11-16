@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import {
   CartModification,
   ConverterService,
-  GenericConfigurator,
   OccEndpointsService,
 } from '@spartacus/core';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RulebasedConfiguratorAdapter } from '../core/connectors/rulebased-configurator.adapter';
@@ -27,7 +27,7 @@ export class CpqConfiguratorRestAdapter
   }
 
   createConfiguration(
-    owner: GenericConfigurator.Owner
+    owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     return this.cpqAccessLoaderService.getCpqAccessData().pipe(
       map((accessData) => {
