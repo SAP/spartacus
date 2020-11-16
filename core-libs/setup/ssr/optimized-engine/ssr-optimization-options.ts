@@ -1,4 +1,3 @@
-
 export interface SsrOptimizationOptions {
   /**
    * Time in milliseconds to wait for SSR rendering to happen.
@@ -7,6 +6,10 @@ export interface SsrOptimizationOptions {
 
   /**
    * Enable in-memory cache for pre-rendered urls.
+   *
+   * If disabled, the cache will still be used to temporarily store
+   * renders finished after csr fallback in order to serve them with
+   * next request only.
    */
   cache?: boolean;
 
