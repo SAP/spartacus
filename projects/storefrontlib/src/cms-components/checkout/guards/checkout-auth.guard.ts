@@ -5,7 +5,7 @@ import {
   AuthRedirectService,
   AuthService,
   B2BUser,
-  B2BUserGroup,
+  B2BUserRole,
   GlobalMessageService,
   GlobalMessageType,
   SemanticPathService,
@@ -63,7 +63,7 @@ export class CheckoutAuthGuard implements CanActivate {
             }
           } else if ('roles' in user) {
             const roles = (<B2BUser>user).roles;
-            if (roles.includes(B2BUserGroup.B2B_CUSTOMER_GROUP)) {
+            if (roles.includes(B2BUserRole.CUSTOMER)) {
               return true;
             }
             this.globalMessageService.add(
