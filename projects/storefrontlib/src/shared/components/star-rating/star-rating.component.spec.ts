@@ -28,10 +28,6 @@ describe('StarRatingComponent in product', () => {
     component = fixture.componentInstance;
   });
 
-  it('should be disabled by default', () => {
-    expect(component.disabled).toBeTruthy();
-  });
-
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
@@ -48,6 +44,10 @@ describe('StarRatingComponent in product', () => {
   });
 
   describe('disabled = true (default)', () => {
+    it('should be disabled by default', () => {
+      expect(component.disabled).toBeTruthy();
+    });
+
     it('should not set rate', () => {
       expect(component.rating).toEqual(0);
       component.setRate(3);
