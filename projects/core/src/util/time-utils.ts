@@ -31,7 +31,7 @@ export class TimeUtils {
       .substring(0, 10);
   }
 
-  static fakeToLocalTimeString(mockTime: string, callback: Function): any {
+  static fakeToLocaleTimeString(mockTime: string, callback: Function): any {
     const original = Date.prototype.toLocaleTimeString;
     Date.prototype.toLocaleTimeString = () => mockTime;
     callback();

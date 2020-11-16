@@ -26,7 +26,7 @@ describe('OccReplenishmentOrderFormSerializer', () => {
   });
 
   it('should convert with replenishment start date', () => {
-    TimeUtils.fakeToLocalTimeString(mockTime, () => {
+    TimeUtils.fakeToLocaleTimeString(mockTime, () => {
       TimeUtils.fakeDateTimezoneOffset(-120, () => {
         const mockModelValue = `${mockDate}T${mockTime}:00${TimeUtils.getLocalTimezoneOffset()}`;
         const result = serializer.convert({
