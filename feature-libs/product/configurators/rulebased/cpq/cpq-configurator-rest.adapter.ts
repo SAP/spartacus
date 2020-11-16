@@ -1,25 +1,19 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  CartModification,
-  ConverterService,
-  OccEndpointsService,
-} from '@spartacus/core';
+import { CartModification } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RulebasedConfiguratorAdapter } from '../core/connectors/rulebased-configurator.adapter';
 import { Configurator } from '../core/model/configurator.model';
 import { CpqAccessLoaderService } from '../occ/cpq/cpq-access-loader.service';
+import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
 
 @Injectable()
 export class CpqConfiguratorRestAdapter
   implements RulebasedConfiguratorAdapter {
   constructor(
-    protected http: HttpClient,
-    protected occEndpointsService: OccEndpointsService,
-    protected converterService: ConverterService,
-    protected cpqAccessLoaderService: CpqAccessLoaderService
+    protected cpqAccessLoaderService: CpqAccessLoaderService,
+    protected cpqService: CpqConfiguratorRestService
   ) {}
 
   getConfiguratorType(): string {
