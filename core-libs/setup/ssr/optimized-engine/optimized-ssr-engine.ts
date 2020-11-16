@@ -6,6 +6,7 @@ import {
 } from './ssr-optimization-options';
 import { RenderingCache } from './rendering-cache';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
+import { Request, Response } from 'express';
 
 /**
  * The rendered pages are kept in memory to be served on next request. If the `cache` is set to `false`, the
@@ -30,50 +31,57 @@ export class OptimizedSsrEngine {
    * the CSR application.
    * The CSR application is returned with the "Cache-Control: no-store" response-header. This notifies external cache systems to not use the CSR application for the subsequent request.
    */
-  protected fallbackToCsr(res, filePath, callback) {
-    res.set('Cache-Control', 'no-store');
+  protected fallbackToCsr(
+    response: Response,
+    filePath: string,
+    callback: (err?: Error | null, html?: string) => void
+  ) {
+    response.set('Cache-Control', 'no-store');
     callback(undefined, this.getDocument(filePath));
   }
 
-  protected getRenderingKey(req): string {
+  protected getRenderingKey(request: Request): string {
     return this.ssrOptions.renderKeyResolver
-      ? this.ssrOptions.renderKeyResolver(req)
-      : req.originalUrl;
+      ? this.ssrOptions.renderKeyResolver(request)
+      : request.originalUrl;
   }
 
-  protected getRenderingStrategy(req): RenderingStrategy {
+  protected getRenderingStrategy(request: Request): RenderingStrategy {
     return this.ssrOptions.renderingStrategyResolver
-      ? this.ssrOptions.renderingStrategyResolver(req)
+      ? this.ssrOptions.renderingStrategyResolver(request)
       : RenderingStrategy.DEFAULT;
   }
 
-  protected shouldRender(req): boolean {
+  protected shouldRender(request: Request): boolean {
     const concurrencyLimitExceed = this.ssrOptions.concurrency
       ? this.currentConcurrency > this.ssrOptions.concurrency
       : false;
 
     return (
-      (!this.renderingCache.isRendering(this.getRenderingKey(req)) &&
+      (!this.renderingCache.isRendering(this.getRenderingKey(request)) &&
         !concurrencyLimitExceed &&
-        this.getRenderingStrategy(req) !== RenderingStrategy.ALWAYS_CSR) ||
-      this.getRenderingStrategy(req) === RenderingStrategy.ALWAYS_SSR
+        this.getRenderingStrategy(request) !== RenderingStrategy.ALWAYS_CSR) ||
+      this.getRenderingStrategy(request) === RenderingStrategy.ALWAYS_SSR
     );
   }
 
-  protected shouldTimeout(req): boolean {
+  protected shouldTimeout(request: Request): boolean {
     return (
       !!this.ssrOptions?.timeout ||
-      this.getRenderingStrategy(req) === RenderingStrategy.ALWAYS_SSR
+      this.getRenderingStrategy(request) === RenderingStrategy.ALWAYS_SSR
     );
   }
 
-  protected getTimeout(req): number {
-    return this.getRenderingStrategy(req) === RenderingStrategy.ALWAYS_SSR
+  protected getTimeout(request: Request): number {
+    return this.getRenderingStrategy(request) === RenderingStrategy.ALWAYS_SSR
       ? this.ssrOptions.forcedSsrTimeout ?? 60000
       : this.ssrOptions.timeout;
   }
 
-  protected returnCachedRender(request, callback): boolean {
+  protected returnCachedRender(
+    request: Request,
+    callback: (err?: Error | null, html?: string) => void
+  ): boolean {
     const key = this.getRenderingKey(request);
 
     if (this.renderingCache.isReady(key)) {
@@ -94,8 +102,8 @@ export class OptimizedSsrEngine {
     options: any,
     callback: (err?: Error | null, html?: string) => void
   ) {
-    const request = options.req;
-    const res = options.res || options.req.res;
+    const request: Request = options.req;
+    const response: Response = options.res || options.req.res;
 
     const renderingKey = this.getRenderingKey(request);
 
@@ -108,13 +116,13 @@ export class OptimizedSsrEngine {
           // establish timeout for rendering
           waitingForRender = setTimeout(() => {
             waitingForRender = undefined;
-            this.fallbackToCsr(res, filePath, callback);
+            this.fallbackToCsr(response, filePath, callback);
             console.log(
               `SSR rendering exceeded timeout, fallbacking to CSR for ${options.req?.url}`
             );
           }, this.getTimeout(options.req));
         } else {
-          this.fallbackToCsr(res, filePath, callback);
+          this.fallbackToCsr(response, filePath, callback);
         }
 
         // start rendering
@@ -140,7 +148,7 @@ export class OptimizedSsrEngine {
         });
       } else {
         // if there is already rendering in progress, return the fallback
-        this.fallbackToCsr(res, filePath, callback);
+        this.fallbackToCsr(response, filePath, callback);
       }
     }
   }

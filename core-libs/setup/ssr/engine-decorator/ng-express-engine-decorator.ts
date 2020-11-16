@@ -29,7 +29,7 @@ export interface RenderOptions extends NgSetupOptions {
 export type NgExpressEngineInstance = (
   filePath: string,
   options: RenderOptions,
-  callback: (err?: Error | null | undefined, html?: string | undefined) => void
+  callback: (err?: Error | null, html?: string) => void
 ) => void;
 
 export type NgExpressEngine = (

@@ -7,7 +7,7 @@ describe('RenderingCache', () => {
     renderingCache = new RenderingCache({});
   });
 
-  it('should create engine instance', () => {
+  it('should create rendering cache instance', () => {
     expect(renderingCache).toBeTruthy();
   });
 });

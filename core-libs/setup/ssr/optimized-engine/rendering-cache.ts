@@ -14,36 +14,36 @@ export class RenderingCache {
 
   constructor(private options: SsrOptimizationOptions) {}
 
-  setAsRendering(key) {
+  setAsRendering(key: string) {
     this.renderedUrls[key] = { rendering: true };
   }
 
-  isRendering(key): boolean {
+  isRendering(key: string): boolean {
     return this.renderedUrls[key]?.rendering;
   }
 
-  store(key, err, html) {
+  store(key: string, err?: Error | null, html?: string) {
     this.renderedUrls[key] = { err, html };
     if (this.options.ttl) {
       this.renderedUrls[key].time = Date.now();
     }
   }
 
-  get(key): RenderingEntry {
+  get(key: string): RenderingEntry {
     return this.renderedUrls[key];
   }
 
-  clear(key) {
+  clear(key: string) {
     delete this.renderedUrls[key];
   }
 
-  isReady(key): boolean {
+  isReady(key: string): boolean {
     const isRenderPresent =
       this.renderedUrls[key]?.html || this.renderedUrls[key]?.err;
     return isRenderPresent && this.isFresh(key);
   }
 
-  isFresh(key): boolean {
+  isFresh(key: string): boolean {
     if (!this.options.ttl) {
       return true;
     }
