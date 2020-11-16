@@ -4,9 +4,9 @@
   class="form-control"
   (blur)="onTouched()"
   (input)="onInput($event)"
-  [value]="nativeValue"
+  [value]="value"
   [required]="required"
   [class.is-invalid]="invalid"
-  [min]="getMin()"
-  [max]="getMax()"
+  [min]="min"
+  [max]="max"
 />
