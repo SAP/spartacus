@@ -7,6 +7,7 @@ import { Subject } from 'rxjs/internal/Subject';
 import { ItemActiveDirective } from './item-active.directive';
 import { OrganizationItemService } from './organization-item.service';
 import { MessageService } from './organization-message/services/message.service';
+import { GlobalMessageType } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
 
 const mockCode = 'mc1';
@@ -63,6 +64,13 @@ class MockItemServiceInactive implements Partial<OrganizationItemService<any>> {
   current$ = of(itemStubInactive);
 }
 
+const expectedMessage = {
+  message: {
+    key: 'organization.notification.disabled',
+  },
+  type: GlobalMessageType.MSG_TYPE_ERROR,
+};
+
 describe('ItemActiveDirective', () => {
   let component: TestFormComponent;
   let fixture: ComponentFixture<TestFormComponent>;
@@ -118,7 +126,7 @@ describe('ItemActiveDirective', () => {
     });
 
     it('should call message service', () => {
-      expect(messageService.add).toHaveBeenCalled();
+      expect(messageService.add).toHaveBeenCalledWith(expectedMessage);
     });
 
     it('should disable the form', () => {
