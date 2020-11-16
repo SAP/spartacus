@@ -10,7 +10,7 @@ import {
 } from '@spartacus/core';
 import { Observable, queueScheduler, using } from 'rxjs';
 import { auditTime, filter, map, observeOn, tap } from 'rxjs/operators';
-import { Budget } from '../model';
+import { Budget } from '../model/budget.model';
 import { OrganizationItemStatus } from '../model/organization-item-status';
 import { Permission } from '../model/permission.model';
 import { UserGroup } from '../model/user-group.model';

@@ -18,7 +18,9 @@ import { CHECKOUT_ADAPTER_MIGRATION } from './data/checkout.adapter.migration';
 import { CHECKOUT_CONNECTOR_MIGRATION } from './data/checkout.connector.migration';
 import { CHECKOUT_SERVICE_MIGRATION } from './data/checkout.service.migration';
 import { CMS_COMPONENTS_SERVICE_MIGRATION } from './data/cms-components.service.migration';
+import { CURRENCY_SERVICE_MIGRATION } from './data/currency.service.migration';
 import { ITEM_COUNTER_COMPONENT_MIGRATION } from './data/item-counter.component.migration';
+import { LANGUAGE_SERVICE_MIGRATION } from './data/language.service.migration';
 import { LOGIN_FORM_COMPONENT_MIGRATION } from './data/login-form.component.migration';
 import { LOGOUT_GUARD_MIGRATION } from './data/logout.guard.migration';
 import { MULTI_CART_STATE_PERSISTENCE_SERVICE_MIGRATION } from './data/multi-cart-state-persistence.service.migration';
@@ -30,6 +32,7 @@ import { ORDER_DETAIL_SHIPPING_COMPONENT_MIGRATION } from './data/order-detail-s
 import { PRODUCT_CAROUSEL_SERVICE_MIGRATION } from './data/product-carousel.service.migration';
 import { PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION } from './data/product-list-component.service.migration';
 import { PRODUCT_REFERENCE_SERVICE_MIGRATION } from './data/product-reference.service.migration';
+import { STAR_RATING_COMPONENT_MIGRATION } from './data/star-rating-component.migration';
 import { STORE_FINDER_ACTIONS_MIGRATION } from './data/store-finder-group.actions.migration';
 import { STOREFRONT_COMPONENT_MIGRATION } from './data/storefront-component.migration';
 import { UPDATE_EMAIL_COMPONENT_MIGRATION } from './data/update-email.component.migration';
@@ -68,6 +71,9 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...ASM_ACTIONS_MIGRATION,
   ...ASM_AUTH_SERVICE_MIGRATION,
   ...CDC_AUTH_SERVICE_MIGRATION,
+  ...LANGUAGE_SERVICE_MIGRATION,
+  ...CURRENCY_SERVICE_MIGRATION,
+  ...STAR_RATING_COMPONENT_MIGRATION,
 ];
 
 export function migrate(): Rule {
