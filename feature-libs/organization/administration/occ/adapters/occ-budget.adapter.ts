@@ -51,7 +51,7 @@ export class OccBudgetAdapter implements BudgetAdapter {
     budgetCode: string,
     budget: Budget
   ): Observable<Budget> {
-    budget = this.converter.convert(budget, BUDGET_SERIALIZER) as Budget;
+    budget = this.converter.convert(budget, BUDGET_SERIALIZER);
     return this.http
       .patch<Occ.Budget>(this.getBudgetEndpoint(userId, budgetCode), budget)
       .pipe(this.converter.pipeable(BUDGET_NORMALIZER));
