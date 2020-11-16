@@ -1,4 +1,4 @@
-import { Currency, B2BApprovalProcess } from '@spartacus/core';
+import { B2BApprovalProcess, Currency } from '@spartacus/core';
 
 declare module '@spartacus/core' {
   interface B2BUnit {
@@ -23,15 +23,5 @@ declare module '@spartacus/core' {
     activeFlag?: boolean;
     currency?: Currency;
     originalCode?: string;
-  }
-
-  interface Budget {
-    budget?: number;
-    code?: string;
-    currency?: Currency;
-    endDate?: string;
-    startDate?: string;
-    name?: string;
-    orgUnit?: B2BUnit;
   }
 }

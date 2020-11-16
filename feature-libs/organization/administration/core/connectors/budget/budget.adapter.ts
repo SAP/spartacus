@@ -1,5 +1,6 @@
-import { Budget, EntitiesModel, SearchConfig } from '@spartacus/core';
+import { EntitiesModel, SearchConfig } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { Budget } from '../../model/budget.model';
 
 export abstract class BudgetAdapter {
   /**
