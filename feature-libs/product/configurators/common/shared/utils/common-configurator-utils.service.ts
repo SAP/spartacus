@@ -1,29 +1,33 @@
 import { Injectable } from '@angular/core';
-import { Cart, OrderEntry } from '../../../model';
-import { GenericConfigurator } from '../../../model/generic-configurator.model';
-import { OrderEntryStatus } from '../../../model/order.model';
-import { OCC_USER_ID_ANONYMOUS, OCC_USER_ID_CURRENT } from '../../../occ';
+import {
+  Cart,
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+  OrderEntry,
+  OrderEntryStatus,
+} from '@spartacus/core';
+import { CommonConfigurator } from '../../core/model/common-configurator.model';
 
 /**
  * Utilities for generic configuration
  */
 @Injectable({ providedIn: 'root' })
-export class GenericConfiguratorUtilsService {
+export class CommonConfiguratorUtilsService {
   /**
    * Compiles a unique key for a configuration owner and sets it into the 'key'
    * attribute
    * @param owner Specifies the owner of a product configuration
    */
-  public setOwnerKey(owner: GenericConfigurator.Owner) {
-    if (owner.type === GenericConfigurator.OwnerType.PRODUCT) {
+  public setOwnerKey(owner: CommonConfigurator.Owner) {
+    if (owner.type === CommonConfigurator.OwnerType.PRODUCT) {
       if (!owner.id) {
         throw new Error('We expect a product code!');
       }
-    } else if (owner.type === GenericConfigurator.OwnerType.CART_ENTRY) {
+    } else if (owner.type === CommonConfigurator.OwnerType.CART_ENTRY) {
       if (!owner.id) {
         throw new Error('We expect a document entry Id!');
       }
-    } else if (owner.type === GenericConfigurator.OwnerType.ORDER_ENTRY) {
+    } else if (owner.type === CommonConfigurator.OwnerType.ORDER_ENTRY) {
       if (!owner.id) {
         throw new Error('We expect a document entry Id!');
       }

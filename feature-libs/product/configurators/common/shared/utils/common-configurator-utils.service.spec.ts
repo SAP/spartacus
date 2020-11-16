@@ -1,15 +1,18 @@
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
-import { Cart, OCC_USER_ID_ANONYMOUS } from '@spartacus/core';
-import { OrderEntry } from 'projects/core/src/model';
-import { GenericConfigurator } from '../../../model/generic-configurator.model';
-import { OrderEntryStatus } from '../../../model/order.model';
-import { GenericConfiguratorUtilsService } from './generic-configurator-utils.service';
+import {
+  Cart,
+  OCC_USER_ID_ANONYMOUS,
+  OrderEntry,
+  OrderEntryStatus,
+} from '@spartacus/core';
+import { CommonConfigurator } from '../../core/model/common-configurator.model';
+import { CommonConfiguratorUtilsService } from './common-configurator-utils.service';
 
 const productCode = 'CONF_LAPTOP';
 const documentId = '12344';
 const entryNumber = 4;
-let owner: GenericConfigurator.Owner = null;
+let owner: CommonConfigurator.Owner = null;
 
 const CART_CODE = '0000009336';
 const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
@@ -22,15 +25,15 @@ const cart: Cart = {
 
 let cartItem: OrderEntry;
 
-describe('GenericConfiguratorUtilsService', () => {
-  let classUnderTest: GenericConfiguratorUtilsService;
+describe('CommonConfiguratorUtilsService', () => {
+  let classUnderTest: CommonConfiguratorUtilsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({}).compileComponents();
   }));
   beforeEach(() => {
     classUnderTest = TestBed.inject(
-      GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
     owner = {};
     cartItem = {};
@@ -41,21 +44,19 @@ describe('GenericConfiguratorUtilsService', () => {
   });
 
   it('should set key for product related owner', () => {
-    owner.type = GenericConfigurator.OwnerType.PRODUCT;
+    owner.type = CommonConfigurator.OwnerType.PRODUCT;
     owner.id = productCode;
     classUnderTest.setOwnerKey(owner);
     expect(owner.key.includes(productCode)).toBe(true);
-    expect(owner.key.includes(GenericConfigurator.OwnerType.PRODUCT)).toBe(
-      true
-    );
+    expect(owner.key.includes(CommonConfigurator.OwnerType.PRODUCT)).toBe(true);
   });
 
   it('should set key for document related owner', () => {
-    owner.type = GenericConfigurator.OwnerType.CART_ENTRY;
+    owner.type = CommonConfigurator.OwnerType.CART_ENTRY;
     owner.id = '1';
     classUnderTest.setOwnerKey(owner);
     expect(owner.key.includes(owner.id)).toBe(true);
-    expect(owner.key.includes(GenericConfigurator.OwnerType.CART_ENTRY)).toBe(
+    expect(owner.key.includes(CommonConfigurator.OwnerType.CART_ENTRY)).toBe(
       true
     );
   });
@@ -67,21 +68,21 @@ describe('GenericConfiguratorUtilsService', () => {
   });
 
   it('should throw an error if for owner type PRODUCT if no product code is present', () => {
-    owner.type = GenericConfigurator.OwnerType.PRODUCT;
+    owner.type = CommonConfigurator.OwnerType.PRODUCT;
     expect(function () {
       classUnderTest.setOwnerKey(owner);
     }).toThrow();
   });
 
   it('should throw an error if for owner type CART_ENTRY no cart entry link is present', () => {
-    owner.type = GenericConfigurator.OwnerType.CART_ENTRY;
+    owner.type = CommonConfigurator.OwnerType.CART_ENTRY;
     expect(function () {
       classUnderTest.setOwnerKey(owner);
     }).toThrow();
   });
 
   it('should throw an error if for owner type ORDER_ENTRY no order entry link is present', () => {
-    owner.type = GenericConfigurator.OwnerType.ORDER_ENTRY;
+    owner.type = CommonConfigurator.OwnerType.ORDER_ENTRY;
     expect(function () {
       classUnderTest.setOwnerKey(owner);
     }).toThrow();

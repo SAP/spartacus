@@ -1,14 +1,15 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { GenericConfigurator, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import {
   IconLoaderService,
   IconModule,
   ICON_TYPE,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../../common/shared/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../core/model/configurator.model';
-import { ConfiguratorComponentTestUtilsService } from '../../../shared/testing/configurator-component-test-utils.service';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeFooterComponent } from './configurator-attribute-footer.component';
 
@@ -46,9 +47,9 @@ describe('ConfigAttributeFooterComponent', () => {
   };
   let htmlElem: HTMLElement;
 
-  const owner: GenericConfigurator.Owner = {
+  const owner: CommonConfigurator.Owner = {
     id: 'PRODUCT_CODE',
-    type: GenericConfigurator.OwnerType.CART_ENTRY,
+    type: CommonConfigurator.OwnerType.CART_ENTRY,
   };
 
   beforeEach(async(() => {
@@ -92,7 +93,7 @@ describe('ConfigAttributeFooterComponent', () => {
 
   it('should render a required message if attribute has no value, yet.', () => {
     fixture.detectChanges();
-    ConfiguratorComponentTestUtilsService.expectElementPresent(
+    CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
       '.cx-required-error-msg'
@@ -100,9 +101,9 @@ describe('ConfigAttributeFooterComponent', () => {
   });
 
   it('should render a required message because the group has already been visited.', () => {
-    classUnderTest.owner.type = GenericConfigurator.OwnerType.PRODUCT;
+    classUnderTest.owner.type = CommonConfigurator.OwnerType.PRODUCT;
     fixture.detectChanges();
-    ConfiguratorComponentTestUtilsService.expectElementPresent(
+    CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
       '.cx-required-error-msg'
@@ -113,7 +114,7 @@ describe('ConfigAttributeFooterComponent', () => {
     currentAttribute.userInput = '  ';
     classUnderTest.ngOnInit();
     fixture.detectChanges();
-    ConfiguratorComponentTestUtilsService.expectElementPresent(
+    CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
       '.cx-required-error-msg'
@@ -124,7 +125,7 @@ describe('ConfigAttributeFooterComponent', () => {
     currentAttribute.required = false;
     classUnderTest.ngOnInit();
     fixture.detectChanges();
-    ConfiguratorComponentTestUtilsService.expectElementNotPresent(
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
       'cx-required-error-msg'
@@ -135,7 +136,7 @@ describe('ConfigAttributeFooterComponent', () => {
     currentAttribute.userInput = 'test';
     classUnderTest.ngOnInit();
     fixture.detectChanges();
-    ConfiguratorComponentTestUtilsService.expectElementNotPresent(
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
       'cx-required-error-msg'

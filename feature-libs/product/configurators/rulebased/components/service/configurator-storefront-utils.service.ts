@@ -1,7 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { GenericConfigurator } from '@spartacus/core';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
@@ -21,18 +21,18 @@ export class ConfiguratorStorefrontUtilsService {
    * In both cases we need to render indications for mandatory attributes.
    * This method emits only once and then stops further emissions.
    *
-   * @param {GenericConfigurator.Owner} owner -
+   * @param {CommonConfigurator.Owner} owner -
    * @param {string} groupId - Group ID
    * @return {Observable<boolean>} - Returns 'Observable<true>' if the cart entry or group are visited, otherwise 'Observable<false>'
    */
   isCartEntryOrGroupVisited(
-    owner: GenericConfigurator.Owner,
+    owner: CommonConfigurator.Owner,
     groupId: string
   ): Observable<boolean> {
     return this.configuratorGroupsService.isGroupVisited(owner, groupId).pipe(
       take(1),
       map((result) =>
-        result ? true : owner.type === GenericConfigurator.OwnerType.CART_ENTRY
+        result ? true : owner.type === CommonConfigurator.OwnerType.CART_ENTRY
       )
     );
   }

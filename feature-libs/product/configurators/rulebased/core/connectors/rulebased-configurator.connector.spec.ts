@@ -1,10 +1,10 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { CartModification } from '@spartacus/core';
 import {
-  CartModification,
-  GenericConfigurator,
-  GenericConfiguratorUtilsService,
-} from '@spartacus/core';
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
+} from '@spartacus/product/configurators/common';
 import { of } from 'rxjs';
 import { Configurator } from '../model/configurator.model';
 import { RulebasedConfiguratorAdapter } from './rulebased-configurator.adapter';
@@ -23,18 +23,18 @@ const productConfiguration: Configurator.Configuration = {
   productCode: PRODUCT_CODE,
   owner: {
     id: PRODUCT_CODE,
-    type: GenericConfigurator.OwnerType.PRODUCT,
+    type: CommonConfigurator.OwnerType.PRODUCT,
     configuratorType: CONFIGURATOR_TYPE,
   },
 };
 
-const readFromCartEntryParameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
+const readFromCartEntryParameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
   userId: USER_ID,
   cartId: CART_ID,
   owner: productConfiguration.owner,
 };
 
-const readFromOrderEntryParameters: GenericConfigurator.ReadConfigurationFromOrderEntryParameters = {
+const readFromOrderEntryParameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters = {
   userId: USER_ID,
   orderId: CART_ID,
   owner: productConfiguration.owner,
@@ -88,7 +88,7 @@ class MockRulebasedConfiguratorAdapter implements RulebasedConfiguratorAdapter {
 
 describe('RulebasedConfiguratorConnector', () => {
   let service: RulebasedConfiguratorConnector;
-  let configuratorUtils: GenericConfiguratorUtilsService;
+  let configuratorUtils: CommonConfiguratorUtilsService;
   let adapter: RulebasedConfiguratorAdapter[];
 
   const GROUP_ID = 'GROUP1';
@@ -113,7 +113,7 @@ describe('RulebasedConfiguratorConnector', () => {
       RulebasedConfiguratorConnector as Type<RulebasedConfiguratorConnector>
     );
     configuratorUtils = TestBed.inject(
-      GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
     adapter = TestBed.inject(
       RulebasedConfiguratorConnector.CONFIGURATOR_ADAPTER_LIST
@@ -139,9 +139,9 @@ describe('RulebasedConfiguratorConnector', () => {
 
   it('should throw an error in case no adapter present for configurator type', () => {
     expect(function () {
-      const ownerForUnknownConfigurator: GenericConfigurator.Owner = {
+      const ownerForUnknownConfigurator: CommonConfigurator.Owner = {
         configuratorType: 'unknown',
-        type: GenericConfigurator.OwnerType.PRODUCT,
+        type: CommonConfigurator.OwnerType.PRODUCT,
         id: PRODUCT_CODE,
       };
       service.createConfiguration(ownerForUnknownConfigurator);
@@ -150,9 +150,9 @@ describe('RulebasedConfiguratorConnector', () => {
 
   it('should not throw an error in case an adapter is present for owners configurator type', () => {
     expect(function () {
-      const ownerForUnknownConfigurator: GenericConfigurator.Owner = {
+      const ownerForUnknownConfigurator: CommonConfigurator.Owner = {
         configuratorType: CONFIGURATOR_TYPE,
-        type: GenericConfigurator.OwnerType.PRODUCT,
+        type: CommonConfigurator.OwnerType.PRODUCT,
         id: PRODUCT_CODE,
       };
       service.createConfiguration(ownerForUnknownConfigurator);

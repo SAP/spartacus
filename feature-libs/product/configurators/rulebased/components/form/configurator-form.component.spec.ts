@@ -4,12 +4,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  GenericConfigurator,
-  GenericConfiguratorUtilsService,
   I18nTestingModule,
   LanguageService,
   RoutingService,
 } from '@spartacus/core';
+import {
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
+} from '@spartacus/product/configurators/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
@@ -36,16 +38,16 @@ const mockRouterState: any = {
   state: {
     params: {
       entityKey: PRODUCT_CODE,
-      ownerType: GenericConfigurator.OwnerType.PRODUCT,
+      ownerType: CommonConfigurator.OwnerType.PRODUCT,
     },
     semanticRoute: CONFIGURATOR_ROUTE,
     queryParams: {},
   },
 };
 
-const owner: GenericConfigurator.Owner = {
+const owner: CommonConfigurator.Owner = {
   id: PRODUCT_CODE,
-  type: GenericConfigurator.OwnerType.PRODUCT,
+  type: CommonConfigurator.OwnerType.PRODUCT,
 };
 const groups: Configurator.Group[] =
   ConfigurationTestData.productConfiguration.groups;
@@ -160,7 +162,7 @@ function checkCurrentGroupObs(
 }
 describe('ConfigurationFormComponent', () => {
   let configuratorCommonsService;
-  let configuratorUtils: GenericConfiguratorUtilsService;
+  let configuratorUtils: CommonConfiguratorUtilsService;
   let configurationCommonsService: ConfiguratorCommonsService;
   let configuratorGroupsService: ConfiguratorGroupsService;
   let mockLanguageService;
@@ -213,7 +215,7 @@ describe('ConfigurationFormComponent', () => {
   }));
   beforeEach(() => {
     configuratorUtils = TestBed.inject(
-      GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
     configurationCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>

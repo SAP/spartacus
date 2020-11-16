@@ -1,4 +1,4 @@
-export namespace GenericConfigurator {
+export namespace CommonConfigurator {
   /**
    * Specifies the owner of a product configuration
    */
@@ -26,14 +26,14 @@ export namespace GenericConfigurator {
     userId?: string;
     cartId?: string;
     cartEntryNumber?: string;
-    owner?: GenericConfigurator.Owner;
+    owner?: CommonConfigurator.Owner;
   }
 
   export interface ReadConfigurationFromOrderEntryParameters {
     userId?: string;
     orderId?: string;
     orderEntryNumber?: string;
-    owner?: GenericConfigurator.Owner;
+    owner?: CommonConfigurator.Owner;
   }
   /**
    * Possible types of owners: Product, cart or order entry

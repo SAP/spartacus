@@ -2,13 +2,11 @@ import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
+import { ActiveCartService, Cart, StateUtils } from '@spartacus/core';
 import {
-  ActiveCartService,
-  Cart,
-  GenericConfigurator,
-  GenericConfiguratorUtilsService,
-  StateUtils,
-} from '@spartacus/core';
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
+} from '@spartacus/product/configurators/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { productConfigurationWithConflicts } from '../../shared/testing/configurator-test-data';
@@ -25,9 +23,9 @@ import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorUtilsService } from './utils';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
-let OWNER_PRODUCT: GenericConfigurator.Owner = {};
-let OWNER_CART_ENTRY: GenericConfigurator.Owner = {};
-let OWNER_ORDER_ENTRY: GenericConfigurator.Owner = {};
+let OWNER_PRODUCT: CommonConfigurator.Owner = {};
+let OWNER_CART_ENTRY: CommonConfigurator.Owner = {};
+let OWNER_ORDER_ENTRY: CommonConfigurator.Owner = {};
 
 const CONFIG_ID = '1234-56-7890';
 const GROUP_ID_1 = '123ab';
@@ -113,7 +111,7 @@ class MockConfiguratorCartService {
 
 function callGetOrCreate(
   serviceUnderTest: ConfiguratorCommonsService,
-  owner: GenericConfigurator.Owner
+  owner: CommonConfigurator.Owner
 ) {
   const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
     value: productConfiguration,
@@ -132,7 +130,7 @@ function callGetOrCreate(
 
 describe('ConfiguratorCommonsService', () => {
   let serviceUnderTest: ConfiguratorCommonsService;
-  let configuratorUtils: GenericConfiguratorUtilsService;
+  let configuratorUtils: CommonConfiguratorUtilsService;
   let configuratorUtilsService: ConfiguratorUtilsService;
   let store: Store<StateWithConfigurator>;
   let configuratorCartService: ConfiguratorCartService;
@@ -174,7 +172,7 @@ describe('ConfiguratorCommonsService', () => {
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );
     configuratorUtils = TestBed.inject(
-      GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
     configuratorUtilsService = TestBed.inject(
       ConfiguratorUtilsService as Type<ConfiguratorUtilsService>
@@ -182,17 +180,17 @@ describe('ConfiguratorCommonsService', () => {
 
     OWNER_PRODUCT = {
       id: PRODUCT_CODE,
-      type: GenericConfigurator.OwnerType.PRODUCT,
+      type: CommonConfigurator.OwnerType.PRODUCT,
     };
 
     OWNER_CART_ENTRY = {
       id: '3',
-      type: GenericConfigurator.OwnerType.CART_ENTRY,
+      type: CommonConfigurator.OwnerType.CART_ENTRY,
     };
 
     OWNER_ORDER_ENTRY = {
       id: configuratorUtils.getComposedOwnerId(ORDER_ID, ORDER_ENTRY_NUMBER),
-      type: GenericConfigurator.OwnerType.ORDER_ENTRY,
+      type: CommonConfigurator.OwnerType.ORDER_ENTRY,
     };
 
     productConfiguration = {

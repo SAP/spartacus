@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { GenericConfigurator } from '@spartacus/core';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { Configurator } from '../model/configurator.model';
@@ -27,10 +27,10 @@ export class ConfiguratorGroupsService {
    * In case no group Id is being set before returns the first group of the configuration.
    * Return null when configuration contains no groups.
    *
-   * @param {GenericConfigurator.Owner} owner configuration owner
+   * @param {CommonConfigurator.Owner} owner configuration owner
    * @returns {Observable<string>} Group ID
    */
-  getCurrentGroupId(owner: GenericConfigurator.Owner): Observable<string> {
+  getCurrentGroupId(owner: CommonConfigurator.Owner): Observable<string> {
     return this.configuratorCommonsService.getConfiguration(owner).pipe(
       map((configuration) => {
         if (configuration?.interactionState?.currentGroup) {
@@ -64,9 +64,9 @@ export class ConfiguratorGroupsService {
    * This method assumes that the configuration has incomplete groups,
    * the caller has to verify this prior to calling this method.
    *
-   * @param {GenericConfigurator.Owner} owner - Configuration owner
+   * @param {CommonConfigurator.Owner} owner - Configuration owner
    */
-  navigateToFirstIncompleteGroup(owner: GenericConfigurator.Owner): void {
+  navigateToFirstIncompleteGroup(owner: CommonConfigurator.Owner): void {
     this.configuratorCommonsService
       .getConfiguration(owner)
       .pipe(take(1))
@@ -86,9 +86,9 @@ export class ConfiguratorGroupsService {
    * This method assumes that the configuration has conflicts,
    * the caller has to verify this prior to calling this method.
    *
-   * @param {GenericConfigurator.Owner} owner Configuration Owner
+   * @param {CommonConfigurator.Owner} owner Configuration Owner
    */
-  navigateToConflictSolver(owner: GenericConfigurator.Owner): void {
+  navigateToConflictSolver(owner: CommonConfigurator.Owner): void {
     this.configuratorCommonsService
       .getConfiguration(owner)
       .pipe(take(1))
@@ -104,11 +104,11 @@ export class ConfiguratorGroupsService {
   /**
    * Returns the parent group of the subgroup that is displayed in the group menu.
    *
-   * @param {GenericConfigurator.Owner} owner - Configuration owner
+   * @param {CommonConfigurator.Owner} owner - Configuration owner
    * @returns {Observable<Configurator.Group>} Group
    */
   getMenuParentGroup(
-    owner: GenericConfigurator.Owner
+    owner: CommonConfigurator.Owner
   ): Observable<Configurator.Group> {
     return this.configuratorCommonsService
       .getConfiguration(owner)
@@ -125,10 +125,10 @@ export class ConfiguratorGroupsService {
   /**
    * Set the parent group, specified by the group ID, which is displayed in the group menu.
    *
-   * @param {GenericConfigurator.Owner} owner - Configuration owner
+   * @param {CommonConfigurator.Owner} owner - Configuration owner
    * @param {string} groupId - Group ID
    */
-  setMenuParentGroup(owner: GenericConfigurator.Owner, groupId: string): void {
+  setMenuParentGroup(owner: CommonConfigurator.Owner, groupId: string): void {
     this.store.dispatch(
       new ConfiguratorActions.SetMenuParentGroup({
         entityKey: owner.key,
@@ -140,11 +140,11 @@ export class ConfiguratorGroupsService {
   /**
    * Returns the group that is currently visited.
    *
-   * @param {GenericConfigurator.Owner} owner - Configuration owner
+   * @param {CommonConfigurator.Owner} owner - Configuration owner
    * @return {Observable<Configurator.Group>} Current group
    */
   getCurrentGroup(
-    owner: GenericConfigurator.Owner
+    owner: CommonConfigurator.Owner
   ): Observable<Configurator.Group> {
     return this.getCurrentGroupId(owner).pipe(
       switchMap((currentGroupId) => {
@@ -168,11 +168,11 @@ export class ConfiguratorGroupsService {
   /**
    * Determines whether the group has been visited or not.
    *
-   * @param {GenericConfigurator.Owner} owner - Owner
+   * @param {CommonConfigurator.Owner} owner - Owner
    * @param {string} groupId - Group ID
    */
   setGroupStatusVisited(
-    owner: GenericConfigurator.Owner,
+    owner: CommonConfigurator.Owner,
     groupId: string
   ): void {
     this.configuratorCommonsService
@@ -230,32 +230,32 @@ export class ConfiguratorGroupsService {
   /**
    * Returns the group ID of the group that is coming after the current one in a sequential order.
    *
-   * @param {GenericConfigurator.Owner} owner - Configuration owner
+   * @param {CommonConfigurator.Owner} owner - Configuration owner
    * @return {Observable<string>} ID of next group
    */
-  getNextGroupId(owner: GenericConfigurator.Owner): Observable<string> {
+  getNextGroupId(owner: CommonConfigurator.Owner): Observable<string> {
     return this.getNeighboringGroupId(owner, 1);
   }
 
   /**
    * Returns the group ID of the group that is preceding the current one in a sequential order.
    *
-   * @param {GenericConfigurator.Owner} owner - Configuration owner
+   * @param {CommonConfigurator.Owner} owner - Configuration owner
    * @return {Observable<string>} ID of previous group
    */
-  getPreviousGroupId(owner: GenericConfigurator.Owner): Observable<string> {
+  getPreviousGroupId(owner: CommonConfigurator.Owner): Observable<string> {
     return this.getNeighboringGroupId(owner, -1);
   }
 
   /**
    * Verifies whether the group has been visited
    *
-   * @param {GenericConfigurator.Owner} owner - Configuration owner
+   * @param {CommonConfigurator.Owner} owner - Configuration owner
    * @param {string} groupId - Group ID
    * @return {Observable<boolean>} Has been visited?
    */
   isGroupVisited(
-    owner: GenericConfigurator.Owner,
+    owner: CommonConfigurator.Owner,
     groupId: string
   ): Observable<boolean> {
     return this.configuratorGroupStatusService.isGroupVisited(owner, groupId);
@@ -288,12 +288,12 @@ export class ConfiguratorGroupsService {
   /**
    * Retrieves a group ID of the neighboring group.
    *
-   * @param {GenericConfigurator.Owner} owner - Configuration owner
+   * @param {CommonConfigurator.Owner} owner - Configuration owner
    * @param {number} neighboringIndex - Index of neighboring group
    * @return {Observable<string>} group ID of the neighboring group
    */
   protected getNeighboringGroupId(
-    owner: GenericConfigurator.Owner,
+    owner: CommonConfigurator.Owner,
     neighboringIndex: number
   ): Observable<string> {
     return this.getCurrentGroupId(owner).pipe(

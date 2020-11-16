@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ProductListOutlets } from '../../product-outlets.model';
 
 @Component({
   selector: 'cx-product-list-item',
@@ -6,5 +7,6 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductListItemComponent {
+  readonly Outlets = ProductListOutlets;
   @Input() product: any;
 }

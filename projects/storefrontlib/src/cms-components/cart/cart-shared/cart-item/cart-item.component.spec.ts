@@ -19,7 +19,6 @@ import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { ModalDirective } from 'projects/storefrontlib/src/shared/components/modal/modal.directive';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
-import { GenericConfiguratorModule } from '../../../configurator/generic/generic-configurator.module';
 import { CartItemContext } from './cart-item-component.model';
 import { CartItemComponent } from './cart-item.component';
 
@@ -108,7 +107,6 @@ describe('CartItemComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        GenericConfiguratorModule,
         RouterTestingModule,
         ReactiveFormsModule,
         I18nTestingModule,

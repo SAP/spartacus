@@ -6,13 +6,15 @@ import {
   ActiveCartService,
   Cart,
   CheckoutService,
-  GenericConfigurator,
-  GenericConfiguratorUtilsService,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   OrderEntryStatus,
   StateUtils,
 } from '@spartacus/core';
+import {
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
+} from '@spartacus/product/configurators/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { Configurator } from '../model/configurator.model';
@@ -24,9 +26,9 @@ import {
 import { getConfiguratorReducers } from '../state/reducers/index';
 import { ConfiguratorCartService } from './configurator-cart.service';
 
-let OWNER_CART_ENTRY: GenericConfigurator.Owner = {};
-let OWNER_ORDER_ENTRY: GenericConfigurator.Owner = {};
-let OWNER_PRODUCT: GenericConfigurator.Owner = {};
+let OWNER_CART_ENTRY: CommonConfigurator.Owner = {};
+let OWNER_ORDER_ENTRY: CommonConfigurator.Owner = {};
+let OWNER_PRODUCT: CommonConfigurator.Owner = {};
 const CART_CODE = '0000009336';
 const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
 const ORDER_ID = '0000011';
@@ -84,7 +86,7 @@ class MockCheckoutService {
 describe('ConfiguratorCartService', () => {
   let serviceUnderTest: ConfiguratorCartService;
   let store: Store<StateWithConfigurator>;
-  let configuratorUtils: GenericConfiguratorUtilsService;
+  let configuratorUtils: CommonConfiguratorUtilsService;
 
   beforeEach(async(() => {
     cartStateObs = of(cartState);
@@ -115,19 +117,19 @@ describe('ConfiguratorCartService', () => {
     );
     store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
     configuratorUtils = TestBed.inject(
-      GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
     OWNER_CART_ENTRY = {
       id: '3',
-      type: GenericConfigurator.OwnerType.CART_ENTRY,
+      type: CommonConfigurator.OwnerType.CART_ENTRY,
     };
     OWNER_ORDER_ENTRY = {
       id: configuratorUtils.getComposedOwnerId(ORDER_ID, ORDER_ENTRY_NUMBER),
-      type: GenericConfigurator.OwnerType.ORDER_ENTRY,
+      type: CommonConfigurator.OwnerType.ORDER_ENTRY,
     };
     OWNER_PRODUCT = {
       id: PRODUCT_CODE,
-      type: GenericConfigurator.OwnerType.PRODUCT,
+      type: CommonConfigurator.OwnerType.PRODUCT,
     };
   });
 
@@ -155,7 +157,7 @@ describe('ConfiguratorCartService', () => {
     });
 
     it('should dispatch ReadCartEntryConfiguration action in case configuration is not present so far', () => {
-      const params: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
+      const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
         owner: OWNER_CART_ENTRY,
         cartEntryNumber: OWNER_CART_ENTRY.id,
         cartId: CART_GUID,
@@ -245,7 +247,7 @@ describe('ConfiguratorCartService', () => {
     });
 
     it('should dispatch ReadOrderEntryConfiguration action in case configuration is not present so far', () => {
-      const params: GenericConfigurator.ReadConfigurationFromOrderEntryParameters = {
+      const params: CommonConfigurator.ReadConfigurationFromOrderEntryParameters = {
         owner: OWNER_ORDER_ENTRY,
         orderEntryNumber: '' + ORDER_ENTRY_NUMBER,
         orderId: ORDER_ID,

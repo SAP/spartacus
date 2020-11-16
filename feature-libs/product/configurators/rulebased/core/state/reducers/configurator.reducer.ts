@@ -1,4 +1,4 @@
-import { GenericConfigurator } from '@spartacus/core';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
 
@@ -66,7 +66,7 @@ export function configuratorReducer(
     case ConfiguratorActions.SET_NEXT_OWNER_CART_ENTRY: {
       const content = { ...action.payload.configuration };
       content.nextOwner = {
-        type: GenericConfigurator.OwnerType.CART_ENTRY,
+        type: CommonConfigurator.OwnerType.CART_ENTRY,
         id: action.payload.cartEntryNo,
       };
       const result = {

@@ -3,12 +3,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
-  GenericConfigurator,
-  GenericConfiguratorUtilsService,
-  I18nTestingModule,
-  RoutingService,
-} from '@spartacus/core';
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
+} from '@spartacus/product/configurators/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import * as ConfigurationTestData from '../../shared/testing/configurator-test-data';
@@ -22,7 +21,7 @@ class MockRoutingService {
   }
 }
 
-const owner: GenericConfigurator.Owner =
+const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
 
 let isConfigurationLoading = false;
@@ -50,7 +49,7 @@ class MockMessageConfig {
 class MockCxSpinnerComponent {}
 describe('ConfigurationUpdateMessageComponent', () => {
   let component: ConfiguratorUpdateMessageComponent;
-  let configuratorUtils: GenericConfiguratorUtilsService;
+  let configuratorUtils: CommonConfiguratorUtilsService;
   let fixture: ComponentFixture<ConfiguratorUpdateMessageComponent>;
   let htmlElem: HTMLElement;
 
@@ -84,7 +83,7 @@ describe('ConfigurationUpdateMessageComponent', () => {
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     configuratorUtils = TestBed.inject(
-      GenericConfiguratorUtilsService as Type<GenericConfiguratorUtilsService>
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
     configuratorUtils.setOwnerKey(owner);
   });

@@ -7,8 +7,12 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import { IconModule } from '../../../cms-components/misc/icon/icon.module';
-import { ConfigureProductComponent } from './configure-product/configure-product.component';
+import {
+  IconModule,
+  ProductListOutlets,
+  provideOutlet,
+} from '@spartacus/storefront';
+import { ConfigureProductComponent } from './configure-product.component';
 
 @NgModule({
   imports: [
@@ -25,8 +29,22 @@ import { ConfigureProductComponent } from './configure-product/configure-product
     I18nModule,
     IconModule,
   ],
+  providers: [
+    provideOutlet({
+      id: ProductListOutlets.GRID_ITEM_END,
+      component: ConfigureProductComponent,
+    }),
+    provideOutlet({
+      id: ProductListOutlets.LIST_ITEM_END,
+      component: ConfigureProductComponent,
+    }),
+    //    provideOutlet({
+    //      id: ProductDetailOutlets.SUMMARY,
+    //      component: ConfigureProductComponent,
+    //    }),
+  ],
   declarations: [ConfigureProductComponent],
   entryComponents: [ConfigureProductComponent],
   exports: [ConfigureProductComponent],
 })
-export class GenericConfiguratorModule {}
+export class ConfigureProductModule {}

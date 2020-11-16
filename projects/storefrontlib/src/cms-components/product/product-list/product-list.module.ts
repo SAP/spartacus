@@ -9,6 +9,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { OutletModule } from '../../../cms-structure/outlet/outlet.module';
 import { ViewConfig } from '../../../shared/config/view-config';
 import { ViewConfigModule } from '../../../shared/config/view-config.module';
 import {
@@ -19,7 +20,6 @@ import {
   StarRatingModule,
 } from '../../../shared/index';
 import { AddToCartModule } from '../../cart/index';
-import { GenericConfiguratorModule } from '../../configurator/generic/generic-configurator.module';
 import { IconModule } from '../../misc/icon/index';
 import { defaultScrollConfig } from '../config/default-scroll-config';
 import { ProductVariantsModule } from '../product-variants/product-variants.module';
@@ -45,9 +45,10 @@ import { ProductViewComponent } from './product-view/product-view.component';
     SpinnerModule,
     InfiniteScrollModule,
     ViewConfigModule,
-    GenericConfiguratorModule,
+
     ProductVariantsModule,
     FeaturesConfigModule,
+    OutletModule,
   ],
   providers: [
     provideDefaultConfig(<ViewConfig>defaultScrollConfig),

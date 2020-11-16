@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import {
-  CartActions,
-  GenericConfigurator,
-  normalizeHttpError,
-} from '@spartacus/core';
+import { CartActions, normalizeHttpError } from '@spartacus/core';
+import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { ConfiguratorTextfieldConnector } from '../../connectors/configurator-textfield.connector';
@@ -117,7 +114,7 @@ export class ConfiguratorTextfieldEffects {
     ofType(ConfiguratorTextfieldActions.READ_CART_ENTRY_CONFIGURATION),
     switchMap(
       (action: ConfiguratorTextfieldActions.ReadCartEntryConfiguration) => {
-        const parameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters =
+        const parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
           action.payload;
 
         return this.configuratorTextfieldConnector

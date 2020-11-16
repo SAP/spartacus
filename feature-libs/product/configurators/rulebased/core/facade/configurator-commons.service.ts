@@ -1,10 +1,10 @@
 import { Injectable, isDevMode } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { ActiveCartService } from '@spartacus/core';
 import {
-  ActiveCartService,
-  GenericConfigurator,
-  GenericConfiguratorUtilsService,
-} from '@spartacus/core';
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
+} from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
 import { Configurator } from '../model/configurator.model';
@@ -18,7 +18,7 @@ import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 export class ConfiguratorCommonsService {
   constructor(
     protected store: Store<StateWithConfigurator>,
-    protected genericConfigUtilsService: GenericConfiguratorUtilsService,
+    protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     protected configuratorCartService: ConfiguratorCartService,
     protected activeCartService: ActiveCartService,
     protected configuratorUtils: ConfiguratorUtilsService
@@ -31,7 +31,7 @@ export class ConfiguratorCommonsService {
    *
    * @returns {Observable<boolean>} Returns true if there are any pending changes, otherwise false
    */
-  hasPendingChanges(owner: GenericConfigurator.Owner): Observable<boolean> {
+  hasPendingChanges(owner: CommonConfigurator.Owner): Observable<boolean> {
     return this.store.pipe(
       select(ConfiguratorSelectors.hasPendingChanges(owner.key))
     );
@@ -44,9 +44,7 @@ export class ConfiguratorCommonsService {
    *
    * @returns {Observable<boolean>} Returns true if the configuration is loading, otherwise false
    */
-  isConfigurationLoading(
-    owner: GenericConfigurator.Owner
-  ): Observable<boolean> {
+  isConfigurationLoading(owner: CommonConfigurator.Owner): Observable<boolean> {
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
@@ -67,7 +65,7 @@ export class ConfiguratorCommonsService {
    * @returns {Observable<Configurator.Configuration>}
    */
   getConfiguration(
-    owner: GenericConfigurator.Owner
+    owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
       select(ConfiguratorSelectors.getConfigurationFactory(owner.key)),
@@ -88,18 +86,18 @@ export class ConfiguratorCommonsService {
    * @returns {Observable<Configurator.Configuration>}
    */
   getOrCreateConfiguration(
-    owner: GenericConfigurator.Owner
+    owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     switch (owner.type) {
-      case GenericConfigurator.OwnerType.PRODUCT: {
+      case CommonConfigurator.OwnerType.PRODUCT: {
         return this.getOrCreateConfigurationForProduct(owner);
       }
-      case GenericConfigurator.OwnerType.CART_ENTRY: {
+      case CommonConfigurator.OwnerType.CART_ENTRY: {
         return this.configuratorCartService.readConfigurationForCartEntry(
           owner
         );
       }
-      case GenericConfigurator.OwnerType.ORDER_ENTRY: {
+      case CommonConfigurator.OwnerType.ORDER_ENTRY: {
         return this.configuratorCartService.readConfigurationForOrderEntry(
           owner
         );
@@ -186,7 +184,7 @@ export class ConfiguratorCommonsService {
    *
    * @param owner - Configuration owner
    */
-  removeConfiguration(owner: GenericConfigurator.Owner): void {
+  removeConfiguration(owner: CommonConfigurator.Owner): void {
     this.store.dispatch(
       new ConfiguratorActions.RemoveConfiguration({ ownerKey: owner.key })
     );
@@ -199,7 +197,7 @@ export class ConfiguratorCommonsService {
    *
    * @returns {Observable<boolean>} - Returns true if the configuration has conflicts, otherwise false
    */
-  hasConflicts(owner: GenericConfigurator.Owner): Observable<boolean> {
+  hasConflicts(owner: CommonConfigurator.Owner): Observable<boolean> {
     return this.getConfiguration(owner).pipe(
       map(
         (configuration) =>
@@ -211,7 +209,7 @@ export class ConfiguratorCommonsService {
   }
 
   protected getOrCreateConfigurationForProduct(
-    owner: GenericConfigurator.Owner
+    owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
       select(

@@ -4,10 +4,12 @@ import { select, Store } from '@ngrx/store';
 import {
   CartActions,
   CartModification,
-  GenericConfigurator,
-  GenericConfiguratorUtilsService,
   normalizeHttpError,
 } from '@spartacus/core';
+import {
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
+} from '@spartacus/product/configurators/common';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
@@ -113,7 +115,7 @@ export class ConfiguratorCartEffects {
   > = this.actions$.pipe(
     ofType(ConfiguratorActions.READ_CART_ENTRY_CONFIGURATION),
     switchMap((action: ConfiguratorActions.ReadCartEntryConfiguration) => {
-      const parameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters =
+      const parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
         action.payload;
       return this.configuratorCommonsConnector
         .readConfigurationForCartEntry(parameters)
@@ -139,7 +141,7 @@ export class ConfiguratorCartEffects {
   > = this.actions$.pipe(
     ofType(ConfiguratorActions.READ_ORDER_ENTRY_CONFIGURATION),
     switchMap((action: ConfiguratorActions.ReadOrderEntryConfiguration) => {
-      const parameters: GenericConfigurator.ReadConfigurationFromOrderEntryParameters =
+      const parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
         action.payload;
       return this.configuratorCommonsConnector
         .readConfigurationForOrderEntry(parameters)
@@ -170,11 +172,11 @@ export class ConfiguratorCartEffects {
         ),
         take(1),
         switchMap((configuration) => {
-          const newOwner: GenericConfigurator.Owner = {
-            type: GenericConfigurator.OwnerType.CART_ENTRY,
+          const newOwner: CommonConfigurator.Owner = {
+            type: CommonConfigurator.OwnerType.CART_ENTRY,
             id: action.payload.cartEntryNo,
           };
-          this.genericConfigUtilsService.setOwnerKey(newOwner);
+          this.commonConfigUtilsService.setOwnerKey(newOwner);
 
           return [
             new ConfiguratorActions.SetNextOwnerCartEntry({
@@ -194,7 +196,7 @@ export class ConfiguratorCartEffects {
   constructor(
     protected actions$: Actions,
     protected configuratorCommonsConnector: RulebasedConfiguratorConnector,
-    protected genericConfigUtilsService: GenericConfiguratorUtilsService,
+    protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     protected configuratorGroupUtilsService: ConfiguratorUtilsService,
     protected store: Store<StateWithConfigurator>
   ) {}

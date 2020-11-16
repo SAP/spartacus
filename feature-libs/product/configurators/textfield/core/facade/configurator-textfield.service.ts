@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { ActiveCartService } from '@spartacus/core';
 import {
-  ActiveCartService,
-  GenericConfigurator,
-  GenericConfiguratorUtilsService,
-} from '@spartacus/core';
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
+} from '@spartacus/product/configurators/common';
 import { Observable } from 'rxjs';
 import { filter, map, switchMapTo, take, tap } from 'rxjs/operators';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
@@ -19,7 +19,7 @@ export class ConfiguratorTextfieldService {
   constructor(
     protected store: Store<StateWithConfigurationTextfield>,
     protected activeCartService: ActiveCartService,
-    protected configuratorUtils: GenericConfiguratorUtilsService
+    protected configuratorUtils: CommonConfiguratorUtilsService
   ) {}
 
   /**
@@ -30,14 +30,14 @@ export class ConfiguratorTextfieldService {
    * @returns {Observable<ConfiguratorTextfield.Configuration>}
    */
   createConfiguration(
-    owner: GenericConfigurator.Owner
+    owner: CommonConfigurator.Owner
   ): Observable<ConfiguratorTextfield.Configuration> {
     return this.store.pipe(
       select(ConfiguratorTextFieldSelectors.getConfigurationsState),
       tap((configurationState) => {
         const isAvailableForProduct =
           configurationState.loaderState.value?.owner.type ===
-          GenericConfigurator.OwnerType.PRODUCT;
+          CommonConfigurator.OwnerType.PRODUCT;
         const isLoading = configurationState.loaderState.loading;
         if (!isAvailableForProduct && !isLoading) {
           this.store.dispatch(
@@ -141,7 +141,7 @@ export class ConfiguratorTextfieldService {
    * @returns {Observable<ConfiguratorTextfield.Configuration>}
    */
   readConfigurationForCartEntry(
-    owner: GenericConfigurator.Owner
+    owner: CommonConfigurator.Owner
   ): Observable<ConfiguratorTextfield.Configuration> {
     return this.activeCartService.requireLoadedCart().pipe(
       map((cartState) => ({
