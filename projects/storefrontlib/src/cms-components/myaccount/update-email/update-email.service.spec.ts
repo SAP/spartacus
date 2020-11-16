@@ -25,7 +25,9 @@ class MockUserService {
 }
 
 class MockAuthService {
-  logout(): void {}
+  coreLogout() {
+    return Promise.resolve();
+  }
 }
 
 class MockRoutingService {
@@ -119,10 +121,10 @@ describe('UpdateEmailService', () => {
 
   describe('AuthService Calls', () => {
     it('should call logout', () => {
-      spyOn(authService, 'logout').and.stub();
+      spyOn(authService, 'coreLogout').and.stub();
 
-      service.logout();
-      expect(authService.logout).toHaveBeenCalled();
+      service.coreLogout();
+      expect(authService.coreLogout).toHaveBeenCalled();
     });
   });
 

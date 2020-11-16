@@ -49,8 +49,8 @@ export class UpdateEmailService {
   }
 
   // AuthService Wrappers
-  logout(): Promise<any> {
-    return this.authService.logout();
+  coreLogout(): Promise<any> {
+    return this.authService.coreLogout();
   }
 
   // GlobalMessageService Wrappers

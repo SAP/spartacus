@@ -55,7 +55,8 @@ export class UpdateEmailComponent implements OnInit {
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
       this.updateEmailForm.reset();
-      await this.updateEmailService.logout();
+      // TODO(#9638): Use logout route when it will support passing redirect url
+      await this.updateEmailService.coreLogout();
       this.updateEmailService.resetUpdateEmailResultState();
       this.updateEmailService.destroySubscription();
       this.updateEmailService.goToRoute({ cxRoute: 'login' }, null, {
