@@ -1,5 +1,5 @@
 @mixin is-current-active-selection {
-  outline: solid 3px green;
+  outline: solid 3px var(--cx-color-primary);
   outline-offset: -3px;
   background: var(--cx-color-background-focus);
 }
@@ -262,8 +262,8 @@
         outline-offset: -2px;
       }
 
-      .invisible-focus-border {
-        outline-width: 0px;
+      .hide-focus-border {
+        outline: none;
       }
     }
   }
