@@ -81,6 +81,7 @@
         class="form-control"
         placeholder="{{ 'budget.amount' | cxTranslate }}"
         formControlName="budget"
+        min="0"
       />
       <cx-form-errors [control]="form.get('budget')"></cx-form-errors>
     </label>
