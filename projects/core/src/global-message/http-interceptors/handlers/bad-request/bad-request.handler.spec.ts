@@ -90,6 +90,17 @@ const MockVoucherOperationErrorResponse = {
   },
 } as HttpErrorResponse;
 
+const MockModelSavingErrorResponse = {
+  error: {
+    errors: [
+      {
+        type: 'ModelSavingError',
+        message: 'Model saving error',
+      },
+    ],
+  },
+} as HttpErrorResponse;
+
 class MockGlobalMessageService {
   add() {}
   remove() {}
@@ -184,5 +195,13 @@ describe('BadRequestHandler', () => {
   it('should not handle bad cart error for selective cart', () => {
     service.handleError(MockRequest, MockBadCartResponseForSelectiveCart);
     expect(globalMessageService.add).not.toHaveBeenCalled();
+  });
+
+  it('should handle model saving rrror', () => {
+    service.handleError(MockRequest, MockModelSavingErrorResponse);
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      { key: 'httpHandlers.modelSavingError' },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
   });
 });
