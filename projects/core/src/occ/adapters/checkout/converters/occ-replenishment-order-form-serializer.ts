@@ -26,7 +26,7 @@ export class OccReplenishmentOrderFormSerializer
   }
 
   /**
-   * Adds the current timestamp (including timezone offset) to a date string in the format YYYY-mm-dd    *
+   * Adds the current timestamp (including timezone offset) to a date string in the format YYYY-mm-dd
    * @Example
    * Converts 2021-10-15 to 2021-10-15T15:38:05-05:00
    */
