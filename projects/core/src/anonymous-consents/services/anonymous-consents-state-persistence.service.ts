@@ -61,21 +61,28 @@ export class AnonymousConsentsStatePersistenceService implements OnDestroy {
    * Used to update state from browser -> state.
    */
   protected onRead(state: SyncedAnonymousConsentsState) {
-    if (state) {
-      if (state.templates && state.templates.success) {
-        this.store.dispatch(
-          new LoadAnonymousConsentTemplatesSuccess(state.templates.value)
-        );
-      }
-      if (state.consents) {
-        this.anonymousConsentsService.setConsents(state.consents);
-      }
-      if (state.ui) {
-        this.anonymousConsentsService.toggleBannerDismissed(
-          state.ui?.bannerDismissed
-        );
-        this.anonymousConsentsService.toggleTemplatesUpdated(state.ui?.updated);
-      }
+    const templates = state?.templates;
+    const consents = state?.consents;
+    const ui = state?.ui;
+
+    // templates
+    if (templates?.success) {
+      this.store.dispatch(
+        new LoadAnonymousConsentTemplatesSuccess(templates.value)
+      );
+    }
+
+    // consents
+    if (consents) {
+      this.anonymousConsentsService.setConsents(consents);
+    }
+
+    // ui
+    if (ui?.bannerDismissed) {
+      this.anonymousConsentsService.toggleBannerDismissed(ui.bannerDismissed);
+    }
+    if (ui?.updated) {
+      this.anonymousConsentsService.toggleTemplatesUpdated(ui.updated);
     }
   }
 
