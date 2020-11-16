@@ -30,6 +30,7 @@ const mockConsent: AnonymousConsent = {
 
 const mockState: SyncedAnonymousConsentsState = {
   templates: {
+    success: true,
     value: [
       {
         id: 'consentId',

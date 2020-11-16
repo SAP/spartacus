@@ -78,11 +78,9 @@ export class AnonymousConsentsStatePersistenceService implements OnDestroy {
     }
 
     // ui
-    if (ui?.bannerDismissed) {
-      this.anonymousConsentsService.toggleBannerDismissed(ui.bannerDismissed);
-    }
-    if (ui?.updated) {
-      this.anonymousConsentsService.toggleTemplatesUpdated(ui.updated);
+    if (ui) {
+      this.anonymousConsentsService.toggleBannerDismissed(ui?.bannerDismissed);
+      this.anonymousConsentsService.toggleTemplatesUpdated(ui?.updated);
     }
   }
 
