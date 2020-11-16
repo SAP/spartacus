@@ -51,5 +51,12 @@ describe('CurrentBudgetService', () => {
       mockParams.next({ [ROUTE_PARAMS.budgetCode]: '123' });
       expect(budgetService.get).toHaveBeenCalledWith('123');
     });
+
+    it('should not load budget', () => {
+      spyOn(budgetService, 'get').and.callThrough();
+      service.item$.subscribe();
+      mockParams.next({ foo: 'bar' });
+      expect(budgetService.get).not.toHaveBeenCalled();
+    });
   });
 });
