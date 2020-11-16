@@ -18,7 +18,7 @@ export function accessPageAsAnonymous() {
 }
 
 export function cancelUpdateEmailAction() {
-  cy.get('cx-update-email-form button[type="button"]').click();
+  cy.get('cx-update-email button[type="button"]').click();
   checkBanner();
 
   cy.location('pathname').should('contain', '/');
@@ -26,11 +26,11 @@ export function cancelUpdateEmailAction() {
 
 export function updateEmail() {
   const newUid = generateMail(randomString(), true);
-  cy.get('cx-update-email-form [formcontrolname="email"]').type(newUid);
-  cy.get('cx-update-email-form [formcontrolname="confirmEmail"]').type(newUid);
-  cy.get('cx-update-email-form [formcontrolname="password"]').type(password);
+  cy.get('cx-update-email [formcontrolname="email"]').type(newUid);
+  cy.get('cx-update-email [formcontrolname="confirmEmail"]').type(newUid);
+  cy.get('cx-update-email [formcontrolname="password"]').type(password);
 
-  cy.get('cx-update-email-form button[type="submit"]').click();
+  cy.get('cx-update-email button[type="submit"]').click();
 
   cy.get('cx-login-form').should('exist');
 

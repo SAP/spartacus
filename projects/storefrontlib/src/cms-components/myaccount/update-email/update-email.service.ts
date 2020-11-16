@@ -8,14 +8,16 @@ import {
 } from '@spartacus/core';
 import { UrlCommands } from '../../../../../core/src/routing/configurable-routes/url-translation';
 import { NavigationExtras } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Translatable } from '../../../../../core/src/i18n';
 
 @Injectable({
-  providedIn: 'any'
+  providedIn: 'root'
 })
 
 export class UpdateEmailService {
+  public destroy$ = new Subject();
+
   constructor(
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
@@ -56,4 +58,9 @@ export class UpdateEmailService {
     this.globalMessageService.add(text, type, timeout);
   }
 
+
+  destroySubscription(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

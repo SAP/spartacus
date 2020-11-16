@@ -1,27 +1,16 @@
-import { Component, DebugElement, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import {
   GlobalMessage,
-  GlobalMessageType, UrlCommands,
+  GlobalMessageType, I18nTestingModule, UrlCommands,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { UpdateEmailComponent } from './update-email.component';
 import { UpdateEmailService } from './update-email.service';
 import { NavigationExtras } from '@angular/router';
-
-@Component({
-  selector: 'cx-update-email-form',
-  template: '',
-})
-class MockUpdateEmailFormComponent {
-  @Output()
-  saveEmail = new EventEmitter<{
-    newUid: string;
-    password: string;
-  }>();
-}
+import { FormErrorsModule } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-spinner',
@@ -30,6 +19,7 @@ class MockUpdateEmailFormComponent {
 class MockCxSpinnerComponent {}
 
 class MockUpdateEmailService {
+  destroy$ = new Subject();
   updateEmail(): void {
   }
   resetUpdateEmailResultState(): void {}
@@ -53,21 +43,25 @@ class MockUpdateEmailService {
   }
 
   addGlobalMessage(_message: GlobalMessage): void {}
+
+  destroySubscription(): void {}
 }
 
 describe('UpdateEmailComponent', () => {
   let component: UpdateEmailComponent;
   let fixture: ComponentFixture<UpdateEmailComponent>;
   let el: DebugElement;
+  let newUid: AbstractControl;
+  let confirmNewUid: AbstractControl;
+  let password: AbstractControl;
 
   let updateEmailService: UpdateEmailService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       declarations: [
         UpdateEmailComponent,
-        MockUpdateEmailFormComponent,
         MockCxSpinnerComponent,
       ],
       providers: [
@@ -76,7 +70,11 @@ describe('UpdateEmailComponent', () => {
           useClass: MockUpdateEmailService,
         }
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(UpdateEmailComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -86,7 +84,20 @@ describe('UpdateEmailComponent', () => {
     updateEmailService = TestBed.inject(UpdateEmailService);
 
     fixture.detectChanges();
+
+    newUid = component.updateEmailForm.controls.email;
+    confirmNewUid = component.updateEmailForm.controls.confirmEmail;
+    password = component.updateEmailForm.controls.password;
   });
+
+  function setFormValue() {
+    const id = 'tester@sap.com';
+    const pwd = 'Qwe123!';
+
+    newUid.setValue(id);
+    confirmNewUid.setValue(id);
+    password.setValue(pwd);
+  }
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -101,7 +112,6 @@ describe('UpdateEmailComponent', () => {
 
   it('should show the spinner when updating', () => {
     spyOn(updateEmailService, 'getUpdateEmailResultLoading').and.returnValue(of(true));
-    component.ngOnInit();
     fixture.detectChanges();
 
     expect(el.query(By.css('cx-spinner'))).toBeTruthy();
@@ -116,19 +126,20 @@ describe('UpdateEmailComponent', () => {
 
   it('should call updateEmail on submit', () => {
     spyOn(updateEmailService, 'updateEmail').and.stub();
+    spyOn(updateEmailService, 'getUpdateEmailResultSuccess').and.returnValue(of(true));
 
-    const newUid = 'tester@sap.com';
-    const password = 'Qwe123!';
+    setFormValue();
 
-    component.onSubmit({newUid, password});
-    expect(updateEmailService.updateEmail).toHaveBeenCalledWith(password, newUid);
+    component.onSubmit();
+    expect(updateEmailService.updateEmail).toHaveBeenCalledWith('Qwe123!', 'tester@sap.com');
   });
 
   it('should call the internal onSuccess() method when the user was successfully updated', () => {
     spyOn(component, 'onSuccess').and.stub();
     spyOn(updateEmailService, 'getUpdateEmailResultSuccess').and.returnValue(of(true));
 
-    component.ngOnInit();
+    setFormValue();
+    component.onSubmit();
 
     expect(component.onSuccess).toHaveBeenCalled();
   });
@@ -182,12 +193,51 @@ describe('UpdateEmailComponent', () => {
     });
   });
 
-  it('should unsubscribe from any subscriptions when destroyed', () => {
-    const subscriptions = component['subscription'];
-    spyOn(subscriptions, 'unsubscribe').and.callThrough();
+  describe('Form Interactions', () => {
+    beforeEach(() => {
+        spyOn(updateEmailService, 'getUpdateEmailResultLoading').and.returnValue(of(false));
+        component.ngOnInit();
+        fixture.detectChanges();
+    });
+    describe('onSubmit', () => {
+      it('should call onSubmit() when submit button is clicked', () => {
+        spyOn(component, 'onSubmit').and.stub();
+        const submitBtn = el.query(By.css('button[type="submit"]'));
+        submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
+        expect(component.onSubmit).toHaveBeenCalled();
+      });
 
-    component.ngOnInit();
-    component.ngOnDestroy();
-    expect(subscriptions.unsubscribe).toHaveBeenCalled();
+      it('should NOT updateEmail if the form is not valid', () => {
+        spyOn(component, 'onSubmit').and.stub();
+        spyOn(updateEmailService, 'updateEmail').and.stub();
+
+        component.onSubmit();
+
+        expect(component.updateEmailForm.valid).toBeFalsy();
+        expect(updateEmailService.updateEmail).not.toHaveBeenCalled();
+      });
+
+      it('should updateEmail for valid form', () => {
+        spyOn(updateEmailService, 'updateEmail').and.stub();
+
+        newUid.setValue('tester@sap.com');
+        confirmNewUid.setValue('tester@sap.com');
+        password.setValue('Qwe123!');
+        fixture.detectChanges();
+
+        component.onSubmit();
+        expect(component.updateEmailForm.valid).toBeTruthy();
+        expect(updateEmailService.updateEmail).toHaveBeenCalled();
+      });
+    });
+
+    describe('onCancel', () => {
+      it('should call onCancel() on click event', () => {
+        spyOn(component, 'onCancel').and.stub();
+        const cancelBtn = el.query(By.css('button[type="button"]'));
+        cancelBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
+        expect(component.onCancel).toHaveBeenCalled();
+      });
+    });
   });
 });

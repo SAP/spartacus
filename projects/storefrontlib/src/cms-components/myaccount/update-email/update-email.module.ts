@@ -12,6 +12,7 @@ import { UpdateEmailFormComponent } from './update-email-form/update-email-form.
 import { UpdateEmailComponent } from './update-email.component';
 import { FormErrorsModule } from '../../../shared/index';
 import { UpdateEmailService } from './update-email.service';
+import { UpdateEmailFormService } from './update-email.form.service';
 
 @NgModule({
   imports: [
@@ -31,7 +32,8 @@ import { UpdateEmailService } from './update-email.service';
         },
       },
     }),
-    UpdateEmailService
+    UpdateEmailService,
+    UpdateEmailFormService
   ],
   declarations: [UpdateEmailFormComponent, UpdateEmailComponent],
   exports: [UpdateEmailComponent, UpdateEmailFormComponent],
