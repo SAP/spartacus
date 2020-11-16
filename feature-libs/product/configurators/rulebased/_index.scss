@@ -20,7 +20,8 @@ $configurator-common-components: cx-configurator-template,
   cx-configurator-conflict-suggestion, cx-configurator-conflict-description,
   cx-configurator-issues-notification,
   cx-configurator-overview-notification-banner, cx-configure-product,
-  cx-configure-cart-entry, cx-configurator-issues-notification !default;
+  cx-configure-cart-entry, cx-configurator-cart-entry-info,
+  cx-configurator-issues-notification !default;
 
 $configurator-common-pages: VariantConfigurationTemplate,
   VariantConfigurationOverviewTemplate !default;
