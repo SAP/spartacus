@@ -261,6 +261,10 @@
         @include visible-focus();
         outline-offset: -2px;
       }
+
+      .hide-focus-border {
+        outline: none;
+      }
     }
   }
 
