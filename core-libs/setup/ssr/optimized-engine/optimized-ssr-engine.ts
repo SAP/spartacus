@@ -158,7 +158,7 @@ export class OptimizedSsrEngine {
     let doc = this.templateCache.get(filePath);
 
     if (!doc) {
-      doc = fs.readFileSync(filePath, 'utf-8');
+      doc = fs.readFileSync ? fs.readFileSync(filePath, 'utf-8') : '';
       this.templateCache.set(filePath, doc);
     }
 
