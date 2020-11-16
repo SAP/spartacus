@@ -8,6 +8,7 @@ import {
   SearchConfig,
   UserIdService,
 } from '@spartacus/core';
+import { of } from 'rxjs/internal/observable/of';
 import { take } from 'rxjs/operators';
 import {
   LoadStatus,
@@ -590,6 +591,19 @@ describe('B2BUserService', () => {
         status: LoadStatus.ERROR,
         item: undefined,
       });
+    });
+  });
+
+  describe('getErrorState', () => {
+    it('getErrorState() should be able to get status error', () => {
+      let errorState: boolean;
+      spyOn<any>(service, 'getB2BUserState').and.returnValue(
+        of({ loading: false, success: false, error: true })
+      );
+
+      service.getErrorState('code').subscribe((error) => (errorState = error));
+
+      expect(errorState).toBeTrue();
     });
   });
 });

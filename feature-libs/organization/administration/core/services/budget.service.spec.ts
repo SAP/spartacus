@@ -2,6 +2,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store, StoreModule } from '@ngrx/store';
 import { EntitiesModel, SearchConfig, UserIdService } from '@spartacus/core';
+import { of } from 'rxjs/internal/observable/of';
 import { take } from 'rxjs/operators';
 import { Budget } from '../model/budget.model';
 import {
@@ -71,7 +72,7 @@ describe('BudgetService', () => {
   ));
 
   describe('get budget', () => {
-    xit('get() should trigger load budget details when they are not present in the store', (done) => {
+    it('get() should trigger load budget details when they are not present in the store', (done) => {
       const sub = service.get(budgetCode).subscribe();
 
       actions$
@@ -201,6 +202,19 @@ describe('BudgetService', () => {
         status: LoadStatus.ERROR,
         item: undefined,
       });
+    });
+  });
+
+  describe('getErrorState', () => {
+    it('getErrorState() should be able to get status error', () => {
+      let errorState: boolean;
+      spyOn<any>(service, 'getBudgetState').and.returnValue(
+        of({ loading: false, success: false, error: true })
+      );
+
+      service.getErrorState('code').subscribe((error) => (errorState = error));
+
+      expect(errorState).toBeTrue();
     });
   });
 });
