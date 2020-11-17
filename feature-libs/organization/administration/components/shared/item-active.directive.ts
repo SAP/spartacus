@@ -37,7 +37,6 @@ export class ItemActiveDirective<T = BaseItem> implements OnInit, OnDestroy {
 
   protected handleDisabledItems(item: BaseItem) {
     if (item?.active === false && this.form) {
-      this.form.disable();
       this.messageService.add({
         message: {
           key: 'organization.notification.disabled',
