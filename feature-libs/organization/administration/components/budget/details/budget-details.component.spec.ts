@@ -11,7 +11,7 @@ import {
   MessageService,
   ToggleStatusModule,
 } from '../../shared';
-import { OrganizationCardTestingModule } from '../../shared/organization-card/organization-card.testing.module';
+import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { MessageTestingModule } from '../../shared/organization-message/message.testing.module';
 import { BudgetDetailsComponent } from './budget-details.component';
@@ -46,7 +46,7 @@ describe('BudgetDetailsComponent', () => {
         RouterTestingModule,
         I18nTestingModule,
         UrlTestingModule,
-        OrganizationCardTestingModule,
+        CardTestingModule,
         MessageTestingModule,
         ToggleStatusModule,
       ],

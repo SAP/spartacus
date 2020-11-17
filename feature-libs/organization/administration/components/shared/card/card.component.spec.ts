@@ -9,7 +9,7 @@ import { ViewComponent } from 'projects/storefrontlib/src/shared/components/spli
 import { of } from 'rxjs';
 import { OrganizationItemService } from '../organization-item.service';
 import { MessageTestingModule } from '../organization-message/message.testing.module';
-import { OrganizationCardComponent } from './organization-card.component';
+import { CardComponent } from './card.component';
 import createSpy = jasmine.createSpy;
 
 const mockItem = { foo: 'bar' };
@@ -20,9 +20,9 @@ class MockOrganizationItemService {
   launchDetails = createSpy('launchDetails');
 }
 
-describe('OrganizationCardComponent', () => {
-  let component: OrganizationCardComponent<any>;
-  let fixture: ComponentFixture<OrganizationCardComponent<any>>;
+describe('CardComponent', () => {
+  let component: CardComponent<any>;
+  let fixture: ComponentFixture<CardComponent<any>>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -34,7 +34,7 @@ describe('OrganizationCardComponent', () => {
         RouterTestingModule,
         MessageTestingModule,
       ],
-      declarations: [OrganizationCardComponent, ViewComponent],
+      declarations: [CardComponent, ViewComponent],
       providers: [
         {
           provide: OrganizationItemService,
@@ -46,7 +46,7 @@ describe('OrganizationCardComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrganizationCardComponent);
+    fixture = TestBed.createComponent(CardComponent);
     component = fixture.componentInstance;
     component.i18nRoot = 'organization.budget';
     // no change detection here because angular will not detect changes

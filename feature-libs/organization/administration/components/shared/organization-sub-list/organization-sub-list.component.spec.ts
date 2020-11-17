@@ -7,7 +7,7 @@ import { EntitiesModel, I18nTestingModule } from '@spartacus/core';
 import { EventEmitter } from 'events';
 import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { of } from 'rxjs';
-import { OrganizationCardTestingModule } from '../organization-card/organization-card.testing.module';
+import { CardTestingModule } from '../card/card.testing.module';
 import { OrganizationItemService } from '../organization-item.service';
 import { OrganizationListService } from '../organization-list/organization-list.service';
 import { MessageTestingModule } from '../organization-message/message.testing.module';
@@ -74,7 +74,7 @@ describe('OrganizationSubListComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
-        OrganizationCardTestingModule,
+        CardTestingModule,
         MessageTestingModule,
         I18nTestingModule,
         RouterTestingModule,

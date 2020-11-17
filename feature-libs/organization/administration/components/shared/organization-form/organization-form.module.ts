@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { I18nModule } from '@spartacus/core';
 import { ItemActiveModule } from '../item-active.module';
-import { OrganizationCardModule } from '../organization-card/organization-card.module';
+import { CardModule } from '../card/card.module';
 import { MessageModule } from '../organization-message/message.module';
 import { MessageService } from '../organization-message/services/message.service';
 import { OrganizationFormComponent } from './organization-form.component';
@@ -15,7 +15,7 @@ import { OrganizationFormComponent } from './organization-form.component';
     FormsModule,
     I18nModule,
     RouterModule,
-    OrganizationCardModule,
+    CardModule,
     MessageModule,
     ItemActiveModule,
   ],

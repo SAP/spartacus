@@ -12,12 +12,12 @@ import { BaseItem } from '../organization.model';
 
 @Component({
   selector: 'cx-org-card',
-  templateUrl: './organization-card.component.html',
+  templateUrl: './card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },
   providers: [MessageService],
 })
-export class OrganizationCardComponent<T extends BaseItem> {
+export class CardComponent<T extends BaseItem> {
   @Input() i18nRoot: string;
   @Input() previous: boolean | string = true;
 

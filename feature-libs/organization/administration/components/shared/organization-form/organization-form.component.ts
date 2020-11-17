@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { filter, first, map, switchMap, take } from 'rxjs/operators';
-import { OrganizationCardComponent } from '../organization-card/organization-card.component';
+import { CardComponent } from '../card/card.component';
 import { OrganizationItemService } from '../organization-item.service';
 import { MessageService } from '../organization-message/services/message.service';
 
@@ -81,7 +81,7 @@ export class OrganizationFormComponent<T> {
     this.i18n = this.i18nRoot + (item ? '.edit' : '.create');
   }
 
-  back(event: MouseEvent, card: OrganizationCardComponent<any>) {
+  back(event: MouseEvent, card: CardComponent<any>) {
     if (this.animateBack) {
       card.closeView(event);
     }

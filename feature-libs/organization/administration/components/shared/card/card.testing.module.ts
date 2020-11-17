@@ -4,13 +4,13 @@ import { Component, Input, NgModule } from '@angular/core';
   selector: 'cx-org-card',
   template: '<ng-content></ng-content>',
 })
-class MockOrganizationCardComponent {
+class MockCardComponent {
   @Input() i18nRoot;
   @Input() previous;
 }
 
 @NgModule({
-  declarations: [MockOrganizationCardComponent],
-  exports: [MockOrganizationCardComponent],
+  declarations: [MockCardComponent],
+  exports: [MockCardComponent],
 })
-export class OrganizationCardTestingModule {}
+export class CardTestingModule {}

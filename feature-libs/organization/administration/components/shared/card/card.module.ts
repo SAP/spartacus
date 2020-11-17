@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { IconModule, SplitViewModule } from '@spartacus/storefront';
 import { MessageModule } from '../organization-message/message.module';
-import { OrganizationCardComponent } from './organization-card.component';
+import { CardComponent } from './card.component';
 
 /**
  * Provides a reusable card UI component for the organization split views.
@@ -22,7 +22,7 @@ import { OrganizationCardComponent } from './organization-card.component';
     UrlModule,
     MessageModule,
   ],
-  declarations: [OrganizationCardComponent],
-  exports: [OrganizationCardComponent],
+  declarations: [CardComponent],
+  exports: [CardComponent],
 })
-export class OrganizationCardModule {}
+export class CardModule {}

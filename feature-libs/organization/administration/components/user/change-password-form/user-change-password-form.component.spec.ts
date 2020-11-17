@@ -6,7 +6,7 @@ import { I18nTestingModule } from '@spartacus/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of } from 'rxjs';
-import { OrganizationCardTestingModule } from '../../shared/organization-card/organization-card.testing.module';
+import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { UserItemService } from '../services/user-item.service';
 import { UserChangePasswordFormComponent } from './user-change-password-form.component';
 import { UserChangePasswordFormService } from './user-change-password-form.service';
@@ -36,7 +36,7 @@ describe('UserChangePasswordFormComponent', () => {
         UrlTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
-        OrganizationCardTestingModule,
+        CardTestingModule,
       ],
       declarations: [UserChangePasswordFormComponent, FormErrorsComponent],
       providers: [

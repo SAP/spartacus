@@ -7,7 +7,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { of } from 'rxjs';
 import { Subject } from 'rxjs/internal/Subject';
 import { ItemExistsDirective } from '../../shared/item-exists.directive';
-import { OrganizationCardTestingModule } from '../../shared/organization-card/organization-card.testing.module';
+import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { ToggleStatusModule } from '../../shared/organization-detail/toggle-status-action/toggle-status.module';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { MessageTestingModule } from '../../shared/organization-message/message.testing.module';
@@ -45,7 +45,7 @@ describe('PermissionDetailsComponent', () => {
         RouterTestingModule,
         I18nTestingModule,
         UrlTestingModule,
-        OrganizationCardTestingModule,
+        CardTestingModule,
         MessageTestingModule,
         ToggleStatusModule,
       ],

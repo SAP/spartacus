@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
-import { OrganizationCardTestingModule } from '../organization-card/organization-card.testing.module';
+import { CardTestingModule } from '../card/card.testing.module';
 import { OrganizationItemService } from '../organization-item.service';
 import { OrganizationFormComponent } from './organization-form.component';
 import createSpy = jasmine.createSpy;
@@ -36,7 +36,7 @@ describe('OrganizationFormComponent', () => {
         CommonModule,
         I18nTestingModule,
         ReactiveFormsModule,
-        OrganizationCardTestingModule,
+        CardTestingModule,
       ],
       declarations: [OrganizationFormComponent],
       providers: [
