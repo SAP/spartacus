@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 import { Subject } from 'rxjs/internal/Subject';
 import { ItemExistsDirective } from '../../shared/item-exists.directive';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
-import { ToggleStatusModule } from '../../shared/organization-detail/toggle-status-action/toggle-status.module';
+import { ToggleStatusModule } from '../../shared/detail/toggle-status-action/toggle-status.module';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { MessageTestingModule } from '../../shared/organization-message/message.testing.module';
 import { MessageService } from '../../shared/organization-message/services/message.service';

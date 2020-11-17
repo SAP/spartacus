@@ -2,7 +2,7 @@ export * from './current-organization-item.service';
 export * from './item-exists.directive';
 export * from './item-active.directive';
 export * from './card/index';
-export * from './organization-detail/index';
+export * from './detail/index';
 export * from './form/index';
 export * from './organization-item.service';
 export * from './organization-list/index';
