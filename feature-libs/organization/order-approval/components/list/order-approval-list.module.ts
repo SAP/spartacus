@@ -8,8 +8,9 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import { OrderApprovalListComponent } from './order-approval-list.component';
 import { ListNavigationModule } from '@spartacus/storefront';
+import { ApproverGuard } from '../../core/public_api';
+import { OrderApprovalListComponent } from './order-approval-list.component';
 
 @NgModule({
   imports: [
@@ -18,7 +19,7 @@ import { ListNavigationModule } from '@spartacus/storefront';
       cmsComponents: {
         OrderApprovalListComponent: {
           component: OrderApprovalListComponent,
-          guards: [AuthGuard],
+          guards: [AuthGuard, ApproverGuard],
         },
       },
     }),

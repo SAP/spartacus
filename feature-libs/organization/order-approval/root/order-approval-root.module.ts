@@ -6,7 +6,6 @@ import {
   RoutingConfig,
 } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
-import { ApproverGuard } from '../core/public_api';
 
 @NgModule({
   imports: [
@@ -40,7 +39,6 @@ import { ApproverGuard } from '../core/public_api';
         routes: {
           orderApprovals: {
             paths: ['my-account/approval-dashboard'],
-            canActivate: [ApproverGuard],
           },
           orderApprovalDetails: {
             paths: ['my-account/approval/:approvalCode'],

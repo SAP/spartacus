@@ -38,7 +38,9 @@ export class ApproverGuard implements CanActivate {
           this.routingService.go({ cxRoute: 'organization' });
 
           this.globalMessageService.add(
-            { key: 'organization.notification.noSufficientPermissions' },
+            {
+              key: 'orderApprovalGlobal.notification.noSufficientPermissions',
+            },
             GlobalMessageType.MSG_TYPE_WARNING
           );
         }

@@ -18,6 +18,7 @@ import {
   OrderDetailTotalsComponent,
   SpinnerModule,
 } from '@spartacus/storefront';
+import { ApproverGuard } from '../../core/public_api';
 import { OrderApprovalDetailFormComponent } from './order-approval-detail-form/order-approval-detail-form.component';
 import { OrderApprovalDetailService } from './order-approval-detail.service';
 import { OrderDetailPermissionResultsComponent } from './order-detail-permission-results/order-detail-permission-results.component';
@@ -42,7 +43,7 @@ import { OrderDetailPermissionResultsComponent } from './order-detail-permission
               useExisting: OrderApprovalDetailService,
             },
           ],
-          guards: [AuthGuard],
+          guards: [AuthGuard, ApproverGuard],
         },
         OrderApprovalDetailApprovalDetailsComponent: {
           component: OrderDetailPermissionResultsComponent,
@@ -52,7 +53,7 @@ import { OrderDetailPermissionResultsComponent } from './order-detail-permission
               useExisting: OrderApprovalDetailService,
             },
           ],
-          guards: [AuthGuard],
+          guards: [AuthGuard, ApproverGuard],
         },
         AccountOrderDetailsApprovalDetailsComponent: {
           component: OrderDetailPermissionResultsComponent,
@@ -66,7 +67,7 @@ import { OrderDetailPermissionResultsComponent } from './order-detail-permission
               useExisting: OrderApprovalDetailService,
             },
           ],
-          guards: [AuthGuard],
+          guards: [AuthGuard, ApproverGuard],
         },
         OrderApprovalDetailItemsComponent: {
           component: OrderDetailItemsComponent,
@@ -76,11 +77,11 @@ import { OrderDetailPermissionResultsComponent } from './order-detail-permission
               useExisting: OrderApprovalDetailService,
             },
           ],
-          guards: [AuthGuard],
+          guards: [AuthGuard, ApproverGuard],
         },
         OrderApprovalDetailFormComponent: {
           component: OrderApprovalDetailFormComponent,
-          guards: [AuthGuard],
+          guards: [AuthGuard, ApproverGuard],
         },
       },
     }),

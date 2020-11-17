@@ -44,7 +44,15 @@ export const orderApprovalList = {
   emptyList: 'There are no orders to approve at this time.',
 };
 
+export const orderApprovalGlobal = {
+  notification: {
+    noSufficientPermissions:
+      'No sufficient permissions to access this page Patrick!',
+  },
+};
+
 export const orderApproval = {
   orderApprovalDetails,
   orderApprovalList,
+  orderApprovalGlobal,
 };

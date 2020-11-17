@@ -7,5 +7,9 @@ export const orderApprovalTranslations: TranslationResources = {
 
 // expose all translation chunk mapping for orderApproval feature
 export const orderApprovalTranslationChunksConfig: TranslationChunksConfig = {
-  orderApproval: ['orderApprovalDetails', 'orderApprovalList'],
+  orderApproval: [
+    'orderApprovalDetails',
+    'orderApprovalList',
+    'orderApprovalGlobal',
+  ],
 };
