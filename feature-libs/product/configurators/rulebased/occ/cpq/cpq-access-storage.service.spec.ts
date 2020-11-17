@@ -41,7 +41,7 @@ describe('CpqAccessStorgeService', () => {
     serviceUnderTest = TestBed.inject(
       CpqAccessStorgeService as Type<CpqAccessStorgeService>
     );
-    serviceUnderTest.clearCachedAccessData();
+    serviceUnderTest.clearCachedCpqAccessData();
   });
 
   afterEach(() => {

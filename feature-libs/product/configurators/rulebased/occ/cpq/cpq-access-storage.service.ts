@@ -20,7 +20,7 @@ export class CpqAccessStorgeService {
         switchMap((data) => {
           if (this.isTokenExpired(data)) {
             // token expired - fetch a new one and emit it instead
-            this.clearCachedAccessData();
+            this.clearCachedCpqAccessData();
             this.cpqAccessData = this.getCachedCpqAccessData();
             return this.cpqAccessData;
           }
@@ -35,7 +35,7 @@ export class CpqAccessStorgeService {
     return Date.now() > this.requestedAt + tokenData.tokenExpirationTime;
   }
 
-  clearCachedAccessData() {
+  clearCachedCpqAccessData() {
     this.cpqAccessData = undefined;
   }
 }
