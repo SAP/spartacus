@@ -7,7 +7,9 @@ import { OrganizationFormService } from '../../shared/organization-form/organiza
 @Injectable({
   providedIn: 'root',
 })
-export class ChangePasswordFormService extends OrganizationFormService<any> {
+export class UserChangePasswordFormService extends OrganizationFormService<
+  any
+> {
   /**
    * @override
    * Adds the password and confirmPassword field. Also adds the customerId field,

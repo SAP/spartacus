@@ -8,8 +8,8 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { of } from 'rxjs';
 import { OrganizationCardTestingModule } from '../../shared/organization-card/organization-card.testing.module';
 import { UserItemService } from '../services/user-item.service';
-import { ChangePasswordFormComponent } from './change-password-form.component';
-import { ChangePasswordFormService } from './change-password-form.service';
+import { UserChangePasswordFormComponent } from './user-change-password-form.component';
+import { UserChangePasswordFormService } from './user-change-password-form.service';
 import { MessageService } from '@spartacus/organization/administration/components';
 
 const mockForm = new FormGroup({
@@ -20,14 +20,14 @@ const mockForm = new FormGroup({
 class MockUserItemService {
   current$ = of('mock');
 }
-class MockChangePasswordFormService {
+class MockUserChangePasswordFormService {
   getForm() {}
 }
 
-describe('ChangePasswordFormComponent', () => {
-  let component: ChangePasswordFormComponent;
-  let fixture: ComponentFixture<ChangePasswordFormComponent>;
-  let formService: ChangePasswordFormService;
+describe('UserChangePasswordFormComponent', () => {
+  let component: UserChangePasswordFormComponent;
+  let fixture: ComponentFixture<UserChangePasswordFormComponent>;
+  let formService: UserChangePasswordFormService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -38,22 +38,22 @@ describe('ChangePasswordFormComponent', () => {
         NgSelectModule,
         OrganizationCardTestingModule,
       ],
-      declarations: [ChangePasswordFormComponent, FormErrorsComponent],
+      declarations: [UserChangePasswordFormComponent, FormErrorsComponent],
       providers: [
         {
           provide: UserItemService,
           useClass: MockUserItemService,
         },
         {
-          provide: ChangePasswordFormService,
-          useClass: MockChangePasswordFormService,
+          provide: UserChangePasswordFormService,
+          useClass: MockUserChangePasswordFormService,
         },
         MessageService,
       ],
     }).compileComponents();
-    formService = TestBed.inject(ChangePasswordFormService);
+    formService = TestBed.inject(UserChangePasswordFormService);
 
-    fixture = TestBed.createComponent(ChangePasswordFormComponent);
+    fixture = TestBed.createComponent(UserChangePasswordFormComponent);
     component = fixture.componentInstance;
   });
 

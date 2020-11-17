@@ -19,7 +19,7 @@ import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.c
 import { OrganizationTableType } from '../shared/organization.model';
 import { UserAssignedApproverListComponent } from './approvers/assigned/user-assigned-approver-list.component';
 import { UserApproverListComponent } from './approvers/user-approver-list.component';
-import { ChangePasswordFormComponent } from './change-password-form/change-password-form.component';
+import { UserChangePasswordFormComponent } from './change-password-form/user-change-password-form.component';
 import { UserDetailsComponent } from './details/user-details.component';
 import { UserFormComponent } from './form/user-form.component';
 import { UserAssignedPermissionListComponent } from './permissions/assigned/user-assigned-permission-list.component';
@@ -125,7 +125,7 @@ export const userCmsConfig: CmsConfig = {
               },
               {
                 path: `change-password`,
-                component: ChangePasswordFormComponent,
+                component: UserChangePasswordFormComponent,
               },
               {
                 path: 'user-groups',

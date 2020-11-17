@@ -6,7 +6,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { OrganizationCardModule } from '../../shared/organization-card/organization-card.module';
-import { ChangePasswordFormComponent } from './change-password-form.component';
+import { UserChangePasswordFormComponent } from './user-change-password-form.component';
 
 @NgModule({
   imports: [
@@ -19,6 +19,6 @@ import { ChangePasswordFormComponent } from './change-password-form.component';
     FormErrorsModule,
     OrganizationCardModule,
   ],
-  declarations: [ChangePasswordFormComponent],
+  declarations: [UserChangePasswordFormComponent],
 })
-export class ChangePasswordFormModule {}
+export class UserChangePasswordFormModule {}

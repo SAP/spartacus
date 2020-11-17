@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { ChangePasswordFormService } from './change-password-form.service';
+import { UserChangePasswordFormService } from './user-change-password-form.service';
 
-describe('ChangePasswordFormService', () => {
-  let service: ChangePasswordFormService;
+describe('UserChangePasswordFormService', () => {
+  let service: UserChangePasswordFormService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ChangePasswordFormService);
+    service = TestBed.inject(UserChangePasswordFormService);
   });
 
   it('should inject service', () => {

@@ -4,23 +4,23 @@ import { User } from '@spartacus/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { filter, first, map, switchMap, take } from 'rxjs/operators';
 import { UserItemService } from '../services/user-item.service';
-import { ChangePasswordFormService } from './change-password-form.service';
+import { UserChangePasswordFormService } from './user-change-password-form.service';
 import { MessageService } from '../../shared/organization-message/services/message.service';
 
 @Component({
-  selector: 'cx-org-change-password-form',
-  templateUrl: './change-password-form.component.html',
+  selector: 'cx-org-user-change-password-form',
+  templateUrl: './user-change-password-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },
 })
-export class ChangePasswordFormComponent {
+export class UserChangePasswordFormComponent {
   form$ = this.itemService.current$.pipe(
     map((item) => this.formService.getForm(item))
   );
 
   constructor(
     protected itemService: UserItemService,
-    protected formService: ChangePasswordFormService,
+    protected formService: UserChangePasswordFormService,
     protected messageService: MessageService
   ) {}
 
