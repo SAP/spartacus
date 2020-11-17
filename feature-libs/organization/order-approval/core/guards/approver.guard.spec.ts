@@ -102,10 +102,10 @@ describe('ApproverGuard', () => {
       .subscribe((value) => (result = value))
       .unsubscribe();
 
-    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'organization' });
+    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
-      { key: 'organization.notification.noSufficientPermissions' },
+      { key: 'orderApprovalGlobal.notification.noSufficientPermissions' },
       GlobalMessageType.MSG_TYPE_WARNING
     );
     expect(result).toEqual(false);

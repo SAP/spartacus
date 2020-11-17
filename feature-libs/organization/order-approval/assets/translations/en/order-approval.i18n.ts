@@ -46,8 +46,7 @@ export const orderApprovalList = {
 
 export const orderApprovalGlobal = {
   notification: {
-    noSufficientPermissions:
-      'No sufficient permissions to access this page Patrick!',
+    noSufficientPermissions: 'No sufficient permissions to access this page.',
   },
 };
 

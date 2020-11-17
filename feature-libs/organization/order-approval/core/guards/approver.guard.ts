@@ -33,9 +33,7 @@ export class ApproverGuard implements CanActivate {
             roles.includes(B2BUserRole.ADMIN));
 
         if (!hasRole) {
-          // routing as temporary solution until /organization won't
-          // have set up proper permission on backend
-          this.routingService.go({ cxRoute: 'organization' });
+          this.routingService.go({ cxRoute: 'home' });
 
           this.globalMessageService.add(
             {
