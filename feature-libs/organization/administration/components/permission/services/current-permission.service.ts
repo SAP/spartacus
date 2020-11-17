@@ -28,4 +28,8 @@ export class CurrentPermissionService extends CurrentOrganizationItemService<
   protected getItem(code: string): Observable<Permission> {
     return this.permissionService.get(code);
   }
+
+  getError(code: string): Observable<boolean> {
+    return this.permissionService.getErrorState(code);
+  }
 }

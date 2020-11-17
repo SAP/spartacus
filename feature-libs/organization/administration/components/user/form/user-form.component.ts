@@ -12,7 +12,9 @@ import {
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
+import { CurrentOrganizationItemService } from '../../shared/current-organization-item.service';
 import { OrganizationItemService } from '../../shared/organization-item.service';
+import { CurrentUserService } from '../services/current-user.service';
 import { UserItemService } from '../services/user-item.service';
 
 @Component({
@@ -24,6 +26,10 @@ import { UserItemService } from '../services/user-item.service';
     {
       provide: OrganizationItemService,
       useExisting: UserItemService,
+    },
+    {
+      provide: CurrentOrganizationItemService,
+      useExisting: CurrentUserService,
     },
   ],
 })

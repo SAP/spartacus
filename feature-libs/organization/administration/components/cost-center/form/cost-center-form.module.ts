@@ -6,6 +6,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { CurrencyService, I18nModule, UrlModule } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { FormErrorsModule } from '@spartacus/storefront';
+import { ItemActiveModule } from '../../shared/item-active.module';
 import { OrganizationFormModule } from '../../shared/organization-form/organization-form.module';
 import { CostCenterFormComponent } from './cost-center-form.component';
 
@@ -19,6 +20,7 @@ import { CostCenterFormComponent } from './cost-center-form.component';
     I18nModule,
     ReactiveFormsModule,
     FormErrorsModule,
+    ItemActiveModule,
   ],
   declarations: [CostCenterFormComponent],
   exports: [CostCenterFormComponent],

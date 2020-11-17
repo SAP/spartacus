@@ -11,7 +11,9 @@ import { Observable, of } from 'rxjs';
 import { CostCenterFormService } from '../../../../cost-center/form/cost-center-form.service';
 import { CurrentCostCenterService } from '../../../../cost-center/services/current-cost-center.service';
 import { UnitCostCenterItemService } from './unit-cost-center-item.service';
+import createSpy = jasmine.createSpy;
 
+const mockCode = 'c1';
 class MockRoutingService {
   go() {}
 }
@@ -30,9 +32,13 @@ class MockCostCenterService {
   create() {}
 }
 
-class MockCurrentCostCenterService {}
 class MockCostCenterFormService {}
 
+class MockCurrentCostCenterService {
+  key$ = of(mockCode);
+  load = createSpy('load').and.returnValue(of());
+  error$ = of(false);
+}
 describe('UnitCostCenterItemService', () => {
   let service: UnitCostCenterItemService;
   let costCenterService: CostCenterService;

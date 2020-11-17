@@ -13,7 +13,9 @@ import {
   PermissionService,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
+import { CurrentOrganizationItemService } from '../../shared/current-organization-item.service';
 import { OrganizationItemService } from '../../shared/organization-item.service';
+import { CurrentPermissionService } from '../services/current-permission.service';
 import { PermissionItemService } from '../services/permission-item.service';
 
 @Component({
@@ -25,6 +27,10 @@ import { PermissionItemService } from '../services/permission-item.service';
     {
       provide: OrganizationItemService,
       useExisting: PermissionItemService,
+    },
+    {
+      provide: CurrentOrganizationItemService,
+      useExisting: CurrentPermissionService,
     },
   ],
 })

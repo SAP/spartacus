@@ -11,7 +11,9 @@ import {
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
+import { CurrentOrganizationItemService } from '../../shared/current-organization-item.service';
 import { OrganizationItemService } from '../../shared/organization-item.service';
+import { CurrentUnitService } from '../services/current-unit.service';
 import { UnitItemService } from '../services/unit-item.service';
 
 @Component({
@@ -23,6 +25,10 @@ import { UnitItemService } from '../services/unit-item.service';
     {
       provide: OrganizationItemService,
       useExisting: UnitItemService,
+    },
+    {
+      provide: CurrentOrganizationItemService,
+      useExisting: CurrentUnitService,
     },
   ],
 })

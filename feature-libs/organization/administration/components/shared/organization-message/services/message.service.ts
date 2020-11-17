@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GlobalMessageType } from '@spartacus/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { MessageData, MessageEventData } from '../message.model';
 
 const DEFAULT_INFO_TIMEOUT = 3000;
@@ -10,7 +10,7 @@ export class MessageService<
   O extends MessageEventData = MessageEventData,
   T extends MessageData<O> = MessageData<O>
 > {
-  protected data$: Subject<MessageData> = new Subject();
+  protected data$: ReplaySubject<MessageData> = new ReplaySubject();
 
   get(): Observable<MessageData> {
     return this.data$;

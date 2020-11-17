@@ -17,6 +17,7 @@ import { StateWithOrganization } from '../store/organization-state';
 import {
   getPermission,
   getPermissionList,
+  getPermissionState,
   getPermissionTypes,
   getPermissionValue,
 } from '../store/selectors/permission.selector';
@@ -148,5 +149,17 @@ export class PermissionService {
     permissionCode: string
   ): Observable<OrganizationItemStatus<Permission>> {
     return getItemStatus(this.getPermission(permissionCode));
+  }
+
+  private getPermissionState(
+    code: string
+  ): Observable<StateUtils.LoaderState<Permission>> {
+    return this.store.select(getPermissionState(code));
+  }
+
+  getErrorState(permissionCode): Observable<boolean> {
+    return this.getPermissionState(permissionCode).pipe(
+      map((state) => state.error)
+    );
   }
 }

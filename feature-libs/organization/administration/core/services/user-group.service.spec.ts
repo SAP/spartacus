@@ -7,6 +7,7 @@ import {
   SearchConfig,
   UserIdService,
 } from '@spartacus/core';
+import { of } from 'rxjs/internal/observable/of';
 import { take } from 'rxjs/operators';
 import { OrganizationItemStatus, Permission, UserGroup } from '../model';
 import { LoadStatus } from '../model/organization-item-status';
@@ -460,6 +461,19 @@ describe('UserGroupService', () => {
         status: LoadStatus.ERROR,
         item: undefined,
       });
+    });
+  });
+
+  describe('getErrorState', () => {
+    it('getErrorState() should be able to get status error', () => {
+      let errorState: boolean;
+      spyOn<any>(service, 'getUserGroupState').and.returnValue(
+        of({ loading: false, success: false, error: true })
+      );
+
+      service.getErrorState('code').subscribe((error) => (errorState = error));
+
+      expect(errorState).toBeTrue();
     });
   });
 });

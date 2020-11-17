@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { BaseItem } from '../organization.model';
 
 @Injectable()
 export abstract class OrganizationFormService<T> {
@@ -30,9 +31,18 @@ export abstract class OrganizationFormService<T> {
   }
 
   protected patchData(item?: T): void {
+    this.toggleFreeze(item);
     this.form.patchValue({ ...this.defaultValue, ...item });
   }
 
+  private toggleFreeze(item?: T): void {
+    if (this.form.enabled && (item as BaseItem)?.active === false) {
+      this.form.disable();
+    }
+    if (this.form.disabled && (item as BaseItem)?.active === true) {
+      this.form.enable();
+    }
+  }
   /**
    * returns the default form value.
    */

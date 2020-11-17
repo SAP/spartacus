@@ -3,10 +3,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CostCenter, I18nTestingModule } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { OrganizationCardTestingModule } from '../../shared/organization-card/organization-card.testing.module';
+import { ToggleStatusModule } from '../../shared/organization-detail/toggle-status-action/toggle-status.module';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { MessageTestingModule } from '../../shared/organization-message/message.testing.module';
+import { MessageService } from '../../shared/organization-message/services/message.service';
 import { CostCenterDetailsComponent } from './cost-center-details.component';
 import createSpy = jasmine.createSpy;
 
@@ -15,6 +17,15 @@ const mockCode = 'c1';
 class MockItemService implements Partial<OrganizationItemService<CostCenter>> {
   key$ = of(mockCode);
   load = createSpy('load').and.returnValue(of());
+  error$ = of(false);
+}
+
+class MockMessageService {
+  add() {
+    return new Subject();
+  }
+  clear() {}
+  close() {}
 }
 
 describe('CostCenterDetailsComponent', () => {
@@ -31,12 +42,24 @@ describe('CostCenterDetailsComponent', () => {
         UrlTestingModule,
         OrganizationCardTestingModule,
         MessageTestingModule,
+        ToggleStatusModule,
       ],
       declarations: [CostCenterDetailsComponent],
       providers: [
         { provide: OrganizationItemService, useClass: MockItemService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CostCenterDetailsComponent, {
+        set: {
+          providers: [
+            {
+              provide: MessageService,
+              useClass: MockMessageService,
+            },
+          ],
+        },
+      })
+      .compileComponents();
 
     itemService = TestBed.inject(OrganizationItemService);
 
