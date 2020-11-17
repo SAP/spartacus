@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import {
@@ -22,12 +22,14 @@ describe('ConfiguratorGroupStatusService', () => {
   let classUnderTest: ConfiguratorGroupStatusService;
   let store: Store<StateWithConfigurator>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({})],
-      providers: [ConfiguratorUtilsService, ConfiguratorGroupStatusService],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [StoreModule.forRoot({})],
+        providers: [ConfiguratorUtilsService, ConfiguratorGroupStatusService],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     classUnderTest = TestBed.inject(

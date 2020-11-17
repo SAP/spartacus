@@ -1,5 +1,5 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, OrderEntry } from '@spartacus/core';
@@ -30,18 +30,20 @@ describe('ConfigureCartEntryComponent', () => {
   const orderOrCartEntry: OrderEntry = {};
   let mockModalService: MockModalService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
-      declarations: [ConfigureCartEntryComponent, MockUrlPipe],
-      providers: [
-        {
-          provide: ModalService,
-          useClass: MockModalService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule, RouterTestingModule],
+        declarations: [ConfigureCartEntryComponent, MockUrlPipe],
+        providers: [
+          {
+            provide: ModalService,
+            useClass: MockModalService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigureCartEntryComponent);
     component = fixture.componentInstance;

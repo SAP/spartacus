@@ -1,5 +1,5 @@
 import { Component, Type } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -53,31 +53,33 @@ describe('ConfigurationUpdateMessageComponent', () => {
   let fixture: ComponentFixture<ConfiguratorUpdateMessageComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(async(() => {
-    routerStateObservable = of(ConfigurationTestData.mockRouterState);
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [
-        ConfiguratorUpdateMessageComponent,
-        MockCxSpinnerComponent,
-      ],
-      providers: [
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
+  beforeEach(
+    waitForAsync(() => {
+      routerStateObservable = of(ConfigurationTestData.mockRouterState);
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+        declarations: [
+          ConfiguratorUpdateMessageComponent,
+          MockCxSpinnerComponent,
+        ],
+        providers: [
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
 
-        {
-          provide: MessageConfig,
-          useClass: MockMessageConfig,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-      ],
-    });
-  }));
+          {
+            provide: MessageConfig,
+            useClass: MockMessageConfig,
+          },
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
+          },
+        ],
+      });
+    })
+  );
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorUpdateMessageComponent);
     htmlElem = fixture.nativeElement;

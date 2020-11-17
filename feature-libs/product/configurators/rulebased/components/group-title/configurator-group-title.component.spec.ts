@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -56,33 +56,35 @@ describe('ConfigurationGroupTitleComponent', () => {
   let configuratorGroupsService: ConfiguratorGroupsService;
   let configuratorUtils: CommonConfiguratorUtilsService;
 
-  beforeEach(async(() => {
-    routerStateObservable = of(ConfigurationTestData.mockRouterState);
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [ConfiguratorGroupTitleComponent],
-      providers: [
-        {
-          provide: Router,
-          useClass: MockRouter,
-        },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
+  beforeEach(
+    waitForAsync(() => {
+      routerStateObservable = of(ConfigurationTestData.mockRouterState);
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+        declarations: [ConfiguratorGroupTitleComponent],
+        providers: [
+          {
+            provide: Router,
+            useClass: MockRouter,
+          },
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
 
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupService,
-        },
-        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
-      ],
-    });
-  }));
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
+          },
+          {
+            provide: ConfiguratorGroupsService,
+            useClass: MockConfiguratorGroupService,
+          },
+          { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+        ],
+      });
+    })
+  );
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorGroupTitleComponent);
     component = fixture.componentInstance;

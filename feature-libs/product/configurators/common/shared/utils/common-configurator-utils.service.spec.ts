@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import {
   Cart,
   OCC_USER_ID_ANONYMOUS,
@@ -28,9 +28,11 @@ let cartItem: OrderEntry;
 describe('CommonConfiguratorUtilsService', () => {
   let classUnderTest: CommonConfiguratorUtilsService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({}).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({}).compileComponents();
+    })
+  );
   beforeEach(() => {
     classUnderTest = TestBed.inject(
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>

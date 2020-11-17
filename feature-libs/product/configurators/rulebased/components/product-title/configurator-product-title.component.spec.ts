@@ -1,5 +1,5 @@
 import { Component, Input, Type } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -120,31 +120,33 @@ describe('ConfigProductTitleComponent', () => {
   let configuratorUtils: CommonConfiguratorUtilsService;
   let htmlElem: HTMLElement;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [ConfiguratorProductTitleComponent, MockCxIconComponent],
-      providers: [
-        {
-          provide: Router,
-          useClass: MockRouter,
-        },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ProductService,
-          useClass: MockProductService,
-        },
-        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
-      ],
-    });
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+        declarations: [ConfiguratorProductTitleComponent, MockCxIconComponent],
+        providers: [
+          {
+            provide: Router,
+            useClass: MockRouter,
+          },
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
+          },
+          {
+            provide: ProductService,
+            useClass: MockProductService,
+          },
+          { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+        ],
+      });
+    })
+  );
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorProductTitleComponent);
     htmlElem = fixture.nativeElement;
