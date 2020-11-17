@@ -21,5 +21,9 @@
     "rxjs": "^6.6.0",
     "@spartacus/core": "3.0.0-next.6",
     "@spartacus/storefront": "3.0.0-next.6"
+  },
+  "optionalDependencies": {
+    "@nguniversal/express-engine": "^10.1.0",
+    "express": "^4.15.0ó"
   }
 }

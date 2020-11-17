@@ -421,7 +421,7 @@ export const CHECKOUT_COST_CENTER_SERVICE = 'CheckoutCostCenterService';
 export const PAYMENT_TYPE_SERVICE = 'PaymentTypeService';
 
 export const UNAUTHORIZED_ERROR_HANDLER = 'UnauthorizedErrorHandler';
-
+export const NG_EXPRESS_ENGINE_DECORATOR = 'NgExpressEngineDecorator';
 /***** Removed public api end *****/
 
 /***** Properties start *****/

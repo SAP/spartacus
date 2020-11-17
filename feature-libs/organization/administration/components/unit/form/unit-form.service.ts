@@ -49,8 +49,13 @@ export class UnitFormService extends OrganizationFormService<B2BUnit> {
   }
 
   protected isRootUnit(item: B2BUnit): boolean {
+    // as we don't have full response after toggle item status,
+    // we have situation where we have object like {uid, active},
+    // so decided to check name as alternative required property
     return (
-      item?.uid && (!item?.parentOrgUnit || item?.uid === item?.parentOrgUnit)
+      item?.uid &&
+      item?.name &&
+      (!item?.parentOrgUnit || item?.uid === item?.parentOrgUnit)
     );
   }
 }

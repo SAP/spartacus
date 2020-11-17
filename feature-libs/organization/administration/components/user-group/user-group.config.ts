@@ -17,7 +17,6 @@ import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.c
 import { OrganizationTableType } from '../shared/organization.model';
 import { UserGroupDetailsComponent } from './details/user-group-details.component';
 import { UserGroupFormComponent } from './form/user-group-form.component';
-import { ExistUserGroupGuard } from './guards/exist-user-group.guard';
 import { UserGroupAssignedPermissionListComponent } from './permissions/assigned/user-group-assigned-permission-list.component';
 import { UserGroupPermissionListComponent } from './permissions/user-group-permission-list.component';
 import { UserGroupItemService } from './services/user-group-item.service';
@@ -100,7 +99,6 @@ export const userGroupCmsConfig: CmsConfig = {
           {
             path: `:${ROUTE_PARAMS.userGroupCode}`,
             component: UserGroupDetailsComponent,
-            canActivate: [ExistUserGroupGuard],
             data: {
               cxPageMeta: { breadcrumb: 'userGroup.breadcrumbs.details' },
             },

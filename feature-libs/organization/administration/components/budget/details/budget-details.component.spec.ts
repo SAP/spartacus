@@ -5,6 +5,12 @@ import { I18nTestingModule } from '@spartacus/core';
 import { Budget } from '@spartacus/organization/administration/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of } from 'rxjs';
+import { Subject } from 'rxjs/internal/Subject';
+import {
+  ItemExistsDirective,
+  MessageService,
+  ToggleStatusModule,
+} from '../../shared';
 import { OrganizationCardTestingModule } from '../../shared/organization-card/organization-card.testing.module';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { MessageTestingModule } from '../../shared/organization-message/message.testing.module';
@@ -17,6 +23,15 @@ class MockBudgetItemService
   implements Partial<OrganizationItemService<Budget>> {
   key$ = of(mockCode);
   load = createSpy('load').and.returnValue(of());
+  error$ = of(false);
+}
+
+class MockMessageService {
+  add() {
+    return new Subject();
+  }
+  clear() {}
+  close() {}
 }
 
 describe('BudgetDetailsComponent', () => {
@@ -33,12 +48,24 @@ describe('BudgetDetailsComponent', () => {
         UrlTestingModule,
         OrganizationCardTestingModule,
         MessageTestingModule,
+        ToggleStatusModule,
       ],
-      declarations: [BudgetDetailsComponent],
+      declarations: [BudgetDetailsComponent, ItemExistsDirective],
       providers: [
         { provide: OrganizationItemService, useClass: MockBudgetItemService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(BudgetDetailsComponent, {
+        set: {
+          providers: [
+            {
+              provide: MessageService,
+              useClass: MockMessageService,
+            },
+          ],
+        },
+      })
+      .compileComponents();
 
     itemService = TestBed.inject(OrganizationItemService);
     fixture = TestBed.createComponent(BudgetDetailsComponent);

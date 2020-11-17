@@ -10,7 +10,7 @@
 
   <cx-toggle-status actions key="customerId" i18nRoot="user"></cx-toggle-status>
 
-  <section main class="details">
+  <section main class="details" cxOrgItemExists>
     <div class="property">
       <label>{{ 'user.name' | cxTranslate }}</label>
       <span class="value">
@@ -52,6 +52,7 @@
     </div>
     <div class="property full-width">
       <a
+        *ngIf="model.customerId"
         class="link"
         [class.disabled]="!model.active"
         [routerLink]="{ cxRoute: 'userChangePassword', params: model } | cxUrl"
@@ -62,27 +63,29 @@
   </section>
 
   <section main class="link-list">
-    <a
-      class="link"
-      [routerLink]="{ cxRoute: 'userApprovers', params: model } | cxUrl"
-      routerLinkActive="is-current"
-    >
-      {{ 'user.links.approvers' | cxTranslate }}
-    </a>
-    <a
-      class="link"
-      [routerLink]="{ cxRoute: 'userUserGroups', params: model } | cxUrl"
-      routerLinkActive="is-current"
-    >
-      {{ 'user.links.userGroup' | cxTranslate }}
-    </a>
+    <ng-container *ngIf="model.customerId">
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'userApprovers', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'user.links.approvers' | cxTranslate }}
+      </a>
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'userUserGroups', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'user.links.userGroup' | cxTranslate }}
+      </a>
 
-    <a
-      class="link"
-      [routerLink]="{ cxRoute: 'userPermissions', params: model } | cxUrl"
-      routerLinkActive="is-current"
-    >
-      {{ 'user.links.permission' | cxTranslate }}
-    </a>
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'userPermissions', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'user.links.permission' | cxTranslate }}
+      </a>
+    </ng-container>
   </section>
 </cx-organization-card>

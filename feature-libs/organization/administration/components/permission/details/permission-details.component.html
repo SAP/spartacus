@@ -13,7 +13,7 @@
 
   <cx-toggle-status actions i18nRoot="permission"></cx-toggle-status>
 
-  <section main class="details">
+  <section main class="details" cxOrgItemExists>
     <div class="property">
       <label>{{ 'permission.code' | cxTranslate }}</label>
       <span class="value">
@@ -57,6 +57,7 @@
     <div class="property">
       <label>{{ 'permission.unit' | cxTranslate }}</label>
       <a
+        *ngIf="model.code"
         class="value"
         [routerLink]="
           {

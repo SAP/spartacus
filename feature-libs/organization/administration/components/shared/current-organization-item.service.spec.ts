@@ -4,7 +4,7 @@ import { RoutingService } from '@spartacus/core';
 import { Observable, of, Subject } from 'rxjs';
 import { CurrentOrganizationItemService } from './current-organization-item.service';
 
-const mockCode = 'b1';
+const mockCode = 'code1';
 const PARAM = 'myParam';
 
 const mockParams = new Subject();
@@ -31,6 +31,10 @@ class MockCurrentService extends CurrentOrganizationItemService<Mock> {
   // we make these public for easy testing
   getItem(..._params: any[]): Observable<Mock> {
     return of({});
+  }
+
+  getError(): Observable<boolean> {
+    return of(false);
   }
 }
 
