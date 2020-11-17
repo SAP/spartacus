@@ -56,7 +56,7 @@ describe('Package utils', () => {
       .toPromise();
   });
 
-  describe('readPackageJon', () => {
+  describe('readPackageJson', () => {
     it('should return parsed package.json content', async () => {
       const buffer = appTree.read('package.json');
 
