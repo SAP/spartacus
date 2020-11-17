@@ -70,9 +70,7 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
             const nameRow = subConfig.createConfig.rows?.find(
               (row) => row.sortLabel === 'name'
             );
-            cy.get('cx-org-sub-list table tr td').contains(
-              nameRow.createValue
-            );
+            cy.get('cx-org-sub-list table tr td').contains(nameRow.createValue);
           }
         });
       }
@@ -151,7 +149,9 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
         .parent()
         .contains(ASSIGNMENT_LABELS.ASSIGN)
         .click();
-      cy.get('cx-org-notification').contains(ASSIGNMENT_LABELS.ASSIGNED_SUCCESS);
+      cy.get('cx-org-notification').contains(
+        ASSIGNMENT_LABELS.ASSIGNED_SUCCESS
+      );
       cy.get('cx-org-notification').should('not.exist');
       cy.get('cx-org-sub-list')
         .contains(option)
@@ -167,7 +167,9 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
         .parent()
         .contains(ASSIGNMENT_LABELS.UNASSIGN)
         .click();
-      cy.get('cx-org-notification').contains(ASSIGNMENT_LABELS.UNASSIGNED_SUCCESS);
+      cy.get('cx-org-notification').contains(
+        ASSIGNMENT_LABELS.UNASSIGNED_SUCCESS
+      );
       cy.get('cx-org-notification').should('not.exist');
     }
 
