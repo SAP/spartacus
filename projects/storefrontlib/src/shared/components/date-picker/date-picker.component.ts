@@ -71,6 +71,10 @@ export class DatePickerComponent implements ControlValueAccessor, Validator {
     }
   }
 
+  setDisabledState(isDisabled: boolean): void {
+    this.input.nativeElement.setAttribute('disabled', isDisabled);
+  }
+
   validate(): { [key: string]: any } {
     if (this.input && !this.input.nativeElement.validity.valid) {
       const validity = this.input.nativeElement.validity;
