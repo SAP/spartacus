@@ -12,9 +12,7 @@ import { OrganizationTableType } from '../../../shared/organization.model';
 @Injectable({
   providedIn: 'root',
 })
-export class UnitChildrenService extends SubListService<
-  B2BUnitNode
-> {
+export class UnitChildrenService extends SubListService<B2BUnitNode> {
   protected tableType = OrganizationTableType.UNIT_CHILDREN;
   protected _domainType = OrganizationTableType.UNIT;
 

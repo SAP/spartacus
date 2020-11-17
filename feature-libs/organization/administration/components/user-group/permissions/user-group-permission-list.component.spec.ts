@@ -13,11 +13,7 @@ describe('UserGroupPermissionListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SubListTestingModule,
-        UrlTestingModule,
-        I18nTestingModule,
-      ],
+      imports: [SubListTestingModule, UrlTestingModule, I18nTestingModule],
       providers: [
         {
           provide: UserGroupPermissionListService,

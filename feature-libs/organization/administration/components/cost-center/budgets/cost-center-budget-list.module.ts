@@ -7,12 +7,7 @@ import { CostCenterAssignedBudgetListComponent } from './assigned/cost-center-as
 import { CostCenterBudgetListComponent } from './cost-center-budget-list.component';
 
 @NgModule({
-  imports: [
-    ListModule,
-    I18nModule,
-    RouterModule,
-    SubListModule,
-  ],
+  imports: [ListModule, I18nModule, RouterModule, SubListModule],
   declarations: [
     CostCenterAssignedBudgetListComponent,
     CostCenterBudgetListComponent,

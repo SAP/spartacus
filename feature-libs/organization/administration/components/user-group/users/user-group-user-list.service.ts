@@ -14,9 +14,7 @@ import { OrganizationTableType } from '../../shared/organization.model';
 @Injectable({
   providedIn: 'root',
 })
-export class UserGroupUserListService extends SubListService<
-  B2BUser
-> {
+export class UserGroupUserListService extends SubListService<B2BUser> {
   protected tableType = OrganizationTableType.USER_GROUP_USERS;
   protected _domainType = OrganizationTableType.USER;
 

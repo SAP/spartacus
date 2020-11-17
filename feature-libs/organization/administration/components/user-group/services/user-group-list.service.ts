@@ -26,9 +26,7 @@ export interface UserGroupModel {
 @Injectable({
   providedIn: 'root',
 })
-export class UserGroupListService extends ListService<
-  UserGroupModel
-> {
+export class UserGroupListService extends ListService<UserGroupModel> {
   protected tableType = OrganizationTableType.USER_GROUP;
 
   constructor(

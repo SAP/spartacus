@@ -11,7 +11,7 @@ import {
 import { ItemService } from '../item.service';
 import { ListService } from '../list/list.service';
 import { MessageService } from '../message/services/message.service';
-import { SubListService } from './/organization-sub-list.service';
+import { SubListService } from './sub-list.service';
 import { CellComponent } from '../table/cell.component';
 import { Observable } from 'rxjs';
 

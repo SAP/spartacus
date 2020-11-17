@@ -31,11 +31,7 @@ describe('UserGroupUserListComponent', () => {
   let messageService: MessageService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SubListTestingModule,
-        UrlTestingModule,
-        I18nTestingModule,
-      ],
+      imports: [SubListTestingModule, UrlTestingModule, I18nTestingModule],
       providers: [
         {
           provide: UserGroupUserListService,

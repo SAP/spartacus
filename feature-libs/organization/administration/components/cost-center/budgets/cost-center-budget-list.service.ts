@@ -14,9 +14,7 @@ import { OrganizationTableType } from '../../shared/organization.model';
 @Injectable({
   providedIn: 'root',
 })
-export class CostCenterBudgetListService extends SubListService<
-  Budget
-> {
+export class CostCenterBudgetListService extends SubListService<Budget> {
   protected tableType = OrganizationTableType.COST_CENTER_BUDGETS;
   protected _domainType = OrganizationTableType.BUDGET;
 

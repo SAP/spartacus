@@ -7,9 +7,7 @@ import { FormService } from '../../shared/form/form.service';
 @Injectable({
   providedIn: 'root',
 })
-export class UserChangePasswordFormService extends FormService<
-  any
-> {
+export class UserChangePasswordFormService extends FormService<any> {
   /**
    * @override
    * Adds the password and confirmPassword field. Also adds the customerId field,

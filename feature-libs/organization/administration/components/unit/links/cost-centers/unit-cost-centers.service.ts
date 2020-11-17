@@ -9,9 +9,7 @@ import { OrganizationTableType } from '../../../shared/organization.model';
 @Injectable({
   providedIn: 'root',
 })
-export class UnitCostCenterListService extends SubListService<
-  B2BUser
-> {
+export class UnitCostCenterListService extends SubListService<B2BUser> {
   protected tableType = OrganizationTableType.UNIT_COST_CENTERS;
   protected _domainType = OrganizationTableType.COST_CENTER;
 

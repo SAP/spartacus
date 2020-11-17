@@ -7,12 +7,7 @@ import { UserAssignedApproverListComponent } from './assigned/user-assigned-appr
 import { UserApproverListComponent } from './user-approver-list.component';
 
 @NgModule({
-  imports: [
-    ListModule,
-    I18nModule,
-    RouterModule,
-    SubListModule,
-  ],
+  imports: [ListModule, I18nModule, RouterModule, SubListModule],
   declarations: [UserApproverListComponent, UserAssignedApproverListComponent],
 })
 export class UserApproverListModule {}

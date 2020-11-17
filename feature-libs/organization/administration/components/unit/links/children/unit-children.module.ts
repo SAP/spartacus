@@ -6,12 +6,7 @@ import { SubListModule } from '../../../shared/sub-list/sub-list.module';
 import { UnitChildrenComponent } from './unit-children.component';
 
 @NgModule({
-  imports: [
-    ListModule,
-    I18nModule,
-    RouterModule,
-    SubListModule,
-  ],
+  imports: [ListModule, I18nModule, RouterModule, SubListModule],
   declarations: [UnitChildrenComponent],
 })
 export class UnitChildrenModule {}

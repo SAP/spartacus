@@ -30,9 +30,7 @@ export interface PermissionModel {
 @Injectable({
   providedIn: 'root',
 })
-export class PermissionListService extends ListService<
-  PermissionModel
-> {
+export class PermissionListService extends ListService<PermissionModel> {
   protected tableType = OrganizationTableType.PERMISSION;
 
   constructor(

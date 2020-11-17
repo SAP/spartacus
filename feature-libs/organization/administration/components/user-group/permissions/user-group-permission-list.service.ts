@@ -15,9 +15,7 @@ import { OrganizationTableType } from '../../shared/organization.model';
 @Injectable({
   providedIn: 'root',
 })
-export class UserGroupPermissionListService extends SubListService<
-  Permission
-> {
+export class UserGroupPermissionListService extends SubListService<Permission> {
   protected tableType = OrganizationTableType.USER_GROUP_PERMISSIONS;
   protected _domainType = OrganizationTableType.PERMISSION;
 

@@ -26,9 +26,7 @@ export interface CostCenterModel {
 @Injectable({
   providedIn: 'root',
 })
-export class CostCenterListService extends ListService<
-  CostCenterModel
-> {
+export class CostCenterListService extends ListService<CostCenterModel> {
   protected tableType = OrganizationTableType.COST_CENTER;
 
   constructor(

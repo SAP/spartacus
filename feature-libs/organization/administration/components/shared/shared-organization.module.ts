@@ -4,10 +4,6 @@ import { ListModule } from './list/list.module';
 import { SubListModule } from './sub-list/sub-list.module';
 
 @NgModule({
-  imports: [
-    ListModule,
-    SubListModule,
-    FormModule,
-  ],
+  imports: [ListModule, SubListModule, FormModule],
 })
 export class SharedOrganizationModule {}

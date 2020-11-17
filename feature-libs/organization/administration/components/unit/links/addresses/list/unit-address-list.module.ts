@@ -7,13 +7,7 @@ import { LinkCellComponent } from './link-cell.component';
 import { UnitAddressListComponent } from './unit-address-list.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    RouterModule,
-    UrlModule,
-    SubListModule,
-  ],
+  imports: [CommonModule, I18nModule, RouterModule, UrlModule, SubListModule],
   declarations: [UnitAddressListComponent, LinkCellComponent],
 })
 export class UnitAddressListModule {}
