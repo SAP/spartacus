@@ -1,3 +1,5 @@
+import { Request } from 'express';
+
 export interface SsrOptimizationOptions {
   /**
    * Time in milliseconds to wait for SSR rendering to happen.
@@ -30,14 +32,14 @@ export interface SsrOptimizationOptions {
    *
    * @param req
    */
-  renderKeyResolver?: (req) => string;
+  renderKeyResolver?: (req: Request) => string;
 
   /**
    * Allows defining custom rendering strategy per request
    *
    * @param req
    */
-  renderingStrategyResolver?: (req) => RenderingStrategy;
+  renderingStrategyResolver?: (req: Request) => RenderingStrategy;
 
   /**
    * Time in milliseconds to wait for rendering when SSR_ALWAYS render strategy is set for the request.
