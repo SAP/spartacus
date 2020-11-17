@@ -4,9 +4,9 @@ import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   OrderEntry,
-  OrderEntryStatus,
 } from '@spartacus/core';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
+import { ConfiguratorOrderEntryStatus } from './../../core/model/common-configurator.model';
 
 /**
  * Utilities for generic configuration
@@ -98,7 +98,7 @@ export class CommonConfiguratorUtilsService {
   getNumberOfIssues(cartItem: OrderEntry): number {
     let numberOfIssues = 0;
     cartItem?.statusSummaryList?.forEach((statusSummary) => {
-      if (statusSummary.status === OrderEntryStatus.Error) {
+      if (statusSummary.status === ConfiguratorOrderEntryStatus.Error) {
         numberOfIssues = statusSummary.numberOfIssues;
       }
     });

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Pipe, PipeTransform } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
@@ -45,27 +45,29 @@ describe('ConfigTabBarComponent', () => {
   let fixture: ComponentFixture<ConfiguratorTabBarComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(async(() => {
-    mockRouterState.state.params.displayOnly = false;
+  beforeEach(
+    waitForAsync(() => {
+      mockRouterState.state.params.displayOnly = false;
 
-    routerStateObservable = of(mockRouterState);
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
-      declarations: [ConfiguratorTabBarComponent, MockUrlPipe],
-      providers: [
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-      ],
-    })
-      .overrideComponent(ConfiguratorTabBarComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
-        },
+      routerStateObservable = of(mockRouterState);
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule, RouterTestingModule],
+        declarations: [ConfiguratorTabBarComponent, MockUrlPipe],
+        providers: [
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
+        ],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(ConfiguratorTabBarComponent, {
+          set: {
+            changeDetection: ChangeDetectionStrategy.Default,
+          },
+        })
+        .compileComponents();
+    })
+  );
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorTabBarComponent);
     component = fixture.componentInstance;

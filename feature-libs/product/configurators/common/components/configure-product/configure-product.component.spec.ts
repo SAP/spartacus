@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, Product } from '@spartacus/core';
 import {
@@ -36,15 +36,20 @@ describe('ConfigureProductComponent', () => {
   let component: ConfigureProductComponent;
   let fixture: ComponentFixture<ConfigureProductComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
-      declarations: [ConfigureProductComponent, MockUrlPipe],
-      providers: [
-        { provide: CurrentProductService, useClass: MockCurrentProductService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule, RouterTestingModule],
+        declarations: [ConfigureProductComponent, MockUrlPipe],
+        providers: [
+          {
+            provide: CurrentProductService,
+            useClass: MockCurrentProductService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   it('should create component', () => {
     fixture = TestBed.createComponent(ConfigureProductComponent);

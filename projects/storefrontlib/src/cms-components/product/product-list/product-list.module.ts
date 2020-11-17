@@ -45,7 +45,6 @@ import { ProductViewComponent } from './product-view/product-view.component';
     SpinnerModule,
     InfiniteScrollModule,
     ViewConfigModule,
-
     ProductVariantsModule,
     FeaturesConfigModule,
     OutletModule,

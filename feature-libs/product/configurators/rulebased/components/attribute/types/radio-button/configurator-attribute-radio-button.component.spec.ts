@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -20,29 +20,31 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   let component: ConfiguratorAttributeRadioButtonComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeRadioButtonComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        ConfiguratorAttributeRadioButtonComponent,
-        MockFocusDirective,
-      ],
-      imports: [ReactiveFormsModule],
-      providers: [
-        ConfiguratorAttributeBaseComponent,
-        ConfiguratorStorefrontUtilsService,
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockGroupService,
-        },
-      ],
-    })
-      .overrideComponent(ConfiguratorAttributeRadioButtonComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
-        },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          ConfiguratorAttributeRadioButtonComponent,
+          MockFocusDirective,
+        ],
+        imports: [ReactiveFormsModule],
+        providers: [
+          ConfiguratorAttributeBaseComponent,
+          ConfiguratorStorefrontUtilsService,
+          {
+            provide: ConfiguratorGroupsService,
+            useClass: MockGroupService,
+          },
+        ],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(ConfiguratorAttributeRadioButtonComponent, {
+          set: {
+            changeDetection: ChangeDetectionStrategy.Default,
+          },
+        })
+        .compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(

@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -33,25 +33,27 @@ describe('ConfiguratorGroupsService', () => {
   let configGroupStatusService: ConfiguratorGroupStatusService;
   let configFacadeUtilsService: ConfiguratorUtilsService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({})],
-      providers: [
-        ConfiguratorGroupsService,
-        ConfiguratorCommonsService,
-        ConfiguratorGroupStatusService,
-        ConfiguratorUtilsService,
-        {
-          provide: ActiveCartService,
-          useClass: MockActiveCartService,
-        },
-        {
-          provide: ConfiguratorCartService,
-          useClass: MockConfiguratorCartService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [StoreModule.forRoot({})],
+        providers: [
+          ConfiguratorGroupsService,
+          ConfiguratorCommonsService,
+          ConfiguratorGroupStatusService,
+          ConfiguratorUtilsService,
+          {
+            provide: ActiveCartService,
+            useClass: MockActiveCartService,
+          },
+          {
+            provide: ConfiguratorCartService,
+            useClass: MockConfiguratorCartService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
   beforeEach(() => {
     classUnderTest = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>

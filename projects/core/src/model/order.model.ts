@@ -32,25 +32,6 @@ export interface OrderEntry {
   returnableQuantity?: number;
   cancelledItemsPrice?: Price;
   cancellableQuantity?: number;
-  statusSummaryList?: StatusSummary[];
-  configurationInfos?: ConfigurationInfo[];
-}
-export enum OrderEntryStatus {
-  Success = 'SUCCESS',
-  Info = 'INFO',
-  Warning = 'WARNING',
-  Error = 'ERROR',
-}
-export interface StatusSummary {
-  numberOfIssues?: number;
-  status?: OrderEntryStatus;
-}
-
-export interface ConfigurationInfo {
-  configurationLabel?: string;
-  configurationValue?: string;
-  configuratorType?: string;
-  status?: string;
 }
 
 export interface CancelOrReturnRequestEntryInput {

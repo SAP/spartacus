@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { OrderEntry } from '@spartacus/core';
-import { ModalService } from '@spartacus/storefront';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 
@@ -29,7 +28,7 @@ export class ConfigureCartEntryComponent {
    *
    * @returns {CommonConfigurator.OwnerType} - an owner type
    */
-  public getOwnerType(): CommonConfigurator.OwnerType {
+  getOwnerType(): CommonConfigurator.OwnerType {
     return this.cartEntry.orderCode !== undefined
       ? CommonConfigurator.OwnerType.ORDER_ENTRY
       : CommonConfigurator.OwnerType.CART_ENTRY;
@@ -41,7 +40,7 @@ export class ConfigureCartEntryComponent {
    *
    * @returns {string} - an entry key
    */
-  public getEntityKey(): string {
+  getEntityKey(): string {
     return this.cartEntry.orderCode !== undefined
       ? this.commonConfigUtilsService.getComposedOwnerId(
           this.cartEntry.orderCode,
@@ -55,7 +54,7 @@ export class ConfigureCartEntryComponent {
    *
    * @returns {string} - a route
    */
-  public getRoute(): string {
+  getRoute(): string {
     const configuratorType = this.cartEntry.product.configuratorType;
     return this.readOnly
       ? 'configureOverview' + configuratorType
@@ -67,7 +66,7 @@ export class ConfigureCartEntryComponent {
    *
    *  @returns {boolean} -'true' if the configuration is read only, otherwise 'false'
    */
-  public getDisplayOnly(): boolean {
+  getDisplayOnly(): boolean {
     return this.readOnly;
   }
 
@@ -76,35 +75,11 @@ export class ConfigureCartEntryComponent {
    *
    *  @returns {boolean} - 'true' if the the configuration is not read only, otherwise 'false'
    */
-  public isDisabled() {
+  isDisabled() {
     return this.readOnly ? false : this.disabled;
   }
 
-  /**
-   * Retrieves the reason why the 'Add to Cart' pop-up was closed.
-   *
-   * @returns {string} - reason why the 'Add to Cart' pop-up was closed.
-   */
-  getReason(): string {
-    if (this.readOnly) {
-      return 'Display Configuration';
-    } else {
-      if (this.msgBanner) {
-        return 'Resolve Issues';
-      }
-      return 'Edit Configuration';
-    }
-  }
-
-  /**
-   * Close the active modal namely 'Add to Cart' pop-up with the corresponding reason.
-   */
-  closeActiveModal(): void {
-    this.modalService.closeActiveModal(this.getReason());
-  }
-
   constructor(
-    private commonConfigUtilsService: CommonConfiguratorUtilsService,
-    private modalService: ModalService
+    protected commonConfigUtilsService: CommonConfiguratorUtilsService
   ) {}
 }
