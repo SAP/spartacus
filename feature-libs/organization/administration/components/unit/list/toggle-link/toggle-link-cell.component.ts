@@ -9,7 +9,7 @@ import { OrganizationCellComponent } from '../../../shared/organization-table/or
 import { UnitTreeService } from '../../services/unit-tree.service';
 
 @Component({
-  selector: 'cx-toggle-link-cell',
+  selector: 'cx-org-toggle-link-cell',
   templateUrl: './toggle-link-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
