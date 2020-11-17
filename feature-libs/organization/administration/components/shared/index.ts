@@ -8,6 +8,6 @@ export * from './organization-item.service';
 export * from './list/index';
 export * from './message/index';
 export * from './sub-list/index';
-export * from './organization-table/index';
+export * from './table/index';
 export * from './organization.model';
 export * from './shared-organization.module';

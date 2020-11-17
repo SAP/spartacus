@@ -5,7 +5,7 @@ import {
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
-import { OrganizationCellComponent } from '../../../shared/organization-table/organization-cell.component';
+import { CellComponent } from '../../../shared/table/cell.component';
 import { UnitTreeService } from '../../services/unit-tree.service';
 
 @Component({
@@ -13,7 +13,7 @@ import { UnitTreeService } from '../../services/unit-tree.service';
   templateUrl: './toggle-link-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ToggleLinkCellComponent extends OrganizationCellComponent {
+export class ToggleLinkCellComponent extends CellComponent {
   @HostBinding('style.--cx-depth-level')
   get depthLevel() {
     return this.model.depthLevel;

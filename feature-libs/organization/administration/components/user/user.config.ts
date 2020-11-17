@@ -11,11 +11,11 @@ import { OrganizationItemService } from '../shared/organization-item.service';
 import { ListComponent } from '../shared/list/list.component';
 import { ListService } from '../shared/list/list.service';
 import { AssignCellComponent } from '../shared/sub-list/assign-cell.component';
-import { ActiveLinkCellComponent } from '../shared/organization-table/active-link/active-link-cell.component';
-import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
-import { RolesCellComponent } from '../shared/organization-table/roles/roles-cell.component';
-import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
-import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
+import { ActiveLinkCellComponent } from '../shared/table/active-link/active-link-cell.component';
+import { CellComponent } from '../shared/table/cell.component';
+import { RolesCellComponent } from '../shared/table/roles/roles-cell.component';
+import { StatusCellComponent } from '../shared/table/status/status-cell.component';
+import { UnitCellComponent } from '../shared/table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
 import { UserAssignedApproverListComponent } from './approvers/assigned/user-assigned-approver-list.component';
 import { UserApproverListComponent } from './approvers/user-approver-list.component';
@@ -210,7 +210,7 @@ export const userTableConfig: TableConfig = {
             dataComponent: StatusCellComponent,
           },
           uid: {
-            dataComponent: OrganizationCellComponent,
+            dataComponent: CellComponent,
           },
           roles: {
             dataComponent: RolesCellComponent,

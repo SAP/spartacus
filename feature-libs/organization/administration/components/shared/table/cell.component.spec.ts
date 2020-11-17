@@ -7,7 +7,7 @@ import {
   TableDataOutletContext,
 } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { OrganizationCellComponent } from './organization-cell.component';
+import { CellComponent } from './cell.component';
 
 const mockContext: TableDataOutletContext = {
   _field: 'name',
@@ -18,12 +18,12 @@ const mockContext: TableDataOutletContext = {
 };
 
 describe('OrganizationLinkComponent', () => {
-  let component: OrganizationCellComponent;
-  let fixture: ComponentFixture<OrganizationCellComponent>;
+  let component: CellComponent;
+  let fixture: ComponentFixture<CellComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [OrganizationCellComponent],
+      declarations: [CellComponent],
       imports: [RouterTestingModule, UrlTestingModule, I18nTestingModule],
       providers: [
         {
@@ -37,7 +37,7 @@ describe('OrganizationLinkComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrganizationCellComponent);
+    fixture = TestBed.createComponent(CellComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Permission } from '@spartacus/organization/administration/core';
-import { OrganizationCellComponent } from '../organization-cell.component';
+import { CellComponent } from '../cell.component';
 
 @Component({
   selector: 'cx-org-limit-cell',
   templateUrl: './limit-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LimitCellComponent extends OrganizationCellComponent {
+export class LimitCellComponent extends CellComponent {
   get isTimeSpanThreshold(): boolean {
     return (
       (this.model as Permission).orderApprovalPermissionType?.code ===

@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { OrganizationCellComponent } from '../organization-cell.component';
+import { CellComponent } from '../cell.component';
 
 @Component({
   selector: 'cx-org-status-cell',
   templateUrl: './status-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StatusCellComponent extends OrganizationCellComponent {
+export class StatusCellComponent extends CellComponent {
   get label() {
     if (this.isActive === undefined) {
       return;

@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { OrganizationCellComponent } from '../organization-cell.component';
+import { CellComponent } from '../cell.component';
 
 @Component({
   selector: 'cx-org-date-range-cell',
   templateUrl: './date-range-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DateRangeCellComponent extends OrganizationCellComponent {
+export class DateRangeCellComponent extends CellComponent {
   get linkable(): boolean {
     return this.hasRange && (this.cellOptions.linkable ?? true);
   }

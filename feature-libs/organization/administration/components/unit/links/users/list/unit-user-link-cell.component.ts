@@ -5,7 +5,7 @@ import {
   TableDataOutletContext,
 } from '@spartacus/storefront';
 import { OrganizationItemService } from '../../../../shared/organization-item.service';
-import { OrganizationCellComponent } from '../../../../shared/organization-table/organization-cell.component';
+import { CellComponent } from '../../../../shared/table/cell.component';
 
 @Component({
   selector: 'cx-org-unit-user-link-cell',
@@ -21,7 +21,7 @@ import { OrganizationCellComponent } from '../../../../shared/organization-table
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UnitUserRolesCellComponent extends OrganizationCellComponent {
+export class UnitUserRolesCellComponent extends CellComponent {
   unitKey$ = this.itemService.key$;
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,

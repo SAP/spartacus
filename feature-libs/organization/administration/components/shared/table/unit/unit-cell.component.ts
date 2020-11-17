@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { OrganizationCellComponent } from '../organization-cell.component';
+import { CellComponent } from '../cell.component';
 
 @Component({
   selector: 'cx-org-unit-cell',
-  templateUrl: '../organization-cell.component.html',
+  templateUrl: '../cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UnitCellComponent extends OrganizationCellComponent {
+export class UnitCellComponent extends CellComponent {
   get property() {
     return this.model.unit?.name ?? this.model.orgUnit?.name;
   }

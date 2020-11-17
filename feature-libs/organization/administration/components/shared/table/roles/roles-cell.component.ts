@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { OrganizationCellComponent } from '../organization-cell.component';
+import { CellComponent } from '../cell.component';
 
 @Component({
   selector: 'cx-org-roles-cell',
   templateUrl: './roles-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RolesCellComponent extends OrganizationCellComponent {}
+export class RolesCellComponent extends CellComponent {}

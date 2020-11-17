@@ -7,10 +7,10 @@ import {
 
 @Component({
   selector: 'cx-org-cell',
-  templateUrl: './organization-cell.component.html',
+  templateUrl: './cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrganizationCellComponent {
+export class CellComponent {
   constructor(protected outlet: OutletContextData<TableDataOutletContext>) {}
 
   get tabIndex(): number {

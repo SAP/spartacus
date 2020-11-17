@@ -12,7 +12,7 @@ import { OrganizationItemService } from '../organization-item.service';
 import { ListService } from '../list/list.service';
 import { MessageService } from '../message/services/message.service';
 import { SubListService } from './/organization-sub-list.service';
-import { OrganizationCellComponent } from '../organization-table/organization-cell.component';
+import { CellComponent } from '../table/cell.component';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -24,7 +24,7 @@ import { Observable } from 'rxjs';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AssignCellComponent<T> extends OrganizationCellComponent {
+export class AssignCellComponent<T> extends CellComponent {
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
     protected organizationItemService: OrganizationItemService<T>,
@@ -63,18 +63,20 @@ export class AssignCellComponent<T> extends OrganizationCellComponent {
     key: string,
     linkKey: string
   ): Observable<OrganizationItemStatus<T>> {
-    return (this.organizationSubListService as SubListService<
-      T
-    >).assign(key, linkKey);
+    return (this.organizationSubListService as SubListService<T>).assign(
+      key,
+      linkKey
+    );
   }
 
   protected unassign(
     key: string,
     linkKey: string
   ): Observable<OrganizationItemStatus<T>> {
-    return (this.organizationSubListService as SubListService<
-      T
-    >).unassign(key, linkKey);
+    return (this.organizationSubListService as SubListService<T>).unassign(
+      key,
+      linkKey
+    );
   }
 
   /**

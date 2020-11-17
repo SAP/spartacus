@@ -7,7 +7,7 @@ import { ActiveLinkCellComponent } from './active-link/active-link-cell.componen
 import { AmountCellComponent } from './amount/amount-cell.component';
 import { DateRangeCellComponent } from './date-range/date-range-cell.component';
 import { LimitCellComponent } from './limit/limit-cell.component';
-import { OrganizationCellComponent } from './organization-cell.component';
+import { CellComponent } from './cell.component';
 import { RolesCellComponent } from './roles/roles-cell.component';
 import { StatusCellComponent } from './status/status-cell.component';
 import { UnitCellComponent } from './unit/unit-cell.component';
@@ -15,7 +15,7 @@ import { UnitCellComponent } from './unit/unit-cell.component';
 @NgModule({
   imports: [CommonModule, RouterModule, UrlModule, I18nModule, IconModule],
   declarations: [
-    OrganizationCellComponent,
+    CellComponent,
     ActiveLinkCellComponent,
     AmountCellComponent,
     DateRangeCellComponent,
@@ -25,4 +25,4 @@ import { UnitCellComponent } from './unit/unit-cell.component';
     UnitCellComponent,
   ],
 })
-export class OrganizationTableModule {}
+export class CellModule {}
