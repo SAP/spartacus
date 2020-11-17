@@ -4,12 +4,12 @@ import { EntitiesModel, PaginationModel } from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { OrganizationTableType } from '../organization.model';
-import { OrganizationListService } from './organization-list.service';
+import { ListService } from './list.service';
 
 const mockValues = [{ foo: 'bar' }];
 
 @Injectable()
-class SampleListService extends OrganizationListService<any> {
+class SampleListService extends ListService<any> {
   tableType = 'mockTableType' as OrganizationTableType;
   load(pagination: PaginationModel): Observable<EntitiesModel<any>> {
     return of({
@@ -26,7 +26,7 @@ class MockTableService {
   }
 }
 
-describe('OrganizationListService', () => {
+describe('ListService', () => {
   let service: SampleListService;
   let tableService: TableService;
 

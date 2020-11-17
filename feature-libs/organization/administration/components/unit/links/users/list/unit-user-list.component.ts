@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ROUTE_PARAMS } from '../../../../constants';
-import { OrganizationListService } from '../../../../shared/organization-list/organization-list.service';
+import { ListService } from '../../../../shared/list/list.service';
 import { UnitUserListService } from '../services/unit-user-list.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { UnitUserListService } from '../services/unit-user-list.service';
   host: { class: 'content-wrapper' },
   providers: [
     {
-      provide: OrganizationListService,
+      provide: ListService,
       useExisting: UnitUserListService,
     },
   ],

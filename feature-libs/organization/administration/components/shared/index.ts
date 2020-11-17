@@ -5,7 +5,7 @@ export * from './card/index';
 export * from './detail/index';
 export * from './form/index';
 export * from './organization-item.service';
-export * from './organization-list/index';
+export * from './list/index';
 export * from './organization-message/index';
 export * from './organization-sub-list/index';
 export * from './organization-table/index';

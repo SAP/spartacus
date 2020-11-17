@@ -9,7 +9,7 @@ import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/compo
 import { of } from 'rxjs';
 import { CardTestingModule } from '../card/card.testing.module';
 import { OrganizationItemService } from '../organization-item.service';
-import { OrganizationListService } from '../organization-list/organization-list.service';
+import { ListService } from '../list/list.service';
 import { MessageTestingModule } from '../organization-message/message.testing.module';
 import { OrganizationSubListComponent } from './organization-sub-list.component';
 import createSpy = jasmine.createSpy;
@@ -43,7 +43,7 @@ class MockTableComponent {
   @Output() launch = new EventEmitter();
 }
 
-class MockBaseOrganizationListService {
+class MockBaseListService {
   view = createSpy('view');
   sort = createSpy('sort');
   getData() {
@@ -68,7 +68,7 @@ class MockOrganizationItemService {
 describe('OrganizationSubListComponent', () => {
   let component: OrganizationSubListComponent;
   let fixture: ComponentFixture<OrganizationSubListComponent>;
-  let organizationListService: OrganizationListService<any>;
+  let organizationListService: ListService<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -84,8 +84,8 @@ describe('OrganizationSubListComponent', () => {
 
       providers: [
         {
-          provide: OrganizationListService,
-          useClass: MockBaseOrganizationListService,
+          provide: ListService,
+          useClass: MockBaseListService,
         },
         {
           provide: OrganizationItemService,
@@ -96,7 +96,7 @@ describe('OrganizationSubListComponent', () => {
   });
 
   beforeEach(() => {
-    organizationListService = TestBed.inject(OrganizationListService);
+    organizationListService = TestBed.inject(ListService);
   });
 
   describe('with  data', () => {

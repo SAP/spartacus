@@ -8,7 +8,7 @@ import { EntitiesModel } from '@spartacus/core';
 import { TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
-import { OrganizationListComponent } from '../organization-list/organization-list.component';
+import { ListComponent } from '../list/list.component';
 
 @Component({
   selector: 'cx-org-sub-list',
@@ -16,7 +16,7 @@ import { OrganizationListComponent } from '../organization-list/organization-lis
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },
 })
-export class OrganizationSubListComponent extends OrganizationListComponent {
+export class OrganizationSubListComponent extends ListComponent {
   hostClass = '';
 
   @Input() previous: boolean | string = true;

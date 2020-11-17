@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { OrganizationListService } from '../../../shared/organization-list/organization-list.service';
+import { ListService } from '../../../shared/list/list.service';
 import { UserGroupAssignedUserListService } from './user-group-assigned-user-list.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { UserGroupAssignedUserListService } from './user-group-assigned-user-lis
   host: { class: 'content-wrapper' },
   providers: [
     {
-      provide: OrganizationListService,
+      provide: ListService,
       useExisting: UserGroupAssignedUserListService,
     },
   ],

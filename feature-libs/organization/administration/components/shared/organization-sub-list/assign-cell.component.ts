@@ -9,7 +9,7 @@ import {
   OrganizationItemStatus,
 } from '@spartacus/organization/administration/core';
 import { OrganizationItemService } from '../organization-item.service';
-import { OrganizationListService } from '../organization-list/organization-list.service';
+import { ListService } from '../list/list.service';
 import { MessageService } from '../organization-message/services/message.service';
 import { OrganizationSubListService } from '../organization-sub-list/organization-sub-list.service';
 import { OrganizationCellComponent } from '../organization-table/organization-cell.component';
@@ -29,7 +29,7 @@ export class AssignCellComponent<T> extends OrganizationCellComponent {
     protected outlet: OutletContextData<TableDataOutletContext>,
     protected organizationItemService: OrganizationItemService<T>,
     protected messageService: MessageService,
-    protected organizationSubListService: OrganizationListService<T>
+    protected organizationSubListService: ListService<T>
   ) {
     super(outlet);
   }

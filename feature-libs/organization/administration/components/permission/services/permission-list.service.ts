@@ -7,7 +7,7 @@ import {
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
+import { ListService } from '../../shared/list/list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 
 /**
@@ -30,7 +30,7 @@ export interface PermissionModel {
 @Injectable({
   providedIn: 'root',
 })
-export class PermissionListService extends OrganizationListService<
+export class PermissionListService extends ListService<
   PermissionModel
 > {
   protected tableType = OrganizationTableType.PERMISSION;

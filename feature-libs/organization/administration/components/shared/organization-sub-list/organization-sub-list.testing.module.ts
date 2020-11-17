@@ -1,5 +1,5 @@
 import { Component, Input, NgModule } from '@angular/core';
-import { OrganizationListService } from '../organization-list/organization-list.service';
+import { ListService } from '../list/list.service';
 
 @Component({
   selector: 'cx-org-sub-list',
@@ -9,15 +9,15 @@ class MockOrganizationSubListComponent {
   @Input() i18nRoot;
 }
 
-class MockOrganizationListService {}
+class MockListService {}
 
 @NgModule({
   declarations: [MockOrganizationSubListComponent],
   exports: [MockOrganizationSubListComponent],
   providers: [
     {
-      provide: OrganizationListService,
-      useClass: MockOrganizationListService,
+      provide: ListService,
+      useClass: MockListService,
     },
   ],
 })

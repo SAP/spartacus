@@ -4,7 +4,7 @@ import {
   ResponsiveTableConfiguration,
   TableLayout,
 } from '@spartacus/storefront';
-import { OrganizationListService } from '../organization-list/organization-list.service';
+import { ListService } from '../list/list.service';
 import { BaseItem } from '../organization.model';
 import { Observable, of } from 'rxjs';
 import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
@@ -12,7 +12,7 @@ import { OrganizationItemStatus } from '@spartacus/organization/administration/c
 @Injectable()
 export abstract class OrganizationSubListService<
   T extends BaseItem
-> extends OrganizationListService<T> {
+> extends ListService<T> {
   /**
    * The default table structure for sub lists is only showing tables with vertical layout.
    */

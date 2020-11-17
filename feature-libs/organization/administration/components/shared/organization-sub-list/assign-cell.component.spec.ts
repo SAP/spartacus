@@ -5,7 +5,7 @@ import { OutletContextData } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Observable, of } from 'rxjs';
 import { OrganizationItemService } from '../organization-item.service';
-import { OrganizationListService } from '../organization-list/organization-list.service';
+import { ListService } from '../list/list.service';
 import { MessageService } from '../organization-message/services/message.service';
 import { AssignCellComponent } from './assign-cell.component';
 import { OrganizationSubListService } from './organization-sub-list.service';
@@ -24,7 +24,7 @@ class MockMessageService {
 
 const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
 
-class MockOrganizationListService {
+class MockListService {
   viewType = 'i18nRoot';
   assign(): Observable<OrganizationItemStatus<any>> {
     return mockItemStatus;
@@ -37,7 +37,7 @@ class MockOrganizationListService {
 describe('AssignCellComponent', () => {
   let component: AssignCellComponent<any>;
   let fixture: ComponentFixture<AssignCellComponent<any>>;
-  let organizationListService: OrganizationListService<any>;
+  let organizationListService: ListService<any>;
   let messageService: MessageService;
 
   beforeEach(() => {
@@ -60,13 +60,13 @@ describe('AssignCellComponent', () => {
           useClass: MockMessageService,
         },
         {
-          provide: OrganizationListService,
-          useClass: MockOrganizationListService,
+          provide: ListService,
+          useClass: MockListService,
         },
       ],
     }).compileComponents();
 
-    organizationListService = TestBed.inject(OrganizationListService);
+    organizationListService = TestBed.inject(ListService);
     messageService = TestBed.inject(MessageService);
   });
 

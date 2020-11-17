@@ -11,7 +11,7 @@ import { map, startWith, switchMap } from 'rxjs/operators';
 import { OrganizationTableType } from '../organization.model';
 
 /**
- * The `OrganizationListService` deals with the table structure, list data and
+ * The `ListService` deals with the table structure, list data and
  * pagination of tables inside the b2b organization.
  *
  * @property {OrganizationTableType} tableType
@@ -21,7 +21,7 @@ import { OrganizationTableType } from '../organization.model';
  */
 
 @Injectable()
-export abstract class OrganizationListService<T, P = PaginationModel> {
+export abstract class ListService<T, P = PaginationModel> {
   /**
    * The default table structure is used to add the default configuration for all
    * organization list related tables. This avoids a lot of boilerplate configuration.

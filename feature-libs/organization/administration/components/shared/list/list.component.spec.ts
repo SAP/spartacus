@@ -14,8 +14,8 @@ import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/compo
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
 import { OrganizationItemService } from '../organization-item.service';
-import { OrganizationListComponent } from './organization-list.component';
-import { OrganizationListService } from './organization-list.service';
+import { ListComponent } from './list.component';
+import { ListService } from './list.service';
 import createSpy = jasmine.createSpy;
 
 interface Mock {
@@ -45,7 +45,7 @@ const mockEmptyList: EntitiesModel<Mock> = {
   pagination: { totalPages: 0 },
 };
 
-class MockBaseOrganizationListService {
+class MockBaseListService {
   view = createSpy('view');
   sort = createSpy('sort');
   getData() {
@@ -81,21 +81,21 @@ class MockTableComponent {
 }
 
 @Component({
-  templateUrl: './organization-list.component.html',
+  templateUrl: './list.component.html',
 })
-class MockListComponent extends OrganizationListComponent<Mock> {
+class MockListComponent extends ListComponent<Mock> {
   constructor(
-    protected baseOrganizationListService: OrganizationListService<Mock>,
+    protected baseListService: ListService<Mock>,
     protected organizationItemService: OrganizationItemService<Mock>
   ) {
-    super(baseOrganizationListService, organizationItemService);
+    super(baseListService, organizationItemService);
   }
 }
 
-describe('OrganizationListComponent', () => {
+describe('ListComponent', () => {
   let component: MockListComponent;
   let fixture: ComponentFixture<MockListComponent>;
-  let service: OrganizationListService<Mock>;
+  let service: ListService<Mock>;
   let itemService: OrganizationItemService<any>;
 
   beforeEach(() => {
@@ -115,8 +115,8 @@ describe('OrganizationListComponent', () => {
       declarations: [MockListComponent, MockTableComponent],
       providers: [
         {
-          provide: OrganizationListService,
-          useClass: MockBaseOrganizationListService,
+          provide: ListService,
+          useClass: MockBaseListService,
         },
         {
           provide: OrganizationItemService,
@@ -125,7 +125,7 @@ describe('OrganizationListComponent', () => {
       ],
     }).compileComponents();
 
-    service = TestBed.inject(OrganizationListService);
+    service = TestBed.inject(ListService);
     itemService = TestBed.inject(OrganizationItemService);
   });
 

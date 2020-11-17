@@ -8,8 +8,8 @@ import { AdminGuard } from '@spartacus/organization/administration/core';
 import { TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
 import { OrganizationItemService } from '../shared/organization-item.service';
-import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
-import { OrganizationListService } from '../shared/organization-list/organization-list.service';
+import { ListComponent } from '../shared/list/list.component';
+import { ListService } from '../shared/list/list.service';
 import { ActiveLinkCellComponent } from '../shared/organization-table/active-link/active-link-cell.component';
 import { LimitCellComponent } from '../shared/organization-table/limit/limit-cell.component';
 import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
@@ -50,10 +50,10 @@ export const permissionRoutingConfig: RoutingConfig = {
 export const permissionCmsConfig: CmsConfig = {
   cmsComponents: {
     ManagePermissionsListComponent: {
-      component: OrganizationListComponent,
+      component: ListComponent,
       providers: [
         {
-          provide: OrganizationListService,
+          provide: ListService,
           useExisting: PermissionListService,
         },
         {

@@ -12,7 +12,7 @@ import {
   TableModule,
 } from '@spartacus/storefront';
 import { MessageModule } from '../organization-message/message.module';
-import { OrganizationListComponent } from './organization-list.component';
+import { ListComponent } from './list.component';
 
 @NgModule({
   imports: [
@@ -29,7 +29,7 @@ import { OrganizationListComponent } from './organization-list.component';
     MessageModule,
     KeyboardFocusModule,
   ],
-  declarations: [OrganizationListComponent],
-  exports: [OrganizationListComponent],
+  declarations: [ListComponent],
+  exports: [ListComponent],
 })
-export class OrganizationListModule {}
+export class ListModule {}

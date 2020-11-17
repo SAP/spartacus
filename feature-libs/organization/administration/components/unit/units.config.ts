@@ -8,7 +8,7 @@ import { AdminGuard } from '@spartacus/organization/administration/core';
 import { BREAKPOINT, TableConfig, TableLayout } from '@spartacus/storefront';
 import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
 import { OrganizationItemService } from '../shared/organization-item.service';
-import { OrganizationListService } from '../shared/organization-list/organization-list.service';
+import { ListService } from '../shared/list/list.service';
 import { AssignCellComponent } from '../shared/organization-sub-list/assign-cell.component';
 import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
 import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
@@ -125,7 +125,7 @@ export const unitsCmsConfig: CmsConfig = {
       component: UnitListComponent,
       providers: [
         {
-          provide: OrganizationListService,
+          provide: ListService,
           useExisting: UnitListService,
         },
         {

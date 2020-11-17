@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
+import { ListService } from '../../shared/list/list.service';
 import { BudgetCostCenterListService } from './budget-cost-center-list.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { BudgetCostCenterListService } from './budget-cost-center-list.service';
   host: { class: 'content-wrapper' },
   providers: [
     {
-      provide: OrganizationListService,
+      provide: ListService,
       useExisting: BudgetCostCenterListService,
     },
   ],

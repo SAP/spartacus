@@ -9,18 +9,18 @@ import { Table, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { OrganizationItemService } from '../organization-item.service';
-import { OrganizationListService } from './organization-list.service';
+import { ListService } from './list.service';
 
 @Component({
   selector: 'cx-org-list',
-  templateUrl: './organization-list.component.html',
+  templateUrl: './list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrganizationListComponent<T = any, P = PaginationModel> {
+export class ListComponent<T = any, P = PaginationModel> {
   @HostBinding('class.ghost') hasGhostData = false;
 
   constructor(
-    protected service: OrganizationListService<T, P>,
+    protected service: ListService<T, P>,
     protected organizationItemService: OrganizationItemService<T>
   ) {}
 
