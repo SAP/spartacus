@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs/internal/observable/of';
 import { Subject } from 'rxjs/internal/Subject';
 import { ItemActiveDirective } from './item-active.directive';
@@ -34,22 +33,6 @@ const itemStubInactive = {
   active: false,
 };
 
-const snapshotStubEdit = {
-  snapshot: {
-    routeConfig: {
-      path: 'edit',
-    },
-  },
-};
-
-const snapshotStubCreate = {
-  snapshot: {
-    routeConfig: {
-      path: 'create',
-    },
-  },
-};
-
 class MockItemServiceActive implements Partial<OrganizationItemService<any>> {
   key$ = of(mockCode);
   load = createSpy('load').and.returnValue(of());
@@ -76,17 +59,13 @@ describe('ItemActiveDirective', () => {
   let fixture: ComponentFixture<TestFormComponent>;
   let messageService: MessageService;
 
-  function configureTestingModule(itemService, activatedRouteValue) {
+  function configureTestingModule(itemService) {
     TestBed.configureTestingModule({
       declarations: [ItemActiveDirective, TestFormComponent],
       providers: [
         {
           provide: OrganizationItemService,
           useClass: itemService,
-        },
-        {
-          provide: ActivatedRoute,
-          useValue: activatedRouteValue,
         },
         {
           provide: MessageService,
@@ -104,7 +83,7 @@ describe('ItemActiveDirective', () => {
 
   describe('when item is active', () => {
     beforeEach(() => {
-      configureTestingModule(MockItemServiceActive, snapshotStubEdit);
+      configureTestingModule(MockItemServiceActive);
     });
 
     it('should be created', () => {
@@ -118,25 +97,11 @@ describe('ItemActiveDirective', () => {
 
   describe('when item is not active', () => {
     beforeEach(() => {
-      configureTestingModule(MockItemServiceInactive, snapshotStubEdit);
+      configureTestingModule(MockItemServiceInactive);
     });
 
     it('should call message service', () => {
       expect(messageService.add).toHaveBeenCalledWith(expectedMessage);
-    });
-  });
-
-  describe('when in create form', () => {
-    beforeEach(() => {
-      configureTestingModule(MockItemServiceInactive, snapshotStubCreate);
-    });
-
-    it('should not call message service', () => {
-      expect(messageService.add).not.toHaveBeenCalled();
-    });
-
-    it('should not disable the form', () => {
-      expect(component.form.status).toEqual('VALID');
     });
   });
 });
