@@ -8,7 +8,7 @@ import { OrganizationItemService } from '../organization-item.service';
 import { ListService } from '../list/list.service';
 import { MessageService } from '../message/services/message.service';
 import { AssignCellComponent } from './assign-cell.component';
-import { OrganizationSubListService } from './organization-sub-list.service';
+import { SubListService } from './sub-list.service';
 import {
   LoadStatus,
   OrganizationItemStatus,
@@ -108,7 +108,7 @@ describe('AssignCellComponent', () => {
 
     it('should unassign', () => {
       spyOn(
-        organizationListService as OrganizationSubListService<any>,
+        organizationListService as SubListService<any>,
         'unassign'
       ).and.callThrough();
       spyOn(messageService, 'add').and.callThrough();
@@ -116,7 +116,7 @@ describe('AssignCellComponent', () => {
       component.toggleAssign();
 
       expect(
-        (organizationListService as OrganizationSubListService<any>).unassign
+        (organizationListService as SubListService<any>).unassign
       ).toHaveBeenCalledWith('code1', 'contextCode');
       expect(messageService.add).toHaveBeenCalledWith({
         message: {
@@ -155,7 +155,7 @@ describe('AssignCellComponent', () => {
 
     it('should assign', () => {
       spyOn(
-        organizationListService as OrganizationSubListService<any>,
+        organizationListService as SubListService<any>,
         'assign'
       ).and.callThrough();
       spyOn(messageService, 'add').and.callThrough();
@@ -163,7 +163,7 @@ describe('AssignCellComponent', () => {
       component.toggleAssign();
 
       expect(
-        (organizationListService as OrganizationSubListService<any>).assign
+        (organizationListService as SubListService<any>).assign
       ).toHaveBeenCalledWith('code1', 'contextCode');
       expect(messageService.add).toHaveBeenCalledWith({
         message: {

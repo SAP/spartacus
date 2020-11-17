@@ -11,7 +11,7 @@ import { CardTestingModule } from '../card/card.testing.module';
 import { OrganizationItemService } from '../organization-item.service';
 import { ListService } from '../list/list.service';
 import { MessageTestingModule } from '../message/message.testing.module';
-import { OrganizationSubListComponent } from './organization-sub-list.component';
+import { SubListComponent } from './sub-list.component';
 import createSpy = jasmine.createSpy;
 
 const mockList: EntitiesModel<any> = {
@@ -65,9 +65,9 @@ class MockOrganizationItemService {
   launchDetails = createSpy('launchDetails');
 }
 
-describe('OrganizationSubListComponent', () => {
-  let component: OrganizationSubListComponent;
-  let fixture: ComponentFixture<OrganizationSubListComponent>;
+describe('SubListComponent', () => {
+  let component: SubListComponent;
+  let fixture: ComponentFixture<SubListComponent>;
   let organizationListService: ListService<any>;
 
   beforeEach(() => {
@@ -80,7 +80,7 @@ describe('OrganizationSubListComponent', () => {
         RouterTestingModule,
         PaginationTestingModule,
       ],
-      declarations: [OrganizationSubListComponent, MockTableComponent],
+      declarations: [SubListComponent, MockTableComponent],
 
       providers: [
         {
@@ -102,7 +102,7 @@ describe('OrganizationSubListComponent', () => {
   describe('with  data', () => {
     beforeEach(() => {
       spyOn(organizationListService, 'getData').and.returnValue(of(mockList));
-      fixture = TestBed.createComponent(OrganizationSubListComponent);
+      fixture = TestBed.createComponent(SubListComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
     });
@@ -132,7 +132,7 @@ describe('OrganizationSubListComponent', () => {
       spyOn(organizationListService, 'getData').and.returnValue(
         of(mockEmptyList)
       );
-      fixture = TestBed.createComponent(OrganizationSubListComponent);
+      fixture = TestBed.createComponent(SubListComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
     });

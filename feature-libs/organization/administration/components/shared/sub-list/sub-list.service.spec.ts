@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { OrganizationSubListService } from './organization-sub-list.service';
+import { SubListService } from './sub-list.service';
 
 @Injectable()
 class MockTableService {
@@ -11,13 +11,13 @@ class MockTableService {
   }
 }
 
-describe('OrganizationSubListService', () => {
-  let service: OrganizationSubListService<any>;
+describe('SubListService', () => {
+  let service: SubListService<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        OrganizationSubListService,
+        SubListService,
         {
           provide: TableService,
           useClass: MockTableService,
@@ -25,7 +25,7 @@ describe('OrganizationSubListService', () => {
       ],
     });
 
-    service = TestBed.inject(OrganizationSubListService);
+    service = TestBed.inject(SubListService);
   });
 
   it('should be created', () => {

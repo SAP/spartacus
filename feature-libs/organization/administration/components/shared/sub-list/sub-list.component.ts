@@ -12,11 +12,11 @@ import { ListComponent } from '../list/list.component';
 
 @Component({
   selector: 'cx-org-sub-list',
-  templateUrl: './organization-sub-list.component.html',
+  templateUrl: './sub-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },
 })
-export class OrganizationSubListComponent extends ListComponent {
+export class SubListComponent extends ListComponent {
   hostClass = '';
 
   @Input() previous: boolean | string = true;

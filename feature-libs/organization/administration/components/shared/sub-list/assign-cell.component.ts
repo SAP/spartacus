@@ -11,7 +11,7 @@ import {
 import { OrganizationItemService } from '../organization-item.service';
 import { ListService } from '../list/list.service';
 import { MessageService } from '../message/services/message.service';
-import { OrganizationSubListService } from '../organization-sub-list/organization-sub-list.service';
+import { SubListService } from './/organization-sub-list.service';
 import { OrganizationCellComponent } from '../organization-table/organization-cell.component';
 import { Observable } from 'rxjs';
 
@@ -63,7 +63,7 @@ export class AssignCellComponent<T> extends OrganizationCellComponent {
     key: string,
     linkKey: string
   ): Observable<OrganizationItemStatus<T>> {
-    return (this.organizationSubListService as OrganizationSubListService<
+    return (this.organizationSubListService as SubListService<
       T
     >).assign(key, linkKey);
   }
@@ -72,7 +72,7 @@ export class AssignCellComponent<T> extends OrganizationCellComponent {
     key: string,
     linkKey: string
   ): Observable<OrganizationItemStatus<T>> {
-    return (this.organizationSubListService as OrganizationSubListService<
+    return (this.organizationSubListService as SubListService<
       T
     >).unassign(key, linkKey);
   }

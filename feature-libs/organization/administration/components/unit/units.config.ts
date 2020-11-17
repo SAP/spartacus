@@ -9,7 +9,7 @@ import { BREAKPOINT, TableConfig, TableLayout } from '@spartacus/storefront';
 import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
 import { OrganizationItemService } from '../shared/organization-item.service';
 import { ListService } from '../shared/list/list.service';
-import { AssignCellComponent } from '../shared/organization-sub-list/assign-cell.component';
+import { AssignCellComponent } from '../shared/sub-list/assign-cell.component';
 import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
 import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
 import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';

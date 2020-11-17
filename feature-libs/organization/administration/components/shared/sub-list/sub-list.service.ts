@@ -10,7 +10,7 @@ import { Observable, of } from 'rxjs';
 import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
 
 @Injectable()
-export abstract class OrganizationSubListService<
+export abstract class SubListService<
   T extends BaseItem
 > extends ListService<T> {
   /**

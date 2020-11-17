@@ -10,7 +10,7 @@ import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
 import { OrganizationItemService } from '../shared/organization-item.service';
 import { ListComponent } from '../shared/list/list.component';
 import { ListService } from '../shared/list/list.service';
-import { AssignCellComponent } from '../shared/organization-sub-list/assign-cell.component';
+import { AssignCellComponent } from '../shared/sub-list/assign-cell.component';
 import { ActiveLinkCellComponent } from '../shared/organization-table/active-link/active-link-cell.component';
 import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
 import { RolesCellComponent } from '../shared/organization-table/roles/roles-cell.component';

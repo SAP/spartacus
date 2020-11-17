@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { OrganizationSubListTestingModule } from '../../../shared/organization-sub-list/organization-sub-list.testing.module';
+import { SubListTestingModule } from '../../../shared/sub-list/sub-list.testing.module';
 import { UnitApproverListComponent } from './unit-approver-list.component';
 import { UnitApproverListService } from './unit-approver-list.service';
 
@@ -14,7 +14,7 @@ describe('UnitApproverListComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        OrganizationSubListTestingModule,
+        SubListTestingModule,
         UrlTestingModule,
         I18nTestingModule,
       ],

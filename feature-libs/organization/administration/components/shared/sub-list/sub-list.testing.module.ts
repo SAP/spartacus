@@ -5,15 +5,15 @@ import { ListService } from '../list/list.service';
   selector: 'cx-org-sub-list',
   template: '',
 })
-class MockOrganizationSubListComponent {
+class MockSubListComponent {
   @Input() i18nRoot;
 }
 
 class MockListService {}
 
 @NgModule({
-  declarations: [MockOrganizationSubListComponent],
-  exports: [MockOrganizationSubListComponent],
+  declarations: [MockSubListComponent],
+  exports: [MockSubListComponent],
   providers: [
     {
       provide: ListService,
@@ -21,4 +21,4 @@ class MockListService {}
     },
   ],
 })
-export class OrganizationSubListTestingModule {}
+export class SubListTestingModule {}

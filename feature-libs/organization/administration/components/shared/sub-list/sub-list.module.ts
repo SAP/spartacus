@@ -5,7 +5,7 @@ import { PaginationModule, TableModule } from '@spartacus/storefront';
 import { CardModule } from '../card/card.module';
 import { MessageModule } from '../message/message.module';
 import { AssignCellComponent } from './assign-cell.component';
-import { OrganizationSubListComponent } from './organization-sub-list.component';
+import { SubListComponent } from './sub-list.component';
 
 @NgModule({
   imports: [
@@ -17,7 +17,7 @@ import { OrganizationSubListComponent } from './organization-sub-list.component'
 
     MessageModule,
   ],
-  declarations: [OrganizationSubListComponent, AssignCellComponent],
-  exports: [OrganizationSubListComponent],
+  declarations: [SubListComponent, AssignCellComponent],
+  exports: [SubListComponent],
 })
-export class OrganizationSubListModule {}
+export class SubListModule {}
