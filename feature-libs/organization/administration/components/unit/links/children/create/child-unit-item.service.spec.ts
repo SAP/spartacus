@@ -11,7 +11,9 @@ import { Observable, of } from 'rxjs';
 import { UnitFormService } from '../../../form/unit-form.service';
 import { ChildUnitItemService } from './child-unit-item.service';
 import { CurrentChildUnitService } from './current-child-unit.service';
+import createSpy = jasmine.createSpy;
 
+const mockCode = 'u1';
 class MockRoutingService {
   go() {}
 }
@@ -29,8 +31,11 @@ class MockOrgUnitService {
 }
 
 class MockUnitFormService {}
-class MockCurrentChildUnitService {}
-
+class MockCurrentChildUnitService {
+  key$ = of(mockCode);
+  load = createSpy('load').and.returnValue(of());
+  error$ = of(false);
+}
 describe('ChildUnitItemService', () => {
   let service: ChildUnitItemService;
   let unitService: OrgUnitService;

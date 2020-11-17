@@ -20,8 +20,6 @@ import { CostCenterAssignedBudgetListComponent } from './budgets/assigned/cost-c
 import { CostCenterBudgetListComponent } from './budgets/cost-center-budget-list.component';
 import { CostCenterDetailsComponent } from './details/cost-center-details.component';
 import { CostCenterFormComponent } from './form/cost-center-form.component';
-import { ActiveCostCenterGuard } from './guards/active-cost-center.guard';
-import { ExistCostCenterGuard } from './guards/exist-cost-center.guard';
 import { CostCenterItemService } from './services/cost-center-item.service';
 import { CostCenterListService } from './services/cost-center-list.service';
 import { CostCenterRoutePageMetaResolver } from './services/cost-center-route-page-meta.resolver';
@@ -88,7 +86,6 @@ export const costCenterCmsConfig: CmsConfig = {
           {
             path: `:${ROUTE_PARAMS.costCenterCode}`,
             component: CostCenterDetailsComponent,
-            canActivate: [ExistCostCenterGuard],
             data: {
               cxPageMeta: { breadcrumb: 'costCenter.breadcrumbs.details' },
             },
@@ -96,7 +93,6 @@ export const costCenterCmsConfig: CmsConfig = {
               {
                 path: 'edit',
                 component: CostCenterFormComponent,
-                canActivate: [ActiveCostCenterGuard],
               },
               {
                 path: 'budgets',

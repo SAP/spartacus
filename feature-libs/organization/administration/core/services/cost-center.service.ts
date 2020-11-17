@@ -18,6 +18,7 @@ import {
   getAssignedBudgets,
   getCostCenter,
   getCostCenterList,
+  getCostCenterState,
   getCostCenterValue,
 } from '../store/selectors/cost-center.selector';
 import { getItemStatus } from '../utils/get-item-status';
@@ -102,6 +103,12 @@ export class CostCenterService {
     );
   }
 
+  private getCostCenterState(
+    costCenterCode: string
+  ): Observable<StateUtils.LoaderState<Budget>> {
+    return this.store.select(getCostCenterState(costCenterCode));
+  }
+
   create(costCenter: CostCenter): void {
     this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
@@ -180,6 +187,12 @@ export class CostCenterService {
           budgetCode,
         })
       )
+    );
+  }
+
+  getErrorState(costCenterCode): Observable<boolean> {
+    return this.getCostCenterState(costCenterCode).pipe(
+      map((state) => state.error)
     );
   }
 }

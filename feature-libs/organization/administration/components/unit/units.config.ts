@@ -16,8 +16,6 @@ import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.c
 import { OrganizationTableType } from '../shared/organization.model';
 import { UnitDetailsComponent } from './details/unit-details.component';
 import { UnitFormComponent } from './form/unit-form.component';
-import { ActiveUnitGuard } from './guards/active-unit.guard';
-import { ExistUnitGuard } from './guards/exist-unit.guard';
 import { UnitAddressDetailsComponent } from './links/addresses/details/unit-address-details.component';
 import { UnitAddressFormComponent } from './links/addresses/form/unit-address-form.component';
 import { LinkCellComponent } from './links/addresses/list/link-cell.component';
@@ -152,7 +150,6 @@ export const unitsCmsConfig: CmsConfig = {
           {
             path: `:${ROUTE_PARAMS.unitCode}`,
             component: UnitDetailsComponent,
-            canActivate: [ExistUnitGuard],
             data: {
               cxPageMeta: { breadcrumb: 'unit.breadcrumbs.details' },
             },
@@ -160,7 +157,6 @@ export const unitsCmsConfig: CmsConfig = {
               {
                 path: 'edit',
                 component: UnitFormComponent,
-                canActivate: [ActiveUnitGuard],
               },
               {
                 path: 'children',
