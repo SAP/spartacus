@@ -1,9 +1,15 @@
-import { DebugElement, Pipe, PipeTransform } from '@angular/core';
+import {
+  DebugElement,
+  Directive,
+  Input,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, OrderEntry } from '@spartacus/core';
-import { ModalService } from '@spartacus/storefront';
+import { ModalDirective } from '@spartacus/storefront';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorTestUtilsService } from '../../shared/testing/common-configurator-test-utils.service';
 import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
@@ -15,10 +21,11 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-class MockModalService {
-  closeActiveModal(reason?: any): void {
-    console.log(reason);
-  }
+@Directive({
+  selector: '[cxModal]',
+})
+class MockModalDirective implements Partial<ModalDirective> {
+  @Input() cxModal;
 }
 
 describe('ConfigureCartEntryComponent', () => {
@@ -28,18 +35,15 @@ describe('ConfigureCartEntryComponent', () => {
   let element: DebugElement;
   const configuratorType = 'type';
   const orderOrCartEntry: OrderEntry = {};
-  let mockModalService: MockModalService;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule, RouterTestingModule],
-        declarations: [ConfigureCartEntryComponent, MockUrlPipe],
-        providers: [
-          {
-            provide: ModalService,
-            useClass: MockModalService,
-          },
+        declarations: [
+          ConfigureCartEntryComponent,
+          MockUrlPipe,
+          MockModalDirective,
         ],
       }).compileComponents();
     })
@@ -49,10 +53,7 @@ describe('ConfigureCartEntryComponent', () => {
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
     element = fixture.debugElement;
-    spyOn(component, 'closeActiveModal').and.callThrough();
     component.cartEntry = orderOrCartEntry;
-    mockModalService = TestBed.inject(ModalService);
-    spyOn(mockModalService, 'closeActiveModal').and.callThrough();
   });
 
   it('should create component', () => {
@@ -112,8 +113,8 @@ describe('ConfigureCartEntryComponent', () => {
     expect(component.isDisabled()).toBe(component.disabled);
   });
 
-  describe('display corresponding link', () => {
-    it("should display 'Display Configuration' link", () => {
+  describe('Link text', () => {
+    it("should be 'Display Configuration' in case component is included in readOnly mode", () => {
       component.readOnly = true;
       component.cartEntry = {
         entryNumber: 0,
@@ -128,7 +129,7 @@ describe('ConfigureCartEntryComponent', () => {
       );
     });
 
-    it("should display 'Edit Configuration' link", () => {
+    it("sshould be 'Edit Configuration' in case component is included in edit mode", () => {
       component.readOnly = false;
       component.disabled = false;
       component.msgBanner = false;
@@ -145,7 +146,7 @@ describe('ConfigureCartEntryComponent', () => {
       );
     });
 
-    it("should display 'Resolve Issues' link", () => {
+    it("should be 'Resolve Issues' in case component is used in banner", () => {
       component.readOnly = false;
       component.msgBanner = true;
       component.cartEntry = {
@@ -162,57 +163,8 @@ describe('ConfigureCartEntryComponent', () => {
     });
   });
 
-  describe('closeActiveModal', () => {
-    it('should close active modal for readOnly-true', () => {
-      component.readOnly = true;
-      component.cartEntry = {
-        entryNumber: 0,
-        product: { configuratorType: configuratorType },
-      };
-      fixture.detectChanges();
-      component.closeActiveModal();
-      fixture.detectChanges();
-      expect(component.closeActiveModal).toHaveBeenCalled();
-      expect(mockModalService.closeActiveModal).toHaveBeenCalledWith(
-        'Display Configuration'
-      );
-    });
-
-    it('should close active modal for readOnly-false and msgBanner-false', () => {
-      component.readOnly = false;
-      component.msgBanner = false;
-      component.cartEntry = {
-        entryNumber: 0,
-        product: { configuratorType: configuratorType },
-      };
-      fixture.detectChanges();
-      component.closeActiveModal();
-      fixture.detectChanges();
-      expect(component.closeActiveModal).toHaveBeenCalled();
-      expect(mockModalService.closeActiveModal).toHaveBeenCalledWith(
-        'Edit Configuration'
-      );
-    });
-
-    it('should close active modal for readOnly-false and msgBanner-true', () => {
-      component.readOnly = false;
-      component.msgBanner = true;
-      component.cartEntry = {
-        entryNumber: 0,
-        product: { configuratorType: configuratorType },
-      };
-      fixture.detectChanges();
-      component.closeActiveModal();
-      fixture.detectChanges();
-      expect(component.closeActiveModal).toHaveBeenCalled();
-      expect(mockModalService.closeActiveModal).toHaveBeenCalledWith(
-        'Resolve Issues'
-      );
-    });
-  });
-
-  describe('Verify whether the button is enabled or disabled', () => {
-    it('should be disabled', () => {
+  describe('Button', () => {
+    it('should be disabled in case corresponding component attribute is disabled', () => {
       component.disabled = true;
       component.cartEntry = {
         entryNumber: 0,
@@ -224,7 +176,7 @@ describe('ConfigureCartEntryComponent', () => {
       ).toBeTrue();
     });
 
-    it('should be enabled', () => {
+    it('should be enabled in case corresponding component attribute is enabled', () => {
       component.disabled = false;
       component.cartEntry = {
         entryNumber: 0,
