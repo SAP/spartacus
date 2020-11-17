@@ -72,8 +72,9 @@
     </div>
   </section>
 
-  <section main class="link-list" *ngIf="model.code">
+  <section main class="link-list">
     <a
+      *ngIf="model.code"
       class="link"
       [routerLink]="{ cxRoute: 'budgetCostCenters', params: model } | cxUrl"
       routerLinkActive="is-current"
