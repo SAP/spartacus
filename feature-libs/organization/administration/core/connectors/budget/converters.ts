@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import { Budget } from '../../model/budget.model';
-import { Converter, EntitiesModel } from '@spartacus/core';
+import { Converter, EntitiesModel, Occ } from '@spartacus/core';
 
 export const BUDGET_NORMALIZER = new InjectionToken<Converter<any, Budget>>(
   'BudgetNormalizer'
@@ -8,3 +8,7 @@ export const BUDGET_NORMALIZER = new InjectionToken<Converter<any, Budget>>(
 export const BUDGETS_NORMALIZER = new InjectionToken<
   Converter<any, EntitiesModel<Budget>>
 >('BudgetsListNormalizer');
+
+export const BUDGET_SERIALIZER = new InjectionToken<Converter<any, Occ.Budget>>(
+  'BudgetSerializer'
+);

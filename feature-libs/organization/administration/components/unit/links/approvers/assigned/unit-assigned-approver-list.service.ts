@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { B2BUser, EntitiesModel, PaginationModel } from '@spartacus/core';
+import {
+  B2BUser,
+  B2BUserRole,
+  EntitiesModel,
+  PaginationModel,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrganizationTableType } from '../../../../shared/index';
@@ -15,6 +20,11 @@ export class UnitAssignedApproverListService extends UnitApproverListService {
     pagination: PaginationModel,
     code: string
   ): Observable<EntitiesModel<B2BUser>> {
+    this.unitService.clearAssignedUsersList(
+      code,
+      B2BUserRole.APPROVER,
+      pagination
+    );
     return super
       .load(pagination, code)
       .pipe(map((users) => this.filterSelected(users)));

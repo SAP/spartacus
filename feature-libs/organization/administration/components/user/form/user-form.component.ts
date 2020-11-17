@@ -5,14 +5,16 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { B2BUser, B2BUserGroup, Title, UserService } from '@spartacus/core';
+import { B2BUser, B2BUserRole, Title, UserService } from '@spartacus/core';
 import {
   B2BUnitNode,
   B2BUserService,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
+import { CurrentOrganizationItemService } from '../../shared/current-organization-item.service';
 import { OrganizationItemService } from '../../shared/organization-item.service';
+import { CurrentUserService } from '../services/current-user.service';
 import { UserItemService } from '../services/user-item.service';
 
 @Component({
@@ -24,6 +26,10 @@ import { UserItemService } from '../services/user-item.service';
     {
       provide: OrganizationItemService,
       useExisting: UserItemService,
+    },
+    {
+      provide: CurrentOrganizationItemService,
+      useExisting: CurrentUserService,
     },
   ],
 })
@@ -45,7 +51,7 @@ export class UserFormComponent implements OnInit {
   units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList();
   titles$: Observable<Title[]> = this.userService.getTitles();
 
-  availableRoles: B2BUserGroup[] = this.b2bUserService.getAllRoles();
+  availableRoles: B2BUserRole[] = this.b2bUserService.getAllRoles();
 
   constructor(
     protected itemService: OrganizationItemService<B2BUser>,

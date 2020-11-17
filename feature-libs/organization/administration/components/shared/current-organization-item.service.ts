@@ -57,4 +57,6 @@ export abstract class CurrentOrganizationItemService<T> {
       .getParams()
       .pipe(map((params) => params[paramKey]));
   }
+
+  abstract getError(_key: string): Observable<boolean>;
 }

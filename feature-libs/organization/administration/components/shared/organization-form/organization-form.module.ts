@@ -3,9 +3,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { I18nModule } from '@spartacus/core';
+import { ItemActiveModule } from '../item-active.module';
 import { OrganizationCardModule } from '../organization-card/organization-card.module';
-import { OrganizationFormComponent } from './organization-form.component';
+import { MessageModule } from '../organization-message/message.module';
 import { MessageService } from '../organization-message/services/message.service';
+import { OrganizationFormComponent } from './organization-form.component';
 
 @NgModule({
   imports: [
@@ -14,6 +16,8 @@ import { MessageService } from '../organization-message/services/message.service
     I18nModule,
     RouterModule,
     OrganizationCardModule,
+    MessageModule,
+    ItemActiveModule,
   ],
   declarations: [OrganizationFormComponent],
   providers: [MessageService],

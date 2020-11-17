@@ -6,8 +6,10 @@ import {
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
+import { CurrentOrganizationItemService } from '../../shared/current-organization-item.service';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { CostCenterItemService } from '../services/cost-center-item.service';
+import { CurrentCostCenterService } from '../services/current-cost-center.service';
 
 @Component({
   selector: 'cx-cost-center-form',
@@ -18,6 +20,10 @@ import { CostCenterItemService } from '../services/cost-center-item.service';
     {
       provide: OrganizationItemService,
       useExisting: CostCenterItemService,
+    },
+    {
+      provide: CurrentOrganizationItemService,
+      useExisting: CurrentCostCenterService,
     },
   ],
 })

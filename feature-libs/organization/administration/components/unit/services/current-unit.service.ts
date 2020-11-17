@@ -25,4 +25,8 @@ export class CurrentUnitService extends CurrentOrganizationItemService<
   protected getItem(code: string): Observable<B2BUnit> {
     return this.orgUnitService.get(code);
   }
+
+  getError(code: string): Observable<boolean> {
+    return this.orgUnitService.getErrorState(code);
+  }
 }

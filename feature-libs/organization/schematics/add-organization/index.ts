@@ -30,6 +30,7 @@ import {
   getSpartacusSchematicsVersion,
   getTsSourceFile,
   getWorkspace,
+  PROVIDE_CONFIG_FUNCTION,
   PROVIDE_DEFAULT_CONFIG,
   readPackageJson,
   SPARTACUS_CORE,
@@ -43,11 +44,17 @@ import {
   CLI_ORDER_APPROVAL_FEATURE,
   ORDER_APPROVAL_MODULE,
   ORDER_APPROVAL_ROOT_MODULE,
+  ORDER_APPROVAL_TRANSLATIONS,
+  ORDER_APPROVAL_TRANSLATION_CHUNKS_CONFIG,
   ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
   ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME,
+  ORGANIZATION_TRANSLATIONS,
+  ORGANIZATION_TRANSLATION_CHUNKS_CONFIG,
   SPARTACUS_ADMINISTRATION,
+  SPARTACUS_ADMINISTRATION_ASSETS,
   SPARTACUS_ADMINISTRATION_ROOT,
   SPARTACUS_ORDER_APPROVAL,
+  SPARTACUS_ORDER_APPROVAL_ASSETS,
   SPARTACUS_ORDER_APPROVAL_ROOT,
   SPARTACUS_ORGANIZATION,
 } from '../constants';
@@ -57,10 +64,17 @@ interface FeatureConfig {
   name: string;
   featureModule: Module;
   rootModule: Module;
+  i18n: I18NConfig;
 }
 
 interface Module {
   name: string;
+  importPath: string;
+}
+
+interface I18NConfig {
+  resources: string;
+  chunks: string;
   importPath: string;
 }
 
@@ -234,6 +248,11 @@ function addAdministrationFeature(
       name: ADMINISTRATION_ROOT_MODULE,
       importPath: SPARTACUS_ADMINISTRATION_ROOT,
     },
+    i18n: {
+      resources: ORGANIZATION_TRANSLATIONS,
+      chunks: ORGANIZATION_TRANSLATION_CHUNKS_CONFIG,
+      importPath: SPARTACUS_ADMINISTRATION_ASSETS,
+    },
   });
 }
 
@@ -251,6 +270,11 @@ function addOrderApprovalsFeature(
       name: ORDER_APPROVAL_ROOT_MODULE,
       importPath: SPARTACUS_ORDER_APPROVAL_ROOT,
     },
+    i18n: {
+      resources: ORDER_APPROVAL_TRANSLATIONS,
+      chunks: ORDER_APPROVAL_TRANSLATION_CHUNKS_CONFIG,
+      importPath: SPARTACUS_ORDER_APPROVAL_ASSETS,
+    },
   });
 }
 
@@ -261,13 +285,6 @@ function handleFeature(
 ): Rule {
   return (host: Tree, context: SchematicContext) => {
     const changes: Change[] = [];
-    const providersChanges = addToModuleProviders(
-      host,
-      appModulePath,
-      `${PROVIDE_DEFAULT_CONFIG}(${DEFAULT_B2B_OCC_CONFIG})`,
-      getTsSourceFile(host, appModulePath)
-    );
-    changes.push(...providersChanges);
 
     if (
       !isImported(
@@ -283,6 +300,14 @@ function handleFeature(
         SPARTACUS_CORE
       );
       changes.push(coreImportChange);
+
+      const providersChanges = addToModuleProviders(
+        host,
+        appModulePath,
+        `${PROVIDE_DEFAULT_CONFIG}(${DEFAULT_B2B_OCC_CONFIG}),`,
+        getTsSourceFile(host, appModulePath)
+      );
+      changes.push(...providersChanges);
     }
     if (
       !isImported(
@@ -321,6 +346,13 @@ function handleFeature(
       );
       changes.push(rootModuleImportChange, ...rootModuleAddedToImportsChanges);
     }
+
+    const i18nChanges = provideI18NConfig(
+      host,
+      getTsSourceFile(host, appModulePath),
+      config.i18n
+    );
+    changes.push(...i18nChanges);
 
     if (options.lazy) {
       const lazyLoadingChange = mergeLazyLoadingConfig(
@@ -370,16 +402,14 @@ function mergeLazyLoadingConfig(
   }
 ): Change {
   const storefrontConfig = getExistingStorefrontConfigNode(moduleSource);
-  const lazyLoadingModule = `
-    module: () => import('${config.module.importPath}').then(
-      (m) => m.${config.module.name}
-    ),
-`;
+  const lazyLoadingModule = `module: () => import('${config.module.importPath}').then(
+          (m) => m.${config.module.name}
+        ),`;
   const lazyLoadingFeatureModule = `featureModules: {
-  ${config.name}: {
-    ${lazyLoadingModule}
-  },
-}`;
+        ${config.name}: {
+          ${lazyLoadingModule}
+        },
+      }`;
 
   if (!storefrontConfig) {
     context.logger
@@ -413,7 +443,7 @@ ${lazyLoadingFeatureModule}
       moduleSource.fileName,
       objectLiteralExpression,
       '',
-      `\n${lazyLoadingFeatureModule}`
+      lazyLoadingFeatureModule
     );
     return change;
   }
@@ -456,4 +486,55 @@ ${lazyLoadingFeatureModule}
         }`
     );
   }
+}
+
+function provideI18NConfig(
+  host: Tree,
+  source: ts.SourceFile,
+  i18nConfig: I18NConfig
+): Change[] {
+  const changes: Change[] = [];
+  if (!isImported(source, PROVIDE_CONFIG_FUNCTION, SPARTACUS_CORE)) {
+    const importChange = createImportChange(
+      host,
+      source.fileName,
+      PROVIDE_CONFIG_FUNCTION,
+      SPARTACUS_CORE
+    );
+    changes.push(importChange);
+  }
+
+  if (
+    !isImported(source, i18nConfig.resources, i18nConfig.importPath) &&
+    !isImported(source, i18nConfig.chunks, i18nConfig.importPath)
+  ) {
+    const resourceImportChange = createImportChange(
+      host,
+      source.fileName,
+      i18nConfig.resources,
+      i18nConfig.importPath
+    );
+    const chunkImportChange = createImportChange(
+      host,
+      source.fileName,
+      i18nConfig.chunks,
+      i18nConfig.importPath
+    );
+
+    const providersChanges = addToModuleProviders(
+      host,
+      source.fileName,
+      `
+    ${PROVIDE_CONFIG_FUNCTION}({
+      i18n: {
+        resources: ${i18nConfig.resources},
+        chunks: ${i18nConfig.chunks},
+      },
+    })`
+    );
+
+    changes.push(resourceImportChange, chunkImportChange, ...providersChanges);
+  }
+
+  return changes;
 }

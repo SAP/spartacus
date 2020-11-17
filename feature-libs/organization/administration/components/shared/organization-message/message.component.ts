@@ -1,10 +1,10 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ComponentRef,
   OnDestroy,
-  OnInit,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
@@ -20,7 +20,7 @@ import { MessageService } from './services/message.service';
   templateUrl: './message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MessageComponent implements OnInit, OnDestroy {
+export class MessageComponent implements AfterViewInit, OnDestroy {
   // We use a child view container ref, as creating components will become siblings.
   // We like the message components to appear inside the `cx-message` instead.
   @ViewChild('vcr', { read: ViewContainerRef }) vcr: ViewContainerRef;
@@ -32,7 +32,7 @@ export class MessageComponent implements OnInit, OnDestroy {
     protected renderService: MessageRenderService
   ) {}
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.subscription.add(
       this.messageService.get().subscribe((msg) => {
         if (msg) {
