@@ -9,7 +9,7 @@ import {
 } from '@spartacus/organization/administration/core';
 import { Observable, of } from 'rxjs';
 import { UnitFormService } from '../../../form/unit-form.service';
-import { ChildUnitItemService } from './unit-child-item.service';
+import { UnitChildItemService } from './unit-child-item.service';
 import { CurrentUnitChildService } from './current-unit-child.service';
 import createSpy = jasmine.createSpy;
 
@@ -31,22 +31,22 @@ class MockOrgUnitService {
 }
 
 class MockUnitFormService {}
-class MockCurrentChildUnitService {
+class MockCurrentUnitChildService {
   key$ = of(mockCode);
   load = createSpy('load').and.returnValue(of());
   error$ = of(false);
 }
-describe('ChildUnitItemService', () => {
-  let service: ChildUnitItemService;
+describe('UnitChildItemService', () => {
+  let service: UnitChildItemService;
   let unitService: OrgUnitService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        ChildUnitItemService,
+        UnitChildItemService,
         {
           provide: CurrentUnitChildService,
-          useClass: MockCurrentChildUnitService,
+          useClass: MockCurrentUnitChildService,
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UnitFormService, useClass: MockUnitFormService },
@@ -54,7 +54,7 @@ describe('ChildUnitItemService', () => {
       ],
     });
 
-    service = TestBed.inject(ChildUnitItemService);
+    service = TestBed.inject(UnitChildItemService);
     unitService = TestBed.inject(OrgUnitService);
   });
 

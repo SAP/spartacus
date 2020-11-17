@@ -13,7 +13,7 @@ import { CurrentUnitChildService } from './current-unit-child.service';
 @Injectable({
   providedIn: 'root',
 })
-export class ChildUnitItemService extends UnitItemService {
+export class UnitChildItemService extends UnitItemService {
   constructor(
     protected currentItemService: CurrentUnitChildService,
     protected routingService: RoutingService,

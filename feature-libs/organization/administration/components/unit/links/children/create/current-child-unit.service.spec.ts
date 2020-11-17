@@ -23,7 +23,7 @@ class MockOrgUnitService {
   }
 }
 
-describe('CurrentChildUnitService', () => {
+describe('CurrentUnitChildService', () => {
   let service: CurrentUnitChildService;
   let unitService: OrgUnitService;
 

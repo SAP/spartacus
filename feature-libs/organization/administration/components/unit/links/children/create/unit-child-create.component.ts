@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitItemService } from '../../../services/unit-item.service';
-import { ChildUnitItemService } from './unit-child-item.service';
+import { UnitChildItemService } from './unit-child-item.service';
 
 @Component({
   selector: 'cx-org-unit-child-create',
@@ -13,7 +13,7 @@ import { ChildUnitItemService } from './unit-child-item.service';
     // let the form component work with child units.
     {
       provide: UnitItemService,
-      useExisting: ChildUnitItemService,
+      useExisting: UnitChildItemService,
     },
   ],
 })
