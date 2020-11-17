@@ -13,7 +13,12 @@ import { CpqAccessStorgeService } from './cpq-access-storage.service';
 const accessData: Cpq.AccessData = {
   accessToken: '8273635',
   endpoint: 'https://cpq',
-  tokenExpirationTime: 1605004667020,
+  tokenExpirationTime: 999986412345,
+};
+const expiredAccessData: Cpq.AccessData = {
+  accessToken: '8273635',
+  endpoint: 'https://cpq',
+  tokenExpirationTime: -10,
 };
 
 describe('CpqAccessStorgeService', () => {
@@ -79,13 +84,29 @@ describe('CpqAccessStorgeService', () => {
       return req.method === 'GET' && req.url === '/getCpqAccessData';
     });
     mockReq.flush(accessData);
-    // third request
+
     serviceUnderTest.getCachedCpqAccessData().subscribe((returnedData) => {
       expect(returnedData).toBeDefined();
       counter++;
     });
-
     httpMock.expectNone('/getCpqAccessData');
-    expect(counter).toBe(3, '3 consumers should have been called each once');
+    expect(counter).toBe(3, '3 consumes should have been called each once');
+  });
+
+  it('should transparently fetch new token, when access data expires', () => {
+    serviceUnderTest.getCachedCpqAccessData().subscribe((returnedData) => {
+      expect(returnedData).toBeDefined();
+      expect(returnedData).toBe(accessData); //make sure that second/valid token data is returned
+    });
+    let mockReq = httpMock.expectOne((req) => {
+      return req.method === 'GET' && req.url === '/getCpqAccessData';
+    });
+    mockReq.flush(expiredAccessData); // this token is already expired.....
+
+    //.. so it will lead to another request
+    mockReq = httpMock.expectOne((req) => {
+      return req.method === 'GET' && req.url === '/getCpqAccessData';
+    });
+    mockReq.flush(accessData); // this time return a valid one
   });
 });
