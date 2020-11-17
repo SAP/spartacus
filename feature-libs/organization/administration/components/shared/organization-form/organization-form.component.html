@@ -1,10 +1,5 @@
 <form *ngIf="form$ | async as form" (submit)="save(form)">
-  <cx-organization-card
-    #card
-    [previous]="false"
-    [i18nRoot]="i18n"
-    cxOrgItemActive
-  >
+  <cx-org-card #card [previous]="false" [i18nRoot]="i18n" cxOrgItemActive>
     <button actions class="button primary" [disabled]="form.disabled">
       {{ 'organization.save' | cxTranslate }}
     </button>
@@ -21,5 +16,5 @@
     <section main class="details">
       <ng-content select="[main]" ngProjectAs="[main]"></ng-content>
     </section>
-  </cx-organization-card>
+  </cx-org-card>
 </form>

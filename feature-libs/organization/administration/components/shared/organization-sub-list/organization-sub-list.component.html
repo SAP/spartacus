@@ -1,4 +1,4 @@
-<cx-organization-card [previous]="previous" [i18nRoot]="viewType">
+<cx-org-card [previous]="previous" [i18nRoot]="viewType">
   <ng-content select="[actions]" ngProjectAs="[actions]"></ng-content>
   <ng-content select="[main]" ngProjectAs="[main]"></ng-content>
 
@@ -23,7 +23,7 @@
       </div>
     </ng-container>
   </ng-container>
-</cx-organization-card>
+</cx-org-card>
 
 <ng-template #emptyList>
   <p class="is-empty">{{ 'organization.messages.emptyList' | cxTranslate }}</p>
