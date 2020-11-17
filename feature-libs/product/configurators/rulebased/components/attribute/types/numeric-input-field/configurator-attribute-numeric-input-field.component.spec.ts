@@ -5,7 +5,7 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LanguageService } from '@spartacus/core';
 import { of } from 'rxjs';
@@ -49,31 +49,33 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   let locale = 'en';
   let htmlElem: HTMLElement;
 
-  beforeEach(async(() => {
-    mockLanguageService = {
-      getAll: () => of([]),
-      getActive: jasmine.createSpy().and.returnValue(of(locale)),
-      setActive: jasmine.createSpy(),
-    };
-    TestBed.configureTestingModule({
-      declarations: [
-        ConfiguratorAttributeNumericInputFieldComponent,
-        MockTranslateUrlPipe,
-        MockFocusDirective,
-      ],
-      imports: [ReactiveFormsModule],
-      providers: [
-        ConfiguratorAttributeBaseComponent,
-        { provide: LanguageService, useValue: mockLanguageService },
-      ],
-    })
-      .overrideComponent(ConfiguratorAttributeNumericInputFieldComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
-        },
+  beforeEach(
+    waitForAsync(() => {
+      mockLanguageService = {
+        getAll: () => of([]),
+        getActive: jasmine.createSpy().and.returnValue(of(locale)),
+        setActive: jasmine.createSpy(),
+      };
+      TestBed.configureTestingModule({
+        declarations: [
+          ConfiguratorAttributeNumericInputFieldComponent,
+          MockTranslateUrlPipe,
+          MockFocusDirective,
+        ],
+        imports: [ReactiveFormsModule],
+        providers: [
+          ConfiguratorAttributeBaseComponent,
+          { provide: LanguageService, useValue: mockLanguageService },
+        ],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(ConfiguratorAttributeNumericInputFieldComponent, {
+          set: {
+            changeDetection: ChangeDetectionStrategy.Default,
+          },
+        })
+        .compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(

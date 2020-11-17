@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   CommonConfigurator,
   ConfiguratorRouterExtractorService,
@@ -90,26 +90,28 @@ class MockCxIconComponent {
 }
 
 describe('ConfigOverviewNotificationBannerComponent', () => {
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        ConfiguratorOverviewNotificationBannerComponent,
-        MockTranslatePipe,
-        MockUrlPipe,
-        MockCxIconComponent,
-      ],
-      providers: [
-        {
-          provide: ConfiguratorRouterExtractorService,
-          useClass: MockConfigRouterExtractorService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          ConfiguratorOverviewNotificationBannerComponent,
+          MockTranslatePipe,
+          MockUrlPipe,
+          MockCxIconComponent,
+        ],
+        providers: [
+          {
+            provide: ConfiguratorRouterExtractorService,
+            useClass: MockConfigRouterExtractorService,
+          },
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   it('should create', () => {
     configurationObs = of(productConfiguration);

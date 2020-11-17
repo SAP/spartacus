@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorConflictSuggestionComponent } from './configurator-conflict-suggestion.component';
 
@@ -7,19 +7,21 @@ describe('ConfigurationConflictSuggestionComponent', () => {
   let component: ConfiguratorConflictSuggestionComponent;
   let fixture: ComponentFixture<ConfiguratorConflictSuggestionComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ConfiguratorConflictSuggestionComponent],
-      imports: [],
-      providers: [],
-    })
-      .overrideComponent(ConfiguratorConflictSuggestionComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
-        },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ConfiguratorConflictSuggestionComponent],
+        imports: [],
+        providers: [],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(ConfiguratorConflictSuggestionComponent, {
+          set: {
+            changeDetection: ChangeDetectionStrategy.Default,
+          },
+        })
+        .compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorConflictSuggestionComponent);

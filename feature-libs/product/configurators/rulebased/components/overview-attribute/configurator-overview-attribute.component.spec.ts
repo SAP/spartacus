@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ConfiguratorOverviewAttributeComponent } from './configurator-overview-attribute.component';
@@ -8,13 +8,15 @@ describe('ConfigurationOverviewAttributeComponent', () => {
   let fixture: ComponentFixture<ConfiguratorOverviewAttributeComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, NgSelectModule],
-      declarations: [ConfiguratorOverviewAttributeComponent],
-      providers: [],
-    });
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [ReactiveFormsModule, NgSelectModule],
+        declarations: [ConfiguratorOverviewAttributeComponent],
+        providers: [],
+      });
+    })
+  );
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorOverviewAttributeComponent);
     component = fixture.componentInstance;

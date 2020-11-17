@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import {
@@ -90,29 +90,31 @@ describe('ConfiguratorCartService', () => {
   let store: Store<StateWithConfigurator>;
   let configuratorUtils: CommonConfiguratorUtilsService;
 
-  beforeEach(async(() => {
-    cartStateObs = of(cartState);
-    isStableObs = of(true);
-    checkoutLoadingObs = of(true);
-    TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
-      ],
-      providers: [
-        ConfiguratorCartService,
+  beforeEach(
+    waitForAsync(() => {
+      cartStateObs = of(cartState);
+      isStableObs = of(true);
+      checkoutLoadingObs = of(true);
+      TestBed.configureTestingModule({
+        imports: [
+          StoreModule.forRoot({}),
+          StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+        ],
+        providers: [
+          ConfiguratorCartService,
 
-        {
-          provide: ActiveCartService,
-          useClass: MockActiveCartService,
-        },
-        {
-          provide: CheckoutService,
-          useClass: MockCheckoutService,
-        },
-      ],
-    }).compileComponents();
-  }));
+          {
+            provide: ActiveCartService,
+            useClass: MockActiveCartService,
+          },
+          {
+            provide: CheckoutService,
+            useClass: MockCheckoutService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
   beforeEach(() => {
     serviceUnderTest = TestBed.inject(
       ConfiguratorCartService as Type<ConfiguratorCartService>
