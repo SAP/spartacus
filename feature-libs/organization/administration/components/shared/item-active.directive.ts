@@ -1,6 +1,5 @@
 import { Directive, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { GlobalMessageType } from '@spartacus/core';
 import { tap } from 'rxjs/operators';
 import { OrganizationItemService } from './organization-item.service';
@@ -17,22 +16,19 @@ export class ItemActiveDirective<T = BaseItem> implements OnInit, OnDestroy {
 
   constructor(
     protected itemService: OrganizationItemService<T>,
-    protected messageService: MessageService,
-    protected activatedRoute: ActivatedRoute
+    protected messageService: MessageService
   ) {}
 
   ngOnInit() {
-    if (this.activatedRoute.snapshot.routeConfig.path === 'edit') {
-      this.subscription = this.itemService.current$
-        .pipe(
-          tap((item) => {
-            if (item) {
-              this.handleDisabledItems(item);
-            }
-          })
-        )
-        .subscribe();
-    }
+    this.subscription = this.itemService.current$
+      .pipe(
+        tap((item) => {
+          if (item) {
+            this.handleDisabledItems(item);
+          }
+        })
+      )
+      .subscribe();
   }
 
   protected handleDisabledItems(item: BaseItem) {
