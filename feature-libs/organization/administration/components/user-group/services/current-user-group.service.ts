@@ -29,7 +29,7 @@ export class CurrentUserGroupService extends CurrentOrganizationItemService<
     return this.userGroupService.get(code);
   }
 
-  hasError(code: string): Observable<boolean> {
+  getError(code: string): Observable<boolean> {
     return this.userGroupService.getErrorState(code);
   }
 }

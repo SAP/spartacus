@@ -58,5 +58,5 @@ export abstract class CurrentOrganizationItemService<T> {
       .pipe(map((params) => params[paramKey]));
   }
 
-  abstract hasError(_key: string): Observable<boolean>;
+  abstract getError(_key: string): Observable<boolean>;
 }

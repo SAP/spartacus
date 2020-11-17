@@ -33,7 +33,7 @@ export abstract class OrganizationItemService<T> {
   unit$: Observable<string> = this.currentItemService.b2bUnit$;
 
   error$: Observable<boolean> = this.key$.pipe(
-    switchMap((key) => this.currentItemService.hasError(key))
+    switchMap((key) => this.currentItemService.getError(key))
   );
 
   save(form: FormGroup, key?: string): Observable<OrganizationItemStatus<T>> {

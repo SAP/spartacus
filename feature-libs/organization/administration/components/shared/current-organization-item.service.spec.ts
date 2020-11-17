@@ -33,7 +33,7 @@ class MockCurrentService extends CurrentOrganizationItemService<Mock> {
     return of({});
   }
 
-  hasError(): Observable<boolean> {
+  getError(): Observable<boolean> {
     return of(false);
   }
 }

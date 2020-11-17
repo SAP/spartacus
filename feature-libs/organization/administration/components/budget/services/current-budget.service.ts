@@ -33,7 +33,7 @@ export class CurrentBudgetService extends CurrentOrganizationItemService<
     return <any>(<Budget>this.budgetService.get(code));
   }
 
-  hasError(code: string): Observable<boolean> {
+  getError(code: string): Observable<boolean> {
     return this.budgetService.getErrorState(code);
   }
 }

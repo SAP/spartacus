@@ -30,7 +30,7 @@ export class CurrentUnitUserService extends CurrentOrganizationItemService<
     return customerId ? this.b2bUserService.get(customerId) : of({});
   }
 
-  hasError(code: string): Observable<boolean> {
+  getError(code: string): Observable<boolean> {
     return this.b2bUserService.getErrorState(code);
   }
 }

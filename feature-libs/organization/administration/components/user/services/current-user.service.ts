@@ -31,7 +31,7 @@ export class CurrentUserService extends CurrentOrganizationItemService<
     return this.b2bUserService.get(code);
   }
 
-  hasError(code: string): Observable<boolean> {
+  getError(code: string): Observable<boolean> {
     return this.b2bUserService.getErrorState(code);
   }
 }
