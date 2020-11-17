@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { BaseItem } from '../organization.model';
 
 @Injectable()
-export abstract class OrganizationFormService<T> {
+export abstract class FormService<T> {
   protected form: FormGroup;
 
   /**

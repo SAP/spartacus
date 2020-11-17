@@ -13,11 +13,11 @@ import { MessageService } from '../organization-message/services/message.service
  */
 @Component({
   selector: 'cx-org-form',
-  templateUrl: './organization-form.component.html',
+  templateUrl: './form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },
 })
-export class OrganizationFormComponent<T> {
+export class FormComponent<T> {
   /**
    * i18n root for all localizations. The i18n root key is suffixed with
    * either `.edit` or `.create`, depending on the usage of the component.

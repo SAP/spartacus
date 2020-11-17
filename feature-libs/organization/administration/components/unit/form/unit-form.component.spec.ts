@@ -7,7 +7,7 @@ import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of } from 'rxjs';
-import { OrganizationFormTestingModule } from '../../shared/organization-form/organization-form.testing.module';
+import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { UnitItemService } from '../services/unit-item.service';
 import { UnitFormComponent } from './unit-form.component';
 
@@ -53,7 +53,7 @@ describe('UnitFormComponent', () => {
         UrlTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
-        OrganizationFormTestingModule,
+        FormTestingModule,
       ],
       declarations: [UnitFormComponent, FormErrorsComponent],
       providers: [

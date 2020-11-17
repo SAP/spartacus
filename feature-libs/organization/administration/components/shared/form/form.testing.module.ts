@@ -1,35 +1,35 @@
 import { Component, Input, NgModule } from '@angular/core';
 import { CurrentOrganizationItemService } from '../current-organization-item.service';
-import { OrganizationFormService } from './organization-form.service';
+import { FormService } from './form.service';
 import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-org-form',
   template: '<ng-content></ng-content>',
 })
-class MockOrganizationFormComponent {
+class MockFormComponent {
   @Input() i18nRoot;
 }
 
 export class MockBudgetFormService {}
 
 class MockCurrentOrganizationItemService {}
-class MockOrganizationFormService {
+class MockFormService {
   getForm = createSpy('getForm');
 }
 
 @NgModule({
-  declarations: [MockOrganizationFormComponent],
-  exports: [MockOrganizationFormComponent],
+  declarations: [MockFormComponent],
+  exports: [MockFormComponent],
   providers: [
     {
       provide: CurrentOrganizationItemService,
       useExisting: MockCurrentOrganizationItemService,
     },
     {
-      provide: OrganizationFormService,
-      useExisting: MockOrganizationFormService,
+      provide: FormService,
+      useExisting: MockFormService,
     },
   ],
 })
-export class OrganizationFormTestingModule {}
+export class FormTestingModule {}

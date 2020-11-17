@@ -6,7 +6,7 @@ import { FormUtils } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { CurrentOrganizationItemService } from './current-organization-item.service';
-import { OrganizationFormService } from './organization-form/organization-form.service';
+import { FormService } from './form/form.service';
 
 /**
  * Provides CRUD operations for all organization entities.
@@ -19,7 +19,7 @@ export abstract class OrganizationItemService<T> {
   constructor(
     protected currentItemService: CurrentOrganizationItemService<T>,
     protected routingService: RoutingService,
-    protected formService: OrganizationFormService<T>
+    protected formService: FormService<T>
   ) {}
 
   key$ = this.currentItemService.key$;

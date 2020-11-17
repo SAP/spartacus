@@ -8,7 +8,7 @@ import {
 } from '@spartacus/organization/administration/core';
 import { Observable, of } from 'rxjs';
 import { CurrentOrganizationItemService } from './current-organization-item.service';
-import { OrganizationFormService } from './organization-form/organization-form.service';
+import { FormService } from './form/form.service';
 import { OrganizationItemService } from './organization-item.service';
 import createSpy = jasmine.createSpy;
 
@@ -26,7 +26,7 @@ class MockCurrentOrganizationItemService {
 const mockForm = new FormGroup({});
 mockForm.addControl('name', new FormControl('foo bar'));
 
-class MockOrganizationFormService {
+class MockFormService {
   getForm() {
     return mockForm;
   }
@@ -51,7 +51,7 @@ class MockItemService extends OrganizationItemService<any> {
 
 describe('OrganizationItemService', () => {
   let service: MockItemService;
-  let formService: OrganizationFormService<any>;
+  let formService: FormService<any>;
   let routingService;
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -63,14 +63,14 @@ describe('OrganizationItemService', () => {
         },
         { provide: RoutingService, useClass: MockRoutingService },
         {
-          provide: OrganizationFormService,
-          useClass: MockOrganizationFormService,
+          provide: FormService,
+          useClass: MockFormService,
         },
       ],
     });
 
     service = TestBed.inject(MockItemService);
-    formService = TestBed.inject(OrganizationFormService);
+    formService = TestBed.inject(FormService);
     routingService = TestBed.inject(RoutingService);
 
     spyOn(routingService, 'go').and.callThrough();

@@ -5,7 +5,7 @@ import { I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { CardTestingModule } from '../card/card.testing.module';
 import { OrganizationItemService } from '../organization-item.service';
-import { OrganizationFormComponent } from './organization-form.component';
+import { FormComponent } from './form.component';
 import createSpy = jasmine.createSpy;
 import { MessageService } from '@spartacus/organization/administration/components';
 import { LoadStatus } from '@spartacus/organization/administration/core';
@@ -24,9 +24,9 @@ class MockOrganizationItemService {
   }
 }
 
-describe('OrganizationFormComponent', () => {
-  let component: OrganizationFormComponent<any>;
-  let fixture: ComponentFixture<OrganizationFormComponent<any>>;
+describe('FormComponent', () => {
+  let component: FormComponent<any>;
+  let fixture: ComponentFixture<FormComponent<any>>;
   let organizationItemService: OrganizationItemService<any>;
   let messageService: MessageService;
 
@@ -38,7 +38,7 @@ describe('OrganizationFormComponent', () => {
         ReactiveFormsModule,
         CardTestingModule,
       ],
-      declarations: [OrganizationFormComponent],
+      declarations: [FormComponent],
       providers: [
         {
           provide: OrganizationItemService,
@@ -48,7 +48,7 @@ describe('OrganizationFormComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(OrganizationFormComponent);
+    fixture = TestBed.createComponent(FormComponent);
     organizationItemService = TestBed.inject(OrganizationItemService);
     messageService = TestBed.inject(MessageService);
     component = fixture.componentInstance;

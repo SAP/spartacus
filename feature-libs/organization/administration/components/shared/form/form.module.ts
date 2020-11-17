@@ -7,7 +7,7 @@ import { ItemActiveModule } from '../item-active.module';
 import { CardModule } from '../card/card.module';
 import { MessageModule } from '../organization-message/message.module';
 import { MessageService } from '../organization-message/services/message.service';
-import { OrganizationFormComponent } from './organization-form.component';
+import { FormComponent } from './form.component';
 
 @NgModule({
   imports: [
@@ -19,8 +19,8 @@ import { OrganizationFormComponent } from './organization-form.component';
     MessageModule,
     ItemActiveModule,
   ],
-  declarations: [OrganizationFormComponent],
+  declarations: [FormComponent],
   providers: [MessageService],
-  exports: [OrganizationFormComponent],
+  exports: [FormComponent],
 })
-export class OrganizationFormModule {}
+export class FormModule {}
