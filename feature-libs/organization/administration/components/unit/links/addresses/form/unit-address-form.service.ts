@@ -85,9 +85,6 @@ export class UnitAddressFormService extends OrganizationFormService<Address> {
           } else {
             regionControl.enable();
           }
-          if (regions?.length === 0) {
-            regionControl.reset();
-          }
         })
       );
   }
