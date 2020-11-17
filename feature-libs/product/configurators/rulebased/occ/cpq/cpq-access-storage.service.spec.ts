@@ -8,7 +8,7 @@ import { OccEndpointsService } from '@spartacus/core';
 import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
 import { Cpq } from '../../cpq/cpq.models';
 import { CpqAccessLoaderService } from './cpq-access-loader.service';
-import { CpqAccessStorgeService } from './cpq-access-storage.service';
+import { CpqAccessStorageService } from './cpq-access-storage.service';
 
 const accessData: Cpq.AccessData = {
   accessToken: '8273635',
@@ -21,8 +21,8 @@ const expiredAccessData: Cpq.AccessData = {
   tokenExpirationTime: -10,
 };
 
-describe('CpqAccessStorgeService', () => {
-  let serviceUnderTest: CpqAccessStorgeService;
+describe('CpqAccessStorageService', () => {
+  let serviceUnderTest: CpqAccessStorageService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
@@ -39,7 +39,7 @@ describe('CpqAccessStorgeService', () => {
     );
 
     serviceUnderTest = TestBed.inject(
-      CpqAccessStorgeService as Type<CpqAccessStorgeService>
+      CpqAccessStorageService as Type<CpqAccessStorageService>
     );
     serviceUnderTest.clearCachedCpqAccessData();
   });

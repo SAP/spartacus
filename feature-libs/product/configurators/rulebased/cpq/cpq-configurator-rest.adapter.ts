@@ -5,14 +5,14 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RulebasedConfiguratorAdapter } from '../core/connectors/rulebased-configurator.adapter';
 import { Configurator } from '../core/model/configurator.model';
-import { CpqAccessLoaderService } from '../occ/cpq/cpq-access-loader.service';
+import { CpqAccessStorageService } from '../occ/cpq/cpq-access-storage.service';
 import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
 
 @Injectable()
 export class CpqConfiguratorRestAdapter
   implements RulebasedConfiguratorAdapter {
   constructor(
-    protected cpqAccessLoaderService: CpqAccessLoaderService,
+    protected cpqAccessStorageService: CpqAccessStorageService,
     protected cpqService: CpqConfiguratorRestService
   ) {}
 
@@ -23,7 +23,7 @@ export class CpqConfiguratorRestAdapter
   createConfiguration(
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
-    return this.cpqAccessLoaderService.getCpqAccessData().pipe(
+    return this.cpqAccessStorageService.getCachedCpqAccessData().pipe(
       map((accessData) => {
         const config: Configurator.Configuration = {
           configId: accessData.accessToken,

@@ -5,7 +5,7 @@ import { Cpq } from '../../cpq/cpq.models';
 import { CpqAccessLoaderService } from './cpq-access-loader.service';
 
 @Injectable({ providedIn: 'root' })
-export class CpqAccessStorgeService {
+export class CpqAccessStorageService {
   constructor(protected cpqAccessLoaderService: CpqAccessLoaderService) {}
 
   protected cpqAccessData: Observable<Cpq.AccessData>;
