@@ -7,8 +7,10 @@ import {
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
+import { CurrentOrganizationItemService } from '../../shared/current-organization-item.service';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { BudgetItemService } from '../services/budget-item.service';
+import { CurrentBudgetService } from '../services/current-budget.service';
 
 @Component({
   selector: 'cx-budget-form',
@@ -19,6 +21,10 @@ import { BudgetItemService } from '../services/budget-item.service';
     {
       provide: OrganizationItemService,
       useExisting: BudgetItemService,
+    },
+    {
+      provide: CurrentOrganizationItemService,
+      useExisting: CurrentBudgetService,
     },
   ],
 })

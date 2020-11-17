@@ -5,9 +5,13 @@ import { I18nTestingModule } from '@spartacus/core';
 import { Permission } from '@spartacus/organization/administration/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of } from 'rxjs';
+import { Subject } from 'rxjs/internal/Subject';
+import { ItemExistsDirective } from '../../shared/item-exists.directive';
 import { OrganizationCardTestingModule } from '../../shared/organization-card/organization-card.testing.module';
+import { ToggleStatusModule } from '../../shared/organization-detail/toggle-status-action/toggle-status.module';
 import { OrganizationItemService } from '../../shared/organization-item.service';
 import { MessageTestingModule } from '../../shared/organization-message/message.testing.module';
+import { MessageService } from '../../shared/organization-message/services/message.service';
 import { PermissionDetailsComponent } from './permission-details.component';
 
 import createSpy = jasmine.createSpy;
@@ -18,6 +22,15 @@ class MockPermissionItemService
   implements Partial<OrganizationItemService<Permission>> {
   key$ = of(mockCode);
   load = createSpy('load').and.returnValue(of());
+  error$ = of(false);
+}
+
+class MockMessageService {
+  add() {
+    return new Subject();
+  }
+  clear() {}
+  close() {}
 }
 
 describe('PermissionDetailsComponent', () => {
@@ -34,15 +47,27 @@ describe('PermissionDetailsComponent', () => {
         UrlTestingModule,
         OrganizationCardTestingModule,
         MessageTestingModule,
+        ToggleStatusModule,
       ],
-      declarations: [PermissionDetailsComponent],
+      declarations: [PermissionDetailsComponent, ItemExistsDirective],
       providers: [
         {
           provide: OrganizationItemService,
           useClass: MockPermissionItemService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(PermissionDetailsComponent, {
+        set: {
+          providers: [
+            {
+              provide: MessageService,
+              useClass: MockMessageService,
+            },
+          ],
+        },
+      })
+      .compileComponents();
 
     itemService = TestBed.inject(OrganizationItemService);
 

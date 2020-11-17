@@ -21,6 +21,7 @@ import {
   getAvailableOrgCustomers,
   getUserGroup,
   getUserGroupList,
+  getUserGroupState,
   getUserGroupValue,
 } from '../store/selectors/user-group.selector';
 import { getItemStatus } from '../utils/get-item-status';
@@ -282,5 +283,15 @@ export class UserGroupService {
         })
       )
     );
+  }
+
+  private getUserGroupState(
+    code: string
+  ): Observable<StateUtils.LoaderState<UserGroup>> {
+    return this.store.select(getUserGroupState(code));
+  }
+
+  getErrorState(code): Observable<boolean> {
+    return this.getUserGroupState(code).pipe(map((state) => state.error));
   }
 }

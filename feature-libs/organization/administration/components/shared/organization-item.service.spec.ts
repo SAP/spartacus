@@ -10,12 +10,18 @@ import { Observable, of } from 'rxjs';
 import { CurrentOrganizationItemService } from './current-organization-item.service';
 import { OrganizationFormService } from './organization-form/organization-form.service';
 import { OrganizationItemService } from './organization-item.service';
+import createSpy = jasmine.createSpy;
 
+const mockCode = 'o1';
 class MockRoutingService {
   go() {}
 }
 
-class MockCurrentOrganizationItemService {}
+class MockCurrentOrganizationItemService {
+  key$ = of(mockCode);
+  load = createSpy('load').and.returnValue(of());
+  error$ = of(false);
+}
 
 const mockForm = new FormGroup({});
 mockForm.addControl('name', new FormControl('foo bar'));

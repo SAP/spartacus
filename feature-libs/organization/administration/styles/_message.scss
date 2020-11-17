@@ -55,6 +55,9 @@ html[dir='rtl'] cx-organization-list cx-message .close {
     cx-notification {
       display: flex;
       background-color: #deeecc;
+      &.error {
+        background-color: var(--cx-color-danger);
+      }
     }
 
     cx-confirmation {

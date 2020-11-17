@@ -1,5 +1,5 @@
 <cx-organization-form i18nRoot="user">
-  <ng-container *ngIf="form" [formGroup]="form" main>
+  <ng-container main *ngIf="form" [formGroup]="form">
     <label>
       <span class="label-content required">{{
         'user.title' | cxTranslate
@@ -73,6 +73,7 @@
           [value]="role"
           [checked]="roles?.value?.includes(role)"
           (change)="updateRoles($event)"
+          [disabled]="form?.status === 'DISABLED'"
         />
         <span class="form-check-label">
           {{ 'organization.userRoles.' + role | cxTranslate }}
