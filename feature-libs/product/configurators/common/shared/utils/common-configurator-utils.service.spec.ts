@@ -1,12 +1,8 @@
 import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  Cart,
-  OCC_USER_ID_ANONYMOUS,
-  OrderEntry,
-  OrderEntryStatus,
-} from '@spartacus/core';
+import { Cart, OCC_USER_ID_ANONYMOUS, OrderEntry } from '@spartacus/core';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
+import { ConfiguratorOrderEntryStatus } from './../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from './common-configurator-utils.service';
 
 const productCode = 'CONF_LAPTOP';
@@ -134,22 +130,22 @@ describe('CommonConfiguratorUtilsService', () => {
   describe('Cart item issue handling', () => {
     it('should return number of issues of ERROR status', () => {
       cartItem.statusSummaryList = [
-        { numberOfIssues: 2, status: OrderEntryStatus.Error },
+        { numberOfIssues: 2, status: ConfiguratorOrderEntryStatus.Error },
       ];
       expect(classUnderTest.getNumberOfIssues(cartItem)).toBe(2);
     });
 
     it('should return number of issues of ERROR status if ERROR and SUCCESS statuses are present', () => {
       cartItem.statusSummaryList = [
-        { numberOfIssues: 1, status: OrderEntryStatus.Success },
-        { numberOfIssues: 3, status: OrderEntryStatus.Error },
+        { numberOfIssues: 1, status: ConfiguratorOrderEntryStatus.Success },
+        { numberOfIssues: 3, status: ConfiguratorOrderEntryStatus.Error },
       ];
       expect(classUnderTest.getNumberOfIssues(cartItem)).toBe(3);
     });
 
     it('should return number of issues as 0 if only SUCCESS status is present', () => {
       cartItem.statusSummaryList = [
-        { numberOfIssues: 2, status: OrderEntryStatus.Success },
+        { numberOfIssues: 2, status: ConfiguratorOrderEntryStatus.Success },
       ];
       expect(classUnderTest.getNumberOfIssues(cartItem)).toBe(0);
     });
@@ -166,14 +162,14 @@ describe('CommonConfiguratorUtilsService', () => {
 
     it('should return true if number of issues of ERROR status is > 0', () => {
       cartItem.statusSummaryList = [
-        { numberOfIssues: 2, status: OrderEntryStatus.Error },
+        { numberOfIssues: 2, status: ConfiguratorOrderEntryStatus.Error },
       ];
       expect(classUnderTest.hasIssues(cartItem)).toBeTrue();
     });
 
     it('should return false if number of issues of ERROR status is = 0', () => {
       cartItem.statusSummaryList = [
-        { numberOfIssues: 2, status: OrderEntryStatus.Success },
+        { numberOfIssues: 2, status: ConfiguratorOrderEntryStatus.Success },
       ];
       expect(classUnderTest.hasIssues(cartItem)).toBeFalse();
     });

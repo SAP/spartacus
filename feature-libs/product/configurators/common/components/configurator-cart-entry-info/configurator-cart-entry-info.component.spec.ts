@@ -2,14 +2,16 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  ConfigurationInfo,
   FeaturesConfigModule,
   I18nTestingModule,
   OrderEntry,
-  StatusSummary,
 } from '@spartacus/core';
 import { CartItemContext, CartItemContextModel } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
+import {
+  ConfigurationInfo,
+  StatusSummary,
+} from './../../core/model/common-configurator.model';
 import { ConfiguratorCartEntryInfoComponent } from './configurator-cart-entry-info.component';
 
 function setContext(
