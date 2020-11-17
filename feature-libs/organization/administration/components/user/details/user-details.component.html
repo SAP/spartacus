@@ -62,28 +62,30 @@
     </div>
   </section>
 
-  <section main class="link-list" *ngIf="model.customerId">
-    <a
-      class="link"
-      [routerLink]="{ cxRoute: 'userApprovers', params: model } | cxUrl"
-      routerLinkActive="is-current"
-    >
-      {{ 'user.links.approvers' | cxTranslate }}
-    </a>
-    <a
-      class="link"
-      [routerLink]="{ cxRoute: 'userUserGroups', params: model } | cxUrl"
-      routerLinkActive="is-current"
-    >
-      {{ 'user.links.userGroup' | cxTranslate }}
-    </a>
+  <section main class="link-list">
+    <ng-container *ngIf="model.customerId">
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'userApprovers', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'user.links.approvers' | cxTranslate }}
+      </a>
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'userUserGroups', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'user.links.userGroup' | cxTranslate }}
+      </a>
 
-    <a
-      class="link"
-      [routerLink]="{ cxRoute: 'userPermissions', params: model } | cxUrl"
-      routerLinkActive="is-current"
-    >
-      {{ 'user.links.permission' | cxTranslate }}
-    </a>
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'userPermissions', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'user.links.permission' | cxTranslate }}
+      </a>
+    </ng-container>
   </section>
 </cx-organization-card>

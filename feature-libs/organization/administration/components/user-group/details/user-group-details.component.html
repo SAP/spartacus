@@ -41,20 +41,24 @@
     </div>
   </section>
 
-  <section main class="link-list" *ngIf="model.uid">
-    <a
-      class="link"
-      [routerLink]="{ cxRoute: 'userGroupUsers', params: model } | cxUrl"
-      routerLinkActive="is-current"
-    >
-      {{ 'userGroup.links.user' | cxTranslate }}
-    </a>
-    <a
-      class="link"
-      [routerLink]="{ cxRoute: 'userGroupPermissions', params: model } | cxUrl"
-      routerLinkActive="is-current"
-    >
-      {{ 'userGroup.links.permission' | cxTranslate }}
-    </a>
+  <section main class="link-list">
+    <ng-container *ngIf="model.uid">
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'userGroupUsers', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'userGroup.links.user' | cxTranslate }}
+      </a>
+      <a
+        class="link"
+        [routerLink]="
+          { cxRoute: 'userGroupPermissions', params: model } | cxUrl
+        "
+        routerLinkActive="is-current"
+      >
+        {{ 'userGroup.links.permission' | cxTranslate }}
+      </a>
+    </ng-container>
   </section>
 </cx-organization-card>

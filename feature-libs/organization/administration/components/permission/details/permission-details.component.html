@@ -57,6 +57,7 @@
     <div class="property">
       <label>{{ 'permission.unit' | cxTranslate }}</label>
       <a
+        *ngIf="model.code"
         class="value"
         [routerLink]="
           {
