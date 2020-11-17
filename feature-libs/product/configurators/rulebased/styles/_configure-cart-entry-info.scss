@@ -19,13 +19,11 @@
     }
 
     .cx-label {
-      width: 33%;
       @include type('8');
       word-break: break-word;
     }
 
     .cx-value {
-      width: 66%;
       @include type('7');
       word-break: break-word;
       padding-inline-start: 0px;

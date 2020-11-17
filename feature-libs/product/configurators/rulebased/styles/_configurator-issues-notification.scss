@@ -7,15 +7,18 @@
     justify-content: flex-start;
     align-items: center;
     background-color: rgba(245, 206, 206, 1);
+
     padding-inline-start: 5px;
     padding-inline-end: 5px;
     padding-block-start: 5px;
     padding-block-end: 5px;
+
     margin-block-start: 1.25rem;
     margin-block-end: 1.25rem;
 
-    @include media-breakpoint-up(xs) {
-      align-items: center;
+    @include media-breakpoint-down(sm) {
+      margin-inline-start: -45px;
+      margin-inline-end: -65px;
     }
 
     cx-icon {
@@ -29,7 +32,12 @@
     }
 
     .cx-error-msg {
+      word-break: break-word;
       padding-inline-end: 15px;
+
+      @include media-breakpoint-down(sm) {
+        padding-inline-end: 85px;
+      }
 
       .cx-error-msg-action {
         button.link {
