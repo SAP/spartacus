@@ -49,12 +49,12 @@
       "@spartacus/product/configurators/textfield": [
         "dist/product/configurators/textfield"
       ],
-      "@spartacus/storefinder": ["dist/storefinder"],
-      "@spartacus/storefinder/root": ["dist/storefinder/root"],
-      "@spartacus/storefinder/core": ["dist/storefinder/core"],
-      "@spartacus/storefinder/occ": ["dist/storefinder/occ"],
-      "@spartacus/storefinder/components": ["dist/storefinder/components"],
-      "@spartacus/storefinder/assets": ["dist/storefinder/assets"],
+      "@spartacus/misc/storefinder": ["dist/misc/storefinder"],
+      "@spartacus/misc/storefinder/root": ["dist/misc/storefinder/root"],
+      "@spartacus/misc/storefinder/core": ["dist/misc/storefinder/core"],
+      "@spartacus/misc/storefinder/occ": ["dist/misc/storefinder/occ"],
+      "@spartacus/misc/storefinder/components": ["dist/misc/storefinder/components"],
+      "@spartacus/misc/storefinder/assets": ["dist/misc/storefinder/assets"],
       "@spartacus/cdc": ["dist/cdc"],
       "@spartacus/setup": ["dist/setup"]
     }
