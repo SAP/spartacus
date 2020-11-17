@@ -2,7 +2,7 @@ import { Directive, OnDestroy, OnInit } from '@angular/core';
 import { GlobalMessageType } from '@spartacus/core';
 import { tap } from 'rxjs/operators';
 import { OrganizationItemService } from './organization-item.service';
-import { MessageService } from './organization-message/services/message.service';
+import { MessageService } from './message/services/message.service';
 import { BaseItem } from './organization.model';
 
 @Directive({

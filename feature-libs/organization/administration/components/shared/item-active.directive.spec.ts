@@ -4,7 +4,7 @@ import { of } from 'rxjs/internal/observable/of';
 import { Subject } from 'rxjs/internal/Subject';
 import { ItemActiveDirective } from './item-active.directive';
 import { OrganizationItemService } from './organization-item.service';
-import { MessageService } from './organization-message/services/message.service';
+import { MessageService } from './message/services/message.service';
 import { GlobalMessageType } from '@spartacus/core';
 
 import createSpy = jasmine.createSpy;

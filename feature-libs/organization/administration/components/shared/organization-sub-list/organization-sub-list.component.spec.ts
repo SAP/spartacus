@@ -10,7 +10,7 @@ import { of } from 'rxjs';
 import { CardTestingModule } from '../card/card.testing.module';
 import { OrganizationItemService } from '../organization-item.service';
 import { ListService } from '../list/list.service';
-import { MessageTestingModule } from '../organization-message/message.testing.module';
+import { MessageTestingModule } from '../message/message.testing.module';
 import { OrganizationSubListComponent } from './organization-sub-list.component';
 import createSpy = jasmine.createSpy;
 

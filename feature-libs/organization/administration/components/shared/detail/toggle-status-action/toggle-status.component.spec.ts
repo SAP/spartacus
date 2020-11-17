@@ -10,8 +10,8 @@ import {
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of, Subject } from 'rxjs';
 import { OrganizationItemService } from '../../organization-item.service';
-import { ConfirmationMessageData } from '../../organization-message/confirmation/confirmation-message.model';
-import { MessageService } from '../../organization-message/services/message.service';
+import { ConfirmationMessageData } from '../../message/confirmation/confirmation-message.model';
+import { MessageService } from '../../message/services/message.service';
 import { ToggleStatusComponent } from './toggle-status.component';
 import createSpy = jasmine.createSpy;
 

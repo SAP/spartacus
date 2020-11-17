@@ -10,8 +10,8 @@ import { ItemExistsDirective } from '../../shared/item-exists.directive';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { ToggleStatusModule } from '../../shared/detail/toggle-status-action/toggle-status.module';
 import { OrganizationItemService } from '../../shared/organization-item.service';
-import { MessageTestingModule } from '../../shared/organization-message/message.testing.module';
-import { MessageService } from '../../shared/organization-message/services/message.service';
+import { MessageTestingModule } from '../../shared/message/message.testing.module';
+import { MessageService } from '../../shared/message/services/message.service';
 import { PermissionDetailsComponent } from './permission-details.component';
 
 import createSpy = jasmine.createSpy;

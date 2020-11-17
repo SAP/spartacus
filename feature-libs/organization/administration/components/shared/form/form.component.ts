@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { filter, first, map, switchMap, take } from 'rxjs/operators';
 import { CardComponent } from '../card/card.component';
 import { OrganizationItemService } from '../organization-item.service';
-import { MessageService } from '../organization-message/services/message.service';
+import { MessageService } from '../message/services/message.service';
 
 /**
  * Reusable component for creating and editing organization items. The component does not

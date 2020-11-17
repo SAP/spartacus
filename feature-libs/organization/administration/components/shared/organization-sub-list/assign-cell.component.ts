@@ -10,7 +10,7 @@ import {
 } from '@spartacus/organization/administration/core';
 import { OrganizationItemService } from '../organization-item.service';
 import { ListService } from '../list/list.service';
-import { MessageService } from '../organization-message/services/message.service';
+import { MessageService } from '../message/services/message.service';
 import { OrganizationSubListService } from '../organization-sub-list/organization-sub-list.service';
 import { OrganizationCellComponent } from '../organization-table/organization-cell.component';
 import { Observable } from 'rxjs';

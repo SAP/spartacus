@@ -7,7 +7,7 @@ import {
 import { ListService } from '../../shared/list/list.service';
 import { CurrentUserGroupService } from '../services/current-user-group.service';
 import { UserGroupUserListService } from './user-group-user-list.service';
-import { MessageService } from '../../shared/organization-message/services/message.service';
+import { MessageService } from '../../shared/message/services/message.service';
 
 @Component({
   selector: 'cx-org-user-group-user-list',

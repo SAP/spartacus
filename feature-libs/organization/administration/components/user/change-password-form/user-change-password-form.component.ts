@@ -5,7 +5,7 @@ import { LoadStatus } from '@spartacus/organization/administration/core';
 import { filter, first, map, switchMap, take } from 'rxjs/operators';
 import { UserItemService } from '../services/user-item.service';
 import { UserChangePasswordFormService } from './user-change-password-form.service';
-import { MessageService } from '../../shared/organization-message/services/message.service';
+import { MessageService } from '../../shared/message/services/message.service';
 
 @Component({
   selector: 'cx-org-user-change-password-form',

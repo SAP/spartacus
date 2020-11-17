@@ -5,8 +5,8 @@ import { RouterModule } from '@angular/router';
 import { I18nModule } from '@spartacus/core';
 import { ItemActiveModule } from '../item-active.module';
 import { CardModule } from '../card/card.module';
-import { MessageModule } from '../organization-message/message.module';
-import { MessageService } from '../organization-message/services/message.service';
+import { MessageModule } from '../message/message.module';
+import { MessageService } from '../message/services/message.service';
 import { FormComponent } from './form.component';
 
 @NgModule({

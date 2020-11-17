@@ -8,9 +8,9 @@ import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Subject, Subscription } from 'rxjs';
 import { filter, first, take } from 'rxjs/operators';
 import { OrganizationItemService } from '../../organization-item.service';
-import { ConfirmationMessageComponent } from '../../organization-message/confirmation/confirmation-message.component';
-import { ConfirmationMessageData } from '../../organization-message/confirmation/confirmation-message.model';
-import { MessageService } from '../../organization-message/services/message.service';
+import { ConfirmationMessageComponent } from '../../message/confirmation/confirmation-message.component';
+import { ConfirmationMessageData } from '../../message/confirmation/confirmation-message.model';
+import { MessageService } from '../../message/services/message.service';
 import { BaseItem } from '../../organization.model';
 
 /**

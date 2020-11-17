@@ -6,7 +6,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { Observable, of } from 'rxjs';
 import { OrganizationItemService } from '../organization-item.service';
 import { ListService } from '../list/list.service';
-import { MessageService } from '../organization-message/services/message.service';
+import { MessageService } from '../message/services/message.service';
 import { AssignCellComponent } from './assign-cell.component';
 import { OrganizationSubListService } from './organization-sub-list.service';
 import {

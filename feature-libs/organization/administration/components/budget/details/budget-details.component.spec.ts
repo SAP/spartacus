@@ -13,7 +13,7 @@ import {
 } from '../../shared';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { OrganizationItemService } from '../../shared/organization-item.service';
-import { MessageTestingModule } from '../../shared/organization-message/message.testing.module';
+import { MessageTestingModule } from '../../shared/message/message.testing.module';
 import { BudgetDetailsComponent } from './budget-details.component';
 import createSpy = jasmine.createSpy;
 

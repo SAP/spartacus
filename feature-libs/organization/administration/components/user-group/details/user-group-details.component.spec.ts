@@ -7,7 +7,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { of, Subject } from 'rxjs';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { OrganizationItemService } from '../../shared/organization-item.service';
-import { MessageService } from '../../shared/organization-message/services/message.service';
+import { MessageService } from '../../shared/message/services/message.service';
 import { UserGroupDetailsComponent } from './user-group-details.component';
 import createSpy = jasmine.createSpy;
 

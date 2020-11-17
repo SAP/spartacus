@@ -11,7 +11,7 @@ import {
   SplitViewModule,
   TableModule,
 } from '@spartacus/storefront';
-import { MessageModule } from '../organization-message/message.module';
+import { MessageModule } from '../message/message.module';
 import { ListComponent } from './list.component';
 
 @NgModule({

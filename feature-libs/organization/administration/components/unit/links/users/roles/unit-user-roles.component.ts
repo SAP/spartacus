@@ -8,7 +8,7 @@ import {
 import { Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 import { OrganizationItemService } from '../../../../shared/organization-item.service';
-import { MessageService } from '../../../../shared/organization-message/services/message.service';
+import { MessageService } from '../../../../shared/message/services/message.service';
 import { UnitUserRolesFormService } from './unit-user-roles-form.service';
 import { UnitUserRolesItemService } from './unit-user-roles-item.service';
 import { UserItemService } from '../../../../user/services/user-item.service';

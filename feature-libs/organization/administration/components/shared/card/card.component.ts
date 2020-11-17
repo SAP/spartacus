@@ -7,7 +7,7 @@ import {
 import { ViewComponent } from '@spartacus/storefront';
 import { tap } from 'rxjs/operators';
 import { OrganizationItemService } from '../organization-item.service';
-import { MessageService } from '../organization-message/services/message.service';
+import { MessageService } from '../message/services/message.service';
 import { BaseItem } from '../organization.model';
 
 @Component({
