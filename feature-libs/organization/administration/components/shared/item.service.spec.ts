@@ -7,9 +7,9 @@ import {
   OrganizationItemStatus,
 } from '@spartacus/organization/administration/core';
 import { Observable, of } from 'rxjs';
-import { CurrentOrganizationItemService } from './current-organization-item.service';
+import { CurrentItemService } from './current-item.service';
 import { FormService } from './form/form.service';
-import { OrganizationItemService } from './organization-item.service';
+import { ItemService } from './item.service';
 import createSpy = jasmine.createSpy;
 
 const mockCode = 'o1';
@@ -17,7 +17,7 @@ class MockRoutingService {
   go() {}
 }
 
-class MockCurrentOrganizationItemService {
+class MockCurrentItemService {
   key$ = of(mockCode);
   load = createSpy('load').and.returnValue(of());
   error$ = of(false);
@@ -34,7 +34,7 @@ class MockFormService {
 const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
 
 @Injectable()
-class MockItemService extends OrganizationItemService<any> {
+class MockItemService extends ItemService<any> {
   getDetailsRoute() {
     return 'testRoute';
   }
@@ -49,7 +49,7 @@ class MockItemService extends OrganizationItemService<any> {
   }
 }
 
-describe('OrganizationItemService', () => {
+describe('ItemService', () => {
   let service: MockItemService;
   let formService: FormService<any>;
   let routingService;
@@ -58,8 +58,8 @@ describe('OrganizationItemService', () => {
       providers: [
         MockItemService,
         {
-          provide: CurrentOrganizationItemService,
-          useClass: MockCurrentOrganizationItemService,
+          provide: CurrentItemService,
+          useClass: MockCurrentItemService,
         },
         { provide: RoutingService, useClass: MockRoutingService },
         {

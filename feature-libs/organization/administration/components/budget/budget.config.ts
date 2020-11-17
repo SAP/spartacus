@@ -7,7 +7,7 @@ import {
 import { AdminGuard } from '@spartacus/organization/administration/core';
 import { TableConfig } from '@spartacus/storefront';
 import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
-import { OrganizationItemService } from '../shared/organization-item.service';
+import { ItemService } from '../shared/item.service';
 import { ListComponent } from '../shared/list/list.component';
 import { ListService } from '../shared/list/list.service';
 import { ActiveLinkCellComponent } from '../shared/table';
@@ -63,7 +63,7 @@ export const budgetCmsConfig: CmsConfig = {
           useExisting: BudgetListService,
         },
         {
-          provide: OrganizationItemService,
+          provide: ItemService,
           useExisting: BudgetItemService,
         },
       ],

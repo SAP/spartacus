@@ -46,7 +46,7 @@ class MockCurrencyService {
   getAll() {}
 }
 
-class MockOrganizationItemService {
+class MockItemService {
   getForm() {}
 }
 const mockPermissionTypes: OrderApprovalPermissionType[] = [
@@ -84,7 +84,7 @@ describe('PermissionFormComponent', () => {
         { provide: OrgUnitService, useClass: MockOrgUnitService },
         {
           provide: PermissionItemService,
-          useClass: MockOrganizationItemService,
+          useClass: MockItemService,
         },
         { provide: PermissionService, useClass: MockPermissionService },
       ],

@@ -8,7 +8,7 @@ import { EntitiesModel, PaginationModel } from '@spartacus/core';
 import { Table, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { OrganizationItemService } from '../organization-item.service';
+import { ItemService } from '../item.service';
 import { ListService } from './list.service';
 
 @Component({
@@ -21,7 +21,7 @@ export class ListComponent<T = any, P = PaginationModel> {
 
   constructor(
     protected service: ListService<T, P>,
-    protected organizationItemService: OrganizationItemService<T>
+    protected organizationItemService: ItemService<T>
   ) {}
 
   @HostBinding('class')

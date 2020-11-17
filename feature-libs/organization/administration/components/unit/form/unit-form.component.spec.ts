@@ -32,7 +32,7 @@ class MockOrgUnitService {
   }
 }
 
-class MockOrganizationItemService {
+class MockItemService {
   get unit$() {
     return of('uid');
   }
@@ -58,7 +58,7 @@ describe('UnitFormComponent', () => {
       declarations: [UnitFormComponent, FormErrorsComponent],
       providers: [
         { provide: OrgUnitService, useClass: MockOrgUnitService },
-        { provide: UnitItemService, useClass: MockOrganizationItemService },
+        { provide: UnitItemService, useClass: MockItemService },
       ],
     }).compileComponents();
 

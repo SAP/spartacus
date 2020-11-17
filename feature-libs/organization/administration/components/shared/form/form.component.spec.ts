@@ -4,7 +4,7 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { CardTestingModule } from '../card/card.testing.module';
-import { OrganizationItemService } from '../organization-item.service';
+import { ItemService } from '../item.service';
 import { FormComponent } from './form.component';
 import createSpy = jasmine.createSpy;
 import { MessageService } from '@spartacus/organization/administration/components';
@@ -14,7 +14,7 @@ const mockItem = { foo: 'bar' };
 
 const key$ = new BehaviorSubject('key');
 
-class MockOrganizationItemService {
+class MockItemService {
   key$ = key$.asObservable();
   current$ = of(mockItem);
   launchDetails = createSpy('launchDetails');
@@ -27,7 +27,7 @@ class MockOrganizationItemService {
 describe('FormComponent', () => {
   let component: FormComponent<any>;
   let fixture: ComponentFixture<FormComponent<any>>;
-  let organizationItemService: OrganizationItemService<any>;
+  let organizationItemService: ItemService<any>;
   let messageService: MessageService;
 
   beforeEach(() => {
@@ -41,15 +41,15 @@ describe('FormComponent', () => {
       declarations: [FormComponent],
       providers: [
         {
-          provide: OrganizationItemService,
-          useClass: MockOrganizationItemService,
+          provide: ItemService,
+          useClass: MockItemService,
         },
         MessageService,
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(FormComponent);
-    organizationItemService = TestBed.inject(OrganizationItemService);
+    organizationItemService = TestBed.inject(ItemService);
     messageService = TestBed.inject(MessageService);
     component = fixture.componentInstance;
     component.i18nRoot = 'i18nRoot';

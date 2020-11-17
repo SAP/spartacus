@@ -64,7 +64,7 @@ class MockOrgUnitService {
   loadList() {}
 }
 
-class MockOrganizationItemService {
+class MockItemService {
   getForm() {}
 }
 
@@ -85,7 +85,7 @@ describe('UserFormComponent', () => {
       declarations: [UserFormComponent, FormErrorsComponent],
       providers: [
         { provide: OrgUnitService, useClass: MockOrgUnitService },
-        { provide: UserItemService, useClass: MockOrganizationItemService },
+        { provide: UserItemService, useClass: MockItemService },
         { provide: UserService, useClass: MockUserService },
         { provide: B2BUserService, useClass: MockB2BUserService },
       ],

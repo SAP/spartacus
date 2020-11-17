@@ -12,8 +12,8 @@ import {
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
-import { CurrentOrganizationItemService } from '../../shared/current-organization-item.service';
-import { OrganizationItemService } from '../../shared/organization-item.service';
+import { CurrentItemService } from '../../shared/current-item.service';
+import { ItemService } from '../../shared/item.service';
 import { CurrentUserService } from '../services/current-user.service';
 import { UserItemService } from '../services/user-item.service';
 
@@ -24,11 +24,11 @@ import { UserItemService } from '../services/user-item.service';
   host: { class: 'content-wrapper' },
   providers: [
     {
-      provide: OrganizationItemService,
+      provide: ItemService,
       useExisting: UserItemService,
     },
     {
-      provide: CurrentOrganizationItemService,
+      provide: CurrentItemService,
       useExisting: CurrentUserService,
     },
   ],
@@ -54,7 +54,7 @@ export class UserFormComponent implements OnInit {
   availableRoles: B2BUserRole[] = this.b2bUserService.getAllRoles();
 
   constructor(
-    protected itemService: OrganizationItemService<B2BUser>,
+    protected itemService: ItemService<B2BUser>,
     protected unitService: OrgUnitService,
     protected userService: UserService,
     protected b2bUserService: B2BUserService

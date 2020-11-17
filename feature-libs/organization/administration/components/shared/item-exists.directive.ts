@@ -1,7 +1,7 @@
 import { Directive, OnDestroy, OnInit } from '@angular/core';
 import { GlobalMessageType } from '@spartacus/core';
 import { tap } from 'rxjs/operators';
-import { OrganizationItemService } from './organization-item.service';
+import { ItemService } from './item.service';
 import { MessageService } from './message/services/message.service';
 import { BaseItem } from './organization.model';
 
@@ -12,7 +12,7 @@ export class ItemExistsDirective<T = BaseItem> implements OnInit, OnDestroy {
   protected subscription;
 
   constructor(
-    protected itemService: OrganizationItemService<T>,
+    protected itemService: ItemService<T>,
     protected messageService: MessageService
   ) {}
 

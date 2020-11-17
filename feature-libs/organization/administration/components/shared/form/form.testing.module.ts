@@ -1,5 +1,5 @@
 import { Component, Input, NgModule } from '@angular/core';
-import { CurrentOrganizationItemService } from '../current-organization-item.service';
+import { CurrentItemService } from '../current-item.service';
 import { FormService } from './form.service';
 import createSpy = jasmine.createSpy;
 
@@ -13,7 +13,7 @@ class MockFormComponent {
 
 export class MockBudgetFormService {}
 
-class MockCurrentOrganizationItemService {}
+class MockCurrentItemService {}
 class MockFormService {
   getForm = createSpy('getForm');
 }
@@ -23,8 +23,8 @@ class MockFormService {
   exports: [MockFormComponent],
   providers: [
     {
-      provide: CurrentOrganizationItemService,
-      useExisting: MockCurrentOrganizationItemService,
+      provide: CurrentItemService,
+      useExisting: MockCurrentItemService,
     },
     {
       provide: FormService,

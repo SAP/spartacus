@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Budget } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { shareReplay, startWith, switchMap } from 'rxjs/operators';
-import { OrganizationItemService } from '../../shared/organization-item.service';
+import { ItemService } from '../../shared/item.service';
 import { BudgetItemService } from '../services/budget-item.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { BudgetItemService } from '../services/budget-item.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
-      provide: OrganizationItemService,
+      provide: ItemService,
       useExisting: BudgetItemService,
     },
   ],
@@ -28,5 +28,5 @@ export class BudgetDetailsComponent implements OnInit {
     );
   }
 
-  constructor(protected itemService: OrganizationItemService<Budget>) {}
+  constructor(protected itemService: ItemService<Budget>) {}
 }

@@ -4,7 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { of } from 'rxjs/internal/observable/of';
 import { Subject } from 'rxjs/internal/Subject';
 import { ItemExistsDirective } from './item-exists.directive';
-import { OrganizationItemService } from './organization-item.service';
+import { ItemService } from './item.service';
 import { MessageService } from './message/services/message.service';
 import { GlobalMessageType } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
@@ -26,15 +26,13 @@ class MockMessageService {
   close() {}
 }
 
-class MockItemServiceWithError
-  implements Partial<OrganizationItemService<any>> {
+class MockItemServiceWithError implements Partial<ItemService<any>> {
   key$ = of(mockCode);
   load = createSpy('load').and.returnValue(of());
   error$ = of(true);
 }
 
-class MockItemServiceWithoutError
-  implements Partial<OrganizationItemService<any>> {
+class MockItemServiceWithoutError implements Partial<ItemService<any>> {
   key$ = of(mockCode);
   load = createSpy('load').and.returnValue(of());
   error$ = of(false);
@@ -57,7 +55,7 @@ describe('ItemExistsDirective', () => {
       declarations: [ItemExistsDirective, TestComponent],
       providers: [
         {
-          provide: OrganizationItemService,
+          provide: ItemService,
           useClass: service,
         },
         {

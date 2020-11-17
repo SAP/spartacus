@@ -6,15 +6,14 @@ import { Budget } from '@spartacus/organization/administration/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of, Subject } from 'rxjs';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
-import { OrganizationItemService } from '../../shared/organization-item.service';
+import { ItemService } from '../../shared/item.service';
 import { MessageService } from '../../shared/message/services/message.service';
 import { UserGroupDetailsComponent } from './user-group-details.component';
 import createSpy = jasmine.createSpy;
 
 const mockCode = 'u1';
 
-class MockUserGroupItemService
-  implements Partial<OrganizationItemService<Budget>> {
+class MockUserGroupItemService implements Partial<ItemService<Budget>> {
   key$ = of(mockCode);
   load = createSpy('load').and.returnValue(of());
 }
@@ -30,7 +29,7 @@ class MockMessageService {
 describe('UserGroupDetailsComponent', () => {
   let component: UserGroupDetailsComponent;
   let fixture: ComponentFixture<UserGroupDetailsComponent>;
-  let itemService: OrganizationItemService<Budget>;
+  let itemService: ItemService<Budget>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -44,7 +43,7 @@ describe('UserGroupDetailsComponent', () => {
       declarations: [UserGroupDetailsComponent],
       providers: [
         {
-          provide: OrganizationItemService,
+          provide: ItemService,
           useClass: MockUserGroupItemService,
         },
       ],
@@ -61,7 +60,7 @@ describe('UserGroupDetailsComponent', () => {
       })
       .compileComponents();
 
-    itemService = TestBed.inject(OrganizationItemService);
+    itemService = TestBed.inject(ItemService);
 
     fixture = TestBed.createComponent(UserGroupDetailsComponent);
     component = fixture.componentInstance;

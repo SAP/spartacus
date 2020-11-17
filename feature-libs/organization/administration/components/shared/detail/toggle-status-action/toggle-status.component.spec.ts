@@ -9,7 +9,7 @@ import {
 } from '@spartacus/organization/administration/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of, Subject } from 'rxjs';
-import { OrganizationItemService } from '../../organization-item.service';
+import { ItemService } from '../../item.service';
 import { ConfirmationMessageData } from '../../message/confirmation/confirmation-message.model';
 import { MessageService } from '../../message/services/message.service';
 import { ToggleStatusComponent } from './toggle-status.component';
@@ -22,7 +22,7 @@ class MockMessageService {
   close() {}
 }
 
-class MockOrganizationItemService {
+class MockItemService {
   current$ = of();
   update() {
     return of();
@@ -32,7 +32,7 @@ class MockOrganizationItemService {
 describe('ToggleStatusComponent', () => {
   let component: ToggleStatusComponent<Budget>;
   let fixture: ComponentFixture<ToggleStatusComponent<Budget>>;
-  let organizationItemService: OrganizationItemService<Budget>;
+  let organizationItemService: ItemService<Budget>;
   let messageService: MessageService;
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -50,8 +50,8 @@ describe('ToggleStatusComponent', () => {
           useClass: MockMessageService,
         },
         {
-          provide: OrganizationItemService,
-          useClass: MockOrganizationItemService,
+          provide: ItemService,
+          useClass: MockItemService,
         },
       ],
     }).compileComponents();
@@ -96,7 +96,7 @@ describe('ToggleStatusComponent', () => {
 
   describe('toggle inactive items', () => {
     beforeEach(() => {
-      organizationItemService = TestBed.inject(OrganizationItemService);
+      organizationItemService = TestBed.inject(ItemService);
       messageService = TestBed.inject(MessageService);
     });
 
@@ -145,7 +145,7 @@ describe('ToggleStatusComponent', () => {
 
   describe('toggle active items', () => {
     beforeEach(() => {
-      organizationItemService = TestBed.inject(OrganizationItemService);
+      organizationItemService = TestBed.inject(ItemService);
       messageService = TestBed.inject(MessageService);
 
       spyOn(organizationItemService, 'update').and.returnValue(of());

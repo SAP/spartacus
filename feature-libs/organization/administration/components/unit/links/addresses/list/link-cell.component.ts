@@ -4,7 +4,7 @@ import {
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
-import { OrganizationItemService } from '../../../../shared/organization-item.service';
+import { ItemService } from '../../../../shared/item.service';
 import { CellComponent } from '../../../../shared/table/cell.component';
 
 @Component({
@@ -30,7 +30,7 @@ export class LinkCellComponent extends CellComponent {
   unitKey$ = this.itemService.key$;
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
-    protected itemService: OrganizationItemService<B2BUnit>
+    protected itemService: ItemService<B2BUnit>
   ) {
     super(outlet);
   }

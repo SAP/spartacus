@@ -13,7 +13,7 @@ import { KeyboardFocusTestingModule } from 'projects/storefrontlib/src/layout/a1
 import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { OrganizationItemService } from '../organization-item.service';
+import { ItemService } from '../item.service';
 import { ListComponent } from './list.component';
 import { ListService } from './list.service';
 import createSpy = jasmine.createSpy;
@@ -62,7 +62,7 @@ class MockBaseListService {
   }
 }
 
-class MockOrganizationItemService {
+class MockItemService {
   key$ = of();
   launchDetails = createSpy('launchDetails');
 }
@@ -86,7 +86,7 @@ class MockTableComponent {
 class MockListComponent extends ListComponent<Mock> {
   constructor(
     protected baseListService: ListService<Mock>,
-    protected organizationItemService: OrganizationItemService<Mock>
+    protected organizationItemService: ItemService<Mock>
   ) {
     super(baseListService, organizationItemService);
   }
@@ -96,7 +96,7 @@ describe('ListComponent', () => {
   let component: MockListComponent;
   let fixture: ComponentFixture<MockListComponent>;
   let service: ListService<Mock>;
-  let itemService: OrganizationItemService<any>;
+  let itemService: ItemService<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -119,14 +119,14 @@ describe('ListComponent', () => {
           useClass: MockBaseListService,
         },
         {
-          provide: OrganizationItemService,
-          useClass: MockOrganizationItemService,
+          provide: ItemService,
+          useClass: MockItemService,
         },
       ],
     }).compileComponents();
 
     service = TestBed.inject(ListService);
-    itemService = TestBed.inject(OrganizationItemService);
+    itemService = TestBed.inject(ItemService);
   });
 
   describe('with table data', () => {

@@ -7,7 +7,7 @@ import {
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Subject, Subscription } from 'rxjs';
 import { filter, first, take } from 'rxjs/operators';
-import { OrganizationItemService } from '../../organization-item.service';
+import { ItemService } from '../../item.service';
 import { ConfirmationMessageComponent } from '../../message/confirmation/confirmation-message.component';
 import { ConfirmationMessageData } from '../../message/confirmation/confirmation-message.model';
 import { MessageService } from '../../message/services/message.service';
@@ -52,7 +52,7 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   protected confirmation: Subject<ConfirmationMessageData>;
 
   constructor(
-    protected itemService: OrganizationItemService<T>,
+    protected itemService: ItemService<T>,
     protected messageService: MessageService<ConfirmationMessageData>
   ) {}
 

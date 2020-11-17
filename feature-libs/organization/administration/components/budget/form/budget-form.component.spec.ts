@@ -36,7 +36,7 @@ class MockCurrencyService {
   getAll() {}
 }
 
-class MockOrganizationItemService {
+class MockItemService {
   getForm() {}
 }
 
@@ -60,7 +60,7 @@ describe('BudgetFormComponent', () => {
       providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
-        { provide: BudgetItemService, useClass: MockOrganizationItemService },
+        { provide: BudgetItemService, useClass: MockItemService },
       ],
     }).compileComponents();
 

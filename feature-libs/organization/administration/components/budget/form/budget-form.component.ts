@@ -7,8 +7,8 @@ import {
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
-import { CurrentOrganizationItemService } from '../../shared/current-organization-item.service';
-import { OrganizationItemService } from '../../shared/organization-item.service';
+import { CurrentItemService } from '../../shared/current-item.service';
+import { ItemService } from '../../shared/item.service';
 import { BudgetItemService } from '../services/budget-item.service';
 import { CurrentBudgetService } from '../services/current-budget.service';
 
@@ -19,11 +19,11 @@ import { CurrentBudgetService } from '../services/current-budget.service';
   host: { class: 'content-wrapper' },
   providers: [
     {
-      provide: OrganizationItemService,
+      provide: ItemService,
       useExisting: BudgetItemService,
     },
     {
-      provide: CurrentOrganizationItemService,
+      provide: CurrentItemService,
       useExisting: CurrentBudgetService,
     },
   ],
@@ -35,7 +35,7 @@ export class BudgetFormComponent implements OnInit {
   currencies$: Observable<Currency[]> = this.currencyService.getAll();
 
   constructor(
-    protected itemService: OrganizationItemService<Budget>,
+    protected itemService: ItemService<Budget>,
     protected unitService: OrgUnitService,
     protected currencyService: CurrencyService
   ) {}

@@ -8,7 +8,7 @@ import { EventEmitter } from 'events';
 import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { of } from 'rxjs';
 import { CardTestingModule } from '../card/card.testing.module';
-import { OrganizationItemService } from '../organization-item.service';
+import { ItemService } from '../item.service';
 import { ListService } from '../list/list.service';
 import { MessageTestingModule } from '../message/message.testing.module';
 import { SubListComponent } from './sub-list.component';
@@ -60,7 +60,7 @@ class MockBaseListService {
   }
 }
 
-class MockOrganizationItemService {
+class MockItemService {
   key$ = of('key');
   launchDetails = createSpy('launchDetails');
 }
@@ -88,8 +88,8 @@ describe('SubListComponent', () => {
           useClass: MockBaseListService,
         },
         {
-          provide: OrganizationItemService,
-          useClass: MockOrganizationItemService,
+          provide: ItemService,
+          useClass: MockItemService,
         },
       ],
     }).compileComponents();

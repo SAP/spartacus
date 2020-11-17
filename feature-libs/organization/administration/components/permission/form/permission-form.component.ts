@@ -13,8 +13,8 @@ import {
   PermissionService,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
-import { CurrentOrganizationItemService } from '../../shared/current-organization-item.service';
-import { OrganizationItemService } from '../../shared/organization-item.service';
+import { CurrentItemService } from '../../shared/current-item.service';
+import { ItemService } from '../../shared/item.service';
 import { CurrentPermissionService } from '../services/current-permission.service';
 import { PermissionItemService } from '../services/permission-item.service';
 
@@ -25,11 +25,11 @@ import { PermissionItemService } from '../services/permission-item.service';
   host: { class: 'content-wrapper' },
   providers: [
     {
-      provide: OrganizationItemService,
+      provide: ItemService,
       useExisting: PermissionItemService,
     },
     {
-      provide: CurrentOrganizationItemService,
+      provide: CurrentItemService,
       useExisting: CurrentPermissionService,
     },
   ],
@@ -45,7 +45,7 @@ export class PermissionFormComponent implements OnInit {
   periods = Object.keys(Period);
 
   constructor(
-    protected itemService: OrganizationItemService<Permission>,
+    protected itemService: ItemService<Permission>,
     protected unitService: OrgUnitService,
     protected currencyService: CurrencyService,
     protected permissionService: PermissionService

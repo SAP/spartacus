@@ -5,7 +5,7 @@ import { OrganizationItemStatus } from '@spartacus/organization/administration/c
 import { FormUtils } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { CurrentOrganizationItemService } from './current-organization-item.service';
+import { CurrentItemService } from './current-item.service';
 import { FormService } from './form/form.service';
 
 /**
@@ -15,9 +15,9 @@ import { FormService } from './form/form.service';
  * component implementation.
  */
 @Injectable()
-export abstract class OrganizationItemService<T> {
+export abstract class ItemService<T> {
   constructor(
-    protected currentItemService: CurrentOrganizationItemService<T>,
+    protected currentItemService: CurrentItemService<T>,
     protected routingService: RoutingService,
     protected formService: FormService<T>
   ) {}

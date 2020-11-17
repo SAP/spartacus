@@ -8,7 +8,7 @@ import {
   LoadStatus,
   OrganizationItemStatus,
 } from '@spartacus/organization/administration/core';
-import { OrganizationItemService } from '../organization-item.service';
+import { ItemService } from '../item.service';
 import { ListService } from '../list/list.service';
 import { MessageService } from '../message/services/message.service';
 import { SubListService } from './/organization-sub-list.service';
@@ -27,7 +27,7 @@ import { Observable } from 'rxjs';
 export class AssignCellComponent<T> extends CellComponent {
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
-    protected organizationItemService: OrganizationItemService<T>,
+    protected organizationItemService: ItemService<T>,
     protected messageService: MessageService,
     protected organizationSubListService: ListService<T>
   ) {

@@ -4,7 +4,7 @@ import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { filter, first, map, switchMap, take } from 'rxjs/operators';
 import { CardComponent } from '../card/card.component';
-import { OrganizationItemService } from '../organization-item.service';
+import { ItemService } from '../item.service';
 import { MessageService } from '../message/services/message.service';
 
 /**
@@ -43,7 +43,7 @@ export class FormComponent<T> {
   );
 
   constructor(
-    protected itemService: OrganizationItemService<T>,
+    protected itemService: ItemService<T>,
     protected messageService: MessageService
   ) {}
 

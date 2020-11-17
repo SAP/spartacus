@@ -5,14 +5,14 @@ import {
   OrganizationItemStatus,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
-import { OrganizationItemService } from '../../shared/organization-item.service';
+import { ItemService } from '../../shared/item.service';
 import { CostCenterFormService } from '../form/cost-center-form.service';
 import { CurrentCostCenterService } from './current-cost-center.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CostCenterItemService extends OrganizationItemService<CostCenter> {
+export class CostCenterItemService extends ItemService<CostCenter> {
   constructor(
     protected currentItemService: CurrentCostCenterService,
     protected routingService: RoutingService,

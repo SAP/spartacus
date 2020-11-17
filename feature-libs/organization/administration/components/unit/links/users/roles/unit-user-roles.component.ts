@@ -7,7 +7,7 @@ import {
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
-import { OrganizationItemService } from '../../../../shared/organization-item.service';
+import { ItemService } from '../../../../shared/item.service';
 import { MessageService } from '../../../../shared/message/services/message.service';
 import { UnitUserRolesFormService } from './unit-user-roles-form.service';
 import { UnitUserRolesItemService } from './unit-user-roles-item.service';
@@ -20,7 +20,7 @@ import { UserItemService } from '../../../../user/services/user-item.service';
   host: { class: 'content-wrapper' },
   providers: [
     {
-      provide: OrganizationItemService,
+      provide: ItemService,
       useExisting: UnitUserRolesItemService,
     },
   ],
@@ -46,7 +46,7 @@ export class UnitUserRolesFormComponent {
   availableRoles: B2BUserRole[] = this.userService.getAllRoles();
 
   constructor(
-    protected itemService: OrganizationItemService<B2BUser>,
+    protected itemService: ItemService<B2BUser>,
     protected formService: UnitUserRolesFormService,
     protected userService: B2BUserService,
     protected userItemService: UserItemService

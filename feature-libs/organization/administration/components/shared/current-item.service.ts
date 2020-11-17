@@ -10,7 +10,7 @@ import { ROUTE_PARAMS } from '../constants';
  * data model.
  */
 @Injectable()
-export abstract class CurrentOrganizationItemService<T> {
+export abstract class CurrentItemService<T> {
   constructor(protected routingService: RoutingService) {}
 
   /**

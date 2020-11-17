@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { B2BUser } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
-import { OrganizationItemService } from '../../shared/organization-item.service';
+import { ItemService } from '../../shared/item.service';
 import { UserItemService } from '../services/user-item.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { UserItemService } from '../services/user-item.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
-      provide: OrganizationItemService,
+      provide: ItemService,
       useExisting: UserItemService,
     },
   ],
@@ -24,5 +24,5 @@ export class UserDetailsComponent {
     startWith({})
   );
 
-  constructor(protected itemService: OrganizationItemService<B2BUser>) {}
+  constructor(protected itemService: ItemService<B2BUser>) {}
 }

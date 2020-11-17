@@ -7,14 +7,14 @@ import { SplitViewService } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { ViewComponent } from 'projects/storefrontlib/src/shared/components/split-view/view/view.component';
 import { of } from 'rxjs';
-import { OrganizationItemService } from '../organization-item.service';
+import { ItemService } from '../item.service';
 import { MessageTestingModule } from '../message/message.testing.module';
 import { CardComponent } from './card.component';
 import createSpy = jasmine.createSpy;
 
 const mockItem = { foo: 'bar' };
 
-class MockOrganizationItemService {
+class MockItemService {
   key$ = of('key');
   current$ = of(mockItem);
   launchDetails = createSpy('launchDetails');
@@ -37,8 +37,8 @@ describe('CardComponent', () => {
       declarations: [CardComponent, ViewComponent],
       providers: [
         {
-          provide: OrganizationItemService,
-          useClass: MockOrganizationItemService,
+          provide: ItemService,
+          useClass: MockItemService,
         },
         SplitViewService,
       ],

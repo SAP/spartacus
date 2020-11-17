@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { ViewComponent } from '@spartacus/storefront';
 import { tap } from 'rxjs/operators';
-import { OrganizationItemService } from '../organization-item.service';
+import { ItemService } from '../item.service';
 import { MessageService } from '../message/services/message.service';
 import { BaseItem } from '../organization.model';
 
@@ -30,7 +30,7 @@ export class CardComponent<T extends BaseItem> {
   @ViewChild(ViewComponent, { read: ViewComponent }) view: ViewComponent;
 
   constructor(
-    protected itemService: OrganizationItemService<T>,
+    protected itemService: ItemService<T>,
     protected messageService: MessageService
   ) {}
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RoutingService } from '@spartacus/core';
 import { Observable, of, Subject } from 'rxjs';
-import { CurrentOrganizationItemService } from './current-organization-item.service';
+import { CurrentItemService } from './current-item.service';
 
 const mockCode = 'code1';
 const PARAM = 'myParam';
@@ -23,7 +23,7 @@ interface Mock {
 }
 
 @Injectable({ providedIn: 'root' })
-class MockCurrentService extends CurrentOrganizationItemService<Mock> {
+class MockCurrentService extends CurrentItemService<Mock> {
   getParamKey(): string {
     return PARAM;
   }
@@ -38,7 +38,7 @@ class MockCurrentService extends CurrentOrganizationItemService<Mock> {
   }
 }
 
-describe('CurrentOrganizationItemService', () => {
+describe('CurrentItemService', () => {
   let service: MockCurrentService;
 
   beforeEach(() => {

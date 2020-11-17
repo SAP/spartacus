@@ -4,7 +4,7 @@ import { I18nTestingModule } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Observable, of } from 'rxjs';
-import { OrganizationItemService } from '../organization-item.service';
+import { ItemService } from '../item.service';
 import { ListService } from '../list/list.service';
 import { MessageService } from '../message/services/message.service';
 import { AssignCellComponent } from './assign-cell.component';
@@ -14,7 +14,7 @@ import {
   OrganizationItemStatus,
 } from '@spartacus/organization/administration/core';
 
-class MockOrganizationItemService {
+class MockItemService {
   key$ = of('code1');
 }
 
@@ -52,8 +52,8 @@ describe('AssignCellComponent', () => {
           },
         },
         {
-          provide: OrganizationItemService,
-          useClass: MockOrganizationItemService,
+          provide: ItemService,
+          useClass: MockItemService,
         },
         {
           provide: MessageService,

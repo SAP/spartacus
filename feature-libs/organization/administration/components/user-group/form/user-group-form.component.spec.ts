@@ -26,7 +26,7 @@ class MockOrgUnitService {
   loadList() {}
 }
 
-class MockOrganizationItemService {
+class MockItemService {
   getForm() {}
 }
 
@@ -49,7 +49,7 @@ describe('UserGroupFormComponent', () => {
         { provide: OrgUnitService, useClass: MockOrgUnitService },
         {
           provide: UserGroupItemService,
-          useClass: MockOrganizationItemService,
+          useClass: MockItemService,
         },
       ],
     }).compileComponents();
