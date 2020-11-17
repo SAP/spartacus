@@ -13,7 +13,7 @@ import {
  * Usage:
  * 1. Instantiate the class with desired options
  * 2. Call request() to run request through engine
- * 3. Examine renderings for the renders
+ * 3. Examine renderings property for the renders
  */
 class TestEngineRunner {
   /** Accumulates html output for engine runs */
@@ -64,14 +64,12 @@ describe('OptimizedSsrEngine', () => {
   describe('timeout option', () => {
     it('should fallback to csr if rendering exceeds timeout', fakeAsync(() => {
       const engineRunner = new TestEngineRunner({ timeout: 50 }).request('a');
-
       tick(200);
       expect(engineRunner.renderings).toEqual(['']);
     }));
 
     it('should return timed out render in the followup request', fakeAsync(() => {
       const engineRunner = new TestEngineRunner({ timeout: 50 }).request('a');
-
       tick(200);
       expect(engineRunner.renderings).toEqual(['']);
 
@@ -81,14 +79,12 @@ describe('OptimizedSsrEngine', () => {
 
     it('should return render if rendering meets timeout', fakeAsync(() => {
       const engineRunner = new TestEngineRunner({ timeout: 150 }).request('a');
-
       tick(200);
       expect(engineRunner.renderings).toEqual(['a-0']);
     }));
 
     it('should fallback instantly if is set to 0', () => {
       const engineRunner = new TestEngineRunner({ timeout: 0 }).request('a');
-
       expect(engineRunner.renderings).toEqual(['']);
     });
   });
@@ -96,7 +92,6 @@ describe('OptimizedSsrEngine', () => {
   describe('no-store cache controll header', () => {
     it('should be applied for a fallback', () => {
       const engineRunner = new TestEngineRunner({ timeout: 0 }).request('a');
-
       expect(engineRunner.renderings).toEqual(['']);
       expect(engineRunner.responseParams).toEqual([
         { 'Cache-Control': 'no-store' },
@@ -105,7 +100,6 @@ describe('OptimizedSsrEngine', () => {
 
     it('should not be applied for a render within time limit', fakeAsync(() => {
       const engineRunner = new TestEngineRunner({ timeout: 200 }).request('a');
-
       tick(200);
       expect(engineRunner.renderings).toEqual(['a-0']);
       expect(engineRunner.responseParams).toEqual([{}]);
