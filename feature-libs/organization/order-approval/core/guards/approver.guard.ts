@@ -22,7 +22,6 @@ export class ApproverGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
-    console.log('--> Approver guard');
     return this.userService.get().pipe(
       filter((user: User) => Object.keys(user).length > 0),
       pluck('roles'),

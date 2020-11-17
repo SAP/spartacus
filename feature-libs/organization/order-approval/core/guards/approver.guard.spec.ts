@@ -12,8 +12,6 @@ import { ApproverGuard } from './approver.guard';
 import createSpy = jasmine.createSpy;
 
 const mockUserDetails: User = {
-  firstName: 'test',
-  lastName: 'testLast',
   roles: [],
 };
 
