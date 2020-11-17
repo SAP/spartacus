@@ -54,7 +54,7 @@ export class OptimizedSsrEngine {
 
   protected shouldRender(request: Request): boolean {
     const concurrencyLimitExceed = this.ssrOptions?.concurrency
-      ? this.currentConcurrency > this.ssrOptions.concurrency
+      ? this.currentConcurrency >= this.ssrOptions.concurrency
       : false;
 
     return (
