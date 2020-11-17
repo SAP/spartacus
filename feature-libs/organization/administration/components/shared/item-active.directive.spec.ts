@@ -114,10 +114,6 @@ describe('ItemActiveDirective', () => {
     it('should not call message service', () => {
       expect(messageService.add).not.toHaveBeenCalled();
     });
-
-    it('should not disable the form', () => {
-      expect(component.form.status).toEqual('VALID');
-    });
   });
 
   describe('when item is not active', () => {
@@ -127,10 +123,6 @@ describe('ItemActiveDirective', () => {
 
     it('should call message service', () => {
       expect(messageService.add).toHaveBeenCalledWith(expectedMessage);
-    });
-
-    it('should disable the form', () => {
-      expect(component.form.status).toEqual('DISABLED');
     });
   });
 
