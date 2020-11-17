@@ -49,7 +49,7 @@ export function scanTablePagesForText(
   cy.get('cx-table').then(($table) => {
     // For table in tree mode expand all elements first and find editable one.
     if (config.nestedTableRows) {
-      cy.get('cx-organization-list div.header button')
+      cy.get('cx-org-list div.header button')
         .contains('Expand all')
         .click();
     }
