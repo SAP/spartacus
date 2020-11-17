@@ -17,7 +17,7 @@ const mockContext: TableDataOutletContext = {
   code: 'my code',
 };
 
-describe('OrganizationLinkComponent', () => {
+describe('OrganizationCellComponent', () => {
   let component: CellComponent;
   let fixture: ComponentFixture<CellComponent>;
 
