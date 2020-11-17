@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CartModification } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product/configurators/common';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RulebasedConfiguratorAdapter } from '../core/connectors/rulebased-configurator.adapter';
 import { Configurator } from '../core/model/configurator.model';
@@ -13,6 +13,7 @@ export class CpqConfiguratorRestAdapter
   implements RulebasedConfiguratorAdapter {
   constructor(
     protected cpqAccessStorageService: CpqAccessStorageService,
+    protected cpqAcpqConfiguratorRestService: CpqConfiguratorRestService,
     protected cpqService: CpqConfiguratorRestService
   ) {}
 
@@ -23,15 +24,17 @@ export class CpqConfiguratorRestAdapter
   createConfiguration(
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
-    return this.cpqAccessStorageService.getCachedCpqAccessData().pipe(
-      map((accessData) => {
-        const config: Configurator.Configuration = {
-          configId: accessData.accessToken,
-          owner: owner,
-        };
-        return config;
-      })
-    );
+    return this.cpqAcpqConfiguratorRestService
+      .createConfiguration(owner.id)
+      .pipe(
+        map((configResonse) => {
+          const config: Configurator.Configuration = {
+            configId: configResonse.configId,
+            owner: owner,
+          };
+          return config;
+        })
+      );
   }
 
   readConfiguration(): Observable<Configurator.Configuration> {
@@ -58,8 +61,10 @@ export class CpqConfiguratorRestAdapter
     return undefined;
   }
 
-  readPriceSummary(): Observable<Configurator.Configuration> {
-    return undefined;
+  readPriceSummary(
+    configuration: Configurator.Configuration
+  ): Observable<Configurator.Configuration> {
+    return of(configuration);
   }
 
   getConfigurationOverview(): Observable<Configurator.Overview> {
