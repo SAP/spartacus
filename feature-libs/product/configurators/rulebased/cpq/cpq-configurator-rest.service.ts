@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { switchMap, take } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { CpqAccessStorageService } from '../occ/cpq/cpq-access-storage.service';
 import { Cpq } from './cpq.models';
 
@@ -28,8 +28,7 @@ export class CpqConfiguratorRestService {
             },
           }
         );
-      }),
-      take(1)
+      })
     );
   }
 }

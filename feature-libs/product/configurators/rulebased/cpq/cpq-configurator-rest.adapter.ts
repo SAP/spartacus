@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CartModification } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { delay, map } from 'rxjs/operators';
 import { RulebasedConfiguratorAdapter } from '../core/connectors/rulebased-configurator.adapter';
 import { Configurator } from '../core/model/configurator.model';
 import { CpqAccessStorageService } from '../occ/cpq/cpq-access-storage.service';
@@ -29,7 +29,7 @@ export class CpqConfiguratorRestAdapter
       .pipe(
         map((configResonse) => {
           const config: Configurator.Configuration = {
-            configId: configResonse.configId,
+            configId: configResonse.configurationId,
             owner: owner,
           };
           return config;
@@ -73,7 +73,7 @@ export class CpqConfiguratorRestAdapter
   readPriceSummary(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
-    return of(configuration);
+    return of(configuration).pipe(delay(1000));
   }
 
   getConfigurationOverview(): Observable<Configurator.Overview> {
