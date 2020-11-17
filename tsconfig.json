@@ -67,9 +67,13 @@
       "@spartacus/product/configurators/textfield": [
         "feature-libs/product/configurators/textfield/public_api"
       ],
+      "@spartacus/storefinder": ["feature-libs/storefinder/public_api"],
+      "@spartacus/storefinder/root": ["feature-libs/storefinder/root/public_api"],
+      "@spartacus/storefinder/core": ["feature-libs/storefinder/core/public_api"],
+      "@spartacus/storefinder/occ": ["feature-libs/storefinder/occ/public_api"],
+      "@spartacus/storefinder/components": ["feature-libs/storefinder/components/public_api"],
       "@spartacus/cdc": ["integration-libs/cdc/public_api"],
       "@spartacus/setup": ["core-libs/setup/public_api"],
-      "@spartacus/storefinder": ["feature-libs/storefinder/public_api"]
     }
   },
   "exclude": ["./dist", "./projects/storefrontapp-e2e-cypress"]

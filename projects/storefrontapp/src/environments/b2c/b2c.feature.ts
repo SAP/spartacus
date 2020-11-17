@@ -1,5 +1,6 @@
 import { B2cStorefrontModule } from '@spartacus/storefront';
 import { FeatureEnvironment } from '../models/feature.model';
+import { StoreFinderRootModule } from '@spartacus/storefinder/root';
 
 export const b2cFeature: FeatureEnvironment = {
   imports: [
@@ -19,6 +20,14 @@ export const b2cFeature: FeatureEnvironment = {
           enabled: true,
         },
       },
+
+      featureModules: {
+        storeFinder: {
+          module: () =>
+            import('@spartacus/storefinder').then((m) => m.StoreFinderModule),
+        },
+      },
     }),
+    StoreFinderRootModule,
   ],
 };

@@ -50,6 +50,10 @@
         "dist/product/configurators/textfield"
       ],
       "@spartacus/storefinder": ["dist/storefinder"],
+      "@spartacus/storefinder/root": ["dist/storefinder/root"],
+      "@spartacus/storefinder/core": ["dist/storefinder/core"],
+      "@spartacus/storefinder/occ": ["dist/storefinder/occ"],
+      "@spartacus/storefinder/components": ["dist/storefinder/components"],
       "@spartacus/cdc": ["dist/cdc"],
       "@spartacus/setup": ["dist/setup"]
     }
