@@ -8,38 +8,37 @@ export interface RenderingEntry {
 }
 
 export class RenderingCache {
-  protected renderings: {
+  protected renders: {
     [requestKey: string]: RenderingEntry;
   } = {};
 
   constructor(private options?: SsrOptimizationOptions) {}
 
   setAsRendering(key: string) {
-    this.renderings[key] = { rendering: true };
+    this.renders[key] = { rendering: true };
   }
 
   isRendering(key: string): boolean {
-    return !!this.renderings[key]?.rendering;
+    return !!this.renders[key]?.rendering;
   }
 
   store(key: string, err?: Error | null, html?: string) {
-    this.renderings[key] = { err, html };
+    this.renders[key] = { err, html };
     if (this.options?.ttl) {
-      this.renderings[key].time = Date.now();
+      this.renders[key].time = Date.now();
     }
   }
 
   get(key: string): RenderingEntry {
-    return this.renderings[key];
+    return this.renders[key];
   }
 
   clear(key: string) {
-    delete this.renderings[key];
+    delete this.renders[key];
   }
 
   isReady(key: string): boolean {
-    const isRenderPresent =
-      this.renderings[key]?.html || this.renderings[key]?.err;
+    const isRenderPresent = this.renders[key]?.html || this.renders[key]?.err;
     return isRenderPresent && this.isFresh(key);
   }
 
@@ -48,6 +47,6 @@ export class RenderingCache {
       return true;
     }
 
-    return Date.now() - (this.renderings[key]?.time ?? 0) < this.options?.ttl;
+    return Date.now() - (this.renders[key]?.time ?? 0) < this.options?.ttl;
   }
 }

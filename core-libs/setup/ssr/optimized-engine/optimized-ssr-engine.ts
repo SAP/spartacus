@@ -158,7 +158,9 @@ export class OptimizedSsrEngine {
     let doc = this.templateCache.get(filePath);
 
     if (!doc) {
-      doc = fs.readFileSync ? fs.readFileSync(filePath, 'utf-8') : '';
+      // fs.readFileSync could be missing in a browser, specifically
+      // in a unit tests with { node: { fs: 'empty' } } webpack configuration
+      doc = fs?.readFileSync ? fs.readFileSync(filePath, 'utf-8') : '';
       this.templateCache.set(filePath, doc);
     }
 
