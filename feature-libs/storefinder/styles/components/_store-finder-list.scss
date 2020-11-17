@@ -40,7 +40,8 @@
     }
   }
   .cx-list {
-    @include type('6');
+    font-size: var(--cx-font-size, 1rem);
+    font-weight: var(--cx-font-weight-semi);
     list-style: none;
     padding: inherit inherit inherit 0;
   }
@@ -79,7 +80,8 @@
   }
 
   .cx-not-found {
-    @include type('4');
+    font-size: var(--cx-font-size, 1.125rem);
+    font-weight: var(--cx-font-weight-bold);
     text-align: center;
     padding: 3rem 0;
   }

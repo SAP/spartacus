@@ -30,7 +30,9 @@
     padding-bottom: 1.5rem;
     padding-inline-start: 1.5rem;
     margin: 0 auto;
-    @include type('4');
+
+    font-size: var(--cx-font-size, 1.125rem);
+    font-weight: var(--cx-font-weight-bold);
     color: var(--cx-color-secondary);
   }
 
@@ -39,12 +41,14 @@
   }
 
   .cx-name {
-    @include type('4');
+    font-size: var(--cx-font-size, 1.125rem);
+    font-weight: var(--cx-font-weight-bold);
     padding-inline-end: 0.5rem;
   }
 
   .cx-country-count {
-    @include type('4');
+    font-size: var(--cx-font-size, 1.125rem);
+    font-weight: var(--cx-font-weight-bold);
     font-weight: normal;
   }
 
@@ -71,12 +75,14 @@
     padding-inline-end: 0.5rem;
     padding-bottom: 0.5rem;
     padding-inline-start: 0.2rem;
-    @include type('7');
+    font-size: var(--cx-font-size, 0.875rem);
+    font-weight: var(--cx-font-weight-normal);
     line-height: normal;
   }
 
   .cx-item-count {
-    @include type('7');
+    font-size: var(--cx-font-size, 0.875rem);
+    font-weight: var(--cx-font-weight-normal);
   }
 
   .cx-count-spinner {

@@ -19,11 +19,12 @@
   }
 
   .cx-store-name {
-    @include type('6');
+    font-size: var(--cx-font-size, 1rem);
+    font-weight: var(--cx-font-weight-semi);
     cursor: default;
     min-height: 40px;
     button {
-      @include button-reset();
+      all: unset;
       color: var(--cx-color-primary);
       font-weight: var(--cx-font-weight-semi);
       &:focus {
@@ -42,7 +43,8 @@
     }
   }
   .cx-store-address {
-    @include type('7');
+    font-size: var(--cx-font-size, 0.875rem);
+    font-weight: var(--cx-font-weight-normal);
   }
   .cx-store-address-street {
     white-space: nowrap;
@@ -54,15 +56,18 @@
     }
   }
   .cx-store-open {
-    @include type('8');
+    font-size: var(--cx-font-size, 0.875rem);
+    font-weight: var(--cx-font-weight-bold);
     color: var(--cx-color-success);
   }
   .cx-store-closed {
-    @include type('8');
+    font-size: var(--cx-font-size, 0.875rem);
+    font-weight: var(--cx-font-weight-bold);
     color: var(--cx-color-danger);
   }
   .cx-store-distance {
-    @include type('8');
+    font-size: var(--cx-font-size, 0.875rem);
+    font-weight: var(--cx-font-weight-bold);
     margin: 1rem 0;
   }
   .cx-button {
