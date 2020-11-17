@@ -63,6 +63,12 @@ describe('RenderingCache', () => {
       expect(renderingCache.isReady('test')).toBeTrue();
     });
   });
+
+  describe('isFresh', () => {
+    it('should return true if ttl is not set', () => {
+      expect(renderingCache.isFresh('test')).toBeTruthy();
+    });
+  });
 });
 
 describe('RenderingCache with ttl', () => {
@@ -76,6 +82,32 @@ describe('RenderingCache with ttl', () => {
     it('should return timestamp', () => {
       renderingCache.store('test', null, 'testHtml');
       expect(renderingCache.get('test').time).toBeTruthy();
+    });
+  });
+
+  describe('isFresh', () => {
+    let mockedTime: number;
+
+    beforeEach(() => {
+      mockedTime = 100;
+      spyOn(Date, 'now').and.callFake(() => mockedTime);
+    });
+
+    it('should return false for non-existent renders', () => {
+      expect(renderingCache.isFresh('test')).toBeFalsy();
+    });
+
+    it('should return true if render is in ttl range', () => {
+      renderingCache.store('test', null, 'testHtml');
+      expect(renderingCache.isFresh('test')).toBeTruthy();
+      mockedTime = +50;
+      expect(renderingCache.isFresh('test')).toBeTruthy();
+    });
+
+    it('should return false if render is outdated', () => {
+      renderingCache.store('test', null, 'testHtml');
+      mockedTime = +200;
+      expect(renderingCache.isFresh('test')).toBeFalsy();
     });
   });
 });
