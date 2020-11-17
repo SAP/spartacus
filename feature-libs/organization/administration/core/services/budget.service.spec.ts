@@ -1,9 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { ofType } from '@ngrx/effects';
-import { ActionsSubject, Store, StoreModule } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { EntitiesModel, SearchConfig, UserIdService } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
-import { take } from 'rxjs/operators';
 import { Budget } from '../model/budget.model';
 import {
   LoadStatus,
@@ -39,7 +37,6 @@ describe('BudgetService', () => {
   let service: BudgetService;
   let userIdService: UserIdService;
   let store: Store<StateWithOrganization>;
-  let actions$: ActionsSubject;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -60,8 +57,6 @@ describe('BudgetService', () => {
     service = TestBed.inject(BudgetService);
     userIdService = TestBed.inject(UserIdService);
     spyOn(store, 'dispatch').and.callThrough();
-
-    actions$ = TestBed.inject(ActionsSubject);
   });
 
   it('should BudgetService is injected', inject(
@@ -72,20 +67,6 @@ describe('BudgetService', () => {
   ));
 
   describe('get budget', () => {
-    it('get() should trigger load budget details when they are not present in the store', (done) => {
-      const sub = service.get(budgetCode).subscribe();
-
-      actions$
-        .pipe(ofType(BudgetActions.LOAD_BUDGET), take(1))
-        .subscribe((action) => {
-          expect(action).toEqual(
-            new BudgetActions.LoadBudget({ userId, budgetCode })
-          );
-          sub.unsubscribe();
-          done();
-        });
-    });
-
     it('get() should be able to get budget details when they are present in the store', () => {
       store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
       let budgetDetails: Budget;

@@ -1,5 +1,4 @@
-import { Directive, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Directive, OnDestroy, OnInit } from '@angular/core';
 import { GlobalMessageType } from '@spartacus/core';
 import { tap } from 'rxjs/operators';
 import { OrganizationItemService } from './organization-item.service';
@@ -11,8 +10,6 @@ import { BaseItem } from './organization.model';
 })
 export class ItemActiveDirective<T = BaseItem> implements OnInit, OnDestroy {
   protected subscription;
-
-  @Input('cxOrgItemActive') form: FormGroup;
 
   constructor(
     protected itemService: OrganizationItemService<T>,
@@ -32,7 +29,7 @@ export class ItemActiveDirective<T = BaseItem> implements OnInit, OnDestroy {
   }
 
   protected handleDisabledItems(item: BaseItem) {
-    if (item?.active === false && this.form) {
+    if (item?.active === false) {
       this.messageService.add({
         message: {
           key: 'organization.notification.disabled',

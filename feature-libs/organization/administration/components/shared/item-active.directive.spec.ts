@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormGroup } from '@angular/forms';
 import { of } from 'rxjs/internal/observable/of';
 import { Subject } from 'rxjs/internal/Subject';
 import { ItemActiveDirective } from './item-active.directive';
@@ -13,11 +12,9 @@ const mockCode = 'mc1';
 
 @Component({
   selector: 'cx-host',
-  template: `<div [cxOrgItemActive]="form">TEST</div>`,
+  template: `<div cxOrgItemActive>TEST</div>`,
 })
-class TestFormComponent {
-  form: FormGroup = new FormGroup({});
-}
+class TestComponent {}
 
 class MockMessageService {
   add = createSpy('add').and.returnValue(new Subject());
@@ -55,13 +52,13 @@ const expectedMessage = {
 };
 
 describe('ItemActiveDirective', () => {
-  let component: TestFormComponent;
-  let fixture: ComponentFixture<TestFormComponent>;
+  let component: TestComponent;
+  let fixture: ComponentFixture<TestComponent>;
   let messageService: MessageService;
 
   function configureTestingModule(itemService) {
     TestBed.configureTestingModule({
-      declarations: [ItemActiveDirective, TestFormComponent],
+      declarations: [ItemActiveDirective, TestComponent],
       providers: [
         {
           provide: OrganizationItemService,
@@ -75,7 +72,7 @@ describe('ItemActiveDirective', () => {
     }).compileComponents();
 
     messageService = TestBed.inject(MessageService);
-    fixture = TestBed.createComponent(TestFormComponent);
+    fixture = TestBed.createComponent(TestComponent);
 
     fixture.detectChanges();
     component = fixture.componentInstance;
