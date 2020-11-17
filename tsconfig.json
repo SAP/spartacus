@@ -72,6 +72,7 @@
       "@spartacus/storefinder/core": ["feature-libs/storefinder/core/public_api"],
       "@spartacus/storefinder/occ": ["feature-libs/storefinder/occ/public_api"],
       "@spartacus/storefinder/components": ["feature-libs/storefinder/components/public_api"],
+      "@spartacus/storefinder/assets": ["feature-libs/storefinder/assets/public_api"],
       "@spartacus/cdc": ["integration-libs/cdc/public_api"],
       "@spartacus/setup": ["core-libs/setup/public_api"],
     }

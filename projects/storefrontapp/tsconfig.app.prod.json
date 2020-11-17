@@ -54,6 +54,7 @@
       "@spartacus/storefinder/core": ["dist/storefinder/core"],
       "@spartacus/storefinder/occ": ["dist/storefinder/occ"],
       "@spartacus/storefinder/components": ["dist/storefinder/components"],
+      "@spartacus/storefinder/assets": ["dist/storefinder/assets"],
       "@spartacus/cdc": ["dist/cdc"],
       "@spartacus/setup": ["dist/setup"]
     }
