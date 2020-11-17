@@ -13,7 +13,7 @@ import { BudgetItemService } from '../services/budget-item.service';
 import { CurrentBudgetService } from '../services/current-budget.service';
 
 @Component({
-  selector: 'cx-budget-form',
+  selector: 'cx-org-budget-form',
   templateUrl: './budget-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },

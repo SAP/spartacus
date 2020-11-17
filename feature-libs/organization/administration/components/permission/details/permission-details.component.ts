@@ -6,7 +6,7 @@ import { OrganizationItemService } from '../../shared/organization-item.service'
 import { PermissionItemService } from '../services/permission-item.service';
 
 @Component({
-  selector: 'cx-permission-details',
+  selector: 'cx-org-permission-details',
   templateUrl: './permission-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [

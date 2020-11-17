@@ -18,7 +18,7 @@ import { CurrentUserService } from '../services/current-user.service';
 import { UserItemService } from '../services/user-item.service';
 
 @Component({
-  selector: 'cx-user-form',
+  selector: 'cx-org-user-form',
   templateUrl: './user-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },

@@ -17,7 +17,7 @@ import { CurrentUnitService } from '../services/current-unit.service';
 import { UnitItemService } from '../services/unit-item.service';
 
 @Component({
-  selector: 'cx-unit-form',
+  selector: 'cx-org-unit-form',
   templateUrl: './unit-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },

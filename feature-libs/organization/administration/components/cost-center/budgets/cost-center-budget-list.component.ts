@@ -3,7 +3,7 @@ import { OrganizationListService } from '../../shared/organization-list/organiza
 import { CostCenterBudgetListService } from './cost-center-budget-list.service';
 
 @Component({
-  selector: 'cx-cost-center-budget-list',
+  selector: 'cx-org-cost-center-budget-list',
   templateUrl: './cost-center-budget-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },

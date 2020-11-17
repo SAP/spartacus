@@ -10,7 +10,7 @@ import { UserGroupUserListService } from './user-group-user-list.service';
 import { MessageService } from '../../shared/organization-message/services/message.service';
 
 @Component({
-  selector: 'cx-user-group-user-list',
+  selector: 'cx-org-user-group-user-list',
   templateUrl: './user-group-user-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },

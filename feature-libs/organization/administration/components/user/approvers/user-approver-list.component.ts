@@ -3,7 +3,7 @@ import { OrganizationListService } from '../../shared/organization-list/organiza
 import { UserApproverListService } from './user-approver-list.service';
 
 @Component({
-  selector: 'cx-user-approver-list',
+  selector: 'cx-org-user-approver-list',
   templateUrl: './user-approver-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },

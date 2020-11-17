@@ -6,7 +6,7 @@ import { OrganizationItemService } from '../../shared/organization-item.service'
 import { UserGroupItemService } from '../services/user-group-item.service';
 
 @Component({
-  selector: 'cx-user-group-details',
+  selector: 'cx-org-user-group-details',
   templateUrl: './user-group-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [

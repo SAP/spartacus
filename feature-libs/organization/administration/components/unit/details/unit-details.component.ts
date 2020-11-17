@@ -6,7 +6,7 @@ import { OrganizationItemService } from '../../shared/organization-item.service'
 import { UnitItemService } from '../services/unit-item.service';
 
 @Component({
-  selector: 'cx-unit-details',
+  selector: 'cx-org-unit-details',
   templateUrl: './unit-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [

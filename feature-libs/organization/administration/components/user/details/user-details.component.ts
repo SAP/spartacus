@@ -6,7 +6,7 @@ import { OrganizationItemService } from '../../shared/organization-item.service'
 import { UserItemService } from '../services/user-item.service';
 
 @Component({
-  selector: 'cx-user-details',
+  selector: 'cx-org-user-details',
   templateUrl: './user-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [

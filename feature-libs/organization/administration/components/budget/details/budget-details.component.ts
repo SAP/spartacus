@@ -6,7 +6,7 @@ import { OrganizationItemService } from '../../shared/organization-item.service'
 import { BudgetItemService } from '../services/budget-item.service';
 
 @Component({
-  selector: 'cx-budget-details',
+  selector: 'cx-org-budget-details',
   templateUrl: './budget-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [

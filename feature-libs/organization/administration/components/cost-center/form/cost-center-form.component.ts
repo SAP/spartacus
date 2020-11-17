@@ -12,7 +12,7 @@ import { CostCenterItemService } from '../services/cost-center-item.service';
 import { CurrentCostCenterService } from '../services/current-cost-center.service';
 
 @Component({
-  selector: 'cx-cost-center-form',
+  selector: 'cx-org-cost-center-form',
   templateUrl: './cost-center-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },
