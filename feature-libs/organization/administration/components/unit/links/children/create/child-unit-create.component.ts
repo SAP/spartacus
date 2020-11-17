@@ -4,7 +4,7 @@ import { UnitItemService } from '../../../services/unit-item.service';
 import { ChildUnitItemService } from './child-unit-item.service';
 
 @Component({
-  selector: 'cx-child-unit-create',
+  selector: 'cx-org-child-unit-create',
   templateUrl: './child-unit-create.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },

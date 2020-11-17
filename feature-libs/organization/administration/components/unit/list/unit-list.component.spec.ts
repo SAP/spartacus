@@ -9,7 +9,7 @@ import createSpy = jasmine.createSpy;
 
 @Component({
   template: '<ng-content select="[actions]"></ng-content>',
-  selector: 'cx-organization-list',
+  selector: 'cx-org-list',
 })
 class MockOrganizationListComponent {}
 

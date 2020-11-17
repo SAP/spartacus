@@ -12,6 +12,7 @@ import createSpy = jasmine.createSpy;
 const mockCode = 'mc1';
 
 @Component({
+  // tslint:disable-next-line: component-selector
   selector: 'cx-host',
   template: `<div cxOrgItemActive>TEST</div>`,
 })
