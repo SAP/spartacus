@@ -15,3 +15,23 @@ $store-finder-components-whitelist: cx-store-finder-list-item,
   cx-store-finder-stores-count, cx-store-finder-search-result,
   cx-store-finder-list, cx-store-finder-search, cx-store-finder-schedule,
   cx-store-finder-map, cx-store-finder-store !default;
+
+$skipComponentStyles: () !default;
+
+@each $selector in $store-finder-components-whitelist {
+  #{$selector} {
+    // skip selectors if they're added to the $skipComponentStyles list
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}
+
+// add body specific selectors
+body {
+  @each $selector in $store-finder-components-whitelist {
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector}__body !optional;
+    }
+  }
+}

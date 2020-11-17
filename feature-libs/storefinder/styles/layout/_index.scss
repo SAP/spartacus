@@ -1,0 +1,17 @@
+@import "./store-finder-page";
+
+// The blacklist can be used to prevent template CSS
+// being generated.
+$page-template-blacklist-store-finder: () !default;
+
+// whitelisted page template selectors are processed
+// unless (some) they are blacklisted
+$page-template-whitelist-store-finder: StoreFinderPageTemplate !default;
+
+@each $selector in $page-template-whitelist-store-finder {
+  cx-page-layout.#{$selector} {
+    @if (index($page-template-blacklist-store-finder, $selector) == null) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}

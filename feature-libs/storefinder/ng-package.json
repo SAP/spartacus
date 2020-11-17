@@ -8,5 +8,6 @@
       "@spartacus/storefront": "storefront",
       "rxjs": "rxjs"
     }
-  }
+  },
+  "assets": ["**/*.scss"]
 }

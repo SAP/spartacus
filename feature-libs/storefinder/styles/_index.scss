@@ -1,0 +1,81 @@
+// we require a few bootstrap files for the CSS in this code
+//@import '~bootstrap/scss/mixins';
+//@import '~bootstrap/scss/variables';
+//@import '~bootstrap/scss/functions';
+//@import "~bootstrap/scss/bootstrap";
+// Required
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
+// Optional
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+@import "~bootstrap/scss/images";
+@import "~bootstrap/scss/code";
+@import "~bootstrap/scss/grid";
+
+$type: () !default;
+
+@mixin type($size: 'default', $weight: 'default') {
+  $size_: $font-size-base;
+  $weight_: $font-weight-normal;
+  $lineheight_: $line-height-base;
+  // $marginbottom_: $paragraph-margin-bottom;
+  @if variable-exists(type) {
+    $list: map-get($type, $size);
+    //do size
+    @if map-has-key($type, $size) {
+      $size_: nth($list, 1);
+      $weight_: nth($list, 2);
+      $lineheight_: $headings-line-height;
+      $marginbottom_: $headings-margin-bottom;
+    }
+    //check weight
+    @if $weight != 'default' {
+      $weight_: $weight;
+    }
+  } @else {
+    @warn "Variable $type does not exist";
+  }
+  font-size: var(--cx-font-size, $size_);
+  @include weight($weight_);
+  // removing margin as it is assigned per component
+  //add line-height
+  line-height: var(--cx-line-height, $lineheight_);
+}
+
+@mixin weight($weight: 'normal') {
+  @if type-of($weight) != 'string' {
+    font-weight: $weight;
+  } @else {
+    @if $weight == 'light' {
+      font-weight: var(--cx-font-weight-light);
+    } @else if $weight == 'semi' {
+      font-weight: var(--cx-font-weight-semi);
+    } @else if $weight == 'normal' or $weight == 'reg' {
+      font-weight: var(--cx-font-weight-normal);
+    } @else if $weight == 'bold' {
+      font-weight: var(--cx-font-weight-bold);
+    }
+  }
+}
+
+@mixin button-reset {
+  margin: 0;
+  padding: 0;
+  // font-smoothing: antialiased; left here for the future
+  appearance: none;
+  outline: 0;
+  border: 0;
+  display: inline-block;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+  background-color: transparent;
+}
+
+@import './components/index';
+@import "./layout/index";

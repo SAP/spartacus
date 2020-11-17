@@ -30,7 +30,8 @@
             ],
             "styles": [
               "projects/storefrontapp/src/styles.scss",
-              "projects/storefrontapp/src/styles/lib-organization.scss"
+              "projects/storefrontapp/src/styles/lib-organization.scss",
+              "projects/storefrontapp/src/styles/lib-storefinder.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
