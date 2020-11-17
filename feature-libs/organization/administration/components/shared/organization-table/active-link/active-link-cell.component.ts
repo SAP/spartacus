@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { OrganizationCellComponent } from '../organization-cell.component';
 
 @Component({
-  selector: 'cx-active-link-cell',
+  selector: 'cx-org-active-link-cell',
   templateUrl: '../organization-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

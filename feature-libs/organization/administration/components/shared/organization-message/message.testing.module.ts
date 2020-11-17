@@ -1,7 +1,7 @@
 import { Component, NgModule } from '@angular/core';
 
 @Component({
-  selector: 'cx-message',
+  selector: 'cx-org-message',
   template: '',
 })
 class MessageComponent {}

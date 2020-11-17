@@ -49,7 +49,7 @@ describe('MessageComponent', () => {
   it('should add a message component dynamically', () => {
     messageService.add(mockMessage1);
     const el: ElementRef[] = fixture.debugElement.queryAll(
-      By.css('cx-notification')
+      By.css('cx-org-notification')
     );
     expect(el.length).toEqual(1);
   });
@@ -59,12 +59,12 @@ describe('MessageComponent', () => {
     messageService.add(mockMessage2);
     fixture.detectChanges();
     const lastMessage: HTMLElement = fixture.debugElement.query(
-      By.css('cx-notification:first-child')
+      By.css('cx-org-notification:first-child')
     ).nativeElement;
     expect(lastMessage.innerText).toEqual('mock message 2');
 
     const firstMessage: HTMLElement = fixture.debugElement.query(
-      By.css('cx-notification:last-child')
+      By.css('cx-org-notification:last-child')
     ).nativeElement;
     expect(firstMessage.innerText).toEqual('mock message 1');
   });

@@ -18,7 +18,7 @@ import { BaseItem } from '../../organization.model';
  * my company entities.
  */
 @Component({
-  selector: 'cx-toggle-status',
+  selector: 'cx-org-toggle-status',
   templateUrl: './toggle-status.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

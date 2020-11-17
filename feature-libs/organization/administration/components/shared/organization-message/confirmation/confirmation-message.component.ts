@@ -13,7 +13,7 @@ import { ConfirmationMessageData } from './confirmation-message.model';
  * Renders a confirmation message and cancel/confirm button in the message component.
  */
 @Component({
-  selector: 'cx-confirmation',
+  selector: 'cx-org-confirmation',
   templateUrl: './confirmation-message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

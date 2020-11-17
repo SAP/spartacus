@@ -11,7 +11,7 @@ import { MessageService } from '../organization-message/services/message.service
 import { BaseItem } from '../organization.model';
 
 @Component({
-  selector: 'cx-organization-card',
+  selector: 'cx-org-card',
   templateUrl: './organization-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },

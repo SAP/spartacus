@@ -16,13 +16,13 @@ import { MessageRenderService } from './services/message-render.service';
 import { MessageService } from './services/message.service';
 
 @Component({
-  selector: 'cx-message',
+  selector: 'cx-org-message',
   templateUrl: './message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessageComponent implements AfterViewInit, OnDestroy {
   // We use a child view container ref, as creating components will become siblings.
-  // We like the message components to appear inside the `cx-message` instead.
+  // We like the message components to appear inside the `cx-org-message` instead.
   @ViewChild('vcr', { read: ViewContainerRef }) vcr: ViewContainerRef;
 
   protected subscription = new Subscription();

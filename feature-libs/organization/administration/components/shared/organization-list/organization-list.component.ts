@@ -12,7 +12,7 @@ import { OrganizationItemService } from '../organization-item.service';
 import { OrganizationListService } from './organization-list.service';
 
 @Component({
-  selector: 'cx-organization-list',
+  selector: 'cx-org-list',
   templateUrl: './organization-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

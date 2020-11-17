@@ -1,7 +1,7 @@
 import { Component, Input, NgModule } from '@angular/core';
 
 @Component({
-  selector: 'cx-organization-card',
+  selector: 'cx-org-card',
   template: '<ng-content></ng-content>',
 })
 class MockOrganizationCardComponent {

@@ -4,7 +4,7 @@ import { OrganizationFormService } from './organization-form.service';
 import createSpy = jasmine.createSpy;
 
 @Component({
-  selector: 'cx-organization-form',
+  selector: 'cx-org-form',
   template: '<ng-content></ng-content>',
 })
 class MockOrganizationFormComponent {

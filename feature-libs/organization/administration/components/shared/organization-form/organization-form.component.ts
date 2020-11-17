@@ -12,7 +12,7 @@ import { MessageService } from '../organization-message/services/message.service
  * know anything about form specific.
  */
 @Component({
-  selector: 'cx-organization-form',
+  selector: 'cx-org-form',
   templateUrl: './organization-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },

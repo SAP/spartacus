@@ -11,7 +11,7 @@ import { switchMap, tap } from 'rxjs/operators';
 import { OrganizationListComponent } from '../organization-list/organization-list.component';
 
 @Component({
-  selector: 'cx-organization-sub-list',
+  selector: 'cx-org-sub-list',
   templateUrl: './organization-sub-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },

@@ -3,7 +3,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { BaseMessageComponent } from '../base-message.component';
 
 @Component({
-  selector: 'cx-notification',
+  selector: 'cx-org-notification',
   templateUrl: './notification-message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
