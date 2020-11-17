@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ConfigurationInfo,
   OrderEntry,
@@ -45,15 +45,17 @@ describe('ConfigureIssuesNotificationComponent', () => {
   let fixture: ComponentFixture<ConfiguratorIssuesNotificationComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        ConfiguratorIssuesNotificationComponent,
-        MockTranslatePipe,
-      ],
-      providers: [CartItemContext],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          ConfiguratorIssuesNotificationComponent,
+          MockTranslatePipe,
+        ],
+        providers: [CartItemContext],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorIssuesNotificationComponent);

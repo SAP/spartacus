@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -105,25 +105,27 @@ function checkConfigurationOverviewObs(
 }
 
 describe('ConfigurationOverviewFormComponent', () => {
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [
-        ConfiguratorOverviewFormComponent,
-        ConfiguratorOverviewAttributeComponent,
-      ],
-      providers: [
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+        declarations: [
+          ConfiguratorOverviewFormComponent,
+          ConfiguratorOverviewAttributeComponent,
+        ],
+        providers: [
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
   beforeEach(() => {
     routerStateObservable = null;
     configurationObservable = null;

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -34,24 +34,26 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
   let configuratorCartEntryInfoComponent: ConfiguratorCartEntryInfoComponent;
   let fixture: ComponentFixture<ConfiguratorCartEntryInfoComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        ReactiveFormsModule,
-        I18nTestingModule,
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          RouterTestingModule,
+          ReactiveFormsModule,
+          I18nTestingModule,
 
-        FeaturesConfigModule,
-      ],
-      declarations: [ConfiguratorCartEntryInfoComponent],
-      providers: [
-        CartItemContext,
-        {
-          provide: ControlContainer,
-        },
-      ],
-    }).compileComponents();
-  }));
+          FeaturesConfigModule,
+        ],
+        declarations: [ConfiguratorCartEntryInfoComponent],
+        providers: [
+          CartItemContext,
+          {
+            provide: ControlContainer,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorCartEntryInfoComponent);

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -17,22 +17,24 @@ describe('ConfigAttributeCheckBoxComponent', () => {
   let component: ConfiguratorAttributeCheckBoxComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeCheckBoxComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        ConfiguratorAttributeCheckBoxComponent,
-        MockFocusDirective,
-      ],
-      imports: [ReactiveFormsModule, NgSelectModule],
-      providers: [ConfiguratorAttributeBaseComponent],
-    })
-      .overrideComponent(ConfiguratorAttributeCheckBoxComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
-        },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          ConfiguratorAttributeCheckBoxComponent,
+          MockFocusDirective,
+        ],
+        imports: [ReactiveFormsModule, NgSelectModule],
+        providers: [ConfiguratorAttributeBaseComponent],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(ConfiguratorAttributeCheckBoxComponent, {
+          set: {
+            changeDetection: ChangeDetectionStrategy.Default,
+          },
+        })
+        .compileComponents();
+    })
+  );
 
   function createValue(code: string, name: string, isSelected: boolean) {
     const value: Configurator.Value = {

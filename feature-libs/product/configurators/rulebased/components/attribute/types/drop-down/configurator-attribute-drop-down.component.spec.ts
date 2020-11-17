@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -10,19 +10,21 @@ describe('ConfigAttributeDropDownComponent', () => {
   let component: ConfiguratorAttributeDropDownComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeDropDownComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ConfiguratorAttributeDropDownComponent],
-      imports: [ReactiveFormsModule, NgSelectModule],
-      providers: [ConfiguratorAttributeBaseComponent],
-    })
-      .overrideComponent(ConfiguratorAttributeDropDownComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
-        },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ConfiguratorAttributeDropDownComponent],
+        imports: [ReactiveFormsModule, NgSelectModule],
+        providers: [ConfiguratorAttributeBaseComponent],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(ConfiguratorAttributeDropDownComponent, {
+          set: {
+            changeDetection: ChangeDetectionStrategy.Default,
+          },
+        })
+        .compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorAttributeDropDownComponent);
