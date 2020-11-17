@@ -22,7 +22,7 @@ import { LinkCellComponent } from './links/addresses/list/link-cell.component';
 import { UnitAddressListComponent } from './links/addresses/list/unit-address-list.component';
 import { UnitAssignedApproverListComponent } from './links/approvers/assigned/unit-assigned-approver-list.component';
 import { UnitApproverListComponent } from './links/approvers/unit-approver-list.component';
-import { ChildUnitCreateComponent } from './links/children/create/child-unit-create.component';
+import { UnitChildCreateComponent } from './links/children/create/unit-child-create.component';
 import { UnitChildrenComponent } from './links/children/unit-children.component';
 import { UnitCostCenterListComponent } from './links/cost-centers/unit-cost-centers.component';
 import {
@@ -167,7 +167,7 @@ export const unitsCmsConfig: CmsConfig = {
                 children: [
                   {
                     path: 'create',
-                    component: ChildUnitCreateComponent,
+                    component: UnitChildCreateComponent,
                   },
                 ],
               },

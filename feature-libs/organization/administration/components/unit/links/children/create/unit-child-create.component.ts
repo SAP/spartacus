@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitItemService } from '../../../services/unit-item.service';
-import { ChildUnitItemService } from './child-unit-item.service';
+import { ChildUnitItemService } from './unit-child-item.service';
 
 @Component({
-  selector: 'cx-org-child-unit-create',
-  templateUrl: './child-unit-create.component.html',
+  selector: 'cx-org-unit-child-create',
+  templateUrl: './unit-child-create.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },
   providers: [
@@ -17,7 +17,7 @@ import { ChildUnitItemService } from './child-unit-item.service';
     },
   ],
 })
-export class ChildUnitCreateComponent {
+export class UnitChildCreateComponent {
   unitKey$ = this.unitService.key$;
   constructor(protected unitService: CurrentUnitService) {}
 }

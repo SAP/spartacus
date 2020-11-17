@@ -8,14 +8,14 @@ import {
 } from '@spartacus/organization/administration/core';
 import { UnitFormService } from '../../../form/unit-form.service';
 import { UnitItemService } from '../../../services/unit-item.service';
-import { CurrentChildUnitService } from './current-child-unit.service';
+import { CurrentUnitChildService } from './current-unit-child.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChildUnitItemService extends UnitItemService {
   constructor(
-    protected currentItemService: CurrentChildUnitService,
+    protected currentItemService: CurrentUnitChildService,
     protected routingService: RoutingService,
     protected formService: UnitFormService,
     protected unitService: OrgUnitService
