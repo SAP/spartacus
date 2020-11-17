@@ -30,6 +30,11 @@ const accessData: Cpq.AccessData = {
   tokenExpirationTime: 1605004667020,
 };
 
+const configCreatedResponse: Cpq.ConfigurationCreatedResponseData = {
+  configurationId: configId,
+  sessionId: '123',
+};
+
 describe('CpqConfiguratorRestAdapter', () => {
   let adapterUnderTest: CpqConfiguratorRestAdapter;
   let httpMock: HttpTestingController;
@@ -62,15 +67,22 @@ describe('CpqConfiguratorRestAdapter', () => {
     );
   });
 
-  it('should fetch token when creating config', () => {
+  it('should fetch a token and use it to init a configuration', () => {
     adapterUnderTest
       .createConfiguration(productConfiguration.owner)
       .subscribe((config) => {
-        expect(config.configId).toEqual(token);
+        expect(config.configId).toEqual(configId);
       });
-    const mockReq = httpMock.expectOne((req) => {
+    let mockReq = httpMock.expectOne((req) => {
       return req.method === 'GET' && req.url === '/getCpqAccessData';
     });
     mockReq.flush(accessData);
+    mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'POST' &&
+        req.url === 'https://cpq/api/configuration/v1/configurations'
+      );
+    });
+    mockReq.flush(configCreatedResponse);
   });
 });
