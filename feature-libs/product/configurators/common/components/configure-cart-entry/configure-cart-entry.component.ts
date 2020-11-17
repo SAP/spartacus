@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { OrderEntry } from '@spartacus/core';
-import { ModalService } from '@spartacus/storefront';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 
@@ -24,13 +23,13 @@ export class ConfigureCartEntryComponent {
     return this.commonConfigUtilsService.hasIssues(this.cartEntry);
   }
 
-  public getOwnerType(): CommonConfigurator.OwnerType {
+  getOwnerType(): CommonConfigurator.OwnerType {
     return this.cartEntry.orderCode !== undefined
       ? CommonConfigurator.OwnerType.ORDER_ENTRY
       : CommonConfigurator.OwnerType.CART_ENTRY;
   }
 
-  public getEntityKey(): string {
+  getEntityKey(): string {
     return this.cartEntry.orderCode !== undefined
       ? this.commonConfigUtilsService.getComposedOwnerId(
           this.cartEntry.orderCode,
@@ -39,38 +38,22 @@ export class ConfigureCartEntryComponent {
       : '' + this.cartEntry.entryNumber;
   }
 
-  public getRoute(): string {
+  getRoute(): string {
     const configuratorType = this.cartEntry.product.configuratorType;
     return this.readOnly
       ? 'configureOverview' + configuratorType
       : 'configure' + configuratorType;
   }
 
-  public getDisplayOnly(): boolean {
+  getDisplayOnly(): boolean {
     return this.readOnly;
   }
 
-  public isDisabled() {
+  isDisabled() {
     return this.readOnly ? false : this.disabled;
   }
 
-  getReason(): string {
-    if (this.readOnly) {
-      return 'Display Configuration';
-    } else {
-      if (this.msgBanner) {
-        return 'Resolve Issues';
-      }
-      return 'Edit Configuration';
-    }
-  }
-
-  closeActiveModal(): void {
-    this.modalService.closeActiveModal(this.getReason());
-  }
-
   constructor(
-    private commonConfigUtilsService: CommonConfiguratorUtilsService,
-    private modalService: ModalService
+    protected commonConfigUtilsService: CommonConfiguratorUtilsService
   ) {}
 }
