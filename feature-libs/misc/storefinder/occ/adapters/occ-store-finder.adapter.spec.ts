@@ -9,10 +9,10 @@ import {
   GeoPoint,
   Occ,
   OccEndpointsService,
+  POINT_OF_SERVICE_NORMALIZER,
   SearchConfig,
 } from '@spartacus/core';
 import {
-  POINT_OF_SERVICE_NORMALIZER,
   STORE_COUNT_NORMALIZER,
   STORE_FINDER_SEARCH_PAGE_NORMALIZER,
 } from '@spartacus/misc/storefinder/core';
