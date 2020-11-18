@@ -1,10 +1,6 @@
 import { InjectionToken } from '@angular/core';
-import {
-  Converter,
-  PointOfService,
-  StoreCount,
-  StoreFinderSearchPage,
-} from '@spartacus/core';
+import { Converter, PointOfService } from '@spartacus/core';
+import { StoreCount, StoreFinderSearchPage } from '../model/store-finder.model';
 
 export const POINT_OF_SERVICE_NORMALIZER = new InjectionToken<
   Converter<any, PointOfService>
