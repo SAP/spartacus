@@ -48,7 +48,8 @@ import {
   STORES_STATE,
   FIND_STORES_STATE,
   VIEW_ALL_STORES_STATE,
-
+  STORE_FINDER_SELECTORS,
+  STORE_FINDER_ACTIONS,
 } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
@@ -317,6 +318,18 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: VIEW_ALL_STORES_STATE,
     importPath: SPARTACUS_CORE,
     comment: `'${VIEW_ALL_STORES_STATE}' was moved to @spartacus/feature-libs/misc/storefinder`,
+  },
+  // projects/core/src/store-finder/store/store-finder-state.ts
+  {
+    node: STORE_FINDER_SELECTORS,
+    importPath: SPARTACUS_CORE,
+    comment: `'${STORE_FINDER_SELECTORS}' was moved to @spartacus/feature-libs/misc/storefinder`,
+  },
+  // projects/core/src/store-finder/store/store-finder-state.ts
+  {
+    node: STORE_FINDER_ACTIONS,
+    importPath: SPARTACUS_CORE,
+    comment: `'${STORE_FINDER_ACTIONS}' was moved to @spartacus/feature-libs/misc/storefinder`,
   },
 ];
 

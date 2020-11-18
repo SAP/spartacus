@@ -427,6 +427,7 @@ export const STATE_WITH_STORE_FINDER = 'StateWithStoreFinder';
 export const STORES_STATE = 'StoresState';
 export const FIND_STORES_STATE = 'FindStoresState';
 export const VIEW_ALL_STORES_STATE = 'ViewAllStoresState';
+export const STORE_FINDER_SELECTORS = 'StoreFinderSelectors';
 
 export const ON_SUCCESS = 'onSuccess';
 
