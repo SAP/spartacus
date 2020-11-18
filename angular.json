@@ -31,7 +31,7 @@
             "styles": [
               "projects/storefrontapp/src/styles.scss",
               "projects/storefrontapp/src/styles/lib-organization.scss",
-              "projects/storefrontapp/src/styles/lib-storefinder.scss"
+              "projects/storefrontapp/src/styles/lib-misc.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
@@ -553,38 +553,38 @@
         }
       }
     },
-    "storefinder": {
+    "misc": {
       "projectType": "library",
-      "root": "feature-libs/storefinder",
-      "sourceRoot": "feature-libs/storefinder/src",
+      "root": "feature-libs/misc",
+      "sourceRoot": "feature-libs/misc",
       "prefix": "cx",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "tsConfig": "feature-libs/storefinder/tsconfig.lib.json",
-            "project": "feature-libs/storefinder/ng-package.json"
+            "tsConfig": "feature-libs/misc/tsconfig.lib.json",
+            "project": "feature-libs/misc/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "feature-libs/storefinder/tsconfig.lib.prod.json"
+              "tsConfig": "feature-libs/misc/tsconfig.lib.prod.json"
             }
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "feature-libs/storefinder/src/test.ts",
-            "tsConfig": "feature-libs/storefinder/tsconfig.spec.json",
-            "karmaConfig": "feature-libs/storefinder/karma.conf.js"
+            "main": "feature-libs/misc/src/test.ts",
+            "tsConfig": "feature-libs/misc/tsconfig.spec.json",
+            "karmaConfig": "feature-libs/misc/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "feature-libs/storefinder/tsconfig.lib.json",
-              "feature-libs/storefinder/tsconfig.spec.json"
+              "feature-libs/misc/tsconfig.lib.json",
+              "feature-libs/misc/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
