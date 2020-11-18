@@ -13,10 +13,11 @@ const configId = '1234-56-7890';
 const productConfiguration: Configurator.Configuration = {
   configId: configId,
   productCode: productCode,
-  owner: {
-    type: CommonConfigurator.OwnerType.PRODUCT,
-    id: productCode,
-  },
+};
+
+const owner: CommonConfigurator.Owner = {
+  type: CommonConfigurator.OwnerType.PRODUCT,
+  id: productCode,
 };
 
 describe('CpqConfiguratorRestAdapter', () => {
@@ -51,13 +52,11 @@ describe('CpqConfiguratorRestAdapter', () => {
   });
 
   it('should delegate create configuration to rest service and map owner', () => {
-    adapterUnderTest
-      .createConfiguration(productConfiguration.owner)
-      .subscribe((config) => {
-        expect(config.owner).toEqual(productConfiguration.owner);
-        expect(mockedRestService.createConfiguration).toHaveBeenCalledWith(
-          productCode
-        );
-      });
+    adapterUnderTest.createConfiguration(owner).subscribe((config) => {
+      expect(config.owner).toEqual(owner);
+      expect(mockedRestService.createConfiguration).toHaveBeenCalledWith(
+        productCode
+      );
+    });
   });
 });
