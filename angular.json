@@ -574,7 +574,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "feature-libs/misc/src/test.ts",
+            "main": "feature-libs/misc/test.ts",
             "tsConfig": "feature-libs/misc/tsconfig.spec.json",
             "karmaConfig": "feature-libs/misc/karma.conf.js"
           }

@@ -1,15 +1,18 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { GeoPoint } from '../../model/misc.model';
-import { WindowRef } from '../../window/window-ref';
 import { StoreFinderActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StoresState } from '../store/store-finder-state';
 import { StoreFinderService } from './store-finder.service';
-import { GlobalMessageService } from '../../global-message/index';
-import { RoutingService, UrlCommands } from '../../routing/index';
 import { NavigationExtras } from '@angular/router';
 import { StoreFinderConfig } from '../config/store-finder-config';
+import {
+  GeoPoint,
+  GlobalMessageService,
+  RoutingService,
+  UrlCommands,
+  WindowRef,
+} from '@spartacus/core';
 
 class MockRoutingService {
   go(

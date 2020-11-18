@@ -1,8 +1,9 @@
 import { SimpleChange } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, StoreDataService } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { ScheduleComponent } from './schedule.component';
+import { StoreDataService } from '@spartacus/misc/storefinder/core';
 
 const WEEK_DAYS_NUMBER = 7;
 

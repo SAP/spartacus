@@ -1,6 +1,6 @@
-import { SearchConfig } from '../../../product/model/search-config';
 import { StoreFinderActions } from '../actions/index';
 import * as fromReducers from './find-stores.reducer';
+import { SearchConfig } from '@spartacus/core';
 
 describe('Find Stores Reducer', () => {
   describe('Undefined action', () => {

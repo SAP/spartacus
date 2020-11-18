@@ -3,17 +3,19 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { GeoPoint } from '../../../model/misc.model';
-import { SearchConfig } from '../../../product/model/search-config';
+import { OccStoreFinderAdapter } from './occ-store-finder.adapter';
+import {
+  ConverterService,
+  GeoPoint,
+  Occ,
+  OccEndpointsService,
+  SearchConfig,
+} from '@spartacus/core';
 import {
   POINT_OF_SERVICE_NORMALIZER,
   STORE_COUNT_NORMALIZER,
   STORE_FINDER_SEARCH_PAGE_NORMALIZER,
-} from '../../../store-finder/connectors';
-import { ConverterService } from '../../../util/converter.service';
-import { Occ } from '../../index';
-import { OccEndpointsService } from '../../services';
-import { OccStoreFinderAdapter } from './occ-store-finder.adapter';
+} from '@spartacus/misc/storefinder/core';
 
 const queryText = 'test';
 const searchResults = { stores: [{ name: 'test' }] };
