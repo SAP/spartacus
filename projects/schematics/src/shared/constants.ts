@@ -410,6 +410,12 @@ export const STORE_FINDER_SEARCH_CONFIG = 'StoreFinderSearchConfig';
 
 export const STORE_FINDER_ACTIONS = 'StoreFinderActions';
 export const FIND_STORES_CLASS = 'FindStores';
+export const STORE_FINDER_MODULE = 'StoreFinderCoreModule';
+export const POINT_OF_SERVICE_NORMALIZER = 'POINT_OF_SERVICE_NORMALIZER';
+export const STORE_FINDER_SEARCH_PAGE_NORMALIZER = 'STORE_FINDER_SEARCH_PAGE_NORMALIZER';
+export const STORE_COUNT_NORMALIZER = 'STORE_COUNT_NORMALIZER';
+export const STORE_FINDER_CONNECTOR = 'StoreFinderConnector';
+export const STORE_FINDER_ADAPTER = 'StoreFinderAdapter';
 
 export const ON_SUCCESS = 'onSuccess';
 
