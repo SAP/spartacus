@@ -21,7 +21,8 @@
     "@angular/router": "^10.1.0",
     "rxjs": "^6.6.0",
     "@spartacus/core": "3.0.0-next.6",
-    "@spartacus/storefront": "3.0.0-next.6"
+    "@spartacus/storefront": "3.0.0-next.6",
+    "@ng-bootstrap/ng-bootstrap": "^7.0.0"
   },
   "dependencies": {
     "tslib": "^2.0.0"
