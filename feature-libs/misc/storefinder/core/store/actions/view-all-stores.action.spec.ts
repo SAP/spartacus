@@ -1,6 +1,6 @@
-import { StateUtils } from '../../../state/utils/index';
 import { STORE_FINDER_DATA } from '../store-finder-state';
 import { StoreFinderActions } from './index';
+import { StateUtils } from '@spartacus/core';
 
 describe('View All Stores Actions', () => {
   describe('ViewAllStores', () => {

@@ -3,15 +3,14 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  GoogleMapRendererService,
-  I18nTestingModule,
-  PointOfService,
-  StoreDataService,
-} from '@spartacus/core';
-import { SpinnerModule } from '../../../../../shared/components/spinner/spinner.module';
+import { I18nTestingModule, PointOfService } from '@spartacus/core';
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
 import { StoreFinderListComponent } from './store-finder-list.component';
+import {
+  GoogleMapRendererService,
+  StoreDataService,
+} from '@spartacus/misc/storefinder/core';
+import { SpinnerModule } from '@spartacus/storefront';
 
 const location: PointOfService = {
   displayName: 'Test Store',

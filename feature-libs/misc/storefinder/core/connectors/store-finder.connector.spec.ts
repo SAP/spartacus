@@ -1,10 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { GeoPoint } from '../../model';
-import { SearchConfig } from '../../product/model/search-config';
 import { StoreFinderAdapter } from './store-finder.adapter';
 import { StoreFinderConnector } from './store-finder.connector';
 import createSpy = jasmine.createSpy;
+import { GeoPoint, SearchConfig } from '@spartacus/core';
 
 class MockStoreFinderAdapter implements StoreFinderAdapter {
   search = createSpy('adapter.search').and.returnValue(

@@ -6,7 +6,9 @@ import {
   POINT_OF_SERVICE_NORMALIZER,
   STORE_COUNT_NORMALIZER,
   STORE_FINDER_SEARCH_PAGE_NORMALIZER,
+  StoreCount,
   StoreFinderAdapter,
+  StoreFinderSearchPage,
 } from '@spartacus/misc/storefinder/core';
 import {
   ConverterService,
@@ -15,8 +17,6 @@ import {
   OccEndpointsService,
   PointOfService,
   SearchConfig,
-  StoreCount,
-  StoreFinderSearchPage,
 } from '@spartacus/core';
 
 @Injectable()

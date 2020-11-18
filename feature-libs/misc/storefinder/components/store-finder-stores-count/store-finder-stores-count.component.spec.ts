@@ -1,8 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, StoreFinderService } from '@spartacus/core';
-import { SpinnerModule } from '../../../../shared';
+import { I18nTestingModule } from '@spartacus/core';
 import { StoreFinderStoresCountComponent } from './store-finder-stores-count.component';
+import { SpinnerModule } from '@spartacus/storefront';
+import { StoreFinderService } from '@spartacus/misc/storefinder/core';
 
 const mockStoreFinderService = {
   viewAllStores: jasmine.createSpy(),

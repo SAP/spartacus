@@ -5,13 +5,12 @@ import {
   I18nTestingModule,
   PointOfService,
   RoutingService,
-  StoreFinderService,
 } from '@spartacus/core';
-import { SpinnerModule } from '../../../../shared';
 import { StoreFinderStoreComponent } from './store-finder-store.component';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, SpinnerModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { StoreFinderService } from '@spartacus/misc/storefinder/core';
 
 const mockStoreFinderService = {
   getStoresLoading: jasmine.createSpy(),

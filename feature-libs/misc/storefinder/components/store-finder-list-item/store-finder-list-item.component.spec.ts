@@ -3,8 +3,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, StoreDataService } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { StoreFinderListItemComponent } from './store-finder-list-item.component';
+import { StoreDataService } from '@spartacus/misc/storefinder/core';
 
 const weekday = {
   closingTime: {

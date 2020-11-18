@@ -1,5 +1,4 @@
-import { PaginationModel, SortModel } from './misc.model';
-import { PointOfService } from './point-of-service.model';
+import { PaginationModel, PointOfService, SortModel } from '@spartacus/core';
 
 export interface StoreFinderSearchPage {
   boundEastLongitude?: number;

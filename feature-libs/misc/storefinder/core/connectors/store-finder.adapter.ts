@@ -1,11 +1,6 @@
 import { Observable } from 'rxjs';
-import {
-  GeoPoint,
-  PointOfService,
-  SearchConfig,
-  StoreCount,
-  StoreFinderSearchPage,
-} from '@spartacus/core';
+import { GeoPoint, PointOfService, SearchConfig } from '@spartacus/core';
+import { StoreCount, StoreFinderSearchPage } from '../model/store-finder.model';
 
 export abstract class StoreFinderAdapter {
   abstract search(

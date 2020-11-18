@@ -56,7 +56,7 @@
     "start:ssl": "ng serve --ssl",
     "start:pwa": "cd ./dist/storefrontapp/ && http-server -p 4200",
     "test": "ng test",
-    "test:core:lib": "concurrently \"ng test core --code-coverage\" \"ng test storefrontlib --code-coverage\" \"ng test organization --code-coverage\" \"ng test spartacus --code-coverage\" \"ng test product --code-coverage\" \"ng test cdc --code-coverage\" \"ng test setup --code-coverage\"",
+    "test:core:lib": "concurrently \"ng test core --code-coverage\" \"ng test storefrontlib --code-coverage\" \"ng test organization --code-coverage\" \"ng test misc --code-coverage\" \"ng test product --code-coverage\" \"ng test cdc --code-coverage\" \"ng test setup --code-coverage\"",
     "test:storefront:lib": "ng test storefrontlib --sourceMap --code-coverage",
     "dev:ssr": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 ng run storefrontapp:serve-ssr",
     "serve:ssr:dev": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 node dist/storefrontapp-server/main.js",

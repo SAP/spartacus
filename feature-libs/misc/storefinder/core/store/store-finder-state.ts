@@ -1,4 +1,4 @@
-import { StoreEntities } from '../model';
+import { StoreEntities } from '../model/store-entities';
 import { StateUtils } from '@spartacus/core';
 
 export const STORE_FINDER_FEATURE = 'stores';
