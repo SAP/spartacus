@@ -25,6 +25,10 @@ const configCreatedResponse: Cpq.ConfigurationCreatedResponseData = {
   sessionId: '123',
 };
 
+const configResponse: Cpq.Configuration = {
+  productSystemId: productCode,
+};
+
 describe('CpqConfiguratorRestService', () => {
   let serviceUnderTest: CpqConfiguratorRestService;
   let httpMock: HttpTestingController;
@@ -54,11 +58,14 @@ describe('CpqConfiguratorRestService', () => {
   it('should fetch a token and use it to init a configuration', () => {
     serviceUnderTest.createConfiguration(productCode).subscribe((config) => {
       expect(config.configId).toEqual(configId);
+      expect(config.productCode).toEqual(productCode);
     });
+
     let mockReq = httpMock.expectOne((req) => {
       return req.method === 'GET' && req.url === '/getCpqAccessData';
     });
     mockReq.flush(accessData);
+
     mockReq = httpMock.expectOne((req) => {
       return (
         req.method === 'POST' &&
@@ -66,5 +73,14 @@ describe('CpqConfiguratorRestService', () => {
       );
     });
     mockReq.flush(configCreatedResponse);
+
+    mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'GET' &&
+        req.url ===
+          `https://cpq/api/configuration/v1/configurations/${configId}/display`
+      );
+    });
+    mockReq.flush(configResponse);
   });
 });
