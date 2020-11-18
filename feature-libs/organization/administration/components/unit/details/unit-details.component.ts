@@ -2,16 +2,16 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { B2BUnit } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { shareReplay, startWith, switchMap } from 'rxjs/operators';
-import { OrganizationItemService } from '../../shared/organization-item.service';
+import { ItemService } from '../../shared/item.service';
 import { UnitItemService } from '../services/unit-item.service';
 
 @Component({
-  selector: 'cx-unit-details',
+  selector: 'cx-org-unit-details',
   templateUrl: './unit-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
-      provide: OrganizationItemService,
+      provide: ItemService,
       useExisting: UnitItemService,
     },
   ],
@@ -24,5 +24,5 @@ export class UnitDetailsComponent {
     startWith({})
   );
 
-  constructor(protected itemService: OrganizationItemService<B2BUnit>) {}
+  constructor(protected itemService: ItemService<B2BUnit>) {}
 }
