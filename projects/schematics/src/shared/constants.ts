@@ -420,6 +420,13 @@ export const STORE_FINDER_SEARCH_QUERY_SERVICE = 'StoreFinderSearchQuery';
 export const STORE_ENTITIES = 'StoreEntities';
 export const EXTERNAL_JS_FILE_LOADER_SERVICE = 'ExternalJsFileLoader';
 export const GOOGLE_MAP_RENDERER_SERVICE = 'GoogleMapRendererService';
+export const STORE_FINDER_STORE_MODULE = 'StoreFinderStoreModule';
+export const STORE_FINDER_FEATURE = 'STORE_FINDER_FEATURE';
+export const STORE_FINDER_DATA = 'STORE_FINDER_DATA';
+export const STATE_WITH_STORE_FINDER = 'StateWithStoreFinder';
+export const STORES_STATE = 'StoresState';
+export const FIND_STORES_STATE = 'FindStoresState';
+export const VIEW_ALL_STORES_STATE = 'ViewAllStoresState';
 
 export const ON_SUCCESS = 'onSuccess';
 
