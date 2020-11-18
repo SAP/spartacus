@@ -17,10 +17,6 @@ export const CHECKOUT_AUTH_GUARD_MIGRATION: ConstructorDeprecation = {
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [
     {
-      className: ROUTING_SERVICE,
-      importPath: SPARTACUS_CORE,
-    },
-    {
       className: AUTH_SERVICE,
       importPath: SPARTACUS_CORE,
     },
@@ -29,11 +25,15 @@ export const CHECKOUT_AUTH_GUARD_MIGRATION: ConstructorDeprecation = {
       importPath: SPARTACUS_CORE,
     },
     {
+      className: CHECKOUT_CONFIG_SERVICE,
+      importPath: SPARTACUS_CORE,
+    },
+    {
       className: CART_SERVICE,
       importPath: SPARTACUS_CORE,
     },
     {
-      className: CHECKOUT_CONFIG_SERVICE,
+      className: ROUTING_SERVICE,
       importPath: SPARTACUS_CORE,
     },
   ],
