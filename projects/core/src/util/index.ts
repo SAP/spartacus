@@ -8,4 +8,5 @@ export * from './regex-pattern';
 export * from './withdraw-on';
 export * from './get-last-value-sync';
 export * from './time-utils';
+export * from './external-js-file-loader/index';
 export * from './ssr.tokens';
