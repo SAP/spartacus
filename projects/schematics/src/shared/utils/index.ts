@@ -6,6 +6,7 @@ export {
 } from './config-utils';
 export {
   commitChanges,
+  findMultiLevelNodesByTextAndKind,
   getTsSourceFile,
   InsertDirection,
   removeImport,
