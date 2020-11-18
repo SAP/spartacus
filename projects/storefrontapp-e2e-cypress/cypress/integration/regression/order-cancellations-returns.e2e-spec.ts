@@ -1,7 +1,6 @@
 import { verifyTabbingOrder } from '../../helpers/accessibility/tabbing-order';
 import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbing-order.config';
 import * as orderCancellationReturn from '../../helpers/order-cancellations-returns';
-import { ORDER_CODE } from '../../sample-data/b2b-order-approval';
 import * as sampleData from '../../sample-data/order-cancellations-returns';
 
 describe('Order Cancellations and Returns', () => {
@@ -42,7 +41,7 @@ describe('Order Cancellations and Returns', () => {
     });
   });
 
-  describe.only('should cancel order', () => {
+  describe('should cancel order', () => {
     it('should cancel', () => {
       orderCancellationReturn.getStubbedCancellableOrderDetails();
       orderCancellationReturn.visitCancelOrderPage();
@@ -53,7 +52,7 @@ describe('Order Cancellations and Returns', () => {
       // accessibility
       verifyTabbingOrder(
         'cx-page-layout.AccountPageTemplate',
-        config.cancelOrder
+        config.cancelOrReturnOrder
       );
 
       // validate input
@@ -70,7 +69,7 @@ describe('Order Cancellations and Returns', () => {
       // accessibility
       verifyTabbingOrder(
         'cx-page-layout.AccountPageTemplate',
-        config.confirmCancelOrder
+        config.confirmCancelOrReturnOrder
       );
 
       // confirm cancel
@@ -78,9 +77,51 @@ describe('Order Cancellations and Returns', () => {
       cy.get('cx-amend-order-actions .btn-primary').eq(0).click();
       cy.get('cx-global-message').should(
         'contain',
-        `Your cancellation request was submitted (original order ${ORDER_CODE} will be updated)`
+        `Your cancellation request was submitted (original order ${sampleData.ORDER_CODE} will be updated)`
       );
       cy.get('cx-breadcrumb').should('contain', 'Order History');
+    });
+  });
+
+  describe('should return order', () => {
+    it('should return', () => {
+      orderCancellationReturn.getStubbedReturnableOrderDetails();
+      orderCancellationReturn.visitReturnOrderPage();
+
+      assertButtons();
+      assertOrderItems(sampleData.orderDetails);
+
+      // accessibility
+      verifyTabbingOrder(
+        'cx-page-layout.AccountPageTemplate',
+        config.cancelOrReturnOrder
+      );
+
+      // validate input
+      validateInput();
+
+      // return one item
+      returnItem();
+    });
+
+    it('should confirm return', () => {
+      assertButtons(true);
+      assertOrderItems(sampleData.orderDetails, true);
+
+      // accessibility
+      verifyTabbingOrder(
+        'cx-page-layout.AccountPageTemplate',
+        config.confirmCancelOrReturnOrder
+      );
+
+      // confirm return
+      orderCancellationReturn.confirmReturnOrder();
+      cy.get('cx-amend-order-actions .btn-primary').eq(0).click();
+      cy.get('cx-global-message').should(
+        'contain',
+        `Your return request (${sampleData.RMA}) was submitted`
+      );
+      cy.get('cx-breadcrumb').should('contain', 'Return Request Details');
     });
   });
 
@@ -140,16 +181,10 @@ describe('Order Cancellations and Returns', () => {
     cy.get('cx-amend-order-actions')
       .findByText(/Continue/i)
       .click();
-    cy.get('cx-form-errors').should(
-      'contain',
-      'Select at least one item to cancel'
-    );
+    cy.get('cx-form-errors').should('contain', 'Select at least one item');
 
     cy.get('cx-item-counter').findByText('+').click();
-    cy.get('cx-form-errors').should(
-      'not.contain',
-      'Select at least one item to cancel'
-    );
+    cy.get('cx-form-errors').should('not.contain', 'Select at least one item');
   }
 
   function cancelItem() {
@@ -158,5 +193,13 @@ describe('Order Cancellations and Returns', () => {
       .click();
 
     cy.get('cx-breadcrumb').should('contain', 'Cancel Order Confirmation');
+  }
+
+  function returnItem() {
+    cy.get('cx-amend-order-actions')
+      .findByText(/Continue/i)
+      .click();
+
+    cy.get('cx-breadcrumb').should('contain', 'Return Order Confirmation');
   }
 });

@@ -1,4 +1,38 @@
 export const ORDER_CODE = '00000001';
+export const RETURN_REQUEST_CODE = '00000000';
+export const RMA = '00000000';
+
+export const product = {
+  baseOptions: [],
+  code: '816802',
+  images: [
+    {
+      format: 'zoom',
+      imageType: 'PRIMARY',
+      url:
+        '/medias/?context=bWFzdGVyfGltYWdlc3wxMTY1N3xpbWFnZS9qcGVnfGltYWdlcy9oMmQvaDIxLzg3OTY2MTYxMzA1OTAuanBnfGY3MDRjMWViNDc4ZTA0MWY3YTIwZWRmOWFjZmZkYTQ4NDM0YWI1MGY5NTdmMDY5ODExY2E5ZjU0ZTZmNDk0MDk',
+    },
+    {
+      format: 'product',
+      imageType: 'PRIMARY',
+      url:
+        '/medias/?context=bWFzdGVyfGltYWdlc3w1NjY3fGltYWdlL2pwZWd8aW1hZ2VzL2g5ZC9oZjkvODc5NjY0MjQxMDUyNi5qcGd8ZDAwOWZkNmFkYjExMTA2ZGNiMzZjZDI1Mjk0MWEzMmIzYTdjMWM3ZWQ5YTkxMGU3YjI3NWFiNjM1NGJjMTQ2ZA',
+    },
+    {
+      format: 'thumbnail',
+      imageType: 'PRIMARY',
+      url:
+        '/medias/?context=bWFzdGVyfGltYWdlc3wxNzkzfGltYWdlL2pwZWd8aW1hZ2VzL2gxMi9oM2QvODc5NjY2ODc1NTk5OC5qcGd8YzU3N2YwNzljN2Y0ODkxZWZiZDJjYjY0Yjg1ZjUyZGFmMmU3YmE3ODRiMzk4NzQwNzZhNzZlNGY2ZDM3MzI3Ng',
+    },
+    {
+      format: 'cartIcon',
+      imageType: 'PRIMARY',
+      url:
+        '/medias/?context=bWFzdGVyfGltYWdlc3wxMjU4fGltYWdlL2pwZWd8aW1hZ2VzL2gwNi9oNTgvODc5NjY5NTEwMTQ3MC5qcGd8ZTY4ZGUwZTk2Njc5YThmZWE0MjA4OTNmZDU4ZjRiZWY4OTEzYTM0ODFjNzRiZTkzN2Y2Y2RmNDJiNDA2YWYwZA',
+    },
+  ],
+  name: 'Web Camera (100KpixelM CMOS, 640X480, USB 1.1) Black',
+};
 
 export const orderDetails = {
   code: ORDER_CODE,
@@ -57,66 +91,7 @@ export const orderDetails = {
       cancellableQuantity: 1,
       configurationInfos: [],
       entryNumber: 0,
-      product: {
-        availableForPickup: true,
-        averageRating: 4.538461538461538,
-        baseOptions: [],
-        categories: [
-          {
-            code: '576',
-            name: 'Digital Compacts',
-            url:
-              '/Open-Catalogue/Cameras/Digital-Cameras/Digital-Compacts/c/576',
-          },
-          {
-            code: 'brand_5',
-            name: 'Sony',
-            url: '/Brands/Sony/c/brand_5',
-          },
-        ],
-        code: '816802',
-        configurable: false,
-        images: [
-          {
-            altText: 'Cyber-shot W55',
-            format: 'zoom',
-            imageType: 'PRIMARY',
-            url:
-              '/medias/?context=bWFzdGVyfGltYWdlc3wyODU5NXxpbWFnZS9qcGVnfGltYWdlcy9oYjEvaDQ2Lzg3OTcyNjQxODMzMjYuanBnfDAwZTQxMTgyZWFiZTQ4M2ExNDg0OWIzZWU1YjY5ZDVmNWRiZTUxM2Y5NzQwOGQ5NmYyY2UxOGY3ZjUxOGQ0Mzk',
-          },
-          {
-            altText: 'Cyber-shot W55',
-            format: 'product',
-            imageType: 'PRIMARY',
-            url:
-              '/medias/?context=bWFzdGVyfGltYWdlc3wxMTMzMXxpbWFnZS9qcGVnfGltYWdlcy9oNjMvaDRjLzg3OTcyOTA0NjMyNjIuanBnfGEyNDIxMjFkYzFkM2Y2ZTEyNDYzMjViOWNmMDY1MTY1MWQyNzQ0NjkyMjgyNjY3Y2VmODNjMWJiNzhiZjQwMmU',
-          },
-          {
-            altText: 'Cyber-shot W55',
-            format: 'thumbnail',
-            imageType: 'PRIMARY',
-            url:
-              '/medias/?context=bWFzdGVyfGltYWdlc3wyMzIxfGltYWdlL2pwZWd8aW1hZ2VzL2gxZC9oOTIvODc5NzMxNjgwODczNC5qcGd8MDZlYjM0MGU5OTdiNmU2NDIwZDc0NjJmMGJmN2Q5MDYyN2UzNWVmMzUwZWY0MDU1NTkzMDhiNDcyODg1MjI4OA',
-          },
-          {
-            altText: 'Cyber-shot W55',
-            format: 'cartIcon',
-            imageType: 'PRIMARY',
-            url:
-              '/medias/?context=bWFzdGVyfGltYWdlc3wxNTQ0fGltYWdlL2pwZWd8aW1hZ2VzL2hiMy9oY2MvODc5NzM0MzE1NDIwNi5qcGd8YWJkZjY4OGRlNTBjZDk0NGFmM2M1ZjhhYmRkNzY0ZjQ3NDQ3NGVlYjA2YmQ3YWY1ZTY5ODVlM2UyZjUyNmJjOA',
-          },
-        ],
-        manufacturer: 'Sony',
-        name: 'Cyber-shot W55',
-        purchasable: true,
-        stock: {
-          isValueRounded: false,
-          stockLevel: 262,
-          stockLevelStatus: 'inStock',
-        },
-        url:
-          '/Open-Catalogue/Cameras/Digital-Cameras/Digital-Compacts/Cyber-shot-W55/p/816802',
-      },
+      product,
       quantity: 1,
       returnableQuantity: 0,
       statusSummaryList: [],
@@ -129,7 +104,6 @@ export const orderDetails = {
       updateable: true,
     },
   ],
-  guid: 'a314e97e-2a0f-4fc4-b547-5ed405022f29',
   net: true,
   orderDiscounts: {
     currencyIso: 'USD',
@@ -183,37 +157,6 @@ export const orderDetails = {
   },
   site: 'electronics-spa',
   store: 'electronics',
-  subTotal: {
-    currencyIso: 'USD',
-    formattedValue: '$240.87',
-    priceType: 'BUY',
-    value: 240.87,
-  },
-  totalDiscounts: {
-    currencyIso: 'USD',
-    formattedValue: '$20.00',
-    priceType: 'BUY',
-    value: 20.0,
-  },
-  totalItems: 1,
-  totalPrice: {
-    currencyIso: 'USD',
-    formattedValue: '$248.36',
-    priceType: 'BUY',
-    value: 248.36,
-  },
-  totalPriceWithTax: {
-    currencyIso: 'USD',
-    formattedValue: '$248.36',
-    priceType: 'BUY',
-    value: 248.36,
-  },
-  totalTax: {
-    currencyIso: 'USD',
-    formattedValue: '$0.00',
-    priceType: 'BUY',
-    value: 0.0,
-  },
   user: {
     name: 'Test Test',
     uid: 'test@test1.com',
@@ -235,4 +178,45 @@ cancellableOrder.entries[0].cancellableQuantity = 1;
 export const returnableOrder = JSON.parse(JSON.stringify(orderDetails));
 returnableOrder.returnable = true;
 returnableOrder.cancellable = false;
-cancellableOrder.entries[0].returnableQuantity = 1;
+returnableOrder.entries[0].returnableQuantity = 1;
+
+export const returnRequestDetails = {
+  cancellable: true,
+  code: RETURN_REQUEST_CODE,
+  deliveryCost: {
+    formattedValue: '$7.49',
+  },
+  order: {
+    code: ORDER_CODE,
+  },
+  returnEntries: [
+    {
+      expectedQuantity: 1,
+      orderEntry: {
+        basePrice: {
+          formattedValue: '$260.87',
+        },
+        configurationInfos: [],
+        entryNumber: 0,
+        product,
+        quantity: 1,
+        statusSummaryList: [],
+      },
+      refundAmount: {
+        currencyIso: 'USD',
+        formattedValue: '$7.81',
+        value: 7.81,
+      },
+    },
+  ],
+  rma: RMA,
+  status: 'APPROVAL_PENDING',
+  subTotal: {
+    formattedValue: '$260.87',
+  },
+  totalPrice: {
+    currencyIso: 'USD',
+    formattedValue: '$260.87',
+    value: 260.87,
+  },
+};

@@ -458,7 +458,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
   ],
-  cancelOrder: [
+  cancelOrReturnOrder: [
     {
       value: 'Back',
       type: TabbingOrderTypes.LINK,
@@ -483,7 +483,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.BUTTON,
     },
   ],
-  confirmCancelOrder: [
+  confirmCancelOrReturnOrder: [
     {
       value: 'Back',
       type: TabbingOrderTypes.LINK,
