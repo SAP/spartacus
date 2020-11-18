@@ -49,6 +49,7 @@
       "@spartacus/product/configurators/textfield": [
         "dist/product/configurators/textfield"
       ],
+      "@spartacus/misc": ["dist/misc"],
       "@spartacus/misc/storefinder": ["dist/misc/storefinder"],
       "@spartacus/misc/storefinder/root": ["dist/misc/storefinder/root"],
       "@spartacus/misc/storefinder/core": ["dist/misc/storefinder/core"],
