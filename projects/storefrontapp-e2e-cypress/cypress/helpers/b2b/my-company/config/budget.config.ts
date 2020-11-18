@@ -7,6 +7,8 @@ export const budgetConfig: MyCompanyConfig = {
   baseUrl: `${FULL_BASE_URL_EN_USD}/organization/budgets`,
   apiEndpoint: '/users/current/budgets',
   objectType: 'budgets',
+  canDisable: true,
+  verifyStatusInDetails: true,
   rows: [
     {
       label: 'Name',

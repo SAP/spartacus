@@ -9,6 +9,7 @@ import { ignoreCaseSensivity, loginAsMyCompanyAdmin } from './my-company.utils';
 export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
   describe(`${config.name} Create / Update`, () => {
     let entityUId: string;
+    let entityId: string;
 
     beforeEach(() => {
       loginAsMyCompanyAdmin();
@@ -40,8 +41,64 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
       });
     });
 
+    if (config.canDisable) {
+      it('should disable/enable', () => {
+        cy.visit(
+          `${config.baseUrl}/${
+            entityUId ?? config.rows?.find((row) => row.useInUrl).createValue
+          }`
+        );
+
+        cy.get('cx-organization-card div.header button')
+          .contains('Disable')
+          .click();
+        cy.get('cx-confirmation')
+          .should(
+            'contain.text',
+            `Are you sure you want to disable this ${config.name.toLowerCase()}?`
+          )
+          .contains('cancel')
+          .click();
+        cy.get('cx-confirmation').should('not.exist');
+
+        cy.get('div.header button').contains('Disable').click();
+        cy.get('cx-confirmation')
+          .should(
+            'contain.text',
+            `Are you sure you want to disable this ${config.name.toLowerCase()}?`
+          )
+          .contains('confirm')
+          .click();
+        cy.get('cx-confirmation').should('not.exist');
+        cy.get('cx-notification').contains(' disabled successfully');
+        cy.get('cx-notification').should('not.exist');
+        cy.get('div.header button').contains('Disable').should('not.exist');
+
+        if (config.verifyStatusInDetails) {
+          cy.get('section.details label')
+            .contains('Status')
+            .parent()
+            .should('contain.text', 'Disabled');
+        }
+
+        cy.get('div.header button').contains('Enable').click();
+        cy.get('cx-notification').contains(' enabled successfully');
+        cy.get('cx-notification').should('not.exist');
+
+        cy.get('div.header button').contains('Enable').should('not.exist');
+        cy.get('div.header button').contains('Disable').should('exist');
+
+        if (config.verifyStatusInDetails) {
+          cy.get('section.details label')
+            .contains('Status')
+            .parent()
+            .should('contain.text', 'Active');
+        }
+      });
+    }
+
     it(`should update`, () => {
-      const entityId =
+      entityId =
         entityUId ?? config.rows?.find((row) => row.useInUrl).createValue;
 
       if (config.preserveCookies) {

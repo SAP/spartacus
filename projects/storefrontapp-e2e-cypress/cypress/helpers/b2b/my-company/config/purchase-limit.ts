@@ -8,6 +8,8 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
     baseUrl: `${FULL_BASE_URL_EN_USD}/organization/purchase-limits`,
     apiEndpoint: '/users/current/orderApprovalPermissions',
     objectType: 'orderApprovalPermissions',
+    canDisable: true,
+    verifyStatusInDetails: true,
     rows: [
       {
         label: 'Code',
