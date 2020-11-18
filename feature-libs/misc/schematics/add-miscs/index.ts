@@ -33,10 +33,6 @@ import {
   SPARTACUS_CORE,
   SPARTACUS_MISC,
   SPARTACUS_SETUP,
-  validateSpartacusInstallation,
-} from '@spartacus/schematics';
-import * as ts from 'typescript';
-import {
   SPARTACUS_STOREFINDER,
   SPARTACUS_STOREFINDER_ASSETS,
   SPARTACUS_STOREFINDER_ROOT,
@@ -45,7 +41,9 @@ import {
   STOREFINDER_ROOT_MODULE,
   STOREFINDER_TRANSLATIONS,
   STOREFINDER_TRANSLATION_CHUNKS_CONFIG,
-} from '../constants';
+  validateSpartacusInstallation,
+} from '@spartacus/schematics';
+import * as ts from 'typescript';
 import { Schema as SpartacusMiscOptions } from './schema';
 
 interface FeatureConfig {
@@ -75,7 +73,6 @@ export function addMiscFeatures(options: SpartacusMiscOptions): Rule {
 
     return chain([
       ...addStorefinder(options, packageJson, appModulePath),
-      addStyles(),
       installPackageJsonDependencies(),
     ]);
   };
@@ -89,6 +86,7 @@ function addStorefinder(
   if (shouldAddFeature(options.features, CLI_STOREFINDER_FEATURE)) {
     return [
       addStorefinderPackageJsonDependencies(packageJson),
+      addStorefinderStyles(),
       addStorefinderFeature(appModulePath, options),
     ];
   }
@@ -152,7 +150,7 @@ function addStorefinderPackageJsonDependencies(packageJson: any): Rule {
   };
 }
 
-function addStyles(): Rule {
+function addStorefinderStyles(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const storefinderScssPath = `${getSourceRoot(
       tree

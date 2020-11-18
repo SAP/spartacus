@@ -2,9 +2,11 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import { SpartacusOptions } from '@spartacus/schematics';
+import {
+  CLI_STOREFINDER_FEATURE,
+  SpartacusOptions,
+} from '@spartacus/schematics';
 import * as path from 'path';
-import { CLI_STOREFINDER_FEATURE } from '../constants';
 import { Schema as SpartacusMiscOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
