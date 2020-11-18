@@ -4,7 +4,12 @@ export {
   getExistingStorefrontConfigNode,
   mergeConfig,
 } from './config-utils';
-export { commitChanges, getTsSourceFile, InsertDirection } from './file-utils';
+export {
+  commitChanges,
+  getTsSourceFile,
+  InsertDirection,
+  removeImport,
+} from './file-utils';
 export {
   addImport,
   addToMetadata,

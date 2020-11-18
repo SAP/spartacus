@@ -624,7 +624,7 @@ function shouldRemoveImportAndParam(
   return true;
 }
 
-function removeImport(
+export function removeImport(
   source: ts.SourceFile,
   sourcePath: string,
   importToRemove: ClassType

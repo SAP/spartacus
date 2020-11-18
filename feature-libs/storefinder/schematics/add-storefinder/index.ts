@@ -7,8 +7,17 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import { findNodes, isImported } from '@schematics/angular/utility/ast-utils';
-import { Change, NoopChange } from '@schematics/angular/utility/change';
+import {
+  findNodes,
+  getDecoratorMetadata,
+  getMetadataField,
+  isImported,
+} from '@schematics/angular/utility/ast-utils';
+import {
+  Change,
+  NoopChange,
+  RemoveChange,
+} from '@schematics/angular/utility/change';
 import {
   addPackageJsonDependency,
   NodeDependency,
@@ -18,10 +27,10 @@ import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import {
   addToModuleImports,
   addToModuleProviders,
+  ANGULAR_CORE,
   commitChanges,
   createImportChange,
   createNewConfig,
-  DEFAULT_B2B_OCC_CONFIG,
   getConfig,
   getDefaultProjectNameFromWorkspace,
   getExistingStorefrontConfigNode,
@@ -31,34 +40,24 @@ import {
   getTsSourceFile,
   getWorkspace,
   PROVIDE_CONFIG_FUNCTION,
-  PROVIDE_DEFAULT_CONFIG,
   readPackageJson,
+  removeImport,
   SPARTACUS_CORE,
   SPARTACUS_SETUP,
+  SPARTACUS_STOREFRONTLIB,
 } from '@spartacus/schematics';
 import * as ts from 'typescript';
 import {
-  ADMINISTRATION_MODULE,
-  ADMINISTRATION_ROOT_MODULE,
-  CLI_ADMINISTRATION_FEATURE,
-  CLI_ORDER_APPROVAL_FEATURE,
-  ORDER_APPROVAL_MODULE,
-  ORDER_APPROVAL_ROOT_MODULE,
-  ORDER_APPROVAL_TRANSLATIONS,
-  ORDER_APPROVAL_TRANSLATION_CHUNKS_CONFIG,
-  ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
-  ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME,
-  ORGANIZATION_TRANSLATIONS,
-  ORGANIZATION_TRANSLATION_CHUNKS_CONFIG,
-  SPARTACUS_ADMINISTRATION,
-  SPARTACUS_ADMINISTRATION_ASSETS,
-  SPARTACUS_ADMINISTRATION_ROOT,
-  SPARTACUS_ORDER_APPROVAL,
-  SPARTACUS_ORDER_APPROVAL_ASSETS,
-  SPARTACUS_ORDER_APPROVAL_ROOT,
-  SPARTACUS_ORGANIZATION,
+  SPARTACUS_STOREFINDER,
+  SPARTACUS_STOREFINDER_ASSETS,
+  SPARTACUS_STOREFINDER_ROOT,
+  STOREFINDER_FEATURE_NAME,
+  STOREFINDER_MODULE,
+  STOREFINDER_ROOT_MODULE,
+  STOREFINDER_TRANSLATIONS,
+  STOREFINDER_TRANSLATION_CHUNKS_CONFIG,
 } from '../constants';
-import { Schema as SpartacusOrganizationOptions } from './schema';
+import { Schema as SpartacusStorefinderOptions } from './schema';
 
 interface FeatureConfig {
   name: string;
@@ -78,8 +77,8 @@ interface I18NConfig {
   importPath: string;
 }
 
-export function addSpartacusOrganization(
-  options: SpartacusOrganizationOptions
+export function addSpartacusStorefinder(
+  options: SpartacusStorefinderOptions
 ): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
@@ -88,35 +87,91 @@ export function addSpartacusOrganization(
     const appModulePath = getAppModule(tree, options);
 
     return chain([
+      migrate(appModulePath),
       addPackageJsonDependencies(packageJson),
-      shouldAddFeature(options.features, CLI_ADMINISTRATION_FEATURE)
-        ? addAdministrationFeature(appModulePath, options)
-        : noop(),
-      shouldAddFeature(options.features, CLI_ORDER_APPROVAL_FEATURE)
-        ? addOrderApprovalsFeature(appModulePath, options)
-        : noop(),
+      handleFeature(appModulePath, options, {
+        name: STOREFINDER_FEATURE_NAME,
+        featureModule: {
+          name: STOREFINDER_MODULE,
+          importPath: SPARTACUS_STOREFINDER,
+        },
+        rootModule: {
+          name: STOREFINDER_ROOT_MODULE,
+          importPath: SPARTACUS_STOREFINDER_ROOT,
+        },
+        i18n: {
+          resources: STOREFINDER_TRANSLATIONS,
+          chunks: STOREFINDER_TRANSLATION_CHUNKS_CONFIG,
+          importPath: SPARTACUS_STOREFINDER_ASSETS,
+        },
+      }),
       addStyles(),
       installPackageJsonDependencies(),
     ]);
   };
 }
 
-function shouldAddFeature(features: string[], feature: string): boolean {
-  return features.includes(feature);
+function migrate(appModulePath: string): Rule {
+  return (tree: Tree, _context: SchematicContext) => {
+    const appModuleSource = getTsSourceFile(tree, appModulePath);
+
+    const changes: Change[] = [];
+    if (
+      isImported(appModuleSource, STOREFINDER_MODULE, SPARTACUS_STOREFRONTLIB)
+    ) {
+      const importRemovalChanges = removeImport(
+        appModuleSource,
+        appModulePath,
+        {
+          className: STOREFINDER_MODULE,
+          importPath: SPARTACUS_STOREFRONTLIB,
+        }
+      );
+      changes.push(importRemovalChanges);
+
+      const node = getDecoratorMetadata(
+        appModuleSource,
+        'NgModule',
+        ANGULAR_CORE
+      )[0];
+      const assignment = getMetadataField(
+        node as ts.ObjectLiteralExpression,
+        'imports'
+      )[0] as ts.PropertyAssignment;
+      const arrLiteral = assignment.initializer as ts.ArrayLiteralExpression;
+      if (arrLiteral.elements.length !== 0) {
+        arrLiteral.elements.every((el) => {
+          if (el.getText() === STOREFINDER_MODULE) {
+            const removeFromModulesArrayChange = new RemoveChange(
+              appModulePath,
+              el.getStart(),
+              `${STOREFINDER_MODULE},`
+            );
+            changes.push(removeFromModulesArrayChange);
+            return false;
+          }
+
+          return el;
+        });
+      }
+    }
+
+    commitChanges(tree, appModulePath, changes);
+  };
 }
 
 function addPackageJsonDependencies(packageJson: any): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
 
-    const spartacusOrganizationDependency: NodeDependency = {
+    const spartacusStorefinderDependency: NodeDependency = {
       type: NodeDependencyType.Default,
       version: spartacusVersion,
-      name: SPARTACUS_ORGANIZATION,
+      name: SPARTACUS_STOREFINDER,
     };
-    addPackageJsonDependency(tree, spartacusOrganizationDependency);
+    addPackageJsonDependency(tree, spartacusStorefinderDependency);
     context.logger.info(
-      `✅️ Added '${spartacusOrganizationDependency.name}' into ${spartacusOrganizationDependency.type}`
+      `✅️ Added '${spartacusStorefinderDependency.name}' into ${spartacusStorefinderDependency.type}`
     );
 
     if (!packageJson.dependencies.hasOwnProperty(SPARTACUS_SETUP)) {
@@ -147,17 +202,17 @@ function validateSpartacusInstallation(packageJson: any): void {
 
 function addStyles(): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const myAccountScssPath = `${getSourceRoot(
+    const storefinderScssPath = `${getSourceRoot(
       tree
-    )}/styles/spartacus/organization.scss`;
-    if (tree.exists(myAccountScssPath)) {
+    )}/styles/spartacus/storefinder.scss`;
+    if (tree.exists(storefinderScssPath)) {
       context.logger.info(
-        `Skipping the creation of '${myAccountScssPath}', as it already exists.`
+        `Skipping the creation of '${storefinderScssPath}', as it already exists.`
       );
       return noop();
     }
 
-    tree.create(myAccountScssPath, `@import "${SPARTACUS_ORGANIZATION}";`);
+    tree.create(storefinderScssPath, `@import "${SPARTACUS_STOREFINDER}";`);
 
     const { path, workspace: angularJson } = getWorkspace(tree);
     const defaultProject = getDefaultProjectNameFromWorkspace(tree);
@@ -172,7 +227,7 @@ function addStyles(): Rule {
         ...(architectBuild?.options?.styles
           ? architectBuild?.options?.styles
           : []),
-        myAccountScssPath,
+        storefinderScssPath,
       ],
     };
 
@@ -184,7 +239,7 @@ function addStyles(): Rule {
         ...(architectTest?.options?.styles
           ? architectTest?.options?.styles
           : []),
-        myAccountScssPath,
+        storefinderScssPath,
       ],
     };
 
@@ -222,7 +277,7 @@ function installPackageJsonDependencies(): Rule {
 
 function getAppModule(
   host: Tree,
-  options: SpartacusOrganizationOptions
+  options: SpartacusStorefinderOptions
 ): string {
   const projectTargets = getProjectTargets(host, options.project);
 
@@ -234,99 +289,13 @@ function getAppModule(
   return getAppModulePath(host, mainPath);
 }
 
-function addAdministrationFeature(
-  appModulePath: string,
-  options: SpartacusOrganizationOptions
-): Rule {
-  return handleFeature(appModulePath, options, {
-    name: ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
-    featureModule: {
-      name: ADMINISTRATION_MODULE,
-      importPath: SPARTACUS_ADMINISTRATION,
-    },
-    rootModule: {
-      name: ADMINISTRATION_ROOT_MODULE,
-      importPath: SPARTACUS_ADMINISTRATION_ROOT,
-    },
-    i18n: {
-      resources: ORGANIZATION_TRANSLATIONS,
-      chunks: ORGANIZATION_TRANSLATION_CHUNKS_CONFIG,
-      importPath: SPARTACUS_ADMINISTRATION_ASSETS,
-    },
-  });
-}
-
-function addOrderApprovalsFeature(
-  appModulePath: string,
-  options: SpartacusOrganizationOptions
-): Rule {
-  return handleFeature(appModulePath, options, {
-    name: ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME,
-    featureModule: {
-      name: ORDER_APPROVAL_MODULE,
-      importPath: SPARTACUS_ORDER_APPROVAL,
-    },
-    rootModule: {
-      name: ORDER_APPROVAL_ROOT_MODULE,
-      importPath: SPARTACUS_ORDER_APPROVAL_ROOT,
-    },
-    i18n: {
-      resources: ORDER_APPROVAL_TRANSLATIONS,
-      chunks: ORDER_APPROVAL_TRANSLATION_CHUNKS_CONFIG,
-      importPath: SPARTACUS_ORDER_APPROVAL_ASSETS,
-    },
-  });
-}
-
 function handleFeature(
   appModulePath: string,
-  options: SpartacusOrganizationOptions,
+  options: SpartacusStorefinderOptions,
   config: FeatureConfig
 ): Rule {
   return (host: Tree, context: SchematicContext) => {
     const changes: Change[] = [];
-
-    // TODO: omit this part when extracting
-    if (
-      !isImported(
-        getTsSourceFile(host, appModulePath),
-        PROVIDE_DEFAULT_CONFIG,
-        SPARTACUS_CORE
-      )
-    ) {
-      const coreImportChange = createImportChange(
-        host,
-        appModulePath,
-        PROVIDE_DEFAULT_CONFIG,
-        SPARTACUS_CORE
-      );
-      changes.push(coreImportChange);
-
-      // TODO: omit this part when extracting
-      const providersChanges = addToModuleProviders(
-        host,
-        appModulePath,
-        `${PROVIDE_DEFAULT_CONFIG}(${DEFAULT_B2B_OCC_CONFIG}),`,
-        getTsSourceFile(host, appModulePath)
-      );
-      changes.push(...providersChanges);
-    }
-    // TODO: omit this part when extracting
-    if (
-      !isImported(
-        getTsSourceFile(host, appModulePath),
-        DEFAULT_B2B_OCC_CONFIG,
-        SPARTACUS_SETUP
-      )
-    ) {
-      const setupImportChange = createImportChange(
-        host,
-        appModulePath,
-        DEFAULT_B2B_OCC_CONFIG,
-        SPARTACUS_SETUP
-      );
-      changes.push(setupImportChange);
-    }
 
     // import root module
     if (
@@ -404,6 +373,7 @@ function mergeLazyLoadingConfig(
     module: Module;
   }
 ): Change {
+  // TODO:#9824 - after https://github.com/SAP/spartacus/pull/9836 is done, try to fetch both configs
   const storefrontConfig = getExistingStorefrontConfigNode(moduleSource);
   const lazyLoadingModule = `module: () => import('${config.module.importPath}').then(
           (m) => m.${config.module.name}
