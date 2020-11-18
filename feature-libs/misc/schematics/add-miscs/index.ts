@@ -48,6 +48,8 @@ import {
 } from '@spartacus/schematics';
 import * as ts from 'typescript';
 import {
+  CLI_STOREFINDER_FEATURE,
+  SPARTACUS_MISC,
   SPARTACUS_STOREFINDER,
   SPARTACUS_STOREFINDER_ASSETS,
   SPARTACUS_STOREFINDER_ROOT,
@@ -57,7 +59,7 @@ import {
   STOREFINDER_TRANSLATIONS,
   STOREFINDER_TRANSLATION_CHUNKS_CONFIG,
 } from '../constants';
-import { Schema as SpartacusStorefinderOptions } from './schema';
+import { Schema as SpartacusMiscOptions } from './schema';
 
 interface FeatureConfig {
   name: string;
@@ -77,9 +79,7 @@ interface I18NConfig {
   importPath: string;
 }
 
-export function addSpartacusStorefinder(
-  options: SpartacusStorefinderOptions
-): Rule {
+export function addMiscFeatures(options: SpartacusMiscOptions): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
@@ -87,31 +87,55 @@ export function addSpartacusStorefinder(
     const appModulePath = getAppModule(tree, options);
 
     return chain([
-      migrate(appModulePath),
-      addPackageJsonDependencies(packageJson),
-      handleFeature(appModulePath, options, {
-        name: STOREFINDER_FEATURE_NAME,
-        featureModule: {
-          name: STOREFINDER_MODULE,
-          importPath: SPARTACUS_STOREFINDER,
-        },
-        rootModule: {
-          name: STOREFINDER_ROOT_MODULE,
-          importPath: SPARTACUS_STOREFINDER_ROOT,
-        },
-        i18n: {
-          resources: STOREFINDER_TRANSLATIONS,
-          chunks: STOREFINDER_TRANSLATION_CHUNKS_CONFIG,
-          importPath: SPARTACUS_STOREFINDER_ASSETS,
-        },
-      }),
+      ...addStorefinder(options, packageJson, appModulePath),
       addStyles(),
       installPackageJsonDependencies(),
     ]);
   };
 }
 
-function migrate(appModulePath: string): Rule {
+function addStorefinder(
+  options: SpartacusMiscOptions,
+  packageJson: any,
+  appModulePath: string
+): Rule[] {
+  if (shouldAddFeature(options.features, CLI_STOREFINDER_FEATURE)) {
+    return [
+      addStorefinderPackageJsonDependencies(packageJson),
+      migrateStorefinder(appModulePath),
+      addStorefinderFeature(appModulePath, options),
+    ];
+  }
+  return [noop()];
+}
+
+function shouldAddFeature(features: string[], feature: string): boolean {
+  return features.includes(feature);
+}
+
+function addStorefinderFeature(
+  appModulePath: string,
+  options: SpartacusMiscOptions
+): Rule {
+  return handleFeature(appModulePath, options, {
+    name: STOREFINDER_FEATURE_NAME,
+    featureModule: {
+      name: STOREFINDER_MODULE,
+      importPath: SPARTACUS_STOREFINDER,
+    },
+    rootModule: {
+      name: STOREFINDER_ROOT_MODULE,
+      importPath: SPARTACUS_STOREFINDER_ROOT,
+    },
+    i18n: {
+      resources: STOREFINDER_TRANSLATIONS,
+      chunks: STOREFINDER_TRANSLATION_CHUNKS_CONFIG,
+      importPath: SPARTACUS_STOREFINDER_ASSETS,
+    },
+  });
+}
+
+function migrateStorefinder(appModulePath: string): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const appModuleSource = getTsSourceFile(tree, appModulePath);
 
@@ -160,14 +184,14 @@ function migrate(appModulePath: string): Rule {
   };
 }
 
-function addPackageJsonDependencies(packageJson: any): Rule {
+function addStorefinderPackageJsonDependencies(packageJson: any): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
 
     const spartacusStorefinderDependency: NodeDependency = {
       type: NodeDependencyType.Default,
       version: spartacusVersion,
-      name: SPARTACUS_STOREFINDER,
+      name: SPARTACUS_MISC,
     };
     addPackageJsonDependency(tree, spartacusStorefinderDependency);
     context.logger.info(
@@ -212,7 +236,7 @@ function addStyles(): Rule {
       return noop();
     }
 
-    tree.create(storefinderScssPath, `@import "${SPARTACUS_STOREFINDER}";`);
+    tree.create(storefinderScssPath, `@import "${SPARTACUS_MISC}";`);
 
     const { path, workspace: angularJson } = getWorkspace(tree);
     const defaultProject = getDefaultProjectNameFromWorkspace(tree);
@@ -275,10 +299,7 @@ function installPackageJsonDependencies(): Rule {
   };
 }
 
-function getAppModule(
-  host: Tree,
-  options: SpartacusStorefinderOptions
-): string {
+function getAppModule(host: Tree, options: SpartacusMiscOptions): string {
   const projectTargets = getProjectTargets(host, options.project);
 
   if (!projectTargets.build) {
@@ -291,7 +312,7 @@ function getAppModule(
 
 function handleFeature(
   appModulePath: string,
-  options: SpartacusStorefinderOptions,
+  options: SpartacusMiscOptions,
   config: FeatureConfig
 ): Rule {
   return (host: Tree, context: SchematicContext) => {
