@@ -1,4 +1,4 @@
-<cx-organization-card *ngIf="model$ | async as model" i18nRoot="user.details">
+<cx-org-card *ngIf="model$ | async as model" i18nRoot="user.details">
   <a
     actions
     class="link edit"
@@ -8,7 +8,11 @@
     {{ 'organization.edit' | cxTranslate }}
   </a>
 
-  <cx-toggle-status actions key="customerId" i18nRoot="user"></cx-toggle-status>
+  <cx-org-toggle-status
+    actions
+    key="customerId"
+    i18nRoot="user"
+  ></cx-org-toggle-status>
 
   <section main class="details" cxOrgItemExists>
     <div class="property">
@@ -88,4 +92,4 @@
       </a>
     </ng-container>
   </section>
-</cx-organization-card>
+</cx-org-card>

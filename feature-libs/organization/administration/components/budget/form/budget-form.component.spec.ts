@@ -7,7 +7,7 @@ import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { DatePickerModule, FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of } from 'rxjs';
-import { OrganizationFormTestingModule } from '../../shared/organization-form/organization-form.testing.module';
+import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { BudgetItemService } from '../services/budget-item.service';
 import { BudgetFormComponent } from './budget-form.component';
 
@@ -36,7 +36,7 @@ class MockCurrencyService {
   getAll() {}
 }
 
-class MockOrganizationItemService {
+class MockItemService {
   getForm() {}
 }
 
@@ -54,13 +54,13 @@ describe('BudgetFormComponent', () => {
         ReactiveFormsModule,
         NgSelectModule,
         DatePickerModule,
-        OrganizationFormTestingModule,
+        FormTestingModule,
       ],
       declarations: [BudgetFormComponent, FormErrorsComponent],
       providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
-        { provide: BudgetItemService, useClass: MockOrganizationItemService },
+        { provide: BudgetItemService, useClass: MockItemService },
       ],
     }).compileComponents();
 
