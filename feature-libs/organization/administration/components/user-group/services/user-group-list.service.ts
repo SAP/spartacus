@@ -7,7 +7,7 @@ import {
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
+import { ListService } from '../../shared/list/list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 /**
  * The UI model for the cost center, which is a slightly flattened version
@@ -26,9 +26,7 @@ export interface UserGroupModel {
 @Injectable({
   providedIn: 'root',
 })
-export class UserGroupListService extends OrganizationListService<
-  UserGroupModel
-> {
+export class UserGroupListService extends ListService<UserGroupModel> {
   protected tableType = OrganizationTableType.USER_GROUP;
 
   constructor(

@@ -4,19 +4,19 @@ import {
   LoadStatus,
   UserGroup,
 } from '@spartacus/organization/administration/core';
-import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
+import { ListService } from '../../shared/list/list.service';
 import { CurrentUserGroupService } from '../services/current-user-group.service';
 import { UserGroupUserListService } from './user-group-user-list.service';
-import { MessageService } from '../../shared/organization-message/services/message.service';
+import { MessageService } from '../../shared/message/services/message.service';
 
 @Component({
-  selector: 'cx-user-group-user-list',
+  selector: 'cx-org-user-group-user-list',
   templateUrl: './user-group-user-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },
   providers: [
     {
-      provide: OrganizationListService,
+      provide: ListService,
       useExisting: UserGroupUserListService,
     },
   ],

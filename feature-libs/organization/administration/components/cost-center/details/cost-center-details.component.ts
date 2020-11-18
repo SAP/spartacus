@@ -2,16 +2,16 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CostCenter } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
-import { OrganizationItemService } from '../../shared/organization-item.service';
+import { ItemService } from '../../shared/item.service';
 import { CostCenterItemService } from '../services/cost-center-item.service';
 
 @Component({
-  selector: 'cx-cost-center-details',
+  selector: 'cx-org-cost-center-details',
   templateUrl: './cost-center-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
-      provide: OrganizationItemService,
+      provide: ItemService,
       useExisting: CostCenterItemService,
     },
   ],
@@ -23,5 +23,5 @@ export class CostCenterDetailsComponent {
     startWith({})
   );
 
-  constructor(protected itemService: OrganizationItemService<CostCenter>) {}
+  constructor(protected itemService: ItemService<CostCenter>) {}
 }
