@@ -7,7 +7,7 @@ import {
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
+import { ListService } from '../../shared/list/list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 
 /**
@@ -17,7 +17,7 @@ import { OrganizationTableType } from '../../shared/organization.model';
 @Injectable({
   providedIn: 'root',
 })
-export class BudgetListService extends OrganizationListService<Budget> {
+export class BudgetListService extends ListService<Budget> {
   protected tableType = OrganizationTableType.BUDGET;
 
   constructor(
