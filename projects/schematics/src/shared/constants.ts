@@ -505,6 +505,7 @@ export const GET_GLOB_URL_MATCHER = 'getGlobUrlMatcher';
 export const PLACE_ORDER = 'placeOrder';
 export const SET_QUERY = 'setQuery';
 export const VIEW_PAGE = 'viewPage';
+export const GET_ORDER_DETAILS = 'getOrderDetails';
 
 export const GET_ADDRESS_CARD_CONTENT = 'getAddressCardContent';
 export const GET_DELIVERY_MODE_CARD_CONTENT = 'getDeliveryModeCardContent';
