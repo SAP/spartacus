@@ -4,7 +4,7 @@ import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitCostCenterItemService } from './unit-cost-center-item.service';
 
 @Component({
-  selector: 'cx-unit-cost-center-create',
+  selector: 'cx-org-unit-cost-center-create',
   templateUrl: './unit-cost-center-create.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },

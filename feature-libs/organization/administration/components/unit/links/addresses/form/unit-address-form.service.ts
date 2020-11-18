@@ -10,12 +10,12 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
-import { OrganizationFormService } from '../../../../shared/organization-form/organization-form.service';
+import { FormService } from '../../../../shared/form/form.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UnitAddressFormService extends OrganizationFormService<Address> {
+export class UnitAddressFormService extends FormService<Address> {
   constructor(
     protected userAddressService: UserAddressService,
     protected userService: UserService

@@ -7,14 +7,14 @@ import { CurrencyService, I18nModule, UrlModule } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { ItemActiveModule } from '../../shared/item-active.module';
-import { OrganizationFormModule } from '../../shared/organization-form/organization-form.module';
+import { FormModule } from '../../shared/form/form.module';
 import { CostCenterFormComponent } from './cost-center-form.component';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    OrganizationFormModule,
+    FormModule,
     NgSelectModule,
     UrlModule,
     I18nModule,

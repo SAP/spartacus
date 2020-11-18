@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserGroup } from '@spartacus/organization/administration/core';
 import { CustomFormValidators } from '@spartacus/storefront';
-import { OrganizationFormService } from '../../shared/organization-form/organization-form.service';
+import { FormService } from '../../shared/form/form.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserGroupFormService extends OrganizationFormService<UserGroup> {
+export class UserGroupFormService extends FormService<UserGroup> {
   protected build() {
     const form = new FormGroup({});
     form.setControl(
