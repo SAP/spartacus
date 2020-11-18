@@ -91,7 +91,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
 
     it(`should replace it with 'B2bStorefrontModule'`, () => {
       const appModule = appTree.readContent(appModulePath);
-      expect(appModule).not.toContain(B2B_STOREFRONT_MODULE);
+      expect(appModule).toContain(B2B_STOREFRONT_MODULE);
     });
   });
 
