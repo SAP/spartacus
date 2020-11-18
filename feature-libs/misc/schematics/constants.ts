@@ -1,4 +1,4 @@
-export const SPARTACUS_MISC = '@spartacus/misc';
+import { SPARTACUS_MISC } from '@spartacus/schematics';
 
 export const STOREFINDER_FEATURE_NAME = 'storeFinder';
 export const STOREFINDER_ROOT_MODULE = 'StoreFinderRootModule';
@@ -9,5 +9,3 @@ export const SPARTACUS_STOREFINDER_ASSETS = `${SPARTACUS_STOREFINDER}/assets`;
 export const STOREFINDER_TRANSLATIONS = 'storeFinderTranslations';
 export const STOREFINDER_TRANSLATION_CHUNKS_CONFIG =
   'storeFinderTranslationChunksConfig';
-
-export const CLI_STOREFINDER_FEATURE = 'Storefinder';

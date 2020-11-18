@@ -14,7 +14,6 @@ import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
-import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import {
   addToModuleImports,
   addToModuleProviders,
@@ -22,10 +21,10 @@ import {
   createImportChange,
   createNewConfig,
   DEFAULT_B2B_OCC_CONFIG,
+  getAppModule,
   getConfig,
   getDefaultProjectNameFromWorkspace,
   getExistingStorefrontConfigNode,
-  getProjectTargets,
   getSourceRoot,
   getSpartacusSchematicsVersion,
   getTsSourceFile,
@@ -85,7 +84,7 @@ export function addSpartacusOrganization(
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    const appModulePath = getAppModule(tree, options);
+    const appModulePath = getAppModule(tree, options.project);
 
     return chain([
       addPackageJsonDependencies(packageJson),
@@ -218,20 +217,6 @@ function installPackageJsonDependencies(): Rule {
     context.logger.log('info', `🔍 Installing packages...`);
     return tree;
   };
-}
-
-function getAppModule(
-  host: Tree,
-  options: SpartacusOrganizationOptions
-): string {
-  const projectTargets = getProjectTargets(host, options.project);
-
-  if (!projectTargets.build) {
-    throw new SchematicsException(`Project target "build" not found.`);
-  }
-
-  const mainPath = projectTargets.build.options.main;
-  return getAppModulePath(host, mainPath);
 }
 
 function addAdministrationFeature(

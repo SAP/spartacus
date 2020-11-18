@@ -17,6 +17,7 @@ export {
   addToModuleImportsAndCommitChanges,
   addToModuleProviders,
   createImportChange,
+  getAppModule,
 } from './module-file-utils';
 export {
   getSpartacusSchematicsVersion,
@@ -27,4 +28,5 @@ export {
   getProjectTargets,
   getSourceRoot,
   getWorkspace,
+  validateSpartacusInstallation,
 } from './workspace-utils';

@@ -75,6 +75,11 @@
       "version": "3.0.0-next.6",
       "factory": "./3_0/css/css#migrate",
       "description": "Handle deprecated CSS"
+    },
+    "migration-v3-storefinder": {
+      "version": "3.0.0-next.6",
+      "factory": "./3_0/storefinder/storefinder#migrate",
+      "description": "Migrate the old storefinder setup to the new one."
     }
   }
 }

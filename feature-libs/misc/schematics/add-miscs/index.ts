@@ -3,53 +3,40 @@ import {
   noop,
   Rule,
   SchematicContext,
-  SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import {
-  findNodes,
-  getDecoratorMetadata,
-  getMetadataField,
-  isImported,
-} from '@schematics/angular/utility/ast-utils';
-import {
-  Change,
-  NoopChange,
-  RemoveChange,
-} from '@schematics/angular/utility/change';
+import { findNodes, isImported } from '@schematics/angular/utility/ast-utils';
+import { Change, NoopChange } from '@schematics/angular/utility/change';
 import {
   addPackageJsonDependency,
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
-import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import {
   addToModuleImports,
   addToModuleProviders,
-  ANGULAR_CORE,
+  CLI_STOREFINDER_FEATURE,
   commitChanges,
   createImportChange,
   createNewConfig,
+  getAppModule,
   getConfig,
   getDefaultProjectNameFromWorkspace,
   getExistingStorefrontConfigNode,
-  getProjectTargets,
   getSourceRoot,
   getSpartacusSchematicsVersion,
   getTsSourceFile,
   getWorkspace,
   PROVIDE_CONFIG_FUNCTION,
   readPackageJson,
-  removeImport,
   SPARTACUS_CORE,
+  SPARTACUS_MISC,
   SPARTACUS_SETUP,
-  SPARTACUS_STOREFRONTLIB,
+  validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import * as ts from 'typescript';
 import {
-  CLI_STOREFINDER_FEATURE,
-  SPARTACUS_MISC,
   SPARTACUS_STOREFINDER,
   SPARTACUS_STOREFINDER_ASSETS,
   SPARTACUS_STOREFINDER_ROOT,
@@ -84,7 +71,7 @@ export function addMiscFeatures(options: SpartacusMiscOptions): Rule {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    const appModulePath = getAppModule(tree, options);
+    const appModulePath = getAppModule(tree, options.project);
 
     return chain([
       ...addStorefinder(options, packageJson, appModulePath),
@@ -102,7 +89,6 @@ function addStorefinder(
   if (shouldAddFeature(options.features, CLI_STOREFINDER_FEATURE)) {
     return [
       addStorefinderPackageJsonDependencies(packageJson),
-      migrateStorefinder(appModulePath),
       addStorefinderFeature(appModulePath, options),
     ];
   }
@@ -135,55 +121,6 @@ function addStorefinderFeature(
   });
 }
 
-function migrateStorefinder(appModulePath: string): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
-    const appModuleSource = getTsSourceFile(tree, appModulePath);
-
-    const changes: Change[] = [];
-    if (
-      isImported(appModuleSource, STOREFINDER_MODULE, SPARTACUS_STOREFRONTLIB)
-    ) {
-      const importRemovalChanges = removeImport(
-        appModuleSource,
-        appModulePath,
-        {
-          className: STOREFINDER_MODULE,
-          importPath: SPARTACUS_STOREFRONTLIB,
-        }
-      );
-      changes.push(importRemovalChanges);
-
-      const node = getDecoratorMetadata(
-        appModuleSource,
-        'NgModule',
-        ANGULAR_CORE
-      )[0];
-      const assignment = getMetadataField(
-        node as ts.ObjectLiteralExpression,
-        'imports'
-      )[0] as ts.PropertyAssignment;
-      const arrLiteral = assignment.initializer as ts.ArrayLiteralExpression;
-      if (arrLiteral.elements.length !== 0) {
-        arrLiteral.elements.every((el) => {
-          if (el.getText() === STOREFINDER_MODULE) {
-            const removeFromModulesArrayChange = new RemoveChange(
-              appModulePath,
-              el.getStart(),
-              `${STOREFINDER_MODULE},`
-            );
-            changes.push(removeFromModulesArrayChange);
-            return false;
-          }
-
-          return el;
-        });
-      }
-    }
-
-    commitChanges(tree, appModulePath, changes);
-  };
-}
-
 function addStorefinderPackageJsonDependencies(packageJson: any): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
@@ -213,15 +150,6 @@ function addStorefinderPackageJsonDependencies(packageJson: any): Rule {
 
     return tree;
   };
-}
-
-function validateSpartacusInstallation(packageJson: any): void {
-  if (!packageJson.dependencies.hasOwnProperty(SPARTACUS_CORE)) {
-    throw new SchematicsException(
-      `Spartacus is not detected. Please first install Spartacus by running: 'ng add @spartacus/schematics'.
-    To see more options, please check our documentation.`
-    );
-  }
 }
 
 function addStyles(): Rule {
@@ -297,17 +225,6 @@ function installPackageJsonDependencies(): Rule {
     context.logger.log('info', `🔍 Installing packages...`);
     return tree;
   };
-}
-
-function getAppModule(host: Tree, options: SpartacusMiscOptions): string {
-  const projectTargets = getProjectTargets(host, options.project);
-
-  if (!projectTargets.build) {
-    throw new SchematicsException(`Project target "build" not found.`);
-  }
-
-  const mainPath = projectTargets.build.options.main;
-  return getAppModulePath(host, mainPath);
 }
 
 function handleFeature(
