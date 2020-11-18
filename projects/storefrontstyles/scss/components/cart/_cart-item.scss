@@ -1,41 +1,6 @@
 @import '../../theme';
 
 %cx-cart-item {
-  .cx-configuration-info-container {
-    margin: 10px 0;
-
-    .cx-configuration-info {
-      width: 100%;
-      @include media-breakpoint-up(xl) {
-        display: flex;
-      }
-
-      .cx-configuration-info-label {
-        @include type('8');
-        width: 33%;
-        word-break: break-word;
-
-        @include media-breakpoint-up(xs) {
-          width: 100%;
-        }
-      }
-
-      .cx-configuration-info-value {
-        @include type('7');
-        width: 66%;
-        word-break: break-word;
-
-        @include media-breakpoint-up(xs) {
-          width: 100%;
-        }
-
-        @include media-breakpoint-up(xl) {
-          padding-inline-start: 1.25rem;
-        }
-      }
-    }
-  }
-
   .cx-info-container {
     @include media-breakpoint-down(sm) {
       display: flex;

@@ -23,12 +23,23 @@ export class ConfigureCartEntryComponent {
     return this.commonConfigUtilsService.hasIssues(this.cartEntry);
   }
 
+  /**
+   * Verifies whether the cart entry has an order code and returns a corresponding owner type.
+   *
+   * @returns {CommonConfigurator.OwnerType} - an owner type
+   */
   getOwnerType(): CommonConfigurator.OwnerType {
     return this.cartEntry.orderCode !== undefined
       ? CommonConfigurator.OwnerType.ORDER_ENTRY
       : CommonConfigurator.OwnerType.CART_ENTRY;
   }
 
+  /**
+   * Verifies whether the cart entry has an order code, retrieves a composed owner ID
+   * and concatenates a corresponding entry number.
+   *
+   * @returns {string} - an entry key
+   */
   getEntityKey(): string {
     return this.cartEntry.orderCode !== undefined
       ? this.commonConfigUtilsService.getComposedOwnerId(
@@ -38,6 +49,11 @@ export class ConfigureCartEntryComponent {
       : '' + this.cartEntry.entryNumber;
   }
 
+  /**
+   * Retrieves a corresponding route depending whether the configuration is read only or not.
+   *
+   * @returns {string} - a route
+   */
   getRoute(): string {
     const configuratorType = this.cartEntry.product.configuratorType;
     return this.readOnly
@@ -45,10 +61,20 @@ export class ConfigureCartEntryComponent {
       : 'configure' + configuratorType;
   }
 
+  /**
+   * Retrieves the state of the configuration.
+   *
+   *  @returns {boolean} -'true' if the configuration is read only, otherwise 'false'
+   */
   getDisplayOnly(): boolean {
     return this.readOnly;
   }
 
+  /**
+   * Verifies whether the link to the configuration is disabled.
+   *
+   *  @returns {boolean} - 'true' if the the configuration is not read only, otherwise 'false'
+   */
   isDisabled() {
     return this.readOnly ? false : this.disabled;
   }
