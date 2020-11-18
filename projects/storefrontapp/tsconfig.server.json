@@ -54,14 +54,25 @@
       "@spartacus/product/configurators/textfield": [
         "../../feature-libs/product/configurators/textfield/public_api"
       ],
+      "@spartacus/misc": ["../../feature-libs/misc/public_api"],
       "@spartacus/misc/storefinder": [
         "../../feature-libs/misc/storefinder/public_api"
       ],
-      "@spartacus/misc/storefinder/root": ["../../feature-libs/misc/storefinder/root/public_api"],
-      "@spartacus/misc/storefinder/core": ["../../feature-libs/misc/storefinder/core/public_api"],
-      "@spartacus/misc/storefinder/occ": ["../../feature-libs/misc/storefinder/occ/public_api"],
-      "@spartacus/misc/storefinder/components": ["../../feature-libs/misc/storefinder/components/public_api"],
-      "@spartacus/misc/storefinder/assets": ["../../feature-libs/misc/storefinder/assets/public_api"],
+      "@spartacus/misc/storefinder/root": [
+        "../../feature-libs/misc/storefinder/root/public_api"
+      ],
+      "@spartacus/misc/storefinder/core": [
+        "../../feature-libs/misc/storefinder/core/public_api"
+      ],
+      "@spartacus/misc/storefinder/occ": [
+        "../../feature-libs/misc/storefinder/occ/public_api"
+      ],
+      "@spartacus/misc/storefinder/components": [
+        "../../feature-libs/misc/storefinder/components/public_api"
+      ],
+      "@spartacus/misc/storefinder/assets": [
+        "../../feature-libs/misc/storefinder/assets/public_api"
+      ],
       "@spartacus/cdc": ["../../integration-libs/cdc/public_api"],
       "@spartacus/setup": ["../../core-libs/setup/public_api"],
       "@spartacus/setup/ssr": ["../../core-libs/setup/ssr/public_api"]

@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
-  POINT_OF_SERVICE_NORMALIZER,
   STORE_COUNT_NORMALIZER,
   STORE_FINDER_SEARCH_PAGE_NORMALIZER,
   StoreCount,
@@ -15,6 +14,7 @@ import {
   GeoPoint,
   Occ,
   OccEndpointsService,
+  POINT_OF_SERVICE_NORMALIZER,
   PointOfService,
   SearchConfig,
 } from '@spartacus/core';

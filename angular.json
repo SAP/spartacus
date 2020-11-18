@@ -560,7 +560,7 @@
       "prefix": "cx",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
             "tsConfig": "feature-libs/misc/tsconfig.lib.json",
             "project": "feature-libs/misc/ng-package.json"
