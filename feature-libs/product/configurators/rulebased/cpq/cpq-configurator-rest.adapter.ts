@@ -28,11 +28,8 @@ export class CpqConfiguratorRestAdapter
       .createConfiguration(owner.id)
       .pipe(
         map((configResonse) => {
-          const config: Configurator.Configuration = {
-            configId: configResonse.configurationId,
-            owner: owner,
-          };
-          return config;
+          configResonse.owner = owner;
+          return configResonse;
         })
       );
   }

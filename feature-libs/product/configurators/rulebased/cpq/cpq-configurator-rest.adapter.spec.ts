@@ -1,19 +1,14 @@
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { OccEndpointsService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product/configurators/common';
-import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
+import { of } from 'rxjs';
 import { Configurator } from '../core/model/configurator.model';
 import { CpqConfiguratorRestAdapter } from './cpq-configurator-rest.adapter';
-import { Cpq } from './cpq.models';
+import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
 
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';
-const token = 'abz1234jtzuf';
 
 const productConfiguration: Configurator.Configuration = {
   configId: configId,
@@ -24,41 +19,29 @@ const productConfiguration: Configurator.Configuration = {
   },
 };
 
-const accessData: Cpq.AccessData = {
-  accessToken: token,
-  endpoint: 'https://cpq',
-  tokenExpirationTime: 1605004667020,
-};
-
-const configCreatedResponse: Cpq.ConfigurationCreatedResponseData = {
-  configurationId: configId,
-  sessionId: '123',
-};
-
 describe('CpqConfiguratorRestAdapter', () => {
   let adapterUnderTest: CpqConfiguratorRestAdapter;
-  let httpMock: HttpTestingController;
+  const mockedRestService = {
+    createConfiguration: jasmine.createSpy().and.callFake(() => {
+      return of(productConfiguration);
+    }),
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         CpqConfiguratorRestAdapter,
-        { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+        {
+          provide: CpqConfiguratorRestService,
+          useValue: mockedRestService,
+        },
       ],
     });
-
-    httpMock = TestBed.inject(
-      HttpTestingController as Type<HttpTestingController>
-    );
 
     adapterUnderTest = TestBed.inject(
       CpqConfiguratorRestAdapter as Type<CpqConfiguratorRestAdapter>
     );
-  });
-
-  afterEach(() => {
-    httpMock.verify();
   });
 
   it('should return correct configurator type', () => {
@@ -67,22 +50,14 @@ describe('CpqConfiguratorRestAdapter', () => {
     );
   });
 
-  it('should fetch a token and use it to init a configuration', () => {
+  it('should delegate create configuration to rest service and map owner', () => {
     adapterUnderTest
       .createConfiguration(productConfiguration.owner)
       .subscribe((config) => {
-        expect(config.configId).toEqual(configId);
+        expect(config.owner).toEqual(productConfiguration.owner);
+        expect(mockedRestService.createConfiguration).toHaveBeenCalledWith(
+          productCode
+        );
       });
-    let mockReq = httpMock.expectOne((req) => {
-      return req.method === 'GET' && req.url === '/getCpqAccessData';
-    });
-    mockReq.flush(accessData);
-    mockReq = httpMock.expectOne((req) => {
-      return (
-        req.method === 'POST' &&
-        req.url === 'https://cpq/api/configuration/v1/configurations'
-      );
-    });
-    mockReq.flush(configCreatedResponse);
   });
 });
