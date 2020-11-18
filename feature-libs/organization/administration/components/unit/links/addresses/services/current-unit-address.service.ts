@@ -4,14 +4,12 @@ import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { Observable, of } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
 import { ROUTE_PARAMS } from '../../../../constants';
-import { CurrentOrganizationItemService } from '../../../../shared/current-organization-item.service';
+import { CurrentItemService } from '../../../../shared/current-item.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CurrentUnitAddressService extends CurrentOrganizationItemService<
-  Address
-> {
+export class CurrentUnitAddressService extends CurrentItemService<Address> {
   // override item$ as we need to use the unit code as well
   readonly item$: Observable<Address> = this.b2bUnit$.pipe(
     filter((unit) => Boolean(unit)),
