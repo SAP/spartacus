@@ -1,4 +1,4 @@
-<cx-organization-form i18nRoot="costCenter">
+<cx-org-form i18nRoot="costCenter">
   <ng-container *ngIf="form" [formGroup]="form" main>
     <label>
       <span class="label-content required">{{
@@ -40,7 +40,7 @@
         bindLabel="name"
         bindValue="isocode"
         [class.invalid]="form.get('currency.isocode').invalid"
-        appendTo="cx-organization-list"
+        appendTo="cx-org-list"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('currency.isocode')"></cx-form-errors>
@@ -58,10 +58,10 @@
         bindLabel="name"
         bindValue="id"
         [readonly]="form.get('unit.uid').disabled"
-        appendTo="cx-organization-list"
+        appendTo="cx-org-list"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('unit.uid')"></cx-form-errors>
     </label>
   </ng-container>
-</cx-organization-form>
+</cx-org-form>

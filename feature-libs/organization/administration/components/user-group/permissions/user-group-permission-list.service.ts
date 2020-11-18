@@ -9,15 +9,13 @@ import {
 } from '@spartacus/organization/administration/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { OrganizationSubListService } from '../../shared/organization-sub-list/organization-sub-list.service';
+import { SubListService } from '../../shared/sub-list/sub-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserGroupPermissionListService extends OrganizationSubListService<
-  Permission
-> {
+export class UserGroupPermissionListService extends SubListService<Permission> {
   protected tableType = OrganizationTableType.USER_GROUP_PERMISSIONS;
   protected _domainType = OrganizationTableType.PERMISSION;
 
