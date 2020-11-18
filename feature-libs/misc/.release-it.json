@@ -1,0 +1,34 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "misc-${version}",
+    "commitMessage": "Bumping misc version to ${version}",
+    "tagAnnotation": "Bumping misc version to ${version}"
+  },
+  "npm": {
+    "publishPath": "./../../dist/misc"
+  },
+  "hooks": {
+    "after:version:bump": "cd ../.. && yarn build:misc"
+  },
+  "github": {
+    "release": true,
+    "assets": ["../../docs.tar.gz", "../../docs.zip"],
+    "releaseName": "@spartacus/misc@${version}",
+    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib misc --to misc-${version}"
+  },
+  "plugins": {
+    "../../scripts/release-it/bumper.js": {
+      "out": [
+        {
+          "file": "package.json",
+          "path": [
+            "peerDependencies.@spartacus/core",
+            "peerDependencies.@spartacus/storefront"
+          ]
+        }
+      ]
+    }
+  }
+}

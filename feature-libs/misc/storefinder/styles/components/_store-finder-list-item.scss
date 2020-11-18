@@ -1,0 +1,77 @@
+%cx-store-finder-list-item {
+  display: block;
+  text-align: start;
+  padding: 1rem 0.75rem;
+  text-decoration: none;
+  position: relative;
+
+  @include media-breakpoint-down(md) {
+    padding: 0.5rem;
+  }
+
+  &:hover {
+    background-color: var(--cx-color-background);
+  }
+
+  .cx-store-list-order {
+    position: absolute;
+    left: -2rem;
+  }
+
+  .cx-store-name {
+    font-size: var(--cx-font-size, 1rem);
+    font-weight: var(--cx-font-weight-semi);
+    cursor: default;
+    min-height: 40px;
+    button {
+      all: unset;
+      color: var(--cx-color-primary);
+      font-weight: var(--cx-font-weight-semi);
+      &:focus {
+        text-decoration: underline;
+      }
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+    a {
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+  }
+  .cx-store-address {
+    font-size: var(--cx-font-size, 0.875rem);
+    font-weight: var(--cx-font-weight-normal);
+  }
+  .cx-store-address-street {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @include media-breakpoint-down(md) {
+      white-space: normal;
+    }
+  }
+  .cx-store-open {
+    font-size: var(--cx-font-size, 0.875rem);
+    font-weight: var(--cx-font-weight-bold);
+    color: var(--cx-color-success);
+  }
+  .cx-store-closed {
+    font-size: var(--cx-font-size, 0.875rem);
+    font-weight: var(--cx-font-weight-bold);
+    color: var(--cx-color-danger);
+  }
+  .cx-store-distance {
+    font-size: var(--cx-font-size, 0.875rem);
+    font-weight: var(--cx-font-weight-bold);
+    margin: 1rem 0;
+  }
+  .cx-button {
+    line-height: 2;
+    margin: 1rem 0 0;
+  }
+}
