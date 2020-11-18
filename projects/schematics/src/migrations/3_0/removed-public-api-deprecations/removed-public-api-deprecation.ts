@@ -35,6 +35,12 @@ import {
   STORE_COUNT_NORMALIZER,
   STORE_FINDER_CONNECTOR,
   STORE_FINDER_ADAPTER,
+  STORE_DATA_SERVICE,
+  STORE_FINDER_SERVICE,
+  STORE_FINDER_SEARCH_QUERY_SERVICE,
+  STORE_ENTITIES,
+  EXTERNAL_JS_FILE_LOADER_SERVICE,
+  GOOGLE_MAP_RENDERER_SERVICE,
 } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
@@ -225,6 +231,42 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: STORE_FINDER_ADAPTER,
     importPath: SPARTACUS_CORE,
     comment: `'${STORE_FINDER_ADAPTER}' was moved to @spartacus/feature-libs/misc/storefinder`,
+  },
+  // projects/core/src/store-finder/facade/store-data.service.ts
+  {
+    node: STORE_DATA_SERVICE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${STORE_DATA_SERVICE}' was moved to @spartacus/feature-libs/misc/storefinder`,
+  },
+  // projects/core/src/store-finder/facade/store-finder.service.ts
+  {
+    node: STORE_FINDER_SERVICE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${STORE_FINDER_SERVICE}' was moved to @spartacus/feature-libs/misc/storefinder`,
+  },
+  // projects/core/src/store-finder/model/store-entities.ts
+  {
+    node: STORE_ENTITIES,
+    importPath: SPARTACUS_CORE,
+    comment: `'${STORE_ENTITIES}' was moved to @spartacus/feature-libs/misc/storefinder`,
+  },
+  // projects/core/src/store-finder/model/search-query.ts
+  {
+    node: STORE_FINDER_SEARCH_QUERY_SERVICE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${STORE_FINDER_SEARCH_QUERY_SERVICE}' was moved to @spartacus/feature-libs/misc/storefinder`,
+  },
+  // projects/core/src/store-finder/service/external-js-file-loader.service.ts
+  {
+    node: EXTERNAL_JS_FILE_LOADER_SERVICE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${EXTERNAL_JS_FILE_LOADER_SERVICE}' was moved to @spartacus/feature-libs/misc/storefinder`,
+  },
+  // projects/core/src/store-finder/service/google-map-renderer.service.ts
+  {
+    node: GOOGLE_MAP_RENDERER_SERVICE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${GOOGLE_MAP_RENDERER_SERVICE}' was moved to @spartacus/feature-libs/misc/storefinder`,
   },
 ];
 

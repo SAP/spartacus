@@ -416,6 +416,10 @@ export const STORE_FINDER_SEARCH_PAGE_NORMALIZER = 'STORE_FINDER_SEARCH_PAGE_NOR
 export const STORE_COUNT_NORMALIZER = 'STORE_COUNT_NORMALIZER';
 export const STORE_FINDER_CONNECTOR = 'StoreFinderConnector';
 export const STORE_FINDER_ADAPTER = 'StoreFinderAdapter';
+export const STORE_FINDER_SEARCH_QUERY_SERVICE = 'StoreFinderSearchQuery';
+export const STORE_ENTITIES = 'StoreEntities';
+export const EXTERNAL_JS_FILE_LOADER_SERVICE = 'ExternalJsFileLoader';
+export const GOOGLE_MAP_RENDERER_SERVICE = 'GoogleMapRendererService';
 
 export const ON_SUCCESS = 'onSuccess';
 
