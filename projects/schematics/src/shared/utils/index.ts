@@ -13,7 +13,10 @@ export {
   addToModuleProviders,
   createImportChange,
 } from './module-file-utils';
-export { getSpartacusSchematicsVersion } from './package-utils';
+export {
+  getSpartacusSchematicsVersion,
+  readPackageJson,
+} from './package-utils';
 export {
   getDefaultProjectNameFromWorkspace,
   getProjectTargets,
