@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
 import { Subject } from 'rxjs/internal/Subject';
 import { ItemActiveDirective } from './item-active.directive';
-import { OrganizationItemService } from './organization-item.service';
-import { MessageService } from './organization-message/services/message.service';
+import { ItemService } from './item.service';
+import { MessageService } from './message/services/message.service';
 import { GlobalMessageType } from '@spartacus/core';
 
 import createSpy = jasmine.createSpy;
@@ -12,6 +12,7 @@ import createSpy = jasmine.createSpy;
 const mockCode = 'mc1';
 
 @Component({
+  // tslint:disable-next-line: component-selector
   selector: 'cx-host',
   template: `<div cxOrgItemActive>TEST</div>`,
 })
@@ -31,14 +32,14 @@ const itemStubInactive = {
   active: false,
 };
 
-class MockItemServiceActive implements Partial<OrganizationItemService<any>> {
+class MockItemServiceActive implements Partial<ItemService<any>> {
   key$ = of(mockCode);
   load = createSpy('load').and.returnValue(of());
   error$ = of(false);
   current$ = of(itemStubActive);
 }
 
-class MockItemServiceInactive implements Partial<OrganizationItemService<any>> {
+class MockItemServiceInactive implements Partial<ItemService<any>> {
   key$ = of(mockCode);
   load = createSpy('load').and.returnValue(of());
   error$ = of(false);
@@ -62,7 +63,7 @@ describe('ItemActiveDirective', () => {
       declarations: [ItemActiveDirective, TestComponent],
       providers: [
         {
-          provide: OrganizationItemService,
+          provide: ItemService,
           useClass: itemService,
         },
         {

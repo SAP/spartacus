@@ -8,15 +8,13 @@ import {
 } from '@spartacus/organization/administration/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { OrganizationSubListService } from '../../shared/organization-sub-list/organization-sub-list.service';
+import { SubListService } from '../../shared/sub-list/sub-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserGroupUserListService extends OrganizationSubListService<
-  B2BUser
-> {
+export class UserGroupUserListService extends SubListService<B2BUser> {
   protected tableType = OrganizationTableType.USER_GROUP_USERS;
   protected _domainType = OrganizationTableType.USER;
 
