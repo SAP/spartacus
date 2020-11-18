@@ -1,6 +1,9 @@
 export const ORDER_CODE = '00000001';
 export const RETURN_REQUEST_CODE = '00000000';
 export const RMA = '00000000';
+export const REQUEST_CREATE_TIME = 'November 18, 2020';
+export const REQUEST_STATUS_PENDING = 'Approval Pending';
+export const REQUEST_STATUS_CANCELLING = 'Cancelling';
 
 export const product = {
   baseOptions: [],
@@ -219,4 +222,32 @@ export const returnRequestDetails = {
     formattedValue: '$260.87',
     value: 260.87,
   },
+  creationTime: '2020-11-18T16:16:15+0000',
 };
+
+export const returnRequestList = {
+  pagination: {
+    currentPage: 0,
+    pageSize: 5,
+    sort: 'byDate',
+    totalPages: 1,
+    totalResults: 1,
+  },
+  returnRequests: [returnRequestDetails],
+  sorts: [
+    {
+      code: 'byDate',
+      selected: true,
+    },
+    {
+      code: 'byRMA',
+      selected: false,
+    },
+  ],
+};
+
+export const cancelledReturnRequest = JSON.parse(
+  JSON.stringify(returnRequestDetails)
+);
+cancelledReturnRequest.cancellable = false;
+cancelledReturnRequest.status = 'CANCELLING';

@@ -501,6 +501,30 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.BUTTON,
     },
   ],
+  returnRequestList: [
+    {
+      type: TabbingOrderTypes.NG_SELECT,
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.NG_SELECT,
+    },
+  ],
+  returnRequestDetails: [
+    {
+      value: 'Back',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Cancel Return Request',
+      type: TabbingOrderTypes.BUTTON,
+    },
+  ],
   headerDesktopNotLoggedIn: [
     {
       value: 'Language',
