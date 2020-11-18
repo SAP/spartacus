@@ -71,13 +71,17 @@ export class UnitAddressFormService extends FormService<Address> {
   }
 
   getRegions(): Observable<Region[]> {
+    let selectedCountryCode = this.form.get('country.isocode').value;
+    let newCountryCode: string;
+
     return this.getForm()
       .get('country.isocode')
       .valueChanges.pipe(
         filter((countryIsoCode) => Boolean(countryIsoCode)),
-        switchMap((countryIsoCode) =>
-          this.userAddressService.getRegions(countryIsoCode)
-        ),
+        switchMap((countryIsoCode) => {
+          newCountryCode = countryIsoCode;
+          return this.userAddressService.getRegions(countryIsoCode);
+        }),
         tap((regions: Region[]) => {
           const regionControl = this.form.get('region.isocode');
           if (!regions || regions.length === 0) {
@@ -85,9 +89,10 @@ export class UnitAddressFormService extends FormService<Address> {
           } else {
             regionControl.enable();
           }
-          if (regions?.length === 0) {
+          if (selectedCountryCode && newCountryCode !== selectedCountryCode) {
             regionControl.reset();
           }
+          selectedCountryCode = newCountryCode;
         })
       );
   }
