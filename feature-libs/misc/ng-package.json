@@ -10,8 +10,5 @@
       "rxjs": "rxjs"
     }
   },
-  "assets": ["**/*.scss",
-    "schematics/**/*.json",
-    "schematics/**/*.js"
-   ]
+  "assets": ["**/*.scss", "schematics/**/*.json", "schematics/**/*.js"]
 }
