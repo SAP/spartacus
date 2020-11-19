@@ -19,7 +19,7 @@ import { map, observeOn, publishReplay, switchMap, tap } from 'rxjs/operators';
 import { createFrom } from '../util/create-from';
 import { ModuleInitializedEvent } from './events/module-initialized-event';
 import { EventService } from '../event/event.service';
-import { CombinedInjector } from '../../../storefrontlib/src/shared/utils/combined-injector';
+import { CombinedInjector } from '../util/combined-injector';
 
 /**
  * Utility service for managing dynamic imports of Angular services
