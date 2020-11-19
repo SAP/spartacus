@@ -86,6 +86,7 @@ export const SEMANTIC_PATH_SERVICE = 'SemanticPathService';
 export const CMS_SERVICE = 'CmsService';
 export const PAGE_META_SERVICE = 'PageMetaService';
 export const STORE_DATA_SERVICE = 'StoreDataService';
+export const SPLIT_VIEW_SERVICE = 'SplitViewService';
 
 export const PAGE_META_RESOLVER = 'PageMetaResolver';
 export const PRODUCT_PAGE_META_RESOLVER = 'ProductPageMetaResolver';
@@ -314,7 +315,8 @@ export const ANONYMOUS_CONSENT_TEMPLATES_ADAPTER =
 export const ANONYMOUS_CONSENT_TEMPLATES_CONNECTOR =
   'AnonymousConsentTemplatesConnector';
 export const VIEW_COMPONENT = 'ViewComponent';
-export const SPLIT_VIEW_SERVICE = 'SplitViewService';
+export const SPLIT_VIEW_COMPONENT = 'SplitViewComponent';
+
 /***** Classes end *****/
 
 /***** Removed public api start *****/
