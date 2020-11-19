@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { cold } from 'jasmine-marbles';
-import { interval, Observable, of, Subject } from 'rxjs';
+import { interval, Observable, of, ReplaySubject, Subject } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { Cpq } from '../../cpq/cpq.models';
 import { CpqAccessLoaderService } from './cpq-access-loader.service';
@@ -74,7 +74,6 @@ describe('CpqAccessStorageService', () => {
   });
 
   it('should cache access data', () => {
-    console.log('START');
     accessDataSubject = new Subject<Cpq.AccessData>();
     accessDataObs = accessDataSubject;
 
@@ -83,13 +82,11 @@ describe('CpqAccessStorageService', () => {
     serviceUnderTest.getCachedCpqAccessData().subscribe((returnedData) => {
       expect(returnedData).toBeDefined();
       counter++;
-      console.log(1);
     });
     // second request, while first is in progress ()
     serviceUnderTest.getCachedCpqAccessData().subscribe((returnedData) => {
       expect(returnedData).toBeDefined();
       counter++;
-      console.log(2);
     });
 
     // fullfill first request
@@ -98,11 +95,9 @@ describe('CpqAccessStorageService', () => {
     serviceUnderTest.getCachedCpqAccessData().subscribe((returnedData) => {
       expect(returnedData).toBeDefined();
       counter++;
-      console.log(3);
     });
 
     expect(counter).toBe(3, '3 consumes should have been called each once');
-    console.log('END');
   });
 
   it('should transparently fetch new token, when access data has expired', (done) => {
@@ -117,22 +112,24 @@ describe('CpqAccessStorageService', () => {
     accessDataSubject.next(accessData);
   });
 
-  it('should do only one additional call when expired token is emitted followed by valid one', () => {
-    accessDataSubject = new Subject<Cpq.AccessData>();
+  it('should do only one additional call when expired token is emitted followed by valid one', (done) => {
+    accessDataSubject = new ReplaySubject<Cpq.AccessData>(1);
     accessDataObs = accessDataSubject;
     serviceUnderTest.getCachedCpqAccessData().subscribe();
     serviceUnderTest.getCachedCpqAccessData().subscribe();
     serviceUnderTest.getCachedCpqAccessData().subscribe();
     serviceUnderTest.getCachedCpqAccessData().subscribe();
     serviceUnderTest.getCachedCpqAccessData().subscribe();
-    console.log('#### START');
-    console.log('created 5 sucnscription');
     accessDataSubject.next(expiredAccessData);
-    console.log('emitted first');
     accessDataSubject.next(accessData);
-    console.log('emitted second');
-    expect(cpqAccessLoaderService.getCpqAccessData).toHaveBeenCalledTimes(2);
-    console.log('#### DONE');
+    interval(15)
+      .pipe(take(1))
+      .subscribe(() => {
+        expect(cpqAccessLoaderService.getCpqAccessData).toHaveBeenCalledTimes(
+          2
+        );
+        done();
+      });
   });
 
   it('should accept token that soon expires', (done) => {
@@ -169,13 +166,13 @@ describe('CpqAccessStorageService', () => {
       )
       .subscribe((returnedData) => {
         expect(returnedData).toBe(accessData);
+        done();
       });
     accessDataSubject.next(accessDataSoonExpiring);
-    interval(30)
+    interval(15)
       .pipe(take(1))
       .subscribe(() => {
         accessDataSubject.next(accessData);
-        done();
       });
   });
 
@@ -207,15 +204,15 @@ describe('CpqAccessStorageService', () => {
           expect(cpqAccessLoaderService.getCpqAccessData).toHaveBeenCalledTimes(
             2
           );
+          done();
         });
       });
 
     accessDataSubject.next(accessDataSoonExpiring);
-    interval(40)
+    interval(15)
       .pipe(take(1))
       .subscribe(() => {
         accessDataSubject.next(accessData);
-        done();
       });
   });
 });
