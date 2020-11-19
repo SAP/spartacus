@@ -15,8 +15,8 @@ export class CheckoutProgressMobileTopComponent implements OnInit {
     .steps$;
 
   constructor(
-    protected checkoutStepService: CheckoutStepService,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartService,
+    protected checkoutStepService: CheckoutStepService
   ) {}
 
   cart$: Observable<Cart>;
