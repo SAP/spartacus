@@ -12,6 +12,7 @@ export class ConfiguratorCartEntryInfoComponent {
   /**
    * Verifies whether the configuration infos has any entries and the entry has any status.
    *
+   * @param {OrderEntry} item - Cart item
    * @returns {boolean} - whether the status of configuration infos entry has status
    */
   hasStatus(item: OrderEntry): boolean {

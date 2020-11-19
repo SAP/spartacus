@@ -55,6 +55,15 @@
       "@spartacus/product/configurators/rulebased/root": [
         "dist/product/configurators/rulebased/root"
       ],
+      "@spartacus/misc": ["dist/misc"],
+      "@spartacus/misc/storefinder": ["dist/misc/storefinder"],
+      "@spartacus/misc/storefinder/root": ["dist/misc/storefinder/root"],
+      "@spartacus/misc/storefinder/core": ["dist/misc/storefinder/core"],
+      "@spartacus/misc/storefinder/occ": ["dist/misc/storefinder/occ"],
+      "@spartacus/misc/storefinder/components": [
+        "dist/misc/storefinder/components"
+      ],
+      "@spartacus/misc/storefinder/assets": ["dist/misc/storefinder/assets"],
       "@spartacus/cdc": ["dist/cdc"],
       "@spartacus/setup": ["dist/setup"]
     }

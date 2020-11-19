@@ -31,6 +31,18 @@ export const getPermissionsState: MemoizedSelector<
   (state: PermissionManagement) => state && state.entities
 );
 
+export const getPermissionState = (
+  permissionId: string
+): MemoizedSelector<
+  StateWithOrganization,
+  StateUtils.LoaderState<Permission>
+> =>
+  createSelector(
+    getPermissionsState,
+    (state: StateUtils.EntityLoaderState<Permission>) =>
+      StateUtils.entityLoaderStateSelector(state, permissionId)
+  );
+
 export const getPermissionTypesState: MemoizedSelector<
   StateWithOrganization,
   StateUtils.EntityLoaderState<OrderApprovalPermissionType[]>

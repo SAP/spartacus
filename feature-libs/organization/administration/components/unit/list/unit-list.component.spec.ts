@@ -9,9 +9,9 @@ import createSpy = jasmine.createSpy;
 
 @Component({
   template: '<ng-content select="[actions]"></ng-content>',
-  selector: 'cx-organization-list',
+  selector: 'cx-org-list',
 })
-class MockOrganizationListComponent {}
+class MockListComponent {}
 
 class MockUnitTreeService {
   expandAll = createSpy('expandAll');
@@ -26,7 +26,7 @@ describe('UnitListComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, UrlTestingModule],
-      declarations: [MockOrganizationListComponent, UnitListComponent],
+      declarations: [MockListComponent, UnitListComponent],
       providers: [
         {
           provide: UnitTreeService,

@@ -47,18 +47,14 @@ export class AnonymousConsentsEffects {
             const currentConsentVersions = currentConsents.map(
               (consent) => consent.templateVersion
             );
-            if (newConsents) {
-              const newConsentVersions = newConsents.map(
-                (consent) => consent.templateVersion
-              );
+            const newConsentVersions = newConsents.map(
+              (consent) => consent.templateVersion
+            );
 
-              return this.detectUpdatedVersion(
-                currentConsentVersions,
-                newConsentVersions
-              );
-            } else {
-              return false;
-            }
+            return this.detectUpdatedVersion(
+              currentConsentVersions,
+              newConsentVersions
+            );
           }),
           switchMap((updated) =>
             updated

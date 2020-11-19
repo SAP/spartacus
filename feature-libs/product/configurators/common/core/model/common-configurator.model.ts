@@ -44,3 +44,33 @@ export namespace CommonConfigurator {
     ORDER_ENTRY = 'orderEntry',
   }
 }
+/**
+ * Statuses that can occur in the generic configuration
+ * status summary
+ */
+export enum ConfiguratorOrderEntryStatus {
+  Success = 'SUCCESS',
+  Info = 'INFO',
+  Warning = 'WARNING',
+  Error = 'ERROR',
+}
+
+/**
+ * Status Summary
+ */
+export interface StatusSummary {
+  numberOfIssues?: number;
+  status?: ConfiguratorOrderEntryStatus;
+}
+
+/**
+ * Configuration information attached to a cart or order entry.
+ * Does not reflect the entire configuration but gives only a summary,
+ * in order to better identify different configurations in a cart or order.
+ */
+export interface ConfigurationInfo {
+  configurationLabel?: string;
+  configurationValue?: string;
+  configuratorType?: string;
+  status?: string;
+}

@@ -526,7 +526,7 @@ export function removeConstructorParam(
   const changes: Change[] = [];
 
   if (shouldRemoveImportAndParam(source, paramToRemove)) {
-    const importRemovalChange = removeImport(source, sourcePath, paramToRemove);
+    const importRemovalChange = removeImport(source, paramToRemove);
     const constructorParamRemovalChanges = removeConstructorParamInternal(
       sourcePath,
       constructorNode,
@@ -624,9 +624,8 @@ function shouldRemoveImportAndParam(
   return true;
 }
 
-function removeImport(
+export function removeImport(
   source: ts.SourceFile,
-  sourcePath: string,
   importToRemove: ClassType
 ): Change {
   const importDeclarationNode = getImportDeclarationNode(
@@ -674,7 +673,7 @@ function removeImport(
 
     position = importSpecifier.importNode.getStart();
   }
-  return new RemoveChange(sourcePath, position, toRemove);
+  return new RemoveChange(source.fileName, position, toRemove);
 }
 
 function getImportDeclarationNode(
@@ -1053,7 +1052,7 @@ function findLevel1NodesByTextAndKind(
     .filter((n) => n.getText() === text);
 }
 
-function findMultiLevelNodesByTextAndKind(
+export function findMultiLevelNodesByTextAndKind(
   nodes: ts.Node[],
   text: string,
   syntaxKind: ts.SyntaxKind

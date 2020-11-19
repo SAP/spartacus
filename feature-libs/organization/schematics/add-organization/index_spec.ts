@@ -2,15 +2,21 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import { SpartacusOptions, UTF_8 } from '@spartacus/schematics';
+import {
+  B2C_STOREFRONT_MODULE,
+  SpartacusOptions,
+  UTF_8,
+} from '@spartacus/schematics';
 import * as path from 'path';
 import {
+  B2B_STOREFRONT_MODULE,
   CLI_ADMINISTRATION_FEATURE,
   CLI_ORDER_APPROVAL_FEATURE,
 } from '../constants';
 import { Schema as SpartacusOrganizationOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
+const appModulePath = 'src/app/app.module.ts';
 
 describe('Spartacus Organization schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -72,6 +78,23 @@ describe('Spartacus Organization schematics: ng-add', () => {
       .toPromise();
   });
 
+  describe('in app module', () => {
+    beforeEach(async () => {
+      appTree = await schematicRunner
+        .runSchematicAsync('ng-add', defaultOptions, appTree)
+        .toPromise();
+    });
+    it(`should remove 'B2cStorefrontModule' `, () => {
+      const appModule = appTree.readContent(appModulePath);
+      expect(appModule).not.toContain(B2C_STOREFRONT_MODULE);
+    });
+
+    it(`should replace it with 'B2bStorefrontModule'`, () => {
+      const appModule = appTree.readContent(appModulePath);
+      expect(appModule).toContain(B2B_STOREFRONT_MODULE);
+    });
+  });
+
   describe('styling', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
@@ -80,9 +103,9 @@ describe('Spartacus Organization schematics: ng-add', () => {
     });
 
     it('should add style import to /src/styles/spartacus/organization.scss', async () => {
-      const buffer = appTree.read('/src/styles/spartacus/organization.scss');
-      expect(buffer).toBeTruthy();
-      const content = buffer?.toString(UTF_8);
+      const content = appTree.readContent(
+        '/src/styles/spartacus/organization.scss'
+      );
       expect(content).toEqual(`@import "@spartacus/organization";`);
     });
 
@@ -131,9 +154,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
       });
 
       it('should import appropriate modules', async () => {
-        const appServerModuleBuffer = appTree.read('src/app/app.module.ts');
-        expect(appServerModuleBuffer).toBeTruthy();
-        const appModule = appServerModuleBuffer?.toString(UTF_8);
+        const appModule = appTree.readContent(appModulePath);
         expect(appModule).toContain(
           `import { AdministrationRootModule } from '@spartacus/organization/administration/root';`
         );
@@ -143,9 +164,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
       });
 
       it('should not contain lazy loading syntax', async () => {
-        const appServerModuleBuffer = appTree.read('src/app/app.module.ts');
-        expect(appServerModuleBuffer).toBeTruthy();
-        const appModule = appServerModuleBuffer?.toString(UTF_8);
+        const appModule = appTree.readContent(appModulePath);
         expect(appModule).not.toContain(
           `import('@spartacus/organization/administration').then(`
         );
@@ -160,9 +179,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
       });
 
       it('should import AdministrationRootModule and contain the lazy loading syntax', async () => {
-        const appServerModuleBuffer = appTree.read('src/app/app.module.ts');
-        expect(appServerModuleBuffer).toBeTruthy();
-        const appModule = appServerModuleBuffer?.toString(UTF_8);
+        const appModule = appTree.readContent(appModulePath);
         expect(appModule).toContain(
           `import { AdministrationRootModule } from '@spartacus/organization/administration/root';`
         );
@@ -172,9 +189,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
       });
 
       it('should not contain the AdministrationModule import', () => {
-        const appServerModuleBuffer = appTree.read('src/app/app.module.ts');
-        expect(appServerModuleBuffer).toBeTruthy();
-        const appModule = appServerModuleBuffer?.toString(UTF_8);
+        const appModule = appTree.readContent(appModulePath);
         expect(appModule).not.toContain(
           `import { AdministrationModule } from '@spartacus/organization/administration';`
         );
@@ -195,9 +210,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
       });
 
       it('should import appropriate modules', async () => {
-        const appServerModuleBuffer = appTree.read('src/app/app.module.ts');
-        expect(appServerModuleBuffer).toBeTruthy();
-        const appModule = appServerModuleBuffer?.toString(UTF_8);
+        const appModule = appTree.readContent(appModulePath);
         expect(appModule).toContain(
           `import { OrderApprovalRootModule } from '@spartacus/organization/order-approval/root';`
         );
@@ -207,9 +220,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
       });
 
       it('should not contain lazy loading syntax', async () => {
-        const appServerModuleBuffer = appTree.read('src/app/app.module.ts');
-        expect(appServerModuleBuffer).toBeTruthy();
-        const appModule = appServerModuleBuffer?.toString(UTF_8);
+        const appModule = appTree.readContent(appModulePath);
         expect(appModule).not.toContain(
           `import('@spartacus/organization/order-approval').then(`
         );
@@ -224,9 +235,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
       });
 
       it('should import OrderApprovalRootModule and contain the lazy loading syntax', async () => {
-        const appServerModuleBuffer = appTree.read('src/app/app.module.ts');
-        expect(appServerModuleBuffer).toBeTruthy();
-        const appModule = appServerModuleBuffer?.toString(UTF_8);
+        const appModule = appTree.readContent(appModulePath);
         expect(appModule).toContain(
           `import { OrderApprovalRootModule } from '@spartacus/organization/order-approval/root';`
         );
@@ -236,11 +245,49 @@ describe('Spartacus Organization schematics: ng-add', () => {
       });
 
       it('should not contain the OrderApprovalModule import', () => {
-        const appServerModuleBuffer = appTree.read('src/app/app.module.ts');
-        expect(appServerModuleBuffer).toBeTruthy();
-        const appModule = appServerModuleBuffer?.toString(UTF_8);
+        const appModule = appTree.readContent(appModulePath);
         expect(appModule).not.toContain(
           `import { OrderApprovalModule } from '@spartacus/organization/order-approval';`
+        );
+      });
+    });
+  });
+
+  describe('i18n', () => {
+    describe('administration', () => {
+      it('should import the i18n resource and chunk from assets', async () => {
+        const appModule = appTree.readContent(appModulePath);
+        expect(appModule).toContain(
+          `import { organizationTranslations } from '@spartacus/organization/administration/assets';`
+        );
+        expect(appModule).toContain(
+          `import { organizationTranslationChunksConfig } from '@spartacus/organization/administration/assets';`
+        );
+      });
+      it('should provideConfig', async () => {
+        const appModule = appTree.readContent(appModulePath);
+        expect(appModule).toContain(`resources: organizationTranslations,`);
+        expect(appModule).toContain(
+          `chunks: organizationTranslationChunksConfig,`
+        );
+      });
+    });
+
+    describe('order approval', () => {
+      it('should import the i18n resource and chunk from assets', async () => {
+        const appModule = appTree.readContent(appModulePath);
+        expect(appModule).toContain(
+          `import { orderApprovalTranslations } from '@spartacus/organization/order-approval/assets';`
+        );
+        expect(appModule).toContain(
+          `import { orderApprovalTranslationChunksConfig } from '@spartacus/organization/order-approval/assets';`
+        );
+      });
+      it('should provideConfig', async () => {
+        const appModule = appTree.readContent(appModulePath);
+        expect(appModule).toContain(`resources: orderApprovalTranslations,`);
+        expect(appModule).toContain(
+          `chunks: orderApprovalTranslationChunksConfig,`
         );
       });
     });
