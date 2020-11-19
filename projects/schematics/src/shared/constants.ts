@@ -413,6 +413,25 @@ export const STORE_FINDER_SEARCH_CONFIG = 'StoreFinderSearchConfig';
 
 export const STORE_FINDER_ACTIONS = 'StoreFinderActions';
 export const FIND_STORES_CLASS = 'FindStores';
+export const STORE_FINDER_MODULE = 'StoreFinderCoreModule';
+export const POINT_OF_SERVICE_NORMALIZER = 'POINT_OF_SERVICE_NORMALIZER';
+export const STORE_FINDER_SEARCH_PAGE_NORMALIZER =
+  'STORE_FINDER_SEARCH_PAGE_NORMALIZER';
+export const STORE_COUNT_NORMALIZER = 'STORE_COUNT_NORMALIZER';
+export const STORE_FINDER_CONNECTOR = 'StoreFinderConnector';
+export const STORE_FINDER_ADAPTER = 'StoreFinderAdapter';
+export const STORE_FINDER_SEARCH_QUERY_SERVICE = 'StoreFinderSearchQuery';
+export const STORE_ENTITIES = 'StoreEntities';
+export const EXTERNAL_JS_FILE_LOADER_SERVICE = 'ExternalJsFileLoader';
+export const GOOGLE_MAP_RENDERER_SERVICE = 'GoogleMapRendererService';
+export const STORE_FINDER_STORE_MODULE = 'StoreFinderStoreModule';
+export const STORE_FINDER_FEATURE = 'STORE_FINDER_FEATURE';
+export const STORE_FINDER_DATA = 'STORE_FINDER_DATA';
+export const STATE_WITH_STORE_FINDER = 'StateWithStoreFinder';
+export const STORES_STATE = 'StoresState';
+export const FIND_STORES_STATE = 'FindStoresState';
+export const VIEW_ALL_STORES_STATE = 'ViewAllStoresState';
+export const STORE_FINDER_SELECTORS = 'StoreFinderSelectors';
 
 export const ON_SUCCESS = 'onSuccess';
 
@@ -508,6 +527,7 @@ export const GET_GLOB_URL_MATCHER = 'getGlobUrlMatcher';
 export const PLACE_ORDER = 'placeOrder';
 export const SET_QUERY = 'setQuery';
 export const VIEW_PAGE = 'viewPage';
+export const GET_ORDER_DETAILS = 'getOrderDetails';
 
 export const GET_ADDRESS_CARD_CONTENT = 'getAddressCardContent';
 export const GET_DELIVERY_MODE_CARD_CONTENT = 'getDeliveryModeCardContent';
