@@ -1,4 +1,4 @@
-<cx-organization-form i18nRoot="budget">
+<cx-org-form i18nRoot="budget">
   <ng-container *ngIf="form" [formGroup]="form" main>
     <label>
       <span class="label-content required">{{
@@ -30,11 +30,11 @@
 
     <label>
       <span class="label-content">{{ 'budget.startDate' | cxTranslate }}</span>
-      <cx-date-time-picker
+      <cx-date-picker
         formControlName="startDate"
         [max]="form.controls.endDate.value"
         (change)="form.controls.endDate.updateValueAndValidity()"
-      ></cx-date-time-picker>
+      ></cx-date-picker>
       <cx-form-errors
         [control]="form.get('startDate')"
         [translationParams]="{ max: form.controls.endDate.value | cxDate }"
@@ -43,11 +43,11 @@
 
     <label>
       <span class="label-content">{{ 'budget.endDate' | cxTranslate }}</span>
-      <cx-date-time-picker
+      <cx-date-picker
         formControlName="endDate"
         [min]="form.controls.startDate.value"
         (change)="form.controls.startDate.updateValueAndValidity()"
-      ></cx-date-time-picker>
+      ></cx-date-picker>
       <cx-form-errors
         [control]="form.get('endDate')"
         [translationParams]="{
@@ -68,7 +68,7 @@
         bindLabel="name"
         bindValue="isocode"
         [class.invalid]="form.get('currency.isocode').invalid"
-        appendTo=".organization"
+        appendTo="cx-org-list"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('currency.isocode')"></cx-form-errors>
@@ -81,6 +81,7 @@
         class="form-control"
         placeholder="{{ 'budget.amount' | cxTranslate }}"
         formControlName="budget"
+        min="0"
       />
       <cx-form-errors [control]="form.get('budget')"></cx-form-errors>
     </label>
@@ -101,10 +102,10 @@
         bindLabel="name"
         bindValue="id"
         [readonly]="form.get('orgUnit.uid').disabled"
-        appendTo=".organization"
+        appendTo="cx-org-list"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>
     </label>
   </ng-container>
-</cx-organization-form>
+</cx-org-form>

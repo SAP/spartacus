@@ -4,10 +4,11 @@ import {
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
-import { OrganizationItemService } from '../../../../shared/organization-item.service';
-import { OrganizationCellComponent } from '../../../../shared/organization-table/organization-cell.component';
+import { ItemService } from '../../../../shared/item.service';
+import { CellComponent } from '../../../../shared/table/cell.component';
 
 @Component({
+  selector: 'cx-org-link-cell',
   template: `
     <ng-container *ngIf="unitKey$ | async as uid">
       <a
@@ -25,11 +26,11 @@ import { OrganizationCellComponent } from '../../../../shared/organization-table
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LinkCellComponent extends OrganizationCellComponent {
+export class LinkCellComponent extends CellComponent {
   unitKey$ = this.itemService.key$;
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
-    protected itemService: OrganizationItemService<B2BUnit>
+    protected itemService: ItemService<B2BUnit>
   ) {
     super(outlet);
   }

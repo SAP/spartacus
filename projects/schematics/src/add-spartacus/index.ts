@@ -22,7 +22,9 @@ import {
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import {
   ANGULAR_LOCALIZE,
+  ANGULAR_OAUTH2_OIDC,
   B2C_STOREFRONT_MODULE,
+  DEFAULT_ANGULAR_OAUTH2_OIDC_VERSION,
   DEFAULT_NGRX_VERSION,
   SPARTACUS_ASSETS,
   SPARTACUS_CORE,
@@ -128,8 +130,8 @@ function addPackageJsonDependencies(): Rule {
       },
       {
         type: NodeDependencyType.Default,
-        version: '^10.0.0',
-        name: 'angular-oauth2-oidc',
+        version: DEFAULT_ANGULAR_OAUTH2_OIDC_VERSION,
+        name: ANGULAR_OAUTH2_OIDC,
       },
     ];
 
@@ -171,14 +173,22 @@ function prepareSiteContextConfig(options: SpartacusOptions): string {
   return context;
 }
 
-function getStorefrontConfig(options: SpartacusOptions): string {
-  const baseUrlPart = `\n          baseUrl: '${options.baseUrl}',`;
+/**
+ * Creates a spartacus config based on the provided `options`.
+ * @param options
+ */
+function createStorefrontConfig(options: SpartacusOptions): string {
+  const baseUrlPart = `\n          baseUrl: '${options.baseUrl}'`;
   const context = prepareSiteContextConfig(options);
+
+  const occPrefixPart = options.occPrefix
+    ? `,
+          prefix: '${options.occPrefix}'`
+    : '';
 
   return `{
       backend: {
-        occ: {${options.useMetaTags ? '' : baseUrlPart}
-          prefix: '${options.occPrefix}'
+        occ: {${options.useMetaTags ? '' : baseUrlPart}${occPrefixPart}
         }
       },${context}
       i18n: {
@@ -223,7 +233,9 @@ function updateAppModule(options: SpartacusOptions): Rule {
       addToModuleImportsAndCommitChanges(
         host,
         modulePath,
-        `${B2C_STOREFRONT_MODULE}.withConfig(${getStorefrontConfig(options)})`
+        `${B2C_STOREFRONT_MODULE}.withConfig(${createStorefrontConfig(
+          options
+        )})`
       );
     }
 

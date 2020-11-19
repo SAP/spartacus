@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { BaseSite } from '../../model/misc.model';
 import { getContextParameterDefault } from '../config/context-config-utils';
@@ -12,7 +12,6 @@ import { StateWithSiteContext } from '../store/state';
 import { SiteContext } from './site-context.interface';
 
 @Injectable()
-// handle breaking change in #9601
 export class BaseSiteService implements SiteContext<BaseSite> {
   constructor(
     protected store: Store<StateWithSiteContext>,
@@ -32,7 +31,6 @@ export class BaseSiteService implements SiteContext<BaseSite> {
   /**
    * Get all base sites data
    */
-  // handle breaking change in #9601
   getAll(): Observable<BaseSite[]> {
     return this.store.pipe(
       select(SiteContextSelectors.getAllBaseSites),
@@ -64,8 +62,8 @@ export class BaseSiteService implements SiteContext<BaseSite> {
     );
   }
 
-  setActive(baseSite: string): Subscription {
-    return this.store
+  setActive(baseSite: string): void {
+    this.store
       .pipe(select(SiteContextSelectors.getActiveBaseSite), take(1))
       .subscribe((activeBaseSite) => {
         if (baseSite && activeBaseSite !== baseSite) {
@@ -91,21 +89,6 @@ export class BaseSiteService implements SiteContext<BaseSite> {
 
     this.setActive(
       getContextParameterDefault(this.config, BASE_SITE_CONTEXT_ID)
-    );
-  }
-
-  /**
-   * @deprecated since 3.0, use function get() instead
-   * handle breaking change in #9601
-   */
-  getBaseSiteData(): Observable<BaseSite> {
-    return this.store.pipe(
-      select(SiteContextSelectors.getBaseSiteData),
-      tap((baseSite) => {
-        if (Object.keys(baseSite).length === 0) {
-          this.store.dispatch(new SiteContextActions.LoadBaseSite());
-        }
-      })
     );
   }
 }

@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { I18nConfig } from '../../i18n';
 import { BaseSite } from '../../model/misc.model';
 import { SiteContextConfig } from '../../site-context';
-import { SERVER_REQUEST_URL } from '../../ssr/ssr.providers';
+import { SERVER_REQUEST_URL } from '../../util/ssr.tokens';
 import { OccConfigLoaderService } from './occ-config-loader.service';
 import { OccLoadedConfig } from './occ-loaded-config';
 import { OccLoadedConfigConverter } from './occ-loaded-config-converter';

@@ -1,4 +1,4 @@
-<cx-organization-form i18nRoot="permission">
+<cx-org-form i18nRoot="permission">
   <ng-container *ngIf="form" [formGroup]="form" main>
     <label>
       <span class="label-content required">{{
@@ -30,7 +30,7 @@
         bindLabel="name"
         bindValue="code"
         [readonly]="form.disabled"
-        appendTo=".organization"
+        appendTo="cx-org-list"
       >
       </ng-select>
       <cx-form-errors
@@ -47,7 +47,7 @@
         [searchable]="false"
         [clearable]="false"
         [items]="periods"
-        appendTo=".organization"
+        appendTo="cx-org-list"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('periodRange')"></cx-form-errors>
@@ -100,10 +100,10 @@
         bindLabel="name"
         bindValue="id"
         [readonly]="form.get('orgUnit').disabled"
-        appendTo=".organization"
+        appendTo="cx-org-list"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>
     </label>
   </ng-container>
-</cx-organization-form>
+</cx-org-form>

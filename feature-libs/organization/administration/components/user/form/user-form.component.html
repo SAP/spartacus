@@ -1,5 +1,5 @@
-<cx-organization-form i18nRoot="user">
-  <ng-container *ngIf="form" [formGroup]="form" main>
+<cx-org-form i18nRoot="user">
+  <ng-container main *ngIf="form" [formGroup]="form">
     <label>
       <span class="label-content required">{{
         'user.title' | cxTranslate
@@ -11,7 +11,7 @@
         [items]="titles$ | async"
         bindLabel="name"
         bindValue="code"
-        appendTo=".organization"
+        appendTo="cx-org-list"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('titleCode')"></cx-form-errors>
@@ -73,6 +73,7 @@
           [value]="role"
           [checked]="roles?.value?.includes(role)"
           (change)="updateRoles($event)"
+          [disabled]="form?.status === 'DISABLED'"
         />
         <span class="form-check-label">
           {{ 'organization.userRoles.' + role | cxTranslate }}
@@ -91,7 +92,7 @@
         [items]="units$ | async"
         bindLabel="name"
         bindValue="id"
-        appendTo=".organization"
+        appendTo="cx-org-list"
       >
       </ng-select>
     </label>
@@ -109,4 +110,4 @@
       </label>
     </label>
   </ng-container>
-</cx-organization-form>
+</cx-org-form>

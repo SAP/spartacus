@@ -89,24 +89,6 @@ describe('ProductListComponentService', () => {
     productSearchService = TestBed.inject(ProductSearchService);
   });
 
-  it('setQuery should set query param "query" in the url and reset "currentPage"', () => {
-    service.setQuery('testQuery');
-    expect(router.navigate).toHaveBeenCalledWith([], {
-      queryParams: { query: 'testQuery', currentPage: undefined },
-      queryParamsHandling: 'merge',
-      relativeTo: activatedRoute,
-    });
-  });
-
-  it('viewPage should set query param "currentPage" in the url', () => {
-    service.viewPage(123);
-    expect(router.navigate).toHaveBeenCalledWith([], {
-      queryParams: { currentPage: 123 },
-      queryParamsHandling: 'merge',
-      relativeTo: activatedRoute,
-    });
-  });
-
   it('sort should set query param "sortCode" in the url', () => {
     service.sort('testSortCode');
     expect(router.navigate).toHaveBeenCalledWith([], {
