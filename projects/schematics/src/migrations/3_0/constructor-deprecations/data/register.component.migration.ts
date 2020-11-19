@@ -5,9 +5,11 @@ import {
   ANONYMOUS_CONSENTS_CONFIG,
   AUTH_CONFIG_SERVICE,
   FORM_BUILDER,
+  GLOBAL_MESSAGE_SERVICE,
   ANGULAR_FORMS,
   ROUTING_SERVICE,
-  SPARTACUS_CORE
+  SPARTACUS_CORE,
+  USER_SERVICE
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
@@ -16,6 +18,14 @@ export const REGISTER_COMPONENT_MIGRATION: ConstructorDeprecation = {
   class: REGISTER_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [
+    {
+      className: USER_SERVICE,
+      importPath: SPARTACUS_CORE,
+    },
+    {
+      className: GLOBAL_MESSAGE_SERVICE,
+      importPath: SPARTACUS_CORE,
+    },
     {
       className: FORM_BUILDER,
       importPath: ANGULAR_FORMS,
