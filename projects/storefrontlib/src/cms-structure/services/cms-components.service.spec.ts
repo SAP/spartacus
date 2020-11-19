@@ -44,7 +44,7 @@ class MockFeatureModulesService implements Partial<FeatureModulesService> {
   private testResovler = new Subject();
 
   hasFeatureFor = createSpy().and.callFake((type) => type === 'feature');
-  getInjectors = createSpy();
+  getModule = createSpy();
 
   getCmsMapping() {
     return this.testResovler;
@@ -148,18 +148,16 @@ describe('CmsComponentsService', () => {
     });
   });
 
-  describe('getInjectors', () => {
+  describe('getModule', () => {
     it('should call FeatureModulesService', () => {
       const featureModulesService = TestBed.inject(FeatureModulesService);
-      service.getInjectors('feature');
-      expect(featureModulesService.getInjectors).toHaveBeenCalledWith(
-        'feature'
-      );
+      service.getModule('feature');
+      expect(featureModulesService.getModule).toHaveBeenCalledWith('feature');
     });
     it('should not call FeatureModulesService if there is no such a feature', () => {
       const featureModulesService = TestBed.inject(FeatureModulesService);
-      service.getInjectors('unknownType');
-      expect(featureModulesService.getInjectors).not.toHaveBeenCalled();
+      service.getModule('unknownType');
+      expect(featureModulesService.getModule).not.toHaveBeenCalled();
     });
   });
 });
