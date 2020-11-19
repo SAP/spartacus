@@ -16,6 +16,8 @@ import {
 import {
   addToModuleImports,
   addToModuleProviders,
+  B2B_STOREFRONT_MODULE,
+  B2C_STOREFRONT_MODULE,
   CLI_STOREFINDER_FEATURE,
   commitChanges,
   createImportChange,
@@ -309,8 +311,14 @@ function mergeLazyLoadingConfig(
     module: Module;
   }
 ): Change {
-  // TODO:#9824 - after https://github.com/SAP/spartacus/pull/9836 is done, try to fetch both configs
-  const storefrontConfig = getExistingStorefrontConfigNode(moduleSource);
+  let storefrontConfig = getExistingStorefrontConfigNode(
+    moduleSource,
+    B2C_STOREFRONT_MODULE
+  );
+  storefrontConfig =
+    storefrontConfig ||
+    getExistingStorefrontConfigNode(moduleSource, B2B_STOREFRONT_MODULE);
+
   const lazyLoadingModule = `module: () => import('${config.module.importPath}').then(
           (m) => m.${config.module.name}
         ),`;

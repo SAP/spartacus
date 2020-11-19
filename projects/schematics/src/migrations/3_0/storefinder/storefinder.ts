@@ -29,6 +29,8 @@ import {
   addToModuleImports,
   addToModuleProviders,
   ANGULAR_CORE,
+  B2B_STOREFRONT_MODULE,
+  B2C_STOREFRONT_MODULE,
   CLI_STOREFINDER_FEATURE,
   commitChanges,
   createImportChange,
@@ -109,14 +111,10 @@ function removeOldSetup(appModulePath: string): Rule {
     if (
       isImported(appModuleSource, STOREFINDER_MODULE, SPARTACUS_STOREFRONTLIB)
     ) {
-      const importRemovalChanges = removeImport(
-        appModuleSource,
-        appModulePath,
-        {
-          className: STOREFINDER_MODULE,
-          importPath: SPARTACUS_STOREFRONTLIB,
-        }
-      );
+      const importRemovalChanges = removeImport(appModuleSource, {
+        className: STOREFINDER_MODULE,
+        importPath: SPARTACUS_STOREFRONTLIB,
+      });
       changes.push(importRemovalChanges);
 
       const node = getDecoratorMetadata(
@@ -404,8 +402,14 @@ function mergeLazyLoadingConfig(
     module: Module;
   }
 ): Change {
-  // TODO:#9824 - after https://github.com/SAP/spartacus/pull/9836 is done, try to fetch both configs
-  const storefrontConfig = getExistingStorefrontConfigNode(moduleSource);
+  let storefrontConfig = getExistingStorefrontConfigNode(
+    moduleSource,
+    B2C_STOREFRONT_MODULE
+  );
+  storefrontConfig =
+    storefrontConfig ||
+    getExistingStorefrontConfigNode(moduleSource, B2B_STOREFRONT_MODULE);
+
   const lazyLoadingModule = `module: () => import('${config.module.importPath}').then(
           (m) => m.${config.module.name}
         ),`;

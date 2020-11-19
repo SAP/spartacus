@@ -2,10 +2,13 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import { B2C_STOREFRONT_MODULE, SpartacusOptions } from '@spartacus/schematics';
-import * as path from 'path';
 import {
   B2B_STOREFRONT_MODULE,
+  B2C_STOREFRONT_MODULE,
+  SpartacusOptions,
+} from '@spartacus/schematics';
+import * as path from 'path';
+import {
   CLI_ADMINISTRATION_FEATURE,
   CLI_ORDER_APPROVAL_FEATURE,
 } from '../constants';

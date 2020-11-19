@@ -21,6 +21,7 @@ import {
 import {
   addToModuleImports,
   addToModuleProviders,
+  B2B_STOREFRONT_MODULE,
   B2C_STOREFRONT_MODULE,
   commitChanges,
   createImportChange,
@@ -47,7 +48,6 @@ import * as ts from 'typescript';
 import {
   ADMINISTRATION_MODULE,
   ADMINISTRATION_ROOT_MODULE,
-  B2B_STOREFRONT_MODULE,
   CLI_ADMINISTRATION_FEATURE,
   CLI_ORDER_APPROVAL_FEATURE,
   ORDER_APPROVAL_MODULE,

@@ -64,6 +64,7 @@ export const HTTP_CLIENT = 'HttpClient';
 
 export const STOREFRONT_MODULE = 'StorefrontModule';
 export const B2C_STOREFRONT_MODULE = 'B2cStorefrontModule';
+export const B2B_STOREFRONT_MODULE = 'B2bStorefrontModule';
 export const CONFIG_MODULE_CLASS = 'ConfigModule';
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
 export const PROVIDE_CONFIG_FUNCTION = 'provideConfig';
