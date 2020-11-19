@@ -6,11 +6,14 @@ import {
   ModuleWithProviders,
   NgModule,
   Optional,
-  Type
+  Type,
 } from '@angular/core';
 import { OutletDirective } from './outlet.directive';
 import { OutletPosition } from './outlet.model';
-import { PROVIDE_OUTLET_OPTIONS, ProvideOutletOptions } from './outlet.providers';
+import {
+  PROVIDE_OUTLET_OPTIONS,
+  ProvideOutletOptions,
+} from './outlet.providers';
 import { OutletService } from './outlet.service';
 
 /**
