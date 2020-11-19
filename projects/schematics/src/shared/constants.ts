@@ -304,6 +304,10 @@ export const CLOSE_ACCOUNT_MODAL_COMPONENT = 'CloseAccountModalComponent';
 export const OUTLET_REF_DIRECTIVE = 'OutletRefDirective';
 export const JSON_LD_SCRIPT_FACTORY = 'JsonLdScriptFactory';
 export const DOM_SANITIZER = 'DomSanitizer';
+export const ANONYMOUS_CONSENT_TEMPLATES_ADAPTER =
+  'AnonymousConsentTemplatesAdapter';
+export const ANONYMOUS_CONSENT_TEMPLATES_CONNECTOR =
+  'AnonymousConsentTemplatesConnector';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -506,6 +510,7 @@ export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_SUCCESS_CLASS =
 
 export const SUB = 'sub';
 
+export const LOAD_ANONYMOUS_CONSENTS = 'loadAnonymousConsents';
 /***** Properties end *****/
 
 /***** APIs start *****/
