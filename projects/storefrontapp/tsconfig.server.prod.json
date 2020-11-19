@@ -53,7 +53,8 @@
         "../../dist/product/configurators/rulebased"
       ],
       "@spartacus/product/configurators/rulebased/root": [
-        "../../dist/product/configurators/rulebased/root"],
+        "../../dist/product/configurators/rulebased/root"
+      ],
       "@spartacus/misc": ["../../dist/misc"],
       "@spartacus/misc/storefinder": ["../../dist/misc/storefinder"],
       "@spartacus/misc/storefinder/root": ["../../dist/misc/storefinder/root"],
