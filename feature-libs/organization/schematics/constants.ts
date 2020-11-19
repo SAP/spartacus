@@ -1,7 +1,5 @@
 export const SPARTACUS_ORGANIZATION = '@spartacus/organization';
 
-export const B2B_STOREFRONT_MODULE = 'B2bStorefrontModule';
-
 export const ORGANIZATION_ADMINISTRATION_FEATURE_NAME =
   'organizationAdministration';
 export const ADMINISTRATION_ROOT_MODULE = 'AdministrationRootModule';
