@@ -36,8 +36,8 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private checkoutDeliveryService: CheckoutDeliveryService,
     private checkoutConfigService: CheckoutConfigService,
-    protected checkoutStepService: CheckoutStepService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    protected checkoutStepService: CheckoutStepService
   ) {}
 
   ngOnInit() {
