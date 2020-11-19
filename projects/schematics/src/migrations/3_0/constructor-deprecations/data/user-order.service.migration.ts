@@ -1,15 +1,16 @@
 import {
-  NGRX_STORE,
-  ROUTING_SERVICE,
+  USER_ORDER_SERVICE,
   SPARTACUS_CORE,
   STORE,
   USER_ID_SERVICE,
-  USER_ORDER_SERVICE,
+  AUTH_SERVICE,
+  ROUTING_SERVICE,
+  NGRX_STORE,
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const USER_ORDER_SERVICE_MIGRATION: ConstructorDeprecation = {
-  //projects/core/src/user/facade/user-order.service.ts
+  // projects/core/src/user/facade/user-order.service.ts
   class: USER_ORDER_SERVICE,
   importPath: SPARTACUS_CORE,
   deprecatedParams: [
@@ -18,11 +19,21 @@ export const USER_ORDER_SERVICE_MIGRATION: ConstructorDeprecation = {
       importPath: NGRX_STORE,
     },
     {
-      className: USER_ID_SERVICE,
+      className: AUTH_SERVICE,
+      importPath: SPARTACUS_CORE,
+    },
+  ],
+  removeParams: [
+    {
+      className: AUTH_SERVICE,
       importPath: SPARTACUS_CORE,
     },
   ],
   addParams: [
+    {
+      className: USER_ID_SERVICE,
+      importPath: SPARTACUS_CORE,
+    },
     {
       className: ROUTING_SERVICE,
       importPath: SPARTACUS_CORE,

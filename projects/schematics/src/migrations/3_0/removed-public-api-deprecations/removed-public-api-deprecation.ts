@@ -1,13 +1,13 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import {
   ASM_AUTH_SERVICE,
-  AUTHENTICATION_TOKEN,
   AUTH_FEATURE,
   AUTH_SELECTORS,
   AUTH_SERVICE,
   AUTH_STATE,
-  CSAGENT_TOKEN_DATA,
+  AUTHENTICATION_TOKEN,
   CS_AGENT_AUTH_SERVICE,
+  CSAGENT_TOKEN_DATA,
   CUSTOMER_SUPPORT_AGENT_TOKEN_INTERCEPTOR,
   KYMA_ACTIONS,
   KYMA_CONFIG,
@@ -16,6 +16,7 @@ import {
   KYMA_SELECTORS,
   KYMA_SERVICE,
   KYMA_STATE,
+  NG_EXPRESS_ENGINE_DECORATOR,
   OPEN_ID_AUTHENTICATION_TOKEN_SERVICE,
   OPEN_ID_TOKEN,
   OPEN_ID_TOKEN_DATA,
@@ -169,6 +170,12 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: UNAUTHORIZED_ERROR_HANDLER,
     importPath: SPARTACUS_CORE,
     comment: `'${UNAUTHORIZED_ERROR_HANDLER}' has been removed and is no longer part of the public API.`,
+  },
+  // projects/core/src/ssr/ng-express-engine-decorator.ts
+  {
+    node: NG_EXPRESS_ENGINE_DECORATOR,
+    importPath: SPARTACUS_CORE,
+    comment: `'${NG_EXPRESS_ENGINE_DECORATOR}' was moved to @spartacus/setup/ssr.`,
   },
 ];
 

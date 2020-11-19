@@ -60,8 +60,9 @@
       "@spartacus/product/configurators/rulebased/root": [
         "feature-libs/product/configurators/rulebased/root/public_api"
       ],         
+      "@spartacus/misc/storefinder": ["feature-libs/misc/storefinder/public_api"],
       "@spartacus/cdc": ["integration-libs/cdc/public_api"],
-      "@spartacus/setup": ["integration-libs/setup/public_api"]
+      "@spartacus/setup": ["core-libs/setup/public_api"]
     }
   },
   "exclude": [
