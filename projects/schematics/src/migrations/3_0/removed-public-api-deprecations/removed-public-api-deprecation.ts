@@ -51,6 +51,8 @@ import {
   STORE_FINDER_SELECTORS,
   STORE_FINDER_ACTIONS,
   TOKEN_REVOCATION_HEADER,
+  SPLIT_VIEW_DEACTIVATE_GUARD,
+  SPARTACUS_STOREFRONTLIB,
 } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
@@ -337,6 +339,12 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: TOKEN_REVOCATION_HEADER,
     importPath: SPARTACUS_CORE,
     comment: `'${TOKEN_REVOCATION_HEADER} has been removed and is no longer part of the public API.`,
+  },
+  // projects/storefrontlib/src/shared/components/split-view/split-view-deactivate.guard.ts
+  {
+    node: SPLIT_VIEW_DEACTIVATE_GUARD,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${SPLIT_VIEW_DEACTIVATE_GUARD} has been removed and is no longer part of the public API.`,
   },
 ];
 

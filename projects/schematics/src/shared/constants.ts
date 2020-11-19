@@ -449,6 +449,7 @@ export const UNAUTHORIZED_ERROR_HANDLER = 'UnauthorizedErrorHandler';
 export const NG_EXPRESS_ENGINE_DECORATOR = 'NgExpressEngineDecorator';
 
 export const TOKEN_REVOCATION_HEADER = 'TOKEN_REVOCATION_HEADER';
+export const SPLIT_VIEW_DEACTIVATE_GUARD = 'SplitViewDeactivateGuard';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
