@@ -6,6 +6,7 @@ export const DEFAULT_ANGULAR_VERSION = '^10.1.0';
 export const ANGULAR_UNIVERSAL_EXPRESS_VERSION = '^10.1.0';
 export const ANGULAR_UNIVERSAL_BUILDERS = '^10.1.0';
 export const DEFAULT_NGRX_VERSION = '~10.0.0';
+export const DEFAULT_ANGULAR_OAUTH2_OIDC_VERSION = '^10.0.0';
 
 /***** Libraries versions end *****/
 
@@ -20,6 +21,7 @@ export const ANGULAR_LOCALIZE = '@angular/localize';
 export const RXJS = 'rxjs';
 export const ANGULAR_COMMON = '@angular/common';
 export const ANGULAR_PLATFORM_BROWSER = '@angular/platform-browser';
+export const ANGULAR_OAUTH2_OIDC = 'angular-oauth2-oidc';
 
 export const SPARTACUS_CORE = '@spartacus/core';
 export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';
