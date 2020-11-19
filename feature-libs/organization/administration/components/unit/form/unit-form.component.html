@@ -1,4 +1,4 @@
-<cx-organization-form [i18nRoot]="i18nRoot">
+<cx-org-form [i18nRoot]="i18nRoot">
   <ng-container *ngIf="form$ | async as form" [formGroup]="form" main>
     <label>
       <span class="label-content required">{{
@@ -40,7 +40,7 @@
         [items]="approvalProcess$ | async"
         bindLabel="name"
         bindValue="code"
-        appendTo=".organization"
+        appendTo="cx-org-list"
       >
       </ng-select>
       <cx-form-errors
@@ -63,7 +63,7 @@
         [items]="units$ | async"
         bindLabel="name"
         bindValue="id"
-        appendTo=".organization"
+        appendTo="cx-org-list"
       >
       </ng-select>
       <cx-form-errors
@@ -71,4 +71,4 @@
       ></cx-form-errors>
     </label>
   </ng-container>
-</cx-organization-form>
+</cx-org-form>

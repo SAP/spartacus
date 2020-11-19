@@ -7,39 +7,44 @@ import {
 } from './models/index';
 import { loginAsMyCompanyAdmin, waitForData } from './my-company.utils';
 
+let requestData: any;
+
 export function testListFromConfig(config: MyCompanyConfig): void {
   if (!config.disableListChecking) {
     describe(`${config.name} List`, () => {
       beforeEach(() => {
         loginAsMyCompanyAdmin();
         cy.server();
-        cy.visit(`/organization`);
       });
 
       if (!config.nestedTableRows) {
         it('should show and paginate list', () => {
-          testList(
-            config,
-            cy.get(`cx-page-slot.BodyContent a`).contains(config.name).click()
-          );
+          cy.visit(`/organization`);
+          testList(config, {
+            trigger: () =>
+              cy
+                .get(`cx-page-slot.BodyContent a`)
+                .contains(config.name)
+                .click(),
+          });
         });
 
         testListSorting(config);
       } else {
         it('should show expanded nested list', () => {
-          testList(
-            config,
-            cy.get(`cx-page-slot.BodyContent a`).contains(config.name).click(),
-            { nested: { expandAll: true } }
-          );
+          cy.visit(`/organization`);
+          testList(config, {
+            trigger: () =>
+              cy
+                .get(`cx-page-slot.BodyContent a`)
+                .contains(config.name)
+                .click(),
+            nested: { expandAll: true },
+          });
         });
 
         it('should show collapsed nested list', () => {
-          testList(
-            config,
-            cy.get(`cx-page-slot.BodyContent a`).contains(config.name).click(),
-            { nested: { collapseAll: true } }
-          );
+          testList(config, { nested: { collapseAll: true } });
         });
       }
     });
@@ -48,43 +53,47 @@ export function testListFromConfig(config: MyCompanyConfig): void {
 
 export function testList(
   config: MyCompanyConfig,
-  trigger: any,
   options?: TestListOptions
 ): void {
   cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
-  waitForData((data) => {
+  if (options.trigger) {
+    waitForData((data) => {
+      requestData = data;
+      validateList(requestData);
+    }, options.trigger());
+  } else {
+    validateList(requestData);
+  }
+
+  function validateList(data) {
     let listData = getListRowsFromBody(data, config.objectType, config.rows);
 
     if (options?.nested?.expandAll) {
       listData = getNestedRowsFromBody(data, config);
-      cy.get('cx-organization-list div.header button')
-        .contains('Expand all')
-        .click();
+      cy.get('cx-org-list div.header button').contains('Expand all').click();
     }
 
     if (options?.nested?.collapseAll) {
       listData = getRootRowsFromBody(data, config);
-      cy.get('cx-organization-list div.header button')
-        .contains('Collapse all')
-        .click();
+      cy.get('cx-org-list div.header button').contains('Collapse all').click();
     }
 
     verifyList(listData, config.rows);
     testPaginationIfValid(data);
-  }, trigger);
+  }
 
   function testPaginationIfValid(data: any) {
     if (
       data.pagination?.currentPage < data.pagination?.totalPages - 1 &&
       data.pagination?.currentPage < MAX_PAGES
     ) {
-      testList(
-        config,
-        cy
-          .get(`cx-pagination a.page`)
-          .contains(data.pagination.currentPage + 2)
-          .click()
-      );
+      testList(config, {
+        trigger: () =>
+          cy
+            .get(`cx-pagination a.page`)
+            .contains(data.pagination.currentPage + 2)
+            .click(),
+      });
     }
   }
 }

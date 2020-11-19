@@ -7,8 +7,11 @@ import {
 } from '../constants';
 
 export function getAngularVersion(tree: Tree, useFallback = true): string {
-  const packageJson = readPackageJson(tree);
-  const packageJsonVersion = packageJson.dependencies[ANGULAR_CORE];
+  const packageJsonObject = readPackageJson(tree);
+  let packageJsonVersion = '';
+  if (packageJsonObject) {
+    packageJsonVersion = packageJsonObject.dependencies[ANGULAR_CORE];
+  }
   return packageJsonVersion || (useFallback ? DEFAULT_ANGULAR_VERSION : '');
 }
 
@@ -36,16 +39,11 @@ export function getSpartacusCurrentFeatureLevel(tree: Tree): string {
 }
 
 export function isAngularLocalizeInstalled(tree: Tree): boolean {
-  const pkgPath = '/package.json';
-  const buffer = tree.read(pkgPath);
-  if (!buffer) {
-    throw new SchematicsException('Could not find package.json');
-  }
-  const packageJsonObject = JSON.parse(buffer.toString(UTF_8));
+  const packageJsonObject = readPackageJson(tree);
   return packageJsonObject.dependencies.hasOwnProperty(ANGULAR_LOCALIZE);
 }
 
-function readPackageJson(tree: Tree): any {
+export function readPackageJson(tree: Tree): any {
   const pkgPath = '/package.json';
   const buffer = tree.read(pkgPath);
   if (!buffer) {

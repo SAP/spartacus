@@ -27,7 +27,7 @@
     },
     "migration-v2-css-06": {
       "version": "2.1.0-next.1",
-      "factory": "./mechanism/css#migrate",
+      "factory": "./2_0/css/css#migrate",
       "description": "Handle deprecated CSS"
     },
     "migration-v2-ssr-07": {
@@ -73,8 +73,18 @@
     },
     "migration-v3-css-06": {
       "version": "3.0.0-next.6",
-      "factory": "./mechanism/css#migrate",
+      "factory": "./3_0/css/css#migrate",
       "description": "Handle deprecated CSS"
+    },
+    "migration-v3-storefinder-07": {
+      "version": "3.0.0-next.6",
+      "factory": "./3_0/storefinder/storefinder#migrate",
+      "description": "Migrate the old storefinder setup to the new one."
+    },
+    "migration-v3-add-dependencies-08": {
+      "version": "3.0.0-next.6",
+      "factory": "./3_0/add-dependencies/add-dependencies#migrate",
+      "description": "Add and install additional dependencies"
     }
   }
 }

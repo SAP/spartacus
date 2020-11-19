@@ -10,13 +10,15 @@ import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OccCmsComponentAdapter implements CmsComponentAdapter {
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(
-    private http: HttpClient,
-    private occEndpoints: OccEndpointsService,
+    protected http: HttpClient,
+    protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService
   ) {}
 
@@ -104,7 +106,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     );
   }
 
-  private getPaginationParams(
+  protected getPaginationParams(
     currentPage?: number,
     pageSize?: number,
     sort?: string
@@ -123,7 +125,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     return requestParams;
   }
 
-  private getContextParams(
+  protected getContextParams(
     pageContext: PageContext
   ): { [key: string]: string } {
     let requestParams = {};

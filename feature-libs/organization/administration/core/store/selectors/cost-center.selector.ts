@@ -82,3 +82,15 @@ export const getAssignedBudgets = (
         code
       )
   );
+
+export const getCostCenterState = (
+  code: string
+): MemoizedSelector<
+  StateWithOrganization,
+  StateUtils.LoaderState<CostCenter>
+> =>
+  createSelector(
+    getCostCentersState,
+    (state: StateUtils.EntityLoaderState<CostCenter>) =>
+      StateUtils.entityLoaderStateSelector(state, code)
+  );

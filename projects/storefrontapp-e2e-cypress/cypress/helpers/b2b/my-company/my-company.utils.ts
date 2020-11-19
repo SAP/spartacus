@@ -1,4 +1,4 @@
-import { MyCompanyConfig } from './models/index';
+import { ENTITY_UID_COOKIE_KEY, MyCompanyConfig } from './models/index';
 import { testListFromConfig } from './my-company-list';
 import { testCreateUpdateFromConfig } from './my-company-form';
 import { testAssignmentFromConfig } from './my-company-assign';
@@ -6,14 +6,16 @@ import { nextPage } from '../../product-search';
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
 import { myCompanyAdminUser } from '../../../sample-data/shared-users';
 
-export const IGNORE_CASE = {
-  matchCase: false,
-};
-
 export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
   describe(`My Company - ${config.name}${config.nameSuffix || ''}`, () => {
     before(() => {
       Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+    });
+
+    beforeEach(() => {
+      if (config.preserveCookies) {
+        Cypress.Cookies.preserveOnce(ENTITY_UID_COOKIE_KEY);
+      }
     });
 
     testListFromConfig(config);
@@ -47,9 +49,7 @@ export function scanTablePagesForText(
   cy.get('cx-table').then(($table) => {
     // For table in tree mode expand all elements first and find editable one.
     if (config.nestedTableRows) {
-      cy.get('cx-organization-list div.header button')
-        .contains('Expand all')
-        .click();
+      cy.get('cx-org-list div.header button').contains('Expand all').click();
     }
 
     if ($table.text().indexOf(text) === -1) {
@@ -63,4 +63,11 @@ export function scanTablePagesForText(
       }
     }
   });
+}
+
+/**
+ * Converts string value to RegExp ignoring case sensivity.
+ */
+export function ignoreCaseSensivity(base: string): RegExp {
+  return new RegExp(base, 'i');
 }

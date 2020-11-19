@@ -15,6 +15,16 @@
       "type": "boolean",
       "description": "Lazy load the Administration feature.",
       "default": true
+    },
+    "features": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": ["Administration", "Order-approval"],
+        "type": "string"
+      },
+      "default": ["Administration", "Order-approval"],
+      "x-prompt": "Which features would you like to setup?"
     }
   },
   "required": []

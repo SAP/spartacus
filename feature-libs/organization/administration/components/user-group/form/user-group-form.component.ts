@@ -6,15 +6,17 @@ import {
   UserGroup,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
-import { OrganizationItemService } from '../../shared/organization-item.service';
+import { ItemService } from '../../shared/item.service';
 import { UserGroupItemService } from '../services/user-group-item.service';
 
 @Component({
+  selector: 'cx-org-user-group-form',
   templateUrl: './user-group-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
-      provide: OrganizationItemService,
+      provide: ItemService,
       useExisting: UserGroupItemService,
     },
   ],
@@ -26,7 +28,7 @@ export class UserGroupFormComponent implements OnInit {
   units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList();
 
   constructor(
-    protected itemService: OrganizationItemService<UserGroup>,
+    protected itemService: ItemService<UserGroup>,
     protected unitService: OrgUnitService
   ) {}
 

@@ -1,4 +1,4 @@
-<cx-organization-form i18nRoot="userGroup">
+<cx-org-form i18nRoot="userGroup">
   <ng-container *ngIf="form" [formGroup]="form" main>
     <label>
       <span class="label-content required">{{
@@ -40,10 +40,10 @@
         bindLabel="name"
         bindValue="id"
         [readonly]="form.get('orgUnit.uid').disabled"
-        appendTo=".organization"
+        appendTo="cx-org-list"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>
     </label>
   </ng-container>
-</cx-organization-form>
+</cx-org-form>
