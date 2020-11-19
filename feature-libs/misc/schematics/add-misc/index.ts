@@ -74,7 +74,8 @@ export function addMiscFeatures(options: SpartacusMiscOptions): Rule {
     const appModulePath = getAppModule(tree, options.project);
 
     return chain([
-      ...addStorefinder(options, packageJson, appModulePath),
+      ...addStorefinder(options, appModulePath),
+      addMiscPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);
   };
@@ -82,12 +83,10 @@ export function addMiscFeatures(options: SpartacusMiscOptions): Rule {
 
 function addStorefinder(
   options: SpartacusMiscOptions,
-  packageJson: any,
   appModulePath: string
 ): Rule[] {
   if (shouldAddFeature(options.features, CLI_STOREFINDER_FEATURE)) {
     return [
-      addStorefinderPackageJsonDependencies(packageJson),
       addStorefinderStyles(),
       addStorefinderFeature(appModulePath, options),
     ];
@@ -121,18 +120,18 @@ function addStorefinderFeature(
   });
 }
 
-function addStorefinderPackageJsonDependencies(packageJson: any): Rule {
+function addMiscPackageJsonDependencies(packageJson: any): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
 
-    const spartacusStorefinderDependency: NodeDependency = {
+    const spartacusMiscDependency: NodeDependency = {
       type: NodeDependencyType.Default,
       version: spartacusVersion,
       name: SPARTACUS_MISC,
     };
-    addPackageJsonDependency(tree, spartacusStorefinderDependency);
+    addPackageJsonDependency(tree, spartacusMiscDependency);
     context.logger.info(
-      `✅️ Added '${spartacusStorefinderDependency.name}' into ${spartacusStorefinderDependency.type}`
+      `✅️ Added '${spartacusMiscDependency.name}' into ${spartacusMiscDependency.type}`
     );
 
     if (!packageJson.dependencies.hasOwnProperty(SPARTACUS_SETUP)) {
