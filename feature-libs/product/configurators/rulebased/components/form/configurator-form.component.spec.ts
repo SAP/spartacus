@@ -267,6 +267,16 @@ describe('ConfigurationFormComponent', () => {
     ).toHaveBeenCalledTimes(1);
   });
 
+  it('should enforce a reload of the configuration by removing the current one in case the router requires this', () => {
+    spyOn(configuratorGroupsService, 'isConflictGroupType').and.callThrough();
+    const fixture = TestBed.createComponent(ConfiguratorFormComponent);
+    const component = fixture.componentInstance;
+    component.isConflictGroupType(Configurator.GroupType.CONFLICT_GROUP);
+    expect(configuratorGroupsService.isConflictGroupType).toHaveBeenCalledWith(
+      Configurator.GroupType.CONFLICT_GROUP
+    );
+  });
+
   describe('resolve issues navigation', () => {
     it('should go to neither conflict solver nor first incomplete group', () => {
       spyOn(
