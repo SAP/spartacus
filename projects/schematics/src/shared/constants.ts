@@ -549,6 +549,7 @@ export const GET_PREVIOUS_CHECKOUT_STEP_URL = 'getPreviousCheckoutStepUrl';
 export const GET_CURRENT_STEP_INDEX = 'getCurrentStepIndex';
 export const STEPS = 'steps';
 export const GET_CHILD_ROUTES = 'getChildRoutes';
+export const GET_INJECTORS = 'getInjectors';
 export const GET_ALL = 'getAll';
 export const NG_ON_DESTROY = 'ngOnDestroy';
 export const NG_ON_INIT = 'ngOnInit';
