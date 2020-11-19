@@ -9,6 +9,7 @@ export class CpqAccessStorageService {
   constructor(protected cpqAccessLoaderService: CpqAccessLoaderService) {}
 
   protected cpqAccessData: Observable<Cpq.AccessData>;
+  protected nextCpqAccessData: Observable<Cpq.AccessData>;
   protected currentCpqAccessData: Cpq.AccessData;
 
   getCachedCpqAccessData(): Observable<Cpq.AccessData> {
@@ -19,16 +20,19 @@ export class CpqAccessStorageService {
         switchMap((data) => {
           if (this.isTokenExpired(data)) {
             // token expired - fetch a new one and emit it instead
-            if (data === this.currentCpqAccessData) {
+            if (!this.nextCpqAccessData) {
+              //ensure we only fecth one new token
               this.clearCachedCpqAccessData();
-              this.cpqAccessData = this.getCachedCpqAccessData();
+              console.log('fetch next');
+              this.nextCpqAccessData = this.getCachedCpqAccessData();
             }
-            return this.cpqAccessData;
+            return this.nextCpqAccessData;
           }
 
           return of(data); // token not expired - emit it.*/
         }),
         tap((data) => {
+          console.log('store current');
           this.currentCpqAccessData = data;
         })
       );
