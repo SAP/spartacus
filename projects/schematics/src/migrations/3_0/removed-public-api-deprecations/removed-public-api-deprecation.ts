@@ -35,7 +35,6 @@ import {
   STORE_COUNT_NORMALIZER,
   STORE_DATA_SERVICE,
   STORE_ENTITIES,
-  STORE_FINDER_ACTIONS,
   STORE_FINDER_ADAPTER,
   STORE_FINDER_COMPONENT,
   STORE_FINDER_CONFIG,
@@ -57,6 +56,9 @@ import {
   STORE_FINDER_SEARCH_QUERY,
   STORE_FINDER_SEARCH_RESULT_COMPONENT,
   STORE_FINDER_SELECTORS,
+  STORE_FINDER_ACTIONS,
+  TOKEN_REVOCATION_HEADER,
+  SPLIT_VIEW_DEACTIVATE_GUARD,
   STORE_FINDER_SERVICE,
   STORE_FINDER_STORES_COUNT_COMPONENT,
   STORE_FINDER_STORE_COMPONENT,
@@ -429,6 +431,18 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: STORE_FINDER_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${STORE_FINDER_COMPONENT}' was moved to @spartacus/misc/storefinder/components.`,
+  },
+  // projects/core/src/occ/utils/interceptor-util.ts
+  {
+    node: TOKEN_REVOCATION_HEADER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${TOKEN_REVOCATION_HEADER} has been removed and is no longer part of the public API.`,
+  },
+  // projects/storefrontlib/src/shared/components/split-view/split-view-deactivate.guard.ts
+  {
+    node: SPLIT_VIEW_DEACTIVATE_GUARD,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${SPLIT_VIEW_DEACTIVATE_GUARD} has been removed and is no longer part of the public API.`,
   },
 ];
 
