@@ -23,6 +23,7 @@ import { DELIVERY_MODE_SET_GUARD_MIGRATION } from './data/delivery-mode-set.guar
 import { DELIVERY_MODE_COMPONENT_MIGRATION } from './data/delivery-mode.component.migration';
 import { FEATURE_MODULES_SERVICE_MIGRATION } from './data/feature-modules.service.migration';
 import { FORBIDDEN_HANDLER_MIGRATION } from './data/forbidden.handler.migration';
+import { FORGOT_PASSWORD_COMPONENT_MIGRATION } from './data/forgot-password.component.migration';
 import { JSONLD_PRODUCT_REVIEW_BUILDER_MIGRATION } from './data/jsonld-product-review.builder.migration';
 import { LOGIN_FORM_COMPONENT_MIGRATION } from './data/login-form.component.migration';
 import { LOGOUT_GUARD_MIGRATION } from './data/logout-guard.migration';
@@ -38,6 +39,7 @@ import { ORDER_RETURN_GUARD_MIGRATION } from './data/order-return.guard.migratio
 import { PAGE_SLOT_COMPONENT_MIGRATION } from './data/page-slot.component.migration';
 import { PAYMENT_DETAILS_SET_GUARD_MIGRATION } from './data/payment-details-set.guard.migration';
 import { PAYMENT_METHOD_COMPONENT_MIGRATION } from './data/payment-method.component.migration';
+import { PLACE_ORDER_COMPONENT_MIGRATION } from './data/place-order.component.migration';
 import { PRODUCT_VARIANT_GUARD_MIGRATION } from './data/product-variant.guard.migration';
 import { REVIEW_SUBMIT_COMPONENT_MIGRATION } from './data/review-submit.component.migration';
 import { ROUTING_SERVICE_MIGRATION } from './data/routing.service.migration';
@@ -51,12 +53,11 @@ import { USER_CONSENT_SERVICE_MIGRATION } from './data/user-consent.service.migr
 import { USER_INTERESTS_SERVICE_MIGRATION } from './data/user-interests.service.migration';
 import { USER_NOTIFICATION_PREFERENCE_SERVICE_MIGRATION } from './data/user-notification-preference.service.migration';
 import { USER_ORDERS_EFFECT_MIGRATION } from './data/user-order.effect.migration';
-import { WISH_LIST_SERVICE_MIGRATION } from './data/wish-list.service.migration';
-import { FORGOT_PASSWORD_COMPONENT_MIGRATION } from './data/forgot-password.component.migration';
 import { USER_ORDER_SERVICE_MIGRATION } from './data/user-order.service.migration';
 import { USER_PAYMENT_SERVICE_MIGRATION } from './data/user-payment.service.migration';
 import { USER_REGISTER_EFFECT_MIGRATION } from './data/user-register.effect.migration';
 import { USER_SERVICE_MIGRATION } from './data/user.service.migration';
+import { WISH_LIST_SERVICE_MIGRATION } from './data/wish-list.service.migration';
 import { PRODUCT_CAROUSEL_SERVICE_MIGRATION } from './data/product-carousel.service.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
@@ -67,6 +68,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   STOCK_NOTIFICATION_COMPONENT_MIGRATION,
   PAYMENT_METHOD_COMPONENT_MIGRATION,
   REVIEW_SUBMIT_COMPONENT_MIGRATION,
+  PLACE_ORDER_COMPONENT_MIGRATION,
   SHIPPING_ADDRESS_COMPONENT_MIGRATION,
   SHIPPING_ADDRESS_SET_GUARD_MIGRATION,
   DELIVERY_MODE_SET_GUARD_MIGRATION,

@@ -130,6 +130,8 @@ export const CONTENT_PAGE_META_RESOLVER = 'ContentPageMetaResolver';
 export const ROUTING_PAGE_META_RESOLVER = 'RoutingPageMetaResolver';
 export const CART_TOTALS_COMPONENT = 'CartTotalsComponent';
 export const MINI_CART_COMPONENT = 'MiniCartComponent';
+export const CHECKOUT_REPLENISHMENT_FORM_SERVICE =
+  'CheckoutReplenishmentFormService';
 export const CHECKOUT_ORDER_SUMMARY_COMPONENT = 'CheckoutOrderSummaryComponent';
 export const CHECKOUT_PROGRESS_MOBILE_TOP_COMPONENT =
   'CheckoutProgressMobileTopComponent';

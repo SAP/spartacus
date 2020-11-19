@@ -10,6 +10,7 @@ import { CLOSE_ACCOUNT_MODAL_COMPONENT_MIGRATION } from './data/close-account-mo
 import { DELIVERY_MODE_COMPONENT_MIGRATION } from './data/delivery-mode.component.migration';
 import { ORDER_DETAIL_SHIPPING_COMPONENT_MIGRATION } from './data/order-detail-shipping.component.migration';
 import { PAYMENT_METHOD_COMPONENT_MIGRATION } from './data/payment-method.component.migration';
+import { PLACE_ORDER_COMPONENT_MIGRATION } from './data/place-order.component.migration';
 import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
 import { STAR_RATING_COMPONENT_MIGRATION } from './data/star-rating.component.migration';
 
@@ -21,6 +22,7 @@ export const COMPONENT_DEPRECATION_DATA: ComponentData[] = [
   PAYMENT_METHOD_COMPONENT_MIGRATION,
   SHIPPING_ADDRESS_COMPONENT_MIGRATION,
   ORDER_DETAIL_SHIPPING_COMPONENT_MIGRATION,
+  PLACE_ORDER_COMPONENT_MIGRATION,
   ADD_TO_CART_COMPONENT_MIGRATION,
   CART_ITEM_COMPONENT_MIGRATION,
   CLOSE_ACCOUNT_MODAL_COMPONENT_MIGRATION,
