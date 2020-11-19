@@ -2,16 +2,16 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Permission } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { shareReplay, startWith, switchMap } from 'rxjs/operators';
-import { OrganizationItemService } from '../../shared/organization-item.service';
+import { ItemService } from '../../shared/item.service';
 import { PermissionItemService } from '../services/permission-item.service';
 
 @Component({
-  selector: 'cx-permission-details',
+  selector: 'cx-org-permission-details',
   templateUrl: './permission-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
-      provide: OrganizationItemService,
+      provide: ItemService,
       useExisting: PermissionItemService,
     },
   ],
@@ -24,5 +24,5 @@ export class PermissionDetailsComponent {
     startWith({})
   );
 
-  constructor(protected itemService: OrganizationItemService<Permission>) {}
+  constructor(protected itemService: ItemService<Permission>) {}
 }

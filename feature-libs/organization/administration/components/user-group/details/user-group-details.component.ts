@@ -2,16 +2,16 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { UserGroup } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { shareReplay, startWith, switchMap } from 'rxjs/operators';
-import { OrganizationItemService } from '../../shared/organization-item.service';
+import { ItemService } from '../../shared/item.service';
 import { UserGroupItemService } from '../services/user-group-item.service';
 
 @Component({
-  selector: 'cx-user-group-details',
+  selector: 'cx-org-user-group-details',
   templateUrl: './user-group-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
-      provide: OrganizationItemService,
+      provide: ItemService,
       useExisting: UserGroupItemService,
     },
   ],
@@ -24,5 +24,5 @@ export class UserGroupDetailsComponent {
     startWith({})
   );
 
-  constructor(protected itemService: OrganizationItemService<UserGroup>) {}
+  constructor(protected itemService: ItemService<UserGroup>) {}
 }

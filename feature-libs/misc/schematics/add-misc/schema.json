@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "MiscSchematics",
+  "title": "Misc Schematics",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "lazy": {
+      "type": "boolean",
+      "description": "Lazy load the misc features.",
+      "default": true
+    },
+    "features": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": ["Storefinder"],
+        "type": "string"
+      },
+      "default": ["Storefinder"],
+      "x-prompt": "Which features would you like to setup?"
+    }
+  },
+  "required": []
+}

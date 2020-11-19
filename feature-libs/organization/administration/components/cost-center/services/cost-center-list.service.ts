@@ -4,7 +4,7 @@ import { CostCenterService } from '@spartacus/organization/administration/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
+import { ListService } from '../../shared/list/list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 
 /**
@@ -26,9 +26,7 @@ export interface CostCenterModel {
 @Injectable({
   providedIn: 'root',
 })
-export class CostCenterListService extends OrganizationListService<
-  CostCenterModel
-> {
+export class CostCenterListService extends ListService<CostCenterModel> {
   protected tableType = OrganizationTableType.COST_CENTER;
 
   constructor(
