@@ -63,6 +63,7 @@ import { JSON_LD_SCRIPT_FACTORY_CONSTRUCTOR_MIGRATION } from './data/json-ld.scr
 import { REGISTER_COMPONENT_MIGRATION } from './data/register.component.migration';
 import { WISH_LIST_SERVICE_MIGRATION } from './data/wish-list.service.migration';
 import { PRODUCT_CAROUSEL_SERVICE_MIGRATION } from './data/product-carousel.service.migration';
+import { VIEW_COMPONENT_MIGRATION } from './data/view.component.migration';
 import { SPLIT_VIEW_COMPONENT_MIGRATION } from './data/split-view.component.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
@@ -129,6 +130,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   JSON_LD_SCRIPT_FACTORY_CONSTRUCTOR_MIGRATION,
   REGISTER_COMPONENT_MIGRATION,
   PRODUCT_CAROUSEL_SERVICE_MIGRATION,
+  VIEW_COMPONENT_MIGRATION,
   SPLIT_VIEW_COMPONENT_MIGRATION,
 ];
 

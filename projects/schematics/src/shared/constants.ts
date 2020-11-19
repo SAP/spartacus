@@ -314,7 +314,7 @@ export const ANONYMOUS_CONSENT_TEMPLATES_ADAPTER =
   'AnonymousConsentTemplatesAdapter';
 export const ANONYMOUS_CONSENT_TEMPLATES_CONNECTOR =
   'AnonymousConsentTemplatesConnector';
-
+export const VIEW_COMPONENT = 'ViewComponent';
 export const SPLIT_VIEW_COMPONENT = 'SplitViewComponent';
 
 /***** Classes end *****/
