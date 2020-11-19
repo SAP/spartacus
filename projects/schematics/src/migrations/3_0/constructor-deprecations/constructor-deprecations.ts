@@ -58,6 +58,7 @@ import { USER_PAYMENT_SERVICE_MIGRATION } from './data/user-payment.service.migr
 import { USER_REGISTER_EFFECT_MIGRATION } from './data/user-register.effect.migration';
 import { USER_SERVICE_MIGRATION } from './data/user.service.migration';
 import { WISH_LIST_SERVICE_MIGRATION } from './data/wish-list.service.migration';
+import { PRODUCT_CAROUSEL_SERVICE_MIGRATION } from './data/product-carousel.service.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT_MIGRATION,
@@ -118,6 +119,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   USER_REGISTER_EFFECT_MIGRATION,
   USER_SERVICE_MIGRATION,
   STAR_RATING_COMPONENT_MIGRATION,
+  PRODUCT_CAROUSEL_SERVICE_MIGRATION,
 ];
 
 export function migrate(): Rule {
