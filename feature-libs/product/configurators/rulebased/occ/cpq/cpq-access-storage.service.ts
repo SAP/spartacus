@@ -22,10 +22,10 @@ export class CpqAccessStorageService {
             switchMap(() => this.cpqAccessLoaderService.getCpqAccessData())
           )
         ),
-        // filter we only need, because of tests having too strict input (emmitting an already expired token, shall not happen)
         filter((data) => !this.isTokenExpired(data)),
         tap((data) => (this.currentCpqAccessData = data)),
-        shareReplay(1)
+        shareReplay(1),
+        filter((data) => !this.isTokenExpired(data))
       );
     }
     return this.cpqAccessData;
@@ -34,8 +34,8 @@ export class CpqAccessStorageService {
   protected tokenExpiresIn(data: Cpq.AccessData) {
     // we schedule a request to update our cache some time before expiration (10 seconds)
     let expiresIn: number = data.tokenExpirationTime - Date.now() - 10;
-    if (expiresIn < 0) {
-      expiresIn = 0;
+    if (expiresIn < 5) {
+      expiresIn = 5;
     }
     if (expiresIn > ONE_DAY) {
       expiresIn = ONE_DAY;

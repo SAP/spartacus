@@ -101,7 +101,7 @@ describe('CpqAccessStorageService', () => {
   });
 
   it('should transparently fetch new token, when access data has expired', (done) => {
-    accessDataSubject = new Subject<Cpq.AccessData>();
+    accessDataSubject = new ReplaySubject<Cpq.AccessData>(1);
     accessDataObs = accessDataSubject;
     serviceUnderTest.getCachedCpqAccessData().subscribe((returnedData) => {
       expect(returnedData).toBeDefined();
@@ -113,7 +113,7 @@ describe('CpqAccessStorageService', () => {
   });
 
   it('should do only one additional call when expired token is emitted followed by valid one', (done) => {
-    accessDataSubject = new ReplaySubject<Cpq.AccessData>(1);
+    accessDataSubject = new Subject<Cpq.AccessData>();
     accessDataObs = accessDataSubject;
     serviceUnderTest.getCachedCpqAccessData().subscribe();
     serviceUnderTest.getCachedCpqAccessData().subscribe();
@@ -169,7 +169,7 @@ describe('CpqAccessStorageService', () => {
         done();
       });
     accessDataSubject.next(accessDataSoonExpiring);
-    interval(15)
+    interval(30)
       .pipe(take(1))
       .subscribe(() => {
         accessDataSubject.next(accessData);
@@ -209,7 +209,7 @@ describe('CpqAccessStorageService', () => {
       });
 
     accessDataSubject.next(accessDataSoonExpiring);
-    interval(15)
+    interval(40)
       .pipe(take(1))
       .subscribe(() => {
         accessDataSubject.next(accessData);
