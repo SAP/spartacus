@@ -60,6 +60,7 @@ import { USER_SERVICE_MIGRATION } from './data/user.service.migration';
 import { OUTLET_REF_DIRECTIVE_CONSTRUCTOR_MIGRATION } from './data/outlet-ref.directive.migration';
 import { OUTLET_SERVICE_CONSTRUCTOR_MIGRATION } from './data/outlet.service.migration';
 import { JSON_LD_SCRIPT_FACTORY_CONSTRUCTOR_MIGRATION } from './data/json-ld.script.factory.migration';
+import { PRODUCT_CAROUSEL_SERVICE_MIGRATION } from './data/product-carousel.service.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT_MIGRATION,
@@ -122,6 +123,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   OUTLET_REF_DIRECTIVE_CONSTRUCTOR_MIGRATION,
   OUTLET_SERVICE_CONSTRUCTOR_MIGRATION,
   JSON_LD_SCRIPT_FACTORY_CONSTRUCTOR_MIGRATION,
+  PRODUCT_CAROUSEL_SERVICE_MIGRATION,
 ];
 
 export function migrate(): Rule {
