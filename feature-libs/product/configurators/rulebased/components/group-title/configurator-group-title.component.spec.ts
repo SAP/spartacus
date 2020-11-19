@@ -17,6 +17,7 @@ const config: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
 
 let routerStateObservable = null;
+const group = { id: '1-CPQ_LAPTOP.1' };
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
     return routerStateObservable;
@@ -29,8 +30,8 @@ class MockRouter {
 
 class MockConfiguratorGroupService {
   navigateToGroup() {}
-  getCurrentGroup(): Observable<String> {
-    return of('1-CPQ_LAPTOP.1');
+  getCurrentGroup(): Observable<Configurator.Group> {
+    return of(group);
   }
 }
 
@@ -105,6 +106,12 @@ describe('ConfigurationGroupTitleComponent', () => {
   it('should get product code as part of product configuration', () => {
     component.configuration$.subscribe((data: Configurator.Configuration) => {
       expect(data.productCode).toEqual(config.productCode);
+    });
+  });
+
+  it('should get group id as part of group', () => {
+    component.displayedGroup$.subscribe((data: Configurator.Group) => {
+      expect(data.id).toEqual(group.id);
     });
   });
 });
