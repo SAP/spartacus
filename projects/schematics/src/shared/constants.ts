@@ -301,6 +301,12 @@ export const ASM_AUTH_SERVICE = 'AsmAuthService';
 export const FORGOT_PASSWORD_COMPONENT = 'ForgotPasswordComponent';
 export const AUTH_CONFIG_SERVICE = 'AuthConfigService';
 export const CLOSE_ACCOUNT_MODAL_COMPONENT = 'CloseAccountModalComponent';
+
+export const ANONYMOUS_CONSENT_TEMPLATES_ADAPTER =
+  'AnonymousConsentTemplatesAdapter';
+export const ANONYMOUS_CONSENT_TEMPLATES_CONNECTOR =
+  'AnonymousConsentTemplatesConnector';
+
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -500,6 +506,7 @@ export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_SUCCESS_CLASS =
 
 export const SUB = 'sub';
 
+export const LOAD_ANONYMOUS_CONSENTS = 'loadAnonymousConsents';
 /***** Properties end *****/
 
 /***** APIs start *****/
