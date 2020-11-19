@@ -62,7 +62,7 @@ export function addSpartacusOrganization(
 
 function addPackageJsonDependencies(packageJson: any): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+    const spartacusVersion = `^${getSpartacusSchematicsVersion(tree)}`;
 
     const spartacusMyAccountDependency: NodeDependency = {
       type: NodeDependencyType.Default,

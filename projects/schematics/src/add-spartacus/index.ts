@@ -48,7 +48,7 @@ import { Schema as SpartacusOptions } from './schema';
 
 function addPackageJsonDependencies(): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+    const spartacusVersion = `^${getSpartacusSchematicsVersion(tree)}`;
     const angularVersion = getAngularVersion(tree);
 
     const dependencies: NodeDependency[] = [
@@ -171,7 +171,7 @@ function prepareSiteContextConfig(options: SpartacusOptions): string {
   return context;
 }
 
-function getStorefrontConfig(options: SpartacusOptions): string {
+function getStorefrontConfig(host: Tree, options: SpartacusOptions): string {
   const baseUrlPart = `\n          baseUrl: '${options.baseUrl}',`;
   const context = prepareSiteContextConfig(options);
 
@@ -187,7 +187,9 @@ function getStorefrontConfig(options: SpartacusOptions): string {
         fallbackLang: 'en'
       },
       features: {
-        level: '${options.featureLevel || getSpartacusCurrentFeatureLevel()}'
+        level: '${
+          options.featureLevel || getSpartacusCurrentFeatureLevel(host)
+        }'
       }
     }`;
 }
@@ -223,7 +225,10 @@ function updateAppModule(options: SpartacusOptions): Rule {
       addToModuleImportsAndCommitChanges(
         host,
         modulePath,
-        `${B2C_STOREFRONT_MODULE}.withConfig(${getStorefrontConfig(options)})`
+        `${B2C_STOREFRONT_MODULE}.withConfig(${getStorefrontConfig(
+          host,
+          options
+        )})`
       );
     }
 
@@ -275,7 +280,7 @@ function installStyles(
     const insertion =
       '\n' +
       `$styleVersion: ${
-        options.featureLevel || getSpartacusCurrentFeatureLevel()
+        options.featureLevel || getSpartacusCurrentFeatureLevel(host)
       };\n@import '~@spartacus/styles/index';\n`;
 
     if (htmlContent.includes(insertion)) {

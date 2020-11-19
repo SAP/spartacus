@@ -20,6 +20,9 @@
     "resolveJsonModule": true,
     "esModuleInterop": true
   },
+  "angularCompilerOptions": {
+    "resolveJsonModule": true,
+  },
   "include": ["src/**/*"],
   "exclude": ["src/*/files/**/*"]
 }

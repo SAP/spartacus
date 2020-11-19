@@ -3,7 +3,9 @@
   "compilerOptions": {
     "outDir": "../../out-tsc/spec",
     "module": "es2020",
-    "types": ["jasmine", "node"]
+    "types": ["jest", "node"],
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true
   },
   "files": ["test.ts"],
   "include": ["**/*.spec.ts", "**/*.d.ts"]

@@ -85,7 +85,7 @@ describe('Package utils', () => {
 
   describe('getSpartacusSchematicsVersion', () => {
     it('should return spartacus version', async () => {
-      const version = getSpartacusSchematicsVersion();
+      const version = getSpartacusSchematicsVersion(appTree);
       expect(version).toBeTruthy();
       expect(version.length).toBeGreaterThanOrEqual(3);
     });
@@ -93,8 +93,8 @@ describe('Package utils', () => {
 
   describe('getSpartacusCurrentFeatureLevel', () => {
     it('should return feature level based on spartacus current version', async () => {
-      const version = getSpartacusSchematicsVersion();
-      const featureLevel = getSpartacusCurrentFeatureLevel();
+      const version = getSpartacusSchematicsVersion(appTree);
+      const featureLevel = getSpartacusCurrentFeatureLevel(appTree);
       expect(featureLevel).toBeTruthy();
       expect(featureLevel.length).toEqual(3);
       expect(featureLevel).toEqual(version.substring(0, 3));
