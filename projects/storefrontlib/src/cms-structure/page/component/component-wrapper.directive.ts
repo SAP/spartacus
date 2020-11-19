@@ -80,7 +80,8 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
           this.cxComponentWrapper.flexType,
           this.cxComponentWrapper.uid,
           this.injector
-        )
+        ),
+        this.cmsComponentsService.getModule(this.cxComponentWrapper.flexType)
       )
       ?.subscribe(({ elementRef, componentRef }) => {
         this.cmpRef = componentRef;
