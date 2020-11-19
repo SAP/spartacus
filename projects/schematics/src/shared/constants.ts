@@ -6,6 +6,7 @@ export const DEFAULT_ANGULAR_VERSION = '^10.1.0';
 export const ANGULAR_UNIVERSAL_EXPRESS_VERSION = '^10.1.0';
 export const ANGULAR_UNIVERSAL_BUILDERS = '^10.1.0';
 export const DEFAULT_NGRX_VERSION = '~10.0.0';
+export const DEFAULT_ANGULAR_OAUTH2_OIDC_VERSION = '^10.0.0';
 
 /***** Libraries versions end *****/
 
@@ -20,6 +21,7 @@ export const ANGULAR_LOCALIZE = '@angular/localize';
 export const RXJS = 'rxjs';
 export const ANGULAR_COMMON = '@angular/common';
 export const ANGULAR_PLATFORM_BROWSER = '@angular/platform-browser';
+export const ANGULAR_OAUTH2_OIDC = 'angular-oauth2-oidc';
 
 export const SPARTACUS_CORE = '@spartacus/core';
 export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';
@@ -28,6 +30,7 @@ export const SPARTACUS_CDS = '@spartacus/cds';
 export const SPARTACUS_CDC = '@spartacus/cdc';
 export const SPARTACUS_ASSETS = '@spartacus/assets';
 export const SPARTACUS_STYLES = '@spartacus/styles';
+export const SPARTACUS_MISC = '@spartacus/misc';
 
 export const NGRX_STORE = '@ngrx/store';
 export const NGRX_EFFECTS = '@ngrx/effects';
@@ -59,7 +62,9 @@ export const COMPONENT_FACTORY_RESOLVER = 'ComponentFactoryResolver';
 
 export const HTTP_CLIENT = 'HttpClient';
 
+export const STOREFRONT_MODULE = 'StorefrontModule';
 export const B2C_STOREFRONT_MODULE = 'B2cStorefrontModule';
+export const B2B_STOREFRONT_MODULE = 'B2bStorefrontModule';
 export const CONFIG_MODULE_CLASS = 'ConfigModule';
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
 export const PROVIDE_CONFIG_FUNCTION = 'provideConfig';
@@ -81,6 +86,7 @@ export const SEMANTIC_PATH_SERVICE = 'SemanticPathService';
 export const CMS_SERVICE = 'CmsService';
 export const PAGE_META_SERVICE = 'PageMetaService';
 export const STORE_DATA_SERVICE = 'StoreDataService';
+export const SPLIT_VIEW_SERVICE = 'SplitViewService';
 
 export const PAGE_META_RESOLVER = 'PageMetaResolver';
 export const PRODUCT_PAGE_META_RESOLVER = 'ProductPageMetaResolver';
@@ -125,6 +131,8 @@ export const CONTENT_PAGE_META_RESOLVER = 'ContentPageMetaResolver';
 export const ROUTING_PAGE_META_RESOLVER = 'RoutingPageMetaResolver';
 export const CART_TOTALS_COMPONENT = 'CartTotalsComponent';
 export const MINI_CART_COMPONENT = 'MiniCartComponent';
+export const CHECKOUT_REPLENISHMENT_FORM_SERVICE =
+  'CheckoutReplenishmentFormService';
 export const CHECKOUT_ORDER_SUMMARY_COMPONENT = 'CheckoutOrderSummaryComponent';
 export const CHECKOUT_PROGRESS_MOBILE_TOP_COMPONENT =
   'CheckoutProgressMobileTopComponent';
@@ -174,6 +182,7 @@ export const CUSTOMER_COUPON_SERVICE = 'CustomerCouponService';
 export const CART_ITEM_LIST_COMPONENT = 'CartItemListComponent';
 export const CART_ITEM_COMPONENT = 'CartItemComponent';
 export const PROTECTED_ROUTES_SERVICE = 'ProtectedRoutesService';
+export const PROTECTED_ROUTES_GUARD = 'ProtectedRoutesGuard';
 export const LOGIN_FORM_COMPONENT = 'LoginFormComponent';
 export const REGISTER_COMPONENT = 'RegisterComponent';
 export const ANONYMOUS_CONSENTS_SERVICE = 'AnonymousConsentsService';
@@ -298,6 +307,16 @@ export const ASM_AUTH_SERVICE = 'AsmAuthService';
 export const FORGOT_PASSWORD_COMPONENT = 'ForgotPasswordComponent';
 export const AUTH_CONFIG_SERVICE = 'AuthConfigService';
 export const CLOSE_ACCOUNT_MODAL_COMPONENT = 'CloseAccountModalComponent';
+export const OUTLET_REF_DIRECTIVE = 'OutletRefDirective';
+export const JSON_LD_SCRIPT_FACTORY = 'JsonLdScriptFactory';
+export const DOM_SANITIZER = 'DomSanitizer';
+export const ANONYMOUS_CONSENT_TEMPLATES_ADAPTER =
+  'AnonymousConsentTemplatesAdapter';
+export const ANONYMOUS_CONSENT_TEMPLATES_CONNECTOR =
+  'AnonymousConsentTemplatesConnector';
+
+export const SPLIT_VIEW_COMPONENT = 'SplitViewComponent';
+
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -405,11 +424,47 @@ export const CSAGENT_TOKEN_DATA = 'CSAGENT_TOKEN_DATA';
 export const CUSTOMER_SUPPORT_AGENT_TOKEN_INTERCEPTOR =
   'CustomerSupportAgentTokenInterceptor ';
 
+export const OCC_STORE_FINDER_ADAPTER = 'OccStoreFinderAdapter';
+export const STORE_FINDER_OCC_MODULE = 'StoreFinderOccModule';
+
 export const SEARCH_CONFIG = 'SearchConfig';
 export const STORE_FINDER_SEARCH_CONFIG = 'StoreFinderSearchConfig';
 
 export const STORE_FINDER_ACTIONS = 'StoreFinderActions';
 export const FIND_STORES_CLASS = 'FindStores';
+export const STORE_FINDER_SEARCH_PAGE_NORMALIZER =
+  'STORE_FINDER_SEARCH_PAGE_NORMALIZER';
+export const STORE_COUNT_NORMALIZER = 'STORE_COUNT_NORMALIZER';
+export const STORE_FINDER_CONNECTOR = 'StoreFinderConnector';
+export const STORE_FINDER_ADAPTER = 'StoreFinderAdapter';
+export const STORE_FINDER_SEARCH_QUERY = 'StoreFinderSearchQuery';
+export const STORE_ENTITIES = 'StoreEntities';
+export const GOOGLE_MAP_RENDERER_SERVICE = 'GoogleMapRendererService';
+export const STORE_FINDER_CORE_MODULE = 'StoreFinderCoreModule';
+export const STORE_FINDER_STORE_MODULE = 'StoreFinderStoreModule';
+export const STORE_FINDER_FEATURE = 'STORE_FINDER_FEATURE';
+export const STORE_FINDER_DATA = 'STORE_FINDER_DATA';
+export const STATE_WITH_STORE_FINDER = 'StateWithStoreFinder';
+export const STORES_STATE = 'StoresState';
+export const FIND_STORES_STATE = 'FindStoresState';
+export const VIEW_ALL_STORES_STATE = 'ViewAllStoresState';
+export const STORE_FINDER_SELECTORS = 'StoreFinderSelectors';
+
+export const ABSTRACT_STORE_ITEM_COMPONENT = 'AbstractStoreItemComponent';
+export const SCHEDULE_COMPONENT = 'ScheduleComponent';
+export const STORE_FINDER_MAP_COMPONENT = 'StoreFinderMapComponent';
+export const STORE_FINDER_LIST_COMPONENT = 'StoreFinderListComponent';
+export const STORE_FINDER_SEARCH_COMPONENT = 'StoreFinderSearchComponent';
+export const STORE_FINDER_STORE_DESCRIPTION_COMPONENT =
+  'StoreFinderStoreDescriptionComponent';
+export const STORE_FINDER_STORE_COMPONENT = 'StoreFinderStoreComponent';
+export const STORE_FINDER_STORES_COUNT_COMPONENT =
+  'StoreFinderStoresCountComponent';
+export const STORE_FINDER_MODULE = 'StoreFinderModule';
+export const STORE_FINDER_HEADER_COMPONENT = 'StoreFinderHeaderComponent';
+export const STORE_FINDER_PAGINATION_DETAILS_COMPONENT =
+  'StoreFinderPaginationDetailsComponent';
+export const STORE_FINDER_COMPONENT = 'StoreFinderComponent';
 
 export const ON_SUCCESS = 'onSuccess';
 
@@ -422,6 +477,9 @@ export const PAYMENT_TYPE_SERVICE = 'PaymentTypeService';
 
 export const UNAUTHORIZED_ERROR_HANDLER = 'UnauthorizedErrorHandler';
 export const NG_EXPRESS_ENGINE_DECORATOR = 'NgExpressEngineDecorator';
+
+export const TOKEN_REVOCATION_HEADER = 'TOKEN_REVOCATION_HEADER';
+export const SPLIT_VIEW_DEACTIVATE_GUARD = 'SplitViewDeactivateGuard';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
@@ -478,6 +536,7 @@ export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_SUCCESS_CLASS =
 
 export const SUB = 'sub';
 
+export const LOAD_ANONYMOUS_CONSENTS = 'loadAnonymousConsents';
 /***** Properties end *****/
 
 /***** APIs start *****/
@@ -505,6 +564,7 @@ export const GET_GLOB_URL_MATCHER = 'getGlobUrlMatcher';
 export const PLACE_ORDER = 'placeOrder';
 export const SET_QUERY = 'setQuery';
 export const VIEW_PAGE = 'viewPage';
+export const GET_ORDER_DETAILS = 'getOrderDetails';
 
 export const GET_ADDRESS_CARD_CONTENT = 'getAddressCardContent';
 export const GET_DELIVERY_MODE_CARD_CONTENT = 'getDeliveryModeCardContent';
@@ -522,6 +582,7 @@ export const GET_PREVIOUS_CHECKOUT_STEP_URL = 'getPreviousCheckoutStepUrl';
 export const GET_CURRENT_STEP_INDEX = 'getCurrentStepIndex';
 export const STEPS = 'steps';
 export const GET_CHILD_ROUTES = 'getChildRoutes';
+export const GET_INJECTORS = 'getInjectors';
 export const GET_ALL = 'getAll';
 export const NG_ON_DESTROY = 'ngOnDestroy';
 export const NG_ON_INIT = 'ngOnInit';
@@ -540,10 +601,22 @@ export const INIT_SYNC = 'initSync';
 export const SET_ACTIVE = 'setActive';
 export const SET_RATE_ON_EVENT = 'setRateOnEvent';
 export const SET_RATE = 'setRate';
+
+export const STOREFINDER_MODULE = 'StoreFinderModule';
+export const STOREFINDER_FEATURE_NAME = 'storeFinder';
+export const STOREFINDER_ROOT_MODULE = 'StoreFinderRootModule';
+export const SPARTACUS_STOREFINDER = `${SPARTACUS_MISC}/storefinder`;
+export const SPARTACUS_STOREFINDER_ROOT = `${SPARTACUS_STOREFINDER}/root`;
+export const SPARTACUS_STOREFINDER_ASSETS = `${SPARTACUS_STOREFINDER}/assets`;
+export const STOREFINDER_TRANSLATIONS = 'storeFinderTranslations';
+export const STOREFINDER_TRANSLATION_CHUNKS_CONFIG =
+  'storeFinderTranslationChunksConfig';
+
 /***** APIs end *****/
 
 /***** Misc start *****/
 export const TODO_SPARTACUS = 'TODO:Spartacus -';
+export const CLI_STOREFINDER_FEATURE = 'Storefinder';
 export const CSS_V2_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-2/';
 export const CSS_V3_DOCS_URL =
