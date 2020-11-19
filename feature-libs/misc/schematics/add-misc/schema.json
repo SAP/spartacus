@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "OrganizationSchematics",
-  "title": "Organization Schematics",
+  "id": "MiscSchematics",
+  "title": "Misc Schematics",
   "type": "object",
   "properties": {
     "project": {
@@ -13,17 +13,17 @@
     },
     "lazy": {
       "type": "boolean",
-      "description": "Lazy load the Administration feature.",
+      "description": "Lazy load the misc features.",
       "default": true
     },
     "features": {
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": ["Administration", "Order-approval"],
+        "enum": ["Storefinder"],
         "type": "string"
       },
-      "default": ["Administration", "Order-approval"],
+      "default": ["Storefinder"],
       "x-prompt": "Which features would you like to setup?"
     }
   },
