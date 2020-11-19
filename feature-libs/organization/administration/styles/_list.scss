@@ -227,7 +227,7 @@
     }
   }
 
-  cx-toggle-link-cell {
+  cx-org-toggle-link-cell {
     padding-inline-start: calc((var(--cx-depth-level) + 1) * 20px);
     button.tree-item-toggle {
       margin-inline-start: -40px;
@@ -235,7 +235,7 @@
   }
 
   @include media-breakpoint-down(md) {
-    cx-toggle-link-cell {
+    cx-org-toggle-link-cell {
       padding-inline-start: calc(2.5rem + var(--cx-depth-level) * 1.5rem);
     }
   }
@@ -268,7 +268,7 @@
     }
   }
 
-  cx-organization-sub-list {
+  cx-org-sub-list {
     &:not(.has-nested-view) {
       cx-table.vertical,
       table {

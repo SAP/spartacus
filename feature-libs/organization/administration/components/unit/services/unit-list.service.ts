@@ -8,7 +8,7 @@ import {
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
+import { ListService } from '../../shared/list/list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 import { UnitItemService } from './unit-item.service';
 import { UnitTreeService } from './unit-tree.service';
@@ -20,7 +20,7 @@ import { UnitTreeService } from './unit-tree.service';
 @Injectable({
   providedIn: 'root',
 })
-export class UnitListService extends OrganizationListService<B2BUnitTreeNode> {
+export class UnitListService extends ListService<B2BUnitTreeNode> {
   protected tableType = OrganizationTableType.UNIT;
 
   constructor(
