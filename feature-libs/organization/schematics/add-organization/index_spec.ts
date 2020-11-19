@@ -2,9 +2,14 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import { SpartacusOptions, UTF_8 } from '@spartacus/schematics';
+import {
+  B2C_STOREFRONT_MODULE,
+  SpartacusOptions,
+  UTF_8,
+} from '@spartacus/schematics';
 import * as path from 'path';
 import {
+  B2B_STOREFRONT_MODULE,
   CLI_ADMINISTRATION_FEATURE,
   CLI_ORDER_APPROVAL_FEATURE,
 } from '../constants';
@@ -71,6 +76,23 @@ describe('Spartacus Organization schematics: ng-add', () => {
         appTree
       )
       .toPromise();
+  });
+
+  describe('in app module', () => {
+    beforeEach(async () => {
+      appTree = await schematicRunner
+        .runSchematicAsync('ng-add', defaultOptions, appTree)
+        .toPromise();
+    });
+    it(`should remove 'B2cStorefrontModule' `, () => {
+      const appModule = appTree.readContent(appModulePath);
+      expect(appModule).not.toContain(B2C_STOREFRONT_MODULE);
+    });
+
+    it(`should replace it with 'B2bStorefrontModule'`, () => {
+      const appModule = appTree.readContent(appModulePath);
+      expect(appModule).toContain(B2B_STOREFRONT_MODULE);
+    });
   });
 
   describe('styling', () => {
