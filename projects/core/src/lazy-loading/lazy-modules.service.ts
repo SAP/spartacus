@@ -19,6 +19,7 @@ import { map, observeOn, publishReplay, switchMap, tap } from 'rxjs/operators';
 import { createFrom } from '../util/create-from';
 import { ModuleInitializedEvent } from './events/module-initialized-event';
 import { EventService } from '../event/event.service';
+import { CombinedInjector } from '../../../storefrontlib/src/shared/utils/combined-injector';
 
 /**
  * Utility service for managing dynamic imports of Angular services
@@ -60,10 +61,18 @@ export class LazyModulesService implements OnDestroy {
    */
   public resolveModuleInstance(
     moduleFunc: () => Promise<any>,
-    feature?: string
+    feature?: string,
+    dependencyModuleRefs: NgModuleRef<any>[] = []
   ): Observable<NgModuleRef<any>> {
+    const parentInjector = dependencyModuleRefs.length
+      ? new CombinedInjector(
+          this.injector,
+          dependencyModuleRefs.map((moduleRef) => moduleRef.injector)
+        )
+      : this.injector;
+
     return this.resolveModuleFactory(moduleFunc).pipe(
-      map(([moduleFactory]) => moduleFactory.create(this.injector)),
+      map(([moduleFactory]) => moduleFactory.create(parentInjector)),
       tap((moduleRef) =>
         this.events.dispatch(
           createFrom(ModuleInitializedEvent, {
