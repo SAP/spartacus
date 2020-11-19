@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { publishReplay, refCount, switchMap } from 'rxjs/operators';
+import { publishReplay, refCount, switchMap, tap } from 'rxjs/operators';
 import { Cpq } from '../../cpq/cpq.models';
 import { CpqAccessLoaderService } from './cpq-access-loader.service';
 
@@ -9,6 +9,7 @@ export class CpqAccessStorageService {
   constructor(protected cpqAccessLoaderService: CpqAccessLoaderService) {}
 
   protected cpqAccessData: Observable<Cpq.AccessData>;
+  protected currentCpqAccessData: Cpq.AccessData;
 
   getCachedCpqAccessData(): Observable<Cpq.AccessData> {
     if (!this.cpqAccessData) {
@@ -18,12 +19,17 @@ export class CpqAccessStorageService {
         switchMap((data) => {
           if (this.isTokenExpired(data)) {
             // token expired - fetch a new one and emit it instead
-            this.clearCachedCpqAccessData();
-            this.cpqAccessData = this.getCachedCpqAccessData();
+            if (data === this.currentCpqAccessData) {
+              this.clearCachedCpqAccessData();
+              this.cpqAccessData = this.getCachedCpqAccessData();
+            }
             return this.cpqAccessData;
           }
 
           return of(data); // token not expired - emit it.*/
+        }),
+        tap((data) => {
+          this.currentCpqAccessData = data;
         })
       );
     }

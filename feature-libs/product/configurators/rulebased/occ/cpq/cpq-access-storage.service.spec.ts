@@ -170,7 +170,7 @@ describe('CpqAccessStorageService', () => {
       });
   });
 
-  xit('should use only one publication for multiple observables after cache refresh', (done) => {
+  it('should use only one publication for multiple observables after cache refresh', (done) => {
     accessDataSubject = new Subject<Cpq.AccessData>();
     accessDataObs = accessDataSubject;
     serviceUnderTest
@@ -198,7 +198,7 @@ describe('CpqAccessStorageService', () => {
           expect(cpqAccessLoaderService.getCpqAccessData).toHaveBeenCalledTimes(
             2
           );
-          done();
+          //done();
         });
       });
 
@@ -207,6 +207,7 @@ describe('CpqAccessStorageService', () => {
       .pipe(take(1))
       .subscribe(() => {
         accessDataSubject.next(accessData);
+        done();
       });
   });
 });
