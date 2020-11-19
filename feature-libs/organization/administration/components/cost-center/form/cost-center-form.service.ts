@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CostCenter } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
-import { OrganizationFormService } from '../../shared/organization-form/organization-form.service';
+import { FormService } from '../../shared/form/form.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CostCenterFormService extends OrganizationFormService<CostCenter> {
+export class CostCenterFormService extends FormService<CostCenter> {
   protected build() {
     const form = new FormGroup({});
     form.setControl(

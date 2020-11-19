@@ -14,7 +14,7 @@ import {
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of } from 'rxjs';
-import { OrganizationFormTestingModule } from '../../shared/organization-form/organization-form.testing.module';
+import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { PermissionItemService } from '../services/permission-item.service';
 import { PermissionFormComponent } from './permission-form.component';
 
@@ -46,7 +46,7 @@ class MockCurrencyService {
   getAll() {}
 }
 
-class MockOrganizationItemService {
+class MockItemService {
   getForm() {}
 }
 const mockPermissionTypes: OrderApprovalPermissionType[] = [
@@ -76,7 +76,7 @@ describe('PermissionFormComponent', () => {
         UrlTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
-        OrganizationFormTestingModule,
+        FormTestingModule,
       ],
       declarations: [PermissionFormComponent, FormErrorsComponent],
       providers: [
@@ -84,7 +84,7 @@ describe('PermissionFormComponent', () => {
         { provide: OrgUnitService, useClass: MockOrgUnitService },
         {
           provide: PermissionItemService,
-          useClass: MockOrganizationItemService,
+          useClass: MockItemService,
         },
         { provide: PermissionService, useClass: MockPermissionService },
       ],
