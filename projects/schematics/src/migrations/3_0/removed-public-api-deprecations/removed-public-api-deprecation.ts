@@ -50,6 +50,7 @@ import {
   VIEW_ALL_STORES_STATE,
   STORE_FINDER_SELECTORS,
   STORE_FINDER_ACTIONS,
+  TOKEN_REVOCATION_HEADER,
 } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
@@ -330,6 +331,12 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: STORE_FINDER_ACTIONS,
     importPath: SPARTACUS_CORE,
     comment: `'${STORE_FINDER_ACTIONS}' was moved to @spartacus/feature-libs/misc/storefinder`,
+  },
+  // projects/core/src/occ/utils/interceptor-util.ts
+  {
+    node: TOKEN_REVOCATION_HEADER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${TOKEN_REVOCATION_HEADER} has been removed and is no longer part of the public API.`,
   },
 ];
 

@@ -445,6 +445,8 @@ export const PAYMENT_TYPE_SERVICE = 'PaymentTypeService';
 
 export const UNAUTHORIZED_ERROR_HANDLER = 'UnauthorizedErrorHandler';
 export const NG_EXPRESS_ENGINE_DECORATOR = 'NgExpressEngineDecorator';
+
+export const TOKEN_REVOCATION_HEADER = 'TOKEN_REVOCATION_HEADER';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
