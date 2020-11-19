@@ -17,7 +17,7 @@ const token = 'abz1234jtzuf';
 const accessData: Cpq.AccessData = {
   accessToken: token,
   endpoint: 'https://cpq',
-  tokenExpirationTime: 1605004667020,
+  tokenExpirationTime: 2605004667020,
 };
 
 const configCreatedResponse: Cpq.ConfigurationCreatedResponseData = {

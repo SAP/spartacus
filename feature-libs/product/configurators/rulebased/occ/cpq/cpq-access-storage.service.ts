@@ -9,11 +9,9 @@ export class CpqAccessStorageService {
   constructor(protected cpqAccessLoaderService: CpqAccessLoaderService) {}
 
   protected cpqAccessData: Observable<Cpq.AccessData>;
-  protected requestedAt: number;
 
   getCachedCpqAccessData(): Observable<Cpq.AccessData> {
     if (!this.cpqAccessData) {
-      this.requestedAt = Date.now();
       this.cpqAccessData = this.cpqAccessLoaderService.getCpqAccessData().pipe(
         publishReplay(1),
         refCount(),
@@ -24,6 +22,7 @@ export class CpqAccessStorageService {
             this.cpqAccessData = this.getCachedCpqAccessData();
             return this.cpqAccessData;
           }
+
           return of(data); // token not expired - emit it.*/
         })
       );
@@ -32,7 +31,7 @@ export class CpqAccessStorageService {
   }
 
   protected isTokenExpired(tokenData: Cpq.AccessData) {
-    return Date.now() > this.requestedAt + tokenData.tokenExpirationTime;
+    return Date.now() > tokenData.tokenExpirationTime;
   }
 
   clearCachedCpqAccessData() {
