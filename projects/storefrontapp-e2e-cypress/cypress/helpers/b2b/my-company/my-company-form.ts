@@ -195,7 +195,7 @@ function verifyDetails(config: MyCompanyConfig, formType: FormType) {
 
       const link = getLink(rowConfig);
       if (link) {
-        // spike todo get context from variables
+        // TODO: spike todo get context from variables
         cy.get('div.property a').should(
           'have.attr',
           'href',
