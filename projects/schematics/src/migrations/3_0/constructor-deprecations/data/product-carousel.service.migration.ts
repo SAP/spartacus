@@ -9,7 +9,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const PRODUCT_CAROUSEL_SERVICE_MIGRATION: ConstructorDeprecation = {
-  // projects\storefrontlib\src\cms-components\product\carousel\product-carousel.service.ts
+  // projects/storefrontlib/src/cms-components/product/carousel/product-carousel.service.ts
   class: PRODUCT_CAROUSEL_SERVICE,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [
