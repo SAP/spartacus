@@ -59,6 +59,7 @@ import { USER_REGISTER_EFFECT_MIGRATION } from './data/user-register.effect.migr
 import { USER_SERVICE_MIGRATION } from './data/user.service.migration';
 import { OUTLET_REF_DIRECTIVE_CONSTRUCTOR_MIGRATION } from './data/outlet-ref.directive.migration';
 import { OUTLET_SERVICE_CONSTRUCTOR_MIGRATION } from './data/outlet.service.migration';
+import { JSON_LD_SCRIPT_FACTORY_CONSTRUCTOR_MIGRATION } from './data/json-ld.script.factory.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT_MIGRATION,
@@ -120,6 +121,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   STAR_RATING_COMPONENT_MIGRATION,
   OUTLET_REF_DIRECTIVE_CONSTRUCTOR_MIGRATION,
   OUTLET_SERVICE_CONSTRUCTOR_MIGRATION,
+  JSON_LD_SCRIPT_FACTORY_CONSTRUCTOR_MIGRATION,
 ];
 
 export function migrate(): Rule {

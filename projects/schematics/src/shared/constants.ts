@@ -302,6 +302,8 @@ export const FORGOT_PASSWORD_COMPONENT = 'ForgotPasswordComponent';
 export const AUTH_CONFIG_SERVICE = 'AuthConfigService';
 export const CLOSE_ACCOUNT_MODAL_COMPONENT = 'CloseAccountModalComponent';
 export const OUTLET_REF_DIRECTIVE = 'OutletRefDirective';
+export const JSON_LD_SCRIPT_FACTORY = 'JsonLdScriptFactory';
+export const DOM_SANITIZER = 'DomSanitizer';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
