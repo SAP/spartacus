@@ -13,6 +13,7 @@ import { ConfigModule, TestConfigModule } from '@spartacus/core';
 import {
   JsonLdBuilderModule,
   StorefrontComponent,
+  StorefrontConfig,
 } from '@spartacus/storefront';
 import { b2bFeature } from '../environments/b2b/b2b.feature';
 import { b2cFeature } from '../environments/b2c/b2c.feature';
@@ -20,6 +21,7 @@ import { cdcFeature } from '../environments/cdc/cdc.feature';
 import { cdsFeature } from '../environments/cds/cds.feature';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
+import { SuperLogicService } from './super-logic.service';
 
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
@@ -52,6 +54,30 @@ if (environment.cdc) {
     BrowserTransferStateModule,
     JsonLdBuilderModule,
     ConfigModule.withConfig({
+      // featureModules: {
+      //   aincFeat: {
+      //     module: () =>
+      //       import('./feature-ainc/feature-ainc.module').then(
+      //         (m) => m.FeatureAincModule
+      //       ),
+      //     cmsComponents: ['SimpleBannerComponent'],
+      //   },
+      //   cwajFeat: {
+      //     module: () =>
+      //       import('./feature-cwaj/feature-cwaj.module').then(
+      //         (m) => m.FeatureCwajModule
+      //       ),
+      //     cmsComponents: ['SimpleResponsiveBannerComponent'],
+      //     dependencies: [
+      //       () =>
+      //         import('./denendency-cwaj/denendency-cwaj.module').then(
+      //           (m) => m.DenendencyCwajModule
+      //         ),
+      //     ],
+      //   },
+      //   drajFeat: {},
+      // },
+
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
@@ -78,14 +104,14 @@ if (environment.cdc) {
       features: {
         level: '2.1',
       },
-    }),
+    } as StorefrontConfig),
     ...additionalImports,
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 
     ...devImports,
   ],
-
+  providers: [SuperLogicService],
   bootstrap: [StorefrontComponent],
 })
 export class AppModule {}
