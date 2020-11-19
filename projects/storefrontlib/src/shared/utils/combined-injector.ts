@@ -9,12 +9,14 @@ import {
 const NOT_FOUND_SYMBOL = {};
 
 /**
- * CombinedInjector is able to combine more than one injector together in a way
- * that main injector is supported by complementary injectors.
+ * CombinedInjector is able to combine more than one injector together.
  *
- * Should be used as a parent injector for components, when we want to have access
- * to both providers from component hierarchical injectors and providers from any
- * number of additional injectors (lazy loaded modules for example).
+ * Can be used to instantiate lazy loaded modules with dependency modules,
+ * so lazy loaded module can use instances provided in all dependency modules.
+ *
+ * Injector tries to resolve token in all Injector, taking into account the order
+ * in which they were provided in complementaryInjectors and fallbacks to the
+ * mainInjector.
  */
 export class CombinedInjector implements Injector {
   /**
@@ -43,12 +45,9 @@ export class CombinedInjector implements Injector {
       );
     }
 
-    for (const injector of [
-      this.mainInjector,
-      ...this.complementaryInjectors,
-    ]) {
-      // First we are resolving providers provided at Self level in all injectors,
-      // starting with main injector and going through complementary ones...
+    for (const injector of [...this.complementaryInjectors]) {
+      // First we are resolving providers provided at Self level
+      // in all complementary injectors...
       const service = injector.get(token, NOT_FOUND_SYMBOL, InjectFlags.Self);
       if (service !== NOT_FOUND_SYMBOL) {
         return service;
