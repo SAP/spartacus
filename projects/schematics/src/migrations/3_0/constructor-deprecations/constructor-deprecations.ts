@@ -57,6 +57,9 @@ import { USER_ORDER_SERVICE_MIGRATION } from './data/user-order.service.migratio
 import { USER_PAYMENT_SERVICE_MIGRATION } from './data/user-payment.service.migration';
 import { USER_REGISTER_EFFECT_MIGRATION } from './data/user-register.effect.migration';
 import { USER_SERVICE_MIGRATION } from './data/user.service.migration';
+import { OUTLET_REF_DIRECTIVE_CONSTRUCTOR_MIGRATION } from './data/outlet-ref.directive.migration';
+import { OUTLET_SERVICE_CONSTRUCTOR_MIGRATION } from './data/outlet.service.migration';
+import { JSON_LD_SCRIPT_FACTORY_CONSTRUCTOR_MIGRATION } from './data/json-ld.script.factory.migration';
 import { REGISTER_COMPONENT_MIGRATION } from './data/register.component.migration';
 import { WISH_LIST_SERVICE_MIGRATION } from './data/wish-list.service.migration';
 import { PRODUCT_CAROUSEL_SERVICE_MIGRATION } from './data/product-carousel.service.migration';
@@ -120,6 +123,9 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   USER_REGISTER_EFFECT_MIGRATION,
   USER_SERVICE_MIGRATION,
   STAR_RATING_COMPONENT_MIGRATION,
+  OUTLET_REF_DIRECTIVE_CONSTRUCTOR_MIGRATION,
+  OUTLET_SERVICE_CONSTRUCTOR_MIGRATION,
+  JSON_LD_SCRIPT_FACTORY_CONSTRUCTOR_MIGRATION,
   REGISTER_COMPONENT_MIGRATION,
   PRODUCT_CAROUSEL_SERVICE_MIGRATION,
 ];

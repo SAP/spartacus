@@ -306,12 +306,13 @@ export const ASM_AUTH_SERVICE = 'AsmAuthService';
 export const FORGOT_PASSWORD_COMPONENT = 'ForgotPasswordComponent';
 export const AUTH_CONFIG_SERVICE = 'AuthConfigService';
 export const CLOSE_ACCOUNT_MODAL_COMPONENT = 'CloseAccountModalComponent';
-
+export const OUTLET_REF_DIRECTIVE = 'OutletRefDirective';
+export const JSON_LD_SCRIPT_FACTORY = 'JsonLdScriptFactory';
+export const DOM_SANITIZER = 'DomSanitizer';
 export const ANONYMOUS_CONSENT_TEMPLATES_ADAPTER =
   'AnonymousConsentTemplatesAdapter';
 export const ANONYMOUS_CONSENT_TEMPLATES_CONNECTOR =
   'AnonymousConsentTemplatesConnector';
-
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -472,6 +473,9 @@ export const PAYMENT_TYPE_SERVICE = 'PaymentTypeService';
 
 export const UNAUTHORIZED_ERROR_HANDLER = 'UnauthorizedErrorHandler';
 export const NG_EXPRESS_ENGINE_DECORATOR = 'NgExpressEngineDecorator';
+
+export const TOKEN_REVOCATION_HEADER = 'TOKEN_REVOCATION_HEADER';
+export const SPLIT_VIEW_DEACTIVATE_GUARD = 'SplitViewDeactivateGuard';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
