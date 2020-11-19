@@ -10,14 +10,15 @@ import {
   ReplaceChange,
 } from '@schematics/angular/utility/change';
 import * as ts from 'typescript';
-import { ANGULAR_CORE, B2C_STOREFRONT_MODULE } from '../constants';
+import { ANGULAR_CORE } from '../constants';
 
 /**
  * Finds the Storefront config in the given app.module.ts
  * @param appModuleSourceFile
  */
 export function getExistingStorefrontConfigNode(
-  appModuleSourceFile: ts.SourceFile
+  appModuleSourceFile: ts.SourceFile,
+  configModuleName: string
 ): ts.CallExpression | undefined {
   const metadata = getDecoratorMetadata(
     appModuleSourceFile,
@@ -44,7 +45,7 @@ export function getExistingStorefrontConfigNode(
   return arrayLiteral.elements.filter(
     (node) =>
       ts.isCallExpression(node) &&
-      node.getFullText().indexOf(`${B2C_STOREFRONT_MODULE}.withConfig`) !== -1
+      node.getFullText().indexOf(`${configModuleName}.withConfig`) !== -1
   )[0] as ts.CallExpression;
 }
 

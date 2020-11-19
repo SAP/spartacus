@@ -76,9 +76,6 @@ describe('CombinedInjector', () => {
     expect(injector.get('c')).toEqual('c-third');
   });
 
-  it('should prioritize main injector direct providers', () => {
-    expect(injector.get('d')).toEqual('d-main');
-  });
   it('should fallback to root injector', () => {
     expect(injector.get('0')).toEqual('0-root');
   });
