@@ -29,8 +29,7 @@ export class CurrentProductService {
   getProduct(
     scopes?: (ProductScope | string)[] | ProductScope | string
   ): Observable<Product | null> {
-    return this.routingService.getRouterState().pipe(
-      map((state) => state.state.params['productCode']),
+    return this.getCode().pipe(
       distinctUntilChanged(),
       switchMap((productCode: string) => {
         return productCode
@@ -42,5 +41,11 @@ export class CurrentProductService {
       }),
       filter((product) => product !== undefined)
     );
+  }
+
+  protected getCode(): Observable<string> {
+    return this.routingService
+      .getRouterState()
+      .pipe(map((state) => state.state.params['productCode']));
   }
 }

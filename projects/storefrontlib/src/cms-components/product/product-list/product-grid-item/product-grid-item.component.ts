@@ -1,12 +1,28 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
+import { CurrentProductService } from '../../current-product.service';
+import { LocalCurrentProductService } from '../../local-current-product.service';
 import { ProductListOutlets } from '../../product-outlets.model';
 
 @Component({
   selector: 'cx-product-grid-item',
   templateUrl: './product-grid-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    { provide: CurrentProductService, useClass: LocalCurrentProductService },
+  ],
 })
-export class ProductGridItemComponent {
+export class ProductGridItemComponent implements OnInit {
+  constructor(protected currentProductService: CurrentProductService) {}
   readonly Outlets = ProductListOutlets;
   @Input() product: any;
+  ngOnInit(): void {
+    const localCurrentProductService: LocalCurrentProductService = this
+      .currentProductService as LocalCurrentProductService;
+    localCurrentProductService.setCode(this.product.code);
+  }
 }

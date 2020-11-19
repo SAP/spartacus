@@ -7,7 +7,11 @@ import {
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  ProductService,
+  RoutingService,
+} from '@spartacus/core';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { ProductGridItemComponent } from './product-grid-item.component';
 
@@ -62,6 +66,9 @@ class MockStyleIconsComponent {
   @Input() variants: any[];
 }
 
+class MockRoutingService {}
+class MockProductService {}
+
 describe('ProductGridItemComponent in product-list', () => {
   let component: ProductGridItemComponent;
   let fixture: ComponentFixture<ProductGridItemComponent>;
@@ -94,6 +101,16 @@ describe('ProductGridItemComponent in product-list', () => {
         MockCxIconComponent,
         MockStyleIconsComponent,
         MockFeatureLevelDirective,
+      ],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: ProductService,
+          useClass: MockProductService,
+        },
       ],
     })
       .overrideComponent(ProductGridItemComponent, {
