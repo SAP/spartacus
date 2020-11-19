@@ -1,6 +1,6 @@
 @import './styles/index';
 
-$configurator-common-components: cx-configurator-template,
+$configurator-rulebased-components: cx-configurator-template,
   cx-configurator-attribute-header, cx-configurator-form,
   cx-configurator-attribute-type, cx-required-error-msg,
   cx-configurator-footer-container, cx-configurator-footer-container-item,
@@ -20,10 +20,10 @@ $configurator-common-components: cx-configurator-template,
   cx-configurator-conflict-suggestion, cx-configurator-conflict-description,
   cx-configurator-overview-notification-banner !default;
 
-$configurator-common-pages: VariantConfigurationTemplate,
+$configurator-rulebased-pages: VariantConfigurationTemplate,
   VariantConfigurationOverviewTemplate !default;
 
-@each $selector in $configurator-common-components {
+@each $selector in $configurator-rulebased-components {
   #{$selector} {
     @extend %#{$selector} !optional;
   }
@@ -31,12 +31,12 @@ $configurator-common-pages: VariantConfigurationTemplate,
 
 // add body specific selectors
 body {
-  @each $selector in $configurator-common-components {
+  @each $selector in $configurator-rulebased-components {
     @extend %#{$selector}__body !optional;
   }
 }
 
-@each $selector in $configurator-common-pages {
+@each $selector in $configurator-rulebased-pages {
   cx-page-layout.#{$selector} {
     @extend %#{$selector} !optional;
   }
