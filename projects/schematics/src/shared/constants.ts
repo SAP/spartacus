@@ -419,22 +419,23 @@ export const CSAGENT_TOKEN_DATA = 'CSAGENT_TOKEN_DATA';
 export const CUSTOMER_SUPPORT_AGENT_TOKEN_INTERCEPTOR =
   'CustomerSupportAgentTokenInterceptor ';
 
+export const OCC_STORE_FINDER_ADAPTER = 'OccStoreFinderAdapter';
+export const STORE_FINDER_OCC_MODULE = 'StoreFinderOccModule';
+
 export const SEARCH_CONFIG = 'SearchConfig';
 export const STORE_FINDER_SEARCH_CONFIG = 'StoreFinderSearchConfig';
 
 export const STORE_FINDER_ACTIONS = 'StoreFinderActions';
 export const FIND_STORES_CLASS = 'FindStores';
-export const STORE_FINDER_MODULE = 'StoreFinderCoreModule';
-export const POINT_OF_SERVICE_NORMALIZER = 'POINT_OF_SERVICE_NORMALIZER';
 export const STORE_FINDER_SEARCH_PAGE_NORMALIZER =
   'STORE_FINDER_SEARCH_PAGE_NORMALIZER';
 export const STORE_COUNT_NORMALIZER = 'STORE_COUNT_NORMALIZER';
 export const STORE_FINDER_CONNECTOR = 'StoreFinderConnector';
 export const STORE_FINDER_ADAPTER = 'StoreFinderAdapter';
-export const STORE_FINDER_SEARCH_QUERY_SERVICE = 'StoreFinderSearchQuery';
+export const STORE_FINDER_SEARCH_QUERY = 'StoreFinderSearchQuery';
 export const STORE_ENTITIES = 'StoreEntities';
-export const EXTERNAL_JS_FILE_LOADER_SERVICE = 'ExternalJsFileLoader';
 export const GOOGLE_MAP_RENDERER_SERVICE = 'GoogleMapRendererService';
+export const STORE_FINDER_CORE_MODULE = 'StoreFinderCoreModule';
 export const STORE_FINDER_STORE_MODULE = 'StoreFinderStoreModule';
 export const STORE_FINDER_FEATURE = 'STORE_FINDER_FEATURE';
 export const STORE_FINDER_DATA = 'STORE_FINDER_DATA';
@@ -443,6 +444,22 @@ export const STORES_STATE = 'StoresState';
 export const FIND_STORES_STATE = 'FindStoresState';
 export const VIEW_ALL_STORES_STATE = 'ViewAllStoresState';
 export const STORE_FINDER_SELECTORS = 'StoreFinderSelectors';
+
+export const ABSTRACT_STORE_ITEM_COMPONENT = 'AbstractStoreItemComponent';
+export const SCHEDULE_COMPONENT = 'ScheduleComponent';
+export const STORE_FINDER_MAP_COMPONENT = 'StoreFinderMapComponent';
+export const STORE_FINDER_LIST_COMPONENT = 'StoreFinderListComponent';
+export const STORE_FINDER_SEARCH_COMPONENT = 'StoreFinderSearchComponent';
+export const STORE_FINDER_STORE_DESCRIPTION_COMPONENT =
+  'StoreFinderStoreDescriptionComponent';
+export const STORE_FINDER_STORE_COMPONENT = 'StoreFinderStoreComponent';
+export const STORE_FINDER_STORES_COUNT_COMPONENT =
+  'StoreFinderStoresCountComponent';
+export const STORE_FINDER_MODULE = 'StoreFinderModule';
+export const STORE_FINDER_HEADER_COMPONENT = 'StoreFinderHeaderComponent';
+export const STORE_FINDER_PAGINATION_DETAILS_COMPONENT =
+  'StoreFinderPaginationDetailsComponent';
+export const STORE_FINDER_COMPONENT = 'StoreFinderComponent';
 
 export const ON_SUCCESS = 'onSuccess';
 
