@@ -37,6 +37,7 @@ import { STAR_RATING_COMPONENT_MIGRATION } from './data/star-rating-component.mi
 import { STORE_FINDER_ACTIONS_MIGRATION } from './data/store-finder-group.actions.migration';
 import { STOREFRONT_COMPONENT_MIGRATION } from './data/storefront-component.migration';
 import { UPDATE_EMAIL_COMPONENT_MIGRATION } from './data/update-email.component.migration';
+import { FEATURE_MODULES_SERVICE_MIGRATION } from './data/feature-modules.service.migration';
 
 export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...CHECKOUT_CONNECTOR_MIGRATION,
@@ -76,6 +77,7 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...LANGUAGE_SERVICE_MIGRATION,
   ...CURRENCY_SERVICE_MIGRATION,
   ...STAR_RATING_COMPONENT_MIGRATION,
+  ...FEATURE_MODULES_SERVICE_MIGRATION,
 ];
 
 export function migrate(): Rule {
