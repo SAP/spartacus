@@ -1,7 +1,6 @@
 import {
   ANGULAR_CORE,
   ANGULAR_FORMS,
-  ANGULAR_ROUTER,
   CHECKOUT_REPLENISHMENT_FORM_SERVICE,
   CHECKOUT_SERVICE,
   FORM_BUILDER,
@@ -15,7 +14,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const PLACE_ORDER_COMPONENT_MIGRATION: ConstructorDeprecation = {
-  // projects\storefrontlib\src\cms-components\checkout\components\place-order\place-order.component.ts
+  // projects/storefrontlib/src/cms-components/checkout/components/place-order/place-order.component.ts
   class: PLACE_ORDER_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [
@@ -25,7 +24,7 @@ export const PLACE_ORDER_COMPONENT_MIGRATION: ConstructorDeprecation = {
     },
     {
       className: ROUTING_SERVICE,
-      importPath: ANGULAR_ROUTER,
+      importPath: SPARTACUS_CORE,
     },
     {
       className: FORM_BUILDER,
