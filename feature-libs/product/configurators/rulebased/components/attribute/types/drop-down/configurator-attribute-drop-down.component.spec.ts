@@ -9,6 +9,10 @@ import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute
 describe('ConfigAttributeDropDownComponent', () => {
   let component: ConfiguratorAttributeDropDownComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeDropDownComponent>;
+  const ownerKey = 'theOwnerKey';
+  const name = 'theName';
+  const groupId = 'theGroupId';
+  const selectedValue = 'selectedValue';
 
   beforeEach(
     waitForAsync(() => {
@@ -30,11 +34,12 @@ describe('ConfigAttributeDropDownComponent', () => {
     fixture = TestBed.createComponent(ConfiguratorAttributeDropDownComponent);
     component = fixture.componentInstance;
     component.attribute = {
-      name: 'attributeName',
+      name: name,
       attrCode: 444,
       uiType: Configurator.UiType.DROPDOWN,
-      selectedSingleValue: 'selectedValue',
+      selectedSingleValue: selectedValue,
       quantity: 1,
+      groupId: groupId,
     };
     fixture.detectChanges();
   });
@@ -44,6 +49,23 @@ describe('ConfigAttributeDropDownComponent', () => {
   });
 
   it('should set selectedSingleValue on init', () => {
-    expect(component.attributeDropDownForm.value).toEqual('selectedValue');
+    expect(component.attributeDropDownForm.value).toEqual(selectedValue);
+  });
+
+  it('should call emit of selectionChange onSelect', () => {
+    component.ownerKey = ownerKey;
+    spyOn(component.selectionChange, 'emit').and.callThrough();
+    component.onSelect();
+    expect(component.selectionChange.emit).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        ownerKey: ownerKey,
+        changedAttribute: jasmine.objectContaining({
+          name: name,
+          uiType: Configurator.UiType.DROPDOWN,
+          groupId: groupId,
+          selectedSingleValue: component.attributeDropDownForm.value,
+        }),
+      })
+    );
   });
 });
