@@ -301,6 +301,7 @@ export const ASM_AUTH_SERVICE = 'AsmAuthService';
 export const FORGOT_PASSWORD_COMPONENT = 'ForgotPasswordComponent';
 export const AUTH_CONFIG_SERVICE = 'AuthConfigService';
 export const CLOSE_ACCOUNT_MODAL_COMPONENT = 'CloseAccountModalComponent';
+export const OUTLET_REF_DIRECTIVE = 'OutletRefDirective';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
