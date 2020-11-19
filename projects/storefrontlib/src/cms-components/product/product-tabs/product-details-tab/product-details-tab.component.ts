@@ -10,10 +10,14 @@ import { CurrentProductService } from '../../current-product.service';
 })
 export class ProductDetailsTabComponent implements OnInit {
   product$: Observable<Product>;
+  showMore: boolean;
 
   constructor(protected currentProductService: CurrentProductService) {}
 
   ngOnInit() {
     this.product$ = this.currentProductService.getProduct();
+  }
+  toggle() {
+    this.showMore = !this.showMore;
   }
 }

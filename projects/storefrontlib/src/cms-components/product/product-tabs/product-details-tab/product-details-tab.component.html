@@ -1,3 +1,20 @@
 <ng-container *ngIf="product$ | async as product">
-  <div class="container" [innerHTML]="product?.description"></div>
+  <div class="container">
+    <div
+      *ngIf="!showMore; else fullContent"
+      [innerHTML]="product?.description.substring(0, 400)"
+    ></div>
+    <ng-template #fullContent
+      ><div [innerHTML]="product?.description"></div
+    ></ng-template>
+
+    <div *ngIf="product?.description.length > 400">
+      <a href="javascript:" *ngIf="showMore" (click)="toggle()">{{
+        'productDetails.showLess' | cxTranslate
+      }}</a>
+      <a href="javascript:" *ngIf="!showMore" (click)="toggle()">{{
+        'productDetails.showMore' | cxTranslate
+      }}</a>
+    </div>
+  </div>
 </ng-container>
