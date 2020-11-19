@@ -9,7 +9,7 @@ import {
   ANGULAR_FORMS,
   ROUTING_SERVICE,
   SPARTACUS_CORE,
-  USER_SERVICE
+  USER_SERVICE,
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
@@ -47,6 +47,6 @@ export const REGISTER_COMPONENT_MIGRATION: ConstructorDeprecation = {
     {
       className: AUTH_CONFIG_SERVICE,
       importPath: SPARTACUS_CORE,
-    }
+    },
   ],
 };
