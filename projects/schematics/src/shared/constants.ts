@@ -86,6 +86,7 @@ export const SEMANTIC_PATH_SERVICE = 'SemanticPathService';
 export const CMS_SERVICE = 'CmsService';
 export const PAGE_META_SERVICE = 'PageMetaService';
 export const STORE_DATA_SERVICE = 'StoreDataService';
+export const SPLIT_VIEW_SERVICE = 'SplitViewService';
 
 export const PAGE_META_RESOLVER = 'PageMetaResolver';
 export const PRODUCT_PAGE_META_RESOLVER = 'ProductPageMetaResolver';
@@ -306,11 +307,15 @@ export const ASM_AUTH_SERVICE = 'AsmAuthService';
 export const FORGOT_PASSWORD_COMPONENT = 'ForgotPasswordComponent';
 export const AUTH_CONFIG_SERVICE = 'AuthConfigService';
 export const CLOSE_ACCOUNT_MODAL_COMPONENT = 'CloseAccountModalComponent';
-
+export const OUTLET_REF_DIRECTIVE = 'OutletRefDirective';
+export const JSON_LD_SCRIPT_FACTORY = 'JsonLdScriptFactory';
+export const DOM_SANITIZER = 'DomSanitizer';
 export const ANONYMOUS_CONSENT_TEMPLATES_ADAPTER =
   'AnonymousConsentTemplatesAdapter';
 export const ANONYMOUS_CONSENT_TEMPLATES_CONNECTOR =
   'AnonymousConsentTemplatesConnector';
+export const VIEW_COMPONENT = 'ViewComponent';
+export const SPLIT_VIEW_COMPONENT = 'SplitViewComponent';
 
 /***** Classes end *****/
 
@@ -474,6 +479,9 @@ export const PAYMENT_TYPE_SERVICE = 'PaymentTypeService';
 
 export const UNAUTHORIZED_ERROR_HANDLER = 'UnauthorizedErrorHandler';
 export const NG_EXPRESS_ENGINE_DECORATOR = 'NgExpressEngineDecorator';
+
+export const TOKEN_REVOCATION_HEADER = 'TOKEN_REVOCATION_HEADER';
+export const SPLIT_VIEW_DEACTIVATE_GUARD = 'SplitViewDeactivateGuard';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
