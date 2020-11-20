@@ -122,7 +122,7 @@ function addStorefinderFeature(
 
 function addMiscPackageJsonDependencies(packageJson: any): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const spartacusVersion = `^${getSpartacusSchematicsVersion(tree)}`;
+    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
 
     const spartacusMiscDependency: NodeDependency = {
       type: NodeDependencyType.Default,

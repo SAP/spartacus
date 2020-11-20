@@ -50,7 +50,7 @@ import { Schema as SpartacusOptions } from './schema';
 
 function addPackageJsonDependencies(): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const spartacusVersion = `^${getSpartacusSchematicsVersion(tree)}`;
+    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
     const angularVersion = getAngularVersion(tree);
 
     const dependencies: NodeDependency[] = [

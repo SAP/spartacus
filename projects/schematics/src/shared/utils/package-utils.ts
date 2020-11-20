@@ -1,10 +1,21 @@
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
+import { version } from '../../../package.json';
 import {
   ANGULAR_CORE,
   ANGULAR_LOCALIZE,
   DEFAULT_ANGULAR_VERSION,
   UTF_8,
 } from '../constants';
+
+export function readPackageJson(tree: Tree): any {
+  const pkgPath = '/package.json';
+  const buffer = tree.read(pkgPath);
+  if (!buffer) {
+    throw new SchematicsException('Could not find package.json');
+  }
+
+  return JSON.parse(buffer.toString(UTF_8));
+}
 
 export function getAngularVersion(tree: Tree, useFallback = true): string {
   const packageJsonObject = readPackageJson(tree);
@@ -28,9 +39,8 @@ export function getMajorVersionNumber(versionString: string): number {
   return Number(majorVersion);
 }
 
-export function getSpartacusSchematicsVersion(tree: Tree): string {
-  const packageJson = readPackageJson(tree);
-  return packageJson.version;
+export function getSpartacusSchematicsVersion(): string {
+  return version;
 }
 
 export function getSpartacusCurrentFeatureLevel(tree: Tree): string {
@@ -41,14 +51,4 @@ export function getSpartacusCurrentFeatureLevel(tree: Tree): string {
 export function isAngularLocalizeInstalled(tree: Tree): boolean {
   const packageJsonObject = readPackageJson(tree);
   return packageJsonObject.dependencies.hasOwnProperty(ANGULAR_LOCALIZE);
-}
-
-export function readPackageJson(tree: Tree): any {
-  const pkgPath = '/package.json';
-  const buffer = tree.read(pkgPath);
-  if (!buffer) {
-    throw new SchematicsException('Could not find package.json');
-  }
-
-  return JSON.parse(buffer.toString(UTF_8));
 }

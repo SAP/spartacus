@@ -148,29 +148,6 @@ function removeOldSetup(appModulePath: string): Rule {
   };
 }
 
-// function addPackageJsonDependencies(): Rule {
-//   return (tree: Tree, context: SchematicContext) => {
-//     const miscVersion = getSpartacusSchematicsVersion();
-//     const dependencies: NodeDependency[] = [
-//       {
-//         type: NodeDependencyType.Default,
-//         version: miscVersion,
-//         name: SPARTACUS_MISC,
-//       },
-//     ];
-
-//     dependencies.forEach((dependency) => {
-//       addPackageJsonDependency(tree, dependency);
-//       context.logger.log(
-//         'info',
-//         `✅️ Added '${dependency.name}' into ${dependency.type}`
-//       );
-//     });
-
-//     return tree;
-//   };
-// }
-
 interface FeatureConfig {
   name: string;
   featureModule: Module;
@@ -214,7 +191,7 @@ function addStorefinderFeature(appModulePath: string): Rule {
 
 function addStorefinderPackageJsonDependencies(packageJson: any): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const spartacusVersion = `^${getSpartacusSchematicsVersion(tree)}`;
+    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
 
     const spartacusStorefinderDependency: NodeDependency = {
       type: NodeDependencyType.Default,

@@ -76,7 +76,7 @@ function addPackageJsonDependencies(packageJson: any): Rule {
     });
 
     if (!packageJson.dependencies.hasOwnProperty(SPARTACUS_SETUP)) {
-      const spartacusVersion = `^${getSpartacusSchematicsVersion(tree)}`;
+      const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
 
       const spartacusSetupDependency: NodeDependency = {
         type: NodeDependencyType.Default,
