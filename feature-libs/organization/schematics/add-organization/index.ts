@@ -18,20 +18,20 @@ import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
-import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import {
   addToModuleImports,
   addToModuleProviders,
+  B2B_STOREFRONT_MODULE,
   B2C_STOREFRONT_MODULE,
   commitChanges,
   createImportChange,
   createNewConfig,
   DEFAULT_B2B_OCC_CONFIG,
   findMultiLevelNodesByTextAndKind,
+  getAppModule,
   getConfig,
   getDefaultProjectNameFromWorkspace,
   getExistingStorefrontConfigNode,
-  getProjectTargets,
   getSourceRoot,
   getSpartacusSchematicsVersion,
   getTsSourceFile,
@@ -48,7 +48,6 @@ import * as ts from 'typescript';
 import {
   ADMINISTRATION_MODULE,
   ADMINISTRATION_ROOT_MODULE,
-  B2B_STOREFRONT_MODULE,
   CLI_ADMINISTRATION_FEATURE,
   CLI_ORDER_APPROVAL_FEATURE,
   ORDER_APPROVAL_MODULE,
@@ -94,7 +93,7 @@ export function addSpartacusOrganization(
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    const appModulePath = getAppModule(tree, options);
+    const appModulePath = getAppModule(tree, options.project);
 
     return chain([
       addPackageJsonDependencies(packageJson),
@@ -291,20 +290,6 @@ function installPackageJsonDependencies(): Rule {
   };
 }
 
-function getAppModule(
-  host: Tree,
-  options: SpartacusOrganizationOptions
-): string {
-  const projectTargets = getProjectTargets(host, options.project);
-
-  if (!projectTargets.build) {
-    throw new SchematicsException(`Project target "build" not found.`);
-  }
-
-  const mainPath = projectTargets.build.options.main;
-  return getAppModulePath(host, mainPath);
-}
-
 function addAdministrationFeature(
   appModulePath: string,
   options: SpartacusOrganizationOptions
@@ -357,6 +342,7 @@ function handleFeature(
   return (host: Tree, context: SchematicContext) => {
     const changes: Change[] = [];
 
+    // TODO: omit this part when extracting
     if (
       !isImported(
         getTsSourceFile(host, appModulePath),
@@ -372,6 +358,7 @@ function handleFeature(
       );
       changes.push(coreImportChange);
 
+      // TODO: omit this part when extracting
       const providersChanges = addToModuleProviders(
         host,
         appModulePath,
@@ -380,6 +367,7 @@ function handleFeature(
       );
       changes.push(...providersChanges);
     }
+    // TODO: omit this part when extracting
     if (
       !isImported(
         getTsSourceFile(host, appModulePath),
