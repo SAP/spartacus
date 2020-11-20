@@ -54,6 +54,27 @@ describe('Configurator reducer', () => {
         configuration.groups[0].id
       );
     });
+    it('should take current group from flatGroups if current group in interaction state is undefined', () => {
+      const configurationWithoutCurrentGroup: Configurator.Configuration = {
+        owner: owner,
+        productCode: productCode,
+        configId: 'A',
+        overview: {},
+        flatGroups: [
+          {
+            id: 'flatFirstGroup',
+          },
+          {
+            id: 'flatSecondGroup',
+          },
+        ],
+      };
+      const action = new ConfiguratorActions.CreateConfigurationSuccess(
+        configurationWithoutCurrentGroup
+      );
+      const state = StateReduce.configuratorReducer(undefined, action);
+      expect(state.interactionState.currentGroup).toEqual('flatFirstGroup');
+    });
   });
   describe('ReadCartEntryConfigurationSuccess action', () => {
     it('should put configuration into the state', () => {
