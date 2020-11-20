@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/cdc",
-  "version": "0.201.3",
+  "version": "0.201.4",
   "description": "Customer Data Cloud Integration library for Spartacus",
   "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
