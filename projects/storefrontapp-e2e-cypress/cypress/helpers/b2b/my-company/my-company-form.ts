@@ -6,6 +6,25 @@ import {
 } from './models/index';
 import { ignoreCaseSensivity, loginAsMyCompanyAdmin } from './my-company.utils';
 
+export enum FormType {
+  CREATE = 'create',
+  UPDATE = 'update',
+}
+
+/**
+ * Returns the key of the MyCompanyRowConfig for the item value.
+ *
+ * Depending on the form type, it returns the key for creating OR updating value.
+ */
+function getValueKey(formType: FormType): 'createValue' | 'updateValue' {
+  switch (formType) {
+    case FormType.CREATE:
+      return 'createValue';
+    case FormType.UPDATE:
+      return 'updateValue';
+  }
+}
+
 export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
   describe(`${config.name} Create / Update`, () => {
     let entityUId: string;
@@ -20,23 +39,23 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
     });
 
     it(`should create`, () => {
-      cy.get(`cx-organization-list a`).contains('Add').click();
+      cy.get(`cx-org-list a`).contains('Add').click();
 
       cy.url().should('contain', `${config.baseUrl}/create`);
 
-      cy.get('cx-organization-form div.header h3').contains(
+      cy.get('cx-org-form div.header h3').contains(
         ignoreCaseSensivity(`Create ${config.name}`)
       );
 
-      completeForm(config.rows, 'createValue');
+      completeForm(config.rows, FormType.CREATE);
 
       cy.route('POST', `**${config.apiEndpoint}**`).as('getEntityData');
       cy.get('div.header button').contains('Save').click();
       cy.wait('@getEntityData').then((xhr) => {
         entityUId = xhr.response.body[config.entityIdField];
 
-        verifyDetails(config, 'createValue');
-        cy.get('cx-organization-card cx-icon[type="CLOSE"]').click();
+        verifyDetails(config, FormType.CREATE);
+        cy.get('cx-org-card cx-icon[type="CLOSE"]').click();
       });
     });
 
@@ -52,17 +71,17 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
       cy.visit(`${config.baseUrl}/${entityId}`);
       cy.url().should('contain', `${config.baseUrl}/${entityId}`);
 
-      cy.get(`cx-organization-card a.link`).contains('Edit').click();
+      cy.get(`cx-org-card a.link`).contains('Edit').click();
       cy.url().should('contain', `${config.baseUrl}/${entityId}/edit`);
 
-      cy.get('cx-organization-form div.header h3').contains(
+      cy.get('cx-org-form div.header h3').contains(
         ignoreCaseSensivity(`Edit ${config.name}`)
       );
 
-      completeForm(config.rows, 'updateValue');
+      completeForm(config.rows, FormType.UPDATE);
       cy.get('div.header button').contains('Save').click();
 
-      verifyDetails(config, 'updateValue');
+      verifyDetails(config, FormType.UPDATE);
 
       cy.get('cx-icon[type="CLOSE"]').click();
     });
@@ -71,8 +90,10 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
 
 export function completeForm(
   rowConfigs: MyCompanyRowConfig[],
-  valueKey: string
+  formType: FormType
 ) {
+  const valueKey = getValueKey(formType);
+
   rowConfigs.forEach((input) => {
     if (input.formLabel) {
       getFieldByLabel(input.formLabel).then((el) => {
@@ -82,6 +103,8 @@ export function completeForm(
               return fillTextInput(input);
             case INPUT_TYPE.DATE_TIME:
               return fillDateTimePicker(input);
+            case INPUT_TYPE.DATE:
+              return fillTextInput(input);
             case INPUT_TYPE.NG_SELECT:
               return fillNgSelect(input);
             case INPUT_TYPE.CHECKBOX:
@@ -139,7 +162,9 @@ export function completeForm(
   }
 }
 
-function verifyDetails(config: MyCompanyConfig, valueKey: string) {
+function verifyDetails(config: MyCompanyConfig, formType: FormType) {
+  const valueKey = getValueKey(formType);
+
   const codeRow = config.rows?.find((row) => row.useInUrl);
   const headerRows = config.rows?.filter((row) => row.useInHeader);
 
@@ -148,12 +173,12 @@ function verifyDetails(config: MyCompanyConfig, valueKey: string) {
   }
 
   cy.wait(2000);
-  cy.get('cx-organization-card div.header h3').contains(
+  cy.get('cx-org-card div.header h3').contains(
     ignoreCaseSensivity(`${config.name} Details`)
   );
 
   headerRows.forEach((hRow) => {
-    cy.get('cx-organization-card div.header h4').contains(
+    cy.get('cx-org-card div.header h4').contains(
       ignoreCaseSensivity(hRow[valueKey])
     );
   });
@@ -167,10 +192,29 @@ function verifyDetails(config: MyCompanyConfig, valueKey: string) {
         'contain.text',
         rowConfig[valueKey] || label
       );
-      // TODO: Check property links
-      // if (rowConfig.link) {
-      //   cy.get('div.property a').should('contain.html', rowConfig.link);
-      // }
+
+      const link = getLink(rowConfig);
+      if (link) {
+        // TODO: spike todo get context from variables
+        cy.get('div.property a').should(
+          'have.attr',
+          'href',
+          `/powertools-spa/en/USD${link}`
+        );
+      }
     }
   });
+
+  /**
+   * Returns the link for the given row.
+   *
+   * - For FormType.CREATE, it returns `link`
+   * - For FormType.UPDATE, it returns `updatedLink` or `link` (if `updatedLink` is not present)
+   */
+  function getLink(rowConfig: MyCompanyRowConfig): string | undefined {
+    if (rowConfig.updatedLink && formType === FormType.UPDATE) {
+      return rowConfig.updatedLink;
+    }
+    return rowConfig.link;
+  }
 }

@@ -33,7 +33,6 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
       {
         label: 'Limit',
         variableName: 'threshold',
-        link: '/organization/budgets/',
         inputType: INPUT_TYPE.NG_SELECT,
         createValue: `Budget Exceeded Permission`,
         showInTable: true,
@@ -44,7 +43,8 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
       {
         label: 'Parent Unit',
         variableName: 'orgUnit.name',
-        link: `/organization/units/`,
+        link: `/organization/units/Custom%20Retail`,
+        updatedLink: `/organization/units/Rustic%20Retail`,
         sortLabel: 'unit',
         inputType: INPUT_TYPE.NG_SELECT,
         createValue: 'Custom Retail',
@@ -87,7 +87,6 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
       {
         label: 'Limit',
         variableName: 'threshold',
-        link: '/organization/budgets/',
         inputType: INPUT_TYPE.NG_SELECT,
         createValue: `Allowed Order Threshold (per order)`,
         showInTable: false,
@@ -98,7 +97,6 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
       {
         label: 'Limit',
         variableName: 'currency',
-        link: '/organization/budgets/',
         inputType: INPUT_TYPE.NG_SELECT,
         createValue: `US Dollar`,
         showInTable: false,
@@ -119,7 +117,8 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
       {
         label: 'Parent Unit',
         variableName: 'orgUnit.name',
-        link: `/organization/units/`,
+        link: `/organization/units/Custom%20Retail`,
+        updatedLink: `/organization/units/Rustic%20Retail`,
         sortLabel: 'unit',
         inputType: INPUT_TYPE.NG_SELECT,
         createValue: 'Custom Retail',
@@ -162,7 +161,6 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
       {
         label: 'Limit',
         variableName: 'threshold',
-        link: '/organization/budgets/',
         inputType: INPUT_TYPE.NG_SELECT,
         createValue: `Allowed Order Threshold (per timespan)`,
         showInTable: false,
@@ -173,7 +171,6 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
       {
         label: 'Period',
         variableName: 'period',
-        link: '/organization/budgets/',
         inputType: INPUT_TYPE.NG_SELECT,
         createValue: `MONTH`,
         updateValue: 'YEAR',
@@ -184,7 +181,6 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
       {
         label: 'Limit',
         variableName: 'currency',
-        link: '/organization/budgets/',
         inputType: INPUT_TYPE.NG_SELECT,
         createValue: `US Dollar`,
         showInTable: false,
@@ -205,7 +201,8 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
       {
         label: 'Parent Unit',
         variableName: 'orgUnit.name',
-        link: `/organization/units/`,
+        link: `/organization/units/Custom%20Retail`,
+        updatedLink: `/organization/units/Rustic%20Retail`,
         sortLabel: 'unit',
         inputType: INPUT_TYPE.NG_SELECT,
         createValue: 'Custom Retail',

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Observable, of } from 'rxjs';
-import { OrganizationSubListTestingModule } from '../../shared/organization-sub-list/organization-sub-list.testing.module';
+import { SubListTestingModule } from '../../shared/sub-list/sub-list.testing.module';
 import { CurrentUserGroupService } from '../services/current-user-group.service';
 import { UserGroupUserListComponent } from './user-group-user-list.component';
 import { UserGroupUserListService } from './user-group-user-list.service';
@@ -31,11 +31,7 @@ describe('UserGroupUserListComponent', () => {
   let messageService: MessageService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        OrganizationSubListTestingModule,
-        UrlTestingModule,
-        I18nTestingModule,
-      ],
+      imports: [SubListTestingModule, UrlTestingModule, I18nTestingModule],
       providers: [
         {
           provide: UserGroupUserListService,

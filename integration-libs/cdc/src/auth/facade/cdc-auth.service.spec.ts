@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
   AuthActions,
+  AuthRedirectService,
   AuthStorageService,
   AuthToken,
   GlobalMessageService,
@@ -37,6 +38,11 @@ class MockUserIdService implements Partial<UserIdService> {
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add() {}
+  remove() {}
+}
+
+class MockAuthRedirectService implements Partial<AuthRedirectService> {
+  redirect() {}
 }
 
 describe('CdcAuthService', () => {
@@ -46,6 +52,7 @@ describe('CdcAuthService', () => {
   let authStorageService: AuthStorageService;
   let userIdService: UserIdService;
   let globalMessageService: GlobalMessageService;
+  let authRedirectService: AuthRedirectService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -56,6 +63,7 @@ describe('CdcAuthService', () => {
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: WindowRef, useValue: mockedWindowRef },
+        { provide: AuthRedirectService, useClass: MockAuthRedirectService },
       ],
     });
 
@@ -65,6 +73,7 @@ describe('CdcAuthService', () => {
     authStorageService = TestBed.inject(AuthStorageService);
     userIdService = TestBed.inject(UserIdService);
     globalMessageService = TestBed.inject(GlobalMessageService);
+    authRedirectService = TestBed.inject(AuthRedirectService);
   });
 
   it('should be created', () => {
@@ -106,6 +115,8 @@ describe('CdcAuthService', () => {
     const setItemSpy = spyOn(authStorageService, 'setItem').and.callThrough();
     spyOn(store, 'dispatch').and.stub();
     spyOn(userIdService, 'setUserId').and.callThrough();
+    spyOn(globalMessageService, 'remove').and.stub();
+    spyOn(authRedirectService, 'redirect').and.stub();
 
     service.loginWithToken({
       access_token: 'acc_token',
@@ -130,6 +141,11 @@ describe('CdcAuthService', () => {
     expect(setItemSpy.calls.argsFor(4)).toEqual(['refresh_token', 'ref_token']);
     expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
     expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
+
+    expect(globalMessageService.remove).toHaveBeenCalledWith(
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+    expect(authRedirectService.redirect).toHaveBeenCalled();
   });
 
   it('should show warning when CS agent is logged in', () => {

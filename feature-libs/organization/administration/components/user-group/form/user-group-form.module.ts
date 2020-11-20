@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { OrganizationFormModule } from '../../shared/organization-form/organization-form.module';
+import { FormModule } from '../../shared/form/form.module';
 import { UserGroupFormComponent } from './user-group-form.component';
 
 @NgModule({
@@ -17,7 +17,7 @@ import { UserGroupFormComponent } from './user-group-form.component';
     I18nModule,
     ReactiveFormsModule,
     FormErrorsModule,
-    OrganizationFormModule,
+    FormModule,
   ],
   declarations: [UserGroupFormComponent],
 })
