@@ -195,7 +195,9 @@ describe('CmsService', () => {
     (service: CmsService) => {
       const testUid = 'test_uid';
       const mockNodeItem: NodeItem = {
-        testUid: 'test',
+        testUid: {
+          uid: 'test',
+        },
       };
       const mockSelect = createSpy('select').and.returnValue(() =>
         of(mockNodeItem)
