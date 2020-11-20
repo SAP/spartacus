@@ -1,14 +1,17 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import {
+  ABSTRACT_STORE_ITEM_COMPONENT,
   ASM_AUTH_SERVICE,
+  AUTHENTICATION_TOKEN,
   AUTH_FEATURE,
   AUTH_SELECTORS,
   AUTH_SERVICE,
   AUTH_STATE,
-  AUTHENTICATION_TOKEN,
-  CS_AGENT_AUTH_SERVICE,
   CSAGENT_TOKEN_DATA,
+  CS_AGENT_AUTH_SERVICE,
   CUSTOMER_SUPPORT_AGENT_TOKEN_INTERCEPTOR,
+  FIND_STORES_STATE,
+  GOOGLE_MAP_RENDERER_SERVICE,
   KYMA_ACTIONS,
   KYMA_CONFIG,
   KYMA_FEATURE,
@@ -17,39 +20,55 @@ import {
   KYMA_SERVICE,
   KYMA_STATE,
   NG_EXPRESS_ENGINE_DECORATOR,
+  OCC_STORE_FINDER_ADAPTER,
   OPEN_ID_AUTHENTICATION_TOKEN_SERVICE,
   OPEN_ID_TOKEN,
   OPEN_ID_TOKEN_DATA,
+  SCHEDULE_COMPONENT,
   SEARCH_CONFIG,
   SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
   STATE_WITH_AUTH,
   STATE_WITH_KYMA,
+  STATE_WITH_STORE_FINDER,
+  STORES_STATE,
+  STORE_COUNT,
+  STORE_COUNT_NORMALIZER,
+  STORE_DATA_SERVICE,
+  STORE_ENTITIES,
+  STORE_FINDER_ADAPTER,
+  STORE_FINDER_COMPONENT,
+  STORE_FINDER_CONFIG,
+  STORE_FINDER_CONNECTOR,
+  STORE_FINDER_CORE_MODULE,
+  STORE_FINDER_DATA,
+  STORE_FINDER_FEATURE,
+  STORE_FINDER_GRID_COMPONENT,
+  STORE_FINDER_HEADER_COMPONENT,
+  STORE_FINDER_LIST_COMPONENT,
+  STORE_FINDER_LIST_ITEM_COMPONENT,
+  STORE_FINDER_MAP_COMPONENT,
+  STORE_FINDER_MODULE,
+  STORE_FINDER_OCC_MODULE,
+  STORE_FINDER_PAGINATION_DETAILS_COMPONENT,
+  STORE_FINDER_SEARCH_COMPONENT,
   STORE_FINDER_SEARCH_CONFIG,
+  STORE_FINDER_SEARCH_PAGE,
+  STORE_FINDER_SEARCH_PAGE_NORMALIZER,
+  STORE_FINDER_SEARCH_QUERY,
+  STORE_FINDER_SEARCH_RESULT_COMPONENT,
+  STORE_FINDER_SELECTORS,
+  STORE_FINDER_ACTIONS,
+  TOKEN_REVOCATION_HEADER,
+  SPLIT_VIEW_DEACTIVATE_GUARD,
+  STORE_FINDER_SERVICE,
+  STORE_FINDER_STORES_COUNT_COMPONENT,
+  STORE_FINDER_STORE_COMPONENT,
+  STORE_FINDER_STORE_DESCRIPTION_COMPONENT,
   UNAUTHORIZED_ERROR_HANDLER,
   USER_TOKEN,
   USER_TOKEN_STATE,
-  STORE_FINDER_MODULE,
-  STORE_FINDER_CONFIG,
-  POINT_OF_SERVICE_NORMALIZER,
-  STORE_FINDER_SEARCH_PAGE_NORMALIZER,
-  STORE_COUNT_NORMALIZER,
-  STORE_FINDER_CONNECTOR,
-  STORE_FINDER_ADAPTER,
-  STORE_DATA_SERVICE,
-  STORE_FINDER_SERVICE,
-  STORE_FINDER_SEARCH_QUERY_SERVICE,
-  STORE_ENTITIES,
-  EXTERNAL_JS_FILE_LOADER_SERVICE,
-  GOOGLE_MAP_RENDERER_SERVICE,
-  STORE_FINDER_STORE_MODULE,
-  STORE_FINDER_FEATURE,
-  STORE_FINDER_DATA,
-  STATE_WITH_STORE_FINDER,
-  STORES_STATE,
-  FIND_STORES_STATE,
   VIEW_ALL_STORES_STATE,
-  STORE_FINDER_SELECTORS,
-  STORE_FINDER_ACTIONS,
 } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
@@ -199,137 +218,245 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: SPARTACUS_CORE,
     comment: `'${NG_EXPRESS_ENGINE_DECORATOR}' was moved to @spartacus/setup/ssr.`,
   },
-  // projects/core/src/store-finder/store-finder-module.ts
+  // projects/core/src/occ/adapters/store-finder/occ-store-finder.adapter.ts
   {
-    node: STORE_FINDER_MODULE,
+    node: OCC_STORE_FINDER_ADAPTER,
     importPath: SPARTACUS_CORE,
-    comment: `'${STORE_FINDER_MODULE}' was moved to @spartacus/feature-libs/misc/storefinder`,
+    comment: `'${OCC_STORE_FINDER_ADAPTER}' was moved to @spartacus/misc/storefinder/occ.`,
+  },
+  // projects/core/src/occ/adapters/store-finder/store-finder-occ.module.ts
+  {
+    node: STORE_FINDER_OCC_MODULE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${STORE_FINDER_OCC_MODULE} was moved to @spartacus/misc/storefinder/occ.`,
   },
   // projects/core/src/store-finder/config/store-finder-config.ts
   {
     node: STORE_FINDER_CONFIG,
     importPath: SPARTACUS_CORE,
-    comment: `'${STORE_FINDER_CONFIG}' was moved to @spartacus/feature-libs/misc/storefinder`,
-  },
-  // projects/core/src/store-finder/connectors/converters.ts
-  {
-    node: POINT_OF_SERVICE_NORMALIZER,
-    importPath: SPARTACUS_CORE,
-    comment: `'${POINT_OF_SERVICE_NORMALIZER}' was moved to @spartacus/feature-libs/misc/storefinder`,
+    comment: `'${STORE_FINDER_CONFIG}' was moved to @spartacus/misc/storefinder/core.`,
   },
   // projects/core/src/store-finder/connectors/converters.ts
   {
     node: STORE_FINDER_SEARCH_PAGE_NORMALIZER,
     importPath: SPARTACUS_CORE,
-    comment: `'${STORE_FINDER_SEARCH_PAGE_NORMALIZER}' was moved to @spartacus/feature-libs/misc/storefinder`,
+    comment: `'${STORE_FINDER_SEARCH_PAGE_NORMALIZER}' was moved to @spartacus/misc/storefinder/core.`,
   },
   // projects/core/src/store-finder/connectors/converters.ts
   {
     node: STORE_COUNT_NORMALIZER,
     importPath: SPARTACUS_CORE,
-    comment: `'${STORE_COUNT_NORMALIZER}' was moved to @spartacus/feature-libs/misc/storefinder`,
+    comment: `'${STORE_COUNT_NORMALIZER}' was moved to @spartacus/misc/storefinder/core.`,
   },
   // projects/core/src/store-finder/connectors/store-finder.connector.ts
   {
     node: STORE_FINDER_CONNECTOR,
     importPath: SPARTACUS_CORE,
-    comment: `'${STORE_FINDER_CONNECTOR}' was moved to @spartacus/feature-libs/misc/storefinder`,
+    comment: `'${STORE_FINDER_CONNECTOR}' was moved to @spartacus/misc/storefinder/core.`,
   },
   // projects/core/src/store-finder/connectors/store-finder.adapter.ts
   {
     node: STORE_FINDER_ADAPTER,
     importPath: SPARTACUS_CORE,
-    comment: `'${STORE_FINDER_ADAPTER}' was moved to @spartacus/feature-libs/misc/storefinder`,
+    comment: `'${STORE_FINDER_ADAPTER}' was moved to @spartacus/misc/storefinder/core.`,
   },
   // projects/core/src/store-finder/facade/store-data.service.ts
   {
     node: STORE_DATA_SERVICE,
     importPath: SPARTACUS_CORE,
-    comment: `'${STORE_DATA_SERVICE}' was moved to @spartacus/feature-libs/misc/storefinder`,
+    comment: `'${STORE_DATA_SERVICE}' was moved to @spartacus/misc/storefinder/core.`,
   },
   // projects/core/src/store-finder/facade/store-finder.service.ts
   {
     node: STORE_FINDER_SERVICE,
     importPath: SPARTACUS_CORE,
-    comment: `'${STORE_FINDER_SERVICE}' was moved to @spartacus/feature-libs/misc/storefinder`,
+    comment: `'${STORE_FINDER_SERVICE}' was moved to @spartacus/misc/storefinder/core.`,
   },
   // projects/core/src/store-finder/model/store-entities.ts
   {
     node: STORE_ENTITIES,
     importPath: SPARTACUS_CORE,
-    comment: `'${STORE_ENTITIES}' was moved to @spartacus/feature-libs/misc/storefinder`,
+    comment: `'${STORE_ENTITIES}' was moved to @spartacus/misc/storefinder/core.`,
   },
   // projects/core/src/store-finder/model/search-query.ts
   {
-    node: STORE_FINDER_SEARCH_QUERY_SERVICE,
+    node: STORE_FINDER_SEARCH_QUERY,
     importPath: SPARTACUS_CORE,
-    comment: `'${STORE_FINDER_SEARCH_QUERY_SERVICE}' was moved to @spartacus/feature-libs/misc/storefinder`,
-  },
-  // projects/core/src/store-finder/service/external-js-file-loader.service.ts
-  {
-    node: EXTERNAL_JS_FILE_LOADER_SERVICE,
-    importPath: SPARTACUS_CORE,
-    comment: `'${EXTERNAL_JS_FILE_LOADER_SERVICE}' was moved to @spartacus/feature-libs/misc/storefinder`,
+    comment: `'${STORE_FINDER_SEARCH_QUERY}' was moved to @spartacus/misc/storefinder/core.`,
   },
   // projects/core/src/store-finder/service/google-map-renderer.service.ts
   {
     node: GOOGLE_MAP_RENDERER_SERVICE,
     importPath: SPARTACUS_CORE,
-    comment: `'${GOOGLE_MAP_RENDERER_SERVICE}' was moved to @spartacus/feature-libs/misc/storefinder`,
+    comment: `'${GOOGLE_MAP_RENDERER_SERVICE}' was moved to @spartacus/misc/storefinder/core.`,
   },
-  // projects/core/src/store-finder/store/store-finder-store.module.ts
+  // projects/core/src/store-finder/store-finder.module.ts
   {
-    node: STORE_FINDER_STORE_MODULE,
+    node: STORE_FINDER_CORE_MODULE,
     importPath: SPARTACUS_CORE,
-    comment: `'${STORE_FINDER_STORE_MODULE}' was moved to @spartacus/feature-libs/misc/storefinder`,
+    comment: `'${STORE_FINDER_CORE_MODULE}' was moved to @spartacus/misc/storefinder/core.`,
   },
   // projects/core/src/store-finder/store/store-finder-state.ts
   {
     node: STORE_FINDER_FEATURE,
     importPath: SPARTACUS_CORE,
-    comment: `'${STORE_FINDER_FEATURE}' was moved to @spartacus/feature-libs/misc/storefinder`,
+    comment: `'${STORE_FINDER_FEATURE}' was moved to @spartacus/misc/storefinder/core.`,
   },
   // projects/core/src/store-finder/store/store-finder-state.ts
   {
     node: STORE_FINDER_DATA,
     importPath: SPARTACUS_CORE,
-    comment: `'${STORE_FINDER_DATA}' was moved to @spartacus/feature-libs/misc/storefinder`,
+    comment: `'${STORE_FINDER_DATA}' was moved to @spartacus/misc/storefinder/core.`,
   },
   // projects/core/src/store-finder/store/store-finder-state.ts
   {
     node: STATE_WITH_STORE_FINDER,
     importPath: SPARTACUS_CORE,
-    comment: `'${STATE_WITH_STORE_FINDER}' was moved to @spartacus/feature-libs/misc/storefinder`,
+    comment: `'${STATE_WITH_STORE_FINDER}' was moved to @spartacus/misc/storefinder/core.`,
   },
   // projects/core/src/store-finder/store/store-finder-state.ts
   {
     node: STORES_STATE,
     importPath: SPARTACUS_CORE,
-    comment: `'${STORES_STATE}' was moved to @spartacus/feature-libs/misc/storefinder`,
+    comment: `'${STORES_STATE}' was moved to @spartacus/misc/storefinder/core.`,
   },
   // projects/core/src/store-finder/store/store-finder-state.ts
   {
     node: FIND_STORES_STATE,
     importPath: SPARTACUS_CORE,
-    comment: `'${FIND_STORES_STATE}' was moved to @spartacus/feature-libs/misc/storefinder`,
+    comment: `'${FIND_STORES_STATE}' was moved to @spartacus/misc/storefinder/core.`,
   },
   // projects/core/src/store-finder/store/store-finder-state.ts
   {
     node: VIEW_ALL_STORES_STATE,
     importPath: SPARTACUS_CORE,
-    comment: `'${VIEW_ALL_STORES_STATE}' was moved to @spartacus/feature-libs/misc/storefinder`,
+    comment: `'${VIEW_ALL_STORES_STATE}' was moved to @spartacus/misc/storefinder/core.`,
   },
-  // projects/core/src/store-finder/store/store-finder-state.ts
+  // projects/core/src/store-finder/store/selectors/index.ts
   {
     node: STORE_FINDER_SELECTORS,
     importPath: SPARTACUS_CORE,
-    comment: `'${STORE_FINDER_SELECTORS}' was moved to @spartacus/feature-libs/misc/storefinder`,
+    comment: `'${STORE_FINDER_SELECTORS}' was moved to @spartacus/misc/storefinder/core.`,
   },
-  // projects/core/src/store-finder/store/store-finder-state.ts
+  // projects/core/src/store-finder/store/actions/index.ts
   {
     node: STORE_FINDER_ACTIONS,
     importPath: SPARTACUS_CORE,
-    comment: `'${STORE_FINDER_ACTIONS}' was moved to @spartacus/feature-libs/misc/storefinder`,
+    comment: `'${STORE_FINDER_ACTIONS}' was moved to @spartacus/misc/storefinder/core.`,
+  },
+  // projects/core/src/store-finder/model/store-finder.model.ts
+  {
+    node: STORE_COUNT,
+    importPath: SPARTACUS_CORE,
+    comment: `'${STORE_COUNT}' was moved to @spartacus/misc/storefinder/core.`,
+  },
+  // projects/core/src/store-finder/model/store-finder.model.ts
+  {
+    node: STORE_FINDER_SEARCH_PAGE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${STORE_FINDER_SEARCH_PAGE}' was moved to @spartacus/misc/storefinder/core.`,
+  },
+  // projects/storefrontlib/src/cms-components/storefinder/components/abstract-store-item/abstract-store-item.component.ts
+  {
+    node: ABSTRACT_STORE_ITEM_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${ABSTRACT_STORE_ITEM_COMPONENT}' was moved to @spartacus/misc/storefinder/components.`,
+  },
+  // projects/storefrontlib/src/cms-components/storefinder/components/schedule-component/schedule.component.ts
+  {
+    node: SCHEDULE_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${SCHEDULE_COMPONENT}' was moved to @spartacus/misc/storefinder/components.`,
+  },
+  // projects/storefrontlib/src/cms-components/storefinder/components/store-finder-grid/store-finder-grid.component.ts
+  {
+    node: STORE_FINDER_GRID_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${STORE_FINDER_GRID_COMPONENT}' was moved to @spartacus/misc/storefinder/components.`,
+  },
+  // projects/storefrontlib/src/cms-components/storefinder/components/store-finder-list-item/store-finder-list-item.component.ts
+  {
+    node: STORE_FINDER_LIST_ITEM_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${STORE_FINDER_LIST_ITEM_COMPONENT}' was moved to @spartacus/misc/storefinder/components.`,
+  },
+  // projects/storefrontlib/src/cms-components/storefinder/components/store-finder-map/store-finder-map.component.ts
+  {
+    node: STORE_FINDER_MAP_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${STORE_FINDER_MAP_COMPONENT}' was moved to @spartacus/misc/storefinder/components.`,
+  },
+  // projects/storefrontlib/src/cms-components/storefinder/components/store-finder-search-result/store-finder-list/store-finder-list.component.ts
+  {
+    node: STORE_FINDER_LIST_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${STORE_FINDER_LIST_COMPONENT}' was moved to @spartacus/misc/storefinder/components.`,
+  },
+  // projects/storefrontlib/src/cms-components/storefinder/components/store-finder-search-result/store-finder-search-result.component.ts
+  {
+    node: STORE_FINDER_SEARCH_RESULT_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${STORE_FINDER_SEARCH_RESULT_COMPONENT}' was moved to @spartacus/misc/storefinder/components.`,
+  },
+  // projects/storefrontlib/src/cms-components/storefinder/components/store-finder-search/store-finder-search.component.ts
+  {
+    node: STORE_FINDER_SEARCH_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${STORE_FINDER_SEARCH_COMPONENT}' was moved to @spartacus/misc/storefinder/components.`,
+  },
+  // projects/storefrontlib/src/cms-components/storefinder/components/store-finder-store-description/store-finder-store-description.component.ts
+  {
+    node: STORE_FINDER_STORE_DESCRIPTION_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${STORE_FINDER_STORE_DESCRIPTION_COMPONENT}' was moved to @spartacus/misc/storefinder/components.`,
+  },
+  // projects/storefrontlib/src/cms-components/storefinder/components/store-finder-store/store-finder-store.component.ts
+  {
+    node: STORE_FINDER_STORE_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${STORE_FINDER_STORE_COMPONENT}' was moved to @spartacus/misc/storefinder/components.`,
+  },
+  // projects/storefrontlib/src/cms-components/storefinder/components/store-finder-stores-count/store-finder-stores-count.component.ts
+  {
+    node: STORE_FINDER_STORES_COUNT_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${STORE_FINDER_STORES_COUNT_COMPONENT}' was moved to @spartacus/misc/storefinder/components.`,
+  },
+  // projects/storefrontlib/src/cms-components/storefinder/store-finder.module.ts
+  {
+    node: STORE_FINDER_MODULE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${STORE_FINDER_MODULE}' was renamed to 'StoreFinderComponentsModule' and moved to @spartacus/misc/storefinder/components.`,
+  },
+  // projects/storefrontlib/src/cms-components/storefinder/components/store-finder-header/store-finder-header.component.ts
+  {
+    node: STORE_FINDER_HEADER_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${STORE_FINDER_HEADER_COMPONENT}' was moved to @spartacus/misc/storefinder/components.`,
+  },
+  // projects/storefrontlib/src/cms-components/storefinder/components/store-finder-pagination-details/store-finder-pagination-details.component.ts
+  {
+    node: STORE_FINDER_PAGINATION_DETAILS_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${STORE_FINDER_PAGINATION_DETAILS_COMPONENT}' was moved to @spartacus/misc/storefinder/components.`,
+  },
+  // projects/storefrontlib/src/cms-components/storefinder/components/store-finder/store-finder.component.ts
+  {
+    node: STORE_FINDER_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${STORE_FINDER_COMPONENT}' was moved to @spartacus/misc/storefinder/components.`,
+  },
+  // projects/core/src/occ/utils/interceptor-util.ts
+  {
+    node: TOKEN_REVOCATION_HEADER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${TOKEN_REVOCATION_HEADER} has been removed and is no longer part of the public API.`,
+  },
+  // projects/storefrontlib/src/shared/components/split-view/split-view-deactivate.guard.ts
+  {
+    node: SPLIT_VIEW_DEACTIVATE_GUARD,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${SPLIT_VIEW_DEACTIVATE_GUARD} has been removed and is no longer part of the public API.`,
   },
 ];
 

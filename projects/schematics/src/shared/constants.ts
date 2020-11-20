@@ -86,6 +86,7 @@ export const SEMANTIC_PATH_SERVICE = 'SemanticPathService';
 export const CMS_SERVICE = 'CmsService';
 export const PAGE_META_SERVICE = 'PageMetaService';
 export const STORE_DATA_SERVICE = 'StoreDataService';
+export const SPLIT_VIEW_SERVICE = 'SplitViewService';
 
 export const PAGE_META_RESOLVER = 'PageMetaResolver';
 export const PRODUCT_PAGE_META_RESOLVER = 'ProductPageMetaResolver';
@@ -306,11 +307,15 @@ export const ASM_AUTH_SERVICE = 'AsmAuthService';
 export const FORGOT_PASSWORD_COMPONENT = 'ForgotPasswordComponent';
 export const AUTH_CONFIG_SERVICE = 'AuthConfigService';
 export const CLOSE_ACCOUNT_MODAL_COMPONENT = 'CloseAccountModalComponent';
-
+export const OUTLET_REF_DIRECTIVE = 'OutletRefDirective';
+export const JSON_LD_SCRIPT_FACTORY = 'JsonLdScriptFactory';
+export const DOM_SANITIZER = 'DomSanitizer';
 export const ANONYMOUS_CONSENT_TEMPLATES_ADAPTER =
   'AnonymousConsentTemplatesAdapter';
 export const ANONYMOUS_CONSENT_TEMPLATES_CONNECTOR =
   'AnonymousConsentTemplatesConnector';
+export const VIEW_COMPONENT = 'ViewComponent';
+export const SPLIT_VIEW_COMPONENT = 'SplitViewComponent';
 
 /***** Classes end *****/
 
@@ -419,22 +424,23 @@ export const CSAGENT_TOKEN_DATA = 'CSAGENT_TOKEN_DATA';
 export const CUSTOMER_SUPPORT_AGENT_TOKEN_INTERCEPTOR =
   'CustomerSupportAgentTokenInterceptor ';
 
+export const OCC_STORE_FINDER_ADAPTER = 'OccStoreFinderAdapter';
+export const STORE_FINDER_OCC_MODULE = 'StoreFinderOccModule';
+
 export const SEARCH_CONFIG = 'SearchConfig';
 export const STORE_FINDER_SEARCH_CONFIG = 'StoreFinderSearchConfig';
 
 export const STORE_FINDER_ACTIONS = 'StoreFinderActions';
 export const FIND_STORES_CLASS = 'FindStores';
-export const STORE_FINDER_MODULE = 'StoreFinderCoreModule';
-export const POINT_OF_SERVICE_NORMALIZER = 'POINT_OF_SERVICE_NORMALIZER';
 export const STORE_FINDER_SEARCH_PAGE_NORMALIZER =
   'STORE_FINDER_SEARCH_PAGE_NORMALIZER';
 export const STORE_COUNT_NORMALIZER = 'STORE_COUNT_NORMALIZER';
 export const STORE_FINDER_CONNECTOR = 'StoreFinderConnector';
 export const STORE_FINDER_ADAPTER = 'StoreFinderAdapter';
-export const STORE_FINDER_SEARCH_QUERY_SERVICE = 'StoreFinderSearchQuery';
+export const STORE_FINDER_SEARCH_QUERY = 'StoreFinderSearchQuery';
 export const STORE_ENTITIES = 'StoreEntities';
-export const EXTERNAL_JS_FILE_LOADER_SERVICE = 'ExternalJsFileLoader';
 export const GOOGLE_MAP_RENDERER_SERVICE = 'GoogleMapRendererService';
+export const STORE_FINDER_CORE_MODULE = 'StoreFinderCoreModule';
 export const STORE_FINDER_STORE_MODULE = 'StoreFinderStoreModule';
 export const STORE_FINDER_FEATURE = 'STORE_FINDER_FEATURE';
 export const STORE_FINDER_DATA = 'STORE_FINDER_DATA';
@@ -443,6 +449,24 @@ export const STORES_STATE = 'StoresState';
 export const FIND_STORES_STATE = 'FindStoresState';
 export const VIEW_ALL_STORES_STATE = 'ViewAllStoresState';
 export const STORE_FINDER_SELECTORS = 'StoreFinderSelectors';
+export const STORE_COUNT = 'StoreCount';
+export const STORE_FINDER_SEARCH_PAGE = 'StoreFinderSearchPage';
+
+export const ABSTRACT_STORE_ITEM_COMPONENT = 'AbstractStoreItemComponent';
+export const SCHEDULE_COMPONENT = 'ScheduleComponent';
+export const STORE_FINDER_MAP_COMPONENT = 'StoreFinderMapComponent';
+export const STORE_FINDER_LIST_COMPONENT = 'StoreFinderListComponent';
+export const STORE_FINDER_SEARCH_COMPONENT = 'StoreFinderSearchComponent';
+export const STORE_FINDER_STORE_DESCRIPTION_COMPONENT =
+  'StoreFinderStoreDescriptionComponent';
+export const STORE_FINDER_STORE_COMPONENT = 'StoreFinderStoreComponent';
+export const STORE_FINDER_STORES_COUNT_COMPONENT =
+  'StoreFinderStoresCountComponent';
+export const STORE_FINDER_MODULE = 'StoreFinderModule';
+export const STORE_FINDER_HEADER_COMPONENT = 'StoreFinderHeaderComponent';
+export const STORE_FINDER_PAGINATION_DETAILS_COMPONENT =
+  'StoreFinderPaginationDetailsComponent';
+export const STORE_FINDER_COMPONENT = 'StoreFinderComponent';
 
 export const ON_SUCCESS = 'onSuccess';
 
@@ -455,6 +479,9 @@ export const PAYMENT_TYPE_SERVICE = 'PaymentTypeService';
 
 export const UNAUTHORIZED_ERROR_HANDLER = 'UnauthorizedErrorHandler';
 export const NG_EXPRESS_ENGINE_DECORATOR = 'NgExpressEngineDecorator';
+
+export const TOKEN_REVOCATION_HEADER = 'TOKEN_REVOCATION_HEADER';
+export const SPLIT_VIEW_DEACTIVATE_GUARD = 'SplitViewDeactivateGuard';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
