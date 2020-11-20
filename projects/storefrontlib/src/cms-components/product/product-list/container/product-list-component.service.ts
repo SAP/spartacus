@@ -7,17 +7,10 @@ import {
   ProductSearchPage,
   ProductSearchService,
   RouterState,
-  RoutingService,
+  RoutingService
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
-import {
-  distinctUntilChanged,
-  filter,
-  map,
-  pluck,
-  shareReplay,
-  tap,
-} from 'rxjs/operators';
+import { combineLatest, Observable, Subscription, using } from 'rxjs';
+import { distinctUntilChanged, filter, map, shareReplay, tap } from 'rxjs/operators';
 import { ProductListRouteParams, SearchCriteria } from './product-list.model';
 
 /**
@@ -99,10 +92,10 @@ export class ProductListComponentService {
    * When a user leaves the PLP route, the PLP component unsubscribes from this stream
    * so no longer the search is performed on route change.
    */
-  readonly model$: Observable<ProductSearchPage> = combineLatest([
-    this.searchResults$,
-    this.searchByRouting$,
-  ]).pipe(pluck(0), shareReplay({ bufferSize: 1, refCount: true }));
+  readonly model$: Observable<ProductSearchPage> = using(
+    () => this.searchByRouting$.subscribe(),
+    () => this.searchResults$
+  ).pipe(shareReplay({ bufferSize: 1, refCount: true }));
 
   /**
    * Expose the `SearchCriteria`. The search criteria are driven by the route parameters.
