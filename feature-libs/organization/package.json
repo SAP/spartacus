@@ -10,7 +10,6 @@
     "organization"
   ],
   "scripts": {
-    "test": "jest --config ./jest.lib.config.js",
     "clean:schematics": "rimraf \"schematics/**/*.js\" \"schematics/**/*_spec.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
     "build:schematics:deps": "yarn --cwd ../../projects/schematics run build",
     "build:schematics": "yarn clean:schematics && tsc -p ./tsconfig.schematics.json",
@@ -26,11 +25,12 @@
     "tslib": "^2.0.0"
   },
   "devDependencies": {
+    "@types/jasmine": "^3.5.0",
     "@types/jest": "^26.0.15",
     "@types/node": "^12.11.1",
     "@types/shelljs": "^0.8.7",
+    "jasmine": "^3.5.0",
     "jest": "^26.6.2",
-    "jest-preset-angular": "^8.3.2",
     "rimraf": "^3.0.2",
     "shelljs": "^0.8.3",
     "ts-jest": "^26.4.3",
@@ -39,6 +39,7 @@
   "peerDependencies": {
     "@angular/common": "^10.1.0",
     "@angular/core": "^10.1.0",
+    "@angular-devkit/schematics": "^10.1.0",
     "@angular/router": "^10.1.0",
     "bootstrap": "^4.0",
     "rxjs": "^6.6.0",

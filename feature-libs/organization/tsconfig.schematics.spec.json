@@ -2,13 +2,9 @@
   "extends": "./tsconfig.schematics.json",
   "compilerOptions": {
     "moduleResolution": "node",
-    "resolveJsonModule": true,
     "paths": {
       "@spartacus/schematics": ["../../projects/schematics/src/public_api"]
     }
-  },
-  "angularCompilerOptions": {
-    "resolveJsonModule": true
   },
   "exclude": ["schematics/*/files/**/*", "schematics/**/*_spec.ts"]
 }
