@@ -55,14 +55,17 @@ const orderEntryconfig: Configurator.Configuration = {
   },
 };
 
+const imageURL = 'some URL';
+const altText = 'some text';
+
 const product: Product = {
   name: PRODUCT_NAME,
   code: PRODUCT_CODE,
   images: {
     PRIMARY: {
       thumbnail: {
-        url: 'some URL',
-        altText: 'some text',
+        url: imageURL,
+        altText: altText,
       },
     },
   },
@@ -166,7 +169,14 @@ describe('ConfigProductTitleComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should get product name as part of product configuration', () => {
+  it('should get product name as part of product of configuration', () => {
+    component.product$.subscribe((data: Product) => {
+      expect(data.name).toEqual(PRODUCT_NAME);
+    });
+  });
+
+  it('should get product name as part of product of overview configuration', () => {
+    configuration = orderEntryconfig;
     component.product$.subscribe((data: Product) => {
       expect(data.name).toEqual(PRODUCT_NAME);
     });
@@ -230,5 +240,14 @@ describe('ConfigProductTitleComponent', () => {
       '.cx-title',
       PRODUCT_NAME
     );
+  });
+
+  it('should return undefined for getProductImageURL/Alttext if not properly defined', () => {
+    product.images.PRIMARY = {};
+    expect(component.getProductImageURL(product)).toBeUndefined();
+    product.images = {};
+    expect(component.getProductImageURL(product)).toBeUndefined();
+    expect(component.getProductImageURL({})).toBeUndefined();
+    expect(component.getProductImageAlt({})).toBeUndefined();
   });
 });
