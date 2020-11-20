@@ -6,11 +6,15 @@ import {
   B2B_STOREFRONT_MODULE,
   B2C_STOREFRONT_MODULE,
   SpartacusOptions,
+  SPARTACUS_SETUP,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import {
+  ADMINISTRATION_ROOT_MODULE,
   CLI_ADMINISTRATION_FEATURE,
   CLI_ORDER_APPROVAL_FEATURE,
+  ORDER_APPROVAL_ROOT_MODULE,
+  SPARTACUS_ORGANIZATION,
 } from '../constants';
 import { Schema as SpartacusOrganizationOptions } from './schema';
 
@@ -75,6 +79,30 @@ describe('Spartacus Organization schematics: ng-add', () => {
         appTree
       )
       .toPromise();
+  });
+
+  describe('when no features are selected', () => {
+    beforeEach(async () => {
+      appTree = await schematicRunner
+        .runSchematicAsync(
+          'ng-add',
+          { ...defaultOptions, features: [] },
+          appTree
+        )
+        .toPromise();
+    });
+
+    it('should still install @spartacus/organization and @spartacus/setup libraries', () => {
+      const packageJson = appTree.readContent('package.json');
+      expect(packageJson).toContain(SPARTACUS_SETUP);
+      expect(packageJson).toContain(SPARTACUS_ORGANIZATION);
+    });
+
+    it('should not install administration nor order-approval features', () => {
+      const appModule = appTree.readContent(appModulePath);
+      expect(appModule).not.toContain(ADMINISTRATION_ROOT_MODULE);
+      expect(appModule).not.toContain(ORDER_APPROVAL_ROOT_MODULE);
+    });
   });
 
   describe('app.module.ts', () => {
@@ -271,6 +299,12 @@ describe('Spartacus Organization schematics: ng-add', () => {
       });
     });
     describe('i18n', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync('ng-add', defaultOptions, appTree)
+          .toPromise();
+      });
+
       it('should import the i18n resource and chunk from assets', async () => {
         const appModule = appTree.readContent(appModulePath);
         expect(appModule).toContain(
