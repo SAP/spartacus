@@ -1,24 +1,13 @@
-import { asapScheduler, defer, Observable, OperatorFunction } from 'rxjs';
+import { asapScheduler, defer, Observable, of, OperatorFunction } from 'rxjs';
 import { audit } from 'rxjs/operators';
+import { scheduleArray } from 'rxjs/internal/scheduled/scheduleArray';
 
 export function polish<T>(): OperatorFunction<T, T> {
   return (source: Observable<T>) =>
     defer(() => {
       let subNo = 0;
-
-      const trigger = new Observable((subscriber) => {
-        const action = () => {
-          subscriber.next();
-          subscriber.complete();
-        };
-
-        if (!subNo++) {
-          asapScheduler.schedule(action);
-        } else {
-          action();
-        }
-      });
-
-      return source.pipe(audit(() => trigger));
+      const trigger = () =>
+        !subNo++ ? of(0) : scheduleArray([0], asapScheduler);
+      return source.pipe(audit(trigger));
     });
 }
