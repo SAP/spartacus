@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/organization",
-  "version": "3.0.0-next.6",
+  "version": "3.0.0-rc.0",
   "description": "Organization library for Spartacus",
   "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
@@ -39,8 +39,8 @@
     "@angular-devkit/schematics": "^10.1.0",
     "bootstrap": "^4.0",
     "rxjs": "^6.6.0",
-    "@spartacus/core": "3.0.0-next.6",
-    "@spartacus/storefront": "3.0.0-next.6",
-    "@spartacus/schematics": "3.0.0-next.6"
+    "@spartacus/core": "3.0.0-rc.0",
+    "@spartacus/storefront": "3.0.0-rc.0",
+    "@spartacus/schematics": "3.0.0-rc.0"
   }
 }
