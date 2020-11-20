@@ -13,7 +13,6 @@ export const budgetConfig: MyCompanyConfig = {
     {
       label: 'Name',
       variableName: 'name',
-      link: '/organization/budgets/',
       inputType: INPUT_TYPE.TEXT,
       createValue: `Test Entity ${randomString()}`,
       updateValue: `Edited Test Entity ${randomString()}`,
@@ -86,7 +85,8 @@ export const budgetConfig: MyCompanyConfig = {
     {
       label: 'Unit',
       variableName: 'orgUnit.name',
-      link: `/organization/units/`,
+      link: `/organization/units/Custom%20Retail`,
+      updatedLink: `/organization/units/Rustic%20Retail`,
       sortLabel: 'unit',
       inputType: INPUT_TYPE.NG_SELECT,
       createValue: 'Custom Retail',

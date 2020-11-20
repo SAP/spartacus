@@ -47,7 +47,6 @@ export interface MyCompanyConfig {
    * {
    *   label: 'Name',
    *   variableName: 'name',
-   *   link: '/organization/cost-centers/',
    *   inputType: 'text',
    *   createValue: `Test Entity ${randomString()}`,
    *   updateValue: `Edited Test Entity ${randomString()}`,
@@ -78,7 +77,8 @@ export interface MyCompanyConfig {
    * {
    *   label: 'Unit',
    *   variableName: 'orgUnit.name',
-   *   link: `/organization/units/`,
+   *   link: `/organization/units/Custom%20Retail`,
+   *   updatedLink: `/organization/units/Rustic%20Retail`,
    *   sortLabel: 'unit',
    *   inputType: 'ngSelect',
    *   createValue: 'Custom Retail',
