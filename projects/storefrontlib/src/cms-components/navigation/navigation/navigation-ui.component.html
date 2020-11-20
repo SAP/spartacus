@@ -22,6 +22,9 @@
     (keydown.space)="toggleOpen($event)"
     (keydown.esc)="back()"
   >
+    <!-- 
+    [ngClass]="node.styleClasses"
+    [attr.style]="node.styleAttributes" -->
     <cx-generic-link
       *ngIf="
         node.url && (!node.children || node.children?.length === 0);
@@ -29,6 +32,8 @@
       "
       [url]="node.url"
       [target]="node.target"
+      [style]="node.styleAttributes"
+      [class]="node.styleClasses"
     >
       {{ node.title }}
       <cx-icon
