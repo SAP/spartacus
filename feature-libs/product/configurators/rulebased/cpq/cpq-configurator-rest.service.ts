@@ -43,10 +43,11 @@ export class CpqConfiguratorRestService {
     accessData: Cpq.AccessData,
     productSystemId: string
   ): Observable<Cpq.ConfigurationCreatedResponseData> {
-    return this.http
-      .post<Cpq.ConfigurationCreatedResponseData>(
-        `${accessData.endpoint}/api/configuration/v1/configurations`,
-        { ProductSystemId: productSystemId },
+    return this.http.post<Cpq.ConfigurationCreatedResponseData>(
+      `${accessData.endpoint}/api/configuration/v1/configurations`,
+      {
+        ProductSystemId: productSystemId,
+      } /**
         {
           //move to interceptor
           headers: {
@@ -54,14 +55,14 @@ export class CpqConfiguratorRestService {
             'x-cpq-disable-cookies': 'true',
           },
           observe: 'response',
-        }
-      )
-      .pipe(
-        map((response) => {
-          accessData.cpqSessionId = response.headers.get('x-cpq-session-id');
-          return response.body;
-        })
-      );
+        } */
+      //)
+      // .pipe(
+      //   map((response) => {
+      //     accessData.cpqSessionId = response.headers.get('x-cpq-session-id');
+      //     return response.body;
+      //   })
+    );
   }
 
   protected getConfiguration(
@@ -69,7 +70,8 @@ export class CpqConfiguratorRestService {
     configId: string
   ): Observable<Cpq.Configuration> {
     return this.http.get<Cpq.Configuration>(
-      `${accessData.endpoint}/api/configuration/v1/configurations/${configId}/display`,
+      `${accessData.endpoint}/api/configuration/v1/configurations/${configId}/display`
+      /**,
       {
         //move to interceptor
         headers: {
@@ -78,6 +80,7 @@ export class CpqConfiguratorRestService {
           'x-cpq-session-id': accessData.cpqSessionId,
         },
       }
+       */
     );
   }
 }

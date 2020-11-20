@@ -1,6 +1,6 @@
 import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { Observable, timer } from 'rxjs';
-import { expand, filter, shareReplay, switchMap } from 'rxjs/operators';
+import { expand, filter, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { Cpq } from '../../cpq/cpq.models';
 import { CpqAccessLoaderService } from './cpq-access-loader.service';
 
@@ -24,6 +24,7 @@ export class CpqAccessStorageService {
   ) {}
 
   protected cpqAccessData: Observable<Cpq.AccessData>;
+  protected endpoint: string;
 
   private static defaultValue() {
     return 1000;
@@ -38,12 +39,17 @@ export class CpqAccessStorageService {
             switchMap(() => this.cpqAccessLoaderService.getCpqAccessData())
           )
         ),
+        tap((data) => (this.endpoint = data.endpoint)),
         shareReplay(1),
         //token might be expired in the meantime and a new one was not feched, yet,
         filter((data) => !this.isTokenExpired(data))
       );
     }
     return this.cpqAccessData;
+  }
+
+  getActiveEndpoint() {
+    return this.endpoint;
   }
 
   protected fetchNextTokenIn(data: Cpq.AccessData) {
