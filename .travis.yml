@@ -14,22 +14,21 @@ defaults: &defaults
 jobs:
   - script: "./build.sh sonar"
   - script:
-    name: "Cypress smoke tests 1st thread"
-    env: STAGE_NAME=4x-electron
+    name: "Cypress regression tests, 1st job"
+    env: STAGE_NAME=spa-ci-regression
     <<: *defaults
   - script:
-    name: "Cypress smoke tests 2st thread"
-    env: STAGE_NAME=4x-electron
+    name: "Cypress regression tests, 2st job"
+    env: STAGE_NAME=spa-ci-regression
     <<: *defaults
   - script:
-    name: "Cypress smoke tests 3rd thread"
-    env: STAGE_NAME=4x-electron
+    name: "Cypress regression tests, 3rd job"
+    env: STAGE_NAME=spa-ci-regression
     <<: *defaults
   - script:
-    name: "Cypress smoke tests 4th thread"
-    env: STAGE_NAME=4x-electron
+    name: "Cypress regression tests, 4th job"
+    env: STAGE_NAME=spa-ci-regression
     <<: *defaults
-
 addons:
   chrome: stable
   sonarcloud:
