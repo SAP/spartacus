@@ -207,6 +207,43 @@ describe('OccConfiguratorVariantSerializer', () => {
     expect(occAttributes[0].retractTriggered).toBe(false);
   });
 
+  it('should fill value for string attributes', () => {
+    const stringAttribute: Configurator.Attribute = {
+      name: 'attr',
+      userInput: 'abc',
+      retractTriggered: false,
+      uiType: Configurator.UiType.STRING,
+    };
+    const occAttributes = [];
+    occConfiguratorVariantSerializer.convertAttribute(
+      stringAttribute,
+      occAttributes
+    );
+    expect(occAttributes[0].value).toBe(stringAttribute.userInput);
+    expect(occAttributes[0].retractTriggered).toBe(false);
+  });
+
+  it('should fill domainvalues for multivalued attributes', () => {
+    const mvAttribute: Configurator.Attribute = {
+      name: 'attr',
+      userInput: '',
+      retractTriggered: false,
+      uiType: Configurator.UiType.CHECKBOX,
+      values: [
+        { valueCode: 'code1', valueDisplay: 'name1' },
+        { valueCode: 'code2', valueDisplay: 'name2' },
+      ],
+    };
+    const occAttributes = [];
+    occConfiguratorVariantSerializer.convertAttribute(
+      mvAttribute,
+      occAttributes
+    );
+    expect(occAttributes[0].domainValues.length).toBe(2);
+    expect(occAttributes[0].domainValues[0].key).toBe('code1');
+    expect(occAttributes[0].domainValues[1].langDepName).toBe('name2');
+  });
+
   it('should consider that an attribute was retracted', () => {
     const attributeWithRetraction: Configurator.Attribute = {
       name: 'attr',
