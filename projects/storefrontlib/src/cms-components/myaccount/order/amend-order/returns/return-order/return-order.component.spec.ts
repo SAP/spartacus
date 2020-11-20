@@ -1,12 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { OrderEntry } from '@spartacus/core';
 import { of } from 'rxjs';
+import { FormErrorsModule } from '../../../../../../shared/index';
 import { OrderAmendService } from '../../amend-order.service';
 import { ReturnOrderComponent } from './return-order.component';
-import { FormGroup } from '@angular/forms';
 
 class MockOrderAmendService {
   getForm() {
@@ -42,7 +43,7 @@ describe('ReturnOrderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, FormErrorsModule],
       providers: [
         { provide: OrderAmendService, useClass: MockOrderAmendService },
       ],

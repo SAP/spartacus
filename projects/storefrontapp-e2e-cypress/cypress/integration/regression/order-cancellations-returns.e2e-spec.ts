@@ -131,9 +131,7 @@ describe('Order Cancellations and Returns', () => {
       orderCancellationReturn.visitReturnRequestListPage();
       cy.wait('@return_request_list').its('status').should('eq', 200);
 
-      cy.get('cx-tab-paragraph-container')
-        .findByText(/Returns/i)
-        .click();
+      cy.get('cx-tab-paragraph-container button').eq(1).click();
 
       const returnRequest = sampleData.returnRequestList.returnRequests[0];
       cy.get('cx-order-return-request-list a.cx-order-history-value')
@@ -204,9 +202,7 @@ describe('Order Cancellations and Returns', () => {
       orderCancellationReturn.visitReturnRequestDetailsPage();
 
       orderCancellationReturn.cancelReturnRequest();
-      cy.get('cx-return-request-overview')
-        .findByText('Cancel Return Request')
-        .click();
+      cy.get('cx-return-request-overview .btn-primary').click();
 
       cy.get('cx-global-message').should(
         'contain',
@@ -220,9 +216,7 @@ describe('Order Cancellations and Returns', () => {
         .its('status')
         .should('eq', 200);
 
-      cy.get('cx-tab-paragraph-container')
-        .findByText(/Returns/i)
-        .click();
+      cy.get('cx-tab-paragraph-container button').eq(1).click();
       cy.get('cx-order-return-request-list .cx-order-history-status').should(
         'contain',
         sampleData.REQUEST_STATUS_CANCELLING
@@ -295,28 +289,20 @@ describe('Order Cancellations and Returns', () => {
   }
 
   function validateInput() {
-    cy.get('cx-amend-order-actions')
-      .findByText(/Continue/i)
-      .click();
+    cy.get('cx-amend-order-actions .btn-primary').eq(0).click();
     cy.get('cx-form-errors').should('contain', 'Select at least one item');
 
-    cy.get('cx-item-counter').findByText('+').click();
+    cy.get('cx-item-counter button').eq(1).click();
     cy.get('cx-form-errors').should('not.contain', 'Select at least one item');
   }
 
   function cancelItem() {
-    cy.get('cx-amend-order-actions')
-      .findByText(/Continue/i)
-      .click();
-
+    cy.get('cx-amend-order-actions .btn-primary').eq(0).click();
     cy.get('cx-breadcrumb').should('contain', 'Cancel Order Confirmation');
   }
 
   function returnItem() {
-    cy.get('cx-amend-order-actions')
-      .findByText(/Continue/i)
-      .click();
-
+    cy.get('cx-amend-order-actions .btn-primary').eq(0).click();
     cy.get('cx-breadcrumb').should('contain', 'Return Order Confirmation');
   }
 
