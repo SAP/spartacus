@@ -1,7 +1,4 @@
-<cx-organization-card
-  *ngIf="model$ | async as model"
-  i18nRoot="userGroup.details"
->
+<cx-org-card *ngIf="model$ | async as model" i18nRoot="userGroup.details">
   <a
     actions
     class="link edit"
@@ -10,7 +7,7 @@
     {{ 'organization.edit' | cxTranslate }}
   </a>
 
-  <section main class="details">
+  <section main class="details" cxOrgItemExists>
     <div class="property">
       <label>{{ 'userGroup.name' | cxTranslate }}</label>
       <span class="value">
@@ -42,19 +39,23 @@
   </section>
 
   <section main class="link-list">
-    <a
-      class="link"
-      [routerLink]="{ cxRoute: 'userGroupUsers', params: model } | cxUrl"
-      routerLinkActive="is-current"
-    >
-      {{ 'userGroup.links.user' | cxTranslate }}
-    </a>
-    <a
-      class="link"
-      [routerLink]="{ cxRoute: 'userGroupPermissions', params: model } | cxUrl"
-      routerLinkActive="is-current"
-    >
-      {{ 'userGroup.links.permission' | cxTranslate }}
-    </a>
+    <ng-container *ngIf="model.uid">
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'userGroupUsers', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'userGroup.links.user' | cxTranslate }}
+      </a>
+      <a
+        class="link"
+        [routerLink]="
+          { cxRoute: 'userGroupPermissions', params: model } | cxUrl
+        "
+        routerLinkActive="is-current"
+      >
+        {{ 'userGroup.links.permission' | cxTranslate }}
+      </a>
+    </ng-container>
   </section>
-</cx-organization-card>
+</cx-org-card>

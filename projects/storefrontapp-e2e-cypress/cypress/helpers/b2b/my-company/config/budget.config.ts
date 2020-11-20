@@ -11,7 +11,6 @@ export const budgetConfig: MyCompanyConfig = {
     {
       label: 'Name',
       variableName: 'name',
-      link: '/organization/budgets/',
       inputType: INPUT_TYPE.TEXT,
       createValue: `Test Entity ${randomString()}`,
       updateValue: `Edited Test Entity ${randomString()}`,
@@ -60,18 +59,18 @@ export const budgetConfig: MyCompanyConfig = {
     {
       label: 'Start',
       variableName: 'startDate',
-      inputType: INPUT_TYPE.DATE_TIME,
+      inputType: INPUT_TYPE.DATE,
       formLabel: 'Start',
-      createValue: '3020-10-10T10:48',
-      updateValue: '3025-01-10T03:22',
+      createValue: '3020-10-10',
+      updateValue: '3025-01-10',
     },
     {
       label: 'End',
       variableName: 'endDate',
-      inputType: INPUT_TYPE.DATE_TIME,
+      inputType: INPUT_TYPE.DATE,
       formLabel: 'End',
-      createValue: '3020-11-10T10:48',
-      updateValue: '3026-05-15T09:53',
+      createValue: '3020-11-10',
+      updateValue: '3026-05-15',
     },
     {
       label: 'Currency',
@@ -84,7 +83,8 @@ export const budgetConfig: MyCompanyConfig = {
     {
       label: 'Unit',
       variableName: 'orgUnit.name',
-      link: `/organization/units/`,
+      link: `/organization/units/Custom%20Retail`,
+      updatedLink: `/organization/units/Rustic%20Retail`,
       sortLabel: 'unit',
       inputType: INPUT_TYPE.NG_SELECT,
       createValue: 'Custom Retail',

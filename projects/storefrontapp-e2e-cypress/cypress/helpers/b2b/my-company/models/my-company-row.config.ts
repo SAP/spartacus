@@ -19,6 +19,10 @@ export interface MyCompanyRowConfig {
    */
   link?: string;
   /**
+   * Url property should link to in details (after updating item)
+   */
+  updatedLink?: string;
+  /**
    * Input type in form
    */
   inputType?: INPUT_TYPE;

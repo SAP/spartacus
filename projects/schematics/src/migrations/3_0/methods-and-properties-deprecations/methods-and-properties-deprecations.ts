@@ -1,6 +1,8 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { MethodPropertyDeprecation } from '../../../shared/utils/file-utils';
 import { migrateMethodPropertiesDeprecation } from '../../mechanism/methods-and-properties-deprecations/methods-and-properties-deprecations';
+import { ANONYMOUS_CONSENT_TEMPLATES_ADAPTER_MIGRATION } from './data/anonymous-consent-templates.adapter.migration';
+import { ANONYMOUS_CONSENT_TEMPLATES_CONNECTOR_MIGRATION } from './data/anonymous-consent-templates.connector.migration';
 import { ASM_AUTH_SERVICE_MIGRATION } from './data/asm-auth.service.migration';
 import { ASM_ACTIONS_MIGRATION } from './data/asm-group.actions.migration';
 import { ASM_SELECTORS_MIGRATION } from './data/asm-group.selectors.migration';
@@ -19,6 +21,7 @@ import { CHECKOUT_CONNECTOR_MIGRATION } from './data/checkout.connector.migratio
 import { CHECKOUT_SERVICE_MIGRATION } from './data/checkout.service.migration';
 import { CMS_COMPONENTS_SERVICE_MIGRATION } from './data/cms-components.service.migration';
 import { CURRENCY_SERVICE_MIGRATION } from './data/currency.service.migration';
+import { FEATURE_MODULES_SERVICE_MIGRATION } from './data/feature-modules.service.migration';
 import { ITEM_COUNTER_COMPONENT_MIGRATION } from './data/item-counter.component.migration';
 import { LANGUAGE_SERVICE_MIGRATION } from './data/language.service.migration';
 import { LOGIN_FORM_COMPONENT_MIGRATION } from './data/login-form.component.migration';
@@ -32,6 +35,8 @@ import { ORDER_DETAIL_SHIPPING_COMPONENT_MIGRATION } from './data/order-detail-s
 import { PRODUCT_CAROUSEL_SERVICE_MIGRATION } from './data/product-carousel.service.migration';
 import { PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION } from './data/product-list-component.service.migration';
 import { PRODUCT_REFERENCE_SERVICE_MIGRATION } from './data/product-reference.service.migration';
+import { PROTECTED_ROUTES_GUARD_MIGRATION } from './data/protected-routes.guard.migration';
+import { STAR_RATING_COMPONENT_MIGRATION } from './data/star-rating-component.migration';
 import { STORE_FINDER_ACTIONS_MIGRATION } from './data/store-finder-group.actions.migration';
 import { STOREFRONT_COMPONENT_MIGRATION } from './data/storefront-component.migration';
 import { UPDATE_EMAIL_COMPONENT_MIGRATION } from './data/update-email.component.migration';
@@ -46,7 +51,7 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...CHECKOUT_GROUP_ACTIONS_MIGRATION,
   ...CHECKOUT_CONFIG_SERVICE_MIGRATION,
   ...CHECKOUT_AUTH_GUARD_MIGRATION,
-  ...CMS_COMPONENTS_SERVICE_MIGRATION,
+  ...PROTECTED_ROUTES_GUARD_MIGRATION,
   ...BREAKPOINT_SERVICE_MIGRATION,
   ...LOGIN_FORM_COMPONENT_MIGRATION,
   ...ITEM_COUNTER_COMPONENT_MIGRATION,
@@ -72,6 +77,10 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...CDC_AUTH_SERVICE_MIGRATION,
   ...LANGUAGE_SERVICE_MIGRATION,
   ...CURRENCY_SERVICE_MIGRATION,
+  ...STAR_RATING_COMPONENT_MIGRATION,
+  ...FEATURE_MODULES_SERVICE_MIGRATION,
+  ...ANONYMOUS_CONSENT_TEMPLATES_ADAPTER_MIGRATION,
+  ...ANONYMOUS_CONSENT_TEMPLATES_CONNECTOR_MIGRATION,
 ];
 
 export function migrate(): Rule {

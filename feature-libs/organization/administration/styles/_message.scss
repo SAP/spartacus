@@ -1,12 +1,12 @@
 // As the inset-inline-end logical properties is lacking, we need to add
 // alternative rules.
-html[dir='rtl'] cx-organization-list cx-message .close {
+html[dir='rtl'] cx-org-list cx-org-message .close {
   left: 20px;
   right: auto;
 }
 
 %organizationMessage {
-  cx-message {
+  cx-org-message {
     position: absolute;
     width: 100%;
 
@@ -52,12 +52,15 @@ html[dir='rtl'] cx-organization-list cx-message .close {
       margin: 5px;
     }
 
-    cx-notification {
+    cx-org-notification {
       display: flex;
       background-color: #deeecc;
+      &.error {
+        background-color: var(--cx-color-danger);
+      }
     }
 
-    cx-confirmation {
+    cx-org-confirmation {
       flex: 100%;
       flex-direction: column;
 
