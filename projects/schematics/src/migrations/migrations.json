@@ -1,32 +1,32 @@
 {
   "schematics": {
     "migration-v2-validate-01": {
-      "version": "2.1.3",
+      "version": "2.1.4",
       "factory": "./2_0/validate#validate",
       "description": "Performs some validations before proceeding to upgrade Spartacus to v2"
     },
     "migration-v2-methods-and-properties-deprecations-02": {
-      "version": "2.1.3",
+      "version": "2.1.4",
       "factory": "./2_0/methods-and-properties-deprecations/methods-and-properties-deprecations#migrate",
       "description": "Comment about usage of remove public methods or properties"
     },
     "migration-v2-constructor-deprecations-03": {
-      "version": "2.1.3",
+      "version": "2.1.4",
       "factory": "./2_0/constructor-deprecations/constructor-deprecations#migrate",
       "description": "Add or remove constructor parameters"
     },
     "migration-v2-removed-public-api-deprecation-04": {
-      "version": "2.1.3",
+      "version": "2.1.4",
       "factory": "./2_0/removed-public-api-deprecations/removed-public-api-deprecation#migrate",
       "description": "Comment about usage of removed public api"
     },
     "migration-v2-component-deprecations-05": {
-      "version": "2.1.3",
+      "version": "2.1.4",
       "factory": "./2_0/component-deprecations/component-deprecations#migrate",
       "description": "Handle deprecated Spartacus components"
     },
     "migration-v2-css-06": {
-      "version": "2.1.3",
+      "version": "2.1.4",
       "factory": "./2_0/css#migrate",
       "description": "Handle deprecated CSS"
     },
@@ -41,7 +41,7 @@
       "description": "Run ng add @angular/localize"
     },
     "migration-v2-config-deprecations-09": {
-      "version": "2.1.3",
+      "version": "2.1.4",
       "factory": "./2_0/config-deprecations/config-deprecation#migrate",
       "description": "Handle deprecated configuration properties"
     }
