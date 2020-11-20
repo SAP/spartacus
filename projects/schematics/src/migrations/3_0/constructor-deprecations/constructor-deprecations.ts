@@ -24,6 +24,7 @@ import { DELIVERY_MODE_COMPONENT_MIGRATION } from './data/delivery-mode.componen
 import { FEATURE_MODULES_SERVICE_MIGRATION } from './data/feature-modules.service.migration';
 import { FORBIDDEN_HANDLER_MIGRATION } from './data/forbidden.handler.migration';
 import { FORGOT_PASSWORD_COMPONENT_MIGRATION } from './data/forgot-password.component.migration';
+import { JSON_LD_SCRIPT_FACTORY_CONSTRUCTOR_MIGRATION } from './data/json-ld.script.factory.migration';
 import { JSONLD_PRODUCT_REVIEW_BUILDER_MIGRATION } from './data/jsonld-product-review.builder.migration';
 import { LOGIN_FORM_COMPONENT_MIGRATION } from './data/login-form.component.migration';
 import { LOGOUT_GUARD_MIGRATION } from './data/logout-guard.migration';
@@ -36,16 +37,21 @@ import { ORDER_DETAIL_SHIPPING_COMPONENT_MIGRATION } from './data/order-detail-s
 import { ORDER_HISTORY_COMPONENT_MIGRATION } from './data/order-history-component.migration';
 import { ORDER_RETURN_REQUEST_SERVICE_MIGRATION } from './data/order-return-request.service.migration';
 import { ORDER_RETURN_GUARD_MIGRATION } from './data/order-return.guard.migration';
+import { OUTLET_REF_DIRECTIVE_CONSTRUCTOR_MIGRATION } from './data/outlet-ref.directive.migration';
+import { OUTLET_SERVICE_CONSTRUCTOR_MIGRATION } from './data/outlet.service.migration';
 import { PAGE_SLOT_COMPONENT_MIGRATION } from './data/page-slot.component.migration';
 import { PAYMENT_DETAILS_SET_GUARD_MIGRATION } from './data/payment-details-set.guard.migration';
 import { PAYMENT_METHOD_COMPONENT_MIGRATION } from './data/payment-method.component.migration';
 import { PLACE_ORDER_COMPONENT_MIGRATION } from './data/place-order.component.migration';
+import { PRODUCT_CAROUSEL_SERVICE_MIGRATION } from './data/product-carousel.service.migration';
 import { PRODUCT_VARIANT_GUARD_MIGRATION } from './data/product-variant.guard.migration';
+import { REGISTER_COMPONENT_MIGRATION } from './data/register.component.migration';
 import { REVIEW_SUBMIT_COMPONENT_MIGRATION } from './data/review-submit.component.migration';
 import { ROUTING_SERVICE_MIGRATION } from './data/routing.service.migration';
 import { SELECTIVE_CART_SERVICE_MIGRATION } from './data/selective-cart.service.migration';
 import { SHIPPING_ADDRESS_SET_GUARD_MIGRATION } from './data/shipping-address-set.guard.migration';
 import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
+import { SPLIT_VIEW_COMPONENT_MIGRATION } from './data/split-view.component.migration';
 import { STAR_RATING_COMPONENT_MIGRATION } from './data/star-rating.component.migration';
 import { STOCK_NOTIFICATION_COMPONENT_MIGRATION } from './data/stock-notification.component.migration';
 import { USER_ADDRESS_SERVICE_MIGRATION } from './data/user-address.service.migration';
@@ -57,13 +63,8 @@ import { USER_ORDER_SERVICE_MIGRATION } from './data/user-order.service.migratio
 import { USER_PAYMENT_SERVICE_MIGRATION } from './data/user-payment.service.migration';
 import { USER_REGISTER_EFFECT_MIGRATION } from './data/user-register.effect.migration';
 import { USER_SERVICE_MIGRATION } from './data/user.service.migration';
-import { OUTLET_REF_DIRECTIVE_CONSTRUCTOR_MIGRATION } from './data/outlet-ref.directive.migration';
-import { OUTLET_SERVICE_CONSTRUCTOR_MIGRATION } from './data/outlet.service.migration';
-import { JSON_LD_SCRIPT_FACTORY_CONSTRUCTOR_MIGRATION } from './data/json-ld.script.factory.migration';
-import { REGISTER_COMPONENT_MIGRATION } from './data/register.component.migration';
+import { VIEW_COMPONENT_MIGRATION } from './data/view.component.migration';
 import { WISH_LIST_SERVICE_MIGRATION } from './data/wish-list.service.migration';
-import { PRODUCT_CAROUSEL_SERVICE_MIGRATION } from './data/product-carousel.service.migration';
-import { SPLIT_VIEW_COMPONENT_MIGRATION } from './data/split-view.component.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT_MIGRATION,
@@ -119,7 +120,6 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CHECKOUT_SERVICE_MIGRATION,
   JSONLD_PRODUCT_REVIEW_BUILDER_MIGRATION,
   FORGOT_PASSWORD_COMPONENT_MIGRATION,
-  USER_ORDER_SERVICE_MIGRATION,
   USER_PAYMENT_SERVICE_MIGRATION,
   USER_REGISTER_EFFECT_MIGRATION,
   USER_SERVICE_MIGRATION,
@@ -129,6 +129,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   JSON_LD_SCRIPT_FACTORY_CONSTRUCTOR_MIGRATION,
   REGISTER_COMPONENT_MIGRATION,
   PRODUCT_CAROUSEL_SERVICE_MIGRATION,
+  VIEW_COMPONENT_MIGRATION,
   SPLIT_VIEW_COMPONENT_MIGRATION,
 ];
 

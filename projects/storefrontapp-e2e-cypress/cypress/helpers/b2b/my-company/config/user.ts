@@ -13,7 +13,6 @@ export const userConfig: MyCompanyConfig = {
     {
       label: 'Name',
       variableName: 'name',
-      link: '/organization/users/',
       inputType: INPUT_TYPE.TEXT,
       createValue: `Test Entity ${randomString()}`,
       updateValue: `Edited Test Entity ${randomString()}`,
@@ -95,6 +94,8 @@ export const userConfig: MyCompanyConfig = {
     {
       label: 'Unit',
       variableName: 'orgUnit.name',
+      link: `/organization/units/Rustic%20Retail`,
+      updatedLink: `/organization/units/Rustic%20Services`,
       sortLabel: 'unit',
       inputType: INPUT_TYPE.NG_SELECT,
       createValue: 'Rustic',
