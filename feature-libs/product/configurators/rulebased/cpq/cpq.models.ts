@@ -46,10 +46,16 @@ export namespace Cpq {
   export interface Configuration {
     productSystemId: string;
     productName?: string;
-    tabs?: Tab[];
-    attributes?: Attribute[];
+    completed: boolean;
+    incompleteMessages?: string[];
+    incompleteAttributes?: string[];
+    invalidMessages?: string[];
+    failedValidations?: string[];
+    errorMessages?: string[];
     conflictMessages?: string[];
     numberOfConflicts?: number;
+    tabs?: Tab[];
+    attributes?: Attribute[];
   }
 
   /**
@@ -70,16 +76,19 @@ export namespace Cpq {
    */
   export interface Attribute {
     pA_ID: number;
+    stdAttrCode: number;
     name?: string;
     description?: string;
-    displayAs: number;
-    incomplete?: boolean;
-    selected?: boolean;
     label?: string;
-    stdAttrCode: number;
-    quantity?: number;
+    displayAs: number;
+    selected?: boolean;
+    required?: boolean;
+    incomplete?: boolean;
     isEnabled?: boolean;
     isLineItem?: boolean;
+    hasConflict?: boolean;
+    userInput?: string;
+    quantity?: number;
     values?: Value[];
   }
 
@@ -89,12 +98,27 @@ export namespace Cpq {
    */
   export interface Value {
     paV_ID: number;
-    productSystemId: string;
+    valueCode?: string;
     valueDisplay?: string;
     description?: string;
+    productSystemId: string;
     selected?: boolean;
-    price?: number;
-    quantity?: number;
-    valueCode?: string;
+    price?: string;
+    quantity?: string;
+  }
+
+  /**
+   *
+   * An enum representing possible displayAs value.
+   */
+  export enum DisplayAs {
+    RADIO_BUTTON = 1,
+    CHECK_BOX = 2,
+    DROPDOWN = 3,
+    LIST_BOX = 4,
+    LIST_BOX_MULTI = 5,
+    READ_ONLY = 71,
+    INPUT = 95,
+    AUTO_COMPLETE_CUSTOM = 102,
   }
 }
