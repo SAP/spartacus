@@ -12,7 +12,6 @@ import {
   using,
 } from 'rxjs';
 import {
-  auditTime,
   debounceTime,
   delay,
   distinctUntilChanged,
@@ -30,6 +29,7 @@ import { withdrawOn } from '../../util/withdraw-on';
 import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
 import { ProductSelectors } from '../store/selectors/index';
+import { polish } from '../../util/polish';
 
 @Injectable({
   providedIn: 'root',
@@ -71,7 +71,7 @@ export class ProductLoadingService {
       this.products[productCode][this.getScopesIndex(scopes)] = combineLatest(
         scopes.map((scope) => this.products[productCode][scope])
       ).pipe(
-        auditTime(0),
+        polish(),
         map((productParts) =>
           productParts.every(Boolean)
             ? deepMerge({}, ...productParts)
@@ -102,7 +102,9 @@ export class ProductLoadingService {
       ),
       map(
         (productState) =>
-          !productState.loading && !productState.success && !productState.error
+          !productState?.loading &&
+          !productState?.success &&
+          !productState?.error
       ),
       distinctUntilChanged(),
       filter((x) => x)
