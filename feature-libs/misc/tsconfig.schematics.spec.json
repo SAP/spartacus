@@ -1,7 +1,10 @@
 {
   "extends": "./tsconfig.schematics.json",
   "compilerOptions": {
-    "outDir": ""
+    "moduleResolution": "node",
+    "paths": {
+      "@spartacus/schematics": ["../../projects/schematics/src/public_api"]
+    }
   },
   "exclude": ["schematics/*/files/**/*", "schematics/**/*_spec.ts"]
 }

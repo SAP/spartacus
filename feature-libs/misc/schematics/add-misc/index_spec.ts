@@ -5,6 +5,9 @@ import {
 import {
   CLI_STOREFINDER_FEATURE,
   SpartacusOptions,
+  SPARTACUS_MISC,
+  SPARTACUS_SETUP,
+  STOREFINDER_ROOT_MODULE,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { Schema as SpartacusMiscOptions } from './schema';
@@ -47,6 +50,11 @@ describe('Spartacus Misc schematics: ng-add', () => {
       '@spartacus/schematics',
       '../../projects/schematics/src/collection.json'
     );
+    schematicRunner.registerCollection(
+      '@spartacus/organization',
+      '../../feature-libs/organization/schematics/collection.json'
+    );
+
     appTree = await schematicRunner
       .runExternalSchematicAsync(
         '@schematics/angular',
@@ -72,6 +80,29 @@ describe('Spartacus Misc schematics: ng-add', () => {
       .toPromise();
   });
 
+  describe('when no features are selected', () => {
+    beforeEach(async () => {
+      appTree = await schematicRunner
+        .runSchematicAsync(
+          'ng-add',
+          { ...defaultOptions, features: [] },
+          appTree
+        )
+        .toPromise();
+    });
+
+    it('should still install @spartacus/misc and @spartacus/setup libraries', () => {
+      const packageJson = appTree.readContent('package.json');
+      expect(packageJson).toContain(SPARTACUS_SETUP);
+      expect(packageJson).toContain(SPARTACUS_MISC);
+    });
+
+    it('should not install storefinder feature', () => {
+      const appModule = appTree.readContent(appModulePath);
+      expect(appModule).not.toContain(STOREFINDER_ROOT_MODULE);
+    });
+  });
+
   describe('Storefinder feature', () => {
     describe('styling', () => {
       beforeEach(async () => {
@@ -84,7 +115,7 @@ describe('Spartacus Misc schematics: ng-add', () => {
         const content = appTree.readContent(
           '/src/styles/spartacus/storefinder.scss'
         );
-        expect(content).toEqual(`@import "@spartacus/misc/storefinder";`);
+        expect(content).toEqual(`@import "@spartacus/misc";`);
       });
 
       it('should add update angular.json with spartacus/storefinder.scss', async () => {
@@ -122,9 +153,7 @@ describe('Spartacus Misc schematics: ng-add', () => {
         const packageJson = appTree.readContent('/package.json');
         const packageObj = JSON.parse(packageJson);
         const depPackageList = Object.keys(packageObj.dependencies);
-        expect(depPackageList.includes('@spartacus/misc/storefinder')).toBe(
-          true
-        );
+        expect(depPackageList.includes('@spartacus/misc')).toBe(true);
         expect(depPackageList.includes('@spartacus/setup')).toBe(true);
       });
 
@@ -171,6 +200,12 @@ describe('Spartacus Misc schematics: ng-add', () => {
       });
     });
     describe('i18n', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync('ng-add', defaultOptions, appTree)
+          .toPromise();
+      });
+
       it('should import the i18n resource and chunk from assets', async () => {
         const appModule = appTree.readContent(appModulePath);
         expect(appModule).toContain(
@@ -187,6 +222,28 @@ describe('Spartacus Misc schematics: ng-add', () => {
           `chunks: storeFinderTranslationChunksConfig,`
         );
       });
+    });
+  });
+
+  describe('when other Spartacus features are already installed', () => {
+    beforeEach(async () => {
+      appTree = await schematicRunner
+        .runExternalSchematicAsync(
+          '@spartacus/organization',
+          'ng-add',
+          { ...spartacusDefaultOptions, name: 'schematics-test' },
+          appTree
+        )
+        .toPromise();
+      appTree = await schematicRunner
+        .runSchematicAsync('ng-add', defaultOptions, appTree)
+        .toPromise();
+    });
+
+    it('should just append storefinder feature without duplicating the featureModules config', () => {
+      const appModule = appTree.readContent(appModulePath);
+      expect(appModule.match(/featureModules:/g).length).toEqual(1);
+      expect(appModule).toContain(`storeFinder: {`);
     });
   });
 });

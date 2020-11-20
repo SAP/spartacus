@@ -56,6 +56,11 @@ describe('Spartacus Organization schematics: ng-add', () => {
       '@spartacus/schematics',
       '../../projects/schematics/src/collection.json'
     );
+    schematicRunner.registerCollection(
+      '@spartacus/misc',
+      '../../feature-libs/misc/schematics/collection.json'
+    );
+
     appTree = await schematicRunner
       .runExternalSchematicAsync(
         '@schematics/angular',
@@ -321,6 +326,28 @@ describe('Spartacus Organization schematics: ng-add', () => {
           `chunks: orderApprovalTranslationChunksConfig,`
         );
       });
+    });
+  });
+
+  describe('when other Spartacus features are already installed', () => {
+    beforeEach(async () => {
+      appTree = await schematicRunner
+        .runExternalSchematicAsync(
+          '@spartacus/misc',
+          'ng-add',
+          { ...spartacusDefaultOptions, name: 'schematics-test' },
+          appTree
+        )
+        .toPromise();
+      appTree = await schematicRunner
+        .runSchematicAsync('ng-add', defaultOptions, appTree)
+        .toPromise();
+    });
+
+    it('should just append storefinder feature without duplicating the featureModules config', () => {
+      const appModule = appTree.readContent(appModulePath);
+      expect(appModule.match(/featureModules:/g).length).toEqual(1);
+      expect(appModule).toContain(`storeFinder: {`);
     });
   });
 });

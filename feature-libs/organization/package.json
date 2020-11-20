@@ -24,6 +24,17 @@
   "dependencies": {
     "tslib": "^2.0.0"
   },
+  "peerDependencies": {
+    "@angular/common": "^10.1.0",
+    "@angular/core": "^10.1.0",
+    "@angular-devkit/schematics": "^10.1.0",
+    "@angular/router": "^10.1.0",
+    "bootstrap": "^4.0",
+    "rxjs": "^6.6.0",
+    "@spartacus/core": "3.0.0-next.6",
+    "@spartacus/storefront": "3.0.0-next.6",
+    "@spartacus/schematics": "3.0.0-next.6"
+  },
   "devDependencies": {
     "@types/jasmine": "^3.5.0",
     "@types/jest": "^26.0.15",
@@ -35,16 +46,5 @@
     "shelljs": "^0.8.3",
     "ts-jest": "^26.4.3",
     "typescript": "~4.0.2"
-  },
-  "peerDependencies": {
-    "@angular/common": "^10.1.0",
-    "@angular/core": "^10.1.0",
-    "@angular-devkit/schematics": "^10.1.0",
-    "@angular/router": "^10.1.0",
-    "bootstrap": "^4.0",
-    "rxjs": "^6.6.0",
-    "@spartacus/core": "3.0.0-next.6",
-    "@spartacus/storefront": "3.0.0-next.6",
-    "@spartacus/schematics": "3.0.0-next.6"
   }
 }
