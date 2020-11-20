@@ -5,6 +5,7 @@ import { resolveApplicable } from '../../util/applicable';
 import { Page, PageMeta } from '../model/page.model';
 import { PageMetaResolver } from '../page/page-meta.resolver';
 import { CmsService } from './cms.service';
+import { polish } from '../../util/polish';
 
 @Injectable({
   providedIn: 'root',
@@ -69,7 +70,7 @@ export class PageMetaService {
       );
 
     return combineLatest(resolveMethods).pipe(
-      debounceTime(0), // avoid partial data emissions when all methods resolve at the same time
+      polish(), // avoid partial data emissions when all methods resolve at the same time
       map((data) => Object.assign({}, ...data))
     );
   }
