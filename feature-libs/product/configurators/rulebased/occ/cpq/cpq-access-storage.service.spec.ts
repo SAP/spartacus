@@ -6,7 +6,10 @@ import { interval, Observable, of, ReplaySubject, Subject } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { Cpq } from '../../cpq/cpq.models';
 import { CpqAccessLoaderService } from './cpq-access-loader.service';
-import { CpqAccessStorageService } from './cpq-access-storage.service';
+import {
+  CpqAccessStorageService,
+  CPQ_CONFIGURATOR_TOKEN_EXPIRATION_BUFFER,
+} from './cpq-access-storage.service';
 import createSpy = jasmine.createSpy;
 
 const accessData: Cpq.AccessData = {
@@ -42,6 +45,10 @@ describe('CpqAccessStorageService', () => {
             provide: CpqAccessLoaderService,
             useClass: CpqAccessLoaderServiceMock,
           },
+          {
+            provide: CPQ_CONFIGURATOR_TOKEN_EXPIRATION_BUFFER,
+            useValue: 10,
+          },
         ],
       });
 
@@ -52,10 +59,14 @@ describe('CpqAccessStorageService', () => {
         CpqAccessLoaderService as Type<CpqAccessLoaderService>
       );
 
-      serviceUnderTest.clearCachedCpqAccessData();
+      //serviceUnderTest.clearCachedCpqAccessData();
       accessDataSoonExpiring.tokenExpirationTime = Date.now() + 20;
     })
   );
+
+  afterEach(() => {
+    waitForAsync(() => {}); // Guard to ensure that all aysnc is stopped
+  });
 
   it('should create service', () => {
     expect(serviceUnderTest).toBeDefined();
@@ -135,10 +146,13 @@ describe('CpqAccessStorageService', () => {
   it('should accept token that soon expires', (done) => {
     accessDataSubject = new Subject<Cpq.AccessData>();
     accessDataObs = accessDataSubject;
-    serviceUnderTest.getCachedCpqAccessData().subscribe((returnedData) => {
-      expect(returnedData).toBe(accessDataSoonExpiring);
-      done();
-    });
+    const subscription = serviceUnderTest
+      .getCachedCpqAccessData()
+      .subscribe((returnedData) => {
+        expect(returnedData).toBe(accessDataSoonExpiring);
+        subscription.unsubscribe();
+        done();
+      });
     accessDataSubject.next(accessDataSoonExpiring);
   });
 
