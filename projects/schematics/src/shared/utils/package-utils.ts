@@ -43,9 +43,8 @@ export function getSpartacusSchematicsVersion(): string {
   return version;
 }
 
-export function getSpartacusCurrentFeatureLevel(tree: Tree): string {
-  const packageJson = readPackageJson(tree);
-  return packageJson.version.split('.').slice(0, 2).join('.');
+export function getSpartacusCurrentFeatureLevel(): string {
+  return version.split('.').slice(0, 2).join('.');
 }
 
 export function isAngularLocalizeInstalled(tree: Tree): boolean {

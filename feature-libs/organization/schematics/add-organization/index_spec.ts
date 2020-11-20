@@ -77,7 +77,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
       .toPromise();
   });
 
-  describe('in app module', () => {
+  describe('app.module.ts', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
         .runSchematicAsync('ng-add', defaultOptions, appTree)
@@ -87,7 +87,6 @@ describe('Spartacus Organization schematics: ng-add', () => {
       const appModule = appTree.readContent(appModulePath);
       expect(appModule).not.toContain(B2C_STOREFRONT_MODULE);
     });
-
     it(`should replace it with 'B2bStorefrontModule'`, () => {
       const appModule = appTree.readContent(appModulePath);
       expect(appModule).toContain(B2B_STOREFRONT_MODULE);
@@ -192,6 +191,12 @@ describe('Spartacus Organization schematics: ng-add', () => {
     });
 
     describe('i18n', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync('ng-add', defaultOptions, appTree)
+          .toPromise();
+      });
+
       it('should import the i18n resource and chunk from assets', async () => {
         const appModule = appTree.readContent(appModulePath);
         expect(appModule).toContain(

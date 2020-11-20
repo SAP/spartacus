@@ -106,7 +106,7 @@ describe('Package utils', () => {
   describe('getSpartacusCurrentFeatureLevel', () => {
     it('should return feature level based on spartacus current version', async () => {
       const version = getSpartacusSchematicsVersion();
-      const featureLevel = getSpartacusCurrentFeatureLevel(appTree);
+      const featureLevel = getSpartacusCurrentFeatureLevel();
       expect(featureLevel).toBeTruthy();
       expect(featureLevel.length).toEqual(3);
       expect(featureLevel).toEqual(version.substring(0, 3));

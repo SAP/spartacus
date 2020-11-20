@@ -177,7 +177,7 @@ function prepareSiteContextConfig(options: SpartacusOptions): string {
  * Creates a spartacus config based on the provided `options`.
  * @param options
  */
-function createStorefrontConfig(options: SpartacusOptions, host: Tree): string {
+function createStorefrontConfig(options: SpartacusOptions): string {
   const baseUrlPart = `\n          baseUrl: '${options.baseUrl}'`;
   const context = prepareSiteContextConfig(options);
 
@@ -197,9 +197,7 @@ function createStorefrontConfig(options: SpartacusOptions, host: Tree): string {
         fallbackLang: 'en'
       },
       features: {
-        level: '${
-          options.featureLevel || getSpartacusCurrentFeatureLevel(host)
-        }'
+        level: '${options.featureLevel || getSpartacusCurrentFeatureLevel()}'
       }
     }`;
 }
@@ -236,8 +234,7 @@ function updateAppModule(options: SpartacusOptions): Rule {
         host,
         modulePath,
         `${B2C_STOREFRONT_MODULE}.withConfig(${createStorefrontConfig(
-          options,
-          host
+          options
         )})`
       );
     }
@@ -290,7 +287,7 @@ function installStyles(
     const insertion =
       '\n' +
       `$styleVersion: ${
-        options.featureLevel || getSpartacusCurrentFeatureLevel(host)
+        options.featureLevel || getSpartacusCurrentFeatureLevel()
       };\n@import '~@spartacus/styles/index';\n`;
 
     if (htmlContent.includes(insertion)) {
