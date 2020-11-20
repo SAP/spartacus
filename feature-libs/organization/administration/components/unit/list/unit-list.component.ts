@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { UnitTreeService } from '../services/unit-tree.service';
 
 @Component({
-  selector: 'cx-unit-list',
+  selector: 'cx-org-unit-list',
   templateUrl: './unit-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

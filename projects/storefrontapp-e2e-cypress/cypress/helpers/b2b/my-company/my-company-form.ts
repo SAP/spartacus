@@ -21,11 +21,11 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
     });
 
     it(`should create`, () => {
-      cy.get(`cx-organization-list a`).contains('Add').click();
+      cy.get(`cx-org-list a`).contains('Add').click();
 
       cy.url().should('contain', `${config.baseUrl}/create`);
 
-      cy.get('cx-organization-form div.header h3').contains(
+      cy.get('cx-org-form div.header h3').contains(
         ignoreCaseSensivity(`Create ${config.name}`)
       );
 
@@ -37,7 +37,7 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
         entityUId = xhr.response.body[config.entityIdField];
 
         verifyDetails(config, 'createValue');
-        cy.get('cx-organization-card cx-icon[type="CLOSE"]').click();
+        cy.get('cx-org-card cx-icon[type="CLOSE"]').click();
       });
     });
 
@@ -109,10 +109,10 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
       cy.visit(`${config.baseUrl}/${entityId}`);
       cy.url().should('contain', `${config.baseUrl}/${entityId}`);
 
-      cy.get(`cx-organization-card a.link`).contains('Edit').click();
+      cy.get(`cx-org-card a.link`).contains('Edit').click();
       cy.url().should('contain', `${config.baseUrl}/${entityId}/edit`);
 
-      cy.get('cx-organization-form div.header h3').contains(
+      cy.get('cx-org-form div.header h3').contains(
         ignoreCaseSensivity(`Edit ${config.name}`)
       );
 
@@ -207,12 +207,12 @@ function verifyDetails(config: MyCompanyConfig, valueKey: string) {
   }
 
   cy.wait(2000);
-  cy.get('cx-organization-card div.header h3').contains(
+  cy.get('cx-org-card div.header h3').contains(
     ignoreCaseSensivity(`${config.name} Details`)
   );
 
   headerRows.forEach((hRow) => {
-    cy.get('cx-organization-card div.header h4').contains(
+    cy.get('cx-org-card div.header h4').contains(
       ignoreCaseSensivity(hRow[valueKey])
     );
   });

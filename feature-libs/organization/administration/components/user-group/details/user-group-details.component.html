@@ -1,7 +1,4 @@
-<cx-organization-card
-  *ngIf="model$ | async as model"
-  i18nRoot="userGroup.details"
->
+<cx-org-card *ngIf="model$ | async as model" i18nRoot="userGroup.details">
   <a
     actions
     class="link edit"
@@ -61,4 +58,4 @@
       </a>
     </ng-container>
   </section>
-</cx-organization-card>
+</cx-org-card>

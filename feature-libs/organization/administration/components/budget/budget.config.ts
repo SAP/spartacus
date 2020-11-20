@@ -7,14 +7,14 @@ import {
 import { AdminGuard } from '@spartacus/organization/administration/core';
 import { TableConfig } from '@spartacus/storefront';
 import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
-import { OrganizationItemService } from '../shared/organization-item.service';
-import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
-import { OrganizationListService } from '../shared/organization-list/organization-list.service';
-import { ActiveLinkCellComponent } from '../shared/organization-table';
-import { AmountCellComponent } from '../shared/organization-table/amount/amount-cell.component';
-import { DateRangeCellComponent } from '../shared/organization-table/date-range/date-range-cell.component';
-import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
-import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
+import { ItemService } from '../shared/item.service';
+import { ListComponent } from '../shared/list/list.component';
+import { ListService } from '../shared/list/list.service';
+import { ActiveLinkCellComponent } from '../shared/table';
+import { AmountCellComponent } from '../shared/table/amount/amount-cell.component';
+import { DateRangeCellComponent } from '../shared/table/date-range/date-range-cell.component';
+import { StatusCellComponent } from '../shared/table/status/status-cell.component';
+import { UnitCellComponent } from '../shared/table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
 import { BudgetCostCenterListComponent } from './cost-centers/budget-cost-center-list.component';
 import { BudgetDetailsComponent } from './details/budget-details.component';
@@ -56,14 +56,14 @@ export const budgetRoutingConfig: RoutingConfig = {
 export const budgetCmsConfig: CmsConfig = {
   cmsComponents: {
     ManageBudgetsListComponent: {
-      component: OrganizationListComponent,
+      component: ListComponent,
       providers: [
         {
-          provide: OrganizationListService,
+          provide: ListService,
           useExisting: BudgetListService,
         },
         {
-          provide: OrganizationItemService,
+          provide: ItemService,
           useExisting: BudgetItemService,
         },
       ],
