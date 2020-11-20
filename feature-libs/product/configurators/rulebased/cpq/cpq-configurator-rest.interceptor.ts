@@ -19,6 +19,7 @@ const HEADER_ATTR_CPQ_NO_COOKIES = 'x-cpq-disable-cookies';
   providedIn: 'root',
 })
 export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
+  cpqSessionId: string | string[];
   constructor(protected cpqAccessStorageService: CpqAccessStorageService) {}
 
   intercept(
@@ -33,22 +34,19 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
       switchMap((cpqData) => {
         return next
           .handle(this.enrichHeaders(request, cpqData))
-          .pipe(tap((response) => this.extractCpqSessionId(response, cpqData)));
+          .pipe(tap((response) => this.extractCpqSessionId(response)));
       })
     );
   }
 
-  protected extractCpqSessionId(
-    response: HttpEvent<any>,
-    cpqData: Cpq.AccessData
-  ) {
+  protected extractCpqSessionId(response: HttpEvent<any>) {
     if (
       response instanceof HttpResponse ||
       response instanceof HttpErrorResponse
     ) {
       const sessionId = response.headers.get(HEADER_ATTR_CPQ_SESSION_ID);
       if (sessionId) {
-        cpqData.cpqSessionId = sessionId;
+        this.cpqSessionId = sessionId;
       }
     }
   }
@@ -63,10 +61,10 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
         [HEADER_ATTR_CPQ_NO_COOKIES]: 'true',
       },
     });
-    if (cpqData.cpqSessionId) {
+    if (this.cpqSessionId) {
       newRequest = newRequest.clone({
         setHeaders: {
-          [HEADER_ATTR_CPQ_SESSION_ID]: cpqData.cpqSessionId,
+          [HEADER_ATTR_CPQ_SESSION_ID]: this.cpqSessionId,
         },
       });
     }

@@ -16,71 +16,53 @@ export class CpqConfiguratorRestService {
   createConfiguration(
     productSystemId: string
   ): Observable<Configurator.Configuration> {
-    return this.cpqAccessStorageService.getCachedCpqAccessData().pipe(
-      switchMap((accessData) => {
-        return this.initConfiguration(accessData, productSystemId).pipe(
-          switchMap((configCreatedResponse) => {
-            return this.getConfiguration(
-              accessData,
-              configCreatedResponse.configurationId
-            ).pipe(
-              map((configResponse) => {
-                //todo call normalizers
-                const config: Configurator.Configuration = {
-                  configId: configCreatedResponse.configurationId,
-                  productCode: configResponse.productSystemId,
-                };
-                return config;
-              })
-            );
+    return this.cpqAccessStorageService
+      .getCachedCpqAccessData()
+      .pipe(
+        switchMap((accessData) =>
+          this.createConfigWithEndpoit(accessData.endpoint, productSystemId)
+        )
+      );
+  }
+
+  protected createConfigWithEndpoit(endpoint: string, productSystemId: string) {
+    return this.callConfigurationsInit(endpoint, productSystemId).pipe(
+      switchMap((configCreatedResponse) => {
+        return this.callConfigurationsDisplay(
+          endpoint,
+          configCreatedResponse.configurationId
+        ).pipe(
+          map((configResponse) => {
+            //todo call normalizers?
+            const config: Configurator.Configuration = {
+              configId: configCreatedResponse.configurationId,
+              productCode: configResponse.productSystemId,
+            };
+            return config;
           })
         );
       })
     );
   }
 
-  protected initConfiguration(
-    accessData: Cpq.AccessData,
+  protected callConfigurationsInit(
+    endpoint: string,
     productSystemId: string
   ): Observable<Cpq.ConfigurationCreatedResponseData> {
     return this.http.post<Cpq.ConfigurationCreatedResponseData>(
-      `${accessData.endpoint}/api/configuration/v1/configurations`,
+      `${endpoint}/api/configuration/v1/configurations`,
       {
         ProductSystemId: productSystemId,
-      } /**
-        {
-          //move to interceptor
-          headers: {
-            Authorization: 'Bearer ' + accessData.accessToken,
-            'x-cpq-disable-cookies': 'true',
-          },
-          observe: 'response',
-        } */
-      //)
-      // .pipe(
-      //   map((response) => {
-      //     accessData.cpqSessionId = response.headers.get('x-cpq-session-id');
-      //     return response.body;
-      //   })
+      }
     );
   }
 
-  protected getConfiguration(
-    accessData: Cpq.AccessData,
+  protected callConfigurationsDisplay(
+    endpoint: string,
     configId: string
   ): Observable<Cpq.Configuration> {
     return this.http.get<Cpq.Configuration>(
-      `${accessData.endpoint}/api/configuration/v1/configurations/${configId}/display`
-      /**,
-      {
-        //move to interceptor
-        headers: {
-          Authorization: 'Bearer ' + accessData.accessToken,
-          'x-cpq-disable-cookies': 'true',
-          'x-cpq-session-id': accessData.cpqSessionId,
-        },
-      }
-       */
+      `${endpoint}/api/configuration/v1/configurations/${configId}/display`
     );
   }
 }

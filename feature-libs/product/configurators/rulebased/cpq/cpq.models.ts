@@ -20,10 +20,6 @@ export namespace Cpq {
      * CPQ endpoint url
      */
     endpoint?: string;
-    /**
-     * CPQ session id
-     */
-    cpqSessionId?: string;
   }
 
   /**
