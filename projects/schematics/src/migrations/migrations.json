@@ -47,42 +47,42 @@
     },
 
     "migration-v3-component-deprecations-01": {
-      "version": "3.0.0-next.6",
+      "version": "3.0.0-rc.0",
       "factory": "./3_0/component-deprecations/component-deprecations#migrate",
       "description": "Handle deprecated Spartacus components"
     },
     "migration-v3-config-deprecations-02": {
-      "version": "3.0.0-next.6",
+      "version": "3.0.0-rc.0",
       "factory": "./3_0/config-deprecations/config-deprecation#migrate",
       "description": "Handle deprecated configuration properties"
     },
     "migration-v3-constructor-deprecations-03": {
-      "version": "3.0.0-next.6",
+      "version": "3.0.0-rc.0",
       "factory": "./3_0/constructor-deprecations/constructor-deprecations#migrate",
       "description": "Add or remove constructor parameters"
     },
     "migration-v3-methods-and-properties-deprecations-04": {
-      "version": "3.0.0-next.6",
+      "version": "3.0.0-rc.0",
       "factory": "./3_0/methods-and-properties-deprecations/methods-and-properties-deprecations#migrate",
       "description": "Comment about usage of remove public methods or properties"
     },
     "migration-v3-removed-public-api-deprecation-05": {
-      "version": "3.0.0-next.6",
+      "version": "3.0.0-rc.0",
       "factory": "./3_0/removed-public-api-deprecations/removed-public-api-deprecation#migrate",
       "description": "Comment about usage of removed public api"
     },
     "migration-v3-css-06": {
-      "version": "3.0.0-next.6",
+      "version": "3.0.0-rc.0",
       "factory": "./3_0/css/css#migrate",
       "description": "Handle deprecated CSS"
     },
     "migration-v3-storefinder-07": {
-      "version": "3.0.0-next.6",
+      "version": "3.0.0-rc.0",
       "factory": "./3_0/storefinder/storefinder#migrate",
       "description": "Migrate the old storefinder setup to the new one."
     },
     "migration-v3-add-dependencies-08": {
-      "version": "3.0.0-next.6",
+      "version": "3.0.0-rc.0",
       "factory": "./3_0/add-dependencies/add-dependencies#migrate",
       "description": "Add and install additional dependencies"
     }
