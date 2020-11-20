@@ -32,6 +32,7 @@ import {
   STATE_WITH_KYMA,
   STATE_WITH_STORE_FINDER,
   STORES_STATE,
+  STORE_COUNT,
   STORE_COUNT_NORMALIZER,
   STORE_DATA_SERVICE,
   STORE_ENTITIES,
@@ -53,6 +54,7 @@ import {
   STORE_FINDER_PAGINATION_DETAILS_COMPONENT,
   STORE_FINDER_SEARCH_COMPONENT,
   STORE_FINDER_SEARCH_CONFIG,
+  STORE_FINDER_SEARCH_PAGE,
   STORE_FINDER_SEARCH_PAGE_NORMALIZER,
   STORE_FINDER_SEARCH_QUERY,
   STORE_FINDER_SEARCH_RESULT_COMPONENT,
@@ -339,6 +341,18 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: STORE_FINDER_ACTIONS,
     importPath: SPARTACUS_CORE,
     comment: `'${STORE_FINDER_ACTIONS}' was moved to @spartacus/misc/storefinder/core.`,
+  },
+  // projects/core/src/store-finder/model/store-finder.model.ts
+  {
+    node: STORE_COUNT,
+    importPath: SPARTACUS_CORE,
+    comment: `'${STORE_COUNT}' was moved to @spartacus/misc/storefinder/core.`,
+  },
+  // projects/core/src/store-finder/model/store-finder.model.ts
+  {
+    node: STORE_FINDER_SEARCH_PAGE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${STORE_FINDER_SEARCH_PAGE}' was moved to @spartacus/misc/storefinder/core.`,
   },
   // projects/storefrontlib/src/cms-components/storefinder/components/abstract-store-item/abstract-store-item.component.ts
   {
