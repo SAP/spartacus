@@ -1,5 +1,6 @@
 import { SimpleChange, SimpleChanges } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { GenericLinkComponent } from './generic-link.component';
 
@@ -16,12 +17,12 @@ describe('GenericLinkComponent', () => {
   let component: GenericLinkComponent;
   let fixture: ComponentFixture<GenericLinkComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       declarations: [GenericLinkComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(GenericLinkComponent);
@@ -48,7 +49,7 @@ describe('GenericLinkComponent', () => {
     });
 
     it('should return false when url does not start with http:// or https://', () => {
-      component.url = 'other-protocole://example.com';
+      component.url = 'other-protocol://example.com';
       expect(component.isExternalUrl()).toBeFalsy();
 
       component.url = '://example.com';
@@ -65,6 +66,59 @@ describe('GenericLinkComponent', () => {
 
       component.url = 'local/url';
       expect(component.isExternalUrl()).toBeFalsy();
+    });
+
+    describe('styling', () => {
+      it('should not have any style classes', () => {
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.debugElement.query(By.css('a'))
+          .nativeElement;
+        expect(el.classList.length).toEqual(0);
+      });
+
+      it('should have style classes', () => {
+        component.class = 'first-class';
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.debugElement.query(By.css('a'))
+          .nativeElement;
+        expect(el.classList).toContain('first-class');
+        expect(el.classList.length).toEqual(1);
+      });
+
+      it('should have multiple style classes', () => {
+        component.class = 'first-class second-class';
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.debugElement.query(By.css('a'))
+          .nativeElement;
+        expect(el.classList).toContain('first-class');
+        expect(el.classList).toContain('second-class');
+        expect(el.classList.length).toEqual(2);
+      });
+
+      it('should not have any style attributes', () => {
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.debugElement.query(By.css('a'))
+          .nativeElement;
+        expect(el.style.length).toEqual(0);
+      });
+
+      it('should have style attributes', () => {
+        component.style = 'color: red;';
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.debugElement.query(By.css('a'))
+          .nativeElement;
+        expect(el.style.color).toEqual('red');
+      });
+
+      it('should have multiple style attributes', () => {
+        component.style =
+          'color: red;border: solid 1px var(--cx-color-primary)';
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.debugElement.query(By.css('a'))
+          .nativeElement;
+        expect(el.style.color).toEqual('red');
+        expect(el.style.border).toEqual('solid 1px var(--cx-color-primary)');
+      });
     });
   });
 
@@ -86,6 +140,59 @@ describe('GenericLinkComponent', () => {
 
       component.ngOnChanges(changeUrl(['/url', 'segments', 'array', '2']));
       expect(component.routerUrl).toEqual(['/url', 'segments', 'array', '2']);
+    });
+
+    describe('styling', () => {
+      it('should not have any style classes', () => {
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.debugElement.query(By.css('a'))
+          .nativeElement;
+        expect(el.classList.length).toEqual(0);
+      });
+
+      it('should have style classes', () => {
+        component.class = 'first-class';
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.debugElement.query(By.css('a'))
+          .nativeElement;
+        expect(el.classList).toContain('first-class');
+        expect(el.classList.length).toEqual(1);
+      });
+
+      it('should have multiple style classes', () => {
+        component.class = 'first-class second-class';
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.debugElement.query(By.css('a'))
+          .nativeElement;
+        expect(el.classList).toContain('first-class');
+        expect(el.classList).toContain('second-class');
+        expect(el.classList.length).toEqual(2);
+      });
+
+      it('should not have any style attributes', () => {
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.debugElement.query(By.css('a'))
+          .nativeElement;
+        expect(el.style.length).toEqual(0);
+      });
+
+      it('should have style attributes', () => {
+        component.style = 'color: red;';
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.debugElement.query(By.css('a'))
+          .nativeElement;
+        expect(el.style.color).toEqual('red');
+      });
+
+      it('should have multiple style attributes', () => {
+        component.style =
+          'color: red;border: solid 1px var(--cx-color-primary)';
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.debugElement.query(By.css('a'))
+          .nativeElement;
+        expect(el.style.color).toEqual('red');
+        expect(el.style.border).toEqual('solid 1px var(--cx-color-primary)');
+      });
     });
   });
 
