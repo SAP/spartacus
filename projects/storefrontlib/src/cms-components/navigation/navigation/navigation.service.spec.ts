@@ -393,102 +393,114 @@ describe('NavigationComponentService', () => {
       expect(result.children).toBeFalsy();
     });
 
-    it('should populate _blank target', () => {
-      mockCmsService.getNavigationEntryItems.and.returnValue(
-        of({
-          Id_Super: {
-            linkName: 'entry linkName',
-            url: '/main',
-            target: true,
-          },
-        })
-      );
+    describe('target', () => {
+      const mockNavigationData = {
+        navigationNode: {
+          uid: 'MockNavigationNode001',
+          title: 'root node',
+          entries: [
+            {
+              itemId: 'Id',
+              itemSuperType: 'Super',
+              itemType: 'CMSLinkComponent',
+            },
+          ],
+        } as NavigationNode,
+      };
 
-      let result: NavigationNode;
-      navigationService
-        .getNavigationNode(
+      it('should populate _blank target', () => {
+        mockCmsService.getNavigationEntryItems.and.returnValue(
           of({
-            navigationNode: {
-              uid: 'MockNavigationNode001',
-              title: 'root node',
-              entries: [
-                {
-                  itemId: 'Id',
-                  itemSuperType: 'Super',
-                  itemType: 'CMSLinkComponent',
-                },
-              ],
-            } as NavigationNode,
+            Id_Super: {
+              linkName: 'entry linkName',
+              url: '/main',
+              target: true,
+            },
           })
-        )
-        .subscribe((node) => (result = node));
+        );
 
-      expect(result.target).toEqual('_blank');
-    });
+        let result: NavigationNode;
+        navigationService
+          .getNavigationNode(of(mockNavigationData))
+          .subscribe((node) => (result = node));
 
-    it('should not populate _blank target', () => {
-      mockCmsService.getNavigationEntryItems.and.returnValue(
-        of({
-          Id_Super: {
-            linkName: 'entry linkName',
-            url: '/main',
-            target: false,
-          },
-        })
-      );
+        expect(result.target).toEqual('_blank');
+      });
 
-      let result: NavigationNode;
-      navigationService
-        .getNavigationNode(
+      it('should populate _blank target for "true" value', () => {
+        mockCmsService.getNavigationEntryItems.and.returnValue(
           of({
-            navigationNode: {
-              uid: 'MockNavigationNode001',
-              title: 'root node',
-              entries: [
-                {
-                  itemId: 'Id',
-                  itemSuperType: 'Super',
-                  itemType: 'CMSLinkComponent',
-                },
-              ],
-            } as NavigationNode,
+            Id_Super: {
+              linkName: 'entry linkName',
+              url: '/main',
+              target: 'true',
+            },
           })
-        )
-        .subscribe((node) => (result = node));
+        );
 
-      expect(result.target).toBeFalsy();
-    });
+        let result: NavigationNode;
+        navigationService
+          .getNavigationNode(of(mockNavigationData))
+          .subscribe((node) => (result = node));
 
-    it('should not populate target if there is no URL', () => {
-      mockCmsService.getNavigationEntryItems.and.returnValue(
-        of({
-          Id_Super: {
-            linkName: 'entry linkName',
-            target: true,
-          },
-        })
-      );
+        expect(result.target).toEqual('_blank');
+      });
 
-      let result: NavigationNode;
-      navigationService
-        .getNavigationNode(
+      it('should not populate _blank target', () => {
+        mockCmsService.getNavigationEntryItems.and.returnValue(
           of({
-            navigationNode: {
-              uid: 'MockNavigationNode001',
-              title: 'root node',
-              entries: [
-                {
-                  itemId: 'Id',
-                  itemSuperType: 'Super',
-                  itemType: 'CMSLinkComponent',
-                },
-              ],
-            } as NavigationNode,
+            Id_Super: {
+              linkName: 'entry linkName',
+              url: '/main',
+              target: false,
+            },
           })
-        )
-        .subscribe((node) => (result = node));
+        );
 
-      expect(result.target).toBeFalsy();
+        let result: NavigationNode;
+        navigationService
+          .getNavigationNode(of(mockNavigationData))
+          .subscribe((node) => (result = node));
+
+        expect(result.target).toBeFalsy();
+      });
+
+      it('should not populate _blank target for "false" target', () => {
+        mockCmsService.getNavigationEntryItems.and.returnValue(
+          of({
+            Id_Super: {
+              linkName: 'entry linkName',
+              url: '/main',
+              target: 'false',
+            },
+          })
+        );
+
+        let result: NavigationNode;
+        navigationService
+          .getNavigationNode(of(mockNavigationData))
+          .subscribe((node) => (result = node));
+
+        expect(result.target).toBeFalsy();
+      });
+
+      it('should not populate target if there is no URL', () => {
+        mockCmsService.getNavigationEntryItems.and.returnValue(
+          of({
+            Id_Super: {
+              linkName: 'entry linkName',
+              target: true,
+            },
+          })
+        );
+
+        let result: NavigationNode;
+        navigationService
+          .getNavigationNode(of(mockNavigationData))
+          .subscribe((node) => (result = node));
+
+        expect(result.target).toBeFalsy();
+      });
     });
   });
 });
