@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import {
   AuthService,
   GlobalMessageService,
@@ -6,17 +6,17 @@ import {
   RoutingService,
   UserService,
 } from '@spartacus/core';
-import { UrlCommands } from '../../../../../core/src/routing/configurable-routes/url-translation';
-import { NavigationExtras } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
-import { Translatable } from '../../../../../core/src/i18n';
+import { Observable, Subscription } from 'rxjs';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CustomFormValidators } from '../../../shared/utils';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class UpdateEmailService {
-  public destroy$ = new Subject();
+export class UpdateEmailService implements OnDestroy {
+  protected subscriptions = new Subscription();
+  protected newUid: string;
 
   constructor(
     protected routingService: RoutingService,
@@ -26,41 +26,69 @@ export class UpdateEmailService {
   ) {
   }
 
-  // RoutingService Wrappers
-  goToRoute(commands: UrlCommands, query?: object, extras?: NavigationExtras): void {
-    this.routingService.go(commands, query, extras);
-  }
-
-  // UserService Wrappers
-  resetUpdateEmailResultState(): void {
-    this.userService.resetUpdateEmailResultState();
-  }
-
-  updateEmail(password: string, newUid: string): void {
-    this.userService.updateEmail(password, newUid);
-  }
+  form: FormGroup = new FormGroup(
+    {
+      email: new FormControl('', [Validators.required, CustomFormValidators.emailValidator]),
+      confirmEmail: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required])
+    },
+    {
+    validators: CustomFormValidators.emailsMustMatch('email', 'confirmEmail')
+  });
 
   getUpdateEmailResultLoading(): Observable<boolean> {
     return this.userService.getUpdateEmailResultLoading();
   }
 
-  getUpdateEmailResultSuccess(): Observable<boolean> {
-    return this.userService.getUpdateEmailResultSuccess();
+  resetUpdateEmailResultState(): void {
+    this.userService.resetUpdateEmailResultState();
   }
 
-  // AuthService Wrappers
-  coreLogout(): Promise<any> {
-    return this.authService.coreLogout();
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+    this.resetUpdateEmailResultState();
   }
 
-  // GlobalMessageService Wrappers
-  addGlobalMessage(text: string | Translatable, type: GlobalMessageType, timeout?: number): void {
-    this.globalMessageService.add(text, type, timeout);
+  onFormSubmit(): void {
+    if (this.form.valid) {
+      this.newUid = this.form.get('confirmEmail').value;
+      this.userService.updateEmail(this.form.get('password').value, this.newUid);
+
+      this.subscriptions.add(
+        this.getUpdateEmailResultLoading()
+          .subscribe((loading) => this.setFormControlState(loading))
+      );
+
+      this.subscriptions.add(
+        this.userService.getUpdateEmailResultSuccess()
+          .subscribe((success) => this.onSuccess(success))
+      );
+    } else {
+      this.form.markAllAsTouched();
+    }
   }
 
+  private setFormControlState(loading: boolean): void {
+    loading ? this.form.disable() : this.form.enable();
+  }
 
-  destroySubscription(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+  private async onSuccess(success: boolean): Promise<void> {
+    if (success) {
+      this.globalMessageService.add(
+        {
+          key: 'updateEmailForm.emailUpdateSuccess',
+          params: {newUid: this.newUid},
+        },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+      this.form.reset();
+      // TODO(#9638): Use logout route when it will support passing redirect url
+      await this.authService.coreLogout();
+      this.routingService.go({cxRoute: 'login'}, null, {
+        state: {
+          newUid: this.newUid,
+        },
+      });
+    }
   }
 }

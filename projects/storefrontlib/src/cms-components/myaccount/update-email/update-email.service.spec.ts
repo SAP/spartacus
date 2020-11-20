@@ -3,13 +3,15 @@ import { NavigationExtras } from '@angular/router';
 import {
   AuthService,
   GlobalMessage,
-  GlobalMessageService, GlobalMessageType,
+  GlobalMessageService, GlobalMessageType, I18nTestingModule,
   RoutingService,
   UrlCommands,
   UserService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { UpdateEmailService } from './update-email.service';
+import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
+import { FormErrorsModule } from '@spartacus/storefront';
 
 
 
@@ -47,9 +49,13 @@ describe('UpdateEmailService', () => {
   let authService: AuthService;
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
+  let newUid: AbstractControl;
+  let confirmNewUid: AbstractControl;
+  let password: AbstractControl;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       declarations: [],
       providers: [
         UpdateEmailService,
@@ -80,6 +86,10 @@ describe('UpdateEmailService', () => {
     authService = TestBed.inject(AuthService);
     routingService = TestBed.inject(RoutingService);
     globalMessageService = TestBed.inject(GlobalMessageService);
+
+    newUid = service.form.controls.email;
+    confirmNewUid = service.form.controls.confirmEmail;
+    password = service.form.controls.password;
   });
 
   it('should create', () => {
@@ -100,67 +110,44 @@ describe('UpdateEmailService', () => {
       service.getUpdateEmailResultLoading();
       expect(userService.getUpdateEmailResultLoading).toHaveBeenCalled();
     });
-
-    it('should call getUpdateEmailResultSuccess', () => {
-      spyOn(userService, 'getUpdateEmailResultSuccess').and.stub();
-
-      service.getUpdateEmailResultSuccess();
-      expect(userService.getUpdateEmailResultSuccess).toHaveBeenCalled();
-    });
-
-
-    it('should call updateEmail with params', () => {
-      spyOn(userService, 'updateEmail').and.stub();
-
-      const newUid = 'tester@sap.com';
-      const password = 'Qwe123!';
-      service.updateEmail(password, newUid);
-      expect(userService.updateEmail).toHaveBeenCalledWith(password, newUid);
-    });
   });
 
-  describe('AuthService Calls', () => {
-    it('should call logout', () => {
-      spyOn(authService, 'coreLogout').and.stub();
+  it('onFormSubmit should userService.updateEmail', () => {
+    spyOn(userService, 'updateEmail').and.stub();
+    newUid.setValue('tester@sap.com');
+    confirmNewUid.setValue('tester@sap.com');
+    password.setValue('Qwe123!');
 
-      service.coreLogout();
-      expect(authService.coreLogout).toHaveBeenCalled();
-    });
+    service.onFormSubmit();
+    expect(userService.updateEmail).toHaveBeenCalledWith('Qwe123!','tester@sap.com');
   });
 
-  describe('GlobalMessageService Calls', () => {
-    it('should call add with params', () => {
-      spyOn(globalMessageService, 'add').and.stub();
+  it('onSuccess show message, logout and reroute', async () => {
+    spyOn(authService, 'coreLogout').and.stub();
+    spyOn(routingService, 'go').and.stub();
+    spyOn(globalMessageService, 'add').and.stub();
+    service['newUid'] = 'new@sap.com';
 
-      const text = {
+    service['onSuccess'](true);
+
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      {
         key: 'updateEmailForm.emailUpdateSuccess',
         params: { newUid: 'new@sap.com' },
-      };
-      const type = GlobalMessageType.MSG_TYPE_CONFIRMATION;
+      },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
 
-      service.addGlobalMessage(text, type);
-      expect(globalMessageService.add).toHaveBeenCalledWith(text, type, undefined);
-    });
-  });
+    await expect(authService.coreLogout).toHaveBeenCalled();
 
-  describe('RoutingService Calls', () => {
-    it('should call go with params', () => {
-      spyOn(routingService, 'go').and.stub();
-
-      const command = { cxRoute: 'home' };
-
-      service.goToRoute(command);
-      expect(routingService.go).toHaveBeenCalledWith(command, undefined, undefined);
-    });
-
-    it('should call go with params and query', () => {
-      spyOn(routingService, 'go').and.stub();
-
-      const command = { cxRoute: 'home' };
-      const query = { state: { key: 'value' }};
-
-      service.goToRoute(command, query);
-      expect(routingService.go).toHaveBeenCalledWith(command, query, undefined);
-    });
+    expect(routingService.go).toHaveBeenCalledWith(
+      {cxRoute: 'login'},
+      null,
+      {
+        state: {
+          newUid: 'new@sap.com',
+        },
+      }
+    );
   });
 });

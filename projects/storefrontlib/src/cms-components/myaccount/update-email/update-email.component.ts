@@ -1,9 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { GlobalMessageType } from '@spartacus/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UpdateEmailService } from './update-email.service';
-import { takeUntil } from 'rxjs/operators';
-import { UpdateEmailFormService } from './update-email.form.service';
 import { FormGroup } from '@angular/forms';
 
 @Component({
@@ -11,59 +8,25 @@ import { FormGroup } from '@angular/forms';
   templateUrl: './update-email.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UpdateEmailComponent implements OnInit {
+export class UpdateEmailComponent implements OnInit, OnDestroy {
   constructor(
-    protected updateEmailService: UpdateEmailService,
-    protected updateEmailFormService: UpdateEmailFormService
+    protected updateEmailService: UpdateEmailService
   ) {
   }
   updateEmailForm: FormGroup;
   isLoading$: Observable<boolean>;
-  protected newUid: string;
 
   ngOnInit() {
-    this.isLoading$ = this.updateEmailService.getUpdateEmailResultLoading();
     this.updateEmailService.resetUpdateEmailResultState();
-    this.updateEmailForm = this.updateEmailFormService.updateEmailForm;
+    this.isLoading$ = this.updateEmailService.getUpdateEmailResultLoading();
+    this.updateEmailForm = this.updateEmailService.form;
   }
 
-  onCancel(): void {
-    this.updateEmailService.goToRoute({ cxRoute: 'home' });
+  ngOnDestroy() {
+    this.updateEmailForm.reset();
   }
 
   onSubmit(): void {
-    if (this.updateEmailForm.valid) {
-      this.newUid = this.updateEmailForm.get('confirmEmail').value;
-      this.updateEmailService.updateEmail(this.updateEmailForm.get('password').value, this.newUid);
-
-      this.updateEmailService
-        .getUpdateEmailResultSuccess()
-        .pipe(takeUntil(this.updateEmailService.destroy$))
-        .subscribe((success) => this.onSuccess(success))
-    } else {
-      this.updateEmailForm.markAllAsTouched();
-    }
-  }
-
-  async onSuccess(success: boolean): Promise<void> {
-    if (success) {
-      this.updateEmailService.addGlobalMessage(
-        {
-          key: 'updateEmailForm.emailUpdateSuccess',
-          params: { newUid: this.newUid },
-        },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
-      this.updateEmailForm.reset();
-      // TODO(#9638): Use logout route when it will support passing redirect url
-      await this.updateEmailService.coreLogout();
-      this.updateEmailService.resetUpdateEmailResultState();
-      this.updateEmailService.destroySubscription();
-      this.updateEmailService.goToRoute({ cxRoute: 'login' }, null, {
-        state: {
-          newUid: this.newUid,
-        },
-      });
-    }
+    this.updateEmailService.onFormSubmit();
   }
 }

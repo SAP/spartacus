@@ -6,12 +6,13 @@ import {
   CmsConfig,
   I18nModule,
   provideDefaultConfig,
+  UrlModule
 } from '@spartacus/core';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { UpdateEmailComponent } from './update-email.component';
 import { FormErrorsModule } from '../../../shared/index';
 import { UpdateEmailService } from './update-email.service';
-import { UpdateEmailFormService } from './update-email.form.service';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
@@ -19,6 +20,8 @@ import { UpdateEmailFormService } from './update-email.form.service';
     FormsModule,
     ReactiveFormsModule,
     SpinnerModule,
+    UrlModule,
+    RouterModule,
     I18nModule,
     FormErrorsModule,
   ],
@@ -31,8 +34,7 @@ import { UpdateEmailFormService } from './update-email.form.service';
         },
       },
     }),
-    UpdateEmailService,
-    UpdateEmailFormService
+    UpdateEmailService
   ],
   declarations: [UpdateEmailComponent],
   exports: [UpdateEmailComponent],

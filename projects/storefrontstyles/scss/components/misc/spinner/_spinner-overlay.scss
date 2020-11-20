@@ -1,0 +1,19 @@
+.is-loading {
+  position: relative;
+
+  .loader-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    user-select: none;
+    background: rgba(255, 255, 255, 0.5);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 10;
+  }
+}
