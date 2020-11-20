@@ -6,7 +6,13 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +36,7 @@ export class CurrentProductService {
     scopes?: (ProductScope | string)[] | ProductScope | string
   ): Observable<Product | null> {
     return this.getCode().pipe(
+      tap((code) => console.log('CHHI emission of code: ' + code)),
       distinctUntilChanged(),
       switchMap((productCode: string) => {
         return productCode

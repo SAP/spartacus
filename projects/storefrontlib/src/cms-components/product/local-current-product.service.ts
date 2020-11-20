@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { CurrentProductService } from './current-product.service';
 
 @Injectable()
 export class LocalCurrentProductService extends CurrentProductService {
-  protected readonly code$ = new Subject<string>();
+  protected readonly code$ = new BehaviorSubject<string>(undefined);
 
   setCode(code: string) {
+    console.log('CHHI set code: ' + code);
     this.code$.next(code);
   }
 

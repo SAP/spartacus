@@ -1,12 +1,12 @@
-<ng-container *ngIf="productContext?.context$ | async as ctx">
-  <ng-container *ngIf="ctx.product.configurable">
+<ng-container *ngIf="product$ | async as product">
+  <ng-container *ngIf="product.configurable">
     <a
       [routerLink]="
         {
-          cxRoute: 'configure' + ctx.product.configuratorType,
+          cxRoute: 'configure' + product.configuratorType,
           params: {
             ownerType: ownerTypeProduct,
-            entityKey: ctx.product.code
+            entityKey: product.code
           }
         } | cxUrl
       "
