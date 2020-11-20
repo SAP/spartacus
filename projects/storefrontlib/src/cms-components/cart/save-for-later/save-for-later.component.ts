@@ -9,7 +9,6 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { Item } from '../cart-shared/cart-item/cart-item.component';
 
 @Component({
   selector: 'cx-save-for-later',
@@ -46,7 +45,7 @@ export class SaveForLaterComponent implements OnInit {
     );
   }
 
-  moveToCart(item: Item) {
+  moveToCart(item: OrderEntry) {
     this.selectiveCartService.removeEntry(item);
     this.cartService.addEntry(item.product.code, item.quantity);
   }

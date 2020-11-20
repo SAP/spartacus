@@ -1,4 +1,4 @@
-<cx-organization-card *ngIf="model$ | async as model" i18nRoot="unit.details">
+<cx-org-card *ngIf="model$ | async as model" i18nRoot="unit.details">
   <a
     actions
     class="link edit"
@@ -8,15 +8,13 @@
     {{ 'organization.edit' | cxTranslate }}
   </a>
 
-  <cx-toggle-status
-    *ngIf="model.parentOrgUnit"
+  <cx-org-toggle-status
     actions
-    [disabled]="!model.parentOrgUnit.active"
     key="uid"
     i18nRoot="unit"
-  ></cx-toggle-status>
+  ></cx-org-toggle-status>
 
-  <section main class="details">
+  <section main class="details" cxOrgItemExists>
     <div class="property">
       <label>{{ 'unit.name' | cxTranslate }}</label>
       <span class="value">
@@ -65,40 +63,42 @@
   </section>
 
   <section main class="link-list">
-    <a
-      class="link"
-      [routerLink]="{ cxRoute: 'orgUnitChildren', params: model } | cxUrl"
-      routerLinkActive="is-current"
-    >
-      {{ 'unit.links.units' | cxTranslate }}
-    </a>
-    <a
-      class="link"
-      [routerLink]="{ cxRoute: 'unitUserList', params: model } | cxUrl"
-      routerLinkActive="is-current"
-    >
-      {{ 'unit.links.users' | cxTranslate }}
-    </a>
-    <a
-      class="link"
-      [routerLink]="{ cxRoute: 'orgUnitApprovers', params: model } | cxUrl"
-      routerLinkActive="is-current"
-    >
-      {{ 'unit.links.approvers' | cxTranslate }}
-    </a>
-    <a
-      class="link"
-      [routerLink]="{ cxRoute: 'unitAddressList', params: model } | cxUrl"
-      routerLinkActive="is-current"
-    >
-      {{ 'unit.links.shippingAddresses' | cxTranslate }}
-    </a>
-    <a
-      class="link"
-      [routerLink]="{ cxRoute: 'orgUnitCostCenters', params: model } | cxUrl"
-      routerLinkActive="is-current"
-    >
-      {{ 'unit.links.costCenters' | cxTranslate }}
-    </a>
+    <ng-container *ngIf="model.uid">
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'orgUnitChildren', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'unit.links.units' | cxTranslate }}
+      </a>
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'unitUserList', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'unit.links.users' | cxTranslate }}
+      </a>
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'orgUnitApprovers', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'unit.links.approvers' | cxTranslate }}
+      </a>
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'unitAddressList', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'unit.links.shippingAddresses' | cxTranslate }}
+      </a>
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'orgUnitCostCenters', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'unit.links.costCenters' | cxTranslate }}
+      </a>
+    </ng-container>
   </section>
-</cx-organization-card>
+</cx-org-card>

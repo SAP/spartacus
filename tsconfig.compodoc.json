@@ -35,6 +35,12 @@
       "@spartacus/organization/administration/assets": [
         "feature-libs/organization/administration/assets/public_api"
       ],
+      "@spartacus/organization/order-approval": [
+        "feature-libs/organization/order-approval/public_api"
+      ],
+      "@spartacus/organization/order-approval/assets": [
+        "feature-libs/organization/order-approval/assets/public_api"
+      ],
       "@spartacus/product": ["feature-libs/product/public_api"],
       "@spartacus/product/configurators": [
         "feature-libs/product/configurators/public_api"
@@ -51,8 +57,9 @@
       "@spartacus/product/configurators/textfield": [
         "feature-libs/product/configurators/textfield/public_api"
       ],
+      "@spartacus/misc/storefinder": ["feature-libs/misc/storefinder/public_api"],
       "@spartacus/cdc": ["integration-libs/cdc/public_api"],
-      "@spartacus/setup": ["integration-libs/setup/public_api"]
+      "@spartacus/setup": ["core-libs/setup/public_api"]
     }
   },
   "exclude": [

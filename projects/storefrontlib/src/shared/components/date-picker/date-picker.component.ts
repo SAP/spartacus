@@ -11,7 +11,6 @@ import {
   NG_VALUE_ACCESSOR,
   Validator,
 } from '@angular/forms';
-import { DatePickerFormatterService } from './date-picker-formatter.service';
 
 @Component({
   selector: 'cx-date-picker',
@@ -31,7 +30,6 @@ import { DatePickerFormatterService } from './date-picker-formatter.service';
 })
 export class DatePickerComponent implements ControlValueAccessor, Validator {
   value: string;
-  nativeValue: string = null;
 
   @ViewChild('inputElement', { static: false, read: ElementRef })
   input: ElementRef;
@@ -43,22 +41,15 @@ export class DatePickerComponent implements ControlValueAccessor, Validator {
   max?: string;
 
   @Input()
-  endOfDay = false;
-
-  @Input()
   required?: boolean;
 
   @Input()
   invalid?: boolean;
 
-  constructor(protected dateFormatterService: DatePickerFormatterService) {}
+  constructor() {}
 
   onInput(event) {
-    this.value = this.dateFormatterService.toModel(
-      event.target.value,
-      this.endOfDay
-    );
-    this.nativeValue = event.target.value;
+    this.value = event.target.value;
     this.onChange(this.value);
   }
 
@@ -77,16 +68,15 @@ export class DatePickerComponent implements ControlValueAccessor, Validator {
   writeValue(value: string): void {
     if (value) {
       this.value = value;
-      this.nativeValue = this.dateFormatterService.toNative(value);
     }
   }
 
-  getMin(): string {
-    return this.dateFormatterService.toNative(this.min);
-  }
-
-  getMax(): string {
-    return this.dateFormatterService.toNative(this.max);
+  setDisabledState(isDisabled: boolean): void {
+    if (isDisabled) {
+      this.input.nativeElement?.setAttribute('disabled', isDisabled);
+    } else {
+      this.input.nativeElement?.removeAttribute('disabled');
+    }
   }
 
   validate(): { [key: string]: any } {

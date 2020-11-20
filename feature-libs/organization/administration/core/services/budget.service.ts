@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
-  AuthService,
   CostCenter,
   EntitiesModel,
   SearchConfig,
   StateUtils,
   StateWithProcess,
+  UserIdService,
 } from '@spartacus/core';
 import { Observable, queueScheduler, using } from 'rxjs';
-import { auditTime, filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { auditTime, filter, map, observeOn, tap } from 'rxjs/operators';
 import { Budget } from '../model/budget.model';
 import { OrganizationItemStatus } from '../model/organization-item-status';
 import { BudgetActions, StateWithOrganization } from '../store/index';
@@ -24,17 +24,17 @@ import { getItemStatus } from '../utils/get-item-status';
 export class BudgetService {
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,
-    protected authService: AuthService
+    protected userIdService: UserIdService
   ) {}
 
   loadBudget(budgetCode: string): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(new BudgetActions.LoadBudget({ userId, budgetCode }))
     );
   }
 
   loadBudgets(params?: SearchConfig): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(new BudgetActions.LoadBudgets({ userId, params }))
     );
   }
@@ -98,14 +98,18 @@ export class BudgetService {
     );
   }
 
+  getErrorState(budgetCode): Observable<boolean> {
+    return this.getBudgetState(budgetCode).pipe(map((state) => state.error));
+  }
+
   create(budget: Budget): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(new BudgetActions.CreateBudget({ userId, budget }))
     );
   }
 
   update(budgetCode: string, budget: Budget): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new BudgetActions.UpdateBudget({ userId, budgetCode, budget })
       )
@@ -116,12 +120,5 @@ export class BudgetService {
     budgetCode: string
   ): Observable<OrganizationItemStatus<Budget>> {
     return getItemStatus(this.getBudgetState(budgetCode));
-  }
-
-  private withUserId(callback: (userId: string) => void): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe((userId) => callback(userId));
   }
 }

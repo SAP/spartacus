@@ -1,39 +1,26 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ElementRef } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DatePickerComponent } from '.';
-import { DatePickerFormatterService } from './date-picker-formatter.service';
 
-import createSpy = jasmine.createSpy;
-
-const nativeValue = '2010-06-01';
-const modelValue = '2010-06-01T00:00:00+0000';
-
-class MockDatePickerFormatterService
-  implements Partial<DatePickerFormatterService> {
-  toModel = createSpy('toModel').and.returnValue(modelValue);
-  toNative = createSpy('toNative').and.returnValue(nativeValue);
-}
+const value = '2010-06-01';
+const e1: ElementRef = new ElementRef({
+  setAttribute() {},
+  removeAttribute() {},
+});
 
 describe('Date Picker Component', () => {
   let component: DatePickerComponent;
   let fixture: ComponentFixture<DatePickerComponent>;
-  let service: DatePickerFormatterService;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [DatePickerComponent],
-      providers: [
-        {
-          provide: DatePickerFormatterService,
-          useClass: MockDatePickerFormatterService,
-        },
-      ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DatePickerComponent);
     component = fixture.componentInstance;
-    service = TestBed.inject(DatePickerFormatterService);
   });
 
   describe('component tests', () => {
@@ -43,74 +30,69 @@ describe('Date Picker Component', () => {
 
     describe('onInput', () => {
       it('should setup nativeValue and value', () => {
-        component.endOfDay = false;
-        component.onInput({ target: { value: nativeValue } });
-        expect(service.toModel).toHaveBeenCalledWith(nativeValue, false);
-        expect(component.nativeValue).toEqual(nativeValue);
-        expect(component.value).toEqual(modelValue);
-      });
-
-      it('should setup nativeValue and value with end of day flag', () => {
-        component.endOfDay = true;
-        component.onInput({ target: { value: nativeValue } });
-        expect(service.toModel).toHaveBeenCalledWith(nativeValue, true);
-        expect(component.nativeValue).toEqual(nativeValue);
-        expect(component.value).toEqual(modelValue);
+        component.onInput({ target: { value: value } });
+        expect(component.value).toEqual(value);
       });
     });
 
     describe('writeValue', () => {
       it('should setup nativeValue and value', () => {
-        component.writeValue(modelValue);
-        expect(service.toNative).toHaveBeenCalledWith(modelValue);
-        expect(component.nativeValue).toEqual(nativeValue);
-        expect(component.value).toEqual(modelValue);
-      });
-    });
-
-    describe('getMin', () => {
-      it('should return min value in native format', () => {
-        component.min = modelValue;
-        expect(component.getMin()).toEqual(nativeValue);
-        expect(service.toNative).toHaveBeenCalledWith(modelValue);
-      });
-    });
-
-    describe('getMax', () => {
-      it('should return max value in native format', () => {
-        component.max = modelValue;
-        expect(component.getMax()).toEqual(nativeValue);
-        expect(service.toNative).toHaveBeenCalledWith(modelValue);
+        component.writeValue(value);
+        expect(component.value).toEqual(value);
       });
     });
 
     describe('validate', () => {
       it('should pass', () => {
-        component.value = modelValue;
-        component.nativeValue = nativeValue;
-        component.getMin = createSpy('getMin').and.returnValue('2010-05-01');
-        component.getMax = createSpy('getMax').and.returnValue('2010-07-01');
+        component.value = value;
+        component.min = '2010-05-01';
+        component.max = '2010-07-01';
         fixture.detectChanges();
         expect(component.validate()).toEqual(undefined);
       });
 
       it('should return cxDateMax', () => {
-        component.value = modelValue;
-        component.nativeValue = nativeValue;
-        component.getMin = createSpy('getMin').and.returnValue('2010-04-01');
-        component.getMax = createSpy('getMax').and.returnValue('2010-05-01');
+        component.value = value;
+        component.min = '2010-04-01';
+        component.max = '2010-05-01';
         fixture.detectChanges();
         expect(component.validate()).toEqual({ cxDateMax: true });
       });
 
       it('should return cxDateMin', () => {
-        component.value = modelValue;
-        component.nativeValue = nativeValue;
-        component.getMin = createSpy('getMin').and.returnValue('2010-07-01');
-        component.getMax = createSpy('getMax').and.returnValue('2010-08-01');
+        component.value = value;
+        component.min = '2010-07-01';
+        component.max = '2010-08-01';
         fixture.detectChanges();
         expect(component.validate()).toEqual({ cxDateMin: true });
       });
+    });
+  });
+
+  describe('setDisabledState', () => {
+    beforeEach(() => {
+      component.input = e1;
+    });
+
+    it('should disable when isDisabled is true', () => {
+      spyOn(e1.nativeElement, 'setAttribute');
+
+      component.setDisabledState(true);
+      fixture.detectChanges();
+
+      expect(e1.nativeElement.setAttribute).toHaveBeenCalledWith(
+        'disabled',
+        true
+      );
+    });
+
+    it('should not disable when isDisabled is false', () => {
+      spyOn(e1.nativeElement, 'removeAttribute');
+
+      component.setDisabledState(false);
+      fixture.detectChanges();
+
+      expect(e1.nativeElement.removeAttribute).toHaveBeenCalledWith('disabled');
     });
   });
 });

@@ -1,10 +1,10 @@
-<cx-organization-list>
-  <ng-container actions *ngIf="root$ | async as rootId">
-    <button class="link" (click)="expandAll(rootId)">
+<cx-org-list>
+  <ng-container actions>
+    <button class="link" (click)="expandAll()">
       {{ 'unit.tree.expandAll' | cxTranslate }}
     </button>
-    <button class="link" (click)="collapseAll(rootId)">
+    <button class="link" (click)="collapseAll()">
       {{ 'unit.tree.collapseAll' | cxTranslate }}
     </button>
   </ng-container>
-</cx-organization-list>
+</cx-org-list>

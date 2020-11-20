@@ -26,6 +26,15 @@
       "@spartacus/organization/administration/root": [
         "dist/organization/administration/root"
       ],
+      "@spartacus/organization/order-approval": [
+        "dist/organization/order-approval"
+      ],
+      "@spartacus/organization/order-approval/assets": [
+        "dist/organization/order-approval/assets"
+      ],
+      "@spartacus/organization/order-approval/root": [
+        "dist/organization/order-approval/root"
+      ],
       "@spartacus/product": ["dist/product"],
       "@spartacus/product/configurators": ["dist/product/configurators"],
       "@spartacus/product/configurators/common": [
@@ -40,6 +49,15 @@
       "@spartacus/product/configurators/textfield": [
         "dist/product/configurators/textfield"
       ],
+      "@spartacus/misc": ["dist/misc"],
+      "@spartacus/misc/storefinder": ["dist/misc/storefinder"],
+      "@spartacus/misc/storefinder/root": ["dist/misc/storefinder/root"],
+      "@spartacus/misc/storefinder/core": ["dist/misc/storefinder/core"],
+      "@spartacus/misc/storefinder/occ": ["dist/misc/storefinder/occ"],
+      "@spartacus/misc/storefinder/components": [
+        "dist/misc/storefinder/components"
+      ],
+      "@spartacus/misc/storefinder/assets": ["dist/misc/storefinder/assets"],
       "@spartacus/cdc": ["dist/cdc"],
       "@spartacus/setup": ["dist/setup"]
     }

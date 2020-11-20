@@ -4,7 +4,6 @@ import {
   costCenterAssignedBudgets,
   costCenterBudgets,
 } from './cost-center.i18n';
-import { orderApproval, orderApprovalList } from './order-approval.i18n';
 import { permission } from './permission.i18n';
 import {
   unit,
@@ -82,8 +81,8 @@ export const organization = {
 
     notification: {
       noSufficientPermissions: 'No sufficient permissions to access this page',
-      notExist: 'This {{item}} does not exist',
-      disabled: 'You cannot edit a disabled {{item}}',
+      notExist: 'This item does not exist',
+      disabled: 'You cannot edit a disabled item',
     },
   },
 
@@ -117,6 +116,4 @@ export const organization = {
   userPermissions,
   userAssignedPermissions,
   permission,
-  orderApproval,
-  orderApprovalList,
 };

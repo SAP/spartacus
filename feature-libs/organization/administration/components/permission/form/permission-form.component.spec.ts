@@ -2,19 +2,19 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CurrencyService, I18nTestingModule } from '@spartacus/core';
 import {
+  CurrencyService,
+  I18nTestingModule,
   OrderApprovalPermissionType,
+} from '@spartacus/core';
+import {
   OrgUnitService,
   PermissionService,
 } from '@spartacus/organization/administration/core';
-import {
-  DateTimePickerModule,
-  FormErrorsComponent,
-} from '@spartacus/storefront';
+import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of } from 'rxjs';
-import { OrganizationFormTestingModule } from '../../shared/organization-form/organization-form.testing.module';
+import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { PermissionItemService } from '../services/permission-item.service';
 import { PermissionFormComponent } from './permission-form.component';
 
@@ -46,7 +46,7 @@ class MockCurrencyService {
   getAll() {}
 }
 
-class MockOrganizationItemService {
+class MockItemService {
   getForm() {}
 }
 const mockPermissionTypes: OrderApprovalPermissionType[] = [
@@ -76,8 +76,7 @@ describe('PermissionFormComponent', () => {
         UrlTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
-        DateTimePickerModule,
-        OrganizationFormTestingModule,
+        FormTestingModule,
       ],
       declarations: [PermissionFormComponent, FormErrorsComponent],
       providers: [
@@ -85,7 +84,7 @@ describe('PermissionFormComponent', () => {
         { provide: OrgUnitService, useClass: MockOrgUnitService },
         {
           provide: PermissionItemService,
-          useClass: MockOrganizationItemService,
+          useClass: MockItemService,
         },
         { provide: PermissionService, useClass: MockPermissionService },
       ],

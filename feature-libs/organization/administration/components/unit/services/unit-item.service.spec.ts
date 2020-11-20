@@ -1,15 +1,26 @@
 import { TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
-import { OrgUnitService } from '@spartacus/organization/administration/core';
+import {
+  LoadStatus,
+  OrgUnitService,
+} from '@spartacus/organization/administration/core';
 import { of } from 'rxjs';
 import { UnitFormService } from '../form/unit-form.service';
 import { CurrentUnitService } from './current-unit.service';
 import { UnitItemService } from './unit-item.service';
+import createSpy = jasmine.createSpy;
 
+const mockCode = 'u1';
 class MockRoutingService {
   go() {}
 }
+
+const form = new FormGroup({});
+form.addControl('name', new FormControl('foo bar'));
+form.addControl('uid', new FormControl('unitUid'));
+
+const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
 
 class MockUnitService {
   get() {
@@ -18,11 +29,18 @@ class MockUnitService {
   load() {}
   update() {}
   create() {}
-  getLoadingStatus() {}
+  getLoadingStatus() {
+    return mockItemStatus;
+  }
 }
 
 class MockUnitFormService {}
-class MockCurrentUnitService {}
+
+class MockCurrentUnitService {
+  key$ = of(mockCode);
+  load = createSpy('load').and.returnValue(of());
+  error$ = of(false);
+}
 
 describe('UnitItemService', () => {
   let service: UnitItemService;
@@ -67,22 +85,26 @@ describe('UnitItemService', () => {
 
   it('should update existing unit', () => {
     spyOn(unitService, 'update').and.callThrough();
-    const form = new FormGroup({});
-    form.addControl('name', new FormControl('foo bar'));
-    service.save(form, 'existingCode');
+    spyOn(unitService, 'getLoadingStatus').and.callThrough();
+
+    expect(service.save(form, 'existingCode')).toEqual(mockItemStatus);
     expect(unitService.update).toHaveBeenCalledWith('existingCode', {
       name: 'foo bar',
+      uid: 'unitUid',
     });
+    expect(unitService.getLoadingStatus).toHaveBeenCalledWith('existingCode');
   });
 
   it('should create new unit', () => {
     spyOn(unitService, 'create').and.callThrough();
-    const form = new FormGroup({});
-    form.addControl('name', new FormControl('foo bar'));
-    service.save(form);
+    spyOn(unitService, 'getLoadingStatus').and.callThrough();
+
+    expect(service.save(form)).toEqual(mockItemStatus);
     expect(unitService.create).toHaveBeenCalledWith({
       name: 'foo bar',
+      uid: 'unitUid',
     });
+    expect(unitService.getLoadingStatus).toHaveBeenCalledWith('unitUid');
   });
 
   it('should launch unit detail route', () => {

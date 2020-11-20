@@ -7,14 +7,14 @@ import {
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, first, pluck } from 'rxjs/operators';
 import { ROUTE_PARAMS } from '../../../../constants';
-import { OrganizationItemService } from '../../../../shared/organization-item.service';
+import { ItemService } from '../../../../shared/item.service';
 import { UnitAddressFormService } from '../form/unit-address-form.service';
 import { CurrentUnitAddressService } from './current-unit-address.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UnitAddressItemService extends OrganizationItemService<Address> {
+export class UnitAddressItemService extends ItemService<Address> {
   constructor(
     protected currentItemService: CurrentUnitAddressService,
     protected routingService: RoutingService,
@@ -44,10 +44,13 @@ export class UnitAddressItemService extends OrganizationItemService<Address> {
     return this.unitService.getAddressLoadingStatus(addressCode);
   }
 
-  protected create(value: Address) {
+  protected create(
+    value: Address
+  ): Observable<OrganizationItemStatus<Address>> {
     this.unitRouteParam$
       .pipe(first())
       .subscribe((unitCode) => this.unitService.createAddress(unitCode, value));
+    return this.unitService.getAddressLoadingStatus(null);
   }
 
   protected getDetailsRoute(): string {

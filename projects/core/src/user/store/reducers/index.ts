@@ -5,7 +5,7 @@ import {
   combineReducers,
   MetaReducer,
 } from '@ngrx/store';
-import { AuthActions } from '../../../auth/store/actions/index';
+import { AuthActions } from '../../../auth/user-auth/store/actions/index';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { ConsentTemplate } from '../../../model/consent.model';
@@ -17,10 +17,12 @@ import {
   ReturnRequest,
   ReturnRequestList,
 } from '../../../model/order.model';
-import { ReplenishmentOrderList } from '../../../model/replenishment-order.model';
 import { CostCenter } from '../../../model/org-unit.model';
 import { ProductInterestSearchResult } from '../../../model/product-interest.model';
-import { ReplenishmentOrder } from '../../../model/replenishment-order.model';
+import {
+  ReplenishmentOrder,
+  ReplenishmentOrderList,
+} from '../../../model/replenishment-order.model';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import {
   CUSTOMER_COUPONS,
@@ -35,10 +37,10 @@ import {
   USER_ORDERS,
   USER_ORDER_DETAILS,
   USER_PAYMENT_METHODS,
+  USER_REPLENISHMENT_ORDERS,
   USER_REPLENISHMENT_ORDER_DETAILS,
   USER_RETURN_REQUESTS,
   USER_RETURN_REQUEST_DETAILS,
-  USER_REPLENISHMENT_ORDERS,
 } from '../user-state';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
 import * as fromConsignmentTrackingReducer from './consignment-tracking.reducer';

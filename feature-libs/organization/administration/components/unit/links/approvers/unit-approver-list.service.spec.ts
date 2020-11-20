@@ -1,8 +1,13 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { B2BUser, B2BUserGroup, EntitiesModel } from '@spartacus/core';
-import { OrgUnitService } from '@spartacus/organization/administration/core';
+import { B2BUser, B2BUserRole, EntitiesModel } from '@spartacus/core';
+import {
+  B2BUserService,
+  LoadStatus,
+  OrganizationItemStatus,
+  OrgUnitService,
+} from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UnitApproverListService } from './unit-approver-list.service';
@@ -24,8 +29,17 @@ const mockCostCenterEntities: EntitiesModel<B2BUser> = {
   ],
 };
 
-class MockUnitApproverListService {
+const unitId = 'unitId';
+const approverId = 'approverId';
+
+class MockOrgUnitService {
   getUsers(): Observable<EntitiesModel<B2BUser>> {
+    return of(mockCostCenterEntities);
+  }
+  assignApprover(): Observable<EntitiesModel<B2BUser>> {
+    return of(mockCostCenterEntities);
+  }
+  unassignApprover(): Observable<EntitiesModel<B2BUser>> {
     return of(mockCostCenterEntities);
   }
 }
@@ -37,9 +51,19 @@ class MockTableService {
   }
 }
 
+const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
+
+@Injectable()
+class MockB2BUserService {
+  getLoadingStatus(): Observable<OrganizationItemStatus<B2BUser>> {
+    return mockItemStatus;
+  }
+}
+
 describe('UnitApproverListService', () => {
   let service: UnitApproverListService;
   let unitService: OrgUnitService;
+  let userService: B2BUserService;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
@@ -47,7 +71,11 @@ describe('UnitApproverListService', () => {
         UnitApproverListService,
         {
           provide: OrgUnitService,
-          useClass: MockUnitApproverListService,
+          useClass: MockOrgUnitService,
+        },
+        {
+          provide: B2BUserService,
+          useClass: MockB2BUserService,
         },
         {
           provide: TableService,
@@ -57,6 +85,7 @@ describe('UnitApproverListService', () => {
     });
     service = TestBed.inject(UnitApproverListService);
     unitService = TestBed.inject(OrgUnitService);
+    userService = TestBed.inject(B2BUserService);
   });
 
   it('should inject service', () => {
@@ -74,14 +103,41 @@ describe('UnitApproverListService', () => {
 
   it('should load users with "b2bapprovergroup" role', () => {
     spyOn(unitService, 'getUsers').and.returnValue(of());
+
     service.getData('u1').subscribe().unsubscribe();
 
     expect(unitService.getUsers).toHaveBeenCalledWith(
       'u1',
-      B2BUserGroup.B2B_APPROVER_GROUP,
+      B2BUserRole.APPROVER,
       {
         pageSize: 10,
       }
     );
+  });
+
+  it('should assign approver', () => {
+    spyOn(unitService, 'assignApprover').and.callThrough();
+    spyOn(userService, 'getLoadingStatus').and.callThrough();
+
+    expect(service.assign(unitId, approverId)).toEqual(mockItemStatus);
+    expect(unitService.assignApprover).toHaveBeenCalledWith(
+      unitId,
+      approverId,
+      B2BUserRole.APPROVER
+    );
+    expect(userService.getLoadingStatus).toHaveBeenCalledWith(approverId);
+  });
+
+  it('should unassign approver', () => {
+    spyOn(unitService, 'unassignApprover').and.callThrough();
+    spyOn(userService, 'getLoadingStatus').and.callThrough();
+
+    expect(service.unassign(unitId, approverId)).toEqual(mockItemStatus);
+    expect(unitService.unassignApprover).toHaveBeenCalledWith(
+      unitId,
+      approverId,
+      B2BUserRole.APPROVER
+    );
+    expect(userService.getLoadingStatus).toHaveBeenCalledWith(approverId);
   });
 });

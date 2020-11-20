@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
-  AuthService,
   B2BUser,
-  B2BUserGroup,
+  B2BUserRole,
   EntitiesModel,
   SearchConfig,
   StateUtils,
   StateWithProcess,
+  UserIdService,
 } from '@spartacus/core';
 import { Observable, queueScheduler, using } from 'rxjs';
-import { auditTime, filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { auditTime, filter, map, observeOn, tap } from 'rxjs/operators';
 import { OrganizationItemStatus } from '../model/organization-item-status';
 import { Permission } from '../model/permission.model';
 import { UserGroup } from '../model/user-group.model';
@@ -21,8 +21,8 @@ import {
   getB2BUserPermissions,
   getB2BUserState,
   getB2BUserUserGroups,
-  getUserList,
   getB2BUserValue,
+  getUserList,
 } from '../store/selectors/b2b-user.selector';
 import { getItemStatus } from '../utils/get-item-status';
 
@@ -30,11 +30,11 @@ import { getItemStatus } from '../utils/get-item-status';
 export class B2BUserService {
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,
-    protected authService: AuthService
+    protected userIdService: UserIdService
   ) {}
 
   load(orgCustomerId: string) {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.LoadB2BUser({
           userId,
@@ -45,7 +45,7 @@ export class B2BUserService {
   }
 
   loadList(params?: SearchConfig): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(new B2BUserActions.LoadB2BUsers({ userId, params }))
     );
   }
@@ -88,10 +88,14 @@ export class B2BUserService {
     );
   }
 
-  create(orgCustomer: B2BUser): void {
-    delete orgCustomer.isAssignedToApprovers;
+  getErrorState(orgCustomerId): Observable<boolean> {
+    return this.getB2BUserState(orgCustomerId).pipe(
+      map((state) => state.error)
+    );
+  }
 
-    this.withUserId((userId) =>
+  create(orgCustomer: B2BUser): void {
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.CreateB2BUser({
           userId,
@@ -102,7 +106,7 @@ export class B2BUserService {
   }
 
   update(orgCustomerId: string, orgCustomer: B2BUser): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.UpdateB2BUser({
           userId,
@@ -120,7 +124,7 @@ export class B2BUserService {
   }
 
   loadApprovers(orgCustomerId: string, params: SearchConfig): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.LoadB2BUserApprovers({
           userId,
@@ -151,7 +155,7 @@ export class B2BUserService {
   }
 
   assignApprover(orgCustomerId: string, approverId: string): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.CreateB2BUserApprover({
           userId,
@@ -163,7 +167,7 @@ export class B2BUserService {
   }
 
   unassignApprover(orgCustomerId: string, approverId: string): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.DeleteB2BUserApprover({
           userId,
@@ -175,7 +179,7 @@ export class B2BUserService {
   }
 
   loadPermissions(orgCustomerId: string, params: SearchConfig): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.LoadB2BUserPermissions({
           userId,
@@ -206,7 +210,7 @@ export class B2BUserService {
   }
 
   assignPermission(orgCustomerId: string, permissionId: string): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.CreateB2BUserPermission({
           userId,
@@ -218,7 +222,7 @@ export class B2BUserService {
   }
 
   unassignPermission(orgCustomerId: string, permissionId: string): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.DeleteB2BUserPermission({
           userId,
@@ -230,7 +234,7 @@ export class B2BUserService {
   }
 
   loadUserGroups(orgCustomerId: string, params: SearchConfig): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.LoadB2BUserUserGroups({
           userId,
@@ -261,7 +265,7 @@ export class B2BUserService {
   }
 
   assignUserGroup(orgCustomerId: string, userGroupId: string): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.CreateB2BUserUserGroup({
           userId,
@@ -273,7 +277,7 @@ export class B2BUserService {
   }
 
   unassignUserGroup(orgCustomerId: string, userGroupId: string): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.DeleteB2BUserUserGroup({
           userId,
@@ -293,12 +297,12 @@ export class B2BUserService {
    * If you reconfigure those roles in the backend or extend the list, you should change
    * this implementation accordingly.
    */
-  getAllRoles(): B2BUserGroup[] {
+  getAllRoles(): B2BUserRole[] {
     return [
-      B2BUserGroup.B2B_CUSTOMER_GROUP,
-      B2BUserGroup.B2B_MANAGER_GROUP,
-      B2BUserGroup.B2B_APPROVER_GROUP,
-      B2BUserGroup.B2B_ADMIN_GROUP,
+      B2BUserRole.CUSTOMER,
+      B2BUserRole.MANAGER,
+      B2BUserRole.APPROVER,
+      B2BUserRole.ADMIN,
     ];
   }
 
@@ -333,12 +337,5 @@ export class B2BUserService {
     params
   ): Observable<StateUtils.LoaderState<EntitiesModel<B2BUser>>> {
     return this.store.select(getUserList(params));
-  }
-
-  private withUserId(callback: (userId: string) => void): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe((userId) => callback(userId));
   }
 }

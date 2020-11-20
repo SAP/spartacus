@@ -1,20 +1,19 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+import { CanActivate, Router, UrlTree } from '@angular/router';
 import {
   ActiveCartService,
   AuthRedirectService,
   AuthService,
-  RoutingService,
-  User,
-  UserToken,
-  UserService,
   B2BUser,
+  B2BUserRole,
   GlobalMessageService,
   GlobalMessageType,
-  B2BUserGroup,
+  SemanticPathService,
+  User,
+  UserService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 
 @Injectable({
@@ -22,46 +21,60 @@ import { CheckoutConfigService } from '../services/checkout-config.service';
 })
 export class CheckoutAuthGuard implements CanActivate {
   constructor(
-    protected routingService: RoutingService,
     protected authService: AuthService,
     protected authRedirectService: AuthRedirectService,
     protected checkoutConfigService: CheckoutConfigService,
     protected activeCartService: ActiveCartService,
+    protected semanticPathService: SemanticPathService,
+    protected router: Router,
     protected userService: UserService,
     protected globalMessageService: GlobalMessageService
   ) {}
 
-  canActivate(): Observable<boolean> {
+  canActivate(): Observable<boolean | UrlTree> {
     return combineLatest([
-      this.authService.getUserToken(),
+      this.authService.isUserLoggedIn(),
       this.activeCartService.getAssignedUser(),
       this.userService.get(),
+      this.activeCartService.isStable(),
     ]).pipe(
-      map(([token, cartUser, user]: [UserToken, User, User | B2BUser]) => {
-        if (!token.access_token) {
-          if (this.activeCartService.isGuestCart()) {
-            return Boolean(cartUser);
-          }
-          if (this.checkoutConfigService.isGuestCheckout()) {
-            this.routingService.go({ cxRoute: 'login' }, { forced: true });
-          } else {
-            this.routingService.go({ cxRoute: 'login' });
-          }
-          this.authRedirectService.reportAuthGuard();
-        } else if ('roles' in user) {
-          const roles = (<B2BUser>user).roles;
-          if (roles.includes(B2BUserGroup.B2B_CUSTOMER_GROUP)) {
-            return true;
-          } else {
+      filter(([, , , isStable]) => Boolean(isStable)),
+      map(
+        ([isLoggedIn, cartUser, user]: [
+          boolean,
+          User,
+          User | B2BUser,
+          boolean
+        ]) => {
+          if (!isLoggedIn) {
+            if (this.activeCartService.isGuestCart()) {
+              return Boolean(cartUser);
+            }
+            this.authRedirectService.reportAuthGuard();
+            if (this.checkoutConfigService.isGuestCheckout()) {
+              return this.router.createUrlTree(
+                [this.semanticPathService.get('login')],
+                { queryParams: { forced: true } }
+              );
+            } else {
+              return this.router.parseUrl(
+                this.semanticPathService.get('login')
+              );
+            }
+          } else if ('roles' in user) {
+            const roles = (<B2BUser>user).roles;
+            if (roles.includes(B2BUserRole.CUSTOMER)) {
+              return true;
+            }
             this.globalMessageService.add(
               { key: 'checkout.invalid.accountType' },
               GlobalMessageType.MSG_TYPE_WARNING
             );
             return false;
           }
+          return isLoggedIn;
         }
-        return !!token.access_token;
-      })
+      )
     );
   }
 }

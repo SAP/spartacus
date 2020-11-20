@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, iif, Observable } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import { AuthService } from '../../auth/index';
+import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import {
   AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
@@ -33,7 +33,7 @@ export class AnonymousConsentsService {
    *   - `loadIfMissing` parameter is set to `true`
    *   - the `templates` in the store are `undefined`
    *
-   * Othewise it just returns the value from the store.
+   * Otherwise it just returns the value from the store.
    *
    * @param loadIfMissing setting to `true` will trigger the load of the templates if the currently stored templates are `undefined`
    */
@@ -282,7 +282,7 @@ export class AnonymousConsentsService {
   }
 
   /**
-   * Returns `true` if there's a missmatch in template versions between the provided `currentTemplates` and `newTemplates`
+   * Returns `true` if there's a mismatch in template versions between the provided `currentTemplates` and `newTemplates`
    * @param currentTemplates current templates to check
    * @param newTemplates new templates to check
    */

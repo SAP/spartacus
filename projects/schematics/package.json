@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/schematics",
-  "version": "3.0.0-next.4",
+  "version": "3.0.0-next.6",
   "description": "Spartacus schematics",
   "homepage": "https://github.com/SAP/spartacus",
   "repository": "https://github.com/SAP/spartacus/tree/develop/projects/schematics",
@@ -9,7 +9,8 @@
     "schematics"
   ],
   "scripts": {
-    "clean": "rimraf \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\"",
+    "prepare:schematics": "yarn install",
+    "clean": "yarn prepare:schematics && rimraf \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\"",
     "build": "yarn clean && tsc -p tsconfig.json",
     "test": "yarn build && jasmine \"src/**/*_spec.js\""
   },
@@ -49,6 +50,7 @@
       "@spartacus/incubator",
       "@spartacus/organization",
       "@spartacus/product",
+      "@spartacus/misc",
       "@spartacus/cdc",
       "@spartacus/setup"
     ]

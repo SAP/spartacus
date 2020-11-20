@@ -11,10 +11,19 @@ import { Observable, of } from 'rxjs';
 import { BudgetFormService } from '../form/budget-form.service';
 import { BudgetItemService } from './budget-item.service';
 import { CurrentBudgetService } from './current-budget.service';
+import createSpy = jasmine.createSpy;
+
+const mockCode = 'b1';
 
 class MockRoutingService {
   go() {}
 }
+
+const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
+
+const form = new FormGroup({});
+form.addControl('name', new FormControl('foo bar'));
+form.addControl('code', new FormControl('new code'));
 
 class MockBudgetService {
   get() {
@@ -24,12 +33,16 @@ class MockBudgetService {
   update() {}
   create() {}
   getLoadingStatus(): Observable<OrganizationItemStatus<Budget>> {
-    return of({ status: LoadStatus.SUCCESS, item: {} });
+    return mockItemStatus;
   }
 }
 
 class MockBudgetFormService {}
-class MockCurrentBudgetService {}
+class MockCurrentBudgetService {
+  key$ = of(mockCode);
+  load = createSpy('load').and.returnValue(of());
+  error$ = of(false);
+}
 
 describe('BudgetItemService', () => {
   let service: BudgetItemService;
@@ -60,12 +73,6 @@ describe('BudgetItemService', () => {
     expect(budgetService.get).toHaveBeenCalledWith('123');
   });
 
-  it('should get budget from facade', () => {
-    spyOn(budgetService, 'get').and.callThrough();
-    service.load('123').subscribe();
-    expect(budgetService.get).toHaveBeenCalledWith('123');
-  });
-
   it('should load budget on each request', () => {
     spyOn(budgetService, 'loadBudget').and.callThrough();
     service.load('123').subscribe();
@@ -74,22 +81,26 @@ describe('BudgetItemService', () => {
 
   it('should update existing budget', () => {
     spyOn(budgetService, 'update').and.callThrough();
-    const form = new FormGroup({});
-    form.addControl('name', new FormControl('foo bar'));
-    service.save(form, 'existingCode');
+    spyOn(budgetService, 'getLoadingStatus').and.callThrough();
+
+    expect(service.save(form, 'existingCode')).toEqual(mockItemStatus);
     expect(budgetService.update).toHaveBeenCalledWith('existingCode', {
       name: 'foo bar',
+      code: 'new code',
     });
+    expect(budgetService.getLoadingStatus).toHaveBeenCalledWith('existingCode');
   });
 
   it('should create new budget', () => {
     spyOn(budgetService, 'create').and.callThrough();
-    const form = new FormGroup({});
-    form.addControl('name', new FormControl('foo bar'));
-    service.save(form);
+    spyOn(budgetService, 'getLoadingStatus').and.callThrough();
+
+    expect(service.save(form)).toEqual(mockItemStatus);
     expect(budgetService.create).toHaveBeenCalledWith({
       name: 'foo bar',
+      code: 'new code',
     });
+    expect(budgetService.getLoadingStatus).toHaveBeenCalledWith('new code');
   });
 
   it('should launch budget detail route', () => {

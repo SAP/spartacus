@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
-  AuthService,
   CostCenter,
   EntitiesModel,
   SearchConfig,
   StateUtils,
   StateWithProcess,
+  UserIdService,
 } from '@spartacus/core';
 import { Observable, queueScheduler, using } from 'rxjs';
-import { auditTime, filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { auditTime, filter, map, observeOn, tap } from 'rxjs/operators';
 import { Budget } from '../model/budget.model';
 import { OrganizationItemStatus } from '../model/organization-item-status';
 import { CostCenterActions } from '../store/actions/index';
@@ -18,6 +18,7 @@ import {
   getAssignedBudgets,
   getCostCenter,
   getCostCenterList,
+  getCostCenterState,
   getCostCenterValue,
 } from '../store/selectors/cost-center.selector';
 import { getItemStatus } from '../utils/get-item-status';
@@ -26,11 +27,11 @@ import { getItemStatus } from '../utils/get-item-status';
 export class CostCenterService {
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,
-    protected authService: AuthService
+    protected userIdService: UserIdService
   ) {}
 
   load(costCenterCode: string): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
       )
@@ -38,7 +39,7 @@ export class CostCenterService {
   }
 
   loadList(params?: SearchConfig): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new CostCenterActions.LoadCostCenters({ userId, params })
       )
@@ -102,8 +103,14 @@ export class CostCenterService {
     );
   }
 
+  private getCostCenterState(
+    costCenterCode: string
+  ): Observable<StateUtils.LoaderState<Budget>> {
+    return this.store.select(getCostCenterState(costCenterCode));
+  }
+
   create(costCenter: CostCenter): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new CostCenterActions.CreateCostCenter({ userId, costCenter })
       )
@@ -111,7 +118,7 @@ export class CostCenterService {
   }
 
   update(costCenterCode: string, costCenter: CostCenter): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new CostCenterActions.UpdateCostCenter({
           userId,
@@ -129,7 +136,7 @@ export class CostCenterService {
   }
 
   loadBudgets(costCenterCode: string, params: SearchConfig): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new CostCenterActions.LoadAssignedBudgets({
           userId,
@@ -160,7 +167,7 @@ export class CostCenterService {
   }
 
   assignBudget(costCenterCode: string, budgetCode: string): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new CostCenterActions.AssignBudget({
           userId,
@@ -172,7 +179,7 @@ export class CostCenterService {
   }
 
   unassignBudget(costCenterCode: string, budgetCode: string): void {
-    this.withUserId((userId) =>
+    this.userIdService.invokeWithUserId((userId) =>
       this.store.dispatch(
         new CostCenterActions.UnassignBudget({
           userId,
@@ -183,10 +190,9 @@ export class CostCenterService {
     );
   }
 
-  private withUserId(callback: (userId: string) => void): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe((userId) => callback(userId));
+  getErrorState(costCenterCode): Observable<boolean> {
+    return this.getCostCenterState(costCenterCode).pipe(
+      map((state) => state.error)
+    );
   }
 }

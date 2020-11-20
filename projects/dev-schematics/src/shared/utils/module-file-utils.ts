@@ -4,53 +4,74 @@ import {
   getMetadataField,
 } from '@schematics/angular/utility/ast-utils';
 import { InsertChange } from '@schematics/angular/utility/change';
-import * as ts from 'typescript';
 import {
   ANGULAR_CORE,
-  InsertDirection,
-  getTsSourceFile,
   commitChanges,
+  getTsSourceFile,
+  InsertDirection,
 } from '@spartacus/schematics';
+import * as ts from 'typescript';
 
 export function insertPropertyInStorefrontModuleCallExpression(
   host: Tree,
+  configModuleName: string,
   modulePath: string,
   insertion: string
 ): void {
   const appModuleSourceFile = getTsSourceFile(host, modulePath);
-
-  getDecoratorMetadata(appModuleSourceFile, 'NgModule', ANGULAR_CORE).forEach(
-    (metadata: ts.ObjectLiteralExpression) => {
-      const matchingProperties = getMetadataField(metadata, 'imports');
-
-      if (!matchingProperties) {
-        return;
-      }
-
-      const assignment = matchingProperties[0] as ts.PropertyAssignment;
-      if (!ts.isArrayLiteralExpression(assignment.initializer)) {
-        return;
-      }
-      const arrayLiteral = assignment.initializer;
-      const moduleElementImportsAST = arrayLiteral.elements.filter(
-        (node) =>
-          ts.isCallExpression(node) &&
-          node.getFullText().indexOf('B2cStorefrontModule.withConfig') !== -1
-      )[0] as ts.CallExpression;
-
-      const storefrontModuleArgumentPropertiesEnd = (moduleElementImportsAST
-        .arguments[0] as ts.ObjectLiteralExpression).properties.end;
-      const newChange = new InsertChange(
-        appModuleSourceFile.fileName,
-        storefrontModuleArgumentPropertiesEnd,
-        insertion
-      );
-      commitChanges(
-        host,
-        appModuleSourceFile.fileName,
-        [newChange],
-        InsertDirection.LEFT
-      );
-    }
+  const moduleElementImportsAST = getExistingStorefrontConfigNode(
+    host,
+    modulePath,
+    configModuleName
   );
+  if (!moduleElementImportsAST) {
+    return;
+  }
+
+  const storefrontModuleArgumentPropertiesEnd = (moduleElementImportsAST
+    .arguments[0] as ts.ObjectLiteralExpression).properties.end;
+  const newChange = new InsertChange(
+    appModuleSourceFile.fileName,
+    storefrontModuleArgumentPropertiesEnd,
+    insertion
+  );
+  commitChanges(
+    host,
+    appModuleSourceFile.fileName,
+    [newChange],
+    InsertDirection.LEFT
+  );
+}
+
+export function getExistingStorefrontConfigNode(
+  host: Tree,
+  modulePath: string,
+  configModuleName: string
+): ts.CallExpression | undefined {
+  const appModuleSourceFile = getTsSourceFile(host, modulePath);
+  const metadata = getDecoratorMetadata(
+    appModuleSourceFile,
+    'NgModule',
+    ANGULAR_CORE
+  )[0] as ts.ObjectLiteralExpression;
+
+  if (!metadata) {
+    return undefined;
+  }
+
+  const matchingProperties = getMetadataField(metadata, 'imports');
+  if (!matchingProperties) {
+    return undefined;
+  }
+
+  const assignment = matchingProperties[0] as ts.PropertyAssignment;
+  const arrayLiteral = assignment.initializer;
+  if (!ts.isArrayLiteralExpression(arrayLiteral)) {
+    return undefined;
+  }
+  return arrayLiteral.elements.filter(
+    (node) =>
+      ts.isCallExpression(node) &&
+      node.getFullText().indexOf(`${configModuleName}.withConfig`) !== -1
+  )[0] as ts.CallExpression;
 }

@@ -1,13 +1,18 @@
 import { normalize, relative } from '@angular-devkit/core';
-import { Tree } from '@angular-devkit/schematics';
-import { findNodes } from '@angular/cdk/schematics';
+import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import {
   addSymbolToNgModuleMetadata,
+  findNodes,
   getDecoratorMetadata,
   insertImport,
   isImported,
 } from '@schematics/angular/utility/ast-utils';
-import { InsertChange } from '@schematics/angular/utility/change';
+import {
+  Change,
+  InsertChange,
+  NoopChange,
+} from '@schematics/angular/utility/change';
+import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import * as ts from 'typescript';
 import { ANGULAR_CORE } from '../constants';
 import {
@@ -16,6 +21,7 @@ import {
   getTsSourceFile,
   InsertDirection,
 } from './file-utils';
+import { getProjectTargets } from './workspace-utils';
 
 export function stripTsFromImport(importPath: string): string {
   if (!importPath.endsWith('.ts')) {
@@ -36,6 +42,19 @@ export function addImport(
     const change = insertImport(moduleSource, filePath, importText, importPath);
     commitChanges(host, filePath, [change], InsertDirection.LEFT);
   }
+}
+
+export function createImportChange(
+  host: Tree,
+  filePath: string,
+  importText: string,
+  importPath: string
+): Change {
+  const moduleSource = getTsSourceFile(host, filePath);
+  if (isImported(moduleSource, importText, importPath)) {
+    return new NoopChange();
+  }
+  return insertImport(moduleSource, filePath, importText, importPath);
 }
 
 export function addToModuleImports(
@@ -233,4 +252,15 @@ function getTemplateUrlOrInlineTemplate(
     contentOrUrl: result,
     start: stringNode.getStart() + 1,
   };
+}
+
+export function getAppModule(host: Tree, project: string): string {
+  const projectTargets = getProjectTargets(host, project);
+
+  if (!projectTargets.build) {
+    throw new SchematicsException(`Project target "build" not found.`);
+  }
+
+  const mainPath = projectTargets.build.options.main;
+  return getAppModulePath(host, mainPath);
 }

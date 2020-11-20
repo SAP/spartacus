@@ -6,14 +6,14 @@ import {
   OrganizationItemStatus,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
-import { OrganizationItemService } from '../../shared/organization-item.service';
+import { ItemService } from '../../shared/item.service';
 import { BudgetFormService } from '../form/budget-form.service';
 import { CurrentBudgetService } from './current-budget.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class BudgetItemService extends OrganizationItemService<Budget> {
+export class BudgetItemService extends ItemService<Budget> {
   constructor(
     protected currentItemService: CurrentBudgetService,
     protected routingService: RoutingService,
@@ -39,8 +39,9 @@ export class BudgetItemService extends OrganizationItemService<Budget> {
     return this.budgetService.getLoadingStatus(code);
   }
 
-  protected create(value: Budget) {
+  protected create(value: Budget): Observable<OrganizationItemStatus<Budget>> {
     this.budgetService.create(value);
+    return this.budgetService.getLoadingStatus(value.code);
   }
 
   /**

@@ -1,11 +1,19 @@
 import { inject, TestBed } from '@angular/core/testing';
+import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store, StoreModule } from '@ngrx/store';
-import { AuthService, EntitiesModel, SearchConfig } from '@spartacus/core';
-import { of } from 'rxjs';
 import {
+  EntitiesModel,
   OrderApprovalPermissionType,
-  Permission,
-} from '../model/permission.model';
+  SearchConfig,
+  UserIdService,
+} from '@spartacus/core';
+import { of } from 'rxjs/internal/observable/of';
+import { take } from 'rxjs/operators';
+import {
+  LoadStatus,
+  OrganizationItemStatus,
+} from '../model/organization-item-status';
+import { Permission } from '../model/permission.model';
 import { PermissionActions } from '../store/actions/index';
 import {
   ORGANIZATION_FEATURE,
@@ -13,12 +21,6 @@ import {
 } from '../store/organization-state';
 import * as fromReducers from '../store/reducers/index';
 import { PermissionService } from './permission.service';
-import {
-  LoadStatus,
-  OrganizationItemStatus,
-} from '../model/organization-item-status';
-import { ofType } from '@ngrx/effects';
-import { take } from 'rxjs/operators';
 import createSpy = jasmine.createSpy;
 
 const userId = 'current';
@@ -38,13 +40,13 @@ const mockPermissionType: OrderApprovalPermissionType = {
 };
 const mockPermissionTypes: OrderApprovalPermissionType[] = [mockPermissionType];
 
-class MockAuthService {
-  getOccUserId = createSpy().and.returnValue(of(userId));
+class MockUserIdService implements Partial<UserIdService> {
+  invokeWithUserId = createSpy().and.callFake((cb) => cb(userId));
 }
 
 describe('PermissionService', () => {
   let service: PermissionService;
-  let authService: AuthService;
+  let userIdService: UserIdService;
   let store: Store<StateWithOrganization>;
   let actions$: ActionsSubject;
 
@@ -59,13 +61,13 @@ describe('PermissionService', () => {
       ],
       providers: [
         PermissionService,
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: UserIdService, useClass: MockUserIdService },
       ],
     });
 
     store = TestBed.inject(Store);
     service = TestBed.inject(PermissionService);
-    authService = TestBed.inject(AuthService);
+    userIdService = TestBed.inject(UserIdService);
     spyOn(store, 'dispatch').and.callThrough();
 
     actions$ = TestBed.inject(ActionsSubject);
@@ -105,7 +107,7 @@ describe('PermissionService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).not.toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
       expect(permissionDetails).toEqual(permission);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new PermissionActions.LoadPermission({ userId, permissionCode })
@@ -125,7 +127,7 @@ describe('PermissionService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(permissions).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new PermissionActions.LoadPermissions({ userId, params })
@@ -154,7 +156,7 @@ describe('PermissionService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).not.toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
       expect(permissions).toEqual(permissionList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new PermissionActions.LoadPermissions({ userId, params })
@@ -166,7 +168,7 @@ describe('PermissionService', () => {
     it('create() should should dispatch CreatePermission action', () => {
       service.create(permission);
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new PermissionActions.CreatePermission({ userId, permission })
       );
@@ -177,7 +179,7 @@ describe('PermissionService', () => {
     it('update() should should dispatch UpdatePermission action', () => {
       service.update(permissionCode, permission);
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new PermissionActions.UpdatePermission({
           userId,
@@ -190,15 +192,15 @@ describe('PermissionService', () => {
 
   describe('get permission types', () => {
     it('getTypes() should trigger load permission types when they are not present in the store', () => {
-      let permisstionTypes: OrderApprovalPermissionType[];
+      let permissionTypes: OrderApprovalPermissionType[];
       service
         .getTypes()
         .subscribe((data) => {
-          permisstionTypes = data;
+          permissionTypes = data;
         })
         .unsubscribe();
 
-      expect(permisstionTypes).toEqual(undefined);
+      expect(permissionTypes).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new PermissionActions.LoadPermissionTypes()
       );
@@ -208,15 +210,15 @@ describe('PermissionService', () => {
       store.dispatch(
         new PermissionActions.LoadPermissionTypesSuccess(mockPermissionTypes)
       );
-      let permissionTypesRecived: OrderApprovalPermissionType[];
+      let permissionTypesReceived: OrderApprovalPermissionType[];
       service
         .getTypes()
         .subscribe((data) => {
-          permissionTypesRecived = data;
+          permissionTypesReceived = data;
         })
         .unsubscribe();
 
-      expect(permissionTypesRecived).toEqual(mockPermissionTypes);
+      expect(permissionTypesReceived).toEqual(mockPermissionTypes);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new PermissionActions.LoadPermissionTypes()
       );
@@ -259,6 +261,19 @@ describe('PermissionService', () => {
         status: LoadStatus.ERROR,
         item: undefined,
       });
+    });
+  });
+
+  describe('getErrorState', () => {
+    it('getErrorState() should be able to get status error', () => {
+      let errorState: boolean;
+      spyOn<any>(service, 'getPermissionState').and.returnValue(
+        of({ loading: false, success: false, error: true })
+      );
+
+      service.getErrorState('code').subscribe((error) => (errorState = error));
+
+      expect(errorState).toBeTrue();
     });
   });
 });

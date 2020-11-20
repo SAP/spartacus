@@ -480,6 +480,10 @@ export namespace Occ {
      * @member {string} [slotStatus]
      */
     slotStatus?: string;
+    /**
+     * @member {any} [properties]
+     */
+    properties?: any;
   }
 
   /**
@@ -526,6 +530,14 @@ export namespace Occ {
      * @member {string} [uid]
      */
     uid?: string;
+    /**
+     * @member {string} [label]
+     */
+    label?: string;
+    /**
+     * @member {any} [properties]
+     */
+    properties?: any;
   }
 
   /**
@@ -4221,7 +4233,7 @@ export namespace Occ {
     addresses?: Address[];
     uid?: string;
     name?: string;
-    parentOrgUnit?: string;
+    parentOrgUnit?: Partial<B2BUnit>;
     approvalProcess?: B2BApprovalProcess;
     administrators?: B2BUser[];
     approvers?: B2BUser[];

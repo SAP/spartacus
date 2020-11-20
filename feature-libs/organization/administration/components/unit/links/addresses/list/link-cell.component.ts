@@ -4,27 +4,33 @@ import {
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
-import { OrganizationItemService } from '../../../../shared/organization-item.service';
-import { OrganizationCellComponent } from '../../../../shared/organization-table/organization-cell.component';
+import { ItemService } from '../../../../shared/item.service';
+import { CellComponent } from '../../../../shared/table/cell.component';
 
 @Component({
+  selector: 'cx-org-link-cell',
   template: `
-    <a
-      *ngIf="unitKey$ | async as uid"
-      [routerLink]="{ cxRoute: route, params: getRouterModel(uid) } | cxUrl"
-      routerLinkActive="is-current"
-      [tabIndex]="tabIndex"
-    >
-      <span class="text">{{ property }}</span>
-    </a>
+    <ng-container *ngIf="unitKey$ | async as uid">
+      <a
+        *ngIf="linkable; else text"
+        [routerLink]="{ cxRoute: route, params: getRouterModel(uid) } | cxUrl"
+        [tabIndex]="tabIndex"
+      >
+        <ng-container *ngTemplateOutlet="text"></ng-container>
+      </a>
+    </ng-container>
+
+    <ng-template #text>
+      <span class="text" title="{{ property }}">{{ property }}</span>
+    </ng-template>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LinkCellComponent extends OrganizationCellComponent {
+export class LinkCellComponent extends CellComponent {
   unitKey$ = this.itemService.key$;
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
-    protected itemService: OrganizationItemService<B2BUnit>
+    protected itemService: ItemService<B2BUnit>
   ) {
     super(outlet);
   }

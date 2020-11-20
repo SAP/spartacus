@@ -1,5 +1,5 @@
 %CompanyPageTemplate {
-  max-width: 1140px;
+  max-width: var(--cx-page-width-max);
 
   margin: auto;
   margin-bottom: 40px;
@@ -64,8 +64,6 @@
       grid-template-areas: 'media .' 'media .';
 
       padding: 25px 25px 25px 30px;
-
-      transition: var(--cx-transition-duration);
 
       border: solid 1px var(--cx-color-light);
       &:hover {

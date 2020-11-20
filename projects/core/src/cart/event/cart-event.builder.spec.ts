@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { of, Subject } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import { EventService } from '../../event/event.service';
 import { Cart } from '../../model';
 import { createFrom } from '../../util/create-from';
@@ -16,10 +16,13 @@ import {
   CartUpdateEntrySuccessEvent,
 } from './cart.events';
 
+let getActiveCartIdSubject: BehaviorSubject<string>;
+
 interface ActionWithPayload extends Action {
   payload: any;
 }
 
+const MOCK_ID = '00000123';
 const MOCK_ACTIVE_CART_ID = 'activeCartId';
 const MOCK_NOT_ACTIVE_CART_ID = 'notActiveCartId';
 const MOCK_ACTIVE_CART: Cart = {
@@ -28,9 +31,11 @@ const MOCK_ACTIVE_CART: Cart = {
     { quantity: 3, product: { code: '234' } },
   ],
   guid: MOCK_ACTIVE_CART_ID,
+  code: MOCK_ID,
 };
 class MockActiveCartService implements Partial<ActiveCartService> {
   getActive = () => of(MOCK_ACTIVE_CART);
+  getActiveCartId = () => getActiveCartIdSubject;
 }
 
 const MOCK_NOT_ACTIVE_CART_EVENT = Object.freeze({
@@ -46,6 +51,7 @@ const MOCK_ACTIVE_CART_EVENT = Object.freeze({
 describe('CartEventBuilder', () => {
   let actions$: Subject<ActionWithPayload>;
   let eventService: EventService;
+  getActiveCartIdSubject = new BehaviorSubject<string>(MOCK_ACTIVE_CART_ID);
 
   beforeEach(() => {
     actions$ = new Subject();
@@ -90,6 +96,7 @@ describe('CartEventBuilder', () => {
   describe('should register event', () => {
     it('CartAddEntryEvent', () => {
       const eventData: CartAddEntryEvent = {
+        cartCode: MOCK_ACTIVE_CART.code,
         productCode: 'productCode',
         quantity: 123,
         ...MOCK_ACTIVE_CART_EVENT,
@@ -107,6 +114,7 @@ describe('CartEventBuilder', () => {
 
     it('CartAddEntrySuccessEvent', () => {
       const eventData: CartAddEntrySuccessEvent = {
+        cartCode: MOCK_ACTIVE_CART.code,
         productCode: 'productCode',
         quantity: 123,
         deliveryModeChanged: true,
@@ -134,6 +142,7 @@ describe('CartEventBuilder', () => {
     it('CartAddEntryFailEvent', () => {
       const eventData: CartAddEntryFailEvent = {
         productCode: 'productCode',
+        cartCode: MOCK_ACTIVE_CART.code,
         quantity: 123,
         ...MOCK_ACTIVE_CART_EVENT,
       };
@@ -154,11 +163,13 @@ describe('CartEventBuilder', () => {
 
     it('CartRemoveEntrySuccessEvent', () => {
       const firstEventData: CartRemoveEntrySuccessEvent = {
+        cartCode: MOCK_ACTIVE_CART.code,
         entry: MOCK_ACTIVE_CART.entries[0],
         ...MOCK_ACTIVE_CART_EVENT,
       };
 
       const secondEventData: CartRemoveEntrySuccessEvent = {
+        cartCode: MOCK_ACTIVE_CART.code,
         entry: MOCK_ACTIVE_CART.entries[1],
         ...MOCK_ACTIVE_CART_EVENT,
       };
@@ -198,6 +209,7 @@ describe('CartEventBuilder', () => {
 
     it('CartModifiedEntrySuccessEvent', () => {
       const firstEventData: CartUpdateEntrySuccessEvent = {
+        cartCode: MOCK_ACTIVE_CART.code,
         entry: MOCK_ACTIVE_CART.entries[0],
         quantity: 2,
         ...MOCK_ACTIVE_CART_EVENT,

@@ -5,24 +5,31 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { B2BUser, B2BUserGroup, Title, UserService } from '@spartacus/core';
+import { B2BUser, B2BUserRole, Title, UserService } from '@spartacus/core';
 import {
   B2BUnitNode,
   B2BUserService,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
-import { OrganizationItemService } from '../../shared/organization-item.service';
+import { CurrentItemService } from '../../shared/current-item.service';
+import { ItemService } from '../../shared/item.service';
+import { CurrentUserService } from '../services/current-user.service';
 import { UserItemService } from '../services/user-item.service';
 
 @Component({
-  selector: 'cx-user-form',
+  selector: 'cx-org-user-form',
   templateUrl: './user-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
-      provide: OrganizationItemService,
+      provide: ItemService,
       useExisting: UserItemService,
+    },
+    {
+      provide: CurrentItemService,
+      useExisting: CurrentUserService,
     },
   ],
 })
@@ -44,10 +51,10 @@ export class UserFormComponent implements OnInit {
   units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList();
   titles$: Observable<Title[]> = this.userService.getTitles();
 
-  availableRoles: B2BUserGroup[] = this.b2bUserService.getAllRoles();
+  availableRoles: B2BUserRole[] = this.b2bUserService.getAllRoles();
 
   constructor(
-    protected itemService: OrganizationItemService<B2BUser>,
+    protected itemService: ItemService<B2BUser>,
     protected unitService: OrgUnitService,
     protected userService: UserService,
     protected b2bUserService: B2BUserService

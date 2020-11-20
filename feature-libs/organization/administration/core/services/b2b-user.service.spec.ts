@@ -1,13 +1,15 @@
 import { inject, TestBed } from '@angular/core/testing';
+import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store, StoreModule } from '@ngrx/store';
 import {
-  AuthService,
   B2BUser,
-  B2BUserGroup,
+  B2BUserRole,
   EntitiesModel,
   SearchConfig,
+  UserIdService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { of } from 'rxjs/internal/observable/of';
+import { take } from 'rxjs/operators';
 import {
   LoadStatus,
   OrganizationItemStatus,
@@ -25,8 +27,6 @@ import {
 } from '../store/organization-state';
 import * as fromReducers from '../store/reducers/index';
 import { B2BUserService } from './b2b-user.service';
-import { ofType } from '@ngrx/effects';
-import { take } from 'rxjs/operators';
 import createSpy = jasmine.createSpy;
 
 const userId = 'currentUserId';
@@ -76,13 +76,13 @@ const userGroupList: EntitiesModel<UserGroup> = {
   sorts,
 };
 
-class MockAuthService {
-  getOccUserId = createSpy().and.returnValue(of(userId));
+class MockUserIdService implements Partial<UserIdService> {
+  invokeWithUserId = createSpy().and.callFake((cb) => cb(userId));
 }
 
 describe('B2BUserService', () => {
   let service: B2BUserService;
-  let authService: AuthService;
+  let userIdService: UserIdService;
   let store: Store<StateWithOrganization>;
   let actions$: ActionsSubject;
 
@@ -97,13 +97,13 @@ describe('B2BUserService', () => {
       ],
       providers: [
         B2BUserService,
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: UserIdService, useClass: MockUserIdService },
       ],
     });
 
     store = TestBed.inject(Store);
     service = TestBed.inject(B2BUserService);
-    authService = TestBed.inject(AuthService);
+    userIdService = TestBed.inject(UserIdService);
     spyOn(store, 'dispatch').and.callThrough();
 
     actions$ = TestBed.inject(ActionsSubject);
@@ -120,7 +120,7 @@ describe('B2BUserService', () => {
     it('load() should should dispatch LoadB2BUser action', () => {
       service.load(orgCustomerId);
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new B2BUserActions.LoadB2BUser({ userId, orgCustomerId })
       );
@@ -131,7 +131,7 @@ describe('B2BUserService', () => {
     it('loadList() should should dispatch LoadB2BUsers action', () => {
       service.loadList(params);
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new B2BUserActions.LoadB2BUsers({ userId, params })
       );
@@ -165,7 +165,7 @@ describe('B2BUserService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).not.toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
       expect(b2bUserDetails).toEqual(b2bUser);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new B2BUserActions.LoadB2BUser({ userId, orgCustomerId })
@@ -183,7 +183,7 @@ describe('B2BUserService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(users).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new B2BUserActions.LoadB2BUsers({ userId, params })
@@ -212,7 +212,7 @@ describe('B2BUserService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).not.toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
       expect(users).toEqual(b2bUserList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new B2BUserActions.LoadB2BUsers({ userId, params })
@@ -223,7 +223,7 @@ describe('B2BUserService', () => {
       it('create() should should dispatch CreateBudget action', () => {
         service.create(b2bUser);
 
-        expect(authService.getOccUserId).toHaveBeenCalled();
+        expect(userIdService.invokeWithUserId).toHaveBeenCalled();
         expect(store.dispatch).toHaveBeenCalledWith(
           new B2BUserActions.CreateB2BUser({ userId, orgCustomer: b2bUser })
         );
@@ -234,7 +234,7 @@ describe('B2BUserService', () => {
       it('update() should should dispatch UpdateB2BUser action', () => {
         service.update(orgCustomerId, b2bUser);
 
-        expect(authService.getOccUserId).toHaveBeenCalled();
+        expect(userIdService.invokeWithUserId).toHaveBeenCalled();
         expect(store.dispatch).toHaveBeenCalledWith(
           new B2BUserActions.UpdateB2BUser({
             userId,
@@ -249,7 +249,7 @@ describe('B2BUserService', () => {
       it('loadApprovers() should should dispatch LoadB2BUserApprovers action', () => {
         service.loadApprovers(orgCustomerId, params);
 
-        expect(authService.getOccUserId).toHaveBeenCalled();
+        expect(userIdService.invokeWithUserId).toHaveBeenCalled();
         expect(store.dispatch).toHaveBeenCalledWith(
           new B2BUserActions.LoadB2BUserApprovers({
             userId,
@@ -270,7 +270,7 @@ describe('B2BUserService', () => {
           })
           .unsubscribe();
 
-        expect(authService.getOccUserId).toHaveBeenCalled();
+        expect(userIdService.invokeWithUserId).toHaveBeenCalled();
         expect(users).toEqual(undefined);
         expect(store.dispatch).toHaveBeenCalledWith(
           new B2BUserActions.LoadB2BUserApprovers({
@@ -303,7 +303,7 @@ describe('B2BUserService', () => {
             usersReceived = data;
           })
           .unsubscribe();
-        expect(authService.getOccUserId).not.toHaveBeenCalled();
+        expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
         expect(usersReceived).toEqual(b2bUserList);
         expect(store.dispatch).not.toHaveBeenCalledWith(
           new B2BUserActions.LoadB2BUserApprovers({
@@ -320,7 +320,7 @@ describe('B2BUserService', () => {
         const approverId = 'approverId';
         service.assignApprover(orgCustomerId, approverId);
 
-        expect(authService.getOccUserId).toHaveBeenCalled();
+        expect(userIdService.invokeWithUserId).toHaveBeenCalled();
         expect(store.dispatch).toHaveBeenCalledWith(
           new B2BUserActions.CreateB2BUserApprover({
             userId,
@@ -336,7 +336,7 @@ describe('B2BUserService', () => {
         const approverId = 'approverId';
         service.unassignApprover(orgCustomerId, approverId);
 
-        expect(authService.getOccUserId).toHaveBeenCalled();
+        expect(userIdService.invokeWithUserId).toHaveBeenCalled();
         expect(store.dispatch).toHaveBeenCalledWith(
           new B2BUserActions.DeleteB2BUserApprover({
             userId,
@@ -350,7 +350,7 @@ describe('B2BUserService', () => {
     describe('load B2B user permissions', () => {
       it('loadPermissions() should dispatch LoadB2BUserPermissions action', () => {
         service.loadPermissions(orgCustomerId, params);
-        expect(authService.getOccUserId).toHaveBeenCalled();
+        expect(userIdService.invokeWithUserId).toHaveBeenCalled();
         expect(store.dispatch).toHaveBeenCalledWith(
           new B2BUserActions.LoadB2BUserPermissions({
             userId,
@@ -370,7 +370,7 @@ describe('B2BUserService', () => {
           })
           .unsubscribe();
 
-        expect(authService.getOccUserId).toHaveBeenCalled();
+        expect(userIdService.invokeWithUserId).toHaveBeenCalled();
         expect(permissionsReceived).toEqual(undefined);
         expect(store.dispatch).toHaveBeenCalledWith(
           new B2BUserActions.LoadB2BUserPermissions({
@@ -403,7 +403,7 @@ describe('B2BUserService', () => {
             permissionsReceived = data;
           })
           .unsubscribe();
-        expect(authService.getOccUserId).not.toHaveBeenCalled();
+        expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
         expect(permissionsReceived).toEqual(permissionList);
         expect(store.dispatch).not.toHaveBeenCalledWith(
           new B2BUserActions.LoadB2BUserPermissions({
@@ -419,7 +419,7 @@ describe('B2BUserService', () => {
       it('assignPermission() should should dispatch CreateB2BUserPermission action', () => {
         service.assignPermission(orgCustomerId, permissionId);
 
-        expect(authService.getOccUserId).toHaveBeenCalled();
+        expect(userIdService.invokeWithUserId).toHaveBeenCalled();
         expect(store.dispatch).toHaveBeenCalledWith(
           new B2BUserActions.CreateB2BUserPermission({
             userId,
@@ -434,7 +434,7 @@ describe('B2BUserService', () => {
       it('unassignPermission() should should dispatch DeleteB2BUserPermission action', () => {
         service.unassignPermission(orgCustomerId, permissionId);
 
-        expect(authService.getOccUserId).toHaveBeenCalled();
+        expect(userIdService.invokeWithUserId).toHaveBeenCalled();
         expect(store.dispatch).toHaveBeenCalledWith(
           new B2BUserActions.DeleteB2BUserPermission({
             userId,
@@ -449,7 +449,7 @@ describe('B2BUserService', () => {
   describe('load B2B User Groups', () => {
     it('loadUserGroups() should should dispatch LoadB2BUserUserGroups action', () => {
       service.loadUserGroups(orgCustomerId, params);
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new B2BUserActions.LoadB2BUserUserGroups({
           userId,
@@ -470,7 +470,7 @@ describe('B2BUserService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(userGroupsReceived).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new B2BUserActions.LoadB2BUserUserGroups({
@@ -504,7 +504,7 @@ describe('B2BUserService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).not.toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
       expect(userGroups).toEqual(userGroupList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new B2BUserActions.LoadB2BUserUserGroups({
@@ -521,7 +521,7 @@ describe('B2BUserService', () => {
 
     it('assignUserGroup() should should dispatch CreateB2BUserUserGroup action', () => {
       service.assignUserGroup(orgCustomerId, userGroupId);
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new B2BUserActions.CreateB2BUserUserGroup({
           userId,
@@ -537,7 +537,7 @@ describe('B2BUserService', () => {
 
     it('unassignUserGroup() should should dispatch DeleteB2BUserUserGroup action', () => {
       service.unassignUserGroup(orgCustomerId, userGroupId);
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new B2BUserActions.DeleteB2BUserUserGroup({
           userId,
@@ -551,10 +551,10 @@ describe('B2BUserService', () => {
   describe('getAllRoles()', () => {
     it('should return all possible b2b user roles in order', () => {
       expect(service.getAllRoles()).toEqual([
-        B2BUserGroup.B2B_CUSTOMER_GROUP,
-        B2BUserGroup.B2B_MANAGER_GROUP,
-        B2BUserGroup.B2B_APPROVER_GROUP,
-        B2BUserGroup.B2B_ADMIN_GROUP,
+        B2BUserRole.CUSTOMER,
+        B2BUserRole.MANAGER,
+        B2BUserRole.APPROVER,
+        B2BUserRole.ADMIN,
       ]);
     });
   });
@@ -591,6 +591,19 @@ describe('B2BUserService', () => {
         status: LoadStatus.ERROR,
         item: undefined,
       });
+    });
+  });
+
+  describe('getErrorState', () => {
+    it('getErrorState() should be able to get status error', () => {
+      let errorState: boolean;
+      spyOn<any>(service, 'getB2BUserState').and.returnValue(
+        of({ loading: false, success: false, error: true })
+      );
+
+      service.getErrorState('code').subscribe((error) => (errorState = error));
+
+      expect(errorState).toBeTrue();
     });
   });
 });
