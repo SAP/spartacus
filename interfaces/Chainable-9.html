@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontapp-e2e-cypress/cypress/support/select-user-menu-option.commands.ts</code>
+            <code>projects/storefrontapp-e2e-cypress/cypress/support/require-shipping-address-added.commands.ts</code>
         </p>
 
 
@@ -79,7 +79,7 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#selectUserMenuOption">selectUserMenuOption</a>
+                                        <a href="#requireShippingAddressAdded">requireShippingAddressAdded</a>
                                 </li>
                             </ul>
                         </td>
@@ -96,13 +96,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="selectUserMenuOption"></a>
-                                        <span class="name"><b>selectUserMenuOption</b><a href="#selectUserMenuOption"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="requireShippingAddressAdded"></a>
+                                        <span class="name"><b>requireShippingAddressAdded</b><a href="#requireShippingAddressAdded"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>selectUserMenuOption:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                        <code>requireShippingAddressAdded:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -121,7 +121,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Select user menu option</p>
+                                    <div class="io-description"><p>Make sure you have shipping address added. Returns address object.</p>
 </div>
                                 </td>
                             </tr>
@@ -132,44 +132,64 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">declare namespace Cypress {
-  interface Chainable {
-    /**
-       * Select user menu option
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { user } from &#x27;../sample-data/checkout-flow&#x27;;
+
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      /**
+       * Make sure you have shipping address added. Returns address object.
        *
        * @memberof Cypress.Chainable
        *
        * @example
         &#x60;&#x60;&#x60;
-        cy.selectUserMenuOption({
-          option: &#x27;Sign out&#x27;
-        })
+        cy.requireShippingAddressAdded(auth, address);
         &#x60;&#x60;&#x60;
        */
-    selectUserMenuOption: ({
-      option,
-      isMobile,
-    }: {
-      option: string;
-      isMobile?: boolean;
-    }) &#x3D;&gt; void;
+      requireShippingAddressAdded: (
+        address: {},
+        auth: {}
+      ) &#x3D;&gt; Cypress.Chainable&lt;{}&gt;;
+    }
   }
 }
 
-Cypress.Commands.add(
-  &#x27;selectUserMenuOption&#x27;,
-  ({ isMobile, option }: { option: string; isMobile?: boolean }) &#x3D;&gt; {
-    if (isMobile) {
-      // below click is exactly the same as clickHamburger() but we cannot import it here
-      cy.get(&#x27;cx-hamburger-menu [aria-label&#x3D;&quot;Menu&quot;]&#x27;).click({ force: true });
-    }
+Cypress.Commands.add(&#x27;requireShippingAddressAdded&#x27;, (address, auth) &#x3D;&gt; {
+  // format the request body
+  const _address &#x3D; {
+    ...address,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    town: address.city,
+    postalCode: address.postal,
+    titleCode: &#x27;mr&#x27;,
+    country: {
+      isocode: &#x27;US&#x27;,
+      name: user.address.country,
+    },
+    defaultAddress: false,
+  };
 
-    cy.get(&#x27;nav a&#x27;)
-      .getAllByText(new RegExp(option, &#x27;i&#x27;))
-      .first()
-      .click({ force: true });
+  function addAddress() {
+    return cy.request({
+      method: &#x27;POST&#x27;,
+      url: &#x60;${Cypress.env(&#x27;API_URL&#x27;)}/${Cypress.env(
+        &#x27;OCC_PREFIX&#x27;
+      )}/${Cypress.env(
+        &#x27;BASE_SITE&#x27;
+      )}/users/current/carts/current/addresses/delivery&#x60;,
+      body: _address,
+      form: false,
+      headers: {
+        Authorization: &#x60;bearer ${auth.userToken.token.access_token}&#x60;,
+      },
+    });
   }
-);
+
+  cy.server();
+  addAddress().then((resp) &#x3D;&gt; cy.wrap(resp));
+});
 </code></pre>
     </div>
 </div>
@@ -198,6 +218,7 @@ Cypress.Commands.add(
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'Chainable-9.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

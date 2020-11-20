@@ -321,8 +321,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="196"
-                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:196</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="198"
+                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:198</a></div>
                 </td>
             </tr>
 
@@ -534,8 +534,8 @@ max age reload implementations</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="148"
-                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:148</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="150"
+                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:150</a></div>
                 </td>
             </tr>
 
@@ -811,7 +811,6 @@ import {
   using,
 } from &#x27;rxjs&#x27;;
 import {
-  auditTime,
   debounceTime,
   delay,
   distinctUntilChanged,
@@ -829,6 +828,7 @@ import { withdrawOn } from &#x27;../../util/withdraw-on&#x27;;
 import { ProductActions } from &#x27;../store/actions/index&#x27;;
 import { StateWithProduct } from &#x27;../store/product-state&#x27;;
 import { ProductSelectors } from &#x27;../store/selectors/index&#x27;;
+import { polish } from &#x27;../../util/polish&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
@@ -870,7 +870,7 @@ export class ProductLoadingService {
       this.products[productCode][this.getScopesIndex(scopes)] &#x3D; combineLatest(
         scopes.map((scope) &#x3D;&gt; this.products[productCode][scope])
       ).pipe(
-        auditTime(0),
+        polish(),
         map((productParts) &#x3D;&gt;
           productParts.every(Boolean)
             ? deepMerge({}, ...productParts)
@@ -901,7 +901,9 @@ export class ProductLoadingService {
       ),
       map(
         (productState) &#x3D;&gt;
-          !productState.loading &amp;&amp; !productState.success &amp;&amp; !productState.error
+          !productState?.loading &amp;&amp;
+          !productState?.success &amp;&amp;
+          !productState?.error
       ),
       distinctUntilChanged(),
       filter((x) &#x3D;&gt; x)
@@ -1066,6 +1068,7 @@ export class ProductLoadingService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'ProductLoadingService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>
