@@ -15,7 +15,7 @@ export namespace Cpq {
     /**
      * Token expiration time in milli seconds
      */
-    tokenExpirationTime?: number;
+    accessTokenExpirationTime?: number;
     /**
      * CPQ endpoint url
      */

@@ -35,15 +35,21 @@ export class CpqAccessStorageService {
     if (!this.cpqAccessData) {
       this.cpqAccessData = this.cpqAccessLoaderService.getCpqAccessData().pipe(
         // schedule an auto refresh of token, when it expires
+        tap((data) => console.log(`fetched first token ${data.accessToken}`)),
         expand((data) =>
           timer(this.fetchNextTokenIn(data)).pipe(
+            tap(() =>
+              console.log(`refreshing token data ${data.accessToken} now`)
+            ),
             switchMap(() => this.cpqAccessLoaderService.getCpqAccessData())
           )
         ),
+        tap((data) => console.log(`received a token ${data.accessToken} now`)),
         tap((data) => (this.currentCpqAccessData = data)), // store current data
         shareReplay(1),
-        // token might be expired in the meantime and a new one was not feched, yet,
-        filter((data) => !this.isTokenExpired(data))
+        //token might be expired in the meantime and a new one was not feched, yet,
+        filter((data) => !this.isTokenExpired(data)),
+        tap((data) => console.log(`sending token ${data.accessToken} now`))
       );
     }
     return this.cpqAccessData;
@@ -52,7 +58,13 @@ export class CpqAccessStorageService {
   protected fetchNextTokenIn(data: Cpq.AccessData) {
     // we schedule a request to update our cache some time before expiration
     let fetchNextIn: number =
-      data.tokenExpirationTime - Date.now() - this.EXPIRATION_BUFFER;
+      data.accessTokenExpirationTime - Date.now() - this.EXPIRATION_BUFFER;
+    console.log(
+      `${data.accessTokenExpirationTime} - ${Date.now()} - ${
+        this.EXPIRATION_BUFFER
+      }`
+    );
+    console.log(`${data.accessToken} will be refrshed in ${fetchNextIn} ms`);
     if (fetchNextIn < 5) {
       fetchNextIn = 5;
     }
@@ -63,6 +75,8 @@ export class CpqAccessStorageService {
   }
 
   protected isTokenExpired(tokenData: Cpq.AccessData) {
-    return Date.now() > tokenData.tokenExpirationTime - this.EXPIRATION_BUFFER;
+    return (
+      Date.now() > tokenData.accessTokenExpirationTime - this.EXPIRATION_BUFFER
+    );
   }
 }

@@ -12,12 +12,12 @@ import createSpy = jasmine.createSpy;
 const accessData: Cpq.AccessData = {
   accessToken: 'validToken',
   endpoint: 'https://cpq',
-  tokenExpirationTime: 2605693178233,
+  accessTokenExpirationTime: 2605693178233,
 };
 const expiredAccessData: Cpq.AccessData = {
   accessToken: 'expiredToken',
   endpoint: 'https://cpq',
-  tokenExpirationTime: -10,
+  accessTokenExpirationTime: -10,
 };
 const accessDataSoonExpiring: Cpq.AccessData = {
   accessToken: 'validTokenSoonExpiring',
@@ -57,7 +57,7 @@ describe('CpqAccessStorageService', () => {
       );
 
       //serviceUnderTest.clearCachedCpqAccessData();
-      accessDataSoonExpiring.tokenExpirationTime = Date.now() + 20;
+      accessDataSoonExpiring.accessTokenExpirationTime = Date.now() + 20;
     })
   );
 
@@ -74,8 +74,8 @@ describe('CpqAccessStorageService', () => {
     serviceUnderTest.getCachedCpqAccessData().subscribe((returnedData) => {
       expect(returnedData).toBeDefined();
       expect(returnedData.accessToken).toEqual(accessData.accessToken);
-      expect(returnedData.tokenExpirationTime).toEqual(
-        accessData.tokenExpirationTime
+      expect(returnedData.accessTokenExpirationTime).toEqual(
+        accessData.accessTokenExpirationTime
       );
       expect(returnedData.endpoint).toEqual(accessData.endpoint);
     });
