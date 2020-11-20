@@ -50,11 +50,11 @@ export function createImportChange(
   importText: string,
   importPath: string
 ): Change {
-  const moduleSource = getTsSourceFile(host, filePath);
-  if (isImported(moduleSource, importText, importPath)) {
+  const source = getTsSourceFile(host, filePath);
+  if (isImported(source, importText, importPath)) {
     return new NoopChange();
   }
-  return insertImport(moduleSource, filePath, importText, importPath);
+  return insertImport(source, filePath, importText, importPath);
 }
 
 export function addToModuleImports(
