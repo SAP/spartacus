@@ -7,10 +7,16 @@ import {
   ProductSearchPage,
   ProductSearchService,
   RouterState,
-  RoutingService
+  RoutingService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription, using } from 'rxjs';
-import { distinctUntilChanged, filter, map, shareReplay, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  shareReplay,
+  tap,
+} from 'rxjs/operators';
 import { ProductListRouteParams, SearchCriteria } from './product-list.model';
 
 /**
