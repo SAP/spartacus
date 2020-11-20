@@ -102,7 +102,9 @@ export class ProductLoadingService {
       ),
       map(
         (productState) =>
-          !productState?.loading && !productState?.success && !productState?.error
+          !productState?.loading &&
+          !productState?.success &&
+          !productState?.error
       ),
       distinctUntilChanged(),
       filter((x) => x)
