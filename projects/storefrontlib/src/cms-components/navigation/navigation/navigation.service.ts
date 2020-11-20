@@ -155,7 +155,9 @@ export class NavigationService {
         node.url = url;
         // the backend provide boolean value for the target
         // in case the link should be opened in a new window
-        node.target = !!item.target ? '_blank' : '';
+        if (item.target === 'true' || item.target === true) {
+          node.target = '_blank';
+        }
       }
     }
   }
