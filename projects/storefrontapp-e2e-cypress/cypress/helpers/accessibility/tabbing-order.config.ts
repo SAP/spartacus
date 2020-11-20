@@ -1,4 +1,4 @@
-import { TabbingOrderTypes, TabbingOrderConfig } from './tabbing-order.model';
+import { TabbingOrderConfig, TabbingOrderTypes } from './tabbing-order.model';
 
 export const tabbingOrderConfig: TabbingOrderConfig = {
   home: [
@@ -436,6 +436,93 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Alpha 350',
       type: TabbingOrderTypes.LINK,
+    },
+  ],
+  orderDetailsCancelAction: [
+    {
+      value: 'Back',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Cancel Items',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  orderDetailsReturnAction: [
+    {
+      value: 'Back',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Request a Return',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  cancelOrReturnOrder: [
+    {
+      value: 'Back',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Continue',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Set all quantities to maximum',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      value: 'Back',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Continue',
+      type: TabbingOrderTypes.BUTTON,
+    },
+  ],
+  confirmCancelOrReturnOrder: [
+    {
+      value: 'Back',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Submit Request',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Back',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Submit Request',
+      type: TabbingOrderTypes.BUTTON,
+    },
+  ],
+  returnRequestList: [
+    {
+      type: TabbingOrderTypes.NG_SELECT,
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.NG_SELECT,
+    },
+  ],
+  returnRequestDetails: [
+    {
+      value: 'Back',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Cancel Return Request',
+      type: TabbingOrderTypes.BUTTON,
     },
   ],
   headerDesktopNotLoggedIn: [
