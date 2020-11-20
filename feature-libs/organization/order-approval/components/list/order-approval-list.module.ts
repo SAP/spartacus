@@ -9,7 +9,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { ListNavigationModule } from '@spartacus/storefront';
-import { ApproverGuard } from '../../core/public_api';
+import { ApproverGuard } from '../../core/guards/index';
 import { OrderApprovalListComponent } from './order-approval-list.component';
 
 @NgModule({

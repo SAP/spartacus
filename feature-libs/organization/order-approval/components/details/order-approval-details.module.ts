@@ -18,7 +18,7 @@ import {
   OrderDetailTotalsComponent,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { ApproverGuard } from '../../core/public_api';
+import { ApproverGuard } from '../../core/guards/index';
 import { OrderApprovalDetailFormComponent } from './order-approval-detail-form/order-approval-detail-form.component';
 import { OrderApprovalDetailService } from './order-approval-detail.service';
 import { OrderDetailPermissionResultsComponent } from './order-detail-permission-results/order-detail-permission-results.component';
