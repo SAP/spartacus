@@ -19,7 +19,7 @@ const HEADER_ATTR_CPQ_NO_COOKIES = 'x-cpq-disable-cookies';
   providedIn: 'root',
 })
 export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
-  cpqSessionId: string | string[];
+  cpqSessionId: string;
   constructor(protected cpqAccessStorageService: CpqAccessStorageService) {}
 
   intercept(
