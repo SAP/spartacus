@@ -50,12 +50,6 @@ export class CpqAccessStorageService {
     // we schedule a request to update our cache some time before expiration
     let fetchNextIn: number =
       data.accessTokenExpirationTime - Date.now() - this.EXPIRATION_BUFFER;
-    console.log(
-      `${data.accessTokenExpirationTime} - ${Date.now()} - ${
-        this.EXPIRATION_BUFFER
-      }`
-    );
-    console.log(`${data.accessToken} will be refrshed in ${fetchNextIn} ms`);
     if (fetchNextIn < 5) {
       fetchNextIn = 5;
     }
