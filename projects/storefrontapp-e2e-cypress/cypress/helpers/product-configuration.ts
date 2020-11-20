@@ -161,14 +161,6 @@ export function isConfigPageDisplayed() {
   isUpdatingMessageNotDisplayed();
   isUpdatingMessageNotDisplayed();
   isConfigTabBarDisplayed();
-  isGroupTitleDisplayed();
-  isGroupFormDisplayed();
-  isPreviousAndNextBtnsDispalyed();
-  isPriceSummaryDisplayed();
-  isAddToCartBtnDisplayed();
-  isProductTitleDisplayed();
-  isShowMoreLinkAtProductTitleDisplayed();
-  isUpdatingMessageNotDisplayed();
 }
 
 /**
