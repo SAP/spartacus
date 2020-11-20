@@ -6,22 +6,22 @@ import { CpqAccessLoaderService } from './cpq-access-loader.service';
 
 const ONE_DAY = 24 * 60 * 60 * 1000;
 
-/* We should stop using/sending a token shortly before expiration,
- * to avoid that it is actaully expired when evaluated in the target system */
-export const CPQ_CONFIGURATOR_TOKEN_EXPIRATION_BUFFER = new InjectionToken<
-  number
->('TOKEN_EXPIRATION_BUFFER', {
-  providedIn: 'root',
-  factory: () => {
-    return 1000;
-  },
-});
-
 @Injectable({ providedIn: 'root' })
 export class CpqAccessStorageService {
+  /* We should stop using/sending a token shortly before expiration,
+   * to avoid that it is actaully expired when evaluated in the target system */
+  static TOKEN_EXPIRATION_BUFFER = new InjectionToken<number>(
+    'TOKEN_EXPIRATION_BUFFER',
+    {
+      factory: function () {
+        return 1000;
+      },
+    }
+  );
+
   constructor(
     protected cpqAccessLoaderService: CpqAccessLoaderService,
-    @Inject(CPQ_CONFIGURATOR_TOKEN_EXPIRATION_BUFFER)
+    @Inject(CpqAccessStorageService.TOKEN_EXPIRATION_BUFFER)
     protected EXPIRATION_BUFFER: number
   ) {}
 

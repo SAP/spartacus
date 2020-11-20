@@ -27,6 +27,7 @@ const configCreatedResponse: Cpq.ConfigurationCreatedResponseData = {
 
 const configResponse: Cpq.Configuration = {
   productSystemId: productCode,
+  completed: false,
 };
 
 describe('CpqConfiguratorRestService', () => {

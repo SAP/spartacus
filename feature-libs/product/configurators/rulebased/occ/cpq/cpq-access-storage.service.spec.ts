@@ -6,10 +6,7 @@ import { interval, Observable, of, ReplaySubject, Subject } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { Cpq } from '../../cpq/cpq.models';
 import { CpqAccessLoaderService } from './cpq-access-loader.service';
-import {
-  CpqAccessStorageService,
-  CPQ_CONFIGURATOR_TOKEN_EXPIRATION_BUFFER,
-} from './cpq-access-storage.service';
+import { CpqAccessStorageService } from './cpq-access-storage.service';
 import createSpy = jasmine.createSpy;
 
 const accessData: Cpq.AccessData = {
@@ -46,7 +43,7 @@ describe('CpqAccessStorageService', () => {
             useClass: CpqAccessLoaderServiceMock,
           },
           {
-            provide: CPQ_CONFIGURATOR_TOKEN_EXPIRATION_BUFFER,
+            provide: CpqAccessStorageService.TOKEN_EXPIRATION_BUFFER,
             useValue: 10,
           },
         ],
