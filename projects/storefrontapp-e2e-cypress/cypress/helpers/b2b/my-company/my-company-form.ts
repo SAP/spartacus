@@ -54,6 +54,8 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
       cy.get('div.header button').contains('Save').click();
       cy.wait('@getEntityData').then((xhr) => {
         entityUId = xhr.response.body[config.entityIdField];
+        entityId =
+          entityUId ?? config.rows?.find((row) => row.useInUrl).createValue;
 
         verifyDetails(config, FormType.CREATE);
         cy.get('cx-org-card cx-icon[type="CLOSE"]').click();
@@ -62,35 +64,29 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
 
     if (config.canDisable) {
       it('should disable/enable', () => {
-        cy.visit(
-          `${config.baseUrl}/${
-            entityUId ?? config.rows?.find((row) => row.useInUrl).createValue
-          }`
-        );
+        cy.visit(`${config.baseUrl}/${entityId}`);
 
-        cy.get('cx-organization-card div.header button')
-          .contains('Disable')
-          .click();
-        cy.get('cx-confirmation')
+        cy.get('cx-org-card div.header button').contains('Disable').click();
+        cy.get('cx-org-confirmation')
           .should(
             'contain.text',
             `Are you sure you want to disable this ${config.name.toLowerCase()}?`
           )
           .contains('cancel')
           .click();
-        cy.get('cx-confirmation').should('not.exist');
+        cy.get('cx-org-confirmation').should('not.exist');
 
         cy.get('div.header button').contains('Disable').click();
-        cy.get('cx-confirmation')
+        cy.get('cx-org-confirmation')
           .should(
             'contain.text',
             `Are you sure you want to disable this ${config.name.toLowerCase()}?`
           )
           .contains('confirm')
           .click();
-        cy.get('cx-confirmation').should('not.exist');
-        cy.get('cx-notification').contains(' disabled successfully');
-        cy.get('cx-notification').should('not.exist');
+        cy.get('cx-org-confirmation').should('not.exist');
+        cy.get('cx-org-notification').contains(' disabled successfully');
+        cy.get('cx-org-notification').should('not.exist');
         cy.get('div.header button').contains('Disable').should('not.exist');
 
         if (config.verifyStatusInDetails) {
@@ -101,8 +97,8 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
         }
 
         cy.get('div.header button').contains('Enable').click();
-        cy.get('cx-notification').contains(' enabled successfully');
-        cy.get('cx-notification').should('not.exist');
+        cy.get('cx-org-notification').contains(' enabled successfully');
+        cy.get('cx-org-notification').should('not.exist');
 
         cy.get('div.header button').contains('Enable').should('not.exist');
         cy.get('div.header button').contains('Disable').should('exist');
@@ -117,9 +113,6 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
     }
 
     it(`should update`, () => {
-      entityId =
-        entityUId ?? config.rows?.find((row) => row.useInUrl).createValue;
-
       if (config.preserveCookies) {
         cy.setCookie(ENTITY_UID_COOKIE_KEY, entityUId);
       }
