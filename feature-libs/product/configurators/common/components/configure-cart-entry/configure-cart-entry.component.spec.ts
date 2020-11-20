@@ -129,7 +129,7 @@ describe('ConfigureCartEntryComponent', () => {
       );
     });
 
-    it("sshould be 'Edit Configuration' in case component is included in edit mode", () => {
+    it("should be 'Edit Configuration' in case component is included in edit mode", () => {
       component.readOnly = false;
       component.disabled = false;
       component.msgBanner = false;

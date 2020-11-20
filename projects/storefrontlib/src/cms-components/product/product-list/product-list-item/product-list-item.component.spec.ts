@@ -7,8 +7,13 @@ import {
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  ProductService,
+  RoutingService,
+} from '@spartacus/core';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
+import { LocalCurrentProductService } from '../../local-current-product.service';
 import { ProductListItemComponent } from './product-list-item.component';
 
 @Component({
@@ -71,9 +76,13 @@ class MockStyleIconsComponent {
   @Input() variants: any[];
 }
 
+class MockRoutingService {}
+class MockProductService {}
+
 describe('ProductListItemComponent in product-list', () => {
   let component: ProductListItemComponent;
   let fixture: ComponentFixture<ProductListItemComponent>;
+  let localCurrentProductService: LocalCurrentProductService;
 
   const mockProduct = {
     name: 'Test product',
@@ -106,6 +115,16 @@ describe('ProductListItemComponent in product-list', () => {
         MockStyleIconsComponent,
         MockFeatureLevelDirective,
       ],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: ProductService,
+          useClass: MockProductService,
+        },
+      ],
     })
       .overrideComponent(ProductListItemComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
@@ -118,6 +137,9 @@ describe('ProductListItemComponent in product-list', () => {
     component = fixture.componentInstance;
 
     component.product = mockProduct;
+    localCurrentProductService = component[
+      'currentProductService'
+    ] as LocalCurrentProductService;
 
     fixture.detectChanges();
   });
@@ -188,5 +210,17 @@ describe('ProductListItemComponent in product-list', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector('cx-add-to-cart')
     ).toBeNull();
+  });
+
+  it('should have correct instance of currentProductService', () => {
+    expect(localCurrentProductService).toBeDefined();
+  });
+
+  it('should initialize localCurrentProductService properly', (done) => {
+    const product$ = localCurrentProductService['code$'];
+    product$.subscribe((code) => {
+      expect(code).toBe(mockProduct.code);
+      done();
+    });
   });
 });

@@ -17,9 +17,11 @@ import { ProductListOutlets } from '../../product-outlets.model';
   ],
 })
 export class ProductGridItemComponent implements OnInit {
-  constructor(protected currentProductService: CurrentProductService) {}
   readonly Outlets = ProductListOutlets;
   @Input() product: any;
+
+  constructor(protected currentProductService: CurrentProductService) {}
+
   ngOnInit(): void {
     const localCurrentProductService: LocalCurrentProductService = this
       .currentProductService as LocalCurrentProductService;

@@ -2,16 +2,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, Product } from '@spartacus/core';
-import {
-  CurrentProductService,
-  OutletContextData,
-} from '@spartacus/storefront';
+import { CurrentProductService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { CommonConfiguratorTestUtilsService } from '../../shared/testing/common-configurator-test-utils.service';
 import { ConfigureProductComponent } from './configure-product.component';
 
 const productCode = 'CONF_LAPTOP';
-const productCodeFromOutletContext = 'CONF_MACHINE';
 
 const configuratorType = 'CPQCONFIGURATOR';
 
@@ -35,6 +31,7 @@ class MockUrlPipe implements PipeTransform {
 describe('ConfigureProductComponent', () => {
   let component: ConfigureProductComponent;
   let fixture: ComponentFixture<ConfigureProductComponent>;
+  let htmlElem: HTMLElement;
 
   beforeEach(
     waitForAsync(() => {
@@ -48,53 +45,32 @@ describe('ConfigureProductComponent', () => {
           },
         ],
       }).compileComponents();
+      fixture = TestBed.createComponent(ConfigureProductComponent);
+      component = fixture.componentInstance;
+      htmlElem = fixture.nativeElement;
     })
   );
 
   it('should create component', () => {
-    fixture = TestBed.createComponent(ConfigureProductComponent);
-    component = fixture.componentInstance;
     expect(component).toBeDefined();
   });
 
-  it('should create product context from currentProductService if not provided via outlet context', (done) => {
-    fixture = TestBed.createComponent(ConfigureProductComponent);
-    component = fixture.componentInstance;
-    expect(component.productContext).toBeDefined();
-    component.productContext.context$
-      .subscribe((ctx) => expect(ctx.product.code).toBe(productCode))
-      .unsubscribe();
-    done();
+  it('should show button', () => {
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.btn'
+    );
   });
 
-  it('should create product context from outlet context if available', (done) => {
-    const outletContext: OutletContextData = {
-      reference: undefined,
-      position: undefined,
-      context: undefined,
-      context$: of({
-        code: productCodeFromOutletContext,
-        configurable: true,
-        configuratorType: configuratorType,
-      }).pipe(map((pr) => ({ product: pr }))),
-    };
-
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
-      declarations: [ConfigureProductComponent, MockUrlPipe],
-      providers: [
-        { provide: OutletContextData, useValue: outletContext },
-        { provide: CurrentProductService, useClass: MockCurrentProductService },
-      ],
-    }).compileComponents();
-    fixture = TestBed.createComponent(ConfigureProductComponent);
-    component = fixture.componentInstance;
-    expect(component.productContext).toBeDefined();
-    component.productContext.context$
-      .subscribe((ctx) =>
-        expect(ctx.product.code).toBe(productCodeFromOutletContext)
-      )
-      .unsubscribe();
-    done();
+  it('should display configure button text', () => {
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      '.btn',
+      'configurator.header.toconfig'
+    );
   });
 });

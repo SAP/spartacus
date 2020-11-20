@@ -7,7 +7,6 @@ export class LocalCurrentProductService extends CurrentProductService {
   protected readonly code$ = new BehaviorSubject<string>(undefined);
 
   setCode(code: string) {
-    console.log('CHHI set code: ' + code);
     this.code$.next(code);
   }
 
