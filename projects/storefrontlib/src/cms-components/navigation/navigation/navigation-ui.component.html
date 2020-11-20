@@ -22,9 +22,6 @@
     (keydown.space)="toggleOpen($event)"
     (keydown.esc)="back()"
   >
-    <!-- 
-    [ngClass]="node.styleClasses"
-    [attr.style]="node.styleAttributes" -->
     <cx-generic-link
       *ngIf="
         node.url && (!node.children || node.children?.length === 0);
