@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   CmsNavigationComponent,
   CmsService,
+  NodeItem,
   SemanticPathService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
@@ -313,11 +314,11 @@ describe('NavigationComponentService', () => {
               uid: 'MockNavigationNode001',
               title: 'root node',
             },
-          })
+          } as NodeItem)
         )
         .subscribe((node) => (result = node));
 
-      expect(result).toBeTruthy();
+      expect(result.title).toEqual('root node');
     });
 
     it('should not populate empty node', () => {
@@ -330,7 +331,7 @@ describe('NavigationComponentService', () => {
             navigationNode: {
               uid: 'MockNavigationNode001',
             },
-          })
+          } as NodeItem)
         )
         .subscribe((node) => (result = node));
 
@@ -345,7 +346,7 @@ describe('NavigationComponentService', () => {
             url: '/main',
             target: false,
           },
-        })
+        } as NodeItem)
       );
 
       let result: NavigationNode;
@@ -391,6 +392,157 @@ describe('NavigationComponentService', () => {
         .subscribe((node) => (result = node));
 
       expect(result.children).toBeFalsy();
+    });
+
+    describe('styling', () => {
+      describe('root navigation', () => {
+        it('should populate style class', () => {
+          mockCmsService.getNavigationEntryItems.and.returnValue(of({}));
+
+          let result: NavigationNode;
+          navigationService
+            .getNavigationNode(
+              of({
+                navigationNode: {
+                  uid: 'MockNavigationNode001',
+                  title: 'root node',
+                  styleClasses: 'first-cls',
+                },
+              } as CmsNavigationComponent)
+            )
+            .subscribe((node) => (result = node));
+          expect(result.styleClasses).toEqual('first-cls');
+        });
+
+        it('should not populate style class', () => {
+          mockCmsService.getNavigationEntryItems.and.returnValue(of({}));
+
+          let result: NavigationNode;
+          navigationService
+            .getNavigationNode(
+              of({
+                navigationNode: {
+                  uid: 'MockNavigationNode001',
+                  title: 'root node',
+                },
+              } as CmsNavigationComponent)
+            )
+            .subscribe((node) => (result = node));
+          expect(result.styleClasses).toBeUndefined();
+        });
+
+        it('should populate style attributes', () => {
+          mockCmsService.getNavigationEntryItems.and.returnValue(of({}));
+
+          let result: NavigationNode;
+          navigationService
+            .getNavigationNode(
+              of({
+                navigationNode: {
+                  uid: 'MockNavigationNode001',
+                  title: 'root node',
+                  styleAttributes: 'color: red;',
+                },
+              } as CmsNavigationComponent)
+            )
+            .subscribe((node) => (result = node));
+          expect(result.styleAttributes).toEqual('color: red;');
+        });
+
+        it('should populate style attributes', () => {
+          mockCmsService.getNavigationEntryItems.and.returnValue(of({}));
+
+          let result: NavigationNode;
+          navigationService
+            .getNavigationNode(
+              of({
+                navigationNode: {
+                  uid: 'MockNavigationNode001',
+                  title: 'root node',
+                },
+              } as CmsNavigationComponent)
+            )
+            .subscribe((node) => (result = node));
+          expect(result.styleAttributes).toBeUndefined();
+        });
+      });
+
+      describe('child nodes', () => {
+        const mockNavNode = {
+          navigationNode: {
+            uid: 'MockNavigationNode001',
+            entries: [
+              {
+                itemId: 'Id',
+                itemSuperType: 'Super',
+                itemType: 'CMSLinkComponent',
+              },
+            ],
+          },
+        };
+
+        it('should populate style class', () => {
+          mockCmsService.getNavigationEntryItems.and.returnValue(
+            of({
+              Id_Super: {
+                styleClasses: 'first second',
+              },
+            } as NodeItem)
+          );
+
+          let result: NavigationNode;
+          navigationService
+            .getNavigationNode(of(mockNavNode))
+            .subscribe((node) => (result = node));
+
+          expect(result.styleClasses).toEqual('first second');
+        });
+
+        it('should not populate style class', () => {
+          mockCmsService.getNavigationEntryItems.and.returnValue(
+            of({
+              Id_Super: {},
+            } as NodeItem)
+          );
+
+          let result: NavigationNode;
+          navigationService
+            .getNavigationNode(of(mockNavNode))
+            .subscribe((node) => (result = node));
+          expect(result.styleClasses).toBeUndefined();
+        });
+
+        it('should populate style attributes', () => {
+          mockCmsService.getNavigationEntryItems.and.returnValue(
+            of({
+              Id_Super: {
+                styleAttributes: 'color: red;',
+              },
+            } as NodeItem)
+          );
+
+          let result: NavigationNode;
+          navigationService
+            .getNavigationNode(of(mockNavNode))
+            .subscribe((node) => (result = node));
+
+          expect(result.styleAttributes).toEqual('color: red;');
+        });
+
+        it('should not populate style attributes', () => {
+          mockCmsService.getNavigationEntryItems.and.returnValue(
+            of({
+              Id_Super: {},
+            } as NodeItem)
+          );
+
+          let result: NavigationNode;
+          navigationService
+            .getNavigationNode(of(mockNavNode))
+            .subscribe((node) => (result = node));
+          expect(result.styleAttributes).toBeUndefined();
+        });
+      });
     });
 
     describe('target', () => {
