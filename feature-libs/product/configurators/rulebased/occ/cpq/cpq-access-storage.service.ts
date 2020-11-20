@@ -13,9 +13,7 @@ export class CpqAccessStorageService {
   static TOKEN_EXPIRATION_BUFFER = new InjectionToken<number>(
     'TOKEN_EXPIRATION_BUFFER',
     {
-      factory: function () {
-        return 1000;
-      },
+      factory: CpqAccessStorageService.defaultValue,
     }
   );
 
@@ -28,6 +26,10 @@ export class CpqAccessStorageService {
   protected cpqAccessData: Observable<Cpq.AccessData>;
   protected currentCpqAccessData: Cpq.AccessData;
   protected cache: BehaviorSubject<Cpq.AccessData>;
+
+  private static defaultValue() {
+    return 1000;
+  }
 
   getCachedCpqAccessData(): Observable<Cpq.AccessData> {
     if (!this.cpqAccessData) {
