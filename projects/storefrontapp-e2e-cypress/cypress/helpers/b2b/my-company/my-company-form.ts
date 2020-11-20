@@ -55,7 +55,7 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
         entityUId = xhr.response.body[config.entityIdField];
 
         verifyDetails(config, FormType.CREATE);
-        cy.get('cx-organization-card cx-icon[type="CLOSE"]').click();
+        cy.get('cx-org-card cx-icon[type="CLOSE"]').click();
       });
     });
 
