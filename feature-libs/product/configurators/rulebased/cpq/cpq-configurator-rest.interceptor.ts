@@ -15,6 +15,9 @@ import { Cpq } from './cpq.models';
 const HEADER_ATTR_CPQ_SESSION_ID = 'x-cpq-session-id';
 const HEADER_ATTR_CPQ_NO_COOKIES = 'x-cpq-disable-cookies';
 
+export const CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT =
+  'cpq-configurator-virtual-enpoint';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -26,8 +29,7 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const cpqEndpoint = this.cpqAccessStorageService.getActiveEndpoint();
-    if (!cpqEndpoint || !request.url.includes(cpqEndpoint)) {
+    if (!request.url.startsWith(CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT)) {
       return next.handle(request);
     }
     return this.cpqAccessStorageService.getCachedCpqAccessData().pipe(
@@ -56,6 +58,10 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
     cpqData: Cpq.AccessData
   ): HttpRequest<any> {
     let newRequest = request.clone({
+      url: request.url.replace(
+        CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT,
+        cpqData.endpoint
+      ),
       setHeaders: {
         Authorization: 'Bearer ' + cpqData.accessToken,
         [HEADER_ATTR_CPQ_NO_COOKIES]: 'true',

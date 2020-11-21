@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { map, switchMap } from 'rxjs/operators';
 import { Configurator } from '../core/model/configurator.model';
 import { CpqAccessStorageService } from '../occ/cpq/cpq-access-storage.service';
+import { CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT } from './cpq-configurator-rest.interceptor';
 import { Cpq } from './cpq.models';
 
 @Injectable({ providedIn: 'root' })
@@ -16,20 +17,9 @@ export class CpqConfiguratorRestService {
   createConfiguration(
     productSystemId: string
   ): Observable<Configurator.Configuration> {
-    return this.cpqAccessStorageService
-      .getCachedCpqAccessData()
-      .pipe(
-        switchMap((accessData) =>
-          this.createConfigWithEndpoit(accessData.endpoint, productSystemId)
-        )
-      );
-  }
-
-  protected createConfigWithEndpoit(endpoint: string, productSystemId: string) {
-    return this.callConfigurationsInit(endpoint, productSystemId).pipe(
+    return this.callConfigurationsInit(productSystemId).pipe(
       switchMap((configCreatedResponse) => {
         return this.callConfigurationsDisplay(
-          endpoint,
           configCreatedResponse.configurationId
         ).pipe(
           map((configResponse) => {
@@ -46,11 +36,10 @@ export class CpqConfiguratorRestService {
   }
 
   protected callConfigurationsInit(
-    endpoint: string,
     productSystemId: string
   ): Observable<Cpq.ConfigurationCreatedResponseData> {
     return this.http.post<Cpq.ConfigurationCreatedResponseData>(
-      `${endpoint}/api/configuration/v1/configurations`,
+      `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations`,
       {
         ProductSystemId: productSystemId,
       }
@@ -58,11 +47,10 @@ export class CpqConfiguratorRestService {
   }
 
   protected callConfigurationsDisplay(
-    endpoint: string,
     configId: string
   ): Observable<Cpq.Configuration> {
     return this.http.get<Cpq.Configuration>(
-      `${endpoint}/api/configuration/v1/configurations/${configId}/display`
+      `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations/${configId}/display`
     );
   }
 }

@@ -12,7 +12,7 @@ import { CpqAccessLoaderService } from './cpq-access-loader.service';
 const accessData: Cpq.AccessData = {
   accessToken: '8273635',
   endpoint: 'https://cpq',
-  tokenExpirationTime: 1605004667020,
+  accessTokenExpirationTime: 1605004667020,
 };
 
 describe('CpqAccessLoaderService', () => {

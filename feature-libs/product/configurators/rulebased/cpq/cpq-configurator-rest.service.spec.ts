@@ -7,18 +7,12 @@ import { TestBed } from '@angular/core/testing';
 import { OccEndpointsService } from '@spartacus/core';
 import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
 import { CpqConfiguratorRestAdapter } from './cpq-configurator-rest.adapter';
+import { CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT } from './cpq-configurator-rest.interceptor';
 import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
 import { Cpq } from './cpq.models';
 
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';
-const token = 'abz1234jtzuf';
-
-const accessData: Cpq.AccessData = {
-  accessToken: token,
-  endpoint: 'https://cpq',
-  accessTokenExpirationTime: 2605004667020,
-};
 
 const configCreatedResponse: Cpq.ConfigurationCreatedResponseData = {
   configurationId: configId,
@@ -63,14 +57,10 @@ describe('CpqConfiguratorRestService', () => {
     });
 
     let mockReq = httpMock.expectOne((req) => {
-      return req.method === 'GET' && req.url === '/getCpqAccessData';
-    });
-    mockReq.flush(accessData);
-
-    mockReq = httpMock.expectOne((req) => {
       return (
         req.method === 'POST' &&
-        req.url === 'https://cpq/api/configuration/v1/configurations'
+        req.url ===
+          `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations`
       );
     });
     mockReq.flush(configCreatedResponse);
@@ -79,7 +69,7 @@ describe('CpqConfiguratorRestService', () => {
       return (
         req.method === 'GET' &&
         req.url ===
-          `https://cpq/api/configuration/v1/configurations/${configId}/display`
+          `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations/${configId}/display`
       );
     });
     mockReq.flush(configResponse);
