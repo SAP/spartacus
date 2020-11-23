@@ -1,15 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Converter } from '@spartacus/core';
-import { Cpq } from './cpq.models';
 import { Configurator } from './../core/model/configurator.model';
+import { Cpq } from './cpq.models';
 
 @Injectable({ providedIn: 'root' })
 export class CpqConfiguratorNormalizer
-  implements
-    Converter<Cpq.Configuration, Configurator.Configuration> {
-  constructor(
-    
-  ) {}
+  implements Converter<Cpq.Configuration, Configurator.Configuration> {
+  constructor() {}
 
   convert(
     source: Cpq.Configuration,
@@ -17,15 +14,26 @@ export class CpqConfiguratorNormalizer
   ): Configurator.Configuration {
     const resultTarget: Configurator.Configuration = {
       ...target,
-      complete: source.incompleteMessages.length === 0 && source.incompleteAttributes.length === 0,
-      consistent: source.invalidMessages.length === 0 && source.failedValidations.length === 0 && source.errorMessages.length === 0  && source.conflictMessages.length === 0,
+      complete:
+        source.incompleteMessages.length === 0 &&
+        source.incompleteAttributes.length === 0,
+      consistent:
+        source.invalidMessages.length === 0 &&
+        source.failedValidations.length === 0 &&
+        source.errorMessages.length === 0 &&
+        source.conflictMessages.length === 0,
       totalNumberOfIssues: source.numberOfConflicts,
       productCode: source.productSystemId,
       groups: [],
       flatGroups: [],
     };
     source.tabs.forEach((tab) =>
-      this.convertGroup(tab, source.attributes, resultTarget.groups, resultTarget.flatGroups)
+      this.convertGroup(
+        tab,
+        source.attributes,
+        resultTarget.groups,
+        resultTarget.flatGroups
+      )
     );
     return resultTarget;
   }
@@ -54,11 +62,10 @@ export class CpqConfiguratorNormalizer
       attributes: attributes,
       subGroups: [],
     };
-    
+
     flatGroupList.push(group);
     groupList.push(group);
   }
-
 
   convertAttribute(
     sourceAttribute: Cpq.Attribute,
@@ -98,10 +105,7 @@ export class CpqConfiguratorNormalizer
     }
   }
 
-  convertValue(
-    sourceValue: Cpq.Value,
-    values: Configurator.Value[]
-  ): void {
+  convertValue(sourceValue: Cpq.Value, values: Configurator.Value[]): void {
     const value: Configurator.Value = {
       valueCode: sourceValue.paV_ID.toString(),
       name: sourceValue.valueCode,
@@ -143,19 +147,18 @@ export class CpqConfiguratorNormalizer
         uiType = Configurator.UiType.STRING;
         break;
       }
-      
+
       case Cpq.DisplayAs.READ_ONLY: {
         uiType = Configurator.UiType.READ_ONLY;
         break;
       }
-      
+
       default: {
         uiType = Configurator.UiType.NOT_IMPLEMENTED;
       }
     }
     return uiType;
   }
-
 
   compileAttributeIncomplete(attribute: Configurator.Attribute) {
     //Default value for incomplete is false
