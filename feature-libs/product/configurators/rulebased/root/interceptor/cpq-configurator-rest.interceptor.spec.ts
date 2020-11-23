@@ -78,18 +78,18 @@ describe('CpqConfiguratorRestInterceptor', () => {
     expect(interceptorUnderTest).toBeDefined();
   });
 
-  it('should not intercept non-cpq related requetes', () => {
+  it('should not intercept non-cpq related requests', () => {
     interceptorUnderTest.intercept(nonCPQRequest, mockedNextHandler);
     expect(mockedNextHandler.handle).toHaveBeenCalledWith(nonCPQRequest);
   });
 
-  it('should intercept cpq related requetes', () => {
+  it('should intercept cpq related requests', () => {
     interceptorUnderTest.intercept(cpqRequest, mockedNextHandler);
     expect(mockedNextHandler.handle).not.toHaveBeenCalledWith(cpqRequest);
     expect(mockedNextHandler.handle).toHaveBeenCalled();
   });
 
-  it('should replace url of cpq related requetes', (done) => {
+  it('should replace url of cpq related requests', (done) => {
     interceptorUnderTest
       .intercept(cpqRequest, mockedNextHandler)
       .subscribe(() => {
@@ -100,7 +100,7 @@ describe('CpqConfiguratorRestInterceptor', () => {
       });
   });
 
-  it('should add authprization header to cpq related requetes', (done) => {
+  it('should add authorization header to cpq related requetes', (done) => {
     interceptorUnderTest
       .intercept(cpqRequest, mockedNextHandler)
       .subscribe(() => {
@@ -122,7 +122,7 @@ describe('CpqConfiguratorRestInterceptor', () => {
       });
   });
 
-  it('should extract CPQ session id and append it to following requets', (done) => {
+  it('should extract CPQ session id and append it to following requests', (done) => {
     interceptorUnderTest
       .intercept(cpqRequest, mockedNextHandler)
       .subscribe(() => {
