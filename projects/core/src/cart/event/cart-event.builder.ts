@@ -54,6 +54,14 @@ export class CartEventBuilder {
       action: CartActions.CART_ADD_ENTRY_FAIL,
       event: CartAddEntryFailEvent,
     });
+    this.registerMapped({
+      action: CartActions.CART_REMOVE_ENTRY_SUCCESS,
+      event: CartRemoveEntrySuccessEvent,
+    });
+    this.registerMapped({
+      action: CartActions.CART_UPDATE_ENTRY_SUCCESS,
+      event: CartUpdateEntrySuccessEvent,
+    });
   }
 
   protected registerRemoveEntry(): void {

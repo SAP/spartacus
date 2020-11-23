@@ -11,6 +11,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import { ConfigModule, TestConfigModule } from '@spartacus/core';
 import {
+  GoogleTagManagerModule,
   JsonLdBuilderModule,
   StorefrontComponent,
 } from '@spartacus/storefront';
@@ -84,6 +85,8 @@ if (environment.cdc) {
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 
     ...devImports,
+
+    GoogleTagManagerModule,
   ],
 
   bootstrap: [StorefrontComponent],
