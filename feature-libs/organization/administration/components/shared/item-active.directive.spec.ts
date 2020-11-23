@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
-import { Subject } from 'rxjs/internal/Subject';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { ItemActiveDirective } from './item-active.directive';
 import { ItemService } from './item.service';
 import { MessageService } from './message/services/message.service';
@@ -20,6 +20,7 @@ class TestComponent {}
 
 class MockMessageService {
   add = createSpy('add').and.returnValue(new Subject());
+  get = createSpy('get').and.returnValue(new BehaviorSubject(null));
   clear() {}
   close() {}
 }
