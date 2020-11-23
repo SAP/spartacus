@@ -188,6 +188,7 @@ describe('CpqAccessStorageService', () => {
   });
 
   it('should use only one publication for multiple observables after cache refresh', (done) => {
+    accessDataSubject = new Subject<CpqAccessData>();
     accessDataObs = accessDataSubject;
     serviceUnderTest
       .getCachedCpqAccessData()
