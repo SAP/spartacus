@@ -1,5 +1,6 @@
 <cx-org-card *ngIf="model$ | async as model" i18nRoot="unit.details">
   <a
+    *ngIf="model.uid"
     actions
     class="link edit"
     [class.disabled]="!model.active"
