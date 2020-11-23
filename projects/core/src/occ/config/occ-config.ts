@@ -20,7 +20,6 @@ export abstract class OccConfig extends SiteContextConfig {
       useWithCredentials?: boolean;
 
       endpoints?: OccEndpoints;
-      legacy?: boolean;
     };
     media?: {
       /**
