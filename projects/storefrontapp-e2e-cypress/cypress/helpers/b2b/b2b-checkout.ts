@@ -24,6 +24,7 @@ import {
   visitHomePage,
   waitForPage,
 } from '../checkout-flow';
+import { randomNumber } from '../../helpers/user';
 import { generateMail, randomString } from '../user';
 
 export function loginB2bUser() {
@@ -33,7 +34,10 @@ export function loginB2bUser() {
   cy.get('.cx-login-greet').should('contain', user.fullName);
 }
 
-export function addB2bProductToCartAndCheckout(quantity: string) {
+export function addB2bProductToCart(
+  quantity: string,
+  cartData: SampleCartProduct
+) {
   cy.visit(`${POWERTOOLS_BASESITE}/en/USD/product/${products[0].code}`);
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', products[0].code);
@@ -44,37 +48,35 @@ export function addB2bProductToCartAndCheckout(quantity: string) {
   cy.get('cx-item-counter input').type(`{selectall}${quantity}`);
 
   addCheapProductToCart(products[0]);
+
+  cy.get('.cx-total .cx-value').should('contain', cartData.total);
+  cy.get('cx-item-counter input').invoke('val').should('contain', quantity);
 }
 
-export function verifyQuantityAndTotal(
+export function updateB2bProductToCartAndCheckout(
   quantity: string,
   cartData: SampleCartProduct
 ) {
-  // cy.get('.cx-dialog-body').within(() => {
+  quantity = randomNumber(9);
+
+  cy.get('cx-item-counter input').eq(1).type(`{selectall}${quantity}`).blur();
+
   cy.get('.cx-total .cx-value').should('contain', cartData.total);
-  cy.get('cx-item-counter input').invoke('val').should('contain', quantity);
-  // });
-  // cy.get('cx-breadcrumb').within(() => {
-  //   cy.g.('h1('contain', products[0].name);
-  // });
-  // cy.get('cx-item-counter input').type(`{selectall}${quantity}`);
 
-  // addCheapProductToCart(products[0]);
-
-  // const paymentTypePage = waitForPage(
-  //   '/checkout/payment-type',
-  //   'getPaymentType'
-  // );
-  // cy.findByText(/proceed to checkout/i).click();
-  // cy.wait(`@${paymentTypePage}`).its('status').should('eq', 200);
+  /* TODO: 
+    1. figure out total amount based on the second random number and verify it
+    2. 2b and 3a from the ticket s
+  */
 
   const paymentTypePage = waitForPage(
     '/checkout/payment-type',
     'getPaymentType'
   );
+
   cy.findByText(/proceed to checkout/i).click();
   cy.wait(`@${paymentTypePage}`).its('status').should('eq', 200);
 }
+
 export function enterPONumber() {
   cy.get('cx-payment-type .cx-payment-type-container').should(
     'contain',

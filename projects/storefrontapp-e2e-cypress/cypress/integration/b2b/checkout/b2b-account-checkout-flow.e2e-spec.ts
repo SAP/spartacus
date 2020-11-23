@@ -26,12 +26,12 @@ context('B2B - Account Checkout flow', () => {
     b2bCheckout.loginB2bUser();
   });
 
-  it('should add a product to cart', () => {
-    b2bCheckout.addB2bProductToCartAndCheckout(quantity);
+  it('should add a product to cart and verify quantity and total amount', () => {
+    b2bCheckout.addB2bProductToCart(quantity, cartWithB2bProduct);
   });
 
-  it('should verify quantity and total amount', () => {
-    b2bCheckout.verifyQuantityAndTotal(quantity, cartWithB2bProduct);
+  it('should update product quantity and total amount in add-to-cart-dialog', () => {
+    b2bCheckout.updateB2bProductToCartAndCheckout(quantity, cartWithB2bProduct);
   });
 
   it('should select Account payment type', () => {
