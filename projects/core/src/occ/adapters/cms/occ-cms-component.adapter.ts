@@ -61,35 +61,6 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
       );
   }
 
-  findComponentsByIdsLegacy(
-    ids: string[],
-    pageContext: PageContext,
-    fields = 'DEFAULT',
-    currentPage = 0,
-    pageSize = ids.length,
-    sort?: string
-  ): Observable<CmsComponent[]> {
-    const idList: Occ.ComponentIDList = { idList: ids };
-
-    const requestParams = {
-      ...this.getContextParams(pageContext),
-      ...this.getPaginationParams(currentPage, pageSize, sort),
-    };
-
-    return this.http
-      .post<Occ.ComponentList>(
-        this.getComponentsEndpoint(requestParams, fields),
-        idList,
-        {
-          headers: this.headers,
-        }
-      )
-      .pipe(
-        pluck('component'),
-        this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
-      );
-  }
-
   protected getComponentEndPoint(id: string, pageContext: PageContext): string {
     return this.occEndpoints.getUrl(
       'component',
