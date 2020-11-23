@@ -5,6 +5,7 @@ import {
   cartWithB2bProduct,
   order_type,
   POWERTOOLS_BASESITE,
+  quantity,
 } from '../../../sample-data/b2b-checkout';
 
 context('B2B - Account Checkout flow', () => {
@@ -26,7 +27,7 @@ context('B2B - Account Checkout flow', () => {
   });
 
   it('should add a product to cart', () => {
-    b2bCheckout.addB2bProductToCartAndCheckout();
+    b2bCheckout.addB2bProductToCartAndCheckout(quantity);
   });
 
   it('should select Account payment type', () => {

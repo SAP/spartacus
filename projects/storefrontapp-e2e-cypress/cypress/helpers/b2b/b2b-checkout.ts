@@ -33,7 +33,7 @@ export function loginB2bUser() {
   cy.get('.cx-login-greet').should('contain', user.fullName);
 }
 
-export function addB2bProductToCartAndCheckout() {
+export function addB2bProductToCartAndCheckout(quantity: string) {
   cy.visit(`${POWERTOOLS_BASESITE}/en/USD/product/${products[0].code}`);
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', products[0].code);
@@ -41,7 +41,8 @@ export function addB2bProductToCartAndCheckout() {
   cy.get('cx-breadcrumb').within(() => {
     cy.get('h1').should('contain', products[0].name);
   });
-
+  cy.get('cx-item-counter input').type(`{selectall}${quantity}`);
+  
   addCheapProductToCart(products[0]);
 
   const paymentTypePage = waitForPage(
