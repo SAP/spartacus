@@ -9,8 +9,10 @@ export class CxDatePipe extends DatePipe implements PipeTransform {
     super(null);
   }
 
+  // TODO: Replace `any` to match strict types from angular in 4.0
   // Overload to support stricter type check from angular 11 onwards
-  transform(DateValue: null | undefined, args?: string): null;
+  transform(value: any, format?: string, timezone?: string): string | null;
+  transform(value: null | undefined, format?: string, timezone?: string): null;
   transform(value: any, format?: string, timezone?: string): string | null {
     return super.transform(value, format, timezone, this.getLang());
   }
