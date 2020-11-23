@@ -2,7 +2,7 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import path from 'path';
+import * as path from 'path';
 import * as ts from 'typescript';
 import { B2C_STOREFRONT_MODULE } from '../constants';
 import {

@@ -6,4 +6,7 @@ yarn.lock
 *_spec.ts
 *_spec.js
 *_spec.js.map
-tsconfig.json
+jest.ts
+jest.schematics.config.js
+tsconfig.schematics.json
+tsconfig.schematics.spec.json
