@@ -42,8 +42,31 @@ export function addB2bProductToCartAndCheckout(quantity: string) {
     cy.get('h1').should('contain', products[0].name);
   });
   cy.get('cx-item-counter input').type(`{selectall}${quantity}`);
-  
+
   addCheapProductToCart(products[0]);
+}
+
+export function verifyQuantityAndTotal(
+  quantity: string,
+  cartData: SampleCartProduct
+) {
+  // cy.get('.cx-dialog-body').within(() => {
+  cy.get('.cx-total .cx-value').should('contain', cartData.total);
+  cy.get('cx-item-counter input').invoke('val').should('contain', quantity);
+  // });
+  // cy.get('cx-breadcrumb').within(() => {
+  //   cy.g.('h1('contain', products[0].name);
+  // });
+  // cy.get('cx-item-counter input').type(`{selectall}${quantity}`);
+
+  // addCheapProductToCart(products[0]);
+
+  // const paymentTypePage = waitForPage(
+  //   '/checkout/payment-type',
+  //   'getPaymentType'
+  // );
+  // cy.findByText(/proceed to checkout/i).click();
+  // cy.wait(`@${paymentTypePage}`).its('status').should('eq', 200);
 
   const paymentTypePage = waitForPage(
     '/checkout/payment-type',
@@ -52,7 +75,6 @@ export function addB2bProductToCartAndCheckout(quantity: string) {
   cy.findByText(/proceed to checkout/i).click();
   cy.wait(`@${paymentTypePage}`).its('status').should('eq', 200);
 }
-
 export function enterPONumber() {
   cy.get('cx-payment-type .cx-payment-type-container').should(
     'contain',

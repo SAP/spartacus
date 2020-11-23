@@ -30,6 +30,10 @@ context('B2B - Account Checkout flow', () => {
     b2bCheckout.addB2bProductToCartAndCheckout(quantity);
   });
 
+  it('should verify quantity and total amount', () => {
+    b2bCheckout.verifyQuantityAndTotal(quantity, cartWithB2bProduct);
+  });
+
   it('should select Account payment type', () => {
     b2bCheckout.enterPONumber();
     b2bCheckout.selectAccountPayment();
