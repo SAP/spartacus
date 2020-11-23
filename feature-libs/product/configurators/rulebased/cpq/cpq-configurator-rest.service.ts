@@ -3,16 +3,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, switchMap } from 'rxjs/operators';
 import { Configurator } from '../core/model/configurator.model';
-import { CpqAccessStorageService } from '../occ/cpq/cpq-access-storage.service';
-import { CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT } from './cpq-configurator-rest.interceptor';
+import { CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT } from '../root/interceptor/cpq-configurator-rest.interceptor';
 import { Cpq } from './cpq.models';
 
 @Injectable({ providedIn: 'root' })
 export class CpqConfiguratorRestService {
-  constructor(
-    protected http: HttpClient,
-    protected cpqAccessStorageService: CpqAccessStorageService
-  ) {}
+  constructor(protected http: HttpClient) {}
 
   createConfiguration(
     productSystemId: string

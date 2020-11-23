@@ -4,27 +4,27 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 import { cold } from 'jasmine-marbles';
 import { interval, Observable, of, ReplaySubject, Subject } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
-import { Cpq } from '../../cpq/cpq.models';
+import { CpqAccessData } from './cpq-access-data.models';
 import { CpqAccessLoaderService } from './cpq-access-loader.service';
 import { CpqAccessStorageService } from './cpq-access-storage.service';
 import createSpy = jasmine.createSpy;
 
-const accessData: Cpq.AccessData = {
+const accessData: CpqAccessData = {
   accessToken: 'validToken',
   endpoint: 'https://cpq',
   accessTokenExpirationTime: 2605693178233,
 };
-const expiredAccessData: Cpq.AccessData = {
+const expiredAccessData: CpqAccessData = {
   accessToken: 'expiredToken',
   endpoint: 'https://cpq',
   accessTokenExpirationTime: -10,
 };
-const accessDataSoonExpiring: Cpq.AccessData = {
+const accessDataSoonExpiring: CpqAccessData = {
   accessToken: 'validTokenSoonExpiring',
   endpoint: 'https://cpq',
 };
-let accessDataObs: Observable<Cpq.AccessData>;
-let accessDataSubject: Subject<Cpq.AccessData>;
+let accessDataObs: Observable<CpqAccessData>;
+let accessDataSubject: Subject<CpqAccessData>;
 class CpqAccessLoaderServiceMock {
   getCpqAccessData = createSpy().and.callFake(() => accessDataObs);
 }
@@ -82,7 +82,7 @@ describe('CpqAccessStorageService', () => {
   });
 
   it('should cache access data', () => {
-    accessDataSubject = new Subject<Cpq.AccessData>();
+    accessDataSubject = new Subject<CpqAccessData>();
     accessDataObs = accessDataSubject;
 
     let counter = 0;
@@ -109,7 +109,7 @@ describe('CpqAccessStorageService', () => {
   });
 
   it('should transparently fetch new token, when access data has expired', (done) => {
-    accessDataSubject = new ReplaySubject<Cpq.AccessData>(1);
+    accessDataSubject = new ReplaySubject<CpqAccessData>(1);
     accessDataObs = accessDataSubject;
     serviceUnderTest.getCachedCpqAccessData().subscribe((returnedData) => {
       expect(returnedData).toBeDefined();
@@ -121,7 +121,7 @@ describe('CpqAccessStorageService', () => {
   });
 
   it('should do only one additional call when expired token is emitted followed by valid one', (done) => {
-    accessDataSubject = new Subject<Cpq.AccessData>();
+    accessDataSubject = new Subject<CpqAccessData>();
     accessDataObs = accessDataSubject;
     serviceUnderTest.getCachedCpqAccessData().subscribe();
     serviceUnderTest.getCachedCpqAccessData().subscribe();
@@ -141,7 +141,7 @@ describe('CpqAccessStorageService', () => {
   });
 
   it('should accept token that soon expires', (done) => {
-    accessDataSubject = new Subject<Cpq.AccessData>();
+    accessDataSubject = new Subject<CpqAccessData>();
     accessDataObs = accessDataSubject;
     const subscription = serviceUnderTest
       .getCachedCpqAccessData()
@@ -162,7 +162,7 @@ describe('CpqAccessStorageService', () => {
   });
 
   it('should trigger new call if token expires over time', (done) => {
-    accessDataSubject = new Subject<Cpq.AccessData>();
+    accessDataSubject = new Subject<CpqAccessData>();
     accessDataObs = accessDataSubject;
     serviceUnderTest
       .getCachedCpqAccessData()
@@ -188,7 +188,6 @@ describe('CpqAccessStorageService', () => {
   });
 
   it('should use only one publication for multiple observables after cache refresh', (done) => {
-    accessDataSubject = new Subject<Cpq.AccessData>();
     accessDataObs = accessDataSubject;
     serviceUnderTest
       .getCachedCpqAccessData()

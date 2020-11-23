@@ -6,10 +6,10 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { OccEndpointsService } from '@spartacus/core';
 import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
-import { Cpq } from '../../cpq/cpq.models';
+import { CpqAccessData } from './cpq-access-data.models';
 import { CpqAccessLoaderService } from './cpq-access-loader.service';
 
-const accessData: Cpq.AccessData = {
+const accessData: CpqAccessData = {
   accessToken: '8273635',
   endpoint: 'https://cpq',
   accessTokenExpirationTime: 1605004667020,

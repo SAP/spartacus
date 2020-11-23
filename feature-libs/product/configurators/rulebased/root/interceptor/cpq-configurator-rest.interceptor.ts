@@ -9,8 +9,8 @@ import {
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
-import { CpqAccessStorageService } from '../occ/cpq/cpq-access-storage.service';
-import { Cpq } from './cpq.models';
+import { CpqAccessData } from './cpq-access-data.models';
+import { CpqAccessStorageService } from './cpq-access-storage.service';
 
 const HEADER_ATTR_CPQ_SESSION_ID = 'x-cpq-session-id';
 const HEADER_ATTR_CPQ_NO_COOKIES = 'x-cpq-disable-cookies';
@@ -55,7 +55,7 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
 
   protected enrichHeaders(
     request: HttpRequest<any>,
-    cpqData: Cpq.AccessData
+    cpqData: CpqAccessData
   ): HttpRequest<any> {
     let newRequest = request.clone({
       url: request.url.replace(

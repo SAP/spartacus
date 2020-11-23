@@ -6,8 +6,8 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { OccEndpointsService } from '@spartacus/core';
 import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
+import { CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT } from '../root/interceptor/cpq-configurator-rest.interceptor';
 import { CpqConfiguratorRestAdapter } from './cpq-configurator-rest.adapter';
-import { CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT } from './cpq-configurator-rest.interceptor';
 import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
 import { Cpq } from './cpq.models';
 

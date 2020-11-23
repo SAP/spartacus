@@ -4,25 +4,6 @@
  */
 export namespace Cpq {
   /**
-   *
-   * Authorization data required for communicating with CPQ
-   */
-  export interface AccessData {
-    /**
-     * CPQ Access token
-     */
-    accessToken?: string;
-    /**
-     * Token expiration time in milli seconds
-     */
-    accessTokenExpirationTime?: number;
-    /**
-     * CPQ endpoint url
-     */
-    endpoint?: string;
-  }
-
-  /**
    * Response of create configuration requests
    */
   export interface ConfigurationCreatedResponseData {

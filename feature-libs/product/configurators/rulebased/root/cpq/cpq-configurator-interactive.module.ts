@@ -1,4 +1,3 @@
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
@@ -11,7 +10,6 @@ import {
   HamburgerMenuModule,
   PageLayoutComponent,
 } from '@spartacus/storefront';
-import { CpqConfiguratorRestInterceptor } from '../../cpq/cpq-configurator-rest.interceptor';
 
 /**
  * Takes care of the interactive configuration process (the user enters new attribute values and navigates through the configuration).
@@ -35,12 +33,6 @@ import { CpqConfiguratorRestInterceptor } from '../../cpq/cpq-configurator-rest.
     HamburgerMenuModule,
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: CpqConfiguratorRestInterceptor,
-      multi: true,
-    },
-
     provideDefaultConfig(<CmsConfig>{
       layoutSlots: {
         CpqConfigurationTemplate: {
