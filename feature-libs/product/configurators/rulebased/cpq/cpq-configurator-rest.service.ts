@@ -1,14 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ConverterService } from '@spartacus/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, switchMap } from 'rxjs/operators';
 import { Configurator } from '../core/model/configurator.model';
 import { CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT } from '../root/interceptor/cpq-configurator-rest.interceptor';
 import { Cpq } from './cpq.models';
+import { CPQ_CONFIGURATOR_NORMALIZER } from './cpq-configurator.converters';
 
 @Injectable({ providedIn: 'root' })
 export class CpqConfiguratorRestService {
-  constructor(protected http: HttpClient) {}
+  constructor(
+    protected http: HttpClient,
+    protected converterService: ConverterService
+  ) {}
 
   createConfiguration(
     productSystemId: string
@@ -18,13 +23,12 @@ export class CpqConfiguratorRestService {
         return this.callConfigurationsDisplay(
           configCreatedResponse.configurationId
         ).pipe(
-          map((configResponse) => {
-            //todo call normalizers?
-            const config: Configurator.Configuration = {
+          this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER),
+          map((resultConfiguration) => {
+            return {
+              ...resultConfiguration,
               configId: configCreatedResponse.configurationId,
-              productCode: configResponse.productSystemId,
             };
-            return config;
           })
         );
       })
