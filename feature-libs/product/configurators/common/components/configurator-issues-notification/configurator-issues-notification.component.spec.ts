@@ -18,7 +18,7 @@ class MockTranslatePipe implements PipeTransform {
 }
 
 let item: OrderEntry;
-function setContext(
+function emitNewContextValue(
   cartItemOutletConfiguratorComponent: ConfiguratorIssuesNotificationComponent,
   statusSummary: StatusSummary[],
   configurationInfos: ConfigurationInfo[],
@@ -30,14 +30,14 @@ function setContext(
     configurationInfos: configurationInfos,
     product: { configurable: productConfigurable },
   };
-  const newChunk: any = {
+  const cartItemContext: any = {
     item: item,
     readonly: readOnly,
     quantityControl: {},
   };
   const context$ = cartItemOutletConfiguratorComponent.cartItemContext
     .context$ as BehaviorSubject<CartItemContextModel>;
-  context$.next({ ...context$.value, ...newChunk });
+  context$.next(cartItemContext);
 }
 
 describe('ConfigureIssuesNotificationComponent', () => {
@@ -74,7 +74,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
   });
 
   it('should return number of issues of ERROR status', () => {
-    setContext(
+    emitNewContextValue(
       component,
       [{ numberOfIssues: 2, status: ConfiguratorOrderEntryStatus.Error }],
       null,
@@ -84,7 +84,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
   });
 
   it('should return number of issues of ERROR status if ERROR and SUCCESS statuses are present', () => {
-    setContext(
+    emitNewContextValue(
       component,
       [
         { numberOfIssues: 1, status: ConfiguratorOrderEntryStatus.Success },
@@ -98,7 +98,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
   });
 
   it('should return number of issues as 0 if only SUCCESS status is present', () => {
-    setContext(
+    emitNewContextValue(
       component,
       [{ numberOfIssues: 2, status: ConfiguratorOrderEntryStatus.Success }],
       null,
@@ -109,17 +109,17 @@ describe('ConfigureIssuesNotificationComponent', () => {
   });
 
   it('should return number of issues as 0 if statusSummaryList is undefined', () => {
-    setContext(component, null, null, false);
+    emitNewContextValue(component, null, null, false);
     expect(component.getNumberOfIssues(item)).toBe(0);
   });
 
   it('should return number of issues as 0 if statusSummaryList is empty', () => {
-    setContext(component, [], null, false);
+    emitNewContextValue(component, [], null, false);
     expect(component.getNumberOfIssues(item)).toBe(0);
   });
 
   it('should display configure from cart in case issues are present', () => {
-    setContext(
+    emitNewContextValue(
       component,
       [{ numberOfIssues: 2, status: ConfiguratorOrderEntryStatus.Error }],
       null,
@@ -139,7 +139,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
   });
 
   it('should not display configure from cart in case issues are present but product not configurable', () => {
-    setContext(
+    emitNewContextValue(
       component,
       [{ numberOfIssues: 2, status: ConfiguratorOrderEntryStatus.Error }],
       null,
@@ -158,7 +158,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
   });
 
   it('should return false if number of issues of ERROR status is = 0', () => {
-    setContext(
+    emitNewContextValue(
       component,
       [{ numberOfIssues: 2, status: ConfiguratorOrderEntryStatus.Success }],
       null,
