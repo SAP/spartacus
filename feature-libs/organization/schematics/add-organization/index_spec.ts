@@ -2,7 +2,11 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import { SpartacusOptions, UTF_8 } from '@spartacus/schematics';
+import {
+  B2B_STOREFRONT_MODULE,
+  B2C_STOREFRONT_MODULE,
+  SpartacusOptions,
+} from '@spartacus/schematics';
 import * as path from 'path';
 import {
   CLI_ADMINISTRATION_FEATURE,
@@ -73,45 +77,58 @@ describe('Spartacus Organization schematics: ng-add', () => {
       .toPromise();
   });
 
-  describe('styling', () => {
+  describe('in app module', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
         .runSchematicAsync('ng-add', defaultOptions, appTree)
         .toPromise();
     });
-
-    it('should add style import to /src/styles/spartacus/organization.scss', async () => {
-      const content = appTree.readContent(
-        '/src/styles/spartacus/organization.scss'
-      );
-      expect(content).toEqual(`@import "@spartacus/organization";`);
+    it(`should remove 'B2cStorefrontModule' `, () => {
+      const appModule = appTree.readContent(appModulePath);
+      expect(appModule).not.toContain(B2C_STOREFRONT_MODULE);
     });
 
-    it('should add update angular.json with spartacus/organization.scss', async () => {
-      const buffer = appTree.read('/angular.json');
-      expect(buffer).toBeTruthy();
-      if (!buffer) {
-        throw new Error('angular.json missing?');
-      }
-
-      const angularJson = JSON.parse(buffer.toString(UTF_8));
-      const buildStyles: string[] =
-        angularJson.projects['schematics-test'].architect.build.options.styles;
-      expect(buildStyles).toEqual([
-        'src/styles.scss',
-        'src/styles/spartacus/organization.scss',
-      ]);
-
-      const testStyles: string[] =
-        angularJson.projects['schematics-test'].architect.test.options.styles;
-      expect(testStyles).toEqual([
-        'src/styles.scss',
-        'src/styles/spartacus/organization.scss',
-      ]);
+    it(`should replace it with 'B2bStorefrontModule'`, () => {
+      const appModule = appTree.readContent(appModulePath);
+      expect(appModule).toContain(B2B_STOREFRONT_MODULE);
     });
   });
 
   describe('Administration feature', () => {
+    describe('styling', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync('ng-add', defaultOptions, appTree)
+          .toPromise();
+      });
+
+      it('should add style import to /src/styles/spartacus/organization.scss', async () => {
+        const content = appTree.readContent(
+          '/src/styles/spartacus/organization.scss'
+        );
+        expect(content).toEqual(`@import "@spartacus/organization";`);
+      });
+
+      it('should add update angular.json with spartacus/organization.scss', async () => {
+        const content = appTree.readContent('/angular.json');
+        const angularJson = JSON.parse(content);
+        const buildStyles: string[] =
+          angularJson.projects['schematics-test'].architect.build.options
+            .styles;
+        expect(buildStyles).toEqual([
+          'src/styles.scss',
+          'src/styles/spartacus/organization.scss',
+        ]);
+
+        const testStyles: string[] =
+          angularJson.projects['schematics-test'].architect.test.options.styles;
+        expect(testStyles).toEqual([
+          'src/styles.scss',
+          'src/styles/spartacus/organization.scss',
+        ]);
+      });
+    });
+
     describe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
@@ -173,6 +190,25 @@ describe('Spartacus Organization schematics: ng-add', () => {
         );
       });
     });
+
+    describe('i18n', () => {
+      it('should import the i18n resource and chunk from assets', async () => {
+        const appModule = appTree.readContent(appModulePath);
+        expect(appModule).toContain(
+          `import { organizationTranslations } from '@spartacus/organization/administration/assets';`
+        );
+        expect(appModule).toContain(
+          `import { organizationTranslationChunksConfig } from '@spartacus/organization/administration/assets';`
+        );
+      });
+      it('should provideConfig', async () => {
+        const appModule = appTree.readContent(appModulePath);
+        expect(appModule).toContain(`resources: organizationTranslations,`);
+        expect(appModule).toContain(
+          `chunks: organizationTranslationChunksConfig,`
+        );
+      });
+    });
   });
 
   describe('Order approval feature', () => {
@@ -229,29 +265,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
         );
       });
     });
-  });
-
-  describe('i18n', () => {
-    describe('administration', () => {
-      it('should import the i18n resource and chunk from assets', async () => {
-        const appModule = appTree.readContent(appModulePath);
-        expect(appModule).toContain(
-          `import { organizationTranslations } from '@spartacus/organization/administration/assets';`
-        );
-        expect(appModule).toContain(
-          `import { organizationTranslationChunksConfig } from '@spartacus/organization/administration/assets';`
-        );
-      });
-      it('should provideConfig', async () => {
-        const appModule = appTree.readContent(appModulePath);
-        expect(appModule).toContain(`resources: organizationTranslations,`);
-        expect(appModule).toContain(
-          `chunks: organizationTranslationChunksConfig,`
-        );
-      });
-    });
-
-    describe('order approval', () => {
+    describe('i18n', () => {
       it('should import the i18n resource and chunk from assets', async () => {
         const appModule = appTree.readContent(appModulePath);
         expect(appModule).toContain(
