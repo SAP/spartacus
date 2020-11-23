@@ -1,6 +1,6 @@
 import { Directive, OnDestroy, OnInit } from '@angular/core';
 import { GlobalMessageType } from '@spartacus/core';
-import { tap } from 'rxjs/operators';
+import { tap, withLatestFrom } from 'rxjs/operators';
 import { ItemService } from './item.service';
 import { MessageService } from './message/services/message.service';
 import { BaseItem } from './organization.model';
@@ -19,8 +19,9 @@ export class ItemActiveDirective<T = BaseItem> implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscription = this.itemService.current$
       .pipe(
-        tap((item) => {
-          if (item) {
+        withLatestFrom(this.messageService.get()),
+        tap(([item, messageData]) => {
+          if (item && this.checkDuplicatedMessage(messageData)) {
             this.handleDisabledItems(item);
           }
         })
@@ -28,14 +29,25 @@ export class ItemActiveDirective<T = BaseItem> implements OnInit, OnDestroy {
       .subscribe();
   }
 
+  protected checkDuplicatedMessage(messageData) {
+    return (
+      messageData?.message?.key !== this.message.message.key &&
+      messageData?.type !== this.message.type
+    );
+  }
+
+  protected get message() {
+    return {
+      message: {
+        key: 'organization.notification.disabled',
+      },
+      type: GlobalMessageType.MSG_TYPE_ERROR,
+    };
+  }
+
   protected handleDisabledItems(item: BaseItem) {
     if (item?.active === false) {
-      this.messageService.add({
-        message: {
-          key: 'organization.notification.disabled',
-        },
-        type: GlobalMessageType.MSG_TYPE_ERROR,
-      });
+      this.messageService.add(this.message);
     }
   }
 
