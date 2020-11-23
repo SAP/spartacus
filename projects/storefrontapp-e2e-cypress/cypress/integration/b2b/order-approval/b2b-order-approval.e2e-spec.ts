@@ -33,6 +33,8 @@ describe('B2B - Order Approval', () => {
       orderApproval.visitOrderApprovalListPage();
       cy.wait('@order_approval_list').its('status').should('eq', 200);
 
+      orderApproval.checkApprovalDashboardMenuOptionExistence(true);
+
       assertApprovalListRowData(0, orderApprovalRow.order.code);
       assertApprovalListRowData(1, sampleData.none);
       assertApprovalListRowData(2, orderApprovalRow.order.orgCustomer.name);
@@ -121,13 +123,20 @@ describe('B2B - Order Approval', () => {
     });
   });
 
-  describe('Auhtorized access tests', () => {
+  describe('Access restrictions tests', () => {
+    const HOME_PAGE_ROUTE = '/powertools-spa/en/USD/';
     const APPROVAL_DASHBOARD_ROUTE =
       'powertools-spa/en/USD/my-account/approval-dashboard';
+    const APPROVAL_DETAIL_ROUTE = `/my-account/approval/${sampleData.approvalOrderDetail.code}`;
 
     describe('Anonymous user', () => {
-      it('should NOT be allowed to access order approval dashboard directly', () => {
+      it('should NOT be allowed to access Order Approval Dashboard directly', () => {
         cy.visit(APPROVAL_DASHBOARD_ROUTE);
+        cy.location('pathname').should('contain', '/login');
+      });
+
+      it('should NOT be allowed to access Approval Detail directly', () => {
+        cy.visit(APPROVAL_DETAIL_ROUTE);
         cy.location('pathname').should('contain', '/login');
       });
     });
@@ -143,33 +152,16 @@ describe('B2B - Order Approval', () => {
         cy.saveLocalStorage();
       });
 
-      it.skip('should NOT be allowed to access order approval dashboard directly', () => {
+      it('should NOT be allowed to access Order Approval Dashboard directly', () => {
         cy.restoreLocalStorage();
         cy.visit(APPROVAL_DASHBOARD_ROUTE);
-        cy.location('pathname').should('contain', '/login');
-      });
-    });
-
-    describe('Authorized user (approver)', () => {
-      before(() => {
-        orderApproval.loginB2bApprover();
+        cy.location('pathname').should('equal', HOME_PAGE_ROUTE);
       });
 
-      it('should display order approval option in menu', () => {
-        cy.visit('/');
-        orderApproval.checkApprovalDashboardMenuOptionExistence(true);
-        cy.saveLocalStorage();
-      });
-
-      it('should BE allowed to access order approval dashboard directly', () => {
+      it('should NOT be allowed to access Approval Detail directly', () => {
         cy.restoreLocalStorage();
-        cy.visit(APPROVAL_DASHBOARD_ROUTE);
-        cy.location('pathname').should('contain', 'approval-dashboard');
-        cy.get('cx-breadcrumb > h1').should(
-          'contain',
-          'Order Approval Dashboard'
-        );
-        cy.get('cx-order-approval-list > table').should('exist');
+        cy.visit(APPROVAL_DETAIL_ROUTE);
+        cy.location('pathname').should('equal', HOME_PAGE_ROUTE);
       });
     });
   });
