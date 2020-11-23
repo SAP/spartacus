@@ -90,13 +90,14 @@ To keep track of spartacussampledata releases, we keep a `latest` branch on each
   - You can leave `rc` tag until we release stable release.
   - Use `npm view @spartacus/NAME@VERSION` (ie. `npm view @spartacus/cdc@next`) instead of clicking thru the `npmjs.org` website (which is much slower)
   - Use `npm dist-tag` command for tag updates.
-- [ ] Test the released libraries from a new shell app; change the `scripts/install/config.sh` to test npm tag (next/latest/rc) at the same time:
+- [ ] Test the released libraries from a new shell app
+  - [ ] Change the `scripts/install/config.sh` to test npm tag (next/latest/rc) at the same time:
 
     ```bash
     SPARTACUS_VERSION=`next` # or `latest`, `rc`; still, you can set it to a specific one, ie `x.y.z` (or leave the config file unchanged)
     ```
 
-    Run the installation script:
+  - [ ] Run the installation script to make sure you can create a shell app with the latest imported libraries with no errors:
 
     ```bash
     cd scripts/install && run.sh install_npm
