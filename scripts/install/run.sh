@@ -94,25 +94,25 @@ function create_ssr_pwa {
 }
 
 function add_spartacus_csr {
-    ( cd ${INSTALLATION_DIR} && cd csr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX}
+    ( cd ${INSTALLATION_DIR} && cd csr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} && ng add @spartacus/misc@${SPARTACUS_VERSION} --interactive false
         if [ "$ADD_B2B_LIBS" = true ] ; then
-            npm install @spartacus/setup@${SPARTACUS_VERSION} && npm install @spartacus/organization@${SPARTACUS_VERSION} # TODO: change it to `ng add` once those libs support schematics explicitly
+            ng add @spartacus/organization@${SPARTACUS_VERSION} --interactive false
         fi
     )
 }
 
 function add_spartacus_ssr {
-    ( cd ${INSTALLATION_DIR} && cd ssr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr
+    ( cd ${INSTALLATION_DIR} && cd ssr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr && ng add @spartacus/misc@${SPARTACUS_VERSION} --interactive false
         if [ "$ADD_B2B_LIBS" = true ] ; then
-            npm install @spartacus/setup@${SPARTACUS_VERSION} && npm install @spartacus/organization@${SPARTACUS_VERSION} # TODO: change it to `ng add` once those libs support schematics explicitly
+            ng add @spartacus/organization@${SPARTACUS_VERSION} --interactive false
         fi
     )
 }
 
 function add_spartacus_ssr_pwa {
-    ( cd ${INSTALLATION_DIR} && cd ssr_pwa && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa
+    ( cd ${INSTALLATION_DIR} && cd ssr_pwa && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa && ng add @spartacus/misc@${SPARTACUS_VERSION} --interactive false
         if [ "$ADD_B2B_LIBS" = true ] ; then
-            npm install @spartacus/setup@${SPARTACUS_VERSION} && npm install @spartacus/organization@${SPARTACUS_VERSION} # TODO: change it to `ng add` once those libs support schematics explicitly
+            ng add @spartacus/organization@${SPARTACUS_VERSION} --interactive false
         fi
     )
 }
@@ -189,6 +189,9 @@ function local_install {
 
     printh "Creating organization npm package"
     ( cd ${CLONE_DIR}/dist/organization && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
+
+    printh "Creating misc npm package"
+    ( cd ${CLONE_DIR}/dist/misc && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 
     create_apps
 
