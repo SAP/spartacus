@@ -316,6 +316,7 @@ export const ANONYMOUS_CONSENT_TEMPLATES_CONNECTOR =
   'AnonymousConsentTemplatesConnector';
 export const VIEW_COMPONENT = 'ViewComponent';
 export const SPLIT_VIEW_COMPONENT = 'SplitViewComponent';
+export const OCC_CMS_COMPONENT_ADAPTER = 'OccCmsComponentAdapter';
 
 /***** Classes end *****/
 
@@ -539,6 +540,8 @@ export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_SUCCESS_CLASS =
 export const SUB = 'sub';
 
 export const LOAD_ANONYMOUS_CONSENTS = 'loadAnonymousConsents';
+
+export const LEGACY_FLAG = 'legacy';
 /***** Properties end *****/
 
 /***** APIs start *****/
@@ -613,6 +616,8 @@ export const SPARTACUS_STOREFINDER_ASSETS = `${SPARTACUS_STOREFINDER}/assets`;
 export const STOREFINDER_TRANSLATIONS = 'storeFinderTranslations';
 export const STOREFINDER_TRANSLATION_CHUNKS_CONFIG =
   'storeFinderTranslationChunksConfig';
+
+export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
 
 /***** APIs end *****/
 
