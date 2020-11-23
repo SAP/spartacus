@@ -5,6 +5,7 @@ import { ACTIVE_CART_SERVICE_MIGRATION } from './data/active-cart.service.migrat
 import { AUTH_REDIRECT_SERVICE_CONSTRUCTOR_MIGRATION } from './data/auth-redirect.service.migration';
 import { AUTH_GUARD_CONSTRUCTOR_MIGRATION } from './data/auth.guard.migration';
 import { AUTH_SERVICE_CONSTRUCTOR_MIGRATION } from './data/auth.service.migration';
+import { BREAKPOINT_SERVICE_MIGRATION } from './data/breakpoint.service.migration';
 import { CART_NOT_EMPTY_GUARD_MIGRATION } from './data/cart-not-empty.guard.migration';
 import { CART_VOUCHER_SERVICE_MIGRATION } from './data/cart-voucher.service.migration';
 import { CDC_AUTH_SERVICE_CONSTRUCTOR_MIGRATION } from './data/cdc-auth.service.migration';
@@ -23,7 +24,9 @@ import { DELIVERY_MODE_SET_GUARD_MIGRATION } from './data/delivery-mode-set.guar
 import { DELIVERY_MODE_COMPONENT_MIGRATION } from './data/delivery-mode.component.migration';
 import { FEATURE_MODULES_SERVICE_MIGRATION } from './data/feature-modules.service.migration';
 import { FORBIDDEN_HANDLER_MIGRATION } from './data/forbidden.handler.migration';
+import { FORGOT_PASSWORD_COMPONENT_MIGRATION } from './data/forgot-password.component.migration';
 import { JSONLD_PRODUCT_REVIEW_BUILDER_MIGRATION } from './data/jsonld-product-review.builder.migration';
+import { LAUNCH_DIALOG_SERVICE_MIGRATION } from './data/launch-dialog.service.migration';
 import { LOGIN_FORM_COMPONENT_MIGRATION } from './data/login-form.component.migration';
 import { LOGOUT_GUARD_MIGRATION } from './data/logout-guard.migration';
 import { MULTI_CART_SERVICE_MIGRATION } from './data/multi-cart.service.migration';
@@ -51,12 +54,11 @@ import { USER_CONSENT_SERVICE_MIGRATION } from './data/user-consent.service.migr
 import { USER_INTERESTS_SERVICE_MIGRATION } from './data/user-interests.service.migration';
 import { USER_NOTIFICATION_PREFERENCE_SERVICE_MIGRATION } from './data/user-notification-preference.service.migration';
 import { USER_ORDERS_EFFECT_MIGRATION } from './data/user-order.effect.migration';
-import { WISH_LIST_SERVICE_MIGRATION } from './data/wish-list.service.migration';
-import { FORGOT_PASSWORD_COMPONENT_MIGRATION } from './data/forgot-password.component.migration';
 import { USER_ORDER_SERVICE_MIGRATION } from './data/user-order.service.migration';
 import { USER_PAYMENT_SERVICE_MIGRATION } from './data/user-payment.service.migration';
 import { USER_REGISTER_EFFECT_MIGRATION } from './data/user-register.effect.migration';
 import { USER_SERVICE_MIGRATION } from './data/user.service.migration';
+import { WISH_LIST_SERVICE_MIGRATION } from './data/wish-list.service.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT_MIGRATION,
@@ -116,6 +118,8 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   USER_REGISTER_EFFECT_MIGRATION,
   USER_SERVICE_MIGRATION,
   STAR_RATING_COMPONENT_MIGRATION,
+  BREAKPOINT_SERVICE_MIGRATION,
+  LAUNCH_DIALOG_SERVICE_MIGRATION, // TODO DELETE THIS ONE
 ];
 
 export function migrate(): Rule {

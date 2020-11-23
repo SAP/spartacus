@@ -17,7 +17,7 @@ import {
   ReplaceChange,
 } from '@schematics/angular/utility/change';
 import * as ts from 'typescript';
-import { TODO_SPARTACUS, UTF_8 } from '../constants';
+import { ANGULAR_CORE, INJECT, TODO_SPARTACUS, UTF_8 } from '../constants';
 
 export enum InsertDirection {
   LEFT,
@@ -26,7 +26,13 @@ export enum InsertDirection {
 
 export interface ClassType {
   className: string;
-  importPath: string;
+  importPath?: string;
+  staticType?: string;
+  injectionToken?: {
+    token: string;
+    importPath?: string;
+    isArray?: boolean;
+  };
 }
 
 export interface ComponentProperty {
@@ -381,8 +387,10 @@ function checkImports(
   parameterClassTypes: ClassType[]
 ): boolean {
   for (const classImport of parameterClassTypes) {
-    if (!isImported(source, classImport.className, classImport.importPath)) {
-      return false;
+    if (classImport.importPath) {
+      if (!isImported(source, classImport.className, classImport.importPath)) {
+        return false;
+      }
     }
   }
   return true;
@@ -478,27 +486,59 @@ export function addConstructorParam(
   }
 
   const changes: Change[] = [];
-
   if (!isInjected(constructorNode, paramToAdd)) {
     changes.push(
       injectService(
         constructorNode,
         sourcePath,
         paramToAdd.className,
-        'no-modifier'
+        'no-modifier',
+        undefined, // TODO cleanup
+        paramToAdd.staticType, // TODO check if working with staticType null
+        paramToAdd.injectionToken?.token,
+        paramToAdd.injectionToken?.isArray
       )
     );
   }
 
-  if (!isImported(source, paramToAdd.className, paramToAdd.importPath)) {
-    changes.push(
-      insertImport(
-        source,
-        sourcePath,
-        paramToAdd.className,
-        paramToAdd.importPath
-      )
-    );
+  if (paramToAdd.importPath) {
+    if (!isImported(source, paramToAdd.className, paramToAdd.importPath)) {
+      changes.push(
+        insertImport(
+          source,
+          sourcePath,
+          paramToAdd.className,
+          paramToAdd.importPath
+        )
+      );
+    }
+  }
+  if (paramToAdd.injectionToken?.token) {
+    if (!isImported(source, INJECT, ANGULAR_CORE)) {
+      changes.push(insertImport(source, sourcePath, INJECT, ANGULAR_CORE));
+    }
+
+    if (
+      paramToAdd.injectionToken.importPath &&
+      paramToAdd.injectionToken.token !== paramToAdd.className
+    ) {
+      if (
+        !isImported(
+          source,
+          paramToAdd.injectionToken.token,
+          paramToAdd.injectionToken.importPath
+        )
+      ) {
+        changes.push(
+          insertImport(
+            source,
+            sourcePath,
+            paramToAdd.injectionToken.token,
+            paramToAdd.injectionToken.importPath
+          )
+        );
+      }
+    }
   }
 
   const paramName = getParamName(source, constructorNode, paramToAdd);
@@ -527,13 +567,21 @@ export function removeConstructorParam(
 
   if (shouldRemoveImportAndParam(source, paramToRemove)) {
     const importRemovalChange = removeImport(source, paramToRemove);
+    const injectImportRemovalChange = removeInjectImports(
+      source,
+      paramToRemove
+    );
     const constructorParamRemovalChanges = removeConstructorParamInternal(
       sourcePath,
       constructorNode,
       paramToRemove
     );
 
-    changes.push(importRemovalChange, ...constructorParamRemovalChanges);
+    changes.push(
+      importRemovalChange,
+      ...constructorParamRemovalChanges,
+      injectImportRemovalChange
+    );
   }
   const paramName = getParamName(source, constructorNode, paramToRemove);
   if (!paramName) {
@@ -624,6 +672,24 @@ function shouldRemoveImportAndParam(
   return true;
 }
 
+export function removeInjectImports(
+  source: ts.SourceFile,
+  paramToRemove: ClassType
+): Change {
+  if (
+    !paramToRemove.injectionToken ||
+    !paramToRemove.injectionToken.importPath ||
+    paramToRemove.injectionToken.token === paramToRemove.className
+  ) {
+    return new NoopChange();
+  }
+
+  return removeImport(source, {
+    className: paramToRemove.injectionToken.token,
+    importPath: paramToRemove.injectionToken.importPath,
+  });
+}
+
 export function removeImport(
   source: ts.SourceFile,
   importToRemove: ClassType
@@ -680,6 +746,10 @@ function getImportDeclarationNode(
   source: ts.SourceFile,
   importToCheck: ClassType
 ): ts.Node | undefined {
+  if (!importToCheck.importPath) {
+    return undefined;
+  }
+
   // collect al the import declarations
   const importDeclarationNodes = getImportDeclarations(
     source,
@@ -810,13 +880,19 @@ function updateConstructorSuperNode(
     throw new SchematicsException('No super() call found.');
   }
   // super has to be the first expression in constructor
-  const firstCallExpression = callExpressions[0];
-  const superKeyword = findNodes(
-    firstCallExpression,
-    ts.SyntaxKind.SuperKeyword
-  );
+  let firstCallExpression = callExpressions[0];
+  let superKeyword = findNodes(firstCallExpression, ts.SyntaxKind.SuperKeyword);
+
   if (superKeyword && superKeyword.length === 0) {
-    throw new SchematicsException('No super() call found.');
+    // The following changes are bad and require explaining
+    const hasDecorator = findNodes(callExpressions[1], ts.SyntaxKind.Decorator);
+
+    if (hasDecorator) {
+      firstCallExpression = callExpressions[1];
+      superKeyword = findNodes(firstCallExpression, ts.SyntaxKind.SuperKeyword);
+    } else {
+      throw new SchematicsException('No super() call found.');
+    }
   }
 
   let toInsert = '';
@@ -840,7 +916,10 @@ export function injectService(
   path: string,
   serviceName: string,
   modifier: 'private' | 'protected' | 'public' | 'no-modifier',
-  propertyName?: string
+  propertyName?: string,
+  propertyType?: string,
+  injectionToken?: string,
+  isArray?: boolean
 ): InsertChange {
   if (!constructorNode) {
     throw new SchematicsException(`No constructor found in ${path}.`);
@@ -860,8 +939,13 @@ export function injectService(
     ? strings.camelize(propertyName)
     : strings.camelize(serviceName);
 
+  propertyType = propertyType ?? strings.classify(serviceName);
+
+  if (injectionToken) toInsert += `@Inject(${injectionToken}) `;
   if (modifier !== 'no-modifier') toInsert += `${modifier} `;
-  toInsert += `${propertyName}: ${strings.classify(serviceName)}`;
+  toInsert += `${propertyName}: ${propertyType}`;
+
+  if (isArray) toInsert += '[]';
 
   return new InsertChange(path, position, toInsert);
 }

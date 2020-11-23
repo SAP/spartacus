@@ -424,6 +424,7 @@ export const PAYMENT_TYPE_SERVICE = 'PaymentTypeService';
 
 export const UNAUTHORIZED_ERROR_HANDLER = 'UnauthorizedErrorHandler';
 export const NG_EXPRESS_ENGINE_DECORATOR = 'NgExpressEngineDecorator';
+export const LAYOUT_CONFIG = 'LayoutConfig';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
@@ -550,4 +551,5 @@ export const CSS_V2_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-2/';
 export const CSS_V3_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-3/';
+export const INJECT = 'Inject';
 /***** Misc end *****/

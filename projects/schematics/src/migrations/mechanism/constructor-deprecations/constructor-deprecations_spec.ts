@@ -19,7 +19,7 @@ import {
   writeFile,
 } from '../../../shared/utils/test-utils';
 
-const MIGRATION_SCRIPT_NAME = 'migration-v2-constructor-deprecations-03';
+const MIGRATION_SCRIPT_NAME = 'migration-v3-constructor-deprecations-03';
 const NOT_INHERITING_SPARTACUS_CLASS = `
     import { Store } from '@ngrx/store';
     import { StateWithProcess, StateWithUser } from '@spartacus/core';
@@ -437,6 +437,54 @@ export class SipPageMetaService extends PageMetaService {
   }
 }
 `;
+const PROPERTY_TEST = `
+import { Injectable } from '@angular/core';
+import { WindowRef } from '@spartacus/core';
+import { BreakpointService, LayoutConfig } from '@spartacus/storefront';
+
+@Injectable({ providedIn: 'root' })
+export class ServiceNameService extends BreakpointService {
+  constructor(
+    protected winRef: WindowRef,
+    protected layoutConfig: LayoutConfig
+  ) {
+    super(winRef, layoutConfig);
+  }
+}
+`;
+// const PROPERTY_EXPECTED = `
+// import { Injectable } from '@angular/core';
+// import { LaunchDialogService, LayoutConfig } from '@spartacus/storefront';
+
+// @Injectable({ providedIn: 'root' })
+// export class ServiceNameService extends LaunchDialogService {
+//   constructor(protected layoutConfig: LayoutConfig) {
+//     super(layoutConfig);
+//   }
+// }
+// `;
+const PROPERTY_EXPECTED = `
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import {
+  LaunchDialogService,
+  LaunchRenderStrategy,
+  LayoutConfig,
+  RandomClass
+} from '@spartacus/storefront';
+
+@Injectable({ providedIn: 'root' })
+export class ServiceNameService extends LaunchDialogService {
+  constructor(
+    protected layoutConfig: LayoutConfig,
+    @Inject(PLATFORM_ID)
+    protected platform: any,
+    @Inject(RandomClass)
+    randomClass: RandomClass[]
+  ) {
+    super(layoutConfig, platform, randomClass);
+  }
+}
+`;
 
 describe('constructor migrations', () => {
   let host: TempScopedNodeJsSyncHost;
@@ -724,6 +772,30 @@ describe('constructor migrations', () => {
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
       const content = appTree.readContent('/src/index.ts');
+      expect(content).toEqual(AT_INJECT_EXPECTED);
+    });
+  });
+
+  fdescribe('when the constructor contains @Inject()', () => {
+    it('should remove a parameter', async () => {
+      writeFile(host, '/src/index.ts', PROPERTY_TEST);
+
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const content = appTree.readContent('/src/index.ts');
+      console.log(content);
+      expect(content).toEqual(AT_INJECT_EXPECTED);
+    });
+  });
+
+  describe('when the constructor contains @Inject()', () => {
+    it('should remove a parameter', async () => {
+      writeFile(host, '/src/index.ts', PROPERTY_EXPECTED);
+
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const content = appTree.readContent('/src/index.ts');
+      console.log(content);
       expect(content).toEqual(AT_INJECT_EXPECTED);
     });
   });
