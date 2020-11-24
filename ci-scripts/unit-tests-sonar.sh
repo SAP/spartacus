@@ -50,7 +50,7 @@ echo "-----"
 # fi
 echo "Running schematics unit tests and code coverage for organization library"
 exec 5>&1
-output=$(yarn --cwd ../feature-libs/organization run test:schematics | tee /dev/fd/5)
+output=$(yarn --cwd feature-libs/organization run test:schematics | tee /dev/fd/5)
 coverage=$(echo $output | grep -i "Jest: "global" coverage threshold for" || true)
 if [[ -n "$coverage" ]]; then
     echo "Error: Tests did not meet coverage expectations"
@@ -67,7 +67,7 @@ fi
 # fi
 echo "Running schematics unit tests and code coverage for misc library"
 exec 5>&1
-output=$(yarn --cwd ../feature-libs/misc run test:schematics | tee /dev/fd/5)
+output=$(yarn --cwd feature-libs/misc run test:schematics | tee /dev/fd/5)
 coverage=$(echo $output | grep -i "Jest: "global" coverage threshold for" || true)
 if [[ -n "$coverage" ]]; then
     echo "Error: Tests did not meet coverage expectations"
@@ -85,7 +85,7 @@ fi
 
 echo "Running unit tests and code coverage for schematics library"
 exec 5>&1
-output=$(yarn --cwd ../projects/schematics run test | tee /dev/fd/5)
+output=$(yarn --cwd projects/schematics run test | tee /dev/fd/5)
 coverage=$(echo $output | grep -i "Jest: "global" coverage threshold for" || true)
 if [[ -n "$coverage" ]]; then
     echo "Error: Tests did not meet coverage expectations"
