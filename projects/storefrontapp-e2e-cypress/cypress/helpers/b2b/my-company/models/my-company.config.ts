@@ -124,4 +124,19 @@ export interface MyCompanyConfig {
    * SUBCATEGORY: Config for creating entities from submenu
    */
   createConfig?: MyCompanyConfig;
+
+  /**
+   * SUBCATEGORY: Config for updating entities from submenu
+   */
+  editConfig?: MyCompanyConfig;
+
+  /**
+   * SUBCATEGORY: Name of the entity to be updated.
+   */
+  updateEntity?: string;
+
+  /**
+   * SUBCATEGORY: Name of the entity to deleted.
+   */
+  deleteEntity?: string;
 }

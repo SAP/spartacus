@@ -18,6 +18,8 @@ export enum ASSIGNMENT_LABELS {
   ASSIGNED_SUCCESS = ' assigned successfully',
   UNASSIGNED_SUCCESS = ' unassigned successfully',
   CREATE = 'Create',
+  EDIT = 'Edit',
+  UPDATE_SUCCESS = ' updated successfully',
 }
 
 export interface TestListOptions {
