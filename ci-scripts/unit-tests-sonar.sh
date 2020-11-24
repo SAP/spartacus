@@ -48,7 +48,6 @@ echo "-----"
 #     echo "Error: Tests did not meet coverage expectations"
 #     exit 1
 # fi
-yarn
 echo "Running schematics unit tests and code coverage for organization library"
 exec 5>&1
 output=$(yarn --cwd feature-libs/organization run test:schematics | tee /dev/fd/5)
