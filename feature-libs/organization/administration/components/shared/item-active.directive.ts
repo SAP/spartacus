@@ -1,9 +1,17 @@
 import { Directive, OnDestroy, OnInit } from '@angular/core';
 import { GlobalMessageType } from '@spartacus/core';
-import { tap, withLatestFrom } from 'rxjs/operators';
+import { withLatestFrom, filter } from 'rxjs/operators';
 import { ItemService } from './item.service';
 import { MessageService } from './message/services/message.service';
 import { BaseItem } from './organization.model';
+import { MessageData } from './message/message.model';
+
+const messageDisabledItem: MessageData = {
+  message: {
+    key: 'organization.notification.disabled',
+  },
+  type: GlobalMessageType.MSG_TYPE_ERROR,
+};
 
 @Directive({
   selector: '[cxOrgItemActive]',
@@ -20,35 +28,27 @@ export class ItemActiveDirective<T = BaseItem> implements OnInit, OnDestroy {
     this.subscription = this.itemService.current$
       .pipe(
         withLatestFrom(this.messageService.get()),
-        tap(([item, messageData]) => {
-          if (item && this.checkDuplicatedMessage(messageData)) {
-            this.handleDisabledItems(item);
-          }
-        })
+        filter(
+          ([item, messageData]: [BaseItem, MessageData]) =>
+            item &&
+            item?.active === false &&
+            this.checkDuplicatedMessage(messageData)
+        )
       )
-      .subscribe();
+      .subscribe(() => {
+        this.handleDisabledItems();
+      });
   }
 
-  protected checkDuplicatedMessage(messageData) {
+  protected checkDuplicatedMessage(messageData: MessageData): boolean {
     return (
-      messageData?.message?.key !== this.message.message.key &&
-      messageData?.type !== this.message.type
+      messageData?.message?.key !== messageDisabledItem.message.key &&
+      messageData?.type !== messageDisabledItem.type
     );
   }
 
-  protected get message() {
-    return {
-      message: {
-        key: 'organization.notification.disabled',
-      },
-      type: GlobalMessageType.MSG_TYPE_ERROR,
-    };
-  }
-
-  protected handleDisabledItems(item: BaseItem) {
-    if (item?.active === false) {
-      this.messageService.add(this.message);
-    }
+  protected handleDisabledItems() {
+    this.messageService.add(messageDisabledItem);
   }
 
   ngOnDestroy() {

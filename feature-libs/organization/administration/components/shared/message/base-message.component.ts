@@ -40,6 +40,10 @@ export abstract class BaseMessageComponent implements OnInit {
 
   close(): void {
     this.messageData.events.next({ close: true });
+    this.cleanMessageData();
+  }
+
+  protected cleanMessageData(): void {
     delete this.messageData.message;
     delete this.messageData.type;
   }
