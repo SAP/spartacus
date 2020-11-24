@@ -4,12 +4,13 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { OccEndpointsService } from '@spartacus/core';
+import { OccEndpointsService, ConverterService } from '@spartacus/core';
 import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
 import { CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT } from '../root/interceptor/cpq-configurator-rest.interceptor';
 import { CpqConfiguratorRestAdapter } from './cpq-configurator-rest.adapter';
 import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
 import { Cpq } from './cpq.models';
+import { CPQ_CONFIGURATOR_NORMALIZER } from './cpq-configurator.converters';
 
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';
@@ -27,6 +28,7 @@ const configResponse: Cpq.Configuration = {
 describe('CpqConfiguratorRestService', () => {
   let serviceUnderTest: CpqConfiguratorRestService;
   let httpMock: HttpTestingController;
+  let converterService: ConverterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -41,6 +43,10 @@ describe('CpqConfiguratorRestService', () => {
       HttpTestingController as Type<HttpTestingController>
     );
 
+    converterService = TestBed.inject(
+      ConverterService as Type<ConverterService>
+    );
+
     serviceUnderTest = TestBed.inject(
       CpqConfiguratorRestService as Type<CpqConfiguratorRestService>
     );
@@ -51,9 +57,12 @@ describe('CpqConfiguratorRestService', () => {
   });
 
   it('should fetch a token and use it to init a configuration', () => {
+    spyOn(converterService, 'pipeable').and.callThrough();
     serviceUnderTest.createConfiguration(productCode).subscribe((config) => {
       expect(config.configId).toEqual(configId);
-      expect(config.productCode).toEqual(productCode);
+      expect(converterService.pipeable).toHaveBeenCalledWith(
+        CPQ_CONFIGURATOR_NORMALIZER
+      );
     });
 
     let mockReq = httpMock.expectOne((req) => {
