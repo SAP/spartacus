@@ -27,11 +27,11 @@ context('B2B - Account Checkout flow', () => {
   });
 
   it('should add a product to cart and verify quantity and total amount', () => {
-    b2bCheckout.addB2bProductToCart(quantity, cartWithB2bProduct);
+    b2bCheckout.addB2bProductToCart(cartWithB2bProduct);
   });
 
   it('should update product quantity and total amount in add-to-cart-dialog', () => {
-    b2bCheckout.updateB2bProductToCartAndCheckout(quantity, cartWithB2bProduct);
+    b2bCheckout.updateB2bProductInDialogAndCheckout(cartWithB2bProduct);
   });
 
   it('should select Account payment type', () => {

@@ -34,10 +34,10 @@ export function loginB2bUser() {
   cy.get('.cx-login-greet').should('contain', user.fullName);
 }
 
-export function addB2bProductToCart(
-  quantity: string,
-  cartData: SampleCartProduct
-) {
+export function addB2bProductToCart(cartData: SampleCartProduct) {
+  const randomQuantity = Number(randomNumber(9));
+  const total = randomQuantity * Number(cartData.productPrice);
+
   cy.visit(`${POWERTOOLS_BASESITE}/en/USD/product/${products[0].code}`);
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', products[0].code);
@@ -45,28 +45,31 @@ export function addB2bProductToCart(
   cy.get('cx-breadcrumb').within(() => {
     cy.get('h1').should('contain', products[0].name);
   });
-  cy.get('cx-item-counter input').type(`{selectall}${quantity}`);
+  cy.get('cx-item-counter input').type(`{selectall}${randomQuantity}`);
 
   addCheapProductToCart(products[0]);
 
-  cy.get('.cx-total .cx-value').should('contain', cartData.total);
-  cy.get('cx-item-counter input').invoke('val').should('contain', quantity);
+  cy.get('.cx-total .cx-value').should('contain', total);
+  cy.get('cx-item-counter input')
+    .invoke('val')
+    .should('contain', randomQuantity);
 }
 
-export function updateB2bProductToCartAndCheckout(
-  quantity: string,
+export function updateB2bProductInDialogAndCheckout(
   cartData: SampleCartProduct
 ) {
-  quantity = randomNumber(9);
+  const randomQuantity = Number(randomNumber(9));
+  const total = cartData.productPrice * randomQuantity;
 
-  cy.get('cx-item-counter input').eq(1).type(`{selectall}${quantity}`).blur();
+  cy.get('cx-item-counter input')
+    .eq(1)
+    .type(`{selectall}${randomQuantity}`)
+    .blur();
 
-  cy.get('.cx-total .cx-value').should('contain', cartData.total);
-
-  /* TODO: 
-    1. figure out total amount based on the second random number and verify it
-    2. 2b and 3a from the ticket s
-  */
+  cy.get('.cx-total .cx-value').should('contain', total.toString());
+  cy.get('cx-item-counter input')
+    .invoke('val')
+    .should('contain', randomQuantity);
 
   const paymentTypePage = waitForPage(
     '/checkout/payment-type',
@@ -160,6 +163,8 @@ export function reviewB2bReviewOrderPage(
   isAccount: boolean,
   orderType: string
 ) {
+  const randomQuantity = randomNumber(9);
+
   cy.get('.cx-review-title').should('contain', 'Review');
 
   if (isAccount) {

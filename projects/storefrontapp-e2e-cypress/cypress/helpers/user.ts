@@ -10,6 +10,6 @@ export function randomString() {
 }
 
 export function randomNumber(limit: number) {
-  const randomNum = Math.floor(Math.random() * limit);
+  const randomNum = Math.ceil(Math.random() * limit);
   return randomNum.toString();
 }

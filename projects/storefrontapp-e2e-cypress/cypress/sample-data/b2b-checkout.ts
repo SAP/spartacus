@@ -1,5 +1,4 @@
 import { AccountData } from '../support/require-logged-in.commands';
-import { randomNumber } from '../helpers/user';
 import {
   SampleCartProduct,
   SampleProduct,
@@ -17,19 +16,15 @@ export const b2bUnit = 'PunchOut Organization';
 export const replenishmentDay = '8';
 export const replenishmentDate = '2100-01-01';
 export const convertedReplenishmentDate = 'Jan 01 2100';
-export const quantity = randomNumber(9);
-const total = 35.0 * Number(quantity);
-const estimatedShipping = 9.99;
-
 export const b2bProduct: SampleProduct = {
   name: 'Cordless screwdriver 2436',
   code: '3881074',
 };
 
 export const cartWithB2bProduct: SampleCartProduct = {
-  estimatedShipping: estimatedShipping.toString(),
-  total: total.toString(),
-  totalAndShipping: (total + estimatedShipping).toString(),
+  estimatedShipping: 9.99,
+  productPrice: 35.0,
+  totalAndShipping: 44.99,
 };
 
 export const b2bAccountShipToUser: SampleUser = {
