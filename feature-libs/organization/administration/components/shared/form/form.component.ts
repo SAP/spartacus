@@ -85,7 +85,6 @@ export class FormComponent<T> implements OnDestroy {
     // concatenate the i18n root with .edit or .create suffix
     this.i18n = this.i18nRoot + (item ? '.edit' : '.create');
     if (item) {
-      console.log('SETTING TOGGLE TO TRUE');
       this.itemService.toggleChange$.next(true);
     }
   }
@@ -97,7 +96,6 @@ export class FormComponent<T> implements OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log('SETTING TOGGLE TO FALSE');
     this.itemService.toggleChange$.next(false);
   }
 }
