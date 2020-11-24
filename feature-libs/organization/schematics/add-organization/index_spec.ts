@@ -110,7 +110,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
     });
   });
 
-  xdescribe('app.module.ts', () => {
+  describe('app.module.ts', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
         .runSchematicAsync('ng-add', defaultOptions, appTree)
@@ -126,7 +126,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
     });
   });
 
-  xdescribe('Administration feature', () => {
+  describe('Administration feature', () => {
     describe('styling', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
@@ -249,7 +249,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
     });
   });
 
-  xdescribe('Order approval feature', () => {
+  describe('Order approval feature', () => {
     describe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
@@ -329,7 +329,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
     });
   });
 
-  xdescribe('when other Spartacus features are already installed', () => {
+  describe('when other Spartacus features are already installed', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
         .runExternalSchematicAsync(
