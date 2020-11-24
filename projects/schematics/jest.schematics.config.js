@@ -9,7 +9,7 @@ module.exports = {
 
   collectCoverage: true,
   coverageReporters: ['json', 'lcov', 'text', 'clover'],
-  coverageDirectory: '<rootDir>/../../coverage/misc/schematics',
+  coverageDirectory: '<rootDir>/../../coverage/schematics',
   coverageThreshold: {
     global: {
       branches: 70,
@@ -19,8 +19,7 @@ module.exports = {
     },
   },
 
-  roots: ['<rootDir>/schematics'],
-  modulePaths: ['<rootDir>/../../projects/schematics'],
+  roots: ['<rootDir>/src'],
   testMatch: ['**/+(*_)+(spec).+(ts)'],
   moduleFileExtensions: ['js', 'ts', 'json'],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, {
