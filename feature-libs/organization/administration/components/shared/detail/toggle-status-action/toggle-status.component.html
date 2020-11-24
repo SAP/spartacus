@@ -1,10 +1,8 @@
-<ng-container *ngIf="toggle$ | async as toggleSwitch">
-  <button
-    *ngIf="current$ | async as item"
-    class="button active"
-    [disabled]="isDisabled(item, toggleSwitch)"
-    (click)="toggle(item)"
-  >
-    {{ 'organization.' + (item.active ? 'disable' : 'enable') | cxTranslate }}
-  </button>
-</ng-container>
+<button
+  *ngIf="current$ | async as item"
+  class="button active"
+  [disabled]="isDisabled(item)"
+  (click)="toggle(item)"
+>
+  {{ 'organization.' + (item.active ? 'disable' : 'enable') | cxTranslate }}
+</button>

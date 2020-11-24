@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnDestroy,
-} from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Subject, Subscription } from 'rxjs';
 import { filter, first, take } from 'rxjs/operators';
@@ -20,9 +15,9 @@ import { BaseItem } from '../../organization.model';
 @Component({
   selector: 'cx-org-toggle-status',
   templateUrl: './toggle-status.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
+export class ToggleStatusComponent<T extends BaseItem>
+  implements AfterViewInit, OnDestroy {
   /**
    * The localization of messages is based on the i18n root. Messages are
    * concatenated to the root, such as:
@@ -52,6 +47,8 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
 
   protected subscription = new Subscription();
   protected confirmation: Subject<ConfirmationMessageData>;
+  shouldBeDisabled: boolean;
+  toggleSubscription: Subscription;
 
   constructor(
     protected itemService: ItemService<T>,
@@ -90,10 +87,11 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   /**
    * Indicates whether the status can be toggled or not.
    */
-  isDisabled(item: T, toggleSwitch: any): boolean {
-    if (toggleSwitch === true) {
+  isDisabled(item: T): boolean {
+    if (this.shouldBeDisabled) {
       return true;
     }
+
     return (
       this.disabled ??
       !(item.orgUnit || (item as any).unit || (item as any).parentOrgUnit)
@@ -129,7 +127,14 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
     });
   }
 
+  ngAfterViewInit() {
+    this.toggleSubscription = this.itemService.toggleChanged$.subscribe((t) => {
+      this.shouldBeDisabled = t;
+    });
+  }
+
   ngOnDestroy() {
     this.subscription?.unsubscribe();
+    this.toggleSubscription?.unsubscribe();
   }
 }
