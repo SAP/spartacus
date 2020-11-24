@@ -5,7 +5,6 @@ import * as PermissionActions from './permission.action';
 import * as CostCenterActions from './cost-center.action';
 import * as B2BUserActions from './b2b-user.action';
 import * as OrganizationActions from './organization.action';
-import * as UtilsActions from './utils.action';
 
 export {
   BudgetActions,
@@ -15,5 +14,4 @@ export {
   CostCenterActions,
   B2BUserActions,
   OrganizationActions,
-  UtilsActions,
 };

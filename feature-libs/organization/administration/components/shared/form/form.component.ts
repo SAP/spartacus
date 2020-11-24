@@ -1,7 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnDestroy,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { LoadStatus, UtilsState } from '@spartacus/organization/administration/core';
+import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { filter, first, map, switchMap, take } from 'rxjs/operators';
 import { CardComponent } from '../card/card.component';
@@ -45,8 +49,7 @@ export class FormComponent<T> implements OnDestroy {
 
   constructor(
     protected itemService: ItemService<T>,
-    protected messageService: MessageService,
-    protected store: Store<UtilsState>,
+    protected messageService: MessageService
   ) {}
 
   save(form: FormGroup): void {
@@ -78,20 +81,11 @@ export class FormComponent<T> implements OnDestroy {
     });
   }
 
-  // isDisableActive: Observable<boolean> = this.routingService.getRouterState().pipe(
-  //   distinctUntilChanged(),
-  //   map(state => {
-  //     const url = state.state?.url.split('/').reverse()[0].split('?').shift();
-  //     return url === 'edit'
-  //   })
-  // )
-
   protected setI18nRoot(item: T): void {
     // concatenate the i18n root with .edit or .create suffix
     this.i18n = this.i18nRoot + (item ? '.edit' : '.create');
-    if(item) {
-      // this.store.dispatch(new UtilsActions.SetToggleState(true));
-    console.log('SETTING TOGGLE TO TRUE');
+    if (item) {
+      console.log('SETTING TOGGLE TO TRUE');
       this.itemService.toggleChange$.next(true);
     }
   }

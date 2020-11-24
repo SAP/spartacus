@@ -3,7 +3,6 @@ import {
   Component,
   Input,
   OnDestroy,
-  OnInit,
 } from '@angular/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Subject, Subscription } from 'rxjs';
@@ -23,7 +22,7 @@ import { BaseItem } from '../../organization.model';
   templateUrl: './toggle-status.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ToggleStatusComponent<T extends BaseItem> implements OnInit, OnDestroy {
+export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   /**
    * The localization of messages is based on the i18n root. Messages are
    * concatenated to the root, such as:
@@ -52,7 +51,7 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnInit, OnDest
   toggle$ = this.itemService.toggleChanged$;
 
   protected subscription = new Subscription();
-  protected toggleSubscription : Subscription;
+  protected toggleSubscription: Subscription;
   protected confirmation: Subject<ConfirmationMessageData>;
   shouldBeDisabled: boolean;
 
@@ -130,21 +129,6 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnInit, OnDest
         params: { item },
       },
     });
-  }
-
-  ngOnInit() {
-    console.log('here we go');
-    // this.toggleSubscription = this.itemService.getToggleStatus().subscribe(t => {
-    //   console.log('from the store: ', t);
-    //   this.disabled = t;
-    //   console.log(this.disabled);
-    // });
-    // this.itemService.toggleChanged$.subscribe(
-    //   (toggleChanged) => {
-    //     this.shouldBeDisabled = toggleChanged
-    //     console.log('CHANGED TO: ', this.shouldBeDisabled);
-    //   }
-    // );
   }
 
   ngOnDestroy() {

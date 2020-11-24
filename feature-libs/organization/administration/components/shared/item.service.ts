@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Store } from '@ngrx/store';
 import { RoutingService } from '@spartacus/core';
-import { OrganizationItemStatus, UtilsState } from '@spartacus/organization/administration/core';
+import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
 import { FormUtils } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { selectToggleStatus } from '../../core/store/selectors/utils.selector';
 import { CurrentItemService } from './current-item.service';
 import { FormService } from './form/form.service';
 
@@ -21,8 +19,7 @@ export abstract class ItemService<T> {
   constructor(
     protected currentItemService: CurrentItemService<T>,
     protected routingService: RoutingService,
-    protected formService: FormService<T>,
-    protected store: Store<UtilsState>,
+    protected formService: FormService<T>
   ) {}
 
   key$ = this.currentItemService.key$;
@@ -115,10 +112,4 @@ export abstract class ItemService<T> {
   getRouterParam(key: string): Observable<string> {
     return this.currentItemService.getRouterParam(key);
   }
-
-  getToggleStatus() {
-    return this.store.select(selectToggleStatus);
-  }
-
-
 }
