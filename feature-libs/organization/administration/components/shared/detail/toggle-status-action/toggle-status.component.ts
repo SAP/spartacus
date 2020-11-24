@@ -51,9 +51,7 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   toggle$ = this.itemService.toggleChanged$;
 
   protected subscription = new Subscription();
-  protected toggleSubscription: Subscription;
   protected confirmation: Subject<ConfirmationMessageData>;
-  shouldBeDisabled: boolean;
 
   constructor(
     protected itemService: ItemService<T>,
@@ -133,6 +131,5 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
 
   ngOnDestroy() {
     this.subscription?.unsubscribe();
-    this.toggleSubscription?.unsubscribe();
   }
 }
