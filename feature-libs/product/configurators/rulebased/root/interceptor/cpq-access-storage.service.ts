@@ -1,11 +1,16 @@
 import { Inject, Injectable, InjectionToken } from '@angular/core';
-import { Observable, timer } from 'rxjs';
-import { expand, filter, shareReplay, switchMap } from 'rxjs/operators';
+import { AuthService } from '@spartacus/core';
+import { BehaviorSubject, Observable, Subscription, timer } from 'rxjs';
+import { expand, filter, switchMap } from 'rxjs/operators';
 import { CpqAccessData } from './cpq-access-data.models';
 import { CpqAccessLoaderService } from './cpq-access-loader.service';
 
 const ONE_DAY = 24 * 60 * 60 * 1000;
 const TOKEN_EXPIRATION_BUFFER = 1000;
+const EXPIRED_TOKEN = {
+  accessToken: 'INVALID DUMMY',
+  accessTokenExpirationTime: 0,
+};
 
 @Injectable({ providedIn: 'root' })
 export class CpqAccessStorageService {
@@ -22,31 +27,63 @@ export class CpqAccessStorageService {
 
   constructor(
     protected cpqAccessLoaderService: CpqAccessLoaderService,
+    protected authService: AuthService,
     @Inject(CpqAccessStorageService.TOKEN_EXPIRATION_BUFFER)
     protected EXPIRATION_BUFFER: number
   ) {}
 
-  protected cpqAccessData: Observable<CpqAccessData>;
+  protected cpqAccessObservable: Observable<CpqAccessData>;
+  protected currentCpqAccessSubscription: Subscription;
+  protected cpqAccessDataCache: BehaviorSubject<CpqAccessData>;
 
   protected static defaultValue() {
     return TOKEN_EXPIRATION_BUFFER;
   }
 
   getCachedCpqAccessData(): Observable<CpqAccessData> {
-    if (!this.cpqAccessData) {
-      this.cpqAccessData = this.cpqAccessLoaderService.getCpqAccessData().pipe(
-        // schedule an auto refresh of token, when it expires
+    if (!this.cpqAccessObservable) {
+      this.initCpqAccessObservable();
+    }
+    return this.cpqAccessObservable;
+  }
+
+  protected initCpqAccessObservable() {
+    this.cpqAccessDataCache = new BehaviorSubject(EXPIRED_TOKEN);
+    this.cpqAccessObservable = this.cpqAccessDataCache.pipe(
+      // Never expose expired tokens - either cache was invalidated with expired token,
+      // or the cached one expired before a new one was fetched.
+      filter((data) => !this.isTokenExpired(data))
+    );
+    this.authService.isUserLoggedIn().subscribe((loggedIn) => {
+      if (loggedIn) {
+        // user logged in - start/stop to ensure token is refreshed
+        this.stopAutoFetchingCpqAccessData();
+        this.startAutoFetchingCpqAccessData();
+      } else {
+        // user logged of - cancel token fetching
+        this.stopAutoFetchingCpqAccessData();
+        this.cpqAccessDataCache.next(EXPIRED_TOKEN); // invalidate cache
+      }
+    });
+  }
+
+  protected stopAutoFetchingCpqAccessData() {
+    this.currentCpqAccessSubscription?.unsubscribe();
+  }
+
+  protected startAutoFetchingCpqAccessData() {
+    this.currentCpqAccessSubscription = this.cpqAccessLoaderService
+      .getCpqAccessData()
+      .pipe(
         expand((data) =>
           timer(this.fetchNextTokenIn(data)).pipe(
             switchMap(() => this.cpqAccessLoaderService.getCpqAccessData())
           )
-        ),
-        shareReplay(1),
-        //token might be expired in the meantime and a new one was not feched, yet,
-        filter((data) => !this.isTokenExpired(data))
-      );
-    }
-    return this.cpqAccessData;
+        )
+      )
+      .subscribe((accessData) => {
+        this.cpqAccessDataCache.next(accessData);
+      });
   }
 
   protected fetchNextTokenIn(data: CpqAccessData) {
