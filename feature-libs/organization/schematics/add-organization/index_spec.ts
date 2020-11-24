@@ -103,14 +103,14 @@ describe('Spartacus Organization schematics: ng-add', () => {
       expect(packageJson).toContain(SPARTACUS_ORGANIZATION);
     });
 
-    it('should not install administration nor order-approval features', () => {
+    xit('should not install administration nor order-approval features', () => {
       const appModule = appTree.readContent(appModulePath);
       expect(appModule).not.toContain(ADMINISTRATION_ROOT_MODULE);
       expect(appModule).not.toContain(ORDER_APPROVAL_ROOT_MODULE);
     });
   });
 
-  describe('app.module.ts', () => {
+  xdescribe('app.module.ts', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
         .runSchematicAsync('ng-add', defaultOptions, appTree)
@@ -126,7 +126,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
     });
   });
 
-  describe('Administration feature', () => {
+  xdescribe('Administration feature', () => {
     describe('styling', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
@@ -249,7 +249,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
     });
   });
 
-  describe('Order approval feature', () => {
+  xdescribe('Order approval feature', () => {
     describe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
@@ -329,7 +329,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
     });
   });
 
-  describe('when other Spartacus features are already installed', () => {
+  xdescribe('when other Spartacus features are already installed', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
         .runExternalSchematicAsync(
