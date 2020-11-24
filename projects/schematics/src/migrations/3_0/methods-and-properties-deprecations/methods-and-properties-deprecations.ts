@@ -30,6 +30,7 @@ import { MULTI_CART_STATE_PERSISTENCE_SERVICE_MIGRATION } from './data/multi-car
 import { NOT_AUTH_GUARD_MIGRATION } from './data/not-auth.guard.migration';
 import { NOT_CHECKOUT_AUTH_GUARD_MIGRATION } from './data/not-checkout-auth.guard.migration';
 import { OCC_CHECKOUT_ADAPTER_MIGRATION } from './data/occ-checkout.adapter.migration';
+import { OCC_CMS_COMPONENT_ADAPTER_MIGRATION } from './data/occ-cms-component.adapter.migration';
 import { ORDER_CONFIRMATION_OVERVIEW_COMPONENT_MIGRATION } from './data/order-confirmation-overview.component.migration';
 import { ORDER_DETAIL_SHIPPING_COMPONENT_MIGRATION } from './data/order-detail-shipping.component.migration';
 import { PRODUCT_CAROUSEL_SERVICE_MIGRATION } from './data/product-carousel.service.migration';
@@ -81,6 +82,7 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...FEATURE_MODULES_SERVICE_MIGRATION,
   ...ANONYMOUS_CONSENT_TEMPLATES_ADAPTER_MIGRATION,
   ...ANONYMOUS_CONSENT_TEMPLATES_CONNECTOR_MIGRATION,
+  ...OCC_CMS_COMPONENT_ADAPTER_MIGRATION,
 ];
 
 export function migrate(): Rule {
