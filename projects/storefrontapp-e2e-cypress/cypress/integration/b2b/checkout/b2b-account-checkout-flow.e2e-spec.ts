@@ -5,7 +5,6 @@ import {
   cartWithB2bProduct,
   order_type,
   POWERTOOLS_BASESITE,
-  quantity,
 } from '../../../sample-data/b2b-checkout';
 
 context('B2B - Account Checkout flow', () => {

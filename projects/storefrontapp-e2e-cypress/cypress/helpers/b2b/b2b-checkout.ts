@@ -14,6 +14,7 @@ import {
   replenishmentDay,
 } from '../../sample-data/b2b-checkout';
 import {
+  cartWithCheapProduct,
   SampleCartProduct,
   SampleProduct,
   SampleUser,
@@ -26,7 +27,12 @@ import {
 } from '../checkout-flow';
 import { randomNumber } from '../../helpers/user';
 import { generateMail, randomString } from '../user';
-
+import {
+  AddressData,
+  fillPaymentDetails,
+  fillShippingAddress,
+  PaymentDetails,
+} from '../../helpers/checkout-forms';
 const randomQuantity = Number(randomNumber(9));
 const quantityInDialog = Number(randomNumber(9));
 const quantityInCart = Number(randomNumber(9));
@@ -396,4 +402,38 @@ export function reviewB2bOrderConfirmation(
     'contain',
     totalAndShipping
   );
+}
+
+export function fillAddressFormWithCheapProduct(
+  shippingAddressData: AddressData = user,
+  cartData: SampleCartProduct = cartWithCheapProduct
+) {
+  const total = cartData.productPrice * quantityInCart;
+  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+  cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
+    .first()
+    .find('.cx-summary-amount')
+    .should('contain', total.toString());
+  const deliveryPage = waitForPage(
+    '/checkout/delivery-mode',
+    'getDeliveryPage'
+  );
+  fillShippingAddress(shippingAddressData);
+  cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
+}
+
+export function fillPaymentFormWithCheapProduct(
+  paymentDetailsData: PaymentDetails = user,
+  billingAddress?: AddressData,
+  cartData: SampleCartProduct = cartWithCheapProduct
+) {
+  const totalAndShipping =
+    cartData.productPrice * quantityInCart + cartData.estimatedShipping;
+  cy.get('.cx-checkout-title').should('contain', 'Payment');
+  cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
+    .find('.cx-summary-amount')
+    .should('contain', totalAndShipping);
+  const reivewPage = waitForPage('/checkout/review-order', 'getReviewPage');
+  fillPaymentDetails(paymentDetailsData, billingAddress);
+  cy.wait(`@${reivewPage}`).its('status').should('eq', 200);
 }

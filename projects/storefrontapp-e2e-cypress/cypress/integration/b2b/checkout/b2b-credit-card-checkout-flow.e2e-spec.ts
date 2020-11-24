@@ -27,8 +27,16 @@ context('B2B - Credit Card Checkout flow', () => {
     b2bCheckout.loginB2bUser();
   });
 
-  it('should add a product to cart', () => {
-    b2bCheckout.addB2bProductToCartAndCheckout();
+  it('should add a product to cart and verify quantity and total amount', () => {
+    b2bCheckout.addB2bProductToCart(cartWithB2bProduct);
+  });
+
+  it('should update product quantity and total amount in add-to-cart-dialog', () => {
+    b2bCheckout.updateB2bProductInDialog(cartWithB2bProduct);
+  });
+
+  it('should verify and update product quantity and total amount in cart', () => {
+    b2bCheckout.updateB2bProductInCartAndCheckout(cartWithB2bProduct);
   });
 
   it('should select Credit Card payment type', () => {
@@ -37,7 +45,7 @@ context('B2B - Credit Card Checkout flow', () => {
   });
 
   it('should enter shipping address', () => {
-    checkout.fillAddressFormWithCheapProduct(user, cartWithB2bProduct);
+    b2bCheckout.fillAddressFormWithCheapProduct(user, cartWithB2bProduct);
   });
 
   it('should select delivery mode', () => {
@@ -45,7 +53,7 @@ context('B2B - Credit Card Checkout flow', () => {
   });
 
   it('should enter payment method', () => {
-    checkout.fillPaymentFormWithCheapProduct(
+    b2bCheckout.fillPaymentFormWithCheapProduct(
       user,
       undefined,
       cartWithB2bProduct
