@@ -13,4 +13,4 @@ import { CpqConfiguratorRestInterceptor } from './cpq-configurator-rest.intercep
     },
   ],
 })
-export class RulebasedConfiguratorInterceptorModule {}
+export class CpqConfiguratorInterceptorModule {}

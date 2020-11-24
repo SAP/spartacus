@@ -20,7 +20,7 @@ describe('CpqConfiguratorRestInterceptor', () => {
 
   const nonCPQRequest: HttpRequest<any> = new HttpRequest(
     'GET',
-    'https://www.exmaple.com'
+    'https://www.example.com'
   );
 
   const cpqRequest: HttpRequest<any> = new HttpRequest(
@@ -104,7 +104,7 @@ describe('CpqConfiguratorRestInterceptor', () => {
       });
   });
 
-  it('should add authorization header to cpq related requetes', (done) => {
+  it('should add authorization header to cpq related requests', (done) => {
     interceptorUnderTest
       .intercept(cpqRequest, mockedNextHandler)
       .subscribe(() => {
@@ -115,7 +115,7 @@ describe('CpqConfiguratorRestInterceptor', () => {
       });
   });
 
-  it('should add cookieless header to cpq related requetes', (done) => {
+  it('should add cookieless header to cpq related requests', (done) => {
     interceptorUnderTest
       .intercept(cpqRequest, mockedNextHandler)
       .subscribe(() => {

@@ -5,15 +5,18 @@ import { CpqAccessData } from './cpq-access-data.models';
 import { CpqAccessLoaderService } from './cpq-access-loader.service';
 
 const ONE_DAY = 24 * 60 * 60 * 1000;
+const TOKEN_EXPIRATION_BUFFER = 1000;
 
 @Injectable({ providedIn: 'root' })
 export class CpqAccessStorageService {
   /* We should stop using/sending a token shortly before expiration,
-   * to avoid that it is actaully expired when evaluated in the target system */
+   * to avoid that it is actually expired when evaluated in the target system */
   static TOKEN_EXPIRATION_BUFFER = new InjectionToken<number>(
     'TOKEN_EXPIRATION_BUFFER',
     {
-      factory: CpqAccessStorageService.defaultValue,
+      factory: () => {
+        return TOKEN_EXPIRATION_BUFFER;
+      },
     }
   );
 
@@ -25,8 +28,8 @@ export class CpqAccessStorageService {
 
   protected cpqAccessData: Observable<CpqAccessData>;
 
-  private static defaultValue() {
-    return 1000;
+  protected static defaultValue() {
+    return TOKEN_EXPIRATION_BUFFER;
   }
 
   getCachedCpqAccessData(): Observable<CpqAccessData> {
