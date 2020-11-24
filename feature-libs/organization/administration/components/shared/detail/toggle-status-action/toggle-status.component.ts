@@ -3,6 +3,7 @@ import {
   Component,
   Input,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Subject, Subscription } from 'rxjs';
@@ -22,7 +23,7 @@ import { BaseItem } from '../../organization.model';
   templateUrl: './toggle-status.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
+export class ToggleStatusComponent<T extends BaseItem> implements OnInit, OnDestroy {
   /**
    * The localization of messages is based on the i18n root. Messages are
    * concatenated to the root, such as:
@@ -48,8 +49,12 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
    */
   current$ = this.itemService.current$;
 
+  toggle$ = this.itemService.toggleChanged$;
+
   protected subscription = new Subscription();
+  protected toggleSubscription : Subscription;
   protected confirmation: Subject<ConfirmationMessageData>;
+  shouldBeDisabled: boolean;
 
   constructor(
     protected itemService: ItemService<T>,
@@ -88,7 +93,10 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   /**
    * Indicates whether the status can be toggled or not.
    */
-  isDisabled(item: T): boolean {
+  isDisabled(item: T, toggleSwitch: any): boolean {
+    if (toggleSwitch === true) {
+      return true;
+    }
     return (
       this.disabled ??
       !(item.orgUnit || (item as any).unit || (item as any).parentOrgUnit)
@@ -124,7 +132,23 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
     });
   }
 
+  ngOnInit() {
+    console.log('here we go');
+    // this.toggleSubscription = this.itemService.getToggleStatus().subscribe(t => {
+    //   console.log('from the store: ', t);
+    //   this.disabled = t;
+    //   console.log(this.disabled);
+    // });
+    // this.itemService.toggleChanged$.subscribe(
+    //   (toggleChanged) => {
+    //     this.shouldBeDisabled = toggleChanged
+    //     console.log('CHANGED TO: ', this.shouldBeDisabled);
+    //   }
+    // );
+  }
+
   ngOnDestroy() {
     this.subscription?.unsubscribe();
+    this.toggleSubscription?.unsubscribe();
   }
 }
