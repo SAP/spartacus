@@ -83,10 +83,14 @@ describe('CpqConfiguratorRestInterceptor', () => {
     expect(mockedNextHandler.handle).toHaveBeenCalledWith(nonCPQRequest);
   });
 
-  it('should intercept cpq related requests', () => {
-    interceptorUnderTest.intercept(cpqRequest, mockedNextHandler);
-    expect(mockedNextHandler.handle).not.toHaveBeenCalledWith(cpqRequest);
-    expect(mockedNextHandler.handle).toHaveBeenCalled();
+  it('should intercept cpq related requests', (done) => {
+    interceptorUnderTest
+      .intercept(cpqRequest, mockedNextHandler)
+      .subscribe(() => {
+        expect(mockedNextHandler.handle).not.toHaveBeenCalledWith(cpqRequest);
+        expect(mockedNextHandler.handle).toHaveBeenCalled();
+        done();
+      });
   });
 
   it('should replace url of cpq related requests', (done) => {
