@@ -38,6 +38,5 @@ import { RouterModule } from '@angular/router';
   ],
   declarations: [UpdateEmailComponent],
   exports: [UpdateEmailComponent],
-  entryComponents: [UpdateEmailComponent],
 })
 export class UpdateEmailModule {}

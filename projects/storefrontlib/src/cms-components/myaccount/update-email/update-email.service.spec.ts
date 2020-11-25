@@ -100,18 +100,18 @@ describe('UpdateEmailService', () => {
     it('should call resetUpdateEmailResultState', () => {
       spyOn(userService, 'resetUpdateEmailResultState').and.stub();
 
-      service.resetUpdateEmailResultState();
+      service.reset();
       expect(userService.resetUpdateEmailResultState).toHaveBeenCalled();
     });
 
-    it('should call getUpdateEmailResultLoading', () => {
-      spyOn(userService, 'getUpdateEmailResultLoading').and.returnValue(
-        of(true)
-      );
-
-      service.getUpdateEmailResultLoading();
-      expect(userService.getUpdateEmailResultLoading).toHaveBeenCalled();
-    });
+    // it('should call getUpdateEmailResultLoading', () => {
+    //   spyOn(userService, 'getUpdateEmailResultLoading').and.returnValue(
+    //     of(true)
+    //   );
+    //
+    //   service.getUpdateEmailResultLoading();
+    //   expect(userService.getUpdateEmailResultLoading).toHaveBeenCalled();
+    // });
   });
 
   it('onFormSubmit should userService.updateEmail', () => {
@@ -120,20 +120,19 @@ describe('UpdateEmailService', () => {
     confirmNewUid.setValue('tester@sap.com');
     password.setValue('Qwe123!');
 
-    service.onFormSubmit();
+    service.save();
     expect(userService.updateEmail).toHaveBeenCalledWith(
       'Qwe123!',
       'tester@sap.com'
     );
   });
 
-  it('onSuccess show message, logout and reroute', async () => {
-    spyOn(authService, 'coreLogout').and.stub();
+  it('onSuccess show message, logout and reroute', (done: DoneFn) => {
+    spyOn(authService, 'coreLogout').and.callThrough();
     spyOn(routingService, 'go').and.stub();
     spyOn(globalMessageService, 'add').and.stub();
-    service['newUid'] = 'new@sap.com';
 
-    service['onSuccess'](true);
+    service['onSuccess']('new@sap.com');
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
@@ -143,12 +142,19 @@ describe('UpdateEmailService', () => {
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
 
-    await expect(authService.coreLogout).toHaveBeenCalled();
+    expect(authService.coreLogout).toHaveBeenCalled();
+    authService.coreLogout().then(() => {
+      expect(routingService.go).toHaveBeenCalledWith(
+        { cxRoute: 'login' },
+        null,
+        {
+          state: {
+            newUid: 'new@sap.com',
+          },
+        }
+      );
 
-    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' }, null, {
-      state: {
-        newUid: 'new@sap.com',
-      },
+      done();
     });
   });
 });

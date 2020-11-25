@@ -9,13 +9,16 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CustomFormValidators } from '../../../shared/utils';
+import { first } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UpdateEmailService implements OnDestroy {
   protected subscriptions = new Subscription();
-  protected newUid: string;
+  isUpdating$: Observable<
+    boolean
+  > = this.userService.getUpdateEmailResultLoading();
 
   constructor(
     protected routingService: RoutingService,
@@ -38,64 +41,58 @@ export class UpdateEmailService implements OnDestroy {
     }
   );
 
-  getUpdateEmailResultLoading(): Observable<boolean> {
-    return this.userService.getUpdateEmailResultLoading();
-  }
-
-  resetUpdateEmailResultState(): void {
+  reset(): void {
     this.userService.resetUpdateEmailResultState();
+    this.form.reset();
   }
 
   ngOnDestroy(): void {
+    this.reset();
     this.subscriptions.unsubscribe();
-    this.resetUpdateEmailResultState();
   }
 
-  onFormSubmit(): void {
-    if (this.form.valid) {
-      this.newUid = this.form.get('confirmEmail').value;
-      this.userService.updateEmail(
-        this.form.get('password').value,
-        this.newUid
-      );
-
-      this.subscriptions.add(
-        this.getUpdateEmailResultLoading().subscribe((loading) =>
-          this.setFormControlState(loading)
-        )
-      );
-
-      this.subscriptions.add(
-        this.userService
-          .getUpdateEmailResultSuccess()
-          .subscribe((success) => this.onSuccess(success))
-      );
-    } else {
+  save(): void {
+    if (!this.form.valid) {
       this.form.markAllAsTouched();
+      return;
     }
+    const newEmail = this.form.get('confirmEmail').value;
+    this.userService.updateEmail(this.form.get('password').value, newEmail);
+
+    this.subscriptions.add(
+      this.isUpdating$.subscribe((loading) => this.setFormControlState(loading))
+    );
+
+    this.subscriptions.add(
+      this.userService
+        .getUpdateEmailResultSuccess()
+        .pipe(first((success) => Boolean(success) && Boolean(newEmail)))
+        .subscribe(() => this.onSuccess(newEmail))
+    );
   }
 
   private setFormControlState(loading: boolean): void {
     loading ? this.form.disable() : this.form.enable();
   }
 
-  private async onSuccess(success: boolean): Promise<void> {
-    if (success) {
-      this.globalMessageService.add(
-        {
-          key: 'updateEmailForm.emailUpdateSuccess',
-          params: { newUid: this.newUid },
-        },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
-      this.form.reset();
-      // TODO(#9638): Use logout route when it will support passing redirect url
-      await this.authService.coreLogout();
+  // Show global message then log the user out
+  // and redirect to login page
+  protected onSuccess(newUid: string): void {
+    this.globalMessageService.add(
+      {
+        key: 'updateEmailForm.emailUpdateSuccess',
+        params: { newUid },
+      },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+    this.form.reset();
+    // TODO(#9638): Use logout route when it will support passing redirect url
+    this.authService.coreLogout().then(() => {
       this.routingService.go({ cxRoute: 'login' }, null, {
         state: {
-          newUid: this.newUid,
+          newUid,
         },
       });
-    }
+    });
   }
 }

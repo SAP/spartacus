@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UpdateEmailService } from './update-email.service';
 import { FormGroup } from '@angular/forms';
@@ -13,22 +8,15 @@ import { FormGroup } from '@angular/forms';
   templateUrl: './update-email.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UpdateEmailComponent implements OnInit, OnDestroy {
-  constructor(protected updateEmailService: UpdateEmailService) {}
-  updateEmailForm: FormGroup;
-  isLoading$: Observable<boolean>;
-
-  ngOnInit() {
-    this.updateEmailService.resetUpdateEmailResultState();
-    this.isLoading$ = this.updateEmailService.getUpdateEmailResultLoading();
-    this.updateEmailForm = this.updateEmailService.form;
-  }
+export class UpdateEmailComponent implements OnDestroy {
+  constructor(protected service: UpdateEmailService) {}
+  form: FormGroup = this.service.form;
+  isUpdating$: Observable<boolean> = this.service.isUpdating$;
+  onSubmit = () => this.service.save();
 
   ngOnDestroy() {
-    this.updateEmailForm.reset();
-  }
-
-  onSubmit(): void {
-    this.updateEmailService.onFormSubmit();
+    // Form has to be reset in order to have a clean form
+    // next time component is called
+    this.service.reset();
   }
 }

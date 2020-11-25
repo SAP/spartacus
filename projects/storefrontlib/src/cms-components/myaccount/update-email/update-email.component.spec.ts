@@ -12,7 +12,7 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Subject } from 'rxjs';
 import { UpdateEmailComponent } from './update-email.component';
 import { UpdateEmailService } from './update-email.service';
 import { FormErrorsModule } from '@spartacus/storefront';
@@ -25,19 +25,17 @@ import { UrlTestingModule } from '../../../../../core/src/routing/configurable-r
 })
 class MockCxSpinnerComponent {}
 
+const isUpdatingSubject = new Subject();
 class MockUpdateEmailService {
   form: FormGroup = new FormGroup({
     email: new FormControl(),
     confirmEmail: new FormControl(),
     password: new FormControl(),
   });
-  resetUpdateEmailResultState(): void {}
+  isUpdating$ = isUpdatingSubject;
+  reset(): void {}
 
-  getUpdateEmailResultLoading(): Observable<boolean> {
-    return of(true);
-  }
-
-  onFormSubmit(): void {}
+  save(): void {}
 }
 
 describe('UpdateEmailComponent', () => {
@@ -81,9 +79,9 @@ describe('UpdateEmailComponent', () => {
 
     fixture.detectChanges();
 
-    newUid = component.updateEmailForm.controls.email;
-    confirmNewUid = component.updateEmailForm.controls.confirmEmail;
-    password = component.updateEmailForm.controls.password;
+    newUid = component.form.controls.email;
+    confirmNewUid = component.form.controls.confirmEmail;
+    password = component.form.controls.password;
   });
 
   function setFormValue() {
@@ -99,51 +97,35 @@ describe('UpdateEmailComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should reset the loading state when the component is initialized', () => {
-    spyOn(updateEmailService, 'resetUpdateEmailResultState').and.stub();
-
-    component.ngOnInit();
-    expect(updateEmailService.resetUpdateEmailResultState).toHaveBeenCalled();
-  });
-
   it('should show the spinner when updating', () => {
-    spyOn(updateEmailService, 'getUpdateEmailResultLoading').and.returnValue(
-      of(true)
-    );
+    isUpdatingSubject.next(true);
     fixture.detectChanges();
 
     expect(el.query(By.css('cx-spinner'))).toBeTruthy();
   });
 
   it('should call updateEmail on submit', () => {
-    spyOn(updateEmailService, 'onFormSubmit').and.stub();
+    spyOn(updateEmailService, 'save').and.stub();
 
     setFormValue();
 
     component.onSubmit();
-    expect(updateEmailService.onFormSubmit).toHaveBeenCalled();
+    expect(updateEmailService.save).toHaveBeenCalled();
   });
 
   describe('Form Interactions', () => {
     describe('Submit button', () => {
       it('should be disabled while loading', () => {
-        spyOn(
-          updateEmailService,
-          'getUpdateEmailResultLoading'
-        ).and.returnValue(of(true));
-        component.ngOnInit();
+        // updateEmailService.isUpdating$ = of(true);
+        isUpdatingSubject.next(true);
         fixture.detectChanges();
         const submitBtn = el.query(By.css('button[type="submit"]'));
         expect(submitBtn.nativeElement.disabled).toBeTruthy();
       });
 
       it('should call onSubmit() when clicked', () => {
-        spyOn(
-          updateEmailService,
-          'getUpdateEmailResultLoading'
-        ).and.returnValue(of(false));
         spyOn(component, 'onSubmit').and.stub();
-        component.ngOnInit();
+        isUpdatingSubject.next(false);
         fixture.detectChanges();
         const submitBtn = el.query(By.css('button[type="submit"]'));
         submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
@@ -153,25 +135,17 @@ describe('UpdateEmailComponent', () => {
 
     describe('Cancel Button', () => {
       it('should be disabled while loading', () => {
-        spyOn(
-          updateEmailService,
-          'getUpdateEmailResultLoading'
-        ).and.returnValue(of(true));
-        component.ngOnInit();
+        // updateEmailService.isUpdating$ = of(true);
+        isUpdatingSubject.next(true);
         fixture.detectChanges();
         const cancelBtn = el.query(By.css('button[type="button"]'));
         expect(cancelBtn.nativeElement.disabled).toBeTruthy();
       });
 
       it('should go to home when clicked', () => {
-        spyOn(
-          updateEmailService,
-          'getUpdateEmailResultLoading'
-        ).and.returnValue(of(false));
-        component.ngOnInit();
+        isUpdatingSubject.next(false);
         fixture.detectChanges();
         const cancelBtn = el.query(By.css('button[type="button"]'));
-        cancelBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
         expect(
           cancelBtn.nativeElement.getAttribute('ng-reflect-router-link')
         ).toContain('home');
