@@ -43,12 +43,10 @@ export class ToggleStatusComponent<T extends BaseItem>
    */
   current$ = this.itemService.current$;
 
-  toggle$ = this.itemService.toggleChanged$;
-
   protected subscription = new Subscription();
   protected confirmation: Subject<ConfirmationMessageData>;
   shouldBeDisabled: boolean;
-  toggleSubscription: Subscription;
+  isInEditFormSubscription: Subscription;
 
   constructor(
     protected itemService: ItemService<T>,
@@ -128,13 +126,15 @@ export class ToggleStatusComponent<T extends BaseItem>
   }
 
   ngAfterViewInit() {
-    this.toggleSubscription = this.itemService.toggleChanged$.subscribe((t) => {
-      this.shouldBeDisabled = t;
-    });
+    this.isInEditFormSubscription = this.itemService.isInEditForm$.subscribe(
+      (isInEditForm) => {
+        this.shouldBeDisabled = isInEditForm;
+      }
+    );
   }
 
   ngOnDestroy() {
     this.subscription?.unsubscribe();
-    this.toggleSubscription?.unsubscribe();
+    this.isInEditFormSubscription?.unsubscribe();
   }
 }
