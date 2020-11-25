@@ -39,6 +39,8 @@ export class FormComponent<T> implements OnDestroy {
   form$: Observable<FormGroup> = this.itemService.current$.pipe(
     map((item) => {
       this.setI18nRoot(item);
+      this.setIsInEdit(item);
+
       if (!item) {
         // we trick the form builder...
         item = {} as any;
@@ -84,6 +86,9 @@ export class FormComponent<T> implements OnDestroy {
   protected setI18nRoot(item: T): void {
     // concatenate the i18n root with .edit or .create suffix
     this.i18n = this.i18nRoot + (item ? '.edit' : '.create');
+  }
+
+  protected setIsInEdit(item: T): void {
     if (item) {
       this.itemService.isInEditFormSubject$.next(true);
     }
