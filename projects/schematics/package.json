@@ -20,7 +20,6 @@
   "dependencies": {
     "@angular-devkit/core": "^10.1.0",
     "@angular-devkit/schematics": "^10.1.0",
-    "@angular/cdk": "^10.2.0",
     "@angular/localize": "^10.1.0",
     "@angular/pwa": "^0.1001.0",
     "@nguniversal/express-engine": "^10.1.0",

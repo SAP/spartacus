@@ -29,8 +29,6 @@ import {
   addToModuleImports,
   addToModuleProviders,
   ANGULAR_CORE,
-  B2B_STOREFRONT_MODULE,
-  B2C_STOREFRONT_MODULE,
   CLI_STOREFINDER_FEATURE,
   commitChanges,
   createImportChange,
@@ -402,13 +400,7 @@ function mergeLazyLoadingConfig(
     module: Module;
   }
 ): Change {
-  let storefrontConfig = getExistingStorefrontConfigNode(
-    moduleSource,
-    B2C_STOREFRONT_MODULE
-  );
-  storefrontConfig =
-    storefrontConfig ||
-    getExistingStorefrontConfigNode(moduleSource, B2B_STOREFRONT_MODULE);
+  const storefrontConfig = getExistingStorefrontConfigNode(moduleSource);
 
   const lazyLoadingModule = `module: () => import('${config.module.importPath}').then(
           (m) => m.${config.module.name}

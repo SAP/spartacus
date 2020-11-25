@@ -9,10 +9,6 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import {
-  appendHtmlElementToHead,
-  getProjectStyleFile,
-} from '@angular/cdk/schematics';
 import { isImported } from '@schematics/angular/utility/ast-utils';
 import {
   addPackageJsonDependency,
@@ -32,6 +28,7 @@ import {
   SPARTACUS_STYLES,
 } from '../shared/constants';
 import { getIndexHtmlPath, getTsSourceFile } from '../shared/utils/file-utils';
+import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
   addImport,
   addToModuleImportsAndCommitChanges,
@@ -43,6 +40,8 @@ import {
 } from '../shared/utils/package-utils';
 import { parseCSV } from '../shared/utils/transform-utils';
 import {
+  getAngularJsonFile,
+  getDefaultProjectNameFromWorkspace,
   getProjectFromWorkspace,
   getProjectTargets,
 } from '../shared/utils/workspace-utils';
@@ -243,12 +242,12 @@ function updateAppModule(options: SpartacusOptions): Rule {
   };
 }
 
-function installStyles(
-  project: experimental.workspace.WorkspaceProject,
-  options: SpartacusOptions
-): Rule {
+function installStyles(tree: Tree, options: SpartacusOptions): Rule {
   return (host: Tree) => {
-    const styleFilePath = getProjectStyleFile(project);
+    const projectName = getDefaultProjectNameFromWorkspace(tree);
+    const angularJson = getAngularJsonFile(tree);
+    const styleFilePath =
+      angularJson.projects[projectName]?.architect?.build.options?.styles;
 
     if (!styleFilePath) {
       console.warn(
@@ -336,12 +335,9 @@ function updateMainComponent(
   };
 }
 
-function updateIndexFile(
-  project: experimental.workspace.WorkspaceProject,
-  options: SpartacusOptions
-): Rule {
+function updateIndexFile(tree: Tree, options: SpartacusOptions): Rule {
   return (host: Tree) => {
-    const projectIndexHtmlPath = getIndexHtmlPath(project);
+    const projectIndexHtmlPath = getIndexHtmlPath(tree);
     const baseUrl = options.baseUrl || 'OCC_BACKEND_BASE_URL_VALUE';
 
     const metaTags = [
@@ -364,9 +360,9 @@ export function addSpartacus(options: SpartacusOptions): Rule {
     return chain([
       addPackageJsonDependencies(),
       updateAppModule(options),
-      installStyles(project, options),
+      installStyles(tree, options),
       updateMainComponent(project, options),
-      options.useMetaTags ? updateIndexFile(project, options) : noop(),
+      options.useMetaTags ? updateIndexFile(tree, options) : noop(),
       installPackageJsonDependencies(),
     ])(tree, context);
   };
