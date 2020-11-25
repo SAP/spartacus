@@ -478,6 +478,7 @@ export class ServiceNameService extends LaunchDialogService {
     protected layoutConfig: LayoutConfig,
     @Inject(PLATFORM_ID)
     protected platform: any,
+    @Optional
     @Inject(RandomClass)
     randomClass: RandomClass[]
   ) {
@@ -776,7 +777,7 @@ describe('constructor migrations', () => {
     });
   });
 
-  fdescribe('when the constructor contains @Inject()', () => {
+  describe('when the constructor contains @Inject()', () => {
     it('should remove a parameter', async () => {
       writeFile(host, '/src/index.ts', PROPERTY_TEST);
 
@@ -788,7 +789,7 @@ describe('constructor migrations', () => {
     });
   });
 
-  describe('when the constructor contains @Inject()', () => {
+  fdescribe('when the constructor contains @Inject()', () => {
     it('should remove a parameter', async () => {
       writeFile(host, '/src/index.ts', PROPERTY_EXPECTED);
 

@@ -567,8 +567,10 @@ export function removeConstructorParam(
 
   if (shouldRemoveImportAndParam(source, paramToRemove)) {
     const importRemovalChange = removeImport(source, paramToRemove);
+
     const injectImportRemovalChange = removeInjectImports(
       source,
+      constructorNode,
       paramToRemove
     );
     const constructorParamRemovalChanges = removeConstructorParamInternal(
@@ -580,7 +582,7 @@ export function removeConstructorParam(
     changes.push(
       importRemovalChange,
       ...constructorParamRemovalChanges,
-      injectImportRemovalChange
+      ...injectImportRemovalChange
     );
   }
   const paramName = getParamName(source, constructorNode, paramToRemove);
@@ -596,6 +598,30 @@ export function removeConstructorParam(
   changes.push(...superRemoval);
 
   return changes;
+}
+
+function hasDuplicateDecorator(
+  constructorNode: ts.Node,
+  decoratorIdentifier: string
+): boolean {
+  const constructorParameters = findNodes(
+    constructorNode,
+    ts.SyntaxKind.Decorator
+  );
+
+  let decoratorCount = 0;
+  for (const param of constructorParameters) {
+    if (
+      findNodes(param, ts.SyntaxKind.Identifier)[0].getText() ===
+      decoratorIdentifier
+    )
+      decoratorCount++;
+    if (decoratorCount >= 2) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 function getParamName(
@@ -674,20 +700,33 @@ function shouldRemoveImportAndParam(
 
 export function removeInjectImports(
   source: ts.SourceFile,
+  constructorNode: ts.Node,
   paramToRemove: ClassType
-): Change {
-  if (
-    !paramToRemove.injectionToken ||
-    !paramToRemove.injectionToken.importPath ||
-    paramToRemove.injectionToken.token === paramToRemove.className
-  ) {
-    return new NoopChange();
+): Change[] {
+  const importRemovalChange: Change[] = [];
+
+  if (!paramToRemove.injectionToken) {
+    return [new NoopChange()];
   }
 
-  return removeImport(source, {
-    className: paramToRemove.injectionToken.token,
-    importPath: paramToRemove.injectionToken.importPath,
-  });
+  if (!hasDuplicateDecorator(constructorNode, INJECT))
+    importRemovalChange.push(
+      removeImport(source, { className: INJECT, importPath: ANGULAR_CORE })
+    );
+
+  if (
+    paramToRemove.injectionToken.importPath &&
+    paramToRemove.injectionToken.token !== paramToRemove.className
+  ) {
+    importRemovalChange.push(
+      removeImport(source, {
+        className: paramToRemove.injectionToken.token,
+        importPath: paramToRemove.injectionToken.importPath,
+      })
+    );
+  }
+
+  return importRemovalChange;
 }
 
 export function removeImport(
@@ -870,29 +909,21 @@ function updateConstructorSuperNode(
   constructorNode: ts.Node,
   propertyName: string
 ): InsertChange {
-  const callExpressions = findNodes(
-    constructorNode,
-    ts.SyntaxKind.CallExpression
-  );
+  const callBlock = findNodes(constructorNode, ts.SyntaxKind.Block);
   propertyName = strings.camelize(propertyName);
 
-  if (callExpressions.length === 0) {
-    throw new SchematicsException('No super() call found.');
+  if (callBlock.length === 0) {
+    throw new SchematicsException('No constructor body found.');
   }
   // super has to be the first expression in constructor
-  let firstCallExpression = callExpressions[0];
-  let superKeyword = findNodes(firstCallExpression, ts.SyntaxKind.SuperKeyword);
+  const firstCallExpression = callBlock[0];
+  const superKeyword = findNodes(
+    firstCallExpression,
+    ts.SyntaxKind.SuperKeyword
+  );
 
   if (superKeyword && superKeyword.length === 0) {
-    // The following changes are bad and require explaining
-    const hasDecorator = findNodes(callExpressions[1], ts.SyntaxKind.Decorator);
-
-    if (hasDecorator) {
-      firstCallExpression = callExpressions[1];
-      superKeyword = findNodes(firstCallExpression, ts.SyntaxKind.SuperKeyword);
-    } else {
-      throw new SchematicsException('No super() call found.');
-    }
+    throw new SchematicsException('No super() call found.');
   }
 
   let toInsert = '';

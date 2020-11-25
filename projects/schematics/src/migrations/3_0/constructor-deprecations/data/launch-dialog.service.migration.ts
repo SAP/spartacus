@@ -20,27 +20,27 @@ export const LAUNCH_DIALOG_SERVICE_MIGRATION: ConstructorDeprecation = {
     },
   ],
   addParams: [
+    // {
+    //   className: 'SomethingHere',
+    //   importPath: SPARTACUS_STOREFRONTLIB,
+    // },
+  ],
+  removeParams: [
+    // {
+    //   className: 'platform',
+    //   staticType: 'any',
+    //   injectionToken: {
+    //     token: 'PLATFORM_ID',
+    //     importPath: ANGULAR_CORE, // TODO try without it
+    //   },
+    // },
     {
-      className: 'SomethingHere',
+      className: 'RandomClass',
       importPath: SPARTACUS_STOREFRONTLIB,
+      injectionToken: {
+        token: 'RandomClass',
+        // importPath: SPARTACUS_STOREFRONTLIB, // TODO try without it
+      },
     },
   ],
-  // removeParams: [
-  //   {
-  //     className: 'platform',
-  //     // staticType: 'any',
-  //     injectionToken: {
-  //       token: 'PLATFORM_ID',
-  //       importPath: ANGULAR_CORE, // TODO try without it
-  //     },
-  //   },
-  //   {
-  //     className: 'RandomClass',
-  //     importPath: SPARTACUS_STOREFRONTLIB,
-  //     injectionToken: {
-  //       token: 'RandomClass',
-  //       // importPath: SPARTACUS_STOREFRONTLIB, // TODO try without it
-  //     },
-  //   },
-  // ],
 };
