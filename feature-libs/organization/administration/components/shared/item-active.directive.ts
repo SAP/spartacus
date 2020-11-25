@@ -47,7 +47,7 @@ export class ItemActiveDirective<T = BaseItem> implements OnInit, OnDestroy {
     );
   }
 
-  protected handleDisabledItems() {
+  protected handleDisabledItems(): void {
     this.messageService.add(messageDisabledItem);
   }
 
