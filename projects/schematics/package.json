@@ -10,8 +10,8 @@
   ],
   "scripts": {
     "prepare:schematics": "yarn install",
-    "clean": "rimraf \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
-    "build": "yarn prepare:schematics && yarn clean && tsc -p ./tsconfig.schematics.json",
+    "clean": "yarn prepare:schematics && rimraf \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
+    "build": "yarn clean && tsc -p ./tsconfig.schematics.json",
     "test": "jest --config ./jest.schematics.config.js"
   },
   "author": "",
