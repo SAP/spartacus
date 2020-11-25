@@ -1,5 +1,5 @@
 const { pathsToModuleNameMapper } = require('ts-jest/utils');
-const { compilerOptions } = require('./tsconfig.schematics.spec');
+const { compilerOptions } = require('./tsconfig.schematics');
 
 module.exports = {
   setupFilesAfterEnv: ['<rootDir>/jest.ts'],
