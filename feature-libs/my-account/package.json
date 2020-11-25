@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/my-account",
-  "version": "3.0.0-next.4",
+  "version": "0.300.0",
   "description": "My Account library for Spartacus",
   "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
