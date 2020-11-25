@@ -55,7 +55,8 @@ class AuthServiceMock {
 const TestCpqConfiguratorTokenConfig: CpqConfiguratorTokenConfig = {
   cpqConfigurator: {
     tokenExpirationBuffer: 10, // ten ms
-    tokenMaxValidity: 24 * 60 * 60 * 1000, //one day
+    tokenMaxValidity: 1000, //one second
+    tokenMinValidity: 5, // five ms
   },
 };
 

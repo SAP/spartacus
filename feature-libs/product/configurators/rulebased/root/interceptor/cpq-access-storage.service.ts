@@ -8,9 +8,14 @@ import { CpqAccessLoaderService } from './cpq-access-loader.service';
 export abstract class CpqConfiguratorTokenConfig {
   cpqConfigurator: {
     /* We should stop using/sending a token shortly before expiration,
-     * to avoid that it is actually expired when evaluated in the target system */
+     * to avoid that it is actually expired when evaluated in the target system.
+     * Time given in ms. */
     tokenExpirationBuffer: number;
+    /* max time in ms to pass until a token is considered expired and refetched,
+     * even if token expiration time is longer */
     tokenMaxValidity: number;
+    /* min time to pass until a token is refecthed, even if token expiration time is shorter */
+    tokenMinValidity: number;
   };
 }
 
@@ -18,6 +23,7 @@ export const DefaultCpqConfiguratorTokenConfig: CpqConfiguratorTokenConfig = {
   cpqConfigurator: {
     tokenExpirationBuffer: 10000, // ten seconds
     tokenMaxValidity: 24 * 60 * 60 * 1000, //one day
+    tokenMinValidity: 5000, // five seconds
   },
 };
 
@@ -86,15 +92,13 @@ export class CpqAccessStorageService {
 
   protected fetchNextTokenIn(data: CpqAccessData) {
     // we schedule a request to update our cache some time before expiration
-    console.log(this.config);
     let fetchNextIn: number =
       data.accessTokenExpirationTime -
       Date.now() -
       this.config.cpqConfigurator.tokenExpirationBuffer;
-    if (fetchNextIn < 5) {
-      fetchNextIn = 5;
-    }
-    if (fetchNextIn > this.config.cpqConfigurator.tokenMaxValidity) {
+    if (fetchNextIn < this.config.cpqConfigurator.tokenMinValidity) {
+      fetchNextIn = this.config.cpqConfigurator.tokenMinValidity;
+    } else if (fetchNextIn > this.config.cpqConfigurator.tokenMaxValidity) {
       fetchNextIn = this.config.cpqConfigurator.tokenMaxValidity;
     }
     return fetchNextIn;
