@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Subject, Subscription } from 'rxjs';
 import { filter, first, take } from 'rxjs/operators';
@@ -16,8 +16,7 @@ import { BaseItem } from '../../organization.model';
   selector: 'cx-org-toggle-status',
   templateUrl: './toggle-status.component.html',
 })
-export class ToggleStatusComponent<T extends BaseItem>
-  implements AfterViewInit, OnDestroy {
+export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   /**
    * The localization of messages is based on the i18n root. Messages are
    * concatenated to the root, such as:
@@ -45,8 +44,6 @@ export class ToggleStatusComponent<T extends BaseItem>
 
   protected subscription = new Subscription();
   protected confirmation: Subject<ConfirmationMessageData>;
-  shouldBeDisabled: boolean;
-  isInEditFormSubscription: Subscription;
 
   constructor(
     protected itemService: ItemService<T>,
@@ -86,10 +83,6 @@ export class ToggleStatusComponent<T extends BaseItem>
    * Indicates whether the status can be toggled or not.
    */
   isDisabled(item: T): boolean {
-    if (this.shouldBeDisabled) {
-      return true;
-    }
-
     return (
       this.disabled ??
       !(item.orgUnit || (item as any).unit || (item as any).parentOrgUnit)
@@ -125,16 +118,7 @@ export class ToggleStatusComponent<T extends BaseItem>
     });
   }
 
-  ngAfterViewInit() {
-    this.isInEditFormSubscription = this.itemService.isInEditForm$.subscribe(
-      (isInEditForm) => {
-        this.shouldBeDisabled = isInEditForm;
-      }
-    );
-  }
-
   ngOnDestroy() {
     this.subscription?.unsubscribe();
-    this.isInEditFormSubscription?.unsubscribe();
   }
 }

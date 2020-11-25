@@ -3,6 +3,7 @@ import {
   Component,
   Input,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { LoadStatus } from '@spartacus/organization/administration/core';
@@ -22,7 +23,7 @@ import { MessageService } from '../message/services/message.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },
 })
-export class FormComponent<T> implements OnDestroy {
+export class FormComponent<T> implements OnInit, OnDestroy {
   /**
    * i18n root for all localizations. The i18n root key is suffixed with
    * either `.edit` or `.create`, depending on the usage of the component.
@@ -39,7 +40,6 @@ export class FormComponent<T> implements OnDestroy {
   form$: Observable<FormGroup> = this.itemService.current$.pipe(
     map((item) => {
       this.setI18nRoot(item);
-      this.setIsInEdit(item);
 
       if (!item) {
         // we trick the form builder...
@@ -88,16 +88,18 @@ export class FormComponent<T> implements OnDestroy {
     this.i18n = this.i18nRoot + (item ? '.edit' : '.create');
   }
 
-  protected setIsInEdit(item: T): void {
-    if (item) {
-      this.itemService.isInEditFormSubject$.next(true);
-    }
+  protected setIsInEdit(): void {
+    this.itemService.isInEditFormSubject$.next(true);
   }
 
   back(event: MouseEvent, card: CardComponent<any>) {
     if (this.animateBack) {
       card.closeView(event);
     }
+  }
+
+  ngOnInit() {
+    this.setIsInEdit();
   }
 
   ngOnDestroy() {
