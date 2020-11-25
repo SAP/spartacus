@@ -13,7 +13,7 @@
     "clean:schematics": "rimraf \"schematics/**/*.js\" \"schematics/**/*_spec.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
     "build:schematics:deps": "yarn --cwd ../../projects/schematics run build",
     "build:schematics": "yarn clean:schematics && tsc -p ./tsconfig.schematics.json",
-    "test:schematics": "yarn build:schematics:deps && yarn clean:schematics && tsc -p ./tsconfig.schematics.spec.json && jest --config ./jest.schematics.config.js"
+    "test:schematics": "yarn build:schematics:deps && yarn clean:schematics && tsc -p ./tsconfig.schematics.json && jest --config ./jest.schematics.config.js"
   },
   "license": "Apache-2.0",
   "publishConfig": {
