@@ -77,12 +77,12 @@
       "description": "Handle deprecated CSS"
     },
     "migration-v3-storefinder-07": {
-      "version": "3.0.0-rc.1",
+      "version": "3.0.0-rc.0",
       "factory": "./3_0/storefinder/storefinder#migrate",
       "description": "Migrate the old storefinder setup to the new one."
     },
     "migration-v3-add-dependencies-08": {
-      "version": "3.0.0-rc.1",
+      "version": "3.0.0-rc.0",
       "factory": "./3_0/add-dependencies/add-dependencies#migrate",
       "description": "Add and install additional dependencies"
     }
