@@ -8,7 +8,7 @@ import {
   LoadStatus,
 } from '@spartacus/organization/administration/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { of, Subject } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import { ItemService } from '../../item.service';
 import { ConfirmationMessageData } from '../../message/confirmation/confirmation-message.model';
 import { MessageService } from '../../message/services/message.service';
@@ -24,6 +24,9 @@ class MockMessageService {
 
 class MockItemService {
   current$ = of();
+  isInEditFormSubject$ = new BehaviorSubject<boolean>(false);
+  isInEditForm$ = this.isInEditFormSubject$.asObservable();
+
   update() {
     return of();
   }
