@@ -344,10 +344,11 @@ describe('Spartacus Organization schematics: ng-add', () => {
         .toPromise();
     });
 
-    it('should just append storefinder feature without duplicating the featureModules config', () => {
+    it('should just append the organization features without duplicating the featureModules config', () => {
       const appModule = appTree.readContent(appModulePath);
       expect(appModule.match(/featureModules:/g).length).toEqual(1);
-      expect(appModule).toContain(`storeFinder: {`);
+      expect(appModule).toContain(`administration: {`);
+      expect(appModule).toContain(`order-approval: {`);
     });
   });
 });
