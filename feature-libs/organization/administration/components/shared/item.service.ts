@@ -111,4 +111,10 @@ export abstract class ItemService<T> {
   getRouterParam(key: string): Observable<string> {
     return this.currentItemService.getRouterParam(key);
   }
+  /**
+   * Sets to true when the user is on the entity item form page
+   */
+  setEditMode(isInEdit: boolean) {
+    (this.isInEditMode$ as BehaviorSubject<boolean>).next(isInEdit);
+  }
 }
