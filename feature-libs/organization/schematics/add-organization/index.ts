@@ -99,22 +99,6 @@ function updateAppModule(appModulePath: string): Rule {
       changes.push(importRemovalChange);
     }
 
-    if (
-      !isImported(
-        getTsSourceFile(host, appModulePath),
-        B2B_STOREFRONT_MODULE,
-        SPARTACUS_SETUP
-      )
-    ) {
-      const b2bModuleImportChange = createImportChange(
-        host,
-        appModulePath,
-        B2B_STOREFRONT_MODULE,
-        SPARTACUS_SETUP
-      );
-      changes.push(b2bModuleImportChange);
-    }
-
     const b2cNodeResults = findMultiLevelNodesByTextAndKind(
       getTsSourceFile(host, appModulePath).getChildren(),
       B2C_STOREFRONT_MODULE,
@@ -135,6 +119,23 @@ function updateAppModule(appModulePath: string): Rule {
     });
 
     commitChanges(host, appModulePath, changes);
+
+    if (
+      !isImported(
+        getTsSourceFile(host, appModulePath),
+        B2B_STOREFRONT_MODULE,
+        SPARTACUS_SETUP
+      )
+    ) {
+      const b2bModuleImportChange = createImportChange(
+        host,
+        appModulePath,
+        B2B_STOREFRONT_MODULE,
+        SPARTACUS_SETUP
+      );
+      commitChanges(host, appModulePath, [b2bModuleImportChange]);
+    }
+
     return host;
   };
 }
