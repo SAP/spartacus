@@ -88,10 +88,6 @@ export class FormComponent<T> implements OnInit, OnDestroy {
     this.i18n = this.i18nRoot + (item ? '.edit' : '.create');
   }
 
-  protected setIsInEdit(): void {
-    this.itemService.setEditMode(true);
-  }
-
   back(event: MouseEvent, card: CardComponent<any>) {
     if (this.animateBack) {
       card.closeView(event);
@@ -99,7 +95,7 @@ export class FormComponent<T> implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.setIsInEdit();
+    this.itemService.setEditMode(true);
   }
 
   ngOnDestroy() {
