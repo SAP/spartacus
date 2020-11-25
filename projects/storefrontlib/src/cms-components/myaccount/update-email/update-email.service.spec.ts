@@ -3,7 +3,9 @@ import { NavigationExtras } from '@angular/router';
 import {
   AuthService,
   GlobalMessage,
-  GlobalMessageService, GlobalMessageType, I18nTestingModule,
+  GlobalMessageService,
+  GlobalMessageType,
+  I18nTestingModule,
   RoutingService,
   UrlCommands,
   UserService,
@@ -12,8 +14,6 @@ import { Observable, of } from 'rxjs';
 import { UpdateEmailService } from './update-email.service';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { FormErrorsModule } from '@spartacus/storefront';
-
-
 
 class MockUserService {
   updateEmail(): void {}
@@ -74,7 +74,7 @@ describe('UpdateEmailService', () => {
         {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
-        }
+        },
       ],
     }).compileComponents();
   }));
@@ -105,7 +105,9 @@ describe('UpdateEmailService', () => {
     });
 
     it('should call getUpdateEmailResultLoading', () => {
-      spyOn(userService, 'getUpdateEmailResultLoading').and.returnValue(of(true));
+      spyOn(userService, 'getUpdateEmailResultLoading').and.returnValue(
+        of(true)
+      );
 
       service.getUpdateEmailResultLoading();
       expect(userService.getUpdateEmailResultLoading).toHaveBeenCalled();
@@ -119,7 +121,10 @@ describe('UpdateEmailService', () => {
     password.setValue('Qwe123!');
 
     service.onFormSubmit();
-    expect(userService.updateEmail).toHaveBeenCalledWith('Qwe123!','tester@sap.com');
+    expect(userService.updateEmail).toHaveBeenCalledWith(
+      'Qwe123!',
+      'tester@sap.com'
+    );
   });
 
   it('onSuccess show message, logout and reroute', async () => {
@@ -140,14 +145,10 @@ describe('UpdateEmailService', () => {
 
     await expect(authService.coreLogout).toHaveBeenCalled();
 
-    expect(routingService.go).toHaveBeenCalledWith(
-      {cxRoute: 'login'},
-      null,
-      {
-        state: {
-          newUid: 'new@sap.com',
-        },
-      }
-    );
+    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' }, null, {
+      state: {
+        newUid: 'new@sap.com',
+      },
+    });
   });
 });

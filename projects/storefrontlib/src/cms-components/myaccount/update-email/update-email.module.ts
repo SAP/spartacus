@@ -6,7 +6,7 @@ import {
   CmsConfig,
   I18nModule,
   provideDefaultConfig,
-  UrlModule
+  UrlModule,
 } from '@spartacus/core';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { UpdateEmailComponent } from './update-email.component';
@@ -34,7 +34,7 @@ import { RouterModule } from '@angular/router';
         },
       },
     }),
-    UpdateEmailService
+    UpdateEmailService,
   ],
   declarations: [UpdateEmailComponent],
   exports: [UpdateEmailComponent],

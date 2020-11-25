@@ -11,9 +11,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CustomFormValidators } from '../../../shared/utils';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class UpdateEmailService implements OnDestroy {
   protected subscriptions = new Subscription();
   protected newUid: string;
@@ -23,18 +22,21 @@ export class UpdateEmailService implements OnDestroy {
     protected globalMessageService: GlobalMessageService,
     protected userService: UserService,
     protected authService: AuthService
-  ) {
-  }
+  ) {}
 
   form: FormGroup = new FormGroup(
     {
-      email: new FormControl('', [Validators.required, CustomFormValidators.emailValidator]),
+      email: new FormControl('', [
+        Validators.required,
+        CustomFormValidators.emailValidator,
+      ]),
       confirmEmail: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required])
+      password: new FormControl('', [Validators.required]),
     },
     {
-    validators: CustomFormValidators.emailsMustMatch('email', 'confirmEmail')
-  });
+      validators: CustomFormValidators.emailsMustMatch('email', 'confirmEmail'),
+    }
+  );
 
   getUpdateEmailResultLoading(): Observable<boolean> {
     return this.userService.getUpdateEmailResultLoading();
@@ -52,15 +54,20 @@ export class UpdateEmailService implements OnDestroy {
   onFormSubmit(): void {
     if (this.form.valid) {
       this.newUid = this.form.get('confirmEmail').value;
-      this.userService.updateEmail(this.form.get('password').value, this.newUid);
-
-      this.subscriptions.add(
-        this.getUpdateEmailResultLoading()
-          .subscribe((loading) => this.setFormControlState(loading))
+      this.userService.updateEmail(
+        this.form.get('password').value,
+        this.newUid
       );
 
       this.subscriptions.add(
-        this.userService.getUpdateEmailResultSuccess()
+        this.getUpdateEmailResultLoading().subscribe((loading) =>
+          this.setFormControlState(loading)
+        )
+      );
+
+      this.subscriptions.add(
+        this.userService
+          .getUpdateEmailResultSuccess()
           .subscribe((success) => this.onSuccess(success))
       );
     } else {
@@ -77,14 +84,14 @@ export class UpdateEmailService implements OnDestroy {
       this.globalMessageService.add(
         {
           key: 'updateEmailForm.emailUpdateSuccess',
-          params: {newUid: this.newUid},
+          params: { newUid: this.newUid },
         },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
       this.form.reset();
       // TODO(#9638): Use logout route when it will support passing redirect url
       await this.authService.coreLogout();
-      this.routingService.go({cxRoute: 'login'}, null, {
+      this.routingService.go({ cxRoute: 'login' }, null, {
         state: {
           newUid: this.newUid,
         },

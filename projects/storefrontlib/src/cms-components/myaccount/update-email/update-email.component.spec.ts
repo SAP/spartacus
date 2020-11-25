@@ -1,6 +1,15 @@
-import { ChangeDetectionStrategy, Component, DebugElement } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DebugElement,
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -43,16 +52,19 @@ describe('UpdateEmailComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule, RouterTestingModule, UrlTestingModule],
-      declarations: [
-        UpdateEmailComponent,
-        MockCxSpinnerComponent,
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        RouterTestingModule,
+        UrlTestingModule,
       ],
+      declarations: [UpdateEmailComponent, MockCxSpinnerComponent],
       providers: [
         {
           provide: UpdateEmailService,
           useClass: MockUpdateEmailService,
-        }
+        },
       ],
     })
       .overrideComponent(UpdateEmailComponent, {
@@ -95,7 +107,9 @@ describe('UpdateEmailComponent', () => {
   });
 
   it('should show the spinner when updating', () => {
-    spyOn(updateEmailService, 'getUpdateEmailResultLoading').and.returnValue(of(true));
+    spyOn(updateEmailService, 'getUpdateEmailResultLoading').and.returnValue(
+      of(true)
+    );
     fixture.detectChanges();
 
     expect(el.query(By.css('cx-spinner'))).toBeTruthy();
@@ -113,7 +127,10 @@ describe('UpdateEmailComponent', () => {
   describe('Form Interactions', () => {
     describe('Submit button', () => {
       it('should be disabled while loading', () => {
-        spyOn(updateEmailService, 'getUpdateEmailResultLoading').and.returnValue(of(true));
+        spyOn(
+          updateEmailService,
+          'getUpdateEmailResultLoading'
+        ).and.returnValue(of(true));
         component.ngOnInit();
         fixture.detectChanges();
         const submitBtn = el.query(By.css('button[type="submit"]'));
@@ -121,7 +138,10 @@ describe('UpdateEmailComponent', () => {
       });
 
       it('should call onSubmit() when clicked', () => {
-        spyOn(updateEmailService, 'getUpdateEmailResultLoading').and.returnValue(of(false));
+        spyOn(
+          updateEmailService,
+          'getUpdateEmailResultLoading'
+        ).and.returnValue(of(false));
         spyOn(component, 'onSubmit').and.stub();
         component.ngOnInit();
         fixture.detectChanges();
@@ -133,7 +153,10 @@ describe('UpdateEmailComponent', () => {
 
     describe('Cancel Button', () => {
       it('should be disabled while loading', () => {
-        spyOn(updateEmailService, 'getUpdateEmailResultLoading').and.returnValue(of(true));
+        spyOn(
+          updateEmailService,
+          'getUpdateEmailResultLoading'
+        ).and.returnValue(of(true));
         component.ngOnInit();
         fixture.detectChanges();
         const cancelBtn = el.query(By.css('button[type="button"]'));
@@ -141,12 +164,17 @@ describe('UpdateEmailComponent', () => {
       });
 
       it('should go to home when clicked', () => {
-        spyOn(updateEmailService, 'getUpdateEmailResultLoading').and.returnValue(of(false));
+        spyOn(
+          updateEmailService,
+          'getUpdateEmailResultLoading'
+        ).and.returnValue(of(false));
         component.ngOnInit();
         fixture.detectChanges();
         const cancelBtn = el.query(By.css('button[type="button"]'));
         cancelBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
-        expect(cancelBtn.nativeElement.getAttribute('ng-reflect-router-link')).toContain('home');
+        expect(
+          cancelBtn.nativeElement.getAttribute('ng-reflect-router-link')
+        ).toContain('home');
       });
     });
   });

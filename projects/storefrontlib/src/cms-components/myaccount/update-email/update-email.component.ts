@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { UpdateEmailService } from './update-email.service';
 import { FormGroup } from '@angular/forms';
@@ -9,10 +14,7 @@ import { FormGroup } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpdateEmailComponent implements OnInit, OnDestroy {
-  constructor(
-    protected updateEmailService: UpdateEmailService
-  ) {
-  }
+  constructor(protected updateEmailService: UpdateEmailService) {}
   updateEmailForm: FormGroup;
   isLoading$: Observable<boolean>;
 
