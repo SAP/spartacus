@@ -16,7 +16,7 @@
     "sourceMap": true,
     "strictNullChecks": true,
     "target": "es6",
-    "types": ["jasmine", "node"],
+    "types": ["jest", "node"],
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "paths": {

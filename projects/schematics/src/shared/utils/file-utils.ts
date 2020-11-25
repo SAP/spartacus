@@ -261,10 +261,16 @@ export function commitChanges(
       } else {
         recorder.insertRight(pos, toAdd);
       }
-    } else if (change instanceof ReplaceChange) {
+    } else if (change instanceof RemoveChange) {
       const pos = change['pos'];
-      const oldText = change['oldText'];
-      const newText = change['newText'];
+      const length = change['toRemove'].length;
+      recorder.remove(pos, length);
+    } else if (change instanceof NoopChange) {
+      // nothing to do here...
+    } else {
+      const pos = (change as ReplaceChange)['pos'];
+      const oldText = (change as ReplaceChange)['oldText'];
+      const newText = (change as ReplaceChange)['newText'];
 
       recorder.remove(pos, oldText.length);
       if (insertDirection === InsertDirection.LEFT) {
@@ -272,10 +278,6 @@ export function commitChanges(
       } else {
         recorder.insertRight(pos, newText);
       }
-    } else if (change instanceof RemoveChange) {
-      const pos = change['pos'];
-      const length = change['toRemove'].length;
-      recorder.remove(pos, length);
     }
   });
   host.commitUpdate(recorder);
