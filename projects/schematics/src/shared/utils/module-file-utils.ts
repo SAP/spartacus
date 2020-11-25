@@ -1,5 +1,5 @@
 import { normalize, relative } from '@angular-devkit/core';
-import { Tree } from '@angular-devkit/schematics';
+import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import {
   addSymbolToNgModuleMetadata,
   findNodes,
@@ -12,6 +12,7 @@ import {
   InsertChange,
   NoopChange,
 } from '@schematics/angular/utility/change';
+import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import * as ts from 'typescript';
 import { ANGULAR_CORE } from '../constants';
 import {
@@ -20,6 +21,7 @@ import {
   getTsSourceFile,
   InsertDirection,
 } from './file-utils';
+import { getProjectTargets } from './workspace-utils';
 
 export function stripTsFromImport(importPath: string): string {
   if (!importPath.endsWith('.ts')) {
@@ -48,11 +50,11 @@ export function createImportChange(
   importText: string,
   importPath: string
 ): Change {
-  const moduleSource = getTsSourceFile(host, filePath);
-  if (isImported(moduleSource, importText, importPath)) {
+  const source = getTsSourceFile(host, filePath);
+  if (isImported(source, importText, importPath)) {
     return new NoopChange();
   }
-  return insertImport(moduleSource, filePath, importText, importPath);
+  return insertImport(source, filePath, importText, importPath);
 }
 
 export function addToModuleImports(
@@ -250,4 +252,15 @@ function getTemplateUrlOrInlineTemplate(
     contentOrUrl: result,
     start: stringNode.getStart() + 1,
   };
+}
+
+export function getAppModule(host: Tree, project: string): string {
+  const projectTargets = getProjectTargets(host, project);
+
+  if (!projectTargets.build) {
+    throw new SchematicsException(`Project target "build" not found.`);
+  }
+
+  const mainPath = projectTargets.build.options.main;
+  return getAppModulePath(host, mainPath);
 }

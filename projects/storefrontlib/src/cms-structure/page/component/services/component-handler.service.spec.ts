@@ -4,7 +4,6 @@ import { CmsComponentMapping } from '@spartacus/core';
 import { of } from 'rxjs';
 import { ComponentHandler } from '../handlers/component-handler';
 import { ComponentHandlerService } from './component-handler.service';
-
 import createSpy = jasmine.createSpy;
 
 @Injectable()
@@ -48,6 +47,7 @@ describe('ComponentHandlerService', () => {
       expect(launcher).toBeTruthy();
       expect(testHandler.launcher).toHaveBeenCalledWith(
         { component: 'test' },
+        undefined,
         undefined,
         undefined
       );

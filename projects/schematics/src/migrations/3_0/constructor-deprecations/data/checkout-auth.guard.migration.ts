@@ -49,11 +49,7 @@ export const CHECKOUT_AUTH_GUARD_MIGRATION: ConstructorDeprecation = {
   ],
   addParams: [
     {
-      className: USER_SERVICE,
-      importPath: SPARTACUS_CORE,
-    },
-    {
-      className: GLOBAL_MESSAGE_SERVICE,
+      className: SEMANTIC_PATH_SERVICE,
       importPath: SPARTACUS_CORE,
     },
     {
@@ -61,7 +57,11 @@ export const CHECKOUT_AUTH_GUARD_MIGRATION: ConstructorDeprecation = {
       importPath: ANGULAR_ROUTER,
     },
     {
-      className: SEMANTIC_PATH_SERVICE,
+      className: USER_SERVICE,
+      importPath: SPARTACUS_CORE,
+    },
+    {
+      className: GLOBAL_MESSAGE_SERVICE,
       importPath: SPARTACUS_CORE,
     },
   ],

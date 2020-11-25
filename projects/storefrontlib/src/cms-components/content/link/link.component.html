@@ -2,5 +2,6 @@
   *ngIf="component.data$ | async as data"
   [url]="data.url"
   [style]="data.styleAttributes"
+  [class]="data.styleClasses"
   >{{ data.linkName }}</cx-generic-link
 >

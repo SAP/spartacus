@@ -47,8 +47,8 @@ export class ReviewSubmitComponent {
     protected userAddressService: UserAddressService,
     protected activeCartService: ActiveCartService,
     protected translation: TranslationService,
-    protected checkoutStepService: CheckoutStepService,
     protected promotionService: PromotionService,
+    protected checkoutStepService: CheckoutStepService,
     protected paymentTypeService: PaymentTypeService,
     protected checkoutCostCenterService: CheckoutCostCenterService,
     protected userCostCenterService: UserCostCenterService

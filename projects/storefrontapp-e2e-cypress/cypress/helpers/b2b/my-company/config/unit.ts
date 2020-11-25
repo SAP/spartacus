@@ -14,7 +14,6 @@ export const unitConfig: MyCompanyConfig = {
     {
       label: 'Name',
       variableName: 'name',
-      link: '/organization/user/',
       inputType: INPUT_TYPE.TEXT,
       createValue: `unit-${randomString()}`,
       updateValue: `edited-unit-${randomString()}`,
@@ -35,7 +34,6 @@ export const unitConfig: MyCompanyConfig = {
     {
       label: 'ID',
       variableName: 'id',
-      link: `/organization/units/`,
       inputType: INPUT_TYPE.TEXT,
       createValue: `unit-${randomString()}`,
       updateValue: `edited-unit-${randomString()}`,
@@ -58,7 +56,8 @@ export const unitConfig: MyCompanyConfig = {
     {
       label: 'Parent Unit',
       variableName: 'orgUnit.name',
-      link: `/organization/units/`,
+      link: `/organization/units/Rustic%20Services`,
+      updatedLink: `/organization/units/Rustic%20Retail`,
       inputType: INPUT_TYPE.NG_SELECT,
       createValue: 'Rustic Services',
       updateValue: 'Rustic Retail',
@@ -78,7 +77,6 @@ export const unitConfig: MyCompanyConfig = {
           {
             label: 'Name',
             variableName: 'name',
-            link: '/organization/user/',
             inputType: INPUT_TYPE.TEXT,
             createValue: `unit-${randomString()}`,
             updateValue: `edited-unit-${randomString()}`,
@@ -99,7 +97,6 @@ export const unitConfig: MyCompanyConfig = {
           {
             label: 'ID',
             variableName: 'id',
-            link: `/organization/units/`,
             inputType: INPUT_TYPE.TEXT,
             createValue: `unit-${randomString()}`,
             updateValue: `edited-unit-${randomString()}`,

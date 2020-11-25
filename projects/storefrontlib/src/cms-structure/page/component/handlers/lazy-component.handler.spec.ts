@@ -59,6 +59,7 @@ describe('LazyComponentHandler', () => {
       expect(defaultHandler.launcher).toHaveBeenCalledWith(
         { component: resolvedComponent },
         undefined,
+        undefined,
         undefined
       );
     });

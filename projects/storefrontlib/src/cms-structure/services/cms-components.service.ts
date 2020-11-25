@@ -1,5 +1,5 @@
 import { isPlatformServer } from '@angular/common';
-import { Inject, Injectable, Injector, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, NgModuleRef, PLATFORM_ID } from '@angular/core';
 import { Route } from '@angular/router';
 import {
   CmsComponentChildRoutesConfig,
@@ -12,6 +12,9 @@ import { defer, forkJoin, Observable, of } from 'rxjs';
 import { mapTo, share, tap } from 'rxjs/operators';
 import { FeatureModulesService } from './feature-modules.service';
 
+/**
+ * Service with logic related to resolving component from cms mapping
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -96,11 +99,16 @@ export class CmsComponentsService {
     return this.mappingResolvers.get(componentType);
   }
 
-  getInjectors(componentType: string): Injector[] {
+  /**
+   * Returns the feature module for a cms component.
+   * It will only work for cms components provided by feature modules.
+   *
+   * @param componentType
+   */
+  getModule(componentType: string): NgModuleRef<any> | undefined {
     return (
-      (this.featureModules.hasFeatureFor(componentType) &&
-        this.featureModules.getInjectors(componentType)) ??
-      []
+      this.featureModules.hasFeatureFor(componentType) &&
+      this.featureModules.getModule(componentType)
     );
   }
 
