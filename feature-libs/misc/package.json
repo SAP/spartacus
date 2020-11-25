@@ -11,7 +11,8 @@
     "misc"
   ],
   "scripts": {
-    "clean:schematics": "rimraf \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
+    "prepare:schematics": "yarn install",
+    "clean:schematics": "yarn prepare:schematics && rimraf \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
     "build:schematics": "yarn clean:schematics && tsc -p ./tsconfig.schematics.json",
     "test:schematics": "jest --config ./jest.schematics.config.js"
   },
