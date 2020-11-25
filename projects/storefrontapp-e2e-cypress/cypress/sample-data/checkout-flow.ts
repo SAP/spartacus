@@ -32,9 +32,9 @@ export interface SampleProduct {
 }
 
 export interface SampleCartProduct {
-  estimatedShipping: number;
-  productPrice: number;
-  totalAndShipping: number;
+  estimatedShipping: string;
+  total: string;
+  totalAndShipping: string;
 }
 
 export const user = {

@@ -45,7 +45,7 @@ export function loginB2bUser() {
 }
 
 export function addB2bProductToCart(cartData: SampleCartProduct) {
-  const total = randomQuantity * cartData.productPrice;
+  const total = randomQuantity * Number(cartData.total);
 
   cy.visit(`${POWERTOOLS_BASESITE}/en/USD/product/${products[0].code}`);
   cy.get('cx-product-intro').within(() => {
@@ -58,14 +58,14 @@ export function addB2bProductToCart(cartData: SampleCartProduct) {
 
   addCheapProductToCart(products[0]);
 
-  cy.get('.cx-total .cx-value').should('contain', total);
+  cy.get('.cx-total .cx-value').should('contain', total.toString());
   cy.get('cx-item-counter input')
     .invoke('val')
     .should('contain', randomQuantity);
 }
 
 export function updateB2bProductInDialog(cartData: SampleCartProduct) {
-  const total = cartData.productPrice * randomQuantityInDialog;
+  const total = Number(cartData.total) * randomQuantityInDialog;
 
   cy.get('cx-item-counter input')
     .eq(1)
@@ -84,8 +84,8 @@ export function updateB2bProductInDialog(cartData: SampleCartProduct) {
 }
 
 export function updateB2bProductInCartAndCheckout(cartData: SampleCartProduct) {
-  const totalFromDialog = cartData.productPrice * randomQuantityInDialog;
-  const totalFromCart = cartData.productPrice * randomQuantityInCart;
+  const totalFromDialog = Number(cartData.total) * randomQuantityInDialog;
+  const totalFromCart = Number(cartData.total) * randomQuantityInCart;
 
   cy.get('cx-item-counter input')
     .invoke('val')
@@ -193,8 +193,8 @@ export function reviewB2bReviewOrderPage(
   isAccount: boolean,
   orderType: string
 ) {
-  const total = randomQuantityInCart * cartData.productPrice;
-  const totalAndShipping = total + cartData.estimatedShipping;
+  const total = randomQuantityInCart * Number(cartData.total);
+  const totalAndShipping = total + Number(cartData.estimatedShipping);
 
   cy.get('.cx-review-title').should('contain', 'Review');
 
@@ -313,7 +313,8 @@ export function reviewB2bOrderConfirmation(
   replenishment?: string
 ) {
   const totalAndShipping =
-    randomQuantityInCart * cartData.productPrice + cartData.estimatedShipping;
+    randomQuantityInCart * Number(cartData.total) +
+    Number(cartData.estimatedShipping);
 
   cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
 
@@ -410,7 +411,7 @@ export function fillAddressFormWithCheapProduct(
   shippingAddressData: AddressData = user,
   cartData: SampleCartProduct = cartWithCheapProduct
 ) {
-  const total = cartData.productPrice * randomQuantityInCart;
+  const total = Number(cartData.total) * randomQuantityInCart;
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
@@ -430,7 +431,8 @@ export function fillPaymentFormWithCheapProduct(
   cartData: SampleCartProduct = cartWithCheapProduct
 ) {
   const totalAndShipping =
-    cartData.productPrice * randomQuantityInCart + cartData.estimatedShipping;
+    Number(cartData.total) * randomQuantityInCart +
+    Number(cartData.estimatedShipping);
   cy.get('.cx-checkout-title').should('contain', 'Payment');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')

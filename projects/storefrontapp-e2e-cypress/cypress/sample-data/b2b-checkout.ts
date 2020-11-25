@@ -22,9 +22,9 @@ export const b2bProduct: SampleProduct = {
 };
 
 export const cartWithB2bProduct: SampleCartProduct = {
-  estimatedShipping: 9.99,
-  productPrice: 35.0,
-  totalAndShipping: 44.99,
+  estimatedShipping: '9.99',
+  total: '35.00',
+  totalAndShipping: '44.99',
 };
 
 export const b2bAccountShipToUser: SampleUser = {

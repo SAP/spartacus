@@ -272,7 +272,7 @@ export function fillAddressFormWithCheapProduct(
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
     .find('.cx-summary-amount')
-    .should('contain', cartData.productPrice.toString());
+    .should('contain', cartData.total);
   const deliveryPage = waitForPage(
     '/checkout/delivery-mode',
     'getDeliveryPage'
@@ -289,7 +289,7 @@ export function fillPaymentFormWithCheapProduct(
   cy.get('.cx-checkout-title').should('contain', 'Payment');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
-    .should('contain', cartData.totalAndShipping.toString());
+    .should('contain', cartData.totalAndShipping);
   const reivewPage = waitForPage('/checkout/review-order', 'getReviewPage');
   fillPaymentDetails(paymentDetailsData, billingAddress);
   cy.wait(`@${reivewPage}`).its('status').should('eq', 200);
@@ -317,13 +317,13 @@ export function placeOrderWithCheapProduct(
     });
   cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
     .eq(0)
-    .should('contain', cartData.productPrice.toString());
+    .should('contain', cartData.total);
   cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
     .eq(1)
-    .should('contain', cartData.estimatedShipping.toString());
+    .should('contain', cartData.estimatedShipping);
   cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
     'contain',
-    cartData.totalAndShipping.toString()
+    cartData.totalAndShipping
   );
   cy.findByText('Terms & Conditions')
     .should('have.attr', 'target', '_blank')
@@ -386,7 +386,7 @@ export function verifyOrderConfirmationPageWithCheapProduct(
   }
   cy.get('cx-order-summary .cx-summary-amount').should(
     'contain',
-    cartData.totalAndShipping.toString()
+    cartData.totalAndShipping
   );
 }
 
@@ -405,7 +405,7 @@ export function viewOrderHistoryWithCheapProduct(
   cy.get('.cx-order-history-table tr')
     .first()
     .find('.cx-order-history-total .cx-order-history-value')
-    .should('contain', cartData.totalAndShipping.toString());
+    .should('contain', cartData.totalAndShipping);
 }
 
 export function waitForPage(page: string, alias: string): string {
