@@ -347,8 +347,8 @@ describe('Spartacus Organization schematics: ng-add', () => {
     it('should just append the organization features without duplicating the featureModules config', () => {
       const appModule = appTree.readContent(appModulePath);
       expect(appModule.match(/featureModules:/g).length).toEqual(1);
-      expect(appModule).toContain(`administration: {`);
-      expect(appModule).toContain(`order-approval: {`);
+      expect(appModule).toContain(`organizationAdministration: {`);
+      expect(appModule).toContain(`organizationOrderApproval: {`);
     });
   });
 });
