@@ -14,7 +14,10 @@ import {
 import { switchMap, take } from 'rxjs/operators';
 import { CpqAccessData } from './cpq-access-data.models';
 import { CpqAccessLoaderService } from './cpq-access-loader.service';
-import { CpqAccessStorageService } from './cpq-access-storage.service';
+import {
+  CpqAccessStorageService,
+  CpqConfiguratorTokenConfig,
+} from './cpq-access-storage.service';
 import createSpy = jasmine.createSpy;
 
 const accessData: CpqAccessData = {
@@ -49,6 +52,11 @@ class AuthServiceMock {
   isUserLoggedIn = createSpy().and.callFake(() => authDataObs);
 }
 
+const TestCpqConfiguratorTokenConfig: CpqConfiguratorTokenConfig = {
+  tokenExpirationBuffer: 10, // ten ms
+  tokenMaxValidity: 24 * 60 * 60 * 1000, //one day
+};
+
 describe('CpqAccessStorageService', () => {
   let serviceUnderTest: CpqAccessStorageService;
   let cpqAccessLoaderService: CpqAccessLoaderService;
@@ -63,8 +71,8 @@ describe('CpqAccessStorageService', () => {
             useClass: CpqAccessLoaderServiceMock,
           },
           {
-            provide: CpqAccessStorageService.TOKEN_EXPIRATION_BUFFER,
-            useValue: 10,
+            provide: CpqConfiguratorTokenConfig,
+            useValue: TestCpqConfiguratorTokenConfig,
           },
           {
             provide: AuthService,

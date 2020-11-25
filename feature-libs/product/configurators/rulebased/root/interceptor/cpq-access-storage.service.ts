@@ -1,12 +1,22 @@
-import { Inject, Injectable, InjectionToken } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AuthService } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription, timer } from 'rxjs';
 import { expand, filter, switchMap } from 'rxjs/operators';
 import { CpqAccessData } from './cpq-access-data.models';
 import { CpqAccessLoaderService } from './cpq-access-loader.service';
 
-const ONE_DAY = 24 * 60 * 60 * 1000;
-const TOKEN_EXPIRATION_BUFFER = 1000;
+export abstract class CpqConfiguratorTokenConfig {
+  /* We should stop using/sending a token shortly before expiration,
+   * to avoid that it is actually expired when evaluated in the target system */
+  tokenExpirationBuffer: number;
+  tokenMaxValidity: number;
+}
+
+export const DefaultCpqConfiguratorTokenConfig: CpqConfiguratorTokenConfig = {
+  tokenExpirationBuffer: 10000, // ten seconds
+  tokenMaxValidity: 24 * 60 * 60 * 1000, //one day
+};
+
 const EXPIRED_TOKEN = {
   accessToken: 'INVALID DUMMY',
   accessTokenExpirationTime: 0,
@@ -14,31 +24,15 @@ const EXPIRED_TOKEN = {
 
 @Injectable({ providedIn: 'root' })
 export class CpqAccessStorageService {
-  /* We should stop using/sending a token shortly before expiration,
-   * to avoid that it is actually expired when evaluated in the target system */
-  static TOKEN_EXPIRATION_BUFFER = new InjectionToken<number>(
-    'TOKEN_EXPIRATION_BUFFER',
-    {
-      factory: () => {
-        return TOKEN_EXPIRATION_BUFFER;
-      },
-    }
-  );
-
   constructor(
     protected cpqAccessLoaderService: CpqAccessLoaderService,
     protected authService: AuthService,
-    @Inject(CpqAccessStorageService.TOKEN_EXPIRATION_BUFFER)
-    protected EXPIRATION_BUFFER: number
+    protected tokenConfig: CpqConfiguratorTokenConfig
   ) {}
 
   protected cpqAccessObservable: Observable<CpqAccessData>;
   protected currentCpqAccessSubscription: Subscription;
   protected cpqAccessDataCache: BehaviorSubject<CpqAccessData>;
-
-  protected static defaultValue() {
-    return TOKEN_EXPIRATION_BUFFER;
-  }
 
   getCachedCpqAccessData(): Observable<CpqAccessData> {
     if (!this.cpqAccessObservable) {
@@ -89,19 +83,23 @@ export class CpqAccessStorageService {
   protected fetchNextTokenIn(data: CpqAccessData) {
     // we schedule a request to update our cache some time before expiration
     let fetchNextIn: number =
-      data.accessTokenExpirationTime - Date.now() - this.EXPIRATION_BUFFER;
+      data.accessTokenExpirationTime -
+      Date.now() -
+      this.tokenConfig.tokenExpirationBuffer;
     if (fetchNextIn < 5) {
       fetchNextIn = 5;
     }
-    if (fetchNextIn > ONE_DAY) {
-      fetchNextIn = ONE_DAY;
+    if (fetchNextIn > this.tokenConfig.tokenMaxValidity) {
+      fetchNextIn = this.tokenConfig.tokenMaxValidity;
     }
     return fetchNextIn;
   }
 
   protected isTokenExpired(tokenData: CpqAccessData) {
     return (
-      Date.now() > tokenData.accessTokenExpirationTime - this.EXPIRATION_BUFFER
+      Date.now() >
+      tokenData.accessTokenExpirationTime -
+        this.tokenConfig.tokenExpirationBuffer
     );
   }
 }
