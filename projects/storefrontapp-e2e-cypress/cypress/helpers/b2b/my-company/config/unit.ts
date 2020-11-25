@@ -8,12 +8,7 @@ export const userRolesConfig: MyCompanyConfig = {
   rows: [
     {
       label: 'Roles',
-      variableName: 'roles',
-      formLabel: 'Roles',
-      createValue: 'Customer',
       updateValue: 'Manager',
-      showInTable: true,
-      showInDetails: true,
     },
   ],
 };

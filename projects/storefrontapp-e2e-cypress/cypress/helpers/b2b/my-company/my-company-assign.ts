@@ -81,33 +81,40 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
             .contains(ASSIGNMENT_LABELS.ROLES)
             .click();
 
-          subConfig.rolesConfig.rows.forEach((row) => {
-            cy.get('cx-org-card cx-view[position="3"] label span')
-              .contains(row.updateValue)
-              .parent()
-              .within(() => {
-                cy.get('[type="checkbox"]').check();
-              });
-          });
-
-          cy.get('cx-org-notification').contains(
-            ASSIGNMENT_LABELS.ROLE_UPDATED_SUCCESS
-          );
-          cy.get('cx-org-notification').should('not.exist');
+          checkRoles();
+          checkRoleUpdateNotification();
 
           subConfig.rolesConfig.rows.forEach((row) => {
             cy.get('cx-org-card cx-view[position="3"] label span')
               .contains(row.updateValue)
               .parent()
-              .within(() => {
-                cy.get('[type="checkbox"]').uncheck();
-              });
+              .within(() => {});
           });
 
-          cy.get('cx-org-notification').contains(
-            ASSIGNMENT_LABELS.ROLE_UPDATED_SUCCESS
-          );
-          cy.get('cx-org-notification').should('not.exist');
+          checkRoles(true);
+          checkRoleUpdateNotification();
+
+          function checkRoles(uncheck?: boolean) {
+            subConfig.rolesConfig.rows.forEach((row) => {
+              cy.get('cx-org-card cx-view[position="3"] label span')
+                .contains(row.updateValue)
+                .parent()
+                .within(() => {
+                  if (!uncheck) {
+                    cy.get('[type="checkbox"]').check();
+                  } else {
+                    cy.get('[type="checkbox"]').uncheck();
+                  }
+                });
+            });
+          }
+
+          function checkRoleUpdateNotification() {
+            cy.get('cx-org-notification').contains(
+              ASSIGNMENT_LABELS.ROLE_UPDATED_SUCCESS
+            );
+            cy.get('cx-org-notification').should('not.exist');
+          }
         });
       }
 
