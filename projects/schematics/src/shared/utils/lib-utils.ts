@@ -66,9 +66,9 @@ export function shouldAddFeature(features: string[], feature: string): boolean {
   return features.includes(feature);
 }
 
-export function addLibraryFeature(
+export function addLibraryFeature<T extends LibraryOptions>(
   appModulePath: string,
-  options: LibraryOptions,
+  options: T,
   config: FeatureConfig
 ): Rule {
   return chain([
@@ -77,9 +77,9 @@ export function addLibraryFeature(
   ]);
 }
 
-function handleFeature(
+function handleFeature<T extends LibraryOptions>(
   appModulePath: string,
-  options: LibraryOptions,
+  options: T,
   config: FeatureConfig
 ): Rule {
   return (host: Tree, context: SchematicContext) => {
