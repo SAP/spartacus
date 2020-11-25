@@ -133,6 +133,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     expect(valueToSelect.checked).toBe(false);
     spyOn(component.selectionChange, 'emit').and.callThrough();
     component.onClick(component.attribute.values[1].valueCode);
+    fixture.detectChanges();
     expect(component.selectionChange.emit).toHaveBeenCalledWith(
       jasmine.objectContaining({
         ownerKey: ownerKey,
