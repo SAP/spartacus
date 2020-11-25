@@ -104,14 +104,15 @@ describe('UpdateEmailService', () => {
       expect(userService.resetUpdateEmailResultState).toHaveBeenCalled();
     });
 
-    // it('should call getUpdateEmailResultLoading', () => {
-    //   spyOn(userService, 'getUpdateEmailResultLoading').and.returnValue(
-    //     of(true)
-    //   );
-    //
-    //   service.getUpdateEmailResultLoading();
-    //   expect(userService.getUpdateEmailResultLoading).toHaveBeenCalled();
-    // });
+    it('should call getUpdateEmailResultLoading', () => {
+      spyOn(userService, 'getUpdateEmailResultLoading').and.returnValue(
+        of(true)
+      );
+
+      service.isUpdating$.subscribe((isUpdating) => {
+        expect(isUpdating).toBeTruthy();
+      });
+    });
   });
 
   it('onFormSubmit should userService.updateEmail', () => {
