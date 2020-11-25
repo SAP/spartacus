@@ -69,7 +69,6 @@ ng lint
 echo "-----"
 
 echo "Cleaning schematics js files before prettier runs..."
-yarn --cwd projects/schematics
 yarn --cwd projects/schematics run clean
 yarn --cwd feature-libs/organization run clean:schematics
 yarn --cwd feature-libs/misc run clean:schematics
