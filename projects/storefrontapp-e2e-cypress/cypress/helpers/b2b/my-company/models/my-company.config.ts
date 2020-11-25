@@ -124,4 +124,9 @@ export interface MyCompanyConfig {
    * SUBCATEGORY: Config for creating entities from submenu
    */
   createConfig?: MyCompanyConfig;
+
+  /**
+   * Indicates which features should be tested in the current suite
+   */
+  featureToggles?: string[];
 }

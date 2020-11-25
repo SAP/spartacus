@@ -131,4 +131,5 @@ export const userConfig: MyCompanyConfig = {
       manageAssignments: true,
     },
   ],
+  featureToggles: ['userPassword'],
 };
