@@ -66,7 +66,6 @@ export function addSpartacusOrganization(
     const appModulePath = getAppModule(tree, options.project);
 
     return chain([
-      addPackageJsonDependencies(packageJson),
       updateAppModule(appModulePath),
       shouldAddFeature(options.features, CLI_ADMINISTRATION_FEATURE)
         ? addAdministrationFeature(appModulePath, options)
@@ -74,6 +73,7 @@ export function addSpartacusOrganization(
       shouldAddFeature(options.features, CLI_ORDER_APPROVAL_FEATURE)
         ? addOrderApprovalsFeature(appModulePath, options)
         : noop(),
+      addPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);
   };
@@ -81,6 +81,7 @@ export function addSpartacusOrganization(
 
 function updateAppModule(appModulePath: string): Rule {
   return (host: Tree, _context: SchematicContext) => {
+    const changes: Change[] = [];
     if (
       isImported(
         getTsSourceFile(host, appModulePath),
@@ -95,48 +96,46 @@ function updateAppModule(appModulePath: string): Rule {
           importPath: SPARTACUS_STOREFRONTLIB,
         }
       );
-      commitChanges(host, appModulePath, [importRemovalChange]);
+      changes.push(importRemovalChange);
     }
-
-    const changes: Change[] = [];
-    const appModuleSource = getTsSourceFile(host, appModulePath);
-    const b2bModuleImportChange = createImportChange(
-      host,
-      appModulePath,
-      B2B_STOREFRONT_MODULE,
-      SPARTACUS_SETUP
-    );
-    changes.push(b2bModuleImportChange);
 
     if (
       !isImported(
-        appModuleSource,
-        B2C_STOREFRONT_MODULE,
-        SPARTACUS_STOREFRONTLIB
+        getTsSourceFile(host, appModulePath),
+        B2B_STOREFRONT_MODULE,
+        SPARTACUS_SETUP
       )
     ) {
-      const results = findMultiLevelNodesByTextAndKind(
-        appModuleSource.getChildren(),
-        B2C_STOREFRONT_MODULE,
-        ts.SyntaxKind.Identifier
+      const b2bModuleImportChange = createImportChange(
+        host,
+        appModulePath,
+        B2B_STOREFRONT_MODULE,
+        SPARTACUS_SETUP
       );
-
-      results.forEach((result) => {
-        // skip the `import {B2cStorefrontModule} from '@spartacus/storefront'`
-        if (result.parent.kind !== ts.SyntaxKind.ImportSpecifier) {
-          changes.push(
-            new ReplaceChange(
-              appModulePath,
-              result.getStart(),
-              B2C_STOREFRONT_MODULE,
-              B2B_STOREFRONT_MODULE
-            )
-          );
-        }
-      });
+      changes.push(b2bModuleImportChange);
     }
 
+    const b2cNodeResults = findMultiLevelNodesByTextAndKind(
+      getTsSourceFile(host, appModulePath).getChildren(),
+      B2C_STOREFRONT_MODULE,
+      ts.SyntaxKind.Identifier
+    );
+
+    b2cNodeResults.forEach((result) => {
+      // skip the `import {B2cStorefrontModule} from '@spartacus/storefront'` node
+      if (result.parent.kind !== ts.SyntaxKind.ImportSpecifier) {
+        const b2bModuleReplaceChange = new ReplaceChange(
+          appModulePath,
+          result.getStart(),
+          B2C_STOREFRONT_MODULE,
+          B2B_STOREFRONT_MODULE
+        );
+        changes.push(b2bModuleReplaceChange);
+      }
+    });
+
     commitChanges(host, appModulePath, changes);
+    return host;
   };
 }
 

@@ -409,7 +409,7 @@ describe('File utils', () => {
     });
   });
 
-  describe('findConstructor', async () => {
+  describe('findConstructor', () => {
     it('should return the constructor if found', () => {
       const constructorNode: ts.Node = {
         kind: ts.SyntaxKind.Constructor,
@@ -424,7 +424,7 @@ describe('File utils', () => {
     });
   });
 
-  describe('findConstructor', async () => {
+  describe('findConstructor', () => {
     it('should return the constructor if found', () => {
       const constructorNode: ts.Node = {
         kind: ts.SyntaxKind.Constructor,
@@ -453,7 +453,7 @@ describe('File utils', () => {
     });
   });
 
-  describe('isCandidateForConstructorDeprecation', async () => {
+  describe('isCandidateForConstructorDeprecation', () => {
     it('should return false if the inheritance condition is not satisfied', () => {
       const source = ts.createSourceFile(
         'xxx.ts',
@@ -625,7 +625,7 @@ describe('File utils', () => {
     });
   });
 
-  describe('isInheriting', async () => {
+  describe('isInheriting', () => {
     it('should return true if the class is inheriting the provided service name', () => {
       const source = ts.createSourceFile(
         'xxx.ts',
