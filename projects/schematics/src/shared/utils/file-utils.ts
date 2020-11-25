@@ -17,7 +17,12 @@ import {
   ReplaceChange,
 } from '@schematics/angular/utility/change';
 import * as ts from 'typescript';
-import { ANGULAR_CORE, INJECT, TODO_SPARTACUS, UTF_8 } from '../constants';
+import {
+  ANGULAR_CORE,
+  INJECT_DECORATOR,
+  TODO_SPARTACUS,
+  UTF_8,
+} from '../constants';
 
 export enum InsertDirection {
   LEFT,
@@ -486,7 +491,6 @@ export function addConstructorParam(
   if (!constructorNode) {
     throw new SchematicsException(`No constructor found in ${sourcePath}.`);
   }
-
   const changes: Change[] = [];
   if (!isInjected(constructorNode, paramToAdd)) {
     changes.push(
@@ -495,8 +499,8 @@ export function addConstructorParam(
         sourcePath,
         paramToAdd.className,
         'no-modifier',
-        undefined, // TODO cleanup
-        paramToAdd.staticType, // TODO check if working with staticType null
+        undefined,
+        paramToAdd.staticType,
         paramToAdd.injectionToken?.token,
         paramToAdd.injectionToken?.isArray
       )
@@ -516,8 +520,10 @@ export function addConstructorParam(
     }
   }
   if (paramToAdd.injectionToken?.token) {
-    if (!isImported(source, INJECT, ANGULAR_CORE)) {
-      changes.push(insertImport(source, sourcePath, INJECT, ANGULAR_CORE));
+    if (!isImported(source, INJECT_DECORATOR, ANGULAR_CORE)) {
+      changes.push(
+        insertImport(source, sourcePath, INJECT_DECORATOR, ANGULAR_CORE)
+      );
     }
 
     if (
@@ -569,7 +575,6 @@ export function removeConstructorParam(
 
   if (shouldRemoveImportAndParam(source, paramToRemove)) {
     const importRemovalChange = removeImport(source, paramToRemove);
-
     const injectImportRemovalChange = removeInjectImports(
       source,
       constructorNode,
@@ -602,7 +607,7 @@ export function removeConstructorParam(
   return changes;
 }
 
-function hasDuplicateDecorator(
+export function hasDuplicateDecorator(
   constructorNode: ts.Node,
   decoratorIdentifier: string
 ): boolean {
@@ -711,9 +716,12 @@ export function removeInjectImports(
     return [new NoopChange()];
   }
 
-  if (!hasDuplicateDecorator(constructorNode, INJECT))
+  if (!hasDuplicateDecorator(constructorNode, INJECT_DECORATOR))
     importRemovalChange.push(
-      removeImport(source, { className: INJECT, importPath: ANGULAR_CORE })
+      removeImport(source, {
+        className: INJECT_DECORATOR,
+        importPath: ANGULAR_CORE,
+      })
     );
 
   if (
@@ -917,8 +925,11 @@ function updateConstructorSuperNode(
   if (callBlock.length === 0) {
     throw new SchematicsException('No constructor body found.');
   }
+
+  const callExpression = findNodes(callBlock[0], ts.SyntaxKind.CallExpression);
+
   // super has to be the first expression in constructor
-  const firstCallExpression = callBlock[0];
+  const firstCallExpression = callExpression[0];
   const superKeyword = findNodes(
     firstCallExpression,
     ts.SyntaxKind.SuperKeyword

@@ -543,6 +543,10 @@ export const SUB = 'sub';
 export const LOAD_ANONYMOUS_CONSENTS = 'loadAnonymousConsents';
 
 export const LEGACY_FLAG = 'legacy';
+export const INJECT_DECORATOR = 'Inject';
+export const PLATFORM = 'Platform';
+export const PLATFORM_ID_STRING = 'PLATFORM_ID';
+export const ANY_TYPE = 'any';
 /***** Properties end *****/
 
 /***** APIs start *****/
@@ -629,5 +633,4 @@ export const CSS_V2_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-2/';
 export const CSS_V3_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-3/';
-export const INJECT = 'Inject';
 /***** Misc end *****/

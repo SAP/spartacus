@@ -1,4 +1,10 @@
-import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/constants';
+import {
+  ANGULAR_CORE,
+  ANY_TYPE,
+  PLATFORM,
+  PLATFORM_ID_STRING,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const LAUNCH_DIALOG_SERVICE_MIGRATION: ConstructorDeprecation = {
@@ -26,14 +32,14 @@ export const LAUNCH_DIALOG_SERVICE_MIGRATION: ConstructorDeprecation = {
     // },
   ],
   removeParams: [
-    // {
-    //   className: 'platform',
-    //   staticType: 'any',
-    //   injectionToken: {
-    //     token: 'PLATFORM_ID',
-    //     importPath: ANGULAR_CORE, // TODO try without it
-    //   },
-    // },
+    {
+      className: PLATFORM,
+      staticType: ANY_TYPE,
+      injectionToken: {
+        token: PLATFORM_ID_STRING,
+        importPath: ANGULAR_CORE,
+      },
+    },
     {
       className: 'RandomClass',
       importPath: SPARTACUS_STOREFRONTLIB,

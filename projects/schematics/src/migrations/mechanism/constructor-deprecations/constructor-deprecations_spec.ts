@@ -19,7 +19,7 @@ import {
   writeFile,
 } from '../../../shared/utils/test-utils';
 
-const MIGRATION_SCRIPT_NAME = 'migration-v3-constructor-deprecations-03';
+const MIGRATION_SCRIPT_NAME = 'migration-v2-constructor-deprecations-03';
 const NOT_INHERITING_SPARTACUS_CLASS = `
     import { Store } from '@ngrx/store';
     import { StateWithProcess, StateWithUser } from '@spartacus/core';
@@ -452,17 +452,6 @@ export class ServiceNameService extends BreakpointService {
   }
 }
 `;
-// const PROPERTY_EXPECTED = `
-// import { Injectable } from '@angular/core';
-// import { LaunchDialogService, LayoutConfig } from '@spartacus/storefront';
-
-// @Injectable({ providedIn: 'root' })
-// export class ServiceNameService extends LaunchDialogService {
-//   constructor(protected layoutConfig: LayoutConfig) {
-//     super(layoutConfig);
-//   }
-// }
-// `;
 const PROPERTY_EXPECTED = `
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import {
@@ -777,7 +766,8 @@ describe('constructor migrations', () => {
     });
   });
 
-  describe('when the constructor contains @Inject()', () => {
+  xdescribe('when the constructor contains @Inject()', () => {
+    //TODOLP: delete these two tests, only used for testing this PR
     it('should remove a parameter', async () => {
       writeFile(host, '/src/index.ts', PROPERTY_TEST);
 
@@ -789,7 +779,7 @@ describe('constructor migrations', () => {
     });
   });
 
-  fdescribe('when the constructor contains @Inject()', () => {
+  xdescribe('when the constructor contains @Inject()', () => {
     it('should remove a parameter', async () => {
       writeFile(host, '/src/index.ts', PROPERTY_EXPECTED);
 
