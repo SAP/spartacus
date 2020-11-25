@@ -97,7 +97,7 @@ export declare enum Style {
   Less = 'less',
   Sass = 'sass',
   Scss = 'scss',
-  Style = 'style',
+  Styl = 'styl',
 }
 /**
  * The view encapsulation strategy to use in the new component.
