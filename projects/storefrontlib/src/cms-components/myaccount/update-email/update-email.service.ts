@@ -72,6 +72,7 @@ export class UpdateEmailService implements OnDestroy {
   }
 
   private setFormControlState(loading: boolean): void {
+    // disable/enable the form for keyboard navigation
     loading ? this.form.disable() : this.form.enable();
   }
 
