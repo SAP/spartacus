@@ -17,18 +17,5 @@
     "assets": ["../../docs.tar.gz", "../../docs.zip"],
     "releaseName": "@spartacus/my-account@${version}",
     "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib my-account --to my-account-${version}"
-  },
-  "plugins": {
-    "../../scripts/release-it/bumper.js": {
-      "out": [
-        {
-          "file": "package.json",
-          "path": [
-            "peerDependencies.@spartacus/core",
-            "peerDependencies.@spartacus/storefront"
-          ]
-        }
-      ]
-    }
   }
 }

@@ -1,5 +1,5 @@
-# Spartacus My Account
+# DEPRECATED
 
-`@spartacus/my-account` is a package that you can include in your application, which allows you to use various my-account features.
+`@spartacus/my-account` package was deprecated in favour of `@spartacus/organization` which provides the same functionality.
 
 For more information, see [Spartacus](https://github.com/SAP/spartacus).
