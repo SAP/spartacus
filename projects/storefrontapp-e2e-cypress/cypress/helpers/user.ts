@@ -11,5 +11,5 @@ export function randomString() {
 
 export function randomNumber(limit: number) {
   const randomNum = Math.ceil(Math.random() * limit);
-  return randomNum.toString();
+  return randomNum;
 }
