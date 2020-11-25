@@ -12,7 +12,7 @@
     "prepare:schematics": "yarn install",
     "clean": "yarn prepare:schematics && rimraf \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\"",
     "build": "yarn clean && tsc -p ./tsconfig.schematics.json",
-    "test": "yarn clean && tsc -p ./tsconfig.schematics.spec.json && jest --config ./jest.schematics.config.js"
+    "test": "yarn clean && tsc -p ./tsconfig.schematics.json && jest --config ./jest.schematics.config.js"
   },
   "author": "",
   "license": "MIT",

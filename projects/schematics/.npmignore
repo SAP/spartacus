@@ -9,4 +9,3 @@ yarn.lock
 jest.ts
 jest.schematics.config.js
 tsconfig.schematics.json
-tsconfig.schematics.spec.json

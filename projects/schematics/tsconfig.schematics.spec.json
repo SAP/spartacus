@@ -1,7 +1,0 @@
-{
-  "extends": "./tsconfig.schematics.json",
-  "compilerOptions": {
-    "moduleResolution": "node"
-  },
-  "exclude": ["src/*/files/**/*", "src/**/*_spec.ts"]
-}
