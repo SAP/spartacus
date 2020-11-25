@@ -24,6 +24,7 @@ import {
   getUserGroupState,
   getUserGroupValue,
 } from '../store/selectors/user-group.selector';
+import { isValidUser } from '../utils/check-user';
 import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
@@ -34,22 +35,26 @@ export class UserGroupService {
   ) {}
 
   load(userGroupId: string) {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new UserGroupActions.LoadUserGroup({
-          userId,
-          userGroupId,
-        })
-      )
-    );
+    this.userIdService.invokeWithUserId((userId) => {
+      if (isValidUser(userId)) {
+        this.store.dispatch(
+          new UserGroupActions.LoadUserGroup({
+            userId,
+            userGroupId,
+          })
+        );
+      }
+    });
   }
 
   loadList(params?: SearchConfig) {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new UserGroupActions.LoadUserGroups({ userId, params })
-      )
-    );
+    this.userIdService.invokeWithUserId((userId) => {
+      if (isValidUser(userId)) {
+        this.store.dispatch(
+          new UserGroupActions.LoadUserGroups({ userId, params })
+        );
+      }
+    });
   }
 
   private getUserGroup(

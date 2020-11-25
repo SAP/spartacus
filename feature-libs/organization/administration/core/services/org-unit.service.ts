@@ -29,6 +29,7 @@ import {
   getOrgUnitTree,
   getOrgUnitValue,
 } from '../store/selectors/org-unit.selector';
+import { isValidUser } from '../utils/check-user';
 import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
@@ -49,40 +50,54 @@ export class OrgUnitService {
   }
 
   load(orgUnitId: string): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId }))
-    );
+    this.userIdService.invokeWithUserId((userId) => {
+      if (isValidUser(userId)) {
+        this.store.dispatch(
+          new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId })
+        );
+      }
+    });
   }
 
   loadList(): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(new OrgUnitActions.LoadOrgUnitNodes({ userId }))
-    );
+    this.userIdService.invokeWithUserId((userId) => {
+      if (isValidUser(userId)) {
+        this.store.dispatch(new OrgUnitActions.LoadOrgUnitNodes({ userId }));
+      }
+    });
   }
 
   loadTree(): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(new OrgUnitActions.LoadTree({ userId }))
-    );
+    this.userIdService.invokeWithUserId((userId) => {
+      if (isValidUser(userId)) {
+        this.store.dispatch(new OrgUnitActions.LoadTree({ userId }));
+      }
+    });
   }
 
   loadApprovalProcesses(): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(new OrgUnitActions.LoadApprovalProcesses({ userId }))
-    );
+    this.userIdService.invokeWithUserId((userId) => {
+      if (isValidUser(userId)) {
+        this.store.dispatch(
+          new OrgUnitActions.LoadApprovalProcesses({ userId })
+        );
+      }
+    });
   }
 
   loadUsers(orgUnitId: string, roleId: string, params: SearchConfig): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new OrgUnitActions.LoadAssignedUsers({
-          userId,
-          orgUnitId,
-          roleId,
-          params,
-        })
-      )
-    );
+    this.userIdService.invokeWithUserId((userId) => {
+      if (isValidUser(userId)) {
+        this.store.dispatch(
+          new OrgUnitActions.LoadAssignedUsers({
+            userId,
+            orgUnitId,
+            roleId,
+            params,
+          })
+        );
+      }
+    });
   }
 
   loadAddresses(orgUnitId: string): void {
@@ -91,9 +106,11 @@ export class OrgUnitService {
       // this.store.dispatch(
       //   new OrgUnitActions.LoadAddresses({ userId, orgUnitId })
       // );
-      this.store.dispatch(
-        new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId })
-      );
+      if (isValidUser(userId)) {
+        this.store.dispatch(
+          new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId })
+        );
+      }
     });
   }
 

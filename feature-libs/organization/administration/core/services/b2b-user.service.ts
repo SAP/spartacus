@@ -24,6 +24,7 @@ import {
   getB2BUserValue,
   getUserList,
 } from '../store/selectors/b2b-user.selector';
+import { isValidUser } from '../utils/check-user';
 import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
@@ -34,20 +35,26 @@ export class B2BUserService {
   ) {}
 
   load(orgCustomerId: string) {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new B2BUserActions.LoadB2BUser({
-          userId,
-          orgCustomerId,
-        })
-      )
-    );
+    this.userIdService.invokeWithUserId((userId) => {
+      if (isValidUser(userId)) {
+        this.store.dispatch(
+          new B2BUserActions.LoadB2BUser({
+            userId,
+            orgCustomerId,
+          })
+        );
+      }
+    });
   }
 
   loadList(params?: SearchConfig): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(new B2BUserActions.LoadB2BUsers({ userId, params }))
-    );
+    this.userIdService.invokeWithUserId((userId) => {
+      if (isValidUser(userId)) {
+        this.store.dispatch(
+          new B2BUserActions.LoadB2BUsers({ userId, params })
+        );
+      }
+    });
   }
 
   private getB2BUserValue(orgCustomerId: string): Observable<B2BUser> {

@@ -21,6 +21,7 @@ import {
   getCostCenterState,
   getCostCenterValue,
 } from '../store/selectors/cost-center.selector';
+import { isValidUser } from '../utils/check-user';
 import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
@@ -31,19 +32,23 @@ export class CostCenterService {
   ) {}
 
   load(costCenterCode: string): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
-      )
-    );
+    this.userIdService.invokeWithUserId((userId) => {
+      if (isValidUser(userId)) {
+        this.store.dispatch(
+          new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
+        );
+      }
+    });
   }
 
   loadList(params?: SearchConfig): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new CostCenterActions.LoadCostCenters({ userId, params })
-      )
-    );
+    this.userIdService.invokeWithUserId((userId) => {
+      if (isValidUser(userId)) {
+        this.store.dispatch(
+          new CostCenterActions.LoadCostCenters({ userId, params })
+        );
+      }
+    });
   }
 
   private getCostCenter(

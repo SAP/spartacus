@@ -18,6 +18,7 @@ import {
   getBudgetList,
   getBudgetValue,
 } from '../store/selectors/budget.selector';
+import { isValidUser } from '../utils/check-user';
 import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
@@ -28,15 +29,21 @@ export class BudgetService {
   ) {}
 
   loadBudget(budgetCode: string): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(new BudgetActions.LoadBudget({ userId, budgetCode }))
-    );
+    this.userIdService.invokeWithUserId((userId) => {
+      if (isValidUser(userId)) {
+        this.store.dispatch(
+          new BudgetActions.LoadBudget({ userId, budgetCode })
+        );
+      }
+    });
   }
 
   loadBudgets(params?: SearchConfig): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(new BudgetActions.LoadBudgets({ userId, params }))
-    );
+    this.userIdService.invokeWithUserId((userId) => {
+      if (isValidUser(userId)) {
+        this.store.dispatch(new BudgetActions.LoadBudgets({ userId, params }));
+      }
+    });
   }
 
   private getBudgetState(

@@ -21,6 +21,7 @@ import {
   getPermissionTypes,
   getPermissionValue,
 } from '../store/selectors/permission.selector';
+import { isValidUser } from '../utils/check-user';
 import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
@@ -31,26 +32,34 @@ export class PermissionService {
   ) {}
 
   loadPermission(permissionCode: string): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new PermissionActions.LoadPermission({
-          userId,
-          permissionCode,
-        })
-      )
-    );
+    this.userIdService.invokeWithUserId((userId) => {
+      if (isValidUser(userId)) {
+        this.store.dispatch(
+          new PermissionActions.LoadPermission({
+            userId,
+            permissionCode,
+          })
+        );
+      }
+    });
   }
 
   loadPermissions(params?: SearchConfig): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new PermissionActions.LoadPermissions({ userId, params })
-      )
-    );
+    this.userIdService.invokeWithUserId((userId) => {
+      if (isValidUser(userId)) {
+        this.store.dispatch(
+          new PermissionActions.LoadPermissions({ userId, params })
+        );
+      }
+    });
   }
 
   loadPermissionTypes() {
-    this.store.dispatch(new PermissionActions.LoadPermissionTypes());
+    this.userIdService.invokeWithUserId((userId) => {
+      if (isValidUser(userId)) {
+        this.store.dispatch(new PermissionActions.LoadPermissionTypes());
+      }
+    });
   }
 
   private getPermission(
@@ -113,6 +122,7 @@ export class PermissionService {
     return this.getPermissionList(params).pipe(
       observeOn(queueScheduler),
       tap((process: StateUtils.LoaderState<EntitiesModel<Permission>>) => {
+        console.log(process);
         if (!(process.loading || process.success || process.error)) {
           this.loadPermissions(params);
         }
