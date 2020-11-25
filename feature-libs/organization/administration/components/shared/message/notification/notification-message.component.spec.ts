@@ -13,12 +13,14 @@ import { NotificationMessageComponent } from './notification-message.component';
 
 class MockMessageService {}
 
-const MockMessageData: Partial<MessageData> = {
-  message: {
-    raw: 'Raw mock message',
-  },
-  events: new Subject(),
-};
+function mockMessageDataFactory(): Partial<MessageData> {
+  return {
+    message: {
+      raw: 'Raw mock message',
+    },
+    events: new Subject(),
+  };
+}
 
 describe('NotificationMessageComponent', () => {
   let component: NotificationMessageComponent;
@@ -40,7 +42,7 @@ describe('NotificationMessageComponent', () => {
       providers: [
         {
           provide: MessageData,
-          useValue: MockMessageData,
+          useFactory: mockMessageDataFactory,
         },
         {
           provide: MessageService,

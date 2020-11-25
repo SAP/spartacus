@@ -11,13 +11,15 @@ import { Subject } from 'rxjs';
 import { BaseMessageComponent } from './base-message.component';
 import { MessageData } from './message.model';
 
-const MockMessageData: Partial<MessageData> = {
-  message: {
-    raw: 'Raw mock message',
-  },
-  type: GlobalMessageType.MSG_TYPE_INFO,
-  events: new Subject(),
-};
+function mockMessageDataFactory(): Partial<MessageData> {
+  return {
+    message: {
+      raw: 'Raw mock message',
+    },
+    type: GlobalMessageType.MSG_TYPE_INFO,
+    events: new Subject(),
+  };
+}
 
 @Component({
   template: '',
@@ -44,7 +46,7 @@ describe('BaseMessageComponent', () => {
       providers: [
         {
           provide: MessageData,
-          useValue: MockMessageData,
+          useFactory: mockMessageDataFactory,
         },
       ],
     }).compileComponents();

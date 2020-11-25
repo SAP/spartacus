@@ -14,12 +14,14 @@ import { ConfirmationMessageData } from './confirmation-message.model';
 
 class MockMessageService {}
 
-const MockMessageData: Partial<MessageData> = {
-  message: {
-    raw: 'Raw mock message',
-  },
-  events: new Subject(),
-};
+function mockMessageDataFactory(): Partial<MessageData> {
+  return {
+    message: {
+      raw: 'Raw mock message',
+    },
+    events: new Subject(),
+  };
+}
 
 describe('ConfirmationMessageComponent', () => {
   let component: ConfirmationMessageComponent;
@@ -41,7 +43,7 @@ describe('ConfirmationMessageComponent', () => {
       providers: [
         {
           provide: MessageData,
-          useValue: MockMessageData,
+          useFactory: mockMessageDataFactory,
         },
         {
           provide: MessageService,
