@@ -34,7 +34,6 @@ export class CostCenterEffects {
   > = this.actions$.pipe(
     ofType(CostCenterActions.LOAD_COST_CENTER),
     map((action: CostCenterActions.LoadCostCenter) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap(({ userId, costCenterCode }) => {
       return this.costCenterConnector.get(userId, costCenterCode).pipe(
         map((costCenter: CostCenter) => {
@@ -60,7 +59,6 @@ export class CostCenterEffects {
   > = this.actions$.pipe(
     ofType(CostCenterActions.LOAD_COST_CENTERS),
     map((action: CostCenterActions.LoadCostCenters) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap((payload) =>
       this.costCenterConnector.getList(payload.userId, payload.params).pipe(
         switchMap((costCenters: EntitiesModel<CostCenter>) => {

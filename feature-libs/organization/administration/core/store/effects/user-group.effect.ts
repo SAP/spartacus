@@ -35,7 +35,6 @@ export class UserGroupEffects {
   > = this.actions$.pipe(
     ofType(UserGroupActions.LOAD_USER_GROUP),
     map((action: UserGroupActions.LoadUserGroup) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap(({ userId, userGroupId }) => {
       return this.userGroupConnector.get(userId, userGroupId).pipe(
         map((userGroup: UserGroup) => {
@@ -61,7 +60,6 @@ export class UserGroupEffects {
   > = this.actions$.pipe(
     ofType(UserGroupActions.LOAD_USER_GROUPS),
     map((action: UserGroupActions.LoadUserGroups) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap((payload) =>
       this.userGroupConnector.getList(payload.userId, payload.params).pipe(
         switchMap((userGroups: EntitiesModel<UserGroup>) => {

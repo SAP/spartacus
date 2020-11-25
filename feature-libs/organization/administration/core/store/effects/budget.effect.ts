@@ -18,7 +18,6 @@ export class BudgetEffects {
   > = this.actions$.pipe(
     ofType(BudgetActions.LOAD_BUDGET),
     map((action: BudgetActions.LoadBudget) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap(({ userId, budgetCode }) => {
       return this.budgetConnector.get(userId, budgetCode).pipe(
         map((budget: Budget) => {
@@ -44,7 +43,6 @@ export class BudgetEffects {
   > = this.actions$.pipe(
     ofType(BudgetActions.LOAD_BUDGETS),
     map((action: BudgetActions.LoadBudgets) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap((payload) =>
       this.budgetConnector.getList(payload.userId, payload.params).pipe(
         switchMap((budgets: EntitiesModel<Budget>) => {

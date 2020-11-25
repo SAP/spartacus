@@ -45,7 +45,6 @@ export class B2BUserEffects {
   > = this.actions$.pipe(
     ofType(B2BUserActions.LOAD_B2B_USER),
     map((action: B2BUserActions.LoadB2BUser) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap(({ userId, orgCustomerId }) => {
       return this.b2bUserConnector.get(userId, orgCustomerId).pipe(
         map((b2bUser: B2BUser) => {
@@ -192,7 +191,6 @@ export class B2BUserEffects {
   > = this.actions$.pipe(
     ofType(B2BUserActions.LOAD_B2B_USERS),
     map((action: B2BUserActions.LoadB2BUsers) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap((payload) =>
       this.b2bUserConnector.getList(payload.userId, payload.params).pipe(
         switchMap((b2bUsers: EntitiesModel<B2BUser>) => {

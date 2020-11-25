@@ -38,7 +38,6 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_ORG_UNIT),
     map((action: OrgUnitActions.LoadOrgUnit) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap(({ userId, orgUnitId }) => {
       return this.orgUnitConnector.get(userId, orgUnitId).pipe(
         switchMap((orgUnit: B2BUnit) => {
@@ -70,7 +69,6 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_UNIT_NODES),
     map((action: OrgUnitActions.LoadOrgUnitNodes) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap((payload) =>
       this.orgUnitConnector.getList(payload.userId).pipe(
         map(
@@ -153,7 +151,6 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_UNIT_TREE),
     map((action: OrgUnitActions.LoadOrgUnit) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap(({ userId }) => {
       return this.orgUnitConnector.getTree(userId).pipe(
         map(
@@ -177,7 +174,6 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_APPROVAL_PROCESSES),
     map((action: OrgUnitActions.LoadOrgUnit) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap(({ userId }) => {
       return this.orgUnitConnector.getApprovalProcesses(userId).pipe(
         map(
