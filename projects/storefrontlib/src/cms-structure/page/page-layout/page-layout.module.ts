@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { APP_BOOTSTRAP_LISTENER, ComponentRef, NgModule } from '@angular/core';
+import { ComponentRef, NgModule } from '@angular/core';
 import { FeatureConfigService } from '@spartacus/core';
 import { PageSlotModule } from '../../../cms-structure/page/slot/page-slot.module';
 import { OutletModule } from '../../outlet/outlet.module';
@@ -22,14 +22,5 @@ export function initPageTemplateStyle(
   imports: [CommonModule, OutletModule, PageSlotModule],
   declarations: [PageLayoutComponent],
   exports: [PageLayoutComponent],
-
-  providers: [
-    {
-      provide: APP_BOOTSTRAP_LISTENER,
-      multi: true,
-      useFactory: initPageTemplateStyle,
-      deps: [PageTemplateStyleService, FeatureConfigService],
-    },
-  ],
 })
 export class PageLayoutModule {}
