@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { LoadStatus } from '@spartacus/organization/administration/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, first, map, switchMap, take } from 'rxjs/operators';
 import { CardComponent } from '../card/card.component';
 import { ItemService } from '../item.service';
@@ -89,7 +89,7 @@ export class FormComponent<T> implements OnInit, OnDestroy {
   }
 
   protected setIsInEdit(): void {
-    this.itemService.isInEditFormSubject$.next(true);
+    (this.itemService.isInEditMode$ as BehaviorSubject<boolean>).next(true);
   }
 
   back(event: MouseEvent, card: CardComponent<any>) {
@@ -103,6 +103,6 @@ export class FormComponent<T> implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.itemService?.isInEditFormSubject$.next(false);
+    (this.itemService.isInEditMode$ as BehaviorSubject<boolean>).next(false);
   }
 }

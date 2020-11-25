@@ -25,8 +25,7 @@ export abstract class ItemService<T> {
   key$ = this.currentItemService.key$;
   current$ = this.currentItemService.item$;
 
-  isInEditFormSubject$ = new BehaviorSubject<boolean>(false);
-  isInEditForm$ = this.isInEditFormSubject$.asObservable();
+  isInEditMode$: Observable<boolean> = new BehaviorSubject<boolean>(false);
 
   /**
    * Returns the current business unit code.

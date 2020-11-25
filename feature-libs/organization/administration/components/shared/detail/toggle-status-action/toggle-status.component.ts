@@ -42,6 +42,11 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
    */
   current$ = this.itemService.current$;
 
+  /**
+   * resolves if the user is currently in the edit form.
+   */
+  isInEditMode$ = this.itemService.isInEditMode$;
+
   protected subscription = new Subscription();
   protected confirmation: Subject<ConfirmationMessageData>;
 
