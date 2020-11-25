@@ -8,6 +8,7 @@ git:
 branches:
   only:
     - develop
+    - "/^epic\\/.*$/"
     - "/^release\\/.*$/"
 defaults: &defaults
   script: "./ci-scripts/e2e-cypress.sh -s regression"
