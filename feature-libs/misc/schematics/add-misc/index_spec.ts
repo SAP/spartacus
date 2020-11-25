@@ -4,13 +4,13 @@ import {
 } from '@angular-devkit/schematics/testing';
 import {
   CLI_STOREFINDER_FEATURE,
+  LibraryOptions as SpartacusMiscOptions,
   SpartacusOptions,
   SPARTACUS_MISC,
   SPARTACUS_SETUP,
   STOREFINDER_ROOT_MODULE,
 } from '@spartacus/schematics';
 import * as path from 'path';
-import { Schema as SpartacusMiscOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const appModulePath = 'src/app/app.module.ts';

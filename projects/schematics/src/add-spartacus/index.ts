@@ -247,7 +247,7 @@ function installStyles(tree: Tree, options: SpartacusOptions): Rule {
     const projectName = getDefaultProjectNameFromWorkspace(tree);
     const angularJson = getAngularJsonFile(tree);
     const styleFilePath =
-      angularJson.projects[projectName]?.architect?.build.options?.styles;
+      angularJson.projects[projectName]?.architect?.build?.options?.styles[0];
 
     if (!styleFilePath) {
       console.warn(

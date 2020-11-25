@@ -5,6 +5,7 @@ import {
 import {
   B2B_STOREFRONT_MODULE,
   B2C_STOREFRONT_MODULE,
+  LibraryOptions as SpartacusOrganizationOptions,
   SpartacusOptions,
   SPARTACUS_SETUP,
 } from '@spartacus/schematics';
@@ -16,7 +17,6 @@ import {
   ORDER_APPROVAL_ROOT_MODULE,
   SPARTACUS_ORGANIZATION,
 } from '../constants';
-import { Schema as SpartacusOrganizationOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const appModulePath = 'src/app/app.module.ts';
