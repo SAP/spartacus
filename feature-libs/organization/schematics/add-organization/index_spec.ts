@@ -103,7 +103,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
       expect(packageJson).toContain(SPARTACUS_ORGANIZATION);
     });
 
-    xit('should not install administration nor order-approval features', () => {
+    it('should not install administration nor order-approval features', () => {
       const appModule = appTree.readContent(appModulePath);
       expect(appModule).not.toContain(ADMINISTRATION_ROOT_MODULE);
       expect(appModule).not.toContain(ORDER_APPROVAL_ROOT_MODULE);
