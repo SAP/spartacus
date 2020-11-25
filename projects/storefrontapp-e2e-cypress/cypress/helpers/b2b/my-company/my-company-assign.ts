@@ -75,6 +75,42 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
         });
       }
 
+      if (subConfig.rolesConfig) {
+        it('should modify user roles', () => {
+          cy.get('cx-org-sub-list cx-table tr td')
+            .contains(ASSIGNMENT_LABELS.ROLES)
+            .click();
+
+          subConfig.rolesConfig.rows.forEach((row) => {
+            cy.get('cx-org-card cx-view[position="3"] label span')
+              .contains(row.updateValue)
+              .parent()
+              .within(() => {
+                cy.get('[type="checkbox"]').check();
+              });
+          });
+
+          cy.get('cx-org-notification').contains(
+            ASSIGNMENT_LABELS.ROLE_UPDATED_SUCCESS
+          );
+          cy.get('cx-org-notification').should('not.exist');
+
+          subConfig.rolesConfig.rows.forEach((row) => {
+            cy.get('cx-org-card cx-view[position="3"] label span')
+              .contains(row.updateValue)
+              .parent()
+              .within(() => {
+                cy.get('[type="checkbox"]').uncheck();
+              });
+          });
+
+          cy.get('cx-org-notification').contains(
+            ASSIGNMENT_LABELS.ROLE_UPDATED_SUCCESS
+          );
+          cy.get('cx-org-notification').should('not.exist');
+        });
+      }
+
       if (subConfig.manageAssignments) {
         it('should assign and unassign from assigned list', () => {
           clickManage();

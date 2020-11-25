@@ -4,6 +4,20 @@ import { INPUT_TYPE, MyCompanyConfig } from '../models';
 import { costCenterConfig } from './cost-center.config';
 import { userConfig } from './user';
 
+export const userRolesConfig: MyCompanyConfig = {
+  rows: [
+    {
+      label: 'Roles',
+      variableName: 'roles',
+      formLabel: 'Roles',
+      createValue: 'Customer',
+      updateValue: 'Manager',
+      showInTable: true,
+      showInDetails: true,
+    },
+  ],
+};
+
 export const unitConfig: MyCompanyConfig = {
   name: 'Unit',
   baseUrl: `${FULL_BASE_URL_EN_USD}/organization/units`,
@@ -125,6 +139,7 @@ export const unitConfig: MyCompanyConfig = {
       apiEndpoint: '**/availableOrgCustomers**',
       objectType: 'members',
       createConfig: userConfig,
+      rolesConfig: userRolesConfig,
     },
     {
       name: 'Approvers',

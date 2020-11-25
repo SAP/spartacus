@@ -124,4 +124,9 @@ export interface MyCompanyConfig {
    * SUBCATEGORY: Config for creating entities from submenu
    */
   createConfig?: MyCompanyConfig;
+
+  /**
+   * SUBCATEGORY: Config for modifying user roles.
+   */
+  rolesConfig?: MyCompanyConfig;
 }
