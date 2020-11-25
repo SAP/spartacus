@@ -50,7 +50,7 @@ if [[ -n "$coverage" ]]; then
 fi
 echo "Running schematics unit tests and code coverage for organization library"
 exec 5>&1
-output=$(yarn --cwd feature-libs/organization run test:schematics | tee /dev/fd/5)
+output=$(yarn --cwd feature-libs/organization run test:schematics --coverage=true | tee /dev/fd/5)
 
 echo "Running unit tests and code coverage for misc library"
 exec 5>&1
@@ -62,7 +62,7 @@ if [[ -n "$coverage" ]]; then
 fi
 echo "Running schematics unit tests and code coverage for misc library"
 exec 5>&1
-output=$(yarn --cwd feature-libs/misc run test:schematics | tee /dev/fd/5)
+output=$(yarn --cwd feature-libs/misc run test:schematics --coverage=true | tee /dev/fd/5)
 
 echo "Running unit tests and code coverage for setup"
 exec 5>&1
@@ -75,7 +75,7 @@ fi
 
 echo "Running unit tests and code coverage for schematics library"
 exec 5>&1
-output=$(yarn --cwd projects/schematics run test | tee /dev/fd/5)
+output=$(yarn --cwd projects/schematics run test --coverage=true | tee /dev/fd/5)
 
 if [[ $1 == '-h' ]]; then
     echo "Usage: $0 [sonar (to run sonar scan)]"

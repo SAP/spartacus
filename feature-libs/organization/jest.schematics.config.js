@@ -7,7 +7,7 @@ module.exports = {
     '^.+\\.ts?$': 'ts-jest',
   },
 
-  collectCoverage: true,
+  collectCoverage: false,
   coverageReporters: ['json', 'lcov', 'text', 'clover'],
   coverageDirectory: '<rootDir>/../../coverage/organization/schematics',
   coverageThreshold: {
