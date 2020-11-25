@@ -9,7 +9,8 @@
     "schematics"
   ],
   "scripts": {
-    "clean": "rimraf \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\"",
+    "prepare:schematics": "yarn install",
+    "clean": "yarn prepare:schematics && rimraf \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
     "build": "yarn clean && tsc -p ./tsconfig.schematics.json",
     "test": "jest --config ./jest.schematics.config.js"
   },
