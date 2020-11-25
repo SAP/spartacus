@@ -44,8 +44,7 @@ export abstract class BaseMessageComponent implements OnInit {
   }
 
   protected cleanMessageData(): void {
-    delete this.messageData.message;
-    delete this.messageData.type;
+    this.messageData = { events: this.messageData.events };
   }
 
   protected resolveType(): string {
