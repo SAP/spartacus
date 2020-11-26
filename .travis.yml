@@ -13,7 +13,11 @@ branches:
 defaults: &defaults
   script: "./ci-scripts/e2e-cypress.sh -s regression"
 jobs:
+  allow_failures:
+    - if: branch = develop
+      env: STAGE_NAME=spa-ci-regression
   - script: "./build.sh sonar"
+  - script: "./ci-scripts/e2e-cypress.sh"
   - script:
     name: "Cypress regression tests, 1st job"
     env: STAGE_NAME=spa-ci-regression
