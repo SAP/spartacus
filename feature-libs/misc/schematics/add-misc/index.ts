@@ -38,8 +38,6 @@ export function addMiscFeatures(options: SpartacusMiscOptions): Rule {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    console.log('xxx options: ', options);
-
     const appModulePath = getAppModule(tree, options.project);
 
     return chain([
