@@ -150,5 +150,32 @@ describe('ItemService', () => {
         expect(form.disabled).toBeFalsy();
       });
     });
+
+    describe('isInEditMode', () => {
+      it('should emit false after component creation', (done) => {
+        service.isInEditMode$.subscribe((result) => {
+          expect(result).toBe(false);
+          done();
+        });
+      });
+
+      it('when set to true should emit true', (done) => {
+        service.setEditMode(true);
+
+        service.isInEditMode$.subscribe((result) => {
+          expect(result).toBe(true);
+          done();
+        });
+      });
+
+      it('when set to false should emit false', (done) => {
+        service.setEditMode(false);
+
+        service.isInEditMode$.subscribe((result) => {
+          expect(result).toBe(false);
+          done();
+        });
+      });
+    });
   });
 });

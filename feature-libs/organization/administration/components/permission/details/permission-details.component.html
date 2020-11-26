@@ -2,7 +2,9 @@
   <a
     actions
     class="link edit"
-    [class.disabled]="!model.active || !model.orgUnit.active"
+    [class.disabled]="
+      !model.active || !model.orgUnit.active || (isInEditMode$ | async)
+    "
     [routerLink]="{ cxRoute: 'permissionEdit', params: model } | cxUrl"
   >
     {{ 'organization.edit' | cxTranslate }}
