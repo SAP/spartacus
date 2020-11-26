@@ -1,5 +1,6 @@
 import {
   chain,
+  noop,
   Rule,
   SchematicContext,
   Tree,
@@ -12,10 +13,12 @@ import {
 } from '@schematics/angular/utility/dependencies';
 import {
   addLibraryFeature,
+  CLI_STOREFINDER_FEATURE,
   getAppModule,
   getSpartacusSchematicsVersion,
   LibraryOptions as SpartacusMiscOptions,
   readPackageJson,
+  shouldAddFeature,
   SPARTACUS_MISC,
   SPARTACUS_SETUP,
   SPARTACUS_STOREFINDER,
@@ -35,10 +38,14 @@ export function addMiscFeatures(options: SpartacusMiscOptions): Rule {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
+    console.log('xxx options: ', options);
+
     const appModulePath = getAppModule(tree, options.project);
 
     return chain([
-      addStorefinderFeature(appModulePath, options),
+      shouldAddFeature(options.features, CLI_STOREFINDER_FEATURE)
+        ? addStorefinderFeature(appModulePath, options)
+        : noop(),
       addMiscPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);
