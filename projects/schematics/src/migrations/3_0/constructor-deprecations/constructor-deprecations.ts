@@ -27,7 +27,6 @@ import { FORBIDDEN_HANDLER_MIGRATION } from './data/forbidden.handler.migration'
 import { FORGOT_PASSWORD_COMPONENT_MIGRATION } from './data/forgot-password.component.migration';
 import { JSON_LD_SCRIPT_FACTORY_CONSTRUCTOR_MIGRATION } from './data/json-ld.script.factory.migration';
 import { JSONLD_PRODUCT_REVIEW_BUILDER_MIGRATION } from './data/jsonld-product-review.builder.migration';
-import { LAUNCH_DIALOG_SERVICE_MIGRATION } from './data/launch-dialog.service.migration';
 import { LOGIN_FORM_COMPONENT_MIGRATION } from './data/login-form.component.migration';
 import { LOGOUT_GUARD_MIGRATION } from './data/logout-guard.migration';
 import { MULTI_CART_SERVICE_MIGRATION } from './data/multi-cart.service.migration';
@@ -134,7 +133,6 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   VIEW_COMPONENT_MIGRATION,
   SPLIT_VIEW_COMPONENT_MIGRATION,
   BREAKPOINT_SERVICE_MIGRATION,
-  LAUNCH_DIALOG_SERVICE_MIGRATION, // TODO DELETE THIS ONE
 ];
 
 export function migrate(): Rule {

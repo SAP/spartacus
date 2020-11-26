@@ -1,7 +1,10 @@
 import {
   ANGULAR_CORE,
+  ANY_TYPE,
   BREAKPOINT_SERVICE,
   LAYOUT_CONFIG,
+  PLATFORM,
+  PLATFORM_ID_STRING,
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
   WINDOW_REF,
@@ -24,29 +27,12 @@ export const BREAKPOINT_SERVICE_MIGRATION: ConstructorDeprecation = {
   ],
   addParams: [
     {
-      className: 'platform',
-      staticType: 'any',
+      className: PLATFORM,
+      staticType: ANY_TYPE,
       injectionToken: {
-        token: 'PLATFORM_ID',
+        token: PLATFORM_ID_STRING,
         importPath: ANGULAR_CORE,
       },
     },
-    {
-      className: 'SomethingElse',
-      staticType: '{ test: string }',
-    },
-    {
-      className: 'RandomClass',
-      importPath: SPARTACUS_STOREFRONTLIB,
-      injectionToken: {
-        token: 'RandomClass',
-        isArray: true,
-        // importPath: SPARTACUS_STOREFRONTLIB, // TODO try without it
-      },
-    },
-    // {
-    //   className: 'SomethingLikeThis',
-    //   importPath: SPARTACUS_CORE,
-    // },
   ],
 };
