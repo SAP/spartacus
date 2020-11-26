@@ -3,13 +3,23 @@
  */
 %cx-configure-product {
   &:not(:empty) {
-    grid-column: 2;
-    margin-top: -15px;
-    padding: 20px 20px 0 20px;
-
     .btn-block {
       margin-block-start: 5px;
-      margin-block-end: 5px;
+    }
+  }
+}
+
+%ProductDetailsPageTemplate {
+  cx-page-slot {
+    &.Summary {
+      %cx-configure-product {
+        @include media-breakpoint-up(lg) {
+          grid-column: 2;
+          padding-inline-start: 20px;
+          padding-inline-end: 20px;
+          padding-block-end: 0px;
+        }
+      }
     }
   }
 }
