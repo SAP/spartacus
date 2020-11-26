@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnDestroy,
-} from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Subject, Subscription } from 'rxjs';
 import { filter, first, take } from 'rxjs/operators';
@@ -20,7 +15,6 @@ import { BaseItem } from '../../organization.model';
 @Component({
   selector: 'cx-org-toggle-status',
   templateUrl: './toggle-status.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   /**
@@ -47,6 +41,11 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
    * resolves the current item.
    */
   current$ = this.itemService.current$;
+
+  /**
+   * resolves if the user is currently in the edit form.
+   */
+  isInEditMode$ = this.itemService.isInEditMode$;
 
   protected subscription = new Subscription();
   protected confirmation: Subject<ConfirmationMessageData>;
