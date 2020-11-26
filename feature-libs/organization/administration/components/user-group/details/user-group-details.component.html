@@ -3,6 +3,7 @@
     actions
     class="link edit"
     [routerLink]="{ cxRoute: 'userGroupEdit', params: model } | cxUrl"
+    [class.disabled]="isInEditMode$ | async"
   >
     {{ 'organization.edit' | cxTranslate }}
   </a>
