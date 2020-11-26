@@ -394,10 +394,11 @@ function checkImports(
   parameterClassTypes: ClassType[]
 ): boolean {
   for (const classImport of parameterClassTypes) {
-    if (classImport.importPath) {
-      if (!isImported(source, classImport.className, classImport.importPath)) {
-        return false;
-      }
+    if (
+      classImport.importPath &&
+      !isImported(source, classImport.className, classImport.importPath)
+    ) {
+      return false;
     }
   }
   return true;
@@ -507,17 +508,18 @@ export function addConstructorParam(
     );
   }
 
-  if (paramToAdd.importPath) {
-    if (!isImported(source, paramToAdd.className, paramToAdd.importPath)) {
-      changes.push(
-        insertImport(
-          source,
-          sourcePath,
-          paramToAdd.className,
-          paramToAdd.importPath
-        )
-      );
-    }
+  if (
+    paramToAdd.importPath &&
+    !isImported(source, paramToAdd.className, paramToAdd.importPath)
+  ) {
+    changes.push(
+      insertImport(
+        source,
+        sourcePath,
+        paramToAdd.className,
+        paramToAdd.importPath
+      )
+    );
   }
   if (paramToAdd.injectionToken?.token) {
     if (!isImported(source, INJECT_DECORATOR, ANGULAR_CORE)) {
@@ -526,26 +528,28 @@ export function addConstructorParam(
       );
     }
 
+    /**
+     * This is for the case when an injection token is the same as the import's type.
+     * In this case we don't want to add two imports.
+     * Ex: `@Inject(LaunchRenderStrategy) launchRenderStrategy: LaunchRenderStrategy[]`
+     */
     if (
       paramToAdd.injectionToken.importPath &&
-      paramToAdd.injectionToken.token !== paramToAdd.className
+      paramToAdd.injectionToken.token !== paramToAdd.className &&
+      !isImported(
+        source,
+        paramToAdd.injectionToken.token,
+        paramToAdd.injectionToken.importPath
+      )
     ) {
-      if (
-        !isImported(
+      changes.push(
+        insertImport(
           source,
+          sourcePath,
           paramToAdd.injectionToken.token,
           paramToAdd.injectionToken.importPath
         )
-      ) {
-        changes.push(
-          insertImport(
-            source,
-            sourcePath,
-            paramToAdd.injectionToken.token,
-            paramToAdd.injectionToken.importPath
-          )
-        );
-      }
+      );
     }
   }
 
@@ -607,28 +611,17 @@ export function removeConstructorParam(
   return changes;
 }
 
-export function hasDuplicateDecorator(
+export function shouldRemoveDecorator(
   constructorNode: ts.Node,
   decoratorIdentifier: string
 ): boolean {
-  const constructorParameters = findNodes(
+  const decoratorParameters = findNodes(
     constructorNode,
     ts.SyntaxKind.Decorator
-  );
+  ).filter((x) => x.getText().includes(decoratorIdentifier));
 
-  let decoratorCount = 0;
-  for (const param of constructorParameters) {
-    if (
-      findNodes(param, ts.SyntaxKind.Identifier)[0].getText() ===
-      decoratorIdentifier
-    )
-      decoratorCount++;
-    if (decoratorCount >= 2) {
-      return true;
-    }
-  }
-
-  return false;
+  // if there are 0, or exactly 1 usage of the `decoratorIdentifier` in the whole class, we can safely remove it.
+  return decoratorParameters.length < 2;
 }
 
 function getParamName(
@@ -710,13 +703,13 @@ export function removeInjectImports(
   constructorNode: ts.Node,
   paramToRemove: ClassType
 ): Change[] {
-  const importRemovalChange: Change[] = [];
-
   if (!paramToRemove.injectionToken) {
     return [new NoopChange()];
   }
 
-  if (!hasDuplicateDecorator(constructorNode, INJECT_DECORATOR))
+  const importRemovalChange: Change[] = [];
+
+  if (shouldRemoveDecorator(constructorNode, INJECT_DECORATOR))
     importRemovalChange.push(
       removeImport(source, {
         className: INJECT_DECORATOR,
@@ -724,6 +717,11 @@ export function removeInjectImports(
       })
     );
 
+  /**
+   * This is for the case when an injection token is the same as the import's type.
+   * In this case we don't want to have two import removal changes.
+   * Ex: `@Inject(LaunchRenderStrategy) launchRenderStrategy: LaunchRenderStrategy[]`
+   */
   if (
     paramToRemove.injectionToken.importPath &&
     paramToRemove.injectionToken.token !== paramToRemove.className

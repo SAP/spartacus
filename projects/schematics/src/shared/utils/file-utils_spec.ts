@@ -40,7 +40,6 @@ import {
   getLineFromTSFile,
   getPathResultsForFile,
   getTsSourceFile,
-  hasDuplicateDecorator,
   injectService,
   insertCommentAboveConfigProperty,
   insertCommentAboveIdentifier,
@@ -52,6 +51,7 @@ import {
   removeConstructorParam,
   removeInjectImports,
   renameIdentifierNode,
+  shouldRemoveDecorator,
 } from './file-utils';
 import { getProjectFromWorkspace, getSourceRoot } from './workspace-utils';
 
@@ -1015,8 +1015,8 @@ describe('File utils', () => {
     });
   });
 
-  describe('hasDuplicateDecorator', () => {
-    it('should return false if the decorator is present one time', () => {
+  describe('shouldRemoveDecorator', () => {
+    it('should return true if the decorator is present one time', () => {
       const source = ts.createSourceFile(
         'xxx.ts',
         SINGLE_DECORATOR_CONSTRUCTOR,
@@ -1025,10 +1025,10 @@ describe('File utils', () => {
       );
       const nodes = getSourceNodes(source);
       const constructorNode = findConstructor(nodes);
-      expect(hasDuplicateDecorator(constructorNode, 'Inject')).toEqual(false);
+      expect(shouldRemoveDecorator(constructorNode, 'Inject')).toEqual(true);
     });
 
-    it('should return true if the decorator is present multiple times', () => {
+    it('should return false if the decorator is present multiple times', () => {
       const source = ts.createSourceFile(
         'xxx.ts',
         MULTIPLE_DECORATOR_CONSTRUCTOR,
@@ -1037,8 +1037,8 @@ describe('File utils', () => {
       );
       const nodes = getSourceNodes(source);
       const constructorNode = findConstructor(nodes);
-      const res = hasDuplicateDecorator(constructorNode, 'Inject');
-      expect(res).toEqual(true);
+      const res = shouldRemoveDecorator(constructorNode, 'Inject');
+      expect(res).toEqual(false);
     });
   });
 });
