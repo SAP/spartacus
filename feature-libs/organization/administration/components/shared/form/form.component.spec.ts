@@ -22,6 +22,8 @@ class MockItemService {
   save() {
     return of({ status: LoadStatus.SUCCESS, item: mockItem });
   }
+  load = createSpy('load').and.returnValue(of());
+  setEditMode = () => false;
 }
 
 describe('FormComponent', () => {
@@ -53,6 +55,10 @@ describe('FormComponent', () => {
     messageService = TestBed.inject(MessageService);
     component = fixture.componentInstance;
     component.i18nRoot = 'i18nRoot';
+  });
+
+  afterEach(() => {
+    component.ngOnDestroy();
   });
 
   it('should create', () => {
