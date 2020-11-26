@@ -155,21 +155,21 @@ describe('ItemService', () => {
       let result;
 
       it('should emit false after component creation', () => {
-        service.isInEditMode$.subscribe(r => result = r);
+        service.isInEditMode$.subscribe((r) => (result = r));
 
         expect(result).toBe(false);
       });
 
       it('when set to true should emit true', () => {
         service.setEditMode(true);
-        service.isInEditMode$.subscribe(r => result = r);
+        service.isInEditMode$.subscribe((r) => (result = r));
 
         expect(result).toBe(true);
       });
 
       it('when set to false should emit false', () => {
         service.setEditMode(false);
-        service.isInEditMode$.subscribe(r => result = r);
+        service.isInEditMode$.subscribe((r) => (result = r));
 
         expect(result).toBe(false);
       });
