@@ -22,6 +22,7 @@ class MockItemService {
   save() {
     return of({ status: LoadStatus.SUCCESS, item: mockItem });
   }
+  setEditMode = () => {};
 }
 
 describe('FormComponent', () => {
@@ -53,6 +54,10 @@ describe('FormComponent', () => {
     messageService = TestBed.inject(MessageService);
     component = fixture.componentInstance;
     component.i18nRoot = 'i18nRoot';
+  });
+
+  afterEach(() => {
+    component.ngOnDestroy();
   });
 
   it('should create', () => {
