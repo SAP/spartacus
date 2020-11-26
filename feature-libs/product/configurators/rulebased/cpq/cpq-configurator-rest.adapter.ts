@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CartModification } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import { Observable, of } from 'rxjs';
-import { delay, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { RulebasedConfiguratorAdapter } from '../core/connectors/rulebased-configurator.adapter';
 import { Configurator } from '../core/model/configurator.model';
 import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
@@ -32,17 +32,8 @@ export class CpqConfiguratorRestAdapter
       );
   }
 
-  readConfiguration(
-    configId: string,
-    groupId: string,
-    configurationOwner: CommonConfigurator.Owner
-  ): Observable<Configurator.Configuration> {
-    const config: Configurator.Configuration = {
-      configId: configId,
-      owner: configurationOwner,
-    };
-    console.log(groupId);
-    return of(config);
+  readConfiguration(): Observable<Configurator.Configuration> {
+    return undefined;
   }
 
   updateConfiguration(): Observable<Configurator.Configuration> {
@@ -68,7 +59,7 @@ export class CpqConfiguratorRestAdapter
   readPriceSummary(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
-    return of(configuration).pipe(delay(1000));
+    return of(configuration); // so that UI does not run into exception
   }
 
   getConfigurationOverview(): Observable<Configurator.Overview> {

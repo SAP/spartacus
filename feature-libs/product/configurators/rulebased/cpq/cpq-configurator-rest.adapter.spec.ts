@@ -59,4 +59,14 @@ describe('CpqConfiguratorRestAdapter', () => {
       );
     });
   });
+
+  // this ensures that there is a dummy response until the API is implemented,
+  // otherwise this leads to an NPE on the UI
+  it('should always return same configuration for price summary', () => {
+    adapterUnderTest
+      .readPriceSummary(productConfiguration)
+      .subscribe((config) => {
+        expect(config).toBe(productConfiguration);
+      });
+  });
 });
