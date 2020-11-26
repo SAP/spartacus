@@ -17,7 +17,6 @@ import {
   PROVIDE_CONFIG_FUNCTION,
   PROVIDE_DEFAULT_CONFIG,
   SPARTACUS_CORE,
-  SPARTACUS_SETUP,
 } from '../constants';
 import {
   createNewConfig,
@@ -47,7 +46,10 @@ export interface FeatureConfig {
   featureModule: Module;
   rootModule: Module;
   i18n: I18NConfig;
-  defaultConfig?: string;
+  defaultConfig?: {
+    name: string;
+    importPath: string;
+  };
   styles?: StylingConfig;
 }
 
@@ -119,8 +121,8 @@ function handleFeature<T extends LibraryOptions>(
       const setupImportChange = createImportChange(
         host,
         appModulePath,
-        config.defaultConfig,
-        SPARTACUS_SETUP
+        config.defaultConfig.name,
+        config.defaultConfig.importPath
       );
       changes.push(setupImportChange);
     }

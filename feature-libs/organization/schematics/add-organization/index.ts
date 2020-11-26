@@ -163,7 +163,10 @@ function addAdministrationFeature(
 ): Rule {
   return addLibraryFeature(appModulePath, options, {
     name: ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
-    defaultConfig: DEFAULT_B2B_OCC_CONFIG,
+    defaultConfig: {
+      name: DEFAULT_B2B_OCC_CONFIG,
+      importPath: SPARTACUS_SETUP,
+    },
     featureModule: {
       name: ADMINISTRATION_MODULE,
       importPath: SPARTACUS_ADMINISTRATION,
@@ -190,7 +193,10 @@ function addOrderApprovalsFeature(
 ): Rule {
   return addLibraryFeature(appModulePath, options, {
     name: ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME,
-    defaultConfig: DEFAULT_B2B_OCC_CONFIG,
+    defaultConfig: {
+      name: DEFAULT_B2B_OCC_CONFIG,
+      importPath: SPARTACUS_SETUP,
+    },
     featureModule: {
       name: ORDER_APPROVAL_MODULE,
       importPath: SPARTACUS_ORDER_APPROVAL,
