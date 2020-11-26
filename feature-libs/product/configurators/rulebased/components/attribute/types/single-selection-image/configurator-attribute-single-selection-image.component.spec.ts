@@ -24,7 +24,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
   let htmlElem: HTMLElement;
   const ownerKey = 'theOwnerKey';
   const groupId = 'testGroup';
-  const name = 'attributeName';
+  const attributeName = 'attributeName';
 
   beforeEach(
     waitForAsync(() => {
@@ -90,7 +90,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     htmlElem = fixture.nativeElement;
 
     component.attribute = {
-      name: name,
+      name: attributeName,
       attrCode: 444,
       uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
       required: false,
@@ -138,7 +138,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
       jasmine.objectContaining({
         ownerKey: ownerKey,
         changedAttribute: jasmine.objectContaining({
-          name: name,
+          name: attributeName,
           selectedSingleValue: component.attribute.values[1].valueCode,
           uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
           groupId: groupId,
