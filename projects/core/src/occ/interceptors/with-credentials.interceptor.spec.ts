@@ -33,7 +33,7 @@ describe('WithCredentialsInterceptor', () => {
           { provide: OccConfig, useValue: MockAuthModuleConfig },
           {
             provide: HTTP_INTERCEPTORS,
-            useClass: WithCredentialsInterceptor,
+            useExisting: WithCredentialsInterceptor,
             multi: true,
           },
         ],
@@ -83,7 +83,7 @@ describe('WithCredentialsInterceptor', () => {
           { provide: OccConfig, useValue: MockAuthModuleConfig },
           {
             provide: HTTP_INTERCEPTORS,
-            useClass: WithCredentialsInterceptor,
+            useExisting: WithCredentialsInterceptor,
             multi: true,
           },
         ],
@@ -123,7 +123,7 @@ describe('WithCredentialsInterceptor', () => {
           { provide: OccConfig, useValue: MockAuthModuleConfig },
           {
             provide: HTTP_INTERCEPTORS,
-            useClass: WithCredentialsInterceptor,
+            useExisting: WithCredentialsInterceptor,
             multi: true,
           },
         ],

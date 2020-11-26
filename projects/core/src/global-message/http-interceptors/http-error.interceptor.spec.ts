@@ -48,12 +48,12 @@ describe('HttpErrorInterceptor', () => {
       providers: [
         {
           provide: HTTP_INTERCEPTORS,
-          useClass: HttpErrorInterceptor,
+          useExisting: HttpErrorInterceptor,
           multi: true,
         },
         {
           provide: HttpErrorHandler,
-          useClass: HttpErrorHandler,
+          useExisting: HttpErrorHandler,
           multi: true,
         },
         {

@@ -37,7 +37,7 @@ describe('TokenRevocationInterceptor', () => {
       providers: [
         {
           provide: HTTP_INTERCEPTORS,
-          useClass: TokenRevocationInterceptor,
+          useExisting: TokenRevocationInterceptor,
           multi: true,
         },
         {

@@ -47,7 +47,7 @@ describe('CheckoutCartInterceptor', () => {
       providers: [
         {
           provide: HTTP_INTERCEPTORS,
-          useClass: CheckoutCartInterceptor,
+          useExisting: CheckoutCartInterceptor,
           multi: true,
         },
         { provide: RoutingService, useClass: MockRoutingService },

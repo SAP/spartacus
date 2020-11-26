@@ -26,7 +26,7 @@ describe('Debug interceptor', () => {
         },
         {
           provide: HTTP_INTERCEPTORS,
-          useClass: DebugInterceptor,
+          useExisting: DebugInterceptor,
           multi: true,
         },
         {

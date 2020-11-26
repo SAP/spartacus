@@ -27,7 +27,7 @@ describe('consent reference interceptor', () => {
         },
         {
           provide: HTTP_INTERCEPTORS,
-          useClass: ConsentReferenceInterceptor,
+          useExisting: ConsentReferenceInterceptor,
           multi: true,
         },
         {
