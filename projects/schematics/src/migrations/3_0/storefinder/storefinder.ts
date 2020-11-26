@@ -6,7 +6,6 @@ import {
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
-import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import {
   findNodes,
   getDecoratorMetadata,
@@ -40,6 +39,7 @@ import {
   getSpartacusSchematicsVersion,
   getTsSourceFile,
   getWorkspace,
+  installPackageJsonDependencies,
   PROVIDE_CONFIG_FUNCTION,
   readPackageJson,
   removeImport,
@@ -282,14 +282,6 @@ function addStorefinderStyles(): Rule {
       },
     };
     tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
-  };
-}
-
-function installPackageJsonDependencies(): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    context.addTask(new NodePackageInstallTask());
-    context.logger.log('info', `🔍 Installing packages...`);
-    return tree;
   };
 }
 

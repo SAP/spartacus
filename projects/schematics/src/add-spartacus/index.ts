@@ -8,10 +8,8 @@ import {
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
-import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import { isImported } from '@schematics/angular/utility/ast-utils';
 import {
-  addPackageJsonDependency,
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
@@ -30,6 +28,10 @@ import {
 import { getIndexHtmlPath, getTsSourceFile } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
+  addPackageJsonDependencies,
+  installPackageJsonDependencies,
+} from '../shared/utils/lib-utils';
+import {
   addImport,
   addToModuleImportsAndCommitChanges,
 } from '../shared/utils/module-file-utils';
@@ -46,112 +48,6 @@ import {
   getProjectTargets,
 } from '../shared/utils/workspace-utils';
 import { Schema as SpartacusOptions } from './schema';
-
-function addPackageJsonDependencies(): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-    const angularVersion = getAngularVersion(tree);
-
-    const dependencies: NodeDependency[] = [
-      {
-        type: NodeDependencyType.Default,
-        version: spartacusVersion,
-        name: SPARTACUS_CORE,
-      },
-      {
-        type: NodeDependencyType.Default,
-        version: spartacusVersion,
-        name: SPARTACUS_STOREFRONTLIB,
-      },
-      {
-        type: NodeDependencyType.Default,
-        version: spartacusVersion,
-        name: SPARTACUS_ASSETS,
-      },
-      {
-        type: NodeDependencyType.Default,
-        version: spartacusVersion,
-        name: SPARTACUS_STYLES,
-      },
-
-      {
-        type: NodeDependencyType.Default,
-        version: '^7.0.0',
-        name: '@ng-bootstrap/ng-bootstrap',
-      },
-      {
-        type: NodeDependencyType.Default,
-        version: '^4.0.0',
-        name: '@ng-select/ng-select',
-      },
-
-      {
-        type: NodeDependencyType.Default,
-        version: DEFAULT_NGRX_VERSION,
-        name: '@ngrx/store',
-      },
-      {
-        type: NodeDependencyType.Default,
-        version: DEFAULT_NGRX_VERSION,
-        name: '@ngrx/effects',
-      },
-      {
-        type: NodeDependencyType.Default,
-        version: DEFAULT_NGRX_VERSION,
-        name: '@ngrx/router-store',
-      },
-
-      {
-        type: NodeDependencyType.Default,
-        version: '4.2.1',
-        name: 'bootstrap',
-      },
-      { type: NodeDependencyType.Default, version: '^19.3.4', name: 'i18next' },
-      {
-        type: NodeDependencyType.Default,
-        version: '^3.2.2',
-        name: 'i18next-xhr-backend',
-      },
-      {
-        type: NodeDependencyType.Default,
-        version: angularVersion,
-        name: '@angular/service-worker',
-      },
-      {
-        type: NodeDependencyType.Default,
-        version: angularVersion,
-        name: ANGULAR_LOCALIZE,
-      },
-      {
-        type: NodeDependencyType.Default,
-        version: '^8.0.0',
-        name: 'ngx-infinite-scroll',
-      },
-      {
-        type: NodeDependencyType.Default,
-        version: DEFAULT_ANGULAR_OAUTH2_OIDC_VERSION,
-        name: ANGULAR_OAUTH2_OIDC,
-      },
-    ];
-
-    dependencies.forEach((dependency) => {
-      addPackageJsonDependency(tree, dependency);
-      context.logger.info(
-        `✅️ Added '${dependency.name}' into ${dependency.type}`
-      );
-    });
-
-    return tree;
-  };
-}
-
-function installPackageJsonDependencies(): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    context.addTask(new NodePackageInstallTask());
-    context.logger.log('info', `🔍 Installing packages...`);
-    return tree;
-  };
-}
 
 function prepareSiteContextConfig(options: SpartacusOptions): string {
   const currency = parseCSV(options.currency, ['USD']).toUpperCase();
@@ -356,9 +252,93 @@ function updateIndexFile(tree: Tree, options: SpartacusOptions): Rule {
 export function addSpartacus(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const project = getProjectFromWorkspace(tree, options);
+    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+    const angularVersion = getAngularVersion(tree);
+
+    const dependencies: NodeDependency[] = [
+      {
+        type: NodeDependencyType.Default,
+        version: spartacusVersion,
+        name: SPARTACUS_CORE,
+      },
+      {
+        type: NodeDependencyType.Default,
+        version: spartacusVersion,
+        name: SPARTACUS_STOREFRONTLIB,
+      },
+      {
+        type: NodeDependencyType.Default,
+        version: spartacusVersion,
+        name: SPARTACUS_ASSETS,
+      },
+      {
+        type: NodeDependencyType.Default,
+        version: spartacusVersion,
+        name: SPARTACUS_STYLES,
+      },
+
+      {
+        type: NodeDependencyType.Default,
+        version: '^7.0.0',
+        name: '@ng-bootstrap/ng-bootstrap',
+      },
+      {
+        type: NodeDependencyType.Default,
+        version: '^4.0.0',
+        name: '@ng-select/ng-select',
+      },
+
+      {
+        type: NodeDependencyType.Default,
+        version: DEFAULT_NGRX_VERSION,
+        name: '@ngrx/store',
+      },
+      {
+        type: NodeDependencyType.Default,
+        version: DEFAULT_NGRX_VERSION,
+        name: '@ngrx/effects',
+      },
+      {
+        type: NodeDependencyType.Default,
+        version: DEFAULT_NGRX_VERSION,
+        name: '@ngrx/router-store',
+      },
+
+      {
+        type: NodeDependencyType.Default,
+        version: '4.2.1',
+        name: 'bootstrap',
+      },
+      { type: NodeDependencyType.Default, version: '^19.3.4', name: 'i18next' },
+      {
+        type: NodeDependencyType.Default,
+        version: '^3.2.2',
+        name: 'i18next-xhr-backend',
+      },
+      {
+        type: NodeDependencyType.Default,
+        version: angularVersion,
+        name: '@angular/service-worker',
+      },
+      {
+        type: NodeDependencyType.Default,
+        version: angularVersion,
+        name: ANGULAR_LOCALIZE,
+      },
+      {
+        type: NodeDependencyType.Default,
+        version: '^8.0.0',
+        name: 'ngx-infinite-scroll',
+      },
+      {
+        type: NodeDependencyType.Default,
+        version: DEFAULT_ANGULAR_OAUTH2_OIDC_VERSION,
+        name: ANGULAR_OAUTH2_OIDC,
+      },
+    ];
 
     return chain([
-      addPackageJsonDependencies(),
+      addPackageJsonDependencies(dependencies),
       updateAppModule(options),
       installStyles(tree, options),
       updateMainComponent(project, options),

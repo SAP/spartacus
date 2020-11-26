@@ -5,17 +5,17 @@ import {
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
-import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import {
-  addPackageJsonDependency,
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import {
   addLibraryFeature,
+  addPackageJsonDependencies,
   CLI_STOREFINDER_FEATURE,
   getAppModule,
   getSpartacusSchematicsVersion,
+  installPackageJsonDependencies,
   LibraryOptions as SpartacusMiscOptions,
   readPackageJson,
   shouldAddFeature,
@@ -77,40 +77,18 @@ function addStorefinderFeature(
 }
 
 function addMiscPackageJsonDependencies(packageJson: any): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-
-    const spartacusMiscDependency: NodeDependency = {
+  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+  const dependencies: NodeDependency[] = [
+    {
       type: NodeDependencyType.Default,
       version: spartacusVersion,
       name: SPARTACUS_MISC,
-    };
-    addPackageJsonDependency(tree, spartacusMiscDependency);
-    context.logger.info(
-      `✅️ Added '${spartacusMiscDependency.name}' into ${spartacusMiscDependency.type}`
-    );
-
-    if (!packageJson.dependencies.hasOwnProperty(SPARTACUS_SETUP)) {
-      const spartacusSetupDependency: NodeDependency = {
-        type: NodeDependencyType.Default,
-        version: spartacusVersion,
-        name: SPARTACUS_SETUP,
-      };
-
-      addPackageJsonDependency(tree, spartacusSetupDependency);
-      context.logger.info(
-        `✅️ Added '${spartacusSetupDependency.name}' into ${spartacusSetupDependency.type}`
-      );
-    }
-
-    return tree;
-  };
-}
-
-function installPackageJsonDependencies(): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    context.addTask(new NodePackageInstallTask());
-    context.logger.log('info', `🔍 Installing packages...`);
-    return tree;
-  };
+    },
+    {
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      name: SPARTACUS_SETUP,
+    },
+  ];
+  return addPackageJsonDependencies(dependencies, packageJson);
 }

@@ -5,8 +5,13 @@ import {
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
+import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import { findNodes, isImported } from '@schematics/angular/utility/ast-utils';
 import { Change, NoopChange } from '@schematics/angular/utility/change';
+import {
+  addPackageJsonDependency,
+  NodeDependency,
+} from '@schematics/angular/utility/dependencies';
 import * as ts from 'typescript';
 import {
   PROVIDE_CONFIG_FUNCTION,
@@ -399,5 +404,33 @@ function addLibraryStyles(stylingConfig: StylingConfig): Rule {
       },
     };
     tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
+  };
+}
+
+export function installPackageJsonDependencies(): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    context.addTask(new NodePackageInstallTask());
+    context.logger.log('info', `🔍 Installing packages...`);
+    return tree;
+  };
+}
+
+export function addPackageJsonDependencies(
+  dependencies: NodeDependency[],
+  packageJson?: any
+): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    dependencies.forEach((dependency) => {
+      if (
+        !packageJson ||
+        !packageJson.dependencies.hasOwnProperty(dependency.name)
+      ) {
+        addPackageJsonDependency(tree, dependency);
+        context.logger.info(
+          `✅️ Added '${dependency.name}' into ${dependency.type}`
+        );
+      }
+    });
+    return tree;
   };
 }

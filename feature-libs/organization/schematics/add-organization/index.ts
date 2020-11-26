@@ -5,16 +5,15 @@ import {
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
-import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import { isImported } from '@schematics/angular/utility/ast-utils';
 import { Change, ReplaceChange } from '@schematics/angular/utility/change';
 import {
-  addPackageJsonDependency,
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import {
   addLibraryFeature,
+  addPackageJsonDependencies,
   B2B_STOREFRONT_MODULE,
   B2C_STOREFRONT_MODULE,
   commitChanges,
@@ -24,6 +23,7 @@ import {
   getAppModule,
   getSpartacusSchematicsVersion,
   getTsSourceFile,
+  installPackageJsonDependencies,
   LibraryOptions as SpartacusOrganizationOptions,
   readPackageJson,
   removeImport,
@@ -73,7 +73,7 @@ export function addSpartacusOrganization(
       shouldAddFeature(options.features, CLI_ORDER_APPROVAL_FEATURE)
         ? addOrderApprovalsFeature(appModulePath, options)
         : noop(),
-      addPackageJsonDependencies(packageJson),
+      addOrganizationPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);
   };
@@ -140,43 +140,21 @@ function updateAppModule(appModulePath: string): Rule {
   };
 }
 
-function addPackageJsonDependencies(packageJson: any): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-
-    const spartacusOrganizationDependency: NodeDependency = {
+function addOrganizationPackageJsonDependencies(packageJson: any): Rule {
+  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+  const dependencies: NodeDependency[] = [
+    {
       type: NodeDependencyType.Default,
       version: spartacusVersion,
       name: SPARTACUS_ORGANIZATION,
-    };
-    addPackageJsonDependency(tree, spartacusOrganizationDependency);
-    context.logger.info(
-      `✅️ Added '${spartacusOrganizationDependency.name}' into ${spartacusOrganizationDependency.type}`
-    );
-
-    if (!packageJson.dependencies.hasOwnProperty(SPARTACUS_SETUP)) {
-      const spartacusSetupDependency: NodeDependency = {
-        type: NodeDependencyType.Default,
-        version: spartacusVersion,
-        name: SPARTACUS_SETUP,
-      };
-
-      addPackageJsonDependency(tree, spartacusSetupDependency);
-      context.logger.info(
-        `✅️ Added '${spartacusSetupDependency.name}' into ${spartacusSetupDependency.type}`
-      );
-    }
-
-    return tree;
-  };
-}
-
-function installPackageJsonDependencies(): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    context.addTask(new NodePackageInstallTask());
-    context.logger.log('info', `🔍 Installing packages...`);
-    return tree;
-  };
+    },
+    {
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      name: SPARTACUS_SETUP,
+    },
+  ];
+  return addPackageJsonDependencies(dependencies, packageJson);
 }
 
 function addAdministrationFeature(
@@ -212,6 +190,7 @@ function addOrderApprovalsFeature(
 ): Rule {
   return addLibraryFeature(appModulePath, options, {
     name: ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME,
+    defaultConfig: DEFAULT_B2B_OCC_CONFIG,
     featureModule: {
       name: ORDER_APPROVAL_MODULE,
       importPath: SPARTACUS_ORDER_APPROVAL,
