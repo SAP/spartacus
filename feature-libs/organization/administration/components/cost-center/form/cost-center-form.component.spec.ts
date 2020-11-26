@@ -4,13 +4,10 @@ import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CurrencyService, I18nTestingModule } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/organization/administration/core';
-import {
-  DateTimePickerModule,
-  FormErrorsComponent,
-} from '@spartacus/storefront';
+import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of } from 'rxjs';
-import { OrganizationFormTestingModule } from '../../shared/organization-form/organization-form.testing.module';
+import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { CostCenterItemService } from '../services/cost-center-item.service';
 import { CostCenterFormComponent } from './cost-center-form.component';
 
@@ -38,7 +35,7 @@ class MockCurrencyService {
   }
 }
 
-class MockOrganizationItemService {
+class MockItemService {
   getForm() {
     return mockForm;
   }
@@ -57,8 +54,7 @@ describe('CostCenterFormComponent', () => {
         UrlTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
-        DateTimePickerModule,
-        OrganizationFormTestingModule,
+        FormTestingModule,
       ],
       declarations: [CostCenterFormComponent, FormErrorsComponent],
       providers: [
@@ -66,7 +62,7 @@ describe('CostCenterFormComponent', () => {
         { provide: OrgUnitService, useClass: MockOrgUnitService },
         {
           provide: CostCenterItemService,
-          useClass: MockOrganizationItemService,
+          useClass: MockItemService,
         },
       ],
     }).compileComponents();

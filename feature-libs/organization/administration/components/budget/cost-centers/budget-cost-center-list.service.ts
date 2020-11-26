@@ -7,15 +7,13 @@ import {
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { OrganizationSubListService } from '../../shared/organization-sub-list/organization-sub-list.service';
+import { SubListService } from '../../shared/sub-list/sub-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class BudgetCostCenterListService extends OrganizationSubListService<
-  Budget
-> {
+export class BudgetCostCenterListService extends SubListService<Budget> {
   protected tableType = OrganizationTableType.BUDGET_ASSIGNED_COST_CENTERS;
   protected _domainType = OrganizationTableType.COST_CENTER;
 

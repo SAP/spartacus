@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import {
   ATTRIBUTE_1_CHECKBOX,
@@ -109,11 +109,13 @@ function mergeChangesAndGetFirstGroup(
 describe('ConfiguratorGroupUtilsService', () => {
   let classUnderTest: ConfiguratorUtilsService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      providers: [ConfiguratorUtilsService],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        providers: [ConfiguratorUtilsService],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     classUnderTest = TestBed.inject(

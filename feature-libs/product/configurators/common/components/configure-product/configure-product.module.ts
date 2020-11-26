@@ -38,10 +38,6 @@ import { ConfigureProductComponent } from './configure-product.component';
       id: ProductListOutlets.LIST_ITEM_END,
       component: ConfigureProductComponent,
     }),
-    //    provideOutlet({
-    //      id: ProductDetailOutlets.SUMMARY,
-    //      component: ConfigureProductComponent,
-    //    }),
   ],
   declarations: [ConfigureProductComponent],
   entryComponents: [ConfigureProductComponent],

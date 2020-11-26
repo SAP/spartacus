@@ -11,9 +11,9 @@
         }
       } | cxUrl
     "
+    cxModal="dismiss"
     [queryParams]="{ forceReload: true, resolveIssues: hasIssues() }"
     [disabled]="isDisabled()"
-    (click)="closeActiveModal()"
     cxAutoFocus
   >
     <ng-container *ngIf="readOnly">

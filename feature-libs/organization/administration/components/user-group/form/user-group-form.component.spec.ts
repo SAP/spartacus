@@ -4,13 +4,10 @@ import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/organization/administration/core';
-import {
-  DateTimePickerModule,
-  FormErrorsComponent,
-} from '@spartacus/storefront';
+import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of } from 'rxjs';
-import { OrganizationFormTestingModule } from '../../shared/organization-form/organization-form.testing.module';
+import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { UserGroupItemService } from '../services/user-group-item.service';
 import { UserGroupFormComponent } from './user-group-form.component';
 
@@ -29,7 +26,7 @@ class MockOrgUnitService {
   loadList() {}
 }
 
-class MockOrganizationItemService {
+class MockItemService {
   getForm() {}
 }
 
@@ -45,15 +42,14 @@ describe('UserGroupFormComponent', () => {
         UrlTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
-        DateTimePickerModule,
-        OrganizationFormTestingModule,
+        FormTestingModule,
       ],
       declarations: [UserGroupFormComponent, FormErrorsComponent],
       providers: [
         { provide: OrgUnitService, useClass: MockOrgUnitService },
         {
           provide: UserGroupItemService,
-          useClass: MockOrganizationItemService,
+          useClass: MockItemService,
         },
       ],
     }).compileComponents();

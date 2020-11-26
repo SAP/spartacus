@@ -1,8 +1,5 @@
 <ng-container *ngIf="unit$ | async as unit">
-  <cx-organization-card
-    *ngIf="model$ | async as model"
-    i18nRoot="unitAddress.details"
-  >
+  <cx-org-card *ngIf="model$ | async as model" i18nRoot="unitAddress.details">
     <button class="button" actions (click)="deleteAddress(unit.uid, model.id)">
       {{ 'organization.delete' | cxTranslate }}
     </button>
@@ -46,5 +43,5 @@
         </span>
       </div>
     </section>
-  </cx-organization-card>
+  </cx-org-card>
 </ng-container>

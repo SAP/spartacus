@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -23,29 +23,31 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
   let fixture: ComponentFixture<ConfiguratorAttributeMultiSelectionImageComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        ConfiguratorAttributeMultiSelectionImageComponent,
-        MockFocusDirective,
-      ],
-      imports: [ReactiveFormsModule, NgSelectModule],
-      providers: [
-        ConfiguratorAttributeBaseComponent,
-        ConfiguratorStorefrontUtilsService,
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockGroupService,
-        },
-      ],
-    })
-      .overrideComponent(ConfiguratorAttributeMultiSelectionImageComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
-        },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          ConfiguratorAttributeMultiSelectionImageComponent,
+          MockFocusDirective,
+        ],
+        imports: [ReactiveFormsModule, NgSelectModule],
+        providers: [
+          ConfiguratorAttributeBaseComponent,
+          ConfiguratorStorefrontUtilsService,
+          {
+            provide: ConfiguratorGroupsService,
+            useClass: MockGroupService,
+          },
+        ],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(ConfiguratorAttributeMultiSelectionImageComponent, {
+          set: {
+            changeDetection: ChangeDetectionStrategy.Default,
+          },
+        })
+        .compileComponents();
+    })
+  );
 
   function createImage(url: string, altText: string): Configurator.Image {
     const image: Configurator.Image = {

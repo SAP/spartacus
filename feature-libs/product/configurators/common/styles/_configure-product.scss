@@ -1,0 +1,15 @@
+/**
+ * Configure button needs a margin enforce a distance to predecessor buttons *
+ */
+%cx-configure-product {
+  &:not(:empty) {
+    grid-column: 2;
+    margin-top: -15px;
+    padding: 20px 20px 0 20px;
+
+    .btn-block {
+      margin-block-start: 5px;
+      margin-block-end: 5px;
+    }
+  }
+}

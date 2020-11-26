@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
@@ -61,31 +61,33 @@ describe('TextfieldFormComponent', () => {
   let fixture: ComponentFixture<ConfiguratorTextfieldFormComponent>;
   let textfieldService: ConfiguratorTextfieldService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        ReactiveFormsModule,
-        NgSelectModule,
-        PageLayoutModule,
-      ],
-      declarations: [
-        ConfiguratorTextfieldFormComponent,
-        ConfiguratorTextfieldInputFieldComponent,
-        ConfiguratorTextfieldAddToCartButtonComponent,
-      ],
-      providers: [
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: ConfiguratorTextfieldService,
-          useClass: MockConfiguratorTextfieldService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          I18nTestingModule,
+          ReactiveFormsModule,
+          NgSelectModule,
+          PageLayoutModule,
+        ],
+        declarations: [
+          ConfiguratorTextfieldFormComponent,
+          ConfiguratorTextfieldInputFieldComponent,
+          ConfiguratorTextfieldAddToCartButtonComponent,
+        ],
+        providers: [
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
+          {
+            provide: ConfiguratorTextfieldService,
+            useClass: MockConfiguratorTextfieldService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorTextfieldFormComponent);
     component = fixture.componentInstance;

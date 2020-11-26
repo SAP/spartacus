@@ -140,7 +140,6 @@ describe('CartItemComponent', () => {
     cartItemComponent.item = {
       product: mockProduct,
       updateable: true,
-      statusSummaryList: [],
     };
     cartItemComponent.quantityControl = new FormControl('1');
     cartItemComponent.quantityControl.markAsPristine();

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product/configurators/common';
 import {
@@ -52,25 +52,27 @@ describe('ConfigAttributeFooterComponent', () => {
     type: CommonConfigurator.OwnerType.CART_ENTRY,
   };
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, IconModule],
-      declarations: [ConfiguratorAttributeFooterComponent],
-      providers: [
-        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
-        },
-      ],
-    })
-      .overrideComponent(ConfiguratorAttributeFooterComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
-        },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule, IconModule],
+        declarations: [ConfiguratorAttributeFooterComponent],
+        providers: [
+          { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+          {
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfigUtilsService,
+          },
+        ],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(ConfiguratorAttributeFooterComponent, {
+          set: {
+            changeDetection: ChangeDetectionStrategy.Default,
+          },
+        })
+        .compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorAttributeFooterComponent);

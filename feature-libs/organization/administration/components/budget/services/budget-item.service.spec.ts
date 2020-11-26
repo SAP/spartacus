@@ -11,6 +11,9 @@ import { Observable, of } from 'rxjs';
 import { BudgetFormService } from '../form/budget-form.service';
 import { BudgetItemService } from './budget-item.service';
 import { CurrentBudgetService } from './current-budget.service';
+import createSpy = jasmine.createSpy;
+
+const mockCode = 'b1';
 
 class MockRoutingService {
   go() {}
@@ -35,7 +38,11 @@ class MockBudgetService {
 }
 
 class MockBudgetFormService {}
-class MockCurrentBudgetService {}
+class MockCurrentBudgetService {
+  key$ = of(mockCode);
+  load = createSpy('load').and.returnValue(of());
+  error$ = of(false);
+}
 
 describe('BudgetItemService', () => {
   let service: BudgetItemService;

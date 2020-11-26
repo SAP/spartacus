@@ -6,15 +6,13 @@ import {
 } from '@spartacus/organization/administration/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { OrganizationSubListService } from '../../../shared/organization-sub-list/organization-sub-list.service';
+import { SubListService } from '../../../shared/sub-list/sub-list.service';
 import { OrganizationTableType } from '../../../shared/organization.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UnitChildrenService extends OrganizationSubListService<
-  B2BUnitNode
-> {
+export class UnitChildrenService extends SubListService<B2BUnitNode> {
   protected tableType = OrganizationTableType.UNIT_CHILDREN;
   protected _domainType = OrganizationTableType.UNIT;
 

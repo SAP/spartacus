@@ -8,11 +8,10 @@
 
       @include media-breakpoint-up(lg) {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: repeat(5, auto) 1fr;
         grid-column-gap: 20px;
         grid-row-gap: 0px;
         grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(5, auto) 1fr;
 
         cx-product-images {
           grid-column: 1;
@@ -50,16 +49,6 @@
         }
 
         cx-stock-notification:empty {
-          display: none;
-        }
-
-        cx-configure-product {
-          grid-column: 2;
-          margin-top: -15px;
-          padding: 20px 20px 0 20px;
-        }
-
-        cx-configure-product:empty {
           display: none;
         }
       }

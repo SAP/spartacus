@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Directive, Input, Type } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   I18nTestingModule,
@@ -65,40 +65,42 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   let configurationGroupsService: ConfiguratorGroupsService;
   let configuratorUtils: CommonConfiguratorUtilsService;
 
-  beforeEach(async(() => {
-    routerStateObservable = of(ConfigurationTestData.mockRouterState);
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        ConfiguratorPreviousNextButtonsComponent,
-        MockFocusDirective,
-      ],
-      providers: [
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
-        },
-      ],
-    })
-      .overrideComponent(ConfiguratorPreviousNextButtonsComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
-        },
+  beforeEach(
+    waitForAsync(() => {
+      routerStateObservable = of(ConfigurationTestData.mockRouterState);
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [
+          ConfiguratorPreviousNextButtonsComponent,
+          MockFocusDirective,
+        ],
+        providers: [
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
+          {
+            provide: ConfiguratorGroupsService,
+            useClass: MockConfiguratorGroupsService,
+          },
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
+          },
+          {
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfigUtilsService,
+          },
+        ],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(ConfiguratorPreviousNextButtonsComponent, {
+          set: {
+            changeDetection: ChangeDetectionStrategy.Default,
+          },
+        })
+        .compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorPreviousNextButtonsComponent);

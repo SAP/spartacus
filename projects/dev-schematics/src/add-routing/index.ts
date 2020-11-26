@@ -5,7 +5,10 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
-import { getProjectTargets } from '@spartacus/schematics';
+import {
+  B2C_STOREFRONT_MODULE,
+  getProjectTargets,
+} from '@spartacus/schematics';
 import { Schema as SpartacusDevSchematicsOptions } from '../ng-add/schema';
 import { insertPropertyInStorefrontModuleCallExpression } from '../shared/utils/module-file-utils';
 
@@ -30,6 +33,7 @@ function provideTestRouting(options: SpartacusDevSchematicsOptions): Rule {
       }`;
     insertPropertyInStorefrontModuleCallExpression(
       tree,
+      B2C_STOREFRONT_MODULE,
       appModulePath,
       insertion
     );

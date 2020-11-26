@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import {
@@ -116,18 +116,20 @@ describe('ConfiguratorTextfieldService', () => {
     of(productConfiguration)
   );
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({})],
-      providers: [
-        ConfiguratorTextfieldService,
-        {
-          provide: ActiveCartService,
-          useClass: MockActiveCartService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [StoreModule.forRoot({})],
+        providers: [
+          ConfiguratorTextfieldService,
+          {
+            provide: ActiveCartService,
+            useClass: MockActiveCartService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
   beforeEach(() => {
     serviceUnderTest = TestBed.inject(
       ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>

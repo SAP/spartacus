@@ -35,7 +35,7 @@ describe('OccConfiguratorVariantAddToCartSerializer', () => {
       providers: [OccConfiguratorVariantAddToCartSerializer],
     });
 
-    occConfiguratorVariantAddToCartSerializer = TestBed.get(
+    occConfiguratorVariantAddToCartSerializer = TestBed.inject(
       OccConfiguratorVariantAddToCartSerializer as Type<
         OccConfiguratorVariantAddToCartSerializer
       >

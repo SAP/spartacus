@@ -1,25 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { StateConfig, StorageSyncType } from '../../state/index';
 import { StateModule } from '../../state/state.module';
 import { ANONYMOUS_CONSENTS_STORE_FEATURE } from './anonymous-consents-state';
 import { effects } from './effects/index';
 import { metaReducers, reducerProvider, reducerToken } from './reducers/index';
-import { provideDefaultConfigFactory } from '../../config/config-providers';
+import { AnonymousConsentsStatePersistenceService } from '../services/anonymous-consents-state-persistence.service';
 
-export function anonymousConsentsStoreConfigFactory(): StateConfig {
-  const config: StateConfig = {
-    state: {
-      storageSync: {
-        keys: {
-          [ANONYMOUS_CONSENTS_STORE_FEATURE]: StorageSyncType.LOCAL_STORAGE,
-        },
-      },
-    },
-  };
-  return config;
+export function anonymousConsentsStatePersistenceFactory(
+  anonymousConsentsStatePersistenceService: AnonymousConsentsStatePersistenceService
+) {
+  const result = () => anonymousConsentsStatePersistenceService.initSync();
+  return result;
 }
 
 @NgModule({
@@ -32,8 +25,13 @@ export function anonymousConsentsStoreConfigFactory(): StateConfig {
     EffectsModule.forFeature(effects),
   ],
   providers: [
-    provideDefaultConfigFactory(anonymousConsentsStoreConfigFactory),
     reducerProvider,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: anonymousConsentsStatePersistenceFactory,
+      deps: [AnonymousConsentsStatePersistenceService],
+      multi: true,
+    },
   ],
 })
 export class AnonymousConsentsStoreModule {}

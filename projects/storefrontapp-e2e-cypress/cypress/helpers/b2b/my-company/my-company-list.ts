@@ -70,16 +70,12 @@ export function testList(
 
     if (options?.nested?.expandAll) {
       listData = getNestedRowsFromBody(data, config);
-      cy.get('cx-organization-list div.header button')
-        .contains('Expand all')
-        .click();
+      cy.get('cx-org-list div.header button').contains('Expand all').click();
     }
 
     if (options?.nested?.collapseAll) {
       listData = getRootRowsFromBody(data, config);
-      cy.get('cx-organization-list div.header button')
-        .contains('Collapse all')
-        .click();
+      cy.get('cx-org-list div.header button').contains('Collapse all').click();
     }
 
     verifyList(listData, config.rows);

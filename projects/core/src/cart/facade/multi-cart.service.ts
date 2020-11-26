@@ -286,15 +286,8 @@ export class MultiCartService {
   getEntry(cartId: string, productCode: string): Observable<OrderEntry | null> {
     return this.store.pipe(
       select(
-        // MultiCartSelectors.getCartEntrySelectorFactory(cartId, productCode)
-        MultiCartSelectors.getCartEntriesSelectorFactory(cartId)
-      ),
-      map((entries) => {
-        const filteredEntries = entries.filter(
-          (entry) => entry.product.code === productCode
-        );
-        return filteredEntries.length > 0 ? filteredEntries[0] : undefined;
-      })
+        MultiCartSelectors.getCartEntrySelectorFactory(cartId, productCode)
+      )
     );
   }
 

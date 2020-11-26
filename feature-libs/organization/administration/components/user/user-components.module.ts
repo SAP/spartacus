@@ -3,9 +3,9 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import { OrganizationListModule } from '../shared/organization-list/organization-list.module';
+import { ListModule } from '../shared/list/list.module';
 import { UserApproverListModule } from './approvers/user-approver-list.module';
-import { ChangePasswordFormModule } from './change-password-form/change-password-form.module';
+import { UserChangePasswordFormModule } from './change-password-form/user-change-password-form.module';
 import { UserDetailsModule } from './details/user-details.module';
 import { UserFormModule } from './form/user-form.module';
 import { UserPermissionListModule } from './permissions/user-permission-list.module';
@@ -17,8 +17,8 @@ import {
 } from './user.config';
 @NgModule({
   imports: [
-    OrganizationListModule,
-    ChangePasswordFormModule,
+    ListModule,
+    UserChangePasswordFormModule,
     UserDetailsModule,
     UserFormModule,
     UserPermissionListModule,

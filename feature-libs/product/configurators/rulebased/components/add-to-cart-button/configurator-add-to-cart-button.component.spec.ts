@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Type } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   GlobalMessageService,
   I18nTestingModule,
@@ -162,37 +162,39 @@ describe('ConfigAddToCartButtonComponent', () => {
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configuratorGroupsService: ConfiguratorGroupsService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [ConfiguratorAddToCartButtonComponent],
-      providers: [
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-        {
-          provide: ConfiguratorCartService,
-          useClass: MockConfiguratorCartService,
-        },
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
-        },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-      ],
-    })
-      .overrideComponent(ConfiguratorAddToCartButtonComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
-        },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [ConfiguratorAddToCartButtonComponent],
+        providers: [
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
+          },
+          {
+            provide: ConfiguratorCartService,
+            useClass: MockConfiguratorCartService,
+          },
+          {
+            provide: ConfiguratorGroupsService,
+            useClass: MockConfiguratorGroupsService,
+          },
+          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        ],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(ConfiguratorAddToCartButtonComponent, {
+          set: {
+            changeDetection: ChangeDetectionStrategy.Default,
+          },
+        })
+        .compileComponents();
+    })
+  );
 
   beforeEach(() => {
     routerStateObservable = null;

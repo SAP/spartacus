@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   I18nTestingModule,
   RouterState,
@@ -59,30 +59,32 @@ describe('ConfigPriceSummaryComponent', () => {
   let component: ConfiguratorPriceSummaryComponent;
   let fixture: ComponentFixture<ConfiguratorPriceSummaryComponent>;
 
-  beforeEach(async(() => {
-    routerStateObservable = of(mockRouterState);
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [ConfiguratorPriceSummaryComponent],
-      providers: [
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
+  beforeEach(
+    waitForAsync(() => {
+      routerStateObservable = of(mockRouterState);
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [ConfiguratorPriceSummaryComponent],
+        providers: [
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
+          },
 
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-      ],
-    })
-      .overrideComponent(ConfiguratorPriceSummaryComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
-        },
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
+        ],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(ConfiguratorPriceSummaryComponent, {
+          set: {
+            changeDetection: ChangeDetectionStrategy.Default,
+          },
+        })
+        .compileComponents();
+    })
+  );
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorPriceSummaryComponent);
     component = fixture.componentInstance;
