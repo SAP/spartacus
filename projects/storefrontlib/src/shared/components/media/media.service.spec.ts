@@ -78,7 +78,7 @@ const mockUrlContainer = {
 };
 
 describe('MediaService', () => {
-  describe('eager loaded config', () => {
+  describe('with eager loaded config', () => {
     let mediaService: MediaService;
 
     beforeEach(() => {
@@ -237,7 +237,7 @@ describe('MediaService', () => {
     });
   });
 
-  describe('lazy loaded config', () => {
+  describe('with lazy loaded config', () => {
     let mediaService: MediaService;
 
     beforeEach(() => {
@@ -262,6 +262,30 @@ describe('MediaService', () => {
           ImageLoadingStrategy.EAGER
         );
       });
+    });
+  });
+
+  describe('without media config', () => {
+    let mediaService: MediaService;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          MediaService,
+          {
+            provide: Config,
+            useValue: {},
+          },
+          { provide: LayoutConfig, useValue: {} },
+        ],
+      });
+      mediaService = TestBed.inject(MediaService);
+    });
+
+    it('should return first media when there is no specific media config', () => {
+      expect(mediaService.getMedia(mockBestFormatMediaContainer).src).toBe(
+        'format-1.url'
+      );
     });
   });
 });
