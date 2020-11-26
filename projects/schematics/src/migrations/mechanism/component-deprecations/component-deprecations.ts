@@ -1,4 +1,5 @@
 import { SchematicContext, Tree } from '@angular-devkit/schematics';
+import { getSourceNodes } from '@schematics/angular/utility/ast-utils';
 import { ReplaceChange } from '@schematics/angular/utility/change';
 import { UTF_8 } from '../../../shared/constants';
 import {
@@ -27,8 +28,8 @@ export function migrateComponentMigration(
   const project = getSourceRoot(tree, {});
   const sourceFiles = getAllTsSourceFiles(tree, project);
   for (const originalSource of sourceFiles) {
+    const nodes = getSourceNodes(originalSource);
     const sourcePath = originalSource.fileName;
-    const nodes = originalSource.getChildren();
 
     for (const deprecatedComponent of componentData) {
       // check for usages of inputs / outputs of the deprecated component

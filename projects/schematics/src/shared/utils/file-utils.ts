@@ -114,7 +114,7 @@ export function getIndexHtmlPath(tree: Tree): string {
   const projectName = getDefaultProjectNameFromWorkspace(tree);
   const angularJson = getAngularJsonFile(tree);
   const indexHtml: string =
-    angularJson.projects[projectName]?.architect?.build?.index;
+    angularJson.projects[projectName]?.architect?.build?.options?.index;
   if (!indexHtml) {
     throw new SchematicsException('"index.html" file not found.');
   }

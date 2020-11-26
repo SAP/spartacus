@@ -121,8 +121,7 @@ describe('Storefront config utils', () => {
     it('should merge the provided regular config', async () => {
       const appModuleFile = getTsSourceFile(appTree, appModulePath);
       const config = getExistingStorefrontConfigNode(
-        appModuleFile,
-        B2C_STOREFRONT_MODULE
+        appModuleFile
       ) as ts.CallExpression;
       const backendConfig = getConfig(
         config,
