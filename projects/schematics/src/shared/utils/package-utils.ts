@@ -1,11 +1,11 @@
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
+import { version } from '../../../package.json';
 import {
   ANGULAR_CORE,
   ANGULAR_LOCALIZE,
   DEFAULT_ANGULAR_VERSION,
   UTF_8,
 } from '../constants';
-import { version } from './../../../package.json';
 
 export function readPackageJson(tree: Tree): any {
   const pkgPath = '/package.json';

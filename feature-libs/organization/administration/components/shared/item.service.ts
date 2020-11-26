@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
 import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
 import { FormUtils } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { CurrentItemService } from './current-item.service';
 import { FormService } from './form/form.service';
@@ -24,6 +24,8 @@ export abstract class ItemService<T> {
 
   key$ = this.currentItemService.key$;
   current$ = this.currentItemService.item$;
+
+  isInEditMode$: Observable<boolean> = new BehaviorSubject<boolean>(false);
 
   /**
    * Returns the current business unit code.
@@ -108,5 +110,12 @@ export abstract class ItemService<T> {
 
   getRouterParam(key: string): Observable<string> {
     return this.currentItemService.getRouterParam(key);
+  }
+
+  /**
+   * Sets to true when the user is on the entity item form page
+   */
+  setEditMode(isInEdit: boolean) {
+    (this.isInEditMode$ as BehaviorSubject<boolean>).next(isInEdit);
   }
 }

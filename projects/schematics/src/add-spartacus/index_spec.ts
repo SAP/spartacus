@@ -386,7 +386,7 @@ describe('add-spartacus', () => {
     expect(appComponentTemplate.length).toBeGreaterThan(cxTemplate.length);
   });
 
-  describe('Update index.html', async () => {
+  describe('Update index.html', () => {
     it('should not add meta tags by default', async () => {
       const tree = await schematicRunner
         .runSchematicAsync('add-spartacus', defaultOptions, appTree)

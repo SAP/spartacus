@@ -3,7 +3,7 @@
     *ngIf="model.uid"
     actions
     class="link edit"
-    [class.disabled]="!model.active"
+    [class.disabled]="!model.active || (isInEditMode$ | async)"
     [routerLink]="{ cxRoute: 'orgUnitEdit', params: model } | cxUrl"
   >
     {{ 'organization.edit' | cxTranslate }}
