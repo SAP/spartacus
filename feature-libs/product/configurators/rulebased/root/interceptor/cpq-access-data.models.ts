@@ -15,4 +15,8 @@ export interface CpqAccessData {
    * CPQ endpoint url
    */
   endpoint?: string;
+  /**
+   * CPQ endpoint url
+   */
+  cpqSessionId?: string;
 }

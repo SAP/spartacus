@@ -22,7 +22,6 @@ export const CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT =
   providedIn: 'root',
 })
 export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
-  cpqSessionId: string;
   constructor(protected cpqAccessStorageService: CpqAccessStorageService) {}
 
   intercept(
@@ -36,19 +35,21 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
       switchMap((cpqData) => {
         return next
           .handle(this.enrichHeaders(request, cpqData))
-          .pipe(tap((response) => this.extractCpqSessionId(response)));
+          .pipe(tap((response) => this.extractCpqSessionId(response, cpqData)));
       })
     );
   }
 
-  protected extractCpqSessionId(response: HttpEvent<any>) {
+  protected extractCpqSessionId(
+    response: HttpEvent<any>,
+    cpqData: CpqAccessData
+  ) {
     if (
       response instanceof HttpResponse ||
       response instanceof HttpErrorResponse
     ) {
-      const sessionId = response.headers.get(HEADER_ATTR_CPQ_SESSION_ID);
-      if (sessionId) {
-        this.cpqSessionId = sessionId;
+      if (response.headers.has(HEADER_ATTR_CPQ_SESSION_ID)) {
+        cpqData.cpqSessionId = response.headers.get(HEADER_ATTR_CPQ_SESSION_ID);
       }
     }
   }
@@ -67,10 +68,10 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
         [HEADER_ATTR_CPQ_NO_COOKIES]: 'true',
       },
     });
-    if (this.cpqSessionId) {
+    if (cpqData.cpqSessionId) {
       newRequest = newRequest.clone({
         setHeaders: {
-          [HEADER_ATTR_CPQ_SESSION_ID]: this.cpqSessionId,
+          [HEADER_ATTR_CPQ_SESSION_ID]: cpqData.cpqSessionId,
         },
       });
     }

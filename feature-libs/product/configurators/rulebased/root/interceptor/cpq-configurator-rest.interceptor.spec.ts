@@ -28,24 +28,18 @@ describe('CpqConfiguratorRestInterceptor', () => {
     `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/whatever`
   );
 
-  const cpqAccessData: CpqAccessData = {
-    accessToken: 'TOKEN',
-    endpoint: 'https://cpq',
-  };
-
   const asSpy = (f) => <jasmine.Spy>f;
 
   const mockedNextHandler: HttpHandler = jasmine.createSpyObj(
     'mockedNextHandler',
     ['handle']
   );
-  const response: HttpResponse<any> = new HttpResponse({
-    headers: new HttpHeaders({ 'x-cpq-session-id': '123' }),
-  });
+  let cpqResponse: HttpResponse<any>;
+  let cpqAccessData: CpqAccessData;
   let capturedRequest: HttpRequest<any>;
   asSpy(mockedNextHandler.handle).and.callFake((request) => {
     capturedRequest = request;
-    return of(response);
+    return of(cpqResponse);
   });
 
   const cpqAccessStorageServiceMock: CpqAccessStorageService = jasmine.createSpyObj(
@@ -72,6 +66,14 @@ describe('CpqConfiguratorRestInterceptor', () => {
     interceptorUnderTest = TestBed.inject(
       CpqConfiguratorRestInterceptor as Type<CpqConfiguratorRestInterceptor>
     );
+
+    cpqResponse = new HttpResponse({
+      headers: new HttpHeaders({ 'x-cpq-session-id': '123' }),
+    });
+    cpqAccessData = {
+      accessToken: 'TOKEN',
+      endpoint: 'https://cpq',
+    };
   });
 
   it('should create service', () => {
@@ -135,6 +137,23 @@ describe('CpqConfiguratorRestInterceptor', () => {
           .intercept(cpqRequest, mockedNextHandler)
           .subscribe(() => {
             expect(capturedRequest.headers.get('x-cpq-session-id')).toBe('123');
+            done();
+          });
+      });
+  });
+
+  it('should only extract CPQ session id and append it to following requests if existing', (done) => {
+    cpqResponse = new HttpResponse({
+      headers: new HttpHeaders({}),
+    });
+    interceptorUnderTest
+      .intercept(cpqRequest, mockedNextHandler)
+      .subscribe(() => {
+        expect(capturedRequest.headers.has('x-cpq-session-id')).toBeFalse();
+        interceptorUnderTest
+          .intercept(cpqRequest, mockedNextHandler)
+          .subscribe(() => {
+            expect(capturedRequest.headers.has('x-cpq-session-id')).toBeFalse();
             done();
           });
       });
