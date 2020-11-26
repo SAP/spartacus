@@ -77,6 +77,7 @@ describe('add-ssr', () => {
 
       expect(depPackageList.includes('@angular/platform-server')).toBe(true);
       expect(depPackageList.includes('@nguniversal/express-engine')).toBe(true);
+      expect(depPackageList.includes('@spartacus/setup')).toBe(true);
     });
 
     it('should contain additional build scripts', async () => {

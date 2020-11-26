@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ConfiguratorTextfieldInputFieldComponent } from './configurator-textfield-input-field.component';
 
@@ -8,18 +8,20 @@ describe('TextfieldInputFieldComponent', () => {
 
   let fixture: ComponentFixture<ConfiguratorTextfieldInputFieldComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ConfiguratorTextfieldInputFieldComponent],
-      imports: [ReactiveFormsModule],
-    })
-      .overrideComponent(ConfiguratorTextfieldInputFieldComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
-        },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ConfiguratorTextfieldInputFieldComponent],
+        imports: [ReactiveFormsModule],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(ConfiguratorTextfieldInputFieldComponent, {
+          set: {
+            changeDetection: ChangeDetectionStrategy.Default,
+          },
+        })
+        .compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorTextfieldInputFieldComponent);

@@ -21,16 +21,6 @@ class MockAddToCartComponent {
 }
 
 @Component({
-  selector: 'cx-configure-product',
-  template: '<button>configure product</button>',
-})
-export class MockConfigureProductComponent {
-  @Input() productCode;
-  @Input() configurable;
-  @Input() configuratorType;
-}
-
-@Component({
   selector: 'cx-star-rating',
   template: '*****',
 })
@@ -99,7 +89,6 @@ describe('ProductGridItemComponent in product-list', () => {
         ProductGridItemComponent,
         MockMediaComponent,
         MockAddToCartComponent,
-        MockConfigureProductComponent,
         MockStarRatingComponent,
         MockUrlPipe,
         MockCxIconComponent,

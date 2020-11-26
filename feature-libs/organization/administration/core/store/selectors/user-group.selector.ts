@@ -103,3 +103,12 @@ export const getAvailableOrderApprovalPermissions = (
         code
       )
   );
+
+export const getUserGroupState = (
+  code: string
+): MemoizedSelector<StateWithOrganization, StateUtils.LoaderState<UserGroup>> =>
+  createSelector(
+    getUserGroupsState,
+    (state: StateUtils.EntityLoaderState<UserGroup>) =>
+      StateUtils.entityLoaderStateSelector(state, code)
+  );

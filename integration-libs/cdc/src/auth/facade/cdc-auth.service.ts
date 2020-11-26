@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import {
   AsmAuthStorageService,
   AuthActions,
+  AuthRedirectService,
   AuthStorageService,
   AuthToken,
   GlobalMessageService,
@@ -26,7 +27,8 @@ export class CdcAuthService {
     protected winRef: WindowRef,
     protected authStorageService: AuthStorageService,
     protected userIdService: UserIdService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected authRedirectService: AuthRedirectService,
   ) {}
 
   /**
@@ -114,6 +116,10 @@ export class CdcAuthService {
     this.userIdService.setUserId(OCC_USER_ID_CURRENT);
 
     this.store.dispatch(new AuthActions.Login());
+
+    // Remove any global errors and redirect user on successful login
+    this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+    this.authRedirectService.redirect();
   }
 
   /**

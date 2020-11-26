@@ -4,7 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import {
   AuthActions,
   B2BUser,
-  B2BUserGroup,
+  B2BUserRole,
   EntitiesModel,
   normalizeHttpError,
   RoutingService,
@@ -94,7 +94,7 @@ export class B2BUserEffects {
                     userId,
                     orgUnitId: orgCustomer.orgUnit.uid,
                     orgCustomerId: data.customerId,
-                    roleId: B2BUserGroup.B2B_APPROVER_GROUP,
+                    roleId: B2BUserRole.APPROVER,
                   })
                 );
               }
@@ -141,7 +141,7 @@ export class B2BUserEffects {
                   userId,
                   orgUnitId: orgCustomer.orgUnit.uid,
                   orgCustomerId,
-                  roleId: B2BUserGroup.B2B_APPROVER_GROUP,
+                  roleId: B2BUserRole.APPROVER,
                 })
               );
             }

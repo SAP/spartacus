@@ -32,6 +32,7 @@ import { ORDER_DETAIL_SHIPPING_COMPONENT_MIGRATION } from './data/order-detail-s
 import { PRODUCT_CAROUSEL_SERVICE_MIGRATION } from './data/product-carousel.service.migration';
 import { PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION } from './data/product-list-component.service.migration';
 import { PRODUCT_REFERENCE_SERVICE_MIGRATION } from './data/product-reference.service.migration';
+import { STAR_RATING_COMPONENT_MIGRATION } from './data/star-rating-component.migration';
 import { STORE_FINDER_ACTIONS_MIGRATION } from './data/store-finder-group.actions.migration';
 import { STOREFRONT_COMPONENT_MIGRATION } from './data/storefront-component.migration';
 import { UPDATE_EMAIL_COMPONENT_MIGRATION } from './data/update-email.component.migration';
@@ -72,6 +73,7 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...CDC_AUTH_SERVICE_MIGRATION,
   ...LANGUAGE_SERVICE_MIGRATION,
   ...CURRENCY_SERVICE_MIGRATION,
+  ...STAR_RATING_COMPONENT_MIGRATION,
 ];
 
 export function migrate(): Rule {

@@ -1,4 +1,4 @@
-<cx-organization-card *ngIf="model$ | async as model" i18nRoot="budget.details">
+<cx-org-card *ngIf="model$ | async as model" i18nRoot="budget.details">
   <a
     actions
     class="link edit"
@@ -8,9 +8,9 @@
     {{ 'organization.edit' | cxTranslate }}
   </a>
 
-  <cx-toggle-status actions i18nRoot="budget"></cx-toggle-status>
+  <cx-org-toggle-status actions i18nRoot="budget"></cx-org-toggle-status>
 
-  <section main class="details">
+  <section main class="details" cxOrgItemExists>
     <div class="property">
       <label>{{ 'budget.name' | cxTranslate }}</label>
       <span class="value">
@@ -74,6 +74,7 @@
 
   <section main class="link-list">
     <a
+      *ngIf="model.code"
       class="link"
       [routerLink]="{ cxRoute: 'budgetCostCenters', params: model } | cxUrl"
       routerLinkActive="is-current"
@@ -81,4 +82,4 @@
       {{ 'budget.links.costCenters' | cxTranslate }}
     </a>
   </section>
-</cx-organization-card>
+</cx-org-card>

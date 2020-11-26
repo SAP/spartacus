@@ -50,7 +50,6 @@ const SPEAKER_TYPE_FRONT = 'SPEAKER_TYPE_FRONT';
 const WHITE = 'COLOUR_HT_WHITE';
 const TITAN = 'COLOUR_HT_TITAN';
 const SDHC = 'SDHC';
-const RAW = 'RAW';
 const JPEG = 'JPEG';
 const PROJECTOR_LCD = 'PROJECTOR_LCD';
 const P5 = 'P5';

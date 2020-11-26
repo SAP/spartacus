@@ -9,7 +9,9 @@ import { of } from 'rxjs';
 import { UnitFormService } from '../form/unit-form.service';
 import { CurrentUnitService } from './current-unit.service';
 import { UnitItemService } from './unit-item.service';
+import createSpy = jasmine.createSpy;
 
+const mockCode = 'u1';
 class MockRoutingService {
   go() {}
 }
@@ -33,7 +35,12 @@ class MockUnitService {
 }
 
 class MockUnitFormService {}
-class MockCurrentUnitService {}
+
+class MockCurrentUnitService {
+  key$ = of(mockCode);
+  load = createSpy('load').and.returnValue(of());
+  error$ = of(false);
+}
 
 describe('UnitItemService', () => {
   let service: UnitItemService;

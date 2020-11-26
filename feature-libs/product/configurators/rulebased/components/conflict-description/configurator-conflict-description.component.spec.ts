@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorConflictDescriptionComponent } from './configurator-conflict-description.component';
@@ -16,22 +16,24 @@ describe('ConfigurationConflictDescriptionComponent', () => {
   let component: ConfiguratorConflictDescriptionComponent;
   let fixture: ComponentFixture<ConfiguratorConflictDescriptionComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        ConfiguratorConflictDescriptionComponent,
-        MockCxIconComponent,
-      ],
-      imports: [],
-      providers: [],
-    })
-      .overrideComponent(ConfiguratorConflictDescriptionComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
-        },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          ConfiguratorConflictDescriptionComponent,
+          MockCxIconComponent,
+        ],
+        imports: [],
+        providers: [],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(ConfiguratorConflictDescriptionComponent, {
+          set: {
+            changeDetection: ChangeDetectionStrategy.Default,
+          },
+        })
+        .compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorConflictDescriptionComponent);

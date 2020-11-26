@@ -2,18 +2,18 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Address, Country, Region, Title } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { OrganizationItemService } from '../../../../shared/organization-item.service';
+import { ItemService } from '../../../../shared/item.service';
 import { UnitAddressItemService } from '../services/unit-address-item.service';
 import { UnitAddressFormService } from './unit-address-form.service';
 
 @Component({
-  selector: 'cx-unit-address-form',
+  selector: 'cx-org-unit-address-form',
   templateUrl: './unit-address-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },
   providers: [
     {
-      provide: OrganizationItemService,
+      provide: ItemService,
       useExisting: UnitAddressItemService,
     },
   ],
@@ -27,7 +27,7 @@ export class UnitAddressFormComponent implements OnInit {
   regions$: Observable<Region[]> = this.formService.getRegions();
 
   constructor(
-    protected itemService: OrganizationItemService<Address>,
+    protected itemService: ItemService<Address>,
     protected formService: UnitAddressFormService
   ) {}
 

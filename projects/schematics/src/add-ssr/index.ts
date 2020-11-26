@@ -28,6 +28,7 @@ import {
   ANGULAR_LOCALIZE,
   ANGULAR_PLATFORM_BROWSER,
   ANGULAR_UNIVERSAL_EXPRESS_VERSION,
+  SPARTACUS_SETUP,
 } from '../shared/constants';
 import {
   getIndexHtmlPath,
@@ -38,10 +39,14 @@ import {
   addImport,
   addToModuleImportsAndCommitChanges,
 } from '../shared/utils/module-file-utils';
-import { getAngularVersion } from '../shared/utils/package-utils';
+import {
+  getAngularVersion,
+  getSpartacusSchematicsVersion,
+  readPackageJson,
+} from '../shared/utils/package-utils';
 import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
 
-function addPackageJsonDependencies(): Rule {
+function addPackageJsonDependencies(packageJson: any): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const angularVersion = getAngularVersion(tree);
     const dependencies: NodeDependency[] = [
@@ -69,6 +74,21 @@ function addPackageJsonDependencies(): Rule {
         `✅️ Added '${dependency.name}' into ${dependency.type}`
       );
     });
+
+    if (!packageJson.dependencies.hasOwnProperty(SPARTACUS_SETUP)) {
+      const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+
+      const spartacusSetupDependency: NodeDependency = {
+        type: NodeDependencyType.Default,
+        version: spartacusVersion,
+        name: SPARTACUS_SETUP,
+      };
+
+      addPackageJsonDependency(tree, spartacusSetupDependency);
+      context.logger.info(
+        `✅️ Added '${spartacusSetupDependency.name}' into ${spartacusSetupDependency.type}`
+      );
+    }
 
     return tree;
   };
@@ -189,9 +209,10 @@ export function addSSR(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const project = getProjectFromWorkspace(tree, options);
     const serverTemplate = provideServerFile(options);
+    const packageJsonObject = readPackageJson(tree);
 
     return chain([
-      addPackageJsonDependencies(),
+      addPackageJsonDependencies(packageJsonObject),
       externalSchematic('@nguniversal/express-engine', 'ng-add', {
         clientProject: options.project,
       }),

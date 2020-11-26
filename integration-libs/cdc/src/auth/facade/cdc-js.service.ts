@@ -7,12 +7,9 @@ import {
   PLATFORM_ID,
 } from '@angular/core';
 import {
-  AuthRedirectService,
   AuthService,
   BaseSiteService,
   ExternalJsFileLoader,
-  GlobalMessageService,
-  GlobalMessageType,
   LanguageService,
   User,
   UserService,
@@ -39,8 +36,6 @@ export class CdcJsService implements OnDestroy {
     protected winRef: WindowRef,
     protected cdcAuth: CdcAuthService,
     protected auth: AuthService,
-    protected globalMessageService: GlobalMessageService,
-    protected authRedirectService: AuthRedirectService,
     protected zone: NgZone,
     protected userService: UserService,
     @Inject(PLATFORM_ID) protected platform: any
@@ -119,14 +114,6 @@ export class CdcJsService implements OnDestroy {
    * @param baseSite
    */
   protected registerEventListeners(baseSite: string): void {
-    this.subscription.add(
-      this.auth.isUserLoggedIn().subscribe((isLoggedIn) => {
-        if (isLoggedIn) {
-          this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-          this.authRedirectService.redirect();
-        }
-      })
-    );
     this.addCdcEventHandlers(baseSite);
   }
 

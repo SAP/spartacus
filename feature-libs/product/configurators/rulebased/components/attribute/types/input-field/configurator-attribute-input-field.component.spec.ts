@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { CommonConfigurator } from '@spartacus/product/configurators/common';
@@ -18,22 +18,24 @@ describe('ConfigAttributeInputFieldComponent', () => {
   let component: ConfiguratorAttributeInputFieldComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeInputFieldComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        ConfiguratorAttributeInputFieldComponent,
-        MockFocusDirective,
-      ],
-      imports: [ReactiveFormsModule],
-      providers: [ConfiguratorAttributeBaseComponent],
-    })
-      .overrideComponent(ConfiguratorAttributeInputFieldComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
-        },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          ConfiguratorAttributeInputFieldComponent,
+          MockFocusDirective,
+        ],
+        imports: [ReactiveFormsModule],
+        providers: [ConfiguratorAttributeBaseComponent],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(ConfiguratorAttributeInputFieldComponent, {
+          set: {
+            changeDetection: ChangeDetectionStrategy.Default,
+          },
+        })
+        .compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorAttributeInputFieldComponent);

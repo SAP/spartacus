@@ -12,6 +12,7 @@ import {
   SearchConfig,
   UserIdService,
 } from '@spartacus/core';
+import { of } from 'rxjs/internal/observable/of';
 import { take } from 'rxjs/operators';
 import {
   LoadStatus,
@@ -703,6 +704,19 @@ describe('OrgUnitService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrgUnitActions.ClearAssignedUsers({ orgUnitId, roleId, params })
       );
+    });
+  });
+
+  describe('getErrorState', () => {
+    it('getErrorState() should be able to get status error', () => {
+      let errorState: boolean;
+      spyOn<any>(service, 'getOrgUnitState').and.returnValue(
+        of({ loading: false, success: false, error: true })
+      );
+
+      service.getErrorState('code').subscribe((error) => (errorState = error));
+
+      expect(errorState).toBeTrue();
     });
   });
 });

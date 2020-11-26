@@ -1,17 +1,13 @@
 import { Injectable } from '@angular/core';
+import { TimeUtils } from '../../../../util/time-utils';
 import { ScheduleReplenishmentForm } from '../../../../model/replenishment-order.model';
 import { Converter } from '../../../../util/converter.service';
 import { Occ } from '../../../occ-models/occ.models';
-import { DateTimePickerFormatterService } from '../../../../util/date-time-picker-formatter.service';
 
 @Injectable({ providedIn: 'root' })
 export class OccReplenishmentOrderFormSerializer
   implements
     Converter<Occ.ScheduleReplenishmentForm, ScheduleReplenishmentForm> {
-  constructor(
-    protected dateTimePickerFormatterService: DateTimePickerFormatterService
-  ) {}
-
   convert(
     source: Occ.ScheduleReplenishmentForm,
     target?: ScheduleReplenishmentForm
@@ -40,7 +36,6 @@ export class OccReplenishmentOrderFormSerializer
       minute: '2-digit',
       hour12: false,
     });
-    const modelDate = `${date}T${localTime}`;
-    return this.dateTimePickerFormatterService.toModel(modelDate);
+    return `${date}T${localTime}:00${TimeUtils.getLocalTimezoneOffset()}`;
   }
 }

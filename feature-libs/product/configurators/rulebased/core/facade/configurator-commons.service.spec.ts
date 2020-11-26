@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartService, Cart, StateUtils } from '@spartacus/core';
@@ -140,29 +140,31 @@ describe('ConfiguratorCommonsService', () => {
   const cart: Cart = {};
   cartObs = of(cart);
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
-      ],
-      providers: [
-        ConfiguratorCommonsService,
-        {
-          provide: ConfiguratorCartService,
-          useClass: MockConfiguratorCartService,
-        },
-        {
-          provide: ActiveCartService,
-          useClass: MockActiveCartService,
-        },
-        {
-          provide: ConfiguratorUtilsService,
-          useClass: MockconfiguratorUtilsService,
-        },
-      ],
-    });
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          StoreModule.forRoot({}),
+          StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+        ],
+        providers: [
+          ConfiguratorCommonsService,
+          {
+            provide: ConfiguratorCartService,
+            useClass: MockConfiguratorCartService,
+          },
+          {
+            provide: ActiveCartService,
+            useClass: MockActiveCartService,
+          },
+          {
+            provide: ConfiguratorUtilsService,
+            useClass: MockconfiguratorUtilsService,
+          },
+        ],
+      });
+    })
+  );
   beforeEach(() => {
     configOrderObservable = of(productConfiguration);
     configCartObservable = of(productConfiguration);

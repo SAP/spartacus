@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -21,29 +21,31 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
   let component: ConfiguratorAttributeCheckBoxListComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeCheckBoxListComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        ConfiguratorAttributeCheckBoxListComponent,
-        MockFocusDirective,
-      ],
-      imports: [ReactiveFormsModule, NgSelectModule],
-      providers: [
-        ConfiguratorAttributeBaseComponent,
-        ConfiguratorStorefrontUtilsService,
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockGroupService,
-        },
-      ],
-    })
-      .overrideComponent(ConfiguratorAttributeCheckBoxListComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
-        },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          ConfiguratorAttributeCheckBoxListComponent,
+          MockFocusDirective,
+        ],
+        imports: [ReactiveFormsModule, NgSelectModule],
+        providers: [
+          ConfiguratorAttributeBaseComponent,
+          ConfiguratorStorefrontUtilsService,
+          {
+            provide: ConfiguratorGroupsService,
+            useClass: MockGroupService,
+          },
+        ],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(ConfiguratorAttributeCheckBoxListComponent, {
+          set: {
+            changeDetection: ChangeDetectionStrategy.Default,
+          },
+        })
+        .compileComponents();
+    })
+  );
 
   function createValue(code: string, name: string, isSelected: boolean) {
     const value: Configurator.Value = {

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/shared/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -23,19 +23,21 @@ describe('ConfigAttributeReadOnlyComponent', () => {
     },
   ];
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ConfiguratorAttributeReadOnlyComponent],
-      imports: [ReactiveFormsModule],
-      providers: [ConfiguratorAttributeBaseComponent],
-    })
-      .overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
-        },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ConfiguratorAttributeReadOnlyComponent],
+        imports: [ReactiveFormsModule],
+        providers: [ConfiguratorAttributeBaseComponent],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
+          set: {
+            changeDetection: ChangeDetectionStrategy.Default,
+          },
+        })
+        .compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorAttributeReadOnlyComponent);

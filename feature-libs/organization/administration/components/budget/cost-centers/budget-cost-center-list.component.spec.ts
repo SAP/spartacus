@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { OrganizationSubListTestingModule } from '../../shared/organization-sub-list/organization-sub-list.testing.module';
+import { SubListTestingModule } from '../../shared/sub-list/sub-list.testing.module';
 import { BudgetCostCenterListComponent } from './budget-cost-center-list.component';
 import { BudgetCostCenterListService } from './budget-cost-center-list.service';
 
@@ -11,7 +11,7 @@ describe('BudgetCostCenterListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [OrganizationSubListTestingModule],
+      imports: [SubListTestingModule],
       providers: [
         {
           provide: BudgetCostCenterListService,

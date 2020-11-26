@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { StateUtils } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -20,13 +20,15 @@ const CONFIGURATION: Configurator.Configuration = {
 
 describe('ConfiguratorActions', () => {
   let configuratorUtils: CommonConfiguratorUtilsService;
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({}).compileComponents();
-    configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
-    configuratorUtils.setOwnerKey(CONFIGURATION.owner);
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({}).compileComponents();
+      configuratorUtils = TestBed.inject(
+        CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
+      );
+      configuratorUtils.setOwnerKey(CONFIGURATION.owner);
+    })
+  );
   it('should provide create action with proper type', () => {
     const createAction = new ConfiguratorActions.CreateConfiguration(
       CONFIGURATION.owner
