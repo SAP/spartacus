@@ -22,8 +22,7 @@ class MockItemService {
   save() {
     return of({ status: LoadStatus.SUCCESS, item: mockItem });
   }
-  load = createSpy('load').and.returnValue(of());
-  setEditMode = () => false;
+  setEditMode = () => {};
 }
 
 describe('FormComponent', () => {

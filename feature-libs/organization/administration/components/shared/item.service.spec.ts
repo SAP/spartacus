@@ -152,26 +152,29 @@ describe('ItemService', () => {
     });
 
     describe('isInEditMode', () => {
-      let result;
-
-      it('should emit false after component creation', () => {
-        service.isInEditMode$.subscribe((r) => (result = r));
-
-        expect(result).toBe(false);
+      it('should emit false after component creation', (done) => {
+        service.isInEditMode$.subscribe((result) => {
+          expect(result).toBe(false);
+          done();
+        });
       });
 
-      it('when set to true should emit true', () => {
+      it('when set to true should emit true', (done) => {
         service.setEditMode(true);
-        service.isInEditMode$.subscribe((r) => (result = r));
 
-        expect(result).toBe(true);
+        service.isInEditMode$.subscribe((result) => {
+          expect(result).toBe(true);
+          done();
+        });
       });
 
-      it('when set to false should emit false', () => {
+      it('when set to false should emit false', (done) => {
         service.setEditMode(false);
-        service.isInEditMode$.subscribe((r) => (result = r));
 
-        expect(result).toBe(false);
+        service.isInEditMode$.subscribe((result) => {
+          expect(result).toBe(false);
+          done();
+        });
       });
     });
   });
