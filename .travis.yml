@@ -13,9 +13,6 @@ branches:
 defaults: &defaults
   script: "./ci-scripts/e2e-cypress.sh -s regression"
 jobs:
-  allow_failures:
-    - if: branch = develop
-      env: STAGE_NAME=spa-ci-regression
   - script: "./build.sh sonar"
   - script: "./ci-scripts/e2e-cypress.sh"
   - script:
@@ -34,6 +31,9 @@ jobs:
     name: "Cypress regression tests, 4th job"
     env: STAGE_NAME=spa-ci-regression
     <<: *defaults
+  allow_failures:
+    - if: branch = develop
+      env: STAGE_NAME=spa-ci-regression
 addons:
   chrome: stable
   sonarcloud:
