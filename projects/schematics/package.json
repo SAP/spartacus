@@ -27,7 +27,6 @@
     "@angular-devkit/schematics": "^10.1.0"
   },
   "devDependencies": {
-    "@angular/pwa": "^0.1001.0",
     "@types/jest": "^26.0.15",
     "@types/node": "^12.11.1",
     "@types/shelljs": "^0.8.7",
