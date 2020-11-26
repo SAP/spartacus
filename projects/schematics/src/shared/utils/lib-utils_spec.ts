@@ -134,8 +134,8 @@ describe('Lib utils', () => {
       const result = await schematicRunner.callRule(rule, appTree).toPromise();
 
       const appModule = result.read(appModulePath).toString(UTF_8);
-      expect(appModule).toContain(`resources: translations,`);
-      expect(appModule).toContain(`chunks: translationChunk,`);
+      expect(appModule).toContain(`resources: ${I18N_RESOURCES},`);
+      expect(appModule).toContain(`chunks: ${I18N_CHUNKS},`);
     });
     describe('when no default config is present', () => {
       it('should not add it', async () => {
@@ -184,13 +184,13 @@ describe('Lib utils', () => {
 
         const appModule = result.read(appModulePath).toString(UTF_8);
         expect(appModule).toContain(
-          `import { XxxModuleRoot } from '@spartacus/xxx/root';`
+          `import { ${ROOT_MODULE_NAME} } from '${ROOT_FEATURE_MODULE_IMPORT_PATH}';`
         );
         expect(appModule).toContain(
-          `module: () => import('@spartacus/xxx').then(`
+          `module: () => import('${FEATURE_MODULE_IMPORT_PATH}').then(`
         );
         expect(appModule).not.toContain(
-          `import { XxxModule } from '@spartacus/xxx';`
+          `import { ${FEATURE_MODULE_NAME} } from '${FEATURE_MODULE_IMPORT_PATH}';`
         );
       });
     });
@@ -207,13 +207,13 @@ describe('Lib utils', () => {
 
         const appModule = result.read(appModulePath).toString(UTF_8);
         expect(appModule).not.toContain(
-          `module: () => import('@spartacus/xxx').then(`
+          `module: () => import('${FEATURE_MODULE_IMPORT_PATH}').then(`
         );
         expect(appModule).toContain(
-          `import { XxxModuleRoot } from '@spartacus/xxx/root';`
+          `import { ${FEATURE_MODULE_NAME} } from '${FEATURE_MODULE_IMPORT_PATH}';`
         );
         expect(appModule).toContain(
-          `import { XxxModule } from '@spartacus/xxx';`
+          `import { ${ROOT_MODULE_NAME} } from '${ROOT_FEATURE_MODULE_IMPORT_PATH}';`
         );
       });
     });
@@ -230,7 +230,7 @@ describe('Lib utils', () => {
 
         expect(result.exists(scssFilePath)).toEqual(true);
         const content = result.read(scssFilePath).toString(UTF_8);
-        expect(content).toContain(`@import "@spartacus/xxx";`);
+        expect(content).toContain(`@import "${FEATURE_MODULE_IMPORT_PATH}";`);
       });
     });
     describe('when styling config is NOT provided', () => {
