@@ -23,7 +23,7 @@ export namespace Cpq {
   export interface Configuration {
     productSystemId: string;
     productName?: string;
-    completed: boolean;
+    completed?: boolean;
     incompleteMessages?: string[];
     incompleteAttributes?: string[];
     invalidMessages?: string[];
@@ -58,7 +58,6 @@ export namespace Cpq {
     description?: string;
     label?: string;
     displayAs: number;
-    selected?: boolean;
     required?: boolean;
     incomplete?: boolean;
     isEnabled?: boolean;
@@ -78,7 +77,7 @@ export namespace Cpq {
     valueCode?: string;
     valueDisplay?: string;
     description?: string;
-    productSystemId: string;
+    productSystemId?: string;
     selected?: boolean;
     price?: string;
     quantity?: string;
