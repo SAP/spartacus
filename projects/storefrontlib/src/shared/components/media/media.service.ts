@@ -87,7 +87,7 @@ export class MediaService {
    * benefits.
    */
   protected get sortedFormats(): { code: string; size: MediaFormatSize }[] {
-    if (!this._sortedFormats) {
+    if (!this._sortedFormats && (this.config as MediaConfig)?.mediaFormats) {
       this._sortedFormats = Object.keys(
         (this.config as MediaConfig).mediaFormats
       )
@@ -97,7 +97,7 @@ export class MediaService {
         }))
         .sort((a, b) => (a.size.width > b.size.width ? 1 : -1));
     }
-    return this._sortedFormats;
+    return this._sortedFormats ?? [];
   }
 
   /**
@@ -184,12 +184,14 @@ export class MediaService {
    *
    * The `backend.media.baseUrl` can be used to load media from a different location.
    *
-   * In Commerce Cloud, a differnt location could mean a different "aspect".
+   * In Commerce Cloud, a different location could mean a different "aspect".
+   *
+   * Defaults to empty string in case no config is provided.
    */
   protected getBaseUrl(): string {
     return (
-      (this.config as OccConfig).backend.media.baseUrl ||
-      (this.config as OccConfig).backend.occ.baseUrl ||
+      (this.config as OccConfig).backend?.media?.baseUrl ??
+      (this.config as OccConfig).backend?.occ?.baseUrl ??
       ''
     );
   }
