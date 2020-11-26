@@ -23,7 +23,7 @@ $configurator-common-components: cx-configurator-template,
   cx-configure-cart-entry, cx-configurator-issues-notification !default;
 
 $configurator-common-pages: VariantConfigurationTemplate,
-  VariantConfigurationOverviewTemplate !default;
+  VariantConfigurationOverviewTemplate, CpqConfigurationTemplate !default;
 
 @each $selector in $configurator-common-components {
   #{$selector} {
