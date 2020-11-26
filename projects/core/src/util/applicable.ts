@@ -47,10 +47,10 @@ export interface Applicable {
  *    - all applicables without hasMatch method (implicit always match)
  * 2. Find the applicable with highest priority
  *    - applicable with highest getPriority(...priorityParams) will win
- *    - applicable without getPriority method is treated as Priotity.NORMAL or 0
+ *    - applicable without getPriority method is treated as Priority.NORMAL or 0
  *    - applicables with the same priority are sorted by order of providers, the applicable that was provided later wins
  *
- * @param applicables - array or applicable-like instancese
+ * @param applicables - array or applicable-like instances
  * @param matchParams - array of parameters passed for hasMatch calls
  * @param priorityParams - array of parameters passed for getPriority calls
  */
