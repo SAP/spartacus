@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription, timer } from 'rxjs';
-import { expand, filter, switchMap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  expand,
+  filter,
+  switchMap,
+} from 'rxjs/operators';
 import { CpqAccessData } from './cpq-access-data.models';
 import { CpqAccessLoaderService } from './cpq-access-loader.service';
 
@@ -58,17 +63,20 @@ export class CpqAccessStorageService {
       // or the cached one expired before a new one was fetched.
       filter((data) => !this.isTokenExpired(data))
     );
-    this.authService.isUserLoggedIn().subscribe((loggedIn) => {
-      if (loggedIn) {
-        // user logged in - start/stop to ensure token is refreshed
-        this.stopAutoFetchingCpqAccessData();
-        this.startAutoFetchingCpqAccessData();
-      } else {
-        // user logged of - cancel token fetching
-        this.stopAutoFetchingCpqAccessData();
-        this.cpqAccessDataCache.next(EXPIRED_TOKEN); // invalidate cache
-      }
-    });
+    this.authService
+      .isUserLoggedIn()
+      .pipe(distinctUntilChanged()) // only react if user login status changes
+      .subscribe((loggedIn) => {
+        if (loggedIn) {
+          // user logged in - start/stop to ensure token is refreshed
+          this.stopAutoFetchingCpqAccessData();
+          this.startAutoFetchingCpqAccessData();
+        } else {
+          // user logged of - cancel token fetching
+          this.stopAutoFetchingCpqAccessData();
+          this.cpqAccessDataCache.next(EXPIRED_TOKEN); // invalidate cache
+        }
+      });
   }
 
   protected stopAutoFetchingCpqAccessData() {
