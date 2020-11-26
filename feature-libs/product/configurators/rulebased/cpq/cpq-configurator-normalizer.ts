@@ -51,7 +51,7 @@ export class CpqConfiguratorNormalizer
       );
     }
 
-    const group = {
+    const group: Configurator.Group = {
       id: source.id.toString(),
       name: source.name,
       description: source.displayName,
@@ -73,9 +73,12 @@ export class CpqConfiguratorNormalizer
     attributeList: Configurator.Attribute[]
   ): void {
     const attribute: Configurator.Attribute = {
+      attrCode: sourceAttribute.pA_ID,
       name: sourceAttribute.name,
+      description: sourceAttribute.description,
       label: sourceAttribute.label,
       required: sourceAttribute.required,
+      isLineItem: sourceAttribute.isLineItem,
       uiType: this.convertAttributeType(sourceAttribute.displayAs),
       groupId: groupId.toString(),
       userInput: sourceAttribute.userInput,
@@ -113,8 +116,6 @@ export class CpqConfiguratorNormalizer
       description: sourceValue.description,
       productSystemId: sourceValue.productSystemId,
       selected: sourceValue.selected,
-      //price: sourceValue.price,
-      //quantity: sourceValue.quantity,
       images: [],
     };
 
@@ -134,11 +135,6 @@ export class CpqConfiguratorNormalizer
       }
 
       case Cpq.DisplayAs.CHECK_BOX: {
-        uiType = Configurator.UiType.CHECKBOX;
-        break;
-      }
-
-      case Cpq.DisplayAs.LIST_BOX_MULTI: {
         uiType = Configurator.UiType.CHECKBOXLIST;
         break;
       }
