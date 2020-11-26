@@ -100,6 +100,17 @@ const attributeStringWithValue: Configurator.Attribute = {
   uiType: Configurator.UiType.STRING,
   userInput: 'SomeValue',
 };
+const attributeNumericWoValue: Configurator.Attribute = {
+  name: attributeName,
+  required: requiredFlag,
+  uiType: Configurator.UiType.NUMERIC,
+};
+const attributeNumericWithValue: Configurator.Attribute = {
+  name: attributeName,
+  required: requiredFlag,
+  uiType: Configurator.UiType.NUMERIC,
+  userInput: '123',
+};
 const attributeCheckboxWOValue: Configurator.Attribute = {
   name: attributeName,
   required: requiredFlag,
@@ -548,6 +559,34 @@ describe('OccConfiguratorVariantNormalizer', () => {
     ).toBe(Configurator.GroupType.SUB_ITEM_GROUP);
   });
 
+  it('should convert image types properly', () => {
+    expect(
+      occConfiguratorVariantNormalizer.convertImageType(
+        OccConfigurator.ImageType.GALLERY
+      )
+    ).toBe(Configurator.ImageType.GALLERY);
+
+    expect(
+      occConfiguratorVariantNormalizer.convertImageType(
+        OccConfigurator.ImageType.PRIMARY
+      )
+    ).toBe(Configurator.ImageType.PRIMARY);
+  });
+
+  it('should convert image format types properly', () => {
+    expect(
+      occConfiguratorVariantNormalizer.convertImageFormatType(
+        OccConfigurator.ImageFormatType.VALUE_IMAGE
+      )
+    ).toBe(Configurator.ImageFormatType.VALUE_IMAGE);
+
+    expect(
+      occConfiguratorVariantNormalizer.convertImageFormatType(
+        OccConfigurator.ImageFormatType.CSTIC_IMAGE
+      )
+    ).toBe(Configurator.ImageFormatType.ATTRIBUTE_IMAGE);
+  });
+
   it('should convert image with media URL configured', () => {
     const images = [];
     occConfig.backend.media.baseUrl = 'https://mediaBackendBaseUrl/';
@@ -586,6 +625,18 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
       expect(attributeStringWoValue.incomplete).toBe(true);
       expect(attributeStringWithValue.incomplete).toBe(false);
+    });
+
+    it('should set incomplete by numeric type correctly', () => {
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeNumericWoValue
+      );
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeNumericWithValue
+      );
+
+      expect(attributeNumericWoValue.incomplete).toBe(true);
+      expect(attributeNumericWithValue.incomplete).toBe(false);
     });
 
     it('should set incomplete by radio button type correctly', () => {

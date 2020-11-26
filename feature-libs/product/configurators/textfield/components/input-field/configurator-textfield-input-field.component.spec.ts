@@ -48,4 +48,10 @@ describe('TextfieldInputFieldComponent', () => {
       component.attribute
     );
   });
+
+  it('should generate id with prefixt', () => {
+    expect(component.getId(component.attribute)).toEqual(
+      'cx-configurator-textfieldattributeName'
+    );
+  });
 });
