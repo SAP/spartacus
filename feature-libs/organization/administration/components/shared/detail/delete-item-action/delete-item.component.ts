@@ -85,7 +85,7 @@ export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
         take(1),
         filter((data) => data.status === LoadStatus.SUCCESS)
       )
-      .subscribe((data) => this.notify({ ...item, ...data.item }));
+      .subscribe((data) => this.notify({ ...item, ...data.item })); // TODO: redirect
   }
 
   protected notify(item: T) {
