@@ -38,7 +38,7 @@ import {
 export interface LibraryOptions {
   lazy: boolean;
   features: string[];
-  project?: string;
+  project: string;
 }
 
 export interface FeatureConfig {

@@ -146,7 +146,7 @@ function addMiscPackageJsonDependencies(packageJson: any): Rule {
 function addStorefinderFeature(appModulePath: string): Rule {
   return addLibraryFeature(
     appModulePath,
-    { lazy: false, features: [CLI_STOREFINDER_FEATURE] },
+    { lazy: false, project: '', features: [CLI_STOREFINDER_FEATURE] },
     {
       name: STOREFINDER_FEATURE_NAME,
       featureModule: {
