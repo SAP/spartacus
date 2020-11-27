@@ -1,25 +1,18 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  CartModification,
-  ConverterService,
-  OccEndpointsService,
-} from '@spartacus/core';
+import { CartModification } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product/configurators/common';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RulebasedConfiguratorAdapter } from '../core/connectors/rulebased-configurator.adapter';
 import { Configurator } from '../core/model/configurator.model';
-import { CpqAccessLoaderService } from '../occ/cpq/cpq-access-loader.service';
+import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
 
 @Injectable()
 export class CpqConfiguratorRestAdapter
   implements RulebasedConfiguratorAdapter {
   constructor(
-    protected http: HttpClient,
-    protected occEndpointsService: OccEndpointsService,
-    protected converterService: ConverterService,
-    protected cpqAccessLoaderService: CpqAccessLoaderService
+    protected cpqAcpqConfiguratorRestService: CpqConfiguratorRestService,
+    protected cpqService: CpqConfiguratorRestService
   ) {}
 
   getConfiguratorType(): string {
@@ -29,15 +22,14 @@ export class CpqConfiguratorRestAdapter
   createConfiguration(
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
-    return this.cpqAccessLoaderService.getCpqAccessData().pipe(
-      map((accessData) => {
-        const config: Configurator.Configuration = {
-          configId: accessData.accessToken,
-          owner: owner,
-        };
-        return config;
-      })
-    );
+    return this.cpqAcpqConfiguratorRestService
+      .createConfiguration(owner.id)
+      .pipe(
+        map((configResonse) => {
+          configResonse.owner = owner;
+          return configResonse;
+        })
+      );
   }
 
   readConfiguration(): Observable<Configurator.Configuration> {
@@ -64,8 +56,10 @@ export class CpqConfiguratorRestAdapter
     return undefined;
   }
 
-  readPriceSummary(): Observable<Configurator.Configuration> {
-    return undefined;
+  readPriceSummary(
+    configuration: Configurator.Configuration
+  ): Observable<Configurator.Configuration> {
+    return of(configuration); // so that UI does not run into exception
   }
 
   getConfigurationOverview(): Observable<Configurator.Overview> {
