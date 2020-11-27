@@ -16,7 +16,7 @@ import { CPQ_CONFIGURATOR_NORMALIZER } from './cpq-configurator.converters';
     },
     {
       provide: CPQ_CONFIGURATOR_NORMALIZER,
-      useExisting: CpqConfiguratorNormalizer,
+      useClass: CpqConfiguratorNormalizer,
       multi: true,
     },
   ],

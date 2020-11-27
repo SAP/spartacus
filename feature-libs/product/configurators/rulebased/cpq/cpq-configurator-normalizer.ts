@@ -3,7 +3,7 @@ import { Converter } from '@spartacus/core';
 import { Configurator } from './../core/model/configurator.model';
 import { Cpq } from './cpq.models';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class CpqConfiguratorNormalizer
   implements Converter<Cpq.Configuration, Configurator.Configuration> {
   constructor() {}

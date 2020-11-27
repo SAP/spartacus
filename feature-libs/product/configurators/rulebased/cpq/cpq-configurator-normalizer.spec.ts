@@ -23,12 +23,24 @@ const cpqAttributeNameStdAttrCode = 1;
 const cpqAttributeName = 'ATTRIBUTE_NAME';
 const cpqAttributeDescription = 'VALUE_DESCRIPTION';
 const cpqAttributeLabel = 'VALUE_LABEL';
-const cpqAttributeDisplayAs = 1;
+const cpqAttributeDisplayAs = Cpq.DisplayAs.RADIO_BUTTON;
 const cpqAttributeRequired = true;
 const cpqAttributeIncomplete = true;
 const cpqAttributeIsLineItem = true;
 const cpqAttributeHasConflict = true;
-const cpqAttributeUserInput = 'USER_INPUT';
+const cpqAttributeUserInput = '';
+
+const cpqAttributePaId2 = 2;
+const cpqAttributeNameStdAttrCode2 = 2;
+const cpqAttributeName2 = 'ATTRIBUTE_NAME_2';
+const cpqAttributeDescription2 = 'VALUE_DESCRIPTION_2';
+const cpqAttributeLabel2 = 'VALUE_LABEL_2';
+const cpqAttributeDisplayAs2 = Cpq.DisplayAs.INPUT;
+const cpqAttributeRequired2 = false;
+const cpqAttributeIncomplete2 = false;
+const cpqAttributeIsLineItem2 = false;
+const cpqAttributeHasConflict2 = false;
+const cpqAttributeUserInput2 = 'USER_INPUT_2';
 
 const cpqGroupId = 1;
 const cpqGroupName = 'GROUP_NAME';
@@ -73,6 +85,21 @@ const cpqAttribute: Cpq.Attribute = {
   hasConflict: cpqAttributeHasConflict,
   userInput: cpqAttributeUserInput,
   values: [cpqValue, cpqValue2],
+};
+
+const cpqAttribute2: Cpq.Attribute = {
+  pA_ID: cpqAttributePaId2,
+  stdAttrCode: cpqAttributeNameStdAttrCode2,
+  name: cpqAttributeName2,
+  description: cpqAttributeDescription2,
+  label: cpqAttributeLabel2,
+  displayAs: cpqAttributeDisplayAs2,
+  required: cpqAttributeRequired2,
+  incomplete: cpqAttributeIncomplete2,
+  isLineItem: cpqAttributeIsLineItem2,
+  hasConflict: cpqAttributeHasConflict2,
+  userInput: cpqAttributeUserInput2,
+  values: [],
 };
 
 const cpqAttributes: Cpq.Attribute[] = [cpqAttribute];
@@ -197,6 +224,31 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(values.length).toBe(2);
   });
 
+  it('should convert attributes without values', () => {
+    const attributeList: Configurator.Attribute[] = [];
+    cpqConfiguratorNormalizer.convertAttribute(
+      cpqAttribute2,
+      cpqGroupId,
+      attributeList
+    );
+    const attribute: Configurator.Attribute = attributeList[0];
+    expect(attributeList.length).toBe(1);
+    expect(attribute.attrCode).toBe(cpqAttributePaId2);
+    expect(attribute.name).toBe(cpqAttributeName2);
+    expect(attribute.description).toBe(cpqAttributeDescription2);
+    expect(attribute.label).toBe(cpqAttributeLabel2);
+    expect(attribute.required).toBe(cpqAttributeRequired2);
+    expect(attribute.isLineItem).toBe(cpqAttributeIsLineItem2);
+    expect(attribute.uiType).toBe(Configurator.UiType.STRING);
+    expect(attribute.selectedSingleValue).toBeNull();
+    expect(attribute.groupId).toBe(cpqGroupId.toString());
+    expect(attribute.userInput).toBe(cpqAttributeUserInput2);
+    expect(attribute.hasConflicts).toBe(cpqAttributeHasConflict2);
+    expect(attribute.incomplete).toBe(false);
+    const values = attribute.values;
+    expect(values.length).toBe(0);
+  });
+
   it('should convert a group', () => {
     const groups: Configurator.Group[] = [];
     const flatGroups: Configurator.Group[] = [];
@@ -239,9 +291,195 @@ describe('CpqConfiguratorNormalizer', () => {
     ).toBe(Configurator.UiType.CHECKBOXLIST);
   });
 
+  it('should return UIType STRING for CPQ DisplayAs INPUT', () => {
+    expect(
+      cpqConfiguratorNormalizer.convertAttributeType(Cpq.DisplayAs.INPUT)
+    ).toBe(Configurator.UiType.STRING);
+  });
+
+  it('should return UIType READ_ONLY for CPQ DisplayAs READ_ONLY', () => {
+    expect(
+      cpqConfiguratorNormalizer.convertAttributeType(Cpq.DisplayAs.READ_ONLY)
+    ).toBe(Configurator.UiType.READ_ONLY);
+  });
+
   it('should return UIType NOT_IMPLEMENTED for unknown (not supported) CPQ DisplayAs', () => {
     expect(
       cpqConfiguratorNormalizer.convertAttributeType(Cpq.DisplayAs.LIST_BOX)
     ).toBe(Configurator.UiType.NOT_IMPLEMENTED);
+  });
+
+  it('should set selectedSingleValue', () => {
+    const configAttribute: Configurator.Attribute = {
+      name: 'ATTRIBUTE_NAME',
+      values: [{ valueCode: 'VK1' }, { valueCode: 'VK2', selected: true }],
+    };
+    cpqConfiguratorNormalizer.setSelectedSingleValue(configAttribute);
+    expect(configAttribute.selectedSingleValue).toBe('VK2');
+  });
+
+  it('should not set selectedSingleValue for multi-valued attributes', () => {
+    const configAttribute: Configurator.Attribute = {
+      name: 'ATTRIBUTE_NAME',
+      values: [
+        { valueCode: 'VK1', selected: true },
+        { valueCode: 'VK2', selected: true },
+      ],
+    };
+    cpqConfiguratorNormalizer.setSelectedSingleValue(configAttribute);
+    expect(configAttribute.selectedSingleValue).toBeUndefined();
+  });
+
+  it('should set incomplete by radio button, dropdown and single-selection-image type correctly', () => {
+    const attributeRBWithValues: Configurator.Attribute = {
+      name: 'ATTRIBUTE_NAME',
+      uiType: Configurator.UiType.RADIOBUTTON,
+      selectedSingleValue: 'SomeValue',
+    };
+    const attributeRBWoValues: Configurator.Attribute = {
+      name: 'ATTRIBUTE_NAME',
+      uiType: Configurator.UiType.RADIOBUTTON,
+      selectedSingleValue: '',
+    };
+    const attributeDDWithValues: Configurator.Attribute = {
+      name: 'ATTRIBUTE_NAME',
+      uiType: Configurator.UiType.DROPDOWN,
+      selectedSingleValue: 'SomeValue',
+    };
+    const attributeDDWoValues: Configurator.Attribute = {
+      name: 'ATTRIBUTE_NAME',
+      uiType: Configurator.UiType.DROPDOWN,
+      selectedSingleValue: '',
+    };
+    const attributeSSIWithValues: Configurator.Attribute = {
+      name: 'ATTRIBUTE_NAME',
+      uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
+      selectedSingleValue: 'SomeValue',
+    };
+    const attributeSSIWoValues: Configurator.Attribute = {
+      name: 'ATTRIBUTE_NAME',
+      uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
+      selectedSingleValue: '',
+    };
+
+    cpqConfiguratorNormalizer.compileAttributeIncomplete(attributeRBWoValues);
+    cpqConfiguratorNormalizer.compileAttributeIncomplete(attributeRBWithValues);
+    cpqConfiguratorNormalizer.compileAttributeIncomplete(attributeDDWoValues);
+    cpqConfiguratorNormalizer.compileAttributeIncomplete(attributeDDWithValues);
+    cpqConfiguratorNormalizer.compileAttributeIncomplete(attributeSSIWoValues);
+    cpqConfiguratorNormalizer.compileAttributeIncomplete(
+      attributeSSIWithValues
+    );
+
+    expect(attributeRBWoValues.incomplete).toBe(true);
+    expect(attributeRBWithValues.incomplete).toBe(false);
+    expect(attributeDDWoValues.incomplete).toBe(true);
+    expect(attributeDDWithValues.incomplete).toBe(false);
+    expect(attributeSSIWoValues.incomplete).toBe(true);
+    expect(attributeSSIWithValues.incomplete).toBe(false);
+  });
+
+  it('should set incomplete by input type correctly', () => {
+    const attributeStringWithValues: Configurator.Attribute = {
+      name: 'ATTRIBUTE_NAME',
+      uiType: Configurator.UiType.STRING,
+      userInput: 'User Input',
+    };
+    const attributeStringWoValues: Configurator.Attribute = {
+      name: 'ATTRIBUTE_NAME',
+      uiType: Configurator.UiType.STRING,
+      userInput: '',
+    };
+    const attributeNumericWithValues: Configurator.Attribute = {
+      name: 'ATTRIBUTE_NAME',
+      uiType: Configurator.UiType.NUMERIC,
+      userInput: '123',
+    };
+    const attributeNumericWoValues: Configurator.Attribute = {
+      name: 'ATTRIBUTE_NAME',
+      uiType: Configurator.UiType.NUMERIC,
+      userInput: '',
+    };
+
+    cpqConfiguratorNormalizer.compileAttributeIncomplete(
+      attributeStringWithValues
+    );
+    cpqConfiguratorNormalizer.compileAttributeIncomplete(
+      attributeStringWoValues
+    );
+    cpqConfiguratorNormalizer.compileAttributeIncomplete(
+      attributeNumericWithValues
+    );
+    cpqConfiguratorNormalizer.compileAttributeIncomplete(
+      attributeNumericWoValues
+    );
+
+    expect(attributeStringWithValues.incomplete).toBe(false);
+    expect(attributeStringWoValues.incomplete).toBe(true);
+    expect(attributeNumericWithValues.incomplete).toBe(false);
+    expect(attributeNumericWoValues.incomplete).toBe(true);
+  });
+
+  it('should set incomplete by checkbox, checkboxlist and multi-selection-image type correctly', () => {
+    const valuesWOSelectedOne: Configurator.Value[] = [
+      { name: 'name1', selected: false },
+      { name: 'name2', selected: false },
+    ];
+    const valuesWithSelectedOne: Configurator.Value[] = [
+      { name: 'name1', selected: true },
+      { name: 'name2', selected: false },
+    ];
+    const attributeCheckboxWOValue: Configurator.Attribute = {
+      name: 'ATTRIBUTE_NAME',
+      uiType: Configurator.UiType.CHECKBOX,
+      values: valuesWOSelectedOne,
+    };
+    const attributeCheckboxWithValue: Configurator.Attribute = {
+      name: 'ATTRIBUTE_NAME',
+      uiType: Configurator.UiType.CHECKBOX,
+      values: valuesWithSelectedOne,
+    };
+    const attributeCheckboxlistWOValue: Configurator.Attribute = {
+      name: 'ATTRIBUTE_NAME',
+      uiType: Configurator.UiType.CHECKBOXLIST,
+      values: valuesWOSelectedOne,
+    };
+    const attributeCheckboxlistWithValue: Configurator.Attribute = {
+      name: 'ATTRIBUTE_NAME',
+      uiType: Configurator.UiType.CHECKBOXLIST,
+      values: valuesWithSelectedOne,
+    };
+    const attributeMSIWOValue: Configurator.Attribute = {
+      name: 'ATTRIBUTE_NAME',
+      uiType: Configurator.UiType.MULTI_SELECTION_IMAGE,
+      values: valuesWOSelectedOne,
+    };
+    const attributeMSIWithValue: Configurator.Attribute = {
+      name: 'ATTRIBUTE_NAME',
+      uiType: Configurator.UiType.MULTI_SELECTION_IMAGE,
+      values: valuesWithSelectedOne,
+    };
+
+    cpqConfiguratorNormalizer.compileAttributeIncomplete(
+      attributeCheckboxWOValue
+    );
+    cpqConfiguratorNormalizer.compileAttributeIncomplete(
+      attributeCheckboxWithValue
+    );
+    cpqConfiguratorNormalizer.compileAttributeIncomplete(
+      attributeCheckboxlistWOValue
+    );
+    cpqConfiguratorNormalizer.compileAttributeIncomplete(
+      attributeCheckboxlistWithValue
+    );
+    cpqConfiguratorNormalizer.compileAttributeIncomplete(attributeMSIWOValue);
+    cpqConfiguratorNormalizer.compileAttributeIncomplete(attributeMSIWithValue);
+
+    expect(attributeCheckboxWOValue.incomplete).toBe(true);
+    expect(attributeCheckboxWithValue.incomplete).toBe(false);
+    expect(attributeCheckboxlistWOValue.incomplete).toBe(true);
+    expect(attributeCheckboxlistWithValue.incomplete).toBe(false);
+    expect(attributeMSIWOValue.incomplete).toBe(true);
+    expect(attributeMSIWithValue.incomplete).toBe(false);
   });
 });
