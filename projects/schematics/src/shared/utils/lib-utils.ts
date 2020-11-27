@@ -36,9 +36,9 @@ import {
 } from './workspace-utils';
 
 export interface LibraryOptions {
-  project: string;
   lazy: boolean;
   features: string[];
+  project?: string;
 }
 
 export interface FeatureConfig {
