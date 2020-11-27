@@ -134,6 +134,12 @@ describe('Lib utils', () => {
       const result = await schematicRunner.callRule(rule, appTree).toPromise();
 
       const appModule = result.read(appModulePath).toString(UTF_8);
+      expect(appModule).toContain(
+        `import { ${I18N_RESOURCES} } from '${ASSETS_IMPORT_PATH}';`
+      );
+      expect(appModule).toContain(
+        `import { ${I18N_CHUNKS} } from '${ASSETS_IMPORT_PATH}';`
+      );
       expect(appModule).toContain(`resources: ${I18N_RESOURCES},`);
       expect(appModule).toContain(`chunks: ${I18N_CHUNKS},`);
     });

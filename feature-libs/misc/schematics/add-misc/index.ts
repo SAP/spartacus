@@ -20,7 +20,6 @@ import {
   readPackageJson,
   shouldAddFeature,
   SPARTACUS_MISC,
-  SPARTACUS_SETUP,
   SPARTACUS_STOREFINDER,
   SPARTACUS_STOREFINDER_ASSETS,
   SPARTACUS_STOREFINDER_ROOT,
@@ -83,11 +82,6 @@ function addMiscPackageJsonDependencies(packageJson: any): Rule {
       type: NodeDependencyType.Default,
       version: spartacusVersion,
       name: SPARTACUS_MISC,
-    },
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_SETUP,
     },
   ];
   return addPackageJsonDependencies(dependencies, packageJson);

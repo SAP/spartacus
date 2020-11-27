@@ -111,7 +111,7 @@ function handleFeature<T extends LibraryOptions>(
       const providersChanges = addToModuleProviders(
         host,
         appModulePath,
-        `${PROVIDE_DEFAULT_CONFIG}(${config.defaultConfig}),`,
+        `${PROVIDE_DEFAULT_CONFIG}(${config.defaultConfig.name}),`,
         getTsSourceFile(host, appModulePath)
       );
       changes.push(...providersChanges);

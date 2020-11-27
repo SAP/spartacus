@@ -124,6 +124,15 @@ describe('Spartacus Organization schematics: ng-add', () => {
       const appModule = appTree.readContent(appModulePath);
       expect(appModule).toContain(B2B_STOREFRONT_MODULE);
     });
+    it(`should add inject provideDefaultConfig and provide it`, () => {
+      const appModule = appTree.readContent(appModulePath);
+      expect(appModule).toContain(
+        `defaultB2bOccConfig } from '@spartacus/setup';`
+      );
+      expect(appModule).toContain(
+        `providers: [provideDefaultConfig(defaultB2bOccConfig),`
+      );
+    });
   });
 
   describe('Administration feature', () => {
