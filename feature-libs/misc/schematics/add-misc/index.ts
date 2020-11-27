@@ -28,9 +28,9 @@ import {
   STOREFINDER_ROOT_MODULE,
   STOREFINDER_TRANSLATIONS,
   STOREFINDER_TRANSLATION_CHUNKS_CONFIG,
+  STORE_FINDER_SCSS_FILE_NAME,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
-import { STOREFINDER_SCSS_FILE_NAME } from '../constants';
 
 export function addMiscFeatures(options: SpartacusMiscOptions): Rule {
   return (tree: Tree, _context: SchematicContext) => {
@@ -69,7 +69,7 @@ function addStorefinderFeature(
       importPath: SPARTACUS_STOREFINDER_ASSETS,
     },
     styles: {
-      scssFileName: STOREFINDER_SCSS_FILE_NAME,
+      scssFileName: STORE_FINDER_SCSS_FILE_NAME,
       importStyle: SPARTACUS_MISC,
     },
   });
