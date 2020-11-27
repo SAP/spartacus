@@ -124,7 +124,7 @@ describe('ConfigureCartEntryComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        'button',
+        'a',
         'configurator.header.displayConfiguration'
       );
     });
@@ -141,7 +141,7 @@ describe('ConfigureCartEntryComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        'button',
+        'a',
         'configurator.header.editConfiguration'
       );
     });
@@ -157,13 +157,13 @@ describe('ConfigureCartEntryComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        'button',
+        'a',
         'configurator.header.resolveIssues'
       );
     });
   });
 
-  describe('Button', () => {
+  describe('a', () => {
     it('should be disabled in case corresponding component attribute is disabled', () => {
       component.disabled = true;
       component.cartEntry = {
@@ -172,7 +172,7 @@ describe('ConfigureCartEntryComponent', () => {
       };
       fixture.detectChanges();
       expect(
-        element.query(By.css('button.link')).nativeElement.disabled
+        element.query(By.css('a.link')).nativeElement.disabled
       ).toBeTrue();
     });
 
@@ -184,7 +184,7 @@ describe('ConfigureCartEntryComponent', () => {
       };
       fixture.detectChanges();
       expect(
-        element.query(By.css('button.link')).nativeElement.disabled
+        element.query(By.css('a.link')).nativeElement.disabled
       ).toBeFalse();
     });
   });

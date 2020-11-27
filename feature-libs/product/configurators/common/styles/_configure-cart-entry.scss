@@ -1,8 +1,6 @@
 %cx-configure-cart-entry {
-  button.link {
+  a.link {
     color: var(--cx-color-primary);
-    border-width: 0;
-    background-color: transparent;
     text-decoration: none;
     font-size: inherit;
     inline-size: max-content;
@@ -10,5 +8,14 @@
     &:hover {
       text-decoration: underline;
     }
+  }
+
+  label.disabled-link {
+    color: var(--cx-color-secondary);
+    display: inline-block;
+    margin: 0;
+    text-decoration: none;
+    font-size: inherit;
+    inline-size: max-content;
   }
 }

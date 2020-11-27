@@ -1,5 +1,22 @@
 <ng-container *ngIf="cartEntry">
-  <button
+
+  <label *ngIf="isDisabled()" class="disabled-link">
+    <ng-container *ngIf="readOnly">
+      {{
+        'configurator.header.displayConfiguration' | cxTranslate
+      }}</ng-container
+    >
+    <ng-container *ngIf="!readOnly && !msgBanner">
+      {{ 'configurator.header.editConfiguration' | cxTranslate }}
+    </ng-container>
+
+    <ng-container *ngIf="!readOnly && msgBanner">
+      {{ 'configurator.header.resolveIssues' | cxTranslate }}
+    </ng-container>
+  </label>
+
+  <a
+    *ngIf="!isDisabled()"
     class="link cx-action-link"
     [routerLink]="
       {
@@ -12,8 +29,7 @@
       } | cxUrl
     "
     cxModal="dismiss"
-    [queryParams]="{ forceReload: true, resolveIssues: hasIssues() }"
-    [disabled]="isDisabled()"
+    [queryParams]="{ forceReload: true, resolveIssues: hasIssues() }"    
     cxAutoFocus
   >
     <ng-container *ngIf="readOnly">
@@ -28,5 +44,5 @@
     <ng-container *ngIf="!readOnly && msgBanner">
       {{ 'configurator.header.resolveIssues' | cxTranslate }}
     </ng-container>
-  </button>
+  </a>
 </ng-container>
