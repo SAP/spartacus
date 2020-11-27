@@ -21,7 +21,7 @@ $configurator-rulebased-components: cx-configurator-template,
   cx-configurator-overview-notification-banner !default;
 
 $configurator-rulebased-pages: VariantConfigurationTemplate,
-  VariantConfigurationOverviewTemplate !default;
+  VariantConfigurationOverviewTemplate, CpqConfigurationTemplate !default;
 
 @each $selector in $configurator-rulebased-components {
   #{$selector} {
