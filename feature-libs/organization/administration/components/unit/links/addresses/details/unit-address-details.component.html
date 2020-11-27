@@ -1,15 +1,15 @@
 <ng-container *ngIf="unit$ | async as unit">
   <cx-org-card *ngIf="model$ | async as model" i18nRoot="unitAddress.details">
+    <a class="link" actions routerLink="edit">
+      {{ 'organization.edit' | cxTranslate }}
+    </a>
+
     <cx-org-delete-item
       actions
       key="id"
       [additionalParam]="unit.uid"
       i18nRoot="unitAddress"
     ></cx-org-delete-item>
-
-    <a class="link" actions routerLink="edit">
-      {{ 'organization.edit' | cxTranslate }}
-    </a>
 
     <section main class="details">
       <div class="property">
