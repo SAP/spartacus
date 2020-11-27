@@ -61,6 +61,13 @@ export abstract class ItemService<T> {
   }
 
   /**
+   * Delete an item.
+   */
+  delete?(
+    key: string,
+    additionalParam?: string
+  ): Observable<OrganizationItemStatus<T>>;
+  /**
    * Loads an item.
    */
   abstract load(...params: any[]): Observable<T>;

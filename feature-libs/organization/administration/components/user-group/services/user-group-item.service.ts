@@ -29,10 +29,15 @@ export class UserGroupItemService extends ItemService<UserGroup> {
   }
 
   update(
-    code,
+    code: string,
     value: UserGroup
   ): Observable<OrganizationItemStatus<UserGroup>> {
     this.userGroupService.update(code, value);
+    return this.userGroupService.getLoadingStatus(code);
+  }
+
+  delete(code: string): Observable<OrganizationItemStatus<UserGroup>> {
+    this.userGroupService.delete(code);
     return this.userGroupService.getLoadingStatus(code);
   }
 

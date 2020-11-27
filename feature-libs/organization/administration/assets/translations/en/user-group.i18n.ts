@@ -34,6 +34,8 @@ export const userGroup = {
   messages: {
     update: 'User Group {{ item.name }} updated successfully',
     create: 'User Group {{ item.name }} created successfully',
+    delete: 'Are you sure you want to delete this user group?',
+    deleted: 'User Group {{ item.name }} deleted successfully',
   },
 
   breadcrumbs: {
