@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, EMPTY, Observable, of, Subscription } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import {
   OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_CURRENT,
+  OCC_USER_ID_CURRENT
 } from '../../../occ/utils/occ-constants';
 
 /**
@@ -59,18 +59,18 @@ export class UserIdService {
   /**
    * Utility method if you need userId to perform single action (eg. dispatch call to API).
    *
-   * @param loggedIn Set to true if you want the observable to emit id only for logged in user. Completes without emitting in case of anonymous user.
+   * @param loggedIn Set to true if you want the observable to emit id only for logged in user. Throws in case of anonymous user.
    *
    * @returns Observable that emits once and completes with the last userId value.
    */
   public takeUserId(loggedIn = false): Observable<string | never> {
     return this.getUserId().pipe(
       take(1),
-      switchMap((userId) => {
+      map((userId) => {
         if (loggedIn && userId === OCC_USER_ID_ANONYMOUS) {
-          return EMPTY;
+          throw new Error('Requested user id for logged user while user is not logged in.');
         }
-        return of(userId);
+        return userId;
       })
     );
   }

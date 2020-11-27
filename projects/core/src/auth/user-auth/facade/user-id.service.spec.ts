@@ -113,13 +113,15 @@ describe('UserIdService', () => {
       );
     });
 
-    it('should not emit anonymous value for loggedIn mode', (done) => {
+    it('should throw error when anonymous value in loggedIn mode', (done) => {
       let userId;
       service.takeUserId(true).subscribe(
         (id) => (userId = id),
-        () => {},
-        () => {
+        (error: Error) => {
           expect(userId).toBeUndefined();
+          expect(error.message).toEqual(
+            'Requested user id for logged user while user is not logged in.'
+          );
           done();
         }
       );
@@ -128,7 +130,9 @@ describe('UserIdService', () => {
     it('should emit logged in value and completes', (done) => {
       service.setUserId('someId');
       service.takeUserId(true).subscribe(
-        (id) => expect(id).toEqual('someId'),
+        (id) => {
+          expect(id).toEqual('someId');
+        },
         () => {},
         () => {
           done();
