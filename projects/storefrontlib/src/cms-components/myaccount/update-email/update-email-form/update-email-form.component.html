@@ -14,9 +14,7 @@
           }}"
           class="form-control"
         />
-        <cx-form-errors
-          [control]="updateEmailForm.get('email')"
-        ></cx-form-errors>
+        <cx-form-errors [controlName]="'email'"></cx-form-errors>
       </label>
     </div>
   </div>
@@ -36,9 +34,9 @@
           }}"
           class="form-control"
         />
-        <cx-form-errors
-          [control]="updateEmailForm.get('confirmEmail')"
-        ></cx-form-errors>
+        <div>
+          <cx-form-errors [controlName]="'confirmEmail'"></cx-form-errors>
+        </div>
       </label>
     </div>
   </div>

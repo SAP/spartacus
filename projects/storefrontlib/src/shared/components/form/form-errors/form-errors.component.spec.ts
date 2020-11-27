@@ -33,60 +33,60 @@ describe('FormErrors', () => {
   });
 
   it('should not provide errors, when control is valid', () => {
-    let returnedErrors: string[];
+    let returnedError: string;
 
     control.setErrors({});
-    component.errors$.subscribe((errors) => {
-      returnedErrors = errors;
+    component.error$.subscribe((error) => {
+      returnedError = error;
     });
 
-    expect(returnedErrors).toEqual([]);
+    expect(returnedError).toEqual(undefined);
   });
 
   it('should not provide errors, when control no longer invalid', () => {
-    let returnedErrors: string[];
+    let returnedError: string;
 
     control.setErrors(mockError);
-    component.errors$.subscribe((errors) => {
-      returnedErrors = errors;
+    component.error$.subscribe((error) => {
+      returnedError = error;
     });
 
-    expect(returnedErrors).toEqual([mockErrorName]);
+    expect(returnedError).toEqual(mockErrorName);
 
     control.setErrors({});
-    component.errors$.subscribe((errors) => {
-      returnedErrors = errors;
+    component.error$.subscribe((error) => {
+      returnedError = error;
     });
 
-    expect(returnedErrors).toEqual([]);
+    expect(returnedError).toEqual(undefined);
   });
 
   it('should provide errors, when control not valid', () => {
-    let returnedErrors: string[];
+    let returnedError: string;
 
     control.setErrors(mockError);
-    component.errors$.subscribe((errors) => {
-      returnedErrors = errors;
+    component.error$.subscribe((error) => {
+      returnedError = error;
     });
 
-    expect(returnedErrors).toEqual([mockErrorName]);
+    expect(returnedError).toEqual(mockErrorName);
   });
 
   it('should provide errors, when control no longer valid', () => {
-    let returnedErrors: string[];
+    let returnedError: string;
 
     control.setErrors({});
-    component.errors$.subscribe((errors) => {
-      returnedErrors = errors;
+    component.error$.subscribe((error) => {
+      returnedError = error;
     });
 
-    expect(returnedErrors).toEqual([]);
+    expect(returnedError).toEqual(undefined);
 
     control.setErrors(mockError);
-    component.errors$.subscribe((errors) => {
-      returnedErrors = errors;
+    component.error$.subscribe((error) => {
+      returnedError = error;
     });
 
-    expect(returnedErrors).toEqual([mockErrorName]);
+    expect(returnedError).toEqual(mockErrorName);
   });
 });

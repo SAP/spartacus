@@ -1,3 +1,3 @@
-<p *ngFor="let errorName of errors$ | async">
-  {{ 'formErrors.' + errorName | cxTranslate: translationParams }}
+<p>
+  {{ 'formErrors.' + (error$ | async) | cxTranslate: translationParams }}
 </p>
