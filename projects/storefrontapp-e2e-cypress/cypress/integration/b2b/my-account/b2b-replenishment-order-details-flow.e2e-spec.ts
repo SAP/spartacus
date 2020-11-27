@@ -16,9 +16,11 @@ describe('Replenishment order details', () => {
 
   it('should be able to login as a b2b user', () => {
     loginB2bUser();
+    cy.saveLocalStorage();
   });
 
   it('should be able to cancel a replenishment order details', () => {
+    cy.restoreLocalStorage();
     replenishmentDetails.cancelReplenishmentDetails();
   });
 });
