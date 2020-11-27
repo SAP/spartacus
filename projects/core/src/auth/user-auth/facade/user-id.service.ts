@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { BehaviorSubject, EMPTY, Observable, of, Subscription } from 'rxjs';
+import { map, switchMap, take } from 'rxjs/operators';
 import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
@@ -44,6 +44,8 @@ export class UserIdService {
   }
 
   /**
+   * @deprecated Use `takeUserId` method instead.
+   *
    * Calls provided callback with current user id.
    *
    * @param cb callback function to invoke
@@ -52,6 +54,25 @@ export class UserIdService {
     return this.getUserId()
       .pipe(take(1))
       .subscribe((id) => cb(id));
+  }
+
+  /**
+   * Utility method if you need userId to perform single action (eg. dispatch call to API).
+   *
+   * @param loggedIn Set to true if you want the observable to emit id only for logged in user. Completes without emitting in case of anonymous user.
+   *
+   * @returns Observable that emits once and completes with the last userId value.
+   */
+  public takeUserId(loggedIn = false): Observable<string | never> {
+    return this.getUserId().pipe(
+      take(1),
+      switchMap((userId) => {
+        if (loggedIn && userId === OCC_USER_ID_ANONYMOUS) {
+          return EMPTY;
+        }
+        return of(userId);
+      })
+    );
   }
 
   /**
