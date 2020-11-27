@@ -78,7 +78,7 @@ const mockUrlContainer = {
 };
 
 describe('MediaService', () => {
-  describe('eager loaded config', () => {
+  describe('with eager loaded config', () => {
     let mediaService: MediaService;
 
     beforeEach(() => {
@@ -200,7 +200,7 @@ describe('MediaService', () => {
       });
 
       describe('srcset', () => {
-        it('should return srcset', () => {
+        it('should return all images in srcset', () => {
           expect(
             mediaService.getMedia(mockBestFormatMediaContainer).srcset
           ).toBe(
@@ -208,7 +208,23 @@ describe('MediaService', () => {
           );
         });
 
-        it('should not return srcset for media', () => {
+        it('should return only relevant images in srcset for the given format', () => {
+          expect(
+            mediaService.getMedia(mockBestFormatMediaContainer, 'format400')
+              .srcset
+          ).toBe('base:format-1.url 1w, base:format-400.url 400w');
+        });
+
+        it('should return all formats for unknown format', () => {
+          expect(
+            mediaService.getMedia(mockBestFormatMediaContainer, 'unknown')
+              .srcset
+          ).toBe(
+            'base:format-1.url 1w, base:format-400.url 400w, base:format-600.url 600w'
+          );
+        });
+
+        it('should not return srcset for media without any formats', () => {
           expect(mediaService.getMedia(mockMedia).srcset).toBeFalsy();
         });
       });
@@ -237,7 +253,7 @@ describe('MediaService', () => {
     });
   });
 
-  describe('lazy loaded config', () => {
+  describe('with lazy loaded config', () => {
     let mediaService: MediaService;
 
     beforeEach(() => {
@@ -262,6 +278,54 @@ describe('MediaService', () => {
           ImageLoadingStrategy.EAGER
         );
       });
+    });
+  });
+
+  describe('without media config', () => {
+    let mediaService: MediaService;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          MediaService,
+          {
+            provide: Config,
+            useValue: {},
+          },
+          { provide: LayoutConfig, useValue: {} },
+        ],
+      });
+      mediaService = TestBed.inject(MediaService);
+    });
+
+    it('should return first available media', () => {
+      expect(mediaService.getMedia(mockBestFormatMediaContainer).src).toBe(
+        'format-1.url'
+      );
+    });
+
+    it('should return first available media for unknown format', () => {
+      expect(
+        mediaService.getMedia(mockBestFormatMediaContainer, 'unknown').src
+      ).toBe('format-1.url');
+    });
+
+    it('should not return srcset for unknown format', () => {
+      expect(
+        mediaService.getMedia(mockBestFormatMediaContainer, 'unknown').srcset
+      ).toBeFalsy();
+    });
+
+    it('should return specific media for given format', () => {
+      expect(
+        mediaService.getMedia(mockBestFormatMediaContainer, 'format600').src
+      ).toBe('format-600.url');
+    });
+
+    it('should not return srcset for given format', () => {
+      expect(
+        mediaService.getMedia(mockBestFormatMediaContainer, 'format600').srcset
+      ).toBeFalsy();
     });
   });
 });

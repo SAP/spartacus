@@ -6,13 +6,13 @@ import {
   combineReducers,
   MetaReducer,
 } from '@ngrx/store';
-import { StateUtils, ListModel, AuthActions } from '@spartacus/core';
+import { AuthActions, ListModel, StateUtils } from '@spartacus/core';
 import { OrderApproval } from '../../model/order-approval.model';
 import {
+  OrderApprovalState,
   ORDER_APPROVAL_ENTITIES,
   ORDER_APPROVAL_FEATURE,
   ORDER_APPROVAL_LIST,
-  OrderApprovalState,
 } from '../order-approval-state';
 import {
   orderApprovalsEntitiesReducer,
@@ -49,9 +49,6 @@ export function clearOrganizationState(
   reducer: ActionReducer<OrderApprovalState, Action>
 ): ActionReducer<OrderApprovalState, Action> {
   return function (state, action) {
-    /*if (action.type === OrganizationActions.CLEAR_ORGANIZATION_DATA) {
-      state = undefined;
-    }*/
     if (action.type === AuthActions.LOGOUT) {
       state = undefined;
     }

@@ -86,6 +86,7 @@ export const SEMANTIC_PATH_SERVICE = 'SemanticPathService';
 export const CMS_SERVICE = 'CmsService';
 export const PAGE_META_SERVICE = 'PageMetaService';
 export const STORE_DATA_SERVICE = 'StoreDataService';
+export const SPLIT_VIEW_SERVICE = 'SplitViewService';
 
 export const PAGE_META_RESOLVER = 'PageMetaResolver';
 export const PRODUCT_PAGE_META_RESOLVER = 'ProductPageMetaResolver';
@@ -313,6 +314,10 @@ export const ANONYMOUS_CONSENT_TEMPLATES_ADAPTER =
   'AnonymousConsentTemplatesAdapter';
 export const ANONYMOUS_CONSENT_TEMPLATES_CONNECTOR =
   'AnonymousConsentTemplatesConnector';
+export const VIEW_COMPONENT = 'ViewComponent';
+export const SPLIT_VIEW_COMPONENT = 'SplitViewComponent';
+export const OCC_CMS_COMPONENT_ADAPTER = 'OccCmsComponentAdapter';
+
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -445,6 +450,8 @@ export const STORES_STATE = 'StoresState';
 export const FIND_STORES_STATE = 'FindStoresState';
 export const VIEW_ALL_STORES_STATE = 'ViewAllStoresState';
 export const STORE_FINDER_SELECTORS = 'StoreFinderSelectors';
+export const STORE_COUNT = 'StoreCount';
+export const STORE_FINDER_SEARCH_PAGE = 'StoreFinderSearchPage';
 
 export const ABSTRACT_STORE_ITEM_COMPONENT = 'AbstractStoreItemComponent';
 export const SCHEDULE_COMPONENT = 'ScheduleComponent';
@@ -533,6 +540,8 @@ export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_SUCCESS_CLASS =
 export const SUB = 'sub';
 
 export const LOAD_ANONYMOUS_CONSENTS = 'loadAnonymousConsents';
+
+export const LEGACY_FLAG = 'legacy';
 /***** Properties end *****/
 
 /***** APIs start *****/
@@ -607,6 +616,8 @@ export const SPARTACUS_STOREFINDER_ASSETS = `${SPARTACUS_STOREFINDER}/assets`;
 export const STOREFINDER_TRANSLATIONS = 'storeFinderTranslations';
 export const STOREFINDER_TRANSLATION_CHUNKS_CONFIG =
   'storeFinderTranslationChunksConfig';
+
+export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
 
 /***** APIs end *****/
 
