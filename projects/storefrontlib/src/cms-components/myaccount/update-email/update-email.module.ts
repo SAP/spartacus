@@ -1,18 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
   I18nModule,
   provideDefaultConfig,
-  UrlModule,
+  UrlModule
 } from '@spartacus/core';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
-import { UpdateEmailComponent } from './update-email.component';
 import { FormErrorsModule } from '../../../shared/index';
+import { UpdateEmailComponent } from './update-email.component';
 import { UpdateEmailService } from './update-email.service';
-import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [

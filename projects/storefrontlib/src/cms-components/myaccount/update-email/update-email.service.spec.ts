@@ -24,6 +24,9 @@ class MockUserService {
   getUpdateEmailResultSuccess(): Observable<boolean> {
     return of();
   }
+  getUpdateEmailResultError(): Observable<boolean> {
+    return of();
+  }
 }
 
 class MockAuthService {
