@@ -1,6 +1,6 @@
 import { Directive, OnDestroy, OnInit } from '@angular/core';
 import { GlobalMessageType } from '@spartacus/core';
-import { distinctUntilChanged, filter } from 'rxjs/operators';
+import { distinctUntilChanged, filter, tap } from 'rxjs/operators';
 import { ItemService } from './item.service';
 import { MessageService } from './message/services/message.service';
 import { BaseItem } from './organization.model';
@@ -19,6 +19,7 @@ export class ItemActiveDirective<T = BaseItem> implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscription = this.itemService.current$
       .pipe(
+        tap(console.log),
         distinctUntilChanged(
           (previous: BaseItem, current: BaseItem) =>
             previous?.active === current?.active
