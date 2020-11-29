@@ -1,12 +1,10 @@
 import {
-  DebugElement,
   Directive,
   Input,
   Pipe,
   PipeTransform,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, OrderEntry } from '@spartacus/core';
 import { ModalDirective } from '@spartacus/storefront';
@@ -32,7 +30,6 @@ describe('ConfigureCartEntryComponent', () => {
   let component: ConfigureCartEntryComponent;
   let fixture: ComponentFixture<ConfigureCartEntryComponent>;
   let htmlElem: HTMLElement;
-  let element: DebugElement;
   const configuratorType = 'type';
   const orderOrCartEntry: OrderEntry = {};
 
@@ -52,7 +49,6 @@ describe('ConfigureCartEntryComponent', () => {
     fixture = TestBed.createComponent(ConfigureCartEntryComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
-    element = fixture.debugElement;
     component.cartEntry = orderOrCartEntry;
   });
 
