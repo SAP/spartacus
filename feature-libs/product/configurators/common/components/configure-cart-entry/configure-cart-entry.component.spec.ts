@@ -171,9 +171,18 @@ describe('ConfigureCartEntryComponent', () => {
         product: { configuratorType: configuratorType },
       };
       fixture.detectChanges();
-      expect(
-        element.query(By.css('a.link')).nativeElement.disabled
-      ).toBeTrue();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'label.disabled-link'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'a.link'
+      );
     });
 
     it('should be enabled in case corresponding component attribute is enabled', () => {
@@ -183,9 +192,17 @@ describe('ConfigureCartEntryComponent', () => {
         product: { configuratorType: configuratorType },
       };
       fixture.detectChanges();
-      expect(
-        element.query(By.css('a.link')).nativeElement.disabled
-      ).toBeFalse();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'a.link'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'label.disabled-link'
+      );
     });
   });
 });
