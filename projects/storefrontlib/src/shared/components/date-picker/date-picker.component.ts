@@ -31,8 +31,7 @@ import {
 export class DatePickerComponent implements ControlValueAccessor, Validator {
   value: string;
 
-  @ViewChild('inputElement', { static: false, read: ElementRef })
-  input: ElementRef;
+  @ViewChild('input', { static: false, read: ElementRef }) input: ElementRef;
 
   @Input() min?: string;
   @Input() max?: string;

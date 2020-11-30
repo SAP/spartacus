@@ -1,10 +1,10 @@
 <input
-  #inputElement
+  #input
   type="date"
   class="form-control"
   (blur)="onTouched()"
   (input)="onInput($event)"
   [value]="value"
-  [min]="min"
-  [max]="max"
+  [attr.min]="min"
+  [attr.max]="max"
 />
