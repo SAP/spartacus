@@ -20,6 +20,8 @@ export enum ASSIGNMENT_LABELS {
   CREATE = 'Create',
   EDIT = 'Edit',
   UPDATE_SUCCESS = ' updated successfully',
+  ROLES = 'Roles',
+  ROLE_UPDATED_SUCCESS = 'Roles successfully updated for ',
 }
 
 export interface TestListOptions {

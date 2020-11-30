@@ -141,7 +141,12 @@ export interface MyCompanyConfig {
   deleteEntity?: string;
 
   /**
-   * Set to true to check disabling and enabling an entity.
+   * SUBCATEGORY: Config for modifying user roles.
+   */
+  rolesConfig?: MyCompanyConfig;
+
+  /**
+   * Set to true to check disabling and enabling an entity
    */
   canDisable?: boolean;
 
