@@ -41,9 +41,6 @@ export class DatePickerComponent implements ControlValueAccessor, Validator {
   max?: string;
 
   @Input()
-  required?: boolean;
-
-  @Input()
   invalid?: boolean;
 
   constructor() {}
