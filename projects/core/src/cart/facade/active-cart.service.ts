@@ -51,7 +51,8 @@ export class ActiveCartService implements OnDestroy {
         return OCC_CART_ID_CURRENT;
       }
       return cartId;
-    })
+    }),
+    auditTime(0)
   );
   private cartSelector$ = this.activeCartId$.pipe(
     switchMap((cartId) => this.multiCartService.getCartEntity(cartId))
@@ -71,10 +72,7 @@ export class ActiveCartService implements OnDestroy {
 
   protected initActiveCart() {
     this.subscription.add(
-      combineLatest([
-        this.userIdService.getUserId(),
-        this.activeCartId$.pipe(auditTime(0)),
-      ])
+      combineLatest([this.userIdService.getUserId(), this.activeCartId$])
         .pipe(map(([userId]) => userId))
         .subscribe((userId) => {
           this.userId = userId;

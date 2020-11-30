@@ -616,6 +616,7 @@ describe('ActiveCartService', () => {
           code: 'code',
         },
       };
+      service['cartId'] = 'code';
     });
 
     it('should return cart if this already exists without loading again and creating new one', (done) => {
