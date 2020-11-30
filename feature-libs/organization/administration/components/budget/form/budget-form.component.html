@@ -69,6 +69,7 @@
         bindValue="isocode"
         [class.invalid]="form.get('currency.isocode').invalid"
         appendTo="cx-org-list"
+        [placeholder]="'budget.currency' | cxTranslate"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('currency.isocode')"></cx-form-errors>
@@ -103,6 +104,7 @@
         bindValue="id"
         [readonly]="form.get('orgUnit.uid').disabled"
         appendTo="cx-org-list"
+        [placeholder]="'budget.businessUnits' | cxTranslate"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>
