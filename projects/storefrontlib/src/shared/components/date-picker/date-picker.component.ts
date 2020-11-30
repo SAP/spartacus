@@ -29,7 +29,7 @@ import {
   ],
 })
 export class DatePickerComponent implements ControlValueAccessor, Validator {
-  value: string;
+  value = '';
 
   @ViewChild('input', { static: false, read: ElementRef }) input: ElementRef;
 
