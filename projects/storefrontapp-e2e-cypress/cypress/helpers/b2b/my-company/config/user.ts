@@ -9,6 +9,7 @@ export const userConfig: MyCompanyConfig = {
   objectType: 'users',
   entityIdField: 'customerId',
   preserveCookies: true,
+  canDisable: true,
   rows: [
     {
       label: 'Name',

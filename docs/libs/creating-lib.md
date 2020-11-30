@@ -207,7 +207,7 @@ Add the following scripts:
 
 And replace `myaccount` and `my-account` instances with the name of yours lib.
 
-Optionally, add the generated lib to the `build:core:lib` and `test:core:lib` scripts.
+Optionally, add the generated lib to the `build:libs` and `test:libs` scripts.
 
 - `.release-it.json`
 
@@ -357,5 +357,5 @@ Don't forget to:
 - build the generated library _with Ivy enabled_ - `ng build <lib-name>`
 - build the generated library (without Ivy) - `ng build <lib-name> --prod`
 - build the production-ready shell app with the included generated library (import a dummy service from the generated service):
-  - `yarn build:core:lib:cds` (build all the libs basically)
+  - `yarn build:libs` (build all the libs)
   - `yarn build`

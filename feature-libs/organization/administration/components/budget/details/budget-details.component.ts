@@ -19,6 +19,7 @@ import { BudgetItemService } from '../services/budget-item.service';
 })
 export class BudgetDetailsComponent implements OnInit {
   model$: Observable<Budget>;
+  isInEditMode$ = this.itemService.isInEditMode$;
 
   ngOnInit() {
     this.model$ = this.itemService.key$.pipe(
