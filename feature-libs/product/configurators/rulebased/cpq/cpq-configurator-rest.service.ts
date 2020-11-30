@@ -39,6 +39,21 @@ export class CpqConfiguratorRestService {
     );
   }
 
+  readConfiguration(
+    configId: string,
+    _groupId: string // not yet implemented
+  ): Observable<Configurator.Configuration> {
+    return this.callConfigurationDisplay(configId).pipe(
+      this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER),
+      map((resultConfiguration) => {
+        return {
+          ...resultConfiguration,
+          configId: configId,
+        };
+      })
+    );
+  }
+
   protected callConfigurationInit(
     productSystemId: string
   ): Observable<Cpq.ConfigurationCreatedResponseData> {

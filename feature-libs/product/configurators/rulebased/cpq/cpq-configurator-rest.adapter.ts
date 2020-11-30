@@ -32,8 +32,19 @@ export class CpqConfiguratorRestAdapter
       );
   }
 
-  readConfiguration(): Observable<Configurator.Configuration> {
-    return undefined;
+  readConfiguration(
+    configId: string,
+    groupId: string,
+    owner: CommonConfigurator.Owner
+  ): Observable<Configurator.Configuration> {
+    return this.cpqAcpqConfiguratorRestService
+      .readConfiguration(configId, groupId)
+      .pipe(
+        map((configResonse) => {
+          configResonse.owner = owner;
+          return configResonse;
+        })
+      );
   }
 
   updateConfiguration(): Observable<Configurator.Configuration> {

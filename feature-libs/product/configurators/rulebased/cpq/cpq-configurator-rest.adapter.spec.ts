@@ -20,15 +20,27 @@ const owner: CommonConfigurator.Owner = {
   id: productCode,
 };
 
+const groupId = '123';
+
+const asSpy = (f) => <jasmine.Spy>f;
+
 describe('CpqConfiguratorRestAdapter', () => {
   let adapterUnderTest: CpqConfiguratorRestAdapter;
-  const mockedRestService = {
-    createConfiguration: jasmine.createSpy().and.callFake(() => {
-      return of(productConfiguration);
-    }),
-  };
+  let mockedRestService: CpqConfiguratorRestService;
 
   beforeEach(() => {
+    mockedRestService = jasmine.createSpyObj('mockedRestService', [
+      'createConfiguration',
+      'readConfiguration',
+    ]);
+
+    asSpy(mockedRestService.createConfiguration).and.callFake(() => {
+      return of(productConfiguration);
+    });
+    asSpy(mockedRestService.readConfiguration).and.callFake(() => {
+      return of(productConfiguration);
+    });
+
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
@@ -58,6 +70,18 @@ describe('CpqConfiguratorRestAdapter', () => {
         productCode
       );
     });
+  });
+
+  it('should delegate read configuration to rest service and map owner', () => {
+    adapterUnderTest
+      .readConfiguration(productConfiguration.configId, groupId, owner)
+      .subscribe((config) => {
+        expect(config.owner).toEqual(owner);
+        expect(mockedRestService.readConfiguration).toHaveBeenCalledWith(
+          productConfiguration.configId,
+          groupId
+        );
+      });
   });
 
   // this ensures that there is a dummy response until the API is implemented,

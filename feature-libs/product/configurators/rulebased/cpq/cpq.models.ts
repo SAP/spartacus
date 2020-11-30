@@ -11,10 +11,6 @@ export namespace Cpq {
      * CPQ configuration ID of the newly created configuration
      */
     configurationId: string;
-    /**
-     * CPQ session ID in which the configuration was created
-     */
-    sessionId: string;
   }
 
   /**
