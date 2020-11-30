@@ -83,14 +83,6 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
 
           checkRoles();
           checkRoleUpdateNotification();
-
-          subConfig.rolesConfig.rows.forEach((row) => {
-            cy.get('cx-org-card cx-view[position="3"] label span')
-              .contains(row.updateValue)
-              .parent()
-              .within(() => {});
-          });
-
           checkRoles(true);
           checkRoleUpdateNotification();
 
