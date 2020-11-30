@@ -23,6 +23,7 @@ export class UserDetailsComponent {
     switchMap((code) => this.itemService.load(code)),
     startWith({})
   );
+  isInEditMode$ = this.itemService.isInEditMode$;
 
   constructor(protected itemService: ItemService<B2BUser>) {}
 }

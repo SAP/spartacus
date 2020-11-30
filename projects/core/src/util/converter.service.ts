@@ -2,7 +2,7 @@ import { Injectable, InjectionToken, OnDestroy } from '@angular/core';
 import { Observable, OperatorFunction, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { UnifiedInjector } from '../lazy-loading/unified-injector';
-import { getLastValueSync } from './get-last-value-sync';
+import { getLastValueSync } from './rxjs/get-last-value-sync';
 
 /**
  * Converter is used to convert source data model to target data model.
