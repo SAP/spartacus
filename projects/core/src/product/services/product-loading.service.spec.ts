@@ -177,15 +177,14 @@ describe('ProductLoadingService', () => {
       });
     });
 
-    it('should emit undefined if there is no scope ready', async () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(undefined)
-      );
-
-      const result: Product = await service
+    it('should emit undefined if there is no scope ready', (done) => {
+      service
         .get(code, ['scope1', 'scope2'])
-        .toPromise();
-      expect(result).toEqual(undefined);
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(undefined);
+          done();
+        });
     });
 
     it('should expand loading scopes', () => {
