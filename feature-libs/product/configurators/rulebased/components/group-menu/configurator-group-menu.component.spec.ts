@@ -229,7 +229,6 @@ describe('ConfigurationGroupMenuComponent', () => {
     configuratorUtils.setOwnerKey(mockProductConfiguration.owner);
     spyOn(configuratorGroupsService, 'navigateToGroup').and.stub();
     spyOn(configuratorGroupsService, 'setMenuParentGroup').and.stub();
-    spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
     spyOn(configuratorGroupsService, 'isGroupVisited').and.callThrough();
     isConflictGroupType = false;
     spyOn(configuratorGroupsService, 'isConflictGroupType').and.callThrough();
@@ -303,6 +302,19 @@ describe('ConfigurationGroupMenuComponent', () => {
     });
   });
 
+  it('should return 0 groups if menu parent group is first group', () => {
+    productConfigurationObservable = of(mockProductConfiguration);
+    routerStateObservable = of(mockRouterState);
+    spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+      of(mockProductConfiguration.groups[0])
+    );
+    initialize();
+
+    component.displayedGroups$.pipe(take(1)).subscribe((groups) => {
+      expect(groups.length).toBe(0);
+    });
+  });
+
   it('should set current group in case of clicking on a group', () => {
     productConfigurationObservable = of(mockProductConfiguration);
     routerStateObservable = of(mockRouterState);
@@ -312,6 +324,34 @@ describe('ConfigurationGroupMenuComponent', () => {
 
     expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
     expect(hamburgerMenuService.toggle).toHaveBeenCalled();
+  });
+
+  it('should set current group in case of hitting Enter on a group', () => {
+    productConfigurationObservable = of(mockProductConfiguration);
+    routerStateObservable = of(mockRouterState);
+    initialize();
+
+    const event = new KeyboardEvent('keypress', {
+      code: 'Enter',
+    });
+    component.clickOnEnter(event, mockProductConfiguration.groups[1]);
+
+    expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
+    expect(hamburgerMenuService.toggle).toHaveBeenCalled();
+  });
+
+  it('should do nothing hitting key other than enter on a group', () => {
+    productConfigurationObservable = of(mockProductConfiguration);
+    routerStateObservable = of(mockRouterState);
+    initialize();
+
+    const event = new KeyboardEvent('keypress', {
+      code: 'Space',
+    });
+    component.clickOnEnter(event, mockProductConfiguration.groups[1]);
+
+    expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalledTimes(0);
+    expect(hamburgerMenuService.toggle).toHaveBeenCalledTimes(0);
   });
 
   it('should condense groups', () => {
@@ -342,6 +382,60 @@ describe('ConfigurationGroupMenuComponent', () => {
       .subscribe((group) => {
         expect(group).toBe(mockProductConfiguration.groups[0]);
       });
+  });
+
+  it('should navigate up', () => {
+    productConfigurationObservable = of(mockProductConfiguration);
+    routerStateObservable = of(mockRouterState);
+    spyOn(configuratorGroupsService, 'getParentGroup').and.returnValue(
+      mockProductConfiguration.groups[0]
+    );
+    initialize();
+    component.navigateUp();
+    expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
+    expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+  });
+
+  it('should navigate up, parent group null', () => {
+    productConfigurationObservable = of(mockProductConfiguration);
+    routerStateObservable = of(mockRouterState);
+    spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
+    initialize();
+    component.navigateUp();
+    expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
+    expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+  });
+
+  it('should navigate up on hitting enter', () => {
+    productConfigurationObservable = of(mockProductConfiguration);
+    routerStateObservable = of(mockRouterState);
+    spyOn(configuratorGroupsService, 'getParentGroup').and.returnValue(
+      mockProductConfiguration.groups[0]
+    );
+    initialize();
+    const event = new KeyboardEvent('keypress', {
+      code: 'Enter',
+    });
+    component.navigateUpOnEnter(event);
+    expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
+    expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+  });
+
+  it('should not navigate up on hitting a key other than enter', () => {
+    productConfigurationObservable = of(mockProductConfiguration);
+    routerStateObservable = of(mockRouterState);
+    spyOn(configuratorGroupsService, 'getParentGroup').and.returnValue(
+      mockProductConfiguration.groups[0]
+    );
+    initialize();
+    const event = new KeyboardEvent('keypress', {
+      code: 'Space',
+    });
+    component.navigateUpOnEnter(event);
+    expect(configuratorGroupsService.getParentGroup).toHaveBeenCalledTimes(0);
+    expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalledTimes(
+      0
+    );
   });
 
   it('should call correct methods for groups with and without subgroups', () => {

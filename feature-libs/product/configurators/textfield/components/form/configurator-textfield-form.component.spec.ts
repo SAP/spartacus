@@ -101,6 +101,13 @@ describe('TextfieldFormComponent', () => {
   });
 
   it('should know product configuration after init has been done', () => {
+    mockRouterState.state = {
+      params: {
+        ownerType: CommonConfigurator.OwnerType.PRODUCT,
+        entityKey: PRODUCT_CODE,
+      },
+      semanticRoute: ROUTE_CONFIGURATION,
+    };
     expect(component.configuration$).toBeObservable(
       cold('--p', {
         p: productConfig,

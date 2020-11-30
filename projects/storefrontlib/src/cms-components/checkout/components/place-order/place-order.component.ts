@@ -45,10 +45,10 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
 
   constructor(
     protected checkoutService: CheckoutService,
-    protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService,
     protected routingService: RoutingService,
-    protected launchDialogService: LaunchDialogService,
     protected fb: FormBuilder,
+    protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService,
+    protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef
   ) {}
 

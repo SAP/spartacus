@@ -23,6 +23,7 @@ export class UserGroupDetailsComponent {
     shareReplay({ bufferSize: 1, refCount: true }),
     startWith({})
   );
+  isInEditMode$ = this.itemService.isInEditMode$;
 
   constructor(protected itemService: ItemService<UserGroup>) {}
 }

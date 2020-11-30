@@ -87,7 +87,7 @@ describe('ConfiguratorGroupsService', () => {
   });
 
   describe('getCurrentGroupId', () => {
-    it('should return a current group ID from state', () => {
+    it('should return a current group ID from state', (done) => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(productConfiguration)
       );
@@ -98,10 +98,11 @@ describe('ConfiguratorGroupsService', () => {
       expect(currentGroup).toBeDefined();
       currentGroup.subscribe((groupId) => {
         expect(groupId).toBe(GROUP_ID_2);
+        done();
       });
     });
 
-    it('should return a current group ID from configuration', () => {
+    it('should return a current group ID from configuration', (done) => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of({
           ...productConfiguration,
@@ -115,11 +116,30 @@ describe('ConfiguratorGroupsService', () => {
       expect(currentGroup).toBeDefined();
       currentGroup.subscribe((groupId) => {
         expect(groupId).toBe(GROUP_ID_1);
+        done();
+      });
+    });
+
+    it('should return null if no group exist', (done) => {
+      const configNoGroups: Configurator.Configuration = {
+        configId: 'abc',
+        flatGroups: undefined,
+      };
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(configNoGroups)
+      );
+
+      const currentGroupId = classUnderTest.getCurrentGroupId(
+        productConfiguration.owner
+      );
+      currentGroupId.subscribe((groupId) => {
+        expect(groupId).toBeNull();
+        done();
       });
     });
   });
 
-  it('should get the parentGroup from uiState', () => {
+  it('should get the parentGroup from uiState', (done) => {
     spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
       of(productConfiguration)
     );
@@ -130,11 +150,12 @@ describe('ConfiguratorGroupsService', () => {
     expect(parentGroup).toBeDefined();
     parentGroup.subscribe((group) => {
       expect(group).toBe(productConfiguration.groups[2]);
+      done();
     });
   });
 
   describe('getNextGroupId', () => {
-    it('should return a next group', () => {
+    it('should return a next group', (done) => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(productConfiguration)
       );
@@ -145,12 +166,13 @@ describe('ConfiguratorGroupsService', () => {
       expect(currentGroup).toBeDefined();
       currentGroup.subscribe((groupId) => {
         expect(groupId).toBe(GROUP_ID_4);
+        done();
       });
     });
   });
 
   describe('getPreviousGroupId', () => {
-    it('should return null', () => {
+    it('should return null', (done) => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(undefined)
       );
@@ -161,10 +183,11 @@ describe('ConfiguratorGroupsService', () => {
       expect(currentGroup).toBeDefined();
       currentGroup.subscribe((groupId) => {
         expect(groupId).toEqual(null);
+        done();
       });
     });
 
-    it('should return a previous group ID', () => {
+    it('should return a previous group ID', (done) => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(productConfiguration)
       );
@@ -175,7 +198,22 @@ describe('ConfiguratorGroupsService', () => {
       expect(currentGroup).toBeDefined();
       currentGroup.subscribe((groupId) => {
         expect(groupId).toBe(GROUP_ID_1);
+        done();
       });
+    });
+  });
+
+  describe('setGroupStatusVisited', () => {
+    it('should call setGroupStatusVisited of groupStatusService', () => {
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(productConfiguration)
+      );
+      classUnderTest.setGroupStatusVisited(
+        productConfiguration.owner,
+        productConfiguration.groups[0].id
+      );
+
+      expect(configGroupStatusService.setGroupStatusVisited).toHaveBeenCalled();
     });
   });
 
@@ -241,6 +279,24 @@ describe('ConfiguratorGroupsService', () => {
     );
   });
 
+  it('should set change group to undefined it no conflict group exists (caller has to verify this)', () => {
+    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      of(productConfiguration)
+    );
+
+    classUnderTest.navigateToConflictSolver(
+      productConfigurationWithConflicts.owner
+    );
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ConfiguratorActions.ChangeGroup({
+        configuration: productConfiguration,
+        groupId: undefined,
+        parentGroupId: null,
+      })
+    );
+  });
+
   it('should go to first incomplete group', () => {
     spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
       of(productConfiguration)
@@ -251,6 +307,24 @@ describe('ConfiguratorGroupsService', () => {
       new ConfiguratorActions.ChangeGroup({
         configuration: productConfiguration,
         groupId: productConfiguration.flatGroups[0].id,
+        parentGroupId: null,
+      })
+    );
+  });
+
+  it('should set change group to undefined if no incomplete group exists (caller has to verify this)', () => {
+    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      of(productConfiguration)
+    );
+    spyOn(configGroupStatusService, 'getFirstIncompleteGroup').and.returnValue(
+      undefined
+    );
+    classUnderTest.navigateToFirstIncompleteGroup(productConfiguration.owner);
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ConfiguratorActions.ChangeGroup({
+        configuration: productConfiguration,
+        groupId: undefined,
         parentGroupId: null,
       })
     );
