@@ -94,9 +94,6 @@ export abstract class ItemService<T> {
    * Launches the detailed route for the given item item.
    */
   launchDetails(item: T): void {
-    /**
-     * Launches the detailed route for the given item item.
-     */
     const cxRoute = this.getDetailsRoute();
     const params = this.buildRouteParams(item);
     if (cxRoute && item && Object.keys(item).length > 0) {
