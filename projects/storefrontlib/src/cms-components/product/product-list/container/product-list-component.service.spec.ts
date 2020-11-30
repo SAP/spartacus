@@ -18,7 +18,7 @@ class MockRouter {
 class MockProductSearchService {
   getResults = jasmine
     .createSpy('getResults')
-    .and.returnValue(of({ products: [] }));
+    .and.returnValue(new BehaviorSubject({ products: [] }));
   search = jasmine.createSpy('search');
   clearResults = jasmine.createSpy('clearResults');
 }
