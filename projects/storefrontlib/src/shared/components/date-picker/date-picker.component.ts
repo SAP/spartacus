@@ -11,6 +11,7 @@ import {
   NG_VALUE_ACCESSOR,
   Validator,
 } from '@angular/forms';
+import { DatePickerService } from './date-picker.service';
 
 @Component({
   selector: 'cx-date-picker',
@@ -31,10 +32,14 @@ import {
 export class DatePickerComponent implements ControlValueAccessor, Validator {
   value = '';
 
+  placeholder = this.datePickerService.placeholder;
+
   @ViewChild('input', { static: false, read: ElementRef }) input: ElementRef;
 
   @Input() min?: string;
   @Input() max?: string;
+
+  constructor(protected datePickerService: DatePickerService) {}
 
   onInput(event) {
     this.value = event.target.value;
