@@ -19,6 +19,11 @@ export class MockFocusDirective {
 describe('ConfigAttributeRadioButtonComponent', () => {
   let component: ConfiguratorAttributeRadioButtonComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeRadioButtonComponent>;
+  const ownerKey = 'theOwnerKey';
+  const name = 'theName';
+  const groupId = 'theGroupId';
+  const changedSelectedValue = 'changedSelectedValue';
+  const initialSelectedValue = 'initialSelectedValue';
 
   beforeEach(
     waitForAsync(() => {
@@ -52,13 +57,14 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     );
     component = fixture.componentInstance;
     component.attribute = {
-      name: 'valueName',
+      name: name,
       attrCode: 444,
       uiType: Configurator.UiType.RADIOBUTTON,
-      selectedSingleValue: 'selectedValue',
-      groupId: 'testGroup',
+      selectedSingleValue: initialSelectedValue,
+      groupId: groupId,
       quantity: 1,
     };
+    component.ownerKey = ownerKey;
     fixture.detectChanges();
   });
 
@@ -67,6 +73,24 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   });
 
   it('should set selectedSingleValue on init', () => {
-    expect(component.attributeRadioButtonForm.value).toEqual('selectedValue');
+    expect(component.attributeRadioButtonForm.value).toEqual(
+      initialSelectedValue
+    );
+  });
+
+  it('should call emit of selectionChange onSelect', () => {
+    spyOn(component.selectionChange, 'emit').and.callThrough();
+    component.onSelect(changedSelectedValue);
+    expect(component.selectionChange.emit).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        ownerKey: ownerKey,
+        changedAttribute: jasmine.objectContaining({
+          name: name,
+          selectedSingleValue: changedSelectedValue,
+          uiType: Configurator.UiType.RADIOBUTTON,
+          groupId: groupId,
+        }),
+      })
+    );
   });
 });

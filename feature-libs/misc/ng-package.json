@@ -6,8 +6,9 @@
     "umdModuleIds": {
       "@spartacus/core": "core",
       "@spartacus/storefront": "storefront",
+      "@ng-bootstrap/ng-bootstrap": "ng-bootstrap",
       "rxjs": "rxjs"
     }
   },
-  "assets": ["**/*.scss"]
+  "assets": ["**/*.scss", "schematics/**/*.json", "schematics/**/*.js"]
 }

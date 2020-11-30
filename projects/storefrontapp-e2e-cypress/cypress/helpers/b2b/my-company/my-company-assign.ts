@@ -1,5 +1,5 @@
 import { ASSIGNMENT_LABELS, MyCompanyConfig } from './models/index';
-import { completeForm } from './my-company-form';
+import { completeForm, FormType } from './my-company-form';
 import { ignoreCaseSensivity, loginAsMyCompanyAdmin } from './my-company.utils';
 
 export function testAssignmentFromConfig(config: MyCompanyConfig) {
@@ -54,7 +54,7 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
           cy.get('cx-org-card .header a')
             .contains(ASSIGNMENT_LABELS.CREATE)
             .click();
-          completeForm(subConfig.createConfig.rows, 'createValue');
+          completeForm(subConfig.createConfig.rows, FormType.CREATE);
           cy.get('div.header button').contains('Save').click();
 
           const headerRows = subConfig.createConfig.rows?.filter(

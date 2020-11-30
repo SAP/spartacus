@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
@@ -17,7 +23,7 @@ import { MessageService } from '../message/services/message.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },
 })
-export class FormComponent<T> {
+export class FormComponent<T> implements OnInit, OnDestroy {
   /**
    * i18n root for all localizations. The i18n root key is suffixed with
    * either `.edit` or `.create`, depending on the usage of the component.
@@ -34,6 +40,7 @@ export class FormComponent<T> {
   form$: Observable<FormGroup> = this.itemService.current$.pipe(
     map((item) => {
       this.setI18nRoot(item);
+
       if (!item) {
         // we trick the form builder...
         item = {} as any;
@@ -85,5 +92,13 @@ export class FormComponent<T> {
     if (this.animateBack) {
       card.closeView(event);
     }
+  }
+
+  ngOnInit() {
+    this.itemService.setEditMode(true);
+  }
+
+  ngOnDestroy() {
+    this.itemService.setEditMode(false);
   }
 }

@@ -17,6 +17,10 @@ export class MockFocusDirective {
 describe('ConfigAttributeInputFieldComponent', () => {
   let component: ConfiguratorAttributeInputFieldComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeInputFieldComponent>;
+  const ownerKey = 'theOwnerKey';
+  const name = 'theName';
+  const groupId = 'theGroupId';
+  const userInput = 'theUserInput';
 
   beforeEach(
     waitForAsync(() => {
@@ -41,13 +45,15 @@ describe('ConfigAttributeInputFieldComponent', () => {
     fixture = TestBed.createComponent(ConfiguratorAttributeInputFieldComponent);
     component = fixture.componentInstance;
     component.attribute = {
-      name: 'attributeName',
+      name: name,
       uiType: Configurator.UiType.STRING,
       userInput: undefined,
       required: true,
       incomplete: true,
+      groupId: groupId,
     };
     component.ownerType = CommonConfigurator.OwnerType.CART_ENTRY;
+    component.ownerKey = ownerKey;
     fixture.detectChanges();
   });
 
@@ -71,5 +77,33 @@ describe('ConfigAttributeInputFieldComponent', () => {
     ).nativeElement.classList;
     expect(styleClasses).toContain('ng-touched');
     expect(styleClasses).toContain('ng-invalid');
+  });
+
+  it('should set form as touched  on init', () => {
+    expect(component.attributeInputForm.touched).toEqual(true);
+  });
+
+  it('should call emit of selectionChange onSelect', () => {
+    component.attributeInputForm.setValue(userInput);
+    spyOn(component.inputChange, 'emit').and.callThrough();
+    component.onChange();
+    expect(component.inputChange.emit).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        ownerKey: ownerKey,
+        changedAttribute: jasmine.objectContaining({
+          name: name,
+          uiType: Configurator.UiType.STRING,
+          groupId: groupId,
+          userInput: userInput,
+        }),
+      })
+    );
+  });
+
+  it('should set userInput on init', () => {
+    component.attribute.userInput = userInput;
+    fixture.detectChanges();
+    component.ngOnInit();
+    expect(component.attributeInputForm.value).toEqual(userInput);
   });
 });

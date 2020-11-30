@@ -47,6 +47,21 @@ describe('ConfigUtilsService', () => {
     return result;
   }
 
+  it('should scroll to element', () => {
+    const theElement = document.createElement('div');
+    document.querySelector = jasmine
+      .createSpy('HTML Element')
+      .and.returnValue(theElement);
+    spyOn(theElement, 'getBoundingClientRect').and.returnValue(
+      new DOMRect(100, 2000, 100, 100)
+    );
+    spyOn(window, 'scroll').and.callThrough();
+    classUnderTest.scrollToConfigurationElement(
+      '.VariantConfigurationTemplate'
+    );
+    expect(window.scroll).toHaveBeenCalledWith(0, 0);
+  });
+
   it('should return false because the product has not been added to the cart and the current group was not visited', () => {
     isGroupVisited = of(false);
     owner.type = CommonConfigurator.OwnerType.PRODUCT;

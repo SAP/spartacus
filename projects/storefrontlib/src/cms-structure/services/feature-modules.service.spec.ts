@@ -119,38 +119,34 @@ describe('FeatureModulesService', () => {
     });
   });
 
-  describe('getInjectors', () => {
+  describe('getModule', () => {
     it('should return undefined for components not covered by features', () => {
-      expect(service.getInjectors('unknown')).toBe(undefined);
+      expect(service.getModule('unknown')).toBe(undefined);
     });
 
     it('should return undefined for not initialized features', () => {
-      expect(service.getInjectors('component1')).toBe(undefined);
+      expect(service.getModule('component1')).toBe(undefined);
     });
 
-    it('should return module injector', async () => {
+    it('should return feature module', async () => {
       // initialize feature
       await service.getCmsMapping('component1').toPromise();
 
-      const injectors = service.getInjectors('component1');
+      const module = service.getModule('component1');
 
-      expect(injectors).toBeTruthy();
-      expect(injectors.length).toBe(1);
+      expect(module).toBeTruthy();
 
-      const testProviderValue = injectors[0].get(TEST_TOKEN);
-      expect(testProviderValue).toBe('test-value');
+      expect(module.instance).toBeInstanceOf(MockFeature1Module);
     });
 
     it('should return dependency injectors', async () => {
       // initialize feature
       await service.getCmsMapping('component2').toPromise();
 
-      const injectors = service.getInjectors('component2');
+      const module = service.getModule('component2');
+      expect(module).toBeTruthy();
 
-      expect(injectors).toBeTruthy();
-      expect(injectors.length).toBe(2);
-
-      const testProviderValue = injectors[1].get(TEST_DEP_TOKEN);
+      const testProviderValue = module.injector.get(TEST_DEP_TOKEN);
       expect(testProviderValue).toBe('test-dependency-value');
     });
   });

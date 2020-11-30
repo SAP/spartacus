@@ -28,6 +28,7 @@
     overflow: hidden;
     animation: load8 var(--cx-spinner-animation-time) infinite linear;
 
+    // @TODO consider merging with the %spinner from the _animation scss
     &::before,
     &:before {
       content: '';
@@ -42,6 +43,13 @@
       border-right-color: var(--cx-spinner-secondary-color);
       border-left-color: var(--cx-spinner-primary-color);
       border-radius: 50%;
+
+      // We prevent pointer events on this pseudo class to avoid any direct mouse
+      // interaction. Mouse interaction with the spinner class affects developer
+      // experience badly, as you can't inspect the actual elements. Also, users
+      // would be blocked to use the context menu to open a link or image in a
+      // new tab.
+      pointer-events: none;
     }
   }
   @keyframes load8 {

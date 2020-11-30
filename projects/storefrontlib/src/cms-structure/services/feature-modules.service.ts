@@ -93,30 +93,22 @@ export class FeatureModulesService implements OnDestroy {
   }
 
   /**
-   * Get all injectors for feature and its dependencies
+   * Resolves feature module for provided component type
    *
-   * As it's a synchronous method, it works only for already resolved features,
-   * returning undefined otherwise
+   * @param componentType
    */
-  getInjectors(componentType: string): Injector[] | undefined {
+  getModule(componentType: string): NgModuleRef<any> | undefined {
     const feature = this.componentFeatureMap.get(componentType);
-    let injectors;
+    let module;
 
     // we are returning injectors only for already resolved features
     this.features
       .get(feature)
       ?.subscribe((featureInstance) => {
-        injectors = [
-          // feature module injector
-          featureInstance.moduleRef.injector,
-          // injectors from dependency modules
-          ...featureInstance.dependencyModuleRefs.map(
-            (moduleRef) => moduleRef.injector
-          ),
-        ];
+        module = featureInstance.moduleRef;
       })
       .unsubscribe();
-    return injectors;
+    return module;
   }
 
   /**
@@ -168,7 +160,11 @@ export class FeatureModulesService implements OnDestroy {
     feature: string
   ): Observable<FeatureInstance> {
     return this.lazyModules
-      .resolveModuleInstance(featureConfig?.module, feature)
+      .resolveModuleInstance(
+        featureConfig?.module,
+        feature,
+        dependencyModuleRefs
+      )
       .pipe(
         map((moduleRef) => {
           const featureInstance: FeatureInstance = {
