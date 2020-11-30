@@ -1481,14 +1481,6 @@ export namespace Occ {
      * @member {boolean} [updateable]
      */
     updateable?: boolean;
-    /**
-     * @member {StatusSummary[]} [statusSummaryList]
-     */
-    statusSummaryList?: StatusSummary[];
-    /**
-     * @member {ConfigurationInfo[]} [configurationInfos]
-     */
-    configurationInfos?: ConfigurationInfo[];
   }
 
   /**

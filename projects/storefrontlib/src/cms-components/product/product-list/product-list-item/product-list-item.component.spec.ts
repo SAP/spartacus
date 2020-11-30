@@ -140,7 +140,7 @@ describe('ProductListItemComponent in product-list', () => {
     localCurrentProductService = component[
       'currentProductService'
     ] as LocalCurrentProductService;
-
+    component.ngOnChanges();
     fixture.detectChanges();
   });
 
