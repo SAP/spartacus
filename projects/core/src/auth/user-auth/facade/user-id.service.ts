@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import {
   OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_CURRENT
+  OCC_USER_ID_CURRENT,
 } from '../../../occ/utils/occ-constants';
 
 /**
@@ -68,7 +68,9 @@ export class UserIdService {
       take(1),
       map((userId) => {
         if (loggedIn && userId === OCC_USER_ID_ANONYMOUS) {
-          throw new Error('Requested user id for logged user while user is not logged in.');
+          throw new Error(
+            'Requested user id for logged user while user is not logged in.'
+          );
         }
         return userId;
       })
