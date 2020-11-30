@@ -24,7 +24,7 @@ fi
 
 # Install dependencies and build lib
 yarn
-yarn build:core:lib:cds
+yarn build:libs
 
 # Directory for reports
 rm -rf etc
