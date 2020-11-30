@@ -24,7 +24,7 @@ export interface MyCompanyConfig {
   baseUrl?: string;
 
   /**
-   * API Endpoint corresponding to requests/responses of the category
+   * API Endpoint corresponding to requests/responses of the category.
    * @example apiEndpoint: '/orgUnitUserGroup'
    */
   apiEndpoint?: string;
@@ -91,7 +91,7 @@ export interface MyCompanyConfig {
   rows?: MyCompanyRowConfig[]; // First object is default sort
 
   /**
-   * Set to true to test assignment management of a given subCategory
+   * Set to true to test assignment management of a given subCategory.
    */
   manageAssignments?: boolean;
 
@@ -101,7 +101,7 @@ export interface MyCompanyConfig {
   canUnassignAll?: boolean;
 
   /**
-   * Determine entity ID for possible route checks and usage between tests
+   * Determine entity ID for possible route checks and usage between tests.
    */
   entityIdField?: string;
 
@@ -121,9 +121,24 @@ export interface MyCompanyConfig {
   preserveCookies?: boolean;
 
   /**
-   * SUBCATEGORY: Config for creating entities from submenu
+   * SUBCATEGORY: Config for creating entities from submenu.
    */
   createConfig?: MyCompanyConfig;
+
+  /**
+   * SUBCATEGORY: Config for updating entities from submenu.
+   */
+  editConfig?: MyCompanyConfig;
+
+  /**
+   * SUBCATEGORY: Name of the entity to be updated.
+   */
+  updateEntity?: string;
+
+  /**
+   * SUBCATEGORY: Name of the entity to deleted.
+   */
+  deleteEntity?: string;
 
   /**
    * SUBCATEGORY: Config for modifying user roles.
