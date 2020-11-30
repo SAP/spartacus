@@ -84,7 +84,7 @@ describe('AnonymousConsentsInterceptor', () => {
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
         {
           provide: HTTP_INTERCEPTORS,
-          useExisting: AnonymousConsentsInterceptor,
+          useClass: AnonymousConsentsInterceptor,
           multi: true,
         },
         {

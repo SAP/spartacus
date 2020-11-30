@@ -32,7 +32,7 @@ describe('CmsTicketInterceptor', () => {
 
         {
           provide: HTTP_INTERCEPTORS,
-          useExisting: CmsTicketInterceptor,
+          useClass: CmsTicketInterceptor,
           multi: true,
         },
       ],

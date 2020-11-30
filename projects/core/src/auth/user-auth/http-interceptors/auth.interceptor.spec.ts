@@ -49,7 +49,7 @@ describe('AuthInterceptor', () => {
         { provide: AuthConfigService, useClass: MockAuthConfigService },
         {
           provide: HTTP_INTERCEPTORS,
-          useExisting: AuthInterceptor,
+          useClass: AuthInterceptor,
           multi: true,
         },
       ],

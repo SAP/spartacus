@@ -43,9 +43,7 @@ class MockCmsService {
   }
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 class ContentPageResolver
   extends PageMetaResolver
   implements PageTitleResolver {

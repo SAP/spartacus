@@ -6,9 +6,7 @@ import { ComponentHandler } from '../handlers/component-handler';
 import { ComponentHandlerService } from './component-handler.service';
 import createSpy = jasmine.createSpy;
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 class TestHandler implements ComponentHandler {
   launcher = createSpy('launcher').and.returnValue(of());
 

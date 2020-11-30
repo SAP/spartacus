@@ -54,7 +54,7 @@ describe('OccPersonalizationIdInterceptor with personalization enabled', () => {
         { provide: OccEndpointsService, useClass: OccEndpointsServiceMock },
         {
           provide: HTTP_INTERCEPTORS,
-          useExisting: OccPersonalizationIdInterceptor,
+          useClass: OccPersonalizationIdInterceptor,
           multi: true,
         },
       ],
@@ -131,7 +131,7 @@ describe('OccPersonalizationIdInterceptor with personalization disabled', () => 
         { provide: OccEndpointsService, useClass: OccEndpointsServiceMock },
         {
           provide: HTTP_INTERCEPTORS,
-          useExisting: OccPersonalizationIdInterceptor,
+          useClass: OccPersonalizationIdInterceptor,
           multi: true,
         },
       ],
