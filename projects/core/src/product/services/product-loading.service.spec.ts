@@ -178,11 +178,10 @@ describe('ProductLoadingService', () => {
     });
 
     it('should emit undefined if there is no scope ready', (done) => {
-      service
-        .get(code, ['scope1', 'scope2']).subscribe(result => {
-          expect(result).toEqual(undefined);
-          done()
-        });
+      service.get(code, ['scope1', 'scope2']).subscribe((result) => {
+        expect(result).toEqual(undefined);
+        done();
+      });
     });
 
     it('should expand loading scopes', () => {
