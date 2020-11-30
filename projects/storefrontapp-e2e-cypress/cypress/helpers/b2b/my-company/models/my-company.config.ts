@@ -124,4 +124,14 @@ export interface MyCompanyConfig {
    * SUBCATEGORY: Config for creating entities from submenu
    */
   createConfig?: MyCompanyConfig;
+
+  /**
+   * Set to true to check disabling and enabling an entity
+   */
+  canDisable?: boolean;
+
+  /**
+   * Set to true to check status in details pane.
+   */
+  verifyStatusInDetails?: boolean;
 }
