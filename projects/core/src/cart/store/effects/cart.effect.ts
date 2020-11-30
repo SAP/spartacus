@@ -17,7 +17,7 @@ import { Cart } from '../../../model/cart.model';
 import { OCC_CART_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
-import { withdrawOn } from '../../../util/withdraw-on';
+import { withdrawOn } from '../../../util/rxjs/withdraw-on';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { getCartIdByUserId, isCartNotFoundError } from '../../utils/utils';
 import { CartActions } from '../actions/index';
