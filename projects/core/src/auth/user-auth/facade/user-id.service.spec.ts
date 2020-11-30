@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { OCC_USER_ID_ANONYMOUS } from '@spartacus/core';
 import { take } from 'rxjs/operators';
 import { UserIdService } from './user-id.service';
 const createSpy = jasmine.createSpy;
@@ -98,6 +99,45 @@ describe('UserIdService', () => {
           expect(userId).toBe(true);
           done();
         });
+    });
+  });
+
+  describe('takeUserId', () => {
+    it('should emit last value and completes', (done) => {
+      service.takeUserId().subscribe(
+        (id) => expect(id).toEqual(OCC_USER_ID_ANONYMOUS),
+        () => {},
+        () => {
+          done();
+        }
+      );
+    });
+
+    it('should throw error when anonymous value in loggedIn mode', (done) => {
+      let userId;
+      service.takeUserId(true).subscribe(
+        (id) => (userId = id),
+        (error: Error) => {
+          expect(userId).toBeUndefined();
+          expect(error.message).toEqual(
+            'Requested user id for logged user while user is not logged in.'
+          );
+          done();
+        }
+      );
+    });
+
+    it('should emit logged in value and completes', (done) => {
+      service.setUserId('someId');
+      service.takeUserId(true).subscribe(
+        (id) => {
+          expect(id).toEqual('someId');
+        },
+        () => {},
+        () => {
+          done();
+        }
+      );
     });
   });
 });
