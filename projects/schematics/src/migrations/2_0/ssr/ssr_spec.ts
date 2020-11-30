@@ -2,8 +2,8 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import { runMigration } from '../../../shared/utils/test-utils';
 import { UTF_8 } from '../../../shared/constants';
+import { runMigration } from '../../../shared/utils/test-utils';
 
 const MIGRATION_SCRIPT_NAME = 'migration-v2-ssr-07';
 
@@ -112,9 +112,9 @@ describe('ssr', () => {
 
       await runMigration(appTree, appSchematicRunner, MIGRATION_SCRIPT_NAME);
 
-      expect(appTree.exists('/server.ts')).toBeFalse();
-      expect(appTree.exists('/server.ts.bak')).toBeFalse();
-      expect(appTree.exists('/webpack.server.config.js.bak')).toBeFalse();
+      expect(appTree.exists('/server.ts')).toBeFalsy();
+      expect(appTree.exists('/server.ts.bak')).toBeFalsy();
+      expect(appTree.exists('/webpack.server.config.js.bak')).toBeFalsy();
     });
     it(`should backup old 'server.ts' and 'webpack.server.config.js'`, async () => {
       await runMigration(appTree, appSchematicRunner, MIGRATION_SCRIPT_NAME);
