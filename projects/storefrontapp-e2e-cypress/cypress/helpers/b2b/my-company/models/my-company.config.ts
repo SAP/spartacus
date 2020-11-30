@@ -129,4 +129,14 @@ export interface MyCompanyConfig {
    * SUBCATEGORY: Config for modifying user roles.
    */
   rolesConfig?: MyCompanyConfig;
+  
+  /**
+   * Set to true to check disabling and enabling an entity
+   */
+  canDisable?: boolean;
+
+  /**
+   * Set to true to check status in details pane.
+   */
+  verifyStatusInDetails?: boolean;
 }

@@ -19,6 +19,8 @@ export const unitConfig: MyCompanyConfig = {
   apiEndpoint: '/orgUnits',
   objectType: 'children',
   nestedTableRows: true,
+  canDisable: true,
+  verifyStatusInDetails: true,
   rows: [
     {
       label: 'Name',
