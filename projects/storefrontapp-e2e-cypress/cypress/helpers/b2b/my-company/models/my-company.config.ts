@@ -139,4 +139,14 @@ export interface MyCompanyConfig {
    * SUBCATEGORY: Name of the entity to deleted.
    */
   deleteEntity?: string;
+  
+  /**
+   * Set to true to check disabling and enabling an entity
+   */
+  canDisable?: boolean;
+
+  /**
+   * Set to true to check status in details pane.
+   */
+  verifyStatusInDetails?: boolean;
 }
