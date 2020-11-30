@@ -44,18 +44,24 @@ export abstract class ItemService<T> {
       FormUtils.deepUpdateValueAndValidity(form);
       return of();
     } else {
-      // This assignment is needed to re-use form value after `form.disable()` call
-      // In some cases value was converted by `form.disable()` into empty object
+      /**
+       * This assignment is needed to re-use form value after `form.disable()` call
+       * In some cases value was converted by `form.disable()` into empty object
+       */
       const formValue = form.value;
       form.disable();
+      /**
+      * this potentially fails when creating/saving takes time:
+      * - the new item might not yet exists and therefore will fail with
+      *   a 404 in case of routing
+      * - the new item  might not yet be saved, thus the detailed route
+      *   would not reflect the changes
 
-      // this potentially fails when creating/saving takes time:
-      // - the new item might not yet exists and therefore will fail with
-      //   a 404 in case of routing
-      // - the new item  might not yet be saved, thus the detailed route
-      //   would not reflect the changes
-      this.launchDetails(formValue);
-
+      * added setTimeout to prevent the race condition, when create success action is completed after loading action
+      */
+      setTimeout(() => {
+        this.launchDetails(formValue);
+      }, 500);
       return key ? this.update(key, formValue) : this.create(formValue);
     }
   }
@@ -88,6 +94,9 @@ export abstract class ItemService<T> {
    * Launches the detailed route for the given item item.
    */
   launchDetails(item: T): void {
+    /**
+     * Launches the detailed route for the given item item.
+     */
     const cxRoute = this.getDetailsRoute();
     const params = this.buildRouteParams(item);
     if (cxRoute && item && Object.keys(item).length > 0) {
