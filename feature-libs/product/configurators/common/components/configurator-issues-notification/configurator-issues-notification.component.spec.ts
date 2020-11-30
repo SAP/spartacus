@@ -5,7 +5,7 @@ import { CartItemContext, CartItemContextModel } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import {
   ConfigurationInfo,
-  ConfiguratorOrderEntryStatus,
+  OrderEntryStatus,
   StatusSummary,
 } from './../../core/model/common-configurator.model';
 import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-notification.component';
@@ -76,7 +76,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
   it('should return number of issues of ERROR status', () => {
     emitNewContextValue(
       component,
-      [{ numberOfIssues: 2, status: ConfiguratorOrderEntryStatus.Error }],
+      [{ numberOfIssues: 2, status: OrderEntryStatus.Error }],
       null,
       false
     );
@@ -87,8 +87,8 @@ describe('ConfigureIssuesNotificationComponent', () => {
     emitNewContextValue(
       component,
       [
-        { numberOfIssues: 1, status: ConfiguratorOrderEntryStatus.Success },
-        { numberOfIssues: 3, status: ConfiguratorOrderEntryStatus.Error },
+        { numberOfIssues: 1, status: OrderEntryStatus.Success },
+        { numberOfIssues: 3, status: OrderEntryStatus.Error },
       ],
       null,
       false
@@ -100,7 +100,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
   it('should return number of issues as 0 if only SUCCESS status is present', () => {
     emitNewContextValue(
       component,
-      [{ numberOfIssues: 2, status: ConfiguratorOrderEntryStatus.Success }],
+      [{ numberOfIssues: 2, status: OrderEntryStatus.Success }],
       null,
       false
     );
@@ -121,7 +121,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
   it('should display configure from cart in case issues are present', () => {
     emitNewContextValue(
       component,
-      [{ numberOfIssues: 2, status: ConfiguratorOrderEntryStatus.Error }],
+      [{ numberOfIssues: 2, status: OrderEntryStatus.Error }],
       null,
       false
     );
@@ -141,7 +141,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
   it('should not display configure from cart in case issues are present but product not configurable', () => {
     emitNewContextValue(
       component,
-      [{ numberOfIssues: 2, status: ConfiguratorOrderEntryStatus.Error }],
+      [{ numberOfIssues: 2, status: OrderEntryStatus.Error }],
       null,
       false,
       false
@@ -160,7 +160,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
   it('should return false if number of issues of ERROR status is = 0', () => {
     emitNewContextValue(
       component,
-      [{ numberOfIssues: 2, status: ConfiguratorOrderEntryStatus.Success }],
+      [{ numberOfIssues: 2, status: OrderEntryStatus.Success }],
       null,
       false
     );
