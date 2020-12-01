@@ -1,4 +1,7 @@
-import { CLOSE_ACCOUNT_MODAL_COMPONENT } from '../../../../shared/constants';
+import {
+  CLOSE_ACCOUNT_MODAL_COMPONENT,
+  TODO_SPARTACUS,
+} from '../../../../shared/constants';
 import { ComponentData } from '../../../../shared/utils/file-utils';
 
 export const CLOSE_ACCOUNT_MODAL_COMPONENT_MIGRATION: ComponentData = {
@@ -8,7 +11,7 @@ export const CLOSE_ACCOUNT_MODAL_COMPONENT_MIGRATION: ComponentData = {
   removedProperties: [
     {
       name: 'userToken$',
-      comment: `'userToken$' property has been replaced with isLoggedIn$ Observable.`,
+      comment: `${TODO_SPARTACUS} 'userToken$' property has been replaced with isLoggedIn$ Observable.`,
     },
   ],
 };

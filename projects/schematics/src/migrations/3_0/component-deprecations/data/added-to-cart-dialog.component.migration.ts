@@ -1,4 +1,7 @@
-import { ADD_TO_CART_COMPONENT } from '../../../../shared/constants';
+import {
+  ADD_TO_CART_COMPONENT,
+  TODO_SPARTACUS,
+} from '../../../../shared/constants';
 import { ComponentData } from '../../../../shared/utils/file-utils';
 
 export const ADD_TO_CART_COMPONENT_MIGRATION: ComponentData = {
@@ -7,11 +10,11 @@ export const ADD_TO_CART_COMPONENT_MIGRATION: ComponentData = {
   removedProperties: [
     {
       name: 'increment',
-      comment: `'increment' property was removed. Use new 'numberOfEntriesBeforeAdd' instead.`,
+      comment: `${TODO_SPARTACUS} 'increment' property was removed. Use new 'numberOfEntriesBeforeAdd' instead.`,
     },
     {
       name: 'cartEntry$',
-      comment: `'cartEntry$' property was removed. Use 'activeCartService.getLastEntry(productCode)' instead.`,
+      comment: `${TODO_SPARTACUS} 'cartEntry$' property was removed. Use 'activeCartService.getLastEntry(productCode)' instead.`,
     },
   ],
 };

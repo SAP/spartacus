@@ -1,4 +1,7 @@
-import { CART_ITEM_COMPONENT } from '../../../../shared/constants';
+import {
+  CART_ITEM_COMPONENT,
+  TODO_SPARTACUS,
+} from '../../../../shared/constants';
 import { ComponentData } from '../../../../shared/utils/file-utils';
 
 export const CART_ITEM_COMPONENT_MIGRATION: ComponentData = {
@@ -7,11 +10,11 @@ export const CART_ITEM_COMPONENT_MIGRATION: ComponentData = {
   removedProperties: [
     {
       name: 'view',
-      comment: `'view' output was removed. Instead use '[cxModal]' directive to close modal on link click.`,
+      comment: `${TODO_SPARTACUS} 'view' output was removed. Instead use '[cxModal]' directive to close modal on link click.`,
     },
     {
       name: 'viewItem',
-      comment: `'viewItem' method was removed. Instead use '[cxModal]' directive to close modal on link click.`,
+      comment: `${TODO_SPARTACUS} 'viewItem' method was removed. Instead use '[cxModal]' directive to close modal on link click.`,
     },
   ],
 };

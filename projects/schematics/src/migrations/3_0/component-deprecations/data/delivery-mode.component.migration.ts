@@ -1,4 +1,7 @@
-import { DELIVERY_MODE_COMPONENT } from '../../../../shared/constants';
+import {
+  DELIVERY_MODE_COMPONENT,
+  TODO_SPARTACUS,
+} from '../../../../shared/constants';
 import { ComponentData } from '../../../../shared/utils/file-utils';
 
 export const DELIVERY_MODE_COMPONENT_MIGRATION: ComponentData = {
@@ -8,11 +11,11 @@ export const DELIVERY_MODE_COMPONENT_MIGRATION: ComponentData = {
   removedProperties: [
     {
       name: 'checkoutStepUrlNext',
-      comment: `'checkoutStepUrlNext' property has been removed.`,
+      comment: `${TODO_SPARTACUS} 'checkoutStepUrlNext' property has been removed.`,
     },
     {
       name: 'checkoutStepUrlPrevious',
-      comment: `'checkoutStepUrlPrevious' property has been removed.`,
+      comment: `${TODO_SPARTACUS} 'checkoutStepUrlPrevious' property has been removed.`,
     },
   ],
 };

@@ -1,4 +1,7 @@
-import { PLACE_ORDER_COMPONENT } from '../../../../shared/constants';
+import {
+  PLACE_ORDER_COMPONENT,
+  TODO_SPARTACUS,
+} from '../../../../shared/constants';
 import { ComponentData } from '../../../../shared/utils/file-utils';
 
 export const PLACE_ORDER_COMPONENT_MIGRATION: ComponentData = {
@@ -8,7 +11,7 @@ export const PLACE_ORDER_COMPONENT_MIGRATION: ComponentData = {
   removedProperties: [
     {
       name: 'placeOrderSubscription',
-      comment: `'placeOrderSubscription' property was removed and replaced`,
+      comment: `${TODO_SPARTACUS} 'placeOrderSubscription' property was removed and replaced`,
     },
   ],
 };

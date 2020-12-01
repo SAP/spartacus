@@ -1,4 +1,7 @@
-import { ORDER_DETAIL_SHIPPING_COMPONENT } from '../../../../shared/constants';
+import {
+  ORDER_DETAIL_SHIPPING_COMPONENT,
+  TODO_SPARTACUS,
+} from '../../../../shared/constants';
 import { ComponentData } from '../../../../shared/utils/file-utils';
 
 export const ORDER_DETAIL_SHIPPING_COMPONENT_MIGRATION: ComponentData = {
@@ -8,23 +11,23 @@ export const ORDER_DETAIL_SHIPPING_COMPONENT_MIGRATION: ComponentData = {
   removedProperties: [
     {
       name: 'order$',
-      comment: `'order$' property return type was changed from 'Observable<Order>' to 'Observable<any>'`,
+      comment: `${TODO_SPARTACUS} 'order$' property return type was changed from 'Observable<Order>' to 'Observable<any>'`,
     },
     {
       name: 'getPaymentCardContent',
-      comment: `'getPaymentCardContent' was removed, please check the 'OrderOverviewComponent' instead.`,
+      comment: `${TODO_SPARTACUS} 'getPaymentCardContent' was removed, please check the 'OrderOverviewComponent' instead.`,
     },
     {
       name: 'getShippingMethodCardContent',
-      comment: `'getShippingMethodCardContent' was removed, please check the 'OrderOverviewComponent' instead.`,
+      comment: `${TODO_SPARTACUS} 'getShippingMethodCardContent' was removed, please check the 'OrderOverviewComponent' instead.`,
     },
     {
       name: 'getAddressCardContent',
-      comment: `'getAddressCardContent' was removed, please check the 'OrderOverviewComponent' instead.`,
+      comment: `${TODO_SPARTACUS} 'getAddressCardContent' was removed, please check the 'OrderOverviewComponent' instead.`,
     },
     {
       name: 'getBillingAddressCardContent',
-      comment: `'getBillingAddressCardContent' was removed, please check the 'OrderOverviewComponent' instead.`,
+      comment: `${TODO_SPARTACUS} 'getBillingAddressCardContent' was removed, please check the 'OrderOverviewComponent' instead.`,
     },
   ],
 };

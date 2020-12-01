@@ -1,4 +1,7 @@
-import { PAYMENT_METHOD_COMPONENT } from '../../../../shared/constants';
+import {
+  PAYMENT_METHOD_COMPONENT,
+  TODO_SPARTACUS,
+} from '../../../../shared/constants';
 import { ComponentData } from '../../../../shared/utils/file-utils';
 
 export const PAYMENT_METHOD_COMPONENT_MIGRATION: ComponentData = {
@@ -8,19 +11,19 @@ export const PAYMENT_METHOD_COMPONENT_MIGRATION: ComponentData = {
   removedProperties: [
     {
       name: 'checkoutStepUrlNext',
-      comment: `'checkoutStepUrlNext' property has been removed.`,
+      comment: `${TODO_SPARTACUS} 'checkoutStepUrlNext' property has been removed.`,
     },
     {
       name: 'checkoutStepUrlPrevious',
-      comment: `'checkoutStepUrlPrevious' property has been removed.`,
+      comment: `${TODO_SPARTACUS} 'checkoutStepUrlPrevious' property has been removed.`,
     },
     {
       name: 'goNext',
-      comment: `'goNext' method has been renamed to 'next'`,
+      comment: `${TODO_SPARTACUS} 'goNext' method has been renamed to 'next'`,
     },
     {
       name: 'goPrevious',
-      comment: `'goPrevious' method has been renamed to 'back'`,
+      comment: `${TODO_SPARTACUS} 'goPrevious' method has been renamed to 'back'`,
     },
   ],
 };

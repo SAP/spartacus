@@ -1,4 +1,7 @@
-import { CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT } from '../../../../shared/constants';
+import {
+  CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT,
+  TODO_SPARTACUS,
+} from '../../../../shared/constants';
 import { ComponentData } from '../../../../shared/utils/file-utils';
 
 export const CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT_MIGRATION: ComponentData = {
@@ -8,15 +11,15 @@ export const CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT_MIGRATION: ComponentData 
   removedProperties: [
     {
       name: 'routerState$',
-      comment: `'routerState$' property has been removed.`,
+      comment: `${TODO_SPARTACUS} 'routerState$' property has been removed.`,
     },
     {
       name: 'activeStepUrl',
-      comment: `'activeStepUrl' property has been removed.`,
+      comment: `${TODO_SPARTACUS} 'activeStepUrl' property has been removed.`,
     },
     {
       name: 'steps',
-      comment: `'steps' property has been removed. Use '$steps' observable instead`,
+      comment: `${TODO_SPARTACUS} 'steps' property has been removed. Use '$steps' observable instead`,
     },
   ],
 };

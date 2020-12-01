@@ -1,4 +1,7 @@
-import { SHIPPING_ADDRESS_COMPONENT } from '../../../../shared/constants';
+import {
+  SHIPPING_ADDRESS_COMPONENT,
+  TODO_SPARTACUS,
+} from '../../../../shared/constants';
 import { ComponentData } from '../../../../shared/utils/file-utils';
 
 export const SHIPPING_ADDRESS_COMPONENT_MIGRATION: ComponentData = {
@@ -8,19 +11,19 @@ export const SHIPPING_ADDRESS_COMPONENT_MIGRATION: ComponentData = {
   removedProperties: [
     {
       name: 'existingAddresses$',
-      comment: `'existingAddresses$' property has been removed.`,
+      comment: `${TODO_SPARTACUS} 'existingAddresses$' property has been removed.`,
     },
     {
       name: 'newAddressFormManuallyOpened',
-      comment: `'newAddressFormManuallyOpened' property has been renamed to 'addressFormOpened'`,
+      comment: `${TODO_SPARTACUS} 'newAddressFormManuallyOpened' property has been renamed to 'addressFormOpened'`,
     },
     {
       name: 'goNext',
-      comment: `'goNext' method has been renamed to 'next'`,
+      comment: `${TODO_SPARTACUS} 'goNext' method has been renamed to 'next'`,
     },
     {
       name: 'goPrevious',
-      comment: `'goPrevious' method has been renamed to 'back'`,
+      comment: `${TODO_SPARTACUS} 'goPrevious' method has been renamed to 'back'`,
     },
   ],
 };

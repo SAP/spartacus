@@ -2,6 +2,7 @@ import {
   SET_RATE,
   SET_RATE_ON_EVENT,
   STAR_RATING_COMPONENT,
+  TODO_SPARTACUS,
 } from '../../../../shared/constants';
 import { ComponentData } from '../../../../shared/utils/file-utils';
 
@@ -12,7 +13,7 @@ export const STAR_RATING_COMPONENT_MIGRATION: ComponentData = {
   removedProperties: [
     {
       name: SET_RATE_ON_EVENT,
-      comment: `'${SET_RATE_ON_EVENT}' method was removed. The '${SET_RATE}' method should be used instead`,
+      comment: `${TODO_SPARTACUS} '${SET_RATE_ON_EVENT}' method was removed. The '${SET_RATE}' method should be used instead`,
     },
   ],
 };
