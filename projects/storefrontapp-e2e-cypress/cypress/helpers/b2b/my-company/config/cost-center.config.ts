@@ -7,6 +7,8 @@ export const costCenterConfig: MyCompanyConfig = {
   baseUrl: `${FULL_BASE_URL_EN_USD}/organization/cost-centers`,
   apiEndpoint: '/costcenters',
   objectType: 'costCenters',
+  canDisable: true,
+  verifyStatusInDetails: true,
   rows: [
     {
       label: 'Name',

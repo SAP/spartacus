@@ -1,9 +1,8 @@
 <cx-org-card *ngIf="model$ | async as model" i18nRoot="unit.details">
   <a
-    *ngIf="model.uid"
     actions
     class="link edit"
-    [class.disabled]="!model.active"
+    [class.disabled]="!model.active || (isInEditMode$ | async)"
     [routerLink]="{ cxRoute: 'orgUnitEdit', params: model } | cxUrl"
   >
     {{ 'organization.edit' | cxTranslate }}
