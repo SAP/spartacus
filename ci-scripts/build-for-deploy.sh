@@ -4,7 +4,7 @@ set -o pipefail
 
 echo "-----"
 echo "Building SPA libs"
-yarn build:core:lib:cds
+yarn build:libs
 
 echo "-----"
 echo "Building SPA app"
