@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { B2BUser, Converter, Occ } from '@spartacus/core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OccB2bUserSerializer implements Converter<B2BUser, Occ.B2BUser> {
   constructor() {}
 
