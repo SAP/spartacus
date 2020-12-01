@@ -5,8 +5,10 @@
   </div>
   <div class="actions" [cxFocus]="{ autofocus: 'button.primary' }">
     <button class="button cancel" (click)="close()">
-      {{ 'organization.confirmation.cancel' | cxTranslate }}</button
-    ><button class="button primary confirm" (click)="confirm()">
+      {{ 'organization.confirmation.cancel' | cxTranslate }}
+    </button>
+
+    <button class="button primary confirm" (click)="confirm()">
       {{ 'organization.confirmation.confirm' | cxTranslate }}
     </button>
   </div>
