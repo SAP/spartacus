@@ -8,7 +8,9 @@ import {
 } from '@spartacus/core';
 import { B2B_USER_NORMALIZER } from '@spartacus/organization/administration/core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OccUserListNormalizer
   implements Converter<Occ.OrgUnitUserList, EntitiesModel<B2BUser>> {
   constructor(private converter: ConverterService) {}
