@@ -858,13 +858,13 @@ describe('File utils', () => {
         getStart: () => 10,
       } as ts.Node;
 
-      const result = injectService(
-        ctorNode,
-        testPath,
-        'dummyService',
-        'private',
-        'DummyProperty'
-      );
+      const result = injectService({
+        constructorNode: ctorNode,
+        path: testPath,
+        serviceName: 'dummyService',
+        modifier: 'private',
+        propertyName: 'DummyProperty',
+      });
       expect(result).toBeTruthy();
       expect(result.toAdd).toEqual(`private dummyProperty: DummyService`);
     });

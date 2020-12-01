@@ -40,6 +40,17 @@ export interface ClassType {
   };
 }
 
+interface InjectServiceConfiguration {
+  constructorNode: ts.Node | undefined;
+  path: string;
+  serviceName: string;
+  modifier: 'private' | 'protected' | 'public' | 'no-modifier';
+  propertyName?: string;
+  propertyType?: string;
+  injectionToken?: string;
+  isArray?: boolean;
+}
+
 export interface ComponentProperty {
   /** property name */
   name: string;
@@ -495,16 +506,15 @@ export function addConstructorParam(
   const changes: Change[] = [];
   if (!isInjected(constructorNode, paramToAdd)) {
     changes.push(
-      injectService(
+      injectService({
         constructorNode,
-        sourcePath,
-        paramToAdd.className,
-        'no-modifier',
-        undefined,
-        paramToAdd.staticType,
-        paramToAdd.injectionToken?.token,
-        paramToAdd.injectionToken?.isArray
-      )
+        path: sourcePath,
+        serviceName: paramToAdd.className,
+        modifier: 'no-modifier',
+        propertyType: paramToAdd.staticType,
+        injectionToken: paramToAdd.injectionToken?.token,
+        isArray: paramToAdd.injectionToken?.isArray,
+      })
     );
   }
 
@@ -954,42 +964,38 @@ function updateConstructorSuperNode(
 }
 
 export function injectService(
-  constructorNode: ts.Node | undefined,
-  path: string,
-  serviceName: string,
-  modifier: 'private' | 'protected' | 'public' | 'no-modifier',
-  propertyName?: string,
-  propertyType?: string,
-  injectionToken?: string,
-  isArray?: boolean
+  config: InjectServiceConfiguration
 ): InsertChange {
-  if (!constructorNode) {
-    throw new SchematicsException(`No constructor found in ${path}.`);
+  if (!config.constructorNode) {
+    throw new SchematicsException(`No constructor found in ${config.path}.`);
   }
 
-  const constructorParameters = getConstructorParameterList(constructorNode);
+  const constructorParameters = getConstructorParameterList(
+    config.constructorNode
+  );
 
   let toInsert = '';
-  let position = constructorNode.getStart() + 'constructor('.length;
+  let position = config.constructorNode.getStart() + 'constructor('.length;
   if (constructorParameters.length > 0) {
     toInsert += ', ';
     const lastParam = constructorParameters[constructorParameters.length - 1];
     position = lastParam.end;
   }
 
-  propertyName = propertyName
-    ? strings.camelize(propertyName)
-    : strings.camelize(serviceName);
+  config.propertyName = config.propertyName
+    ? strings.camelize(config.propertyName)
+    : strings.camelize(config.serviceName);
 
-  propertyType = propertyType ?? strings.classify(serviceName);
+  config.propertyType =
+    config.propertyType ?? strings.classify(config.serviceName);
 
-  if (injectionToken) toInsert += `@Inject(${injectionToken}) `;
-  if (modifier !== 'no-modifier') toInsert += `${modifier} `;
-  toInsert += `${propertyName}: ${propertyType}`;
+  if (config.injectionToken) toInsert += `@Inject(${config.injectionToken}) `;
+  if (config.modifier !== 'no-modifier') toInsert += `${config.modifier} `;
+  toInsert += `${config.propertyName}: ${config.propertyType}`;
 
-  if (isArray) toInsert += '[]';
+  if (config.isArray) toInsert += '[]';
 
-  return new InsertChange(path, position, toInsert);
+  return new InsertChange(config.path, position, toInsert);
 }
 
 export function buildSpartacusComment(comment: string): string {
