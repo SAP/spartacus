@@ -10,7 +10,9 @@ import {
   USER_GROUP_NORMALIZER,
 } from '@spartacus/organization/administration/core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OccUserGroupListNormalizer
   implements Converter<Occ.OrgUnitUserGroupList, EntitiesModel<UserGroup>> {
   constructor(private converter: ConverterService) {}
