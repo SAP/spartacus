@@ -45,6 +45,9 @@ export const unit = {
       title: 'Create child unit',
       subtitle: '',
     },
+    messages: {
+      create: 'Unit {{ item.name }} created successfully',
+    },
   },
 
   costCenters: {
