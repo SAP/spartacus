@@ -6,6 +6,7 @@ import {
   expand,
   filter,
   switchMap,
+  take,
 } from 'rxjs/operators';
 import { CpqAccessData } from './cpq-access-data.models';
 import { CpqAccessLoaderService } from './cpq-access-loader.service';
@@ -54,6 +55,27 @@ export class CpqAccessStorageService {
       this.initCpqAccessObservable();
     }
     return this.cpqAccessObservable;
+  }
+
+  /**
+   * Renews the current access data. All subscribers of getCachedCpqAccessData()
+   * will receive the new data. Will only have an efffect, if thre are any subscribers
+   * and the user is logged in.
+   */
+  renewCachedCpqAccessData() {
+    // only force token refresh if initialized.
+    if (this.cpqAccessObservable) {
+      this.authService
+        .isUserLoggedIn()
+        .pipe(take(1)) // get current login state
+        .subscribe((loggedIn) => {
+          // only force token refresh if user is logged in.
+          if (loggedIn) {
+            this.stopAutoFetchingCpqAccessData();
+            this.startAutoFetchingCpqAccessData();
+          }
+        });
+    }
   }
 
   protected initCpqAccessObservable() {
