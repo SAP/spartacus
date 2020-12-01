@@ -1,3 +1,4 @@
+import { tabbingOrderConfig as config } from '../../helpers/accessibility/b2b/tabbing-order.config';
 import {
   b2bAccountShipToUser,
   b2bProduct,
@@ -19,6 +20,7 @@ import {
   SampleUser,
   user,
 } from '../../sample-data/checkout-flow';
+import { verifyTabbingOrder } from '../accessibility/tabbing-order';
 import {
   addCheapProductToCart,
   visitHomePage,
@@ -60,6 +62,12 @@ export function enterPONumber() {
   cy.get('cx-payment-type').within(() => {
     cy.get('.form-control').clear().type(poNumber);
   });
+
+  // Accessibility
+  verifyTabbingOrder(
+    'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+    config.paymentMethod
+  );
 }
 
 export function selectAccountPayment() {
@@ -115,6 +123,13 @@ export function selectAccountShippingAddress() {
     '/checkout/delivery-mode',
     'getDeliveryPage'
   );
+
+  // Accessibility
+  verifyTabbingOrder(
+    'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+    config.shippingAddressAccount
+  );
+
   cy.get('button.btn-primary').click({ force: true });
   cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
 }
@@ -125,6 +140,13 @@ export function selectAccountDeliveryMode(
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get(`#${deliveryMode}`).should('be.checked');
   const orderReview = waitForPage('/checkout/review-order', 'getReviewOrder');
+
+  // Accessibility
+  verifyTabbingOrder(
+    'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+    config.deliveryMode
+  );
+
   cy.get('.cx-checkout-btns button.btn-primary').click();
   cy.wait(`@${orderReview}`).its('status').should('eq', 200);
 }
@@ -202,6 +224,12 @@ export function reviewB2bReviewOrderPage(
     );
 
   cy.get('input[formcontrolname="termsAndConditions"]').check();
+
+  // Accessibility
+  verifyTabbingOrder(
+    'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+    isAccount ? config.checkoutReviewOrderAccount : config.checkoutReviewOrder
+  );
 }
 
 export function completeReplenishmentForm(replenishmentPeriod: string) {
