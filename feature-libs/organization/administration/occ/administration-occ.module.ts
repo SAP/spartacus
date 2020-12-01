@@ -57,11 +57,19 @@ import { OccUserListNormalizer } from './converters/occ-user-list-normalizer';
       provide: BudgetAdapter,
       useClass: OccBudgetAdapter,
     },
-    { provide: BUDGET_NORMALIZER, useClass: OccBudgetNormalizer, multi: true },
-    { provide: BUDGET_SERIALIZER, useClass: OccBudgetSerializer, multi: true },
+    {
+      provide: BUDGET_NORMALIZER,
+      useExisting: OccBudgetNormalizer,
+      multi: true,
+    },
+    {
+      provide: BUDGET_SERIALIZER,
+      useExisting: OccBudgetSerializer,
+      multi: true,
+    },
     {
       provide: BUDGETS_NORMALIZER,
-      useClass: OccBudgetListNormalizer,
+      useExisting: OccBudgetListNormalizer,
       multi: true,
     },
     {
@@ -70,22 +78,22 @@ import { OccUserListNormalizer } from './converters/occ-user-list-normalizer';
     },
     {
       provide: B2BUNIT_NORMALIZER,
-      useClass: OccOrgUnitNormalizer,
+      useExisting: OccOrgUnitNormalizer,
       multi: true,
     },
     {
       provide: B2BUNIT_NODE_NORMALIZER,
-      useClass: OccOrgUnitNodeNormalizer,
+      useExisting: OccOrgUnitNodeNormalizer,
       multi: true,
     },
     {
       provide: B2BUNIT_NODE_LIST_NORMALIZER,
-      useClass: OccOrgUnitNodeListNormalizer,
+      useExisting: OccOrgUnitNodeListNormalizer,
       multi: true,
     },
     {
       provide: B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
-      useClass: OccOrgUnitApprovalProcessNormalizer,
+      useExisting: OccOrgUnitApprovalProcessNormalizer,
       multi: true,
     },
     {
@@ -94,12 +102,12 @@ import { OccUserListNormalizer } from './converters/occ-user-list-normalizer';
     },
     {
       provide: USER_GROUP_NORMALIZER,
-      useClass: OccUserGroupNormalizer,
+      useExisting: OccUserGroupNormalizer,
       multi: true,
     },
     {
       provide: USER_GROUPS_NORMALIZER,
-      useClass: OccUserGroupListNormalizer,
+      useExisting: OccUserGroupListNormalizer,
       multi: true,
     },
     {
@@ -108,22 +116,22 @@ import { OccUserListNormalizer } from './converters/occ-user-list-normalizer';
     },
     {
       provide: PERMISSION_NORMALIZER,
-      useClass: OccPermissionNormalizer,
+      useExisting: OccPermissionNormalizer,
       multi: true,
     },
     {
       provide: PERMISSIONS_NORMALIZER,
-      useClass: OccPermissionListNormalizer,
+      useExisting: OccPermissionListNormalizer,
       multi: true,
     },
     {
       provide: PERMISSION_TYPE_NORMALIZER,
-      useClass: OccPermissionTypeNormalizer,
+      useExisting: OccPermissionTypeNormalizer,
       multi: true,
     },
     {
       provide: PERMISSION_TYPES_NORMALIZER,
-      useClass: OccPermissionTypeListNormalizer,
+      useExisting: OccPermissionTypeListNormalizer,
       multi: true,
     },
     {
@@ -136,17 +144,17 @@ import { OccUserListNormalizer } from './converters/occ-user-list-normalizer';
     },
     {
       provide: B2B_USER_NORMALIZER,
-      useClass: OccB2BUserNormalizer,
+      useExisting: OccB2BUserNormalizer,
       multi: true,
     },
     {
       provide: B2B_USER_SERIALIZER,
-      useClass: OccB2bUserSerializer,
+      useExisting: OccB2bUserSerializer,
       multi: true,
     },
     {
       provide: B2B_USERS_NORMALIZER,
-      useClass: OccUserListNormalizer,
+      useExisting: OccUserListNormalizer,
       multi: true,
     },
   ],

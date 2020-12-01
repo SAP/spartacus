@@ -10,7 +10,9 @@ import {
   PERMISSION_NORMALIZER,
 } from '@spartacus/organization/administration/core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OccPermissionListNormalizer
   implements Converter<Occ.PermissionsList, EntitiesModel<Permission>> {
   constructor(private converter: ConverterService) {}
