@@ -84,6 +84,11 @@ export const organization = {
       notExist: 'This item does not exist',
       disabled: 'You cannot edit a disabled item',
     },
+
+    confirmation: {
+      cancel: 'CANCEL',
+      confirm: 'CONFIRM',
+    },
   },
 
   // sub feature labels are added below
