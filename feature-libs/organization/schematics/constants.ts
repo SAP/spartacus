@@ -1,5 +1,7 @@
 export const SPARTACUS_ORGANIZATION = '@spartacus/organization';
 
+export const SCSS_FILE_NAME = 'organization.scss';
+
 export const ORGANIZATION_ADMINISTRATION_FEATURE_NAME =
   'organizationAdministration';
 export const ADMINISTRATION_ROOT_MODULE = 'AdministrationRootModule';
