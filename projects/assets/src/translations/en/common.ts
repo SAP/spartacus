@@ -138,10 +138,15 @@ export const common = {
     cxEmailsMustMatch: 'Email fields must match',
     cxStarRatingEmpty: 'Rating field is required',
     cxNoSelectedItemToCancel: 'Select at least one item',
-    cxDateMin: 'Date cannot be before {{min}}',
-    cxDateMax: 'Date cannot be after {{max}}',
     cxNegativeAmount: 'Amount must be equal or greater than zero',
     cxContainsSpecialCharacters: 'Field cannot contain special characters',
+    date: {
+      required: 'This field is required',
+      min: 'Date cannot be before {{min}}',
+      max: 'Date cannot be after {{max}}',
+      pattern: 'Use dateformat yyyy-mm-dd',
+      invalid: 'Use a valid date',
+    },
   },
   errorHandlers: {
     scriptFailedToLoad: 'Failed to load the script.',

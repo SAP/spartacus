@@ -1,5 +1,11 @@
 import { isPlatformServer } from '@angular/common';
-import { Inject, Injectable, NgModuleRef, PLATFORM_ID } from '@angular/core';
+import {
+  Inject,
+  Injectable,
+  isDevMode,
+  NgModuleRef,
+  PLATFORM_ID,
+} from '@angular/core';
 import { Route } from '@angular/router';
 import {
   CmsComponentChildRoutesConfig,
@@ -127,7 +133,7 @@ export class CmsComponentsService {
       this.mappings[componentType] ??
       this.config.cmsComponents?.[componentType];
 
-    if (!componentConfig) {
+    if (isDevMode() && !componentConfig) {
       if (!this.missingComponents.includes(componentType)) {
         this.missingComponents.push(componentType);
         console.warn(
