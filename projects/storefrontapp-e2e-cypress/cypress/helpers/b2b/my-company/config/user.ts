@@ -1,6 +1,11 @@
 import { FULL_BASE_URL_EN_USD } from '../../../site-context-selector';
 import { randomString } from '../../../user';
-import { ENTITY_UID_COOKIE_KEY, INPUT_TYPE, MyCompanyConfig } from '../models';
+import {
+  ENTITY_UID_COOKIE_KEY,
+  INPUT_TYPE,
+  MyCompanyConfig,
+  MY_COMPANY_FEATURE,
+} from '../models';
 
 export const userConfig: MyCompanyConfig = {
   name: 'User',
@@ -132,5 +137,5 @@ export const userConfig: MyCompanyConfig = {
       manageAssignments: true,
     },
   ],
-  featureToggles: ['userPassword'],
+  features: [MY_COMPANY_FEATURE.USER_PASSWORD],
 };
