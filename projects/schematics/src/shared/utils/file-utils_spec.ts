@@ -53,7 +53,7 @@ import {
   renameIdentifierNode,
   shouldRemoveDecorator,
 } from './file-utils';
-import { getProjectFromWorkspace, getSourceRoot } from './workspace-utils';
+import { getSourceRoot } from './workspace-utils';
 
 const PARAMETER_LENGTH_MISS_MATCH_TEST_CLASS = `
     import { ActionsSubject, Store } from '@ngrx/store';
@@ -351,9 +351,7 @@ describe('File utils', () => {
 
   describe('getIndexHtmlPath', () => {
     it('should return index.html path', async () => {
-      const project = getProjectFromWorkspace(appTree, defaultOptions);
-      const projectIndexHtmlPath = getIndexHtmlPath(project);
-
+      const projectIndexHtmlPath = getIndexHtmlPath(appTree);
       expect(projectIndexHtmlPath).toEqual(`src/index.html`);
     });
   });

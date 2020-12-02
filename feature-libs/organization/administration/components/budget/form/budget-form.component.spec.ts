@@ -1,10 +1,11 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CurrencyService, I18nTestingModule } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/organization/administration/core';
-import { DatePickerModule, FormErrorsComponent } from '@spartacus/storefront';
+import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of } from 'rxjs';
 import { FormTestingModule } from '../../shared/form/form.testing.module';
@@ -40,6 +41,17 @@ class MockItemService {
   getForm() {}
 }
 
+@Component({
+  // tslint:disable-next-line: component-selector
+  selector: 'cx-date-picker',
+  template: '',
+})
+class MockDatePickerComponent {
+  @Input() control: FormControl;
+  @Input() min: FormControl;
+  @Input() max: FormControl;
+}
+
 describe('BudgetFormComponent', () => {
   let component: BudgetFormComponent;
   let fixture: ComponentFixture<BudgetFormComponent>;
@@ -53,10 +65,13 @@ describe('BudgetFormComponent', () => {
         UrlTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
-        DatePickerModule,
         FormTestingModule,
       ],
-      declarations: [BudgetFormComponent, FormErrorsComponent],
+      declarations: [
+        BudgetFormComponent,
+        FormErrorsComponent,
+        MockDatePickerComponent,
+      ],
       providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },

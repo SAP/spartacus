@@ -1,6 +1,5 @@
-import { experimental, strings } from '@angular-devkit/core';
+import { strings } from '@angular-devkit/core';
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
-import { getProjectTargetOptions } from '@angular/cdk/schematics';
 import { Attribute, Element, HtmlParser, Node } from '@angular/compiler';
 import {
   findNode,
@@ -23,6 +22,10 @@ import {
   TODO_SPARTACUS,
   UTF_8,
 } from '../constants';
+import {
+  getAngularJsonFile,
+  getDefaultProjectNameFromWorkspace,
+} from './workspace-utils';
 
 export enum InsertDirection {
   LEFT,
@@ -129,16 +132,16 @@ export function getAllTsSourceFiles(
   return results.map((f) => getTsSourceFile(tree, f));
 }
 
-export function getIndexHtmlPath(
-  project: experimental.workspace.WorkspaceProject
-): string {
-  const buildOptions = getProjectTargetOptions(project, 'build');
-
-  if (!buildOptions.index) {
+export function getIndexHtmlPath(tree: Tree): string {
+  const projectName = getDefaultProjectNameFromWorkspace(tree);
+  const angularJson = getAngularJsonFile(tree);
+  const indexHtml: string =
+    angularJson.projects[projectName]?.architect?.build?.options?.index;
+  if (!indexHtml) {
     throw new SchematicsException('"index.html" file not found.');
   }
 
-  return buildOptions.index;
+  return indexHtml;
 }
 
 export function getPathResultsForFile(

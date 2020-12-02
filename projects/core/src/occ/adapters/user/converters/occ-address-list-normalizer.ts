@@ -8,7 +8,9 @@ import {
 } from '../../../../util/converter.service';
 import { Occ } from '../../../occ-models/occ.models';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OccAddressListNormalizer
   implements Converter<Occ.AddressList, EntitiesModel<Address>> {
   constructor(private converter: ConverterService) {}

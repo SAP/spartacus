@@ -23,6 +23,7 @@ export class PermissionDetailsComponent {
     shareReplay({ bufferSize: 1, refCount: true }),
     startWith({})
   );
+  isInEditMode$ = this.itemService.isInEditMode$;
 
   constructor(protected itemService: ItemService<Permission>) {}
 }

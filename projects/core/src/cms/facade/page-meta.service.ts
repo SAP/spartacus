@@ -1,17 +1,12 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable, of } from 'rxjs';
-import {
-  debounceTime,
-  filter,
-  map,
-  shareReplay,
-  switchMap,
-} from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { filter, map, shareReplay, switchMap } from 'rxjs/operators';
 import { resolveApplicable } from '../../util/applicable';
 import { Page, PageMeta } from '../model/page.model';
 import { PageMetaResolver } from '../page/page-meta.resolver';
 import { CmsService } from './cms.service';
 import { UnifiedInjector } from '../../lazy-loading/unified-injector';
+import { uniteLatest } from '../../util/rxjs/unite-latest';
 
 @Injectable({
   providedIn: 'root',
@@ -73,8 +68,7 @@ export class PageMetaService {
         )
       );
 
-    return combineLatest(resolveMethods).pipe(
-      debounceTime(0), // avoid partial data emissions when all methods resolve at the same time
+    return uniteLatest(resolveMethods).pipe(
       map((data) => Object.assign({}, ...data))
     );
   }
