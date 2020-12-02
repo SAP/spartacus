@@ -7,11 +7,6 @@ const nextBtnSelector =
 const previousBtnSelector =
   'cx-configurator-previous-next-buttons button:contains("Previous")';
 const addToCartButtonSelector = 'cx-configurator-add-to-cart-button button';
-
-const email = 'test-user-for-variant-configuration@ydev.hybris.com';
-const password = 'Password123.';
-const user = 'Variant Configuration';
-
 const conflictDetectedMsgSelector = '.cx-conflict-msg';
 const conflictHeaderGroupSelector =
   'cx-configurator-group-menu li.cx-menu-conflict';
@@ -855,7 +850,7 @@ export function clickOnProceedToCheckoutBtnOnPD(): void {
 /**
  * Logs in.
  */
-export function login(): void {
+export function login(email, password, user): void {
   // Click on the 'Sign in / Register' link
   // & wait until the login-form is displayed
   cy.get('cx-login [role="link"]')
