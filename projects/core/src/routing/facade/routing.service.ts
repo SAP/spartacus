@@ -119,4 +119,8 @@ export class RoutingService {
       })
     );
   }
+
+  changeNextPageContext(pageContext: PageContext) {
+    this.store.dispatch(new RoutingActions.ChangeNextPageContext(pageContext));
+  }
 }
