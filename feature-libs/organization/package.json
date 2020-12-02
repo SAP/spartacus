@@ -13,7 +13,7 @@
     "prepare:schematics": "yarn install",
     "clean:schematics": "yarn prepare:schematics && rimraf \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
     "build:schematics": "yarn clean:schematics && tsc -p ./tsconfig.schematics.json",
-    "test:schematics": "jest --config ./jest.schematics.config.js"
+    "test:schematics": "yarn --cwd ../../projects/schematics/ run clean && jest --config ./jest.schematics.config.js"
   },
   "license": "Apache-2.0",
   "publishConfig": {
@@ -21,9 +21,6 @@
   },
   "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/organization",
   "schematics": "./schematics/collection.json",
-  "dependencies": {
-    "tslib": "^2.0.0"
-  },
   "peerDependencies": {
     "@angular/common": "^10.1.0",
     "@angular/core": "^10.1.0",
@@ -44,5 +41,8 @@
     "shelljs": "^0.8.3",
     "ts-jest": "^26.4.3",
     "typescript": "~4.0.2"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
   }
 }
