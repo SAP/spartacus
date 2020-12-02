@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/misc",
-  "version": "3.0.0-rc.1",
+  "version": "3.0.0-rc.2",
   "description": "Miscellaneous feature library for Spartacus",
   "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
@@ -27,9 +27,9 @@
     "@angular/core": "^10.1.0",
     "@angular/router": "^10.1.0",
     "rxjs": "^6.6.0",
-    "@spartacus/core": "3.0.0-rc.1",
-    "@spartacus/storefront": "3.0.0-rc.1",
-    "@spartacus/schematics": "3.0.0-rc.1",
+    "@spartacus/core": "3.0.0-rc.2",
+    "@spartacus/storefront": "3.0.0-rc.2",
+    "@spartacus/schematics": "3.0.0-rc.2",
     "@ng-bootstrap/ng-bootstrap": "^7.0.0"
   },
   "devDependencies": {
