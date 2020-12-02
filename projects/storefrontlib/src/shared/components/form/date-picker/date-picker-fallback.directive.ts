@@ -34,25 +34,22 @@ import { DatePickerService } from './date-picker.service';
   ],
 })
 export class DatePickerFallbackDirective implements Validator {
-  @HostBinding('placeholder') placeholder = this.datePickerService.placeholder;
-  @HostBinding('pattern') pattern = this.datePickerService.pattern;
+  @HostBinding('placeholder') placeholder = this.service.placeholder;
+  @HostBinding('pattern') pattern = this.service.pattern;
 
   constructor(
     protected elementRef: ElementRef<HTMLInputElement>,
-    protected datePickerService: DatePickerService
+    protected service: DatePickerService
   ) {}
 
   validate(formControl: AbstractControl): ValidationErrors {
     const errors: ValidationErrors = {};
 
     if (formControl.value && formControl.value !== '') {
-      // we need to do the pattern validation here, as the default pattern validator
-      // doesn't work dynamically.
-      if (this.pattern) {
-        const patternRegex = new RegExp(this.pattern);
-        if (!patternRegex.test(formControl.value)) {
-          errors.pattern = true;
-        }
+      // we need to do the pattern validation here, as the default
+      // pattern validator doesn't work dynamically
+      if (!this.service.isValidFormat(formControl.value, this.pattern)) {
+        errors.pattern = true;
       }
 
       if (!errors.pattern) {
@@ -69,28 +66,24 @@ export class DatePickerFallbackDirective implements Validator {
   }
 
   protected validateMin(formControl: AbstractControl): boolean {
-    const date = this.getDate(formControl.value);
+    const date = this.service.getDate(formControl.value);
     return date && date < this.min;
   }
 
   protected validateMax(formControl: AbstractControl): boolean {
-    const date = this.getDate(formControl.value);
+    const date = this.service.getDate(formControl.value);
     return date && date > this.max;
   }
 
   protected get min(): Date {
-    return this.getDate(this.host.getAttribute('min'));
+    return this.service.getDate(this.host.getAttribute('min'));
   }
 
   protected get max(): Date {
-    return this.getDate(this.host.getAttribute('max'));
+    return this.service.getDate(this.host.getAttribute('max'));
   }
 
   protected get host(): HTMLInputElement {
     return this.elementRef.nativeElement;
-  }
-
-  protected getDate(value: string): Date {
-    return this.datePickerService.getDate(value);
   }
 }

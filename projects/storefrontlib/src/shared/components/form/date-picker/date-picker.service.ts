@@ -31,6 +31,14 @@ export class DatePickerService {
   }
 
   /**
+   * Validates if the string based date value is a valid date.
+   */
+  isValidFormat(date: string, pattern?: string): boolean {
+    const patternRegex = new RegExp(`^${pattern ?? this.pattern}$`);
+    return patternRegex.test(date);
+  }
+
+  /**
    * Since Safari doesn't support proper date formats (ISO 8601), we need to do this
    * ourselves. We cannot rely on `new Date('2020-1-1')`. This will fail, only
    * `new Date('2020-01-01')` works.
