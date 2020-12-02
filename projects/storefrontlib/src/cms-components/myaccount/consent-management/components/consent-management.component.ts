@@ -267,11 +267,11 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     const consentsToGive: ConsentTemplate[] = [];
     templates.forEach((template) => {
       if (this.userConsentService.isConsentWithdrawn(template.currentConsent)) {
+        consentsToGive.push(template);
         if (this.isRequiredConsent(template)) {
           return;
         }
       }
-      consentsToGive.push(template);
     });
 
     this.allConsentsLoading.next(true);
