@@ -1,6 +1,9 @@
 import * as configuration from '../../helpers/product-configuration';
 import * as productSearch from '../../helpers/product-search';
 
+const email = 'cpq03@sap.com';
+const password = 'welcome';
+const cpqUser = 'cpq03';
 const testProduct = 'CONF_CAMERA_BUNDLE';
 
 function goToPDPage(product) {
@@ -14,6 +17,7 @@ function goToPDPage(product) {
 context('CPQ Configuration', () => {
   beforeEach(() => {
     cy.visit('/');
+    configuration.login(email, password, cpqUser);
   });
 
   describe('Navigate to Product Configuration Page', () => {
