@@ -90,10 +90,14 @@ export class AuthStatePersistenceService implements OnDestroy {
       }
       if (state.userId) {
         this.userIdService.setUserId(state.userId);
+      } else {
+        this.userIdService.clearUserId();
       }
       if (state.redirectUrl) {
         this.authRedirectStorageService.setRedirectUrl(state.redirectUrl);
       }
+    } else {
+      this.userIdService.clearUserId();
     }
   }
 

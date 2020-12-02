@@ -14,14 +14,15 @@ describe('UserIdService', () => {
   });
 
   describe('getUserId', () => {
-    it('should by default return anonymous user id', (done) => {
+    it('should not emit anything until it will be initialized from outside', () => {
+      let result;
       service
         .getUserId()
-        .pipe(take(1))
         .subscribe((userId) => {
-          expect(userId).toBe('anonymous');
-          done();
-        });
+          result = userId;
+        })
+        .unsubscribe();
+      expect(result).toBeUndefined();
     });
 
     it('should return value that was set with setUserId', (done) => {
@@ -69,6 +70,7 @@ describe('UserIdService', () => {
 
   describe('isEmulated', () => {
     it('should return false for anonymous userId', (done) => {
+      service.clearUserId();
       service
         .isEmulated()
         .pipe(take(1))
