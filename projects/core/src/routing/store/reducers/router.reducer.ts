@@ -11,6 +11,7 @@ import {
   RouterState,
   State,
 } from '../routing-state';
+import { CHANGE_NEXT_PAGE_CONTEXT } from '../actions/router.action';
 
 export const initialState: RouterState = {
   navigationId: 0,
@@ -54,9 +55,24 @@ export function reducer(
       };
     }
 
+    case CHANGE_NEXT_PAGE_CONTEXT: {
+      return state.nextState
+        ? {
+            ...state,
+            nextState: { ...state.nextState, context: action.payload },
+          }
+        : state;
+    }
+
     case fromNgrxRouter.ROUTER_NAVIGATED: {
       return {
-        state: action.payload.routerState,
+        state: {
+          ...action.payload.routerState,
+          context:
+            // we want to preserve already resolved context,
+            // in case it was changed explicitly
+            state.nextState?.context ?? action.payload.routerState.context,
+        },
         navigationId: action.payload.event.id,
         nextState: undefined,
       };
