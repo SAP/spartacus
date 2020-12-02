@@ -31,16 +31,33 @@ export class DatePickerService {
   }
 
   /**
-   * Since Safari doesn't support proper date formats (ISO 8601), we need to
-   * convert the dates.
-   *
-   * TODO: consider using configurable date format
+   * Since Safari doesn't support proper date formats (ISO 8601), we need to do this
+   * ourselves. We cannot rely on `new Date('2020-1-1')`. This will fail, only
+   * `new Date('2020-01-01')` works.
    */
   getDate(value: string): Date {
     if (!value) {
       return;
     }
-    const p = value.split('-');
-    return new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+
+    const delimiter = this.placeholder
+      .replace('yyyy', '')
+      .replace('mm', '')
+      .replace('dd', '')
+      .substr(0, 1);
+
+    const dateParts = value.split(delimiter);
+
+    const placeholderParts = this.placeholder.split(delimiter);
+
+    const y = placeholderParts.indexOf('yyyy');
+    const m = placeholderParts.indexOf('mm');
+    const d = placeholderParts.indexOf('dd');
+
+    return new Date(
+      Number(dateParts[y]),
+      Number(dateParts[m]) - 1,
+      Number(dateParts[d])
+    );
   }
 }
