@@ -75,7 +75,7 @@ export function clickOnEditConfigurationLink(cartItemIndex: number): void {
     .eq(cartItemIndex)
     .find('cx-configure-cart-entry')
     .within(() => {
-      cy.get('button:contains("Edit")')
+      cy.get('a:contains("Edit")')
         .click()
         .then(() => {
           cy.location('pathname').should('contain', '/cartEntry/entityKey/');
@@ -876,7 +876,7 @@ export function login(): void {
 export function navigateToOrderDetails(): void {
   cy.log('Navigate to order detail page');
   // Verify whether the ordered product is displayed in the order list
-  cy.get('cx-cart-item-list cx-configure-cart-entry button')
+  cy.get('cx-cart-item-list cx-configure-cart-entry a')
     .first()
     .click()
     .then(() => {
