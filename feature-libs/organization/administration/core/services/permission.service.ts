@@ -21,7 +21,6 @@ import {
   getPermissionTypes,
   getPermissionValue,
 } from '../store/selectors/permission.selector';
-import { isValidUser } from '../utils/check-user';
 import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
@@ -32,34 +31,33 @@ export class PermissionService {
   ) {}
 
   loadPermission(permissionCode: string): void {
-    this.userIdService.invokeWithUserId((userId) => {
-      if (isValidUser(userId)) {
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
         this.store.dispatch(
           new PermissionActions.LoadPermission({
             userId,
             permissionCode,
           })
-        );
-      }
-    });
+        ),
+      () => {}
+    );
   }
 
   loadPermissions(params?: SearchConfig): void {
-    this.userIdService.invokeWithUserId((userId) => {
-      if (isValidUser(userId)) {
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
         this.store.dispatch(
           new PermissionActions.LoadPermissions({ userId, params })
-        );
-      }
-    });
+        ),
+      () => {}
+    );
   }
 
   loadPermissionTypes() {
-    this.userIdService.invokeWithUserId((userId) => {
-      if (isValidUser(userId)) {
-        this.store.dispatch(new PermissionActions.LoadPermissionTypes());
-      }
-    });
+    this.userIdService.takeUserId(true).subscribe(
+      () => this.store.dispatch(new PermissionActions.LoadPermissionTypes()),
+      () => {}
+    );
   }
 
   private getPermission(
@@ -136,22 +134,26 @@ export class PermissionService {
   }
 
   create(permission: Permission): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new PermissionActions.CreatePermission({ userId, permission })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new PermissionActions.CreatePermission({ userId, permission })
+        ),
+      () => {}
     );
   }
 
   update(permissionCode: string, permission: Permission): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new PermissionActions.UpdatePermission({
-          userId,
-          permissionCode,
-          permission,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new PermissionActions.UpdatePermission({
+            userId,
+            permissionCode,
+            permission,
+          })
+        ),
+      () => {}
     );
   }
 

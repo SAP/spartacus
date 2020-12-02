@@ -21,7 +21,6 @@ import {
   getCostCenterState,
   getCostCenterValue,
 } from '../store/selectors/cost-center.selector';
-import { isValidUser } from '../utils/check-user';
 import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
@@ -32,23 +31,23 @@ export class CostCenterService {
   ) {}
 
   load(costCenterCode: string): void {
-    this.userIdService.invokeWithUserId((userId) => {
-      if (isValidUser(userId)) {
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
         this.store.dispatch(
           new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
-        );
-      }
-    });
+        ),
+      () => {}
+    );
   }
 
   loadList(params?: SearchConfig): void {
-    this.userIdService.invokeWithUserId((userId) => {
-      if (isValidUser(userId)) {
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
         this.store.dispatch(
           new CostCenterActions.LoadCostCenters({ userId, params })
-        );
-      }
-    });
+        ),
+      () => {}
+    );
   }
 
   private getCostCenter(
@@ -115,22 +114,26 @@ export class CostCenterService {
   }
 
   create(costCenter: CostCenter): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new CostCenterActions.CreateCostCenter({ userId, costCenter })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new CostCenterActions.CreateCostCenter({ userId, costCenter })
+        ),
+      () => {}
     );
   }
 
   update(costCenterCode: string, costCenter: CostCenter): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new CostCenterActions.UpdateCostCenter({
-          userId,
-          costCenterCode,
-          costCenter,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new CostCenterActions.UpdateCostCenter({
+            userId,
+            costCenterCode,
+            costCenter,
+          })
+        ),
+      () => {}
     );
   }
 
@@ -141,14 +144,16 @@ export class CostCenterService {
   }
 
   loadBudgets(costCenterCode: string, params: SearchConfig): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new CostCenterActions.LoadAssignedBudgets({
-          userId,
-          costCenterCode,
-          params,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new CostCenterActions.LoadAssignedBudgets({
+            userId,
+            costCenterCode,
+            params,
+          })
+        ),
+      () => {}
     );
   }
 
@@ -172,26 +177,30 @@ export class CostCenterService {
   }
 
   assignBudget(costCenterCode: string, budgetCode: string): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new CostCenterActions.AssignBudget({
-          userId,
-          costCenterCode,
-          budgetCode,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new CostCenterActions.AssignBudget({
+            userId,
+            costCenterCode,
+            budgetCode,
+          })
+        ),
+      () => {}
     );
   }
 
   unassignBudget(costCenterCode: string, budgetCode: string): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new CostCenterActions.UnassignBudget({
-          userId,
-          costCenterCode,
-          budgetCode,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new CostCenterActions.UnassignBudget({
+            userId,
+            costCenterCode,
+            budgetCode,
+          })
+        ),
+      () => {}
     );
   }
 
