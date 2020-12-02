@@ -11,8 +11,8 @@
   "scripts": {
     "prepare:schematics": "yarn install",
     "clean": "yarn prepare:schematics && rimraf \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\"",
-    "build": "yarn clean && tsc -p tsconfig.json",
-    "test": "yarn build && jasmine \"src/**/*_spec.js\""
+    "build": "yarn clean && tsc -p ./tsconfig.schematics.json",
+    "test": "jest --config ./jest.schematics.config.js"
   },
   "author": "",
   "license": "MIT",
@@ -28,12 +28,13 @@
     "@schematics/update": "^0.1001.0"
   },
   "devDependencies": {
-    "@types/jasmine": "^3.5.0",
+    "@types/jest": "^26.0.15",
     "@types/node": "^12.11.1",
     "@types/shelljs": "^0.8.7",
-    "jasmine": "^3.5.0",
+    "jest": "^26.6.2",
     "rimraf": "^3.0.2",
     "shelljs": "^0.8.3",
+    "ts-jest": "^26.4.3",
     "typescript": "~4.0.2"
   },
   "ng-add": {
