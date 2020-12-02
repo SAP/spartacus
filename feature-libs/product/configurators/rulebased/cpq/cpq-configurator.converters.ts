@@ -6,3 +6,7 @@ import { Cpq } from './cpq.models';
 export const CPQ_CONFIGURATOR_NORMALIZER = new InjectionToken<
   Converter<Cpq.Configuration, Configurator.Configuration>
 >('CpqConfiguratorNormalizer');
+
+export const CPQ_CONFIGURATOR_SERIALIZER = new InjectionToken<
+  Converter<Configurator.Configuration, Cpq.UpdateAttribute>
+>('CpqConfiguratorSerializer');

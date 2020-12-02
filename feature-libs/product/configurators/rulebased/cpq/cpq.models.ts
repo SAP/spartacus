@@ -81,6 +81,18 @@ export namespace Cpq {
 
   /**
    *
+   * An interface representing the structure for update of CPQ configuration attribute.
+   */
+  export interface UpdateAttribute {
+    configurationId: string;
+    stdandardAttrCode: string;
+    attributeValueIds?: string;
+    userInput?: string;
+    quantity?: string;
+  }
+
+  /**
+   *
    * An enum representing possible displayAs value.
    */
   export enum DisplayAs {
