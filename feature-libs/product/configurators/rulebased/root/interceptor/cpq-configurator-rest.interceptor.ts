@@ -7,8 +7,8 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { switchMap, take, tap } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, switchMap, take, tap } from 'rxjs/operators';
 import { CpqAccessData } from './cpq-access-data.models';
 import { CpqAccessStorageService } from './cpq-access-storage.service';
 
@@ -34,11 +34,33 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
     return this.cpqAccessStorageService.getCachedCpqAccessData().pipe(
       take(1), //avoid request being re-executed when token expires
       switchMap((cpqData) => {
-        return next
-          .handle(this.enrichHeaders(request, cpqData))
-          .pipe(tap((response) => this.extractCpqSessionId(response, cpqData)));
+        return next.handle(this.enrichHeaders(request, cpqData)).pipe(
+          catchError((errorResponse: any) => {
+            return this.handleError(errorResponse, next, request);
+          }),
+          tap((response) => this.extractCpqSessionId(response, cpqData))
+        );
       })
     );
+  }
+
+  protected handleError(
+    errorResponse: any,
+    next: HttpHandler,
+    request: HttpRequest<any>
+  ) {
+    if (errorResponse instanceof HttpErrorResponse) {
+      if (errorResponse.status === 403) {
+        this.cpqAccessStorageService.renewCachedCpqAccessData();
+        return this.cpqAccessStorageService.getCachedCpqAccessData().pipe(
+          take(1),
+          switchMap((newCpqData) => {
+            return next.handle(this.enrichHeaders(request, newCpqData));
+          })
+        );
+      }
+    }
+    return throwError(errorResponse); //propagate error
   }
 
   protected extractCpqSessionId(
