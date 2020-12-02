@@ -9,12 +9,12 @@ import { MessageService } from '../../message/services/message.service';
 import { BaseItem } from '../../organization.model';
 
 /**
- * Reusable component in the my-company are to toggle the disabled state for
- * my company entities.
+ * Reusable component in the my-company is to delete an item (if it's possible)
  */
 @Component({
   selector: 'cx-org-delete-item',
   templateUrl: './delete-item.component.html',
+  host: { class: 'content-wrapper' },
 })
 export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
   /**
@@ -31,11 +31,13 @@ export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
    * Most _organization_ entities use the `code` key, but there is some variations.
    */
   @Input() key = 'code';
-  @Input() additionalParam?: string;
 
   /**
-   * The disabled state is calculated but can be provided as well.
+   * The additionalParam input can be used to provide additional data if it's required
+   * for API request
    */
+  @Input() additionalParam?: string;
+
   /**
    * resolves the current item.
    */

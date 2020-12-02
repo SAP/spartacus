@@ -9,11 +9,6 @@
     @extend %cardHeader !optional;
     @extend %cardMain !optional;
     @extend %cardSection !optional;
-
-    cx-org-toggle-status,
-    cx-org-delete-item {
-      display: contents;
-    }
   }
 }
 
