@@ -45,7 +45,7 @@ export class DatePickerFallbackDirective implements Validator {
   validate(formControl: AbstractControl): ValidationErrors {
     const errors: ValidationErrors = {};
 
-    if (formControl.value !== '') {
+    if (formControl.value && formControl.value !== '') {
       // we need to do the pattern validation here, as the default pattern validator
       // doesn't work dynamically.
       if (this.pattern) {
@@ -56,11 +56,11 @@ export class DatePickerFallbackDirective implements Validator {
       }
 
       if (!errors.pattern) {
-        if (this.validateMax(formControl)) {
-          errors.max = true;
-        }
         if (this.validateMin(formControl)) {
           errors.min = true;
+        }
+        if (this.validateMax(formControl)) {
+          errors.max = true;
         }
       }
     }
