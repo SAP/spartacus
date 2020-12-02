@@ -32,7 +32,7 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
       return next.handle(request);
     }
     return this.cpqAccessStorageService.getCachedCpqAccessData().pipe(
-      take(1), //avoid request being re-executed when token expires
+      take(1), // avoid request being re-executed when token expires
       switchMap((cpqData) => {
         return next
           .handle(this.enrichHeaders(request, cpqData))
