@@ -10,15 +10,21 @@ import {
   ReplaceChange,
 } from '@schematics/angular/utility/change';
 import * as ts from 'typescript';
-import { ANGULAR_CORE } from '../constants';
+import {
+  ANGULAR_CORE,
+  B2B_STOREFRONT_MODULE,
+  B2C_STOREFRONT_MODULE,
+} from '../constants';
 
 /**
  * Finds the Storefront config in the given app.module.ts
+ *
+ * It first tries to find the B2CStorefrontModule; if it fails to find, it tries to find the B2BStorefrontModule
+ *
  * @param appModuleSourceFile
  */
 export function getExistingStorefrontConfigNode(
-  appModuleSourceFile: ts.SourceFile,
-  configModuleName: string
+  appModuleSourceFile: ts.SourceFile
 ): ts.CallExpression | undefined {
   const metadata = getDecoratorMetadata(
     appModuleSourceFile,
@@ -41,11 +47,22 @@ export function getExistingStorefrontConfigNode(
     return undefined;
   }
 
-  // find the B2cStorefrontModule.withConfig call expression node
+  // try with B2cStorefrontModule first
+  const b2cStorefrontModule = arrayLiteral.elements.filter(
+    (node) =>
+      ts.isCallExpression(node) &&
+      node.getFullText().indexOf(`${B2C_STOREFRONT_MODULE}.withConfig`) !== -1
+  )[0] as ts.CallExpression;
+  if (b2cStorefrontModule) {
+    return b2cStorefrontModule;
+  }
+
+  // if not present, try with B2B_STOREFRONT_MODULE
+
   return arrayLiteral.elements.filter(
     (node) =>
       ts.isCallExpression(node) &&
-      node.getFullText().indexOf(`${configModuleName}.withConfig`) !== -1
+      node.getFullText().indexOf(`${B2B_STOREFRONT_MODULE}.withConfig`) !== -1
   )[0] as ts.CallExpression;
 }
 
