@@ -2,7 +2,7 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import { UTF_8 } from '../../../shared/constants';
+import { NGUNIVERSAL_EXPRESS_ENGINE, UTF_8 } from '../../../shared/constants';
 import { runMigration } from '../../../shared/utils/test-utils';
 
 const MIGRATION_SCRIPT_NAME = 'migration-v2-ssr-07';
@@ -160,7 +160,7 @@ describe('ssr', () => {
       expect(scripts['build:client-and-server-bundles_bak']).toBeDefined();
       expect(scripts['compile:server_bak']).toBeDefined();
       expect(scripts['serve:ssr_bak']).toBeDefined();
-      expect(dependencies['@nguniversal/express-engine']).toBeDefined();
+      expect(dependencies[NGUNIVERSAL_EXPRESS_ENGINE]).toBeDefined();
       expect(devDependencies['@nguniversal/builders']).toBeDefined();
     });
 

@@ -6,6 +6,8 @@ import {
   DEFAULT_ANGULAR_VERSION,
   UTF_8,
 } from '../constants';
+import { getPathResultsForFile } from './file-utils';
+import { getDefaultProjectNameFromWorkspace } from './workspace-utils';
 
 export function readPackageJson(tree: Tree): any {
   const pkgPath = '/package.json';
@@ -50,4 +52,26 @@ export function getSpartacusCurrentFeatureLevel(): string {
 export function isAngularLocalizeInstalled(tree: Tree): boolean {
   const packageJsonObject = readPackageJson(tree);
   return packageJsonObject.dependencies.hasOwnProperty(ANGULAR_LOCALIZE);
+}
+
+export function checkIfSSRIsUsed(tree: Tree): boolean {
+  const projectName = getDefaultProjectNameFromWorkspace(tree);
+  const buffer = tree.read('angular.json');
+  if (!buffer) {
+    throw new SchematicsException('Could not find angular.json');
+  }
+  const angularFileBuffer = buffer.toString(UTF_8);
+  const angularJson = JSON.parse(angularFileBuffer);
+  const isServerConfiguration = !!angularJson.projects[projectName].architect[
+    'server'
+  ];
+  const serverFilePath = getPathResultsForFile(tree, 'server.ts', '/')[0];
+  const serverBuffer = tree.read(serverFilePath);
+  if (!serverBuffer) {
+    return false;
+  }
+  const serverFileBuffer = serverBuffer.toString(UTF_8);
+  const isServerSideAvailable = serverFileBuffer && !!serverFileBuffer.length;
+
+  return !!(isServerConfiguration && isServerSideAvailable);
 }
