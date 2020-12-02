@@ -5,7 +5,7 @@ import { Cpq } from './cpq.models';
 
 const VALUE_SEPARATOR = ',';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class CpqConfiguratorSerializer
   implements Converter<Configurator.Configuration, Cpq.UpdateAttribute> {
   convert(source: Configurator.Configuration): Cpq.UpdateAttribute {
@@ -56,12 +56,12 @@ export class CpqConfiguratorSerializer
   }
 
   prepareValueIds(attribute: Configurator.Attribute): string {
-    let valueIds: string;
+    let valueIds = '';
     const selectedValues: Configurator.Value[] = attribute.values.filter(
       (value) => value.selected
     );
     selectedValues.forEach((value) => {
-      valueIds += value + VALUE_SEPARATOR;
+      valueIds += value.valueCode + VALUE_SEPARATOR;
     });
     return valueIds;
   }

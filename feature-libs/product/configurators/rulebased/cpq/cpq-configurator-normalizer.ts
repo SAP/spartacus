@@ -73,7 +73,7 @@ export class CpqConfiguratorNormalizer
     attributeList: Configurator.Attribute[]
   ): void {
     const attribute: Configurator.Attribute = {
-      attrCode: sourceAttribute.pA_ID,
+      attrCode: sourceAttribute.stdAttrCode,
       name: sourceAttribute.name,
       description: sourceAttribute.description,
       label: sourceAttribute.label,
