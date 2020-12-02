@@ -776,7 +776,7 @@ describe('File utils', () => {
         const constructorNode = findConstructor(nodes);
         const paramToAdd: ClassType = {
           className: PLATFORM,
-          staticType: ANY_TYPE,
+          literalInference: ANY_TYPE,
           injectionToken: {
             token: PLATFORM_ID_STRING,
             importPath: ANGULAR_CORE,
@@ -962,7 +962,7 @@ describe('File utils', () => {
       );
       const paramToRemove: ClassType = {
         className: PLATFORM,
-        staticType: ANY_TYPE,
+        literalInference: ANY_TYPE,
         injectionToken: {
           token: PLATFORM_ID_STRING,
           importPath: ANGULAR_CORE,
@@ -994,7 +994,7 @@ describe('File utils', () => {
       );
       const paramToRemove: ClassType = {
         className: PLATFORM,
-        staticType: ANY_TYPE,
+        literalInference: ANY_TYPE,
         injectionToken: {
           token: PLATFORM_ID_STRING,
           importPath: ANGULAR_CORE,

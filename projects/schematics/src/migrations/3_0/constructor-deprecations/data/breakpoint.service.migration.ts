@@ -28,7 +28,7 @@ export const BREAKPOINT_SERVICE_MIGRATION: ConstructorDeprecation = {
   addParams: [
     {
       className: PLATFORM,
-      staticType: ANY_TYPE,
+      literalInference: ANY_TYPE,
       injectionToken: {
         token: PLATFORM_ID_STRING,
         importPath: ANGULAR_CORE,

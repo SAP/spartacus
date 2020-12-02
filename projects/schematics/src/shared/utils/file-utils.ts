@@ -32,7 +32,7 @@ export enum InsertDirection {
 export interface ClassType {
   className: string;
   importPath?: string;
-  staticType?: string;
+  literalInference?: string;
   injectionToken?: {
     token: string;
     importPath?: string;
@@ -511,7 +511,7 @@ export function addConstructorParam(
         path: sourcePath,
         serviceName: paramToAdd.className,
         modifier: 'no-modifier',
-        propertyType: paramToAdd.staticType,
+        propertyType: paramToAdd.literalInference,
         injectionToken: paramToAdd.injectionToken?.token,
         isArray: paramToAdd.injectionToken?.isArray,
       })
