@@ -11,6 +11,7 @@ export {
   InsertDirection,
   removeImport,
 } from './file-utils';
+export * from './lib-utils';
 export {
   addImport,
   addToMetadata,
