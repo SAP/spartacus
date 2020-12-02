@@ -336,6 +336,8 @@
     td:last-child a {
       // last cell will have an icon, which is why we add additional padding
       padding-inline-end: 40px;
+      // ensure enough space against the column in the left
+      padding-inline-start: 40px;
     }
 
     td:last-child span {
