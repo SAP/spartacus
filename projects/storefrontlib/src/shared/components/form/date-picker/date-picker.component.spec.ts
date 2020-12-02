@@ -113,4 +113,13 @@ describe('DatePickerComponent', () => {
       expect(maxControl.updateValueAndValidity).toHaveBeenCalled();
     });
   });
+
+  describe('validates input date', () => {
+    it('should not return invalid date', () => {
+      expect(component.getDate('2020-12')).toBeNull();
+    });
+    it('should not return invalid date', () => {
+      expect(component.getDate('2020-12-2')).toEqual('2020-12-2');
+    });
+  });
 });

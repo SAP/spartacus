@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { DatePickerService } from './date-picker.service';
 
-fdescribe('DatePickerService', () => {
+describe('DatePickerService', () => {
   let service: DatePickerService;
   beforeEach(() => {
     TestBed.configureTestingModule({

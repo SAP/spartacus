@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { DatePickerService } from './date-picker.service';
 
 /**
  * Component that adds a date control. While the native date picker works in most
@@ -18,6 +19,7 @@ import { FormControl } from '@angular/forms';
   // change detection, see https://github.com/angular/angular/issues/10816
 })
 export class DatePickerComponent {
+  constructor(protected service: DatePickerService) {}
   @Input() control: FormControl;
   @Input() min: FormControl;
   @Input() max: FormControl;
@@ -26,5 +28,14 @@ export class DatePickerComponent {
     // we're updating the min/max controls to ensure that validation kicks in
     this.min?.updateValueAndValidity();
     this.max?.updateValueAndValidity();
+  }
+
+  /**
+   * Only returns the date if we have a valid format. We do this to avoid
+   * loads of console errors coming from the datePipe while the user is typing
+   * (in those browsers where the date picker isn't supported).
+   */
+  getDate(date: string): string {
+    return this.service.isValidFormat(date) ? date : null;
   }
 }

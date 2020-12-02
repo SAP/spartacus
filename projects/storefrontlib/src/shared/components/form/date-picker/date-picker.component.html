@@ -11,7 +11,7 @@
   [control]="control"
   prefix="formErrors.date"
   [translationParams]="{
-    max: max?.value | cxDate,
-    min: min?.value | cxDate
+    max: getDate(max?.value) | cxDate,
+    min: getDate(min?.value) | cxDate
   }"
 ></cx-form-errors>
