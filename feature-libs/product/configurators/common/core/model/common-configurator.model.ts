@@ -48,7 +48,7 @@ export namespace CommonConfigurator {
  * Statuses that can occur in the generic configuration
  * status summary
  */
-export enum ConfiguratorOrderEntryStatus {
+export enum OrderEntryStatus {
   Success = 'SUCCESS',
   Info = 'INFO',
   Warning = 'WARNING',
@@ -60,7 +60,7 @@ export enum ConfiguratorOrderEntryStatus {
  */
 export interface StatusSummary {
   numberOfIssues?: number;
-  status?: ConfiguratorOrderEntryStatus;
+  status?: OrderEntryStatus;
 }
 
 /**

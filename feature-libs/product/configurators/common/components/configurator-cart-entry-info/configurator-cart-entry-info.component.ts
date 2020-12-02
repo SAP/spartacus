@@ -10,7 +10,8 @@ export class ConfiguratorCartEntryInfoComponent {
   constructor(@Optional() public cartItemContext?: CartItemContext) {}
 
   /**
-   * Verifies whether the configuration infos has any entries and the entry has any status.
+   * Verifies whether the configuration infos have any entries and the first entry has a status.
+   * Only in this case we want to display the configuration summary
    *
    * @param {OrderEntry} item - Cart item
    * @returns {boolean} - whether the status of configuration infos entry has status

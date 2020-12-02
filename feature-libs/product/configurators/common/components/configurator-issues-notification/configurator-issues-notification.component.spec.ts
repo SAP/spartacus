@@ -5,7 +5,7 @@ import { CartItemContext, CartItemContextModel } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import {
   ConfigurationInfo,
-  ConfiguratorOrderEntryStatus,
+  OrderEntryStatus,
   StatusSummary,
 } from './../../core/model/common-configurator.model';
 import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-notification.component';
@@ -18,7 +18,7 @@ class MockTranslatePipe implements PipeTransform {
 }
 
 let item: OrderEntry;
-function setContext(
+function emitNewContextValue(
   cartItemOutletConfiguratorComponent: ConfiguratorIssuesNotificationComponent,
   statusSummary: StatusSummary[],
   configurationInfos: ConfigurationInfo[],
@@ -30,14 +30,14 @@ function setContext(
     configurationInfos: configurationInfos,
     product: { configurable: productConfigurable },
   };
-  const newChunk: any = {
+  const cartItemContext: any = {
     item: item,
     readonly: readOnly,
     quantityControl: {},
   };
   const context$ = cartItemOutletConfiguratorComponent.cartItemContext
     .context$ as BehaviorSubject<CartItemContextModel>;
-  context$.next({ ...context$.value, ...newChunk });
+  context$.next(cartItemContext);
 }
 
 describe('ConfigureIssuesNotificationComponent', () => {
@@ -74,9 +74,9 @@ describe('ConfigureIssuesNotificationComponent', () => {
   });
 
   it('should return number of issues of ERROR status', () => {
-    setContext(
+    emitNewContextValue(
       component,
-      [{ numberOfIssues: 2, status: ConfiguratorOrderEntryStatus.Error }],
+      [{ numberOfIssues: 2, status: OrderEntryStatus.Error }],
       null,
       false
     );
@@ -84,11 +84,11 @@ describe('ConfigureIssuesNotificationComponent', () => {
   });
 
   it('should return number of issues of ERROR status if ERROR and SUCCESS statuses are present', () => {
-    setContext(
+    emitNewContextValue(
       component,
       [
-        { numberOfIssues: 1, status: ConfiguratorOrderEntryStatus.Success },
-        { numberOfIssues: 3, status: ConfiguratorOrderEntryStatus.Error },
+        { numberOfIssues: 1, status: OrderEntryStatus.Success },
+        { numberOfIssues: 3, status: OrderEntryStatus.Error },
       ],
       null,
       false
@@ -98,9 +98,9 @@ describe('ConfigureIssuesNotificationComponent', () => {
   });
 
   it('should return number of issues as 0 if only SUCCESS status is present', () => {
-    setContext(
+    emitNewContextValue(
       component,
-      [{ numberOfIssues: 2, status: ConfiguratorOrderEntryStatus.Success }],
+      [{ numberOfIssues: 2, status: OrderEntryStatus.Success }],
       null,
       false
     );
@@ -109,19 +109,19 @@ describe('ConfigureIssuesNotificationComponent', () => {
   });
 
   it('should return number of issues as 0 if statusSummaryList is undefined', () => {
-    setContext(component, null, null, false);
+    emitNewContextValue(component, null, null, false);
     expect(component.getNumberOfIssues(item)).toBe(0);
   });
 
   it('should return number of issues as 0 if statusSummaryList is empty', () => {
-    setContext(component, [], null, false);
+    emitNewContextValue(component, [], null, false);
     expect(component.getNumberOfIssues(item)).toBe(0);
   });
 
   it('should display configure from cart in case issues are present', () => {
-    setContext(
+    emitNewContextValue(
       component,
-      [{ numberOfIssues: 2, status: ConfiguratorOrderEntryStatus.Error }],
+      [{ numberOfIssues: 2, status: OrderEntryStatus.Error }],
       null,
       false
     );
@@ -139,9 +139,9 @@ describe('ConfigureIssuesNotificationComponent', () => {
   });
 
   it('should not display configure from cart in case issues are present but product not configurable', () => {
-    setContext(
+    emitNewContextValue(
       component,
-      [{ numberOfIssues: 2, status: ConfiguratorOrderEntryStatus.Error }],
+      [{ numberOfIssues: 2, status: OrderEntryStatus.Error }],
       null,
       false,
       false
@@ -158,9 +158,9 @@ describe('ConfigureIssuesNotificationComponent', () => {
   });
 
   it('should return false if number of issues of ERROR status is = 0', () => {
-    setContext(
+    emitNewContextValue(
       component,
-      [{ numberOfIssues: 2, status: ConfiguratorOrderEntryStatus.Success }],
+      [{ numberOfIssues: 2, status: OrderEntryStatus.Success }],
       null,
       false
     );
