@@ -7,14 +7,14 @@ import {
 import { AdminGuard } from '@spartacus/organization/administration/core';
 import { TableConfig } from '@spartacus/storefront';
 import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
-import { OrganizationItemService } from '../shared/organization-item.service';
-import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
-import { OrganizationListService } from '../shared/organization-list/organization-list.service';
-import { AssignCellComponent } from '../shared/organization-sub-list/assign-cell.component';
-import { ActiveLinkCellComponent } from '../shared/organization-table/active-link/active-link-cell.component';
-import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
-import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
-import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
+import { ItemService } from '../shared/item.service';
+import { ListComponent } from '../shared/list/list.component';
+import { ListService } from '../shared/list/list.service';
+import { AssignCellComponent } from '../shared/sub-list/assign-cell.component';
+import { ActiveLinkCellComponent } from '../shared/table/active-link/active-link-cell.component';
+import { CellComponent } from '../shared/table/cell.component';
+import { StatusCellComponent } from '../shared/table/status/status-cell.component';
+import { UnitCellComponent } from '../shared/table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
 import { CostCenterAssignedBudgetListComponent } from './budgets/assigned/cost-center-assigned-budget-list.component';
 import { CostCenterBudgetListComponent } from './budgets/cost-center-budget-list.component';
@@ -58,14 +58,14 @@ export const costCenterRoutingConfig: RoutingConfig = {
 export const costCenterCmsConfig: CmsConfig = {
   cmsComponents: {
     ManageCostCentersListComponent: {
-      component: OrganizationListComponent,
+      component: ListComponent,
       providers: [
         {
-          provide: OrganizationListService,
+          provide: ListService,
           useExisting: CostCenterListService,
         },
         {
-          provide: OrganizationItemService,
+          provide: ItemService,
           useExisting: CostCenterItemService,
         },
       ],
@@ -138,7 +138,7 @@ export const costCenterTableConfig: TableConfig = {
             dataComponent: StatusCellComponent,
           },
           currency: {
-            dataComponent: OrganizationCellComponent,
+            dataComponent: CellComponent,
           },
           unit: {
             dataComponent: UnitCellComponent,

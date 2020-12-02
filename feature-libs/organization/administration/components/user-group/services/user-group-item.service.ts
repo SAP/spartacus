@@ -6,14 +6,14 @@ import {
   UserGroupService,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
-import { OrganizationItemService } from '../../shared/organization-item.service';
+import { ItemService } from '../../shared/item.service';
 import { UserGroupFormService } from '../form/user-group-form.service';
 import { CurrentUserGroupService } from './current-user-group.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserGroupItemService extends OrganizationItemService<UserGroup> {
+export class UserGroupItemService extends ItemService<UserGroup> {
   constructor(
     protected currentItemService: CurrentUserGroupService,
     protected routingService: RoutingService,

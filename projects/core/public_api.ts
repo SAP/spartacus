@@ -22,7 +22,6 @@ export * from './src/routing/index';
 export * from './src/site-context/index';
 export * from './src/smart-edit/index';
 export * from './src/state/index';
-export * from './src/store-finder/index';
 export * from './src/user/index';
 export * from './src/util/index';
 export * from './src/window/index';

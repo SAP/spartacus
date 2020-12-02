@@ -2,16 +2,16 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { B2BUser } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
-import { OrganizationItemService } from '../../shared/organization-item.service';
+import { ItemService } from '../../shared/item.service';
 import { UserItemService } from '../services/user-item.service';
 
 @Component({
-  selector: 'cx-user-details',
+  selector: 'cx-org-user-details',
   templateUrl: './user-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
-      provide: OrganizationItemService,
+      provide: ItemService,
       useExisting: UserItemService,
     },
   ],
@@ -23,6 +23,7 @@ export class UserDetailsComponent {
     switchMap((code) => this.itemService.load(code)),
     startWith({})
   );
+  isInEditMode$ = this.itemService.isInEditMode$;
 
-  constructor(protected itemService: OrganizationItemService<B2BUser>) {}
+  constructor(protected itemService: ItemService<B2BUser>) {}
 }

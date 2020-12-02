@@ -7,12 +7,12 @@ import {
 import { AdminGuard } from '@spartacus/organization/administration/core';
 import { BREAKPOINT, TableConfig, TableLayout } from '@spartacus/storefront';
 import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
-import { OrganizationItemService } from '../shared/organization-item.service';
-import { OrganizationListService } from '../shared/organization-list/organization-list.service';
-import { AssignCellComponent } from '../shared/organization-sub-list/assign-cell.component';
-import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
-import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
-import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
+import { ItemService } from '../shared/item.service';
+import { ListService } from '../shared/list/list.service';
+import { AssignCellComponent } from '../shared/sub-list/assign-cell.component';
+import { CellComponent } from '../shared/table/cell.component';
+import { StatusCellComponent } from '../shared/table/status/status-cell.component';
+import { UnitCellComponent } from '../shared/table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
 import { UnitDetailsComponent } from './details/unit-details.component';
 import { UnitFormComponent } from './form/unit-form.component';
@@ -22,7 +22,7 @@ import { LinkCellComponent } from './links/addresses/list/link-cell.component';
 import { UnitAddressListComponent } from './links/addresses/list/unit-address-list.component';
 import { UnitAssignedApproverListComponent } from './links/approvers/assigned/unit-assigned-approver-list.component';
 import { UnitApproverListComponent } from './links/approvers/unit-approver-list.component';
-import { ChildUnitCreateComponent } from './links/children/create/child-unit-create.component';
+import { UnitChildCreateComponent } from './links/children/create/unit-child-create.component';
 import { UnitChildrenComponent } from './links/children/unit-children.component';
 import { UnitCostCenterListComponent } from './links/cost-centers/unit-cost-centers.component';
 import {
@@ -125,11 +125,11 @@ export const unitsCmsConfig: CmsConfig = {
       component: UnitListComponent,
       providers: [
         {
-          provide: OrganizationListService,
+          provide: ListService,
           useExisting: UnitListService,
         },
         {
-          provide: OrganizationItemService,
+          provide: ItemService,
           useExisting: UnitItemService,
         },
       ],
@@ -167,7 +167,7 @@ export const unitsCmsConfig: CmsConfig = {
                 children: [
                   {
                     path: 'create',
-                    component: ChildUnitCreateComponent,
+                    component: UnitChildCreateComponent,
                   },
                 ],
               },
@@ -278,7 +278,7 @@ export const unitsTableConfig: TableConfig = {
             dataComponent: StatusCellComponent,
           },
           uid: {
-            dataComponent: OrganizationCellComponent,
+            dataComponent: CellComponent,
           },
         },
       },

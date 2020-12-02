@@ -24,7 +24,7 @@ fi
 
 # Install dependencies and build lib
 yarn
-yarn build:core:lib:cds
+yarn build:libs
 
 # Directory for reports
 rm -rf etc
@@ -76,6 +76,13 @@ cp "$CONFIG_PATH" ./dist/organization/api-extractor.json
 cp "$CONFIG_PATH" ./dist/product/api-extractor.json
 (
   cd ./dist/product && \
+  api-extractor run --local --verbose
+)
+
+# @spartacus/misc
+cp "$CONFIG_PATH" ./dist/misc/api-extractor.json
+(
+  cd ./dist/misc && \
   api-extractor run --local --verbose
 )
 

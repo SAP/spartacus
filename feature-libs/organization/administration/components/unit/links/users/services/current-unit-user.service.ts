@@ -3,14 +3,12 @@ import { B2BUser, RoutingService } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
 import { Observable, of } from 'rxjs';
 import { ROUTE_PARAMS } from '../../../../constants';
-import { CurrentOrganizationItemService } from '../../../../shared/current-organization-item.service';
+import { CurrentItemService } from '../../../../shared/current-item.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CurrentUnitUserService extends CurrentOrganizationItemService<
-  B2BUser
-> {
+export class CurrentUnitUserService extends CurrentItemService<B2BUser> {
   constructor(
     protected routingService: RoutingService,
     protected b2bUserService: B2BUserService

@@ -10,7 +10,7 @@ import { AnonymousConsentsStatePersistenceService } from '../services/anonymous-
 
 export function anonymousConsentsStatePersistenceFactory(
   anonymousConsentsStatePersistenceService: AnonymousConsentsStatePersistenceService
-) {
+): () => void {
   const result = () => anonymousConsentsStatePersistenceService.initSync();
   return result;
 }

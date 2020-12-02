@@ -5,6 +5,7 @@ import {
   Injectable,
   Injector,
   isDevMode,
+  NgModuleRef,
   Optional,
   ViewContainerRef,
 } from '@angular/core';
@@ -58,12 +59,14 @@ export class ComponentHandlerService {
   getLauncher(
     componentMapping: CmsComponentMapping,
     viewContainerRef: ViewContainerRef,
-    elementInjector?: Injector
+    elementInjector?: Injector,
+    module?: NgModuleRef<any>
   ): Observable<{ elementRef: ElementRef; componentRef?: ComponentRef<any> }> {
     return this.resolve(componentMapping)?.launcher(
       componentMapping,
       viewContainerRef,
-      elementInjector
+      elementInjector,
+      module
     );
   }
 }

@@ -5,7 +5,7 @@ import { catchError, concatMap, map } from 'rxjs/operators';
 import { CartModification } from '../../../model/cart.model';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
-import { withdrawOn } from '../../../util/withdraw-on';
+import { withdrawOn } from '../../../util/rxjs/withdraw-on';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
 import { CartActions } from '../actions/index';
 

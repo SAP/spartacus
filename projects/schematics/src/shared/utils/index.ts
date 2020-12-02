@@ -4,7 +4,14 @@ export {
   getExistingStorefrontConfigNode,
   mergeConfig,
 } from './config-utils';
-export { commitChanges, getTsSourceFile, InsertDirection } from './file-utils';
+export {
+  commitChanges,
+  findMultiLevelNodesByTextAndKind,
+  getTsSourceFile,
+  InsertDirection,
+  removeImport,
+} from './file-utils';
+export * from './lib-utils';
 export {
   addImport,
   addToMetadata,
@@ -12,6 +19,7 @@ export {
   addToModuleImportsAndCommitChanges,
   addToModuleProviders,
   createImportChange,
+  getAppModule,
 } from './module-file-utils';
 export {
   getSpartacusSchematicsVersion,
@@ -22,4 +30,5 @@ export {
   getProjectTargets,
   getSourceRoot,
   getWorkspace,
+  validateSpartacusInstallation,
 } from './workspace-utils';

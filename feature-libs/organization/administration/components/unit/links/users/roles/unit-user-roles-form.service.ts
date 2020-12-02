@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { B2BUser, B2BUserRole } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
-import { OrganizationFormService } from '../../../../shared/organization-form/organization-form.service';
+import { FormService } from '../../../../shared/form/form.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UnitUserRolesFormService extends OrganizationFormService<B2BUser> {
+export class UnitUserRolesFormService extends FormService<B2BUser> {
   availableRoles: B2BUserRole[] = this.userService.getAllRoles();
 
   constructor(protected userService: B2BUserService) {

@@ -3,6 +3,7 @@ import {
   ElementRef,
   Injectable,
   Injector,
+  NgModuleRef,
   ViewContainerRef,
 } from '@angular/core';
 import { CmsComponentMapping, Priority } from '@spartacus/core';
@@ -43,14 +44,16 @@ export class LazyComponentHandler implements ComponentHandler {
   launcher(
     componentMapping: CmsComponentMapping,
     viewContainerRef: ViewContainerRef,
-    elementInjector?: Injector
+    elementInjector?: Injector,
+    module?: NgModuleRef<any>
   ): Observable<{ elementRef: ElementRef; componentRef?: ComponentRef<any> }> {
     return from(componentMapping.component()).pipe(
       switchMap((component) =>
         this.defaultHandler.launcher(
           { ...componentMapping, component },
           viewContainerRef,
-          elementInjector
+          elementInjector,
+          module
         )
       )
     );

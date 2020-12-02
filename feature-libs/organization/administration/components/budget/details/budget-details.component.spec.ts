@@ -11,16 +11,15 @@ import {
   MessageService,
   ToggleStatusModule,
 } from '../../shared';
-import { OrganizationCardTestingModule } from '../../shared/organization-card/organization-card.testing.module';
-import { OrganizationItemService } from '../../shared/organization-item.service';
-import { MessageTestingModule } from '../../shared/organization-message/message.testing.module';
+import { CardTestingModule } from '../../shared/card/card.testing.module';
+import { ItemService } from '../../shared/item.service';
+import { MessageTestingModule } from '../../shared/message/message.testing.module';
 import { BudgetDetailsComponent } from './budget-details.component';
 import createSpy = jasmine.createSpy;
 
 const mockCode = 'b1';
 
-class MockBudgetItemService
-  implements Partial<OrganizationItemService<Budget>> {
+class MockBudgetItemService implements Partial<ItemService<Budget>> {
   key$ = of(mockCode);
   load = createSpy('load').and.returnValue(of());
   error$ = of(false);
@@ -37,7 +36,7 @@ class MockMessageService {
 describe('BudgetDetailsComponent', () => {
   let component: BudgetDetailsComponent;
   let fixture: ComponentFixture<BudgetDetailsComponent>;
-  let itemService: OrganizationItemService<Budget>;
+  let itemService: ItemService<Budget>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -46,14 +45,12 @@ describe('BudgetDetailsComponent', () => {
         RouterTestingModule,
         I18nTestingModule,
         UrlTestingModule,
-        OrganizationCardTestingModule,
+        CardTestingModule,
         MessageTestingModule,
         ToggleStatusModule,
       ],
       declarations: [BudgetDetailsComponent, ItemExistsDirective],
-      providers: [
-        { provide: OrganizationItemService, useClass: MockBudgetItemService },
-      ],
+      providers: [{ provide: ItemService, useClass: MockBudgetItemService }],
     })
       .overrideComponent(BudgetDetailsComponent, {
         set: {
@@ -67,7 +64,7 @@ describe('BudgetDetailsComponent', () => {
       })
       .compileComponents();
 
-    itemService = TestBed.inject(OrganizationItemService);
+    itemService = TestBed.inject(ItemService);
     fixture = TestBed.createComponent(BudgetDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

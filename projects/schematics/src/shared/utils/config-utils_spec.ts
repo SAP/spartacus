@@ -2,7 +2,7 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import path from 'path';
+import * as path from 'path';
 import * as ts from 'typescript';
 import {
   createNewConfig,
@@ -93,7 +93,7 @@ describe('Storefront config utils', () => {
   });
 
   describe('mergeConfig', () => {
-    it('should merge the provided configs', async () => {
+    it('should merge the provided config array', async () => {
       const appModuleFile = getTsSourceFile(appTree, appModulePath);
       const config = getExistingStorefrontConfigNode(
         appModuleFile
@@ -118,7 +118,24 @@ describe('Storefront config utils', () => {
       expect(appTree.readContent(appModulePath)).toContain('JPY');
     });
 
-    it('should create a new config if nothing to be merge', async () => {
+    it('should merge the provided regular config', async () => {
+      const appModuleFile = getTsSourceFile(appTree, appModulePath);
+      const config = getExistingStorefrontConfigNode(
+        appModuleFile
+      ) as ts.CallExpression;
+      const backendConfig = getConfig(
+        config,
+        'backend'
+      ) as ts.PropertyAssignment;
+
+      const change = mergeConfig(appModulePath, backendConfig, 'occ', 'random');
+
+      expect(appTree.readContent(appModulePath)).not.toContain('random');
+      commitChanges(appTree, appModulePath, [change]);
+      expect(appTree.readContent(appModulePath)).toContain('random');
+    });
+
+    it('should create a new config if there is nothing to be mergex', async () => {
       const appModuleFile = getTsSourceFile(appTree, appModulePath);
       const config = getExistingStorefrontConfigNode(
         appModuleFile

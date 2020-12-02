@@ -7,13 +7,13 @@ import {
 import { AdminGuard } from '@spartacus/organization/administration/core';
 import { TableConfig } from '@spartacus/storefront';
 import { ROUTE_PARAMS } from '../constants';
-import { OrganizationItemService } from '../shared/organization-item.service';
-import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
-import { OrganizationListService } from '../shared/organization-list/organization-list.service';
-import { ActiveLinkCellComponent } from '../shared/organization-table/active-link/active-link-cell.component';
-import { LimitCellComponent } from '../shared/organization-table/limit/limit-cell.component';
-import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
-import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
+import { ItemService } from '../shared/item.service';
+import { ListComponent } from '../shared/list/list.component';
+import { ListService } from '../shared/list/list.service';
+import { ActiveLinkCellComponent } from '../shared/table/active-link/active-link-cell.component';
+import { LimitCellComponent } from '../shared/table/limit/limit-cell.component';
+import { StatusCellComponent } from '../shared/table/status/status-cell.component';
+import { UnitCellComponent } from '../shared/table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
 import { PermissionDetailsComponent } from './details/permission-details.component';
 import { PermissionFormComponent } from './form/permission-form.component';
@@ -50,14 +50,14 @@ export const permissionRoutingConfig: RoutingConfig = {
 export const permissionCmsConfig: CmsConfig = {
   cmsComponents: {
     ManagePermissionsListComponent: {
-      component: OrganizationListComponent,
+      component: ListComponent,
       providers: [
         {
-          provide: OrganizationListService,
+          provide: ListService,
           useExisting: PermissionListService,
         },
         {
-          provide: OrganizationItemService,
+          provide: ItemService,
           useExisting: PermissionItemService,
         },
       ],

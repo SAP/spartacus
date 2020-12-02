@@ -1,4 +1,4 @@
-<cx-organization-form i18nRoot="budget">
+<cx-org-form i18nRoot="budget">
   <ng-container *ngIf="form" [formGroup]="form" main>
     <label>
       <span class="label-content required">{{
@@ -31,29 +31,17 @@
     <label>
       <span class="label-content">{{ 'budget.startDate' | cxTranslate }}</span>
       <cx-date-picker
-        formControlName="startDate"
-        [max]="form.controls.endDate.value"
-        (change)="form.controls.endDate.updateValueAndValidity()"
-      ></cx-date-picker>
-      <cx-form-errors
         [control]="form.get('startDate')"
-        [translationParams]="{ max: form.controls.endDate.value | cxDate }"
-      ></cx-form-errors>
+        [max]="form.get('endDate')"
+      ></cx-date-picker>
     </label>
 
     <label>
       <span class="label-content">{{ 'budget.endDate' | cxTranslate }}</span>
       <cx-date-picker
-        formControlName="endDate"
-        [min]="form.controls.startDate.value"
-        (change)="form.controls.startDate.updateValueAndValidity()"
-      ></cx-date-picker>
-      <cx-form-errors
         [control]="form.get('endDate')"
-        [translationParams]="{
-          min: form.controls.startDate.value | cxDate
-        }"
-      ></cx-form-errors>
+        [min]="form.get('startDate')"
+      ></cx-date-picker>
     </label>
 
     <label aria-required="true" [formGroup]="form.get('currency')">
@@ -68,7 +56,8 @@
         bindLabel="name"
         bindValue="isocode"
         [class.invalid]="form.get('currency.isocode').invalid"
-        appendTo="cx-organization-list"
+        appendTo="cx-org-list"
+        [placeholder]="'budget.currency' | cxTranslate"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('currency.isocode')"></cx-form-errors>
@@ -102,10 +91,11 @@
         bindLabel="name"
         bindValue="id"
         [readonly]="form.get('orgUnit.uid').disabled"
-        appendTo="cx-organization-list"
+        appendTo="cx-org-list"
+        [placeholder]="'budget.businessUnits' | cxTranslate"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>
     </label>
   </ng-container>
-</cx-organization-form>
+</cx-org-form>

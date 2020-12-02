@@ -1,11 +1,9 @@
-<cx-organization-card
-  *ngIf="model$ | async as model"
-  i18nRoot="userGroup.details"
->
+<cx-org-card *ngIf="model$ | async as model" i18nRoot="userGroup.details">
   <a
     actions
     class="link edit"
     [routerLink]="{ cxRoute: 'userGroupEdit', params: model } | cxUrl"
+    [class.disabled]="isInEditMode$ | async"
   >
     {{ 'organization.edit' | cxTranslate }}
   </a>
@@ -61,4 +59,4 @@
       </a>
     </ng-container>
   </section>
-</cx-organization-card>
+</cx-org-card>
