@@ -120,7 +120,6 @@ export class PermissionService {
     return this.getPermissionList(params).pipe(
       observeOn(queueScheduler),
       tap((process: StateUtils.LoaderState<EntitiesModel<Permission>>) => {
-        console.log(process);
         if (!(process.loading || process.success || process.error)) {
           this.loadPermissions(params);
         }
