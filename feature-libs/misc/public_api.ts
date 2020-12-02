@@ -1,4 +1,4 @@
 /*
- * Public API Surface of my-account
+ * Public API Surface of misc
  */
 export * from '@spartacus/misc/storefinder';

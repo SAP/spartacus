@@ -6,6 +6,25 @@ import {
 } from './models/index';
 import { ignoreCaseSensivity, loginAsMyCompanyAdmin } from './my-company.utils';
 
+export enum FormType {
+  CREATE = 'create',
+  UPDATE = 'update',
+}
+
+/**
+ * Returns the key of the MyCompanyRowConfig for the item value.
+ *
+ * Depending on the form type, it returns the key for creating OR updating value.
+ */
+function getValueKey(formType: FormType): 'createValue' | 'updateValue' {
+  switch (formType) {
+    case FormType.CREATE:
+      return 'createValue';
+    case FormType.UPDATE:
+      return 'updateValue';
+  }
+}
+
 export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
   describe(`${config.name} Create / Update`, () => {
     let entityUId: string;
@@ -28,14 +47,14 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
         ignoreCaseSensivity(`Create ${config.name}`)
       );
 
-      completeForm(config.rows, 'createValue');
+      completeForm(config.rows, FormType.CREATE);
 
       cy.route('POST', `**${config.apiEndpoint}**`).as('getEntityData');
       cy.get('div.header button').contains('Save').click();
       cy.wait('@getEntityData').then((xhr) => {
         entityUId = xhr.response.body[config.entityIdField];
 
-        verifyDetails(config, 'createValue');
+        verifyDetails(config, FormType.CREATE);
         cy.get('cx-org-card cx-icon[type="CLOSE"]').click();
       });
     });
@@ -59,10 +78,10 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
         ignoreCaseSensivity(`Edit ${config.name}`)
       );
 
-      completeForm(config.rows, 'updateValue');
+      completeForm(config.rows, FormType.UPDATE);
       cy.get('div.header button').contains('Save').click();
 
-      verifyDetails(config, 'updateValue');
+      verifyDetails(config, FormType.UPDATE);
 
       cy.get('cx-icon[type="CLOSE"]').click();
     });
@@ -71,8 +90,10 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
 
 export function completeForm(
   rowConfigs: MyCompanyRowConfig[],
-  valueKey: string
+  formType: FormType
 ) {
+  const valueKey = getValueKey(formType);
+
   rowConfigs.forEach((input) => {
     if (input.formLabel) {
       getFieldByLabel(input.formLabel).then((el) => {
@@ -141,7 +162,9 @@ export function completeForm(
   }
 }
 
-function verifyDetails(config: MyCompanyConfig, valueKey: string) {
+function verifyDetails(config: MyCompanyConfig, formType: FormType) {
+  const valueKey = getValueKey(formType);
+
   const codeRow = config.rows?.find((row) => row.useInUrl);
   const headerRows = config.rows?.filter((row) => row.useInHeader);
 
@@ -169,10 +192,29 @@ function verifyDetails(config: MyCompanyConfig, valueKey: string) {
         'contain.text',
         rowConfig[valueKey] || label
       );
-      // TODO: Check property links
-      // if (rowConfig.link) {
-      //   cy.get('div.property a').should('contain.html', rowConfig.link);
-      // }
+
+      const link = getLink(rowConfig);
+      if (link) {
+        // TODO: spike todo get context from variables
+        cy.get('div.property a').should(
+          'have.attr',
+          'href',
+          `/powertools-spa/en/USD${link}`
+        );
+      }
     }
   });
+
+  /**
+   * Returns the link for the given row.
+   *
+   * - For FormType.CREATE, it returns `link`
+   * - For FormType.UPDATE, it returns `updatedLink` or `link` (if `updatedLink` is not present)
+   */
+  function getLink(rowConfig: MyCompanyRowConfig): string | undefined {
+    if (rowConfig.updatedLink && formType === FormType.UPDATE) {
+      return rowConfig.updatedLink;
+    }
+    return rowConfig.link;
+  }
 }

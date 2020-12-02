@@ -8,6 +8,7 @@ import {
   WorkspaceTargets,
 } from '@schematics/angular/utility/workspace-models';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
+import { SPARTACUS_CORE } from '../constants';
 
 const DEFAULT_POSSIBLE_PROJECT_FILES = ['/angular.json', '/.angular.json'];
 
@@ -42,7 +43,7 @@ export function getWorkspace(
   };
 }
 
-function getAngularJsonFile(
+export function getAngularJsonFile(
   tree: Tree,
   possibleProjectFiles = DEFAULT_POSSIBLE_PROJECT_FILES
 ): experimental.workspace.WorkspaceSchema {
@@ -155,4 +156,13 @@ export function isWorkspaceSchema(
 
 export function isWorkspaceProject(project: any): project is WorkspaceProject {
   return !!(project && (project as WorkspaceProject).projectType);
+}
+
+export function validateSpartacusInstallation(packageJson: any): void {
+  if (!packageJson.dependencies.hasOwnProperty(SPARTACUS_CORE)) {
+    throw new SchematicsException(
+      `Spartacus is not detected. Please first install Spartacus by running: 'ng add @spartacus/schematics'.
+    To see more options, please check our documentation.`
+    );
+  }
 }

@@ -18,20 +18,20 @@ import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
-import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import {
   addToModuleImports,
   addToModuleProviders,
+  B2B_STOREFRONT_MODULE,
   B2C_STOREFRONT_MODULE,
   commitChanges,
   createImportChange,
   createNewConfig,
   DEFAULT_B2B_OCC_CONFIG,
   findMultiLevelNodesByTextAndKind,
+  getAppModule,
   getConfig,
   getDefaultProjectNameFromWorkspace,
   getExistingStorefrontConfigNode,
-  getProjectTargets,
   getSourceRoot,
   getSpartacusSchematicsVersion,
   getTsSourceFile,
@@ -48,7 +48,6 @@ import * as ts from 'typescript';
 import {
   ADMINISTRATION_MODULE,
   ADMINISTRATION_ROOT_MODULE,
-  B2B_STOREFRONT_MODULE,
   CLI_ADMINISTRATION_FEATURE,
   CLI_ORDER_APPROVAL_FEATURE,
   ORDER_APPROVAL_MODULE,
@@ -94,10 +93,9 @@ export function addSpartacusOrganization(
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    const appModulePath = getAppModule(tree, options);
+    const appModulePath = getAppModule(tree, options.project);
 
     return chain([
-      addPackageJsonDependencies(packageJson),
       updateAppModule(appModulePath),
       shouldAddFeature(options.features, CLI_ADMINISTRATION_FEATURE)
         ? addAdministrationFeature(appModulePath, options)
@@ -106,6 +104,7 @@ export function addSpartacusOrganization(
         ? addOrderApprovalsFeature(appModulePath, options)
         : noop(),
       addStyles(),
+      addPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);
   };
@@ -113,6 +112,7 @@ export function addSpartacusOrganization(
 
 function updateAppModule(appModulePath: string): Rule {
   return (host: Tree, _context: SchematicContext) => {
+    const changes: Change[] = [];
     if (
       isImported(
         getTsSourceFile(host, appModulePath),
@@ -127,48 +127,46 @@ function updateAppModule(appModulePath: string): Rule {
           importPath: SPARTACUS_STOREFRONTLIB,
         }
       );
-      commitChanges(host, appModulePath, [importRemovalChange]);
+      changes.push(importRemovalChange);
     }
-
-    const changes: Change[] = [];
-    const appModuleSource = getTsSourceFile(host, appModulePath);
-    const b2bModuleImportChange = createImportChange(
-      host,
-      appModulePath,
-      B2B_STOREFRONT_MODULE,
-      SPARTACUS_SETUP
-    );
-    changes.push(b2bModuleImportChange);
 
     if (
       !isImported(
-        appModuleSource,
-        B2C_STOREFRONT_MODULE,
-        SPARTACUS_STOREFRONTLIB
+        getTsSourceFile(host, appModulePath),
+        B2B_STOREFRONT_MODULE,
+        SPARTACUS_SETUP
       )
     ) {
-      const results = findMultiLevelNodesByTextAndKind(
-        appModuleSource.getChildren(),
-        B2C_STOREFRONT_MODULE,
-        ts.SyntaxKind.Identifier
+      const b2bModuleImportChange = createImportChange(
+        host,
+        appModulePath,
+        B2B_STOREFRONT_MODULE,
+        SPARTACUS_SETUP
       );
-
-      results.forEach((result) => {
-        // skip the `import {B2cStorefrontModule} from '@spartacus/storefront'`
-        if (result.parent.kind !== ts.SyntaxKind.ImportSpecifier) {
-          changes.push(
-            new ReplaceChange(
-              appModulePath,
-              result.getStart(),
-              B2C_STOREFRONT_MODULE,
-              B2B_STOREFRONT_MODULE
-            )
-          );
-        }
-      });
+      changes.push(b2bModuleImportChange);
     }
 
+    const b2cNodeResults = findMultiLevelNodesByTextAndKind(
+      getTsSourceFile(host, appModulePath).getChildren(),
+      B2C_STOREFRONT_MODULE,
+      ts.SyntaxKind.Identifier
+    );
+
+    b2cNodeResults.forEach((result) => {
+      // skip the `import {B2cStorefrontModule} from '@spartacus/storefront'` node
+      if (result.parent.kind !== ts.SyntaxKind.ImportSpecifier) {
+        const b2bModuleReplaceChange = new ReplaceChange(
+          appModulePath,
+          result.getStart(),
+          B2C_STOREFRONT_MODULE,
+          B2B_STOREFRONT_MODULE
+        );
+        changes.push(b2bModuleReplaceChange);
+      }
+    });
+
     commitChanges(host, appModulePath, changes);
+    return host;
   };
 }
 
@@ -280,6 +278,8 @@ function addStyles(): Rule {
       },
     };
     tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
+
+    return tree;
   };
 }
 
@@ -289,20 +289,6 @@ function installPackageJsonDependencies(): Rule {
     context.logger.log('info', `🔍 Installing packages...`);
     return tree;
   };
-}
-
-function getAppModule(
-  host: Tree,
-  options: SpartacusOrganizationOptions
-): string {
-  const projectTargets = getProjectTargets(host, options.project);
-
-  if (!projectTargets.build) {
-    throw new SchematicsException(`Project target "build" not found.`);
-  }
-
-  const mainPath = projectTargets.build.options.main;
-  return getAppModulePath(host, mainPath);
 }
 
 function addAdministrationFeature(
@@ -357,6 +343,7 @@ function handleFeature(
   return (host: Tree, context: SchematicContext) => {
     const changes: Change[] = [];
 
+    // TODO: omit this part when extracting
     if (
       !isImported(
         getTsSourceFile(host, appModulePath),
@@ -372,6 +359,7 @@ function handleFeature(
       );
       changes.push(coreImportChange);
 
+      // TODO: omit this part when extracting
       const providersChanges = addToModuleProviders(
         host,
         appModulePath,
@@ -380,6 +368,7 @@ function handleFeature(
       );
       changes.push(...providersChanges);
     }
+    // TODO: omit this part when extracting
     if (
       !isImported(
         getTsSourceFile(host, appModulePath),
@@ -461,6 +450,8 @@ function handleFeature(
     }
 
     commitChanges(host, appModulePath, changes);
+
+    return host;
   };
 }
 

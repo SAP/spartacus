@@ -22,6 +22,9 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
   let component: ConfiguratorAttributeSingleSelectionImageComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeSingleSelectionImageComponent>;
   let htmlElem: HTMLElement;
+  const ownerKey = 'theOwnerKey';
+  const groupId = 'testGroup';
+  const attributeName = 'attributeName';
 
   beforeEach(
     waitForAsync(() => {
@@ -87,14 +90,15 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     htmlElem = fixture.nativeElement;
 
     component.attribute = {
-      name: 'attributeName',
+      name: attributeName,
       attrCode: 444,
       uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
       required: false,
       selectedSingleValue: values[2].valueCode,
-      groupId: 'testGroup',
+      groupId: groupId,
       values: values,
     };
+    component.ownerKey = ownerKey;
     fixture.detectChanges();
   });
 
@@ -127,11 +131,19 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
       By.css(singleSelectionImageId)
     ).nativeElement;
     expect(valueToSelect.checked).toBe(false);
-    valueToSelect.click();
+    spyOn(component.selectionChange, 'emit').and.callThrough();
+    component.onClick(component.attribute.values[1].valueCode);
     fixture.detectChanges();
-    expect(valueToSelect.checked).toBe(true);
-    expect(component.attributeRadioButtonForm.value).toEqual(
-      component.attribute.values[1].valueCode
+    expect(component.selectionChange.emit).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        ownerKey: ownerKey,
+        changedAttribute: jasmine.objectContaining({
+          name: attributeName,
+          selectedSingleValue: component.attribute.values[1].valueCode,
+          uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
+          groupId: groupId,
+        }),
+      })
     );
   });
 });

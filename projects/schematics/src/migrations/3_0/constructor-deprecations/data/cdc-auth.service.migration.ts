@@ -1,4 +1,5 @@
 import {
+  AUTH_REDIRECT_SERVICE,
   AUTH_STORAGE_SERVICE,
   CDC_AUTH_SERVICE,
   GLOBAL_MESSAGE_SERVICE,
@@ -36,6 +37,10 @@ export const CDC_AUTH_SERVICE_CONSTRUCTOR_MIGRATION: ConstructorDeprecation = {
     },
     {
       className: GLOBAL_MESSAGE_SERVICE,
+      importPath: SPARTACUS_CORE,
+    },
+    {
+      className: AUTH_REDIRECT_SERVICE,
       importPath: SPARTACUS_CORE,
     },
   ],

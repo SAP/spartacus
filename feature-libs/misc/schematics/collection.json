@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "factory": "./add-misc/index#addMiscFeatures",
+      "description": "Add and configure Spartacus' misc features",
+      "schema": "./add-misc/schema.json",
+      "private": true,
+      "hidden": true,
+      "aliases": ["install"]
+    }
+  }
+}
