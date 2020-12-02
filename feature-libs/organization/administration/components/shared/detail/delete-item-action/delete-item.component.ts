@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy } from '@angular/core';
+import { RoutingService } from '@spartacus/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Subject, Subscription } from 'rxjs';
 import { filter, first, take } from 'rxjs/operators';
@@ -87,7 +88,7 @@ export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
         take(1),
         filter((data) => data.status === LoadStatus.SUCCESS)
       )
-      .subscribe((data) => this.notify({ ...item, ...data.item })); // TODO: redirect
+      .subscribe((data) => this.notify({ ...item, ...data.item }));
   }
 
   protected notify(item: T) {
