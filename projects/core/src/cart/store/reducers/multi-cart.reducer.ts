@@ -28,7 +28,7 @@ export function activeCartReducer(
       }
       return state;
     case CartActions.CLEAR_CART_STATE:
-      return activeCartInitialState;
+      return state === null ? null : activeCartInitialState;
   }
   return state;
 }

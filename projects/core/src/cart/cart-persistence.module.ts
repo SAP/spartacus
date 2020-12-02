@@ -24,7 +24,7 @@ export function uninitializeActiveCartMetaReducerFactory(): MetaReducer<any> {
   const metaReducer = (reducer: ActionReducer<any>) => (state, action) => {
     const newState = { ...state };
     if (action.type === '@ngrx/store/init') {
-      newState.cart = { ...newState.cart, ...{ active: undefined } };
+      newState.cart = { ...newState.cart, ...{ active: null } };
     }
     return reducer(newState, action);
   };
