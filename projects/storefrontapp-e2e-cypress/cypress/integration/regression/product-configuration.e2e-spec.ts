@@ -136,7 +136,7 @@ context('Product Configuration', () => {
   });
 
   describe('Configure Product', () => {
-    it('Image Attribute Types - Single Selection', () => {
+    it('should support image attribute type - single selection', () => {
       configuration.goToConfigurationPage(testProductMultiLevel);
       configuration.isAttributeDisplayed(ROOM_SIZE, radioGroup);
       configuration.selectAttribute(COLOUR_HT, single_selection_image, WHITE);
@@ -145,7 +145,7 @@ context('Product Configuration', () => {
       configuration.isImageSelected(COLOUR_HT, single_selection_image, TITAN);
     });
 
-    it('Checkboxes should be still selected after group change', () => {
+    it('should keep checkboxes selected after group change', () => {
       cy.server();
       cy.route(
         'PATCH',
@@ -328,7 +328,7 @@ context('Product Configuration', () => {
   });
 
   describe('Conflict Solver', () => {
-    it('Run through the conflict solving process', () => {
+    it('should support the conflict solving process', () => {
       cy.server();
       cy.route(
         'PATCH',

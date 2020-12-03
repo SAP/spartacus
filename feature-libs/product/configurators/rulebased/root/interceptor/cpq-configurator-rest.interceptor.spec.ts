@@ -18,6 +18,9 @@ import {
 describe('CpqConfiguratorRestInterceptor', () => {
   let interceptorUnderTest: CpqConfiguratorRestInterceptor;
 
+  let cpqAccessStorageServiceMock: CpqAccessStorageService;
+  let mockedNextHandler: HttpHandler;
+
   const nonCPQRequest: HttpRequest<any> = new HttpRequest(
     'GET',
     'https://www.example.com'
@@ -30,28 +33,16 @@ describe('CpqConfiguratorRestInterceptor', () => {
 
   const asSpy = (f) => <jasmine.Spy>f;
 
-  const mockedNextHandler: HttpHandler = jasmine.createSpyObj(
-    'mockedNextHandler',
-    ['handle']
-  );
   let cpqResponse: HttpResponse<any>;
   let cpqAccessData: CpqAccessData;
   let capturedRequest: HttpRequest<any>;
-  asSpy(mockedNextHandler.handle).and.callFake((request) => {
-    capturedRequest = request;
-    return of(cpqResponse);
-  });
-
-  const cpqAccessStorageServiceMock: CpqAccessStorageService = jasmine.createSpyObj(
-    'mockedAccessService',
-    ['getCachedCpqAccessData']
-  );
-
-  asSpy(cpqAccessStorageServiceMock.getCachedCpqAccessData).and.callFake(() =>
-    of(cpqAccessData)
-  );
 
   beforeEach(() => {
+    cpqAccessStorageServiceMock = jasmine.createSpyObj('mockedAccessService', [
+      'getCachedCpqAccessData',
+    ]);
+    mockedNextHandler = jasmine.createSpyObj('mockedNextHandler', ['handle']);
+
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
@@ -74,6 +65,14 @@ describe('CpqConfiguratorRestInterceptor', () => {
       accessToken: 'TOKEN',
       endpoint: 'https://cpq',
     };
+
+    asSpy(cpqAccessStorageServiceMock.getCachedCpqAccessData).and.callFake(() =>
+      of(cpqAccessData)
+    );
+    asSpy(mockedNextHandler.handle).and.callFake((request) => {
+      capturedRequest = request;
+      return of(cpqResponse);
+    });
   });
 
   it('should create service', () => {
@@ -91,6 +90,18 @@ describe('CpqConfiguratorRestInterceptor', () => {
       .subscribe(() => {
         expect(mockedNextHandler.handle).not.toHaveBeenCalledWith(cpqRequest);
         expect(mockedNextHandler.handle).toHaveBeenCalled();
+        done();
+      });
+  });
+
+  it('should call CPQ only once per invocation', (done) => {
+    asSpy(cpqAccessStorageServiceMock.getCachedCpqAccessData).and.callFake(() =>
+      of(cpqAccessData, cpqAccessData)
+    );
+    interceptorUnderTest
+      .intercept(cpqRequest, mockedNextHandler)
+      .subscribe(() => {
+        expect(mockedNextHandler.handle).toHaveBeenCalledTimes(1);
         done();
       });
   });

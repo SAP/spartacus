@@ -1,12 +1,5 @@
-import {
-  DebugElement,
-  Directive,
-  Input,
-  Pipe,
-  PipeTransform,
-} from '@angular/core';
+import { Directive, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, OrderEntry } from '@spartacus/core';
 import { ModalDirective } from '@spartacus/storefront';
@@ -32,7 +25,6 @@ describe('ConfigureCartEntryComponent', () => {
   let component: ConfigureCartEntryComponent;
   let fixture: ComponentFixture<ConfigureCartEntryComponent>;
   let htmlElem: HTMLElement;
-  let element: DebugElement;
   const configuratorType = 'type';
   const orderOrCartEntry: OrderEntry = {};
 
@@ -52,7 +44,6 @@ describe('ConfigureCartEntryComponent', () => {
     fixture = TestBed.createComponent(ConfigureCartEntryComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
-    element = fixture.debugElement;
     component.cartEntry = orderOrCartEntry;
   });
 
@@ -124,12 +115,12 @@ describe('ConfigureCartEntryComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        'button',
+        'a',
         'configurator.header.displayConfiguration'
       );
     });
 
-    it("sshould be 'Edit Configuration' in case component is included in edit mode", () => {
+    it("should be 'Edit Configuration' in case component is included in edit mode", () => {
       component.readOnly = false;
       component.disabled = false;
       component.msgBanner = false;
@@ -141,7 +132,7 @@ describe('ConfigureCartEntryComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        'button',
+        'a',
         'configurator.header.editConfiguration'
       );
     });
@@ -157,13 +148,13 @@ describe('ConfigureCartEntryComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        'button',
+        'a',
         'configurator.header.resolveIssues'
       );
     });
   });
 
-  describe('Button', () => {
+  describe('a', () => {
     it('should be disabled in case corresponding component attribute is disabled', () => {
       component.disabled = true;
       component.cartEntry = {
@@ -171,9 +162,18 @@ describe('ConfigureCartEntryComponent', () => {
         product: { configuratorType: configuratorType },
       };
       fixture.detectChanges();
-      expect(
-        element.query(By.css('button.link')).nativeElement.disabled
-      ).toBeTrue();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'label.disabled-link'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'a.link'
+      );
     });
 
     it('should be enabled in case corresponding component attribute is enabled', () => {
@@ -183,9 +183,17 @@ describe('ConfigureCartEntryComponent', () => {
         product: { configuratorType: configuratorType },
       };
       fixture.detectChanges();
-      expect(
-        element.query(By.css('button.link')).nativeElement.disabled
-      ).toBeFalse();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'a.link'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'label.disabled-link'
+      );
     });
   });
 });
