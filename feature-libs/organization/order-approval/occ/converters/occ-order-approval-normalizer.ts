@@ -7,7 +7,9 @@ import {
 } from '@spartacus/core';
 import { OrderApproval } from '../../core/model/order-approval.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OccOrderApprovalNormalizer
   implements Converter<Occ.OrderApproval, OrderApproval> {
   constructor(private converter: ConverterService) {}

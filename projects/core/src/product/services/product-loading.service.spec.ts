@@ -149,13 +149,14 @@ describe('ProductLoadingService', () => {
         const results: Product[] = [];
         service
           .get(code, ['scope1', 'scope2'])
-          .pipe(take(3))
+          .pipe(take(4))
           .subscribe({
             next: (res) => {
               results.push(res);
             },
             complete: () => {
               expect(results).toEqual([
+                undefined,
                 { code, name: 'second', summary: 'a', description: 'b' },
                 { code, name: 'second', summary: 'c', description: 'b' }, // after 1st subsequent emission
                 { code, name: 'fourth', summary: 'c', description: 'e' }, // after 2nd subsequent emission
@@ -176,19 +177,14 @@ describe('ProductLoadingService', () => {
       });
     });
 
-    it('should emit undefined if there is no scope ready', async () => {
-      let callNo = 0;
-      const productScopes = [undefined, undefined];
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of({
-          value: productScopes[callNo++], // serve different scope per call
-        })
-      );
-
-      const result: Product = await service
+    it('should emit undefined if there is no scope ready', (done) => {
+      service
         .get(code, ['scope1', 'scope2'])
-        .toPromise();
-      expect(result).toEqual(undefined);
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(undefined);
+          done();
+        });
     });
 
     it('should expand loading scopes', () => {

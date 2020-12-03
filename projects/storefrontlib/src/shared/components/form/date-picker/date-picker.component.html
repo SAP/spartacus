@@ -1,0 +1,17 @@
+<input
+  class="form-control"
+  type="date"
+  [formControl]="control"
+  [attr.min]="min?.value"
+  [attr.max]="max?.value"
+  cxDatePickerFallback
+  (change)="update()"
+/>
+<cx-form-errors
+  [control]="control"
+  prefix="formErrors.date"
+  [translationParams]="{
+    max: getDate(max?.value) | cxDate,
+    min: getDate(min?.value) | cxDate
+  }"
+></cx-form-errors>
