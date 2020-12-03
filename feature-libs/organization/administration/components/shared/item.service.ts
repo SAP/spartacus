@@ -61,7 +61,7 @@ export abstract class ItemService<T> {
   }
 
   /**
-   * Delete an item.
+   * Deletes an item.
    */
   delete?(
     key: string,
