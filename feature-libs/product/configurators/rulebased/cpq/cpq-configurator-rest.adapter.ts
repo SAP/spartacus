@@ -40,9 +40,9 @@ export class CpqConfiguratorRestAdapter
     return this.cpqAcpqConfiguratorRestService
       .readConfiguration(configId, groupId)
       .pipe(
-        map((configResonse) => {
-          configResonse.owner = owner;
-          return configResonse;
+        map((configResponse) => {
+          configResponse.owner = owner;
+          return configResponse;
         })
       );
   }
