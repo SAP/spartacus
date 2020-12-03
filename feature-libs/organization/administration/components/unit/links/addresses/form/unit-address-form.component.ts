@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { ItemService } from '../../../../shared/item.service';
 import { UnitAddressItemService } from '../services/unit-address-item.service';
 import { UnitAddressFormService } from './unit-address-form.service';
-import { CurrentUnitService } from '../../../services';
+import { CurrentUnitService } from '../../../services/current-unit.service';
 
 @Component({
   selector: 'cx-org-unit-address-form',
