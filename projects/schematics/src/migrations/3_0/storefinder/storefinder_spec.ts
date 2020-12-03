@@ -182,7 +182,7 @@ platformBrowserDynamic().bootstrapModule(AppModule)
     shx.rm('-r', tmpDirPath);
   });
 
-  describe('when the the StoreFinderModule is imported', () => {
+  describe('when the StoreFinderModule is imported', () => {
     it('should remove it from imports, imports array and migrate to the new setup', async () => {
       writeFile(
         host,
@@ -197,7 +197,7 @@ platformBrowserDynamic().bootstrapModule(AppModule)
     });
   });
 
-  describe('when the the StorefrontModule is imported', () => {
+  describe('when the StorefrontModule is imported', () => {
     it('should migrate to the new setup', async () => {
       writeFile(
         host,
