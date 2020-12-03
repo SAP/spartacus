@@ -468,6 +468,7 @@ export const STORE_FINDER_HEADER_COMPONENT = 'StoreFinderHeaderComponent';
 export const STORE_FINDER_PAGINATION_DETAILS_COMPONENT =
   'StoreFinderPaginationDetailsComponent';
 export const STORE_FINDER_COMPONENT = 'StoreFinderComponent';
+export const STORE_FINDER_SCSS_FILE_NAME = 'storefinder.scss';
 
 export const ON_SUCCESS = 'onSuccess';
 
@@ -606,6 +607,8 @@ export const INIT_SYNC = 'initSync';
 export const SET_ACTIVE = 'setActive';
 export const SET_RATE_ON_EVENT = 'setRateOnEvent';
 export const SET_RATE = 'setRate';
+export const GET_META = 'getMeta';
+export const GET_META_RESOLVER = 'getMetaResolver';
 
 export const STOREFINDER_MODULE = 'StoreFinderModule';
 export const STOREFINDER_FEATURE_NAME = 'storeFinder';
