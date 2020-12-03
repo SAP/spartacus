@@ -26,6 +26,7 @@ export const ANGULAR_OAUTH2_OIDC = 'angular-oauth2-oidc';
 export const SPARTACUS_CORE = '@spartacus/core';
 export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';
 export const SPARTACUS_SETUP = '@spartacus/setup';
+export const SPARTACUS_SETUP_SSR = `${SPARTACUS_SETUP}/ssr`;
 export const SPARTACUS_CDS = '@spartacus/cds';
 export const SPARTACUS_CDC = '@spartacus/cdc';
 export const SPARTACUS_ASSETS = '@spartacus/assets';
@@ -34,6 +35,8 @@ export const SPARTACUS_MISC = '@spartacus/misc';
 
 export const NGRX_STORE = '@ngrx/store';
 export const NGRX_EFFECTS = '@ngrx/effects';
+
+export const NGUNIVERSAL_EXPRESS_ENGINE = '@nguniversal/express-engine';
 /***** Imports end *****/
 
 /***** Classes start *****/
