@@ -612,6 +612,8 @@ export const INIT_SYNC = 'initSync';
 export const SET_ACTIVE = 'setActive';
 export const SET_RATE_ON_EVENT = 'setRateOnEvent';
 export const SET_RATE = 'setRate';
+export const GET_META = 'getMeta';
+export const GET_META_RESOLVER = 'getMetaResolver';
 
 export const STOREFINDER_MODULE = 'StoreFinderModule';
 export const STOREFINDER_FEATURE_NAME = 'storeFinder';

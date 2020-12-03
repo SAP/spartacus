@@ -263,7 +263,7 @@ export function insertHtmlComment(
 }
 
 function buildHtmlComment(commentText: string): string {
-  return `<!-- ${commentText} -->`;
+  return `<!-- ${TODO_SPARTACUS} ${commentText} -->`;
 }
 
 export function commitChanges(
