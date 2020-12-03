@@ -60,7 +60,9 @@ describe('ssr migration', () => {
               build: {
                 options: { tsConfig: './tsconfig.json', main: 'src/main.ts' },
               },
-              server: {},
+              server: {
+                options: { main: '/src/server.ts' },
+              },
             },
           },
         },

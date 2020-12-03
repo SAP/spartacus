@@ -6,7 +6,7 @@ import {
   DEFAULT_ANGULAR_VERSION,
   UTF_8,
 } from '../constants';
-import { getPathResultsForFile } from './file-utils';
+import { getServerTsPath } from './file-utils';
 import { getDefaultProjectNameFromWorkspace } from './workspace-utils';
 
 export function readPackageJson(tree: Tree): any {
@@ -65,12 +65,14 @@ export function checkIfSSRIsUsed(tree: Tree): boolean {
   const isServerConfiguration = !!angularJson.projects[projectName].architect[
     'server'
   ];
-  const serverFilePath = getPathResultsForFile(tree, 'server.ts', '/')[0];
-  const serverBuffer = tree.read(serverFilePath);
-  if (!serverBuffer) {
+
+  const serverFileLocation = getServerTsPath(tree);
+  if (!serverFileLocation) {
     return false;
   }
-  const serverFileBuffer = serverBuffer.toString(UTF_8);
+
+  const serverBuffer = tree.read(serverFileLocation);
+  const serverFileBuffer = serverBuffer?.toString(UTF_8);
   const isServerSideAvailable = serverFileBuffer && !!serverFileBuffer.length;
 
   return !!(isServerConfiguration && isServerSideAvailable);

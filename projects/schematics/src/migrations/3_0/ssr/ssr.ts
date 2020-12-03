@@ -18,7 +18,7 @@ import {
 } from '../../../shared/constants';
 import {
   commitChanges,
-  getPathResultsForFile,
+  getServerTsPath,
   getTsSourceFile,
   removeImport,
 } from '../../../shared/utils/file-utils';
@@ -49,7 +49,10 @@ export function migrate(): Rule {
 
 function updateImport(): Rule {
   return (tree: Tree, _context: SchematicContext) => {
-    const serverFilePath = getPathResultsForFile(tree, 'server.ts', '/')[0];
+    const serverFilePath = getServerTsPath(tree);
+    if (!serverFilePath) {
+      return tree;
+    }
 
     if (
       isImported(
