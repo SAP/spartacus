@@ -1,6 +1,6 @@
 import { Directive, OnDestroy, OnInit } from '@angular/core';
 import { GlobalMessageType } from '@spartacus/core';
-import { tap } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { ItemService } from './item.service';
 import { MessageService } from './message/services/message.service';
 import { BaseItem } from './organization.model';
@@ -18,19 +18,17 @@ export class ItemExistsDirective<T = BaseItem> implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.itemService.error$
-      .pipe(tap((error) => this.handleErrorMessage(error)))
-      .subscribe();
+      .pipe(filter((error) => error))
+      .subscribe(() => this.handleErrorMessage());
   }
 
-  protected handleErrorMessage(error: boolean) {
-    if (error) {
-      this.messageService.add({
-        message: {
-          key: 'organization.notification.notExist',
-        },
-        type: GlobalMessageType.MSG_TYPE_ERROR,
-      });
-    }
+  protected handleErrorMessage() {
+    this.messageService.add({
+      message: {
+        key: 'organization.notification.notExist',
+      },
+      type: GlobalMessageType.MSG_TYPE_ERROR,
+    });
   }
 
   ngOnDestroy() {
