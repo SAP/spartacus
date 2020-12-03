@@ -105,7 +105,6 @@ describe('ItemService', () => {
         expect(service.create).toHaveBeenCalledWith({
           name: 'foo bar',
         });
-        expect(routingService.go).toHaveBeenCalled();
         expect(form.disabled).toBeTruthy();
       });
 
@@ -118,7 +117,6 @@ describe('ItemService', () => {
         expect(service.update).toHaveBeenCalledWith('existingCode', {
           name: 'foo bar',
         });
-        expect(routingService.go).toHaveBeenCalled();
         expect(form.disabled).toBeTruthy();
       });
     });
