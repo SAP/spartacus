@@ -174,7 +174,7 @@ export const unitAddress = {
 
   details: {
     title: 'Address details',
-    subtitle: 'Unit: {{item.name}} (TODO)',
+    subtitle: 'Unit: {{item.name}}',
   },
   edit: {
     title: 'Edit Address',
