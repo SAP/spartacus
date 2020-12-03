@@ -7,6 +7,7 @@ import {
   PageContext,
   PageType,
   SemanticPathService,
+  RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import {
@@ -35,7 +36,8 @@ export class CmsPageGuardService {
     protected cmsRoutes: CmsRoutesService,
     protected cmsI18n: CmsI18nService,
     protected cmsGuards: CmsGuardsService,
-    protected cmsComponentsService: CmsComponentsService
+    protected cmsComponentsService: CmsComponentsService,
+    protected routing: RoutingService
   ) {}
 
   /**
@@ -112,6 +114,7 @@ export class CmsPageGuardService {
           return this.cmsService.getPageIndex(notFoundCmsPageContext).pipe(
             tap((notFoundIndex) => {
               this.cmsService.setPageFailIndex(pageContext, notFoundIndex);
+              this.routing.changeNextPageContext(notFoundCmsPageContext);
             }),
             switchMap((notFoundIndex) =>
               this.cmsService.getPageIndex(pageContext).pipe(
