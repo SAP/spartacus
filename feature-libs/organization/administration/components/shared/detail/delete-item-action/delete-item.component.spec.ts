@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { ConfirmationMessageComponent } from '@spartacus/organization/administration/components';
 import {
@@ -37,7 +36,7 @@ describe('DeleteItemComponent', () => {
   let messageService: MessageService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, RouterTestingModule, I18nTestingModule],
+      imports: [CommonModule, I18nTestingModule],
       declarations: [DeleteItemComponent],
 
       providers: [
