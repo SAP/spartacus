@@ -4,13 +4,12 @@ import {
 } from '@angular-devkit/schematics/testing';
 import {
   CLI_STOREFINDER_FEATURE,
+  LibraryOptions as SpartacusMiscOptions,
   SpartacusOptions,
   SPARTACUS_MISC,
-  SPARTACUS_SETUP,
   STOREFINDER_ROOT_MODULE,
 } from '@spartacus/schematics';
 import * as path from 'path';
-import { Schema as SpartacusMiscOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const appModulePath = 'src/app/app.module.ts';
@@ -91,9 +90,8 @@ describe('Spartacus Misc schematics: ng-add', () => {
         .toPromise();
     });
 
-    it('should still install @spartacus/misc and @spartacus/setup libraries', () => {
+    it('should still install @spartacus/misc library', () => {
       const packageJson = appTree.readContent('package.json');
-      expect(packageJson).toContain(SPARTACUS_SETUP);
       expect(packageJson).toContain(SPARTACUS_MISC);
     });
 
@@ -154,7 +152,6 @@ describe('Spartacus Misc schematics: ng-add', () => {
         const packageObj = JSON.parse(packageJson);
         const depPackageList = Object.keys(packageObj.dependencies);
         expect(depPackageList.includes('@spartacus/misc')).toBe(true);
-        expect(depPackageList.includes('@spartacus/setup')).toBe(true);
       });
 
       it('should import appropriate modules', async () => {
