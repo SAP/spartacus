@@ -10,7 +10,9 @@ import {
   BUDGET_NORMALIZER,
 } from '@spartacus/organization/administration/core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OccBudgetListNormalizer
   implements Converter<Occ.BudgetsList, EntitiesModel<Budget>> {
   constructor(private converter: ConverterService) {}
