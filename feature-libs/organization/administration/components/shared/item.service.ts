@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
-import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
+import {
+  LoadStatus,
+  OrganizationItemStatus,
+} from '@spartacus/organization/administration/core';
 import { FormUtils } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { CurrentItemService } from './current-item.service';
 import { FormService } from './form/form.service';
 
@@ -54,9 +57,29 @@ export abstract class ItemService<T> {
       //   a 404 in case of routing
       // - the new item  might not yet be saved, thus the detailed route
       //   would not reflect the changes
-      this.launchDetails(formValue);
+      // this.launchDetails(formValue);
 
-      return key ? this.update(key, formValue) : this.create(formValue);
+      // return key ? this.update(key, formValue) : this.create(formValue);
+      // launch the router ONLY if
+      if (key) {
+        this.update(key, formValue).pipe(
+          map((status) => {
+            console.log('CREATE STATUS: ', status);
+            if (status.status === LoadStatus.SUCCESS) {
+              this.launchDetails(formValue);
+            }
+          })
+        );
+      } else {
+        this.create(formValue).pipe(
+          map((status) => {
+            console.log('UPDATE STATUS: ', status);
+            if (status.status === LoadStatus.SUCCESS) {
+              this.launchDetails(formValue);
+            }
+          })
+        );
+      }
     }
   }
 
