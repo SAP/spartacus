@@ -25,6 +25,7 @@ import {
   ANGULAR_LOCALIZE,
   ANGULAR_PLATFORM_BROWSER,
   ANGULAR_UNIVERSAL_EXPRESS_VERSION,
+  NGUNIVERSAL_EXPRESS_ENGINE,
   SPARTACUS_SETUP,
 } from '../shared/constants';
 import {
@@ -164,7 +165,7 @@ export function addSSR(options: SpartacusOptions): Rule {
       {
         type: NodeDependencyType.Default,
         version: ANGULAR_UNIVERSAL_EXPRESS_VERSION,
-        name: '@nguniversal/express-engine',
+        name: NGUNIVERSAL_EXPRESS_ENGINE,
       },
       {
         type: NodeDependencyType.Dev,
@@ -180,7 +181,7 @@ export function addSSR(options: SpartacusOptions): Rule {
 
     return chain([
       addPackageJsonDependencies(dependencies, packageJsonObject),
-      externalSchematic('@nguniversal/express-engine', 'ng-add', {
+      externalSchematic(NGUNIVERSAL_EXPRESS_ENGINE, 'ng-add', {
         clientProject: options.project,
       }),
       modifyAppServerModuleFile(),
