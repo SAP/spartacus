@@ -33,7 +33,7 @@ export class UserGroupItemService extends ItemService<UserGroup> {
     value: UserGroup
   ): Observable<OrganizationItemStatus<UserGroup>> {
     this.userGroupService.update(code, value);
-    return this.userGroupService.getLoadingStatus(code);
+    return this.userGroupService.getLoadingStatus(value.uid);
   }
 
   protected create(
