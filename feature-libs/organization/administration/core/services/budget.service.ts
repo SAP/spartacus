@@ -28,14 +28,20 @@ export class BudgetService {
   ) {}
 
   loadBudget(budgetCode: string): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(new BudgetActions.LoadBudget({ userId, budgetCode }))
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new BudgetActions.LoadBudget({ userId, budgetCode })
+        ),
+      () => {}
     );
   }
 
   loadBudgets(params?: SearchConfig): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(new BudgetActions.LoadBudgets({ userId, params }))
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(new BudgetActions.LoadBudgets({ userId, params })),
+      () => {}
     );
   }
 
@@ -103,16 +109,20 @@ export class BudgetService {
   }
 
   create(budget: Budget): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(new BudgetActions.CreateBudget({ userId, budget }))
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(new BudgetActions.CreateBudget({ userId, budget })),
+      () => {}
     );
   }
 
   update(budgetCode: string, budget: Budget): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new BudgetActions.UpdateBudget({ userId, budgetCode, budget })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new BudgetActions.UpdateBudget({ userId, budgetCode, budget })
+        ),
+      () => {}
     );
   }
 
