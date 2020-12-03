@@ -8,8 +8,8 @@ context('Product Configuration', () => {
     cy.visit('/');
   });
 
-  describe('Order Confirmation and Order History', () => {
-    it('Navigation to Overview Page for order confirmation and order history', () => {
+  describe('Configuration process', () => {
+    it('should support the product configuration aspect in product search, cart, checkout and order history', () => {
       configuration.login();
       productSearch.searchForProduct(testProductMultiLevel);
       configuration.clickOnAddToCartBtnOnPD();
