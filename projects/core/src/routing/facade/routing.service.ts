@@ -52,6 +52,15 @@ export class RoutingService {
   }
 
   /**
+   * Allow to change next page context for the ongoing navigation
+   *
+   * @param pageContext
+   */
+  changeNextPageContext(pageContext: PageContext) {
+    this.store.dispatch(new RoutingActions.ChangeNextPageContext(pageContext));
+  }
+
+  /**
    * Get the `isNavigating` info from the state
    */
   isNavigating(): Observable<boolean> {
@@ -118,14 +127,5 @@ export class RoutingService {
         extras,
       })
     );
-  }
-
-  /**
-   * Allow to change next page context for the ongoing navigation
-   *
-   * @param pageContext
-   */
-  changeNextPageContext(pageContext: PageContext) {
-    this.store.dispatch(new RoutingActions.ChangeNextPageContext(pageContext));
   }
 }
