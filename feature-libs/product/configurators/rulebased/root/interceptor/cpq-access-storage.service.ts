@@ -72,6 +72,7 @@ export class CpqAccessStorageService {
           // only force token refresh if user is logged in.
           if (loggedIn) {
             this.stopAutoFetchingCpqAccessData();
+            this.cpqAccessDataCache.next(EXPIRED_TOKEN); // invalidate cache
             this.startAutoFetchingCpqAccessData();
           }
         });

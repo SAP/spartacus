@@ -317,6 +317,22 @@ describe('CpqAccessStorageService', () => {
     });
   });
 
+  it('should not emit old token after refesh anymore', (done) => {
+    const obs = serviceUnderTest.getCachedCpqAccessData().pipe(take(1));
+    accessDataSubject.next(accessData);
+    serviceUnderTest.renewCachedCpqAccessData();
+    obs.subscribe((returnedData) => {
+      expect(returnedData).toBe(anotherAccessData);
+      expect(cpqAccessLoaderService.getCpqAccessData).toHaveBeenCalledTimes(2);
+      done();
+    });
+    interval(10)
+      .pipe(take(1))
+      .subscribe(() => {
+        accessDataSubject.next(anotherAccessData);
+      });
+  });
+
   it('should not fail on refresh when not initialized', (done) => {
     serviceUnderTest.renewCachedCpqAccessData();
     serviceUnderTest
