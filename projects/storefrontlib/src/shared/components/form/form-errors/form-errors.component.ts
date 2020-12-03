@@ -20,8 +20,9 @@ export class FormErrorsComponent {
   _control: FormControl;
   errors$: Observable<string[]>;
 
-  @Input()
-  translationParams: { [key: string]: string };
+  @Input() prefix = 'formErrors';
+
+  @Input() translationParams: { [key: string]: string };
 
   @Input()
   set control(control: FormControl) {
