@@ -9,11 +9,12 @@ const user = 'Variant Configuration';
 context('Product Configuration', () => {
   beforeEach(() => {
     cy.visit('/');
-  });
-
-  describe('Order Confirmation and Order History', () => {
-    it('Navigation to Overview Page for order confirmation and order history', () => {
-      configuration.login(email, password, user);
+  }); 
+ 
+  describe('Configuration process', () => {
+    it('should support the product configuration aspect in product search, cart, checkout and order history', () => {
+     configuration.login(email, password, user);
+ 
       productSearch.searchForProduct(testProductMultiLevel);
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnProceedToCheckoutBtnOnPD();

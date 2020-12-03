@@ -6,12 +6,11 @@ import {
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
+import { of } from '@angular-devkit/schematics/node_modules/rxjs';
 import { branch } from '@angular-devkit/schematics/src/tree/static';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
-import { of } from 'rxjs';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import { getLineFromTSFile } from '../shared/utils/file-utils';
-
 import { getProjectTargets } from '../shared/utils/workspace-utils';
 
 function removeServiceWorkerSetup(host: Tree, modulePath: string) {

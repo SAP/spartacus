@@ -7,7 +7,7 @@ export const defaultOccConfiguratorProductConfig: OccConfig = {
       endpoints: {
         product: {
           configurator:
-            'products/${productCode}?fields=configurable,configuratorType',
+            'products/${productCode}?fields=code,configurable,configuratorType',
         },
       },
     },
