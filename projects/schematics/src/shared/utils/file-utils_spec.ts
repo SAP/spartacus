@@ -46,7 +46,7 @@ import {
   removeConstructorParam,
   renameIdentifierNode,
 } from './file-utils';
-import { getProjectFromWorkspace, getSourceRoot } from './workspace-utils';
+import { getSourceRoot } from './workspace-utils';
 
 const PARAMETER_LENGTH_MISS_MATCH_TEST_CLASS = `
     import { ActionsSubject, Store } from '@ngrx/store';
@@ -237,11 +237,11 @@ export class Test extends UserAddressService {}
 const HTML_EXAMPLE = `<cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
 <div>test</div>
 <cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
-const HTML_EXAMPLE_EXPECTED = `<!-- 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
+const HTML_EXAMPLE_EXPECTED = `<!-- ${TODO_SPARTACUS} 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
 <div>test</div>
-<!-- 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
+<!-- ${TODO_SPARTACUS} 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
 const HTML_EXAMPLE_NGIF = `<div *ngIf="isThumbsEmpty">test</div>`;
-const HTML_EXAMPLE_NGIF_EXPECTED = `<!-- 'isThumbsEmpty' property has been removed. -->
+const HTML_EXAMPLE_NGIF_EXPECTED = `<!-- ${TODO_SPARTACUS} 'isThumbsEmpty' property has been removed. -->
 <div *ngIf="isThumbsEmpty">test</div>`;
 
 const collectionPath = path.join(__dirname, '../../collection.json');
@@ -307,9 +307,7 @@ describe('File utils', () => {
 
   describe('getIndexHtmlPath', () => {
     it('should return index.html path', async () => {
-      const project = getProjectFromWorkspace(appTree, defaultOptions);
-      const projectIndexHtmlPath = getIndexHtmlPath(project);
-
+      const projectIndexHtmlPath = getIndexHtmlPath(appTree);
       expect(projectIndexHtmlPath).toEqual(`src/index.html`);
     });
   });

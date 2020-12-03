@@ -388,15 +388,17 @@
         }
       }
       a {
-        @include media-breakpoint-up(lg) {
-          padding-inline-start: 20px;
-          display: flex;
-          align-items: center;
-          width: 100%;
-          min-height: 74px;
+        padding-inline-start: 20px;
 
+        display: flex;
+        align-items: center;
+        width: 100%;
+        min-height: 74px;
+
+        @include media-breakpoint-up(lg) {
           .text {
-            padding-inline-start: 0; // reset padding for .text, when it's already added for parent <a>
+            // reset padding for .text, when it's already added for parent <a>
+            padding-inline-start: 0;
           }
         }
 
