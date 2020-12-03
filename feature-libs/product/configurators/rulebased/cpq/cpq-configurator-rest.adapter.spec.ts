@@ -37,6 +37,7 @@ describe('CpqConfiguratorRestAdapter', () => {
     asSpy(mockedRestService.createConfiguration).and.callFake(() => {
       return of(productConfiguration);
     });
+
     asSpy(mockedRestService.readConfiguration).and.callFake(() => {
       return of(productConfiguration);
     });
