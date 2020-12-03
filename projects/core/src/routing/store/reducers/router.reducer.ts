@@ -70,7 +70,7 @@ export function reducer(
           ...action.payload.routerState,
           context:
             // we want to preserve already resolved context,
-            // in case it was changed explicitly
+            // in case it was changed while navigating
             state.nextState?.context ?? action.payload.routerState.context,
         },
         navigationId: action.payload.event.id,
