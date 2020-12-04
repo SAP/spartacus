@@ -241,7 +241,7 @@ export function insertHtmlComment(
 }
 
 function buildHtmlComment(commentText: string): string {
-  return `<!-- ${commentText} -->`;
+  return `<!-- ${TODO_SPARTACUS} ${commentText} -->`;
 }
 
 export function commitChanges(
@@ -1114,4 +1114,10 @@ export function getLineFromTSFile(
   const nextLineStart = tsFile.getPositionOfLineAndCharacter(lac.line + 1, 0);
 
   return [lineStart, nextLineStart - lineStart];
+}
+
+export function getServerTsPath(host: Tree): string | undefined {
+  const projectName = getDefaultProjectNameFromWorkspace(host);
+  const angularJson = getAngularJsonFile(host);
+  return angularJson.projects[projectName].architect?.server?.options?.main;
 }
