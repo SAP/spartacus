@@ -174,15 +174,16 @@ export const unitAddress = {
 
   details: {
     title: 'Address details',
-    subtitle: 'Unit: {{item.name}} (TODO)',
+    subtitle: 'Unit: {{item.name}}',
   },
   edit: {
     title: 'Edit Address',
-    subtitle: 'Unit: {{ item.name }} (TODO)',
   },
   create: {
     title: 'Create Address',
-    subtitle: 'Unit: {{ item.name }} (TODO)',
+  },
+  form: {
+    subtitle: 'Unit: {{item.name}}',
   },
   messages: {
     update:
