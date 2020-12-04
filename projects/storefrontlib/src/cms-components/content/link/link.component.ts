@@ -12,11 +12,9 @@ export class LinkComponent {
 
   /**
    * Returns `_blank` to force opening the link in a new window whenever the
-   * `data.target` flag is set to rue.
+   * `data.target` flag is set to `true`.
    */
   getTarget(data: CmsLinkComponent): string | null {
-    return data.target === 'true' || ((data.target as any) as Boolean) === true
-      ? '_blank'
-      : null;
+    return data.target === 'true' || data.target === true ? '_blank' : null;
   }
 }
