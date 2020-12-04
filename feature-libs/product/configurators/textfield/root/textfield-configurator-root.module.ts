@@ -17,7 +17,6 @@ import { TextfieldConfiguratorRootFeatureModule } from './textfield-configurator
         path: null,
         component: PageLayoutComponent,
         data: {
-          pageLabel: '/configureTEXTFIELD',
           cxRoute: 'configureTEXTFIELD',
         },
         canActivate: [CmsPageGuard],
