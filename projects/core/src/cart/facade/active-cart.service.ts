@@ -329,11 +329,13 @@ export class ActiveCartService implements OnDestroy {
       map(([cartState]) => cartState),
       take(1),
       withLatestFrom(this.userIdService.getUserId()),
-      switchMap(([cartState, userId]) => {
+      tap(([cartState, userId]) => {
         // Try to load the cart, because it might have been created on another device between our login and add entry call
         if (this.isEmpty(cartState.value) && userId !== OCC_USER_ID_ANONYMOUS) {
           this.load(OCC_CART_ID_CURRENT, userId);
         }
+      }),
+      switchMap(() => {
         return cartSelector$;
       }),
       filter((cartState) => !cartState.loading),
@@ -346,7 +348,7 @@ export class ActiveCartService implements OnDestroy {
           cartState.error
       ),
       take(1),
-      switchMap(([cartState, userId]) => {
+      tap(([cartState, userId]) => {
         if (this.isEmpty(cartState.value)) {
           this.multiCartService.createCart({
             userId,
@@ -355,6 +357,8 @@ export class ActiveCartService implements OnDestroy {
             },
           });
         }
+      }),
+      switchMap(() => {
         return cartSelector$;
       }),
       filter((cartState) => !cartState.loading),
