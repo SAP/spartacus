@@ -1,7 +1,7 @@
 <ng-container *ngIf="component.data$ | async as data">
   <cx-generic-link
     [url]="data.urlLink"
-    [target]="data.external ? '_blank' : null"
+    [target]="getTarget(data)"
     [title]="data.media?.altText"
   >
     <p class="headline" *ngIf="data.headline" [innerHTML]="data.headline"></p>

@@ -20,7 +20,7 @@ export interface CmsLinkComponent extends CmsComponent {
   contentPage?: string;
   contentPageLabelOrId?: string;
   linkName?: string;
-  target?: boolean;
+  target?: string | boolean;
 
   /**
    * Style classes can be added to the CMS Link component to enhance the UX.
@@ -86,7 +86,7 @@ export interface CmsBannerComponent extends CmsComponent {
   container?: string;
   media?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia;
   urlLink?: string;
-  external?: string;
+  external?: string | boolean;
 }
 
 export enum CmsBannerCarouselEffect {
