@@ -51,7 +51,7 @@ export function clickOnEditConfigurationLink(cartItemIndex: number): void {
     .eq(cartItemIndex)
     .find('cx-configure-cart-entry')
     .within(() => {
-      cy.get('button:contains("Edit")')
+      cy.get('a:contains("Edit")')
         .click()
         .then(() => {
           cy.log("Path name should contain: '/cartEntry/entityKey/'");

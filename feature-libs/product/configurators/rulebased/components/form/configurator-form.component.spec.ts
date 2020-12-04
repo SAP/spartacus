@@ -267,7 +267,8 @@ describe('ConfigurationFormComponent', () => {
     ).toHaveBeenCalledTimes(1);
   });
 
-  it('should enforce a reload of the configuration by removing the current one in case the router requires this', () => {
+  it('should call configurator group service to check group type', () => {
+    routerStateObservable = of(mockRouterState);
     spyOn(configuratorGroupsService, 'isConflictGroupType').and.callThrough();
     const fixture = TestBed.createComponent(ConfiguratorFormComponent);
     const component = fixture.componentInstance;

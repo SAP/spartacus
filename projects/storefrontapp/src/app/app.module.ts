@@ -64,6 +64,7 @@ if (environment.cdc) {
 
       // custom routing configuration for e2e testing
       routing: {
+        protected: true,
         routes: {
           product: {
             paths: ['product/:productCode/:name', 'product/:productCode'],
