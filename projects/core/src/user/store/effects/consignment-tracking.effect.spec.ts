@@ -77,7 +77,7 @@ describe('Consignment Tracking effect', () => {
         mockTrackingParams
       );
 
-      const completion = new UserActions.LoadConsignmentTrackingFail('Error');
+      const completion = new UserActions.LoadConsignmentTrackingFail(undefined);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
