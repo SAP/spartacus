@@ -85,7 +85,15 @@ export namespace Cpq {
    */
   export interface UpdateAttribute {
     configurationId: string;
-    stdandardAttrCode: string;
+    standardAttributeCode: string;
+    changeAttributeValue: ChangeAttributeValue;
+  }
+
+  /**
+   *
+   * An interface representing the update request body structure for update of CPQ configuration attribute.
+   */
+  export interface ChangeAttributeValue {
     attributeValueIds?: string;
     userInput?: string;
     quantity?: string;

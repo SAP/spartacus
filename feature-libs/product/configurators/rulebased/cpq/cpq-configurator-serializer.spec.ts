@@ -106,27 +106,33 @@ describe('CpqConfiguratorSerializer', () => {
     updateAttribute: Cpq.UpdateAttribute
   ) {
     expect(updateAttribute.configurationId).toBe(configId);
-    expect(updateAttribute.stdandardAttrCode).toBe(attrCode.toString());
-    expect(updateAttribute.attributeValueIds).toBe(selectedSingleValue);
-    expect(updateAttribute.userInput).toBeUndefined();
+    expect(updateAttribute.standardAttributeCode).toBe(attrCode.toString());
+    expect(updateAttribute.changeAttributeValue.attributeValueIds).toBe(
+      selectedSingleValue
+    );
+    expect(updateAttribute.changeAttributeValue.userInput).toBeUndefined();
   }
 
   function verifyUpdateAttributeMultiValue(
     updateAttribute: Cpq.UpdateAttribute
   ) {
     expect(updateAttribute.configurationId).toBe(configId);
-    expect(updateAttribute.stdandardAttrCode).toBe(attrCode.toString());
-    expect(updateAttribute.attributeValueIds).toBe(expectedValueIdsMulti);
-    expect(updateAttribute.userInput).toBeUndefined();
+    expect(updateAttribute.standardAttributeCode).toBe(attrCode.toString());
+    expect(updateAttribute.changeAttributeValue.attributeValueIds).toBe(
+      expectedValueIdsMulti
+    );
+    expect(updateAttribute.changeAttributeValue.userInput).toBeUndefined();
   }
 
   function verifyUpdateAttributeUserInput(
     updateAttribute: Cpq.UpdateAttribute
   ) {
     expect(updateAttribute.configurationId).toBe(configId);
-    expect(updateAttribute.stdandardAttrCode).toBe(attrCode.toString());
-    expect(updateAttribute.attributeValueIds).toBeUndefined();
-    expect(updateAttribute.userInput).toBe(userInput);
+    expect(updateAttribute.standardAttributeCode).toBe(attrCode.toString());
+    expect(
+      updateAttribute.changeAttributeValue.attributeValueIds
+    ).toBeUndefined();
+    expect(updateAttribute.changeAttributeValue.userInput).toBe(userInput);
   }
 
   it('should be created', () => {
@@ -203,8 +209,12 @@ describe('CpqConfiguratorSerializer', () => {
       configuration
     );
     expect(updateAttribute.configurationId).toBe(configId);
-    expect(updateAttribute.stdandardAttrCode).toBe(attrCodeFirst.toString());
-    expect(updateAttribute.attributeValueIds).toBe(selectedSingleValue);
-    expect(updateAttribute.userInput).toBeUndefined();
+    expect(updateAttribute.standardAttributeCode).toBe(
+      attrCodeFirst.toString()
+    );
+    expect(updateAttribute.changeAttributeValue.attributeValueIds).toBe(
+      selectedSingleValue
+    );
+    expect(updateAttribute.changeAttributeValue.userInput).toBeUndefined();
   });
 });

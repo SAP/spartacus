@@ -47,8 +47,17 @@ export class CpqConfiguratorRestAdapter
       );
   }
 
-  updateConfiguration(): Observable<Configurator.Configuration> {
-    return undefined;
+  updateConfiguration(
+    configuration: Configurator.Configuration
+  ): Observable<Configurator.Configuration> {
+    return this.cpqAcpqConfiguratorRestService
+      .updateConfiguration(configuration)
+      .pipe(
+        map((configResonse) => {
+          configResonse.owner = configuration.owner;
+          return configResonse;
+        })
+      );
   }
 
   addToCart(): Observable<CartModification> {

@@ -32,6 +32,7 @@ describe('CpqConfiguratorRestAdapter', () => {
     mockedRestService = jasmine.createSpyObj('mockedRestService', [
       'createConfiguration',
       'readConfiguration',
+      'updateConfiguration',
     ]);
 
     asSpy(mockedRestService.createConfiguration).and.callFake(() => {
@@ -39,6 +40,10 @@ describe('CpqConfiguratorRestAdapter', () => {
     });
 
     asSpy(mockedRestService.readConfiguration).and.callFake(() => {
+      return of(productConfiguration);
+    });
+
+    asSpy(mockedRestService.updateConfiguration).and.callFake(() => {
       return of(productConfiguration);
     });
 
@@ -92,6 +97,17 @@ describe('CpqConfiguratorRestAdapter', () => {
       .readPriceSummary(productConfiguration)
       .subscribe((config) => {
         expect(config).toBe(productConfiguration);
+      });
+  });
+
+  it('should delegate update configuration to rest service and map owner', () => {
+    adapterUnderTest
+      .updateConfiguration(productConfiguration)
+      .subscribe((config) => {
+        expect(config.owner).toEqual(owner);
+        expect(mockedRestService.updateConfiguration).toHaveBeenCalledWith(
+          productConfiguration
+        );
       });
   });
 });

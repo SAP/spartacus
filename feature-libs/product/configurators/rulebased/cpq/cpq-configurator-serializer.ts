@@ -31,7 +31,8 @@ export class CpqConfiguratorSerializer
   ): Cpq.UpdateAttribute {
     const updateAttribute: Cpq.UpdateAttribute = {
       configurationId: configurationId,
-      stdandardAttrCode: attribute.attrCode.toString(),
+      standardAttributeCode: attribute.attrCode.toString(),
+      changeAttributeValue: {},
     };
 
     if (
@@ -39,18 +40,21 @@ export class CpqConfiguratorSerializer
       attribute.uiType === Configurator.UiType.RADIOBUTTON ||
       attribute.uiType === Configurator.UiType.SINGLE_SELECTION_IMAGE
     ) {
-      updateAttribute.attributeValueIds = attribute.selectedSingleValue;
+      updateAttribute.changeAttributeValue.attributeValueIds =
+        attribute.selectedSingleValue;
     } else if (
       attribute.uiType === Configurator.UiType.CHECKBOXLIST ||
       attribute.uiType === Configurator.UiType.CHECKBOX ||
       attribute.uiType === Configurator.UiType.MULTI_SELECTION_IMAGE
     ) {
-      updateAttribute.attributeValueIds = this.prepareValueIds(attribute);
+      updateAttribute.changeAttributeValue.attributeValueIds = this.prepareValueIds(
+        attribute
+      );
     } else if (
       attribute.uiType === Configurator.UiType.STRING ||
       attribute.uiType === Configurator.UiType.NUMERIC
     ) {
-      updateAttribute.userInput = attribute.userInput;
+      updateAttribute.changeAttributeValue.userInput = attribute.userInput;
     }
     return updateAttribute;
   }
