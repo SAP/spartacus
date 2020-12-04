@@ -9,7 +9,7 @@ context('Product Configuration', () => {
   });
 
   describe('Configuration process', () => {
-    it('should support the product configuration aspect in product search, cart, checkout and order history', () => {
+    xit('should support the product configuration aspect in product search, cart, checkout and order history', () => {
       configuration.login();
       productSearch.searchForProduct(testProductMultiLevel);
       configuration.clickOnAddToCartBtnOnPD();
