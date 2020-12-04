@@ -15,9 +15,6 @@ export class BannerComponent {
    * `data.external` flag is set to true.
    */
   getTarget(data: CmsBannerComponent): string | null {
-    return data.external === 'true' ||
-      ((data.external as any) as Boolean) === true
-      ? '_blank'
-      : null;
+    return data.external === 'true' || data.external === true ? '_blank' : null;
   }
 }
