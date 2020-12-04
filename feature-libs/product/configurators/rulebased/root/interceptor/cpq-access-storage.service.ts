@@ -116,9 +116,7 @@ export class CpqAccessStorageService {
           )
         )
       )
-      .subscribe((accessData) => {
-        this.cpqAccessDataCache.next(accessData);
-      });
+      .subscribe(this.cpqAccessDataCache); // also propagate errors
   }
 
   protected fetchNextTokenIn(data: CpqAccessData) {
