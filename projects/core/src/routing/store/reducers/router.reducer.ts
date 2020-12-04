@@ -5,13 +5,13 @@ import { ActionReducerMap } from '@ngrx/store';
 import { PageType } from '../../../model/cms.model';
 import { RoutingConfigService } from '../../configurable-routes/routing-config.service';
 import { CmsActivatedRouteSnapshot } from '../../models/cms-route';
-import { PageContext } from '../../models/page-context.model';
+import { HOME_PAGE_ID, PageContext } from '../../models/page-context.model';
+import { CHANGE_NEXT_PAGE_CONTEXT } from '../actions/router.action';
 import {
   ActivatedRouterStateSnapshot,
   RouterState,
   State,
 } from '../routing-state';
-import { CHANGE_NEXT_PAGE_CONTEXT } from '../actions/router.action';
 
 export const initialState: RouterState = {
   navigationId: 0,
@@ -168,7 +168,9 @@ export class CustomSerializer
           };
         } else {
           context = {
-            id: 'homepage',
+            // We like URLs to be driven by the backend, the CMS actually returns the homepage
+            // if no page label is given. Our logic however requires an id. undefined doesn't work.
+            id: HOME_PAGE_ID,
             type: PageType.CONTENT_PAGE,
           };
         }
