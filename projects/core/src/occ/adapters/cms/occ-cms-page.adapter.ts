@@ -5,7 +5,10 @@ import { CmsPageAdapter } from '../../../cms/connectors/page/cms-page.adapter';
 import { CMS_PAGE_NORMALIZER } from '../../../cms/connectors/page/converters';
 import { CmsStructureModel } from '../../../cms/model/page.model';
 import { PageType } from '../../../model/cms.model';
-import { PageContext } from '../../../routing';
+import {
+  HOME_PAGE_ID,
+  PageContext,
+} from '../../../routing/models/page-context.model';
 import { ConverterService } from '../../../util/converter.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
@@ -25,24 +28,6 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
     pageContext: PageContext,
     fields?: string
   ): Observable<CmsStructureModel> {
-    // load page by Id
-    if (pageContext.type === undefined) {
-      return this.http
-        .get(
-          this.occEndpoints.getUrl(
-            'page',
-            {
-              id: pageContext.id,
-            },
-            { fields: fields ? fields : 'DEFAULT' }
-          ),
-          {
-            headers: this.headers,
-          }
-        )
-        .pipe(this.converter.pipeable(CMS_PAGE_NORMALIZER));
-    }
-
     // load page by PageContext
     const httpParams = this.getPagesRequestParams(pageContext);
     return this.http
@@ -52,14 +37,24 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
       .pipe(this.converter.pipeable(CMS_PAGE_NORMALIZER));
   }
 
+  /**
+   * Returns the endpoint configuration for OCC CMS page endpoint.
+   *
+   * If no fields are provided we rely on the backend configuration to use the DEFAULT field configuration.
+   *
+   * @param params query parameters to build the occ cms page endpoint configuration
+   * @param fields Specific occ field configuration to refine the response data.
+   */
   protected getPagesEndpoint(
     params: {
       [key: string]: string;
     },
     fields?: string
   ): string {
-    fields = fields ? fields : 'DEFAULT';
-    return this.occEndpoints.getUrl('pages', {}, { fields, ...params });
+    if (fields) {
+      params.fields = fields;
+    }
+    return this.occEndpoints.getUrl('pages', {}, { ...params });
   }
 
   protected getPagesRequestParams(
@@ -67,8 +62,11 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
   ): { [key: string]: any } {
     let httpParams = {};
 
-    // smartedit preview page is loaded by previewToken which added by interceptor
-    if (pageContext.id !== 'smartedit-preview') {
+    // SmartEdit preview page is loaded by previewToken which added by interceptor
+    if (
+      pageContext.id !== 'smartedit-preview' &&
+      pageContext.id !== HOME_PAGE_ID
+    ) {
       httpParams = { pageType: pageContext.type };
 
       if (pageContext.type === PageType.CONTENT_PAGE) {
