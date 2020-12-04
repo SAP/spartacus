@@ -67,7 +67,7 @@ describe('ProductDetailsTabComponent', () => {
     spyOn(productService, 'getProduct').and.returnValue(of(mockProduct2));
     fixture.detectChanges();
     productDetailsTabComponent.ngOnInit();
-    const showMoreBtn = fixture.debugElement.queryAll(By.css('a'));
+    const showMoreBtn = fixture.debugElement.queryAll(By.css('button'));
     expect(showMoreBtn.length).toBe(1);
   });
 });
