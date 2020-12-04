@@ -3,6 +3,7 @@
     [url]="data.urlLink"
     [target]="getTarget(data)"
     [title]="data.media?.altText"
+    [class]="data.styleClasses"
   >
     <p class="headline" *ngIf="data.headline" [innerHTML]="data.headline"></p>
     <cx-media [container]="data.media"></cx-media>
