@@ -18,8 +18,8 @@ const cpqValueDisplay2 = 'VALUE_DISPLAY_2';
 const cpqValueDescription2 = 'VALUE_DESCRIPTION_2';
 const cpqValueProductSystemId2 = 'VALUE_PRODUCT_SYSTEM_ID_2';
 
-const cpqAttributePaId = 1;
-const cpqAttributeNameStdAttrCode = 1;
+const cpqAttributePaId = 11;
+const cpqAttributeStdAttrCode = 1;
 const cpqAttributeName = 'ATTRIBUTE_NAME';
 const cpqAttributeDescription = 'VALUE_DESCRIPTION';
 const cpqAttributeLabel = 'VALUE_LABEL';
@@ -30,8 +30,8 @@ const cpqAttributeIsLineItem = true;
 const cpqAttributeHasConflict = true;
 const cpqAttributeUserInput = '';
 
-const cpqAttributePaId2 = 2;
-const cpqAttributeNameStdAttrCode2 = 2;
+const cpqAttributePaId2 = 22;
+const cpqAttributeStdAttrCode2 = 2;
 const cpqAttributeName2 = 'ATTRIBUTE_NAME_2';
 const cpqAttributeDescription2 = 'VALUE_DESCRIPTION_2';
 const cpqAttributeLabel2 = 'VALUE_LABEL_2';
@@ -74,7 +74,7 @@ const cpqValue2: Cpq.Value = {
 
 const cpqAttribute: Cpq.Attribute = {
   pA_ID: cpqAttributePaId,
-  stdAttrCode: cpqAttributeNameStdAttrCode,
+  stdAttrCode: cpqAttributeStdAttrCode,
   name: cpqAttributeName,
   description: cpqAttributeDescription,
   label: cpqAttributeLabel,
@@ -89,7 +89,7 @@ const cpqAttribute: Cpq.Attribute = {
 
 const cpqAttribute2: Cpq.Attribute = {
   pA_ID: cpqAttributePaId2,
-  stdAttrCode: cpqAttributeNameStdAttrCode2,
+  stdAttrCode: cpqAttributeStdAttrCode2,
   name: cpqAttributeName2,
   description: cpqAttributeDescription2,
   label: cpqAttributeLabel2,
@@ -208,7 +208,7 @@ describe('CpqConfiguratorNormalizer', () => {
     );
     const attribute: Configurator.Attribute = attributeList[0];
     expect(attributeList.length).toBe(1);
-    expect(attribute.attrCode).toBe(cpqAttributePaId);
+    expect(attribute.attrCode).toBe(cpqAttributeStdAttrCode);
     expect(attribute.name).toBe(cpqAttributeName);
     expect(attribute.description).toBe(cpqAttributeDescription);
     expect(attribute.label).toBe(cpqAttributeLabel);
@@ -233,7 +233,7 @@ describe('CpqConfiguratorNormalizer', () => {
     );
     const attribute: Configurator.Attribute = attributeList[0];
     expect(attributeList.length).toBe(1);
-    expect(attribute.attrCode).toBe(cpqAttributePaId2);
+    expect(attribute.attrCode).toBe(cpqAttributeStdAttrCode2);
     expect(attribute.name).toBe(cpqAttributeName2);
     expect(attribute.description).toBe(cpqAttributeDescription2);
     expect(attribute.label).toBe(cpqAttributeLabel2);
@@ -270,7 +270,7 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(group.groupType).toBe(Configurator.GroupType.ATTRIBUTE_GROUP);
     expect(group.subGroups.length).toBe(0);
     expect(group.attributes.length).toBe(1);
-    expect(group.attributes[0].attrCode).toBe(cpqAttributePaId);
+    expect(group.attributes[0].attrCode).toBe(cpqAttributeStdAttrCode);
   });
 
   it('should return UIType RADIOBUTTON for CPQ DisplayAs RADIO_BUTTON', () => {

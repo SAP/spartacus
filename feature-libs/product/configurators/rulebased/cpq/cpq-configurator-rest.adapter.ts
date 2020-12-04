@@ -32,12 +32,32 @@ export class CpqConfiguratorRestAdapter
       );
   }
 
-  readConfiguration(): Observable<Configurator.Configuration> {
-    return undefined;
+  readConfiguration(
+    configId: string,
+    groupId: string,
+    owner: CommonConfigurator.Owner
+  ): Observable<Configurator.Configuration> {
+    return this.cpqAcpqConfiguratorRestService
+      .readConfiguration(configId, groupId)
+      .pipe(
+        map((configResponse) => {
+          configResponse.owner = owner;
+          return configResponse;
+        })
+      );
   }
 
-  updateConfiguration(): Observable<Configurator.Configuration> {
-    return undefined;
+  updateConfiguration(
+    configuration: Configurator.Configuration
+  ): Observable<Configurator.Configuration> {
+    return this.cpqAcpqConfiguratorRestService
+      .updateConfiguration(configuration)
+      .pipe(
+        map((configResonse) => {
+          configResonse.owner = configuration.owner;
+          return configResonse;
+        })
+      );
   }
 
   addToCart(): Observable<CartModification> {
