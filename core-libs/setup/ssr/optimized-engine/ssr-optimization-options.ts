@@ -22,8 +22,8 @@ export interface SsrOptimizationOptions {
    * memory usage under control.
    *
    * Can also be use when `cache` option is set to false. It will then limit the
-   * number of renders timeout'ed renders kept in temporary cache, waiting to be
-   * served with next request.
+   * number of renders that timeouts and are kept in temporary cache, waiting
+   * to be served with next request.
    */
   cacheSize?: number;
 
