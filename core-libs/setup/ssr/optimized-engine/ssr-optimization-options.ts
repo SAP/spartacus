@@ -16,6 +16,18 @@ export interface SsrOptimizationOptions {
   cache?: boolean;
 
   /**
+   * Limit the cache size
+   *
+   * Specified number of entries that will be kept in cache, allows to keep
+   * memory usage under control.
+   *
+   * Can also be use when `cache` option is set to false. It will then limit the
+   * number of renders that timeouts and are kept in temporary cache, waiting
+   * to be served with next request.
+   */
+  cacheSize?: number;
+
+  /**
    * Limit number of concurrent rendering
    */
   concurrency?: number;
