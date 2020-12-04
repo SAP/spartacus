@@ -106,6 +106,7 @@ describe('UserIdService', () => {
 
   describe('takeUserId', () => {
     it('should emit last value and completes', (done) => {
+      service.clearUserId();
       service.takeUserId().subscribe(
         (id) => expect(id).toEqual(OCC_USER_ID_ANONYMOUS),
         () => {},
@@ -116,6 +117,7 @@ describe('UserIdService', () => {
     });
 
     it('should throw error when anonymous value in loggedIn mode', (done) => {
+      service.clearUserId();
       let userId;
       service.takeUserId(true).subscribe(
         (id) => (userId = id),
