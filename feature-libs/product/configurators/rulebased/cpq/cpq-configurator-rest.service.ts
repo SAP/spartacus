@@ -104,8 +104,8 @@ export class CpqConfiguratorRestService {
 
   protected callUpdateAttribute(
     updateAttribute: Cpq.UpdateAttribute
-  ): Observable<Cpq.ConfigurationCreatedResponseData> {
-    return this.http.patch<Cpq.ConfigurationCreatedResponseData>(
+  ): Observable<any> {
+    return this.http.patch<any>(
       `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations/${updateAttribute.configurationId}/attributes/${updateAttribute.standardAttributeCode}`,
       updateAttribute.changeAttributeValue
     );

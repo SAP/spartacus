@@ -22,6 +22,12 @@ const owner: CommonConfigurator.Owner = {
 
 const groupId = '123';
 
+const inputForUpdateConfiguration: Configurator.Configuration = {
+  configId: configId,
+  productCode: productCode,
+  owner: owner,
+};
+
 const asSpy = (f) => <jasmine.Spy>f;
 
 describe('CpqConfiguratorRestAdapter', () => {
@@ -102,11 +108,11 @@ describe('CpqConfiguratorRestAdapter', () => {
 
   it('should delegate update configuration to rest service and map owner', () => {
     adapterUnderTest
-      .updateConfiguration(productConfiguration)
+      .updateConfiguration(inputForUpdateConfiguration)
       .subscribe((config) => {
         expect(config.owner).toEqual(owner);
         expect(mockedRestService.updateConfiguration).toHaveBeenCalledWith(
-          productConfiguration
+          inputForUpdateConfiguration
         );
       });
   });
