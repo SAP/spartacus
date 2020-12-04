@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { AuthService } from '../../../auth/user-auth/facade/auth.service';
 import { UserSignUp } from '../../../model/misc.model';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserConnector } from '../../connectors/user/user.connector';
 import { UserActions } from '../actions/index';
 
@@ -20,7 +20,7 @@ export class UserRegisterEffects {
       this.userConnector.register(user).pipe(
         map(() => new UserActions.RegisterUserSuccess()),
         catchError((error) =>
-          of(new UserActions.RegisterUserFail(makeErrorSerializable(error)))
+          of(new UserActions.RegisterUserFail(normalizeHttpError(error)))
         )
       )
     )
@@ -39,7 +39,7 @@ export class UserRegisterEffects {
           return [new UserActions.RegisterGuestSuccess()];
         }),
         catchError((error) =>
-          of(new UserActions.RegisterGuestFail(makeErrorSerializable(error)))
+          of(new UserActions.RegisterGuestFail(normalizeHttpError(error)))
         )
       )
     )
@@ -58,7 +58,7 @@ export class UserRegisterEffects {
           return [new UserActions.RemoveUserSuccess()];
         }),
         catchError((error) =>
-          of(new UserActions.RemoveUserFail(makeErrorSerializable(error)))
+          of(new UserActions.RemoveUserFail(normalizeHttpError(error)))
         )
       );
     })

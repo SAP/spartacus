@@ -33,6 +33,7 @@ import { OCC_CHECKOUT_ADAPTER_MIGRATION } from './data/occ-checkout.adapter.migr
 import { OCC_CMS_COMPONENT_ADAPTER_MIGRATION } from './data/occ-cms-component.adapter.migration';
 import { ORDER_CONFIRMATION_OVERVIEW_COMPONENT_MIGRATION } from './data/order-confirmation-overview.component.migration';
 import { ORDER_DETAIL_SHIPPING_COMPONENT_MIGRATION } from './data/order-detail-shipping.component.migration';
+import { PAGE_META_SERVICE_MIGRATION } from './data/page-meta.service.migration';
 import { PRODUCT_CAROUSEL_SERVICE_MIGRATION } from './data/product-carousel.service.migration';
 import { PRODUCT_LIST_COMPONENT_SERVICE_MIGRATION } from './data/product-list-component.service.migration';
 import { PRODUCT_REFERENCE_SERVICE_MIGRATION } from './data/product-reference.service.migration';
@@ -83,6 +84,7 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...ANONYMOUS_CONSENT_TEMPLATES_ADAPTER_MIGRATION,
   ...ANONYMOUS_CONSENT_TEMPLATES_CONNECTOR_MIGRATION,
   ...OCC_CMS_COMPONENT_ADAPTER_MIGRATION,
+  ...PAGE_META_SERVICE_MIGRATION,
 ];
 
 export function migrate(): Rule {

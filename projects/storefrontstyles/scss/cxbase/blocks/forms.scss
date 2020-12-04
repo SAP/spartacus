@@ -71,14 +71,13 @@ textarea {
     }
   }
 }
-
-ng-select {
+.ng-dirty,
+.ng-touched {
   &.ng-invalid {
-    &.ng-dirty,
-    &.ng-touched {
-      .ng-select-container {
-        border-color: var(--cx-color-danger);
-      }
+    // supports components that implement ControlValueAccessor (i.e. date picker)
+    input,
+    ng-select .ng-select-container {
+      border-color: var(--cx-color-danger);
     }
   }
 }
