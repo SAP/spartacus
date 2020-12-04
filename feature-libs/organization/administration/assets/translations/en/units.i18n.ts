@@ -188,7 +188,9 @@ export const unitAddress = {
   messages: {
     update:
       'Address {{ item.firstName }} {{ item.lastName }} updated successfully',
-    delete: 'Are you sure you want to delete this address?',
-    deleted: 'Address {{ item.firstName }} deleted successfully',
+    delete:
+      'Are you sure you want to delete address {{ item.firstName }} {{ item.lastName }}?',
+    deleted:
+      'Address {{ item.firstName }} {{ item.lastName }} deleted successfully',
   },
 };
