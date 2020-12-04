@@ -1,5 +1,11 @@
 <form *ngIf="form$ | async as form" (submit)="save(form)">
-  <cx-org-card #card [previous]="false" [i18nRoot]="i18n" cxOrgItemActive>
+  <cx-org-card
+    #card
+    [previous]="false"
+    [i18nRoot]="i18n"
+    cxOrgItemActive
+    [subtitle]="subtitle"
+  >
     <button actions class="button primary" [disabled]="form.disabled">
       {{ 'organization.save' | cxTranslate }}
     </button>

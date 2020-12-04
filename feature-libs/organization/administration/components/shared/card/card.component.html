@@ -6,7 +6,10 @@
           {{ i18nRoot + '.title' | cxTranslate: { item: item$ | async } }}
         </h3>
         <h4>
-          {{ i18nRoot + '.subtitle' | cxTranslate: { item: item$ | async } }}
+          {{
+            subtitle ||
+              (i18nRoot + '.subtitle' | cxTranslate: { item: item$ | async })
+          }}
           &nbsp;
         </h4>
       </div>
