@@ -89,10 +89,8 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     return {
       ownerKey: this.ownerKey,
       changedAttribute: {
-        name: this.attribute.name,
+        ...this.attribute,
         userInput: this.attributeInputForm.value,
-        uiType: this.attribute.uiType,
-        groupId: this.attribute.groupId,
       },
     };
   }

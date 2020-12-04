@@ -9,6 +9,7 @@ import {
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap, take, tap } from 'rxjs/operators';
+
 import { CpqAccessData } from './cpq-access-data.models';
 import { CpqAccessStorageService } from './cpq-access-storage.service';
 
@@ -32,7 +33,7 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
       return next.handle(request);
     }
     return this.cpqAccessStorageService.getCachedCpqAccessData().pipe(
-      take(1), //avoid request being re-executed when token expires
+      take(1), // avoid request being re-executed when token expires
       switchMap((cpqData) => {
         return next.handle(this.enrichHeaders(request, cpqData)).pipe(
           catchError((errorResponse: any) => {

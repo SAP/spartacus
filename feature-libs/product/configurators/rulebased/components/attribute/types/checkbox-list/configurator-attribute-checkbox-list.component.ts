@@ -57,10 +57,8 @@ export class ConfiguratorAttributeCheckBoxListComponent
     const event: ConfigFormUpdateEvent = {
       ownerKey: this.ownerKey,
       changedAttribute: {
-        name: this.attribute.name,
+        ...this.attribute,
         values: selectedValues,
-        uiType: this.attribute.uiType,
-        groupId: this.attribute.groupId,
       },
     };
 

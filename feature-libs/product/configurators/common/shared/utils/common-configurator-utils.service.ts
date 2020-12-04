@@ -6,7 +6,7 @@ import {
   OrderEntry,
 } from '@spartacus/core';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
-import { ConfiguratorOrderEntryStatus } from './../../core/model/common-configurator.model';
+import { OrderEntryStatus } from './../../core/model/common-configurator.model';
 
 /**
  * Utilities for generic configuration
@@ -98,7 +98,7 @@ export class CommonConfiguratorUtilsService {
   getNumberOfIssues(cartItem: OrderEntry): number {
     let numberOfIssues = 0;
     cartItem?.statusSummaryList?.forEach((statusSummary) => {
-      if (statusSummary.status === ConfiguratorOrderEntryStatus.Error) {
+      if (statusSummary.status === OrderEntryStatus.Error) {
         numberOfIssues = statusSummary.numberOfIssues;
       }
     });

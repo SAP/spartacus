@@ -22,6 +22,9 @@ describe('CpqConfiguratorRestInterceptor', () => {
   let cpqAccessStorageServiceMock: CpqAccessStorageService;
   let mockedNextHandler: HttpHandler;
 
+  let cpqAccessStorageServiceMock: CpqAccessStorageService;
+  let mockedNextHandler: HttpHandler;
+
   const nonCPQRequest: HttpRequest<any> = new HttpRequest(
     'GET',
     'https://www.example.com'

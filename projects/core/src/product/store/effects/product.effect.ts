@@ -7,9 +7,9 @@ import { ProductConnector } from '../../connectors/product/product.connector';
 import { ProductActions } from '../actions/index';
 import { ScopedProductData } from '../../connectors/product/scoped-product-data';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
-import { bufferDebounceTime } from '../../../util/buffer-debounce-time';
+import { bufferDebounceTime } from '../../../util/rxjs/buffer-debounce-time';
 import { Action } from '@ngrx/store';
-import { withdrawOn } from '../../../util/withdraw-on';
+import { withdrawOn } from '../../../util/rxjs/withdraw-on';
 
 @Injectable()
 export class ProductEffects {

@@ -7,11 +7,6 @@ const nextBtnSelector =
 const previousBtnSelector =
   'cx-configurator-previous-next-buttons button:contains("Previous")';
 const addToCartButtonSelector = 'cx-configurator-add-to-cart-button button';
-
-const email = 'test-user-for-variant-configuration@ydev.hybris.com';
-const password = 'Password123.';
-const user = 'Variant Configuration';
-
 const conflictDetectedMsgSelector = '.cx-conflict-msg';
 const conflictHeaderGroupSelector =
   'cx-configurator-group-menu li.cx-menu-conflict';
@@ -75,7 +70,7 @@ export function clickOnEditConfigurationLink(cartItemIndex: number): void {
     .eq(cartItemIndex)
     .find('cx-configure-cart-entry')
     .within(() => {
-      cy.get('button:contains("Edit")')
+      cy.get('a:contains("Edit")')
         .click()
         .then(() => {
           cy.location('pathname').should('contain', '/cartEntry/entityKey/');
@@ -855,7 +850,7 @@ export function clickOnProceedToCheckoutBtnOnPD(): void {
 /**
  * Logs in.
  */
-export function login(): void {
+export function login(email, password, user): void {
   // Click on the 'Sign in / Register' link
   // & wait until the login-form is displayed
   cy.get('cx-login [role="link"]')
@@ -876,7 +871,7 @@ export function login(): void {
 export function navigateToOrderDetails(): void {
   cy.log('Navigate to order detail page');
   // Verify whether the ordered product is displayed in the order list
-  cy.get('cx-cart-item-list cx-configure-cart-entry button')
+  cy.get('cx-cart-item-list cx-configure-cart-entry a')
     .first()
     .click()
     .then(() => {

@@ -7,7 +7,9 @@ import {
 } from '@spartacus/core';
 import { PERMISSION_TYPE_NORMALIZER } from '@spartacus/organization/administration/core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OccPermissionTypeListNormalizer
   implements
     Converter<

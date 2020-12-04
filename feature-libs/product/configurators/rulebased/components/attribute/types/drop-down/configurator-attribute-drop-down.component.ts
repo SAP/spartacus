@@ -35,10 +35,8 @@ export class ConfiguratorAttributeDropDownComponent
     const event: ConfigFormUpdateEvent = {
       ownerKey: this.ownerKey,
       changedAttribute: {
-        name: this.attribute.name,
+        ...this.attribute,
         selectedSingleValue: this.attributeDropDownForm.value,
-        uiType: this.attribute.uiType,
-        groupId: this.attribute.groupId,
       },
     };
     this.selectionChange.emit(event);
