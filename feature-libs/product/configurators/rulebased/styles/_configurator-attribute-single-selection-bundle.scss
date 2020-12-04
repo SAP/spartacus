@@ -1,0 +1,58 @@
+%cx-configurator-attribute-single-selection-bundle {
+  @include cx-configurator-attribute-type();
+
+  fieldset {
+    width: 100%;
+  }
+
+  .cx-single-select-bundle {
+    align-items: center;
+    display: flex;
+    margin-bottom: 2rem;
+  }
+
+  .cx-single-select-bundle-label {
+    cursor: pointer;
+
+    .form-check-input {
+      display: none;
+      position: absolute;
+    }
+
+    input[aria-checked='true'] + .cx-dumy-img {
+      border: var(--cx-color-primary) 3px solid;
+    }
+
+    .cx-dumy-img {
+      background-color: var(--cx-color-secondary);
+      padding: 2px;
+      width: 7rem;
+      height: 7rem;
+    }
+  }
+
+  .cx-single-select-bundle-data {
+    border-bottom: 1px solid var(--cx-color-secondary);
+    margin: 0 1rem;
+    max-width: 20rem;
+
+    .cx-single-select-bundle-code {
+      color: var(--cx-color-secondary);
+    }
+
+    .cx-single-select-bundle-description {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+
+  .cx-single-select-bundle-prices {
+    display: flex;
+    font-weight: 600;
+    justify-content: flex-end;
+    margin: 0 0 0 auto;
+    min-width: 12rem;
+  }
+}

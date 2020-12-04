@@ -1,0 +1,58 @@
+<fieldset>
+  <legend style="display: none">{{ attribute.label }}</legend>
+  <div id="{{ createAttributeIdForConfigurator(attribute) }}">
+    <div class="cx-single-select-bundle" *ngFor="let value of attribute.values">
+      <label
+        class="cx-single-select-bundle-label"
+        id="{{ createValueUiKey('label', attribute.name, value.valueCode) }}"
+        for="{{
+          createAttributeValueIdForConfigurator(attribute, value.valueCode)
+        }}"
+      >
+        <input
+          id="{{
+            createAttributeValueIdForConfigurator(attribute, value.valueCode)
+          }}"
+          class="form-check-input"
+          type="radio"
+          formcontrolname="attributeSingleSelectionBundleForm"
+          [formControl]="attributeSingleSelectionBundleForm"
+          [attr.required]="attribute.required"
+          [value]="value.valueCode"
+          name="{{ createAttributeIdForConfigurator(attribute) }}"
+          attr.name="{{ createAttributeIdForConfigurator(attribute) }}"
+          [cxFocus]="{ key: attribute.name + '-' + value.name }"
+          attr.aria-labelledby="{{
+            createAriaLabelledBy('label', attribute.name, value.valueCode)
+          }}"
+          [attr.aria-checked]="
+            attributeSingleSelectionBundleForm.value === value.valueCode
+              ? true
+              : false
+          "
+          [attr.checked]="
+            attributeSingleSelectionBundleForm.value === value.valueCode
+              ? 'checked'
+              : null
+          "
+          (change)="onSelect(value.valueCode)"
+        />
+        <div class="cx-dumy-img"></div>
+      </label>
+      <div class="cx-single-select-bundle-data">
+        <div class="cx-single-select-bundle-title">
+          {{ value.valueDisplay }}
+        </div>
+        <div class="cx-single-select-bundle-code">ID {{ value.valueCode }}</div>
+        <div class="cx-single-select-bundle-description">
+          {{
+            value.description
+              ? value.description
+              : 'lorem ipsum dolor sit amet. lorem ipsum dolor sit amet. lorem ipsum dolor sit amet. lorem ipsum dolor sit amet. lorem ipsum dolor sit amet.'
+          }}
+        </div>
+      </div>
+      <div class="cx-single-select-bundle-prices">2 x 20$ = 40$</div>
+    </div>
+  </div>
+</fieldset>
