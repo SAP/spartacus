@@ -1,4 +1,5 @@
 import { MyCompanyRowConfig } from './my-company-row.config';
+import { MY_COMPANY_FEATURE } from './my-company.model';
 
 export interface MyCompanyConfig {
   /**
@@ -124,6 +125,12 @@ export interface MyCompanyConfig {
    * SUBCATEGORY: Config for creating entities from submenu.
    */
   createConfig?: MyCompanyConfig;
+
+  /**
+   * Indicates which features should be tested in the current suite.
+   * @example features: [MY_COMPANY_FEATURE.USER_PASSWORD]
+   */
+  features?: MY_COMPANY_FEATURE[];
 
   /**
    * SUBCATEGORY: Config for updating entities from submenu.
