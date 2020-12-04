@@ -65,14 +65,14 @@ export class CpqAccessStorageService {
   renewCachedCpqAccessData() {
     // only force token refresh if initialized.
     if (this.cpqAccessObservable) {
+      this.stopAutoFetchingCpqAccessData();
+      this.cpqAccessDataCache.next(EXPIRED_TOKEN); // invalidate cache
       this.authService
         .isUserLoggedIn()
         .pipe(take(1)) // get current login state
         .subscribe((loggedIn) => {
-          // only force token refresh if user is logged in.
+          // only fetch new token if user is logged in.
           if (loggedIn) {
-            this.stopAutoFetchingCpqAccessData();
-            this.cpqAccessDataCache.next(EXPIRED_TOKEN); // invalidate cache
             this.startAutoFetchingCpqAccessData();
           }
         });
