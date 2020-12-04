@@ -6,6 +6,7 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import * as shx from 'shelljs';
+import { TODO_SPARTACUS } from '../../../shared/constants';
 import { runMigration, writeFile } from '../../../shared/utils/test-utils';
 
 const MIGRATION_SCRIPT_NAME = 'migration-v2-component-deprecations-05';
@@ -14,27 +15,27 @@ const SINGLE_USAGE_EXAMPLE = `<div>test</div>
 <cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
 <div *ngIf="isAnonymousConsentsEnabled">Using a removed property</div>`;
 const SINGLE_USAGE_EXAMPLE_EXPECTED = `<div>test</div>
-<!-- 'isLevel13' property has been removed. -->
+<!-- ${TODO_SPARTACUS} 'isLevel13' property has been removed. -->
 <cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
-<!-- 'isAnonymousConsentsEnabled' property has been removed. -->
+<!-- ${TODO_SPARTACUS} 'isAnonymousConsentsEnabled' property has been removed. -->
 <div *ngIf="isAnonymousConsentsEnabled">Using a removed property</div>`;
 const MULTI_USAGE_EXAMPLE = `<cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
 <div>test</div>
 <cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
-const MULTI_USAGE_EXAMPLE_EXPECTED = `<!-- 'isLevel13' property has been removed. -->
+const MULTI_USAGE_EXAMPLE_EXPECTED = `<!-- ${TODO_SPARTACUS} 'isLevel13' property has been removed. -->
 <cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
 <div>test</div>
-<!-- 'isLevel13' property has been removed. -->
+<!-- ${TODO_SPARTACUS} 'isLevel13' property has been removed. -->
 <cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
 
 const PRODUCT_IMAGES_SINGLE_USAGE_EXAMPLE = `<div *ngIf="isThumbsEmpty">test</div>`;
-const PRODUCT_IMAGES_SINGLE_USAGE_EXAMPLE_EXPECTED = `<!-- 'isThumbsEmpty' property has been removed. -->
+const PRODUCT_IMAGES_SINGLE_USAGE_EXAMPLE_EXPECTED = `<!-- ${TODO_SPARTACUS} 'isThumbsEmpty' property has been removed. -->
 <div *ngIf="isThumbsEmpty">test</div>`;
 const PRODUCT_IMAGES_MULTIPLE_USAGE_EXAMPLE = `<div *ngIf="isThumbsEmpty">test</div>Custom content
 <div class="bottom" *ngIf="isThumbsEmpty">test</div>`;
-const PRODUCT_IMAGES_MULTIPLE_USAGE_EXAMPLE_EXPECTED = `<!-- 'isThumbsEmpty' property has been removed. -->
+const PRODUCT_IMAGES_MULTIPLE_USAGE_EXAMPLE_EXPECTED = `<!-- ${TODO_SPARTACUS} 'isThumbsEmpty' property has been removed. -->
 <div *ngIf="isThumbsEmpty">test</div>Custom content
-<!-- 'isThumbsEmpty' property has been removed. -->
+<!-- ${TODO_SPARTACUS} 'isThumbsEmpty' property has been removed. -->
 <div class="bottom" *ngIf="isThumbsEmpty">test</div>`;
 
 const COMPONENT_INHERITANCE_TEST_CLASS = `
@@ -209,46 +210,46 @@ const HTML_EXTEND_COMPONENT_BECAUSE_OF_TEMPLATE = `
 </ng-container>
 `;
 const HTML_EXTEND_COMPONENT_BECAUSE_OF_TEMPLATE_EXPECTED = `
-<!-- 'searchResult$' property has been removed. Please refer to the migration guide on how to handle this change. -->
+<!-- ${TODO_SPARTACUS} 'searchResult$' property has been removed. Please refer to the migration guide on how to handle this change. -->
 <ng-container *ngIf="searchResult$ | async as searchResult">
   <div class="cx-clear-all-container" *ngIf="searchResult.breadcrumbs?.length">
-<!-- 'toggleValue' method has been removed. Please refer to the migration guide on how to handle this change. -->
+<!-- ${TODO_SPARTACUS} 'toggleValue' method has been removed. Please refer to the migration guide on how to handle this change. -->
     <a href="javascript:void(0)" (click)="toggleValue('')"></a>
   </div>
 
-<!-- 'visibleFacets$' property has been removed. Please refer to the migration guide on how to handle this change. -->
+<!-- ${TODO_SPARTACUS} 'visibleFacets$' property has been removed. Please refer to the migration guide on how to handle this change. -->
   <ng-container *ngIf="visibleFacets$ | async as visibleFacets">
-<!-- 'isFacetCollapsed' method has been removed. Please refer to the migration guide on how to handle this change. -->
-<!-- 'toggleFacet' method has been removed. Please refer to the migration guide on how to handle this change. -->
+<!-- ${TODO_SPARTACUS} 'isFacetCollapsed' method has been removed. Please refer to the migration guide on how to handle this change. -->
+<!-- ${TODO_SPARTACUS} 'toggleFacet' method has been removed. Please refer to the migration guide on how to handle this change. -->
     <a
       (click)="toggleFacet(facet.name)"
       [attr.aria-expanded]="!isFacetCollapsed(facet.name)"
     >
       {{ facet.name }}
-<!-- 'isFacetCollapsed' method has been removed. Please refer to the migration guide on how to handle this change. -->
+<!-- ${TODO_SPARTACUS} 'isFacetCollapsed' method has been removed. Please refer to the migration guide on how to handle this change. -->
       <cx-icon
         [type]="
           isFacetCollapsed(facet.name) ? iconTypes.EXPAND : iconTypes.COLLAPSE
         "
       ></cx-icon>
     </a>
-<!-- 'isFacetCollapsed' method has been removed. Please refer to the migration guide on how to handle this change. -->
+<!-- ${TODO_SPARTACUS} 'isFacetCollapsed' method has been removed. Please refer to the migration guide on how to handle this change. -->
     <form class="collapse" [ngClass]="{ in: !isFacetCollapsed(facet.name) }">
-<!-- 'getVisibleFacetValues' method has been removed. Please refer to the migration guide on how to handle this change. -->
+<!-- ${TODO_SPARTACUS} 'getVisibleFacetValues' method has been removed. Please refer to the migration guide on how to handle this change. -->
       <li *ngFor="let value of getVisibleFacetValues(facet)">
-<!-- 'toggleValue' method has been removed. Please refer to the migration guide on how to handle this change. -->
+<!-- ${TODO_SPARTACUS} 'toggleValue' method has been removed. Please refer to the migration guide on how to handle this change. -->
         <input (change)="toggleValue(value.query.query.value)" />
       </li>
-<!-- 'showAllPerFacetMap' property has been removed. Please refer to the migration guide on how to handle this change. -->
-<!-- 'showLess' method has been removed. Please refer to the migration guide on how to handle this change. -->
+<!-- ${TODO_SPARTACUS} 'showAllPerFacetMap' property has been removed. Please refer to the migration guide on how to handle this change. -->
+<!-- ${TODO_SPARTACUS} 'showLess' method has been removed. Please refer to the migration guide on how to handle this change. -->
       <a
         (click)="showLess(facet.name)"
         *ngIf="showAllPerFacetMap.get(facet.name)"
       >
       </a>
-<!-- 'minPerFacet' property has been removed. Please refer to the migration guide on how to handle this change. -->
-<!-- 'showAllPerFacetMap' property has been removed. Please refer to the migration guide on how to handle this change. -->
-<!-- 'showMore' method has been removed. Please refer to the migration guide on how to handle this change. -->
+<!-- ${TODO_SPARTACUS} 'minPerFacet' property has been removed. Please refer to the migration guide on how to handle this change. -->
+<!-- ${TODO_SPARTACUS} 'showAllPerFacetMap' property has been removed. Please refer to the migration guide on how to handle this change. -->
+<!-- ${TODO_SPARTACUS} 'showMore' method has been removed. Please refer to the migration guide on how to handle this change. -->
       <a
         (click)="showMore(facet.name)"
         *ngIf="
@@ -260,18 +261,18 @@ const HTML_EXTEND_COMPONENT_BECAUSE_OF_TEMPLATE_EXPECTED = `
     </form>
   </ng-container>
 
-<!-- 'openFilterModal' method has been removed. Please refer to the migration guide on how to handle this change. -->
+<!-- ${TODO_SPARTACUS} 'openFilterModal' method has been removed. Please refer to the migration guide on how to handle this change. -->
   <button (click)="openFilterModal(content)"></button>
 
-<!-- 'visibleFacets$' property has been removed. Please refer to the migration guide on how to handle this change. -->
+<!-- ${TODO_SPARTACUS} 'visibleFacets$' property has been removed. Please refer to the migration guide on how to handle this change. -->
   <form *ngIf="visibleFacets$ | async as visibleFacets">
-<!-- 'isFacetCollapsed' method has been removed. Please refer to the migration guide on how to handle this change. -->
-<!-- 'toggleFacet' method has been removed. Please refer to the migration guide on how to handle this change. -->
+<!-- ${TODO_SPARTACUS} 'isFacetCollapsed' method has been removed. Please refer to the migration guide on how to handle this change. -->
+<!-- ${TODO_SPARTACUS} 'toggleFacet' method has been removed. Please refer to the migration guide on how to handle this change. -->
     <a
       (click)="toggleFacet(facet.name)"
       [attr.aria-expanded]="!isFacetCollapsed(facet.name)"
     >
-<!-- 'isFacetCollapsed' method has been removed. Please refer to the migration guide on how to handle this change. -->
+<!-- ${TODO_SPARTACUS} 'isFacetCollapsed' method has been removed. Please refer to the migration guide on how to handle this change. -->
       <cx-icon
         [type]="
           isFacetCollapsed(facet.name) ? iconTypes.EXPAND : iconTypes.COLLAPSE
@@ -279,10 +280,10 @@ const HTML_EXTEND_COMPONENT_BECAUSE_OF_TEMPLATE_EXPECTED = `
       ></cx-icon>
     </a>
 
-<!-- 'isFacetCollapsed' method has been removed. Please refer to the migration guide on how to handle this change. -->
+<!-- ${TODO_SPARTACUS} 'isFacetCollapsed' method has been removed. Please refer to the migration guide on how to handle this change. -->
     <div [ngClass]="{ in: !isFacetCollapsed(facet.name) }">
       <ul class="cx-facet-list">
-<!-- 'getVisibleFacetValues' method has been removed. Please refer to the migration guide on how to handle this change. -->
+<!-- ${TODO_SPARTACUS} 'getVisibleFacetValues' method has been removed. Please refer to the migration guide on how to handle this change. -->
         <li
           *ngFor="
             let value of getVisibleFacetValues(facet);
@@ -290,16 +291,16 @@ const HTML_EXTEND_COMPONENT_BECAUSE_OF_TEMPLATE_EXPECTED = `
           "
         ></li>
       </ul>
-<!-- 'showAllPerFacetMap' property has been removed. Please refer to the migration guide on how to handle this change. -->
-<!-- 'showLess' method has been removed. Please refer to the migration guide on how to handle this change. -->
+<!-- ${TODO_SPARTACUS} 'showAllPerFacetMap' property has been removed. Please refer to the migration guide on how to handle this change. -->
+<!-- ${TODO_SPARTACUS} 'showLess' method has been removed. Please refer to the migration guide on how to handle this change. -->
       <a
         (click)="showLess(facet.name)"
         *ngIf="showAllPerFacetMap.get(facet.name)"
       >
       </a>
-<!-- 'minPerFacet' property has been removed. Please refer to the migration guide on how to handle this change. -->
-<!-- 'showAllPerFacetMap' property has been removed. Please refer to the migration guide on how to handle this change. -->
-<!-- 'showMore' method has been removed. Please refer to the migration guide on how to handle this change. -->
+<!-- ${TODO_SPARTACUS} 'minPerFacet' property has been removed. Please refer to the migration guide on how to handle this change. -->
+<!-- ${TODO_SPARTACUS} 'showAllPerFacetMap' property has been removed. Please refer to the migration guide on how to handle this change. -->
+<!-- ${TODO_SPARTACUS} 'showMore' method has been removed. Please refer to the migration guide on how to handle this change. -->
       <a
         (click)="showMore(facet.name)"
         *ngIf="

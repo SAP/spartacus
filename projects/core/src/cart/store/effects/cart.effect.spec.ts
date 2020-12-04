@@ -17,6 +17,8 @@ import * as fromCartReducers from '../../store/reducers/index';
 import { CartActions } from '../actions/index';
 import { MULTI_CART_FEATURE } from '../multi-cart-state';
 import * as fromEffects from './cart.effect';
+import { HttpErrorResponse } from '@angular/common/http';
+import { normalizeHttpError } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
 
 const testCart: Cart = {
@@ -183,23 +185,22 @@ describe('Cart effect', () => {
         cartId,
         extraData: { active: true },
       };
+      const httpError = new HttpErrorResponse({
+        error: {
+          errors: [
+            {
+              reason: 'notFound',
+              subjectType: 'cart',
+              subject: 'selectivecart-electronicsspa-123456',
+            },
+          ],
+        },
+      });
       const action = new CartActions.LoadCart(payload);
-      loadMock.and.returnValue(
-        throwError({
-          error: {
-            errors: [
-              {
-                reason: 'notFound',
-                subjectType: 'cart',
-                subject: 'selectivecart-electronicsspa-123456',
-              },
-            ],
-          },
-        })
-      );
+      loadMock.and.returnValue(throwError(httpError));
       const removeCartCompletion = new CartActions.LoadCartFail({
         ...payload,
-        error: { error: 'unknown error' },
+        error: normalizeHttpError(httpError),
       });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', {
