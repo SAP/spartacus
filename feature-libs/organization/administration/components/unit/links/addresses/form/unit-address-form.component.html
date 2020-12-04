@@ -1,4 +1,10 @@
-<cx-org-form i18nRoot="unitAddress" [animateBack]="!(key$ | async)">
+<cx-org-form
+  i18nRoot="unitAddress"
+  [animateBack]="!(key$ | async)"
+  [subtitle]="
+    'unitAddress.details.subtitle' | cxTranslate: { item: (unit$ | async) }
+  "
+>
   <ng-container *ngIf="form" [formGroup]="form" main>
     <label aria-required="true" formGroupName="country">
       <span class="label-content required">{{
