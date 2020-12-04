@@ -1,5 +1,9 @@
 <ng-container *ngIf="unit$ | async as unit">
-  <cx-org-card *ngIf="model$ | async as model" i18nRoot="unitAddress.details">
+  <cx-org-card
+    *ngIf="model$ | async as model"
+    i18nRoot="unitAddress.details"
+    [subtitle]="'unitAddress.details.subtitle' | cxTranslate: { item: unit }"
+  >
     <a class="link" actions routerLink="edit">
       {{ 'organization.edit' | cxTranslate }}
     </a>
