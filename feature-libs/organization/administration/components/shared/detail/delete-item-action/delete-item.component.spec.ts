@@ -84,7 +84,10 @@ describe('DeleteItemComponent', () => {
       const mockItem = { code: 'b2', active: true };
       component.delete(mockItem);
       expect(messageService.add).toHaveBeenCalledWith({
-        message: { key: 'testRoot.messages.delete' },
+        message: {
+          key: 'testRoot.messages.delete',
+          params: { item: mockItem },
+        },
         component: ConfirmationMessageComponent,
       });
       expect(organizationItemService.delete).not.toHaveBeenCalled();

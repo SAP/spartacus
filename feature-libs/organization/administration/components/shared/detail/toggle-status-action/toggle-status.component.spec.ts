@@ -157,7 +157,10 @@ describe('ToggleStatusComponent', () => {
       const mockItem = { code: 'b2', active: true };
       component.toggle(mockItem);
       expect(messageService.add).toHaveBeenCalledWith({
-        message: { key: 'testRoot.messages.deactivate' },
+        message: {
+          key: 'testRoot.messages.deactivate',
+          params: { item: mockItem },
+        },
         component: ConfirmationMessageComponent,
       });
       expect(organizationItemService.update).not.toHaveBeenCalled();
