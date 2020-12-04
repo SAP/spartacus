@@ -1,5 +1,5 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CmsBannerComponent, CmsComponent } from '@spartacus/core';
@@ -41,7 +41,7 @@ describe('BannerComponent', () => {
     uid: 'test',
   };
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       declarations: [BannerComponent, MockMediaComponent, GenericLinkComponent],
@@ -52,7 +52,7 @@ describe('BannerComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BannerComponent);
@@ -67,5 +67,33 @@ describe('BannerComponent', () => {
   it('should contain cx-media', () => {
     fixture.detectChanges();
     expect(el.query(By.css('cx-media'))).toBeTruthy();
+  });
+
+  describe('getTarget()', () => {
+    it('should return null by default', () => {
+      expect(bannerComponent.getTarget({})).toBeNull();
+    });
+
+    it('should return null for non-external page', () => {
+      expect(bannerComponent.getTarget({ external: 'false' })).toBeNull();
+    });
+
+    it('should return _blank for external page', () => {
+      expect(bannerComponent.getTarget({ external: 'true' })).toEqual('_blank');
+    });
+
+    describe('boolean values', () => {
+      it('should return null for false', () => {
+        expect(
+          bannerComponent.getTarget({ external: false as any })
+        ).toBeNull();
+      });
+
+      it('should return _blank for true', () => {
+        expect(bannerComponent.getTarget({ external: true as any })).toEqual(
+          '_blank'
+        );
+      });
+    });
   });
 });

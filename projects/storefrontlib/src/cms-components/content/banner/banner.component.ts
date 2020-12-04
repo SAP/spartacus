@@ -9,4 +9,15 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
 })
 export class BannerComponent {
   constructor(public component: CmsComponentData<CmsBannerComponent>) {}
+
+  /**
+   * Returns `_blank` to force opening the link in a new window whenever the
+   * `data.external` flag is set to true.
+   */
+  getTarget(data: CmsBannerComponent): string | null {
+    return data.external === 'true' ||
+      ((data.external as any) as Boolean) === true
+      ? '_blank'
+      : null;
+  }
 }

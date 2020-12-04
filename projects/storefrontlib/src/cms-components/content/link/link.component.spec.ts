@@ -1,12 +1,12 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
-import { LinkComponent } from './link.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { CmsComponent, CmsLinkComponent } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
-import { CmsLinkComponent, CmsComponent } from '@spartacus/core';
+import { of } from 'rxjs';
 import { GenericLinkModule } from '../../../shared/components/generic-link/generic-link.module';
+import { LinkComponent } from './link.component';
 
 describe('LinkComponent', () => {
   let linkComponent: LinkComponent;
@@ -25,7 +25,7 @@ describe('LinkComponent', () => {
     data$: of(componentData),
   };
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, GenericLinkModule],
       declarations: [LinkComponent],
@@ -36,7 +36,7 @@ describe('LinkComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LinkComponent);
@@ -54,5 +54,31 @@ describe('LinkComponent', () => {
 
     expect(element.textContent).toEqual(componentData.linkName);
     expect(element.href).toContain(componentData.url);
+  });
+
+  describe('getTarget()', () => {
+    it('should return null by default', () => {
+      expect(linkComponent.getTarget({})).toBeNull();
+    });
+
+    it('should return null for non-external page', () => {
+      expect(linkComponent.getTarget({ target: 'false' })).toBeNull();
+    });
+
+    it('should return _blank for external page', () => {
+      expect(linkComponent.getTarget({ target: 'true' })).toEqual('_blank');
+    });
+
+    describe('boolean values', () => {
+      it('should return null for false', () => {
+        expect(linkComponent.getTarget({ target: false as any })).toBeNull();
+      });
+
+      it('should return _blank for true', () => {
+        expect(linkComponent.getTarget({ target: true as any })).toEqual(
+          '_blank'
+        );
+      });
+    });
   });
 });

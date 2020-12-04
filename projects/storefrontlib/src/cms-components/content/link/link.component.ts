@@ -9,4 +9,14 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
 })
 export class LinkComponent {
   constructor(public component: CmsComponentData<CmsLinkComponent>) {}
+
+  /**
+   * Returns `_blank` to force opening the link in a new window whenever the
+   * `data.target` flag is set to rue.
+   */
+  getTarget(data: CmsLinkComponent): string | null {
+    return data.target === 'true' || ((data.target as any) as Boolean) === true
+      ? '_blank'
+      : null;
+  }
 }
