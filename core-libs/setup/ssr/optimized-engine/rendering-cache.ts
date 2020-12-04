@@ -8,37 +8,43 @@ export interface RenderingEntry {
 }
 
 export class RenderingCache {
-  protected renders: {
-    [requestKey: string]: RenderingEntry;
-  } = {};
+  protected renders = new Map<string, RenderingEntry>();
 
   constructor(private options?: SsrOptimizationOptions) {}
 
   setAsRendering(key: string) {
-    this.renders[key] = { rendering: true };
+    this.renders.set(key, { rendering: true });
   }
 
   isRendering(key: string): boolean {
-    return !!this.renders[key]?.rendering;
+    return !!this.renders.get(key)?.rendering;
   }
 
   store(key: string, err?: Error | null, html?: string) {
-    this.renders[key] = { err, html };
+    const entry: RenderingEntry = { err, html };
     if (this.options?.ttl) {
-      this.renders[key].time = Date.now();
+      entry.time = Date.now();
     }
+    if (this.options.cacheSize) {
+      this.renders.delete(key);
+      if (this.renders.size >= this.options.cacheSize) {
+        this.renders.delete(this.renders.keys().next().value);
+      }
+    }
+    this.renders.set(key, entry);
   }
 
   get(key: string): RenderingEntry {
-    return this.renders[key];
+    return this.renders.get(key);
   }
 
   clear(key: string) {
-    delete this.renders[key];
+    this.renders.delete(key);
   }
 
   isReady(key: string): boolean {
-    const isRenderPresent = this.renders[key]?.html || this.renders[key]?.err;
+    const entry = this.renders.get(key);
+    const isRenderPresent = entry?.html || entry?.err;
     return isRenderPresent && this.isFresh(key);
   }
 
@@ -47,6 +53,6 @@ export class RenderingCache {
       return true;
     }
 
-    return Date.now() - (this.renders[key]?.time ?? 0) < this.options?.ttl;
+    return Date.now() - (this.renders.get(key)?.time ?? 0) < this.options?.ttl;
   }
 }
