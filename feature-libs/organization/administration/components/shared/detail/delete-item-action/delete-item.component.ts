@@ -61,6 +61,7 @@ export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
       this.confirmation = this.messageService.add({
         message: {
           key: this.i18nRoot + '.messages.delete',
+          params: { item },
         },
         component: ConfirmationMessageComponent,
       });
