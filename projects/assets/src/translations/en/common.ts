@@ -98,6 +98,7 @@ export const common = {
         lastName: 'Last Name entered is not valid.',
         password: 'Password entered is not valid.',
         uid: 'UID is not valid.',
+        code: 'Code is not valid.',
       },
     },
     cartNotFound: 'Cart not found.',
