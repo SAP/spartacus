@@ -602,7 +602,7 @@ export class B2BUserEffects {
   protected redirectToDetails(route, data) {
     if ((route as any)?.state?.context?.id !== '/organization/units') {
       this.routingService.go({
-        cxRoute: 'userDetails',
+        cxRoute: 'orgUserDetails',
         params: data,
       });
     }

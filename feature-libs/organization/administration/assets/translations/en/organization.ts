@@ -25,13 +25,13 @@ import {
   userGroupUsers,
 } from './user-group.i18n';
 import {
-  user,
-  userApprovers,
-  userAssignedApprovers,
-  userAssignedPermissions,
-  userAssignedUserGroups,
-  userPermissions,
-  userUserGroups,
+  orgUser,
+  orgUserApprovers,
+  orgUserAssignedApprovers,
+  orgUserAssignedPermissions,
+  orgUserAssignedUserGroups,
+  orgUserPermissions,
+  orgUserUserGroups,
 } from './user.i18n';
 
 /**
@@ -113,12 +113,12 @@ export const organization = {
   userGroupAssignedUsers,
   userGroupPermissions,
   userGroupAssignedPermissions,
-  user,
-  userUserGroups,
-  userAssignedUserGroups,
-  userApprovers,
-  userAssignedApprovers,
-  userPermissions,
-  userAssignedPermissions,
+  orgUser,
+  orgUserUserGroups,
+  orgUserAssignedUserGroups,
+  orgUserApprovers,
+  orgUserAssignedApprovers,
+  orgUserPermissions,
+  orgUserAssignedPermissions,
   permission,
 };
