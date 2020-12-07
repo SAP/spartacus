@@ -17,7 +17,8 @@
       <div class="cx-summary-card">
         <cx-card
           [content]="
-            getReplenishmentStartOnCardContent(order?.firstDate | cxDate) | async
+            getReplenishmentStartOnCardContent(order?.firstDate | cxDate)
+              | async
           "
         ></cx-card>
 
@@ -31,8 +32,9 @@
 
         <cx-card
           [content]="
-            getReplenishmentNextDateCardContent(order?.trigger?.activationTime | cxDate)
-              | async
+            getReplenishmentNextDateCardContent(
+              order?.trigger?.activationTime | cxDate
+            ) | async
           "
         ></cx-card>
       </div>
@@ -45,7 +47,9 @@
         ></cx-card>
 
         <cx-card
-          [content]="getOrderCurrentDateCardContent(order?.created | cxDate) | async"
+          [content]="
+            getOrderCurrentDateCardContent(order?.created | cxDate) | async
+          "
         ></cx-card>
 
         <cx-card
