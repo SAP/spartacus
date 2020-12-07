@@ -6,11 +6,19 @@ import { CMS_PAGE_NORMALIZER } from '../../../cms/connectors/page/converters';
 import { CmsStructureModel } from '../../../cms/model/page.model';
 import { PageType } from '../../../model/cms.model';
 import {
-  HOME_PAGE_ID,
+  HOME_PAGE_CONTEXT,
   PageContext,
+  SMART_EDIT_CONTEXT,
 } from '../../../routing/models/page-context.model';
 import { ConverterService } from '../../../util/converter.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
+
+export interface OccCmsPageRequest {
+  pageLabelOrId?: string;
+  pageType?: PageType;
+  code?: string;
+  fields?: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -19,62 +27,60 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(
-    private http: HttpClient,
-    private occEndpoints: OccEndpointsService,
+    protected http: HttpClient,
+    protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService
   ) {}
 
-  load(
-    pageContext: PageContext,
-    fields?: string
-  ): Observable<CmsStructureModel> {
-    // load page by PageContext
-    const httpParams = this.getPagesRequestParams(pageContext);
+  /**
+   * @override returns the OCC CMS page data for the given context and converts
+   * the data by any configured `CMS_PAGE_NORMALIZER`.
+   */
+  load(pageContext: PageContext): Observable<CmsStructureModel> {
+    const params = this.getPagesRequestParams(pageContext);
+
+    const endpoint = !pageContext.type
+      ? this.occEndpoints.getUrl('page', undefined, params)
+      : this.occEndpoints.getUrl('pages', undefined, params);
+
     return this.http
-      .get(this.getPagesEndpoint(httpParams, fields), {
-        headers: this.headers,
-      })
+      .get(endpoint, { headers: this.headers })
       .pipe(this.converter.pipeable(CMS_PAGE_NORMALIZER));
   }
 
   /**
-   * Returns the endpoint configuration for OCC CMS page endpoint.
+   * The OCC CMS API allows to query pages by a combination of pageType, label and code.
    *
-   * If no fields are provided we rely on the backend configuration to use the DEFAULT field configuration.
+   * When a `ContentPage` is requested, we use the `pageLabelOrId`:
    *
-   * @param params query parameters to build the occ cms page endpoint configuration
-   * @param fields Specific occ field configuration to refine the response data.
+   * ```
+   * "/pages?pageLabelOrId=/my-page&pageType=ContentPage"
+   * ```
+   *
+   * Other pages are queried by code:
+   *
+   * ```
+   * "/pages?code=1234&pageType=ProductPage"
+   * ```
+   *
+   * The page context is ignored for a home page request or in case of a
+   * `smartedit-preview` request.
    */
-  protected getPagesEndpoint(
-    params: {
-      [key: string]: string;
-    },
-    fields?: string
-  ): string {
-    if (fields) {
-      params.fields = fields;
+  protected getPagesRequestParams(context: PageContext): OccCmsPageRequest {
+    if (context.id === HOME_PAGE_CONTEXT || context.id === SMART_EDIT_CONTEXT) {
+      return {};
     }
-    return this.occEndpoints.getUrl('pages', {}, { ...params });
-  }
 
-  protected getPagesRequestParams(
-    pageContext: PageContext
-  ): { [key: string]: any } {
-    let httpParams = {};
-
-    // SmartEdit preview page is loaded by previewToken which added by interceptor
-    if (
-      pageContext.id !== 'smartedit-preview' &&
-      pageContext.id !== HOME_PAGE_ID
-    ) {
-      httpParams = { pageType: pageContext.type };
-
-      if (pageContext.type === PageType.CONTENT_PAGE) {
-        httpParams['pageLabelOrId'] = pageContext.id;
-      } else {
-        httpParams['code'] = pageContext.id;
-      }
+    const httpParams: OccCmsPageRequest = {};
+    if (context.type) {
+      httpParams.pageType = context.type;
     }
+    if (context.type === PageType.CONTENT_PAGE) {
+      httpParams.pageLabelOrId = context.id;
+    } else {
+      httpParams.code = context.id;
+    }
+
     return httpParams;
   }
 }
