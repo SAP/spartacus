@@ -105,6 +105,7 @@ export const common = {
         password: 'Password entered is not valid.',
         uid: 'UID is not valid.',
         code: 'Code is not valid.',
+        email: 'Email is not valid.',
       },
     },
     cartNotFound: 'Cart not found.',
