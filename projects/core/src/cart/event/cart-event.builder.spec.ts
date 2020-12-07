@@ -2,6 +2,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
 import { BehaviorSubject, of, Subject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { EventService } from '../../event/event.service';
 import { Cart } from '../../model';
 import { createFrom } from '../../util/create-from';
@@ -51,6 +52,7 @@ const MOCK_ACTIVE_CART_EVENT = Object.freeze({
 describe('CartEventBuilder', () => {
   let actions$: Subject<ActionWithPayload>;
   let eventService: EventService;
+  let activeCartService: ActiveCartService;
   getActiveCartIdSubject = new BehaviorSubject<string>(MOCK_ACTIVE_CART_ID);
 
   beforeEach(() => {
@@ -69,6 +71,7 @@ describe('CartEventBuilder', () => {
     TestBed.inject(CartEventBuilder); // register events
 
     eventService = TestBed.inject(EventService);
+    activeCartService = TestBed.inject(ActiveCartService);
   });
 
   function testActionToEventMapping<A, E>({
@@ -94,6 +97,36 @@ describe('CartEventBuilder', () => {
   }
 
   describe('should register event', () => {
+    it('should subscribe to cart stream when actions are dispatched', () => {
+      let activeCartSubscribed = false;
+      let activeCartIdSubscribed = false;
+      spyOn(activeCartService, 'getActive').and.callFake(() =>
+        of(MOCK_ACTIVE_CART).pipe(tap(() => (activeCartSubscribed = true)))
+      );
+      spyOn(activeCartService, 'getActiveCartId').and.callFake(() =>
+        of('1').pipe(tap(() => (activeCartIdSubscribed = true)))
+      );
+
+      const subscription = eventService
+        .get(CartRemoveEntrySuccessEvent)
+        .subscribe();
+
+      expect(activeCartSubscribed).toBeFalsy();
+      expect(activeCartIdSubscribed).toBeFalsy();
+
+      actions$.next(
+        new CartActions.CartRemoveEntrySuccess({
+          entryNumber: '0',
+          ...MOCK_ACTIVE_CART_EVENT,
+        })
+      );
+
+      expect(activeCartSubscribed).toBeTruthy();
+      expect(activeCartIdSubscribed).toBeTruthy();
+
+      subscription.unsubscribe();
+    });
+
     it('CartAddEntryEvent', () => {
       const eventData: CartAddEntryEvent = {
         cartCode: MOCK_ACTIVE_CART.code,
