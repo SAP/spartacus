@@ -37,13 +37,16 @@ export class CpqConfiguratorSerializer
 
     if (
       attribute.uiType === Configurator.UiType.DROPDOWN ||
+      attribute.uiType === Configurator.UiType.DROPDOWN_PRODUCT ||
       attribute.uiType === Configurator.UiType.RADIOBUTTON ||
+      attribute.uiType === Configurator.UiType.RADIOBUTTON_PRODUCT ||
       attribute.uiType === Configurator.UiType.SINGLE_SELECTION_IMAGE
     ) {
       updateAttribute.changeAttributeValue.attributeValueIds =
         attribute.selectedSingleValue;
     } else if (
       attribute.uiType === Configurator.UiType.CHECKBOXLIST ||
+      attribute.uiType === Configurator.UiType.CHECKBOXLIST_PRODUCT ||
       attribute.uiType === Configurator.UiType.CHECKBOX ||
       attribute.uiType === Configurator.UiType.MULTI_SELECTION_IMAGE
     ) {
