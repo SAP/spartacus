@@ -11,10 +11,6 @@ export namespace Cpq {
      * CPQ configuration ID of the newly created configuration
      */
     configurationId: string;
-    /**
-     * CPQ session ID in which the configuration was created
-     */
-    sessionId: string;
   }
 
   /**
@@ -80,6 +76,26 @@ export namespace Cpq {
     productSystemId?: string;
     selected?: boolean;
     price?: string;
+    quantity?: string;
+  }
+
+  /**
+   *
+   * An interface representing the structure for update of CPQ configuration attribute.
+   */
+  export interface UpdateAttribute {
+    configurationId: string;
+    standardAttributeCode: string;
+    changeAttributeValue: ChangeAttributeValue;
+  }
+
+  /**
+   *
+   * An interface representing the update request body structure for update of CPQ configuration attribute.
+   */
+  export interface ChangeAttributeValue {
+    attributeValueIds?: string;
+    userInput?: string;
     quantity?: string;
   }
 

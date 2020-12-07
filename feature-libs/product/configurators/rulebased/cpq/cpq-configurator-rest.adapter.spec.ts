@@ -20,15 +20,39 @@ const owner: CommonConfigurator.Owner = {
   id: productCode,
 };
 
+const groupId = '123';
+
+const inputForUpdateConfiguration: Configurator.Configuration = {
+  configId: configId,
+  productCode: productCode,
+  owner: owner,
+};
+
+const asSpy = (f) => <jasmine.Spy>f;
+
 describe('CpqConfiguratorRestAdapter', () => {
   let adapterUnderTest: CpqConfiguratorRestAdapter;
-  const mockedRestService = {
-    createConfiguration: jasmine.createSpy().and.callFake(() => {
-      return of(productConfiguration);
-    }),
-  };
+  let mockedRestService: CpqConfiguratorRestService;
 
   beforeEach(() => {
+    mockedRestService = jasmine.createSpyObj('mockedRestService', [
+      'createConfiguration',
+      'readConfiguration',
+      'updateConfiguration',
+    ]);
+
+    asSpy(mockedRestService.createConfiguration).and.callFake(() => {
+      return of(productConfiguration);
+    });
+
+    asSpy(mockedRestService.readConfiguration).and.callFake(() => {
+      return of(productConfiguration);
+    });
+
+    asSpy(mockedRestService.updateConfiguration).and.callFake(() => {
+      return of(productConfiguration);
+    });
+
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
@@ -60,6 +84,18 @@ describe('CpqConfiguratorRestAdapter', () => {
     });
   });
 
+  it('should delegate read configuration to rest service and map owner', () => {
+    adapterUnderTest
+      .readConfiguration(productConfiguration.configId, groupId, owner)
+      .subscribe((config) => {
+        expect(config.owner).toEqual(owner);
+        expect(mockedRestService.readConfiguration).toHaveBeenCalledWith(
+          productConfiguration.configId,
+          groupId
+        );
+      });
+  });
+
   // this ensures that there is a dummy response until the API is implemented,
   // otherwise this leads to an NPE on the UI
   it('should always return same configuration for price summary', () => {
@@ -67,6 +103,17 @@ describe('CpqConfiguratorRestAdapter', () => {
       .readPriceSummary(productConfiguration)
       .subscribe((config) => {
         expect(config).toBe(productConfiguration);
+      });
+  });
+
+  it('should delegate update configuration to rest service and map owner', () => {
+    adapterUnderTest
+      .updateConfiguration(inputForUpdateConfiguration)
+      .subscribe((config) => {
+        expect(config.owner).toEqual(owner);
+        expect(mockedRestService.updateConfiguration).toHaveBeenCalledWith(
+          inputForUpdateConfiguration
+        );
       });
   });
 });
