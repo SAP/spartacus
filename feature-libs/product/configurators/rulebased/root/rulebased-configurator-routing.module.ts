@@ -6,6 +6,9 @@ import {
 import { CmsRouteModule } from '@spartacus/storefront';
 import { defaultRulebasedRoutingConfig } from './default-rulebased-routing-config';
 
+/**
+ * Provides the default cx routing configuration for the rulebased configurator
+ */
 @NgModule({
   imports: [CoreRoutingModule.forRoot(), CmsRouteModule],
 })

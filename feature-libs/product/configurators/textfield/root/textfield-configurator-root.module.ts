@@ -7,7 +7,7 @@ import { TextfieldConfiguratorRootFeatureModule } from './textfield-configurator
 import { TextfieldConfiguratorRoutingModule } from './textfield-configurator-routing.module';
 
 /**
- * Exposes the root modules that we need to statically load. Contain page mappings
+ * Exposes the root modules that we need to statically load. Contains page mappings
  */
 @NgModule({
   imports: [
