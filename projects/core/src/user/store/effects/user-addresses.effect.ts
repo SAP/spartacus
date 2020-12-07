@@ -7,7 +7,7 @@ import {
   GlobalMessageType,
 } from '../../../global-message/index';
 import { Address } from '../../../model/address.model';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
 import { UserAddressService } from '../../facade/user-address.service';
 import { UserActions } from '../actions/index';
@@ -26,9 +26,7 @@ export class UserAddressesEffects {
           return new UserActions.LoadUserAddressesSuccess(addresses);
         }),
         catchError((error) =>
-          of(
-            new UserActions.LoadUserAddressesFail(makeErrorSerializable(error))
-          )
+          of(new UserActions.LoadUserAddressesFail(normalizeHttpError(error)))
         )
       );
     })
@@ -48,7 +46,7 @@ export class UserAddressesEffects {
             return new UserActions.AddUserAddressSuccess(data);
           }),
           catchError((error) =>
-            of(new UserActions.AddUserAddressFail(makeErrorSerializable(error)))
+            of(new UserActions.AddUserAddressFail(normalizeHttpError(error)))
           )
         );
     })
@@ -77,11 +75,7 @@ export class UserAddressesEffects {
             }
           }),
           catchError((error) =>
-            of(
-              new UserActions.UpdateUserAddressFail(
-                makeErrorSerializable(error)
-              )
-            )
+            of(new UserActions.UpdateUserAddressFail(normalizeHttpError(error)))
           )
         );
     })
@@ -101,11 +95,7 @@ export class UserAddressesEffects {
             return new UserActions.DeleteUserAddressSuccess(data);
           }),
           catchError((error) =>
-            of(
-              new UserActions.DeleteUserAddressFail(
-                makeErrorSerializable(error)
-              )
-            )
+            of(new UserActions.DeleteUserAddressFail(normalizeHttpError(error)))
           )
         );
     })
