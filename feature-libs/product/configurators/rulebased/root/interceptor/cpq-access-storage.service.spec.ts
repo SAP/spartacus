@@ -349,7 +349,7 @@ describe('CpqAccessStorageService', () => {
   });
 
   it('should only refresh when user is logged in', (done) => {
-    //make sure obs is initiated (in contrast to previou test)
+    //make sure obs is initiated (in contrast to previous test)
     const obs = serviceUnderTest.getCachedCpqAccessData();
     accessDataSubject.next(accessData);
     authDataSubject.next(false);
