@@ -1245,3 +1245,9 @@ export function getLineFromTSFile(
 
   return [lineStart, nextLineStart - lineStart];
 }
+
+export function getServerTsPath(host: Tree): string | undefined {
+  const projectName = getDefaultProjectNameFromWorkspace(host);
+  const angularJson = getAngularJsonFile(host);
+  return angularJson.projects[projectName].architect?.server?.options?.main;
+}

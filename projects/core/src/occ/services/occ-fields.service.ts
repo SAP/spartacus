@@ -84,7 +84,7 @@ export class OccFieldsService {
     const paramsMap = {};
 
     if (params) {
-      params.split('&').map((param) => {
+      params.split('&').forEach((param) => {
         const keyValue = param.split('=');
         paramsMap[keyValue[0]] = keyValue[1];
       });
