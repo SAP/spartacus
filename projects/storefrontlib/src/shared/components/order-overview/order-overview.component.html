@@ -9,12 +9,6 @@
           "
         ></cx-card>
 
-        <ng-container *ngIf="order?.created">
-          <cx-card
-            [content]="getOrderCurrentDateCardContent() | async"
-          ></cx-card>
-        </ng-container>
-
         <cx-card
           [content]="getReplenishmentActiveCardContent(order?.active) | async"
         ></cx-card>
@@ -23,7 +17,7 @@
       <div class="cx-summary-card">
         <cx-card
           [content]="
-            getReplenishmentStartOnCardContent(order?.firstDate) | async
+            getReplenishmentStartOnCardContent(order?.firstDate | cxDate) | async
           "
         ></cx-card>
 
@@ -37,7 +31,7 @@
 
         <cx-card
           [content]="
-            getReplenishmentNextDateCardContent(order?.trigger?.activationTime)
+            getReplenishmentNextDateCardContent(order?.trigger?.activationTime | cxDate)
               | async
           "
         ></cx-card>
@@ -51,7 +45,7 @@
         ></cx-card>
 
         <cx-card
-          [content]="getOrderCurrentDateCardContent(order?.created) | async"
+          [content]="getOrderCurrentDateCardContent(order?.created | cxDate) | async"
         ></cx-card>
 
         <cx-card
