@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { TextfieldConfiguratorRootFeatureModule } from './textfield-configurator-root-feature.module';
+import { TextfieldConfiguratorRoutingModule } from './textfield-configurator-routing.module';
 
 /**
  * Exposes the root modules that we need to statically load. Contain page mappings
@@ -12,6 +13,7 @@ import { TextfieldConfiguratorRootFeatureModule } from './textfield-configurator
   imports: [
     CommonModule,
     TextfieldConfiguratorRootFeatureModule,
+    TextfieldConfiguratorRoutingModule.forRoot(),
     RouterModule.forChild([
       {
         path: null,
