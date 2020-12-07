@@ -1,4 +1,5 @@
 import {
+  CONFIRMATION_LABELS,
   ENTITY_UID_COOKIE_KEY,
   INPUT_TYPE,
   MyCompanyConfig,
@@ -72,7 +73,7 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
             'contain.text',
             `Are you sure you want to disable this ${config.name.toLowerCase()}?`
           )
-          .contains('cancel')
+          .contains(CONFIRMATION_LABELS.CANCEL)
           .click();
         cy.get('cx-org-confirmation').should('not.exist');
 
@@ -82,7 +83,7 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
             'contain.text',
             `Are you sure you want to disable this ${config.name.toLowerCase()}?`
           )
-          .contains('confirm')
+          .contains(CONFIRMATION_LABELS.CONFIRM)
           .click();
         cy.get('cx-org-confirmation').should('not.exist');
         cy.get('cx-org-notification').contains(' disabled successfully');
