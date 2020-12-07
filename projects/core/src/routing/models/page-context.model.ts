@@ -6,7 +6,12 @@ import { PageType } from '../../model/cms.model';
  * changing the page id. Therefore, we use a constant to keep track of the page in the
  * store, but are able to ignore the id while querying the backend.
  */
-export const HOME_PAGE_ID = '__HOMEPAGE__';
+export const HOME_PAGE_CONTEXT = '__HOMEPAGE__';
+
+/**
+ * SmartEdit preview page is loaded by previewToken which is added by interceptor
+ */
+export const SMART_EDIT_CONTEXT = 'smartedit-preview';
 
 export class PageContext {
   id: string;

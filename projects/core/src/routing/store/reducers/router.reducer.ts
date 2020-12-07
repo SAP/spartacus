@@ -5,7 +5,10 @@ import { ActionReducerMap } from '@ngrx/store';
 import { PageType } from '../../../model/cms.model';
 import { RoutingConfigService } from '../../configurable-routes/routing-config.service';
 import { CmsActivatedRouteSnapshot } from '../../models/cms-route';
-import { HOME_PAGE_ID, PageContext } from '../../models/page-context.model';
+import {
+  HOME_PAGE_CONTEXT,
+  PageContext,
+} from '../../models/page-context.model';
 import { CHANGE_NEXT_PAGE_CONTEXT } from '../actions/router.action';
 import {
   ActivatedRouterStateSnapshot,
@@ -170,7 +173,10 @@ export class CustomSerializer
           context = {
             // We like URLs to be driven by the backend, the CMS actually returns the homepage
             // if no page label is given. Our logic however requires an id. undefined doesn't work.
-            id: HOME_PAGE_ID,
+            id: HOME_PAGE_CONTEXT,
+
+            // We currently need to support a hardcoded page type, since the internal store uses the page
+            // type to store the content.
             type: PageType.CONTENT_PAGE,
           };
         }
