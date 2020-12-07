@@ -1,13 +1,15 @@
 import {
+  HttpErrorResponse,
   HttpHandler,
   HttpHeaders,
   HttpRequest,
   HttpResponse,
+  HttpResponseBase,
 } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { CpqAccessData } from './cpq-access-data.models';
 import { CpqAccessStorageService } from './cpq-access-storage.service';
 import {
@@ -17,7 +19,6 @@ import {
 
 describe('CpqConfiguratorRestInterceptor', () => {
   let interceptorUnderTest: CpqConfiguratorRestInterceptor;
-
   let cpqAccessStorageServiceMock: CpqAccessStorageService;
   let mockedNextHandler: HttpHandler;
 
@@ -31,15 +32,24 @@ describe('CpqConfiguratorRestInterceptor', () => {
     `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/whatever`
   );
 
+  const reponseWithouttSessionId = new HttpResponse({
+    headers: new HttpHeaders({}),
+  });
+
+  const validCpqResponse = new HttpResponse({
+    headers: new HttpHeaders({ 'x-cpq-session-id': '123' }),
+  });
+
   const asSpy = (f) => <jasmine.Spy>f;
 
-  let cpqResponse: HttpResponse<any>;
-  let cpqAccessData: CpqAccessData;
-  let capturedRequest: HttpRequest<any>;
+  let cpqAccessDataStack: CpqAccessData[];
+  let cpqResponseStack: HttpResponseBase[];
+  let capturedRequestsStack: HttpRequest<any>[];
 
   beforeEach(() => {
     cpqAccessStorageServiceMock = jasmine.createSpyObj('mockedAccessService', [
       'getCachedCpqAccessData',
+      'renewCachedCpqAccessData',
     ]);
     mockedNextHandler = jasmine.createSpyObj('mockedNextHandler', ['handle']);
 
@@ -58,20 +68,31 @@ describe('CpqConfiguratorRestInterceptor', () => {
       CpqConfiguratorRestInterceptor as Type<CpqConfiguratorRestInterceptor>
     );
 
-    cpqResponse = new HttpResponse({
-      headers: new HttpHeaders({ 'x-cpq-session-id': '123' }),
-    });
-    cpqAccessData = {
+    cpqAccessDataStack = [];
+
+    cpqAccessDataStack.push({
       accessToken: 'TOKEN',
       endpoint: 'https://cpq',
-    };
+    });
+
+    cpqResponseStack = [];
+    capturedRequestsStack = [];
+    cpqResponseStack.push(validCpqResponse);
+    cpqResponseStack.push(validCpqResponse);
 
     asSpy(cpqAccessStorageServiceMock.getCachedCpqAccessData).and.callFake(() =>
-      of(cpqAccessData)
+      of(cpqAccessDataStack[cpqAccessDataStack.length - 1])
     );
+    asSpy(
+      cpqAccessStorageServiceMock.renewCachedCpqAccessData
+    ).and.callFake(() => cpqAccessDataStack.pop());
+
     asSpy(mockedNextHandler.handle).and.callFake((request) => {
-      capturedRequest = request;
-      return of(cpqResponse);
+      capturedRequestsStack.push(request);
+      const cpqResponse = cpqResponseStack.pop();
+      return cpqResponse instanceof HttpErrorResponse
+        ? throwError(cpqResponse)
+        : of(cpqResponse);
     });
   });
 
@@ -96,7 +117,7 @@ describe('CpqConfiguratorRestInterceptor', () => {
 
   it('should call CPQ only once per invocation', (done) => {
     asSpy(cpqAccessStorageServiceMock.getCachedCpqAccessData).and.callFake(() =>
-      of(cpqAccessData, cpqAccessData)
+      of(cpqAccessDataStack[0], cpqAccessDataStack[0])
     );
     interceptorUnderTest
       .intercept(cpqRequest, mockedNextHandler)
@@ -110,8 +131,8 @@ describe('CpqConfiguratorRestInterceptor', () => {
     interceptorUnderTest
       .intercept(cpqRequest, mockedNextHandler)
       .subscribe(() => {
-        expect(capturedRequest.url).toBe(
-          cpqAccessData.endpoint + '/api/whatever'
+        expect(capturedRequestsStack.pop().url).toBe(
+          cpqAccessDataStack[0].endpoint + '/api/whatever'
         );
         done();
       });
@@ -121,7 +142,7 @@ describe('CpqConfiguratorRestInterceptor', () => {
     interceptorUnderTest
       .intercept(cpqRequest, mockedNextHandler)
       .subscribe(() => {
-        expect(capturedRequest.headers.get('Authorization')).toBe(
+        expect(capturedRequestsStack.pop().headers.get('Authorization')).toBe(
           'Bearer TOKEN'
         );
         done();
@@ -132,9 +153,9 @@ describe('CpqConfiguratorRestInterceptor', () => {
     interceptorUnderTest
       .intercept(cpqRequest, mockedNextHandler)
       .subscribe(() => {
-        expect(capturedRequest.headers.get('x-cpq-disable-cookies')).toBe(
-          'true'
-        );
+        expect(
+          capturedRequestsStack.pop().headers.get('x-cpq-disable-cookies')
+        ).toBe('true');
         done();
       });
   });
@@ -143,30 +164,87 @@ describe('CpqConfiguratorRestInterceptor', () => {
     interceptorUnderTest
       .intercept(cpqRequest, mockedNextHandler)
       .subscribe(() => {
-        expect(capturedRequest.headers.has('x-cpq-session-id')).toBeFalse();
+        expect(
+          capturedRequestsStack.pop().headers.has('x-cpq-session-id')
+        ).toBeFalse();
         interceptorUnderTest
           .intercept(cpqRequest, mockedNextHandler)
           .subscribe(() => {
-            expect(capturedRequest.headers.get('x-cpq-session-id')).toBe('123');
+            expect(
+              capturedRequestsStack.pop().headers.get('x-cpq-session-id')
+            ).toBe('123');
             done();
           });
       });
   });
 
   it('should only extract CPQ session id and append it to following requests if existing', (done) => {
-    cpqResponse = new HttpResponse({
-      headers: new HttpHeaders({}),
-    });
+    cpqResponseStack = [];
+    cpqResponseStack.push(reponseWithouttSessionId);
+    cpqResponseStack.push(reponseWithouttSessionId);
+
     interceptorUnderTest
       .intercept(cpqRequest, mockedNextHandler)
       .subscribe(() => {
-        expect(capturedRequest.headers.has('x-cpq-session-id')).toBeFalse();
+        expect(
+          capturedRequestsStack.pop().headers.has('x-cpq-session-id')
+        ).toBeFalse();
         interceptorUnderTest
           .intercept(cpqRequest, mockedNextHandler)
           .subscribe(() => {
-            expect(capturedRequest.headers.has('x-cpq-session-id')).toBeFalse();
+            expect(
+              capturedRequestsStack.pop().headers.has('x-cpq-session-id')
+            ).toBeFalse();
             done();
           });
       });
+  });
+
+  it('should retry a CPQ request with fresh token on 403', (done) => {
+    cpqAccessDataStack.push({
+      accessToken: 'EXPIRED_TOKEN',
+      endpoint: 'https://cpq',
+    });
+    cpqResponseStack = [];
+    cpqResponseStack.push(validCpqResponse); // second request should succeed
+    cpqResponseStack.push(new HttpErrorResponse({ status: 403 })); // first error
+    interceptorUnderTest
+      .intercept(cpqRequest, mockedNextHandler)
+      .subscribe(() => {
+        expect(
+          cpqAccessStorageServiceMock.getCachedCpqAccessData
+        ).toHaveBeenCalledTimes(2);
+        expect(
+          cpqAccessStorageServiceMock.renewCachedCpqAccessData
+        ).toHaveBeenCalled();
+        expect(mockedNextHandler.handle).toHaveBeenCalledTimes(2);
+        // last request with new token
+        expect(capturedRequestsStack.pop().headers.get('Authorization')).toBe(
+          'Bearer TOKEN'
+        );
+        // initial requets with expired token
+        expect(capturedRequestsStack.pop().headers.get('Authorization')).toBe(
+          'Bearer EXPIRED_TOKEN'
+        );
+        done();
+      });
+  });
+
+  it('should not handle other errors', (done) => {
+    cpqResponseStack = [];
+    cpqResponseStack.push(new HttpErrorResponse({ status: 401 })); // first error
+    interceptorUnderTest.intercept(cpqRequest, mockedNextHandler).subscribe(
+      () => fail('error should be propageted'),
+      () => {
+        expect(
+          cpqAccessStorageServiceMock.getCachedCpqAccessData
+        ).toHaveBeenCalledTimes(1);
+        expect(
+          cpqAccessStorageServiceMock.renewCachedCpqAccessData
+        ).not.toHaveBeenCalled();
+        expect(mockedNextHandler.handle).toHaveBeenCalledTimes(1);
+        done();
+      }
+    );
   });
 });
