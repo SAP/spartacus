@@ -83,17 +83,11 @@ echo "Running Cypress end to end tests for suite: $SUITE"
 if [[ $SUITE == 'regression' ]]; then
     yarn e2e:cy"${INTEGRATION}":start-run-ci"${CI_ENV}"
     if [[ $SHOULD_RUN_B2B ]]; then 
-        # TODO:
-        # - (stop previous app if needed?)
-        # - start app with env var SPARTACUS_B2B=true, against backend 2005
-        # - run B2B REGRESSION (or ALL?)
+        yarn e2e:cy"${INTEGRATION}":start-run-ci:b2b
     fi
 else
     yarn e2e:cy"${INTEGRATION}":start-run-smoke-ci"${CI_ENV}"
     if [[ $SHOULD_RUN_B2B ]]; then
-        # TODO:
-        # - (stop previous app if needed?)
-        # - start app with env var SPARTACUS_B2B=true, against backend 2005
-        # - run B2B SMOKE only
+        yarn e2e:cy"${INTEGRATION}":start-run-smoke-ci:b2b
     fi
 fi
