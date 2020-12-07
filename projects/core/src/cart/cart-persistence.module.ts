@@ -17,7 +17,7 @@ export function cartStatePersistenceFactory(
 /**
  * Before `MultiCartStatePersistenceService` restores the active cart id `ActiveCartService`
  * will use `current` cart instead of the one saved in browser. This meta reducer
- * sets the value on store initialization to undefined cart which holds active cart loading
+ * sets the value on store initialization to null cart which holds active cart loading
  * until the data from storage is restored.
  */
 export function uninitializeActiveCartMetaReducerFactory(): MetaReducer<any> {

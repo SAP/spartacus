@@ -55,7 +55,7 @@ export class ActiveCartService implements OnDestroy {
     // We also wait until we initialize cart from localStorage. Before that happens cartId in store === null
     filter((cartId) => cartId !== null),
     map((cartId) => {
-      if (!cartId) {
+      if (cartId === '') {
         // We fallback to current when we don't have particular cart id -> cartId === '', because that's how you reference latest user cart.
         return OCC_CART_ID_CURRENT;
       }
@@ -85,7 +85,7 @@ export class ActiveCartService implements OnDestroy {
       this.userIdService
         .getUserId()
         .pipe(
-          // We never trigger merge/load login on app initialization here and that's why we wait with pairwise for a change of userId (not initialization).
+          // We never trigger cart merge/load on app initialization here and that's why we wait with pairwise for a change of userId (not initialization).
           pairwise(),
           switchMap(([previousUserId, userId]) =>
             // We need cartId once we have the previous and current userId. We don't want to subscribe to cartId stream before.
@@ -264,7 +264,7 @@ export class ActiveCartService implements OnDestroy {
   }
 
   private load(cartId: string, userId: string): void {
-    // We want to always in every case apart of anonymous user and current cart
+    // We want to load cart in every case apart of anonymous user and current cart combination
     if (!(userId === OCC_USER_ID_ANONYMOUS && cartId === OCC_CART_ID_CURRENT)) {
       this.multiCartService.loadCart({
         userId,
@@ -518,8 +518,7 @@ export class ActiveCartService implements OnDestroy {
   private isJustLoggedIn(userId: string, previousUserId: string): boolean {
     return (
       userId !== OCC_USER_ID_ANONYMOUS && // not logged out
-      previousUserId !== userId && // *just* logged in / switched to emulation
-      typeof previousUserId !== 'undefined' // not app initialization
+      previousUserId !== userId // *just* logged in / switched to ASM emulation
     );
   }
 }
