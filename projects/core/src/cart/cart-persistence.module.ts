@@ -2,6 +2,7 @@ import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { ActionReducer, MetaReducer, META_REDUCERS } from '@ngrx/store';
 import { ConfigInitializerService } from '../config/config-initializer/config-initializer.service';
 import { MultiCartStatePersistenceService } from './services/multi-cart-state-persistence.service';
+import { activeCartInitialState } from './store/reducers/multi-cart.reducer';
 
 export function cartStatePersistenceFactory(
   cartStatePersistenceService: MultiCartStatePersistenceService,
@@ -24,7 +25,10 @@ export function uninitializeActiveCartMetaReducerFactory(): MetaReducer<any> {
   const metaReducer = (reducer: ActionReducer<any>) => (state, action) => {
     const newState = { ...state };
     if (action.type === '@ngrx/store/init') {
-      newState.cart = { ...newState.cart, ...{ active: null } };
+      newState.cart = {
+        ...newState.cart,
+        ...{ active: activeCartInitialState },
+      };
     }
     return reducer(newState, action);
   };

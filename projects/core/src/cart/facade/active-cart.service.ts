@@ -34,6 +34,7 @@ import {
 import { ProcessesLoaderState } from '../../state/utils/processes-loader/processes-loader-state';
 import { EMAIL_PATTERN } from '../../util/regex-pattern';
 import { StateWithMultiCart } from '../store/multi-cart-state';
+import { activeCartInitialState } from '../store/reducers/multi-cart.reducer';
 import { MultiCartSelectors } from '../store/selectors/index';
 import { getCartIdByUserId, isTempCartId } from '../utils/utils';
 import { MultiCartService } from './multi-cart.service';
@@ -53,7 +54,7 @@ export class ActiveCartService implements OnDestroy {
     switchMapTo(this.store),
     select(MultiCartSelectors.getActiveCartId),
     // We also wait until we initialize cart from localStorage. Before that happens cartId in store === null
-    filter((cartId) => cartId !== null),
+    filter((cartId) => cartId !== activeCartInitialState),
     map((cartId) => {
       if (cartId === '') {
         // We fallback to current when we don't have particular cart id -> cartId === '', because that's how you reference latest user cart.
