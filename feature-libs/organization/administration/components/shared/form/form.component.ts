@@ -31,6 +31,7 @@ export class FormComponent<T> implements OnInit, OnDestroy {
   @Input() i18nRoot: string;
 
   @Input() animateBack = true;
+  @Input() subtitle?: string;
 
   /**
    * i18n key for the localizations.

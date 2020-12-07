@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, exhaustMap, map } from 'rxjs/operators';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { SiteConnector } from '../../connectors/site.connector';
 import { SiteContextActions } from '../actions/index';
 
@@ -17,11 +17,7 @@ export class BaseSiteEffects {
       return this.siteConnector.getBaseSite().pipe(
         map((baseSite) => new SiteContextActions.LoadBaseSiteSuccess(baseSite)),
         catchError((error) =>
-          of(
-            new SiteContextActions.LoadBaseSiteFail(
-              makeErrorSerializable(error)
-            )
-          )
+          of(new SiteContextActions.LoadBaseSiteFail(normalizeHttpError(error)))
         )
       );
     })
@@ -40,9 +36,7 @@ export class BaseSiteEffects {
         ),
         catchError((error) =>
           of(
-            new SiteContextActions.LoadBaseSitesFail(
-              makeErrorSerializable(error)
-            )
+            new SiteContextActions.LoadBaseSitesFail(normalizeHttpError(error))
           )
         )
       );
