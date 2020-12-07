@@ -92,7 +92,7 @@ describe('UnitItemService', () => {
       name: 'foo bar',
       uid: 'unitUid',
     });
-    expect(unitService.getLoadingStatus).toHaveBeenCalledWith('existingCode');
+    expect(unitService.getLoadingStatus).toHaveBeenCalledWith('unitUid');
   });
 
   it('should create new unit', () => {
