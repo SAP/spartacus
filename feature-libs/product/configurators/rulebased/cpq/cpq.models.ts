@@ -105,8 +105,11 @@ export namespace Cpq {
    */
   export enum DisplayAs {
     RADIO_BUTTON = 1,
+    RADIO_BUTTON_PRODUCT = 1001,
     CHECK_BOX = 2,
+    CHECK_BOX_PRODUCT = 1002,
     DROPDOWN = 3,
+    DROPDOWN_PRODUCT = 1003,
     LIST_BOX = 4,
     LIST_BOX_MULTI = 5,
     READ_ONLY = 71,

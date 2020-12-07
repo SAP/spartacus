@@ -129,13 +129,29 @@ export class CpqConfiguratorNormalizer
         uiType = Configurator.UiType.RADIOBUTTON;
         break;
       }
+
+      case Cpq.DisplayAs.RADIO_BUTTON_PRODUCT: {
+        uiType = Configurator.UiType.RADIOBUTTON_PRODUCT;
+        break;
+      }
+
       case Cpq.DisplayAs.DROPDOWN: {
         uiType = Configurator.UiType.DROPDOWN;
         break;
       }
 
+      case Cpq.DisplayAs.DROPDOWN_PRODUCT: {
+        uiType = Configurator.UiType.DROPDOWN_PRODUCT;
+        break;
+      }
+
       case Cpq.DisplayAs.CHECK_BOX: {
         uiType = Configurator.UiType.CHECKBOXLIST;
+        break;
+      }
+
+      case Cpq.DisplayAs.CHECK_BOX_PRODUCT: {
+        uiType = Configurator.UiType.CHECKBOXLIST_PRODUCT;
         break;
       }
 
@@ -162,7 +178,9 @@ export class CpqConfiguratorNormalizer
 
     switch (attribute.uiType) {
       case Configurator.UiType.RADIOBUTTON:
+      case Configurator.UiType.RADIOBUTTON_PRODUCT:
       case Configurator.UiType.DROPDOWN:
+      case Configurator.UiType.DROPDOWN_PRODUCT:
       case Configurator.UiType.SINGLE_SELECTION_IMAGE: {
         if (!attribute.selectedSingleValue) {
           attribute.incomplete = true;
@@ -178,6 +196,7 @@ export class CpqConfiguratorNormalizer
       }
 
       case Configurator.UiType.CHECKBOXLIST:
+      case Configurator.UiType.CHECKBOXLIST_PRODUCT:
       case Configurator.UiType.CHECKBOX:
       case Configurator.UiType.MULTI_SELECTION_IMAGE: {
         const isOneValueSelected =
