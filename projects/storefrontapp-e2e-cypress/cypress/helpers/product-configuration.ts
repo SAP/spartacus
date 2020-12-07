@@ -1,16 +1,22 @@
-import * as authentication from './auth-forms';
 import Chainable = Cypress.Chainable;
 import { navigation } from './navigation';
+import {
+  AddressData,
+  fillShippingAddress,
+  fillPaymentDetails,
+  PaymentDetails,
+} from './checkout-forms';
+import { user } from '../sample-data/checkout-flow';
+
+const shippingAddressData: AddressData = user;
+const billingAddress: AddressData = user;
+const paymentDetailsData: PaymentDetails = user;
 
 const nextBtnSelector =
   'cx-configurator-previous-next-buttons button:contains("Next")';
 const previousBtnSelector =
   'cx-configurator-previous-next-buttons button:contains("Previous")';
 const addToCartButtonSelector = 'cx-configurator-add-to-cart-button button';
-
-const email = 'test-user-for-variant-configuration@ydev.hybris.com';
-const password = 'Password123.';
-const user = 'Variant Configuration';
 
 const conflictDetectedMsgSelector = '.cx-conflict-msg';
 const conflictHeaderGroupSelector =
@@ -853,24 +859,6 @@ export function clickOnProceedToCheckoutBtnOnPD(): void {
 }
 
 /**
- * Logs in.
- */
-export function login(): void {
-  // Click on the 'Sign in / Register' link
-  // & wait until the login-form is displayed
-  cy.get('cx-login [role="link"]')
-    .click()
-    .then(() => {
-      cy.get('cx-login-form').should('be.visible');
-    });
-  // Login via authentication service
-  authentication.login(email, password);
-  // Verify whether the user logged in successfully,
-  // namely the logged in user should be greeted
-  cy.get('.cx-login-greet').should('contain', user);
-}
-
-/**
  * Navigates to the order details page.
  */
 export function navigateToOrderDetails(): void {
@@ -894,20 +882,6 @@ export function goToOrderHistory(): Chainable<Window> {
   return cy.visit('/electronics-spa/en/USD/my-account/orders').then(() => {
     cy.get('cx-order-history h3').should('contain', 'Order history');
   });
-}
-
-/**
- * This method is a workaround as the login helper signout function did not work sometimes.
- * This works only on desktop mode and does not support mobile.
- */
-export function signOutUser() {
-  cy.get(
-    'cx-login > cx-page-slot > cx-navigation > cx-navigation-ui > nav > div > div'
-  )
-    .findAllByText(new RegExp('Sign Out', 'i'))
-    .click({ force: true, multiple: true });
-
-  cy.get('cx-login .cx-login-greet').should('not.exist');
 }
 
 /**
@@ -1004,19 +978,12 @@ export function defineOrderNumberAlias(): void {
  * Conducts the checkout.
  */
 export function checkout(): void {
-  cy.log('Complete checkout');
-  // If 'Continue' button is disable, click on 'Ship to this address' link to enable it
-  cy.get('button.btn-primary')
-    .contains('Continue')
-    .then((btn) => {
-      if (btn.is('.disabled')) {
-        cy.get('cx-card a.cx-card-link')
-          .contains('Ship to this address')
-          .click();
-      }
-    });
+  cy.log('Complete checkout process');
+  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+  cy.log('Fulfill shipping address form');
+  fillShippingAddress(shippingAddressData, false);
 
-  // Click on 'Continue' button to navigate to the next step 'Delivery mode' of the order process
+  cy.log("Navigate to the next step 'Delivery mode' tab");
   cy.get('button.btn-primary')
     .contains('Continue')
     .click()
@@ -1026,7 +993,7 @@ export function checkout(): void {
       cy.get('cx-delivery-mode').should('be.visible');
     });
 
-  // Click on 'Continue' button to navigate to the next step 'Payment details' of the order process
+  cy.log("Navigate to the next step 'Payment details' tab");
   cy.get('button.btn-primary')
     .contains('Continue')
     .click()
@@ -1036,32 +1003,17 @@ export function checkout(): void {
       cy.get('cx-payment-method').should('be.visible');
     });
 
-  // Click on 'Use this payment' link to enable 'Continue' button
-  cy.get('div.cx-card-actions a.cx-card-link')
-    .contains('Use this payment')
-    .click()
-    .then(() => {
-      cy.get('button.btn-primary').should('not.be.disabled');
-    });
+  cy.log('Fulfill payment details form');
+  fillPaymentDetails(paymentDetailsData, billingAddress);
 
-  // Click on 'Continue' button to navigate to the next step 'Review order' of the order process
-  cy.get('button.btn-primary')
-    .contains('Continue')
-    .click()
-    .then(() => {
-      cy.location('pathname').should('contain', '/checkout/review-order');
-      cy.get('.cx-review-title').should('contain', 'Review');
-      cy.get('cx-review-submit').should('be.visible');
-    });
-
-  // Check 'Terms & Conditions'
+  cy.log("Check 'Terms & Conditions'");
   cy.get('input[formcontrolname="termsAndConditions"]')
     .check()
     .then(() => {
       cy.get('cx-place-order form').should('have.class', 'ng-valid');
     });
 
-  // Place order
+  cy.log('Place order');
   cy.get('cx-place-order button.btn-primary')
     .click()
     .then(() => {
@@ -1069,5 +1021,6 @@ export function checkout(): void {
       cy.get('cx-breadcrumb').should('contain', 'Order Confirmation');
     });
 
+  cy.log('Define order number alias');
   defineOrderNumberAlias();
 }
