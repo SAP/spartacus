@@ -1,0 +1,15 @@
+.cx-show-more {
+  .cx-show-more-text-hidden {
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    overflow: hidden;
+  }
+  .cx-show-more-button {
+    background-color: transparent;
+    border: none;
+    margin-top: 0.5rem;
+    outline: none;
+    padding: 0;
+  }
+}

@@ -1,0 +1,16 @@
+<div class="cx-show-more" *ngIf="text">
+  <div
+    #textContent
+    class="cx-show-more-text"
+    [class.cx-show-more-text-hidden]="truncateText"
+    [innerHTML]="text"
+  ></div>
+
+  <button
+    *ngIf="showMore"
+    class="cx-show-more-button"
+    (click)="toggleShowMore()"
+  >
+    {{ showMore ? 'more' : 'less' }}
+  </button>
+</div>

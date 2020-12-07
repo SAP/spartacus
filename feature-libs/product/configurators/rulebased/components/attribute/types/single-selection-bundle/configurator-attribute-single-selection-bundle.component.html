@@ -44,13 +44,14 @@
           {{ value.valueDisplay }}
         </div>
         <div class="cx-single-select-bundle-code">ID {{ value.valueCode }}</div>
-        <div class="cx-single-select-bundle-description">
-          {{
+
+        <cx-configurator-show-more
+          [text]="
             value.description
               ? value.description
-              : 'lorem ipsum dolor sit amet. lorem ipsum dolor sit amet. lorem ipsum dolor sit amet. lorem ipsum dolor sit amet. lorem ipsum dolor sit amet.'
-          }}
-        </div>
+              : 'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum'
+          "
+        ></cx-configurator-show-more>
       </div>
       <div class="cx-single-select-bundle-prices">2 x 20$ = 40$</div>
     </div>

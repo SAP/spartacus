@@ -6,9 +6,18 @@
   }
 
   .cx-single-select-bundle {
-    align-items: center;
     display: flex;
+    flex-wrap: wrap;
     margin-bottom: 2rem;
+
+    @include media-breakpoint-down(md) {
+      border-bottom: 1px solid var(--cx-color-secondary);
+      padding-bottom: 1rem;
+    }
+
+    @include media-breakpoint-up(md) {
+      align-items: center;
+    }
   }
 
   .cx-single-select-bundle-label {
@@ -25,16 +34,25 @@
 
     .cx-dumy-img {
       background-color: var(--cx-color-secondary);
-      padding: 2px;
-      width: 7rem;
-      height: 7rem;
+      height: 4rem;
+      width: 4rem;
+
+      @include media-breakpoint-up(md) {
+        height: 7rem;
+        width: 7rem;
+      }
     }
   }
 
   .cx-single-select-bundle-data {
-    border-bottom: 1px solid var(--cx-color-secondary);
-    margin: 0 1rem;
-    max-width: 20rem;
+    flex: 1;
+    margin: 0 0 0 1rem;
+    padding-bottom: 0.5rem;
+
+    @include media-breakpoint-up(md) {
+      border-bottom: 1px solid var(--cx-color-secondary);
+      max-width: 20rem;
+    }
 
     .cx-single-select-bundle-code {
       color: var(--cx-color-secondary);
@@ -53,6 +71,10 @@
     font-weight: 600;
     justify-content: flex-end;
     margin: 0 0 0 auto;
-    min-width: 12rem;
+    width: 100%;
+
+    @include media-breakpoint-up(md) {
+      width: 10rem;
+    }
   }
 }
