@@ -8,6 +8,7 @@ import { CmsActivatedRouteSnapshot } from '../../models/cms-route';
 import {
   HOME_PAGE_CONTEXT,
   PageContext,
+  SMART_EDIT_CONTEXT,
 } from '../../models/page-context.model';
 import { CHANGE_NEXT_PAGE_CONTEXT } from '../actions/router.action';
 import {
@@ -149,7 +150,7 @@ export class CustomSerializer
     // we give smartedit preview page a PageContext
     if (state.url.length > 0 && state.url[0].path === 'cx-preview') {
       context = {
-        id: 'smartedit-preview',
+        id: SMART_EDIT_CONTEXT,
         type: PageType.CONTENT_PAGE,
       };
     } else {

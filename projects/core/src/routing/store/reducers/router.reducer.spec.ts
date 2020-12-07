@@ -8,7 +8,7 @@ import {
   StoreRouterConnectingModule,
 } from '@ngrx/router-store';
 import { Store, StoreModule } from '@ngrx/store';
-import { PageContext } from '@spartacus/core';
+import { HOME_PAGE_CONTEXT, PageContext } from '@spartacus/core';
 import { PageType } from '../../../model/cms.model';
 import { RoutingConfig } from '../../configurable-routes/config/routing-config';
 import { ChangeNextPageContext } from '../actions/router.action';
@@ -263,7 +263,7 @@ describe('Router Reducer', () => {
         url: '/',
         queryParams: {},
         params: {},
-        context: { id: '__HOMEPAGE__', type: PageType.CONTENT_PAGE },
+        context: { id: HOME_PAGE_CONTEXT, type: PageType.CONTENT_PAGE },
         cmsRequired: false,
         semanticRoute: SemanticRoutes.HOME,
       });
