@@ -184,10 +184,12 @@ describe('Multi Cart reducer', () => {
       });
 
       it('should not change value if cart is still not initialized -> id === null', () => {
-        const initialState = null;
         const action = new CartActions.ClearCartState();
-        const state = fromMultiCart.activeCartReducer(initialState, action);
-        expect(state).toEqual(initialState);
+        const state = fromMultiCart.activeCartReducer(
+          fromMultiCart.activeCartInitialState,
+          action
+        );
+        expect(state).toEqual(fromMultiCart.activeCartInitialState);
       });
     });
 
