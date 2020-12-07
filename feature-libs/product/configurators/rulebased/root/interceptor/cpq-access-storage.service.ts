@@ -59,7 +59,7 @@ export class CpqAccessStorageService {
 
   /**
    * Renews the current access data. All subscribers of getCachedCpqAccessData()
-   * will receive the new data. Will only have an efffect, if thre are any subscribers
+   * will receive the new data. Will only have an effect, if there are any subscribers
    * and the user is logged in.
    */
   renewCachedCpqAccessData() {
