@@ -1,5 +1,14 @@
 <fieldset>
   <legend style="display: none">{{ attribute.label }}</legend>
+
+  <div class="cx-single-select-bundle-quantity">
+    <label>Qty</label>
+    <cx-item-counter
+      [max]="100"
+      [control]="quantityForm.get('quantity')"
+    ></cx-item-counter>
+  </div>
+
   <div id="{{ createAttributeIdForConfigurator(attribute) }}">
     <div class="cx-single-select-bundle" *ngFor="let value of attribute.values">
       <label
@@ -49,11 +58,13 @@
           [text]="
             value.description
               ? value.description
-              : 'lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum'
+              : 'Bosch SDS-plus tool holder – fast and tool-free bit changing and optimum power transfer. Integrated chisel function with Vario-Lock – freely selectable work position of the chisel Impact stop for drilling in metal and wood'
           "
         ></cx-configurator-show-more>
       </div>
-      <div class="cx-single-select-bundle-prices">2 x 20$ = 40$</div>
+      <div class="cx-single-select-bundle-prices">
+        {{ quantityForm.get('quantity').value }} x 20$ = 40$
+      </div>
     </div>
   </div>
 </fieldset>

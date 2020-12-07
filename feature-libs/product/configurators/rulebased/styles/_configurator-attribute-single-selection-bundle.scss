@@ -4,6 +4,9 @@
   fieldset {
     width: 100%;
   }
+  .cx-single-select-bundle-quantity {
+    margin-bottom: 2rem;
+  }
 
   .cx-single-select-bundle {
     display: flex;
@@ -13,10 +16,6 @@
     @include media-breakpoint-down(md) {
       border-bottom: 1px solid var(--cx-color-secondary);
       padding-bottom: 1rem;
-    }
-
-    @include media-breakpoint-up(md) {
-      align-items: center;
     }
   }
 
@@ -47,11 +46,11 @@
   .cx-single-select-bundle-data {
     flex: 1;
     margin: 0 0 0 1rem;
+    max-width: 20rem;
     padding-bottom: 0.5rem;
 
-    @include media-breakpoint-up(md) {
+    @include media-breakpoint-up(lg) {
       border-bottom: 1px solid var(--cx-color-secondary);
-      max-width: 20rem;
     }
 
     .cx-single-select-bundle-code {

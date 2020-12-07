@@ -6,10 +6,16 @@
     overflow: hidden;
   }
   .cx-show-more-button {
-    background-color: transparent;
-    border: none;
-    margin-top: 0.5rem;
-    outline: none;
-    padding: 0;
+    button {
+      background-color: transparent;
+      border: none;
+      margin: 0;
+      outline: none;
+      padding: 0;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }

@@ -35,6 +35,8 @@ export const configurator = {
       previous: 'Previous',
       next: 'Next',
       back: 'Back',
+      more: 'More',
+      less: 'Less',
     },
     priceSummary: {
       basePrice: 'Base Price',

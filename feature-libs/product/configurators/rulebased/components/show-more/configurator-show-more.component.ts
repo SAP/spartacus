@@ -1,11 +1,13 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
   ViewChild,
 } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'cx-configurator-show-more',
@@ -13,21 +15,32 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorShowMoreComponent implements AfterViewInit {
-  showMore = false;
-  truncateText = true;
+  showMore$ = new BehaviorSubject<boolean>(false);
+  showHiddenText$ = new BehaviorSubject<boolean>(true);
+  textToShow: string;
 
   @Input() text: string;
-  @Input() height = 48;
+  @Input() textSize = 70;
   @ViewChild('textContent') textContentElement: ElementRef;
 
+  constructor(private cdRef: ChangeDetectorRef) {}
+
   ngAfterViewInit() {
-    if (this.textContentElement.nativeElement.offsetHeight > this.height) {
-      this.showMore = true;
+    if (this.text.length > this.textSize) {
+      this.showMore$.next(true);
+      this.textToShow = this.text.substring(0, this.textSize);
     }
+
+    this.cdRef.detectChanges();
   }
 
-  public toggleShowMore() {
-    this.showMore = !this.showMore;
-    this.truncateText = !this.truncateText;
+  toggleShowMore() {
+    this.showHiddenText$.next(!this.showHiddenText$.value);
+
+    this.showHiddenText$.value
+      ? (this.textToShow = this.text.substring(0, this.textSize))
+      : (this.textToShow = this.text);
+
+    this.cdRef.detectChanges();
   }
 }
