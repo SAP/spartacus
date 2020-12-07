@@ -265,7 +265,7 @@ export class ActiveCartService implements OnDestroy {
   }
 
   private load(cartId: string, userId: string): void {
-    // We want to load cart in every case apart of anonymous user and current cart combination
+    // We want to load cart in every case apart from anonymous user and current cart combination
     if (!(userId === OCC_USER_ID_ANONYMOUS && cartId === OCC_CART_ID_CURRENT)) {
       this.multiCartService.loadCart({
         userId,
