@@ -79,7 +79,10 @@ export class CpqConfiguratorNormalizer
       label: sourceAttribute.label,
       required: sourceAttribute.required,
       isLineItem: sourceAttribute.isLineItem,
-      uiType: this.convertAttributeType(sourceAttribute.displayAs),
+      uiType: this.convertAttributeType(
+        sourceAttribute.displayAs,
+        this.hasAnyProducts(sourceAttribute?.values)
+      ),
       groupId: groupId.toString(),
       userInput: sourceAttribute.userInput,
       hasConflicts: sourceAttribute.hasConflict,
@@ -122,36 +125,39 @@ export class CpqConfiguratorNormalizer
     values.push(value);
   }
 
-  convertAttributeType(displayAs: Cpq.DisplayAs): Configurator.UiType {
+  convertAttributeType(
+    displayAs: Cpq.DisplayAs,
+    displayAsProduct: boolean
+  ): Configurator.UiType {
     let uiType: Configurator.UiType;
     switch (displayAs) {
       case Cpq.DisplayAs.RADIO_BUTTON: {
-        uiType = Configurator.UiType.RADIOBUTTON;
-        break;
-      }
+        if (displayAsProduct) {
+          uiType = Configurator.UiType.RADIOBUTTON_PRODUCT;
+        } else {
+          uiType = Configurator.UiType.RADIOBUTTON;
+        }
 
-      case Cpq.DisplayAs.RADIO_BUTTON_PRODUCT: {
-        uiType = Configurator.UiType.RADIOBUTTON_PRODUCT;
         break;
       }
 
       case Cpq.DisplayAs.DROPDOWN: {
-        uiType = Configurator.UiType.DROPDOWN;
-        break;
-      }
+        if (displayAsProduct) {
+          uiType = Configurator.UiType.DROPDOWN_PRODUCT;
+        } else {
+          uiType = Configurator.UiType.DROPDOWN;
+        }
 
-      case Cpq.DisplayAs.DROPDOWN_PRODUCT: {
-        uiType = Configurator.UiType.DROPDOWN_PRODUCT;
         break;
       }
 
       case Cpq.DisplayAs.CHECK_BOX: {
-        uiType = Configurator.UiType.CHECKBOXLIST;
-        break;
-      }
+        if (displayAsProduct) {
+          uiType = Configurator.UiType.CHECKBOXLIST_PRODUCT;
+        } else {
+          uiType = Configurator.UiType.CHECKBOXLIST;
+        }
 
-      case Cpq.DisplayAs.CHECK_BOX_PRODUCT: {
-        uiType = Configurator.UiType.CHECKBOXLIST_PRODUCT;
         break;
       }
 
@@ -210,5 +216,9 @@ export class CpqConfiguratorNormalizer
         break;
       }
     }
+  }
+
+  private hasAnyProducts(attributeValues: Cpq.Value[]): boolean {
+    return attributeValues.some((value: Cpq.Value) => value?.productSystemId);
   }
 }
