@@ -28,10 +28,7 @@ function provideTestBaseSites(options: SpartacusDevSchematicsOptions): Rule {
     const mainPath = projectTargets.build.options.main;
     const appModulePath = getAppModulePath(tree, mainPath);
     const appModule = getTsSourceFile(tree, appModulePath);
-    const storefrontConfig = getExistingStorefrontConfigNode(
-      appModule,
-      B2C_STOREFRONT_MODULE
-    );
+    const storefrontConfig = getExistingStorefrontConfigNode(appModule);
     if (!storefrontConfig) {
       context.logger.warn(
         `No ${B2C_STOREFRONT_MODULE} config found in the ${appModulePath}`

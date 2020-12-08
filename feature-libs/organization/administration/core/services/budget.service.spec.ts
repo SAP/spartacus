@@ -1,6 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { EntitiesModel, SearchConfig, UserIdService } from '@spartacus/core';
+import { BehaviorSubject } from 'rxjs';
 import { of } from 'rxjs/internal/observable/of';
 import { Budget } from '../model/budget.model';
 import {
@@ -15,8 +16,6 @@ import {
 import * as fromReducers from '../store/reducers/index';
 import { BudgetService } from './budget.service';
 
-import createSpy = jasmine.createSpy;
-
 const userId = 'current';
 const budgetCode = 'testBudget';
 const budget = { code: budgetCode };
@@ -29,8 +28,9 @@ const budgetList: EntitiesModel<Budget> = {
   sorts,
 };
 
+let takeUserId$: BehaviorSubject<string | never>;
 class MockUserIdService implements Partial<UserIdService> {
-  invokeWithUserId = createSpy().and.callFake((cb) => cb(userId));
+  takeUserId = () => takeUserId$.asObservable();
 }
 
 describe('BudgetService', () => {
@@ -57,6 +57,9 @@ describe('BudgetService', () => {
     service = TestBed.inject(BudgetService);
     userIdService = TestBed.inject(UserIdService);
     spyOn(store, 'dispatch').and.callThrough();
+    spyOn(userIdService, 'takeUserId').and.callThrough();
+
+    takeUserId$ = new BehaviorSubject(userId);
   });
 
   it('should BudgetService is injected', inject(
@@ -77,7 +80,7 @@ describe('BudgetService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
+      expect(userIdService.takeUserId).not.toHaveBeenCalled();
       expect(budgetDetails).toEqual(budget);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new BudgetActions.LoadBudget({ userId, budgetCode })
@@ -97,7 +100,7 @@ describe('BudgetService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
+      expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(budgets).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new BudgetActions.LoadBudgets({ userId, params })
@@ -124,7 +127,7 @@ describe('BudgetService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
+      expect(userIdService.takeUserId).not.toHaveBeenCalled();
       expect(budgets).toEqual(budgetList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new BudgetActions.LoadBudgets({ userId, params })
@@ -136,7 +139,7 @@ describe('BudgetService', () => {
     it('create() should should dispatch CreateBudget action', () => {
       service.create(budget);
 
-      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
+      expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new BudgetActions.CreateBudget({ userId, budget })
       );
@@ -147,7 +150,7 @@ describe('BudgetService', () => {
     it('update() should should dispatch UpdateBudget action', () => {
       service.update(budgetCode, budget);
 
-      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
+      expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new BudgetActions.UpdateBudget({ userId, budgetCode, budget })
       );

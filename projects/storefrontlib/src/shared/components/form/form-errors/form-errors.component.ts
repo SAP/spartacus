@@ -27,6 +27,8 @@ export class FormErrorsComponent {
     this._parent = parent;
   }
 
+  @Input() prefix = 'formErrors';
+
   @Input()
   translationParams: { [key: string]: string };
 
