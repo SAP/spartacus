@@ -8,7 +8,7 @@ import {
 import { FormGroup } from '@angular/forms';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
-import { filter, first, map, switchMap, take, tap } from 'rxjs/operators';
+import { first, map, switchMap, take } from 'rxjs/operators';
 import { CardComponent } from '../card/card.component';
 import { ItemService } from '../item.service';
 import { MessageService } from '../message/services/message.service';
@@ -62,18 +62,21 @@ export class FormComponent<T> implements OnInit, OnDestroy {
         switchMap((key) =>
           this.itemService.save(form, key).pipe(
             take(1),
-            filter((data) => data.status === LoadStatus.SUCCESS),
             map((data) => ({
               item: data.item,
+              status: data.status,
               action: key ? 'update' : 'create',
-            })),
-            tap((data) => {
-              this.itemService.launchDetails(data.item);
-            })
+            }))
           )
         )
       )
-      .subscribe(({ item, action }) => this.notify(item, action));
+      .subscribe(({ item, action, status }) => {
+        if (status === LoadStatus.SUCCESS) {
+          this.itemService.launchDetails(item);
+          this.notify(item, action);
+        }
+        form.enable();
+      });
   }
 
   protected notify(item: T, action: string) {
