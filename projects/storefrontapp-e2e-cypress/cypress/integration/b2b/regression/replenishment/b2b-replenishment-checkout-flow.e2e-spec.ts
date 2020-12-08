@@ -1,4 +1,4 @@
-import * as b2bCheckout from '../../../helpers/b2b/b2b-checkout';
+import * as b2bCheckout from '../../../../helpers/b2b/b2b-checkout';
 import {
   b2bAccountShipToUser,
   b2bProduct,
@@ -6,7 +6,7 @@ import {
   order_type,
   POWERTOOLS_BASESITE,
   recurrencePeriod,
-} from '../../../sample-data/b2b-checkout';
+} from '../../../../sample-data/b2b-checkout';
 
 context('B2B - Replenishment Checkout flow', () => {
   for (const [key, replenishment] of Object.entries(recurrencePeriod)) {

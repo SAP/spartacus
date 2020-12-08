@@ -1,7 +1,7 @@
-import { tabbingOrderConfig as config } from '../../../helpers/accessibility/b2b/tabbing-order.config';
-import { verifyTabbingOrder } from '../../../helpers/accessibility/tabbing-order';
-import * as orderApproval from '../../../helpers/b2b/b2b-order-approval';
-import * as sampleData from '../../../sample-data/b2b-order-approval';
+import { tabbingOrderConfig as config } from '../../../../helpers/accessibility/b2b/tabbing-order.config';
+import { verifyTabbingOrder } from '../../../../helpers/accessibility/tabbing-order';
+import * as orderApproval from '../../../../helpers/b2b/b2b-order-approval';
+import * as sampleData from '../../../../sample-data/b2b-order-approval';
 
 describe('B2B - Order Approval', () => {
   before(() => {
