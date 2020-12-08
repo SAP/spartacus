@@ -4,7 +4,7 @@ import { GlobalMessageType } from '../../../models/global-message.model';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { HttpErrorHandler } from '../http-error.handler';
 import { Priority } from '../../../../util/applicable';
-import { ErrorModel } from '@spartacus/core';
+import { ErrorModel } from '../../../../model/misc.model';
 
 @Injectable({
   providedIn: 'root',
