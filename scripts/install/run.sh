@@ -190,7 +190,7 @@ function local_install {
     printh "Creating organization npm package"
     ( cd ${CLONE_DIR}/dist/organization && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 
-    printh "Creating misc npm package"
+    printh "Creating storefinder npm package"
     ( cd ${CLONE_DIR}/dist/storefinder && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 
     create_apps

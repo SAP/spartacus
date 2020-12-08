@@ -306,7 +306,7 @@ if (typeof config.to === 'undefined') {
     case '@spartacus/cdc':
       config.library = '@spartacus/cdc';
       break;
-    case 'misc':
+    case 'storefinder':
     case '@spartacus/storefinder':
       config.library = '@spartacus/storefinder';
       break;

@@ -626,11 +626,11 @@ export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
 
 /***** APIs end *****/
 
-/***** Misc start *****/
+/***** Storefinder start *****/
 export const TODO_SPARTACUS = 'TODO:Spartacus -';
 export const CLI_STOREFINDER_FEATURE = 'Storefinder';
 export const CSS_V2_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-2/';
 export const CSS_V3_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-3/';
-/***** Misc end *****/
+/***** Storefinder end *****/
