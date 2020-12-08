@@ -30,7 +30,6 @@ import {
   installPackageJsonDependencies,
   readPackageJson,
   removeImport,
-  SPARTACUS_MISC,
   SPARTACUS_STOREFINDER,
   SPARTACUS_STOREFINDER_ASSETS,
   SPARTACUS_STOREFINDER_ROOT,
@@ -65,7 +64,7 @@ export function migrate(): Rule {
       ? chain([
           removeOldSetup(appModulePath),
 
-          addMiscPackageJsonDependencies(packageJson),
+          addStorefinderPackageJsonDependencies(packageJson),
           addStorefinderFeature(appModulePath),
           installPackageJsonDependencies(),
         ])
@@ -131,13 +130,13 @@ function removeOldSetup(appModulePath: string): Rule {
   };
 }
 
-function addMiscPackageJsonDependencies(packageJson: any): Rule {
+function addStorefinderPackageJsonDependencies(packageJson: any): Rule {
   const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
   const dependencies: NodeDependency[] = [
     {
       type: NodeDependencyType.Default,
       version: spartacusVersion,
-      name: SPARTACUS_MISC,
+      name: SPARTACUS_STOREFINDER,
     },
   ];
   return addPackageJsonDependencies(dependencies, packageJson);
@@ -164,7 +163,7 @@ function addStorefinderFeature(appModulePath: string): Rule {
       },
       styles: {
         scssFileName: STORE_FINDER_SCSS_FILE_NAME,
-        importStyle: SPARTACUS_MISC,
+        importStyle: SPARTACUS_STOREFINDER,
       },
     }
   );
