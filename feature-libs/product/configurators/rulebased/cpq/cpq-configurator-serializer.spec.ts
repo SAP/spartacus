@@ -176,7 +176,10 @@ describe('CpqConfiguratorSerializer', () => {
 
     it('should convert radio button (product)', () => {
       verifyUpdateAttributeSingleValue(
-        cpqConfiguratorSerializer.convertAttribute(attributeRB_PRODUCT, configId)
+        cpqConfiguratorSerializer.convertAttribute(
+          attributeRB_PRODUCT,
+          configId
+        )
       );
     });
 
@@ -188,7 +191,10 @@ describe('CpqConfiguratorSerializer', () => {
 
     it('should convert dropdown (product)', () => {
       verifyUpdateAttributeSingleValue(
-        cpqConfiguratorSerializer.convertAttribute(attributeDDLB_PRODUCT, configId)
+        cpqConfiguratorSerializer.convertAttribute(
+          attributeDDLB_PRODUCT,
+          configId
+        )
       );
     });
 
@@ -226,7 +232,7 @@ describe('CpqConfiguratorSerializer', () => {
         cpqConfiguratorSerializer.convertAttribute(attributeMSI, configId)
       );
     });
-  })
+  });
 
   it('should convert user input attribute types correctly', () => {
     const updateAttributeString: Cpq.UpdateAttribute = cpqConfiguratorSerializer.convertAttribute(
