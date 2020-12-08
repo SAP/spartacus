@@ -60,16 +60,7 @@ export const common = {
     badGateway: 'A server error occurred. Please try again later.',
     badRequestPleaseLoginAgain: '{{ errorMessage }}. Please login again.',
     badRequestOldPasswordIncorrect: 'Old password incorrect.',
-    conflict: {
-      budget: 'Budget with code {{ code }} already exists.',
-      costCenter: 'Cost center with code {{ code }} already exists.',
-      unit: 'Organizational unit with uid {{ code }} already exists.',
-      user: 'User with that email already exists',
-      userGroup: 'User Group with the same id already exists',
-      permission: 'Approval Permission with code {{ code }} already exists.',
-      other: 'Used ID already exists.',
-      unknown: 'Used ID already exists or we met other validation error.',
-    },
+    conflict: 'Used ID already exists.',
     forbidden:
       'You are not authorized to perform this action. Please contact your administrator if you think this is a mistake.',
     gatewayTimeout: 'The server did not respond, please try again later.',
@@ -119,6 +110,17 @@ export const common = {
     },
     cartNotFound: 'Cart not found.',
     invalidCodeProvided: 'Invalid code provided.',
+    organization: {
+      conflict: {
+        budget: 'Budget with code {{ code }} already exists.',
+        costCenter: 'Cost center with code {{ code }} already exists.',
+        unit: 'Organizational unit with uid {{ code }} already exists.',
+        user: 'User with that email already exists',
+        userGroup: 'User Group with the same id already exists',
+        permission: 'Approval Permission with code {{ code }} already exists.',
+        unknown: 'Used ID already exists or we met other validation error.',
+      },
+    },
   },
   miniCart: {
     item: '{{count}} item currently in your cart',

@@ -136,7 +136,7 @@ export class BadRequestHandler extends HttpErrorHandler {
     const params = { code: result?.[1] };
     if (result) {
       this.globalMessageService.add(
-        { key: `httpHandlers.conflict.${key}`, params },
+        { key: `httpHandlers.organization.conflict.${key}`, params },
         GlobalMessageType.MSG_TYPE_ERROR
       );
       return true;

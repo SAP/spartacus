@@ -13,30 +13,29 @@ export class ConflictHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.CONFLICT;
 
   handleError(_request: HttpRequest<any>, response: HttpErrorResponse) {
-    this.handleConflict(_request, response);
+    if (!this.handleDuplicated(_request, response)) {
+      this.globalMessageService.add(
+        { key: 'httpHandlers.conflict' },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    }
   }
 
-  protected handleConflict(
+  protected handleDuplicated(
     _request: HttpRequest<any>,
     response: HttpErrorResponse
-  ) {
-    this.getErrors(response)
+  ): boolean {
+    return this.getErrors(response)
       .filter((error) => error.type === 'AlreadyExistsError')
-      .forEach(({ message }: ErrorModel) => {
-        if (
-          ![
-            this.handleBudgetConflict(message),
-            this.handleUserConflict(message),
-            this.handleUserGroupConflict(message),
-            this.handleUnitConflict(message),
-          ].some((handler) => handler)
-        ) {
-          this.globalMessageService.add(
-            { key: 'httpHandlers.conflict.other' },
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-        }
-      });
+      .map(({ message }: ErrorModel) =>
+        [
+          this.handleBudgetConflict(message),
+          this.handleUserConflict(message),
+          this.handleUserGroupConflict(message),
+          this.handleUnitConflict(message),
+        ].some((handler) => handler)
+      )
+      .some((handler) => handler);
   }
 
   protected handleOrganizationConflict(
@@ -48,7 +47,7 @@ export class ConflictHandler extends HttpErrorHandler {
     const params = { code: result?.[1] };
     if (result) {
       this.globalMessageService.add(
-        { key: `httpHandlers.conflict.${key}`, params },
+        { key: `httpHandlers.organization.conflict.${key}`, params },
         GlobalMessageType.MSG_TYPE_ERROR
       );
       return true;
