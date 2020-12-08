@@ -321,6 +321,8 @@ export const VIEW_COMPONENT = 'ViewComponent';
 export const SPLIT_VIEW_COMPONENT = 'SplitViewComponent';
 export const OCC_CMS_COMPONENT_ADAPTER = 'OccCmsComponentAdapter';
 
+export const OCC_CMS_PAGE_ADAPTER = 'OccCmsPageAdapter';
+
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -624,6 +626,8 @@ export const STOREFINDER_TRANSLATION_CHUNKS_CONFIG =
   'storeFinderTranslationChunksConfig';
 
 export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
+
+export const GET_PAGES_ENDPOINT = 'getPagesEndpoint';
 
 /***** APIs end *****/
 
