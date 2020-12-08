@@ -75,9 +75,11 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
             deliveryModes
           );
         }
-        this.mode.controls['deliveryModeId'].setValue(code);
-        this.currentDeliveryModeId = code;
-        this.checkoutDeliveryService.setDeliveryMode(code);
+        if (code) {
+          this.mode.controls['deliveryModeId'].setValue(code);
+          this.currentDeliveryModeId = code;
+          this.checkoutDeliveryService.setDeliveryMode(code);
+        }
       });
   }
 
