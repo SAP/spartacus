@@ -6,7 +6,10 @@
     cxOrgItemActive
     [subtitle]="subtitle"
   >
-    <button actions class="button primary" [disabled]="form.disabled">
+    <button actions class="button primary">
+      disabled flag: {{ disabled }} | disabled form:{{ form.disabled }}
+    </button>
+    <button actions class="button primary" [disabled]="disabled">
       {{ 'organization.save' | cxTranslate }}
     </button>
     <button actions class="link" routerLink="../" type="button">
