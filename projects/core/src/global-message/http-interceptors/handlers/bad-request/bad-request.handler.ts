@@ -110,7 +110,7 @@ export class BadRequestHandler extends HttpErrorHandler {
   }
 
   protected handleDuplicated(
-    request: HttpRequest<any>,
+    _request: HttpRequest<any>,
     response: HttpErrorResponse
   ): void {
     this.getErrors(response)
@@ -123,18 +123,17 @@ export class BadRequestHandler extends HttpErrorHandler {
         this.handleCostCenterConflict(message);
         this.handleUnitConflict(message);
         this.handlePermissionConflict(message);
-        this.handleUnknownConflict(message, request);
+        this.handleUnknownConflict(message);
       });
   }
 
   protected handleOrganizationConflict(
     message: string,
     mask: RegExp,
-    key: string,
-    code?: string
+    key: string
   ) {
     const result = mask.exec(message);
-    const params = { code: result?.[1] ?? code };
+    const params = { code: result?.[1] };
     if (result) {
       this.globalMessageService.add(
         { key: `httpHandlers.organization.conflict.${key}`, params },
@@ -167,25 +166,9 @@ export class BadRequestHandler extends HttpErrorHandler {
     this.handleOrganizationConflict(message, mask, 'permission');
   }
 
-  protected handleUnknownConflict(message: string, request: HttpRequest<any>) {
+  protected handleUnknownConflict(message: string) {
     const mask = RegExp('Model saving error.', 'g');
-    if (request?.url?.includes('budgets')) {
-      this.handleOrganizationConflict(
-        message,
-        mask,
-        'budget',
-        request?.body.code
-      );
-    } else if (request?.url?.includes('orderApprovalPermissions')) {
-      this.handleOrganizationConflict(
-        message,
-        mask,
-        'permission',
-        request?.body.code
-      );
-    } else {
-      this.handleOrganizationConflict(message, mask, 'unknown');
-    }
+    this.handleOrganizationConflict(message, mask, 'unknown');
   }
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {

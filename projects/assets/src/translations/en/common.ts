@@ -118,7 +118,7 @@ export const common = {
         user: 'User with email {{ code }} already exists',
         userGroup: 'User Group with id {{ code }} already exists',
         permission: 'Approval Permission with code {{ code }} already exists.',
-        unknown: 'Validation error.',
+        unknown: 'Used ID already exists or we met other validation error.',
       },
     },
   },
