@@ -85,7 +85,9 @@ describe('Order Return Request effect', () => {
         returnRequestInput,
       });
 
-      const completion = new UserActions.CreateOrderReturnRequestFail('Error');
+      const completion = new UserActions.CreateOrderReturnRequestFail(
+        undefined
+      );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -128,7 +130,7 @@ describe('Order Return Request effect', () => {
       });
 
       const completion = new UserActions.LoadOrderReturnRequestListFail(
-        'Error'
+        undefined
       );
 
       actions$ = hot('-a', { a: action });
@@ -172,7 +174,7 @@ describe('Order Return Request effect', () => {
         returnRequestCode: 'test',
       });
 
-      const completion = new UserActions.LoadOrderReturnRequestFail('Error');
+      const completion = new UserActions.LoadOrderReturnRequestFail(undefined);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -210,7 +212,9 @@ describe('Order Return Request effect', () => {
         mockCancelReturnRequest
       );
 
-      const completion = new UserActions.CancelOrderReturnRequestFail('Error');
+      const completion = new UserActions.CancelOrderReturnRequestFail(
+        undefined
+      );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
