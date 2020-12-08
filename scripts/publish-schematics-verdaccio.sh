@@ -46,7 +46,7 @@ cd ../../
 cd feature-libs/organization
 yarn && yarn build:schematics
 cd ../../
-cd feature-libs/misc
+cd feature-libs/storefinder
 yarn && yarn build:schematics
 cd ../../
 

@@ -94,7 +94,7 @@ function create_ssr_pwa {
 }
 
 function add_spartacus_csr {
-    ( cd ${INSTALLATION_DIR} && cd csr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} && ng add @spartacus/misc@${SPARTACUS_VERSION} --interactive false
+    ( cd ${INSTALLATION_DIR} && cd csr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} && ng add @spartacus/storefinder@${SPARTACUS_VERSION} --interactive false
         if [ "$ADD_B2B_LIBS" = true ] ; then
             ng add @spartacus/organization@${SPARTACUS_VERSION} --interactive false
         fi
@@ -102,7 +102,7 @@ function add_spartacus_csr {
 }
 
 function add_spartacus_ssr {
-    ( cd ${INSTALLATION_DIR} && cd ssr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr && ng add @spartacus/misc@${SPARTACUS_VERSION} --interactive false
+    ( cd ${INSTALLATION_DIR} && cd ssr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr && ng add @spartacus/storefinder@${SPARTACUS_VERSION} --interactive false
         if [ "$ADD_B2B_LIBS" = true ] ; then
             ng add @spartacus/organization@${SPARTACUS_VERSION} --interactive false
         fi
@@ -110,7 +110,7 @@ function add_spartacus_ssr {
 }
 
 function add_spartacus_ssr_pwa {
-    ( cd ${INSTALLATION_DIR} && cd ssr_pwa && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa && ng add @spartacus/misc@${SPARTACUS_VERSION} --interactive false
+    ( cd ${INSTALLATION_DIR} && cd ssr_pwa && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa && ng add @spartacus/storefinder@${SPARTACUS_VERSION} --interactive false
         if [ "$ADD_B2B_LIBS" = true ] ; then
             ng add @spartacus/organization@${SPARTACUS_VERSION} --interactive false
         fi

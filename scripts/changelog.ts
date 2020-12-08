@@ -78,7 +78,7 @@ export default async function run(
     '@spartacus/cds': 'integration-libs/cds',
     '@spartacus/organization': 'feature-libs/organization',
     '@spartacus/product': 'feature-libs/product',
-    '@spartacus/misc': 'feature-libs/misc',
+    '@spartacus/storefinder': 'feature-libs/storefinder',
     '@spartacus/cdc': 'integration-libs/cdc',
     '@spartacus/setup': 'core-libs/setup',
   };
@@ -307,8 +307,8 @@ if (typeof config.to === 'undefined') {
       config.library = '@spartacus/cdc';
       break;
     case 'misc':
-    case '@spartacus/misc':
-      config.library = '@spartacus/misc';
+    case '@spartacus/storefinder':
+      config.library = '@spartacus/storefinder';
       break;
     case 'setup':
     case '@spartacus/setup':
