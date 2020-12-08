@@ -5,6 +5,7 @@ import {
   b2bUnit,
   b2bUser,
   costCenter,
+  order_type,
   poNumber,
   POWERTOOLS_BASESITE,
   POWERTOOLS_DEFAULT_DELIVERY_MODE,
@@ -226,10 +227,17 @@ export function reviewB2bReviewOrderPage(
   cy.get('input[formcontrolname="termsAndConditions"]').check();
 
   // Accessibility
-  verifyTabbingOrder(
-    'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-    isAccount ? config.checkoutReviewOrderAccount : config.checkoutReviewOrder
-  );
+  if (orderType === order_type.SCHEDULE_REPLENISHMENT) {
+    verifyTabbingOrder(
+      'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+      config.replenishmentOrderAccountCheckoutReviewOrder
+    );
+  } else {
+    verifyTabbingOrder(
+      'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+      isAccount ? config.checkoutReviewOrderAccount : config.checkoutReviewOrder
+    );
+  }
 }
 
 export function completeReplenishmentForm(replenishmentPeriod: string) {
