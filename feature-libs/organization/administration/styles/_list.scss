@@ -336,6 +336,10 @@
     td:last-child a {
       // last cell will have an icon, which is why we add additional padding
       padding-inline-end: 40px;
+      @media (max-width: 575px) {
+        // only for mobile view: ensure enough space against the column in the left
+        padding-inline-start: 20px; 
+      }
     }
 
     td:last-child span {
