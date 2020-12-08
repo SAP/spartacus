@@ -12,8 +12,8 @@ import { ErrorModel } from '@spartacus/core';
 export class ConflictHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.CONFLICT;
 
-  handleError(_request: HttpRequest<any>, response: HttpErrorResponse) {
-    if (!this.handleDuplicated(_request, response)) {
+  handleError(request: HttpRequest<any>, response: HttpErrorResponse) {
+    if (!this.handleDuplicated(request, response)) {
       this.globalMessageService.add(
         { key: 'httpHandlers.conflict' },
         GlobalMessageType.MSG_TYPE_ERROR
@@ -22,7 +22,7 @@ export class ConflictHandler extends HttpErrorHandler {
   }
 
   protected handleDuplicated(
-    _request: HttpRequest<any>,
+    request: HttpRequest<any>,
     response: HttpErrorResponse
   ): boolean {
     return this.getErrors(response)
@@ -30,8 +30,8 @@ export class ConflictHandler extends HttpErrorHandler {
       .map(({ message }: ErrorModel) =>
         [
           this.handleBudgetConflict(message),
-          this.handleUserConflict(message),
-          this.handleUserGroupConflict(message),
+          this.handleUserConflict(message, request),
+          this.handleUserGroupConflict(message, request),
           this.handleUnitConflict(message),
         ].some((handler) => handler)
       )
@@ -41,10 +41,11 @@ export class ConflictHandler extends HttpErrorHandler {
   protected handleOrganizationConflict(
     message: string,
     mask: RegExp,
-    key: string
+    key: string,
+    code?: string
   ): boolean {
     const result = mask.exec(message);
-    const params = { code: result?.[1] };
+    const params = { code: result?.[1] ?? code };
     if (result) {
       this.globalMessageService.add(
         { key: `httpHandlers.organization.conflict.${key}`, params },
@@ -60,17 +61,33 @@ export class ConflictHandler extends HttpErrorHandler {
     return this.handleOrganizationConflict(message, mask, 'budget');
   }
 
-  protected handleUserConflict(message: string): boolean {
+  protected handleUserConflict(
+    message: string,
+    request: HttpRequest<any>
+  ): boolean {
     const mask = RegExp('User already exists', 'g');
-    return this.handleOrganizationConflict(message, mask, 'user');
+    return this.handleOrganizationConflict(
+      message,
+      mask,
+      'user',
+      request?.body?.email
+    );
   }
 
-  protected handleUserGroupConflict(message: string): boolean {
+  protected handleUserGroupConflict(
+    message: string,
+    request: HttpRequest<any>
+  ): boolean {
     const mask = RegExp(
       'Member Permission with the same id already exists',
       'g'
     );
-    return this.handleOrganizationConflict(message, mask, 'userGroup');
+    return this.handleOrganizationConflict(
+      message,
+      mask,
+      'userGroup',
+      request?.body?.uid
+    );
   }
 
   protected handleUnitConflict(message: string): boolean {

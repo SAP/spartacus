@@ -110,7 +110,7 @@ export class BadRequestHandler extends HttpErrorHandler {
   }
 
   protected handleDuplicated(
-    _request: HttpRequest<any>,
+    request: HttpRequest<any>,
     response: HttpErrorResponse
   ): void {
     this.getErrors(response)
@@ -123,54 +123,69 @@ export class BadRequestHandler extends HttpErrorHandler {
         this.handleCostCenterConflict(message);
         this.handleUnitConflict(message);
         this.handlePermissionConflict(message);
-        this.handleUnknownConflict(message);
+        this.handleUnknownConflict(message, request);
       });
   }
 
   protected handleOrganizationConflict(
     message: string,
     mask: RegExp,
-    key: string
-  ): boolean {
+    key: string,
+    code?: string
+  ) {
     const result = mask.exec(message);
-    const params = { code: result?.[1] };
+    const params = { code: result?.[1] ?? code };
     if (result) {
       this.globalMessageService.add(
         { key: `httpHandlers.organization.conflict.${key}`, params },
         GlobalMessageType.MSG_TYPE_ERROR
       );
-      return true;
     }
-    return false;
   }
 
-  protected handleCostCenterConflict(message: string): boolean {
+  protected handleCostCenterConflict(message: string) {
     const mask = RegExp(
       'ambiguous unique keys \\{code\\=(.*)\\} for model B2BCostCenterModel',
       'g'
     );
-    return this.handleOrganizationConflict(message, mask, 'costCenter');
+    this.handleOrganizationConflict(message, mask, 'costCenter');
   }
 
-  protected handleUnitConflict(message: string): boolean {
+  protected handleUnitConflict(message: string) {
     const mask = RegExp(
       'ambiguous unique keys \\{uid\\=(.*)\\} for model B2BUnitModel',
       'g'
     );
-    return this.handleOrganizationConflict(message, mask, 'unit');
+    this.handleOrganizationConflict(message, mask, 'unit');
   }
 
-  protected handlePermissionConflict(message: string): boolean {
+  protected handlePermissionConflict(message: string) {
     const mask = RegExp(
       'Approval Permission with code\\: (.*) already exists.',
       'g'
     );
-    return this.handleOrganizationConflict(message, mask, 'permission');
+    this.handleOrganizationConflict(message, mask, 'permission');
   }
 
-  protected handleUnknownConflict(message: string): boolean {
+  protected handleUnknownConflict(message: string, request: HttpRequest<any>) {
     const mask = RegExp('Model saving error.', 'g');
-    return this.handleOrganizationConflict(message, mask, 'unknown');
+    if (request?.url?.includes('budgets')) {
+      this.handleOrganizationConflict(
+        message,
+        mask,
+        'budget',
+        request?.body.code
+      );
+    } else if (request?.url?.includes('orderApprovalPermissions')) {
+      this.handleOrganizationConflict(
+        message,
+        mask,
+        'permission',
+        request?.body.code
+      );
+    } else {
+      this.handleOrganizationConflict(message, mask, 'unknown');
+    }
   }
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
