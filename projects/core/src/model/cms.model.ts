@@ -4,6 +4,15 @@ export interface CmsComponent {
   otherProperties?: any;
   typeCode?: string;
   uid?: string;
+
+  /**
+   * Style classes can be added to the CMS banner component to enhance the UX.
+   * The style classes are typically derived from the (CMS) backend and should
+   * match an existing CSS selector.
+   *
+   * The styleClasses can contain a "list" of space separated style classes.
+   */
+  styleClasses?: string;
 }
 
 export enum PageType {
@@ -21,15 +30,6 @@ export interface CmsLinkComponent extends CmsComponent {
   contentPageLabelOrId?: string;
   linkName?: string;
   target?: string | boolean;
-
-  /**
-   * Style classes can be added to the CMS Link component to enhance the UX.
-   * The style classes are typically derived from the (CMS) backend and should
-   * match an existing CSS selector.
-   *
-   * The styleClasses can contain a "list" of space separated style classes.
-   */
-  styleClasses?: string;
 
   /**
    * Style rules can be added to the CMS Link component to enhance the UX.
@@ -87,15 +87,6 @@ export interface CmsBannerComponent extends CmsComponent {
   media?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia;
   urlLink?: string;
   external?: string | boolean;
-
-  /**
-   * Style classes can be added to the CMS banner component to enhance the UX.
-   * The style classes are typically derived from the (CMS) backend and should
-   * match an existing CSS selector.
-   *
-   * The styleClasses can contain a "list" of space separated style classes.
-   */
-  styleClasses?: string;
 }
 
 export enum CmsBannerCarouselEffect {
