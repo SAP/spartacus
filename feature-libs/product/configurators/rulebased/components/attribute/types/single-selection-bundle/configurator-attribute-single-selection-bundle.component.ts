@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
@@ -24,15 +24,13 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent
 
   @Input() attribute: Configurator.Attribute;
   @Input() ownerKey: string;
-
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  quantityForm = new FormGroup({
-    quantity: new FormControl(0),
-  });
+  quantity = new FormControl(0);
 
   ngOnInit(): void {
-    console.log(this.attribute);
+    this.quantity.setValue(this.attribute.quantity);
+
     this.attributeSingleSelectionBundleForm.setValue(
       this.attribute.selectedSingleValue
     );
@@ -47,6 +45,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent
     const event: ConfigFormUpdateEvent = {
       ownerKey: this.ownerKey,
       changedAttribute: {
+        ...this.attribute,
         name: this.attribute.name,
         selectedSingleValue: value,
         uiType: this.attribute.uiType,

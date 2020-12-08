@@ -4,8 +4,10 @@
   <div class="cx-single-select-bundle-quantity">
     <label>Qty</label>
     <cx-item-counter
+      [allowZero]="true"
       [max]="100"
-      [control]="quantityForm.get('quantity')"
+      [control]="quantity"
+      [readonly]="!attribute.selectedSingleValue"
     ></cx-item-counter>
   </div>
 
@@ -62,8 +64,35 @@
           "
         ></cx-configurator-show-more>
       </div>
-      <div class="cx-single-select-bundle-prices">
-        {{ quantityForm.get('quantity').value }} x 20$ = 40$
+      <div class="cx-single-select-bundle-footer">
+        <div class="cx-single-select-bundle-item-quantity">
+          <div *ngIf="value.selected">
+            <label>Qty</label>
+            <cx-item-counter
+              [allowZero]="true"
+              [max]="100"
+              [control]="quantity"
+            ></cx-item-counter>
+          </div>
+          <button
+            class="btn btn-action btn-sm"
+            *ngIf="value.selected; else select"
+          >
+            {{ 'configurator.button.remove' | cxTranslate }}
+          </button>
+          <ng-template #select>
+            <button
+              class="btn btn-action btn-sm"
+              (click)="onSelect(value.valueCode)"
+            >
+              {{ 'configurator.button.select' | cxTranslate }}
+            </button>
+          </ng-template>
+        </div>
+        <div class="-cx-single-select-bundle-price" *ngIf="value.selected">
+          {{ quantity.value }} x {{ value.price }}$ =
+          {{ quantity.value * value.price }}$
+        </div>
       </div>
     </div>
   </div>

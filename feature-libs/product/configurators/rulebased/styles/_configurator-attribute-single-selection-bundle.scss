@@ -4,6 +4,7 @@
   fieldset {
     width: 100%;
   }
+
   .cx-single-select-bundle-quantity {
     margin-bottom: 2rem;
   }
@@ -65,14 +66,35 @@
     }
   }
 
-  .cx-single-select-bundle-prices {
+  .cx-single-select-bundle-footer {
     display: flex;
     font-weight: 600;
-    justify-content: flex-end;
-    margin: 0 0 0 auto;
+    justify-content: space-between;
+    margin: 1rem 0;
     width: 100%;
 
+    .cx-single-select-bundle-item-quantity {
+      display: flex;
+      flex-direction: column;
+
+      cx-item-counter {
+        margin-bottom: 1rem;
+      }
+
+      .btn {
+        min-width: 10rem;
+      }
+
+      @include media-breakpoint-up(md) {
+        display: none;
+      }
+    }
+
+    .cx-single-select-bundle-price {
+    }
+
     @include media-breakpoint-up(md) {
+      margin: 0 0 0 auto;
       width: 10rem;
     }
   }
