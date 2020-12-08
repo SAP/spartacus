@@ -101,7 +101,7 @@ export class B2BUserEffects {
         catchError((error: HttpErrorResponse) =>
           this.routingService.getRouterState().pipe(
             take(1),
-            tap((route) => this.redirectToList(route)),
+            tap((route) => this.redirectToList(route, orgCustomer.orgUnit)),
             switchMap(() =>
               from([
                 new B2BUserActions.CreateB2BUserFail({
@@ -618,10 +618,15 @@ export class B2BUserEffects {
     }
   }
 
-  protected redirectToList(route) {
+  protected redirectToList(route, data) {
     if (this.isNotInUnitPage(route)) {
       this.routingService.go({
         cxRoute: 'user',
+      });
+    } else {
+      this.routingService.go({
+        cxRoute: 'unitUserList',
+        params: data,
       });
     }
   }
