@@ -9,11 +9,11 @@ import {
   I18nTestingModule,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { LoaderState } from '../../../../../../core/src/state/utils/loader';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { DeliveryModeComponent } from './delivery-mode.component';
 import createSpy = jasmine.createSpy;
-import { LoaderState } from '../../../../../../core/src/state/utils/loader';
 
 @Component({
   selector: 'cx-spinner',
@@ -164,22 +164,6 @@ describe('DeliveryModeComponent', () => {
       mockCheckoutConfigService.getPreferredDeliveryMode
     ).not.toHaveBeenCalled();
     expect(component.currentDeliveryModeId).toBe(mockDeliveryMode2.code);
-  });
-
-  it('should set delivery mode after invoking next()', () => {
-    component.currentDeliveryModeId = mockDeliveryMode1.code;
-    spyOn(
-      mockCheckoutDeliveryService,
-      'getSelectedDeliveryMode'
-    ).and.returnValue(of(mockDeliveryMode1));
-
-    component.ngOnInit();
-    component.mode.controls['deliveryModeId'].setValue('code');
-    component.next();
-
-    expect(mockCheckoutDeliveryService.setDeliveryMode).toHaveBeenCalledWith(
-      mockDeliveryMode1.code
-    );
   });
 
   it('should change step after invoking back()', () => {

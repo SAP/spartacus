@@ -22,7 +22,6 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
   selectedDeliveryMode$: Observable<DeliveryMode>;
   currentDeliveryModeId: string;
   continueButtonPressed = false;
-  //private allowRedirect = false;
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
 
