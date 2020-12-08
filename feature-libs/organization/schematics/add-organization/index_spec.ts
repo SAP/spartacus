@@ -5,6 +5,7 @@ import {
 import {
   B2B_STOREFRONT_MODULE,
   B2C_STOREFRONT_MODULE,
+  LibraryOptions as SpartacusOrganizationOptions,
   SpartacusOptions,
   SPARTACUS_SETUP,
 } from '@spartacus/schematics';
@@ -16,7 +17,6 @@ import {
   ORDER_APPROVAL_ROOT_MODULE,
   SPARTACUS_ORGANIZATION,
 } from '../constants';
-import { Schema as SpartacusOrganizationOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const appModulePath = 'src/app/app.module.ts';
@@ -57,8 +57,8 @@ describe('Spartacus Organization schematics: ng-add', () => {
       '../../projects/schematics/src/collection.json'
     );
     schematicRunner.registerCollection(
-      '@spartacus/misc',
-      '../../feature-libs/misc/schematics/collection.json'
+      '@spartacus/storefinder',
+      '../../feature-libs/storefinder/schematics/collection.json'
     );
 
     appTree = await schematicRunner
@@ -123,6 +123,15 @@ describe('Spartacus Organization schematics: ng-add', () => {
     it(`should replace it with 'B2bStorefrontModule'`, () => {
       const appModule = appTree.readContent(appModulePath);
       expect(appModule).toContain(B2B_STOREFRONT_MODULE);
+    });
+    it(`should add inject provideDefaultConfig and provide it`, () => {
+      const appModule = appTree.readContent(appModulePath);
+      expect(appModule).toContain(
+        `defaultB2bOccConfig } from '@spartacus/setup';`
+      );
+      expect(appModule).toContain(
+        `providers: [provideDefaultConfig(defaultB2bOccConfig),`
+      );
     });
   });
 
@@ -333,7 +342,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
         .runExternalSchematicAsync(
-          '@spartacus/misc',
+          '@spartacus/storefinder',
           'ng-add',
           { ...spartacusDefaultOptions, name: 'schematics-test' },
           appTree

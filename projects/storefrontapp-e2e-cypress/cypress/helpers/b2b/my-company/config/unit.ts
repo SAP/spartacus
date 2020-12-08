@@ -4,12 +4,83 @@ import { INPUT_TYPE, MyCompanyConfig } from '../models';
 import { costCenterConfig } from './cost-center.config';
 import { userConfig } from './user';
 
+export const unitShippingAddressConfig: MyCompanyConfig = {
+  rows: [
+    {
+      inputType: INPUT_TYPE.NG_SELECT,
+      createValue: `Cyprus`,
+      updateValue: `Croatia`,
+      formLabel: 'Country',
+    },
+    {
+      inputType: INPUT_TYPE.NG_SELECT,
+      createValue: `Mr.`,
+      updateValue: `Mrs.`,
+      formLabel: 'Title',
+    },
+    {
+      inputType: INPUT_TYPE.TEXT,
+      createValue: `Jeff`,
+      updateValue: `Fafa`,
+      formLabel: 'First name',
+    },
+    {
+      inputType: INPUT_TYPE.TEXT,
+      createValue: `Maori`,
+      updateValue: `Wapu`,
+      formLabel: 'Last name',
+    },
+    {
+      inputType: INPUT_TYPE.TEXT,
+      createValue: `123 Uratiti`,
+      updateValue: `456 Waiwhakamukau`,
+      formLabel: 'Address',
+      sortLabel: 'name',
+    },
+    {
+      inputType: INPUT_TYPE.TEXT,
+      createValue: `Mangawai`,
+      updateValue: `Pukekoe`,
+      formLabel: '2nd address',
+    },
+    {
+      inputType: INPUT_TYPE.TEXT,
+      createValue: `+54658632456`,
+      updateValue: `+15463215496`,
+      formLabel: 'Phone number',
+    },
+    {
+      inputType: INPUT_TYPE.TEXT,
+      createValue: `Taurunga`,
+      updateValue: `Ranui`,
+      formLabel: 'City',
+    },
+    {
+      inputType: INPUT_TYPE.TEXT,
+      createValue: `45632`,
+      updateValue: `87645`,
+      formLabel: 'Zip code',
+    },
+  ],
+};
+
+export const userRolesConfig: MyCompanyConfig = {
+  rows: [
+    {
+      label: 'Roles',
+      updateValue: 'Manager',
+    },
+  ],
+};
+
 export const unitConfig: MyCompanyConfig = {
   name: 'Unit',
   baseUrl: `${FULL_BASE_URL_EN_USD}/organization/units`,
   apiEndpoint: '/orgUnits',
   objectType: 'children',
   nestedTableRows: true,
+  canDisable: true,
+  verifyStatusInDetails: true,
   rows: [
     {
       label: 'Name',
@@ -56,10 +127,10 @@ export const unitConfig: MyCompanyConfig = {
     {
       label: 'Parent Unit',
       variableName: 'orgUnit.name',
-      link: `/organization/units/Rustic%20Services`,
+      link: `/organization/units/Custom%20Retail`,
       updatedLink: `/organization/units/Rustic%20Retail`,
       inputType: INPUT_TYPE.NG_SELECT,
-      createValue: 'Rustic Services',
+      createValue: 'Custom Retail',
       updateValue: 'Rustic Retail',
       showInTable: false,
       formLabel: 'Parent business unit',
@@ -125,6 +196,7 @@ export const unitConfig: MyCompanyConfig = {
       apiEndpoint: '**/availableOrgCustomers**',
       objectType: 'members',
       createConfig: userConfig,
+      rolesConfig: userRolesConfig,
     },
     {
       name: 'Approvers',
@@ -138,65 +210,10 @@ export const unitConfig: MyCompanyConfig = {
       baseUrl: `/addresses`,
       apiEndpoint: '**/availableOrgCustomers**',
       objectType: 'members',
-      createConfig: {
-        rows: [
-          {
-            inputType: INPUT_TYPE.NG_SELECT,
-            createValue: `Cyprus`,
-            updateValue: `Canada`,
-            formLabel: 'Country',
-          },
-          {
-            inputType: INPUT_TYPE.NG_SELECT,
-            createValue: `Mr.`,
-            updateValue: `Mrs.`,
-            formLabel: 'Title',
-          },
-          {
-            inputType: INPUT_TYPE.TEXT,
-            createValue: `Jeff`,
-            updateValue: `Fafa`,
-            formLabel: 'First name',
-          },
-          {
-            inputType: INPUT_TYPE.TEXT,
-            createValue: `Maori`,
-            updateValue: `Wapu`,
-            formLabel: 'Last name',
-          },
-          {
-            inputType: INPUT_TYPE.TEXT,
-            createValue: `123 Uratiti`,
-            updateValue: `456 Waiwhakamukau`,
-            formLabel: 'Address',
-            sortLabel: 'name',
-          },
-          {
-            inputType: INPUT_TYPE.TEXT,
-            createValue: `Mangawai`,
-            updateValue: `Pukekoe`,
-            formLabel: '2nd address',
-          },
-          {
-            inputType: INPUT_TYPE.TEXT,
-            createValue: `+54658632456`,
-            updateValue: `+15463215496`,
-            formLabel: 'Phone number',
-          },
-          {
-            inputType: INPUT_TYPE.TEXT,
-            createValue: `Taurunga`,
-            updateValue: `Ranui`,
-            formLabel: 'City',
-          },
-          {
-            inputType: INPUT_TYPE.TEXT,
-            createValue: `45632`,
-            updateValue: `87645`,
-            formLabel: 'Zip code',
-          },
-        ],
-      },
+      createConfig: unitShippingAddressConfig,
+      editConfig: unitShippingAddressConfig,
+      updateEntity: '123 Uratiti, Mangawai, Taurunga, 45632',
+      deleteEntity: '456 Waiwhakamukau, Pukekoe, Ranui, 87645',
     },
     {
       name: 'Cost Centers',

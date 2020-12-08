@@ -8,7 +8,9 @@ import {
 import { OrderApproval } from '../../core/model/order-approval.model';
 import { ORDER_APPROVAL_NORMALIZER } from '../../core/connectors/converters';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OccOrderApprovalListNormalizer
   implements Converter<Occ.OrderApprovalsList, EntitiesModel<OrderApproval>> {
   constructor(private converter: ConverterService) {}

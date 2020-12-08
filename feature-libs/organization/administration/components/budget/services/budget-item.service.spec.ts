@@ -88,7 +88,7 @@ describe('BudgetItemService', () => {
       name: 'foo bar',
       code: 'new code',
     });
-    expect(budgetService.getLoadingStatus).toHaveBeenCalledWith('existingCode');
+    expect(budgetService.getLoadingStatus).toHaveBeenCalledWith('new code');
   });
 
   it('should create new budget', () => {
