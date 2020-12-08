@@ -1,11 +1,11 @@
-import * as b2bCheckout from '../../../helpers/b2b/b2b-checkout';
+import * as b2bCheckout from '../../../../helpers/b2b/b2b-checkout';
 import {
   b2bAccountShipToUser,
   b2bProduct,
   cartWithB2bProduct,
   order_type,
   POWERTOOLS_BASESITE,
-} from '../../../sample-data/b2b-checkout';
+} from '../../../../sample-data/b2b-checkout';
 
 context('B2B - Account Checkout flow', () => {
   before(() => {
