@@ -23,7 +23,6 @@ import {
       {
         path: null,
         data: {
-          pageLabel: '/configureCPQCONFIGURATOR',
           cxRoute: 'configureCPQCONFIGURATOR',
         },
         component: PageLayoutComponent,
