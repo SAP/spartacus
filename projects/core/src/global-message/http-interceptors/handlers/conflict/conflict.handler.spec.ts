@@ -3,10 +3,16 @@ import { GlobalMessageService } from '../../../facade';
 import { GlobalMessageType } from '../../../models/global-message.model';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { ConflictHandler } from './conflict.handler';
+import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 
 class MockGlobalMessageService {
   add() {}
 }
+
+const MockRequest = {} as HttpRequest<any>;
+
+const MockRandomResponse = {} as HttpErrorResponse;
+
 describe('ConflictHandler', () => {
   let service: ConflictHandler;
   let globalMessageService: GlobalMessageService;
@@ -35,7 +41,7 @@ describe('ConflictHandler', () => {
 
   it('should send error to global message service', () => {
     spyOn(globalMessageService, 'add');
-    service.handleError();
+    service.handleError(MockRequest, MockRandomResponse);
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'httpHandlers.conflict' },
