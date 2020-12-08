@@ -1,6 +1,6 @@
 import { RoutingConfig } from '@spartacus/core';
 
-export const defaulTextfieldRoutingConfig: RoutingConfig = {
+export const defaultTextfieldRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
       configureTEXTFIELD: {

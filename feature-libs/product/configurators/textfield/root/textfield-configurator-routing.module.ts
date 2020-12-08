@@ -4,7 +4,7 @@ import {
   RoutingModule as CoreRoutingModule,
 } from '@spartacus/core';
 import { CmsRouteModule } from '@spartacus/storefront';
-import { defaulTextfieldRoutingConfig } from './default-textfield-routing-config';
+import { defaultTextfieldRoutingConfig } from './default-textfield-routing-config';
 
 /**
  * Provides the default cx routing configuration for the textfield configurator
@@ -16,7 +16,7 @@ export class TextfieldConfiguratorRoutingModule {
   static forRoot(): ModuleWithProviders<TextfieldConfiguratorRoutingModule> {
     return {
       ngModule: TextfieldConfiguratorRoutingModule,
-      providers: [provideDefaultConfig(defaulTextfieldRoutingConfig)],
+      providers: [provideDefaultConfig(defaultTextfieldRoutingConfig)],
     };
   }
 }
