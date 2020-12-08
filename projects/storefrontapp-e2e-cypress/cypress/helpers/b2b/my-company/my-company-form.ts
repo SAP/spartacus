@@ -41,6 +41,10 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
     });
 
     it(`should create`, () => {
+      if (config.selectOptionsEndpoint) {
+        cy.route(config.selectOptionsEndpoint).as('getSelectOptions');
+      }
+
       cy.get(`cx-org-list a`).contains('Add').click();
 
       cy.url().should('contain', `${config.baseUrl}/create`);
@@ -49,6 +53,9 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
         ignoreCaseSensivity(`Create ${config.name}`)
       );
 
+      if (config.selectOptionsEndpoint) {
+        cy.wait('@getSelectOptions');
+      }
       completeForm(config.rows, FormType.CREATE);
 
       cy.route('POST', `**${config.apiEndpoint}**`).as('getEntityData');
@@ -118,6 +125,10 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
         cy.setCookie(ENTITY_UID_COOKIE_KEY, entityUId);
       }
 
+      if (config.selectOptionsEndpoint) {
+        cy.route(config.selectOptionsEndpoint).as('getSelectOptions');
+      }
+
       cy.wait(2000);
       cy.visit(`${config.baseUrl}/${entityId}`);
       cy.url().should('contain', `${config.baseUrl}/${entityId}`);
@@ -128,6 +139,10 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
       cy.get('cx-org-form div.header h3').contains(
         ignoreCaseSensivity(`Edit ${config.name}`)
       );
+
+      if (config.selectOptionsEndpoint) {
+        cy.wait('@getSelectOptions');
+      }
 
       completeForm(config.rows, FormType.UPDATE);
       cy.get('div.header button').contains('Save').click();
@@ -235,7 +250,6 @@ function verifyDetails(config: MyCompanyConfig, formType: FormType) {
       ignoreCaseSensivity(hRow[valueKey])
     );
   });
-
   config.rows.forEach((rowConfig) => {
     if (rowConfig.showInDetails) {
       const label = rowConfig.detailsLabel || rowConfig.label;

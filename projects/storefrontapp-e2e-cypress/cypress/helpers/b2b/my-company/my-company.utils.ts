@@ -66,7 +66,6 @@ export function scanTablePagesForText(
     }
   });
 }
-
 /**
  * Converts string value to RegExp ignoring case sensivity.
  */
