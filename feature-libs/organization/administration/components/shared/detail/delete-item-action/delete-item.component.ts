@@ -9,15 +9,14 @@ import { MessageService } from '../../message/services/message.service';
 import { BaseItem } from '../../organization.model';
 
 /**
- * Reusable component in the my-company is to toggle the disabled state for
- * my company entities.
+ * Reusable component in the my-company is to delete an item (if it's possible)
  */
 @Component({
-  selector: 'cx-org-toggle-status',
-  templateUrl: './toggle-status.component.html',
+  selector: 'cx-org-delete-item',
+  templateUrl: './delete-item.component.html',
   host: { class: 'content-wrapper' },
 })
-export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
+export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
   /**
    * The localization of messages is based on the i18n root. Messages are
    * concatenated to the root, such as:
@@ -34,9 +33,10 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   @Input() key = 'code';
 
   /**
-   * The disabled state is calculated but can be provided as well.
+   * The additionalParam input can be used to provide additional data if it's required
+   * for API request
    */
-  @Input() disabled: boolean;
+  @Input() additionalParam?: string;
 
   /**
    * resolves the current item.
@@ -56,50 +56,34 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
     protected messageService: MessageService<ConfirmationMessageData>
   ) {}
 
-  toggle(item: T) {
-    if (!item.active) {
-      // we do ask for confirmation when the entity gets activated
-      this.update(item);
-    } else {
-      if (!this.confirmation) {
-        this.confirmation = this.messageService.add({
-          message: {
-            key: this.i18nRoot + '.messages.deactivate',
-            params: { item },
-          },
-          component: ConfirmationMessageComponent,
-        });
+  delete(item: T) {
+    if (!this.confirmation) {
+      this.confirmation = this.messageService.add({
+        message: {
+          key: this.i18nRoot + '.messages.delete',
+          params: { item },
+        },
+        component: ConfirmationMessageComponent,
+      });
 
-        this.subscription.add(
-          this.confirmation.pipe(first()).subscribe((event) => {
-            if (event.close) {
-              this.confirmation = null;
-            }
-            if (event.confirm) {
-              this.messageService.close(this.confirmation);
-              this.update(item);
-              this.confirmation = null;
-            }
-          })
-        );
-      }
+      this.subscription.add(
+        this.confirmation.pipe(first()).subscribe((event) => {
+          if (event.close) {
+            this.confirmation = null;
+          }
+          if (event.confirm) {
+            this.messageService.close(this.confirmation);
+            this.confirmDelete(item);
+            this.confirmation = null;
+          }
+        })
+      );
     }
   }
 
-  /**
-   * Indicates whether the status can be toggled or not.
-   */
-  isDisabled(item: T): boolean {
-    return (
-      this.disabled ??
-      !(item.orgUnit || (item as any).unit || (item as any).parentOrgUnit)
-        ?.active
-    );
-  }
-
-  protected update(item: T): void {
+  protected confirmDelete(item: T): void {
     this.itemService
-      .update(item[this.key], this.getPatchedItem(item))
+      .delete(item[this.key], this.additionalParam)
       .pipe(
         take(1),
         filter((data) => data.status === LoadStatus.SUCCESS)
@@ -107,19 +91,10 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
       .subscribe((data) => this.notify({ ...item, ...data.item }));
   }
 
-  protected getPatchedItem(item: T): T {
-    const patch: BaseItem = {};
-    patch[this.key] = item[this.key];
-    patch.active = !item.active;
-    return patch as T;
-  }
-
   protected notify(item: T) {
     this.messageService.add({
       message: {
-        key: `${this.i18nRoot}.messages.${
-          item.active ? 'confirmEnabled' : 'confirmDisabled'
-        }`,
+        key: `${this.i18nRoot}.messages.deleted`,
         params: { item },
       },
     });
