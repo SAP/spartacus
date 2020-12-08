@@ -483,6 +483,7 @@ export const PAYMENT_TYPE_SERVICE = 'PaymentTypeService';
 
 export const UNAUTHORIZED_ERROR_HANDLER = 'UnauthorizedErrorHandler';
 export const NG_EXPRESS_ENGINE_DECORATOR = 'NgExpressEngineDecorator';
+export const LAYOUT_CONFIG = 'LayoutConfig';
 
 export const TOKEN_REVOCATION_HEADER = 'TOKEN_REVOCATION_HEADER';
 export const SPLIT_VIEW_DEACTIVATE_GUARD = 'SplitViewDeactivateGuard';
@@ -545,6 +546,10 @@ export const SUB = 'sub';
 export const LOAD_ANONYMOUS_CONSENTS = 'loadAnonymousConsents';
 
 export const LEGACY_FLAG = 'legacy';
+export const INJECT_DECORATOR = 'Inject';
+export const PLATFORM = 'Platform';
+export const PLATFORM_ID_STRING = 'PLATFORM_ID';
+export const ANY_TYPE = 'any';
 /***** Properties end *****/
 
 /***** APIs start *****/
