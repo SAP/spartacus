@@ -9,11 +9,18 @@ import { ConsentTemplate } from '../../../model/consent.model';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserConsentAdapter } from '../../connectors/index';
+import { UserConsentService } from '../../facade';
 import { UserActions } from '../actions/index';
 import * as fromEffect from './user-consents.effect';
 
 class MockOccUserAdapter {
   loadConsents(_userId: string): Observable<ConsentTemplate[]> {
+    return of();
+  }
+  loadConsent(
+    _userId: string,
+    _templateId: string
+  ): Observable<ConsentTemplate> {
     return of();
   }
   giveConsent(
@@ -28,6 +35,12 @@ class MockOccUserAdapter {
   }
 }
 
+class MockConsentService implements Partial<UserConsentService> {
+  loadConsent() {
+    return Promise.resolve();
+  }
+}
+
 describe('User Consents effect', () => {
   let userConsentEffect: fromEffect.UserConsentsEffect;
   let userConsentAdapter: UserConsentAdapter;
@@ -39,6 +52,7 @@ describe('User Consents effect', () => {
         fromEffect.UserConsentsEffect,
         { provide: UserConsentAdapter, useClass: MockOccUserAdapter },
         provideMockActions(() => actions$),
+        { provide: UserConsentService, useClass: MockConsentService },
       ],
     });
 
@@ -65,6 +79,25 @@ describe('User Consents effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(userConsentEffect.getConsents$).toBeObservable(expected);
+    });
+  });
+
+  describe('getConsent$', () => {
+    const userId = 'xxx@xxx.xxx';
+    const templateId = 'yyy';
+    const template: ConsentTemplate = {
+      id: 'xxx',
+    };
+    it('should return LoadUserConsentSuccess', () => {
+      spyOn(userConsentAdapter, 'loadConsent').and.returnValue(of(template));
+
+      const action = new UserActions.LoadUserConsent({ userId, templateId });
+      const completion = new UserActions.LoadUserConsentSuccess(template);
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(userConsentEffect.getConsent$).toBeObservable(expected);
     });
   });
 
