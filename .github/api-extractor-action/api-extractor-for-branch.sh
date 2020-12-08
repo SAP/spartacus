@@ -80,9 +80,9 @@ cp "$CONFIG_PATH" ./dist/product/api-extractor.json
 )
 
 # @spartacus/storefinder
-cp "$CONFIG_PATH" ./dist/misc/api-extractor.json
+cp "$CONFIG_PATH" ./dist/storefinder/api-extractor.json
 (
-  cd ./dist/misc && \
+  cd ./dist/storefinder && \
   api-extractor run --local --verbose
 )
 
