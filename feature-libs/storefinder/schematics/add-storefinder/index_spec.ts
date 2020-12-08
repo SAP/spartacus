@@ -5,9 +5,8 @@ import {
 import {
   CLI_STOREFINDER_FEATURE,
   LibraryOptions as SpartacusStorefinderOptions,
-  SpartacusOptions,
   SPARTACUS_STOREFINDER,
-  STOREFINDER_ROOT_MODULE,
+  SpartacusOptions,
 } from '@spartacus/schematics';
 import * as path from 'path';
 
@@ -93,11 +92,6 @@ describe('Spartacus Storefinder schematics: ng-add', () => {
     it('should still install @spartacus/storefinder library', () => {
       const packageJson = appTree.readContent('package.json');
       expect(packageJson).toContain(SPARTACUS_STOREFINDER);
-    });
-
-    it('should not install storefinder feature', () => {
-      const appModule = appTree.readContent(appModulePath);
-      expect(appModule).not.toContain(STOREFINDER_ROOT_MODULE);
     });
   });
 

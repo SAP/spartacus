@@ -16,16 +16,6 @@
       "description": "Lazy load the storefinder features.",
       "default": true
     },
-    "features": {
-      "type": "array",
-      "uniqueItems": true,
-      "items": {
-        "enum": ["Storefinder"],
-        "type": "string"
-      },
-      "default": ["Storefinder"],
-      "x-prompt": "Which features would you like to setup?"
-    }
   },
   "required": []
 }
