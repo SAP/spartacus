@@ -31,7 +31,6 @@ export const SPARTACUS_CDS = '@spartacus/cds';
 export const SPARTACUS_CDC = '@spartacus/cdc';
 export const SPARTACUS_ASSETS = '@spartacus/assets';
 export const SPARTACUS_STYLES = '@spartacus/styles';
-export const SPARTACUS_MISC = '@spartacus/misc';
 
 export const NGRX_STORE = '@ngrx/store';
 export const NGRX_EFFECTS = '@ngrx/effects';
@@ -621,7 +620,7 @@ export const GET_META_RESOLVER = 'getMetaResolver';
 export const STOREFINDER_MODULE = 'StoreFinderModule';
 export const STOREFINDER_FEATURE_NAME = 'storeFinder';
 export const STOREFINDER_ROOT_MODULE = 'StoreFinderRootModule';
-export const SPARTACUS_STOREFINDER = `${SPARTACUS_MISC}/storefinder`;
+export const SPARTACUS_STOREFINDER = '@spartacus/storefinder';
 export const SPARTACUS_STOREFINDER_ROOT = `${SPARTACUS_STOREFINDER}/root`;
 export const SPARTACUS_STOREFINDER_ASSETS = `${SPARTACUS_STOREFINDER}/assets`;
 export const STOREFINDER_TRANSLATIONS = 'storeFinderTranslations';
@@ -632,11 +631,11 @@ export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
 
 /***** APIs end *****/
 
-/***** Misc start *****/
+/***** Storefinder start *****/
 export const TODO_SPARTACUS = 'TODO:Spartacus -';
 export const CLI_STOREFINDER_FEATURE = 'Storefinder';
 export const CSS_V2_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-2/';
 export const CSS_V3_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-3/';
-/***** Misc end *****/
+/***** Storefinder end *****/
