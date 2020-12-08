@@ -78,29 +78,17 @@ describe('Spartacus Storefinder schematics: ng-add', () => {
       .toPromise();
   });
 
-  describe('when no features are selected', () => {
-    beforeEach(async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          { ...defaultOptions, features: [] },
-          appTree
-        )
-        .toPromise();
-    });
-
-    it('should still install @spartacus/storefinder library', () => {
-      const packageJson = appTree.readContent('package.json');
-      expect(packageJson).toContain(SPARTACUS_STOREFINDER);
-    });
-  });
-
   describe('Storefinder feature', () => {
     describe('styling', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
           .runSchematicAsync('ng-add', defaultOptions, appTree)
           .toPromise();
+      });
+
+      it('should install @spartacus/storefinder library', () => {
+        const packageJson = appTree.readContent('package.json');
+        expect(packageJson).toContain(SPARTACUS_STOREFINDER);
       });
 
       it('should add style import to /src/styles/spartacus/storefinder.scss', async () => {

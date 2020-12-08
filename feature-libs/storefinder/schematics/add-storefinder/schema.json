@@ -15,7 +15,7 @@
       "type": "boolean",
       "description": "Lazy load the storefinder features.",
       "default": true
-    },
+    }
   },
   "required": []
 }
