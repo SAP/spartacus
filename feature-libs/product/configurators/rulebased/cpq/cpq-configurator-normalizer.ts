@@ -127,7 +127,7 @@ export class CpqConfiguratorNormalizer
 
   convertAttributeType(
     displayAs: Cpq.DisplayAs,
-    displayAsProduct: boolean
+    displayAsProduct = false
   ): Configurator.UiType {
     let uiType: Configurator.UiType;
     switch (displayAs) {
