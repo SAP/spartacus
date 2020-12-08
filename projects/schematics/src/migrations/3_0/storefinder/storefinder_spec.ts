@@ -46,7 +46,7 @@ import { StoreFinderModule } from '@spartacus/storefinder';
     B2cStorefrontModule.withConfig({}),
     StoreFinderRootModule,
     StoreFinderModule,
-
+    
   ],
   providers: [
     provideConfig({
@@ -110,7 +110,7 @@ import { StoreFinderModule } from '@spartacus/storefinder';
 export class AppModule {}
 `;
 
-describe('storefinder migration', () => {
+describe('Storefinder migration', () => {
   let host: TempScopedNodeJsSyncHost;
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;
