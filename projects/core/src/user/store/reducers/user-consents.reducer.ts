@@ -13,6 +13,13 @@ export function reducer(
       return consents ? consents : initialState;
     }
 
+    case UserActions.LOAD_USER_CONSENT_SUCCESS: {
+      const consentTemplate = action.payload;
+      return state.map((consent) =>
+        consent.id === consentTemplate.id ? consentTemplate : consent
+      );
+    }
+
     case UserActions.GIVE_USER_CONSENT_SUCCESS: {
       const updatedConsentTemplate = action.consentTemplate;
       return state.map((consentTemplate) =>

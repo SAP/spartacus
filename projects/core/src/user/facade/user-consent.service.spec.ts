@@ -370,11 +370,13 @@ describe('UserConsentService', () => {
     describe('withdrawConsent', () => {
       it('should dispatch an action', () => {
         const consentCode = 'xxx';
-        service.withdrawConsent(consentCode);
+        const consentTemplateId = 'yyy';
+        service.withdrawConsent(consentCode, consentTemplateId);
         expect(store.dispatch).toHaveBeenCalledWith(
           new UserActions.WithdrawUserConsent({
             userId,
             consentCode,
+            consentTemplateId,
           })
         );
       });
@@ -382,7 +384,11 @@ describe('UserConsentService', () => {
     describe('getWithdrawConsentResultLoading', () => {
       it('should return the loading flag', () => {
         store.dispatch(
-          new UserActions.WithdrawUserConsent({ userId, consentCode: 'xxx' })
+          new UserActions.WithdrawUserConsent({
+            userId,
+            consentCode: 'xxx',
+            consentTemplateId: 'yyy',
+          })
         );
 
         let result = false;

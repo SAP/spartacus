@@ -13,6 +13,10 @@ export class UserConsentConnector {
     return this.adapter.loadConsents(userId);
   }
 
+  loadConsent(userId: string, templateId: string): Observable<ConsentTemplate> {
+    return this.adapter.loadConsent(userId, templateId);
+  }
+
   giveConsent(
     userId: string,
     consentTemplateId: string,

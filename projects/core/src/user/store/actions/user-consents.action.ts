@@ -12,6 +12,10 @@ export const LOAD_USER_CONSENTS_SUCCESS = '[User] Load User Consents Success';
 export const LOAD_USER_CONSENTS_FAIL = '[User] Load User Consents Fail';
 export const RESET_LOAD_USER_CONSENTS = '[User] Reset Load User Consents';
 
+export const LOAD_USER_CONSENT = '[User] Load User Consent';
+export const LOAD_USER_CONSENT_SUCCESS = '[User] Load User Consent Success';
+export const LOAD_USER_CONSENT_FAIL = '[User] Load User Consent Fail';
+
 export const GIVE_USER_CONSENT = '[User] Give User Consent';
 export const GIVE_USER_CONSENT_FAIL = '[User] Give User Consent Fail';
 export const GIVE_USER_CONSENT_SUCCESS = '[User] Give User Consent Success';
@@ -43,6 +47,32 @@ export class LoadUserConsentsFail extends StateUtils.LoaderFailAction {
 export class LoadUserConsentsSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_USER_CONSENTS_SUCCESS;
   constructor(public payload: ConsentTemplate[]) {
+    super(USER_CONSENTS);
+  }
+}
+
+export class LoadUserConsent extends StateUtils.LoaderLoadAction {
+  readonly type = LOAD_USER_CONSENT;
+  constructor(
+    public payload: {
+      userId: string;
+      templateId: string;
+    }
+  ) {
+    super(USER_CONSENTS);
+  }
+}
+
+export class LoadUserConsentFail extends StateUtils.LoaderFailAction {
+  readonly type = LOAD_USER_CONSENT_FAIL;
+  constructor(public payload: any) {
+    super(USER_CONSENTS, payload);
+  }
+}
+
+export class LoadUserConsentSuccess extends StateUtils.LoaderSuccessAction {
+  readonly type = LOAD_USER_CONSENT_SUCCESS;
+  constructor(public payload: ConsentTemplate) {
     super(USER_CONSENTS);
   }
 }
@@ -105,6 +135,7 @@ export class WithdrawUserConsent extends StateUtils.EntityLoadAction {
     public payload: {
       userId: string;
       consentCode: string;
+      consentTemplateId: string;
     }
   ) {
     super(PROCESS_FEATURE, WITHDRAW_CONSENT_PROCESS_ID);
@@ -137,6 +168,9 @@ export type UserConsentsAction =
   | LoadUserConsentsFail
   | LoadUserConsentsSuccess
   | ResetLoadUserConsents
+  | LoadUserConsent
+  | LoadUserConsentFail
+  | LoadUserConsentSuccess
   | GiveUserConsent
   | GiveUserConsentFail
   | GiveUserConsentSuccess

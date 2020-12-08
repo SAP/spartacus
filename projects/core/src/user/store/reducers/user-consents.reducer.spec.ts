@@ -22,6 +22,14 @@ describe('User Consents Reducer', () => {
       expect(result).toEqual(consents);
     });
   });
+  describe('LOAD_USER_CONSENT_SUCCESS', () => {
+    it('should return consent from the payload', () => {
+      const { initialState } = fromReducer;
+      const action = new UserActions.LoadUserConsentsSuccess(consents);
+      const result = fromReducer.reducer(initialState, action);
+      expect(result).toEqual(consents);
+    });
+  });
   describe('GIVE_USER_CONSENT_SUCCESS', () => {
     it('should update the existing consents', () => {
       const consentGivenTemplate: ConsentTemplate = {

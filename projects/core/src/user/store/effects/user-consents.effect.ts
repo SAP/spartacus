@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { normalizeHttpError } from 'projects/core/src/util';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
@@ -7,7 +8,13 @@ import { GlobalMessageActions } from '../../../global-message/store/actions';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserConsentConnector } from '../../connectors/consent/user-consent.connector';
+import { UserConsentService } from '../../facade/user-consent.service';
 import { UserActions } from '../actions/index';
+import {
+  HttpResponseStatus,
+  OCC_ALREADY_EXISTS_ERROR,
+  OCC_CONSENT_WITHDRAWN_ERROR,
+} from '../../../global-message/models/response-status.model';
 
 @Injectable()
 export class UserConsentsEffect {
@@ -30,6 +37,21 @@ export class UserConsentsEffect {
           of(new UserActions.LoadUserConsentsFail(makeErrorSerializable(error)))
         )
       )
+    )
+  );
+
+  @Effect()
+  getConsent$: Observable<UserActions.UserConsentsAction> = this.actions$.pipe(
+    ofType<UserActions.LoadUserConsent>(UserActions.LOAD_USER_CONSENT),
+    concatMap((action) =>
+      this.userConsentConnector
+        .loadConsent(action.payload.userId, action.payload.templateId)
+        .pipe(
+          map((consent) => new UserActions.LoadUserConsentSuccess(consent)),
+          catchError((error) =>
+            of(new UserActions.LoadUserConsentFail(normalizeHttpError(error)))
+          )
+        )
     )
   );
 
@@ -67,6 +89,20 @@ export class UserConsentsEffect {
                 )
               );
             }
+            if (
+              error.status === HttpResponseStatus.CONFLICT &&
+              error.error?.errors[0]?.type === OCC_ALREADY_EXISTS_ERROR
+            ) {
+              errors.push(
+                new GlobalMessageActions.RemoveMessagesByType(
+                  GlobalMessageType.MSG_TYPE_ERROR
+                )
+              );
+              this.userConsentService.loadConsent(
+                action.payload.userId,
+                action.payload.consentTemplateId
+              );
+            }
             return of(...errors);
           })
         )
@@ -79,22 +115,27 @@ export class UserConsentsEffect {
   > = this.actions$.pipe(
     ofType(UserActions.WITHDRAW_USER_CONSENT),
     map((action: UserActions.WithdrawUserConsent) => action.payload),
-    concatMap(({ userId, consentCode }) =>
+    concatMap(({ userId, consentCode, consentTemplateId }) =>
       this.userConsentConnector.withdrawConsent(userId, consentCode).pipe(
         map(() => new UserActions.WithdrawUserConsentSuccess()),
-        catchError((error) =>
-          of(
-            new UserActions.WithdrawUserConsentFail(
-              makeErrorSerializable(error)
-            )
-          )
-        )
+        catchError((error) => {
+          if (
+            error.status === HttpResponseStatus.BAD_REQUEST &&
+            error.error?.errors[0]?.type === OCC_CONSENT_WITHDRAWN_ERROR
+          ) {
+            this.userConsentService.loadConsent(userId, consentTemplateId);
+          }
+          return of(
+            new UserActions.WithdrawUserConsentFail(normalizeHttpError(error))
+          );
+        })
       )
     )
   );
 
   constructor(
     private actions$: Actions,
-    private userConsentConnector: UserConsentConnector
+    private userConsentConnector: UserConsentConnector,
+    private userConsentService: UserConsentService
   ) {}
 }

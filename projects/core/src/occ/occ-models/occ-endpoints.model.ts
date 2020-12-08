@@ -236,6 +236,12 @@ export interface OccEndpoints {
    */
   consentTemplates?: string | OccEndpoint;
   /**
+   * Endpoint for consent template
+   *
+   * @member {string}
+   */
+  consentTemplate?: string | OccEndpoint;
+  /**
    * Endpoint for a user's consents
    *
    * @member {string}

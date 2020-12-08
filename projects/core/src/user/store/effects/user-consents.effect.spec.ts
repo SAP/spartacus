@@ -155,6 +155,7 @@ describe('User Consents effect', () => {
       const action = new UserActions.WithdrawUserConsent({
         userId: 'xxx@xxx.xxx',
         consentCode: 'xxx',
+        consentTemplateId: 'yyy',
       });
       const completion = new UserActions.WithdrawUserConsentSuccess();
 

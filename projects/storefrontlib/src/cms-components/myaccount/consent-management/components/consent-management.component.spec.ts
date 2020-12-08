@@ -410,7 +410,8 @@ describe('ConsentManagementComponent', () => {
           });
 
           expect(userService.withdrawConsent).toHaveBeenCalledWith(
-            mockConsentTemplate.currentConsent.code
+            mockConsentTemplate.currentConsent.code,
+            mockConsentTemplate.id
           );
           expect(userService.giveConsent).not.toHaveBeenCalled();
         });
@@ -523,7 +524,8 @@ describe('ConsentManagementComponent', () => {
           component.rejectAll([mockConsentTemplate]);
 
           expect(userService.withdrawConsent).toHaveBeenCalledWith(
-            mockConsentTemplate.currentConsent.code
+            mockConsentTemplate.currentConsent.code,
+            mockConsentTemplate.id
           );
           expect(userService.withdrawConsent).toHaveBeenCalledTimes(1);
         });

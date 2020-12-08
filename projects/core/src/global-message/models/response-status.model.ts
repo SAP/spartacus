@@ -9,3 +9,5 @@ export enum HttpResponseStatus {
   GATEWAY_TIMEOUT = 504,
   INTERNAL_SERVER_ERROR = 500,
 }
+export const OCC_ALREADY_EXISTS_ERROR = 'AlreadyExistsError';
+export const OCC_CONSENT_WITHDRAWN_ERROR = 'ConsentWithdrawnError';

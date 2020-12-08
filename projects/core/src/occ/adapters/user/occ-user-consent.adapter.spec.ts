@@ -89,6 +89,52 @@ describe('OccUserConsentAdapter', () => {
     });
   });
 
+  describe('loadConsent', () => {
+    it('should retrive user consent for the given user id and template id', () => {
+      const userId = 'xxx@xxx.xxx';
+      const templateId = 'yyy';
+      const mockConsentTemplate: Occ.ConsentTemplate = {
+        id: 'xxx',
+        name: 'yyy',
+      };
+
+      occUserConsentAdapter
+        .loadConsent(userId, templateId)
+        .subscribe((result) => {
+          expect(result).toEqual(mockConsentTemplate);
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return req.method === 'GET';
+      });
+
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        'consentTemplate',
+        {
+          userId,
+          consentTemplateId: templateId,
+        }
+      );
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(mockConsentTemplate);
+    });
+
+    it('should use converter', () => {
+      const userId = 'xxx@xxx.xxx';
+      const templateId = 'yyy';
+      occUserConsentAdapter.loadConsent(userId, templateId).subscribe();
+      httpMock
+        .expectOne((req) => {
+          return req.method === 'GET';
+        })
+        .flush([]);
+      expect(converter.pipeable).toHaveBeenCalledWith(
+        CONSENT_TEMPLATE_NORMALIZER
+      );
+    });
+  });
+
   describe('giveConsent', () => {
     it('should give the user consent', () => {
       const consentTemplateId = 'xxx';
