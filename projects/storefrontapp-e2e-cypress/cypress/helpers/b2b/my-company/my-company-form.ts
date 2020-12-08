@@ -250,6 +250,7 @@ function verifyDetails(config: MyCompanyConfig, formType: FormType) {
       ignoreCaseSensivity(hRow[valueKey])
     );
   });
+
   config.rows.forEach((rowConfig) => {
     if (rowConfig.showInDetails) {
       const label = rowConfig.detailsLabel || rowConfig.label;
