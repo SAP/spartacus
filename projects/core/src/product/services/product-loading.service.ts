@@ -2,17 +2,8 @@ import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
+import { defer, merge, Observable, of, SchedulerLike, using } from 'rxjs';
 import {
-  combineLatest,
-  defer,
-  merge,
-  Observable,
-  of,
-  SchedulerLike,
-  using,
-} from 'rxjs';
-import {
-  auditTime,
   debounceTime,
   delay,
   distinctUntilChanged,
@@ -26,10 +17,11 @@ import {
 import { deepMerge } from '../../config/utils/deep-merge';
 import { Product } from '../../model/product.model';
 import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
-import { withdrawOn } from '../../util/withdraw-on';
+import { withdrawOn } from '../../util/rxjs/withdraw-on';
 import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
 import { ProductSelectors } from '../store/selectors/index';
+import { uniteLatest } from '../../util/rxjs/unite-latest';
 
 @Injectable({
   providedIn: 'root',
@@ -68,10 +60,9 @@ export class ProductLoadingService {
     }
 
     if (scopes.length > 1) {
-      this.products[productCode][this.getScopesIndex(scopes)] = combineLatest(
+      this.products[productCode][this.getScopesIndex(scopes)] = uniteLatest(
         scopes.map((scope) => this.products[productCode][scope])
       ).pipe(
-        auditTime(0),
         map((productParts) =>
           productParts.every(Boolean)
             ? deepMerge({}, ...productParts)

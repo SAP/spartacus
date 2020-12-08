@@ -45,6 +45,9 @@ export const unit = {
       title: 'Create child unit',
       subtitle: '',
     },
+    messages: {
+      create: 'Unit {{ item.name }} created successfully',
+    },
   },
 
   costCenters: {
@@ -171,18 +174,23 @@ export const unitAddress = {
 
   details: {
     title: 'Address details',
-    subtitle: 'Unit: {{item.name}} (TODO)',
+    subtitle: 'Unit: {{item.name}}',
   },
   edit: {
     title: 'Edit Address',
-    subtitle: 'Unit: {{ item.name }} (TODO)',
   },
   create: {
     title: 'Create Address',
-    subtitle: 'Unit: {{ item.name }} (TODO)',
+  },
+  form: {
+    subtitle: 'Unit: {{item.name}}',
   },
   messages: {
     update:
       'Address {{ item.firstName }} {{ item.lastName }} updated successfully',
+    delete:
+      'Are you sure you want to delete address {{ item.firstName }} {{ item.lastName }}?',
+    deleted:
+      'Address {{ item.firstName }} {{ item.lastName }} deleted successfully',
   },
 };

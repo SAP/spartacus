@@ -8,7 +8,7 @@ import {
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  B2BUserGroup,
+  B2BUserRole,
   I18nTestingModule,
   Title,
   UserService,
@@ -17,13 +17,10 @@ import {
   B2BUserService,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
-import {
-  DateTimePickerModule,
-  FormErrorsComponent,
-} from '@spartacus/storefront';
+import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Observable, of } from 'rxjs';
-import { OrganizationFormTestingModule } from '../../shared/organization-form/organization-form.testing.module';
+import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { UserItemService } from '../services/user-item.service';
 import { UserFormComponent } from './user-form.component';
 
@@ -52,10 +49,10 @@ class MockUserService {
 class MockB2BUserService implements Partial<B2BUserService> {
   getAllRoles() {
     return [
-      B2BUserGroup.B2B_CUSTOMER_GROUP,
-      B2BUserGroup.B2B_MANAGER_GROUP,
-      B2BUserGroup.B2B_APPROVER_GROUP,
-      B2BUserGroup.B2B_ADMIN_GROUP,
+      B2BUserRole.CUSTOMER,
+      B2BUserRole.MANAGER,
+      B2BUserRole.APPROVER,
+      B2BUserRole.ADMIN,
     ];
   }
 }
@@ -67,7 +64,7 @@ class MockOrgUnitService {
   loadList() {}
 }
 
-class MockOrganizationItemService {
+class MockItemService {
   getForm() {}
 }
 
@@ -83,13 +80,12 @@ describe('UserFormComponent', () => {
         UrlTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
-        DateTimePickerModule,
-        OrganizationFormTestingModule,
+        FormTestingModule,
       ],
       declarations: [UserFormComponent, FormErrorsComponent],
       providers: [
         { provide: OrgUnitService, useClass: MockOrgUnitService },
-        { provide: UserItemService, useClass: MockOrganizationItemService },
+        { provide: UserItemService, useClass: MockItemService },
         { provide: UserService, useClass: MockUserService },
         { provide: B2BUserService, useClass: MockB2BUserService },
       ],

@@ -720,4 +720,23 @@ describe('OrgUnit Actions', () => {
       });
     });
   });
+
+  describe('ClearAssignedUsers Actions', () => {
+    it('should execute ClearAssignedUsers action', () => {
+      const action = new OrgUnitActions.ClearAssignedUsers({
+        orgUnitId,
+        roleId,
+        params,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.CLEAR_ASSIGNED_USERS,
+        payload: { orgUnitId, roleId, params },
+        meta: StateUtils.entityRemoveMeta(
+          ORG_UNIT_ASSIGNED_USERS,
+          StateUtils.serializeSearchConfig(params, `${orgUnitId},${roleId}`)
+        ),
+      });
+    });
+  });
 });

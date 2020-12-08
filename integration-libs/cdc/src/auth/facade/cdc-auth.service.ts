@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import {
   AsmAuthStorageService,
   AuthActions,
+  AuthRedirectService,
   AuthStorageService,
   AuthToken,
   GlobalMessageService,
@@ -15,18 +16,19 @@ import {
 import { CdcAuthActions } from '../store/actions';
 
 /**
- * Overrides AuthService to hook CDC modifications and custom OAuth flow used by CDC extension.
+ * Service to support custom CDC OAuth flow.
  */
 @Injectable({
   providedIn: 'root',
 })
 export class CdcAuthService {
   constructor(
-    protected winRef: WindowRef,
     protected store: Store,
+    protected winRef: WindowRef,
     protected authStorageService: AuthStorageService,
     protected userIdService: UserIdService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected authRedirectService: AuthRedirectService,
   ) {}
 
   /**
@@ -38,7 +40,7 @@ export class CdcAuthService {
    * @param idToken
    * @param baseSite
    */
-  public loginWithCustomCdcFlow(
+  loginWithCustomCdcFlow(
     UID: string,
     UIDSignature: string,
     signatureTimestamp: string,
@@ -61,9 +63,7 @@ export class CdcAuthService {
    *
    * @param token
    */
-  public loginWithToken(
-    token: Partial<AuthToken> & { expires_in?: number }
-  ): void {
+  loginWithToken(token: Partial<AuthToken> & { expires_in?: number }): void {
     let tokenTarget: TokenTarget;
     let currentToken: AuthToken;
     if ('getTokenTarget' in this.authStorageService) {
@@ -116,12 +116,16 @@ export class CdcAuthService {
     this.userIdService.setUserId(OCC_USER_ID_CURRENT);
 
     this.store.dispatch(new AuthActions.Login());
+
+    // Remove any global errors and redirect user on successful login
+    this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+    this.authRedirectService.redirect();
   }
 
   /**
    * Logout user from CDC
    */
-  public logoutFromCdc(): void {
+  logoutFromCdc(): void {
     this.winRef.nativeWindow?.['gigya']?.accounts?.logout();
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { BaseSite } from '../../model/misc.model';
 import { getContextParameterDefault } from '../config/context-config-utils';
@@ -62,8 +62,8 @@ export class BaseSiteService implements SiteContext<BaseSite> {
     );
   }
 
-  setActive(baseSite: string): Subscription {
-    return this.store
+  setActive(baseSite: string): void {
+    this.store
       .pipe(select(SiteContextSelectors.getActiveBaseSite), take(1))
       .subscribe((activeBaseSite) => {
         if (baseSite && activeBaseSite !== baseSite) {

@@ -4,7 +4,7 @@ import {
 } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
-import { UTF_8 } from '../shared/constants';
+import { NGUNIVERSAL_EXPRESS_ENGINE, UTF_8 } from '../shared/constants';
 import { getPathResultsForFile } from '../shared/utils/file-utils';
 
 const collectionPath = path.join(__dirname, '../collection.json');
@@ -103,9 +103,7 @@ describe('Spartacus Schematics: ng-add', () => {
 
     if (packageJsonBuffer) {
       const packageJSON = JSON.parse(packageJsonBuffer.toString(UTF_8));
-      expect(
-        packageJSON.dependencies['@nguniversal/express-engine']
-      ).toBeTruthy();
+      expect(packageJSON.dependencies[NGUNIVERSAL_EXPRESS_ENGINE]).toBeTruthy();
       expect(packageJSON.dependencies['@angular/platform-server']).toBeTruthy();
     }
 

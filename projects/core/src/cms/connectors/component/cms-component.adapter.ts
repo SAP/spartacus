@@ -20,9 +20,4 @@ export abstract class CmsComponentAdapter {
     ids: string[],
     pageContext: PageContext
   ): Observable<CmsComponent[]>;
-
-  abstract findComponentsByIdsLegacy(
-    ids: string[],
-    pageContext: PageContext
-  ): Observable<CmsComponent[]>;
 }

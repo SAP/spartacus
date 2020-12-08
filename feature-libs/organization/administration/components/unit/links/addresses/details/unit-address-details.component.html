@@ -1,14 +1,19 @@
 <ng-container *ngIf="unit$ | async as unit">
-  <cx-organization-card
+  <cx-org-card
     *ngIf="model$ | async as model"
     i18nRoot="unitAddress.details"
+    [subtitle]="'unitAddress.details.subtitle' | cxTranslate: { item: unit }"
   >
-    <button class="button" actions (click)="deleteAddress(unit.uid, model.id)">
-      {{ 'organization.delete' | cxTranslate }}
-    </button>
     <a class="link" actions routerLink="edit">
       {{ 'organization.edit' | cxTranslate }}
     </a>
+
+    <cx-org-delete-item
+      actions
+      key="id"
+      [additionalParam]="unit.uid"
+      i18nRoot="unitAddress"
+    ></cx-org-delete-item>
 
     <section main class="details">
       <div class="property">
@@ -46,5 +51,5 @@
         </span>
       </div>
     </section>
-  </cx-organization-card>
+  </cx-org-card>
 </ng-container>

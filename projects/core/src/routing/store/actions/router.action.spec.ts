@@ -1,4 +1,5 @@
 import { RoutingActions } from './index';
+import { PageType } from '@spartacus/core';
 
 describe('Router Actions', () => {
   describe('Route Go Action', () => {
@@ -39,6 +40,17 @@ describe('Router Actions', () => {
       const action = new RoutingActions.RouteForwardAction();
       expect({ ...action }).toEqual({
         type: RoutingActions.ROUTER_FORWARD,
+      });
+    });
+  });
+
+  describe('Change Next PageContext Action', () => {
+    it('should create an action', () => {
+      const context = { id: 'a', type: PageType.CONTENT_PAGE };
+      const action = new RoutingActions.ChangeNextPageContext(context);
+      expect({ ...action }).toEqual({
+        type: RoutingActions.CHANGE_NEXT_PAGE_CONTEXT,
+        payload: context,
       });
     });
   });

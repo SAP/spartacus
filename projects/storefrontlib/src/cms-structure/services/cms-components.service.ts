@@ -1,5 +1,11 @@
 import { isPlatformServer } from '@angular/common';
-import { Inject, Injectable, Injector, PLATFORM_ID } from '@angular/core';
+import {
+  Inject,
+  Injectable,
+  isDevMode,
+  NgModuleRef,
+  PLATFORM_ID,
+} from '@angular/core';
 import { Route } from '@angular/router';
 import {
   CmsComponentChildRoutesConfig,
@@ -12,6 +18,9 @@ import { defer, forkJoin, Observable, of } from 'rxjs';
 import { mapTo, share, tap } from 'rxjs/operators';
 import { FeatureModulesService } from './feature-modules.service';
 
+/**
+ * Service with logic related to resolving component from cms mapping
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -25,10 +34,6 @@ export class CmsComponentsService {
     Observable<CmsComponentMapping>
   > = new Map();
 
-  /**
-   * @deprecated since 2.1
-   * constructor(config: CmsConfig, platformId: Object);
-   */
   constructor(
     protected config: CmsConfig,
     @Inject(PLATFORM_ID) protected platformId: Object,
@@ -100,11 +105,16 @@ export class CmsComponentsService {
     return this.mappingResolvers.get(componentType);
   }
 
-  getInjectors(componentType: string): Injector[] {
+  /**
+   * Returns the feature module for a cms component.
+   * It will only work for cms components provided by feature modules.
+   *
+   * @param componentType
+   */
+  getModule(componentType: string): NgModuleRef<any> | undefined {
     return (
-      (this.featureModules.hasFeatureFor(componentType) &&
-        this.featureModules.getInjectors(componentType)) ??
-      []
+      this.featureModules.hasFeatureFor(componentType) &&
+      this.featureModules.getModule(componentType)
     );
   }
 
@@ -123,7 +133,7 @@ export class CmsComponentsService {
       this.mappings[componentType] ??
       this.config.cmsComponents?.[componentType];
 
-    if (!componentConfig) {
+    if (isDevMode() && !componentConfig) {
       if (!this.missingComponents.includes(componentType)) {
         this.missingComponents.push(componentType);
         console.warn(

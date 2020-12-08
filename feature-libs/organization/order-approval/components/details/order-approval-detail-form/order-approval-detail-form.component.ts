@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { combineLatest, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import {
   OrderApproval,
   OrderApprovalDecisionValue,
 } from '../../../core/model/order-approval.model';
 import { OrderApprovalService } from '../../../core/services/order-approval.service';
-import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
 import { OrderApprovalDetailService } from '../order-approval-detail.service';
 
 @Component({
@@ -77,10 +77,10 @@ export class OrderApprovalDetailFormComponent implements OnDestroy {
         decision: this.approvalDecision,
         comment: this.approvalForm.controls.comment.value,
       });
+      this.approvalFormVisible = false;
     } else {
       this.approvalForm.markAllAsTouched();
     }
-    this.approvalFormVisible = false;
   }
 
   ngOnDestroy(): void {

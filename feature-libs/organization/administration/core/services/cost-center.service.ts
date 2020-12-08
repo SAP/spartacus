@@ -18,6 +18,7 @@ import {
   getAssignedBudgets,
   getCostCenter,
   getCostCenterList,
+  getCostCenterState,
   getCostCenterValue,
 } from '../store/selectors/cost-center.selector';
 import { getItemStatus } from '../utils/get-item-status';
@@ -30,18 +31,22 @@ export class CostCenterService {
   ) {}
 
   load(costCenterCode: string): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
+        ),
+      () => {}
     );
   }
 
   loadList(params?: SearchConfig): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new CostCenterActions.LoadCostCenters({ userId, params })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new CostCenterActions.LoadCostCenters({ userId, params })
+        ),
+      () => {}
     );
   }
 
@@ -102,23 +107,33 @@ export class CostCenterService {
     );
   }
 
+  private getCostCenterState(
+    costCenterCode: string
+  ): Observable<StateUtils.LoaderState<Budget>> {
+    return this.store.select(getCostCenterState(costCenterCode));
+  }
+
   create(costCenter: CostCenter): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new CostCenterActions.CreateCostCenter({ userId, costCenter })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new CostCenterActions.CreateCostCenter({ userId, costCenter })
+        ),
+      () => {}
     );
   }
 
   update(costCenterCode: string, costCenter: CostCenter): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new CostCenterActions.UpdateCostCenter({
-          userId,
-          costCenterCode,
-          costCenter,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new CostCenterActions.UpdateCostCenter({
+            userId,
+            costCenterCode,
+            costCenter,
+          })
+        ),
+      () => {}
     );
   }
 
@@ -129,14 +144,16 @@ export class CostCenterService {
   }
 
   loadBudgets(costCenterCode: string, params: SearchConfig): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new CostCenterActions.LoadAssignedBudgets({
-          userId,
-          costCenterCode,
-          params,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new CostCenterActions.LoadAssignedBudgets({
+            userId,
+            costCenterCode,
+            params,
+          })
+        ),
+      () => {}
     );
   }
 
@@ -160,26 +177,36 @@ export class CostCenterService {
   }
 
   assignBudget(costCenterCode: string, budgetCode: string): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new CostCenterActions.AssignBudget({
-          userId,
-          costCenterCode,
-          budgetCode,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new CostCenterActions.AssignBudget({
+            userId,
+            costCenterCode,
+            budgetCode,
+          })
+        ),
+      () => {}
     );
   }
 
   unassignBudget(costCenterCode: string, budgetCode: string): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new CostCenterActions.UnassignBudget({
-          userId,
-          costCenterCode,
-          budgetCode,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new CostCenterActions.UnassignBudget({
+            userId,
+            costCenterCode,
+            budgetCode,
+          })
+        ),
+      () => {}
+    );
+  }
+
+  getErrorState(costCenterCode): Observable<boolean> {
+    return this.getCostCenterState(costCenterCode).pipe(
+      map((state) => state.error)
     );
   }
 }

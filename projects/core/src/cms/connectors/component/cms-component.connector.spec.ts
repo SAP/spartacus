@@ -16,10 +16,6 @@ class MockCmsComponentAdapter implements CmsComponentAdapter {
   findComponentsByIds = createSpy(
     'CmsComponentAdapter.findComponentsByIds'
   ).and.callFake((idList) => of(idList.map((id) => 'component' + id)));
-
-  findComponentsByIdsLegacy = createSpy(
-    'CmsComponentAdapter.findComponentsByIdsLegacy'
-  ).and.callFake((idList) => of(idList.map((id) => 'component' + id)));
 }
 
 const ids = ['comp_uid1', 'comp_uid2'];
@@ -40,7 +36,6 @@ const MockOccModuleConfig: OccConfig = {
     occ: {
       baseUrl: '',
       prefix: '',
-      legacy: false,
     },
   },
 };
@@ -109,23 +104,6 @@ describe('CmsComponentConnector', () => {
 
     it('should be created', () => {
       serviceToBeTruthy();
-    });
-
-    describe('getList using POST request', () => {
-      it('should call adapter', () => {
-        subscribeGetList();
-        expect(adapter.findComponentsByIdsLegacy).toHaveBeenCalledWith(
-          ids,
-          context
-        );
-      });
-      it('should use CmsStructureConfigService', () => {
-        subscribeGetList();
-        cmsStructureConfigService();
-      });
-      it('should merge config data with components', () => {
-        mergeConflictData();
-      });
     });
   });
 

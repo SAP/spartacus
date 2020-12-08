@@ -11,18 +11,24 @@ import {
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
-import { OrganizationItemService } from '../../shared/organization-item.service';
+import { CurrentItemService } from '../../shared/current-item.service';
+import { ItemService } from '../../shared/item.service';
+import { CurrentUnitService } from '../services/current-unit.service';
 import { UnitItemService } from '../services/unit-item.service';
 
 @Component({
-  selector: 'cx-unit-form',
+  selector: 'cx-org-unit-form',
   templateUrl: './unit-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },
   providers: [
     {
-      provide: OrganizationItemService,
+      provide: ItemService,
       useExisting: UnitItemService,
+    },
+    {
+      provide: CurrentItemService,
+      useExisting: CurrentUnitService,
     },
   ],
 })
@@ -59,7 +65,7 @@ export class UnitFormComponent implements OnInit {
     .pipe(filter((items) => items?.length > 0));
 
   constructor(
-    protected itemService: OrganizationItemService<B2BUnit>,
+    protected itemService: ItemService<B2BUnit>,
     protected unitService: OrgUnitService
   ) {}
 

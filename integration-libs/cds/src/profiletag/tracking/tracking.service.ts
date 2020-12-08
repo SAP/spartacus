@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { merge } from 'rxjs';
-import { skipUntil, tap } from 'rxjs/operators';
+import { filter, tap, withLatestFrom } from 'rxjs/operators';
 import { ProfileTagEventService } from '..';
-import { ProfileTagPushEvent } from '../model/profile-tag.model';
 import { ProfileTagLifecycleService } from '../services/profile-tag-lifecycle.service';
 import { ProfileTagPushEventsService } from '../services/profile-tag-push-events.service';
 
@@ -22,14 +20,22 @@ export class TrackingService {
     return factoryFunction;
   }
   trackEvents(): void {
-    merge(
-      this.profileTagPushEventsService.getPushEvents(),
-      this.profileTagLifecycleService.consentGranted()
-    )
+    this.profileTagPushEventsService
+      .getPushEvents()
       .pipe(
-        skipUntil(this.profileTagLifecycleService.consentGranted()),
-        tap((item: ProfileTagPushEvent) => {
-          this.profileTagEventTracker.notifyProfileTagOfEventOccurence(item);
+        withLatestFrom(
+          this.profileTagLifecycleService.consentChanged().pipe(
+            tap((event) => {
+              // always notify of consent changes
+              this.profileTagEventTracker.notifyProfileTagOfEventOccurence(
+                event
+              );
+            })
+          )
+        ),
+        filter(([_event, consentChanged]) => consentChanged.data.granted), //don't notify other events until consent is granted
+        tap(([event]) => {
+          this.profileTagEventTracker.notifyProfileTagOfEventOccurence(event);
         })
       )
       .subscribe();

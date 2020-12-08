@@ -81,8 +81,13 @@ export const organization = {
 
     notification: {
       noSufficientPermissions: 'No sufficient permissions to access this page',
-      notExist: 'This {{item}} does not exist',
-      disabled: 'You cannot edit a disabled {{item}}',
+      notExist: 'This item does not exist',
+      disabled: 'You cannot edit a disabled item',
+    },
+
+    confirmation: {
+      cancel: 'CANCEL',
+      confirm: 'CONFIRM',
     },
   },
 

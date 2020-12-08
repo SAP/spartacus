@@ -1,13 +1,9 @@
 import { NgModule } from '@angular/core';
-import { OrganizationFormModule } from './organization-form/organization-form.module';
-import { OrganizationListModule } from './organization-list/organization-list.module';
-import { OrganizationSubListModule } from './organization-sub-list/organization-sub-list.module';
+import { FormModule } from './form/form.module';
+import { ListModule } from './list/list.module';
+import { SubListModule } from './sub-list/sub-list.module';
 
 @NgModule({
-  imports: [
-    OrganizationListModule,
-    OrganizationSubListModule,
-    OrganizationFormModule,
-  ],
+  imports: [ListModule, SubListModule, FormModule],
 })
 export class SharedOrganizationModule {}

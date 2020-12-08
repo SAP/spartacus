@@ -7,13 +7,13 @@ import {
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
-import { OrganizationItemService } from '../../../../shared/organization-item.service';
+import { ItemService } from '../../../../shared/item.service';
 import { CurrentUnitUserService } from '../services/current-unit-user.service';
 import { UnitUserRolesFormService } from './unit-user-roles-form.service';
 @Injectable({
   providedIn: 'root',
 })
-export class UnitUserRolesItemService extends OrganizationItemService<B2BUser> {
+export class UnitUserRolesItemService extends ItemService<B2BUser> {
   constructor(
     protected currentItemService: CurrentUnitUserService,
     protected routingService: RoutingService,

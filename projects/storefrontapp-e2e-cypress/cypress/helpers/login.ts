@@ -11,16 +11,35 @@ export const defaultUser = {
   password: 'Password123.',
 };
 
+/**
+ * Use only if you already are on the `/login` page.
+ * Redirects to `/register` page and registers the user.
+ *
+ * @returns Newly registered user
+ */
+export function registerUserFromLoginPage() {
+  const registerPage = waitForPage('/login/register', 'getRegisterPage');
+  cy.get('cx-page-layout > cx-page-slot > cx-login-register')
+    .findByText('Register')
+    .click();
+  cy.wait(`@${registerPage}`).its('status').should('eq', 200);
+
+  register(user);
+  return user;
+}
+
+/**
+ * Use only if you are outside of `/login` page.
+ * Redirects to `/login` page, then uses `registerUserFromLoginPage()` helper function.
+ *
+ * @returns Newly registered user
+ */
 export function registerUser() {
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.get(loginLinkSelector).click();
   cy.wait(`@${loginPage}`).its('status').should('eq', 200);
 
-  cy.get('cx-page-layout > cx-page-slot > cx-login-register')
-    .findByText('Register')
-    .click();
-  register(user);
-  return user;
+  return registerUserFromLoginPage();
 }
 
 export function signOutUser() {

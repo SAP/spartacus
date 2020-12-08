@@ -8,7 +8,6 @@ import {
   OrganizationItemStatus,
   Permission,
   PermissionService,
-  UserGroup,
 } from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -89,7 +88,7 @@ describe('UserApproverListService', () => {
   });
 
   it('should not filter selected approvers', () => {
-    let result: EntitiesModel<UserGroup>;
+    let result: EntitiesModel<B2BUser>;
     service.getData().subscribe((table) => (result = table));
     expect(result.values.length).toEqual(3);
     expect(result.values[0].uid).toEqual('first');

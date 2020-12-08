@@ -13,18 +13,24 @@ import {
   PermissionService,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
-import { OrganizationItemService } from '../../shared/organization-item.service';
+import { CurrentItemService } from '../../shared/current-item.service';
+import { ItemService } from '../../shared/item.service';
+import { CurrentPermissionService } from '../services/current-permission.service';
 import { PermissionItemService } from '../services/permission-item.service';
 
 @Component({
-  selector: 'cx-permission-form',
+  selector: 'cx-org-permission-form',
   templateUrl: './permission-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },
   providers: [
     {
-      provide: OrganizationItemService,
+      provide: ItemService,
       useExisting: PermissionItemService,
+    },
+    {
+      provide: CurrentItemService,
+      useExisting: CurrentPermissionService,
     },
   ],
 })
@@ -39,7 +45,7 @@ export class PermissionFormComponent implements OnInit {
   periods = Object.keys(Period);
 
   constructor(
-    protected itemService: OrganizationItemService<Permission>,
+    protected itemService: ItemService<Permission>,
     protected unitService: OrgUnitService,
     protected currencyService: CurrencyService,
     protected permissionService: PermissionService
