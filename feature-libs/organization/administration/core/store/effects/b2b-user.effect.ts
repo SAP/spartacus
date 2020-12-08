@@ -99,19 +99,13 @@ export class B2BUserEffects {
           );
         }),
         catchError((error: HttpErrorResponse) =>
-          this.routingService.getRouterState().pipe(
-            take(1),
-            tap((route) => this.redirectToList(route, orgCustomer.orgUnit)),
-            switchMap(() =>
-              from([
-                new B2BUserActions.CreateB2BUserFail({
-                  orgCustomerId: orgCustomer.customerId,
-                  error: normalizeHttpError(error),
-                }),
-                new OrganizationActions.OrganizationClearData(),
-              ])
-            )
-          )
+          from([
+            new B2BUserActions.CreateB2BUserFail({
+              orgCustomerId: orgCustomer.customerId,
+              error: normalizeHttpError(error),
+            }),
+            new OrganizationActions.OrganizationClearData(),
+          ])
         )
       )
     )
@@ -605,27 +599,10 @@ export class B2BUserEffects {
     private userIdService: UserIdService
   ) {}
 
-  protected isNotInUnitPage(route) {
-    return (route as any)?.state?.context?.id !== '/organization/units';
-  }
-
   protected redirectToDetails(route, data) {
-    if (this.isNotInUnitPage(route)) {
+    if ((route as any)?.state?.context?.id !== '/organization/units') {
       this.routingService.go({
         cxRoute: 'userDetails',
-        params: data,
-      });
-    }
-  }
-
-  protected redirectToList(route, data) {
-    if (this.isNotInUnitPage(route)) {
-      this.routingService.go({
-        cxRoute: 'user',
-      });
-    } else {
-      this.routingService.go({
-        cxRoute: 'unitUserList',
         params: data,
       });
     }
