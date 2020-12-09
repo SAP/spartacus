@@ -149,8 +149,11 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       this.subscriptions.add(
         this.paymentTypeService
           .isAccountPayment()
-          .pipe(tap((isAccount) => (this.isAccountPayment = isAccount)))
-          .subscribe()
+          .pipe(distinctUntilChanged())
+          .subscribe((isAccount) => {
+            console.log('IN THE SUBSCRIBE');
+            this.isAccountPayment = isAccount;
+          })
       );
     }
 
