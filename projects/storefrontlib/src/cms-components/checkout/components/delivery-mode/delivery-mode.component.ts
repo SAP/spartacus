@@ -8,7 +8,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CheckoutDeliveryService, DeliveryMode } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { filter, map, take, takeWhile, withLatestFrom } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  takeWhile,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
@@ -43,8 +49,12 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
     this.supportedDeliveryModes$ = this.checkoutDeliveryService
       .getSupportedDeliveryModes()
       .pipe(
-        filter((deliveryModes) => !!deliveryModes?.length),
-        take(1)
+        filter((deliveryModes: DeliveryMode[]) => !!deliveryModes?.length),
+        distinctUntilChanged(
+          (current: DeliveryMode[], previous: DeliveryMode[]) => {
+            return JSON.stringify(current) === JSON.stringify(previous);
+          }
+        )
       );
 
     // Reload delivery modes on error
