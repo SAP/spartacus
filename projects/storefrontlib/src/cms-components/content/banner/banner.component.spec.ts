@@ -2,11 +2,35 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CmsBannerComponent, CmsComponent } from '@spartacus/core';
-import { of } from 'rxjs';
+import { CmsBannerComponent } from '@spartacus/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
 import { BannerComponent } from './banner.component';
+
+const mockBannerData: CmsBannerComponent = {
+  uid: 'SiteLogoComponent',
+  typeCode: 'SimpleBannerComponent',
+  name: 'Site Logo Component',
+  container: 'false',
+  external: 'false',
+  media: {
+    code: '/images/theme/logo_hybris.jpg',
+    mime: 'image/svg+xml',
+    altText: 'hybris Accelerator',
+    url: '/medias/logo-hybris.jpg',
+  },
+  urlLink: '/logo',
+};
+
+const data$: BehaviorSubject<CmsBannerComponent> = new BehaviorSubject(
+  mockBannerData
+);
+class MockCmsComponentData {
+  get data$(): Observable<CmsBannerComponent> {
+    return data$.asObservable();
+  }
+}
 
 @Component({
   selector: 'cx-media',
@@ -21,26 +45,6 @@ describe('BannerComponent', () => {
   let fixture: ComponentFixture<BannerComponent>;
   let el: DebugElement;
 
-  const componentData: CmsBannerComponent = {
-    uid: 'SiteLogoComponent',
-    typeCode: 'SimpleBannerComponent',
-    name: 'Site Logo Component',
-    container: 'false',
-    external: 'false',
-    media: {
-      code: '/images/theme/logo_hybris.jpg',
-      mime: 'image/svg+xml',
-      altText: 'hybris Accelerator',
-      url: '/medias/logo-hybris.jpg',
-    },
-    urlLink: '/logo',
-  };
-
-  const MockCmsComponentData = <CmsComponentData<CmsComponent>>{
-    data$: of(componentData),
-    uid: 'test',
-  };
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
@@ -48,16 +52,15 @@ describe('BannerComponent', () => {
       providers: [
         {
           provide: CmsComponentData,
-          useValue: MockCmsComponentData,
+          useClass: MockCmsComponentData,
         },
       ],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(BannerComponent);
     bannerComponent = fixture.componentInstance;
     el = fixture.debugElement;
+    fixture.detectChanges();
   });
 
   it('should create banner component in CmsLib', () => {
@@ -94,6 +97,21 @@ describe('BannerComponent', () => {
           '_blank'
         );
       });
+    });
+  });
+
+  describe('styling', () => {
+    it('should have style classes', () => {
+      data$.next({ styleClasses: 'cls-1 cls-2' });
+      fixture.detectChanges();
+
+      expect(bannerComponent.styleClasses).toContain('cls-1');
+      expect(bannerComponent.styleClasses).toContain('cls-2');
+      expect((el.nativeElement as HTMLElement).classList).toContain('cls-1');
+      expect((el.nativeElement as HTMLElement).classList).toContain('cls-2');
+
+      // roll back for other tests
+      data$.next(mockBannerData);
     });
   });
 });
