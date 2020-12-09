@@ -161,4 +161,9 @@ export interface MyCompanyConfig {
    * Set to true to check status in details pane.
    */
   verifyStatusInDetails?: boolean;
+
+  /**
+   * Define request required to be complete before create/update form filling.
+   */
+  selectOptionsEndpoint?: string;
 }
