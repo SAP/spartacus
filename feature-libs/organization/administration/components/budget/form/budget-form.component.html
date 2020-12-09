@@ -29,7 +29,9 @@
     </label>
 
     <label>
-      <span class="label-content">{{ 'orgBudget.startDate' | cxTranslate }}</span>
+      <span class="label-content">{{
+        'orgBudget.startDate' | cxTranslate
+      }}</span>
       <cx-date-picker
         [control]="form.get('startDate')"
         [max]="form.get('endDate')"

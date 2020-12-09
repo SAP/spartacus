@@ -59,7 +59,9 @@
         *ngIf="model.customerId"
         class="link"
         [class.disabled]="!model.active"
-        [routerLink]="{ cxRoute: 'orgUserChangePassword', params: model } | cxUrl"
+        [routerLink]="
+          { cxRoute: 'orgUserChangePassword', params: model } | cxUrl
+        "
       >
         {{ 'orgUser.links.password' | cxTranslate }}
       </a>
