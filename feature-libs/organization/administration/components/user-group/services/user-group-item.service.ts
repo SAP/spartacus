@@ -55,7 +55,7 @@ export class UserGroupItemService extends ItemService<UserGroup> {
 
   protected launchList() {
     this.routingService.go({
-      cxRoute: 'userGroup',
+      cxRoute: 'orgUserGroup',
     });
   }
 }
