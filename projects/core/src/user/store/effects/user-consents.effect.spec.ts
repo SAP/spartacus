@@ -1,8 +1,8 @@
+import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { normalizeHttpError } from 'projects/core/src/util';
 import { Observable, of, throwError } from 'rxjs';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { GlobalMessageActions } from '../../../global-message/store/actions';
@@ -160,10 +160,13 @@ describe('User Consents effect', () => {
     });
 
     it('should close error message on 409 with AlreadyExistsError and should reload consent', () => {
-      const mockError = {
-        status: 409,
+      const mockError = new HttpErrorResponse({
         error: { errors: [{ type: 'AlreadyExistsError' }] },
-      };
+        headers: new HttpHeaders().set('xxx', 'xxx'),
+        status: 409,
+        statusText: 'Mock error',
+        url: '/xxx',
+      });
       spyOn(userConsentAdapter, 'giveConsent').and.returnValue(
         throwError(mockError)
       );
@@ -175,7 +178,7 @@ describe('User Consents effect', () => {
         consentTemplateVersion,
       });
       const completion = new UserActions.GiveUserConsentFail(
-        makeErrorSerializable(mockError)
+        normalizeHttpError(mockError)
       );
       const closeMessage = new GlobalMessageActions.RemoveMessagesByType(
         GlobalMessageType.MSG_TYPE_ERROR
@@ -240,10 +243,13 @@ describe('User Consents effect', () => {
       expect(userConsentEffect.withdrawConsent$).toBeObservable(expected);
     });
     it('should reload consent on 400 and ConsentWithdrawnError', () => {
-      const mockError = {
-        status: 400,
+      const mockError = new HttpErrorResponse({
         error: { errors: [{ type: 'ConsentWithdrawnError' }] },
-      };
+        headers: new HttpHeaders().set('xxx', 'xxx'),
+        status: 400,
+        statusText: 'Mock error',
+        url: '/xxx',
+      });
       spyOn(userConsentAdapter, 'withdrawConsent').and.returnValue(
         throwError(mockError)
       );
