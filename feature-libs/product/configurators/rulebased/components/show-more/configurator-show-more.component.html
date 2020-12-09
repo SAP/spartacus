@@ -3,9 +3,11 @@
     <span> {{ textToShow }}</span>
     <span class="cx-show-more-button" *ngIf="showMore$ | async">
       <button (click)="toggleShowMore()">
-        <span *ngIf="showHiddenText$ | async; else less">
-          &nbsp;... {{ 'configurator.button.more' | cxTranslate }}</span
+        <ng-container *ngIf="showHiddenText$ | async; else less"
+          >&nbsp;...
+          {{ 'configurator.button.more' | cxTranslate }}</ng-container
         >
+
         <ng-template #less>
           &nbsp;... {{ 'configurator.button.less' | cxTranslate }}</ng-template
         >

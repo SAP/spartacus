@@ -12,10 +12,11 @@
       margin: 0;
       outline: none;
       padding: 0;
-    }
 
-    &:hover {
-      text-decoration: underline;
+      &:hover {
+        color: var(--cx-color-primary);
+        text-decoration: underline;
+      }
     }
   }
 }

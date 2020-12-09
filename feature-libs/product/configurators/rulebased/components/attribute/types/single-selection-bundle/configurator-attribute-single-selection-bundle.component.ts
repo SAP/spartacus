@@ -46,6 +46,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent
       ownerKey: this.ownerKey,
       changedAttribute: {
         ...this.attribute,
+        quantity: this.quantity.value,
         name: this.attribute.name,
         selectedSingleValue: value,
         uiType: this.attribute.uiType,

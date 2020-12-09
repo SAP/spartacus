@@ -29,9 +29,8 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
     if (this.text.length > this.textSize) {
       this.showMore$.next(true);
       this.textToShow = this.text.substring(0, this.textSize);
+      this.cdRef.detectChanges();
     }
-
-    this.cdRef.detectChanges();
   }
 
   toggleShowMore() {

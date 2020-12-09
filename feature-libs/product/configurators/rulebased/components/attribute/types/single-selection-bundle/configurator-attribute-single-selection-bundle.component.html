@@ -66,14 +66,14 @@
       </div>
       <div class="cx-single-select-bundle-footer">
         <div class="cx-single-select-bundle-item-quantity">
-          <div *ngIf="value.selected">
+          <ng-container *ngIf="value.selected">
             <label>Qty</label>
             <cx-item-counter
               [allowZero]="true"
               [max]="100"
               [control]="quantity"
             ></cx-item-counter>
-          </div>
+          </ng-container>
           <button
             class="btn btn-action btn-sm"
             *ngIf="value.selected; else select"
