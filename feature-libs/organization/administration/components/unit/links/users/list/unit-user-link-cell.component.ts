@@ -16,7 +16,7 @@ import { CellComponent } from '../../../../shared/table/cell.component';
         { cxRoute: 'orgUnitUserRoles', params: getRouterModel(uid) } | cxUrl
       "
     >
-      {{ 'user.roles' | cxTranslate }}
+      {{ 'orgUser.roles' | cxTranslate }}
     </a>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

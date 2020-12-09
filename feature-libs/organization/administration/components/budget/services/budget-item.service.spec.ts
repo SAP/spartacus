@@ -108,7 +108,7 @@ describe('BudgetItemService', () => {
     spyOn(routingService, 'go').and.callThrough();
     service.launchDetails({ name: 'foo bar' });
     expect(routingService.go).toHaveBeenCalledWith({
-      cxRoute: 'budgetDetails',
+      cxRoute: 'orgBudgetDetails',
       params: { name: 'foo bar' },
     });
   });

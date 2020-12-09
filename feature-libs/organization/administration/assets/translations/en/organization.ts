@@ -1,4 +1,4 @@
-import { budget, budgetAssignedCostCenters } from './budget.i18n';
+import { orgBudget, orgBudgetAssignedCostCenters } from './budget.i18n';
 import {
   orgCostCenter,
   orgCostCenterAssignedBudgets,
@@ -95,8 +95,8 @@ export const organization = {
   orgCostCenter,
   orgCostCenterBudgets,
   orgCostCenterAssignedBudgets,
-  budget,
-  budgetAssignedCostCenters,
+  orgBudget,
+  orgBudgetAssignedCostCenters,
   orgUnit,
   orgUnitChildren,
   orgUnitApprovers,

@@ -49,6 +49,6 @@ export class BudgetItemService extends ItemService<Budget> {
    * Returns 'budgetDetails'
    */
   protected getDetailsRoute(): string {
-    return 'budgetDetails';
+    return 'orgBudgetDetails';
   }
 }
