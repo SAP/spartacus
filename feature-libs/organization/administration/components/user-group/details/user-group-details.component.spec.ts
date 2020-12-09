@@ -10,6 +10,7 @@ import { ItemService } from '../../shared/item.service';
 import { MessageService } from '../../shared/message/services/message.service';
 import { UserGroupDetailsComponent } from './user-group-details.component';
 import createSpy = jasmine.createSpy;
+import { DeleteItemModule } from '@spartacus/organization/administration/components';
 
 const mockCode = 'u1';
 
@@ -39,6 +40,7 @@ describe('UserGroupDetailsComponent', () => {
         I18nTestingModule,
         UrlTestingModule,
         CardTestingModule,
+        DeleteItemModule,
       ],
       declarations: [UserGroupDetailsComponent],
       providers: [

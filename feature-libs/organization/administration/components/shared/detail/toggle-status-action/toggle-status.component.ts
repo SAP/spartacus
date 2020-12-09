@@ -9,12 +9,13 @@ import { MessageService } from '../../message/services/message.service';
 import { BaseItem } from '../../organization.model';
 
 /**
- * Reusable component in the my-company are to toggle the disabled state for
+ * Reusable component in the my-company is to toggle the disabled state for
  * my company entities.
  */
 @Component({
   selector: 'cx-org-toggle-status',
   templateUrl: './toggle-status.component.html',
+  host: { class: 'content-wrapper' },
 })
 export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   /**
@@ -64,6 +65,7 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
         this.confirmation = this.messageService.add({
           message: {
             key: this.i18nRoot + '.messages.deactivate',
+            params: { item },
           },
           component: ConfirmationMessageComponent,
         });

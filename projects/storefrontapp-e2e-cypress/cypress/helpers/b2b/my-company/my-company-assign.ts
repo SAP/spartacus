@@ -75,6 +75,85 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
         });
       }
 
+      if (subConfig.editConfig) {
+        it('should update', () => {
+          cy.get('cx-org-sub-list cx-table')
+            .contains(subConfig.updateEntity)
+            .click();
+          cy.get('cx-org-card cx-view[position="3"] .header a')
+            .contains(ASSIGNMENT_LABELS.EDIT)
+            .click({ force: true });
+          completeForm(subConfig.editConfig.rows, FormType.UPDATE);
+          cy.get('div.header button').contains('Save').click();
+
+          cy.get('cx-org-notification').contains(
+            ASSIGNMENT_LABELS.UPDATE_SUCCESS
+          );
+          cy.get('cx-org-notification').should('not.exist');
+
+          const headerRows = subConfig.editConfig.rows?.filter(
+            (row) => row.useInHeader
+          );
+          if (headerRows.length) {
+            headerRows.forEach((hRow) => {
+              cy.get('cx-org-sub-list table tr td').contains(
+                ignoreCaseSensivity(hRow.updateValue)
+              );
+            });
+          } else {
+            const nameRow = subConfig.editConfig.rows?.find(
+              (row) => row.sortLabel === 'name'
+            );
+            cy.get('cx-org-sub-list table tr td').contains(nameRow.updateValue);
+          }
+        });
+      }
+
+      if (subConfig.deleteEntity) {
+        it('should delete', () => {
+          cy.get('cx-org-sub-list cx-table').contains(subConfig.deleteEntity);
+          cy.get(`cx-org-card cx-view[position="3"] .header button`)
+            .contains('Delete')
+            .click({ force: true });
+          checkListEmpty();
+        });
+      }
+
+      if (subConfig.rolesConfig) {
+        it('should modify user roles', () => {
+          cy.get('cx-org-sub-list cx-table tr td')
+            .contains(ASSIGNMENT_LABELS.ROLES)
+            .click();
+
+          checkRoles();
+          checkRoleUpdateNotification();
+          checkRoles(true);
+          checkRoleUpdateNotification();
+
+          function checkRoles(uncheck?: boolean) {
+            subConfig.rolesConfig.rows.forEach((row) => {
+              cy.get('cx-org-card cx-view[position="3"] label span')
+                .contains(row.updateValue)
+                .parent()
+                .within(() => {
+                  if (!uncheck) {
+                    cy.get('[type="checkbox"]').check();
+                  } else {
+                    cy.get('[type="checkbox"]').uncheck();
+                  }
+                });
+            });
+          }
+
+          function checkRoleUpdateNotification() {
+            cy.get('cx-org-notification').contains(
+              ASSIGNMENT_LABELS.ROLE_UPDATED_SUCCESS
+            );
+            cy.get('cx-org-notification').should('not.exist');
+          }
+        });
+      }
+
       if (subConfig.manageAssignments) {
         it('should assign and unassign from assigned list', () => {
           clickManage();

@@ -1,4 +1,5 @@
 import {
+  CONFIRMATION_LABELS,
   ENTITY_UID_COOKIE_KEY,
   INPUT_TYPE,
   MyCompanyConfig,
@@ -28,6 +29,7 @@ function getValueKey(formType: FormType): 'createValue' | 'updateValue' {
 export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
   describe(`${config.name} Create / Update`, () => {
     let entityUId: string;
+    let entityId: string;
 
     beforeEach(() => {
       loginAsMyCompanyAdmin();
@@ -39,6 +41,10 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
     });
 
     it(`should create`, () => {
+      if (config.selectOptionsEndpoint) {
+        cy.route(config.selectOptionsEndpoint).as('getSelectOptions');
+      }
+
       cy.get(`cx-org-list a`).contains('Add').click();
 
       cy.url().should('contain', `${config.baseUrl}/create`);
@@ -47,24 +53,80 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
         ignoreCaseSensivity(`Create ${config.name}`)
       );
 
+      if (config.selectOptionsEndpoint) {
+        cy.wait('@getSelectOptions');
+      }
       completeForm(config.rows, FormType.CREATE);
 
       cy.route('POST', `**${config.apiEndpoint}**`).as('getEntityData');
       cy.get('div.header button').contains('Save').click();
       cy.wait('@getEntityData').then((xhr) => {
         entityUId = xhr.response.body[config.entityIdField];
+        entityId =
+          entityUId ?? config.rows?.find((row) => row.useInUrl).createValue;
 
         verifyDetails(config, FormType.CREATE);
         cy.get('cx-org-card cx-icon[type="CLOSE"]').click();
       });
     });
 
-    it(`should update`, () => {
-      const entityId =
-        entityUId ?? config.rows?.find((row) => row.useInUrl).createValue;
+    if (config.canDisable) {
+      it('should disable/enable', () => {
+        cy.visit(`${config.baseUrl}/${entityId}`);
 
+        cy.get('cx-org-card div.header button').contains('Disable').click();
+        cy.get('cx-org-confirmation')
+          .should(
+            'contain.text',
+            `Are you sure you want to disable this ${config.name.toLowerCase()}?`
+          )
+          .contains(CONFIRMATION_LABELS.CANCEL)
+          .click();
+        cy.get('cx-org-confirmation').should('not.exist');
+
+        cy.get('div.header button').contains('Disable').click();
+        cy.get('cx-org-confirmation')
+          .should(
+            'contain.text',
+            `Are you sure you want to disable this ${config.name.toLowerCase()}?`
+          )
+          .contains(CONFIRMATION_LABELS.CONFIRM)
+          .click();
+        cy.get('cx-org-confirmation').should('not.exist');
+        cy.get('cx-org-notification').contains(' disabled successfully');
+        cy.get('cx-org-notification').should('not.exist');
+        cy.get('div.header button').contains('Disable').should('not.exist');
+
+        if (config.verifyStatusInDetails) {
+          cy.get('section.details label')
+            .contains('Status')
+            .parent()
+            .should('contain.text', 'Disabled');
+        }
+
+        cy.get('div.header button').contains('Enable').click();
+        cy.get('cx-org-notification').contains(' enabled successfully');
+        cy.get('cx-org-notification').should('not.exist');
+
+        cy.get('div.header button').contains('Enable').should('not.exist');
+        cy.get('div.header button').contains('Disable').should('exist');
+
+        if (config.verifyStatusInDetails) {
+          cy.get('section.details label')
+            .contains('Status')
+            .parent()
+            .should('contain.text', 'Active');
+        }
+      });
+    }
+
+    it(`should update`, () => {
       if (config.preserveCookies) {
         cy.setCookie(ENTITY_UID_COOKIE_KEY, entityUId);
+      }
+
+      if (config.selectOptionsEndpoint) {
+        cy.route(config.selectOptionsEndpoint).as('getSelectOptions');
       }
 
       cy.wait(2000);
@@ -77,6 +139,10 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
       cy.get('cx-org-form div.header h3').contains(
         ignoreCaseSensivity(`Edit ${config.name}`)
       );
+
+      if (config.selectOptionsEndpoint) {
+        cy.wait('@getSelectOptions');
+      }
 
       completeForm(config.rows, FormType.UPDATE);
       cy.get('div.header button').contains('Save').click();
@@ -151,7 +217,9 @@ export function completeForm(
         cy.get(`ng-select`).click();
       });
       cy.wait(1000); // Allow time for options to draw
-      cy.get('div.ng-option').contains(input[valueKey]).click({ force: true });
+      cy.get('ng-dropdown-panel')
+        .contains(input[valueKey])
+        .click({ force: true });
     }
   }
 

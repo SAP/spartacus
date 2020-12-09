@@ -49,6 +49,7 @@ class MockItemServiceInactive implements Partial<ItemService<any>> {
 const expectedMessage = {
   message: {
     key: 'organization.notification.disabled',
+    params: { item: { active: false } },
   },
   type: GlobalMessageType.MSG_TYPE_ERROR,
 };
