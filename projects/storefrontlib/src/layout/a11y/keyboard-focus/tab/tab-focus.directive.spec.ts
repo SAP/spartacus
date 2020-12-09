@@ -1,5 +1,5 @@
 import { Component, Directive, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { TabFocusConfig } from '../keyboard-focus.model';
 import { TabFocusDirective } from './tab-focus.directive';
@@ -31,20 +31,22 @@ class MockTabFocusService {
 describe('TabFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   let service: TabFocusService;
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [MockComponent, CustomFocusDirective],
-      providers: [
-        {
-          provide: TabFocusService,
-          useClass: MockTabFocusService,
-        },
-      ],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [MockComponent, CustomFocusDirective],
+        providers: [
+          {
+            provide: TabFocusService,
+            useClass: MockTabFocusService,
+          },
+        ],
+      }).compileComponents();
 
-    fixture = TestBed.createComponent(MockComponent);
-    service = TestBed.inject(TabFocusService);
-  }));
+      fixture = TestBed.createComponent(MockComponent);
+      service = TestBed.inject(TabFocusService);
+    })
+  );
 
   const event = {
     preventDefault: () => {},

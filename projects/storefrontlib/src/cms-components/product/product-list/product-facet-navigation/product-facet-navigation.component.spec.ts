@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { of } from 'rxjs';
@@ -47,23 +47,25 @@ describe('ProductFacetNavigationComponent', () => {
   let fixture: ComponentFixture<ProductFacetNavigationComponent>;
   let element: DebugElement;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        ProductFacetNavigationComponent,
-        MockActiveFacetsComponent,
-        MockFacetListComponent,
-        MockCxIconComponent,
-      ],
-      providers: [
-        {
-          provide: BreakpointService,
-          useClass: MockBreakpointService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [
+          ProductFacetNavigationComponent,
+          MockActiveFacetsComponent,
+          MockFacetListComponent,
+          MockCxIconComponent,
+        ],
+        providers: [
+          {
+            provide: BreakpointService,
+            useClass: MockBreakpointService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductFacetNavigationComponent);

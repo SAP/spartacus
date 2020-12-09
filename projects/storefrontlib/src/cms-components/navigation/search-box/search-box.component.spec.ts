@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -95,36 +95,38 @@ describe('SearchBoxComponent', () => {
     toggleBodyClass() {}
   }
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        BrowserAnimationsModule,
-        RouterModule.forRoot([]),
-        I18nTestingModule,
-      ],
-      declarations: [
-        SearchBoxComponent,
-        MockUrlPipe,
-        MockHighlightPipe,
-        MockCxIconComponent,
-        MockMediaComponent,
-      ],
-      providers: [
-        {
-          provide: ProductSearchService,
-          useValue: {},
-        },
-        {
-          provide: CmsComponentData,
-          useClass: MockCmsComponentData,
-        },
-        {
-          provide: SearchBoxComponentService,
-          useClass: SearchBoxComponentServiceSpy,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          BrowserAnimationsModule,
+          RouterModule.forRoot([]),
+          I18nTestingModule,
+        ],
+        declarations: [
+          SearchBoxComponent,
+          MockUrlPipe,
+          MockHighlightPipe,
+          MockCxIconComponent,
+          MockMediaComponent,
+        ],
+        providers: [
+          {
+            provide: ProductSearchService,
+            useValue: {},
+          },
+          {
+            provide: CmsComponentData,
+            useClass: MockCmsComponentData,
+          },
+          {
+            provide: SearchBoxComponentService,
+            useClass: SearchBoxComponentServiceSpy,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   describe('Default config', () => {
     beforeEach(() => {

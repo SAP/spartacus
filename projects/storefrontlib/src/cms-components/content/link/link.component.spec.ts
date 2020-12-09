@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
@@ -25,18 +25,20 @@ describe('LinkComponent', () => {
     data$: of(componentData),
   };
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, GenericLinkModule],
-      declarations: [LinkComponent],
-      providers: [
-        {
-          provide: CmsComponentData,
-          useValue: MockCmsComponentData,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule, GenericLinkModule],
+        declarations: [LinkComponent],
+        providers: [
+          {
+            provide: CmsComponentData,
+            useValue: MockCmsComponentData,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LinkComponent);

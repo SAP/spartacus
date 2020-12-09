@@ -3,7 +3,7 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { async, TestBed } from '@angular/core/testing';
+import { waitForAsync, TestBed } from '@angular/core/testing';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
 import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
 import {

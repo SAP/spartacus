@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { waitForAsync, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import {
   ReplenishmentOrder,

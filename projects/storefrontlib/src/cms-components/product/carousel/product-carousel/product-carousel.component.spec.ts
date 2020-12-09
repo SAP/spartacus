@@ -5,7 +5,7 @@ import {
   PipeTransform,
   TemplateRef,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -106,31 +106,33 @@ describe('ProductCarouselComponent', () => {
   let component: ProductCarouselComponent;
   let fixture: ComponentFixture<ProductCarouselComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [
-        ProductCarouselComponent,
-        MockCarouselComponent,
-        MockMediaComponent,
-        MockUrlPipe,
-      ],
-      providers: [
-        {
-          provide: CmsComponentData,
-          useValue: MockCmsProductCarouselComponent,
-        },
-        {
-          provide: ProductService,
-          useClass: MockProductService,
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule],
+        declarations: [
+          ProductCarouselComponent,
+          MockCarouselComponent,
+          MockMediaComponent,
+          MockUrlPipe,
+        ],
+        providers: [
+          {
+            provide: CmsComponentData,
+            useValue: MockCmsProductCarouselComponent,
+          },
+          {
+            provide: ProductService,
+            useClass: MockProductService,
+          },
+          {
+            provide: FeatureConfigService,
+            useClass: MockFeatureConfigService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductCarouselComponent);

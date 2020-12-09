@@ -1,5 +1,5 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CmsBannerComponent, CmsComponent } from '@spartacus/core';
@@ -41,18 +41,24 @@ describe('BannerComponent', () => {
     uid: 'test',
   };
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [BannerComponent, MockMediaComponent, GenericLinkComponent],
-      providers: [
-        {
-          provide: CmsComponentData,
-          useValue: MockCmsComponentData,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule],
+        declarations: [
+          BannerComponent,
+          MockMediaComponent,
+          GenericLinkComponent,
+        ],
+        providers: [
+          {
+            provide: CmsComponentData,
+            useValue: MockCmsComponentData,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BannerComponent);

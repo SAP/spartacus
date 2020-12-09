@@ -6,7 +6,7 @@ import {
   PipeTransform,
   TemplateRef,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -157,7 +157,7 @@ describe('MerchandisingCarouselComponent', () => {
   let componentService: MerchandisingCarouselComponentService;
   let fixture: ComponentFixture<MerchandisingCarouselComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       declarations: [

@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
@@ -106,48 +106,50 @@ describe('ProductListComponent', () => {
   let fixture: ComponentFixture<ProductListComponent>;
   let componentService: ProductListComponentService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        NgbCollapseModule,
-        ListNavigationModule,
-        FormsModule,
-        RouterTestingModule,
-        I18nTestingModule,
-        InfiniteScrollModule,
-        SpinnerModule,
-      ],
-      providers: [
-        {
-          provide: PageLayoutService,
-          useClass: MockPageLayoutService,
-        },
-        {
-          provide: ProductListComponentService,
-          useClass: MockProductListComponentService,
-        },
-        {
-          provide: ViewConfig,
-          useClass: MockViewConfig,
-        },
-      ],
-      declarations: [
-        ProductListComponent,
-        ProductFacetNavigationComponent,
-        ProductGridItemComponent,
-        MockStarRatingComponent,
-        MockAddToCartComponent,
-        MediaComponent,
-        ProductViewComponent,
-        MockProductListItemComponent,
-        MockUrlPipe,
-        MockCxIconComponent,
-        ProductScrollComponent,
-        MockStyleIconsComponent,
-        MockFeatureLevelDirective,
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          NgbCollapseModule,
+          ListNavigationModule,
+          FormsModule,
+          RouterTestingModule,
+          I18nTestingModule,
+          InfiniteScrollModule,
+          SpinnerModule,
+        ],
+        providers: [
+          {
+            provide: PageLayoutService,
+            useClass: MockPageLayoutService,
+          },
+          {
+            provide: ProductListComponentService,
+            useClass: MockProductListComponentService,
+          },
+          {
+            provide: ViewConfig,
+            useClass: MockViewConfig,
+          },
+        ],
+        declarations: [
+          ProductListComponent,
+          ProductFacetNavigationComponent,
+          ProductGridItemComponent,
+          MockStarRatingComponent,
+          MockAddToCartComponent,
+          MediaComponent,
+          ProductViewComponent,
+          MockProductListItemComponent,
+          MockUrlPipe,
+          MockCxIconComponent,
+          ProductScrollComponent,
+          MockStyleIconsComponent,
+          MockFeatureLevelDirective,
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductListComponent);

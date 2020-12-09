@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Product } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -82,23 +82,25 @@ describe('ProductImagesComponent', () => {
   let fixture: ComponentFixture<ProductImagesComponent>;
   let currentProductService: CurrentProductService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        ProductImagesComponent,
-        MockMediaComponent,
-        MockCarouselComponent,
-      ],
-      providers: [
-        {
-          provide: CurrentProductService,
-          useClass: MockCurrentProductService,
-        },
-      ],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          ProductImagesComponent,
+          MockMediaComponent,
+          MockCarouselComponent,
+        ],
+        providers: [
+          {
+            provide: CurrentProductService,
+            useClass: MockCurrentProductService,
+          },
+        ],
+      }).compileComponents();
 
-    currentProductService = TestBed.inject(CurrentProductService);
-  }));
+      currentProductService = TestBed.inject(CurrentProductService);
+    })
+  );
 
   describe('with multiple pictures', () => {
     beforeEach(() => {

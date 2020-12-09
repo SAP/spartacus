@@ -1,5 +1,5 @@
 import { Component, Pipe, PipeTransform } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -110,66 +110,68 @@ describe('RegisterComponent', () => {
   let anonymousConsentService: AnonymousConsentsService;
   let authConfigService: AuthConfigService;
 
-  beforeEach(async(() => {
-    registerUserIsLoading = new BehaviorSubject(false);
-    registerUserIsSuccess = new BehaviorSubject(false);
-    class MockUserService {
-      loadTitles(): void {}
-      resetRegisterUserProcessState(): void {}
+  beforeEach(
+    waitForAsync(() => {
+      registerUserIsLoading = new BehaviorSubject(false);
+      registerUserIsSuccess = new BehaviorSubject(false);
+      class MockUserService {
+        loadTitles(): void {}
+        resetRegisterUserProcessState(): void {}
 
-      getTitles(): Observable<Title[]> {
-        return of([]);
+        getTitles(): Observable<Title[]> {
+          return of([]);
+        }
+
+        register(
+          _titleCode: string,
+          _firstName: string,
+          _lastName: string,
+          _email: string,
+          _password: string
+        ): void {}
+
+        getRegisterUserResultLoading(): Observable<boolean> {
+          return registerUserIsLoading.asObservable();
+        }
+        getRegisterUserResultSuccess(): Observable<boolean> {
+          return registerUserIsSuccess.asObservable();
+        }
       }
 
-      register(
-        _titleCode: string,
-        _firstName: string,
-        _lastName: string,
-        _email: string,
-        _password: string
-      ): void {}
-
-      getRegisterUserResultLoading(): Observable<boolean> {
-        return registerUserIsLoading.asObservable();
-      }
-      getRegisterUserResultSuccess(): Observable<boolean> {
-        return registerUserIsSuccess.asObservable();
-      }
-    }
-
-    TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        RouterTestingModule,
-        I18nTestingModule,
-        FormErrorsModule,
-      ],
-      declarations: [RegisterComponent, MockUrlPipe, MockSpinnerComponent],
-      providers: [
-        { provide: UserService, useClass: MockUserService },
-        {
-          provide: GlobalMessageService,
-          useClass: MockGlobalMessageService,
-        },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: AnonymousConsentsService,
-          useClass: MockAnonymousConsentsService,
-        },
-        {
-          provide: AnonymousConsentsConfig,
-          useValue: mockAnonymousConsentsConfig,
-        },
-        {
-          provide: AuthConfigService,
-          useClass: MockAuthConfigService,
-        },
-      ],
-    }).compileComponents();
-  }));
+      TestBed.configureTestingModule({
+        imports: [
+          ReactiveFormsModule,
+          RouterTestingModule,
+          I18nTestingModule,
+          FormErrorsModule,
+        ],
+        declarations: [RegisterComponent, MockUrlPipe, MockSpinnerComponent],
+        providers: [
+          { provide: UserService, useClass: MockUserService },
+          {
+            provide: GlobalMessageService,
+            useClass: MockGlobalMessageService,
+          },
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
+          {
+            provide: AnonymousConsentsService,
+            useClass: MockAnonymousConsentsService,
+          },
+          {
+            provide: AnonymousConsentsConfig,
+            useValue: mockAnonymousConsentsConfig,
+          },
+          {
+            provide: AuthConfigService,
+            useClass: MockAuthConfigService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterComponent);

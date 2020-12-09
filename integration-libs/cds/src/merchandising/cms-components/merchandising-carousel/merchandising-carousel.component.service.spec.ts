@@ -1,4 +1,4 @@
-import { async, TestBed, TestBedStatic } from '@angular/core/testing';
+import { waitForAsync, TestBed, TestBedStatic } from '@angular/core/testing';
 import { Product, ProductService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';

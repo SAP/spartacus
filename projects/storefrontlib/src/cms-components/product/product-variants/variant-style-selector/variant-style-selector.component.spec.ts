@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   BaseOption,
@@ -64,23 +64,25 @@ describe('VariantStyleSelectorComponent', () => {
   let component: VariantStyleSelectorComponent;
   let fixture: ComponentFixture<VariantStyleSelectorComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [VariantStyleSelectorComponent, MockUrlPipe],
-      imports: [RouterTestingModule, I18nTestingModule],
-      providers: [
-        {
-          provide: OccConfig,
-          useValue: { backend: { occ: { baseUrl: mockOccBackendUrl } } },
-        },
-        {
-          provide: ProductService,
-          useClass: MockProductService,
-        },
-        { provide: RoutingService, useClass: MockRoutingService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [VariantStyleSelectorComponent, MockUrlPipe],
+        imports: [RouterTestingModule, I18nTestingModule],
+        providers: [
+          {
+            provide: OccConfig,
+            useValue: { backend: { occ: { baseUrl: mockOccBackendUrl } } },
+          },
+          {
+            provide: ProductService,
+            useClass: MockProductService,
+          },
+          { provide: RoutingService, useClass: MockRoutingService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(VariantStyleSelectorComponent);
