@@ -6,7 +6,7 @@ import { catchError, concatMap, map } from 'rxjs/operators';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { GlobalMessageActions } from '../../../global-message/store/actions';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserConsentConnector } from '../../connectors/consent/user-consent.connector';
 import { UserConsentService } from '../../facade/user-consent.service';
 import { UserActions } from '../actions/index';
@@ -34,7 +34,7 @@ export class UserConsentsEffect {
       this.userConsentConnector.loadConsents(userId).pipe(
         map((consents) => new UserActions.LoadUserConsentsSuccess(consents)),
         catchError((error) =>
-          of(new UserActions.LoadUserConsentsFail(makeErrorSerializable(error)))
+          of(new UserActions.LoadUserConsentsFail(normalizeHttpError(error)))
         )
       )
     )
@@ -77,7 +77,7 @@ export class UserConsentsEffect {
               | UserActions.UserConsentsAction
               | GlobalMessageActions.RemoveMessagesByType
             > = [
-              new UserActions.GiveUserConsentFail(makeErrorSerializable(error)),
+              new UserActions.GiveUserConsentFail(normalizeHttpError(error)),
             ];
             if (
               action.type === UserActions.TRANSFER_ANONYMOUS_CONSENT &&

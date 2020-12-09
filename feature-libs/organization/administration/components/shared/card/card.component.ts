@@ -20,6 +20,7 @@ import { BaseItem } from '../organization.model';
 export class CardComponent<T extends BaseItem> {
   @Input() i18nRoot: string;
   @Input() previous: boolean | string = true;
+  @Input() subtitle?: string;
 
   protected itemKey;
 
