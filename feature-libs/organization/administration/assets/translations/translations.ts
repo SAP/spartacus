@@ -10,9 +10,9 @@ export const organizationTranslationChunksConfig: TranslationChunksConfig = {
   organization: [
     'budget',
     'budgetAssignedCostCenters',
-    'costCenter',
-    'costCenterBudgets',
-    'costCenterAssignedBudgets',
+    'orgCostCenter',
+    'orgCostCenterBudgets',
+    'orgCostCenterAssignedBudgets',
     'orgUnit',
     'orgUnitChildren',
     'orgUnitAssignedRoles',

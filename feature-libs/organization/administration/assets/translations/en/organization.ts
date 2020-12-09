@@ -1,8 +1,8 @@
 import { budget, budgetAssignedCostCenters } from './budget.i18n';
 import {
-  costCenter,
-  costCenterAssignedBudgets,
-  costCenterBudgets,
+  orgCostCenter,
+  orgCostCenterAssignedBudgets,
+  orgCostCenterBudgets,
 } from './cost-center.i18n';
 import { orgPermission } from './permission.i18n';
 import {
@@ -92,9 +92,9 @@ export const organization = {
   },
 
   // sub feature labels are added below
-  costCenter,
-  costCenterBudgets,
-  costCenterAssignedBudgets,
+  orgCostCenter,
+  orgCostCenterBudgets,
+  orgCostCenterAssignedBudgets,
   budget,
   budgetAssignedCostCenters,
   orgUnit,
