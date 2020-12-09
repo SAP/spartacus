@@ -125,10 +125,10 @@ describe('AddressBookComponent', () => {
     component = fixture.componentInstance;
     spyOn(component, 'addAddressButtonHandle');
     el = fixture.debugElement;
-    userAddressService = TestBed.get(
+    userAddressService = TestBed.inject(
       UserAddressService as Type<UserAddressService>
     );
-    checkoutDeliveryService = TestBed.get(
+    checkoutDeliveryService = TestBed.inject(
       CheckoutDeliveryService as Type<CheckoutDeliveryService>
     );
 
