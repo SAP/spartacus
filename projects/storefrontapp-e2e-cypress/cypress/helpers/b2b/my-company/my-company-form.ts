@@ -217,7 +217,9 @@ export function completeForm(
         cy.get(`ng-select`).click();
       });
       cy.wait(1000); // Allow time for options to draw
-      cy.get('div.ng-option').contains(input[valueKey]).click({ force: true });
+      cy.get('ng-dropdown-panel')
+        .contains(input[valueKey])
+        .click({ force: true });
     }
   }
 

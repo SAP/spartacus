@@ -32,6 +32,10 @@ export interface TestListOptions {
   };
 }
 
+export enum MY_COMPANY_FEATURE {
+  USER_PASSWORD = 'userPassword',
+}
+
 export enum CONFIRMATION_LABELS {
   CONFIRM = 'CONFIRM',
   CANCEL = 'CANCEL',
