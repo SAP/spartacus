@@ -2,9 +2,8 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import path from 'path';
+import * as path from 'path';
 import * as ts from 'typescript';
-import { B2C_STOREFRONT_MODULE } from '../constants';
 import {
   createNewConfig,
   getConfig,
@@ -61,8 +60,7 @@ describe('Storefront config utils', () => {
     it('should get the Storefront config from app.module.ts file', async () => {
       const appModuleFile = getTsSourceFile(appTree, appModulePath);
       const config = getExistingStorefrontConfigNode(
-        appModuleFile,
-        B2C_STOREFRONT_MODULE
+        appModuleFile
       ) as ts.CallExpression;
 
       expect(config).toBeTruthy();
@@ -74,8 +72,7 @@ describe('Storefront config utils', () => {
     it('should return the specified config from Storefront CallExpression AST node object', async () => {
       const appModuleFile = getTsSourceFile(appTree, appModulePath);
       const config = getExistingStorefrontConfigNode(
-        appModuleFile,
-        B2C_STOREFRONT_MODULE
+        appModuleFile
       ) as ts.CallExpression;
       const currentContextConfig = getConfig(config, 'context');
 
@@ -86,8 +83,7 @@ describe('Storefront config utils', () => {
     it('should return an undefined if the provided configName was not found', async () => {
       const appModuleFile = getTsSourceFile(appTree, appModulePath);
       const config = getExistingStorefrontConfigNode(
-        appModuleFile,
-        B2C_STOREFRONT_MODULE
+        appModuleFile
       ) as ts.CallExpression;
       const configByName = getConfig(config, 'test');
 
@@ -97,11 +93,10 @@ describe('Storefront config utils', () => {
   });
 
   describe('mergeConfig', () => {
-    it('should merge the provided configs', async () => {
+    it('should merge the provided config array', async () => {
       const appModuleFile = getTsSourceFile(appTree, appModulePath);
       const config = getExistingStorefrontConfigNode(
-        appModuleFile,
-        B2C_STOREFRONT_MODULE
+        appModuleFile
       ) as ts.CallExpression;
       const currentContextConfig = getConfig(
         config,
@@ -123,11 +118,27 @@ describe('Storefront config utils', () => {
       expect(appTree.readContent(appModulePath)).toContain('JPY');
     });
 
-    it('should create a new config if nothing to be merge', async () => {
+    it('should merge the provided regular config', async () => {
       const appModuleFile = getTsSourceFile(appTree, appModulePath);
       const config = getExistingStorefrontConfigNode(
-        appModuleFile,
-        B2C_STOREFRONT_MODULE
+        appModuleFile
+      ) as ts.CallExpression;
+      const backendConfig = getConfig(
+        config,
+        'backend'
+      ) as ts.PropertyAssignment;
+
+      const change = mergeConfig(appModulePath, backendConfig, 'occ', 'random');
+
+      expect(appTree.readContent(appModulePath)).not.toContain('random');
+      commitChanges(appTree, appModulePath, [change]);
+      expect(appTree.readContent(appModulePath)).toContain('random');
+    });
+
+    it('should create a new config if there is nothing to be mergex', async () => {
+      const appModuleFile = getTsSourceFile(appTree, appModulePath);
+      const config = getExistingStorefrontConfigNode(
+        appModuleFile
       ) as ts.CallExpression;
       const currentContextConfig = getConfig(
         config,
@@ -154,8 +165,7 @@ describe('Storefront config utils', () => {
     it('should nest the given new config in the given config object', async () => {
       const appModuleFile = getTsSourceFile(appTree, appModulePath);
       const config = getExistingStorefrontConfigNode(
-        appModuleFile,
-        B2C_STOREFRONT_MODULE
+        appModuleFile
       ) as ts.CallExpression;
       const currentContextConfig = getConfig(
         config,

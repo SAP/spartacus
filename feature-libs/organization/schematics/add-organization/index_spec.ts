@@ -5,14 +5,18 @@ import {
 import {
   B2B_STOREFRONT_MODULE,
   B2C_STOREFRONT_MODULE,
+  LibraryOptions as SpartacusOrganizationOptions,
   SpartacusOptions,
+  SPARTACUS_SETUP,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import {
+  ADMINISTRATION_ROOT_MODULE,
   CLI_ADMINISTRATION_FEATURE,
   CLI_ORDER_APPROVAL_FEATURE,
+  ORDER_APPROVAL_ROOT_MODULE,
+  SPARTACUS_ORGANIZATION,
 } from '../constants';
-import { Schema as SpartacusOrganizationOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const appModulePath = 'src/app/app.module.ts';
@@ -52,6 +56,11 @@ describe('Spartacus Organization schematics: ng-add', () => {
       '@spartacus/schematics',
       '../../projects/schematics/src/collection.json'
     );
+    schematicRunner.registerCollection(
+      '@spartacus/storefinder',
+      '../../feature-libs/storefinder/schematics/collection.json'
+    );
+
     appTree = await schematicRunner
       .runExternalSchematicAsync(
         '@schematics/angular',
@@ -77,7 +86,31 @@ describe('Spartacus Organization schematics: ng-add', () => {
       .toPromise();
   });
 
-  describe('in app module', () => {
+  describe('when no features are selected', () => {
+    beforeEach(async () => {
+      appTree = await schematicRunner
+        .runSchematicAsync(
+          'ng-add',
+          { ...defaultOptions, features: [] },
+          appTree
+        )
+        .toPromise();
+    });
+
+    it('should still install @spartacus/organization and @spartacus/setup libraries', () => {
+      const packageJson = appTree.readContent('package.json');
+      expect(packageJson).toContain(SPARTACUS_SETUP);
+      expect(packageJson).toContain(SPARTACUS_ORGANIZATION);
+    });
+
+    it('should not install administration nor order-approval features', () => {
+      const appModule = appTree.readContent(appModulePath);
+      expect(appModule).not.toContain(ADMINISTRATION_ROOT_MODULE);
+      expect(appModule).not.toContain(ORDER_APPROVAL_ROOT_MODULE);
+    });
+  });
+
+  describe('app.module.ts', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
         .runSchematicAsync('ng-add', defaultOptions, appTree)
@@ -87,10 +120,18 @@ describe('Spartacus Organization schematics: ng-add', () => {
       const appModule = appTree.readContent(appModulePath);
       expect(appModule).not.toContain(B2C_STOREFRONT_MODULE);
     });
-
     it(`should replace it with 'B2bStorefrontModule'`, () => {
       const appModule = appTree.readContent(appModulePath);
       expect(appModule).toContain(B2B_STOREFRONT_MODULE);
+    });
+    it(`should add inject provideDefaultConfig and provide it`, () => {
+      const appModule = appTree.readContent(appModulePath);
+      expect(appModule).toContain(
+        `defaultB2bOccConfig } from '@spartacus/setup';`
+      );
+      expect(appModule).toContain(
+        `providers: [provideDefaultConfig(defaultB2bOccConfig),`
+      );
     });
   });
 
@@ -192,6 +233,12 @@ describe('Spartacus Organization schematics: ng-add', () => {
     });
 
     describe('i18n', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync('ng-add', defaultOptions, appTree)
+          .toPromise();
+      });
+
       it('should import the i18n resource and chunk from assets', async () => {
         const appModule = appTree.readContent(appModulePath);
         expect(appModule).toContain(
@@ -266,6 +313,12 @@ describe('Spartacus Organization schematics: ng-add', () => {
       });
     });
     describe('i18n', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync('ng-add', defaultOptions, appTree)
+          .toPromise();
+      });
+
       it('should import the i18n resource and chunk from assets', async () => {
         const appModule = appTree.readContent(appModulePath);
         expect(appModule).toContain(
@@ -282,6 +335,29 @@ describe('Spartacus Organization schematics: ng-add', () => {
           `chunks: orderApprovalTranslationChunksConfig,`
         );
       });
+    });
+  });
+
+  describe('when other Spartacus features are already installed', () => {
+    beforeEach(async () => {
+      appTree = await schematicRunner
+        .runExternalSchematicAsync(
+          '@spartacus/storefinder',
+          'ng-add',
+          { ...spartacusDefaultOptions, name: 'schematics-test' },
+          appTree
+        )
+        .toPromise();
+      appTree = await schematicRunner
+        .runSchematicAsync('ng-add', defaultOptions, appTree)
+        .toPromise();
+    });
+
+    it('should just append the organization features without duplicating the featureModules config', () => {
+      const appModule = appTree.readContent(appModulePath);
+      expect(appModule.match(/featureModules:/g).length).toEqual(1);
+      expect(appModule).toContain(`organizationAdministration: {`);
+      expect(appModule).toContain(`organizationOrderApproval: {`);
     });
   });
 });

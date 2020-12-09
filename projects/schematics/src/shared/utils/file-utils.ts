@@ -1,6 +1,5 @@
-import { experimental, strings } from '@angular-devkit/core';
+import { strings } from '@angular-devkit/core';
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
-import { getProjectTargetOptions } from '@angular/cdk/schematics';
 import { Attribute, Element, HtmlParser, Node } from '@angular/compiler';
 import {
   findNode,
@@ -18,6 +17,10 @@ import {
 } from '@schematics/angular/utility/change';
 import * as ts from 'typescript';
 import { TODO_SPARTACUS, UTF_8 } from '../constants';
+import {
+  getAngularJsonFile,
+  getDefaultProjectNameFromWorkspace,
+} from './workspace-utils';
 
 export enum InsertDirection {
   LEFT,
@@ -107,16 +110,16 @@ export function getAllTsSourceFiles(
   return results.map((f) => getTsSourceFile(tree, f));
 }
 
-export function getIndexHtmlPath(
-  project: experimental.workspace.WorkspaceProject
-): string {
-  const buildOptions = getProjectTargetOptions(project, 'build');
-
-  if (!buildOptions.index) {
+export function getIndexHtmlPath(tree: Tree): string {
+  const projectName = getDefaultProjectNameFromWorkspace(tree);
+  const angularJson = getAngularJsonFile(tree);
+  const indexHtml: string =
+    angularJson.projects[projectName]?.architect?.build?.options?.index;
+  if (!indexHtml) {
     throw new SchematicsException('"index.html" file not found.');
   }
 
-  return buildOptions.index;
+  return indexHtml;
 }
 
 export function getPathResultsForFile(
@@ -238,7 +241,7 @@ export function insertHtmlComment(
 }
 
 function buildHtmlComment(commentText: string): string {
-  return `<!-- ${commentText} -->`;
+  return `<!-- ${TODO_SPARTACUS} ${commentText} -->`;
 }
 
 export function commitChanges(
@@ -261,10 +264,16 @@ export function commitChanges(
       } else {
         recorder.insertRight(pos, toAdd);
       }
-    } else if (change instanceof ReplaceChange) {
+    } else if (change instanceof RemoveChange) {
       const pos = change['pos'];
-      const oldText = change['oldText'];
-      const newText = change['newText'];
+      const length = change['toRemove'].length;
+      recorder.remove(pos, length);
+    } else if (change instanceof NoopChange) {
+      // nothing to do here...
+    } else {
+      const pos = (change as ReplaceChange)['pos'];
+      const oldText = (change as ReplaceChange)['oldText'];
+      const newText = (change as ReplaceChange)['newText'];
 
       recorder.remove(pos, oldText.length);
       if (insertDirection === InsertDirection.LEFT) {
@@ -272,10 +281,6 @@ export function commitChanges(
       } else {
         recorder.insertRight(pos, newText);
       }
-    } else if (change instanceof RemoveChange) {
-      const pos = change['pos'];
-      const length = change['toRemove'].length;
-      recorder.remove(pos, length);
     }
   });
   host.commitUpdate(recorder);
@@ -1109,4 +1114,10 @@ export function getLineFromTSFile(
   const nextLineStart = tsFile.getPositionOfLineAndCharacter(lac.line + 1, 0);
 
   return [lineStart, nextLineStart - lineStart];
+}
+
+export function getServerTsPath(host: Tree): string | undefined {
+  const projectName = getDefaultProjectNameFromWorkspace(host);
+  const angularJson = getAngularJsonFile(host);
+  return angularJson.projects[projectName].architect?.server?.options?.main;
 }

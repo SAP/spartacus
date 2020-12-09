@@ -26,14 +26,16 @@ export const ANGULAR_OAUTH2_OIDC = 'angular-oauth2-oidc';
 export const SPARTACUS_CORE = '@spartacus/core';
 export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';
 export const SPARTACUS_SETUP = '@spartacus/setup';
+export const SPARTACUS_SETUP_SSR = `${SPARTACUS_SETUP}/ssr`;
 export const SPARTACUS_CDS = '@spartacus/cds';
 export const SPARTACUS_CDC = '@spartacus/cdc';
 export const SPARTACUS_ASSETS = '@spartacus/assets';
 export const SPARTACUS_STYLES = '@spartacus/styles';
-export const SPARTACUS_MISC = '@spartacus/misc';
 
 export const NGRX_STORE = '@ngrx/store';
 export const NGRX_EFFECTS = '@ngrx/effects';
+
+export const NGUNIVERSAL_EXPRESS_ENGINE = '@nguniversal/express-engine';
 /***** Imports end *****/
 
 /***** Classes start *****/
@@ -318,6 +320,8 @@ export const VIEW_COMPONENT = 'ViewComponent';
 export const SPLIT_VIEW_COMPONENT = 'SplitViewComponent';
 export const OCC_CMS_COMPONENT_ADAPTER = 'OccCmsComponentAdapter';
 
+export const OCC_CMS_PAGE_ADAPTER = 'OccCmsPageAdapter';
+
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -468,6 +472,7 @@ export const STORE_FINDER_HEADER_COMPONENT = 'StoreFinderHeaderComponent';
 export const STORE_FINDER_PAGINATION_DETAILS_COMPONENT =
   'StoreFinderPaginationDetailsComponent';
 export const STORE_FINDER_COMPONENT = 'StoreFinderComponent';
+export const STORE_FINDER_SCSS_FILE_NAME = 'storefinder.scss';
 
 export const ON_SUCCESS = 'onSuccess';
 
@@ -606,11 +611,13 @@ export const INIT_SYNC = 'initSync';
 export const SET_ACTIVE = 'setActive';
 export const SET_RATE_ON_EVENT = 'setRateOnEvent';
 export const SET_RATE = 'setRate';
+export const GET_META = 'getMeta';
+export const GET_META_RESOLVER = 'getMetaResolver';
 
 export const STOREFINDER_MODULE = 'StoreFinderModule';
 export const STOREFINDER_FEATURE_NAME = 'storeFinder';
 export const STOREFINDER_ROOT_MODULE = 'StoreFinderRootModule';
-export const SPARTACUS_STOREFINDER = `${SPARTACUS_MISC}/storefinder`;
+export const SPARTACUS_STOREFINDER = '@spartacus/storefinder';
 export const SPARTACUS_STOREFINDER_ROOT = `${SPARTACUS_STOREFINDER}/root`;
 export const SPARTACUS_STOREFINDER_ASSETS = `${SPARTACUS_STOREFINDER}/assets`;
 export const STOREFINDER_TRANSLATIONS = 'storeFinderTranslations';
@@ -619,13 +626,15 @@ export const STOREFINDER_TRANSLATION_CHUNKS_CONFIG =
 
 export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
 
+export const GET_PAGES_ENDPOINT = 'getPagesEndpoint';
+
 /***** APIs end *****/
 
-/***** Misc start *****/
+/***** Storefinder start *****/
 export const TODO_SPARTACUS = 'TODO:Spartacus -';
 export const CLI_STOREFINDER_FEATURE = 'Storefinder';
 export const CSS_V2_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-2/';
 export const CSS_V3_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-3/';
-/***** Misc end *****/
+/***** Storefinder end *****/

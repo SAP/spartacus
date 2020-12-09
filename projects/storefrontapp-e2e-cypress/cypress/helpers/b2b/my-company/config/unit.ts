@@ -127,10 +127,10 @@ export const unitConfig: MyCompanyConfig = {
     {
       label: 'Parent Unit',
       variableName: 'orgUnit.name',
-      link: `/organization/units/Rustic%20Services`,
+      link: `/organization/units/Custom%20Retail`,
       updatedLink: `/organization/units/Rustic%20Retail`,
       inputType: INPUT_TYPE.NG_SELECT,
-      createValue: 'Rustic Services',
+      createValue: 'Custom Retail',
       updateValue: 'Rustic Retail',
       showInTable: false,
       formLabel: 'Parent business unit',
