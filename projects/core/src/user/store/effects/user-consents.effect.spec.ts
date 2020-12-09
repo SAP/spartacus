@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
+import { normalizeHttpError } from 'projects/core/src/util';
 import { Observable, of, throwError } from 'rxjs';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { GlobalMessageActions } from '../../../global-message/store/actions';
@@ -35,7 +36,7 @@ class MockOccUserAdapter {
   }
 }
 
-class MockConsentService implements Partial<UserConsentService> {
+class MockUserConsentService implements Partial<UserConsentService> {
   loadConsent() {
     return Promise.resolve();
   }
@@ -45,6 +46,7 @@ describe('User Consents effect', () => {
   let userConsentEffect: fromEffect.UserConsentsEffect;
   let userConsentAdapter: UserConsentAdapter;
   let actions$: Observable<Action>;
+  let userConsentService: UserConsentService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -52,12 +54,13 @@ describe('User Consents effect', () => {
         fromEffect.UserConsentsEffect,
         { provide: UserConsentAdapter, useClass: MockOccUserAdapter },
         provideMockActions(() => actions$),
-        { provide: UserConsentService, useClass: MockConsentService },
+        { provide: UserConsentService, useClass: MockUserConsentService },
       ],
     });
 
     userConsentEffect = TestBed.inject(fromEffect.UserConsentsEffect);
     userConsentAdapter = TestBed.inject(UserConsentAdapter);
+    userConsentService = TestBed.inject(UserConsentService);
   });
 
   describe('getConsents$', () => {
@@ -156,6 +159,42 @@ describe('User Consents effect', () => {
       expect(userConsentEffect.giveConsent$).toBeObservable(expected);
     });
 
+    it('should close error message on 409 with AlreadyExistsError and should reload consent', () => {
+      const mockError = {
+        status: 409,
+        error: { errors: [{ type: 'AlreadyExistsError' }] },
+      };
+      spyOn(userConsentAdapter, 'giveConsent').and.returnValue(
+        throwError(mockError)
+      );
+      spyOn(userConsentService, 'loadConsent');
+
+      const action = new UserActions.TransferAnonymousConsent({
+        userId,
+        consentTemplateId,
+        consentTemplateVersion,
+      });
+      const completion = new UserActions.GiveUserConsentFail(
+        makeErrorSerializable(mockError)
+      );
+      const closeMessage = new GlobalMessageActions.RemoveMessagesByType(
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bcd)', {
+        b: completion,
+        c: closeMessage,
+        d: closeMessage,
+      });
+
+      expect(userConsentEffect.giveConsent$).toBeObservable(expected);
+      expect(userConsentService.loadConsent).toHaveBeenCalledWith(
+        userId,
+        consentTemplateId
+      );
+    });
+
     it('should not close error message for GIVE_USER_CONSENT action', () => {
       const mockError = {
         status: 409,
@@ -182,13 +221,16 @@ describe('User Consents effect', () => {
   });
 
   describe('withdrawConsent$', () => {
+    const userId = 'xxx@xxx.xxx';
+    const consentTemplateId = 'yyy';
+    const consentCode = 'xxx';
     it('should return WithdrawUserConsentSuccess', () => {
       spyOn(userConsentAdapter, 'withdrawConsent').and.returnValue(of({}));
 
       const action = new UserActions.WithdrawUserConsent({
-        userId: 'xxx@xxx.xxx',
-        consentCode: 'xxx',
-        consentTemplateId: 'yyy',
+        userId: userId,
+        consentCode: consentCode,
+        consentTemplateId: consentTemplateId,
       });
       const completion = new UserActions.WithdrawUserConsentSuccess();
 
@@ -196,6 +238,33 @@ describe('User Consents effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(userConsentEffect.withdrawConsent$).toBeObservable(expected);
+    });
+    it('should reload consent on 400 and ConsentWithdrawnError', () => {
+      const mockError = {
+        status: 400,
+        error: { errors: [{ type: 'ConsentWithdrawnError' }] },
+      };
+      spyOn(userConsentAdapter, 'withdrawConsent').and.returnValue(
+        throwError(mockError)
+      );
+      spyOn(userConsentService, 'loadConsent');
+      const action = new UserActions.WithdrawUserConsent({
+        userId: userId,
+        consentCode: consentCode,
+        consentTemplateId: consentTemplateId,
+      });
+      const completion = new UserActions.WithdrawUserConsentFail(
+        normalizeHttpError(mockError)
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(userConsentEffect.withdrawConsent$).toBeObservable(expected);
+      expect(userConsentService.loadConsent).toHaveBeenCalledWith(
+        userId,
+        consentTemplateId
+      );
     });
   });
 

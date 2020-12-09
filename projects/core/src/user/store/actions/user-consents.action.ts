@@ -51,6 +51,13 @@ export class LoadUserConsentsSuccess extends StateUtils.LoaderSuccessAction {
   }
 }
 
+export class ResetLoadUserConsents extends StateUtils.LoaderResetAction {
+  readonly type = RESET_LOAD_USER_CONSENTS;
+  constructor() {
+    super(USER_CONSENTS);
+  }
+}
+
 export class LoadUserConsent extends StateUtils.LoaderLoadAction {
   readonly type = LOAD_USER_CONSENT;
   constructor(
@@ -73,13 +80,6 @@ export class LoadUserConsentFail extends StateUtils.LoaderFailAction {
 export class LoadUserConsentSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_USER_CONSENT_SUCCESS;
   constructor(public payload: ConsentTemplate) {
-    super(USER_CONSENTS);
-  }
-}
-
-export class ResetLoadUserConsents extends StateUtils.LoaderResetAction {
-  readonly type = RESET_LOAD_USER_CONSENTS;
-  constructor() {
     super(USER_CONSENTS);
   }
 }

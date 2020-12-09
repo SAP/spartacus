@@ -72,6 +72,15 @@ describe('UserConsentService', () => {
         );
       });
     });
+    describe('loadConsent', () => {
+      it('should dispatch an action for single consent', () => {
+        const templateId = 'yyy';
+        service.loadConsent(userId, templateId);
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new UserActions.LoadUserConsent({ userId, templateId })
+        );
+      });
+    });
     describe('getConsents', () => {
       describe('when the loadIfMissing parameter is false', () => {
         it('should just return the consent template list', () => {
