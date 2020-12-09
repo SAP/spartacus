@@ -4,7 +4,7 @@ import {
   costCenterAssignedBudgets,
   costCenterBudgets,
 } from './cost-center.i18n';
-import { permission } from './permission.i18n';
+import { orgPermission } from './permission.i18n';
 import {
   orgUnit,
   orgUnitAddress,
@@ -120,5 +120,5 @@ export const organization = {
   orgUserAssignedApprovers,
   orgUserPermissions,
   orgUserAssignedPermissions,
-  permission,
+  orgPermission,
 };

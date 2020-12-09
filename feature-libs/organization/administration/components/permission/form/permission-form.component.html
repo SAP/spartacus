@@ -1,14 +1,14 @@
-<cx-org-form i18nRoot="permission">
+<cx-org-form i18nRoot="orgPermission">
   <ng-container *ngIf="form" [formGroup]="form" main>
     <label>
       <span class="label-content required">{{
-        'permission.code' | cxTranslate
+        'orgPermission.code' | cxTranslate
       }}</span>
       <input
         class="form-control"
         type="text"
         required
-        placeholder="{{ 'permission.code' | cxTranslate }}"
+        placeholder="{{ 'orgPermission.code' | cxTranslate }}"
         formControlName="code"
       />
       <cx-form-errors [control]="form.get('code')"></cx-form-errors>
@@ -20,7 +20,7 @@
       [formGroup]="form.get('orderApprovalPermissionType')"
     >
       <span class="label-content required">{{
-        'permission.orderApprovalPermissionType' | cxTranslate
+        'orgPermission.orderApprovalPermissionType' | cxTranslate
       }}</span>
       <ng-select
         formControlName="code"
@@ -40,7 +40,7 @@
 
     <label aria-required="true" *ngIf="form.get('periodRange')">
       <span class="label-content required">{{
-        'permission.periodRange' | cxTranslate
+        'orgPermission.periodRange' | cxTranslate
       }}</span>
       <ng-select
         formControlName="periodRange"
@@ -59,7 +59,7 @@
       [formGroup]="form.get('currency')"
     >
       <span class="label-content required">{{
-        'permission.currency' | cxTranslate
+        'orgPermission.currency' | cxTranslate
       }}</span>
       <ng-select
         *ngIf="currencies$ | async as currencies"
@@ -76,13 +76,13 @@
 
     <label *ngIf="form.get('threshold')">
       <span class="label-content required">{{
-        'permission.threshold' | cxTranslate
+        'orgPermission.threshold' | cxTranslate
       }}</span>
       <input
         class="form-control"
         type="number"
         required
-        placeholder="{{ 'permission.threshold' | cxTranslate }}"
+        placeholder="{{ 'orgPermission.threshold' | cxTranslate }}"
         formControlName="threshold"
       />
       <cx-form-errors [control]="form.get('threshold')"></cx-form-errors>
@@ -90,7 +90,7 @@
 
     <label aria-required="true" [formGroup]="form.get('orgUnit')">
       <span class="label-content required">{{
-        'permission.orgUnit' | cxTranslate
+        'orgPermission.orgUnit' | cxTranslate
       }}</span>
       <ng-select
         formControlName="uid"

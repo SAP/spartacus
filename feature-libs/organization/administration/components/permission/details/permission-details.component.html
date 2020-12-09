@@ -1,20 +1,20 @@
-<cx-org-card *ngIf="model$ | async as model" i18nRoot="permission.details">
+<cx-org-card *ngIf="model$ | async as model" i18nRoot="orgPermission.details">
   <a
     actions
     class="link edit"
     [class.disabled]="
       !model.active || !model.orgUnit.active || (isInEditMode$ | async)
     "
-    [routerLink]="{ cxRoute: 'permissionEdit', params: model } | cxUrl"
+    [routerLink]="{ cxRoute: 'orgPermissionEdit', params: model } | cxUrl"
   >
     {{ 'organization.edit' | cxTranslate }}
   </a>
 
-  <cx-org-toggle-status actions i18nRoot="permission"></cx-org-toggle-status>
+  <cx-org-toggle-status actions i18nRoot="orgPermission"></cx-org-toggle-status>
 
   <section main class="details" cxOrgItemExists>
     <div class="property">
-      <label>{{ 'permission.code' | cxTranslate }}</label>
+      <label>{{ 'orgPermission.code' | cxTranslate }}</label>
       <span class="value">
         {{ model.code }}
       </span>
@@ -32,7 +32,7 @@
 
     <div class="property">
       <label>{{
-        'permission.orderApprovalPermissionType' | cxTranslate
+        'orgPermission.orderApprovalPermissionType' | cxTranslate
       }}</label>
       <span class="value">
         {{ model.orderApprovalPermissionType?.name }}
@@ -40,21 +40,21 @@
     </div>
 
     <div class="property" *ngIf="model.threshold || model.threshold === 0">
-      <label>{{ 'permission.threshold' | cxTranslate }}</label>
+      <label>{{ 'orgPermission.threshold' | cxTranslate }}</label>
       <span class="value">
         {{ model.threshold }} {{ model.currency?.symbol }}
       </span>
     </div>
 
     <div class="property" *ngIf="model.periodRange">
-      <label>{{ 'permission.periodRange' | cxTranslate }}</label>
+      <label>{{ 'orgPermission.periodRange' | cxTranslate }}</label>
       <span class="value">
         {{ model.periodRange }}
       </span>
     </div>
 
     <div class="property">
-      <label>{{ 'permission.unit' | cxTranslate }}</label>
+      <label>{{ 'orgPermission.unit' | cxTranslate }}</label>
       <a
         *ngIf="model.code"
         class="value"

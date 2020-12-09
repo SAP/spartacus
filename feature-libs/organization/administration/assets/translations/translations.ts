@@ -36,6 +36,6 @@ export const organizationTranslationChunksConfig: TranslationChunksConfig = {
     'orgUserAssignedPermissions',
     'orgUserUserGroups',
     'orgUserAssignedUserGroups',
-    'permission',
+    'orgPermission',
   ],
 };

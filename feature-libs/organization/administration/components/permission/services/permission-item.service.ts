@@ -44,6 +44,6 @@ export class PermissionItemService extends ItemService<Permission> {
   }
 
   protected getDetailsRoute(): string {
-    return 'permissionDetails';
+    return 'orgPermissionDetails';
   }
 }
