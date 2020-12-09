@@ -13,6 +13,8 @@ import { CardComponent } from '../card/card.component';
 import { ItemService } from '../item.service';
 import { MessageService } from '../message/services/message.service';
 
+const DISABLED_STATUS = 'DISABLED';
+
 /**
  * Reusable component for creating and editing organization items. The component does not
  * know anything about form specific.
@@ -48,6 +50,11 @@ export class FormComponent<T> implements OnInit, OnDestroy {
       }
       return this.itemService.getForm(item);
     })
+  );
+
+  disabled$ = this.form$.pipe(
+    switchMap((form) => form.statusChanges),
+    map((status) => status === DISABLED_STATUS)
   );
 
   constructor(

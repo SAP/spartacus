@@ -6,16 +6,7 @@
     cxOrgItemActive
     [subtitle]="subtitle"
   >
-    <!--    <button actions class="button primary">-->
-    <!--      disabled flag: {{ disabled }} | disabled form:{{ form.disabled }}-->
-    <!--    </button>-->
-
-    <!--    <button actions class="button primary" [disabled]="disabled$ | async">-->
-    <button
-      actions
-      class="button primary"
-      [disabled]="(form.statusChanges | async) === 'DISABLED'"
-    >
+    <button actions class="button primary" [disabled]="disabled$ | async">
       {{ 'organization.save' | cxTranslate }}
     </button>
     <button actions class="link" routerLink="../" type="button">
