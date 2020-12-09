@@ -50,6 +50,30 @@ describe('ConfigAttributeNumericInputFieldService', () => {
     ).toBe(true);
   });
 
+  it('should not accept input where natural part exceeds its share of total part for a natural number', () => {
+    expect(
+      serviceUnderTest.performValidationAccordingToMetaData(
+        '123434',
+        ',',
+        '.',
+        9,
+        4
+      )
+    ).toBe(true);
+  });
+
+  it('should not accept input where natural part exceeds its share of total part', () => {
+    expect(
+      serviceUnderTest.performValidationAccordingToMetaData(
+        '123434.2',
+        ',',
+        '.',
+        9,
+        4
+      )
+    ).toBe(true);
+  });
+
   it('should not accept multiple decimal separators in case grouping separator needs escaping', () => {
     expect(
       serviceUnderTest.performValidationAccordingToMetaData(
