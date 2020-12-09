@@ -1,4 +1,4 @@
-<ng-container *ngIf="unit$ | async as orgUnit">
+<ng-container *ngIf="unit$ | async as unit">
   <cx-org-card
     *ngIf="model$ | async as model"
     i18nRoot="orgUnitAddress.details"
@@ -32,7 +32,7 @@
               } | cxUrl
             "
           >
-            {{ orgUnit.name }}
+            {{ unit.name }}
           </a>
         </span>
       </div>
