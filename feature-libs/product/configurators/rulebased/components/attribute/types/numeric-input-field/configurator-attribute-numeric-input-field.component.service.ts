@@ -40,11 +40,11 @@ export class ConfiguratorAttributeNumericInputFieldService {
       return true;
     }
     if (splitParts.length === 1) {
-      return woGrouping.length > numberTotalPlaces;
+      return woGrouping.length > numberTotalPlaces - numberDecimalPlaces;
     }
 
     return (
-      splitParts[0].length + splitParts[1].length > numberTotalPlaces ||
+      splitParts[0].length > numberTotalPlaces - numberDecimalPlaces ||
       splitParts[1].length > numberDecimalPlaces
     );
   }
