@@ -36,9 +36,7 @@ describe('LinkComponent', () => {
         },
       ],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(LinkComponent);
     linkComponent = fixture.componentInstance;
     el = fixture.debugElement;
