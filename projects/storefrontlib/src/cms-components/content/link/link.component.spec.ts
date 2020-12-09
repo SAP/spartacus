@@ -2,28 +2,35 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CmsComponent, CmsLinkComponent } from '@spartacus/core';
+import { CmsLinkComponent } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { GenericLinkModule } from '../../../shared/components/generic-link/generic-link.module';
 import { LinkComponent } from './link.component';
+
+const mockLinkData = {
+  uid: '001',
+  typeCode: 'CMSLinkComponent',
+  name: 'TestCMSLinkComponent',
+  linkName: 'Arbitrary link name',
+  url: '/store-finder',
+  styleAttributes: 'color:red; border-color:blue;',
+};
+
+const data$: BehaviorSubject<CmsLinkComponent> = new BehaviorSubject(
+  mockLinkData
+);
+
+class MockCmsComponentData {
+  get data$(): Observable<CmsLinkComponent> {
+    return data$.asObservable();
+  }
+}
 
 describe('LinkComponent', () => {
   let linkComponent: LinkComponent;
   let fixture: ComponentFixture<LinkComponent>;
   let el: DebugElement;
-
-  const componentData: CmsLinkComponent = {
-    uid: '001',
-    typeCode: 'CMSLinkComponent',
-    name: 'TestCMSLinkComponent',
-    linkName: 'Arbitrary link name',
-    url: '/store-finder',
-  };
-
-  const MockCmsComponentData = <CmsComponentData<CmsComponent>>{
-    data$: of(componentData),
-  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -32,7 +39,7 @@ describe('LinkComponent', () => {
       providers: [
         {
           provide: CmsComponentData,
-          useValue: MockCmsComponentData,
+          useClass: MockCmsComponentData,
         },
       ],
     }).compileComponents();
@@ -40,6 +47,7 @@ describe('LinkComponent', () => {
     fixture = TestBed.createComponent(LinkComponent);
     linkComponent = fixture.componentInstance;
     el = fixture.debugElement;
+    fixture.detectChanges();
   });
 
   it('should create link component', () => {
@@ -47,11 +55,9 @@ describe('LinkComponent', () => {
   });
 
   it('should contain link name and url', () => {
-    fixture.detectChanges();
     const element: HTMLLinkElement = el.query(By.css('a')).nativeElement;
-
-    expect(element.textContent).toEqual(componentData.linkName);
-    expect(element.href).toContain(componentData.url);
+    expect(element.textContent).toEqual(mockLinkData.linkName);
+    expect(element.href).toContain(mockLinkData.url);
   });
 
   describe('getTarget()', () => {
@@ -77,6 +83,27 @@ describe('LinkComponent', () => {
           '_blank'
         );
       });
+    });
+  });
+
+  describe('styling', () => {
+    it('should have style attributes', () => {
+      const element: HTMLLinkElement = el.query(By.css('a')).nativeElement;
+      expect(element.style.color).toEqual('red');
+      expect(element.style.borderColor).toEqual('blue');
+    });
+
+    it('should have style classes', () => {
+      data$.next({ styleClasses: 'cls-1 cls-2' });
+      fixture.detectChanges();
+
+      expect(linkComponent.styleClasses).toContain('cls-1');
+      expect(linkComponent.styleClasses).toContain('cls-2');
+      expect((el.nativeElement as HTMLElement).classList).toContain('cls-1');
+      expect((el.nativeElement as HTMLElement).classList).toContain('cls-2');
+
+      // roll back for other tests
+      data$.next(mockLinkData);
     });
   });
 });
