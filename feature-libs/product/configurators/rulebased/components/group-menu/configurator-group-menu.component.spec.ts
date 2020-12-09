@@ -571,6 +571,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     it("should not contain 'COMPLETE' class despite the group is complete but it has not been visited", () => {
       simpleConfig.complete = true;
       simpleConfig.groups[0].complete = true;
+      simpleConfig.groups[0].consistent = true;
       productConfigurationObservable = of(simpleConfig);
       routerStateObservable = of(mockRouterState);
       mockGroupVisited = false;
@@ -583,9 +584,26 @@ describe('ConfigurationGroupMenuComponent', () => {
       );
     });
 
+    it("should not contain 'COMPLETE' class despite the group is complete and visited but it has conflicts", () => {
+      simpleConfig.complete = true;
+      simpleConfig.groups[0].complete = true;
+      simpleConfig.groups[0].consistent = false;
+      productConfigurationObservable = of(simpleConfig);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      isConflictGroupType = false;
+      initialize();
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'li.cx-menu-item.COMPLETE'
+      );
+    });
+
     it("should contain 'COMPLETE' class because the group is complete and has been visited", () => {
       simpleConfig.complete = true;
       simpleConfig.groups[0].complete = true;
+      simpleConfig.groups[0].consistent = true;
       productConfigurationObservable = of(simpleConfig);
       routerStateObservable = of(mockRouterState);
       mockGroupVisited = true;
