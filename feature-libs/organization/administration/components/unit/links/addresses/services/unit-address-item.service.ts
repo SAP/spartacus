@@ -57,9 +57,13 @@ export class UnitAddressItemService extends ItemService<Address> {
     return this.currentItemService.getDetailsRoute();
   }
 
-  deleteAddress(unitUid: string, addressId: string) {
+  delete(
+    addressId: string,
+    unitUid: string
+  ): Observable<OrganizationItemStatus<Address>> {
     this.launchList();
     this.unitService.deleteAddress(unitUid, addressId);
+    return this.unitService.getAddressLoadingStatus(addressId);
   }
 
   launchDetails(item: Address): void {

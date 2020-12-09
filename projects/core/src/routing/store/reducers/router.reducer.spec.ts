@@ -8,12 +8,12 @@ import {
   StoreRouterConnectingModule,
 } from '@ngrx/router-store';
 import { Store, StoreModule } from '@ngrx/store';
+import { HOME_PAGE_CONTEXT, PageContext } from '@spartacus/core';
 import { PageType } from '../../../model/cms.model';
 import { RoutingConfig } from '../../configurable-routes/config/routing-config';
+import { ChangeNextPageContext } from '../actions/router.action';
 import { RouterState } from '../routing-state';
 import * as fromReducer from './router.reducer';
-import { ChangeNextPageContext } from '../actions/router.action';
-import { PageContext } from '@spartacus/core';
 
 @Component({
   selector: 'cx-test-cmp',
@@ -263,7 +263,7 @@ describe('Router Reducer', () => {
         url: '/',
         queryParams: {},
         params: {},
-        context: { id: 'homepage', type: PageType.CONTENT_PAGE },
+        context: { id: HOME_PAGE_CONTEXT, type: PageType.CONTENT_PAGE },
         cmsRequired: false,
         semanticRoute: SemanticRoutes.HOME,
       });
