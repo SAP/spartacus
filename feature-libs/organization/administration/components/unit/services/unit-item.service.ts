@@ -50,6 +50,6 @@ export class UnitItemService extends ItemService<B2BUnit> {
    * Returns 'unitDetails'
    */
   protected getDetailsRoute(): string {
-    return 'unitDetails';
+    return 'orgUnitDetails';
   }
 }

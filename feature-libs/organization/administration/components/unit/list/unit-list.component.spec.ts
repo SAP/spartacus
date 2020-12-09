@@ -51,8 +51,8 @@ describe('UnitListComponent', () => {
   });
 
   it('should render links', () => {
-    expect(expandAll.innerText).toEqual('unit.tree.expandAll');
-    expect(collapseAll.innerText).toEqual('unit.tree.collapseAll');
+    expect(expandAll.innerText).toEqual('orgUnit.tree.expandAll');
+    expect(collapseAll.innerText).toEqual('orgUnit.tree.collapseAll');
   });
 
   it('should call expandAll', () => {
