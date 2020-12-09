@@ -33,7 +33,10 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
 
     beforeEach(() => {
       loginAsMyCompanyAdmin();
-      cy.visit(`${config.baseUrl}`);
+
+      cy.route('GET', `**${config.apiEndpoint}**`).as('loadEntity');
+      cy.visit(`${config.baseUrl}${entityId ? '/' + entityId : ''}`);
+      cy.wait('@loadEntity');
     });
 
     after(() => {
@@ -58,13 +61,15 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
       }
       completeForm(config.rows, FormType.CREATE);
 
-      cy.route('POST', `**${config.apiEndpoint}**`).as('getEntityData');
+      cy.route('POST', `**${config.apiEndpoint}**`).as('saveEntityData');
+      cy.route('GET', `**${config.apiEndpoint}**`).as('loadEntityData');
       cy.get('div.header button').contains('Save').click();
-      cy.wait('@getEntityData').then((xhr) => {
+      cy.wait('@saveEntityData').then((xhr) => {
         entityUId = xhr.response.body[config.entityIdField];
         entityId =
           entityUId ?? config.rows?.find((row) => row.useInUrl).createValue;
 
+        cy.wait('@loadEntityData');
         verifyDetails(config, FormType.CREATE);
         cy.get('cx-org-card cx-icon[type="CLOSE"]').click();
       });
@@ -72,7 +77,8 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
 
     if (config.canDisable) {
       it('should disable/enable', () => {
-        cy.visit(`${config.baseUrl}/${entityId}`);
+        cy.route('GET', `**${config.apiEndpoint}**`).as('loadEntity');
+        cy.route('PATCH', `**`).as('saveEntity');
 
         cy.get('cx-org-card div.header button').contains('Disable').click();
         cy.get('cx-org-confirmation')
@@ -92,6 +98,9 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
           )
           .contains(CONFIRMATION_LABELS.CONFIRM)
           .click();
+        cy.wait('@saveEntity');
+        cy.wait('@loadEntity');
+
         cy.get('cx-org-confirmation').should('not.exist');
         cy.get('cx-org-notification').contains(' disabled successfully');
         cy.get('cx-org-notification').should('not.exist');
@@ -105,6 +114,9 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
         }
 
         cy.get('div.header button').contains('Enable').click();
+        cy.wait('@saveEntity');
+        cy.wait('@loadEntity');
+
         cy.get('cx-org-notification').contains(' enabled successfully');
         cy.get('cx-org-notification').should('not.exist');
 
@@ -129,8 +141,6 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
         cy.route(config.selectOptionsEndpoint).as('getSelectOptions');
       }
 
-      cy.wait(2000);
-      cy.visit(`${config.baseUrl}/${entityId}`);
       cy.url().should('contain', `${config.baseUrl}/${entityId}`);
 
       cy.get(`cx-org-card a.link`).contains('Edit').click();
@@ -240,7 +250,6 @@ function verifyDetails(config: MyCompanyConfig, formType: FormType) {
     cy.url().should('contain', `${config.baseUrl}/${codeRow[valueKey]}`);
   }
 
-  cy.wait(2000);
   cy.get('cx-org-card div.header h3').contains(
     ignoreCaseSensivity(`${config.name} Details`)
   );
