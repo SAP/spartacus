@@ -44,6 +44,6 @@ export class UserGroupItemService extends ItemService<UserGroup> {
   }
 
   protected getDetailsRoute(): string {
-    return 'userGroupDetails';
+    return 'orgUserGroupDetails';
   }
 }

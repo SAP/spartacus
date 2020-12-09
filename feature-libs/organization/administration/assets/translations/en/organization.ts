@@ -18,11 +18,11 @@ import {
   unitUsers,
 } from './units.i18n';
 import {
-  userGroup,
-  userGroupAssignedPermissions,
-  userGroupAssignedUsers,
-  userGroupPermissions,
-  userGroupUsers,
+  orgUserGroup,
+  orgUserGroupAssignedPermissions,
+  orgUserGroupAssignedUsers,
+  orgUserGroupPermissions,
+  orgUserGroupUsers,
 } from './user-group.i18n';
 import {
   orgUser,
@@ -108,11 +108,11 @@ export const organization = {
   unitCostCenters,
   unitAddress,
 
-  userGroup,
-  userGroupUsers,
-  userGroupAssignedUsers,
-  userGroupPermissions,
-  userGroupAssignedPermissions,
+  orgUserGroup,
+  orgUserGroupUsers,
+  orgUserGroupAssignedUsers,
+  orgUserGroupPermissions,
+  orgUserGroupAssignedPermissions,
   orgUser,
   orgUserUserGroups,
   orgUserAssignedUserGroups,
