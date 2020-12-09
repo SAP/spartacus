@@ -37,7 +37,6 @@ export class FormComponent<T> implements OnInit, OnDestroy {
    * i18n key for the localizations.
    */
   i18n: string;
-  disabled = false;
 
   form$: Observable<FormGroup> = this.itemService.current$.pipe(
     map((item) => {
@@ -57,7 +56,6 @@ export class FormComponent<T> implements OnInit, OnDestroy {
   ) {}
 
   save(form: FormGroup): void {
-    this.disabled = true;
     this.itemService.key$
       .pipe(
         first(),
@@ -77,10 +75,7 @@ export class FormComponent<T> implements OnInit, OnDestroy {
           this.itemService.launchDetails(item);
           this.notify(item, action);
         }
-        console.log('disabled flag bf', this.disabled, form.disabled);
         form.enable();
-        this.disabled = false;
-        console.log('disabled flag af', this.disabled, form.disabled);
       });
   }
 
