@@ -1,6 +1,6 @@
 <ng-container
   *ngIf="{
-    orderHistory: orders$ | waitForAsync,
+    orderHistory: orders$ | async,
     replenishmentOrder: hasReplenishmentOrder$ | async
   } as type"
 >
