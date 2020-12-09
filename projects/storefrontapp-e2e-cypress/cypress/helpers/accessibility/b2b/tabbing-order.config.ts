@@ -1,5 +1,5 @@
-import { TabbingOrderConfig, TabbingOrderTypes } from '../tabbing-order.model';
 import * as orderApprovalSampleData from '../../../sample-data/b2b-order-approval';
+import { TabbingOrderConfig, TabbingOrderTypes } from '../tabbing-order.model';
 
 const paymentTypeRadio = {
   value: 'paymentType',
@@ -8,6 +8,56 @@ const paymentTypeRadio = {
 
 const backButton = { value: 'Back', type: TabbingOrderTypes.BUTTON };
 const continueButton = { value: 'Continue', type: TabbingOrderTypes.BUTTON };
+
+const accountReviewOrderGeneral = [
+  { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
+  { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
+  { value: 'DeliveryMode', type: TabbingOrderTypes.LINK },
+  {
+    value: '/powertools-spa/en/USD/checkout/payment-type',
+    type: TabbingOrderTypes.IMG_LINK,
+  },
+  {
+    value: '/powertools-spa/en/USD/checkout/payment-type',
+    type: TabbingOrderTypes.IMG_LINK,
+  },
+  {
+    value: '/powertools-spa/en/USD/checkout/shipping-address',
+    type: TabbingOrderTypes.IMG_LINK,
+  },
+  {
+    value: '/powertools-spa/en/USD/checkout/shipping-address',
+    type: TabbingOrderTypes.IMG_LINK,
+  },
+  {
+    value: '/powertools-spa/en/USD/checkout/delivery-mode',
+    type: TabbingOrderTypes.IMG_LINK,
+  },
+  {
+    value: 'Cordless screwdriver 2436',
+    type: TabbingOrderTypes.LINK,
+  },
+  {
+    value: 'orderType',
+    type: TabbingOrderTypes.RADIO,
+  },
+  {
+    value: 'orderType',
+    type: TabbingOrderTypes.RADIO,
+  },
+];
+
+const acceptAndSubmitOrder = [
+  {
+    value: 'I am confirming that I have read and agreed with',
+    type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+  },
+  {
+    value: 'Terms & Conditions',
+    type: TabbingOrderTypes.LINK,
+  },
+  { value: 'Place Order', type: TabbingOrderTypes.BUTTON },
+];
 
 export const tabbingOrderConfig: TabbingOrderConfig = {
   paymentMethod: [
@@ -146,50 +196,8 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Place Order', type: TabbingOrderTypes.BUTTON },
   ],
   checkoutReviewOrderAccount: [
-    { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
-    { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
-    { value: 'DeliveryMode', type: TabbingOrderTypes.LINK },
-    {
-      value: '/powertools-spa/en/USD/checkout/payment-type',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
-    {
-      value: '/powertools-spa/en/USD/checkout/payment-type',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
-    {
-      value: '/powertools-spa/en/USD/checkout/shipping-address',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
-    {
-      value: '/powertools-spa/en/USD/checkout/shipping-address',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
-    {
-      value: '/powertools-spa/en/USD/checkout/delivery-mode',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
-    {
-      value: 'Cordless screwdriver 2436',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'orderType',
-      type: TabbingOrderTypes.RADIO,
-    },
-    {
-      value: 'orderType',
-      type: TabbingOrderTypes.RADIO,
-    },
-    {
-      value: 'I am confirming that I have read and agreed with',
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-    },
-    {
-      value: 'Terms & Conditions',
-      type: TabbingOrderTypes.LINK,
-    },
-    { value: 'Place Order', type: TabbingOrderTypes.BUTTON },
+    ...accountReviewOrderGeneral,
+    ...acceptAndSubmitOrder,
   ],
   orderApprovalList: [
     {
@@ -281,5 +289,12 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Angle Grinder RT-AG 115',
       type: TabbingOrderTypes.LINK,
     },
+  ],
+  replenishmentOrderAccountCheckoutReviewOrder: [
+    ...accountReviewOrderGeneral,
+    { value: '1', type: TabbingOrderTypes.SELECT },
+    { value: 'Day(s)', type: TabbingOrderTypes.SELECT },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    ...acceptAndSubmitOrder,
   ],
 };

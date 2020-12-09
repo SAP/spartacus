@@ -57,8 +57,8 @@ describe('Spartacus Organization schematics: ng-add', () => {
       '../../projects/schematics/src/collection.json'
     );
     schematicRunner.registerCollection(
-      '@spartacus/misc',
-      '../../feature-libs/misc/schematics/collection.json'
+      '@spartacus/storefinder',
+      '../../feature-libs/storefinder/schematics/collection.json'
     );
 
     appTree = await schematicRunner
@@ -342,7 +342,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
         .runExternalSchematicAsync(
-          '@spartacus/misc',
+          '@spartacus/storefinder',
           'ng-add',
           { ...spartacusDefaultOptions, name: 'schematics-test' },
           appTree
