@@ -282,10 +282,7 @@ describe('B2B User Effects', () => {
 
   describe('createB2BUser$', () => {
     it('should return CreateB2BUserSuccess action', () => {
-      const action = new B2BUserActions.CreateB2BUser({
-        userId,
-        orgCustomer,
-      });
+      const action = new B2BUserActions.CreateB2BUser({ userId, orgCustomer });
       const completion1 = new B2BUserActions.CreateB2BUserSuccess(orgCustomer);
       const completion2 = new B2BUserActions.CreateB2BUserSuccess({
         customerId: null,
