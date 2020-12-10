@@ -138,8 +138,6 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
         cy.route(config.selectOptionsEndpoint).as('getSelectOptions');
       }
 
-      verifyDetails(config, FormType.CREATE);
-
       cy.get(`cx-org-card a.link`).contains('Edit').click();
       cy.url().should('contain', `${config.baseUrl}/${entityId}/edit`);
 
