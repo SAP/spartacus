@@ -38,12 +38,12 @@ export class LanguageService implements SiteContext<Language> {
       select(SiteContextSelectors.getAllLanguages),
       tap((languages) => {
         if (isDevMode() && languages) {
-          let languageMimatch = false;
+          let languageMismatch = false;
           languages.forEach((language) => {
             if (!this.config.context.language.includes(language.isocode))
-              languageMimatch = true;
+              languageMismatch = true;
           });
-          if (languageMimatch)
+          if (languageMismatch)
             console.warn(
               'A mismatch between context config and available CMS Languages detected.'
             );

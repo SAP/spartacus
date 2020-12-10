@@ -38,12 +38,12 @@ export class CurrencyService implements SiteContext<Currency> {
       select(SiteContextSelectors.getAllCurrencies),
       tap((currencies) => {
         if (isDevMode && currencies) {
-          let currencyMimatch = false;
+          let currencyMismatch = false;
           currencies.forEach((currency) => {
             if (!this.config.context.currency.includes(currency.isocode))
-              currencyMimatch = true;
+              currencyMismatch = true;
           });
-          if (currencyMimatch)
+          if (currencyMismatch)
             console.warn(
               'A mismatch between context config and available CMS Currencies detected.'
             );
