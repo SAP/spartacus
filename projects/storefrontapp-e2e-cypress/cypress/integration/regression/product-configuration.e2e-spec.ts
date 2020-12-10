@@ -379,9 +379,7 @@ context('Product Configuration', () => {
       configuration.isConflictDescriptionDisplayed(Conflict_msg_gaming_console);
       configuration.clickOnNextBtn(GENERAL);
       configuration.isStatusIconDisplayed(SOURCE_COMPONENTS, WARNING);
-      configuration.isStatusIconDisplayed(SOURCE_COMPONENTS, COMPLETE);
       configuration.isStatusIconDisplayed(VIDEO_SYSTEM, WARNING);
-      configuration.isStatusIconDisplayed(VIDEO_SYSTEM, COMPLETE);
       configuration.clickAddToCartBtn();
       // Navigate to Overview page and verify whether the resolve issues banner is displayed and how many issues are there
       configurationOverview.verifyNotificationBannerOnOP(1);
