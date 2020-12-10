@@ -1,4 +1,4 @@
-import { OccConfig, ProductScope } from '@spartacus/core';
+import { OccConfig } from '@spartacus/core';
 import { ConfiguratorProductScope } from '../core/model/configurator-product-scope';
 
 export const defaultOccConfiguratorProductConfig: OccConfig = {
@@ -13,13 +13,6 @@ export const defaultOccConfiguratorProductConfig: OccConfig = {
     },
     loadingScopes: {
       product: {
-        details: {
-          include: [
-            ProductScope.LIST,
-            ProductScope.VARIANTS,
-            ConfiguratorProductScope.CONFIGURATOR,
-          ],
-        },
         list: {
           include: [ConfiguratorProductScope.CONFIGURATOR],
         },

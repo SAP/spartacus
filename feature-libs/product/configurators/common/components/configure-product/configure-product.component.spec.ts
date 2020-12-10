@@ -1,9 +1,10 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, Product } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
+import { ConfiguratorProductScope } from '../../core/model/configurator-product-scope';
 import { CommonConfiguratorTestUtilsService } from '../../shared/testing/common-configurator-test-utils.service';
 import { ConfigureProductComponent } from './configure-product.component';
 
@@ -30,6 +31,7 @@ class MockUrlPipe implements PipeTransform {
 
 describe('ConfigureProductComponent', () => {
   let component: ConfigureProductComponent;
+  let currentProductService: CurrentProductService;
   let fixture: ComponentFixture<ConfigureProductComponent>;
   let htmlElem: HTMLElement;
 
@@ -45,6 +47,10 @@ describe('ConfigureProductComponent', () => {
           },
         ],
       }).compileComponents();
+      currentProductService = TestBed.inject(
+        CurrentProductService as Type<CurrentProductService>
+      );
+      spyOn(currentProductService, 'getProduct').and.callThrough();
       fixture = TestBed.createComponent(ConfigureProductComponent);
       component = fixture.componentInstance;
       htmlElem = fixture.nativeElement;
@@ -53,6 +59,12 @@ describe('ConfigureProductComponent', () => {
 
   it('should create component', () => {
     expect(component).toBeDefined();
+  });
+
+  it('should call currentProductService with configurator scope only as we do not need more scopes', () => {
+    expect(currentProductService.getProduct).toHaveBeenCalledWith(
+      ConfiguratorProductScope.CONFIGURATOR
+    );
   });
 
   it('should show button', () => {
