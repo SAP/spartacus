@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ConflictHandler } from './conflict.handler';
+import { OrganizationConflictHandler } from './conflict.handler';
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import {
   GlobalMessageService,
@@ -68,20 +68,20 @@ const MockUnitConflictResponse = {
 } as HttpErrorResponse;
 
 describe('ConflictHandler', () => {
-  let service: ConflictHandler;
+  let service: OrganizationConflictHandler;
   let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        ConflictHandler,
+        OrganizationConflictHandler,
         {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
       ],
     });
-    service = TestBed.inject(ConflictHandler);
+    service = TestBed.inject(OrganizationConflictHandler);
     globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
@@ -109,7 +109,7 @@ describe('ConflictHandler', () => {
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
-        key: 'httpHandlers.organization.conflict.budget',
+        key: 'organization.httpHandlers.conflict.budget',
         params: { code: 'BurritoPurchases1' },
       },
       GlobalMessageType.MSG_TYPE_ERROR
@@ -122,7 +122,7 @@ describe('ConflictHandler', () => {
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
-        key: 'httpHandlers.organization.conflict.user',
+        key: 'organization.httpHandlers.conflict.user',
         params: { code: 'test@test.com' },
       },
       GlobalMessageType.MSG_TYPE_ERROR
@@ -138,7 +138,7 @@ describe('ConflictHandler', () => {
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
-        key: 'httpHandlers.organization.conflict.userGroup',
+        key: 'organization.httpHandlers.conflict.userGroup',
         params: { code: 'testGroupId' },
       },
       GlobalMessageType.MSG_TYPE_ERROR
@@ -151,7 +151,7 @@ describe('ConflictHandler', () => {
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
-        key: 'httpHandlers.organization.conflict.unit',
+        key: 'organization.httpHandlers.conflict.unit',
         params: { code: 'TU22' },
       },
       GlobalMessageType.MSG_TYPE_ERROR
