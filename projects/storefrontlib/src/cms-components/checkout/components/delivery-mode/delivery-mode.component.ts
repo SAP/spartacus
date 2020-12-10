@@ -26,7 +26,6 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
 export class DeliveryModeComponent implements OnInit, OnDestroy {
   supportedDeliveryModes$: Observable<DeliveryMode[]>;
   selectedDeliveryMode$: Observable<DeliveryMode>;
-  currentDeliveryModeId: string;
   continueButtonPressed = false;
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
@@ -91,16 +90,12 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
           );
         }
         this.mode.controls['deliveryModeId'].setValue(code);
-        this.currentDeliveryModeId = code;
         this.checkoutDeliveryService.setDeliveryMode(code);
       });
   }
 
   changeMode(code: string): void {
-    if (code !== this.currentDeliveryModeId) {
-      this.checkoutDeliveryService.setDeliveryMode(code);
-      this.currentDeliveryModeId = code;
-    }
+    this.checkoutDeliveryService.setDeliveryMode(code);
   }
 
   next(): void {
