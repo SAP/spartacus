@@ -69,6 +69,10 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
         entityId =
           entityUId ?? config.rows?.find((row) => row.useInUrl).createValue;
 
+        if (config.preserveCookies) {
+          cy.setCookie(ENTITY_UID_COOKIE_KEY, entityUId);
+        }
+
         cy.wait('@loadEntityData');
         verifyDetails(config, FormType.CREATE);
         cy.get('cx-org-card cx-icon[type="CLOSE"]').click();
@@ -102,7 +106,6 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
         cy.wait('@loadEntity');
 
         cy.get('cx-org-confirmation').should('not.exist');
-        cy.get('cx-org-notification').contains(' disabled successfully');
         cy.get('cx-org-notification').should('not.exist');
         cy.get('div.header button').contains('Disable').should('not.exist');
 
@@ -116,8 +119,6 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
         cy.get('div.header button').contains('Enable').click();
         cy.wait('@saveEntity');
         cy.wait('@loadEntity');
-
-        cy.get('cx-org-notification').contains(' enabled successfully');
         cy.get('cx-org-notification').should('not.exist');
 
         cy.get('div.header button').contains('Enable').should('not.exist');
@@ -133,15 +134,11 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
     }
 
     it(`should update`, () => {
-      if (config.preserveCookies) {
-        cy.setCookie(ENTITY_UID_COOKIE_KEY, entityUId);
-      }
-
       if (config.selectOptionsEndpoint) {
         cy.route(config.selectOptionsEndpoint).as('getSelectOptions');
       }
 
-      cy.url().should('contain', `${config.baseUrl}/${entityId}`);
+      verifyDetails(config, FormType.CREATE);
 
       cy.get(`cx-org-card a.link`).contains('Edit').click();
       cy.url().should('contain', `${config.baseUrl}/${entityId}/edit`);
@@ -154,8 +151,12 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
         cy.wait('@getSelectOptions');
       }
 
+      cy.route('PATCH', `**`).as('saveEntityData');
+      cy.route('GET', `**${config.apiEndpoint}**`).as('loadEntityData');
       completeForm(config.rows, FormType.UPDATE);
       cy.get('div.header button').contains('Save').click();
+      cy.wait('@saveEntityData');
+      cy.wait('@loadEntityData');
 
       verifyDetails(config, FormType.UPDATE);
 
