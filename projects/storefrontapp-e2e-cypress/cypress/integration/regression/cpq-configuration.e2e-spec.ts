@@ -110,11 +110,17 @@ context('CPQ Configuration', () => {
       configuration.selectAttribute(
         ATTR_MEMORY_CARD,
         checkBoxList,
-        MEMORY_CARD_PANAAU_XP
+        MEMORY_CARD_SDULTRA64
       );
       configuration.isCheckboxSelected(ATTR_MEMORY_CARD, MEMORY_CARD_SDEP128);
-      configuration.isCheckboxSelected(ATTR_MEMORY_CARD, MEMORY_CARD_SDULTRA64);
-      configuration.isCheckboxSelected(ATTR_MEMORY_CARD, MEMORY_CARD_PANAAU_XP);
+      configuration.verifyCheckboxNotSelected(
+        ATTR_MEMORY_CARD,
+        MEMORY_CARD_SDULTRA64
+      );
+      configuration.verifyCheckboxNotSelected(
+        ATTR_MEMORY_CARD,
+        MEMORY_CARD_PANAAU_XP
+      );
 
       configuration.selectAttribute(
         ATTR_MEMORY_CARD,
@@ -125,8 +131,14 @@ context('CPQ Configuration', () => {
         ATTR_MEMORY_CARD,
         MEMORY_CARD_SDEP128
       );
-      configuration.isCheckboxSelected(ATTR_MEMORY_CARD, MEMORY_CARD_SDULTRA64);
-      configuration.isCheckboxSelected(ATTR_MEMORY_CARD, MEMORY_CARD_PANAAU_XP);
+      configuration.verifyCheckboxNotSelected(
+        ATTR_MEMORY_CARD,
+        MEMORY_CARD_SDULTRA64
+      );
+      configuration.verifyCheckboxNotSelected(
+        ATTR_MEMORY_CARD,
+        MEMORY_CARD_PANAAU_XP
+      );
     });
   });
 });
