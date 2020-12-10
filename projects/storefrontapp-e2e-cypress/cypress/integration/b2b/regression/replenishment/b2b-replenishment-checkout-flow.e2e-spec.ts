@@ -8,7 +8,7 @@ import {
   recurrencePeriod,
 } from '../../../../sample-data/b2b-checkout';
 
-context.skip('B2B - Replenishment Checkout flow', () => {
+context('B2B - Replenishment Checkout flow', () => {
   for (const [key, replenishment] of Object.entries(recurrencePeriod)) {
     describe(key, () => {
       before(() => {
