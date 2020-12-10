@@ -1,16 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
-import { GlobalMessageType } from '../../../models/global-message.model';
-import { HttpResponseStatus } from '../../../models/response-status.model';
-import { HttpErrorHandler } from '../http-error.handler';
-import { Priority } from '../../../../util/applicable';
-import { ErrorModel } from '../../../../model/misc.model';
+import {
+  ErrorModel,
+  GlobalMessageType,
+  HttpErrorHandler,
+  HttpResponseStatus,
+  Priority,
+} from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ConflictHandler extends HttpErrorHandler {
+export class OrganizationConflictHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.CONFLICT;
+
+  hasMatch(errorResponse: HttpErrorResponse): boolean {
+    return (
+      super.hasMatch(errorResponse) && this.getErrors(errorResponse).length > 0
+    );
+  }
 
   handleError(request: HttpRequest<any>, response: HttpErrorResponse) {
     if (!this.handleDuplicated(request, response)) {
@@ -26,7 +34,6 @@ export class ConflictHandler extends HttpErrorHandler {
     response: HttpErrorResponse
   ): boolean {
     return this.getErrors(response)
-      .filter((error) => error.type === 'AlreadyExistsError')
       .map(({ message }: ErrorModel) =>
         [
           this.handleBudgetConflict(message),
@@ -48,7 +55,7 @@ export class ConflictHandler extends HttpErrorHandler {
     const params = { code: result?.[1] ?? code };
     if (result) {
       this.globalMessageService.add(
-        { key: `httpHandlers.organization.conflict.${key}`, params },
+        { key: `organization.httpHandlers.conflict.${key}`, params },
         GlobalMessageType.MSG_TYPE_ERROR
       );
       return true;
@@ -99,10 +106,12 @@ export class ConflictHandler extends HttpErrorHandler {
   }
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
-    return response.error?.errors || [];
+    return (response.error?.errors || []).filter(
+      (error) => error.type === 'AlreadyExistsError'
+    );
   }
 
   getPriority(): Priority {
-    return Priority.LOW;
+    return Priority.NORMAL;
   }
 }

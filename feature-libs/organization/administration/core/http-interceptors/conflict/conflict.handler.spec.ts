@@ -1,9 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { GlobalMessageService } from '../../../facade';
-import { GlobalMessageType } from '../../../models/global-message.model';
-import { HttpResponseStatus } from '../../../models/response-status.model';
 import { ConflictHandler } from './conflict.handler';
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
+import {
+  GlobalMessageService,
+  HttpResponseStatus,
+  GlobalMessageType,
+} from '@spartacus/core';
 
 class MockGlobalMessageService {
   add() {}

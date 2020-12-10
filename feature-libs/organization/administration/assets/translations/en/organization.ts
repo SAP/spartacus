@@ -89,6 +89,18 @@ export const organization = {
       cancel: 'CANCEL',
       confirm: 'CONFIRM',
     },
+
+    httpHandlers: {
+      conflict: {
+        budget: 'Budget with code {{ code }} already exists.',
+        costCenter: 'Cost center with code {{ code }} already exists.',
+        unit: 'Organizational unit with uid {{ code }} already exists.',
+        user: 'User with email {{ code }} already exists',
+        userGroup: 'User Group with id {{ code }} already exists',
+        permission: 'Approval Permission with code {{ code }} already exists.',
+        unknown: 'Used ID already exists or we met other validation error.',
+      },
+    },
   },
 
   // sub feature labels are added below
