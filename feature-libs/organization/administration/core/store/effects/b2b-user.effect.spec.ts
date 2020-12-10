@@ -43,7 +43,7 @@ const userId = 'testUser';
 const orgCustomerId = 'orgCustomerId';
 
 const orgCustomer: B2BUser = {
-  active: null,
+  active: true,
   customerId: orgCustomerId,
   uid: 'aaa@bbb',
   name: 'test',
