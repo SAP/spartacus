@@ -38,7 +38,7 @@ export const configurator = {
       more: 'More',
       less: 'Less',
       select: 'Select',
-      remove: 'Remove',
+      deselect: 'Deselect',
     },
     priceSummary: {
       basePrice: 'Base Price',

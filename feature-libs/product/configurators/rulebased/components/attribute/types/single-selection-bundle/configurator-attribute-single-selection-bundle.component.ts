@@ -6,10 +6,10 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
+import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'cx-configurator-attribute-single-selection-bundle',
@@ -21,26 +21,22 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit {
   attributeSingleSelectionBundleForm = new FormControl('');
+  quantity = new FormControl(1);
+  priceSelected: number;
 
   @Input() attribute: Configurator.Attribute;
   @Input() ownerKey: string;
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  quantity = new FormControl(0);
-
   ngOnInit(): void {
-    this.quantity.setValue(this.attribute.quantity);
-
     this.attributeSingleSelectionBundleForm.setValue(
       this.attribute.selectedSingleValue
     );
+
+    this.priceSelected =
+      this.attribute.values.find((value) => value.selected)?.price || 0;
   }
 
-  /**
-   * Submits a value.
-   *
-   * @param {string} value - Selected value
-   */
   onSelect(value: string): void {
     const event: ConfigFormUpdateEvent = {
       ownerKey: this.ownerKey,
@@ -54,7 +50,21 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent
       },
     };
 
-    console.log(event);
+    this.selectionChange.emit(event);
+  }
+
+  onDeselect() {
+    const event: ConfigFormUpdateEvent = {
+      ownerKey: this.ownerKey,
+      changedAttribute: {
+        ...this.attribute,
+        name: this.attribute.name,
+        selectedSingleValue: '',
+        uiType: this.attribute.uiType,
+        groupId: this.attribute.groupId,
+      },
+    };
+
     this.selectionChange.emit(event);
   }
 }

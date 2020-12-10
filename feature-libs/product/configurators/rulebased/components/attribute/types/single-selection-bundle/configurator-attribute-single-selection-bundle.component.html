@@ -1,98 +1,76 @@
-<fieldset>
-  <legend style="display: none">{{ attribute.label }}</legend>
+<fieldset class="cx-single-selection-bundle-container">
+  <div class="cx-single-selection-bundle-quantity">
+    <div class="cx-single-selection-bundle-quantity-input">
+      <label>Qty</label>
+      <cx-item-counter
+        [allowZero]="true"
+        [control]="quantity"
+        [max]="100"
+        [readonly]="!attribute.selectedSingleValue"
+      ></cx-item-counter>
+    </div>
 
-  <div class="cx-single-select-bundle-quantity">
-    <label>Qty</label>
-    <cx-item-counter
-      [allowZero]="true"
-      [max]="100"
-      [control]="quantity"
-      [readonly]="!attribute.selectedSingleValue"
-    ></cx-item-counter>
+    <div
+      class="cx-single-selection-bundle-price"
+      *ngIf="attribute.selectedSingleValue"
+    >
+      {{ quantity.value }} x {{ priceSelected }}$ =
+      {{ quantity.value * priceSelected }}$
+    </div>
   </div>
 
   <div id="{{ createAttributeIdForConfigurator(attribute) }}">
-    <div class="cx-single-select-bundle" *ngFor="let value of attribute.values">
-      <label
-        class="cx-single-select-bundle-label"
-        id="{{ createValueUiKey('label', attribute.name, value.valueCode) }}"
-        for="{{
-          createAttributeValueIdForConfigurator(attribute, value.valueCode)
-        }}"
-      >
-        <input
-          id="{{
-            createAttributeValueIdForConfigurator(attribute, value.valueCode)
-          }}"
-          class="form-check-input"
-          type="radio"
-          formcontrolname="attributeSingleSelectionBundleForm"
-          [formControl]="attributeSingleSelectionBundleForm"
-          [attr.required]="attribute.required"
-          [value]="value.valueCode"
-          name="{{ createAttributeIdForConfigurator(attribute) }}"
-          attr.name="{{ createAttributeIdForConfigurator(attribute) }}"
-          [cxFocus]="{ key: attribute.name + '-' + value.name }"
-          attr.aria-labelledby="{{
-            createAriaLabelledBy('label', attribute.name, value.valueCode)
-          }}"
-          [attr.aria-checked]="
-            attributeSingleSelectionBundleForm.value === value.valueCode
-              ? true
-              : false
-          "
-          [attr.checked]="
-            attributeSingleSelectionBundleForm.value === value.valueCode
-              ? 'checked'
-              : null
-          "
-          (change)="onSelect(value.valueCode)"
-        />
-        <div class="cx-dumy-img"></div>
-      </label>
-      <div class="cx-single-select-bundle-data">
-        <div class="cx-single-select-bundle-title">
-          {{ value.valueDisplay }}
+    <div
+      class="cx-single-selection-bundle-item"
+      [ngClass]="{
+        'cx-single-selection-bundle-item-selected': value.selected
+      }"
+      *ngFor="let value of attribute.values"
+    >
+      <div class="cx-single-selection-bundle-item-body">
+        <div class="cx-single-selection-bundle-item-image">
+          <div class="cx-single-selection-bundle-item-placeholder"></div>
         </div>
-        <div class="cx-single-select-bundle-code">ID {{ value.valueCode }}</div>
-
-        <cx-configurator-show-more
-          [text]="
-            value.description
-              ? value.description
-              : 'Bosch SDS-plus tool holder – fast and tool-free bit changing and optimum power transfer. Integrated chisel function with Vario-Lock – freely selectable work position of the chisel Impact stop for drilling in metal and wood'
-          "
-        ></cx-configurator-show-more>
-      </div>
-      <div class="cx-single-select-bundle-footer">
-        <div class="cx-single-select-bundle-item-quantity">
-          <ng-container *ngIf="value.selected">
-            <label>Qty</label>
-            <cx-item-counter
-              [allowZero]="true"
-              [max]="100"
-              [control]="quantity"
-            ></cx-item-counter>
-          </ng-container>
-          <button
-            class="btn btn-action btn-sm"
-            *ngIf="value.selected; else select"
-          >
-            {{ 'configurator.button.remove' | cxTranslate }}
-          </button>
-          <ng-template #select>
-            <button
-              class="btn btn-action btn-sm"
-              (click)="onSelect(value.valueCode)"
+        <div class="cx-single-selection-bundle-item-data">
+          <div class="cx-single-selection-bundle-item-name">
+            <a
+              [routerLink]="{ cxRoute: 'product', params: value } | cxUrl"
+              class="cx-link"
+              cxModal="dismiss"
+              target="_blank"
             >
-              {{ 'configurator.button.select' | cxTranslate }}
-            </button>
-          </ng-template>
+              {{ value.valueDisplay }}</a
+            >
+          </div>
+          <div class="cx-single-selection-bundle-item-code">
+            ID {{ value.valueCode }}
+          </div>
+          <cx-configurator-show-more
+            [text]="
+              value.description
+                ? value.description
+                : 'Bosch SDS-plus tool holder – fast and tool-free bit changing and optimum power transfer. Integrated chisel function with Vario-Lock – freely selectable work position of the chisel Impact stop for drilling in metal and wood'
+            "
+          ></cx-configurator-show-more>
+          <div class="cx-single-selection-bundle-item-price">
+            + {{ value.price }}$
+          </div>
         </div>
-        <div class="-cx-single-select-bundle-price" *ngIf="value.selected">
-          {{ quantity.value }} x {{ value.price }}$ =
-          {{ quantity.value * value.price }}$
-        </div>
+      </div>
+      <div class="cx-single-selection-bundle-item-footer">
+        <button
+          (click)="onDeselect()"
+          [disabled]="attribute.required"
+          *ngIf="value.selected; else select"
+          class="btn btn-secondary"
+        >
+          {{ 'configurator.button.deselect' | cxTranslate }}
+        </button>
+        <ng-template #select>
+          <button class="btn btn-primary" (click)="onSelect(value.valueCode)">
+            {{ 'configurator.button.select' | cxTranslate }}
+          </button>
+        </ng-template>
       </div>
     </div>
   </div>
