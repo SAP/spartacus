@@ -1,0 +1,81 @@
+<div
+  class="cx-configurator-attribute-product-card"
+  [ngClass]="{
+    'cx-configurator-attribute-product-card-selected': product.selected
+  }"
+>
+  <div class="cx-configurator-attribute-product-card-rows">
+    <div class="cx-configurator-attribute-product-card-imgs">
+      <div class="cx-configurator-attribute-product-card-imgs-fake"></div>
+    </div>
+
+    <div class="cx-configurator-attribute-product-card-info">
+      <div class="cx-configurator-attribute-product-card-name">
+        <a
+          [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
+          class="cx-link"
+          cxModal="dismiss"
+          target="_blank"
+        >
+          {{ product.valueDisplay }}</a
+        >
+      </div>
+      <div class="cx-configurator-attribute-product-card-code">
+        ID {{ product.valueCode }}
+      </div>
+      <cx-configurator-show-more
+        [text]="
+          product.description
+            ? product.description
+            : 'Bosch SDS-plus tool holder – fast and tool-free bit changing and optimum power transfer. Integrated chisel function with Vario-Lock – freely selectable work position of the chisel Impact stop for drilling in metal and wood'
+        "
+      ></cx-configurator-show-more>
+    </div>
+  </div>
+
+  <div class="cx-configurator-attribute-product-card-rows">
+    <div class="cx-configurator-attribute-product-card-price">
+      + {{ product.price }}$
+    </div>
+  </div>
+
+  <div class="cx-configurator-attribute-product-card-rows">
+    <div class="cx-configurator-attribute-product-card-action">
+      <ng-container *ngIf="multiple; else single">
+        <button
+          *ngIf="product.selected; else select"
+          class="btn btn-secondary"
+          (click)="onHandleDeselect(product.valueCode)"
+        >
+          {{ 'configurator.button.remove' | cxTranslate }}
+        </button>
+        <ng-template #select>
+          <button
+            class="btn btn-primary"
+            (click)="onHandleSelect(product.valueCode)"
+          >
+            {{ 'configurator.button.add' | cxTranslate }}
+          </button>
+        </ng-template>
+      </ng-container>
+      <ng-template #single>
+        <button
+          *ngIf="product.selected; else select"
+          class="btn btn-secondary"
+          (click)="onHandleDeselect(product.valueCode)"
+          disabled
+        >
+          {{ 'configurator.button.deselect' | cxTranslate }}
+        </button>
+        <ng-template #select>
+          <button
+            class="btn btn-primary"
+            (click)="onHandleSelect(product.valueCode)"
+          >
+            {{ 'configurator.button.select' | cxTranslate }}
+          </button>
+        </ng-template>
+      </ng-template>
+    </div>
+  </div>
+</div>

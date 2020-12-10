@@ -1,5 +1,5 @@
-<fieldset class="cx-single-selection-bundle-container">
-  <div class="cx-single-selection-bundle-quantity">
+<fieldset class="cx-configurator-attribute-single-selection-bundle">
+  <div class="cx-configurator-attribute-single-selection-bundle-quantity">
     <div class="cx-single-selection-bundle-quantity-input">
       <label>Qty</label>
       <cx-item-counter
@@ -19,59 +19,10 @@
     </div>
   </div>
 
-  <div id="{{ createAttributeIdForConfigurator(attribute) }}">
-    <div
-      class="cx-single-selection-bundle-item"
-      [ngClass]="{
-        'cx-single-selection-bundle-item-selected': value.selected
-      }"
-      *ngFor="let value of attribute.values"
-    >
-      <div class="cx-single-selection-bundle-item-body">
-        <div class="cx-single-selection-bundle-item-image">
-          <div class="cx-single-selection-bundle-item-placeholder"></div>
-        </div>
-        <div class="cx-single-selection-bundle-item-data">
-          <div class="cx-single-selection-bundle-item-name">
-            <a
-              [routerLink]="{ cxRoute: 'product', params: value } | cxUrl"
-              class="cx-link"
-              cxModal="dismiss"
-              target="_blank"
-            >
-              {{ value.valueDisplay }}</a
-            >
-          </div>
-          <div class="cx-single-selection-bundle-item-code">
-            ID {{ value.valueCode }}
-          </div>
-          <cx-configurator-show-more
-            [text]="
-              value.description
-                ? value.description
-                : 'Bosch SDS-plus tool holder – fast and tool-free bit changing and optimum power transfer. Integrated chisel function with Vario-Lock – freely selectable work position of the chisel Impact stop for drilling in metal and wood'
-            "
-          ></cx-configurator-show-more>
-          <div class="cx-single-selection-bundle-item-price">
-            + {{ value.price }}$
-          </div>
-        </div>
-      </div>
-      <div class="cx-single-selection-bundle-item-footer">
-        <button
-          (click)="onDeselect()"
-          [disabled]="attribute.required"
-          *ngIf="value.selected; else select"
-          class="btn btn-secondary"
-        >
-          {{ 'configurator.button.deselect' | cxTranslate }}
-        </button>
-        <ng-template #select>
-          <button class="btn btn-primary" (click)="onSelect(value.valueCode)">
-            {{ 'configurator.button.select' | cxTranslate }}
-          </button>
-        </ng-template>
-      </div>
-    </div>
-  </div>
+  <cx-configurator-attribute-product-card
+    (handleSelect)="onSelect($event)"
+    *ngFor="let value of attribute.values"
+    [product]="value"
+  >
+  </cx-configurator-attribute-product-card>
 </fieldset>

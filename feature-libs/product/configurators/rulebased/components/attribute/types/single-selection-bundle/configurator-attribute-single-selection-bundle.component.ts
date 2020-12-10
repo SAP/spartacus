@@ -20,7 +20,6 @@ import { FormControl } from '@angular/forms';
 export class ConfiguratorAttributeSingleSelectionBundleComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit {
-  attributeSingleSelectionBundleForm = new FormControl('');
   quantity = new FormControl(1);
   priceSelected: number;
 
@@ -29,9 +28,11 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   ngOnInit(): void {
-    this.attributeSingleSelectionBundleForm.setValue(
-      this.attribute.selectedSingleValue
-    );
+    if (this.attribute.required) {
+      if (!this.attribute.selectedSingleValue) {
+        this.onSelect(this.attribute.values[0].valueCode);
+      }
+    }
 
     this.priceSelected =
       this.attribute.values.find((value) => value.selected)?.price || 0;
@@ -43,10 +44,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent
       changedAttribute: {
         ...this.attribute,
         quantity: this.quantity.value,
-        name: this.attribute.name,
         selectedSingleValue: value,
-        uiType: this.attribute.uiType,
-        groupId: this.attribute.groupId,
       },
     };
 
@@ -58,10 +56,8 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent
       ownerKey: this.ownerKey,
       changedAttribute: {
         ...this.attribute,
-        name: this.attribute.name,
+        quantity: 1,
         selectedSingleValue: '',
-        uiType: this.attribute.uiType,
-        groupId: this.attribute.groupId,
       },
     };
 

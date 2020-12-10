@@ -1,0 +1,10 @@
+<fieldset class="cx-configurator-attribute-multi-selection-bundle">
+  <cx-configurator-attribute-product-card
+    (handleSelect)="onSelect($event)"
+    (handleDeselect)="onDeselect($event)"
+    *ngFor="let value of attribute.values"
+    [product]="value"
+    [multiple]="true"
+  >
+  </cx-configurator-attribute-product-card>
+</fieldset>
