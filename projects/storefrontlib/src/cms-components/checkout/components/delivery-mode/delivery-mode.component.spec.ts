@@ -141,7 +141,9 @@ describe('DeliveryModeComponent', () => {
     expect(
       mockCheckoutConfigService.getPreferredDeliveryMode
     ).toHaveBeenCalledWith(mockSupportedDeliveryModes);
-    expect(component.currentDeliveryModeId).toBe(mockDeliveryMode1.code);
+    expect(component.mode.controls['deliveryModeId'].value).toBe(
+      mockDeliveryMode1.code
+    );
   });
 
   it('should select the delivery mode, which has been chosen before', () => {
@@ -163,7 +165,9 @@ describe('DeliveryModeComponent', () => {
     expect(
       mockCheckoutConfigService.getPreferredDeliveryMode
     ).not.toHaveBeenCalled();
-    expect(component.currentDeliveryModeId).toBe(mockDeliveryMode2.code);
+    expect(component.mode.controls['deliveryModeId'].value).toBe(
+      mockDeliveryMode2.code
+    );
   });
 
   it('should change step after invoking back()', () => {
