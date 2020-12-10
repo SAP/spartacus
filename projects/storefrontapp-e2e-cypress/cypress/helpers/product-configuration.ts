@@ -1043,3 +1043,33 @@ export function login(email: string, password: string, name: string): void {
   // namely the logged in user should be greeted
   cy.get('.cx-login-greet').should('contain', name);
 }
+
+/**
+ * Verifies whether the radiobutton is selected.
+ *
+ * @param {string} attributeName - Attribute name
+ * @param {string} valueName - Value name
+ */
+export function verifyRadioButtonSelected(
+  attributeName: string,
+  valueName: string
+) {
+  const attributeId = getAttributeId(attributeName, 'radioGroup');
+  const valueId = `${attributeId}--${valueName}`;
+  cy.get(`#${valueId}`).should('be.checked');
+}
+
+/**
+ * Verifies whether the checkbox is not selected.
+ *
+ * @param {string} attributeName - Attribute name
+ * @param {string} valueName - Value name
+ */
+export function verifyCheckboxNotSelected(
+  attributeName: string,
+  valueName: string
+) {
+  const attributeId = getAttributeId(attributeName, 'checkBoxList');
+  const valueId = `${attributeId}--${valueName}`;
+  cy.get(`#${valueId}`).should('not.be.checked');
+}
