@@ -45,7 +45,7 @@ export class LanguageService implements SiteContext<Language> {
           });
           if (languageMimatch)
             console.warn(
-              'Mismatch between CMS languages and context languages config'
+              'A mismatch between context config and available CMS Languages detected.'
             );
         }
         if (!languages) {
