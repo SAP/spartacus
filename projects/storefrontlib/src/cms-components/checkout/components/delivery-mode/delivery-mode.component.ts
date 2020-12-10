@@ -82,7 +82,7 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
         if (
           !(
             code &&
-            deliveryModes.find((deliveryMode) => deliveryMode.code === code)
+            !!deliveryModes.find((deliveryMode) => deliveryMode.code === code)
           )
         ) {
           code = this.checkoutConfigService.getPreferredDeliveryMode(
