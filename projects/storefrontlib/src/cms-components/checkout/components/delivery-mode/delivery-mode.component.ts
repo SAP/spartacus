@@ -80,16 +80,19 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
         )
       )
       .subscribe(([deliveryModes, code]: [DeliveryMode[], string]) => {
-        if (!code) {
+        if (
+          !(
+            code &&
+            deliveryModes.find((deliveryMode) => deliveryMode.code === code)
+          )
+        ) {
           code = this.checkoutConfigService.getPreferredDeliveryMode(
             deliveryModes
           );
         }
-        if (code) {
-          this.mode.controls['deliveryModeId'].setValue(code);
-          this.currentDeliveryModeId = code;
-          this.checkoutDeliveryService.setDeliveryMode(code);
-        }
+        this.mode.controls['deliveryModeId'].setValue(code);
+        this.currentDeliveryModeId = code;
+        this.checkoutDeliveryService.setDeliveryMode(code);
       });
   }
 
