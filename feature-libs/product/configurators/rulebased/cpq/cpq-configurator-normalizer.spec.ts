@@ -199,14 +199,28 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(value.selected).toBe(true);
   });
 
-  it('should convert attributes with values', () => {
+  it('should convert attributes with values - no sysId', () => {
     const attributeList: Configurator.Attribute[] = [];
+
+    const cpqValueNoSysId1: Cpq.Value = { ...cpqValue };
+    delete cpqValueNoSysId1.productSystemId;
+
+    const cpqValueNoSysId2: Cpq.Value = { ...cpqValue2 };
+    delete cpqValueNoSysId2.productSystemId;
+
+    const cpqAttributeNoSysId: Cpq.Attribute = {
+      ...cpqAttribute,
+      values: [cpqValueNoSysId1, cpqValueNoSysId2],
+    };
+
     cpqConfiguratorNormalizer.convertAttribute(
-      cpqAttribute,
+      cpqAttributeNoSysId,
       cpqGroupId,
       attributeList
     );
+
     const attribute: Configurator.Attribute = attributeList[0];
+
     expect(attributeList.length).toBe(1);
     expect(attribute.attrCode).toBe(cpqAttributeStdAttrCode);
     expect(attribute.name).toBe(cpqAttributeName);
@@ -220,18 +234,88 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(attribute.userInput).toBe(cpqAttributeUserInput);
     expect(attribute.hasConflicts).toBe(cpqAttributeHasConflict);
     expect(attribute.incomplete).toBe(false);
+
+    const values = attribute.values;
+    expect(values.length).toBe(2);
+  });
+
+  it('should convert attributes with values - with many sysId', () => {
+    const attributeList: Configurator.Attribute[] = [];
+
+    cpqConfiguratorNormalizer.convertAttribute(
+      cpqAttribute,
+      cpqGroupId,
+      attributeList
+    );
+
+    const attribute: Configurator.Attribute = attributeList[0];
+
+    expect(attributeList.length).toBe(1);
+    expect(attribute.attrCode).toBe(cpqAttributeStdAttrCode);
+    expect(attribute.name).toBe(cpqAttributeName);
+    expect(attribute.description).toBe(cpqAttributeDescription);
+    expect(attribute.label).toBe(cpqAttributeLabel);
+    expect(attribute.required).toBe(cpqAttributeRequired);
+    expect(attribute.isLineItem).toBe(cpqAttributeIsLineItem);
+    expect(attribute.uiType).toBe(Configurator.UiType.RADIOBUTTON_PRODUCT);
+    expect(attribute.selectedSingleValue).toBe(cpqValuePavId.toString());
+    expect(attribute.groupId).toBe(cpqGroupId.toString());
+    expect(attribute.userInput).toBe(cpqAttributeUserInput);
+    expect(attribute.hasConflicts).toBe(cpqAttributeHasConflict);
+    expect(attribute.incomplete).toBe(false);
+
+    const values = attribute.values;
+    expect(values.length).toBe(2);
+  });
+
+  it('should convert attributes with values - with only 1 sysId', () => {
+    const attributeList: Configurator.Attribute[] = [];
+
+    const cpqValueNoSysId: Cpq.Value = { ...cpqValue };
+    delete cpqValueNoSysId.productSystemId;
+
+    const cpqAttributeOnlyOneSysId: Cpq.Attribute = {
+      ...cpqAttribute,
+      values: [cpqValueNoSysId, cpqValue2],
+    };
+
+    cpqConfiguratorNormalizer.convertAttribute(
+      cpqAttributeOnlyOneSysId,
+      cpqGroupId,
+      attributeList
+    );
+
+    const attribute: Configurator.Attribute = attributeList[0];
+
+    expect(attributeList.length).toBe(1);
+    expect(attribute.attrCode).toBe(cpqAttributeStdAttrCode);
+    expect(attribute.name).toBe(cpqAttributeName);
+    expect(attribute.description).toBe(cpqAttributeDescription);
+    expect(attribute.label).toBe(cpqAttributeLabel);
+    expect(attribute.required).toBe(cpqAttributeRequired);
+    expect(attribute.isLineItem).toBe(cpqAttributeIsLineItem);
+    expect(attribute.uiType).toBe(Configurator.UiType.RADIOBUTTON_PRODUCT);
+    expect(attribute.selectedSingleValue).toBe(cpqValuePavId.toString());
+    expect(attribute.groupId).toBe(cpqGroupId.toString());
+    expect(attribute.userInput).toBe(cpqAttributeUserInput);
+    expect(attribute.hasConflicts).toBe(cpqAttributeHasConflict);
+    expect(attribute.incomplete).toBe(false);
+
     const values = attribute.values;
     expect(values.length).toBe(2);
   });
 
   it('should convert attributes without values', () => {
     const attributeList: Configurator.Attribute[] = [];
+
     cpqConfiguratorNormalizer.convertAttribute(
       cpqAttribute2,
       cpqGroupId,
       attributeList
     );
+
     const attribute: Configurator.Attribute = attributeList[0];
+
     expect(attributeList.length).toBe(1);
     expect(attribute.attrCode).toBe(cpqAttributeStdAttrCode2);
     expect(attribute.name).toBe(cpqAttributeName2);
@@ -245,6 +329,7 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(attribute.userInput).toBe(cpqAttributeUserInput2);
     expect(attribute.hasConflicts).toBe(cpqAttributeHasConflict2);
     expect(attribute.incomplete).toBe(false);
+
     const values = attribute.values;
     expect(values.length).toBe(0);
   });
@@ -273,40 +358,73 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(group.attributes[0].attrCode).toBe(cpqAttributeStdAttrCode);
   });
 
-  it('should return UIType RADIOBUTTON for CPQ DisplayAs RADIO_BUTTON', () => {
-    expect(
-      cpqConfiguratorNormalizer.convertAttributeType(Cpq.DisplayAs.RADIO_BUTTON)
-    ).toBe(Configurator.UiType.RADIOBUTTON);
+  describe('attribute with at least one value containing sysId', () => {
+    it('should return UIType RADIOBUTTON_PRODUCT for CPQ DisplayAs RADIO_BUTTON', () => {
+      expect(
+        cpqConfiguratorNormalizer.convertAttributeType(
+          Cpq.DisplayAs.RADIO_BUTTON,
+          true
+        )
+      ).toBe(Configurator.UiType.RADIOBUTTON_PRODUCT);
+    });
+
+    it('should return UIType DROPDOWN_PRODUCT for CPQ DisplayAs DROPDOWN', () => {
+      expect(
+        cpqConfiguratorNormalizer.convertAttributeType(
+          Cpq.DisplayAs.DROPDOWN,
+          true
+        )
+      ).toBe(Configurator.UiType.DROPDOWN_PRODUCT);
+    });
+
+    it('should return UIType CHECKBOXLIST_PRODUCT for CPQ DisplayAs CHECK_BOX', () => {
+      expect(
+        cpqConfiguratorNormalizer.convertAttributeType(
+          Cpq.DisplayAs.CHECK_BOX,
+          true
+        )
+      ).toBe(Configurator.UiType.CHECKBOXLIST_PRODUCT);
+    });
   });
 
-  it('should return UIType DROPDOWN for CPQ DisplayAs DROPDOWN', () => {
-    expect(
-      cpqConfiguratorNormalizer.convertAttributeType(Cpq.DisplayAs.DROPDOWN)
-    ).toBe(Configurator.UiType.DROPDOWN);
-  });
+  describe('attribute with no values containing sysId', () => {
+    it('should return UIType RADIOBUTTON for CPQ DisplayAs RADIO_BUTTON', () => {
+      expect(
+        cpqConfiguratorNormalizer.convertAttributeType(
+          Cpq.DisplayAs.RADIO_BUTTON
+        )
+      ).toBe(Configurator.UiType.RADIOBUTTON);
+    });
 
-  it('should return UIType CHECKBOXLIST for CPQ DisplayAs CHECK_BOX', () => {
-    expect(
-      cpqConfiguratorNormalizer.convertAttributeType(Cpq.DisplayAs.CHECK_BOX)
-    ).toBe(Configurator.UiType.CHECKBOXLIST);
-  });
+    it('should return UIType DROPDOWN for CPQ DisplayAs DROPDOWN', () => {
+      expect(
+        cpqConfiguratorNormalizer.convertAttributeType(Cpq.DisplayAs.DROPDOWN)
+      ).toBe(Configurator.UiType.DROPDOWN);
+    });
 
-  it('should return UIType STRING for CPQ DisplayAs INPUT', () => {
-    expect(
-      cpqConfiguratorNormalizer.convertAttributeType(Cpq.DisplayAs.INPUT)
-    ).toBe(Configurator.UiType.STRING);
-  });
+    it('should return UIType CHECKBOXLIST for CPQ DisplayAs CHECK_BOX', () => {
+      expect(
+        cpqConfiguratorNormalizer.convertAttributeType(Cpq.DisplayAs.CHECK_BOX)
+      ).toBe(Configurator.UiType.CHECKBOXLIST);
+    });
 
-  it('should return UIType READ_ONLY for CPQ DisplayAs READ_ONLY', () => {
-    expect(
-      cpqConfiguratorNormalizer.convertAttributeType(Cpq.DisplayAs.READ_ONLY)
-    ).toBe(Configurator.UiType.READ_ONLY);
-  });
+    it('should return UIType STRING for CPQ DisplayAs INPUT', () => {
+      expect(
+        cpqConfiguratorNormalizer.convertAttributeType(Cpq.DisplayAs.INPUT)
+      ).toBe(Configurator.UiType.STRING);
+    });
 
-  it('should return UIType NOT_IMPLEMENTED for unknown (not supported) CPQ DisplayAs', () => {
-    expect(
-      cpqConfiguratorNormalizer.convertAttributeType(Cpq.DisplayAs.LIST_BOX)
-    ).toBe(Configurator.UiType.NOT_IMPLEMENTED);
+    it('should return UIType READ_ONLY for CPQ DisplayAs READ_ONLY', () => {
+      expect(
+        cpqConfiguratorNormalizer.convertAttributeType(Cpq.DisplayAs.READ_ONLY)
+      ).toBe(Configurator.UiType.READ_ONLY);
+    });
+
+    it('should return UIType NOT_IMPLEMENTED for unknown (not supported) CPQ DisplayAs', () => {
+      expect(
+        cpqConfiguratorNormalizer.convertAttributeType(Cpq.DisplayAs.LIST_BOX)
+      ).toBe(Configurator.UiType.NOT_IMPLEMENTED);
+    });
   });
 
   it('should set selectedSingleValue', () => {
