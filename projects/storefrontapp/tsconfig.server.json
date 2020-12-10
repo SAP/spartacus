@@ -59,7 +59,7 @@
       ],
       "@spartacus/product/configurators/rulebased/root": [
         "../../feature-libs/product/configurators/rulebased/root/public_api"
-      ], 
+      ],
       "@spartacus/storefinder": ["../../feature-libs/storefinder/public_api"],
       "@spartacus/storefinder/root": [
         "../../feature-libs/storefinder/root/public_api"

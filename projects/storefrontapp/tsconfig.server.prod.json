@@ -54,7 +54,7 @@
       ],
       "@spartacus/product/configurators/rulebased/root": [
         "../../dist/product/configurators/rulebased/root"
-      ], 
+      ],
       "@spartacus/storefinder": ["../../dist/storefinder"],
       "@spartacus/storefinder/root": ["../../dist/storefinder/root"],
       "@spartacus/storefinder/core": ["../../dist/storefinder/core"],
