@@ -27,11 +27,9 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
       });
 
       it('should show no assignments', () => {
-        cy.route('GET', `**`).as('getAssigned');
         cy.get('cx-org-card section.link-list')
           .contains(ignoreCaseSensivity(subConfig.name))
           .click();
-        cy.wait('@getAssigned');
 
         if (codeRow.useCookie) {
           cy.getCookie(codeRow.useCookie).then((cookie) => {
@@ -90,10 +88,6 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
             .click({ force: true });
           completeForm(subConfig.editConfig.rows, FormType.UPDATE);
           cy.get('div.header button').contains('Save').click();
-
-          cy.get('cx-org-notification').contains(
-            ASSIGNMENT_LABELS.UPDATE_SUCCESS
-          );
           cy.get('cx-org-notification').should('not.exist');
 
           const headerRows = subConfig.editConfig.rows?.filter(
@@ -146,9 +140,7 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
             .click();
 
           checkRoles();
-          checkRoleUpdateNotification();
           checkRoles(true);
-          checkRoleUpdateNotification();
 
           function checkRoles(uncheck?: boolean) {
             subConfig.rolesConfig.rows.forEach((row) => {
@@ -163,12 +155,6 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
                   }
                 });
             });
-          }
-
-          function checkRoleUpdateNotification() {
-            cy.get('cx-org-notification').contains(
-              ASSIGNMENT_LABELS.ROLE_UPDATED_SUCCESS
-            );
             cy.get('cx-org-notification').should('not.exist');
           }
         });
@@ -242,9 +228,6 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
         .contains(ASSIGNMENT_LABELS.MANAGE)
         .click();
       cy.wait('@getAssignable');
-      cy.get('cx-org-sub-list td.actions button.link')
-        .contains(ASSIGNMENT_LABELS.ASSIGN)
-        .should('exist');
     }
 
     function checkListEmpty() {
@@ -252,33 +235,30 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
     }
 
     function clickAssign(option: string) {
+      cy.route('POST', '**').as('assign');
+      cy.route('GET', `**${config.apiEndpoint}**`).as('getEntity');
       cy.get('cx-org-sub-list')
         .contains(option)
         .parent()
         .parent()
         .contains(ASSIGNMENT_LABELS.ASSIGN)
         .click();
-      cy.get('cx-org-notification').contains(
-        ASSIGNMENT_LABELS.ASSIGNED_SUCCESS
-      );
+      cy.wait('@assign');
+      cy.wait('@getEntity');
       cy.get('cx-org-notification').should('not.exist');
-      cy.get('cx-org-sub-list')
-        .contains(option)
-        .parent()
-        .parent()
-        .contains(ASSIGNMENT_LABELS.UNASSIGN);
     }
 
     function clickUnassign(option: string) {
+      cy.route('DELETE', '**').as('unassign');
+      cy.route('GET', `**${config.apiEndpoint}**`).as('getEntity');
       cy.get('cx-org-sub-list')
         .contains(option)
         .parent()
         .parent()
         .contains(ASSIGNMENT_LABELS.UNASSIGN)
         .click();
-      cy.get('cx-org-notification').contains(
-        ASSIGNMENT_LABELS.UNASSIGNED_SUCCESS
-      );
+      cy.wait('@unassign');
+      cy.wait('@getEntity');
       cy.get('cx-org-notification').should('not.exist');
     }
 
