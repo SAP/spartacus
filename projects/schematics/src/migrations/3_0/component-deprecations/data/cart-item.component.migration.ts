@@ -16,4 +16,4 @@ export const CART_ITEM_COMPONENT_MIGRATION: ComponentData = {
   ],
 };
 
-// Should not trigger schematics owner
+// Should not trigger schematics owners
