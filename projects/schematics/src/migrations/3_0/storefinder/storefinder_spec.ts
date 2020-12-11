@@ -33,11 +33,11 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { B2cStorefrontModule,  } from '@spartacus/storefront';
 import { AppComponent } from './app.component';
-import { StoreFinderRootModule } from '@spartacus/misc/storefinder/root';
+import { StoreFinderRootModule } from '@spartacus/storefinder/root';
 import { provideConfig } from '@spartacus/core';
-import { storeFinderTranslations } from '@spartacus/misc/storefinder/assets';
-import { storeFinderTranslationChunksConfig } from '@spartacus/misc/storefinder/assets';
-import { StoreFinderModule } from '@spartacus/misc/storefinder';
+import { storeFinderTranslations } from '@spartacus/storefinder/assets';
+import { storeFinderTranslationChunksConfig } from '@spartacus/storefinder/assets';
+import { StoreFinderModule } from '@spartacus/storefinder';
 
 @NgModule({
   declarations: [AppComponent],
@@ -83,11 +83,11 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { B2cStorefrontModule, StorefrontModule } from '@spartacus/storefront';
 import { AppComponent } from './app.component';
-import { StoreFinderRootModule } from '@spartacus/misc/storefinder/root';
+import { StoreFinderRootModule } from '@spartacus/storefinder/root';
 import { provideConfig } from '@spartacus/core';
-import { storeFinderTranslations } from '@spartacus/misc/storefinder/assets';
-import { storeFinderTranslationChunksConfig } from '@spartacus/misc/storefinder/assets';
-import { StoreFinderModule } from '@spartacus/misc/storefinder';
+import { storeFinderTranslations } from '@spartacus/storefinder/assets';
+import { storeFinderTranslationChunksConfig } from '@spartacus/storefinder/assets';
+import { StoreFinderModule } from '@spartacus/storefinder';
 
 @NgModule({
   declarations: [AppComponent],
@@ -110,7 +110,7 @@ import { StoreFinderModule } from '@spartacus/misc/storefinder';
 export class AppModule {}
 `;
 
-describe('storefinder migration', () => {
+describe('Storefinder migration', () => {
   let host: TempScopedNodeJsSyncHost;
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;
@@ -182,7 +182,7 @@ platformBrowserDynamic().bootstrapModule(AppModule)
     shx.rm('-r', tmpDirPath);
   });
 
-  describe('when the the StoreFinderModule is imported', () => {
+  describe('when the StoreFinderModule is imported', () => {
     it('should remove it from imports, imports array and migrate to the new setup', async () => {
       writeFile(
         host,
@@ -197,7 +197,7 @@ platformBrowserDynamic().bootstrapModule(AppModule)
     });
   });
 
-  describe('when the the StorefrontModule is imported', () => {
+  describe('when the StorefrontModule is imported', () => {
     it('should migrate to the new setup', async () => {
       writeFile(
         host,

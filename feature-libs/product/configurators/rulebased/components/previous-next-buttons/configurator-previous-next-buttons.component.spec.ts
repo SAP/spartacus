@@ -6,7 +6,10 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { CommonConfiguratorUtilsService } from '@spartacus/product/configurators/common';
+import {
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
+} from '@spartacus/product/configurators/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -17,6 +20,10 @@ import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../shared/testing/configurator-test-data';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorPreviousNextButtonsComponent } from './configurator-previous-next-buttons.component';
+import {
+  GROUP_ID_1,
+  PRODUCT_CODE,
+} from '../../shared/testing/configurator-test-data';
 
 let routerStateObservable = null;
 
@@ -38,6 +45,25 @@ class MockConfiguratorGroupsService {
   }
   navigateToGroup() {}
 }
+
+const groups: Configurator.Group = {
+  id: GROUP_ID_1,
+  groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+  attributes: [],
+  subGroups: [],
+};
+
+const configWithoutGroups: Configurator.Configuration = {
+  configId: 'CONFIG_ID',
+  productCode: PRODUCT_CODE,
+  totalNumberOfIssues: 0,
+  owner: {
+    id: PRODUCT_CODE,
+    type: CommonConfigurator.OwnerType.PRODUCT,
+  },
+  groups: [groups],
+  flatGroups: [groups],
+};
 
 const config: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
@@ -62,6 +88,7 @@ export class MockFocusDirective {
 describe('ConfigPreviousNextButtonsComponent', () => {
   let classUnderTest: ConfiguratorPreviousNextButtonsComponent;
   let fixture: ComponentFixture<ConfiguratorPreviousNextButtonsComponent>;
+  let configuratorCommonsService: ConfiguratorCommonsService;
   let configurationGroupsService: ConfiguratorGroupsService;
   let configuratorUtils: CommonConfiguratorUtilsService;
 
@@ -105,6 +132,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorPreviousNextButtonsComponent);
     classUnderTest = fixture.componentInstance;
+    configuratorCommonsService = TestBed.inject(
+      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
+    );
     configurationGroupsService = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
     );
@@ -117,6 +147,16 @@ describe('ConfigPreviousNextButtonsComponent', () => {
 
   it('should create', () => {
     expect(classUnderTest).toBeTruthy();
+  });
+
+  it("should not display 'previous' & 'next' buttons", () => {
+    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      of(configWithoutGroups)
+    );
+    fixture = TestBed.createComponent(ConfiguratorPreviousNextButtonsComponent);
+    classUnderTest = fixture.componentInstance;
+    fixture.detectChanges();
+    expect(fixture.nativeElement.childElementCount).toBe(0);
   });
 
   it('should display previous button as disabled if it is the first group', () => {

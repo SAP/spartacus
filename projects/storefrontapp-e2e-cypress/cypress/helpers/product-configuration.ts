@@ -1,4 +1,3 @@
-import * as authentication from './auth-forms';
 import Chainable = Cypress.Chainable;
 import { navigation } from './navigation';
 import {
