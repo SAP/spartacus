@@ -14,43 +14,50 @@ import {
 export class OrganizationConflictHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.CONFLICT;
 
+  protected budgetMask = new RegExp(
+    'Budget with code \\[(.*)\\] already exists',
+    'g'
+  );
+  protected userMask = new RegExp('User already exists', 'g');
+  protected userGroupMask = new RegExp(
+    'Member Permission with the same id already exists',
+    'g'
+  );
+  protected unitMask = new RegExp(
+    'Organizational unit with uid \\[(.*)\\] already exists',
+    'g'
+  );
+
   hasMatch(errorResponse: HttpErrorResponse): boolean {
-    return (
-      super.hasMatch(errorResponse) && this.getErrors(errorResponse).length > 0
-    );
+    return super.hasMatch(errorResponse) && this.matchMask(errorResponse);
   }
 
   handleError(request: HttpRequest<any>, response: HttpErrorResponse) {
-    if (!this.handleDuplicated(request, response)) {
-      this.globalMessageService.add(
-        { key: 'httpHandlers.conflict' },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-    }
+    return this.getErrors(response).forEach(({ message }: ErrorModel) => {
+      this.handleBudgetConflict(message);
+      this.handleUserConflict(message, request);
+      this.handleUserGroupConflict(message, request);
+      this.handleUnitConflict(message);
+    });
   }
 
-  protected handleDuplicated(
-    request: HttpRequest<any>,
-    response: HttpErrorResponse
-  ): boolean {
-    return this.getErrors(response)
-      .map(({ message }: ErrorModel) =>
-        [
-          this.handleBudgetConflict(message),
-          this.handleUserConflict(message, request),
-          this.handleUserGroupConflict(message, request),
-          this.handleUnitConflict(message),
-        ].some((handler) => handler)
-      )
-      .some((handler) => handler);
+  protected matchMask(response: HttpErrorResponse): boolean {
+    return this.getErrors(response).some((error) =>
+      [
+        this.budgetMask,
+        this.userMask,
+        this.userGroupMask,
+        this.unitMask,
+      ].some((mask) => mask.exec(error.message))
+    );
   }
 
-  protected handleOrganizationConflict(
+  protected handleConflict(
     message: string,
     mask: RegExp,
     key: string,
     code?: string
-  ): boolean {
+  ) {
     const result = mask.exec(message);
     const params = { code: result?.[1] ?? code };
     if (result) {
@@ -58,51 +65,31 @@ export class OrganizationConflictHandler extends HttpErrorHandler {
         { key: `organization.httpHandlers.conflict.${key}`, params },
         GlobalMessageType.MSG_TYPE_ERROR
       );
-      return true;
     }
-    return false;
   }
 
-  protected handleBudgetConflict(message: string): boolean {
-    const mask = RegExp('Budget with code \\[(.*)\\] already exists', 'g');
-    return this.handleOrganizationConflict(message, mask, 'budget');
+  protected handleBudgetConflict(message: string) {
+    this.handleConflict(message, this.budgetMask, 'budget');
   }
 
-  protected handleUserConflict(
-    message: string,
-    request: HttpRequest<any>
-  ): boolean {
-    const mask = RegExp('User already exists', 'g');
-    return this.handleOrganizationConflict(
-      message,
-      mask,
-      'user',
-      request?.body?.email
-    );
+  protected handleUserConflict(message: string, request: HttpRequest<any>) {
+    this.handleConflict(message, this.userMask, 'user', request?.body?.email);
   }
 
   protected handleUserGroupConflict(
     message: string,
     request: HttpRequest<any>
-  ): boolean {
-    const mask = RegExp(
-      'Member Permission with the same id already exists',
-      'g'
-    );
-    return this.handleOrganizationConflict(
+  ) {
+    this.handleConflict(
       message,
-      mask,
+      this.userGroupMask,
       'userGroup',
       request?.body?.uid
     );
   }
 
-  protected handleUnitConflict(message: string): boolean {
-    const mask = RegExp(
-      'Organizational unit with uid \\[(.*)\\] already exists',
-      'g'
-    );
-    return this.handleOrganizationConflict(message, mask, 'unit');
+  protected handleUnitConflict(message: string) {
+    this.handleConflict(message, this.unitMask, 'unit');
   }
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {

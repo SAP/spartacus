@@ -13,8 +13,6 @@ class MockGlobalMessageService {
 
 const MockRequest = {} as HttpRequest<any>;
 
-const MockRandomResponse = {} as HttpErrorResponse;
-
 const MockBudgetConflictResponse = {
   error: {
     errors: [
@@ -93,16 +91,6 @@ describe('ConflictHandler', () => {
     expect(service.responseStatus).toEqual(HttpResponseStatus.CONFLICT);
   });
 
-  it('should send error to global message service', () => {
-    spyOn(globalMessageService, 'add');
-    service.handleError(MockRequest, MockRandomResponse);
-
-    expect(globalMessageService.add).toHaveBeenCalledWith(
-      { key: 'httpHandlers.conflict' },
-      GlobalMessageType.MSG_TYPE_ERROR
-    );
-  });
-
   it('should handle budget conflict', () => {
     spyOn(globalMessageService, 'add');
     service.handleError(MockRequest, MockBudgetConflictResponse);
@@ -145,7 +133,7 @@ describe('ConflictHandler', () => {
     );
   });
 
-  it('should handle user group conflict', () => {
+  it('should handle unit conflict', () => {
     spyOn(globalMessageService, 'add');
     service.handleError(MockRequest, MockUnitConflictResponse);
 
