@@ -26,6 +26,13 @@
       height: 100%;
       width: 100%;
     }
+
+    img {
+      object-fit: cover;
+      object-position: center;
+      height: 100%;
+      width: 100%;
+    }
   }
 
   .cx-configurator-attribute-product-card-info {

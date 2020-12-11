@@ -6,7 +6,16 @@
 >
   <div class="cx-configurator-attribute-product-card-rows">
     <div class="cx-configurator-attribute-product-card-imgs">
-      <div class="cx-configurator-attribute-product-card-imgs-fake"></div>
+      <ng-container *ngIf="product.images[0]; else noimages">
+        <img
+          alt="{{ product.images[0].altText }}"
+          src="{{ product.images[0].url }}"
+        />
+      </ng-container>
+
+      <ng-template #noimages>
+        <div class="cx-configurator-attribute-product-card-imgs-fake"></div
+      ></ng-template>
     </div>
 
     <div class="cx-configurator-attribute-product-card-info">
