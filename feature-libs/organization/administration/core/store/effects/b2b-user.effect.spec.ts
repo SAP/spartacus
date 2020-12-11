@@ -284,9 +284,16 @@ describe('B2B User Effects', () => {
     it('should return CreateB2BUserSuccess action', () => {
       const action = new B2BUserActions.CreateB2BUser({ userId, orgCustomer });
       const completion1 = new B2BUserActions.CreateB2BUserSuccess(orgCustomer);
-      const completion2 = new OrganizationActions.OrganizationClearData();
+      const completion2 = new B2BUserActions.CreateB2BUserSuccess({
+        customerId: null,
+      });
+      const completion3 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-(bc)', { b: completion1, c: completion2 });
+      expected = cold('-(bcd)', {
+        b: completion1,
+        c: completion2,
+        d: completion3,
+      });
 
       expect(effects.createB2BUser$).toBeObservable(expected);
       expect(b2bUserConnector.create).toHaveBeenCalledWith(userId, orgCustomer);
