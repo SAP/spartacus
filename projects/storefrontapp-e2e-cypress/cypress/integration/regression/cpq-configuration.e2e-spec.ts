@@ -5,22 +5,21 @@ const email = 'cpq03@sap.com';
 const password = 'welcome';
 const cpqUser = 'cpq03';
 const testProduct = 'CONF_CAMERA_BUNDLE';
+const testProductCoffeeMachine = 'CONF_COFFEEMACHINE_3000';
 
 // UI types
 const radioGroup = 'radioGroup';
 const checkBoxList = 'checkBoxList';
 
 // Attributes
-const ATTR_CAMERA_BODY = '2893'; // Camera Body
-const ATTR_MEMORY_CARD = '2894'; // Memory Card
+const ATTR_COFFEE_MACHINE_CUPS_DAY = '2931'; // COFFEE_MACHINE_CUPS_DAY
+const ATTR_COFFEE_MACHINE_STARB_MODE = '2933'; // COFFEE_MACHINE_STARB_MODE
 
 // Attribute values
-const CAMERA_BODY_NIKD7500 = '8710'; // NIKD7500
-const CAMERA_BODY_NIKD850 = '8711'; //  NIKD850
+const COFFEE_MACHINE_CUPS_DAY_300_500 = '8841'; // 300-500 CUPS
+const COFFEE_MACHINE_CUPS_DAY_500_1000 = '8842'; //  500-1000 CUPS
 
-const MEMORY_CARD_SDEP128 = '8714'; // SDEP128
-const MEMORY_CARD_SDULTRA64 = '8715'; // SDULTRA64
-const MEMORY_CARD_PANAAU_XP = '8716'; // PANAAU-XP
+const STARB_MODE = '8845'; // STARB_MODE
 
 function goToPDPage(product) {
   const location = `powertools-spa/en/USD/product/${product}/${product}`;
@@ -57,87 +56,63 @@ context('CPQ Configuration', () => {
 
   describe('Update attribute values', () => {
     it('should support update values for radio button attribute type', () => {
-      goToPDPage(testProduct);
+      goToPDPage(testProductCoffeeMachine);
       configuration.clickOnConfigureBtnInCatalog();
-      configuration.isAttributeDisplayed(ATTR_CAMERA_BODY, radioGroup);
-      configuration.selectAttribute(
-        ATTR_CAMERA_BODY,
-        radioGroup,
-        CAMERA_BODY_NIKD7500
-      );
-      configuration.verifyRadioButtonSelected(
-        ATTR_CAMERA_BODY,
-        CAMERA_BODY_NIKD7500
+      configuration.isAttributeDisplayed(
+        ATTR_COFFEE_MACHINE_CUPS_DAY,
+        radioGroup
       );
       configuration.selectAttribute(
-        ATTR_CAMERA_BODY,
+        ATTR_COFFEE_MACHINE_CUPS_DAY,
         radioGroup,
-        CAMERA_BODY_NIKD850
+        COFFEE_MACHINE_CUPS_DAY_300_500
       );
       configuration.verifyRadioButtonSelected(
-        ATTR_CAMERA_BODY,
-        CAMERA_BODY_NIKD850
+        ATTR_COFFEE_MACHINE_CUPS_DAY,
+        COFFEE_MACHINE_CUPS_DAY_300_500
+      );
+      configuration.selectAttribute(
+        ATTR_COFFEE_MACHINE_CUPS_DAY,
+        radioGroup,
+        COFFEE_MACHINE_CUPS_DAY_500_1000
+      );
+      configuration.verifyRadioButtonSelected(
+        ATTR_COFFEE_MACHINE_CUPS_DAY,
+        COFFEE_MACHINE_CUPS_DAY_500_1000
       );
     });
 
     it('should support update values for checkbox list attribute type', () => {
-      goToPDPage(testProduct);
+      goToPDPage(testProductCoffeeMachine);
       configuration.clickOnConfigureBtnInCatalog();
-      configuration.isAttributeDisplayed(ATTR_MEMORY_CARD, checkBoxList);
-
-      configuration.isCheckboxSelected(ATTR_MEMORY_CARD, MEMORY_CARD_SDEP128);
-      configuration.verifyCheckboxNotSelected(
-        ATTR_MEMORY_CARD,
-        MEMORY_CARD_SDULTRA64
+      configuration.isAttributeDisplayed(
+        ATTR_COFFEE_MACHINE_STARB_MODE,
+        checkBoxList
       );
+
       configuration.verifyCheckboxNotSelected(
-        ATTR_MEMORY_CARD,
-        MEMORY_CARD_PANAAU_XP
+        ATTR_COFFEE_MACHINE_STARB_MODE,
+        STARB_MODE
       );
 
       configuration.selectAttribute(
-        ATTR_MEMORY_CARD,
+        ATTR_COFFEE_MACHINE_STARB_MODE,
         checkBoxList,
-        MEMORY_CARD_SDULTRA64
+        STARB_MODE
       );
-      configuration.isCheckboxSelected(ATTR_MEMORY_CARD, MEMORY_CARD_SDEP128);
-      configuration.isCheckboxSelected(ATTR_MEMORY_CARD, MEMORY_CARD_SDULTRA64);
-      configuration.verifyCheckboxNotSelected(
-        ATTR_MEMORY_CARD,
-        MEMORY_CARD_PANAAU_XP
+      configuration.isCheckboxSelected(
+        ATTR_COFFEE_MACHINE_STARB_MODE,
+        STARB_MODE
       );
 
       configuration.selectAttribute(
-        ATTR_MEMORY_CARD,
+        ATTR_COFFEE_MACHINE_STARB_MODE,
         checkBoxList,
-        MEMORY_CARD_SDULTRA64
-      );
-      configuration.isCheckboxSelected(ATTR_MEMORY_CARD, MEMORY_CARD_SDEP128);
-      configuration.verifyCheckboxNotSelected(
-        ATTR_MEMORY_CARD,
-        MEMORY_CARD_SDULTRA64
+        STARB_MODE
       );
       configuration.verifyCheckboxNotSelected(
-        ATTR_MEMORY_CARD,
-        MEMORY_CARD_PANAAU_XP
-      );
-
-      configuration.selectAttribute(
-        ATTR_MEMORY_CARD,
-        checkBoxList,
-        MEMORY_CARD_SDEP128
-      );
-      configuration.verifyCheckboxNotSelected(
-        ATTR_MEMORY_CARD,
-        MEMORY_CARD_SDEP128
-      );
-      configuration.verifyCheckboxNotSelected(
-        ATTR_MEMORY_CARD,
-        MEMORY_CARD_SDULTRA64
-      );
-      configuration.verifyCheckboxNotSelected(
-        ATTR_MEMORY_CARD,
-        MEMORY_CARD_PANAAU_XP
+        ATTR_COFFEE_MACHINE_STARB_MODE,
+        STARB_MODE
       );
     });
   });
