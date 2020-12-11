@@ -4,7 +4,9 @@ import {
   Host,
   HostBinding,
   Input,
+  OnChanges,
   Optional,
+  SimpleChanges,
 } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -18,14 +20,16 @@ import { map, startWith } from 'rxjs/operators';
   templateUrl: './form-errors.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormErrorsComponent {
-  _parent: FormGroupDirective;
-  _control: FormControl;
-  error$: Observable<string>;
+export class FormErrorsComponent implements OnChanges {
+  _formGroup: FormGroupDirective;
+  errors$: Observable<string[]>;
 
-  constructor(@Optional() @Host() parent: FormGroupDirective) {
-    this._parent = parent;
+  constructor(@Optional() @Host() protected formGroup: FormGroupDirective) {
+    this._formGroup = formGroup;
   }
+
+  // set to false to show all errors
+  @Input() showOnlyOne = true;
 
   @Input() prefix = 'formErrors';
 
@@ -33,24 +37,10 @@ export class FormErrorsComponent {
   translationParams: { [key: string]: string };
 
   @Input()
-  set control(control: FormControl) {
-    this._control = control;
-    this.setErrors();
-  }
+  control: FormControl;
 
-  /**
-   * The name of the control is enough
-   * @param controlName
-   */
   @Input()
-  set controlName(controlName: string) {
-    this._control = this.getFormGroup()?.get(controlName) as FormControl;
-    this.setErrors();
-  }
-
-  get control(): FormControl {
-    return this._control;
-  }
+  controlName: string;
 
   @HostBinding('class.control-invalid') get invalid() {
     return this.control?.invalid;
@@ -62,12 +52,23 @@ export class FormErrorsComponent {
     return this.control?.touched;
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.control) {
+      this.control = changes.control.currentValue;
+    } else if (changes.controlName) {
+      this.control = this.getFormGroup()?.get(
+        changes.controlName.currentValue
+      ) as FormControl;
+    }
+    this.setErrors();
+  }
+
   /**
    * get the form from the FormGroupDirective
    * @private
    */
   private getFormGroup(): FormGroup {
-    return this._parent ? this._parent.form : null;
+    return this._formGroup ? this._formGroup.form : null;
   }
 
   /**
@@ -76,15 +77,19 @@ export class FormErrorsComponent {
    * @private
    */
   private setErrors(): void {
-    this.error$ = this._control?.statusChanges.pipe(
+    this.errors$ = this.control?.statusChanges.pipe(
       startWith({}),
-      map(() => this._control.errors || {}),
-      map(
-        (errors) =>
-          Object.entries(errors)
-            .filter((error) => error[1])
-            .map((error) => error[0])[0]
-      )
+      map(() => this.control.errors || {}),
+      map((errors) => {
+        const filteredErrors = Object.entries(errors)
+          .filter((error) => error[1])
+          .map((error) => error[0]);
+        return this.showOnlyOne
+          ? filteredErrors[0]
+            ? [filteredErrors[0]]
+            : []
+          : filteredErrors;
+      })
     );
   }
 }
