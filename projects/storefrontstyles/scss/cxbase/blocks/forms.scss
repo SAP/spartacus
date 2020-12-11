@@ -72,7 +72,7 @@ textarea {
   }
 }
 
-ng-select {
+ng-select.ng-invalid {
   &.ng-dirty,
   &.ng-touched {
     .ng-select-container {
