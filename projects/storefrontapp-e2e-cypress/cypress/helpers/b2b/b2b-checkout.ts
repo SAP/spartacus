@@ -110,14 +110,29 @@ export function selectAccountShippingAddress() {
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/current/carts/*`
+    )}/users/current/carts/*?fields=*`
   ).as('getCart');
+  cy.route(
+    'PUT',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/orgUsers/current/carts/*/addresses/delivery*`
+  ).as('setDeliveryAddress');
   cy.get('cx-card').within(() => {
     cy.get('.cx-card-label-bold').should('not.be.empty');
     cy.get('.cx-card-actions .cx-card-link').click({ force: true });
   });
 
+  cy.route(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/carts/*/deliverymodes*`
+  ).as('getDeliveryModes');
+
   cy.wait('@getCart');
+
+  cy.wait('@setDeliveryAddress');
   cy.get('cx-card .card-header').should('contain', 'Selected');
 
   const deliveryPage = waitForPage(
@@ -131,8 +146,11 @@ export function selectAccountShippingAddress() {
     config.shippingAddressAccount
   );
 
+  cy.wait('@getDeliveryModes');
+
   cy.get('button.btn-primary').click({ force: true });
   cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
+  cy.url().should('include', '/checkout/delivery-mode');
 }
 
 export function selectAccountDeliveryMode(
