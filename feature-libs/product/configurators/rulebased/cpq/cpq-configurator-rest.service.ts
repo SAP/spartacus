@@ -44,9 +44,9 @@ export class CpqConfiguratorRestService {
 
   readConfiguration(
     configId: string,
-    _groupId: string // not yet implemented
+    groupId?: string
   ): Observable<Configurator.Configuration> {
-    return this.callConfigurationDisplay(configId).pipe(
+    return this.callConfigurationDisplay(configId, groupId).pipe(
       this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER),
       map((resultConfiguration) => {
         return {
@@ -95,11 +95,14 @@ export class CpqConfiguratorRestService {
   }
 
   protected callConfigurationDisplay(
-    configId: string
+    configId: string,
+    tabId?: string
   ): Observable<Cpq.Configuration> {
-    return this.http.get<Cpq.Configuration>(
-      `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations/${configId}/display`
-    );
+    let url = `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations/${configId}/display`;
+    if (tabId) {
+      url += `?tabId=${tabId}`;
+    }
+    return this.http.get<Cpq.Configuration>(url);
   }
 
   protected callUpdateAttribute(
