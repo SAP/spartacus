@@ -27,6 +27,13 @@
         [groupType]="currentGroup.groupType"
       ></cx-configurator-attribute-header>
 
+      <cx-configurator-attribute-radio-button
+        *ngIf="attribute.uiType === uiType.RADIOBUTTON"
+        [attribute]="attribute"
+        [ownerKey]="configuration.owner.key"
+        (selectionChange)="updateConfiguration($event)"
+      ></cx-configurator-attribute-radio-button>
+
       <!-- Single Selection Product Bundle -->
       <cx-configurator-attribute-single-selection-bundle
         (selectionChange)="updateConfiguration($event)"

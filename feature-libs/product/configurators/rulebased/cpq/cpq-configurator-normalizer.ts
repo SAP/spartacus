@@ -118,7 +118,6 @@ export class CpqConfiguratorNormalizer
       name: sourceValue.valueCode,
       valueDisplay: sourceValue.valueDisplay,
       description: sourceValue.description,
-      price: parseFloat(sourceValue.price.replace(',', '.')),
       productSystemId: sourceValue.productSystemId,
       selected: sourceValue.selected,
       images: [],

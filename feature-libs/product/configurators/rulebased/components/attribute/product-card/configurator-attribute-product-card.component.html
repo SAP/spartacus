@@ -46,13 +46,7 @@
         [min]="0"
       ></cx-item-counter>
     </div>
-    <div class="cx-configurator-attribute-product-card-price">
-      <ng-container *ngIf="multiSelect && product.selected; else singlePrice">
-        + {{ quantity.value }} x {{ product.price }}$ =
-        {{ quantity.value * product.price }}$
-      </ng-container>
-      <ng-template #singlePrice> + {{ product.price }}$ </ng-template>
-    </div>
+    <div class="cx-configurator-attribute-product-card-price"></div>
   </div>
 
   <div class="cx-configurator-attribute-product-card-rows">

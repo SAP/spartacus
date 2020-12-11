@@ -21,7 +21,6 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit {
   quantity = new FormControl(1);
-  priceSelected: number;
 
   @Input() attribute: Configurator.Attribute;
   @Input() ownerKey: string;
@@ -33,9 +32,6 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent
         this.onSelect(this.attribute.values[0].valueCode);
       }
     }
-
-    this.priceSelected =
-      this.attribute.values.find((value) => value.selected)?.price || 0;
   }
 
   onSelect(value: string): void {
