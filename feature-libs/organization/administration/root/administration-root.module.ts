@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { HttpErrorHandler, provideDefaultConfig } from '@spartacus/core';
 import { defaultOrganizationLayoutConfig } from './config/default-organization-layout.config';
-import { OrganizationBadRequestHandler } from '../core/http-interceptors/bad-request/bad-request.handler';
-import { OrganizationConflictHandler } from '../core/http-interceptors/conflict/conflict.handler';
+import {
+  OrganizationBadRequestHandler,
+  OrganizationConflictHandler,
+} from '@spartacus/organization/administration/core';
 
 @NgModule({
   providers: [
