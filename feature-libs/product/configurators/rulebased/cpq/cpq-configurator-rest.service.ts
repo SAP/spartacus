@@ -44,9 +44,9 @@ export class CpqConfiguratorRestService {
 
   readConfiguration(
     configId: string,
-    groupId?: string
+    tabId?: string
   ): Observable<Configurator.Configuration> {
-    return this.callConfigurationDisplay(configId, groupId).pipe(
+    return this.callConfigurationDisplay(configId, tabId).pipe(
       this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER),
       map((resultConfiguration) => {
         return {
