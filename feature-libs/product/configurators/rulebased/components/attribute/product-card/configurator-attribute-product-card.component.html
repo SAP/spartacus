@@ -34,26 +34,39 @@
   </div>
 
   <div class="cx-configurator-attribute-product-card-rows">
+    <div
+      class="cx-configurator-attribute-product-card-quantity"
+      *ngIf="multiSelect && product.selected"
+    >
+      <label>Qty</label>
+      <cx-item-counter
+        [allowZero]="true"
+        [control]="quantity"
+        [max]="100"
+        [min]="0"
+      ></cx-item-counter>
+    </div>
     <div class="cx-configurator-attribute-product-card-price">
-      + {{ product.price }}$
+      <ng-container *ngIf="multiSelect && product.selected; else singlePrice">
+        + {{ quantity.value }} x {{ product.price }}$ =
+        {{ quantity.value * product.price }}$
+      </ng-container>
+      <ng-template #singlePrice> + {{ product.price }}$ </ng-template>
     </div>
   </div>
 
   <div class="cx-configurator-attribute-product-card-rows">
     <div class="cx-configurator-attribute-product-card-action">
-      <ng-container *ngIf="multiple; else single">
+      <ng-container *ngIf="multiSelect; else single">
         <button
           *ngIf="product.selected; else select"
           class="btn btn-secondary"
-          (click)="onHandleDeselect(product.valueCode)"
+          (click)="onHandleDeselect()"
         >
           {{ 'configurator.button.remove' | cxTranslate }}
         </button>
         <ng-template #select>
-          <button
-            class="btn btn-primary"
-            (click)="onHandleSelect(product.valueCode)"
-          >
+          <button class="btn btn-primary" (click)="onHandleSelect()">
             {{ 'configurator.button.add' | cxTranslate }}
           </button>
         </ng-template>
@@ -62,16 +75,13 @@
         <button
           *ngIf="product.selected; else select"
           class="btn btn-secondary"
-          (click)="onHandleDeselect(product.valueCode)"
+          (click)="onHandleDeselect()"
           disabled
         >
           {{ 'configurator.button.deselect' | cxTranslate }}
         </button>
         <ng-template #select>
-          <button
-            class="btn btn-primary"
-            (click)="onHandleSelect(product.valueCode)"
-          >
+          <button class="btn btn-primary" (click)="onHandleSelect()">
             {{ 'configurator.button.select' | cxTranslate }}
           </button>
         </ng-template>

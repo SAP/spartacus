@@ -10,6 +10,12 @@ import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
+interface SelectionValue {
+  name: string;
+  selected: boolean;
+  valueCode: string;
+}
+
 @Component({
   selector: 'cx-configurator-attribute-multi-selection-bundle',
   templateUrl: './configurator-attribute-multi-selection-bundle.component.html',
@@ -18,7 +24,7 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
 export class ConfiguratorAttributeMultiSelectionBundleComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit {
-  multipleSelectionValues = [];
+  multipleSelectionValues: SelectionValue[] = [];
 
   @Input() attribute: Configurator.Attribute;
   @Input() ownerKey: string;

@@ -4,14 +4,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { ItemCounterModule, KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeSingleSelectionBundleComponent } from './configurator-attribute-single-selection-bundle.component';
-import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
 import { RouterModule } from '@angular/router';
 import { ConfiguratorAttributeProductCardModule } from '../../product-card/configurator-attribute-product-card.module';
 @NgModule({
   imports: [
     CommonModule,
     ConfiguratorAttributeProductCardModule,
-    ConfiguratorShowMoreModule,
     FormsModule,
     I18nModule,
     ItemCounterModule,

@@ -1,21 +1,48 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { Configurator } from '../../../core/model/configurator.model';
+import { FormControl } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   templateUrl: './configurator-attribute-product-card.component.html',
 })
-export class ConfiguratorAttributeProductCardComponent {
+export class ConfiguratorAttributeProductCardComponent
+  implements OnDestroy, OnInit {
+  quantity = new FormControl(1);
+  private subs: Subscription;
+
   @Input() product: Configurator.Value;
-  @Input() multiple: boolean = false;
+  @Input() multiSelect: boolean = false;
   @Output() handleSelect = new EventEmitter();
   @Output() handleDeselect = new EventEmitter();
 
-  onHandleSelect(value: string): void {
-    this.handleSelect.emit(value);
+  ngOnInit() {
+    this.subs = this.quantity.valueChanges.subscribe((value) => {
+      if (value === 0) {
+        this.onHandleDeselect();
+      }
+    });
   }
 
-  onHandleDeselect(value: string): void {
-    this.handleDeselect.emit(value);
+  ngOnDestroy() {
+    if (this.subs) {
+      this.subs.unsubscribe();
+    }
+  }
+
+  onHandleSelect(): void {
+    this.handleSelect.emit(this.product.valueCode);
+  }
+
+  onHandleDeselect(): void {
+    this.handleDeselect.emit(this.product.valueCode);
   }
 }

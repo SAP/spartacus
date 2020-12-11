@@ -25,7 +25,7 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
 
   constructor(private cdRef: ChangeDetectorRef) {}
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     if (this.text.length > this.textSize) {
       this.showMore$.next(true);
       this.textToShow = this.text.substring(0, this.textSize);
@@ -33,7 +33,7 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
     }
   }
 
-  toggleShowMore() {
+  toggleShowMore(): void {
     this.showHiddenText$.next(!this.showHiddenText$.value);
 
     this.showHiddenText$.value

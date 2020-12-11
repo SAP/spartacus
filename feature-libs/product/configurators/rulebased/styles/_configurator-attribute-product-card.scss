@@ -54,6 +54,10 @@
     margin: 1.5rem 0 1.5rem auto;
   }
 
+  .cx-configurator-attribute-product-card-quantity {
+    margin: 1.5rem 0;
+  }
+
   .cx-configurator-attribute-product-card-action {
     width: 100%;
 
@@ -66,4 +70,8 @@
 
 .cx-configurator-attribute-product-card-selected {
   background-color: var(--cx-color-background);
+
+  cx-item-counter {
+    background-color: #fff;
+  }
 }
