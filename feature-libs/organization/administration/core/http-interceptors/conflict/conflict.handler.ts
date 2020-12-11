@@ -14,19 +14,10 @@ import {
 export class OrganizationConflictHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.CONFLICT;
 
-  protected budgetMask = new RegExp(
-    'Budget with code \\[(.*)\\] already exists',
-    'g'
-  );
-  protected userMask = new RegExp('User already exists', 'g');
-  protected userGroupMask = new RegExp(
-    'Member Permission with the same id already exists',
-    'g'
-  );
-  protected unitMask = new RegExp(
-    'Organizational unit with uid \\[(.*)\\] already exists',
-    'g'
-  );
+  protected budgetMask = /Budget with code \[(.*)\] already exists/g;
+  protected userMask = /User already exists/g;
+  protected userGroupMask = /Member Permission with the same id already exists/g;
+  protected unitMask = /Organizational unit with uid \[(.*)\] already exists/g;
 
   hasMatch(errorResponse: HttpErrorResponse): boolean {
     return super.hasMatch(errorResponse) && this.matchMask(errorResponse);
