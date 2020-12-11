@@ -76,9 +76,6 @@ describe('OrganizationBadRequestHandler', () => {
     });
     service = TestBed.inject(OrganizationBadRequestHandler);
     globalMessageService = TestBed.inject(GlobalMessageService);
-
-    spyOn(globalMessageService, 'add');
-    spyOn(globalMessageService, 'remove');
   });
 
   it('should be created', () => {
@@ -96,7 +93,7 @@ describe('OrganizationBadRequestHandler', () => {
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
         key: 'organization.httpHandlers.conflict.unit',
-        params: { code: 'TU22' },
+        params: { code: 'TU' },
       },
       GlobalMessageType.MSG_TYPE_ERROR
     );
@@ -135,6 +132,7 @@ describe('OrganizationBadRequestHandler', () => {
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
         key: 'organization.httpHandlers.conflict.unknown',
+        params: { code: undefined },
       },
       GlobalMessageType.MSG_TYPE_ERROR
     );
