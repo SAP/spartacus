@@ -95,6 +95,7 @@
         appendTo="cx-org-list"
       >
       </ng-select>
+      <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>
     </label>
 
     <label *ngIf="isAssignedToApprovers" class="full-width">
