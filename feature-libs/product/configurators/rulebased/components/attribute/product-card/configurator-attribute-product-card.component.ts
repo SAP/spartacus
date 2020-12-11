@@ -19,8 +19,9 @@ export class ConfiguratorAttributeProductCardComponent
   quantity = new FormControl(1);
   private subs: Subscription;
 
-  @Input() product: Configurator.Value;
+  @Input() disabledAction: boolean;
   @Input() multiSelect: boolean = false;
+  @Input() product: Configurator.Value;
   @Output() handleSelect = new EventEmitter();
   @Output() handleDeselect = new EventEmitter();
 

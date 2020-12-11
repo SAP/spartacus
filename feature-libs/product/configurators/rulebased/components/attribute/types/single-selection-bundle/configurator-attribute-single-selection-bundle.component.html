@@ -22,6 +22,7 @@
     (handleSelect)="onSelect($event)"
     *ngFor="let value of attribute.values"
     [product]="value"
+    [disabledAction]="attribute.required"
   >
   </cx-configurator-attribute-product-card>
 </fieldset>

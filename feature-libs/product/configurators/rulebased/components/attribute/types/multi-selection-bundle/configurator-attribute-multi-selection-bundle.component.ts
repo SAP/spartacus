@@ -9,6 +9,7 @@ import {
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { BehaviorSubject } from 'rxjs';
 
 interface SelectionValue {
   name: string;
@@ -24,10 +25,12 @@ interface SelectionValue {
 export class ConfiguratorAttributeMultiSelectionBundleComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit {
+  disableDeselectAction$ = new BehaviorSubject<boolean>(false);
   multipleSelectionValues: SelectionValue[] = [];
 
   @Input() attribute: Configurator.Attribute;
   @Input() ownerKey: string;
+
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   ngOnInit() {
@@ -38,6 +41,12 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
         valueCode,
       })
     );
+
+    if (
+      this.multipleSelectionValues.filter((value) => value.selected).length < 2
+    ) {
+      this.disableDeselectAction$.next(true);
+    }
   }
 
   protected updateMultipleSelectionValues(valueCode, state) {
