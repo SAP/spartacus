@@ -65,7 +65,7 @@ const MockUnitConflictResponse = {
   },
 } as HttpErrorResponse;
 
-describe('ConflictHandler', () => {
+describe('OrganizationConflictHandler', () => {
   let service: OrganizationConflictHandler;
   let globalMessageService: GlobalMessageService;
 

@@ -14,26 +14,33 @@ import {
 export class OrganizationBadRequestHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.BAD_REQUEST;
 
+  protected costCenterMask = /ambiguous unique keys \{code\\=(.*)\} for model B2BCostCenterModel/g;
+  protected unitMask = /ambiguous unique keys \{uid\\=(.*)\} for model B2BUnitModel/g;
+  protected permissionMask = /Approval Permission with code\: (.*) already exists\./g;
+  protected unknownMask = /Model saving error\./g;
+
   hasMatch(errorResponse: HttpErrorResponse): boolean {
-    return (
-      super.hasMatch(errorResponse) && this.getErrors(errorResponse).length > 0
-    );
+    return super.hasMatch(errorResponse) && this.matchMask(errorResponse);
   }
 
-  handleError(request: HttpRequest<any>, response: HttpErrorResponse): void {
-    this.handleDuplicated(request, response);
-  }
-
-  protected handleDuplicated(
-    _request: HttpRequest<any>,
-    response: HttpErrorResponse
-  ): void {
+  handleError(_request: HttpRequest<any>, response: HttpErrorResponse): void {
     this.getErrors(response).forEach(({ message }: ErrorModel) => {
       this.handleCostCenterConflict(message);
       this.handleUnitConflict(message);
       this.handlePermissionConflict(message);
       this.handleUnknownConflict(message);
     });
+  }
+
+  protected matchMask(response: HttpErrorResponse): boolean {
+    return this.getErrors(response).some((error) =>
+      [
+        this.costCenterMask,
+        this.unitMask,
+        this.permissionMask,
+        this.unknownMask,
+      ].some((mask) => mask.exec(error.message))
+    );
   }
 
   protected handleOrganizationConflict(
@@ -52,32 +59,19 @@ export class OrganizationBadRequestHandler extends HttpErrorHandler {
   }
 
   protected handleCostCenterConflict(message: string) {
-    const mask = RegExp(
-      'ambiguous unique keys \\{code\\=(.*)\\} for model B2BCostCenterModel',
-      'g'
-    );
-    this.handleOrganizationConflict(message, mask, 'costCenter');
+    this.handleOrganizationConflict(message, this.costCenterMask, 'costCenter');
   }
 
   protected handleUnitConflict(message: string) {
-    const mask = RegExp(
-      'ambiguous unique keys \\{uid\\=(.*)\\} for model B2BUnitModel',
-      'g'
-    );
-    this.handleOrganizationConflict(message, mask, 'unit');
+    this.handleOrganizationConflict(message, this.unitMask, 'unit');
   }
 
   protected handlePermissionConflict(message: string) {
-    const mask = RegExp(
-      'Approval Permission with code\\: (.*) already exists.',
-      'g'
-    );
-    this.handleOrganizationConflict(message, mask, 'permission');
+    this.handleOrganizationConflict(message, this.permissionMask, 'permission');
   }
 
   protected handleUnknownConflict(message: string) {
-    const mask = RegExp('Model saving error.', 'g');
-    this.handleOrganizationConflict(message, mask, 'unknown');
+    this.handleOrganizationConflict(message, this.unknownMask, 'unknown');
   }
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
