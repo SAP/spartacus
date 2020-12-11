@@ -43,6 +43,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     );
 
     if (
+      this.attribute.required &&
       this.multipleSelectionValues.filter((value) => value.selected).length < 2
     ) {
       this.disableDeselectAction$.next(true);
