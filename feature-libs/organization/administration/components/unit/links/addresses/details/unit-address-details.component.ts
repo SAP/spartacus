@@ -51,12 +51,4 @@ export class UnitAddressDetailsComponent {
     protected currentUnitService: CurrentUnitService,
     protected userAddressService: UserAddressService
   ) {}
-
-  deleteAddress(unitUid: string, addressId: string) {
-    // TODO: redirect & notify
-    ((this.itemService as any) as UnitAddressItemService).deleteAddress(
-      unitUid,
-      addressId
-    );
-  }
 }

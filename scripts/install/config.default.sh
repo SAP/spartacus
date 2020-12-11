@@ -19,7 +19,7 @@ SPARTACUS_PROJECTS=(
         "integration-libs/cds"
         "core-libs/setup"
         "feature-libs/organization"
-        "feature-libs/misc"
+        "feature-libs/storefinder"
         )
 
 SPARTACUS_REPO_URL="git://github.com/SAP/spartacus.git"

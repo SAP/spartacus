@@ -406,7 +406,7 @@ import {
 } from '@spartacus/core';
 import {Injectable, Inject} from '@angular/core';
 @Injectable({})
-export class SipPageMetaService extends PageMetaService {
+export class CustomPageMetaService extends PageMetaService {
   constructor(
       @Inject(PageMetaResolver)
       protected resolvers: PageMetaResolver[],
@@ -426,7 +426,7 @@ import {
 } from '@spartacus/core';
 import {Injectable, Inject} from '@angular/core';
 @Injectable({})
-export class SipPageMetaService extends PageMetaService {
+export class CustomPageMetaService extends PageMetaService {
   constructor(
       @Inject(PageMetaResolver)
       protected resolvers: PageMetaResolver[],

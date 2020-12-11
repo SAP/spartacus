@@ -30,24 +30,42 @@ const attributeRB: Configurator.Attribute = {
   uiType: Configurator.UiType.RADIOBUTTON,
   selectedSingleValue: selectedSingleValue,
 };
+
+const attributeRB_PRODUCT: Configurator.Attribute = {
+  attrCode: attrCode,
+  name: attributeName,
+  uiType: Configurator.UiType.RADIOBUTTON_PRODUCT,
+  selectedSingleValue: selectedSingleValue,
+};
+
 const attributeDDLB: Configurator.Attribute = {
   attrCode: attrCode,
   name: attributeName,
   uiType: Configurator.UiType.DROPDOWN,
   selectedSingleValue: selectedSingleValue,
 };
+
+const attributeDDLB_PRODUCT: Configurator.Attribute = {
+  attrCode: attrCode,
+  name: attributeName,
+  uiType: Configurator.UiType.DROPDOWN_PRODUCT,
+  selectedSingleValue: selectedSingleValue,
+};
+
 const attributeSSI: Configurator.Attribute = {
   attrCode: attrCode,
   name: attributeName,
   uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
   selectedSingleValue: selectedSingleValue,
 };
+
 const attributeCB: Configurator.Attribute = {
   attrCode: attrCode,
   name: attributeName,
   uiType: Configurator.UiType.CHECKBOX,
   values: [value1, value2, value3],
 };
+
 const attributeCBList: Configurator.Attribute = {
   attrCode: attrCode,
   name: attributeName,
@@ -62,18 +80,27 @@ const attributeCBListNoSelection: Configurator.Attribute = {
   values: [],
 };
 
+const attributeCBList_PRODUCT: Configurator.Attribute = {
+  attrCode: attrCode,
+  name: attributeName,
+  uiType: Configurator.UiType.CHECKBOXLIST_PRODUCT,
+  values: [value1, value2, value3],
+};
+
 const attributeMSI: Configurator.Attribute = {
   attrCode: attrCode,
   name: attributeName,
   uiType: Configurator.UiType.MULTI_SELECTION_IMAGE,
   values: [value1, value2, value3],
 };
+
 const attributeString: Configurator.Attribute = {
   attrCode: attrCode,
   name: attributeName,
   uiType: Configurator.UiType.STRING,
   userInput: userInput,
 };
+
 const attributeNumeric: Configurator.Attribute = {
   attrCode: attrCode,
   name: attributeName,
@@ -149,41 +176,71 @@ describe('CpqConfiguratorSerializer', () => {
     expect(cpqConfiguratorSerializer).toBeTruthy();
   });
 
-  it('should convert radio button, dropdown and single-selection-image attribute types correctly', () => {
-    const updateAttributeRB: Cpq.UpdateAttribute = cpqConfiguratorSerializer.convertAttribute(
-      attributeRB,
-      configId
-    );
-    const updateAttributeDDLB: Cpq.UpdateAttribute = cpqConfiguratorSerializer.convertAttribute(
-      attributeDDLB,
-      configId
-    );
-    const updateAttributeSSI: Cpq.UpdateAttribute = cpqConfiguratorSerializer.convertAttribute(
-      attributeSSI,
-      configId
-    );
-    verifyUpdateAttributeSingleValue(updateAttributeRB);
-    verifyUpdateAttributeSingleValue(updateAttributeDDLB);
-    verifyUpdateAttributeSingleValue(updateAttributeSSI);
+  describe('single selection types', () => {
+    it('should convert radio button', () => {
+      verifyUpdateAttributeSingleValue(
+        cpqConfiguratorSerializer.convertAttribute(attributeRB, configId)
+      );
+    });
+
+    it('should convert radio button (product)', () => {
+      verifyUpdateAttributeSingleValue(
+        cpqConfiguratorSerializer.convertAttribute(
+          attributeRB_PRODUCT,
+          configId
+        )
+      );
+    });
+
+    it('should convert dropdown', () => {
+      verifyUpdateAttributeSingleValue(
+        cpqConfiguratorSerializer.convertAttribute(attributeDDLB, configId)
+      );
+    });
+
+    it('should convert dropdown (product)', () => {
+      verifyUpdateAttributeSingleValue(
+        cpqConfiguratorSerializer.convertAttribute(
+          attributeDDLB_PRODUCT,
+          configId
+        )
+      );
+    });
+
+    it('should convert single-selection-image', () => {
+      verifyUpdateAttributeSingleValue(
+        cpqConfiguratorSerializer.convertAttribute(attributeSSI, configId)
+      );
+    });
   });
 
-  it('should convert checkbox, checkboxlist and multi-selection-image attribute types correctly', () => {
-    const updateAttributeCB: Cpq.UpdateAttribute = cpqConfiguratorSerializer.convertAttribute(
-      attributeCB,
-      configId
-    );
-    const updateAttributeCBList: Cpq.UpdateAttribute = cpqConfiguratorSerializer.convertAttribute(
-      attributeCBList,
-      configId
-    );
-    const updateAttributeMSI: Cpq.UpdateAttribute = cpqConfiguratorSerializer.convertAttribute(
-      attributeMSI,
-      configId
-    );
+  describe('multi selection types', () => {
+    it('should convert checkbox', () => {
+      verifyUpdateAttributeMultiValue(
+        cpqConfiguratorSerializer.convertAttribute(attributeCB, configId)
+      );
+    });
 
-    verifyUpdateAttributeMultiValue(updateAttributeCB);
-    verifyUpdateAttributeMultiValue(updateAttributeCBList);
-    verifyUpdateAttributeMultiValue(updateAttributeMSI);
+    it('should convert checkboxlist', () => {
+      verifyUpdateAttributeMultiValue(
+        cpqConfiguratorSerializer.convertAttribute(attributeCBList, configId)
+      );
+    });
+
+    it('should convert checkboxlist (product)', () => {
+      verifyUpdateAttributeMultiValue(
+        cpqConfiguratorSerializer.convertAttribute(
+          attributeCBList_PRODUCT,
+          configId
+        )
+      );
+    });
+
+    it('should convert multi-selection-image', () => {
+      verifyUpdateAttributeMultiValue(
+        cpqConfiguratorSerializer.convertAttribute(attributeMSI, configId)
+      );
+    });
   });
 
   it('should convert user input attribute types correctly', () => {
