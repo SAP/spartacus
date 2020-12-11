@@ -94,13 +94,14 @@
       }}</span>
       <ng-select
         formControlName="uid"
-        [searchable]="false"
+        [searchable]="true"
         [clearable]="false"
         [items]="units$ | async"
         bindLabel="name"
         bindValue="id"
         [readonly]="form.get('orgUnit').disabled"
         appendTo="cx-org-list"
+        [placeholder]="'permission.orgUnit' | cxTranslate"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>

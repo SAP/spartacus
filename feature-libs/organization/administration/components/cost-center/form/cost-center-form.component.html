@@ -52,13 +52,14 @@
       }}</span>
       <ng-select
         formControlName="uid"
-        [searchable]="false"
+        [searchable]="true"
         [clearable]="false"
         [items]="units$ | async"
         bindLabel="name"
         bindValue="id"
         [readonly]="form.get('unit.uid').disabled"
         appendTo="cx-org-list"
+        [placeholder]="'costCenter.unit' | cxTranslate"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('unit.uid')"></cx-form-errors>
