@@ -639,3 +639,24 @@ export const CSS_V2_DOCS_URL =
 export const CSS_V3_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-3/';
 /***** Storefinder end *****/
+
+/***** Product configurator start *****/
+export const CLI_PRODUCT_CONFIGURATOR_FEATURE = 'ProductConfigurator';
+export const PRODUCT_CONFIGURATOR_SCSS_FILE_NAME = 'product-configurator.scss';
+export const PRODUCT_CONFIGURATOR_RULEBASED_MODULE =
+  'RulebasedConfiguratorModule';
+export const PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_NAME = 'rulebased';
+export const PRODUCT_CONFIGURATOR_ROOT_MODULE = 'CommonConfiguratorModule';
+export const PRODUCT_CONFIGURATOR_RULEBASED_ROOT_MODULE =
+  'RulebasedConfiguratorRootModule';
+export const SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED =
+  '@spartacus/product-configurator/rulebased';
+export const SPARTACUS_PRODUCT_CONFIGURATOR = '@spartacus/product-configurator';
+export const SPARTACUS_PRODUCT_CONFIGURATOR_COMMON = `${SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED}/common`;
+export const SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED_ROOT = `${SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED}/root`;
+export const SPARTACUS_PRODUCT_CONFIGURATOR_ASSETS = `${SPARTACUS_PRODUCT_CONFIGURATOR}/assets`;
+export const PRODUCT_CONFIGURATOR_TRANSLATIONS =
+  'productConfiguratorTranslations';
+export const PRODUCT_CONFIGURATOR_TRANSLATION_CHUNKS_CONFIG =
+  'productConfiguratorTranslationChunksConfig';
+/***** Product configurator end *****/

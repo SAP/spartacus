@@ -296,10 +296,10 @@ if (typeof config.to === 'undefined') {
     case 'product':
     case '@spartacus/product':
     case '@spartacus/product/configurators':
-    case '@spartacus/product/configurators/common':
+    case '@spartacus/product-configurator/common':
     case '@spartacus/product/configurators/cpq':
     case '@spartacus/product/configurators/variant':
-    case '@spartacus/product/configurators/textfield':
+    case '@spartacus/product-configurator/textfield':
       config.library = '@spartacus/product';
       break;
     case 'cdc':
