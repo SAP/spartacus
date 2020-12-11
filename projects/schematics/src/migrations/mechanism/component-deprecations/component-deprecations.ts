@@ -118,3 +118,5 @@ export function migrateComponentMigration(
 
   return tree;
 }
+
+// should trigger schematics owners
