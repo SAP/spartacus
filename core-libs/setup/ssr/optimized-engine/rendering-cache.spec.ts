@@ -111,3 +111,31 @@ describe('RenderingCache with ttl', () => {
     });
   });
 });
+
+describe('RenderingCache with cacheSize', () => {
+  let renderingCache: RenderingCache;
+
+  beforeEach(() => {
+    renderingCache = new RenderingCache({ cacheSize: 2 });
+  });
+
+  describe('get', () => {
+    it('should drop elements', () => {
+      renderingCache.store('a', null, 'a');
+      renderingCache.store('b', null, 'b');
+      renderingCache.store('c', null, 'c');
+      expect(renderingCache.get('a')).toBeFalsy();
+      expect(renderingCache.get('b')).toBeTruthy();
+    });
+
+    it('should drop oldest elements', () => {
+      renderingCache.store('a', null, 'a');
+      renderingCache.store('b', null, 'b');
+      renderingCache.store('a', null, 'a1');
+      renderingCache.store('c', null, 'c');
+      renderingCache.store('a', null, 'a2');
+      expect(renderingCache.get('a')).toBeTruthy();
+      expect(renderingCache.get('b')).toBeFalsy();
+    });
+  });
+});

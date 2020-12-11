@@ -5,6 +5,7 @@ import { testAssignmentFromConfig } from './my-company-assign';
 import { nextPage } from '../../product-search';
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
 import { myCompanyAdminUser } from '../../../sample-data/shared-users';
+import { testFeaturesFromConfig } from './my-company-features';
 
 export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
   describe(`My Company - ${config.name}${config.nameSuffix || ''}`, () => {
@@ -21,6 +22,7 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
     testListFromConfig(config);
     testCreateUpdateFromConfig(config);
     testAssignmentFromConfig(config);
+    testFeaturesFromConfig(config);
   });
 }
 

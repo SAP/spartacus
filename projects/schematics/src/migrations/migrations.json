@@ -85,6 +85,11 @@
       "version": "3.0.0-next.6",
       "factory": "./3_0/add-dependencies/add-dependencies#migrate",
       "description": "Add and install additional dependencies"
+    },
+    "migration-v3-ssr-09": {
+      "version": "3.0.0-rc.2",
+      "factory": "./3_0/ssr/ssr#migrate",
+      "description": "Migrate ssr to the new setup"
     }
   }
 }
