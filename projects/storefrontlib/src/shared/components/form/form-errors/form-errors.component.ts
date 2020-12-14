@@ -8,7 +8,7 @@ import {
   Optional,
   SimpleChanges,
 } from '@angular/core';
-import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
+import { FormControl, FormGroupDirective } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
@@ -21,12 +21,9 @@ import { map, startWith } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormErrorsComponent implements OnChanges {
-  _formGroup: FormGroupDirective;
   errors$: Observable<string[]>;
 
-  constructor(@Optional() @Host() protected formGroup: FormGroupDirective) {
-    this._formGroup = formGroup;
-  }
+  constructor(@Optional() @Host() protected formGroup: FormGroupDirective) {}
 
   // set to false to show all errors
   @Input() showOnlyOne = true;
@@ -53,22 +50,12 @@ export class FormErrorsComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.control) {
-      this.control = changes.control.currentValue;
-    } else if (changes.controlName) {
-      this.control = this.getFormGroup()?.get(
+    if (changes.controlName) {
+      this.control = this.formGroup?.form?.get(
         changes.controlName.currentValue
       ) as FormControl;
     }
     this.setErrors();
-  }
-
-  /**
-   * get the form from the FormGroupDirective
-   * @private
-   */
-  private getFormGroup(): FormGroup {
-    return this._formGroup ? this._formGroup.form : null;
   }
 
   /**

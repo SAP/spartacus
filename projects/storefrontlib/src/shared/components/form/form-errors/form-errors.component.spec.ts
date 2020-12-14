@@ -2,7 +2,7 @@ import { SimpleChange } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormErrorsComponent } from './form-errors.component';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 
 const mockErrorName = 'exampleError';
@@ -107,10 +107,9 @@ describe('FormErrors', () => {
   describe('passing control as input', () => {
     beforeEach(() => {
       control = new FormControl('exampleControl');
+      component.control = control;
+      component.ngOnChanges({});
 
-      component.ngOnChanges({
-        control: new SimpleChange(null, control, true),
-      });
       fixture.detectChanges();
     });
 
@@ -119,11 +118,11 @@ describe('FormErrors', () => {
 
   describe('passing controlName as input', () => {
     beforeEach(() => {
-      spyOn<any>(component, 'getFormGroup').and.returnValue(
-        new FormGroup({
+      component['formGroup'] = {
+        form: new FormGroup({
           exampleControl: new FormControl(),
-        })
-      );
+        }),
+      } as FormGroupDirective;
 
       component.ngOnChanges({
         controlName: new SimpleChange(null, 'exampleControl', true),
