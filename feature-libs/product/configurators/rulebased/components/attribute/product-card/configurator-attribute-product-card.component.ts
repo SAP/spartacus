@@ -20,7 +20,7 @@ export class ConfiguratorAttributeProductCardComponent
   private subs: Subscription;
 
   @Input() disabledAction: boolean;
-  @Input() multiSelect: boolean = false;
+  @Input() multiSelect = false;
   @Input() product: Configurator.Value;
   @Output() handleSelect = new EventEmitter();
   @Output() handleDeselect = new EventEmitter();

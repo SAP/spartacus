@@ -4,14 +4,13 @@ import { ConfiguratorAttributeProductCardModule } from '../../product-card/confi
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { ItemCounterModule, KeyboardFocusModule } from '@spartacus/storefront';
-import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [ConfiguratorAttributeMultiSelectionBundleComponent],
   entryComponents: [ConfiguratorAttributeMultiSelectionBundleComponent],
   exports: [ConfiguratorAttributeMultiSelectionBundleComponent],
-  schemas: [NO_ERRORS_SCHEMA],
   imports: [
     CommonModule,
     ConfiguratorAttributeProductCardModule,
