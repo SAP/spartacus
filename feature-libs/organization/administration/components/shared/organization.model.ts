@@ -24,7 +24,7 @@ export enum OrganizationTableType {
   USER_ASSIGNED_PERMISSIONS = 'orgUserAssignedPermissions',
   USER_USER_GROUPS = 'orgUserUserGroups',
   USER_ASSIGNED_USER_GROUPS = 'orgUserAssignedUserGroups',
-  PERMISSION = 'orgPermission',
+  PERMISSION = 'orgPurchaseLimit',
 }
 
 export type BaseItem = {

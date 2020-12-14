@@ -29,17 +29,17 @@ const paramsMapping: ParamsMapping = {
 export const permissionRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
-      orgPermission: {
+      orgPurchaseLimit: {
         paths: ['organization/purchase-limits'],
       },
-      orgPermissionCreate: {
+      orgPurchaseLimitCreate: {
         paths: ['organization/purchase-limits/create'],
       },
-      orgPermissionDetails: {
+      orgPurchaseLimitDetails: {
         paths: [listPath],
         paramsMapping,
       },
-      orgPermissionEdit: {
+      orgPurchaseLimitEdit: {
         paths: [`${listPath}/edit`],
         paramsMapping,
       },
@@ -65,7 +65,7 @@ export const permissionCmsConfig: CmsConfig = {
         parent: {
           data: {
             cxPageMeta: {
-              breadcrumb: 'orgPermission.breadcrumbs.list',
+              breadcrumb: 'orgPurchaseLimit.breadcrumbs.list',
               resolver: PermissionRoutePageMetaResolver,
             },
           },
@@ -79,7 +79,9 @@ export const permissionCmsConfig: CmsConfig = {
             path: `:${ROUTE_PARAMS.permissionCode}`,
             component: PermissionDetailsComponent,
             data: {
-              cxPageMeta: { breadcrumb: 'orgPermission.breadcrumbs.details' },
+              cxPageMeta: {
+                breadcrumb: 'orgPurchaseLimit.breadcrumbs.details',
+              },
             },
             children: [
               {
