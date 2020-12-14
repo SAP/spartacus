@@ -25,10 +25,18 @@ export class OrganizationBadRequestHandler extends HttpErrorHandler {
 
   handleError(_request: HttpRequest<any>, response: HttpErrorResponse): void {
     this.getErrors(response).forEach(({ message }: ErrorModel) => {
-      this.handleCostCenterConflict(message);
-      this.handleUnitConflict(message);
-      this.handlePermissionConflict(message);
-      this.handleUnknownConflict(message);
+      this.handleOrganizationConflict(
+        message,
+        this.costCenterMask,
+        'costCenter'
+      );
+      this.handleOrganizationConflict(message, this.unitMask, 'unit');
+      this.handleOrganizationConflict(
+        message,
+        this.permissionMask,
+        'permission'
+      );
+      this.handleOrganizationConflict(message, this.unknownMask, 'unknown');
     });
   }
 
@@ -58,30 +66,11 @@ export class OrganizationBadRequestHandler extends HttpErrorHandler {
     }
   }
 
-  protected handleCostCenterConflict(message: string) {
-    this.handleOrganizationConflict(message, this.costCenterMask, 'costCenter');
-  }
-
-  protected handleUnitConflict(message: string) {
-    this.handleOrganizationConflict(message, this.unitMask, 'unit');
-  }
-
-  protected handlePermissionConflict(message: string) {
-    this.handleOrganizationConflict(message, this.permissionMask, 'permission');
-  }
-
-  protected handleUnknownConflict(message: string) {
-    this.handleOrganizationConflict(message, this.unknownMask, 'unknown');
-  }
-
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
-    return (response.error?.errors || [])
-      .filter((error) => error.type !== 'JaloObjectNoLongerValidError')
-      .filter(
-        (error) =>
-          error.type === 'ModelSavingError' ||
-          error.type === 'DuplicateUidError'
-      );
+    return (response.error?.errors || []).filter(
+      (error) =>
+        error.type === 'ModelSavingError' || error.type === 'DuplicateUidError'
+    );
   }
 
   getPriority(): Priority {

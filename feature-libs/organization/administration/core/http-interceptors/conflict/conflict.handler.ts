@@ -25,10 +25,15 @@ export class OrganizationConflictHandler extends HttpErrorHandler {
 
   handleError(request: HttpRequest<any>, response: HttpErrorResponse) {
     return this.getErrors(response).forEach(({ message }: ErrorModel) => {
-      this.handleBudgetConflict(message);
-      this.handleUserConflict(message, request);
-      this.handleUserGroupConflict(message, request);
-      this.handleUnitConflict(message);
+      this.handleConflict(message, this.budgetMask, 'budget');
+      this.handleConflict(message, this.userMask, 'user', request?.body?.email);
+      this.handleConflict(
+        message,
+        this.userGroupMask,
+        'userGroup',
+        request?.body?.uid
+      );
+      this.handleConflict(message, this.unitMask, 'unit');
     });
   }
 
@@ -57,30 +62,6 @@ export class OrganizationConflictHandler extends HttpErrorHandler {
         GlobalMessageType.MSG_TYPE_ERROR
       );
     }
-  }
-
-  protected handleBudgetConflict(message: string) {
-    this.handleConflict(message, this.budgetMask, 'budget');
-  }
-
-  protected handleUserConflict(message: string, request: HttpRequest<any>) {
-    this.handleConflict(message, this.userMask, 'user', request?.body?.email);
-  }
-
-  protected handleUserGroupConflict(
-    message: string,
-    request: HttpRequest<any>
-  ) {
-    this.handleConflict(
-      message,
-      this.userGroupMask,
-      'userGroup',
-      request?.body?.uid
-    );
-  }
-
-  protected handleUnitConflict(message: string) {
-    this.handleConflict(message, this.unitMask, 'unit');
   }
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
