@@ -14,10 +14,10 @@ import {
 export class OrganizationConflictHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.CONFLICT;
 
-  protected budgetMask = /Budget with code \[(.*)\] already exists/g;
-  protected userMask = /User already exists/g;
-  protected userGroupMask = /Member Permission with the same id already exists/g;
-  protected unitMask = /Organizational unit with uid \[(.*)\] already exists/g;
+  protected budgetMask = /Budget with code \[(.*)\] already exists/;
+  protected userMask = /User already exists/;
+  protected userGroupMask = /Member Permission with the same id already exists/;
+  protected unitMask = /Organizational unit with uid \[(.*)\] already exists/;
 
   hasMatch(errorResponse: HttpErrorResponse): boolean {
     return super.hasMatch(errorResponse) && this.matchMask(errorResponse);
@@ -48,7 +48,7 @@ export class OrganizationConflictHandler extends HttpErrorHandler {
         this.userMask,
         this.userGroupMask,
         this.unitMask,
-      ].some((mask) => mask.exec(error.message))
+      ].some((mask) => mask.test(error.message))
     );
   }
 
