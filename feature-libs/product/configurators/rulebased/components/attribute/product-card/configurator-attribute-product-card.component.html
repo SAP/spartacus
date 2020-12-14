@@ -6,7 +6,13 @@
 >
   <div class="cx-configurator-attribute-product-card-rows">
     <div class="cx-configurator-attribute-product-card-imgs">
-      <ng-container *ngIf="product?.images[0]; else noimages"></ng-container>
+      <ng-container *ngIf="product?.images[0]; else noimages">
+        <img
+          [alt]="product.images[0].altText"
+          [src]="product.images[0].url"
+          *ngIf="product.images[0]"
+        />
+      </ng-container>
 
       <ng-template #noimages>
         <div class="cx-configurator-attribute-product-card-imgs-fake"></div
@@ -25,7 +31,7 @@
         >
       </div>
       <div class="cx-configurator-attribute-product-card-code">
-        ID {{ product.valueCode }}
+        {{ 'configurator.attribute.id' | cxTranslate }}: {{ product.valueCode }}
       </div>
       <cx-configurator-show-more
         [text]="product.description"
@@ -38,7 +44,7 @@
       class="cx-configurator-attribute-product-card-quantity"
       *ngIf="multiSelect && product.selected"
     >
-      <label>Qty</label>
+      <label>{{ 'configurator.attribute.quantity' | cxTranslate }}</label>
       <cx-item-counter
         [allowZero]="true"
         [control]="quantity"

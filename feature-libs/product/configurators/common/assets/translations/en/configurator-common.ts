@@ -22,6 +22,8 @@ export const configurator = {
         '{{count}} issues must be resolved before checkout.',
     },
     attribute: {
+      id: 'ID',
+      quantity: 'Qty',
       caption: 'Attributes',
       notSupported: 'Attibute Type is not supported.',
       requiredAttribute: '{{param}} required',
