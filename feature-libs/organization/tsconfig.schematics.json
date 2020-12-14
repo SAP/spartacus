@@ -20,7 +20,10 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "paths": {
-      "@spartacus/schematics": ["../../projects/schematics/src/public_api"]
+      "@spartacus/schematics": ["../../projects/schematics/src/public_api"],
+      "@angular-devkit/schematics": [
+        "../../projects/schematics/node_modules/@angular-devkit/schematics"
+      ]
     }
   },
   "include": ["schematics/**/*.ts"],

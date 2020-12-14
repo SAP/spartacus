@@ -14,7 +14,10 @@
     "lib": ["es2020", "dom"],
     "paths": {
       "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"]
+      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@angular-devkit/schematics": [
+        "../../projects/schematics/node_modules/@angular-devkit/schematics"
+      ]
     }
   },
   "angularCompilerOptions": {

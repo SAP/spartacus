@@ -18,6 +18,8 @@
   "license": "MIT",
   "schematics": "./src/collection.json",
   "dependencies": {
+    "@angular-devkit/core": "^10.1.0",
+    "@angular-devkit/schematics": "^10.1.0",
     "@angular/localize": "^10.1.0",
     "@nguniversal/express-engine": "^10.1.0",
     "@angular/pwa": "^0.1001.0"
@@ -25,8 +27,6 @@
   "peerDependencies": {
     "@angular/core": "^10.1.0",
     "@angular/cli": "^10.1.0",
-    "@angular-devkit/core": "^10.1.0",
-    "@angular-devkit/schematics": "^10.1.0",
     "@schematics/angular": "^10.1.0"
   },
   "devDependencies": {
