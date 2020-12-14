@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurator-attribute-multi-selection-bundle.component';
+import { ConfiguratorAttributeSingleSelectionBundleComponent } from './configurator-attribute-single-selection-bundle.component';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeProductCardComponent } from '../../product-card/configurator-attribute-product-card.component';
 import { I18nTestingModule } from '@spartacus/core';
@@ -10,9 +10,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ItemCounterComponent } from '@spartacus/storefront';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
 
-describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
-  let component: ConfiguratorAttributeMultiSelectionBundleComponent;
-  let fixture: ComponentFixture<ConfiguratorAttributeMultiSelectionBundleComponent>;
+describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
+  let component: ConfiguratorAttributeSingleSelectionBundleComponent;
+  let fixture: ComponentFixture<ConfiguratorAttributeSingleSelectionBundleComponent>;
   let htmlElem: HTMLElement;
 
   const createImage = (url: string, altText: string): Configurator.Image => {
@@ -54,17 +54,20 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
           ReactiveFormsModule,
         ],
         declarations: [
-          ConfiguratorAttributeMultiSelectionBundleComponent,
+          ConfiguratorAttributeSingleSelectionBundleComponent,
           ConfiguratorAttributeProductCardComponent,
           ConfiguratorShowMoreComponent,
           ItemCounterComponent,
         ],
       })
-        .overrideComponent(ConfiguratorAttributeMultiSelectionBundleComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
+        .overrideComponent(
+          ConfiguratorAttributeSingleSelectionBundleComponent,
+          {
+            set: {
+              changeDetection: ChangeDetectionStrategy.Default,
+            },
+          }
+        )
         .compileComponents();
     })
   );
@@ -85,7 +88,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
         [createImage('url', 'alt')],
         'valueName',
         1,
-        true,
+        false,
         '2222',
         'Lorem Ipsum Dolor'
       ),
@@ -110,7 +113,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     ];
 
     fixture = TestBed.createComponent(
-      ConfiguratorAttributeMultiSelectionBundleComponent
+      ConfiguratorAttributeSingleSelectionBundleComponent
     );
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
@@ -118,7 +121,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     component.attribute = {
       name: 'attributeName',
       attrCode: 1111,
-      uiType: Configurator.UiType.CHECKBOXLIST_PRODUCT,
+      uiType: Configurator.UiType.RADIOBUTTON_PRODUCT,
       required: true,
       groupId: 'testGroup',
       values: values,
@@ -129,14 +132,6 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should create with OnInit', () => {
-    expect(component.disableDeselectAction$.getValue()).toBe(false);
-    component.disableDeselectAction$.next(true);
-    fixture.detectChanges();
-
-    expect(component.disableDeselectAction$.getValue()).toBe(true);
   });
 
   it('should render 4 multi selection bundle items after init', () => {
@@ -150,11 +145,11 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     expect(cardList.length).toBe(4);
   });
 
-  it('should mark two items as selected', () => {
+  it('should mark one items as selected', () => {
     component.ngOnInit();
 
     expect(component.attribute.values[0].selected).toEqual(true);
-    expect(component.attribute.values[1].selected).toEqual(true);
+    expect(component.attribute.values[1].selected).toEqual(false);
     expect(component.attribute.values[2].selected).toEqual(false);
     expect(component.attribute.values[3].selected).toEqual(false);
   });
