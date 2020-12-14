@@ -1,4 +1,4 @@
 /*
  * Public API Surface of product
  */
-export * from './product.module';
+export * from './dummy-product.module';
