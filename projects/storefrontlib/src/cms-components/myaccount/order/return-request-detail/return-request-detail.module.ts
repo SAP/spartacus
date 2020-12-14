@@ -56,6 +56,5 @@ const components = [
   ],
   declarations: [...components],
   exports: [...components],
-  entryComponents: [...components],
 })
 export class ReturnRequestDetailModule {}

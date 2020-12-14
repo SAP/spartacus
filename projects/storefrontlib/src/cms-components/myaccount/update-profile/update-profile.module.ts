@@ -33,6 +33,5 @@ import { FormErrorsModule } from '../../../shared/index';
   ],
   declarations: [UpdateProfileComponent, UpdateProfileFormComponent],
   exports: [UpdateProfileComponent, UpdateProfileFormComponent],
-  entryComponents: [UpdateProfileComponent],
 })
 export class UpdateProfileModule {}

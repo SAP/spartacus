@@ -33,6 +33,5 @@ import { FormErrorsModule } from '../../../shared/index';
   ],
   declarations: [ForgotPasswordComponent],
   exports: [ForgotPasswordComponent],
-  entryComponents: [ForgotPasswordComponent],
 })
 export class ForgotPasswordModule {}

@@ -23,6 +23,5 @@ import { NotificationPreferenceComponent } from './notification-preference.compo
     }),
   ],
   exports: [NotificationPreferenceComponent],
-  entryComponents: [NotificationPreferenceComponent],
 })
 export class NotificationPreferenceModule {}

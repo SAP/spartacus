@@ -36,6 +36,5 @@ import { defaultAsmLayoutConfig } from './default-asm-layout.config';
     AsmToggleUiComponent,
   ],
   providers: [provideConfig(defaultAsmLayoutConfig)],
-  entryComponents: [AsmMainUiComponent],
 })
 export class AsmModule {}

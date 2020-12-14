@@ -17,6 +17,5 @@ import { ProductIntroComponent } from './product-intro.component';
   ],
   declarations: [ProductIntroComponent],
   exports: [ProductIntroComponent],
-  entryComponents: [ProductIntroComponent],
 })
 export class ProductIntroModule {}

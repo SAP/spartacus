@@ -37,7 +37,6 @@ import { VariantStyleIconsComponent } from './variant-style-icons/variant-style-
     }),
   ],
   declarations: [ProductVariantsComponent],
-  entryComponents: [ProductVariantsComponent],
   exports: [VariantStyleIconsComponent],
 })
 export class ProductVariantsModule {}

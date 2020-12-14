@@ -17,7 +17,6 @@ import { AnonymousConsentDialogComponent } from './anonymous-consent-dialog.comp
     KeyboardFocusModule,
   ],
   declarations: [AnonymousConsentDialogComponent],
-  entryComponents: [AnonymousConsentDialogComponent],
   exports: [AnonymousConsentDialogComponent],
 })
 export class AnonymousConsentsDialogModule {}

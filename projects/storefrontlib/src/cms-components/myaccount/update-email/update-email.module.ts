@@ -33,6 +33,5 @@ import { FormErrorsModule } from '../../../shared/index';
   ],
   declarations: [UpdateEmailFormComponent, UpdateEmailComponent],
   exports: [UpdateEmailComponent, UpdateEmailFormComponent],
-  entryComponents: [UpdateEmailComponent],
 })
 export class UpdateEmailModule {}

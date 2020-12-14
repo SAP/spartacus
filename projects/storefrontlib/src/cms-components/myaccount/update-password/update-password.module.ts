@@ -33,6 +33,5 @@ import { FormErrorsModule } from '../../../shared/index';
   ],
   declarations: [UpdatePasswordComponent, UpdatePasswordFormComponent],
   exports: [UpdatePasswordComponent, UpdatePasswordFormComponent],
-  entryComponents: [UpdatePasswordComponent],
 })
 export class UpdatePasswordModule {}

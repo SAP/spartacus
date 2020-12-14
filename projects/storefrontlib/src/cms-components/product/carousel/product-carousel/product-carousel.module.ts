@@ -20,7 +20,6 @@ import { ProductCarouselComponent } from './product-carousel.component';
     }),
   ],
   declarations: [ProductCarouselComponent],
-  entryComponents: [ProductCarouselComponent],
   exports: [ProductCarouselComponent],
 })
 export class ProductCarouselModule {}

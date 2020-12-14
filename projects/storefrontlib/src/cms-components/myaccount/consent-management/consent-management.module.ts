@@ -33,6 +33,5 @@ import { ConsentManagementComponent } from './components/consent-management.comp
   ],
   declarations: [ConsentManagementComponent, ConsentManagementFormComponent],
   exports: [ConsentManagementComponent, ConsentManagementFormComponent],
-  entryComponents: [ConsentManagementComponent],
 })
 export class ConsentManagementModule {}

@@ -24,7 +24,6 @@ import { FooterNavigationComponent } from './footer-navigation.component';
     }),
   ],
   declarations: [FooterNavigationComponent],
-  entryComponents: [FooterNavigationComponent],
   exports: [FooterNavigationComponent],
 })
 export class FooterNavigationModule {}

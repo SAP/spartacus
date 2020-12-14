@@ -7,7 +7,6 @@ import { RouterModule } from '@angular/router';
 @NgModule({
   imports: [CommonModule, RouterModule, UrlModule, I18nModule],
   declarations: [VariantStyleIconsComponent],
-  entryComponents: [VariantStyleIconsComponent],
   exports: [VariantStyleIconsComponent],
 })
 export class VariantStyleIconsModule {}

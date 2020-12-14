@@ -7,7 +7,6 @@ import { QualtricsComponent } from './qualtrics.component';
 @NgModule({
   imports: [CommonModule],
   declarations: [QualtricsComponent],
-  entryComponents: [QualtricsComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

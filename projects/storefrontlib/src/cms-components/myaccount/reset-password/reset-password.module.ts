@@ -32,6 +32,5 @@ import { FormErrorsModule } from '../../../shared/index';
   ],
   declarations: [ResetPasswordFormComponent],
   exports: [ResetPasswordFormComponent],
-  entryComponents: [ResetPasswordFormComponent],
 })
 export class ResetPasswordModule {}

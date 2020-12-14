@@ -39,7 +39,6 @@ import { WishListComponent } from './components/wish-list/wish-list.component';
     }),
   ],
   declarations: [WishListComponent, WishListItemComponent],
-  entryComponents: [WishListComponent],
   exports: [WishListComponent, WishListItemComponent],
 })
 export class WishListModule {}

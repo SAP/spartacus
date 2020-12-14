@@ -47,6 +47,5 @@ import { CancelOrderConfirmationComponent } from './cancel-order-confirmation.co
   ],
   declarations: [CancelOrderConfirmationComponent],
   exports: [CancelOrderConfirmationComponent],
-  entryComponents: [CancelOrderConfirmationComponent],
 })
 export class CancelOrderConfirmationModule {}

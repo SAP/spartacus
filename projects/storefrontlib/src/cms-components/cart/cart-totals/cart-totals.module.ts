@@ -31,6 +31,5 @@ import { CartTotalsComponent } from './cart-totals.component';
   ],
   declarations: [CartTotalsComponent],
   exports: [CartTotalsComponent],
-  entryComponents: [CartTotalsComponent],
 })
 export class CartTotalsModule {}
