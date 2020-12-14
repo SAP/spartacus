@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import { CommonConfiguratorModule } from '@spartacus/product-configurator/common';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { TextfieldConfiguratorRootFeatureModule } from './textfield-configurator-root-feature.module';
 import { TextfieldConfiguratorRoutingModule } from './textfield-configurator-routing.module';
@@ -12,6 +13,7 @@ import { TextfieldConfiguratorRoutingModule } from './textfield-configurator-rou
 @NgModule({
   imports: [
     CommonModule,
+    CommonConfiguratorModule,
     TextfieldConfiguratorRootFeatureModule,
     TextfieldConfiguratorRoutingModule.forRoot(),
     RouterModule.forChild([

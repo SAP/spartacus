@@ -645,18 +645,25 @@ export const CLI_PRODUCT_CONFIGURATOR_FEATURE = 'ProductConfigurator';
 export const PRODUCT_CONFIGURATOR_SCSS_FILE_NAME = 'product-configurator.scss';
 export const PRODUCT_CONFIGURATOR_RULEBASED_MODULE =
   'RulebasedConfiguratorModule';
+export const PRODUCT_CONFIGURATOR_TEXTFIELD_MODULE =
+  'TextfieldConfiguratorModule';
 export const PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_NAME = 'rulebased';
+export const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME = 'textfield';
 export const PRODUCT_CONFIGURATOR_ROOT_MODULE = 'CommonConfiguratorModule';
 export const PRODUCT_CONFIGURATOR_RULEBASED_ROOT_MODULE =
   'RulebasedConfiguratorRootModule';
+export const PRODUCT_CONFIGURATOR_TEXTFIELD_ROOT_MODULE =
+  'TextfieldConfiguratorRootModule';
 export const SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED =
   '@spartacus/product-configurator/rulebased';
+export const SPARTACUS_PRODUCT_CONFIGURATOR_TEXTFIELD =
+  '@spartacus/product-configurator/textfield';
 export const SPARTACUS_PRODUCT_CONFIGURATOR = '@spartacus/product-configurator';
 export const SPARTACUS_PRODUCT_CONFIGURATOR_COMMON = `${SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED}/common`;
 export const SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED_ROOT = `${SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED}/root`;
+export const SPARTACUS_PRODUCT_CONFIGURATOR_TEXTFIELD_ROOT = `${SPARTACUS_PRODUCT_CONFIGURATOR_TEXTFIELD}/root`;
 export const SPARTACUS_PRODUCT_CONFIGURATOR_ASSETS = `${SPARTACUS_PRODUCT_CONFIGURATOR}/assets`;
-export const PRODUCT_CONFIGURATOR_TRANSLATIONS =
-  'productConfiguratorTranslations';
+export const PRODUCT_CONFIGURATOR_TRANSLATIONS = 'configuratorTranslations';
 export const PRODUCT_CONFIGURATOR_TRANSLATION_CHUNKS_CONFIG =
-  'productConfiguratorTranslationChunksConfig';
+  'configuratorTranslationChunksConfig';
 /***** Product configurator end *****/

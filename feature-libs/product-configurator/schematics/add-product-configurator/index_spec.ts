@@ -6,7 +6,7 @@ import {
   CLI_PRODUCT_CONFIGURATOR_FEATURE,
   LibraryOptions as SpartacusProductConfiguratorOptions,
   SpartacusOptions,
-  SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
+  SPARTACUS_PRODUCT_CONFIGURATOR,
 } from '@spartacus/schematics';
 import * as path from 'path';
 
@@ -86,11 +86,6 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           .toPromise();
       });
 
-      it('should install @spartacus/product-configuration library', () => {
-        const packageJson = appTree.readContent('package.json');
-        expect(packageJson).toContain(SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED);
-      });
-
       it('should add style import to /src/styles/spartacus/product-configurator.scss', async () => {
         const content = appTree.readContent(
           '/src/styles/spartacus/product-configurator.scss'
@@ -133,15 +128,22 @@ describe('Spartacus product configurator schematics: ng-add', () => {
         const packageJson = appTree.readContent('/package.json');
         const packageObj = JSON.parse(packageJson);
         const depPackageList = Object.keys(packageObj.dependencies);
-        expect(
-          depPackageList.includes('@spartacus/product-configurator/rulebased')
-        ).toBe(true);
+        expect(depPackageList.includes(SPARTACUS_PRODUCT_CONFIGURATOR)).toBe(
+          true
+        );
       });
 
-      it('should import appropriate modules', async () => {
+      it('should import rulebased root module', async () => {
         const appModule = appTree.readContent(appModulePath);
         expect(appModule).toContain(
           `import { RulebasedConfiguratorRootModule } from '@spartacus/product-configurator/rulebased/root';`
+        );
+      });
+
+      it('should import textfield root module', async () => {
+        const appModule = appTree.readContent(appModulePath);
+        expect(appModule).toContain(
+          `import { TextfieldConfiguratorRootModule } from '@spartacus/product-configurator/textfield/root';`
         );
       });
 
@@ -160,6 +162,15 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           .toPromise();
       });
 
+      it('should add product-configurator deps', async () => {
+        const packageJson = appTree.readContent('/package.json');
+        const packageObj = JSON.parse(packageJson);
+        const depPackageList = Object.keys(packageObj.dependencies);
+        expect(depPackageList.includes('@spartacus/product-configurator')).toBe(
+          true
+        );
+      });
+
       it('should import rulebased root module and contain the lazy loading syntax', async () => {
         const appModule = appTree.readContent(appModulePath);
         expect(appModule).toContain(
@@ -170,10 +181,27 @@ describe('Spartacus product configurator schematics: ng-add', () => {
         );
       });
 
+      it('should import textfield root module and contain the lazy loading syntax', async () => {
+        const appModule = appTree.readContent(appModulePath);
+        expect(appModule).toContain(
+          `import { TextfieldConfiguratorRootModule } from '@spartacus/product-configurator/textfield/root';`
+        );
+        expect(appModule).toContain(
+          `import('@spartacus/product-configurator/textfield').then(`
+        );
+      });
+
       it('should not contain the rulebase module import', () => {
         const appModule = appTree.readContent(appModulePath);
         expect(appModule).not.toContain(
           `import { RulebasedConfiguratorModule } from '@spartacus/product-configurator/rulebased';`
+        );
+      });
+
+      it('should not contain the textfield module import', () => {
+        const appModule = appTree.readContent(appModulePath);
+        expect(appModule).not.toContain(
+          `import { TextfieldConfiguratorModule } from '@spartacus/product-configurator/textfield';`
         );
       });
     });
@@ -187,19 +215,14 @@ describe('Spartacus product configurator schematics: ng-add', () => {
       it('should import the i18n resource and chunk from assets', async () => {
         const appModule = appTree.readContent(appModulePath);
         expect(appModule).toContain(
-          `import { productConfiguratorTranslations } from '@spartacus/product-configurator/assets';`
-        );
-        expect(appModule).toContain(
-          `import { productConfiguratorTranslationChunksConfig } from '@spartacus/product-configurator/assets';`
+          `import { configuratorTranslations } from '@spartacus/product-configurator/assets';`
         );
       });
       it('should provideConfig', async () => {
         const appModule = appTree.readContent(appModulePath);
+        expect(appModule).toContain(`resources: configuratorTranslations,`);
         expect(appModule).toContain(
-          `resources: productConfiguratorTranslations,`
-        );
-        expect(appModule).toContain(
-          `chunks: productConfiguratorTranslationChunksConfig,`
+          `chunks: configuratorTranslationChunksConfig,`
         );
       });
     });
