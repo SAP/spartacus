@@ -1,13 +1,15 @@
-import { B2cStorefrontModule } from '@spartacus/storefront';
-import { FeatureEnvironment } from '../models/feature.model';
-import { StoreFinderRootModule } from '@spartacus/storefinder/root';
+import { AsmModule } from '@spartacus/asm';
 import {
   storeFinderTranslationChunksConfig,
   storeFinderTranslations,
 } from '@spartacus/storefinder/assets';
+import { StoreFinderRootModule } from '@spartacus/storefinder/root';
+import { B2cStorefrontModule } from '@spartacus/storefront';
+import { FeatureEnvironment } from '../models/feature.model';
 
 export const b2cFeature: FeatureEnvironment = {
   imports: [
+    AsmModule,
     B2cStorefrontModule.withConfig({
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
