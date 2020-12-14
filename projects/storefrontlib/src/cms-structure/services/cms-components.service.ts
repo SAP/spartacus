@@ -177,6 +177,13 @@ export class CmsComponentsService {
   }
 
   /**
+   * Return the static data for the component.
+   */
+  getStaticData(componentType: string): any {
+    return this.config.cmsComponents?.[componentType]?.data;
+  }
+
+  /**
    * Standardizes the format of `childRoutes` config.
    *
    * Some `childRoutes` configs are simple arrays of Routes (without the notion of the parent route).

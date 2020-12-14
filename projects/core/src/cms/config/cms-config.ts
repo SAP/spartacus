@@ -1,35 +1,36 @@
 import { Injectable, StaticProvider } from '@angular/core';
 import { Route } from '@angular/router';
 import { Config } from '../../config/config-tokens';
+import { CmsComponent } from '../../model';
 import { OccConfig } from '../../occ/config/occ-config';
 
-export interface StandardCmsComponentConfig {
-  CMSSiteContextComponent?: CmsComponentMapping;
-  CMSLinkComponent?: CmsComponentMapping;
-  SimpleResponsiveBannerComponent?: CmsComponentMapping;
-  SimpleBannerComponent?: CmsComponentMapping;
-  BannerComponent?: CmsComponentMapping;
-  CMSParagraphComponent?: CmsComponentMapping;
-  BreadcrumbComponent?: CmsComponentMapping;
-  NavigationComponent?: CmsComponentMapping;
-  FooterNavigationComponent?: CmsComponentMapping;
-  CategoryNavigationComponent?: CmsComponentMapping;
-  ProductAddToCartComponent?: CmsComponentMapping;
-  MiniCartComponent?: CmsComponentMapping;
-  ProductCarouselComponent?: CmsComponentMapping;
-  SearchBoxComponent?: CmsComponentMapping;
-  ProductReferencesComponent?: CmsComponentMapping;
-  CMSTabParagraphComponent?: CmsComponentMapping;
-  LoginComponent?: CmsComponentMapping;
+export interface StandardCmsComponentConfig<T> {
+  CMSSiteContextComponent?: CmsComponentMapping<T>;
+  CMSLinkComponent?: CmsComponentMapping<T>;
+  SimpleResponsiveBannerComponent?: CmsComponentMapping<T>;
+  SimpleBannerComponent?: CmsComponentMapping<T>;
+  BannerComponent?: CmsComponentMapping<T>;
+  CMSParagraphComponent?: CmsComponentMapping<T>;
+  BreadcrumbComponent?: CmsComponentMapping<T>;
+  NavigationComponent?: CmsComponentMapping<T>;
+  FooterNavigationComponent?: CmsComponentMapping<T>;
+  CategoryNavigationComponent?: CmsComponentMapping<T>;
+  ProductAddToCartComponent?: CmsComponentMapping<T>;
+  MiniCartComponent?: CmsComponentMapping<T>;
+  ProductCarouselComponent?: CmsComponentMapping<T>;
+  SearchBoxComponent?: CmsComponentMapping<T>;
+  ProductReferencesComponent?: CmsComponentMapping<T>;
+  CMSTabParagraphComponent?: CmsComponentMapping<T>;
+  LoginComponent?: CmsComponentMapping<T>;
 }
 
-export interface JspIncludeCmsComponentConfig {
-  AccountAddressBookComponent?: CmsComponentMapping;
-  ForgotPasswordComponent?: CmsComponentMapping;
-  ResetPasswordComponent?: CmsComponentMapping;
-  ProductDetailsTabComponent?: CmsComponentMapping;
-  ProductSpecsTabComponent?: CmsComponentMapping;
-  ProductReviewsTabComponent?: CmsComponentMapping;
+export interface JspIncludeCmsComponentConfig<T> {
+  AccountAddressBookComponent?: CmsComponentMapping<T>;
+  ForgotPasswordComponent?: CmsComponentMapping<T>;
+  ResetPasswordComponent?: CmsComponentMapping<T>;
+  ProductDetailsTabComponent?: CmsComponentMapping<T>;
+  ProductSpecsTabComponent?: CmsComponentMapping<T>;
+  ProductReviewsTabComponent?: CmsComponentMapping<T>;
 }
 
 export const JSP_INCLUDE_CMS_COMPONENT_TYPE = 'JspIncludeComponent';
@@ -50,13 +51,21 @@ export interface CmsComponentChildRoutesConfig {
   children?: Route[];
 }
 
-export interface CmsComponentMapping {
+export interface CmsComponentMapping<T = CmsComponent> {
   component?: any;
   providers?: StaticProvider[];
   childRoutes?: Route[] | CmsComponentChildRoutesConfig;
   disableSSR?: boolean;
   i18nKeys?: string[];
   guards?: any[];
+
+  /**
+   * The component data can be statically configured. The data can be used for various reasons:
+   * - Improve performance with an initial data that doesn't require API response
+   * - Introduce UI properties that are not available on the API
+   * - Build ghost design based on the initial data that is used prior to the backend data is loaded
+   */
+  data?: T;
 
   /**
    * DeferLoading can be specified globally, but also per component.
@@ -74,10 +83,10 @@ export enum DeferLoadingStrategy {
   INSTANT = 'INSTANT-LOADING',
 }
 
-export interface CMSComponentConfig
-  extends StandardCmsComponentConfig,
-    JspIncludeCmsComponentConfig {
-  [componentType: string]: CmsComponentMapping;
+export interface CMSComponentConfig<T = CmsComponent>
+  extends StandardCmsComponentConfig<T>,
+    JspIncludeCmsComponentConfig<T> {
+  [componentType: string]: CmsComponentMapping<T>;
 }
 
 export interface FeatureModuleConfig {
@@ -99,7 +108,7 @@ export interface FeatureModuleConfig {
   providedIn: 'root',
   useExisting: Config,
 })
-export abstract class CmsConfig extends OccConfig {
+export abstract class CmsConfig<T = CmsComponent> extends OccConfig {
   featureModules?: { [featureName: string]: FeatureModuleConfig };
-  cmsComponents?: CMSComponentConfig;
+  cmsComponents?: CMSComponentConfig<T>;
 }
