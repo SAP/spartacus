@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
+  CmsProductListComponent,
   FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
@@ -49,13 +50,19 @@ import { ProductViewComponent } from './product-view/product-view.component';
   ],
   providers: [
     provideDefaultConfig(<ViewConfig>defaultScrollConfig),
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig(<CmsConfig<CmsProductListComponent>>{
       cmsComponents: {
         CMSProductListComponent: {
           component: ProductListComponent,
+          data: {
+            isProductListing: true,
+          },
         },
         ProductGridComponent: {
           component: ProductListComponent,
+          data: {
+            isProductListing: true,
+          },
         },
         SearchResultsListComponent: {
           component: ProductListComponent,
