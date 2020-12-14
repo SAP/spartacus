@@ -5,7 +5,11 @@ import {
   RoutesConfig,
   RoutingConfigService,
 } from '@spartacus/core';
-import { CheckoutConfigService, CheckoutStepType } from '@spartacus/storefront';
+import {
+  CheckoutConfigService,
+  CheckoutStepType,
+  CheckoutStepService,
+} from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
 import { ExpressCheckoutService } from '../services/express-checkout.service';
@@ -19,6 +23,9 @@ class MockCheckoutConfigService {
   isExpressCheckout() {
     return isExpressCheckoutSet;
   }
+}
+
+class MockCheckoutStepService {
   getFirstCheckoutStepRoute() {
     return 'checkoutShippingAddress';
   }
@@ -48,13 +55,14 @@ class MockCartService {
 describe(`CheckoutGuard`, () => {
   let guard: CheckoutGuard;
   let mockRoutingConfigService: RoutingConfigService;
-  let mockCheckoutConfigService: CheckoutConfigService;
+  let mockCheckoutStepService: CheckoutStepService;
   let cartService: ActiveCartService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
+        { provide: CheckoutStepService, useClass: MockCheckoutStepService },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
         { provide: ActiveCartService, useClass: MockCartService },
         {
@@ -67,7 +75,7 @@ describe(`CheckoutGuard`, () => {
 
     guard = TestBed.inject(CheckoutGuard);
     mockRoutingConfigService = TestBed.inject(RoutingConfigService);
-    mockCheckoutConfigService = TestBed.inject(CheckoutConfigService);
+    mockCheckoutStepService = TestBed.inject(CheckoutStepService);
     cartService = TestBed.inject(ActiveCartService);
   });
 
@@ -79,7 +87,7 @@ describe(`CheckoutGuard`, () => {
         expect(result.toString()).toEqual(
           `/${
             mockRoutingConfigService.getRouteConfig(
-              mockCheckoutConfigService.getFirstCheckoutStepRoute()
+              mockCheckoutStepService.getFirstCheckoutStepRoute()
             ).paths[0]
           }`
         );
@@ -98,7 +106,7 @@ describe(`CheckoutGuard`, () => {
         expect(result.toString()).toEqual(
           `/${
             mockRoutingConfigService.getRouteConfig(
-              mockCheckoutConfigService.getFirstCheckoutStepRoute()
+              mockCheckoutStepService.getFirstCheckoutStepRoute()
             ).paths[0]
           }`
         );
@@ -116,7 +124,7 @@ describe(`CheckoutGuard`, () => {
         expect(result.toString()).toEqual(
           `/${
             mockRoutingConfigService.getRouteConfig(
-              mockCheckoutConfigService.getFirstCheckoutStepRoute()
+              mockCheckoutStepService.getFirstCheckoutStepRoute()
             ).paths[0]
           }`
         );
@@ -134,7 +142,7 @@ describe(`CheckoutGuard`, () => {
         expect(result.toString()).toEqual(
           `/${
             mockRoutingConfigService.getRouteConfig(
-              mockCheckoutConfigService.getCheckoutStepRoute(
+              mockCheckoutStepService.getCheckoutStepRoute(
                 CheckoutStepType.REVIEW_ORDER
               )
             ).paths[0]

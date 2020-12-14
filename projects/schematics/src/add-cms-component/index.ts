@@ -8,7 +8,6 @@ import {
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
-import { getProjectFromWorkspace } from '@angular/cdk/schematics';
 import {
   getDecoratorMetadata,
   getSourceNodes,
@@ -47,7 +46,7 @@ import {
   buildRelativePath,
   stripTsFromImport,
 } from '../shared/utils/module-file-utils';
-import { getWorkspace } from '../shared/utils/workspace-utils';
+import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
 import { CxCmsComponentSchema } from './schema';
 
 function buildComponentModule(options: CxCmsComponentSchema): string {
@@ -191,9 +190,7 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
       options.name
     )}.${strings.dasherize(options.type)}.ts`;
 
-    const { workspace } = getWorkspace(tree);
-    const project = getProjectFromWorkspace(workspace, options.project);
-
+    const project = getProjectFromWorkspace(tree, options);
     const componentPath = getPathResultsForFile(
       tree,
       componentFileName,
@@ -205,13 +202,13 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
     const componentTs = getTsSourceFile(tree, componentPath);
     const nodes = getSourceNodes(componentTs);
     const constructorNode = findConstructor(nodes);
-    const injectionChange = injectService(
+    const injectionChange = injectService({
       constructorNode,
-      componentPath,
-      cmsComponentData,
-      'private',
-      CMS_COMPONENT_DATA_PROPERTY_NAME
-    );
+      path: componentPath,
+      serviceName: cmsComponentData,
+      modifier: 'private',
+      propertyName: CMS_COMPONENT_DATA_PROPERTY_NAME,
+    });
     changes.push(injectionChange);
 
     const componentDataProperty = `  ${CMS_COMPONENT_DATA_PROPERTY_NAME}$: Observable<${strings.classify(
@@ -260,9 +257,8 @@ function updateTemplate(options: CxCmsComponentSchema): Rule {
     const componentFileName = `${strings.dasherize(
       options.name
     )}.${strings.dasherize(options.type)}.ts`;
-    const { workspace } = getWorkspace(tree);
-    const project = getProjectFromWorkspace(workspace, options.project);
 
+    const project = getProjectFromWorkspace(tree, options);
     const componentPath = getPathResultsForFile(
       tree,
       componentFileName,

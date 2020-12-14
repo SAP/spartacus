@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActiveCartService, Cart, RoutingService } from '@spartacus/core';
+import { ActiveCartService, Cart, SemanticPathService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CartNotEmptyGuard } from './cart-not-empty.guard';
 
@@ -8,9 +8,7 @@ const CART_EMPTY = Object.freeze({ totalItems: 0 });
 const CART_NOT_EMPTY = Object.freeze({ totalItems: 1 });
 const CART_NOT_CREATED = Object.freeze({});
 
-const mockRoutingService = { go: () => {} };
-
-class ActiveCartServiceStub {
+class ActiveCartServiceStub implements Partial<ActiveCartService> {
   getActive(): Observable<Cart> {
     return of();
   }
@@ -19,17 +17,22 @@ class ActiveCartServiceStub {
   }
 }
 
+class SemanticPathServiceStub implements Partial<SemanticPathService> {
+  get(a: string) {
+    return `/${a}`;
+  }
+}
+
 describe('CartNotEmptyGuard', () => {
   let cartNotEmptyGuard: CartNotEmptyGuard;
-  let routingService: RoutingService;
   let activeCartService: ActiveCartServiceStub;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: RoutingService,
-          useValue: mockRoutingService,
+          provide: SemanticPathService,
+          useClass: SemanticPathServiceStub,
         },
         {
           provide: ActiveCartService,
@@ -40,15 +43,10 @@ describe('CartNotEmptyGuard', () => {
     });
 
     cartNotEmptyGuard = TestBed.inject(CartNotEmptyGuard);
-    routingService = TestBed.inject(RoutingService);
     activeCartService = TestBed.inject(ActiveCartService);
   });
 
   describe('canActivate:', () => {
-    beforeEach(() => {
-      spyOn(routingService, 'go');
-    });
-
     describe('when cart is loaded', () => {
       describe(', and when cart is NOT created', () => {
         beforeEach(() => {
@@ -58,20 +56,13 @@ describe('CartNotEmptyGuard', () => {
           spyOn(activeCartService, 'isStable').and.returnValue(of(true));
         });
 
-        it('then Router should redirect to main page', () => {
-          cartNotEmptyGuard.canActivate().subscribe().unsubscribe();
-          expect(routingService.go).toHaveBeenCalledWith({
-            cxRoute: 'home',
-          });
-        });
-
-        it('then returned observable should emit false', () => {
+        it('then router should return main page url', () => {
           let emittedValue: any = 'nothing was emitted';
           cartNotEmptyGuard
             .canActivate()
             .subscribe((result) => (emittedValue = result))
             .unsubscribe();
-          expect(emittedValue).toBe(false);
+          expect(emittedValue.toString()).toEqual('/home');
         });
       });
 
@@ -81,20 +72,13 @@ describe('CartNotEmptyGuard', () => {
           spyOn(activeCartService, 'isStable').and.returnValue(of(true));
         });
 
-        it('then Router should redirect to main page', () => {
-          cartNotEmptyGuard.canActivate().subscribe().unsubscribe();
-          expect(routingService.go).toHaveBeenCalledWith({
-            cxRoute: 'home',
-          });
-        });
-
-        it('then returned observable should emit false', () => {
+        it('then router should return main page url', () => {
           let emittedValue: any = 'nothing was emitted';
           cartNotEmptyGuard
             .canActivate()
             .subscribe((result) => (emittedValue = result))
             .unsubscribe();
-          expect(emittedValue).toBe(false);
+          expect(emittedValue.toString()).toEqual('/home');
         });
       });
 
@@ -104,11 +88,6 @@ describe('CartNotEmptyGuard', () => {
             of(CART_NOT_EMPTY)
           );
           spyOn(activeCartService, 'isStable').and.returnValue(of(true));
-        });
-
-        it('then Router should NOT redirect', () => {
-          cartNotEmptyGuard.canActivate().subscribe().unsubscribe();
-          expect(routingService.go).not.toHaveBeenCalled();
         });
 
         it('then returned observable should emit true', () => {
@@ -128,11 +107,6 @@ describe('CartNotEmptyGuard', () => {
           of(CART_NOT_CREATED)
         );
         spyOn(activeCartService, 'isStable').and.returnValue(of(false));
-      });
-
-      it('then Router should not redirect to main page', () => {
-        cartNotEmptyGuard.canActivate().subscribe().unsubscribe();
-        expect(routingService.go).not.toHaveBeenCalled();
       });
 
       it('then returned observable should not emit', () => {

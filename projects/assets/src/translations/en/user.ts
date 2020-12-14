@@ -34,6 +34,7 @@ export const user = {
     signIn: 'Sign In',
     register: 'Register',
     dontHaveAccount: 'Don’t have an account?',
+    guestCheckout: 'Guest Checkout',
     emailAddress: {
       label: 'Email address',
       placeholder: 'Enter email',
@@ -43,7 +44,6 @@ export const user = {
       placeholder: 'Password',
     },
     wrongEmailFormat: 'This is not a valid email format.',
-    guestCheckout: 'Guest Checkout',
   },
   register: {
     confirmPassword: {
@@ -51,7 +51,7 @@ export const user = {
       label: 'Confirm password',
       placeholder: 'Confirm Password',
     },
-    managmentInMyAccount: 'Management in My Account.',
+    managementInMyAccount: 'Management in My Account.',
     termsAndConditions: 'Terms & Conditions',
     signIn: 'I already have an account. Sign In',
     register: 'Register',

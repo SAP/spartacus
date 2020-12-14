@@ -12,9 +12,10 @@ export class LoadUserOrders extends StateUtils.LoaderLoadAction {
   constructor(
     public payload: {
       userId: string;
-      pageSize: number;
+      pageSize?: number;
       currentPage?: number;
       sort?: string;
+      replenishmentOrderCode?: string;
     }
   ) {
     super(USER_ORDERS);

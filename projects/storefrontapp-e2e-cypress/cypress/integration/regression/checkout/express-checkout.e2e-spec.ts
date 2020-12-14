@@ -8,6 +8,14 @@ context('Express checkout', () => {
     cy.visit('/');
   });
 
+  beforeEach(() => {
+    cy.restoreLocalStorage();
+  });
+
+  afterEach(() => {
+    cy.saveLocalStorage();
+  });
+
   describe('should redirect to first step if there are missing address and payment', () => {
     it('go to checkout', () => {
       checkout.registerUser();
@@ -42,13 +50,12 @@ context('Express checkout', () => {
     });
 
     it('click proceed to checkout', () => {
-      cy.getByText(/proceed to checkout/i).click();
+      cy.findByText(/proceed to checkout/i).click();
     });
 
     it('should redirect to review order page with Standard Delivery', () => {
       checkout.verifyReviewOrderPage();
       cy.get('.cx-review-card-shipping').should('contain', 'Standard Delivery');
-      cy.saveLocalStorage();
     });
   });
 
@@ -60,7 +67,6 @@ context('Express checkout', () => {
           defaultDeliveryMode: ['MOST_EXPENSIVE'],
         },
       } as CheckoutConfig);
-      cy.restoreLocalStorage();
       cy.visit('/');
     });
 
@@ -69,7 +75,7 @@ context('Express checkout', () => {
     });
 
     it('click proceed to checkout', () => {
-      cy.getByText(/proceed to checkout/i).click();
+      cy.findByText(/proceed to checkout/i).click();
     });
 
     it('should redirect to review order page with Premium Delivery', () => {
@@ -83,7 +89,7 @@ context('Express checkout', () => {
       cy.selectUserMenuOption({
         option: 'Payment Details',
       });
-      cy.getAllByText('Delete').first().click({ force: true });
+      cy.findAllByText('Delete').first().click({ force: true });
       cy.get('.btn-primary').click({ force: true });
     });
 
@@ -92,7 +98,7 @@ context('Express checkout', () => {
     });
 
     it('click proceed to checkout', () => {
-      cy.getByText(/proceed to checkout/i).click();
+      cy.findByText(/proceed to checkout/i).click();
     });
 
     it('should verify Shipping Address page', () => {

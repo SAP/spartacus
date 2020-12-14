@@ -8,7 +8,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { AuthService } from '../../auth/facade/auth.service';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { ActiveCartService } from '../../cart/facade/active-cart.service';
 import { Address, AddressValidation } from '../../model/address.model';
 import { DeliveryMode } from '../../model/order.model';
@@ -31,8 +31,8 @@ import { CheckoutSelectors } from '../store/selectors/index';
 export class CheckoutDeliveryService {
   constructor(
     protected checkoutStore: Store<StateWithCheckout | StateWithProcess<void>>,
-    protected authService: AuthService,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartService,
+    protected userIdService: UserIdService
   ) {}
 
   /**
@@ -165,8 +165,8 @@ export class CheckoutDeliveryService {
   createAndSetAddress(address: Address): void {
     if (this.actionAllowed()) {
       let userId;
-      this.authService
-        .getOccUserId()
+      this.userIdService
+        .getUserId()
         .subscribe((occUserId) => (userId = occUserId))
         .unsubscribe();
 
@@ -193,8 +193,8 @@ export class CheckoutDeliveryService {
   loadSupportedDeliveryModes(): void {
     if (this.actionAllowed()) {
       let userId;
-      this.authService
-        .getOccUserId()
+      this.userIdService
+        .getUserId()
         .subscribe((occUserId) => (userId = occUserId))
         .unsubscribe();
 
@@ -221,8 +221,8 @@ export class CheckoutDeliveryService {
   setDeliveryMode(mode: string): void {
     if (this.actionAllowed()) {
       let userId;
-      this.authService
-        .getOccUserId()
+      this.userIdService
+        .getUserId()
         .subscribe((occUserId) => (userId = occUserId))
         .unsubscribe();
 
@@ -250,8 +250,8 @@ export class CheckoutDeliveryService {
   verifyAddress(address: Address): void {
     if (this.actionAllowed()) {
       let userId;
-      this.authService
-        .getOccUserId()
+      this.userIdService
+        .getUserId()
         .subscribe((occUserId) => (userId = occUserId))
         .unsubscribe();
       if (userId) {
@@ -272,8 +272,8 @@ export class CheckoutDeliveryService {
   setDeliveryAddress(address: Address): void {
     if (this.actionAllowed()) {
       let userId;
-      this.authService
-        .getOccUserId()
+      this.userIdService
+        .getUserId()
         .subscribe((occUserId) => (userId = occUserId))
         .unsubscribe();
 
@@ -308,8 +308,8 @@ export class CheckoutDeliveryService {
    */
   clearCheckoutDeliveryAddress(): void {
     let userId;
-    this.authService
-      .getOccUserId()
+    this.userIdService
+      .getUserId()
       .subscribe((occUserId) => (userId = occUserId))
       .unsubscribe();
 
@@ -333,8 +333,8 @@ export class CheckoutDeliveryService {
    */
   clearCheckoutDeliveryMode(): void {
     let userId;
-    this.authService
-      .getOccUserId()
+    this.userIdService
+      .getUserId()
       .subscribe((occUserId) => (userId = occUserId))
       .unsubscribe();
 
@@ -364,8 +364,8 @@ export class CheckoutDeliveryService {
 
   protected actionAllowed(): boolean {
     let userId;
-    this.authService
-      .getOccUserId()
+    this.userIdService
+      .getUserId()
       .subscribe((occUserId) => (userId = occUserId))
       .unsubscribe();
     return (

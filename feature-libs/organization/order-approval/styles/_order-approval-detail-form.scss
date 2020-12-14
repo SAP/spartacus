@@ -1,0 +1,30 @@
+cx-order-approval-detail-form {
+  margin-bottom: 15px;
+
+  .cx-approval-form-header {
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: var(--cx-color-background);
+
+    .cx-approval-form-label {
+      font-size: var(--cx-font-size, 1.125rem);
+      font-weight: var(--cx-font-weight-bold);
+      line-height: var(--cx-line-height, 1.2222222222);
+    }
+  }
+
+  textarea.form-control {
+    margin-bottom: 15px;
+  }
+
+  a.btn {
+    @include media-breakpoint-down(md) {
+      margin-bottom: 15px;
+    }
+  }
+  button {
+    @include media-breakpoint-down(md) {
+      margin-bottom: 15px;
+    }
+  }
+}

@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Order } from '@spartacus/core';
-
 import { Observable } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 
@@ -11,7 +9,7 @@ import { OrderDetailsService } from '../order-details.service';
 export class OrderDetailTotalsComponent implements OnInit {
   constructor(protected orderDetailsService: OrderDetailsService) {}
 
-  order$: Observable<Order>;
+  order$: Observable<any>;
 
   ngOnInit() {
     this.order$ = this.orderDetailsService.getOrderDetails();

@@ -11,7 +11,7 @@ cx-asm-toggle-ui {
     align-items: inherit;
 
     .label {
-      margin-left: 5px;
+      margin-inline-start: 5px;
 
       @media (max-width: 575px) {
         display: none;

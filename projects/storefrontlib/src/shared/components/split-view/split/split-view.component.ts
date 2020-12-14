@@ -1,10 +1,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   HostBinding,
+  Input,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
 import { SplitViewService } from '../split-view.service';
 
 /**
@@ -26,7 +30,7 @@ import { SplitViewService } from '../split-view.service';
  * view components, so that the `lastVisibleView` can be updated accordingly. The actual
  * visibility of views is controlled by CSS. To allow for maximum flexibility, the CSS
  * implementation is using CSS variables. The `lastVisibleView` is bind to the
- * `--cx-last-visible-view` on the host, so that all descendants views will inherit the
+ * `--cx-active-view` on the host, so that all descendants views will inherit the
  * property conveniently.
  */
 @Component({
@@ -35,22 +39,63 @@ import { SplitViewService } from '../split-view.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SplitViewService],
 })
-export class SplitViewComponent implements OnDestroy {
+export class SplitViewComponent implements OnInit, OnDestroy {
+  private subscription = new Subscription();
+
+  /**
+   * Sets the default hide mode for views. This mode is useful in case views are dynamically being created,
+   * for example when they are created by router components.
+   *
+   * The mode defaults to true, unless this is the first view; the first view is never hidden.
+   */
+  @Input()
+  set hideMode(mode: boolean) {
+    this.splitService.defaultHideMode = mode;
+  }
+
   /**
    * Indicates the last visible view in the range of views that is visible. This
-   * is bind to a css variable `--cx-last-visible-view` so that the experience
+   * is bind to a css variable `--cx-active-view` so that the experience
    * can be fully controlled by css.
    */
-  @HostBinding('style.--cx-last-visible-view')
+  @HostBinding('style.--cx-active-view')
+  @HostBinding('attr.active-view')
   lastVisibleView = 1;
 
-  protected subscription: Subscription = this.splitService
-    .visibleViewCount()
-    .subscribe((lastVisible: number) => (this.lastVisibleView = lastVisible));
+  constructor(
+    protected splitService: SplitViewService,
+    protected breakpointService: BreakpointService,
+    protected elementRef: ElementRef
+  ) {}
 
-  constructor(protected splitService: SplitViewService) {}
+  ngOnInit() {
+    this.subscription.add(
+      this.splitService
+        .getActiveView()
+        .subscribe(
+          (lastVisible: number) => (this.lastVisibleView = lastVisible + 1)
+        )
+    );
+    this.subscription.add(
+      this.breakpointService.breakpoint$.subscribe(() => {
+        this.splitService.updateSplitView(this.splitViewCount);
+      })
+    );
+  }
+
+  /**
+   * Returns the maximum number of views per split-view. The number is based on the
+   * CSS custom property `--cx-max-views`.
+   */
+  protected get splitViewCount(): number {
+    return Number(
+      getComputedStyle(this.elementRef.nativeElement).getPropertyValue(
+        '--cx-max-views'
+      )
+    );
+  }
 
   ngOnDestroy() {
-    this.subscription?.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }

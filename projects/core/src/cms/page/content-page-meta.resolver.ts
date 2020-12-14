@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { combineLatest, defer, Observable } from 'rxjs';
+import { filter, map, shareReplay } from 'rxjs/operators';
 import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
 import { CmsService } from '../facade/cms.service';
 import { BreadcrumbMeta, Page } from '../model/page.model';
 import { PageMetaResolver } from './page-meta.resolver';
 import { PageBreadcrumbResolver, PageTitleResolver } from './page.resolvers';
+import { RoutingPageMetaResolver } from './routing/routing-page-meta.resolver';
 
 /**
  * Resolves the page data for all Content Pages based on the `PageType.CONTENT_PAGE`.
@@ -18,16 +19,40 @@ import { PageBreadcrumbResolver, PageTitleResolver } from './page.resolvers';
 @Injectable({
   providedIn: 'root',
 })
-export class ContentPageMetaResolver extends PageMetaResolver
+export class ContentPageMetaResolver
+  extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver {
-  /** helper to provie access to the current CMS page */
+  /** helper to provide access to the current CMS page */
   protected cms$: Observable<Page> = this.cms
     .getCurrentPage()
     .pipe(filter((p) => Boolean(p)));
 
+  /**
+   * Breadcrumb for the home page.
+   */
+  protected homeBreadcrumb$: Observable<
+    BreadcrumbMeta[]
+  > = this.translation
+    .translate('common.home')
+    .pipe(map((label) => [{ label: label, link: '/' }] as BreadcrumbMeta[]));
+
+  /**
+   * All the resolved breadcrumbs (including those from Angular child routes).
+   */
+  private breadcrumbs$: Observable<BreadcrumbMeta[]> = combineLatest([
+    this.homeBreadcrumb$,
+    defer(() => this.routingPageMetaResolver.resolveBreadcrumbs()),
+  ]).pipe(
+    map(
+      (breadcrumbs) => breadcrumbs.flat(),
+      shareReplay({ bufferSize: 1, refCount: true })
+    )
+  );
+
   constructor(
     protected cms: CmsService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected routingPageMetaResolver: RoutingPageMetaResolver
   ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
@@ -42,12 +67,10 @@ export class ContentPageMetaResolver extends PageMetaResolver
   }
 
   /**
-   * Resolves a single breacrumb item to the home page for each `ContentPage`.
+   * Resolves a single breadcrumb item to the home page for each `ContentPage`.
    * The home page label is resolved from the translation service.
    */
   resolveBreadcrumbs(): Observable<BreadcrumbMeta[]> {
-    return this.translation
-      .translate('common.home')
-      .pipe(map((label) => [{ label: label, link: '/' }] as BreadcrumbMeta[]));
+    return this.breadcrumbs$;
   }
 }

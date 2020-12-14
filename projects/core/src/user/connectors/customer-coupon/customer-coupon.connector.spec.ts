@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs/internal/observable/of';
+import { of } from 'rxjs';
 import { CustomerCouponAdapter } from './customer-coupon.adapter';
 import { CustomerCouponConnector } from './customer-coupon.connector';
 import createSpy = jasmine.createSpy;

@@ -40,7 +40,10 @@
 
   .cx-checkout-title {
     text-transform: capitalize;
-    margin: 0 auto;
+    margin-top: 0;
+    margin-inline-end: auto;
+    margin-bottom: 0;
+    margin-inline-start: auto;
     padding: 2.375rem 0 1.75rem 0;
   }
 
@@ -58,10 +61,10 @@
     margin-bottom: 1.25rem;
 
     @include media-breakpoint-down(md) {
-      padding-left: 3.5rem;
+      padding-inline-start: 3.5rem;
     }
     @include media-breakpoint-down(sm) {
-      padding-left: 1.5rem;
+      padding-inline-start: 1.5rem;
     }
   }
 

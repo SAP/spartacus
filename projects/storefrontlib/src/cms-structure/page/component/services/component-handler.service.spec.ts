@@ -1,10 +1,9 @@
-import { TestBed } from '@angular/core/testing';
-
-import { ComponentHandlerService } from './component-handler.service';
-import { ComponentHandler } from '../handlers/component-handler';
 import { Injectable } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { CmsComponentMapping } from '@spartacus/core';
 import { of } from 'rxjs';
+import { ComponentHandler } from '../handlers/component-handler';
+import { ComponentHandlerService } from './component-handler.service';
 import createSpy = jasmine.createSpy;
 
 @Injectable()
@@ -49,10 +48,13 @@ describe('ComponentHandlerService', () => {
       expect(testHandler.launcher).toHaveBeenCalledWith(
         { component: 'test' },
         undefined,
+        undefined,
         undefined
       );
     });
+
     it('should return undefined if not matched', () => {
+      spyOn(console, 'warn').and.stub();
       const launcher = service.getLauncher(
         { component: 'unknown' },
         undefined,

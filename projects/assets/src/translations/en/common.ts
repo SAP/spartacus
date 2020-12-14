@@ -10,6 +10,8 @@ export const common = {
     save: 'Save',
     done: 'Done',
     home: 'Home',
+    noData: 'No data.',
+    confirm: 'Confirm',
   },
   pageMetaResolver: {
     category: {
@@ -51,16 +53,20 @@ export const common = {
     date: 'Date',
     orderNumber: 'Order Number',
     rma: 'Return Number',
+    replenishmentNumber: 'Replenishment Number',
+    nextOrderDate: 'Next Order Date',
   },
   httpHandlers: {
     badGateway: 'A server error occurred. Please try again later.',
     badRequestPleaseLoginAgain: '{{ errorMessage }}. Please login again.',
     badRequestOldPasswordIncorrect: 'Old password incorrect.',
-    conflict: 'Already exists',
-    forbidden: 'You are not authorized to perform this action.',
+    conflict: 'Already exists.',
+    forbidden:
+      'You are not authorized to perform this action. Please contact your administrator if you think this is a mistake.',
     gatewayTimeout: 'The server did not respond, please try again later.',
     internalServerError:
       'An Internal Server Error occurred. Please try again later.',
+    sessionExpired: 'Your session has expired. Please login again.',
     unknownError: 'An unknown error occurred',
     unauthorized: {
       common: 'An unknown authorization error occured',
@@ -98,6 +104,8 @@ export const common = {
         lastName: 'Last Name entered is not valid.',
         password: 'Password entered is not valid.',
         uid: 'UID is not valid.',
+        code: 'Code is not valid.',
+        email: 'Email is not valid.',
       },
     },
     cartNotFound: 'Cart not found.',
@@ -131,6 +139,19 @@ export const common = {
     cxPasswordsMustMatch: 'Password fields must match',
     cxEmailsMustMatch: 'Email fields must match',
     cxStarRatingEmpty: 'Rating field is required',
-    cxNoSelectedItemToCancel: 'Select at least one item to cancel',
+    cxNoSelectedItemToCancel: 'Select at least one item',
+    cxNegativeAmount: 'Amount must be equal or greater than zero',
+    cxContainsSpecialCharacters: 'Field cannot contain special characters',
+    date: {
+      required: 'This field is required',
+      min: 'Date cannot be before {{min}}',
+      max: 'Date cannot be after {{max}}',
+      pattern: 'Use dateformat yyyy-mm-dd',
+      invalid: 'Use a valid date',
+    },
+  },
+  errorHandlers: {
+    scriptFailedToLoad: 'Failed to load the script.',
+    refreshThePage: 'Please refresh the page.',
   },
 };

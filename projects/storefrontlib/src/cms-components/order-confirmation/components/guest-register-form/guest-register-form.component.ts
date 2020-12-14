@@ -44,9 +44,9 @@ export class GuestRegisterFormComponent implements OnDestroy {
       );
       if (!this.subscription) {
         this.subscription = this.authService
-          .getUserToken()
-          .subscribe((token) => {
-            if (token.access_token) {
+          .isUserLoggedIn()
+          .subscribe((isLoggedIn) => {
+            if (isLoggedIn) {
               this.routingService.go({ cxRoute: 'home' });
             }
           });

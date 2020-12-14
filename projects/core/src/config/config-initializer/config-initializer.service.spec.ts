@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ConfigInitializerService } from './config-initializer.service';
-import { Config, ConfigInitializer } from '@spartacus/core';
+import { Config, ConfigInitializer, RootConfig } from '@spartacus/core';
 import { CONFIG_INITIALIZER_FORROOT_GUARD } from './config-initializer';
 
 const MockConfig = {
@@ -111,6 +111,21 @@ describe('ConfigInitializerService', () => {
       await Promise.all([scope2(), stable(), scope1()]);
 
       expect(results).toEqual(['scope1', 'scope2', 'stable']);
+    });
+
+    describe('Config tokens', () => {
+      it('should contribute to global Configuration token', async () => {
+        await service.getStableConfig();
+        const config = TestBed.inject(Config);
+        expect(config.scope1).toEqual('final');
+        expect(config.scope2.nested).toBeTruthy();
+      });
+      it('should contribute to Root Configuration token', async () => {
+        await service.getStableConfig();
+        const config = TestBed.inject(RootConfig);
+        expect(config.scope1).toEqual('final');
+        expect(config.scope2.nested).toBeTruthy();
+      });
     });
   });
 

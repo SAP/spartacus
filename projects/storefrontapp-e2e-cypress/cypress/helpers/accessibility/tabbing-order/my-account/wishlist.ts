@@ -13,7 +13,7 @@ export function wishlistTabbingOrder(config: TabElement[]) {
   ).as('addToWishlist');
 
   cy.visit('/product/779841');
-  cy.getAllByText(/Add to Wish List/i)
+  cy.findAllByText(/Add to Wish List/i)
     .first()
     .click();
 

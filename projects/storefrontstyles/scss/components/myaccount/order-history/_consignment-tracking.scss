@@ -13,7 +13,7 @@
 
   .cx-consignment-tracking-dialog {
     .header {
-      padding-left: $cx-consignment-tracking-dialog-header-padding-left;
+      padding-inline-start: $cx-consignment-tracking-dialog-header-padding-left;
     }
 
     .title {
@@ -28,7 +28,10 @@
 
     .shipment-heading {
       position: relative;
-      padding: 1.5rem 0 0.4rem 2rem;
+      padding-top: 1.5rem;
+      padding-inline-end: 0;
+      padding-bottom: 0.4rem;
+      padding-inline-start: 2rem;
       background-color: var(--cx-color-background);
     }
 
@@ -47,8 +50,8 @@
 
     .events {
       .event-body {
-        border-left: 0.7rem solid var(--cx-color-secondary);
-        padding-left: 1rem;
+        border-inline-start: 0.7rem solid var(--cx-color-secondary);
+        padding-inline-start: 1rem;
         margin-bottom: 1rem;
         div {
           padding-bottom: 0.6rem;

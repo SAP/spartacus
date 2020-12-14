@@ -13,12 +13,13 @@
           'selected-variant': v.code === variants?.selected.code
         }"
       >
-        <img
-          (click)="changeStyle(v.code)"
-          src="{{ getVariantThumbnailUrl(v.variantOptionQualifiers) }}"
-          title="{{ getVariantOptionValue(v.variantOptionQualifiers) }}"
-          alt="{{ getVariantOptionValue(v.variantOptionQualifiers) }}"
-        />
+        <button class="variant-button" (click)="changeStyle(v.code)">
+          <img
+            src="{{ getVariantThumbnailUrl(v.variantOptionQualifiers) }}"
+            title="{{ getVariantOptionValue(v.variantOptionQualifiers) }}"
+            alt="{{ getVariantOptionValue(v.variantOptionQualifiers) }}"
+          />
+        </button>
       </li>
     </ul>
   </div>

@@ -28,7 +28,8 @@ import { ProductScope } from '../model/product-scope';
 @Injectable({
   providedIn: 'root',
 })
-export class ProductPageMetaResolver extends PageMetaResolver
+export class ProductPageMetaResolver
+  extends PageMetaResolver
   implements
     PageHeadingResolver,
     PageTitleResolver,

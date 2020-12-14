@@ -51,9 +51,41 @@ class MockComponent {}
 
 class MockVisibleFocusService {}
 
-const MockEvent = {
+const MockMouseEvent = {
   preventDefault: () => {},
   stopPropagation: () => {},
+  metaKey: false,
+  target: {
+    tagName: 'BUTTON',
+  },
+};
+
+const MockOskeyEvent = {
+  preventDefault: () => {},
+  stopPropagation: () => {},
+  metaKey: true,
+  target: {
+    tagName: 'BUTTON',
+  },
+};
+
+const MockFillFormEvent = {
+  preventDefault: () => {},
+  stopPropagation: () => {},
+  metaKey: false,
+  target: {
+    tagName: 'INPUT',
+  },
+};
+
+const MockTabKeyEvent = {
+  preventDefault: () => {},
+  stopPropagation: () => {},
+  metaKey: false,
+  code: 'Tab',
+  target: {
+    tagName: 'INPUT',
+  },
 };
 
 describe('VisibleFocusDirective', () => {
@@ -93,33 +125,72 @@ describe('VisibleFocusDirective', () => {
     });
 
     it('should add "mouse-focus" class when mousedown is triggered', () => {
-      host.triggerEventHandler('mousedown', MockEvent);
+      host.triggerEventHandler('mousedown', MockMouseEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).toContain(
         'mouse-focus'
       );
     });
 
-    it('should remove "mouse-focus" class when keydown is triggered after mousedown', () => {
-      host.triggerEventHandler('mousedown', MockEvent);
+    it('should not have "mouse-focus" class when keydown is triggered after mousedown', () => {
+      host.triggerEventHandler('mousedown', MockMouseEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).toContain(
         'mouse-focus'
       );
-      host.triggerEventHandler('keydown', MockEvent);
+      host.triggerEventHandler('keydown', MockMouseEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).not.toContain(
         'mouse-focus'
       );
     });
 
-    it('should add "mouse-focus" class when mousedown is triggered after keydown', () => {
-      host.triggerEventHandler('keydown', MockEvent);
+    it('should have "mouse-focus" class when keydown is used for OS functions', () => {
+      host.triggerEventHandler('mousedown', MockMouseEvent);
+      fixture.detectChanges();
+      expect((host.nativeElement as HTMLElement).classList).toContain(
+        'mouse-focus'
+      );
+      host.triggerEventHandler('keydown', MockOskeyEvent);
+      fixture.detectChanges();
+      expect((host.nativeElement as HTMLElement).classList).toContain(
+        'mouse-focus'
+      );
+    });
+
+    it('should have "mouse-focus" class when keydown is used for filling in a FORM', () => {
+      host.triggerEventHandler('mousedown', MockMouseEvent);
+      fixture.detectChanges();
+      expect((host.nativeElement as HTMLElement).classList).toContain(
+        'mouse-focus'
+      );
+      host.triggerEventHandler('keydown', MockFillFormEvent);
+      fixture.detectChanges();
+      expect((host.nativeElement as HTMLElement).classList).toContain(
+        'mouse-focus'
+      );
+    });
+
+    it('should not have "mouse-focus" class when Tab key is used', () => {
+      host.triggerEventHandler('mousedown', MockMouseEvent);
+      fixture.detectChanges();
+      expect((host.nativeElement as HTMLElement).classList).toContain(
+        'mouse-focus'
+      );
+      host.triggerEventHandler('keydown', MockTabKeyEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).not.toContain(
         'mouse-focus'
       );
-      host.triggerEventHandler('mousedown', MockEvent);
+    });
+
+    it('should have "mouse-focus" class when mousedown is triggered after keydown', () => {
+      host.triggerEventHandler('keydown', MockMouseEvent);
+      fixture.detectChanges();
+      expect((host.nativeElement as HTMLElement).classList).not.toContain(
+        'mouse-focus'
+      );
+      host.triggerEventHandler('mousedown', MockMouseEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).toContain(
         'mouse-focus'
@@ -127,7 +198,7 @@ describe('VisibleFocusDirective', () => {
     });
   });
 
-  describe('explicitily set disableMouseFocus to false', () => {
+  describe('explicitly set disableMouseFocus to false', () => {
     let host: DebugElement;
     beforeEach(() => {
       host = fixture.debugElement.query(By.css('#b'));
@@ -135,7 +206,7 @@ describe('VisibleFocusDirective', () => {
     });
 
     it('should not add "mouse-focus" class when mousedown is triggered', () => {
-      host.triggerEventHandler('mousedown', MockEvent);
+      host.triggerEventHandler('mousedown', MockMouseEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).not.toContain(
         'mouse-focus'
@@ -146,7 +217,7 @@ describe('VisibleFocusDirective', () => {
   describe('default behaviour for child directives', () => {
     it('should not add "mouse-focus" class when mousedown is triggered', () => {
       const host = fixture.debugElement.query(By.css('#c'));
-      host.triggerEventHandler('mousedown', MockEvent);
+      host.triggerEventHandler('mousedown', MockMouseEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).not.toContain(
         'mouse-focus'

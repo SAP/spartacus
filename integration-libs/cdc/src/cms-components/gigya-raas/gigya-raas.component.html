@@ -1,0 +1,25 @@
+<div *ngIf="component.data$ | async as data">
+  <div *ngIf="jsLoaded$ | async">
+    <div *ngIf="language$ | async as lang">
+      <div
+        *ngIf="displayInEmbedMode(data); else popupLink"
+        [attr.id]="data.containerID"
+      >
+        {{ displayScreenSet(data, lang) }}
+      </div>
+      <ng-template #popupLink>
+        <a
+          class="popup-link"
+          [attr.data-cdc-id]="data.uid"
+          [attr.data-profile-edit]="data.profileEdit"
+          (click)="showScreenSet(data, lang)"
+          >{{ data.linkText }}</a
+        >
+      </ng-template>
+    </div>
+  </div>
+  <div *ngIf="jsError$ | async" class="js-error">
+    {{ 'errorHandlers.scriptFailedToLoad' | cxTranslate }}
+    {{ 'errorHandlers.refreshThePage' | cxTranslate }}
+  </div>
+</div>

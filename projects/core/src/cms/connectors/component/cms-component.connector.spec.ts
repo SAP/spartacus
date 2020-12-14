@@ -1,6 +1,6 @@
 import { TestBed, TestBedStatic } from '@angular/core/testing';
 import { PageContext } from '@spartacus/core';
-import { of } from 'rxjs/internal/observable/of';
+import { of } from 'rxjs';
 import { CmsStructureConfigService } from '../../../cms/services/cms-structure-config.service';
 import { PageType } from '../../../model/cms.model';
 import { OccConfig } from '../../../occ/config/occ-config';
@@ -15,10 +15,6 @@ class MockCmsComponentAdapter implements CmsComponentAdapter {
 
   findComponentsByIds = createSpy(
     'CmsComponentAdapter.findComponentsByIds'
-  ).and.callFake((idList) => of(idList.map((id) => 'component' + id)));
-
-  findComponentsByIdsLegacy = createSpy(
-    'CmsComponentAdapter.findComponentsByIdsLegacy'
   ).and.callFake((idList) => of(idList.map((id) => 'component' + id)));
 }
 
@@ -40,7 +36,6 @@ const MockOccModuleConfig: OccConfig = {
     occ: {
       baseUrl: '',
       prefix: '',
-      legacy: false,
     },
   },
 };
@@ -109,23 +104,6 @@ describe('CmsComponentConnector', () => {
 
     it('should be created', () => {
       serviceToBeTruthy();
-    });
-
-    describe('getList using POST request', () => {
-      it('should call adapter', () => {
-        subscribeGetList();
-        expect(adapter.findComponentsByIdsLegacy).toHaveBeenCalledWith(
-          ids,
-          context
-        );
-      });
-      it('should use CmsStructureConfigService', () => {
-        subscribeGetList();
-        cmsStructureConfigService();
-      });
-      it('should merge config data with components', () => {
-        mergeConflictData();
-      });
     });
   });
 

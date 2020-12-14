@@ -3,34 +3,28 @@ import { StateUtils } from '../../../state/utils/index';
 import { USER_ORDERS } from '../user-state';
 import { UserActions } from './index';
 
-const mockUserOrder: {
-  userId: string;
-  pageSize: number;
-  currentPage: number;
-  sort: string;
-} = {
-  userId: 'test@sap.com',
-  pageSize: 5,
-  currentPage: 1,
-  sort: 'byDate',
-};
-
-const mockUserOrders: OrderHistoryList = {
-  orders: [{ code: '01' }, { code: '02' }],
-  pagination: {
-    totalPages: 13,
-  },
-  sorts: [{ selected: true }, { selected: false }],
-};
-
-describe('User Orders Actions', () => {
+describe('UserOrdersActions', () => {
   describe('LoadUserOrders Actions', () => {
     it('should create the action', () => {
-      const action = new UserActions.LoadUserOrders(mockUserOrder);
+      const payload: {
+        userId: string;
+        pageSize?: number;
+        currentPage?: number;
+        sort?: string;
+        replenishmentOrderCode?: string;
+      } = {
+        userId: 'test@sap.com',
+        pageSize: 5,
+        currentPage: 1,
+        sort: 'byDate',
+        replenishmentOrderCode: 'test-repl-code',
+      };
+
+      const action = new UserActions.LoadUserOrders(payload);
 
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_USER_ORDERS,
-        payload: mockUserOrder,
+        payload,
         meta: StateUtils.loadMeta(USER_ORDERS),
       });
     });
@@ -51,11 +45,19 @@ describe('User Orders Actions', () => {
 
   describe('LoadUserOrdersSuccess Action', () => {
     it('should create the action', () => {
-      const action = new UserActions.LoadUserOrdersSuccess(mockUserOrders);
+      const payload: OrderHistoryList = {
+        orders: [{ code: '01' }, { code: '02' }],
+        pagination: {
+          totalPages: 13,
+        },
+        sorts: [{ selected: true }, { selected: false }],
+      };
+
+      const action = new UserActions.LoadUserOrdersSuccess(payload);
 
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_USER_ORDERS_SUCCESS,
-        payload: mockUserOrders,
+        payload,
         meta: StateUtils.successMeta(USER_ORDERS),
       });
     });

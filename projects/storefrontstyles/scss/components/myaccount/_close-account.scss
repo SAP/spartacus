@@ -12,7 +12,7 @@
     button {
       min-width: 100%;
       &:first-child {
-        margin: 0 1em 0 0;
+        margin-inline-end: 1em;
       }
     }
 
@@ -24,6 +24,6 @@
   }
 
   ul {
-    padding-left: 20px;
+    padding-inline-start: 20px;
   }
 }

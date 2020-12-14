@@ -1,16 +1,10 @@
 import * as productSearchFlow from '../../../helpers/product-search';
 import { formats } from '../../../sample-data/viewports';
 
-function enterProduct() {
-  productSearchFlow.clickSearchIcon();
-  cy.get('cx-searchbox input[aria-label="search"]').type('camera{enter}');
-}
-
 context(`${formats.mobile.width + 1}p resolution - Product search`, () => {
   before(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.visit('/');
-    enterProduct();
   });
   beforeEach(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
@@ -18,7 +12,7 @@ context(`${formats.mobile.width + 1}p resolution - Product search`, () => {
 
   describe('Search results', () => {
     it('should be able to search and get results', () => {
-      productSearchFlow.searchResult();
+      productSearchFlow.searchResult(true);
     });
   });
 
@@ -56,7 +50,6 @@ context(`${formats.mobile.width + 1}p resolution - Product search`, () => {
     before(() => {
       cy.viewport(formats.mobile.width, formats.mobile.height);
       cy.visit('/');
-      enterProduct();
     });
 
     beforeEach(() => {

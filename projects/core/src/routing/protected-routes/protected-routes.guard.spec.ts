@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { of } from 'rxjs';
-import { AuthGuard } from '../../auth/guards/auth.guard';
+import { AuthGuard } from '../../auth/user-auth/guards/auth.guard';
 import { ProtectedRoutesGuard } from './protected-routes.guard';
 import { ProtectedRoutesService } from './protected-routes.service';
 

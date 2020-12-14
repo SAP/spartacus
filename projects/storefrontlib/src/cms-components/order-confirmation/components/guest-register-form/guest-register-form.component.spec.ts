@@ -5,24 +5,23 @@ import {
   I18nTestingModule,
   RoutingService,
   UserService,
-  UserToken,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { FormErrorsModule } from '../../../../shared/index';
 import { GuestRegisterFormComponent } from './guest-register-form.component';
 import createSpy = jasmine.createSpy;
-import { FormErrorsModule } from '../../../../shared/index';
 
-class MockAuthService {
-  getUserToken(): Observable<UserToken> {
-    return of({ access_token: 'test' } as UserToken);
+class MockAuthService implements Partial<AuthService> {
+  isUserLoggedIn(): Observable<boolean> {
+    return of(true);
   }
 }
 
-class MockUserService {
+class MockUserService implements Partial<UserService> {
   registerGuest = createSpy();
 }
 
-class MockRoutingService {
+class MockRoutingService implements Partial<RoutingService> {
   go = jasmine.createSpy('go');
 }
 

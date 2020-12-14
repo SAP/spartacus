@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { EMPTY, Observable, of } from 'rxjs';
 import {
@@ -11,10 +11,10 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { AuthActions, AuthService } from '../../../auth/index';
+import { AuthActions, AuthService, UserIdService } from '../../../auth/index';
 import { UserConsentService } from '../../../user/facade/user-consent.service';
 import { UserActions } from '../../../user/store/actions/index';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { AnonymousConsentsConfig } from '../../config/anonymous-consents-config';
 import { AnonymousConsentTemplatesConnector } from '../../connectors/anonymous-consent-templates.connector';
 import { AnonymousConsentsService } from '../../facade/index';
@@ -31,15 +31,19 @@ export class AnonymousConsentsEffects {
     ofType(AnonymousConsentsActions.ANONYMOUS_CONSENT_CHECK_UPDATED_VERSIONS),
     withLatestFrom(this.anonymousConsentService.getConsents()),
     concatMap(([_, currentConsents]) => {
-      // TODO{#8158} - remove this if block
-      if (!this.anonymousConsentTemplatesConnector.loadAnonymousConsents()) {
-        return of(new AnonymousConsentsActions.LoadAnonymousConsentTemplates());
-      }
-
       return this.anonymousConsentTemplatesConnector
         .loadAnonymousConsents()
         .pipe(
           map((newConsents) => {
+            if (!newConsents) {
+              if (isDevMode()) {
+                console.warn(
+                  'No consents were loaded. Please check the Spartacus documentation as this could be a back-end configuration issue.'
+                );
+              }
+              return false;
+            }
+
             const currentConsentVersions = currentConsents.map(
               (consent) => consent.templateVersion
             );
@@ -60,7 +64,7 @@ export class AnonymousConsentsEffects {
           catchError((error) =>
             of(
               new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -102,7 +106,7 @@ export class AnonymousConsentsEffects {
           catchError((error) =>
             of(
               new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -110,13 +114,12 @@ export class AnonymousConsentsEffects {
     )
   );
 
+  // TODO(#9416): This won't work with flow different than `Resource Owner Password Flow` which involves redirect (maybe in popup in will work)
   @Effect()
   transferAnonymousConsentsToUser$: Observable<
     UserActions.TransferAnonymousConsent | Observable<never>
   > = this.actions$.pipe(
-    ofType<AuthActions.LoadUserTokenSuccess>(
-      AuthActions.LOAD_USER_TOKEN_SUCCESS
-    ),
+    ofType<AuthActions.Login>(AuthActions.LOGIN),
     filter(() => Boolean(this.anonymousConsentsConfig.anonymousConsents)),
     withLatestFrom(
       this.actions$.pipe(
@@ -129,7 +132,7 @@ export class AnonymousConsentsEffects {
     switchMap(() =>
       this.anonymousConsentService.getConsents().pipe(
         withLatestFrom(
-          this.authService.getOccUserId(),
+          this.userIdService.getUserId(),
           this.anonymousConsentService.getTemplates(),
           this.authService.isUserLoggedIn()
         ),
@@ -172,9 +175,7 @@ export class AnonymousConsentsEffects {
   giveRequiredConsentsToUser$: Observable<
     UserActions.GiveUserConsent | Observable<never>
   > = this.actions$.pipe(
-    ofType<AuthActions.LoadUserTokenSuccess>(
-      AuthActions.LOAD_USER_TOKEN_SUCCESS
-    ),
+    ofType<AuthActions.Login>(AuthActions.LOGIN),
     filter(
       (action) =>
         Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
@@ -186,7 +187,7 @@ export class AnonymousConsentsEffects {
     concatMap(() =>
       this.userConsentService.getConsentsResultSuccess().pipe(
         withLatestFrom(
-          this.authService.getOccUserId(),
+          this.userIdService.getUserId(),
           this.userConsentService.getConsents(),
           this.authService.isUserLoggedIn()
         ),
@@ -234,7 +235,8 @@ export class AnonymousConsentsEffects {
     private authService: AuthService,
     private anonymousConsentsConfig: AnonymousConsentsConfig,
     private anonymousConsentService: AnonymousConsentsService,
-    private userConsentService: UserConsentService
+    private userConsentService: UserConsentService,
+    private userIdService: UserIdService
   ) {}
 
   /**

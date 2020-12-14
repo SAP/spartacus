@@ -5,15 +5,14 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import {
-  AsmAuthService,
   AsmService,
   AuthService,
+  CsAgentAuthService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
   User,
   UserService,
-  UserToken,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
@@ -26,7 +25,7 @@ import { AsmComponentService } from '../services/asm-component.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class AsmMainUiComponent implements OnInit {
-  csAgentToken$: Observable<UserToken>;
+  customerSupportAgentLoggedIn$: Observable<boolean>;
   csAgentTokenLoading$: Observable<boolean>;
   customer$: Observable<User>;
   isCollapsed$: Observable<boolean>;
@@ -37,7 +36,7 @@ export class AsmMainUiComponent implements OnInit {
 
   constructor(
     protected authService: AuthService,
-    protected asmAuthService: AsmAuthService,
+    protected csAgentAuthService: CsAgentAuthService,
     protected userService: UserService,
     protected asmComponentService: AsmComponentService,
     protected globalMessageService: GlobalMessageService,
@@ -46,12 +45,12 @@ export class AsmMainUiComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.csAgentToken$ = this.asmAuthService.getCustomerSupportAgentToken();
-    this.csAgentTokenLoading$ = this.asmAuthService.getCustomerSupportAgentTokenLoading();
-    this.customer$ = this.authService.getUserToken().pipe(
-      switchMap((token) => {
-        if (token && !!token.access_token) {
-          this.handleCustomerSessionStartRedirection(token);
+    this.customerSupportAgentLoggedIn$ = this.csAgentAuthService.isCustomerSupportAgentLoggedIn();
+    this.csAgentTokenLoading$ = this.csAgentAuthService.getCustomerSupportAgentTokenLoading();
+    this.customer$ = this.authService.isUserLoggedIn().pipe(
+      switchMap((isLoggedIn) => {
+        if (isLoggedIn) {
+          this.handleCustomerSessionStartRedirection();
           return this.userService.get();
         } else {
           return of(undefined);
@@ -63,15 +62,17 @@ export class AsmMainUiComponent implements OnInit {
       .pipe(map((uiState) => uiState.collapsed));
   }
 
-  private handleCustomerSessionStartRedirection(token: UserToken): void {
-    if (
-      this.startingCustomerSession &&
-      this.asmAuthService.isCustomerEmulationToken(token)
-    ) {
-      this.startingCustomerSession = false;
-      this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-      this.routingService.go('/');
-    }
+  private handleCustomerSessionStartRedirection(): void {
+    this.asmComponentService
+      .isCustomerEmulationSessionInProgress()
+      .pipe(take(1))
+      .subscribe((isCustomerEmulated) => {
+        if (this.startingCustomerSession && isCustomerEmulated) {
+          this.startingCustomerSession = false;
+          this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+          this.routingService.go('/');
+        }
+      });
   }
 
   loginCustomerSupportAgent({
@@ -81,7 +82,7 @@ export class AsmMainUiComponent implements OnInit {
     userId: string;
     password: string;
   }): void {
-    this.asmAuthService.authorizeCustomerSupportAgent(userId, password);
+    this.csAgentAuthService.authorizeCustomerSupportAgent(userId, password);
   }
 
   logout(): void {
@@ -89,16 +90,7 @@ export class AsmMainUiComponent implements OnInit {
   }
 
   startCustomerEmulationSession({ customerId }: { customerId: string }): void {
-    this.asmAuthService
-      .getCustomerSupportAgentToken()
-      .pipe(take(1))
-      .subscribe((customerSupportAgentToken) =>
-        this.asmAuthService.startCustomerEmulationSession(
-          customerSupportAgentToken,
-          customerId
-        )
-      )
-      .unsubscribe();
+    this.csAgentAuthService.startCustomerEmulationSession(customerId);
     this.startingCustomerSession = true;
   }
 

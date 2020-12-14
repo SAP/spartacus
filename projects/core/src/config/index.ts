@@ -1,17 +1,11 @@
 export * from './config-initializer/index';
 export * from './config-validator/index';
-export {
-  Config,
-  ConfigChunk,
-  ConfigModule,
-  configurationFactory,
-  DefaultConfigChunk,
-  provideConfig,
-  provideConfigFactory,
-  provideDefaultConfig,
-  provideDefaultConfigFactory,
-} from './config.module';
+export * from './services/configuration.service';
+export { ConfigModule } from './config.module';
 export {
   TestConfigModule,
   TestConfigModuleOptions,
 } from './test-config.module';
+export * from './utils/deep-merge';
+export * from './config-providers';
+export * from './config-tokens';

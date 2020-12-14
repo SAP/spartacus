@@ -270,9 +270,8 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
         if (this.isRequiredConsent(template)) {
           return;
         }
-
-        consentsToGive.push(template);
       }
+      consentsToGive.push(template);
     });
 
     this.allConsentsLoading.next(true);

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
-import { AuthService } from '../../auth/facade/auth.service';
+import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import { BreadcrumbMeta, Page } from '../../cms/model/page.model';
 import {
   PageBreadcrumbResolver,
@@ -24,7 +24,8 @@ import { SemanticPathService } from '../../routing/configurable-routes/url-trans
 @Injectable({
   providedIn: 'root',
 })
-export class CouponSearchPageResolver extends PageMetaResolver
+export class CouponSearchPageResolver
+  extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver {
   protected total$: Observable<
     number

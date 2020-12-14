@@ -8,4 +8,5 @@ export const environment: Environment = {
   occApiPrefix: build.process.env.SPARTACUS_API_PREFIX ?? '/occ/v2/',
   cds: build.process.env.SPARTACUS_CDS,
   b2b: build.process.env.SPARTACUS_B2B,
+  cdc: build.process.env.SPARTACUS_CDC,
 };

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs/internal/observable/of';
+import { of } from 'rxjs';
 import { Address } from '../../../model/address.model';
 import { UserAddressAdapter } from './user-address.adapter';
 import { UserAddressConnector } from './user-address.connector';

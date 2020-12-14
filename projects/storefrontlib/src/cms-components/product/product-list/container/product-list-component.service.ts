@@ -9,12 +9,12 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable, using } from 'rxjs';
 import {
+  debounceTime,
   distinctUntilChanged,
   filter,
   map,
-  pluck,
   shareReplay,
   tap,
 } from 'rxjs/operators';
@@ -30,12 +30,6 @@ import { ProductListRouteParams, SearchCriteria } from './product-list.model';
  */
 @Injectable({ providedIn: 'root' })
 export class ProductListComponentService {
-  /**
-   * @deprecated will be removed in version 3.0 as this is the
-   *   subscription is longer used
-   */
-  protected sub: Subscription;
-
   // TODO: make it configurable
   protected defaultPageSize = 10;
 
@@ -80,6 +74,7 @@ export class ProductListComponentService {
     ),
     ...this.siteContext,
   ]).pipe(
+    debounceTime(0),
     map(([routerState, ..._context]) => (routerState as RouterState).state),
     tap((state: ActivatedRouterStateSnapshot) => {
       const criteria = this.getCriteriaFromRoute(
@@ -99,10 +94,10 @@ export class ProductListComponentService {
    * When a user leaves the PLP route, the PLP component unsubscribes from this stream
    * so no longer the search is performed on route change.
    */
-  readonly model$: Observable<ProductSearchPage> = combineLatest([
-    this.searchResults$,
-    this.searchByRouting$,
-  ]).pipe(pluck(0), shareReplay({ bufferSize: 1, refCount: true }));
+  readonly model$: Observable<ProductSearchPage> = using(
+    () => this.searchByRouting$.subscribe(),
+    () => this.searchResults$
+  ).pipe(shareReplay({ bufferSize: 1, refCount: true }));
 
   /**
    * Expose the `SearchCriteria`. The search criteria are driven by the route parameters.
@@ -152,7 +147,7 @@ export class ProductListComponentService {
   protected search(criteria: SearchCriteria): void {
     const currentPage = criteria.currentPage;
     const pageSize = criteria.pageSize;
-    const sortCode = criteria.sortCode;
+    const sort = criteria.sortCode;
 
     this.productSearchService.search(
       criteria.query,
@@ -161,7 +156,7 @@ export class ProductListComponentService {
         {},
         currentPage && { currentPage },
         pageSize && { pageSize },
-        sortCode && { sortCode }
+        sort && { sort }
       )
     );
   }
@@ -220,19 +215,5 @@ export class ProductListComponentService {
     // from the constructor, and query a ContextService for all contexts.
 
     return [this.languageService.getActive(), this.currencyService.getActive()];
-  }
-
-  /**
-   * @deprecated will be dropped in version 3.0 as it's no longer in use
-   */
-  setQuery(query: string): void {
-    this.route({ query, currentPage: undefined });
-  }
-
-  /**
-   * @deprecated will be dropped in version 3.0 as it's no longer in use
-   */
-  viewPage(pageNumber: number): void {
-    this.route({ currentPage: pageNumber });
   }
 }

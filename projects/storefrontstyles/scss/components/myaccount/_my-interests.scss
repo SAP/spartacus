@@ -32,7 +32,7 @@
 
     th {
       padding: 1.5rem 0 1.125rem 0;
-      text-align: left;
+      text-align: start;
 
       &:first-child {
         text-align: center;
@@ -45,8 +45,8 @@
 
       &:first-child {
         width: 10%;
-        padding-right: 1.25rem;
-        padding-left: 1.25rem;
+        padding-inline-end: 1.25rem;
+        padding-inline-start: 1.25rem;
       }
       &:last-child {
         justify-content: flex-end;
@@ -109,7 +109,7 @@
         padding: 0 0 0.5rem 0;
 
         &:first-child {
-          padding-left: 0.5rem;
+          padding-inline-start: 0.5rem;
         }
 
         &:last-child {
@@ -126,7 +126,7 @@
         display: inline;
       }
       span {
-        padding-left: 2rem;
+        padding-inline-start: 2rem;
       }
     }
   }
@@ -146,7 +146,7 @@
     text-align: center;
 
     @include media-breakpoint-down(sm) {
-      text-align: left;
+      text-align: start;
     }
   }
 
@@ -154,15 +154,15 @@
     text-align: center;
 
     @include media-breakpoint-down(sm) {
-      text-align: left;
+      text-align: start;
     }
   }
 
   .cx-product-interests-total {
-    text-align: right;
+    text-align: end;
 
     @include media-breakpoint-down(sm) {
-      text-align: left;
+      text-align: start;
     }
   }
 

@@ -14,7 +14,10 @@
 
       .cx-dialog-header {
         @extend .modal-header;
-        padding: 2rem 1.75rem 0.85rem;
+        padding-top: 2rem;
+        padding-inline-end: 1.75rem;
+        padding-bottom: 0.85rem;
+        padding-inline-start: 1.75rem;
       }
       .cx-dialog-body {
         @extend .modal-body;
@@ -27,7 +30,7 @@
         }
       }
       .cx-dialog-buttons {
-        text-align: right;
+        text-align: end;
         padding: 1rem 4rem;
         @include media-breakpoint-only(xs) {
           padding: 1rem;

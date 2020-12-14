@@ -1,0 +1,15 @@
+// we require a few bootstrap files for the CSS in this code
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/_mixins';
+
+@mixin visible-focus {
+  outline-style: solid;
+  outline-color: var(--cx-color-visual-focus);
+  outline-width: var(--cx-visual-focus-width, 2px);
+  outline-offset: 4px;
+  transition: none;
+}
+
+@import './administration/index';
+@import './order-approval/index';

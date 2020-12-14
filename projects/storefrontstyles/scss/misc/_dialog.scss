@@ -23,3 +23,14 @@
 .cx-dialog-popover {
   @extend %cx-base-dialog;
 }
+
+.cx-dialog-popover-center {
+  @extend %cx-base-dialog;
+  display: grid;
+  place-items: center;
+}
+
+.cx-dialog-popover-center-backdrop {
+  @extend .cx-dialog-popover-center;
+  background-color: rgba(0, 0, 0, 0.5);
+}

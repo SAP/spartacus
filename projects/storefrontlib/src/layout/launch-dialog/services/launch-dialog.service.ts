@@ -14,6 +14,11 @@ import { LaunchRenderStrategy } from './launch-render.strategy';
 @Injectable({ providedIn: 'root' })
 export class LaunchDialogService {
   private _dialogClose = new BehaviorSubject<string>(undefined);
+  private _dataSubject = new BehaviorSubject<any>(undefined);
+
+  get data$(): Observable<any> {
+    return this._dataSubject.asObservable();
+  }
 
   constructor(
     @Inject(LaunchRenderStrategy)
@@ -31,7 +36,8 @@ export class LaunchDialogService {
    */
   launch(
     caller: LAUNCH_CALLER | string,
-    vcr?: ViewContainerRef
+    vcr?: ViewContainerRef,
+    data?: any
   ): void | Observable<ComponentRef<any>> {
     const config = this.findConfiguration(caller);
     if (config) {
@@ -40,6 +46,8 @@ export class LaunchDialogService {
       // Render if the strategy exists
       if (renderer) {
         this._dialogClose.next(undefined);
+        this._dataSubject.next(data);
+
         return renderer.render(config, caller, vcr);
       }
     } else if (isDevMode()) {

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs/internal/observable/of';
+import { of } from 'rxjs';
 import { UserPaymentAdapter } from './user-payment.adapter';
 import { UserPaymentConnector } from './user-payment.connector';
 import createSpy = jasmine.createSpy;

@@ -1,22 +1,19 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  AuthRedirectService,
   AuthService,
+  FeaturesConfigModule,
   GlobalMessageService,
+  GlobalMessageType,
   I18nTestingModule,
-  UserToken,
   WindowRef,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { CheckoutConfigService } from '../../checkout';
+import { FormErrorsModule } from '../../../shared/index';
 import { LoginFormComponent } from './login-form.component';
 import createSpy = jasmine.createSpy;
-import { FormErrorsModule } from '../../../shared/index';
 
 @Pipe({
   name: 'cxUrl',
@@ -25,40 +22,25 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-class MockAuthService {
-  authorize = createSpy();
-  getUserToken(): Observable<UserToken> {
-    return of({ access_token: 'test' } as UserToken);
+class MockAuthService implements Partial<AuthService> {
+  loginWithCredentials() {
+    return Promise.resolve();
+  }
+  isUserLoggedIn(): Observable<boolean> {
+    return of(true);
   }
 }
 
-class MockRedirectAfterAuthService {
-  redirect = createSpy('AuthRedirectService.redirect');
-}
 class MockGlobalMessageService {
   remove = createSpy();
-}
-
-class MockActivatedRoute {
-  snapshot = {
-    queryParams: {
-      forced: false,
-    },
-  };
-}
-
-class MockCheckoutConfigService {
-  isGuestCheckout() {
-    return false;
-  }
 }
 
 describe('LoginFormComponent', () => {
   let component: LoginFormComponent;
   let fixture: ComponentFixture<LoginFormComponent>;
+  let globalMessageService: GlobalMessageService;
 
   let authService: AuthService;
-  let authRedirectService: AuthRedirectService;
   let windowRef: WindowRef;
 
   beforeEach(async(() => {
@@ -67,19 +49,14 @@ describe('LoginFormComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule,
         I18nTestingModule,
+        FeaturesConfigModule,
         FormErrorsModule,
       ],
       declarations: [LoginFormComponent, MockUrlPipe],
       providers: [
         WindowRef,
         { provide: AuthService, useClass: MockAuthService },
-        {
-          provide: AuthRedirectService,
-          useClass: MockRedirectAfterAuthService,
-        },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
-        { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
       ],
     }).compileComponents();
   }));
@@ -88,8 +65,8 @@ describe('LoginFormComponent', () => {
     fixture = TestBed.createComponent(LoginFormComponent);
     component = fixture.componentInstance;
     authService = TestBed.inject(AuthService);
-    authRedirectService = TestBed.inject(AuthRedirectService);
     windowRef = TestBed.inject(WindowRef);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   beforeEach(() => {
@@ -125,6 +102,10 @@ describe('LoginFormComponent', () => {
   });
 
   describe('login()', () => {
+    beforeEach(() => {
+      spyOn(authService, 'loginWithCredentials').and.callThrough();
+    });
+
     it('should login and redirect to return url after auth', () => {
       const email = 'test@email.com';
       const password = 'secret';
@@ -133,8 +114,10 @@ describe('LoginFormComponent', () => {
       component.loginForm.controls['password'].setValue(password);
       component.submitForm();
 
-      expect(authService.authorize).toHaveBeenCalledWith(email, password);
-      expect(authRedirectService.redirect).toHaveBeenCalled();
+      expect(authService.loginWithCredentials).toHaveBeenCalledWith(
+        email,
+        password
+      );
     });
 
     it('should not login when form not valid', () => {
@@ -143,8 +126,7 @@ describe('LoginFormComponent', () => {
       component.loginForm.controls['userId'].setValue(email);
       component.submitForm();
 
-      expect(authService.authorize).not.toHaveBeenCalled();
-      expect(authRedirectService.redirect).not.toHaveBeenCalled();
+      expect(authService.loginWithCredentials).not.toHaveBeenCalled();
     });
 
     it('should handle changing email to lowercase', () => {
@@ -156,35 +138,42 @@ describe('LoginFormComponent', () => {
       component.loginForm.controls['password'].setValue(password);
       component.submitForm();
 
-      expect(authService.authorize).toHaveBeenCalledWith(
+      expect(authService.loginWithCredentials).toHaveBeenCalledWith(
         email_lowercase,
         password
       );
     });
-  });
 
-  describe('guest checkout', () => {
-    it('should show "Register" when forced flag is false', () => {
-      const registerLinkElement: HTMLElement = fixture.debugElement.query(
-        By.css('.btn-register')
-      ).nativeElement;
-      const guestLink = fixture.debugElement.query(By.css('.btn-guest'));
+    it('should remove error messages after successful login', (done) => {
+      const email_lowercase = 'test@email.com';
+      const password = 'secret';
 
-      expect(guestLink).toBeFalsy();
-      expect(registerLinkElement).toBeTruthy();
+      component.loginForm.controls['userId'].setValue(email_lowercase);
+      component.loginForm.controls['password'].setValue(password);
+      component.submitForm();
+
+      setTimeout(() => {
+        expect(globalMessageService.remove).toHaveBeenCalledWith(
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+        done();
+      }, 0);
     });
 
-    it('should show "Guest checkout" when forced flag is true', () => {
-      component.loginAsGuest = true;
-      fixture.detectChanges();
+    it('should not remove error messages after failed login', (done) => {
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
 
-      const guestLinkElement: HTMLElement = fixture.debugElement.query(
-        By.css('.btn-guest')
-      ).nativeElement;
-      const registerLink = fixture.debugElement.query(By.css('.btn-register'));
+      const email_lowercase = 'test@email.com';
+      const password = 'secret';
 
-      expect(registerLink).toBeFalsy();
-      expect(guestLinkElement).toBeTruthy();
+      component.loginForm.controls['userId'].setValue(email_lowercase);
+      component.loginForm.controls['password'].setValue(password);
+      component.submitForm();
+
+      setTimeout(() => {
+        expect(globalMessageService.remove).not.toHaveBeenCalled();
+        done();
+      }, 0);
     });
   });
 });

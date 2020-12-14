@@ -1,20 +1,20 @@
+import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  BaseOption,
   I18nTestingModule,
   OccConfig,
-  UrlCommandRoute,
-  BaseOption,
-  VariantType,
-  ProductService,
   Product,
+  ProductService,
   RoutingService,
+  UrlCommandRoute,
+  VariantType,
 } from '@spartacus/core';
-import { VariantStyleSelectorComponent } from './variant-style-selector.component';
-import { Pipe, PipeTransform } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { VariantStyleSelectorComponent } from './variant-style-selector.component';
 
-const mockOccBackendUrl = 'abc';
+const mockOccBackendUrl = 'https://base.com';
 const mockVariant: BaseOption = {
   selected: {
     code: 'test',
@@ -22,7 +22,7 @@ const mockVariant: BaseOption = {
       {
         value: '123',
         image: {
-          url: 'http://test1-thumbnail.com',
+          url: '/test1-thumbnail.jpg',
         },
       },
     ],
@@ -71,7 +71,7 @@ describe('VariantStyleSelectorComponent', () => {
       providers: [
         {
           provide: OccConfig,
-          useValue: { backend: { occ: { baseUrl: 'abc' } } },
+          useValue: { backend: { occ: { baseUrl: mockOccBackendUrl } } },
         },
         {
           provide: ProductService,

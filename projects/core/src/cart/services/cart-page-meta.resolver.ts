@@ -13,14 +13,15 @@ import { PageType } from '../../model/cms.model';
 /**
  * Resolves the page metadata for the Cart page (Using the `PageType.CONTENT_PAGE`
  * and the `CartPageTemplate`). If the cart page matches this template, the more
- * generic `ContentPageMetaResolver` is overriden by this resolver.
+ * generic `ContentPageMetaResolver` is overridden by this resolver.
  *
  * The page title and robots are resolved in this implementation only.
  */
 @Injectable({
   providedIn: 'root',
 })
-export class CartPageMetaResolver extends PageMetaResolver
+export class CartPageMetaResolver
+  extends PageMetaResolver
   implements PageTitleResolver, PageRobotsResolver {
   protected cms$: Observable<Page> = this.cms
     .getCurrentPage()

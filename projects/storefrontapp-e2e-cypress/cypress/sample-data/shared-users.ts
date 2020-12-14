@@ -9,3 +9,14 @@ export const standardUser: AccountData = {
     titleCode: 'mr',
   },
 };
+
+export const myCompanyAdminUser: AccountData = {
+  user: 'linda.wolf@rustic-hw.com',
+  registrationData: {
+    firstName: 'Linda',
+    lastName: 'Wolf',
+    titleCode: '',
+    password: '12341234',
+    email: 'linda.wolf@rustic-hw.com',
+  },
+};

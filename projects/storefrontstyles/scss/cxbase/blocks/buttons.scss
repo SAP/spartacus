@@ -7,7 +7,7 @@ button {
   }
 
   &.link {
-    background-color: none;
+    background-color: transparent;
     border-style: none;
     padding: 0;
     cursor: pointer;
@@ -264,7 +264,7 @@ button {
   //toggle text
   label .cx-toggle-text {
     flex: 1;
-    padding-left: 0.35rem;
+    padding-inline-start: 0.35rem;
     color: var(--cx-color-secondary);
   }
   //----- visible focus specific for toggle buttons

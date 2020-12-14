@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
+import { SeoConfig } from '../config';
 
 @Injectable({
   providedIn: 'root',
@@ -19,24 +20,38 @@ export class JsonLdScriptFactory {
     @Inject(PLATFORM_ID) protected platformId: string,
     protected winRef: WindowRef,
     protected rendererFactory: RendererFactory2,
-    protected sanitizer: DomSanitizer
+    protected sanitizer: DomSanitizer,
+    protected config: SeoConfig
   ) {}
 
   build(schema: {}[]): void {
     if (schema && this.isJsonLdRequired()) {
-      this.createJsonLdScriptElement().innerHTML = this.sanitize(schema);
+      this.getJsonLdScriptElement().innerHTML = this.sanitize(schema);
     }
   }
 
   /**
-   * Only return schema data in case of SSR or development mode,
-   * to not waste memory unnecessary.
+   * Indicates whether json ld data should be generated.
+   *
+   * This is only required on the server, but can be enabled in dev mode.
    */
   isJsonLdRequired(): boolean {
-    return !isPlatformBrowser(this.platformId) || isDevMode();
+    return (
+      !isPlatformBrowser(this.platformId) ||
+      (isDevMode() && !this.config.seo?.structuredData?.disableInDevMode)
+    );
   }
 
-  private createJsonLdScriptElement(): HTMLScriptElement {
+  /**
+   * Creates a json-ld script element. The element is created one, and appended
+   * to the html body element.
+   *
+   * ```html
+   * <script id="json-ld" type="application/ld+json">
+   * </script>
+   * ```
+   */
+  protected getJsonLdScriptElement(): HTMLScriptElement {
     const id = 'json-ld';
     let scriptElement: HTMLScriptElement = <HTMLScriptElement>(
       this.winRef.document.getElementById(id)

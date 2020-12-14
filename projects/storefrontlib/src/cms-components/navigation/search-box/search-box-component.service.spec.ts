@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import {
   CmsComponent,
+  I18nTestingModule,
   ProductSearchPage,
   RoutingService,
   SearchboxService,
@@ -25,11 +26,11 @@ const searchBoxConfig: SearchBoxConfig = {
   displayProductImages: false,
 };
 
-class MockSearchboxService {
-  getSuggestionResults(): Observable<Suggestion[]> {
+class MockSearchBoxService {
+  getResults(): Observable<ProductSearchPage> {
     return of();
   }
-  getResults(): Observable<ProductSearchPage> {
+  getSuggestionResults(): Observable<Suggestion[]> {
     return of();
   }
 }
@@ -72,9 +73,10 @@ const mockSearchResults: ProductSearchPage = {
 
 describe('SearchBoxComponentService', () => {
   let service: SearchBoxComponentService;
-  let searchBoxservice: SearchboxService;
+  let searchBoxService: SearchboxService;
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       providers: [
         {
           provide: CmsComponentData,
@@ -86,7 +88,7 @@ describe('SearchBoxComponentService', () => {
         },
         {
           provide: SearchboxService,
-          useClass: MockSearchboxService,
+          useClass: MockSearchBoxService,
         },
         { provide: TranslationService, useClass: MockTranslationService },
         SearchBoxComponentService,
@@ -94,7 +96,7 @@ describe('SearchBoxComponentService', () => {
       ],
     });
     service = TestBed.inject(SearchBoxComponentService);
-    searchBoxservice = TestBed.inject(SearchboxService);
+    searchBoxService = TestBed.inject(SearchboxService);
   });
 
   it('should be created', () => {
@@ -112,22 +114,18 @@ describe('SearchBoxComponentService', () => {
     });
   });
 
-  it('should get suggestions from search)', () => {
-    const searchConfig = { pageSize: 5 };
-    service.getResults(searchBoxConfig).subscribe(() => {
-      expect(searchBoxservice.searchSuggestions).toHaveBeenCalledWith(
-        'testQuery',
-        searchConfig
-      );
-    });
+  it('should get suggestions results', () => {
+    spyOn(searchBoxService, 'getSuggestionResults').and.callThrough();
+    service.getResults(searchBoxConfig).subscribe().unsubscribe();
+    expect(searchBoxService.getSuggestionResults).toHaveBeenCalledWith();
   });
 
   it('should return 2 products', () => {
     let result: SearchResults;
-    spyOn(searchBoxservice, 'getResults').and.returnValue(
+    spyOn(searchBoxService, 'getResults').and.returnValue(
       of(mockSearchResults)
     );
-    spyOn(searchBoxservice, 'getSuggestionResults').and.returnValue(of([]));
+    spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(of([]));
     service
       .getResults(searchBoxConfig)
       .subscribe((results) => (result = results));
@@ -135,7 +133,7 @@ describe('SearchBoxComponentService', () => {
   });
 
   it('should not return products when config.displayProducts = false', () => {
-    spyOn(searchBoxservice, 'getSuggestionResults').and.returnValue(
+    spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(
       of(['sug1', 'sug2'] as any)
     );
 
@@ -149,13 +147,13 @@ describe('SearchBoxComponentService', () => {
   describe('search result suggestions', () => {
     let result: SearchResults;
     beforeEach(() => {
-      spyOn(searchBoxservice, 'getResults').and.returnValue(
+      spyOn(searchBoxService, 'getResults').and.returnValue(
         of(mockSearchResults)
       );
     });
 
     it('should return 2 suggestions', () => {
-      spyOn(searchBoxservice, 'getSuggestionResults').and.returnValue(
+      spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(
         of(['sug1', 'sug2'] as any)
       );
 
@@ -166,7 +164,7 @@ describe('SearchBoxComponentService', () => {
     });
 
     it('should not return suggestions when config.displaySuggestions = false', () => {
-      spyOn(searchBoxservice, 'getSuggestionResults').and.returnValue(
+      spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(
         of(['sug1', 'sug2'] as any)
       );
 
@@ -177,7 +175,7 @@ describe('SearchBoxComponentService', () => {
     });
 
     it('should have exact match suggestion when there are no suggestions but at least one product', () => {
-      spyOn(searchBoxservice, 'getSuggestionResults').and.returnValue(of([]));
+      spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(of([]));
 
       service
         .getResults(searchBoxConfig)
@@ -188,7 +186,7 @@ describe('SearchBoxComponentService', () => {
     });
 
     it('should not get an exact match suggestion when there are suggestions returned', () => {
-      spyOn(searchBoxservice, 'getSuggestionResults').and.returnValue(
+      spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(
         of(['sug1'] as any)
       );
 
@@ -205,18 +203,18 @@ describe('SearchBoxComponentService', () => {
     let result: SearchResults;
 
     it('should not get a message when there are no results ', () => {
-      spyOn(searchBoxservice, 'getResults').and.returnValue(of({}));
-      spyOn(searchBoxservice, 'getSuggestionResults').and.returnValue(of([]));
+      spyOn(searchBoxService, 'getResults').and.returnValue(of({}));
+      spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(of([]));
 
       service.getResults(searchBoxConfig).subscribe((r) => (result = r));
       expect(result.message).toBeFalsy();
     });
 
     it('should get a not found message when there are no products and suggestions ', () => {
-      spyOn(searchBoxservice, 'getResults').and.returnValue(
+      spyOn(searchBoxService, 'getResults').and.returnValue(
         of({ products: [] })
       );
-      spyOn(searchBoxservice, 'getSuggestionResults').and.returnValue(of([]));
+      spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(of([]));
 
       service.getResults(searchBoxConfig).subscribe((r) => (result = r));
       expect(result.message).toBeTruthy();
@@ -225,18 +223,18 @@ describe('SearchBoxComponentService', () => {
     });
 
     it('should not get a message when there are products ', () => {
-      spyOn(searchBoxservice, 'getResults').and.returnValue(
+      spyOn(searchBoxService, 'getResults').and.returnValue(
         of(mockSearchResults)
       );
-      spyOn(searchBoxservice, 'getSuggestionResults').and.returnValue(of([]));
+      spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(of([]));
 
       service.getResults(searchBoxConfig).subscribe((r) => (result = r));
       expect(result.message).toBeFalsy();
     });
 
     it('should not get a message when there are suggestions ', () => {
-      spyOn(searchBoxservice, 'getResults').and.returnValue(of());
-      spyOn(searchBoxservice, 'getSuggestionResults').and.returnValue(
+      spyOn(searchBoxService, 'getResults').and.returnValue(of());
+      spyOn(searchBoxService, 'getSuggestionResults').and.returnValue(
         of(['sug1'] as any)
       );
 

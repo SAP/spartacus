@@ -1,7 +1,5 @@
 %cx-table {
   table {
-    border-bottom: solid 1px var(--cx-color-light);
-
     // avoid breaking table content
     white-space: nowrap;
     table-layout: fixed;
@@ -24,19 +22,20 @@
       }
     }
 
-    > tr {
-      border-top: solid 1px var(--cx-color-light);
-      background-color: var(--cx-color-inverse);
+    thead tr,
+    > tr:not(:last-child) {
+      border-bottom: solid 1px var(--cx-color-light);
     }
 
+    th,
     td {
-      transition: opacity 0.2s ease-in-out 0.2s, width 0s ease-in-out 0.4s;
+      transition: opacity 0.2s ease-in-out 0.2s, width 0.2s ease-in-out 0.2s;
 
       padding: var(--cx-spatial-md);
 
       > * {
         display: flex;
-        justify-content: space-between;
+        // justify-content: space-between;
       }
     }
   }

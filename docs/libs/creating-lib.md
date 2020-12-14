@@ -112,7 +112,7 @@ Use the following template:
 ```json
 {
   "name": "@spartacus/TODO:",
-  "version": "2.1.0-dev.0",
+  "version": "3.0.0-next.0",
   "description": "TODO:",
   "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
@@ -127,11 +127,11 @@ Use the following template:
   },
   "repository": "https://github.com/SAP/spartacus",
   "peerDependencies": {
-    "@angular/common": "^9.0.0",
-    "@angular/core": "^9.0.0",
-    "rxjs": "^6.5.4",
-    "@spartacus/core": "2.1.0-dev.0",
-    "@spartacus/storefront": "2.1.0-dev.0"
+    "@angular/common": "^10.1.0",
+    "@angular/core": "^10.1.0",
+    "rxjs": "^6.6.0",
+    "@spartacus/core": "3.0.0-next.0",
+    "@spartacus/storefront": "3.0.0-next.0"
   }
 }
 ```
@@ -153,7 +153,7 @@ Use the following template:
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
     "target": "es2015",
-    "module": "es2015",
+    "module": "es2020",
     "moduleResolution": "node",
     "declaration": true,
     "sourceMap": true,
@@ -207,7 +207,7 @@ Add the following scripts:
 
 And replace `myaccount` and `my-account` instances with the name of yours lib.
 
-Optionally, add the generated lib to the `build:core:lib` and `test:core:lib` scripts.
+Optionally, add the generated lib to the `build:libs` and `test:libs` scripts.
 
 - `.release-it.json`
 
@@ -310,6 +310,23 @@ cp "$CONFIG_PATH" ./dist/my-account/api-extractor.json
 
 - `scripts/templates/changelog.ejs` - add the library to `const CUSTOM_SORT_ORDER`
 
+- `ci-scripts/unit-tests-sonar.sh`
+
+Add the library unit tests with code coverage
+
+``` sh
+echo "Running unit tests and code coverage for TODO:"
+exec 5>&1
+output=$(ng test TODO: --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
+coverage=$(echo $output | grep -i "does not meet global threshold" || true)
+if [[ -n "$coverage" ]]; then
+    echo "Error: Tests did not meet coverage expectations"
+    exit 1
+fi
+```
+
+Replace `TODO:` with the appropriate name.
+
 ## Multi-entry point library
 
 Sources:
@@ -321,8 +338,8 @@ Sources:
 If adding multiple entry points to the generated library, make sure to do the following changes:
 
 - `angular.json` - change the `projects -> lib-name -> sourceRoot` to have the same value as the `root` property. This will enable code coverage report to be properly generated for all the entry points.
-- `test.ts` - in order to run the tests for _all_ the entry points, the `test.ts` file has to be moved from `lib-name/src/test.ts` one level up - `lib-name/test.ts`.
-This change should be updated in the:
+- `test.ts` - in order to run the tests for _all_ the entry points, the `test.ts` file has to be moved one level up from `lib-name/src/test.ts` to `lib-name/test.ts`.
+This change requires an update in the:
 
   1. `angular.json` - change the `projects -> lib-name -> architect -> test -> options -> main` value to reflect the new file path
   2. `feature-libs/<lib-name>/tsconfig.lib.json` - update the path in `exclude`
@@ -340,5 +357,5 @@ Don't forget to:
 - build the generated library _with Ivy enabled_ - `ng build <lib-name>`
 - build the generated library (without Ivy) - `ng build <lib-name> --prod`
 - build the production-ready shell app with the included generated library (import a dummy service from the generated service):
-  - `yarn build:core:lib:cds` (build all the libs basically)
+  - `yarn build:libs` (build all the libs)
   - `yarn build`

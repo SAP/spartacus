@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule } from '@angular/core';
+import { Component, Injectable, Input, NgModule } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CmsService, ContentSlotData, Page } from '@spartacus/core';
@@ -8,6 +8,7 @@ import { DeferLoaderService } from '../../../layout/loading/defer-loader.service
 import { OutletDirective } from '../../outlet';
 import { PageLayoutComponent } from './page-layout.component';
 import { PageLayoutService } from './page-layout.service';
+import { PageTemplateDirective } from './page-template.directive';
 
 const slots = {
   Section1: {
@@ -19,7 +20,7 @@ const slots = {
 @Component({
   selector: 'cx-page-template-test',
   template: `
-    <cx-page-layout>
+    <cx-page-layout cxPageTemplateStyle>
       <div class="content">content projection</div>
     </cx-page-layout>
   `,
@@ -41,6 +42,7 @@ class MockDynamicSlotComponent {
   @Input() isPageFold;
 }
 
+@Injectable()
 class MockCmsService {
   getCurrentPage(): Observable<Page> {
     return of({
@@ -61,6 +63,7 @@ class MockCmsService {
   }
 }
 
+@Injectable()
 class MockPageLayoutService {
   getSlots(section?: string): Observable<string[]> {
     if (section) {
@@ -78,6 +81,7 @@ class MockPageLayoutService {
   }
 }
 
+@Injectable()
 class MockDeferLoaderService {
   load(_element: HTMLElement, _options?: any) {
     return of(true);
@@ -92,6 +96,7 @@ class MockDeferLoaderService {
     MockPageTemplateComponent,
     MockHeaderComponent,
     OutletDirective,
+    PageTemplateDirective,
   ],
   providers: [
     {
@@ -108,11 +113,12 @@ describe('PageLayoutComponent', () => {
   let pageLayoutComponent: MockPageTemplateComponent;
   let fixture: ComponentFixture<MockPageTemplateComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
+      declarations: [PageTemplateDirective],
       imports: [TestModule],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MockPageTemplateComponent);

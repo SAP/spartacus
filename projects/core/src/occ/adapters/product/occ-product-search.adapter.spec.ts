@@ -81,8 +81,6 @@ describe('OccProductSearchAdapter', () => {
         {
           query: queryText,
           pageSize: mockSearchConfig.pageSize,
-          currentPage: undefined,
-          sort: undefined,
         }
       );
       mockReq.flush(searchResults);

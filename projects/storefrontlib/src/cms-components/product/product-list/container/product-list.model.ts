@@ -41,5 +41,6 @@ export interface SearchCriteria {
   /**
    * The sort code that is used to sort the items in the search result.
    */
+  // TODO: Should we change it it `sort`?
   sortCode?: string;
 }

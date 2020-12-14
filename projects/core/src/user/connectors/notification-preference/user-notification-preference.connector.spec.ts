@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs/internal/observable/of';
+import { of } from 'rxjs';
+import { NotificationPreference } from '../../../model/notification-preference.model';
 import { UserNotificationPreferenceAdapter } from './user-notification-preference.adapter';
 import { UserNotificationPreferenceConnector } from './user-notification-preference.connector';
-import { NotificationPreference } from '../../../model/notification-preference.model';
 import createSpy = jasmine.createSpy;
 
 const user = 'testUser';

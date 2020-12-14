@@ -27,7 +27,7 @@ describe('CmsRoutesImplService', () => {
   ];
 
   const mockCmsComponentsService = {
-    getChildRoutes: () => [{ path: 'sub-route' }],
+    getChildRoutes: () => ({ children: [{ path: 'sub-route' }] }),
   };
 
   beforeEach(() => {
@@ -103,6 +103,36 @@ describe('CmsRoutesImplService', () => {
       expect(mockRouter.resetConfig).toHaveBeenCalledWith(expectedConfig);
     });
 
+    it('should include configured `data` property for cms driven route', () => {
+      spyOn(cmsMappingService, 'getChildRoutes').and.returnValue({
+        parent: { data: { test: 'test data' } },
+        children: [{ path: 'sub-route' }],
+      });
+      service.handleCmsRoutesInGuard(
+        mockPageContext,
+        [],
+        '/testRoute2',
+        '/testRoute2'
+      );
+
+      const expectedConfig = [
+        {
+          path: 'testRoute2',
+          component: PageLayoutComponent,
+          children: [{ path: 'sub-route' }],
+          data: {
+            cxCmsRouteContext: {
+              id: '/testRoute2',
+              type: mockPageContext.type,
+            },
+            test: 'test data',
+          },
+        },
+        ...mockRouterConfig,
+      ];
+      expect(mockRouter.resetConfig).toHaveBeenCalledWith(expectedConfig);
+    });
+
     it('should add new route for content page using page label, not current url', () => {
       service.handleCmsRoutesInGuard(
         mockPageContext,
@@ -139,7 +169,7 @@ describe('CmsRoutesImplService', () => {
     });
 
     it('should return true for content pages without cms driven route', () => {
-      spyOn(cmsMappingService, 'getChildRoutes').and.returnValue([]);
+      spyOn(cmsMappingService, 'getChildRoutes').and.returnValue({});
 
       expect(
         service.handleCmsRoutesInGuard(

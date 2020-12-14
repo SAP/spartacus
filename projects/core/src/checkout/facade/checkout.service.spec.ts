@@ -1,40 +1,70 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
-import { AuthService } from '../../auth/facade/auth.service';
+import { Observable, of, Subscription } from 'rxjs';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { ActiveCartService } from '../../cart/facade/active-cart.service';
 import { Cart } from '../../model/cart.model';
 import { Order } from '../../model/order.model';
+import {
+  ORDER_TYPE,
+  ReplenishmentOrder,
+  ScheduleReplenishmentForm,
+} from '../../model/replenishment-order.model';
+import {
+  PROCESS_FEATURE,
+  StateWithProcess,
+} from '../../process/store/process-state';
+import * as fromProcessReducers from '../../process/store/reducers';
 import { CheckoutActions } from '../store/actions/index';
-import { CheckoutState, CHECKOUT_FEATURE } from '../store/checkout-state';
+import { CHECKOUT_FEATURE, StateWithCheckout } from '../store/checkout-state';
 import * as CheckoutActionsReducers from '../store/reducers/index';
 import { CheckoutService } from './checkout.service';
 
+const mockCartId = 'test-cart';
+const mockTermsChecked = true;
+const mockError = 'test-error';
+
+const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
+  numberOfDays: 'test-number-days',
+};
+
+const mockReplenishmentOrder: ReplenishmentOrder = {
+  active: true,
+  purchaseOrderNumber: 'test-po',
+  replenishmentOrderCode: 'test-repl-order',
+  entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
+};
+
+const mockOrder: Order = { code: 'testOrder', guestCustomer: true };
+
+class ActiveCartServiceStub implements Partial<ActiveCartService> {
+  isGuestCart(): boolean {
+    return true;
+  }
+
+  getActiveCartId(): Observable<string> {
+    return of(mockCartId);
+  }
+}
+
+class UserIdServiceStub implements Partial<UserIdService> {
+  userId;
+  getUserId() {
+    return of(this.userId);
+  }
+  invokeWithUserId(cb) {
+    cb(this.userId);
+    return new Subscription();
+  }
+}
+
 describe('CheckoutService', () => {
   let service: CheckoutService;
+  let store: Store<StateWithCheckout | StateWithProcess<void>>;
   let activeCartService: ActiveCartService;
-  let authService: AuthService;
-  let store: Store<CheckoutState>;
+  let userIdService: UserIdService;
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
-
-  class ActiveCartServiceStub {
-    cart;
-    isGuestCart() {
-      return true;
-    }
-
-    getActiveCartId() {
-      return of(cart.code);
-    }
-  }
-
-  class AuthServiceStub {
-    userId;
-    getOccUserId() {
-      return of(userId);
-    }
-  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -44,21 +74,25 @@ describe('CheckoutService', () => {
           CHECKOUT_FEATURE,
           CheckoutActionsReducers.getReducers()
         ),
+        StoreModule.forFeature(
+          PROCESS_FEATURE,
+          fromProcessReducers.getReducers()
+        ),
       ],
       providers: [
         CheckoutService,
         { provide: ActiveCartService, useClass: ActiveCartServiceStub },
-        { provide: AuthService, useClass: AuthServiceStub },
+        { provide: UserIdService, useClass: UserIdServiceStub },
       ],
     });
 
     service = TestBed.inject(CheckoutService);
-    store = TestBed.inject(Store);
     activeCartService = TestBed.inject(ActiveCartService);
-    authService = TestBed.inject(AuthService);
+    userIdService = TestBed.inject(UserIdService);
 
-    authService['userId'] = userId;
+    userIdService['userId'] = userId;
     activeCartService['cart'] = cart;
+    store = TestBed.inject(Store);
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -70,59 +104,38 @@ describe('CheckoutService', () => {
     }
   ));
 
-  it('should be able to get the order details', () => {
-    store.dispatch(
-      new CheckoutActions.PlaceOrderSuccess({ code: 'testOrder' })
-    );
-
-    let orderDetails: Order;
-    service
-      .getOrderDetails()
-      .subscribe((data) => {
-        orderDetails = data;
-      })
-      .unsubscribe();
-    expect(orderDetails).toEqual({ code: 'testOrder' });
-  });
-
-  it('should be able to place order', () => {
-    service.placeOrder();
-
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new CheckoutActions.PlaceOrder({
-        userId: userId,
-        cartId: cart.code,
-      })
-    );
-  });
-
-  it('should be able to clear checkout data', () => {
-    service.clearCheckoutData();
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new CheckoutActions.ClearCheckoutData()
-    );
-  });
-
-  it('should be able to clear checkout step', () => {
-    service.clearCheckoutStep(2);
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new CheckoutActions.ClearCheckoutStep(2)
-    );
-  });
-
-  it('should be able to load checkout details', () => {
-    const cartId = cart.code;
-    service.loadCheckoutDetails(cartId);
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new CheckoutActions.LoadCheckoutDetails({ userId, cartId })
-    );
-  });
-
-  describe('get checkout details loaded', () => {
-    it('should return true for success', () => {
-      store.dispatch(
-        new CheckoutActions.LoadCheckoutDetailsSuccess({ deliveryAddress: {} })
+  describe('Load checkout details for extensible checkout', () => {
+    it('should be able to load checkout details', () => {
+      service.loadCheckoutDetails(mockCartId);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CheckoutActions.LoadCheckoutDetails({
+          userId: userId,
+          cartId: mockCartId,
+        })
       );
+    });
+
+    describe('get checkout details success', () => {
+      it('should return true for success', () => {
+        store.dispatch(
+          new CheckoutActions.LoadCheckoutDetailsSuccess({
+            deliveryAddress: {},
+          })
+        );
+
+        let loaded: boolean;
+        service
+          .getCheckoutDetailsLoaded()
+          .subscribe((data) => {
+            loaded = data;
+          })
+          .unsubscribe();
+        expect(loaded).toBeTruthy();
+      });
+    });
+
+    it('should return false for fail', () => {
+      store.dispatch(new CheckoutActions.LoadCheckoutDetailsFail(new Error()));
 
       let loaded: boolean;
       service
@@ -131,25 +144,221 @@ describe('CheckoutService', () => {
           loaded = data;
         })
         .unsubscribe();
-      expect(loaded).toBeTruthy();
+      expect(loaded).toBeFalsy();
     });
   });
 
-  it('should return false for fail', () => {
-    store.dispatch(new CheckoutActions.LoadCheckoutDetailsFail(new Error()));
+  describe('Type of order', () => {
+    it('should set checkout order type', () => {
+      service.setOrderType(ORDER_TYPE.PLACE_ORDER);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CheckoutActions.SetOrderType(ORDER_TYPE.PLACE_ORDER)
+      );
+    });
 
-    let loaded: boolean;
-    service
-      .getCheckoutDetailsLoaded()
-      .subscribe((data) => {
-        loaded = data;
-      })
-      .unsubscribe();
-    expect(loaded).toBeFalsy();
+    it('should be able to get the current order type', () => {
+      store.dispatch(
+        new CheckoutActions.SetOrderType(
+          ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER
+        )
+      );
+
+      let result: ORDER_TYPE;
+      service
+        .getCurrentOrderType()
+        .subscribe((data) => {
+          result = data;
+        })
+        .unsubscribe();
+      expect(result).toEqual(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER);
+    });
   });
 
-  it('should allow actions for login user or guest user', () => {
-    authService['userId'] = 'anonymous';
-    expect(service['actionAllowed']()).toBeTruthy();
+  describe('Place an order', () => {
+    it('should be able to place order', () => {
+      service.placeOrder(mockTermsChecked);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CheckoutActions.PlaceOrder({
+          userId: userId,
+          cartId: mockCartId,
+          termsChecked: mockTermsChecked,
+        })
+      );
+    });
+
+    it('should return the loading flag', () => {
+      store.dispatch(new CheckoutActions.PlaceOrderSuccess(mockOrder));
+
+      let result: boolean;
+
+      service
+        .getPlaceOrderLoading()
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(false);
+    });
+
+    it('should return the success flag', () => {
+      store.dispatch(new CheckoutActions.PlaceOrderSuccess(mockOrder));
+
+      let result: boolean;
+
+      service
+        .getPlaceOrderSuccess()
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should return the error flag', () => {
+      store.dispatch(new CheckoutActions.PlaceOrderFail(mockError));
+
+      let result: boolean;
+
+      service
+        .getPlaceOrderError()
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should be able to get the order details when placing an order', () => {
+      store.dispatch(new CheckoutActions.PlaceOrderSuccess(mockOrder));
+
+      let orderDetails: Order;
+      service
+        .getOrderDetails()
+        .subscribe((data) => {
+          orderDetails = data;
+        })
+        .unsubscribe();
+      expect(orderDetails).toEqual(mockOrder);
+    });
+  });
+
+  describe('Schedule a replenishment order', () => {
+    it('should be able to schedule replenishment order', () => {
+      service.scheduleReplenishmentOrder(
+        mockReplenishmentOrderFormData,
+        mockTermsChecked
+      );
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CheckoutActions.ScheduleReplenishmentOrder({
+          cartId: mockCartId,
+          scheduleReplenishmentForm: mockReplenishmentOrderFormData,
+          termsChecked: mockTermsChecked,
+          userId: userId,
+        })
+      );
+    });
+
+    it('should return the loading flag', () => {
+      store.dispatch(
+        new CheckoutActions.ScheduleReplenishmentOrderSuccess(
+          mockReplenishmentOrder
+        )
+      );
+
+      let result: boolean;
+
+      service
+        .getPlaceOrderLoading()
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(false);
+    });
+
+    it('should return the success flag', () => {
+      store.dispatch(
+        new CheckoutActions.ScheduleReplenishmentOrderSuccess(
+          mockReplenishmentOrder
+        )
+      );
+
+      let result: boolean;
+
+      service
+        .getPlaceOrderSuccess()
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should return the error flag', () => {
+      store.dispatch(
+        new CheckoutActions.ScheduleReplenishmentOrderFail(mockError)
+      );
+
+      let result: boolean;
+
+      service
+        .getPlaceOrderError()
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should be able to get the order details when scheduling an order', () => {
+      const mockReplenishmentOrderDetails: ReplenishmentOrder = {
+        active: true,
+        purchaseOrderNumber: 'test-po',
+        replenishmentOrderCode: 'test-repl-order',
+      };
+
+      store.dispatch(
+        new CheckoutActions.ScheduleReplenishmentOrderSuccess(
+          mockReplenishmentOrderDetails
+        )
+      );
+
+      let orderDetails: ReplenishmentOrder;
+      service
+        .getOrderDetails()
+        .subscribe((data) => {
+          orderDetails = data;
+        })
+        .unsubscribe();
+
+      expect(orderDetails).toEqual(mockReplenishmentOrderDetails);
+    });
+  });
+
+  describe('Clearing data from state', () => {
+    it('should dispatch a ClearPlaceOrder action', () => {
+      service.clearPlaceOrderState();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CheckoutActions.ClearPlaceOrder()
+      );
+    });
+
+    it('should be able to clear checkout data', () => {
+      service.clearCheckoutData();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CheckoutActions.ClearCheckoutData()
+      );
+    });
+
+    it('should be able to clear checkout step', () => {
+      service.clearCheckoutStep(2);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CheckoutActions.ClearCheckoutStep(2)
+      );
+    });
+  });
+
+  describe('actionAllowed', () => {
+    it('should allow actions for login user or guest user', () => {
+      userIdService['userId'] = 'anonymous';
+
+      expect(service['actionAllowed']()).toBeTruthy();
+    });
   });
 });

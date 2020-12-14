@@ -9,6 +9,7 @@ import { PageContext } from '../models/page-context.model';
 import { RoutingActions } from '../store/actions/index';
 import { RouterState } from '../store/routing-state';
 import { RoutingSelector } from '../store/selectors/index';
+import { RoutingParamsService } from './routing-params.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,8 +18,17 @@ export class RoutingService {
   constructor(
     protected store: Store<RouterState>,
     protected winRef: WindowRef,
-    protected semanticPathService: SemanticPathService
+    protected semanticPathService: SemanticPathService,
+    protected routingParamsService: RoutingParamsService
   ) {}
+
+  /**
+   * Get the list of all parameters of the full route. This includes
+   * active child routes.
+   */
+  getParams(): Observable<{ [key: string]: string }> {
+    return this.routingParamsService?.getParams();
+  }
 
   /**
    * Get the current router state
@@ -39,6 +49,15 @@ export class RoutingService {
    */
   getNextPageContext(): Observable<PageContext> {
     return this.store.pipe(select(RoutingSelector.getNextPageContext));
+  }
+
+  /**
+   * Allow to change next page context for the ongoing navigation
+   *
+   * @param pageContext
+   */
+  changeNextPageContext(pageContext: PageContext) {
+    this.store.dispatch(new RoutingActions.ChangeNextPageContext(pageContext));
   }
 
   /**

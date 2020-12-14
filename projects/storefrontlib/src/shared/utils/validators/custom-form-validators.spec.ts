@@ -1,7 +1,7 @@
 import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import {
-  CustomFormValidators,
   controlsMustMatch,
+  CustomFormValidators,
 } from './custom-form-validators';
 
 describe('FormValidationService', () => {
@@ -9,6 +9,8 @@ describe('FormValidationService', () => {
   let emailError: ValidationErrors;
   let passwordError: ValidationErrors;
   let starRatingEmpty: ValidationErrors;
+  let budgetNegative: ValidationErrors;
+  let specialCharacters: ValidationErrors;
   let passwordsMustMatchErrorName: string;
   let emailsMustMatchErrorName: string;
   let form: FormGroup;
@@ -22,6 +24,8 @@ describe('FormValidationService', () => {
       rating: new FormControl(),
       email: new FormControl(),
       emailconf: new FormControl(),
+      budget: new FormControl(),
+      code: new FormControl(),
     });
 
     emailError = {
@@ -34,6 +38,14 @@ describe('FormValidationService', () => {
 
     starRatingEmpty = {
       cxStarRatingEmpty: true,
+    };
+
+    budgetNegative = {
+      cxNegativeAmount: true,
+    };
+
+    specialCharacters = {
+      cxContainsSpecialCharacters: true,
     };
 
     passwordsMustMatchErrorName = 'cxPasswordsMustMatch';
@@ -221,6 +233,47 @@ describe('FormValidationService', () => {
       controlsMustMatch(form, 'password', 'passwordconf', testErrorName);
 
       expect(form.get('passwordconf').hasError(testErrorName)).toEqual(false);
+    });
+  });
+
+  describe('Budget validator', () => {
+    const invalidValues = [-100000, -1, 'xyz'];
+    const validValues = [0, 1, 100000];
+
+    it('should reject invalid values', () => {
+      invalidValues.forEach((value: any) => {
+        form.get('budget').setValue(value);
+
+        expect(CustomFormValidators.mustBePositive(form.get('budget'))).toEqual(
+          budgetNegative
+        );
+      });
+    });
+
+    it('should allow valid values', () => {
+      validValues.forEach((value: any) => {
+        form.get('budget').setValue(value);
+
+        expect(
+          CustomFormValidators.mustBePositive(form.get('budget'))
+        ).toBeNull();
+      });
+    });
+  });
+
+  describe('no special characters in string', () => {
+    it('should throw error if value contains special characters', () => {
+      const field = form.get('code');
+      field.setValue('test/code');
+      expect(CustomFormValidators.noSpecialCharacters(field)).toEqual(
+        specialCharacters
+      );
+    });
+
+    it('should return null for allowed value', () => {
+      const field = form.get('code');
+      field.setValue('test code');
+      expect(CustomFormValidators.noSpecialCharacters(field)).toBeNull();
     });
   });
 });

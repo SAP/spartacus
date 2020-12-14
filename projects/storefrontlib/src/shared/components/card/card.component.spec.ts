@@ -119,6 +119,45 @@ describe('CardComponent', () => {
     expect(lineNodes[1].nativeElement.textContent).toContain(mockCard.text[1]);
   });
 
+  it('should render passed paragraph', () => {
+    function getParagraph(elem: DebugElement) {
+      return elem.queryAll(By.css('.cx-card-paragraph'));
+    }
+
+    function getParagraphText(elem: DebugElement) {
+      return elem.queryAll(By.css('.cx-card-paragraph-text'));
+    }
+    const mockCard: Card = {
+      paragraphs: [
+        { title: 'paragraph1', text: ['text1', 'text2'] },
+        { title: 'paragraph2', text: ['text3', 'text4'] },
+      ],
+    };
+    component.content = mockCard;
+    fixture.detectChanges();
+    const paragraphNodes = getParagraph(el);
+    const text1Nodes = getParagraphText(paragraphNodes[0]);
+    const text2Nodes = getParagraphText(paragraphNodes[1]);
+    expect(paragraphNodes[0].nativeElement.firstChild.textContent).toContain(
+      mockCard.paragraphs[0].title
+    );
+    expect(paragraphNodes[1].nativeElement.firstChild.textContent).toContain(
+      mockCard.paragraphs[1].title
+    );
+    expect(text1Nodes[0].nativeElement.textContent).toContain(
+      mockCard.paragraphs[0].text[0]
+    );
+    expect(text1Nodes[1].nativeElement.textContent).toContain(
+      mockCard.paragraphs[0].text[1]
+    );
+    expect(text2Nodes[0].nativeElement.textContent).toContain(
+      mockCard.paragraphs[1].text[0]
+    );
+    expect(text2Nodes[1].nativeElement.textContent).toContain(
+      mockCard.paragraphs[1].text[1]
+    );
+  });
+
   it('should render passed img', () => {
     function getImage(elem: DebugElement) {
       return elem.query(By.css('.cx-card-img-container cx-icon'));

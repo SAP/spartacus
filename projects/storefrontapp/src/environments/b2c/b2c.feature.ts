@@ -1,17 +1,14 @@
-import { translationChunksConfig, translations } from '@spartacus/assets';
 import { B2cStorefrontModule } from '@spartacus/storefront';
-import { environment } from '../environment';
 import { FeatureEnvironment } from '../models/feature.model';
+import { StoreFinderRootModule } from '@spartacus/storefinder/root';
+import {
+  storeFinderTranslationChunksConfig,
+  storeFinderTranslations,
+} from '@spartacus/storefinder/assets';
 
 export const b2cFeature: FeatureEnvironment = {
   imports: [
     B2cStorefrontModule.withConfig({
-      backend: {
-        occ: {
-          baseUrl: environment.occBaseUrl,
-          prefix: environment.occApiPrefix,
-        },
-      },
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
         baseSite: [
@@ -22,29 +19,23 @@ export const b2cFeature: FeatureEnvironment = {
           'apparel-uk-spa',
         ],
       },
-
-      // custom routing configuration for e2e testing
-      routing: {
-        routes: {
-          product: {
-            paths: ['product/:productCode/:name', 'product/:productCode'],
-          },
-        },
-      },
-      // we bring in static translations to be up and running soon right away
-      i18n: {
-        resources: translations,
-        chunks: translationChunksConfig,
-        fallbackLang: 'en',
-      },
-      features: {
-        level: '2.1',
-      },
       cart: {
         selectiveCart: {
           enabled: true,
         },
       },
+
+      featureModules: {
+        storeFinder: {
+          module: () =>
+            import('@spartacus/storefinder').then((m) => m.StoreFinderModule),
+        },
+      },
+      i18n: {
+        resources: storeFinderTranslations,
+        chunks: storeFinderTranslationChunksConfig,
+      },
     }),
+    StoreFinderRootModule,
   ],
 };

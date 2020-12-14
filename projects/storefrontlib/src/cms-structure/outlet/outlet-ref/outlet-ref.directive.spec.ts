@@ -1,6 +1,5 @@
 import { Component, TemplateRef } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FeaturesConfig } from '@spartacus/core';
 import { of } from 'rxjs';
 import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
 import { OutletDirective } from '../outlet.directive';
@@ -14,9 +13,7 @@ const CUSTOM_TEXT = 'customized';
 @Component({
   template: `
     <ng-container *ngIf="outletRefVisible">
-      <ng-template cxOutletRef="${OUTLET_NAME}">
-        ${CUSTOM_TEXT}
-      </ng-template>
+      <ng-template cxOutletRef="${OUTLET_NAME}"> ${CUSTOM_TEXT} </ng-template>
     </ng-container>
 
     <ng-container *ngIf="outletVisible">
@@ -69,10 +66,6 @@ describe('OutletRefDirective', () => {
       providers: [
         OutletService,
         { provide: DeferLoaderService, useClass: MockDeferLoaderService },
-        {
-          provide: FeaturesConfig,
-          useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #8201
-        },
       ],
     }).compileComponents();
   }));

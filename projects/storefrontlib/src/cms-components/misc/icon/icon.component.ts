@@ -1,5 +1,12 @@
-import { Component, ElementRef, Input, Renderer2 } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostBinding,
+  Input,
+  Renderer2,
+} from '@angular/core';
 import { SafeHtml } from '@angular/platform-browser';
+import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import { IconLoaderService } from './icon-loader.service';
 import { ICON_TYPE } from './icon.model';
 
@@ -50,6 +57,16 @@ export class IconComponent {
   icon: SafeHtml;
 
   /**
+   * The `flip-at-rtl` class is added to the DOM for the style layer to flip the icon in RTL direction.
+   */
+  @HostBinding('class.flip-at-rtl') flipAtRtl: boolean;
+
+  /**
+   * The `flip-at-ltr` class is added to the DOM for the style layer to flip the icon in LTR direction.
+   */
+  @HostBinding('class.flip-at-ltr') flipAtLtr: boolean;
+
+  /**
    * Maintains the applied style classes so we can remove them when the
    * icon type changes at run time.
    */
@@ -68,6 +85,20 @@ export class IconComponent {
     this.icon = this.iconLoader.getHtml(type);
     this.addStyleClasses(type);
     this.iconLoader.addLinkResource(type);
+    this.flipIcon(type);
+  }
+
+  /**
+   * The icons supports flipping for some icons to support rtl and ltr directions.
+   */
+  protected flipIcon(type: ICON_TYPE) {
+    // TODO: this can be dropped with the next major release.
+    if (!this.iconLoader.getFlipDirection) {
+      return;
+    }
+    const iconDirection = this.iconLoader.getFlipDirection(type);
+    this.flipAtLtr = iconDirection === DirectionMode.LTR;
+    this.flipAtRtl = iconDirection === DirectionMode.RTL;
   }
 
   /**
@@ -76,15 +107,12 @@ export class IconComponent {
   protected addStyleClasses(type: ICON_TYPE): void {
     this.renderer.addClass(this.host, 'cx-icon');
 
-    if (this.styleClasses) {
-      this.styleClasses.forEach((cls) =>
-        this.renderer.removeClass(this.host, cls)
-      );
-    }
+    this.styleClasses?.forEach((cls) =>
+      this.renderer.removeClass(this.host, cls)
+    );
 
-    this.styleClasses = this.iconLoader.getStyleClasses(type).split(' ');
-
-    this.styleClasses.forEach((cls) => {
+    this.styleClasses = this.iconLoader.getStyleClasses(type)?.split(' ');
+    this.styleClasses?.forEach((cls) => {
       if (cls !== '') {
         this.renderer.addClass(this.host, cls);
       }

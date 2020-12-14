@@ -1,7 +1,10 @@
 %cx-product-variants {
   .variant-section {
     @include media-breakpoint-up(lg) {
-      padding: 20px 20px 0 20px;
+      padding-top: 20px;
+      padding-inline-end: 20px;
+      padding-bottom: 0px;
+      padding-inline-start: 20px;
     }
   }
   .variant-selector {
@@ -18,7 +21,7 @@
     padding: 0;
 
     li {
-      display: inline;
+      display: inline-block;
 
       &.selected-variant {
         img {
@@ -26,10 +29,17 @@
         }
       }
 
-      img {
-        cursor: pointer;
-        margin: 3px;
-        border: 1px solid #ddd;
+      .variant-button {
+        @include button-reset();
+
+        &:focus {
+          @include visible-focus();
+        }
+
+        img {
+          margin: 3px;
+          border: 1px solid #ddd;
+        }
       }
     }
   }

@@ -1,74 +1,20 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { DeliveryMode, RoutingConfigService } from '@spartacus/core';
+import { DeliveryMode } from '@spartacus/core';
 import {
   CheckoutConfig,
   DeliveryModePreferences,
 } from '../config/checkout-config';
-import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CheckoutConfigService {
-  steps: CheckoutStep[] = this.checkoutConfig.checkout.steps;
   private express: boolean = this.checkoutConfig.checkout.express;
   private guest: boolean = this.checkoutConfig.checkout.guest;
   private defaultDeliveryMode: Array<DeliveryModePreferences | string> =
     this.checkoutConfig.checkout.defaultDeliveryMode || [];
 
-  constructor(
-    private checkoutConfig: CheckoutConfig,
-    private routingConfigService: RoutingConfigService
-  ) {}
-
-  getCheckoutStep(currentStepType: CheckoutStepType): CheckoutStep {
-    return this.steps[this.getCheckoutStepIndex('type', currentStepType)];
-  }
-
-  getCheckoutStepRoute(currentStepType: CheckoutStepType): string {
-    return this.getCheckoutStep(currentStepType).routeName;
-  }
-
-  getFirstCheckoutStepRoute(): string {
-    return this.steps[0].routeName;
-  }
-
-  getNextCheckoutStepUrl(activatedRoute: ActivatedRoute): string {
-    const stepIndex = this.getCurrentStepIndex(activatedRoute);
-
-    return stepIndex >= 0 && this.steps[stepIndex + 1]
-      ? this.getStepUrlFromStepRoute(this.steps[stepIndex + 1].routeName)
-      : null;
-  }
-
-  getPreviousCheckoutStepUrl(activatedRoute: ActivatedRoute): string {
-    const stepIndex = this.getCurrentStepIndex(activatedRoute);
-
-    return stepIndex >= 0 && this.steps[stepIndex - 1]
-      ? this.getStepUrlFromStepRoute(this.steps[stepIndex - 1].routeName)
-      : null;
-  }
-
-  getCurrentStepIndex(activatedRoute: ActivatedRoute): number | null {
-    const currentStepUrl: string = this.getStepUrlFromActivatedRoute(
-      activatedRoute
-    );
-
-    let stepIndex: number;
-    let index = 0;
-    for (const step of this.steps) {
-      if (
-        currentStepUrl === `/${this.getStepUrlFromStepRoute(step.routeName)}`
-      ) {
-        stepIndex = index;
-      } else {
-        index++;
-      }
-    }
-
-    return stepIndex >= 0 ? stepIndex : null;
-  }
+  constructor(private checkoutConfig: CheckoutConfig) {}
 
   protected compareDeliveryCost(
     deliveryMode1: DeliveryMode,
@@ -130,25 +76,5 @@ export class CheckoutConfigService {
 
   isGuestCheckout(): boolean {
     return this.guest;
-  }
-
-  private getStepUrlFromActivatedRoute(
-    activatedRoute: ActivatedRoute
-  ): string | null {
-    return activatedRoute &&
-      activatedRoute.snapshot &&
-      activatedRoute.snapshot.url
-      ? `/${activatedRoute.snapshot.url.join('/')}`
-      : null;
-  }
-
-  private getStepUrlFromStepRoute(stepRoute: string): string {
-    return this.routingConfigService.getRouteConfig(stepRoute).paths[0];
-  }
-
-  private getCheckoutStepIndex(key: string, value: any): number | null {
-    return key && value
-      ? this.steps.findIndex((step: CheckoutStep) => step[key].includes(value))
-      : null;
   }
 }

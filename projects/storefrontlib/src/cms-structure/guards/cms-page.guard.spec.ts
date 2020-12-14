@@ -72,19 +72,20 @@ describe('CmsPageGuard', () => {
   });
 
   describe('canActivate', () => {
-    describe('when ProtectedRoutesGuard.canActivate emits false,', () => {
+    describe('when ProtectedRoutesGuard.canActivate emits redirect url,', () => {
+      const urlTree = new UrlTree();
       beforeEach(() => {
-        spyOn(protectedRoutesGuard, 'canActivate').and.returnValue(of(false));
+        spyOn(protectedRoutesGuard, 'canActivate').and.returnValue(of(urlTree));
       });
 
-      it('should emit false', () => {
+      it('should emit redirect url', () => {
         let result: boolean | UrlTree;
         guard
           .canActivate(mockActivatedRouteSnapshot, mockRouterStateSnapshot)
           .subscribe((value) => (result = value))
           .unsubscribe();
 
-        expect(result).toBe(false);
+        expect(result).toBe(urlTree);
       });
     });
 

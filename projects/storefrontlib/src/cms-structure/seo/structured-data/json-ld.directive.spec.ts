@@ -54,6 +54,7 @@ describe('JsonLdDirective', () => {
   // a single test for sanitization as more tests are created in the json-ld script factort
   it('should sanitize malicious code', () => {
     const template = `<span [cxJsonLd]="{foo: 'bar<script>alert(1)</script>'}">hello</span>`;
+    spyOn(console, 'warn').and.stub();
     fixture = createTestComponent(template);
     fixture.detectChanges();
     expect(fixture.nativeElement.innerHTML).toContain(

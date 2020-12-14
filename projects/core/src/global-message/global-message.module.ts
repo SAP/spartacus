@@ -7,8 +7,8 @@ import {
 import { GlobalMessageStoreModule } from './store/global-message-store.module';
 import { GlobalMessageEffect } from './store/effects/global-message.effect';
 
-import { provideDefaultConfigFactory } from '../config/config.module';
 import { defaultGlobalMessageConfigFactory } from './config/default-global-message-config';
+import { provideDefaultConfigFactory } from '../config/config-providers';
 
 @NgModule({
   imports: [

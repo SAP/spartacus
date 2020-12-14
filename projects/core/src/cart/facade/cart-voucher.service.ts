@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { AuthService } from '../../auth/index';
+import { UserIdService } from '../../auth/index';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -19,8 +19,8 @@ import { ActiveCartService } from './active-cart.service';
 export class CartVoucherService {
   constructor(
     protected store: Store<fromProcessStore.StateWithProcess<void>>,
-    protected authService: AuthService,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartService,
+    protected userIdService: UserIdService
   ) {}
 
   addVoucher(voucherId: string, cartId?: string): void {
@@ -91,13 +91,13 @@ export class CartVoucherService {
 
   private combineUserAndCartId(cartId: string): Observable<[string, string]> {
     if (cartId) {
-      return this.authService.getOccUserId().pipe(
+      return this.userIdService.getUserId().pipe(
         take(1),
         map((userId) => [userId, cartId])
       );
     } else {
       return combineLatest([
-        this.authService.getOccUserId(),
+        this.userIdService.getUserId(),
         this.activeCartService.getActiveCartId(),
       ]).pipe(take(1));
     }

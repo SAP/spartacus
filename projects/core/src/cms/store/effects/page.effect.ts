@@ -11,10 +11,10 @@ import {
   switchMap,
   take,
 } from 'rxjs/operators';
-import { AuthActions } from '../../../auth/store/actions/index';
+import { AuthActions } from '../../../auth/user-auth/store/actions/index';
 import { RoutingService } from '../../../routing/index';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { CmsPageConnector } from '../../connectors/page/cms-page.connector';
 import { CmsStructureModel } from '../../model/page.model';
 import { serializePageContext } from '../../utils/cms-utils';
@@ -86,7 +86,7 @@ export class PageEffects {
               of(
                 new CmsActions.LoadCmsPageDataFail(
                   pageContext,
-                  makeErrorSerializable(error)
+                  normalizeHttpError(error)
                 )
               )
             )

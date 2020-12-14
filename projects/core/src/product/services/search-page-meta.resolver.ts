@@ -16,7 +16,8 @@ import { ProductSearchService } from '../facade/product-search.service';
 @Injectable({
   providedIn: 'root',
 })
-export class SearchPageMetaResolver extends PageMetaResolver
+export class SearchPageMetaResolver
+  extends PageMetaResolver
   implements PageMetaResolver {
   protected total$: Observable<
     number

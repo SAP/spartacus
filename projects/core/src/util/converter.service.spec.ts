@@ -1,13 +1,18 @@
-import { InjectionToken } from '@angular/core';
+import { InjectionToken, Injector, NgModuleRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs/internal/observable/of';
+import { of, ReplaySubject } from 'rxjs';
 import { Converter, ConverterService } from './converter.service';
+import { LazyModulesService } from '@spartacus/core';
 
 const TestConverterInjectionToken = new InjectionToken(
   'TestConverterInjectionToken'
 );
 const NotProvidedConverterInjectionToken = new InjectionToken(
   'NotProvidedConverterInjectionToken'
+);
+
+const TestLazyConverterInjectionToken = new InjectionToken(
+  'TestLazyConverterInjectionToken'
 );
 
 class CopyNormalizer implements Converter<any, any> {
@@ -20,6 +25,10 @@ class TestNormalizer implements Converter<any, any> {
   convert(source: any, target: any = {}): any {
     return { ...target, source };
   }
+}
+
+class MockLazyModulesService implements Partial<LazyModulesService> {
+  modules$ = new ReplaySubject<NgModuleRef<any>>();
 }
 
 describe('ConverterService', () => {
@@ -37,6 +46,10 @@ describe('ConverterService', () => {
           provide: TestConverterInjectionToken,
           useClass: TestNormalizer,
           multi: true,
+        },
+        {
+          provide: LazyModulesService,
+          useClass: MockLazyModulesService,
         },
       ],
     });
@@ -137,6 +150,33 @@ describe('ConverterService', () => {
         NotProvidedConverterInjectionToken
       );
       expect(target).toBe(sources);
+    });
+  });
+
+  describe('with lazy-loaded converters', () => {
+    const moduleInstanceWithTestConverter: any = {
+      injector: Injector.create({
+        providers: [
+          {
+            provide: TestLazyConverterInjectionToken,
+            useValue: 'lazyConverter',
+            multi: true,
+          },
+        ],
+      }),
+    };
+
+    it('should register converters from lazy-loaded modules', () => {
+      expect(
+        service.hasConverters(TestLazyConverterInjectionToken)
+      ).toBeFalse();
+
+      const lazyModules = TestBed.inject<MockLazyModulesService>(
+        LazyModulesService as any
+      );
+      lazyModules.modules$.next(moduleInstanceWithTestConverter);
+
+      expect(service.hasConverters(TestLazyConverterInjectionToken)).toBeTrue();
     });
   });
 });

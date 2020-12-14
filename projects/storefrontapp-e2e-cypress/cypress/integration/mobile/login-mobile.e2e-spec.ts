@@ -22,9 +22,9 @@ describe(`${formats.mobile.width + 1}p resolution - Login`, () => {
 
     waitForHomePage();
 
-    const tokenRevocationRequestAlias = login.listenForTokenRevocationReqest();
+    const tokenRevocationRequestAlias = login.listenForTokenRevocationRequest();
     login.signOutUser();
-    cy.wait(tokenRevocationRequestAlias).its('status').should('eq', 200);
+    cy.wait(tokenRevocationRequestAlias);
   });
 
   it('login should fail if password is wrong', () => {

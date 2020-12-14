@@ -2,8 +2,11 @@
   "name": "@spartacus/incubator",
   "version": "0.0.1",
   "description": "Spartacus incubator library",
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
   "peerDependencies": {
-    "@angular/common": "^9.0.0",
-    "@angular/core": "^9.0.0"
+    "@angular/common": "^10.1.0",
+    "@angular/core": "^10.1.0"
   }
 }

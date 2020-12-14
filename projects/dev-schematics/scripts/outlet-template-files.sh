@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 
 OUTLETS_PARENT_DIR='./../src/add-test-outlets/files';
 RELATIVE_OUTLETS_SOURCE_DIR='./../../../../storefrontapp/src/test-outlets';

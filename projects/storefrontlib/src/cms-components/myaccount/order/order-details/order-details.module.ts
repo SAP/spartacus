@@ -13,12 +13,14 @@ import {
 import { ConsignmentTrackingComponent } from '../../../../cms-components/myaccount/order/order-details/order-detail-items/consignment-tracking/consignment-tracking.component';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
-import { CardModule } from '../../../../shared/components/card/card.module';
-import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
+import {
+  CardModule,
+  OrderOverviewModule,
+  SpinnerModule,
+} from '../../../../shared/index';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
 import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
 import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
-import { OrderDetailHeadlineComponent } from './order-detail-headline/order-detail-headline.component';
 import { TrackingEventsComponent } from './order-detail-items/consignment-tracking/tracking-events/tracking-events.component';
 import { OrderConsignedEntriesComponent } from './order-detail-items/order-consigned-entries/order-consigned-entries.component';
 import { OrderDetailItemsComponent } from './order-detail-items/order-detail-items.component';
@@ -28,7 +30,6 @@ import { OrderDetailsService } from './order-details.service';
 
 const moduleComponents = [
   OrderDetailActionsComponent,
-  OrderDetailHeadlineComponent,
   OrderDetailItemsComponent,
   OrderDetailTotalsComponent,
   OrderDetailShippingComponent,
@@ -45,7 +46,9 @@ const moduleComponents = [
     I18nModule,
     FeaturesConfigModule,
     PromotionsModule,
+    OrderOverviewModule,
     UrlModule,
+    SpinnerModule,
     RouterModule.forChild([
       {
         path: null,
@@ -60,16 +63,12 @@ const moduleComponents = [
         data: { cxRoute: 'orderDetails' },
       },
     ]),
-    SpinnerModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig | FeaturesConfig>{
       cmsComponents: {
         AccountOrderDetailsActionsComponent: {
           component: OrderDetailActionsComponent,
-        },
-        AccountOrderDetailsHeadlineComponent: {
-          component: OrderDetailHeadlineComponent,
         },
         AccountOrderDetailsItemsComponent: {
           component: OrderDetailItemsComponent,

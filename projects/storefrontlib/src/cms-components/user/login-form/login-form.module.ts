@@ -9,8 +9,8 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { LoginFormComponent } from './login-form.component';
 import { FormErrorsModule } from '../../../shared/index';
+import { LoginFormComponent } from './login-form.component';
 
 @NgModule({
   imports: [

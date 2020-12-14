@@ -1,7 +1,7 @@
 // tslint:disable:no-implicit-dependencies
 import { JsonObject, logging } from '@angular-devkit/core';
 import chalk from 'chalk';
-import * as program from 'commander';
+import program from 'commander';
 import * as ejs from 'ejs';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -75,9 +75,12 @@ export default async function run(
     '@spartacus/assets': 'projects/assets',
     '@spartacus/schematics': 'projects/schematics',
     '@spartacus/incubator': 'projects/incubator',
-    '@spartacus/cds': 'projects/cds',
-    '@spartacus/my-account': 'feature-libs/my-account',
+    '@spartacus/cds': 'integration-libs/cds',
+    '@spartacus/organization': 'feature-libs/organization',
     '@spartacus/product': 'feature-libs/product',
+    '@spartacus/storefinder': 'feature-libs/storefinder',
+    '@spartacus/cdc': 'integration-libs/cdc',
+    '@spartacus/setup': 'core-libs/setup',
   };
 
   const duplexUtil = through(function (chunk, _, callback) {
@@ -286,11 +289,9 @@ if (typeof config.to === 'undefined') {
     case '@spartacus/cds':
       config.library = '@spartacus/cds';
       break;
-    case 'myaccount':
-    case 'my-account':
-    case '@spartacus/my-account':
-    case '@spartacus/myaccount':
-      config.library = '@spartacus/my-account';
+    case 'organization':
+    case '@spartacus/organization':
+      config.library = '@spartacus/organization';
       break;
     case 'product':
     case '@spartacus/product':
@@ -300,6 +301,18 @@ if (typeof config.to === 'undefined') {
     case '@spartacus/product/configurators/variant':
     case '@spartacus/product/configurators/textfield':
       config.library = '@spartacus/product';
+      break;
+    case 'cdc':
+    case '@spartacus/cdc':
+      config.library = '@spartacus/cdc';
+      break;
+    case 'storefinder':
+    case '@spartacus/storefinder':
+      config.library = '@spartacus/storefinder';
+      break;
+    case 'setup':
+    case '@spartacus/setup':
+      config.library = '@spartacus/setup';
       break;
     default:
       config.library = undefined;

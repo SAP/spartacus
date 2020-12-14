@@ -14,7 +14,6 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   PaymentDetails,
-  RoutingService,
   TranslationService,
   UserPaymentService,
 } from '@spartacus/core';
@@ -22,7 +21,7 @@ import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 import { ICON_TYPE } from '../../../misc/icon';
-import { CheckoutConfigService } from '../../services/checkout-config.service';
+import { CheckoutStepService } from '../../services/checkout-step.service';
 
 @Component({
   selector: 'cx-payment-method',
@@ -38,10 +37,10 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   isGuestCheckout = false;
   newPaymentFormManuallyOpened = false;
 
+  backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
+
   protected shouldRedirect: boolean;
   protected deliveryAddress: Address;
-  protected checkoutStepUrlNext: string;
-  protected checkoutStepUrlPrevious: string;
 
   constructor(
     protected userPaymentService: UserPaymentService,
@@ -49,11 +48,10 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     protected checkoutDeliveryService: CheckoutDeliveryService,
     protected checkoutPaymentService: CheckoutPaymentService,
     protected globalMessageService: GlobalMessageService,
-    protected routingService: RoutingService,
-    protected checkoutConfigService: CheckoutConfigService,
     protected activatedRoute: ActivatedRoute,
     protected translation: TranslationService,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartService,
+    protected checkoutStepService: CheckoutStepService
   ) {}
 
   ngOnInit() {
@@ -65,14 +63,6 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     } else {
       this.isGuestCheckout = true;
     }
-
-    this.checkoutStepUrlNext = this.checkoutConfigService.getNextCheckoutStepUrl(
-      this.activatedRoute
-    );
-
-    this.checkoutStepUrlPrevious = this.checkoutConfigService.getPreviousCheckoutStepUrl(
-      this.activatedRoute
-    );
 
     this.checkoutDeliveryService
       .getDeliveryAddress()
@@ -94,7 +84,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
             });
             this.checkoutService.clearCheckoutStep(3);
           } else if (this.shouldRedirect) {
-            this.routingService.go(this.checkoutStepUrlNext);
+            this.next();
           }
         }
       })
@@ -247,11 +237,11 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     };
   }
 
-  goNext(): void {
-    this.routingService.go(this.checkoutStepUrlNext);
+  next(): void {
+    this.checkoutStepService.next(this.activatedRoute);
   }
 
-  goPrevious(): void {
-    this.routingService.go(this.checkoutStepUrlPrevious);
+  back(): void {
+    this.checkoutStepService.back(this.activatedRoute);
   }
 }

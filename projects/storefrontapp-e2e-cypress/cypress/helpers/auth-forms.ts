@@ -1,12 +1,7 @@
 /* Use this methods if you need to test UI for login/register (eg. form validation).
  If you only need to be logged in to check other feature use `requireLoggedIn` command */
 
-export interface RegisterUser {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-}
+import { SampleUser } from '../sample-data/checkout-flow';
 
 export interface LoginUser {
   username: string;
@@ -14,7 +9,7 @@ export interface LoginUser {
 }
 
 export function fillRegistrationForm(
-  { firstName, lastName, email, password }: RegisterUser,
+  { firstName, lastName, email, password }: SampleUser,
   giveRegistrationConsent,
   hiddenConsent?
 ) {
@@ -46,7 +41,7 @@ export function fillLoginForm({ username, password }: LoginUser) {
 }
 
 export function register(
-  user: RegisterUser,
+  user: SampleUser,
   giveRegistrationConsent = false,
   hiddenConsent?
 ) {
