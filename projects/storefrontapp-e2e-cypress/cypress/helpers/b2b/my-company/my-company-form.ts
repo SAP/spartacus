@@ -31,12 +31,8 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
     let entityUId: string;
     let entityId: string;
 
-    beforeEach(() => {
+    before(() => {
       loginAsMyCompanyAdmin();
-
-      cy.route('GET', `**${config.apiEndpoint}**`).as('loadEntity');
-      cy.visit(`${config.baseUrl}${entityId ? '/' + entityId : ''}`);
-      cy.wait('@loadEntity');
     });
 
     after(() => {
@@ -44,6 +40,10 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
     });
 
     it(`should create`, () => {
+      cy.route('GET', `**${config.apiEndpoint}**`).as('loadEndpoint');
+      cy.visit(`${config.baseUrl}`);
+      cy.wait('@loadEndpoint');
+
       if (config.selectOptionsEndpoint) {
         cy.route(config.selectOptionsEndpoint).as('getSelectOptions');
       }
@@ -134,6 +134,10 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
     }
 
     it(`should update`, () => {
+      cy.route('GET', `**${config.apiEndpoint}**`).as('loadCreatedEntity');
+      cy.visit(`${config.baseUrl}${entityId ? '/' + entityId : ''}`);
+      cy.wait('@loadCreatedEntity');
+
       if (config.selectOptionsEndpoint) {
         cy.route(config.selectOptionsEndpoint).as('getSelectOptions');
       }
