@@ -22,7 +22,10 @@ module.exports = function (config) {
     },
     reporters: ['progress', 'kjhtml', 'coverage-istanbul', 'dots'],
     coverageIstanbulReporter: {
-      dir: require('path').join(__dirname, '../../coverage/product-configurator'),
+      dir: require('path').join(
+        __dirname,
+        '../../coverage/product-configurator'
+      ),
       reports: ['lcov', 'cobertura', 'text-summary'],
       fixWebpackSourcePaths: true,
       thresholds: {

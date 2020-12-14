@@ -299,9 +299,6 @@ if (typeof config.to === 'undefined') {
       break;
     case 'product-configurator':
     case '@spartacus/product-configurator':
-    case '@spartacus/product-configurator/common':
-    case '@spartacus/product-configurator/textfield':
-    case '@spartacus/product-configurator/rulebased':
       config.library = '@spartacus/product-configurator';
       break;
     case 'cdc':
