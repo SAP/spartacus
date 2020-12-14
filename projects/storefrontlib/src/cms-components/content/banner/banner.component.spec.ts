@@ -57,7 +57,6 @@ describe('BannerComponent', () => {
       ],
     }).compileComponents();
 
-
     fixture = TestBed.createComponent(BannerComponent);
     bannerComponent = fixture.componentInstance;
     el = fixture.debugElement;
