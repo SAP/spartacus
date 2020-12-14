@@ -295,12 +295,14 @@ if (typeof config.to === 'undefined') {
       break;
     case 'product':
     case '@spartacus/product':
-    case '@spartacus/product/configurators':
-    case '@spartacus/product-configurator/common':
-    case '@spartacus/product/configurators/cpq':
-    case '@spartacus/product/configurators/variant':
-    case '@spartacus/product-configurator/textfield':
       config.library = '@spartacus/product';
+      break;
+    case 'product-configurator':
+    case '@spartacus/product-configurator':
+    case '@spartacus/product-configurator/common':
+    case '@spartacus/product-configurator/textfield':
+    case '@spartacus/product-configurator/rulebased':
+      config.library = '@spartacus/product-configurator';
       break;
     case 'cdc':
     case '@spartacus/cdc':
