@@ -1,14 +1,14 @@
-<cx-org-form i18nRoot="costCenter">
+<cx-org-form i18nRoot="orgCostCenter">
   <ng-container *ngIf="form" [formGroup]="form" main>
     <label>
       <span class="label-content required">{{
-        'costCenter.name' | cxTranslate
+        'orgCostCenter.name' | cxTranslate
       }}</span>
       <input
         type="text"
         class="form-control"
         required
-        placeholder="{{ 'costCenter.name' | cxTranslate }}"
+        placeholder="{{ 'orgCostCenter.name' | cxTranslate }}"
         formControlName="name"
       />
       <cx-form-errors [control]="form.get('name')"></cx-form-errors>
@@ -16,13 +16,13 @@
 
     <label>
       <span class="label-content required">{{
-        'costCenter.code' | cxTranslate
+        'orgCostCenter.code' | cxTranslate
       }}</span>
       <input
         class="form-control"
         type="text"
         required
-        placeholder="{{ 'costCenter.code' | cxTranslate }}"
+        placeholder="{{ 'orgCostCenter.code' | cxTranslate }}"
         formControlName="code"
       />
       <cx-form-errors [control]="form.get('code')"></cx-form-errors>
@@ -30,7 +30,7 @@
 
     <label aria-required="true" formGroupName="currency">
       <span class="label-content required">{{
-        'costCenter.currency' | cxTranslate
+        'orgCostCenter.currency' | cxTranslate
       }}</span>
       <ng-select
         formControlName="isocode"
@@ -48,7 +48,7 @@
 
     <label aria-required="true" [formGroup]="form.get('unit')">
       <span class="label-content required">{{
-        'costCenter.unit' | cxTranslate
+        'orgCostCenter.unit' | cxTranslate
       }}</span>
       <ng-select
         formControlName="uid"
@@ -59,7 +59,7 @@
         bindValue="id"
         [readonly]="form.get('unit.uid').disabled"
         appendTo="cx-org-list"
-        [placeholder]="'costCenter.unit' | cxTranslate"
+        [placeholder]="'orgCostCenter.unit' | cxTranslate"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('unit.uid')"></cx-form-errors>
