@@ -20,7 +20,6 @@ const cpqValueProductSystemId2 = 'VALUE_PRODUCT_SYSTEM_ID_2';
 
 const cpqAttributePaId = 11;
 const cpqAttributeStdAttrCode = 1;
-const cpqAttributeName = 'ATTRIBUTE_NAME';
 const cpqAttributeDescription = 'VALUE_DESCRIPTION';
 const cpqAttributeLabel = 'VALUE_LABEL';
 const cpqAttributeDisplayAs = Cpq.DisplayAs.RADIO_BUTTON;
@@ -32,7 +31,6 @@ const cpqAttributeUserInput = '';
 
 const cpqAttributePaId2 = 22;
 const cpqAttributeStdAttrCode2 = 2;
-const cpqAttributeName2 = 'ATTRIBUTE_NAME_2';
 const cpqAttributeDescription2 = 'VALUE_DESCRIPTION_2';
 const cpqAttributeLabel2 = 'VALUE_LABEL_2';
 const cpqAttributeDisplayAs2 = Cpq.DisplayAs.INPUT;
@@ -75,7 +73,6 @@ const cpqValue2: Cpq.Value = {
 const cpqAttribute: Cpq.Attribute = {
   pA_ID: cpqAttributePaId,
   stdAttrCode: cpqAttributeStdAttrCode,
-  name: cpqAttributeName,
   description: cpqAttributeDescription,
   label: cpqAttributeLabel,
   displayAs: cpqAttributeDisplayAs,
@@ -90,7 +87,6 @@ const cpqAttribute: Cpq.Attribute = {
 const cpqAttribute2: Cpq.Attribute = {
   pA_ID: cpqAttributePaId2,
   stdAttrCode: cpqAttributeStdAttrCode2,
-  name: cpqAttributeName2,
   description: cpqAttributeDescription2,
   label: cpqAttributeLabel2,
   displayAs: cpqAttributeDisplayAs2,
@@ -223,7 +219,7 @@ describe('CpqConfiguratorNormalizer', () => {
 
     expect(attributeList.length).toBe(1);
     expect(attribute.attrCode).toBe(cpqAttributeStdAttrCode);
-    expect(attribute.name).toBe(cpqAttributeName);
+    expect(attribute.name).toBe(cpqAttributePaId.toString());
     expect(attribute.description).toBe(cpqAttributeDescription);
     expect(attribute.label).toBe(cpqAttributeLabel);
     expect(attribute.required).toBe(cpqAttributeRequired);
@@ -252,7 +248,7 @@ describe('CpqConfiguratorNormalizer', () => {
 
     expect(attributeList.length).toBe(1);
     expect(attribute.attrCode).toBe(cpqAttributeStdAttrCode);
-    expect(attribute.name).toBe(cpqAttributeName);
+    expect(attribute.name).toBe(cpqAttributePaId.toString());
     expect(attribute.description).toBe(cpqAttributeDescription);
     expect(attribute.label).toBe(cpqAttributeLabel);
     expect(attribute.required).toBe(cpqAttributeRequired);
@@ -289,7 +285,7 @@ describe('CpqConfiguratorNormalizer', () => {
 
     expect(attributeList.length).toBe(1);
     expect(attribute.attrCode).toBe(cpqAttributeStdAttrCode);
-    expect(attribute.name).toBe(cpqAttributeName);
+    expect(attribute.name).toBe(cpqAttributePaId.toString());
     expect(attribute.description).toBe(cpqAttributeDescription);
     expect(attribute.label).toBe(cpqAttributeLabel);
     expect(attribute.required).toBe(cpqAttributeRequired);
@@ -318,7 +314,7 @@ describe('CpqConfiguratorNormalizer', () => {
 
     expect(attributeList.length).toBe(1);
     expect(attribute.attrCode).toBe(cpqAttributeStdAttrCode2);
-    expect(attribute.name).toBe(cpqAttributeName2);
+    expect(attribute.name).toBe(cpqAttributePaId2.toString());
     expect(attribute.description).toBe(cpqAttributeDescription2);
     expect(attribute.label).toBe(cpqAttributeLabel2);
     expect(attribute.required).toBe(cpqAttributeRequired2);

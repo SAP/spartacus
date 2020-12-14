@@ -7,13 +7,15 @@ import { Configurator } from './../core/model/configurator.model';
 const configId = '1';
 const attrCodeFirst = 111;
 const attrCode = 222;
-const attributeName = 'AttrName';
+const attributeName = '9999';
 const selectedSingleValue = 'SomeValue';
 const value1: Configurator.Value = { valueCode: 'ValueCode1', selected: true };
 const value2: Configurator.Value = { valueCode: 'ValueCode2', selected: false };
 const value3: Configurator.Value = { valueCode: 'ValueCode3', selected: true };
 const userInput = '123';
 const expectedValueIdsMulti = 'ValueCode1,ValueCode3,';
+const expectedValueIdsMultiNoSelection = ',';
+const expectedProcessedSingleValueNoValue = ',';
 
 const firstAttribute: Configurator.Attribute = {
   attrCode: attrCodeFirst,
@@ -69,6 +71,13 @@ const attributeCBList: Configurator.Attribute = {
   name: attributeName,
   uiType: Configurator.UiType.CHECKBOXLIST,
   values: [value1, value2, value3],
+};
+
+const attributeCBListNoSelection: Configurator.Attribute = {
+  attrCode: attrCode,
+  name: attributeName,
+  uiType: Configurator.UiType.CHECKBOXLIST,
+  values: [],
 };
 
 const attributeCBList_PRODUCT: Configurator.Attribute = {
@@ -248,11 +257,33 @@ describe('CpqConfiguratorSerializer', () => {
     verifyUpdateAttributeUserInput(updateAttributeNumeric);
   });
 
+  it('should process single selected value correctly', () => {
+    const processedValue: string = cpqConfiguratorSerializer.processSelectedSingleValue(
+      selectedSingleValue
+    );
+    expect(processedValue).toBe(selectedSingleValue);
+  });
+
+  it('should process single selected value correctly when no value is selected', () => {
+    const singleValue = null;
+    const processedValue: string = cpqConfiguratorSerializer.processSelectedSingleValue(
+      singleValue
+    );
+    expect(processedValue).toBe(expectedProcessedSingleValueNoValue);
+  });
+
   it('should prepare value ids correctly', () => {
     const valueIds: string = cpqConfiguratorSerializer.prepareValueIds(
       attributeCBList
     );
     expect(valueIds).toBe(expectedValueIdsMulti);
+  });
+
+  it('should prepare value ids correctly when nothing is selected', () => {
+    const valueIds: string = cpqConfiguratorSerializer.prepareValueIds(
+      attributeCBListNoSelection
+    );
+    expect(valueIds).toBe(expectedValueIdsMultiNoSelection);
   });
 
   it('should find first updated attribute correctly', () => {
