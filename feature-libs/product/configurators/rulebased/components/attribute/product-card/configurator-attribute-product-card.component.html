@@ -6,12 +6,7 @@
 >
   <div class="cx-configurator-attribute-product-card-rows">
     <div class="cx-configurator-attribute-product-card-imgs">
-      <ng-container *ngIf="product.images[0]; else noimages">
-        <img
-          alt="{{ product.images[0].altText }}"
-          src="{{ product.images[0].url }}"
-        />
-      </ng-container>
+      <ng-container *ngIf="product?.images[0]; else noimages"></ng-container>
 
       <ng-template #noimages>
         <div class="cx-configurator-attribute-product-card-imgs-fake"></div
@@ -36,7 +31,7 @@
         [text]="
           product.description
             ? product.description
-            : 'Bosch SDS-plus tool holder – fast and tool-free bit changing and optimum power transfer. Integrated chisel function with Vario-Lock – freely selectable work position of the chisel Impact stop for drilling in metal and wood'
+            : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
         "
       ></cx-configurator-show-more>
     </div>
