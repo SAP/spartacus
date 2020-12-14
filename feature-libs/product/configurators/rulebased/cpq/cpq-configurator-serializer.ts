@@ -72,13 +72,12 @@ export class CpqConfiguratorSerializer
   }
 
   prepareValueIds(attribute: Configurator.Attribute): string {
-    let valueIds;
+    let valueIds = '';
     const selectedValues: Configurator.Value[] = attribute.values.filter(
       (value) => value.selected
     );
 
     if (selectedValues && selectedValues.length > 0) {
-      valueIds = '';
       selectedValues.forEach((value) => {
         valueIds += value.valueCode + VALUE_SEPARATOR;
       });
