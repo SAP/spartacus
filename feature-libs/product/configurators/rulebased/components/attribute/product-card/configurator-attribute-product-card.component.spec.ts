@@ -10,9 +10,10 @@ import { By } from '@angular/platform-browser';
 import { ItemCounterComponent } from '@spartacus/storefront';
 import { FormControl } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+
 const mockQuantity = new FormControl(1);
 
-fdescribe('ConfiguratorAttributeProductCardComponent', () => {
+describe('ConfiguratorAttributeProductCardComponent', () => {
   let component: ConfiguratorAttributeProductCardComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeProductCardComponent>;
 
@@ -48,9 +49,9 @@ fdescribe('ConfiguratorAttributeProductCardComponent', () => {
       TestBed.configureTestingModule({
         imports: [
           I18nTestingModule,
+          ReactiveFormsModule,
           RouterTestingModule,
           UrlTestingModule,
-          ReactiveFormsModule,
         ],
         declarations: [
           ConfiguratorAttributeProductCardComponent,

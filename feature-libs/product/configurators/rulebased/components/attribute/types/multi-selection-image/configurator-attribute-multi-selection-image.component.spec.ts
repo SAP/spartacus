@@ -95,6 +95,9 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
       groupId: 'testGroup',
       values: values,
     };
+
+    component.ownerKey = 'theOwnerKey';
+
     fixture.detectChanges();
   });
 
