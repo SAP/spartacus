@@ -42,8 +42,9 @@ export class CpqConfiguratorSerializer
       attribute.uiType === Configurator.UiType.RADIOBUTTON_PRODUCT ||
       attribute.uiType === Configurator.UiType.SINGLE_SELECTION_IMAGE
     ) {
-      updateAttribute.changeAttributeValue.attributeValueIds =
-        attribute.selectedSingleValue;
+      updateAttribute.changeAttributeValue.attributeValueIds = this.processSelectedSingleValue(
+        attribute.selectedSingleValue
+      );
     } else if (
       attribute.uiType === Configurator.UiType.CHECKBOXLIST ||
       attribute.uiType === Configurator.UiType.CHECKBOXLIST_PRODUCT ||
@@ -62,14 +63,29 @@ export class CpqConfiguratorSerializer
     return updateAttribute;
   }
 
+  processSelectedSingleValue(singleValue: string): string {
+    let processedValue: string = singleValue;
+    if (!processedValue) {
+      // Is required to remove the value
+      processedValue = VALUE_SEPARATOR;
+    }
+    return processedValue;
+  }
+
   prepareValueIds(attribute: Configurator.Attribute): string {
     let valueIds = '';
     const selectedValues: Configurator.Value[] = attribute.values.filter(
       (value) => value.selected
     );
-    selectedValues.forEach((value) => {
-      valueIds += value.valueCode + VALUE_SEPARATOR;
-    });
+
+    if (selectedValues && selectedValues.length > 0) {
+      selectedValues.forEach((value) => {
+        valueIds += value.valueCode + VALUE_SEPARATOR;
+      });
+    } else {
+      // Is required to remove the value
+      valueIds = VALUE_SEPARATOR;
+    }
     return valueIds;
   }
 }
