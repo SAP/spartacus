@@ -41,6 +41,12 @@ function apparelProductDetailsTest() {
   });
 }
 
+function productDescriptionToggleTest() {
+  it('should show a preview of the product description when description is a long', () => {
+    productDetails.descriptionShowMoreShowLess();
+  });
+}
+
 function configureDefaultProduct() {
   cy.window().then((win) => win.sessionStorage.clear());
   cy.cxConfig({
@@ -63,6 +69,17 @@ function configureApparelProduct() {
   cy.visit('/product/100191');
 }
 
+function configureProductDescriptionPreview() {
+  cy.window().then((win) => win.sessionStorage.clear());
+  cy.cxConfig({
+    context: {
+      baseSite: ['electronics-spa'],
+      currency: ['USD'],
+    },
+  });
+  cy.visit('/product/553637');
+}
+
 context('Product details', () => {
   describe('Default', () => {
     before(configureDefaultProduct);
@@ -74,6 +91,11 @@ context('Product details', () => {
     before(configureApparelProduct);
 
     apparelProductDetailsTest();
+  });
+
+  describe('Product description toggle more/less ', () => {
+    before(configureProductDescriptionPreview);
+    productDescriptionToggleTest();
   });
 });
 

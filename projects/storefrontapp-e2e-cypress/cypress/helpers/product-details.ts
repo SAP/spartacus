@@ -19,7 +19,6 @@ export const itemCounter = 'cx-item-counter';
 export const breadcrumbContainer = 'cx-breadcrumb';
 export const variantSelectorContainer = '.variant-selector';
 export const variantStyleList = `${variantSelectorContainer} ul.variant-list`;
-
 export const PRODUCT_NAME = 'Battery Video Light';
 
 export function verifyProductDetails() {
@@ -122,4 +121,9 @@ export function selectProductSizeVariantWithoutStock() {
   cy.get('.variant-selector select').select('L');
 
   cy.get('cx-add-to-cart .quantity .info').should('contain', 'Out of stock');
+}
+
+export function descriptionShowMoreShowLess() {
+  cy.get('.cx-action-link').click();
+  cy.get('.container div').contains('Pop-Up Flash');
 }
