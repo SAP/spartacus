@@ -58,7 +58,7 @@ export class OrganizationConflictHandler extends HttpErrorHandler {
     key: string,
     code?: string
   ) {
-    const result = mask.exec(message);
+    const result = message.match(mask);
     const params = { code: result?.[1] ?? code };
     if (result) {
       this.globalMessageService.add(

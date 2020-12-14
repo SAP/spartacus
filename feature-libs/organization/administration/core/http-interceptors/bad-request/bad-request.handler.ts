@@ -60,7 +60,7 @@ export class OrganizationBadRequestHandler extends HttpErrorHandler {
     mask: RegExp,
     key: string
   ) {
-    const result = mask.exec(message);
+    const result = message.match(mask);
     const params = { code: result?.[1] };
     if (result) {
       this.globalMessageService.add(
