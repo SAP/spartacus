@@ -7,7 +7,7 @@ import {
   Type,
 } from '@angular/core';
 import {
-  async,
+  waitForAsync,
   ComponentFixture,
   TestBed,
   TestModuleMetadata,

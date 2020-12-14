@@ -1,6 +1,6 @@
 import { Component, Directive, Input } from '@angular/core';
 import {
-  async,
+  waitForAsync,
   ComponentFixture,
   fakeAsync,
   TestBed,
