@@ -5,7 +5,8 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { AsmConfig, RoutingService, UserIdService } from '@spartacus/core';
+import { RoutingService, UserIdService } from '@spartacus/core';
+import { AsmConfig } from '../../core/config/asm-config';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { AsmComponentService } from '../services/asm-component.service';

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AuthService, CsAgentAuthService, WindowRef } from '@spartacus/core';
+import { AuthService, WindowRef } from '@spartacus/core';
+import { CsAgentAuthService } from '../../core/facade/csagent-auth.service';
 import { Observable } from 'rxjs';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 

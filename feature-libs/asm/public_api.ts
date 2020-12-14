@@ -1,4 +1,5 @@
 /*
  * Public API Surface of asm
  */
-export * from './components/asm.module';
+export * from './asm.module';
+export * from './core/index';

@@ -8,14 +8,10 @@ import {
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import {
-  AsmConfig,
-  AsmService,
-  CustomerSearchPage,
-  GlobalMessageService,
-  I18nTestingModule,
-  User,
-} from '@spartacus/core';
+import { GlobalMessageService, I18nTestingModule, User } from '@spartacus/core';
+import { CustomerSearchPage } from '../../core/models/asm.models';
+import { AsmConfig } from '../../core/config/asm-config';
+import { AsmService } from '../../core/facade/index';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CustomerSelectionComponent } from './customer-selection.component';

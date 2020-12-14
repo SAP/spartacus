@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { AsmService } from '@spartacus/core';
+import { AsmService } from '../../core/facade/index';
 import { Subscription } from 'rxjs';
 
 @Component({

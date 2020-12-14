@@ -9,12 +9,10 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {
-  AsmConfig,
-  AsmService,
-  CustomerSearchPage,
-  User,
-} from '@spartacus/core';
+import { User } from '@spartacus/core';
+import { CustomerSearchPage } from '../../core/models/asm.models';
+import { AsmConfig } from '../../core/config/asm-config';
+import { AsmService } from '../../core/facade/index';
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 

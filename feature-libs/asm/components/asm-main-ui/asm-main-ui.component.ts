@@ -5,15 +5,14 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import {
-  AsmService,
   AuthService,
-  CsAgentAuthService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
   User,
   UserService,
 } from '@spartacus/core';
+import { AsmService, CsAgentAuthService } from '../../core/facade/index';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { AsmComponentService } from '../services/asm-component.service';
