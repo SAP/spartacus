@@ -78,7 +78,7 @@ describe('ProductFacetNavigationComponent', () => {
   });
 
   describe('mobile', () => {
-    it('should not have facet list when trigger button is visible', async(async () => {
+    it('should not have facet list when trigger button is visible', waitForAsync(async () => {
       await fixture.whenStable();
       fixture.detectChanges();
 
@@ -94,7 +94,7 @@ describe('ProductFacetNavigationComponent', () => {
       expect(component.launch).toHaveBeenCalled();
     });
 
-    it('should have facet list after trigger button is clicked', async(async () => {
+    it('should have facet list after trigger button is clicked', waitForAsync(async () => {
       fixture.detectChanges();
       const button: HTMLElement = element.query(By.css('button')).nativeElement;
       button.click();
@@ -106,7 +106,7 @@ describe('ProductFacetNavigationComponent', () => {
       expect(facetList).toBeTruthy();
     }));
 
-    it('should invoke close when closeList is emitted', async(async () => {
+    it('should invoke close when closeList is emitted', waitForAsync(async () => {
       spyOn(component, 'close');
       fixture.detectChanges();
       const button: HTMLElement = element.query(By.css('button')).nativeElement;
@@ -123,7 +123,7 @@ describe('ProductFacetNavigationComponent', () => {
   });
 
   describe('desktop', () => {
-    it('should have facet list when trigger button is hidden', async(async () => {
+    it('should have facet list when trigger button is hidden', waitForAsync(async () => {
       fixture.detectChanges();
 
       const button: HTMLElement = element.query(By.css('button')).nativeElement;
