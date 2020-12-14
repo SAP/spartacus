@@ -74,9 +74,6 @@ fi
 # Hardcoded 2005 becuase cypress.ci.b2b.json currently supports only 2005.
 # TODO: The condition should be removed and logic here simplified, when fixing https://github.com/SAP/spartacus/issues/10160
 SHOULD_RUN_B2B=false;
-if [[ $CI_ENV == '2005' ]]; then 
-    SHOULD_RUN_B2B=true;
-fi
 
 echo '-----'
 echo "Running Cypress end to end tests for suite: $SUITE"
