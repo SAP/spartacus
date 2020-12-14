@@ -12,7 +12,7 @@
     "
     (keydown.arrowup)="focusPreviousChild($event)"
     (keydown.arrowdown)="focusNextChild($event)"
-    value="{{ getFocusedElementInSearch() | cxSelectedResult }}"
+    value="{{ chosenWord }}"
   />
 
   <cx-icon
@@ -60,6 +60,7 @@
       (keydown.enter)="close($event, true)"
       (keydown.escape)="close($event, true)"
       (blur)="close($event)"
+      (click)="updateChosenWord(suggestion)"
     >
     </a>
   </div>

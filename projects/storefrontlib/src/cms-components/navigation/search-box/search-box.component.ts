@@ -45,6 +45,7 @@ export class SearchBoxComponent {
    * for example when we click inside the search result section.
    */
   private ignoreCloseEvent = false;
+  public chosenWord = '';
 
   /**
    * The component data is optional, so that this component
@@ -160,13 +161,8 @@ export class SearchBoxComponent {
     return <HTMLElement>this.winRef.document.activeElement;
   }
 
-  getFocusedElementInSearch(): string {
-    const focusedElement: HTMLElement = <HTMLElement>(
-      this.winRef.document.activeElement
-    );
-    if (this.getResultElements().includes(focusedElement)) {
-      return focusedElement.innerText;
-    }
+  updateChosenWord(chosenWord: string) {
+    this.chosenWord = chosenWord;
   }
 
   private getFocusedIndex(): number {

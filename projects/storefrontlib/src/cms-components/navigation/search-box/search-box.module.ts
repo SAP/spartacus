@@ -10,7 +10,6 @@ import {
 import { IconModule } from '../../misc/icon/icon.module';
 import { MediaModule } from '../../../shared/components/media/media.module';
 import { HighlightPipe } from './highlight.pipe';
-import { SelectedResultPipe } from './selected-result.pipe';
 import { SearchBoxComponent } from './search-box.component';
 
 @NgModule({
@@ -31,7 +30,7 @@ import { SearchBoxComponent } from './search-box.component';
       },
     }),
   ],
-  declarations: [SearchBoxComponent, HighlightPipe, SelectedResultPipe],
+  declarations: [SearchBoxComponent, HighlightPipe],
   entryComponents: [SearchBoxComponent],
   exports: [SearchBoxComponent],
 })
