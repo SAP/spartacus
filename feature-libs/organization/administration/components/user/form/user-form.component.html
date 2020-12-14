@@ -87,14 +87,16 @@
       }}</span>
       <ng-select
         formControlName="uid"
-        [searchable]="false"
+        [searchable]="true"
         [clearable]="false"
         [items]="units$ | async"
         bindLabel="name"
         bindValue="id"
         appendTo="cx-org-list"
+        [placeholder]="'user.orgUnit' | cxTranslate"
       >
       </ng-select>
+      <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>
     </label>
 
     <label *ngIf="isAssignedToApprovers" class="full-width">
