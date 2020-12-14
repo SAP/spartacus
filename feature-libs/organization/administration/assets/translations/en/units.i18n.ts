@@ -1,4 +1,4 @@
-export const unit = {
+export const orgUnit = {
   header: 'All units ({{count}})',
   unit: 'Unit',
   name: 'Name',
@@ -100,12 +100,12 @@ export const unit = {
   },
 };
 
-export const unitChildren = {
+export const orgUnitChildren = {
   title: 'Child units',
   subtitle: 'Unit: {{item.name}}',
 };
 
-export const unitAssignedRoles = {
+export const orgUnitAssignedRoles = {
   header: 'Manage roles in {{code}}',
   name: 'Name',
   email: 'Email',
@@ -116,31 +116,31 @@ export const unitAssignedRoles = {
   roleAdministrator: 'Admin',
 };
 
-export const unitApprovers = {
+export const orgUnitApprovers = {
   title: 'Manage approvers',
   subtitle: 'Unit: {{item.name}}',
   assigned: 'User {{item.name}} assigned successfully',
   unassigned: 'User {{item.name}} unassigned successfully',
 };
 
-export const unitAssignedApprovers = {
+export const orgUnitAssignedApprovers = {
   title: 'Assigned approvers',
   subtitle: 'Unit: {{item.name}}',
   assigned: 'User {{item.name}} assigned successfully',
   unassigned: 'User {{item.name}} unassigned successfully',
 };
 
-export const unitAssignedUsers = {
+export const orgUnitAssignedUsers = {
   title: 'Assigned users',
   subtitle: 'Unit: {{item.name}}',
 };
 
-export const unitUsers = {
+export const orgUnitUsers = {
   title: 'Assigned users',
   subtitle: 'Unit: {{item.name}}',
 };
 
-export const unitUserRoles = {
+export const orgUnitUserRoles = {
   title: 'User roles',
   subtitle: 'User: {{item.name}}',
   messages: {
@@ -148,12 +148,12 @@ export const unitUserRoles = {
   },
 };
 
-export const unitCostCenters = {
+export const orgUnitCostCenters = {
   title: 'Assigned cost centers',
   subtitle: 'Unit: {{item.name}}',
 };
 
-export const unitAddress = {
+export const orgUnitAddress = {
   title: 'Shipping addresses',
   subtitle: 'Unit: {{item.name}}',
 

@@ -52,10 +52,10 @@ export const unitsRoutingConfig: RoutingConfig = {
       orgUnits: {
         paths: ['organization/units'],
       },
-      unitCreate: {
+      orgUnitCreate: {
         paths: ['organization/units/create'],
       },
-      unitDetails: {
+      orgUnitDetails: {
         paths: [listPath],
         paramsMapping,
       },
@@ -71,7 +71,7 @@ export const unitsRoutingConfig: RoutingConfig = {
         paths: [`${listPath}/children/create`],
         paramsMapping,
       },
-      unitUserList: {
+      orgUnitUserList: {
         paths: [`${listPath}/users`],
         paramsMapping,
       },
@@ -79,7 +79,7 @@ export const unitsRoutingConfig: RoutingConfig = {
         paths: [`${listPath}/users/create`],
         paramsMapping,
       },
-      unitUserRoles: {
+      orgUnitUserRoles: {
         paths: [`${listPath}/users/:userCode/roles`],
         paramsMapping,
       },
@@ -91,7 +91,7 @@ export const unitsRoutingConfig: RoutingConfig = {
         paths: [`${listPath}/approvers/assign`],
         paramsMapping,
       },
-      unitAddressList: {
+      orgUnitAddressList: {
         paths: [`${listPath}/addresses`],
         paramsMapping,
       },
@@ -99,11 +99,11 @@ export const unitsRoutingConfig: RoutingConfig = {
         paths: [`${listPath}/addresses/create`],
         paramsMapping,
       },
-      unitAddressDetails: {
+      orgUnitAddressDetails: {
         paths: [`${listPath}/addresses/:addressId`],
         paramsMapping,
       },
-      unitAddressEdit: {
+      orgUnitAddressEdit: {
         paths: [`${listPath}/addresses/:addressId/edit`],
         paramsMapping,
       },
@@ -137,7 +137,7 @@ export const unitsCmsConfig: CmsConfig = {
         parent: {
           data: {
             cxPageMeta: {
-              breadcrumb: 'unit.breadcrumbs.list',
+              breadcrumb: 'orgUnit.breadcrumbs.list',
               resolver: UnitRoutePageMetaResolver,
             },
           },
@@ -151,7 +151,7 @@ export const unitsCmsConfig: CmsConfig = {
             path: `:${ROUTE_PARAMS.unitCode}`,
             component: UnitDetailsComponent,
             data: {
-              cxPageMeta: { breadcrumb: 'unit.breadcrumbs.details' },
+              cxPageMeta: { breadcrumb: 'orgUnit.breadcrumbs.details' },
             },
             children: [
               {
@@ -162,7 +162,7 @@ export const unitsCmsConfig: CmsConfig = {
                 path: 'children',
                 component: UnitChildrenComponent,
                 data: {
-                  cxPageMeta: { breadcrumb: 'unit.breadcrumbs.children' },
+                  cxPageMeta: { breadcrumb: 'orgUnit.breadcrumbs.children' },
                 },
                 children: [
                   {
@@ -174,7 +174,7 @@ export const unitsCmsConfig: CmsConfig = {
               {
                 path: 'approvers',
                 data: {
-                  cxPageMeta: { breadcrumb: 'unit.breadcrumbs.approvers' },
+                  cxPageMeta: { breadcrumb: 'orgUnit.breadcrumbs.approvers' },
                 },
                 children: [
                   {
@@ -191,7 +191,7 @@ export const unitsCmsConfig: CmsConfig = {
                 path: 'users',
                 component: UnitUserListComponent,
                 data: {
-                  cxPageMeta: { breadcrumb: 'unit.breadcrumbs.users' },
+                  cxPageMeta: { breadcrumb: 'orgUnit.breadcrumbs.users' },
                 },
                 children: [
                   {
@@ -208,7 +208,7 @@ export const unitsCmsConfig: CmsConfig = {
                 path: 'cost-centers',
                 component: UnitCostCenterListComponent,
                 data: {
-                  cxPageMeta: { breadcrumb: 'unit.breadcrumbs.costCenters' },
+                  cxPageMeta: { breadcrumb: 'orgUnit.breadcrumbs.costCenters' },
                 },
                 children: [
                   {
@@ -222,7 +222,7 @@ export const unitsCmsConfig: CmsConfig = {
                 component: UnitAddressListComponent,
                 data: {
                   cxPageMeta: {
-                    breadcrumb: 'unit.breadcrumbs.addresses',
+                    breadcrumb: 'orgUnit.breadcrumbs.addresses',
                     resolver: UnitAddressRoutePageMetaResolver,
                   },
                 },
@@ -235,7 +235,7 @@ export const unitsCmsConfig: CmsConfig = {
                     path: `:${ROUTE_PARAMS.addressCode}`,
                     data: {
                       cxPageMeta: {
-                        breadcrumb: 'unit.breadcrumbs.addressDetails',
+                        breadcrumb: 'orgUnit.breadcrumbs.addressDetails',
                       },
                     },
                     children: [
