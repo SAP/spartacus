@@ -191,7 +191,7 @@ describe('PageMetaService', () => {
   });
 });
 
-// Test Custom PageMetaService to bring in custon resolvers (for all pages)
+// Test Custom PageMetaService to bring in custom resolvers (for all pages)
 @Injectable({ providedIn: 'root' })
 export class CustomPageMetaService extends PageMetaService {
   protected resolverMethods = {
