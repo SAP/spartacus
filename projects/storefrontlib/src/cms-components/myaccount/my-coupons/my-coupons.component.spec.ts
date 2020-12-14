@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -164,25 +164,27 @@ describe('MyCouponsComponent', () => {
   );
   const subscriptionFail = new BehaviorSubject<boolean>(false);
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule, SpinnerModule],
-      declarations: [
-        MyCouponsComponent,
-        MockedCouponCardComponent,
-        MockCxIconComponent,
-        MockPaginationComponent,
-        MockSortingComponent,
-      ],
-      providers: [
-        { provide: CustomerCouponService, useValue: customerCouponService },
-        {
-          provide: MyCouponsComponentService,
-          useValue: myCouponsComponentService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule, RouterTestingModule, SpinnerModule],
+        declarations: [
+          MyCouponsComponent,
+          MockedCouponCardComponent,
+          MockCxIconComponent,
+          MockPaginationComponent,
+          MockSortingComponent,
+        ],
+        providers: [
+          { provide: CustomerCouponService, useValue: customerCouponService },
+          {
+            provide: MyCouponsComponentService,
+            useValue: myCouponsComponentService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyCouponsComponent);

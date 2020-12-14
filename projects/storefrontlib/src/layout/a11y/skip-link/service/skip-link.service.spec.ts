@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
@@ -48,23 +48,25 @@ describe('SkipLinkService', () => {
   let keyboardFocusService: KeyboardFocusService;
   let skipLinks: SkipLink[];
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [TestContainerComponent],
-      providers: [
-        SkipLinkService,
-        {
-          provide: SkipLinkConfig,
-          useValue: MockSkipLinkConfig,
-        },
-        {
-          provide: KeyboardFocusService,
-          useClass: MockKeyboadFocusService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [TestContainerComponent],
+        providers: [
+          SkipLinkService,
+          {
+            provide: SkipLinkConfig,
+            useValue: MockSkipLinkConfig,
+          },
+          {
+            provide: KeyboardFocusService,
+            useClass: MockKeyboadFocusService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestContainerComponent);

@@ -1,5 +1,5 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CmsNavigationComponent } from '@spartacus/core';
 import { of } from 'rxjs';
@@ -38,21 +38,23 @@ describe('CmsNavigationComponent', () => {
     createNavigation: createSpy().and.returnValue(of(null)),
   };
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        {
-          provide: NavigationService,
-          useValue: mockNavigationService,
-        },
-        {
-          provide: CmsComponentData,
-          useValue: MockCmsNavigationComponent,
-        },
-      ],
-      declarations: [NavigationComponent, MockNavigationUIComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          {
+            provide: NavigationService,
+            useValue: mockNavigationService,
+          },
+          {
+            provide: CmsComponentData,
+            useValue: MockCmsNavigationComponent,
+          },
+        ],
+        declarations: [NavigationComponent, MockNavigationUIComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NavigationComponent);
