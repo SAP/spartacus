@@ -4,7 +4,6 @@
 // generate paths for dev/prod for each package
 // in package tsconfig.paths config add the all the paths for the lib depending on prod/dev file
 
-import { execSync } from 'child_process';
 import fs from 'fs';
 // TODO: Add as explicit dev dependency
 import glob from 'glob';
@@ -118,4 +117,41 @@ Object.values(libraries).forEach((library) => {
   }
 });
 
-execSync('yarn prettier:fix');
+// Add path in root tsconfig.json and tsconfig.compodoc.json
+let entryPoints = {
+  // Add schematics lib, as we don't traverse this lib
+  '@spartacus/schematics': ['projects/schematics/src/public_api'],
+};
+
+entryPoints = Object.values(libraries).reduce((acc, curr) => {
+  acc[curr.name] = [`${curr.path}/public_api`];
+  curr.entryPoints.forEach((entryPoint) => {
+    acc[`${curr.name}${entryPoint}`] = [`${curr.path}${entryPoint}/public_api`];
+  });
+  return acc;
+}, entryPoints);
+
+const tsConfigContent = JSON.parse(fs.readFileSync('./tsconfig.json', 'utf-8'));
+if (Object.keys(entryPoints).length) {
+  tsConfigContent.compilerOptions.paths = entryPoints;
+  fs.writeFileSync(
+    './tsconfig.json',
+    JSON.stringify(tsConfigContent, undefined, 2)
+  );
+}
+
+const tsCompodocConfigContent = JSON.parse(
+  fs.readFileSync('./tsconfig.json', 'utf-8')
+);
+if (Object.keys(entryPoints).length) {
+  tsCompodocConfigContent.compilerOptions.paths = entryPoints;
+  fs.writeFileSync(
+    './tsconfig.json',
+    JSON.stringify(tsCompodocConfigContent, undefined, 2)
+  );
+}
+
+console.log(entryPoints);
+
+// Format files
+// execSync('yarn prettier:fix');
