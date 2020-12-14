@@ -16,7 +16,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ConfiguratorShowMoreComponent implements AfterViewInit {
   showMore$ = new BehaviorSubject<boolean>(false);
-  showHiddenText$ = new BehaviorSubject<boolean>(true);
+  showHiddenText$ = new BehaviorSubject<boolean>(false);
   textToShow: string;
 
   @Input() text: string;
@@ -37,8 +37,8 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
     this.showHiddenText$.next(!this.showHiddenText$.value);
 
     this.showHiddenText$.value
-      ? (this.textToShow = this.text.substring(0, this.textSize))
-      : (this.textToShow = this.text);
+      ? (this.textToShow = this.text)
+      : (this.textToShow = this.text.substring(0, this.textSize));
 
     this.cdRef.detectChanges();
   }
