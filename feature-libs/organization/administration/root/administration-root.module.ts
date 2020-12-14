@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
+import { HttpErrorHandler, provideDefaultConfig } from '@spartacus/core';
 import { defaultOrganizationLayoutConfig } from './config/default-organization-layout.config';
+import {
+  OrganizationBadRequestHandler,
+  OrganizationConflictHandler,
+} from '@spartacus/organization/administration/core';
 
 @NgModule({
   providers: [
@@ -19,6 +23,16 @@ import { defaultOrganizationLayoutConfig } from './config/default-organization-l
         },
       },
     }),
+    {
+      provide: HttpErrorHandler,
+      useExisting: OrganizationConflictHandler,
+      multi: true,
+    },
+    {
+      provide: HttpErrorHandler,
+      useExisting: OrganizationBadRequestHandler,
+      multi: true,
+    },
   ],
 })
 export class AdministrationRootModule {}
