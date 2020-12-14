@@ -82,10 +82,6 @@ export function registerNewUserAndLogin(
   login(newUser.email, newUser.password);
 }
 
-export function navigateToHome() {
-  cy.get('cx-generic-link a[title="SAP Commerce"]').click({ force: true });
-}
-
 export function navigateToConsentPage() {
   const consentsPage = waitForPage('/my-account/consents', 'getConsentsPage');
   cy.selectUserMenuOption({
@@ -249,7 +245,8 @@ export function moveAnonymousUserToLoggedInUser() {
     navigateToConsentPage();
     giveConsent();
 
-    navigateToHome();
+    cy.visit('/');
+
     checkBanner();
     signOutUser();
 

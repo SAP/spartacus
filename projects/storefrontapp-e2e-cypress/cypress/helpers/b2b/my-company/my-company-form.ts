@@ -1,4 +1,5 @@
 import {
+  CONFIRMATION_LABELS,
   ENTITY_UID_COOKIE_KEY,
   INPUT_TYPE,
   MyCompanyConfig,
@@ -40,6 +41,10 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
     });
 
     it(`should create`, () => {
+      if (config.selectOptionsEndpoint) {
+        cy.route(config.selectOptionsEndpoint).as('getSelectOptions');
+      }
+
       cy.get(`cx-org-list a`).contains('Add').click();
 
       cy.url().should('contain', `${config.baseUrl}/create`);
@@ -48,6 +53,9 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
         ignoreCaseSensivity(`Create ${config.name}`)
       );
 
+      if (config.selectOptionsEndpoint) {
+        cy.wait('@getSelectOptions');
+      }
       completeForm(config.rows, FormType.CREATE);
 
       cy.route('POST', `**${config.apiEndpoint}**`).as('getEntityData');
@@ -72,7 +80,7 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
             'contain.text',
             `Are you sure you want to disable this ${config.name.toLowerCase()}?`
           )
-          .contains('cancel')
+          .contains(CONFIRMATION_LABELS.CANCEL)
           .click();
         cy.get('cx-org-confirmation').should('not.exist');
 
@@ -82,7 +90,7 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
             'contain.text',
             `Are you sure you want to disable this ${config.name.toLowerCase()}?`
           )
-          .contains('confirm')
+          .contains(CONFIRMATION_LABELS.CONFIRM)
           .click();
         cy.get('cx-org-confirmation').should('not.exist');
         cy.get('cx-org-notification').contains(' disabled successfully');
@@ -117,6 +125,10 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
         cy.setCookie(ENTITY_UID_COOKIE_KEY, entityUId);
       }
 
+      if (config.selectOptionsEndpoint) {
+        cy.route(config.selectOptionsEndpoint).as('getSelectOptions');
+      }
+
       cy.wait(2000);
       cy.visit(`${config.baseUrl}/${entityId}`);
       cy.url().should('contain', `${config.baseUrl}/${entityId}`);
@@ -127,6 +139,10 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
       cy.get('cx-org-form div.header h3').contains(
         ignoreCaseSensivity(`Edit ${config.name}`)
       );
+
+      if (config.selectOptionsEndpoint) {
+        cy.wait('@getSelectOptions');
+      }
 
       completeForm(config.rows, FormType.UPDATE);
       cy.get('div.header button').contains('Save').click();
