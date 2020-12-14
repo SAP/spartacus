@@ -66,6 +66,7 @@ export class CpqConfiguratorSerializer
   processSelectedSingleValue(singleValue: string): string {
     let processedValue: string = singleValue;
     if (!processedValue) {
+      // Is required to remove the value
       processedValue = VALUE_SEPARATOR;
     }
     return processedValue;
@@ -82,6 +83,7 @@ export class CpqConfiguratorSerializer
         valueIds += value.valueCode + VALUE_SEPARATOR;
       });
     } else {
+      // Is required to remove the value
       valueIds = VALUE_SEPARATOR;
     }
     return valueIds;
