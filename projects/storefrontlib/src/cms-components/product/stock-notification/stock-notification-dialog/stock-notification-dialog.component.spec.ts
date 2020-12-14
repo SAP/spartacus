@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StockNotificationDialogComponent } from './stock-notification-dialog.component';
 import {
@@ -34,16 +34,18 @@ describe('StockNotificationDialogComponent', () => {
     },
   ];
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [StockNotificationDialogComponent],
-      imports: [I18nTestingModule, RouterTestingModule, SpinnerModule],
-      providers: [
-        { provide: ModalService, useValue: modalService },
-        { provide: UserInterestsService, useValue: interestsService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [StockNotificationDialogComponent],
+        imports: [I18nTestingModule, RouterTestingModule, SpinnerModule],
+        providers: [
+          { provide: ModalService, useValue: modalService },
+          { provide: UserInterestsService, useValue: interestsService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StockNotificationDialogComponent);

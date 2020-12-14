@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { AddToHomeScreenService } from '../services/add-to-home-screen.service';
 import { AddToHomeScreenComponent } from './add-to-home-screen.component';
@@ -25,19 +25,21 @@ describe('AddToHomeScreenComponent', () => {
   let fixture: ComponentFixture<ExampleAddToHomeScreenComponent>;
   let mockAddToHomeScreenService: AddToHomeScreenService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ExampleAddToHomeScreenComponent],
-      providers: [
-        {
-          provide: AddToHomeScreenService,
-          useClass: MockAddToHomeScreenService,
-        },
-      ],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ExampleAddToHomeScreenComponent],
+        providers: [
+          {
+            provide: AddToHomeScreenService,
+            useClass: MockAddToHomeScreenService,
+          },
+        ],
+      }).compileComponents();
 
-    mockAddToHomeScreenService = TestBed.inject(AddToHomeScreenService);
-  }));
+      mockAddToHomeScreenService = TestBed.inject(AddToHomeScreenService);
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ExampleAddToHomeScreenComponent);
