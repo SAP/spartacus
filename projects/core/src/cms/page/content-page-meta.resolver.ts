@@ -4,7 +4,7 @@ import { filter, map, shareReplay } from 'rxjs/operators';
 import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
 import { CmsService } from '../facade/cms.service';
-import { BreadcrumbMeta, Page } from '../model/page.model';
+import { BreadcrumbMeta, Page, PageRobotsMeta } from '../model/page.model';
 import { PageMetaResolver } from './page-meta.resolver';
 import { PageBreadcrumbResolver, PageTitleResolver } from './page.resolvers';
 import { RoutingPageMetaResolver } from './routing/routing-page-meta.resolver';
@@ -22,10 +22,14 @@ import { RoutingPageMetaResolver } from './routing/routing-page-meta.resolver';
 export class ContentPageMetaResolver
   extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver {
-  /** helper to provide access to the current CMS page */
-  protected cms$: Observable<Page> = this.cms
-    .getCurrentPage()
-    .pipe(filter((p) => Boolean(p)));
+  constructor(
+    protected cmsService: CmsService,
+    protected translation: TranslationService,
+    protected routingPageMetaResolver: RoutingPageMetaResolver
+  ) {
+    super();
+    this.pageType = PageType.CONTENT_PAGE;
+  }
 
   /**
    * Breadcrumb for the home page.
@@ -39,7 +43,7 @@ export class ContentPageMetaResolver
   /**
    * All the resolved breadcrumbs (including those from Angular child routes).
    */
-  private breadcrumbs$: Observable<BreadcrumbMeta[]> = combineLatest([
+  protected breadcrumbs$: Observable<BreadcrumbMeta[]> = combineLatest([
     this.homeBreadcrumb$,
     defer(() => this.routingPageMetaResolver.resolveBreadcrumbs()),
   ]).pipe(
@@ -49,21 +53,21 @@ export class ContentPageMetaResolver
     )
   );
 
-  constructor(
-    protected cms: CmsService,
-    protected translation: TranslationService,
-    protected routingPageMetaResolver: RoutingPageMetaResolver
-  ) {
-    super();
-    this.pageType = PageType.CONTENT_PAGE;
-  }
+  /** helper to provide access to the current CMS page */
+  protected cms$: Observable<Page> = defer(() =>
+    this.cmsService.getCurrentPage().pipe(filter((p) => Boolean(p)))
+  );
+
+  protected title$ = this.cms$.pipe(map((p) => p.title));
+  protected robots$: Observable<PageRobotsMeta[]> = this.cms$.pipe(
+    map((page) => page.robots)
+  );
 
   /**
-   * Resolves the page title for the ContentPage by taking the title
-   * from the backend data.
+   * Resolves the page title, which is driven by the backend.
    */
   resolveTitle(): Observable<string> {
-    return this.cms$.pipe(map((p) => p.title));
+    return this.title$;
   }
 
   /**
@@ -72,5 +76,12 @@ export class ContentPageMetaResolver
    */
   resolveBreadcrumbs(): Observable<BreadcrumbMeta[]> {
     return this.breadcrumbs$;
+  }
+
+  /**
+   * Returns robots for the content page.
+   */
+  resolveRobots(): Observable<PageRobotsMeta[]> {
+    return this.robots$;
   }
 }
