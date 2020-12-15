@@ -1,5 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { CmsComponent, CmsService } from '@spartacus/core';
+import { of } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { CmsComponentsService } from '../../../services/cms-components.service';
 import { CmsComponentData } from '../../model/cms-component-data';
@@ -27,16 +28,17 @@ export class CmsInjectorService {
     const staticComponentData = this.cmsComponentsService.getStaticData(type);
     return {
       uid: uid,
-      data$: (parentInjector ?? this.injector)
-        .get(CmsService)
-        .getComponentData<T>(uid)
-        .pipe(
-          startWith(staticComponentData),
-          map((data) => ({
-            ...staticComponentData,
-            ...data,
-          }))
-        ),
+      data$: (
+        (parentInjector ?? this.injector)
+          .get(CmsService)
+          .getComponentData<T>(uid) || of({})
+      ).pipe(
+        startWith(staticComponentData),
+        map((data) => ({
+          ...staticComponentData,
+          ...data,
+        }))
+      ),
     };
   }
 
