@@ -16,7 +16,6 @@ context('Textfield Configuration', () => {
     it('should be able to navigate from the product search result', () => {
       productSearch.searchForProduct(testProduct);
       textfiledConfiguration.clickOnConfigureButton();
-      textfiledConfiguration.checkConfigurationPageIsDisplayed();
     });
 
     it('should be able to navigate from the product details page', () => {
@@ -25,7 +24,6 @@ context('Textfield Configuration', () => {
         testProduct
       );
       textfiledConfiguration.clickOnConfigureButton();
-      textfiledConfiguration.checkConfigurationPageIsDisplayed();
     });
 
     it('should be able to navigate from the cart', () => {
@@ -34,7 +32,7 @@ context('Textfield Configuration', () => {
         testProduct
       );
       textfiledConfiguration.checkConfigurationPageIsDisplayed();
-      textfiledConfiguration.addToCartAndVerify(testProduct);
+      textfiledConfiguration.addToCartAndVerify(electronicsShop, testProduct);
       textfiledConfiguration.clickOnEditConfigurationLink(0);
     });
 
@@ -59,7 +57,7 @@ context('Textfield Configuration', () => {
       textfiledConfiguration.checkConfigurationPageIsDisplayed();
       textfiledConfiguration.checkAttributeDisplayed(ENGRAVED_TEXT);
       textfiledConfiguration.selectAttribute(ENGRAVED_TEXT, HALLO);
-      textfiledConfiguration.addToCartAndVerify(testProduct);
+      textfiledConfiguration.addToCartAndVerify(electronicsShop, testProduct);
     });
 
     it('should be able to update a configured product from the cart', () => {
@@ -68,11 +66,11 @@ context('Textfield Configuration', () => {
         testProduct
       );
       textfiledConfiguration.checkConfigurationPageIsDisplayed();
-      textfiledConfiguration.addToCartAndVerify(testProduct);
+      textfiledConfiguration.addToCartAndVerify(electronicsShop, testProduct);
       textfiledConfiguration.clickOnEditConfigurationLink(0);
       textfiledConfiguration.checkAttributeDisplayed(ENGRAVED_TEXT);
       textfiledConfiguration.selectAttribute(ENGRAVED_TEXT, HALLO);
-      textfiledConfiguration.addToCartAndVerify(testProduct);
+      textfiledConfiguration.addToCartAndVerify(electronicsShop, testProduct);
     });
   });
 });

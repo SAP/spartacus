@@ -72,6 +72,13 @@ export function goToCart(shopName: string) {
 }
 
 /**
+ * Verifies whether the loading message is not displayed.
+ */
+export function checkLoadingMsgNotDisplayed(): void {
+  cy.get('cx-storefront').contains('Loading').should('not.be.visible');
+}
+
+/**
  * Verifies whether the global message is not displayed on the top of the configuration.
  */
 export function checkGlobalMessageNotDisplayed(): void {
@@ -187,8 +194,8 @@ export function clickOnPreviousBtn(previousGroup: string): void {
  * Verifies whether the configuration page is displayed.
  */
 export function checkConfigPageDisplayed(): void {
+  checkLoadingMsgNotDisplayed();
   checkGlobalMessageNotDisplayed();
-  checkUpdatingMessageNotDisplayed();
   checkUpdatingMessageNotDisplayed();
   checkTabBarDisplayed();
   checkGroupTitleDisplayed();
@@ -409,21 +416,6 @@ export function selectAttribute(
 }
 
 /**
- * Verifies whether the checkbox is selected.
- *
- * @param {string} attributeName - Attribute name
- * @param {string} valueName - Value name
- */
-export function checkCheckboxSelected(
-  attributeName: string,
-  valueName: string
-): void {
-  const attributeId = getAttributeId(attributeName, 'checkBoxList');
-  const valueId = `${attributeId}--${valueName}`;
-  cy.get(`#${valueId}`).should('be.checked');
-}
-
-/**
  * Verifies whether the image value is selected.
  *
  * @param {string} attributeName - Attribute name
@@ -431,8 +423,8 @@ export function checkCheckboxSelected(
  * @param {string} valueName - Value name
  */
 export function checkImageSelected(
-  attributeName: string,
   uiType: string,
+  attributeName: string,
   valueName: string
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
@@ -444,17 +436,51 @@ export function checkImageSelected(
 /**
  * Verifies whether the image value is not selected.
  *
- * @param {string} attributeName - Attribute name
  * @param {string} uiType - UI type
+ * @param {string} attributeName - Attribute name
  * @param {string} valueName - Value name
  */
 export function checkImageNotSelected(
-  attributeName: string,
   uiType: string,
+  attributeName: string,
   valueName: string
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
   const valueId = `${attributeId}--${valueName}-input`;
+  cy.get(`#${valueId}`).should('not.be.checked');
+}
+
+/**
+ * Verifies whether a corresponding UI type is selected.
+ *
+ * @param {string} uiType - UI type
+ * @param {string} attributeName - Attribute name
+ * @param {string} valueName - Value name
+ */
+export function checkValueSelected(
+  uiType: string,
+  attributeName: string,
+  valueName: string
+): void {
+  const attributeId = getAttributeId(attributeName, uiType);
+  const valueId = `${attributeId}--${valueName}`;
+  cy.get(`#${valueId}`).should('be.checked');
+}
+
+/**
+ * Verifies whether a corresponding UI type not selected.
+ *
+ * param {string} uiType - UI type
+ * @param {string} attributeName - Attribute name
+ * @param {string} valueName - Value name
+ */
+export function checkValueNotSelected(
+  uiType: string,
+  attributeName: string,
+  valueName: string
+) {
+  const attributeId = getAttributeId(attributeName, uiType);
+  const valueId = `${attributeId}--${valueName}`;
   cy.get(`#${valueId}`).should('not.be.checked');
 }
 

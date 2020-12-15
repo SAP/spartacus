@@ -134,14 +134,14 @@ context('Product Configuration', () => {
       configuration.checkAttributeDisplayed(ROOM_SIZE, radioGroup);
       configuration.selectAttribute(COLOUR_HT, single_selection_image, WHITE);
       configuration.checkImageSelected(
-        COLOUR_HT,
         single_selection_image,
+        COLOUR_HT,
         WHITE
       );
       configuration.selectAttribute(COLOUR_HT, single_selection_image, TITAN);
       configuration.checkImageSelected(
-        COLOUR_HT,
         single_selection_image,
+        COLOUR_HT,
         TITAN
       );
     });
@@ -161,7 +161,7 @@ context('Product Configuration', () => {
       cy.wait('@updateConfig');
       configuration.clickOnPreviousBtn(BASICS);
       configuration.clickOnNextBtn(SPECIFICATION);
-      configuration.checkCheckboxSelected(CAMERA_SD_CARD, SDHC);
+      configuration.checkValueSelected(checkBoxList, CAMERA_SD_CARD, SDHC);
     });
   });
 

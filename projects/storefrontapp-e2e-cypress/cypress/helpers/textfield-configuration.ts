@@ -45,7 +45,11 @@ export function goToProductDetailsPage(
  */
 export function clickOnConfigureButton(): void {
   cy.log("Click on 'Configure' button");
-  cy.get('cx-configure-product a').click({ force: true });
+  cy.get('cx-configure-product a')
+    .click()
+    .then(() => {
+      checkConfigurationPageIsDisplayed();
+    });
 }
 
 /**
@@ -120,12 +124,18 @@ export function selectAttribute(attributeName: string, value?: string): void {
 
 /**
  * Clicks 'Add to Cart' button.
+ *
+ * @param {string} shopName - shop name
  */
-export function clickAddToCartButton(): void {
+export function clickAddToCartButton(shopName: string): void {
+  const location = `/${shopName}/en/USD/cart`;
   cy.log("Clicks 'Add to Cart' button");
-  cy.get(addToCartButtonSelector).click({
-    force: true,
-  });
+  cy.get(addToCartButtonSelector)
+    .click()
+    .then(() => {
+      cy.location('pathname').should('contain', location);
+      cy.get('h1').contains('Your Shopping Cart').should('be.visible');
+    });
 }
 
 /**
@@ -178,10 +188,11 @@ export function checkTextfieldProductInCart(productId: string): void {
  * Add a product to the cart. Verifies whether the cart is not empty and
  * contains the product.
  *
+ * @param {string} shopName - shop name
  * @param {string} productId - Product ID
  */
-export function addToCartAndVerify(productId: string): void {
-  this.clickAddToCartButton();
+export function addToCartAndVerify(shopName: string, productId: string): void {
+  this.clickAddToCartButton(shopName);
   cart.verifyCartNotEmpty();
   this.checkTextfieldProductInCart(productId);
 }
