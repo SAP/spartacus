@@ -98,12 +98,6 @@ export class CategoryPageMetaResolver
     return breadcrumbs;
   }
 
-  /**
-   * Indicates whether the page holds a component for the product listing.
-   *
-   * We used to base this on the component type code, but since 3.1 we use the
-   * component configuration `isProductListing`.
-   */
   protected hasProductListComponent(page: Page): boolean {
     return !!Object.keys(page.slots).find(
       (key) =>
