@@ -4,6 +4,7 @@ import {
   AuthActions,
   AuthRedirectService,
   AuthService,
+  AuthStorageService,
   AuthToken,
   GlobalMessageService,
   GlobalMessageType,
@@ -28,10 +29,11 @@ export class AsmAuthService extends AuthService {
     protected store: Store<StateWithClientAuth>,
     protected userIdService: UserIdService,
     protected oAuthLibWrapperService: OAuthLibWrapperService,
-    protected authStorageService: AsmAuthStorageService,
+    protected asmAuthStorageService: AsmAuthStorageService,
     protected authRedirectService: AuthRedirectService,
     protected globalMessageService: GlobalMessageService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected authStorageService: AuthStorageService,
   ) {
     super(
       store,
@@ -51,7 +53,7 @@ export class AsmAuthService extends AuthService {
       .getToken()
       .subscribe((tok) => (token = tok))
       .unsubscribe();
-    this.authStorageService
+    this.asmAuthStorageService
       .getTokenTarget()
       .subscribe((tokTarget) => (tokenTarget = tokTarget))
       .unsubscribe();
@@ -106,7 +108,7 @@ export class AsmAuthService extends AuthService {
         take(1),
         switchMap((isEmulated) => {
           if (isEmulated) {
-            this.authStorageService.clearEmulatedUserToken();
+            this.asmAuthStorageService.clearEmulatedUserToken();
             this.userIdService.clearUserId();
             this.store.dispatch(new AuthActions.Logout());
             return of(true);
@@ -125,7 +127,7 @@ export class AsmAuthService extends AuthService {
     return combineLatest([
       this.authStorageService.getToken(),
       this.userIdService.isEmulated(),
-      this.authStorageService.getTokenTarget(),
+      this.asmAuthStorageService.getTokenTarget(),
     ]).pipe(
       map(
         ([token, isEmulated, tokenTarget]) =>
