@@ -40,26 +40,32 @@
               (click)="click(group)"
               (keyup)="clickOnEnter($event, group)"
               [cxFocus]="{ key: group.id }"
-              >{{ group.description }}
+            >
+              <span>{{ group.description }}</span>
               <div class="groupIndicators">
-                <div class="conflictNumberIndicator">
-                  {{ getConflictNumber(group) }}
-                </div>
                 <div class="groupStatusIndicator">
-                  <cx-icon class="WARNING" [type]="iconTypes.WARNING"></cx-icon>
-                </div>
-                <div class="groupStatusIndicator">
-                  <cx-icon class="ERROR" [type]="iconTypes.ERROR"></cx-icon>
                   <cx-icon
-                    class="COMPLETE"
+                    class="groupIndicatorIcon WARNING"
+                    [type]="iconTypes.WARNING"
+                  ></cx-icon>
+                </div>
+
+                <div class="groupStatusIndicator">
+                  <cx-icon
+                    class="groupIndicatorIcon ERROR"
+                    [type]="iconTypes.ERROR"
+                  ></cx-icon>
+
+                  <cx-icon
+                    class="groupIndicatorIcon COMPLETE"
                     [type]="iconTypes.SUCCESS"
                   ></cx-icon>
                 </div>
+
                 <div class="subGroupIndicator">
-                  <cx-icon
-                    *ngIf="hasSubGroups(group)"
-                    [type]="iconTypes.CARET_RIGHT"
-                  ></cx-icon>
+                  <ng-container *ngIf="hasSubGroups(group)">
+                    <cx-icon [type]="iconTypes.CARET_RIGHT"></cx-icon>
+                  </ng-container>
                 </div>
               </div>
             </a>
