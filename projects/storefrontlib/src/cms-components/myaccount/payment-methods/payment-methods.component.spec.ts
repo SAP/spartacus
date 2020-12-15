@@ -1,5 +1,5 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   I18nTestingModule,
@@ -55,20 +55,22 @@ describe('PaymentMethodsComponent', () => {
   let userService: UserPaymentService;
   let el: DebugElement;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        PaymentMethodsComponent,
-        MockCxSpinnerComponent,
-        CardComponent,
-        MockCxIconComponent,
-      ],
-      providers: [
-        { provide: UserPaymentService, useClass: MockUserPaymentService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [
+          PaymentMethodsComponent,
+          MockCxSpinnerComponent,
+          CardComponent,
+          MockCxIconComponent,
+        ],
+        providers: [
+          { provide: UserPaymentService, useClass: MockUserPaymentService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PaymentMethodsComponent);

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -56,20 +56,22 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   let launchDialogService: LaunchDialogService;
   let fixture: ComponentFixture<ReplenishmentOrderCancellationDialogComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, KeyboardFocusTestingModule],
-      declarations: [ReplenishmentOrderCancellationDialogComponent],
-      providers: [
-        {
-          provide: UserReplenishmentOrderService,
-          useClass: MockUserReplenishmentOrderService,
-        },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule, KeyboardFocusTestingModule],
+        declarations: [ReplenishmentOrderCancellationDialogComponent],
+        providers: [
+          {
+            provide: UserReplenishmentOrderService,
+            useClass: MockUserReplenishmentOrderService,
+          },
+          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(

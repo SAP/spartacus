@@ -1,5 +1,5 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -107,32 +107,34 @@ describe('StockNotificationComponent', () => {
     transform(): any {}
   }
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule, SpinnerModule],
-      declarations: [
-        StockNotificationComponent,
-        StockNotificationDialogComponent,
-        MockUrlPipe,
-      ],
-      providers: [
-        { provide: UserIdService, useValue: userIdService },
-        { provide: CurrentProductService, useValue: currentProductService },
-        { provide: GlobalMessageService, useValue: globalMessageService },
-        { provide: TranslationService, useValue: translationService },
-        { provide: ModalService, useValue: modalService },
-        {
-          provide: UserNotificationPreferenceService,
-          useValue: notificationPrefService,
-        },
-        {
-          provide: StockNotificationDialogComponent,
-          useValue: dialogComponent,
-        },
-        { provide: UserInterestsService, useValue: interestsService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule, RouterTestingModule, SpinnerModule],
+        declarations: [
+          StockNotificationComponent,
+          StockNotificationDialogComponent,
+          MockUrlPipe,
+        ],
+        providers: [
+          { provide: UserIdService, useValue: userIdService },
+          { provide: CurrentProductService, useValue: currentProductService },
+          { provide: GlobalMessageService, useValue: globalMessageService },
+          { provide: TranslationService, useValue: translationService },
+          { provide: ModalService, useValue: modalService },
+          {
+            provide: UserNotificationPreferenceService,
+            useValue: notificationPrefService,
+          },
+          {
+            provide: StockNotificationDialogComponent,
+            useValue: dialogComponent,
+          },
+          { provide: UserInterestsService, useValue: interestsService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     userIdService.getUserId.and.returnValue(of(OCC_USER_ID_CURRENT));

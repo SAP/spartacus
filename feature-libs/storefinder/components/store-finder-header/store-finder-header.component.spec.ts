@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreFinderHeaderComponent } from './store-finder-header.component';
 
 @Component({
@@ -12,14 +12,16 @@ describe('StoreFinderHeaderComponent', () => {
   let component: StoreFinderHeaderComponent;
   let fixture: ComponentFixture<StoreFinderHeaderComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        StoreFinderHeaderComponent,
-        MockStoreFinderSearchComponent,
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          StoreFinderHeaderComponent,
+          MockStoreFinderSearchComponent,
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderHeaderComponent);
