@@ -40,4 +40,5 @@ CSR_PORT="4200"
 SSR_PORT="4100"
 SSR_PWA_PORT=
 
+# Warning: B2C storefronts not operational if this flag is enabled
 ADD_B2B_LIBS=false
