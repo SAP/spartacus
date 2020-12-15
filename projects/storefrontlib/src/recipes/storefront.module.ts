@@ -1,5 +1,6 @@
+import { ViewportScroller } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule, Event, NavigationEnd } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import {
@@ -10,6 +11,7 @@ import {
   SiteContextModule,
   SmartEditModule,
 } from '@spartacus/core';
+import { filter } from 'rxjs/operators';
 import { AsmModule } from '../cms-components/asm/asm.module';
 import { ProductDetailsPageModule } from '../cms-pages/product-details-page/product-details-page.module';
 import { ProductListingPageModule } from '../cms-pages/product-listing-page/product-listing-page.module';
@@ -48,6 +50,7 @@ import { StorefrontFoundationModule } from './storefront-foundation.module';
   exports: [MainModule, StorefrontFoundationModule],
 })
 export class StorefrontModule {
+  previousUrl: string = null;
   static withConfig(
     config?: StorefrontConfig
   ): ModuleWithProviders<StorefrontModule> {
@@ -55,5 +58,17 @@ export class StorefrontModule {
       ngModule: StorefrontModule,
       providers: [provideConfig(config)],
     };
+  }
+  constructor(router: Router, viewportScroller: ViewportScroller) {
+    router.events
+      .pipe(
+        filter((e: Event): e is NavigationEnd => e instanceof NavigationEnd)
+      )
+      .subscribe((urls) => {
+        if (this.previousUrl?.split('?')[0] !== urls.url.split('?')[0]) {
+          viewportScroller.scrollToPosition([0, 0]);
+        }
+        this.previousUrl = urls.url;
+      });
   }
 }
