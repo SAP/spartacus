@@ -7,11 +7,15 @@ const addToCartButtonSelector =
 /**
  * Navigates to the product configuration page.
  *
+ * @param {string} shopName - shop name
  * @param {string} productId - Product ID
  * @return {Chainable<Window>} - New configuration window
  */
-export function goToConfigurationPage(productId: string): Chainable<Window> {
-  const location = `/electronics-spa/en/USD/configure/textfield/product/entityKey/${productId}`;
+export function goToConfigurationPage(
+  shopName: string,
+  productId: string
+): Chainable<Window> {
+  const location = `/${shopName}/en/USD/configure/textfield/product/entityKey/${productId}`;
   return cy.visit(location).then(() => {
     cy.log("Path name should contain: '" + location + "'");
     cy.location('pathname').should('contain', location);
@@ -21,11 +25,15 @@ export function goToConfigurationPage(productId: string): Chainable<Window> {
 /**
  * Navigates to the product configuration page.
  *
+ * @param {string} shopName - shop name
  * @param {string} productId - Product ID
  * @return {Chainable<Window>} - New configuration window
  */
-export function goToProductDetailsPage(productId: string): Chainable<Window> {
-  const location = `electronics-spa/en/USD/product/${productId}/${productId}`;
+export function goToProductDetailsPage(
+  shopName: string,
+  productId: string
+): Chainable<Window> {
+  const location = `${shopName}/en/USD/product/${productId}/${productId}`;
   return cy.visit(location).then(() => {
     cy.log("Path name should contain: '" + location + "'");
     cy.location('pathname').should('contain', location);
@@ -37,7 +45,11 @@ export function goToProductDetailsPage(productId: string): Chainable<Window> {
  */
 export function clickOnConfigureButton(): void {
   cy.log("Click on 'Configure' button");
-  cy.get('cx-configure-product a').click({ force: true });
+  cy.get('cx-configure-product a')
+    .click()
+    .then(() => {
+      checkConfigurationPageIsDisplayed();
+    });
 }
 
 /**
@@ -62,10 +74,8 @@ export function clickOnEditConfigurationLink(cartItemIndex: number): void {
 
 /**
  * Verifies whether the configuration page is visible.
- *
- * @return - 'True' if the configuration page is visible, otherwise 'false'
  */
-export function isConfigurationPageIsDisplayed() {
+export function checkConfigurationPageIsDisplayed(): void {
   cy.log('Verify whether the textfield configuration page is displayed');
   cy.get('cx-configurator-textfield-form').should('be.visible');
 }
@@ -74,9 +84,8 @@ export function isConfigurationPageIsDisplayed() {
  * Verifies whether the attribute is displayed.
  *
  * @param {string} attributeName - Attribute name
- * @return - 'True' if the attribute is displayed, otherwise 'false'
  */
-export function isAttributeDisplayed(attributeName: string) {
+export function checkAttributeDisplayed(attributeName: string): void {
   const attributeId = getAttributeId(attributeName);
   cy.log("Verify whether attribute ID '" + attributeId + "' is visible");
   cy.get(`#${attributeId}`).should('be.visible');
@@ -115,12 +124,18 @@ export function selectAttribute(attributeName: string, value?: string): void {
 
 /**
  * Clicks 'Add to Cart' button.
+ *
+ * @param {string} shopName - shop name
  */
-export function clickAddToCartButton(): void {
+export function clickAddToCartButton(shopName: string): void {
+  const location = `/${shopName}/en/USD/cart`;
   cy.log("Clicks 'Add to Cart' button");
-  cy.get(addToCartButtonSelector).click({
-    force: true,
-  });
+  cy.get(addToCartButtonSelector)
+    .click()
+    .then(() => {
+      cy.location('pathname').should('contain', location);
+      cy.get('h1').contains('Your Shopping Cart').should('be.visible');
+    });
 }
 
 /**
@@ -163,9 +178,8 @@ export function clickOnViewCartBtnOnPD(): void {
  * Verifies whether the cart contains the product.
  *
  * @param {string} productId - ProductID
- * @return 'True' if the corresponding product is in the cart, otherwise 'false'
  */
-export function isTextfieldProductInCart(productId: string) {
+export function checkTextfieldProductInCart(productId: string): void {
   cy.log('Verifies whether the cart contains the product');
   cy.get('cx-cart-item-list').contains(productId).should('be.visible');
 }
@@ -174,10 +188,11 @@ export function isTextfieldProductInCart(productId: string) {
  * Add a product to the cart. Verifies whether the cart is not empty and
  * contains the product.
  *
+ * @param {string} shopName - shop name
  * @param {string} productId - Product ID
  */
-export function addToCartAndVerify(productId: string): void {
-  this.clickAddToCartButton();
+export function addToCartAndVerify(shopName: string, productId: string): void {
+  this.clickAddToCartButton(shopName);
   cart.verifyCartNotEmpty();
-  this.isTextfieldProductInCart(productId);
+  this.checkTextfieldProductInCart(productId);
 }

@@ -6,7 +6,6 @@
     attr.role="{{ attribute.dataType }}"
     attr.aria-required="{{ attribute.required }}"
     (change)="onChange()"
-    [cxFocus]="{ key: attribute.name }"
     maxlength="{{ attribute.maxlength }}"
     attr.aria-labelledby="{{ createAriaLabelledBy('label', attribute.name) }}"
   />
