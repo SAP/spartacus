@@ -10,6 +10,7 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
   config?.subCategories?.forEach((subConfig: MyCompanyConfig) => {
     describe(`${config.name} Assignment - ${subConfig.name}`, () => {
       let firstOption: string;
+      let entityId: string;
       const codeRow = config.rows?.find((row) => row.useInUrl || row.useCookie);
 
       before(() => {
@@ -18,12 +19,16 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
         cy.route('GET', `**${config.apiEndpoint}**`).as('getEntity');
         if (codeRow.useCookie) {
           cy.getCookie(codeRow.useCookie).then((cookie) => {
-            cy.visit(`${config.baseUrl}/${cookie.value}`);
+            entityId = cookie.value;
           });
         } else {
-          cy.visit(`${config.baseUrl}/${codeRow.updateValue}`);
+          entityId = codeRow.updateValue;
         }
-        cy.wait('@getEntity');
+        cy.visit(`${config.baseUrl}/${entityId}`);
+      });
+
+      beforeEach(() => {
+        cy.server();
       });
 
       it('should show no assignments', () => {
@@ -58,7 +63,12 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
             .contains(ASSIGNMENT_LABELS.CREATE)
             .click();
           completeForm(subConfig.createConfig.rows, FormType.CREATE);
+
+          cy.route('POST', '**').as('save');
+          cy.route('GET', `**${entityId}**`).as('getEntityData');
           cy.get('div.header button').contains('Save').click();
+          cy.wait('@save');
+          cy.wait('@getEntityData');
 
           const headerRows = subConfig.createConfig.rows?.filter(
             (row) => row.useInHeader
@@ -87,7 +97,16 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
             .contains(ASSIGNMENT_LABELS.EDIT)
             .click({ force: true });
           completeForm(subConfig.editConfig.rows, FormType.UPDATE);
+
+          cy.route('PATCH', '**').as('save');
+          cy.route('GET', `**${entityId}**`).as('getEntityData');
           cy.get('div.header button').contains('Save').click();
+          cy.wait('@save');
+          cy.wait('@getEntityData');
+
+          cy.get('cx-org-notification').contains(
+            ASSIGNMENT_LABELS.UPDATE_SUCCESS
+          );
           cy.get('cx-org-notification').should('not.exist');
 
           const headerRows = subConfig.editConfig.rows?.filter(
@@ -115,19 +134,19 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
           cy.route('DELETE', `**`).as('deleteEntity');
 
           cy.get('cx-org-sub-list cx-table').contains(subConfig.deleteEntity);
+
           cy.get(`cx-org-card cx-view[position="3"] .header button`)
             .contains('Delete')
             .click();
+
+          cy.route('DELETE', '**').as('delete');
+          cy.route('GET', `**${entityId}**`).as('getEntityData');
           cy.get('cx-org-confirmation')
-            .should(
-              'contain.text',
-              `Are you sure you want to delete this ${subConfig.name.toLowerCase()}?`
-            )
             .contains(CONFIRMATION_LABELS.CONFIRM)
             .click();
+          cy.wait('@delete');
+          cy.wait('@getEntityData');
           cy.get('cx-org-confirmation').should('not.exist');
-          cy.wait('@deleteEntity');
-          cy.wait('@getEntity');
 
           checkListEmpty();
         });
