@@ -702,7 +702,7 @@ export function checkConfigProductTitleDisplayed(): void {
 /**
  * Verifies whether the Add To Cart Button component is displayed.
  */
-export function checkConfigAddToCartButtonDisplayed(): void {
+export function checkConfigAddToCartBtnDisplayed(): void {
   cy.get('.cx-configurator-add-to-cart-btn').should('be.visible');
 }
 
@@ -715,10 +715,8 @@ export function checkOverviewContentDisplayed(): void {
 
 /**
  * Verifies whether the category navigation is displayed.
- *
- * @return - 'True' if the category navigation is visible, otherwise 'false'
  */
-export function isCategoryNavigationDisplayed(): void {
+export function checkCategoryNavigationDisplayed(): void {
   cy.get('cx-category-navigation').should('be.visible');
 }
 
@@ -806,8 +804,6 @@ export function clickHamburger(): void {
 
 /**
  * Verifies whether the group menu is displayed.
- *
- * @return - 'True' if the group menu / hamburger menu is visible, otherwise 'false'
  */
 export function checkHamburgerDisplayed(): void {
   cy.get('cx-hamburger-menu [aria-label="Menu"]').should('be.visible');
