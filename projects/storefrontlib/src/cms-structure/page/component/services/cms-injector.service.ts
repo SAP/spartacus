@@ -54,7 +54,7 @@ export class CmsInjectorService {
       providers: [
         {
           provide: CmsComponentData,
-          useValue: this.getCmsData(uid, type),
+          useValue: this.getCmsData(uid, type, parentInjector),
         },
         ...configProviders,
       ],
