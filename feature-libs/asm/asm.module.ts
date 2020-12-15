@@ -8,6 +8,6 @@ import { AsmCoreModule } from './core/asm-core.module';
 import { AsmOccModule } from './occ/asm-occ.module';
 
 @NgModule({
-  imports: [AsmCoreModule, AsmOccModule, AsmComponentsModule],
+  imports: [AsmCoreModule.forRoot(), AsmOccModule, AsmComponentsModule],
 })
 export class AsmModule {}
