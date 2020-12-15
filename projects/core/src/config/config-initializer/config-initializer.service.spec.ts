@@ -132,7 +132,7 @@ describe('ConfigInitializerService', () => {
       });
     });
 
-    it('getConfig should fulfil gradually', (done) => {
+    it('getStable should fulfil gradually', (done) => {
       const results = [];
 
       const scope2 = service

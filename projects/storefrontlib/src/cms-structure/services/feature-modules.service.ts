@@ -74,7 +74,6 @@ export class FeatureModulesService implements OnDestroy {
    * component type
    */
   hasFeatureFor(componentType: string): boolean {
-    console.log('hafFeatureFor');
     return this.componentFeatureMap.has(componentType);
   }
 
