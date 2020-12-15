@@ -3,10 +3,11 @@ import {
   CONFIG_INITIALIZER_FORROOT_GUARD,
   ConfigInitializer,
 } from './config-initializer';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, mapTo, take } from 'rxjs/operators';
 import { deepMerge } from '../utils/deep-merge';
 import { Config, RootConfig } from '../config-tokens';
+import { of } from 'rxjs/internal/observable/of';
 
 /**
  * Provides support for CONFIG_INITIALIZERS
@@ -47,20 +48,24 @@ export class ConfigInitializerService {
    *
    * @param scopes String describing parts of the config we want to be sure are stable
    */
-  async getStableConfig(...scopes: string[]): Promise<any> {
+  getStable(...scopes: string[]): Observable<any> {
     if (this.isStable) {
-      return this.config;
+      return of(this.config);
     }
-    return this.ongoingScopes$
-      .pipe(
-        filter(
-          (ongoingScopes) =>
-            ongoingScopes && this.areReady(scopes, ongoingScopes)
-        ),
-        take(1),
-        mapTo(this.config)
-      )
-      .toPromise();
+    return this.ongoingScopes$.pipe(
+      filter(
+        (ongoingScopes) => ongoingScopes && this.areReady(scopes, ongoingScopes)
+      ),
+      take(1),
+      mapTo(this.config)
+    );
+  }
+
+  /**
+   * @deprecated since 3.0, use getStable() instead
+   */
+  async getStableConfig(...scopes: string[]): Promise<any> {
+    return this.getStable(...scopes).toPromise();
   }
 
   /**
