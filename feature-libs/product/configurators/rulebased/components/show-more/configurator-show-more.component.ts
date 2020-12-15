@@ -23,7 +23,7 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   @Input() textSize = 70;
   @ViewChild('textContent') textContentElement: ElementRef;
 
-  constructor(private cdRef: ChangeDetectorRef) {}
+  constructor(protected cdRef: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
     if (this.text.length > this.textSize) {
