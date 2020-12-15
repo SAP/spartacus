@@ -94,7 +94,7 @@ describe('CpqConfiguratorRestService', () => {
     });
     mockReq.flush(configCreatedResponse);
 
-    mockDisplayConfig(httpMock);
+    mockDisplayConfig();
   });
 
   it('should read a configuration and call normalizer', () => {
@@ -106,7 +106,7 @@ describe('CpqConfiguratorRestService', () => {
       );
     });
 
-    mockDisplayConfig(httpMock);
+    mockDisplayConfig();
   });
 
   it('should read a configuration with tab id and call normalizer', () => {
@@ -151,7 +151,7 @@ describe('CpqConfiguratorRestService', () => {
       );
     });
     mockReq.flush(configUpdateResponse);
-    mockDisplayConfig(httpMock);
+    mockDisplayConfig();
   });
 
   it('should call serializer, update value quantity and call normalizer', () => {
@@ -177,10 +177,10 @@ describe('CpqConfiguratorRestService', () => {
       );
     });
     mockReq.flush(configUpdateResponse);
-    mockDisplayConfig(httpMock);
+    mockDisplayConfig();
   });
 
-  function mockDisplayConfig(httpMock: HttpTestingController) {
+  function mockDisplayConfig() {
     const mockReq = httpMock.expectOne((req) => {
       return (
         req.method === 'GET' &&
