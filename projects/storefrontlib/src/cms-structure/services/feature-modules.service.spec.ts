@@ -10,6 +10,7 @@ import {
 } from '@spartacus/core';
 import { InjectionToken, NgModule } from '@angular/core';
 import { take } from 'rxjs/operators';
+import { of } from 'rxjs/internal/observable/of';
 
 const mockCmsConfig: CmsConfig = {
   featureModules: {
@@ -27,8 +28,8 @@ const mockCmsConfig: CmsConfig = {
 
 class MockConfigInitializerService
   implements Partial<ConfigInitializerService> {
-  async getStableConfig() {
-    return mockCmsConfig;
+  getStable() {
+    return of(mockCmsConfig);
   }
 }
 
