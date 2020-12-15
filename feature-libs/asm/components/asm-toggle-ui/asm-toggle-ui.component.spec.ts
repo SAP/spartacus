@@ -1,7 +1,8 @@
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { AsmService, AsmUi, I18nTestingModule } from '@spartacus/core';
+import { AsmService, AsmUi } from '@spartacus/asm/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { AsmToggleUiComponent } from './asm-toggle-ui.component';
 

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { AsmAdapter } from '@spartacus/asm/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import { AsmAdapter } from '../core/connectors/asm.adapter';
 import { defaultOccAsmConfig } from './adapters/default-occ-asm-config';
 import { OccAsmAdapter } from './adapters/occ-asm.adapter';
 

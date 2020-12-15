@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { AuthService, CsAgentAuthService, WindowRef } from '@spartacus/core';
+import { CsAgentAuthService } from '@spartacus/asm/core';
+import { AuthService, WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';

@@ -1,6 +1,13 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
+  AsmAdapter,
+  AsmConfig,
+  CustomerSearchOptions,
+  CustomerSearchPage,
+  CUSTOMER_SEARCH_PAGE_NORMALIZER,
+} from '@spartacus/asm/core';
+import {
   BaseSiteService,
   ConverterService,
   InterceptorUtil,
@@ -8,13 +15,6 @@ import {
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { CUSTOMER_SEARCH_PAGE_NORMALIZER } from '../../core//connectors/converters';
-import {
-  CustomerSearchOptions,
-  CustomerSearchPage,
-} from '../../core//models/asm.models';
-import { AsmConfig } from '../../core/config/asm-config';
-import { AsmAdapter } from '../../core/connectors/asm.adapter';
 
 @Injectable()
 export class OccAsmAdapter implements AsmAdapter {

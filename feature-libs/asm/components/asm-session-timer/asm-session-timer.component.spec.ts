@@ -6,8 +6,8 @@ import {
   TestBed,
   tick,
 } from '@angular/core/testing';
+import { AsmConfig } from '@spartacus/asm/core';
 import {
-  AsmConfig,
   I18nTestingModule,
   OCC_USER_ID_ANONYMOUS,
   RoutingService,

@@ -5,18 +5,18 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
+  AsmConfig,
+  CustomerSearchOptions,
+  CustomerSearchPage,
+  CUSTOMER_SEARCH_PAGE_NORMALIZER,
+} from '@spartacus/asm/core';
+import {
   BaseSiteService,
   ConverterService,
   OccEndpointsService,
   User,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { AsmConfig } from '../../core/config/asm-config';
-import { CUSTOMER_SEARCH_PAGE_NORMALIZER } from '../../core/connectors/converters';
-import {
-  CustomerSearchOptions,
-  CustomerSearchPage,
-} from '../../core/models/asm.models';
 import { OccAsmAdapter } from './occ-asm.adapter';
 
 const MockAsmConfig: AsmConfig = {
