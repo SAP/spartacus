@@ -3,11 +3,10 @@ import {
   CONFIG_INITIALIZER_FORROOT_GUARD,
   ConfigInitializer,
 } from './config-initializer';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { filter, mapTo, take } from 'rxjs/operators';
 import { deepMerge } from '../utils/deep-merge';
 import { Config, RootConfig } from '../config-tokens';
-import { of } from 'rxjs/internal/observable/of';
 
 /**
  * Provides support for CONFIG_INITIALIZERS
