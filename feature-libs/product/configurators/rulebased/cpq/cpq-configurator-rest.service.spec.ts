@@ -85,7 +85,7 @@ describe('CpqConfiguratorRestService', () => {
       );
     });
 
-    let mockReq = httpMock.expectOne((req) => {
+    const mockReq = httpMock.expectOne((req) => {
       return (
         req.method === 'POST' &&
         req.url ===
@@ -142,7 +142,7 @@ describe('CpqConfiguratorRestService', () => {
       );
     });
 
-    let mockReq = httpMock.expectOne((req) => {
+    const mockReq = httpMock.expectOne((req) => {
       return (
         req.method === 'PATCH' &&
         req.url ===
@@ -168,7 +168,7 @@ describe('CpqConfiguratorRestService', () => {
       );
     });
 
-    let mockReq = httpMock.expectOne((req) => {
+    const mockReq = httpMock.expectOne((req) => {
       return (
         req.method === 'PATCH' &&
         req.url ===
