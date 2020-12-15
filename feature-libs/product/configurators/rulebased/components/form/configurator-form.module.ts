@@ -16,6 +16,7 @@ import { ConfiguratorAttributeSingleSelectionBundleModule } from '../attribute/t
 import { ConfiguratorAttributeMultiSelectionBundleModule } from '../attribute/types/multi-selection-bundle/configurator-attribute-multi-selection-bundle.module';
 import { ConfiguratorAttributeReadOnlyModule } from '../attribute/types/read-only/configurator-attribute-read-only.module';
 import { ConfiguratorAttributeSingleSelectionImageModule } from '../attribute/types/single-selection-image/configurator-attribute-single-selection-image.module';
+import { ConfiguratorAttributeSingleSelectionBundleDropdownModule } from '../attribute/types/single-selection-bundle-dropdown/configurator-attribute-single-selection-bundle-dropdown.module';
 import { ConfiguratorConflictDescriptionModule } from '../conflict-description/configurator-conflict-description.module';
 import { ConfiguratorConflictSuggestionModule } from '../conflict-suggestion/configurator-conflict-suggestion.module';
 import { ConfiguratorFormComponent } from './configurator-form.component';
@@ -37,6 +38,7 @@ import { ConfiguratorFormComponent } from './configurator-form.component';
     ConfiguratorAttributeMultiSelectionBundleModule,
     ConfiguratorAttributeReadOnlyModule,
     ConfiguratorAttributeSingleSelectionImageModule,
+    ConfiguratorAttributeSingleSelectionBundleDropdownModule,
     ConfiguratorAttributeCheckboxModule,
     ConfiguratorAttributeCheckboxListModule,
     ConfiguratorAttributeDropDownModule,

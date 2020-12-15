@@ -1,7 +1,8 @@
 <div
   class="cx-configurator-attribute-product-card"
   [ngClass]="{
-    'cx-configurator-attribute-product-card-selected': product.selected
+    'cx-configurator-attribute-product-card-selected':
+      product.selected && !singleDropdown
   }"
 >
   <div class="cx-configurator-attribute-product-card-rows">
@@ -42,7 +43,7 @@
   <div class="cx-configurator-attribute-product-card-rows">
     <div
       class="cx-configurator-attribute-product-card-quantity"
-      *ngIf="multiSelect && product.selected"
+      *ngIf="product.selected && (multiSelect || singleDropdown)"
     >
       <label>{{ 'configurator.attribute.quantity' | cxTranslate }}</label>
       <cx-item-counter
@@ -55,7 +56,10 @@
     <div class="cx-configurator-attribute-product-card-price"></div>
   </div>
 
-  <div class="cx-configurator-attribute-product-card-rows">
+  <div
+    class="cx-configurator-attribute-product-card-rows"
+    *ngIf="!singleDropdown"
+  >
     <div class="cx-configurator-attribute-product-card-action">
       <ng-container *ngIf="multiSelect; else single">
         <button
