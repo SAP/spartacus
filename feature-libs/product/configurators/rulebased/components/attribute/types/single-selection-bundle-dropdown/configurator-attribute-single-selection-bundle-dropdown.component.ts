@@ -49,4 +49,15 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
     };
     this.selectionChange.emit(event);
   }
+
+  handleDeselect(): void {
+    const event: ConfigFormUpdateEvent = {
+      ownerKey: this.ownerKey,
+      changedAttribute: {
+        ...this.attribute,
+        selectedSingleValue: '0',
+      },
+    };
+    this.selectionChange.emit(event);
+  }
 }
