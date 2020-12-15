@@ -159,10 +159,3 @@ export interface CmsProductFacetNavigationComponent extends CmsComponent {
   searchResult?: string;
   minPerFacet?: string;
 }
-
-export interface CmsProductListComponent extends CmsComponent {
-  /**
-   * Indicates that the component is used for product listing.
-   */
-  isProductListing?: boolean;
-}
