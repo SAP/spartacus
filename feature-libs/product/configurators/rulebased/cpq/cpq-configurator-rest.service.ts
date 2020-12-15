@@ -61,7 +61,7 @@ export class CpqConfiguratorRestService {
    * Will update an attribute of the runtime configuration for the given configuration id and attribute code
    * and read this default configuration from the CPQ system.
    */
-  updateConfiguration(
+  updateAttribute(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
     const updateAttribute: Cpq.UpdateAttribute = this.converterService.convert(

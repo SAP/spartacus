@@ -141,7 +141,7 @@ describe('CpqConfiguratorRestService', () => {
   it('should call serializer, update configuration and call normalizer', () => {
     spyOn(converterService, 'convert').and.returnValue(updateAttribute);
     spyOn(converterService, 'pipeable').and.callThrough();
-    serviceUnderTest.updateConfiguration(configuration).subscribe((config) => {
+    serviceUnderTest.updateAttribute(configuration).subscribe((config) => {
       expect(config.configId).toEqual(configId);
       expect(converterService.convert).toHaveBeenCalledWith(
         configuration,

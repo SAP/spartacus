@@ -51,7 +51,7 @@ export class CpqConfiguratorRestAdapter
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
     return this.cpqAcpqConfiguratorRestService
-      .updateConfiguration(configuration)
+      .updateAttribute(configuration)
       .pipe(
         map((configResonse) => {
           configResonse.owner = configuration.owner;
