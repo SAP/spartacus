@@ -1,5 +1,5 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -82,43 +82,45 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
     data$: of(mockComponentData),
   };
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule],
-      declarations: [
-        LanguageCurrencyComponent,
-        SiteContextSelectorComponent,
-        MockCxIconComponent,
-      ],
-      providers: [
-        { provide: CmsService, useValue: MockCmsService },
-        {
-          provide: LanguageService,
-          useValue: MockLanguageService,
-        },
-        {
-          provide: CurrencyService,
-          useValue: MockCurrencyService,
-        },
-        {
-          provide: CmsComponentData,
-          useValue: MockCmsComponentData,
-        },
-        contextServiceMapProvider,
-      ],
-    })
-      .overrideComponent(SiteContextSelectorComponent, {
-        set: {
-          providers: [
-            {
-              provide: SiteContextComponentService,
-              useClass: SiteContextComponentService,
-            },
-          ],
-        },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [BrowserAnimationsModule],
+        declarations: [
+          LanguageCurrencyComponent,
+          SiteContextSelectorComponent,
+          MockCxIconComponent,
+        ],
+        providers: [
+          { provide: CmsService, useValue: MockCmsService },
+          {
+            provide: LanguageService,
+            useValue: MockLanguageService,
+          },
+          {
+            provide: CurrencyService,
+            useValue: MockCurrencyService,
+          },
+          {
+            provide: CmsComponentData,
+            useValue: MockCmsComponentData,
+          },
+          contextServiceMapProvider,
+        ],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(SiteContextSelectorComponent, {
+          set: {
+            providers: [
+              {
+                provide: SiteContextComponentService,
+                useClass: SiteContextComponentService,
+              },
+            ],
+          },
+        })
+        .compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LanguageCurrencyComponent);

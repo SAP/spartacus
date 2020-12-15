@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   ActiveCartService,
@@ -47,17 +47,19 @@ describe('SaveForLaterComponent', () => {
     'getComponentData',
   ]);
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [SaveForLaterComponent, MockCartItemListComponent],
-      imports: [FeaturesConfigModule, I18nTestingModule],
-      providers: [
-        { provide: CmsService, useValue: mockCmsService },
-        { provide: ActiveCartService, useValue: mockCartService },
-        { provide: SelectiveCartService, useValue: mockSelectiveCartService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [SaveForLaterComponent, MockCartItemListComponent],
+        imports: [FeaturesConfigModule, I18nTestingModule],
+        providers: [
+          { provide: CmsService, useValue: mockCmsService },
+          { provide: ActiveCartService, useValue: mockCartService },
+          { provide: SelectiveCartService, useValue: mockSelectiveCartService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SaveForLaterComponent);

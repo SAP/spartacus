@@ -5,7 +5,7 @@ import {
   Directive,
   Input,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Facet, I18nTestingModule } from '@spartacus/core';
 import { of } from 'rxjs';
@@ -55,21 +55,23 @@ describe('FacetComponent', () => {
   let element: DebugElement;
   let facetService: FacetService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
-      declarations: [
-        FacetComponent,
-        MockCxIconComponent,
-        MockKeyboadFocusDirective,
-      ],
-      providers: [{ provide: FacetService, useClass: MockFacetService }],
-    })
-      .overrideComponent(FacetComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule, RouterTestingModule],
+        declarations: [
+          FacetComponent,
+          MockCxIconComponent,
+          MockKeyboadFocusDirective,
+        ],
+        providers: [{ provide: FacetService, useClass: MockFacetService }],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(FacetComponent, {
+          set: { changeDetection: ChangeDetectionStrategy.Default },
+        })
+        .compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FacetComponent);
