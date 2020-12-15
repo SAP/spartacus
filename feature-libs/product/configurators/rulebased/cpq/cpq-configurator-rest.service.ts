@@ -110,7 +110,12 @@ export class CpqConfiguratorRestService {
   }
 
   callUpdateValue(updateAttribute: Cpq.UpdateAttribute): Observable<any> {
-    throw 'Not yet implemented: ' + updateAttribute;
+    return this.http.patch<Cpq.ConfigurationCreatedResponseData>(
+      `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations/${updateAttribute.configurationId}/attributes/${updateAttribute.standardAttributeCode}/attributeValues/${updateAttribute.changeAttributeValue.attributeValueIds}`,
+      {
+        Quantity: updateAttribute.changeAttributeValue.quantity,
+      }
+    );
   }
 
   protected callConfigurationInit(

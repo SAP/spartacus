@@ -96,7 +96,7 @@ export namespace Cpq {
   export interface ChangeAttributeValue {
     attributeValueIds?: string;
     userInput?: string;
-    quantity?: string;
+    quantity?: number;
   }
 
   /**
