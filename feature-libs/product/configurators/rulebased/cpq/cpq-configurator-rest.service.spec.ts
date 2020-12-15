@@ -12,6 +12,7 @@ import { CpqConfiguratorRestAdapter } from './cpq-configurator-rest.adapter';
 import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
 import {
   CPQ_CONFIGURATOR_NORMALIZER,
+  CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
   CPQ_CONFIGURATOR_SERIALIZER,
 } from './cpq-configurator.converters';
 import { Cpq } from './cpq.models';
@@ -41,8 +42,13 @@ const updateAttribute: Cpq.UpdateAttribute = {
   standardAttributeCode: attrCode,
   changeAttributeValue: {
     attributeValueIds: attrValueId,
-    quantity: 5,
   },
+};
+const updateValue: Cpq.UpdateValue = {
+  configurationId: configId,
+  standardAttributeCode: attrCode,
+  attributeValueId: attrValueId,
+  quantity: 5,
 };
 
 describe('CpqConfiguratorRestService', () => {
@@ -155,13 +161,13 @@ describe('CpqConfiguratorRestService', () => {
   });
 
   it('should call serializer, update value quantity and call normalizer', () => {
-    spyOn(converterService, 'convert').and.returnValue(updateAttribute);
+    spyOn(converterService, 'convert').and.returnValue(updateValue);
     spyOn(converterService, 'pipeable').and.callThrough();
     serviceUnderTest.updateValueQuantity(configuration).subscribe((config) => {
       expect(config.configId).toEqual(configId);
       expect(converterService.convert).toHaveBeenCalledWith(
         configuration,
-        CPQ_CONFIGURATOR_SERIALIZER
+        CPQ_CONFIGURATOR_QUANTITY_SERIALIZER
       );
       expect(converterService.pipeable).toHaveBeenCalledWith(
         CPQ_CONFIGURATOR_NORMALIZER
