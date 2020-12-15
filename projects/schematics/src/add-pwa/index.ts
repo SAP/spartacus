@@ -92,7 +92,7 @@ export function addPWA(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const dependencies = [
       {
-        type: NodeDependencyType.Dev,
+        type: NodeDependencyType.Default,
         version: '^0.1001.0',
         name: '@angular/pwa',
       },
