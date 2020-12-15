@@ -146,7 +146,8 @@ describe('CpqConfiguratorRestService', () => {
       return (
         req.method === 'PATCH' &&
         req.url ===
-          `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations/${configId}/attributes/${attrCode}`
+          `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations/${configId}/attributes/${attrCode}` &&
+        req.body === updateAttribute.changeAttributeValue
       );
     });
     mockReq.flush(configUpdateResponse);
@@ -171,7 +172,8 @@ describe('CpqConfiguratorRestService', () => {
       return (
         req.method === 'PATCH' &&
         req.url ===
-          `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations/${configId}/attributes/${attrCode}/attributeValues/${attrValueId}`
+          `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations/${configId}/attributes/${attrCode}/attributeValues/${attrValueId}` &&
+        req.body.Quantity === 5
       );
     });
     mockReq.flush(configUpdateResponse);
