@@ -5,7 +5,7 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ProductGridItemComponent } from './product-grid-item.component';
 import { I18nTestingModule } from '@spartacus/core';
@@ -82,25 +82,27 @@ describe('ProductGridItemComponent in product-list', () => {
     },
   };
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
-      declarations: [
-        ProductGridItemComponent,
-        MockMediaComponent,
-        MockAddToCartComponent,
-        MockStarRatingComponent,
-        MockUrlPipe,
-        MockCxIconComponent,
-        MockStyleIconsComponent,
-        MockFeatureLevelDirective,
-      ],
-    })
-      .overrideComponent(ProductGridItemComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule, I18nTestingModule],
+        declarations: [
+          ProductGridItemComponent,
+          MockMediaComponent,
+          MockAddToCartComponent,
+          MockStarRatingComponent,
+          MockUrlPipe,
+          MockCxIconComponent,
+          MockStyleIconsComponent,
+          MockFeatureLevelDirective,
+        ],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(ProductGridItemComponent, {
+          set: { changeDetection: ChangeDetectionStrategy.Default },
+        })
+        .compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductGridItemComponent);

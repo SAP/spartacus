@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
@@ -39,18 +39,20 @@ describe('StoreFinderListComponent', () => {
   let storeFinderService: StoreFinderService;
   let activatedRoute: ActivatedRoute | ActivatedRouteMock;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
-      schemas: [NO_ERRORS_SCHEMA],
-      declarations: [StoreFinderSearchResultComponent],
-      providers: [
-        { provide: StoreFinderService, useValue: mockStoreFinderService },
-        { provide: ActivatedRoute, useClass: ActivatedRouteMock },
-        { provide: StoreFinderConfig, useValue: mockStoreFinderConfig },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule, I18nTestingModule],
+        schemas: [NO_ERRORS_SCHEMA],
+        declarations: [StoreFinderSearchResultComponent],
+        providers: [
+          { provide: StoreFinderService, useValue: mockStoreFinderService },
+          { provide: ActivatedRoute, useClass: ActivatedRouteMock },
+          { provide: StoreFinderConfig, useValue: mockStoreFinderConfig },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderSearchResultComponent);

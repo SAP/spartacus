@@ -10,12 +10,12 @@
   <span
     class="text"
     title="{{ model.threshold }} {{ model.currency?.symbol }} {{
-      'permission.per.' + model.periodRange | cxTranslate
+      'orgPurchaseLimit.per.' + model.periodRange | cxTranslate
     }}"
     *ngIf="isTimeSpanThreshold"
   >
     {{ model.threshold }} {{ model.currency?.symbol }}
-    {{ 'permission.per.' + model.periodRange | cxTranslate }}
+    {{ 'orgPurchaseLimit.per.' + model.periodRange | cxTranslate }}
   </span>
 
   <span

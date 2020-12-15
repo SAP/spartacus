@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, PointOfService } from '@spartacus/core';
@@ -40,25 +40,27 @@ describe('StoreFinderDisplayListComponent', () => {
   let storeDataService: StoreDataService;
   let googleMapRendererService: GoogleMapRendererService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        HttpClientTestingModule,
-        SpinnerModule,
-        I18nTestingModule,
-      ],
-      schemas: [NO_ERRORS_SCHEMA],
-      declarations: [StoreFinderListComponent, StoreFinderMapComponent],
-      providers: [
-        {
-          provide: GoogleMapRendererService,
-          useClass: GoogleMapRendererServiceMock,
-        },
-        { provide: StoreDataService, useClass: StoreDataServiceMock },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          RouterTestingModule,
+          HttpClientTestingModule,
+          SpinnerModule,
+          I18nTestingModule,
+        ],
+        schemas: [NO_ERRORS_SCHEMA],
+        declarations: [StoreFinderListComponent, StoreFinderMapComponent],
+        providers: [
+          {
+            provide: GoogleMapRendererService,
+            useClass: GoogleMapRendererServiceMock,
+          },
+          { provide: StoreDataService, useClass: StoreDataServiceMock },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderListComponent);
