@@ -28,14 +28,46 @@ const resolveIssuesLinkSelector =
 /**
  * Navigates to the product configuration page.
  *
+ * @param {string} shopName - shop name
  * @param {string} productId - Product ID
  * @return {Chainable<Window>} - New configuration window
  */
-export function goToConfigurationPage(productId: string): Chainable<Window> {
-  const location = `/electronics-spa/en/USD/configure/vc/product/entityKey/${productId}`;
+export function goToConfigurationPage(
+  shopName: string,
+  productId: string
+): Chainable<Window> {
+  const location = `/${shopName}/en/USD/configure/vc/product/entityKey/${productId}`;
   return cy.visit(location).then(() => {
     cy.location('pathname').should('contain', location);
     this.checkConfigPageDisplayed();
+  });
+}
+
+/**
+ * Navigates to the product detail page.
+ *
+ * @param {string} shopName - shop name
+ * @param {string} productId - Product ID
+ */
+export function goToPDPage(shopName: string, productId: string): void {
+  const location = `${shopName}/en/USD/product/${productId}/${productId}`;
+  cy.visit(location).then(() => {
+    cy.location('pathname').should('contain', location);
+    cy.get('.ProductDetailsPageTemplate').should('be.visible');
+  });
+}
+
+/**
+ * Navigates to the cart page.
+ *
+ * @param {string} shopName - shop name
+ */
+export function goToCart(shopName: string) {
+  const location = `/${shopName}/en/USD/cart`;
+  cy.visit(`/${shopName}/en/USD/cart`).then(() => {
+    cy.location('pathname').should('contain', location);
+    cy.get('h1').contains('Your Shopping Cart').should('be.visible');
+    cy.get('cx-cart-details').should('be.visible');
   });
 }
 

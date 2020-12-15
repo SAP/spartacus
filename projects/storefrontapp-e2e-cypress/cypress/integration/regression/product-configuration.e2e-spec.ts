@@ -3,6 +3,7 @@ import * as configuration from '../../helpers/product-configuration';
 import * as configurationOverview from '../../helpers/product-configuration-overview';
 import * as productSearch from '../../helpers/product-search';
 
+const electronicsShop = 'electronics-spa';
 const testProduct = 'CONF_CAMERA_SL';
 const testProductMultiLevel = 'CONF_HOME_THEATER_ML';
 
@@ -63,23 +64,6 @@ const CONFLICT_FOR_GAMING_CONSOLE = 'Conflict for Gaming Console';
 const Conflict_msg_gaming_console =
   'Gaming console cannot be selected with LCD projector';
 
-function goToPDPage(product) {
-  const location = `electronics-spa/en/USD/product/${product}/${product}`;
-  cy.visit(location).then(() => {
-    cy.location('pathname').should('contain', location);
-    cy.get('.ProductDetailsPageTemplate').should('be.visible');
-  });
-}
-
-function goToCart() {
-  const location = '/electronics-spa/en/USD/cart';
-  cy.visit('/electronics-spa/en/USD/cart').then(() => {
-    cy.location('pathname').should('contain', location);
-    cy.get('h1').contains('Your Shopping Cart').should('be.visible');
-    cy.get('cx-cart-details').should('be.visible');
-  });
-}
-
 context('Product Configuration', () => {
   beforeEach(() => {
     cy.visit('/');
@@ -100,20 +84,26 @@ context('Product Configuration', () => {
     });
 
     it('should be able to navigate from the product details page', () => {
-      goToPDPage(testProduct);
+      configuration.goToPDPage(electronicsShop, testProduct);
       configuration.clickOnConfigureBtnInCatalog();
     });
 
     it('should be able to navigate from the overview page', () => {
-      configurationOverview.goToConfigOverviewPage(testProduct);
+      configurationOverview.goToConfigOverviewPage(
+        electronicsShop,
+        testProduct
+      );
       configurationOverview.navigateToConfigurationPage();
       configuration.checkConfigPageDisplayed();
     });
 
     it('should be able to navigate from the cart', () => {
-      configuration.goToConfigurationPage(testProductMultiLevel);
+      configuration.goToConfigurationPage(
+        electronicsShop,
+        testProductMultiLevel
+      );
       configuration.clickAddToCartBtn();
-      goToCart();
+      configuration.goToCart(electronicsShop);
       //We assume only one product is in the cart
       configuration.clickOnEditConfigurationLink(0);
     });
@@ -137,7 +127,10 @@ context('Product Configuration', () => {
 
   describe('Configure Product', () => {
     it('should support image attribute type - single selection', () => {
-      configuration.goToConfigurationPage(testProductMultiLevel);
+      configuration.goToConfigurationPage(
+        electronicsShop,
+        testProductMultiLevel
+      );
       configuration.checkAttributeDisplayed(ROOM_SIZE, radioGroup);
       configuration.selectAttribute(COLOUR_HT, single_selection_image, WHITE);
       configuration.checkImageSelected(
@@ -161,7 +154,7 @@ context('Product Configuration', () => {
           'BASE_SITE'
         )}/ccpconfigurator/*`
       ).as('updateConfig');
-      configuration.goToConfigurationPage(testProduct);
+      configuration.goToConfigurationPage(electronicsShop, testProduct);
       configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
       configuration.clickOnNextBtn(SPECIFICATION);
       configuration.selectAttribute(CAMERA_SD_CARD, checkBoxList, SDHC);
@@ -181,7 +174,7 @@ context('Product Configuration', () => {
           'BASE_SITE'
         )}/ccpconfigurator/*`
       ).as('updateConfig');
-      configuration.goToConfigurationPage(testProduct);
+      configuration.goToConfigurationPage(electronicsShop, testProduct);
       configuration.checkGroupMenuDisplayed();
 
       //is that no status is displayed initially
@@ -229,7 +222,10 @@ context('Product Configuration', () => {
     });
 
     it('should set group status for multi level product', () => {
-      configuration.goToConfigurationPage(testProductMultiLevel);
+      configuration.goToConfigurationPage(
+        electronicsShop,
+        testProductMultiLevel
+      );
       configuration.checkGroupMenuDisplayed();
 
       // no status should be displayed initially
@@ -292,14 +288,14 @@ context('Product Configuration', () => {
 
   describe('Group Handling', () => {
     it('should navigate between groups', () => {
-      configuration.goToConfigurationPage(testProduct);
+      configuration.goToConfigurationPage(electronicsShop, testProduct);
       configuration.clickOnNextBtn(SPECIFICATION);
       configuration.clickOnNextBtn(DISPLAY);
       configuration.clickOnPreviousBtn(SPECIFICATION);
     });
 
     it('should check if group buttons are clickable', () => {
-      configuration.goToConfigurationPage(testProduct);
+      configuration.goToConfigurationPage(electronicsShop, testProduct);
       configuration.checkNextBtnEnabled();
       configuration.checkPreviousBtnDisabled();
 
@@ -312,7 +308,7 @@ context('Product Configuration', () => {
     });
 
     it('should navigate using the group menu', () => {
-      configuration.goToConfigurationPage(testProduct);
+      configuration.goToConfigurationPage(electronicsShop, testProduct);
       configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
 
       configuration.clickOnGroup(2);
@@ -322,14 +318,20 @@ context('Product Configuration', () => {
     });
 
     it('should navigate using the previous and next button for multi level product', () => {
-      configuration.goToConfigurationPage(testProductMultiLevel);
+      configuration.goToConfigurationPage(
+        electronicsShop,
+        testProductMultiLevel
+      );
       configuration.clickOnNextBtn(PROJECTOR);
       configuration.clickOnNextBtn(FLAT_PANEL);
       configuration.clickOnPreviousBtn(PROJECTOR);
     });
 
     it('should navigate using the group menu for multi level product', () => {
-      configuration.goToConfigurationPage(testProductMultiLevel);
+      configuration.goToConfigurationPage(
+        electronicsShop,
+        testProductMultiLevel
+      );
       configuration.clickOnGroup(2);
       configuration.checkAttributeDisplayed(SPEAKER_TYPE_FRONT, radioGroup);
     });
@@ -344,7 +346,10 @@ context('Product Configuration', () => {
           'BASE_SITE'
         )}/ccpconfigurator/*`
       ).as('updateConfig');
-      configuration.goToConfigurationPage(testProductMultiLevel);
+      configuration.goToConfigurationPage(
+        electronicsShop,
+        testProductMultiLevel
+      );
       configuration.clickOnNextBtn(PROJECTOR);
       configuration.selectAttribute(PROJECTOR_TYPE, radioGroup, PROJECTOR_LCD);
       cy.wait('@updateConfig');
