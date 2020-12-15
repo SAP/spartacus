@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Pipe, PipeTransform } from '@angular/core';
 import {
-  async,
+  waitForAsync,
   ComponentFixture,
   fakeAsync,
   TestBed,
@@ -57,22 +57,24 @@ describe('AsmSessionTimerComponent', () => {
   let routingService: RoutingService;
   let userIdService: UserIdService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [AsmSessionTimerComponent, MockFormatTimerPipe],
-      providers: [
-        {
-          provide: ChangeDetectorRef,
-          useValue: { markForCheck: createSpy('markForCheck') },
-        },
-        { provide: AsmConfig, useValue: MockAsmConfig },
-        { provide: AsmComponentService, useClass: MockAsmComponentService },
-        { provide: RoutingService, useClass: MockRoutingService },
-        { provide: UserIdService, useClass: MockUserIdService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [AsmSessionTimerComponent, MockFormatTimerPipe],
+        providers: [
+          {
+            provide: ChangeDetectorRef,
+            useValue: { markForCheck: createSpy('markForCheck') },
+          },
+          { provide: AsmConfig, useValue: MockAsmConfig },
+          { provide: AsmComponentService, useClass: MockAsmComponentService },
+          { provide: RoutingService, useClass: MockRoutingService },
+          { provide: UserIdService, useClass: MockUserIdService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AsmSessionTimerComponent);

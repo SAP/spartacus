@@ -1,6 +1,6 @@
 import { Promotion } from '@spartacus/core';
 import { PromotionsComponent } from './promotions.component';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 describe('PromotionsComponent', () => {
@@ -13,13 +13,15 @@ describe('PromotionsComponent', () => {
 
   const mockPromotions: Promotion[] = [mockPromotion];
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [],
-      declarations: [PromotionsComponent],
-      providers: [],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [],
+        declarations: [PromotionsComponent],
+        providers: [],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PromotionsComponent);
