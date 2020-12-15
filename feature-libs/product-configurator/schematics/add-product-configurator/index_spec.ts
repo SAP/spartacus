@@ -3,12 +3,14 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import {
-  CLI_PRODUCT_CONFIGURATOR_FEATURE,
   LibraryOptions as SpartacusProductConfiguratorOptions,
   SpartacusOptions,
-  SPARTACUS_PRODUCT_CONFIGURATOR,
 } from '@spartacus/schematics';
 import * as path from 'path';
+import {
+  CLI_PRODUCT_CONFIGURATOR_FEATURE,
+  SPARTACUS_PRODUCT_CONFIGURATOR,
+} from './index';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const appModulePath = 'src/app/app.module.ts';
@@ -215,7 +217,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
       it('should import the i18n resource and chunk from assets', async () => {
         const appModule = appTree.readContent(appModulePath);
         expect(appModule).toContain(
-          `import { configuratorTranslations } from '@spartacus/product-configurator/assets';`
+          `import { configuratorTranslations } from '@spartacus/product-configurator/common/assets';`
         );
       });
       it('should provideConfig', async () => {
