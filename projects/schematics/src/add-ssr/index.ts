@@ -180,6 +180,11 @@ export function addSSR(options: SpartacusOptions): Rule {
         version: spartacusVersion,
         name: SPARTACUS_SETUP,
       },
+      {
+        type: NodeDependencyType.Default,
+        version: angularVersion,
+        name: ANGULAR_LOCALIZE,
+      },
     ];
 
     return chain([
