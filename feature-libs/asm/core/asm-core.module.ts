@@ -4,9 +4,7 @@ import {
   AuthHttpHeaderService,
   AuthService,
   AuthStorageService,
-  provideDefaultConfig,
 } from '@spartacus/core';
-import { defaultAsmConfig } from './config/default-asm-config';
 import { AsmAuthHttpHeaderService } from './services/asm-auth-http-header.service';
 import { AsmAuthStorageService } from './services/asm-auth-storage.service';
 import { AsmAuthService } from './services/asm-auth.service';
@@ -28,7 +26,6 @@ export class AsmCoreModule {
     return {
       ngModule: AsmCoreModule,
       providers: [
-        provideDefaultConfig(defaultAsmConfig),
         {
           provide: AuthStorageService,
           useExisting: AsmAuthStorageService,

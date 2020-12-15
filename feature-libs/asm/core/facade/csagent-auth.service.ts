@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import {
   AuthActions,
   AuthService,
+  AuthStorageService,
   OAuthLibWrapperService,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
@@ -28,11 +29,12 @@ import { StateWithAsm } from '../store/asm-state';
 export class CsAgentAuthService {
   constructor(
     protected authService: AuthService,
-    protected authStorageService: AsmAuthStorageService,
+    protected asmAuthStorageService: AsmAuthStorageService,
     protected userIdService: UserIdService,
     protected oAuthLibWrapperService: OAuthLibWrapperService,
     protected store: Store<StateWithAsm>,
-    protected userService: UserService
+    protected userService: UserService,
+    protected authStorageService: AuthStorageService
   ) {}
 
   /**
@@ -50,7 +52,7 @@ export class CsAgentAuthService {
       .subscribe((token) => (userToken = token))
       .unsubscribe();
 
-    this.authStorageService.switchTokenTargetToCSAgent();
+    this.asmAuthStorageService.switchTokenTargetToCSAgent();
     try {
       await this.oAuthLibWrapperService.authorizeWithPasswordFlow(
         userId,
@@ -67,15 +69,15 @@ export class CsAgentAuthService {
       if (Boolean(customerId)) {
         // OCC specific user id handling. Customize when implementing different backend
         this.userIdService.setUserId(customerId);
-        this.authStorageService.setEmulatedUserToken(userToken);
+        this.asmAuthStorageService.setEmulatedUserToken(userToken);
         this.store.dispatch(new AuthActions.Login());
       } else {
         // When we can't get the customerId just end all current sessions
         this.userIdService.setUserId(OCC_USER_ID_ANONYMOUS);
-        this.authStorageService.clearEmulatedUserToken();
+        this.asmAuthStorageService.clearEmulatedUserToken();
       }
     } catch {
-      this.authStorageService.switchTokenTargetToUser();
+      this.asmAuthStorageService.switchTokenTargetToUser();
     }
   }
 
@@ -85,7 +87,7 @@ export class CsAgentAuthService {
    * @param customerId
    */
   public startCustomerEmulationSession(customerId: string): void {
-    this.authStorageService.clearEmulatedUserToken();
+    this.asmAuthStorageService.clearEmulatedUserToken();
 
     // OCC specific user id handling. Customize when implementing different backend
     this.store.dispatch(new AuthActions.Logout());
@@ -101,7 +103,7 @@ export class CsAgentAuthService {
   public isCustomerSupportAgentLoggedIn(): Observable<boolean> {
     return combineLatest([
       this.authStorageService.getToken(),
-      this.authStorageService.getTokenTarget(),
+      this.asmAuthStorageService.getTokenTarget(),
     ]).pipe(
       map(([token, tokenTarget]) =>
         Boolean(token?.access_token && tokenTarget === TokenTarget.CSAgent)
@@ -130,7 +132,7 @@ export class CsAgentAuthService {
    * Logout a customer support agent.
    */
   async logoutCustomerSupportAgent(): Promise<void> {
-    const emulatedToken = this.authStorageService.getEmulatedUserToken();
+    const emulatedToken = this.asmAuthStorageService.getEmulatedUserToken();
 
     let isCustomerEmulated;
     this.userIdService
@@ -141,13 +143,13 @@ export class CsAgentAuthService {
     await this.oAuthLibWrapperService.revokeAndLogout();
 
     this.store.dispatch(new AsmActions.LogoutCustomerSupportAgent());
-    this.authStorageService.setTokenTarget(TokenTarget.User);
+    this.asmAuthStorageService.setTokenTarget(TokenTarget.User);
 
     if (isCustomerEmulated && emulatedToken) {
       this.store.dispatch(new AuthActions.Logout());
       this.authStorageService.setToken(emulatedToken);
       this.userIdService.setUserId(OCC_USER_ID_CURRENT);
-      this.authStorageService.clearEmulatedUserToken();
+      this.asmAuthStorageService.clearEmulatedUserToken();
       this.store.dispatch(new AuthActions.Login());
     } else {
       this.authService.logout();

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuthStorageService, AuthToken } from '@spartacus/core';
+import { AuthToken } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 /**
@@ -11,15 +11,12 @@ export enum TokenTarget {
 }
 
 /**
- * With AsmAuthStorageService apart from storing the token we also need to store
- * information for which user is the token (regular user or CS Agent).
- *
- * Overrides `AuthStorageService`.
+ * AsmAuthStorageService stores information for which user is the token (regular user or CS Agent).
  */
 @Injectable({
   providedIn: 'root',
 })
-export class AsmAuthStorageService extends AuthStorageService {
+export class AsmAuthStorageService {
   protected _tokenTarget$: Observable<TokenTarget> = new BehaviorSubject<
     TokenTarget
   >(TokenTarget.User);

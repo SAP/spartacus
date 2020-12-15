@@ -12,9 +12,9 @@ import {
   User,
   UserService,
 } from '@spartacus/core';
-import { AsmService, CsAgentAuthService } from '../../core/facade/index';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
+import { AsmService, CsAgentAuthService } from '../../core/facade/index';
 import { AsmComponentService } from '../services/asm-component.service';
 
 @Component({
@@ -45,6 +45,7 @@ export class AsmMainUiComponent implements OnInit {
 
   ngOnInit(): void {
     this.customerSupportAgentLoggedIn$ = this.csAgentAuthService.isCustomerSupportAgentLoggedIn();
+
     this.csAgentTokenLoading$ = this.csAgentAuthService.getCustomerSupportAgentTokenLoading();
     this.customer$ = this.authService.isUserLoggedIn().pipe(
       switchMap((isLoggedIn) => {
