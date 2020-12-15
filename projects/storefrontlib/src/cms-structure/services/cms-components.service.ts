@@ -180,7 +180,7 @@ export class CmsComponentsService {
    * Return the static data for the component.
    */
   getStaticData(componentType: string): any {
-    return this.config.cmsComponents?.[componentType]?.data;
+    return this.getMapping(componentType)?.data;
   }
 
   /**
