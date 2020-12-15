@@ -15,18 +15,18 @@ context('Textfield Configuration', () => {
     it('should be able to navigate from the product search result', () => {
       productSearch.searchForProduct(testProduct);
       textfiledConfiguration.clickOnConfigureButton();
-      textfiledConfiguration.isConfigurationPageIsDisplayed();
+      textfiledConfiguration.checkConfigurationPageIsDisplayed();
     });
 
     it('should be able to navigate from the product details page', () => {
       textfiledConfiguration.goToProductDetailsPage(testProduct);
       textfiledConfiguration.clickOnConfigureButton();
-      textfiledConfiguration.isConfigurationPageIsDisplayed();
+      textfiledConfiguration.checkConfigurationPageIsDisplayed();
     });
 
     it('should be able to navigate from the cart', () => {
       textfiledConfiguration.goToConfigurationPage(testProduct);
-      textfiledConfiguration.isConfigurationPageIsDisplayed();
+      textfiledConfiguration.checkConfigurationPageIsDisplayed();
       textfiledConfiguration.addToCartAndVerify(testProduct);
       textfiledConfiguration.clickOnEditConfigurationLink(0);
     });
@@ -43,18 +43,18 @@ context('Textfield Configuration', () => {
   describe('Configure Product and add to cart', () => {
     it('should enter value and add textfield product to cart', () => {
       textfiledConfiguration.goToConfigurationPage(testProduct);
-      textfiledConfiguration.isConfigurationPageIsDisplayed();
-      textfiledConfiguration.isAttributeDisplayed(ENGRAVED_TEXT);
+      textfiledConfiguration.checkConfigurationPageIsDisplayed();
+      textfiledConfiguration.checkAttributeDisplayed(ENGRAVED_TEXT);
       textfiledConfiguration.selectAttribute(ENGRAVED_TEXT, HALLO);
       textfiledConfiguration.addToCartAndVerify(testProduct);
     });
 
     it('should be able to update a configured product from the cart', () => {
       textfiledConfiguration.goToConfigurationPage(testProduct);
-      textfiledConfiguration.isConfigurationPageIsDisplayed();
+      textfiledConfiguration.checkConfigurationPageIsDisplayed();
       textfiledConfiguration.addToCartAndVerify(testProduct);
       textfiledConfiguration.clickOnEditConfigurationLink(0);
-      textfiledConfiguration.isAttributeDisplayed(ENGRAVED_TEXT);
+      textfiledConfiguration.checkAttributeDisplayed(ENGRAVED_TEXT);
       textfiledConfiguration.selectAttribute(ENGRAVED_TEXT, HALLO);
       textfiledConfiguration.addToCartAndVerify(testProduct);
     });

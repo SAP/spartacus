@@ -43,9 +43,9 @@ context('Product Configuration', () => {
       );
       configuration.navigateToOverviewPage();
 
-      configuration.isGlobalMessageNotDisplayed();
-      configuration.isUpdatingMessageNotDisplayed();
-      configurationOverview.isConfigOverviewPageDisplayed();
+      configuration.checkGlobalMessageNotDisplayed();
+      configuration.checkUpdatingMessageNotDisplayed();
+      configurationOverview.checkConfigOverviewPageDisplayed();
       verifyTabbingOrder(
         containerSelectorOverviewForm,
         tabConfig.productConfigurationOverview

@@ -19,14 +19,14 @@ context('Product Configuration', () => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.viewport(formats.mobile.width, formats.mobile.height);
       configuration.goToConfigurationPage(testProduct);
-      configuration.isHamburgerDisplayed();
-      configuration.isAttributeDisplayed(CAMERA_MODE, radioGroup);
+      configuration.checkHamburgerDisplayed();
+      configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
 
       configuration.clickHamburger();
-      configuration.isGroupMenuDisplayed();
+      configuration.checkGroupMenuDisplayed();
 
       configuration.clickOnGroup(2);
-      configuration.isAttributeDisplayed(CAMERA_DISPLAY, radioGroup);
+      configuration.checkAttributeDisplayed(CAMERA_DISPLAY, radioGroup);
     });
   });
 });

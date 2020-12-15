@@ -16,25 +16,21 @@ export function goToConfigOverviewPage(productId): Chainable<Window> {
   return cy.visit(location).then(() => {
     cy.location('pathname').should('contain', location);
     cy.get('.VariantConfigurationOverviewTemplate').should('be.visible');
-    this.isConfigOverviewPageDisplayed();
+    this.checkConfigOverviewPageDisplayed();
   });
 }
 
 /**
  * Verifies whether the product overview page is displayed.
- *
- * @return - 'True' if the configuration overview page is visible, otherwise 'false'
  */
-export function isConfigOverviewPageDisplayed() {
+export function checkConfigOverviewPageDisplayed(): void {
   cy.get('cx-configurator-overview-form').should('be.visible');
 }
 
 /**
  * Verifies whether 'Continue to Cart' button is displayed.
- *
- * @return - 'True' if the button is visible, otherwise 'false'
  */
-export function isContinueToCartBtnDisplayed() {
+export function checkContinueToCartBtnDisplayed(): void {
   cy.get('.cx-configurator-add-to-cart-btn button.btn-primary')
     .contains('Continue to Cart')
     .should('be.visible');
@@ -102,10 +98,8 @@ export function checkNotificationBannerOnOP(
  * Verifies whether the issues banner is displayed and the number of issues are accurate.
  *
  * @param {number} numberOfIssues - Expected number of issues
- * @return - HTML element of 'cx-configurator-overview-notification-banner' component, if it is visible.
- * Otherwise verifies if this element is not visible.
  */
-export function verifyNotificationBannerOnOP(numberOfIssues?: number) {
+export function verifyNotificationBannerOnOP(numberOfIssues?: number): void {
   const element = cy.get('cx-configurator-overview-notification-banner');
   if (numberOfIssues) {
     this.checkNotificationBannerOnOP(element, numberOfIssues);

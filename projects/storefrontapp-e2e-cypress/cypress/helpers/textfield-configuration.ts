@@ -62,10 +62,8 @@ export function clickOnEditConfigurationLink(cartItemIndex: number): void {
 
 /**
  * Verifies whether the configuration page is visible.
- *
- * @return - 'True' if the configuration page is visible, otherwise 'false'
  */
-export function isConfigurationPageIsDisplayed() {
+export function checkConfigurationPageIsDisplayed(): void {
   cy.log('Verify whether the textfield configuration page is displayed');
   cy.get('cx-configurator-textfield-form').should('be.visible');
 }
@@ -74,9 +72,8 @@ export function isConfigurationPageIsDisplayed() {
  * Verifies whether the attribute is displayed.
  *
  * @param {string} attributeName - Attribute name
- * @return - 'True' if the attribute is displayed, otherwise 'false'
  */
-export function isAttributeDisplayed(attributeName: string) {
+export function checkAttributeDisplayed(attributeName: string): void {
   const attributeId = getAttributeId(attributeName);
   cy.log("Verify whether attribute ID '" + attributeId + "' is visible");
   cy.get(`#${attributeId}`).should('be.visible');
@@ -163,9 +160,8 @@ export function clickOnViewCartBtnOnPD(): void {
  * Verifies whether the cart contains the product.
  *
  * @param {string} productId - ProductID
- * @return 'True' if the corresponding product is in the cart, otherwise 'false'
  */
-export function isTextfieldProductInCart(productId: string) {
+export function checkTextfieldProductInCart(productId: string): void {
   cy.log('Verifies whether the cart contains the product');
   cy.get('cx-cart-item-list').contains(productId).should('be.visible');
 }
@@ -179,5 +175,5 @@ export function isTextfieldProductInCart(productId: string) {
 export function addToCartAndVerify(productId: string): void {
   this.clickAddToCartButton();
   cart.verifyCartNotEmpty();
-  this.isTextfieldProductInCart(productId);
+  this.checkTextfieldProductInCart(productId);
 }
