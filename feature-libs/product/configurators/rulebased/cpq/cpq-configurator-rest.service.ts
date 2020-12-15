@@ -83,6 +83,36 @@ export class CpqConfiguratorRestService {
     );
   }
 
+  /**
+   * Will update an attribute of the runtime configuration for the given configuration id and attribute code
+   * and read this default configuration from the CPQ system.
+   */
+  updateValueQuantity(
+    configuration: Configurator.Configuration
+  ): Observable<Configurator.Configuration> {
+    const updateAttribute: Cpq.UpdateAttribute = this.converterService.convert(
+      configuration,
+      CPQ_CONFIGURATOR_SERIALIZER
+    );
+    return this.callUpdateValue(updateAttribute).pipe(
+      switchMap(() => {
+        return this.callConfigurationDisplay(configuration.configId).pipe(
+          this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER),
+          map((resultConfiguration) => {
+            return {
+              ...resultConfiguration,
+              configId: configuration.configId,
+            };
+          })
+        );
+      })
+    );
+  }
+
+  callUpdateValue(updateAttribute: Cpq.UpdateAttribute): Observable<any> {
+    throw 'Not yet implemented: ' + updateAttribute;
+  }
+
   protected callConfigurationInit(
     productSystemId: string
   ): Observable<Cpq.ConfigurationCreatedResponseData> {

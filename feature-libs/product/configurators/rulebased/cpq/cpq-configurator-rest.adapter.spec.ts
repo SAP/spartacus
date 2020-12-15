@@ -39,6 +39,7 @@ describe('CpqConfiguratorRestAdapter', () => {
       'createConfiguration',
       'readConfiguration',
       'updateAttribute',
+      'updateValueQuantity',
     ]);
 
     asSpy(mockedRestService.createConfiguration).and.callFake(() => {
@@ -50,6 +51,9 @@ describe('CpqConfiguratorRestAdapter', () => {
     });
 
     asSpy(mockedRestService.updateAttribute).and.callFake(() => {
+      return of(productConfiguration);
+    });
+    asSpy(mockedRestService.updateValueQuantity).and.callFake(() => {
       return of(productConfiguration);
     });
 
@@ -67,6 +71,8 @@ describe('CpqConfiguratorRestAdapter', () => {
     adapterUnderTest = TestBed.inject(
       CpqConfiguratorRestAdapter as Type<CpqConfiguratorRestAdapter>
     );
+
+    inputForUpdateConfiguration.updateType = Configurator.UpdateType.ATTRIBUTE;
   });
 
   it('should return correct configurator type', () => {
@@ -112,6 +118,19 @@ describe('CpqConfiguratorRestAdapter', () => {
       .subscribe((config) => {
         expect(config.owner).toEqual(owner);
         expect(mockedRestService.updateAttribute).toHaveBeenCalledWith(
+          inputForUpdateConfiguration
+        );
+      });
+  });
+
+  it('should delegate update quantity configuration to rest service and map owner', () => {
+    inputForUpdateConfiguration.updateType =
+      Configurator.UpdateType.VALUE_QUANTITY;
+    adapterUnderTest
+      .updateConfiguration(inputForUpdateConfiguration)
+      .subscribe((config) => {
+        expect(config.owner).toEqual(owner);
+        expect(mockedRestService.updateValueQuantity).toHaveBeenCalledWith(
           inputForUpdateConfiguration
         );
       });
