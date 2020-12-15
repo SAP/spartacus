@@ -4,6 +4,8 @@ import {
   ContentPageMetaResolver,
   PageBreadcrumbResolver,
   PageMetaResolver,
+  PageRobotsMeta,
+  PageRobotsResolver,
   PageTitleResolver,
   PageType,
   RoutingService,
@@ -23,7 +25,7 @@ import {
  *
  * Breadcrumbs are built in this implementation only.
  *
- * @property {string} ORGANIZATION_ROOT_PATH the default root path for organization pages.
+ * @property {string} ORGANIZATION_SEMANTIC_ROUTE the default root path for organization pages.
  * @property {string} ORGANIZATION_TRANSLATION_KEY the default i18n key for the organization breadcrumb label.
  */
 @Injectable({
@@ -31,7 +33,7 @@ import {
 })
 export class OrganizationPageMetaResolver
   extends PageMetaResolver
-  implements PageBreadcrumbResolver, PageTitleResolver {
+  implements PageBreadcrumbResolver, PageTitleResolver, PageRobotsResolver {
   pageTemplate = 'CompanyPageTemplate';
   pageType = PageType.CONTENT_PAGE;
 
@@ -105,5 +107,9 @@ export class OrganizationPageMetaResolver
 
   resolveTitle(): Observable<string> {
     return this.contentPageMetaResolver.resolveTitle();
+  }
+
+  resolveRobots(): Observable<PageRobotsMeta[]> {
+    return this.contentPageMetaResolver.resolveRobots();
   }
 }

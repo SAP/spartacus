@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { CmsService, Page } from '../../cms';
+import { CmsService, ContentPageMetaResolver, Page } from '../../cms';
 import { I18nTestingModule } from '../../i18n';
 import { PageType } from '../../model/cms.model';
 import { RoutingService } from '../../routing';
@@ -40,6 +40,7 @@ class MockRoutingService {
     });
   }
 }
+class MockContentPageMetaResolver {}
 
 describe('SearchPageMetaResolver', () => {
   let service: SearchPageMetaResolver;
@@ -52,6 +53,10 @@ describe('SearchPageMetaResolver', () => {
         { provide: CmsService, useClass: MockCmsService },
         { provide: ProductSearchService, useClass: MockProductSearchService },
         { provide: RoutingService, useClass: MockRoutingService },
+        {
+          provide: ContentPageMetaResolver,
+          useClass: MockContentPageMetaResolver,
+        },
       ],
     });
 

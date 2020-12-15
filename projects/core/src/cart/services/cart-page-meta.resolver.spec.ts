@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import {
   CmsService,
+  ContentPageMetaResolver,
   Page,
   PageMetaResolver,
   PageMetaService,
@@ -24,6 +25,8 @@ class MockCmsService {
   }
 }
 
+class MockContentPageMetaResolver {}
+
 describe('CartPageMetaResolver', () => {
   let service: CartPageMetaResolver;
 
@@ -33,6 +36,10 @@ describe('CartPageMetaResolver', () => {
       providers: [
         PageMetaService,
         { provide: CmsService, useClass: MockCmsService },
+        {
+          provide: ContentPageMetaResolver,
+          useClass: MockContentPageMetaResolver,
+        },
         {
           provide: PageMetaResolver,
           useExisting: CartPageMetaResolver,

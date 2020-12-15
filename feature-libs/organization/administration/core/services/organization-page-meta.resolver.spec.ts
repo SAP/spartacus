@@ -5,6 +5,7 @@ import {
   ContentPageMetaResolver,
   I18nTestingModule,
   Page,
+  PageRobotsMeta,
   PageType,
   RouterState,
   RoutingService,
@@ -52,6 +53,10 @@ class MockContentPageMetaResolver implements Partial<ContentPageMetaResolver> {
 
   resolveBreadcrumbs() {
     return of([testHomeBreadcrumb]);
+  }
+
+  resolveRobots() {
+    return of([]);
   }
 }
 
@@ -127,6 +132,21 @@ describe('OrganizationPageMetaResolver', () => {
           testBudgetsBreadcrumb,
         ]);
       });
+    });
+  });
+
+  describe('resolveRobots', () => {
+    it('should resolve title from the ContentPageResolver', async () => {
+      spyOn(contentPageMetaResolver, 'resolveRobots').and.returnValue(
+        of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX])
+      );
+      let result;
+      resolver
+        .resolveRobots()
+        .subscribe((robots) => (result = robots))
+        .unsubscribe();
+      expect(result).toContain(PageRobotsMeta.FOLLOW);
+      expect(result).toContain(PageRobotsMeta.INDEX);
     });
   });
 });

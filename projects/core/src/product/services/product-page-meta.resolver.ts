@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { BreadcrumbMeta, PageRobotsMeta } from '../../cms/model/page.model';
+import { ContentPageMetaResolver } from '../../cms/page/content-page-meta.resolver';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import {
   PageBreadcrumbResolver,
@@ -45,10 +46,25 @@ export class ProductPageMetaResolver
     filter(Boolean)
   );
 
+  /**
+   * @deprecated since 3.1 we'll use the contentPageResolver going forward
+   */
+  constructor(
+    routingService: RoutingService,
+    productService: ProductService,
+    translation: TranslationService
+  );
+  constructor(
+    routingService: RoutingService,
+    productService: ProductService,
+    translation: TranslationService,
+    contentPageResolver?: ContentPageMetaResolver
+  );
   constructor(
     protected routingService: RoutingService,
     protected productService: ProductService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    @Optional() protected contentPageResolver?: ContentPageMetaResolver
   ) {
     super();
     this.pageType = PageType.PRODUCT_PAGE;
@@ -71,7 +87,7 @@ export class ProductPageMetaResolver
 
   /**
    * Resolves the page title for the Product Detail Page. The page title
-   * is resolved with the product name, the first category and the manufactorer.
+   * is resolved with the product name, the first category and the manufacturer.
    * The page title used by the browser (history, tabs) and crawlers.
    */
   resolveTitle(): Observable<string> {
@@ -103,7 +119,7 @@ export class ProductPageMetaResolver
 
   /**
    * Resolves breadcrumbs for the Product Detail Page. The breadcrumbs are driven by
-   * a static home page crum and a crumb for each category.
+   * a static home page crumb and a crumb for each category.
    */
   resolveBreadcrumbs(): Observable<BreadcrumbMeta[]> {
     return combineLatest([
@@ -156,8 +172,12 @@ export class ProductPageMetaResolver
    * Resolves the robot information for the Product Detail Page. The
    * robot instruction defaults to FOLLOW and INDEX for all product pages,
    * regardless of whether they're purchasable or not.
+   *
+   * @deprecated since 3.1, we'll remove this in a future major version as the Robot
+   * information can be resolved from the content
    */
   resolveRobots(): Observable<PageRobotsMeta[]> {
+    // TODO: resolve from this.contentPageResolver.resolveRobots()
     return of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX]);
   }
 }
