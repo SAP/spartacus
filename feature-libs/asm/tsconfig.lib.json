@@ -4,15 +4,25 @@
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
     "target": "es2015",
+    "module": "es2020",
+    "moduleResolution": "node",
     "declaration": true,
-    "declarationMap": true,
+    "sourceMap": true,
     "inlineSources": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
     "types": [],
-    "lib": ["dom", "es2018"]
+    "lib": ["es2020", "dom"],
+    "paths": {
+      "@spartacus/core": ["dist/core"],
+      "@spartacus/storefront": ["dist/storefrontlib"]
+    }
   },
   "angularCompilerOptions": {
     "skipTemplateCodegen": true,
     "strictMetadataEmit": true,
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true,
     "enableResourceInlining": true
   },
   "exclude": ["test.ts", "**/*.spec.ts"]
