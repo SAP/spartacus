@@ -51,9 +51,25 @@ describe('Spartacus Schematics: add-pwa', () => {
   });
 
   it('Add PWA/ServiceWorker support for your project', async () => {
-    const tree = await schematicRunner
+    await schematicRunner
       .runSchematicAsync('add-pwa', defaultOptions, appTree)
       .toPromise();
+
+    // Verify that we registered task for installing and running @angular/pwa schematics
+    const { tasks } = schematicRunner;
+    // Order matters. First install needs to be executed and then angular-pwa schematics
+    expect(tasks[0].name).toEqual('node-package');
+    expect((tasks[0].options as any).command).toEqual('install');
+    expect(tasks[1].name).toEqual('run-schematic');
+    expect((tasks[1].options as any).name).toEqual(
+      'run-angular-pwa-schematics'
+    );
+
+    // Run @angular/pwa schematics as it was registered as future task
+    const tree = await schematicRunner
+      .runSchematicAsync('run-angular-pwa-schematics', defaultOptions, appTree)
+      .toPromise();
+
     const packageJson = tree.readContent('/package.json');
     const packageObj = JSON.parse(packageJson);
     const depPackageList = Object.keys(packageObj.dependencies);
