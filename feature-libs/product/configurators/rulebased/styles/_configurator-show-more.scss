@@ -1,11 +1,11 @@
 .cx-show-more {
-  .cx-show-more-text-hidden {
+  .show-more-text-hidden {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     display: -webkit-box;
     overflow: hidden;
   }
-  .cx-show-more-button {
+  .show-more-button {
     button {
       background-color: transparent;
       border: none;

@@ -1,6 +1,6 @@
 <fieldset class="cx-configurator-attribute-single-selection-bundle">
-  <div class="cx-configurator-attribute-single-selection-bundle-quantity">
-    <div class="cx-single-selection-bundle-quantity-input">
+  <div class="single-selection-bundle-quantity">
+    <div class="single-selection-bundle-quantity-input">
       <label>{{ 'configurator.attribute.quantity' | cxTranslate }}</label>
       <cx-item-counter
         [control]="quantity"
@@ -9,7 +9,7 @@
     </div>
 
     <div
-      class="cx-single-selection-bundle-price"
+      class="single-selection-bundle-price"
       *ngIf="attribute.selectedSingleValue"
     ></div>
   </div>
