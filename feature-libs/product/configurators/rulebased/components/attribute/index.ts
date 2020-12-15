@@ -11,6 +11,5 @@ export * from './types/radio-button/index';
 export * from './types/read-only/index';
 export * from './types/single-selection-image/index';
 export * from './product-card/index';
-export * from './product-card/index';
 export * from './types/multi-selection-bundle/index';
 export * from './types/single-selection-bundle/index';
