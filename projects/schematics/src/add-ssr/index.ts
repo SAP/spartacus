@@ -15,6 +15,10 @@ import {
   Tree,
   url,
 } from '@angular-devkit/schematics';
+import {
+  NodePackageInstallTask,
+  RunSchematicTask,
+} from '@angular-devkit/schematics/tasks';
 import { isImported } from '@schematics/angular/utility/ast-utils';
 import {
   NodeDependency,
@@ -150,7 +154,6 @@ function modifyAppModuleFile(): Rule {
 
 export function addSSR(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const serverTemplate = provideServerFile(options);
     const packageJsonObject = readPackageJson(tree);
 
     const angularVersion = getAngularVersion(tree);
@@ -181,6 +184,37 @@ export function addSSR(options: SpartacusOptions): Rule {
 
     return chain([
       addPackageJsonDependencies(dependencies, packageJsonObject),
+      invokeAfterAddSSRTask(options),
+      // externalSchematic(NGUNIVERSAL_EXPRESS_ENGINE, 'ng-add', {
+      //   clientProject: options.project,
+      // }),
+      // modifyAppServerModuleFile(),
+      // modifyIndexHtmlFile(options),
+      // branchAndMerge(
+      //   chain([mergeWith(serverTemplate, MergeStrategy.Overwrite)]),
+      //   MergeStrategy.Overwrite
+      // ),
+      // modifyAppModuleFile(),
+      // installPackageJsonDependencies(),
+      // externalSchematic(ANGULAR_LOCALIZE, 'ng-add', options),
+    ])(tree, context);
+  };
+}
+
+function invokeAfterAddSSRTask(options: SpartacusOptions): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    const id = context.addTask(new NodePackageInstallTask());
+    context.logger.log('info', `🔍 Installing packages...`);
+    context.addTask(new RunSchematicTask('after-add-ssr', options), [id]);
+    return tree;
+  };
+}
+
+export function afterAddSSR(options: SpartacusOptions): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    const serverTemplate = provideServerFile(options);
+
+    return chain([
       externalSchematic(NGUNIVERSAL_EXPRESS_ENGINE, 'ng-add', {
         clientProject: options.project,
       }),

@@ -32,6 +32,12 @@
       "schema": "./add-spartacus/schema.json",
       "aliases": ["ssr"]
     },
+    "after-add-ssr": {
+      "description": "Run SSR schematics",
+      "factory": "./add-ssr/index#afterAddSSR",
+      "private": true,
+      "hidden": true
+    },
     "add-cms-component": {
       "description": "Add a CMS component.",
       "factory": "./add-cms-component/index#addCmsComponent",
