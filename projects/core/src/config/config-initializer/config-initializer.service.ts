@@ -49,7 +49,7 @@ export class ConfigInitializerService {
    * @param scopes String describing parts of the config we want to be sure are stable
    */
   getStable(...scopes: string[]): Observable<any> {
-    if (!this.isStable) {
+    if (this.isStable) {
       return of(this.config);
     }
     return this.ongoingScopes$.pipe(
