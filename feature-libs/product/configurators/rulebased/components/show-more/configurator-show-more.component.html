@@ -1,17 +1,19 @@
 <div class="cx-show-more" *ngIf="text">
   <div #textContent class="show-more-text">
     {{ textToShow }}
-    <span class="show-more-button" *ngIf="showMore$ | async">
-      <button (click)="toggleShowMore()">
-        <ng-container *ngIf="showHiddenText$ | async; else less"
-          >&nbsp;...
-          {{ 'configurator.button.less' | cxTranslate }}</ng-container
-        >
 
-        <ng-template #less>
-          &nbsp;... {{ 'configurator.button.more' | cxTranslate }}</ng-template
-        >
-      </button>
-    </span>
+    <button
+      (click)="toggleShowMore()"
+      class="show-more-button"
+      *ngIf="showMore$ | async"
+    >
+      <ng-container *ngIf="showHiddenText$ | async; else less"
+        >&nbsp;... {{ 'configurator.button.less' | cxTranslate }}</ng-container
+      >
+
+      <ng-template #less>
+        &nbsp;... {{ 'configurator.button.more' | cxTranslate }}</ng-template
+      >
+    </button>
   </div>
 </div>

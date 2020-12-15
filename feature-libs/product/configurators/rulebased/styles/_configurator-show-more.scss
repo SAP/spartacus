@@ -6,17 +6,16 @@
     overflow: hidden;
   }
   .show-more-button {
-    button {
-      background-color: transparent;
-      border: none;
-      margin: 0;
-      outline: none;
-      padding: 0;
+    background-color: transparent;
+    border: none;
+    display: inline-block;
+    margin: 0;
+    outline: none;
+    padding: 0;
 
-      &:hover {
-        color: var(--cx-color-primary);
-        text-decoration: underline;
-      }
+    &:hover {
+      color: var(--cx-color-primary);
+      text-decoration: underline;
     }
   }
 }
