@@ -26,7 +26,7 @@ export class CurrentUnitAddressService extends CurrentItemService<Address> {
   }
 
   getDetailsRoute(): string {
-    return 'unitAddressDetails';
+    return 'orgUnitAddressDetails';
   }
 
   protected getParamKey() {

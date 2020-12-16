@@ -1,4 +1,4 @@
-export const budget = {
+export const orgBudget = {
   header: 'All budgets ({{count}})',
 
   code: 'Code',
@@ -51,7 +51,7 @@ export const budget = {
   },
 };
 
-export const budgetAssignedCostCenters = {
+export const orgBudgetAssignedCostCenters = {
   title: 'Cost centers',
   subtitle: 'Budget: {{ item.name }}',
 };
