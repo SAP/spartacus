@@ -34,7 +34,7 @@ export class ConfigInitializerService {
     );
   }
 
-  // backport of 3.0 API for a bug fic
+  // backport of 3.0 API for a bug fix
   getStable(...scopes: string[]): Observable<any> {
     if (this.isStable) {
       return of(this.config);
