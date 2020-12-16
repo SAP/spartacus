@@ -1,5 +1,11 @@
-import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
+import {
+  AbstractControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+} from '@angular/forms';
 import { EMAIL_PATTERN, PASSWORD_PATTERN } from '@spartacus/core';
+import { DatePickerService } from '../../components/form/date-picker';
 
 export class CustomFormValidators {
   /**
@@ -139,6 +145,53 @@ export class CustomFormValidators {
     );
 
     return !containsSpecialChars ? null : { cxContainsSpecialCharacters: true };
+  }
+
+  /**
+   * TODO
+   */
+  static datePatternValidation(
+    service: DatePickerService,
+    pattern?: string
+  ): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const errors: ValidationErrors = {};
+      if (
+        control.value &&
+        control.value !== '' &&
+        !service.isValidFormat(control.value, pattern)
+      ) {
+        errors.pattern = true;
+      }
+      return Object.keys(errors).length === 0 ? null : errors;
+    };
+  }
+
+  /**
+   * TODO
+   */
+  static dateRange(
+    startDateKey: string,
+    endDateKey: string,
+    service: DatePickerService
+  ): (FormGroup) => void {
+    return (formGroup: FormGroup): void => {
+      const startDateControl = formGroup.controls[startDateKey];
+      const endDateControl = formGroup.controls[endDateKey];
+      const startDate = service.getDate(startDateControl.value);
+      const endDate = service.getDate(endDateControl.value);
+      console.log('validate)');
+      if (!startDateControl.errors?.pattern) {
+        if (startDate > endDate) {
+          startDateControl.setErrors({ max: true });
+        }
+      }
+      if (!endDateControl.errors?.pattern) {
+        if (endDate < startDate) {
+          endDateControl.setErrors({ min: true });
+        }
+      }
+    };
   }
 }
 
