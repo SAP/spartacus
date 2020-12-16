@@ -64,6 +64,7 @@ export namespace Configurator {
     nextOwner?: CommonConfigurator.Owner;
     isCartEntryUpdateRequired?: boolean;
     interactionState?: InteractionState;
+    updateType?: UpdateType;
   }
 
   export interface InteractionState {
@@ -170,5 +171,11 @@ export namespace Configurator {
   export enum ImageType {
     PRIMARY = 'PRIMARY',
     GALLERY = 'GALLERY',
+  }
+
+  export enum UpdateType {
+    ATTRIBUTE = 'Attribute',
+    ATTRIBUTE_QUANTITY = 'AttributeQuantity',
+    VALUE_QUANTITY = 'ValueQuantity',
   }
 }

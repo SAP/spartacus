@@ -1,8 +1,8 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { Configurator } from './../core/model/configurator.model';
 import { CpqConfiguratorSerializer } from './cpq-configurator-serializer';
 import { Cpq } from './cpq.models';
-import { Configurator } from './../core/model/configurator.model';
 
 const configId = '1';
 const attrCodeFirst = 111;
@@ -22,6 +22,7 @@ const firstAttribute: Configurator.Attribute = {
   name: attributeName,
   uiType: Configurator.UiType.RADIOBUTTON,
   selectedSingleValue: selectedSingleValue,
+  quantity: 5,
 };
 
 const attributeRB: Configurator.Attribute = {
@@ -137,6 +138,8 @@ describe('CpqConfiguratorSerializer', () => {
     cpqConfiguratorSerializer = TestBed.inject(
       CpqConfiguratorSerializer as Type<CpqConfiguratorSerializer>
     );
+
+    configuration.updateType = Configurator.UpdateType.ATTRIBUTE;
   });
 
   function verifyUpdateAttributeSingleValue(
@@ -305,5 +308,15 @@ describe('CpqConfiguratorSerializer', () => {
       selectedSingleValue
     );
     expect(updateAttribute.changeAttributeValue.userInput).toBeUndefined();
+  });
+
+  it('should convert quantity changes', () => {
+    configuration.updateType = Configurator.UpdateType.ATTRIBUTE_QUANTITY;
+    const updateValues = cpqConfiguratorSerializer.convert(configuration);
+    expect(updateValues.configurationId).toBe(configId);
+    expect(updateValues.standardAttributeCode).toBe(attrCodeFirst.toString());
+    expect(updateValues.changeAttributeValue.quantity).toBe(5);
+    expect(updateValues.changeAttributeValue.attributeValueIds).toBeUndefined();
+    expect(updateValues.changeAttributeValue.userInput).toBeUndefined();
   });
 });
