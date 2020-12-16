@@ -4,3 +4,5 @@
 $useLatestStyles: true;
 
 @import 'storefrontstyles/index';
+@import 'organization';
+@include blue-theme;
