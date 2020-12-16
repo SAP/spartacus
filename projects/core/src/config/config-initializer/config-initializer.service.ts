@@ -4,10 +4,9 @@ import {
   ConfigInitializer,
 } from './config-initializer';
 import { Config } from '../config.module';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { filter, mapTo, take } from 'rxjs/operators';
 import { deepMerge } from '../utils/deep-merge';
-import { of } from 'rxjs';
 
 /**
  * Provides support for CONFIG_INITIALIZERS
