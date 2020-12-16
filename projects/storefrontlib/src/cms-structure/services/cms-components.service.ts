@@ -54,7 +54,7 @@ export class CmsComponentsService {
           const staticConfig = this.config.cmsComponents[componentType];
 
           // check if this component type is managed by feature module
-          if (this.featureModules.hasFeatureFor(componentType)) {
+          if (this.featureModules?.hasFeatureFor(componentType)) {
             featureResolvers.push(
               // we delegate populating this.mappings to feature resolver
               this.getFeatureMappingResolver(componentType, staticConfig)
@@ -101,7 +101,7 @@ export class CmsComponentsService {
 
   getInjectors(componentType: string): Injector[] {
     return (
-      (this.featureModules.hasFeatureFor(componentType) &&
+      (this.featureModules?.hasFeatureFor(componentType) &&
         this.featureModules.getInjectors(componentType)) ??
       []
     );
