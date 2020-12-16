@@ -11,12 +11,13 @@
     width: 100%;
     min-height: fit-content;
     top: 0;
-    @include cx-configurator-type('6', 'semi');
+    font-size: var(--cx-font-size, 1rem);
+    font-weight: var(--cx-font-weight-semi);
+    line-height: var(--cx-line-height, 1.5);
     padding-inline-start: 10px;
     padding-inline-end: 10px;
     padding-block-start: 10px;
     padding-block-end: 10px;
-    line-height: var(--cx-line-height, 1.5);
     background-color: mix(#ffffff, theme-color('info'), 80%);
     position: sticky;
 
