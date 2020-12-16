@@ -1,11 +1,7 @@
 import { NgModule } from '@angular/core';
-import { AsmComponentsModule } from './components/asm-components.module';
-// TODO
-// import { AsmCoreModule } from '@spartacus/storefinder/core';
-// import { AsmOccModule } from '@spartacus/storefinder/occ';
-// import { AsmComponentsModule } from '@spartacus/storefinder/components';
-import { AsmCoreModule } from './core/asm-core.module';
-import { AsmOccModule } from './occ/asm-occ.module';
+import { AsmComponentsModule } from '@spartacus/asm/components';
+import { AsmCoreModule } from '@spartacus/asm/core';
+import { AsmOccModule } from '@spartacus/asm/occ';
 
 @NgModule({
   imports: [AsmCoreModule.forRoot(), AsmOccModule, AsmComponentsModule],

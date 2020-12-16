@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { AsmAuthStorageService, TokenTarget } from '@spartacus/asm/core';
 import {
   AuthActions,
   AuthRedirectService,
@@ -12,8 +13,6 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { CdcAuthActions } from '../store/actions';
-
-import { AsmAuthStorageService, TokenTarget } from '@spartacus/asm';
 
 /**
  * Service to support custom CDC OAuth flow.
