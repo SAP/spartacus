@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Converter } from '@spartacus/core';
-import { Configurator } from './../core/model/configurator.model';
+import { Configurator } from '../core/model/configurator.model';
 import { Cpq } from './cpq.models';
 
 @Injectable()
-export class CpqConfiguratorQuantitySerializer
+export class CpqConfiguratorValueSerializer
   implements Converter<Configurator.Configuration, Cpq.UpdateValue> {
   convert(source: Configurator.Configuration): Cpq.UpdateValue {
     const attribute: Configurator.Attribute = this.findFirstChangedAttribute(

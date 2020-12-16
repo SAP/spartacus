@@ -13,4 +13,4 @@ export const CPQ_CONFIGURATOR_SERIALIZER = new InjectionToken<
 
 export const CPQ_CONFIGURATOR_QUANTITY_SERIALIZER = new InjectionToken<
   Converter<Configurator.Configuration, Cpq.UpdateValue>
->('CpqConfiguratorQuantitySerializer');
+>('CpqConfiguratorValueSerializer');

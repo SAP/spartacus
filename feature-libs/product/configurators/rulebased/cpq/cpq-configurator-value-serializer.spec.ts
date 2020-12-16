@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Configurator } from './../core/model/configurator.model';
-import { CpqConfiguratorQuantitySerializer } from './cpq-configurator-quantity-serializer';
+import { Configurator } from '../core/model/configurator.model';
+import { CpqConfiguratorValueSerializer } from './cpq-configurator-value-serializer';
 import { Cpq } from './cpq.models';
 
 const configId = '1';
@@ -24,18 +24,16 @@ const configuration: Configurator.Configuration = {
   ],
 };
 
-describe('CpqConfiguratorQuantitySerializer', () => {
-  let cpqConfiguratorSerializer: CpqConfiguratorQuantitySerializer;
+describe('CpqConfiguratorValueSerializer', () => {
+  let cpqConfiguratorSerializer: CpqConfiguratorValueSerializer;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [CpqConfiguratorQuantitySerializer],
+      providers: [CpqConfiguratorValueSerializer],
     });
 
     cpqConfiguratorSerializer = TestBed.inject(
-      CpqConfiguratorQuantitySerializer as Type<
-        CpqConfiguratorQuantitySerializer
-      >
+      CpqConfiguratorValueSerializer as Type<CpqConfiguratorValueSerializer>
     );
   });
 
