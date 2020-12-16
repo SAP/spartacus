@@ -174,13 +174,12 @@ export class CustomFormValidators {
     startDateKey: string,
     endDateKey: string,
     service: DatePickerService
-  ): (FormGroup) => void {
-    return (formGroup: FormGroup): void => {
+  ): (FormGroup) => ValidatorFn {
+    return (formGroup: FormGroup): null => {
       const startDateControl = formGroup.controls[startDateKey];
       const endDateControl = formGroup.controls[endDateKey];
       const startDate = service.getDate(startDateControl.value);
       const endDate = service.getDate(endDateControl.value);
-      console.log('validate)');
       if (!startDateControl.errors?.pattern) {
         if (startDate > endDate) {
           startDateControl.setErrors({ max: true });
@@ -191,6 +190,7 @@ export class CustomFormValidators {
           endDateControl.setErrors({ min: true });
         }
       }
+      return null;
     };
   }
 }

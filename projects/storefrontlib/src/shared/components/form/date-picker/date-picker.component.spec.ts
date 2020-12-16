@@ -4,7 +4,6 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { DatePickerFallbackDirective } from './date-picker-fallback.directive';
 import { DatePickerComponent } from './date-picker.component';
 
 @Component({
@@ -30,11 +29,7 @@ describe('DatePickerComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, I18nTestingModule, ReactiveFormsModule],
-      declarations: [
-        DatePickerComponent,
-        MockFormErrorComponent,
-        DatePickerFallbackDirective,
-      ],
+      declarations: [DatePickerComponent, MockFormErrorComponent],
     }).compileComponents();
   });
 
