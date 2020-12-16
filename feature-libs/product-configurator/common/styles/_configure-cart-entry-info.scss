@@ -19,16 +19,12 @@
     }
 
     .cx-label {
-      font-size: var(--cx-font-size, 0.875rem);
-      font-weight: var(--cx-font-weight-bold);
-      line-height: var(--cx-line-height, 1.2222222222);
+      @include type('8');
       word-break: break-word;
     }
 
     .cx-value {
-      font-size: var(--cx-font-size, 0.875rem);
-      font-weight: var(--cx-font-weight-normal);
-      line-height: var(--cx-line-height, 1.2222222222);
+      @include type('7');
       word-break: break-word;
       padding-inline-start: 0px;
     }

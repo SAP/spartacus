@@ -11,9 +11,7 @@
     width: 100%;
     min-height: fit-content;
     top: 0;
-    font-size: var(--cx-font-size, 1rem);
-    font-weight: var(--cx-font-weight-semi);
-    line-height: var(--cx-line-height, 1.5);
+    @include type('6', 'semi');
     padding-inline-start: 10px;
     padding-inline-end: 10px;
     padding-block-start: 10px;
