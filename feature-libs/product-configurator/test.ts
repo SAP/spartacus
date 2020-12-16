@@ -32,4 +32,4 @@ context
   .keys()
   // filter tests from node_modules
   .filter((key) => !key.startsWith('@'))
-  .map(context);
+  .forEach(context);
