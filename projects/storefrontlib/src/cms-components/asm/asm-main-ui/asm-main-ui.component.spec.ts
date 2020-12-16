@@ -85,6 +85,7 @@ class MockCustomerEmulationComponent {}
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   remove() {}
+  add() {}
 }
 
 class MockRoutingService implements Partial<RoutingService> {
@@ -197,6 +198,18 @@ describe('AsmMainUiComponent', () => {
     expect(
       csAgentAuthService.startCustomerEmulationSession
     ).toHaveBeenCalledWith(testCustomerId);
+  });
+
+  it('should not call authService.startCustomerEmulationSession() when customerId is undefined', () => {
+    spyOn(csAgentAuthService, 'startCustomerEmulationSession').and.stub();
+    spyOn(globalMessageService, 'add').and.stub();
+
+    component.startCustomerEmulationSession({ customerId: undefined });
+
+    expect(globalMessageService.add).toHaveBeenCalled();
+    expect(
+      csAgentAuthService.startCustomerEmulationSession
+    ).not.toHaveBeenCalled();
   });
 
   it('should display the login form by default and when the collapse state is false', () => {
