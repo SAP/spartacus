@@ -51,12 +51,12 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
   }
 
   protected updateMultipleSelectionValues(valueCode, state) {
-    const multipleSelectionValuesIndex = this.multipleSelectionValues.findIndex(
+    const index = this.multipleSelectionValues.findIndex(
       (value) => value.valueCode === valueCode
     );
 
-    this.multipleSelectionValues[multipleSelectionValuesIndex] = {
-      ...this.multipleSelectionValues[multipleSelectionValuesIndex],
+    this.multipleSelectionValues[index] = {
+      ...this.multipleSelectionValues[index],
       selected: state,
     };
 

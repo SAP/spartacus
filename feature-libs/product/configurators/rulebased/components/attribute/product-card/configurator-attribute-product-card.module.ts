@@ -6,6 +6,7 @@ import { ItemCounterModule } from '@spartacus/storefront';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [ConfiguratorAttributeProductCardComponent],
   entryComponents: [ConfiguratorAttributeProductCardComponent],

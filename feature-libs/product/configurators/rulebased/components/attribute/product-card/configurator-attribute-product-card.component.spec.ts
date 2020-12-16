@@ -95,13 +95,13 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should button be enabled when disabledAction = false & selected = false', () => {
+  it('should button be enabled when card actions are disabled and card is no selected', () => {
     const button = fixture.debugElement.query(By.css('button.btn'))
       .nativeElement;
     expect(button.disabled).toBe(false);
   });
 
-  it('should button be enabled when disabledAction = false & selected = true', () => {
+  it('should button be enabled when card actions are disabled and card is selected', () => {
     component.product.selected = true;
 
     fixture.detectChanges();
@@ -111,7 +111,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     expect(button.disabled).toBe(false);
   });
 
-  it('should button be disabled when disabledAction = true & selected = true', () => {
+  it('should button be disabled when card actions are enabled and card is selected', () => {
     component.disabledAction = true;
     component.product.selected = true;
 
@@ -123,7 +123,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     expect(button.disabled).toBe(true);
   });
 
-  it('should button be called with onHandleSelect', () => {
+  it('should button be called with proper select method', () => {
     const button = fixture.debugElement.query(By.css('button.btn'))
       .nativeElement;
     button.click();
@@ -133,7 +133,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     expect(component.onHandleSelect).toHaveBeenCalled();
   });
 
-  it('should button be called with onHandleDeselect', () => {
+  it('should button be called with proper deselect action', () => {
     component.product.selected = true;
 
     fixture.detectChanges();
@@ -148,14 +148,14 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     expect(component.onHandleDeselect).toHaveBeenCalled();
   });
 
-  it('should button be select when multiSelect = false & selected = false', () => {
+  it('should button have select text when card type is no multi select and card is no selected', () => {
     const button = fixture.debugElement.query(By.css('button.btn'))
       .nativeElement;
 
     expect(button.innerText).toContain('configurator.button.select');
   });
 
-  it('should button be deselect when multiSelect = false & selected = true', () => {
+  it('should button have deselect text when card type is no multi select and card is selected', () => {
     component.product.selected = true;
 
     fixture.detectChanges();
@@ -166,7 +166,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     expect(button.innerText).toContain('configurator.button.deselect');
   });
 
-  it('should button be add when multiSelect = true & selected = false', () => {
+  it('should button have add text when card type is multi select and card is no selected', () => {
     component.multiSelect = true;
     component.product.selected = false;
 
@@ -178,7 +178,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     expect(button.innerText).toContain('configurator.button.add');
   });
 
-  it('should button be remove when multiSelect = true & selected = true', () => {
+  it('should button have remove text when card type is multi selectand card is selected', () => {
     component.multiSelect = true;
     component.product.selected = true;
 
@@ -190,7 +190,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     expect(button.innerText).toContain('configurator.button.remove');
   });
 
-  it('should quantity be hidden when multiSelect = false', () => {
+  it('should quantity be hidden when card type is no multielect', () => {
     component.multiSelect = false;
 
     fixture.detectChanges();
@@ -202,7 +202,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     expect(quantityContainer).toBeNull();
   });
 
-  it('should quantity be visible when multiSelect = true', () => {
+  it('should quantity be visible when card type is multi select', () => {
     component.multiSelect = true;
 
     fixture.detectChanges();

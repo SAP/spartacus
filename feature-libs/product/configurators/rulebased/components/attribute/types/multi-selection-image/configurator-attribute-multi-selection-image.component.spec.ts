@@ -96,8 +96,6 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
       values: values,
     };
 
-    component.ownerKey = 'theOwnerKey';
-
     fixture.detectChanges();
   });
 

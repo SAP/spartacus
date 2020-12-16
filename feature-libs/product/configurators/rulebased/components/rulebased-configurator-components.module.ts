@@ -11,6 +11,7 @@ import { ConfiguratorPriceSummaryModule } from './price-summary/configurator-pri
 import { ConfiguratorProductTitleModule } from './product-title/configurator-product-title.module';
 import { ConfiguratorTabBarModule } from './tab-bar/configurator-tab-bar.module';
 import { ConfiguratorUpdateMessageModule } from './update-message/configurator-update-message.module';
+
 @NgModule({
   imports: [
     ConfiguratorPriceSummaryModule,

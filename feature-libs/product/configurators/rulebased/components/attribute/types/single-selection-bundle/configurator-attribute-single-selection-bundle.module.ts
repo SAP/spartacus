@@ -6,6 +6,7 @@ import { ItemCounterModule, KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeSingleSelectionBundleComponent } from './configurator-attribute-single-selection-bundle.component';
 import { RouterModule } from '@angular/router';
 import { ConfiguratorAttributeProductCardModule } from '../../product-card/configurator-attribute-product-card.module';
+
 @NgModule({
   imports: [
     CommonModule,

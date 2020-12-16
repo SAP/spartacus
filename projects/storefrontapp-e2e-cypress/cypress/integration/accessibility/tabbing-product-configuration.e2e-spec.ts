@@ -3,6 +3,7 @@ import * as configurationOverview from '../../helpers/product-configuration-over
 import { tabbingOrderConfig as tabConfig } from '../../helpers/accessibility/tabbing-order.config';
 import { verifyTabbingOrder } from '../../helpers/accessibility/tabbing-order';
 
+const electronicsShop = 'electronics-spa';
 const testProduct = 'CONF_CAMERA_SL';
 
 const containerSelectorConfigForm = 'main';
@@ -29,7 +30,7 @@ context('Product Configuration', () => {
 
   describe('Product Config Tabbing', () => {
     it('should allow to navigate with tab key', () => {
-      configuration.goToConfigurationPage(testProduct);
+      configuration.goToConfigurationPage(electronicsShop, testProduct);
 
       verifyTabbingOrder(
         containerSelectorConfigForm,
@@ -43,9 +44,9 @@ context('Product Configuration', () => {
       );
       configuration.navigateToOverviewPage();
 
-      configuration.isGlobalMessageNotDisplayed();
-      configuration.isUpdatingMessageNotDisplayed();
-      configurationOverview.isConfigOverviewPageDisplayed();
+      configuration.checkGlobalMessageNotDisplayed();
+      configuration.checkUpdatingMessageNotDisplayed();
+      configurationOverview.checkConfigOverviewPageDisplayed();
       verifyTabbingOrder(
         containerSelectorOverviewForm,
         tabConfig.productConfigurationOverview
@@ -71,7 +72,7 @@ context('Product Configuration', () => {
         )}/ccpconfigurator/*/pricing*`
       ).as('priceUpdate');
 
-      configuration.goToConfigurationPage(testProduct);
+      configuration.goToConfigurationPage(electronicsShop, testProduct);
 
       cy.wait('@priceUpdate');
 

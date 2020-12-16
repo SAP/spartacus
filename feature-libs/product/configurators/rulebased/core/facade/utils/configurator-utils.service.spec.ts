@@ -161,11 +161,21 @@ describe('ConfiguratorGroupUtilsService', () => {
       expect(classUnderTest.isConfigurationCreated(configuration)).toBe(false);
     });
     it('should tell from config ID', () => {
-      const configuration: Configurator.Configuration = { configId: 'a' };
+      const configuration: Configurator.Configuration = {
+        configId: 'a',
+        flatGroups: [],
+      };
       expect(classUnderTest.isConfigurationCreated(configuration)).toBe(true);
     });
     it('should tell from blank config ID', () => {
-      const configuration: Configurator.Configuration = { configId: '' };
+      const configuration: Configurator.Configuration = {
+        configId: '',
+        flatGroups: [],
+      };
+      expect(classUnderTest.isConfigurationCreated(configuration)).toBe(false);
+    });
+    it('should know that config is not created in case the groups are not defined', () => {
+      const configuration: Configurator.Configuration = { configId: 'a' };
       expect(classUnderTest.isConfigurationCreated(configuration)).toBe(false);
     });
   });

@@ -17,26 +17,26 @@ import { Subscription } from 'rxjs';
 export class ConfiguratorAttributeProductCardComponent
   implements OnDestroy, OnInit {
   quantity = new FormControl(1);
-  private subs: Subscription;
+  private sub: Subscription;
 
   @Input() disabledAction: boolean;
   @Input() multiSelect = false;
   @Input() singleDropdown = false;
   @Input() product: Configurator.Value;
-  @Output() handleSelect = new EventEmitter();
-  @Output() handleDeselect = new EventEmitter();
+  @Output() handleSelect = new EventEmitter<string>();
+  @Output() handleDeselect = new EventEmitter<string>();
 
   ngOnInit() {
-    this.subs = this.quantity.valueChanges.subscribe((value) => {
-      if (value === 0) {
+    this.sub = this.quantity.valueChanges.subscribe((value) => {
+      if (!value) {
         this.onHandleDeselect();
       }
     });
   }
 
   ngOnDestroy() {
-    if (this.subs) {
-      this.subs.unsubscribe();
+    if (this.sub) {
+      this.sub.unsubscribe();
     }
   }
 
