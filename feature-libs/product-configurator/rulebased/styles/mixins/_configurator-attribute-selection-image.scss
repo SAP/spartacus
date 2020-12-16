@@ -20,7 +20,7 @@
         position: absolute;
 
         &:focus + .cx-label-container {
-          @include visible-focus();
+          @include cx-configurator-visible-focus();
         }
       }
 

@@ -11,7 +11,7 @@
     width: 100%;
     min-height: fit-content;
     top: 0;
-    @include type('6', 'semi');
+    @include cx-configurator-type('6', 'semi');
     padding-inline-start: 10px;
     padding-inline-end: 10px;
     padding-block-start: 10px;

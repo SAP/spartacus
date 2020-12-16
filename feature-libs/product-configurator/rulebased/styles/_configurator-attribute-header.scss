@@ -5,7 +5,7 @@
   margin-inline-end: 17px;
 
   label {
-    @include type('5');
+    @include cx-configurator-type('5');
     padding-block-start: 10px;
     padding-inline-start: 6px;
     padding-inline-end: 6px;

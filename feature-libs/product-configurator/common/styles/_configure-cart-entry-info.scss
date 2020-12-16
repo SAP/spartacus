@@ -19,12 +19,12 @@
     }
 
     .cx-label {
-      @include type('8');
+      @include cx-configurator-type('8');
       word-break: break-word;
     }
 
     .cx-value {
-      @include type('7');
+      @include cx-configurator-type('7');
       word-break: break-word;
       padding-inline-start: 0px;
     }
