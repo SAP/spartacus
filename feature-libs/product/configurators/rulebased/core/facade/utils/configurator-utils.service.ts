@@ -51,7 +51,11 @@ export class ConfiguratorUtilsService {
 
   isConfigurationCreated(configuration: Configurator.Configuration): boolean {
     const configId: String = configuration?.configId;
-    return configId !== undefined && configId.length !== 0;
+    return (
+      configId !== undefined &&
+      configId.length !== 0 &&
+      configuration?.flatGroups !== undefined
+    );
   }
 
   createConfigurationExtract(
