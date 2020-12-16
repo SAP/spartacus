@@ -110,7 +110,7 @@ describe('OrganizationPageMetaResolver', () => {
 
       beforeEach(() => {
         spyOn(routingService, 'getRouterState').and.returnValue(
-          of({ state: { semanticRoute: 'budgetDetails' } } as any)
+          of({ state: { semanticRoute: 'orgBudgetDetails' } } as any)
         );
 
         spyOn(contentPageMetaResolver, 'resolveBreadcrumbs').and.returnValue(

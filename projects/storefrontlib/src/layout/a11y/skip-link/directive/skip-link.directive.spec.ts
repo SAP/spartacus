@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkipLinkService } from '../service/skip-link.service';
 import { SkipLinkConfig, SkipLinkDirective } from '../index';
 
@@ -18,19 +18,21 @@ describe('SkipLinkDirective', () => {
   let fixture: ComponentFixture<TestContainerComponent>;
   let service: SkipLinkService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [],
-      declarations: [TestContainerComponent, SkipLinkDirective],
-      providers: [
-        SkipLinkService,
-        {
-          provide: SkipLinkConfig,
-          useValue: { skipLinks: [] },
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [],
+        declarations: [TestContainerComponent, SkipLinkDirective],
+        providers: [
+          SkipLinkService,
+          {
+            provide: SkipLinkConfig,
+            useValue: { skipLinks: [] },
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestContainerComponent);

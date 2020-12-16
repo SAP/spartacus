@@ -50,12 +50,12 @@ export class UserGroupItemService extends ItemService<UserGroup> {
   }
 
   protected getDetailsRoute(): string {
-    return 'userGroupDetails';
+    return 'orgUserGroupDetails';
   }
 
   protected launchList() {
     this.routingService.go({
-      cxRoute: 'userGroup',
+      cxRoute: 'orgUserGroup',
     });
   }
 }
