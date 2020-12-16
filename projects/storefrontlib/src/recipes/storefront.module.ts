@@ -1,6 +1,11 @@
 import { ViewportScroller } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { Router, RouterModule, Event, NavigationEnd } from '@angular/router';
+import {
+  Router,
+  RouterModule,
+  NavigationEnd,
+  RouterEvent,
+} from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import {
@@ -61,11 +66,14 @@ export class StorefrontModule {
   }
   constructor(router: Router, viewportScroller: ViewportScroller) {
     router.events
-      .pipe(
-        filter((e: Event): e is NavigationEnd => e instanceof NavigationEnd)
-      )
-      .subscribe((urls) => {
-        if (this.previousUrl?.split('?')[0] !== urls.url.split('?')[0]) {
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((urls: RouterEvent) => {
+        if (
+          !(
+            this.previousUrl?.split('?')[0] === urls.url.split('?')[0] ||
+            urls.url.split('/').includes('organization')
+          )
+        ) {
           viewportScroller.scrollToPosition([0, 0]);
         }
         this.previousUrl = urls.url;
