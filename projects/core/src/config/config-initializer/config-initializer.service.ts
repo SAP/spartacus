@@ -4,9 +4,10 @@ import {
   ConfigInitializer,
 } from './config-initializer';
 import { Config } from '../config.module';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, mapTo, take } from 'rxjs/operators';
 import { deepMerge } from '../utils/deep-merge';
+import { of } from 'rxjs';
 
 /**
  * Provides support for CONFIG_INITIALIZERS
@@ -34,6 +35,20 @@ export class ConfigInitializerService {
     );
   }
 
+  // backport of 3.0 API for a bug fic
+  getStable(...scopes: string[]): Observable<any> {
+    if (this.isStable) {
+      return of(this.config);
+    }
+    return this.ongoingScopes$.pipe(
+      filter(
+        (ongoingScopes) => ongoingScopes && this.areReady(scopes, ongoingScopes)
+      ),
+      take(1),
+      mapTo(this.config)
+    );
+  }
+
   /**
    * Recommended way to get config for code that can run before app will finish
    * initialization (APP_INITIALIZERS, selected service constructors)
@@ -47,19 +62,7 @@ export class ConfigInitializerService {
    * @param scopes String describing parts of the config we want to be sure are stable
    */
   async getStableConfig(...scopes: string[]): Promise<any> {
-    if (this.isStable) {
-      return this.config;
-    }
-    return this.ongoingScopes$
-      .pipe(
-        filter(
-          (ongoingScopes) =>
-            ongoingScopes && this.areReady(scopes, ongoingScopes)
-        ),
-        take(1),
-        mapTo(this.config)
-      )
-      .toPromise();
+    return this.getStable(...scopes).toPromise();
   }
 
   /**
