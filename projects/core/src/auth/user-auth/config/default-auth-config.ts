@@ -15,6 +15,7 @@ export const defaultAuthConfig: AuthConfig = {
       disablePKCE: true,
       oidc: false,
       clearHashAfterLogin: false,
+      requireHttps: false,
     },
   },
 };
