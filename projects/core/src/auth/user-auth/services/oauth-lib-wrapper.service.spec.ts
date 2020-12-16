@@ -1,14 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import { OAuthService, TokenResponse } from 'angular-oauth2-oidc';
+import { WindowRef } from '../../../window/window-ref';
 import { AuthConfigService } from './auth-config.service';
 import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
 
 class MockAuthConfigService implements Partial<AuthConfigService> {
   getTokenEndpoint() {
-    return 'token';
+    return 'http://authserver.com/token';
   }
   getLoginUrl() {
-    return 'login';
+    return 'https://authserver.com/login';
   }
   getClientId() {
     return 'client_id';
@@ -17,13 +18,13 @@ class MockAuthConfigService implements Partial<AuthConfigService> {
     return 'dummySecret';
   }
   getRevokeEndpoint() {
-    return 'revoke';
+    return '/revoke';
   }
   getLogoutUrl() {
-    return 'logout';
+    return '/logout';
   }
   getUserinfoEndpoint() {
-    return 'userinfo';
+    return '/userinfo';
   }
   getOAuthLibConfig() {
     return {
@@ -54,6 +55,14 @@ class MockOAuthService implements Partial<OAuthService> {
   }
 }
 
+class MockWindowRef implements Partial<WindowRef> {
+  nativeWindow = {
+    location: {
+      origin: 'http://localhost:1234',
+    } as Location,
+  } as Window;
+}
+
 describe('OAuthLibWrapperService', () => {
   let service: OAuthLibWrapperService;
   let oAuthService: OAuthService;
@@ -64,6 +73,7 @@ describe('OAuthLibWrapperService', () => {
         OAuthLibWrapperService,
         { provide: AuthConfigService, useClass: MockAuthConfigService },
         { provide: OAuthService, useClass: MockOAuthService },
+        { provide: WindowRef, useClass: MockWindowRef },
       ],
     });
     service = TestBed.inject(OAuthLibWrapperService);
@@ -77,13 +87,13 @@ describe('OAuthLibWrapperService', () => {
       (service as any)['initialize']();
 
       expect(oAuthService.configure).toHaveBeenCalledWith({
-        tokenEndpoint: 'token',
-        loginUrl: 'login',
+        tokenEndpoint: 'http://authserver.com/token',
+        loginUrl: 'https://authserver.com/login',
         clientId: 'client_id',
         dummyClientSecret: 'dummySecret',
-        revocationEndpoint: 'revoke',
-        logoutUrl: 'logout',
-        userinfoEndpoint: 'userinfo',
+        revocationEndpoint: 'http://localhost:1234/revoke',
+        logoutUrl: 'http://localhost:1234/logout',
+        userinfoEndpoint: 'http://localhost:1234/userinfo',
         issuer: 'issuer',
         redirectUri: 'redUri',
         clearHashAfterLogin: true,

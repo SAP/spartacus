@@ -24,13 +24,19 @@ export class OAuthLibWrapperService {
   protected initialize() {
     const isSSR = isPlatformServer(this.platformId);
     this.oAuthService.configure({
-      tokenEndpoint: this.authConfigService.getTokenEndpoint(),
-      loginUrl: this.authConfigService.getLoginUrl(),
+      tokenEndpoint: this.addOriginToUrl(
+        this.authConfigService.getTokenEndpoint()
+      ),
+      loginUrl: this.addOriginToUrl(this.authConfigService.getLoginUrl()),
       clientId: this.authConfigService.getClientId(),
       dummyClientSecret: this.authConfigService.getClientSecret(),
-      revocationEndpoint: this.authConfigService.getRevokeEndpoint(),
-      logoutUrl: this.authConfigService.getLogoutUrl(),
-      userinfoEndpoint: this.authConfigService.getUserinfoEndpoint(),
+      revocationEndpoint: this.addOriginToUrl(
+        this.authConfigService.getRevokeEndpoint()
+      ),
+      logoutUrl: this.addOriginToUrl(this.authConfigService.getLogoutUrl()),
+      userinfoEndpoint: this.addOriginToUrl(
+        this.authConfigService.getUserinfoEndpoint()
+      ),
       issuer:
         this.authConfigService.getOAuthLibConfig()?.issuer ??
         this.authConfigService.getBaseUrl(),
@@ -40,6 +46,21 @@ export class OAuthLibWrapperService {
           : '',
       ...this.authConfigService.getOAuthLibConfig(),
     });
+  }
+
+  /**
+   * Library angular-oauth2-oidc checks if endpoint url starts with `https` when
+   * option `requireHttps` is enabled (by default it checks urls that are not localhost).
+   * There is a case when you can have the spartacus app on the same domain and you don't need to provide `baseUrl` configuration.
+   * In such case all urls returned from `AuthConfigService` will be relative.
+   * To handle the urls properly in library we make them absolute by appending `window.location.origin`.
+   */
+  private addOriginToUrl(url: string): string {
+    const isSSR = isPlatformServer(this.platformId);
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return url;
+    }
+    return !isSSR ? `${this.winRef.nativeWindow.location.origin}${url}` : url;
   }
 
   /**
