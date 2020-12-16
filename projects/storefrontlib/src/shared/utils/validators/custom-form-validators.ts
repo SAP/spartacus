@@ -5,7 +5,6 @@ import {
   ValidatorFn,
 } from '@angular/forms';
 import { EMAIL_PATTERN, PASSWORD_PATTERN } from '@spartacus/core';
-import { DatePickerService } from '../../components/form/date-picker';
 
 export class CustomFormValidators {
   /**
@@ -148,18 +147,24 @@ export class CustomFormValidators {
   }
 
   /**
-   * TODO
+   * Checks if control's value passes pattern
+   *
+   * NOTE: Use it as a control validator
+   *
+   * @static
+   * @param {(date: string) => boolean} isValidFormat Pattern verification function
+   * @returns {(control: AbstractControl): ValidationErrors | null} Uses 'pattern' validator error
+   * @memberof CustomFormValidators
    */
-  static datePatternValidation(
-    service: DatePickerService,
-    pattern?: string
+  static patternValidation(
+    isValidFormat: (date: string) => boolean
   ): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const errors: ValidationErrors = {};
       if (
         control.value &&
         control.value !== '' &&
-        !service.isValidFormat(control.value, pattern)
+        !isValidFormat(control.value)
       ) {
         errors.pattern = true;
       }
@@ -168,18 +173,27 @@ export class CustomFormValidators {
   }
 
   /**
-   * TODO
+   * Checks if two email controls match
+   *
+   * NOTE: Use it as a form validator and pass dates for range
+   *
+   * @static
+   * @param {string} startDateKey First date control name
+   * @param {string} endDateKey Second date control name
+   * @param {(value: string) => Date} getDate Converting function
+   * @returns Uses 'min' and 'max validator error
+   * @memberof CustomFormValidators
    */
   static dateRange(
     startDateKey: string,
     endDateKey: string,
-    service: DatePickerService
+    getDate: (value: string) => Date
   ): (FormGroup) => ValidatorFn {
     return (formGroup: FormGroup): null => {
       const startDateControl = formGroup.controls[startDateKey];
       const endDateControl = formGroup.controls[endDateKey];
-      const startDate = service.getDate(startDateControl.value);
-      const endDate = service.getDate(endDateControl.value);
+      const startDate = getDate(startDateControl.value);
+      const endDate = getDate(endDateControl.value);
       if (!startDateControl.errors?.pattern) {
         if (startDate > endDate) {
           startDateControl.setErrors({ max: true });
