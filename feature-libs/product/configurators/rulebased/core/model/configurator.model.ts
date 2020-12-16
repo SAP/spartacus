@@ -171,4 +171,13 @@ export namespace Configurator {
     PRIMARY = 'PRIMARY',
     GALLERY = 'GALLERY',
   }
+
+  export enum DataType {
+    INPUT_STRING = 'String',
+    INPUT_NUMBER = 'Number',
+    QTY_ATTRIBUTE_LEVEL = 'Quantity',
+    QTY_VALUE_LEVEL = 'Attr.Quantity',
+    N_A = 'N/A',
+    NOT_IMPLEMENTED = 'not_implemented',
+  }
 }

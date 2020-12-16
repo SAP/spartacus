@@ -83,6 +83,8 @@ export class CpqConfiguratorNormalizer
         sourceAttribute.displayAs,
         this.hasAnyProducts(sourceAttribute?.values)
       ),
+      dataType: this.convertDataType(sourceAttribute),
+      quantity: Number(sourceAttribute.quantity),
       groupId: groupId.toString(),
       userInput: sourceAttribute.userInput,
       hasConflicts: sourceAttribute.hasConflict,
@@ -119,6 +121,7 @@ export class CpqConfiguratorNormalizer
       description: sourceValue.description,
       productSystemId: sourceValue.productSystemId,
       selected: sourceValue.selected,
+      quantity: Number(sourceValue.quantity),
       images: [],
     };
 
@@ -176,6 +179,43 @@ export class CpqConfiguratorNormalizer
       }
     }
     return uiType;
+  }
+
+  convertDataType(cpqAttribute: Cpq.Attribute): Configurator.DataType {
+    let dataType: Configurator.DataType;
+    switch (cpqAttribute.dataType) {
+      case Cpq.DataType.INPUT_STRING: {
+        dataType = Configurator.DataType.INPUT_STRING;
+        break;
+      }
+      case Cpq.DataType.INPUT_NUMBER: {
+        dataType = Configurator.DataType.INPUT_NUMBER;
+        break;
+      }
+      case Cpq.DataType.N_A: {
+        dataType = Configurator.DataType.N_A;
+        break;
+      }
+      case Cpq.DataType.QTY_ATTRIBUTE_LEVEL: {
+        dataType = Configurator.DataType.QTY_ATTRIBUTE_LEVEL;
+        break;
+      }
+      case Cpq.DataType.QTY_VALUE_LEVEL: {
+        if (
+          cpqAttribute.displayAs === Cpq.DisplayAs.RADIO_BUTTON ||
+          cpqAttribute.displayAs === Cpq.DisplayAs.DROPDOWN
+        ) {
+          dataType = Configurator.DataType.N_A;
+        } else {
+          dataType = Configurator.DataType.QTY_VALUE_LEVEL;
+        }
+        break;
+      }
+      default: {
+        dataType = Configurator.DataType.NOT_IMPLEMENTED;
+      }
+    }
+    return dataType;
   }
 
   compileAttributeIncomplete(attribute: Configurator.Attribute) {
