@@ -64,6 +64,7 @@ export namespace Configurator {
     nextOwner?: CommonConfigurator.Owner;
     isCartEntryUpdateRequired?: boolean;
     interactionState?: InteractionState;
+    updateType?: UpdateType;
   }
 
   export interface InteractionState {
@@ -179,5 +180,10 @@ export namespace Configurator {
     QTY_VALUE_LEVEL = 'Attr.Quantity',
     N_A = 'N/A',
     NOT_IMPLEMENTED = 'not_implemented',
+  }
+  export enum UpdateType {
+    ATTRIBUTE = 'Attribute',
+    ATTRIBUTE_QUANTITY = 'AttributeQuantity',
+    VALUE_QUANTITY = 'ValueQuantity',
   }
 }

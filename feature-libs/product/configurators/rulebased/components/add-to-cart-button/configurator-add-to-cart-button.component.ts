@@ -158,52 +158,61 @@ export class ConfiguratorAddToCartButtonComponent {
       configuration.interactionState.currentGroup
     );
 
-    if (isOwnerCartEntry) {
-      if (configuration.isCartEntryUpdateRequired) {
-        this.configuratorCartService.updateCartEntry(configuration);
-      }
-      this.performNavigation(
-        configuratorType,
-        owner,
-        false,
-        isOverview,
-        configuration.isCartEntryUpdateRequired
-      );
-      if (configuration.isCartEntryUpdateRequired) {
-        this.configuratorCommonsService.removeConfiguration(owner);
-      }
-    } else {
-      this.configuratorCartService.addToCart(
-        owner.id,
-        configuration.configId,
-        owner
-      );
+    this.container$
+      .pipe(
+        filter((cont) => !cont.hasPendingChanges),
+        take(1)
+      )
+      .subscribe(() => {
+        if (isOwnerCartEntry) {
+          if (configuration.isCartEntryUpdateRequired) {
+            this.configuratorCartService.updateCartEntry(configuration);
+          }
 
-      this.configuratorCommonsService
-        .getConfiguration(owner)
-        .pipe(
-          filter(
-            (configWithNextOwner) => configWithNextOwner.nextOwner !== undefined
-          ),
-          take(1)
-        )
-        .subscribe((configWithNextOwner) => {
           this.performNavigation(
             configuratorType,
-            configWithNextOwner.nextOwner,
-            true,
+            owner,
+            false,
             isOverview,
-            true
+            configuration.isCartEntryUpdateRequired
           );
-          // we clean up both the product related configuration (no longer needed)
-          // and the cart entry related configuration, as we might have a configuration
-          // for the same cart entry number stored already.
-          // (Cart entries might have been deleted)
-          this.configuratorCommonsService.removeConfiguration(owner);
-          this.configuratorCommonsService.removeConfiguration(
-            configWithNextOwner.nextOwner
+          if (configuration.isCartEntryUpdateRequired) {
+            this.configuratorCommonsService.removeConfiguration(owner);
+          }
+        } else {
+          this.configuratorCartService.addToCart(
+            owner.id,
+            configuration.configId,
+            owner
           );
-        });
-    }
+
+          this.configuratorCommonsService
+            .getConfiguration(owner)
+            .pipe(
+              filter(
+                (configWithNextOwner) =>
+                  configWithNextOwner.nextOwner !== undefined
+              ),
+              take(1)
+            )
+            .subscribe((configWithNextOwner) => {
+              this.performNavigation(
+                configuratorType,
+                configWithNextOwner.nextOwner,
+                true,
+                isOverview,
+                true
+              );
+              // we clean up both the product related configuration (no longer needed)
+              // and the cart entry related configuration, as we might have a configuration
+              // for the same cart entry number stored already.
+              // (Cart entries might have been deleted)
+              this.configuratorCommonsService.removeConfiguration(owner);
+              this.configuratorCommonsService.removeConfiguration(
+                configWithNextOwner.nextOwner
+              );
+            });
+        }
+      });
   }
 }

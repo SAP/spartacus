@@ -227,10 +227,10 @@ describe('ConfigAddToCartButtonComponent', () => {
     expect(htmlElem.querySelector('button').disabled).toBe(false);
   });
 
-  it('should render disabled button in case there are pending changes', () => {
+  it('should not disable button in case there are pending changes', () => {
     pendingChangesObservable = of(true);
     initialize();
-    expect(htmlElem.querySelector('button').disabled).toBe(true);
+    expect(htmlElem.querySelector('button').disabled).toBe(false);
   });
 
   describe('onAddToCart', () => {
@@ -304,6 +304,13 @@ describe('ConfigAddToCartButtonComponent', () => {
       ensureProductBound();
       component.onAddToCart(mockProductConfiguration, mockRouterData);
       expect(globalMessageService.add).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not display addToCart message in case configuration has not been added yet but there are pending changes', () => {
+      pendingChangesObservable = of(true);
+      ensureProductBound();
+      component.onAddToCart(mockProductConfiguration, mockRouterData);
+      expect(globalMessageService.add).toHaveBeenCalledTimes(0);
     });
 
     it('should navigate to cart in case configuration has not yet been added and process was triggered from overview', () => {

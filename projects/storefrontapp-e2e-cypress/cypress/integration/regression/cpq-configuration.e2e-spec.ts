@@ -1,6 +1,7 @@
 import * as configuration from '../../helpers/product-configuration';
 import * as productSearch from '../../helpers/product-search';
 
+const powertoolsShop = 'powertools-spa';
 const email = 'cpq03@sap.com';
 const password = 'welcome';
 const cpqUser = 'cpq03';
@@ -20,14 +21,6 @@ const COFFEE_MACHINE_CUPS_DAY_300_500 = '8841'; // 300-500 CUPS
 const COFFEE_MACHINE_CUPS_DAY_500_1000 = '8842'; //  500-1000 CUPS
 
 const STARB_MODE = '8845'; // STARB_MODE
-
-function goToPDPage(product) {
-  const location = `powertools-spa/en/USD/product/${product}/${product}`;
-  cy.visit(location).then(() => {
-    cy.location('pathname').should('contain', location);
-    cy.get('.ProductDetailsPageTemplate').should('be.visible');
-  });
-}
 
 context('CPQ Configuration', () => {
   beforeEach(() => {
@@ -49,16 +42,16 @@ context('CPQ Configuration', () => {
     });
 
     it('should be able to navigate from the product details page', () => {
-      goToPDPage(testProduct);
+      configuration.goToPDPage(powertoolsShop, testProduct);
       configuration.clickOnConfigureBtnInCatalog();
     });
   });
 
   describe('Update attribute values', () => {
     it('should support update values for radio button attribute type', () => {
-      goToPDPage(testProductCoffeeMachine);
+      configuration.goToPDPage(powertoolsShop, testProductCoffeeMachine);
       configuration.clickOnConfigureBtnInCatalog();
-      configuration.isAttributeDisplayed(
+      configuration.checkAttributeDisplayed(
         ATTR_COFFEE_MACHINE_CUPS_DAY,
         radioGroup
       );
@@ -67,7 +60,8 @@ context('CPQ Configuration', () => {
         radioGroup,
         COFFEE_MACHINE_CUPS_DAY_300_500
       );
-      configuration.verifyRadioButtonSelected(
+      configuration.checkValueSelected(
+        radioGroup,
         ATTR_COFFEE_MACHINE_CUPS_DAY,
         COFFEE_MACHINE_CUPS_DAY_300_500
       );
@@ -76,21 +70,23 @@ context('CPQ Configuration', () => {
         radioGroup,
         COFFEE_MACHINE_CUPS_DAY_500_1000
       );
-      configuration.verifyRadioButtonSelected(
+      configuration.checkValueSelected(
+        radioGroup,
         ATTR_COFFEE_MACHINE_CUPS_DAY,
         COFFEE_MACHINE_CUPS_DAY_500_1000
       );
     });
 
     it('should support update values for checkbox list attribute type', () => {
-      goToPDPage(testProductCoffeeMachine);
+      configuration.goToPDPage(powertoolsShop, testProductCoffeeMachine);
       configuration.clickOnConfigureBtnInCatalog();
-      configuration.isAttributeDisplayed(
+      configuration.checkAttributeDisplayed(
         ATTR_COFFEE_MACHINE_STARB_MODE,
         checkBoxList
       );
 
-      configuration.verifyCheckboxNotSelected(
+      configuration.checkValueNotSelected(
+        checkBoxList,
         ATTR_COFFEE_MACHINE_STARB_MODE,
         STARB_MODE
       );
@@ -100,7 +96,8 @@ context('CPQ Configuration', () => {
         checkBoxList,
         STARB_MODE
       );
-      configuration.isCheckboxSelected(
+      configuration.checkValueSelected(
+        checkBoxList,
         ATTR_COFFEE_MACHINE_STARB_MODE,
         STARB_MODE
       );
@@ -110,7 +107,8 @@ context('CPQ Configuration', () => {
         checkBoxList,
         STARB_MODE
       );
-      configuration.verifyCheckboxNotSelected(
+      configuration.checkValueNotSelected(
+        checkBoxList,
         ATTR_COFFEE_MACHINE_STARB_MODE,
         STARB_MODE
       );
