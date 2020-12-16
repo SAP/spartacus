@@ -20,7 +20,7 @@ export class CurrentBudgetService extends CurrentItemService<Budget> {
   }
 
   protected getDetailsRoute(): string {
-    return 'budgetDetails';
+    return 'orgBudgetDetails';
   }
 
   protected getParamKey() {

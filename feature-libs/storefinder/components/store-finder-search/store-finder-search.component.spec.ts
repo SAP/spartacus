@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -44,23 +44,25 @@ describe('StoreFinderSearchComponent', () => {
 
   let routingService: RoutingService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
-      declarations: [
-        StoreFinderSearchComponent,
-        MockUrlPipe,
-        MockCxIconComponent,
-      ],
-      providers: [
-        {
-          provide: RoutingService,
-          useValue: { go: jasmine.createSpy() },
-        },
-        { provide: ActivatedRoute, useValue: mockActivatedRoute },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
+        declarations: [
+          StoreFinderSearchComponent,
+          MockUrlPipe,
+          MockCxIconComponent,
+        ],
+        providers: [
+          {
+            provide: RoutingService,
+            useValue: { go: jasmine.createSpy() },
+          },
+          { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderSearchComponent);

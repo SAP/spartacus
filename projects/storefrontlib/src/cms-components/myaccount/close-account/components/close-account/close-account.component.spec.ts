@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { ICON_TYPE } from '../../../../../cms-components/misc/index';
@@ -27,13 +27,15 @@ describe('CloseAccountComponent', () => {
   let fixture: ComponentFixture<CloseAccountComponent>;
   let modalInstance: any;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
-      declarations: [CloseAccountComponent, MockUrlPipe, MockCxIconComponent],
-      providers: [{ provide: ModalService, useValue: { open: () => {} } }],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule, RouterTestingModule],
+        declarations: [CloseAccountComponent, MockUrlPipe, MockCxIconComponent],
+        providers: [{ provide: ModalService, useValue: { open: () => {} } }],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CloseAccountComponent);
