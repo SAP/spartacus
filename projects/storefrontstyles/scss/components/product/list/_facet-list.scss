@@ -4,7 +4,8 @@ body.modal-open {
 
 %cx-dialog {
   z-index: 11;
-  position: fixed; /* could also be absolute */
+  // could also be absolute
+  position: fixed;
 
   > .inner {
     background-color: var(--cx-color-background);
