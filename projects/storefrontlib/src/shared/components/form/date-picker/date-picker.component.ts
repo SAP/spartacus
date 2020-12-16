@@ -34,6 +34,10 @@ export class DatePickerComponent {
     return this.service.placeholder;
   }
 
+  get pattern() {
+    return this.service.pattern;
+  }
+
   /**
    * Only returns the date if we have a valid format. We do this to avoid
    * loads of console errors coming from the datePipe while the user is typing
