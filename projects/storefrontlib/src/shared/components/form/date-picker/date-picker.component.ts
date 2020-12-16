@@ -30,6 +30,10 @@ export class DatePickerComponent {
     this.update.emit();
   }
 
+  get placeholder() {
+    return this.service.placeholder;
+  }
+
   /**
    * Only returns the date if we have a valid format. We do this to avoid
    * loads of console errors coming from the datePipe while the user is typing
