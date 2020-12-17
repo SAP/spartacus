@@ -1,6 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { CmsService, ContentPageMetaResolver, Page } from '../../cms';
+import {
+  CmsService,
+  ContentPageMetaResolver,
+  Page,
+  PageRobotsMeta,
+} from '../../cms';
 import { I18nTestingModule } from '../../i18n';
 import { PageType } from '../../model/cms.model';
 import { RoutingService } from '../../routing';
@@ -40,10 +45,15 @@ class MockRoutingService {
     });
   }
 }
-class MockContentPageMetaResolver {}
+class MockContentPageMetaResolver {
+  resolveRobots() {
+    return of([]);
+  }
+}
 
 describe('SearchPageMetaResolver', () => {
-  let service: SearchPageMetaResolver;
+  let resolver: SearchPageMetaResolver;
+  let contentPageMetaResolver: ContentPageMetaResolver;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -60,16 +70,17 @@ describe('SearchPageMetaResolver', () => {
       ],
     });
 
-    service = TestBed.inject(SearchPageMetaResolver);
+    resolver = TestBed.inject(SearchPageMetaResolver);
+    contentPageMetaResolver = TestBed.inject(ContentPageMetaResolver);
   });
 
   it('PageTitleService should be created', () => {
-    expect(service).toBeTruthy();
+    expect(resolver).toBeTruthy();
   });
 
   it('should resolve title', () => {
     let result: string;
-    service
+    resolver
       .resolveTitle()
       .subscribe((value) => {
         result = value;
@@ -77,5 +88,20 @@ describe('SearchPageMetaResolver', () => {
       .unsubscribe();
 
     expect(result).toEqual('pageMetaResolver.search.title count:3 query:Canon');
+  });
+
+  describe('resolveRobots', () => {
+    it('should resolve title from the ContentPageResolver', async () => {
+      spyOn(contentPageMetaResolver, 'resolveRobots').and.returnValue(
+        of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX])
+      );
+      let result;
+      resolver
+        .resolveRobots()
+        .subscribe((robots) => (result = robots))
+        .unsubscribe();
+      expect(result).toContain(PageRobotsMeta.FOLLOW);
+      expect(result).toContain(PageRobotsMeta.INDEX);
+    });
   });
 });
