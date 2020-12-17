@@ -28,7 +28,7 @@ export class CurrentBudgetService extends CurrentItemService<Budget> {
   }
 
   protected getItem(code: string): Observable<Budget> {
-    return <any>(<Budget>this.budgetService.get(code));
+    return this.budgetService.get(code);
   }
 
   getError(code: string): Observable<boolean> {
