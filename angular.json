@@ -39,6 +39,10 @@
                 "bundleName": "organization"
               },
               {
+                "input": "projects/storefrontapp/src/styles/lib-product-configurator.scss",
+                "bundleName": "product-configurator"
+              },              
+              {
                 "input": "projects/storefrontapp/src/styles/lib-storefinder.scss",
                 "bundleName": "storefinder"
               }
