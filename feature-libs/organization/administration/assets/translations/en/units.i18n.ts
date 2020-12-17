@@ -186,6 +186,8 @@ export const orgUnitAddress = {
     subtitle: 'Unit: {{item.name}}',
   },
   messages: {
+    create:
+      'Address {{ item.firstName }} {{ item.lastName }} created successfully',
     update:
       'Address {{ item.firstName }} {{ item.lastName }} updated successfully',
     delete:
