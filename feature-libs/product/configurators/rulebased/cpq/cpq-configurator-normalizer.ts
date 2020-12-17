@@ -77,7 +77,6 @@ export class CpqConfiguratorNormalizer
       name: sourceAttribute.pA_ID.toString(),
       description: sourceAttribute.description,
       label: sourceAttribute.label,
-      quantity: Number(sourceAttribute.quantity),
       required: sourceAttribute.required,
       isLineItem: sourceAttribute.isLineItem,
       uiType: this.convertAttributeType(
