@@ -54,12 +54,14 @@ export class CpqConfiguratorRestAdapter
       configuration.updateType === Configurator.UpdateType.VALUE_QUANTITY
         ? this.cpqAcpqConfiguratorRestService.updateValueQuantity
         : this.cpqAcpqConfiguratorRestService.updateAttribute;
-    return updateMethod(configuration).pipe(
-      map((configResonse) => {
-        configResonse.owner = configuration.owner;
-        return configResonse;
-      })
-    );
+    return updateMethod
+      .call(this.cpqAcpqConfiguratorRestService, configuration)
+      .pipe(
+        map((configResonse: Configurator.Configuration) => {
+          configResonse.owner = configuration.owner;
+          return configResonse;
+        })
+      );
   }
 
   addToCart(): Observable<CartModification> {
