@@ -306,7 +306,7 @@ describe('B2BUser Actions', () => {
 
     describe('CreateB2BUserApprover', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.CreateB2BUserApprover({
+        const action = new B2BUserActions.AssignB2BUserApprover({
           userId,
           orgCustomerId,
           approverId,
@@ -322,7 +322,7 @@ describe('B2BUser Actions', () => {
 
     describe('CreateB2BUserApproverFail', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.CreateB2BUserApproverFail({
+        const action = new B2BUserActions.AssignB2BUserApproverFail({
           orgCustomerId,
           approverId,
           error,
@@ -342,7 +342,7 @@ describe('B2BUser Actions', () => {
 
     describe('CreateB2BUserApproverSuccess', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.CreateB2BUserApproverSuccess({
+        const action = new B2BUserActions.AssignB2BUserApproverSuccess({
           approverId,
           selected,
         });
@@ -357,7 +357,7 @@ describe('B2BUser Actions', () => {
 
     describe('DeleteB2BUserApprover', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.DeleteB2BUserApprover({
+        const action = new B2BUserActions.UnassignB2BUserApprover({
           userId,
           orgCustomerId,
           approverId,
@@ -373,7 +373,7 @@ describe('B2BUser Actions', () => {
 
     describe('DeleteB2BUserApproverFail', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.DeleteB2BUserApproverFail({
+        const action = new B2BUserActions.UnassignB2BUserApproverFail({
           orgCustomerId,
           approverId,
           error,
@@ -393,7 +393,7 @@ describe('B2BUser Actions', () => {
 
     describe('DeleteB2BUserApproverSuccess', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.DeleteB2BUserApproverSuccess({
+        const action = new B2BUserActions.UnassignB2BUserApproverSuccess({
           approverId,
           selected,
         });
@@ -476,7 +476,7 @@ describe('B2BUser Actions', () => {
 
     describe('CreateB2BUserPermission', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.CreateB2BUserPermission({
+        const action = new B2BUserActions.AssignB2BUserPermission({
           userId,
           orgCustomerId,
           permissionId,
@@ -492,7 +492,7 @@ describe('B2BUser Actions', () => {
 
     describe('CreateB2BUserPermissionFail', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.CreateB2BUserPermissionFail({
+        const action = new B2BUserActions.AssignB2BUserPermissionFail({
           orgCustomerId,
           permissionId,
           error,
@@ -516,7 +516,7 @@ describe('B2BUser Actions', () => {
 
     describe('CreateB2BUserPermissionSuccess', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.CreateB2BUserPermissionSuccess({
+        const action = new B2BUserActions.AssignB2BUserPermissionSuccess({
           permissionId,
           selected,
         });
@@ -531,7 +531,7 @@ describe('B2BUser Actions', () => {
 
     describe('DeleteB2BUserPermission', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.DeleteB2BUserPermission({
+        const action = new B2BUserActions.UnassignB2BUserPermission({
           userId,
           orgCustomerId,
           permissionId,
@@ -547,7 +547,7 @@ describe('B2BUser Actions', () => {
 
     describe('DeleteB2BUserPermissionFail', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.DeleteB2BUserPermissionFail({
+        const action = new B2BUserActions.UnassignB2BUserPermissionFail({
           orgCustomerId,
           permissionId,
           error,
@@ -571,7 +571,7 @@ describe('B2BUser Actions', () => {
 
     describe('DeleteB2BUserPermissionSuccess', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.DeleteB2BUserPermissionSuccess({
+        const action = new B2BUserActions.UnassignB2BUserPermissionSuccess({
           permissionId,
           selected,
         });
@@ -654,7 +654,7 @@ describe('B2BUser Actions', () => {
 
     describe('CreateB2BUserUserGroup', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.CreateB2BUserUserGroup({
+        const action = new B2BUserActions.AssignB2BUserUserGroup({
           userId,
           orgCustomerId,
           userGroupId,
@@ -670,7 +670,7 @@ describe('B2BUser Actions', () => {
 
     describe('CreateB2BUserUserGroupFail', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.CreateB2BUserUserGroupFail({
+        const action = new B2BUserActions.AssignB2BUserUserGroupFail({
           orgCustomerId,
           userGroupId,
           error,
@@ -694,7 +694,7 @@ describe('B2BUser Actions', () => {
 
     describe('CreateB2BUserUserGroupSuccess', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.CreateB2BUserUserGroupSuccess({
+        const action = new B2BUserActions.AssignB2BUserUserGroupSuccess({
           uid: userGroupId,
           selected,
         });
@@ -709,7 +709,7 @@ describe('B2BUser Actions', () => {
 
     describe('DeleteB2BUserUserGroup', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.DeleteB2BUserUserGroup({
+        const action = new B2BUserActions.UnassignB2BUserUserGroup({
           userId,
           orgCustomerId,
           userGroupId,
@@ -725,7 +725,7 @@ describe('B2BUser Actions', () => {
 
     describe('DeleteB2BUserUserGroupFail', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.DeleteB2BUserUserGroupFail({
+        const action = new B2BUserActions.UnassignB2BUserUserGroupFail({
           orgCustomerId,
           userGroupId,
           error,
@@ -749,7 +749,7 @@ describe('B2BUser Actions', () => {
 
     describe('DeleteB2BUserUserGroupSuccess', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.DeleteB2BUserUserGroupSuccess({
+        const action = new B2BUserActions.UnassignB2BUserUserGroupSuccess({
           uid: userGroupId,
           selected,
         });

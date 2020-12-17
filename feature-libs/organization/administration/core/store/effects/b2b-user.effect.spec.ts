@@ -489,12 +489,12 @@ describe('B2B User Effects', () => {
 
   describe('assignApproverToB2BUser$', () => {
     it('should return CreateB2BUserApproverSuccess action', () => {
-      const action = new B2BUserActions.CreateB2BUserApprover({
+      const action = new B2BUserActions.AssignB2BUserApprover({
         userId,
         orgCustomerId,
         approverId,
       });
-      const completion1 = new B2BUserActions.CreateB2BUserApproverSuccess({
+      const completion1 = new B2BUserActions.AssignB2BUserApproverSuccess({
         approverId,
         selected: true,
       });
@@ -514,12 +514,12 @@ describe('B2B User Effects', () => {
       b2bUserConnector.assignApprover = createSpy().and.returnValue(
         throwError(httpErrorResponse)
       );
-      const action = new B2BUserActions.CreateB2BUserApprover({
+      const action = new B2BUserActions.AssignB2BUserApprover({
         userId,
         orgCustomerId,
         approverId,
       });
-      const completion1 = new B2BUserActions.CreateB2BUserApproverFail({
+      const completion1 = new B2BUserActions.AssignB2BUserApproverFail({
         orgCustomerId,
         approverId,
         error,
@@ -539,12 +539,12 @@ describe('B2B User Effects', () => {
 
   describe('unassignApproverFromB2BUser$', () => {
     it('should return DeleteB2BUserApproverSuccess action', () => {
-      const action = new B2BUserActions.DeleteB2BUserApprover({
+      const action = new B2BUserActions.UnassignB2BUserApprover({
         userId,
         orgCustomerId,
         approverId,
       });
-      const completion1 = new B2BUserActions.DeleteB2BUserApproverSuccess({
+      const completion1 = new B2BUserActions.UnassignB2BUserApproverSuccess({
         approverId,
         selected: false,
       });
@@ -564,12 +564,12 @@ describe('B2B User Effects', () => {
       b2bUserConnector.unassignApprover = createSpy().and.returnValue(
         throwError(httpErrorResponse)
       );
-      const action = new B2BUserActions.DeleteB2BUserApprover({
+      const action = new B2BUserActions.UnassignB2BUserApprover({
         userId,
         orgCustomerId,
         approverId,
       });
-      const completion1 = new B2BUserActions.DeleteB2BUserApproverFail({
+      const completion1 = new B2BUserActions.UnassignB2BUserApproverFail({
         orgCustomerId,
         approverId,
         error,
@@ -589,12 +589,12 @@ describe('B2B User Effects', () => {
 
   describe('assignPermissionToB2BUser$', () => {
     it('should return CreateB2BUserPermissionSuccess action', () => {
-      const action = new B2BUserActions.CreateB2BUserPermission({
+      const action = new B2BUserActions.AssignB2BUserPermission({
         userId,
         orgCustomerId,
         permissionId,
       });
-      const completion1 = new B2BUserActions.CreateB2BUserPermissionSuccess({
+      const completion1 = new B2BUserActions.AssignB2BUserPermissionSuccess({
         permissionId,
         selected: true,
       });
@@ -614,12 +614,12 @@ describe('B2B User Effects', () => {
       b2bUserConnector.assignPermission = createSpy().and.returnValue(
         throwError(httpErrorResponse)
       );
-      const action = new B2BUserActions.CreateB2BUserPermission({
+      const action = new B2BUserActions.AssignB2BUserPermission({
         userId,
         orgCustomerId,
         permissionId,
       });
-      const completion1 = new B2BUserActions.CreateB2BUserPermissionFail({
+      const completion1 = new B2BUserActions.AssignB2BUserPermissionFail({
         orgCustomerId,
         permissionId,
         error,
@@ -639,12 +639,12 @@ describe('B2B User Effects', () => {
 
   describe('unassignPermissionFromB2BUser$', () => {
     it('should return DeleteB2BUserPermissionSuccess action', () => {
-      const action = new B2BUserActions.DeleteB2BUserPermission({
+      const action = new B2BUserActions.UnassignB2BUserPermission({
         userId,
         orgCustomerId,
         permissionId,
       });
-      const completion1 = new B2BUserActions.DeleteB2BUserPermissionSuccess({
+      const completion1 = new B2BUserActions.UnassignB2BUserPermissionSuccess({
         permissionId,
         selected: false,
       });
@@ -664,12 +664,12 @@ describe('B2B User Effects', () => {
       b2bUserConnector.unassignPermission = createSpy().and.returnValue(
         throwError(httpErrorResponse)
       );
-      const action = new B2BUserActions.DeleteB2BUserPermission({
+      const action = new B2BUserActions.UnassignB2BUserPermission({
         userId,
         orgCustomerId,
         permissionId,
       });
-      const completion1 = new B2BUserActions.DeleteB2BUserPermissionFail({
+      const completion1 = new B2BUserActions.UnassignB2BUserPermissionFail({
         orgCustomerId,
         permissionId,
         error,
@@ -689,12 +689,12 @@ describe('B2B User Effects', () => {
 
   describe('assignUserGroupToB2BUser$', () => {
     it('should return CreateB2BUserUserGroupSuccess action', () => {
-      const action = new B2BUserActions.CreateB2BUserUserGroup({
+      const action = new B2BUserActions.AssignB2BUserUserGroup({
         userId,
         orgCustomerId,
         userGroupId,
       });
-      const completion1 = new B2BUserActions.CreateB2BUserUserGroupSuccess({
+      const completion1 = new B2BUserActions.AssignB2BUserUserGroupSuccess({
         uid: userGroupId,
         selected: true,
       });
@@ -714,12 +714,12 @@ describe('B2B User Effects', () => {
       b2bUserConnector.assignUserGroup = createSpy().and.returnValue(
         throwError(httpErrorResponse)
       );
-      const action = new B2BUserActions.CreateB2BUserUserGroup({
+      const action = new B2BUserActions.AssignB2BUserUserGroup({
         userId,
         orgCustomerId,
         userGroupId,
       });
-      const completion1 = new B2BUserActions.CreateB2BUserUserGroupFail({
+      const completion1 = new B2BUserActions.AssignB2BUserUserGroupFail({
         orgCustomerId,
         userGroupId,
         error,
@@ -739,12 +739,12 @@ describe('B2B User Effects', () => {
 
   describe('unassignUserGroupFromB2BUser$', () => {
     it('should return DeleteB2BUserUserGroupSuccess action', () => {
-      const action = new B2BUserActions.DeleteB2BUserUserGroup({
+      const action = new B2BUserActions.UnassignB2BUserUserGroup({
         userId,
         orgCustomerId,
         userGroupId,
       });
-      const completion1 = new B2BUserActions.DeleteB2BUserUserGroupSuccess({
+      const completion1 = new B2BUserActions.UnassignB2BUserUserGroupSuccess({
         uid: userGroupId,
         selected: false,
       });
@@ -764,12 +764,12 @@ describe('B2B User Effects', () => {
       b2bUserConnector.unassignUserGroup = createSpy().and.returnValue(
         throwError(httpErrorResponse)
       );
-      const action = new B2BUserActions.DeleteB2BUserUserGroup({
+      const action = new B2BUserActions.UnassignB2BUserUserGroup({
         userId,
         orgCustomerId,
         userGroupId,
       });
-      const completion1 = new B2BUserActions.DeleteB2BUserUserGroupFail({
+      const completion1 = new B2BUserActions.UnassignB2BUserUserGroupFail({
         orgCustomerId,
         userGroupId,
         error,

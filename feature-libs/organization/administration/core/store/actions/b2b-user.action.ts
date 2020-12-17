@@ -239,7 +239,7 @@ export class LoadB2BUserApproversSuccess extends StateUtils.EntitySuccessAction 
   }
 }
 
-export class CreateB2BUserApprover extends StateUtils.EntityLoadAction {
+export class AssignB2BUserApprover extends StateUtils.EntityLoadAction {
   readonly type = ASSIGN_B2B_USER_APPROVER;
   constructor(
     public payload: {
@@ -252,7 +252,7 @@ export class CreateB2BUserApprover extends StateUtils.EntityLoadAction {
   }
 }
 
-export class CreateB2BUserApproverFail extends StateUtils.EntityFailAction {
+export class AssignB2BUserApproverFail extends StateUtils.EntityFailAction {
   readonly type = ASSIGN_B2B_USER_APPROVER_FAIL;
   constructor(
     public payload: {
@@ -265,7 +265,7 @@ export class CreateB2BUserApproverFail extends StateUtils.EntityFailAction {
   }
 }
 
-export class CreateB2BUserApproverSuccess extends StateUtils.EntitySuccessAction {
+export class AssignB2BUserApproverSuccess extends StateUtils.EntitySuccessAction {
   readonly type = ASSIGN_B2B_USER_APPROVER_SUCCESS;
   constructor(
     public payload: {
@@ -277,7 +277,7 @@ export class CreateB2BUserApproverSuccess extends StateUtils.EntitySuccessAction
   }
 }
 
-export class DeleteB2BUserApprover extends StateUtils.EntityLoadAction {
+export class UnassignB2BUserApprover extends StateUtils.EntityLoadAction {
   readonly type = UNASSIGN_B2B_USER_APPROVER;
   constructor(
     public payload: {
@@ -290,7 +290,7 @@ export class DeleteB2BUserApprover extends StateUtils.EntityLoadAction {
   }
 }
 
-export class DeleteB2BUserApproverFail extends StateUtils.EntityFailAction {
+export class UnassignB2BUserApproverFail extends StateUtils.EntityFailAction {
   readonly type = UNASSIGN_B2B_USER_APPROVER_FAIL;
   constructor(
     public payload: {
@@ -303,7 +303,7 @@ export class DeleteB2BUserApproverFail extends StateUtils.EntityFailAction {
   }
 }
 
-export class DeleteB2BUserApproverSuccess extends StateUtils.EntitySuccessAction {
+export class UnassignB2BUserApproverSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UNASSIGN_B2B_USER_APPROVER_SUCCESS;
   constructor(
     public payload: {
@@ -360,7 +360,7 @@ export class LoadB2BUserPermissionsSuccess extends StateUtils.EntitySuccessActio
   }
 }
 
-export class CreateB2BUserPermission extends StateUtils.EntityLoadAction {
+export class AssignB2BUserPermission extends StateUtils.EntityLoadAction {
   readonly type = ASSIGN_B2B_USER_PERMISSION;
   constructor(
     public payload: {
@@ -373,7 +373,7 @@ export class CreateB2BUserPermission extends StateUtils.EntityLoadAction {
   }
 }
 
-export class CreateB2BUserPermissionFail extends StateUtils.EntityFailAction {
+export class AssignB2BUserPermissionFail extends StateUtils.EntityFailAction {
   readonly type = ASSIGN_B2B_USER_PERMISSION_FAIL;
   constructor(
     public payload: {
@@ -386,7 +386,7 @@ export class CreateB2BUserPermissionFail extends StateUtils.EntityFailAction {
   }
 }
 
-export class CreateB2BUserPermissionSuccess extends StateUtils.EntitySuccessAction {
+export class AssignB2BUserPermissionSuccess extends StateUtils.EntitySuccessAction {
   readonly type = ASSIGN_B2B_USER_PERMISSION_SUCCESS;
   constructor(
     public payload: {
@@ -398,7 +398,7 @@ export class CreateB2BUserPermissionSuccess extends StateUtils.EntitySuccessActi
   }
 }
 
-export class DeleteB2BUserPermission extends StateUtils.EntityLoadAction {
+export class UnassignB2BUserPermission extends StateUtils.EntityLoadAction {
   readonly type = UNASSIGN_B2B_USER_PERMISSION;
   constructor(
     public payload: {
@@ -411,7 +411,7 @@ export class DeleteB2BUserPermission extends StateUtils.EntityLoadAction {
   }
 }
 
-export class DeleteB2BUserPermissionFail extends StateUtils.EntityFailAction {
+export class UnassignB2BUserPermissionFail extends StateUtils.EntityFailAction {
   readonly type = UNASSIGN_B2B_USER_PERMISSION_FAIL;
   constructor(
     public payload: {
@@ -424,7 +424,7 @@ export class DeleteB2BUserPermissionFail extends StateUtils.EntityFailAction {
   }
 }
 
-export class DeleteB2BUserPermissionSuccess extends StateUtils.EntitySuccessAction {
+export class UnassignB2BUserPermissionSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UNASSIGN_B2B_USER_PERMISSION_SUCCESS;
   constructor(
     public payload: {
@@ -485,7 +485,7 @@ export class LoadB2BUserUserGroupsSuccess extends StateUtils.EntitySuccessAction
   }
 }
 
-export class CreateB2BUserUserGroup extends StateUtils.EntityLoadAction {
+export class AssignB2BUserUserGroup extends StateUtils.EntityLoadAction {
   readonly type = ASSIGN_B2B_USER_USER_GROUP;
   constructor(
     public payload: {
@@ -498,7 +498,7 @@ export class CreateB2BUserUserGroup extends StateUtils.EntityLoadAction {
   }
 }
 
-export class CreateB2BUserUserGroupFail extends StateUtils.EntityFailAction {
+export class AssignB2BUserUserGroupFail extends StateUtils.EntityFailAction {
   readonly type = ASSIGN_B2B_USER_USER_GROUP_FAIL;
   constructor(
     public payload: {
@@ -511,7 +511,7 @@ export class CreateB2BUserUserGroupFail extends StateUtils.EntityFailAction {
   }
 }
 
-export class CreateB2BUserUserGroupSuccess extends StateUtils.EntitySuccessAction {
+export class AssignB2BUserUserGroupSuccess extends StateUtils.EntitySuccessAction {
   readonly type = ASSIGN_B2B_USER_USER_GROUP_SUCCESS;
   constructor(
     public payload: {
@@ -523,7 +523,7 @@ export class CreateB2BUserUserGroupSuccess extends StateUtils.EntitySuccessActio
   }
 }
 
-export class DeleteB2BUserUserGroup extends StateUtils.EntityLoadAction {
+export class UnassignB2BUserUserGroup extends StateUtils.EntityLoadAction {
   readonly type = UNASSIGN_B2B_USER_USER_GROUP;
   constructor(
     public payload: {
@@ -536,7 +536,7 @@ export class DeleteB2BUserUserGroup extends StateUtils.EntityLoadAction {
   }
 }
 
-export class DeleteB2BUserUserGroupFail extends StateUtils.EntityFailAction {
+export class UnassignB2BUserUserGroupFail extends StateUtils.EntityFailAction {
   readonly type = UNASSIGN_B2B_USER_USER_GROUP_FAIL;
   constructor(
     public payload: {
@@ -549,7 +549,7 @@ export class DeleteB2BUserUserGroupFail extends StateUtils.EntityFailAction {
   }
 }
 
-export class DeleteB2BUserUserGroupSuccess extends StateUtils.EntitySuccessAction {
+export class UnassignB2BUserUserGroupSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UNASSIGN_B2B_USER_USER_GROUP_SUCCESS;
   constructor(
     public payload: {
@@ -577,27 +577,27 @@ export type B2BUserAction =
   | LoadB2BUserApprovers
   | LoadB2BUserApproversFail
   | LoadB2BUserApproversSuccess
-  | CreateB2BUserApprover
-  | CreateB2BUserApproverFail
-  | CreateB2BUserApproverSuccess
-  | DeleteB2BUserApprover
-  | DeleteB2BUserApproverFail
-  | DeleteB2BUserApproverSuccess
+  | AssignB2BUserApprover
+  | AssignB2BUserApproverFail
+  | AssignB2BUserApproverSuccess
+  | UnassignB2BUserApprover
+  | UnassignB2BUserApproverFail
+  | UnassignB2BUserApproverSuccess
   | LoadB2BUserPermissions
   | LoadB2BUserPermissionsFail
   | LoadB2BUserPermissionsSuccess
-  | CreateB2BUserPermission
-  | CreateB2BUserPermissionFail
-  | CreateB2BUserPermissionSuccess
-  | DeleteB2BUserPermission
-  | DeleteB2BUserPermissionFail
-  | DeleteB2BUserPermissionSuccess
+  | AssignB2BUserPermission
+  | AssignB2BUserPermissionFail
+  | AssignB2BUserPermissionSuccess
+  | UnassignB2BUserPermission
+  | UnassignB2BUserPermissionFail
+  | UnassignB2BUserPermissionSuccess
   | LoadB2BUserUserGroups
   | LoadB2BUserUserGroupsFail
   | LoadB2BUserUserGroupsSuccess
-  | CreateB2BUserUserGroup
-  | CreateB2BUserUserGroupFail
-  | CreateB2BUserUserGroupSuccess
-  | DeleteB2BUserUserGroup
-  | DeleteB2BUserUserGroupFail
-  | DeleteB2BUserUserGroupSuccess;
+  | AssignB2BUserUserGroup
+  | AssignB2BUserUserGroupFail
+  | AssignB2BUserUserGroupSuccess
+  | UnassignB2BUserUserGroup
+  | UnassignB2BUserUserGroupFail
+  | UnassignB2BUserUserGroupSuccess;
