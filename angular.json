@@ -28,10 +28,20 @@
               "projects/storefrontapp/src/manifest.json",
               "projects/storefrontapp/src/webApplicationInjector.js"
             ],
+            "extractCss": true,
             "styles": [
-              "projects/storefrontapp/src/styles.scss",
-              "projects/storefrontapp/src/styles/lib-organization.scss",
-              "projects/storefrontapp/src/styles/lib-storefinder.scss"
+              {
+                "input": "projects/storefrontapp/src/styles.scss",
+                "bundleName": "styles"
+              },
+              {
+                "input": "projects/storefrontapp/src/styles/lib-organization.scss",
+                "bundleName": "organization"
+              },
+              {
+                "input": "projects/storefrontapp/src/styles/lib-storefinder.scss",
+                "bundleName": "storefinder"
+              }
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
@@ -624,9 +634,7 @@
               "feature-libs/storefinder/tsconfig.lib.json",
               "feature-libs/storefinder/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }

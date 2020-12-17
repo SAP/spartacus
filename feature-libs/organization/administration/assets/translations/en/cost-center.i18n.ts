@@ -1,4 +1,4 @@
-export const costCenter = {
+export const orgCostCenter = {
   header: 'All cost centers ({{count}})',
 
   code: 'Code',
@@ -50,14 +50,14 @@ export const costCenter = {
   },
 };
 
-export const costCenterAssignedBudgets = {
+export const orgCostCenterAssignedBudgets = {
   title: 'Assigned budgets',
   subtitle: 'Cost Center: {{ item.name }}',
   assigned: 'Budget {{ item.name }} assigned successfully',
   unassigned: 'Budget {{ item.name }} unassigned successfully',
 };
 
-export const costCenterBudgets = {
+export const orgCostCenterBudgets = {
   title: 'Manage budgets',
   subtitle: 'Cost Center: {{ item.name }}',
   assigned: 'Budget {{ item.name }} assigned successfully',

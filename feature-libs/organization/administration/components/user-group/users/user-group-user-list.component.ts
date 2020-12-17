@@ -47,7 +47,7 @@ export class UserGroupUserListComponent {
   protected notify(item: UserGroup) {
     this.messageService.add({
       message: {
-        key: `userGroupUsers.unassignAllConfirmation`,
+        key: `orgUserGroupUsers.unassignAllConfirmation`,
         params: {
           item,
         },

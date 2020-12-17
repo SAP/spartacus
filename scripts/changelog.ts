@@ -1,7 +1,7 @@
 // tslint:disable:no-implicit-dependencies
 import { JsonObject, logging } from '@angular-devkit/core';
 import chalk from 'chalk';
-import * as program from 'commander';
+import program from 'commander';
 import * as ejs from 'ejs';
 import * as fs from 'fs';
 import * as path from 'path';

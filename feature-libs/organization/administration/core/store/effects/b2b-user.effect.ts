@@ -80,6 +80,7 @@ export class B2BUserEffects {
             switchMap(() => {
               const successActions = [
                 new B2BUserActions.CreateB2BUserSuccess(data),
+                new B2BUserActions.CreateB2BUserSuccess({ customerId: null }),
                 new OrganizationActions.OrganizationClearData(),
               ] as any[];
               if (isAssignedToApprovers) {
@@ -602,7 +603,7 @@ export class B2BUserEffects {
   protected redirectToDetails(route, data) {
     if ((route as any)?.state?.context?.id !== '/organization/units') {
       this.routingService.go({
-        cxRoute: 'userDetails',
+        cxRoute: 'orgUserDetails',
         params: data,
       });
     }

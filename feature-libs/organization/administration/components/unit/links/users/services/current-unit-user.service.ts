@@ -17,7 +17,7 @@ export class CurrentUnitUserService extends CurrentItemService<B2BUser> {
   }
 
   getDetailsRoute(): string {
-    return 'unitUserList';
+    return 'orgUnitUserList';
   }
 
   protected getParamKey() {

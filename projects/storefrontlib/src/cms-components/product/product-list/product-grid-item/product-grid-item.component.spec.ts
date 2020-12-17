@@ -5,7 +5,7 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
@@ -91,35 +91,40 @@ describe('ProductGridItemComponent in product-list', () => {
     },
   };
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
-      declarations: [
-        ProductGridItemComponent,
-        MockMediaComponent,
-        MockAddToCartComponent,
-        MockStarRatingComponent,
-        MockUrlPipe,
-        MockCxIconComponent,
-        MockStyleIconsComponent,
-        MockFeatureLevelDirective,
-      ],
-      providers: [
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: ProductService,
-          useClass: MockProductService,
-        },
-      ],
-    })
-      .overrideComponent(ProductGridItemComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule, I18nTestingModule],
+        declarations: [
+          ProductGridItemComponent,
+          MockMediaComponent,
+          MockAddToCartComponent,
+          MockStarRatingComponent,
+          MockUrlPipe,
+          MockCxIconComponent,
+          MockStyleIconsComponent,
+          MockFeatureLevelDirective,
+        ],
+        providers: [
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
+          {
+            provide: ProductService,
+            useClass: MockProductService,
+          },
+        ],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(ProductGridItemComponent, {
+          set: { changeDetection: ChangeDetectionStrategy.Default },
+        })
+        .overrideComponent(ProductGridItemComponent, {
+          set: { changeDetection: ChangeDetectionStrategy.Default },
+        })
+        .compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductGridItemComponent);
