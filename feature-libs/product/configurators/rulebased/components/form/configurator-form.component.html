@@ -59,13 +59,13 @@
         (selectionChange)="updateConfiguration($event)"
       ></cx-configurator-attribute-single-selection-bundle-dropdown>
 
-      <!-- <cx-configurator-attribute-drop-down
-        *ngIf="attribute.uiType === uiType.DROPDOWN"
+      <cx-configurator-attribute-drop-down
+        *ngIf="attribute.uiType === uiType.DROPDOWN_PRODUCT"
         [attribute]="attribute"
         [group]="currentGroup.id"
         [ownerKey]="configuration.owner.key"
         (selectionChange)="updateConfiguration($event)"
-      ></cx-configurator-attribute-drop-down> -->
+      ></cx-configurator-attribute-drop-down>
 
       <cx-configurator-attribute-input-field
         *ngIf="attribute.uiType === uiType.STRING"
