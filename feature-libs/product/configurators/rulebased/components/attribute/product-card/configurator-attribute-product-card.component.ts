@@ -21,8 +21,8 @@ export class ConfiguratorAttributeProductCardComponent
 
   @Input() disabledAction: boolean;
   @Input() multiSelect = false;
-  @Input() singleDropdown = false;
   @Input() product: Configurator.Value;
+  @Input() singleDropdown = false;
   @Output() handleSelect = new EventEmitter<string>();
   @Output() handleDeselect = new EventEmitter<string>();
 
