@@ -81,6 +81,8 @@ export class SearchBoxComponent {
         displayProducts: isBool(config, 'displayProducts'),
         displayProductImages: isBool(config, 'displayProductImages'),
         displaySuggestions: isBool(config, 'displaySuggestions'),
+        // we're merging the (optional) input of this component, but write the merged
+        // result back to the input property, as the view logic depends on it.
         ...this.config,
       })),
       tap((config) => (this.config = config))
