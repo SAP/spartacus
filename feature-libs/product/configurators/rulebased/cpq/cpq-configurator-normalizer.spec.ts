@@ -57,7 +57,8 @@ const cpqGroupIsSelected2 = false;
 
 const configuratorValueQuantity = Number(cpqValueQuantity);
 const configuratorAttributeQuantity = Number(cpqAttributeQuantity);
-const configuratorAttributeDataType = Configurator.DataType.QTY_ATTRIBUTE_LEVEL;
+const configuratorAttributeDataType =
+  Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
 
 const cpqValue: Cpq.Value = {
   paV_ID: cpqValuePavId,
@@ -643,7 +644,7 @@ describe('CpqConfiguratorNormalizer', () => {
       dataType: Cpq.DataType.N_A,
     };
     expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
-      Configurator.DataType.N_A
+      Configurator.DataType.USER_SELECTION_NO_QTY
     );
   });
 
@@ -654,7 +655,7 @@ describe('CpqConfiguratorNormalizer', () => {
       dataType: Cpq.DataType.QTY_ATTRIBUTE_LEVEL,
     };
     expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
-      Configurator.DataType.QTY_ATTRIBUTE_LEVEL
+      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
     );
   });
 
@@ -666,7 +667,7 @@ describe('CpqConfiguratorNormalizer', () => {
       displayAs: Cpq.DisplayAs.CHECK_BOX,
     };
     expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
-      Configurator.DataType.QTY_VALUE_LEVEL
+      Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL
     );
   });
 
@@ -678,7 +679,7 @@ describe('CpqConfiguratorNormalizer', () => {
       displayAs: Cpq.DisplayAs.RADIO_BUTTON,
     };
     expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
-      Configurator.DataType.N_A
+      Configurator.DataType.USER_SELECTION_NO_QTY
     );
   });
 

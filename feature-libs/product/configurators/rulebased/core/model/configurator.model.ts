@@ -176,9 +176,9 @@ export namespace Configurator {
   export enum DataType {
     INPUT_STRING = 'String',
     INPUT_NUMBER = 'Number',
-    QTY_ATTRIBUTE_LEVEL = 'Quantity',
-    QTY_VALUE_LEVEL = 'Attr.Quantity',
-    N_A = 'N/A',
+    USER_SELECTION_QTY_ATTRIBUTE_LEVEL = 'UserSelectionWithAttributeQuantity',
+    USER_SELECTION_QTY_VALUE_LEVEL = 'UserSelectionWithValueQuantity',
+    USER_SELECTION_NO_QTY = 'UserSelectionWithoutQuantity',
     NOT_IMPLEMENTED = 'not_implemented',
   }
   export enum UpdateType {

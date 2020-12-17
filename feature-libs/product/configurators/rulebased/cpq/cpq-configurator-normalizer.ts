@@ -193,11 +193,11 @@ export class CpqConfiguratorNormalizer
         break;
       }
       case Cpq.DataType.N_A: {
-        dataType = Configurator.DataType.N_A;
+        dataType = Configurator.DataType.USER_SELECTION_NO_QTY;
         break;
       }
       case Cpq.DataType.QTY_ATTRIBUTE_LEVEL: {
-        dataType = Configurator.DataType.QTY_ATTRIBUTE_LEVEL;
+        dataType = Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
         break;
       }
       case Cpq.DataType.QTY_VALUE_LEVEL: {
@@ -205,9 +205,9 @@ export class CpqConfiguratorNormalizer
           cpqAttribute.displayAs === Cpq.DisplayAs.RADIO_BUTTON ||
           cpqAttribute.displayAs === Cpq.DisplayAs.DROPDOWN
         ) {
-          dataType = Configurator.DataType.N_A;
+          dataType = Configurator.DataType.USER_SELECTION_NO_QTY;
         } else {
-          dataType = Configurator.DataType.QTY_VALUE_LEVEL;
+          dataType = Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL;
         }
         break;
       }
