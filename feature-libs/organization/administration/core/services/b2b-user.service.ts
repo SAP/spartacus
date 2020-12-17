@@ -170,7 +170,7 @@ export class B2BUserService {
     this.userIdService.takeUserId(true).subscribe(
       (userId) =>
         this.store.dispatch(
-          new B2BUserActions.CreateB2BUserApprover({
+          new B2BUserActions.AssignB2BUserApprover({
             userId,
             orgCustomerId,
             approverId,
@@ -184,7 +184,7 @@ export class B2BUserService {
     this.userIdService.takeUserId(true).subscribe(
       (userId) =>
         this.store.dispatch(
-          new B2BUserActions.DeleteB2BUserApprover({
+          new B2BUserActions.UnassignB2BUserApprover({
             userId,
             orgCustomerId,
             approverId,
@@ -231,7 +231,7 @@ export class B2BUserService {
     this.userIdService.takeUserId(true).subscribe(
       (userId) =>
         this.store.dispatch(
-          new B2BUserActions.CreateB2BUserPermission({
+          new B2BUserActions.AssignB2BUserPermission({
             userId,
             orgCustomerId,
             permissionId,
@@ -245,7 +245,7 @@ export class B2BUserService {
     this.userIdService.takeUserId(true).subscribe(
       (userId) =>
         this.store.dispatch(
-          new B2BUserActions.DeleteB2BUserPermission({
+          new B2BUserActions.UnassignB2BUserPermission({
             userId,
             orgCustomerId,
             permissionId,
@@ -292,7 +292,7 @@ export class B2BUserService {
     this.userIdService.takeUserId(true).subscribe(
       (userId) =>
         this.store.dispatch(
-          new B2BUserActions.CreateB2BUserUserGroup({
+          new B2BUserActions.AssignB2BUserUserGroup({
             userId,
             orgCustomerId,
             userGroupId,
@@ -306,7 +306,7 @@ export class B2BUserService {
     this.userIdService.takeUserId(true).subscribe(
       (userId) =>
         this.store.dispatch(
-          new B2BUserActions.DeleteB2BUserUserGroup({
+          new B2BUserActions.UnassignB2BUserUserGroup({
             userId,
             orgCustomerId,
             userGroupId,
