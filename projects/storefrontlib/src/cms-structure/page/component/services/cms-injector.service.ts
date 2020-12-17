@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { CmsComponent, CmsService } from '@spartacus/core';
-import { of } from 'rxjs';
+import { defer } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { CmsComponentsService } from '../../../services/cms-components.service';
 import { CmsComponentData } from '../../model/cms-component-data';
@@ -20,28 +20,6 @@ export class CmsInjectorService {
     protected injector: Injector
   ) {}
 
-  private getCmsData<T extends CmsComponent>(
-    uid: string,
-    type: string,
-    parentInjector?: Injector
-  ): CmsComponentData<T> {
-    const staticComponentData = this.cmsComponentsService.getStaticData(type);
-    return {
-      uid: uid,
-      data$: (
-        (parentInjector ?? this.injector)
-          .get(CmsService)
-          .getComponentData<T>(uid) || of({})
-      ).pipe(
-        startWith(staticComponentData),
-        map((data) => ({
-          ...staticComponentData,
-          ...data,
-        }))
-      ),
-    };
-  }
-
   public getInjector(
     type: string,
     uid: string,
@@ -54,11 +32,39 @@ export class CmsInjectorService {
       providers: [
         {
           provide: CmsComponentData,
-          useValue: this.getCmsData(uid, type, parentInjector),
+          useFactory: cmsDataFactory(uid, type),
+          deps: [CmsComponentsService, CmsService],
         },
         ...configProviders,
       ],
       parent: parentInjector ?? this.injector,
     });
   }
+}
+
+function cmsDataFactory<T extends CmsComponent>(uid: string, type: string) {
+  return (
+    cmsComponentsService: CmsComponentsService,
+    cmsService: CmsService
+  ) => {
+    const data$ = defer(() => {
+      const staticComponentData = cmsComponentsService.getStaticData(type);
+      if (staticComponentData) {
+        return cmsService.getComponentData<T>(uid).pipe(
+          map((data) => ({
+            ...staticComponentData,
+            ...data,
+          })),
+          startWith(staticComponentData)
+        );
+      } else {
+        return cmsService.getComponentData<T>(uid);
+      }
+    });
+
+    return {
+      uid,
+      data$,
+    };
+  };
 }
