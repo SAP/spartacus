@@ -3,6 +3,7 @@
 // Always bump to the latest (breaking) styles during development.
 $useLatestStyles: true;
 
-@import 'storefrontstyles/index';
+@import '~@spartacus/styles/index';
 @import 'product';
+@import 'product-configurator';
 @import 'organization';
