@@ -50,11 +50,8 @@ describe('DatePickerComponent', () => {
   });
 
   describe('minimum date', () => {
-    let min: string;
-
     beforeEach(() => {
-      min = '2020-12-1';
-      component.min = min;
+      component.min = '2020-12-1';
       fixture.detectChanges();
     });
 
@@ -68,11 +65,8 @@ describe('DatePickerComponent', () => {
   });
 
   describe('maximum date', () => {
-    let max: string;
-
     beforeEach(() => {
-      max = '2020-12-1';
-      component.max = max;
+      component.max = '2020-12-1';
       fixture.detectChanges();
     });
 
