@@ -12,10 +12,24 @@ export class CpqConfiguratorSerializer
     const attribute: Configurator.Attribute = this.findFirstChangedAttribute(
       source
     );
-    const updateAttribute: Cpq.UpdateAttribute = this.convertAttribute(
-      attribute,
-      source.configId
-    );
+    let updateAttribute: Cpq.UpdateAttribute;
+    if (source.updateType === Configurator.UpdateType.ATTRIBUTE_QUANTITY) {
+      updateAttribute = this.convertQuantity(attribute, source.configId);
+    } else {
+      updateAttribute = this.convertAttribute(attribute, source.configId);
+    }
+    return updateAttribute;
+  }
+
+  convertQuantity(
+    attribute: Configurator.Attribute,
+    configId: string
+  ): Cpq.UpdateAttribute {
+    const updateAttribute: Cpq.UpdateAttribute = {
+      configurationId: configId,
+      standardAttributeCode: attribute.attrCode.toString(),
+      changeAttributeValue: { quantity: attribute.quantity },
+    };
     return updateAttribute;
   }
 

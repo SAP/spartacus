@@ -1,11 +1,11 @@
 <div
-  class="cx-configurator-attribute-product-card"
+  class="cx-product-card"
   [ngClass]="{
-    'product-card-selected': product.selected && !singleDropdown
+    'cx-product-card-selected': product.selected && !singleDropdown
   }"
 >
-  <div class="product-card-rows">
-    <div class="product-card-imgs">
+  <div class="cx-product-card-rows">
+    <div class="cx-product-card-imgs">
       <ng-container *ngIf="product?.images.length; else noimages">
         <img
           [alt]="product.images[0].altText"
@@ -15,12 +15,12 @@
       </ng-container>
 
       <ng-template #noimages>
-        <div class="product-card-imgs-fake"></div
+        <div class="cx-product-card-imgs-fake"></div
       ></ng-template>
     </div>
 
-    <div class="product-card-info">
-      <div class="product-card-name">
+    <div class="cx-product-card-info">
+      <div class="cx-product-card-name">
         <a
           [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
           class="cx-link"
@@ -30,7 +30,7 @@
           {{ product.valueDisplay }}</a
         >
       </div>
-      <div class="product-card-code">
+      <div class="cx-product-card-code">
         {{ 'configurator.attribute.id' | cxTranslate }}: {{ product.valueCode }}
       </div>
       <cx-configurator-show-more
@@ -39,9 +39,9 @@
     </div>
   </div>
 
-  <div class="product-card-rows">
+  <div class="cx-product-card-rows">
     <div
-      class="product-card-quantity"
+      class="cx-product-card-quantity"
       *ngIf="product.selected && (multiSelect || singleDropdown)"
     >
       <label>{{ 'configurator.attribute.quantity' | cxTranslate }}</label>
@@ -51,11 +51,11 @@
         [min]="0"
       ></cx-item-counter>
     </div>
-    <div class="product-card-price"></div>
+    <div class="cx-product-card-price"></div>
   </div>
 
-  <div class="product-card-rows" *ngIf="!singleDropdown">
-    <div class="product-card-action">
+  <div class="cx-product-card-rows" *ngIf="!singleDropdown">
+    <div class="cx-product-card-action">
       <ng-container *ngIf="multiSelect; else single">
         <button
           *ngIf="product.selected; else select"

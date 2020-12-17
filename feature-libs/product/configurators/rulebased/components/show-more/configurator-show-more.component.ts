@@ -26,7 +26,7 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   constructor(protected cdRef: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
-    if (this.text.length > this.textSize) {
+    if (this.text && this.text.length > this.textSize) {
       this.showMore$.next(true);
       this.textToShow = this.text.substring(0, this.textSize);
       this.cdRef.detectChanges();

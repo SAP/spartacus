@@ -1,16 +1,16 @@
 %cx-configurator-attribute-single-selection-bundle {
-  .single-selection-bundle {
+  &:not(:empty) {
     width: 100%;
-  }
 
-  .single-selection-bundle-quantity {
-    display: flex;
-    justify-content: space-between;
-    margin: 2rem 1rem;
-    max-width: 28rem;
+    .cx-single-selection-bundle-quantity {
+      display: flex;
+      justify-content: space-between;
+      margin: 2rem 1rem;
+      max-width: 28rem;
 
-    .cx-single-selection-bundle-price {
-      font-weight: bold;
+      .cx-single-selection-bundle-price {
+        font-weight: bold;
+      }
     }
   }
 }
