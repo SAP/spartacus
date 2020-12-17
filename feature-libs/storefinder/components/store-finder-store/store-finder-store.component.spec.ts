@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
@@ -49,27 +49,29 @@ describe('StoreFinderStoreComponent', () => {
   let fixture: ComponentFixture<StoreFinderStoreComponent>;
   let routingService: RoutingService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [SpinnerModule, RouterTestingModule, I18nTestingModule],
-      declarations: [
-        StoreFinderStoreComponent,
-        MockStoreFinderStoreDescriptionComponent,
-        MockCxIconComponent,
-      ],
-      providers: [
-        { provide: RoutingService, useValue: { go: jasmine.createSpy() } },
-        {
-          provide: StoreFinderService,
-          useValue: mockStoreFinderService,
-        },
-        {
-          provide: ActivatedRoute,
-          useValue: mockActivatedRoute,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [SpinnerModule, RouterTestingModule, I18nTestingModule],
+        declarations: [
+          StoreFinderStoreComponent,
+          MockStoreFinderStoreDescriptionComponent,
+          MockCxIconComponent,
+        ],
+        providers: [
+          { provide: RoutingService, useValue: { go: jasmine.createSpy() } },
+          {
+            provide: StoreFinderService,
+            useValue: mockStoreFinderService,
+          },
+          {
+            provide: ActivatedRoute,
+            useValue: mockActivatedRoute,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     routingService = TestBed.inject(RoutingService);
