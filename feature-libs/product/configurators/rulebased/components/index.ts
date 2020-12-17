@@ -14,5 +14,6 @@ export * from './price-summary/index';
 export * from './product-title/index';
 export * from './rulebased-configurator-components.module';
 export * from './service/index';
+export * from './show-more/index';
 export * from './tab-bar/index';
 export * from './update-message/index';

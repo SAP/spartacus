@@ -25,7 +25,9 @@ const STARB_MODE = '8845'; // STARB_MODE
 context('CPQ Configuration', () => {
   beforeEach(() => {
     cy.visit('/');
+    configuration.checkLoadingMsgNotDisplayed();
     configuration.login(email, password, cpqUser);
+    configuration.checkLoadingMsgNotDisplayed();
   });
 
   describe('Navigate to Product Configuration Page', () => {

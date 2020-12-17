@@ -3,6 +3,7 @@
   flex-direction: column;
   margin-inline-start: 17px;
   margin-inline-end: 17px;
+  margin-block-end: 17px;
 
   label {
     @include type('5');

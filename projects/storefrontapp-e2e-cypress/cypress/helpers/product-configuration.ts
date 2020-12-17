@@ -77,6 +77,7 @@ export function goToCart(shopName: string) {
  * Verifies whether the loading message is not displayed.
  */
 export function checkLoadingMsgNotDisplayed(): void {
+  cy.log('Wait until the loading notification is not displayed anymore');
   cy.get('cx-storefront').contains('Loading').should('not.be.visible');
 }
 
@@ -103,6 +104,7 @@ export function clickOnConfigureBtnInCatalog(): void {
   cy.get('cx-configure-product a')
     .click()
     .then(() => {
+      cy.get('cx-configure-product').should('not.be.visible');
       cy.location('pathname').should('contain', '/product/entityKey/');
       this.checkConfigPageDisplayed();
     });
@@ -198,7 +200,6 @@ export function clickOnPreviousBtn(previousGroup: string): void {
 export function checkConfigPageDisplayed(): void {
   checkLoadingMsgNotDisplayed();
   checkGlobalMessageNotDisplayed();
-  checkUpdatingMessageNotDisplayed();
   checkTabBarDisplayed();
   checkGroupTitleDisplayed();
   checkGroupFormDisplayed();
@@ -207,13 +208,13 @@ export function checkConfigPageDisplayed(): void {
   checkAddToCartBtnDisplayed();
   checkProductTitleDisplayed();
   checkShowMoreLinkAtProductTitleDisplayed();
-  checkUpdatingMessageNotDisplayed();
 }
 
 /**
  * Verifies whether the product title component is displayed.
  */
 export function checkProductTitleDisplayed(): void {
+  checkUpdatingMessageNotDisplayed();
   cy.get('cx-configurator-product-title').should('be.visible');
 }
 
@@ -221,6 +222,7 @@ export function checkProductTitleDisplayed(): void {
  * Verifies whether 'show more' link is displayed in the product title component.
  */
 export function checkShowMoreLinkAtProductTitleDisplayed(): void {
+  checkUpdatingMessageNotDisplayed();
   cy.get('a:contains("show more")').should('be.visible');
 }
 
@@ -228,6 +230,7 @@ export function checkShowMoreLinkAtProductTitleDisplayed(): void {
  * Verifies whether the product title component is displayed.
  */
 function checkTabBarDisplayed(): void {
+  checkUpdatingMessageNotDisplayed();
   cy.get('cx-configurator-tab-bar').should('be.visible');
 }
 
@@ -663,6 +666,7 @@ export function checkGroupMenuDisplayed(): void {
  * Verifies whether the group title is displayed.
  */
 function checkGroupTitleDisplayed(): void {
+  checkUpdatingMessageNotDisplayed();
   cy.get('cx-configurator-group-title').should('be.visible');
 }
 
@@ -670,6 +674,7 @@ function checkGroupTitleDisplayed(): void {
  * Verifies whether the group form is displayed.
  */
 function checkGroupFormDisplayed(): void {
+  checkUpdatingMessageNotDisplayed();
   cy.get('cx-configurator-form').should('be.visible');
 }
 
@@ -677,6 +682,7 @@ function checkGroupFormDisplayed(): void {
  * Verifies whether the 'previous' and 'next' buttons are displayed.
  */
 function checkPreviousAndNextBtnsDispalyed(): void {
+  checkUpdatingMessageNotDisplayed();
   cy.get('cx-configurator-previous-next-buttons').should('be.visible');
 }
 
@@ -684,6 +690,7 @@ function checkPreviousAndNextBtnsDispalyed(): void {
  * Verifies whether the price summary is displayed.
  */
 function checkPriceSummaryDisplayed(): void {
+  checkUpdatingMessageNotDisplayed();
   cy.get('cx-configurator-price-summary').should('be.visible');
 }
 
@@ -691,6 +698,7 @@ function checkPriceSummaryDisplayed(): void {
  * Verifies whether the 'add to cart' button is displayed.
  */
 function checkAddToCartBtnDisplayed(): void {
+  checkUpdatingMessageNotDisplayed();
   cy.get('cx-configurator-add-to-cart-button').should('be.visible');
 }
 
