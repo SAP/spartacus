@@ -8,6 +8,6 @@ export function baseUrlConfigValidator(config: OccConfig & AuthConfig) {
     // Don't show warning when user tries to work around the issue.
     config?.authentication?.OAuthLibConfig?.requireHttps != false
   ) {
-    return 'Authentication might not work correctly without setting either authentication.baseUrl or backend.occ.baseUrl configuration option! Hack: To support relative urls in angular-oauth2-oidc library you can try setting authentication.OAuthLibConfig.requireHttps to false.';
+    return 'Authentication might not work correctly without setting either authentication.baseUrl or backend.occ.baseUrl configuration option! Workaround: To support relative urls in angular-oauth2-oidc library you can try setting authentication.OAuthLibConfig.requireHttps to false.';
   }
 }
