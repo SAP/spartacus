@@ -159,7 +159,7 @@ export class CustomFormValidators {
   static patternValidation(
     isValidFormat: (date: string) => boolean
   ): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
+    const validator = (control: AbstractControl): ValidationErrors | null => {
       const errors: ValidationErrors = {};
       if (
         control.value &&
@@ -170,6 +170,7 @@ export class CustomFormValidators {
       }
       return Object.keys(errors).length === 0 ? null : errors;
     };
+    return validator;
   }
 
   /**
@@ -188,8 +189,8 @@ export class CustomFormValidators {
     startDateKey: string,
     endDateKey: string,
     getDate: (value: string) => Date
-  ): (FormGroup) => ValidatorFn {
-    return (formGroup: FormGroup): null => {
+  ): (FormGroup) => any {
+    const validator = (formGroup: FormGroup): ValidationErrors | null => {
       const startDateControl = formGroup.controls[startDateKey];
       const endDateControl = formGroup.controls[endDateKey];
       const startDate = getDate(startDateControl.value);
@@ -206,6 +207,7 @@ export class CustomFormValidators {
       }
       return null;
     };
+    return validator;
   }
 }
 
