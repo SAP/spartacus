@@ -7,6 +7,7 @@ import { Configurator } from '../core/model/configurator.model';
 import { CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT } from '../root/interceptor/cpq-configurator-rest.interceptor';
 import {
   CPQ_CONFIGURATOR_NORMALIZER,
+  CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
   CPQ_CONFIGURATOR_SERIALIZER,
 } from './cpq-configurator.converters';
 import { Cpq } from './cpq.models';
@@ -61,7 +62,7 @@ export class CpqConfiguratorRestService {
    * Will update an attribute of the runtime configuration for the given configuration id and attribute code
    * and read this default configuration from the CPQ system.
    */
-  updateConfiguration(
+  updateAttribute(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
     const updateAttribute: Cpq.UpdateAttribute = this.converterService.convert(
@@ -80,6 +81,41 @@ export class CpqConfiguratorRestService {
           })
         );
       })
+    );
+  }
+
+  /**
+   * Will update an attribute of the runtime configuration for the given configuration id and attribute code
+   * and read this default configuration from the CPQ system.
+   */
+  updateValueQuantity(
+    configuration: Configurator.Configuration
+  ): Observable<Configurator.Configuration> {
+    const updateValue: Cpq.UpdateValue = this.converterService.convert(
+      configuration,
+      CPQ_CONFIGURATOR_QUANTITY_SERIALIZER
+    );
+    return this.callUpdateValue(updateValue).pipe(
+      switchMap(() => {
+        return this.callConfigurationDisplay(configuration.configId).pipe(
+          this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER),
+          map((resultConfiguration) => {
+            return {
+              ...resultConfiguration,
+              configId: configuration.configId,
+            };
+          })
+        );
+      })
+    );
+  }
+
+  callUpdateValue(updateValue: Cpq.UpdateValue): Observable<any> {
+    return this.http.patch<Cpq.ConfigurationCreatedResponseData>(
+      `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations/${updateValue.configurationId}/attributes/${updateValue.standardAttributeCode}/attributeValues/${updateValue.attributeValueId}`,
+      {
+        Quantity: updateValue.quantity,
+      }
     );
   }
 

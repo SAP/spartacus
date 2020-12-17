@@ -12,6 +12,7 @@ import { CpqConfiguratorRestAdapter } from './cpq-configurator-rest.adapter';
 import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
 import {
   CPQ_CONFIGURATOR_NORMALIZER,
+  CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
   CPQ_CONFIGURATOR_SERIALIZER,
 } from './cpq-configurator.converters';
 import { Cpq } from './cpq.models';
@@ -31,6 +32,7 @@ const configResponse: Cpq.Configuration = {
 
 const configUpdateResponse = {};
 const attrCode = '111';
+const attrValueId = 'abc';
 const configuration: Configurator.Configuration = {
   configId: configId,
   productCode: productCode,
@@ -38,7 +40,15 @@ const configuration: Configurator.Configuration = {
 const updateAttribute: Cpq.UpdateAttribute = {
   configurationId: configId,
   standardAttributeCode: attrCode,
-  changeAttributeValue: {},
+  changeAttributeValue: {
+    attributeValueIds: attrValueId,
+  },
+};
+const updateValue: Cpq.UpdateValue = {
+  configurationId: configId,
+  standardAttributeCode: attrCode,
+  attributeValueId: attrValueId,
+  quantity: 5,
 };
 
 describe('CpqConfiguratorRestService', () => {
@@ -81,7 +91,7 @@ describe('CpqConfiguratorRestService', () => {
       );
     });
 
-    let mockReq = httpMock.expectOne((req) => {
+    const mockReq = httpMock.expectOne((req) => {
       return (
         req.method === 'POST' &&
         req.url ===
@@ -90,14 +100,7 @@ describe('CpqConfiguratorRestService', () => {
     });
     mockReq.flush(configCreatedResponse);
 
-    mockReq = httpMock.expectOne((req) => {
-      return (
-        req.method === 'GET' &&
-        req.url ===
-          `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations/${configId}/display`
-      );
-    });
-    mockReq.flush(configResponse);
+    mockDisplayConfig();
   });
 
   it('should read a configuration and call normalizer', () => {
@@ -109,14 +112,7 @@ describe('CpqConfiguratorRestService', () => {
       );
     });
 
-    const mockReq = httpMock.expectOne((req) => {
-      return (
-        req.method === 'GET' &&
-        req.url ===
-          `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations/${configId}/display`
-      );
-    });
-    mockReq.flush(configResponse);
+    mockDisplayConfig();
   });
 
   it('should read a configuration with tab id and call normalizer', () => {
@@ -138,10 +134,10 @@ describe('CpqConfiguratorRestService', () => {
     mockReq.flush(configResponse);
   });
 
-  it('should call serializer, update configuration and call normalizer', () => {
+  it('should call serializer, update attribute and call normalizer', () => {
     spyOn(converterService, 'convert').and.returnValue(updateAttribute);
     spyOn(converterService, 'pipeable').and.callThrough();
-    serviceUnderTest.updateConfiguration(configuration).subscribe((config) => {
+    serviceUnderTest.updateAttribute(configuration).subscribe((config) => {
       expect(config.configId).toEqual(configId);
       expect(converterService.convert).toHaveBeenCalledWith(
         configuration,
@@ -152,16 +148,46 @@ describe('CpqConfiguratorRestService', () => {
       );
     });
 
-    let mockReq = httpMock.expectOne((req) => {
+    const mockReq = httpMock.expectOne((req) => {
       return (
         req.method === 'PATCH' &&
         req.url ===
-          `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations/${configId}/attributes/${attrCode}`
+          `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations/${configId}/attributes/${attrCode}` &&
+        req.body === updateAttribute.changeAttributeValue
       );
     });
     mockReq.flush(configUpdateResponse);
+    mockDisplayConfig();
+  });
 
-    mockReq = httpMock.expectOne((req) => {
+  it('should call serializer, update value quantity and call normalizer', () => {
+    spyOn(converterService, 'convert').and.returnValue(updateValue);
+    spyOn(converterService, 'pipeable').and.callThrough();
+    serviceUnderTest.updateValueQuantity(configuration).subscribe((config) => {
+      expect(config.configId).toEqual(configId);
+      expect(converterService.convert).toHaveBeenCalledWith(
+        configuration,
+        CPQ_CONFIGURATOR_QUANTITY_SERIALIZER
+      );
+      expect(converterService.pipeable).toHaveBeenCalledWith(
+        CPQ_CONFIGURATOR_NORMALIZER
+      );
+    });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'PATCH' &&
+        req.url ===
+          `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations/${configId}/attributes/${attrCode}/attributeValues/${attrValueId}` &&
+        req.body.Quantity === 5
+      );
+    });
+    mockReq.flush(configUpdateResponse);
+    mockDisplayConfig();
+  });
+
+  function mockDisplayConfig() {
+    const mockReq = httpMock.expectOne((req) => {
       return (
         req.method === 'GET' &&
         req.url ===
@@ -169,5 +195,5 @@ describe('CpqConfiguratorRestService', () => {
       );
     });
     mockReq.flush(configResponse);
-  });
+  }
 });
