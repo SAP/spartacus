@@ -4,7 +4,6 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { DatePickerFallbackDirective } from './date-picker-fallback.directive';
 import { DatePickerComponent } from './date-picker.component';
 
 @Component({
@@ -30,11 +29,7 @@ describe('DatePickerComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, I18nTestingModule, ReactiveFormsModule],
-      declarations: [
-        DatePickerComponent,
-        MockFormErrorComponent,
-        DatePickerFallbackDirective,
-      ],
+      declarations: [DatePickerComponent, MockFormErrorComponent],
     }).compileComponents();
   });
 
@@ -55,11 +50,8 @@ describe('DatePickerComponent', () => {
   });
 
   describe('minimum date', () => {
-    let minControl: FormControl;
-
     beforeEach(() => {
-      minControl = new FormControl('2020-12-1');
-      component.min = minControl;
+      component.min = '2020-12-1';
       fixture.detectChanges();
     });
 
@@ -70,26 +62,11 @@ describe('DatePickerComponent', () => {
     it('should not have max value', () => {
       expect(inputEl.nativeElement.max).toEqual('');
     });
-
-    it('should updateValueAndValidity on control.change()', () => {
-      spyOn(minControl, 'updateValueAndValidity');
-      component.update();
-      expect(minControl.updateValueAndValidity).toHaveBeenCalled();
-    });
-
-    it('should updateValueAndValidity on input change', () => {
-      spyOn(minControl, 'updateValueAndValidity');
-      inputEl.triggerEventHandler('change', mockEvent);
-      expect(minControl.updateValueAndValidity).toHaveBeenCalled();
-    });
   });
 
   describe('maximum date', () => {
-    let maxControl: FormControl;
-
     beforeEach(() => {
-      maxControl = new FormControl('2020-12-1');
-      component.max = maxControl;
+      component.max = '2020-12-1';
       fixture.detectChanges();
     });
 
@@ -100,18 +77,6 @@ describe('DatePickerComponent', () => {
     it('should not have min value', () => {
       expect(inputEl.nativeElement.min).toEqual('');
     });
-
-    it('should updateValueAndValidity on control.change()', () => {
-      spyOn(maxControl, 'updateValueAndValidity');
-      component.update();
-      expect(maxControl.updateValueAndValidity).toHaveBeenCalled();
-    });
-
-    it('should updateValueAndValidity on input change', () => {
-      spyOn(maxControl, 'updateValueAndValidity');
-      inputEl.triggerEventHandler('change', mockEvent);
-      expect(maxControl.updateValueAndValidity).toHaveBeenCalled();
-    });
   });
 
   describe('validates input date', () => {
@@ -120,6 +85,14 @@ describe('DatePickerComponent', () => {
     });
     it('should not return invalid date', () => {
       expect(component.getDate('2020-12-2')).toEqual('2020-12-2');
+    });
+  });
+
+  describe('change date', () => {
+    it('should emit event', () => {
+      spyOn(component.update, 'emit');
+      inputEl.triggerEventHandler('change', mockEvent);
+      expect(component.update.emit).toHaveBeenCalledWith();
     });
   });
 });
