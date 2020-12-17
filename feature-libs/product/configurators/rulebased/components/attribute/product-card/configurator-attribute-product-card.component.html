@@ -6,7 +6,7 @@
 >
   <div class="cx-product-card-rows">
     <div class="cx-product-card-imgs">
-      <ng-container *ngIf="product?.images.length; else noimages">
+      <ng-container *ngIf="product?.images?.length; else noimages">
         <img
           [alt]="product.images[0].altText"
           [src]="product.images[0].url"
