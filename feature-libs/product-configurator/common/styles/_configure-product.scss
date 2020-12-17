@@ -9,16 +9,14 @@
   }
 }
 
-%ProductDetailsPageTemplate {
-  cx-page-slot {
-    &.Summary {
-      %cx-configure-product {
-        @include media-breakpoint-up(lg) {
-          grid-column: 2;
-          padding-inline-start: 20px;
-          padding-inline-end: 20px;
-          padding-block-end: 0px;
-        }
+cx-page-slot {
+  &.Summary {
+    %cx-configure-product {
+      @include media-breakpoint-up(lg) {
+        grid-column: 2;
+        padding-inline-start: 20px;
+        padding-inline-end: 20px;
+        padding-block-end: 0px;
       }
     }
   }

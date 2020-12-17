@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-BRANCH=epic/product-configuration
+BRANCH=develop
 if [ "$1" != "" ] ; then
   BRANCH=$1
 fi
