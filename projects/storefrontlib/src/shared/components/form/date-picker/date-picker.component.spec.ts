@@ -50,11 +50,11 @@ describe('DatePickerComponent', () => {
   });
 
   describe('minimum date', () => {
-    let minControl: FormControl;
+    let min: string;
 
     beforeEach(() => {
-      minControl = new FormControl('2020-12-1');
-      component.min = minControl;
+      min = '2020-12-1';
+      component.min = min;
       fixture.detectChanges();
     });
 
@@ -65,26 +65,14 @@ describe('DatePickerComponent', () => {
     it('should not have max value', () => {
       expect(inputEl.nativeElement.max).toEqual('');
     });
-
-    it('should updateValueAndValidity on control.change()', () => {
-      spyOn(minControl, 'updateValueAndValidity');
-      component.update();
-      expect(minControl.updateValueAndValidity).toHaveBeenCalled();
-    });
-
-    it('should updateValueAndValidity on input change', () => {
-      spyOn(minControl, 'updateValueAndValidity');
-      inputEl.triggerEventHandler('change', mockEvent);
-      expect(minControl.updateValueAndValidity).toHaveBeenCalled();
-    });
   });
 
   describe('maximum date', () => {
-    let maxControl: FormControl;
+    let max: string;
 
     beforeEach(() => {
-      maxControl = new FormControl('2020-12-1');
-      component.max = maxControl;
+      max = '2020-12-1';
+      component.max = max;
       fixture.detectChanges();
     });
 
@@ -95,18 +83,6 @@ describe('DatePickerComponent', () => {
     it('should not have min value', () => {
       expect(inputEl.nativeElement.min).toEqual('');
     });
-
-    it('should updateValueAndValidity on control.change()', () => {
-      spyOn(maxControl, 'updateValueAndValidity');
-      component.update();
-      expect(maxControl.updateValueAndValidity).toHaveBeenCalled();
-    });
-
-    it('should updateValueAndValidity on input change', () => {
-      spyOn(maxControl, 'updateValueAndValidity');
-      inputEl.triggerEventHandler('change', mockEvent);
-      expect(maxControl.updateValueAndValidity).toHaveBeenCalled();
-    });
   });
 
   describe('validates input date', () => {
@@ -115,6 +91,14 @@ describe('DatePickerComponent', () => {
     });
     it('should not return invalid date', () => {
       expect(component.getDate('2020-12-2')).toEqual('2020-12-2');
+    });
+  });
+
+  describe('change date', () => {
+    it('should emit event', () => {
+      spyOn(component.update, 'emit');
+      inputEl.triggerEventHandler('change', mockEvent);
+      expect(component.update.emit).toHaveBeenCalledWith();
     });
   });
 });
