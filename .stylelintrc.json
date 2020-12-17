@@ -1,5 +1,5 @@
 {
-  "plugins": ["./tools/stylelint-rules/index.js"],
+  "plugins": ["stylelint-scss"],
   "rules": {
     "property-disallowed-list": [
       "margin-left",
@@ -24,6 +24,6 @@
     "declaration-property-value-disallowed-list": {
       "text-align": ["right", "left"]
     },
-    "spartacus/comment-no-loud": true
+    "scss/comment-no-loud": true
   }
 }

@@ -196,6 +196,7 @@
     "shelljs": "^0.8.3",
     "start-server-and-test": "^1.10.0",
     "stylelint": "^13.7.2",
+    "stylelint-scss": "^3.18.0",
     "through2": "^3.0.1",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
