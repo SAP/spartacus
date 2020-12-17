@@ -1,0 +1,17 @@
+%cx-configurator-show-more {
+  &:not(:empty) {
+    .cx-show-more-button {
+      background-color: transparent;
+      border: none;
+      display: inline-block;
+      margin: 0;
+      outline: none;
+      padding: 0;
+
+      &:hover {
+        color: var(--cx-color-primary);
+        text-decoration: underline;
+      }
+    }
+  }
+}

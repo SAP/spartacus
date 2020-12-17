@@ -22,6 +22,8 @@ export const configurator = {
         '{{count}} issues must be resolved before checkout.',
     },
     attribute: {
+      id: 'ID',
+      quantity: 'Qty',
       caption: 'Attributes',
       notSupported: 'Attibute Type is not supported.',
       requiredAttribute: '{{param}} required',
@@ -35,6 +37,12 @@ export const configurator = {
       previous: 'Previous',
       next: 'Next',
       back: 'Back',
+      more: 'More',
+      less: 'Less',
+      select: 'Select',
+      deselect: 'Deselect',
+      add: 'Add',
+      remove: 'Remove',
     },
     priceSummary: {
       basePrice: 'Base Price',

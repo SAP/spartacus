@@ -160,7 +160,9 @@ export namespace Configurator {
     NUMERIC = 'numeric',
     AUTO_COMPLETE_CUSTOM = 'input_autocomplete',
     MULTI_SELECTION_IMAGE = 'multi_selection_image',
+    MULTI_SELECTION_BUNDLE = 'multi_selection_bundle',
     SINGLE_SELECTION_IMAGE = 'single_selection_image',
+    SINGLE_SELECTION_BUNDLE = 'single_selection_bundle',
   }
 
   export enum ImageFormatType {
