@@ -79,6 +79,9 @@
                                 <a href="#back">back</a>
                             </li>
                             <li>
+                                <a href="#changeNextPageContext">changeNextPageContext</a>
+                            </li>
+                            <li>
                                 <a href="#forward">forward</a>
                             </li>
                             <li>
@@ -215,8 +218,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="74"
-                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:74</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:83</a></div>
                 </td>
             </tr>
 
@@ -229,6 +232,78 @@
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="changeNextPageContext"></a>
+                    <span class="name">
+                        <b>
+                            changeNextPageContext
+                        </b>
+                        <a href="#changeNextPageContext"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>changeNextPageContext(pageContext: <a href="../interfaces/Page.html">PageContext</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:49</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Allow to change next page context for the ongoing navigation</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>pageContext</td>
+                                    <td>
+                                                <code><a href="../interfaces/Page.html" target="_self" >PageContext</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -256,8 +331,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="89"
-                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:89</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="98"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:98</a></div>
                 </td>
             </tr>
 
@@ -420,8 +495,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="57"
-                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:57</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="66"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:66</a></div>
                 </td>
             </tr>
 
@@ -527,8 +602,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:67</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="76"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:76</a></div>
                 </td>
             </tr>
 
@@ -599,8 +674,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="56"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:56</a></div>
                 </td>
             </tr>
 
@@ -642,8 +717,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="99"
-                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:99</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="108"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:108</a></div>
                 </td>
             </tr>
 
@@ -775,6 +850,15 @@ export class RoutingService {
   }
 
   /**
+   * Allow to change next page context for the ongoing navigation
+   *
+   * @param pageContext
+   */
+  changeNextPageContext(pageContext: PageContext) {
+    this.store.dispatch(new RoutingActions.ChangeNextPageContext(pageContext));
+  }
+
+  /**
    * Get the &#x60;isNavigating&#x60; info from the state
    */
   isNavigating(): Observable&lt;boolean&gt; {
@@ -877,7 +961,6 @@ export class RoutingService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'RoutingService.html';
-            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

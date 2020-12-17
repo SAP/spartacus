@@ -106,12 +106,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(semanticPathService: <a href="../injectables/SemanticPathService.html">SemanticPathService</a>, cmsService: <a href="../injectables/CmsService.html">CmsService</a>, cmsRoutes: <a href="../injectables/CmsRoutesService.html">CmsRoutesService</a>, cmsI18n: <a href="../injectables/CmsI18nService.html">CmsI18nService</a>, cmsGuards: <a href="../injectables/CmsGuardsService.html">CmsGuardsService</a>, cmsComponentsService: <a href="../injectables/CmsComponentsService.html">CmsComponentsService</a>)</code>
+<code>constructor(semanticPathService: <a href="../injectables/SemanticPathService.html">SemanticPathService</a>, cmsService: <a href="../injectables/CmsService.html">CmsService</a>, cmsRoutes: <a href="../injectables/CmsRoutesService.html">CmsRoutesService</a>, cmsI18n: <a href="../injectables/CmsI18nService.html">CmsI18nService</a>, cmsGuards: <a href="../injectables/CmsGuardsService.html">CmsGuardsService</a>, cmsComponentsService: <a href="../injectables/CmsComponentsService.html">CmsComponentsService</a>, routing: <a href="../injectables/RoutingService.html">RoutingService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/storefrontlib/src/cms-structure/guards/cms-page-guard.service.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/storefrontlib/src/cms-structure/guards/cms-page-guard.service.ts:32</a></div>
                             </td>
                         </tr>
 
@@ -200,6 +200,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>routing</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/RoutingService.html" target="_self" >RoutingService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -236,8 +248,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="99"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/guards/cms-page-guard.service.ts:99</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="101"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/guards/cms-page-guard.service.ts:101</a></div>
                 </td>
             </tr>
 
@@ -334,8 +346,8 @@ Then it processes its CMS components with the method <code>canActivatePage()</co
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="57"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/guards/cms-page-guard.service.ts:57</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/guards/cms-page-guard.service.ts:59</a></div>
                 </td>
             </tr>
 
@@ -460,6 +472,7 @@ import {
   PageContext,
   PageType,
   SemanticPathService,
+  RoutingService,
 } from &#x27;@spartacus/core&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import {
@@ -488,7 +501,8 @@ export class CmsPageGuardService {
     protected cmsRoutes: CmsRoutesService,
     protected cmsI18n: CmsI18nService,
     protected cmsGuards: CmsGuardsService,
-    protected cmsComponentsService: CmsComponentsService
+    protected cmsComponentsService: CmsComponentsService,
+    protected routing: RoutingService
   ) {}
 
   /**
@@ -565,6 +579,7 @@ export class CmsPageGuardService {
           return this.cmsService.getPageIndex(notFoundCmsPageContext).pipe(
             tap((notFoundIndex) &#x3D;&gt; {
               this.cmsService.setPageFailIndex(pageContext, notFoundIndex);
+              this.routing.changeNextPageContext(notFoundCmsPageContext);
             }),
             switchMap((notFoundIndex) &#x3D;&gt;
               this.cmsService.getPageIndex(pageContext).pipe(
@@ -616,7 +631,6 @@ export class CmsPageGuardService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CmsPageGuardService.html';
-            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

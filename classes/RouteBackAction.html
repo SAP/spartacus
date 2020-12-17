@@ -128,7 +128,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/core/src/routing/store/actions/router.action.ts:26</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/core/src/routing/store/actions/router.action.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -149,11 +149,13 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NavigationExtras } from &#x27;@angular/router&#x27;;
 import { Action } from &#x27;@ngrx/store&#x27;;
+import { PageContext } from &#x27;../../../routing/models/page-context.model&#x27;;
 
 export const ROUTER_GO &#x3D; &#x27;[Router] Go&#x27;;
 export const ROUTER_GO_BY_URL &#x3D; &#x27;[Router] Go By Url&#x27;;
 export const ROUTER_BACK &#x3D; &#x27;[Router] Back&#x27;;
 export const ROUTER_FORWARD &#x3D; &#x27;[Router] Forward&#x27;;
+export const CHANGE_NEXT_PAGE_CONTEXT &#x3D; &#x27;[Router] Change Next PageContext&#x27;;
 
 export class RouteGoAction implements Action {
   readonly type &#x3D; ROUTER_GO;
@@ -179,11 +181,17 @@ export class RouteForwardAction implements Action {
   readonly type &#x3D; ROUTER_FORWARD;
 }
 
+export class ChangeNextPageContext implements Action {
+  readonly type &#x3D; CHANGE_NEXT_PAGE_CONTEXT;
+  constructor(public payload: PageContext) {}
+}
+
 export type RoutingAction &#x3D;
   | RouteGoAction
   | RouteGoByUrlAction
   | RouteBackAction
-  | RouteForwardAction;
+  | RouteForwardAction
+  | ChangeNextPageContext;
 </code></pre>
     </div>
 </div>
@@ -213,7 +221,6 @@ export type RoutingAction &#x3D;
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
             var COMPODOC_CURRENT_PAGE_URL = 'RouteBackAction.html';
-            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

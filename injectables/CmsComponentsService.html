@@ -1051,7 +1051,7 @@ export class CmsComponentsService {
           const staticConfig &#x3D; this.config.cmsComponents[componentType];
 
           // check if this component type is managed by feature module
-          if (this.featureModules.hasFeatureFor(componentType)) {
+          if (this.featureModules?.hasFeatureFor(componentType)) {
             featureResolvers.push(
               // we delegate populating this.mappings to feature resolver
               this.getFeatureMappingResolver(componentType, staticConfig)
@@ -1098,7 +1098,7 @@ export class CmsComponentsService {
 
   getInjectors(componentType: string): Injector[] {
     return (
-      (this.featureModules.hasFeatureFor(componentType) &amp;&amp;
+      (this.featureModules?.hasFeatureFor(componentType) &amp;&amp;
         this.featureModules.getInjectors(componentType)) ??
       []
     );
@@ -1223,7 +1223,6 @@ export class CmsComponentsService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CmsComponentsService.html';
-            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

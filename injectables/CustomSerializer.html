@@ -105,7 +105,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="187" class="link-to-prism">projects/core/src/routing/store/reducers/router.reducer.ts:187</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="203" class="link-to-prism">projects/core/src/routing/store/reducers/router.reducer.ts:203</a></div>
                             </td>
                         </tr>
 
@@ -172,8 +172,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="183"
-                            class="link-to-prism">projects/core/src/routing/store/reducers/router.reducer.ts:183</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="199"
+                            class="link-to-prism">projects/core/src/routing/store/reducers/router.reducer.ts:199</a></div>
                 </td>
             </tr>
 
@@ -253,8 +253,8 @@ by reading the defined <code>data.cxRoute</code> from the Angular Routes.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="87"
-                            class="link-to-prism">projects/core/src/routing/store/reducers/router.reducer.ts:87</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="103"
+                            class="link-to-prism">projects/core/src/routing/store/reducers/router.reducer.ts:103</a></div>
                 </td>
             </tr>
 
@@ -320,6 +320,7 @@ import {
   RouterState,
   State,
 } from &#x27;../routing-state&#x27;;
+import { CHANGE_NEXT_PAGE_CONTEXT } from &#x27;../actions/router.action&#x27;;
 
 export const initialState: RouterState &#x3D; {
   navigationId: 0,
@@ -363,9 +364,24 @@ export function reducer(
       };
     }
 
+    case CHANGE_NEXT_PAGE_CONTEXT: {
+      return state.nextState
+        ? {
+            ...state,
+            nextState: { ...state.nextState, context: action.payload },
+          }
+        : state;
+    }
+
     case fromNgrxRouter.ROUTER_NAVIGATED: {
       return {
-        state: action.payload.routerState,
+        state: {
+          ...action.payload.routerState,
+          context:
+            // we want to preserve already resolved context,
+            // in case it was changed while navigating
+            state.nextState?.context ?? action.payload.routerState.context,
+        },
         navigationId: action.payload.event.id,
         nextState: undefined,
       };
@@ -531,7 +547,6 @@ export class CustomSerializer
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CustomSerializer.html';
-            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

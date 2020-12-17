@@ -289,22 +289,24 @@ export class FeatureModulesService implements OnDestroy {
     this.initFeatureMap();
   }
 
-  private async initFeatureMap(): Promise&lt;void&gt; {
-    const config: CmsConfig &#x3D; await this.configInitializer.getStableConfig(
-      &#x27;featureModules&#x27;
-    );
+  private initFeatureMap(): void {
+    (this.configInitializer.getStable
+      ? // use new API if available
+        this.configInitializer.getStable(&#x27;featureModules&#x27;)
+      : from(this.configInitializer.getStableConfig(&#x27;featureModules&#x27;))
+    ).subscribe((config) &#x3D;&gt; {
+      this.featureModulesConfig &#x3D; config.featureModules ?? {};
 
-    this.featureModulesConfig &#x3D; config.featureModules ?? {};
-
-    for (const [featureName, featureConfig] of Object.entries(
-      this.featureModulesConfig
-    )) {
-      if (featureConfig?.cmsComponents?.length) {
-        for (const component of featureConfig.cmsComponents) {
-          this.componentFeatureMap.set(component, featureName);
+      for (const [featureName, featureConfig] of Object.entries(
+        this.featureModulesConfig
+      )) {
+        if (featureConfig?.module &amp;&amp; featureConfig?.cmsComponents?.length) {
+          for (const component of featureConfig.cmsComponents) {
+            this.componentFeatureMap.set(component, featureName);
+          }
         }
       }
-    }
+    });
   }
 
   /**
@@ -528,7 +530,6 @@ export class FeatureModulesService implements OnDestroy {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'FeatureInstance.html';
-            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

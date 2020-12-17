@@ -106,6 +106,9 @@
                                 <a href="#finishScopes">finishScopes</a>
                             </li>
                             <li>
+                                <a href="#getStable">getStable</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Async</span>
                                 <a href="#getStableConfig">getStableConfig</a>
                             </li>
@@ -232,8 +235,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="84"
-                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:84</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="86"
+                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:86</a></div>
                 </td>
             </tr>
 
@@ -318,8 +321,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="70"
-                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:70</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:72</a></div>
                 </td>
             </tr>
 
@@ -372,6 +375,76 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getStable"></a>
+                    <span class="name">
+                        <b>
+                            getStable
+                        </b>
+                        <a href="#getStable"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getStable(...scopes: string[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:38</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>scopes</td>
+                                    <td>
+                                            <code>string[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getStableConfig"></a>
                     <span class="name">
                         <b>
@@ -392,8 +465,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="63"
+                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:63</a></div>
                 </td>
             </tr>
 
@@ -476,8 +549,8 @@ string describing config part, e.g.:
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="123"
-                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:123</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="125"
+                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:125</a></div>
                 </td>
             </tr>
 
@@ -548,8 +621,8 @@ string describing config part, e.g.:
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="110"
-                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:110</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="112"
+                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:112</a></div>
                 </td>
             </tr>
 
@@ -706,7 +779,7 @@ import {
   ConfigInitializer,
 } from &#x27;./config-initializer&#x27;;
 import { Config } from &#x27;../config.module&#x27;;
-import { BehaviorSubject } from &#x27;rxjs&#x27;;
+import { BehaviorSubject, Observable, of } from &#x27;rxjs&#x27;;
 import { filter, mapTo, take } from &#x27;rxjs/operators&#x27;;
 import { deepMerge } from &#x27;../utils/deep-merge&#x27;;
 
@@ -736,6 +809,20 @@ export class ConfigInitializerService {
     );
   }
 
+  // backport of 3.0 API for a bug fix
+  getStable(...scopes: string[]): Observable&lt;any&gt; {
+    if (this.isStable) {
+      return of(this.config);
+    }
+    return this.ongoingScopes$.pipe(
+      filter(
+        (ongoingScopes) &#x3D;&gt; ongoingScopes &amp;&amp; this.areReady(scopes, ongoingScopes)
+      ),
+      take(1),
+      mapTo(this.config)
+    );
+  }
+
   /**
    * Recommended way to get config for code that can run before app will finish
    * initialization (APP_INITIALIZERS, selected service constructors)
@@ -749,19 +836,7 @@ export class ConfigInitializerService {
    * @param scopes String describing parts of the config we want to be sure are stable
    */
   async getStableConfig(...scopes: string[]): Promise&lt;any&gt; {
-    if (this.isStable) {
-      return this.config;
-    }
-    return this.ongoingScopes$
-      .pipe(
-        filter(
-          (ongoingScopes) &#x3D;&gt;
-            ongoingScopes &amp;&amp; this.areReady(scopes, ongoingScopes)
-        ),
-        take(1),
-        mapTo(this.config)
-      )
-      .toPromise();
+    return this.getStable(...scopes).toPromise();
   }
 
   /**
@@ -896,7 +971,6 @@ export class ConfigInitializerService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'ConfigInitializerService.html';
-            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>
