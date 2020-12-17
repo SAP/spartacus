@@ -366,7 +366,7 @@ export class B2BUserEffects {
     | B2BUserActions.CreateB2BUserApproverFail
     | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
-    ofType(B2BUserActions.CREATE_B2B_USER_APPROVER),
+    ofType(B2BUserActions.ASSIGN_B2B_USER_APPROVER),
     map((action: B2BUserActions.CreateB2BUserApprover) => action.payload),
     mergeMap((payload) =>
       this.b2bUserConnector
@@ -404,7 +404,7 @@ export class B2BUserEffects {
     | B2BUserActions.DeleteB2BUserApproverFail
     | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
-    ofType(B2BUserActions.DELETE_B2B_USER_APPROVER),
+    ofType(B2BUserActions.UNASSIGN_B2B_USER_APPROVER),
     map((action: B2BUserActions.DeleteB2BUserApprover) => action.payload),
     mergeMap((payload) =>
       this.b2bUserConnector
@@ -442,7 +442,7 @@ export class B2BUserEffects {
     | B2BUserActions.CreateB2BUserPermissionFail
     | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
-    ofType(B2BUserActions.CREATE_B2B_USER_PERMISSION),
+    ofType(B2BUserActions.ASSIGN_B2B_USER_PERMISSION),
     map((action: B2BUserActions.CreateB2BUserPermission) => action.payload),
     mergeMap((payload) =>
       this.b2bUserConnector
@@ -479,7 +479,7 @@ export class B2BUserEffects {
     | B2BUserActions.DeleteB2BUserPermissionFail
     | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
-    ofType(B2BUserActions.DELETE_B2B_USER_PERMISSION),
+    ofType(B2BUserActions.UNASSIGN_B2B_USER_PERMISSION),
     map((action: B2BUserActions.DeleteB2BUserPermission) => action.payload),
     mergeMap((payload) =>
       this.b2bUserConnector
@@ -516,7 +516,7 @@ export class B2BUserEffects {
     | B2BUserActions.CreateB2BUserUserGroupFail
     | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
-    ofType(B2BUserActions.CREATE_B2B_USER_USER_GROUP),
+    ofType(B2BUserActions.ASSIGN_B2B_USER_USER_GROUP),
     map((action: B2BUserActions.CreateB2BUserUserGroup) => action.payload),
     mergeMap((payload) =>
       this.b2bUserConnector
@@ -553,7 +553,7 @@ export class B2BUserEffects {
     | B2BUserActions.DeleteB2BUserUserGroupFail
     | OrganizationActions.OrganizationClearData
   > = this.actions$.pipe(
-    ofType(B2BUserActions.DELETE_B2B_USER_USER_GROUP),
+    ofType(B2BUserActions.UNASSIGN_B2B_USER_USER_GROUP),
     map((action: B2BUserActions.DeleteB2BUserUserGroup) => action.payload),
     mergeMap((payload) =>
       this.b2bUserConnector

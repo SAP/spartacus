@@ -31,17 +31,17 @@ export const LOAD_B2B_USER_APPROVERS_FAIL =
 export const LOAD_B2B_USER_APPROVERS_SUCCESS =
   '[B2BUser] Load B2BUser Approvers Success';
 
-export const CREATE_B2B_USER_APPROVER = '[B2BUser] Create B2BUser Approver';
-export const CREATE_B2B_USER_APPROVER_FAIL =
-  '[B2BUser] Create B2BUser Approver Fail';
-export const CREATE_B2B_USER_APPROVER_SUCCESS =
-  '[B2BUser] Create B2BUser Approver Success';
+export const ASSIGN_B2B_USER_APPROVER = '[B2BUser] Assign B2BUser Approver';
+export const ASSIGN_B2B_USER_APPROVER_FAIL =
+  '[B2BUser] Assign B2BUser Approver Fail';
+export const ASSIGN_B2B_USER_APPROVER_SUCCESS =
+  '[B2BUser] Assign B2BUser Approver Success';
 
-export const DELETE_B2B_USER_APPROVER = '[B2BUser] Delete B2BUser Approver';
-export const DELETE_B2B_USER_APPROVER_FAIL =
-  '[B2BUser] Delete B2BUser Approver Fail';
-export const DELETE_B2B_USER_APPROVER_SUCCESS =
-  '[B2BUser] Delete B2BUser Approver Success';
+export const UNASSIGN_B2B_USER_APPROVER = '[B2BUser] Unassign B2BUser Approver';
+export const UNASSIGN_B2B_USER_APPROVER_FAIL =
+  '[B2BUser] Unassign B2BUser Approver Fail';
+export const UNASSIGN_B2B_USER_APPROVER_SUCCESS =
+  '[B2BUser] Unassign B2BUser Approver Success';
 
 export const LOAD_B2B_USER_PERMISSIONS = '[B2BUser] Load B2BUser Permissions';
 export const LOAD_B2B_USER_PERMISSIONS_FAIL =
@@ -49,17 +49,18 @@ export const LOAD_B2B_USER_PERMISSIONS_FAIL =
 export const LOAD_B2B_USER_PERMISSIONS_SUCCESS =
   '[B2BUser] Load B2BUser Permissions Success';
 
-export const CREATE_B2B_USER_PERMISSION = '[B2BUser] Create B2BUser Permission';
-export const CREATE_B2B_USER_PERMISSION_FAIL =
-  '[B2BUser] Create B2BUser Permission Fail';
-export const CREATE_B2B_USER_PERMISSION_SUCCESS =
-  '[B2BUser] Create B2BUser Permission Success';
+export const ASSIGN_B2B_USER_PERMISSION = '[B2BUser] Assign B2BUser Permission';
+export const ASSIGN_B2B_USER_PERMISSION_FAIL =
+  '[B2BUser] Assign B2BUser Permission Fail';
+export const ASSIGN_B2B_USER_PERMISSION_SUCCESS =
+  '[B2BUser] Assign B2BUser Permission Success';
 
-export const DELETE_B2B_USER_PERMISSION = '[B2BUser] Delete B2BUser Permission';
-export const DELETE_B2B_USER_PERMISSION_FAIL =
-  '[B2BUser] Delete B2BUser Permission Fail';
-export const DELETE_B2B_USER_PERMISSION_SUCCESS =
-  '[B2BUser] Delete B2BUser Permission Success';
+export const UNASSIGN_B2B_USER_PERMISSION =
+  '[B2BUser] Unassign B2BUser Permission';
+export const UNASSIGN_B2B_USER_PERMISSION_FAIL =
+  '[B2BUser] Unassign B2BUser Permission Fail';
+export const UNASSIGN_B2B_USER_PERMISSION_SUCCESS =
+  '[B2BUser] Unassign B2BUser Permission Success';
 
 export const LOAD_B2B_USER_USER_GROUPS = '[B2BUser] Load B2BUser User Groups';
 export const LOAD_B2B_USER_USER_GROUPS_FAIL =
@@ -67,17 +68,18 @@ export const LOAD_B2B_USER_USER_GROUPS_FAIL =
 export const LOAD_B2B_USER_USER_GROUPS_SUCCESS =
   '[B2BUser] Load B2BUser User Groups Success';
 
-export const CREATE_B2B_USER_USER_GROUP = '[B2BUser] Create B2BUser User Group';
-export const CREATE_B2B_USER_USER_GROUP_FAIL =
-  '[B2BUser] Create B2BUser User Group Fail';
-export const CREATE_B2B_USER_USER_GROUP_SUCCESS =
-  '[B2BUser] Create B2BUser User Group Success';
+export const ASSIGN_B2B_USER_USER_GROUP = '[B2BUser] Assign B2BUser User Group';
+export const ASSIGN_B2B_USER_USER_GROUP_FAIL =
+  '[B2BUser] Assign B2BUser User Group Fail';
+export const ASSIGN_B2B_USER_USER_GROUP_SUCCESS =
+  '[B2BUser] Assign B2BUser User Group Success';
 
-export const DELETE_B2B_USER_USER_GROUP = '[B2BUser] Delete B2BUser User Group';
-export const DELETE_B2B_USER_USER_GROUP_FAIL =
-  '[B2BUser] Delete B2BUser User Group Fail';
-export const DELETE_B2B_USER_USER_GROUP_SUCCESS =
-  '[B2BUser] Delete B2BUser User Group Success';
+export const UNASSIGN_B2B_USER_USER_GROUP =
+  '[B2BUser] Unassign B2BUser User Group';
+export const UNASSIGN_B2B_USER_USER_GROUP_FAIL =
+  '[B2BUser] Unassign B2BUser User Group Fail';
+export const UNASSIGN_B2B_USER_USER_GROUP_SUCCESS =
+  '[B2BUser] Unassign B2BUser User Group Success';
 
 export class LoadB2BUser extends StateUtils.EntityLoadAction {
   readonly type = LOAD_B2B_USER;
@@ -238,7 +240,7 @@ export class LoadB2BUserApproversSuccess extends StateUtils.EntitySuccessAction 
 }
 
 export class CreateB2BUserApprover extends StateUtils.EntityLoadAction {
-  readonly type = CREATE_B2B_USER_APPROVER;
+  readonly type = ASSIGN_B2B_USER_APPROVER;
   constructor(
     public payload: {
       userId: string;
@@ -251,7 +253,7 @@ export class CreateB2BUserApprover extends StateUtils.EntityLoadAction {
 }
 
 export class CreateB2BUserApproverFail extends StateUtils.EntityFailAction {
-  readonly type = CREATE_B2B_USER_APPROVER_FAIL;
+  readonly type = ASSIGN_B2B_USER_APPROVER_FAIL;
   constructor(
     public payload: {
       orgCustomerId: string;
@@ -264,7 +266,7 @@ export class CreateB2BUserApproverFail extends StateUtils.EntityFailAction {
 }
 
 export class CreateB2BUserApproverSuccess extends StateUtils.EntitySuccessAction {
-  readonly type = CREATE_B2B_USER_APPROVER_SUCCESS;
+  readonly type = ASSIGN_B2B_USER_APPROVER_SUCCESS;
   constructor(
     public payload: {
       approverId: string;
@@ -276,7 +278,7 @@ export class CreateB2BUserApproverSuccess extends StateUtils.EntitySuccessAction
 }
 
 export class DeleteB2BUserApprover extends StateUtils.EntityLoadAction {
-  readonly type = DELETE_B2B_USER_APPROVER;
+  readonly type = UNASSIGN_B2B_USER_APPROVER;
   constructor(
     public payload: {
       userId: string;
@@ -289,7 +291,7 @@ export class DeleteB2BUserApprover extends StateUtils.EntityLoadAction {
 }
 
 export class DeleteB2BUserApproverFail extends StateUtils.EntityFailAction {
-  readonly type = DELETE_B2B_USER_APPROVER_FAIL;
+  readonly type = UNASSIGN_B2B_USER_APPROVER_FAIL;
   constructor(
     public payload: {
       orgCustomerId: string;
@@ -302,7 +304,7 @@ export class DeleteB2BUserApproverFail extends StateUtils.EntityFailAction {
 }
 
 export class DeleteB2BUserApproverSuccess extends StateUtils.EntitySuccessAction {
-  readonly type = DELETE_B2B_USER_APPROVER_SUCCESS;
+  readonly type = UNASSIGN_B2B_USER_APPROVER_SUCCESS;
   constructor(
     public payload: {
       approverId: string;
@@ -359,7 +361,7 @@ export class LoadB2BUserPermissionsSuccess extends StateUtils.EntitySuccessActio
 }
 
 export class CreateB2BUserPermission extends StateUtils.EntityLoadAction {
-  readonly type = CREATE_B2B_USER_PERMISSION;
+  readonly type = ASSIGN_B2B_USER_PERMISSION;
   constructor(
     public payload: {
       userId: string;
@@ -372,7 +374,7 @@ export class CreateB2BUserPermission extends StateUtils.EntityLoadAction {
 }
 
 export class CreateB2BUserPermissionFail extends StateUtils.EntityFailAction {
-  readonly type = CREATE_B2B_USER_PERMISSION_FAIL;
+  readonly type = ASSIGN_B2B_USER_PERMISSION_FAIL;
   constructor(
     public payload: {
       orgCustomerId: string;
@@ -385,7 +387,7 @@ export class CreateB2BUserPermissionFail extends StateUtils.EntityFailAction {
 }
 
 export class CreateB2BUserPermissionSuccess extends StateUtils.EntitySuccessAction {
-  readonly type = CREATE_B2B_USER_PERMISSION_SUCCESS;
+  readonly type = ASSIGN_B2B_USER_PERMISSION_SUCCESS;
   constructor(
     public payload: {
       permissionId: string;
@@ -397,7 +399,7 @@ export class CreateB2BUserPermissionSuccess extends StateUtils.EntitySuccessActi
 }
 
 export class DeleteB2BUserPermission extends StateUtils.EntityLoadAction {
-  readonly type = DELETE_B2B_USER_PERMISSION;
+  readonly type = UNASSIGN_B2B_USER_PERMISSION;
   constructor(
     public payload: {
       userId: string;
@@ -410,7 +412,7 @@ export class DeleteB2BUserPermission extends StateUtils.EntityLoadAction {
 }
 
 export class DeleteB2BUserPermissionFail extends StateUtils.EntityFailAction {
-  readonly type = DELETE_B2B_USER_PERMISSION_FAIL;
+  readonly type = UNASSIGN_B2B_USER_PERMISSION_FAIL;
   constructor(
     public payload: {
       orgCustomerId: string;
@@ -423,7 +425,7 @@ export class DeleteB2BUserPermissionFail extends StateUtils.EntityFailAction {
 }
 
 export class DeleteB2BUserPermissionSuccess extends StateUtils.EntitySuccessAction {
-  readonly type = DELETE_B2B_USER_PERMISSION_SUCCESS;
+  readonly type = UNASSIGN_B2B_USER_PERMISSION_SUCCESS;
   constructor(
     public payload: {
       permissionId: string;
@@ -484,7 +486,7 @@ export class LoadB2BUserUserGroupsSuccess extends StateUtils.EntitySuccessAction
 }
 
 export class CreateB2BUserUserGroup extends StateUtils.EntityLoadAction {
-  readonly type = CREATE_B2B_USER_USER_GROUP;
+  readonly type = ASSIGN_B2B_USER_USER_GROUP;
   constructor(
     public payload: {
       userId: string;
@@ -497,7 +499,7 @@ export class CreateB2BUserUserGroup extends StateUtils.EntityLoadAction {
 }
 
 export class CreateB2BUserUserGroupFail extends StateUtils.EntityFailAction {
-  readonly type = CREATE_B2B_USER_USER_GROUP_FAIL;
+  readonly type = ASSIGN_B2B_USER_USER_GROUP_FAIL;
   constructor(
     public payload: {
       orgCustomerId: string;
@@ -510,7 +512,7 @@ export class CreateB2BUserUserGroupFail extends StateUtils.EntityFailAction {
 }
 
 export class CreateB2BUserUserGroupSuccess extends StateUtils.EntitySuccessAction {
-  readonly type = CREATE_B2B_USER_USER_GROUP_SUCCESS;
+  readonly type = ASSIGN_B2B_USER_USER_GROUP_SUCCESS;
   constructor(
     public payload: {
       uid: string;
@@ -522,7 +524,7 @@ export class CreateB2BUserUserGroupSuccess extends StateUtils.EntitySuccessActio
 }
 
 export class DeleteB2BUserUserGroup extends StateUtils.EntityLoadAction {
-  readonly type = DELETE_B2B_USER_USER_GROUP;
+  readonly type = UNASSIGN_B2B_USER_USER_GROUP;
   constructor(
     public payload: {
       userId: string;
@@ -535,7 +537,7 @@ export class DeleteB2BUserUserGroup extends StateUtils.EntityLoadAction {
 }
 
 export class DeleteB2BUserUserGroupFail extends StateUtils.EntityFailAction {
-  readonly type = DELETE_B2B_USER_USER_GROUP_FAIL;
+  readonly type = UNASSIGN_B2B_USER_USER_GROUP_FAIL;
   constructor(
     public payload: {
       orgCustomerId: string;
@@ -548,7 +550,7 @@ export class DeleteB2BUserUserGroupFail extends StateUtils.EntityFailAction {
 }
 
 export class DeleteB2BUserUserGroupSuccess extends StateUtils.EntitySuccessAction {
-  readonly type = DELETE_B2B_USER_USER_GROUP_SUCCESS;
+  readonly type = UNASSIGN_B2B_USER_USER_GROUP_SUCCESS;
   constructor(
     public payload: {
       uid: string;
