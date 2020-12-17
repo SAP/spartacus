@@ -139,7 +139,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
     fixture.detectChanges();
 
     const cardList = htmlElem.querySelectorAll(
-      '.cx-configurator-attribute-product-card'
+      'cx-configurator-attribute-product-card'
     );
 
     expect(cardList.length).toBe(4);
