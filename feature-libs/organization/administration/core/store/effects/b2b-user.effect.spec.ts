@@ -488,7 +488,7 @@ describe('B2B User Effects', () => {
   });
 
   describe('assignApproverToB2BUser$', () => {
-    it('should return CreateB2BUserApproverSuccess action', () => {
+    it('should return AssignB2BUserApproverSuccess action', () => {
       const action = new B2BUserActions.AssignB2BUserApprover({
         userId,
         orgCustomerId,
@@ -509,7 +509,7 @@ describe('B2B User Effects', () => {
       );
     });
 
-    it('should return CreateB2BUserApproverFail action if approver not assigned', () => {
+    it('should return AssignB2BUserApproverFail action if approver not assigned', () => {
       b2bUserConnector.assignApprover = createSpy().and.returnValue(
         throwError(httpErrorResponse)
       );
@@ -558,7 +558,7 @@ describe('B2B User Effects', () => {
       );
     });
 
-    it('should return DeleteB2BUserApproverFail action if approver not unassigned', () => {
+    it('should return UnassignB2BUserApproverFail action if approver not unassigned', () => {
       b2bUserConnector.unassignApprover = createSpy().and.returnValue(
         throwError(httpErrorResponse)
       );
@@ -586,7 +586,7 @@ describe('B2B User Effects', () => {
   });
 
   describe('assignPermissionToB2BUser$', () => {
-    it('should return CreateB2BUserPermissionSuccess action', () => {
+    it('should return AssignB2BUserPermissionSuccess action', () => {
       const action = new B2BUserActions.AssignB2BUserPermission({
         userId,
         orgCustomerId,
@@ -608,7 +608,7 @@ describe('B2B User Effects', () => {
       );
     });
 
-    it('should return CreateB2BUserPermissionFail action if permission not assigned', () => {
+    it('should return AssignB2BUserPermissionFail action if permission not assigned', () => {
       b2bUserConnector.assignPermission = createSpy().and.returnValue(
         throwError(httpErrorResponse)
       );
@@ -636,7 +636,7 @@ describe('B2B User Effects', () => {
   });
 
   describe('unassignPermissionFromB2BUser$', () => {
-    it('should return DeleteB2BUserPermissionSuccess action', () => {
+    it('should return UnassignB2BUserPermissionSuccess action', () => {
       const action = new B2BUserActions.UnassignB2BUserPermission({
         userId,
         orgCustomerId,
@@ -658,7 +658,7 @@ describe('B2B User Effects', () => {
       );
     });
 
-    it('should return DeleteB2BUserPermissionFail action if permission not unassigned', () => {
+    it('should return UnassignB2BUserPermissionFail action if permission not unassigned', () => {
       b2bUserConnector.unassignPermission = createSpy().and.returnValue(
         throwError(httpErrorResponse)
       );
@@ -686,7 +686,7 @@ describe('B2B User Effects', () => {
   });
 
   describe('assignUserGroupToB2BUser$', () => {
-    it('should return CreateB2BUserUserGroupSuccess action', () => {
+    it('should return AssignB2BUserUserGroupSuccess action', () => {
       const action = new B2BUserActions.AssignB2BUserUserGroup({
         userId,
         orgCustomerId,
@@ -708,7 +708,7 @@ describe('B2B User Effects', () => {
       );
     });
 
-    it('should return CreateB2BUserUserGroupFail action if UserGroup was not assigned', () => {
+    it('should return AssignB2BUserUserGroupFail action if UserGroup was not assigned', () => {
       b2bUserConnector.assignUserGroup = createSpy().and.returnValue(
         throwError(httpErrorResponse)
       );
@@ -736,7 +736,7 @@ describe('B2B User Effects', () => {
   });
 
   describe('unassignUserGroupFromB2BUser$', () => {
-    it('should return DeleteB2BUserUserGroupSuccess action', () => {
+    it('should return UnassignB2BUserUserGroupSuccess action', () => {
       const action = new B2BUserActions.UnassignB2BUserUserGroup({
         userId,
         orgCustomerId,
@@ -758,7 +758,7 @@ describe('B2B User Effects', () => {
       );
     });
 
-    it('should return DeleteB2BUserUserGroupFail action if UserGroup was not unassigned', () => {
+    it('should return UnassignB2BUserUserGroupFail action if UserGroup was not unassigned', () => {
       b2bUserConnector.unassignUserGroup = createSpy().and.returnValue(
         throwError(httpErrorResponse)
       );
