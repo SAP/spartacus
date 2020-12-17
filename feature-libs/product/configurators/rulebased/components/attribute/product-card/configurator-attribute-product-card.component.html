@@ -1,11 +1,11 @@
 <div
-  class="cx-configurator-attribute-product-card"
+  class="cx-product-card"
   [ngClass]="{
-    'product-card-selected': product.selected
+    'cx-product-card-selected': product.selected
   }"
 >
-  <div class="product-card-rows">
-    <div class="product-card-imgs">
+  <div class="cx-product-card-rows">
+    <div class="cx-product-card-imgs">
       <ng-container *ngIf="product?.images.length; else noimages">
         <img
           [alt]="product.images[0].altText"
@@ -15,12 +15,12 @@
       </ng-container>
 
       <ng-template #noimages>
-        <div class="product-card-imgs-fake"></div
+        <div class="cx-product-card-imgs-fake"></div
       ></ng-template>
     </div>
 
-    <div class="product-card-info">
-      <div class="product-card-name">
+    <div class="cx-product-card-info">
+      <div class="cx-product-card-name">
         <a
           [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
           class="cx-link"
@@ -30,17 +30,23 @@
           {{ product.valueDisplay }}</a
         >
       </div>
-      <div class="product-card-code">
+      <div class="cx-product-card-code">
         {{ 'configurator.attribute.id' | cxTranslate }}: {{ product.valueCode }}
       </div>
       <cx-configurator-show-more
-        [text]="product.description"
+        [text]="
+          product.description ||
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+        "
       ></cx-configurator-show-more>
     </div>
   </div>
 
-  <div class="product-card-rows">
-    <div class="product-card-quantity" *ngIf="multiSelect && product.selected">
+  <div class="cx-product-card-rows">
+    <div
+      class="cx-product-card-quantity"
+      *ngIf="multiSelect && product.selected"
+    >
       <label>{{ 'configurator.attribute.quantity' | cxTranslate }}</label>
       <cx-item-counter
         [allowZero]="true"
@@ -48,11 +54,11 @@
         [min]="0"
       ></cx-item-counter>
     </div>
-    <div class="product-card-price"></div>
+    <div class="cx-product-card-price"></div>
   </div>
 
-  <div class="product-card-rows">
-    <div class="product-card-action">
+  <div class="cx-product-card-rows">
+    <div class="cx-product-card-action">
       <ng-container *ngIf="multiSelect; else single">
         <button
           *ngIf="product.selected; else select"

@@ -1,21 +1,17 @@
-.cx-show-more {
-  .show-more-text-hidden {
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    display: -webkit-box;
-    overflow: hidden;
-  }
-  .show-more-button {
-    background-color: transparent;
-    border: none;
-    display: inline-block;
-    margin: 0;
-    outline: none;
-    padding: 0;
+%cx-configurator-show-more {
+  &:not(:empty) {
+    .cx-show-more-button {
+      background-color: transparent;
+      border: none;
+      display: inline-block;
+      margin: 0;
+      outline: none;
+      padding: 0;
 
-    &:hover {
-      color: var(--cx-color-primary);
-      text-decoration: underline;
+      &:hover {
+        color: var(--cx-color-primary);
+        text-decoration: underline;
+      }
     }
   }
 }
