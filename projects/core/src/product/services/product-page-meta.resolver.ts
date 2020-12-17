@@ -2,7 +2,7 @@ import { Injectable, Optional } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { BreadcrumbMeta, PageRobotsMeta } from '../../cms/model/page.model';
-import { ContentPageMetaResolver } from '../../cms/page/content-page-meta.resolver';
+import { BasePageMetaResolver } from '../../cms/page/base-page-meta.resolver';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import {
   PageBreadcrumbResolver,
@@ -47,8 +47,9 @@ export class ProductPageMetaResolver
   );
 
   /**
-   * @deprecated since 3.1 we'll use the contentPageResolver going forward
+   * @deprecated since 3.1, we'll use the BasePageMetaResolver in future versions
    */
+  // TODO(#10467): Remove deprecated constructors
   constructor(
     routingService: RoutingService,
     productService: ProductService,
@@ -58,13 +59,13 @@ export class ProductPageMetaResolver
     routingService: RoutingService,
     productService: ProductService,
     translation: TranslationService,
-    contentPageResolver?: ContentPageMetaResolver
+    contentPageResolver?: BasePageMetaResolver
   );
   constructor(
     protected routingService: RoutingService,
     protected productService: ProductService,
     protected translation: TranslationService,
-    @Optional() protected contentPageResolver?: ContentPageMetaResolver
+    @Optional() protected basePageMetaResolver?: BasePageMetaResolver
   ) {
     super();
     this.pageType = PageType.PRODUCT_PAGE;
@@ -172,12 +173,9 @@ export class ProductPageMetaResolver
    * Resolves the robot information for the Product Detail Page. The
    * robot instruction defaults to FOLLOW and INDEX for all product pages,
    * regardless of whether they're purchasable or not.
-   *
-   * @deprecated since 3.1, we'll remove this in a future major version as the Robot
-   * information can be resolved from the content
    */
+  // TODO(#10467): resolve robots from `BasePageMetaResolver` instead
   resolveRobots(): Observable<PageRobotsMeta[]> {
-    // TODO: resolve from this.contentPageResolver.resolveRobots()
     return of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX]);
   }
 }

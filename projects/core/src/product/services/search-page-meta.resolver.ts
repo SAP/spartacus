@@ -1,8 +1,8 @@
 import { Injectable, Optional } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { PageRobotsMeta } from '../../cms/model/page.model';
-import { ContentPageMetaResolver } from '../../cms/page/content-page-meta.resolver';
+import { BasePageMetaResolver } from '../../cms/page/base-page-meta.resolver';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import {
   PageRobotsResolver,
@@ -39,8 +39,9 @@ export class SearchPageMetaResolver
     .pipe(map((state) => state.state.params['query']));
 
   /**
-   * @deprecated since 3.1 we'll use the contentPageResolver going forward
+   * @deprecated since 3.1 we'll use the `BasePageMetaResolver` going forward
    */
+  // TODO(#10467): Remove deprecated constructors
   constructor(
     routingService: RoutingService,
     productSearchService: ProductSearchService,
@@ -50,13 +51,13 @@ export class SearchPageMetaResolver
     routingService: RoutingService,
     productSearchService: ProductSearchService,
     translation: TranslationService,
-    contentPageResolver?: ContentPageMetaResolver
+    basePageMetaResolver?: BasePageMetaResolver
   );
   constructor(
     protected routingService: RoutingService,
     protected productSearchService: ProductSearchService,
     protected translation: TranslationService,
-    @Optional() protected contentPageResolver?: ContentPageMetaResolver
+    @Optional() protected basePageMetaResolver?: BasePageMetaResolver
   ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
@@ -76,12 +77,12 @@ export class SearchPageMetaResolver
   }
 
   /**
-   * Resolves the robot information for the Search Page.
-   *
-   * This is added in 3.1 and will be ignored if the `ContentPageResolver` is not
+   * @override
+   * This is added in 3.1 and will be ignored if the `BasePageMetaResolver` is not
    * available.
    */
+  // TODO(#10467) drop the 3.1 note.
   resolveRobots(): Observable<PageRobotsMeta[]> {
-    return this.contentPageResolver?.resolveRobots();
+    return this.basePageMetaResolver?.resolveRobots() ?? of([]);
   }
 }

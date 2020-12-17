@@ -40,14 +40,14 @@ export class PageMetaService {
   };
 
   protected meta$: Observable<PageMeta | null> = defer(() =>
-    this.cms.getCurrentPage().pipe(
-      filter(Boolean),
-      switchMap((page: Page) => this.getMetaResolver(page)),
-      switchMap((metaResolver: PageMetaResolver) =>
-        metaResolver ? this.resolve(metaResolver) : of(null)
-      ),
-      shareReplay({ bufferSize: 1, refCount: true })
-    )
+    this.cms.getCurrentPage()
+  ).pipe(
+    filter(Boolean),
+    switchMap((page: Page) => this.getMetaResolver(page)),
+    switchMap((metaResolver: PageMetaResolver) =>
+      metaResolver ? this.resolve(metaResolver) : of(null)
+    ),
+    shareReplay({ bufferSize: 1, refCount: true })
   );
 
   getMeta(): Observable<PageMeta | null> {

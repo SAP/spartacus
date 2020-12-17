@@ -1,11 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { CmsService } from '../../cms/facade/cms.service';
-import { BreadcrumbMeta, Page } from '../../cms/model/page.model';
+import {
+  BreadcrumbMeta,
+  Page,
+  PageRobotsMeta,
+} from '../../cms/model/page.model';
+import { BasePageMetaResolver } from '../../cms/page/base-page-meta.resolver';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import {
   PageBreadcrumbResolver,
+  PageRobotsResolver,
   PageTitleResolver,
 } from '../../cms/page/page.resolvers';
 import { TranslationService } from '../../i18n/translation.service';
@@ -23,7 +29,7 @@ import { ProductSearchService } from '../facade/product-search.service';
 })
 export class CategoryPageMetaResolver
   extends PageMetaResolver
-  implements PageTitleResolver, PageBreadcrumbResolver {
+  implements PageTitleResolver, PageBreadcrumbResolver, PageRobotsResolver {
   // reusable observable for search page data
   protected searchPage$: Observable<
     ProductSearchPage | Page
@@ -41,7 +47,8 @@ export class CategoryPageMetaResolver
   constructor(
     protected productSearchService: ProductSearchService,
     protected cms: CmsService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    @Optional() protected basePageMetaResolver?: BasePageMetaResolver
   ) {
     super();
     this.pageType = PageType.CATEGORY_PAGE;
@@ -107,5 +114,15 @@ export class CategoryPageMetaResolver
             comp.typeCode === 'ProductGridComponent'
         )
     );
+  }
+
+  /**
+   * @override
+   * This is added in 3.1 and will be ignored if the `BasePageMetaResolver` is not
+   * available.
+   */
+  // TODO(#10467) drop the 3.1 note.
+  resolveRobots(): Observable<PageRobotsMeta[]> {
+    return this.basePageMetaResolver?.resolveRobots() ?? of([]);
   }
 }

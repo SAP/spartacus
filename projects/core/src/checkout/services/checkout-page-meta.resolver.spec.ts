@@ -2,8 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { ActiveCartService } from '../../cart';
 import {
+  BasePageMetaResolver,
   CmsService,
-  ContentPageMetaResolver,
   PageMetaResolver,
   PageMetaService,
   PageRobotsMeta,
@@ -25,7 +25,9 @@ class MockActiveCartService {
 
 class MockCmsService {}
 
-class MockContentPageMetaResolver {}
+class MockBasePageMetaResolver {
+  resolveRobots() {}
+}
 
 describe('CheckoutPageMetaResolver', () => {
   let service: CheckoutPageMetaResolver;
@@ -43,8 +45,8 @@ describe('CheckoutPageMetaResolver', () => {
         },
         { provide: CmsService, useClass: MockCmsService },
         {
-          provide: ContentPageMetaResolver,
-          useClass: MockContentPageMetaResolver,
+          provide: BasePageMetaResolver,
+          useClass: MockBasePageMetaResolver,
         },
       ],
     });

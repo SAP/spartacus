@@ -3,7 +3,7 @@ import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ActiveCartService } from '../../cart/facade/active-cart.service';
 import { PageRobotsMeta } from '../../cms/model/page.model';
-import { ContentPageMetaResolver } from '../../cms/page/content-page-meta.resolver';
+import { BasePageMetaResolver } from '../../cms/page/base-page-meta.resolver';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import {
   PageRobotsResolver,
@@ -28,8 +28,9 @@ export class CheckoutPageMetaResolver
   protected cart$ = this.activeCartService.getActive();
 
   /**
-   * @deprecated since 3.1 we'll use the contentPageResolver in future versions
+   * @deprecated since 3.1, we'll use the BasePageMetaResolver in future versions
    */
+  // TODO(#10467): Remove deprecated constructors
   constructor(
     translation: TranslationService,
     activeCartService: ActiveCartService
@@ -37,12 +38,12 @@ export class CheckoutPageMetaResolver
   constructor(
     translation: TranslationService,
     activeCartService: ActiveCartService,
-    contentPageResolver?: ContentPageMetaResolver
+    basePageResolver?: BasePageMetaResolver
   );
   constructor(
     protected translation: TranslationService,
     protected activeCartService: ActiveCartService,
-    @Optional() protected contentPageResolver?: ContentPageMetaResolver
+    @Optional() protected basePageResolver?: BasePageMetaResolver
   ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
@@ -64,12 +65,9 @@ export class CheckoutPageMetaResolver
 
   /**
    * @Override Returns robots for the checkout pages, which default to NOINDEX/NOFOLLOW.
-   *
-   * @deprecated since 3.1, we'll remove the hard coded robot implementation in a future
-   * major version as the Robot information can be resolved from the content.
    */
+  // TODO(#10467): resolve robots from `BasePageMetaResolver` instead
   resolveRobots(): Observable<PageRobotsMeta[]> {
-    // TODO: resolve from this.contentPageResolver.resolveRobots()
     return of([PageRobotsMeta.NOFOLLOW, PageRobotsMeta.NOINDEX]);
   }
 }

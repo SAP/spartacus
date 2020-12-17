@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { CmsService, ContentPageMetaResolver, PageRobotsMeta } from '../../cms';
+import { BasePageMetaResolver, PageRobotsMeta } from '../../cms';
 import { I18nTestingModule, TranslationService } from '../../i18n';
 import { Product } from '../../model';
 import { RoutingService } from '../../routing';
@@ -65,8 +65,12 @@ class MockTranslationService {
     }
   }
 }
-class MockCmsService {}
-class MockContentPageMetaResolver {}
+
+class MockBasePageMetaResolver {
+  resolveRobots() {
+    return of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX]);
+  }
+}
 
 describe('ProductPageMetaResolver', () => {
   let service: ProductPageMetaResolver;
@@ -80,10 +84,9 @@ describe('ProductPageMetaResolver', () => {
         { provide: ProductService, useClass: MockProductService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: TranslationService, useClass: MockTranslationService },
-        { provide: CmsService, useClass: MockCmsService },
         {
-          provide: ContentPageMetaResolver,
-          useClass: MockContentPageMetaResolver,
+          provide: BasePageMetaResolver,
+          useClass: MockBasePageMetaResolver,
         },
       ],
     });

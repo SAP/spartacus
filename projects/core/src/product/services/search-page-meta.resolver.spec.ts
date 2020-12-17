@@ -1,11 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import {
-  CmsService,
-  ContentPageMetaResolver,
-  Page,
-  PageRobotsMeta,
-} from '../../cms';
+import { CmsService, Page, PageRobotsMeta } from '../../cms';
+import { BasePageMetaResolver } from '../../cms/page/base-page-meta.resolver';
 import { I18nTestingModule } from '../../i18n';
 import { PageType } from '../../model/cms.model';
 import { RoutingService } from '../../routing';
@@ -45,7 +41,7 @@ class MockRoutingService {
     });
   }
 }
-class MockContentPageMetaResolver {
+class MockBasePageMetaResolver {
   resolveRobots() {
     return of([]);
   }
@@ -53,7 +49,7 @@ class MockContentPageMetaResolver {
 
 describe('SearchPageMetaResolver', () => {
   let resolver: SearchPageMetaResolver;
-  let contentPageMetaResolver: ContentPageMetaResolver;
+  let basePageMetaResolver: BasePageMetaResolver;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -64,14 +60,14 @@ describe('SearchPageMetaResolver', () => {
         { provide: ProductSearchService, useClass: MockProductSearchService },
         { provide: RoutingService, useClass: MockRoutingService },
         {
-          provide: ContentPageMetaResolver,
-          useClass: MockContentPageMetaResolver,
+          provide: BasePageMetaResolver,
+          useClass: MockBasePageMetaResolver,
         },
       ],
     });
 
     resolver = TestBed.inject(SearchPageMetaResolver);
-    contentPageMetaResolver = TestBed.inject(ContentPageMetaResolver);
+    basePageMetaResolver = TestBed.inject(BasePageMetaResolver);
   });
 
   it('PageTitleService should be created', () => {
@@ -91,8 +87,8 @@ describe('SearchPageMetaResolver', () => {
   });
 
   describe('resolveRobots', () => {
-    it('should resolve title from the ContentPageResolver', async () => {
-      spyOn(contentPageMetaResolver, 'resolveRobots').and.returnValue(
+    it('should resolve title from the BasePageMetaResolver', async () => {
+      spyOn(basePageMetaResolver, 'resolveRobots').and.returnValue(
         of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX])
       );
       let result;
