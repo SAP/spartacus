@@ -33,9 +33,8 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
     this.attributeDropDownForm.setValue(this.attribute.selectedSingleValue);
 
     this.selectionValue = this.attribute.values.find((value) => value.selected);
-
-    console.log(this.selectionValue);
   }
+
   /**
    * Triggered when a value has been selected
    */
@@ -58,6 +57,7 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
         selectedSingleValue: '0',
       },
     };
+
     this.selectionChange.emit(event);
   }
 }

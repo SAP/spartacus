@@ -124,7 +124,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
       uiType: Configurator.UiType.RADIOBUTTON_PRODUCT,
       required: true,
       groupId: 'testGroup',
-      values: values,
+      values,
     };
 
     fixture.detectChanges();

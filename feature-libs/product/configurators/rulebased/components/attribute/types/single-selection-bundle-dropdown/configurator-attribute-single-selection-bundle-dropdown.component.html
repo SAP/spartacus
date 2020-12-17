@@ -1,7 +1,7 @@
 <div
   id="{{ createAttributeIdForConfigurator(attribute) }}"
   class="form-group"
-  *ngIf="attribute.values && attribute.values.length !== 0"
+  *ngIf="attribute?.values?.length !== 0"
 >
   <select
     class="form-control"
@@ -19,7 +19,7 @@
     </option>
   </select>
 
-  <ng-container *ngIf="selectionValue.valueCode !== '0'">
+  <ng-container *ngIf="selectionValue?.valueCode !== '0'">
     <cx-configurator-attribute-product-card
       (handleDeselect)="handleDeselect()"
       [product]="selectionValue"
