@@ -498,9 +498,8 @@ describe('B2B User Effects', () => {
         approverId,
         selected: true,
       });
-      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-(bc)', { b: completion1, c: completion2 });
+      expected = cold('-b', { b: completion1 });
 
       expect(effects.assignApproverToB2BUser$).toBeObservable(expected);
       expect(b2bUserConnector.assignApprover).toHaveBeenCalledWith(
@@ -548,9 +547,8 @@ describe('B2B User Effects', () => {
         approverId,
         selected: false,
       });
-      const completion2 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-(bc)', { b: completion1, c: completion2 });
+      expected = cold('-b', { b: completion1 });
 
       expect(effects.unassignApproverFromB2BUser$).toBeObservable(expected);
       expect(b2bUserConnector.unassignApprover).toHaveBeenCalledWith(

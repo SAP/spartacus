@@ -382,7 +382,8 @@ export class B2BUserEffects {
               approverId: payload.approverId,
               selected: data.selected,
             }),
-            new OrganizationActions.OrganizationClearData(),
+            // Clearing data in this case causes unexpected behavior (#10468)
+            // new OrganizationActions.OrganizationClearData(),
           ]),
           catchError((error: HttpErrorResponse) =>
             from([
@@ -420,7 +421,8 @@ export class B2BUserEffects {
               approverId: payload.approverId,
               selected: data.selected,
             }),
-            new OrganizationActions.OrganizationClearData(),
+            // Clearing data in this case causes unexpected behavior (#10468)
+            // new OrganizationActions.OrganizationClearData(),
           ]),
           catchError((error: HttpErrorResponse) =>
             from([
