@@ -93,32 +93,6 @@ describe('Spartacus Asm schematics: ng-add', () => {
         const packageJson = appTree.readContent('package.json');
         expect(packageJson).toContain(SPARTACUS_ASM);
       });
-
-      /*it('should add style import to /src/styles/spartacus/storefinder.scss', async () => {
-        const content = appTree.readContent(
-          '/src/styles/spartacus/storefinder.scss'
-        );
-        expect(content).toEqual(`@import "@spartacus/storefinder";`);
-      });
-
-      it('should add update angular.json with spartacus/storefinder.scss', async () => {
-        const content = appTree.readContent('/angular.json');
-        const angularJson = JSON.parse(content);
-        const buildStyles: string[] =
-          angularJson.projects['schematics-test'].architect.build.options
-            .styles;
-        expect(buildStyles).toEqual([
-          'src/styles.scss',
-          'src/styles/spartacus/storefinder.scss',
-        ]);
-
-        const testStyles: string[] =
-          angularJson.projects['schematics-test'].architect.test.options.styles;
-        expect(testStyles).toEqual([
-          'src/styles.scss',
-          'src/styles/spartacus/storefinder.scss',
-        ]);
-      });*/
     });
 
     describe('eager loading', () => {
