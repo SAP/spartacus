@@ -615,80 +615,80 @@ describe('CpqConfiguratorNormalizer', () => {
   });
 
   it('should convert CPQ dataType INPUT_STRING', () => {
-    const cpqAttribute: Cpq.Attribute = {
+    const attribute: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
       dataType: Cpq.DataType.INPUT_STRING,
     };
-    expect(cpqConfiguratorNormalizer.convertDataType(cpqAttribute)).toBe(
+    expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
       Configurator.DataType.INPUT_STRING
     );
   });
 
   it('should convert CPQ dataType INPUT_NUMBER', () => {
-    const cpqAttribute: Cpq.Attribute = {
+    const attribute: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
       dataType: Cpq.DataType.INPUT_NUMBER,
     };
-    expect(cpqConfiguratorNormalizer.convertDataType(cpqAttribute)).toBe(
+    expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
       Configurator.DataType.INPUT_NUMBER
     );
   });
 
   it('should convert CPQ dataType User Selection (N/A)', () => {
-    const cpqAttribute: Cpq.Attribute = {
+    const attribute: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
       dataType: Cpq.DataType.N_A,
     };
-    expect(cpqConfiguratorNormalizer.convertDataType(cpqAttribute)).toBe(
+    expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
       Configurator.DataType.N_A
     );
   });
 
   it('should convert CPQ dataType User Selection with Quantity on attribute level (QTY_ATTRIBUTE_LEVEL)', () => {
-    const cpqAttribute: Cpq.Attribute = {
+    const attribute: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
       dataType: Cpq.DataType.QTY_ATTRIBUTE_LEVEL,
     };
-    expect(cpqConfiguratorNormalizer.convertDataType(cpqAttribute)).toBe(
+    expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
       Configurator.DataType.QTY_ATTRIBUTE_LEVEL
     );
   });
 
   it('should convert CPQ dataType User Selection with Quantity on value level (QTY_VALUE_LEVEL)', () => {
-    const cpqAttribute: Cpq.Attribute = {
+    const attribute: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
       dataType: Cpq.DataType.QTY_VALUE_LEVEL,
       displayAs: Cpq.DisplayAs.CHECK_BOX,
     };
-    expect(cpqConfiguratorNormalizer.convertDataType(cpqAttribute)).toBe(
+    expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
       Configurator.DataType.QTY_VALUE_LEVEL
     );
   });
 
   it('should convert CPQ dataType User Selection with Quantity on value level (QTY_VALUE_LEVEL) for single selection attribute', () => {
-    const cpqAttribute: Cpq.Attribute = {
+    const attribute: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
       dataType: Cpq.DataType.QTY_VALUE_LEVEL,
       displayAs: Cpq.DisplayAs.RADIO_BUTTON,
     };
-    expect(cpqConfiguratorNormalizer.convertDataType(cpqAttribute)).toBe(
+    expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
       Configurator.DataType.N_A
     );
   });
 
   it('should convert CPQ not supported dataType to NOT_IMPLEMENTED', () => {
-    const cpqAttribute: Cpq.Attribute = {
+    const attribute: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
       dataType: null,
     };
-    expect(cpqConfiguratorNormalizer.convertDataType(cpqAttribute)).toBe(
+    expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
       Configurator.DataType.NOT_IMPLEMENTED
     );
   });

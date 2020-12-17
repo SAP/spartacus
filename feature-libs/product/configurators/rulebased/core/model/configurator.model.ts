@@ -9,7 +9,7 @@ export namespace Configurator {
     required?: boolean;
     incomplete?: boolean;
     uiType?: UiType;
-    dataType?: string;
+    dataType?: DataType;
     quantity?: number;
     values?: Value[];
     groupId?: string;
