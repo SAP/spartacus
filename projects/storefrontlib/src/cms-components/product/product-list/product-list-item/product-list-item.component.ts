@@ -22,11 +22,11 @@ export class ProductListItemComponent implements OnChanges {
   readonly Outlets = ProductListOutlets;
   @Input() product: any;
 
-  constructor(
-    protected productListItemContextOwner: ProductListItemContextOwner
-  ) {}
+  constructor(protected productListItemContext: ProductListItemContext) {}
 
   ngOnChanges(): void {
-    this.productListItemContextOwner.setProduct(this.product);
+    (this.productListItemContext as ProductListItemContextOwner).setProduct(
+      this.product
+    );
   }
 }
