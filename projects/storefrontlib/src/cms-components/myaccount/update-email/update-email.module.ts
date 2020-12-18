@@ -7,12 +7,11 @@ import {
   CmsConfig,
   I18nModule,
   provideDefaultConfig,
-  UrlModule
+  UrlModule,
 } from '@spartacus/core';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { FormErrorsModule } from '../../../shared/index';
 import { UpdateEmailComponent } from './update-email.component';
-import { UpdateEmailService } from './update-email.service';
 
 @NgModule({
   imports: [
@@ -34,7 +33,6 @@ import { UpdateEmailService } from './update-email.service';
         },
       },
     }),
-    UpdateEmailService,
   ],
   declarations: [UpdateEmailComponent],
   exports: [UpdateEmailComponent],

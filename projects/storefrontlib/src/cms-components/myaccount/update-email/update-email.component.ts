@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { UpdateEmailService } from './update-email.service';
 
 @Component({
@@ -12,7 +11,7 @@ export class UpdateEmailComponent implements OnDestroy {
   constructor(protected service: UpdateEmailService) {}
 
   form: FormGroup = this.service.form;
-  isUpdating$: Observable<boolean> = this.service.isUpdating$;
+  isUpdating$ = this.service.isUpdating$;
   onSubmit = () => this.service.save();
 
   ngOnDestroy() {
