@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CmsService } from 'projects/core/src/cms/facade/cms.service';
+import { CmsService } from '@spartacus/core';
 import { defer, Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { CmsComponentsService } from '../../../services/cms-components.service';

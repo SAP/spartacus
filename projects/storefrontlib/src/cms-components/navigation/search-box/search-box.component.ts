@@ -5,7 +5,7 @@ import {
   Optional,
 } from '@angular/core';
 import { CmsSearchBoxComponent, WindowRef } from '@spartacus/core';
-import { defer, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -59,10 +59,8 @@ export class SearchBoxComponent {
     protected winRef: WindowRef
   ) {}
 
-  results$: Observable<SearchResults> = defer(() =>
-    this.config$.pipe(
-      switchMap((config) => this.searchBoxComponentService.getResults(config))
-    )
+  results$: Observable<SearchResults> = this.getConfig().pipe(
+    switchMap((config) => this.searchBoxComponentService.getResults(config))
   );
 
   /**
@@ -70,7 +68,7 @@ export class SearchBoxComponent {
    * layers: default configuration, (optional) backend configuration and (optional)
    * input configuration.
    */
-  private get config$(): Observable<SearchBoxConfig> {
+  protected getConfig(): Observable<SearchBoxConfig> {
     const isBool = (obj: SearchBoxConfig, prop: string): boolean =>
       obj?.[prop] !== 'false' && obj?.[prop] !== false;
 
