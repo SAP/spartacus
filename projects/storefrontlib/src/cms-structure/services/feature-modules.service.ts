@@ -53,22 +53,20 @@ export class FeatureModulesService implements OnDestroy {
     this.initFeatureMap();
   }
 
-  private async initFeatureMap(): Promise<void> {
-    const config: CmsConfig = await this.configInitializer.getStableConfig(
-      'featureModules'
-    );
+  private initFeatureMap(): void {
+    this.configInitializer.getStable('featureModules').subscribe((config) => {
+      this.featureModulesConfig = config.featureModules ?? {};
 
-    this.featureModulesConfig = config.featureModules ?? {};
-
-    for (const [featureName, featureConfig] of Object.entries(
-      this.featureModulesConfig
-    )) {
-      if (featureConfig?.module && featureConfig?.cmsComponents?.length) {
-        for (const component of featureConfig.cmsComponents) {
-          this.componentFeatureMap.set(component, featureName);
+      for (const [featureName, featureConfig] of Object.entries(
+        this.featureModulesConfig
+      )) {
+        if (featureConfig?.module && featureConfig?.cmsComponents?.length) {
+          for (const component of featureConfig.cmsComponents) {
+            this.componentFeatureMap.set(component, featureName);
+          }
         }
       }
-    }
+    });
   }
 
   /**

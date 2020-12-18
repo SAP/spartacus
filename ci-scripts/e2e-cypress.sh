@@ -58,7 +58,7 @@ yarn
 echo '-----'
 echo 'Building Spartacus libraries'
 # Currently for our unified app you have to build all libraries to run it
-yarn build:core:lib:cds && yarn build"${INTEGRATION}" 2>&1 | tee build.log
+yarn build:libs && yarn build"${INTEGRATION}" 2>&1 | tee build.log
 
 results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
 if [[ -z "${results}" ]]; then
@@ -70,10 +70,24 @@ else
     exit 1
 fi
 
+
+# Hardcoded 2005 becuase cypress.ci.b2b.json currently supports only 2005.
+# TODO: The condition should be removed and logic here simplified, when fixing https://github.com/SAP/spartacus/issues/10160
+SHOULD_RUN_B2B=false;
+if [[ $CI_ENV == '2005' ]]; then 
+    SHOULD_RUN_B2B=true;
+fi
+
 echo '-----'
 echo "Running Cypress end to end tests for suite: $SUITE"
 if [[ $SUITE == 'regression' ]]; then
     yarn e2e:cy"${INTEGRATION}":start-run-ci"${CI_ENV}"
+    if [[ $SHOULD_RUN_B2B ]]; then 
+        yarn e2e:cy"${INTEGRATION}":start-run-ci"${CI_ENV}":b2b
+    fi
 else
     yarn e2e:cy"${INTEGRATION}":start-run-smoke-ci"${CI_ENV}"
+    if [[ $SHOULD_RUN_B2B ]]; then
+        yarn e2e:cy"${INTEGRATION}":start-run-smoke-ci"${CI_ENV}":b2b
+    fi
 fi

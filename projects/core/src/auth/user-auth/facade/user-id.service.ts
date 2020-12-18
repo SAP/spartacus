@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { Observable, ReplaySubject, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import {
   OCC_USER_ID_ANONYMOUS,
@@ -16,9 +16,7 @@ import {
   providedIn: 'root',
 })
 export class UserIdService {
-  private _userId: Observable<string> = new BehaviorSubject<string>(
-    OCC_USER_ID_ANONYMOUS
-  );
+  private _userId: Observable<string> = new ReplaySubject<string>(1);
 
   /**
    * Sets current user id.
@@ -26,7 +24,7 @@ export class UserIdService {
    * @param userId
    */
   public setUserId(userId: string): void {
-    (this._userId as BehaviorSubject<string>).next(userId);
+    (this._userId as ReplaySubject<string>).next(userId);
   }
 
   /**
@@ -44,6 +42,8 @@ export class UserIdService {
   }
 
   /**
+   * @deprecated Use `takeUserId` method instead.
+   *
    * Calls provided callback with current user id.
    *
    * @param cb callback function to invoke
@@ -52,6 +52,27 @@ export class UserIdService {
     return this.getUserId()
       .pipe(take(1))
       .subscribe((id) => cb(id));
+  }
+
+  /**
+   * Utility method if you need userId to perform single action (eg. dispatch call to API).
+   *
+   * @param loggedIn Set to true if you want the observable to emit id only for logged in user. Throws in case of anonymous user.
+   *
+   * @returns Observable that emits once and completes with the last userId value.
+   */
+  public takeUserId(loggedIn = false): Observable<string | never> {
+    return this.getUserId().pipe(
+      take(1),
+      map((userId) => {
+        if (loggedIn && userId === OCC_USER_ID_ANONYMOUS) {
+          throw new Error(
+            'Requested user id for logged user while user is not logged in.'
+          );
+        }
+        return userId;
+      })
+    );
   }
 
   /**

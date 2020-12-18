@@ -1,4 +1,4 @@
-export const permission = {
+export const orgPurchaseLimit = {
   header: 'All purchase limits ({{count}})',
 
   name: 'Name',

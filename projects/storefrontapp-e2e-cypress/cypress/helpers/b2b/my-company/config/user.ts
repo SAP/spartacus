@@ -1,6 +1,11 @@
 import { FULL_BASE_URL_EN_USD } from '../../../site-context-selector';
 import { randomString } from '../../../user';
-import { ENTITY_UID_COOKIE_KEY, INPUT_TYPE, MyCompanyConfig } from '../models';
+import {
+  ENTITY_UID_COOKIE_KEY,
+  INPUT_TYPE,
+  MyCompanyConfig,
+  MY_COMPANY_FEATURE,
+} from '../models';
 
 export const userConfig: MyCompanyConfig = {
   name: 'User',
@@ -9,6 +14,7 @@ export const userConfig: MyCompanyConfig = {
   objectType: 'users',
   entityIdField: 'customerId',
   preserveCookies: true,
+  canDisable: true,
   rows: [
     {
       label: 'Name',
@@ -95,11 +101,11 @@ export const userConfig: MyCompanyConfig = {
       label: 'Unit',
       variableName: 'orgUnit.name',
       link: `/organization/units/Rustic%20Retail`,
-      updatedLink: `/organization/units/Rustic%20Services`,
+      updatedLink: `/organization/units/Custom%20Retail`,
       sortLabel: 'unit',
       inputType: INPUT_TYPE.NG_SELECT,
-      createValue: 'Rustic',
-      updateValue: 'Rustic Services',
+      createValue: 'Rustic Retail',
+      updateValue: 'Custom Retail',
       showInTable: true,
       showInDetails: true,
       formLabel: 'Unit',
@@ -131,4 +137,5 @@ export const userConfig: MyCompanyConfig = {
       manageAssignments: true,
     },
   ],
+  features: [MY_COMPANY_FEATURE.USER_PASSWORD],
 };

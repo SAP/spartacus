@@ -1,14 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { ConfirmationMessageComponent } from '@spartacus/organization/administration/components';
 import {
   Budget,
   LoadStatus,
 } from '@spartacus/organization/administration/core';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { ItemService } from '../../item.service';
 import { ConfirmationMessageData } from '../../message/confirmation/confirmation-message.model';
 import { MessageService } from '../../message/services/message.service';
@@ -24,6 +22,8 @@ class MockMessageService {
 
 class MockItemService {
   current$ = of();
+  isInEditMode$: Observable<boolean> = new BehaviorSubject<boolean>(false);
+
   update() {
     return of();
   }
@@ -36,12 +36,7 @@ describe('ToggleStatusComponent', () => {
   let messageService: MessageService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        RouterTestingModule,
-        UrlTestingModule,
-        I18nTestingModule,
-      ],
+      imports: [CommonModule, I18nTestingModule],
       declarations: [ToggleStatusComponent],
 
       providers: [
@@ -162,7 +157,10 @@ describe('ToggleStatusComponent', () => {
       const mockItem = { code: 'b2', active: true };
       component.toggle(mockItem);
       expect(messageService.add).toHaveBeenCalledWith({
-        message: { key: 'testRoot.messages.deactivate' },
+        message: {
+          key: 'testRoot.messages.deactivate',
+          params: { item: mockItem },
+        },
         component: ConfirmationMessageComponent,
       });
       expect(organizationItemService.update).not.toHaveBeenCalled();

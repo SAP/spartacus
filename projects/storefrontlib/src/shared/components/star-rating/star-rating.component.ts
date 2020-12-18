@@ -12,8 +12,6 @@ import { ICON_TYPE } from '../../../cms-components/misc/index';
 /**
  * Star rating component can be used to view existing ratings as well
  * as create new ratings. The component can be used for any ratings.
- *
- * The rating component has a few import inputs/outputs:
  */
 @Component({
   selector: 'cx-star-rating',

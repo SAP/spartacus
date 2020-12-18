@@ -1,5 +1,5 @@
 import { Component, Directive, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { PersistFocusConfig } from '../keyboard-focus.model';
 import { PersistFocusDirective } from './persist-focus.directive';
@@ -37,24 +37,26 @@ describe('PersistFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   let service: PersistFocusService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [MockComponent, CustomFocusDirective],
-      providers: [
-        {
-          provide: PersistFocusService,
-          useClass: MockPersistFocusService,
-        },
-      ],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [MockComponent, CustomFocusDirective],
+        providers: [
+          {
+            provide: PersistFocusService,
+            useClass: MockPersistFocusService,
+          },
+        ],
+      }).compileComponents();
 
-    fixture = TestBed.createComponent(MockComponent);
-    component = fixture.componentInstance;
-    service = TestBed.inject(PersistFocusService);
+      fixture = TestBed.createComponent(MockComponent);
+      component = fixture.componentInstance;
+      service = TestBed.inject(PersistFocusService);
 
-    spyOn(service, 'get').and.callThrough();
-    spyOn(service, 'set').and.callThrough();
-  }));
+      spyOn(service, 'get').and.callThrough();
+      spyOn(service, 'set').and.callThrough();
+    })
+  );
 
   it('should create component', () => {
     expect(component).toBeTruthy();

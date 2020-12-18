@@ -35,7 +35,7 @@ export class UnitItemService extends ItemService<B2BUnit> {
 
   update(code, value: B2BUnit): Observable<OrganizationItemStatus<B2BUnit>> {
     this.unitService.update(code, value);
-    return this.unitService.getLoadingStatus(code);
+    return this.unitService.getLoadingStatus(value.uid);
   }
 
   protected create(
@@ -50,6 +50,6 @@ export class UnitItemService extends ItemService<B2BUnit> {
    * Returns 'unitDetails'
    */
   protected getDetailsRoute(): string {
-    return 'unitDetails';
+    return 'orgUnitDetails';
   }
 }

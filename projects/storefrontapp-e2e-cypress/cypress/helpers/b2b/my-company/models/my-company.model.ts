@@ -18,6 +18,10 @@ export enum ASSIGNMENT_LABELS {
   ASSIGNED_SUCCESS = ' assigned successfully',
   UNASSIGNED_SUCCESS = ' unassigned successfully',
   CREATE = 'Create',
+  EDIT = 'Edit',
+  UPDATE_SUCCESS = ' updated successfully',
+  ROLES = 'Roles',
+  ROLE_UPDATED_SUCCESS = 'Roles successfully updated for ',
 }
 
 export interface TestListOptions {
@@ -26,4 +30,13 @@ export interface TestListOptions {
     expandAll?: boolean;
     collapseAll?: boolean;
   };
+}
+
+export enum MY_COMPANY_FEATURE {
+  USER_PASSWORD = 'userPassword',
+}
+
+export enum CONFIRMATION_LABELS {
+  CONFIRM = 'CONFIRM',
+  CANCEL = 'CANCEL',
 }

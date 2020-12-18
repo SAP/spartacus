@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { OCC_USER_ID_ANONYMOUS } from '@spartacus/core';
 import { take } from 'rxjs/operators';
 import { UserIdService } from './user-id.service';
 const createSpy = jasmine.createSpy;
@@ -14,14 +15,15 @@ describe('UserIdService', () => {
   });
 
   describe('getUserId', () => {
-    it('should by default return anonymous user id', (done) => {
+    it('should not emit anything until it will be initialized from outside', () => {
+      let result;
       service
         .getUserId()
-        .pipe(take(1))
         .subscribe((userId) => {
-          expect(userId).toBe('anonymous');
-          done();
-        });
+          result = userId;
+        })
+        .unsubscribe();
+      expect(result).toBeUndefined();
     });
 
     it('should return value that was set with setUserId', (done) => {
@@ -69,6 +71,7 @@ describe('UserIdService', () => {
 
   describe('isEmulated', () => {
     it('should return false for anonymous userId', (done) => {
+      service.clearUserId();
       service
         .isEmulated()
         .pipe(take(1))
@@ -98,6 +101,47 @@ describe('UserIdService', () => {
           expect(userId).toBe(true);
           done();
         });
+    });
+  });
+
+  describe('takeUserId', () => {
+    it('should emit last value and completes', (done) => {
+      service.clearUserId();
+      service.takeUserId().subscribe(
+        (id) => expect(id).toEqual(OCC_USER_ID_ANONYMOUS),
+        () => {},
+        () => {
+          done();
+        }
+      );
+    });
+
+    it('should throw error when anonymous value in loggedIn mode', (done) => {
+      service.clearUserId();
+      let userId;
+      service.takeUserId(true).subscribe(
+        (id) => (userId = id),
+        (error: Error) => {
+          expect(userId).toBeUndefined();
+          expect(error.message).toEqual(
+            'Requested user id for logged user while user is not logged in.'
+          );
+          done();
+        }
+      );
+    });
+
+    it('should emit logged in value and completes', (done) => {
+      service.setUserId('someId');
+      service.takeUserId(true).subscribe(
+        (id) => {
+          expect(id).toEqual('someId');
+        },
+        () => {},
+        () => {
+          done();
+        }
+      );
     });
   });
 });

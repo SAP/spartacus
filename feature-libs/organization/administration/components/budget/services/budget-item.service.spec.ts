@@ -88,7 +88,7 @@ describe('BudgetItemService', () => {
       name: 'foo bar',
       code: 'new code',
     });
-    expect(budgetService.getLoadingStatus).toHaveBeenCalledWith('existingCode');
+    expect(budgetService.getLoadingStatus).toHaveBeenCalledWith('new code');
   });
 
   it('should create new budget', () => {
@@ -108,7 +108,7 @@ describe('BudgetItemService', () => {
     spyOn(routingService, 'go').and.callThrough();
     service.launchDetails({ name: 'foo bar' });
     expect(routingService.go).toHaveBeenCalledWith({
-      cxRoute: 'budgetDetails',
+      cxRoute: 'orgBudgetDetails',
       params: { name: 'foo bar' },
     });
   });

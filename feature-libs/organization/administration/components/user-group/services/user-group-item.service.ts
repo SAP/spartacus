@@ -29,10 +29,16 @@ export class UserGroupItemService extends ItemService<UserGroup> {
   }
 
   update(
-    code,
+    code: string,
     value: UserGroup
   ): Observable<OrganizationItemStatus<UserGroup>> {
     this.userGroupService.update(code, value);
+    return this.userGroupService.getLoadingStatus(value.uid);
+  }
+
+  delete(code: string): Observable<OrganizationItemStatus<UserGroup>> {
+    this.launchList();
+    this.userGroupService.delete(code);
     return this.userGroupService.getLoadingStatus(code);
   }
 
@@ -44,6 +50,12 @@ export class UserGroupItemService extends ItemService<UserGroup> {
   }
 
   protected getDetailsRoute(): string {
-    return 'userGroupDetails';
+    return 'orgUserGroupDetails';
+  }
+
+  protected launchList() {
+    this.routingService.go({
+      cxRoute: 'orgUserGroup',
+    });
   }
 }

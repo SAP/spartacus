@@ -92,7 +92,7 @@ describe('UnitItemService', () => {
       name: 'foo bar',
       uid: 'unitUid',
     });
-    expect(unitService.getLoadingStatus).toHaveBeenCalledWith('existingCode');
+    expect(unitService.getLoadingStatus).toHaveBeenCalledWith('unitUid');
   });
 
   it('should create new unit', () => {
@@ -112,7 +112,7 @@ describe('UnitItemService', () => {
     spyOn(routingService, 'go').and.callThrough();
     service.launchDetails({ name: 'foo bar' });
     expect(routingService.go).toHaveBeenCalledWith({
-      cxRoute: 'unitDetails',
+      cxRoute: 'orgUnitDetails',
       params: { name: 'foo bar' },
     });
   });

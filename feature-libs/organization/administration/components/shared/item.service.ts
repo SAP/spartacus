@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
 import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
 import { FormUtils } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { CurrentItemService } from './current-item.service';
 import { FormService } from './form/form.service';
@@ -25,6 +25,8 @@ export abstract class ItemService<T> {
   key$ = this.currentItemService.key$;
   current$ = this.currentItemService.item$;
 
+  isInEditMode$: Observable<boolean> = new BehaviorSubject<boolean>(false);
+
   /**
    * Returns the current business unit code.
    *
@@ -42,22 +44,24 @@ export abstract class ItemService<T> {
       FormUtils.deepUpdateValueAndValidity(form);
       return of();
     } else {
-      // This assignment is needed to re-use form value after `form.disable()` call
-      // In some cases value was converted by `form.disable()` into empty object
+      /**
+       * This assignment is needed to re-use form value after `form.disable()` call
+       * In some cases value was converted by `form.disable()` into empty object
+       */
       const formValue = form.value;
       form.disable();
-
-      // this potentially fails when creating/saving takes time:
-      // - the new item might not yet exists and therefore will fail with
-      //   a 404 in case of routing
-      // - the new item  might not yet be saved, thus the detailed route
-      //   would not reflect the changes
-      this.launchDetails(formValue);
 
       return key ? this.update(key, formValue) : this.create(formValue);
     }
   }
 
+  /**
+   * Deletes an item.
+   */
+  delete?(
+    key: string,
+    additionalParam?: string
+  ): Observable<OrganizationItemStatus<T>>;
   /**
    * Loads an item.
    */
@@ -108,5 +112,12 @@ export abstract class ItemService<T> {
 
   getRouterParam(key: string): Observable<string> {
     return this.currentItemService.getRouterParam(key);
+  }
+
+  /**
+   * Sets to true when the user is on the entity item form page
+   */
+  setEditMode(isInEdit: boolean) {
+    (this.isInEditMode$ as BehaviorSubject<boolean>).next(isInEdit);
   }
 }

@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnDestroy,
-} from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Subject, Subscription } from 'rxjs';
 import { filter, first, take } from 'rxjs/operators';
@@ -14,13 +9,13 @@ import { MessageService } from '../../message/services/message.service';
 import { BaseItem } from '../../organization.model';
 
 /**
- * Reusable component in the my-company are to toggle the disabled state for
+ * Reusable component in the my-company is to toggle the disabled state for
  * my company entities.
  */
 @Component({
   selector: 'cx-org-toggle-status',
   templateUrl: './toggle-status.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
 })
 export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   /**
@@ -48,6 +43,11 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
    */
   current$ = this.itemService.current$;
 
+  /**
+   * resolves if the user is currently in the edit form.
+   */
+  isInEditMode$ = this.itemService.isInEditMode$;
+
   protected subscription = new Subscription();
   protected confirmation: Subject<ConfirmationMessageData>;
 
@@ -65,6 +65,7 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
         this.confirmation = this.messageService.add({
           message: {
             key: this.i18nRoot + '.messages.deactivate',
+            params: { item },
           },
           component: ConfirmationMessageComponent,
         });

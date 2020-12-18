@@ -3,7 +3,7 @@ import {
   Component,
   DebugElement,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AbstractControl,
   FormControl,
@@ -48,28 +48,30 @@ describe('UpdateEmailComponent', () => {
 
   let updateEmailService: UpdateEmailService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        I18nTestingModule,
-        FormErrorsModule,
-        RouterTestingModule,
-        UrlTestingModule,
-      ],
-      declarations: [UpdateEmailComponent, MockCxSpinnerComponent],
-      providers: [
-        {
-          provide: UpdateEmailService,
-          useClass: MockUpdateEmailService,
-        },
-      ],
-    })
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          ReactiveFormsModule,
+          I18nTestingModule,
+          FormErrorsModule,
+          RouterTestingModule,
+          UrlTestingModule,
+        ],
+        declarations: [UpdateEmailComponent, MockCxSpinnerComponent],
+        providers: [
+          {
+            provide: UpdateEmailService,
+            useClass: MockUpdateEmailService,
+          },
+        ],
+      })
       .overrideComponent(UpdateEmailComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
-  }));
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UpdateEmailComponent);

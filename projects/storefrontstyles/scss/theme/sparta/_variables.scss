@@ -1,14 +1,12 @@
-/*!
-  SPARTA v0.1
-  This file is for theme configuration. These variables are used in global and component CSS files.
-
-  You can:
-    1) Set new values for Bootstrap variables - https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss
-    2) Set new values for cxbase variables - cxbase/_variables.scss
-    3) Set new values for component variables - app/__/_.scss
-  You cannot:
-    1) Add new variables
-*/
+// SPARTA v0.1
+// This file is for theme configuration. These variables are used in global and component CSS files.
+//
+// You can:
+//   1) Set new values for Bootstrap variables - https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss
+//   2) Set new values for cxbase variables - cxbase/_variables.scss
+//   3) Set new values for component variables - app/__/_.scss
+// You cannot:
+//   1) Add new variables
 @import '../../cxbase/functions';
 
 //fonts (see _fonts.scss to import)
@@ -79,10 +77,8 @@ $type: (
 //bring in variable defaults
 @import '../../cxbase/variables';
 
-/*
-GLOBAL VARIABLE OVERRIDES
-  These can be set with anything above or any variables exposed in Bootsrap or cxbase
-*/
+// GLOBAL VARIABLE OVERRIDES
+// These can be set with anything above or any variables exposed in Bootsrap or cxbase
 $grid-gutter-width: 30px;
 
 $line-height-base: 1.6;
@@ -129,11 +125,10 @@ $colors: map-remove(
   'white'
 );
 
-/*
-COMPONENT VARIABLE OVERRIDES
-  For example, the following would override the cx-storefront background set in src/app/ui/layout/main/main.component.scss
-  $cx-storefront-background-color: "info";
-*/
+// COMPONENT VARIABLE OVERRIDES
+// For example, the following would override the cx-storefront background set
+// in src/app/ui/layout/main/main.component.scss
+// $cx-storefront-background-color: "info";
 $spinWhileLoading: true !default;
 $spinWhileWaiting: true !default;
 $zoomThumbOnHover: true !default;

@@ -6,7 +6,6 @@ import { BehaviorSubject, of } from 'rxjs';
 import { CardTestingModule } from '../card/card.testing.module';
 import { ItemService } from '../item.service';
 import { FormComponent } from './form.component';
-import createSpy = jasmine.createSpy;
 import { MessageService } from '@spartacus/organization/administration/components';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 
@@ -17,11 +16,12 @@ const key$ = new BehaviorSubject('key');
 class MockItemService {
   key$ = key$.asObservable();
   current$ = of(mockItem);
-  launchDetails = createSpy('launchDetails');
   unit$ = of();
   save() {
     return of({ status: LoadStatus.SUCCESS, item: mockItem });
   }
+  setEditMode = () => {};
+  launchDetails = () => {};
 }
 
 describe('FormComponent', () => {
@@ -55,20 +55,25 @@ describe('FormComponent', () => {
     component.i18nRoot = 'i18nRoot';
   });
 
+  afterEach(() => {
+    component.ngOnDestroy();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   it('should save an updated item and notify', () => {
+    const form = new FormGroup({});
     spyOn(organizationItemService, 'save').and.callThrough();
     spyOn(messageService, 'add').and.callThrough();
+    spyOn(organizationItemService, 'launchDetails').and.callThrough();
 
     key$.next('key');
-
-    const form = new FormGroup({});
     component.save(form);
 
     expect(organizationItemService.save).toHaveBeenCalledWith(form, 'key');
+    expect(organizationItemService.launchDetails).toHaveBeenCalled();
     expect(messageService.add).toHaveBeenCalledWith({
       message: {
         key: `i18nRoot.messages.update`,
@@ -80,14 +85,16 @@ describe('FormComponent', () => {
   });
 
   it('should save an created item and notify', () => {
+    const form = new FormGroup({});
     spyOn(organizationItemService, 'save').and.callThrough();
     spyOn(messageService, 'add').and.callThrough();
+    spyOn(organizationItemService, 'launchDetails').and.callThrough();
 
     key$.next(undefined);
-    const form = new FormGroup({});
     component.save(form);
 
     expect(organizationItemService.save).toHaveBeenCalledWith(form, undefined);
+    expect(organizationItemService.launchDetails).toHaveBeenCalled();
     expect(messageService.add).toHaveBeenCalledWith({
       message: {
         key: `i18nRoot.messages.create`,
@@ -95,6 +102,55 @@ describe('FormComponent', () => {
           item: mockItem,
         },
       },
+    });
+  });
+
+  describe('when loading of the created item has failed', () => {
+    beforeEach(() => {
+      spyOn(organizationItemService, 'save').and.returnValue(
+        of({ status: LoadStatus.ERROR, item: mockItem })
+      );
+      spyOn(messageService, 'add').and.callThrough();
+      spyOn(organizationItemService, 'launchDetails').and.callThrough();
+    });
+
+    it('should not launch details for not created item', () => {
+      const form = new FormGroup({});
+      key$.next(undefined);
+      component.save(form);
+
+      expect(organizationItemService.save).toHaveBeenCalledWith(
+        form,
+        undefined
+      );
+      expect(organizationItemService.launchDetails).not.toHaveBeenCalled();
+    });
+
+    it('should not notify', () => {
+      expect(messageService.add).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('when loading of the updated item has failed', () => {
+    beforeEach(() => {
+      spyOn(organizationItemService, 'save').and.returnValue(
+        of({ status: LoadStatus.ERROR, item: mockItem })
+      );
+      spyOn(messageService, 'add').and.callThrough();
+      spyOn(organizationItemService, 'launchDetails').and.callThrough();
+    });
+
+    it('should not launch details for not updated item', () => {
+      const form = new FormGroup({});
+      key$.next('key');
+      component.save(form);
+
+      expect(organizationItemService.save).toHaveBeenCalledWith(form, 'key');
+      expect(organizationItemService.launchDetails).not.toHaveBeenCalled();
+    });
+
+    it('should not notify', () => {
+      expect(messageService.add).not.toHaveBeenCalled();
     });
   });
 });
