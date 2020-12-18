@@ -53,14 +53,15 @@ export namespace Cpq {
     name?: string;
     description?: string;
     label?: string;
-    displayAs: number;
+    displayAs?: number;
+    dataType?: Cpq.DataType;
     required?: boolean;
     incomplete?: boolean;
     isEnabled?: boolean;
     isLineItem?: boolean;
     hasConflict?: boolean;
     userInput?: string;
-    quantity?: number;
+    quantity?: string;
     values?: Value[];
   }
 
@@ -122,5 +123,13 @@ export namespace Cpq {
     READ_ONLY = 71,
     INPUT = 95,
     AUTO_COMPLETE_CUSTOM = 102,
+  }
+
+  export enum DataType {
+    INPUT_STRING = 'String',
+    INPUT_NUMBER = 'Number',
+    QTY_ATTRIBUTE_LEVEL = 'Quantity',
+    QTY_VALUE_LEVEL = 'Attr.Quantity',
+    N_A = 'N/A',
   }
 }
