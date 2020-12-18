@@ -178,7 +178,7 @@ export class CmsComponentsService {
   }
 
   /**
-   * Return the static data for the component.
+   * Returns the static data for the component type.
    */
   getStaticData<T extends CmsComponent = CmsComponent>(
     componentType: string

@@ -44,6 +44,7 @@ describe('CmsInjectorService', () => {
       expect(data).toBeTruthy();
       expect(data.uid).toEqual('sampleUid');
     });
+
     it('should call getMapping from CmsComponentsService', () => {
       service.getInjector('aaa', 'sampleUid');
       expect(mockCmsComponentsService.getMapping).toHaveBeenCalled();
