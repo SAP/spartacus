@@ -19,7 +19,7 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
       }
     });
 
-    testListFromConfig(config);
+    // testListFromConfig(config);
     testCreateUpdateFromConfig(config);
     testAssignmentFromConfig(config);
     testFeaturesFromConfig(config);
