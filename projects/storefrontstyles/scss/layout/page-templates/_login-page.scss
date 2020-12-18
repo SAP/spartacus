@@ -17,7 +17,8 @@
 
     > * {
       max-width: var(--cx-max-width, 50%);
-      width: 100%;
+      // @TODO move this to corresponding components styles
+      //width: 100%;
     }
   }
 

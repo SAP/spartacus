@@ -1,16 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
   I18nModule,
   provideDefaultConfig,
+  UrlModule,
 } from '@spartacus/core';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
-import { UpdateEmailFormComponent } from './update-email-form/update-email-form.component';
-import { UpdateEmailComponent } from './update-email.component';
 import { FormErrorsModule } from '../../../shared/index';
+import { UpdateEmailComponent } from './update-email.component';
 
 @NgModule({
   imports: [
@@ -18,6 +19,8 @@ import { FormErrorsModule } from '../../../shared/index';
     FormsModule,
     ReactiveFormsModule,
     SpinnerModule,
+    UrlModule,
+    RouterModule,
     I18nModule,
     FormErrorsModule,
   ],
@@ -31,8 +34,7 @@ import { FormErrorsModule } from '../../../shared/index';
       },
     }),
   ],
-  declarations: [UpdateEmailFormComponent, UpdateEmailComponent],
-  exports: [UpdateEmailComponent, UpdateEmailFormComponent],
-  entryComponents: [UpdateEmailComponent],
+  declarations: [UpdateEmailComponent],
+  exports: [UpdateEmailComponent],
 })
 export class UpdateEmailModule {}
