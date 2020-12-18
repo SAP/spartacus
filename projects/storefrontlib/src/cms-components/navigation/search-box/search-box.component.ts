@@ -59,21 +59,19 @@ export class SearchBoxComponent {
     protected winRef: WindowRef
   ) {}
 
-  results$: Observable<SearchResults> = this.getConfig().pipe(
-    switchMap((config) => this.searchBoxComponentService.getResults(config))
-  );
-
   /**
    * Returns the SearchBox configuration. The configuration is driven by multiple
    * layers: default configuration, (optional) backend configuration and (optional)
    * input configuration.
    */
-  protected getConfig(): Observable<SearchBoxConfig> {
-    const isBool = (obj: SearchBoxConfig, prop: string): boolean =>
-      obj?.[prop] !== 'false' && obj?.[prop] !== false;
+  protected config$: Observable<SearchBoxConfig> = (
+    this.componentData?.data$ || of({} as any)
+  ).pipe(
+    map((config) => {
+      const isBool = (obj: SearchBoxConfig, prop: string): boolean =>
+        obj?.[prop] !== 'false' && obj?.[prop] !== false;
 
-    return (this.componentData?.data$ || of({} as any)).pipe(
-      map((config) => ({
+      return {
         ...DEFAULT_SEARCH_BOX_CONFIG,
         ...config,
         displayProducts: isBool(config, 'displayProducts'),
@@ -82,10 +80,14 @@ export class SearchBoxComponent {
         // we're merging the (optional) input of this component, but write the merged
         // result back to the input property, as the view logic depends on it.
         ...this.config,
-      })),
-      tap((config) => (this.config = config))
-    );
-  }
+      };
+    }),
+    tap((config) => (this.config = config))
+  );
+
+  results$: Observable<SearchResults> = this.config$.pipe(
+    switchMap((config) => this.searchBoxComponentService.getResults(config))
+  );
 
   /**
    * Closes the searchBox and opens the search result page.
