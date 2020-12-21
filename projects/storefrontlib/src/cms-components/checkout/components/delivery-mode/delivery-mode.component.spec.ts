@@ -1,5 +1,5 @@
 import { Component, Type } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -79,27 +79,32 @@ describe('DeliveryModeComponent', () => {
   let mockCheckoutConfigService: CheckoutConfigService;
   let checkoutStepService: CheckoutStepService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule],
-      declarations: [DeliveryModeComponent, MockSpinnerComponent],
-      providers: [
-        {
-          provide: CheckoutDeliveryService,
-          useClass: MockCheckoutDeliveryService,
-        },
-        { provide: CheckoutStepService, useClass: MockCheckoutStepService },
-        { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
-        { provide: ActivatedRoute, useValue: mockActivatedRoute },
-      ],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [ReactiveFormsModule, I18nTestingModule],
+        declarations: [DeliveryModeComponent, MockSpinnerComponent],
+        providers: [
+          {
+            provide: CheckoutDeliveryService,
+            useClass: MockCheckoutDeliveryService,
+          },
+          { provide: CheckoutStepService, useClass: MockCheckoutStepService },
+          {
+            provide: CheckoutConfigService,
+            useClass: MockCheckoutConfigService,
+          },
+          { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        ],
+      }).compileComponents();
 
-    mockCheckoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
-    mockCheckoutConfigService = TestBed.inject(CheckoutConfigService);
-    checkoutStepService = TestBed.inject(
-      CheckoutStepService as Type<CheckoutStepService>
-    );
-  }));
+      mockCheckoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
+      mockCheckoutConfigService = TestBed.inject(CheckoutConfigService);
+      checkoutStepService = TestBed.inject(
+        CheckoutStepService as Type<CheckoutStepService>
+      );
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DeliveryModeComponent);

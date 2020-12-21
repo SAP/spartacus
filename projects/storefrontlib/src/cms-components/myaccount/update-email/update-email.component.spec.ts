@@ -1,5 +1,5 @@
 import { Component, DebugElement, EventEmitter, Output } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NavigationExtras } from '@angular/router';
@@ -75,34 +75,36 @@ describe('UpdateEmailComponent', () => {
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
-      declarations: [
-        UpdateEmailComponent,
-        MockUpdateEmailFormComponent,
-        MockCxSpinnerComponent,
-      ],
-      providers: [
-        {
-          provide: UserService,
-          useClass: MockUserService,
-        },
-        {
-          provide: AuthService,
-          useClass: MockAuthService,
-        },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: GlobalMessageService,
-          useClass: MockGlobalMessageService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [ReactiveFormsModule],
+        declarations: [
+          UpdateEmailComponent,
+          MockUpdateEmailFormComponent,
+          MockCxSpinnerComponent,
+        ],
+        providers: [
+          {
+            provide: UserService,
+            useClass: MockUserService,
+          },
+          {
+            provide: AuthService,
+            useClass: MockAuthService,
+          },
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
+          {
+            provide: GlobalMessageService,
+            useClass: MockGlobalMessageService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UpdateEmailComponent);
