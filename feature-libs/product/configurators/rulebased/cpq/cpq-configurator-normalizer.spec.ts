@@ -11,6 +11,7 @@ const cpqValueCode = 'VALUE_CODE';
 const cpqValueDisplay = 'VALUE_DISPLAY';
 const cpqValueDescription = 'VALUE_DESCRIPTION';
 const cpqValueProductSystemId = 'VALUE_PRODUCT_SYSTEM_ID';
+const cpqValueQuantity = '2';
 
 const cpqValuePavId2 = 2;
 const cpqValueCode2 = 'VALUE_CODE_2';
@@ -28,6 +29,8 @@ const cpqAttributeIncomplete = true;
 const cpqAttributeIsLineItem = true;
 const cpqAttributeHasConflict = true;
 const cpqAttributeUserInput = '';
+const cpqAttributeQuantity = '1';
+const cpqAttributeDataType = Cpq.DataType.QTY_ATTRIBUTE_LEVEL;
 
 const cpqAttributePaId2 = 22;
 const cpqAttributeStdAttrCode2 = 2;
@@ -52,6 +55,11 @@ const cpqGroupDisplayName2 = 'GROUP_DISPLAY_NAME2';
 const cpqGroupIsIncomplete2 = false;
 const cpqGroupIsSelected2 = false;
 
+const configuratorValueQuantity = Number(cpqValueQuantity);
+const configuratorAttributeQuantity = Number(cpqAttributeQuantity);
+const configuratorAttributeDataType =
+  Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
+
 const cpqValue: Cpq.Value = {
   paV_ID: cpqValuePavId,
   valueCode: cpqValueCode,
@@ -59,6 +67,7 @@ const cpqValue: Cpq.Value = {
   description: cpqValueDescription,
   productSystemId: cpqValueProductSystemId,
   selected: true,
+  quantity: cpqValueQuantity,
 };
 
 const cpqValue2: Cpq.Value = {
@@ -81,6 +90,8 @@ const cpqAttribute: Cpq.Attribute = {
   isLineItem: cpqAttributeIsLineItem,
   hasConflict: cpqAttributeHasConflict,
   userInput: cpqAttributeUserInput,
+  quantity: cpqAttributeQuantity,
+  dataType: cpqAttributeDataType,
   values: [cpqValue, cpqValue2],
 };
 
@@ -193,6 +204,7 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(value.description).toBe(cpqValueDescription);
     expect(value.productSystemId).toBe(cpqValueProductSystemId);
     expect(value.selected).toBe(true);
+    expect(value.quantity).toBe(configuratorValueQuantity);
   });
 
   it('should convert attributes with values - no sysId', () => {
@@ -230,6 +242,8 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(attribute.userInput).toBe(cpqAttributeUserInput);
     expect(attribute.hasConflicts).toBe(cpqAttributeHasConflict);
     expect(attribute.incomplete).toBe(false);
+    expect(attribute.quantity).toBe(configuratorAttributeQuantity);
+    expect(attribute.dataType).toBe(configuratorAttributeDataType);
 
     const values = attribute.values;
     expect(values.length).toBe(2);
@@ -259,6 +273,8 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(attribute.userInput).toBe(cpqAttributeUserInput);
     expect(attribute.hasConflicts).toBe(cpqAttributeHasConflict);
     expect(attribute.incomplete).toBe(false);
+    expect(attribute.quantity).toBe(configuratorAttributeQuantity);
+    expect(attribute.dataType).toBe(configuratorAttributeDataType);
 
     const values = attribute.values;
     expect(values.length).toBe(2);
@@ -296,6 +312,8 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(attribute.userInput).toBe(cpqAttributeUserInput);
     expect(attribute.hasConflicts).toBe(cpqAttributeHasConflict);
     expect(attribute.incomplete).toBe(false);
+    expect(attribute.quantity).toBe(configuratorAttributeQuantity);
+    expect(attribute.dataType).toBe(configuratorAttributeDataType);
 
     const values = attribute.values;
     expect(values.length).toBe(2);
@@ -595,5 +613,84 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(attributeCheckboxlistWithValue.incomplete).toBe(false);
     expect(attributeMSIWOValue.incomplete).toBe(true);
     expect(attributeMSIWithValue.incomplete).toBe(false);
+  });
+
+  it('should convert CPQ dataType INPUT_STRING', () => {
+    const attribute: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+      dataType: Cpq.DataType.INPUT_STRING,
+    };
+    expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
+      Configurator.DataType.INPUT_STRING
+    );
+  });
+
+  it('should convert CPQ dataType INPUT_NUMBER', () => {
+    const attribute: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+      dataType: Cpq.DataType.INPUT_NUMBER,
+    };
+    expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
+      Configurator.DataType.INPUT_NUMBER
+    );
+  });
+
+  it('should convert CPQ dataType User Selection (N/A)', () => {
+    const attribute: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+      dataType: Cpq.DataType.N_A,
+    };
+    expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
+      Configurator.DataType.USER_SELECTION_NO_QTY
+    );
+  });
+
+  it('should convert CPQ dataType User Selection with Quantity on attribute level (QTY_ATTRIBUTE_LEVEL)', () => {
+    const attribute: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+      dataType: Cpq.DataType.QTY_ATTRIBUTE_LEVEL,
+    };
+    expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
+      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
+    );
+  });
+
+  it('should convert CPQ dataType User Selection with Quantity on value level (QTY_VALUE_LEVEL)', () => {
+    const attribute: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+      dataType: Cpq.DataType.QTY_VALUE_LEVEL,
+      displayAs: Cpq.DisplayAs.CHECK_BOX,
+    };
+    expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
+      Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL
+    );
+  });
+
+  it('should convert CPQ dataType User Selection with Quantity on value level (QTY_VALUE_LEVEL) for single selection attribute', () => {
+    const attribute: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+      dataType: Cpq.DataType.QTY_VALUE_LEVEL,
+      displayAs: Cpq.DisplayAs.RADIO_BUTTON,
+    };
+    expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
+      Configurator.DataType.USER_SELECTION_NO_QTY
+    );
+  });
+
+  it('should convert CPQ not supported dataType to NOT_IMPLEMENTED', () => {
+    const attribute: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+      dataType: null,
+    };
+    expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
+      Configurator.DataType.NOT_IMPLEMENTED
+    );
   });
 });

@@ -9,7 +9,7 @@ export namespace Configurator {
     required?: boolean;
     incomplete?: boolean;
     uiType?: UiType;
-    dataType?: string;
+    dataType?: DataType;
     quantity?: number;
     values?: Value[];
     groupId?: string;
@@ -175,6 +175,14 @@ export namespace Configurator {
     GALLERY = 'GALLERY',
   }
 
+  export enum DataType {
+    INPUT_STRING = 'String',
+    INPUT_NUMBER = 'Number',
+    USER_SELECTION_QTY_ATTRIBUTE_LEVEL = 'UserSelectionWithAttributeQuantity',
+    USER_SELECTION_QTY_VALUE_LEVEL = 'UserSelectionWithValueQuantity',
+    USER_SELECTION_NO_QTY = 'UserSelectionWithoutQuantity',
+    NOT_IMPLEMENTED = 'not_implemented',
+  }
   export enum UpdateType {
     ATTRIBUTE = 'Attribute',
     ATTRIBUTE_QUANTITY = 'AttributeQuantity',
