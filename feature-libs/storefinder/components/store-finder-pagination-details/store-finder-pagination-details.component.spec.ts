@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, PaginationModel } from '@spartacus/core';
 import { StoreFinderPaginationDetailsComponent } from './store-finder-pagination-details.component';
@@ -13,12 +13,14 @@ describe('StoreFinderPaginationDetailsComponent', () => {
   let component: StoreFinderPaginationDetailsComponent;
   let fixture: ComponentFixture<StoreFinderPaginationDetailsComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [StoreFinderPaginationDetailsComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [StoreFinderPaginationDetailsComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderPaginationDetailsComponent);

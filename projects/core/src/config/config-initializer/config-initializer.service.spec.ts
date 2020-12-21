@@ -3,6 +3,8 @@ import { TestBed } from '@angular/core/testing';
 import { ConfigInitializerService } from './config-initializer.service';
 import { Config, ConfigInitializer, RootConfig } from '@spartacus/core';
 import { CONFIG_INITIALIZER_FORROOT_GUARD } from './config-initializer';
+import { tap } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
 
 const MockConfig = {
   test: 'test',
@@ -64,6 +66,44 @@ describe('ConfigInitializerService', () => {
       expect(config.scope2.nested).toBeTruthy();
     });
 
+    describe('getStable should return correct config for scope', () => {
+      it('scope1', (done) => {
+        service.getStable('scope1').subscribe((config) => {
+          expect(config.scope1).toEqual('final');
+          done();
+        });
+      });
+
+      it('scope2', (done) => {
+        service.getStable('scope2').subscribe((config) => {
+          expect(config.scope2).toEqual({ nested: true });
+          done();
+        });
+      });
+
+      it('scope2.nested', (done) => {
+        service.getStable('scope2.nested').subscribe((config) => {
+          expect(config.scope2).toEqual({ nested: true });
+          done();
+        });
+      });
+
+      it('scope2.nested.even.more', (done) => {
+        service.getStable('scope2.nested.even.more').subscribe((config) => {
+          expect(config.scope2).toEqual({ nested: true });
+          done();
+        });
+      });
+
+      it('scope1, scope2', (done) => {
+        service.getStable('scope1', 'scope2').subscribe((config) => {
+          expect(config.scope1).toEqual('final');
+          expect(config.scope2).toEqual({ nested: true });
+          done();
+        });
+      });
+    });
+
     describe('getConfigStable should return correct config for scope', () => {
       it('scope1', async () => {
         const config = await service.getStableConfig('scope1');
@@ -89,6 +129,27 @@ describe('ConfigInitializerService', () => {
         const config = await service.getStableConfig('scope1', 'scope2');
         expect(config.scope1).toEqual('final');
         expect(config.scope2).toEqual({ nested: true });
+      });
+    });
+
+    it('getStable should fulfil gradually', (done) => {
+      const results = [];
+
+      const scope2 = service
+        .getStable('scope2')
+        .pipe(tap(() => results.push('scope2')));
+
+      const stable = service
+        .getStable()
+        .pipe(tap(() => results.push('stable')));
+
+      const scope1 = service
+        .getStable('scope1')
+        .pipe(tap(() => results.push('scope1')));
+
+      forkJoin([scope2, stable, scope1]).subscribe(() => {
+        expect(results).toEqual(['scope1', 'scope2', 'stable']);
+        done();
       });
     });
 

@@ -45,7 +45,7 @@ export class UserChangePasswordFormComponent {
   protected notify(item: User) {
     this.messageService.add({
       message: {
-        key: `user.messages.updatePassword`,
+        key: `orgUser.messages.updatePassword`,
         params: {
           item,
         },
