@@ -5,6 +5,11 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './configurator-attribute-single-selection-bundle-dropdown.component';
+import { ConfiguratorAttributeProductCardComponent } from '../../product-card/configurator-attribute-product-card.component';
+import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
+import { I18nTestingModule } from '@spartacus/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 
 describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   let component: ConfiguratorAttributeSingleSelectionBundleDropdownComponent;
@@ -51,8 +56,16 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       TestBed.configureTestingModule({
         declarations: [
           ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
+          ConfiguratorAttributeProductCardComponent,
+          ConfiguratorShowMoreComponent,
         ],
-        imports: [ReactiveFormsModule, NgSelectModule],
+        imports: [
+          ReactiveFormsModule,
+          NgSelectModule,
+          I18nTestingModule,
+          RouterTestingModule,
+          UrlTestingModule,
+        ],
         providers: [ConfiguratorAttributeBaseComponent],
       })
         .overrideComponent(
