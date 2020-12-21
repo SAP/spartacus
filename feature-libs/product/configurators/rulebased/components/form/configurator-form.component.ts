@@ -30,6 +30,7 @@ export class ConfiguratorFormComponent implements OnInit {
       );
     })
   );
+
   currentGroup$: Observable<
     Configurator.Group
   > = this.configRouterExtractorService
@@ -89,8 +90,9 @@ export class ConfiguratorFormComponent implements OnInit {
 
   updateConfiguration(event: ConfigFormUpdateEvent): void {
     this.configuratorCommonsService.updateConfiguration(
+      event.changedAttribute,
       event.ownerKey,
-      event.changedAttribute
+      event.updateType
     );
   }
 

@@ -13,6 +13,7 @@ import { BehaviorSubject } from 'rxjs';
 
 interface SelectionValue {
   name: string;
+  quantity: number;
   selected: boolean;
   valueCode: string;
 }
@@ -35,8 +36,9 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
 
   ngOnInit() {
     this.multipleSelectionValues = this.attribute.values.map(
-      ({ name, selected, valueCode }) => ({
+      ({ name, quantity, selected, valueCode }) => ({
         name,
+        quantity,
         selected,
         valueCode,
       })
@@ -61,11 +63,31 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     };
 
     const event: ConfigFormUpdateEvent = {
-      ownerKey: this.ownerKey,
       changedAttribute: {
         ...this.attribute,
         values: this.multipleSelectionValues,
       },
+      ownerKey: this.ownerKey,
+      updateType: Configurator.UpdateType.ATTRIBUTE,
+    };
+
+    return event;
+  }
+
+  protected updateMultipleSelectionValuesQuantity(eventValue) {
+    const value: Configurator.Value = this.multipleSelectionValues.find(
+      (value) => value.valueCode === eventValue.valueCode
+    );
+
+    value.quantity = eventValue.quantity;
+
+    const event: ConfigFormUpdateEvent = {
+      changedAttribute: {
+        ...this.attribute,
+        values: [value],
+      },
+      ownerKey: this.ownerKey,
+      updateType: Configurator.UpdateType.VALUE_QUANTITY,
     };
 
     return event;
@@ -80,6 +102,12 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
   onDeselect(eventValue): void {
     this.selectionChange.emit(
       this.updateMultipleSelectionValues(eventValue, false)
+    );
+  }
+
+  onChangeQuantity(eventValue): void {
+    this.selectionChange.emit(
+      this.updateMultipleSelectionValuesQuantity(eventValue)
     );
   }
 }
