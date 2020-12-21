@@ -26,10 +26,6 @@ class MockAddToCartComponent {
 }
 
 @Component({
-  selector: 'cx-configure-product',
-  template: '<button>configure product</button>',
-})
-@Component({
   selector: 'cx-star-rating',
   template: '*****',
 })
