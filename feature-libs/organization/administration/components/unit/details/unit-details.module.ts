@@ -6,7 +6,7 @@ import { ItemExistsModule } from '../../shared/item-exists.module';
 import { CardModule } from '../../shared/card/card.module';
 import { ToggleStatusModule } from '../../shared/detail/toggle-status-action/toggle-status.module';
 import { UnitDetailsComponent } from './unit-details.component';
-import { KeyboardFocusModule } from 'projects/storefrontlib/src/layout/a11y/keyboard-focus/keyboard-focus.module';
+import { KeyboardFocusModule } from '@spartacus/storefront';
 @NgModule({
   imports: [
     CommonModule,
