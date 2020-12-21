@@ -173,6 +173,7 @@
     "gh-got": "^8.0.1",
     "gh-pages": "^2.1.1",
     "git-raw-commits": "^2.0.0",
+    "glob": "^7.1.6",
     "http-server": "^0.11.1",
     "i18n-lint": "^1.0.0",
     "jasmine-core": "~3.6.0",

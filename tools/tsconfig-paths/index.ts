@@ -1,13 +1,27 @@
-// steps: grab all packages (look for package.json files - exclude some files: app everything from dist/node_modules)
-// validate spartacus dependencies for each package
-// find all entrypoints for each package
-// generate paths for dev/prod for each package
-// in package tsconfig.paths config add the all the paths for the lib depending on prod/dev file
+/**
+ * Purpose of this script is to set correctly all required paths in `compilerOptions.paths` property in all our `tsconfig` files.
+ * Use after adding new library or new entry point, or moving libraries in file system.
+ *
+ * This script is based on number of assumptions:
+ * - libraries live in `core-libs`, `feature-libs`, `integration-libs` and `projects` directories (not in subdirectories!)
+ * - libraries have all dependencies specified in their `package.json`
+ * - all dependencies to other spartacus libs are peerDependencies
+ * - script is run from the root project directory `ts-node ./tools/tsconfig-paths/index.ts`
+ * - each entry point have it's own `ng-package.json` file
+ * - we have `prettier:fix` script for formatting files
+ * - libraries have `tsconfig.lib.json` files for configuration
+ * - libraries have `tsconfig.schematics.json` files for schematics configuration
+ * - all entry points are `.ts` files
+ */
 
+import { execSync } from 'child_process';
 import fs from 'fs';
-// TODO: Add as explicit dev dependency
 import glob from 'glob';
+import path from 'path';
 
+/**
+ * Paths to `package.json` files for all libraries.
+ */
 const librariesPaths = glob.sync(
   '{core-libs,feature-libs,integration-libs,projects}/!(node_modules)/package.json',
   {
@@ -15,38 +29,103 @@ const librariesPaths = glob.sync(
       'projects/storefrontapp-e2e-cypress/package.json',
       'projects/dev-schematics/package.json',
       'projects/storefrontstyles/package.json',
-      'projects/schematics/package.json',
+      'projects/schematics/package.json', // excluded as it is treated differently than feature libraries
     ],
   }
 );
 
+// Utility functions
+function readJsonFile(path: string) {
+  return JSON.parse(fs.readFileSync(path, 'utf-8'));
+}
+
+function saveJsonFile(path: string, content: Object) {
+  fs.writeFileSync(path, JSON.stringify(content, undefined, 2));
+}
+
+function setCompilerOptionsPaths(tsconfigPath: string, paths: Object) {
+  const tsConfigContent = readJsonFile(tsconfigPath);
+  if (Object.keys(paths).length) {
+    tsConfigContent.compilerOptions.paths = paths;
+    saveJsonFile(tsconfigPath, tsConfigContent);
+  }
+}
+
+function joinPaths(...parts: string[]) {
+  return path.join(...parts).replace(/\\/g, '/');
+}
+
+function logUpdatedFile(path: string) {
+  console.log(`✅ Updated ${path}`);
+}
+
+console.log('\nAnalyzing project structure...');
 let libraries: {
-  [a: string]: {
+  [library: string]: {
+    /**
+     * Name of the library.
+     * eg. `@spartacus/core`
+     */
     name: string;
+    /**
+     * Directory to which the builded lib lands in `dist` directory.
+     * eg. for `@spartacus/storefront` -> `storefrontlib`
+     */
     distDir: string;
-    entryPoints: string[];
+    /**
+     * All entry points for library (including the main entry point).
+     */
+    entryPoints: Array<{
+      /**
+       * Reference to entry point.
+       * eg. `@spartacus/organization/administration`
+       */
+      entryPoint: string;
+      /**
+       * Directory of entry point.
+       * eg. `/administration`
+       */
+      path: string;
+      /**
+       * Path to entry file for entry point (inside directory from property `path`).
+       * eg. `src/public_api` (without .ts extension)
+       */
+      entryFile: string;
+    }>;
+    /**
+     * All spartacus packages that this library depend on.
+     */
     spartacusDependencies: string[];
+    /**
+     * Directory where package lives.
+     * eg. for `@spartacus/core` -> `projects/core`
+     */
     path: string;
   };
 } = librariesPaths
-  .map((path) => {
-    const packageJson = JSON.parse(fs.readFileSync(path, 'utf-8'));
+  .map((libPath) => {
+    const packageJson = readJsonFile(libPath);
     const peerDependencies = Object.keys(packageJson.peerDependencies ?? {});
-    const libDir = path.substring(0, path.length - `/package.json`.length);
-    const ngPackagePaths = glob.sync(`${libDir}/**/ng-package.json`);
-    const entryPoints =
-      ngPackagePaths
-        // remove lib directory from entry point path
-        .map((ngPackagePath) => ngPackagePath.substring(libDir.length))
-        // remove `/ng-package.json` from entry point path
-        .map((ngPackagePath) =>
-          ngPackagePath.substring(
-            0,
-            ngPackagePath.length - `/ng-package.json`.length
-          )
-        )
-        // remove default root entry point
-        .filter((ngPackagePath) => !!ngPackagePath) ?? [];
+    const libDir = libPath.substring(
+      0,
+      libPath.length - `/package.json`.length
+    );
+
+    const ngPackageFilesPaths = glob.sync(`${libDir}/**/ng-package.json`);
+    const entryPoints = ngPackageFilesPaths.map((ngPackagePath) => {
+      const ngPackageFileContent = readJsonFile(ngPackagePath);
+      let pathWithoutLibDirectory = ngPackagePath.substring(libDir.length);
+      let pathWithoutNgPackage = pathWithoutLibDirectory.substring(
+        0,
+        pathWithoutLibDirectory.length - `/ng-package.json`.length
+      );
+      return {
+        entryPoint: `${packageJson.name}${pathWithoutNgPackage}`, // eg. `@spartacus/organization/administration`
+        path: `${pathWithoutNgPackage}`, // eg. `/administration`
+        entryFile: `${ngPackageFileContent.lib.entryFile.replace('.ts', '')}`, // eg. `src/public_api` (without .ts extension)
+      };
+    });
+
     return {
       name: packageJson.name,
       distDir: libDir.split('/')[1],
@@ -62,96 +141,145 @@ let libraries: {
     return acc;
   }, {});
 
-// Add path to `@spartacus/schematics` for schematics tsconfig.
+/**
+ * When library have it's own schematics (tsconfig.schematics.json exists) and have
+ * schematics as peerDependency we add path to `@spartacus/schematics` lib.
+ */
+console.log('\nUpdating tsconfig.schematics.json files\n');
 Object.values(libraries).forEach((library) => {
-  const schematicsTsConfig = glob.sync(
+  const schematicsTsConfigPaths = glob.sync(
     `${library.path}/tsconfig.schematics.json`
   );
   if (
-    schematicsTsConfig.length &&
+    schematicsTsConfigPaths.length &&
     library.spartacusDependencies.includes('@spartacus/schematics')
   ) {
-    const tsConfig = JSON.parse(
-      fs.readFileSync(schematicsTsConfig[0], 'utf-8')
-    );
-    (tsConfig.compilerOptions.paths = {
+    setCompilerOptionsPaths(schematicsTsConfigPaths[0], {
       '@spartacus/schematics': ['../../projects/schematics/src/public_api'],
-    }),
-      fs.writeFileSync(
-        schematicsTsConfig[0],
-        JSON.stringify(tsConfig, undefined, 2)
-      );
+    });
+  }
+  if (schematicsTsConfigPaths.length) {
+    logUpdatedFile(schematicsTsConfigPaths[0]);
   }
 });
 
-console.log(libraries);
-
-// Add path to dependencies in tsconfig.lib.json files
+/**
+ * Adds paths to spartacus dependencies in libraries `tsconfig.lib.json` files.
+ * We grab all spartacus dependencies and add for all of them all entry points.
+ */
+console.log('\nUpdating tsconfig.lib.json files\n');
 Object.values(libraries).forEach((library) => {
-  const libTsConfig = glob.sync(`${library.path}/tsconfig.lib.json`);
-  if (libTsConfig.length) {
-    let depsEntryPoints = library.spartacusDependencies
-      .filter((dep) => dep !== '@spartacus/schematics')
+  const libraryTsConfigPaths = glob.sync(`${library.path}/tsconfig.lib.json`);
+  if (libraryTsConfigPaths.length) {
+    let dependenciesEntryPoints = library.spartacusDependencies
+      // @spartacus/schematics library should be used only in `tsconfig.schematics.json` file.
+      .filter((dependency) => dependency !== '@spartacus/schematics')
       .map((library) => libraries[library])
-      .reduce((paths, dep) => {
-        let mainEntry = { [dep.name]: [`dist/${dep.distDir}`] };
-        let subEntries = dep.entryPoints.reduce((acc, entry) => {
-          return {
-            ...acc,
-            [`${dep.name}${entry}`]: [`dist/${dep.distDir}${entry}`],
-          };
-        }, {});
-        return { ...paths, ...mainEntry, ...subEntries };
+      .reduce((entryPoints, dependency) => {
+        let dependencyEntryPoints = dependency.entryPoints.reduce(
+          (acc, entry) => {
+            return {
+              ...acc,
+              // In tsconfig.lib.json files we reference builded paths. eg. `@spartacus/storefront`: ['dist/storefrontlib/src/public_api']`
+              [entry.entryPoint]: [
+                joinPaths('dist', dependency.distDir, entry.path),
+              ],
+            };
+          },
+          {}
+        );
+        return { ...entryPoints, ...dependencyEntryPoints };
       }, {});
-    const tsConfigContent = JSON.parse(
-      fs.readFileSync(libTsConfig[0], 'utf-8')
-    );
-    if (Object.keys(depsEntryPoints).length) {
-      tsConfigContent.compilerOptions.paths = depsEntryPoints;
-      fs.writeFileSync(
-        libTsConfig[0],
-        JSON.stringify(tsConfigContent, undefined, 2)
-      );
-    }
-    console.log(library.name, depsEntryPoints);
+    setCompilerOptionsPaths(libraryTsConfigPaths[0], dependenciesEntryPoints);
+    logUpdatedFile(libraryTsConfigPaths[0]);
   }
 });
 
-// Add path in root tsconfig.json and tsconfig.compodoc.json
-let entryPoints = {
-  // Add schematics lib, as we don't traverse this lib
-  '@spartacus/schematics': ['projects/schematics/src/public_api'],
-};
+/**
+ * Add paths to all libraries and all their entry points to root `tsconfig.json` and `tsconfig.compodoc.json` files.
+ */
+console.log('\nUpdating base tsconfig files\n');
+const entryPoints = Object.values(libraries).reduce(
+  (acc, curr) => {
+    curr.entryPoints.forEach((entryPoint) => {
+      acc[entryPoint.entryPoint] = [
+        // We reference source files entry points in these configs. eg. `projects/storefrontlib/src/public_api`
+        joinPaths(curr.path, entryPoint.path, entryPoint.entryFile),
+      ];
+    });
+    return acc;
+  },
+  {
+    // Add schematics library by hand, as we don't traverse this library.
+    '@spartacus/schematics': ['projects/schematics/src/public_api'],
+  }
+);
 
-entryPoints = Object.values(libraries).reduce((acc, curr) => {
-  acc[curr.name] = [`${curr.path}/public_api`];
+setCompilerOptionsPaths('./tsconfig.json', entryPoints);
+logUpdatedFile('tsconfig.json');
+setCompilerOptionsPaths('./tsconfig.compodoc.json', entryPoints);
+logUpdatedFile('tsconfig.compodoc.json');
+
+console.log('\nUpdating storefrontapp configuration\n');
+/**
+ * Add paths to `projects/storefrontapp/tsconfig.app.prod.json` config.
+ */
+const appEntryPoints = Object.values(libraries).reduce((acc, curr) => {
   curr.entryPoints.forEach((entryPoint) => {
-    acc[`${curr.name}${entryPoint}`] = [`${curr.path}${entryPoint}/public_api`];
+    acc[entryPoint.entryPoint] = [
+      joinPaths('dist', curr.distDir, entryPoint.path),
+    ];
   });
   return acc;
-}, entryPoints);
+}, {});
 
-const tsConfigContent = JSON.parse(fs.readFileSync('./tsconfig.json', 'utf-8'));
-if (Object.keys(entryPoints).length) {
-  tsConfigContent.compilerOptions.paths = entryPoints;
-  fs.writeFileSync(
-    './tsconfig.json',
-    JSON.stringify(tsConfigContent, undefined, 2)
-  );
-}
-
-const tsCompodocConfigContent = JSON.parse(
-  fs.readFileSync('./tsconfig.json', 'utf-8')
+setCompilerOptionsPaths(
+  'projects/storefrontapp/tsconfig.app.prod.json',
+  appEntryPoints
 );
-if (Object.keys(entryPoints).length) {
-  tsCompodocConfigContent.compilerOptions.paths = entryPoints;
-  fs.writeFileSync(
-    './tsconfig.json',
-    JSON.stringify(tsCompodocConfigContent, undefined, 2)
-  );
-}
+logUpdatedFile('projects/storefrontapp/tsconfig.app.prod.json');
 
-console.log(entryPoints);
+/**
+ * Add paths to `projects/storefrontapp/tsconfig.server.json` config.
+ */
+const serverEntryPoints = Object.values(libraries).reduce((acc, curr) => {
+  curr.entryPoints.forEach((entryPoint) => {
+    // For server configuration we need relative paths that's why we append `../..`
+    acc[entryPoint.entryPoint] = [
+      joinPaths('../..', curr.path, entryPoint.path, entryPoint.entryFile),
+    ];
+  });
+  return acc;
+}, {});
 
-// Format files
-// execSync('yarn prettier:fix');
+setCompilerOptionsPaths(
+  'projects/storefrontapp/tsconfig.server.json',
+  serverEntryPoints
+);
+logUpdatedFile('projects/storefrontapp/tsconfig.server.json');
+
+/**
+ * Add paths to `projects/storefrontapp/tsconfig.server.prod.json` config.
+ */
+const serverProdEntryPoints = Object.values(libraries).reduce((acc, curr) => {
+  curr.entryPoints.forEach((entryPoint) => {
+    // For server configuration we need relative paths that's why we append `../..`
+    acc[entryPoint.entryPoint] = [
+      joinPaths('../..', 'dist', curr.distDir, entryPoint.path),
+    ];
+  });
+  return acc;
+}, {});
+
+setCompilerOptionsPaths(
+  'projects/storefrontapp/tsconfig.server.prod.json',
+  serverProdEntryPoints
+);
+logUpdatedFile('projects/storefrontapp/tsconfig.server.prod.json');
+
+/**
+ * Format all files.
+ */
+console.log('\nFormatting files (might take some time)...\n');
+execSync('yarn prettier:fix');
+console.log('✨ Update completed');
