@@ -1,18 +1,8 @@
 import { NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
-import { defaultAsmLayoutConfig } from './config/default-asm-layout.config';
+import { AsmLoaderModule } from '@spartacus/asm/components';
 
 @NgModule({
-  declarations: [],
-  providers: [
-    provideDefaultConfig(defaultAsmLayoutConfig),
-    provideDefaultConfig({
-      featureModules: {
-        asm: {
-          dependencies: {},
-        },
-      },
-    }),
-  ],
+  imports: [AsmLoaderModule],
+  providers: [],
 })
 export class AsmRootModule {}

@@ -1,20 +1,19 @@
-import { AsmModule } from '@spartacus/asm';
-import {
-  storeFinderTranslationChunksConfig,
-  storeFinderTranslations,
-} from '@spartacus/storefinder/assets';
 import {
   asmTranslationChunksConfig,
   asmTranslations,
 } from '@spartacus/asm/assets';
+import { AsmRootModule } from '@spartacus/asm/root';
+import { ConfigModule } from '@spartacus/core';
+import {
+  storeFinderTranslationChunksConfig,
+  storeFinderTranslations,
+} from '@spartacus/storefinder/assets';
 import { StoreFinderRootModule } from '@spartacus/storefinder/root';
 import { B2cStorefrontModule } from '@spartacus/storefront';
 import { FeatureEnvironment } from '../models/feature.model';
-import { ConfigModule } from '@spartacus/core';
 
 export const b2cFeature: FeatureEnvironment = {
   imports: [
-    AsmModule,
     B2cStorefrontModule.withConfig({
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
@@ -37,6 +36,9 @@ export const b2cFeature: FeatureEnvironment = {
           module: () =>
             import('@spartacus/storefinder').then((m) => m.StoreFinderModule),
         },
+        asm: {
+          module: () => import('@spartacus/asm').then((m) => m.AsmModule),
+        },
       },
       i18n: {
         resources: storeFinderTranslations,
@@ -51,5 +53,6 @@ export const b2cFeature: FeatureEnvironment = {
       },
     }),
     StoreFinderRootModule,
+    AsmRootModule,
   ],
 };

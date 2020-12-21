@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { I18nModule, provideConfig } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { AsmLoaderModule } from './asm-loader.module';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';
 import { FormatTimerPipe } from './asm-session-timer/format-timer.pipe';
@@ -14,13 +13,7 @@ import { CustomerSelectionComponent } from './customer-selection/customer-select
 import { defaultAsmLayoutConfig } from './default-asm-layout.config';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    I18nModule,
-    AsmLoaderModule,
-    FormErrorsModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, I18nModule, FormErrorsModule],
   declarations: [
     AsmMainUiComponent,
     CSAgentLoginFormComponent,
