@@ -11,6 +11,12 @@ export class FocusDirective extends LockFocusDirective {
   // tslint:disable-next-line: no-input-rename
   @Input('cxFocus') protected config: FocusConfig = {};
 
+  @Input() set cxRefreshFocusOn(_switchCondition: string) {
+    if (this.shouldAutofocus) {
+      super.handleFocus();
+    }
+  }
+
   constructor(
     protected elementRef: ElementRef,
     protected service: KeyboardFocusService,
