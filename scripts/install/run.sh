@@ -208,7 +208,7 @@ function prestart_csr {
         echo "Skipping prestart csr script"
     else
         printh "Prestart setup for csr app"
-        ( cd ${INSTALLATION_DIR}/csr && yarn build )
+        ( cd ${INSTALLATION_DIR}/csr && yarn build --prod )
     fi
 }
 
