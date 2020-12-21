@@ -1,7 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
 import { Product } from '@spartacus/core';
-import { CurrentProductService } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import {
+  CurrentProductService,
+  ProductListItemContext,
+} from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
 import { ConfiguratorProductScope } from '../../core/model/configurator-product-scope';
 
@@ -11,11 +14,19 @@ import { ConfiguratorProductScope } from '../../core/model/configurator-product-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigureProductComponent {
-  product$: Observable<Product> = this.currentProductService.getProduct(
-    ConfiguratorProductScope.CONFIGURATOR
-  );
+  product$: Observable<Product> = this.productListItemContext
+    ? this.productListItemContext.product$
+    : this.currentProductService
+    ? this.currentProductService.getProduct(
+        ConfiguratorProductScope.CONFIGURATOR
+      )
+    : of(null);
+
   ownerTypeProduct: CommonConfigurator.OwnerType =
     CommonConfigurator.OwnerType.PRODUCT;
 
-  constructor(protected currentProductService: CurrentProductService) {}
+  constructor(
+    @Optional() protected productListItemContext: ProductListItemContext,
+    @Optional() protected currentProductService: CurrentProductService
+  ) {}
 }

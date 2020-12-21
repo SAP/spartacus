@@ -13,7 +13,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
-import { LocalCurrentProductService } from '../../local-current-product.service';
+import { ProductListItemContext } from '../../product-list-item-context';
 import { ProductListItemComponent } from './product-list-item.component';
 
 @Component({
@@ -76,7 +76,6 @@ class MockProductService {}
 describe('ProductListItemComponent in product-list', () => {
   let component: ProductListItemComponent;
   let fixture: ComponentFixture<ProductListItemComponent>;
-  let localCurrentProductService: LocalCurrentProductService;
 
   const mockProduct = {
     name: 'Test product',
@@ -135,9 +134,7 @@ describe('ProductListItemComponent in product-list', () => {
     component = fixture.componentInstance;
 
     component.product = mockProduct;
-    localCurrentProductService = component[
-      'currentProductService'
-    ] as LocalCurrentProductService;
+
     component.ngOnChanges();
     fixture.detectChanges();
   });
@@ -210,14 +207,15 @@ describe('ProductListItemComponent in product-list', () => {
     ).toBeNull();
   });
 
-  it('should have correct instance of currentProductService', () => {
-    expect(localCurrentProductService).toBeDefined();
+  it('should have defined instance of list item context', () => {
+    expect(component['productListItemContext']).toBeDefined();
   });
 
-  it('should initialize localCurrentProductService properly', (done) => {
-    const product$ = localCurrentProductService['code$'];
-    product$.subscribe((code) => {
-      expect(code).toBe(mockProduct.code);
+  it('should transmit product through the item context', (done) => {
+    const productListItemContext: ProductListItemContext =
+      component['productListItemContext'];
+    productListItemContext.product$.subscribe((product) => {
+      expect(product).toBe(mockProduct);
       done();
     });
   });
