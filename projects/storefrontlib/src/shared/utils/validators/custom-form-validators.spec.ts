@@ -301,9 +301,9 @@ describe('FormValidationService', () => {
     it('should throw error if value does not pass pattern', () => {
       const field = form.get('code');
       field.setValue('test code');
-      const validateFn = CustomFormValidators.datePatternValidation({
-        isValidFormat: (value) => /\//.test(value),
-      } as DatePickerService);
+      const validateFn = CustomFormValidators.datePatternValidation(
+        datePickerService as DatePickerService
+      );
       expect(validateFn(field)).toEqual(patternError);
     });
 
