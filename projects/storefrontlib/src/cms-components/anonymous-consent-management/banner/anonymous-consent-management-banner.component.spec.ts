@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AnonymousConsentsService,
   ConsentTemplate,
@@ -31,22 +31,24 @@ describe('AnonymousConsentManagementBannerComponent', () => {
   let anonymousConsentsService: AnonymousConsentsService;
   let anonymousConsentLaunchDialogService: AnonymousConsentLaunchDialogService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [AnonymousConsentManagementBannerComponent],
-      providers: [
-        {
-          provide: AnonymousConsentsService,
-          useClass: MockAnonymousConsentsService,
-        },
-        {
-          provide: AnonymousConsentLaunchDialogService,
-          useClass: MockAnonymousConsentLaunchDialogService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [AnonymousConsentManagementBannerComponent],
+        providers: [
+          {
+            provide: AnonymousConsentsService,
+            useClass: MockAnonymousConsentsService,
+          },
+          {
+            provide: AnonymousConsentLaunchDialogService,
+            useClass: MockAnonymousConsentLaunchDialogService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(

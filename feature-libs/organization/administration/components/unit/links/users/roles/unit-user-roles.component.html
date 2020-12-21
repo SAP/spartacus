@@ -1,5 +1,5 @@
 <form *ngIf="form$ | async as form" (submit)="save(form)">
-  <cx-org-card #card [previous]="false" i18nRoot="unitUserRoles">
+  <cx-org-card #card [previous]="false" i18nRoot="orgUnitUserRoles">
     <a actions routerLink="../../">
       <span (click)="card.closeView($event)">
         {{ 'organization.done' | cxTranslate }}

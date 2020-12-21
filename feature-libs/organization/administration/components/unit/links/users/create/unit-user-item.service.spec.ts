@@ -84,7 +84,7 @@ describe('ChildUnitItemService', () => {
       orgUnit: { uid: 'unitUid' },
     });
     expect(routingService.go).toHaveBeenCalledWith({
-      cxRoute: 'unitUserList',
+      cxRoute: 'orgUnitUserList',
       params: { uid: 'unitUid' },
     });
   });
