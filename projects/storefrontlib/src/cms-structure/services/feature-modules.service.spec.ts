@@ -10,7 +10,7 @@ import {
 } from '@spartacus/core';
 import { InjectionToken, NgModule } from '@angular/core';
 import { take } from 'rxjs/operators';
-import { of } from 'rxjs/internal/observable/of';
+import { of } from 'rxjs';
 
 const mockCmsConfig: CmsConfig = {
   featureModules: {

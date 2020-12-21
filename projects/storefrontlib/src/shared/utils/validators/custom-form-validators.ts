@@ -1,4 +1,9 @@
-import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
+import {
+  AbstractControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+} from '@angular/forms';
 import { EMAIL_PATTERN, PASSWORD_PATTERN } from '@spartacus/core';
 
 export class CustomFormValidators {
@@ -139,6 +144,70 @@ export class CustomFormValidators {
     );
 
     return !containsSpecialChars ? null : { cxContainsSpecialCharacters: true };
+  }
+
+  /**
+   * Checks if control's value passes pattern
+   *
+   * NOTE: Use it as a control validator
+   *
+   * @static
+   * @param {(date: string) => boolean} isValidFormat Pattern verification function
+   * @returns {(control: AbstractControl): ValidationErrors | null} Uses 'pattern' validator error
+   * @memberof CustomFormValidators
+   */
+  static patternValidation(
+    isValidFormat: (date: string) => boolean
+  ): ValidatorFn {
+    const validator = (control: AbstractControl): ValidationErrors | null => {
+      const errors: ValidationErrors = {};
+      if (
+        control.value &&
+        control.value !== '' &&
+        !isValidFormat(control.value)
+      ) {
+        errors.pattern = true;
+      }
+      return Object.keys(errors).length === 0 ? null : errors;
+    };
+    return validator;
+  }
+
+  /**
+   * Checks if two email controls match
+   *
+   * NOTE: Use it as a form validator and pass dates for range
+   *
+   * @static
+   * @param {string} startDateKey First date control name
+   * @param {string} endDateKey Second date control name
+   * @param {(value: string) => Date} getDate Converting function
+   * @returns Uses 'min' and 'max validator error
+   * @memberof CustomFormValidators
+   */
+  static dateRange(
+    startDateKey: string,
+    endDateKey: string,
+    getDate: (value: string) => Date
+  ): (FormGroup) => any {
+    const validator = (formGroup: FormGroup): ValidationErrors | null => {
+      const startDateControl = formGroup.controls[startDateKey];
+      const endDateControl = formGroup.controls[endDateKey];
+      const startDate = getDate(startDateControl.value);
+      const endDate = getDate(endDateControl.value);
+      if (!startDateControl.errors?.pattern) {
+        if (startDate > endDate) {
+          startDateControl.setErrors({ max: true });
+        }
+      }
+      if (!endDateControl.errors?.pattern) {
+        if (endDate < startDate) {
+          endDateControl.setErrors({ min: true });
+        }
+      }
+      return null;
+    };
+    return validator;
   }
 }
 

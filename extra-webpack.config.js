@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const path = require('path');
 
 const keyPrefix = 'SPARTACUS_';
 
@@ -18,4 +19,9 @@ module.exports = {
       'build.process.env': env,
     }),
   ],
+  resolve: {
+    alias: {
+      '@spartacus/styles': path.join(__dirname, 'projects/storefrontstyles'),
+    },
+  },
 };
