@@ -34,8 +34,8 @@
         align-items: center;
         text-decoration: none;
         color: var(--cx-color-text);
-        padding: 0;
-        margin: 10px;
+        padding: 15px;
+        margin: 0;
 
         &:hover {
           cursor: pointer;
@@ -63,6 +63,7 @@
           display: flex;
           margin-inline-start: 5px;
 
+          .conflictNumberIndicator,
           .groupStatusIndicator,
           .subGroupIndicator {
             inline-size: 25px;
@@ -77,6 +78,10 @@
               margin-inline-start: 5px;
               margin-inline-end: 5px;
             }
+          }
+
+          .conflictNumberIndicator {
+            font-size: 12px;
           }
         }
       }

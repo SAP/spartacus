@@ -43,6 +43,13 @@
             >
               <span>{{ group.description }}</span>
               <div class="groupIndicators">
+                <div
+                  *ngIf="getConflictNumber(group) !== ''"
+                  class="conflictNumberIndicator"
+                >
+                  {{ getConflictNumber(group) }}
+                </div>
+
                 <div class="groupStatusIndicator">
                   <cx-icon
                     class="groupIndicatorIcon WARNING"
