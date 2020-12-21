@@ -148,12 +148,12 @@ export class CustomFormValidators {
   }
 
   /**
-   * Checks if control's value passes pattern
+   * Checks if control's value passes date pattern
    *
    * NOTE: Use it as a control validator
    *
    * @static
-   * @param {(date: string) => boolean} isValidFormat Pattern verification function
+   * @param {DatePickerService} datepickerService Service with isValidFormat verification function
    * @returns {(control: AbstractControl): ValidationErrors | null} Uses 'pattern' validator error
    * @memberof CustomFormValidators
    */
@@ -182,7 +182,7 @@ export class CustomFormValidators {
    * @static
    * @param {string} startDateKey First date control name
    * @param {string} endDateKey Second date control name
-   * @param {(value: string) => Date} getDate Converting function
+   * @param {DatePickerService} datepickerService Service with getDate Converting function
    * @returns Uses 'min' and 'max validator error
    * @memberof CustomFormValidators
    */
