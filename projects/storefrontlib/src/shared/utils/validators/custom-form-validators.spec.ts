@@ -3,6 +3,16 @@ import {
   controlsMustMatch,
   CustomFormValidators,
 } from './custom-form-validators';
+import { DatePickerService } from '@spartacus/storefront';
+
+class MockDatePickerService implements Partial<DatePickerService> {
+  isValidFormat(value) {
+    return /\//.test(value);
+  }
+  getDate(date) {
+    return new Date(date);
+  }
+}
 
 describe('FormValidationService', () => {
   let email: FormControl;
@@ -15,6 +25,7 @@ describe('FormValidationService', () => {
   let passwordsMustMatchErrorName: string;
   let emailsMustMatchErrorName: string;
   let form: FormGroup;
+  let datePickerService: MockDatePickerService;
 
   beforeEach(() => {
     email = new FormControl();
@@ -57,6 +68,8 @@ describe('FormValidationService', () => {
 
     passwordsMustMatchErrorName = 'cxPasswordsMustMatch';
     emailsMustMatchErrorName = 'cxEmailsMustMatch';
+
+    datePickerService = new MockDatePickerService();
   });
 
   describe('Email validator', () => {
@@ -284,21 +297,21 @@ describe('FormValidationService', () => {
     });
   });
 
-  describe('Pattern validator', () => {
+  describe('Date pattern validator', () => {
     it('should throw error if value does not pass pattern', () => {
       const field = form.get('code');
       field.setValue('test code');
-      const validateFn = CustomFormValidators.patternValidation((value) =>
-        /\//.test(value)
-      );
+      const validateFn = CustomFormValidators.datePatternValidation({
+        isValidFormat: (value) => /\//.test(value),
+      } as DatePickerService);
       expect(validateFn(field)).toEqual(patternError);
     });
 
     it('should return null for allowed value', () => {
       const field = form.get('code');
       field.setValue('test/code');
-      const validateFn = CustomFormValidators.patternValidation((value) =>
-        /\//.test(value)
+      const validateFn = CustomFormValidators.datePatternValidation(
+        datePickerService as DatePickerService
       );
       expect(validateFn(field)).toBeNull();
     });
@@ -311,7 +324,7 @@ describe('FormValidationService', () => {
       const validateFn = CustomFormValidators.dateRange(
         'startDate',
         'endDate',
-        (date) => new Date(date)
+        datePickerService as DatePickerService
       );
       validateFn(form);
       expect(form.get('startDate').errors).toBeNull();
@@ -323,7 +336,7 @@ describe('FormValidationService', () => {
       const validateFn = CustomFormValidators.dateRange(
         'startDate',
         'endDate',
-        (date) => new Date(date)
+        datePickerService as DatePickerService
       );
       validateFn(form);
       expect(form.get('startDate').hasError('max')).toBeTrue();

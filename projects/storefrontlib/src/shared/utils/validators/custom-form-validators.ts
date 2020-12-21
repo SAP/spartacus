@@ -5,6 +5,7 @@ import {
   ValidatorFn,
 } from '@angular/forms';
 import { EMAIL_PATTERN, PASSWORD_PATTERN } from '@spartacus/core';
+import { DatePickerService } from '@spartacus/storefront';
 
 export class CustomFormValidators {
   /**
@@ -156,15 +157,15 @@ export class CustomFormValidators {
    * @returns {(control: AbstractControl): ValidationErrors | null} Uses 'pattern' validator error
    * @memberof CustomFormValidators
    */
-  static patternValidation(
-    isValidFormat: (date: string) => boolean
+  static datePatternValidation(
+    datepickerService: DatePickerService
   ): ValidatorFn {
     const validator = (control: AbstractControl): ValidationErrors | null => {
       const errors: ValidationErrors = {};
       if (
         control.value &&
         control.value !== '' &&
-        !isValidFormat(control.value)
+        !datepickerService.isValidFormat(control.value)
       ) {
         errors.pattern = true;
       }
@@ -188,13 +189,13 @@ export class CustomFormValidators {
   static dateRange(
     startDateKey: string,
     endDateKey: string,
-    getDate: (value: string) => Date
+    datepickerService: DatePickerService
   ): (FormGroup) => any {
     const validator = (formGroup: FormGroup): ValidationErrors | null => {
       const startDateControl = formGroup.controls[startDateKey];
       const endDateControl = formGroup.controls[endDateKey];
-      const startDate = getDate(startDateControl.value);
-      const endDate = getDate(endDateControl.value);
+      const startDate = datepickerService.getDate(startDateControl.value);
+      const endDate = datepickerService.getDate(endDateControl.value);
       if (!startDateControl.errors?.pattern) {
         if (startDate > endDate) {
           startDateControl.setErrors({ max: true });
