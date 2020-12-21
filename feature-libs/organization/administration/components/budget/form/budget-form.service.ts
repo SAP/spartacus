@@ -26,8 +26,8 @@ export class BudgetFormService extends FormService<Budget> {
       'startDate',
       new FormControl('', [
         Validators.required,
-        CustomFormValidators.patternValidation(
-          this.datePickerService.isValidFormat
+        CustomFormValidators.patternValidation((date) =>
+          this.datePickerService.isValidFormat(date)
         ),
       ])
     );
@@ -35,8 +35,8 @@ export class BudgetFormService extends FormService<Budget> {
       'endDate',
       new FormControl('', [
         Validators.required,
-        CustomFormValidators.patternValidation(
-          this.datePickerService.isValidFormat
+        CustomFormValidators.patternValidation((date) =>
+          this.datePickerService.isValidFormat(date)
         ),
       ])
     );
@@ -61,10 +61,8 @@ export class BudgetFormService extends FormService<Budget> {
       })
     );
     form.setValidators(
-      CustomFormValidators.dateRange(
-        'startDate',
-        'endDate',
-        this.datePickerService.getDate
+      CustomFormValidators.dateRange('startDate', 'endDate', (date) =>
+        this.datePickerService.getDate(date)
       )
     );
     this.form = form;
