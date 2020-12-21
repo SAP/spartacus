@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import {
   AuthHttpHeaderService,
   AuthService,
@@ -7,7 +7,6 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import { defaultAsmConfig } from './config/default-asm-config';
-import { AsmConnector } from './connectors/asm.connector';
 import { AsmAuthHttpHeaderService } from './services/asm-auth-http-header.service';
 import { AsmAuthStorageService } from './services/asm-auth-storage.service';
 import { AsmAuthService } from './services/asm-auth.service';
@@ -23,33 +22,26 @@ export function asmStatePersistenceFactory(
 
 @NgModule({
   imports: [CommonModule, AsmStoreModule],
+  providers: [
+    provideDefaultConfig(defaultAsmConfig),
+    {
+      provide: AuthStorageService,
+      useExisting: AsmAuthStorageService,
+    },
+    {
+      provide: AuthService,
+      useExisting: AsmAuthService,
+    },
+    {
+      provide: AuthHttpHeaderService,
+      useExisting: AsmAuthHttpHeaderService,
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: asmStatePersistenceFactory,
+      deps: [AsmStatePersistenceService],
+      multi: true,
+    },
+  ],
 })
-export class AsmCoreModule {
-  static forRoot(): ModuleWithProviders<AsmCoreModule> {
-    return {
-      ngModule: AsmCoreModule,
-      providers: [
-        provideDefaultConfig(defaultAsmConfig),
-        AsmConnector,
-        {
-          provide: AuthStorageService,
-          useExisting: AsmAuthStorageService,
-        },
-        {
-          provide: AuthService,
-          useExisting: AsmAuthService,
-        },
-        {
-          provide: AuthHttpHeaderService,
-          useExisting: AsmAuthHttpHeaderService,
-        },
-        {
-          provide: APP_INITIALIZER,
-          useFactory: asmStatePersistenceFactory,
-          deps: [AsmStatePersistenceService],
-          multi: true,
-        },
-      ],
-    };
-  }
-}
+export class AsmCoreModule {}

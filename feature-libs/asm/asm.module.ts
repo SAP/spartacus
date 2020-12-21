@@ -4,6 +4,6 @@ import { AsmCoreModule } from '@spartacus/asm/core';
 import { AsmOccModule } from '@spartacus/asm/occ';
 
 @NgModule({
-  imports: [AsmCoreModule.forRoot(), AsmOccModule, AsmComponentsModule],
+  imports: [AsmCoreModule, AsmOccModule, AsmComponentsModule],
 })
 export class AsmModule {}

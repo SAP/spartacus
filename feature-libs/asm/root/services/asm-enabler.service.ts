@@ -1,8 +1,14 @@
 import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { WindowRef } from '@spartacus/core';
+import {
+  ConfigInitializerService,
+  FeatureModuleConfig,
+  LazyModulesService,
+  WindowRef,
+} from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
+import { take } from 'rxjs/operators';
+import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../../components/asm-constants';
 
 /**
  * The AsmEnablerService is used to enable ASM for those scenario's
@@ -13,11 +19,22 @@ import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
   providedIn: 'root',
 })
 export class AsmEnablerService {
+  // feature modules configuration
+  private featureModulesConfig?: {
+    [featureName: string]: FeatureModuleConfig;
+  };
+
   constructor(
     protected location: Location,
     protected winRef: WindowRef,
-    protected launchDialogService: LaunchDialogService
-  ) {}
+    protected launchDialogService: LaunchDialogService,
+    protected lazyModule: LazyModulesService,
+    protected configInitializer: ConfigInitializerService
+  ) {
+    this.configInitializer.getStable('featureModules').subscribe((config) => {
+      this.featureModulesConfig = config.featureModules ?? {};
+    });
+  }
 
   /**
    * Loads the ASM UI if needed. The ASM UI will be added based on the
@@ -64,6 +81,9 @@ export class AsmEnablerService {
    * Adds the ASM UI by using the `cx-storefront` outlet.
    */
   protected addUi(): void {
-    this.launchDialogService.launch(LAUNCH_CALLER.ASM);
+    this.lazyModule
+      .resolveModuleInstance(this.featureModulesConfig['asm']?.module, 'asm')
+      .pipe(take(1))
+      .subscribe(() => this.launchDialogService.launch(LAUNCH_CALLER.ASM));
   }
 }

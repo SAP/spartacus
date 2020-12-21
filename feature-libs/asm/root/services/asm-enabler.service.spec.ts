@@ -7,7 +7,7 @@ import {
   LayoutConfig,
   OutletService,
 } from '@spartacus/storefront';
-import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
+import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../../components/asm-constants';
 import { AsmEnablerService } from './asm-enabler.service';
 
 const store = {};
