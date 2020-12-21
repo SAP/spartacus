@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { ICON_TYPE } from '../../../../../misc/index';
@@ -17,12 +17,14 @@ describe('SuggestedAddressDialogComponent', () => {
   let component: SuggestedAddressDialogComponent;
   let fixture: ComponentFixture<SuggestedAddressDialogComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [FormsModule, I18nTestingModule],
-      declarations: [SuggestedAddressDialogComponent, MockCxIconComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [FormsModule, I18nTestingModule],
+        declarations: [SuggestedAddressDialogComponent, MockCxIconComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SuggestedAddressDialogComponent);

@@ -1,5 +1,5 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import {
@@ -68,22 +68,27 @@ describe('CartCouponComponent', () => {
 
   const appliedVouchers: Voucher[] = [{ code: 'CustomerCoupon1' }];
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        ReactiveFormsModule,
-        FeaturesConfigModule,
-        FormErrorsModule,
-      ],
-      declarations: [CartCouponComponent, MockAppliedCouponsComponent],
-      providers: [
-        { provide: ActiveCartService, useValue: mockActiveCartService },
-        { provide: CartVoucherService, useValue: mockCartVoucherService },
-        { provide: CustomerCouponService, useValue: mockCustomerCouponService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          I18nTestingModule,
+          ReactiveFormsModule,
+          FeaturesConfigModule,
+          FormErrorsModule,
+        ],
+        declarations: [CartCouponComponent, MockAppliedCouponsComponent],
+        providers: [
+          { provide: ActiveCartService, useValue: mockActiveCartService },
+          { provide: CartVoucherService, useValue: mockCartVoucherService },
+          {
+            provide: CustomerCouponService,
+            useValue: mockCustomerCouponService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartCouponComponent);

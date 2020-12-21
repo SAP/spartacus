@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { Route } from '@angular/router';
 import {
+  CmsComponent,
   CmsComponentChildRoutesConfig,
   CmsComponentMapping,
   CmsConfig,
@@ -174,6 +175,15 @@ export class CmsComponentsService {
     }
 
     return this.standardizeChildRoutes(configs);
+  }
+
+  /**
+   * Returns the static data for the component type.
+   */
+  getStaticData<T extends CmsComponent = CmsComponent>(
+    componentType: string
+  ): T | undefined {
+    return this.getMapping(componentType)?.data as T;
   }
 
   /**
