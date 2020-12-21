@@ -12,10 +12,13 @@ import { OrderApprovalRootModule } from '@spartacus/organization/order-approval/
 import { B2bStorefrontModule } from '@spartacus/setup';
 import { FeatureEnvironment } from '../models/feature.model';
 
+import { BulkPricingRootModule } from '@spartacus/product/bulk-pricing/root';
+
 export const b2bFeature: FeatureEnvironment = {
   imports: [
     AdministrationRootModule,
     OrderApprovalRootModule,
+    BulkPricingRootModule,
 
     B2bStorefrontModule.withConfig({
       context: {
@@ -34,6 +37,12 @@ export const b2bFeature: FeatureEnvironment = {
           module: () =>
             import('@spartacus/organization/order-approval').then(
               (m) => m.OrderApprovalModule
+            ),
+        },
+        productBulkPricing: {
+          module: () =>
+            import('@spartacus/product/bulk-pricing').then(
+              (m) => m.BulkPricingModule
             ),
         },
       },

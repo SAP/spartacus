@@ -69,6 +69,24 @@
       "@spartacus/product/configurators/textfield": [
         "feature-libs/product/configurators/textfield/public_api"
       ],
+      "@spartacus/product/bulk-pricing": [
+        "feature-libs/product/bulk-pricing/public_api"
+      ],
+      "@spartacus/product/bulk-pricing/assets": [
+        "feature-libs/product/bulk-pricing/assets/public_api"
+      ],
+      "@spartacus/product/bulk-pricing/root": [
+        "feature-libs/product/bulk-pricing/root/public_api"
+      ],
+      "@spartacus/product/bulk-pricing/core": [
+        "feature-libs/product/bulk-pricing/core/public_api"
+      ],
+      "@spartacus/product/bulk-pricing/occ": [
+        "feature-libs/product/bulk-pricing/occ/public_api"
+      ],
+      "@spartacus/product/bulk-pricing/components": [
+        "feature-libs/product/bulk-pricing/components/public_api"
+      ],
       "@spartacus/storefinder": ["feature-libs/storefinder/public_api"],
       "@spartacus/storefinder/root": ["feature-libs/storefinder/root/public_api"],
       "@spartacus/storefinder/core": ["feature-libs/storefinder/core/public_api"],
