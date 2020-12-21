@@ -83,7 +83,7 @@ export interface MyCompanyConfig {
    *   sortLabel: 'unit',
    *   inputType: 'ngSelect',
    *   createValue: 'Custom Retail',
-   *   updateValue: 'Rustic',
+   *   updateValue: 'Rustic Retail',
    *   showInTable: true,
    *   formLabel: 'Parent Unit',
    *   showInDetails: true,

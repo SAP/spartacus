@@ -34,8 +34,9 @@ export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
     beforeEach(() => {
       loginAsMyCompanyAdmin();
 
-      cy.route('GET', `**${config.apiEndpoint}**`).as('loadEntity');
       cy.visit(`${config.baseUrl}${entityId ? '/' + entityId : ''}`);
+      cy.route('GET', `**${config.apiEndpoint}**`).as('loadEntity');
+      cy.get('cx-storefront').contains('Loading...').should('not.exist');
       cy.wait('@loadEntity');
     });
 

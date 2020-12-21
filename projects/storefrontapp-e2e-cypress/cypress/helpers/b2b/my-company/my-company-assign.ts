@@ -226,7 +226,7 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
         if (subConfig.canUnassignAll) {
           it('should assign and unassign all', () => {
             cy.server();
-            clickManage();
+            clickManage(false);
 
             clickAssign(firstOption);
             clickUnassignAll();
@@ -241,12 +241,18 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
       }
     });
 
-    function clickManage() {
-      cy.route('GET', `**`).as('getAssignable');
-      cy.get('cx-org-card .header a')
-        .contains(ASSIGNMENT_LABELS.MANAGE)
-        .click();
-      cy.wait('@getAssignable');
+    function clickManage(waitForAssignable = true) {
+      if (waitForAssignable) {
+        cy.route('GET', `**`).as('getAssignable');
+        cy.get('cx-org-card .header a')
+          .contains(ASSIGNMENT_LABELS.MANAGE)
+          .click();
+        cy.wait('@getAssignable');
+      } else {
+        cy.get('cx-org-card .header a')
+          .contains(ASSIGNMENT_LABELS.MANAGE)
+          .click();
+      }
     }
 
     function checkListEmpty() {
