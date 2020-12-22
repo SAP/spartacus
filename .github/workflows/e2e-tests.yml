@@ -20,7 +20,7 @@ jobs:
       - name: Install root dependencies
         uses: bahmutov/npm-install@v1
       - name: Build Spartacus
-        run: yarn build:core:lib
+        run: yarn build:libs
       - name: Install cypress dependencies
         uses: bahmutov/npm-install@v1
         with:
