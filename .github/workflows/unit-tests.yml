@@ -9,6 +9,7 @@ jobs:
   unitTests:
     name: Unit tests
     runs-on: ubuntu-latest
+    container: cypress/browsers:node12.6.0-chrome77
     steps:
       - name: Git checkout
         uses: actions/checkout@master
