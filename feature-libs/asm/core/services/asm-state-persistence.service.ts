@@ -3,9 +3,12 @@ import { select, Store } from '@ngrx/store';
 import { AuthToken, StatePersistenceService } from '@spartacus/core';
 import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import {
+  AsmAuthStorageService,
+  TokenTarget,
+} from '../../root/services/asm-auth-storage.service';
 import { AsmUi } from '../models/asm.models';
 import { AsmActions, AsmSelectors, StateWithAsm } from '../store';
-import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 
 /**
  * ASM state synced to browser storage.

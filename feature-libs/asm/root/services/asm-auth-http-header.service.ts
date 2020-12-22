@@ -1,19 +1,19 @@
 import { HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+//import { CsAgentAuthService } from '@spartacus/asm/core';
 import {
   AuthHttpHeaderService,
   AuthService,
   AuthStorageService,
   GlobalMessageService,
-  GlobalMessageType,
+  //GlobalMessageType,
   InterceptorUtil,
   OAuthLibWrapperService,
   OccEndpointsService,
   RoutingService,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '@spartacus/core';
-import { take } from 'rxjs/operators';
-import { CsAgentAuthService } from '../facade/csagent-auth.service';
+//import { take } from 'rxjs/operators';
 
 /**
  * Overrides `AuthHttpHeaderService` to handle asm calls as well (not only OCC)
@@ -26,7 +26,7 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
   constructor(
     protected authService: AuthService,
     protected authStorageService: AuthStorageService,
-    protected csAgentAuthService: CsAgentAuthService,
+    //protected csAgentAuthService: CsAgentAuthService,
     protected oAuthLibWrapperService: OAuthLibWrapperService,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
@@ -94,7 +94,7 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
    * currently logged in user and CS agent.
    */
   public handleExpiredRefreshToken(): void {
-    this.csAgentAuthService
+    /*this.csAgentAuthService
       .isCustomerSupportAgentLoggedIn()
       .pipe(take(1))
       .subscribe((csAgentLoggedIn) => {
@@ -109,6 +109,6 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
         } else {
           super.handleExpiredRefreshToken();
         }
-      });
+      });*/
   }
 }

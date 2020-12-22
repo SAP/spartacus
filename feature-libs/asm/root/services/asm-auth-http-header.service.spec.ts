@@ -12,7 +12,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
-import { CsAgentAuthService } from '../facade/csagent-auth.service';
+import { CsAgentAuthService } from '../../core/facade/csagent-auth.service';
 import { AsmAuthHttpHeaderService } from './asm-auth-http-header.service';
 
 class MockCsAgentAuthService implements Partial<CsAgentAuthService> {

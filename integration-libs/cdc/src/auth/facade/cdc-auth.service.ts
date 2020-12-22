@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AsmAuthStorageService, TokenTarget } from '@spartacus/asm/core';
+import { AsmAuthStorageService, TokenTarget } from '@spartacus/asm/root';
 import {
   AuthActions,
   AuthRedirectService,

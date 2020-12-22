@@ -1,15 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import {
-  AuthHttpHeaderService,
-  AuthService,
-  AuthStorageService,
-  provideDefaultConfig,
-} from '@spartacus/core';
+import { provideDefaultConfig } from '@spartacus/core';
 import { defaultAsmConfig } from './config/default-asm-config';
-import { AsmAuthHttpHeaderService } from './services/asm-auth-http-header.service';
-import { AsmAuthStorageService } from './services/asm-auth-storage.service';
-import { AsmAuthService } from './services/asm-auth.service';
+import { AsmConnector } from './connectors/asm.connector';
 import { AsmStatePersistenceService } from './services/asm-state-persistence.service';
 import { AsmStoreModule } from './store/asm-store.module';
 
@@ -24,18 +17,7 @@ export function asmStatePersistenceFactory(
   imports: [CommonModule, AsmStoreModule],
   providers: [
     provideDefaultConfig(defaultAsmConfig),
-    {
-      provide: AuthStorageService,
-      useExisting: AsmAuthStorageService,
-    },
-    {
-      provide: AuthService,
-      useExisting: AsmAuthService,
-    },
-    {
-      provide: AuthHttpHeaderService,
-      useExisting: AsmAuthHttpHeaderService,
-    },
+    AsmConnector,
     {
       provide: APP_INITIALIZER,
       useFactory: asmStatePersistenceFactory,

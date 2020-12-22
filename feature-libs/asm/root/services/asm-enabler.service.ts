@@ -1,13 +1,14 @@
 import { Location } from '@angular/common';
-import { Injectable } from '@angular/core';
+import { Injectable, NgModuleRef } from '@angular/core';
 import {
+  CmsConfig,
   ConfigInitializerService,
-  FeatureModuleConfig,
   LazyModulesService,
   WindowRef,
 } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, shareReplay, switchMap } from 'rxjs/operators';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../../components/asm-constants';
 
 /**
@@ -19,10 +20,18 @@ import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../../components/asm-constants';
   providedIn: 'root',
 })
 export class AsmEnablerService {
-  // feature modules configuration
-  private featureModulesConfig?: {
-    [featureName: string]: FeatureModuleConfig;
-  };
+  private asmModuleInstance$: Observable<
+    NgModuleRef<any>
+  > = this.configInitializer.getStable('featureModules').pipe(
+    map((config: CmsConfig) => config.featureModules ?? {}),
+    switchMap((featureModulesConfig) =>
+      this.lazyModule.resolveModuleInstance(
+        featureModulesConfig['asm']?.module,
+        'asm'
+      )
+    ),
+    shareReplay()
+  );
 
   constructor(
     protected location: Location,
@@ -30,11 +39,7 @@ export class AsmEnablerService {
     protected launchDialogService: LaunchDialogService,
     protected lazyModule: LazyModulesService,
     protected configInitializer: ConfigInitializerService
-  ) {
-    this.configInitializer.getStable('featureModules').subscribe((config) => {
-      this.featureModulesConfig = config.featureModules ?? {};
-    });
-  }
+  ) {}
 
   /**
    * Loads the ASM UI if needed. The ASM UI will be added based on the
@@ -81,9 +86,9 @@ export class AsmEnablerService {
    * Adds the ASM UI by using the `cx-storefront` outlet.
    */
   protected addUi(): void {
-    this.lazyModule
-      .resolveModuleInstance(this.featureModulesConfig['asm']?.module, 'asm')
-      .pipe(take(1))
-      .subscribe(() => this.launchDialogService.launch(LAUNCH_CALLER.ASM));
+    this.asmModuleInstance$.subscribe(
+      () => this.launchDialogService.launch(LAUNCH_CALLER.ASM),
+      undefined
+    );
   }
 }

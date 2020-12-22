@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { AsmAuthStorageService, TokenTarget } from '@spartacus/asm/root';
 import {
   AuthActions,
   AuthService,
@@ -11,10 +12,6 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {
-  AsmAuthStorageService,
-  TokenTarget,
-} from '../services/asm-auth-storage.service';
 import { AsmActions } from '../store/actions';
 import { StateWithAsm } from '../store/asm-state';
 

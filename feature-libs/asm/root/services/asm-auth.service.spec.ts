@@ -13,7 +13,10 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { ASM_FEATURE, getReducers as getAsmReducers } from '../store/index';
+import {
+  ASM_FEATURE,
+  getReducers as getAsmReducers,
+} from '../../core/store/index';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 import { AsmAuthService } from './asm-auth.service';
 
