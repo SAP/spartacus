@@ -36,24 +36,24 @@
         "../../dist/organization/order-approval/root"
       ],
       "@spartacus/product": ["../../dist/product"],
-      "@spartacus/product/configurators": ["../../dist/product/configurators"],
-      "@spartacus/product/configurators/common": [
-        "../../dist/product/configurators/common"
+      "@spartacus/product-configurator": ["../../dist/product-configurator"],
+      "@spartacus/product-configurator/common": [
+        "../../dist/product-configurator/common"
       ],
-      "@spartacus/product/configurators/assets": [
-        "../../dist/product/configurators/common/assets"
+      "@spartacus/product-configurator/assets": [
+        "../../dist/product-configurator/common/assets"
       ],
-      "@spartacus/product/configurators/textfield": [
-        "../../dist/product/configurators/textfield"
+      "@spartacus/product-configurator/textfield": [
+        "../../dist/product-configurator/textfield"
       ],
-      "@spartacus/product/configurators/textfield/root": [
-        "../../dist/product/configurators/textfield/root"
+      "@spartacus/product-configurator/textfield/root": [
+        "../../dist/product-configurator/textfield/root"
       ],
-      "@spartacus/product/configurators/rulebased": [
-        "../../dist/product/configurators/rulebased"
+      "@spartacus/product-configurator/rulebased": [
+        "../../dist/product-configurator/rulebased"
       ],
-      "@spartacus/product/configurators/rulebased/root": [
-        "../../dist/product/configurators/rulebased/root"
+      "@spartacus/product-configurator/rulebased/root": [
+        "../../dist/product-configurator/rulebased/root"
       ],
       "@spartacus/storefinder": ["../../dist/storefinder"],
       "@spartacus/storefinder/root": ["../../dist/storefinder/root"],

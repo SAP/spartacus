@@ -1,14 +1,13 @@
-/*!
-  LAMBDA v0.1
-  This is a test theme configuration. These variables are used in global and component CSS files.
-
-  You can:
-    1) Set new values for Bootstrap variables - https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss
-    2) Set new values for cxbase variables - cxbase/_variables.scss
-    3) Set new values for component variables - app/__/_.scss
-  You cannot:
-    1) Add new variables
-*/
+// LAMBDA v0.1
+// This is a test theme configuration. These variables are used in global and
+// component CSS files.
+//
+// You can:
+//   1) Set new values for Bootstrap variables - https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss
+//   2) Set new values for cxbase variables - cxbase/_variables.scss
+//   3) Set new values for component variables - app/__/_.scss
+// You cannot:
+//   1) Add new variables
 
 @import '../../cxbase/functions';
 @import '../../cxbase/mixins';
@@ -41,10 +40,9 @@ $theme-colors: (
 $body-color: $text;
 $body-bg: $inverse;
 
-/*
-COMPONENT VARIABLE OVERRIDES
-  For example, the following would override the cx-storefront background set in src/app/ui/layout/main/main.component.scss
-*/
+// COMPONENT VARIABLE OVERRIDES
+// For example, the following would override the cx-storefront background
+// set in src/app/ui/layout/main/main.component.scss
 $cx-header-background-color: 'brand';
 $cx-header-color: 'accent';
 $cx-footer-background-color: 'brand';

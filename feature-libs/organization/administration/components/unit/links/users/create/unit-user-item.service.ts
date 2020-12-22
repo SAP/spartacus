@@ -24,7 +24,7 @@ export class UnitUserItemService extends UserItemService {
    * Returns 'unitDetails'
    */
   protected getDetailsRoute(): string {
-    return 'unitUserList';
+    return 'orgUnitUserList';
   }
 
   protected buildRouteParams(item: B2BUser) {

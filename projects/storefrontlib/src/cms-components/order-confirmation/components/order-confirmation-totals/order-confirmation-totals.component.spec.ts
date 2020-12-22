@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   Cart,
   CheckoutService,
@@ -32,16 +32,20 @@ describe('OrderConfirmationComponent', () => {
   let component: OrderConfirmationTotalsComponent;
   let fixture: ComponentFixture<OrderConfirmationTotalsComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        OrderConfirmationTotalsComponent,
-        MockOrderSummaryComponent,
-      ],
-      providers: [{ provide: CheckoutService, useClass: MockCheckoutService }],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [
+          OrderConfirmationTotalsComponent,
+          MockOrderSummaryComponent,
+        ],
+        providers: [
+          { provide: CheckoutService, useClass: MockCheckoutService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderConfirmationTotalsComponent);

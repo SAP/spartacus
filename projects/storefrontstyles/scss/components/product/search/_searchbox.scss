@@ -1,9 +1,7 @@
 @import '../../../theme';
 
-/**
- * To control visual effects while searching the searchbox requries
- * some CSS rules to the outer elements.
- */
+// To control visual effects while searching the searchbox requries
+// some CSS rules to the outer elements.
 %cx-searchbox__body {
   // when there are results and the searchbox is active
   // we display the searchbox
@@ -219,7 +217,7 @@
           font-size: inherit;
           font-weight: inherit;
 
-          /* Required for text-overflow to do anything */
+          // Required for text-overflow to do anything
           white-space: nowrap;
           overflow: hidden;
         }

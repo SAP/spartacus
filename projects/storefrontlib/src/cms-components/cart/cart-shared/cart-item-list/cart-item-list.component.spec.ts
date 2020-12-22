@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -75,22 +75,24 @@ describe('CartItemListComponent', () => {
     ['removeEntry']
   );
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        RouterTestingModule,
-        PromotionsModule,
-        I18nTestingModule,
-        FeaturesConfigModule,
-      ],
-      declarations: [CartItemListComponent, MockCartItemComponent],
-      providers: [
-        { provide: ActiveCartService, useClass: MockActiveCartService },
-        { provide: SelectiveCartService, useValue: mockSelectiveCartService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          ReactiveFormsModule,
+          RouterTestingModule,
+          PromotionsModule,
+          I18nTestingModule,
+          FeaturesConfigModule,
+        ],
+        declarations: [CartItemListComponent, MockCartItemComponent],
+        providers: [
+          { provide: ActiveCartService, useClass: MockActiveCartService },
+          { provide: SelectiveCartService, useValue: mockSelectiveCartService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartItemListComponent);

@@ -1,5 +1,5 @@
 import { Component, Directive, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AutoFocusConfig } from '../keyboard-focus.model';
 import { AutoFocusDirective } from './auto-focus.directive';
@@ -51,20 +51,22 @@ class MockAutoFocusService {
 describe('AutoFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   let service: AutoFocusService;
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [MockComponent, CustomFocusDirective],
-      providers: [
-        {
-          provide: AutoFocusService,
-          useClass: MockAutoFocusService,
-        },
-      ],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [MockComponent, CustomFocusDirective],
+        providers: [
+          {
+            provide: AutoFocusService,
+            useClass: MockAutoFocusService,
+          },
+        ],
+      }).compileComponents();
 
-    fixture = TestBed.createComponent(MockComponent);
-    service = TestBed.inject(AutoFocusService);
-  }));
+      fixture = TestBed.createComponent(MockComponent);
+      service = TestBed.inject(AutoFocusService);
+    })
+  );
 
   const event = {
     preventDefault: () => {},

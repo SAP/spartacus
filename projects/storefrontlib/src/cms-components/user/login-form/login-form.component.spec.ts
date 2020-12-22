@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -43,23 +43,25 @@ describe('LoginFormComponent', () => {
   let authService: AuthService;
   let windowRef: WindowRef;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        RouterTestingModule,
-        I18nTestingModule,
-        FeaturesConfigModule,
-        FormErrorsModule,
-      ],
-      declarations: [LoginFormComponent, MockUrlPipe],
-      providers: [
-        WindowRef,
-        { provide: AuthService, useClass: MockAuthService },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          ReactiveFormsModule,
+          RouterTestingModule,
+          I18nTestingModule,
+          FeaturesConfigModule,
+          FormErrorsModule,
+        ],
+        declarations: [LoginFormComponent, MockUrlPipe],
+        providers: [
+          WindowRef,
+          { provide: AuthService, useClass: MockAuthService },
+          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginFormComponent);

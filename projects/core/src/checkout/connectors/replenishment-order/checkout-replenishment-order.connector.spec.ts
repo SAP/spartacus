@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { waitForAsync, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import {
   ReplenishmentOrder,
@@ -34,16 +34,18 @@ describe('Checkout Replenishment Order Connector', () => {
   let adapter: CheckoutReplenishmentOrderAdapter;
   let connector: CheckoutReplenishmentOrderConnector;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        {
-          provide: CheckoutReplenishmentOrderAdapter,
-          useClass: MockCheckoutReplenishmentOrderAdapter,
-        },
-      ],
-    });
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          {
+            provide: CheckoutReplenishmentOrderAdapter,
+            useClass: MockCheckoutReplenishmentOrderAdapter,
+          },
+        ],
+      });
+    })
+  );
 
   beforeEach(() => {
     adapter = TestBed.inject(CheckoutReplenishmentOrderAdapter);

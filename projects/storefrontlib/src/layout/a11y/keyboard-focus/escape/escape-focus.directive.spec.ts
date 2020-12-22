@@ -1,5 +1,5 @@
 import { Component, Directive, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { EscapeFocusConfig } from '../keyboard-focus.model';
 import { EscapeFocusDirective } from './escape-focus.directive';
@@ -60,28 +60,30 @@ describe('EscapeFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   let service: EscapeFocusService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [MockComponent, CustomFocusDirective],
-      providers: [
-        {
-          provide: EscapeFocusService,
-          useClass: MockEscapeFocusService,
-        },
-      ],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [MockComponent, CustomFocusDirective],
+        providers: [
+          {
+            provide: EscapeFocusService,
+            useClass: MockEscapeFocusService,
+          },
+        ],
+      }).compileComponents();
 
-    fixture = TestBed.createComponent(MockComponent);
-    component = fixture.componentInstance;
-    service = TestBed.inject(EscapeFocusService);
+      fixture = TestBed.createComponent(MockComponent);
+      component = fixture.componentInstance;
+      service = TestBed.inject(EscapeFocusService);
 
-    spyOn(service, 'shouldFocus').and.callThrough();
-    spyOn(service, 'handleEscape').and.callThrough();
+      spyOn(service, 'shouldFocus').and.callThrough();
+      spyOn(service, 'handleEscape').and.callThrough();
 
-    spyOn(component, 'handleEmit');
+      spyOn(component, 'handleEmit');
 
-    fixture.detectChanges();
-  }));
+      fixture.detectChanges();
+    })
+  );
 
   describe('config', () => {
     it('should use focusOnEscape by default', () => {

@@ -1,4 +1,4 @@
-import { async, TestBed, TestBedStatic } from '@angular/core/testing';
+import { waitForAsync, TestBed, TestBedStatic } from '@angular/core/testing';
 import { Product, ProductService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
@@ -153,9 +153,12 @@ describe('MerchandisingCarouselComponentService', () => {
     profileTagEventService = TestBed.inject(ProfileTagEventService);
   });
 
-  it('should be created', async(() => {
-    expect(componentService).toBeTruthy();
-  }));
+  it(
+    'should be created',
+    waitForAsync(() => {
+      expect(componentService).toBeTruthy();
+    })
+  );
 
   describe('getMerchandisingCaourselViewportThreshold', () => {
     it('should fallback to a hardcoded carousel viewport threshold if one is not provided in the carousel CMS component config or the CDS config', () => {
