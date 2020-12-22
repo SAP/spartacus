@@ -13,24 +13,7 @@ async function run() {
 
   console.log(context.payload.pull_request);
 
-  const owner = context.payload.repository.owner.login;
-  const repo = context.payload.repository.name;
-
-  const response = await gh.pulls.list({
-    owner,
-    repo,
-    head: 'SAP:' + context.payload.ref.replace('refs/heads/', ''),
-  });
-
-  console.log(response);
-
-  const relatedPullRequests = response.data;
-
-  if (relatedPullRequests.length === 0) {
-    return;
-  }
-
-  const relatedPR = relatedPullRequests[0];
+  const relatedPR = context.payload.pull_request;
 
   const issueNumber = relatedPR.number;
   const targetBranch = relatedPR.base.ref;
@@ -136,7 +119,7 @@ async function run() {
     }
   }
 
-  printReport(generateCommentBody());
+  await printReport(generateCommentBody());
 }
 
 run();
