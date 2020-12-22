@@ -5,7 +5,7 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
@@ -13,7 +13,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
-import { LocalCurrentProductService } from '../../local-current-product.service';
+import { ProductListItemContext } from '../../product-list-item-context';
 import { ProductListItemComponent } from './product-list-item.component';
 
 @Component({
@@ -29,12 +29,6 @@ class MockAddToCartComponent {
   selector: 'cx-configure-product',
   template: '<button>configure product</button>',
 })
-export class MockConfigureProductComponent {
-  @Input() productCode;
-  @Input() configurable;
-  @Input() configuratorType;
-}
-
 @Component({
   selector: 'cx-star-rating',
   template: '*****',
@@ -82,7 +76,6 @@ class MockProductService {}
 describe('ProductListItemComponent in product-list', () => {
   let component: ProductListItemComponent;
   let fixture: ComponentFixture<ProductListItemComponent>;
-  let localCurrentProductService: LocalCurrentProductService;
 
   const mockProduct = {
     name: 'Test product',
@@ -101,45 +94,47 @@ describe('ProductListItemComponent in product-list', () => {
     },
   };
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
-      declarations: [
-        ProductListItemComponent,
-        MockPictureComponent,
-        MockAddToCartComponent,
-        MockConfigureProductComponent,
-        MockStarRatingComponent,
-        MockUrlPipe,
-        MockCxIconComponent,
-        MockStyleIconsComponent,
-        MockFeatureLevelDirective,
-      ],
-      providers: [
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: ProductService,
-          useClass: MockProductService,
-        },
-      ],
-    })
-      .overrideComponent(ProductListItemComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule, I18nTestingModule],
+        declarations: [
+          ProductListItemComponent,
+          MockPictureComponent,
+          MockAddToCartComponent,
+          MockStarRatingComponent,
+          MockUrlPipe,
+          MockCxIconComponent,
+          MockStyleIconsComponent,
+          MockFeatureLevelDirective,
+        ],
+        providers: [
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
+          {
+            provide: ProductService,
+            useClass: MockProductService,
+          },
+        ],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(ProductListItemComponent, {
+          set: { changeDetection: ChangeDetectionStrategy.Default },
+        })
+        .overrideComponent(ProductListItemComponent, {
+          set: { changeDetection: ChangeDetectionStrategy.Default },
+        })
+        .compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductListItemComponent);
     component = fixture.componentInstance;
 
     component.product = mockProduct;
-    localCurrentProductService = component[
-      'currentProductService'
-    ] as LocalCurrentProductService;
+
     component.ngOnChanges();
     fixture.detectChanges();
   });
@@ -212,14 +207,15 @@ describe('ProductListItemComponent in product-list', () => {
     ).toBeNull();
   });
 
-  it('should have correct instance of currentProductService', () => {
-    expect(localCurrentProductService).toBeDefined();
+  it('should have defined instance of list item context', () => {
+    expect(component['productListItemContext']).toBeDefined();
   });
 
-  it('should initialize localCurrentProductService properly', (done) => {
-    const product$ = localCurrentProductService['code$'];
-    product$.subscribe((code) => {
-      expect(code).toBe(mockProduct.code);
+  it('should transmit product through the item context', (done) => {
+    const productListItemContext: ProductListItemContext =
+      component['productListItemContext'];
+    productListItemContext.product$.subscribe((product) => {
+      expect(product).toBe(mockProduct);
       done();
     });
   });

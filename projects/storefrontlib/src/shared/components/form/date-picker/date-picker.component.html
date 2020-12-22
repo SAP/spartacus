@@ -2,16 +2,17 @@
   class="form-control"
   type="date"
   [formControl]="control"
-  [attr.min]="min?.value"
-  [attr.max]="max?.value"
-  cxDatePickerFallback
-  (change)="update()"
+  [attr.min]="min"
+  [attr.max]="max"
+  (change)="change()"
+  [placeholder]="placeholder"
+  [pattern]="pattern"
 />
 <cx-form-errors
   [control]="control"
   prefix="formErrors.date"
   [translationParams]="{
-    max: getDate(max?.value) | cxDate,
-    min: getDate(min?.value) | cxDate
+    max: getDate(max) | cxDate,
+    min: getDate(min) | cxDate
   }"
 ></cx-form-errors>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { B2BUser, RoutingService } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ROUTE_PARAMS } from '../../../../constants';
 import { CurrentItemService } from '../../../../shared/current-item.service';
 
@@ -17,7 +17,7 @@ export class CurrentUnitUserService extends CurrentItemService<B2BUser> {
   }
 
   getDetailsRoute(): string {
-    return 'unitUserList';
+    return 'orgUnitUserList';
   }
 
   protected getParamKey() {
@@ -25,7 +25,7 @@ export class CurrentUnitUserService extends CurrentItemService<B2BUser> {
   }
 
   protected getItem(customerId: string): Observable<B2BUser> {
-    return customerId ? this.b2bUserService.get(customerId) : of({});
+    return this.b2bUserService.get(customerId);
   }
 
   getError(code: string): Observable<boolean> {

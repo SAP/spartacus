@@ -13,10 +13,10 @@ import { CellComponent } from '../../../../shared/table/cell.component';
     <a
       *ngIf="hasItem && unitKey$ | async as uid"
       [routerLink]="
-        { cxRoute: 'unitUserRoles', params: getRouterModel(uid) } | cxUrl
+        { cxRoute: 'orgUnitUserRoles', params: getRouterModel(uid) } | cxUrl
       "
     >
-      {{ 'user.roles' | cxTranslate }}
+      {{ 'orgUser.roles' | cxTranslate }}
     </a>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

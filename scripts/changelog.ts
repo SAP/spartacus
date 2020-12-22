@@ -1,7 +1,7 @@
 // tslint:disable:no-implicit-dependencies
 import { JsonObject, logging } from '@angular-devkit/core';
 import chalk from 'chalk';
-import * as program from 'commander';
+import program from 'commander';
 import * as ejs from 'ejs';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -78,6 +78,7 @@ export default async function run(
     '@spartacus/cds': 'integration-libs/cds',
     '@spartacus/organization': 'feature-libs/organization',
     '@spartacus/product': 'feature-libs/product',
+    '@spartacus/product-configurator': 'feature-libs/product-configurator',
     '@spartacus/storefinder': 'feature-libs/storefinder',
     '@spartacus/cdc': 'integration-libs/cdc',
     '@spartacus/setup': 'core-libs/setup',
@@ -295,12 +296,11 @@ if (typeof config.to === 'undefined') {
       break;
     case 'product':
     case '@spartacus/product':
-    case '@spartacus/product/configurators':
-    case '@spartacus/product/configurators/common':
-    case '@spartacus/product/configurators/cpq':
-    case '@spartacus/product/configurators/variant':
-    case '@spartacus/product/configurators/textfield':
       config.library = '@spartacus/product';
+      break;
+    case 'product-configurator':
+    case '@spartacus/product-configurator':
+      config.library = '@spartacus/product-configurator';
       break;
     case 'cdc':
     case '@spartacus/cdc':

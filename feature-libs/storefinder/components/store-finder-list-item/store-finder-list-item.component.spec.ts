@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -87,18 +87,20 @@ describe('StoreFinderListItemComponent', () => {
   let component: StoreFinderListItemComponent;
   let fixture: ComponentFixture<StoreFinderListItemComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        I18nTestingModule,
-        RouterTestingModule,
-      ],
-      declarations: [StoreFinderListItemComponent],
-      providers: [StoreDataService],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          CommonModule,
+          ReactiveFormsModule,
+          I18nTestingModule,
+          RouterTestingModule,
+        ],
+        declarations: [StoreFinderListItemComponent],
+        providers: [StoreDataService],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderListItemComponent);

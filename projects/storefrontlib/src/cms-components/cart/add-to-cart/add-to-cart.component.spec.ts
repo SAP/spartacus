@@ -1,5 +1,5 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -82,29 +82,31 @@ describe('AddToCartComponent', () => {
   let modalInstance: any;
   const mockCartEntry: OrderEntry = { entryNumber: 7 };
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        BrowserAnimationsModule,
-        RouterTestingModule,
-        SpinnerModule,
-        I18nTestingModule,
-        ReactiveFormsModule,
-      ],
-      declarations: [AddToCartComponent, MockItemCounterComponent],
-      providers: [
-        {
-          provide: ModalService,
-          useValue: { open: () => ({ componentInstance: {} }) },
-        },
-        { provide: ActiveCartService, useClass: MockActiveCartService },
-        {
-          provide: CurrentProductService,
-          useClass: MockCurrentProductService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          BrowserAnimationsModule,
+          RouterTestingModule,
+          SpinnerModule,
+          I18nTestingModule,
+          ReactiveFormsModule,
+        ],
+        declarations: [AddToCartComponent, MockItemCounterComponent],
+        providers: [
+          {
+            provide: ModalService,
+            useValue: { open: () => ({ componentInstance: {} }) },
+          },
+          { provide: ActiveCartService, useClass: MockActiveCartService },
+          {
+            provide: CurrentProductService,
+            useClass: MockCurrentProductService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddToCartComponent);
