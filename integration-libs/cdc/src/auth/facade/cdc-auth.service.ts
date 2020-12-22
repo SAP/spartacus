@@ -28,7 +28,7 @@ export class CdcAuthService {
     protected authStorageService: AuthStorageService,
     protected userIdService: UserIdService,
     protected globalMessageService: GlobalMessageService,
-    protected authRedirectService: AuthRedirectService,
+    protected authRedirectService: AuthRedirectService
   ) {}
 
   /**
