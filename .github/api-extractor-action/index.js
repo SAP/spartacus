@@ -1,9 +1,9 @@
-const exec = require('@actions/exec');
+// const exec = require('@actions/exec');
 const github = require('@actions/github');
 const core = require('@actions/core');
-const fs = require('fs');
-const diff = require('diff-lines');
-const normalizeNewline = require('normalize-newline');
+// const fs = require('fs');
+// const diff = require('diff-lines');
+// const normalizeNewline = require('normalize-newline');
 
 async function run() {
   const GITHUB_TOKEN = core.getInput('GITHUB_TOKEN');
