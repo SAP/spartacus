@@ -23,9 +23,6 @@ context('Checkout flow', () => {
     checkout.fillPaymentFormWithCheapProduct();
     checkout.placeOrderWithCheapProduct();
     checkout.verifyOrderConfirmationPageWithCheapProduct();
-  });
-
-  it('should be able to check order in order history', () => {
     cy.waitForOrderToBePlacedRequest();
     checkout.viewOrderHistoryWithCheapProduct();
     checkout.signOut();
