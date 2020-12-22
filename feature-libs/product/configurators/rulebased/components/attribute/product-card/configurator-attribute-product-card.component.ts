@@ -22,6 +22,7 @@ interface QuantityUpdateEvent {
 export class ConfiguratorAttributeProductCardComponent
   implements OnDestroy, OnInit {
   quantity = new FormControl(1);
+  loading = false;
   private sub: Subscription;
 
   @Input() disabledAction: boolean;
@@ -52,14 +53,18 @@ export class ConfiguratorAttributeProductCardComponent
   }
 
   onHandleSelect(): void {
+    this.loading = true;
     this.handleSelect.emit(this.product.valueCode);
   }
 
   onHandleDeselect(): void {
+    this.loading = true;
     this.handleDeselect.emit(this.product.valueCode);
   }
 
   onHandleQuantity(): void {
+    this.loading = true;
+
     this.handleQuantity.emit({
       quantity: this.quantity.value,
       valueCode: this.product.valueCode,
