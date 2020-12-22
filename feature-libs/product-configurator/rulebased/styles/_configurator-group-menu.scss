@@ -1,7 +1,4 @@
 %cx-configurator-group-menu {
-  padding-inline-end: 2rem;
-  max-width: 100%;
-
   ul {
     list-style-type: none;
     background-color: #ffffff;
@@ -9,11 +6,21 @@
     border-style: solid;
     border-color: var(--cx-color-light);
     border-radius: 2px;
-    padding: 0;
-    margin: 0;
+    padding-inline-start: 0px;
+    padding-inline-end: 0px;
+    padding-block-start: 0px;
+    padding-block-end: 0px;
+    margin-inline-start: 0px;
+    margin-inline-end: 25px;
+    margin-block-start: 0px;
+    margin-block-end: 0px;
 
     @include media-breakpoint-down(md) {
       background-color: var(--cx-color-background);
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+      margin-block-start: 0px;
+      margin-block-end: 0px;
     }
 
     .cx-menu-item {
@@ -34,8 +41,11 @@
         align-items: center;
         text-decoration: none;
         color: var(--cx-color-text);
-        padding: 0;
-        margin: 10px;
+
+        padding-inline-start: 15px;
+        padding-inline-end: 15px;
+        padding-block-start: 15px;
+        padding-block-end: 15px;
 
         &:hover {
           cursor: pointer;
@@ -61,50 +71,54 @@
 
         .groupIndicators {
           display: flex;
-          margin-inline-start: 5px;
+          flex-direction: row;
+          align-self: flex-start;
+          inline-size: 100px;
 
-          .groupStatusIndicator,
-          .subGroupIndicator {
+          .groupStatusIndicator {
             inline-size: 25px;
-            height: 25px;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            flex-direction: row;
+            justify-content: flex-start;
+            cx-icon.ERROR,
+            cx-icon.WARNING,
+            cx-icon.COMPLETE {
+              display: none;
+            }
+
+            cx-icon.ERROR {
+              color: var(--cx-color-danger);
+              padding-inline-end: 5px;
+            }
+            cx-icon.WARNING {
+              color: var(--cx-color-warning);
+              padding-inline-end: 5px;
+            }
+
+            cx-icon.COMPLETE {
+              color: var(--cx-color-text);
+              padding-inline-end: 5px;
+            }
           }
 
           .subGroupIndicator {
-            .groupIndicatorIcon {
+            inline-size: 25px;
+            cx-icon {
               margin-inline-start: 5px;
               margin-inline-end: 5px;
             }
           }
+
+          .conflictNumberIndicator {
+            inline-size: 25px;
+          }
         }
       }
 
-      .groupIndicatorIcon {
-        display: none;
-
-        &.ERROR {
-          color: var(--cx-color-danger);
-        }
-
-        &.WARNING {
-          color: var(--cx-color-warning);
-        }
-
-        &.COMPLETE {
-          color: var(--cx-color-text);
-        }
-      }
-
-      &.ERROR .groupIndicatorIcon.ERROR,
-      &.WARNING .groupIndicatorIcon.WARNING,
-      &.COMPLETE .groupIndicatorIcon.COMPLETE {
-        display: inline-block;
-      }
-
-      &.COMPLETE .groupIndicatorIcon.ERROR {
-        display: none;
+      &.ERROR cx-icon.ERROR,
+      &.WARNING cx-icon.WARNING,
+      &.COMPLETE cx-icon.COMPLETE {
+        display: inline-block !important;
       }
 
       &.cx-menu-conflict {
