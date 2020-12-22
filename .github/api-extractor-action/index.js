@@ -11,7 +11,7 @@ async function run() {
 
   const context = github.context;
 
-  console.log(context);
+  console.log(context.payload.pull_request);
 
   const owner = context.payload.repository.owner.login;
   const repo = context.payload.repository.name;
