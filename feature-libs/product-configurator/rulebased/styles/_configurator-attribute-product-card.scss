@@ -51,7 +51,7 @@
     max-width: 20rem;
 
     @include media-breakpoint-up(md) {
-      max-width: 16rem;
+      width: 16rem;
     }
 
     .cx-product-card-name {
