@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, UrlTree } from '@angular/router';
-import { RoutingService } from '@spartacus/core';
+import { CanActivate, Router, UrlTree } from '@angular/router';
+import { SemanticPathService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderCancellationService } from './order-cancellation.service';
@@ -10,8 +10,9 @@ import { OrderCancellationService } from './order-cancellation.service';
 })
 export class OrderCancellationGuard implements CanActivate {
   constructor(
-    protected routing: RoutingService,
-    protected orderAmendService: OrderCancellationService
+    protected orderAmendService: OrderCancellationService,
+    protected semanticPathService: SemanticPathService,
+    protected router: Router
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
@@ -21,8 +22,7 @@ export class OrderCancellationGuard implements CanActivate {
           // the order code is not available in the route
           // as long as we're inside a guard, hence we redirect
           // to the common orders page.
-          this.routing.go({ cxRoute: 'orders' });
-          return false;
+          return this.router.parseUrl(this.semanticPathService.get('orders'));
         } else {
           return true;
         }

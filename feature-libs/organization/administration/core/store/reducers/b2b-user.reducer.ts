@@ -14,6 +14,8 @@ export function b2bUserEntitiesReducer(
 ): B2BUser {
   switch (action.type) {
     case B2BUserActions.LOAD_B2B_USER_SUCCESS:
+    case B2BUserActions.CREATE_B2B_USER_SUCCESS:
+    case B2BUserActions.UPDATE_B2B_USER_SUCCESS:
       return action.payload;
     case OrgUnitActions.ASSIGN_ROLE_SUCCESS:
     case OrgUnitActions.ASSIGN_APPROVER_SUCCESS:
@@ -31,8 +33,8 @@ export function b2bUserEntitiesReducer(
           (role) => role !== action.payload?.roleId
         ),
       };
-    case B2BUserActions.CREATE_B2B_USER_APPROVER_SUCCESS:
-    case B2BUserActions.DELETE_B2B_USER_APPROVER_SUCCESS:
+    case B2BUserActions.ASSIGN_B2B_USER_APPROVER_SUCCESS:
+    case B2BUserActions.UNASSIGN_B2B_USER_APPROVER_SUCCESS:
     case UserGroupActions.USER_GROUP_ASSIGN_MEMBER_SUCCESS:
     case UserGroupActions.USER_GROUP_UNASSIGN_MEMBER_SUCCESS:
     case UserGroupActions.USER_GROUP_UNASSIGN_ALL_MEMBERS_SUCCESS:

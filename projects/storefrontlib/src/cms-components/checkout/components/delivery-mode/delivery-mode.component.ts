@@ -8,7 +8,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CheckoutDeliveryService, DeliveryMode } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { map, takeWhile, withLatestFrom } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  takeWhile,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
@@ -20,9 +26,7 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
 export class DeliveryModeComponent implements OnInit, OnDestroy {
   supportedDeliveryModes$: Observable<DeliveryMode[]>;
   selectedDeliveryMode$: Observable<DeliveryMode>;
-  currentDeliveryModeId: string;
   continueButtonPressed = false;
-  private allowRedirect = false;
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
 
@@ -36,12 +40,21 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private checkoutDeliveryService: CheckoutDeliveryService,
     private checkoutConfigService: CheckoutConfigService,
-    protected checkoutStepService: CheckoutStepService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    protected checkoutStepService: CheckoutStepService
   ) {}
 
   ngOnInit() {
-    this.supportedDeliveryModes$ = this.checkoutDeliveryService.getSupportedDeliveryModes();
+    this.supportedDeliveryModes$ = this.checkoutDeliveryService
+      .getSupportedDeliveryModes()
+      .pipe(
+        filter((deliveryModes: DeliveryMode[]) => !!deliveryModes?.length),
+        distinctUntilChanged(
+          (current: DeliveryMode[], previous: DeliveryMode[]) => {
+            return JSON.stringify(current) === JSON.stringify(previous);
+          }
+        )
+      );
 
     // Reload delivery modes on error
     this.checkoutDeliveryService
@@ -66,44 +79,29 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
         )
       )
       .subscribe(([deliveryModes, code]: [DeliveryMode[], string]) => {
-        if (!code && deliveryModes && deliveryModes.length) {
+        if (
+          !(
+            code &&
+            !!deliveryModes.find((deliveryMode) => deliveryMode.code === code)
+          )
+        ) {
           code = this.checkoutConfigService.getPreferredDeliveryMode(
             deliveryModes
           );
         }
-        if (
-          this.allowRedirect &&
-          !!code &&
-          code === this.currentDeliveryModeId
-        ) {
-          this.checkoutStepService.next(this.activatedRoute);
-        }
-        if (code) {
-          this.mode.controls['deliveryModeId'].setValue(code);
-          if (code !== this.currentDeliveryModeId) {
-            this.checkoutDeliveryService.setDeliveryMode(code);
-          }
-        }
-        this.currentDeliveryModeId = code;
+        this.mode.controls['deliveryModeId'].setValue(code);
+        this.checkoutDeliveryService.setDeliveryMode(code);
       });
   }
 
   changeMode(code: string): void {
-    if (code !== this.currentDeliveryModeId) {
-      this.checkoutDeliveryService.setDeliveryMode(code);
-      this.currentDeliveryModeId = code;
-    }
+    this.checkoutDeliveryService.setDeliveryMode(code);
   }
 
   next(): void {
-    this.allowRedirect = true;
-    this.continueButtonPressed = true;
-
     if (this.mode.valid && this.mode.value) {
-      if (!this.currentDeliveryModeId) {
-        this.currentDeliveryModeId = this.mode.value.deliveryModeId;
-      }
-      this.checkoutDeliveryService.setDeliveryMode(this.currentDeliveryModeId);
+      this.continueButtonPressed = true;
+      this.checkoutStepService.next(this.activatedRoute);
     }
   }
 

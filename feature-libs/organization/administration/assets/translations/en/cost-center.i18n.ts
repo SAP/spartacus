@@ -1,4 +1,4 @@
-export const costCenter = {
+export const orgCostCenter = {
   header: 'All cost centers ({{count}})',
 
   code: 'Code',
@@ -20,6 +20,8 @@ export const costCenter = {
     deactivate: 'Are you sure you want to disable this cost center?',
     confirmEnabled: 'Cost Center {{ item.name }} enabled successfully',
     confirmDisabled: 'Cost Center {{ item.name }} disabled successfully',
+    update: 'Cost Center {{ item.name }} updated successfully',
+    create: 'Cost Center {{ item.name }} created successfully',
   },
 
   details: {
@@ -48,16 +50,16 @@ export const costCenter = {
   },
 };
 
-export const costCenterAssignedBudgets = {
+export const orgCostCenterAssignedBudgets = {
   title: 'Assigned budgets',
   subtitle: 'Cost Center: {{ item.name }}',
-  assigned: 'Budget "{{ item.name }}" assigned successfully',
-  unassigned: 'Budget "{{ item.name }}" unassigned successfully',
+  assigned: 'Budget {{ item.name }} assigned successfully',
+  unassigned: 'Budget {{ item.name }} unassigned successfully',
 };
 
-export const costCenterBudgets = {
+export const orgCostCenterBudgets = {
   title: 'Manage budgets',
   subtitle: 'Cost Center: {{ item.name }}',
-  assigned: 'Budget assigned successfully',
-  unassigned: 'Budget unassigned successfully',
+  assigned: 'Budget {{ item.name }} assigned successfully',
+  unassigned: 'Budget {{ item.name }} unassigned successfully',
 };

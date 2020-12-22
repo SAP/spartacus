@@ -1,18 +1,15 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
-import { AuthService } from '../../auth/facade/auth.service';
+import { Observable, of, Subscription } from 'rxjs';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { ActiveCartService } from '../../cart/facade/active-cart.service';
+import { Cart } from '../../model/cart.model';
 import { Order } from '../../model/order.model';
 import {
   ORDER_TYPE,
   ReplenishmentOrder,
   ScheduleReplenishmentForm,
 } from '../../model/replenishment-order.model';
-import {
-  OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_CURRENT,
-} from '../../occ/utils/occ-constants';
 import {
   PROCESS_FEATURE,
   StateWithProcess,
@@ -25,7 +22,6 @@ import { CheckoutService } from './checkout.service';
 
 const mockCartId = 'test-cart';
 const mockTermsChecked = true;
-const mockUserId = OCC_USER_ID_CURRENT;
 const mockError = 'test-error';
 
 const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
@@ -41,7 +37,7 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
 
 const mockOrder: Order = { code: 'testOrder', guestCustomer: true };
 
-class MockActiveCartServiceStub {
+class ActiveCartServiceStub implements Partial<ActiveCartService> {
   isGuestCart(): boolean {
     return true;
   }
@@ -51,19 +47,24 @@ class MockActiveCartServiceStub {
   }
 }
 
-class MockAuthServiceStub {
-  getOccUserId(): Observable<string> {
-    return of(mockUserId);
+class UserIdServiceStub implements Partial<UserIdService> {
+  userId;
+  getUserId() {
+    return of(this.userId);
   }
   invokeWithUserId(cb) {
-    cb(mockUserId);
+    cb(this.userId);
+    return new Subscription();
   }
 }
 
 describe('CheckoutService', () => {
   let service: CheckoutService;
-  let authService: AuthService;
   let store: Store<StateWithCheckout | StateWithProcess<void>>;
+  let activeCartService: ActiveCartService;
+  let userIdService: UserIdService;
+  const userId = 'testUserId';
+  const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -80,13 +81,17 @@ describe('CheckoutService', () => {
       ],
       providers: [
         CheckoutService,
-        { provide: ActiveCartService, useClass: MockActiveCartServiceStub },
-        { provide: AuthService, useClass: MockAuthServiceStub },
+        { provide: ActiveCartService, useClass: ActiveCartServiceStub },
+        { provide: UserIdService, useClass: UserIdServiceStub },
       ],
     });
 
     service = TestBed.inject(CheckoutService);
-    authService = TestBed.inject(AuthService);
+    activeCartService = TestBed.inject(ActiveCartService);
+    userIdService = TestBed.inject(UserIdService);
+
+    userIdService['userId'] = userId;
+    activeCartService['cart'] = cart;
     store = TestBed.inject(Store);
 
     spyOn(store, 'dispatch').and.callThrough();
@@ -104,7 +109,7 @@ describe('CheckoutService', () => {
       service.loadCheckoutDetails(mockCartId);
       expect(store.dispatch).toHaveBeenCalledWith(
         new CheckoutActions.LoadCheckoutDetails({
-          userId: mockUserId,
+          userId: userId,
           cartId: mockCartId,
         })
       );
@@ -175,7 +180,7 @@ describe('CheckoutService', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new CheckoutActions.PlaceOrder({
-          userId: mockUserId,
+          userId: userId,
           cartId: mockCartId,
           termsChecked: mockTermsChecked,
         })
@@ -246,7 +251,7 @@ describe('CheckoutService', () => {
           cartId: mockCartId,
           scheduleReplenishmentForm: mockReplenishmentOrderFormData,
           termsChecked: mockTermsChecked,
-          userId: mockUserId,
+          userId: userId,
         })
       );
     });
@@ -351,9 +356,7 @@ describe('CheckoutService', () => {
 
   describe('actionAllowed', () => {
     it('should allow actions for login user or guest user', () => {
-      spyOn(authService, 'getOccUserId').and.returnValue(
-        of(OCC_USER_ID_ANONYMOUS)
-      );
+      userIdService['userId'] = 'anonymous';
 
       expect(service['actionAllowed']()).toBeTruthy();
     });

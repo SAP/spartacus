@@ -22,6 +22,7 @@ import { StorefrontFoundationModule } from './storefront-foundation.module';
     RouterModule.forRoot([], {
       anchorScrolling: 'enabled',
       relativeLinkResolution: 'corrected',
+      initialNavigation: 'enabled',
     }),
 
     StoreModule.forRoot({}),

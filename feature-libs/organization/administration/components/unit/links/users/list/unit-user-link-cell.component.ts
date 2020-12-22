@@ -4,27 +4,28 @@ import {
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
-import { OrganizationItemService } from '../../../../shared/organization-item.service';
-import { OrganizationCellComponent } from '../../../../shared/organization-table/organization-cell.component';
+import { ItemService } from '../../../../shared/item.service';
+import { CellComponent } from '../../../../shared/table/cell.component';
 
 @Component({
+  selector: 'cx-org-unit-user-link-cell',
   template: `
     <a
       *ngIf="hasItem && unitKey$ | async as uid"
       [routerLink]="
-        { cxRoute: 'unitUserRoles', params: getRouterModel(uid) } | cxUrl
+        { cxRoute: 'orgUnitUserRoles', params: getRouterModel(uid) } | cxUrl
       "
     >
-      {{ 'user.roles' | cxTranslate }}
+      {{ 'orgUser.roles' | cxTranslate }}
     </a>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UnitUserRolesCellComponent extends OrganizationCellComponent {
+export class UnitUserRolesCellComponent extends CellComponent {
   unitKey$ = this.itemService.key$;
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
-    protected itemService: OrganizationItemService<B2BUnit>
+    protected itemService: ItemService<B2BUnit>
   ) {
     super(outlet);
   }

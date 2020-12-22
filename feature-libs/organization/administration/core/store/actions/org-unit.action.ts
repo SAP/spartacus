@@ -7,7 +7,6 @@ import {
   StateUtils,
 } from '@spartacus/core';
 import { B2BUnitNode } from '../../model/unit-node.model';
-import { serializeSearchConfig } from '../../utils/serializer';
 import {
   ADDRESS_ENTITIES,
   ADDRESS_LIST,
@@ -92,6 +91,8 @@ export const LOAD_ADDRESS_SUCCESS = '[B2BUnit] Load address success';
 export const LOAD_ADDRESSES = '[B2BUnit] Load addresses';
 export const LOAD_ADDRESSES_SUCCESS = '[B2BUnit] Load addresses success';
 export const LOAD_ADDRESSES_FAIL = '[B2BUnit] Load addresses fail';
+
+export const CLEAR_ASSIGNED_USERS = '[B2BUnit] Clear Assigned Users';
 
 export class LoadOrgUnit extends StateUtils.EntityLoadAction {
   readonly type = LOAD_ORG_UNIT;
@@ -249,7 +250,26 @@ export class LoadAssignedUsers extends StateUtils.EntityLoadAction {
   ) {
     super(
       ORG_UNIT_ASSIGNED_USERS,
-      serializeSearchConfig(
+      StateUtils.serializeSearchConfig(
+        payload.params,
+        `${payload.orgUnitId},${payload.roleId}`
+      )
+    );
+  }
+}
+
+export class ClearAssignedUsers extends StateUtils.EntityRemoveAction {
+  readonly type = CLEAR_ASSIGNED_USERS;
+  constructor(
+    public payload: {
+      orgUnitId: string;
+      roleId: string;
+      params: SearchConfig;
+    }
+  ) {
+    super(
+      ORG_UNIT_ASSIGNED_USERS,
+      StateUtils.serializeSearchConfig(
         payload.params,
         `${payload.orgUnitId},${payload.roleId}`
       )
@@ -269,7 +289,7 @@ export class LoadAssignedUsersFail extends StateUtils.EntityFailAction {
   ) {
     super(
       ORG_UNIT_ASSIGNED_USERS,
-      serializeSearchConfig(
+      StateUtils.serializeSearchConfig(
         payload.params,
         `${payload.orgUnitId},${payload.roleId}`
       ),
@@ -290,7 +310,7 @@ export class LoadAssignedUsersSuccess extends StateUtils.EntitySuccessAction {
   ) {
     super(
       ORG_UNIT_ASSIGNED_USERS,
-      serializeSearchConfig(
+      StateUtils.serializeSearchConfig(
         payload.params,
         `${payload.orgUnitId},${payload.roleId}`
       )
@@ -595,4 +615,5 @@ export type OrgUnitAction =
   | LoadAddresses
   | LoadAddressesFail
   | LoadAddressesSuccess
-  | LoadAddressSuccess;
+  | LoadAddressSuccess
+  | ClearAssignedUsers;

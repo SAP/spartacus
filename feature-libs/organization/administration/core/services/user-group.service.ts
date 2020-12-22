@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
-  AuthService,
   B2BUser,
   EntitiesModel,
   SearchConfig,
   StateUtils,
   StateWithProcess,
+  UserIdService,
 } from '@spartacus/core';
 import { Observable, queueScheduler, using } from 'rxjs';
-import { auditTime, filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { auditTime, filter, map, observeOn, tap } from 'rxjs/operators';
+import { Budget } from '../model/budget.model';
+import { OrganizationItemStatus } from '../model/organization-item-status';
 import { Permission } from '../model/permission.model';
 import { UserGroup } from '../model/user-group.model';
 import { UserGroupActions } from '../store/actions/index';
@@ -19,35 +21,38 @@ import {
   getAvailableOrgCustomers,
   getUserGroup,
   getUserGroupList,
+  getUserGroupState,
   getUserGroupValue,
 } from '../store/selectors/user-group.selector';
-import { OrganizationItemStatus } from '../model/organization-item-status';
 import { getItemStatus } from '../utils/get-item-status';
-import { Budget } from '../model';
 
 @Injectable({ providedIn: 'root' })
 export class UserGroupService {
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,
-    protected authService: AuthService
+    protected userIdService: UserIdService
   ) {}
 
   load(userGroupId: string) {
-    this.withUserId((userId) =>
-      this.store.dispatch(
-        new UserGroupActions.LoadUserGroup({
-          userId,
-          userGroupId,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new UserGroupActions.LoadUserGroup({
+            userId,
+            userGroupId,
+          })
+        ),
+      () => {}
     );
   }
 
   loadList(params?: SearchConfig) {
-    this.withUserId((userId) =>
-      this.store.dispatch(
-        new UserGroupActions.LoadUserGroups({ userId, params })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new UserGroupActions.LoadUserGroups({ userId, params })
+        ),
+      () => {}
     );
   }
 
@@ -118,25 +123,29 @@ export class UserGroupService {
   }
 
   create(userGroup: UserGroup) {
-    this.withUserId((userId) =>
-      this.store.dispatch(
-        new UserGroupActions.CreateUserGroup({
-          userId,
-          userGroup,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new UserGroupActions.CreateUserGroup({
+            userId,
+            userGroup,
+          })
+        ),
+      () => {}
     );
   }
 
   update(userGroupId: string, userGroup: UserGroup) {
-    this.withUserId((userId) =>
-      this.store.dispatch(
-        new UserGroupActions.UpdateUserGroup({
-          userId,
-          userGroupId,
-          userGroup,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new UserGroupActions.UpdateUserGroup({
+            userId,
+            userGroupId,
+            userGroup,
+          })
+        ),
+      () => {}
     );
   }
 
@@ -147,25 +156,29 @@ export class UserGroupService {
   }
 
   delete(userGroupId: string) {
-    this.withUserId((userId) =>
-      this.store.dispatch(
-        new UserGroupActions.DeleteUserGroup({
-          userId,
-          userGroupId,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new UserGroupActions.DeleteUserGroup({
+            userId,
+            userGroupId,
+          })
+        ),
+      () => {}
     );
   }
 
   loadAvailableOrgCustomers(userGroupId: string, params: SearchConfig) {
-    this.withUserId((userId) =>
-      this.store.dispatch(
-        new UserGroupActions.LoadAvailableOrgCustomers({
-          userId,
-          userGroupId,
-          params,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new UserGroupActions.LoadAvailableOrgCustomers({
+            userId,
+            userGroupId,
+            params,
+          })
+        ),
+      () => {}
     );
   }
 
@@ -173,14 +186,16 @@ export class UserGroupService {
     userGroupId: string,
     params: SearchConfig
   ) {
-    this.withUserId((userId) =>
-      this.store.dispatch(
-        new UserGroupActions.LoadPermissions({
-          userId,
-          userGroupId,
-          params,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new UserGroupActions.LoadPermissions({
+            userId,
+            userGroupId,
+            params,
+          })
+        ),
+      () => {}
     );
   }
 
@@ -226,68 +241,81 @@ export class UserGroupService {
   }
 
   assignMember(userGroupId: string, customerId: string) {
-    this.withUserId((userId) =>
-      this.store.dispatch(
-        new UserGroupActions.AssignMember({
-          userId,
-          userGroupId,
-          customerId,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new UserGroupActions.AssignMember({
+            userId,
+            userGroupId,
+            customerId,
+          })
+        ),
+      () => {}
     );
   }
 
   unassignMember(userGroupId: string, customerId: string) {
-    this.withUserId((userId) =>
-      this.store.dispatch(
-        new UserGroupActions.UnassignMember({
-          userId,
-          userGroupId,
-          customerId,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new UserGroupActions.UnassignMember({
+            userId,
+            userGroupId,
+            customerId,
+          })
+        ),
+      () => {}
     );
   }
 
   unassignAllMembers(userGroupId: string) {
-    this.withUserId((userId) =>
-      this.store.dispatch(
-        new UserGroupActions.UnassignAllMembers({
-          userId,
-          userGroupId,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new UserGroupActions.UnassignAllMembers({
+            userId,
+            userGroupId,
+          })
+        ),
+      () => {}
     );
   }
 
   assignPermission(userGroupId: string, permissionUid: string) {
-    this.withUserId((userId) =>
-      this.store.dispatch(
-        new UserGroupActions.AssignPermission({
-          userId,
-          userGroupId,
-          permissionUid,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new UserGroupActions.AssignPermission({
+            userId,
+            userGroupId,
+            permissionUid,
+          })
+        ),
+      () => {}
     );
   }
 
   unassignPermission(userGroupId: string, permissionUid: string) {
-    this.withUserId((userId) =>
-      this.store.dispatch(
-        new UserGroupActions.UnassignPermission({
-          userId,
-          userGroupId,
-          permissionUid,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new UserGroupActions.UnassignPermission({
+            userId,
+            userGroupId,
+            permissionUid,
+          })
+        ),
+      () => {}
     );
   }
 
-  private withUserId(callback: (userId: string) => void): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe((userId) => callback(userId));
+  private getUserGroupState(
+    code: string
+  ): Observable<StateUtils.LoaderState<UserGroup>> {
+    return this.store.select(getUserGroupState(code));
+  }
+
+  getErrorState(code): Observable<boolean> {
+    return this.getUserGroupState(code).pipe(map((state) => state.error));
   }
 }

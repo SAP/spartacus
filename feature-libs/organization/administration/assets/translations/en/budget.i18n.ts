@@ -1,4 +1,4 @@
-export const budget = {
+export const orgBudget = {
   header: 'All budgets ({{count}})',
 
   code: 'Code',
@@ -37,6 +37,8 @@ export const budget = {
     deactivate: 'Are you sure you want to disable this budget?',
     confirmEnabled: 'Budget {{ item.name }} enabled successfully',
     confirmDisabled: 'Budget {{ item.name }} disabled successfully',
+    update: 'Budget {{ item.name }} updated successfully',
+    create: 'Budget {{ item.name }} created successfully',
   },
 
   links: {
@@ -49,7 +51,7 @@ export const budget = {
   },
 };
 
-export const budgetAssignedCostCenters = {
+export const orgBudgetAssignedCostCenters = {
   title: 'Cost centers',
   subtitle: 'Budget: {{ item.name }}',
 };

@@ -9,7 +9,6 @@ export const defaultCmsModuleConfig: CmsConfig = {
         pages: 'cms/pages',
         page: 'cms/pages/${id}',
       },
-      legacy: false,
     },
   },
   cmsComponents: {},

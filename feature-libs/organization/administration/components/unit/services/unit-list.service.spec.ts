@@ -23,7 +23,6 @@ function verifyExpandedAll({ values }: EntitiesModel<B2BUnitTreeNode>) {
 }
 
 function verifyCollapsedAll({ values }: EntitiesModel<B2BUnitTreeNode>) {
-  console.log(values);
   const root = values[0];
 
   expect(values.length).toEqual(1);

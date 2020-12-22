@@ -7,24 +7,22 @@ import {
 import { AdminGuard } from '@spartacus/organization/administration/core';
 import { BREAKPOINT, TableConfig, TableLayout } from '@spartacus/storefront';
 import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
-import { OrganizationItemService } from '../shared/organization-item.service';
-import { OrganizationListService } from '../shared/organization-list/organization-list.service';
-import { AssignCellComponent } from '../shared/organization-sub-list/assign-cell.component';
-import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
-import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
-import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
+import { ItemService } from '../shared/item.service';
+import { ListService } from '../shared/list/list.service';
+import { AssignCellComponent } from '../shared/sub-list/assign-cell.component';
+import { CellComponent } from '../shared/table/cell.component';
+import { StatusCellComponent } from '../shared/table/status/status-cell.component';
+import { UnitCellComponent } from '../shared/table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
 import { UnitDetailsComponent } from './details/unit-details.component';
 import { UnitFormComponent } from './form/unit-form.component';
-import { ActiveUnitGuard } from './guards/active-unit.guard';
-import { ExistUnitGuard } from './guards/exist-unit.guard';
 import { UnitAddressDetailsComponent } from './links/addresses/details/unit-address-details.component';
 import { UnitAddressFormComponent } from './links/addresses/form/unit-address-form.component';
 import { LinkCellComponent } from './links/addresses/list/link-cell.component';
 import { UnitAddressListComponent } from './links/addresses/list/unit-address-list.component';
 import { UnitAssignedApproverListComponent } from './links/approvers/assigned/unit-assigned-approver-list.component';
 import { UnitApproverListComponent } from './links/approvers/unit-approver-list.component';
-import { ChildUnitCreateComponent } from './links/children/create/child-unit-create.component';
+import { UnitChildCreateComponent } from './links/children/create/unit-child-create.component';
 import { UnitChildrenComponent } from './links/children/unit-children.component';
 import { UnitCostCenterListComponent } from './links/cost-centers/unit-cost-centers.component';
 import {
@@ -54,10 +52,10 @@ export const unitsRoutingConfig: RoutingConfig = {
       orgUnits: {
         paths: ['organization/units'],
       },
-      unitCreate: {
+      orgUnitCreate: {
         paths: ['organization/units/create'],
       },
-      unitDetails: {
+      orgUnitDetails: {
         paths: [listPath],
         paramsMapping,
       },
@@ -73,7 +71,7 @@ export const unitsRoutingConfig: RoutingConfig = {
         paths: [`${listPath}/children/create`],
         paramsMapping,
       },
-      unitUserList: {
+      orgUnitUserList: {
         paths: [`${listPath}/users`],
         paramsMapping,
       },
@@ -81,7 +79,7 @@ export const unitsRoutingConfig: RoutingConfig = {
         paths: [`${listPath}/users/create`],
         paramsMapping,
       },
-      unitUserRoles: {
+      orgUnitUserRoles: {
         paths: [`${listPath}/users/:userCode/roles`],
         paramsMapping,
       },
@@ -93,7 +91,7 @@ export const unitsRoutingConfig: RoutingConfig = {
         paths: [`${listPath}/approvers/assign`],
         paramsMapping,
       },
-      unitAddressList: {
+      orgUnitAddressList: {
         paths: [`${listPath}/addresses`],
         paramsMapping,
       },
@@ -101,11 +99,11 @@ export const unitsRoutingConfig: RoutingConfig = {
         paths: [`${listPath}/addresses/create`],
         paramsMapping,
       },
-      unitAddressDetails: {
+      orgUnitAddressDetails: {
         paths: [`${listPath}/addresses/:addressId`],
         paramsMapping,
       },
-      unitAddressEdit: {
+      orgUnitAddressEdit: {
         paths: [`${listPath}/addresses/:addressId/edit`],
         paramsMapping,
       },
@@ -127,11 +125,11 @@ export const unitsCmsConfig: CmsConfig = {
       component: UnitListComponent,
       providers: [
         {
-          provide: OrganizationListService,
+          provide: ListService,
           useExisting: UnitListService,
         },
         {
-          provide: OrganizationItemService,
+          provide: ItemService,
           useExisting: UnitItemService,
         },
       ],
@@ -139,7 +137,7 @@ export const unitsCmsConfig: CmsConfig = {
         parent: {
           data: {
             cxPageMeta: {
-              breadcrumb: 'unit.breadcrumbs.list',
+              breadcrumb: 'orgUnit.breadcrumbs.list',
               resolver: UnitRoutePageMetaResolver,
             },
           },
@@ -152,33 +150,31 @@ export const unitsCmsConfig: CmsConfig = {
           {
             path: `:${ROUTE_PARAMS.unitCode}`,
             component: UnitDetailsComponent,
-            canActivate: [ExistUnitGuard],
             data: {
-              cxPageMeta: { breadcrumb: 'unit.breadcrumbs.details' },
+              cxPageMeta: { breadcrumb: 'orgUnit.breadcrumbs.details' },
             },
             children: [
               {
                 path: 'edit',
                 component: UnitFormComponent,
-                canActivate: [ActiveUnitGuard],
               },
               {
                 path: 'children',
                 component: UnitChildrenComponent,
                 data: {
-                  cxPageMeta: { breadcrumb: 'unit.breadcrumbs.children' },
+                  cxPageMeta: { breadcrumb: 'orgUnit.breadcrumbs.children' },
                 },
                 children: [
                   {
                     path: 'create',
-                    component: ChildUnitCreateComponent,
+                    component: UnitChildCreateComponent,
                   },
                 ],
               },
               {
                 path: 'approvers',
                 data: {
-                  cxPageMeta: { breadcrumb: 'unit.breadcrumbs.approvers' },
+                  cxPageMeta: { breadcrumb: 'orgUnit.breadcrumbs.approvers' },
                 },
                 children: [
                   {
@@ -195,7 +191,7 @@ export const unitsCmsConfig: CmsConfig = {
                 path: 'users',
                 component: UnitUserListComponent,
                 data: {
-                  cxPageMeta: { breadcrumb: 'unit.breadcrumbs.users' },
+                  cxPageMeta: { breadcrumb: 'orgUnit.breadcrumbs.users' },
                 },
                 children: [
                   {
@@ -212,7 +208,7 @@ export const unitsCmsConfig: CmsConfig = {
                 path: 'cost-centers',
                 component: UnitCostCenterListComponent,
                 data: {
-                  cxPageMeta: { breadcrumb: 'unit.breadcrumbs.costCenters' },
+                  cxPageMeta: { breadcrumb: 'orgUnit.breadcrumbs.costCenters' },
                 },
                 children: [
                   {
@@ -226,7 +222,7 @@ export const unitsCmsConfig: CmsConfig = {
                 component: UnitAddressListComponent,
                 data: {
                   cxPageMeta: {
-                    breadcrumb: 'unit.breadcrumbs.addresses',
+                    breadcrumb: 'orgUnit.breadcrumbs.addresses',
                     resolver: UnitAddressRoutePageMetaResolver,
                   },
                 },
@@ -239,7 +235,7 @@ export const unitsCmsConfig: CmsConfig = {
                     path: `:${ROUTE_PARAMS.addressCode}`,
                     data: {
                       cxPageMeta: {
-                        breadcrumb: 'unit.breadcrumbs.addressDetails',
+                        breadcrumb: 'orgUnit.breadcrumbs.addressDetails',
                       },
                     },
                     children: [
@@ -282,7 +278,7 @@ export const unitsTableConfig: TableConfig = {
             dataComponent: StatusCellComponent,
           },
           uid: {
-            dataComponent: OrganizationCellComponent,
+            dataComponent: CellComponent,
           },
         },
       },
@@ -346,6 +342,7 @@ export const unitsTableConfig: TableConfig = {
           },
           orgUnit: {
             dataComponent: UnitCellComponent,
+            linkable: false,
           },
         },
       },

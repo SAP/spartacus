@@ -3,15 +3,13 @@ import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartService,
   ConsignmentEntry,
+  OrderEntry,
   PromotionLocation,
   SelectiveCartService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import {
-  CartItemComponentOptions,
-  Item,
-} from '../cart-item/cart-item.component';
+import { CartItemComponentOptions } from '../cart-item/cart-item.component';
 
 @Component({
   selector: 'cx-cart-item-list',
@@ -28,18 +26,18 @@ export class CartItemListComponent {
     optionalBtn: null,
   };
 
-  private _items: Item[] = [];
+  private _items: OrderEntry[] = [];
   form: FormGroup;
 
   @Input('items')
   // TODO: currently we're getting a new array of items if the cart changes.
   // pretty annoying as it forces a repaint on the screen,
   // which is noticable in the UI.
-  set items(items: Item[]) {
+  set items(items: OrderEntry[]) {
     this.resolveItems(items);
     this.createForm();
   }
-  get items(): Item[] {
+  get items(): OrderEntry[] {
     return this._items;
   }
 
@@ -64,7 +62,7 @@ export class CartItemListComponent {
    * The items we're getting form the input do not have a consistent model.
    * In case of a `consignmentEntry`, we need to normalize the data from the orderEntry.
    */
-  private resolveItems(items: Item[]): void {
+  private resolveItems(items: OrderEntry[]): void {
     if (!items) {
       this._items = [];
       return;
@@ -99,11 +97,11 @@ export class CartItemListComponent {
     });
   }
 
-  protected getControlName(item: Item): string {
+  protected getControlName(item: OrderEntry): string {
     return item.entryNumber.toString();
   }
 
-  removeEntry(item: Item): void {
+  removeEntry(item: OrderEntry): void {
     if (this.selectiveCartService && this.options.isSaveForLater) {
       this.selectiveCartService.removeEntry(item);
     } else {
@@ -112,7 +110,7 @@ export class CartItemListComponent {
     delete this.form.controls[this.getControlName(item)];
   }
 
-  getControl(item: Item): Observable<FormGroup> {
+  getControl(item: OrderEntry): Observable<FormGroup> {
     return this.form.get(this.getControlName(item)).valueChanges.pipe(
       // tslint:disable-next-line:deprecation
       startWith(null),

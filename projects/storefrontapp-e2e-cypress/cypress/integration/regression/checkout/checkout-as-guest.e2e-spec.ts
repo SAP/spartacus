@@ -13,6 +13,14 @@ context('Checkout as guest', () => {
     cy.cxConfig({ checkout: { guest: true } } as CheckoutConfig);
   });
 
+  beforeEach(() => {
+    cy.restoreLocalStorage();
+  });
+
+  afterEach(() => {
+    cy.saveLocalStorage();
+  });
+
   describe('Add product and proceed to checkout', () => {
     it('should add product to cart and go to login', () => {
       checkout.goToCheapProductDetailsPage();
@@ -109,6 +117,7 @@ context('Checkout as guest', () => {
       cy.cxConfig({ checkout: { guest: true } } as CheckoutConfig);
     });
     it('should keep guest cart content and restart checkout', () => {
+      cy.clearLocalStorage();
       checkout.goToCheapProductDetailsPage();
       checkout.addCheapProductToCartAndProceedToCheckout();
 

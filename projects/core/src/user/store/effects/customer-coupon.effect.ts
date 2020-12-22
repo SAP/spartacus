@@ -5,7 +5,7 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 import * as fromCustomerCouponsAction from '../actions/customer-coupon.action';
 import { CustomerCouponConnector } from '../../connectors/customer-coupon/customer-coupon.connector';
 import { CustomerCouponSearchResult } from '../../../model/customer-coupon.model';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 
 @Injectable()
 export class CustomerCouponEffects {
@@ -34,7 +34,7 @@ export class CustomerCouponEffects {
           catchError((error) =>
             of(
               new fromCustomerCouponsAction.LoadCustomerCouponsFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -63,7 +63,7 @@ export class CustomerCouponEffects {
           catchError((error) =>
             of(
               new fromCustomerCouponsAction.SubscribeCustomerCouponFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -92,7 +92,7 @@ export class CustomerCouponEffects {
           catchError((error) =>
             of(
               new fromCustomerCouponsAction.UnsubscribeCustomerCouponFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -120,7 +120,7 @@ export class CustomerCouponEffects {
           catchError((error) =>
             of(
               new fromCustomerCouponsAction.ClaimCustomerCouponFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )

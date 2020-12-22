@@ -1,0 +1,18 @@
+<a
+  *ngIf="linkable; else text"
+  [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
+  [tabindex]="tabIndex"
+>
+  <ng-container *ngTemplateOutlet="text"></ng-container>
+</a>
+
+<ng-template #text>
+  <ul class="text">
+    <li
+      *ngFor="let role of model.roles"
+      class="li"
+      [innerText]="'organization.userRoles.' + role | cxTranslate"
+    ></li>
+    <li *ngIf="model.roles?.length === 0">-</li>
+  </ul>
+</ng-template>

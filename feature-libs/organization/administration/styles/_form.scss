@@ -39,7 +39,7 @@
     @include media-breakpoint-down(sm) {
       flex: 100%;
     }
-    padding-right: 20px;
+    padding-inline-end: 20px;
 
     cx-form-errors {
       position: relative;

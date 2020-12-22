@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -73,6 +73,10 @@ describe('SearchBoxComponent', () => {
   let serviceSpy: SearchBoxComponentService;
   let cmsComponentData: CmsComponentData<CmsSearchBoxComponent>;
 
+  function getFocusedElement(): HTMLElement {
+    return <HTMLElement>document.activeElement;
+  }
+
   class SearchBoxComponentServiceSpy {
     launchSearchPage = jasmine.createSpy('launchSearchPage');
     getResults = jasmine.createSpy('search').and.callFake(() =>
@@ -91,36 +95,38 @@ describe('SearchBoxComponent', () => {
     toggleBodyClass() {}
   }
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        BrowserAnimationsModule,
-        RouterModule.forRoot([]),
-        I18nTestingModule,
-      ],
-      declarations: [
-        SearchBoxComponent,
-        MockUrlPipe,
-        MockHighlightPipe,
-        MockCxIconComponent,
-        MockMediaComponent,
-      ],
-      providers: [
-        {
-          provide: ProductSearchService,
-          useValue: {},
-        },
-        {
-          provide: CmsComponentData,
-          useClass: MockCmsComponentData,
-        },
-        {
-          provide: SearchBoxComponentService,
-          useClass: SearchBoxComponentServiceSpy,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          BrowserAnimationsModule,
+          RouterModule.forRoot([]),
+          I18nTestingModule,
+        ],
+        declarations: [
+          SearchBoxComponent,
+          MockUrlPipe,
+          MockHighlightPipe,
+          MockCxIconComponent,
+          MockMediaComponent,
+        ],
+        providers: [
+          {
+            provide: ProductSearchService,
+            useValue: {},
+          },
+          {
+            provide: CmsComponentData,
+            useClass: MockCmsComponentData,
+          },
+          {
+            provide: SearchBoxComponentService,
+            useClass: SearchBoxComponentServiceSpy,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   describe('Default config', () => {
     beforeEach(() => {
@@ -186,12 +192,15 @@ describe('SearchBoxComponent', () => {
         expect(fixture.debugElement.query(By.css('.results'))).toBeFalsy();
       });
 
-      it('should contain search results panel after search input', async(() => {
-        searchBoxComponent.queryText = 'test input';
-        fixture.detectChanges();
+      it(
+        'should contain search results panel after search input',
+        waitForAsync(() => {
+          searchBoxComponent.queryText = 'test input';
+          fixture.detectChanges();
 
-        expect(fixture.debugElement.query(By.css('.results'))).toBeTruthy();
-      }));
+          expect(fixture.debugElement.query(By.css('.results'))).toBeTruthy();
+        })
+      );
 
       it('should contain 2 suggestion after search', () => {
         searchBoxComponent.queryText = 'te';
@@ -211,6 +220,19 @@ describe('SearchBoxComponent', () => {
         expect((<HTMLElement>el.nativeElement).innerText).toEqual(
           'I found stuff for you!'
         );
+      });
+
+      it('should clear when clicking on clear button', () => {
+        searchBoxComponent.queryText = 'something';
+        fixture.detectChanges();
+
+        fixture.debugElement.query(By.css('.reset')).nativeElement.click();
+
+        const box = fixture.debugElement.query(
+          By.css('input[aria-label="search"]')
+        ).nativeElement;
+        expect(box.value).toBe('');
+        expect(box).toBe(getFocusedElement());
       });
     });
 
@@ -241,10 +263,6 @@ describe('SearchBoxComponent', () => {
     });
 
     describe('Arrow key tests', () => {
-      function getFocusedElement(): HTMLElement {
-        return <HTMLElement>document.activeElement;
-      }
-
       beforeEach(() => {
         searchBoxComponent.queryText = 'te';
         fixture.detectChanges();

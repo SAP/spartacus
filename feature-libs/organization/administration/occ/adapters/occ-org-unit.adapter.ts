@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import {
   Address,
   ADDRESS_LIST_NORMALIZER,
-  ADDRESS_SERIALIZER,
+  ADDRESS_NORMALIZER,
   B2BApprovalProcess,
   B2BUnit,
   B2BUser,
@@ -147,7 +147,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
   ): Observable<Address> {
     return this.http
       .post<Occ.Address>(this.getAddressesEndpoint(userId, orgUnitId), address)
-      .pipe(this.converter.pipeable(ADDRESS_SERIALIZER));
+      .pipe(this.converter.pipeable(ADDRESS_NORMALIZER));
   }
 
   updateAddress(
@@ -161,7 +161,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
         this.getAddressEndpoint(userId, orgUnitId, addressId),
         address
       )
-      .pipe(this.converter.pipeable(ADDRESS_SERIALIZER));
+      .pipe(this.converter.pipeable(ADDRESS_NORMALIZER));
   }
 
   deleteAddress(
@@ -173,7 +173,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
       .delete<Occ.Address>(
         this.getAddressEndpoint(userId, orgUnitId, addressId)
       )
-      .pipe(this.converter.pipeable(ADDRESS_SERIALIZER));
+      .pipe(this.converter.pipeable(ADDRESS_NORMALIZER));
   }
 
   protected getOrgUnitEndpoint(userId: string, orgUnitId: string): string {

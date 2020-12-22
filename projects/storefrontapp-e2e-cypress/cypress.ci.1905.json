@@ -13,6 +13,8 @@
     "CLIENT_SECRET": "secret",
     "API_URL": "https://spartacus-legacy.eastus.cloudapp.azure.com:9002",
     "OCC_PREFIX": "/rest/v2",
+    "OCC_PREFIX_USER_ENDPOINT": "users",
+    "OCC_PREFIX_ORDER_ENDPOINT": "orders",
     "BASE_SITE": "electronics-spa"
   }
 }

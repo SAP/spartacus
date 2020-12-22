@@ -6,17 +6,24 @@ import {
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
-import { OrganizationItemService } from '../../shared/organization-item.service';
+import { CurrentItemService } from '../../shared/current-item.service';
+import { ItemService } from '../../shared/item.service';
 import { CostCenterItemService } from '../services/cost-center-item.service';
+import { CurrentCostCenterService } from '../services/current-cost-center.service';
 
 @Component({
-  selector: 'cx-cost-center-form',
+  selector: 'cx-org-cost-center-form',
   templateUrl: './cost-center-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
-      provide: OrganizationItemService,
+      provide: ItemService,
       useExisting: CostCenterItemService,
+    },
+    {
+      provide: CurrentItemService,
+      useExisting: CurrentCostCenterService,
     },
   ],
 })
@@ -38,7 +45,7 @@ export class CostCenterFormComponent {
   currencies$: Observable<Currency[]> = this.currencyService.getAll();
 
   constructor(
-    protected itemService: OrganizationItemService<CostCenter>,
+    protected itemService: ItemService<CostCenter>,
     protected unitService: OrgUnitService,
     protected currencyService: CurrencyService
   ) {}

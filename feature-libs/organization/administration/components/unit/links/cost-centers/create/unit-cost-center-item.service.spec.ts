@@ -11,10 +11,14 @@ import { Observable, of } from 'rxjs';
 import { CostCenterFormService } from '../../../../cost-center/form/cost-center-form.service';
 import { CurrentCostCenterService } from '../../../../cost-center/services/current-cost-center.service';
 import { UnitCostCenterItemService } from './unit-cost-center-item.service';
+import createSpy = jasmine.createSpy;
 
+const mockCode = 'c1';
 class MockRoutingService {
   go() {}
 }
+
+const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
 
 class MockCostCenterService {
   load() {}
@@ -23,14 +27,18 @@ class MockCostCenterService {
   }
   update() {}
   getLoadingStatus(): Observable<OrganizationItemStatus<Budget>> {
-    return of({ status: LoadStatus.SUCCESS, item: {} });
+    return mockItemStatus;
   }
   create() {}
 }
 
-class MockCurrentCostCenterService {}
 class MockCostCenterFormService {}
 
+class MockCurrentCostCenterService {
+  key$ = of(mockCode);
+  load = createSpy('load').and.returnValue(of());
+  error$ = of(false);
+}
 describe('UnitCostCenterItemService', () => {
   let service: UnitCostCenterItemService;
   let costCenterService: CostCenterService;
@@ -68,8 +76,8 @@ describe('UnitCostCenterItemService', () => {
       })
     );
     form.get('unit').disable();
-    service.save(form);
 
+    expect(service.save(form)).toEqual(mockItemStatus);
     expect(costCenterService.create).toHaveBeenCalledWith({
       name: 'cc name',
       unit: { uid: 'unit-uid' },

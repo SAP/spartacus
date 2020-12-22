@@ -1,5 +1,6 @@
 <a
   *ngIf="hasItem"
+  class="hide-focus-border"
   [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
   [tabIndex]="tabIndex"
 >
@@ -11,5 +12,5 @@
   >
     <cx-icon [type]="expanded ? 'CARET_DOWN' : 'CARET_RIGHT'"></cx-icon>
   </button>
-  <span class="text">{{ combinedName }}</span>
+  <span class="text" title="{{ combinedName }}">{{ combinedName }}</span>
 </a>

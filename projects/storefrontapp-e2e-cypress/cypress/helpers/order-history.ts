@@ -15,9 +15,9 @@ export function doPlaceOrder(productData?: any) {
 
   return cy
     .window()
-    .then((win) => JSON.parse(win.localStorage.getItem('spartacus-local-data')))
-    .then(({ auth }) => {
-      stateAuth = auth;
+    .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
+    .then(({ token }) => {
+      stateAuth = token;
       return cy.requireProductAddedToCart(stateAuth, productData);
     })
     .then(({ cartId }) => {

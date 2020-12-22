@@ -21,6 +21,11 @@ context(`${formats.mobile.width + 1}p resolution - Big happy path`, () => {
 
   beforeEach(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
+    cy.restoreLocalStorage();
+  });
+
+  afterEach(() => {
+    cy.saveLocalStorage();
   });
 
   it('should register successfully', () => {
@@ -59,11 +64,6 @@ context(`${formats.mobile.width + 1}p resolution - Big happy path`, () => {
   });
 
   it('should be able to check order in order history', () => {
-    // hack: visit other page to trigger store -> local storage sync
-    cy.selectUserMenuOption({
-      option: 'Personal Details',
-      isMobile: true,
-    });
     cy.waitForOrderToBePlacedRequest();
     clickHamburger();
     checkout.viewOrderHistoryWithCheapProduct();

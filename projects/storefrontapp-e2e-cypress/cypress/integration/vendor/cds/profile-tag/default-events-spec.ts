@@ -48,6 +48,8 @@ describe('Profile-tag events', () => {
         expect(addedToCartEvent.data.categories).to.contain('brand_745');
         expect(addedToCartEvent.data.productCategory).to.eq('brand_745');
         expect(addedToCartEvent.data.productPrice).to.eq(8.2);
+        expect(addedToCartEvent.data.cartId.length).to.eq(36);
+        expect(addedToCartEvent.data.cartCode.length).to.eq(8);
       });
     });
 
@@ -79,6 +81,8 @@ describe('Profile-tag events', () => {
         expect(modifiedCart.data.categories).to.contain('577');
         expect(modifiedCart.data.categories).to.contain('brand_745');
         expect(modifiedCart.data.productCategory).to.eq('brand_745');
+        expect(modifiedCart.data.cartId.length).to.eq(36);
+        expect(modifiedCart.data.cartCode.length).to.eq(8);
       });
     });
 
@@ -111,6 +115,8 @@ describe('Profile-tag events', () => {
         expect(removedFromCart.data.categories).to.contain('577');
         expect(removedFromCart.data.categories).to.contain('brand_745');
         expect(removedFromCart.data.productCategory).to.eq('brand_745');
+        expect(removedFromCart.data.cartId.length).to.eq(36);
+        expect(removedFromCart.data.cartCode.length).to.eq(8);
       });
     });
   });
@@ -326,7 +332,7 @@ describe('Profile-tag events', () => {
 
 // For some reason these two events interfere with eachother. Only 1 needs to click the allow all banner
 // and the next will then have consent granted
-describe('Consent Changed and homepageviewed events', () => {
+describe('Consent Changed', () => {
   beforeEach(() => {
     cy.server();
     cdsHelper.setUpMocks(strategyRequestAlias);
@@ -337,19 +343,54 @@ describe('Consent Changed and homepageviewed events', () => {
     });
     profileTagHelper.waitForCMSComponents();
   });
-  it('should wait for a user to accept consent and then send a ConsentChanged event', () => {
-    anonymousConsents.clickAllowAllFromBanner();
+  it('should send a consentGranted = false before accepting consent, and a consentGranted=true after accepting', () => {
+    cy.wait(2000);
+    cy.window()
+      .then((win) => {
+        expect(
+          profileTagHelper.eventCount(
+            win,
+            profileTagHelper.EventNames.CONSENT_CHANGED
+          )
+        ).to.equal(1);
+        const consentRejected = profileTagHelper.getEvent(
+          win,
+          profileTagHelper.EventNames.CONSENT_CHANGED
+        )[0];
+        expect(consentRejected.data.granted).to.eq(false);
+      })
+      .then(() => {
+        anonymousConsents.clickAllowAllFromBanner();
+      });
     cy.window().then((win) => {
       expect(
         profileTagHelper.eventCount(
           win,
           profileTagHelper.EventNames.CONSENT_CHANGED
         )
-      ).to.equal(1);
+      ).to.equal(2);
+      const consentAccepted = profileTagHelper.getEvent(
+        win,
+        profileTagHelper.EventNames.CONSENT_CHANGED
+      )[1];
+      expect(consentAccepted.data.granted).to.eq(true);
     });
   });
 
+  it('should not send a consentgranted=false event on a page refresh', () => {
+    anonymousConsents.clickAllowAllFromBanner();
+    cy.reload();
+    cy.window().then((win) => {
+      const consentAccepted = profileTagHelper.getEvent(
+        win,
+        profileTagHelper.EventNames.CONSENT_CHANGED
+      );
+      expect(consentAccepted.length).to.equal(1);
+      expect(consentAccepted[0].data.granted).to.eq(true);
+    });
+  });
   it('should send a HomePageViewed event when viewing the homepage', () => {
+    anonymousConsents.clickAllowAllFromBanner();
     cy.reload();
     profileTagHelper.waitForCMSComponents().then(() => {
       cy.window().then((win) => {

@@ -4,7 +4,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { EntitiesModel } from '@spartacus/core';
 import {
   B2BUserService,
+  LoadStatus,
+  OrganizationItemStatus,
   Permission,
+  PermissionService,
 } from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -41,10 +44,18 @@ class MockTableService {
     return of({ type });
   }
 }
+const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
 
-describe('UserApproverListService', () => {
+class MockPermissionService {
+  getLoadingStatus(): Observable<OrganizationItemStatus<Permission>> {
+    return mockItemStatus;
+  }
+}
+
+describe('UserPermissionListService', () => {
   let service: UserPermissionListService;
   let userService: B2BUserService;
+  let permissionService: PermissionService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -56,6 +67,10 @@ describe('UserApproverListService', () => {
           useClass: MockB2BUserService,
         },
         {
+          provide: PermissionService,
+          useClass: MockPermissionService,
+        },
+        {
           provide: TableService,
           useClass: MockTableService,
         },
@@ -63,6 +78,7 @@ describe('UserApproverListService', () => {
     });
     service = TestBed.inject(UserPermissionListService);
     userService = TestBed.inject(B2BUserService);
+    permissionService = TestBed.inject(PermissionService);
   });
 
   it('should inject service', () => {
@@ -79,19 +95,33 @@ describe('UserApproverListService', () => {
   });
 
   it('should assign permission', () => {
-    spyOn(userService, 'assignPermission');
-    service.assign('customerId', 'permissionCode');
+    spyOn(userService, 'assignPermission').and.callThrough();
+    spyOn(permissionService, 'getLoadingStatus').and.callThrough();
+
+    expect(service.assign('customerId', 'permissionCode')).toEqual(
+      mockItemStatus
+    );
     expect(userService.assignPermission).toHaveBeenCalledWith(
       'customerId',
+      'permissionCode'
+    );
+    expect(permissionService.getLoadingStatus).toHaveBeenCalledWith(
       'permissionCode'
     );
   });
 
   it('should unassign permission', () => {
-    spyOn(userService, 'unassignPermission');
-    service.unassign('customerId', 'permissionCode');
+    spyOn(userService, 'unassignPermission').and.callThrough();
+    spyOn(permissionService, 'getLoadingStatus').and.callThrough();
+
+    expect(service.unassign('customerId', 'permissionCode')).toEqual(
+      mockItemStatus
+    );
     expect(userService.unassignPermission).toHaveBeenCalledWith(
       'customerId',
+      'permissionCode'
+    );
+    expect(permissionService.getLoadingStatus).toHaveBeenCalledWith(
       'permissionCode'
     );
   });

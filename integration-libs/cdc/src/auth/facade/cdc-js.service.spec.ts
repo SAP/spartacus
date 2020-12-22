@@ -1,15 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  AuthRedirectService,
+  AuthService,
   BaseSiteService,
   ExternalJsFileLoader,
-  GlobalMessageService,
-  GlobalMessageType,
   LanguageService,
-  OCC_USER_ID_CURRENT,
   User,
   UserService,
-  UserToken,
   WindowRef,
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
@@ -28,18 +24,12 @@ const sampleCdcConfig: CdcConfig = {
   ],
 };
 
-const mockToken = {
-  userId: 'user@sap.com',
-  refresh_token: 'foo',
-  access_token: 'testToken-access-token',
-} as UserToken;
-
-class BaseSiteServiceStub {
+class BaseSiteServiceStub implements Partial<BaseSiteService> {
   getActive(): Observable<string> {
     return of();
   }
 }
-class LanguageServiceStub {
+class LanguageServiceStub implements Partial<LanguageService> {
   getActive(): Observable<string> {
     return of();
   }
@@ -59,24 +49,18 @@ class ExternalJsFileLoaderMock {
   ): void {}
 }
 
-class MockCdcAuthService {
-  authorizeWithCustomCdcFlow(): void {}
+class MockCdcAuthService implements Partial<CdcAuthService> {
+  loginWithCustomCdcFlow(): void {}
+}
 
-  getUserToken(): Observable<UserToken> {
+class MockAuthService implements Partial<AuthService> {
+  isUserLoggedIn(): Observable<boolean> {
     return of();
   }
 }
 
-class MockUserService {
+class MockUserService implements Partial<UserService> {
   updatePersonalDetails(_userDetails: User): void {}
-}
-
-class MockAuthRedirectService {
-  redirect() {}
-}
-
-class MockGlobalMessageService {
-  remove(_type: GlobalMessageType, _index?: number) {}
 }
 
 class MockSubscription {
@@ -102,11 +86,10 @@ describe('CdcJsService', () => {
   let baseSiteService: BaseSiteService;
   let languageService: LanguageService;
   let externalJsFileLoader: ExternalJsFileLoader;
-  let auth: CdcAuthService;
-  let globalMessageService: GlobalMessageService;
-  let authRedirectService: AuthRedirectService;
+  let cdcAuth: CdcAuthService;
   let userService: UserService;
   let winRef: WindowRef;
+  let authService: AuthService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -116,12 +99,11 @@ describe('CdcJsService', () => {
         { provide: LanguageService, useClass: LanguageServiceStub },
         { provide: ExternalJsFileLoader, useClass: ExternalJsFileLoaderMock },
         { provide: CdcAuthService, useClass: MockCdcAuthService },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: AuthRedirectService, useClass: MockAuthRedirectService },
         { provide: ExternalJsFileLoader, useClass: ExternalJsFileLoaderMock },
         { provide: UserService, useClass: MockUserService },
         { provide: WindowRef, useValue: mockedWindowRef },
         { provide: Subscription, useValue: MockSubscription },
+        { provide: AuthService, useClass: MockAuthService },
       ],
     });
 
@@ -129,10 +111,9 @@ describe('CdcJsService', () => {
     baseSiteService = TestBed.inject(BaseSiteService);
     languageService = TestBed.inject(LanguageService);
     externalJsFileLoader = TestBed.inject(ExternalJsFileLoader);
-    auth = TestBed.inject(CdcAuthService);
-    globalMessageService = TestBed.inject(GlobalMessageService);
-    authRedirectService = TestBed.inject(AuthRedirectService);
+    cdcAuth = TestBed.inject(CdcAuthService);
     userService = TestBed.inject(UserService);
+    authService = TestBed.inject(AuthService);
     winRef = TestBed.inject(WindowRef);
   });
 
@@ -238,11 +219,8 @@ describe('CdcJsService', () => {
       });
       spyOn(baseSiteService, 'getActive').and.returnValue(of(site));
       spyOn(languageService, 'getActive').and.returnValue(of(language));
-      spyOn(authRedirectService, 'redirect');
-      spyOn(globalMessageService, 'remove');
 
-      const testToken = { ...mockToken, userId: OCC_USER_ID_CURRENT };
-      spyOn(auth, 'getUserToken').and.returnValue(of(testToken));
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
       spyOn(service as any, 'addCdcEventHandlers').and.stub();
 
       service.loadCdcJavascript();
@@ -250,10 +228,6 @@ describe('CdcJsService', () => {
       expect(service['addCdcEventHandlers']).toHaveBeenCalledWith(
         'electronics-spa'
       );
-      expect(globalMessageService.remove).toHaveBeenCalledWith(
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-      expect(authRedirectService.redirect).toHaveBeenCalled();
     });
   });
 
@@ -271,7 +245,7 @@ describe('CdcJsService', () => {
 
   describe('onLoginEventHandler', () => {
     it('should login user when on login event is triggered', () => {
-      spyOn(auth, 'authorizeWithCustomCdcFlow');
+      spyOn(cdcAuth, 'loginWithCustomCdcFlow');
 
       const response = {
         UID: 'UID',
@@ -282,7 +256,7 @@ describe('CdcJsService', () => {
 
       service.onLoginEventHandler('electronics-spa', response);
 
-      expect(auth.authorizeWithCustomCdcFlow).toHaveBeenCalledWith(
+      expect(cdcAuth.loginWithCustomCdcFlow).toHaveBeenCalledWith(
         response.UID,
         response.UIDSignature,
         response.signatureTimestamp,
@@ -292,11 +266,11 @@ describe('CdcJsService', () => {
     });
 
     it('should not login user when on login event have empty payload', () => {
-      spyOn(auth, 'authorizeWithCustomCdcFlow');
+      spyOn(cdcAuth, 'loginWithCustomCdcFlow');
 
       service.onLoginEventHandler('electronics-spa');
 
-      expect(auth.authorizeWithCustomCdcFlow).not.toHaveBeenCalled();
+      expect(cdcAuth.loginWithCustomCdcFlow).not.toHaveBeenCalled();
     });
   });
 

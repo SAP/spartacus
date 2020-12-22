@@ -8,10 +8,6 @@ import {
 import { Permission } from '../../model/permission.model';
 import { UserGroup } from '../../model/user-group.model';
 import {
-  denormalizeCustomB2BSearch,
-  denormalizeSearch,
-} from '../../utils/serializer';
-import {
   B2BUserManagement,
   B2B_USER_FEATURE,
   OrganizationState,
@@ -61,7 +57,7 @@ export const getUserList = (
   StateUtils.LoaderState<EntitiesModel<B2BUser>>
 > =>
   createSelector(getB2BUserManagementState, (state: B2BUserManagement) =>
-    denormalizeSearch<B2BUser>(state, params)
+    StateUtils.denormalizeSearch<B2BUser>(state, params)
   );
 
 export const getB2BUserApprovers = (
@@ -77,7 +73,13 @@ export const getB2BUserApprovers = (
     (
       state: B2BUserManagement,
       approvers: StateUtils.EntityLoaderState<B2BUser>
-    ) => denormalizeCustomB2BSearch(state.approvers, approvers, params, code)
+    ) =>
+      StateUtils.denormalizeCustomB2BSearch(
+        state.approvers,
+        approvers,
+        params,
+        code
+      )
   );
 
 export const getB2BUserPermissions = (
@@ -94,7 +96,12 @@ export const getB2BUserPermissions = (
       state: B2BUserManagement,
       permissions: StateUtils.EntityLoaderState<Permission>
     ) =>
-      denormalizeCustomB2BSearch(state.permissions, permissions, params, code)
+      StateUtils.denormalizeCustomB2BSearch(
+        state.permissions,
+        permissions,
+        params,
+        code
+      )
   );
 
 // avoid circular dependency
@@ -119,5 +126,11 @@ export const getB2BUserUserGroups = (
     (
       state: B2BUserManagement,
       userGroups: StateUtils.EntityLoaderState<UserGroup>
-    ) => denormalizeCustomB2BSearch(state.userGroups, userGroups, params, code)
+    ) =>
+      StateUtils.denormalizeCustomB2BSearch(
+        state.userGroups,
+        userGroups,
+        params,
+        code
+      )
   );

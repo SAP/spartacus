@@ -36,10 +36,10 @@
     "
   >
     <div class="cx-replenishment-form-data-container">
-      <span class="form-data-label">{{
-        'checkoutReview.every' | cxTranslate
-      }}</span>
       <div *ngIf="!isMonthly" class="cx-days">
+        <span class="form-data-label">{{
+          'checkoutReview.every' | cxTranslate
+        }}</span>
         <ng-container *ngIf="isWeekly; else isDaily">
           <select
             class="form-control"
@@ -72,6 +72,9 @@
         </ng-template>
       </div>
       <div class="cx-month">
+        <span *ngIf="isMonthly" class="form-data-label">{{
+          'checkoutReview.every' | cxTranslate
+        }}</span>
         <select
           class="form-control"
           (change)="changeRecurrencePeriodType($event.target.value)"
@@ -88,25 +91,24 @@
           </option>
         </select>
       </div>
-    </div>
-
-    <div *ngIf="isMonthly" class="cx-replenishment-form-data-container">
-      <span class="form-data-label">{{
-        'checkoutReview.dayOfMonth' | cxTranslate
-      }}</span>
-      <div class="cx-day-of-month">
-        <select
-          class="form-control"
-          (change)="changeDayOfTheMonth($event.target.value)"
-        >
-          <option
-            *ngFor="let nDays of numberOfDays"
-            [value]="nDays"
-            [selected]="nDays === scheduleReplenishmentFormData.nthDayOfMonth"
+      <div *ngIf="isMonthly" class="cx-dayMonth">
+        <span class="form-data-label">{{
+          'checkoutReview.dayOfMonth' | cxTranslate
+        }}</span>
+        <div class="cx-day-of-month">
+          <select
+            class="form-control"
+            (change)="changeDayOfTheMonth($event.target.value)"
           >
-            {{ nDays }}
-          </option>
-        </select>
+            <option
+              *ngFor="let nDays of numberOfDays"
+              [value]="nDays"
+              [selected]="nDays === scheduleReplenishmentFormData.nthDayOfMonth"
+            >
+              {{ nDays }}
+            </option>
+          </select>
+        </div>
       </div>
     </div>
 
@@ -118,7 +120,7 @@
         <input
           type="date"
           placeholder="yyyy-mm-dd"
-          [value]="currentISODate(currentDate)"
+          [value]="currentDate"
           (change)="changeReplenishmentStartDate($event.target.value)"
         />
       </div>

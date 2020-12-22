@@ -58,8 +58,8 @@ export class LanguageService implements SiteContext<Language> {
   /**
    * Sets the active language.
    */
-  setActive(isocode: string) {
-    return this.store
+  setActive(isocode: string): void {
+    this.store
       .pipe(select(SiteContextSelectors.getActiveLanguage), take(1))
       .subscribe((activeLanguage) => {
         if (activeLanguage !== isocode) {
@@ -75,7 +75,7 @@ export class LanguageService implements SiteContext<Language> {
    * by the last visit (stored in session storage) or by the
    * default session language of the store.
    */
-  initialize() {
+  initialize(): void {
     let value;
     this.getActive()
       .subscribe((val) => (value = val))

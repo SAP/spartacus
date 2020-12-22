@@ -4,7 +4,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { B2BUser, EntitiesModel } from '@spartacus/core';
 import {
   B2BUserService,
-  UserGroup,
+  LoadStatus,
+  OrganizationItemStatus,
+  Permission,
+  PermissionService,
 } from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -27,9 +30,14 @@ const mockUserApproverEntities: EntitiesModel<B2BUser> = {
   ],
 };
 
+const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
+
 class MockB2BUserService implements Partial<B2BUserService> {
   getApprovers(): Observable<EntitiesModel<B2BUser>> {
     return of(mockUserApproverEntities);
+  }
+  getLoadingStatus(): Observable<OrganizationItemStatus<B2BUser>> {
+    return mockItemStatus;
   }
   assignApprover() {}
   unassignApprover() {}
@@ -39,6 +47,12 @@ class MockB2BUserService implements Partial<B2BUserService> {
 class MockTableService {
   buildStructure(type): Observable<TableStructure> {
     return of({ type });
+  }
+}
+
+class MockPermissionService {
+  getLoadingStatus(): Observable<OrganizationItemStatus<Permission>> {
+    return of({ status: LoadStatus.SUCCESS, item: {} });
   }
 }
 
@@ -56,6 +70,10 @@ describe('UserApproverListService', () => {
           useClass: MockB2BUserService,
         },
         {
+          provide: PermissionService,
+          useClass: MockPermissionService,
+        },
+        {
           provide: TableService,
           useClass: MockTableService,
         },
@@ -70,7 +88,7 @@ describe('UserApproverListService', () => {
   });
 
   it('should not filter selected approvers', () => {
-    let result: EntitiesModel<UserGroup>;
+    let result: EntitiesModel<B2BUser>;
     service.getData().subscribe((table) => (result = table));
     expect(result.values.length).toEqual(3);
     expect(result.values[0].uid).toEqual('first');
@@ -79,20 +97,28 @@ describe('UserApproverListService', () => {
   });
 
   it('should assign approver', () => {
-    spyOn(userService, 'assignApprover');
-    service.assign('customerId', 'userGroupUid');
+    spyOn(userService, 'assignApprover').and.callThrough();
+    spyOn(userService, 'getLoadingStatus').and.callThrough();
+
+    expect(service.assign('customerId', 'approverId')).toEqual(mockItemStatus);
     expect(userService.assignApprover).toHaveBeenCalledWith(
       'customerId',
-      'userGroupUid'
+      'approverId'
     );
+    expect(userService.getLoadingStatus).toHaveBeenCalledWith('approverId');
   });
 
   it('should unassign approver', () => {
-    spyOn(userService, 'unassignApprover');
-    service.unassign('customerId', 'userGroupUid');
+    spyOn(userService, 'unassignApprover').and.callThrough();
+    spyOn(userService, 'getLoadingStatus').and.callThrough();
+
+    expect(service.unassign('customerId', 'approverId')).toEqual(
+      mockItemStatus
+    );
     expect(userService.unassignApprover).toHaveBeenCalledWith(
       'customerId',
-      'userGroupUid'
+      'approverId'
     );
+    expect(userService.getLoadingStatus).toHaveBeenCalledWith('approverId');
   });
 });

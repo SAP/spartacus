@@ -6,9 +6,9 @@ import {
   Occ,
   OccEndpointsService,
   SearchConfig,
+  OrderApprovalPermissionType,
 } from '@spartacus/core';
 import {
-  OrderApprovalPermissionType,
   Permission,
   PermissionAdapter,
   PERMISSIONS_NORMALIZER,

@@ -4,7 +4,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { EntitiesModel } from '@spartacus/core';
 import {
   B2BUserService,
+  LoadStatus,
   UserGroup,
+  UserGroupService,
 } from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -35,6 +37,15 @@ class MockB2BUserService {
   unassignUserGroup() {}
 }
 
+const mockItemStatus = of({ status: LoadStatus.SUCCESS, item: {} });
+
+@Injectable()
+class MockUserGroupService implements Partial<UserGroupService> {
+  getLoadingStatus(_id) {
+    return mockItemStatus;
+  }
+}
+
 @Injectable()
 class MockTableService {
   buildStructure(type): Observable<TableStructure> {
@@ -45,6 +56,7 @@ class MockTableService {
 describe('UserUserGroupListService', () => {
   let service: UserUserGroupListService;
   let userService: B2BUserService;
+  let userGroupService: UserGroupService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -56,6 +68,10 @@ describe('UserUserGroupListService', () => {
           useClass: MockB2BUserService,
         },
         {
+          provide: UserGroupService,
+          useClass: MockUserGroupService,
+        },
+        {
           provide: TableService,
           useClass: MockTableService,
         },
@@ -63,6 +79,7 @@ describe('UserUserGroupListService', () => {
     });
     service = TestBed.inject(UserUserGroupListService);
     userService = TestBed.inject(B2BUserService);
+    userGroupService = TestBed.inject(UserGroupService);
   });
 
   it('should inject service', () => {
@@ -80,18 +97,32 @@ describe('UserUserGroupListService', () => {
 
   it('should assign permission', () => {
     spyOn(userService, 'assignUserGroup');
-    service.assign('customerId', 'userGroupUid');
+    spyOn(userGroupService, 'getLoadingStatus').and.callThrough();
+
+    expect(service.assign('customerId', 'userGroupUid')).toEqual(
+      mockItemStatus
+    );
     expect(userService.assignUserGroup).toHaveBeenCalledWith(
       'customerId',
+      'userGroupUid'
+    );
+    expect(userGroupService.getLoadingStatus).toHaveBeenCalledWith(
       'userGroupUid'
     );
   });
 
   it('should unassign permission', () => {
-    spyOn(userService, 'unassignUserGroup');
-    service.unassign('customerId', 'userGroupUid');
+    spyOn(userService, 'unassignUserGroup').and.callThrough();
+    spyOn(userGroupService, 'getLoadingStatus').and.callThrough();
+
+    expect(service.unassign('customerId', 'userGroupUid')).toEqual(
+      mockItemStatus
+    );
     expect(userService.unassignUserGroup).toHaveBeenCalledWith(
       'customerId',
+      'userGroupUid'
+    );
+    expect(userGroupService.getLoadingStatus).toHaveBeenCalledWith(
       'userGroupUid'
     );
   });

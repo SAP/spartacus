@@ -72,13 +72,11 @@ textarea {
   }
 }
 
-ng-select {
-  &.ng-invalid {
-    &.ng-dirty,
-    &.ng-touched {
-      .ng-select-container {
-        border-color: var(--cx-color-danger);
-      }
+ng-select.ng-invalid {
+  &.ng-dirty,
+  &.ng-touched {
+    .ng-select-container {
+      border-color: var(--cx-color-danger);
     }
   }
 }

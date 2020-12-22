@@ -30,13 +30,19 @@ export function login(
 }
 
 export function setSessionData(data) {
-  const authData = {
-    userToken: {
-      token: { ...data, userId: USERID_CURRENT },
-    },
-  };
+  const token = {};
+  token['access_token_stored_at'] = '' + Date.now();
+  if (data.expires_in) {
+    const expiresInMilliseconds = data.expires_in * 1000;
+    const now = new Date();
+    const expiresAt = now.getTime() + expiresInMilliseconds;
+    token['expires_at'] = '' + expiresAt;
+  }
+
+  const authData = { token: data, userId: USERID_CURRENT };
+
   cy.window().then((win) => {
-    const storageKey = 'spartacus-local-data';
+    const storageKey = 'spartacus⚿⚿auth';
     let state;
     try {
       state = JSON.parse(win.localStorage.getItem(storageKey));
@@ -46,7 +52,7 @@ export function setSessionData(data) {
     } catch (e) {
       state = {};
     }
-    state.auth = authData;
+    state = { ...state, ...authData };
     win.localStorage.setItem(storageKey, JSON.stringify(state));
     cy.log('storing session state key: ', storageKey);
     cy.log('storing session state value:', JSON.stringify(state));

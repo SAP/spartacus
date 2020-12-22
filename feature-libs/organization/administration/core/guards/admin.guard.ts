@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import {
-  B2BUserGroup,
+  B2BUserRole,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
+  User,
   UserService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, pluck } from 'rxjs/operators';
+import { filter, map, pluck } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -22,10 +23,11 @@ export class AdminGuard implements CanActivate {
 
   canActivate(): Observable<boolean> {
     return this.userService.get().pipe(
+      filter((user: User) => Object.keys(user).length > 0),
       pluck('roles'),
       map((roles: string[]) => {
         const hasRole =
-          Array.isArray(roles) && roles.includes(B2BUserGroup.B2B_ADMIN_GROUP);
+          Array.isArray(roles) && roles.includes(B2BUserRole.ADMIN);
 
         if (!hasRole) {
           // routing as temporary solution until /organization won't

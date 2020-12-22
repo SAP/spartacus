@@ -8,10 +8,9 @@ import {
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
+import { ListService } from '../../shared/list/list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 import { UnitItemService } from './unit-item.service';
-import { TREE_TOGGLE } from './unit-tree.model';
 import { UnitTreeService } from './unit-tree.service';
 
 /**
@@ -21,7 +20,7 @@ import { UnitTreeService } from './unit-tree.service';
 @Injectable({
   providedIn: 'root',
 })
-export class UnitListService extends OrganizationListService<B2BUnitTreeNode> {
+export class UnitListService extends ListService<B2BUnitTreeNode> {
   protected tableType = OrganizationTableType.UNIT;
 
   constructor(
@@ -53,26 +52,17 @@ export class UnitListService extends OrganizationListService<B2BUnitTreeNode> {
   protected convertListItem(
     unit: B2BUnitNode,
     depthLevel = 0,
-    pagination = { totalResults: 0 },
-    parentToggleState?: TREE_TOGGLE
+    pagination = { totalResults: 0 }
   ): EntitiesModel<B2BUnitTreeNode> {
     let values = [];
     if (!unit) {
       return;
     }
 
-    if (!parentToggleState) {
-      parentToggleState = this.unitTreeService.getToggleState(unit.id);
-    }
-
     const node: B2BUnitTreeNode = {
       ...unit,
       count: unit.children?.length ?? 0,
-      expanded: this.unitTreeService.isExpanded(
-        unit.id,
-        depthLevel,
-        parentToggleState
-      ),
+      expanded: this.unitTreeService.isExpanded(unit.id, depthLevel),
       depthLevel,
       // tmp, should be normalized
       uid: unit.id,
@@ -85,8 +75,7 @@ export class UnitListService extends OrganizationListService<B2BUnitTreeNode> {
       const childList = this.convertListItem(
         childUnit,
         depthLevel + 1,
-        pagination,
-        parentToggleState
+        pagination
       )?.values;
       if (node.expanded && childList.length > 0) {
         values = values.concat(childList);

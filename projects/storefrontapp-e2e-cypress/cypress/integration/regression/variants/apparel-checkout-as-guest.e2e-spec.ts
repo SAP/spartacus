@@ -150,6 +150,7 @@ context('Apparel - checkout as guest', () => {
 
   describe('Guest cart merge', () => {
     it('should keep guest cart content and restart checkout', () => {
+      cy.clearLocalStorage();
       checkout.goToCheapProductDetailsPage(products[0]);
       checkout.addCheapProductToCartAndProceedToCheckout(variantProduct);
 

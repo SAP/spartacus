@@ -131,6 +131,7 @@ export class AddedToCartPushEvent implements ProfileTagPushEvent {
     productSku: string;
     productName: string;
     cartId: string;
+    cartCode: string;
     categories: Array<string>;
     productCategoryName: string;
     productCategory: string;
@@ -148,6 +149,7 @@ export class RemovedFromCartPushEvent implements ProfileTagPushEvent {
     productName: string;
     productCategory: string;
     cartId: string;
+    cartCode: string;
     productCategoryName: string;
     categories: Array<string>;
   }) {
@@ -163,6 +165,7 @@ export class ModifiedCartPushEvent implements ProfileTagPushEvent {
     productSku: string;
     productName: string;
     cartId: string;
+    cartCode: string;
     categories: Array<string>;
     productCategoryName: string;
     productCategory: string;

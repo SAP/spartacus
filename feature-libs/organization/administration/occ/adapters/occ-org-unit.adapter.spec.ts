@@ -6,7 +6,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   Address,
   ADDRESS_LIST_NORMALIZER,
-  ADDRESS_SERIALIZER,
+  ADDRESS_NORMALIZER,
   ConverterService,
   OccEndpointsService,
   SearchConfig,
@@ -261,7 +261,7 @@ describe('OccOrgUnitAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        ADDRESS_SERIALIZER
+        ADDRESS_NORMALIZER
       );
     });
   });
@@ -276,7 +276,7 @@ describe('OccOrgUnitAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        ADDRESS_SERIALIZER
+        ADDRESS_NORMALIZER
       );
     });
   });
@@ -291,7 +291,7 @@ describe('OccOrgUnitAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        ADDRESS_SERIALIZER
+        ADDRESS_NORMALIZER
       );
     });
   });

@@ -142,6 +142,10 @@ describe('B2BUser Actions', () => {
         expect({ ...action }).toEqual({
           type: B2BUserActions.CREATE_B2B_USER,
           payload: { userId, orgCustomer },
+          meta: StateUtils.entityLoadMeta(
+            B2B_USER_ENTITIES,
+            orgCustomer.customerId
+          ),
         });
       });
     });
@@ -222,16 +226,11 @@ describe('B2BUser Actions', () => {
 
     describe('UpdateB2BUserSuccess', () => {
       it('should create the action', () => {
-        const payload = {
-          orgCustomer: orgCustomer,
-          orgCustomerId: orgCustomerId,
-          userId: userId,
-        };
-        const action = new B2BUserActions.UpdateB2BUserSuccess(payload);
+        const action = new B2BUserActions.UpdateB2BUserSuccess(orgCustomer);
 
         expect({ ...action }).toEqual({
           type: B2BUserActions.UPDATE_B2B_USER_SUCCESS,
-          payload,
+          payload: orgCustomer,
           meta: StateUtils.entitySuccessMeta(B2B_USER_ENTITIES, orgCustomerId),
         });
       });
@@ -307,14 +306,14 @@ describe('B2BUser Actions', () => {
 
     describe('CreateB2BUserApprover', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.CreateB2BUserApprover({
+        const action = new B2BUserActions.AssignB2BUserApprover({
           userId,
           orgCustomerId,
           approverId,
         });
 
         expect({ ...action }).toEqual({
-          type: B2BUserActions.CREATE_B2B_USER_APPROVER,
+          type: B2BUserActions.ASSIGN_B2B_USER_APPROVER,
           payload: { userId, orgCustomerId, approverId },
           meta: StateUtils.entityLoadMeta(B2B_USER_ENTITIES, approverId),
         });
@@ -323,14 +322,14 @@ describe('B2BUser Actions', () => {
 
     describe('CreateB2BUserApproverFail', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.CreateB2BUserApproverFail({
+        const action = new B2BUserActions.AssignB2BUserApproverFail({
           orgCustomerId,
           approverId,
           error,
         });
 
         expect({ ...action }).toEqual({
-          type: B2BUserActions.CREATE_B2B_USER_APPROVER_FAIL,
+          type: B2BUserActions.ASSIGN_B2B_USER_APPROVER_FAIL,
           payload: {
             orgCustomerId,
             approverId,
@@ -343,13 +342,13 @@ describe('B2BUser Actions', () => {
 
     describe('CreateB2BUserApproverSuccess', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.CreateB2BUserApproverSuccess({
+        const action = new B2BUserActions.AssignB2BUserApproverSuccess({
           approverId,
           selected,
         });
 
         expect({ ...action }).toEqual({
-          type: B2BUserActions.CREATE_B2B_USER_APPROVER_SUCCESS,
+          type: B2BUserActions.ASSIGN_B2B_USER_APPROVER_SUCCESS,
           payload: { approverId, selected },
           meta: StateUtils.entitySuccessMeta(B2B_USER_ENTITIES, approverId),
         });
@@ -358,14 +357,14 @@ describe('B2BUser Actions', () => {
 
     describe('DeleteB2BUserApprover', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.DeleteB2BUserApprover({
+        const action = new B2BUserActions.UnassignB2BUserApprover({
           userId,
           orgCustomerId,
           approverId,
         });
 
         expect({ ...action }).toEqual({
-          type: B2BUserActions.DELETE_B2B_USER_APPROVER,
+          type: B2BUserActions.UNASSIGN_B2B_USER_APPROVER,
           payload: { userId, orgCustomerId, approverId },
           meta: StateUtils.entityLoadMeta(B2B_USER_ENTITIES, approverId),
         });
@@ -374,14 +373,14 @@ describe('B2BUser Actions', () => {
 
     describe('DeleteB2BUserApproverFail', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.DeleteB2BUserApproverFail({
+        const action = new B2BUserActions.UnassignB2BUserApproverFail({
           orgCustomerId,
           approverId,
           error,
         });
 
         expect({ ...action }).toEqual({
-          type: B2BUserActions.DELETE_B2B_USER_APPROVER_FAIL,
+          type: B2BUserActions.UNASSIGN_B2B_USER_APPROVER_FAIL,
           payload: {
             orgCustomerId,
             approverId,
@@ -394,13 +393,13 @@ describe('B2BUser Actions', () => {
 
     describe('DeleteB2BUserApproverSuccess', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.DeleteB2BUserApproverSuccess({
+        const action = new B2BUserActions.UnassignB2BUserApproverSuccess({
           approverId,
           selected,
         });
 
         expect({ ...action }).toEqual({
-          type: B2BUserActions.DELETE_B2B_USER_APPROVER_SUCCESS,
+          type: B2BUserActions.UNASSIGN_B2B_USER_APPROVER_SUCCESS,
           payload: { approverId, selected },
           meta: StateUtils.entitySuccessMeta(B2B_USER_ENTITIES, approverId),
         });
@@ -477,14 +476,14 @@ describe('B2BUser Actions', () => {
 
     describe('CreateB2BUserPermission', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.CreateB2BUserPermission({
+        const action = new B2BUserActions.AssignB2BUserPermission({
           userId,
           orgCustomerId,
           permissionId,
         });
 
         expect({ ...action }).toEqual({
-          type: B2BUserActions.CREATE_B2B_USER_PERMISSION,
+          type: B2BUserActions.ASSIGN_B2B_USER_PERMISSION,
           payload: { userId, orgCustomerId, permissionId },
           meta: StateUtils.entityLoadMeta(PERMISSION_ENTITIES, permissionId),
         });
@@ -493,14 +492,14 @@ describe('B2BUser Actions', () => {
 
     describe('CreateB2BUserPermissionFail', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.CreateB2BUserPermissionFail({
+        const action = new B2BUserActions.AssignB2BUserPermissionFail({
           orgCustomerId,
           permissionId,
           error,
         });
 
         expect({ ...action }).toEqual({
-          type: B2BUserActions.CREATE_B2B_USER_PERMISSION_FAIL,
+          type: B2BUserActions.ASSIGN_B2B_USER_PERMISSION_FAIL,
           payload: {
             orgCustomerId,
             permissionId,
@@ -517,13 +516,13 @@ describe('B2BUser Actions', () => {
 
     describe('CreateB2BUserPermissionSuccess', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.CreateB2BUserPermissionSuccess({
+        const action = new B2BUserActions.AssignB2BUserPermissionSuccess({
           permissionId,
           selected,
         });
 
         expect({ ...action }).toEqual({
-          type: B2BUserActions.CREATE_B2B_USER_PERMISSION_SUCCESS,
+          type: B2BUserActions.ASSIGN_B2B_USER_PERMISSION_SUCCESS,
           payload: { permissionId, selected },
           meta: StateUtils.entitySuccessMeta(PERMISSION_ENTITIES, permissionId),
         });
@@ -532,14 +531,14 @@ describe('B2BUser Actions', () => {
 
     describe('DeleteB2BUserPermission', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.DeleteB2BUserPermission({
+        const action = new B2BUserActions.UnassignB2BUserPermission({
           userId,
           orgCustomerId,
           permissionId,
         });
 
         expect({ ...action }).toEqual({
-          type: B2BUserActions.DELETE_B2B_USER_PERMISSION,
+          type: B2BUserActions.UNASSIGN_B2B_USER_PERMISSION,
           payload: { userId, orgCustomerId, permissionId },
           meta: StateUtils.entityLoadMeta(PERMISSION_ENTITIES, permissionId),
         });
@@ -548,14 +547,14 @@ describe('B2BUser Actions', () => {
 
     describe('DeleteB2BUserPermissionFail', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.DeleteB2BUserPermissionFail({
+        const action = new B2BUserActions.UnassignB2BUserPermissionFail({
           orgCustomerId,
           permissionId,
           error,
         });
 
         expect({ ...action }).toEqual({
-          type: B2BUserActions.DELETE_B2B_USER_PERMISSION_FAIL,
+          type: B2BUserActions.UNASSIGN_B2B_USER_PERMISSION_FAIL,
           payload: {
             orgCustomerId,
             permissionId,
@@ -572,13 +571,13 @@ describe('B2BUser Actions', () => {
 
     describe('DeleteB2BUserPermissionSuccess', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.DeleteB2BUserPermissionSuccess({
+        const action = new B2BUserActions.UnassignB2BUserPermissionSuccess({
           permissionId,
           selected,
         });
 
         expect({ ...action }).toEqual({
-          type: B2BUserActions.DELETE_B2B_USER_PERMISSION_SUCCESS,
+          type: B2BUserActions.UNASSIGN_B2B_USER_PERMISSION_SUCCESS,
           payload: { permissionId, selected },
           meta: StateUtils.entitySuccessMeta(PERMISSION_ENTITIES, permissionId),
         });
@@ -655,14 +654,14 @@ describe('B2BUser Actions', () => {
 
     describe('CreateB2BUserUserGroup', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.CreateB2BUserUserGroup({
+        const action = new B2BUserActions.AssignB2BUserUserGroup({
           userId,
           orgCustomerId,
           userGroupId,
         });
 
         expect({ ...action }).toEqual({
-          type: B2BUserActions.CREATE_B2B_USER_USER_GROUP,
+          type: B2BUserActions.ASSIGN_B2B_USER_USER_GROUP,
           payload: { userId, orgCustomerId, userGroupId },
           meta: StateUtils.entityLoadMeta(USER_GROUP_ENTITIES, userGroupId),
         });
@@ -671,14 +670,14 @@ describe('B2BUser Actions', () => {
 
     describe('CreateB2BUserUserGroupFail', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.CreateB2BUserUserGroupFail({
+        const action = new B2BUserActions.AssignB2BUserUserGroupFail({
           orgCustomerId,
           userGroupId,
           error,
         });
 
         expect({ ...action }).toEqual({
-          type: B2BUserActions.CREATE_B2B_USER_USER_GROUP_FAIL,
+          type: B2BUserActions.ASSIGN_B2B_USER_USER_GROUP_FAIL,
           payload: {
             orgCustomerId,
             userGroupId,
@@ -695,13 +694,13 @@ describe('B2BUser Actions', () => {
 
     describe('CreateB2BUserUserGroupSuccess', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.CreateB2BUserUserGroupSuccess({
+        const action = new B2BUserActions.AssignB2BUserUserGroupSuccess({
           uid: userGroupId,
           selected,
         });
 
         expect({ ...action }).toEqual({
-          type: B2BUserActions.CREATE_B2B_USER_USER_GROUP_SUCCESS,
+          type: B2BUserActions.ASSIGN_B2B_USER_USER_GROUP_SUCCESS,
           payload: { uid: userGroupId, selected },
           meta: StateUtils.entitySuccessMeta(USER_GROUP_ENTITIES, userGroupId),
         });
@@ -710,14 +709,14 @@ describe('B2BUser Actions', () => {
 
     describe('DeleteB2BUserUserGroup', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.DeleteB2BUserUserGroup({
+        const action = new B2BUserActions.UnassignB2BUserUserGroup({
           userId,
           orgCustomerId,
           userGroupId,
         });
 
         expect({ ...action }).toEqual({
-          type: B2BUserActions.DELETE_B2B_USER_USER_GROUP,
+          type: B2BUserActions.UNASSIGN_B2B_USER_USER_GROUP,
           payload: { userId, orgCustomerId, userGroupId },
           meta: StateUtils.entityLoadMeta(USER_GROUP_ENTITIES, userGroupId),
         });
@@ -726,14 +725,14 @@ describe('B2BUser Actions', () => {
 
     describe('DeleteB2BUserUserGroupFail', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.DeleteB2BUserUserGroupFail({
+        const action = new B2BUserActions.UnassignB2BUserUserGroupFail({
           orgCustomerId,
           userGroupId,
           error,
         });
 
         expect({ ...action }).toEqual({
-          type: B2BUserActions.DELETE_B2B_USER_USER_GROUP_FAIL,
+          type: B2BUserActions.UNASSIGN_B2B_USER_USER_GROUP_FAIL,
           payload: {
             orgCustomerId,
             userGroupId,
@@ -750,13 +749,13 @@ describe('B2BUser Actions', () => {
 
     describe('DeleteB2BUserUserGroupSuccess', () => {
       it('should create the action', () => {
-        const action = new B2BUserActions.DeleteB2BUserUserGroupSuccess({
+        const action = new B2BUserActions.UnassignB2BUserUserGroupSuccess({
           uid: userGroupId,
           selected,
         });
 
         expect({ ...action }).toEqual({
-          type: B2BUserActions.DELETE_B2B_USER_USER_GROUP_SUCCESS,
+          type: B2BUserActions.UNASSIGN_B2B_USER_USER_GROUP_SUCCESS,
           payload: { uid: userGroupId, selected },
           meta: StateUtils.entitySuccessMeta(USER_GROUP_ENTITIES, userGroupId),
         });

@@ -1,5 +1,5 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -53,9 +53,11 @@ describe('LoginRegisterComponent', () => {
     fixture.detectChanges();
   }
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule(testBedDefaults).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule(testBedDefaults).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     createComponent();

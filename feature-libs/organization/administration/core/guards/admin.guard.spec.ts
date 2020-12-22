@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  B2BUserGroup,
+  B2BUserRole,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
@@ -59,10 +59,7 @@ describe('AdminGuard', () => {
 
   it('should return true when admin role found', () => {
     let result: boolean;
-    mockUserDetails.roles = [
-      B2BUserGroup.B2B_APPROVER_GROUP,
-      B2BUserGroup.B2B_ADMIN_GROUP,
-    ];
+    mockUserDetails.roles = [B2BUserRole.APPROVER, B2BUserRole.ADMIN];
 
     guard
       .canActivate()
@@ -74,7 +71,7 @@ describe('AdminGuard', () => {
 
   it('should return false when admin role not found', () => {
     let result: boolean;
-    mockUserDetails.roles = [B2BUserGroup.B2B_APPROVER_GROUP];
+    mockUserDetails.roles = [B2BUserRole.APPROVER];
 
     guard
       .canActivate()

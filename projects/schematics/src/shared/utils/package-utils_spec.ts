@@ -10,6 +10,7 @@ import {
   getSpartacusCurrentFeatureLevel,
   getSpartacusSchematicsVersion,
   isAngularLocalizeInstalled,
+  readPackageJson,
 } from './package-utils';
 
 const collectionPath = path.join(__dirname, '../../collection.json');
@@ -53,6 +54,17 @@ describe('Package utils', () => {
     appTree = await schematicRunner
       .runSchematicAsync('add-spartacus', defaultOptions, appTree)
       .toPromise();
+  });
+
+  describe('readPackageJson', () => {
+    it('should return parsed package.json content', async () => {
+      const buffer = appTree.read('package.json');
+
+      if (buffer) {
+        const packageJsonObject = JSON.parse(buffer.toString(UTF_8));
+        expect(packageJsonObject).toEqual(readPackageJson(appTree));
+      }
+    });
   });
 
   describe('getAngularVersion', () => {

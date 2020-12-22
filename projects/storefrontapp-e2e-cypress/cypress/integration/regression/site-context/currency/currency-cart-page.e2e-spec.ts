@@ -13,10 +13,13 @@ context('Currency switch - cart page', () => {
     cy.requireLoggedIn();
 
     cy.window().then((win) => {
+      // clear currency and language data from session storage
+      win.sessionStorage.clear();
+
       const savedState = JSON.parse(
-        win.localStorage.getItem('spartacus-local-data')
+        win.localStorage.getItem('spartacus⚿⚿auth')
       );
-      const accessToken = savedState.auth.userToken.token.access_token;
+      const accessToken = savedState.token.access_token;
       cy.addToCart('300938', '3', accessToken).then((cartCode) => {
         cartId = cartCode;
       });

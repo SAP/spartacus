@@ -11,7 +11,11 @@ import {
 } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/keyboard-focus.module';
-import { ItemCounterModule, SpinnerModule } from '../../../shared/index';
+import {
+  ItemCounterModule,
+  ModalModule,
+  SpinnerModule,
+} from '../../../shared/index';
 import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
 import { CartSharedModule } from './../cart-shared/cart-shared.module';
 import { AddToCartComponent } from './add-to-cart.component';
@@ -31,6 +35,7 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart
     I18nModule,
     ItemCounterModule,
     KeyboardFocusModule,
+    ModalModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

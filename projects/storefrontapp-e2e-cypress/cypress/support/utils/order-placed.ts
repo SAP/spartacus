@@ -18,9 +18,10 @@ export function waitForOrderToBePlacedRequest(
   contentCatalog: string = Cypress.env('BASE_SITE'),
   currency: string = 'USD'
 ) {
-  const { userId, access_token } = JSON.parse(
-    localStorage.getItem('spartacus-local-data')
-  ).auth.userToken.token;
+  const {
+    userId,
+    token: { access_token },
+  } = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
   cy.request({
     method: 'GET',
     url: `${Cypress.env('API_URL')}${Cypress.env(
@@ -66,9 +67,10 @@ export function waitForOrderWithConsignmentToBePlacedRequest(
   contentCatalog: string = Cypress.env('BASE_SITE'),
   elapsedTime = 0
 ) {
-  const { userId, access_token } = JSON.parse(
-    localStorage.getItem('spartacus-local-data')
-  ).auth.userToken.token;
+  const {
+    userId,
+    token: { access_token },
+  } = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
   cy.request({
     method: 'GET',
     url: `${Cypress.env('API_URL')}${Cypress.env(

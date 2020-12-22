@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
 import { AuthActions, ConsentService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, map, mapTo, take } from 'rxjs/operators';
+import { filter, map, mapTo } from 'rxjs/operators';
 import { CdsConfig } from '../../config/cds-config';
 import { ConsentChangedPushEvent } from '../model/profile-tag.model';
 
@@ -16,23 +16,18 @@ export class ProfileTagLifecycleService {
     protected actionsSubject: ActionsSubject
   ) {}
 
-  /**
-   * We are only interested in the first time the ProfileConsent is granted
-   */
-  consentGranted(): Observable<ConsentChangedPushEvent> {
+  consentChanged() : Observable<ConsentChangedPushEvent> {
     return this.consentService
-      .getConsent(this.config.cds.consentTemplateId)
-      .pipe(
-        filter(Boolean),
-        filter((profileConsent) => {
-          return this.consentService.isConsentGiven(profileConsent);
-        }),
-        mapTo(true),
-        map((granted) => {
-          return new ConsentChangedPushEvent(granted);
-        }),
-        take(1)
-      );
+    .getConsent(this.config.cds.consentTemplateId)
+    .pipe(
+      filter(Boolean),
+      map(profileConsent => {
+        return this.consentService.isConsentGiven(profileConsent);
+      }),
+      map((granted) => {
+        return new ConsentChangedPushEvent(granted);
+      }),
+    );
   }
 
   loginSuccessful(): Observable<boolean> {

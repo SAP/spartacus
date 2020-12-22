@@ -19,7 +19,7 @@ export class CheckoutReplenishmentFormService {
     numberOfDays: '14',
     numberOfWeeks: '1',
     recurrencePeriod: recurrencePeriod.DAILY,
-    replenishmentStartDate: new Date().toISOString(),
+    replenishmentStartDate: new Date().toISOString().split('T')[0],
   };
 
   private scheduleReplenishmentFormData$: BehaviorSubject<
