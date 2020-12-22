@@ -6,7 +6,7 @@ const core = require('@actions/core');
 // const normalizeNewline = require('normalize-newline');
 
 async function run() {
-  const GITHUB_TOKEN = core.getInput('GITHUB_TOKEN');
+  const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
   const gh = github.getOctokit(GITHUB_TOKEN);
 
   const context = github.context;
