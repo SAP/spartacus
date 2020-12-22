@@ -1,4 +1,5 @@
 const { Toolkit } = require('actions-toolkit');
+const exec = require('@actions/exec');
 const diff = require('diff-lines');
 const normalizeNewline = require('normalize-newline');
 
@@ -32,10 +33,10 @@ Toolkit.run(
         .trim();
     }
 
-    await tools.runInWorkspace('sh', [
+    await exec.exec('sh', [
       './.github/api-extractor-action/api-extractor-for-branch.sh',
     ]);
-    await tools.runInWorkspace('sh', [
+    await exec.exec('sh', [
       './.github/api-extractor-action/api-extractor-for-branch.sh',
       targetBranch,
       'target',

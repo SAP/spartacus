@@ -84,9 +84,39 @@ cp "$CONFIG_PATH" ./dist/product/api-extractor.json
 # @spartacus/storefinder
 # Disabled because of the issue with `import * as ` https://github.com/microsoft/rushstack/issues/1029
 
-# cp "$CONFIG_PATH" ./dist/storefinder/api-extractor.json
+cp "$CONFIG_PATH" ./dist/storefinder/api-extractor.json
+(
+  cd ./dist/storefinder && \
+  api-extractor run --local --verbose
+)
+
+# cp "$CONFIG_PATH" ./dist/storefinder/assets/api-extractor.json
 # (
-#   cd ./dist/storefinder && \
+#   cd ./dist/storefinder/assets && \
+#   api-extractor run --local --verbose
+# )
+
+# cp "$CONFIG_PATH" ./dist/storefinder/core/api-extractor.json
+# (
+#   cd ./dist/storefinder/core && \
+#   api-extractor run --local --verbose
+# )
+
+# cp "$CONFIG_PATH" ./dist/storefinder/components/api-extractor.json
+# (
+#   cd ./dist/storefinder/components && \
+#   api-extractor run --local --verbose
+# )
+
+# cp "$CONFIG_PATH" ./dist/storefinder/occ/api-extractor.json
+# (
+#   cd ./dist/storefinder/occ && \
+#   api-extractor run --local --verbose
+# )
+
+# cp "$CONFIG_PATH" ./dist/storefinder/root/api-extractor.json
+# (
+#   cd ./dist/storefinder/root && \
 #   api-extractor run --local --verbose
 # )
 
