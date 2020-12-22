@@ -60,7 +60,7 @@ function logUpdatedFile(path: string) {
 }
 
 console.log('\nAnalyzing project structure...');
-let libraries: {
+const libraries: {
   [library: string]: {
     /**
      * Name of the library.
