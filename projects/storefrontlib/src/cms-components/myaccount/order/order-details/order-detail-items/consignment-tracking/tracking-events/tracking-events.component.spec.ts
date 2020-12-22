@@ -1,5 +1,5 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -29,16 +29,18 @@ describe('TrackingEventsComponent', () => {
   ]);
   const ngbActiveModal = jasmine.createSpyObj('NgbActiveModal', ['dismiss']);
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [NgbModule, SpinnerModule, I18nTestingModule],
-      declarations: [TrackingEventsComponent, MockTranslateUrlPipe],
-      providers: [
-        { provide: NgbActiveModal, useValue: ngbActiveModal },
-        { provide: UserOrderService, useValue: userOrderService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [NgbModule, SpinnerModule, I18nTestingModule],
+        declarations: [TrackingEventsComponent, MockTranslateUrlPipe],
+        providers: [
+          { provide: NgbActiveModal, useValue: ngbActiveModal },
+          { provide: UserOrderService, useValue: userOrderService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TrackingEventsComponent);

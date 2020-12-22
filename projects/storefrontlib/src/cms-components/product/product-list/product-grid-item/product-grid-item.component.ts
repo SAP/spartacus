@@ -4,8 +4,10 @@ import {
   Input,
   OnChanges,
 } from '@angular/core';
-import { CurrentProductService } from '../../current-product.service';
-import { LocalCurrentProductService } from '../../local-current-product.service';
+import {
+  ProductListItemContext,
+  ProductListItemContextOwner,
+} from '../../product-list-item-context';
 import { ProductListOutlets } from '../../product-outlets.model';
 
 @Component({
@@ -13,18 +15,18 @@ import { ProductListOutlets } from '../../product-outlets.model';
   templateUrl: './product-grid-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    { provide: CurrentProductService, useClass: LocalCurrentProductService },
+    { provide: ProductListItemContext, useClass: ProductListItemContextOwner },
   ],
 })
 export class ProductGridItemComponent implements OnChanges {
   readonly Outlets = ProductListOutlets;
   @Input() product: any;
 
-  constructor(protected currentProductService: CurrentProductService) {}
+  constructor(protected productListItemContext: ProductListItemContext) {}
 
   ngOnChanges(): void {
-    const localCurrentProductService: LocalCurrentProductService = this
-      .currentProductService as LocalCurrentProductService;
-    localCurrentProductService.setCode(this.product.code);
+    (this.productListItemContext as ProductListItemContextOwner).setProduct(
+      this.product
+    );
   }
 }
