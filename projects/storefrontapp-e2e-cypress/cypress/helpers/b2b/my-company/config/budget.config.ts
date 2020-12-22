@@ -5,7 +5,7 @@ import { INPUT_TYPE, MyCompanyConfig } from '../models';
 export const budgetConfig: MyCompanyConfig = {
   name: 'Budget',
   baseUrl: `${FULL_BASE_URL_EN_USD}/organization/budgets`,
-  apiEndpoint: '/users/current/budgets',
+  apiEndpoint: '/budgets',
   objectType: 'budgets',
   canDisable: true,
   verifyStatusInDetails: true,

@@ -17,14 +17,15 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
         loginAsMyCompanyAdmin();
 
         cy.route('GET', `**${config.apiEndpoint}**`).as('getEntity');
-        if (codeRow.useCookie) {
+        if (config.preserveCookies) {
           cy.getCookie(codeRow.useCookie).then((cookie) => {
             entityId = cookie.value;
+            cy.visit(`${config.baseUrl}/${entityId}`);
           });
         } else {
           entityId = codeRow.updateValue;
+          cy.visit(`${config.baseUrl}/${entityId}`);
         }
-        cy.visit(`${config.baseUrl}/${entityId}`);
       });
 
       beforeEach(() => {
@@ -269,7 +270,7 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
         .contains(ASSIGNMENT_LABELS.ASSIGN)
         .click();
       cy.wait('@assign');
-      cy.wait('@getEntity');
+      // cy.wait('@getEntity');
       cy.get('cx-org-notification').should('not.exist');
     }
 
@@ -283,7 +284,7 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
         .contains(ASSIGNMENT_LABELS.UNASSIGN)
         .click();
       cy.wait('@unassign');
-      cy.wait('@getEntity');
+      // cy.wait('@getEntity');
       cy.get('cx-org-notification').should('not.exist');
     }
 
