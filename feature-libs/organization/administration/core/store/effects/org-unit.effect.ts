@@ -365,6 +365,7 @@ export class OrgUnitEffects {
         .pipe(
           switchMap((data) => [
             new OrgUnitActions.CreateAddressSuccess(data),
+            new OrgUnitActions.CreateAddressSuccess({ id: null }),
             new OrganizationActions.OrganizationClearData(),
           ]),
           catchError((error: HttpErrorResponse) =>

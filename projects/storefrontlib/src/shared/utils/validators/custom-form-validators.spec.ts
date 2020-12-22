@@ -11,6 +11,7 @@ describe('FormValidationService', () => {
   let starRatingEmpty: ValidationErrors;
   let budgetNegative: ValidationErrors;
   let specialCharacters: ValidationErrors;
+  let patternError: ValidationErrors;
   let passwordsMustMatchErrorName: string;
   let emailsMustMatchErrorName: string;
   let form: FormGroup;
@@ -26,6 +27,8 @@ describe('FormValidationService', () => {
       emailconf: new FormControl(),
       budget: new FormControl(),
       code: new FormControl(),
+      startDate: new FormControl(),
+      endDate: new FormControl(),
     });
 
     emailError = {
@@ -46,6 +49,10 @@ describe('FormValidationService', () => {
 
     specialCharacters = {
       cxContainsSpecialCharacters: true,
+    };
+
+    patternError = {
+      pattern: true,
     };
 
     passwordsMustMatchErrorName = 'cxPasswordsMustMatch';
@@ -274,6 +281,53 @@ describe('FormValidationService', () => {
       const field = form.get('code');
       field.setValue('test code');
       expect(CustomFormValidators.noSpecialCharacters(field)).toBeNull();
+    });
+  });
+
+  describe('Pattern validator', () => {
+    it('should throw error if value does not pass pattern', () => {
+      const field = form.get('code');
+      field.setValue('test code');
+      const validateFn = CustomFormValidators.patternValidation((value) =>
+        /\//.test(value)
+      );
+      expect(validateFn(field)).toEqual(patternError);
+    });
+
+    it('should return null for allowed value', () => {
+      const field = form.get('code');
+      field.setValue('test/code');
+      const validateFn = CustomFormValidators.patternValidation((value) =>
+        /\//.test(value)
+      );
+      expect(validateFn(field)).toBeNull();
+    });
+  });
+
+  describe('Date range validator', () => {
+    it('should not set error if values are in range', () => {
+      form.get('startDate').setValue('2020-09-10');
+      form.get('endDate').setValue('2020-09-20');
+      const validateFn = CustomFormValidators.dateRange(
+        'startDate',
+        'endDate',
+        (date) => new Date(date)
+      );
+      validateFn(form);
+      expect(form.get('startDate').errors).toBeNull();
+    });
+
+    it('should set error if values are out of range', () => {
+      form.get('startDate').setValue('2020-09-20');
+      form.get('endDate').setValue('2020-09-10');
+      const validateFn = CustomFormValidators.dateRange(
+        'startDate',
+        'endDate',
+        (date) => new Date(date)
+      );
+      validateFn(form);
+      expect(form.get('startDate').hasError('max')).toBeTrue();
+      expect(form.get('endDate').hasError('min')).toBeTrue();
     });
   });
 });

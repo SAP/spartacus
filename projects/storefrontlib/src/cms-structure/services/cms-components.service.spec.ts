@@ -31,6 +31,11 @@ const mockConfig: CmsConfig = {
         children: [{ path: 'route1' }, { path: 'route2' }],
       },
     },
+    staticComponent: {
+      data: {
+        foo: 'bar',
+      } as any,
+    },
   },
 };
 
@@ -100,6 +105,16 @@ describe('CmsComponentsService', () => {
       expect(service.getMapping('exampleMapping1')).toBe(
         mockConfig.cmsComponents.exampleMapping1
       );
+    });
+  });
+
+  describe('getStaticData', () => {
+    it('should not return static data', () => {
+      expect(service.getStaticData('exampleMapping1')).toBeUndefined();
+    });
+
+    it('should return static data', () => {
+      expect(service.getStaticData<any>('staticComponent').foo).toEqual('bar');
     });
   });
 
