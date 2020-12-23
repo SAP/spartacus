@@ -7,14 +7,14 @@ export const defaultOccProductConfig: OccConfig = {
       endpoints: {
         product: {
           default:
-            'products/${productCode}?fields=DEFAULT,averageRating,images(FULL),classifications,manufacturer,numberOfReviews,categories(FULL),baseOptions,baseProduct,variantOptions,variantType',
+            'orgProducts/${productCode}?fields=DEFAULT,averageRating,images(FULL),classifications,manufacturer,numberOfReviews,categories(FULL),baseOptions,baseProduct,variantOptions,variantType',
           list:
-            'products/${productCode}?fields=code,name,summary,price(formattedValue),images(DEFAULT,galleryIndex)',
+            'orgProducts/${productCode}?fields=code,name,summary,price(formattedValue),images(DEFAULT,galleryIndex)',
           details:
-            'products/${productCode}?fields=averageRating,stock(DEFAULT),description,availableForPickup,code,url,price(DEFAULT),numberOfReviews,manufacturer,categories(FULL),priceRange,multidimensional,configuratorType,configurable,tags,images(FULL)',
-          attributes: 'products/${productCode}?fields=classifications',
+            'orgProducts/${productCode}?fields=averageRating,stock(DEFAULT),description,availableForPickup,code,url,price(DEFAULT),numberOfReviews,manufacturer,categories(FULL),priceRange,multidimensional,configuratorType,configurable,tags,images(FULL)',
+          attributes: 'orgProducts/${productCode}?fields=classifications',
           variants:
-            'products/${productCode}?fields=name,purchasable,baseOptions(DEFAULT),baseProduct,variantOptions(DEFAULT),variantType',
+            'orgProducts/${productCode}?fields=name,categories,multidimensional,variantMatrix,purchasable,baseOptions(DEFAULT),baseProduct,variantOptions(DEFAULT),variantType',
         },
         productReviews: 'products/${productCode}/reviews',
         // Uncomment this when occ gets configured
