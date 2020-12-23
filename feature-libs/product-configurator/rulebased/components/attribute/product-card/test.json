@@ -1,0 +1,85 @@
+{
+    "code": "NIKON_D7500",
+    "availableForPickup": false,
+    "baseOptions": [],
+    "categories": [
+      {
+        "code": "1358",
+        "name": "Measuring & Layout Tools",
+        "url": "/Open-Catalogue/Tools/Measuring-%26-Layout-Tools/c/1358"
+      }
+    ],
+    "configurable": false,
+    "description": "<h3>Follow your passion wherever it leads</h3><p>Born from a desire for flagship performance and innovation in a more compact and streamlined connected camera, the D7500 delivers the game-changing resolution, ISO range, image processing and energy efficiency of the award-winning D500 in an enthusiast-level DSLR. Simply put, the D7500 is built to outperform any camera in its class with top-tier image quality, blazing speed, flawless autofocus, 4K Ultra HD video and pro-grade creative tools—all in a comfortable, rugged design. This is a camera for the new generation of creators.</p>",
+    "images": {
+      "PRIMARY": {
+        "zoom": {
+          "altText": "Nikon Camera Body D 7500",
+          "format": "zoom",
+          "imageType": "PRIMARY",
+          "url": "https://api.cpce-teamtiger1-d1-public.model-t.cc.commerce.ondemand.com//medias/?context=bWFzdGVyfGltYWdlc3wyNzM0MzN8aW1hZ2UvcG5nfGhiNi9oZjIvODc5NzM5NTk3NjIyMnw3YThhYmQzYjZkZWRkZjk5MGQ1ODZkODI2MzUyNGNkYjU0Yzc5ZGU3YTVkMThiNGU2YmZjNGY1YTBiNGZmNTJk"
+        },
+        "product": {
+          "altText": "Nikon Camera Body D 7500",
+          "format": "product",
+          "imageType": "PRIMARY",
+          "url": "https://api.cpce-teamtiger1-d1-public.model-t.cc.commerce.ondemand.com//medias/?context=bWFzdGVyfGltYWdlc3wxMzAxNDR8aW1hZ2UvcG5nfGg1ZS9oZjIvODc5NzM5NTk0MzQ1NHxjM2UwZjgxOGY5YTNhNTliMDY5M2JiNGViYzRiZDQ5NjEwMWIwOTg1NmYwMjc5ZDQ0NjRiMTJiMWYwOGFkMmY1"
+        },
+        "thumbnail": {
+          "altText": "Nikon Camera Body D 7500",
+          "format": "thumbnail",
+          "imageType": "PRIMARY",
+          "url": "https://api.cpce-teamtiger1-d1-public.model-t.cc.commerce.ondemand.com//medias/?context=bWFzdGVyfGltYWdlc3wyNTM2MnxpbWFnZS9wbmd8aDM2L2hjMi84Nzk3Mzk2MDc0NTI2fDA3NzE3MWJiZTc0NjA0ZmU5ZmFjYmE2ZmYzNDJjN2RlOGJmOTZiZjJkNTA0NzA4M2VhZGQ2MDBlZDVkNWJlZWM"
+        },
+        "cartIcon": {
+          "altText": "Nikon Camera Body D 7500",
+          "format": "cartIcon",
+          "imageType": "PRIMARY",
+          "url": "https://api.cpce-teamtiger1-d1-public.model-t.cc.commerce.ondemand.com//medias/?context=bWFzdGVyfGltYWdlc3wxNTg3MXxpbWFnZS9wbmd8aDhmL2hiZi84Nzk3Mzk2MTA3Mjk0fGZlMmEyMGJlYmQ3ZGZmYzQ1YTFiYzlmODkxYTUyNTE2OThjYWQ3ODc4MTZmOTZhOGEyNjJhZjZiOWE5ODkwNDY"
+        }
+      },
+      "GALLERY": [
+        {
+          "zoom": {
+            "altText": "Nikon Camera Body D 7500",
+            "format": "zoom",
+            "galleryIndex": 0,
+            "imageType": "GALLERY",
+            "url": "https://api.cpce-teamtiger1-d1-public.model-t.cc.commerce.ondemand.com//medias/?context=bWFzdGVyfGltYWdlc3wyNzM0MzN8aW1hZ2UvcG5nfGhiNi9oZjIvODc5NzM5NTk3NjIyMnw3YThhYmQzYjZkZWRkZjk5MGQ1ODZkODI2MzUyNGNkYjU0Yzc5ZGU3YTVkMThiNGU2YmZjNGY1YTBiNGZmNTJk"
+          },
+          "product": {
+            "altText": "Nikon Camera Body D 7500",
+            "format": "product",
+            "galleryIndex": 0,
+            "imageType": "GALLERY",
+            "url": "https://api.cpce-teamtiger1-d1-public.model-t.cc.commerce.ondemand.com//medias/?context=bWFzdGVyfGltYWdlc3wxMzAxNDR8aW1hZ2UvcG5nfGg1ZS9oZjIvODc5NzM5NTk0MzQ1NHxjM2UwZjgxOGY5YTNhNTliMDY5M2JiNGViYzRiZDQ5NjEwMWIwOTg1NmYwMjc5ZDQ0NjRiMTJiMWYwOGFkMmY1"
+          },
+          "thumbnail": {
+            "altText": "Nikon Camera Body D 7500",
+            "format": "thumbnail",
+            "galleryIndex": 0,
+            "imageType": "GALLERY",
+            "url": "https://api.cpce-teamtiger1-d1-public.model-t.cc.commerce.ondemand.com//medias/?context=bWFzdGVyfGltYWdlc3wyNTM2MnxpbWFnZS9wbmd8aDM2L2hjMi84Nzk3Mzk2MDc0NTI2fDA3NzE3MWJiZTc0NjA0ZmU5ZmFjYmE2ZmYzNDJjN2RlOGJmOTZiZjJkNTA0NzA4M2VhZGQ2MDBlZDVkNWJlZWM"
+          }
+        }
+      ]
+    },
+    "manufacturer": "SAP",
+    "name": "Nikon Camera Body D 7500",
+    "numberOfReviews": 0,
+    "price": {
+      "currencyIso": "USD",
+      "formattedValue": "$599.00",
+      "priceType": "BUY",
+      "value": 599
+    },
+    "priceRange": {},
+    "purchasable": true,
+    "stock": {
+      "isValueRounded": false,
+      "stockLevelStatus": "inStock"
+    },
+    "summary": "Nikon Camera Body 7500c",
+    "url": "/powertools-spa/products/NIKON_D7500",
+    "nameHtml": "Nikon Camera Body D 7500"
+  } 
