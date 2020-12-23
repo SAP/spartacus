@@ -43,29 +43,24 @@
             >
               <span>{{ group.description }}</span>
               <div class="groupIndicators">
-                <div class="groupStatusIndicator">
-                  <cx-icon
-                    class="groupIndicatorIcon WARNING"
-                    [type]="iconTypes.WARNING"
-                  ></cx-icon>
+                <div class="conflictNumberIndicator">
+                  {{ getConflictNumber(group) }}
                 </div>
-
                 <div class="groupStatusIndicator">
+                  <cx-icon class="WARNING" [type]="iconTypes.WARNING"></cx-icon>
+                </div>
+                <div class="groupStatusIndicator">
+                  <cx-icon class="ERROR" [type]="iconTypes.ERROR"></cx-icon>
                   <cx-icon
-                    class="groupIndicatorIcon ERROR"
-                    [type]="iconTypes.ERROR"
-                  ></cx-icon>
-
-                  <cx-icon
-                    class="groupIndicatorIcon COMPLETE"
+                    class="COMPLETE"
                     [type]="iconTypes.SUCCESS"
                   ></cx-icon>
                 </div>
-
                 <div class="subGroupIndicator">
-                  <ng-container *ngIf="hasSubGroups(group)">
-                    <cx-icon [type]="iconTypes.CARET_RIGHT"></cx-icon>
-                  </ng-container>
+                  <cx-icon
+                    *ngIf="hasSubGroups(group)"
+                    [type]="iconTypes.CARET_RIGHT"
+                  ></cx-icon>
                 </div>
               </div>
             </a>
