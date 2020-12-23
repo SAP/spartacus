@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AsmService, AsmUi, I18nTestingModule } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -23,13 +23,15 @@ describe('AsmToggleuUiComponent', () => {
   let asmService: AsmService;
   let el: DebugElement;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [AsmToggleUiComponent],
-      providers: [{ provide: AsmService, useClass: MockAsmService }],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [AsmToggleUiComponent],
+        providers: [{ provide: AsmService, useClass: MockAsmService }],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AsmToggleUiComponent);

@@ -90,8 +90,15 @@ export class AsmMainUiComponent implements OnInit {
   }
 
   startCustomerEmulationSession({ customerId }: { customerId: string }): void {
-    this.csAgentAuthService.startCustomerEmulationSession(customerId);
-    this.startingCustomerSession = true;
+    if (customerId) {
+      this.csAgentAuthService.startCustomerEmulationSession(customerId);
+      this.startingCustomerSession = true;
+    } else {
+      this.globalMessageService.add(
+        { key: 'asm.error.noCustomerId' },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    }
   }
 
   hideUi(): void {

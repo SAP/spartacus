@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { QualtricsConfig } from './config/qualtrics-config';
 import { QualtricsLoaderService } from './qualtrics-loader.service';
 import { QualtricsComponent } from './qualtrics.component';
@@ -18,18 +18,20 @@ describe('QualtricsComponent', () => {
   let fixture: ComponentFixture<QualtricsComponent>;
   let service: QualtricsLoaderService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [QualtricsComponent],
-      providers: [
-        {
-          provide: QualtricsLoaderService,
-          useClass: MockQualtricsLoaderService,
-        },
-        { provide: QualtricsConfig, useValue: mockQualtricsConfig },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [QualtricsComponent],
+        providers: [
+          {
+            provide: QualtricsLoaderService,
+            useClass: MockQualtricsLoaderService,
+          },
+          { provide: QualtricsConfig, useValue: mockQualtricsConfig },
+        ],
+      }).compileComponents();
+    })
+  );
 
   describe('with config', () => {
     beforeEach(() => {

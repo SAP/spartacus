@@ -71,7 +71,7 @@ describe('UserGroupUserListComponent', () => {
     component.unassignAll();
     expect(messageService.add).toHaveBeenCalledWith({
       message: {
-        key: `userGroupUsers.unassignAllConfirmation`,
+        key: `orgUserGroupUsers.unassignAllConfirmation`,
         params: {
           item: {},
         },

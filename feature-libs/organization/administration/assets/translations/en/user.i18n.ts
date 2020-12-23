@@ -1,4 +1,4 @@
-export const user = {
+export const orgUser = {
   header: 'All users ({{count}})',
   disabled: '(disabled)',
   uid: 'Email',
@@ -116,41 +116,41 @@ export const user = {
   },
 };
 
-export const userAssignedApprovers = {
+export const orgUserAssignedApprovers = {
   title: 'Assigned approvers',
   subtitle: 'User: {{ item.name }}',
   assigned: 'Approver {{ item.name }} assigned successfully',
   unassigned: 'Approver {{ item.name }} unassigned successfully',
 };
-export const userApprovers = {
+export const orgUserApprovers = {
   title: 'Manage approvers',
   subtitle: 'User: {{ item.name }}',
   assigned: 'Approver {{ item.name }} assigned successfully',
   unassigned: 'Approver {{ item.name }} unassigned successfully',
 };
 
-export const userAssignedPermissions = {
+export const orgUserAssignedPermissions = {
   title: 'Assigned purchase limits',
   subtitle: 'User: {{ item.name }}',
   assigned: 'Purchase limit {{ item.code }} assigned successfully',
   unassigned: 'Purchase limit {{ item.code }} unassigned successfully',
 };
 
-export const userPermissions = {
+export const orgUserPermissions = {
   title: 'Manage purchase limits',
   subtitle: 'User: {{ item.name }}',
   assigned: 'Purchase limit {{ item.code }} assigned successfully',
   unassigned: 'Purchase limit {{ item.code }} unassigned successfully',
 };
 
-export const userAssignedUserGroups = {
+export const orgUserAssignedUserGroups = {
   title: 'Assigned user groups',
   subtitle: 'User: {{ item.name }}',
   assigned: 'User group {{item.name}} assigned successfully',
   unassigned: 'User group {{item.name}} unassigned successfully',
 };
 
-export const userUserGroups = {
+export const orgUserUserGroups = {
   title: 'Manage user groups',
   subtitle: 'User: {{ item.name }}',
   assigned: 'User group {{item.name}} assigned successfully',

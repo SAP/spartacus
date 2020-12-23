@@ -34,33 +34,33 @@ const paramsMapping: ParamsMapping = {
 export const userGroupRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
-      userGroup: {
+      orgUserGroup: {
         paths: ['organization/user-groups'],
       },
-      userGroupCreate: {
+      orgUserGroupCreate: {
         paths: ['organization/user-groups/create'],
       },
-      userGroupDetails: {
+      orgUserGroupDetails: {
         paths: [listPath],
         paramsMapping,
       },
-      userGroupEdit: {
+      orgUserGroupEdit: {
         paths: [`${listPath}/edit`],
         paramsMapping,
       },
-      userGroupUsers: {
+      orgUserGroupUsers: {
         paths: [`${listPath}/users`],
         paramsMapping,
       },
-      userGroupAssignUsers: {
+      orgUserGroupAssignUsers: {
         paths: [`${listPath}/users/assign`],
         paramsMapping,
       },
-      userGroupPermissions: {
+      orgUserGroupPermissions: {
         paths: [`${listPath}/purchase-limits`],
         paramsMapping,
       },
-      userGroupAssignPermissions: {
+      orgUserGroupAssignPermissions: {
         paths: [`${listPath}/purchase-limits/assign`],
         paramsMapping,
       },
@@ -86,7 +86,7 @@ export const userGroupCmsConfig: CmsConfig = {
         parent: {
           data: {
             cxPageMeta: {
-              breadcrumb: 'userGroup.breadcrumbs.list',
+              breadcrumb: 'orgUserGroup.breadcrumbs.list',
               resolver: UserGroupRoutePageMetaResolver,
             },
           },
@@ -100,7 +100,7 @@ export const userGroupCmsConfig: CmsConfig = {
             path: `:${ROUTE_PARAMS.userGroupCode}`,
             component: UserGroupDetailsComponent,
             data: {
-              cxPageMeta: { breadcrumb: 'userGroup.breadcrumbs.details' },
+              cxPageMeta: { breadcrumb: 'orgUserGroup.breadcrumbs.details' },
             },
             children: [
               {
@@ -110,7 +110,7 @@ export const userGroupCmsConfig: CmsConfig = {
               {
                 path: 'users',
                 data: {
-                  cxPageMeta: { breadcrumb: 'userGroup.breadcrumbs.users' },
+                  cxPageMeta: { breadcrumb: 'orgUserGroup.breadcrumbs.users' },
                 },
                 children: [
                   {
@@ -127,7 +127,7 @@ export const userGroupCmsConfig: CmsConfig = {
                 path: 'purchase-limits',
                 data: {
                   cxPageMeta: {
-                    breadcrumb: 'userGroup.breadcrumbs.permissions',
+                    breadcrumb: 'orgUserGroup.breadcrumbs.permissions',
                   },
                 },
                 children: [
