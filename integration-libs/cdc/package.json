@@ -25,6 +25,7 @@
     "@angular/router": "^10.1.0",
     "rxjs": "^6.6.0",
     "@spartacus/core": "3.0.0-next.6",
-    "@spartacus/storefront": "3.0.0-next.6"
+    "@spartacus/storefront": "3.0.0-next.6",
+    "@spartacus/asm/root": "3.0.0-next.6"
   }
 }
