@@ -80,7 +80,16 @@ export class StoreDataService {
   protected getSchedule(location: PointOfService, date: Date): any {
     const weekday = this.weekDays[date.getDay()];
     return location.openingHours.weekDayOpeningList.find(
-      (weekDayOpeningListItem) => weekDayOpeningListItem.weekDay === weekday
+      (weekDayOpeningListItem) =>
+        weekDayOpeningListItem.weekDay ===
+          date.toLocaleString(window.sessionStorage.language, {
+            weekday: 'short',
+          }) ||
+        weekDayOpeningListItem.weekDay ===
+          date.toLocaleString(window.sessionStorage.language, {
+            weekday: 'long',
+          }) ||
+        weekDayOpeningListItem.weekDay === weekday
     );
   }
 }
