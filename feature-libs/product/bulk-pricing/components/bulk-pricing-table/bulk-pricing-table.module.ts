@@ -20,15 +20,19 @@ import { BulkPricingTableComponent } from './bulk-pricing-table.component';
       cmsComponents: {
         BulkPricingTableComponent: {
           component: BulkPricingTableComponent,
+
         },
       },
     }),
   ],
   declarations: [
-],
-  exports: [
+    BulkPricingTableComponent
   ],
+  exports: [
+    BulkPricingTableComponent
+  ],  
   entryComponents: [
+    BulkPricingTableComponent
   ],
 })
 export class BulkPricingTableModule {}
