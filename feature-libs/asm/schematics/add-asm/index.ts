@@ -142,10 +142,6 @@ function addAsmFeature(
       chunks: ASM_TRANSLATION_CHUNKS_CONFIG,
       importPath: SPARTACUS_ASM_ASSETS,
     },
-    /*styles: {
-      scssFileName: STORE_FINDER_SCSS_FILE_NAME,
-      importStyle: SPARTACUS_STOREFINDER,
-    },*/
   });
 }
 
@@ -157,11 +153,6 @@ function addAsmPackageJsonDependencies(packageJson: any): Rule {
       version: spartacusVersion,
       name: SPARTACUS_ASM,
     },
-    /*{
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_SETUP,
-    },*/
   ];
   return addPackageJsonDependencies(dependencies, packageJson);
 }
