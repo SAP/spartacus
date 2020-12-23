@@ -13,13 +13,13 @@ import {
 import { TokenResponse } from 'angular-oauth2-oidc';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { AsmActions } from '../../core/store';
+import { AsmState, ASM_FEATURE } from '../../core/store/asm-state';
+import * as fromReducers from '../../core/store/reducers/index';
 import {
   AsmAuthStorageService,
   TokenTarget,
 } from '../services/asm-auth-storage.service';
-import { AsmActions } from '../store';
-import { AsmState, ASM_FEATURE } from '../store/asm-state';
-import * as fromReducers from '../store/reducers/index';
 import { CsAgentAuthService } from './csagent-auth.service';
 
 class MockAuthService implements Partial<AuthService> {

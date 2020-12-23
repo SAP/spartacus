@@ -1,10 +1,10 @@
 import { DebugElement } from '@angular/core';
 import {
-  waitForAsync,
   ComponentFixture,
   fakeAsync,
   TestBed,
   tick,
+  waitForAsync,
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';

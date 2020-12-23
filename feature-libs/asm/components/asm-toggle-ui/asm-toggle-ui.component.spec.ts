@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AsmService, AsmUi } from '@spartacus/asm/core';
 import { I18nTestingModule } from '@spartacus/core';

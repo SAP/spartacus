@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AsmAuthStorageService, TokenTarget } from '@spartacus/asm/root';
 import {
   AuthActions,
   AuthService,
@@ -12,8 +11,8 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AsmActions } from '../store/actions';
-import { StateWithAsm } from '../store/asm-state';
+import { AsmActions } from '../../core/store/actions';
+import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 
 /**
  * Auth service for CS agent. Useful to login/logout agent, start emulation
@@ -28,7 +27,7 @@ export class CsAgentAuthService {
     protected authStorageService: AsmAuthStorageService,
     protected userIdService: UserIdService,
     protected oAuthLibWrapperService: OAuthLibWrapperService,
-    protected store: Store<StateWithAsm>,
+    protected store: Store,
     protected userService: UserService
   ) {}
 

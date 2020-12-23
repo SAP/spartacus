@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Pipe, PipeTransform } from '@angular/core';
 import {
-  waitForAsync,
   ComponentFixture,
   fakeAsync,
   TestBed,
   tick,
+  waitForAsync,
 } from '@angular/core/testing';
 import { AsmConfig } from '@spartacus/asm/core';
 import {

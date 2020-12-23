@@ -4,7 +4,8 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { AsmService, CsAgentAuthService } from '@spartacus/asm/core';
+import { AsmService } from '@spartacus/asm/core';
+import { CsAgentAuthService } from '@spartacus/asm/root';
 import {
   AuthService,
   GlobalMessageService,

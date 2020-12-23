@@ -1,12 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { AsmAuthStorageService, TokenTarget } from '@spartacus/asm/root';
 import { AuthToken, StatePersistenceService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import {
-  AsmAuthStorageService,
-  TokenTarget,
-} from '../../root/services/asm-auth-storage.service';
 import { AsmActions, ASM_FEATURE, StateWithAsm } from '../store';
 import * as fromAsmReducers from '../store/reducers/index';
 import { AsmStatePersistenceService } from './asm-state-persistence.service';

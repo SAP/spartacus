@@ -5,9 +5,10 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { AsmService, AsmUi, CsAgentAuthService } from '@spartacus/asm/core';
+import { AsmService, AsmUi } from '@spartacus/asm/core';
+import { CsAgentAuthService } from '@spartacus/asm/root';
 import {
   AuthService,
   GlobalMessageService,

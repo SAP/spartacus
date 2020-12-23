@@ -12,8 +12,8 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
-import { CsAgentAuthService } from '../../core/facade/csagent-auth.service';
 import { AsmAuthHttpHeaderService } from './asm-auth-http-header.service';
+import { CsAgentAuthService } from './csagent-auth.service';
 
 class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
   isCustomerSupportAgentLoggedIn() {

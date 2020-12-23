@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { CsAgentAuthService } from '@spartacus/asm/core';
+import { CsAgentAuthService } from '@spartacus/asm/root';
 import { AuthService, WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
