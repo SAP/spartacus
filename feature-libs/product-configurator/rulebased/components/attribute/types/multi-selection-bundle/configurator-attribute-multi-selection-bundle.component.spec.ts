@@ -1,14 +1,20 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { ItemCounterComponent } from '@spartacus/storefront';
+import { ItemCounterComponent, MediaModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeProductCardComponent } from '../../product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurator-attribute-multi-selection-bundle.component';
+
+@Component({
+  selector: 'cx-configurator-attribute-product-card',
+  template: '',
+})
+class MockProductCardComponent {}
 
 describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   let component: ConfiguratorAttributeMultiSelectionBundleComponent;
@@ -52,17 +58,24 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
           RouterTestingModule,
           UrlTestingModule,
           ReactiveFormsModule,
+          MediaModule,
         ],
         declarations: [
           ConfiguratorAttributeMultiSelectionBundleComponent,
-          ConfiguratorAttributeProductCardComponent,
           ConfiguratorShowMoreComponent,
           ItemCounterComponent,
+          MockProductCardComponent,
         ],
       })
         .overrideComponent(ConfiguratorAttributeMultiSelectionBundleComponent, {
           set: {
             changeDetection: ChangeDetectionStrategy.Default,
+            providers: [
+              {
+                provide: ConfiguratorAttributeProductCardComponent,
+                useClass: MockProductCardComponent,
+              },
+            ],
           },
         })
         .compileComponents();

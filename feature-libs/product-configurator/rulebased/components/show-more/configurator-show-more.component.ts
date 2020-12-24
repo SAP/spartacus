@@ -24,14 +24,10 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   @Input() textSize = 60;
   @ViewChild('textContent') textContentElement: ElementRef;
 
-  constructor(protected cdRef: ChangeDetectorRef) {
-    console.log(this.text);
-  }
+  constructor(protected cdRef: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
     this.textNormalized = this.normalize(this.text);
-
-    console.log(this.textNormalized.length, this.textSize);
 
     if (this.textNormalized.length > this.textSize) {
       this.showMore$.next(true);
@@ -50,7 +46,7 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
     this.cdRef.detectChanges();
   }
 
-  protected normalize(text: string): string {
+  protected normalize(text: string = ''): string {
     return text.replace(/<[^>]*>/g, '');
   }
 }
