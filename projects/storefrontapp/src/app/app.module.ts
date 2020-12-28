@@ -20,6 +20,7 @@ import { cdcFeature } from '../environments/cdc/cdc.feature';
 import { cdsFeature } from '../environments/cds/cds.feature';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
+import { routerFixProvider } from './router-fix';
 
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
@@ -85,6 +86,7 @@ if (environment.cdc) {
 
     ...devImports,
   ],
+  providers: [routerFixProvider],
 
   bootstrap: [StorefrontComponent],
 })
