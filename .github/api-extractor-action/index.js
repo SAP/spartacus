@@ -39,10 +39,13 @@ async function run() {
 
   let globber = await glob.create('dist/**/package.json', {});
   const files = await globber.glob();
-  globber = await glob.create('.github/api-extractor-action/api-extractor.json', {});
+  globber = await glob.create(
+    '.github/api-extractor-action/api-extractor.json',
+    {}
+  );
   const apiExtractorConfigPath = await globber.glob()[0];
 
-  files.forEach((path) => {
+  files.forEach(async (path) => {
     const packageContent = JSON.parse(fs.readFileSync(path, 'utf-8'));
     const name = packageContent.name;
     const newName = name.replace(/\//g, '_').replace(/\_/, '/');
@@ -58,7 +61,7 @@ async function run() {
     await io.cp(apiExtractorConfigPath, directory);
     await exec.exec('sh', [
       './.github/api-extractor-action/api-extractor.sh',
-      directory
+      directory,
     ]);
   });
 
