@@ -4,7 +4,6 @@ const core = require('@actions/core');
 const glob = require('@actions/glob');
 const io = require('@actions/io');
 const fs = require('fs');
-const { Extractor, ExtractorConfig } = require('@microsoft/api-extractor');
 // const diff = require('diff-lines');
 // const normalizeNewline = require('normalize-newline');
 
