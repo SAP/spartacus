@@ -43,7 +43,7 @@ async function run() {
     '.github/api-extractor-action/api-extractor.json',
     {}
   );
-  const apiExtractorConfigPath = await globber.glob()[0];
+  const apiExtractorConfigPath = (await globber.glob())[0];
 
   files.forEach(async (path) => {
     const packageContent = JSON.parse(fs.readFileSync(path, 'utf-8'));
