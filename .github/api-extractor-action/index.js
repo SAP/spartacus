@@ -15,8 +15,6 @@ async function run() {
   const owner = context.payload.repository.owner.login;
   const repo = context.payload.repository.name;
 
-  console.log(context.payload.pull_request);
-
   const relatedPR = context.payload.pull_request;
 
   const issueNumber = relatedPR.number;
@@ -35,7 +33,7 @@ async function run() {
   //   'target',
   // ]);
 
-  const globber = await glob.create('dist/!(schematics)/package.json', {});
+  const globber = await glob.create('dist/**/package.json', {});
   const files = await globber.glob();
 
   console.log(files);
