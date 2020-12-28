@@ -45,25 +45,27 @@ async function run() {
   );
   const apiExtractorConfigPath = (await globber.glob())[0];
 
-  files.forEach(async (path) => {
-    const packageContent = JSON.parse(fs.readFileSync(path, 'utf-8'));
-    const name = packageContent.name;
-    const newName = name.replace(/\//g, '_').replace(/\_/, '/');
-    console.log(newName);
-    fs.writeFileSync(
-      path,
-      JSON.stringify({ ...packageContent, name: newName }, undefined, 2)
-    );
+  await Promise.all(
+    files.map(async (path) => {
+      const packageContent = JSON.parse(fs.readFileSync(path, 'utf-8'));
+      const name = packageContent.name;
+      const newName = name.replace(/\//g, '_').replace(/\_/, '/');
+      console.log(newName);
+      fs.writeFileSync(
+        path,
+        JSON.stringify({ ...packageContent, name: newName }, undefined, 2)
+      );
 
-    const directory = path.substring(0, path.length - `/package.json`.length);
+      const directory = path.substring(0, path.length - `/package.json`.length);
 
-    console.log(directory);
-    await io.cp(apiExtractorConfigPath, directory);
-    await exec.exec('sh', [
-      './.github/api-extractor-action/api-extractor.sh',
-      directory,
-    ]);
-  });
+      console.log(directory);
+      await io.cp(apiExtractorConfigPath, directory);
+      await exec.exec('sh', [
+        './.github/api-extractor-action/api-extractor.sh',
+        directory,
+      ]);
+    })
+  );
 
   globber = await glob.create('etc/**/*.md', {});
   const raports = await globber.glob();
