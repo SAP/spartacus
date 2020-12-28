@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
-import { filter, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  shareReplay,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
@@ -101,6 +109,16 @@ export class SelectiveCartService {
   getLoaded(): Observable<boolean> {
     return this.cartSelector$.pipe(
       map((cart) => (cart.success || cart.error) && !cart.loading)
+    );
+  }
+
+  /**
+   * Returns true when selective cart is stable (not loading and not pending processes on cart)
+   */
+  isStable(): Observable<boolean> {
+    return this.cartId$.pipe(
+      switchMap((cartId) => this.multiCartService.isStable(cartId)),
+      distinctUntilChanged()
     );
   }
 
