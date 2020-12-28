@@ -49,10 +49,7 @@ async function run() {
       JSON.stringify({ ...packageContent, name: newName }, undefined, 2)
     );
 
-    const directory = path.substring(
-      0,
-      libPath.length - `/package.json`.length
-    );
+    const directory = path.substring(0, path.length - `/package.json`.length);
 
     console.log(directory);
   });
