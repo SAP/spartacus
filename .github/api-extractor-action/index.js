@@ -2,6 +2,7 @@ const exec = require('@actions/exec');
 const github = require('@actions/github');
 const core = require('@actions/core');
 const glob = require('@actions/glob');
+const io = require('@actions/io');
 const fs = require('fs');
 const { Extractor, ExtractorConfig } = require('@microsoft/api-extractor');
 // const diff = require('diff-lines');
@@ -36,8 +37,10 @@ async function run() {
   //   'target',
   // ]);
 
-  const globber = await glob.create('dist/**/package.json', {});
+  let globber = await glob.create('dist/**/package.json', {});
   const files = await globber.glob();
+  globber = await glob.create('.github/api-extractor-action/api-extractor.json', {});
+  const apiExtractorConfigPath = await globber.glob()[0];
 
   files.forEach((path) => {
     const packageContent = JSON.parse(fs.readFileSync(path, 'utf-8'));
@@ -52,7 +55,16 @@ async function run() {
     const directory = path.substring(0, path.length - `/package.json`.length);
 
     console.log(directory);
+    await io.cp(apiExtractorConfigPath, directory);
+    await exec.exec('sh', [
+      './.github/api-extractor-action/api-extractor.sh',
+      directory
+    ]);
   });
+
+  globber = await glob.create('etc/**/*.md', {});
+  const raports = await globber.glob();
+  console.log(raports);
 
   // function extractSnippetFromFile(filename) {
   //   const regexForTSSnippetInMarkdown = /```ts([\s\S]*)```/ms;
