@@ -22,9 +22,9 @@ async function run() {
   const reportHeader = 'Public API change detection bot';
 
   // Prepare current branch libs for api-extractor
-  // await exec.exec('sh', [
-  //   './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
-  // ]);
+  await exec.exec('sh', [
+    './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
+  ]);
 
   // Prepare target branch libs for api-extractor
   // await exec.exec('sh', [
