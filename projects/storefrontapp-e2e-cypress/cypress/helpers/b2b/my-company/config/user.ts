@@ -119,6 +119,7 @@ export const userConfig: MyCompanyConfig = {
       entityIdField: 'customerId',
       objectType: 'users',
       manageAssignments: true,
+      skipAssignmentWaits: true,
     },
     {
       name: 'User groups',

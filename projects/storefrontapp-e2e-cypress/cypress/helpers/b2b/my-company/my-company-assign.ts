@@ -29,7 +29,12 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
       });
 
       beforeEach(() => {
+        cy.restoreLocalStorage();
         cy.server();
+      });
+
+      afterEach(() => {
+        cy.saveLocalStorage();
       });
 
       it('should show no assignments', () => {
@@ -196,7 +201,9 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
               cy.get('cx-org-card .header')
                 .contains(ASSIGNMENT_LABELS.DONE)
                 .click();
-              cy.wait('@getAssignable');
+              if (!subConfig.skipAssignmentWaits) {
+                cy.wait('@getAssignable');
+              }
 
               clickUnassign(firstOption);
               checkListEmpty();
@@ -205,7 +212,11 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
 
         it('should assign and unassign from assignments list', () => {
           cy.server();
-          clickManage();
+          if (!subConfig.skipAssignmentWaits) {
+            clickManage();
+          } else {
+            clickManage(false);
+          }
 
           clickAssign(firstOption);
           clickUnassign(firstOption);
@@ -219,7 +230,9 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
           cy.get('cx-org-card .header')
             .contains(ASSIGNMENT_LABELS.DONE)
             .click();
-          cy.wait('@getAssignable');
+          if (!subConfig.skipAssignmentWaits) {
+            cy.wait('@getAssignable');
+          }
 
           checkListEmpty();
         });
@@ -262,7 +275,6 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
 
     function clickAssign(option: string) {
       cy.route('POST', '**').as('assign');
-      cy.route('GET', `**${config.apiEndpoint}**`).as('getEntity');
       cy.get('cx-org-sub-list')
         .contains(option)
         .parent()
@@ -270,13 +282,11 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
         .contains(ASSIGNMENT_LABELS.ASSIGN)
         .click();
       cy.wait('@assign');
-      // cy.wait('@getEntity');
       cy.get('cx-org-notification').should('not.exist');
     }
 
     function clickUnassign(option: string) {
       cy.route('DELETE', '**').as('unassign');
-      cy.route('GET', `**${config.apiEndpoint}**`).as('getEntity');
       cy.get('cx-org-sub-list')
         .contains(option)
         .parent()
@@ -284,7 +294,6 @@ export function testAssignmentFromConfig(config: MyCompanyConfig) {
         .contains(ASSIGNMENT_LABELS.UNASSIGN)
         .click();
       cy.wait('@unassign');
-      // cy.wait('@getEntity');
       cy.get('cx-org-notification').should('not.exist');
     }
 
