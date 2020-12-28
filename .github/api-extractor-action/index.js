@@ -49,20 +49,20 @@ async function run() {
       const packageContent = JSON.parse(fs.readFileSync(path, 'utf-8'));
       const name = packageContent.name;
       const newName = name.replace(/\//g, '_').replace(/\_/, '/');
-      console.log(newName);
       fs.writeFileSync(
         path,
         JSON.stringify({ ...packageContent, name: newName }, undefined, 2)
       );
 
       const directory = path.substring(0, path.length - `/package.json`.length);
+      core.startGroup(`api extractor for ${directory}`);
 
-      console.log(directory);
       await io.cp(apiExtractorConfigPath, directory);
       await exec.exec('sh', [
         './.github/api-extractor-action/api-extractor.sh',
         directory,
       ]);
+      core.endGroup();
     })
   );
 
