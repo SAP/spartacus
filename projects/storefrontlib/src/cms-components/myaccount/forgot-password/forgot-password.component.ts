@@ -1,48 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {
-  AuthConfigService,
-  OAuthFlow,
-  RoutingService,
-  UserService,
-} from '@spartacus/core';
-import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
+import { Component, OnDestroy } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+
+import { ForgotPasswordService } from './forgot-password.service';
 @Component({
   selector: 'cx-forgot-password',
   templateUrl: './forgot-password.component.html',
 })
-export class ForgotPasswordComponent implements OnInit {
-  forgotPasswordForm: FormGroup;
+export class ForgotPasswordComponent implements OnDestroy {
+  form: FormGroup = this.service.form;
+  onSubmit = () => this.service.submit();
 
-  constructor(
-    protected fb: FormBuilder,
-    protected userService: UserService,
-    protected routingService: RoutingService,
-    protected authConfigService: AuthConfigService
-  ) {}
-
-  ngOnInit() {
-    this.forgotPasswordForm = this.fb.group({
-      userEmail: [
-        '',
-        [Validators.required, CustomFormValidators.emailValidator],
-      ],
-    });
-  }
-
-  requestForgotPasswordEmail() {
-    if (this.forgotPasswordForm.valid) {
-      this.userService.requestForgotPasswordEmail(
-        this.forgotPasswordForm.value.userEmail
-      );
-      if (
-        this.authConfigService.getOAuthFlow() ===
-        OAuthFlow.ResourceOwnerPasswordFlow
-      ) {
-        this.routingService.go({ cxRoute: 'login' });
-      }
-    } else {
-      this.forgotPasswordForm.markAllAsTouched();
-    }
+  constructor(protected service: ForgotPasswordService) {}
+  ngOnDestroy() {
+    this.service.reset();
   }
 }
