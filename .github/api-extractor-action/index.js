@@ -59,10 +59,14 @@ async function run() {
       const directory = path.substring(0, path.length - `/package.json`.length);
 
       await io.cp(apiExtractorConfigPath, directory);
-      await exec.exec('sh', [
-        './.github/api-extractor-action/api-extractor.sh',
-        directory,
-      ]);
+      await exec.exec(
+        'sh',
+        ['./.github/api-extractor-action/api-extractor.sh', directory],
+        {
+          ignoreReturnCode: true,
+          delay: 1000,
+        }
+      );
     })
   );
 
@@ -86,10 +90,14 @@ async function run() {
       const directory = path.substring(0, path.length - `/package.json`.length);
 
       await io.cp(apiExtractorConfigPath, directory);
-      await exec.exec('sh', [
-        './.github/api-extractor-action/api-extractor.sh',
-        directory,
-      ]);
+      await exec.exec(
+        'sh',
+        ['./.github/api-extractor-action/api-extractor.sh', directory],
+        {
+          ignoreReturnCode: true,
+          delay: 1000,
+        }
+      );
     })
   );
 
