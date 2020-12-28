@@ -2,7 +2,7 @@ const exec = require('@actions/exec');
 const github = require('@actions/github');
 const core = require('@actions/core');
 const glob = require('@actions/glob');
-// const fs = require('fs');
+const fs = require('fs');
 // const diff = require('diff-lines');
 // const normalizeNewline = require('normalize-newline');
 
@@ -36,7 +36,16 @@ async function run() {
   const globber = await glob.create('dist/**/package.json', {});
   const files = await globber.glob();
 
-  console.log(files);
+  files.forEach((path) => {
+    const packageContent = JSON.parse(fs.readFileSync(path, 'utf-8'));
+    const name = packageContent.name;
+    const newName = name.replace(/\//g, '_').replace(/\_/, '/');
+    console.log(newName);
+    fs.writeFileSync(
+      path,
+      JSON.stringify({ ...packageContent, name: newName }, undefined, 2)
+    );
+  });
 
   // function extractSnippetFromFile(filename) {
   //   const regexForTSSnippetInMarkdown = /```ts([\s\S]*)```/ms;
