@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { UserIdService } from '../../auth/index';
 import * as fromReducers from '../../cart/store/reducers/index';
 import { OrderEntry, User } from '../../model';
@@ -338,6 +339,32 @@ describe('Selective Cart Service', () => {
     it('should return false when selectiveCart is disabled', () => {
       spyOn(cartConfigService, 'isSelectiveCartEnabled').and.returnValue(false);
       expect(service.isEnabled()).toEqual(false);
+    });
+  });
+
+  describe('isStable', () => {
+    it('should return true when isStable returns true', (done) => {
+      spyOn(multiCartService, 'isStable').and.returnValue(of(true));
+
+      service
+        .isStable()
+        .pipe(take(1))
+        .subscribe((val) => {
+          expect(val).toBe(true);
+          done();
+        });
+    });
+
+    it('should return false when isStable returns false', (done) => {
+      spyOn(multiCartService, 'isStable').and.returnValue(of(false));
+
+      service
+        .isStable()
+        .pipe(take(1))
+        .subscribe((val) => {
+          expect(val).toBe(false);
+          done();
+        });
     });
   });
 
