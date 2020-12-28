@@ -3,6 +3,7 @@ const github = require('@actions/github');
 const core = require('@actions/core');
 const glob = require('@actions/glob');
 const fs = require('fs');
+const { Extractor, ExtractorConfig } = require('@microsoft/api-extractor');
 // const diff = require('diff-lines');
 // const normalizeNewline = require('normalize-newline');
 
@@ -22,9 +23,11 @@ async function run() {
   const reportHeader = 'Public API change detection bot';
 
   // Prepare current branch libs for api-extractor
+  core.startGroup('Prepare branch for extractor');
   await exec.exec('sh', [
     './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
   ]);
+  core.endGroup();
 
   // Prepare target branch libs for api-extractor
   // await exec.exec('sh', [
@@ -45,6 +48,13 @@ async function run() {
       path,
       JSON.stringify({ ...packageContent, name: newName }, undefined, 2)
     );
+
+    const directory = path.substring(
+      0,
+      libPath.length - `/package.json`.length
+    );
+
+    console.log(directory);
   });
 
   // function extractSnippetFromFile(filename) {
