@@ -8,5 +8,5 @@ fi
 
 (
   cd $PATH && \
-  api-extractor run --local --verbose
+  yarn api-extractor run --local --verbose
 )
