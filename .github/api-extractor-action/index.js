@@ -72,11 +72,6 @@ async function run() {
 
   globber = await glob.create('target-branch-clone/dist/**/package.json', {});
   const files2 = await globber.glob();
-  globber = await glob.create(
-    '.github/api-extractor-action/api-extractor.json',
-    {}
-  );
-  const apiExtractorConfigPath = (await globber.glob())[0];
 
   await Promise.all(
     files2.map(async (path) => {
