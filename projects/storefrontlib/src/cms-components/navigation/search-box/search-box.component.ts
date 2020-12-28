@@ -12,7 +12,7 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
 
-const DEFAULT_SEARCHBOX_CONFIG: SearchBoxConfig = {
+const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
   minCharactersBeforeRequest: 1,
   displayProducts: true,
   displaySuggestions: true,
@@ -27,7 +27,8 @@ const DEFAULT_SEARCHBOX_CONFIG: SearchBoxConfig = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchBoxComponent {
-  config: SearchBoxConfig;
+  @Input() config: SearchBoxConfig;
+
   /**
    * Sets the search box input field
    */
@@ -58,61 +59,59 @@ export class SearchBoxComponent {
     protected winRef: WindowRef
   ) {}
 
+  /**
+   * Returns the SearchBox configuration. The configuration is driven by multiple
+   * layers: default configuration, (optional) backend configuration and (optional)
+   * input configuration.
+   */
+  protected config$: Observable<SearchBoxConfig> = (
+    this.componentData?.data$ || of({} as any)
+  ).pipe(
+    map((config) => {
+      const isBool = (obj: SearchBoxConfig, prop: string): boolean =>
+        obj?.[prop] !== 'false' && obj?.[prop] !== false;
+
+      return {
+        ...DEFAULT_SEARCH_BOX_CONFIG,
+        ...config,
+        displayProducts: isBool(config, 'displayProducts'),
+        displayProductImages: isBool(config, 'displayProductImages'),
+        displaySuggestions: isBool(config, 'displaySuggestions'),
+        // we're merging the (optional) input of this component, but write the merged
+        // result back to the input property, as the view logic depends on it.
+        ...this.config,
+      };
+    }),
+    tap((config) => (this.config = config))
+  );
+
   results$: Observable<SearchResults> = this.config$.pipe(
-    tap((c) => (this.config = c)),
     switchMap((config) => this.searchBoxComponentService.getResults(config))
   );
 
   /**
-   * Returns the backend configuration or default configuration for the searchbox.
-   */
-  private get config$(): Observable<SearchBoxConfig> {
-    if (this.componentData) {
-      return <Observable<SearchBoxConfig>>this.componentData.data$.pipe(
-        // Since the backend returns string values (i.e. displayProducts: "true") for
-        // boolean values, we replace them with boolean values.
-        map((c) => {
-          return {
-            ...c,
-            displayProducts:
-              <any>c?.displayProducts === 'true' || c?.displayProducts === true,
-            displayProductImages:
-              <any>c?.displayProductImages === 'true' ||
-              c?.displayProductImages === true,
-            displaySuggestions:
-              <any>c?.displaySuggestions === 'true' ||
-              c?.displaySuggestions === true,
-          };
-        })
-      );
-    } else {
-      return of(DEFAULT_SEARCHBOX_CONFIG);
-    }
-  }
-
-  /**
-   * Closes the searchbox and opens the search result page.
+   * Closes the searchBox and opens the search result page.
    */
   search(query: string): void {
     this.searchBoxComponentService.search(query, this.config);
-    // force the searchbox to open
+    // force the searchBox to open
     this.open();
   }
 
   /**
-   * Opens the typeahead searchbox
+   * Opens the type-ahead searchBox
    */
   open(): void {
     this.searchBoxComponentService.toggleBodyClass('searchbox-is-active', true);
   }
 
   /**
-   * Closes the typehead searchbox.
+   * Closes the type-ahead searchBox.
    */
   close(event: UIEvent, force?: boolean): void {
     // Use timeout to detect changes
     setTimeout(() => {
-      if ((!this.ignoreCloseEvent && !this.isSearchboxFocused()) || force) {
+      if ((!this.ignoreCloseEvent && !this.isSearchBoxFocused()) || force) {
         this.blurSearchBox(event);
       }
     });
@@ -129,7 +128,7 @@ export class SearchBoxComponent {
   }
 
   // Check if focus is on searchbox or result list elements
-  private isSearchboxFocused(): boolean {
+  private isSearchBoxFocused(): boolean {
     return (
       this.getResultElements().includes(this.getFocusedElement()) ||
       this.winRef.document.querySelector('input[aria-label="search"]') ===
