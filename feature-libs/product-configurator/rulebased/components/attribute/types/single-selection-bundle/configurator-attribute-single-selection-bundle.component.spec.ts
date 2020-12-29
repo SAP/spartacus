@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -9,6 +9,12 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeProductCardComponent } from '../../product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeSingleSelectionBundleComponent } from './configurator-attribute-single-selection-bundle.component';
+
+@Component({
+  selector: 'cx-configurator-attribute-product-card',
+  template: '',
+})
+class MockProductCardComponent {}
 
 describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
   let component: ConfiguratorAttributeSingleSelectionBundleComponent;
@@ -55,9 +61,9 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
         ],
         declarations: [
           ConfiguratorAttributeSingleSelectionBundleComponent,
-          ConfiguratorAttributeProductCardComponent,
           ConfiguratorShowMoreComponent,
           ItemCounterComponent,
+          MockProductCardComponent,
         ],
       })
         .overrideComponent(
@@ -65,6 +71,12 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
           {
             set: {
               changeDetection: ChangeDetectionStrategy.Default,
+              providers: [
+                {
+                  provide: ConfiguratorAttributeProductCardComponent,
+                  useClass: MockProductCardComponent,
+                },
+              ],
             },
           }
         )

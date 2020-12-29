@@ -3,14 +3,44 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { ItemCounterComponent } from '@spartacus/storefront';
+import { I18nTestingModule, Product, ProductService } from '@spartacus/core';
+import { ItemCounterComponent, MediaModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeProductCardComponent } from './configurator-attribute-product-card.component';
+import { Observable, of } from 'rxjs';
+
+const product: Product = {
+  name: 'Product Name',
+  code: 'PRODUCT_CODE',
+  images: {
+    PRIMARY: {
+      thumbnail: {
+        url: 'url',
+        altText: 'alt',
+      },
+    },
+  },
+  price: {
+    formattedValue: '$1.500',
+  },
+  priceRange: {
+    maxPrice: {
+      formattedValue: '$1.500',
+    },
+    minPrice: {
+      formattedValue: '$1.000',
+    },
+  },
+};
 
 const mockQuantity = new FormControl(1);
+class MockProductService {
+  get(): Observable<Product> {
+    return of(product);
+  }
+}
 
 describe('ConfiguratorAttributeProductCardComponent', () => {
   let component: ConfiguratorAttributeProductCardComponent;
@@ -51,11 +81,18 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           ReactiveFormsModule,
           RouterTestingModule,
           UrlTestingModule,
+          MediaModule,
         ],
         declarations: [
           ConfiguratorAttributeProductCardComponent,
           ConfiguratorShowMoreComponent,
           ItemCounterComponent,
+        ],
+        providers: [
+          {
+            provide: ProductService,
+            useClass: MockProductService,
+          },
         ],
       })
         .overrideComponent(ConfiguratorAttributeProductCardComponent, {
