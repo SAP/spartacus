@@ -59,7 +59,7 @@ async function run() {
     );
 
     const directory = path.substring(0, path.length - `/package.json`.length);
-    console.startGroup(`api extractor for ${directory}`);
+    core.startGroup(`api extractor for ${directory}`);
     await io.cp(apiExtractorConfigPath, directory);
     await exec.exec(
       'sh',
@@ -69,7 +69,7 @@ async function run() {
         delay: 1000,
       }
     );
-    console.endGroup();
+    core.endGroup();
   }
 
   globber = await glob.create('etc/**/*.md', {});
