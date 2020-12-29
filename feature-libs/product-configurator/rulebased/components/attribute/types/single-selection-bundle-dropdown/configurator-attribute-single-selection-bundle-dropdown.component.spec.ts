@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -11,7 +11,13 @@ import { I18nTestingModule } from '@spartacus/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 
-describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
+@Component({
+  selector: 'cx-configurator-attribute-product-card',
+  template: '',
+})
+class MockProductCardComponent {}
+
+fdescribe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   let component: ConfiguratorAttributeSingleSelectionBundleDropdownComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeSingleSelectionBundleDropdownComponent>;
   let htmlElem: HTMLElement;
@@ -56,8 +62,8 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       TestBed.configureTestingModule({
         declarations: [
           ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
-          ConfiguratorAttributeProductCardComponent,
           ConfiguratorShowMoreComponent,
+          MockProductCardComponent,
         ],
         imports: [
           ReactiveFormsModule,
@@ -73,6 +79,12 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
           {
             set: {
               changeDetection: ChangeDetectionStrategy.Default,
+              providers: [
+                {
+                  provide: ConfiguratorAttributeProductCardComponent,
+                  useClass: MockProductCardComponent,
+                },
+              ],
             },
           }
         )
