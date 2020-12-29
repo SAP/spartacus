@@ -301,9 +301,6 @@ describe('ConfiguratorGroupUtilsService', () => {
         groupId: 'unknown',
       };
 
-      const updateType: Configurator.UpdateType =
-        Configurator.UpdateType.ATTRIBUTE;
-
       expect(function () {
         classUnderTest.createConfigurationExtract(
           changedAttribute,
