@@ -92,10 +92,10 @@ async function run() {
     let myOutput = '';
     let myError = '';
     options.listeners = {
-      stdLine: (line) => {
+      stdline: (line) => {
         myOutput += line;
       },
-      errLine: (line) => {
+      errline: (line) => {
         myError += line;
       },
     };
