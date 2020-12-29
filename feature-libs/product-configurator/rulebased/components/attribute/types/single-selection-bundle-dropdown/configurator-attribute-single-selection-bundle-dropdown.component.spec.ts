@@ -33,7 +33,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   const createValue = (
     description: string,
     images: Configurator.Image[],
-    name,
+    name: string,
     quantity: number,
     selected: boolean,
     valueCode: string,
