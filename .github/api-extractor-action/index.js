@@ -82,7 +82,7 @@ async function run() {
   globber = await glob.create('target-branch-clone/dist/**/package.json', {});
   const files2 = await globber.glob();
 
-  console.startGroup('api extractor for target branch');
+  core.startGroup('api extractor for target branch');
   await Promise.all(
     files2.map(async (path) => {
       const packageContent = JSON.parse(fs.readFileSync(path, 'utf-8'));
@@ -106,7 +106,7 @@ async function run() {
       );
     })
   );
-  console.endGroup();
+  core.endGroup();
 
   globber = await glob.create('target-branch-clone/etc/**/*.md', {});
   const reports = await globber.glob();
