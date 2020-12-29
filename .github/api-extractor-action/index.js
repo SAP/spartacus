@@ -15,14 +15,14 @@ async function prepareRepositoryForApiExtractor(branch, baseCommit) {
   await exec.exec('sh', [
     './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
     branch,
-    'brach-clone',
+    'branch-clone',
     baseCommit,
   ]);
   // We can parallel these builds, when schematics builds won't trigger yarn install
   await exec.exec('sh', ['./.github/api-extractor-action/build-libs.sh']);
   await exec.exec('sh', [
     './.github/api-extractor-action/build-libs.sh',
-    'brach-clone',
+    'branch-clone',
   ]);
   core.endGroup();
 }
