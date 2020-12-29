@@ -17,6 +17,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   let htmlElem: HTMLElement;
 
   const ownerKey = 'theOwnerKey';
+  const nameFake = 'nameAttribute';
   const attrCode = 1234;
   const groupId = 'theGroupId';
   const selectedSingleValue = '0';
@@ -132,7 +133,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     component.attribute = {
       attrCode,
       groupId,
-      name: 'nameAttribute',
+      name: nameFake,
       required: true,
       selectedSingleValue,
       values,
@@ -162,7 +163,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       jasmine.objectContaining({
         ownerKey: ownerKey,
         changedAttribute: jasmine.objectContaining({
-          name: name,
+          name: nameFake,
           groupId: groupId,
           selectedSingleValue: component.attributeDropDownForm.value,
         }),
