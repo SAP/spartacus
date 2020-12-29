@@ -76,7 +76,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
 
   protected updateMultipleSelectionValuesQuantity(eventValue) {
     const value: Configurator.Value = this.multipleSelectionValues.find(
-      (value) => value.valueCode === eventValue.valueCode
+      (selectionValue) => selectionValue?.valueCode === eventValue.valueCode
     );
 
     if (!value) return;
