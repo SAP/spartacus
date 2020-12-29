@@ -22,19 +22,17 @@ async function run() {
   const targetBranch = relatedPR.base.ref;
   const reportHeader = 'Public API change detection bot';
 
-  // Prepare current branch libs for api-extractor
-  core.startGroup('Prepare branch for extractor');
-  await exec.exec('sh', [
-    './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
-  ]);
-  core.endGroup();
-
-  // Prepare target branch libs for api-extractor
-  core.startGroup('Prepare target branch for extractor');
-  await exec.exec('sh', [
-    './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
-    targetBranch,
-    'target',
+  // Prepare current and target branch libs for api-extractor
+  core.startGroup('Prepare branches for extractor');
+  await Promise.all([
+    exec.exec('sh', [
+      './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
+    ]),
+    exec.exec('sh', [
+      './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
+      targetBranch,
+      'target',
+    ]),
   ]);
   core.endGroup();
 
@@ -58,7 +56,7 @@ async function run() {
     );
 
     const directory = path.substring(0, path.length - `/package.json`.length);
-
+    console.startGroup(`api extractor for ${directory}`);
     await io.cp(apiExtractorConfigPath, directory);
     await exec.exec(
       'sh',
@@ -68,6 +66,7 @@ async function run() {
         delay: 1000,
       }
     );
+    console.endGroup();
     // })
     // );
   }
@@ -79,31 +78,31 @@ async function run() {
   globber = await glob.create('target-branch-clone/dist/**/package.json', {});
   const files2 = await globber.glob();
 
-  for (let path of files2) {
-    // await Promise.all(
-    // files2.map(async (path) => {
-    const packageContent = JSON.parse(fs.readFileSync(path, 'utf-8'));
-    const name = packageContent.name;
-    const newName = name.replace(/\//g, '_').replace(/\_/, '/');
-    fs.writeFileSync(
-      path,
-      JSON.stringify({ ...packageContent, name: newName }, undefined, 2)
-    );
+  console.startGroup('api extractor for target branch');
+  await Promise.all(
+    files2.map(async (path) => {
+      const packageContent = JSON.parse(fs.readFileSync(path, 'utf-8'));
+      const name = packageContent.name;
+      const newName = name.replace(/\//g, '_').replace(/\_/, '/');
+      fs.writeFileSync(
+        path,
+        JSON.stringify({ ...packageContent, name: newName }, undefined, 2)
+      );
 
-    const directory = path.substring(0, path.length - `/package.json`.length);
+      const directory = path.substring(0, path.length - `/package.json`.length);
 
-    await io.cp(apiExtractorConfigPath, directory);
-    await exec.exec(
-      'sh',
-      ['./.github/api-extractor-action/api-extractor.sh', directory],
-      {
-        ignoreReturnCode: true,
-        delay: 1000,
-      }
-    );
-    // })
-    // );
-  }
+      await io.cp(apiExtractorConfigPath, directory);
+      await exec.exec(
+        'sh',
+        ['./.github/api-extractor-action/api-extractor.sh', directory],
+        {
+          ignoreReturnCode: true,
+          delay: 1000,
+        }
+      );
+    })
+  );
+  console.endGroup();
 
   globber = await glob.create('target-branch-clone/etc/**/*.md', {});
   const reports = await globber.glob();
