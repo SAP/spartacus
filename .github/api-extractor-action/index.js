@@ -32,13 +32,12 @@ async function run() {
     targetBranch,
     'target',
   ]);
-  await Promise.all([
-    exec.exec('sh', ['./.github/api-extractor-action/build-libs.sh']),
-    exec.exec('sh', [
-      './.github/api-extractor-action/build-libs.sh',
-      targetBranch,
-      'target',
-    ]),
+  // We can parallel these builds, when schematics builds won't trigger yarn install
+  await exec.exec('sh', ['./.github/api-extractor-action/build-libs.sh']);
+  await exec.exec('sh', [
+    './.github/api-extractor-action/build-libs.sh',
+    targetBranch,
+    'target',
   ]);
   core.endGroup();
 
