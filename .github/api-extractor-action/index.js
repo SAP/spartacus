@@ -170,6 +170,8 @@ async function run() {
 
   console.log(entryPoints);
 
+  let notAnalyzableEntryPoints = [];
+
   const comment = Object.values(entryPoints)
     .map((entry) => {
       if (
@@ -200,6 +202,8 @@ ${entry.head.errors.join('\n')}`;
       ) {
         if (entry.head.errors[0] !== entry.base.errors[0]) {
           return `### ${entry.name}\nNew error: ${entry.head.errors[0]}\nPrevious error: ${entry.base.errors[0]}`;
+        } else {
+          notAnalyzableEntryPoints.push(entry.name);
         }
       } else if (entry.head.status === Status.Unknown) {
         return `### ${entry.name}\nEntry point removed. Are you sure it was intentional?`;
@@ -207,7 +211,7 @@ ${entry.head.errors.join('\n')}`;
       } else if (entry.base.status === Status.Unknown) {
         // entry added -> add whole diff
         const publicApi = extractSnippetFromFile(`etc/${entry.file}`);
-        return `### ${entry.name}\nNew entry point. Initial public api:\`\`\`ts\n${publicApi}\n\`\`\``;
+        return `### ${entry.name}\nNew entry point. Initial public api:\n\`\`\`ts\n${publicApi}\n\`\`\``;
       }
       return '';
     })
@@ -236,7 +240,14 @@ ${entry.head.errors.join('\n')}`;
   }
 
   function generateCommentBody(comment) {
-    return '## ' + reportHeader + '\n' + comment;
+    return (
+      '## ' +
+      reportHeader +
+      '\n' +
+      comment +
+      '\n\n ### Impossible to analyze\n' +
+      notAnalyzableEntryPoints.join('\n')
+    );
   }
 
   async function printReport(body) {
