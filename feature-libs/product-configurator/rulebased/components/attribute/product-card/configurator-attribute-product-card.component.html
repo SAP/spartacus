@@ -46,7 +46,7 @@
     >
       <label>{{ 'configurator.attribute.quantity' | cxTranslate }}</label>
       <cx-item-counter
-        [allowZero]="disabledAction ? false : true"
+        [allowZero]="!disabledAction"
         [control]="quantity"
         [min]="disabledAction ? 1 : 0"
         [readonly]="loading"
