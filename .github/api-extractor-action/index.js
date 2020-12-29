@@ -7,21 +7,21 @@ const fs = require('fs');
 // const diff = require('diff-lines');
 // const normalizeNewline = require('normalize-newline');
 
-async function prepareRepositoryForApiExtractor() {
+async function prepareRepositoryForApiExtractor(baseCommit) {
   core.startGroup('Prepare branches for extractor');
   await exec.exec('sh', [
     './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
   ]);
   await exec.exec('sh', [
     './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
-    targetBranch,
+    baseCommit,
     'target',
   ]);
   // We can parallel these builds, when schematics builds won't trigger yarn install
   await exec.exec('sh', ['./.github/api-extractor-action/build-libs.sh']);
   await exec.exec('sh', [
     './.github/api-extractor-action/build-libs.sh',
-    targetBranch,
+    baseCommit,
     'target',
   ]);
   core.endGroup();
@@ -48,7 +48,7 @@ async function run() {
   );
   const apiExtractorConfigPath = (await globber.glob())[0];
 
-  await prepareRepositoryForApiExtractor();
+  await prepareRepositoryForApiExtractor(targetBranch);
 
   const Status = {
     Unknown: 'unknown',
