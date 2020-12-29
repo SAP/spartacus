@@ -24,12 +24,18 @@ async function run() {
 
   // Prepare current and target branch libs for api-extractor
   core.startGroup('Prepare branches for extractor');
+  await exec.exec('sh', [
+    './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
+  ]);
+  await exec.exec('sh', [
+    './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
+    targetBranch,
+    'target',
+  ]);
   await Promise.all([
+    exec.exec('sh', ['./.github/api-extractor-action/build-libs.sh']),
     exec.exec('sh', [
-      './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
-    ]),
-    exec.exec('sh', [
-      './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
+      './.github/api-extractor-action/build-libs.sh',
       targetBranch,
       'target',
     ]),
