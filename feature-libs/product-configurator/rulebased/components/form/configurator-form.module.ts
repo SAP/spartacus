@@ -29,7 +29,6 @@ import { ConfiguratorFormComponent } from './configurator-form.component';
     I18nModule,
     NgSelectModule,
     ConfiguratorAttributeInputFieldModule,
-    ConfiguratorAttributeHeaderModule,
     ConfiguratorAttributeFooterModule,
     ConfiguratorAttributeNumericInputFieldModule,
     ConfiguratorAttributeHeaderModule,

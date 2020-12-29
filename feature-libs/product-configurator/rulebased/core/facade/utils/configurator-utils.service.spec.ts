@@ -89,6 +89,8 @@ const productConfigurationMultiLevel: Configurator.Configuration = {
   groups: [group4],
 };
 
+const updateType: Configurator.UpdateType = Configurator.UpdateType.ATTRIBUTE;
+
 function mergeChangesAndGetFirstGroup(
   serviceUnderTest: ConfiguratorUtilsService,
   changedAttribute: Configurator.Attribute,
@@ -96,8 +98,10 @@ function mergeChangesAndGetFirstGroup(
 ) {
   const configurationForSendingChanges = serviceUnderTest.createConfigurationExtract(
     changedAttribute,
-    configuration
+    configuration,
+    updateType
   );
+
   expect(configurationForSendingChanges).toBeDefined();
   const groups = configurationForSendingChanges.groups;
   expect(groups).toBeDefined();
@@ -300,7 +304,8 @@ describe('ConfiguratorGroupUtilsService', () => {
       expect(function () {
         classUnderTest.createConfigurationExtract(
           changedAttribute,
-          productConfiguration
+          productConfiguration,
+          updateType
         );
       }).toThrow();
     });
