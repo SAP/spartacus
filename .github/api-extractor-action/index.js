@@ -76,7 +76,7 @@ async function run() {
         name: name,
         head: { status: Status.Unknown },
         base: { status: Status.Unknown },
-        file: `${nameName.split('/')[1]}.api.md`,
+        file: `${newName.split('/')[1]}.api.md`,
       };
     }
 
@@ -134,7 +134,7 @@ async function run() {
           name: name,
           head: { status: Status.Unknown },
           base: { status: Status.Unknown },
-          file: `${nameName.split('/')[1]}.api.md`,
+          file: `${newName.split('/')[1]}.api.md`,
         };
       }
 
