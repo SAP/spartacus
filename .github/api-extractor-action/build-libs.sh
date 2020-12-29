@@ -9,8 +9,7 @@ fi
 
 
 if [ "$DIR" != "self" ] ; then
-  CLONE_DIR="$DIR-branch-clone"
-  cd $CLONE_DIR
+  cd $DIR
 fi
 
 

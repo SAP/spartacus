@@ -7,22 +7,24 @@ const fs = require('fs');
 // const diff = require('diff-lines');
 // const normalizeNewline = require('normalize-newline');
 
-async function prepareRepositoryForApiExtractor(baseCommit) {
+async function prepareRepositoryForApiExtractor(branch, baseCommit) {
   core.startGroup('Prepare branches for extractor');
   await exec.exec('sh', [
     './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
   ]);
   await exec.exec('sh', [
     './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
+    branch,
+    'brach-clone',
     baseCommit,
-    'target',
   ]);
   // We can parallel these builds, when schematics builds won't trigger yarn install
   await exec.exec('sh', ['./.github/api-extractor-action/build-libs.sh']);
   await exec.exec('sh', [
     './.github/api-extractor-action/build-libs.sh',
+    branch,
+    'brach-clone',
     baseCommit,
-    'target',
   ]);
   core.endGroup();
 }
@@ -39,7 +41,8 @@ async function run() {
   const relatedPR = context.payload.pull_request;
 
   const issueNumber = relatedPR.number;
-  const targetBranch = relatedPR.base.ref;
+  const baseBranch = relatedPR.base.ref;
+  const baseCommit = relatedPR.base.sha;
   const reportHeader = 'Public API change detection bot';
 
   let globber = await glob.create(
@@ -48,7 +51,7 @@ async function run() {
   );
   const apiExtractorConfigPath = (await globber.glob())[0];
 
-  await prepareRepositoryForApiExtractor(targetBranch);
+  await prepareRepositoryForApiExtractor(baseBranch, baseCommit);
 
   const Status = {
     Unknown: 'unknown',
@@ -115,7 +118,7 @@ async function run() {
   // const raports = await globber.glob();
   // console.log(raports);
 
-  globber = await glob.create('target-branch-clone/dist/**/package.json', {});
+  globber = await glob.create('branch-clone/dist/**/package.json', {});
   const files2 = await globber.glob();
 
   core.startGroup('api extractor for target branch');
@@ -170,7 +173,7 @@ async function run() {
 
   console.log(entryPoints);
 
-  // globber = await glob.create('target-branch-clone/etc/**/*.md', {});
+  // globber = await glob.create('branch-clone/etc/**/*.md', {});
   // const reports = await globber.glob();
   // console.log(reports);
 
@@ -185,7 +188,7 @@ async function run() {
 
   // const libsDiffs = libraries.map((library) => {
   //   const sourceBranchReportDirectory = `etc`;
-  //   const targetBranchReportDirectory = `target-branch-clone/etc`;
+  //   const targetBranchReportDirectory = `branch-clone/etc`;
   //   const sourceBranchSnippet = extractSnippetFromFile(
   //     `${sourceBranchReportDirectory}/${library}.api.md`
   //   );
