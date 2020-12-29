@@ -48,9 +48,10 @@
       >
         <label>{{ 'configurator.attribute.quantity' | cxTranslate }}</label>
         <cx-item-counter
-          [allowZero]="true"
+          [allowZero]="!disabledAction"
           [control]="quantity"
-          [min]="0"
+          [min]="disabledAction ? 1 : 0"
+          [readonly]="loading$ | async"
         ></cx-item-counter>
       </div>
       <div class="cx-product-card-price"></div>

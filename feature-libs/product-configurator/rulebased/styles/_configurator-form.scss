@@ -16,4 +16,14 @@
       @include cx-configurator-attribute-type();
     }
   }
+
+  cx-item-counter {
+    &.readonly {
+      input {
+        border: solid 1px var(--cx-color-light);
+        min-height: 48px;
+        width: 10rem;
+      }
+    }
+  }
 }

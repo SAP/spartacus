@@ -121,8 +121,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       'Lorem Ipsum Dolor'
     );
 
-    spyOn(component, 'onHandleSelect').and.callThrough();
     spyOn(component, 'onHandleDeselect').and.callThrough();
+    spyOn(component, 'onHandleQuantity').and.callThrough();
+    spyOn(component, 'onHandleSelect').and.callThrough();
 
     fixture.detectChanges();
   });
@@ -182,6 +183,25 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     fixture.detectChanges();
 
     expect(component.onHandleDeselect).toHaveBeenCalled();
+  });
+
+  it('should button be called with proper update quantity action', () => {
+    component.product.selected = true;
+    component.multiSelect = true;
+
+    fixture.detectChanges();
+
+    const button = fixture.debugElement.queryAll(
+      By.css('cx-item-counter button')
+    )[1].nativeElement;
+
+    button.click();
+
+    component.onHandleQuantity();
+
+    fixture.detectChanges();
+
+    expect(component.onHandleQuantity).toHaveBeenCalled();
   });
 
   it('should button have select text when card type is no multi select and card is no selected', () => {
