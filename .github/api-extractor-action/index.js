@@ -85,20 +85,34 @@ async function run() {
     // Run api extractor for entrypoint
     core.startGroup(`api extractor for ${directory}`);
     await io.cp(apiExtractorConfigPath, directory);
-    await exec.exec(
+    const options = {
+      ignoreReturnCode: true,
+      delay: 1000,
+    };
+    let myOutput = '';
+    let myError = '';
+    options.listeners = {
+      stdLine: (line) => {
+        myOutput += line;
+      },
+      errLine: (line) => {
+        myError += line;
+      },
+    };
+    const exitCode = await exec.exec(
       'sh',
       ['./.github/api-extractor-action/api-extractor.sh', directory],
-      {
-        ignoreReturnCode: true,
-        delay: 1000,
-      }
+      options
     );
+    console.log('Exit code', exitCode);
+    console.log('ErrLines', myError);
+    console.log('Output', myOutput);
     core.endGroup();
   }
 
-  globber = await glob.create('etc/**/*.md', {});
-  const raports = await globber.glob();
-  console.log(raports);
+  // globber = await glob.create('etc/**/*.md', {});
+  // const raports = await globber.glob();
+  // console.log(raports);
 
   console.log(entryPoints);
 
