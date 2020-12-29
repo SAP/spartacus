@@ -27,8 +27,8 @@ Cypress.Commands.add(
   (contentCatalog = 'electronics-spa', currency = 'USD', orderNumber) => {
     Cypress.log({
       name: 'waitForOrderToBePlacedRequest',
-      displayName: 'Place order',
-      message: [`🔒 Placing order | ${orderNumber}`],
+      displayName: 'Waiting for placed order',
+      message: [`💰 Waiting for placed order ${orderNumber}`],
     });
     waitForOrderToBePlacedRequest(orderNumber, contentCatalog, currency);
   }
