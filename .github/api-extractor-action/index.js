@@ -67,7 +67,7 @@ async function run() {
     const packageContent = JSON.parse(fs.readFileSync(path, 'utf-8'));
     const name = packageContent.name;
 
-    if (!entryPoints.name) {
+    if (!entryPoints[name]) {
       entryPoints[name] = {
         name: name,
         head: { status: Status.Unknown },
@@ -125,7 +125,7 @@ async function run() {
       const packageContent = JSON.parse(fs.readFileSync(path, 'utf-8'));
       const name = packageContent.name;
 
-      if (!entryPoints.name) {
+      if (!entryPoints[name]) {
         entryPoints[name] = {
           name: name,
           head: { status: Status.Missing },
