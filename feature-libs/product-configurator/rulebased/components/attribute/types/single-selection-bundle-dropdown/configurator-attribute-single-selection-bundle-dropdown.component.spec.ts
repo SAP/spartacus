@@ -17,7 +17,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 })
 class MockProductCardComponent {}
 
-fdescribe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
+describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   let component: ConfiguratorAttributeSingleSelectionBundleDropdownComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeSingleSelectionBundleDropdownComponent>;
   let htmlElem: HTMLElement;
