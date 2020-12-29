@@ -1,4 +1,5 @@
 {
+  "plugins": ["stylelint-scss"],
   "rules": {
     "property-disallowed-list": [
       "margin-left",
@@ -22,6 +23,7 @@
     ],
     "declaration-property-value-disallowed-list": {
       "text-align": ["right", "left"]
-    }
+    },
+    "scss/comment-no-loud": true
   }
 }
