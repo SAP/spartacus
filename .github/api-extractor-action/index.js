@@ -7,6 +7,26 @@ const fs = require('fs');
 // const diff = require('diff-lines');
 // const normalizeNewline = require('normalize-newline');
 
+async function prepareRepositoryForApiExtractor() {
+  core.startGroup('Prepare branches for extractor');
+  await exec.exec('sh', [
+    './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
+  ]);
+  // await exec.exec('sh', [
+  //   './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
+  //   targetBranch,
+  //   'target',
+  // ]);
+  // We can parallel these builds, when schematics builds won't trigger yarn install
+  await exec.exec('sh', ['./.github/api-extractor-action/build-libs.sh']);
+  // await exec.exec('sh', [
+  //   './.github/api-extractor-action/build-libs.sh',
+  //   targetBranch,
+  //   'target',
+  // ]);
+  core.endGroup();
+}
+
 async function run() {
   const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
   const gh = github.getOctokit(GITHUB_TOKEN);
@@ -18,43 +38,42 @@ async function run() {
 
   const relatedPR = context.payload.pull_request;
 
-  console.log(relatedPR);
-  console.log(relatedPR.base);
-
   const issueNumber = relatedPR.number;
   const targetBranch = relatedPR.base.ref;
   const reportHeader = 'Public API change detection bot';
 
-  // Prepare current and target branch libs for api-extractor
-  core.startGroup('Prepare branches for extractor');
-  await exec.exec('sh', [
-    './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
-  ]);
-  await exec.exec('sh', [
-    './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
-    targetBranch,
-    'target',
-  ]);
-  // We can parallel these builds, when schematics builds won't trigger yarn install
-  await exec.exec('sh', ['./.github/api-extractor-action/build-libs.sh']);
-  await exec.exec('sh', [
-    './.github/api-extractor-action/build-libs.sh',
-    targetBranch,
-    'target',
-  ]);
-  core.endGroup();
-
-  let globber = await glob.create('dist/**/package.json', {});
-  const files = await globber.glob();
-  globber = await glob.create(
+  let globber = await glob.create(
     '.github/api-extractor-action/api-extractor.json',
     {}
   );
   const apiExtractorConfigPath = (await globber.glob())[0];
 
+  await prepareRepositoryForApiExtractor();
+
+  const Status = {
+    Unknown: 'unknown',
+    Success: 'success',
+    Failed: 'failed',
+    Missing: 'missing',
+  };
+
+  let entryPoints = {};
+
+  globber = await glob.create('dist/**/package.json', {});
+  const files = await globber.glob();
+
   for (let path of files) {
     const packageContent = JSON.parse(fs.readFileSync(path, 'utf-8'));
     const name = packageContent.name;
+
+    if (!entryPoints.name) {
+      entryPoints[name] = {
+        name: name,
+        head: { status: Status.Unknown },
+        base: { status: Status.Unknown },
+      };
+    }
+
     const newName = name.replace(/\//g, '_').replace(/\_/, '/');
     fs.writeFileSync(
       path,
@@ -62,6 +81,8 @@ async function run() {
     );
 
     const directory = path.substring(0, path.length - `/package.json`.length);
+
+    // Run api extractor for entrypoint
     core.startGroup(`api extractor for ${directory}`);
     await io.cp(apiExtractorConfigPath, directory);
     await exec.exec(
@@ -79,38 +100,40 @@ async function run() {
   const raports = await globber.glob();
   console.log(raports);
 
-  globber = await glob.create('target-branch-clone/dist/**/package.json', {});
-  const files2 = await globber.glob();
+  console.log(entryPoints);
 
-  core.startGroup('api extractor for target branch');
-  await Promise.all(
-    files2.map(async (path) => {
-      const packageContent = JSON.parse(fs.readFileSync(path, 'utf-8'));
-      const name = packageContent.name;
-      const newName = name.replace(/\//g, '_').replace(/\_/, '/');
-      fs.writeFileSync(
-        path,
-        JSON.stringify({ ...packageContent, name: newName }, undefined, 2)
-      );
+  // globber = await glob.create('target-branch-clone/dist/**/package.json', {});
+  // const files2 = await globber.glob();
 
-      const directory = path.substring(0, path.length - `/package.json`.length);
+  // core.startGroup('api extractor for target branch');
+  // await Promise.all(
+  //   files2.map(async (path) => {
+  //     const packageContent = JSON.parse(fs.readFileSync(path, 'utf-8'));
+  //     const name = packageContent.name;
+  //     const newName = name.replace(/\//g, '_').replace(/\_/, '/');
+  //     fs.writeFileSync(
+  //       path,
+  //       JSON.stringify({ ...packageContent, name: newName }, undefined, 2)
+  //     );
 
-      await io.cp(apiExtractorConfigPath, directory);
-      await exec.exec(
-        'sh',
-        ['./.github/api-extractor-action/api-extractor.sh', directory],
-        {
-          ignoreReturnCode: true,
-          delay: 1000,
-        }
-      );
-    })
-  );
-  core.endGroup();
+  //     const directory = path.substring(0, path.length - `/package.json`.length);
 
-  globber = await glob.create('target-branch-clone/etc/**/*.md', {});
-  const reports = await globber.glob();
-  console.log(reports);
+  //     await io.cp(apiExtractorConfigPath, directory);
+  //     await exec.exec(
+  //       'sh',
+  //       ['./.github/api-extractor-action/api-extractor.sh', directory],
+  //       {
+  //         ignoreReturnCode: true,
+  //         delay: 1000,
+  //       }
+  //     );
+  //   })
+  // );
+  // core.endGroup();
+
+  // globber = await glob.create('target-branch-clone/etc/**/*.md', {});
+  // const reports = await globber.glob();
+  // console.log(reports);
 
   // function extractSnippetFromFile(filename) {
   //   const regexForTSSnippetInMarkdown = /```ts([\s\S]*)```/ms;
