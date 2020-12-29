@@ -7,7 +7,7 @@
     *ngIf="showMore$ | async"
   >
     <ng-container *ngIf="showHiddenText$ | async; else less"
-      >&nbsp;{{ 'configurator.button.less' | cxTranslate }}</ng-container
+      >&nbsp;... {{ 'configurator.button.less' | cxTranslate }}</ng-container
     >
 
     <ng-template #less>
