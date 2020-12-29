@@ -8,13 +8,8 @@ import {
 } from '@angular/core';
 import { Configurator } from '../../../core/model/configurator.model';
 import { FormControl } from '@angular/forms';
-import { Subscription } from 'rxjs';
-
-interface QuantityUpdateEvent {
-  quantity: number;
-  valueCode: string;
-}
-
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { QuantityUpdateEvent } from '../../form/configurator-form.event';
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   templateUrl: './configurator-attribute-product-card.component.html',
@@ -22,7 +17,7 @@ interface QuantityUpdateEvent {
 export class ConfiguratorAttributeProductCardComponent
   implements OnDestroy, OnInit {
   quantity = new FormControl(1);
-  loading = false;
+  loading$ = new BehaviorSubject<boolean>(false);
   private sub: Subscription;
 
   @Input() disabledAction: boolean;
@@ -53,17 +48,17 @@ export class ConfiguratorAttributeProductCardComponent
   }
 
   onHandleSelect(): void {
-    this.loading = true;
+    this.loading$.next(true);
     this.handleSelect.emit(this.product.valueCode);
   }
 
   onHandleDeselect(): void {
-    this.loading = true;
+    this.loading$.next(true);
     this.handleDeselect.emit(this.product.valueCode);
   }
 
   onHandleQuantity(): void {
-    this.loading = true;
+    this.loading$.next(true);
 
     this.handleQuantity.emit({
       quantity: this.quantity.value,

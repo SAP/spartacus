@@ -4,3 +4,8 @@ export class ConfigFormUpdateEvent {
   ownerKey: string;
   updateType?: Configurator.UpdateType;
 }
+
+export interface QuantityUpdateEvent {
+  quantity: number;
+  valueCode: string;
+}

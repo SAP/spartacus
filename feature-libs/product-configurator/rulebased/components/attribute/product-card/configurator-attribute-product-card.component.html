@@ -49,7 +49,7 @@
         [allowZero]="!disabledAction"
         [control]="quantity"
         [min]="disabledAction ? 1 : 0"
-        [readonly]="loading"
+        [readonly]="loading$ | async"
       ></cx-item-counter>
     </div>
     <div class="cx-product-card-price"></div>

@@ -79,6 +79,8 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
       (value) => value.valueCode === eventValue.valueCode
     );
 
+    if (!value) return;
+
     value.quantity = eventValue.quantity;
 
     const event: ConfigFormUpdateEvent = {
