@@ -45,8 +45,6 @@ async function run() {
   const apiExtractorConfigPath = (await globber.glob())[0];
 
   for (let path of files) {
-    // await Promise.all(
-    // files.map(async (path) => {
     const packageContent = JSON.parse(fs.readFileSync(path, 'utf-8'));
     const name = packageContent.name;
     const newName = name.replace(/\//g, '_').replace(/\_/, '/');
@@ -67,8 +65,6 @@ async function run() {
       }
     );
     console.endGroup();
-    // })
-    // );
   }
 
   globber = await glob.create('etc/**/*.md', {});
