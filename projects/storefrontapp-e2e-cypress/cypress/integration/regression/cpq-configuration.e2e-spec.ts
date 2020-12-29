@@ -22,6 +22,15 @@ const COFFEE_MACHINE_CUPS_DAY_500_1000 = '8842'; //  500-1000 CUPS
 
 const STARB_MODE = '8845'; // STARB_MODE
 
+// List of groups
+const ACCESSORIES = 'Accessories';
+const INSURANCE_AND_WARRANTY = 'Insurance and Warranty';
+
+// List of attributes
+const CAMERA_PIXELS = 'CAMERA_PIXELS';
+const CAMERA_DISPLAY = 'CAMERA_DISPLAY';
+const CAMERA_MODE = 'CAMERA_MODE';
+
 context('CPQ Configuration', () => {
   beforeEach(() => {
     cy.visit('/');
@@ -114,6 +123,52 @@ context('CPQ Configuration', () => {
         ATTR_COFFEE_MACHINE_STARB_MODE,
         STARB_MODE
       );
+    });
+  });
+
+  describe.only('Group Handling', () => {
+    it('should navigate between groups', () => {
+      configuration.goToCPQConfigurationPage(powertoolsShop, testProduct);
+
+      // Waiting for item counter to be rendered
+      cy.get('cx-item-counter');
+
+      configuration.clickOnNextBtn(ACCESSORIES);
+      configuration.clickOnNextBtn(INSURANCE_AND_WARRANTY);
+      configuration.clickOnPreviousBtn(ACCESSORIES);
+    });
+
+    it('should check if group buttons are clickable', () => {
+      configuration.goToCPQConfigurationPage(powertoolsShop, testProduct);
+
+      // Waiting for item counter to be rendered
+      cy.get('cx-item-counter');
+
+      configuration.checkNextBtnEnabled();
+      configuration.checkPreviousBtnDisabled();
+
+      configuration.clickOnNextBtn(ACCESSORIES);
+
+      // Waiting for item counter to be rendered
+      cy.get('cx-item-counter');
+
+      configuration.checkPreviousBtnEnabled();
+      configuration.clickOnNextBtn(INSURANCE_AND_WARRANTY);
+
+      // Waiting for item counter to be rendered
+      cy.get('cx-item-counter');
+
+      configuration.checkNextBtnDisabled();
+    });
+
+    it('should navigate using the group menu', () => {
+      configuration.goToConfigurationPage(powertoolsShop, testProduct);
+      configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
+
+      configuration.clickOnGroup(2);
+      configuration.checkAttributeDisplayed(CAMERA_DISPLAY, radioGroup);
+      configuration.clickOnGroup(1);
+      configuration.checkAttributeDisplayed(CAMERA_PIXELS, radioGroup);
     });
   });
 });

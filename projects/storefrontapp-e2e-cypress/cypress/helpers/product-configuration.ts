@@ -45,6 +45,24 @@ export function goToConfigurationPage(
 }
 
 /**
+ * Navigates to the CPQ product configuration page.
+ *
+ * @param {string} shopName - shop name
+ * @param {string} productId - Product ID
+ * @return {Chainable<Window>} - New configuration window
+ */
+export function goToCPQConfigurationPage(
+  shopName: string,
+  productId: string
+): Chainable<Window> {
+  const location = `/${shopName}/en/USD/configure/cpq/product/entityKey/${productId}`;
+  return cy.visit(location).then(() => {
+    cy.location('pathname').should('contain', location);
+    this.checkConfigPageDisplayed();
+  });
+}
+
+/**
  * Navigates to the product detail page.
  *
  * @param {string} shopName - shop name
