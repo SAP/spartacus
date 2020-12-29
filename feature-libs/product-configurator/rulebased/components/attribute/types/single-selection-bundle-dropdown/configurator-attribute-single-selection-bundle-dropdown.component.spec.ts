@@ -17,7 +17,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   let htmlElem: HTMLElement;
 
   const ownerKey = 'theOwnerKey';
-  const name = 'theName';
+  const nameFake = 'theName';
   const attrCode = 1234;
   const groupId = 'theGroupId';
   const selectedSingleValue = '0';
@@ -33,7 +33,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   const createValue = (
     description: string,
     images: Configurator.Image[],
-    name: string,
+    nameFake: string,
     quantity: number,
     selected: boolean,
     valueCode: string,
@@ -42,7 +42,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     const value: Configurator.Value = {
       description,
       images,
-      name,
+      name: nameFake,
       quantity,
       selected,
       valueCode,
