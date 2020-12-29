@@ -62,7 +62,9 @@ export function userPasswordTest(config: MyCompanyConfig): void {
 
   function setUserPasswordAsAdmin(code: string, newPassword: string) {
     loginAsMyCompanyAdmin();
+    cy.route('GET', `**${config.apiEndpoint}**`).as('getEntity');
     cy.visit(`${config.baseUrl}/${code}`);
+    cy.wait('@getEntity');
 
     cy.get('cx-org-user-details section.details a.link')
       .contains('Change password')
@@ -84,11 +86,12 @@ export function userPasswordTest(config: MyCompanyConfig): void {
       FormType.CREATE
     );
 
+    cy.route('GET', `**${config.apiEndpoint}**`).as('getEntity');
     cy.route('PATCH', `**`).as('patch');
     cy.get('div.header button').contains('Save').click();
     cy.wait('@patch');
+    cy.wait('@getEntity');
 
-    cy.get('cx-org-notification').contains(' password updated successfully');
     logOutAndEmptyCart();
   }
 }
