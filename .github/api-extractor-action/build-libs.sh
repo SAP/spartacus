@@ -3,8 +3,8 @@ set -e
 
 DIR=self
 
-if [ "$2" != "" ] ; then
-  DIR=$2
+if [ "$1" != "" ] ; then
+  DIR=$1
 fi
 
 

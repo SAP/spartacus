@@ -22,9 +22,7 @@ async function prepareRepositoryForApiExtractor(branch, baseCommit) {
   await exec.exec('sh', ['./.github/api-extractor-action/build-libs.sh']);
   await exec.exec('sh', [
     './.github/api-extractor-action/build-libs.sh',
-    branch,
     'brach-clone',
-    baseCommit,
   ]);
   core.endGroup();
 }

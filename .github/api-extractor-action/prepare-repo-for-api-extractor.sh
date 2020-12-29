@@ -20,7 +20,7 @@ npm i -g @microsoft/api-extractor@^7.12.0
 
 if [ "$DIR" != "self" ] ; then
   rm -rf $DIR
-  git clone --single-branch --branch $BRANCH https://github.com/SAP/spartacus.git $DIR --depth 1
+  git clone --single-branch --branch $BRANCH https://github.com/SAP/spartacus.git $DIR
   cd $DIR
   git checkout $COMMIT
 fi
