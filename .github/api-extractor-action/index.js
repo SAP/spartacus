@@ -89,14 +89,10 @@ async function run() {
       ignoreReturnCode: true,
       delay: 1000,
     };
-    let myOutput = '';
-    let myError = '';
+    let myError = [];
     options.listeners = {
-      stdline: (line) => {
-        myOutput += line;
-      },
       errline: (line) => {
-        myError += line;
+        myError.push(line);
       },
     };
     const exitCode = await exec.exec(
@@ -104,9 +100,14 @@ async function run() {
       ['./.github/api-extractor-action/api-extractor.sh', directory],
       options
     );
-    console.log('Exit code', exitCode);
-    console.log('ErrLines', myError);
-    console.log('Output', myOutput);
+    if (exitCode !== 0) {
+      entryPoints[name].head.status = Status.Failed;
+      entryPoints[name].head.errors = myError.filter((line) =>
+        line.startsWith('ERROR: ')
+      );
+    } else {
+      entryPoints[name].head.status = Status.Success;
+    }
     core.endGroup();
   }
 
