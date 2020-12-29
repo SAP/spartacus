@@ -104,6 +104,15 @@ export class SelectiveCartService {
     );
   }
 
+  /**
+   * Returns true when selective cart is stable (not loading and not pending processes on cart)
+   */
+  isStable(): Observable<boolean> {
+    return this.cartId$.pipe(
+      switchMap((cartId) => this.multiCartService.isStable(cartId))
+    );
+  }
+
   private load() {
     if (this.isLoggedIn(this.userId) && this.cartId) {
       this.multiCartService.loadCart({
