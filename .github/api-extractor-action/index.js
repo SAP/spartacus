@@ -41,7 +41,7 @@ async function run() {
   const issueNumber = relatedPR.number;
   const baseBranch = relatedPR.base.ref;
   const baseCommit = relatedPR.base.sha;
-  const reportHeader = 'Public API change detection bot';
+  const reportHeader = 'Public API changes';
 
   let globber = await glob.create(
     '.github/api-extractor-action/api-extractor.json',
@@ -83,7 +83,7 @@ async function run() {
     const directory = path.substring(0, path.length - `/package.json`.length);
 
     // Run api extractor for entrypoint
-    core.startGroup(`api extractor for ${directory}`);
+    core.startGroup(`API extractor for ${directory}`);
     await io.cp(apiExtractorConfigPath, directory);
     const options = {
       ignoreReturnCode: true,
@@ -111,14 +111,10 @@ async function run() {
     core.endGroup();
   }
 
-  // globber = await glob.create('etc/**/*.md', {});
-  // const raports = await globber.glob();
-  // console.log(raports);
-
   globber = await glob.create('branch-clone/dist/**/package.json', {});
   const files2 = await globber.glob();
 
-  core.startGroup('api extractor for target branch');
+  core.startGroup('API extractor for target branch');
   await Promise.all(
     files2.map(async (path) => {
       const packageContent = JSON.parse(fs.readFileSync(path, 'utf-8'));
@@ -168,8 +164,6 @@ async function run() {
   );
   core.endGroup();
 
-  console.log(entryPoints);
-
   let notAnalyzableEntryPoints = [];
 
   const comment = Object.values(entryPoints)
@@ -200,16 +194,13 @@ ${entry.head.errors.join('\n')}`;
         entry.head.status === Status.Failed &&
         entry.base.status === Status.Failed
       ) {
+        notAnalyzableEntryPoints.push(entry.name);
         if (entry.head.errors[0] !== entry.base.errors[0]) {
-          return `### ${entry.name}\nNew error: ${entry.head.errors[0]}\nPrevious error: ${entry.base.errors[0]}`;
-        } else {
-          notAnalyzableEntryPoints.push(entry.name);
+          return `### ${entry.name}\nNew error: \`${entry.head.errors[0]}\`\nPrevious error: \`${entry.base.errors[0]}\``;
         }
       } else if (entry.head.status === Status.Unknown) {
         return `### ${entry.name}\nEntry point removed. Are you sure it was intentional?`;
-        // entry removed -> add info
       } else if (entry.base.status === Status.Unknown) {
-        // entry added -> add whole diff
         const publicApi = extractSnippetFromFile(`etc/${entry.file}`);
         return `### ${entry.name}\nNew entry point. Initial public api:\n\`\`\`ts\n${publicApi}\n\`\`\``;
       }
