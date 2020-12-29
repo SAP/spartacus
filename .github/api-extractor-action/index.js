@@ -18,6 +18,9 @@ async function run() {
 
   const relatedPR = context.payload.pull_request;
 
+  console.log(relatedPR);
+  console.log(relatedPR.base);
+
   const issueNumber = relatedPR.number;
   const targetBranch = relatedPR.base.ref;
   const reportHeader = 'Public API change detection bot';
