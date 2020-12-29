@@ -170,7 +170,7 @@ async function run() {
 
   console.log(entryPoints);
 
-  const comment = entryPoints
+  const comment = Object.values(entryPoints)
     .map((entry) => {
       if (
         entry.head.status === Status.Success &&
