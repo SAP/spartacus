@@ -206,7 +206,7 @@ ${entry.head.errors.join('\n')}`;
         // entry removed -> add info
       } else if (entry.base.status === Status.Unknown) {
         // entry added -> add whole diff
-        const publicApi = extractSnippetFromFile(entry.file);
+        const publicApi = extractSnippetFromFile(`etc/${entry.file}`);
         return `### ${entry.name}\nNew entry point. Initial public api:\`\`\`ts\n${publicApi}\n\`\`\``;
       }
       return '';
