@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { waitForAsync, TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
@@ -45,18 +45,20 @@ describe('Replenishment Order Effects', () => {
   let effects: fromEffects.ReplenishmentOrderEffects;
   let actions$: Observable<Action>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        {
-          provide: CheckoutReplenishmentOrderConnector,
-          useClass: MockReplenishmentOrderConnector,
-        },
-        fromEffects.ReplenishmentOrderEffects,
-        provideMockActions(() => actions$),
-      ],
-    });
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          {
+            provide: CheckoutReplenishmentOrderConnector,
+            useClass: MockReplenishmentOrderConnector,
+          },
+          fromEffects.ReplenishmentOrderEffects,
+          provideMockActions(() => actions$),
+        ],
+      });
+    })
+  );
 
   beforeEach(() => {
     connector = TestBed.inject(CheckoutReplenishmentOrderConnector);

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -135,41 +135,43 @@ describe('AddressFormComponent', () => {
   const defaultAddressCheckbox = (): DebugElement =>
     fixture.debugElement.query(By.css('[formcontrolname=defaultAddress]'));
 
-  beforeEach(async(() => {
-    mockGlobalMessageService = {
-      add: createSpy(),
-    };
-    mockModalService = new MockModalService();
+  beforeEach(
+    waitForAsync(() => {
+      mockGlobalMessageService = {
+        add: createSpy(),
+      };
+      mockModalService = new MockModalService();
 
-    TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        NgSelectModule,
-        I18nTestingModule,
-        FormErrorsModule,
-      ],
-      declarations: [AddressFormComponent],
-      providers: [
-        { provide: ModalService, useValue: { open: () => {} } },
-        {
-          provide: CheckoutDeliveryService,
-          useClass: MockCheckoutDeliveryService,
-        },
-        { provide: UserService, useClass: MockUserService },
-        { provide: UserAddressService, useClass: MockUserAddressService },
-        { provide: GlobalMessageService, useValue: mockGlobalMessageService },
-        { provide: ModalService, useClass: MockModalService },
-      ],
-    })
-      .overrideComponent(AddressFormComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+      TestBed.configureTestingModule({
+        imports: [
+          ReactiveFormsModule,
+          NgSelectModule,
+          I18nTestingModule,
+          FormErrorsModule,
+        ],
+        declarations: [AddressFormComponent],
+        providers: [
+          { provide: ModalService, useValue: { open: () => {} } },
+          {
+            provide: CheckoutDeliveryService,
+            useClass: MockCheckoutDeliveryService,
+          },
+          { provide: UserService, useClass: MockUserService },
+          { provide: UserAddressService, useClass: MockUserAddressService },
+          { provide: GlobalMessageService, useValue: mockGlobalMessageService },
+          { provide: ModalService, useClass: MockModalService },
+        ],
       })
-      .compileComponents();
+        .overrideComponent(AddressFormComponent, {
+          set: { changeDetection: ChangeDetectionStrategy.Default },
+        })
+        .compileComponents();
 
-    userService = TestBed.inject(UserService);
-    userAddressService = TestBed.inject(UserAddressService);
-    mockCheckoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
-  }));
+      userService = TestBed.inject(UserService);
+      userAddressService = TestBed.inject(UserAddressService);
+      mockCheckoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddressFormComponent);
