@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { I18nModule, UrlModule } from '@spartacus/core';
-import { ItemCounterModule } from '@spartacus/storefront';
+import { ItemCounterModule, MediaModule } from '@spartacus/storefront';
 import { ConfiguratorShowMoreModule } from '../../show-more/configurator-show-more.module';
 import { ConfiguratorAttributeProductCardComponent } from './configurator-attribute-product-card.component';
 
@@ -20,6 +20,7 @@ import { ConfiguratorAttributeProductCardComponent } from './configurator-attrib
     UrlModule,
     FormsModule,
     ReactiveFormsModule,
+    MediaModule,
   ],
 })
 export class ConfiguratorAttributeProductCardModule {}
