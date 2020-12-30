@@ -28,14 +28,6 @@ async function prepareRepositoryForApiExtractor(branch, baseCommit) {
   core.endGroup();
 }
 
-function wait(ms) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, ms);
-  });
-}
-
 async function run() {
   const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
   const gh = github.getOctokit(GITHUB_TOKEN);
@@ -71,6 +63,7 @@ async function run() {
   globber = await glob.create('dist/**/package.json', {});
   const files = await globber.glob();
 
+  core.info('\u001b[35mAPI extractor for head branch');
   await Promise.all(
     files.map(async (path) => {
       // for (let path of files) {
@@ -101,19 +94,18 @@ async function run() {
         silent: true,
       };
       let myError = [];
-      let output = [];
+      let output = '';
       options.listeners = {
         errline: (line) => {
           myError.push(line);
-          if (output.length < 20) {
-            output.push(line);
-          }
         },
-        stdline: (line) => {
-          output.push(line);
+        stdout: (data) => {
+          output += data.toString();
+        },
+        stderr: (data) => {
+          output += data.toString();
         },
       };
-      console.log('Starting extraction for ' + name);
       const exitCode = await exec.exec(
         'sh',
         ['./.github/api-extractor-action/api-extractor.sh', directory],
@@ -127,22 +119,16 @@ async function run() {
       } else {
         entryPoints[name].head.status = Status.Success;
       }
-      core.startGroup(`API extractor for ${name}`);
-      for (let line of output) {
-        console.log(line + '\n');
-      }
-      // console.log(output);
-      await wait(10000);
+      core.startGroup(`${name}`);
+      console.log(output);
       core.endGroup();
     })
   );
 
-  console.log('Finished running extractor for head branch!');
-
   globber = await glob.create('branch-clone/dist/**/package.json', {});
   const files2 = await globber.glob();
 
-  core.startGroup('API extractor for target branch');
+  core.info('\u001b[35mAPI extractor for base branch');
   await Promise.all(
     files2.map(async (path) => {
       const packageContent = JSON.parse(fs.readFileSync(path, 'utf-8'));
@@ -201,7 +187,6 @@ async function run() {
       core.endGroup();
     })
   );
-  core.endGroup();
 
   let notAnalyzableEntryPoints = [];
 
