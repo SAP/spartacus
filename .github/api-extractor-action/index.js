@@ -113,6 +113,7 @@ async function run() {
           output.push(line);
         },
       };
+      console.log('Starting extraction for ' + name);
       const exitCode = await exec.exec(
         'sh',
         ['./.github/api-extractor-action/api-extractor.sh', directory],
