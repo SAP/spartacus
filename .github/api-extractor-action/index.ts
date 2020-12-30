@@ -276,6 +276,8 @@ ${entry.head.errors.join('\n')}\n\`\`\``;
       comment.body.includes(reportHeader)
     );
 
+    console.log(botComment, body);
+
     if (botComment && botComment.length) {
       await gh.issues.updateComment({
         comment_id: botComment[0].id,
