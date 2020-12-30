@@ -11,6 +11,6 @@ COPY index.ts /
 COPY tsconfig.json /
 
 RUN yarn
-RUN ['yarn', 'build']
+RUN ["yarn", "build"]
 
 ENTRYPOINT ["node", "/index.js"]
