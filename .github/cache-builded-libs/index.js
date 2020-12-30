@@ -5,12 +5,18 @@ const core = require('@actions/core');
 async function run() {
   const context = github.context;
   const sha = context.sha;
-  const exitCode = await exec.exec('yarn', ['build:libs'], {
+  let exitCode = await exec.exec('yarn', [], {
     ignoreReturnCode: true,
   });
-  // if (exitCode !== 0) {
-  core.setFailed(`Libraries build failed`);
-  // }
+  if (exitCode !== 0) {
+    core.setFailed(`Yarn install failed`);
+  }
+  exitCode = await exec.exec('yarn', ['build:libs'], {
+    ignoreReturnCode: true,
+  });
+  if (exitCode !== 0) {
+    core.setFailed(`Libraries build failed`);
+  }
 
   console.log(context);
 }
