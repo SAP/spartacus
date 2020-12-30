@@ -8,9 +8,8 @@ describe('BulkPricingTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BulkPricingTableComponent ]
-    })
-    .compileComponents();
+      declarations: [BulkPricingTableComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -1,19 +1,13 @@
 import { NgModule } from '@angular/core';
-import {
-  provideDefaultConfig,
-} from '@spartacus/core';
-
+import { provideDefaultConfig } from '@spartacus/core';
 
 @NgModule({
-  imports: [
-  ],
+  imports: [],
   providers: [
     provideDefaultConfig({
       featureModules: {
         productBulkPricing: {
-          cmsComponents: [
-            'BulkPricingTableComponent',
-          ],
+          cmsComponents: ['BulkPricingTableComponent'],
         },
       },
     }),

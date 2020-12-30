@@ -1,14 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import {
-  CmsConfig,
-  ConfigModule,
-  I18nModule,
-} from '@spartacus/core';
-import {
-  SpinnerModule,
-} from '@spartacus/storefront';
+import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
+import { SpinnerModule } from '@spartacus/storefront';
 import { BulkPricingTableComponent } from './bulk-pricing-table.component';
 
 @NgModule({
@@ -20,19 +14,12 @@ import { BulkPricingTableComponent } from './bulk-pricing-table.component';
       cmsComponents: {
         BulkPricingTableComponent: {
           component: BulkPricingTableComponent,
-
         },
       },
     }),
   ],
-  declarations: [
-    BulkPricingTableComponent
-  ],
-  exports: [
-    BulkPricingTableComponent
-  ],  
-  entryComponents: [
-    BulkPricingTableComponent
-  ],
+  declarations: [BulkPricingTableComponent],
+  exports: [BulkPricingTableComponent],
+  entryComponents: [BulkPricingTableComponent],
 })
 export class BulkPricingTableModule {}
