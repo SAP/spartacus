@@ -105,7 +105,9 @@ async function run() {
       options.listeners = {
         errline: (line) => {
           myError.push(line);
-          output.push(line);
+          if (output.length < 20) {
+            output.push(line);
+          }
         },
         stdline: (line) => {
           output.push(line);
