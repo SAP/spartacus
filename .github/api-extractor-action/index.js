@@ -188,34 +188,34 @@ async function run() {
         // prepare diff
         const diff = getDiff(entry.file);
         if (diff) {
-          return `### ${entry.name}\n\`\`\`diff\n${diff}\n\`\`\``;
+          return `### :warning: ${entry.name}\n\`\`\`diff\n${diff}\n\`\`\``;
         }
         return '';
       } else if (
         entry.head.status === Status.Failed &&
         entry.base.status === Status.Success
       ) {
-        return `### ${entry.name}
+        return `:boom: ### ${entry.name}
 Library no longer can be analyzed with api-extractor. Please check the errors below\n\`\`\`
 ${entry.head.errors.join('\n')}\n\`\`\``;
       } else if (
         entry.head.status === Status.Success &&
         entry.base.status === Status.Failed
       ) {
-        return `### ${entry.name}\nLibrary can now by analyzed with api-extractor.`;
+        return `### :green_heart: ${entry.name}\nLibrary can now by analyzed with api-extractor.`;
       } else if (
         entry.head.status === Status.Failed &&
         entry.base.status === Status.Failed
       ) {
         notAnalyzableEntryPoints.push(entry.name);
         if (entry.head.errors[0] !== entry.base.errors[0]) {
-          return `### ${entry.name}\nNew error: \`${entry.head.errors[0]}\`\nPrevious error: \`${entry.base.errors[0]}\``;
+          return `### :boom: ${entry.name}\nNew error: \`${entry.head.errors[0]}\`\nPrevious error: \`${entry.base.errors[0]}\``;
         }
       } else if (entry.head.status === Status.Unknown) {
-        return `### ${entry.name}\nEntry point removed. Are you sure it was intentional?`;
+        return `### :boom: ${entry.name}\nEntry point removed. Are you sure it was intentional?`;
       } else if (entry.base.status === Status.Unknown) {
         const publicApi = extractSnippetFromFile(`etc/${entry.file}`);
-        return `### ${entry.name}\nNew entry point. Initial public api:\n\`\`\`ts\n${publicApi}\n\`\`\``;
+        return `### :warning: ${entry.name}\nNew entry point. Initial public api:\n\`\`\`ts\n${publicApi}\n\`\`\``;
       }
       return '';
     })
@@ -248,8 +248,10 @@ ${entry.head.errors.join('\n')}\n\`\`\``;
       '## ' +
       reportHeader +
       '\n' +
-      (comment.length ? comment : 'Nothing changed in analyzed entry points.') +
-      '\n\n ### Impossible to analyze\n' +
+      (comment.length
+        ? comment
+        : '### :heavy_check_mark: Nothing changed in analyzed entry points.') +
+      '\n\n ### :warning: Impossible to analyze\n' +
       notAnalyzableEntryPoints.join('\n')
     );
   }
