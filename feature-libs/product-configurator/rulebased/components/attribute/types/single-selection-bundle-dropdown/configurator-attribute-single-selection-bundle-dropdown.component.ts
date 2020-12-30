@@ -37,22 +37,24 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
 
   onSelect(): void {
     const event: ConfigFormUpdateEvent = {
-      ownerKey: this.ownerKey,
       changedAttribute: {
         ...this.attribute,
         selectedSingleValue: this.attributeDropDownForm.value,
       },
+      ownerKey: this.ownerKey,
+      updateType: Configurator.UpdateType.ATTRIBUTE,
     };
     this.selectionChange.emit(event);
   }
 
   onDeselect(): void {
     const event: ConfigFormUpdateEvent = {
-      ownerKey: this.ownerKey,
       changedAttribute: {
         ...this.attribute,
         selectedSingleValue: '0',
       },
+      ownerKey: this.ownerKey,
+      updateType: Configurator.UpdateType.ATTRIBUTE,
     };
 
     this.selectionChange.emit(event);
