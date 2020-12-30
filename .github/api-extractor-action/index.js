@@ -195,8 +195,8 @@ async function run() {
         entry.head.status === Status.Failed &&
         entry.base.status === Status.Success
       ) {
-        return `:boom: ### ${entry.name}
-Library no longer can be analyzed with api-extractor. Please check the errors below\n\`\`\`
+        return `### :boom: ${entry.name}
+Library no longer can be analyzed with api-extractor. Please check the errors:\n\`\`\`
 ${entry.head.errors.join('\n')}\n\`\`\``;
       } else if (
         entry.head.status === Status.Success &&
@@ -252,7 +252,7 @@ ${entry.head.errors.join('\n')}\n\`\`\``;
         ? comment
         : '### :heavy_check_mark: Nothing changed in analyzed entry points.') +
       '\n\n ### :warning: Impossible to analyze\n' +
-      notAnalyzableEntryPoints.join('\n')
+      notAnalyzableEntryPoints.map((entryPoint) => `- ${entryPoint}`).join('\n')
     );
   }
 
