@@ -1,4 +1,4 @@
-FROM node:10
+FROM node:14
 
 LABEL "com.github.actions.name"="Breaking change detection bot"
 LABEL "com.github.actions.description"="Looks for breaking changes in library API"

@@ -3,6 +3,7 @@ const github = require('@actions/github');
 const core = require('@actions/core');
 const glob = require('@actions/glob');
 const io = require('@actions/io');
+const cache = require('@actions/cache');
 const fs = require('fs');
 const diff = require('diff-lines');
 const normalizeNewline = require('normalize-newline');
@@ -133,6 +134,8 @@ async function run() {
       // core.endGroup();
     })
   );
+
+  console.log('Finished running extractor for head branch!');
 
   globber = await glob.create('branch-clone/dist/**/package.json', {});
   const files2 = await globber.glob();

@@ -6,10 +6,10 @@ on:
       - 'release/**'
       # Remove it when finished development
       - 'feature/**'
-name: Cache builded libs
+name: Cache
 jobs:
-  cacheBuildedLibs:
-    name: Cache builded libs
+  buildedLibs:
+    name: Builded libs
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master

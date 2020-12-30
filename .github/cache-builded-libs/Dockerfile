@@ -1,7 +1,7 @@
-FROM node:10
+FROM node:14
 
-LABEL "com.github.actions.name"="Breaking change detection bot"
-LABEL "com.github.actions.description"="Looks for breaking changes in library API"
+LABEL "com.github.actions.name"="Cache builded libs"
+LABEL "com.github.actions.description"="Cache dist directory with libraries builds"
 LABEL "com.github.actions.icon"="lock"
 LABEL "com.github.actions.color"="red"
 
