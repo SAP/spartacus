@@ -64,66 +64,54 @@ async function run() {
   const files = await globber.glob();
 
   core.info('\u001b[35mAPI extractor for head branch');
-  await Promise.all(
-    files.map(async (path) => {
-      // for (let path of files) {
-      const packageContent = JSON.parse(fs.readFileSync(path, 'utf-8'));
-      const name = packageContent.name;
-      const newName = name.replace(/\//g, '_').replace(/\_/, '/');
-      fs.writeFileSync(
-        path,
-        JSON.stringify({ ...packageContent, name: newName }, undefined, 2)
-      );
+  for (let path of files) {
+    const packageContent = JSON.parse(fs.readFileSync(path, 'utf-8'));
+    const name = packageContent.name;
+    const newName = name.replace(/\//g, '_').replace(/\_/, '/');
+    fs.writeFileSync(
+      path,
+      JSON.stringify({ ...packageContent, name: newName }, undefined, 2)
+    );
 
-      if (!entryPoints[name]) {
-        entryPoints[name] = {
-          name: name,
-          head: { status: Status.Unknown },
-          base: { status: Status.Unknown },
-          file: `${newName.split('/')[1]}.api.md`,
-        };
-      }
-
-      const directory = path.substring(0, path.length - `/package.json`.length);
-
-      // Run api extractor for entrypoint
-      await io.cp(apiExtractorConfigPath, directory);
-      const options = {
-        ignoreReturnCode: true,
-        delay: 1000,
-        silent: true,
+    if (!entryPoints[name]) {
+      entryPoints[name] = {
+        name: name,
+        head: { status: Status.Unknown },
+        base: { status: Status.Unknown },
+        file: `${newName.split('/')[1]}.api.md`,
       };
-      let myError = [];
-      let output = '';
-      options.listeners = {
-        errline: (line) => {
-          myError.push(line);
-        },
-        stdout: (data) => {
-          output += data.toString();
-        },
-        stderr: (data) => {
-          output += data.toString();
-        },
-      };
-      const exitCode = await exec.exec(
-        'sh',
-        ['./.github/api-extractor-action/api-extractor.sh', directory],
-        options
+    }
+
+    const directory = path.substring(0, path.length - `/package.json`.length);
+
+    // Run api extractor for entrypoint
+    await io.cp(apiExtractorConfigPath, directory);
+    const options = {
+      ignoreReturnCode: true,
+      delay: 1000,
+    };
+    let myError = [];
+    options.listeners = {
+      errline: (line) => {
+        myError.push(line);
+      },
+    };
+    core.startGroup(`${name}`);
+    const exitCode = await exec.exec(
+      'sh',
+      ['./.github/api-extractor-action/api-extractor.sh', directory],
+      options
+    );
+    if (exitCode !== 0) {
+      entryPoints[name].head.status = Status.Failed;
+      entryPoints[name].head.errors = myError.filter((line) =>
+        line.startsWith('ERROR: ')
       );
-      if (exitCode !== 0) {
-        entryPoints[name].head.status = Status.Failed;
-        entryPoints[name].head.errors = myError.filter((line) =>
-          line.startsWith('ERROR: ')
-        );
-      } else {
-        entryPoints[name].head.status = Status.Success;
-      }
-      core.startGroup(`${name}`);
-      console.log(output);
-      core.endGroup();
-    })
-  );
+    } else {
+      entryPoints[name].head.status = Status.Success;
+    }
+    core.endGroup();
+  }
 
   globber = await glob.create('branch-clone/dist/**/package.json', {});
   const files2 = await globber.glob();
