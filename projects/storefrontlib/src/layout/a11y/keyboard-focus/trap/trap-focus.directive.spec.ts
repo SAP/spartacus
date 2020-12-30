@@ -1,5 +1,5 @@
 import { Component, Directive, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { TrapFocusConfig } from '../keyboard-focus.model';
 import { TrapFocusDirective } from './trap-focus.directive';
@@ -33,20 +33,22 @@ class MockTrapFocusService {
 describe('TrapFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   let service: TrapFocusService;
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [MockComponent, CustomFocusDirective],
-      providers: [
-        {
-          provide: TrapFocusService,
-          useClass: MockTrapFocusService,
-        },
-      ],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [MockComponent, CustomFocusDirective],
+        providers: [
+          {
+            provide: TrapFocusService,
+            useClass: MockTrapFocusService,
+          },
+        ],
+      }).compileComponents();
 
-    fixture = TestBed.createComponent(MockComponent);
-    service = TestBed.inject(TrapFocusService);
-  }));
+      fixture = TestBed.createComponent(MockComponent);
+      service = TestBed.inject(TrapFocusService);
+    })
+  );
 
   const event = {
     preventDefault: () => {},

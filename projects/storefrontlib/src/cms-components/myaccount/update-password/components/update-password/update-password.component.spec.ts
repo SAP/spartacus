@@ -1,5 +1,5 @@
 import { Component, DebugElement, Output } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NavigationExtras } from '@angular/router';
@@ -64,21 +64,23 @@ describe('UpdatePasswordComponent', () => {
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, RouterTestingModule],
-      declarations: [
-        UpdatePasswordComponent,
-        MockUpdatePasswordFormComponent,
-        MockCxSpinnerComponent,
-      ],
-      providers: [
-        { provide: UserService, useClass: MockUserService },
-        { provide: RoutingService, useClass: MockRoutingService },
-        { provide: GlobalMessageService, useClass: GlobalMessageServiceMock },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [ReactiveFormsModule, RouterTestingModule],
+        declarations: [
+          UpdatePasswordComponent,
+          MockUpdatePasswordFormComponent,
+          MockCxSpinnerComponent,
+        ],
+        providers: [
+          { provide: UserService, useClass: MockUserService },
+          { provide: RoutingService, useClass: MockRoutingService },
+          { provide: GlobalMessageService, useClass: GlobalMessageServiceMock },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UpdatePasswordComponent);

@@ -1,5 +1,5 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   Consignment,
@@ -95,24 +95,26 @@ describe('OrderConsignedEntriesComponent', () => {
   let fixture: ComponentFixture<OrderConsignedEntriesComponent>;
   let el: DebugElement;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [CardModule, I18nTestingModule, FeaturesConfigModule],
-      providers: [
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '1.4', consignmentTracking: true },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [CardModule, I18nTestingModule, FeaturesConfigModule],
+        providers: [
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '1.4', consignmentTracking: true },
+            },
           },
-        },
-      ],
-      declarations: [
-        OrderConsignedEntriesComponent,
-        MockCartItemListComponent,
-        MockConsignmentTrackingComponent,
-      ],
-    }).compileComponents();
-  }));
+        ],
+        declarations: [
+          OrderConsignedEntriesComponent,
+          MockCartItemListComponent,
+          MockConsignmentTrackingComponent,
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderConsignedEntriesComponent);

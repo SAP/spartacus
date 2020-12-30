@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule, Product } from '@spartacus/core';
 import { AddToCartModule } from '../../../cms-components/cart/index';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
@@ -17,15 +17,20 @@ describe('ProductSummaryComponent in product', () => {
   let productSummaryComponent: ProductSummaryComponent;
   let fixture: ComponentFixture<ProductSummaryComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [AddToCartModule, ItemCounterModule, I18nTestingModule],
-      declarations: [ProductSummaryComponent, OutletDirective],
-      providers: [
-        { provide: CurrentProductService, useClass: MockCurrentProductService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [AddToCartModule, ItemCounterModule, I18nTestingModule],
+        declarations: [ProductSummaryComponent, OutletDirective],
+        providers: [
+          {
+            provide: CurrentProductService,
+            useClass: MockCurrentProductService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductSummaryComponent);

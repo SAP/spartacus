@@ -7,7 +7,7 @@ import {
   Type,
 } from '@angular/core';
 import {
-  async,
+  waitForAsync,
   ComponentFixture,
   TestBed,
   TestModuleMetadata,
@@ -117,13 +117,15 @@ describe('ComponentWrapperDirective', () => {
   describe('in SSR', () => {
     let cmsConfig: CmsConfig;
 
-    beforeEach(async(() => {
-      testBedConfig.providers.push({
-        provide: PLATFORM_ID,
-        useValue: 'server',
-      });
-      TestBed.configureTestingModule(testBedConfig).compileComponents();
-    }));
+    beforeEach(
+      waitForAsync(() => {
+        testBedConfig.providers.push({
+          provide: PLATFORM_ID,
+          useValue: 'server',
+        });
+        TestBed.configureTestingModule(testBedConfig).compileComponents();
+      })
+    );
 
     describe('with angular component', () => {
       beforeEach(() => {
@@ -152,9 +154,11 @@ describe('ComponentWrapperDirective', () => {
   });
 
   describe('in non-SSR', () => {
-    beforeEach(async(() => {
-      TestBed.configureTestingModule(testBedConfig).compileComponents();
-    }));
+    beforeEach(
+      waitForAsync(() => {
+        TestBed.configureTestingModule(testBedConfig).compileComponents();
+      })
+    );
 
     describe('with angular component', () => {
       beforeEach(() => {

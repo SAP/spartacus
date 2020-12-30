@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -44,19 +44,21 @@ describe('ReturnOrderComponent', () => {
   let component: ReturnOrderComponent;
   let fixture: ComponentFixture<ReturnOrderComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, FormErrorsModule],
-      providers: [
-        { provide: OrderAmendService, useClass: MockOrderAmendService },
-      ],
-      declarations: [
-        ReturnOrderComponent,
-        MockAmendOrderActionComponent,
-        MockCancelOrReturnItemsComponent,
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule, FormErrorsModule],
+        providers: [
+          { provide: OrderAmendService, useClass: MockOrderAmendService },
+        ],
+        declarations: [
+          ReturnOrderComponent,
+          MockAmendOrderActionComponent,
+          MockCancelOrReturnItemsComponent,
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReturnOrderComponent);
