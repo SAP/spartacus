@@ -18,7 +18,6 @@ class MockProtectedRoutesService {
 describe('ProtectedRoutesGuard', () => {
   let guard: ProtectedRoutesGuard;
   let service: ProtectedRoutesService;
-  let authGuard: AuthGuard;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,7 +36,6 @@ describe('ProtectedRoutesGuard', () => {
 
     guard = TestBed.inject(ProtectedRoutesGuard);
     service = TestBed.inject(ProtectedRoutesService);
-    authGuard = TestBed.inject(AuthGuard);
   });
 
   describe('canActivate', () => {
