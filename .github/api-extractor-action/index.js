@@ -13,18 +13,30 @@ async function prepareRepositoryForApiExtractor(branch, baseCommit) {
   await exec.exec('sh', [
     './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
   ]);
-  await exec.exec('sh', [
-    './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
-    branch,
-    'branch-clone',
-    baseCommit,
-  ]);
+  const cache = require('@actions/cache');
+  const paths = ['dist'];
+  const key = `cache-${baseCommit}`;
+  const cacheKey = await cache.restoreCache(paths, key, []);
+  if (cacheKey) {
+    await io.mkdirP('branch-clone/etc');
+    await io.cp('dist', 'branch-clone/dist', { recursive: true, force: false });
+    await io.rmRF('dist');
+  } else {
+    await exec.exec('sh', [
+      './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
+      branch,
+      'branch-clone',
+      baseCommit,
+    ]);
+  }
   // We can parallel these builds, when schematics builds won't trigger yarn install
   await exec.exec('sh', ['./.github/api-extractor-action/build-libs.sh']);
-  await exec.exec('sh', [
-    './.github/api-extractor-action/build-libs.sh',
-    'branch-clone',
-  ]);
+  if (!cacheKey) {
+    await exec.exec('sh', [
+      './.github/api-extractor-action/build-libs.sh',
+      'branch-clone',
+    ]);
+  }
   core.endGroup();
 }
 
@@ -195,8 +207,8 @@ async function run() {
         entry.base.status === Status.Success
       ) {
         return `### ${entry.name}
-Library no longer can be analyzed with api-extractor. Please check the errors below\n
-${entry.head.errors.join('\n')}`;
+Library no longer can be analyzed with api-extractor. Please check the errors below\n\`\`\`
+${entry.head.errors.join('\n')}\n\`\`\``;
       } else if (
         entry.head.status === Status.Success &&
         entry.base.status === Status.Failed
@@ -243,11 +255,14 @@ ${entry.head.errors.join('\n')}`;
   }
 
   function generateCommentBody(comment) {
-    return '## ' + reportHeader + '\n' + comment.length
-      ? comment
-      : 'Nothing changed in analyzed entry points.' +
-          '\n\n ### Impossible to analyze\n' +
-          notAnalyzableEntryPoints.join('\n');
+    return (
+      '## ' +
+      reportHeader +
+      '\n' +
+      (comment.length ? comment : 'Nothing changed in analyzed entry points.') +
+      '\n\n ### Impossible to analyze\n' +
+      notAnalyzableEntryPoints.join('\n')
+    );
   }
 
   async function printReport(body) {
