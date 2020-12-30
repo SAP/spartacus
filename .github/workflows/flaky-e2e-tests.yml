@@ -9,22 +9,22 @@ jobs:
   e2eTests:
     name: Cypress flaky e2e tests
     runs-on: ubuntu-latest
-    container: cypress/browsers:node12.6.0-chrome77
+    container: cypress/browsers:node12.13.0-chrome78-ff70
     strategy:
       fail-fast: false
       matrix:
         containers: [1, 2, 3, 4, 5, 6]
     steps:
       - name: Checkout
-        uses: actions/checkout@master
+        uses: actions/checkout@v1
       - name: Install root dependencies
         uses: bahmutov/npm-install@v1
-      - name: Build Spartacus
-        run: yarn build:libs
       - name: Install cypress dependencies
         uses: bahmutov/npm-install@v1
         with:
           working-directory: projects/storefrontapp-e2e-cypress
+      - name: Build Spartacus
+        run: yarn build:libs
       - name: Run e2es
         env:
           CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
