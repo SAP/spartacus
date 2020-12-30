@@ -33,7 +33,7 @@ import { UnitItemService } from '../services/unit-item.service';
   ],
 })
 export class UnitFormComponent implements OnInit {
-  @Input() i18nRoot = 'unit';
+  @Input() i18nRoot = 'orgUnit';
 
   @Input() createChildUnit = false;
 

@@ -1,0 +1,95 @@
+<ng-container *ngIf="product$ | async as productAsync">
+  <div
+    class="cx-product-card"
+    [ngClass]="{
+      'cx-product-card-selected': product.selected && !singleDropdown
+    }"
+  >
+    <div class="cx-product-card-rows">
+      <div class="cx-product-card-imgs">
+        <ng-container *ngIf="productAsync?.images?.PRIMARY; else noimages">
+          <cx-media
+            [container]="productAsync.images?.PRIMARY"
+            format="product"
+          ></cx-media>
+        </ng-container>
+
+        <ng-template #noimages>
+          <div class="cx-product-card-imgs-fake"></div
+        ></ng-template>
+      </div>
+
+      <div class="cx-product-card-info">
+        <div class="cx-product-card-name">
+          <a
+            [routerLink]="{ cxRoute: 'product', params: productAsync } | cxUrl"
+            class="cx-link"
+            cxModal="dismiss"
+            target="_blank"
+          >
+            {{ productAsync.name }}</a
+          >
+        </div>
+        <div class="cx-product-card-code">
+          {{ 'configurator.attribute.id' | cxTranslate }}:
+          {{ productAsync.code }}
+        </div>
+        <cx-configurator-show-more
+          [text]="productAsync.description"
+          [textSize]="50"
+        ></cx-configurator-show-more>
+      </div>
+    </div>
+
+    <div class="cx-product-card-rows">
+      <div
+        class="cx-product-card-quantity"
+        *ngIf="product.selected && (multiSelect || singleDropdown)"
+      >
+        <label>{{ 'configurator.attribute.quantity' | cxTranslate }}</label>
+        <cx-item-counter
+          [allowZero]="!disabledAction"
+          [control]="quantity"
+          [min]="disabledAction ? 1 : 0"
+          [readonly]="loading$ | async"
+        ></cx-item-counter>
+      </div>
+      <div class="cx-product-card-price"></div>
+    </div>
+
+    <div class="cx-product-card-rows" *ngIf="!singleDropdown">
+      <div class="cx-product-card-action">
+        <ng-container *ngIf="multiSelect; else single">
+          <button
+            *ngIf="product.selected; else select"
+            class="btn btn-action"
+            (click)="onHandleDeselect()"
+            [disabled]="disabledAction"
+          >
+            {{ 'configurator.button.remove' | cxTranslate }}
+          </button>
+          <ng-template #select>
+            <button class="btn btn-primary" (click)="onHandleSelect()">
+              {{ 'configurator.button.add' | cxTranslate }}
+            </button>
+          </ng-template>
+        </ng-container>
+        <ng-template #single>
+          <button
+            *ngIf="product.selected; else select"
+            class="btn btn-action"
+            (click)="onHandleDeselect()"
+            [disabled]="disabledAction"
+          >
+            {{ 'configurator.button.deselect' | cxTranslate }}
+          </button>
+          <ng-template #select>
+            <button class="btn btn-primary" (click)="onHandleSelect()">
+              {{ 'configurator.button.select' | cxTranslate }}
+            </button>
+          </ng-template>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</ng-container>

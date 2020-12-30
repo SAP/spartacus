@@ -1,0 +1,12 @@
+<ng-container *ngIf="attribute?.values?.length">
+  <cx-configurator-attribute-product-card
+    (handleDeselect)="onDeselect($event)"
+    (handleQuantity)="onChangeQuantity($event)"
+    (handleSelect)="onSelect($event)"
+    *ngFor="let value of attribute.values"
+    [product]="value"
+    [multiSelect]="true"
+    [disabledAction]="disableDeselectAction$ | async"
+  >
+  </cx-configurator-attribute-product-card>
+</ng-container>

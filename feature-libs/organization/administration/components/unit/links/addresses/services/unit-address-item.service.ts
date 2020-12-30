@@ -84,7 +84,7 @@ export class UnitAddressItemService extends ItemService<Address> {
   protected launchList() {
     this.unitRouteParam$.pipe(first()).subscribe((unitCode) => {
       this.routingService.go({
-        cxRoute: 'unitAddressList',
+        cxRoute: 'orgUnitAddressList',
         params: { uid: unitCode },
       });
     });

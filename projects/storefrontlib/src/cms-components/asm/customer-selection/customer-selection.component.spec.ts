@@ -1,6 +1,6 @@
 import { DebugElement } from '@angular/core';
 import {
-  async,
+  waitForAsync,
   ComponentFixture,
   fakeAsync,
   TestBed,
@@ -83,17 +83,19 @@ describe('CustomerSelectionComponent', () => {
 
   const validSearchTerm = 'cUstoMer@test.com';
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
-      declarations: [CustomerSelectionComponent],
-      providers: [
-        { provide: AsmService, useClass: MockAsmService },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: AsmConfig, useValue: MockAsmConfig },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
+        declarations: [CustomerSelectionComponent],
+        providers: [
+          { provide: AsmService, useClass: MockAsmService },
+          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+          { provide: AsmConfig, useValue: MockAsmConfig },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CustomerSelectionComponent);

@@ -7,7 +7,7 @@ import {
   PipeTransform,
   SimpleChange,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ControlContainer,
   FormControl,
@@ -104,35 +104,36 @@ describe('CartItemComponent', () => {
     'isLevel',
   ]);
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        ReactiveFormsModule,
-        I18nTestingModule,
-
-        FeaturesConfigModule,
-      ],
-      declarations: [
-        CartItemComponent,
-        MockMediaComponent,
-        MockItemCounterComponent,
-        MockPromotionsComponent,
-        MockUrlPipe,
-        MockFeatureLevelDirective,
-        MockModalDirective,
-      ],
-      providers: [
-        {
-          provide: ControlContainer,
-        },
-        {
-          provide: PromotionService,
-          useClass: MockPromotionService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          RouterTestingModule,
+          ReactiveFormsModule,
+          I18nTestingModule,
+          FeaturesConfigModule,
+        ],
+        declarations: [
+          CartItemComponent,
+          MockMediaComponent,
+          MockItemCounterComponent,
+          MockPromotionsComponent,
+          MockUrlPipe,
+          MockFeatureLevelDirective,
+          MockModalDirective,
+        ],
+        providers: [
+          {
+            provide: ControlContainer,
+          },
+          {
+            provide: PromotionService,
+            useClass: MockPromotionService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartItemComponent);
