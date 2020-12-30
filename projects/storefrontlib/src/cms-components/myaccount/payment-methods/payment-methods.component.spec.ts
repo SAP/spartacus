@@ -1,13 +1,14 @@
-import { Component, DebugElement, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DebugElement,
+  Input,
+} from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import {
-  I18nTestingModule,
-  PaymentDetails,
-  UserPaymentService,
-} from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { ICON_TYPE } from '../../../cms-components/misc/icon';
+import { I18nTestingModule, PaymentDetails } from '@spartacus/core';
+import { Card, PaymentMethodsService } from '@spartacus/storefront';
+import { Observable, of, Subject } from 'rxjs';
 import { CardComponent } from '../../../shared/components/card/card.component';
 import { PaymentMethodsComponent } from './payment-methods.component';
 
@@ -37,22 +38,30 @@ class MockCxIconComponent {
   @Input() type;
 }
 
-class MockUserPaymentService {
-  getPaymentMethodsLoading(): Observable<boolean> {
+const isLoadingSubject = new Subject();
+isLoadingSubject.next(true);
+
+class MockPaymentMethodsService {
+  loading$ = isLoadingSubject;
+  getCardContent(): Observable<Card[]> {
     return of();
   }
-  getPaymentMethods(): Observable<PaymentDetails[]> {
-    return of([mockPayment]);
+  delete(_paymentMethod: PaymentDetails): void {}
+  setEdit(_paymentMethod: PaymentDetails): void {}
+  setDefault(_paymentMethods: PaymentDetails): void {}
+  cancelEdit(): void {}
+  getCardIcon(_code: string): string {
+    return '';
   }
-  loadPaymentMethods(): void {}
-  deletePaymentMethod(_paymentMethodId: string): void {}
-  setPaymentMethodAsDefault(_paymentMethodId: string): void {}
+  get(): Observable<PaymentDetails[]> {
+    return of();
+  }
 }
 
 describe('PaymentMethodsComponent', () => {
   let component: PaymentMethodsComponent;
   let fixture: ComponentFixture<PaymentMethodsComponent>;
-  let userService: UserPaymentService;
+  let paymentMethodsService: PaymentMethodsService;
   let el: DebugElement;
 
   beforeEach(
@@ -66,20 +75,50 @@ describe('PaymentMethodsComponent', () => {
           MockCxIconComponent,
         ],
         providers: [
-          { provide: UserPaymentService, useClass: MockUserPaymentService },
+          {
+            provide: PaymentMethodsService,
+            useClass: MockPaymentMethodsService,
+          },
         ],
-      }).compileComponents();
+      })
+        .overrideComponent(PaymentMethodsComponent, {
+          set: { changeDetection: ChangeDetectionStrategy.Default },
+        })
+        .compileComponents();
     })
   );
 
-  beforeEach(() => {
+  function createComponent() {
     fixture = TestBed.createComponent(PaymentMethodsComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    userService = TestBed.inject(UserPaymentService);
+  }
+
+  function spyOnGetCardContent() {
+    spyOn(paymentMethodsService, 'getCardContent').and.returnValue(
+      of({
+        header: 'paymentCard.defaultPaymentMethod',
+        textBold: mockPayment.accountHolderName,
+        text: [
+          mockPayment.cardNumber,
+          `paymentCard.expires month:${mockPayment.expiryMonth} year:${mockPayment.expiryYear}`,
+        ],
+        actions: [
+          { name: 'Set as default', event: 'default' },
+          { name: 'Delete', event: 'edit' },
+        ],
+        deleteMsg: 'paymentCard.deleteConfirmation',
+        img: 'MASTER_CARD',
+      })
+    );
+  }
+
+  beforeEach(() => {
+    paymentMethodsService = TestBed.inject(PaymentMethodsService);
   });
 
   it('should create', () => {
+    createComponent();
     expect(component).toBeTruthy();
   });
 
@@ -90,7 +129,9 @@ describe('PaymentMethodsComponent', () => {
     function getBodyMessage(elem: DebugElement) {
       return elem.query(By.css('.cx-msg')).nativeElement.textContent;
     }
-    component.ngOnInit();
+    spyOn(paymentMethodsService, 'get').and.returnValue(of([mockPayment]));
+    createComponent();
+
     fixture.detectChanges();
     expect(getTitle(el)).toContain('paymentMethods.paymentMethods');
     expect(getBodyMessage(el)).toContain(
@@ -99,45 +140,47 @@ describe('PaymentMethodsComponent', () => {
   });
 
   it('should show spinner if payment methods are loading', () => {
-    spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(true));
-
     function getSpinner(elem: DebugElement) {
       return elem.query(By.css('cx-spinner'));
     }
-    component.ngOnInit();
+    spyOn(paymentMethodsService, 'get').and.returnValue(of([mockPayment]));
+    isLoadingSubject.next(true);
+
+    createComponent();
+
     fixture.detectChanges();
     expect(getSpinner(el)).toBeTruthy();
   });
 
   it('should show payment methods after loading', () => {
-    spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
     function getCard(elem: DebugElement) {
       return elem.query(By.css('cx-card'));
     }
-    component.ngOnInit();
+    spyOn(paymentMethodsService, 'get').and.returnValue(of([mockPayment]));
+    createComponent();
     fixture.detectChanges();
     expect(getCard(el)).toBeTruthy();
   });
 
   it('should render all payment methods', () => {
-    spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
-    spyOn(userService, 'getPaymentMethods').and.returnValue(
-      of([mockPayment, mockPayment])
-    );
-
     function getCards(elem: DebugElement): DebugElement[] {
       return elem.queryAll(By.css('cx-card'));
     }
-    component.ngOnInit();
+    spyOn(paymentMethodsService, 'get').and.returnValue(
+      of([mockPayment, mockPayment])
+    );
+
+    createComponent();
     fixture.detectChanges();
     expect(getCards(el).length).toEqual(2);
   });
 
   it('should render correct content in card', () => {
-    spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
-    spyOn(userService, 'getPaymentMethods').and.returnValue(
+    spyOn(paymentMethodsService, 'get').and.returnValue(
       of([mockPayment, { ...mockPayment, defaultPayment: false }])
     );
+
+    spyOnGetCardContent();
 
     function getCardHeader(elem: DebugElement): string {
       return elem.query(By.css('cx-card .card-header')).nativeElement
@@ -158,7 +201,7 @@ describe('PaymentMethodsComponent', () => {
     function getCardIcon(elem: DebugElement): any {
       return elem.query(By.css('.cx-card-img-container cx-icon'));
     }
-    component.ngOnInit();
+    createComponent();
     fixture.detectChanges();
     expect(getCardHeader(el)).toContain('paymentCard.defaultPaymentMethod');
     expect(getTextBold(el)).toContain(mockPayment.accountHolderName);
@@ -170,8 +213,6 @@ describe('PaymentMethodsComponent', () => {
   });
 
   it('should show confirm on delete', () => {
-    spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
-
     function getDeleteMsg(elem: DebugElement): string {
       return elem.query(By.css('cx-card .cx-card-delete-msg')).nativeElement
         .textContent;
@@ -182,9 +223,13 @@ describe('PaymentMethodsComponent', () => {
     function getCancelButton(elem: DebugElement): DebugElement {
       return elem.query(By.css('cx-card .btn-secondary'));
     }
-    component.ngOnInit();
+    spyOn(paymentMethodsService, 'get').and.returnValue(of([mockPayment]));
+    spyOnGetCardContent();
+    createComponent();
     fixture.detectChanges();
     getDeleteButton(el).click();
+    fixture.detectChanges();
+    component.getEdit = () => mockPayment.id;
     fixture.detectChanges();
     expect(getDeleteMsg(el)).toContain('paymentCard.deleteConfirmation');
     getCancelButton(el).nativeElement.click();
@@ -193,54 +238,36 @@ describe('PaymentMethodsComponent', () => {
   });
 
   it('should successfully delete card', () => {
-    spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
-    spyOn(userService, 'deletePaymentMethod').and.stub();
-
     function getDeleteButton(elem: DebugElement): any {
       return elem.query(By.css('cx-card .card-link')).nativeElement;
     }
     function getConfirmButton(elem: DebugElement): DebugElement {
       return elem.query(By.css('cx-card .btn-primary'));
     }
-    component.ngOnInit();
+    spyOn(paymentMethodsService, 'delete').and.stub();
+    spyOn(paymentMethodsService, 'get').and.returnValue(of([mockPayment]));
+    spyOnGetCardContent();
+    createComponent();
     fixture.detectChanges();
     getDeleteButton(el).click();
     fixture.detectChanges();
+    component.getEdit = () => mockPayment.id;
+    fixture.detectChanges();
     getConfirmButton(el).nativeElement.click();
     fixture.detectChanges();
-    expect(userService.deletePaymentMethod).toHaveBeenCalledWith(
-      mockPayment.id
-    );
+    expect(paymentMethodsService.delete).toHaveBeenCalledWith(mockPayment);
   });
 
   it('should successfully set card as default', () => {
-    spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
-    spyOn(userService, 'getPaymentMethods').and.returnValue(
-      of([mockPayment, { ...mockPayment, defaultPayment: false }])
-    );
-    spyOn(userService, 'setPaymentMethodAsDefault').and.stub();
-
     function getSetDefaultButton(elem: DebugElement): any {
       return elem.queryAll(By.css('cx-card .card-link'))[1].nativeElement;
     }
-    component.ngOnInit();
+    spyOn(paymentMethodsService, 'setDefault').and.stub();
+    spyOn(paymentMethodsService, 'get').and.returnValue(of([mockPayment]));
+    spyOnGetCardContent();
+    createComponent();
     fixture.detectChanges();
     getSetDefaultButton(el).click();
-    expect(userService.setPaymentMethodAsDefault).toHaveBeenCalledWith(
-      mockPayment.id
-    );
-  });
-
-  it('should return the proper card icon based on its card type', () => {
-    const otherCardType = 'MockCardType';
-
-    expect(component.getCardIcon('visa')).toBe(ICON_TYPE.VISA);
-    expect(component.getCardIcon('master')).toBe(ICON_TYPE.MASTER_CARD);
-    expect(component.getCardIcon('mastercard_eurocard')).toBe(
-      ICON_TYPE.MASTER_CARD
-    );
-    expect(component.getCardIcon('diners')).toBe(ICON_TYPE.DINERS_CLUB);
-    expect(component.getCardIcon('amex')).toBe(ICON_TYPE.AMEX);
-    expect(component.getCardIcon(otherCardType)).toBe(ICON_TYPE.CREDIT_CARD);
+    expect(paymentMethodsService.setDefault).toHaveBeenCalledWith(mockPayment);
   });
 });

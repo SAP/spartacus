@@ -6,6 +6,10 @@
     }
   }
 
+  @include media-breakpoint-up(md) {
+    width: 100%;
+  }
+
   .cx-header {
     padding: 2.5rem 0 0 0;
   }
@@ -22,7 +26,9 @@
   .cx-existing {
     display: flex;
     padding: 0rem 0 2.5rem 0;
+    margin: 0 -1 * $grid-gutter-width/2 0 -1 * $grid-gutter-width/2;
     align-items: stretch;
+    flex-wrap: wrap;
 
     @include media-breakpoint-down(md) {
       padding: 0 0 3.125rem 0;
@@ -34,10 +40,14 @@
   }
 
   .cx-payment-card {
-    padding-top: 1.875rem;
+    padding: 1.875rem $grid-gutter-width/2 0 $grid-gutter-width/2;
+    flex: 0 0 100%;
+    @include media-breakpoint-up(md) {
+      flex-basis: 50%;
+    }
   }
 
-  .cx-payment-inner {
+  .cx-card {
     height: 100%;
   }
 }
