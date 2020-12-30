@@ -17,7 +17,7 @@ import { By } from '@angular/platform-browser';
 })
 class MockProductCardComponent {}
 
-fdescribe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
+describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
   let component: ConfiguratorAttributeSingleSelectionBundleComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeSingleSelectionBundleComponent>;
   let htmlElem: HTMLElement;
