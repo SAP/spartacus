@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:12
 
 LABEL "com.github.actions.name"="Cache builded libs"
 LABEL "com.github.actions.description"="Cache dist directory with libraries builds"
