@@ -20,8 +20,8 @@ export function permissionsEntitiesReducer(
       return action.payload;
     case UserGroupActions.USER_GROUP_ASSIGN_PERMISSION_SUCCESS:
     case UserGroupActions.USER_GROUP_UNASSIGN_PERMISSION_SUCCESS:
-    case B2BUserActions.CREATE_B2B_USER_PERMISSION_SUCCESS:
-    case B2BUserActions.DELETE_B2B_USER_PERMISSION_SUCCESS:
+    case B2BUserActions.ASSIGN_B2B_USER_PERMISSION_SUCCESS:
+    case B2BUserActions.UNASSIGN_B2B_USER_PERMISSION_SUCCESS:
       return {
         ...state,
         ...action.payload,
