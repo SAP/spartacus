@@ -27,6 +27,7 @@ export class ConfiguratorAttributeRadioButtonComponent
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   ngOnInit(): void {
+    console.log(this.attribute);
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);
   }
 
@@ -37,11 +38,12 @@ export class ConfiguratorAttributeRadioButtonComponent
    */
   onSelect(value: string): void {
     const event: ConfigFormUpdateEvent = {
-      ownerKey: this.ownerKey,
       changedAttribute: {
         ...this.attribute,
         selectedSingleValue: value,
       },
+      ownerKey: this.ownerKey,
+      updateType: Configurator.UpdateType.ATTRIBUTE,
     };
 
     this.selectionChange.emit(event);
