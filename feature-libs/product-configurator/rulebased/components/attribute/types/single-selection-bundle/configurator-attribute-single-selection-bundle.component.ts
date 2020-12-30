@@ -31,7 +31,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent
 
   ngOnInit(): void {
     if (this.attribute.required) {
-      if (!this.attribute.selectedSingleValue) {
+      if (!this.attribute.values.find((value) => value.selected)) {
         this.onSelect(this.attribute.values[0].valueCode);
       }
     }
@@ -80,7 +80,6 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent
       changedAttribute: {
         ...this.attribute,
         quantity: this.quantity.value,
-        selectedSingleValue: '',
       },
       ownerKey: this.ownerKey,
       updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
