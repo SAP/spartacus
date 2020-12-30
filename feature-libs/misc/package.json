@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/misc",
-  "version": "3.0.0-rc.0",
+  "version": "0.300.0",
   "description": "Miscellaneous feature library for Spartacus",
   "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
