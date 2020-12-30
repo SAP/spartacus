@@ -1,7 +1,5 @@
-# Spartacus Miscellaneous Features Library
+# DEPRECATED
 
-Spartacus miscellaneous features can be added by running `ng add @spartacus/misc` which will present an interactive menu, from which you can select which features you would like to setup.
-
-`@spartacus/misc/storefinder` is a package that you can include in your application, which allows you to use storefinder features.
+`@spartacus/misc` package was deprecated in favour of `@spartacus/storefinder` which provides the same functionality.
 
 For more information, see [Spartacus](https://github.com/SAP/spartacus).
