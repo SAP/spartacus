@@ -50,8 +50,17 @@
         *ngIf="attribute.uiType === uiType.CHECKBOXLIST_PRODUCT"
       ></cx-configurator-attribute-multi-selection-bundle>
 
-      <cx-configurator-attribute-drop-down
+      <!-- Single Selection Dropdown Product Bundle -->
+      <cx-configurator-attribute-single-selection-bundle-dropdown
         *ngIf="attribute.uiType === uiType.DROPDOWN"
+        [attribute]="attribute"
+        [group]="currentGroup.id"
+        [ownerKey]="configuration.owner.key"
+        (selectionChange)="updateConfiguration($event)"
+      ></cx-configurator-attribute-single-selection-bundle-dropdown>
+
+      <cx-configurator-attribute-drop-down
+        *ngIf="attribute.uiType === uiType.DROPDOWN_PRODUCT"
         [attribute]="attribute"
         [group]="currentGroup.id"
         [ownerKey]="configuration.owner.key"
