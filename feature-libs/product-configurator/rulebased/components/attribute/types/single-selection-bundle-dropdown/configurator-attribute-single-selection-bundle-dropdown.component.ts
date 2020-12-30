@@ -63,7 +63,7 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   onChangeQuantity(eventValue): void {
     if (!this.selectionValue) return;
 
-    let value = { ...this.selectionValue };
+    const value = { ...this.selectionValue };
     value.quantity = eventValue.quantity;
 
     const event: ConfigFormUpdateEvent = {
