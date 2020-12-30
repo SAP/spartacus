@@ -62,9 +62,21 @@ Cypress.Commands.add(
     cy.server();
 
     createCart().then((cart) => {
-      addToCart(cart.body.code, productData).then((resp) => {
-        resp.body.cartId = cart.body.code; // need this in the response for later use
-        cy.wrap(resp.body);
+      addToCart(cart.body.code, productData).then((response) => {
+        response.body.cartId = cart.body.code; // need this in the response for later use
+        Cypress.log({
+          name: 'requireProductaddedToCart',
+          displayName: 'Add to cart (require)',
+          message: [`🛒 Product added to cart`],
+          consoleProps: () => {
+            return {
+              'Cart ID': response.body.cartId,
+              'Product code': productData.code,
+              Quantity: productData.qty,
+            };
+          },
+        });
+        cy.wrap(response.body);
       });
     });
   }

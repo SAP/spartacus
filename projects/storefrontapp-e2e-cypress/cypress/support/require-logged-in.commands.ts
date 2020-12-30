@@ -111,9 +111,21 @@ Cypress.Commands.add(
           .then(() => login(username, account.registrationData.password))
           .then((response) => {
             setSessionData(response.body);
+            Cypress.log({
+              name: 'requireLoggedIn',
+              displayName: 'New user auth',
+              message: [`🔒 Authenticated new generated user | ${username}`],
+              consoleProps: () => {
+                return {
+                  'User name': username,
+                  'Session data': response.body,
+                };
+              },
+            });
           });
       }
     });
+
     return cy.wrap({ username });
   }
 );
