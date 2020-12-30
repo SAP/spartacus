@@ -21,7 +21,8 @@
 
   <ng-container *ngIf="selectionValue?.valueCode !== '0'">
     <cx-configurator-attribute-product-card
-      (handleDeselect)="handleDeselect()"
+      (handleDeselect)="onDeselect()"
+      (handleQuantity)="onChangeQuantity($event)"
       [product]="selectionValue"
       [singleDropdown]="true"
     >

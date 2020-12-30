@@ -4,7 +4,7 @@
       <label>{{ 'configurator.attribute.quantity' | cxTranslate }}</label>
       <cx-item-counter
         [control]="quantity"
-        [readonly]="!attribute.selectedSingleValue"
+        [readonly]="!attribute.selectedSingleValue || (loading$ | async)"
       ></cx-item-counter>
     </div>
 

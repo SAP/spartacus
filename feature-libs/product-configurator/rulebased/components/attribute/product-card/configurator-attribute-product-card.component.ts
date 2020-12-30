@@ -36,7 +36,7 @@ export class ConfiguratorAttributeProductCardComponent
   ngOnInit() {
     this.product$ = this.productService.get(this.product.productSystemId);
 
-    if (this.multiSelect) {
+    if (this.multiSelect || this.singleDropdown) {
       this.quantity.setValue(this.product.quantity);
 
       this.sub = this.quantity.valueChanges.subscribe((value) => {
@@ -50,7 +50,7 @@ export class ConfiguratorAttributeProductCardComponent
   }
 
   ngOnDestroy() {
-    if (this.multiSelect && this.sub) {
+    if ((this.multiSelect || this.singleDropdown) && this.sub) {
       this.sub.unsubscribe();
     }
   }
