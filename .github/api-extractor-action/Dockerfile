@@ -7,8 +7,10 @@ LABEL "com.github.actions.color"="red"
 
 COPY package.json /
 COPY yarn.lock /
-COPY index.js /
+COPY index.ts /
+COPY tsconfig.json /
 
 RUN yarn
+RUN ["yarn", "build"]
 
 ENTRYPOINT ["node", "/index.js"]

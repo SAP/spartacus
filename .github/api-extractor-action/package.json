@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc index.ts"
   },
   "author": "",
   "license": "ISC",
@@ -17,5 +17,8 @@
     "@actions/io": "^1.0.2",
     "diff-lines": "^1.1.1",
     "normalize-newline": "^3.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.1.3"
   }
 }
