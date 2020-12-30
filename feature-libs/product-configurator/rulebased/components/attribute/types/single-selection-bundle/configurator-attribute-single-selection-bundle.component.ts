@@ -11,7 +11,7 @@ import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { FormControl } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-configurator-attribute-single-selection-bundle',
@@ -23,6 +23,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnDestroy, OnInit {
   quantity = new FormControl(1);
+  loading$ = new BehaviorSubject<boolean>(false);
   private sub: Subscription;
 
   @Input() attribute: Configurator.Attribute;
@@ -48,6 +49,8 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent
   }
 
   onSelect(value: string): void {
+    this.loading$.next(true);
+
     const event: ConfigFormUpdateEvent = {
       changedAttribute: {
         ...this.attribute,
@@ -62,6 +65,8 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent
   }
 
   onDeselect(): void {
+    this.loading$.next(true);
+
     const event: ConfigFormUpdateEvent = {
       changedAttribute: {
         ...this.attribute,
@@ -76,6 +81,8 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent
   }
 
   onHandleQuantity(): void {
+    this.loading$.next(true);
+
     const event: ConfigFormUpdateEvent = {
       changedAttribute: {
         ...this.attribute,
