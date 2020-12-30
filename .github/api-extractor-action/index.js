@@ -27,6 +27,14 @@ async function prepareRepositoryForApiExtractor(branch, baseCommit) {
   core.endGroup();
 }
 
+function wait(ms) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, ms);
+  });
+}
+
 async function run() {
   const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
   const gh = github.getOctokit(GITHUB_TOKEN);
@@ -121,6 +129,7 @@ async function run() {
       // core.startGroup(`API extractor for ${name}`);
       console.log('wtf?');
       console.log(output);
+      await wait(10000);
       // core.endGroup();
     })
   );
