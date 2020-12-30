@@ -15,7 +15,7 @@ async function prepareRepositoryForApiExtractor(branch, baseCommit) {
   ]);
   const cache = require('@actions/cache');
   const paths = ['dist'];
-  const key = `cache-${baseCommit}`;
+  const key = `dist-${baseCommit}`;
   const cacheKey = await cache.restoreCache(paths, key, []);
   if (cacheKey) {
     await io.mkdirP('branch-clone/etc');
