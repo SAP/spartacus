@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { I18nModule } from '@spartacus/core';
-import { KeyboardFocusModule } from '@spartacus/storefront';
+import { ItemCounterModule, KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
 
 @NgModule({
@@ -12,6 +12,7 @@ import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attrib
     ReactiveFormsModule,
     CommonModule,
     I18nModule,
+    ItemCounterModule,
   ],
   declarations: [ConfiguratorAttributeRadioButtonComponent],
   exports: [ConfiguratorAttributeRadioButtonComponent],

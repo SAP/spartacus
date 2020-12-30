@@ -1,6 +1,13 @@
 <fieldset>
   <legend style="display: none">{{ attribute.label }}</legend>
   <div id="{{ createAttributeIdForConfigurator(attribute) }}">
+    <div class="form-quantity">
+      <label>{{ 'configurator.attribute.quantity' | cxTranslate }}</label>
+      <cx-item-counter
+        [control]="quantity"
+        [readonly]="loading$ | async"
+      ></cx-item-counter>
+    </div>
     <div class="form-check" *ngFor="let value of attribute.values">
       <input
         id="{{
