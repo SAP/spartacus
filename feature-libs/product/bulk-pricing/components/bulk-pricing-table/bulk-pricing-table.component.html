@@ -1,3 +1,18 @@
-<p>bulk-pricing-table works!</p>
-
-<h1> YOOO </h1>
+<div class="container" *ngIf="bulkPrices.length > 0">
+    <table class="table" style="text-align: center;">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+            <th scope="col">Discount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tier of bulkPrices">
+            <td>{{tier.min}} - {{tier.max}}</td>
+            <td>{{tier.price}}</td>
+            <td>{{tier.discount}}</td>
+          </tr>
+        </tbody>
+    </table>
+</div>
