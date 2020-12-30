@@ -1,3 +1,4 @@
+import type { ExecOptions } from '@actions/exec';
 const exec = require('@actions/exec');
 const github = require('@actions/github');
 const core = require('@actions/core');
@@ -8,12 +9,14 @@ const fs = require('fs');
 const diff = require('diff-lines');
 const normalizeNewline = require('normalize-newline');
 
-async function prepareRepositoryForApiExtractor(branch, baseCommit) {
+async function prepareRepositoryForApiExtractor(
+  branch: string,
+  baseCommit: string
+) {
   core.startGroup('Prepare branches for extractor');
   await exec.exec('sh', [
     './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
   ]);
-  const cache = require('@actions/cache');
   const paths = ['dist'];
   const key = `dist-${baseCommit}`;
   const cacheKey = await cache.restoreCache(paths, key, []);
@@ -70,7 +73,7 @@ async function run() {
     Failed: 'failed',
   };
 
-  let entryPoints = {};
+  let entryPoints: any = {};
 
   globber = await glob.create('dist/**/package.json', {});
   const files = await globber.glob();
@@ -78,7 +81,7 @@ async function run() {
   core.info('\u001b[35mAPI extractor for head branch');
   for (let path of files) {
     const packageContent = JSON.parse(fs.readFileSync(path, 'utf-8'));
-    const name = packageContent.name;
+    const name: string = packageContent.name;
     const newName = name.replace(/\//g, '_').replace(/\_/, '/');
     fs.writeFileSync(
       path,
@@ -98,11 +101,11 @@ async function run() {
 
     // Run api extractor for entrypoint
     await io.cp(apiExtractorConfigPath, directory);
-    const options = {
+    const options: ExecOptions = {
       ignoreReturnCode: true,
       delay: 1000,
     };
-    let myError = [];
+    let myError: any[] = [];
     options.listeners = {
       errline: (line) => {
         myError.push(line);
@@ -129,7 +132,7 @@ async function run() {
   const files2 = await globber.glob();
 
   core.info('\u001b[35mAPI extractor for base branch');
-  for (path of files2) {
+  for (let path of files2) {
     const packageContent = JSON.parse(fs.readFileSync(path, 'utf-8'));
     const name = packageContent.name;
     const newName = name.replace(/\//g, '_').replace(/\_/, '/');
@@ -150,11 +153,11 @@ async function run() {
     const directory = path.substring(0, path.length - `/package.json`.length);
 
     await io.cp(apiExtractorConfigPath, directory);
-    const options = {
+    const options: ExecOptions = {
       ignoreReturnCode: true,
       delay: 1000,
     };
-    let myError = [];
+    let myError: any = [];
     options.listeners = {
       errline: (line) => {
         myError.push(line);
@@ -168,7 +171,7 @@ async function run() {
     );
     if (exitCode !== 0) {
       entryPoints[name].base.status = Status.Failed;
-      entryPoints[name].base.errors = myError.filter((line) =>
+      entryPoints[name].base.errors = myError.filter((line: string) =>
         line.startsWith('ERROR: ')
       );
     } else {
@@ -177,10 +180,10 @@ async function run() {
     core.endGroup();
   }
 
-  let notAnalyzableEntryPoints = [];
+  let notAnalyzableEntryPoints: any = [];
 
   const comment = Object.values(entryPoints)
-    .map((entry) => {
+    .map((entry: any) => {
       if (
         entry.head.status === Status.Success &&
         entry.base.status === Status.Success
@@ -222,14 +225,18 @@ ${entry.head.errors.join('\n')}\n\`\`\``;
     .filter((comment) => !!comment)
     .join('\n');
 
-  function extractSnippetFromFile(filename) {
+  function extractSnippetFromFile(filename: string) {
     const regexForTSSnippetInMarkdown = /```ts([\s\S]*)```/ms;
-    return regexForTSSnippetInMarkdown
-      .exec(normalizeNewline(fs.readFileSync(filename, 'utf-8')))[1]
-      .trim();
+    const result = regexForTSSnippetInMarkdown.exec(
+      normalizeNewline(fs.readFileSync(filename, 'utf-8'))
+    );
+    if (result) {
+      return result[1].trim();
+    }
+    return null;
   }
 
-  function getDiff(file) {
+  function getDiff(file: string) {
     const sourceBranchReportDirectory = `etc`;
     const targetBranchReportDirectory = `branch-clone/etc`;
     const sourceBranchSnippet = extractSnippetFromFile(
@@ -243,7 +250,7 @@ ${entry.head.errors.join('\n')}\n\`\`\``;
     });
   }
 
-  function generateCommentBody(comment) {
+  function generateCommentBody(comment: string) {
     return (
       '## ' +
       reportHeader +
@@ -252,18 +259,20 @@ ${entry.head.errors.join('\n')}\n\`\`\``;
         ? comment
         : '### :heavy_check_mark: Nothing changed in analyzed entry points.') +
       '\n\n ### :warning: Impossible to analyze\n' +
-      notAnalyzableEntryPoints.map((entryPoint) => `- ${entryPoint}`).join('\n')
+      notAnalyzableEntryPoints
+        .map((entryPoint: string) => `- ${entryPoint}`)
+        .join('\n')
     );
   }
 
-  async function printReport(body) {
+  async function printReport(body: string) {
     const comments = await gh.issues.listComments({
       issue_number: issueNumber,
       owner,
       repo,
     });
 
-    const botComment = comments.data.filter((comment) =>
+    const botComment = comments.data.filter((comment: any) =>
       comment.body.includes(reportHeader)
     );
 
