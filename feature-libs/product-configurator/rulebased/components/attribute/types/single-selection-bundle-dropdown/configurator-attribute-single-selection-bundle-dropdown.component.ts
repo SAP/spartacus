@@ -35,9 +35,6 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
     this.selectionValue = this.attribute.values.find((value) => value.selected);
   }
 
-  /**
-   * Triggered when a value has been selected
-   */
   onSelect(): void {
     const event: ConfigFormUpdateEvent = {
       ownerKey: this.ownerKey,
@@ -49,13 +46,31 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
     this.selectionChange.emit(event);
   }
 
-  handleDeselect(): void {
+  onDeselect(): void {
     const event: ConfigFormUpdateEvent = {
       ownerKey: this.ownerKey,
       changedAttribute: {
         ...this.attribute,
         selectedSingleValue: '0',
       },
+    };
+
+    this.selectionChange.emit(event);
+  }
+
+  onChangeQuantity(eventValue): void {
+    if (!this.selectionValue) return;
+
+    let value = { ...this.selectionValue };
+    value.quantity = eventValue.quantity;
+
+    const event: ConfigFormUpdateEvent = {
+      changedAttribute: {
+        ...this.attribute,
+        values: [value],
+      },
+      ownerKey: this.ownerKey,
+      updateType: Configurator.UpdateType.VALUE_QUANTITY,
     };
 
     this.selectionChange.emit(event);
