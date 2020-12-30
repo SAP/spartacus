@@ -99,6 +99,7 @@ async function run() {
         },
         stdout: (data) => {
           output += data.toString();
+          console.log(data.toString());
         },
         stderr: (data) => {
           output += data.toString();
@@ -118,7 +119,8 @@ async function run() {
         entryPoints[name].head.status = Status.Success;
       }
       core.startGroup(`API extractor for ${name}`);
-      console.log(output);
+      core.info('wtf?');
+      core.info(output);
       core.endGroup();
     })
   );
