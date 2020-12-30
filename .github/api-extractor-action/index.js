@@ -129,64 +129,53 @@ async function run() {
   const files2 = await globber.glob();
 
   core.info('\u001b[35mAPI extractor for base branch');
-  await Promise.all(
-    files2.map(async (path) => {
-      const packageContent = JSON.parse(fs.readFileSync(path, 'utf-8'));
-      const name = packageContent.name;
-      const newName = name.replace(/\//g, '_').replace(/\_/, '/');
-      fs.writeFileSync(
-        path,
-        JSON.stringify({ ...packageContent, name: newName }, undefined, 2)
-      );
+  for (path of files2) {
+    const packageContent = JSON.parse(fs.readFileSync(path, 'utf-8'));
+    const name = packageContent.name;
+    const newName = name.replace(/\//g, '_').replace(/\_/, '/');
+    fs.writeFileSync(
+      path,
+      JSON.stringify({ ...packageContent, name: newName }, undefined, 2)
+    );
 
-      if (!entryPoints[name]) {
-        entryPoints[name] = {
-          name: name,
-          head: { status: Status.Unknown },
-          base: { status: Status.Unknown },
-          file: `${newName.split('/')[1]}.api.md`,
-        };
-      }
-
-      const directory = path.substring(0, path.length - `/package.json`.length);
-
-      await io.cp(apiExtractorConfigPath, directory);
-      const options = {
-        ignoreReturnCode: true,
-        delay: 1000,
-        silent: true,
+    if (!entryPoints[name]) {
+      entryPoints[name] = {
+        name: name,
+        head: { status: Status.Unknown },
+        base: { status: Status.Unknown },
+        file: `${newName.split('/')[1]}.api.md`,
       };
-      let myError = [];
-      let output = '';
-      options.listeners = {
-        errline: (line) => {
-          myError.push(line);
-        },
-        stdout: (data) => {
-          output += data.toString();
-        },
-        stderr: (data) => {
-          output += data.toString();
-        },
-      };
-      const exitCode = await exec.exec(
-        'sh',
-        ['./.github/api-extractor-action/api-extractor.sh', directory],
-        options
+    }
+
+    const directory = path.substring(0, path.length - `/package.json`.length);
+
+    await io.cp(apiExtractorConfigPath, directory);
+    const options = {
+      ignoreReturnCode: true,
+      delay: 1000,
+    };
+    let myError = [];
+    options.listeners = {
+      errline: (line) => {
+        myError.push(line);
+      },
+    };
+    core.startGroup(name);
+    const exitCode = await exec.exec(
+      'sh',
+      ['./.github/api-extractor-action/api-extractor.sh', directory],
+      options
+    );
+    if (exitCode !== 0) {
+      entryPoints[name].base.status = Status.Failed;
+      entryPoints[name].base.errors = myError.filter((line) =>
+        line.startsWith('ERROR: ')
       );
-      if (exitCode !== 0) {
-        entryPoints[name].base.status = Status.Failed;
-        entryPoints[name].base.errors = myError.filter((line) =>
-          line.startsWith('ERROR: ')
-        );
-      } else {
-        entryPoints[name].base.status = Status.Success;
-      }
-      core.startGroup(name);
-      console.log(output);
-      core.endGroup();
-    })
-  );
+    } else {
+      entryPoints[name].base.status = Status.Success;
+    }
+    core.endGroup();
+  }
 
   let notAnalyzableEntryPoints = [];
 
@@ -199,34 +188,34 @@ async function run() {
         // prepare diff
         const diff = getDiff(entry.file);
         if (diff) {
-          return `### ${entry.name}\n\`\`\`diff\n${diff}\n\`\`\``;
+          return `### :warning: ${entry.name}\n\`\`\`diff\n${diff}\n\`\`\``;
         }
         return '';
       } else if (
         entry.head.status === Status.Failed &&
         entry.base.status === Status.Success
       ) {
-        return `### ${entry.name}
+        return `:boom: ### ${entry.name}
 Library no longer can be analyzed with api-extractor. Please check the errors below\n\`\`\`
 ${entry.head.errors.join('\n')}\n\`\`\``;
       } else if (
         entry.head.status === Status.Success &&
         entry.base.status === Status.Failed
       ) {
-        return `### ${entry.name}\nLibrary can now by analyzed with api-extractor.`;
+        return `### :green_heart: ${entry.name}\nLibrary can now by analyzed with api-extractor.`;
       } else if (
         entry.head.status === Status.Failed &&
         entry.base.status === Status.Failed
       ) {
         notAnalyzableEntryPoints.push(entry.name);
         if (entry.head.errors[0] !== entry.base.errors[0]) {
-          return `### ${entry.name}\nNew error: \`${entry.head.errors[0]}\`\nPrevious error: \`${entry.base.errors[0]}\``;
+          return `### :boom: ${entry.name}\nNew error: \`${entry.head.errors[0]}\`\nPrevious error: \`${entry.base.errors[0]}\``;
         }
       } else if (entry.head.status === Status.Unknown) {
-        return `### ${entry.name}\nEntry point removed. Are you sure it was intentional?`;
+        return `### :boom: ${entry.name}\nEntry point removed. Are you sure it was intentional?`;
       } else if (entry.base.status === Status.Unknown) {
         const publicApi = extractSnippetFromFile(`etc/${entry.file}`);
-        return `### ${entry.name}\nNew entry point. Initial public api:\n\`\`\`ts\n${publicApi}\n\`\`\``;
+        return `### :warning: ${entry.name}\nNew entry point. Initial public api:\n\`\`\`ts\n${publicApi}\n\`\`\``;
       }
       return '';
     })
@@ -259,8 +248,10 @@ ${entry.head.errors.join('\n')}\n\`\`\``;
       '## ' +
       reportHeader +
       '\n' +
-      (comment.length ? comment : 'Nothing changed in analyzed entry points.') +
-      '\n\n ### Impossible to analyze\n' +
+      (comment.length
+        ? comment
+        : '### :heavy_check_mark: Nothing changed in analyzed entry points.') +
+      '\n\n ### :warning: Impossible to analyze\n' +
       notAnalyzableEntryPoints.join('\n')
     );
   }
