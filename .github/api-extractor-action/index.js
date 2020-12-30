@@ -101,17 +101,14 @@ async function run() {
         silent: true,
       };
       let myError = [];
-      let output = '';
+      let output = [];
       options.listeners = {
         errline: (line) => {
           myError.push(line);
+          output.push(line);
         },
-        stdout: (data) => {
-          output += data.toString();
-          core.info(data.toString());
-        },
-        stderr: (data) => {
-          output += data.toString();
+        stdline: (line) => {
+          output.push(line);
         },
       };
       const exitCode = await exec.exec(
@@ -127,11 +124,13 @@ async function run() {
       } else {
         entryPoints[name].head.status = Status.Success;
       }
-      // core.startGroup(`API extractor for ${name}`);
-      console.log('wtf?');
-      console.log(output);
+      core.startGroup(`API extractor for ${name}`);
+      for (let line of output) {
+        console.log(line + '\n');
+      }
+      // console.log(output);
       await wait(10000);
-      // core.endGroup();
+      core.endGroup();
     })
   );
 
