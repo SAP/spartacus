@@ -85,7 +85,6 @@ async function run() {
       const directory = path.substring(0, path.length - `/package.json`.length);
 
       // Run api extractor for entrypoint
-      core.startGroup(`API extractor for ${name}`);
       await io.cp(apiExtractorConfigPath, directory);
       const options = {
         ignoreReturnCode: true,
@@ -118,6 +117,7 @@ async function run() {
       } else {
         entryPoints[name].head.status = Status.Success;
       }
+      core.startGroup(`API extractor for ${name}`);
       console.log(output);
       core.endGroup();
     })
@@ -152,11 +152,19 @@ async function run() {
       const options = {
         ignoreReturnCode: true,
         delay: 1000,
+        silent: true,
       };
       let myError = [];
+      let output = '';
       options.listeners = {
         errline: (line) => {
           myError.push(line);
+        },
+        stdout: (data) => {
+          output += data.toString();
+        },
+        stderr: (data) => {
+          output += data.toString();
         },
       };
       const exitCode = await exec.exec(
@@ -172,6 +180,9 @@ async function run() {
       } else {
         entryPoints[name].base.status = Status.Success;
       }
+      core.startGroup(name);
+      console.log(output);
+      core.endGroup();
     })
   );
   core.endGroup();
@@ -243,14 +254,11 @@ ${entry.head.errors.join('\n')}`;
   }
 
   function generateCommentBody(comment) {
-    return (
-      '## ' +
-      reportHeader +
-      '\n' +
-      comment +
-      '\n\n ### Impossible to analyze\n' +
-      notAnalyzableEntryPoints.join('\n')
-    );
+    return '## ' + reportHeader + '\n' + comment.length
+      ? comment
+      : 'Nothing changed in analyzed entry points.' +
+          '\n\n ### Impossible to analyze\n' +
+          notAnalyzableEntryPoints.join('\n');
   }
 
   async function printReport(body) {

@@ -1,0 +1,17 @@
+on:
+  push:
+    branches:
+      - develop
+      - 'epic/**'
+      - 'release/**'
+      # Remove it when finished development
+      - 'feature/**'
+name: Cache builded libs
+jobs:
+  cacheBuildedLibs:
+    name: Cache builded libs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Cache builded libs
+        uses: ./.github/cache-builded-libs
