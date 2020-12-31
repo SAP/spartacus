@@ -1,3 +1,9 @@
+/**
+ * Terminology:
+ *  - head branch -> branch you are working on
+ *  - base branch -> branch you want to merge to
+ */
+
 import type { ExecOptions } from '@actions/exec';
 const exec = require('@actions/exec');
 const github = require('@actions/github');
@@ -14,17 +20,23 @@ async function prepareRepositoryForApiExtractor(
   baseCommit: string
 ) {
   core.startGroup('Prepare branches for extractor');
-  await exec.exec('sh', [
-    './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
-  ]);
+
+  // Install dependencies to build libraries
+  await exec.exec('yarn');
+
+  // Try to restore builded libraries for base branch
+  // Builded libraries are cached by `cache-builded-libs` action
   const paths = ['dist'];
   const key = `dist-${baseCommit}`;
   const cacheKey = await cache.restoreCache(paths, key, []);
   if (cacheKey) {
+    // We create `etc` directory for api-extractor files
     await io.mkdirP('branch-clone/etc');
+    // Cache restores files in the same location, so we need to move them manually
     await io.cp('dist', 'branch-clone/dist', { recursive: true, force: false });
     await io.rmRF('dist');
   } else {
+    // When we don't have cache let's clone the base branch (with particular commit)
     await exec.exec('sh', [
       './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
       branch,
@@ -32,14 +44,15 @@ async function prepareRepositoryForApiExtractor(
       baseCommit,
     ]);
   }
-  // We can parallel these builds, when schematics builds won't trigger yarn install
-  await exec.exec('sh', ['./.github/api-extractor-action/build-libs.sh']);
+
+  // Build the libraries
+  // TODO: We can parallel these builds, when schematics builds won't trigger yarn install
+  await exec.exec('yarn', ['build:libs']);
+  // If we didn't restored builded libs, we need to also build base branch
   if (!cacheKey) {
-    await exec.exec('sh', [
-      './.github/api-extractor-action/build-libs.sh',
-      'branch-clone',
-    ]);
+    await exec.exec('yarn', ['--cwd', 'branch-clone', 'build:libs']);
   }
+
   core.endGroup();
 }
 
@@ -275,8 +288,6 @@ ${entry.head.errors.join('\n')}\n\`\`\``;
     const botComment = comments.data.filter((comment: any) =>
       comment.body.includes(reportHeader)
     );
-
-    console.log(botComment, body);
 
     if (botComment && botComment.length) {
       await gh.issues.updateComment({
