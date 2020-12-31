@@ -7,12 +7,18 @@
     </a>
 
     <section main class="details" [formGroup]="form">
-      <div class="full-width form-check" *ngFor="let role of availableRoles">
-        <input type="checkbox" [formControlName]="role" (change)="save(form)" />
-        <span class="form-check-label">
-          {{ 'organization.userRoles.' + role | cxTranslate }}
-        </span>
-      </div>
+      <label class="full-width">
+        <label class="form-check" *ngFor="let role of availableRoles">
+          <input
+            type="checkbox"
+            [formControlName]="role"
+            (change)="save(form)"
+          />
+          <span class="form-check-label">
+            {{ 'organization.userRoles.' + role | cxTranslate }}
+          </span>
+        </label>
+      </label>
     </section>
   </cx-org-card>
 </form>

@@ -63,7 +63,7 @@
         {{ 'orgUser.roles' | cxTranslate }}
       </span>
 
-      <div
+      <label
         class="form-check"
         *ngFor="let role of availableRoles; let i = index"
       >
@@ -78,7 +78,7 @@
         <span class="form-check-label">
           {{ 'organization.userRoles.' + role | cxTranslate }}
         </span>
-      </div>
+      </label>
     </label>
 
     <label aria-required="true" [formGroup]="form.get('orgUnit')">
@@ -100,7 +100,7 @@
     </label>
 
     <label *ngIf="isAssignedToApprovers" class="full-width">
-      <div class="form-check">
+      <label class="form-check">
         <input
           type="checkbox"
           class="form-check-input"
@@ -109,7 +109,7 @@
         <span class="form-check-label">{{
           'orgUser.assignApprover' | cxTranslate
         }}</span>
-      </div>
+      </label>
     </label>
   </ng-container>
 </cx-org-form>
