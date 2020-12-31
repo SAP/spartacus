@@ -32,3 +32,5 @@ yarn
 # # Directory for reports
 rm -rf etc
 mkdir etc
+
+cd ..

@@ -278,7 +278,7 @@ Previous error: \`${entry.base.errors[0]}\``;
   } else if (entry.head.status === Status.Unknown) {
     return `### :boom: ${entry.name}\nEntry point removed. Are you sure it was intentional?`;
   } else if (entry.base.status === Status.Unknown) {
-    const publicApi = extractSnippetFromFile(`etc/${entry.file}`);
+    const publicApi = extractSnippetFromFile(`${REPORT_DIR}/${entry.file}`);
     return `### :warning: ${entry.name}
 New entry point. Initial public api:
 \`\`\`ts
