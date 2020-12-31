@@ -14,3 +14,14 @@ $cx-dropdown-toggle-border-width: 0 2px 2px 0 !default;
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected {
   background-color: transparent;
 }
+
+.ng-dropdown-panel {
+  @include media-breakpoint-down(sm) {
+    font-size: small;
+  }
+  .ng-option {
+    @include media-breakpoint-down(sm) {
+      white-space: normal !important;
+    }
+  }
+}
