@@ -25,7 +25,7 @@
     "@angular/router": "^10.1.0",
     "@angular/service-worker": "^10.1.0",
     "@ng-bootstrap/ng-bootstrap": "^7.0.0",
-    "@ng-select/ng-select": "^5.0.0",
+    "@ng-select/ng-select": "^5.0.9",
     "@ngrx/effects": "^10.0.0",
     "@ngrx/store": "^10.0.0",
     "@spartacus/core": "3.0.0",

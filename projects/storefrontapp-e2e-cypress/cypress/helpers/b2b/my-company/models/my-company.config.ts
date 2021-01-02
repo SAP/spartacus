@@ -83,7 +83,7 @@ export interface MyCompanyConfig {
    *   sortLabel: 'unit',
    *   inputType: 'ngSelect',
    *   createValue: 'Custom Retail',
-   *   updateValue: 'Rustic',
+   *   updateValue: 'Rustic Retail',
    *   showInTable: true,
    *   formLabel: 'Parent Unit',
    *   showInDetails: true,
@@ -166,4 +166,9 @@ export interface MyCompanyConfig {
    * Define request required to be complete before create/update form filling.
    */
   selectOptionsEndpoint?: string;
+
+  /**
+   * Skip waiting for requests in assignment tests (used when GET requests aren't fired).
+   */
+  skipAssignmentWaits?: boolean;
 }
