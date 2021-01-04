@@ -34,14 +34,11 @@ export class ConfiguratorAttributeDropDownComponent
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   ngOnInit() {
-    console.log(this.attribute);
     this.attributeDropDownForm.setValue(this.attribute.selectedSingleValue);
 
-    if (this.attributeDropDownForm.value !== '0') {
-      this.quantity.setValue(this.attribute.quantity);
-    } else {
-      this.quantity.setValue(0);
-    }
+    this.quantity.setValue(
+      this.attributeDropDownForm.value !== '0' ? this.attribute.quantity : 0
+    );
 
     this.sub = this.quantity.valueChanges.subscribe((value) => {
       if (!value) {
