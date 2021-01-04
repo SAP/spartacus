@@ -22,7 +22,6 @@
     "access": "public"
   },
   "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/qualtrics",
-  "schematics": "./schematics/collection.json",
   "peerDependencies": {
     "@angular/common": "^10.1.0",
     "@angular/core": "^10.1.0",

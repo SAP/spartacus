@@ -5,11 +5,15 @@ import { provideDefaultConfig } from '@spartacus/core';
   providers: [
     provideDefaultConfig({
       featureModules: {
-        qualtrics: {
+        qualtricsTest: {
           cmsComponents: ['QualtricsEmbeddedFeedbackComponent'],
         },
       },
     }),
   ],
 })
-export class QualtricsRootModule {}
+export class QualtricsRootModule {
+  consturctor() {
+    console.log('qualtrics root module');
+  }
+}

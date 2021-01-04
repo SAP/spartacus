@@ -1,7 +1,11 @@
 import { NgModule } from '@angular/core';
-import { QualtricsComponentsModule } from '@spartacus/qualtrics/components';
+import { QualtricsComponentsModule } from './components/qualtrics-components.module';
 
 @NgModule({
   imports: [QualtricsComponentsModule],
 })
-export class QualtricsModule {}
+export class QualtricsModulesss {
+  constructor() {
+    console.log('qualtrics module');
+  }
+}
