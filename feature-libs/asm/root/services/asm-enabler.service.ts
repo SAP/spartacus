@@ -7,7 +7,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, shareReplay, switchMap } from 'rxjs/operators';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../../components/asm-constants';
 
@@ -25,10 +25,12 @@ export class AsmEnablerService {
   > = this.configInitializer.getStable('featureModules').pipe(
     map((config: CmsConfig) => config.featureModules ?? {}),
     switchMap((featureModulesConfig) =>
-      this.lazyModule.resolveModuleInstance(
-        featureModulesConfig['asm']?.module,
-        'asm'
-      )
+      featureModulesConfig['asm']?.module
+        ? this.lazyModule.resolveModuleInstance(
+            featureModulesConfig['asm']?.module,
+            'asm'
+          )
+        : of(undefined)
     ),
     shareReplay()
   );
