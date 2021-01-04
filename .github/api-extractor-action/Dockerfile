@@ -5,7 +5,7 @@ COPY yarn.lock /
 
 RUN yarn
 
-COPY index.ts /
+COPY src/*.ts /
 COPY tsconfig.json /
 
 RUN ["yarn", "build"]
