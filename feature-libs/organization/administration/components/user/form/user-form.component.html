@@ -58,7 +58,11 @@
       <cx-form-errors [control]="form.get('email')"></cx-form-errors>
     </label>
 
-    <div aria-required="true" class="full-width label-for-checkbox-group" formArrayName="roles">
+    <div
+      aria-required="true"
+      class="full-width label-for-checkbox-group"
+      formArrayName="roles"
+    >
       <span class="label-content required">
         {{ 'orgUser.roles' | cxTranslate }}
       </span>
@@ -99,17 +103,15 @@
       <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>
     </label>
 
-    <label *ngIf="isAssignedToApprovers" class="full-width">
-      <label class="form-check">
-        <input
-          type="checkbox"
-          class="form-check-input"
-          formControlName="isAssignedToApprovers"
-        />
-        <span class="form-check-label">{{
-          'orgUser.assignApprover' | cxTranslate
-        }}</span>
-      </label>
+    <label *ngIf="isAssignedToApprovers" class="full-width form-check">
+      <input
+        type="checkbox"
+        class="form-check-input"
+        formControlName="isAssignedToApprovers"
+      />
+      <span class="form-check-label">{{
+        'orgUser.assignApprover' | cxTranslate
+      }}</span>
     </label>
   </ng-container>
 </cx-org-form>
