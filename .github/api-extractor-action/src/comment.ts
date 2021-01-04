@@ -1,5 +1,4 @@
 import { Context } from '@actions/github/lib/context';
-import * as glob from '@actions/glob';
 import * as fs from 'fs';
 import { EntryPoints, EntryPointStatus, Status } from './api-extractor';
 import { BASE_BRANCH_DIR, REPORT_DIR } from './const';
@@ -119,9 +118,7 @@ function getDiff(report: string): string {
  *
  * @returns comment for entry point
  */
-async function generateCommentForEntryPoint(
-  entry: EntryPointStatus
-): Promise<string> {
+function generateCommentForEntryPoint(entry: EntryPointStatus): string {
   // We managed to create report for both branches
   if (
     entry.head.status === Status.Success &&
@@ -159,16 +156,12 @@ Previous error: \`${entry.base.errors[0]}\``;
   } else if (entry.head.status === Status.Unknown) {
     return `### :boom: ${entry.name}\nEntry point removed. Are you sure it was intentional?`;
   } else if (entry.base.status === Status.Unknown) {
-    const globber = await glob.create(`${REPORT_DIR}/${entry.file}`);
-    const files = await globber.glob();
-    if (files.length) {
-      const publicApi = extractSnippetFromFile(files[1]);
-      return `### :warning: ${entry.name}
+    const publicApi = extractSnippetFromFile(`${REPORT_DIR}/${entry.file}`);
+    return `### :warning: ${entry.name}
 New entry point. Initial public api:
 \`\`\`ts
 ${publicApi}
 \`\`\``;
-    }
   }
   return '';
 }
@@ -226,9 +219,10 @@ export async function addCommentToPR(
   relatedPR: { number: number },
   context: Context
 ) {
-  const commentsForEntryPoints = await Promise.all(
-    Object.values(entryPoints).map(generateCommentForEntryPoint)
+  const commentsForEntryPoints = Object.values(entryPoints).map(
+    generateCommentForEntryPoint
   );
+
   const notAnalyzedEntryPoints = extractListOfNotAnalyzedEntryPoints(
     Object.values(entryPoints)
   );
