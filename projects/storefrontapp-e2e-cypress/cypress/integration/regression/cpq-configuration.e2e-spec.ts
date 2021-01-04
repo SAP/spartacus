@@ -23,13 +23,20 @@ const COFFEE_MACHINE_CUPS_DAY_500_1000 = '8842'; //  500-1000 CUPS
 const STARB_MODE = '8845'; // STARB_MODE
 
 // List of groups
+const MAIN_COMPONENTS = 'Main Components';
 const ACCESSORIES = 'Accessories';
 const INSURANCE_AND_WARRANTY = 'Insurance and Warranty';
 
 // List of attributes
-const CAMERA_PIXELS = 'CAMERA_PIXELS';
-const CAMERA_DISPLAY = 'CAMERA_DISPLAY';
-const CAMERA_MODE = 'CAMERA_MODE';
+const attributeHeaders = {
+  mainComponents: ['Camera Body', 'Memory Card', 'Lenses'],
+  accessories: ['Tripod', 'Bag', 'Special Accessories'],
+  insuranceAndWarranty: [
+    'Are you a professional photographer?',
+    'Insurance',
+    'Extended Warranty',
+  ],
+};
 
 context('CPQ Configuration', () => {
   beforeEach(() => {
@@ -126,49 +133,74 @@ context('CPQ Configuration', () => {
     });
   });
 
-  describe.only('Group Handling', () => {
-    it('should navigate between groups', () => {
-      configuration.goToCPQConfigurationPage(powertoolsShop, testProduct);
+  const waitForConfiguratorLoad = () => {
+    // Waiting for the configuration page to load correctly
+    cy.get('.cx-product-card').should('have.length', 5);
+    cy.get('.cx-product-card-action button:contains("Deselect")');
+  };
 
-      // Waiting for item counter to be rendered
-      cy.get('cx-item-counter');
+  describe('Group Handling', () => {
+    it('should navigate with next and previous buttons', () => {
+      configuration
+        .goToCPQConfigurationPage(powertoolsShop, testProduct)
+        .then(() => {
+          configuration.checkPreviousBtnDisabled();
+          configuration.checkNextBtnEnabled();
 
-      configuration.clickOnNextBtn(ACCESSORIES);
-      configuration.clickOnNextBtn(INSURANCE_AND_WARRANTY);
-      configuration.clickOnPreviousBtn(ACCESSORIES);
+          waitForConfiguratorLoad();
+
+          configuration.clickOnNextBtn(ACCESSORIES);
+          configuration.checkPreviousBtnEnabled();
+          configuration.checkNextBtnEnabled();
+
+          configuration.clickOnNextBtn(INSURANCE_AND_WARRANTY);
+          configuration.checkPreviousBtnEnabled();
+          configuration.checkNextBtnDisabled();
+
+          configuration.clickOnPreviousBtn(ACCESSORIES);
+        });
     });
 
-    it('should check if group buttons are clickable', () => {
-      configuration.goToCPQConfigurationPage(powertoolsShop, testProduct);
+    it('should navigate with sidebar menu', () => {
+      configuration
+        .goToCPQConfigurationPage(powertoolsShop, testProduct)
+        .then(() => {
+          waitForConfiguratorLoad();
 
-      // Waiting for item counter to be rendered
-      cy.get('cx-item-counter');
+          configuration.clickOnNthGroupMenu(1).then(() => {
+            configuration.checkCurrentGroupActive(ACCESSORIES);
+          });
 
-      configuration.checkNextBtnEnabled();
-      configuration.checkPreviousBtnDisabled();
+          configuration.clickOnNthGroupMenu(2).then(() => {
+            configuration.checkCurrentGroupActive(INSURANCE_AND_WARRANTY);
+          });
 
-      configuration.clickOnNextBtn(ACCESSORIES);
-
-      // Waiting for item counter to be rendered
-      cy.get('cx-item-counter');
-
-      configuration.checkPreviousBtnEnabled();
-      configuration.clickOnNextBtn(INSURANCE_AND_WARRANTY);
-
-      // Waiting for item counter to be rendered
-      cy.get('cx-item-counter');
-
-      configuration.checkNextBtnDisabled();
+          configuration.clickOnNthGroupMenu(0).then(() => {
+            configuration.checkCurrentGroupActive(MAIN_COMPONENTS);
+          });
+        });
     });
 
-    it('should navigate using the group menu', () => {
-      configuration.goToConfigurationPage(powertoolsShop, testProduct);
-      configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
+    it('should display correct attributes', () => {
+      configuration
+        .goToCPQConfigurationPage(powertoolsShop, testProduct)
+        .then(() => {
+          waitForConfiguratorLoad();
 
-      configuration.clickOnGroup(2);
-      configuration.checkAttributeDisplayed(CAMERA_DISPLAY, radioGroup);
-      configuration.clickOnGroup(1);
-      configuration.checkAttributeDisplayed(CAMERA_PIXELS, radioGroup);
+          configuration.checkBundleAttributeDisplayed(
+            attributeHeaders.mainComponents
+          );
+
+          configuration.clickOnNextBtn(ACCESSORIES);
+          configuration.checkBundleAttributeDisplayed(
+            attributeHeaders.accessories
+          );
+
+          configuration.clickOnNextBtn(INSURANCE_AND_WARRANTY);
+          configuration.checkBundleAttributeDisplayed(
+            attributeHeaders.insuranceAndWarranty
+          );
+        });
     });
   });
 });

@@ -168,7 +168,7 @@ export function checkFocus(
  *
  * @param {string} currentGroup - Active group
  */
-function checkCurrentGroupActive(currentGroup: string): void {
+export function checkCurrentGroupActive(currentGroup: string): void {
   cy.get(
     'cx-configurator-group-title:contains(' + `${currentGroup}` + ')'
   ).should('be.visible');
@@ -322,6 +322,21 @@ export function checkAttributeDisplayed(
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
   cy.get(`#${attributeId}`).should('be.visible');
+}
+
+/**
+ * Verifies if all passed bundle attributes are displayed
+ *
+ * @param {string[]} attributeHeaders
+ */
+export function checkBundleAttributeDisplayed(
+  attributeHeaders: string[]
+): void {
+  attributeHeaders.forEach((header) => {
+    cy.get(`cx-configurator-attribute-header`)
+      .contains(header)
+      .should('be.visible');
+  });
 }
 
 /**
@@ -1082,4 +1097,18 @@ export function login(email: string, password: string, name: string): void {
   // Verify whether the user logged in successfully,
   // namely the logged in user should be greeted
   cy.get('.cx-login-greet').should('contain', name);
+}
+
+/**
+ * Clicks nth group menu link
+ *
+ * @param {number} index
+ * @returns {Chainable<JQuery<HTMLElement>>}
+ */
+export function clickOnNthGroupMenu(
+  index: number
+): Chainable<JQuery<HTMLElement>> {
+  return cy
+    .get('cx-configurator-group-menu:visible')
+    .within(() => cy.get('.cx-menu-item').eq(index).click());
 }
