@@ -6,6 +6,9 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
+import { By } from '@angular/platform-browser';
+import { I18nTestingModule } from '@spartacus/core';
+import { ItemCounterComponent } from '@spartacus/storefront';
 
 class MockGroupService {}
 
@@ -16,7 +19,7 @@ export class MockFocusDirective {
   @Input('cxFocus') protected config;
 }
 
-describe('ConfigAttributeRadioButtonComponent', () => {
+fdescribe('ConfigAttributeRadioButtonComponent', () => {
   let component: ConfiguratorAttributeRadioButtonComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeRadioButtonComponent>;
   const ownerKey = 'theOwnerKey';
@@ -30,9 +33,10 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       TestBed.configureTestingModule({
         declarations: [
           ConfiguratorAttributeRadioButtonComponent,
+          ItemCounterComponent,
           MockFocusDirective,
         ],
-        imports: [ReactiveFormsModule],
+        imports: [I18nTestingModule, ReactiveFormsModule],
         providers: [
           ConfiguratorAttributeBaseComponent,
           ConfiguratorStorefrontUtilsService,
@@ -55,6 +59,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     fixture = TestBed.createComponent(
       ConfiguratorAttributeRadioButtonComponent
     );
+
     component = fixture.componentInstance;
     component.attribute = {
       name: name,
@@ -64,7 +69,11 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       groupId: groupId,
       quantity: 1,
     };
+
     component.ownerKey = ownerKey;
+
+    spyOn(component, 'onHandleQuantity').and.callThrough();
+
     fixture.detectChanges();
   });
 
@@ -92,5 +101,21 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         }),
       })
     );
+  });
+
+  it('should button be called with proper update quantity action', () => {
+    component.ngOnInit();
+
+    fixture.detectChanges();
+
+    const button = fixture.debugElement.queryAll(
+      By.css('cx-item-counter button')
+    )[1].nativeElement;
+
+    button.click();
+
+    fixture.detectChanges();
+
+    expect(component.onHandleQuantity).toHaveBeenCalled();
   });
 });
