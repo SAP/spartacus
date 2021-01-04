@@ -34,7 +34,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent
     if (this.attribute.selectedSingleValue) {
       this.quantity.setValue(this.attribute.quantity);
     } else {
-      this.quantity.setValue(0);
+      this.quantity.setValue(this.attribute.selectedSingleValue ? this.attribute.quantity : 0);
     }
 
     this.sub = this.quantity.valueChanges.subscribe(() => {
