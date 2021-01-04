@@ -27,6 +27,7 @@
         [groupType]="currentGroup.groupType"
       ></cx-configurator-attribute-header>
 
+      <!-- Single Selection Radio Button -->
       <cx-configurator-attribute-radio-button
         *ngIf="attribute.uiType === uiType.RADIOBUTTON"
         [attribute]="attribute"
@@ -52,7 +53,7 @@
 
       <!-- Single Selection Dropdown Product Bundle -->
       <cx-configurator-attribute-single-selection-bundle-dropdown
-        *ngIf="attribute.uiType === uiType.DROPDOWN"
+        *ngIf="attribute.uiType === uiType.DROPDOWN_PRODUCT"
         [attribute]="attribute"
         [group]="currentGroup.id"
         [ownerKey]="configuration.owner.key"
@@ -60,7 +61,7 @@
       ></cx-configurator-attribute-single-selection-bundle-dropdown>
 
       <cx-configurator-attribute-drop-down
-        *ngIf="attribute.uiType === uiType.DROPDOWN_PRODUCT"
+        *ngIf="attribute.uiType === uiType.DROPDOWN"
         [attribute]="attribute"
         [group]="currentGroup.id"
         [ownerKey]="configuration.owner.key"
