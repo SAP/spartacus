@@ -29,6 +29,8 @@ export async function prepareRepositoryForApiExtractor(
   const key = `dist-${baseCommit}`;
   const cacheKey = await cache.restoreCache(paths, key, []);
   if (cacheKey) {
+    // Create .git repo, so api-extractor have different top level files target
+    await exec.exec('git', ['init', BASE_BRANCH_DIR]);
     // We create `etc` directory for api-extractor files
     await io.mkdirP(`${BASE_BRANCH_DIR}/${REPORT_DIR}`);
     // Cache restores files in the same location, so we need to move them manually

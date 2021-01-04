@@ -176,7 +176,4 @@ export async function analyzeEntryPoints(
     }
     core.endGroup();
   }
-
-  // Clear api-extractor temp directory
-  await io.rmRF(`temp`);
 }
