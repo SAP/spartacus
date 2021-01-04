@@ -35,7 +35,7 @@ export interface EntryPointStatus {
 }
 
 export interface EntryPoints {
-  [a: string]: EntryPointStatus;
+  [entryPoint: string]: EntryPointStatus;
 }
 
 /**
