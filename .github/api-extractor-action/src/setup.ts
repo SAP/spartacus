@@ -34,6 +34,7 @@ export async function prepareRepositoryForApiExtractor(
     });
     await io.rmRF(BUILD_DIR);
   } else {
+    await io.mkdirP(`${REPORT_DIR}`);
     // When we don't have cache let's clone the base branch (with particular commit)
     await exec.exec('sh', [
       './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
