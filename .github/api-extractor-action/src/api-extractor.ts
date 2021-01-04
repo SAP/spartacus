@@ -1,8 +1,9 @@
 import * as core from '@actions/core';
-import exec, { ExecOptions } from '@actions/exec';
+import * as exec from '@actions/exec';
+import { ExecOptions } from '@actions/exec';
 import * as glob from '@actions/glob';
 import * as io from '@actions/io';
-import fs from 'fs';
+import * as fs from 'fs';
 import { BASE_BRANCH_DIR, BUILD_DIR } from './const';
 
 export enum Status {
