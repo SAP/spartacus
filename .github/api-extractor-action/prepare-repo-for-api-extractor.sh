@@ -23,10 +23,6 @@ if [ "$DIR" != "self" ] ; then
   git checkout $COMMIT
 fi
 
-
-# Install dependencies and build lib
-yarn
-
 # # Directory for reports
 rm -rf etc
 mkdir etc
