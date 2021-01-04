@@ -23,7 +23,7 @@ import {
       {
         path: null,
         data: {
-          pageLabel: '/configureCLOUDCPQCONFIGURATOR',
+          pageLabel: '/configure/cpq',
           cxRoute: 'configureCLOUDCPQCONFIGURATOR',
         },
         component: PageLayoutComponent,
