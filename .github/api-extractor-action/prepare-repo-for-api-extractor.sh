@@ -28,8 +28,9 @@ fi
 
 # Install dependencies and build lib
 yarn
-# yarn build:libs
 
 # # Directory for reports
-# rm -rf etc
-# mkdir etc
+rm -rf etc
+mkdir etc
+
+cd ..
