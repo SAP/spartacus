@@ -19,6 +19,8 @@ export async function prepareRepositoryForApiExtractor(
   // Install dependencies to build libraries
   await exec.exec('yarn');
 
+  await exec.exec('npm', ['i', '-g', '@microsoft/api-extractor@^7.12.0']);
+
   // Try to restore builded libraries for base branch
   // Builded libraries are cached by `cache-builded-libs` action
   const paths = [BUILD_DIR];
