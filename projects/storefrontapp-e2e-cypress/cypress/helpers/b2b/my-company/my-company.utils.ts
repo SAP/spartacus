@@ -14,9 +14,15 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
     });
 
     beforeEach(() => {
+      cy.restoreLocalStorage();
+
       if (config.preserveCookies) {
         Cypress.Cookies.preserveOnce(ENTITY_UID_COOKIE_KEY);
       }
+    });
+
+    afterEach(() => {
+      cy.saveLocalStorage();
     });
 
     testListFromConfig(config);
