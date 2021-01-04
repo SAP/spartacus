@@ -18,4 +18,13 @@
       {{ item.valueDisplay }}
     </option>
   </select>
+  <div class="form-quantity">
+    <label>{{ 'configurator.attribute.quantity' | cxTranslate }}</label>
+    <cx-item-counter
+      [allowZero]="true"
+      [control]="quantity"
+      [min]="0"
+      [readonly]="attributeDropDownForm.value === '0' || (loading$ | async)"
+    ></cx-item-counter>
+  </div>
 </div>

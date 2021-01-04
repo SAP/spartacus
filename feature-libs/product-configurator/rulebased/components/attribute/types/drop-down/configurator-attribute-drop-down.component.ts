@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  OnDestroy,
   Input,
   OnInit,
   Output,
@@ -10,6 +11,8 @@ import { FormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { BehaviorSubject, Subscription } from 'rxjs';
+
 @Component({
   selector: 'cx-configurator-attribute-drop-down',
   templateUrl: './configurator-attribute-drop-down.component.html',
@@ -17,8 +20,13 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
 })
 export class ConfiguratorAttributeDropDownComponent
   extends ConfiguratorAttributeBaseComponent
-  implements OnInit {
+  implements OnDestroy, OnInit {
   attributeDropDownForm = new FormControl('');
+  loading$ = new BehaviorSubject<boolean>(false);
+  quantity = new FormControl(1);
+
+  private sub: Subscription;
+
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
   @Input() ownerKey: string;
@@ -26,19 +34,57 @@ export class ConfiguratorAttributeDropDownComponent
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   ngOnInit() {
+    console.log(this.attribute);
     this.attributeDropDownForm.setValue(this.attribute.selectedSingleValue);
+
+    if (this.attributeDropDownForm.value !== '0') {
+      this.quantity.setValue(this.attribute.quantity);
+    } else {
+      this.quantity.setValue(0);
+    }
+
+    this.sub = this.quantity.valueChanges.subscribe((value) => {
+      if (!value) {
+        this.attributeDropDownForm.setValue('');
+        this.onSelect();
+      } else {
+        this.onHandleQuantity();
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
   /**
    * Triggered when a value has been selected
    */
   onSelect(): void {
+    this.loading$.next(true);
+
     const event: ConfigFormUpdateEvent = {
-      ownerKey: this.ownerKey,
       changedAttribute: {
         ...this.attribute,
         selectedSingleValue: this.attributeDropDownForm.value,
       },
+      ownerKey: this.ownerKey,
+      updateType: Configurator.UpdateType.ATTRIBUTE,
     };
+    this.selectionChange.emit(event);
+  }
+
+  onHandleQuantity(): void {
+    this.loading$.next(true);
+
+    const event: ConfigFormUpdateEvent = {
+      changedAttribute: {
+        ...this.attribute,
+        quantity: this.quantity.value,
+      },
+      ownerKey: this.ownerKey,
+      updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
+    };
+
     this.selectionChange.emit(event);
   }
 }
