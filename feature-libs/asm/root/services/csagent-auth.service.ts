@@ -11,7 +11,6 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AsmActions } from '../../core/store/actions';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 
 /**
@@ -136,7 +135,7 @@ export class CsAgentAuthService {
 
     await this.oAuthLibWrapperService.revokeAndLogout();
 
-    this.store.dispatch(new AsmActions.LogoutCustomerSupportAgent());
+    this.store.dispatch({ type: '[Auth] Logout Customer Support Agent' });
     this.authStorageService.setTokenTarget(TokenTarget.User);
 
     if (isCustomerEmulated && emulatedToken) {

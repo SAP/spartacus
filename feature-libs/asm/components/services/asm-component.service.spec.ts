@@ -1,9 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { CsAgentAuthService } from '@spartacus/asm/root';
+import {
+  ASM_ENABLED_LOCAL_STORAGE_KEY,
+  CsAgentAuthService,
+} from '@spartacus/asm/root';
 import { AuthService, WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 import { AsmComponentService } from './asm-component.service';
 
 class MockAuthService implements Partial<AuthService> {

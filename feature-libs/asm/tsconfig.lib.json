@@ -1,8 +1,6 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "strict": true,
     "outDir": "../../out-tsc/lib",
     "target": "es2015",
     "module": "es2020",
@@ -20,7 +18,6 @@
     }
   },
   "angularCompilerOptions": {
-    "strictTemplates": true,
     "skipTemplateCodegen": true,
     "strictMetadataEmit": true,
     "fullTemplateTypeCheck": true,

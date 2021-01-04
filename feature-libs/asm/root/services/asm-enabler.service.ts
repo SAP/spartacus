@@ -9,7 +9,7 @@ import {
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { map, shareReplay, switchMap } from 'rxjs/operators';
-import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../../components/asm-constants';
+import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 
 /**
  * The AsmEnablerService is used to enable ASM for those scenario's
