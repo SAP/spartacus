@@ -18,6 +18,8 @@ export async function prepareRepositoryForApiExtractor(
 
   // Install dependencies to build libraries
   await exec.exec('yarn');
+  // Create directory for reports
+  await io.mkdirP(`${REPORT_DIR}`);
 
   await exec.exec('npm', ['i', '-g', '@microsoft/api-extractor@^7.12.0']);
 
@@ -36,7 +38,6 @@ export async function prepareRepositoryForApiExtractor(
     });
     await io.rmRF(BUILD_DIR);
   } else {
-    await io.mkdirP(`${REPORT_DIR}`);
     // When we don't have cache let's clone the base branch (with particular commit)
     await exec.exec('sh', [
       './.github/api-extractor-action/prepare-repo-for-api-extractor.sh',
