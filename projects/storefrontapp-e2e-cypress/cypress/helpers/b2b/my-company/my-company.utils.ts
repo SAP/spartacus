@@ -1,7 +1,4 @@
 import { ENTITY_UID_COOKIE_KEY, MyCompanyConfig } from './models/index';
-import { testListFromConfig } from './my-company-list';
-import { testCreateUpdateFromConfig } from './my-company-form';
-import { testAssignmentFromConfig } from './my-company-assign';
 import { nextPage } from '../../product-search';
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
 import { myCompanyAdminUser } from '../../../sample-data/shared-users';
@@ -25,9 +22,6 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
       cy.saveLocalStorage();
     });
 
-    testListFromConfig(config);
-    testCreateUpdateFromConfig(config);
-    testAssignmentFromConfig(config);
     testFeaturesFromConfig(config);
   });
 }

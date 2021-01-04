@@ -1,6 +1,6 @@
 import { FULL_BASE_URL_EN_USD } from '../../../site-context-selector';
 import { randomString } from '../../../user';
-import { INPUT_TYPE, MyCompanyConfig } from '../models';
+import { INPUT_TYPE, MyCompanyConfig, MY_COMPANY_FEATURE } from '../models';
 import { costCenterConfig } from './cost-center.config';
 import { userConfig } from './user';
 
@@ -222,5 +222,10 @@ export const unitConfig: MyCompanyConfig = {
       objectType: 'members',
       createConfig: costCenterConfig,
     },
+  ],
+  features: [
+    MY_COMPANY_FEATURE.FORM,
+    MY_COMPANY_FEATURE.LIST,
+    MY_COMPANY_FEATURE.ASSIGNMENTS,
   ],
 };

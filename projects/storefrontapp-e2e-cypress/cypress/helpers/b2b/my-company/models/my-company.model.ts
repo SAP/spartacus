@@ -33,6 +33,9 @@ export interface TestListOptions {
 }
 
 export enum MY_COMPANY_FEATURE {
+  LIST = 'list',
+  FORM = 'form',
+  ASSIGNMENTS = 'assignments',
   USER_PASSWORD = 'userPassword',
 }
 

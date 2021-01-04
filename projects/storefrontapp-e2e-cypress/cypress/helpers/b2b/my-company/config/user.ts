@@ -138,5 +138,10 @@ export const userConfig: MyCompanyConfig = {
       manageAssignments: true,
     },
   ],
-  features: [MY_COMPANY_FEATURE.USER_PASSWORD],
+  features: [
+    MY_COMPANY_FEATURE.FORM,
+    MY_COMPANY_FEATURE.LIST,
+    MY_COMPANY_FEATURE.ASSIGNMENTS,
+    MY_COMPANY_FEATURE.USER_PASSWORD,
+  ],
 };

@@ -4,8 +4,11 @@ import {
   INPUT_TYPE,
   MyCompanyConfig,
   MyCompanyRowConfig,
-} from './models/index';
-import { ignoreCaseSensivity, loginAsMyCompanyAdmin } from './my-company.utils';
+} from '../models/index';
+import {
+  ignoreCaseSensivity,
+  loginAsMyCompanyAdmin,
+} from '../my-company.utils';
 
 export enum FormType {
   CREATE = 'create',
@@ -26,7 +29,7 @@ function getValueKey(formType: FormType): 'createValue' | 'updateValue' {
   }
 }
 
-export function testCreateUpdateFromConfig(config: MyCompanyConfig) {
+export function formTest(config: MyCompanyConfig) {
   describe(`${config.name} Create / Update`, () => {
     let entityUId: string;
     let entityId: string;

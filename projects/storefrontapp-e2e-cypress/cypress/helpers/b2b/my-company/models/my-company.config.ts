@@ -112,11 +112,6 @@ export interface MyCompanyConfig {
   nestedTableRows?: boolean;
 
   /**
-   * Set to true if checking list features for such config is not needed.
-   */
-  disableListChecking?: boolean;
-
-  /**
    * Configuration of preserve cookies value.
    */
   preserveCookies?: boolean;

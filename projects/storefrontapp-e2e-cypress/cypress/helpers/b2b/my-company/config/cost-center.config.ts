@@ -1,6 +1,6 @@
 import { FULL_BASE_URL_EN_USD } from '../../../site-context-selector';
 import { randomString } from '../../../user';
-import { INPUT_TYPE, MyCompanyConfig } from '../models';
+import { INPUT_TYPE, MyCompanyConfig, MY_COMPANY_FEATURE } from '../models';
 
 export const costCenterConfig: MyCompanyConfig = {
   name: 'Cost Center',
@@ -71,5 +71,10 @@ export const costCenterConfig: MyCompanyConfig = {
       objectType: 'budgets',
       manageAssignments: true,
     },
+  ],
+  features: [
+    MY_COMPANY_FEATURE.FORM,
+    MY_COMPANY_FEATURE.LIST,
+    MY_COMPANY_FEATURE.ASSIGNMENTS,
   ],
 };

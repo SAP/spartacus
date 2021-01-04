@@ -1,7 +1,7 @@
 import { fillLoginForm, LoginUser } from '../../../auth-forms';
 import { waitForPage } from '../../../checkout-flow';
 import { INPUT_TYPE, MyCompanyConfig } from '../models';
-import { completeForm, FormType } from '../my-company-form';
+import { completeForm, FormType } from './form';
 import { loginAsMyCompanyAdmin } from '../my-company.utils';
 
 export function userPasswordTest(config: MyCompanyConfig): void {
