@@ -31,13 +31,11 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   ngOnInit(): void {
-    if (this.attribute.required) {
-      if (!this.attribute.values.find((value) => value.selected)) {
-        this.onSelect(this.attribute.values[0].valueCode);
-      }
+    if (this.attribute.selectedSingleValue) {
+      this.quantity.setValue(this.attribute.quantity);
+    } else {
+      this.quantity.setValue(0);
     }
-
-    this.quantity.setValue(this.attribute.quantity);
 
     this.sub = this.quantity.valueChanges.subscribe(() => {
       this.onHandleQuantity();

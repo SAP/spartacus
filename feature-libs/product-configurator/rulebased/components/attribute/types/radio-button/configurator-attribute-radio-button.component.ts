@@ -33,7 +33,12 @@ export class ConfiguratorAttributeRadioButtonComponent
 
   ngOnInit(): void {
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);
-    this.quantity.setValue(this.attribute.quantity);
+
+    if (this.attribute.selectedSingleValue) {
+      this.quantity.setValue(this.attribute.quantity);
+    } else {
+      this.quantity.setValue(0);
+    }
 
     this.sub = this.quantity.valueChanges.subscribe(() => {
       this.onHandleQuantity();
