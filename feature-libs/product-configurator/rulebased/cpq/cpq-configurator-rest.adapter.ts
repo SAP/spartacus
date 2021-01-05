@@ -86,7 +86,11 @@ export class CpqConfiguratorRestAdapter
     return of(configuration); // so that UI does not run into exception
   }
 
-  getConfigurationOverview(): Observable<Configurator.Overview> {
-    return undefined;
+  getConfigurationOverview(
+    configId: string
+  ): Observable<Configurator.Overview> {
+    return this.cpqAcpqConfiguratorRestService.readConfigurationOverview(
+      configId
+    );
   }
 }

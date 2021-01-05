@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConverterService } from '@spartacus/core';
+import { forkJoin, of } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { Configurator } from '../core/model/configurator.model';
 import { CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT } from '../root/interceptor/cpq-configurator-rest.interceptor';
 import {
@@ -49,6 +50,50 @@ export class CpqConfiguratorRestService {
   ): Observable<Configurator.Configuration> {
     return this.callConfigurationDisplay(configId, tabId).pipe(
       this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER),
+      map((resultConfiguration) => {
+        return {
+          ...resultConfiguration,
+          configId: configId,
+        };
+      })
+    );
+  }
+
+  readConfigurationOverview(
+    configId: string
+  ): Observable<Configurator.Overview> {
+    return this.callConfigurationDisplay(configId).pipe(
+      switchMap((currentTab) => {
+        const tabRequests: Observable<Cpq.Configuration>[] = [];
+        currentTab.tabs.forEach((tab) => {
+          if (tab.isSelected) {
+            // details of the currently selected tab are already fetched
+            tabRequests.push(of(currentTab));
+          } else {
+            tabRequests.push(
+              this.callConfigurationDisplay(configId, tab.id.toString())
+            );
+          }
+        });
+
+        return forkJoin(tabRequests);
+      }),
+      map((tabReqResultList) => {
+        const overviewConfiguration = {
+          ...tabReqResultList[0],
+        };
+        overviewConfiguration.attributes = [];
+        overviewConfiguration.tabs = [];
+
+        tabReqResultList.forEach((tabReqResult) => {
+          const currentTab = tabReqResult.tabs.find((tab) => tab.isSelected);
+          currentTab.attributes = tabReqResult.attributes;
+          overviewConfiguration.tabs.push(currentTab);
+        });
+        return overviewConfiguration;
+      }),
+      tap((resultConfiguration) => console.info(resultConfiguration)),
+      //(this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER),
       map((resultConfiguration) => {
         return {
           ...resultConfiguration,
