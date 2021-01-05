@@ -22,12 +22,26 @@
       margin-bottom: 30px;
     }
 
+    fieldset {
+      padding-inline-end: 20px;
+      padding-bottom: 10px;
+      margin: 0;
+    }
+    legend {
+      font-weight: bold;
+      font-size: 18px;
+      display: block;
+    }
     label {
       font-weight: bold;
       font-size: 18px;
-      label {
-        font-weight: normal;
-      }
+    }
+
+    label.form-check {
+      font-weight: normal;
+      padding-inline-end: 20px;
+      padding-bottom: 10px;
+      margin: 0;
     }
     .value {
       font-size: 16px;
