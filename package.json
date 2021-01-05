@@ -57,6 +57,7 @@
     "start": "ng serve",
     "start:ci:1905": "cross-env SPARTACUS_BASE_URL=https://spartacus-legacy.eastus.cloudapp.azure.com:9002 SPARTACUS_API_PREFIX=/rest/v2/ yarn start:prod",
     "start:ci:2005": "cross-env SPARTACUS_BASE_URL=https://spartacus-dev0.eastus.cloudapp.azure.com:9002 SPARTACUS_API_PREFIX=/occ/v2/ yarn start:prod",
+    "build:ci:2005": "cross-env SPARTACUS_BASE_URL=https://spartacus-dev0.eastus.cloudapp.azure.com:9002 SPARTACUS_API_PREFIX=/occ/v2/ yarn build --prod",
     "start:ci:ccv2": "cross-env SPARTACUS_BASE_URL=https://spartacus-demo.eastus.cloudapp.azure.com:8443 yarn start:prod",
     "start:prod": "ng serve --prod",
     "start:ssl": "ng serve --ssl",
@@ -203,6 +204,7 @@
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "typescript": "~4.0.2",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "^3.3.12",
+    "pm2": "^4.5"
   }
 }
