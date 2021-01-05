@@ -133,21 +133,15 @@ context('CPQ Configuration', () => {
     });
   });
 
-  const waitForConfiguratorLoad = () => {
-    // Waiting for the configuration page to load correctly
-    cy.get('.cx-product-card').should('have.length', 5);
-    cy.get('.cx-product-card-action button:contains("Deselect")');
-  };
-
   describe('Group Handling', () => {
     it('should navigate with next and previous buttons', () => {
       configuration
-        .goToCPQConfigurationPage(powertoolsShop, testProduct)
+        .goToConfigurationPage(powertoolsShop, testProduct, 'cpq')
         .then(() => {
           configuration.checkPreviousBtnDisabled();
           configuration.checkNextBtnEnabled();
 
-          waitForConfiguratorLoad();
+          configuration.waitForProductCardsLoad();
 
           configuration.clickOnNextBtn(ACCESSORIES);
           configuration.checkPreviousBtnEnabled();
@@ -163,41 +157,50 @@ context('CPQ Configuration', () => {
 
     it('should navigate with sidebar menu', () => {
       configuration
-        .goToCPQConfigurationPage(powertoolsShop, testProduct)
+        .goToConfigurationPage(powertoolsShop, testProduct, 'cpq')
         .then(() => {
-          waitForConfiguratorLoad();
+          configuration.waitForProductCardsLoad();
 
-          configuration.clickOnNthGroupMenu(1).then(() => {
-            configuration.checkCurrentGroupActive(ACCESSORIES);
-          });
+          configuration
+            .getNthGroupMenu(1)
+            .click()
+            .then(() => {
+              configuration.checkCurrentGroupActive(ACCESSORIES);
+            });
 
-          configuration.clickOnNthGroupMenu(2).then(() => {
-            configuration.checkCurrentGroupActive(INSURANCE_AND_WARRANTY);
-          });
+          configuration
+            .getNthGroupMenu(2)
+            .click()
+            .then(() => {
+              configuration.checkCurrentGroupActive(INSURANCE_AND_WARRANTY);
+            });
 
-          configuration.clickOnNthGroupMenu(0).then(() => {
-            configuration.checkCurrentGroupActive(MAIN_COMPONENTS);
-          });
+          configuration
+            .getNthGroupMenu(0)
+            .click()
+            .then(() => {
+              configuration.checkCurrentGroupActive(MAIN_COMPONENTS);
+            });
         });
     });
 
     it('should display correct attributes', () => {
       configuration
-        .goToCPQConfigurationPage(powertoolsShop, testProduct)
+        .goToConfigurationPage(powertoolsShop, testProduct, 'cpq')
         .then(() => {
-          waitForConfiguratorLoad();
+          configuration.waitForProductCardsLoad();
 
-          configuration.checkBundleAttributeDisplayed(
+          configuration.checkAttributeHeaderDisplayed(
             attributeHeaders.mainComponents
           );
 
           configuration.clickOnNextBtn(ACCESSORIES);
-          configuration.checkBundleAttributeDisplayed(
+          configuration.checkAttributeHeaderDisplayed(
             attributeHeaders.accessories
           );
 
           configuration.clickOnNextBtn(INSURANCE_AND_WARRANTY);
-          configuration.checkBundleAttributeDisplayed(
+          configuration.checkAttributeHeaderDisplayed(
             attributeHeaders.insuranceAndWarranty
           );
         });
