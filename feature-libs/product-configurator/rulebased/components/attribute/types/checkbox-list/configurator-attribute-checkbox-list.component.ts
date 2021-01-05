@@ -54,8 +54,6 @@ export class ConfiguratorAttributeCheckBoxListComponent
       this.attribute
     );
 
-    console.log(selectedValues);
-
     const event: ConfigFormUpdateEvent = {
       changedAttribute: {
         ...this.attribute,
