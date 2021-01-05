@@ -40,7 +40,6 @@ class MockCxIconComponent {
 
 const isLoadingSubject = new Subject();
 isLoadingSubject.next(true);
-
 class MockPaymentMethodsService {
   loading$ = isLoadingSubject;
   getCardContent(): Observable<Card[]> {
@@ -143,11 +142,12 @@ describe('PaymentMethodsComponent', () => {
     function getSpinner(elem: DebugElement) {
       return elem.query(By.css('cx-spinner'));
     }
+
     spyOn(paymentMethodsService, 'get').and.returnValue(of([mockPayment]));
-    isLoadingSubject.next(true);
 
     createComponent();
-
+    fixture.detectChanges();
+    isLoadingSubject.next(true);
     fixture.detectChanges();
     expect(getSpinner(el)).toBeTruthy();
   });
@@ -260,7 +260,7 @@ describe('PaymentMethodsComponent', () => {
 
   it('should successfully set card as default', () => {
     function getSetDefaultButton(elem: DebugElement): any {
-      return elem.queryAll(By.css('cx-card .card-link'))[1].nativeElement;
+      return elem.queryAll(By.css('cx-card .card-link'))[0].nativeElement;
     }
     spyOn(paymentMethodsService, 'setDefault').and.stub();
     spyOn(paymentMethodsService, 'get').and.returnValue(of([mockPayment]));
@@ -268,6 +268,7 @@ describe('PaymentMethodsComponent', () => {
     createComponent();
     fixture.detectChanges();
     getSetDefaultButton(el).click();
+    fixture.detectChanges();
     expect(paymentMethodsService.setDefault).toHaveBeenCalledWith(mockPayment);
   });
 });
