@@ -9,8 +9,7 @@
     "schematics"
   ],
   "scripts": {
-    "prepare:schematics": "yarn install",
-    "clean": "yarn prepare:schematics && ../../node_modules/.bin/rimraf \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\"",
+    "clean": "../../node_modules/.bin/rimraf \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\"",
     "build": "yarn clean && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
     "test": "yarn clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
@@ -19,6 +18,7 @@
   "schematics": "./src/collection.json",
   "dependencies": {
     "@angular/localize": "^10.1.0",
+    "@angular/pwa": "^0.1001.0",
     "@nguniversal/express-engine": "^10.1.0",
     "tslib": "^2.0.0"
   },
