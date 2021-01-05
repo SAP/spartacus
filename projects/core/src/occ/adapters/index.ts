@@ -1,3 +1,4 @@
+export * from './asm/index';
 export * from './cart/index';
 export * from './checkout/index';
 export * from './cms/index';
