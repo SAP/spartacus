@@ -5,6 +5,9 @@
       // align the height of the select with buttons
       max-height: 48px;
     }
+    @include media-breakpoint-down(sm) {
+      font-size: small;
+    }
   }
 
   form section {
@@ -18,7 +21,6 @@
     }
     @include media-breakpoint-down(sm) {
       flex: 100%;
-      font-size: small !important;
     }
     padding-inline-end: 20px;
     padding-bottom: 10px;
@@ -27,9 +29,11 @@
     .form-check {
       margin: 0;
     }
-    .ng-value {
+    span,
+    input,
+    p {
       @include media-breakpoint-down(sm) {
-        white-space: normal !important;
+        font-size: small;
       }
     }
   }
@@ -62,6 +66,15 @@
     .ng-select-container {
       // align the height of the select with buttons
       max-height: 48px;
+    }
+  }
+
+  .ng-dropdown-panel {
+    span {
+      @include media-breakpoint-down(sm) {
+        white-space: normal;
+        font-size: small;
+      }
     }
   }
 }
