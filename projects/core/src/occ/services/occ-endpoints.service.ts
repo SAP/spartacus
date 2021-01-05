@@ -8,6 +8,18 @@ import { HttpParamsURIEncoder } from '../../util/http-params-uri.encoder';
 import { OccConfig } from '../config/occ-config';
 import { DEFAULT_SCOPE } from '../occ-models/occ-endpoints.model';
 
+export interface EndpointComponents {
+  baseUrl?: boolean;
+  prefix?: boolean;
+  baseSite?: boolean;
+}
+
+export interface DynamicAttributes {
+  urlParams?: object;
+  queryParams?: object;
+  scope?: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -33,10 +45,13 @@ export class OccEndpointsService {
   }
 
   /**
+   * @Deprecated since 3.2 - use "getRawEndpointValue" or "getOccUrl" instead
+   *
    * Returns an endpoint starting from the OCC baseUrl (no baseSite)
    * @param endpoint Endpoint suffix
    */
   getRawEndpoint(endpoint: string): string {
+    // TODO_LP: deprecate
     if (!this.config?.backend?.occ) {
       return '';
     }
@@ -50,6 +65,22 @@ export class OccEndpointsService {
   }
 
   /**
+   * Returns the value configured for a specific endpoint
+   *
+   * @param endpointKey the configuration key for the endpoint to return
+   */
+  getRawEndpointValue(endpoint: string, scope?: string): string {
+    if (!this.config?.backend?.occ) {
+      return '';
+    }
+    const endpointValue = this.getEndpointForScope(endpoint, scope);
+
+    return endpointValue;
+  }
+
+  /**
+   * @Deprecated since 3.2 - use "getOccUrl(endpoint, {}, { baseUrl: true, prefix: true })" instead
+   *
    * Returns an endpoint starting from the OCC prefix (no baseSite), i.e. /occ/v2/{endpoint}
    * Most OCC endpoints are related to a baseSite context and are therefor prefixed
    * with the baseSite. The `/basesites` endpoint does not relate to a specific baseSite
@@ -58,52 +89,116 @@ export class OccEndpointsService {
    * @param endpoint Endpoint suffix
    */
   getOccEndpoint(endpoint: string): string {
-    if (!this.config?.backend?.occ) {
-      return '';
-    }
-    endpoint = this.config.backend.occ.endpoints?.[endpoint];
+    endpoint = this.getRawEndpointValue(endpoint);
 
-    if (
-      !endpoint.startsWith('/') &&
-      !this.config.backend.occ.prefix.endsWith('/')
-    ) {
-      endpoint = '/' + endpoint;
-    }
-
-    return (
-      this.config.backend.occ.baseUrl +
-      this.config.backend.occ.prefix +
-      endpoint
-    );
+    return this.getEndpoint(endpoint, { baseUrl: true, prefix: true });
   }
 
   /**
-   * Returns base OCC endpoint (baseUrl + prefix + baseSite)
+   * Returns base OCC endpoint (baseUrl + prefix + baseSite) by if no parameters are specified
+   *
+   * @param endpointComponents The prefixes to add to the url (baseUrl, prefix, baseSite)
    */
-  getBaseEndpoint(): string {
+  getBaseEndpoint(endpointComponents?: EndpointComponents): string {
     if (!this.config?.backend?.occ) {
       return '';
     }
 
-    return (
-      (this.config.backend.occ.baseUrl || '') +
-      this.config.backend.occ.prefix +
-      this.activeBaseSite
-    );
+    if (!endpointComponents) {
+      return (
+        (this.config.backend.occ.baseUrl || '') +
+        this.config.backend.occ.prefix +
+        this.activeBaseSite
+      );
+    } else {
+      return endpointComponents.baseUrl
+        ? this.config.backend.occ.baseUrl || ''
+        : '' + endpointComponents.prefix
+        ? this.config.backend.occ.prefix
+        : '' + endpointComponents.baseSite
+        ? this.activeBaseSite
+        : '';
+    }
   }
 
   /**
    * Returns an OCC endpoint including baseUrl and baseSite
+   *
    * @param endpoint Endpoint suffix
+   * @param endpointComponents The prefixes to add to the url (baseUrl, prefix, baseSite)
    */
-  getEndpoint(endpoint: string): string {
+  getEndpoint(
+    endpoint: string,
+    endpointComponents?: EndpointComponents
+  ): string {
     if (!endpoint.startsWith('/')) {
       endpoint = '/' + endpoint;
     }
-    return this.getBaseEndpoint() + endpoint;
+    return this.getBaseEndpoint(endpointComponents) + endpoint;
   }
 
   /**
+   * Returns a fully qualified OCC Url
+   *
+   * @param endpoint Name of the OCC endpoint key
+   * @param attributes Dynamic attributes used to build the url
+   * @param endpointsComponents The prefixes to add to the url (baseUrl, prefix, baseSite)
+   */
+  getOccUrl(
+    endpoint: string,
+    attributes?: DynamicAttributes,
+    endpointsComponents?: EndpointComponents
+  ): string {
+    endpoint = this.getEndpointForScope(endpoint, attributes?.scope);
+
+    if (attributes) {
+      const { urlParams, queryParams } = attributes;
+
+      if (urlParams) {
+        endpoint = DynamicTemplate.resolve(
+          endpoint,
+          attributes.urlParams,
+          true
+        );
+      }
+
+      if (queryParams) {
+        let httpParamsOptions = { encoder: new HttpParamsURIEncoder() };
+
+        if (endpoint.includes('?')) {
+          let queryParamsFromEndpoint: string;
+          [endpoint, queryParamsFromEndpoint] = endpoint.split('?');
+          httpParamsOptions = {
+            ...httpParamsOptions,
+            ...{ fromString: queryParamsFromEndpoint },
+          };
+        }
+
+        let httpParams = new HttpParams(httpParamsOptions);
+        Object.keys(queryParams).forEach((key) => {
+          const value = queryParams[key];
+          if (value !== undefined) {
+            if (value === null) {
+              httpParams = httpParams.delete(key);
+            } else {
+              httpParams = httpParams.set(key, value);
+            }
+          }
+        });
+
+        const params = httpParams.toString();
+        if (params.length) {
+          endpoint += '?' + params;
+        }
+      }
+    }
+
+    return this.getEndpoint(endpoint, endpointsComponents);
+  }
+
+  /**
+   * @Deprecated since 3.2 - use "getOccUrl" instead
+   *
    * Returns a fully qualified OCC Url (including baseUrl and baseSite)
    * @param endpoint Name of the OCC endpoint key config
    * @param urlParams  URL parameters
@@ -129,7 +224,7 @@ export class OccEndpointsService {
       let httpParamsOptions = { encoder: new HttpParamsURIEncoder() };
 
       if (endpoint.includes('?')) {
-        let queryParamsFromEndpoint;
+        let queryParamsFromEndpoint: string;
         [endpoint, queryParamsFromEndpoint] = endpoint.split('?');
 
         httpParamsOptions = {

@@ -81,7 +81,12 @@ export class OccSiteAdapter implements SiteAdapter {
 
     return this.http
       .get<{ baseSites: BaseSite[] }>(
-        this.occEndpointsService.getOccEndpoint('baseSites')
+        // this.occEndpointsService.getOccEndpoint('baseSites')
+        this.occEndpointsService.getOccUrl(
+          'baseSites',
+          {},
+          { baseUrl: true, prefix: true }
+        )
       )
       .pipe(
         map((siteList) => {
@@ -93,7 +98,12 @@ export class OccSiteAdapter implements SiteAdapter {
   loadBaseSites(): Observable<BaseSite[]> {
     return this.http
       .get<{ baseSites: BaseSite[] }>(
-        this.occEndpointsService.getOccEndpoint('baseSites')
+        // this.occEndpointsService.getOccEndpoint('baseSites')
+        this.occEndpointsService.getOccUrl(
+          'baseSites',
+          {},
+          { baseUrl: true, prefix: true }
+        )
       )
       .pipe(
         map((baseSiteList) => baseSiteList.baseSites),

@@ -15,7 +15,11 @@ import {
 import { defaultOccConfig } from '../../config/default-occ-config';
 import { OccConfig } from '../../config/occ-config';
 import { Occ } from '../../occ-models/occ.models';
-import { OccEndpointsService } from '../../services';
+import {
+  DynamicAttributes,
+  EndpointComponents,
+  OccEndpointsService,
+} from '../../services';
 import { OccSiteAdapter } from './occ-site.adapter';
 
 const MockOccModuleConfig: OccConfig = {
@@ -45,8 +49,12 @@ class MockOccEndpointsService {
       MockOccModuleConfig.context.baseSite
     );
   }
-  getOccEndpoint(url: string) {
-    return url;
+  getOccUrl(
+    endpoint: string,
+    _attributes?: DynamicAttributes,
+    _endpointsComponents?: EndpointComponents
+  ) {
+    return endpoint;
   }
 }
 
@@ -73,7 +81,7 @@ describe('OccSiteAdapter', () => {
     occEndpointsService = TestBed.inject(OccEndpointsService);
     spyOn(converterService, 'pipeableMany').and.callThrough();
     spyOn(occEndpointsService, 'getUrl').and.callThrough();
-    spyOn(occEndpointsService, 'getOccEndpoint').and.callThrough();
+    spyOn(occEndpointsService, 'getOccUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -295,8 +303,10 @@ describe('OccSiteAdapter', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      expect(occEndpointsService.getOccEndpoint).toHaveBeenCalledWith(
-        'baseSites'
+      expect(occEndpointsService.getOccUrl).toHaveBeenCalledWith(
+        'baseSites',
+        {},
+        { baseUrl: true, prefix: true }
       );
       mockReq.flush({ baseSites: baseSites });
     });
