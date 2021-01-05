@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { QualtricsConfig, QualtricsLoaderService } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-qualtrics-embedded-feedback',
-  template: ``,
+  template: '',
 })
-export class QualtricsEmbeddedFeedbackComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit(): void {}
+export class QualtricsEmbeddedFeedbackComponent {
+  constructor(
+    protected qualtricsLoader: QualtricsLoaderService,
+    protected config: QualtricsConfig
+  ) {}
 }

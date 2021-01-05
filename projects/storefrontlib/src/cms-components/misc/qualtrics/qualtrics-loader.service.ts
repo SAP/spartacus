@@ -60,6 +60,31 @@ export class QualtricsLoaderService {
   }
 
   /**
+   * Adds the deployment script to the DOM.
+   *
+   * The script will not be added twice if it was loaded before. In that case, we use
+   * the Qualtrics API directly to _unload_ and _run_ the project.
+   */
+  addScript(scriptSource: string): void {
+    if (this.hasScript(scriptSource)) {
+      this.run(true);
+    } else {
+      const script: HTMLScriptElement = this.renderer.createElement('script');
+      script.type = 'text/javascript';
+      script.defer = true;
+      script.src = scriptSource;
+      this.renderer.appendChild(this.winRef.document.body, script);
+    }
+  }
+
+  /**
+   * Indicates if the script is already added to the DOM.
+   */
+  hasScript(source?: string): boolean {
+    return !!this.winRef.document.querySelector(`script[src="${source}"]`);
+  }
+
+  /**
    * Starts observing the Qualtrics integration. The integration is based on a
    * Qualtrics specific event (`qsi_js_loaded`). As soon as this events happens,
    * we run the API.
@@ -93,24 +118,6 @@ export class QualtricsLoaderService {
   }
 
   /**
-   * Adds the deployment script to the DOM.
-   *
-   * The script will not be added twice if it was loaded before. In that case, we use
-   * the Qualtrics API directly to _unload_ and _run_ the project.
-   */
-  addScript(scriptSource: string): void {
-    if (this.hasScript(scriptSource)) {
-      this.run(true);
-    } else {
-      const script: HTMLScriptElement = this.renderer.createElement('script');
-      script.type = 'text/javascript';
-      script.defer = true;
-      script.src = scriptSource;
-      this.renderer.appendChild(this.winRef.document.body, script);
-    }
-  }
-
-  /**
    * This logic exist in order to let the client(s) add their own logic to wait for any kind of page data.
    * You can observe any data in this method.
    *
@@ -118,13 +125,6 @@ export class QualtricsLoaderService {
    */
   protected isDataLoaded(): Observable<boolean> {
     return of(true);
-  }
-
-  /**
-   * Indicates if the script is already added to the DOM.
-   */
-  protected hasScript(source?: string): boolean {
-    return !!this.winRef.document.querySelector(`script[src="${source}"]`);
   }
 
   protected get renderer(): Renderer2 {

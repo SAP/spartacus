@@ -29,17 +29,11 @@ export const b2cFeature: FeatureEnvironment = {
       featureModules: {
         storeFinder: {
           module: () =>
-            import('@spartacus/storefinder').then((m) => {
-              console.log('storefinder');
-              return m.StoreFinderModule;
-            }),
+            import('@spartacus/storefinder').then((m) => m.StoreFinderModule),
         },
-        qualtricsTest: {
+        qualtrics: {
           module: () =>
-            import('@spartacus/qualtrics').then((m) => {
-              console.log('qualtris');
-              return m.QualtricsModulesss;
-            }),
+            import('@spartacus/qualtrics').then((m) => m.QualtricsModules),
         },
       },
       i18n: {

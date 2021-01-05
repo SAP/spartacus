@@ -1,11 +1,8 @@
 import { NgModule } from '@angular/core';
-import { QualtricsComponentsModule } from './components/qualtrics-components.module';
+import { QualtricsComponentsModule } from '@spartacus/qualtrics/components';
 
 @NgModule({
   imports: [QualtricsComponentsModule],
 })
-export class QualtricsModulesss {
-  constructor() {
-    console.log('qualtrics module');
-  }
-}
+// TODO: remove QualtricsModules name for QualtricsModule when moving qualtics out of storefrontlib
+export class QualtricsModules {}

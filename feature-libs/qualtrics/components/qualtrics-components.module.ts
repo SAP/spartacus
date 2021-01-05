@@ -8,7 +8,7 @@ import { QualtricsEmbeddedFeedbackComponent } from './qualtrics-embedded-feedbac
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        QualtricsEmbeddedFeedBackComponent: {
+        QualtricsEmbeddedFeedbackComponent: {
           component: QualtricsEmbeddedFeedbackComponent,
         },
       },

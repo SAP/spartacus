@@ -101,9 +101,6 @@
       "@spartacus/qualtrics": [
         "feature-libs/qualtrics/public_api"
       ],
-      "@spartacus/qualtrics/assets": [
-        "feature-libs/qualtrics/assets/public_api"
-      ],
       "@spartacus/qualtrics/root": [
         "feature-libs/qualtrics/root/public_api"
       ],
