@@ -9,7 +9,6 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
     apiEndpoint: '/users/current/orderApprovalPermissions',
     objectType: 'orderApprovalPermissions',
     selectOptionsEndpoint: '*orderApprovalPermissionTypes*',
-    canDisable: true,
     verifyStatusInDetails: true,
     rows: [
       {
@@ -57,7 +56,13 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
         showInDetails: true,
       },
     ],
-    features: [MY_COMPANY_FEATURE.FORM, MY_COMPANY_FEATURE.LIST, ,],
+    features: [
+      MY_COMPANY_FEATURE.CREATE,
+      MY_COMPANY_FEATURE.DISABLE,
+      MY_COMPANY_FEATURE.UPDATE,
+      MY_COMPANY_FEATURE.LIST,
+      ,
+    ],
   },
   {
     name: 'Purchase Limit',
@@ -132,7 +137,11 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
         showInDetails: true,
       },
     ],
-    features: [MY_COMPANY_FEATURE.FORM],
+    features: [
+      MY_COMPANY_FEATURE.CREATE,
+      MY_COMPANY_FEATURE.DISABLE,
+      MY_COMPANY_FEATURE.UPDATE,
+    ],
   },
   {
     name: 'Purchase Limit',
@@ -217,6 +226,10 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
         showInDetails: true,
       },
     ],
-    features: [MY_COMPANY_FEATURE.FORM],
+    features: [
+      MY_COMPANY_FEATURE.CREATE,
+      MY_COMPANY_FEATURE.DISABLE,
+      MY_COMPANY_FEATURE.UPDATE,
+    ],
   },
 ];

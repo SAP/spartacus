@@ -14,7 +14,6 @@ export const userConfig: MyCompanyConfig = {
   objectType: 'users',
   entityIdField: 'customerId',
   preserveCookies: true,
-  canDisable: true,
   rows: [
     {
       label: 'Name',
@@ -36,7 +35,6 @@ export const userConfig: MyCompanyConfig = {
       updateValue: 'Mrs.',
       showInTable: false,
     },
-
     {
       label: 'First name',
       variableName: 'firstName',
@@ -139,7 +137,9 @@ export const userConfig: MyCompanyConfig = {
     },
   ],
   features: [
-    MY_COMPANY_FEATURE.FORM,
+    MY_COMPANY_FEATURE.CREATE,
+    MY_COMPANY_FEATURE.DISABLE,
+    MY_COMPANY_FEATURE.UPDATE,
     MY_COMPANY_FEATURE.LIST,
     MY_COMPANY_FEATURE.ASSIGNMENTS,
     MY_COMPANY_FEATURE.USER_PASSWORD,

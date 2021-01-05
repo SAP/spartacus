@@ -7,7 +7,6 @@ export const costCenterConfig: MyCompanyConfig = {
   baseUrl: `${FULL_BASE_URL_EN_USD}/organization/cost-centers`,
   apiEndpoint: '/costcenters',
   objectType: 'costCenters',
-  canDisable: true,
   verifyStatusInDetails: true,
   rows: [
     {
@@ -73,7 +72,9 @@ export const costCenterConfig: MyCompanyConfig = {
     },
   ],
   features: [
-    MY_COMPANY_FEATURE.FORM,
+    MY_COMPANY_FEATURE.CREATE,
+    MY_COMPANY_FEATURE.DISABLE,
+    MY_COMPANY_FEATURE.UPDATE,
     MY_COMPANY_FEATURE.LIST,
     MY_COMPANY_FEATURE.ASSIGNMENTS,
   ],

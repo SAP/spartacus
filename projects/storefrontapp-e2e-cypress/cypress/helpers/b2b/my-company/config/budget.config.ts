@@ -7,7 +7,6 @@ export const budgetConfig: MyCompanyConfig = {
   baseUrl: `${FULL_BASE_URL_EN_USD}/organization/budgets`,
   apiEndpoint: '/users/current/budgets',
   objectType: 'budgets',
-  canDisable: true,
   verifyStatusInDetails: true,
   rows: [
     {
@@ -105,7 +104,9 @@ export const budgetConfig: MyCompanyConfig = {
     },
   ],
   features: [
-    MY_COMPANY_FEATURE.FORM,
+    MY_COMPANY_FEATURE.CREATE,
+    MY_COMPANY_FEATURE.DISABLE,
+    MY_COMPANY_FEATURE.UPDATE,
     MY_COMPANY_FEATURE.LIST,
     MY_COMPANY_FEATURE.ASSIGNMENTS,
   ],

@@ -78,8 +78,6 @@ export const unitConfig: MyCompanyConfig = {
   baseUrl: `${FULL_BASE_URL_EN_USD}/organization/units`,
   apiEndpoint: '/orgUnits',
   objectType: 'children',
-  nestedTableRows: true,
-  canDisable: true,
   verifyStatusInDetails: true,
   rows: [
     {
@@ -224,8 +222,10 @@ export const unitConfig: MyCompanyConfig = {
     },
   ],
   features: [
-    MY_COMPANY_FEATURE.FORM,
-    MY_COMPANY_FEATURE.LIST,
+    MY_COMPANY_FEATURE.CREATE,
+    MY_COMPANY_FEATURE.DISABLE,
+    MY_COMPANY_FEATURE.UPDATE,
+    MY_COMPANY_FEATURE.NESTED_LIST,
     MY_COMPANY_FEATURE.ASSIGNMENTS,
   ],
 };

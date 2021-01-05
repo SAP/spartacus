@@ -3,7 +3,7 @@ import {
   CONFIRMATION_LABELS,
   MyCompanyConfig,
 } from '../models/index';
-import { completeForm, FormType } from './form';
+import { completeForm, FormType } from './utils/form';
 import {
   ignoreCaseSensivity,
   loginAsMyCompanyAdmin,

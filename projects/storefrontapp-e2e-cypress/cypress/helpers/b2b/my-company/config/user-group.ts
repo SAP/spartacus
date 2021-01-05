@@ -63,7 +63,8 @@ export const userGroupConfig: MyCompanyConfig = {
     },
   ],
   features: [
-    MY_COMPANY_FEATURE.FORM,
+    MY_COMPANY_FEATURE.CREATE,
+    MY_COMPANY_FEATURE.UPDATE,
     MY_COMPANY_FEATURE.LIST,
     MY_COMPANY_FEATURE.ASSIGNMENTS,
   ],

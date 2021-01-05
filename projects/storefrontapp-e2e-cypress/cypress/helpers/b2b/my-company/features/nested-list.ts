@@ -1,22 +1,25 @@
 import { MyCompanyConfig } from '../models/index';
 import { loginAsMyCompanyAdmin } from '../my-company.utils';
-import { testList, testListSorting } from './utils/list';
+import { testList } from './utils/list';
 
-export function listTest(config: MyCompanyConfig): void {
-  describe(`${config.name} List`, () => {
+export function nestedListTest(config: MyCompanyConfig): void {
+  describe(`${config.name} Nested List`, () => {
     beforeEach(() => {
       loginAsMyCompanyAdmin();
       cy.server();
     });
 
-    it('should show and paginate list', () => {
+    it('should show expanded nested list', () => {
       cy.visit(`/organization`);
       testList(config, {
         trigger: () =>
           cy.get(`cx-page-slot.BodyContent a`).contains(config.name).click(),
+        nested: { expandAll: true },
       });
     });
 
-    testListSorting(config);
+    it('should show collapsed nested list', () => {
+      testList(config, { nested: { collapseAll: true } });
+    });
   });
 }
