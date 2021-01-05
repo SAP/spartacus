@@ -14,7 +14,6 @@ export class CdsEndpointsService {
     urlParams: object = {},
     queryParams?: object
   ): string {
-    // TODO_LP: Look into this
     if (
       this.cdsConfig &&
       this.cdsConfig.cds &&
