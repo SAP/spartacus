@@ -110,13 +110,13 @@ export class OccEndpointsService {
         this.activeBaseSite
       );
     } else {
-      return endpointComponents.baseUrl
-        ? this.config.backend.occ.baseUrl || ''
-        : '' + endpointComponents.prefix
-        ? this.config.backend.occ.prefix
-        : '' + endpointComponents.baseSite
-        ? this.activeBaseSite
-        : '';
+      return (
+        (endpointComponents.baseUrl
+          ? this.config.backend.occ.baseUrl || ''
+          : '') +
+        (endpointComponents.prefix ? this.config.backend.occ.prefix : '') +
+        (endpointComponents.baseSite ? this.activeBaseSite : '')
+      );
     }
   }
 
