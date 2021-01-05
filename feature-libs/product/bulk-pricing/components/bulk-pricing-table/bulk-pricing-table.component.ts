@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BulkPricingTableComponent implements OnInit {
   constructor() {}
-
+  testString = 'bulk-pricing-table works!';
+  
   ngOnInit(): void {}
 }
