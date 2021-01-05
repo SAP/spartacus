@@ -51,7 +51,6 @@ export class OccEndpointsService {
    * @param endpoint Endpoint suffix
    */
   getRawEndpoint(endpoint: string): string {
-    // TODO_LP: deprecate
     if (!this.config?.backend?.occ) {
       return '';
     }
