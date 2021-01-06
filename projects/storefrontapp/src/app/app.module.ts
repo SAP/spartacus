@@ -78,10 +78,6 @@ if (environment.cdc) {
       features: {
         level: '2.1',
       },
-
-      qualtrics: {
-        scriptSource: 'assets/qualtrics.js',
-      },
     }),
     ...additionalImports,
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing

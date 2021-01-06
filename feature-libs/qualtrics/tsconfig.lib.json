@@ -13,7 +13,7 @@
     "types": [],
     "lib": ["es2020", "dom"],
     "paths": {
-      "@spartacus/storefront": ["dist/storefrontlib"]
+      "@spartacus/core": ["dist/core"]
     }
   },
   "angularCompilerOptions": {

@@ -3,8 +3,7 @@
   "lib": {
     "entryFile": "./public_api.ts",
     "umdModuleIds": {
-      "@spartacus/core": "core",
-      "@spartacus/storefront": "storefront"
+      "@spartacus/core": "core"
     }
   }
 }

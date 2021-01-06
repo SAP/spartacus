@@ -4,6 +4,9 @@ import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { defaultQualtricsConfig } from './config/default-qualtrics-config';
 import { QualtricsComponent } from './qualtrics.component';
 
+/**
+ * @deprecated since 3.1 - moved to feature-lib
+ */
 @NgModule({
   imports: [CommonModule],
   declarations: [QualtricsComponent],
@@ -11,7 +14,7 @@ import { QualtricsComponent } from './qualtrics.component';
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        QualtricsComponent: {
+        aa: {
           component: QualtricsComponent,
         },
       },

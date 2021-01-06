@@ -24,7 +24,7 @@
         {
           "file": "package.json",
           "path": [
-            "peerDependencies.@spartacus/storefront",
+            "peerDependencies.@spartacus/core",
             "peerDependencies.@spartacus/schematics"
           ]
         }

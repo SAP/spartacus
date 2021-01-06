@@ -11,7 +11,6 @@ import { filter, map, switchMap, tap } from 'rxjs/operators';
 export const QUALTRICS_EVENT_NAME = 'qsi_js_loaded';
 
 /**
- * @deprecated since 3.1 - moved to feature-lib
  * Service to integration Qualtrics.
  *
  * The integration observes the Qualtrics API, and when available, it runs the QSI API
@@ -81,7 +80,7 @@ export class QualtricsLoaderService {
   /**
    * Indicates if the script is already added to the DOM.
    */
-  protected hasScript(source?: string): boolean {
+  hasScript(source?: string): boolean {
     return !!this.winRef.document.querySelector(`script[src="${source}"]`);
   }
 

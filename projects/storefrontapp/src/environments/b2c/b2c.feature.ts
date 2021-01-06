@@ -33,7 +33,7 @@ export const b2cFeature: FeatureEnvironment = {
         },
         qualtrics: {
           module: () =>
-            import('@spartacus/qualtrics').then((m) => m.QualtricsModules),
+            import('@spartacus/qualtrics').then((m) => m.QualtricsModule),
         },
       },
       i18n: {

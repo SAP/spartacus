@@ -2,13 +2,12 @@ import { Component, isDevMode } from '@angular/core';
 import { QualtricsConfig } from './config/qualtrics-config';
 import { QualtricsLoaderService } from './qualtrics-loader.service';
 /**
- * @deprecated since 3.1 - moved to feature-lib
  * Adds the Qualtrics deployment script whenever the component is loaded. The
  * deployment script is loaded from the global configuration (`qualtrics.scriptSource`).
  */
 @Component({
   selector: 'cx-qualtrics',
-  template: ``,
+  template: '',
 })
 export class QualtricsComponent {
   constructor(
