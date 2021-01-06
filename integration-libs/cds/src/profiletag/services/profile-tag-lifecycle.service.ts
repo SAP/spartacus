@@ -16,18 +16,18 @@ export class ProfileTagLifecycleService {
     protected actionsSubject: ActionsSubject
   ) {}
 
-  consentChanged() : Observable<ConsentChangedPushEvent> {
+  consentChanged(): Observable<ConsentChangedPushEvent> {
     return this.consentService
-    .getConsent(this.config.cds.consentTemplateId)
-    .pipe(
-      filter(Boolean),
-      map(profileConsent => {
-        return this.consentService.isConsentGiven(profileConsent);
-      }),
-      map((granted) => {
-        return new ConsentChangedPushEvent(granted);
-      }),
-    );
+      .getConsent(this.config.cds.consentTemplateId)
+      .pipe(
+        filter(Boolean),
+        map((profileConsent) => {
+          return this.consentService.isConsentGiven(profileConsent);
+        }),
+        map((granted) => {
+          return new ConsentChangedPushEvent(granted);
+        })
+      );
   }
 
   loginSuccessful(): Observable<boolean> {
