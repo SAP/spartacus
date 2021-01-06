@@ -10,7 +10,7 @@ export const unitShippingAddressConfig: MyCompanyConfig = {
       inputType: INPUT_TYPE.NG_SELECT,
       createValue: `Cyprus`,
       updateValue: `Croatia`,
-      formLabel: 'Country',
+      formLabel: 'Country/Region',
     },
     {
       inputType: INPUT_TYPE.NG_SELECT,
