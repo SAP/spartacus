@@ -126,6 +126,9 @@ Use the following template:
     "access": "public"
   },
   "repository": "https://github.com/SAP/spartacus",
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
   "peerDependencies": {
     "@angular/common": "^10.1.0",
     "@angular/core": "^10.1.0",

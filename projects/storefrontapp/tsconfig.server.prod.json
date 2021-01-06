@@ -55,6 +55,7 @@
       "@spartacus/storefinder": ["../../dist/storefinder"],
       "@spartacus/storefinder/occ": ["../../dist/storefinder/occ"],
       "@spartacus/storefinder/root": ["../../dist/storefinder/root"],
+      "@spartacus/tms": ["../../dist/tms"],
       "@spartacus/cdc": ["../../dist/cdc"],
       "@spartacus/cds": ["../../dist/cds"],
       "@spartacus/assets": ["../../dist/assets"],

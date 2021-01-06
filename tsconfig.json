@@ -98,6 +98,9 @@
       "@spartacus/storefinder/root": [
         "feature-libs/storefinder/root/public_api"
       ],
+      "@spartacus/tms": [
+        "feature-libs/tms/public_api"
+      ],
       "@spartacus/cdc": [
         "integration-libs/cdc/public_api"
       ],
