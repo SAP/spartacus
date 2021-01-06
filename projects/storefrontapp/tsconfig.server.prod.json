@@ -5,6 +5,7 @@
     "paths": {
       "@spartacus/setup": ["../../dist/setup"],
       "@spartacus/setup/ssr": ["../../dist/setup/ssr"],
+      "@spartacus/checkout": ["../../dist/checkout"],
       "@spartacus/organization/administration/assets": [
         "../../dist/organization/administration/assets"
       ],

@@ -1,0 +1,24 @@
+{
+  "name": "@spartacus/checkout",
+  "version": "3.0.0",
+  "description": "Checkout library for Spartacus",
+  "homepage": "https://github.com/SAP/spartacus",
+  "keywords": [
+    "spartacus",
+    "framework",
+    "storefront",
+    "checkout"
+  ],
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "https://github.com/SAP/spartacus",
+  "peerDependencies": {
+    "@angular/common": "^10.1.0",
+    "@angular/core": "^10.1.0",
+    "rxjs": "^6.6.0",
+    "@spartacus/core": "3.0.0",
+    "@spartacus/storefront": "3.0.0"
+  }
+}

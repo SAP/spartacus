@@ -8,6 +8,7 @@
     "paths": {
       "@spartacus/setup": ["../../core-libs/setup/public_api"],
       "@spartacus/setup/ssr": ["../../core-libs/setup/ssr/public_api"],
+      "@spartacus/checkout": ["../../feature-libs/checkout/src/public_api"],
       "@spartacus/organization/administration/assets": [
         "../../feature-libs/organization/administration/assets/public_api"
       ],
