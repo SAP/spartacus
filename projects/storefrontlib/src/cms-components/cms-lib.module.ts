@@ -30,7 +30,6 @@ import {
   ResetPasswordModule,
   ReturnRequestDetailModule,
   ReturnRequestListModule,
-  UpdateEmailModule,
   UpdatePasswordModule,
   UpdateProfileModule,
 } from './myaccount/index';
@@ -88,7 +87,7 @@ import { WishListModule } from './wish-list/wish-list.module';
     ProductReferencesModule,
     OrderDetailsModule,
     PaymentMethodsModule,
-    UpdateEmailModule,
+    // UpdateEmailModule,
     UpdatePasswordModule,
     UpdateProfileModule,
     ConsentManagementModule,

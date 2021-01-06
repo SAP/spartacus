@@ -1,10 +1,11 @@
-import { B2cStorefrontModule } from '@spartacus/storefront';
-import { FeatureEnvironment } from '../models/feature.model';
-import { StoreFinderRootModule } from '@spartacus/storefinder/root';
 import {
   storeFinderTranslationChunksConfig,
   storeFinderTranslations,
 } from '@spartacus/storefinder/assets';
+import { StoreFinderRootModule } from '@spartacus/storefinder/root';
+import { B2cStorefrontModule } from '@spartacus/storefront';
+import { UserRootModule } from '@spartacus/user/root';
+import { FeatureEnvironment } from '../models/feature.model';
 
 export const b2cFeature: FeatureEnvironment = {
   imports: [
@@ -30,6 +31,9 @@ export const b2cFeature: FeatureEnvironment = {
           module: () =>
             import('@spartacus/storefinder').then((m) => m.StoreFinderModule),
         },
+        user: {
+          module: () => import('@spartacus/user').then((m) => m.UserModule),
+        },
       },
       i18n: {
         resources: storeFinderTranslations,
@@ -37,5 +41,6 @@ export const b2cFeature: FeatureEnvironment = {
       },
     }),
     StoreFinderRootModule,
+    UserRootModule,
   ],
 };

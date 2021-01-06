@@ -41,6 +41,10 @@
               {
                 "input": "projects/storefrontapp/src/styles/lib-storefinder.scss",
                 "bundleName": "storefinder"
+              },
+              {
+                "input": "projects/storefrontapp/src/styles/lib-user.scss",
+                "bundleName": "user"
               }
             ],
             "stylePreprocessorOptions": {

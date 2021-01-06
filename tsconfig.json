@@ -9,13 +9,8 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "target": "es5",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2020",
-      "dom"
-    ],
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2020", "dom"],
     "strictPropertyInitialization": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -23,15 +18,9 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "paths": {
-      "@spartacus/schematics": [
-        "projects/schematics/src/public_api"
-      ],
-      "@spartacus/setup": [
-        "core-libs/setup/public_api"
-      ],
-      "@spartacus/setup/ssr": [
-        "core-libs/setup/ssr/public_api"
-      ],
+      "@spartacus/schematics": ["projects/schematics/src/public_api"],
+      "@spartacus/setup": ["core-libs/setup/public_api"],
+      "@spartacus/setup/ssr": ["core-libs/setup/ssr/public_api"],
       "@spartacus/organization/administration/assets": [
         "feature-libs/organization/administration/assets/public_api"
       ],
@@ -50,9 +39,7 @@
       "@spartacus/organization/administration/root": [
         "feature-libs/organization/administration/root/public_api"
       ],
-      "@spartacus/organization": [
-        "feature-libs/organization/public_api"
-      ],
+      "@spartacus/organization": ["feature-libs/organization/public_api"],
       "@spartacus/organization/order-approval/assets": [
         "feature-libs/organization/order-approval/assets/public_api"
       ],
@@ -77,9 +64,7 @@
       "@spartacus/product/configurators/variant": [
         "feature-libs/product/configurators/variant/public_api"
       ],
-      "@spartacus/product": [
-        "feature-libs/product/public_api"
-      ],
+      "@spartacus/product": ["feature-libs/product/public_api"],
       "@spartacus/storefinder/assets": [
         "feature-libs/storefinder/assets/public_api"
       ],
@@ -89,40 +74,27 @@
       "@spartacus/storefinder/core": [
         "feature-libs/storefinder/core/public_api"
       ],
-      "@spartacus/storefinder": [
-        "feature-libs/storefinder/public_api"
-      ],
-      "@spartacus/storefinder/occ": [
-        "feature-libs/storefinder/occ/public_api"
-      ],
+      "@spartacus/storefinder": ["feature-libs/storefinder/public_api"],
+      "@spartacus/storefinder/occ": ["feature-libs/storefinder/occ/public_api"],
       "@spartacus/storefinder/root": [
         "feature-libs/storefinder/root/public_api"
       ],
-      "@spartacus/cdc": [
-        "integration-libs/cdc/public_api"
-      ],
-      "@spartacus/cds": [
-        "integration-libs/cds/public_api"
-      ],
-      "@spartacus/assets": [
-        "projects/assets/src/public_api"
-      ],
-      "@spartacus/core": [
-        "projects/core/public_api"
-      ],
-      "@spartacus/incubator": [
-        "projects/incubator/public_api"
-      ],
-      "@spartacus/storefront": [
-        "projects/storefrontlib/src/public_api"
-      ],
-      "@spartacus/vendor": [
-        "projects/vendor/public_api"
-      ]
+      // User library
+      "@spartacus/user/assets": ["feature-libs/user/assets/public_api"],
+      "@spartacus/user/components": ["feature-libs/user/components/public_api"],
+      "@spartacus/user/core": ["feature-libs/user/core/public_api"],
+      "@spartacus/user": ["feature-libs/user/public_api"],
+      "@spartacus/user/occ": ["feature-libs/user/occ/public_api"],
+      "@spartacus/user/root": ["feature-libs/user/root/public_api"],
+
+      "@spartacus/cdc": ["integration-libs/cdc/public_api"],
+      "@spartacus/cds": ["integration-libs/cds/public_api"],
+      "@spartacus/assets": ["projects/assets/src/public_api"],
+      "@spartacus/core": ["projects/core/public_api"],
+      "@spartacus/incubator": ["projects/incubator/public_api"],
+      "@spartacus/storefront": ["projects/storefrontlib/src/public_api"],
+      "@spartacus/vendor": ["projects/vendor/public_api"]
     }
   },
-  "exclude": [
-    "./dist",
-    "./projects/storefrontapp-e2e-cypress"
-  ]
+  "exclude": ["./dist", "./projects/storefrontapp-e2e-cypress"]
 }
