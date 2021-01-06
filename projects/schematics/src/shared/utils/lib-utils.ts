@@ -45,7 +45,7 @@ export interface FeatureConfig {
   name: string;
   featureModule: Module;
   rootModule: Module;
-  i18n?: I18NConfig;
+  i18n: I18NConfig;
   defaultConfig?: {
     name: string;
     importPath: string;
