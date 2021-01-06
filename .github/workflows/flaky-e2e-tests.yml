@@ -25,7 +25,7 @@ jobs:
       - name: Start server
         run: |
           which pm2
-          pm2 start --name "spartacus" serve -- dist/storefrontapp/ --single -p 4200
+          pm2 serve --name "spartacus" dist/storefrontapp/ 4200
         shell: bash
       - name: Run e2es
         env:
