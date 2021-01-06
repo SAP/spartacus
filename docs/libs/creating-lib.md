@@ -178,8 +178,7 @@ Use the following template:
 }
 ```
 
-Optionally adjust the `path` property.
-
+- run `ts-node ./tools/tsconfig-paths/index.ts` script to update `compilerOptions.path` property in tsconfig files
 - `tsconfig.lib.prod.json` - save to re-format it. Make sure that Ivy is off (for the time being, this will change in the future)
 - `tsconfig.spec.json` - save to re-format
 - `tslint.json` - change from `lib` to `cx` in the `directive-selector` and `component-selector`
@@ -249,30 +248,6 @@ Optionally, add the generated lib to the `build:libs` and `test:libs` scripts.
 ```
 
 Replace `TODO:` with the appropriate name.
-
-- `projects/storefrontapp/tsconfig.app.prod.json`
-
-Add the following to the `paths` (and replace the `my-account` with your lib's name):
-
-```json
-"@spartacus/my-account": ["dist/my-account"]
-```
-
-- `projects/storefrontapp/tsconfig.server.json`
-
-Add the following to the `paths` (and replace the `my-account` with your lib's name):
-
-```json
-"@spartacus/my-account": ["../../feature-libs/my-account/public_api"]
-```
-
-- `projects/storefrontapp/tsconfig.server.prod.json`
-
-Add the following to the `paths` (and replace the `my-account` with your lib's name):
-
-```json
-"@spartacus/my-account": ["../../feature-libs/my-account"]
-```
 
 - `scripts/changelog.ts`
 
@@ -347,7 +322,7 @@ This change requires an update in the:
 
 - make sure to follow the general folder structure, as seen in e.g. `feature-libs/product` library
 - add `ng-package.json` to each of the feature folders
-- add `paths` entries to some variations of `tsconfig.json` files - it's for the best to search for `@spartacus/product` across the code base and add entries for the generated library
+- run `ts-node ./tools/tsconfig-paths/index.ts` script to update `compilerOptions.path` property in tsconfig files
 
 ## Testing
 

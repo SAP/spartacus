@@ -31,21 +31,21 @@ const paramsMapping: ParamsMapping = {
 export const budgetRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
-      budget: {
+      orgBudget: {
         paths: ['organization/budgets'],
       },
-      budgetCreate: {
+      orgBudgetCreate: {
         paths: ['organization/budgets/create'],
       },
-      budgetDetails: {
+      orgBudgetDetails: {
         paths: [`${listPath}`],
         paramsMapping,
       },
-      budgetCostCenters: {
+      orgBudgetCostCenters: {
         paths: [`${listPath}/cost-centers`],
         paramsMapping,
       },
-      budgetEdit: {
+      orgBudgetEdit: {
         paths: [`${listPath}/edit`],
         paramsMapping,
       },
@@ -71,7 +71,7 @@ export const budgetCmsConfig: CmsConfig = {
         parent: {
           data: {
             cxPageMeta: {
-              breadcrumb: 'budget.breadcrumbs.list',
+              breadcrumb: 'orgBudget.breadcrumbs.list',
               resolver: BudgetRoutePageMetaResolver,
             },
           },
@@ -86,7 +86,7 @@ export const budgetCmsConfig: CmsConfig = {
             component: BudgetDetailsComponent,
             data: {
               cxPageMeta: {
-                breadcrumb: 'budget.breadcrumbs.details',
+                breadcrumb: 'orgBudget.breadcrumbs.details',
               },
             },
             children: [
