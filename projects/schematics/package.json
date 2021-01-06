@@ -54,7 +54,8 @@
       "@spartacus/product",
       "@spartacus/storefinder",
       "@spartacus/cdc",
-      "@spartacus/setup"
+      "@spartacus/setup",
+      "@spartacus/checkout"
     ]
   },
   "main": "src/public_api.js"

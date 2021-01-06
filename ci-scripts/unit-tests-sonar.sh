@@ -72,6 +72,14 @@ if [[ -n "$coverage" ]]; then
     echo "Error: Tests did not meet coverage expectations"
     exit 1
 fi
+echo "Running unit tests and code coverage for checkout library"
+exec 5>&1
+output=$(ng test checkout --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
+coverage=$(echo $output | grep -i "does not meet global threshold" || true)
+if [[ -n "$coverage" ]]; then
+    echo "Error: Tests did not meet coverage expectations"
+    exit 1
+fi
 
 echo "Running unit tests and code coverage for schematics library"
 exec 5>&1

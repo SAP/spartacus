@@ -81,6 +81,7 @@ export default async function run(
     '@spartacus/storefinder': 'feature-libs/storefinder',
     '@spartacus/cdc': 'integration-libs/cdc',
     '@spartacus/setup': 'core-libs/setup',
+    '@spartacus/checkout': 'feature-libs/checkout',
   };
 
   const duplexUtil = through(function (chunk, _, callback) {
@@ -313,6 +314,10 @@ if (typeof config.to === 'undefined') {
     case 'setup':
     case '@spartacus/setup':
       config.library = '@spartacus/setup';
+      break;
+    case 'checkout':
+    case '@spartacus/checkout':
+      config.library = '@spartacus/checkout';
       break;
     default:
       config.library = undefined;
