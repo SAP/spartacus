@@ -38,12 +38,13 @@ export class CheckoutPageMetaResolver
   constructor(
     translation: TranslationService,
     activeCartService: ActiveCartService,
-    basePageResolver?: BasePageMetaResolver
+    // tslint:disable-next-line: unified-signatures
+    basePageMetaResolver?: BasePageMetaResolver
   );
   constructor(
     protected translation: TranslationService,
     protected activeCartService: ActiveCartService,
-    @Optional() protected basePageResolver?: BasePageMetaResolver
+    @Optional() protected basePageMetaResolver?: BasePageMetaResolver
   ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;

@@ -1,6 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { CmsService, Page, PageRobotsMeta } from '../../cms';
+import {
+  BasePageMetaResolver,
+  CmsService,
+  Page,
+  PageRobotsMeta,
+} from '../../cms';
 import { I18nTestingModule } from '../../i18n';
 import { PageType } from '../../model/cms.model';
 import { CartPageMetaResolver } from './cart-page-meta.resolver';
@@ -18,6 +23,13 @@ class MockCmsService {
   }
 }
 
+class MockBasePageMetaResolver {
+  resolveRobots() {}
+  resolveTitle() {
+    return of('Shopping Cart');
+  }
+}
+
 describe('CartPageMetaResolver', () => {
   let service: CartPageMetaResolver;
 
@@ -25,8 +37,11 @@ describe('CartPageMetaResolver', () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       providers: [
-        CartPageMetaResolver,
         { provide: CmsService, useClass: MockCmsService },
+        {
+          provide: BasePageMetaResolver,
+          useClass: MockBasePageMetaResolver,
+        },
       ],
     });
 

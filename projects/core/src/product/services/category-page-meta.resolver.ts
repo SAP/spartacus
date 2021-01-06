@@ -44,6 +44,22 @@ export class CategoryPageMetaResolver
     )
   );
 
+  /**
+   * @deprecated since 3.1, we'll use the BasePageMetaResolver in future versions
+   */
+  // TODO(#10467): Remove deprecated constructors
+  constructor(
+    productSearchService: ProductSearchService,
+    cmsService: CmsService,
+    translation: TranslationService
+  );
+  constructor(
+    productSearchService: ProductSearchService,
+    cmsService: CmsService,
+    translation: TranslationService,
+    // tslint:disable-next-line: unified-signatures
+    basePageMetaResolver?: BasePageMetaResolver
+  );
   constructor(
     protected productSearchService: ProductSearchService,
     protected cms: CmsService,

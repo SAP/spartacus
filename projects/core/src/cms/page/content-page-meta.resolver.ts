@@ -28,7 +28,7 @@ export class ContentPageMetaResolver
   extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver, PageRobotsResolver {
   /**
-   * @deprecated since 3.1, we use the
+   * @deprecated since 3.1, we'll use the BasePageMetaResolver in future versions.
    */
   constructor(
     protected cmsService: CmsService,
@@ -62,10 +62,8 @@ export class ContentPageMetaResolver
     this.homeBreadcrumb$,
     defer(() => this.routingPageMetaResolver.resolveBreadcrumbs()),
   ]).pipe(
-    map(
-      (breadcrumbs) => breadcrumbs.flat(),
-      shareReplay({ bufferSize: 1, refCount: true })
-    )
+    map((breadcrumbs) => breadcrumbs.flat()),
+    shareReplay({ bufferSize: 1, refCount: true })
   );
 
   /**
@@ -103,6 +101,12 @@ export class ContentPageMetaResolver
       : this.breadcrumbs$;
   }
 
+  /**
+   * @override
+   * This is added in 3.1 and will be ignored if the `BasePageMetaResolver` is not
+   * available.
+   */
+  // TODO(#10467) drop the 3.1 note.
   resolveRobots(): Observable<PageRobotsMeta[]> {
     return this.basePageMetaResolver?.resolveRobots();
   }

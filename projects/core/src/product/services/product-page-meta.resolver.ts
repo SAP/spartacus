@@ -59,7 +59,8 @@ export class ProductPageMetaResolver
     routingService: RoutingService,
     productService: ProductService,
     translation: TranslationService,
-    contentPageResolver?: BasePageMetaResolver
+    // tslint:disable-next-line: unified-signatures
+    basePageMetaResolver?: BasePageMetaResolver
   );
   constructor(
     protected routingService: RoutingService,

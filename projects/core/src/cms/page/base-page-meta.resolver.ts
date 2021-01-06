@@ -50,10 +50,8 @@ export class BasePageMetaResolver
     this.homeBreadcrumb$,
     defer(() => this.routingPageMetaResolver.resolveBreadcrumbs()),
   ]).pipe(
-    map(
-      (breadcrumbs) => breadcrumbs.flat(),
-      shareReplay({ bufferSize: 1, refCount: true })
-    )
+    map((breadcrumbs) => breadcrumbs.flat()),
+    shareReplay({ bufferSize: 1, refCount: true })
   );
 
   resolveTitle(): Observable<string> {
