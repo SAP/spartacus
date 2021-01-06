@@ -8,4 +8,7 @@ export function occConfigValidator(config: OccConfig) {
   ) {
     return 'Please configure backend.occ.baseUrl before using storefront library!';
   }
+  if (!config.backend?.occ?.prefix?.startsWith('/')) {
+    config.backend.occ.prefix = '/' + config.backend.occ.prefix;
+  }
 }
