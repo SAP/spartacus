@@ -4,12 +4,13 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { B2BApprovalProcess, B2BUnit } from '@spartacus/core';
 import {
   B2BUnitNode,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { CurrentItemService } from '../../shared/current-item.service';
 import { ItemService } from '../../shared/item.service';
@@ -37,14 +38,27 @@ export class UnitFormComponent implements OnInit {
 
   @Input() createChildUnit = false;
 
-  form$: Observable<any> = this.itemService.unit$.pipe(
-    map((unit) => {
-      const form = this.itemService.getForm();
-      form.get('parentOrgUnit.uid')?.setValue(unit);
+  approvalProcess$: Observable<
+    B2BApprovalProcess[]
+  > = this.unitService
+    .getApprovalProcesses()
+    .pipe(filter((items) => items?.length > 0));
+
+  form: FormGroup = this.itemService.getForm();
+  form$: Observable<any> = combineLatest([
+    this.itemService.unit$,
+    this.approvalProcess$,
+  ]).pipe(
+    map(([unit, approvalProcess]) => {
+      this.form.get('parentOrgUnit.uid')?.setValue(unit);
+      if (approvalProcess.length === 1)
+        this.form
+          .get('approvalProcess.code')
+          ?.setValue(approvalProcess[0].code);
       if (this.createChildUnit) {
-        form.get('parentOrgUnit')?.disable();
+        this.form.get('parentOrgUnit')?.disable();
       }
-      return form;
+      return this.form;
     })
   );
 
@@ -58,12 +72,6 @@ export class UnitFormComponent implements OnInit {
     )
   );
 
-  approvalProcess$: Observable<
-    B2BApprovalProcess[]
-  > = this.unitService
-    .getApprovalProcesses()
-    .pipe(filter((items) => items?.length > 0));
-
   constructor(
     protected itemService: ItemService<B2BUnit>,
     protected unitService: OrgUnitService
@@ -71,5 +79,12 @@ export class UnitFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.unitService.loadList();
+    this.setDefaultUnit();
+  }
+  setDefaultUnit(): void {
+    this.units$.subscribe((unit) => {
+      if (unit.length === 1)
+        this.form?.get('parentOrgUnit.uid').setValue(unit[0].id);
+    });
   }
 }

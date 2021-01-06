@@ -53,5 +53,12 @@ export class PermissionFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.unitService.loadList();
+    this.setDefaultUnit();
+  }
+
+  setDefaultUnit(): void {
+    this.units$.subscribe((unit) => {
+      if (unit.length === 1) this.form?.get('orgUnit.uid').setValue(unit[0].id);
+    });
   }
 }

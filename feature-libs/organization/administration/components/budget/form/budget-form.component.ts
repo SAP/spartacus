@@ -42,5 +42,19 @@ export class BudgetFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.unitService.loadList();
+    this.setDefaultCurrency();
+    this.setDefaultUnit();
+  }
+  setDefaultCurrency(): void {
+    this.currencies$.subscribe((currency) => {
+      if (currency.length === 1)
+        this.form.get('currency.isocode')?.setValue(currency[0].isocode);
+    });
+  }
+
+  setDefaultUnit(): void {
+    this.units$.subscribe((unit) => {
+      if (unit.length === 1) this.form?.get('orgUnit.uid').setValue(unit[0].id);
+    });
   }
 }

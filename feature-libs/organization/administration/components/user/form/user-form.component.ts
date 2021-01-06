@@ -62,6 +62,7 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.unitService.loadList();
+    this.setDefaultUnit();
   }
 
   updateRoles(event: MouseEvent) {
@@ -79,5 +80,11 @@ export class UserFormComponent implements OnInit {
 
   get isAssignedToApprovers(): FormControl {
     return this.form.get('isAssignedToApprovers') as FormControl;
+  }
+
+  setDefaultUnit(): void {
+    this.units$.subscribe((unit) => {
+      if (unit.length === 1) this.form?.get('orgUnit.uid').setValue(unit[0].id);
+    });
   }
 }

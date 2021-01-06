@@ -49,4 +49,22 @@ export class CostCenterFormComponent {
     protected unitService: OrgUnitService,
     protected currencyService: CurrencyService
   ) {}
+
+  ngOnInit(): void {
+    this.setDefaultCurrency();
+    this.setDefaultUnit();
+  }
+
+  setDefaultCurrency(): void {
+    this.currencies$.subscribe((currency) => {
+      if (currency.length === 1)
+        this.form.get('currency.isocode')?.setValue(currency[0].isocode);
+    });
+  }
+
+  setDefaultUnit(): void {
+    this.units$.subscribe((unit) => {
+      if (unit.length === 1) this.form?.get('unit.uid').setValue(unit[0].id);
+    });
+  }
 }
