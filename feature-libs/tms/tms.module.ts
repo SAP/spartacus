@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { TmsComponent } from './tms.component';
+import { TmsComponent } from './core/tms.component';
 
 @NgModule({
   declarations: [TmsComponent],

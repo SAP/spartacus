@@ -14,4 +14,5 @@ interface Env {
   SPARTACUS_CDS: boolean;
   SPARTACUS_B2B: boolean;
   SPARTACUS_CDC: boolean;
+  SPARTACUS_TMS: boolean;
 }

@@ -181,11 +181,11 @@ Use the following template:
 }
 ```
 
-- run `ts-node ./tools/tsconfig-paths/index.ts` script to update `compilerOptions.path` property in tsconfig files
+- run `yarn config:update` or `./node_modules/ts-node/dist/bin.js ./tools/tsconfig-paths/index.ts` script to update `compilerOptions.path` property in tsconfig files
 - `tsconfig.lib.prod.json` - save to re-format it. Make sure that Ivy is off (for the time being, this will change in the future)
 - `tsconfig.spec.json` - save to re-format
 - `tslint.json` - change from `lib` to `cx` in the `directive-selector` and `component-selector`
-- the rest of the generated file should be removed
+- the rest of the generated files should be removed
 
 ### Additional changes to existing files
 
@@ -193,10 +193,10 @@ Use the following template:
 
 The following files should be modified:
 
-- `projects/storefrontapp/src/environments/models/environment.model.ts` - if creating a feature that can toggled on/off, add your feature to this model class
-- `projects/storefrontapp/src/environments/models/build.process.env.d.ts` - if creating a feature that can toggled on/off, add your feature environment variable to the `Env` interface located in this file
-- `projects/storefrontapp/src/environments/environment.ts` - if creating a feature that can toggled on/off, set you feature for development as enabled or disabled by default
-- `projects/storefrontapp/src/environments/environment.prod.ts` - if creating a feature that can toggled on/off, pass the created env. variable to your feature
+- `projects/storefrontapp/src/environments/models/environment.model.ts` - if creating a feature that can be toggled on/off, add your feature to this model class
+- `projects/storefrontapp/src/environments/models/build.process.env.d.ts` - if creating a feature that can be toggled on/off, add your feature environment variable to the `Env` interface located in this file
+- `projects/storefrontapp/src/environments/environment.ts` - if creating a feature that can be toggled on/off, set you feature for development as enabled or disabled by default
+- `projects/storefrontapp/src/environments/environment.prod.ts` - if creating a feature that can be toggled on/off, pass the created env. variable to your feature
 
 - Root `package.json`
 
@@ -204,7 +204,7 @@ Add the following scripts:
 
 ```json
 "build:myaccount": "ng build my-account --prod",
-"release:myaccount:with-changelog": "cd feature-libs/my-account && release-it && cd ../.."
+"release:myaccount:with-changelog": "cd feature-libs/my-account && release-it && cd ../..",
 ```
 
 And replace `myaccount` and `my-account` instances with the name of yours lib.
@@ -251,6 +251,7 @@ Optionally, add the generated lib to the `build:libs` and `test:libs` scripts.
 ```
 
 Replace `TODO:` with the appropriate name.
+Optionally, adjust the `path` property with the `peerDependencies` to match the peer dependencies defined in the `package.json`.
 
 - `scripts/changelog.ts`
 
@@ -281,8 +282,6 @@ cp "$CONFIG_PATH" ./dist/my-account/api-extractor.json
 - `scripts/packages.ts` - just add your lib to the `const packageJsonPaths` array.
 
 - `sonar-project.properties` - list your library to this file
-
-- `tsconfig.compodoc.json` - add your library to this file
 
 - `projects/schematics/package.json` - add the library to the package group
 
@@ -331,7 +330,7 @@ This change requires an update in the:
 
 Don't forget to:
 
-- run the tests for the generated library - `ng test <lib-name> --code-coverage`. In case of a library with multiple entry points, make sure to check the code-coverage report generate in `coverage/my-account/lcov-report/index.html`
+- run the tests for the generated library - `ng test <lib-name> --code-coverage`. In case of a library with multiple entry points, make sure to check the code-coverage report generated in the `coverage/my-account/lcov-report/index.html`
 - build the generated library _with Ivy enabled_ - `ng build <lib-name>`
 - build the generated library (without Ivy) - `ng build <lib-name> --prod`
 - build the production-ready shell app with the included generated library (import a dummy service from the generated service):

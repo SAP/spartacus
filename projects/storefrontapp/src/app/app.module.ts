@@ -11,7 +11,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import { ConfigModule, TestConfigModule } from '@spartacus/core';
 import {
-  GoogleTagManagerModule,
   JsonLdBuilderModule,
   StorefrontComponent,
 } from '@spartacus/storefront';
@@ -20,6 +19,7 @@ import { b2cFeature } from '../environments/b2c/b2c.feature';
 import { cdcFeature } from '../environments/cdc/cdc.feature';
 import { cdsFeature } from '../environments/cds/cds.feature';
 import { environment } from '../environments/environment';
+import { tmsFeature } from '../environments/tms/tms.feature';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 
 registerLocaleData(localeDe);
@@ -45,6 +45,10 @@ if (environment.b2b) {
 
 if (environment.cdc) {
   additionalImports = [...additionalImports, ...cdcFeature.imports];
+}
+
+if (environment.tms) {
+  additionalImports = [...additionalImports, ...tmsFeature.imports];
 }
 
 @NgModule({
@@ -85,8 +89,6 @@ if (environment.cdc) {
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 
     ...devImports,
-
-    GoogleTagManagerModule,
   ],
 
   bootstrap: [StorefrontComponent],

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'lib-tms',
+  selector: 'cx-tms',
   template: ` <p>tms works!</p> `,
   styles: [],
 })

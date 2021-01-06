@@ -79,6 +79,7 @@ export default async function run(
     '@spartacus/organization': 'feature-libs/organization',
     '@spartacus/product': 'feature-libs/product',
     '@spartacus/storefinder': 'feature-libs/storefinder',
+    '@spartacus/tms': 'feature-libs/tms',
     '@spartacus/cdc': 'integration-libs/cdc',
     '@spartacus/setup': 'core-libs/setup',
   };
@@ -309,6 +310,10 @@ if (typeof config.to === 'undefined') {
     case 'storefinder':
     case '@spartacus/storefinder':
       config.library = '@spartacus/storefinder';
+      break;
+    case 'tms':
+    case '@spartacus/tms':
+      config.library = '@spartacus/tms';
       break;
     case 'setup':
     case '@spartacus/setup':
