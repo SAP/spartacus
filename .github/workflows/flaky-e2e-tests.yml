@@ -23,7 +23,10 @@ jobs:
       - name: Install pm2 server
         run: npm install -g pm2
       - name: Start server
-        run: pm2 start --name "spartacus" serve -- dist/storefrontapp --single -p 4200
+        run: |
+          which pm2
+          pm2 start --name "spartacus" serve -- dist/storefrontapp/ --single -p 4200
+        shell: bash
       - name: Run e2es
         env:
           CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
