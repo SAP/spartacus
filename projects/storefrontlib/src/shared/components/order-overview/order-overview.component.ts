@@ -180,11 +180,17 @@ export class OrderOverviewComponent {
   getAddressCardContent(deliveryAddress: Address): Observable<Card> {
     return this.translation.translate('addressCard.shipTo').pipe(
       filter(() => Boolean(deliveryAddress)),
-      map((textTitle) => ({
-        title: textTitle,
-        textBold: `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
-        text: [deliveryAddress.formattedAddress, deliveryAddress.country.name],
-      }))
+      map((textTitle) => {
+        const formattedAddress = this.normalizeFormattedAddress(
+          deliveryAddress.formattedAddress
+        );
+
+        return {
+          title: textTitle,
+          textBold: `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
+          text: [formattedAddress, deliveryAddress.country.name],
+        };
+      })
     );
   }
 
@@ -240,5 +246,17 @@ export class OrderOverviewComponent {
     const year = date[3];
 
     return month + ' ' + day + ' ' + year;
+  }
+
+  private normalizeFormattedAddress(formattedAddress: string): string {
+    const addresses = formattedAddress
+      .split(',')
+      .map((address) => address.trim());
+
+    console.log(addresses);
+
+    const newFormattedAddress = addresses.filter(Boolean).join(', ');
+
+    return newFormattedAddress;
   }
 }
