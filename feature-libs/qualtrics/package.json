@@ -27,6 +27,7 @@
     "@angular/core": "^10.1.0",
     "@angular-devkit/schematics": "^10.1.0",
     "bootstrap": "^4.0",
+    "rxjs": "^6.6.0",
     "@spartacus/core": "3.0.0",
     "@spartacus/schematics": "3.0.0"
   },

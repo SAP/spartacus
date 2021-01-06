@@ -3,8 +3,7 @@
   "lib": {
     "entryFile": "./public_api.ts",
     "umdModuleIds": {
-      "@spartacus/core": "core",
-      "@ng-bootstrap/ng-bootstrap": "ngBootstrap"
+      "@spartacus/core": "core"
     }
   }
 }

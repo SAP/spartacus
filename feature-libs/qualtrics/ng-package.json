@@ -5,7 +5,6 @@
     "entryFile": "./public_api.ts",
     "umdModuleIds": {
       "@spartacus/core": "core",
-      "@ng-bootstrap/ng-bootstrap": "ng-bootstrap"
     }
   },
   "assets": ["**/*.scss", "schematics/**/*.json", "schematics/**/*.js"]
