@@ -253,8 +253,6 @@ export class OrderOverviewComponent {
       .split(',')
       .map((address) => address.trim());
 
-    console.log(addresses);
-
     const newFormattedAddress = addresses.filter(Boolean).join(', ');
 
     return newFormattedAddress;
