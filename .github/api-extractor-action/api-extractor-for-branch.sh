@@ -86,6 +86,13 @@ cp "$CONFIG_PATH" ./dist/storefinder/api-extractor.json
   api-extractor run --local --verbose
 )
 
+# @spartacus/qualtrics
+cp "$CONFIG_PATH" ./dist/qualtrics/api-extractor.json
+(
+  cd ./dist/qualtrics && \
+  api-extractor run --local --verbose
+)
+
 # @spartacus/setup
 cp "$CONFIG_PATH" ./dist/setup/api-extractor.json
 (

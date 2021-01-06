@@ -52,6 +52,11 @@
       "@spartacus/storefinder": ["dist/storefinder"],
       "@spartacus/storefinder/occ": ["dist/storefinder/occ"],
       "@spartacus/storefinder/root": ["dist/storefinder/root"],
+      "@spartacus/qualtrics/components": [
+        "../../dist/qualtrics/components"
+      ],
+      "@spartacus/qualtrics": ["../../dist/qualtrics"],
+      "@spartacus/qualtrics/root": ["../../dist/qualtrics/root"],
       "@spartacus/cdc": ["dist/cdc"],
       "@spartacus/cds": ["dist/cds"],
       "@spartacus/assets": ["dist/assets"],

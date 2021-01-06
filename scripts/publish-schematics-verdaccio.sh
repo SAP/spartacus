@@ -49,6 +49,9 @@ cd ../../
 cd feature-libs/storefinder
 yarn && yarn build:schematics
 cd ../../
+cd feature-libs/qualtrics
+yarn && yarn build:schematics
+cd ../../
 
 if [[ -z "$SKIP_BUILD" ]]; then
   yarn build:libs
@@ -57,6 +60,8 @@ else
   yarn build:organization
   # this also builds the storefinder schematics
   yarn build:storefinder
+  # this also builds the qualtrics schematics
+  yarn build:qualtrics
 fi
 cd dist
 
@@ -72,6 +77,7 @@ doItFor "storefrontlib"
 doItFor "cds"
 doItFor "organization"
 doItFor "storefinder"
+doItFor "qualtrics"
 doItFor "setup"
 
 cd ../projects/storefrontstyles
