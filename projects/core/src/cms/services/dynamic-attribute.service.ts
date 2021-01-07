@@ -1,5 +1,8 @@
-import { Injectable, Renderer2 } from '@angular/core';
+import { Inject, Injectable, Renderer2 } from '@angular/core';
 import { SmartEditService } from '../../smart-edit/services/smart-edit.service';
+import { resolveApplicable } from '../../util';
+import { ComponentDecorator } from '../decorators/component-decorator';
+import { SlotDecorator } from '../decorators/slot-decorator';
 import { ContentSlotComponentData } from '../model/content-slot-component-data.model';
 import { ContentSlotData } from '../model/content-slot-data.model';
 
@@ -7,7 +10,13 @@ import { ContentSlotData } from '../model/content-slot-data.model';
   providedIn: 'root',
 })
 export class DynamicAttributeService {
-  constructor(protected smartEditService: SmartEditService) {}
+  constructor(
+    protected smartEditService: SmartEditService,
+    @Inject(ComponentDecorator)
+    protected componentDecorators: ComponentDecorator[],
+    @Inject(SlotDecorator)
+    protected slotDecorators: SlotDecorator[]
+  ) {}
 
   /**
    * Add dynamic attributes to DOM. These attributes are extracted from the properties of cms items received from backend.
@@ -25,37 +34,28 @@ export class DynamicAttributeService {
       slotData?: ContentSlotData;
     }
   ): void {
-    const properties =
-      cmsRenderingContext.componentData?.properties ||
-      cmsRenderingContext.slotData?.properties;
-
-    if (properties && this.smartEditService.isLaunchedInSmartEdit()) {
-      // check each group of properties, e.g. smartedit
-      Object.keys(properties).forEach((group) => {
-        const name = 'data-' + group + '-';
-        const groupProps = properties[group];
-
-        // check each property in the group
-        Object.keys(groupProps).forEach((propName) => {
-          const propValue = groupProps[propName];
-          if (propName === 'classes') {
-            const classes = propValue.split(' ');
-            classes.forEach((classItem) => {
-              element.classList.add(classItem);
-            });
-          } else {
-            renderer.setAttribute(
-              element,
-              name +
-                propName
-                  .split(/(?=[A-Z])/)
-                  .join('-')
-                  .toLowerCase(),
-              propValue
-            );
-          }
-        });
-      });
+    if (cmsRenderingContext.componentData) {
+      this.getComponentDecorator()?.decorate(
+        element,
+        renderer,
+        cmsRenderingContext.componentData
+      );
     }
+
+    if (cmsRenderingContext.slotData) {
+      this.getSlotDecorator()?.decorate(
+        element,
+        renderer,
+        cmsRenderingContext.slotData
+      );
+    }
+  }
+
+  protected getComponentDecorator(): ComponentDecorator {
+    return resolveApplicable(this.componentDecorators);
+  }
+
+  protected getSlotDecorator(): ComponentDecorator {
+    return resolveApplicable(this.slotDecorators);
   }
 }
