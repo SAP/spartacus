@@ -12,6 +12,7 @@ export interface CartEvent {
 // =====================================================================
 
 export class CartAddEntryEvent implements CartEvent {
+  static type = 'CartAddEntryEvent';
   cartId: string;
   cartCode: string;
   userId: string;
@@ -20,6 +21,7 @@ export class CartAddEntryEvent implements CartEvent {
 }
 
 export class CartAddEntrySuccessEvent implements CartEvent {
+  static type = 'CartAddEntrySuccessEvent';
   cartId: string;
   cartCode: string;
   userId: string;
@@ -31,6 +33,7 @@ export class CartAddEntrySuccessEvent implements CartEvent {
 }
 
 export class CartAddEntryFailEvent implements CartEvent {
+  static type = 'CartAddEntryFailEvent';
   cartId: string;
   cartCode: string;
   userId: string;
@@ -39,6 +42,7 @@ export class CartAddEntryFailEvent implements CartEvent {
 }
 
 export class CartRemoveEntrySuccessEvent implements CartEvent {
+  static type = 'CartRemoveEntrySuccessEvent';
   cartId: string;
   cartCode: string;
   userId: string;
@@ -46,6 +50,7 @@ export class CartRemoveEntrySuccessEvent implements CartEvent {
 }
 
 export class CartUpdateEntrySuccessEvent implements CartEvent {
+  static type = 'CartUpdateEntrySuccessEvent';
   cartId: string;
   cartCode: string;
   userId: string;

@@ -1,6 +1,7 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { PageMetaResolver } from '../cms/page/page-meta.resolver';
 import { CartPersistenceModule } from './cart-persistence.module';
+import { CartEventCollectorModule } from './event/cart-event-collector.module';
 import { CartEventModule } from './event/cart-event.module';
 import { CartPageMetaResolver } from './services/cart-page-meta.resolver';
 import { MultiCartStoreModule } from './store/multi-cart-store.module';
@@ -9,6 +10,7 @@ import { MultiCartStoreModule } from './store/multi-cart-store.module';
   imports: [
     MultiCartStoreModule,
     CartEventModule,
+    CartEventCollectorModule.forRoot(),
     CartPersistenceModule.forRoot(),
   ],
 })
