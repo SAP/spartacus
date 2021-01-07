@@ -23,6 +23,7 @@ export class ConfiguratorAttributeProductCardComponent
   loading$ = new BehaviorSubject<boolean>(false);
   private sub: Subscription;
 
+  @Input() withQuantity = true;
   @Input() disabledAction: boolean;
   @Input() multiSelect = false;
   @Input() product: Configurator.Value;

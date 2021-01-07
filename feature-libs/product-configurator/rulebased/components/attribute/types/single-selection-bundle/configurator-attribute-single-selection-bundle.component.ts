@@ -44,6 +44,13 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent
     this.sub.unsubscribe();
   }
 
+  get withQuantity() {
+    return (
+      this.attribute.dataType ===
+      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
+    );
+  }
+
   onSelect(value: string): void {
     this.loading$.next(true);
 

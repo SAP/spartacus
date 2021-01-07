@@ -95,6 +95,13 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     return event;
   }
 
+  get withQuantity() {
+    return (
+      this.attribute.dataType ===
+      Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL
+    );
+  }
+
   onSelect(eventValue): void {
     this.selectionChange.emit(
       this.updateMultipleSelectionValues(eventValue, true)

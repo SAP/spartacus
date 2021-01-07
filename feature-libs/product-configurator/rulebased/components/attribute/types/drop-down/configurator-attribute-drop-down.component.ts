@@ -26,8 +26,18 @@ export class ConfiguratorAttributeDropDownComponent
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   ngOnInit() {
+    console.log(this.attribute);
+
     this.attributeDropDownForm.setValue(this.attribute.selectedSingleValue);
   }
+
+  get withQuantity() {
+    return (
+      this.attribute.dataType ===
+      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
+    );
+  }
+
   /**
    * Triggered when a value has been selected
    */
