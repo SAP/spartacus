@@ -25,17 +25,34 @@ const input: Cpq.Configuration = {
   tabs: [tab, { id: 2 }],
 };
 
-const singleSelectionValues = [
-  { paV_ID: 1, valueDisplay: 'another value', selected: false },
-  { paV_ID: 2, valueDisplay: 'selected value', selected: true },
-  { paV_ID: 3, valueDisplay: 'yet another value', selected: false },
+const singleSelectionValues: Cpq.Value[] = [
+  { paV_ID: 1, productSystemId: 'another value', selected: false },
+  { paV_ID: 2, productSystemId: 'selected value', selected: true },
+  { paV_ID: 3, productSystemId: 'yet another value', selected: false },
 ];
 
-const multiSelectionValues = [
+const singleSelectionProductValues: Cpq.Value[] = [
+  { paV_ID: 1, productSystemId: 'another product', selected: false },
+  { paV_ID: 2, productSystemId: 'selected product', selected: true },
+  { paV_ID: 3, productSystemId: 'yet another product', selected: false },
+];
+
+const multiSelectionValues: Cpq.Value[] = [
   { paV_ID: 1, valueDisplay: 'another value', selected: false },
   { paV_ID: 2, valueDisplay: 'selected value', selected: true },
   { paV_ID: 3, valueDisplay: 'yet another value', selected: false },
   { paV_ID: 4, valueDisplay: 'another selected value', selected: true },
+];
+
+const multiSelectionProductValues: Cpq.Value[] = [
+  { paV_ID: 1, productSystemId: 'another product', selected: false },
+  { paV_ID: 2, productSystemId: 'selected product', selected: true },
+  { paV_ID: 3, productSystemId: 'yet another product', selected: false },
+  {
+    paV_ID: 4,
+    productSystemId: 'another selected product',
+    selected: true,
+  },
 ];
 
 describe('CpqConfiguratorOverviewNormalizer', () => {
@@ -101,6 +118,14 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     );
   });
 
+  it('should map RB selected product', () => {
+    attr.values = singleSelectionProductValues;
+    attr.displayAs = Cpq.DisplayAs.RADIO_BUTTON;
+    expect(serviceUnderTest.convertAttribute(attr).value).toEqual(
+      'selected product'
+    );
+  });
+
   it('should map ReadOnly selected value', () => {
     attr.values = singleSelectionValues;
     attr.displayAs = Cpq.DisplayAs.READ_ONLY;
@@ -125,11 +150,19 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     );
   });
 
+  it('should map CHECK_BOX selected products', () => {
+    attr.values = multiSelectionProductValues;
+    attr.displayAs = Cpq.DisplayAs.CHECK_BOX;
+    expect(serviceUnderTest.convertAttribute(attr).value).toEqual(
+      'selected product, another selected product'
+    );
+  });
+
   it('should map LIST_BOX as not implemented', () => {
     attr.values = multiSelectionValues;
     attr.displayAs = Cpq.DisplayAs.LIST_BOX;
     expect(serviceUnderTest.convertAttribute(attr).value).toEqual(
-      'NOT_IMPLEMNETED'
+      'NOT_IMPLEMENTED'
     );
   });
 
@@ -137,7 +170,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     attr.values = multiSelectionValues;
     attr.displayAs = Cpq.DisplayAs.LIST_BOX_MULTI;
     expect(serviceUnderTest.convertAttribute(attr).value).toEqual(
-      'NOT_IMPLEMNETED'
+      'NOT_IMPLEMENTED'
     );
   });
 
@@ -145,7 +178,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     attr.values = multiSelectionValues;
     attr.displayAs = Cpq.DisplayAs.AUTO_COMPLETE_CUSTOM;
     expect(serviceUnderTest.convertAttribute(attr).value).toEqual(
-      'NOT_IMPLEMNETED'
+      'NOT_IMPLEMENTED'
     );
   });
 });

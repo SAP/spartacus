@@ -47,22 +47,30 @@ export class CpqConfiguratorOverviewNormalizer
       case Cpq.DisplayAs.RADIO_BUTTON:
       case Cpq.DisplayAs.READ_ONLY:
       case Cpq.DisplayAs.DROPDOWN:
-        ovValue = attr.values?.find((val) => val.selected)?.valueDisplay;
+        ovValue = this.getProductOrDisplayValue(
+          attr.values?.find((val) => val.selected)
+        );
         break;
       case Cpq.DisplayAs.CHECK_BOX:
         const OV_VALUE_SEP = ', ';
         attr.values
           ?.filter((val) => val.selected)
-          ?.forEach((val) =>
-            ovValue
-              ? (ovValue += OV_VALUE_SEP + val.valueDisplay)
-              : val.valueDisplay
-          );
+          ?.forEach((val) => {
+            ovValue = ovValue
+              ? ovValue + OV_VALUE_SEP + this.getProductOrDisplayValue(val)
+              : this.getProductOrDisplayValue(val);
+          });
         break;
       default:
         ovValue = 'NOT_IMPLEMENTED';
     }
     return ovValue;
+  }
+
+  protected getProductOrDisplayValue(selectedValue: Cpq.Value): any {
+    return selectedValue?.productSystemId
+      ? selectedValue?.productSystemId
+      : selectedValue?.valueDisplay;
   }
 
   protected calculateTotalNumberOfIssues(source: Cpq.Configuration): number {
