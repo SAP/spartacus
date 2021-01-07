@@ -1,6 +1,11 @@
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 
 export namespace Configurator {
+  export enum AttributeOverviewType {
+    GENERAL = 'general',
+    BUNDLE = 'bundle',
+  }
+
   export interface Attribute {
     attrCode?: number;
     name: string;
@@ -93,6 +98,8 @@ export namespace Configurator {
   export interface AttributeOverview {
     attribute: string;
     value: string;
+    productCode?: string;
+    type?: AttributeOverviewType;
   }
 
   export interface PriceSummary {
