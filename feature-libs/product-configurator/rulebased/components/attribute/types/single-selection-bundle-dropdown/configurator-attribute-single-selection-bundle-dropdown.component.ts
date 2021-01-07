@@ -37,6 +37,13 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
     this.selectionValue = this.attribute.values.find((value) => value.selected);
   }
 
+  get withQuantity() {
+    return (
+      this.attribute.dataType ===
+      Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL
+    );
+  }
+
   onSelect(): void {
     const event: ConfigFormUpdateEvent = {
       changedAttribute: {

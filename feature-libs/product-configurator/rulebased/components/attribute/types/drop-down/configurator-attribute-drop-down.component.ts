@@ -34,7 +34,7 @@ export class ConfiguratorAttributeDropDownComponent
   get withQuantity() {
     return (
       this.attribute.dataType ===
-      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
+      Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL
     );
   }
 

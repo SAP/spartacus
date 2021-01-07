@@ -45,6 +45,13 @@ export class ConfiguratorAttributeCheckBoxListComponent
     }
   }
 
+  get withQuantity() {
+    return (
+      this.attribute.dataType ===
+      Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL
+    );
+  }
+
   /**
    * Triggered when a value is selected
    */
