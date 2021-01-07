@@ -14,6 +14,7 @@ import { VariantColorSelectorModule } from './variant-color-selector/variant-col
 import { VariantStyleIconsModule } from './variant-style-icons/variant-style-icons.module';
 import { ProductVariantGuard } from './guards/product-variant.guard';
 import { VariantStyleIconsComponent } from './variant-style-icons/variant-style-icons.component';
+import { VariantGenericSelectorModule } from './variant-generic-selector/variant-generic-selector.module';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { VariantStyleIconsComponent } from './variant-style-icons/variant-style-
     VariantSizeSelectorModule,
     VariantColorSelectorModule,
     VariantStyleIconsModule,
+    VariantGenericSelectorModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
