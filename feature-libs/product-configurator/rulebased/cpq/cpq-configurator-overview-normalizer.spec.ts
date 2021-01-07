@@ -25,6 +25,19 @@ const input: Cpq.Configuration = {
   tabs: [tab, { id: 2 }],
 };
 
+const singleSelectionValues = [
+  { paV_ID: 1, valueDisplay: 'another value', selected: false },
+  { paV_ID: 2, valueDisplay: 'selected value', selected: true },
+  { paV_ID: 3, valueDisplay: 'yet another value', selected: false },
+];
+
+const multiSelectionValues = [
+  { paV_ID: 1, valueDisplay: 'another value', selected: false },
+  { paV_ID: 2, valueDisplay: 'selected value', selected: true },
+  { paV_ID: 3, valueDisplay: 'yet another value', selected: false },
+  { paV_ID: 4, valueDisplay: 'another selected value', selected: true },
+];
+
 describe('CpqConfiguratorOverviewNormalizer', () => {
   let serviceUnderTest: CpqConfiguratorOverviewNormalizer;
 
@@ -74,9 +87,65 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     );
   });
 
-  xit('should map user input as attribute value', () => {
+  it('should map user input as attribute value', () => {
     attr.userInput = 'input';
-    // attr.use
+    attr.displayAs = Cpq.DisplayAs.INPUT;
     expect(serviceUnderTest.convertAttribute(attr).value).toEqual('input');
+  });
+
+  it('should map RB selected value', () => {
+    attr.values = singleSelectionValues;
+    attr.displayAs = Cpq.DisplayAs.RADIO_BUTTON;
+    expect(serviceUnderTest.convertAttribute(attr).value).toEqual(
+      'selected value'
+    );
+  });
+
+  it('should map ReadOnly selected value', () => {
+    attr.values = singleSelectionValues;
+    attr.displayAs = Cpq.DisplayAs.READ_ONLY;
+    expect(serviceUnderTest.convertAttribute(attr).value).toEqual(
+      'selected value'
+    );
+  });
+
+  it('should map DDLB selected value', () => {
+    attr.values = singleSelectionValues;
+    attr.displayAs = Cpq.DisplayAs.DROPDOWN;
+    expect(serviceUnderTest.convertAttribute(attr).value).toEqual(
+      'selected value'
+    );
+  });
+
+  it('should map CHECK_BOX selected values', () => {
+    attr.values = multiSelectionValues;
+    attr.displayAs = Cpq.DisplayAs.CHECK_BOX;
+    expect(serviceUnderTest.convertAttribute(attr).value).toEqual(
+      'selected value, another selected value'
+    );
+  });
+
+  it('should map LIST_BOX as not implemented', () => {
+    attr.values = multiSelectionValues;
+    attr.displayAs = Cpq.DisplayAs.LIST_BOX;
+    expect(serviceUnderTest.convertAttribute(attr).value).toEqual(
+      'NOT_IMPLEMNETED'
+    );
+  });
+
+  it('should map LIST_BOX_MULTI as not implemented', () => {
+    attr.values = multiSelectionValues;
+    attr.displayAs = Cpq.DisplayAs.LIST_BOX_MULTI;
+    expect(serviceUnderTest.convertAttribute(attr).value).toEqual(
+      'NOT_IMPLEMNETED'
+    );
+  });
+
+  it('should map AUTO_COMPLETE_CUSTOM as not implemented', () => {
+    attr.values = multiSelectionValues;
+    attr.displayAs = Cpq.DisplayAs.AUTO_COMPLETE_CUSTOM;
+    expect(serviceUnderTest.convertAttribute(attr).value).toEqual(
+      'NOT_IMPLEMNETED'
+    );
   });
 });

@@ -39,7 +39,30 @@ export class CpqConfiguratorOverviewNormalizer
   }
 
   protected convertAttributeValue(attr: Cpq.Attribute): string {
-    return attr.values?.find((val) => val.selected)?.description;
+    let ovValue;
+    switch (attr.displayAs) {
+      case Cpq.DisplayAs.INPUT:
+        ovValue = attr.userInput;
+        break;
+      case Cpq.DisplayAs.RADIO_BUTTON:
+      case Cpq.DisplayAs.READ_ONLY:
+      case Cpq.DisplayAs.DROPDOWN:
+        ovValue = attr.values?.find((val) => val.selected)?.valueDisplay;
+        break;
+      case Cpq.DisplayAs.CHECK_BOX:
+        const OV_VALUE_SEP = ', ';
+        attr.values
+          ?.filter((val) => val.selected)
+          ?.forEach((val) =>
+            ovValue
+              ? (ovValue += OV_VALUE_SEP + val.valueDisplay)
+              : val.valueDisplay
+          );
+        break;
+      default:
+        ovValue = 'NOT_IMPLEMENTED';
+    }
+    return ovValue;
   }
 
   protected calculateTotalNumberOfIssues(source: Cpq.Configuration): number {
