@@ -1,7 +1,7 @@
 export const user = {
   updateEmailForm: {
     newEmailAddress: {
-      label: 'New email address',
+      label: 'New email address???',
       placeholder: 'Enter email',
     },
     confirmNewEmailAddress: {

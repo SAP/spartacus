@@ -4,6 +4,10 @@ import {
 } from '@spartacus/storefinder/assets';
 import { StoreFinderRootModule } from '@spartacus/storefinder/root';
 import { B2cStorefrontModule } from '@spartacus/storefront';
+import {
+  userTranslationChunksConfig,
+  userTranslations,
+} from '@spartacus/user/assets';
 import { UserRootModule } from '@spartacus/user/root';
 import { FeatureEnvironment } from '../models/feature.model';
 
@@ -36,10 +40,14 @@ export const b2cFeature: FeatureEnvironment = {
         },
       },
       i18n: {
-        resources: storeFinderTranslations,
-        chunks: storeFinderTranslationChunksConfig,
+        resources: { ...storeFinderTranslations, ...userTranslations },
+        chunks: {
+          ...storeFinderTranslationChunksConfig,
+          ...userTranslationChunksConfig,
+        },
       },
     }),
+
     StoreFinderRootModule,
     UserRootModule,
   ],

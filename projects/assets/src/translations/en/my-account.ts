@@ -125,25 +125,25 @@ export const myAccount = {
     accountClosedFailure: 'Failed to close account',
   },
 
-  // @deprecated moved to user lib
-  // updateEmailForm: {
-  //   newEmailAddress: {
-  //     label: 'New email address',
-  //     placeholder: 'Enter email',
-  //   },
-  //   confirmNewEmailAddress: {
-  //     label: 'Confirm new email address',
-  //     placeholder: 'Enter email',
-  //   },
-  //   enterValidEmail: 'Please enter a valid email.',
-  //   bothEmailMustMatch: 'Both emails must match',
-  //   password: {
-  //     label: 'Password',
-  //     placeholder: 'Enter password',
-  //   },
-  //   pleaseInputPassword: 'Please input password',
-  //   emailUpdateSuccess: 'Success. Please sign in with {{ newUid }}',
-  // },
+  // @deprecated the updateEmailForm labels are moved to the user lib and will be dropped with the next major release
+  updateEmailForm: {
+    newEmailAddress: {
+      label: 'New email address',
+      placeholder: 'Enter email',
+    },
+    confirmNewEmailAddress: {
+      label: 'Confirm new email address',
+      placeholder: 'Enter email',
+    },
+    enterValidEmail: 'Please enter a valid email.',
+    bothEmailMustMatch: 'Both emails must match',
+    password: {
+      label: 'Password',
+      placeholder: 'Enter password',
+    },
+    pleaseInputPassword: 'Please input password',
+    emailUpdateSuccess: 'Success. Please sign in with {{ newUid }}',
+  },
 
   updatePasswordForm: {
     oldPassword: {
