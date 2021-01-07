@@ -11,9 +11,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class AuthRedirectStorageService {
   constructor() {}
 
-  private redirectUrl$: Observable<string> = new BehaviorSubject<string>(
-    undefined
-  );
+  private redirectUrl$ = new BehaviorSubject<string>(undefined);
 
   /**
    * Get redirect url after logging in.
@@ -21,7 +19,7 @@ export class AuthRedirectStorageService {
    * @returns observable with the redirect url as string
    */
   getRedirectUrl(): Observable<string> {
-    return this.redirectUrl$;
+    return this.redirectUrl$.asObservable();
   }
 
   /**
@@ -30,6 +28,6 @@ export class AuthRedirectStorageService {
    * @param redirectUrl
    */
   setRedirectUrl(redirectUrl: string): void {
-    (this.redirectUrl$ as BehaviorSubject<string>).next(redirectUrl);
+    this.redirectUrl$.next(redirectUrl);
   }
 }
