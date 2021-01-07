@@ -36,24 +36,33 @@ export class ProductVariantGuard implements CanActivate {
     return this.productService.get(productCode, ProductScope.VARIANTS).pipe(
       filter(Boolean),
       switchMap((product: Product) => {
-        if (!product.purchasable) {
-          const variant = this.findVariant(product.variantOptions);
-          // below call might looks redundant but in fact this data is going to be loaded anyways
-          // we're just calling it earlier and storing
-          return this.productService.get(variant.code, ProductScope.LIST).pipe(
-            filter(Boolean),
-            take(1),
-            map((_product: Product) => {
-              return this.router.createUrlTree(
-                this.semanticPathService.transform({
-                  cxRoute: 'product',
-                  params: _product,
+        if (!product.multidimensional) {
+          if (!product.purchasable) {
+            const variant = this.findVariant(product.variantOptions);
+            // below call might looks redundant but in fact this data is going to be loaded anyways
+            // we're just calling it earlier and storing
+            return this.productService
+              .get(variant.code, ProductScope.LIST)
+              .pipe(
+                filter(Boolean),
+                take(1),
+                map((_product: Product) => {
+                  return this.router.createUrlTree(
+                    this.semanticPathService.transform({
+                      cxRoute: 'product',
+                      params: _product,
+                    })
+                  );
                 })
               );
-            })
-          );
+          } else {
+            return of(true);
+          }
         } else {
-          return of(true);
+          if (product.variantMatrix) {
+            console.log(`purchasable: ${product.purchasable}`)
+            return of(true);
+          }
         }
       })
     );

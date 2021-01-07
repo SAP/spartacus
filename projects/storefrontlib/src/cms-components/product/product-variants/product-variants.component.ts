@@ -18,14 +18,21 @@ export class ProductVariantsComponent implements OnInit {
 
   ngOnInit(): void {
     this.product$ = this.currentProductService.getProduct().pipe(
-      filter((product) => !!(product && product.baseOptions)),
+      filter((product) => !!(product &&
+        (product.baseOptions || product.multidimensional && product.variantMatrix))),
       distinctUntilChanged(),
       tap((product) => {
-        product.baseOptions.forEach((option) => {
-          if (option && option.variantType) {
-            this.variants[option.variantType] = option;
-          }
-        });
+        if (product.multidimensional) {
+          // product.variantMatrix.forEach((matrix, index) => {
+          //   console.log(`${index}: ${matrix["variantValueCategory"].name}`, matrix["variantValueCategory"]);
+          // })
+        } else {
+          product.baseOptions.forEach((option) => {
+            if (option && option.variantType) {
+              this.variants[option.variantType] = option;
+            }
+          })
+        }
       })
     );
   }
