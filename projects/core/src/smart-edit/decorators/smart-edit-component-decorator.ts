@@ -17,11 +17,13 @@ export class SmartEditComponentDecorator extends ComponentDecorator {
     renderer: Renderer2,
     component: ContentSlotComponentData
   ): void {
-    this.smartEditService.addSmartEditContract(
-      component.properties,
-      element,
-      renderer
-    );
+    if (component) {
+      this.smartEditService.addSmartEditContract(
+        element,
+        renderer,
+        component.properties
+      );
+    }
   }
 
   hasMatch(): boolean {

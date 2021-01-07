@@ -13,11 +13,13 @@ export class SmartEditSlotDecorator extends SlotDecorator {
   }
 
   decorate(element: Element, renderer: Renderer2, slot: ContentSlotData): void {
-    this.smartEditService.addSmartEditContract(
-      slot.properties,
-      element,
-      renderer
-    );
+    if (slot) {
+      this.smartEditService.addSmartEditContract(
+        element,
+        renderer,
+        slot.properties
+      );
+    }
   }
 
   hasMatch(): boolean {

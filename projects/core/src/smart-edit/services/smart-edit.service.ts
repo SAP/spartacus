@@ -175,12 +175,12 @@ export class SmartEditService {
   }
 
   /**
-   * Add smartedit contract
+   * Add smartedit HTML markup contract
    */
   addSmartEditContract(
-    properties: string[],
     element: Element,
-    renderer: Renderer2
+    renderer: Renderer2,
+    properties: any
   ): void {
     if (properties) {
       // check each group of properties, e.g. smartedit

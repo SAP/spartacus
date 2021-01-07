@@ -7,9 +7,7 @@ import { ContentSlotComponentData } from '../model/content-slot-component-data.m
 })
 export abstract class ComponentDecorator implements Applicable {
   /**
-   * Add dynamic attributes to CMS Component element. These attributes are extracted from the properties of cms items received from backend.
-   * There can by many different groups of properties, one of them is smartedit. But EC allows addons to create different groups.
-   * For example, personalization may add 'script' group etc.
+   * Add attributes to CMS Component element dynamically
    * @param element: CMS component element
    * @param renderer
    * @param component: CMS component data containing properties
@@ -17,7 +15,7 @@ export abstract class ComponentDecorator implements Applicable {
   abstract decorate(
     element: Element,
     renderer: Renderer2,
-    component: ContentSlotComponentData
+    component?: ContentSlotComponentData
   ): void;
 
   abstract hasMatch?(...params): boolean;

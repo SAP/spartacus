@@ -11,17 +11,15 @@ import { ContentSlotData } from '../model/content-slot-data.model';
 })
 export class DynamicAttributeService {
   constructor(
-    protected smartEditService: SmartEditService,
+    protected smartEditService?: SmartEditService,
     @Inject(ComponentDecorator)
-    protected componentDecorators: ComponentDecorator[],
+    protected componentDecorators?: ComponentDecorator[],
     @Inject(SlotDecorator)
-    protected slotDecorators: SlotDecorator[]
+    protected slotDecorators?: SlotDecorator[]
   ) {}
 
   /**
-   * Add dynamic attributes to DOM. These attributes are extracted from the properties of cms items received from backend.
-   * There can by many different groups of properties, one of them is smartedit. But EC allows addons to create different groups.
-   * For example, personalization may add 'script' group etc.
+   * Add dynamic attributes to DOM.
    * @param element: slot or cms component element
    * @param renderer
    * @param cmsRenderingContext: an object containing properties in each cms item response data
@@ -29,26 +27,22 @@ export class DynamicAttributeService {
   addDynamicAttributes(
     element: Element,
     renderer: Renderer2,
-    cmsRenderingContext: {
+    cmsRenderingContext?: {
       componentData?: ContentSlotComponentData;
       slotData?: ContentSlotData;
     }
   ): void {
-    if (cmsRenderingContext.componentData) {
-      this.getComponentDecorator()?.decorate(
-        element,
-        renderer,
-        cmsRenderingContext.componentData
-      );
-    }
+    this.getComponentDecorator()?.decorate(
+      element,
+      renderer,
+      cmsRenderingContext.componentData
+    );
 
-    if (cmsRenderingContext.slotData) {
-      this.getSlotDecorator()?.decorate(
-        element,
-        renderer,
-        cmsRenderingContext.slotData
-      );
-    }
+    this.getSlotDecorator()?.decorate(
+      element,
+      renderer,
+      cmsRenderingContext.slotData
+    );
   }
 
   protected getComponentDecorator(): ComponentDecorator {
