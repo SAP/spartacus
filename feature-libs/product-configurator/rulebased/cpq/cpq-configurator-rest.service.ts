@@ -8,6 +8,7 @@ import { Configurator } from '../core/model/configurator.model';
 import { CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT } from '../root/interceptor/cpq-configurator-rest.interceptor';
 import {
   CPQ_CONFIGURATOR_NORMALIZER,
+  CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER,
   CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
   CPQ_CONFIGURATOR_SERIALIZER,
 } from './cpq-configurator.converters';
@@ -63,8 +64,7 @@ export class CpqConfiguratorRestService {
     configId: string
   ): Observable<Configurator.Overview> {
     return this.getConfigurationWithAllTabsAndAttribues(configId).pipe(
-      //(this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER),
-
+      this.converterService.pipeable(CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER),
       map((resultConfiguration) => {
         return {
           ...resultConfiguration,
@@ -108,18 +108,21 @@ export class CpqConfiguratorRestService {
   protected mergeTabResults(
     tabReqResultList: Cpq.Configuration[]
   ): Cpq.Configuration {
-    const overviewConfiguration = {
+    const ovConfig = {
       ...tabReqResultList[0],
     };
-    overviewConfiguration.attributes = [];
-    overviewConfiguration.tabs = [];
+    ovConfig.attributes = undefined;
+    ovConfig.tabs = [];
 
     tabReqResultList.forEach((tabReqResult) => {
       const currentTab = tabReqResult.tabs.find((tab) => tab.isSelected);
-      currentTab.attributes = tabReqResult.attributes;
-      overviewConfiguration.tabs.push(currentTab);
+      const ovTab = {
+        ...currentTab,
+      };
+      ovTab.attributes = tabReqResult.attributes;
+      ovConfig.tabs.push(ovTab);
     });
-    return overviewConfiguration;
+    return ovConfig;
   }
 
   /**
