@@ -3,5 +3,5 @@ import { LogoutEventBuilder } from './logout-event.builder';
 
 @NgModule({})
 export class UserAuthEventModule {
-  constructor(_LogoutEventBuilder: LogoutEventBuilder) {}
+  constructor(_logoutEventBuilder: LogoutEventBuilder) {}
 }
