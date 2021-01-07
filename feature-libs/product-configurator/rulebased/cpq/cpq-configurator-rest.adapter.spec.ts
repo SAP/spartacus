@@ -40,6 +40,7 @@ describe('CpqConfiguratorRestAdapter', () => {
       'readConfiguration',
       'updateAttribute',
       'updateValueQuantity',
+      'readConfigurationOverview',
     ]);
 
     asSpy(mockedRestService.createConfiguration).and.callFake(() => {
