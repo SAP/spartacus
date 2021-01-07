@@ -21,13 +21,30 @@ describe('LogoutEventBuilder', () => {
     eventService = TestBed.inject(EventService);
   });
 
-  it('OrderPlacedEvent', () => {
+  it('should emit a LogoutEvent on LOGOUT action', () => {
     let result: LogoutEvent;
     eventService
       .get(LogoutEvent)
       .pipe(take(1))
       .subscribe((value) => (result = value));
 
+    actions$.next({ type: AuthActions.LOGOUT });
+    expect(result).toEqual(new LogoutEvent());
+  });
+
+  it('should emit a LogoutEvent for each LOGOUT action', () => {
+    let result: LogoutEvent;
+    eventService
+      .get(LogoutEvent)
+      .pipe(take(2))
+      .subscribe((value) => (result = value));
+
+    actions$.next({ type: AuthActions.LOGOUT });
+    expect(result).toEqual(new LogoutEvent());
+
+    result = null;
+
+    actions$.next({ type: AuthActions.LOGIN });
     actions$.next({ type: AuthActions.LOGOUT });
     expect(result).toEqual(new LogoutEvent());
   });
