@@ -27,7 +27,8 @@
     "@angular-devkit/schematics": "^10.1.0",
     "@angular/cli": "^10.1.0",
     "@angular/core": "^10.1.0",
-    "@schematics/angular": "^10.1.0"
+    "@schematics/angular": "^10.1.0",
+    "parse5": "^6.0.1"
   },
   "ng-add": {
     "save": "devDependencies"
