@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Product, ProductScope, ProductService, RoutingService, VariantMatrixElement } from '@spartacus/core';
+import { Product, ProductScope, ProductService, RoutingService } from '@spartacus/core';
 import { filter, take } from 'rxjs/operators';
 // import { product } from 'projects/assets/src/translations/en/product';
 
