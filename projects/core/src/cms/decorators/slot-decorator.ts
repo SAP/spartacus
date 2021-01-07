@@ -10,11 +10,11 @@ export abstract class SlotDecorator implements Applicable {
    * Add attributes to CMS Slot element dynamically
    * @param element: CMS slot element
    * @param renderer
-   * @param slot: CMS slot data containing properties
+   * @param slot: CMS slot data
    */
   abstract decorate(
     element: Element,
-    renderer: Renderer2,
+    renderer?: Renderer2,
     slot?: ContentSlotData
   ): void;
 

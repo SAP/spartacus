@@ -1,21 +1,25 @@
 import { Inject, Injectable, Renderer2 } from '@angular/core';
-import { SmartEditService } from '../../smart-edit/services/smart-edit.service';
+//import { SmartEditService } from '../../smart-edit/services/smart-edit.service';
 import { resolveApplicable } from '../../util';
 import { ComponentDecorator } from '../decorators/component-decorator';
+import { HtmlBodyDecorator } from '../decorators/html-body-decorator';
 import { SlotDecorator } from '../decorators/slot-decorator';
 import { ContentSlotComponentData } from '../model/content-slot-component-data.model';
 import { ContentSlotData } from '../model/content-slot-data.model';
+import { Page } from '../model/page.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DynamicAttributeService {
   constructor(
-    protected smartEditService?: SmartEditService,
+    //protected smartEditService?: SmartEditService,
     @Inject(ComponentDecorator)
     protected componentDecorators?: ComponentDecorator[],
     @Inject(SlotDecorator)
-    protected slotDecorators?: SlotDecorator[]
+    protected slotDecorators?: SlotDecorator[],
+    @Inject(HtmlBodyDecorator)
+    protected htmlBodyDecorators?: HtmlBodyDecorator[]
   ) {}
 
   /**
@@ -30,6 +34,7 @@ export class DynamicAttributeService {
     cmsRenderingContext?: {
       componentData?: ContentSlotComponentData;
       slotData?: ContentSlotData;
+      cmsPageData?: Page;
     }
   ): void {
     this.getComponentDecorator()?.decorate(
@@ -43,6 +48,12 @@ export class DynamicAttributeService {
       renderer,
       cmsRenderingContext.slotData
     );
+
+    this.getHtmlBodyDecorator()?.decorate(
+      element,
+      renderer,
+      cmsRenderingContext.cmsPageData
+    );
   }
 
   protected getComponentDecorator(): ComponentDecorator {
@@ -51,5 +62,9 @@ export class DynamicAttributeService {
 
   protected getSlotDecorator(): ComponentDecorator {
     return resolveApplicable(this.slotDecorators);
+  }
+
+  protected getHtmlBodyDecorator(): HtmlBodyDecorator {
+    return resolveApplicable(this.htmlBodyDecorators);
   }
 }

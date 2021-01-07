@@ -1,21 +1,21 @@
 import { Injectable, Renderer2 } from '@angular/core';
 import { Applicable, Priority } from '../../util';
-import { ContentSlotComponentData } from '../model/content-slot-component-data.model';
+import { Page } from '../model/page.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export abstract class ComponentDecorator implements Applicable {
+export abstract class HtmlBodyDecorator implements Applicable {
   /**
-   * Add attributes to CMS Component element dynamically
-   * @param element: CMS component element
+   * Add attributes to the HTML body element dynamically
+   * @param element: HTML body element
    * @param renderer
-   * @param component: CMS component data
+   * @param cmsPage: CMS Page content
    */
   abstract decorate(
     element: Element,
     renderer?: Renderer2,
-    component?: ContentSlotComponentData
+    cmsPage?: Page
   ): void;
 
   abstract hasMatch?(...params): boolean;
