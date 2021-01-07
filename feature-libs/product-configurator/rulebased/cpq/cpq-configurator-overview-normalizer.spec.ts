@@ -86,7 +86,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     expect(serviceUnderTest.convert(input).groups.length).toBe(2);
   });
 
-  it('should map tab id', () => {
+  it('should map tab ID', () => {
     expect(serviceUnderTest.convertTab(tab).id).toBe('1');
   });
 
