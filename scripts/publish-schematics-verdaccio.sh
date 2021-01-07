@@ -41,13 +41,13 @@ if [[ -z "$SKIP_BUILD" ]]; then
 fi
 
 cd projects/schematics
-yarn && yarn build
+yarn build
 cd ../../
 cd feature-libs/organization
-yarn && yarn build:schematics
+yarn build:schematics
 cd ../../
 cd feature-libs/storefinder
-yarn && yarn build:schematics
+yarn build:schematics
 cd ../../
 
 if [[ -z "$SKIP_BUILD" ]]; then
