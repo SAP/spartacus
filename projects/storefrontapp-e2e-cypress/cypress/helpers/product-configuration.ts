@@ -1,13 +1,13 @@
+import { user } from '../sample-data/checkout-flow';
 import * as authentication from './auth-forms';
-import Chainable = Cypress.Chainable;
-import { navigation } from './navigation';
 import {
   AddressData,
-  fillShippingAddress,
   fillPaymentDetails,
+  fillShippingAddress,
   PaymentDetails,
 } from './checkout-forms';
-import { user } from '../sample-data/checkout-flow';
+import { navigation } from './navigation';
+import Chainable = Cypress.Chainable;
 
 const shippingAddressData: AddressData = user;
 const billingAddress: AddressData = user;
@@ -1118,5 +1118,5 @@ export function login(email: string, password: string, name: string): void {
  */
 export function waitForProductCardsLoad() {
   cy.get('.cx-product-card').should('have.length', 9);
-  cy.get('.cx-product-card-action button:contains("Deselect")');
+  cy.get('.cx-product-card-action button:contains("Remove")');
 }
