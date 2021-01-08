@@ -6,7 +6,7 @@ import { provideDefaultConfig } from '../../config/config-providers';
 import { provideConfigValidator } from '../../config/config-validator/config-validator';
 import { baseUrlConfigValidator } from './config/base-url-config-validator';
 import { defaultAuthConfig } from './config/default-auth-config';
-import { UserAuthEventModule } from './events/index';
+import { UserAuthEventModule } from './events/user-auth-event.module';
 import { AuthService } from './facade/auth.service';
 import { interceptors } from './http-interceptors/index';
 import { AuthStatePersistenceService } from './services/auth-state-persistence.service';
