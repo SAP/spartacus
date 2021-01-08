@@ -43,10 +43,10 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     protected vcr: ViewContainerRef,
     protected cmsComponentsService: CmsComponentsService,
     protected injector: Injector,
-    protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
     protected componentHandler: ComponentHandlerService,
-    protected cmsInjector: CmsInjectorService
+    protected cmsInjector: CmsInjectorService,
+    protected dynamicAttributeService?: DynamicAttributeService
   ) {}
 
   ngOnInit() {
@@ -91,10 +91,10 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   }
 
   private decorate(elementRef: ElementRef): void {
-    this.dynamicAttributeService.addDynamicAttributes(
+    this.dynamicAttributeService.addAttributesToComponent(
       elementRef.nativeElement,
       this.renderer,
-      { componentData: this.cxComponentWrapper }
+      this.cxComponentWrapper
     );
   }
 

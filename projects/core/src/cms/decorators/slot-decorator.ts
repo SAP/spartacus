@@ -14,7 +14,7 @@ export abstract class SlotDecorator implements Applicable {
    */
   abstract decorate(
     element: Element,
-    renderer?: Renderer2,
+    renderer: Renderer2,
     slot?: ContentSlotData
   ): void;
 

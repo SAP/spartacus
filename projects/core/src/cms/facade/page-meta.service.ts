@@ -4,7 +4,6 @@ import { filter, map, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { UnifiedInjector } from '../../lazy-loading/unified-injector';
 import { resolveApplicable } from '../../util/applicable';
 import { uniteLatest } from '../../util/rxjs/unite-latest';
-import { WindowRef } from '../../window/window-ref';
 import { Page, PageMeta } from '../model/page.model';
 import { PageMetaResolver } from '../page/page-meta.resolver';
 import { DynamicAttributeService } from '../services/dynamic-attribute.service';
@@ -25,7 +24,6 @@ export class PageMetaService {
   constructor(
     protected cms: CmsService,
     protected unifiedInjector?: UnifiedInjector,
-    protected winRef?: WindowRef,
     protected dynamicAttributeService?: DynamicAttributeService
   ) {}
   /**
@@ -49,13 +47,7 @@ export class PageMetaService {
       filter(Boolean),
       tap((page: Page) =>
         // add dynamic attributes to HTML body element
-        this.dynamicAttributeService.addDynamicAttributes(
-          this.winRef.document.body,
-          undefined,
-          {
-            cmsPageData: page,
-          }
-        )
+        this.dynamicAttributeService.addAttributesToHtmlBody(page)
       ),
       switchMap((page: Page) => this.getMetaResolver(page)),
       switchMap((metaResolver: PageMetaResolver) =>

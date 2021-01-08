@@ -177,7 +177,7 @@ export class SmartEditService {
           if (propName === 'classes') {
             const classes = propValue.split(' ');
             classes.forEach((classItem) => {
-              element.classList.add(classItem);
+              renderer.addClass(element, classItem);
             });
           } else {
             renderer.setAttribute(

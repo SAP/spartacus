@@ -23,6 +23,8 @@ export class DynamicAttributeService {
   ) {}
 
   /**
+   * @deprecated since 3.0, use functions addAttributesToComponent, addAttributesToSlot and addAttributesToHtmlBody instead
+   *
    * Add dynamic attributes to DOM.
    * @param element: slot or cms component element
    * @param renderer
@@ -31,10 +33,9 @@ export class DynamicAttributeService {
   addDynamicAttributes(
     element: Element,
     renderer: Renderer2,
-    cmsRenderingContext?: {
+    cmsRenderingContext: {
       componentData?: ContentSlotComponentData;
       slotData?: ContentSlotData;
-      cmsPageData?: Page;
     }
   ): void {
     this.getComponentDecorator()?.decorate(
@@ -48,12 +49,26 @@ export class DynamicAttributeService {
       renderer,
       cmsRenderingContext.slotData
     );
+  }
 
-    this.getHtmlBodyDecorator()?.decorate(
-      element,
-      renderer,
-      cmsRenderingContext.cmsPageData
-    );
+  addAttributesToComponent(
+    element: Element,
+    renderer: Renderer2,
+    componentData?: ContentSlotComponentData
+  ) {
+    this.getComponentDecorator()?.decorate(element, renderer, componentData);
+  }
+
+  addAttributesToSlot(
+    element: Element,
+    renderer: Renderer2,
+    slotData?: ContentSlotData
+  ) {
+    this.getSlotDecorator()?.decorate(element, renderer, slotData);
+  }
+
+  addAttributesToHtmlBody(cmsPage?: Page) {
+    this.getHtmlBodyDecorator()?.decorate(cmsPage);
   }
 
   protected getComponentDecorator(): ComponentDecorator {
