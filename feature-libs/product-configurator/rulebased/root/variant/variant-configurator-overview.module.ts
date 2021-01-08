@@ -1,7 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
-import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
+import { provideDefaultConfig } from '@spartacus/core';
+import {
+  CmsPageGuard,
+  LayoutConfig,
+  PageLayoutComponent,
+} from '@spartacus/storefront';
 
 /**
  * Takes care of the configuration overview that visualizes the attribute value assignments that have been done already in a condensed, read-only form.
@@ -23,7 +27,7 @@ import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
     ]),
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig(<LayoutConfig>{
       layoutSlots: {
         VariantConfigurationOverviewTemplate: {
           header: {
@@ -47,23 +51,12 @@ import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
               slots: ['SiteLogin', 'SiteContext', 'SiteLinks'],
             },
           },
-
-          md: {
-            slots: [
-              'VariantConfigOverviewHeader',
-              'VariantConfigOverviewBanner',
-              'VariantConfigOverviewContent',
-              'VariantConfigOverviewBottombar',
-            ],
-          },
-          xs: {
-            slots: [
-              'VariantConfigOverviewHeader',
-              'VariantConfigOverviewBanner',
-              'VariantConfigOverviewContent',
-              'VariantConfigOverviewBottombar',
-            ],
-          },
+          slots: [
+            'VariantConfigOverviewHeader',
+            'VariantConfigOverviewBanner',
+            'VariantConfigOverviewContent',
+            'VariantConfigOverviewBottombar',
+          ],
         },
       },
     }),

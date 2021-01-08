@@ -28,7 +28,7 @@ export namespace Cpq {
     conflictMessages?: string[];
     numberOfConflicts?: number;
     tabs?: Tab[];
-    attributes?: Attribute[];
+    attributes?: Attribute[]; // attributes of current selected tab
   }
 
   /**
@@ -41,6 +41,7 @@ export namespace Cpq {
     displayName?: string;
     isIncomplete?: boolean;
     isSelected?: boolean;
+    attributes?: Attribute[]; // used for overview - has to be populated explicitly
   }
 
   /**

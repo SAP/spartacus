@@ -1,13 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import {
-  CmsConfig,
-  ProductModule,
-  provideDefaultConfig,
-} from '@spartacus/core';
+import { provideDefaultConfig } from '@spartacus/core';
 import {
   CmsPageGuard,
   HamburgerMenuModule,
+  LayoutConfig,
   PageLayoutComponent,
 } from '@spartacus/storefront';
 
@@ -17,8 +14,6 @@ import {
  */
 @NgModule({
   imports: [
-    ProductModule,
-
     RouterModule.forChild([
       {
         path: null,
@@ -32,7 +27,7 @@ import {
     HamburgerMenuModule,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
+    provideDefaultConfig(<LayoutConfig>{
       layoutSlots: {
         VariantConfigurationTemplate: {
           header: {

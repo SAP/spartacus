@@ -32,7 +32,6 @@ export namespace Configurator {
     description?: string;
     selected?: boolean;
     quantity?: number;
-    price?: number;
     productSystemId?: string;
     isCommerceProduct?: boolean;
     images?: Image[];

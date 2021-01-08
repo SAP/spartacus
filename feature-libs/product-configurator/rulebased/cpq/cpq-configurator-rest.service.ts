@@ -1,12 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConverterService } from '@spartacus/core';
+import { forkJoin, of } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { map, switchMap } from 'rxjs/operators';
 import { Configurator } from '../core/model/configurator.model';
 import { CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT } from '../root/interceptor/cpq-configurator-rest.interceptor';
 import {
   CPQ_CONFIGURATOR_NORMALIZER,
+  CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER,
   CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
   CPQ_CONFIGURATOR_SERIALIZER,
 } from './cpq-configurator.converters';
@@ -56,6 +58,70 @@ export class CpqConfiguratorRestService {
         };
       })
     );
+  }
+
+  readConfigurationOverview(
+    configId: string
+  ): Observable<Configurator.Overview> {
+    return this.getConfigurationWithAllTabsAndAttribues(configId).pipe(
+      this.converterService.pipeable(CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER),
+      map((resultConfiguration) => {
+        return {
+          ...resultConfiguration,
+          configId: configId,
+        };
+      })
+    );
+  }
+
+  /**
+   * This method is actually a workarround until CPQ provides and API to fetch
+   * all selected attributes / attribue values grouped by all tabs.
+   * It will fire a request for each tab to collect all required data.
+   */
+  protected getConfigurationWithAllTabsAndAttribues(
+    configId: string
+  ): Observable<Cpq.Configuration> {
+    return this.callConfigurationDisplay(configId).pipe(
+      switchMap((currentTab) => {
+        // prepare requests for remaining tabs
+        const tabRequests: Observable<Cpq.Configuration>[] = [];
+        currentTab.tabs.forEach((tab) => {
+          if (tab.isSelected) {
+            // details of the currently selected tab are already fetched
+            tabRequests.push(of(currentTab));
+          } else {
+            tabRequests.push(
+              this.callConfigurationDisplay(configId, tab.id.toString())
+            );
+          }
+        });
+
+        // fire requests for remaining tabs and wait until all are finished
+        return forkJoin(tabRequests);
+      }),
+      map(this.mergeTabResults)
+    );
+  }
+
+  protected mergeTabResults(
+    tabReqResultList: Cpq.Configuration[]
+  ): Cpq.Configuration {
+    const ovConfig = {
+      ...tabReqResultList[0],
+    };
+    ovConfig.attributes = undefined;
+    ovConfig.tabs = [];
+
+    tabReqResultList.forEach((tabReqResult) => {
+      const currentTab = tabReqResult.tabs.find((tab) => tab.isSelected);
+      const ovTab = {
+        ...currentTab,
+      };
+      ovTab.attributes = tabReqResult.attributes;
+      ovConfig.tabs.push(ovTab);
+    });
+    return ovConfig;
   }
 
   /**

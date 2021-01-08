@@ -66,11 +66,11 @@ cp "$CONFIG_PATH" ./dist/cds/api-extractor.json
 )
 
 # @spartacus/organization
-cp "$CONFIG_PATH" ./dist/organization/api-extractor.json
-(
-  cd ./dist/organization && \
-  api-extractor run --local --verbose
-)
+ cp "$CONFIG_PATH" ./dist/organization/api-extractor.json
+ (
+   cd ./dist/organization && \
+   api-extractor run --local --verbose
+ )
 
 # @spartacus/product
 cp "$CONFIG_PATH" ./dist/product/api-extractor.json
@@ -80,18 +80,18 @@ cp "$CONFIG_PATH" ./dist/product/api-extractor.json
 )
 
 # @spartacus/product-configurator
-cp "$CONFIG_PATH" ./dist/product-configurator/api-extractor.json
-(
-  cd ./dist/product-configurator && \
-  api-extractor run --local --verbose
-)
+ cp "$CONFIG_PATH" ./dist/product-configurator/api-extractor.json
+ (
+   cd ./dist/product-configurator && \
+   api-extractor run --local --verbose
+ )
 
-# @spartacus/storefinder
-cp "$CONFIG_PATH" ./dist/storefinder/api-extractor.json
-(
-  cd ./dist/storefinder && \
-  api-extractor run --local --verbose
-)
+# @spartacus/storefinder 
+ cp "$CONFIG_PATH" ./dist/storefinder/api-extractor.json
+ (
+   cd ./dist/storefinder && \
+   api-extractor run --local --verbose
+ )
 
 # @spartacus/setup
 cp "$CONFIG_PATH" ./dist/setup/api-extractor.json
