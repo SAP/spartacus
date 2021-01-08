@@ -1,4 +1,3 @@
-
 <ng-container *ngIf="product">
   <div class="variant-selector">
     <ng-container *ngFor="let variant of variants">
@@ -6,14 +5,14 @@
         <li *ngFor=""></li>
       </ul> -->
       <span>{{ variant[0].parentVariantCategory.name }}</span>
-      <select
-        (change)="changeVariant($event.target.value)"
-        >
-        <option 
+      <select (change)="changeVariant($event.target.value)">
+        <option
           *ngFor="let cat of variant"
           [value]="cat.variantOption.code"
-          [selected]="cat.variantOption.code === product.code">
-        {{ cat.variantValueCategory.name }}</option>
+          [selected]="cat.variantOption.code === product.code"
+        >
+          {{ cat.variantValueCategory.name }}
+        </option>
       </select>
     </ng-container>
   </div>
