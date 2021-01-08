@@ -56,6 +56,14 @@ export class ConfiguratorAttributeProductCardComponent
     }
   }
 
+  get showQuantity() {
+    return (
+      this.withQuantity &&
+      this.product.selected &&
+      (this.multiSelect || this.singleDropdown)
+    );
+  }
+
   onHandleSelect(): void {
     this.loading$.next(true);
     this.handleSelect.emit(this.product.valueCode);

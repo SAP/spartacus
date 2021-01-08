@@ -7,11 +7,7 @@
         [allowZero]="true"
         [control]="quantity"
         [min]="0"
-        [readonly]="
-          !attribute.selectedSingleValue ||
-          attribute.selectedSingleValue === '0' ||
-          (loading$ | async)
-        "
+        [readonly]="readOnlyQuantity || (loading$ | async)"
       ></cx-item-counter>
     </div>
     <div class="form-check" *ngFor="let value of attribute.values">

@@ -63,6 +63,13 @@ export class ConfiguratorAttributeDropDownComponent
     );
   }
 
+  get readOnlyQuantity() {
+    return (
+      !this.attributeDropDownForm.value ||
+      this.attributeDropDownForm.value === '0'
+    );
+  }
+
   /**
    * Triggered when a value has been selected
    */

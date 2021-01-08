@@ -62,6 +62,13 @@ export class ConfiguratorAttributeRadioButtonComponent
     );
   }
 
+  get readOnlyQuantity() {
+    return (
+      !this.attribute.selectedSingleValue ||
+      this.attribute.selectedSingleValue === '0'
+    );
+  }
+
   /**
    * Submits a value.
    *

@@ -19,13 +19,13 @@
     </option>
   </select>
 
-  <div class="form-quantity">
+  <div class="form-quantity" *ngIf="withQuantity">
     <label>{{ 'configurator.attribute.quantity' | cxTranslate }}</label>
     <cx-item-counter
       [allowZero]="true"
       [control]="quantity"
       [min]="0"
-      [readonly]="attributeDropDownForm.value === '0' || (loading$ | async)"
+      [readonly]="readOnlyQuantity || (loading$ | async)"
     ></cx-item-counter>
   </div>
 </div>

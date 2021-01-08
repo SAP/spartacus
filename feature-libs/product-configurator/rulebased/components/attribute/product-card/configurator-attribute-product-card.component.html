@@ -42,12 +42,7 @@
     </div>
 
     <div class="cx-product-card-rows">
-      <div
-        class="cx-product-card-quantity"
-        *ngIf="
-          withQuantity && product.selected && (multiSelect || singleDropdown)
-        "
-      >
+      <div class="cx-product-card-quantity" *ngIf="showQuantity">
         <label>{{ 'configurator.attribute.quantity' | cxTranslate }}</label>
         <cx-item-counter
           [allowZero]="!disabledAction"
