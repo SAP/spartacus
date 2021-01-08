@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { Event, NavigationEnd, Router } from '@angular/router';
 import { CmsSearchBoxComponent, WindowRef } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -48,7 +48,7 @@ export class SearchBoxComponent {
    */
   private ignoreCloseEvent = false;
   public chosenWord = '';
-
+  private getUrl: Subscription;
   /**
    * The component data is optional, so that this component
    * can be reused without CMS integration.
@@ -61,7 +61,7 @@ export class SearchBoxComponent {
     protected winRef: WindowRef,
     protected router: Router
   ) {
-    this.router.events.subscribe((event: Event) => {
+    this.getUrl = this.router.events.subscribe((event: Event) => {
       if (
         event instanceof NavigationEnd &&
         !event.url.split('/').includes('search')
@@ -246,5 +246,9 @@ export class SearchBoxComponent {
       el.focus();
       this.ignoreCloseEvent = false;
     });
+  }
+
+  ngOnDestroy() {
+    this.getUrl.unsubscribe();
   }
 }
