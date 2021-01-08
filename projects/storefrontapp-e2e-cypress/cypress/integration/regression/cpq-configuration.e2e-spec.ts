@@ -163,7 +163,7 @@ context('CPQ Configuration', () => {
       configuration
         .goToConfigurationPage(powertoolsShop, testProduct, 'cpq')
         .then(() => {
-          configuration.waitForProductCardsLoad();
+          configuration.waitForProductCardsLoad(9);
 
           configuration
             .getNthGroupMenu(1)
@@ -192,7 +192,7 @@ context('CPQ Configuration', () => {
       configuration
         .goToConfigurationPage(powertoolsShop, testProduct, 'cpq')
         .then(() => {
-          configuration.waitForProductCardsLoad();
+          configuration.waitForProductCardsLoad(9);
 
           configuration.checkAttributeHeaderDisplayed(
             attributeHeaders.mainComponents
