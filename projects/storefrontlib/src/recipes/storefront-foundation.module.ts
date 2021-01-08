@@ -8,6 +8,7 @@ import {
   ConfigInitializerModule,
   ConfigModule,
   ConfigValidatorModule,
+  EventsModule as CoreEventsModule,
   FeaturesConfigModule,
   GlobalMessageModule,
   I18nModule,
@@ -27,6 +28,7 @@ import { ViewConfigModule } from '../shared/config/view-config.module';
 @NgModule({
   imports: [
     StateModule.forRoot(),
+    CoreEventsModule.forRoot(),
     AuthModule.forRoot(),
     AnonymousConsentsModule.forRoot(),
     ConfigModule.forRoot(),

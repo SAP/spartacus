@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { EventService } from '../../event/event.service';
-import { TmsCollector, TmsEvent } from '../../event/tms.event';
-import { createFrom } from '../../util/create-from';
+import { AbstractTmsEventCollector } from '../../event/tms.event';
 import {
   CartAddEntryEvent,
   CartAddEntryFailEvent,
@@ -16,61 +14,32 @@ import {
  * Registers cart event collectors
  */
 @Injectable({ providedIn: 'root' })
-export class CartEventCollector implements TmsCollector {
-  protected cartAddEntryEvent$ = this.eventsService.get(CartAddEntryEvent).pipe(
-    map((event) =>
-      createFrom(TmsEvent, {
-        event: CartAddEntryEvent.type,
-        payload: { ...event },
-      })
-    )
-  );
+export class CartEventCollector extends AbstractTmsEventCollector {
+  protected cartAddEntryEvent$ = this.eventsService
+    .get(CartAddEntryEvent)
+    .pipe(map((event) => this.mapEvent(CartAddEntryEvent.type, event)));
 
   protected cartAddEntrySuccessEvent$ = this.eventsService
     .get(CartAddEntrySuccessEvent)
-    .pipe(
-      map((event) =>
-        createFrom(TmsEvent, {
-          event: CartAddEntrySuccessEvent.type,
-          payload: { ...event },
-        })
-      )
-    );
+    .pipe(map((event) => this.mapEvent(CartAddEntrySuccessEvent.type, event)));
 
   protected cartAddEntryFailEvent$ = this.eventsService
     .get(CartAddEntryFailEvent)
-    .pipe(
-      map((event) =>
-        createFrom(TmsEvent, {
-          event: CartAddEntryFailEvent.type,
-          payload: { ...event },
-        })
-      )
-    );
+    .pipe(map((event) => this.mapEvent(CartAddEntryFailEvent.type, event)));
 
   protected cartRemoveEntrySuccessEvent$ = this.eventsService
     .get(CartRemoveEntrySuccessEvent)
     .pipe(
-      map((event) =>
-        createFrom(TmsEvent, {
-          event: CartRemoveEntrySuccessEvent.type,
-          payload: { ...event },
-        })
-      )
+      map((event) => this.mapEvent(CartRemoveEntrySuccessEvent.type, event))
     );
 
   protected cartUpdateEntrySuccessEvent$ = this.eventsService
     .get(CartUpdateEntrySuccessEvent)
     .pipe(
-      map((event) =>
-        createFrom(TmsEvent, {
-          event: CartUpdateEntrySuccessEvent.type,
-          payload: { ...event },
-        })
-      )
+      map((event) => this.mapEvent(CartUpdateEntrySuccessEvent.type, event))
     );
 
-  protected events: Observable<any>[] = [
+  protected events$ = [
     this.cartAddEntryEvent$,
     this.cartAddEntrySuccessEvent$,
     this.cartAddEntryFailEvent$,
@@ -79,12 +48,7 @@ export class CartEventCollector implements TmsCollector {
   ];
 
   constructor(protected eventsService: EventService) {
-    this.events.forEach((event) =>
-      this.eventsService.register(TmsEvent, event)
-    );
-  }
-
-  get(): Observable<any>[] {
-    return this.events;
+    super(eventsService);
+    this.registerEvent(...this.events$);
   }
 }

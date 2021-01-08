@@ -1,5 +1,6 @@
-import { InjectionToken } from '@angular/core';
 import { Observable } from 'rxjs';
+import { createFrom } from '../util/create-from';
+import { EventService } from './event.service';
 
 export class TmsEvent {
   static type = 'TmsEvent';
@@ -7,10 +8,19 @@ export class TmsEvent {
   payload: any;
 }
 
-export interface TmsCollector {
-  get(): Observable<any>[];
-}
+export abstract class AbstractTmsEventCollector {
+  protected abstract events$: Observable<TmsEvent>[];
 
-export const TMS_COLLECTORS = new InjectionToken<TmsCollector>(
-  'TMS Collectors'
-);
+  constructor(protected eventsService: EventService) {}
+
+  protected registerEvent(...events$: Observable<TmsEvent>[]): void {
+    events$.forEach((event$) => this.eventsService.register(TmsEvent, event$));
+  }
+
+  protected mapEvent<T>(type: string, event: T): TmsEvent {
+    return createFrom(TmsEvent, {
+      event: type,
+      payload: { ...event },
+    });
+  }
+}

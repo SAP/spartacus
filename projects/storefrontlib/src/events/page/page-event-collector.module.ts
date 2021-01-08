@@ -1,5 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { TMS_COLLECTORS } from '@spartacus/core';
+import { EVENT_BUILDER } from '@spartacus/core';
 import { PageEventCollector } from './page-event.collector';
 
 @NgModule({})
@@ -10,7 +10,7 @@ export class PageEventCollectorModule {
       ngModule: PageEventCollectorModule,
       providers: [
         {
-          provide: TMS_COLLECTORS,
+          provide: EVENT_BUILDER,
           useExisting: PageEventCollector,
           multi: true,
         },

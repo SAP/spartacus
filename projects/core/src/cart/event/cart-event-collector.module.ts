@@ -1,5 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { TMS_COLLECTORS } from '../../event';
+import { EVENT_BUILDER } from '../../event/event.token';
 import { CartEventCollector } from './cart-event.collector';
 
 @NgModule({})
@@ -10,7 +10,7 @@ export class CartEventCollectorModule {
       ngModule: CartEventCollectorModule,
       providers: [
         {
-          provide: TMS_COLLECTORS,
+          provide: EVENT_BUILDER,
           useExisting: CartEventCollector,
           multi: true,
         },
