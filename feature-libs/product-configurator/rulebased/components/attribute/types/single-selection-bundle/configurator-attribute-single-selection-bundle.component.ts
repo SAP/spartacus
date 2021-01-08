@@ -57,6 +57,13 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent
     );
   }
 
+  get readOnlyQuantity() {
+    return (
+      !this.attribute.selectedSingleValue ||
+      this.attribute.selectedSingleValue === '0'
+    );
+  }
+
   onSelect(value: string): void {
     this.loading$.next(true);
 

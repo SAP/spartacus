@@ -6,7 +6,7 @@
         [allowZero]="true"
         [control]="quantity"
         [min]="0"
-        [readonly]="!attribute.selectedSingleValue || (loading$ | async)"
+        [readonly]="readOnlyQuantity || (loading$ | async)"
       ></cx-item-counter>
     </div>
 
