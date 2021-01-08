@@ -32,7 +32,7 @@ export class ConfiguratorAttributeRadioButtonComponent
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   ngOnInit(): void {
-    console.log(this.attribute);
+    console.log(this.attribute, 'radio');
 
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);
 

@@ -1,11 +1,11 @@
 <ng-container *ngIf="attribute?.values?.length">
-  <div class="cx-single-selection-bundle-quantity" *ngIf="withQuantity">
+  <div class="cx-single-selection-bundle-quantity">
     <div>
       <label>{{ 'configurator.attribute.quantity' | cxTranslate }}</label>
       <cx-item-counter
-        [allowZero]="!attribute.selectedSingleValue"
+        [allowZero]="true"
         [control]="quantity"
-        [min]="attribute.selectedSingleValue ? 1 : 0"
+        [min]="0"
         [readonly]="!attribute.selectedSingleValue || (loading$ | async)"
       ></cx-item-counter>
     </div>
@@ -17,10 +17,12 @@
   </div>
 
   <cx-configurator-attribute-product-card
+    (handleDeselect)="onDeselect($event)"
     (handleSelect)="onSelect($event)"
     *ngFor="let value of attribute.values"
     [product]="value"
-    [disabledAction]="attribute.required"
+    [disabledAction]="false"
+    [withQuantity]="withQuantity"
   >
   </cx-configurator-attribute-product-card>
 </ng-container>

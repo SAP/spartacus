@@ -31,12 +31,18 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   ngOnInit(): void {
+    console.log(this.attribute, 'radio bundle');
+
     this.quantity.setValue(
       this.attribute.selectedSingleValue ? this.attribute.quantity : 0
     );
 
-    this.sub = this.quantity.valueChanges.subscribe(() => {
-      this.onHandleQuantity();
+    this.sub = this.quantity.valueChanges.subscribe((value) => {
+      if (!value) {
+        this.onDeselect();
+      } else {
+        this.onHandleQuantity();
+      }
     });
   }
 

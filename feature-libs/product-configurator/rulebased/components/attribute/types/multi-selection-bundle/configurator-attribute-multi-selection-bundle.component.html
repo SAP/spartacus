@@ -6,7 +6,7 @@
     *ngFor="let value of attribute.values"
     [product]="value"
     [multiSelect]="true"
-    [disabledAction]="disableDeselectAction$ | async"
+    [disabledAction]="false"
     [withQuantity]="withQuantity"
   >
   </cx-configurator-attribute-product-card>
