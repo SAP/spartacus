@@ -32,22 +32,22 @@ const paramsMapping: ParamsMapping = {
 export const costCenterRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
-      costCenterCreate: {
+      orgCostCenterCreate: {
         paths: ['organization/cost-centers/create'],
       },
-      costCenterDetails: {
+      orgCostCenterDetails: {
         paths: [`${listPath}`],
         paramsMapping,
       },
-      costCenterBudgets: {
+      orgCostCenterBudgets: {
         paths: [`${listPath}/budgets`],
         paramsMapping,
       },
-      costCenterAssignBudgets: {
+      orgCostCenterAssignBudgets: {
         paths: [`${listPath}/budgets/assign`],
         paramsMapping,
       },
-      costCenterEdit: {
+      orgCostCenterEdit: {
         paths: [`${listPath}/edit`],
         paramsMapping,
       },
@@ -73,7 +73,7 @@ export const costCenterCmsConfig: CmsConfig = {
         parent: {
           data: {
             cxPageMeta: {
-              breadcrumb: 'costCenter.breadcrumbs.list',
+              breadcrumb: 'orgCostCenter.breadcrumbs.list',
               resolver: CostCenterRoutePageMetaResolver,
             },
           },
@@ -87,7 +87,7 @@ export const costCenterCmsConfig: CmsConfig = {
             path: `:${ROUTE_PARAMS.costCenterCode}`,
             component: CostCenterDetailsComponent,
             data: {
-              cxPageMeta: { breadcrumb: 'costCenter.breadcrumbs.details' },
+              cxPageMeta: { breadcrumb: 'orgCostCenter.breadcrumbs.details' },
             },
             children: [
               {
@@ -98,7 +98,7 @@ export const costCenterCmsConfig: CmsConfig = {
                 path: 'budgets',
                 data: {
                   cxPageMeta: {
-                    breadcrumb: 'costCenter.breadcrumbs.budgets',
+                    breadcrumb: 'orgCostCenter.breadcrumbs.budgets',
                   },
                 },
                 children: [

@@ -10,7 +10,7 @@ import {
 export const userConfig: MyCompanyConfig = {
   name: 'User',
   baseUrl: `${FULL_BASE_URL_EN_USD}/organization/users`,
-  apiEndpoint: '/users/current/orgCustomers',
+  apiEndpoint: '/orgCustomers',
   objectType: 'users',
   entityIdField: 'customerId',
   preserveCookies: true,
@@ -119,6 +119,7 @@ export const userConfig: MyCompanyConfig = {
       entityIdField: 'customerId',
       objectType: 'users',
       manageAssignments: true,
+      skipAssignmentWaits: true,
     },
     {
       name: 'User groups',

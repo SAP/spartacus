@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FocusDirective } from './focus.directive';
 import { KeyboardFocusService } from './services';
@@ -21,22 +21,24 @@ describe('FocusDirective', () => {
   let component: MockComponent;
   let fixture: ComponentFixture<MockComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [FocusDirective, MockComponent],
-      providers: [
-        {
-          provide: KeyboardFocusService,
-          useClass: MockKeyboardFocusService,
-        },
-      ],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [FocusDirective, MockComponent],
+        providers: [
+          {
+            provide: KeyboardFocusService,
+            useClass: MockKeyboardFocusService,
+          },
+        ],
+      }).compileComponents();
 
-    fixture = TestBed.createComponent(MockComponent);
+      fixture = TestBed.createComponent(MockComponent);
 
-    fixture.detectChanges();
-    component = fixture.componentInstance;
-  }));
+      fixture.detectChanges();
+      component = fixture.componentInstance;
+    })
+  );
 
   it('should be created', () => {
     expect(component).toBeTruthy();

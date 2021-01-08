@@ -1,5 +1,5 @@
 import { Component, DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RoutingService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -64,32 +64,34 @@ describe('StorefrontComponent', () => {
   let el: DebugElement;
   let routingService: RoutingService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [
-        StorefrontComponent,
-        MockHeaderComponent,
-        MockGlobalMessagerComponent,
-        MockFooterComponent,
-        DynamicSlotComponent,
-        MockPageLayoutComponent,
-        MockAsmRootComponent,
-        MockFeatureDirective,
-        MockSchemaComponent,
-      ],
-      providers: [
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: HamburgerMenuService,
-          useClass: MockHamburgerMenuService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule],
+        declarations: [
+          StorefrontComponent,
+          MockHeaderComponent,
+          MockGlobalMessagerComponent,
+          MockFooterComponent,
+          DynamicSlotComponent,
+          MockPageLayoutComponent,
+          MockAsmRootComponent,
+          MockFeatureDirective,
+          MockSchemaComponent,
+        ],
+        providers: [
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
+          {
+            provide: HamburgerMenuService,
+            useClass: MockHamburgerMenuService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StorefrontComponent);
