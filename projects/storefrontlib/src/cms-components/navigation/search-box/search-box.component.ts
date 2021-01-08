@@ -4,6 +4,7 @@ import {
   Input,
   Optional,
 } from '@angular/core';
+import { Event, NavigationEnd, Router } from '@angular/router';
 import { CmsSearchBoxComponent, WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
@@ -57,8 +58,17 @@ export class SearchBoxComponent {
     protected searchBoxComponentService: SearchBoxComponentService,
     @Optional()
     protected componentData: CmsComponentData<CmsSearchBoxComponent>,
-    protected winRef: WindowRef
-  ) {}
+    protected winRef: WindowRef,
+    protected router: Router
+  ) {
+    this.router.events.subscribe((event: Event) => {
+      if (
+        event instanceof NavigationEnd &&
+        !event.url.split('/').includes('search')
+      )
+        this.chosenWord = '';
+    });
+  }
 
   /**
    * Returns the SearchBox configuration. The configuration is driven by multiple
