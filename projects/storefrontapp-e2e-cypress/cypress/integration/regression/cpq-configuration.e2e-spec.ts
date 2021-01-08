@@ -153,7 +153,7 @@ context('CPQ Configuration', () => {
           configuration.checkNextBtnDisabled();
 
           configuration.clickOnPreviousBtn(ACCESSORIES);
-          configuration.waitForProductCardsLoad(9);
+          configuration.waitForProductCardsLoad(13);
         });
     });
 
@@ -167,6 +167,7 @@ context('CPQ Configuration', () => {
             .getNthGroupMenu(1)
             .click()
             .then(() => {
+              configuration.waitForProductCardsLoad(13);
               configuration.checkCurrentGroupActive(ACCESSORIES);
             });
 
@@ -174,6 +175,7 @@ context('CPQ Configuration', () => {
             .getNthGroupMenu(2)
             .click()
             .then(() => {
+              configuration.waitForProductCardsLoad(0);
               configuration.checkCurrentGroupActive(INSURANCE_AND_WARRANTY);
             });
 
@@ -181,6 +183,7 @@ context('CPQ Configuration', () => {
             .getNthGroupMenu(0)
             .click()
             .then(() => {
+              configuration.waitForProductCardsLoad(9);
               configuration.checkCurrentGroupActive(MAIN_COMPONENTS);
             });
         });
