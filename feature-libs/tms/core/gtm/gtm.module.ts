@@ -1,9 +1,15 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { TmsConfig } from '../config/tms-config';
 import { GoogleTagManagerService } from './gtm.service';
 
-export function gtmFactory(service: GoogleTagManagerService) {
+export function gtmFactory(
+  service: GoogleTagManagerService,
+  config?: TmsConfig
+) {
   const result = () => {
-    service.collect();
+    if (config?.tms?.gtm) {
+      service.collect();
+    }
   };
   return result;
 }
@@ -13,7 +19,7 @@ export function gtmFactory(service: GoogleTagManagerService) {
     {
       provide: APP_INITIALIZER,
       useFactory: gtmFactory,
-      deps: [GoogleTagManagerService],
+      deps: [GoogleTagManagerService, TmsConfig],
       multi: true,
     },
   ],
