@@ -84,10 +84,19 @@ export class SmartEditService {
         this.defaultPreviewCategoryCode = site.defaultPreviewCategoryCode;
         this.defaultPreviewProductCode = site.defaultPreviewProductCode;
 
-        this.addPageContract();
+        // go to the default preview page
+        this.cmsService.getCurrentPage().subscribe((cmsPage) => {
+          if (cmsPage && this._cmsTicketId) {
+            this._currentPageId = cmsPage.pageId;
+            this.goToPreviewPage(cmsPage);
+          }
+        });
       });
   }
 
+  /**
+   * @deprecated since 3.0, not used any more
+   */
   protected addPageContract() {
     this.cmsService.getCurrentPage().subscribe((cmsPage) => {
       if (cmsPage && this._cmsTicketId) {
@@ -95,6 +104,23 @@ export class SmartEditService {
 
         // before adding contract to page, we need redirect to that page
         this.goToPreviewPage(cmsPage);
+
+        // remove old page contract
+        const previousContract = [];
+        Array.from(this.winRef.document.body.classList).forEach((attr) =>
+          previousContract.push(attr)
+        );
+        previousContract.forEach((attr) =>
+          this.winRef.document.body.classList.remove(attr)
+        );
+
+        // add new page contract
+        if (cmsPage.properties && cmsPage.properties.smartedit) {
+          const seClasses = cmsPage.properties.smartedit.classes.split(' ');
+          seClasses.forEach((classItem) => {
+            this.winRef.document.body.classList.add(classItem);
+          });
+        }
       }
     });
   }

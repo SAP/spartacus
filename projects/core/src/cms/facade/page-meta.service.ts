@@ -22,10 +22,21 @@ export class PageMetaService {
   >;
 
   constructor(
+    cms: CmsService,
+    unifiedInjector?: UnifiedInjector,
+    // tslint:disable-next-line:unified-signatures
+    dynamicAttributeService?: DynamicAttributeService
+  );
+  /**
+   * @deprecated since 3.0
+   */
+  constructor(cms: CmsService, unifiedInjector?: UnifiedInjector);
+  constructor(
     protected cms: CmsService,
     protected unifiedInjector?: UnifiedInjector,
     protected dynamicAttributeService?: DynamicAttributeService
   ) {}
+
   /**
    * The list of resolver interfaces will be evaluated for the pageResolvers.
    *

@@ -1,5 +1,5 @@
 import { Inject, Injectable, Renderer2 } from '@angular/core';
-//import { SmartEditService } from '../../smart-edit/services/smart-edit.service';
+import { SmartEditService } from '../../smart-edit/services/smart-edit.service';
 import { resolveApplicable } from '../../util';
 import { ComponentDecorator } from '../decorators/component-decorator';
 import { HtmlBodyDecorator } from '../decorators/html-body-decorator';
@@ -13,7 +13,19 @@ import { Page } from '../model/page.model';
 })
 export class DynamicAttributeService {
   constructor(
-    //protected smartEditService?: SmartEditService,
+    smartEditService?: SmartEditService,
+    componentDecorators?: ComponentDecorator[],
+    slotDecorators?: SlotDecorator[],
+    // tslint:disable-next-line:unified-signatures
+    htmlBodyDecorators?: HtmlBodyDecorator[]
+  );
+  /**
+   * @deprecated since 3.0
+   */
+  constructor(smartEditService?: SmartEditService);
+  constructor(
+    // TODO: remove this SmartEditService in major release
+    protected smartEditService?: SmartEditService,
     @Inject(ComponentDecorator)
     protected componentDecorators?: ComponentDecorator[],
     @Inject(SlotDecorator)

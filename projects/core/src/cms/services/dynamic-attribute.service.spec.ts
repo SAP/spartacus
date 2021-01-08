@@ -1,20 +1,45 @@
-import { Renderer2, RendererFactory2 } from '@angular/core';
+import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { SmartEditService } from '../../smart-edit/services/smart-edit.service';
+import { Priority } from '../../util/applicable';
+import { ComponentDecorator } from '../decorators/component-decorator';
+import { HtmlBodyDecorator } from '../decorators/html-body-decorator';
+import { SlotDecorator } from '../decorators/slot-decorator';
 import { DynamicAttributeService } from './dynamic-attribute.service';
+import createSpy = jasmine.createSpy;
 
-const mockProperties = {
-  smartedit: {
-    componentId: 'testId',
-    catalogVersionUuid: 'test uuid',
-    classes: 'some classes',
-  },
-  group: { prop1: 'groupProp1', prop2: 'groupProp2' },
-};
+class MockSmartEditService {}
 
-class MockSmartEditService {
-  isLaunchedInSmartEdit(): boolean {
+@Injectable()
+class TestComponentDecorator extends ComponentDecorator {
+  decorate = createSpy('decorate');
+  hasMatch(): boolean {
     return true;
+  }
+  getPriority() {
+    return Priority.HIGH;
+  }
+}
+
+@Injectable()
+class TestSlotDecorator extends ComponentDecorator {
+  decorate = createSpy('decorate');
+  hasMatch(): boolean {
+    return true;
+  }
+  getPriority() {
+    return Priority.HIGH;
+  }
+}
+
+@Injectable()
+class TestHtmlBodyDecorator extends HtmlBodyDecorator {
+  decorate = createSpy('decorate');
+  hasMatch(): boolean {
+    return true;
+  }
+  getPriority() {
+    return Priority.HIGH;
   }
 }
 
@@ -25,8 +50,25 @@ describe('DynamicAttributeService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        DynamicAttributeService,
+        TestComponentDecorator,
+        TestSlotDecorator,
+        TestHtmlBodyDecorator,
         { provide: SmartEditService, useClass: MockSmartEditService },
+        {
+          provide: ComponentDecorator,
+          useExisting: TestComponentDecorator,
+          multi: true,
+        },
+        {
+          provide: SlotDecorator,
+          useExisting: TestSlotDecorator,
+          multi: true,
+        },
+        {
+          provide: HtmlBodyDecorator,
+          useExisting: TestHtmlBodyDecorator,
+          multi: true,
+        },
       ],
     });
 
@@ -43,20 +85,56 @@ describe('DynamicAttributeService', () => {
       renderer = factory.createRenderer(null, null);
       const element = renderer.createElement('div');
       service.addDynamicAttributes(element, renderer, {
-        componentData: { properties: mockProperties },
+        componentData: { uid: 'testComponent' },
+        slotData: {},
       });
 
-      expect(element.getAttribute('data-smartedit-component-id')).toEqual(
-        'testId'
-      );
       expect(
-        element.getAttribute('data-smartedit-catalog-version-uuid')
-      ).toEqual('test uuid');
-      expect(element.classList.contains('some')).toBeTruthy();
-      expect(element.classList.contains('classes')).toBeTruthy();
-
-      expect(element.getAttribute('data-group-prop1')).toEqual('groupProp1');
-      expect(element.getAttribute('data-group-prop2')).toEqual('groupProp2');
+        service['componentDecorators'][0].decorate
+      ).toHaveBeenCalledWith(element, renderer, { uid: 'testComponent' });
+      expect(service['slotDecorators'][0].decorate).toHaveBeenCalledWith(
+        element,
+        renderer,
+        {}
+      );
     }
   ));
+
+  it('should able to add dynamic attributes to component', inject(
+    [RendererFactory2],
+    (factory: RendererFactory2) => {
+      renderer = factory.createRenderer(null, null);
+      const element = renderer.createElement('div');
+      service.addAttributesToComponent(element, renderer, {
+        uid: 'testComponent',
+      });
+
+      expect(
+        service['componentDecorators'][0].decorate
+      ).toHaveBeenCalledWith(element, renderer, { uid: 'testComponent' });
+    }
+  ));
+
+  it('should able to add dynamic attributes to slot', inject(
+    [RendererFactory2],
+    (factory: RendererFactory2) => {
+      renderer = factory.createRenderer(null, null);
+      const element = renderer.createElement('div');
+      service.addAttributesToSlot(element, renderer, {});
+
+      expect(service['slotDecorators'][0].decorate).toHaveBeenCalledWith(
+        element,
+        renderer,
+        {}
+      );
+    }
+  ));
+
+  it('should able to add dynamic attributes to Html body', () => {
+    service.addAttributesToHtmlBody({ pageId: 'testPage' });
+
+    expect(service['htmlBodyDecorators'][0].decorate).toHaveBeenCalledWith({
+      pageId: 'testPage',
+    });
+  });
 });

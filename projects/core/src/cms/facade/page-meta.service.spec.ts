@@ -17,6 +17,7 @@ import {
   PageRobotsResolver,
   PageTitleResolver,
 } from '../page';
+import { DynamicAttributeService } from '../services/dynamic-attribute.service';
 import { CmsService } from './cms.service';
 import { PageMetaService } from './page-meta.service';
 
@@ -109,6 +110,10 @@ class PageWithAllResolvers
   }
 }
 
+class MockDynamicAttributeService {
+  addAttributesToHtmlBody() {}
+}
+
 describe('PageMetaService', () => {
   let service: PageMetaService;
   let cmsService: CmsService;
@@ -120,6 +125,10 @@ describe('PageMetaService', () => {
         PageMetaService,
         ContentPageResolver,
         { provide: CmsService, useClass: MockCmsService },
+        {
+          provide: DynamicAttributeService,
+          useClass: MockDynamicAttributeService,
+        },
         {
           provide: PageMetaResolver,
           useExisting: ContentPageResolver,
@@ -144,6 +153,17 @@ describe('PageMetaService', () => {
 
   it('PageMetaService should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  it('should dynamic attributes to HTML body element ', () => {
+    const dynamicAttributeService: DynamicAttributeService = TestBed.inject(
+      DynamicAttributeService
+    );
+    spyOn(dynamicAttributeService, 'addAttributesToHtmlBody').and.callThrough();
+
+    service.getMeta().subscribe().unsubscribe();
+
+    expect(dynamicAttributeService.addAttributesToHtmlBody).toHaveBeenCalled();
   });
 
   it('should resolve page title using resolveTitle()', () => {
@@ -236,6 +256,10 @@ describe('Custom PageTitleService', () => {
           provide: PageMetaResolver,
           useExisting: PageWithKeywordsResolver,
           multi: true,
+        },
+        {
+          provide: DynamicAttributeService,
+          useClass: MockDynamicAttributeService,
         },
       ],
     });
