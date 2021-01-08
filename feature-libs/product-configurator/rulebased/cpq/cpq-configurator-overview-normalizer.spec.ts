@@ -147,13 +147,14 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
   });
 
   it('should map attribute type GENREAL', () => {
+    attr.values = singleSelectionValues;
     expect(serviceUnderTest['convertAttribute'](attr)[0].type).toEqual(
       Configurator.AttributeOverviewType.GENERAL
     );
   });
 
   it('should map attribute type BUNDLE', () => {
-    attr.isLineItem = true;
+    attr.values = singleSelectionProductValues;
     expect(serviceUnderTest['convertAttribute'](attr)[0].type).toEqual(
       Configurator.AttributeOverviewType.BUNDLE
     );

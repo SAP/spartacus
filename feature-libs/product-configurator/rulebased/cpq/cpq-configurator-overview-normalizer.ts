@@ -43,7 +43,7 @@ export class CpqConfiguratorOverviewNormalizer
         attribute: undefined,
         value: ovValue.value,
         productCode: ovValue.productCode,
-        type: attr.isLineItem
+        type: ovValue.productCode
           ? Configurator.AttributeOverviewType.BUNDLE
           : Configurator.AttributeOverviewType.GENERAL,
       });
