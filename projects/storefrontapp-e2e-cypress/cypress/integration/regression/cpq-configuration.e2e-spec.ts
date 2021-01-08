@@ -25,7 +25,7 @@ const STARB_MODE = '8845'; // STARB_MODE
 // List of groups
 const MAIN_COMPONENTS = 'Main Components';
 const ACCESSORIES = 'Accessories';
-const INSURANCE_AND_WARRANTY = 'Insurance'; // full name is 'Insurance and Warranty', but might be cropped
+const INSURANCE_AND_WARRANTY = 'Insurance and Warranty';
 
 // List of attributes
 const attributeHeaders = {
@@ -141,7 +141,7 @@ context('CPQ Configuration', () => {
           configuration.checkPreviousBtnDisabled();
           configuration.checkNextBtnEnabled();
 
-          configuration.waitForProductCardsLoad();
+          configuration.waitForProductCardsLoad(9);
 
           configuration.clickOnNextBtn(ACCESSORIES);
           configuration.checkPreviousBtnEnabled();
@@ -151,7 +151,11 @@ context('CPQ Configuration', () => {
           configuration.checkPreviousBtnEnabled();
           configuration.checkNextBtnDisabled();
 
+          configuration.waitForProductCardsLoad(13);
+
           configuration.clickOnPreviousBtn(ACCESSORIES);
+
+          configuration.waitForProductCardsLoad(9);
         });
     });
 

@@ -1116,7 +1116,6 @@ export function login(email: string, password: string, name: string): void {
  *
  * @export
  */
-export function waitForProductCardsLoad() {
-  cy.get('.cx-product-card').should('have.length', 9);
-  cy.get('.cx-product-card-action button:contains("Remove")');
+export function waitForProductCardsLoad(expectedLength: number) {
+  cy.get('.cx-product-card').should('have.length', expectedLength);
 }
