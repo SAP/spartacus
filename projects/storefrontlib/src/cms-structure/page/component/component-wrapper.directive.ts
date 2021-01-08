@@ -43,10 +43,10 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     protected vcr: ViewContainerRef,
     protected cmsComponentsService: CmsComponentsService,
     protected injector: Injector,
+    protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
     protected componentHandler: ComponentHandlerService,
-    protected cmsInjector: CmsInjectorService,
-    protected dynamicAttributeService?: DynamicAttributeService
+    protected cmsInjector: CmsInjectorService
   ) {}
 
   ngOnInit() {

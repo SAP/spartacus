@@ -8,7 +8,6 @@ import { Page } from '../model/page.model';
 })
 export abstract class HtmlBodyDecorator implements Applicable {
   protected renderer: Renderer2;
-
   protected element: Element;
 
   constructor(rendererFactory: RendererFactory2, winRef: WindowRef) {
