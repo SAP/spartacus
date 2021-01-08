@@ -23,10 +23,18 @@ export class OccSitesConfigLoader {
     return `${this.baseEndpoint}${this.endpoint}`;
   }
 
+  private validatePrefixConfig() {
+    if (!this.config.backend?.occ?.prefix?.startsWith('/')) {
+      this.config.backend.occ.prefix = '/' + this.config.backend.occ.prefix;
+    }
+  }
+
   load(): Observable<BaseSite[]> {
     if (!this.config || !this.config.backend || !this.config.backend.occ) {
       return throwError(new Error(`Missing config for OCC backend!`));
     }
+
+    this.validatePrefixConfig();
 
     return this.http
       .get<Occ.BaseSites>(this.url)

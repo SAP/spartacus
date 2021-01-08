@@ -55,6 +55,13 @@ describe('OccEndpointsService', () => {
     );
   });
 
+  it('should return raw endpoint value', () => {
+    const occ = mockOccConfig.backend.occ;
+    expect(service.getRawEndpointValue('asmCustomerSearch')).toEqual(
+      occ.endpoints['asmCustomerSearch'].toString()
+    );
+  });
+
   it('should return occ endpoint', () => {
     const occ = mockOccConfig.backend.occ;
     expect(service.getOccEndpoint('asmCustomerSearch')).toEqual(
@@ -205,7 +212,7 @@ describe('OccEndpointsService', () => {
 
   describe('getOccUrl', () => {
     it('should return endpoint from config', () => {
-      const url = service.getOccUrl('product');
+      const url = service.getOccUrlFromConfiguration('product');
 
       expect(url).toEqual(
         baseEndpoint + '/configured-endpoint1/${test}?fields=abc'
@@ -214,7 +221,9 @@ describe('OccEndpointsService', () => {
 
     describe('using scope', () => {
       it('should return endpoint from config', () => {
-        const url = service.getOccUrl('product', { scope: 'test' });
+        const url = service.getOccUrlFromConfiguration('product', {
+          scope: 'test',
+        });
 
         expect(url).toEqual(
           baseEndpoint + '/configured-endpoint1/${test}?fields=test'
@@ -222,7 +231,7 @@ describe('OccEndpointsService', () => {
       });
 
       it('should fallback to default scope', () => {
-        const url = service.getOccUrl('product', {
+        const url = service.getOccUrlFromConfiguration('product', {
           scope: 'test-non-existing',
         });
 
@@ -235,7 +244,7 @@ describe('OccEndpointsService', () => {
         const config = TestBed.inject(OccConfig);
         delete config.backend.occ.endpoints.product;
 
-        const url = service.getOccUrl('product', {
+        const url = service.getOccUrlFromConfiguration('product', {
           scope: 'test-non-existing',
         });
 
@@ -247,7 +256,7 @@ describe('OccEndpointsService', () => {
         config.backend.occ.endpoints.product =
           'configured-endpoint1/${test}?fields=fallback';
 
-        const url = service.getOccUrl('product', {
+        const url = service.getOccUrlFromConfiguration('product', {
           scope: 'test-non-existing',
         });
 
@@ -258,7 +267,7 @@ describe('OccEndpointsService', () => {
     });
 
     it('should apply parameters to configured endpoint', () => {
-      const url = service.getOccUrl('product', {
+      const url = service.getOccUrlFromConfiguration('product', {
         urlParams: { test: 'test-value' },
       });
       expect(url).toEqual(
@@ -267,7 +276,7 @@ describe('OccEndpointsService', () => {
     });
 
     it('should add query parameters to configured endpoint', () => {
-      const url = service.getOccUrl('product', {
+      const url = service.getOccUrlFromConfiguration('product', {
         urlParams: { test: 'test-value' },
         queryParams: { param: 'test-param' },
       });
@@ -279,7 +288,7 @@ describe('OccEndpointsService', () => {
     });
 
     it('should allow to redefine preconfigured query parameters', () => {
-      const url = service.getOccUrl('product', {
+      const url = service.getOccUrlFromConfiguration('product', {
         urlParams: { test: 'test-value' },
         queryParams: { fields: 'xyz' },
       });
@@ -290,7 +299,7 @@ describe('OccEndpointsService', () => {
     });
 
     it('should allow to remove preconfigured query parameters', () => {
-      const url = service.getOccUrl('product', {
+      const url = service.getOccUrlFromConfiguration('product', {
         urlParams: { test: 'test-value' },
         queryParams: { fields: null },
       });
@@ -299,7 +308,7 @@ describe('OccEndpointsService', () => {
     });
 
     it('should escape special characters passed in url params', () => {
-      const url = service.getOccUrl('product', {
+      const url = service.getOccUrlFromConfiguration('product', {
         urlParams: { test: 'ąćę$%' },
         queryParams: { fields: null },
       });
@@ -310,7 +319,7 @@ describe('OccEndpointsService', () => {
     });
 
     it('should escape query parameters', () => {
-      const url = service.getOccUrl('product', {
+      const url = service.getOccUrlFromConfiguration('product', {
         urlParams: { test: 'test-value' },
         queryParams: { fields: '+./.\\.,.?' },
       });

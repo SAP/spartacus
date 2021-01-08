@@ -15,8 +15,8 @@ import { User } from '../../../model/misc.model';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 import { ConverterService } from '../../../util/converter.service';
 import {
+  BaseOccUrlProperties,
   DynamicAttributes,
-  EndpointComponents,
   OccEndpointsService,
 } from '../../services';
 import { OccAsmAdapter } from './occ-asm.adapter';
@@ -50,11 +50,11 @@ class MockBaseSiteService {
   }
 }
 
-class MockOccEndpointsService {
-  getOccUrl(
+class MockOccEndpointsService implements Partial<OccEndpointsService> {
+  getOccUrlFromConfiguration(
     endpoint: string,
     _attributes?: DynamicAttributes,
-    _endpointsComponents?: EndpointComponents
+    _endpointsComponents?: BaseOccUrlProperties
   ): string {
     return endpoint;
   }
@@ -116,7 +116,7 @@ describe('OccAsmAdapter', () => {
     expect(converterService.pipeable).toHaveBeenCalledWith(
       CUSTOMER_SEARCH_PAGE_NORMALIZER
     );
-    expect(occEnpointsService.getOccUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.getOccUrlFromConfiguration).toHaveBeenCalledWith(
       'asmCustomerSearch',
       {},
       { baseUrl: true }
@@ -145,7 +145,7 @@ describe('OccAsmAdapter', () => {
     expect(converterService.pipeable).toHaveBeenCalledWith(
       CUSTOMER_SEARCH_PAGE_NORMALIZER
     );
-    expect(occEnpointsService.getOccUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.getOccUrlFromConfiguration).toHaveBeenCalledWith(
       'asmCustomerSearch',
       {},
       { baseUrl: true }
@@ -179,7 +179,7 @@ describe('OccAsmAdapter', () => {
     expect(converterService.pipeable).toHaveBeenCalledWith(
       CUSTOMER_SEARCH_PAGE_NORMALIZER
     );
-    expect(occEnpointsService.getOccUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.getOccUrlFromConfiguration).toHaveBeenCalledWith(
       'asmCustomerSearch',
       {},
       { baseUrl: true }
