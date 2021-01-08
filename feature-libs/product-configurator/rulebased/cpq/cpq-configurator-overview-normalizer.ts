@@ -21,7 +21,7 @@ export class CpqConfiguratorOverviewNormalizer
     return resultTarget;
   }
 
-  convertTab(tab: Cpq.Tab): Configurator.GroupOverview {
+  protected convertTab(tab: Cpq.Tab): Configurator.GroupOverview {
     return {
       id: tab.id.toString(),
       groupDescription: tab.name,
@@ -31,7 +31,9 @@ export class CpqConfiguratorOverviewNormalizer
     };
   }
 
-  convertAttribute(attr: Cpq.Attribute): Configurator.AttributeOverview {
+  protected convertAttribute(
+    attr: Cpq.Attribute
+  ): Configurator.AttributeOverview {
     return {
       attribute: attr.name,
       value: this.convertAttributeValue(attr),

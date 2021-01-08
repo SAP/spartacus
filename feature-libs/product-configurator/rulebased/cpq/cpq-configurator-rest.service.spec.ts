@@ -4,11 +4,7 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import {
-  Converter,
-  ConverterService,
-  OccEndpointsService,
-} from '@spartacus/core';
+import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
 import { Configurator } from '../core/model/configurator.model';
 import { CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT } from '../root/interceptor/cpq-configurator-rest.interceptor';
@@ -97,20 +93,6 @@ const updateValue: Cpq.UpdateValue = {
   quantity: 5,
 };
 
-let lastConverterInput: Cpq.Configuration;
-
-/** Dummy converter to intercept the converter input */
-class DummyOvConverter
-  implements Converter<Cpq.Configuration, Configurator.Overview> {
-  constructor() {}
-  convert(
-    source: Cpq.Configuration,
-    target?: Configurator.Overview
-  ): Configurator.Overview {
-    lastConverterInput = source;
-    return { ...target };
-  }
-}
 describe('CpqConfiguratorRestService', () => {
   let serviceUnderTest: CpqConfiguratorRestService;
   let httpMock: HttpTestingController;
@@ -122,11 +104,6 @@ describe('CpqConfiguratorRestService', () => {
       providers: [
         CpqConfiguratorRestAdapter,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
-        {
-          provide: CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER,
-          useClass: DummyOvConverter,
-          multi: true,
-        },
       ],
     });
 
@@ -141,7 +118,6 @@ describe('CpqConfiguratorRestService', () => {
     serviceUnderTest = TestBed.inject(
       CpqConfiguratorRestService as Type<CpqConfiguratorRestService>
     );
-    lastConverterInput = undefined;
   });
 
   afterEach(() => {
@@ -181,13 +157,10 @@ describe('CpqConfiguratorRestService', () => {
     mockDisplayConfig();
   });
 
-  it('should read overview and call normalizer', () => {
-    spyOn(converterService, 'pipeable').and.callThrough();
-    serviceUnderTest.readConfigurationOverview(configId).subscribe((config) => {
-      expect(config.configId).toEqual(configId);
-      expect(converterService.pipeable).toHaveBeenCalledWith(
-        CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER
-      );
+  it('should read all tabs individually for OV and merge results', () => {
+    serviceUnderTest['getConfigurationWithAllTabsAndAttribues'](
+      configId
+    ).subscribe((mergedConfig) => {
       const expectedInput: Cpq.Configuration = {
         ...configResponseTab1,
         attributes: undefined,
@@ -206,7 +179,7 @@ describe('CpqConfiguratorRestService', () => {
           },
         ],
       };
-      expect(lastConverterInput).toEqual(expectedInput);
+      expect(mergedConfig).toEqual(expectedInput);
     });
 
     mockDisplayConfig();
@@ -214,13 +187,10 @@ describe('CpqConfiguratorRestService', () => {
     mockDisplayConfigWithTabId('3');
   });
 
-  it('should read overview and call normalizer for config with only one group', () => {
-    spyOn(converterService, 'pipeable').and.callThrough();
-    serviceUnderTest.readConfigurationOverview(configId).subscribe((config) => {
-      expect(config.configId).toEqual(configId);
-      expect(converterService.pipeable).toHaveBeenCalledWith(
-        CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER
-      );
+  it('should read all tabs individually for OV and merge results for only one group', () => {
+    serviceUnderTest['getConfigurationWithAllTabsAndAttribues'](
+      configId
+    ).subscribe((mergedConfig) => {
       const expectedInput: Cpq.Configuration = {
         ...configResponseOnlyOneTab,
         attributes: undefined,
@@ -231,9 +201,20 @@ describe('CpqConfiguratorRestService', () => {
           },
         ],
       };
-      expect(lastConverterInput).toEqual(expectedInput);
+      expect(mergedConfig).toEqual(expectedInput);
     });
 
+    mockDisplayConfig(configResponseOnlyOneTab);
+  });
+
+  it('should read overview and call normalizer for config with only one group', () => {
+    spyOn(converterService, 'pipeable').and.callThrough();
+    serviceUnderTest.readConfigurationOverview(configId).subscribe((config) => {
+      expect(config.configId).toEqual(configId);
+      expect(converterService.pipeable).toHaveBeenCalledWith(
+        CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER
+      );
+    });
     mockDisplayConfig(configResponseOnlyOneTab);
   });
 

@@ -101,7 +101,6 @@ export class CpqConfiguratorRestService {
         return forkJoin(tabRequests);
       }),
       map(this.mergeTabResults)
-      //tap((resultConfiguration) => console.info(resultConfiguration))
     );
   }
 
