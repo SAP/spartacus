@@ -40,6 +40,7 @@ describe('CpqConfiguratorRestAdapter', () => {
       'readConfiguration',
       'updateAttribute',
       'updateValueQuantity',
+      'readConfigurationOverview',
     ]);
 
     asSpy(mockedRestService.createConfiguration).and.callFake(() => {
@@ -54,6 +55,9 @@ describe('CpqConfiguratorRestAdapter', () => {
       return of(productConfiguration);
     });
     asSpy(mockedRestService.updateValueQuantity).and.callFake(() => {
+      return of(productConfiguration);
+    });
+    asSpy(mockedRestService.readConfigurationOverview).and.callFake(() => {
       return of(productConfiguration);
     });
 
@@ -133,6 +137,17 @@ describe('CpqConfiguratorRestAdapter', () => {
         expect(mockedRestService.updateValueQuantity).toHaveBeenCalledWith(
           inputForUpdateConfiguration
         );
+      });
+  });
+
+  it('should delegate read configuration overview to rest service', () => {
+    adapterUnderTest
+      .getConfigurationOverview(productConfiguration.configId)
+      .subscribe((config) => {
+        expect(config.configId).toEqual(configId);
+        expect(
+          mockedRestService.readConfigurationOverview
+        ).toHaveBeenCalledWith(productConfiguration.configId);
       });
   });
 });
