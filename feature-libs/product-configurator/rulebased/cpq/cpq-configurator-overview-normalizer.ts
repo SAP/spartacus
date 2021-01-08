@@ -67,26 +67,29 @@ export class CpqConfiguratorOverviewNormalizer
       case Cpq.DisplayAs.DROPDOWN:
         const selectedValue = attr.values?.find((val) => val.selected);
         if (selectedValue) {
-          ovValues.push({
-            value: selectedValue.valueDisplay,
-            productCode: selectedValue.productSystemId,
-          });
+          ovValues.push(this.extractOvValue(selectedValue));
         }
         break;
       case Cpq.DisplayAs.CHECK_BOX:
         attr.values
           ?.filter((val) => val.selected)
           ?.forEach((valueSelected) => {
-            ovValues.push({
-              value: valueSelected.valueDisplay,
-              productCode: valueSelected.productSystemId,
-            });
+            ovValues.push(this.extractOvValue(valueSelected));
           });
         break;
       default:
         ovValues.push({ value: 'NOT_IMPLEMENTED' });
     }
     return ovValues;
+  }
+
+  protected extractOvValue(
+    valueSelected: Cpq.Value
+  ): { value: string; productCode?: string } {
+    return {
+      value: valueSelected.valueDisplay,
+      productCode: valueSelected.productSystemId,
+    };
   }
 
   protected calculateTotalNumberOfIssues(source: Cpq.Configuration): number {
