@@ -138,23 +138,21 @@ context('CPQ Configuration', () => {
       configuration
         .goToConfigurationPage(powertoolsShop, testProduct, 'cpq')
         .then(() => {
+          configuration.waitForProductCardsLoad(9);
           configuration.checkPreviousBtnDisabled();
           configuration.checkNextBtnEnabled();
 
-          configuration.waitForProductCardsLoad(9);
-
           configuration.clickOnNextBtn(ACCESSORIES);
+          configuration.waitForProductCardsLoad(13);
           configuration.checkPreviousBtnEnabled();
           configuration.checkNextBtnEnabled();
 
           configuration.clickOnNextBtn(INSURANCE_AND_WARRANTY);
+          configuration.waitForProductCardsLoad(0);
           configuration.checkPreviousBtnEnabled();
           configuration.checkNextBtnDisabled();
 
-          configuration.waitForProductCardsLoad(13);
-
           configuration.clickOnPreviousBtn(ACCESSORIES);
-
           configuration.waitForProductCardsLoad(9);
         });
     });
