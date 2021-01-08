@@ -1,5 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { Configurator } from '../core/model/configurator.model';
 import { CpqConfiguratorOverviewNormalizer } from './cpq-configurator-overview-normalizer';
 import { Cpq } from './cpq.models';
 
@@ -26,15 +27,30 @@ const input: Cpq.Configuration = {
 };
 
 const singleSelectionValues: Cpq.Value[] = [
-  { paV_ID: 1, productSystemId: 'another value', selected: false },
-  { paV_ID: 2, productSystemId: 'selected value', selected: true },
-  { paV_ID: 3, productSystemId: 'yet another value', selected: false },
+  { paV_ID: 1, valueDisplay: 'another value', selected: false },
+  { paV_ID: 2, valueDisplay: 'selected value', selected: true },
+  { paV_ID: 3, valueDisplay: 'yet another value', selected: false },
 ];
 
 const singleSelectionProductValues: Cpq.Value[] = [
-  { paV_ID: 1, productSystemId: 'another product', selected: false },
-  { paV_ID: 2, productSystemId: 'selected product', selected: true },
-  { paV_ID: 3, productSystemId: 'yet another product', selected: false },
+  {
+    paV_ID: 1,
+    valueDisplay: 'another product',
+    productSystemId: 'pCode1',
+    selected: false,
+  },
+  {
+    paV_ID: 2,
+    valueDisplay: 'selected product',
+    productSystemId: 'pCode2',
+    selected: true,
+  },
+  {
+    paV_ID: 3,
+    valueDisplay: 'yet another product',
+    productSystemId: 'pCode3',
+    selected: false,
+  },
 ];
 
 const multiSelectionValues: Cpq.Value[] = [
@@ -45,12 +61,28 @@ const multiSelectionValues: Cpq.Value[] = [
 ];
 
 const multiSelectionProductValues: Cpq.Value[] = [
-  { paV_ID: 1, productSystemId: 'another product', selected: false },
-  { paV_ID: 2, productSystemId: 'selected product', selected: true },
-  { paV_ID: 3, productSystemId: 'yet another product', selected: false },
+  {
+    paV_ID: 1,
+    valueDisplay: 'another product',
+    productSystemId: 'pCode1',
+    selected: false,
+  },
+  {
+    paV_ID: 2,
+    valueDisplay: 'selected product',
+    productSystemId: 'pCode2',
+    selected: true,
+  },
+  {
+    paV_ID: 3,
+    valueDisplay: 'yet another product',
+    productSystemId: 'pCode3',
+    selected: false,
+  },
   {
     paV_ID: 4,
-    productSystemId: 'another selected product',
+    valueDisplay: 'another selected product',
+    productSystemId: 'pCode4',
     selected: true,
   },
 ];
@@ -101,69 +133,104 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
   });
 
   it('should map attribute name', () => {
-    expect(serviceUnderTest['convertAttribute'](attr).attribute).toEqual(
+    expect(serviceUnderTest['convertAttribute'](attr)[0].attribute).toEqual(
       ATTR_NAME
+    );
+  });
+
+  it('should map attribute name only for first value', () => {
+    attr.values = multiSelectionValues;
+    attr.displayAs = Cpq.DisplayAs.CHECK_BOX;
+    const ovAttrs = serviceUnderTest['convertAttribute'](attr);
+    expect(ovAttrs[0].attribute).toEqual(ATTR_NAME);
+    expect(ovAttrs[1].attribute).toBeUndefined();
+  });
+
+  it('should map attribute type GENREAL', () => {
+    attr.values = singleSelectionValues;
+    expect(serviceUnderTest['convertAttribute'](attr)[0].type).toEqual(
+      Configurator.AttributeOverviewType.GENERAL
+    );
+  });
+
+  it('should map attribute type BUNDLE', () => {
+    attr.values = singleSelectionProductValues;
+    expect(serviceUnderTest['convertAttribute'](attr)[0].type).toEqual(
+      Configurator.AttributeOverviewType.BUNDLE
     );
   });
 
   it('should map user input as attribute value', () => {
     attr.userInput = 'input';
     attr.displayAs = Cpq.DisplayAs.INPUT;
-    expect(serviceUnderTest['convertAttribute'](attr).value).toEqual('input');
+    const ovAttrs = serviceUnderTest['convertAttribute'](attr);
+    expect(ovAttrs.length).toBe(1);
+    expect(ovAttrs[0].value).toEqual('input');
+    expect(ovAttrs[0].productCode).toBeUndefined();
   });
 
   it('should map RB selected value', () => {
     attr.values = singleSelectionValues;
     attr.displayAs = Cpq.DisplayAs.RADIO_BUTTON;
-    expect(serviceUnderTest['convertAttribute'](attr).value).toEqual(
-      'selected value'
-    );
+    const ovAttrs = serviceUnderTest['convertAttribute'](attr);
+    expect(ovAttrs.length).toBe(1);
+    expect(ovAttrs[0].value).toEqual('selected value');
+    expect(ovAttrs[0].productCode).toBeUndefined();
   });
 
   it('should map RB selected product', () => {
     attr.values = singleSelectionProductValues;
     attr.displayAs = Cpq.DisplayAs.RADIO_BUTTON;
-    expect(serviceUnderTest['convertAttribute'](attr).value).toEqual(
-      'selected product'
-    );
+    const ovAttrs = serviceUnderTest['convertAttribute'](attr);
+    expect(ovAttrs.length).toBe(1);
+    expect(ovAttrs[0].value).toEqual('selected product');
+    expect(ovAttrs[0].productCode).toEqual('pCode2');
   });
 
   it('should map ReadOnly selected value', () => {
     attr.values = singleSelectionValues;
     attr.displayAs = Cpq.DisplayAs.READ_ONLY;
-    expect(serviceUnderTest['convertAttribute'](attr).value).toEqual(
-      'selected value'
-    );
+    const ovAttrs = serviceUnderTest['convertAttribute'](attr);
+    expect(ovAttrs.length).toBe(1);
+    expect(ovAttrs[0].value).toEqual('selected value');
+    expect(ovAttrs[0].productCode).toBeUndefined();
   });
 
   it('should map DDLB selected value', () => {
     attr.values = singleSelectionValues;
     attr.displayAs = Cpq.DisplayAs.DROPDOWN;
-    expect(serviceUnderTest['convertAttribute'](attr).value).toEqual(
-      'selected value'
-    );
+    const ovAttrs = serviceUnderTest['convertAttribute'](attr);
+    expect(ovAttrs.length).toBe(1);
+    expect(ovAttrs[0].value).toEqual('selected value');
+    expect(ovAttrs[0].productCode).toBeUndefined();
   });
 
   it('should map CHECK_BOX selected values', () => {
     attr.values = multiSelectionValues;
     attr.displayAs = Cpq.DisplayAs.CHECK_BOX;
-    expect(serviceUnderTest['convertAttribute'](attr).value).toEqual(
-      'selected value, another selected value'
-    );
+    const ovAttrs = serviceUnderTest['convertAttribute'](attr);
+    expect(ovAttrs.length).toBe(2);
+    expect(ovAttrs[0].value).toEqual('selected value');
+    expect(ovAttrs[1].value).toEqual('another selected value');
+    expect(ovAttrs[0].productCode).toBeUndefined();
+    expect(ovAttrs[1].productCode).toBeUndefined();
   });
 
   it('should map CHECK_BOX selected products', () => {
     attr.values = multiSelectionProductValues;
     attr.displayAs = Cpq.DisplayAs.CHECK_BOX;
-    expect(serviceUnderTest['convertAttribute'](attr).value).toEqual(
-      'selected product, another selected product'
-    );
+    const ovAttrs = serviceUnderTest['convertAttribute'](attr);
+    expect(ovAttrs.length).toBe(2);
+    expect(ovAttrs[0].value).toEqual('selected product');
+    expect(ovAttrs[1].value).toEqual('another selected product');
+    expect(ovAttrs[0].productCode).toEqual('pCode2');
+    expect(ovAttrs[1].productCode).toEqual('pCode4');
   });
 
   it('should map LIST_BOX as not implemented', () => {
     attr.values = multiSelectionValues;
     attr.displayAs = Cpq.DisplayAs.LIST_BOX;
-    expect(serviceUnderTest['convertAttribute'](attr).value).toEqual(
+    expect(serviceUnderTest['convertAttribute'](attr)[0].value).toEqual(
       'NOT_IMPLEMENTED'
     );
   });
@@ -171,7 +238,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
   it('should map LIST_BOX_MULTI as not implemented', () => {
     attr.values = multiSelectionValues;
     attr.displayAs = Cpq.DisplayAs.LIST_BOX_MULTI;
-    expect(serviceUnderTest['convertAttribute'](attr).value).toEqual(
+    expect(serviceUnderTest['convertAttribute'](attr)[0].value).toEqual(
       'NOT_IMPLEMENTED'
     );
   });
@@ -179,7 +246,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
   it('should map AUTO_COMPLETE_CUSTOM as not implemented', () => {
     attr.values = multiSelectionValues;
     attr.displayAs = Cpq.DisplayAs.AUTO_COMPLETE_CUSTOM;
-    expect(serviceUnderTest['convertAttribute'](attr).value).toEqual(
+    expect(serviceUnderTest['convertAttribute'](attr)[0].value).toEqual(
       'NOT_IMPLEMENTED'
     );
   });

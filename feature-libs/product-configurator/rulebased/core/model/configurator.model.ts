@@ -92,6 +92,8 @@ export namespace Configurator {
   export interface AttributeOverview {
     attribute: string;
     value: string;
+    productCode?: string;
+    type?: AttributeOverviewType;
   }
 
   export interface PriceSummary {
@@ -186,5 +188,10 @@ export namespace Configurator {
     ATTRIBUTE = 'Attribute',
     ATTRIBUTE_QUANTITY = 'AttributeQuantity',
     VALUE_QUANTITY = 'ValueQuantity',
+  }
+
+  export enum AttributeOverviewType {
+    GENERAL = 'general',
+    BUNDLE = 'bundle',
   }
 }

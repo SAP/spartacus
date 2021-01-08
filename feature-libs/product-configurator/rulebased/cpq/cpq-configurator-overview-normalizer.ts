@@ -22,57 +22,74 @@ export class CpqConfiguratorOverviewNormalizer
   }
 
   protected convertTab(tab: Cpq.Tab): Configurator.GroupOverview {
+    let ovAttributes = [];
+    tab.attributes?.forEach((attr) => {
+      ovAttributes = ovAttributes.concat(this.convertAttribute(attr));
+    });
+
     return {
       id: tab.id.toString(),
       groupDescription: tab.name,
-      attributes: tab.attributes?.flatMap((attr) =>
-        this.convertAttribute(attr)
-      ),
+      attributes: ovAttributes,
     };
   }
 
   protected convertAttribute(
     attr: Cpq.Attribute
-  ): Configurator.AttributeOverview {
-    return {
-      attribute: attr.name,
-      value: this.convertAttributeValue(attr),
-    };
+  ): Configurator.AttributeOverview[] {
+    const ovAttr: Configurator.AttributeOverview[] = [];
+    this.convertAttributeValue(attr).forEach((ovValue) => {
+      ovAttr.push({
+        attribute: undefined,
+        value: ovValue.value,
+        productCode: ovValue.productCode,
+        type: ovValue.productCode
+          ? Configurator.AttributeOverviewType.BUNDLE
+          : Configurator.AttributeOverviewType.GENERAL,
+      });
+    });
+    if (ovAttr.length > 0) {
+      ovAttr[0].attribute = attr.name;
+    }
+    return ovAttr;
   }
 
-  protected convertAttributeValue(attr: Cpq.Attribute): string {
-    let ovValue;
+  protected convertAttributeValue(
+    attr: Cpq.Attribute
+  ): { value: string; productCode?: string }[] {
+    const ovValues: { value: string; productCode?: string }[] = [];
     switch (attr.displayAs) {
       case Cpq.DisplayAs.INPUT:
-        ovValue = attr.userInput;
+        ovValues.push({ value: attr.userInput });
         break;
       case Cpq.DisplayAs.RADIO_BUTTON:
       case Cpq.DisplayAs.READ_ONLY:
       case Cpq.DisplayAs.DROPDOWN:
-        ovValue = this.getProductOrDisplayValue(
-          attr.values?.find((val) => val.selected)
-        );
+        const selectedValue = attr.values?.find((val) => val.selected);
+        if (selectedValue) {
+          ovValues.push(this.extractOvValue(selectedValue));
+        }
         break;
       case Cpq.DisplayAs.CHECK_BOX:
-        const OV_VALUE_SEP = ', ';
         attr.values
           ?.filter((val) => val.selected)
-          ?.forEach((val) => {
-            ovValue = ovValue
-              ? ovValue + OV_VALUE_SEP + this.getProductOrDisplayValue(val)
-              : this.getProductOrDisplayValue(val);
+          ?.forEach((valueSelected) => {
+            ovValues.push(this.extractOvValue(valueSelected));
           });
         break;
       default:
-        ovValue = 'NOT_IMPLEMENTED';
+        ovValues.push({ value: 'NOT_IMPLEMENTED' });
     }
-    return ovValue;
+    return ovValues;
   }
 
-  protected getProductOrDisplayValue(selectedValue: Cpq.Value): any {
-    return selectedValue?.productSystemId
-      ? selectedValue?.productSystemId
-      : selectedValue?.valueDisplay;
+  protected extractOvValue(
+    valueSelected: Cpq.Value
+  ): { value: string; productCode?: string } {
+    return {
+      value: valueSelected.valueDisplay,
+      productCode: valueSelected.productSystemId,
+    };
   }
 
   protected calculateTotalNumberOfIssues(source: Cpq.Configuration): number {
