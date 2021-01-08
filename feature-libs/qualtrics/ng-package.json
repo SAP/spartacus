@@ -4,7 +4,8 @@
   "lib": {
     "entryFile": "./public_api.ts",
     "umdModuleIds": {
-      "@spartacus/core": "core"
+      "@spartacus/core": "core",
+      "rxjs": "rxjs"
     }
   },
   "assets": ["**/*.scss", "schematics/**/*.json", "schematics/**/*.js"]

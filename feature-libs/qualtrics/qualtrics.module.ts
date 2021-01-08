@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import { QualtricsComponentsModule } from '@spartacus/qualtrics/components';
-import { QualtricsConfig } from './components/qualtrics-loader';
+import {
+  QualtricsComponentsModule,
+  QualtricsConfig,
+} from '@spartacus/qualtrics/components';
 
 @NgModule({
   imports: [QualtricsComponentsModule],

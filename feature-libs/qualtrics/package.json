@@ -1,7 +1,7 @@
 {
   "name": "@spartacus/qualtrics",
-  "version": "3.0.0",
-  "description": "Organization library for Spartacus",
+  "version": "3.1.0",
+  "description": "Qualtrics library for Spartacus",
   "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
     "spartacus",
