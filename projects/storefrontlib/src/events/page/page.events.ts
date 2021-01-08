@@ -5,6 +5,7 @@ import { PageContext } from '@spartacus/core';
  * Indicates that a user visited an arbitrary page.
  */
 export class PageEvent {
+  static type = 'PageEvent';
   context: PageContext;
   semanticRoute?: string;
   url: string;
@@ -14,4 +15,6 @@ export class PageEvent {
 /**
  * Indicates that a user visited the home page.
  */
-export class HomePageEvent extends PageEvent {}
+export class HomePageEvent extends PageEvent {
+  static type = 'HomePageEvent';
+}

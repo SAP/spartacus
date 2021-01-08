@@ -24,11 +24,11 @@ export class GoogleTagManagerService {
       this.eventsService
         .get(TmsEvent)
         .pipe(tap((x) => console.log('xxx: ', x)))
-        .subscribe((tmsEvent) => this.push(tmsEvent))
+        .subscribe((tmsEvent) => this.addToTms(tmsEvent))
     );
   }
 
-  protected push(data: any): void {
+  protected addToTms(data: any): void {
     this.window.dataLayer.push(data);
   }
 
