@@ -25,7 +25,7 @@ const STARB_MODE = '8845'; // STARB_MODE
 // List of groups
 const MAIN_COMPONENTS = 'Main Components';
 const ACCESSORIES = 'Accessories';
-const INSURANCE_AND_WARRANTY = 'Insurance and Warranty';
+const INSURANCE_AND_WARRANTY = 'Insurance'; // full name is 'Insurance and Warranty', but might be cropped
 
 // List of attributes
 const attributeHeaders = {
