@@ -127,4 +127,29 @@ describe('BudgetFormComponent', () => {
     fixture.detectChanges();
     expect(b2bUnitService.loadList).toHaveBeenCalled();
   });
+
+  describe('createCodeWithName', () => {
+    it('should set code field value if empty based on provided name value', () => {
+      mockForm.get('name').patchValue('Unit Test Value');
+      mockForm.get('code').patchValue(undefined);
+      component.form = mockForm;
+      component.createCodeWithName(
+        component.form.get('name'),
+        component.form.get('code')
+      );
+
+      expect(component.form.get('code').value).toEqual('unit-test-value');
+    });
+    it('should prevent setting code if value is provided for this field', () => {
+      mockForm.get('name').patchValue('Unit Test Value');
+      mockForm.get('code').patchValue('test code');
+      component.form = mockForm;
+      component.createCodeWithName(
+        component.form.get('name'),
+        component.form.get('code')
+      );
+
+      expect(component.form.get('code').value).toEqual('test code');
+    });
+  });
 });
