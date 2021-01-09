@@ -163,29 +163,17 @@ context('CPQ Configuration', () => {
         .then(() => {
           configuration.waitForProductCardsLoad(9);
 
-          configuration
-            .getNthGroupMenu(2)
-            .click()
-            .then(() => {
-              configuration.waitForProductCardsLoad(0);
-              configuration.checkCurrentGroupActive(INSURANCE_AND_WARRANTY);
+          configuration.clickOnGroup(2);
+          configuration.waitForProductCardsLoad(0);
+          configuration.checkCurrentGroupActive(INSURANCE_AND_WARRANTY);
 
-              configuration
-                .getNthGroupMenu(1)
-                .click()
-                .then(() => {
-                  configuration.waitForProductCardsLoad(13);
-                  configuration.checkCurrentGroupActive(ACCESSORIES);
+          configuration.clickOnGroup(1);
+          configuration.waitForProductCardsLoad(13);
+          configuration.checkCurrentGroupActive(ACCESSORIES);
 
-                  configuration
-                    .getNthGroupMenu(0)
-                    .click()
-                    .then(() => {
-                      configuration.waitForProductCardsLoad(9);
-                      configuration.checkCurrentGroupActive(MAIN_COMPONENTS);
-                    });
-                });
-            });
+          configuration.clickOnGroup(0);
+          configuration.waitForProductCardsLoad(9);
+          configuration.checkCurrentGroupActive(MAIN_COMPONENTS);
         });
     });
 
