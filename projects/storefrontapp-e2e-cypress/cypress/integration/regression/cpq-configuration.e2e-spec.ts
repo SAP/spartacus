@@ -163,13 +163,13 @@ context('CPQ Configuration', () => {
         .then(() => {
           configuration.waitForProductCardsLoad(9);
 
-          configuration.getNthGroupMenu(1).click();
-          configuration.waitForProductCardsLoad(13);
-          configuration.checkCurrentGroupActive(ACCESSORIES);
-
           configuration.getNthGroupMenu(2).click();
           configuration.waitForProductCardsLoad(0);
           configuration.checkCurrentGroupActive(INSURANCE_AND_WARRANTY);
+
+          configuration.getNthGroupMenu(1).click();
+          configuration.waitForProductCardsLoad(13);
+          configuration.checkCurrentGroupActive(ACCESSORIES);
 
           configuration.getNthGroupMenu(0).click();
           configuration.waitForProductCardsLoad(9);
