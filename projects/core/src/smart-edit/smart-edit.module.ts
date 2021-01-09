@@ -1,5 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { smartEditDecorators } from './decorators';
+import { smartEditDecorators } from './decorators/index';
 import { interceptors } from './http-interceptors/index';
 
 @NgModule({})

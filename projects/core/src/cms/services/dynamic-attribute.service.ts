@@ -12,13 +12,6 @@ import { Page } from '../model/page.model';
   providedIn: 'root',
 })
 export class DynamicAttributeService {
-  constructor(
-    smartEditService?: SmartEditService,
-    componentDecorators?: ComponentDecorator[],
-    slotDecorators?: SlotDecorator[],
-    // tslint:disable-next-line:unified-signatures
-    htmlBodyDecorators?: HtmlBodyDecorator[]
-  );
   /**
    * @deprecated since 3.0
    */
