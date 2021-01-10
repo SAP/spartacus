@@ -15,6 +15,7 @@
  */
 
 import { execSync } from 'child_process';
+import { assign, parse, stringify } from 'comment-json';
 import fs from 'fs';
 import glob from 'glob';
 import path from 'path';
@@ -39,15 +40,11 @@ function readJsonFile(path: string) {
   return JSON.parse(fs.readFileSync(path, 'utf-8'));
 }
 
-function saveJsonFile(path: string, content: Object) {
-  fs.writeFileSync(path, JSON.stringify(content, undefined, 2));
-}
-
 function setCompilerOptionsPaths(tsconfigPath: string, paths: Object) {
-  const tsConfigContent = readJsonFile(tsconfigPath);
+  const tsConfigContent = parse(fs.readFileSync(tsconfigPath, 'utf-8'));
   if (Object.keys(paths).length) {
-    tsConfigContent.compilerOptions.paths = paths;
-    saveJsonFile(tsconfigPath, tsConfigContent);
+    assign(tsConfigContent.compilerOptions, { paths });
+    fs.writeFileSync(tsconfigPath, stringify(tsConfigContent, null, 2));
   }
 }
 

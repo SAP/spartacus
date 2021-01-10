@@ -39,7 +39,7 @@ export const userGroupConfig: MyCompanyConfig = {
       sortLabel: 'unit',
       inputType: INPUT_TYPE.NG_SELECT,
       createValue: 'Custom Retail',
-      updateValue: 'Rustic',
+      updateValue: 'Rustic Retail',
       showInTable: true,
       formLabel: 'Unit',
       showInDetails: true,
