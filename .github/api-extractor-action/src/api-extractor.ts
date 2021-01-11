@@ -20,7 +20,7 @@ type SuccessStatus = {
   status: Status.Success;
 };
 
-type FailedStatus = {
+export type FailedStatus = {
   status: Status.Failed;
   errors: string[];
 };

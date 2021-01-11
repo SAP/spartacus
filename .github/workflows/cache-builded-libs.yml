@@ -8,7 +8,7 @@ on:
       - 'feature/**'
 name: Cache
 jobs:
-  buildedLibs:
+  cacheBuildedLibs:
     name: Builded libs
     runs-on: ubuntu-latest
     steps:

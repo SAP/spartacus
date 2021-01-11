@@ -1,12 +1,17 @@
 import { Context } from '@actions/github/lib/context';
 import * as fs from 'fs';
-import { EntryPoints, EntryPointStatus, Status } from './api-extractor';
+import {
+  EntryPoints,
+  EntryPointStatus,
+  FailedStatus,
+  Status,
+} from './api-extractor';
 import { BASE_BRANCH_DIR, REPORT_DIR } from './const';
 
 const diff = require('diff-lines');
 const normalizeNewline = require('normalize-newline');
 
-const COMMENT_HEADER = 'Public API changes';
+const COMMENT_HEADER = '## Public API changes';
 
 /**
  * Generates github comment content for pull request with bot results
@@ -16,9 +21,9 @@ const COMMENT_HEADER = 'Public API changes';
  */
 function generateCommentBody(
   analyzedComments: string[],
-  notAnalyzableEntryPoints: string[]
+  notAnalyzableEntryPoints: [string, string][]
 ): string {
-  return `## ${COMMENT_HEADER}\n${generateCommentForAnalyzed(
+  return `${COMMENT_HEADER}\n${generateCommentForAnalyzed(
     analyzedComments
   )}${generateCommentForNotAnalyzed(notAnalyzableEntryPoints)}`;
 }
@@ -40,25 +45,29 @@ function generateCommentForAnalyzed(comments: string[]): string {
 /**
  * Generates part of the pull request comment for not analyzed libraries
  *
- * @param notAnalyzableEntryPoints List of entry points that couldn't be analyzed
+ * @param notAnalyzableEntryPoints List of entry points with errors that couldn't be analyzed
  */
 function generateCommentForNotAnalyzed(
-  notAnalyzableEntryPoints: string[]
+  notAnalyzableEntryPoints: [string, string][]
 ): string {
   const listOfEntryPoints = notAnalyzableEntryPoints
-    .map((entryPoint: string) => `- ${entryPoint}`)
+    .map(([entryPoint, error]) => `- ${entryPoint} - \`${error}\``)
     .join('\n');
-  return `\n\n### :warning: Impossible to analyze\n${listOfEntryPoints}`;
+  return `\n\n#### :warning: Some entry points are currently impossible to analyze.
+<details>
+<summary>Read more</summary>
+${listOfEntryPoints}
+</details>`;
 }
 
 /**
  * Generate list of all entry points that could not be analyzed.
  *
- * @param entryPoints List of entry point status
+ * @param entryPoints List of entry point status with errors
  */
 function extractListOfNotAnalyzedEntryPoints(
   entryPoints: EntryPointStatus[]
-): string[] {
+): [string, string][] {
   const notAnalyzedEntryPoints = entryPoints
     .filter((entryPoint) => {
       return (
@@ -66,7 +75,14 @@ function extractListOfNotAnalyzedEntryPoints(
         entryPoint.base.status === Status.Failed
       );
     })
-    .map((entryPoints) => entryPoints.name);
+    .map((entryPoints) => {
+      const errors = (entryPoints.head as FailedStatus).errors;
+      let error = '';
+      if (errors.length > 0) {
+        error = errors[0];
+      }
+      return [entryPoints.name, error] as [string, string];
+    });
 
   return notAnalyzedEntryPoints;
 }
@@ -170,13 +186,13 @@ ${publicApi}
  * Update or create comment in the PR with API extractor result.
  *
  * @param body Content of the comment
- * @param gh Github client
+ * @param ghClient Github client
  * @param issueNumber PR number
  * @param context Context of the github action
  */
 async function printReport(
   body: string,
-  gh: any,
+  ghClient: any,
   issueNumber: number,
   context: Context
 ) {
@@ -186,25 +202,27 @@ async function printReport(
   const owner = context.payload.repository.owner.login;
   const repo = context.payload.repository.name;
 
-  const comments = await gh.issues.listComments({
+  const comments = await ghClient.issues.listComments({
     issue_number: issueNumber,
     owner,
     repo,
   });
+
+  console.log(comments);
 
   const botComment = comments.data.filter((comment: any) =>
     comment.body.includes(COMMENT_HEADER)
   );
 
   if (botComment && botComment.length) {
-    await gh.issues.updateComment({
+    await ghClient.issues.updateComment({
       comment_id: botComment[0].id,
       owner,
       repo,
       body,
     });
   } else {
-    await gh.issues.createComment({
+    await ghClient.issues.createComment({
       issue_number: issueNumber,
       owner,
       repo,
@@ -215,7 +233,7 @@ async function printReport(
 
 export async function addCommentToPR(
   entryPoints: EntryPoints,
-  gh: any,
+  ghClient: any,
   relatedPR: { number: number },
   context: Context
 ) {
@@ -231,5 +249,5 @@ export async function addCommentToPR(
     commentsForEntryPoints,
     notAnalyzedEntryPoints
   );
-  await printReport(commentBody, gh, relatedPR.number, context);
+  await printReport(commentBody, ghClient, relatedPR.number, context);
 }
