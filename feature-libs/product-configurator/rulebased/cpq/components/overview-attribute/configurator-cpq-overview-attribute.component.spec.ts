@@ -15,7 +15,7 @@ class MockProductService {
   get = () => product$.asObservable();
 }
 
-fdescribe('ConfiguratorCPQOverviewAttributeComponent', () => {
+describe('ConfiguratorCPQOverviewAttributeComponent', () => {
   let component: ConfiguratorCPQOverviewAttributeComponent;
   let fixture: ComponentFixture<ConfiguratorCPQOverviewAttributeComponent>;
 
