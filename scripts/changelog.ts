@@ -79,6 +79,7 @@ export default async function run(
     '@spartacus/organization': 'feature-libs/organization',
     '@spartacus/product': 'feature-libs/product',
     '@spartacus/storefinder': 'feature-libs/storefinder',
+    '@spartacus/asm': 'feature-libs/asm',
     '@spartacus/cdc': 'integration-libs/cdc',
     '@spartacus/setup': 'core-libs/setup',
   };

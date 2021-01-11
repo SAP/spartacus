@@ -86,6 +86,13 @@ cp "$CONFIG_PATH" ./dist/storefinder/api-extractor.json
   api-extractor run --local --verbose
 )
 
+# @spartacus/asm
+cp "$CONFIG_PATH" ./dist/asm/api-extractor.json
+(
+  cd ./dist/asm && \
+  api-extractor run --local --verbose
+)
+
 # @spartacus/setup
 cp "$CONFIG_PATH" ./dist/setup/api-extractor.json
 (
