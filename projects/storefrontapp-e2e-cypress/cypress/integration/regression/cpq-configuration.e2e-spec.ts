@@ -72,7 +72,7 @@ context('CPQ Configuration', () => {
     configuration.checkLoadingMsgNotDisplayed();
   });
 
-  xdescribe('Navigate to Product Configuration Page', () => {
+  describe('Navigate to Product Configuration Page', () => {
     it('should be able to navigate from the product search result', () => {
       cy.server();
       cy.route(
@@ -166,7 +166,7 @@ context('CPQ Configuration', () => {
     });
   });
 
-  xdescribe('Group Handling', () => {
+  describe('Group Handling', () => {
     it('should navigate with next and previous buttons', () => {
       configuration
         .goToConfigurationPage(POWERTOOLS, PROD_CODE_CAM, 'cpq')
