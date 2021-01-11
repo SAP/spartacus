@@ -1,4 +1,4 @@
-<div class="container" *ngIf="bulkPrices.length > 0">
+<div class="container" *ngIf="bulkPricesArr.length > 0">
   <table class="table" style="text-align: center">
     <thead class="thead-light">
       <tr>
@@ -8,7 +8,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let tier of bulkPrices">
+      <tr *ngFor="let tier of bulkPricesArr">
         <td>{{ tier.min }} - {{ tier.max }}</td>
         <td>{{ tier.price }}</td>
         <td>{{ tier.discount }}</td>
