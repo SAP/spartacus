@@ -5,7 +5,7 @@ import {
   AddressData,
   fillPaymentDetails,
   fillShippingAddress,
-  PaymentDetails,
+  PaymentDetails
 } from './checkout-forms';
 import { navigation } from './navigation';
 import Chainable = Cypress.Chainable;
@@ -457,20 +457,9 @@ export function selectAttribute(
       break;
     case 'radioGroupProduct':
     case 'checkBoxListProduct':
-      let beforeText;
-      cy.get(`#${valueId} .cx-product-card-action button`).then((elem) => {
-        beforeText = elem.text();
-        cy.log('button text before selection: ' + beforeText);
-      });
-      cy.get(`#${valueId} .cx-product-card-action button`)
-        .click({ force: true })
-        .then(() => {
-          checkUpdatingMessageNotDisplayed();
-          cy.get(`#${valueId} .cx-product-card-action button`).should(
-            'not.have.text',
-            beforeText
-          );
-        });
+      const btnLoc = `#${valueId} .cx-product-card-action button`;
+      cy.get(btnLoc).then((el) => cy.log(`text before click: '${el.text()}'`));
+      cy.get(btnLoc).click({ force: true });
       break;
     default:
       throw new AssertionError({
