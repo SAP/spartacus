@@ -16,10 +16,10 @@ export class PageEventCollector extends AbstractTmsEventCollector {
     .get(HomePageEvent)
     .pipe(map((event) => this.mapEvent(HomePageEvent.type, event)));
 
-  protected events$ = [this.pageEvent$, this.homePage$];
+  protected sources = [this.pageEvent$, this.homePage$];
 
   constructor(protected eventsService: EventService) {
     super(eventsService);
-    this.registerEvent(...this.events$);
+    this.registerEvent(...this.sources);
   }
 }

@@ -39,7 +39,7 @@ export class CartEventCollector extends AbstractTmsEventCollector {
       map((event) => this.mapEvent(CartUpdateEntrySuccessEvent.type, event))
     );
 
-  protected events$ = [
+  protected sources = [
     this.cartAddEntryEvent$,
     this.cartAddEntrySuccessEvent$,
     this.cartAddEntryFailEvent$,
@@ -49,6 +49,6 @@ export class CartEventCollector extends AbstractTmsEventCollector {
 
   constructor(protected eventsService: EventService) {
     super(eventsService);
-    this.registerEvent(...this.events$);
+    this.registerEvent(...this.sources);
   }
 }
