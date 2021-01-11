@@ -54,11 +54,6 @@ function addQualtricsFeature(
       name: QUALTRICS_ROOT_MODULE,
       importPath: SPARTACUS_QUALTRICS_ROOT,
     },
-    i18n: {
-      chunks: '',
-      importPath: '',
-      resources: '',
-    },
     styles: {
       scssFileName: QUALTRICS_EMBEDDED_FEEDBACK_SCSS_FILE_NAME,
       importStyle: SPARTACUS_QUALTRICS,

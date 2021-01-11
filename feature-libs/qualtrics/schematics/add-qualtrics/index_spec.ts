@@ -3,7 +3,6 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import {
-  CLI_QUALTRICS_FEATURE,
   LibraryOptions as SpartacusQualtricsOptions,
   SpartacusOptions,
   SPARTACUS_QUALTRICS,
@@ -36,7 +35,7 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
   const defaultOptions: SpartacusQualtricsOptions = {
     project: 'schematics-test',
     lazy: true,
-    features: [CLI_QUALTRICS_FEATURE],
+    features: [],
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {
