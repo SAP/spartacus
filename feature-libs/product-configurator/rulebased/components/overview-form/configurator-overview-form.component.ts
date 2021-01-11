@@ -16,6 +16,8 @@ import { Configurator } from '../../core/model/configurator.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorOverviewFormComponent {
+  attributeOverviewType = Configurator.AttributeOverviewType;
+
   configuration$: Observable<
     Configurator.Configuration
   > = this.configRouterExtractorService.extractRouterData().pipe(

@@ -1,0 +1,49 @@
+%cx-configurator-cpq-overview-attribute {
+  .cpq-attribute {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    padding: 15px 0;
+
+    &-thumbnail {
+      width: 7rem;
+      height: 7rem;
+
+      cx-media {
+        width: 7rem;
+        height: 7rem;
+        text-align: center;
+      }
+
+      &.empty {
+        background-color: var(--cx-color-light);
+      }
+    }
+
+    &-value {
+      flex: 1;
+      align-self: flex-start;
+      padding: 0 15px;
+    }
+
+    &-label {
+      overflow-wrap: anywhere;
+      width: 100%;
+      padding-block-start: 5px;
+      color: var(--cx-color-secondary);
+
+      @include media-breakpoint-up(md) {
+        width: 58.3333333333%;
+        padding: 0;
+      }
+    }
+
+    &-code {
+      display: block;
+      color: var(--cx-color-secondary);
+      font-size: 0.875rem;
+      overflow-wrap: anywhere;
+    }
+  }
+}

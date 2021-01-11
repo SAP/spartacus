@@ -1,0 +1,23 @@
+<ng-container *ngIf="product$ | async as product">
+  <div class="cpq-attribute">
+    <div
+      class="cpq-attribute-thumbnail"
+      [ngClass]="{ empty: !product?.images?.PRIMARY }"
+    >
+      <cx-media
+        *ngIf="product?.images?.PRIMARY"
+        [container]="product.images.PRIMARY"
+        format="product"
+      ></cx-media>
+    </div>
+    <div class="cpq-attribute-value">
+      <a class="cpq-attribute-link" href="#">{{ attributeOverview.value }}</a>
+      <span class="cpq-attribute-code"
+        >ID: {{ attributeOverview.productCode }}</span
+      >
+    </div>
+    <div class="cpq-attribute-label">
+      <span>{{ attributeOverview.attribute }}</span>
+    </div>
+  </div>
+</ng-container>
