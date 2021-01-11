@@ -44,7 +44,7 @@ import { ProductPageEventModule } from '../events/product/product-page-event.mod
     UserModule.forRoot(),
     ProductModule.forRoot(),
     ViewConfigModule.forRoot(),
-    FeaturesConfigModule.forRoot('2.0'),
+    FeaturesConfigModule.forRoot(),
     LayoutModule,
     MediaModule.forRoot(),
     OutletModule.forRoot(),
