@@ -60,7 +60,18 @@ export class ProductVariantGuard implements CanActivate {
           }
         } else {
           if (product.variantMatrix) {
-            console.log(`purchasable: ${product.purchasable}`)
+            return of(
+              this.router.createUrlTree(
+                this.semanticPathService.transform({
+                  cxRoute: 'product',
+                  params: {
+                    code: product.variantMatrix[0].variantOption.code,
+                    name: product.name,
+                  },
+                })
+              )
+            );
+          } else {
             return of(true);
           }
         }
