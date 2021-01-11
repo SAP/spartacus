@@ -1,11 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { CmsService, Page, PageMetaResolver } from '..';
+import { BasePageMetaResolver, CmsService, Page } from '..';
 import { I18nTestingModule, TranslationService } from '../../i18n';
 import { PageType } from '../../model/cms.model';
 import { PageMetaService } from '../facade';
 import { BreadcrumbMeta, PageRobotsMeta } from '../model/page.model';
-import { ContentPageMetaResolver } from './content-page-meta.resolver';
 import { RoutingPageMetaResolver } from './routing/routing-page-meta.resolver';
 
 const mockContentPage: Page = {
@@ -33,8 +32,8 @@ class MockRoutingPageMetaResolver implements Partial<RoutingPageMetaResolver> {
   }
 }
 
-describe('ContentPageMetaResolver', () => {
-  let service: ContentPageMetaResolver;
+describe('BasePageMetaResolver', () => {
+  let service: BasePageMetaResolver;
   let routingPageMetaResolver: RoutingPageMetaResolver;
 
   beforeEach(() => {
@@ -43,11 +42,6 @@ describe('ContentPageMetaResolver', () => {
       providers: [
         PageMetaService,
         { provide: CmsService, useClass: MockCmsService },
-        {
-          provide: PageMetaResolver,
-          useExisting: ContentPageMetaResolver,
-          multi: true,
-        },
         {
           provide: TranslationService,
           useClass: MockTranslationService,
@@ -59,7 +53,7 @@ describe('ContentPageMetaResolver', () => {
       ],
     });
 
-    service = TestBed.inject(ContentPageMetaResolver);
+    service = TestBed.inject(BasePageMetaResolver);
     routingPageMetaResolver = TestBed.inject(RoutingPageMetaResolver);
   });
 
