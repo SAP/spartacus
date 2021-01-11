@@ -215,6 +215,10 @@ And replace `myaccount` and `my-account` instances with the name of yours lib.
 
 Optionally, add the generated lib to the `build:libs` and `test:libs` scripts.
 
+- `.github/ISSUE_TEMPLATE/new-release.md`
+
+Add `- [ ] `npm run release:TODO::with-changelog` (needed since `x.x.x`)` under the `For each package select/type version when prompted:` section, and replace `TODO:` to match the `package.json`'s release script name.
+
 - `.release-it.json`
 
 ```json
