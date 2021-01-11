@@ -57,6 +57,7 @@ function generateCommentForNotAnalyzed(
 <details>
 <summary>Read more</summary>
 
+
 ${listOfEntryPoints}
 </details>`;
 }
