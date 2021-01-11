@@ -65,8 +65,8 @@
       "@spartacus/product/configurators/common": [
         "feature-libs/product/configurators/common/public_api"
       ],
-      "@spartacus/product/configurators/cpd": [
-        "feature-libs/product/configurators/cpd/public_api"
+      "@spartacus/product/configurators/cpq": [
+        "feature-libs/product/configurators/cpq/public_api"
       ],
       "@spartacus/product/configurators": [
         "feature-libs/product/configurators/public_api"
