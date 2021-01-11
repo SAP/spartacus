@@ -155,6 +155,8 @@ Use the following template:
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
     "target": "es2015",
     "module": "es2020",
     "moduleResolution": "node",
@@ -175,7 +177,9 @@ Use the following template:
     "strictMetadataEmit": true,
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
-    "enableResourceInlining": true
+    "enableResourceInlining": true,
+    "strictTemplates": true,
+    "strictInputAccessModifiers": true
   },
   "exclude": ["src/test.ts", "**/*.spec.ts"]
 }
