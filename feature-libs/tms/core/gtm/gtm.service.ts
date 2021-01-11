@@ -31,7 +31,7 @@ export class GoogleTagManagerService {
   }
 
   protected pushToTms(data: any): void {
-    this.window?.dataLayer.push(data);
+    this.window?.dataLayer?.push(data);
   }
 
   get window(): GtmWindow | undefined {
