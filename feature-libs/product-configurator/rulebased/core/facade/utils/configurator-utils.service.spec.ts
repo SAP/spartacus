@@ -178,6 +178,13 @@ describe('ConfiguratorGroupUtilsService', () => {
       const configuration: Configurator.Configuration = { configId: 'a' };
       expect(classUnderTest.isConfigurationCreated(configuration)).toBe(false);
     });
+    it('should know that config is created in case the groups are not defined but the overview aspect exists due to an order history read', () => {
+      const configuration: Configurator.Configuration = {
+        configId: 'a',
+        overview: {},
+      };
+      expect(classUnderTest.isConfigurationCreated(configuration)).toBe(true);
+    });
   });
 
   describe('buildGroupPath', () => {
