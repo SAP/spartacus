@@ -1,13 +1,13 @@
+import { user } from '../sample-data/checkout-flow';
 import * as authentication from './auth-forms';
-import Chainable = Cypress.Chainable;
-import { navigation } from './navigation';
 import {
   AddressData,
-  fillShippingAddress,
   fillPaymentDetails,
+  fillShippingAddress,
   PaymentDetails,
 } from './checkout-forms';
-import { user } from '../sample-data/checkout-flow';
+import { navigation } from './navigation';
+import Chainable = Cypress.Chainable;
 
 const shippingAddressData: AddressData = user;
 const billingAddress: AddressData = user;
@@ -31,13 +31,33 @@ const resolveIssuesLinkSelector =
  *
  * @param {string} shopName - shop name
  * @param {string} productId - Product ID
+ * @param {"vc" | "cpq"} configurationType - configuration type used in configurator URL, default is "vc"
  * @return {Chainable<Window>} - New configuration window
  */
 export function goToConfigurationPage(
   shopName: string,
+  productId: string,
+  configurationType: 'vc' | 'cpq' = 'vc'
+): Chainable<Window> {
+  const location = `/${shopName}/en/USD/configure/${configurationType}/product/entityKey/${productId}`;
+  return cy.visit(location).then(() => {
+    cy.location('pathname').should('contain', location);
+    this.checkConfigPageDisplayed();
+  });
+}
+
+/**
+ * Navigates to the CPQ product configuration page.
+ *
+ * @param {string} shopName - shop name
+ * @param {string} productId - Product ID
+ * @return {Chainable<Window>} - New configuration window
+ */
+export function goToCPQConfigurationPage(
+  shopName: string,
   productId: string
 ): Chainable<Window> {
-  const location = `/${shopName}/en/USD/configure/vc/product/entityKey/${productId}`;
+  const location = `/${shopName}/en/USD/configure/cpq/product/entityKey/${productId}`;
   return cy.visit(location).then(() => {
     cy.location('pathname').should('contain', location);
     this.checkConfigPageDisplayed();
@@ -150,7 +170,7 @@ export function checkFocus(
  *
  * @param {string} currentGroup - Active group
  */
-function checkCurrentGroupActive(currentGroup: string): void {
+export function checkCurrentGroupActive(currentGroup: string): void {
   cy.get(
     'cx-configurator-group-title:contains(' + `${currentGroup}` + ')'
   ).should('be.visible');
@@ -304,6 +324,21 @@ export function checkAttributeDisplayed(
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
   cy.get(`#${attributeId}`).should('be.visible');
+}
+
+/**
+ * Verifies if all passed attribute headers are displayed
+ *
+ * @param {string[]} attributeHeaders - List of attribute headers to check
+ */
+export function checkAttributeHeaderDisplayed(
+  attributeHeaders: string[]
+): void {
+  attributeHeaders.forEach((header) => {
+    cy.get(`cx-configurator-attribute-header`)
+      .contains(header)
+      .should('be.visible');
+  });
 }
 
 /**
@@ -773,14 +808,24 @@ function clickOnGroupByGroupIndex(groupIndex: number): void {
 }
 
 /**
+ * Returns nth group menu link
+ *
+ * @param {number} index
+ * @returns {Chainable<JQuery<HTMLElement>>}
+ */
+export function getNthGroupMenu(index: number): Chainable<JQuery<HTMLElement>> {
+  return cy
+    .get('cx-configurator-group-menu:visible')
+    .within(() => cy.get('.cx-menu-item').not('.cx-menu-conflict').eq(index));
+}
+
+/**
  * Clicks on the group via its index in the group menu.
  *
  * @param {number} groupIndex - Group index
  */
 export function clickOnGroup(groupIndex: number): void {
-  cy.get('cx-configurator-group-menu ul>li.cx-menu-item')
-    .not('.cx-menu-conflict')
-    .eq(groupIndex)
+  getNthGroupMenu(groupIndex)
     .children('a')
     .children()
     .within(() => {
@@ -1064,4 +1109,13 @@ export function login(email: string, password: string, name: string): void {
   // Verify whether the user logged in successfully,
   // namely the logged in user should be greeted
   cy.get('.cx-login-greet').should('contain', name);
+}
+
+/**
+ * Waiting for the product card to load correctly
+ *
+ * @export
+ */
+export function waitForProductCardsLoad(expectedLength: number) {
+  cy.get('.cx-product-card').should('have.length', expectedLength);
 }

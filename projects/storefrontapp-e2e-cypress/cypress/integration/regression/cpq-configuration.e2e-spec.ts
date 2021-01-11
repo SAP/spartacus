@@ -22,6 +22,22 @@ const COFFEE_MACHINE_CUPS_DAY_500_1000 = '8842'; //  500-1000 CUPS
 
 const STARB_MODE = '8845'; // STARB_MODE
 
+// List of groups
+const MAIN_COMPONENTS = 'Main Components';
+const ACCESSORIES = 'Accessories';
+const INSURANCE_AND_WARRANTY = 'Insurance and Warranty';
+
+// List of attributes
+const attributeHeaders = {
+  mainComponents: ['Camera Body', 'Memory Card', 'Lenses'],
+  accessories: ['Tripod', 'Bag', 'Special Accessories'],
+  insuranceAndWarranty: [
+    'Are you a professional photographer?',
+    'Insurance',
+    'Extended Warranty',
+  ],
+};
+
 context('CPQ Configuration', () => {
   beforeEach(() => {
     cy.visit('/');
@@ -114,6 +130,73 @@ context('CPQ Configuration', () => {
         ATTR_COFFEE_MACHINE_STARB_MODE,
         STARB_MODE
       );
+    });
+  });
+
+  describe('Group Handling', () => {
+    it('should navigate with next and previous buttons', () => {
+      configuration
+        .goToConfigurationPage(powertoolsShop, testProduct, 'cpq')
+        .then(() => {
+          configuration.waitForProductCardsLoad(9);
+          configuration.checkPreviousBtnDisabled();
+          configuration.checkNextBtnEnabled();
+
+          configuration.clickOnNextBtn(ACCESSORIES);
+          configuration.waitForProductCardsLoad(13);
+          configuration.checkPreviousBtnEnabled();
+          configuration.checkNextBtnEnabled();
+
+          configuration.clickOnNextBtn(INSURANCE_AND_WARRANTY);
+          configuration.waitForProductCardsLoad(0);
+          configuration.checkPreviousBtnEnabled();
+          configuration.checkNextBtnDisabled();
+
+          configuration.clickOnPreviousBtn(ACCESSORIES);
+          configuration.waitForProductCardsLoad(13);
+        });
+    });
+
+    it('should navigate with sidebar menu', () => {
+      configuration
+        .goToConfigurationPage(powertoolsShop, testProduct, 'cpq')
+        .then(() => {
+          configuration.waitForProductCardsLoad(9);
+
+          configuration.clickOnGroup(2);
+          configuration.waitForProductCardsLoad(0);
+          configuration.checkCurrentGroupActive(INSURANCE_AND_WARRANTY);
+
+          configuration.clickOnGroup(1);
+          configuration.waitForProductCardsLoad(13);
+          configuration.checkCurrentGroupActive(ACCESSORIES);
+
+          configuration.clickOnGroup(0);
+          configuration.waitForProductCardsLoad(9);
+          configuration.checkCurrentGroupActive(MAIN_COMPONENTS);
+        });
+    });
+
+    it('should display correct attributes', () => {
+      configuration
+        .goToConfigurationPage(powertoolsShop, testProduct, 'cpq')
+        .then(() => {
+          configuration.waitForProductCardsLoad(9);
+
+          configuration.checkAttributeHeaderDisplayed(
+            attributeHeaders.mainComponents
+          );
+
+          configuration.clickOnNextBtn(ACCESSORIES);
+          configuration.checkAttributeHeaderDisplayed(
+            attributeHeaders.accessories
+          );
+
+          configuration.clickOnNextBtn(INSURANCE_AND_WARRANTY);
+          configuration.checkAttributeHeaderDisplayed(
+            attributeHeaders.insuranceAndWarranty
+          );
+        });
     });
   });
 });
