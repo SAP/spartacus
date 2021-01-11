@@ -15,13 +15,13 @@ export class LogoutEventBuilder {
    * Registers logout events
    */
   protected register(): void {
-    this.logoutEvent();
+    this.registerLogoutEvent();
   }
 
   /**
    * Register a logout event
    */
-  protected logoutEvent(): void {
+  protected registerLogoutEvent(): void {
     this.stateEventService.register({
       action: AuthActions.LOGOUT,
       event: LogoutEvent,
