@@ -1,7 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { ActiveCartService } from '../../cart';
-import { PageMetaResolver, PageMetaService, PageRobotsMeta } from '../../cms';
+import {
+  BasePageMetaResolver,
+  CmsService,
+  PageMetaResolver,
+  PageMetaService,
+  PageRobotsMeta,
+} from '../../cms';
 import { I18nTestingModule } from '../../i18n';
 import { Cart } from '../../model/cart.model';
 import { CheckoutPageMetaResolver } from './checkout-page-meta.resolver';
@@ -17,6 +23,12 @@ class MockActiveCartService {
   }
 }
 
+class MockCmsService {}
+
+class MockBasePageMetaResolver {
+  resolveRobots() {}
+}
+
 describe('CheckoutPageMetaResolver', () => {
   let service: CheckoutPageMetaResolver;
 
@@ -30,6 +42,11 @@ describe('CheckoutPageMetaResolver', () => {
           provide: PageMetaResolver,
           useExisting: CheckoutPageMetaResolver,
           multi: true,
+        },
+        { provide: CmsService, useClass: MockCmsService },
+        {
+          provide: BasePageMetaResolver,
+          useClass: MockBasePageMetaResolver,
         },
       ],
     });
