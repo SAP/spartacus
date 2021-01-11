@@ -56,6 +56,7 @@ function generateCommentForNotAnalyzed(
   return `\n\n#### :warning: Some entry points are currently impossible to analyze.
 <details>
 <summary>Read more</summary>
+
 ${listOfEntryPoints}
 </details>`;
 }
