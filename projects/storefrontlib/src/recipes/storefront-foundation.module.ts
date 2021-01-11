@@ -22,11 +22,9 @@ import { RoutingModule } from '../cms-structure/routing/routing.module';
 import { LayoutModule } from '../layout/layout.module';
 import { MediaModule } from '../shared/components/media/media.module';
 import { ViewConfigModule } from '../shared/config/view-config.module';
-import {
-  CartPageEventModule,
-  PageEventModule,
-  ProductPageEventModule,
-} from '../events';
+import { CartPageEventModule } from '../events/cart/cart-page-event.module';
+import { PageEventModule } from '../events/page/page-event.module';
+import { ProductPageEventModule } from '../events/product/product-page-event.module';
 
 @NgModule({
   imports: [
