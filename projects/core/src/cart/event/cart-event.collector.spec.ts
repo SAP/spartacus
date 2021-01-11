@@ -34,6 +34,7 @@ fdescribe('CartEventCollector', () => {
     it('should be registered', () => {
       let result: TmsEvent;
       eventService.get(TmsEvent).subscribe((value) => (result = value));
+      expect(result).not.toBeUndefined();
       expect(result.event).toEqual(CartAddEntryEvent.type);
       expect(result.payload).toEqual(jasmine.objectContaining(eventData));
     });
@@ -59,6 +60,7 @@ fdescribe('CartEventCollector', () => {
     it('should be registered', () => {
       let result: TmsEvent;
       eventService.get(TmsEvent).subscribe((value) => (result = value));
+      expect(result).not.toBeUndefined();
       expect(result.event).toEqual(CartAddEntrySuccessEvent.type);
       expect(result.payload).toEqual(jasmine.objectContaining(eventData));
     });

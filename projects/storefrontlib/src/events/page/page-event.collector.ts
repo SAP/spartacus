@@ -20,6 +20,5 @@ export class PageEventCollector extends TmsEventCollector {
 
   constructor(protected eventsService: EventService) {
     super(eventsService);
-    this.registerEvent(...this.sources);
   }
 }

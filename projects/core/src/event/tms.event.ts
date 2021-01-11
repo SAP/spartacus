@@ -9,9 +9,15 @@ export class TmsEvent {
 }
 
 export abstract class TmsEventCollector {
-  protected abstract sources: Observable<TmsEvent>[];
+  protected abstract sources: Observable<TmsEvent>[] = [];
 
-  constructor(protected eventsService: EventService) {}
+  constructor(protected eventsService: EventService) {
+    this.registerEvent(...this.getSources());
+  }
+
+  protected getSources(): Observable<TmsEvent>[] {
+    return this.sources;
+  }
 
   protected registerEvent(...sources: Observable<TmsEvent>[]): void {
     sources.forEach((event$) => this.eventsService.register(TmsEvent, event$));
