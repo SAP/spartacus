@@ -12,7 +12,7 @@ export class LoginEventBuilder {
   }
 
   /**
-   * Registers logout events
+   * Registers login events
    */
   protected register(): void {
     this.registerLoginEvent();
