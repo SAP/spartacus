@@ -208,26 +208,25 @@ async function printReport(
     repo,
   });
 
-  const botComment = comments.data.filter((comment: any) => {
-    console.log(comment.user, comment.body);
-    comment.body.includes(COMMENT_HEADER);
-  });
+  const botComment = comments.data.filter(
+    (comment: any) =>
+      comment.body.includes(COMMENT_HEADER) &&
+      comment.user.login === 'github-actions[bot]'
+  );
 
   if (botComment && botComment.length) {
-    await ghClient.issues.updateComment({
+    await ghClient.issues.deleteComment({
       comment_id: botComment[0].id,
       owner,
       repo,
-      body,
-    });
-  } else {
-    await ghClient.issues.createComment({
-      issue_number: issueNumber,
-      owner,
-      repo,
-      body,
     });
   }
+  await ghClient.issues.createComment({
+    issue_number: issueNumber,
+    owner,
+    repo,
+    body,
+  });
 }
 
 export async function addCommentToPR(
