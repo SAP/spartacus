@@ -87,6 +87,8 @@ const multiSelectionProductValues: Cpq.Value[] = [
   },
 ];
 
+const CURRENCY = 'USD';
+
 describe('CpqConfiguratorOverviewNormalizer', () => {
   let serviceUnderTest: CpqConfiguratorOverviewNormalizer;
 
@@ -119,51 +121,53 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
   });
 
   it('should map tab ID', () => {
-    expect(serviceUnderTest['convertTab'](tab).id).toBe('1');
+    expect(serviceUnderTest['convertTab'](tab, CURRENCY).id).toBe('1');
   });
 
   it('should map tab description', () => {
-    expect(serviceUnderTest['convertTab'](tab).groupDescription).toBe(
+    expect(serviceUnderTest['convertTab'](tab, CURRENCY).groupDescription).toBe(
       GRP_DESCR
     );
   });
 
   it('should convert attributes', () => {
-    expect(serviceUnderTest['convertTab'](tab).attributes.length).toBe(2);
+    expect(
+      serviceUnderTest['convertTab'](tab, CURRENCY).attributes.length
+    ).toBe(2);
   });
 
   it('should map attribute name', () => {
-    expect(serviceUnderTest['convertAttribute'](attr)[0].attribute).toEqual(
-      ATTR_NAME
-    );
+    expect(
+      serviceUnderTest['convertAttribute'](attr, CURRENCY)[0].attribute
+    ).toEqual(ATTR_NAME);
   });
 
   it('should map attribute name only for first value', () => {
     attr.values = multiSelectionValues;
     attr.displayAs = Cpq.DisplayAs.CHECK_BOX;
-    const ovAttrs = serviceUnderTest['convertAttribute'](attr);
+    const ovAttrs = serviceUnderTest['convertAttribute'](attr, CURRENCY);
     expect(ovAttrs[0].attribute).toEqual(ATTR_NAME);
     expect(ovAttrs[1].attribute).toBeUndefined();
   });
 
   it('should map attribute type GENREAL', () => {
     attr.values = singleSelectionValues;
-    expect(serviceUnderTest['convertAttribute'](attr)[0].type).toEqual(
-      Configurator.AttributeOverviewType.GENERAL
-    );
+    expect(
+      serviceUnderTest['convertAttribute'](attr, CURRENCY)[0].type
+    ).toEqual(Configurator.AttributeOverviewType.GENERAL);
   });
 
   it('should map attribute type BUNDLE', () => {
     attr.values = singleSelectionProductValues;
-    expect(serviceUnderTest['convertAttribute'](attr)[0].type).toEqual(
-      Configurator.AttributeOverviewType.BUNDLE
-    );
+    expect(
+      serviceUnderTest['convertAttribute'](attr, CURRENCY)[0].type
+    ).toEqual(Configurator.AttributeOverviewType.BUNDLE);
   });
 
   it('should map user input as attribute value', () => {
     attr.userInput = 'input';
     attr.displayAs = Cpq.DisplayAs.INPUT;
-    const ovAttrs = serviceUnderTest['convertAttribute'](attr);
+    const ovAttrs = serviceUnderTest['convertAttribute'](attr, CURRENCY);
     expect(ovAttrs.length).toBe(1);
     expect(ovAttrs[0].value).toEqual('input');
     expect(ovAttrs[0].productCode).toBeUndefined();
@@ -172,7 +176,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
   it('should map RB selected value', () => {
     attr.values = singleSelectionValues;
     attr.displayAs = Cpq.DisplayAs.RADIO_BUTTON;
-    const ovAttrs = serviceUnderTest['convertAttribute'](attr);
+    const ovAttrs = serviceUnderTest['convertAttribute'](attr, CURRENCY);
     expect(ovAttrs.length).toBe(1);
     expect(ovAttrs[0].value).toEqual('selected value');
     expect(ovAttrs[0].productCode).toBeUndefined();
@@ -181,7 +185,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
   it('should map RB selected product', () => {
     attr.values = singleSelectionProductValues;
     attr.displayAs = Cpq.DisplayAs.RADIO_BUTTON;
-    const ovAttrs = serviceUnderTest['convertAttribute'](attr);
+    const ovAttrs = serviceUnderTest['convertAttribute'](attr, CURRENCY);
     expect(ovAttrs.length).toBe(1);
     expect(ovAttrs[0].value).toEqual('selected product');
     expect(ovAttrs[0].productCode).toEqual('pCode2');
@@ -190,7 +194,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
   it('should map ReadOnly selected value', () => {
     attr.values = singleSelectionValues;
     attr.displayAs = Cpq.DisplayAs.READ_ONLY;
-    const ovAttrs = serviceUnderTest['convertAttribute'](attr);
+    const ovAttrs = serviceUnderTest['convertAttribute'](attr, CURRENCY);
     expect(ovAttrs.length).toBe(1);
     expect(ovAttrs[0].value).toEqual('selected value');
     expect(ovAttrs[0].productCode).toBeUndefined();
@@ -199,7 +203,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
   it('should map DDLB selected value', () => {
     attr.values = singleSelectionValues;
     attr.displayAs = Cpq.DisplayAs.DROPDOWN;
-    const ovAttrs = serviceUnderTest['convertAttribute'](attr);
+    const ovAttrs = serviceUnderTest['convertAttribute'](attr, CURRENCY);
     expect(ovAttrs.length).toBe(1);
     expect(ovAttrs[0].value).toEqual('selected value');
     expect(ovAttrs[0].productCode).toBeUndefined();
@@ -208,7 +212,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
   it('should map CHECK_BOX selected values', () => {
     attr.values = multiSelectionValues;
     attr.displayAs = Cpq.DisplayAs.CHECK_BOX;
-    const ovAttrs = serviceUnderTest['convertAttribute'](attr);
+    const ovAttrs = serviceUnderTest['convertAttribute'](attr, CURRENCY);
     expect(ovAttrs.length).toBe(2);
     expect(ovAttrs[0].value).toEqual('selected value');
     expect(ovAttrs[1].value).toEqual('another selected value');
@@ -219,7 +223,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
   it('should map CHECK_BOX selected products', () => {
     attr.values = multiSelectionProductValues;
     attr.displayAs = Cpq.DisplayAs.CHECK_BOX;
-    const ovAttrs = serviceUnderTest['convertAttribute'](attr);
+    const ovAttrs = serviceUnderTest['convertAttribute'](attr, CURRENCY);
     expect(ovAttrs.length).toBe(2);
     expect(ovAttrs[0].value).toEqual('selected product');
     expect(ovAttrs[1].value).toEqual('another selected product');
@@ -230,24 +234,24 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
   it('should map LIST_BOX as not implemented', () => {
     attr.values = multiSelectionValues;
     attr.displayAs = Cpq.DisplayAs.LIST_BOX;
-    expect(serviceUnderTest['convertAttribute'](attr)[0].value).toEqual(
-      'NOT_IMPLEMENTED'
-    );
+    expect(
+      serviceUnderTest['convertAttribute'](attr, CURRENCY)[0].value
+    ).toEqual('NOT_IMPLEMENTED');
   });
 
   it('should map LIST_BOX_MULTI as not implemented', () => {
     attr.values = multiSelectionValues;
     attr.displayAs = Cpq.DisplayAs.LIST_BOX_MULTI;
-    expect(serviceUnderTest['convertAttribute'](attr)[0].value).toEqual(
-      'NOT_IMPLEMENTED'
-    );
+    expect(
+      serviceUnderTest['convertAttribute'](attr, CURRENCY)[0].value
+    ).toEqual('NOT_IMPLEMENTED');
   });
 
   it('should map AUTO_COMPLETE_CUSTOM as not implemented', () => {
     attr.values = multiSelectionValues;
     attr.displayAs = Cpq.DisplayAs.AUTO_COMPLETE_CUSTOM;
-    expect(serviceUnderTest['convertAttribute'](attr)[0].value).toEqual(
-      'NOT_IMPLEMENTED'
-    );
+    expect(
+      serviceUnderTest['convertAttribute'](attr, CURRENCY)[0].value
+    ).toEqual('NOT_IMPLEMENTED');
   });
 });
