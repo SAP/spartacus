@@ -55,7 +55,7 @@ export class OccAsmAdapter implements AsmAdapter {
     const url = this.occEndpointsService.getOccUrlFromConfiguration(
       'asmCustomerSearch',
       {},
-      { baseUrl: true }
+      { prefix: false, baseSite: false }
     );
 
     return this.http

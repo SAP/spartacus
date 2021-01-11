@@ -210,7 +210,35 @@ describe('OccEndpointsService', () => {
     });
   });
 
-  describe('getOccUrl', () => {
+  describe('getOccBaseUrl', () => {
+    it('should return base endpoint by default', () => {
+      expect(service.getOccBaseUrl()).toEqual(baseEndpoint);
+    });
+
+    it('should be immune to late baseSite default value in config', () => {
+      const config = TestBed.inject(OccConfig);
+      expect(service.getOccBaseUrl()).toEqual(baseEndpoint);
+      // we are modifying config as it can happen before app initialization in config initializer
+      config.context.baseSite = ['/final-baseSite'];
+      expect(service.getOccBaseUrl()).toEqual(
+        'test-baseUrl/test-occPrefix/final-baseSite'
+      );
+    });
+
+    it('should return the base url based on the provided parameters', () => {
+      expect(service.getOccBaseUrl({ prefix: false })).toEqual(
+        'test-baseUrl/test-baseSite'
+      );
+      expect(service.getOccBaseUrl({ prefix: false, baseSite: true })).toEqual(
+        'test-baseUrl/test-baseSite'
+      );
+      expect(service.getOccBaseUrl({ baseSite: false })).toEqual(
+        'test-baseUrl/test-occPrefix'
+      );
+    });
+  });
+
+  describe('getOccUrlFromConfiguration', () => {
     it('should return endpoint from config', () => {
       const url = service.getOccUrlFromConfiguration('product');
 

@@ -5,16 +5,15 @@
  */
 export function urlPathJoin(...parts: string[]): string {
   const paths: string[] = [];
+  parts = parts.filter((part) => Boolean(part));
   for (const part of parts) {
-    if (part !== '' && part !== undefined && part !== null) {
-      paths.push(cleanSlashes(part));
-    }
+    paths.push(cleanSlashes(part));
   }
 
-  if (parts[0].startsWith('/')) {
+  if (parts[0]?.startsWith('/')) {
     paths[0] = '/' + paths[0];
   }
-  if (parts[parts.length - 1].endsWith('/')) {
+  if (parts[parts.length - 1]?.endsWith('/')) {
     paths[paths.length - 1] = paths[paths.length - 1] + '/';
   }
   return paths.join('/');

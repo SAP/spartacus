@@ -24,7 +24,10 @@ export class OccSitesConfigLoader {
   }
 
   private validatePrefixConfig() {
-    if (!this.config.backend?.occ?.prefix?.startsWith('/')) {
+    if (
+      Boolean(this.config.backend?.occ?.prefix) &&
+      !this.config.backend?.occ?.prefix?.startsWith('/')
+    ) {
       this.config.backend.occ.prefix = '/' + this.config.backend.occ.prefix;
     }
   }

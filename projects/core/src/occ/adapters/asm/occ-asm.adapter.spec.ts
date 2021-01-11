@@ -54,8 +54,8 @@ class MockOccEndpointsService implements Partial<OccEndpointsService> {
   getOccUrlFromConfiguration(
     endpoint: string,
     _attributes?: DynamicAttributes,
-    _endpointsComponents?: BaseOccUrlProperties
-  ): string {
+    _propertiesToOmit?: BaseOccUrlProperties
+  ) {
     return endpoint;
   }
 }
@@ -82,7 +82,7 @@ describe('OccAsmAdapter', () => {
     converterService = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
     spyOn(converterService, 'pipeable').and.callThrough();
-    spyOn(occEnpointsService, 'getOccUrl').and.callThrough();
+    spyOn(occEnpointsService, 'getOccUrlFromConfiguration').and.callThrough();
   });
 
   it('should be created', () => {
@@ -119,7 +119,7 @@ describe('OccAsmAdapter', () => {
     expect(occEnpointsService.getOccUrlFromConfiguration).toHaveBeenCalledWith(
       'asmCustomerSearch',
       {},
-      { baseUrl: true }
+      { prefix: false, baseSite: false }
     );
   });
 
@@ -148,7 +148,7 @@ describe('OccAsmAdapter', () => {
     expect(occEnpointsService.getOccUrlFromConfiguration).toHaveBeenCalledWith(
       'asmCustomerSearch',
       {},
-      { baseUrl: true }
+      { prefix: false, baseSite: false }
     );
   });
 
@@ -182,7 +182,7 @@ describe('OccAsmAdapter', () => {
     expect(occEnpointsService.getOccUrlFromConfiguration).toHaveBeenCalledWith(
       'asmCustomerSearch',
       {},
-      { baseUrl: true }
+      { prefix: false, baseSite: false }
     );
   });
 });
