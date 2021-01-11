@@ -93,8 +93,11 @@
     }
 
     .btn {
-      max-width: 20rem;
       width: 100%;
+
+      @include media-breakpoint-up(md) {
+        max-width: 20rem;
+      }
     }
   }
 }
