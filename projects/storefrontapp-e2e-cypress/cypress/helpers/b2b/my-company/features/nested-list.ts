@@ -19,7 +19,12 @@ export function nestedListTest(config: MyCompanyConfig): void {
     });
 
     it('should show collapsed nested list', () => {
-      testList(config, { nested: { collapseAll: true } });
+      cy.visit(`/organization`);
+      testList(config, {
+        trigger: () =>
+          cy.get(`cx-page-slot.BodyContent a`).contains(config.name).click(),
+        nested: { collapseAll: true },
+      });
     });
   });
 }

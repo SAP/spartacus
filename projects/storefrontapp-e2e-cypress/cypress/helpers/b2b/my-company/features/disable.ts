@@ -16,7 +16,7 @@ export function disableTest(config: MyCompanyConfig) {
           cy.visit(`${config.baseUrl}/${entityId}`);
         });
       } else {
-        entityId = codeRow.updateValue;
+        entityId = codeRow.createValue;
         cy.visit(`${config.baseUrl}/${entityId}`);
       }
     });
