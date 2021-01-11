@@ -208,11 +208,10 @@ async function printReport(
     repo,
   });
 
-  console.log(comments);
-
-  const botComment = comments.data.filter((comment: any) =>
-    comment.body.includes(COMMENT_HEADER)
-  );
+  const botComment = comments.data.filter((comment: any) => {
+    console.log(comment.data.user, comment.data.body);
+    comment.body.includes(COMMENT_HEADER);
+  });
 
   if (botComment && botComment.length) {
     await ghClient.issues.updateComment({
