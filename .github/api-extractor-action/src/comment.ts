@@ -209,7 +209,7 @@ async function printReport(
   });
 
   const botComment = comments.data.filter((comment: any) => {
-    console.log(comment.data.user, comment.data.body);
+    console.log(comment.user, comment.body);
     comment.body.includes(COMMENT_HEADER);
   });
 
