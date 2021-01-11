@@ -34,5 +34,6 @@ import { MediaModule } from './shared';
     MediaModule.forRoot(),
     OutletModule.forRoot(),
   ],
+  exports: [LayoutModule],
 })
 export class BaseUiModule {}
