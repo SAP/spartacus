@@ -28,3 +28,10 @@ export class SearchPageResultsEvent extends PageEvent {
   searchTerm: string;
   numberOfResults: Number;
 }
+
+/**
+ * Indicates that the user chose a suggestion
+ */
+export class SearchSuggestionSelectedEvent extends PageEvent {
+  suggestionTerm: string;
+}

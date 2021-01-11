@@ -4,14 +4,23 @@ import {
   EventService,
   ProductSearchService,
   ProductService,
+  SearchboxService,
 } from '@spartacus/core';
 import { EMPTY, Observable } from 'rxjs';
-import { filter, map, skip, switchMap, take } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  skip,
+  switchMap,
+  take,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { PageEvent } from '../page/page.events';
 import {
   CategoryPageResultsEvent,
   ProductDetailsPageEvent,
   SearchPageResultsEvent,
+  SearchSuggestionSelectedEvent,
 } from './product-page.events';
 
 @Injectable({
@@ -21,7 +30,8 @@ export class ProductPageEventBuilder {
   constructor(
     protected eventService: EventService,
     protected productService: ProductService,
-    protected productSearchService: ProductSearchService
+    protected productSearchService: ProductSearchService,
+    protected searchBoxService: SearchboxService // TODO deprecation yay!
   ) {
     this.register();
   }
@@ -38,6 +48,10 @@ export class ProductPageEventBuilder {
     this.eventService.register(
       CategoryPageResultsEvent,
       this.buildCategoryResultsPageEvent()
+    );
+    this.eventService.register(
+      SearchSuggestionSelectedEvent,
+      this.buildSuggestionSelectedSearchPageEvent()
     );
   }
 
@@ -116,6 +130,41 @@ export class ProductPageEventBuilder {
             },
           })),
           map((searchPage) => createFrom(SearchPageResultsEvent, searchPage))
+        );
+      })
+    );
+  }
+
+  protected buildSuggestionSelectedSearchPageEvent(): Observable<
+    SearchSuggestionSelectedEvent
+  > {
+    const searchResults$ = this.productSearchService.getResults().pipe(
+      // skipping the initial value, and preventing emission of the previous search state
+      skip(1)
+    );
+
+    return this.eventService.get(PageEvent).pipe(
+      switchMap((pageEvent) => {
+        if (pageEvent?.semanticRoute !== 'search') {
+          return EMPTY;
+        }
+
+        return searchResults$.pipe(
+          withLatestFrom(this.searchBoxService.getSuggestionResults()),
+          filter(
+            ([searchResults, suggestions]) =>
+              Boolean(searchResults?.freeTextSearch) &&
+              suggestions?.filter(
+                (suggestion) =>
+                  suggestion.value === searchResults?.freeTextSearch
+              ).length > 0
+          ),
+          map(([searchResults]) =>
+            createFrom(SearchSuggestionSelectedEvent, {
+              ...pageEvent,
+              suggestionTerm: searchResults?.freeTextSearch,
+            })
+          )
         );
       })
     );
