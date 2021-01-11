@@ -4,8 +4,6 @@ on:
       - develop
       - 'epic/**'
       - 'release/**'
-      # Remove it when finished development
-      - 'feature/**'
 name: Cache
 jobs:
   cacheBuildedLibs:
