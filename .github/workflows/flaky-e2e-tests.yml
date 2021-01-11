@@ -27,9 +27,7 @@ jobs:
       - name: Install pm2 server
         run: npm install -g pm2
       - name: Start server
-        run: |
-          which pm2
-          pm2 serve --name "spartacus" dist/storefrontapp/ 4200
+        run: pm2 serve --spa --name "spartacus" dist/storefrontapp/ 4200
         shell: bash
       - name: Run e2es
         env:
