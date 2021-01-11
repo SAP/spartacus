@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BulkPricesService } from '../../core/services/bulk-prices.service';
 import { RoutingService } from '@spartacus/core';
 import { BulkPrice } from '../../core/model/bulk-price.model';
-
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-bulk-pricing-table',
   templateUrl: './bulk-pricing-table.component.html',
 })
-export class BulkPricingTableComponent implements OnInit {
+export class BulkPricingTableComponent implements OnInit, OnDestroy {
   pricingTiers: BulkPrice[];
+  dataStream: Subscription;
   testString;
 
   constructor(
@@ -22,7 +22,7 @@ export class BulkPricingTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getPrices().subscribe((p) => {
+    this.dataStream = this.getPrices().subscribe((p) => {
       this.pricingTiers = p;
       console.log({ p });
     });
@@ -35,5 +35,9 @@ export class BulkPricingTableComponent implements OnInit {
         return this.bulkPrices.getBulkPrices(productCode);
       })
     );
+  }
+
+  ngOnDestroy() {
+    this.dataStream.unsubscribe();
   }
 }

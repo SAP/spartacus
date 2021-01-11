@@ -5,4 +5,6 @@ export interface BulkPrice {
   minQuantity: number;
   priceType?: string;
   value: number;
+  formattedDiscount?: string;
+  discount: number;
 }
