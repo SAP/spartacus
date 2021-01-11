@@ -164,7 +164,6 @@ export class OccEndpointsService {
     endpointString: string,
     propertiesToOmit?: BaseOccUrlProperties
   ): string {
-    console.log('TTTT', this.getOccBaseUrl(propertiesToOmit), endpointString);
     return urlPathJoin(this.getOccBaseUrl(propertiesToOmit), endpointString);
   }
 
