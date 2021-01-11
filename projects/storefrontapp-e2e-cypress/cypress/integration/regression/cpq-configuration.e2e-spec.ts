@@ -157,7 +157,7 @@ context('CPQ Configuration', () => {
         });
     });
 
-    it.only('should navigate via group menu', () => {
+    it('should navigate via group menu', () => {
       configuration
         .goToConfigurationPage(powertoolsShop, testProduct, 'cpq')
         .then(() => {
