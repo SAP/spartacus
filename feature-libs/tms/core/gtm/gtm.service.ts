@@ -18,7 +18,9 @@ export class GoogleTagManagerService {
 
   collect(): void {
     // prep data layer
-    this.window.dataLayer = this.window.dataLayer || [];
+    if (this.window) {
+      this.window.dataLayer = this.window.dataLayer || [];
+    }
 
     this.subscription.add(
       this.eventsService
@@ -29,10 +31,10 @@ export class GoogleTagManagerService {
   }
 
   protected pushToTms(data: any): void {
-    this.window.dataLayer.push(data);
+    this.window?.dataLayer.push(data);
   }
 
-  get window(): GtmWindow {
+  get window(): GtmWindow | undefined {
     return this.windowRef.nativeWindow;
   }
 }
