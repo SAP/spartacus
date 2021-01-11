@@ -11,12 +11,16 @@ import { switchMap } from 'rxjs/operators';
   templateUrl: './bulk-pricing-table.component.html',
 })
 export class BulkPricingTableComponent implements OnInit {
+  
   pricingTiers: BulkPrice[];
+  testString;
 
   constructor(
     private routingService: RoutingService,
     private bulkPrices: BulkPricesService
-  ) {}
+  ) {
+    this.testString = 'bulk-pricing-table works!' 
+  }
 
   ngOnInit(): void {
     this.getPrices().subscribe((p) => {

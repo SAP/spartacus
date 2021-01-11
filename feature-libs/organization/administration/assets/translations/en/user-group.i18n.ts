@@ -1,4 +1,4 @@
-export const userGroup = {
+export const orgUserGroup = {
   header: 'All user groups ({{count}})',
   disabled: '(disabled)',
   uid: 'Code',
@@ -46,14 +46,14 @@ export const userGroup = {
   },
 };
 
-export const userGroupAssignedUsers = {
+export const orgUserGroupAssignedUsers = {
   title: 'Assigned users',
   subtitle: 'User group: {{ item.name }}',
   assigned: 'User {{item.name}} assigned successfully',
   unassigned: 'User {{item.name}} unassigned successfully',
 };
 
-export const userGroupUsers = {
+export const orgUserGroupUsers = {
   title: 'Manage users',
   subtitle: 'User group: {{ item.name }}',
   assigned: 'User {{item.name}} assigned successfully',
@@ -61,14 +61,14 @@ export const userGroupUsers = {
   unassignAll: 'Unassign All',
   unassignAllConfirmation: 'All users unassigned successfully',
 };
-export const userGroupAssignedPermissions = {
+export const orgUserGroupAssignedPermissions = {
   title: 'Assigned purchase limits',
   subtitle: 'Limit: {{ item.name }}',
   assigned: 'Purchase limits {{item.code}} assigned successfully',
   unassigned: 'Purchase limits {{item.code}} unassigned successfully',
 };
 
-export const userGroupPermissions = {
+export const orgUserGroupPermissions = {
   title: 'Manage purchase limits',
   subtitle: 'Limit: {{ item.name }}',
   assigned: 'Purchase limits {{item.code}} assigned successfully',

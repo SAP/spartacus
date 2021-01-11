@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { OrderEntry } from '@spartacus/core';
@@ -44,19 +44,21 @@ describe('CancelOrderComponent', () => {
   let component: CancelOrderComponent;
   let fixture: ComponentFixture<CancelOrderComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, FormErrorsModule],
-      providers: [
-        { provide: OrderAmendService, useClass: MockOrderAmendService },
-      ],
-      declarations: [
-        CancelOrderComponent,
-        MockAmendOrderActionComponent,
-        MockCancelOrReturnItemsComponent,
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule, FormErrorsModule],
+        providers: [
+          { provide: OrderAmendService, useClass: MockOrderAmendService },
+        ],
+        declarations: [
+          CancelOrderComponent,
+          MockAmendOrderActionComponent,
+          MockCancelOrReturnItemsComponent,
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CancelOrderComponent);
