@@ -223,6 +223,7 @@ export function checkConfigPageDisplayed(): void {
   checkTabBarDisplayed();
   checkGroupTitleDisplayed();
   checkGroupFormDisplayed();
+  checkGroupMenuDisplayed();
   checkPreviousAndNextBtnsDispalyed();
   checkPriceSummaryDisplayed();
   checkAddToCartBtnDisplayed();
@@ -813,10 +814,12 @@ function clickOnGroupByGroupIndex(groupIndex: number): void {
  * @param {number} index
  * @returns {Chainable<JQuery<HTMLElement>>}
  */
-export function getNthGroupMenu(index: number): Chainable<JQuery<HTMLElement>> {
+function getNthGroupMenu(index: number): Chainable<JQuery<HTMLElement>> {
   return cy
     .get('cx-configurator-group-menu:visible')
-    .within(() => cy.get('.cx-menu-item').not('.cx-menu-conflict').eq(index));
+    .within(() =>
+      cy.get('ul>li.cx-menu-item').not('.cx-menu-conflict').eq(index)
+    );
 }
 
 /**
