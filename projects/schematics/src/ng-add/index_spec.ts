@@ -54,8 +54,13 @@ describe('Spartacus Schematics: ng-add', () => {
 
   it('should add spartacus deps', async () => {
     const tree = await schematicRunner
-      .runSchematicAsync('add-spartacus', defaultOptions, appTree)
+      .runSchematicAsync(
+        'ng-add',
+        { ...defaultOptions, name: 'schematics-test' },
+        appTree
+      )
       .toPromise();
+
     const packageJson = tree.readContent('/package.json');
     const packageObj = JSON.parse(packageJson);
     const depPackageList = Object.keys(packageObj.dependencies);
@@ -72,6 +77,7 @@ describe('Spartacus Schematics: ng-add', () => {
         appTree
       )
       .toPromise();
+
     const buffer = tree.read('src/manifest.webmanifest');
     expect(buffer).toBeTruthy();
 

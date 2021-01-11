@@ -43,6 +43,6 @@ export class CostCenterItemService extends ItemService<CostCenter> {
   }
 
   protected getDetailsRoute(): string {
-    return 'costCenterDetails';
+    return 'orgCostCenterDetails';
   }
 }

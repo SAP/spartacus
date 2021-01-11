@@ -20,7 +20,6 @@ import { BulkPricingTableComponent } from './bulk-pricing-table.component';
       cmsComponents: {
         BulkPricingTableComponent: {
           component: BulkPricingTableComponent,
-
         },
       },
     }),
