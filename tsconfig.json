@@ -62,6 +62,15 @@
       "@spartacus/organization/order-approval/root": [
         "feature-libs/organization/order-approval/root/public_api"
       ],
+      "@spartacus/product/bulk-pricing/assets": [
+        "feature-libs/product/bulk-pricing/assets/public_api"
+      ],
+      "@spartacus/product/bulk-pricing": [
+        "feature-libs/product/bulk-pricing/public_api"
+      ],
+      "@spartacus/product/bulk-pricing/root": [
+        "feature-libs/product/bulk-pricing/root/public_api"
+      ],
       "@spartacus/product/configurators/common": [
         "feature-libs/product/configurators/common/public_api"
       ],
