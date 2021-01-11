@@ -1,5 +1,7 @@
 export abstract class MessageConfig {
-  updateConfigurationMessage?: {
-    waitingTime?: number;
+  productConfigurator: {
+    updateConfigurationMessage?: {
+      waitingTime?: number;
+    };
   };
 }
