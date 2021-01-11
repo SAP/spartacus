@@ -8,7 +8,7 @@ export class TmsEvent {
   payload: any;
 }
 
-export abstract class AbstractTmsEventCollector {
+export abstract class TmsEventCollector {
   protected abstract sources: Observable<TmsEvent>[];
 
   constructor(protected eventsService: EventService) {}

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { EventService } from '../../event/event.service';
-import { AbstractTmsEventCollector } from '../../event/tms.event';
+import { TmsEventCollector } from '../../event/tms.event';
 import {
   CartAddEntryEvent,
   CartAddEntryFailEvent,
@@ -14,7 +14,7 @@ import {
  * Registers cart event collectors
  */
 @Injectable({ providedIn: 'root' })
-export class CartEventCollector extends AbstractTmsEventCollector {
+export class CartEventCollector extends TmsEventCollector {
   protected cartAddEntryEvent$ = this.eventsService
     .get(CartAddEntryEvent)
     .pipe(map((event) => this.mapEvent(CartAddEntryEvent.type, event)));
