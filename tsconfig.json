@@ -127,7 +127,7 @@
       ],
       "@spartacus/vendor": [
         "projects/vendor/public_api"
-      ],
+      ]
     }
   },
   "exclude": [

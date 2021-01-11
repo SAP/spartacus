@@ -648,4 +648,3 @@ export const CSS_V2_DOCS_URL =
 export const CSS_V3_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-3/';
 /***** Storefinder end *****/
-export const CLI_QUALTRICS_FEATURE = 'Qualtrics';

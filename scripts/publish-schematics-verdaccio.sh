@@ -50,7 +50,7 @@ cd feature-libs/storefinder
 yarn build:schematics
 cd ../../
 cd feature-libs/qualtrics
-yarn && yarn build:schematics
+yarn build:schematics
 cd ../../
 
 if [[ -z "$SKIP_BUILD" ]]; then
