@@ -600,6 +600,44 @@
           }
         }
       }
+    },
+    "smartedit": {
+      "projectType": "library",
+      "root": "feature-libs/smartedit",
+      "sourceRoot": "feature-libs/smartedit/src",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "feature-libs/smartedit/tsconfig.lib.json",
+            "project": "feature-libs/smartedit/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "feature-libs/smartedit/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "feature-libs/smartedit/src/test.ts",
+            "tsConfig": "feature-libs/smartedit/tsconfig.spec.json",
+            "karmaConfig": "feature-libs/smartedit/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "feature-libs/smartedit/tsconfig.lib.json",
+              "feature-libs/smartedit/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
     }
   },
   "defaultProject": "storefrontapp"
