@@ -1,11 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { BehaviorSubject } from 'rxjs';
+import { Subject } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { TmsEvent } from '../../event';
 import { EventService } from '../../event/event.service';
 import { CartEventCollector } from './cart-event.collector';
 import { CartAddEntryEvent, CartAddEntrySuccessEvent } from './cart.events';
 
-let subject: BehaviorSubject<any>;
+let subject: Subject<any>;
 
 fdescribe('CartEventCollector', () => {
   let eventService: EventService;
@@ -13,8 +14,10 @@ fdescribe('CartEventCollector', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({});
 
-    TestBed.inject(CartEventCollector); // register events
     eventService = TestBed.inject(EventService);
+    subject = new Subject<any>();
+
+    TestBed.inject(CartEventCollector); // register events
   });
 
   describe('CartAddEntryEvent', () => {
@@ -27,13 +30,18 @@ fdescribe('CartEventCollector', () => {
     };
 
     beforeEach(() => {
-      subject = new BehaviorSubject<any>(eventData);
+      subject = new Subject<any>();
       eventService.register(CartAddEntryEvent, subject.asObservable());
     });
 
     it('should be registered', () => {
       let result: TmsEvent;
-      eventService.get(TmsEvent).subscribe((value) => (result = value));
+      eventService
+        .get(TmsEvent)
+        .pipe(take(1))
+        .subscribe((value) => (result = value));
+
+      subject.next(eventData);
       expect(result).not.toBeUndefined();
       expect(result.event).toEqual(CartAddEntryEvent.type);
       expect(result.payload).toEqual(jasmine.objectContaining(eventData));
@@ -53,13 +61,18 @@ fdescribe('CartEventCollector', () => {
     };
 
     beforeEach(() => {
-      subject = new BehaviorSubject<any>(eventData);
+      subject = new Subject<any>();
       eventService.register(CartAddEntrySuccessEvent, subject.asObservable());
     });
 
     it('should be registered', () => {
       let result: TmsEvent;
-      eventService.get(TmsEvent).subscribe((value) => (result = value));
+      eventService
+        .get(TmsEvent)
+        .pipe(take(1))
+        .subscribe((value) => (result = value));
+
+      subject.next(eventData);
       expect(result).not.toBeUndefined();
       expect(result.event).toEqual(CartAddEntrySuccessEvent.type);
       expect(result.payload).toEqual(jasmine.objectContaining(eventData));

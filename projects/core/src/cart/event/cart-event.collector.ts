@@ -49,5 +49,6 @@ export class CartEventCollector extends TmsEventCollector {
 
   constructor(protected eventsService: EventService) {
     super(eventsService);
+    this.register();
   }
 }

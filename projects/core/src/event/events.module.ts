@@ -3,9 +3,7 @@ import { EVENT_BUILDER } from './event.token';
 
 @NgModule({})
 export class EventsModule {
-  constructor(@Optional() @Inject(EVENT_BUILDER) _builders?: any[]) {
-    console.log('registered events: ', ..._builders);
-  }
+  constructor(@Optional() @Inject(EVENT_BUILDER) _builders?: any[]) {}
 
   static forRoot(): ModuleWithProviders<EventsModule> {
     return {
