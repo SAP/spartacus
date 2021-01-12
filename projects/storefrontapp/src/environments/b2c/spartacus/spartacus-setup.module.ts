@@ -61,21 +61,33 @@ import {
 } from '@spartacus/storefront';
 import {
   AnonymousConsentsModule,
+  AsmOccModule,
   AuthModule,
   BaseCoreModule,
   CartModule,
+  CartOccModule,
   CheckoutModule,
+  CheckoutOccModule,
   ExternalRoutesModule,
   PersonalizationModule,
   ProductModule,
+  ProductOccModule,
   SmartEditModule,
   UserModule,
+  UserOccModule,
 } from '@spartacus/core';
 
 @NgModule({
   imports: [
     // Core
     BaseCoreModule.forRoot(),
+
+    // Occ for features
+    AsmOccModule,
+    CartOccModule,
+    CheckoutOccModule,
+    ProductOccModule,
+    UserOccModule,
 
     // Core Features
     AuthModule.forRoot(),
