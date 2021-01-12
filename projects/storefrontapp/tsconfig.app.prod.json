@@ -35,7 +35,8 @@
       "@spartacus/product": ["dist/product"],
       "@spartacus/product-configurator": ["dist/product-configurator"],
       "@spartacus/product-configurator/common": [
-        "dist/product-configurator/common"],
+        "dist/product-configurator/common"
+      ],
 
       "@spartacus/product-configurator/common/assets": [
         "dist/product-configurator/common/assets"
@@ -50,9 +51,9 @@
         "dist/product-configurator/rulebased"
       ],
       "@spartacus/product-configurator/rulebased/root": [
-        "dist/product-configurator/rulebased/root"],
- 
-    
+        "dist/product-configurator/rulebased/root"
+      ],
+
       "@spartacus/storefinder/assets": ["dist/storefinder/assets"],
       "@spartacus/storefinder/components": ["dist/storefinder/components"],
       "@spartacus/storefinder/core": ["dist/storefinder/core"],
