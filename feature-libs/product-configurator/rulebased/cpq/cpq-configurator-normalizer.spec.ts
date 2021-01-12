@@ -206,8 +206,8 @@ describe('CpqConfiguratorNormalizer', () => {
     };
     const values: Configurator.Value[] = [];
     cpqConfiguratorNormalizer.convertValue(cpqValue, cpqAttr, CURRENCY, values);
-    const value: Configurator.Value = values[0];
     expect(values.length).toBe(1);
+    const value: Configurator.Value = values[0];
     expect(value.valueCode).toBe(cpqValuePavId.toString());
     expect(value.name).toBe(cpqValueCode);
     expect(value.valueDisplay).toBe(cpqValueDisplay);
@@ -215,6 +215,19 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(value.productSystemId).toBe(cpqValueProductSystemId);
     expect(value.selected).toBe(true);
     expect(value.quantity).toBe(configuratorValueQuantity);
+  });
+
+  it('should map prices during value convertion', () => {
+    const cpqAttr: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+      dataType: Cpq.DataType.QTY_ATTRIBUTE_LEVEL,
+      quantity: '3',
+    };
+    const values: Configurator.Value[] = [];
+    cpqConfiguratorNormalizer.convertValue(cpqValue, cpqAttr, CURRENCY, values);
+    expect(values.length).toBe(1);
+    const value: Configurator.Value = values[0];
     expect(value.valuePrice).toEqual({
       currencyIso: 'USD',
       value: 123.45,

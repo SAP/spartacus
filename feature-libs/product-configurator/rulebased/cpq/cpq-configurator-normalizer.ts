@@ -271,7 +271,7 @@ export class CpqConfiguratorNormalizer
     }
   }
 
-  private hasAnyProducts(attributeValues: Cpq.Value[]): boolean {
+  protected hasAnyProducts(attributeValues: Cpq.Value[]): boolean {
     return attributeValues.some((value: Cpq.Value) => value?.productSystemId);
   }
 
