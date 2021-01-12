@@ -3,7 +3,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import { SmartEditService } from '../../smart-edit/services/smart-edit.service';
 import { Priority } from '../../util/applicable';
 import { ComponentDecorator } from '../decorators/component-decorator';
-import { HtmlBodyDecorator } from '../decorators/html-body-decorator';
+import { PageDecorator } from '../decorators/page-decorator';
 import { SlotDecorator } from '../decorators/slot-decorator';
 import { DynamicAttributeService } from './dynamic-attribute.service';
 import createSpy = jasmine.createSpy;
@@ -33,7 +33,7 @@ class TestSlotDecorator extends ComponentDecorator {
 }
 
 @Injectable()
-class TestHtmlBodyDecorator extends HtmlBodyDecorator {
+class TestPageDecorator extends PageDecorator {
   decorate = createSpy('decorate');
   hasMatch(): boolean {
     return true;
@@ -52,7 +52,7 @@ describe('DynamicAttributeService', () => {
       providers: [
         TestComponentDecorator,
         TestSlotDecorator,
-        TestHtmlBodyDecorator,
+        TestPageDecorator,
         { provide: SmartEditService, useClass: MockSmartEditService },
         {
           provide: ComponentDecorator,
@@ -65,8 +65,8 @@ describe('DynamicAttributeService', () => {
           multi: true,
         },
         {
-          provide: HtmlBodyDecorator,
-          useExisting: TestHtmlBodyDecorator,
+          provide: PageDecorator,
+          useExisting: TestPageDecorator,
           multi: true,
         },
       ],
@@ -130,11 +130,16 @@ describe('DynamicAttributeService', () => {
     }
   ));
 
-  it('should able to add dynamic attributes to Html body', () => {
-    service.addAttributesToHtmlBody({ pageId: 'testPage' });
+  it('should able to add dynamic attributes to page', inject(
+    [RendererFactory2],
+    (factory: RendererFactory2) => {
+      renderer = factory.createRenderer(null, null);
+      const element = renderer.createElement('div');
+      service.addAttributesToPage(element, renderer, { pageId: 'test' });
 
-    expect(service['htmlBodyDecorators'][0].decorate).toHaveBeenCalledWith({
-      pageId: 'testPage',
-    });
-  });
+      expect(
+        service['pageDecorators'][0].decorate
+      ).toHaveBeenCalledWith(element, renderer, { pageId: 'test' });
+    }
+  ));
 });

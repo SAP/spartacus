@@ -17,7 +17,6 @@ import {
   PageRobotsResolver,
   PageTitleResolver,
 } from '../page';
-import { DynamicAttributeService } from '../services/dynamic-attribute.service';
 import { CmsService } from './cms.service';
 import { PageMetaService } from './page-meta.service';
 
@@ -110,10 +109,6 @@ class PageWithAllResolvers
   }
 }
 
-class MockDynamicAttributeService {
-  addAttributesToHtmlBody() {}
-}
-
 describe('PageMetaService', () => {
   let service: PageMetaService;
   let cmsService: CmsService;
@@ -125,10 +120,6 @@ describe('PageMetaService', () => {
         PageMetaService,
         ContentPageResolver,
         { provide: CmsService, useClass: MockCmsService },
-        {
-          provide: DynamicAttributeService,
-          useClass: MockDynamicAttributeService,
-        },
         {
           provide: PageMetaResolver,
           useExisting: ContentPageResolver,
@@ -155,23 +146,10 @@ describe('PageMetaService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should dynamic attributes to HTML body element ', () => {
-    const dynamicAttributeService: DynamicAttributeService = TestBed.inject(
-      DynamicAttributeService
-    );
-    spyOn(dynamicAttributeService, 'addAttributesToHtmlBody').and.callThrough();
-
-    service.getMeta().subscribe().unsubscribe();
-
-    expect(dynamicAttributeService.addAttributesToHtmlBody).toHaveBeenCalled();
-  });
-
   it('should resolve page title using resolveTitle()', () => {
     const resolver: ContentPageResolver = TestBed.inject(ContentPageResolver);
     spyOn(resolver, 'resolveTitle').and.callThrough();
-
     service.getMeta().subscribe().unsubscribe();
-
     expect(resolver.resolveTitle).toHaveBeenCalled();
   });
 
@@ -211,7 +189,7 @@ describe('PageMetaService', () => {
   });
 });
 
-// Test Custom PageMetaService to bring in custon resolvers (for all pages)
+// Test Custom PageMetaService to bring in custom resolvers (for all pages)
 @Injectable({ providedIn: 'root' })
 export class CustomPageMetaService extends PageMetaService {
   protected resolverMethods = {
@@ -242,6 +220,7 @@ const mockKeywordPage: Page = {
 export interface CustomPageMeta extends PageMeta {
   keywords?: string;
 }
+
 describe('Custom PageTitleService', () => {
   let service: PageMetaService;
   let cmsService: CmsService;
@@ -256,10 +235,6 @@ describe('Custom PageTitleService', () => {
           provide: PageMetaResolver,
           useExisting: PageWithKeywordsResolver,
           multi: true,
-        },
-        {
-          provide: DynamicAttributeService,
-          useClass: MockDynamicAttributeService,
         },
       ],
     });

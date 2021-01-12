@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { filter, map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { defer, Observable, of } from 'rxjs';
+import { filter, map, shareReplay, switchMap } from 'rxjs/operators';
 import { UnifiedInjector } from '../../lazy-loading/unified-injector';
 import { resolveApplicable } from '../../util/applicable';
 import { uniteLatest } from '../../util/rxjs/unite-latest';
 import { Page, PageMeta } from '../model/page.model';
 import { PageMetaResolver } from '../page/page-meta.resolver';
-import { DynamicAttributeService } from '../services/dynamic-attribute.service';
 import { CmsService } from './cms.service';
 
 @Injectable({
@@ -22,27 +21,14 @@ export class PageMetaService {
   >;
 
   constructor(
-    cms: CmsService,
-    unifiedInjector?: UnifiedInjector,
-    // tslint:disable-next-line:unified-signatures
-    dynamicAttributeService?: DynamicAttributeService
-  );
-  /**
-   * @deprecated since 3.0
-   */
-  constructor(cms: CmsService, unifiedInjector?: UnifiedInjector);
-  constructor(
     protected cms: CmsService,
-    protected unifiedInjector?: UnifiedInjector,
-    protected dynamicAttributeService?: DynamicAttributeService
+    protected unifiedInjector?: UnifiedInjector
   ) {}
-
   /**
    * The list of resolver interfaces will be evaluated for the pageResolvers.
    *
-   * TOOD: optimize browser vs SSR resolvers; image, robots and description
+   * TODO: optimize browser vs SSR resolvers; image, robots and description
    *       aren't needed during browsing.
-   * TODO: we can make the list of resolver types configurable
    */
   protected resolverMethods: { [key: string]: string } = {
     title: 'resolveTitle',
@@ -53,18 +39,19 @@ export class PageMetaService {
     robots: 'resolveRobots',
   };
 
+  protected meta$: Observable<PageMeta | null> = defer(() =>
+    this.cms.getCurrentPage()
+  ).pipe(
+    filter(Boolean),
+    switchMap((page: Page) => this.getMetaResolver(page)),
+    switchMap((metaResolver: PageMetaResolver) =>
+      metaResolver ? this.resolve(metaResolver) : of(null)
+    ),
+    shareReplay({ bufferSize: 1, refCount: true })
+  );
+
   getMeta(): Observable<PageMeta | null> {
-    return this.cms.getCurrentPage().pipe(
-      filter(Boolean),
-      tap((page: Page) =>
-        // add dynamic attributes to HTML body element
-        this.dynamicAttributeService.addAttributesToHtmlBody(page)
-      ),
-      switchMap((page: Page) => this.getMetaResolver(page)),
-      switchMap((metaResolver: PageMetaResolver) =>
-        metaResolver ? this.resolve(metaResolver) : of(null)
-      )
-    );
+    return this.meta$;
   }
 
   /**

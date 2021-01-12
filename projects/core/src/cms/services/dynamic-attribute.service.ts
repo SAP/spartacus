@@ -1,8 +1,7 @@
 import { Inject, Injectable, Renderer2 } from '@angular/core';
 import { SmartEditService } from '../../smart-edit/services/smart-edit.service';
-import { resolveApplicable } from '../../util';
 import { ComponentDecorator } from '../decorators/component-decorator';
-import { HtmlBodyDecorator } from '../decorators/html-body-decorator';
+import { PageDecorator } from '../decorators/page-decorator';
 import { SlotDecorator } from '../decorators/slot-decorator';
 import { ContentSlotComponentData } from '../model/content-slot-component-data.model';
 import { ContentSlotData } from '../model/content-slot-data.model';
@@ -23,8 +22,8 @@ export class DynamicAttributeService {
     protected componentDecorators?: ComponentDecorator[],
     @Inject(SlotDecorator)
     protected slotDecorators?: SlotDecorator[],
-    @Inject(HtmlBodyDecorator)
-    protected htmlBodyDecorators?: HtmlBodyDecorator[]
+    @Inject(PageDecorator)
+    protected pageDecorators?: PageDecorator[]
   ) {}
 
   /**
@@ -43,16 +42,12 @@ export class DynamicAttributeService {
       slotData?: ContentSlotData;
     }
   ): void {
-    this.getComponentDecorator()?.decorate(
-      element,
-      renderer,
-      cmsRenderingContext.componentData
+    this.componentDecorators?.forEach((decorator) =>
+      decorator.decorate(element, renderer, cmsRenderingContext.componentData)
     );
 
-    this.getSlotDecorator()?.decorate(
-      element,
-      renderer,
-      cmsRenderingContext.slotData
+    this.slotDecorators?.forEach((decorator) =>
+      decorator.decorate(element, renderer, cmsRenderingContext.slotData)
     );
   }
 
@@ -61,7 +56,9 @@ export class DynamicAttributeService {
     renderer: Renderer2,
     componentData?: ContentSlotComponentData
   ) {
-    this.getComponentDecorator()?.decorate(element, renderer, componentData);
+    this.componentDecorators?.forEach((decorator) =>
+      decorator.decorate(element, renderer, componentData)
+    );
   }
 
   addAttributesToSlot(
@@ -69,22 +66,14 @@ export class DynamicAttributeService {
     renderer: Renderer2,
     slotData?: ContentSlotData
   ) {
-    this.getSlotDecorator()?.decorate(element, renderer, slotData);
+    this.slotDecorators?.forEach((decorator) =>
+      decorator.decorate(element, renderer, slotData)
+    );
   }
 
-  addAttributesToHtmlBody(cmsPage?: Page) {
-    this.getHtmlBodyDecorator()?.decorate(cmsPage);
-  }
-
-  protected getComponentDecorator(): ComponentDecorator {
-    return resolveApplicable(this.componentDecorators);
-  }
-
-  protected getSlotDecorator(): ComponentDecorator {
-    return resolveApplicable(this.slotDecorators);
-  }
-
-  protected getHtmlBodyDecorator(): HtmlBodyDecorator {
-    return resolveApplicable(this.htmlBodyDecorators);
+  addAttributesToPage(element: Element, renderer: Renderer2, cmsPage?: Page) {
+    this.pageDecorators?.forEach((decorator) =>
+      decorator.decorate(element, renderer, cmsPage)
+    );
   }
 }

@@ -1,11 +1,10 @@
 import { Injectable, Renderer2 } from '@angular/core';
-import { Applicable, Priority } from '../../util';
 import { ContentSlotComponentData } from '../model/content-slot-component-data.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export abstract class ComponentDecorator implements Applicable {
+export abstract class ComponentDecorator {
   /**
    * Add attributes to CMS Component element dynamically
    * @param element: CMS component element
@@ -17,8 +16,4 @@ export abstract class ComponentDecorator implements Applicable {
     renderer: Renderer2,
     component?: ContentSlotComponentData
   ): void;
-
-  abstract hasMatch?(...params): boolean;
-
-  abstract getPriority?(): Priority;
 }

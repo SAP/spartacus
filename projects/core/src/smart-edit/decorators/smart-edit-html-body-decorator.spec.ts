@@ -5,9 +5,6 @@ import { SmartEditService } from '../services/smart-edit.service';
 import { SmartEditHtmlBodyDecorator } from './smart-edit-html-body-decorator';
 
 class MockSmartEditService {
-  isLaunchedInSmartEdit() {
-    return true;
-  }
   addSmartEditContract() {}
 }
 
@@ -47,16 +44,10 @@ describe('SmartEditHtmlBodyDecorator', () => {
     expect(decorator).toBeTruthy();
   });
 
-  it('should match when smarteidt is lunch ', () => {
-    expect(decorator.hasMatch()).toEqual(
-      smartEditService.isLaunchedInSmartEdit()
-    );
-  });
-
   it('should call addSmartEditContract', () => {
     const page = { properties: { smartedit: { uuid: 'test-id' } } };
     spyOn(smartEditService, 'addSmartEditContract');
-    decorator.decorate(page);
+    decorator.decorate(undefined, undefined, page);
     expect(smartEditService.addSmartEditContract).toHaveBeenCalledWith(
       winRef.document.body,
       rendererFactory.createRenderer(null, null),

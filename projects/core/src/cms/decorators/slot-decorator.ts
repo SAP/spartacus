@@ -1,11 +1,10 @@
 import { Injectable, Renderer2 } from '@angular/core';
-import { Applicable, Priority } from '../../util';
 import { ContentSlotData } from '../model/content-slot-data.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export abstract class SlotDecorator implements Applicable {
+export abstract class SlotDecorator {
   /**
    * Add attributes to CMS Slot element dynamically
    * @param element: CMS slot element
@@ -17,8 +16,4 @@ export abstract class SlotDecorator implements Applicable {
     renderer: Renderer2,
     slot?: ContentSlotData
   ): void;
-
-  abstract hasMatch?(...params): boolean;
-
-  abstract getPriority?(): Priority;
 }

@@ -3,9 +3,6 @@ import { SmartEditService } from '../services/smart-edit.service';
 import { SmartEditComponentDecorator } from './smart-edit-component-decorator';
 
 class MockSmartEditService {
-  isLaunchedInSmartEdit() {
-    return true;
-  }
   addSmartEditContract() {}
 }
 describe('SmartEditComponentDecorator', () => {
@@ -28,12 +25,6 @@ describe('SmartEditComponentDecorator', () => {
 
   it('should be created', () => {
     expect(decorator).toBeTruthy();
-  });
-
-  it('should match when smarteidt is lunch ', () => {
-    expect(decorator.hasMatch()).toEqual(
-      smartEditService.isLaunchedInSmartEdit()
-    );
   });
 
   it('should call addSmartEditContract', () => {

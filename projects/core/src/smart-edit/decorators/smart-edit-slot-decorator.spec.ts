@@ -3,9 +3,6 @@ import { SmartEditService } from '../services/smart-edit.service';
 import { SmartEditSlotDecorator } from './smart-edit-slot-decorator';
 
 class MockSmartEditService {
-  isLaunchedInSmartEdit() {
-    return true;
-  }
   addSmartEditContract() {}
 }
 describe('SmartEditSlotDecorator', () => {
@@ -28,12 +25,6 @@ describe('SmartEditSlotDecorator', () => {
 
   it('should be created', () => {
     expect(decorator).toBeTruthy();
-  });
-
-  it('should match when smarteidt is lunch ', () => {
-    expect(decorator.hasMatch()).toEqual(
-      smartEditService.isLaunchedInSmartEdit()
-    );
   });
 
   it('should call addSmartEditContract', () => {

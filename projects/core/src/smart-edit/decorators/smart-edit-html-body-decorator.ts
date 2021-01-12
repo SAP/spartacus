@@ -1,47 +1,39 @@
-import { Injectable, RendererFactory2 } from '@angular/core';
-import { HtmlBodyDecorator } from '../../cms/decorators/html-body-decorator';
+import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
+import { PageDecorator } from '../../cms/decorators/page-decorator';
 import { Page } from '../../cms/model/page.model';
-import { Priority } from '../../util/applicable';
 import { WindowRef } from '../../window/window-ref';
 import { SmartEditService } from '../services/smart-edit.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class SmartEditHtmlBodyDecorator extends HtmlBodyDecorator {
+export class SmartEditHtmlBodyDecorator extends PageDecorator {
   constructor(
     protected rendererFactory: RendererFactory2,
     protected winRef: WindowRef,
     protected smartEditService: SmartEditService
   ) {
-    super(rendererFactory, winRef);
+    super();
   }
 
-  decorate(cmsPage: Page): void {
+  decorate(_element: Element, _renderer: Renderer2, cmsPage: Page): void {
     if (cmsPage) {
+      const renderer = this.rendererFactory.createRenderer('body', null);
+      const element = this.winRef.document.body;
+
       // remove old page contract
       const previousContract = [];
-      Array.from(this.element.classList).forEach((attr) =>
+      Array.from(element.classList).forEach((attr) =>
         previousContract.push(attr)
       );
-      previousContract.forEach((attr) =>
-        this.renderer.removeClass(this.element, attr)
-      );
+      previousContract.forEach((attr) => renderer.removeClass(element, attr));
 
       // add new page contract
       this.smartEditService.addSmartEditContract(
-        this.element,
-        this.renderer,
+        element,
+        renderer,
         cmsPage.properties
       );
     }
-  }
-
-  hasMatch(): boolean {
-    return this.smartEditService.isLaunchedInSmartEdit();
-  }
-
-  getPriority(): Priority {
-    return Priority.NORMAL;
   }
 }

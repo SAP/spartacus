@@ -1,7 +1,6 @@
 import { Injectable, Renderer2 } from '@angular/core';
 import { ComponentDecorator } from '../../cms/decorators/component-decorator';
 import { ContentSlotComponentData } from '../../cms/model/content-slot-component-data.model';
-import { Priority } from '../../util/applicable';
 import { SmartEditService } from '../services/smart-edit.service';
 
 @Injectable({
@@ -24,13 +23,5 @@ export class SmartEditComponentDecorator extends ComponentDecorator {
         component.properties
       );
     }
-  }
-
-  hasMatch(): boolean {
-    return this.smartEditService.isLaunchedInSmartEdit();
-  }
-
-  getPriority(): Priority {
-    return Priority.NORMAL;
   }
 }

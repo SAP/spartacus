@@ -1,3 +1,3 @@
 export * from './component-decorator';
-export * from './html-body-decorator';
+export * from './page-decorator';
 export * from './slot-decorator';
