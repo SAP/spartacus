@@ -9,8 +9,8 @@ import { GlobalMessageModule } from './global-message/global-message.module';
 import { ProcessModule } from './process/process.module';
 import { FeaturesConfigModule } from './features-config/features-config.module';
 import { SiteContextModule } from './site-context/site-context.module';
-import { OccModule } from './occ/occ.module';
 import { MetaTagConfigModule } from './occ/config/meta-tag-config.module';
+import { BaseOccModule } from './occ/base-occ.module';
 
 @NgModule({
   imports: [
@@ -24,7 +24,7 @@ import { MetaTagConfigModule } from './occ/config/meta-tag-config.module';
     ProcessModule.forRoot(),
     FeaturesConfigModule.forRoot(),
     SiteContextModule.forRoot(), // should be imported after RouterModule.forRoot, because it overwrites UrlSerializer
-    OccModule.forRoot(),
+    BaseOccModule.forRoot(),
     MetaTagConfigModule.forRoot(),
   ],
 })

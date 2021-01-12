@@ -16,10 +16,10 @@ import { provideDefaultConfig } from '../config/config-providers';
     OccConfigLoaderModule.forRoot(),
   ],
 })
-export class OccModule {
-  static forRoot(): ModuleWithProviders<OccModule> {
+export class BaseOccModule {
+  static forRoot(): ModuleWithProviders<BaseOccModule> {
     return {
-      ngModule: OccModule,
+      ngModule: BaseOccModule,
       providers: [
         {
           provide: HTTP_INTERCEPTORS,
