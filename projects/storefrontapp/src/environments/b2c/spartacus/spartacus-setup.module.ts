@@ -68,6 +68,7 @@ import {
   CartOccModule,
   CheckoutModule,
   CheckoutOccModule,
+  CostCenterOccModule,
   ExternalRoutesModule,
   PersonalizationModule,
   ProductModule,
@@ -86,6 +87,7 @@ import {
     AsmOccModule,
     CartOccModule,
     CheckoutOccModule,
+    CostCenterOccModule,
     ProductOccModule,
     UserOccModule,
 

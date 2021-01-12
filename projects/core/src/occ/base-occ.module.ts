@@ -8,14 +8,12 @@ import { WithCredentialsInterceptor } from './interceptors/with-credentials.inte
 import { CmsOccModule } from './adapters/cms/cms-occ.module';
 import { SiteContextOccModule } from './adapters/site-context/site-context-occ.module';
 import { provideDefaultConfig } from '../config/config-providers';
-import { CostCenterOccModule } from './adapters/cost-center/cost-center-occ.module';
 
 @NgModule({
   imports: [
     CmsOccModule,
     SiteContextOccModule,
     OccConfigLoaderModule.forRoot(),
-    CostCenterOccModule,
   ],
 })
 export class OccModule {
