@@ -32,6 +32,8 @@ export namespace Configurator {
     description?: string;
     selected?: boolean;
     quantity?: number;
+    valuePrice?: PriceDetails;
+    valuePriceTotal?: PriceDetails;
     productSystemId?: string;
     isCommerceProduct?: boolean;
     images?: Image[];
@@ -94,6 +96,9 @@ export namespace Configurator {
     value: string;
     productCode?: string;
     type?: AttributeOverviewType;
+    quantity?: number;
+    valuePrice?: PriceDetails;
+    valuePriceTotal?: PriceDetails;
   }
 
   export interface PriceSummary {
