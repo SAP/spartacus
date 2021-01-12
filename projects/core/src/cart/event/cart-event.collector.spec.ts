@@ -8,7 +8,7 @@ import { CartAddEntryEvent, CartAddEntrySuccessEvent } from './cart.events';
 
 let subject: Subject<any>;
 
-fdescribe('CartEventCollector', () => {
+describe('CartEventCollector', () => {
   let eventService: EventService;
 
   beforeEach(() => {
