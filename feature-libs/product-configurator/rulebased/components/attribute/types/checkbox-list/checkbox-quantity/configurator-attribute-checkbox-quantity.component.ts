@@ -21,7 +21,7 @@ export class ConfiguratorAttributeCheckBoxQuantityComponent
   implements OnDestroy, OnInit {
   loading$ = new BehaviorSubject<boolean>(false);
   quantity = new FormControl(1);
-  private sub: Subscription;
+  protected sub: Subscription;
 
   @Input() value: Configurator.Value;
   @Output() handleQuantity = new EventEmitter<QuantityUpdateEvent>();
