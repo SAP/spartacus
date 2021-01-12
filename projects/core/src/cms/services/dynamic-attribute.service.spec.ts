@@ -1,7 +1,6 @@
 import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { SmartEditService } from '../../smart-edit/services/smart-edit.service';
-import { Priority } from '../../util/applicable';
 import { ComponentDecorator } from '../decorators/component-decorator';
 import { PageDecorator } from '../decorators/page-decorator';
 import { SlotDecorator } from '../decorators/slot-decorator';
@@ -13,34 +12,16 @@ class MockSmartEditService {}
 @Injectable()
 class TestComponentDecorator extends ComponentDecorator {
   decorate = createSpy('decorate');
-  hasMatch(): boolean {
-    return true;
-  }
-  getPriority() {
-    return Priority.HIGH;
-  }
 }
 
 @Injectable()
 class TestSlotDecorator extends ComponentDecorator {
   decorate = createSpy('decorate');
-  hasMatch(): boolean {
-    return true;
-  }
-  getPriority() {
-    return Priority.HIGH;
-  }
 }
 
 @Injectable()
 class TestPageDecorator extends PageDecorator {
   decorate = createSpy('decorate');
-  hasMatch(): boolean {
-    return true;
-  }
-  getPriority() {
-    return Priority.HIGH;
-  }
 }
 
 describe('DynamicAttributeService', () => {
