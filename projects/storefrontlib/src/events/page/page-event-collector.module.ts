@@ -5,7 +5,6 @@ import { PageEventCollector } from './page-event.collector';
 @NgModule({})
 export class PageEventCollectorModule {
   static forRoot(): ModuleWithProviders<PageEventCollectorModule> {
-    console.log('page event collectors module for root');
     return {
       ngModule: PageEventCollectorModule,
       providers: [
