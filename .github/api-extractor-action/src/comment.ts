@@ -64,8 +64,8 @@ Check if you really need to use namespace in the library. Try to avoid namespace
 
   return `\n\n#### :moneybag: How to debug problems?
 <details>
-<summary>Read more</summary>
-
+<summary>Read more
+</summary>
 
 ${analysisContent.includes('import() type') ? importTypeHelp : ''}
 ${analysisContent.includes('import * as') ? namespacedImportHelp : ''}
@@ -99,8 +99,8 @@ function generateCommentForNotAnalyzed(
     .join('\n');
   return `\n\n#### :warning: Some entry points are currently impossible to analyze.
 <details>
-<summary>Read more</summary>
-
+<summary>Read more
+</summary>
 
 ${listOfEntryPoints}
 </details>`;
@@ -212,8 +212,8 @@ ${entry.head.errors.join('\n')}
   ) {
     if (entry.head.errors?.[0] !== entry.base.errors?.[0]) {
       return `### :boom: ${entry.name}
-New error: \`${entry.head.errors[0]}\`
-Previous error: \`${entry.base.errors[0]}\``;
+Previous error: \`${entry.base.errors[0]}\`
+New error: \`${entry.head.errors[0]}\``;
     }
   } else if (entry.head.status === Status.Unknown) {
     return `### :boom: ${entry.name}\nEntry point removed. Are you sure it was intentional?`;
