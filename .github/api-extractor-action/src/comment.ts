@@ -41,7 +41,7 @@ function generateHelpContent(analysisContent: string) {
   const importTypeHelp = `
 **Problem with import() type**
 
-It happens when type is deducted by TS based on code and at the same type the deducted type is not present in the file.
+It happens when type is deduced by TS based on code and at the same time the deduced type is not present in the file.
 In this specific case to support api-extractor it's worth to add type declaration explicitly.
 
 Debugging steps:
