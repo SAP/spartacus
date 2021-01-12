@@ -3,7 +3,7 @@ import { createFrom } from '../util/create-from';
 import { EventService } from './event.service';
 
 export class TmsEvent {
-  static type = 'TmsEvent';
+  static readonly type = 'TmsEvent';
   event: string;
   payload: any;
 }

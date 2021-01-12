@@ -12,7 +12,7 @@ export interface CartEvent {
 // =====================================================================
 
 export class CartAddEntryEvent implements CartEvent {
-  static type = 'CartAddEntryEvent';
+  static readonly type = 'CartAddEntryEvent';
   cartId: string;
   cartCode: string;
   userId: string;
@@ -21,7 +21,7 @@ export class CartAddEntryEvent implements CartEvent {
 }
 
 export class CartAddEntrySuccessEvent implements CartEvent {
-  static type = 'CartAddEntrySuccessEvent';
+  static readonly type = 'CartAddEntrySuccessEvent';
   cartId: string;
   cartCode: string;
   userId: string;
@@ -33,7 +33,7 @@ export class CartAddEntrySuccessEvent implements CartEvent {
 }
 
 export class CartAddEntryFailEvent implements CartEvent {
-  static type = 'CartAddEntryFailEvent';
+  static readonly type = 'CartAddEntryFailEvent';
   cartId: string;
   cartCode: string;
   userId: string;
@@ -42,7 +42,7 @@ export class CartAddEntryFailEvent implements CartEvent {
 }
 
 export class CartRemoveEntrySuccessEvent implements CartEvent {
-  static type = 'CartRemoveEntrySuccessEvent';
+  static readonly type = 'CartRemoveEntrySuccessEvent';
   cartId: string;
   cartCode: string;
   userId: string;
@@ -50,7 +50,7 @@ export class CartRemoveEntrySuccessEvent implements CartEvent {
 }
 
 export class CartUpdateEntrySuccessEvent implements CartEvent {
-  static type = 'CartUpdateEntrySuccessEvent';
+  static readonly type = 'CartUpdateEntrySuccessEvent';
   cartId: string;
   cartCode: string;
   userId: string;

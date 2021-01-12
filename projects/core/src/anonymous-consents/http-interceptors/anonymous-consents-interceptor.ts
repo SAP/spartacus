@@ -14,7 +14,7 @@ import {
   ANONYMOUS_CONSENTS_HEADER,
   ANONYMOUS_CONSENT_STATUS,
 } from '../../model/index';
-import { OccEndpointsService } from '../../occ/index';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { AnonymousConsentsConfig } from '../config/anonymous-consents-config';
 import { AnonymousConsentsService } from '../facade/anonymous-consents.service';
 
