@@ -1,17 +1,17 @@
-<div class="container" *ngIf="bulkPricesArr.length > 0">
-  <table class="table" style="text-align: center">
+<div class="container" *ngIf="pricingTiers.length > 0">
+  <table class="table">
     <thead class="thead-light">
       <tr>
-        <th scope="col">Quantity</th>
-        <th scope="col">Price</th>
-        <th scope="col">Discount</th>
+        <th scope="col">{{ 'bulkPricingTable.quantity' | cxTranslate }}</th>
+        <th scope="col">{{ 'bulkPricingTable.price' | cxTranslate }}</th>
+        <th scope="col">{{ 'bulkPricingTable.discount' | cxTranslate }}</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let tier of bulkPricesArr">
-        <td>{{ tier.min }} - {{ tier.max }}</td>
-        <td>{{ tier.price }}</td>
-        <td>{{ tier.discount }}</td>
+      <tr *ngFor="let tier of pricingTiers">
+        <td>{{ formatQuantity(tier) }}</td>
+        <td>{{ tier.formattedValue }}</td>
+        <td>{{ tier.formattedDiscount }}</td>
       </tr>
     </tbody>
   </table>
