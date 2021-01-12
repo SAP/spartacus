@@ -352,18 +352,22 @@ export function logOutAndEmptyCart() {
 export function manipulateCartQuantity() {
   const product = products[1];
 
-  cy.visit(`/product/${product.code}`);
-
   registerCartRefreshRoute();
+  registerCartPageRoute();
+
+  cy.visit(`/product/${product.code}`);
 
   addToCart();
 
-  cy.wait('@refresh_cart').its('status').should('eq', 200);
+  cy.wait('@refresh_cart');
 
   checkAddedToCartDialog();
   closeAddedToCartDialog();
 
-  checkMiniCartCount(1).click({ force: true });
+  checkMiniCartCount(1);
+  cy.get('cx-mini-cart > a').click({ force: true });
+
+  cy.wait('@cart_page');
 
   checkProductInCart(product, 1).within(() => {
     incrementQuantity();
