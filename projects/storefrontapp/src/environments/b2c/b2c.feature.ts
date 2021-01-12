@@ -1,10 +1,11 @@
-import { B2cStorefrontModule } from '@spartacus/storefront';
-import { FeatureEnvironment } from '../models/feature.model';
-import { StoreFinderRootModule } from '@spartacus/storefinder/root';
+import { SmartEditRootModule } from '@spartacus/smartedit/root';
 import {
   storeFinderTranslationChunksConfig,
   storeFinderTranslations,
 } from '@spartacus/storefinder/assets';
+import { StoreFinderRootModule } from '@spartacus/storefinder/root';
+import { B2cStorefrontModule } from '@spartacus/storefront';
+import { FeatureEnvironment } from '../models/feature.model';
 
 export const b2cFeature: FeatureEnvironment = {
   imports: [
@@ -30,6 +31,10 @@ export const b2cFeature: FeatureEnvironment = {
           module: () =>
             import('@spartacus/storefinder').then((m) => m.StoreFinderModule),
         },
+        smartEdit: {
+          module: () =>
+            import('@spartacus/smartedit').then((m) => m.SmartEditModule),
+        },
       },
       i18n: {
         resources: storeFinderTranslations,
@@ -37,5 +42,6 @@ export const b2cFeature: FeatureEnvironment = {
       },
     }),
     StoreFinderRootModule,
+    SmartEditRootModule,
   ],
 };

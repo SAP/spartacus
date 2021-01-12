@@ -47,7 +47,9 @@
         "../../dist/product/configurators/variant"
       ],
       "@spartacus/product": ["../../dist/product"],
+      "@spartacus/smartedit/core": ["../../dist/smartedit/core"],
       "@spartacus/smartedit": ["../../dist/smartedit"],
+      "@spartacus/smartedit/root": ["../../dist/smartedit/root"],
       "@spartacus/storefinder/assets": ["../../dist/storefinder/assets"],
       "@spartacus/storefinder/components": [
         "../../dist/storefinder/components"

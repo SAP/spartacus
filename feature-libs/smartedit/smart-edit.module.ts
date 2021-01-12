@@ -1,12 +1,7 @@
-import { ModuleWithProviders, NgModule } from '@angular/core';
-import { interceptors } from './http-interceptors/index';
+import { NgModule } from '@angular/core';
+import { SmartEditCoreModule } from '@spartacus/smartedit/core';
 
-@NgModule({})
-export class SmartEditModule {
-  static forRoot(): ModuleWithProviders<SmartEditModule> {
-    return {
-      ngModule: SmartEditModule,
-      providers: [...interceptors],
-    };
-  }
-}
+@NgModule({
+  imports: [SmartEditCoreModule],
+})
+export class SmartEditModule {}

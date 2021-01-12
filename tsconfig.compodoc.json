@@ -77,8 +77,14 @@
       "@spartacus/product": [
         "feature-libs/product/public_api"
       ],
+      "@spartacus/smartedit/core": [
+        "feature-libs/smartedit/core/public_api"
+      ],
       "@spartacus/smartedit": [
         "feature-libs/smartedit/public_api"
+      ],
+      "@spartacus/smartedit/root": [
+        "feature-libs/smartedit/root/public_api"
       ],
       "@spartacus/storefinder/assets": [
         "feature-libs/storefinder/assets/public_api"
