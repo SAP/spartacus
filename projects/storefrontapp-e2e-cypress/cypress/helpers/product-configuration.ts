@@ -1,3 +1,4 @@
+import { AssertionError } from 'assert';
 import { user } from '../sample-data/checkout-flow';
 import * as authentication from './auth-forms';
 import {
@@ -451,6 +452,20 @@ export function selectAttribute(
       break;
     case 'input':
       cy.get(`#${valueId}`).clear().type(value);
+      break;
+    case 'dropdownProduct':
+      cy.get(`#${attributeId} select`).select(valueName);
+      break;
+    case 'radioGroupProduct':
+    case 'checkBoxListProduct':
+      const btnLoc = `#${valueId} .cx-product-card-action button`;
+      cy.get(btnLoc).then((el) => cy.log(`text before click: '${el.text()}'`));
+      cy.get(btnLoc).click({ force: true });
+      break;
+    default:
+      throw new AssertionError({
+        message: `Selecting Attribute '${attributeName}' of UiType '${uiType}' not supported`,
+      });
   }
 
   checkUpdatingMessageNotDisplayed();
@@ -504,8 +519,26 @@ export function checkValueSelected(
   valueName: string
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
-  const valueId = `${attributeId}--${valueName}`;
-  cy.get(`#${valueId}`).should('be.checked');
+  let valueId = `${attributeId}--${valueName}`;
+  if (uiType === 'radioGroupProduct' || uiType === 'checkBoxListProduct') {
+    cy.get(`#${valueId} .cx-product-card`).should(
+      'have.class',
+      'cx-product-card-selected'
+    );
+  } else {
+    if (uiType === 'dropdownProduct') {
+      if (valueName === '0') {
+        // no product card for 'no option slected'
+        cy.get(`#${valueId} .cx-product-card`).should('not.be.visible');
+      } else {
+        cy.get(`#${valueId} .cx-product-card`).should('be.visible');
+      }
+    }
+    if (uiType.startsWith('dropdown')) {
+      valueId = `${attributeId} [value="${valueName}"]`;
+    }
+    cy.get(`#${valueId}`).should('be.checked');
+  }
 }
 
 /**
@@ -521,8 +554,18 @@ export function checkValueNotSelected(
   valueName: string
 ) {
   const attributeId = getAttributeId(attributeName, uiType);
-  const valueId = `${attributeId}--${valueName}`;
-  cy.get(`#${valueId}`).should('not.be.checked');
+  let valueId = `${attributeId}--${valueName}`;
+  if (uiType === 'radioGroupProduct' || uiType === 'checkBoxListProduct') {
+    cy.get(`#${valueId} .cx-product-card`).should(
+      'not.have.class',
+      'cx-product-card-selected'
+    );
+  } else {
+    if (uiType.startsWith('dropdown')) {
+      valueId = `${attributeId} [value="${valueName}"]`;
+    }
+    cy.get(`#${valueId}`).should('not.be.checked');
+  }
 }
 
 /**
