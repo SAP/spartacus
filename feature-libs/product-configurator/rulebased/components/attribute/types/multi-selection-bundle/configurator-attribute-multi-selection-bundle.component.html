@@ -1,5 +1,9 @@
-<ng-container *ngIf="attribute?.values?.length">
+<div
+  id="{{ createAttributeIdForConfigurator(attribute) }}"
+  *ngIf="attribute?.values?.length"
+>
   <cx-configurator-attribute-product-card
+    id="{{ createAttributeValueIdForConfigurator(attribute, value.valueCode) }}"
     (handleDeselect)="onDeselect($event)"
     (handleQuantity)="onChangeQuantity($event)"
     (handleSelect)="onSelect($event)"
@@ -10,4 +14,4 @@
     [withQuantity]="withQuantity"
   >
   </cx-configurator-attribute-product-card>
-</ng-container>
+</div>

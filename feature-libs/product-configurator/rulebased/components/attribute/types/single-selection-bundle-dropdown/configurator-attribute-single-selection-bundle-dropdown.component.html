@@ -21,6 +21,12 @@
 
   <ng-container *ngIf="selectionValue?.valueCode !== '0'">
     <cx-configurator-attribute-product-card
+      id="{{
+        createAttributeValueIdForConfigurator(
+          attribute,
+          selectionValue.valueCode
+        )
+      }}"
       (handleDeselect)="onDeselect()"
       (handleQuantity)="onChangeQuantity($event)"
       [product]="selectionValue"
