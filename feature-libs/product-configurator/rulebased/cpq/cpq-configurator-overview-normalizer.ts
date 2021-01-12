@@ -95,7 +95,7 @@ export class CpqConfiguratorOverviewNormalizer
     attr: Cpq.Attribute,
     currency: string
   ): Configurator.AttributeOverview {
-    let ovValue: Configurator.AttributeOverview = {
+    const ovValue: Configurator.AttributeOverview = {
       attribute: undefined,
       value: valueSelected.valueDisplay,
       productCode: valueSelected.productSystemId,
@@ -114,7 +114,7 @@ export class CpqConfiguratorOverviewNormalizer
     currency: string
   ): Configurator.AttributeOverview {
     const value: Cpq.Value = attr.values[0];
-    let ovValue: Configurator.AttributeOverview = {
+    const ovValue: Configurator.AttributeOverview = {
       attribute: undefined,
       value: attr.userInput,
       quantity: null,

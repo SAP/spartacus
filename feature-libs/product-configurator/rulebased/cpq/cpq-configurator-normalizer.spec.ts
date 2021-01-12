@@ -198,19 +198,14 @@ describe('CpqConfiguratorNormalizer', () => {
   });
 
   it('should convert values', () => {
-    const cpqAttribute: Cpq.Attribute = {
+    const cpqAttr: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
       dataType: Cpq.DataType.QTY_ATTRIBUTE_LEVEL,
       quantity: '3',
     };
     const values: Configurator.Value[] = [];
-    cpqConfiguratorNormalizer.convertValue(
-      cpqValue,
-      cpqAttribute,
-      CURRENCY,
-      values
-    );
+    cpqConfiguratorNormalizer.convertValue(cpqValue, cpqAttr, CURRENCY, values);
     const value: Configurator.Value = values[0];
     expect(values.length).toBe(1);
     expect(value.valueCode).toBe(cpqValuePavId.toString());
