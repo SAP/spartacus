@@ -1,21 +1,22 @@
 import { Injectable } from '@angular/core';
 import { StateEventService } from '../../../state/event/state-event.service';
 import { AuthActions } from '../store/actions/index';
-import { LoginEvent } from './user-auth.events';
+import { LoginEvent, LogoutEvent } from './user-auth.events';
 
 @Injectable({
   providedIn: 'root',
 })
-export class LoginEventBuilder {
+export class UserAuthEventBuilder {
   constructor(protected stateEventService: StateEventService) {
     this.register();
   }
 
   /**
-   * Registers login events
+   * Registers user auth events
    */
   protected register(): void {
     this.registerLoginEvent();
+    this.registerLogoutEvent();
   }
 
   /**
@@ -25,6 +26,16 @@ export class LoginEventBuilder {
     this.stateEventService.register({
       action: AuthActions.LOGIN,
       event: LoginEvent,
+    });
+  }
+
+  /**
+   * Register a logout event
+   */
+  protected registerLogoutEvent(): void {
+    this.stateEventService.register({
+      action: AuthActions.LOGOUT,
+      event: LogoutEvent,
     });
   }
 }
