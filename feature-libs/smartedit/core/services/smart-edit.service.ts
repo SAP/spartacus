@@ -8,17 +8,14 @@ import {
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
-import { combineLatest } from 'rxjs';
-import { filter, take, takeWhile } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SmartEditService {
-  private _cmsTicketId: string;
   private isPreviewPage = false;
   private _currentPageId: string;
-  private _launchedInSmartEdit = false;
 
   private defaultPreviewProductCode: string;
   private defaultPreviewCategoryCode: string;
@@ -30,8 +27,6 @@ export class SmartEditService {
     protected zone: NgZone,
     protected winRef: WindowRef
   ) {
-    this.getCmsTicket();
-
     if (winRef.nativeWindow) {
       const window = winRef.nativeWindow as any;
       // rerender components and slots after editing
@@ -49,36 +44,7 @@ export class SmartEditService {
     }
   }
 
-  get cmsTicketId(): string {
-    return this._cmsTicketId;
-  }
-
-  protected getCmsTicket() {
-    combineLatest([
-      this.cmsService.getCurrentPage(),
-      this.routingService.getRouterState(),
-    ])
-      .pipe(
-        takeWhile(([cmsPage]) => cmsPage === undefined),
-        filter(([, routerState]) => {
-          if (routerState.nextState && !this._cmsTicketId) {
-            this._cmsTicketId =
-              routerState.nextState.queryParams['cmsTicketId'];
-            if (this._cmsTicketId) {
-              return true;
-            }
-          }
-          return false;
-        }),
-        take(1)
-      )
-      .subscribe(() => {
-        this._launchedInSmartEdit = true;
-        this.getDefaultPreviewCode();
-      });
-  }
-
-  protected getDefaultPreviewCode() {
+  public getDefaultPreviewCode() {
     this.baseSiteService
       .get()
       .pipe(filter(Boolean), take(1))
@@ -86,13 +52,15 @@ export class SmartEditService {
         this.defaultPreviewCategoryCode = site.defaultPreviewCategoryCode;
         this.defaultPreviewProductCode = site.defaultPreviewProductCode;
 
+        console.log(this.defaultPreviewCategoryCode);
+
         this.addPageContract();
       });
   }
 
   protected addPageContract() {
     this.cmsService.getCurrentPage().subscribe((cmsPage) => {
-      if (cmsPage && this._cmsTicketId) {
+      if (cmsPage) {
         this._currentPageId = cmsPage.pageId;
 
         // before adding contract to page, we need redirect to that page
@@ -167,12 +135,5 @@ export class SmartEditService {
 
   protected reprocessPage() {
     // TODO: reprocess page API
-  }
-
-  /**
-   * Whether the app launched in smart edit
-   */
-  isLaunchedInSmartEdit(): boolean {
-    return this._launchedInSmartEdit;
   }
 }

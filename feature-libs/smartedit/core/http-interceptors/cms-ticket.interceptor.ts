@@ -5,12 +5,12 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { SmartEditLauncherService } from '@spartacus/smartedit/root';
 import { Observable } from 'rxjs';
-import { SmartEditService } from '../services/smart-edit.service';
 
 @Injectable({ providedIn: 'root' })
 export class CmsTicketInterceptor implements HttpInterceptor {
-  constructor(private service: SmartEditService) {}
+  constructor(private service: SmartEditLauncherService) {}
 
   intercept(
     request: HttpRequest<any>,
