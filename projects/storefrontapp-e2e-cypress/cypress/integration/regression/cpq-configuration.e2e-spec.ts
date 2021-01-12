@@ -7,11 +7,11 @@ const password = 'welcome';
 const cpqUser = 'cpq03';
 
 // UI types
-const RB = 'radioGroup';
-const CBL = 'checkBoxList';
-const RB_P = 'radioGroupProduct';
-const CBL_P = 'checkBoxListProduct';
-const DDLB_P = 'dropdownProduct';
+const RadGrp = 'radioGroup';
+const ChkBox = 'checkBoxList';
+const RadGrpProd = 'radioGroupProduct';
+const ChkBoxProd = 'checkBoxListProduct';
+const DDLBProd = 'dropdownProduct';
 
 /******************************* */
 /** Configurable Coffee-Machine  */
@@ -31,11 +31,11 @@ const VAL_COF_MODE = '8845';
 /** Configurable Camera Bundle */
 const PROD_CODE_CAM = 'CONF_CAMERA_BUNDLE';
 /** Camera Body */
-const ATTR_CAM_BD = '2893';
+const ATTR_CAM_BODY = '2893';
 /** Nikon D850 */
-const VAL_CAM_BD_D850 = '8711';
+const VAL_CAM_BODY_D850 = '8711';
 /**  Canon EOS 80D */
-const VAL_CAM_BD_EOS80D = '8712';
+const VAL_CAM_BODY_EOS80D = '8712';
 /** Memory Card */
 const ATTR_CAM_MC = '2894';
 /** Sandisk Memory Card */
@@ -96,43 +96,75 @@ context('CPQ Configuration', () => {
       configuration.goToPDPage(POWERTOOLS, PROD_CODE_COF);
       configuration.clickOnConfigureBtnInCatalog();
 
-      configuration.checkAttributeDisplayed(ATTR_COF_CUPS, RB);
+      configuration.checkAttributeDisplayed(ATTR_COF_CUPS, RadGrp);
 
-      configuration.selectAttribute(ATTR_COF_CUPS, RB, VAL_COF_CUPS_300);
-      configuration.checkValueSelected(RB, ATTR_COF_CUPS, VAL_COF_CUPS_300);
+      configuration.selectAttribute(ATTR_COF_CUPS, RadGrp, VAL_COF_CUPS_300);
+      configuration.checkValueSelected(RadGrp, ATTR_COF_CUPS, VAL_COF_CUPS_300);
 
-      configuration.selectAttribute(ATTR_COF_CUPS, RB, VAL_COF_CUPS_500);
-      configuration.checkValueSelected(RB, ATTR_COF_CUPS, VAL_COF_CUPS_500);
+      configuration.selectAttribute(ATTR_COF_CUPS, RadGrp, VAL_COF_CUPS_500);
+      configuration.checkValueSelected(RadGrp, ATTR_COF_CUPS, VAL_COF_CUPS_500);
     });
 
     it('should support checkbox list attribute type', () => {
       configuration.goToPDPage(POWERTOOLS, PROD_CODE_COF);
       configuration.clickOnConfigureBtnInCatalog();
 
-      configuration.checkAttributeDisplayed(ATTR_COF_MODE, CBL);
-      configuration.checkValueNotSelected(CBL, ATTR_COF_MODE, VAL_COF_MODE);
+      configuration.checkAttributeDisplayed(ATTR_COF_MODE, ChkBox);
+      configuration.checkValueNotSelected(ChkBox, ATTR_COF_MODE, VAL_COF_MODE);
 
-      configuration.selectAttribute(ATTR_COF_MODE, CBL, VAL_COF_MODE);
-      configuration.checkValueSelected(CBL, ATTR_COF_MODE, VAL_COF_MODE);
+      configuration.selectAttribute(ATTR_COF_MODE, ChkBox, VAL_COF_MODE);
+      configuration.checkValueSelected(ChkBox, ATTR_COF_MODE, VAL_COF_MODE);
 
-      configuration.selectAttribute(ATTR_COF_MODE, CBL, VAL_COF_MODE);
-      configuration.checkValueNotSelected(CBL, ATTR_COF_MODE, VAL_COF_MODE);
+      configuration.selectAttribute(ATTR_COF_MODE, ChkBox, VAL_COF_MODE);
+      configuration.checkValueNotSelected(ChkBox, ATTR_COF_MODE, VAL_COF_MODE);
     });
 
     it('should support single select (radio) bundle items', () => {
       configuration.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_CAM);
 
-      configuration.checkAttributeDisplayed(ATTR_CAM_BD, RB_P);
-      configuration.checkValueNotSelected(RB_P, ATTR_CAM_BD, VAL_CAM_BD_D850);
-      configuration.checkValueNotSelected(RB_P, ATTR_CAM_BD, VAL_CAM_BD_EOS80D);
+      configuration.checkAttributeDisplayed(ATTR_CAM_BODY, RadGrpProd);
+      configuration.checkValueNotSelected(
+        RadGrpProd,
+        ATTR_CAM_BODY,
+        VAL_CAM_BODY_D850
+      );
+      configuration.checkValueNotSelected(
+        RadGrpProd,
+        ATTR_CAM_BODY,
+        VAL_CAM_BODY_EOS80D
+      );
 
-      configuration.selectAttribute(ATTR_CAM_BD, RB_P, VAL_CAM_BD_D850);
-      configuration.checkValueSelected(RB_P, ATTR_CAM_BD, VAL_CAM_BD_D850);
-      configuration.checkValueNotSelected(RB_P, ATTR_CAM_BD, VAL_CAM_BD_EOS80D);
+      configuration.selectAttribute(
+        ATTR_CAM_BODY,
+        RadGrpProd,
+        VAL_CAM_BODY_D850
+      );
+      configuration.checkValueSelected(
+        RadGrpProd,
+        ATTR_CAM_BODY,
+        VAL_CAM_BODY_D850
+      );
+      configuration.checkValueNotSelected(
+        RadGrpProd,
+        ATTR_CAM_BODY,
+        VAL_CAM_BODY_EOS80D
+      );
 
-      configuration.selectAttribute(ATTR_CAM_BD, RB_P, VAL_CAM_BD_EOS80D);
-      configuration.checkValueNotSelected(RB_P, ATTR_CAM_BD, VAL_CAM_BD_D850);
-      configuration.checkValueSelected(RB_P, ATTR_CAM_BD, VAL_CAM_BD_EOS80D);
+      configuration.selectAttribute(
+        ATTR_CAM_BODY,
+        RadGrpProd,
+        VAL_CAM_BODY_EOS80D
+      );
+      configuration.checkValueNotSelected(
+        RadGrpProd,
+        ATTR_CAM_BODY,
+        VAL_CAM_BODY_D850
+      );
+      configuration.checkValueSelected(
+        RadGrpProd,
+        ATTR_CAM_BODY,
+        VAL_CAM_BODY_EOS80D
+      );
     });
 
     it('should support single select (ddlb) bundle items', () => {
@@ -140,29 +172,45 @@ context('CPQ Configuration', () => {
       configuration.clickOnGroup(2);
       configuration.checkCurrentGroupActive(GRP_CAM_IAW);
 
-      configuration.checkAttributeDisplayed(ATTR_CAM_INS, DDLB_P);
-      configuration.checkValueSelected(DDLB_P, ATTR_CAM_INS, VAL_NO_OPT_SEL);
-      configuration.checkValueNotSelected(DDLB_P, ATTR_CAM_INS, VAL_CB_INS_Y2);
+      configuration.checkAttributeDisplayed(ATTR_CAM_INS, DDLBProd);
+      configuration.checkValueSelected(DDLBProd, ATTR_CAM_INS, VAL_NO_OPT_SEL);
+      configuration.checkValueNotSelected(
+        DDLBProd,
+        ATTR_CAM_INS,
+        VAL_CB_INS_Y2
+      );
 
-      configuration.selectAttribute(ATTR_CAM_INS, DDLB_P, VAL_CB_INS_Y2);
-      configuration.checkValueNotSelected(DDLB_P, ATTR_CAM_INS, VAL_NO_OPT_SEL);
-      configuration.checkValueSelected(DDLB_P, ATTR_CAM_INS, VAL_CB_INS_Y2);
+      configuration.selectAttribute(ATTR_CAM_INS, DDLBProd, VAL_CB_INS_Y2);
+      configuration.checkValueNotSelected(
+        DDLBProd,
+        ATTR_CAM_INS,
+        VAL_NO_OPT_SEL
+      );
+      configuration.checkValueSelected(DDLBProd, ATTR_CAM_INS, VAL_CB_INS_Y2);
     });
 
     it('should support multi select bundle items', () => {
       configuration.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_CAM);
 
-      configuration.checkAttributeDisplayed(ATTR_CAM_MC, CBL_P);
-      configuration.checkValueSelected(CBL_P, ATTR_CAM_MC, VAL_CAM_MC_128);
-      configuration.checkValueNotSelected(CBL_P, ATTR_CAM_MC, VAL_CAM_MC_64);
+      configuration.checkAttributeDisplayed(ATTR_CAM_MC, ChkBoxProd);
+      configuration.checkValueSelected(ChkBoxProd, ATTR_CAM_MC, VAL_CAM_MC_128);
+      configuration.checkValueNotSelected(
+        ChkBoxProd,
+        ATTR_CAM_MC,
+        VAL_CAM_MC_64
+      );
 
-      configuration.selectAttribute(ATTR_CAM_MC, CBL_P, VAL_CAM_MC_64);
-      configuration.checkValueSelected(CBL_P, ATTR_CAM_MC, VAL_CAM_MC_128);
-      configuration.checkValueSelected(CBL_P, ATTR_CAM_MC, VAL_CAM_MC_64);
+      configuration.selectAttribute(ATTR_CAM_MC, ChkBoxProd, VAL_CAM_MC_64);
+      configuration.checkValueSelected(ChkBoxProd, ATTR_CAM_MC, VAL_CAM_MC_128);
+      configuration.checkValueSelected(ChkBoxProd, ATTR_CAM_MC, VAL_CAM_MC_64);
 
-      configuration.selectAttribute(ATTR_CAM_MC, CBL_P, VAL_CAM_MC_128);
-      configuration.checkValueNotSelected(CBL_P, ATTR_CAM_MC, VAL_CAM_MC_128);
-      configuration.checkValueSelected(CBL_P, ATTR_CAM_MC, VAL_CAM_MC_64);
+      configuration.selectAttribute(ATTR_CAM_MC, ChkBoxProd, VAL_CAM_MC_128);
+      configuration.checkValueNotSelected(
+        ChkBoxProd,
+        ATTR_CAM_MC,
+        VAL_CAM_MC_128
+      );
+      configuration.checkValueSelected(ChkBoxProd, ATTR_CAM_MC, VAL_CAM_MC_64);
     });
   });
 
