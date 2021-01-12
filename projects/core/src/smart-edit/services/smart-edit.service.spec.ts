@@ -99,6 +99,49 @@ describe('SmartEditService', () => {
     });
   });
 
+  describe('should add page contract', () => {
+    it('when navigate to a new page', () => {
+      spyOn(cmsService, 'getCurrentPage').and.returnValues(
+        of(undefined),
+        of({
+          pageId: 'testPageId',
+          properties: {
+            smartedit: {
+              classes:
+                'smartedit-page-uid-testPageId smartedit-page-uuid-testPageUuid smartedit-catalog-version-uuid-testPageCatalogUuid',
+            },
+          },
+        } as any)
+      );
+      spyOn(routingService, 'getRouterState').and.returnValue(
+        of({
+          nextState: {
+            url: '/test',
+            queryParams: { cmsTicketId: 'mockCmsTicketId' },
+          },
+        } as any)
+      );
+      spyOn(baseSiteService, 'get').and.returnValue(
+        of({
+          defaultPreviewProductCode: 'test product code',
+          defaultPreviewCategoryCode: 'test category code',
+        })
+      );
+      service['getCmsTicket']();
+      expect(
+        document.body.classList.contains('smartedit-page-uid-testPageId')
+      ).toBeTruthy();
+      expect(
+        document.body.classList.contains('smartedit-page-uuid-testPageUuid')
+      ).toBeTruthy();
+      expect(
+        document.body.classList.contains(
+          'smartedit-catalog-version-uuid-testPageCatalogUuid'
+        )
+      ).toBeTruthy();
+    });
+  });
+
   describe('should go to the preview page', () => {
     it('no redirect for ContentPage', () => {
       spyOn(cmsService, 'getCurrentPage').and.returnValues(

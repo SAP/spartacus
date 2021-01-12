@@ -84,13 +84,7 @@ export class SmartEditService {
         this.defaultPreviewCategoryCode = site.defaultPreviewCategoryCode;
         this.defaultPreviewProductCode = site.defaultPreviewProductCode;
 
-        // go to the default preview page
-        this.cmsService.getCurrentPage().subscribe((cmsPage) => {
-          if (cmsPage && this._cmsTicketId) {
-            this._currentPageId = cmsPage.pageId;
-            this.goToPreviewPage(cmsPage);
-          }
-        });
+        this.addPageContract();
       });
   }
 
