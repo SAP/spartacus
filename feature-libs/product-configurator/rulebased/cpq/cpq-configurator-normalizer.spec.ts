@@ -736,7 +736,7 @@ describe('CpqConfiguratorNormalizer', () => {
       valueSelected,
       CURRENCY
     );
-    expect(valuePrice).toBeNull;
+    expect(valuePrice).toBeNull();
   });
 
   it('should calculate value price total', () => {
