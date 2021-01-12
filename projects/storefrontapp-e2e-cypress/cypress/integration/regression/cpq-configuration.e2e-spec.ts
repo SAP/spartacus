@@ -91,7 +91,7 @@ context('CPQ Configuration', () => {
     });
   });
 
-  describe('UiTypes', () => {
+  describe('Handling different UI type', () => {
     it('should support radio button attribute type', () => {
       configuration.goToPDPage(POWERTOOLS, PROD_CODE_COF);
       configuration.clickOnConfigureBtnInCatalog();
