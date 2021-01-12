@@ -40,7 +40,6 @@ export const configurator = {
       more: 'more',
       less: 'less',
       select: 'Select',
-      deselect: 'Deselect',
       add: 'Add',
       remove: 'Remove',
     },
