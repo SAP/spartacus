@@ -6,7 +6,7 @@
       max-height: 48px;
     }
     @include media-breakpoint-down(sm) {
-      font-size: var(--cx-font-size, 14px);
+      font-size: var(--cx-font-size, 12px);
     }
   }
 
@@ -33,7 +33,8 @@
     input,
     p {
       @include media-breakpoint-down(sm) {
-        font-size: var(--cx-font-size, 14px);
+        font-size: var(--cx-font-size, 12px);
+        white-space: normal;
       }
     }
   }
@@ -73,7 +74,7 @@
     span {
       @include media-breakpoint-down(sm) {
         white-space: normal;
-        font-size: var(--cx-font-size, 14px);
+        font-size: var(--cx-font-size, 12px);
       }
     }
   }
