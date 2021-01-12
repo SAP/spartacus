@@ -16,7 +16,6 @@ import { filter, take } from 'rxjs/operators';
 @Component({
   selector: 'cx-variant-generic-selector',
   templateUrl: './variant-generic-selector.component.html',
-  styleUrls: ['./variant-generic-selector.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VariantGenericSelectorComponent implements OnInit {
@@ -68,7 +67,6 @@ export class VariantGenericSelectorComponent implements OnInit {
 
       if (1 !== level) {
         productMatrix = productMatrix[currentLevelProductVariantIndex].elements;
-      } else {
       }
 
       this.variants.push(productMatrix);

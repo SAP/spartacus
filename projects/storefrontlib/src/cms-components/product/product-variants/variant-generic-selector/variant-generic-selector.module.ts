@@ -5,14 +5,9 @@ import { RouterModule } from '@angular/router';
 import { VariantGenericSelectorComponent } from './variant-generic-selector.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    UrlModule,
-    I18nModule,
-  ],
+  imports: [CommonModule, RouterModule, UrlModule, I18nModule],
   declarations: [VariantGenericSelectorComponent],
   entryComponents: [VariantGenericSelectorComponent],
   exports: [VariantGenericSelectorComponent],
 })
-export class VariantGenericSelectorModule { }
+export class VariantGenericSelectorModule {}
