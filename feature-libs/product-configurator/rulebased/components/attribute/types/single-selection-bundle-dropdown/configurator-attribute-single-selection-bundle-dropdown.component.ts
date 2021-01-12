@@ -30,8 +30,6 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   ngOnInit() {
-    console.log(this.attribute, 'drop bundle');
-
     this.attributeDropDownForm.setValue(this.attribute.selectedSingleValue);
 
     this.selectionValue = this.attribute.values.find((value) => value.selected);

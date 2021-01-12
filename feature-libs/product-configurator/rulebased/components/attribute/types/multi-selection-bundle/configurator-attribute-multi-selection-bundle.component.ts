@@ -35,7 +35,6 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   ngOnInit() {
-    console.log(this.attribute, 'multibundle');
     this.multipleSelectionValues = this.attribute.values.map(
       ({ name, quantity, selected, valueCode }) => ({
         name,

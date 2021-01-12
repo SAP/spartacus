@@ -35,10 +35,9 @@ export class ConfiguratorAttributeCheckBoxListComponent
   attributeCheckBoxForms = new Array<FormControl>();
 
   ngOnInit() {
-    console.log(this.attribute, 'checkboxlist');
     for (const value of this.attribute.values) {
       let attributeCheckBoxForm;
-      if (value.selected === true) {
+      if (value.selected === true && value.quantity > 0) {
         attributeCheckBoxForm = new FormControl(true);
       } else {
         attributeCheckBoxForm = new FormControl(false);
@@ -75,7 +74,13 @@ export class ConfiguratorAttributeCheckBoxListComponent
     this.selectionChange.emit(event);
   }
 
-  onChangeQuantity(eventObject): void {
+  onChangeQuantity(eventObject, formIndex): void {
+    if (eventObject.quantity === 0) {
+      this.attributeCheckBoxForms[formIndex].setValue(false);
+      this.onSelect();
+      return;
+    }
+
     const value: Configurator.Value = this.configUtilsService
       .assembleValuesForMultiSelectAttributes(
         this.attributeCheckBoxForms,
