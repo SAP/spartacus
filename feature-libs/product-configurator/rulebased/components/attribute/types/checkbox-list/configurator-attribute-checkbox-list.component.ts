@@ -3,6 +3,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  isDevMode,
   OnInit,
   Output,
 } from '@angular/core';
@@ -74,7 +75,13 @@ export class ConfiguratorAttributeCheckBoxListComponent
       )
       .find((item) => item.valueCode === eventObject.valueCode);
 
-    if (!value) return;
+    if (!value) {
+      if (isDevMode()) {
+        console.warn('no value for event:', eventObject);
+      }
+
+      return;
+    }
 
     value.quantity = eventObject.quantity;
 
