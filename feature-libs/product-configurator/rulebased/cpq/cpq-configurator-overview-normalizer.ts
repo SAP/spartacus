@@ -66,7 +66,7 @@ export class CpqConfiguratorOverviewNormalizer
     switch (attr.displayAs) {
       case Cpq.DisplayAs.INPUT:
         if (attr.userInput && attr.userInput.length > 0) {
-          ovValues.push({ attribute: undefined, value: attr.userInput });
+          ovValues.push(this.extractOvValueUserInput(attr, currency));
         }
         break;
       case Cpq.DisplayAs.RADIO_BUTTON:
@@ -90,24 +90,6 @@ export class CpqConfiguratorOverviewNormalizer
     return ovValues;
   }
 
-  protected extractOvValueUserInput(
-    value: Cpq.Value,
-    attr: Cpq.Attribute,
-    currency: string
-  ): Configurator.AttributeOverview {
-    let ovValue: Configurator.AttributeOverview = {
-      attribute: undefined,
-      value: attr.userInput,
-      quantity: 1,
-      valuePrice: this.prepareValuePrice(value, currency),
-    };
-    ovValue.valuePriceTotal = this.calculateValuePriceTotal(
-      ovValue.quantity,
-      ovValue.valuePrice
-    );
-    return ovValue;
-  }
-
   protected extractOvValue(
     valueSelected: Cpq.Value,
     attr: Cpq.Attribute,
@@ -119,6 +101,24 @@ export class CpqConfiguratorOverviewNormalizer
       productCode: valueSelected.productSystemId,
       quantity: this.prepareQuantity(valueSelected, attr),
       valuePrice: this.prepareValuePrice(valueSelected, currency),
+    };
+    ovValue.valuePriceTotal = this.calculateValuePriceTotal(
+      ovValue.quantity,
+      ovValue.valuePrice
+    );
+    return ovValue;
+  }
+
+  protected extractOvValueUserInput(
+    attr: Cpq.Attribute,
+    currency: string
+  ): Configurator.AttributeOverview {
+    const value: Cpq.Value = attr.values[0];
+    let ovValue: Configurator.AttributeOverview = {
+      attribute: undefined,
+      value: attr.userInput,
+      quantity: null,
+      valuePrice: this.prepareValuePrice(value, currency),
     };
     ovValue.valuePriceTotal = this.calculateValuePriceTotal(
       ovValue.quantity,
@@ -178,7 +178,7 @@ export class CpqConfiguratorOverviewNormalizer
 
   protected formatPrice(price: Configurator.PriceDetails): void {
     // TODO AK: implement formatting
-    price.formattedValue = price.value.toString();
+    price.formattedValue = price.value.toString() + ' ' + price.currencyIso;
   }
 
   protected calculateTotalNumberOfIssues(source: Cpq.Configuration): number {
