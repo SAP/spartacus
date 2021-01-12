@@ -19,8 +19,8 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 })
 export class ConfiguratorAttributeCheckBoxQuantityComponent
   implements OnDestroy, OnInit {
-  loading$ = new BehaviorSubject<boolean>(false);
-  quantity = new FormControl(1);
+  protected loading$ = new BehaviorSubject<boolean>(false);
+  protected quantity = new FormControl(1);
   private sub: Subscription;
 
   @Input() value: Configurator.Value;
