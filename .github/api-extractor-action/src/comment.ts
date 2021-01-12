@@ -23,9 +23,53 @@ function generateCommentBody(
   analyzedComments: string[],
   notAnalyzableEntryPoints: [string, string][]
 ): string {
-  return `${COMMENT_HEADER}\n${generateCommentForAnalyzed(
+  const analysisContent = `${generateCommentForAnalyzed(
     analyzedComments
   )}${generateCommentForNotAnalyzed(notAnalyzableEntryPoints)}`;
+
+  return `${COMMENT_HEADER}\n${analysisContent}\n${generateHelpContent(
+    analysisContent
+  )}`;
+}
+
+/**
+ * Generate help information related to found errors to help developers debug the issue.
+ *
+ * @param analysisContent Comment for libraries after analysis
+ */
+function generateHelpContent(analysisContent: string) {
+  const importTypeHelp = `
+**Problem with import() type**
+
+It happens when type is deducted by TS based on code and at the same type the deducted type is not present in the file.
+In this specific case to support api-extractor it's worth to add type declaration explicitly.
+
+Debugging steps:
+
+- go to the bot action logs
+- find api-extractor logs for broken library
+- check in which file and line the problems exists
+- build the library locally and check content of the file mentioned in logs (look for \`import(\`)
+- add explicit type to problematic source code
+- build the library once again and verify that the \`import(\` is no longer present
+- commit and push the code with defined type
+`;
+
+  const namespacedImportHelp = `
+**Problem with import * as ___**
+
+Api-extractor doesn't support this namespace syntax.
+Check if you really need to use namespace in the library. Try to avoid namespaces when possible.
+`;
+
+  return `\n\n#### :moneybag: How to debug problems?
+<details>
+<summary>Read more</summary>
+
+
+${analysisContent.includes('import() type') ? importTypeHelp : ''}
+${analysisContent.includes('import * as') ? namespacedImportHelp : ''}
+</details>`;
 }
 
 /**
