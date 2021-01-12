@@ -1,9 +1,17 @@
-import { Injectable } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import {
+  Inject,
+  Injectable,
+  isDevMode,
+  Optional,
+  PLATFORM_ID,
+} from '@angular/core';
 import { defer, Observable, of } from 'rxjs';
 import { filter, map, shareReplay, switchMap } from 'rxjs/operators';
 import { UnifiedInjector } from '../../lazy-loading/unified-injector';
 import { resolveApplicable } from '../../util/applicable';
 import { uniteLatest } from '../../util/rxjs/unite-latest';
+import { CmsConfig } from '../config/cms-config';
 import { Page, PageMeta } from '../model/page.model';
 import { PageMetaResolver } from '../page/page-meta.resolver';
 import { CmsService } from './cms.service';
@@ -22,13 +30,15 @@ export class PageMetaService {
 
   constructor(
     protected cms: CmsService,
-    protected unifiedInjector?: UnifiedInjector
+    protected unifiedInjector?: UnifiedInjector,
+    @Optional() protected config?: CmsConfig,
+    @Optional() @Inject(PLATFORM_ID) protected platformId?: string
   ) {}
+
   /**
    * The list of resolver interfaces will be evaluated for the pageResolvers.
-   *
-   * TODO: optimize browser vs SSR resolvers; image, robots and description
-   *       aren't needed during browsing.
+   * This list is filtered for CSR vs SSR processing since not all resolvers are
+   * relevant during browsing.
    */
   protected resolverMethods: { [key: string]: string } = {
     title: 'resolveTitle',
@@ -63,17 +73,34 @@ export class PageMetaService {
     const resolveMethods: Observable<PageMeta>[] = Object.keys(
       this.resolverMethods
     )
+      .filter((key) => !this.isDisabled(this.resolverMethods[key]))
       .filter((key) => metaResolver[this.resolverMethods[key]])
-      .map((key) =>
-        metaResolver[this.resolverMethods[key]]().pipe(
+      .map((key) => {
+        return metaResolver[this.resolverMethods[key]]().pipe(
           map((data) => ({
             [key]: data,
           }))
-        )
-      );
+        );
+      });
 
     return uniteLatest(resolveMethods).pipe(
       map((data) => Object.assign({}, ...data))
+    );
+  }
+
+  /**
+   * Indicates whether the resolver is disabled for rendering.
+   *
+   * Page data resolvers can be configured to be disabled in CSR, since not all
+   * data resolvers are required in CSR. Disabling is configurable in the `CmsConfig`.
+   */
+  protected isDisabled(resolver: string): boolean {
+    return (
+      isPlatformBrowser(this.platformId) &&
+      // && disabled
+      this.config?.pageResolvers?.disableInCSR?.includes(resolver) &&
+      isDevMode() &&
+      !this.config?.pageResolvers?.enableInDevMode
     );
   }
 

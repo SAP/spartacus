@@ -12,4 +12,8 @@ export const defaultCmsModuleConfig: CmsConfig = {
     },
   },
   cmsComponents: {},
+  pageResolvers: {
+    disableInCSR: ['resolveImage', 'resolveDescription', 'resolveRobots'],
+    // enableInDevMode: true,
+  },
 };
