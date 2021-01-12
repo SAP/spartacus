@@ -39,7 +39,10 @@ export class UserChangePasswordFormComponent {
           )
         )
       )
-      .subscribe((data) => this.notify(data));
+      .subscribe((data) => {
+        this.notify(data);
+        this.itemService.launchDetails(data);
+      });
   }
 
   protected notify(item: User) {
