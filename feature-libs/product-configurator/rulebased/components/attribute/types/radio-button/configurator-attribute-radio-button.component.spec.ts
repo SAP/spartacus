@@ -61,6 +61,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     );
 
     component = fixture.componentInstance;
+
     component.attribute = {
       name: name,
       attrCode: 444,
@@ -68,6 +69,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       selectedSingleValue: initialSelectedValue,
       groupId: groupId,
       quantity: 1,
+      dataType: Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL,
     };
 
     component.ownerKey = ownerKey;

@@ -139,6 +139,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
       required: true,
       groupId: 'testGroup',
       values,
+      dataType: Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL,
     };
 
     spyOn(component, 'onHandleQuantity').and.callThrough();

@@ -37,7 +37,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
   ngOnInit() {
     for (const value of this.attribute.values) {
       let attributeCheckBoxForm;
-      if (value.selected === true && value.quantity > 0) {
+      if (value.selected === true) {
         attributeCheckBoxForm = new FormControl(true);
       } else {
         attributeCheckBoxForm = new FormControl(false);
