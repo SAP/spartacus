@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { EventService, TmsEvent, WindowRef } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
 
 export interface GtmWindow extends Window {
   dataLayer?: any[];
@@ -25,7 +24,6 @@ export class GoogleTagManagerService {
     this.subscription.add(
       this.eventsService
         .get(TmsEvent)
-        .pipe(tap((x) => console.log('xxx: ', x)))
         .subscribe((tmsEvent) => this.pushToTms(tmsEvent))
     );
   }
