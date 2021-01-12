@@ -5,7 +5,7 @@ import {
   AddressData,
   fillPaymentDetails,
   fillShippingAddress,
-  PaymentDetails
+  PaymentDetails,
 } from './checkout-forms';
 import { navigation } from './navigation';
 import Chainable = Cypress.Chainable;
