@@ -6,11 +6,13 @@ import { I18nModule, UrlModule } from '@spartacus/core';
 import { ItemCounterModule, KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeProductCardModule } from '../../product-card/configurator-attribute-product-card.module';
 import { ConfiguratorAttributeSingleSelectionBundleComponent } from './configurator-attribute-single-selection-bundle.component';
+import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator-attribute-quantity.module';
 
 @NgModule({
   imports: [
     CommonModule,
     ConfiguratorAttributeProductCardModule,
+    ConfiguratorAttributeQuantityModule,
     FormsModule,
     I18nModule,
     ItemCounterModule,

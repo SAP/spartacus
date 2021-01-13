@@ -14,3 +14,4 @@ export * from './product-card/index';
 export * from './types/multi-selection-bundle/index';
 export * from './types/single-selection-bundle/index';
 export * from './types/single-selection-bundle-dropdown/index';
+export * from './quantity/index';

@@ -7,5 +7,5 @@ export class ConfigFormUpdateEvent {
 
 export interface QuantityUpdateEvent {
   quantity: number;
-  valueCode: string;
+  valueCode?: string;
 }

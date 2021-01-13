@@ -3,7 +3,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
@@ -11,7 +10,7 @@ import { FormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'cx-configurator-attribute-radio-button',
@@ -20,11 +19,9 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 })
 export class ConfiguratorAttributeRadioButtonComponent
   extends ConfiguratorAttributeBaseComponent
-  implements OnDestroy, OnInit {
+  implements OnInit {
   attributeRadioButtonForm = new FormControl('');
   loading$ = new BehaviorSubject<boolean>(false);
-  quantity = new FormControl(1);
-  private sub: Subscription;
 
   @Input() attribute: Configurator.Attribute;
   @Input() ownerKey: string;
@@ -33,24 +30,6 @@ export class ConfiguratorAttributeRadioButtonComponent
 
   ngOnInit(): void {
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);
-
-    if (this.attribute.selectedSingleValue) {
-      this.quantity.setValue(this.attribute.quantity);
-    } else {
-      this.quantity.setValue(0);
-    }
-
-    this.sub = this.quantity.valueChanges.subscribe((value) => {
-      if (!value) {
-        this.onDeselect();
-      } else {
-        this.onHandleQuantity();
-      }
-    });
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
   }
 
   get withQuantity() {
@@ -67,11 +46,6 @@ export class ConfiguratorAttributeRadioButtonComponent
     );
   }
 
-  /**
-   * Submits a value.
-   *
-   * @param {string} value - Selected value
-   */
   onSelect(value: string): void {
     this.loading$.next(true);
 
@@ -102,18 +76,26 @@ export class ConfiguratorAttributeRadioButtonComponent
     this.selectionChange.emit(event);
   }
 
-  onHandleQuantity(): void {
+  onHandleQuantity(quantity): void {
     this.loading$.next(true);
 
     const event: ConfigFormUpdateEvent = {
       changedAttribute: {
         ...this.attribute,
-        quantity: this.quantity.value,
+        quantity,
       },
       ownerKey: this.ownerKey,
       updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
     };
 
     this.selectionChange.emit(event);
+  }
+
+  onChangeQuantity(eventObject): void {
+    if (!eventObject.quantity) {
+      this.onDeselect();
+    } else {
+      this.onHandleQuantity(eventObject.quantity);
+    }
   }
 }
