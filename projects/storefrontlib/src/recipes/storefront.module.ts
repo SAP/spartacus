@@ -17,6 +17,9 @@ import { MainModule } from '../layout/main/main.module';
 import { StorefrontConfig } from '../storefront-config';
 import { StorefrontFoundationModule } from './storefront-foundation.module';
 
+/**
+ * @deprecated 3.2
+ */
 @NgModule({
   imports: [
     RouterModule.forRoot([], {

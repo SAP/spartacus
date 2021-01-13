@@ -24,8 +24,8 @@ import { BaseOccModule } from './occ/base-occ.module';
     ProcessModule.forRoot(),
     FeaturesConfigModule.forRoot(),
     SiteContextModule.forRoot(), // should be imported after RouterModule.forRoot, because it overwrites UrlSerializer
-    BaseOccModule.forRoot(),
     MetaTagConfigModule.forRoot(),
+    BaseOccModule.forRoot(),
   ],
 })
 export class BaseCoreModule {

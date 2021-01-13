@@ -6,7 +6,7 @@ import {
   AsmModule,
   BannerCarouselModule,
   BannerModule,
-  BaseUiModule,
+  BaseStorefrontModule,
   BreadcrumbModule,
   CartComponentModule,
   CartPageEventModule,
@@ -104,8 +104,8 @@ import {
 
     ExternalRoutesModule.forRoot(), // to opt-in explicitly, is added by default schematics
 
-    // UI
-    BaseUiModule,
+    // Storefront
+    BaseStorefrontModule,
 
     // Events
     CartPageEventModule,
@@ -183,6 +183,6 @@ import {
     QualtricsModule,
     AsmModule,
   ],
-  exports: [BaseUiModule],
+  exports: [BaseStorefrontModule],
 })
 export class SpartacusSetupModule {}

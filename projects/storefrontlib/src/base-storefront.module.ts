@@ -33,4 +33,4 @@ import { MediaModule } from './shared/components/media/media.module';
   ],
   exports: [LayoutModule],
 })
-export class BaseUiModule {}
+export class BaseStorefrontModule {}

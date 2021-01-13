@@ -26,6 +26,9 @@ import { CartPageEventModule } from '../events/cart/cart-page-event.module';
 import { PageEventModule } from '../events/page/page-event.module';
 import { ProductPageEventModule } from '../events/product/product-page-event.module';
 
+/**
+ * @deprecated since 3.2
+ */
 @NgModule({
   imports: [
     StateModule.forRoot(),
