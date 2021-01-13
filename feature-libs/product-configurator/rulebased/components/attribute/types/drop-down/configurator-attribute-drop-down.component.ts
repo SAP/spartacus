@@ -53,6 +53,21 @@ export class ConfiguratorAttributeDropDownComponent
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
+
+  get withQuantity() {
+    return (
+      this.attribute.dataType ===
+      Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL
+    );
+  }
+
+  get readOnlyQuantity() {
+    return (
+      !this.attributeDropDownForm.value ||
+      this.attributeDropDownForm.value === '0'
+    );
+  }
+
   /**
    * Triggered when a value has been selected
    */

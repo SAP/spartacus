@@ -46,6 +46,13 @@ export class ConfiguratorAttributeCheckBoxListComponent
     }
   }
 
+  get withQuantity() {
+    return (
+      this.attribute.dataType ===
+      Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL
+    );
+  }
+
   /**
    * Triggered when a value is selected
    */
@@ -67,7 +74,13 @@ export class ConfiguratorAttributeCheckBoxListComponent
     this.selectionChange.emit(event);
   }
 
-  onChangeQuantity(eventObject): void {
+  onChangeQuantity(eventObject, formIndex): void {
+    if (eventObject.quantity === 0) {
+      this.attributeCheckBoxForms[formIndex].setValue(false);
+      this.onSelect();
+      return;
+    }
+
     const value: Configurator.Value = this.configUtilsService
       .assembleValuesForMultiSelectAttributes(
         this.attributeCheckBoxForms,

@@ -23,9 +23,9 @@
       >
     </div>
     <cx-configurator-attribute-checkbox-quantity
-      (handleQuantity)="onChangeQuantity($event)"
+      (handleQuantity)="onChangeQuantity($event, i)"
       [value]="value"
-      *ngIf="value.selected"
+      *ngIf="value.selected && withQuantity"
     ></cx-configurator-attribute-checkbox-quantity>
   </ng-container>
 </div>

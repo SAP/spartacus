@@ -40,13 +40,31 @@ export class ConfiguratorAttributeRadioButtonComponent
       this.quantity.setValue(0);
     }
 
-    this.sub = this.quantity.valueChanges.subscribe(() => {
-      this.onHandleQuantity();
+    this.sub = this.quantity.valueChanges.subscribe((value) => {
+      if (!value) {
+        this.onDeselect();
+      } else {
+        this.onHandleQuantity();
+      }
     });
   }
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+  }
+
+  get withQuantity() {
+    return (
+      this.attribute.dataType ===
+      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
+    );
+  }
+
+  get readOnlyQuantity() {
+    return (
+      !this.attribute.selectedSingleValue ||
+      this.attribute.selectedSingleValue === '0'
+    );
   }
 
   /**
@@ -61,6 +79,21 @@ export class ConfiguratorAttributeRadioButtonComponent
       changedAttribute: {
         ...this.attribute,
         selectedSingleValue: value,
+      },
+      ownerKey: this.ownerKey,
+      updateType: Configurator.UpdateType.ATTRIBUTE,
+    };
+
+    this.selectionChange.emit(event);
+  }
+
+  onDeselect(): void {
+    this.loading$.next(true);
+
+    const event: ConfigFormUpdateEvent = {
+      changedAttribute: {
+        ...this.attribute,
+        selectedSingleValue: '',
       },
       ownerKey: this.ownerKey,
       updateType: Configurator.UpdateType.ATTRIBUTE,

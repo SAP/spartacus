@@ -35,13 +35,31 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent
       this.attribute.selectedSingleValue ? this.attribute.quantity : 0
     );
 
-    this.sub = this.quantity.valueChanges.subscribe(() => {
-      this.onHandleQuantity();
+    this.sub = this.quantity.valueChanges.subscribe((value) => {
+      if (!value) {
+        this.onDeselect();
+      } else {
+        this.onHandleQuantity();
+      }
     });
   }
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+  }
+
+  get withQuantity() {
+    return (
+      this.attribute.dataType ===
+      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
+    );
+  }
+
+  get readOnlyQuantity() {
+    return (
+      !this.attribute.selectedSingleValue ||
+      this.attribute.selectedSingleValue === '0'
+    );
   }
 
   onSelect(value: string): void {

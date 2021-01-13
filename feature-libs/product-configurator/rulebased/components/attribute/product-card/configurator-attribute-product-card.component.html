@@ -46,7 +46,7 @@
         (changeQuantity)="onChangeQuantity($event)"
         [initialQuantity]="product.quantity"
         [readonly]="loading$ | async"
-        *ngIf="product.selected && (multiSelect || singleDropdown)"
+        *ngIf="showQuantity"
       ></cx-configurator-attribute-quantity>
 
       <div class="cx-product-card-price"></div>
@@ -59,12 +59,16 @@
             *ngIf="product.selected; else select"
             class="btn btn-action"
             (click)="onHandleDeselect()"
-            [disabled]="disabledAction"
+            [disabled]="loading$ | async"
           >
             {{ 'configurator.button.remove' | cxTranslate }}
           </button>
           <ng-template #select>
-            <button class="btn btn-primary" (click)="onHandleSelect()">
+            <button
+              class="btn btn-primary"
+              (click)="onHandleSelect()"
+              [disabled]="loading$ | async"
+            >
               {{ 'configurator.button.add' | cxTranslate }}
             </button>
           </ng-template>
@@ -74,12 +78,16 @@
             *ngIf="product.selected; else select"
             class="btn btn-action"
             (click)="onHandleDeselect()"
-            [disabled]="disabledAction"
+            [disabled]="loading$ | async"
           >
             {{ 'configurator.button.deselect' | cxTranslate }}
           </button>
           <ng-template #select>
-            <button class="btn btn-primary" (click)="onHandleSelect()">
+            <button
+              class="btn btn-primary"
+              (click)="onHandleSelect()"
+              [disabled]="loading$ | async"
+            >
               {{ 'configurator.button.select' | cxTranslate }}
             </button>
           </ng-template>

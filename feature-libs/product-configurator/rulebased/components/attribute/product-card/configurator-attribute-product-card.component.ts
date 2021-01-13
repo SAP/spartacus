@@ -20,7 +20,7 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
   product$: Observable<Product>;
   loading$ = new BehaviorSubject<boolean>(false);
 
-  @Input() disabledAction: boolean;
+  @Input() withQuantity = true;
   @Input() multiSelect = false;
   @Input() product: Configurator.Value;
   @Input() singleDropdown = false;
@@ -32,6 +32,14 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
 
   ngOnInit() {
     this.product$ = this.productService.get(this.product.productSystemId);
+  }
+
+  get showQuantity() {
+    return (
+      this.withQuantity &&
+      this.product.selected &&
+      (this.multiSelect || this.singleDropdown)
+    );
   }
 
   onHandleSelect(): void {
