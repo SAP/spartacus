@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { PageRobotsMeta } from 'projects/core/src/cms';
 import { ConverterService } from '../../../../util/converter.service';
 import { Occ } from '../../../occ-models';
 import { OccCmsPageNormalizer } from './occ-cms-page-normalizer';
@@ -70,6 +71,35 @@ describe('OccCmsPageNormalizer', () => {
     it('should have template', () => {
       const result = occCmsPageNormalizer.convert({ template: 'pt' });
       expect(result.page.template).toEqual('pt');
+    });
+
+    describe('robots', () => {
+      function createPageWithRobot(robotTag: string) {
+        return occCmsPageNormalizer.convert({ robotTag: robotTag as any });
+      }
+      it('should normalize INDEX_FOLLOW', () => {
+        const result = createPageWithRobot('INDEX_FOLLOW');
+        expect(result.page.robots).toContain(PageRobotsMeta.INDEX);
+        expect(result.page.robots).toContain(PageRobotsMeta.FOLLOW);
+      });
+
+      it('should normalize INDEX_NOFOLLOW', () => {
+        const result = createPageWithRobot('INDEX_NOFOLLOW');
+        expect(result.page.robots).toContain(PageRobotsMeta.INDEX);
+        expect(result.page.robots).toContain(PageRobotsMeta.NOFOLLOW);
+      });
+
+      it('should normalize NOINDEX_FOLLOW', () => {
+        const result = createPageWithRobot('NOINDEX_FOLLOW');
+        expect(result.page.robots).toContain(PageRobotsMeta.NOINDEX);
+        expect(result.page.robots).toContain(PageRobotsMeta.FOLLOW);
+      });
+
+      it('should normalize NOINDEX_NOFOLLOW', () => {
+        const result = createPageWithRobot('NOINDEX_NOFOLLOW');
+        expect(result.page.robots).toContain(PageRobotsMeta.NOINDEX);
+        expect(result.page.robots).toContain(PageRobotsMeta.NOFOLLOW);
+      });
     });
   });
 
