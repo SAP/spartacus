@@ -88,9 +88,6 @@ export class SmartEditService {
       });
   }
 
-  /**
-   * @deprecated since 3.0, not used any more
-   */
   protected addPageContract() {
     this.cmsService.getCurrentPage().subscribe((cmsPage) => {
       if (cmsPage && this._cmsTicketId) {

@@ -25,7 +25,7 @@ export class DynamicAttributeService {
   ) {}
 
   /**
-   * @deprecated since 3.0, use functions addAttributesToComponent, addAttributesToSlot and addAttributesToHtmlBody instead
+   * @deprecated since 3.0, use functions addAttributesToComponent and addAttributesToSlot instead
    *
    * Add dynamic attributes to DOM.
    * @param element: slot or cms component element
