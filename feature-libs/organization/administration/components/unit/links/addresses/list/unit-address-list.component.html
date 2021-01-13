@@ -1,5 +1,10 @@
 <cx-org-sub-list key="id" [routerKey]="routerKey" class="has-nested-view">
-  <a actions class="link" routerLink="create">
+  <a
+    actions
+    class="link"
+    routerLink="create"
+    [class.disabled]="!(unit$ | async)?.active"
+  >
     {{ 'organization.create' | cxTranslate }}
   </a>
 </cx-org-sub-list>
