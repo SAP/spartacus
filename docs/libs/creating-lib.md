@@ -274,19 +274,6 @@ const libraryPaths = {
 
 Also make sure to add the lib to the `switch` statement at the end of the file.
 
-- `.github/api-extractor-action/api-extractor-for-branch.sh`
-
-Add the following (replace the `my-account` and `MY_ACCOUNT_CONFIG_PATH` with the name of your lib):
-
-```sh
-# @spartacus/my-account
-cp "$CONFIG_PATH" ./dist/my-account/api-extractor.json
-(
-  cd ./dist/my-account && \
-  api-extractor run --local --verbose
-)
-```
-
 - `scripts/packages.ts` - just add your lib to the `const packageJsonPaths` array.
 
 - `sonar-project.properties` - list your library to this file
