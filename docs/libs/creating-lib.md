@@ -180,7 +180,6 @@ Use the following template:
 
 - run `ts-node ./tools/tsconfig-paths/index.ts` script to update `compilerOptions.path` property in tsconfig files
 - `tsconfig.lib.prod.json` - save to re-format it. Make sure that Ivy is off (for the time being, this will change in the future)
-- `tsconfig.spec.json` - save to re-format
 - `tslint.json` - change from `lib` to `cx` in the `directive-selector` and `component-selector`
 - the rest of the generated file should be removed
 
@@ -278,8 +277,6 @@ cp "$CONFIG_PATH" ./dist/my-account/api-extractor.json
 - `scripts/packages.ts` - just add your lib to the `const packageJsonPaths` array.
 
 - `sonar-project.properties` - list your library to this file
-
-- `tsconfig.compodoc.json` - add your library to this file
 
 - `projects/schematics/package.json` - add the library to the package group
 
