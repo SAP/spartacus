@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { createFrom, EventService, TmsEvent, WindowRef } from '@spartacus/core';
+import { createFrom, CxEvent, EventService, WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { TmsConfig } from '../config/tms-config';
 import { GoogleTagManagerService } from './gtm.service';
 
 class MockWindowRef {
@@ -9,13 +10,21 @@ class MockWindowRef {
   }
 }
 
-class MockEventService {
-  get(): Observable<TmsEvent> {
+class MockEventService implements Partial<EventService> {
+  get<TmsEvent>(): Observable<TmsEvent> {
     return of();
   }
 }
 
-describe('AnonymousConsentsService', () => {
+const mockConfig: TmsConfig = {
+  tms: {
+    gtm: {
+      events: [CxEvent],
+    },
+  },
+};
+
+describe('GoogleTagManagerService', () => {
   let service: GoogleTagManagerService;
   let eventService: EventService;
 
@@ -24,6 +33,7 @@ describe('AnonymousConsentsService', () => {
       providers: [
         { provide: WindowRef, useClass: MockWindowRef },
         { provide: EventService, useClass: MockEventService },
+        { provide: TmsConfig, useValue: mockConfig },
       ],
     });
 
@@ -36,15 +46,10 @@ describe('AnonymousConsentsService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('when a TmsEvent is fired', () => {
+  describe('when an event is fired', () => {
     it('should be collected', () => {
-      const testEvent = createFrom(TmsEvent, {
-        event: 'TestEvent',
-        payload: { test: 'data' },
-      });
-      spyOn(eventService, 'get').and.returnValue(
-        of(createFrom(TmsEvent, testEvent))
-      );
+      const testEvent = createFrom(CxEvent, {});
+      spyOn(eventService, 'get').and.returnValue(of(testEvent));
 
       service.collect();
       expect(eventService.get).toHaveBeenCalledTimes(1);
