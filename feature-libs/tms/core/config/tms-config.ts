@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { Config, Event } from '@spartacus/core';
+import { Injectable, Type } from '@angular/core';
+import { Config, CxEvent } from '@spartacus/core';
 
 export interface TmsEventsConfig {
   enabled?: boolean;
-  events?: Event[];
+  events?: Type<CxEvent>[];
 }
 
 @Injectable({

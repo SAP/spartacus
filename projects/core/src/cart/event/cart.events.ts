@@ -1,4 +1,4 @@
-import { Event } from '../../event/event';
+import { CxEvent } from '../../event/event';
 import { OrderEntry } from '../../model/order.model';
 
 /**
@@ -12,7 +12,7 @@ export interface CartEvent {
 
 // =====================================================================
 
-export class CartAddEntryEvent extends Event implements CartEvent {
+export class CartAddEntryEvent extends CxEvent implements CartEvent {
   static type = 'CartAddEntryEvent';
   cartId: string;
   cartCode: string;
@@ -21,7 +21,7 @@ export class CartAddEntryEvent extends Event implements CartEvent {
   quantity: number;
 }
 
-export class CartAddEntrySuccessEvent extends Event implements CartEvent {
+export class CartAddEntrySuccessEvent extends CxEvent implements CartEvent {
   static type = 'CartAddEntrySuccessEvent';
   cartId: string;
   cartCode: string;
@@ -33,7 +33,7 @@ export class CartAddEntrySuccessEvent extends Event implements CartEvent {
   deliveryModeChanged: boolean;
 }
 
-export class CartAddEntryFailEvent extends Event implements CartEvent {
+export class CartAddEntryFailEvent extends CxEvent implements CartEvent {
   static type = 'CartAddEntryFailEvent';
   cartId: string;
   cartCode: string;
@@ -42,7 +42,7 @@ export class CartAddEntryFailEvent extends Event implements CartEvent {
   quantity: number;
 }
 
-export class CartRemoveEntrySuccessEvent extends Event implements CartEvent {
+export class CartRemoveEntrySuccessEvent extends CxEvent implements CartEvent {
   static type = 'CartRemoveEntrySuccessEvent';
   cartId: string;
   cartCode: string;
@@ -50,7 +50,7 @@ export class CartRemoveEntrySuccessEvent extends Event implements CartEvent {
   entry: OrderEntry;
 }
 
-export class CartUpdateEntrySuccessEvent extends Event implements CartEvent {
+export class CartUpdateEntrySuccessEvent extends CxEvent implements CartEvent {
   static type = 'CartUpdateEntrySuccessE,vent';
   cartId: string;
   cartCode: string;

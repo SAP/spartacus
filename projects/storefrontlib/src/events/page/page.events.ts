@@ -1,10 +1,10 @@
 import { Params } from '@angular/router';
-import { Event, PageContext } from '@spartacus/core';
+import { CxEvent, PageContext } from '@spartacus/core';
 
 /**
  * Indicates that a user visited an arbitrary page.
  */
-export class PageEvent extends Event {
+export class PageEvent extends CxEvent {
   static type = 'PageEvent';
   context: PageContext;
   semanticRoute?: string;
