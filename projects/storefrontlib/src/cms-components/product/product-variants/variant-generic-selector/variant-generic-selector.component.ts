@@ -49,6 +49,7 @@ export class VariantGenericSelectorComponent implements OnInit {
     }
     return null;
   }
+
   variantHasImages(variants: VariantMatrixElement[]): boolean {
     return variants.some(
       (variant: VariantMatrixElement) => variant.parentVariantCategory.hasImage

@@ -10,6 +10,7 @@ import {
 } from '@spartacus/core';
 import { NavigationExtras } from '@angular/router';
 import { Observable, of } from 'rxjs';
+import { MediaModule } from 'projects/storefrontlib/src/shared';
 
 const mockProduct: Product = {
   code: 'code1',
@@ -79,7 +80,7 @@ const mockProduct: Product = {
         },
       ],
       isLeaf: false,
-      parentVariantCategory: { name: 'Color' },
+      parentVariantCategory: { name: 'Color', hasImage: true },
       variantOption: { code: 'code1' },
       variantValueCategory: { name: 'Black' },
     },
@@ -149,7 +150,7 @@ fdescribe('VariantGenericSelectorComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [VariantGenericSelectorComponent],
-        imports: [RouterTestingModule, I18nTestingModule],
+        imports: [RouterTestingModule, I18nTestingModule, MediaModule],
         providers: [
           { provide: RoutingService, useClass: MockRoutingService },
           {
@@ -194,7 +195,7 @@ fdescribe('VariantGenericSelectorComponent', () => {
 
   it('should render proper count of select based on provided variantsMatrix in product', () => {
     const selectElements = fixture.debugElement.nativeElement.querySelectorAll(
-      '.variant-selector select'
+      '.variant-generic-selector select'
     );
 
     expect(selectElements.length).toEqual(mockProduct.categories.length);
@@ -203,7 +204,7 @@ fdescribe('VariantGenericSelectorComponent', () => {
   it('should go to PDP when new variant selected', () => {
     spyOn(routingService, 'go').and.callThrough();
     const selectElements = fixture.debugElement.nativeElement.querySelectorAll(
-      '.variant-selector select'
+      '.variant-generic-selector select'
     );
     const selectEl = selectElements[0];
     const selectedOptionValue = selectEl.options[1].value;
@@ -220,4 +221,18 @@ fdescribe('VariantGenericSelectorComponent', () => {
       params: { ...mockProduct, code: selectedOptionValue },
     });
   });
+
+  // describe('when variant array', () => {
+  //   it('contain hasImage flag it should return true', () => {
+  //     expect(component.variantHasImages(mockProduct.variantMatrix)).toEqual(
+  //       true
+  //     );
+  //   });
+
+  //   it('does not contain hasImage flag it should return false', () => {
+  //     expect(
+  //       component.variantHasImages(mockProduct.variantMatrix[0].elements)
+  //     ).toEqual(false);
+  //   });
+  // });
 });
