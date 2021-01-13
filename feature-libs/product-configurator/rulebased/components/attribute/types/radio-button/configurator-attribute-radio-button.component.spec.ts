@@ -6,7 +6,6 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
-import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { ItemCounterComponent } from '@spartacus/storefront';
 
@@ -103,21 +102,5 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         }),
       })
     );
-  });
-
-  it('should button be called with proper update quantity action', () => {
-    component.ngOnInit();
-
-    fixture.detectChanges();
-
-    const button = fixture.debugElement.queryAll(
-      By.css('cx-item-counter button')
-    )[1].nativeElement;
-
-    button.click();
-
-    fixture.detectChanges();
-
-    expect(component.onHandleQuantity).toHaveBeenCalled();
   });
 });

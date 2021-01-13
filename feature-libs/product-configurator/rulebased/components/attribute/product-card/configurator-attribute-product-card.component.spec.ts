@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, Product, ProductService } from '@spartacus/core';
@@ -35,7 +35,6 @@ const product: Product = {
   },
 };
 
-const mockQuantity = new FormControl(1);
 class MockProductService {
   get(): Observable<Product> {
     return of(product);
@@ -109,7 +108,6 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       ConfiguratorAttributeProductCardComponent
     );
     component = fixture.componentInstance;
-    component.quantity = mockQuantity;
     component.multiSelect = false;
     component.product = createValue(
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
@@ -170,25 +168,6 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     fixture.detectChanges();
 
     expect(component.onHandleDeselect).toHaveBeenCalled();
-  });
-
-  it('should button be called with proper update quantity action', () => {
-    component.product.selected = true;
-    component.multiSelect = true;
-
-    fixture.detectChanges();
-
-    const button = fixture.debugElement.queryAll(
-      By.css('cx-item-counter button')
-    )[1].nativeElement;
-
-    button.click();
-
-    component.onHandleQuantity();
-
-    fixture.detectChanges();
-
-    expect(component.onHandleQuantity).toHaveBeenCalled();
   });
 
   it('should button have select text when card type is no multi select and card is no selected', () => {
