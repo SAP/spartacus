@@ -12,6 +12,10 @@ export const QUALTRICS_EVENT_NAME = 'qsi_js_loaded';
 
 /**
  * @deprecated since 3.1 - moved to feature-lib
+ * Please take a look at https://sap.github.io/spartacus-docs/qualtrics-integration/#page-title
+ * to see how to migrate into the new feature-lib.
+ * Do not import from the storefront. Instead import from the qualtrics feature-lib.
+ *
  * Service to integration Qualtrics.
  *
  * The integration observes the Qualtrics API, and when available, it runs the QSI API
