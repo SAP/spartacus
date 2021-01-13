@@ -1,0 +1,12 @@
+on:
+  issue_comment:
+    types: [edited]
+
+jobs:
+  dod_check:
+    name: DoD check
+    if: ${{ github.event.issue.pull_request }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Definition of Done
+        uses: ./.github/dod-check

@@ -1,0 +1,14 @@
+{
+  "name": "dod-check",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@actions/github": "^4.0.0"
+  }
+}

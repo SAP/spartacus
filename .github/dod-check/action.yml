@@ -1,0 +1,5 @@
+name: 'DoD check'
+description: 'Confirm that DoD is met'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
