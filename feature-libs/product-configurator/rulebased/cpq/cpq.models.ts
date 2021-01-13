@@ -27,6 +27,7 @@ export namespace Cpq {
     errorMessages?: string[];
     conflictMessages?: string[];
     numberOfConflicts?: number;
+    currencyISOCode?: string;
     tabs?: Tab[];
     attributes?: Attribute[]; // attributes of current selected tab
   }

@@ -1,37 +1,63 @@
 import * as configuration from '../../helpers/product-configuration';
 import * as productSearch from '../../helpers/product-search';
 
-const powertoolsShop = 'powertools-spa';
-const email = 'cpq03@sap.com';
-const password = 'welcome';
-const cpqUser = 'cpq03';
-const testProduct = 'CONF_CAMERA_BUNDLE';
-const testProductCoffeeMachine = 'CONF_COFFEEMACHINE_3000';
+const POWERTOOLS = 'powertools-spa';
+const EMAIL = 'cpq03@sap.com';
+const PASSWORD = 'welcome';
+const CPQ_USER = 'cpq03';
 
 // UI types
-const radioGroup = 'radioGroup';
-const checkBoxList = 'checkBoxList';
+const RADGRP = 'radioGroup';
+const CHKBOX = 'checkBoxList';
+const RADGRP_PROD = 'radioGroupProduct';
+const CHKBOX_PROD = 'checkBoxListProduct';
+const DDLB_PROD = 'dropdownProduct';
 
-// Attributes
-const ATTR_COFFEE_MACHINE_CUPS_DAY = '2931'; // COFFEE_MACHINE_CUPS_DAY
-const ATTR_COFFEE_MACHINE_STARB_MODE = '2933'; // COFFEE_MACHINE_STARB_MODE
+/******************************* */
+/** Configurable Coffee-Machine  */
+const PROD_CODE_COF = 'CONF_COFFEEMACHINE_3000';
+/** Number of Cups per Day */
+const ATTR_COF_CUPS = '2931';
+/** 300-500 Cups per Day*/
+const VAL_COF_CUPS_300 = '8841';
+/** 500-1000 Cups per Day */
+const VAL_COF_CUPS_500 = '8842';
+/** Starbucks Mode */
+const ATTR_COF_MODE = '2933';
+/** Starbucks Mode*/
+const VAL_COF_MODE = '8845';
 
-// Attribute values
-const COFFEE_MACHINE_CUPS_DAY_300_500 = '8841'; // 300-500 CUPS
-const COFFEE_MACHINE_CUPS_DAY_500_1000 = '8842'; //  500-1000 CUPS
+/***************************** */
+/** Configurable Camera Bundle */
+const PROD_CODE_CAM = 'CONF_CAMERA_BUNDLE';
+/** Camera Body */
+const ATTR_CAM_BODY = '2893';
+/** Nikon D850 */
+const VAL_CAM_BODY_D850 = '8711';
+/**  Canon EOS 80D */
+const VAL_CAM_BODY_EOS80D = '8712';
+/** Memory Card */
+const ATTR_CAM_MC = '2894';
+/** Sandisk Memory Card */
+const VAL_CAM_MC_128 = '8714';
+/**  SanDisk Ultra 64GB SDHC */
+const VAL_CAM_MC_64 = '8715';
+/** Insurance */
+const ATTR_CAM_INS = '2899';
+/** No Option Selcted */
+const VAL_NO_OPT_SEL = '0';
+/** SanDisk Ultra 64GB SDHC */
+const VAL_CB_INS_Y2 = '8735';
 
-const STARB_MODE = '8845'; // STARB_MODE
+const GRP_CAM_MAIN = 'Main Components';
+const GRP_CAM_ACC = 'Accessories';
+const GRP_CAM_IAW = 'Insurance and Warranty';
 
-// List of groups
-const MAIN_COMPONENTS = 'Main Components';
-const ACCESSORIES = 'Accessories';
-const INSURANCE_AND_WARRANTY = 'Insurance and Warranty';
-
-// List of attributes
-const attributeHeaders = {
-  mainComponents: ['Camera Body', 'Memory Card', 'Lenses'],
-  accessories: ['Tripod', 'Bag', 'Special Accessories'],
-  insuranceAndWarranty: [
+// Attributes per Group Configurable Camera Bundle
+const ATTR_NAMES = {
+  GRP_CAM_MAIN: ['Camera Body', 'Memory Card', 'Lenses'],
+  GRP_CAM_ACC: ['Tripod', 'Bag', 'Special Accessories'],
+  GRP_CAM_IAW: [
     'Are you a professional photographer?',
     'Insurance',
     'Extended Warranty',
@@ -42,7 +68,7 @@ context('CPQ Configuration', () => {
   beforeEach(() => {
     cy.visit('/');
     configuration.checkLoadingMsgNotDisplayed();
-    configuration.login(email, password, cpqUser);
+    configuration.login(EMAIL, PASSWORD, CPQ_USER);
     configuration.checkLoadingMsgNotDisplayed();
   });
 
@@ -53,149 +79,206 @@ context('CPQ Configuration', () => {
         'GET',
         `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
-        )}/products/suggestions?term=${testProduct}*`
+        )}/products/suggestions?term=${PROD_CODE_CAM}*`
       );
-      productSearch.searchForProduct(testProduct);
+      productSearch.searchForProduct(PROD_CODE_CAM);
       configuration.clickOnConfigureBtnInCatalog();
     });
 
     it('should be able to navigate from the product details page', () => {
-      configuration.goToPDPage(powertoolsShop, testProduct);
+      configuration.goToPDPage(POWERTOOLS, PROD_CODE_CAM);
       configuration.clickOnConfigureBtnInCatalog();
     });
   });
 
-  describe('Update attribute values', () => {
-    it('should support update values for radio button attribute type', () => {
-      configuration.goToPDPage(powertoolsShop, testProductCoffeeMachine);
+  describe('Handling different UI type', () => {
+    it('should support radio button attribute type', () => {
+      configuration.goToPDPage(POWERTOOLS, PROD_CODE_COF);
       configuration.clickOnConfigureBtnInCatalog();
-      configuration.checkAttributeDisplayed(
-        ATTR_COFFEE_MACHINE_CUPS_DAY,
-        radioGroup
+
+      configuration.checkAttributeDisplayed(ATTR_COF_CUPS, RADGRP);
+
+      configuration.selectAttribute(ATTR_COF_CUPS, RADGRP, VAL_COF_CUPS_300);
+      configuration.checkValueSelected(RADGRP, ATTR_COF_CUPS, VAL_COF_CUPS_300);
+
+      configuration.selectAttribute(ATTR_COF_CUPS, RADGRP, VAL_COF_CUPS_500);
+      configuration.checkValueSelected(RADGRP, ATTR_COF_CUPS, VAL_COF_CUPS_500);
+    });
+
+    it('should support checkbox list attribute type', () => {
+      configuration.goToPDPage(POWERTOOLS, PROD_CODE_COF);
+      configuration.clickOnConfigureBtnInCatalog();
+
+      configuration.checkAttributeDisplayed(ATTR_COF_MODE, CHKBOX);
+      configuration.checkValueNotSelected(CHKBOX, ATTR_COF_MODE, VAL_COF_MODE);
+
+      configuration.selectAttribute(ATTR_COF_MODE, CHKBOX, VAL_COF_MODE);
+      configuration.checkValueSelected(CHKBOX, ATTR_COF_MODE, VAL_COF_MODE);
+
+      configuration.selectAttribute(ATTR_COF_MODE, CHKBOX, VAL_COF_MODE);
+      configuration.checkValueNotSelected(CHKBOX, ATTR_COF_MODE, VAL_COF_MODE);
+    });
+
+    it('should support single select (radio) bundle items', () => {
+      configuration.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_CAM);
+
+      configuration.checkAttributeDisplayed(ATTR_CAM_BODY, RADGRP_PROD);
+      configuration.checkValueNotSelected(
+        RADGRP_PROD,
+        ATTR_CAM_BODY,
+        VAL_CAM_BODY_D850
       );
+      configuration.checkValueNotSelected(
+        RADGRP_PROD,
+        ATTR_CAM_BODY,
+        VAL_CAM_BODY_EOS80D
+      );
+
       configuration.selectAttribute(
-        ATTR_COFFEE_MACHINE_CUPS_DAY,
-        radioGroup,
-        COFFEE_MACHINE_CUPS_DAY_300_500
+        ATTR_CAM_BODY,
+        RADGRP_PROD,
+        VAL_CAM_BODY_D850
       );
       configuration.checkValueSelected(
-        radioGroup,
-        ATTR_COFFEE_MACHINE_CUPS_DAY,
-        COFFEE_MACHINE_CUPS_DAY_300_500
+        RADGRP_PROD,
+        ATTR_CAM_BODY,
+        VAL_CAM_BODY_D850
       );
+      configuration.checkValueNotSelected(
+        RADGRP_PROD,
+        ATTR_CAM_BODY,
+        VAL_CAM_BODY_EOS80D
+      );
+
       configuration.selectAttribute(
-        ATTR_COFFEE_MACHINE_CUPS_DAY,
-        radioGroup,
-        COFFEE_MACHINE_CUPS_DAY_500_1000
+        ATTR_CAM_BODY,
+        RADGRP_PROD,
+        VAL_CAM_BODY_EOS80D
+      );
+      configuration.checkValueNotSelected(
+        RADGRP_PROD,
+        ATTR_CAM_BODY,
+        VAL_CAM_BODY_D850
       );
       configuration.checkValueSelected(
-        radioGroup,
-        ATTR_COFFEE_MACHINE_CUPS_DAY,
-        COFFEE_MACHINE_CUPS_DAY_500_1000
+        RADGRP_PROD,
+        ATTR_CAM_BODY,
+        VAL_CAM_BODY_EOS80D
       );
     });
 
-    it('should support update values for checkbox list attribute type', () => {
-      configuration.goToPDPage(powertoolsShop, testProductCoffeeMachine);
-      configuration.clickOnConfigureBtnInCatalog();
-      configuration.checkAttributeDisplayed(
-        ATTR_COFFEE_MACHINE_STARB_MODE,
-        checkBoxList
-      );
+    it('should support single select (ddlb) bundle items', () => {
+      configuration.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_CAM);
+      configuration.clickOnGroup(2);
+      configuration.checkCurrentGroupActive(GRP_CAM_IAW);
 
+      configuration.checkAttributeDisplayed(ATTR_CAM_INS, DDLB_PROD);
+      configuration.checkValueSelected(DDLB_PROD, ATTR_CAM_INS, VAL_NO_OPT_SEL);
       configuration.checkValueNotSelected(
-        checkBoxList,
-        ATTR_COFFEE_MACHINE_STARB_MODE,
-        STARB_MODE
+        DDLB_PROD,
+        ATTR_CAM_INS,
+        VAL_CB_INS_Y2
       );
 
-      configuration.selectAttribute(
-        ATTR_COFFEE_MACHINE_STARB_MODE,
-        checkBoxList,
-        STARB_MODE
+      configuration.selectAttribute(ATTR_CAM_INS, DDLB_PROD, VAL_CB_INS_Y2);
+      configuration.checkValueNotSelected(
+        DDLB_PROD,
+        ATTR_CAM_INS,
+        VAL_NO_OPT_SEL
       );
+      configuration.checkValueSelected(DDLB_PROD, ATTR_CAM_INS, VAL_CB_INS_Y2);
+    });
+
+    it('should support multi select bundle items', () => {
+      configuration.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_CAM);
+
+      configuration.checkAttributeDisplayed(ATTR_CAM_MC, CHKBOX_PROD);
       configuration.checkValueSelected(
-        checkBoxList,
-        ATTR_COFFEE_MACHINE_STARB_MODE,
-        STARB_MODE
-      );
-
-      configuration.selectAttribute(
-        ATTR_COFFEE_MACHINE_STARB_MODE,
-        checkBoxList,
-        STARB_MODE
+        CHKBOX_PROD,
+        ATTR_CAM_MC,
+        VAL_CAM_MC_128
       );
       configuration.checkValueNotSelected(
-        checkBoxList,
-        ATTR_COFFEE_MACHINE_STARB_MODE,
-        STARB_MODE
+        CHKBOX_PROD,
+        ATTR_CAM_MC,
+        VAL_CAM_MC_64
       );
+
+      configuration.selectAttribute(ATTR_CAM_MC, CHKBOX_PROD, VAL_CAM_MC_64);
+      configuration.checkValueSelected(
+        CHKBOX_PROD,
+        ATTR_CAM_MC,
+        VAL_CAM_MC_128
+      );
+      configuration.checkValueSelected(CHKBOX_PROD, ATTR_CAM_MC, VAL_CAM_MC_64);
+
+      configuration.selectAttribute(ATTR_CAM_MC, CHKBOX_PROD, VAL_CAM_MC_128);
+      configuration.checkValueNotSelected(
+        CHKBOX_PROD,
+        ATTR_CAM_MC,
+        VAL_CAM_MC_128
+      );
+      configuration.checkValueSelected(CHKBOX_PROD, ATTR_CAM_MC, VAL_CAM_MC_64);
     });
   });
 
   describe('Group Handling', () => {
     it('should navigate with next and previous buttons', () => {
       configuration
-        .goToConfigurationPage(powertoolsShop, testProduct, 'cpq')
+        .goToConfigurationPage(POWERTOOLS, PROD_CODE_CAM, 'cpq')
         .then(() => {
           configuration.waitForProductCardsLoad(9);
           configuration.checkPreviousBtnDisabled();
           configuration.checkNextBtnEnabled();
 
-          configuration.clickOnNextBtn(ACCESSORIES);
+          configuration.clickOnNextBtn(GRP_CAM_ACC);
           configuration.waitForProductCardsLoad(13);
           configuration.checkPreviousBtnEnabled();
           configuration.checkNextBtnEnabled();
 
-          configuration.clickOnNextBtn(INSURANCE_AND_WARRANTY);
+          configuration.clickOnNextBtn(GRP_CAM_IAW);
           configuration.waitForProductCardsLoad(0);
           configuration.checkPreviousBtnEnabled();
           configuration.checkNextBtnDisabled();
 
-          configuration.clickOnPreviousBtn(ACCESSORIES);
+          configuration.clickOnPreviousBtn(GRP_CAM_ACC);
           configuration.waitForProductCardsLoad(13);
         });
     });
 
     it('should navigate via group menu', () => {
       configuration
-        .goToConfigurationPage(powertoolsShop, testProduct, 'cpq')
+        .goToConfigurationPage(POWERTOOLS, PROD_CODE_CAM, 'cpq')
         .then(() => {
           configuration.waitForProductCardsLoad(9);
 
           configuration.clickOnGroup(2);
           configuration.waitForProductCardsLoad(0);
-          configuration.checkCurrentGroupActive(INSURANCE_AND_WARRANTY);
+          configuration.checkCurrentGroupActive(GRP_CAM_IAW);
 
           configuration.clickOnGroup(1);
           configuration.waitForProductCardsLoad(13);
-          configuration.checkCurrentGroupActive(ACCESSORIES);
+          configuration.checkCurrentGroupActive(GRP_CAM_ACC);
 
           configuration.clickOnGroup(0);
           configuration.waitForProductCardsLoad(9);
-          configuration.checkCurrentGroupActive(MAIN_COMPONENTS);
+          configuration.checkCurrentGroupActive(GRP_CAM_MAIN);
         });
     });
 
     it('should display correct attributes', () => {
       configuration
-        .goToConfigurationPage(powertoolsShop, testProduct, 'cpq')
+        .goToConfigurationPage(POWERTOOLS, PROD_CODE_CAM, 'cpq')
         .then(() => {
           configuration.waitForProductCardsLoad(9);
 
-          configuration.checkAttributeHeaderDisplayed(
-            attributeHeaders.mainComponents
-          );
+          configuration.checkAttributeHeaderDisplayed(ATTR_NAMES.GRP_CAM_MAIN);
 
-          configuration.clickOnNextBtn(ACCESSORIES);
-          configuration.checkAttributeHeaderDisplayed(
-            attributeHeaders.accessories
-          );
+          configuration.clickOnNextBtn(GRP_CAM_ACC);
+          configuration.checkAttributeHeaderDisplayed(ATTR_NAMES.GRP_CAM_ACC);
 
-          configuration.clickOnNextBtn(INSURANCE_AND_WARRANTY);
-          configuration.checkAttributeHeaderDisplayed(
-            attributeHeaders.insuranceAndWarranty
-          );
+          configuration.clickOnNextBtn(GRP_CAM_IAW);
+          configuration.checkAttributeHeaderDisplayed(ATTR_NAMES.GRP_CAM_IAW);
         });
     });
   });
