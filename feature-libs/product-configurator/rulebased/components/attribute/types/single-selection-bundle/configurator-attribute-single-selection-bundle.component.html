@@ -14,7 +14,7 @@
   </div>
 
   <cx-configurator-attribute-product-card
-    (handleDeselect)="onDeselect($event)"
+    (handleDeselect)="onDeselect()"
     (handleSelect)="onSelect($event)"
     *ngFor="let value of attribute.values"
     [product]="value"
