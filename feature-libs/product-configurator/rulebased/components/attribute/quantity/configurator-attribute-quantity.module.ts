@@ -4,6 +4,8 @@ import { ConfiguratorAttributeQuantityComponent } from './configurator-attribute
 
 @NgModule({
   declarations: [ConfiguratorAttributeQuantityComponent],
+  entryComponents: [ConfiguratorAttributeQuantityComponent],
+  exports: [ConfiguratorAttributeQuantityComponent],
   imports: [CommonModule],
 })
-export class QuantityModule {}
+export class ConfiguratorAttributeQuantityModule {}

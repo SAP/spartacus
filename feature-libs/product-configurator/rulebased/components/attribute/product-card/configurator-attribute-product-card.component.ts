@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -15,6 +16,7 @@ import { Product, ProductService } from '@spartacus/core';
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   templateUrl: './configurator-attribute-product-card.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeProductCardComponent
   implements OnDestroy, OnInit {

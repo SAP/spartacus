@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { ItemCounterModule, MediaModule } from '@spartacus/storefront';
 import { ConfiguratorShowMoreModule } from '../../show-more/configurator-show-more.module';
+import { ConfiguratorAttributeQuantityModule } from '../quantity/configurator-attribute-quantity.module';
 import { ConfiguratorAttributeProductCardComponent } from './configurator-attribute-product-card.component';
 
 @NgModule({
@@ -14,6 +15,7 @@ import { ConfiguratorAttributeProductCardComponent } from './configurator-attrib
   imports: [
     CommonModule,
     ConfiguratorShowMoreModule,
+    ConfiguratorAttributeQuantityModule,
     I18nModule,
     ItemCounterModule,
     RouterModule,
