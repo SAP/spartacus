@@ -110,7 +110,6 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     );
     component = fixture.componentInstance;
     component.quantity = mockQuantity;
-    component.disabledAction = false;
     component.multiSelect = false;
     component.product = createValue(
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
@@ -146,18 +145,6 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     const button = fixture.debugElement.query(By.css('button.btn'))
       .nativeElement;
     expect(button.disabled).toBe(false);
-  });
-
-  it('should button be disabled when card actions are enabled and card is selected', () => {
-    component.disabledAction = true;
-    component.product.selected = true;
-
-    fixture.detectChanges();
-
-    const button = fixture.debugElement.query(By.css('button.btn'))
-      .nativeElement;
-
-    expect(button.disabled).toBe(true);
   });
 
   it('should button be called with proper select method', () => {
