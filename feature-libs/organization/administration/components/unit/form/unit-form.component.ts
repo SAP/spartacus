@@ -16,6 +16,8 @@ import { CurrentItemService } from '../../shared/current-item.service';
 import { ItemService } from '../../shared/item.service';
 import { CurrentUnitService } from '../services/current-unit.service';
 import { UnitItemService } from '../services/unit-item.service';
+import { AbstractControl } from '@angular/forms';
+import { createCodeForEntityName } from '../../shared/utility/entity-code';
 
 @Component({
   selector: 'cx-org-unit-form',
@@ -78,5 +80,9 @@ export class UnitFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.unitService.loadList();
+  }
+
+  createUidWithName(name: AbstractControl, code: AbstractControl): void {
+    createCodeForEntityName(name, code);
   }
 }

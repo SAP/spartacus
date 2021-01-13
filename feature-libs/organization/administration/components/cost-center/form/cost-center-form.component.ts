@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { AbstractControl, FormGroup } from '@angular/forms';
 import { CostCenter, Currency, CurrencyService } from '@spartacus/core';
 import {
   B2BUnitNode,
@@ -11,6 +11,7 @@ import { CurrentItemService } from '../../shared/current-item.service';
 import { ItemService } from '../../shared/item.service';
 import { CostCenterItemService } from '../services/cost-center-item.service';
 import { CurrentCostCenterService } from '../services/current-cost-center.service';
+import { createCodeForEntityName } from '../../shared/utility/entity-code';
 
 @Component({
   selector: 'cx-org-cost-center-form',
@@ -60,4 +61,8 @@ export class CostCenterFormComponent {
     protected unitService: OrgUnitService,
     protected currencyService: CurrencyService
   ) {}
+
+  createCodeWithName(name: AbstractControl, code: AbstractControl): void {
+    createCodeForEntityName(name, code);
+  }
 }
