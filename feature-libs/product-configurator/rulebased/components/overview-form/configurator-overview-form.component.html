@@ -6,11 +6,11 @@
           {{ group.groupDescription }}
         </h2>
         <div
+          *ngFor="let attributeOverview of group.attributes"
           class="cx-attribute-value-pair"
           [class.bundle]="
             attributeOverview?.type === attributeOverviewType.BUNDLE
           "
-          *ngFor="let attributeOverview of group.attributes"
         >
           <ng-container [ngSwitch]="attributeOverview?.type">
             <ng-container *ngSwitchCase="attributeOverviewType.GENERAL">

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Product, ProductService } from '@spartacus/core';
+import { ImageGroup, Product, ProductService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { Configurator } from '../../../core/model/index';
 
@@ -18,5 +18,15 @@ export class ConfiguratorCPQOverviewAttributeComponent implements OnInit {
     this.product$ = this.productService.get(
       this.attributeOverview?.productCode
     );
+  }
+
+  /**
+   * Returns primary image from product object
+   *
+   * @param {Product} product
+   * @returns {(ImageGroup | ImageGroup[])} - primary image
+   */
+  getProductPrimaryImage(product: Product): ImageGroup | ImageGroup[] {
+    return product?.images?.PRIMARY;
   }
 }
