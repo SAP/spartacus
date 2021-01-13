@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import {
   Product,
   ProductScope,
@@ -12,6 +17,7 @@ import { filter, take } from 'rxjs/operators';
   selector: 'cx-variant-generic-selector',
   templateUrl: './variant-generic-selector.component.html',
   styleUrls: ['./variant-generic-selector.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VariantGenericSelectorComponent implements OnInit {
   @Input()
@@ -25,25 +31,7 @@ export class VariantGenericSelectorComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const levels = Array.from(
-      { length: this.product.categories.length },
-      (_, k) => k + 1
-    );
-
-    let selectedIndex = 0;
-    let productMatrix = this.product.variantMatrix;
-    levels.forEach((level, index) => {
-      if (level !== 1) {
-        productMatrix = productMatrix[selectedIndex].elements;
-      }
-      this.variants.push(productMatrix);
-
-      productMatrix.forEach((variantCategory) => {
-        if (variantCategory.variantOption.code === this.product.code) {
-          selectedIndex = index;
-        }
-      });
-    });
+    this.setVariants();
   }
 
   changeVariant(code: string): void {
@@ -56,14 +44,51 @@ export class VariantGenericSelectorComponent implements OnInit {
             cxRoute: 'product',
             params: product,
           });
+          this.product = product;
+          this.setVariants();
         });
     }
     return null;
   }
-
   variantHasImages(variants: VariantMatrixElement[]): boolean {
     return variants.some(
       (variant: VariantMatrixElement) => variant.parentVariantCategory.hasImage
     );
+  }
+
+  private setVariants(): void {
+    this.variants = [];
+
+    const levels = Array.from(
+      { length: this.product.categories.length },
+      (_, k) => k + 1
+    );
+
+    let productMatrix = JSON.parse(JSON.stringify(this.product.variantMatrix));
+
+    levels.forEach((level) => {
+      const currentLevelProductVariantIndex = this.getProductVariantMatrixIndex(
+        productMatrix
+      );
+
+      if (1 !== level) {
+        productMatrix = productMatrix[currentLevelProductVariantIndex].elements;
+      } else {
+      }
+
+      this.variants.push(productMatrix);
+    });
+  }
+
+  private getProductVariantMatrixIndex(matrix: VariantMatrixElement[]): number {
+    let productVariantMatrixIndex: number;
+
+    matrix.forEach((variant: VariantMatrixElement, index: number) => {
+      if (variant.variantOption.code === this.product.code) {
+        productVariantMatrixIndex = index;
+      }
+    });
+
+    return productVariantMatrixIndex;
   }
 }
