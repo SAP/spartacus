@@ -91,23 +91,23 @@ context('CPQ Configuration', () => {
     });
   });
 
-  describe('Handling different UI type', () => {
-    it.only('should support radio button attribute type', () => {
+  describe('Handling different UI type with quantity and price calculation', () => {
+    it('should support radio button attribute type', () => {
       configuration.goToPDPage(POWERTOOLS, PROD_CODE_COF);
       configuration.clickOnConfigureBtnInCatalog();
 
       configuration.checkAttributeDisplayed(ATTR_COF_CUPS, RADGRP);
-      configuration.checkQuantity(ATTR_COF_CUPS, RADGRP);
+      configuration.checkQuantity(RADGRP, ATTR_COF_CUPS);
 
       configuration.selectAttribute(ATTR_COF_CUPS, RADGRP, VAL_COF_CUPS_300);
       configuration.checkValueSelected(RADGRP, ATTR_COF_CUPS, VAL_COF_CUPS_300);
-      configuration.checkQuantity(ATTR_COF_CUPS, RADGRP, 1);
+      configuration.checkQuantity(RADGRP, ATTR_COF_CUPS, 1);
       configuration.increaseQuantity(RADGRP, ATTR_COF_CUPS);
       configuration.decreaseQuantity(RADGRP, ATTR_COF_CUPS);
 
       configuration.selectAttribute(ATTR_COF_CUPS, RADGRP, VAL_COF_CUPS_500);
       configuration.checkValueSelected(RADGRP, ATTR_COF_CUPS, VAL_COF_CUPS_500);
-      configuration.checkQuantity(ATTR_COF_CUPS, RADGRP, 1);
+      configuration.checkQuantity(RADGRP, ATTR_COF_CUPS, 1);
       configuration.decreaseQuantity(RADGRP, ATTR_COF_CUPS);
     });
 
@@ -129,6 +129,7 @@ context('CPQ Configuration', () => {
       configuration.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_CAM);
 
       configuration.checkAttributeDisplayed(ATTR_CAM_BODY, RADGRP_PROD);
+      configuration.checkQuantity(RADGRP_PROD, ATTR_CAM_BODY);
       configuration.checkValueNotSelected(
         RADGRP_PROD,
         ATTR_CAM_BODY,
@@ -145,6 +146,10 @@ context('CPQ Configuration', () => {
         RADGRP_PROD,
         VAL_CAM_BODY_D850
       );
+      configuration.checkQuantity(RADGRP_PROD, ATTR_CAM_BODY, 1);
+      configuration.increaseQuantity(RADGRP_PROD, ATTR_CAM_BODY);
+      configuration.decreaseQuantity(RADGRP_PROD, ATTR_CAM_BODY);
+
       configuration.checkValueSelected(
         RADGRP_PROD,
         ATTR_CAM_BODY,
@@ -161,6 +166,10 @@ context('CPQ Configuration', () => {
         RADGRP_PROD,
         VAL_CAM_BODY_EOS80D
       );
+      configuration.checkQuantity(RADGRP_PROD, ATTR_CAM_BODY, 1);
+      configuration.increaseQuantity(RADGRP_PROD, ATTR_CAM_BODY);
+      configuration.decreaseQuantity(RADGRP_PROD, ATTR_CAM_BODY);
+
       configuration.checkValueNotSelected(
         RADGRP_PROD,
         ATTR_CAM_BODY,
