@@ -27,6 +27,10 @@ const conflictHeaderGroupSelector =
 const resolveIssuesLinkSelector =
   'cx-configure-cart-entry button.cx-action-link';
 
+const quantity_item_counter = 'cx-item-counter';
+const quantity_counter_button = `${quantity_item_counter} button`;
+const quantity_counter_input = `${quantity_item_counter} input`;
+
 /**
  * Navigates to the product configuration page.
  *
@@ -435,7 +439,12 @@ export function selectAttribute(
     case 'radioGroup':
     case 'checkBoxList':
     case 'multi_selection_image':
-      cy.get(`#${valueId}`).click({ force: true });
+      cy.get(`#${valueId}`)
+        .click({ force: true })
+        .then(() => {
+          checkUpdatingMessageNotDisplayed();
+          cy.get(`#${valueId}`).should('be.checked');
+        });
       break;
     case 'single_selection_image':
       const labelId = `cx-configurator--label--${attributeName}--${valueName}`;
@@ -460,7 +469,23 @@ export function selectAttribute(
     case 'checkBoxListProduct':
       const btnLoc = `#${valueId} .cx-product-card-action button`;
       cy.get(btnLoc).then((el) => cy.log(`text before click: '${el.text()}'`));
-      cy.get(btnLoc).click({ force: true });
+      cy.get(btnLoc)
+        .click()
+        .then(() => {
+          //Remove && Add for checkboxes
+          // Select && Deselect for radio buttons
+          checkUpdatingMessageNotDisplayed();
+          cy.get(btnLoc)
+            .first()
+            .invoke('text')
+            .then((text) => {
+              if (text === 'Remove' || text === 'Deselect') {
+                checkProductCardSelected(valueId);
+              } else {
+                checkProductCardNotSelected(valueId);
+              }
+            });
+        });
       break;
     default:
       throw new AssertionError({
@@ -507,6 +532,30 @@ export function checkImageNotSelected(
 }
 
 /**
+ * Verifies whether the product card is selected.
+ *
+ * @param valueId{string} - Value ID
+ */
+function checkProductCardSelected(valueId: string) {
+  cy.get(`#${valueId} .cx-product-card`).should(
+    'have.class',
+    'cx-product-card-selected'
+  );
+}
+
+/**
+ * Verifies whether the product card is selected.
+ *
+ * @param valueId{string} - Value ID
+ */
+function checkProductCardNotSelected(valueId: string) {
+  cy.get(`#${valueId} .cx-product-card`).should(
+    'have.not.class',
+    'cx-product-card-selected'
+  );
+}
+
+/**
  * Verifies whether a corresponding UI type is selected.
  *
  * @param {string} uiType - UI type
@@ -521,14 +570,26 @@ export function checkValueSelected(
   const attributeId = getAttributeId(attributeName, uiType);
   let valueId = `${attributeId}--${valueName}`;
   if (uiType === 'radioGroupProduct' || uiType === 'checkBoxListProduct') {
-    cy.get(`#${valueId} .cx-product-card`).should(
-      'have.class',
-      'cx-product-card-selected'
-    );
+    checkProductCardSelected(valueId);
+    if (uiType === 'checkBoxListProduct') {
+      //checkQuantity(valueId, 1);
+      cy.get(`#${valueId} .cx-product-card`).within(() => {
+        //cy.get('.cx-product-card-quantity');
+        cy.get(`${quantity_counter_input}[type=number]:not([disabled])`);
+        cy.get(quantity_counter_input).should('have.value', 1);
+      });
+    } else if (uiType === 'radioGroupProduct') {
+      cy.get(`#${attributeId} .cx-single-selection-bundle-quantity`).within(
+        () => {
+          cy.get(`${quantity_counter_input}[type=number]:not([disabled])`);
+          cy.get(quantity_counter_input).should('have.value', 1);
+        }
+      );
+    }
   } else {
     if (uiType === 'dropdownProduct') {
       if (valueName === '0') {
-        // no product card for 'no option slected'
+        // no product card for 'no option selected'
         cy.get(`#${valueId} .cx-product-card`).should('not.be.visible');
       } else {
         cy.get(`#${valueId} .cx-product-card`).should('be.visible');
@@ -544,7 +605,7 @@ export function checkValueSelected(
 /**
  * Verifies whether a corresponding UI type not selected.
  *
- * param {string} uiType - UI type
+ * @param {string} uiType - UI type
  * @param {string} attributeName - Attribute name
  * @param {string} valueName - Value name
  */
@@ -560,11 +621,196 @@ export function checkValueNotSelected(
       'not.have.class',
       'cx-product-card-selected'
     );
+    checkQuantity(attributeName, uiType);
   } else {
     if (uiType.startsWith('dropdown')) {
       valueId = `${attributeId} [value="${valueName}"]`;
     }
     cy.get(`#${valueId}`).should('not.be.checked');
+  }
+}
+
+/**
+ * Increase the current quantity.
+ *
+ * @param {string} uiType - UI type
+ * @param {string} attributeName - Attribute name
+ * @param {string} valueName - Value name
+ * @param quantity {number} - Quantity
+ */
+export function increaseQuantity(
+  uiType: string,
+  attributeName: string,
+  valueName?: string,
+  quantity?: number
+) {
+  cy.log('Increase quantity');
+  const attributeId = getAttributeId(attributeName, uiType);
+  if (valueName) {
+    const valueId = `${attributeId}--${valueName}`;
+    cy.get(`#${valueId} .cx-product-card`)
+      .get('.cx-product-card-quantity')
+      .within(() => {
+        cy.get(quantity_counter_button)
+          .findByText('+')
+          .click()
+          .then(() => {
+            cy.get(quantity_counter_button)
+              .findByText('-')
+              .should('not.be.disabled');
+            cy.get(quantity_counter_input).should(
+              'have.value',
+              `${quantity + 1}`
+            );
+          });
+      });
+  } else {
+    cy.get(`#${attributeId} .form-quantity ${quantity_item_counter}`).then(
+      () => {
+        cy.log("Click on '+' to increase quantity");
+        cy.get(quantity_counter_button)
+          .contains('+')
+          .click()
+          .then(() => {
+            cy.get(quantity_counter_input).should('not.have.attr', 'readonly');
+            cy.get(quantity_counter_input)
+              .invoke('val')
+              .then((val) => {
+                quantity = +val;
+                cy.log(`Get quantity after it has been increased ${quantity}`);
+                cy.get(quantity_counter_input).should('have.value', quantity);
+              });
+          });
+      }
+    );
+  }
+}
+
+/**
+ * Decrease the current quantity.
+ * @param {string} uiType - UI type
+ * @param {string} attributeName - Attribute name
+ * @param {string} valueName - Value name* @param valueId {string} - Value ID
+ * @param quantity {number} - Quantity
+ */
+export function decreaseQuantity(
+  uiType: string,
+  attributeName: string,
+  valueName?: string,
+  quantity?: number
+) {
+  cy.log('Decrease quantity');
+  const attributeId = getAttributeId(attributeName, uiType);
+  if (valueName) {
+    const valueId = `${attributeId}--${valueName}`;
+    cy.get(`#${valueId} .cx-product-card`)
+      .get('.cx-product-card-quantity')
+      .within(() => {
+        cy.get(quantity_counter_button)
+          .first()
+          .click()
+          .then(() => {
+            cy.get(quantity_item_counter); // wait for item-counter to render
+            cy.get(quantity_counter_button)
+              .findByText('-')
+              .should('be.disabled');
+            cy.get(quantity_counter_input).should(
+              'have.value',
+              `${quantity - 1}`
+            );
+          });
+      });
+  } else {
+    let isDecreased = false;
+    cy.get(`#${attributeId} .form-quantity ${quantity_item_counter}`).then(
+      () => {
+        cy.get(quantity_counter_input)
+          .invoke('val')
+          .then((val) => {
+            quantity = +val;
+            cy.log(`Get quantity before it has been decreased ${quantity}`);
+            cy.get(quantity_counter_input).should('have.value', quantity);
+            if (quantity > 1) {
+              cy.log("Click on '-' to increase quantity");
+              cy.get(quantity_counter_button)
+                .contains('-')
+                .click()
+                .then(() => {
+                  isDecreased = true;
+                  cy.get(quantity_counter_input).should(
+                    'not.have.attr',
+                    'readonly'
+                  );
+                });
+            } else {
+              cy.log(
+                `Quantity could not be decreased because it equals ${quantity}`
+              );
+            }
+          });
+      }
+    );
+
+    if (isDecreased) {
+      cy.get(`#${attributeId} .form-quantity ${quantity_item_counter}`).then(
+        () => {
+          cy.get(quantity_counter_input)
+            .invoke('value')
+            .then((value) => {
+              quantity = +value;
+              cy.log(`Get quantity after it has been decreased: ${quantity}`);
+              cy.get(quantity_counter_input).should('have.value', quantity);
+            });
+        }
+      );
+    }
+  }
+}
+
+/**
+ * Verifies whether a quantity is set correctly.
+ *
+ * @param attributeName {string} - Attribute ID
+ * @param uiType {string} - UI type
+ * @param quantity {number} - Quantity
+ */
+export function checkQuantity(
+  attributeName: string,
+  uiType: string,
+  quantity?: number
+) {
+  cy.log('Check quantity');
+  const attributeId = getAttributeId(attributeName, uiType);
+  if (quantity) {
+    cy.log(`Quantity equals ${quantity}`);
+    cy.get(`#${attributeId} .form-quantity ${quantity_item_counter}`).then(
+      () => {
+        cy.get(quantity_item_counter).should('be.visible');
+        cy.get(quantity_counter_input).should('not.have.attr', 'readonly');
+        cy.get(quantity_counter_input).should('have.value', `${quantity}`);
+        if (quantity === 1) {
+          cy.get(quantity_counter_button).findByText('-').should('be.disabled');
+          cy.get(quantity_counter_button)
+            .findByText('+')
+            .should('not.be.disabled');
+        } else {
+          cy.get(quantity_counter_button)
+            .findByText('-')
+            .should('not.be.disabled');
+          cy.get(quantity_counter_button)
+            .findByText('+')
+            .should('not.be.disabled');
+        }
+      }
+    );
+  } else {
+    cy.get(`#${attributeId} .form-quantity ${quantity_item_counter}`).then(
+      () => {
+        cy.get(quantity_item_counter).should('be.visible');
+        cy.get(quantity_counter_input).should('have.attr', 'readonly');
+        cy.get(quantity_counter_input).should('have.value', 0);
+      }
+    );
   }
 }
 

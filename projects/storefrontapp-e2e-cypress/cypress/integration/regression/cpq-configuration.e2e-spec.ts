@@ -92,17 +92,23 @@ context('CPQ Configuration', () => {
   });
 
   describe('Handling different UI type', () => {
-    it('should support radio button attribute type', () => {
+    it.only('should support radio button attribute type', () => {
       configuration.goToPDPage(POWERTOOLS, PROD_CODE_COF);
       configuration.clickOnConfigureBtnInCatalog();
 
       configuration.checkAttributeDisplayed(ATTR_COF_CUPS, RADGRP);
+      configuration.checkQuantity(ATTR_COF_CUPS, RADGRP);
 
       configuration.selectAttribute(ATTR_COF_CUPS, RADGRP, VAL_COF_CUPS_300);
       configuration.checkValueSelected(RADGRP, ATTR_COF_CUPS, VAL_COF_CUPS_300);
+      configuration.checkQuantity(ATTR_COF_CUPS, RADGRP, 1);
+      configuration.increaseQuantity(RADGRP, ATTR_COF_CUPS);
+      configuration.decreaseQuantity(RADGRP, ATTR_COF_CUPS);
 
       configuration.selectAttribute(ATTR_COF_CUPS, RADGRP, VAL_COF_CUPS_500);
       configuration.checkValueSelected(RADGRP, ATTR_COF_CUPS, VAL_COF_CUPS_500);
+      configuration.checkQuantity(ATTR_COF_CUPS, RADGRP, 1);
+      configuration.decreaseQuantity(RADGRP, ATTR_COF_CUPS);
     });
 
     it('should support checkbox list attribute type', () => {
@@ -281,5 +287,9 @@ context('CPQ Configuration', () => {
           configuration.checkAttributeHeaderDisplayed(ATTR_NAMES.GRP_CAM_IAW);
         });
     });
+  });
+
+  describe('Handling quantity at attribute level', () => {
+    it('should support quantity for checkbox list attribute type', () => {});
   });
 });
