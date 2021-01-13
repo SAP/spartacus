@@ -1,11 +1,9 @@
-import { Inject, Injectable, Renderer2 } from '@angular/core';
+import { Inject, Injectable, Optional, Renderer2 } from '@angular/core';
 import { SmartEditService } from '../../smart-edit/services/smart-edit.service';
 import { ComponentDecorator } from '../decorators/component-decorator';
-import { PageDecorator } from '../decorators/page-decorator';
 import { SlotDecorator } from '../decorators/slot-decorator';
 import { ContentSlotComponentData } from '../model/content-slot-component-data.model';
 import { ContentSlotData } from '../model/content-slot-data.model';
-import { Page } from '../model/page.model';
 
 @Injectable({
   providedIn: 'root',
@@ -18,12 +16,12 @@ export class DynamicAttributeService {
   constructor(
     // TODO: remove this SmartEditService in major release
     protected smartEditService?: SmartEditService,
+    @Optional()
     @Inject(ComponentDecorator)
     protected componentDecorators?: ComponentDecorator[],
+    @Optional()
     @Inject(SlotDecorator)
-    protected slotDecorators?: SlotDecorator[],
-    @Inject(PageDecorator)
-    protected pageDecorators?: PageDecorator[]
+    protected slotDecorators?: SlotDecorator[]
   ) {}
 
   /**
@@ -68,12 +66,6 @@ export class DynamicAttributeService {
   ) {
     this.slotDecorators?.forEach((decorator) =>
       decorator.decorate(element, renderer, slotData)
-    );
-  }
-
-  addAttributesToPage(element: Element, renderer: Renderer2, cmsPage?: Page) {
-    this.pageDecorators?.forEach((decorator) =>
-      decorator.decorate(element, renderer, cmsPage)
     );
   }
 }

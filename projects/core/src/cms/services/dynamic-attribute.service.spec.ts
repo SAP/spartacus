@@ -2,7 +2,6 @@ import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { SmartEditService } from '../../smart-edit/services/smart-edit.service';
 import { ComponentDecorator } from '../decorators/component-decorator';
-import { PageDecorator } from '../decorators/page-decorator';
 import { SlotDecorator } from '../decorators/slot-decorator';
 import { DynamicAttributeService } from './dynamic-attribute.service';
 import createSpy = jasmine.createSpy;
@@ -19,11 +18,6 @@ class TestSlotDecorator extends ComponentDecorator {
   decorate = createSpy('decorate');
 }
 
-@Injectable()
-class TestPageDecorator extends PageDecorator {
-  decorate = createSpy('decorate');
-}
-
 describe('DynamicAttributeService', () => {
   let service: DynamicAttributeService;
   let renderer: Renderer2;
@@ -33,7 +27,6 @@ describe('DynamicAttributeService', () => {
       providers: [
         TestComponentDecorator,
         TestSlotDecorator,
-        TestPageDecorator,
         { provide: SmartEditService, useClass: MockSmartEditService },
         {
           provide: ComponentDecorator,
@@ -43,11 +36,6 @@ describe('DynamicAttributeService', () => {
         {
           provide: SlotDecorator,
           useExisting: TestSlotDecorator,
-          multi: true,
-        },
-        {
-          provide: PageDecorator,
-          useExisting: TestPageDecorator,
           multi: true,
         },
       ],
@@ -108,19 +96,6 @@ describe('DynamicAttributeService', () => {
         renderer,
         {}
       );
-    }
-  ));
-
-  it('should able to add dynamic attributes to page', inject(
-    [RendererFactory2],
-    (factory: RendererFactory2) => {
-      renderer = factory.createRenderer(null, null);
-      const element = renderer.createElement('div');
-      service.addAttributesToPage(element, renderer, { pageId: 'test' });
-
-      expect(
-        service['pageDecorators'][0].decorate
-      ).toHaveBeenCalledWith(element, renderer, { pageId: 'test' });
     }
   ));
 });

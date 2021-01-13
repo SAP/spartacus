@@ -131,11 +131,19 @@ export class PageSlotComponent implements OnInit, OnDestroy {
     }
 
     if (slot) {
-      this.dynamicAttributeService.addAttributesToSlot(
-        this.elementRef.nativeElement,
-        this.renderer,
-        slot
-      );
+      if (this.dynamicAttributeService.addAttributesToSlot) {
+        this.dynamicAttributeService.addAttributesToSlot(
+          this.elementRef.nativeElement,
+          this.renderer,
+          slot
+        );
+      } else {
+        this.dynamicAttributeService.addDynamicAttributes(
+          this.elementRef.nativeElement,
+          this.renderer,
+          { slotData: slot }
+        );
+      }
     }
   }
 
