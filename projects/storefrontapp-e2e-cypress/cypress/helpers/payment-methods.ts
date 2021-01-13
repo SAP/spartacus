@@ -110,13 +110,9 @@ export function deletePayment() {
     'Are you sure you want to delete this payment method?'
   );
 
-  // click cancel
   cy.get('.btn-secondary').should('contain', 'Cancel');
   cy.get('.btn-secondary').click({ force: true });
-  cy.get('.cx-card-body__delete-ms').should(
-    'not.contain',
-    'Are you sure you want to delete this payment method?'
-  );
+  cy.get('.cx-card-body__delete-ms').should('not.exist');
 
   // delete the payment
   cy.findAllByText('Delete').first().click({ force: true });
