@@ -104,4 +104,29 @@ describe('CostCenterFormComponent', () => {
   it('should get active units from service', () => {
     expect(b2bUnitService.getActiveUnitList).toHaveBeenCalled();
   });
+
+  describe('createCodeWithName', () => {
+    it('should set code field value if empty based on provided name value', () => {
+      mockForm.get('name').patchValue('Unit Test Value');
+      mockForm.get('code').patchValue(undefined);
+      component.form = mockForm;
+      component.createCodeWithName(
+        component.form.get('name'),
+        component.form.get('code')
+      );
+
+      expect(component.form.get('code').value).toEqual('unit-test-value');
+    });
+    it('should prevent setting code if value is provided for this field', () => {
+      mockForm.get('name').patchValue('Unit Test Value');
+      mockForm.get('code').patchValue('test code');
+      component.form = mockForm;
+      component.createCodeWithName(
+        component.form.get('name'),
+        component.form.get('code')
+      );
+
+      expect(component.form.get('code').value).toEqual('test code');
+    });
+  });
 });
