@@ -97,10 +97,8 @@ export class PageMetaService {
   protected isDisabled(resolver: string): boolean {
     return (
       isPlatformBrowser(this.platformId) &&
-      // && disabled
       this.config?.pageResolvers?.disableInCSR?.includes(resolver) &&
-      isDevMode() &&
-      !this.config?.pageResolvers?.enableInDevMode
+      (!isDevMode() || this.config?.pageResolvers?.enableInDevMode === false)
     );
   }
 
