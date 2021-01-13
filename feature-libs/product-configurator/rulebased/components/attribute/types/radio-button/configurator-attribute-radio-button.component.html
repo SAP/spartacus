@@ -6,7 +6,6 @@
       [initialQuantity]="attribute.selectedSingleValue ? attribute.quantity : 0"
       [readonly]="readOnlyQuantity || (loading$ | async)"
       *ngIf="withQuantity"
-      class="form-quantity"
     ></cx-configurator-attribute-quantity>
 
     <div class="form-check" *ngFor="let value of attribute.values">
