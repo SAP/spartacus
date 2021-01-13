@@ -871,15 +871,16 @@ function getNthGroupMenu(index: number): Chainable<JQuery<HTMLElement>> {
  * @param {number} groupIndex - Group index
  */
 export function clickOnGroup(groupIndex: number): void {
-  getNthGroupMenu(groupIndex)
-    .children('a')
-    .children()
-    .within(() => {
-      cy.get('div.subGroupIndicator').within(($list) => {
-        cy.log('$list.children().length: ' + $list.children().length);
-        cy.wrap($list.children().length).as('subGroupIndicator');
+  getNthGroupMenu(groupIndex).within(() => {
+    cy.get('a')
+      .children()
+      .within(() => {
+        cy.get('div.subGroupIndicator').within(($list) => {
+          cy.log('$list.children().length: ' + $list.children().length);
+          cy.wrap($list.children().length).as('subGroupIndicator');
+        });
       });
-    });
+  });
 
   cy.get('@subGroupIndicator').then((subGroupIndicator) => {
     cy.log('subGroupIndicator: ' + subGroupIndicator);
