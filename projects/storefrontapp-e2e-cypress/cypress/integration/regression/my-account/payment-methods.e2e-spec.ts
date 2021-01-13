@@ -8,7 +8,6 @@ import {
 describe('Payment Methods', () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
-    visitHomePage();
   });
 
   describe('Anonymous user', () => {
@@ -17,7 +16,6 @@ describe('Payment Methods', () => {
 
   describe('Authenticated user', () => {
     before(() => {
-      cy.server();
       visitHomePage();
     });
 

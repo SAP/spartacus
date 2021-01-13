@@ -67,6 +67,12 @@ export function verifyContentInReviewTab() {
 }
 
 export function verifyReviewForm() {
+  cy.intercept(
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/products/*/reviews?lang=en&curr=USD`
+  ).as('submitReview');
+
   cy.get(writeAReviewButton).click();
   cy.get(writeAReviewForm).should('be.visible');
   cy.get(writeAReviewForm).findByText('Cancel').should('be.not.disabled');
@@ -76,9 +82,11 @@ export function verifyReviewForm() {
   );
   cy.get(`${writeAReviewForm} .star`).eq(2).click();
   cy.get(`${writeAReviewForm} input`).eq(2).type('Me');
-  cy.get(writeAReviewForm).findByText('Submit').should('be.not.disabled');
+
   cy.get(writeAReviewForm).findByText('Submit').click();
-  cy.get(writeAReviewForm).should('be.not.visible');
+
+  cy.wait('@submitReview');
+
   cy.get(reviewList).should('be.visible');
 }
 

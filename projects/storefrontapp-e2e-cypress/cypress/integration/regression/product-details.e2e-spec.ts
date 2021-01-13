@@ -4,21 +4,12 @@ import { formats } from '../../sample-data/viewports';
 function productDetailsTest() {
   it('should contain correct product details', () => {
     productDetails.verifyProductDetails();
-  });
-
-  it('should contain correct tabs', () => {
     productDetails.verifyCorrectTabs();
-  });
-
-  it('should contain tabs with correct text', () => {
     productDetails.verifyTextInTabs();
-  });
-
-  it('should contain correct review tab', () => {
     productDetails.verifyContentInReviewTab();
   });
 
-  it('should contain correct review form', () => {
+  it('should submit a review', () => {
     productDetails.verifyReviewForm();
   });
 
@@ -28,11 +19,8 @@ function productDetailsTest() {
 }
 
 function apparelProductDetailsTest() {
-  it('should be able to select style variant on base product page', () => {
+  it('should be able to select style / size variant', () => {
     productDetails.selectProductStyleVariant();
-  });
-
-  it('should be able to select size variant with selected style option', () => {
     productDetails.selectProductSizeVariant();
   });
 
@@ -64,7 +52,7 @@ function configureApparelProduct() {
 }
 
 context('Product details', () => {
-  describe('Default', () => {
+  describe('Electronics', () => {
     before(configureDefaultProduct);
 
     productDetailsTest();
@@ -77,6 +65,7 @@ context('Product details', () => {
   });
 });
 
+//TODO split this test in two files (one for mobile)
 context(`${formats.mobile.width + 1}p resolution - Product details`, () => {
   before(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
@@ -85,7 +74,7 @@ context(`${formats.mobile.width + 1}p resolution - Product details`, () => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
   });
 
-  describe('Default', () => {
+  describe('Electronics', () => {
     before(configureDefaultProduct);
 
     productDetailsTest();

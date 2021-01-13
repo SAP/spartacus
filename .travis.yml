@@ -9,22 +9,27 @@ branches:
   only:
     - develop
     - "/^epic\\/.*$/"
-    - "/^hotfix\\/.*$/"
     - "/^release\\/.*$/"
-env:
-  - TEST_SUITE="./build.sh sonar"
-  - TEST_SUITE="./ci-scripts/e2e-cypress.sh"
-script: $TEST_SUITE
-deploy:
-  provider: script
-  skip_cleanup: true
-  script: bash scripts/publish-builds.sh
-  on:
-    branch: develop
-notifications:
-  email:
-    on_failure: always
-    on_success: change
+defaults: &defaults
+  script: "./ci-scripts/e2e-cypress.sh -s regression"
+jobs:
+  - script: "./build.sh sonar"
+  - script:
+    name: "Cypress regression tests, 1st job"
+    env: STAGE_NAME=spa-ci-regression
+    <<: *defaults
+  - script:
+    name: "Cypress regression tests, 2st job"
+    env: STAGE_NAME=spa-ci-regression
+    <<: *defaults
+  - script:
+    name: "Cypress regression tests, 3rd job"
+    env: STAGE_NAME=spa-ci-regression
+    <<: *defaults
+  - script:
+    name: "Cypress regression tests, 4th job"
+    env: STAGE_NAME=spa-ci-regression
+    <<: *defaults
 addons:
   chrome: stable
   sonarcloud:
