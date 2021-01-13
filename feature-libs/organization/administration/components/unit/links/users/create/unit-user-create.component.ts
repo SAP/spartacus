@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { UserItemService } from '../../../../user/services/user-item.service';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitUserItemService } from './unit-user-item.service';
@@ -18,6 +19,6 @@ import { UnitUserItemService } from './unit-user-item.service';
   ],
 })
 export class UnitUserCreateComponent {
-  unitKey$ = this.unitService.key$;
+  unitKey$: Observable<string> = this.unitService.key$;
   constructor(protected unitService: CurrentUnitService) {}
 }
