@@ -24,12 +24,12 @@ export class BulkPricingTableComponent implements OnInit, OnDestroy {
     });
   }
 
-  formatQuantity(tier: BulkPrice): string{
-    let formattedQuantityRange = "";
-    if(tier.maxQuantity == null){
-      formattedQuantityRange = tier.minQuantity + "+";
-    }else{
-      formattedQuantityRange = tier.minQuantity + " - " + tier.maxQuantity;
+  formatQuantity(tier: BulkPrice): string {
+    let formattedQuantityRange = '';
+    if (tier.maxQuantity == null) {
+      formattedQuantityRange = tier.minQuantity + '+';
+    } else {
+      formattedQuantityRange = tier.minQuantity + ' - ' + tier.maxQuantity;
     }
     return formattedQuantityRange;
   }

@@ -10,7 +10,7 @@ import {
 } from '@spartacus/organization/order-approval/assets';
 import {
   bulkPricingTranslationChunksConfig,
-  bulkPricingTranslations
+  bulkPricingTranslations,
 } from '@spartacus/product/bulk-pricing/assets';
 
 import { OrderApprovalRootModule } from '@spartacus/organization/order-approval/root';
