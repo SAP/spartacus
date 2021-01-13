@@ -18,8 +18,14 @@ export class ProductVariantsComponent implements OnInit {
 
   ngOnInit(): void {
     this.product$ = this.currentProductService.getProduct().pipe(
-      filter((product) => !!(product &&
-        (product.baseOptions || product.multidimensional && product.variantMatrix))),
+      filter(
+        (product) =>
+          !!(
+            product &&
+            (product.baseOptions ||
+              (product.multidimensional && product.variantMatrix))
+          )
+      ),
       distinctUntilChanged(),
       tap((product) => {
         if (product.multidimensional) {
@@ -31,7 +37,7 @@ export class ProductVariantsComponent implements OnInit {
             if (option && option.variantType) {
               this.variants[option.variantType] = option;
             }
-          })
+          });
         }
       })
     );
