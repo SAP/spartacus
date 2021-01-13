@@ -7,7 +7,8 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription, pipe, timer } from 'rxjs';
+import { debounce } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 
 interface Quantity {
@@ -32,9 +33,11 @@ export class ConfiguratorAttributeQuantityComponent
   ngOnInit() {
     this.quantity.setValue(this.initialQuantity);
 
-    this.sub = this.quantity.valueChanges.subscribe(() =>
-      this.onChangeQuantity()
+    const debounceQuantity = this.quantity.valueChanges.pipe(
+      debounce(() => timer(1000))
     );
+
+    this.sub = debounceQuantity.subscribe(() => this.onChangeQuantity());
   }
 
   ngOnDestroy() {
