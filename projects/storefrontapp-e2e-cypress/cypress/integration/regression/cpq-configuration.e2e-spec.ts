@@ -223,6 +223,15 @@ context('CPQ Configuration', () => {
         ATTR_CAM_MC,
         VAL_CAM_MC_128
       );
+      configuration.checkQuantityAtValue(
+        CHKBOX_PROD,
+        ATTR_CAM_MC,
+        VAL_CAM_MC_128,
+        1
+      );
+      configuration.increaseQuantity(CHKBOX_PROD, ATTR_CAM_MC, VAL_CAM_MC_128);
+      configuration.decreaseQuantity(CHKBOX_PROD, ATTR_CAM_MC, VAL_CAM_MC_128);
+
       configuration.checkValueNotSelected(
         CHKBOX_PROD,
         ATTR_CAM_MC,
@@ -235,6 +244,7 @@ context('CPQ Configuration', () => {
         ATTR_CAM_MC,
         VAL_CAM_MC_128
       );
+
       configuration.checkValueSelected(CHKBOX_PROD, ATTR_CAM_MC, VAL_CAM_MC_64);
 
       configuration.selectAttribute(ATTR_CAM_MC, CHKBOX_PROD, VAL_CAM_MC_128);
@@ -244,6 +254,14 @@ context('CPQ Configuration', () => {
         VAL_CAM_MC_128
       );
       configuration.checkValueSelected(CHKBOX_PROD, ATTR_CAM_MC, VAL_CAM_MC_64);
+      configuration.checkQuantityAtValue(
+        CHKBOX_PROD,
+        ATTR_CAM_MC,
+        VAL_CAM_MC_64,
+        1
+      );
+      configuration.increaseQuantity(CHKBOX_PROD, ATTR_CAM_MC, VAL_CAM_MC_64);
+      configuration.decreaseQuantity(CHKBOX_PROD, ATTR_CAM_MC, VAL_CAM_MC_64);
     });
   });
 
