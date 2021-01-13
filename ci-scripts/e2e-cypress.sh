@@ -44,7 +44,7 @@ do
             ;;
     esac
 done
-
+# echo "s: $SUITE, i: $INTEGRATION, e: $CI_ENV, p: $POSITIONAL, 1: $1, 0: $0"
 set -- "${POSITIONAL[@]}"
 
 
