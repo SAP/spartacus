@@ -13,6 +13,7 @@ import {
   PermissionService,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { CurrentItemService } from '../../shared/current-item.service';
 import { ItemService } from '../../shared/item.service';
 import { CurrentPermissionService } from '../services/current-permission.service';
@@ -37,7 +38,12 @@ import { PermissionItemService } from '../services/permission-item.service';
 export class PermissionFormComponent implements OnInit {
   form: FormGroup = this.itemService.getForm();
 
-  units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList();
+  units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList().pipe(
+    tap((unit) => {
+      if (unit.length === 1)
+        this.form?.get('parentOrgUnit.uid').setValue(unit[0].id);
+    })
+  );
   currencies$: Observable<Currency[]> = this.currencyService.getAll();
   types$: Observable<
     OrderApprovalPermissionType[]
@@ -53,12 +59,5 @@ export class PermissionFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.unitService.loadList();
-    this.setDefaultUnit();
-  }
-
-  setDefaultUnit(): void {
-    this.units$.subscribe((unit) => {
-      if (unit.length === 1) this.form?.get('orgUnit.uid').setValue(unit[0].id);
-    });
   }
 }

@@ -6,6 +6,7 @@ import {
   UserGroup,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { ItemService } from '../../shared/item.service';
 import { UserGroupItemService } from '../services/user-group-item.service';
 
@@ -25,7 +26,12 @@ export class UserGroupFormComponent implements OnInit {
   form: FormGroup = this.itemService.getForm();
 
   // getList ???
-  units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList();
+  units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList().pipe(
+    tap((unit) => {
+      if (unit.length === 1)
+        this.form?.get('parentOrgUnit.uid').setValue(unit[0].id);
+    })
+  );
 
   constructor(
     protected itemService: ItemService<UserGroup>,
@@ -34,12 +40,5 @@ export class UserGroupFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.unitService.loadList();
-    this.setDefaultUnit();
-  }
-
-  setDefaultUnit(): void {
-    this.units$.subscribe((unit) => {
-      if (unit.length === 1) this.form?.get('orgUnit.uid').setValue(unit[0].id);
-    });
   }
 }

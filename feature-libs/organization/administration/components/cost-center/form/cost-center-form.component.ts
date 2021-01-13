@@ -6,6 +6,7 @@ import {
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { CurrentItemService } from '../../shared/current-item.service';
 import { ItemService } from '../../shared/item.service';
 import { CostCenterItemService } from '../services/cost-center-item.service';
@@ -41,30 +42,22 @@ export class CostCenterFormComponent {
     }
   }
 
-  units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList();
-  currencies$: Observable<Currency[]> = this.currencyService.getAll();
+  units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList().pipe(
+    tap((unit) => {
+      if (unit.length === 1)
+        this.form?.get('parentOrgUnit.uid').setValue(unit[0].id);
+    })
+  );
+  currencies$: Observable<Currency[]> = this.currencyService.getAll().pipe(
+    tap((currency) => {
+      if (currency.length === 1)
+        this.form.get('currency.isocode')?.setValue(currency[0].isocode);
+    })
+  );
 
   constructor(
     protected itemService: ItemService<CostCenter>,
     protected unitService: OrgUnitService,
     protected currencyService: CurrencyService
   ) {}
-
-  ngOnInit(): void {
-    this.setDefaultCurrency();
-    this.setDefaultUnit();
-  }
-
-  setDefaultCurrency(): void {
-    this.currencies$.subscribe((currency) => {
-      if (currency.length === 1)
-        this.form.get('currency.isocode')?.setValue(currency[0].isocode);
-    });
-  }
-
-  setDefaultUnit(): void {
-    this.units$.subscribe((unit) => {
-      if (unit.length === 1) this.form?.get('unit.uid').setValue(unit[0].id);
-    });
-  }
 }
