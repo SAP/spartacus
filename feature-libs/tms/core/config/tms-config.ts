@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Config } from '@spartacus/core';
+import { Config, Event } from '@spartacus/core';
+
+export interface TmsEventsConfig {
+  enabled?: boolean;
+  events?: Event[];
+}
 
 @Injectable({
   providedIn: 'root',
@@ -8,12 +13,12 @@ import { Config } from '@spartacus/core';
 export abstract class TmsConfig {
   tms?: {
     /**
-     * Enables the GTM.
+     * GTM configuration.
      */
-    gtm?: boolean;
+    gtm?: TmsEventsConfig;
     /**
-     * Enables the Adobe Launch.
+     * Adobe Launch configuration.
      */
-    adobeLaunch?: boolean;
+    adobeLaunch?: TmsEventsConfig;
   };
 }
