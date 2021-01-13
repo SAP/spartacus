@@ -1,12 +1,12 @@
 import Chainable = Cypress.Chainable;
-import { navigation } from './navigation';
+import { user } from '../sample-data/checkout-flow';
 import {
   AddressData,
-  fillShippingAddress,
   fillPaymentDetails,
+  fillShippingAddress,
   PaymentDetails,
 } from './checkout-forms';
-import { user } from '../sample-data/checkout-flow';
+import { navigation } from './navigation';
 
 const shippingAddressData: AddressData = user;
 const billingAddress: AddressData = user;
@@ -780,13 +780,15 @@ export function clickOnGroup(groupIndex: number): void {
   cy.get('cx-configurator-group-menu ul>li.cx-menu-item')
     .not('.cx-menu-conflict')
     .eq(groupIndex)
-    .children('a')
-    .children()
     .within(() => {
-      cy.get('div.subGroupIndicator').within(($list) => {
-        cy.log('$list.children().length: ' + $list.children().length);
-        cy.wrap($list.children().length).as('subGroupIndicator');
-      });
+      cy.get('a')
+        .children()
+        .within(() => {
+          cy.get('div.subGroupIndicator').within(($list) => {
+            cy.log('$list.children().length: ' + $list.children().length);
+            cy.wrap($list.children().length).as('subGroupIndicator');
+          });
+        });
     });
 
   cy.get('@subGroupIndicator').then((subGroupIndicator) => {
