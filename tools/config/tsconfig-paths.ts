@@ -74,6 +74,63 @@ export function manageTsConfigs(
   updateAppConfigs(libraries, options);
 }
 
+function comparePathsConfigs(
+  targetPaths: Record<string, string[]>,
+  tsConfigPath: string,
+  silent = false
+): boolean {
+  let reportedErrors = false;
+  const tsConfig = readTsConfigFile(tsConfigPath);
+  const currentPaths: Record<string, string[]> =
+    tsConfig?.compilerOptions?.paths ?? {};
+  Object.keys(currentPaths).forEach((key) => {
+    if (typeof targetPaths[key] === 'undefined') {
+      reportedErrors = true;
+      if (!silent) {
+        prettyError(
+          tsConfigPath,
+          `Key ${chalk.bold(key)} should not be present in ${chalk.bold(
+            `compilerOptions.paths`
+          )}.`,
+          `This can be automatically fixed by running \`${chalk.bold(
+            `yarn config:update`
+          )}\`.`
+        );
+      }
+    }
+  });
+  Object.entries(targetPaths).forEach(([key, value]) => {
+    if (typeof currentPaths[key] === 'undefined') {
+      reportedErrors = true;
+      if (!silent) {
+        prettyError(
+          tsConfigPath,
+          `Property ${chalk.bold(
+            `"${key}": ["${value[0]}"]`
+          )} is missing in ${chalk.bold('compilerOptions.paths')}.`,
+          `This can be automatically fixed by running \`${chalk.bold(
+            `yarn config:update`
+          )}\`.`
+        );
+      }
+    } else if (value[0] !== currentPaths[key][0]) {
+      reportedErrors = true;
+      if (!silent) {
+        prettyError(
+          tsConfigPath,
+          `Key ${chalk.bold(`${key}`)} should have value ${chalk.bold(
+            `[${value[0]}]`
+          )} in ${chalk.bold('compilerOptions.paths')}.`,
+          `This can be automatically fixed by running \`${chalk.bold(
+            `yarn config:update`
+          )}\`.`
+        );
+      }
+    }
+  });
+  return reportedErrors;
+}
+
 /**
  * When library have it's own schematics (tsconfig.schematics.json exists) and have
  * schematics as peerDependency we add path to `@spartacus/schematics` lib.
@@ -82,9 +139,6 @@ function handleSchematicsConfigs(
   libraries: Record<string, Lib>,
   options: ProgramOptions
 ) {
-  if (options.fix) {
-    console.log('\nUpdating tsconfig.schematics.json files\n');
-  }
   const targetPaths = {
     '@spartacus/schematics': ['../../projects/schematics/src/public_api'],
   };
@@ -96,53 +150,13 @@ function handleSchematicsConfigs(
       schematicsTsConfigPaths.length &&
       library.spartacusDependencies.includes('@spartacus/schematics')
     ) {
-      if (options.fix) {
+      const errorsPresent = comparePathsConfigs(
+        targetPaths,
+        schematicsTsConfigPaths[0],
+        options.fix
+      );
+      if (errorsPresent && options.fix) {
         setCompilerOptionsPaths(schematicsTsConfigPaths[0], targetPaths);
-      } else {
-        // TODO: only check configuration
-        const tsConfig = readTsConfigFile(schematicsTsConfigPaths[0]);
-        const currentPaths: Record<string, string[]> =
-          tsConfig?.compilerOptions?.paths ?? {};
-        Object.keys(currentPaths).forEach((key) => {
-          if (typeof targetPaths[key] === 'undefined') {
-            prettyError(
-              schematicsTsConfigPaths[0],
-              `Key ${chalk.bold(key)} should not be present in ${chalk.bold(
-                `compilerOptions.paths`
-              )}.`,
-              `This can be automatically fixed by running \`${chalk.bold(
-                `yarn config:update`
-              )}\`.`
-            );
-          }
-        });
-        Object.entries(targetPaths).forEach(([key, value]) => {
-          if (typeof currentPaths[key] === 'undefined') {
-            prettyError(
-              schematicsTsConfigPaths[0],
-              `Property ${chalk.bold(
-                `"${key}": ["${value[0]}"]`
-              )} is missing in ${chalk.bold('compilerOptions.paths')}.`,
-              `This can be automatically fixed by running \`${chalk.bold(
-                `yarn config:update`
-              )}\`.`
-            );
-          } else if (value[0] !== currentPaths[key][0]) {
-            prettyError(
-              schematicsTsConfigPaths[0],
-              `Key ${chalk.bold(`${key}`)} should have value ${chalk.bold(
-                `[${value[0]}]`
-              )} in ${chalk.bold('compilerOptions.paths')}.`,
-              `This can be automatically fixed by running \`${chalk.bold(
-                `yarn config:update`
-              )}\`.`
-            );
-          }
-        });
-      }
-    }
-    if (schematicsTsConfigPaths.length) {
-      if (options.fix) {
         logUpdatedFile(schematicsTsConfigPaths[0]);
       }
     }
@@ -184,8 +198,16 @@ function updateLibConfigs(
           );
           return { ...entryPoints, ...dependencyEntryPoints };
         }, {});
-      setCompilerOptionsPaths(libraryTsConfigPaths[0], dependenciesEntryPoints);
-      if (options.fix) {
+      const errorsPresent = comparePathsConfigs(
+        dependenciesEntryPoints,
+        libraryTsConfigPaths[0],
+        options.fix
+      );
+      if (errorsPresent && options.fix) {
+        setCompilerOptionsPaths(
+          libraryTsConfigPaths[0],
+          dependenciesEntryPoints
+        );
         logUpdatedFile(libraryTsConfigPaths[0]);
       }
     }
@@ -199,9 +221,6 @@ function updateRootConfigs(
   libraries: Record<string, Lib>,
   options: ProgramOptions
 ) {
-  if (options.fix) {
-    console.log('\nUpdating base tsconfig files\n');
-  }
   const entryPoints = Object.values(libraries).reduce((acc, curr) => {
     curr.entryPoints.forEach((entryPoint) => {
       acc[entryPoint.entryPoint] = [
@@ -212,13 +231,24 @@ function updateRootConfigs(
     return acc;
   }, {});
 
-  setCompilerOptionsPaths('./tsconfig.json', entryPoints);
-  if (options.fix) {
-    logUpdatedFile('tsconfig.json');
+  const errorsPresent = comparePathsConfigs(
+    entryPoints,
+    './tsconfig.json',
+    options.fix
+  );
+  if (errorsPresent && options.fix) {
+    setCompilerOptionsPaths('./tsconfig.json', entryPoints);
+    logUpdatedFile('./tsconfig.json');
   }
-  setCompilerOptionsPaths('./tsconfig.compodoc.json', entryPoints);
-  if (options.fix) {
-    logUpdatedFile('tsconfig.compodoc.json');
+
+  const errorsPresent2 = comparePathsConfigs(
+    entryPoints,
+    './tsconfig.compodoc.json',
+    options.fix
+  );
+  if (errorsPresent2 && options.fix) {
+    setCompilerOptionsPaths('./tsconfig.compodoc.json', entryPoints);
+    logUpdatedFile('./tsconfig.compodoc.json');
   }
 }
 
@@ -226,9 +256,6 @@ function updateAppConfigs(
   libraries: Record<string, Lib>,
   options: ProgramOptions
 ) {
-  if (options.fix) {
-    console.log('\nUpdating storefrontapp configuration\n');
-  }
   /**
    * Add paths to `projects/storefrontapp/tsconfig.app.prod.json` config.
    */
@@ -243,11 +270,16 @@ function updateAppConfigs(
       return acc;
     }, {});
 
-  setCompilerOptionsPaths(
+  const errorsPresent = comparePathsConfigs(
+    appEntryPoints,
     'projects/storefrontapp/tsconfig.app.prod.json',
-    appEntryPoints
+    options.fix
   );
-  if (options.fix) {
+  if (errorsPresent && options.fix) {
+    setCompilerOptionsPaths(
+      'projects/storefrontapp/tsconfig.app.prod.json',
+      appEntryPoints
+    );
     logUpdatedFile('projects/storefrontapp/tsconfig.app.prod.json');
   }
 
@@ -271,11 +303,16 @@ function updateAppConfigs(
       return acc;
     }, {});
 
-  setCompilerOptionsPaths(
+  const errorsPresent2 = comparePathsConfigs(
+    serverEntryPoints,
     'projects/storefrontapp/tsconfig.server.json',
-    serverEntryPoints
+    options.fix
   );
-  if (options.fix) {
+  if (errorsPresent2 && options.fix) {
+    setCompilerOptionsPaths(
+      'projects/storefrontapp/tsconfig.server.json',
+      serverEntryPoints
+    );
     logUpdatedFile('projects/storefrontapp/tsconfig.server.json');
   }
 
@@ -294,11 +331,16 @@ function updateAppConfigs(
       return acc;
     }, {});
 
-  setCompilerOptionsPaths(
+  const errorsPresent3 = comparePathsConfigs(
+    serverProdEntryPoints,
     'projects/storefrontapp/tsconfig.server.prod.json',
-    serverProdEntryPoints
+    options.fix
   );
-  if (options.fix) {
+  if (errorsPresent3 && options.fix) {
+    setCompilerOptionsPaths(
+      'projects/storefrontapp/tsconfig.server.prod.json',
+      serverProdEntryPoints
+    );
     logUpdatedFile('projects/storefrontapp/tsconfig.server.prod.json');
   }
 }

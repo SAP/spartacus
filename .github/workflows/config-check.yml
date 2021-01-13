@@ -16,4 +16,4 @@ jobs:
       - name: Check configurations
         run: yarn config:check
         env:
-          FORCE_COLOR: 2
+          FORCE_COLOR: 2 # Support colors from chalk
