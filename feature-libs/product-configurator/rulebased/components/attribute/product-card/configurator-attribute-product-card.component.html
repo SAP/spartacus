@@ -47,6 +47,7 @@
         [initialQuantity]="product.quantity"
         [readonly]="loading$ | async"
         *ngIf="showQuantity"
+        class="cx-product-card-quantity"
       ></cx-configurator-attribute-quantity>
 
       <div class="cx-product-card-price"></div>
