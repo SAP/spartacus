@@ -11,7 +11,7 @@ import { switchMap } from 'rxjs/operators';
 })
 export class BulkPricingTableComponent implements OnInit, OnDestroy {
   pricingTiers: BulkPrice[];
-  dataStream: Subscription;
+  prices: Subscription;
   testString;
 
   constructor(
@@ -22,22 +22,22 @@ export class BulkPricingTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.dataStream = this.getPrices().subscribe((p) => {
+    this.prices = this.getPrices().subscribe((p) => {
       this.pricingTiers = p;
-      console.log({ p });
     });
   }
 
   getPrices(): Observable<BulkPrice[]> {
+    const productCodeKey = 'productCode';
     return this.routingService.getRouterState().pipe(
       switchMap((state) => {
-        const productCode = state.state.params['productCode'];
+        const productCode = state.state.params[productCodeKey];
         return this.bulkPrices.getBulkPrices(productCode);
       })
     );
   }
 
   ngOnDestroy() {
-    this.dataStream.unsubscribe();
+    this.prices.unsubscribe();
   }
 }
