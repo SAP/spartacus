@@ -167,7 +167,7 @@
     "@types/node": "^12.11.1",
     "@types/parse5": "^5.0.3",
     "@types/shelljs": "^0.8.7",
-    "chalk": "4",
+    "chalk": "^4.1.0",
     "codelyzer": "^6.0.0",
     "commander": "^3.0.0",
     "concurrently": "^5.3.0",
