@@ -1,7 +1,7 @@
 on:
   issue_comment:
     types: [edited]
-
+name: Dod check
 jobs:
   dod_check:
     name: DoD check
