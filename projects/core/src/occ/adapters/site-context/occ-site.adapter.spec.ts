@@ -49,7 +49,7 @@ class MockOccEndpointsService implements Partial<OccEndpointsService> {
       MockOccModuleConfig.context.baseSite
     );
   }
-  getOccUrlFromConfiguration(
+  buildUrl(
     endpoint: string,
     _attributes?: DynamicAttributes,
     _propertiesToOmit?: BaseOccUrlProperties
@@ -81,7 +81,7 @@ describe('OccSiteAdapter', () => {
     occEndpointsService = TestBed.inject(OccEndpointsService);
     spyOn(converterService, 'pipeableMany').and.callThrough();
     spyOn(occEndpointsService, 'getUrl').and.callThrough();
-    spyOn(occEndpointsService, 'getOccUrlFromConfiguration').and.callThrough();
+    spyOn(occEndpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -303,9 +303,11 @@ describe('OccSiteAdapter', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      expect(
-        occEndpointsService.getOccUrlFromConfiguration
-      ).toHaveBeenCalledWith('baseSites', {}, { baseSite: false });
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+        'baseSites',
+        {},
+        { baseSite: false }
+      );
       mockReq.flush({ baseSites: baseSites });
     });
   });

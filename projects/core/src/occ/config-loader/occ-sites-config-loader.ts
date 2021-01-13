@@ -13,31 +13,28 @@ export class OccSitesConfigLoader {
   protected readonly endpoint =
     'basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies(isocode),defaultCurrency(isocode),languages(isocode),defaultLanguage(isocode)))';
 
+  private getPrefix(): string {
+    if (
+      Boolean(this.config.backend?.occ?.prefix) &&
+      !this.config.backend?.occ?.prefix?.startsWith('/')
+    ) {
+      return '/' + this.config.backend.occ.prefix;
+    }
+    return this.config.backend.occ.prefix;
+  }
+
   private get baseEndpoint(): string {
-    return (
-      (this.config.backend.occ.baseUrl || '') + this.config.backend.occ.prefix
-    );
+    return (this.config.backend.occ.baseUrl || '') + this.getPrefix();
   }
 
   private get url(): string {
     return `${this.baseEndpoint}${this.endpoint}`;
   }
 
-  private validatePrefixConfig() {
-    if (
-      Boolean(this.config.backend?.occ?.prefix) &&
-      !this.config.backend?.occ?.prefix?.startsWith('/')
-    ) {
-      this.config.backend.occ.prefix = '/' + this.config.backend.occ.prefix;
-    }
-  }
-
   load(): Observable<BaseSite[]> {
     if (!this.config || !this.config.backend || !this.config.backend.occ) {
       return throwError(new Error(`Missing config for OCC backend!`));
     }
-
-    this.validatePrefixConfig();
 
     return this.http
       .get<Occ.BaseSites>(this.url)

@@ -51,7 +51,7 @@ class MockBaseSiteService {
 }
 
 class MockOccEndpointsService implements Partial<OccEndpointsService> {
-  getOccUrlFromConfiguration(
+  buildUrl(
     endpoint: string,
     _attributes?: DynamicAttributes,
     _propertiesToOmit?: BaseOccUrlProperties
@@ -82,7 +82,7 @@ describe('OccAsmAdapter', () => {
     converterService = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
     spyOn(converterService, 'pipeable').and.callThrough();
-    spyOn(occEnpointsService, 'getOccUrlFromConfiguration').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   it('should be created', () => {
@@ -116,7 +116,7 @@ describe('OccAsmAdapter', () => {
     expect(converterService.pipeable).toHaveBeenCalledWith(
       CUSTOMER_SEARCH_PAGE_NORMALIZER
     );
-    expect(occEnpointsService.getOccUrlFromConfiguration).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'asmCustomerSearch',
       {},
       { prefix: false, baseSite: false }
@@ -145,7 +145,7 @@ describe('OccAsmAdapter', () => {
     expect(converterService.pipeable).toHaveBeenCalledWith(
       CUSTOMER_SEARCH_PAGE_NORMALIZER
     );
-    expect(occEnpointsService.getOccUrlFromConfiguration).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'asmCustomerSearch',
       {},
       { prefix: false, baseSite: false }
@@ -179,7 +179,7 @@ describe('OccAsmAdapter', () => {
     expect(converterService.pipeable).toHaveBeenCalledWith(
       CUSTOMER_SEARCH_PAGE_NORMALIZER
     );
-    expect(occEnpointsService.getOccUrlFromConfiguration).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'asmCustomerSearch',
       {},
       { prefix: false, baseSite: false }
