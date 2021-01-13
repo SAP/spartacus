@@ -1,5 +1,7 @@
-import { Injectable, Renderer2 } from '@angular/core';
+import { Inject, Injectable, Optional, Renderer2 } from '@angular/core';
 import { SmartEditService } from '../../smart-edit/services/smart-edit.service';
+import { ComponentDecorator } from '../decorators/component-decorator';
+import { SlotDecorator } from '../decorators/slot-decorator';
 import { ContentSlotComponentData } from '../model/content-slot-component-data.model';
 import { ContentSlotData } from '../model/content-slot-data.model';
 
@@ -7,12 +9,21 @@ import { ContentSlotData } from '../model/content-slot-data.model';
   providedIn: 'root',
 })
 export class DynamicAttributeService {
-  constructor(protected smartEditService: SmartEditService) {}
+  constructor(
+    // TODO: remove this SmartEditService in 4.0
+    protected smartEditService?: SmartEditService,
+    @Optional()
+    @Inject(ComponentDecorator)
+    protected componentDecorators?: ComponentDecorator[],
+    @Optional()
+    @Inject(SlotDecorator)
+    protected slotDecorators?: SlotDecorator[]
+  ) {}
 
   /**
-   * Add dynamic attributes to DOM. These attributes are extracted from the properties of cms items received from backend.
-   * There can by many different groups of properties, one of them is smartedit. But EC allows addons to create different groups.
-   * For example, personalization may add 'script' group etc.
+   * @deprecated since 3.1, use functions addAttributesToComponent and addAttributesToSlot instead
+   *
+   * Add dynamic attributes to DOM.
    * @param element: slot or cms component element
    * @param renderer
    * @param cmsRenderingContext: an object containing properties in each cms item response data
@@ -25,37 +36,32 @@ export class DynamicAttributeService {
       slotData?: ContentSlotData;
     }
   ): void {
-    const properties =
-      cmsRenderingContext.componentData?.properties ||
-      cmsRenderingContext.slotData?.properties;
+    this.componentDecorators?.forEach((decorator) =>
+      decorator.decorate(element, renderer, cmsRenderingContext.componentData)
+    );
 
-    if (properties && this.smartEditService.isLaunchedInSmartEdit()) {
-      // check each group of properties, e.g. smartedit
-      Object.keys(properties).forEach((group) => {
-        const name = 'data-' + group + '-';
-        const groupProps = properties[group];
+    this.slotDecorators?.forEach((decorator) =>
+      decorator.decorate(element, renderer, cmsRenderingContext.slotData)
+    );
+  }
 
-        // check each property in the group
-        Object.keys(groupProps).forEach((propName) => {
-          const propValue = groupProps[propName];
-          if (propName === 'classes') {
-            const classes = propValue.split(' ');
-            classes.forEach((classItem) => {
-              element.classList.add(classItem);
-            });
-          } else {
-            renderer.setAttribute(
-              element,
-              name +
-                propName
-                  .split(/(?=[A-Z])/)
-                  .join('-')
-                  .toLowerCase(),
-              propValue
-            );
-          }
-        });
-      });
-    }
+  addAttributesToComponent(
+    element: Element,
+    renderer: Renderer2,
+    componentData?: ContentSlotComponentData
+  ) {
+    this.componentDecorators?.forEach((decorator) =>
+      decorator.decorate(element, renderer, componentData)
+    );
+  }
+
+  addAttributesToSlot(
+    element: Element,
+    renderer: Renderer2,
+    slotData?: ContentSlotData
+  ) {
+    this.slotDecorators?.forEach((decorator) =>
+      decorator.decorate(element, renderer, slotData)
+    );
   }
 }
