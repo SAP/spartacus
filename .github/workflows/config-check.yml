@@ -15,3 +15,5 @@ jobs:
         run: yarn
       - name: Check configurations
         run: yarn config:check
+        env:
+          FORCE_COLOR: 2
