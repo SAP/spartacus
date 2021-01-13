@@ -101,7 +101,7 @@
     "build:misc": "yarn --cwd feature-libs/misc/storefinder run build:schematics && ng build misc --prod",
     "release:misc:with-changelog": "cd feature-libs/misc && release-it && cd ../..",
     "build:product-configurator": "yarn --cwd feature-libs/product-configurator run build:schematics && ng build product-configurator --prod",
-    "e2e:cy:run:product-configuration":"yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:product-configuration",
+    "e2e:cy:start-run:product-configuration":"start-server-and-test start http-get://localhost:4200 cy:run:product-configuration",
     "e2e:cy:run:cpq":"yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:cpq",
     "release:product-configurator:with-changelog": "cd feature-libs/product-configurator && release-it && cd ../..",
     "build:storefinder": "yarn --cwd feature-libs/storefinder run build:schematics && ng build storefinder --prod",
