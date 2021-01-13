@@ -138,6 +138,7 @@ class MockProductService implements Partial<ProductService> {
   }
 }
 
+// TODO: remove fdescribe when work is done for this component
 fdescribe('VariantGenericSelectorComponent', () => {
   let component: VariantGenericSelectorComponent;
   let fixture: ComponentFixture<VariantGenericSelectorComponent>;
