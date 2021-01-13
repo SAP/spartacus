@@ -52,9 +52,10 @@ export class ConfiguratorStorefrontUtilsService {
 
     for (let i = 0; i < controlArray.length; i++) {
       const localAttributeValue: Configurator.Value = {};
-      localAttributeValue.valueCode = attribute.values[i].valueCode;
       localAttributeValue.name = attribute.values[i].name;
+      localAttributeValue.quantity = attribute.values[i].quantity;
       localAttributeValue.selected = controlArray[i].value;
+      localAttributeValue.valueCode = attribute.values[i].valueCode;
       localAssembledValues.push(localAttributeValue);
     }
     return localAssembledValues;

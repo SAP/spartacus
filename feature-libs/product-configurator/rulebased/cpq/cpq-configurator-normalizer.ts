@@ -31,6 +31,7 @@ export class CpqConfiguratorNormalizer
       this.convertGroup(
         tab,
         source.attributes,
+        source.currencyISOCode,
         resultTarget.groups,
         resultTarget.flatGroups
       )
@@ -41,13 +42,14 @@ export class CpqConfiguratorNormalizer
   convertGroup(
     source: Cpq.Tab,
     sourceAttributes: Cpq.Attribute[],
+    currency: string,
     groupList: Configurator.Group[],
     flatGroupList: Configurator.Group[]
   ) {
     const attributes: Configurator.Attribute[] = [];
     if (source.isSelected) {
       sourceAttributes.forEach((sourceAttribute) =>
-        this.convertAttribute(sourceAttribute, source.id, attributes)
+        this.convertAttribute(sourceAttribute, source.id, currency, attributes)
       );
     }
 
@@ -70,6 +72,7 @@ export class CpqConfiguratorNormalizer
   convertAttribute(
     sourceAttribute: Cpq.Attribute,
     groupId: number,
+    currency: string,
     attributeList: Configurator.Attribute[]
   ): void {
     const attribute: Configurator.Attribute = {
@@ -95,7 +98,7 @@ export class CpqConfiguratorNormalizer
 
     if (sourceAttribute.values) {
       sourceAttribute.values.forEach((value) =>
-        this.convertValue(value, attribute.values)
+        this.convertValue(value, sourceAttribute, currency, attribute.values)
       );
       this.setSelectedSingleValue(attribute);
     }
@@ -113,7 +116,12 @@ export class CpqConfiguratorNormalizer
     }
   }
 
-  convertValue(sourceValue: Cpq.Value, values: Configurator.Value[]): void {
+  convertValue(
+    sourceValue: Cpq.Value,
+    sourceAttribute: Cpq.Attribute,
+    currency: string,
+    values: Configurator.Value[]
+  ): void {
     const value: Configurator.Value = {
       valueCode: sourceValue.paV_ID.toString(),
       name: sourceValue.valueCode,
@@ -122,8 +130,13 @@ export class CpqConfiguratorNormalizer
       productSystemId: sourceValue.productSystemId,
       selected: sourceValue.selected,
       quantity: Number(sourceValue.quantity),
+      valuePrice: this.prepareValuePrice(sourceValue, currency),
       images: [],
     };
+    value.valuePriceTotal = this.calculateValuePriceTotal(
+      this.prepareQuantity(sourceValue, sourceAttribute),
+      value.valuePrice
+    );
 
     values.push(value);
   }
@@ -258,7 +271,61 @@ export class CpqConfiguratorNormalizer
     }
   }
 
-  private hasAnyProducts(attributeValues: Cpq.Value[]): boolean {
+  protected hasAnyProducts(attributeValues: Cpq.Value[]): boolean {
     return attributeValues.some((value: Cpq.Value) => value?.productSystemId);
+  }
+
+  protected prepareQuantity(
+    valueSelected: Cpq.Value,
+    attr: Cpq.Attribute
+  ): number {
+    let quantity: number;
+    switch (attr.dataType) {
+      case Cpq.DataType.QTY_ATTRIBUTE_LEVEL:
+        quantity = Number(attr.quantity);
+        break;
+      case Cpq.DataType.QTY_VALUE_LEVEL:
+        quantity = Number(valueSelected.quantity);
+        break;
+      default:
+        quantity = null;
+    }
+    return quantity;
+  }
+
+  protected prepareValuePrice(
+    valueSelected: Cpq.Value,
+    currency: string
+  ): Configurator.PriceDetails {
+    let price: Configurator.PriceDetails = null;
+    if (valueSelected.price) {
+      price = {
+        currencyIso: currency,
+        value: parseFloat(valueSelected.price),
+      };
+      this.formatPrice(price);
+    }
+    return price;
+  }
+
+  protected calculateValuePriceTotal(
+    quantity: number,
+    valuePrice: Configurator.PriceDetails
+  ): Configurator.PriceDetails {
+    let valuePriceTotal: Configurator.PriceDetails = null;
+    if (valuePrice) {
+      const calculationQuantity: number = quantity ? quantity : 1;
+      valuePriceTotal = {
+        currencyIso: valuePrice.currencyIso,
+        value: calculationQuantity * valuePrice.value,
+      };
+      this.formatPrice(valuePriceTotal);
+    }
+    return valuePriceTotal;
+  }
+
+  protected formatPrice(price: Configurator.PriceDetails): void {
+    // TODO AK: implement formatting
+    price.formattedValue = price.value.toString() + ' ' + price.currencyIso;
   }
 }
