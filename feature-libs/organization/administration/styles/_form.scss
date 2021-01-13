@@ -5,9 +5,6 @@
       // align the height of the select with buttons
       max-height: 48px;
     }
-    @include media-breakpoint-down(sm) {
-      font-size: var(--cx-font-size, 12px);
-    }
   }
 
   form section {
@@ -28,14 +25,6 @@
 
     .form-check {
       margin: 0;
-    }
-    span,
-    input,
-    p {
-      @include media-breakpoint-down(sm) {
-        font-size: var(--cx-font-size, 12px);
-        white-space: normal;
-      }
     }
   }
 
@@ -74,7 +63,6 @@
     span {
       @include media-breakpoint-down(sm) {
         white-space: normal;
-        font-size: var(--cx-font-size, 12px);
       }
     }
   }
