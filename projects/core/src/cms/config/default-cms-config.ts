@@ -13,7 +13,7 @@ export const defaultCmsModuleConfig: CmsConfig = {
   },
   cmsComponents: {},
   pageResolvers: {
-    disableInCSR: ['resolveImage', 'resolveDescription', 'resolveRobots'],
-    // enableInDevMode: true,
+    // The following resolvers will be deactivated for CSR in 4.0: 'resolveImage', 'resolveDescription', 'resolveRobots'
+    disableInCSR: [],
   },
 };
