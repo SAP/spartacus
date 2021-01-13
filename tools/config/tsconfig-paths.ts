@@ -27,10 +27,8 @@ function readTsConfigFile(path: string): any {
 
 function setCompilerOptionsPaths(tsconfigPath: string, paths: Object) {
   const tsConfigContent = parse(fs.readFileSync(tsconfigPath, 'utf-8'));
-  if (Object.keys(paths).length) {
-    assign(tsConfigContent.compilerOptions, { paths });
-    fs.writeFileSync(tsconfigPath, stringify(tsConfigContent, null, 2));
-  }
+  assign(tsConfigContent.compilerOptions, { paths });
+  fs.writeFileSync(tsconfigPath, stringify(tsConfigContent, null, 2));
 }
 
 function joinPaths(...parts: string[]) {
@@ -40,9 +38,6 @@ function joinPaths(...parts: string[]) {
 function logUpdatedFile(path: string) {
   console.log(`✅ Updated ${path}`);
 }
-
-console.log('\nAnalyzing project structure...');
-
 interface Lib extends Library {
   /**
    * All spartacus packages that this library depend on.
@@ -79,56 +74,44 @@ function comparePathsConfigs(
   tsConfigPath: string,
   silent = false
 ): boolean {
-  let reportedErrors = false;
   const tsConfig = readTsConfigFile(tsConfigPath);
   const currentPaths: Record<string, string[]> =
     tsConfig?.compilerOptions?.paths ?? {};
+  const errors = [];
   Object.keys(currentPaths).forEach((key) => {
     if (typeof targetPaths[key] === 'undefined') {
-      reportedErrors = true;
-      if (!silent) {
-        prettyError(
-          tsConfigPath,
-          `Key ${chalk.bold(key)} should not be present in ${chalk.bold(
-            `compilerOptions.paths`
-          )}.`,
-          `This can be automatically fixed by running \`${chalk.bold(
-            `yarn config:update`
-          )}\`.`
-        );
-      }
+      errors.push(
+        `Key ${chalk.bold(key)} should not be present in ${chalk.bold(
+          `compilerOptions.paths`
+        )}.`
+      );
     }
   });
   Object.entries(targetPaths).forEach(([key, value]) => {
     if (typeof currentPaths[key] === 'undefined') {
-      reportedErrors = true;
-      if (!silent) {
-        prettyError(
-          tsConfigPath,
-          `Property ${chalk.bold(
-            `"${key}": ["${value[0]}"]`
-          )} is missing in ${chalk.bold('compilerOptions.paths')}.`,
-          `This can be automatically fixed by running \`${chalk.bold(
-            `yarn config:update`
-          )}\`.`
-        );
-      }
+      errors.push(
+        `Property ${chalk.bold(
+          `"${key}": ["${value[0]}"]`
+        )} is missing in ${chalk.bold('compilerOptions.paths')}.`
+      );
     } else if (value[0] !== currentPaths[key][0]) {
-      reportedErrors = true;
-      if (!silent) {
-        prettyError(
-          tsConfigPath,
-          `Key ${chalk.bold(`${key}`)} should have value ${chalk.bold(
-            `[${value[0]}]`
-          )} in ${chalk.bold('compilerOptions.paths')}.`,
-          `This can be automatically fixed by running \`${chalk.bold(
-            `yarn config:update`
-          )}\`.`
-        );
-      }
+      errors.push(
+        `Key ${chalk.bold(key)} should have value ${chalk.bold(
+          `[${value[0]}]`
+        )} in ${chalk.bold('compilerOptions.paths')}.`
+      );
     }
   });
-  return reportedErrors;
+  if (!silent && errors.length > 0) {
+    prettyError(
+      tsConfigPath,
+      errors,
+      `This can be automatically fixed by running \`${chalk.bold(
+        `yarn config:update`
+      )}\`.`
+    );
+  }
+  return errors.length > 0;
 }
 
 /**
@@ -171,9 +154,6 @@ function updateLibConfigs(
   libraries: Record<string, Lib>,
   options: ProgramOptions
 ) {
-  if (options.fix) {
-    console.log('\nUpdating tsconfig.lib.json files\n');
-  }
   Object.values(libraries).forEach((library) => {
     const libraryTsConfigPaths = glob.sync(
       `${library.directory}/tsconfig.lib.json`

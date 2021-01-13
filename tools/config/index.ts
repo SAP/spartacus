@@ -36,12 +36,12 @@ export function error(message) {
   console.log(chalk.red(message));
 }
 
-export function prettyError(file, error, help) {
+export function prettyError(file, errors, help) {
   errorsReported = true;
   console.log(`
 ${chalk.gray(`----- ${file} -----`)}
 
-${chalk.red(` ✖ ${error}`)}
+${errors.map((error) => chalk.red(` ✖ ${error}`)).join('\n')}
 
 ${chalk.blue(`${chalk.bold(' i ')}${help}`)}
 ${chalk.gray(`------${`-`.repeat(file.length)}------`)}
