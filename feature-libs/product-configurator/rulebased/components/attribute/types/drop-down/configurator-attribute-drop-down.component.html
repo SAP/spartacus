@@ -21,7 +21,9 @@
 
   <cx-configurator-attribute-quantity
     (changeQuantity)="onChangeQuantity($event)"
-    [initialQuantity]="attribute.quantity"
+    [initialQuantity]="
+      attributeDropDownForm.value !== '0' ? attribute.quantity : 0
+    "
     [readonly]="readOnlyQuantity || (loading$ | async)"
     *ngIf="withQuantity"
     class="form-quantity"
