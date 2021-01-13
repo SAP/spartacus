@@ -306,6 +306,9 @@ describe('SearchBoxComponent', () => {
       input.triggerEventHandler('keydown.enter', {});
       fixture.detectChanges();
       expect(searchBoxComponent.chosenWord).toEqual(PRODUCT_SEARCH_STRING);
+      expect(
+        fixture.debugElement.query(By.css('input')).nativeElement.value
+      ).toEqual(searchBoxComponent.chosenWord);
     });
 
     it('should not contain searched word when navigating to another page', () => {
@@ -320,10 +323,16 @@ describe('SearchBoxComponent', () => {
         },
         navigationId: null,
       };
-      searchBoxComponent.chosenWord = 'test';
+      const input = fixture.debugElement.query(By.css('input'));
+      const PRODUCT_SEARCH_STRING = 'camera';
+      input.nativeElement.value = PRODUCT_SEARCH_STRING;
+      input.triggerEventHandler('keydown.enter', {});
       routerState$.next(mockRouterState);
       fixture.detectChanges();
       expect(searchBoxComponent.chosenWord).toEqual('');
+      expect(
+        fixture.debugElement.query(By.css('input')).nativeElement.value
+      ).toEqual('');
     });
 
     describe('Arrow key tests', () => {
