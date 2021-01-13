@@ -19,6 +19,10 @@ import { SmartEditConfig } from '../config/smart-edit-config';
 export class SmartEditLauncherService {
   private _cmsTicketId: string;
 
+  get cmsTicketId(): string {
+    return this._cmsTicketId;
+  }
+
   private smartEditModuleInstance$: Observable<
     NgModuleRef<any>
   > = this.configInitializer.getStable('featureModules').pipe(
@@ -33,10 +37,6 @@ export class SmartEditLauncherService {
     ),
     shareReplay()
   );
-
-  get cmsTicketId(): string {
-    return this._cmsTicketId;
-  }
 
   constructor(
     protected config: SmartEditConfig,

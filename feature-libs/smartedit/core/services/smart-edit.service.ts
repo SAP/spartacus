@@ -1,4 +1,4 @@
-import { Injectable, NgZone, Renderer2 } from '@angular/core';
+import { Injectable, NgZone, Renderer2, RendererFactory2 } from '@angular/core';
 import {
   BaseSite,
   BaseSiteService,
@@ -25,7 +25,8 @@ export class SmartEditService {
     protected routingService: RoutingService,
     protected baseSiteService: BaseSiteService,
     protected zone: NgZone,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
+    protected rendererFactory: RendererFactory2
   ) {
     if (winRef.nativeWindow) {
       const window = winRef.nativeWindow as any;
@@ -44,7 +45,7 @@ export class SmartEditService {
     }
   }
 
-  public getDefaultPreviewCode() {
+  public processCmsPage() {
     this.baseSiteService
       .get()
       .pipe(filter(Boolean), take(1))
@@ -52,40 +53,40 @@ export class SmartEditService {
         this.defaultPreviewCategoryCode = site.defaultPreviewCategoryCode;
         this.defaultPreviewProductCode = site.defaultPreviewProductCode;
 
-        console.log(this.defaultPreviewCategoryCode);
+        this.cmsService.getCurrentPage().subscribe((cmsPage) => {
+          if (cmsPage) {
+            this._currentPageId = cmsPage.pageId;
 
-        this.addPageContract();
+            // before adding contract to page, we need redirect to that page
+            console.log('----------');
+            this.goToPreviewPage(cmsPage);
+            this.addPageContract(cmsPage);
+          }
+        });
       });
   }
 
-  protected addPageContract() {
-    this.cmsService.getCurrentPage().subscribe((cmsPage) => {
-      if (cmsPage) {
-        this._currentPageId = cmsPage.pageId;
+  /**
+   * add CSS classes in a body tag
+   */
+  protected addPageContract(cmsPage: Page) {
+    const renderer = this.rendererFactory.createRenderer('body', null);
+    const element = this.winRef.document.body;
 
-        // before adding contract to page, we need redirect to that page
-        this.goToPreviewPage(cmsPage);
+    // remove old page contract
+    const previousContract = [];
+    Array.from(element.classList).forEach((attr) =>
+      previousContract.push(attr)
+    );
+    previousContract.forEach((attr) => renderer.removeClass(element, attr));
 
-        // remove old page contract
-        const previousContract = [];
-        Array.from(this.winRef.document.body.classList).forEach((attr) =>
-          previousContract.push(attr)
-        );
-        previousContract.forEach((attr) =>
-          this.winRef.document.body.classList.remove(attr)
-        );
-
-        // add new page contract
-        if (cmsPage.properties && cmsPage.properties.smartedit) {
-          const seClasses = cmsPage.properties.smartedit.classes.split(' ');
-          seClasses.forEach((classItem) => {
-            this.winRef.document.body.classList.add(classItem);
-          });
-        }
-      }
-    });
+    // add new page contract
+    this.addSmartEditContract(element, renderer, cmsPage.properties);
   }
 
+  /**
+   * go to the default preview page
+   */
   protected goToPreviewPage(cmsPage: Page) {
     // only the first page is the smartedit preview page
     if (!this.isPreviewPage) {
@@ -140,7 +141,7 @@ export class SmartEditService {
   /**
    * Add smartedit HTML markup contract
    */
-  addSmartEditContract(
+  public addSmartEditContract(
     element: Element,
     renderer: Renderer2,
     properties: any

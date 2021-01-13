@@ -1,8 +1,7 @@
-import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import { PageComponentModule } from '@spartacus/storefront';
 import { defaultSmartEditConfig } from './config/default-smart-edit-config';
+import { interceptors } from './http-interceptors/index';
 import { SmartEditLauncherService } from './services/smart-edit-launcher.service';
 
 export function smartEditFactory(
@@ -15,8 +14,8 @@ export function smartEditFactory(
 }
 
 @NgModule({
-  imports: [CommonModule, PageComponentModule],
   providers: [
+    ...interceptors,
     provideDefaultConfig(defaultSmartEditConfig),
     {
       provide: APP_INITIALIZER,

@@ -1,5 +1,7 @@
-import { Inject, Injectable, Optional, Renderer2 } from '@angular/core';
+import { Injectable, Renderer2 } from '@angular/core';
+import { UnifiedInjector } from '../../lazy-loading/unified-injector';
 import { SmartEditService } from '../../smart-edit/services/smart-edit.service';
+import { getLastValueSync } from '../../util/rxjs/get-last-value-sync';
 import { ComponentDecorator } from '../decorators/component-decorator';
 import { SlotDecorator } from '../decorators/slot-decorator';
 import { ContentSlotComponentData } from '../model/content-slot-component-data.model';
@@ -9,15 +11,18 @@ import { ContentSlotData } from '../model/content-slot-data.model';
   providedIn: 'root',
 })
 export class DynamicAttributeService {
+  private componentDecorators = getLastValueSync(
+    this.unifiedInjector.getMulti(ComponentDecorator)
+  );
+
+  private slotDecorators = getLastValueSync(
+    this.unifiedInjector.getMulti(SlotDecorator)
+  );
+
   constructor(
     // TODO: remove this SmartEditService in 4.0
     protected smartEditService?: SmartEditService,
-    @Optional()
-    @Inject(ComponentDecorator)
-    protected componentDecorators?: ComponentDecorator[],
-    @Optional()
-    @Inject(SlotDecorator)
-    protected slotDecorators?: SlotDecorator[]
+    protected unifiedInjector?: UnifiedInjector
   ) {}
 
   /**

@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { defaultOccConfig } from '@spartacus/core';
-import { SmartEditService } from '../services/smart-edit.service';
+import { SmartEditService } from '../../core/services/smart-edit.service';
 import { CmsTicketInterceptor } from './cms-ticket.interceptor';
 
 const OccUrl = `https://localhost:9002${defaultOccConfig.backend.occ.prefix}electronics`;
