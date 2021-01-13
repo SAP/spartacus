@@ -8,7 +8,9 @@
     (blur)="close($event)"
     (keydown.escape)="close($event)"
     (keydown.enter)="
-      close($event, true); launchSearchResult($event, searchInput.value)
+      close($event, true);
+      launchSearchResult($event, searchInput.value);
+      updateChosenWord(searchInput.value)
     "
     (keydown.arrowup)="focusPreviousChild($event)"
     (keydown.arrowdown)="focusNextChild($event)"

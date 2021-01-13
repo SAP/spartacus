@@ -4,8 +4,12 @@ import {
   Input,
   Optional,
 } from '@angular/core';
-import { Event, NavigationEnd, Router } from '@angular/router';
-import { CmsSearchBoxComponent, WindowRef } from '@spartacus/core';
+import {
+  CmsSearchBoxComponent,
+  RoutingConfigService,
+  RoutingService,
+  WindowRef,
+} from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
@@ -48,7 +52,7 @@ export class SearchBoxComponent {
    */
   private ignoreCloseEvent = false;
   public chosenWord = '';
-  private getUrl: Subscription;
+  public updateChosenWordFromUrl: Subscription;
   /**
    * The component data is optional, so that this component
    * can be reused without CMS integration.
@@ -59,15 +63,18 @@ export class SearchBoxComponent {
     @Optional()
     protected componentData: CmsComponentData<CmsSearchBoxComponent>,
     protected winRef: WindowRef,
-    protected router: Router
+    protected routingService: RoutingService,
+    protected routingConfigService: RoutingConfigService
   ) {
-    this.getUrl = this.router.events.subscribe((event: Event) => {
-      if (
-        event instanceof NavigationEnd &&
-        !event.url.split('/').includes('search')
-      )
-        this.chosenWord = '';
-    });
+    this.updateChosenWordFromUrl = this.routingService
+      .getRouterState()
+      .subscribe((data) => {
+        const search = this.routingConfigService
+          .getRouteConfig('search')
+          .paths[0].split('/')[0];
+        if (!data.nextState && !data?.state?.url?.split('/').includes(search))
+          this.chosenWord = '';
+      });
   }
 
   /**
@@ -249,6 +256,6 @@ export class SearchBoxComponent {
   }
 
   ngOnDestroy() {
-    this.getUrl.unsubscribe();
+    this.updateChosenWordFromUrl.unsubscribe();
   }
 }

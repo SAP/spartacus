@@ -7,12 +7,15 @@ import {
   CmsSearchBoxComponent,
   I18nTestingModule,
   ProductSearchService,
+  RoutingConfigService,
+  RoutingService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxComponent } from './search-box.component';
 import { SearchResults } from './search-box.model';
+import { RouterState } from './../../../../../core/src/routing/store/routing-state';
 
 const mockSearchBoxComponentData: CmsSearchBoxComponent = {
   uid: '001',
@@ -67,11 +70,34 @@ class MockMediaComponent {
   @Input() alt;
 }
 
-describe('SearchBoxComponent', () => {
+let routerState$: BehaviorSubject<RouterState> = new BehaviorSubject({
+  nextState: undefined,
+  state: {
+    url: '/abc',
+    queryParams: null,
+    params: null,
+    context: null,
+    cmsRequired: null,
+  },
+  navigationId: null,
+});
+
+class MockRoutingService implements Partial<RoutingService> {
+  getRouterState = () => routerState$.asObservable();
+}
+
+class MockRoutingConfigService implements Partial<RoutingConfigService> {
+  getRouteConfig() {
+    return { paths: ['search/query'] };
+  }
+}
+
+fdescribe('SearchBoxComponent', () => {
   let searchBoxComponent: SearchBoxComponent;
   let fixture: ComponentFixture<SearchBoxComponent>;
   let serviceSpy: SearchBoxComponentService;
   let cmsComponentData: CmsComponentData<CmsSearchBoxComponent>;
+  let routingService: RoutingService;
 
   function getFocusedElement(): HTMLElement {
     return <HTMLElement>document.activeElement;
@@ -123,6 +149,14 @@ describe('SearchBoxComponent', () => {
             provide: SearchBoxComponentService,
             useClass: SearchBoxComponentServiceSpy,
           },
+          {
+            provide: RoutingConfigService,
+            useClass: MockRoutingConfigService,
+          },
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
         ],
       }).compileComponents();
     })
@@ -139,11 +173,14 @@ describe('SearchBoxComponent', () => {
       fixture = TestBed.createComponent(SearchBoxComponent);
       searchBoxComponent = fixture.componentInstance;
 
+      routingService = TestBed.inject(RoutingService);
+
       serviceSpy = fixture.debugElement.injector.get(
         SearchBoxComponentService
       ) as any;
 
       spyOn(searchBoxComponent, 'search').and.callThrough();
+      spyOn(routingService, 'getRouterState').and.callThrough();
     });
 
     it('should be created', () => {
@@ -260,6 +297,33 @@ describe('SearchBoxComponent', () => {
       expect(
         fixture.debugElement.query(By.css('.products a:first-child.has-media'))
       ).toBeTruthy();
+    });
+
+    it('should contain chosen word from the dropdrown', () => {
+      const input = fixture.debugElement.query(By.css('input'));
+      const PRODUCT_SEARCH_STRING = 'camera';
+      input.nativeElement.value = PRODUCT_SEARCH_STRING;
+      input.triggerEventHandler('keydown.enter', {});
+      fixture.detectChanges();
+      expect(searchBoxComponent.chosenWord).toEqual(PRODUCT_SEARCH_STRING);
+    });
+
+    it('should not contain searched word when navigating to another page', () => {
+      const mockRouterState = {
+        nextState: undefined,
+        state: {
+          url: '/test',
+          queryParams: null,
+          params: null,
+          context: null,
+          cmsRequired: null,
+        },
+        navigationId: null,
+      };
+      searchBoxComponent.chosenWord = 'test';
+      routerState$.next(mockRouterState);
+      fixture.detectChanges();
+      expect(searchBoxComponent.chosenWord).toEqual('');
     });
 
     describe('Arrow key tests', () => {
