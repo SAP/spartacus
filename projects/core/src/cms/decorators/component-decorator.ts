@@ -1,9 +1,6 @@
-import { Injectable, Renderer2 } from '@angular/core';
+import { Renderer2 } from '@angular/core';
 import { ContentSlotComponentData } from '../model/content-slot-component-data.model';
 
-@Injectable({
-  providedIn: 'root',
-})
 export abstract class ComponentDecorator {
   /**
    * Add attributes to CMS Component element dynamically
