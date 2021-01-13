@@ -32,6 +32,8 @@
       width: 100%;
       padding-block-start: 5px;
       color: var(--cx-color-secondary);
+      display: flex;
+      justify-content: space-between;
 
       @include media-breakpoint-up(md) {
         width: 58.3333333333%;
@@ -44,6 +46,11 @@
       color: var(--cx-color-secondary);
       font-size: 0.875rem;
       overflow-wrap: anywhere;
+    }
+
+    .overview-price {
+      color: var(--cx-color-text);
+      font-weight: bold;
     }
   }
 }
