@@ -9,6 +9,7 @@ import { Table, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ItemService } from '../item.service';
+import { OrganizationTableType } from '../organization.model';
 import { ListService } from './list.service';
 
 @Component({
@@ -25,7 +26,7 @@ export class ListComponent<T = any, P = PaginationModel> {
   ) {}
 
   @HostBinding('class')
-  viewType = this.service.viewType;
+  viewType: OrganizationTableType = this.service.viewType;
 
   domainType = this.service.domainType;
 
