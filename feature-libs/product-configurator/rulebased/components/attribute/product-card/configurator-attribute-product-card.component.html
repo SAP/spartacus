@@ -42,19 +42,13 @@
     </div>
 
     <div class="cx-product-card-rows">
-      <cx-configurator-attribute-quantity></cx-configurator-attribute-quantity>
-      <div
-        class="cx-product-card-quantity"
+      <cx-configurator-attribute-quantity
+        (changeQuantity)="onChangeQuantity($event)"
+        [initialQuantity]="product.quantity"
+        [readonly]="loading$ | async"
         *ngIf="product.selected && (multiSelect || singleDropdown)"
-      >
-        <label>{{ 'configurator.attribute.quantity' | cxTranslate }}</label>
-        <cx-item-counter
-          [allowZero]="!disabledAction"
-          [control]="quantity"
-          [min]="disabledAction ? 1 : 0"
-          [readonly]="loading$ | async"
-        ></cx-item-counter>
-      </div>
+      ></cx-configurator-attribute-quantity>
+
       <div class="cx-product-card-price"></div>
     </div>
 
