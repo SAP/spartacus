@@ -27,7 +27,6 @@ export class ConfiguratorAttributeCheckBoxComponent
   attributeCheckBoxForm = new FormControl('');
 
   ngOnInit() {
-    console.log(this.attribute, 'checkbox');
     this.attributeCheckBoxForm.setValue(this.attribute.selectedSingleValue);
   }
 
