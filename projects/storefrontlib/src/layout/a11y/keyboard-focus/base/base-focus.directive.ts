@@ -39,10 +39,14 @@ export abstract class BaseFocusDirective implements OnInit, AfterViewInit {
     protected elementRef: ElementRef<HTMLElement>,
     protected service: BaseFocusService
   ) {}
-  ngOnInit(): void {}
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.setDefaultConfiguration();
-    this.requiredTabindex = -1;
+  }
+  ngAfterViewInit(): void {
+    /* to avoid unit test error:
+    Failed: ExpressionChangedAfterItHasBeenCheckedError: Expression has changed after it was checked
+    */
+    setTimeout(() => (this.requiredTabindex = -1), 0);
   }
 
   /**

@@ -91,6 +91,9 @@ export class PersistFocusDirective
     if (this.isPersisted) {
       this.host.focus({ preventScroll: true });
     }
+    // or else this.requiredTabindex = -1 in BaseFocus
+    // gets no chance to execute
+    super.ngAfterViewInit();
   }
 
   protected get isPersisted(): boolean {
