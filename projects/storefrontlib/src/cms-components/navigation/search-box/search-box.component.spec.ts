@@ -92,7 +92,7 @@ class MockRoutingConfigService implements Partial<RoutingConfigService> {
   }
 }
 
-fdescribe('SearchBoxComponent', () => {
+describe('SearchBoxComponent', () => {
   let searchBoxComponent: SearchBoxComponent;
   let fixture: ComponentFixture<SearchBoxComponent>;
   let serviceSpy: SearchBoxComponentService;
