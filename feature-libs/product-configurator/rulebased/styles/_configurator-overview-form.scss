@@ -33,6 +33,11 @@
     .cx-attribute-value-pair {
       padding-inline-start: 30px;
       padding-inline-end: 30px;
+
+      &.bundle {
+        background-color: var(--cx-color-background);
+        margin-block-end: 5px;
+      }
     }
   }
 
