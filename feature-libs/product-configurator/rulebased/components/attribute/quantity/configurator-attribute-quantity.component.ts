@@ -7,7 +7,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { BehaviorSubject, Subscription, pipe, timer } from 'rxjs';
+import { BehaviorSubject, Subscription, timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 
