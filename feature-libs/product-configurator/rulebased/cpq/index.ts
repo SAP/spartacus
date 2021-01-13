@@ -7,3 +7,4 @@ export * from './cpq-configurator-serializer';
 export * from './cpq-configurator-value-serializer';
 export * from './cpq-configurator.converters';
 export * from './cpq.models';
+export * from './components/index';
