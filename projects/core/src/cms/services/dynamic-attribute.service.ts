@@ -9,12 +9,8 @@ import { ContentSlotData } from '../model/content-slot-data.model';
   providedIn: 'root',
 })
 export class DynamicAttributeService {
-  /**
-   * @deprecated since 3.0
-   */
-  constructor(smartEditService?: SmartEditService);
   constructor(
-    // TODO: remove this SmartEditService in major release
+    // TODO: remove this SmartEditService in 4.0
     protected smartEditService?: SmartEditService,
     @Optional()
     @Inject(ComponentDecorator)
@@ -25,7 +21,7 @@ export class DynamicAttributeService {
   ) {}
 
   /**
-   * @deprecated since 3.0, use functions addAttributesToComponent and addAttributesToSlot instead
+   * @deprecated since 3.1, use functions addAttributesToComponent and addAttributesToSlot instead
    *
    * Add dynamic attributes to DOM.
    * @param element: slot or cms component element
