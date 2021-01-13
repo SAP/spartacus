@@ -577,6 +577,20 @@ describe('OrgUnitService', () => {
         new OrgUnitActions.LoadOrgUnitNodes({ userId })
       );
     });
+    it('should sort unit list', () => {
+      spyOn(service, 'sortUnitList').and.callThrough();
+
+      let unitNodes: B2BUnitNode[];
+      service
+        .getActiveUnitList()
+        .subscribe((data) => {
+          unitNodes = data;
+        })
+        .unsubscribe();
+
+      expect(unitNodes).toEqual(undefined);
+      expect(service.sortUnitList).toHaveBeenCalled();
+    });
   });
 
   describe('get tree', () => {
