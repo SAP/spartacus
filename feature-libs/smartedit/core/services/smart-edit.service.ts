@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, Renderer2 } from '@angular/core';
 import {
   BaseSite,
   BaseSiteService,
@@ -135,5 +135,43 @@ export class SmartEditService {
 
   protected reprocessPage() {
     // TODO: reprocess page API
+  }
+
+  /**
+   * Add smartedit HTML markup contract
+   */
+  addSmartEditContract(
+    element: Element,
+    renderer: Renderer2,
+    properties: any
+  ): void {
+    if (properties) {
+      // check each group of properties, e.g. smartedit
+      Object.keys(properties).forEach((group) => {
+        const name = 'data-' + group + '-';
+        const groupProps = properties[group];
+
+        // check each property in the group
+        Object.keys(groupProps).forEach((propName) => {
+          const propValue = groupProps[propName];
+          if (propName === 'classes') {
+            const classes = propValue.split(' ');
+            classes.forEach((classItem) => {
+              renderer.addClass(element, classItem);
+            });
+          } else {
+            renderer.setAttribute(
+              element,
+              name +
+                propName
+                  .split(/(?=[A-Z])/)
+                  .join('-')
+                  .toLowerCase(),
+              propValue
+            );
+          }
+        });
+      });
+    }
   }
 }

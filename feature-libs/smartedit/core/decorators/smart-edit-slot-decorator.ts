@@ -1,6 +1,5 @@
 import { Injectable, Renderer2 } from '@angular/core';
-import { SlotDecorator } from '../../cms/decorators/slot-decorator';
-import { ContentSlotData } from '../../cms/model/content-slot-data.model';
+import { ContentSlotData, SlotDecorator } from '@spartacus/core';
 import { SmartEditService } from '../services/smart-edit.service';
 
 @Injectable({

@@ -1,5 +1,4 @@
-import { RendererFactory2 } from '@angular/core';
-import { inject, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { CmsService, Page } from '../../cms/index';
 import { BaseSite } from '../../model/misc.model';
@@ -239,36 +238,5 @@ describe('SmartEditService', () => {
         'test-component'
       );
     });
-  });
-
-  describe('should add smartedit contract', () => {
-    it('should be able to add smartedit properties into HTML element', inject(
-      [RendererFactory2],
-      (factory: RendererFactory2) => {
-        const renderer = factory.createRenderer(null, null);
-        const element = renderer.createElement('div');
-        const properties = {
-          smartedit: {
-            componentId: 'testId',
-            catalogVersionUuid: 'test uuid',
-            classes: 'class1 class2',
-          },
-          group: { prop1: 'groupProp1', prop2: 'groupProp2' },
-        };
-
-        service.addSmartEditContract(element, renderer, properties);
-        expect(element.getAttribute('data-smartedit-component-id')).toEqual(
-          'testId'
-        );
-        expect(
-          element.getAttribute('data-smartedit-catalog-version-uuid')
-        ).toEqual('test uuid');
-        expect(element.classList.contains('class1')).toBeTruthy();
-        expect(element.classList.contains('class2')).toBeTruthy();
-
-        expect(element.getAttribute('data-group-prop1')).toEqual('groupProp1');
-        expect(element.getAttribute('data-group-prop2')).toEqual('groupProp2');
-      }
-    ));
   });
 });
