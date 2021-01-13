@@ -1,19 +1,14 @@
 <cx-org-card *ngIf="model$ | async as model" i18nRoot="orgUnit.details">
-  <div
+  <a
     actions
-    *ngIf="model.active"
+    class="link edit"
+    [class.disabled]="!model.active || (isInEditMode$ | async)"
+    [routerLink]="{ cxRoute: 'orgUnitEdit', params: model } | cxUrl"
     [cxFocus]="{ autofocus: true }"
     [cxRefreshFocusOn]="model.uid"
   >
-    <a
-      actions
-      class="link edit"
-      [class.disabled]="!model.active || (isInEditMode$ | async)"
-      [routerLink]="{ cxRoute: 'orgUnitEdit', params: model } | cxUrl"
-    >
-      {{ 'organization.edit' | cxTranslate }}
-    </a>
-  </div>
+    {{ 'organization.edit' | cxTranslate }}
+  </a>
 
   <cx-org-toggle-status
     actions
