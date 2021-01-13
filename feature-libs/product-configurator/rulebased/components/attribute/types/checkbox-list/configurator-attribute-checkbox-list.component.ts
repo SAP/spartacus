@@ -3,6 +3,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  isDevMode,
   OnInit,
   Output,
 } from '@angular/core';
@@ -55,11 +56,42 @@ export class ConfiguratorAttributeCheckBoxListComponent
     );
 
     const event: ConfigFormUpdateEvent = {
-      ownerKey: this.ownerKey,
       changedAttribute: {
         ...this.attribute,
         values: selectedValues,
       },
+      ownerKey: this.ownerKey,
+      updateType: Configurator.UpdateType.ATTRIBUTE,
+    };
+
+    this.selectionChange.emit(event);
+  }
+
+  onChangeQuantity(eventObject): void {
+    const value: Configurator.Value = this.configUtilsService
+      .assembleValuesForMultiSelectAttributes(
+        this.attributeCheckBoxForms,
+        this.attribute
+      )
+      .find((item) => item.valueCode === eventObject.valueCode);
+
+    if (!value) {
+      if (isDevMode()) {
+        console.warn('no value for event:', eventObject);
+      }
+
+      return;
+    }
+
+    value.quantity = eventObject.quantity;
+
+    const event: ConfigFormUpdateEvent = {
+      changedAttribute: {
+        ...this.attribute,
+        values: [value],
+      },
+      ownerKey: this.ownerKey,
+      updateType: Configurator.UpdateType.VALUE_QUANTITY,
     };
 
     this.selectionChange.emit(event);

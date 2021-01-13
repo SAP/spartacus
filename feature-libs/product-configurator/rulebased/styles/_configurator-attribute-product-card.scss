@@ -49,6 +49,7 @@
     flex: 1;
     flex-direction: column;
     margin: 0 0 0 1rem;
+    max-width: 18rem;
 
     @include media-breakpoint-up(md) {
       width: 18rem;
@@ -67,6 +68,10 @@
       color: var(--cx-color-secondary);
       font-size: 0.875rem;
       margin: 0.5rem 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
   }
 
