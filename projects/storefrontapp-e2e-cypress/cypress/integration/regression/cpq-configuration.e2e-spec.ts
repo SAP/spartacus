@@ -97,17 +97,17 @@ context('CPQ Configuration', () => {
       configuration.clickOnConfigureBtnInCatalog();
 
       configuration.checkAttributeDisplayed(ATTR_COF_CUPS, RADGRP);
-      configuration.checkQuantity(RADGRP, ATTR_COF_CUPS);
+      configuration.checkQuantityAtAttribute(RADGRP, ATTR_COF_CUPS);
 
       configuration.selectAttribute(ATTR_COF_CUPS, RADGRP, VAL_COF_CUPS_300);
       configuration.checkValueSelected(RADGRP, ATTR_COF_CUPS, VAL_COF_CUPS_300);
-      configuration.checkQuantity(RADGRP, ATTR_COF_CUPS, 1);
+      configuration.checkQuantityAtAttribute(RADGRP, ATTR_COF_CUPS, 1);
       configuration.increaseQuantity(RADGRP, ATTR_COF_CUPS);
       configuration.decreaseQuantity(RADGRP, ATTR_COF_CUPS);
 
       configuration.selectAttribute(ATTR_COF_CUPS, RADGRP, VAL_COF_CUPS_500);
       configuration.checkValueSelected(RADGRP, ATTR_COF_CUPS, VAL_COF_CUPS_500);
-      configuration.checkQuantity(RADGRP, ATTR_COF_CUPS, 1);
+      configuration.checkQuantityAtAttribute(RADGRP, ATTR_COF_CUPS, 1);
       configuration.decreaseQuantity(RADGRP, ATTR_COF_CUPS);
     });
 
@@ -129,7 +129,7 @@ context('CPQ Configuration', () => {
       configuration.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_CAM);
 
       configuration.checkAttributeDisplayed(ATTR_CAM_BODY, RADGRP_PROD);
-      configuration.checkQuantity(RADGRP_PROD, ATTR_CAM_BODY);
+      configuration.checkQuantityAtAttribute(RADGRP_PROD, ATTR_CAM_BODY);
       configuration.checkValueNotSelected(
         RADGRP_PROD,
         ATTR_CAM_BODY,
@@ -146,7 +146,7 @@ context('CPQ Configuration', () => {
         RADGRP_PROD,
         VAL_CAM_BODY_D850
       );
-      configuration.checkQuantity(RADGRP_PROD, ATTR_CAM_BODY, 1);
+      configuration.checkQuantityAtAttribute(RADGRP_PROD, ATTR_CAM_BODY, 1);
       configuration.increaseQuantity(RADGRP_PROD, ATTR_CAM_BODY);
       configuration.decreaseQuantity(RADGRP_PROD, ATTR_CAM_BODY);
 
@@ -166,7 +166,7 @@ context('CPQ Configuration', () => {
         RADGRP_PROD,
         VAL_CAM_BODY_EOS80D
       );
-      configuration.checkQuantity(RADGRP_PROD, ATTR_CAM_BODY, 1);
+      configuration.checkQuantityAtAttribute(RADGRP_PROD, ATTR_CAM_BODY, 1);
       configuration.increaseQuantity(RADGRP_PROD, ATTR_CAM_BODY);
       configuration.decreaseQuantity(RADGRP_PROD, ATTR_CAM_BODY);
 
@@ -189,6 +189,7 @@ context('CPQ Configuration', () => {
 
       configuration.checkAttributeDisplayed(ATTR_CAM_INS, DDLB_PROD);
       configuration.checkValueSelected(DDLB_PROD, ATTR_CAM_INS, VAL_NO_OPT_SEL);
+
       configuration.checkValueNotSelected(
         DDLB_PROD,
         ATTR_CAM_INS,
@@ -196,6 +197,15 @@ context('CPQ Configuration', () => {
       );
 
       configuration.selectAttribute(ATTR_CAM_INS, DDLB_PROD, VAL_CB_INS_Y2);
+      configuration.checkQuantityAtValue(
+        DDLB_PROD,
+        ATTR_CAM_INS,
+        VAL_CB_INS_Y2,
+        1
+      );
+      configuration.increaseQuantity(DDLB_PROD, ATTR_CAM_INS, VAL_CB_INS_Y2);
+      configuration.decreaseQuantity(DDLB_PROD, ATTR_CAM_INS, VAL_CB_INS_Y2);
+
       configuration.checkValueNotSelected(
         DDLB_PROD,
         ATTR_CAM_INS,
