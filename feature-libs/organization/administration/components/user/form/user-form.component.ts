@@ -55,6 +55,7 @@ export class UserFormComponent implements OnInit {
         this.form?.get('parentOrgUnit.uid').setValue(unit[0].id);
     })
   );
+
   titles$: Observable<Title[]> = this.userService.getTitles();
 
   availableRoles: B2BUserRole[] = this.b2bUserService.getAllRoles();

@@ -49,6 +49,7 @@ export class CostCenterFormComponent {
         this.form?.get('parentOrgUnit.uid').setValue(unit[0].id);
     })
   );
+
   currencies$: Observable<Currency[]> = this.currencyService.getAll().pipe(
     tap((currency) => {
       if (currency.length === 1)
