@@ -36,7 +36,7 @@ export function clearCustomerSupportAgentAsmState(
     if (action.type === AsmActions.LOGOUT_CUSTOMER_SUPPORT_AGENT) {
       state = {
         ...state,
-        customerSearchResult: undefined,
+        customerSearchResult: {} as StateUtils.LoaderState<CustomerSearchPage>,
       };
     }
     return reducer(state, action);
