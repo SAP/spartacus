@@ -710,9 +710,10 @@ function checkTsLibDep(
   Object.values(libraries).forEach((lib) => {
     // Temporary workaround to not apply this to libraries without TS files. We should check presence of typescript
     if (lib.name !== '@spartacus/styles') {
+      const pathToPackageJson = `${lib.directory}/package.json`;
+      const errors = [];
       if (!Object.keys(lib.dependencies).includes('tslib')) {
         if (options.fix) {
-          const pathToPackageJson = `${lib.directory}/package.json`;
           const packageJson = readJsonFile(pathToPackageJson);
           if (typeof packageJson?.dependencies === 'undefined') {
             packageJson.dependencies = {};
@@ -720,36 +721,53 @@ function checkTsLibDep(
           packageJson.dependencies['tslib'] = tsLibVersion;
           saveJsonFile(pathToPackageJson, packageJson);
         } else {
-          console.log(
-            `Package ${lib.name} doesn't have tslib specified as dependency.`
+          errors.push(
+            `Missing \`${chalk.bold('tslib')}\` dependency in \`${chalk.bold(
+              'dependencies'
+            )}\` list.`
           );
         }
       }
       if (Object.keys(lib.peerDependencies).includes('tslib')) {
         if (options.fix) {
-          const pathToPackageJson = `${lib.directory}/package.json`;
           const packageJson = readJsonFile(pathToPackageJson);
 
           delete packageJson.peerDependencies['tslib'];
           saveJsonFile(pathToPackageJson, packageJson);
         } else {
-          console.log(
-            `Package ${lib.name} should not have tslib specified as peerDependency. It should be dependency!`
+          errors.push(
+            `Dependency \`${chalk.bold('tslib')}\` should be in \`${chalk.bold(
+              'dependencies'
+            )}\` list. Not in the \`${chalk.bold('peerDependencies')}\`.`
           );
         }
       }
       if (Object.keys(lib.optionalDependencies).includes('tslib')) {
         if (options.fix) {
-          const pathToPackageJson = `${lib.directory}/package.json`;
           const packageJson = readJsonFile(pathToPackageJson);
 
           delete packageJson.optionalDependencies['tslib'];
           saveJsonFile(pathToPackageJson, packageJson);
         } else {
-          console.log(
-            `Package ${lib.name} should not have tslib specified as optionalDependency. It should be dependency!`
+          errors.push(
+            `Dependency \`${chalk.bold('tslib')}\` should be in \`${chalk.bold(
+              'dependencies'
+            )}\` list. Not in the \`${chalk.bold('optionalDependency')}\`.`
           );
         }
+      }
+      if (errors.length > 0) {
+        prettyError(
+          pathToPackageJson,
+          errors,
+          `Each TS package should have \`${chalk.bold(
+            'tslib'
+          )}\` specified as \`${chalk.bold(
+            'dependency'
+          )}.\n   This can be automatically fixed by running \`${chalk.bold(
+            'yarn config:update'
+          )}\`.`
+        );
       }
     }
   });
@@ -759,8 +777,16 @@ function checkForLockFile(libraries: Record<string, LibDepsMetaData>) {
   Object.values(libraries).forEach((lib) => {
     const lockFile = glob.sync(`${lib.directory}/yarn.lock`);
     if (lockFile.length > 0) {
-      console.log(
-        `Package ${lib.name} have yarn.lock! It should not be present in spartacus libraries.`
+      prettyError(
+        lockFile[0],
+        [
+          `Library \`${chalk.bold(
+            lib.name
+          )}\` should not have it's own \`${chalk.bold('yarn.lock')}\`.`,
+        ],
+        `Libraries should use packages from root \`${chalk.bold(
+          'package.json'
+        )}\` and root \`${chalk.bold('node_modules')}\`.`
       );
     }
   });
@@ -782,18 +808,35 @@ function updateDependenciesVersions(
     const pathToPackageJson = `${lib.directory}/package.json`;
     const packageJson = readJsonFile(pathToPackageJson);
     const types = ['dependencies', 'peerDependencies', 'optionalDependencies'];
+    const errors = [];
+    const internalErrors = [];
+    const breakingErrors = [];
     types.forEach((type) => {
       Object.keys(packageJson[type] ?? {}).forEach((dep) => {
         if (!semver.validRange(packageJson[type][dep])) {
-          console.log(`Not a valid range ${packageJson[type][dep]}`);
+          prettyError(
+            pathToPackageJson,
+            [
+              `Package \`${chalk.bold(
+                packageJson[type][dep]
+              )}\` version is not correct.`,
+            ],
+            `Install package version that follows semver.`
+          );
         }
         if (dep.startsWith('@spartacus')) {
           if (packageJson[type][dep] !== libraries[dep].version) {
             if (options.fix) {
               packageJson[type][dep] = libraries[dep].version;
             } else {
-              console.log(
-                `Dependency ${dep} in ${lib.name} package.json have different version than the package in repository!`
+              internalErrors.push(
+                `Dependency \`${chalk.bold(
+                  dep
+                )}\` have different version \`${chalk.bold(
+                  packageJson[type][dep]
+                )}\` than the package in repository \`${chalk.bold(
+                  libraries[dep].version
+                )}\`.`
               );
             }
           }
@@ -801,36 +844,83 @@ function updateDependenciesVersions(
           typeof rootDeps[dep] !== 'undefined' &&
           packageJson[type][dep] !== rootDeps[dep]
         ) {
-          if (options.fix) {
-            // Careful with breaking changes!
-            if (
-              semver.major(semver.minVersion(packageJson[type][dep])) ===
-                semver.major(semver.minVersion(rootDeps[dep])) &&
-              semver.gte(
-                semver.minVersion(packageJson[type][dep]),
-                semver.minVersion(rootDeps[dep])
-              )
-            ) {
-              // not a breaking change!
+          // Careful with breaking changes!
+          if (
+            semver.major(semver.minVersion(packageJson[type][dep])) ===
+              semver.major(semver.minVersion(rootDeps[dep])) &&
+            semver.gte(
+              semver.minVersion(packageJson[type][dep]),
+              semver.minVersion(rootDeps[dep])
+            )
+          ) {
+            // not a breaking change!
+            if (options.fix) {
               packageJson[type][dep] = rootDeps[dep];
             } else {
-              // breaking change!
-              if (options.breakingChanges) {
-                packageJson[type][dep] = rootDeps[dep];
-              } else {
-                console.log(
-                  `Difference between library version of ${dep} and root package.json. Updating is a breaking change!`
-                );
-              }
+              errors.push(
+                `Dependency \`${chalk.bold(
+                  dep
+                )}\` have different version \`${chalk.bold(
+                  packageJson[type][dep]
+                )}\` than the package in root \`${chalk.bold(
+                  'package.json'
+                )}\` file.`
+              );
             }
           } else {
-            console.log(
-              `Dependency ${dep} in ${lib.name} package.json have different version than the package in root package.json file!`
-            );
+            // breaking change!
+            if (options.breakingChanges && options.fix) {
+              packageJson[type][dep] = rootDeps[dep];
+            } else {
+              breakingErrors.push(
+                `Dependency \`${chalk.bold(
+                  dep
+                )}\` have different version \`${chalk.bold(
+                  packageJson[type][dep]
+                )}\` than the package in root \`${chalk.bold(
+                  'package.json'
+                )}\` file.`
+              );
+            }
           }
         }
       });
     });
+    if (internalErrors.length > 0) {
+      prettyError(
+        pathToPackageJson,
+        internalErrors,
+        `All spartacus dependencies should be version synchronized.\n   Version of the package in \`${chalk.bold(
+          'peerDependencies'
+        )}\` should match package \`${chalk.bold(
+          'version'
+        )}\` from repository.\n   This can be automatically fixed by running \`${chalk.bold(
+          'yarn config:update'
+        )}\`.`
+      );
+    }
+    if (errors.length > 0) {
+      prettyError(
+        pathToPackageJson,
+        errors,
+        `All external dependencies should have the same version as in the root \`${chalk.bold(
+          'package.json'
+        )}\`.\n   This can be automatically fixed by running \`${chalk.bold(
+          'yarn config:update'
+        )}\`.`
+      );
+      if (breakingErrors.length > 0) {
+        prettyError(
+          pathToPackageJson,
+          breakingErrors,
+          `All external dependencies should have the same version as in the root \`${chalk.bold(
+            'package.json'
+          )}\`.\n   This can be automatically fixed by running \`${chalk.bold(
+            'yarn config:update --breaking-changes'
+          )}\`.`
+        );
+      }
+    }
     saveJsonFile(pathToPackageJson, packageJson);
   });
 }
