@@ -1,4 +1,4 @@
-import { CxEvent } from '../../event/event';
+import { CxEvent } from '../../event/cx-event';
 
 /**
  * Indicates that a user has successfully placed an order
