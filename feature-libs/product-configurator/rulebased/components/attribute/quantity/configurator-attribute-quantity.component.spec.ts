@@ -41,16 +41,4 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should button be enabled', () => {
-    const button = fixture.debugElement.queryAll(
-      By.css('cx-item-counter button')
-    )[1].nativeElement;
-
-    button.click();
-
-    fixture.detectChanges();
-
-    expect(component.onChangeQuantity).toHaveBeenCalled();
-  });
 });
