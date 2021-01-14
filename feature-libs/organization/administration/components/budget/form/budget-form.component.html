@@ -10,6 +10,7 @@
         required
         placeholder="{{ 'orgBudget.name' | cxTranslate }}"
         formControlName="name"
+        (blur)="createCodeWithName(form.get('name'), form.get('code'))"
       />
       <cx-form-errors [control]="form.get('name')"></cx-form-errors>
     </label>

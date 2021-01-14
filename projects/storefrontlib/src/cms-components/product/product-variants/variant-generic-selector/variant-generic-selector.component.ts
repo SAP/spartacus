@@ -1,15 +1,24 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Product, ProductScope, ProductService, RoutingService } from '@spartacus/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
+import {
+  Product,
+  ProductScope,
+  ProductService,
+  RoutingService,
+  VariantMatrixElement,
+} from '@spartacus/core';
 import { filter, take } from 'rxjs/operators';
-// import { product } from 'projects/assets/src/translations/en/product';
 
 @Component({
   selector: 'cx-variant-generic-selector',
   templateUrl: './variant-generic-selector.component.html',
-  styleUrls: ['./variant-generic-selector.component.css']
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VariantGenericSelectorComponent implements OnInit {
-
   @Input()
   product: Product;
 
@@ -18,44 +27,61 @@ export class VariantGenericSelectorComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private routingService: RoutingService
-    ) { }
+  ) {}
 
   ngOnInit() {
-    const levels = Array.from({length: this.product.categories.length},(_,k) => k + 1);
-
-    let selectedIndex = 0;
-    let productMatrix = this.product.variantMatrix;
-    levels.forEach((level, index) => {
-      if (level !== 1) {
-        productMatrix = productMatrix[selectedIndex].elements;
-      }
-      this.variants.push(productMatrix);
-
-      productMatrix.forEach(variantCategory => {
-        if (variantCategory.variantOption.code === this.product.code) {
-          selectedIndex = index;
-        }
-      });
-    });
-
+    this.setVariants();
   }
 
   changeVariant(code: string): void {
     if (code) {
       this.productService
         .get(code, ProductScope.VARIANTS)
-        .pipe(
-          filter(Boolean),
-          take(1)
-        )
+        .pipe(filter(Boolean), take(1))
         .subscribe((product: Product) => {
           this.routingService.go({
             cxRoute: 'product',
             params: product,
-          })
-        })
+          });
+          this.product = product;
+          this.setVariants();
+        });
     }
     return null;
   }
 
+  private setVariants(): void {
+    this.variants = [];
+
+    const levels = Array.from(
+      { length: this.product.categories.length },
+      (_, k) => k + 1
+    );
+
+    let productMatrix = JSON.parse(JSON.stringify(this.product.variantMatrix));
+
+    levels.forEach((level) => {
+      const currentLevelProductVariantIndex = this.getProductVariantMatrixIndex(
+        productMatrix
+      );
+
+      if (1 !== level) {
+        productMatrix = productMatrix[currentLevelProductVariantIndex].elements;
+      }
+
+      this.variants.push(productMatrix);
+    });
+  }
+
+  private getProductVariantMatrixIndex(matrix: VariantMatrixElement[]): number {
+    let productVariantMatrixIndex: number;
+
+    matrix.forEach((variant: VariantMatrixElement, index: number) => {
+      if (variant.variantOption.code === this.product.code) {
+        productVariantMatrixIndex = index;
+      }
+    });
+
+    return productVariantMatrixIndex;
+  }
 }

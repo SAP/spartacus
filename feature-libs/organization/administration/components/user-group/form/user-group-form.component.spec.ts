@@ -94,4 +94,29 @@ describe('UserGroupFormComponent', () => {
     fixture.detectChanges();
     expect(b2bUnitService.loadList).toHaveBeenCalled();
   });
+
+  describe('createUidWithName', () => {
+    it('should set uid field value if empty based on provided name value', () => {
+      mockForm.get('name').patchValue('Unit Test Value');
+      mockForm.get('uid').patchValue(undefined);
+      component.form = mockForm;
+      component.createUidWithName(
+        component.form.get('name'),
+        component.form.get('uid')
+      );
+
+      expect(component.form.get('uid').value).toEqual('unit-test-value');
+    });
+    it('should prevent setting uid if value is provided for this field', () => {
+      mockForm.get('name').patchValue('Unit Test Value');
+      mockForm.get('uid').patchValue('test uid');
+      component.form = mockForm;
+      component.createUidWithName(
+        component.form.get('name'),
+        component.form.get('uid')
+      );
+
+      expect(component.form.get('uid').value).toEqual('test uid');
+    });
+  });
 });
