@@ -46,9 +46,8 @@ export class ConfiguratorAttributeDropDownComponent
   }
 
   get readOnlyQuantity() {
-    return (
-      !this.attributeDropDownForm.value ||
-      this.attributeDropDownForm.value === '0'
+    return this.quantityService.readOnlyQuantity(
+      this.attributeDropDownForm.value
     );
   }
 

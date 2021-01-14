@@ -36,9 +36,8 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
   }
 
   get readOnlyQuantity() {
-    return (
-      !this.attribute.selectedSingleValue ||
-      this.attribute.selectedSingleValue === '0'
+    return this.quantityService.readOnlyQuantity(
+      this.attribute.selectedSingleValue
     );
   }
 

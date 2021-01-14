@@ -5,6 +5,10 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ConfiguratorAttributeQuantityService {
+  readOnlyQuantity(value): boolean {
+    return !value || value === '0';
+  }
+
   withQuantity(
     dataType: Configurator.DataType,
     uiType: Configurator.UiType
