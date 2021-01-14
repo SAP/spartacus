@@ -50,9 +50,9 @@ export class UserFormComponent implements OnInit {
   }
 
   units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList().pipe(
-    tap((unit) => {
-      if (unit.length === 1) {
-        this.form?.get('orgUnit.uid').setValue(unit[0].id);
+    tap((units) => {
+      if (units.length === 1) {
+        this.form?.get('orgUnit.uid').setValue(units[0].id);
       }
     })
   );
