@@ -64,7 +64,7 @@ export class UnitFormComponent implements OnInit {
         ),
         tap((units) => {
           if (units.length === 1) {
-            this.formGroup?.get('parentOrgUnit.uid').setValue(units[0].id);
+            this.formGroup?.get('parentOrgUnit.uid')?.setValue(units[0]?.id);
           }
         })
       )
@@ -77,7 +77,7 @@ export class UnitFormComponent implements OnInit {
     filter((items) => items?.length > 0),
     tap((process) => {
       if (process.length === 1) {
-        this.formGroup.get('approvalProcess.code')?.setValue(process[0]?.code);
+        this.formGroup?.get('approvalProcess.code')?.setValue(process[0]?.code);
       }
     })
   );
