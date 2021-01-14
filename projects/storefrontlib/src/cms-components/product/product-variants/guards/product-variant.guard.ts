@@ -66,7 +66,7 @@ export class ProductVariantGuard implements CanActivate {
                   this.semanticPathService.transform({
                     cxRoute: 'product',
                     params: {
-                      productCode: product.variantMatrix[0].variantOption.code,
+                      code: product.variantMatrix[0].variantOption.code,
                       name: product.name,
                     },
                   })

@@ -6,6 +6,7 @@ import {
   ProductService,
   RoutingConfig,
   SemanticPathService,
+  UrlCommands,
 } from '@spartacus/core';
 import { ProductVariantGuard } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -80,10 +81,16 @@ class MockProductService implements Partial<ProductService> {
     return of();
   }
 }
+class MockSemanticPathService implements Partial<SemanticPathService> {
+  transform(_commands: UrlCommands): any[] {
+    return [];
+  }
+}
 
 describe('ProductVariantGuard', () => {
   let guard: ProductVariantGuard;
   let productService: ProductService;
+  let semanticPathService: MockSemanticPathService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -95,6 +102,7 @@ describe('ProductVariantGuard', () => {
               routes: {
                 product: {
                   paths: ['product/:productCode/:name'],
+                  paramsMapping: { productCode: 'code' },
                 },
               },
             },
@@ -104,13 +112,17 @@ describe('ProductVariantGuard', () => {
           provide: ProductService,
           useClass: MockProductService,
         },
-        SemanticPathService,
+        {
+          provide: SemanticPathService,
+          useClass: MockSemanticPathService,
+        },
       ],
       imports: [RouterTestingModule],
     });
 
     guard = TestBed.inject(ProductVariantGuard);
     productService = TestBed.inject(ProductService);
+    semanticPathService = TestBed.inject(SemanticPathService);
   });
 
   fdescribe('canActivate', () => {
@@ -149,6 +161,10 @@ describe('ProductVariantGuard', () => {
           of(mockNonPurchasableProduct)
         );
 
+        spyOn(semanticPathService, 'transform').and.returnValue([
+          `/product/${mockNonPurchasableProduct.productCode}/${mockNonPurchasableProduct.name}`,
+        ]);
+
         guard
           .canActivate(activatedRoute)
           .pipe(take(1))
@@ -182,6 +198,10 @@ describe('ProductVariantGuard', () => {
           spyOn(productService, 'get').and.returnValue(
             of(mockMultidimensionalProductAndWithOutPurchasable)
           );
+
+          spyOn(semanticPathService, 'transform').and.returnValue([
+            `/product/${mockMultidimensionalProductAndWithOutPurchasable.variantMatrix[0].variantOption.code}/${mockMultidimensionalProductAndWithOutPurchasable.name}`,
+          ]);
 
           guard
             .canActivate(activatedRoute)
