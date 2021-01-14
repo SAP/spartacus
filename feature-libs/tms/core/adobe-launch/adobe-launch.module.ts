@@ -7,7 +7,7 @@ export function adobeLaunchFactory(
   config?: TmsConfig
 ) {
   const result = () => {
-    if (config?.tms?.adobeLaunch?.enabled) {
+    if (config?.tms?.adobeLaunch?.events?.length) {
       service.collect();
     }
   };

@@ -14,7 +14,6 @@ export const tmsFeature: FeatureEnvironment = {
     TmsModule.forRoot({
       tms: {
         gtm: {
-          enabled: true,
           events: [
             CartAddEntryEvent,
             CartAddEntrySuccessEvent,
@@ -24,7 +23,6 @@ export const tmsFeature: FeatureEnvironment = {
           ],
         },
         adobeLaunch: {
-          enabled: true,
           events: [PageEvent, HomePageEvent],
         },
       },

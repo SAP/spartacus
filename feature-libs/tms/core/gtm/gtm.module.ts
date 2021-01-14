@@ -7,7 +7,7 @@ export function gtmFactory(
   config?: TmsConfig
 ) {
   const result = () => {
-    if (config?.tms?.gtm?.enabled) {
+    if (config?.tms?.gtm?.events?.length) {
       service.collect();
     }
   };
