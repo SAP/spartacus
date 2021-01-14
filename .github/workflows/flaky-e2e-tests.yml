@@ -4,9 +4,10 @@ on:
       - develop
   pull_request:
     types: [opened, synchronize, reopened]
+name: Tests
 jobs:
   e2eTests:
-    name: Flaky e2e tests
+    name: Flaky e2e
     runs-on: ubuntu-latest
     container: cypress/browsers:node12.18.3-chrome83-ff77
     strategy:
