@@ -49,21 +49,38 @@ export class EventService {
    * @returns a teardown function which unregisters the given event source
    */
   register<T>(eventType: Type<T>, source$: Observable<T>): () => void {
-    const eventMeta = this.getEventMeta(eventType);
-    if (eventMeta.mergingSubject.has(source$)) {
-      if (isDevMode()) {
-        console.warn(
-          `EventService: the event source`,
-          source$,
-          `has been already registered for the type`,
-          eventType
-        );
+    let mergingSubjects: MergingSubject<T>[] = [];
+    let eventClass = eventType;
+    while (!!eventClass) {
+      console.log('registering for xxx: ', eventClass);
+      const eventMeta = this.getEventMeta(eventClass);
+      if (eventMeta.mergingSubject.has(source$)) {
+        if (isDevMode()) {
+          console.warn(
+            `EventService: the event source`,
+            source$,
+            `has been already registered for the type`,
+            eventClass
+          );
+        }
+      } else {
+        eventMeta.mergingSubject.add(source$);
       }
-    } else {
-      eventMeta.mergingSubject.add(source$);
+      mergingSubjects.push(eventMeta.mergingSubject);
+
+      if (
+        !eventClass.prototype ||
+        eventClass.prototype.__proto__.constructor.name === 'Object'
+      ) {
+        break;
+      }
+      eventClass = eventClass.prototype.__proto__.constructor;
     }
 
-    return () => eventMeta.mergingSubject.remove(source$);
+    return () =>
+      mergingSubjects.forEach((mergingSubject) =>
+        mergingSubject.remove(source$)
+      );
   }
 
   /**
@@ -83,8 +100,21 @@ export class EventService {
    */
   dispatch(event: Object): void {
     const eventType = event.constructor as Type<any>;
-    const inputSubject$ = this.getInputSubject(eventType);
-    inputSubject$.next(event);
+
+    let eventClass = eventType;
+    while (!!eventClass) {
+      console.log('dispatching for xxx: ', eventClass);
+      const inputSubject$ = this.getInputSubject(eventClass);
+      inputSubject$.next(event);
+
+      if (
+        !eventClass.prototype ||
+        eventClass.prototype.__proto__.constructor.name === 'Object'
+      ) {
+        break;
+      }
+      eventClass = eventClass.prototype.__proto__.constructor;
+    }
   }
 
   /**
