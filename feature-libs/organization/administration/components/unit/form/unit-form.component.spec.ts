@@ -104,4 +104,29 @@ describe('UnitFormComponent', () => {
     component.form$.subscribe((form) => (result = form)).unsubscribe();
     expect(result.get('parentOrgUnit.uid').disabled).toBeTruthy();
   });
+
+  describe('createUidWithName', () => {
+    it('should set uid field value if empty based on provided name value', () => {
+      component.form$
+        .subscribe((form) => {
+          form.get('name').patchValue('Unit Test Value');
+          form.get('uid').patchValue(undefined);
+          component.createUidWithName(form.get('name'), form.get('uid'));
+
+          expect(form.get('uid').value).toEqual('unit-test-value');
+        })
+        .unsubscribe();
+    });
+    it('should prevent setting uid if value is provided for this field', () => {
+      component.form$
+        .subscribe((form) => {
+          form.get('name').patchValue('Unit Test Value');
+          form.get('uid').patchValue('test uid');
+          component.createUidWithName(form.get('name'), form.get('uid'));
+
+          expect(form.get('uid').value).toEqual('test uid');
+        })
+        .unsubscribe();
+    });
+  });
 });

@@ -149,9 +149,7 @@ describe('PageMetaService', () => {
   it('should resolve page title using resolveTitle()', () => {
     const resolver: ContentPageResolver = TestBed.inject(ContentPageResolver);
     spyOn(resolver, 'resolveTitle').and.callThrough();
-
     service.getMeta().subscribe().unsubscribe();
-
     expect(resolver.resolveTitle).toHaveBeenCalled();
   });
 
@@ -191,7 +189,7 @@ describe('PageMetaService', () => {
   });
 });
 
-// Test Custom PageMetaService to bring in custon resolvers (for all pages)
+// Test Custom PageMetaService to bring in custom resolvers (for all pages)
 @Injectable({ providedIn: 'root' })
 export class CustomPageMetaService extends PageMetaService {
   protected resolverMethods = {
@@ -222,6 +220,7 @@ const mockKeywordPage: Page = {
 export interface CustomPageMeta extends PageMeta {
   keywords?: string;
 }
+
 describe('Custom PageTitleService', () => {
   let service: PageMetaService;
   let cmsService: CmsService;
