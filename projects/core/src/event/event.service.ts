@@ -1,6 +1,7 @@
 import { Injectable, isDevMode, Type } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { CxEvent } from './cx-event';
 import { MergingSubject } from './utils/merging-subject';
 
 /**
@@ -119,10 +120,56 @@ export class EventService {
    * Creates the event meta object for the given event type
    */
   private createEventMeta<T>(eventType: Type<T>): void {
-    this.eventsMeta.set(eventType, {
-      inputSubject$: null, // will be created lazily by the `dispatch` method
-      mergingSubject: new MergingSubject(),
-    });
+    // console.log('-----------------------------------');
+    // console.log('eventType: ', eventType);
+    // console.log('(eventType as any).type: ', (eventType as any).type); // prints type property, if exists ✅
+    // console.log(
+    //   'Object.getPrototypeOf(eventType): ',
+    //   Object.getPrototypeOf(eventType)
+    // ); // gives class ✅
+    // console.log(
+    //   'Object.getPrototypeOf(eventType.prototype): ',
+    //   Object.getPrototypeOf(eventType.prototype)
+    // ); // gives class ✅
+    // console.log(
+    //   'Object.getPrototypeOf(eventType).type: ',
+    //   Object.getPrototypeOf(eventType).type
+    // ); // gives class super type ✅
+
+    // console.log('eventType.prototype: ', eventType.prototype);
+    // console.log(
+    //   'eventType.prototype.__proto__: ',
+    //   eventType.prototype.__proto__
+    // );
+    // console.log(
+    //   'eventType.prototype.__proto__.constructor: ',
+    //   eventType.prototype.__proto__.constructor
+    // );
+    // console.log(
+    //   'eventType.prototype.__proto__.constructor.name: ',
+    //   eventType.prototype.__proto__.constructor.name
+    // );
+
+    let eventClass = eventType;
+    while (!!eventClass) {
+      console.log('xxx registering: ', eventClass);
+      this.eventsMeta.set(eventClass, {
+        inputSubject$: null, // will be created lazily by the `dispatch` method
+        mergingSubject: new MergingSubject(),
+      });
+
+      if (
+        !eventClass.prototype ||
+        eventClass.prototype.__proto__.constructor.name === 'Object'
+      ) {
+        break;
+      }
+
+      eventClass = eventClass.prototype.__proto__.constructor;
+      if (this.eventsMeta.has(eventClass)) {
+        break;
+      }
+    }
   }
 
   /**
@@ -133,7 +180,33 @@ export class EventService {
   private validateEventType<T>(eventType: Type<T>): void {
     if (!eventType?.constructor) {
       throw new Error(
-        `EventService:  ${eventType} is not a valid event type. Please provide a class reference.`
+        `EventService: ${eventType} is not a valid event type. Please provide a class reference.`
+      );
+    }
+
+    let eventClass = eventType;
+    let extendsCxClass = false;
+    while (!!eventClass) {
+      if (!Object.getOwnPropertyNames(eventClass).includes('type')) {
+        console.warn(
+          `EventService: ${eventClass} does not contain the static 'type' property. Please add e.g.: static type = '${eventClass.name}'`
+        );
+      } else if (!extendsCxClass && eventClass['type'] === CxEvent.type) {
+        extendsCxClass = true;
+      }
+
+      if (
+        !eventClass.prototype ||
+        eventClass.prototype.__proto__.constructor.name === 'Object'
+      ) {
+        break;
+      }
+      eventClass = eventClass.prototype.__proto__.constructor;
+    }
+
+    if (!extendsCxClass) {
+      console.warn(
+        `The ${eventType} (or its ancestors) does not inherit from the 'CxEvent'. Please inherit it.`
       );
     }
   }

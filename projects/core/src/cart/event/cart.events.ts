@@ -1,9 +1,11 @@
+import { CxEvent } from '../../event/cx-event';
 import { OrderEntry } from '../../model/order.model';
 
 /**
  * Base cart event. Most cart events should have `cartId` and `userId`.
  */
-export class CartEvent {
+export class CartEvent extends CxEvent {
+  static type = 'CartEvent';
   cartId: string;
   cartCode: string;
   userId: string;
