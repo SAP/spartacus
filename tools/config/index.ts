@@ -40,7 +40,6 @@ export function prettyError(file, errors, help) {
   errorsReported = true;
   console.log(`
 ${chalk.gray(`----- ${file} -----`)}
-
 ${errors.map((error) => chalk.red(` ✖ ${error}`)).join('\n')}
 
 ${chalk.blue(`${chalk.bold(' i ')}${help}`)}

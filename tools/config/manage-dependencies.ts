@@ -16,12 +16,19 @@
  * - check on CI to prompt with incorrect peerDeps
  */
 
+import chalk from 'chalk';
 import fs, { readFileSync } from 'fs';
 import glob from 'glob';
 import postcss from 'postcss-scss';
 import semver from 'semver';
 import * as ts from 'typescript';
-import { Library, PackageJson, ProgramOptions, Repository } from './index';
+import {
+  Library,
+  PackageJson,
+  prettyError,
+  ProgramOptions,
+  Repository,
+} from './index';
 
 // Utility functions
 function readJsonFile(path: string) {
@@ -236,12 +243,49 @@ function detectEntryPointsImportsViolations(
 }
 
 /**
- * Filer native Node.js APIs
+ * Filter native Node.js APIs
  */
 function filterNativeNodeAPIs(libraries: Record<string, LibDepsMetaData>) {
-  const nodeAPIs = ['fs', 'path', 'events'];
+  const nodeAPIs = [
+    'fs',
+    'fs/promise',
+    'path',
+    'events',
+    'assert',
+    'async_hooks',
+    'child_process',
+    'cluster',
+    'crypto',
+    'diagnostics_channel',
+    'dns',
+    'domain',
+    'http',
+    'http2',
+    'https',
+    'inspector',
+    'net',
+    'os',
+    'perf_hooks',
+    'process',
+    'punycode',
+    'querystring',
+    'readline',
+    'repl',
+    'stream',
+    'string_decoder',
+    'tls',
+    'trace_events',
+    'tty',
+    'dgram',
+    'url',
+    'util',
+    'v8',
+    'vm',
+    'wasi',
+    'worker_threads',
+    'zlib',
+  ];
 
-  // TODO: Focus on the violations later.
   Object.values(libraries).forEach((lib) => {
     lib.tsImports = Object.values(lib.tsImports)
       .filter((imp) => {
@@ -251,7 +295,15 @@ function filterNativeNodeAPIs(libraries: Record<string, LibDepsMetaData>) {
             imp.files.forEach((file) => {
               // Allow to use Node APIs in SSR
               if (!file.includes('ssr')) {
-                console.log('Native dependency!', imp.importPath);
+                prettyError(
+                  file,
+                  [
+                    `Node.js API \`${chalk.bold(
+                      imp.importPath
+                    )}\` is referenced.`,
+                  ],
+                  `Node.js APIs can only be used in SSR code or in schematics specs.\n   You might have wanted to import it from some library instead.`
+                );
               }
             });
           }
@@ -272,7 +324,6 @@ function filterNativeNodeAPIs(libraries: Record<string, LibDepsMetaData>) {
 function filterLocalAbsolutePathFiles(
   libraries: Record<string, LibDepsMetaData>
 ) {
-  // TODO: Focus on the violations later.
   Object.values(libraries).forEach((lib) => {
     lib.tsImports = Object.values(lib.tsImports)
       .filter((imp) => {
@@ -286,7 +337,17 @@ function filterLocalAbsolutePathFiles(
             imp.usageIn.schematics ||
             imp.usageIn.schematicsSpec
           ) {
-            console.log('Local file used with absolute path', imp.importPath);
+            imp.files.forEach((file) => {
+              prettyError(
+                file,
+                [
+                  `Absolute import should not be used outside of spec files.\n   Referenced \`${chalk.bold(
+                    imp.importPath
+                  )}\``,
+                ],
+                `You should use absolute paths only for testing modules.\n   Use relative or entry point import instead.`
+              );
+            });
           }
           return false;
         }
@@ -336,7 +397,13 @@ function warnAboutRxInternalImports(
     Object.values(lib.tsImports).forEach((imp) => {
       if (imp.importPath.includes('rxjs/internal')) {
         imp.files.forEach((file) => {
-          console.log(`rxjs/internal import found in ${file}`);
+          prettyError(
+            file,
+            [`\`${chalk.bold(imp.importPath)}\` internal import used.`],
+            `To import from rxjs library you should use \`${chalk.bold(
+              'rxjs'
+            )}\` or \`${chalk.bold('rxjs/operators')}\` imports.`
+          );
         });
       }
     });
@@ -437,18 +504,34 @@ function checkIfWeHaveAllDependenciesInPackageJson(
     ...packageJson.devDependencies,
     ...packageJson.dependencies,
   };
+  const errors = [];
   Object.values(libraries).forEach((lib) => {
     Object.values(lib.externalDependencies).forEach((dep) => {
       if (
         !dep.dependency.startsWith('@spartacus/') &&
         !Object.keys(allDeps).includes(dep.dependency)
       ) {
-        console.log(
-          `Missing ${dep.dependency} in root package.json that is used directly in ${lib.name}!`
+        errors.push(
+          `Missing \`${chalk.bold(
+            dep.dependency
+          )}\` dependency that is used directly in \`${chalk.bold(lib.name)}\`.`
         );
       }
     });
   });
+  if (errors.length) {
+    prettyError(
+      'package.json',
+      errors,
+      `All dependencies that are directly referenced should be specified as \`${chalk.bold(
+        'dependencies'
+      )}\` or \`${chalk.bold(
+        'devDependencies'
+      )}\`.\n   Install them with \`${chalk.bold(
+        'yarn add <dependency-name> (--dev)'
+      )}\`.`
+    );
+  }
 }
 
 /**
@@ -487,8 +570,9 @@ function addMissingDependenciesToPackageJson(
     ...rootPackageJson.dependencies,
     ...rootPackageJson.devDependencies,
   };
-  let reportMissingPackages = false;
   Object.values(libraries).forEach((lib) => {
+    const pathToPackageJson = `${lib.directory}/package.json`;
+    const errors = [];
     Object.values(lib.externalDependenciesForPackageJson).forEach((dep) => {
       if (
         typeof lib.dependencies[dep.dependency] === 'undefined' &&
@@ -496,14 +580,12 @@ function addMissingDependenciesToPackageJson(
         typeof lib.optionalDependencies[dep.dependency] === 'undefined'
       ) {
         if (options.fix) {
-          const pathToPackageJson = `${lib.directory}/package.json`;
           const packageJson = readJsonFile(pathToPackageJson);
           const version = deps[dep.dependency];
           if (
             typeof version === 'undefined' &&
             !dep.dependency.startsWith('@spartacus/')
           ) {
-            reportMissingPackages = true;
           } else {
             if (typeof packageJson.peerDependencies === 'undefined') {
               packageJson.peerDependencies = {};
@@ -517,16 +599,28 @@ function addMissingDependenciesToPackageJson(
             saveJsonFile(pathToPackageJson, packageJson);
           }
         } else {
-          console.log(`Missing ${dep.dependency} in ${lib.name} package.json`);
+          errors.push(
+            `Missing \`${chalk.bold(
+              dep.dependency
+            )}\` dependency that is directly referenced in library.`
+          );
         }
       }
     });
+    if (errors.length) {
+      prettyError(
+        pathToPackageJson,
+        errors,
+        `All dependencies that are directly referenced should be specified as \`${chalk.bold(
+          'dependencies'
+        )}\` or \`${chalk.bold(
+          'peerDependencies'
+        )}\`.\n   This can be automatically fixed by running \`${chalk.bold(
+          'yarn config:update'
+        )}\`.`
+      );
+    }
   });
-  if (reportMissingPackages) {
-    console.log(
-      'Fix first violations of missing packages and then rerun script!'
-    );
-  }
 }
 
 function removeNotUsedDependenciesFromPackageJson(
@@ -539,13 +633,14 @@ function removeNotUsedDependenciesFromPackageJson(
       ...lib.peerDependencies,
       ...lib.optionalDependencies,
     };
+    const errors = [];
+    const pathToPackageJson = `${lib.directory}/package.json`;
     Object.keys(deps).forEach((dep) => {
       if (
         typeof lib.externalDependenciesForPackageJson[dep] === 'undefined' &&
         dep !== `tslib`
       ) {
         if (options.fix) {
-          const pathToPackageJson = `${lib.directory}/package.json`;
           const packageJson = readJsonFile(pathToPackageJson);
           if (typeof packageJson?.dependencies?.[dep] !== 'undefined') {
             delete packageJson.dependencies[dep];
@@ -560,12 +655,27 @@ function removeNotUsedDependenciesFromPackageJson(
           }
           saveJsonFile(pathToPackageJson, packageJson);
         } else {
-          console.log(
-            `Dependency ${dep} is not used in ${lib.name}. It should be removed from package.json`
+          errors.push(
+            `Dependency \`${chalk.bold(
+              dep
+            )}\` is not used in the \`${chalk.bold(lib.name)}\`.`
           );
         }
       }
     });
+    if (errors.length > 0) {
+      prettyError(
+        pathToPackageJson,
+        errors,
+        `Dependencies that are not used should not be specified in package list of \`${chalk.bold(
+          'dependencies'
+        )}\` or \`${chalk.bold(
+          'peerDependencies'
+        )}\`.\n   This can be automatically fixed by running \`${chalk.bold(
+          'yarn config:update'
+        )}\`.`
+      );
+    }
   });
 }
 
@@ -573,8 +683,17 @@ function removeNotUsedDependenciesFromPackageJson(
 function checkEmptyDevDependencies(libraries: Record<string, LibDepsMetaData>) {
   Object.values(libraries).forEach((lib) => {
     if (Object.keys(lib.devDependencies).length > 0) {
-      console.log(
-        `Package ${lib.name} should not have devDependencies specified. It should be installed in root package.json`
+      const pathToPackageJson = `${lib.directory}/package.json`;
+      prettyError(
+        pathToPackageJson,
+        [
+          `Libraries should not have \`${chalk.bold(
+            'devDependencies'
+          )}\` specified in their package.json.`,
+        ],
+        `You should use \`${chalk.bold(
+          'devDependencies'
+        )}\` from root package.json file.\n   You should remove this section from this package.json.`
       );
     }
   });
@@ -661,150 +780,55 @@ function updateDependenciesVersions(
   Object.values(libraries).forEach((lib) => {
     const pathToPackageJson = `${lib.directory}/package.json`;
     const packageJson = readJsonFile(pathToPackageJson);
-    Object.keys(packageJson.dependencies ?? {}).forEach((dep) => {
-      if (!semver.validRange(packageJson.dependencies[dep])) {
-        console.log(`Not a valid range ${packageJson.dependencies[dep]}`);
-      }
-      if (dep.startsWith('@spartacus')) {
-        if (packageJson.dependencies[dep] !== libraries[dep].version) {
-          if (options.fix) {
-            packageJson.dependencies[dep] = libraries[dep].version;
-          } else {
-            console.log(
-              `Dependency ${dep} in ${lib.name} package.json have different version than the package in repository!`
-            );
-          }
+    const types = ['dependencies', 'peerDependencies', 'optionalDependencies'];
+    types.forEach((type) => {
+      Object.keys(packageJson[type] ?? {}).forEach((dep) => {
+        if (!semver.validRange(packageJson[type][dep])) {
+          console.log(`Not a valid range ${packageJson[type][dep]}`);
         }
-      } else if (
-        typeof rootDeps[dep] !== 'undefined' &&
-        packageJson.dependencies[dep] !== rootDeps[dep]
-      ) {
-        if (options.fix) {
-          // Careful with breaking changes!
-          if (
-            semver.major(semver.minVersion(packageJson.dependencies[dep])) ===
-              semver.major(semver.minVersion(rootDeps[dep])) &&
-            semver.gte(
-              semver.minVersion(packageJson.dependencies[dep]),
-              semver.minVersion(rootDeps[dep])
-            )
-          ) {
-            // not a breaking change!
-            packageJson.dependencies[dep] = rootDeps[dep];
-          } else {
-            // breaking change!
-            if (options.breakingChanges) {
-              packageJson.dependencies[dep] = rootDeps[dep];
+        if (dep.startsWith('@spartacus')) {
+          if (packageJson[type][dep] !== libraries[dep].version) {
+            if (options.fix) {
+              packageJson[type][dep] = libraries[dep].version;
             } else {
               console.log(
-                `Difference between library version of ${dep} and root package.json. Updating is a breaking change!`
+                `Dependency ${dep} in ${lib.name} package.json have different version than the package in repository!`
               );
             }
           }
-        } else {
-          console.log(
-            `Dependency ${dep} in ${lib.name} package.json have different version than the package in root package.json file!`
-          );
-        }
-      }
-    });
-    Object.keys(packageJson.peerDependencies ?? {}).forEach((dep) => {
-      if (!semver.validRange(packageJson.peerDependencies[dep])) {
-        console.log(`Not a valid range ${packageJson.peerDependencies[dep]}`);
-      }
-      if (dep.startsWith('@spartacus')) {
-        if (packageJson.peerDependencies[dep] !== libraries[dep].version) {
+        } else if (
+          typeof rootDeps[dep] !== 'undefined' &&
+          packageJson[type][dep] !== rootDeps[dep]
+        ) {
           if (options.fix) {
-            packageJson.peerDependencies[dep] = libraries[dep].version;
+            // Careful with breaking changes!
+            if (
+              semver.major(semver.minVersion(packageJson[type][dep])) ===
+                semver.major(semver.minVersion(rootDeps[dep])) &&
+              semver.gte(
+                semver.minVersion(packageJson[type][dep]),
+                semver.minVersion(rootDeps[dep])
+              )
+            ) {
+              // not a breaking change!
+              packageJson[type][dep] = rootDeps[dep];
+            } else {
+              // breaking change!
+              if (options.breakingChanges) {
+                packageJson[type][dep] = rootDeps[dep];
+              } else {
+                console.log(
+                  `Difference between library version of ${dep} and root package.json. Updating is a breaking change!`
+                );
+              }
+            }
           } else {
             console.log(
-              `Dependency ${dep} in ${lib.name} package.json have different version than the package in repository!`
+              `Dependency ${dep} in ${lib.name} package.json have different version than the package in root package.json file!`
             );
           }
         }
-      } else if (
-        typeof rootDeps[dep] !== 'undefined' &&
-        packageJson.peerDependencies[dep] !== rootDeps[dep]
-      ) {
-        if (options.fix) {
-          // Careful with breaking changes!
-          if (
-            semver.major(
-              semver.minVersion(packageJson.peerDependencies[dep])
-            ) === semver.major(semver.minVersion(rootDeps[dep])) &&
-            semver.gte(
-              semver.minVersion(packageJson.peerDependencies[dep]),
-              semver.minVersion(rootDeps[dep])
-            )
-          ) {
-            // not a breaking change!
-            packageJson.peerDependencies[dep] = rootDeps[dep];
-          } else {
-            // breaking change!
-            if (options.breakingChanges) {
-              packageJson.peerDependencies[dep] = rootDeps[dep];
-            } else {
-              console.log(
-                `Difference between library version of ${dep} and root package.json. Updating is a breaking change!`
-              );
-            }
-          }
-        } else {
-          console.log(
-            `Dependency ${dep} in ${lib.name} package.json have different version than the package in root package.json file!`
-          );
-        }
-      }
-    });
-    Object.keys(packageJson.optionalDependencies ?? {}).forEach((dep) => {
-      if (!semver.validRange(packageJson.optionalDependencies[dep])) {
-        console.log(
-          `Not a valid range ${packageJson.optionalDependencies[dep]}`
-        );
-      }
-      if (dep.startsWith('@spartacus')) {
-        if (packageJson.optionalDependencies[dep] !== libraries[dep].version) {
-          if (options.fix) {
-            packageJson.optionalDependencies[dep] = libraries[dep].version;
-          } else {
-            console.log(
-              `Dependency ${dep} in ${lib.name} package.json have different version than the package in repository!`
-            );
-          }
-        }
-      } else if (
-        typeof rootDeps[dep] !== 'undefined' &&
-        packageJson.optionalDependencies[dep] !== rootDeps[dep]
-      ) {
-        if (options.fix) {
-          // Careful with breaking changes!
-          if (
-            semver.major(
-              semver.minVersion(packageJson.optionalDependencies[dep])
-            ) === semver.major(semver.minVersion(rootDeps[dep])) &&
-            semver.gte(
-              semver.minVersion(packageJson.optionalDependencies[dep]),
-              semver.minVersion(rootDeps[dep])
-            )
-          ) {
-            // not a breaking change!
-            packageJson.optionalDependencies[dep] = rootDeps[dep];
-          } else {
-            // breaking change!
-            if (options.breakingChanges) {
-              packageJson.optionalDependencies[dep] = rootDeps[dep];
-            } else {
-              console.log(
-                `Difference between library version of ${dep} and root package.json. Updating is a breaking change!`
-              );
-            }
-          }
-        } else {
-          console.log(
-            `Dependency ${dep} in ${lib.name} package.json have different version than the package in root package.json file!`
-          );
-        }
-      }
+      });
     });
     saveJsonFile(pathToPackageJson, packageJson);
   });
