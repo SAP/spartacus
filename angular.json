@@ -622,7 +622,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "feature-libs/smartedit/src/test.ts",
+            "main": "feature-libs/smartedit/test.ts",
             "tsConfig": "feature-libs/smartedit/tsconfig.spec.json",
             "karmaConfig": "feature-libs/smartedit/karma.conf.js"
           }

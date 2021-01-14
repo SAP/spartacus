@@ -53,16 +53,15 @@ export class SmartEditService {
         this.defaultPreviewCategoryCode = site.defaultPreviewCategoryCode;
         this.defaultPreviewProductCode = site.defaultPreviewProductCode;
 
-        this.cmsService.getCurrentPage().subscribe((cmsPage) => {
-          if (cmsPage) {
+        this.cmsService
+          .getCurrentPage()
+          .pipe(filter(Boolean))
+          .subscribe((cmsPage: Page) => {
             this._currentPageId = cmsPage.pageId;
-
             // before adding contract to page, we need redirect to that page
-            console.log('----------');
             this.goToPreviewPage(cmsPage);
             this.addPageContract(cmsPage);
-          }
-        });
+          });
       });
   }
 

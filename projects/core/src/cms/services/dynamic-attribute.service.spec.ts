@@ -21,6 +21,8 @@ class TestSlotDecorator extends ComponentDecorator {
 describe('DynamicAttributeService', () => {
   let service: DynamicAttributeService;
   let renderer: Renderer2;
+  let testComponentDecorator: TestComponentDecorator;
+  let testSlotDecorator: TestSlotDecorator;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -42,6 +44,8 @@ describe('DynamicAttributeService', () => {
     });
 
     service = TestBed.inject(DynamicAttributeService);
+    testComponentDecorator = TestBed.inject(TestComponentDecorator);
+    testSlotDecorator = TestBed.inject(TestSlotDecorator);
   });
 
   it('should DynamicAttributeService is injected', () => {
@@ -58,10 +62,12 @@ describe('DynamicAttributeService', () => {
         slotData: {},
       });
 
-      expect(
-        service['componentDecorators'][0].decorate
-      ).toHaveBeenCalledWith(element, renderer, { uid: 'testComponent' });
-      expect(service['slotDecorators'][0].decorate).toHaveBeenCalledWith(
+      expect(testComponentDecorator.decorate).toHaveBeenCalledWith(
+        element,
+        renderer,
+        { uid: 'testComponent' }
+      );
+      expect(testSlotDecorator.decorate).toHaveBeenCalledWith(
         element,
         renderer,
         {}
@@ -78,9 +84,11 @@ describe('DynamicAttributeService', () => {
         uid: 'testComponent',
       });
 
-      expect(
-        service['componentDecorators'][0].decorate
-      ).toHaveBeenCalledWith(element, renderer, { uid: 'testComponent' });
+      expect(testComponentDecorator.decorate).toHaveBeenCalledWith(
+        element,
+        renderer,
+        { uid: 'testComponent' }
+      );
     }
   ));
 
@@ -91,7 +99,7 @@ describe('DynamicAttributeService', () => {
       const element = renderer.createElement('div');
       service.addAttributesToSlot(element, renderer, {});
 
-      expect(service['slotDecorators'][0].decorate).toHaveBeenCalledWith(
+      expect(testSlotDecorator.decorate).toHaveBeenCalledWith(
         element,
         renderer,
         {}

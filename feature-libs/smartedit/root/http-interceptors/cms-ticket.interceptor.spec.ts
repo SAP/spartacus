@@ -5,12 +5,12 @@ import {
 } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { defaultOccConfig } from '@spartacus/core';
-import { SmartEditService } from '../../core/services/smart-edit.service';
+import { SmartEditLauncherService } from '../services/smart-edit-launcher.service';
 import { CmsTicketInterceptor } from './cms-ticket.interceptor';
 
 const OccUrl = `https://localhost:9002${defaultOccConfig.backend.occ.prefix}electronics`;
 
-class MockSmartEditService {
+class MockSmartEditLauncherService {
   private _cmsTicketId: string;
   get cmsTicketId(): string {
     return this._cmsTicketId;
@@ -19,15 +19,15 @@ class MockSmartEditService {
 
 describe('CmsTicketInterceptor', () => {
   let httpMock: HttpTestingController;
-  let service: SmartEditService;
+  let service: SmartEditLauncherService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         {
-          provide: SmartEditService,
-          useClass: MockSmartEditService,
+          provide: SmartEditLauncherService,
+          useClass: MockSmartEditLauncherService,
         },
 
         {
@@ -39,7 +39,7 @@ describe('CmsTicketInterceptor', () => {
     });
 
     httpMock = TestBed.inject(HttpTestingController);
-    service = TestBed.inject(SmartEditService);
+    service = TestBed.inject(SmartEditLauncherService);
   });
 
   afterEach(() => {

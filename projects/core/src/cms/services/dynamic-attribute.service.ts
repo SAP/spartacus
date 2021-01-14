@@ -1,4 +1,5 @@
 import { Injectable, Renderer2 } from '@angular/core';
+import { shareReplay } from 'rxjs/operators';
 import { UnifiedInjector } from '../../lazy-loading/unified-injector';
 import { SmartEditService } from '../../smart-edit/services/smart-edit.service';
 import { getLastValueSync } from '../../util/rxjs/get-last-value-sync';
@@ -11,13 +12,13 @@ import { ContentSlotData } from '../model/content-slot-data.model';
   providedIn: 'root',
 })
 export class DynamicAttributeService {
-  private componentDecorators = getLastValueSync(
-    this.unifiedInjector.getMulti(ComponentDecorator)
-  );
+  private componentDecorators$ = this.unifiedInjector
+    .getMulti(ComponentDecorator)
+    .pipe(shareReplay(1));
 
-  private slotDecorators = getLastValueSync(
-    this.unifiedInjector.getMulti(SlotDecorator)
-  );
+  private slotDecorators$ = this.unifiedInjector
+    .getMulti(SlotDecorator)
+    .pipe(shareReplay(1));
 
   constructor(
     // TODO: remove this SmartEditService in 4.0
@@ -26,7 +27,7 @@ export class DynamicAttributeService {
   ) {}
 
   /**
-   * @deprecated since 3.1, use functions addAttributesToComponent and addAttributesToSlot instead
+   * @deprecated since 3.2, use functions addAttributesToComponent and addAttributesToSlot instead
    *
    * Add dynamic attributes to DOM.
    * @param element: slot or cms component element
@@ -41,11 +42,11 @@ export class DynamicAttributeService {
       slotData?: ContentSlotData;
     }
   ): void {
-    this.componentDecorators?.forEach((decorator) =>
+    (getLastValueSync(this.componentDecorators$) || []).forEach((decorator) =>
       decorator.decorate(element, renderer, cmsRenderingContext.componentData)
     );
 
-    this.slotDecorators?.forEach((decorator) =>
+    (getLastValueSync(this.slotDecorators$) || []).forEach((decorator) =>
       decorator.decorate(element, renderer, cmsRenderingContext.slotData)
     );
   }
@@ -55,7 +56,7 @@ export class DynamicAttributeService {
     renderer: Renderer2,
     componentData?: ContentSlotComponentData
   ) {
-    this.componentDecorators?.forEach((decorator) =>
+    (getLastValueSync(this.componentDecorators$) || []).forEach((decorator) =>
       decorator.decorate(element, renderer, componentData)
     );
   }
@@ -65,7 +66,7 @@ export class DynamicAttributeService {
     renderer: Renderer2,
     slotData?: ContentSlotData
   ) {
-    this.slotDecorators?.forEach((decorator) =>
+    (getLastValueSync(this.slotDecorators$) || []).forEach((decorator) =>
       decorator.decorate(element, renderer, slotData)
     );
   }
