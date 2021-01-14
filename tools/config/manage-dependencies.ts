@@ -577,7 +577,8 @@ function addMissingDependenciesToPackageJson(
       if (
         typeof lib.dependencies[dep.dependency] === 'undefined' &&
         typeof lib.peerDependencies[dep.dependency] === 'undefined' &&
-        typeof lib.optionalDependencies[dep.dependency] === 'undefined'
+        typeof lib.optionalDependencies[dep.dependency] === 'undefined' &&
+        dep.dependency !== lib.name
       ) {
         if (options.fix) {
           const packageJson = readJsonFile(pathToPackageJson);
