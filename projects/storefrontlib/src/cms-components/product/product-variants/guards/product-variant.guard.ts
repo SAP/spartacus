@@ -60,14 +60,13 @@ export class ProductVariantGuard implements CanActivate {
           }
         } else {
           if (product.variantMatrix) {
-            console.log('vm', product.variantMatrix);
             if (!product.purchasable) {
               return of(
                 this.router.createUrlTree(
                   this.semanticPathService.transform({
                     cxRoute: 'product',
                     params: {
-                      code: product.variantMatrix[0].variantOption.code,
+                      productCode: product.variantMatrix[0].variantOption.code,
                       name: product.name,
                     },
                   })

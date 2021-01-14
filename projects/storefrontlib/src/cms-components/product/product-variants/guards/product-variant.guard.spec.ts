@@ -35,14 +35,7 @@ const mockNonPurchasableProduct = {
   ],
 };
 
-const mockMultidimensionalProductWithOutVariantMatrix = {
-  name: 'multidimensionalProduct',
-  productCode: 'multidimensionalTest123',
-  purchasable: true,
-  multidimensional: true,
-};
-
-const mockMultidimensionalProductWithVariantMatrix = {
+const mockMultidimensionalProductAndPurchasable = {
   name: 'multidimensionalProduct',
   productCode: 'multidimensionalTest123',
   purchasable: true,
@@ -54,6 +47,26 @@ const mockMultidimensionalProductWithVariantMatrix = {
       },
     },
   ],
+};
+
+const mockMultidimensionalProductAndWithOutPurchasable = {
+  name: 'multidimensionalProduct',
+  productCode: 'multidimensionalTest123',
+  purchasable: false,
+  multidimensional: true,
+  variantMatrix: [
+    {
+      variantOption: {
+        code: 'multidimensionalVariantTest123',
+      },
+    },
+  ],
+};
+
+const mockMultidimensionalProductWithVariantMAtrix = {
+  name: 'multidimensionalProduct',
+  productCode: 'multidimensionalTest123',
+  multidimensional: true,
 };
 
 const activatedRoute = ({
@@ -100,7 +113,22 @@ describe('ProductVariantGuard', () => {
     productService = TestBed.inject(ProductService);
   });
 
-  describe('canActivate', () => {
+  fdescribe('canActivate', () => {
+    it('should return true if no productCode in route parameter (launch from smartedit)', (done) => {
+      const activatedRouteWithoutParams = ({
+        params: {},
+      } as unknown) as ActivatedRouteSnapshot;
+
+      guard
+        .canActivate(activatedRouteWithoutParams)
+        .pipe(take(1))
+        .subscribe((val) => {
+          expect(val).toBeTruthy();
+          done();
+        });
+    });
+
+    // Gen 1 variants
     describe('product without multidimensional parameter', () => {
       it('should return true if product is purchasable', (done) => {
         spyOn(productService, 'get').and.returnValue(
@@ -131,51 +159,56 @@ describe('ProductVariantGuard', () => {
             done();
           });
       });
-
-      it('should return true if no productCode in route parameter (launch from smartedit)', (done) => {
-        const activatedRouteWithoutParams = ({
-          params: {},
-        } as unknown) as ActivatedRouteSnapshot;
-
-        guard
-          .canActivate(activatedRouteWithoutParams)
-          .pipe(take(1))
-          .subscribe((val) => {
-            expect(val).toBeTruthy();
-            done();
-          });
-      });
     });
 
+    // Mutli-D variants
     describe('product with multidimensional parameter', () => {
-      it('should return true if product is multidimensional without variantMatrix', (done) => {
-        spyOn(productService, 'get').and.returnValue(
-          of(mockMultidimensionalProductWithOutVariantMatrix)
-        );
+      describe('and product has variantMatrix', () => {
+        it('should return true if product is purchasable', (done) => {
+          spyOn(productService, 'get').and.returnValue(
+            of(mockMultidimensionalProductAndPurchasable)
+          );
 
-        guard
-          .canActivate(activatedRoute)
-          .pipe(take(1))
-          .subscribe((val) => {
-            expect(val).toBeTruthy();
-            done();
-          });
+          guard
+            .canActivate(activatedRoute)
+            .pipe(take(1))
+            .subscribe((val) => {
+              expect(val).toBeTruthy();
+              done();
+            });
+        });
+
+        it('should return url if product is not purchasable and navigate to product variatn page', (done) => {
+          spyOn(productService, 'get').and.returnValue(
+            of(mockMultidimensionalProductAndWithOutPurchasable)
+          );
+
+          guard
+            .canActivate(activatedRoute)
+            .pipe(take(1))
+            .subscribe((val) => {
+              expect(val.toString()).toEqual(
+                '/product/multidimensionalVariantTest123/multidimensionalProduct'
+              );
+              done();
+            });
+        });
       });
 
-      it('should return url for product variant if product is multidimensional with variantMatrix', (done) => {
-        spyOn(productService, 'get').and.returnValue(
-          of(mockMultidimensionalProductWithVariantMatrix)
-        );
+      describe('and product has not variantMatrix', () => {
+        it('should return true', (done) => {
+          spyOn(productService, 'get').and.returnValue(
+            of(mockMultidimensionalProductWithVariantMAtrix)
+          );
 
-        guard
-          .canActivate(activatedRoute)
-          .pipe(take(1))
-          .subscribe((val) => {
-            expect(val.toString()).toEqual(
-              '/product/multidimensionalTest123/multidimensionalProduct'
-            );
-            done();
-          });
+          guard
+            .canActivate(activatedRoute)
+            .pipe(take(1))
+            .subscribe((val) => {
+              expect(val).toBeTruthy();
+              done();
+            });
+        });
       });
     });
   });
