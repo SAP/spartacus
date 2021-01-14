@@ -41,15 +41,6 @@ export class UnitFormComponent implements OnInit {
   @Input() createChildUnit = false;
 
   form: FormGroup = this.itemService.getForm();
-  approvalProcess$: Observable<
-    B2BApprovalProcess[]
-  > = this.unitService.getApprovalProcesses().pipe(
-    filter((items) => items?.length > 0),
-    tap((process) => {
-      if (process.length === 1)
-        this.form.get('approvalProcess.code')?.setValue(process[0]?.code);
-    })
-  );
 
   form$: Observable<any> = this.itemService.unit$.pipe(
     map((unit) => {
@@ -71,6 +62,16 @@ export class UnitFormComponent implements OnInit {
         })
       )
     )
+  );
+
+  approvalProcess$: Observable<
+    B2BApprovalProcess[]
+  > = this.unitService.getApprovalProcesses().pipe(
+    filter((items) => items?.length > 0),
+    tap((process) => {
+      if (process.length === 1)
+        this.form.get('approvalProcess.code')?.setValue(process[0]?.code);
+    })
   );
 
   constructor(
