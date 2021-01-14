@@ -10,7 +10,6 @@ import { FormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
-import { BehaviorSubject } from 'rxjs';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 
 @Component({
@@ -22,7 +21,6 @@ export class ConfiguratorAttributeDropDownComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit {
   attributeDropDownForm = new FormControl('');
-  loading$ = new BehaviorSubject<boolean>(false);
 
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;

@@ -1,4 +1,3 @@
-import { By } from '@angular/platform-browser';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ConfiguratorAttributeQuantityComponent } from './configurator-attribute-quantity.component';
 import { I18nTestingModule } from '@spartacus/core';
