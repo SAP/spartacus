@@ -60,7 +60,6 @@ export class ProductVariantGuard implements CanActivate {
           }
         } else {
           if (product.variantMatrix) {
-            console.log(`purchasable: ${product.purchasable}`);
             return of(true);
           }
         }
