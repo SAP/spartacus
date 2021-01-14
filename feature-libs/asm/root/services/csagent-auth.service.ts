@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import {
   AuthActions,
   AuthService,
+  AuthToken,
   OAuthLibWrapperService,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
@@ -39,7 +40,7 @@ export class CsAgentAuthService {
     userId: string,
     password: string
   ): Promise<void> {
-    let userToken;
+    let userToken: AuthToken | undefined;
     this.authStorageService
       .getToken()
       .subscribe((token) => (userToken = token))
@@ -52,14 +53,14 @@ export class CsAgentAuthService {
         password
       );
       // Start emulation for currently logged in user
-      let customerId: string;
+      let customerId: string | undefined;
       this.userService
         .get()
         .subscribe((user) => (customerId = user?.customerId))
         .unsubscribe();
       this.store.dispatch(new AuthActions.Logout());
 
-      if (Boolean(customerId)) {
+      if (customerId !== undefined && userToken !== undefined) {
         // OCC specific user id handling. Customize when implementing different backend
         this.userIdService.setUserId(customerId);
         this.authStorageService.setEmulatedUserToken(userToken);
