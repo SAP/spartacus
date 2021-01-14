@@ -51,7 +51,7 @@ export class CartRemoveEntrySuccessEvent extends CxEvent implements CartEvent {
 }
 
 export class CartUpdateEntrySuccessEvent extends CxEvent implements CartEvent {
-  static type = 'CartUpdateEntrySuccessE,vent';
+  static type = 'CartUpdateEntrySuccessEvent';
   cartId: string;
   cartCode: string;
   userId: string;
