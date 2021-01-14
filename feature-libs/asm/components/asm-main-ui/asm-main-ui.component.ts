@@ -4,7 +4,7 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { AsmService } from '@spartacus/asm/core';
+import { AsmService, AsmUi } from '@spartacus/asm/core';
 import { CsAgentAuthService } from '@spartacus/asm/root';
 import {
   AuthService,
@@ -27,8 +27,8 @@ import { AsmComponentService } from '../services/asm-component.service';
 export class AsmMainUiComponent implements OnInit {
   customerSupportAgentLoggedIn$: Observable<boolean>;
   csAgentTokenLoading$: Observable<boolean>;
-  customer$: Observable<User>;
-  isCollapsed$: Observable<boolean>;
+  customer$: Observable<User | undefined>;
+  isCollapsed$: Observable<boolean | undefined>;
 
   @HostBinding('class.hidden') disabled = false;
 
@@ -59,7 +59,7 @@ export class AsmMainUiComponent implements OnInit {
     );
     this.isCollapsed$ = this.asmService
       .getAsmUiState()
-      .pipe(map((uiState) => uiState.collapsed));
+      .pipe(map((uiState: AsmUi) => uiState.collapsed));
   }
 
   private handleCustomerSessionStartRedirection(): void {

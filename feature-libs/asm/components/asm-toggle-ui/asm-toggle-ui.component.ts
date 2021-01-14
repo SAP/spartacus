@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { AsmService } from '@spartacus/asm/core';
+import { AsmService, AsmUi } from '@spartacus/asm/core';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -10,13 +10,13 @@ import { Subscription } from 'rxjs';
 })
 export class AsmToggleUiComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
-  isCollapsed: boolean;
+  isCollapsed: boolean | undefined;
 
   constructor(protected asmService: AsmService) {}
 
   ngOnInit(): void {
     this.subscription.add(
-      this.asmService.getAsmUiState().subscribe((uiState) => {
+      this.asmService.getAsmUiState().subscribe((uiState: AsmUi) => {
         this.isCollapsed = uiState.collapsed;
       })
     );

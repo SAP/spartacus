@@ -35,8 +35,8 @@ export class CSAgentLoginFormComponent implements OnInit {
   onSubmit(): void {
     if (this.csAgentLoginForm.valid) {
       this.submitEvent.emit({
-        userId: this.csAgentLoginForm.get('userId').value,
-        password: this.csAgentLoginForm.get('password').value,
+        userId: this.csAgentLoginForm.get('userId')?.value,
+        password: this.csAgentLoginForm.get('password')?.value,
       });
     } else {
       this.csAgentLoginForm.markAllAsTouched();
