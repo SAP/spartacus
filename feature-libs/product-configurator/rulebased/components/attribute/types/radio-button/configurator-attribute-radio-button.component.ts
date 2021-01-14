@@ -10,6 +10,7 @@ import { FormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -28,14 +29,18 @@ export class ConfiguratorAttributeRadioButtonComponent
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
+  constructor(private quantityService: ConfiguratorAttributeQuantityService) {
+    super();
+  }
+
   ngOnInit(): void {
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);
   }
 
   get withQuantity() {
-    return (
-      this.attribute.dataType ===
-      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
+    return this.quantityService.withQuantity(
+      this.attribute.dataType,
+      this.attribute.uiType
     );
   }
 

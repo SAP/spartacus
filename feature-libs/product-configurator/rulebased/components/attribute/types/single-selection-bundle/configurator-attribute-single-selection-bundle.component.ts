@@ -8,6 +8,7 @@ import {
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -23,10 +24,14 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
   @Input() ownerKey: string;
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
+  constructor(private quantityService: ConfiguratorAttributeQuantityService) {
+    super();
+  }
+
   get withQuantity() {
-    return (
-      this.attribute.dataType ===
-      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
+    return this.quantityService.withQuantity(
+      this.attribute.dataType,
+      this.attribute.uiType
     );
   }
 

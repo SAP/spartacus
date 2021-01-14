@@ -10,6 +10,7 @@ import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { BehaviorSubject } from 'rxjs';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 
 interface SelectionValue {
   name: string;
@@ -34,6 +35,10 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
+  constructor(private quantityService: ConfiguratorAttributeQuantityService) {
+    super();
+  }
+
   ngOnInit() {
     this.multipleSelectionValues = this.attribute.values.map(
       ({ name, quantity, selected, valueCode }) => ({
@@ -50,6 +55,13 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     ) {
       this.disableDeselectAction$.next(true);
     }
+  }
+
+  get withQuantity() {
+    return this.quantityService.withQuantity(
+      this.attribute.dataType,
+      this.attribute.uiType
+    );
   }
 
   protected updateMultipleSelectionValues(valueCode, state) {
@@ -93,13 +105,6 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     };
 
     return event;
-  }
-
-  get withQuantity() {
-    return (
-      this.attribute.dataType ===
-      Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL
-    );
   }
 
   onSelect(eventValue): void {

@@ -11,6 +11,7 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { BehaviorSubject } from 'rxjs';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 
 @Component({
   selector: 'cx-configurator-attribute-drop-down',
@@ -29,14 +30,18 @@ export class ConfiguratorAttributeDropDownComponent
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
+  constructor(private quantityService: ConfiguratorAttributeQuantityService) {
+    super();
+  }
+
   ngOnInit() {
     this.attributeDropDownForm.setValue(this.attribute.selectedSingleValue);
   }
 
   get withQuantity() {
-    return (
-      this.attribute.dataType ===
-      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
+    return this.quantityService.withQuantity(
+      this.attribute.dataType,
+      this.attribute.uiType
     );
   }
 
