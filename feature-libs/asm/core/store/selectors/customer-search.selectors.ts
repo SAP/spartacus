@@ -6,7 +6,7 @@ import { getAsmState } from './feature.selector';
 
 export const getCustomerSearchResultsLoaderState: MemoizedSelector<
   StateWithAsm,
-  StateUtils.LoaderState<CustomerSearchPage> | undefined
+  StateUtils.LoaderState<CustomerSearchPage>
 > = createSelector(
   getAsmState,
   (state: AsmState) => state.customerSearchResult

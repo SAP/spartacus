@@ -57,7 +57,7 @@ export class AsmService {
   /**
    * Get the state of the ASM UI
    */
-  getAsmUiState(): Observable<AsmUi | undefined> {
+  getAsmUiState(): Observable<AsmUi> {
     return this.store.pipe(select(AsmSelectors.getAsmUi));
   }
 }
