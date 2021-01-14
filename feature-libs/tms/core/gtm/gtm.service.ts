@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { EventService, WindowRef } from '@spartacus/core';
-import { Subscription } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import { CxEvent, EventService, WindowRef } from '@spartacus/core';
+import { merge, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { TmsConfig } from '../config/tms-config';
 
@@ -9,7 +9,7 @@ export interface GtmWindow extends Window {
 }
 
 @Injectable({ providedIn: 'root' })
-export class GoogleTagManagerService {
+export class GoogleTagManagerService implements OnDestroy {
   protected subscription = new Subscription();
 
   constructor(
@@ -24,21 +24,24 @@ export class GoogleTagManagerService {
       this.window.dataLayer = this.window.dataLayer || [];
     }
 
-    this.tmsConfig.tms?.gtm?.events?.forEach((event) => {
-      this.subscription.add(
-        this.eventsService
-          .get(event)
-          .pipe(tap((x) => console.log('gtm event: ', x)))
-          .subscribe((event) => this.pushToTms(event))
-      );
-    });
+    const events =
+      this.tmsConfig.tms?.gtm?.events?.map((event) =>
+        this.eventsService.get(event)
+      ) || [];
+    this.subscription = merge(...events)
+      .pipe(tap((x) => console.log('gtm event: ', x)))
+      .subscribe((event) => this.pushToTms(event));
   }
 
-  protected pushToTms(data: any): void {
-    this.window?.dataLayer?.push(data);
+  protected pushToTms<T extends CxEvent>(event: T): void {
+    this.window?.dataLayer?.push(event);
   }
 
   get window(): GtmWindow | undefined {
     return this.windowRef.nativeWindow;
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
