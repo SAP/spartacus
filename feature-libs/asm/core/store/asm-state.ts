@@ -9,6 +9,6 @@ export interface StateWithAsm {
 }
 
 export interface AsmState {
-  customerSearchResult: StateUtils.LoaderState<CustomerSearchPage>;
-  asmUi: AsmUi;
+  customerSearchResult: StateUtils.LoaderState<CustomerSearchPage> | undefined;
+  asmUi: AsmUi | undefined;
 }

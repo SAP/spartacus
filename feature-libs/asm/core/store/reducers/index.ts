@@ -32,7 +32,7 @@ export const reducerProvider: Provider = {
 export function clearCustomerSupportAgentAsmState(
   reducer: ActionReducer<AsmState, Action>
 ): ActionReducer<AsmState, Action> {
-  return function (state, action) {
+  return function (state: AsmState, action: Action) {
     if (action.type === AsmActions.LOGOUT_CUSTOMER_SUPPORT_AGENT) {
       state = {
         ...state,

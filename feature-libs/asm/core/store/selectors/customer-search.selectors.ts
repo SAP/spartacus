@@ -6,7 +6,7 @@ import { getAsmState } from './feature.selector';
 
 export const getCustomerSearchResultsLoaderState: MemoizedSelector<
   StateWithAsm,
-  StateUtils.LoaderState<CustomerSearchPage>
+  StateUtils.LoaderState<CustomerSearchPage> | undefined
 > = createSelector(
   getAsmState,
   (state: AsmState) => state.customerSearchResult
@@ -15,13 +15,17 @@ export const getCustomerSearchResultsLoaderState: MemoizedSelector<
 export const getCustomerSearchResults: MemoizedSelector<
   StateWithAsm,
   CustomerSearchPage
-> = createSelector(getCustomerSearchResultsLoaderState, (state) =>
-  StateUtils.loaderValueSelector(state)
+> = createSelector(
+  getCustomerSearchResultsLoaderState,
+  (state: StateUtils.LoaderState<CustomerSearchPage>) =>
+    StateUtils.loaderValueSelector(state)
 );
 
 export const getCustomerSearchResultsLoading: MemoizedSelector<
   StateWithAsm,
   boolean
-> = createSelector(getCustomerSearchResultsLoaderState, (state) =>
-  StateUtils.loaderLoadingSelector(state)
+> = createSelector(
+  getCustomerSearchResultsLoaderState,
+  (state: StateUtils.LoaderState<CustomerSearchPage>) =>
+    StateUtils.loaderLoadingSelector(state)
 );

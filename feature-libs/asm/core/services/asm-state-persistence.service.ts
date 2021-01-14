@@ -63,9 +63,9 @@ export class AsmStatePersistenceService implements OnDestroy {
       map(([ui, emulatedUserToken, tokenTarget]) => {
         let emulatedToken = emulatedUserToken;
         if (emulatedToken) {
-          emulatedToken = { ...emulatedUserToken };
+          emulatedToken = { ...emulatedUserToken } as AuthToken;
           // To minimize risk of user account hijacking we don't persist emulated user refresh_token
-          delete emulatedToken.refresh_token;
+          delete emulatedToken?.refresh_token;
         }
         return {
           ui,
