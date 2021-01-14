@@ -864,7 +864,7 @@ function updateDependenciesVersions(
                   packageJson[type][dep]
                 )}\` than the package in root \`${chalk.bold(
                   'package.json'
-                )}\` file.`
+                )}\` file \`${chalk.bold(rootDeps[dep])}\`.`
               );
             }
           } else {
@@ -879,7 +879,7 @@ function updateDependenciesVersions(
                   packageJson[type][dep]
                 )}\` than the package in root \`${chalk.bold(
                   'package.json'
-                )}\` file.`
+                )}\` file \`${chalk.bold(rootDeps[dep])}\`.`
               );
             }
           }
@@ -909,18 +909,19 @@ function updateDependenciesVersions(
           'yarn config:update'
         )}\`.`
       );
-      if (breakingErrors.length > 0) {
-        prettyError(
-          pathToPackageJson,
-          breakingErrors,
-          `All external dependencies should have the same version as in the root \`${chalk.bold(
-            'package.json'
-          )}\`.\n   This can be automatically fixed by running \`${chalk.bold(
-            'yarn config:update --breaking-changes'
-          )}\`.`
-        );
-      }
     }
+    if (breakingErrors.length > 0) {
+      prettyError(
+        pathToPackageJson,
+        breakingErrors,
+        `All external dependencies should have the same version as in the root \`${chalk.bold(
+          'package.json'
+        )}\`.\n   This can be automatically fixed by running \`${chalk.bold(
+          'yarn config:update --breaking-changes'
+        )}\`.`
+      );
+    }
+
     saveJsonFile(pathToPackageJson, packageJson);
   });
 }
