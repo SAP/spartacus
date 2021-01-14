@@ -11,6 +11,7 @@ import { Configurator } from '../../../../rulebased/core/model/index';
 import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ConfiguratorCPQOverviewAttributeComponent } from './configurator-cpq-overview-attribute.component';
+import { Component, Input } from '@angular/core';
 
 const mockAttributeOverviewInput: Configurator.AttributeOverview = {
   attribute: 'testAttribute',
@@ -38,6 +39,16 @@ class MockProductService {
   get = () => product$.asObservable();
 }
 
+@Component({
+  // tslint:disable-next-line: component-selector
+  selector: 'cx-configurator-overview-price',
+  template: '',
+})
+class MockOverviewPriceComponent {
+  @Input() productPrice: number;
+  @Input() quantity = 1;
+}
+
 describe('ConfiguratorCPQOverviewAttributeComponent', () => {
   let component: ConfiguratorCPQOverviewAttributeComponent;
   let fixture: ComponentFixture<ConfiguratorCPQOverviewAttributeComponent>;
@@ -46,7 +57,10 @@ describe('ConfiguratorCPQOverviewAttributeComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [MediaModule, I18nTestingModule],
-        declarations: [ConfiguratorCPQOverviewAttributeComponent],
+        declarations: [
+          ConfiguratorCPQOverviewAttributeComponent,
+          MockOverviewPriceComponent,
+        ],
         providers: [{ provide: ProductService, useClass: MockProductService }],
       }).compileComponents();
     })

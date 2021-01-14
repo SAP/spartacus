@@ -22,7 +22,7 @@
     <div class="cpq-attribute-label" *ngIf="attributeOverview?.attribute">
       <span>{{ attributeOverview.attribute }}</span>
       <cx-configurator-overview-price
-        [productPrice]="product.price.value"
+        [productPrice]="product?.price?.value"
       ></cx-configurator-overview-price>
     </div>
   </div>
