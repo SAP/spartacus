@@ -35,15 +35,17 @@ export class BudgetFormComponent implements OnInit {
 
   units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList().pipe(
     tap((unit) => {
-      if (unit.length === 1)
-        this.form?.get('parentOrgUnit.uid').setValue(unit[0].id);
+      if (unit.length === 1) {
+        this.form?.get('orgUnit.uid').setValue(unit[0].id);
+      }
     })
   );
 
   currencies$: Observable<Currency[]> = this.currencyService.getAll().pipe(
     tap((currency) => {
-      if (currency.length === 1)
+      if (currency.length === 1) {
         this.form.get('currency.isocode')?.setValue(currency[0].isocode);
+      }
     })
   );
 

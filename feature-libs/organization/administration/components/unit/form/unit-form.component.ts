@@ -10,7 +10,7 @@ import {
   B2BUnitNode,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { CurrentItemService } from '../../shared/current-item.service';
 import { ItemService } from '../../shared/item.service';
@@ -40,23 +40,32 @@ export class UnitFormComponent implements OnInit {
 
   @Input() createChildUnit = false;
 
-  form: FormGroup = this.itemService.getForm();
+  /*
+   * TODO: 4.0: rename to `form` #10710
+   */
+  formGroup: FormGroup = this.itemService.getForm();
+
+  /*
+   * deprecated since 3.0, use `formGroup` instead
+   */
+  form$: Observable<FormGroup> = of(this.formGroup);
 
   units$: Observable<B2BUnitNode[]> = this.itemService.unit$.pipe(
     tap((unit) => {
-      this.form.get('parentOrgUnit.uid')?.setValue(unit);
+      this.formGroup.get('parentOrgUnit.uid')?.setValue(unit);
       if (this.createChildUnit) {
-        this.form.get('parentOrgUnit')?.disable();
+        this.formGroup.get('parentOrgUnit')?.disable();
       }
     }),
     switchMap(() =>
       this.unitService.getActiveUnitList().pipe(
         map((units) =>
-          units.filter((unit) => unit.id !== this.form?.value.uid)
+          units.filter((unit) => unit.id !== this.formGroup?.value.uid)
         ),
         tap((units) => {
-          if (units.length === 1)
-            this.form?.get('parentOrgUnit.uid').setValue(units[0].id);
+          if (units.length === 1) {
+            this.formGroup?.get('parentOrgUnit.uid').setValue(units[0].id);
+          }
         })
       )
     )
@@ -67,8 +76,9 @@ export class UnitFormComponent implements OnInit {
   > = this.unitService.getApprovalProcesses().pipe(
     filter((items) => items?.length > 0),
     tap((process) => {
-      if (process.length === 1)
-        this.form.get('approvalProcess.code')?.setValue(process[0]?.code);
+      if (process.length === 1) {
+        this.formGroup.get('approvalProcess.code')?.setValue(process[0]?.code);
+      }
     })
   );
 

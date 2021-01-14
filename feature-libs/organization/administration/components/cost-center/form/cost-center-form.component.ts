@@ -45,8 +45,9 @@ export class CostCenterFormComponent {
 
   units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList().pipe(
     tap((unit) => {
-      if (unit.length === 1)
-        this.form?.get('parentOrgUnit.uid').setValue(unit[0].id);
+      if (unit.length === 1) {
+        this.form?.get('unit.uid').setValue(unit[0].id);
+      }
     })
   );
 
