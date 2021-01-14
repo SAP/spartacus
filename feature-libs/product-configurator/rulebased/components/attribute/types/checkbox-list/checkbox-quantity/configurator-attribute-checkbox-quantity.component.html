@@ -1,0 +1,7 @@
+<div class="form-quantity">
+  <label>{{ 'configurator.attribute.quantity' | cxTranslate }}</label>
+  <cx-item-counter
+    [control]="quantity"
+    [readonly]="loading$ | async"
+  ></cx-item-counter>
+</div>

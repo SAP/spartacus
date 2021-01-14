@@ -1,3 +1,7 @@
 %cx-configurator-attribute-checkbox-list {
   @include cx-configurator-attribute-type();
+
+  .form-quantity {
+    margin: 1rem 0 2rem;
+  }
 }

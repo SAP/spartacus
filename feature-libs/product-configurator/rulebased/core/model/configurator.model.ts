@@ -32,6 +32,8 @@ export namespace Configurator {
     description?: string;
     selected?: boolean;
     quantity?: number;
+    valuePrice?: PriceDetails;
+    valuePriceTotal?: PriceDetails;
     productSystemId?: string;
     isCommerceProduct?: boolean;
     images?: Image[];
@@ -94,6 +96,9 @@ export namespace Configurator {
     value: string;
     productCode?: string;
     type?: AttributeOverviewType;
+    quantity?: number;
+    valuePrice?: PriceDetails;
+    valuePriceTotal?: PriceDetails;
   }
 
   export interface PriceSummary {
@@ -154,14 +159,12 @@ export namespace Configurator {
     DROPDOWN_PRODUCT = 'dropdownProduct',
     LISTBOX = 'listbox',
     LISTBOX_MULTI = 'listboxmulti',
-    MULTI_SELECTION_BUNDLE = 'multi_selection_bundle',
     MULTI_SELECTION_IMAGE = 'multi_selection_image',
     NOT_IMPLEMENTED = 'not_implemented',
     NUMERIC = 'numeric',
     RADIOBUTTON = 'radioGroup',
     RADIOBUTTON_PRODUCT = 'radioGroupProduct',
     READ_ONLY = 'readonly',
-    SINGLE_SELECTION_BUNDLE = 'single_selection_bundle',
     SINGLE_SELECTION_IMAGE = 'single_selection_image',
     STRING = 'string',
   }
