@@ -42,23 +42,21 @@ export class UnitFormComponent implements OnInit {
 
   form: FormGroup = this.itemService.getForm();
 
-  form$: Observable<any> = this.itemService.unit$.pipe(
-    map((unit) => {
+  units$: Observable<B2BUnitNode[]> = this.itemService.unit$.pipe(
+    tap((unit) => {
       this.form.get('parentOrgUnit.uid')?.setValue(unit);
       if (this.createChildUnit) {
         this.form.get('parentOrgUnit')?.disable();
       }
-      return this.form;
-    })
-  );
-
-  units$: Observable<B2BUnitNode[]> = this.form$.pipe(
-    switchMap((form) =>
+    }),
+    switchMap(() =>
       this.unitService.getActiveUnitList().pipe(
-        map((units) => units.filter((unit) => unit.id !== form?.value.uid)),
-        tap((unit) => {
-          if (unit.length === 1)
-            this.form?.get('parentOrgUnit.uid').setValue(unit[0].id);
+        map((units) =>
+          units.filter((unit) => unit.id !== this.form?.value.uid)
+        ),
+        tap((units) => {
+          if (units.length === 1)
+            this.form?.get('parentOrgUnit.uid').setValue(units[0].id);
         })
       )
     )
