@@ -104,22 +104,6 @@ export interface FeatureModuleConfig {
   cmsComponents?: string[];
 }
 
-export interface PageResolverConfig {
-  /**
-   * Disables specific resolvers in CSR mode. Some of the resolvers are
-   * not needed in CSR app, as they're only used for crawlers who will
-   * be served from SSR rendered pages.
-   */
-  disableInCSR?: string[];
-
-  /**
-   * Enables resolvers in dev mode regardless of the CSR configuration. This
-   * flag will override the disabling in CSR, which can be useful during development
-   * and debugging.
-   */
-  enableInDevMode?: boolean;
-}
-
 @Injectable({
   providedIn: 'root',
   useExisting: Config,
@@ -127,5 +111,4 @@ export interface PageResolverConfig {
 export abstract class CmsConfig extends OccConfig {
   featureModules?: { [featureName: string]: FeatureModuleConfig };
   cmsComponents?: CMSComponentConfig;
-  pageResolvers?: PageResolverConfig;
 }

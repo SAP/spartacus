@@ -3,7 +3,6 @@ import { Injectable, PLATFORM_ID } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { PageType } from '../../model/cms.model';
-import { CmsConfig } from '../config/cms-config';
 import {
   BreadcrumbMeta,
   Page,
@@ -15,6 +14,7 @@ import {
   PageDescriptionResolver,
   PageHeadingResolver,
   PageImageResolver,
+  PageMetaConfig,
   PageMetaResolver,
   PageRobotsResolver,
   PageTitleResolver,
@@ -131,13 +131,33 @@ describe('PageMetaService', () => {
           },
           { provide: PLATFORM_ID, useValue: 'browser' },
           {
-            provide: CmsConfig,
+            provide: PageMetaConfig,
             useValue: {
               pageResolvers: {
-                disableInCSR: ['resolveRobots', 'resolveImage'],
+                resolvers: [
+                  {
+                    property: 'title',
+                    method: 'resolveTitle',
+                  },
+                  {
+                    property: 'description',
+                    method: 'resolveDescription',
+                    disabledInCsr: true,
+                  },
+                  {
+                    property: 'image',
+                    method: 'resolveImage',
+                    disabledInCsr: true,
+                  },
+                  {
+                    property: 'robots',
+                    method: 'resolveRobots',
+                    disabledInCsr: true,
+                  },
+                ],
                 enableInDevMode: true,
               },
-            } as CmsConfig,
+            } as PageMetaConfig,
           },
         ],
       });
@@ -157,7 +177,7 @@ describe('PageMetaService', () => {
       spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
       service.getMeta().subscribe().unsubscribe();
       expect(resolver.resolveTitle).toHaveBeenCalled();
-      expect(resolver.resolveDescription).toHaveBeenCalled();
+      expect(resolver.resolveDescription).not.toHaveBeenCalled();
       expect(resolver.resolveRobots).not.toHaveBeenCalled();
       expect(resolver.resolveImage).not.toHaveBeenCalled();
     });

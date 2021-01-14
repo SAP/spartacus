@@ -11,8 +11,8 @@ import { filter, map, shareReplay, switchMap } from 'rxjs/operators';
 import { UnifiedInjector } from '../../lazy-loading/unified-injector';
 import { resolveApplicable } from '../../util/applicable';
 import { uniteLatest } from '../../util/rxjs/unite-latest';
-import { CmsConfig } from '../config/cms-config';
 import { Page, PageMeta } from '../model/page.model';
+import { PageMetaConfig } from '../page/config/page-meta.config';
 import { PageMetaResolver } from '../page/page-meta.resolver';
 import { CmsService } from './cms.service';
 
@@ -28,18 +28,29 @@ export class PageMetaService {
     PageMetaResolver[]
   >;
 
+  /**
+   * @deprecated from 4.0 we'll extend the constructor to access the `PageMetaConfig` and `platformId`.
+   */
+  // TODO(#10467): Remove and migrate deprecated constructors
+  constructor(
+    cms: CmsService,
+    unifiedInjector?: UnifiedInjector,
+    config?: PageMetaConfig,
+    platformId?: string
+  );
   constructor(
     protected cms: CmsService,
     protected unifiedInjector?: UnifiedInjector,
-    @Optional() protected config?: CmsConfig,
+    @Optional() protected pageMetaConfig?: PageMetaConfig,
     @Optional() @Inject(PLATFORM_ID) protected platformId?: string
   ) {}
 
   /**
    * The list of resolver interfaces will be evaluated for the pageResolvers.
-   * This list is filtered for CSR vs SSR processing since not all resolvers are
-   * relevant during browsing.
+   *
+   * @deprecated since 3.1, use the configured resolvers instead from `PageMetaConfig.resolvers`.
    */
+  // TODO(#10467): Remove and migrate property
   protected resolverMethods: { [key: string]: string } = {
     title: 'resolveTitle',
     heading: 'resolveHeading',
@@ -60,6 +71,11 @@ export class PageMetaService {
     shareReplay({ bufferSize: 1, refCount: true })
   );
 
+  /**
+   * Returns the observed page meta data for the current page.
+   *
+   * The data is resolved by various PageResolvers, which are configurable.
+   */
   getMeta(): Observable<PageMeta | null> {
     return this.meta$;
   }
@@ -70,36 +86,60 @@ export class PageMetaService {
    * @param metaResolver
    */
   protected resolve(metaResolver: PageMetaResolver): Observable<PageMeta> {
-    const resolveMethods: Observable<PageMeta>[] = Object.keys(
-      this.resolverMethods
-    )
-      .filter((key) => !this.isDisabled(this.resolverMethods[key]))
-      .filter((key) => metaResolver[this.resolverMethods[key]])
+    const resolverMethods = this.getResolverMethods();
+    const resolvedData: Observable<PageMeta>[] = Object.keys(resolverMethods)
+      .filter((key) => metaResolver[resolverMethods[key]])
       .map((key) => {
-        return metaResolver[this.resolverMethods[key]]().pipe(
+        return metaResolver[resolverMethods[key]]().pipe(
           map((data) => ({
             [key]: data,
           }))
         );
       });
 
-    return uniteLatest(resolveMethods).pipe(
+    return uniteLatest(resolvedData).pipe(
       map((data) => Object.assign({}, ...data))
     );
   }
 
   /**
-   * Indicates whether the resolver is disabled for rendering.
+   * Returns an object with resolvers. The object properties represent the `PageMeta` property, i.e.:
    *
-   * Page data resolvers can be configured to be disabled in CSR, since not all
-   * data resolvers are required in CSR. Disabling is configurable in the `CmsConfig`.
+   * ```
+   * {
+   *   title: 'resolveTitle',
+   *   robots: 'resolveRobots'
+   * }
+   * ```
+   *
+   * This list of resolvers is filtered for CSR vs SSR processing since not all resolvers are
+   * relevant during browsing.
    */
-  protected isDisabled(resolver: string): boolean {
-    return (
-      isPlatformBrowser(this.platformId) &&
-      this.config?.pageResolvers?.disableInCSR?.includes(resolver) &&
-      (!isDevMode() || this.config?.pageResolvers?.enableInDevMode === false)
-    );
+  protected getResolverMethods(): { [property: string]: string } {
+    let resolverMethods = {};
+    const configured = this.pageMetaConfig?.pageResolvers?.resolvers;
+    if (configured) {
+      configured
+        // filter the resolvers to avoid unnecessary processing in CSR
+        .filter((resolver) => {
+          return (
+            !isPlatformBrowser(this.platformId) ||
+            !(
+              resolver.disabledInCsr &&
+              !(
+                isDevMode() &&
+                this.pageMetaConfig?.pageResolvers?.enableInDevMode
+              )
+            )
+          );
+        })
+        .forEach(
+          (resolver) => (resolverMethods[resolver.property] = resolver.method)
+        );
+    } else {
+      resolverMethods = this.resolverMethods;
+    }
+    return resolverMethods;
   }
 
   /**
