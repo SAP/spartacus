@@ -53,8 +53,9 @@ export class CostCenterFormComponent {
 
   currencies$: Observable<Currency[]> = this.currencyService.getAll().pipe(
     tap((currency) => {
-      if (currency.length === 1)
+      if (currency.length === 1) {
         this.form.get('currency.isocode')?.setValue(currency[0].isocode);
+      }
     })
   );
 
