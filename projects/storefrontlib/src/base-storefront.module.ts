@@ -12,10 +12,12 @@ import { LayoutModule } from './layout/layout.module';
 import { SkipLinkModule } from './layout/a11y/skip-link/skip-link.module';
 import { KeyboardFocusModule } from './layout/a11y/keyboard-focus/keyboard-focus.module';
 import { MediaModule } from './shared/components/media/media.module';
+import { BaseCoreModule } from '@spartacus/core';
 
 @NgModule({
   declarations: [],
   imports: [
+    BaseCoreModule.forRoot(),
     RouterModule,
     GlobalMessageComponentModule,
     OutletModule,

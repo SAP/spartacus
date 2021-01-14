@@ -1,16 +1,18 @@
 import { NgModule } from '@angular/core';
 import { SpartacusConfigurationModule } from './spartacus-configuration.module';
-import { SpartacusSetupModule } from './spartacus-setup.module';
+import { SpartacusFeaturesModule } from './spartacus-features.module';
 import { StorefinderModule } from './features/storefinder.module';
+import { BaseStorefrontModule } from '@spartacus/storefront';
 
 @NgModule({
   imports: [
-    SpartacusSetupModule,
+    BaseStorefrontModule,
+    SpartacusFeaturesModule,
     SpartacusConfigurationModule,
 
     // Features
     StorefinderModule,
   ],
-  exports: [SpartacusSetupModule],
+  exports: [BaseStorefrontModule],
 })
 export class SpartacusModule {}

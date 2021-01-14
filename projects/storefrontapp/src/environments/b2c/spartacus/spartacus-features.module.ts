@@ -6,7 +6,6 @@ import {
   AsmModule,
   BannerCarouselModule,
   BannerModule,
-  BaseStorefrontModule,
   BreadcrumbModule,
   CartComponentModule,
   CartPageEventModule,
@@ -63,7 +62,6 @@ import {
   AnonymousConsentsModule,
   AsmOccModule,
   AuthModule,
-  BaseCoreModule,
   CartModule,
   CartOccModule,
   CheckoutModule,
@@ -77,46 +75,14 @@ import {
   UserModule,
   UserOccModule,
 } from '@spartacus/core';
+import { StorefinderModule } from './features/storefinder.module';
 
 @NgModule({
   imports: [
-    // Core
-    BaseCoreModule.forRoot(),
-
-    // Occ for features
-    AsmOccModule,
-    CartOccModule,
-    CheckoutOccModule,
-    CostCenterOccModule,
-    ProductOccModule,
-    UserOccModule,
-
-    // Core Features
+    // Auth Core
     AuthModule.forRoot(),
-    AnonymousConsentsModule.forRoot(),
-    CartModule.forRoot(),
-    CheckoutModule.forRoot(),
-    UserModule.forRoot(),
-    ProductModule.forRoot(),
 
-    SmartEditModule.forRoot(),
-    PersonalizationModule.forRoot(),
-
-    ExternalRoutesModule.forRoot(), // to opt-in explicitly, is added by default schematics
-
-    // Storefront
-    BaseStorefrontModule,
-
-    // Events
-    CartPageEventModule,
-    PageEventModule,
-    ProductPageEventModule,
-
-    // Anonymous Consents
-    AnonymousConsentsDialogModule,
-    AnonymousConsentManagementBannerModule,
-
-    // Cms
+    // Basic Cms Components
     HamburgerMenuModule,
     SiteContextSelectorModule,
     LinkModule,
@@ -129,7 +95,10 @@ import {
     FooterNavigationModule,
     BreadcrumbModule,
 
-    // User
+    // User Core
+    UserModule.forRoot(),
+    UserOccModule,
+    // User UI
     UserComponentModule,
     AddressBookModule,
     UpdateEmailModule,
@@ -139,26 +108,23 @@ import {
     ForgotPasswordModule,
     ResetPasswordModule,
     PaymentMethodsModule,
-
     NotificationPreferenceModule,
     MyInterestsModule,
     StockNotificationModule,
-
     ConsentManagementModule,
     MyCouponsModule,
 
-    // Order
-    OrderHistoryModule,
-    OrderDetailsModule,
-    OrderCancellationModule,
-    OrderReturnModule,
-    ReturnRequestListModule,
-    ReturnRequestDetailModule,
-    ReplenishmentOrderHistoryModule,
-    ReplenishmentOrderDetailsModule,
-    ReplenishmentOrderConfirmationModule,
+    // Anonymous Consents Core
+    AnonymousConsentsModule.forRoot(),
+    // Anonymous Consents UI
+    AnonymousConsentsDialogModule,
+    AnonymousConsentManagementBannerModule,
 
-    // Product
+    // Product Core
+    ProductModule.forRoot(),
+    ProductOccModule,
+
+    // Product UI
     ProductDetailsPageModule,
     ProductListingPageModule,
     ProductListModule,
@@ -172,17 +138,58 @@ import {
     ProductVariantsModule,
     ProductIntroModule,
 
-    // Cart
+    // Cart Core
+    CartModule.forRoot(),
+    CartOccModule,
+    // Cart UI
     CartComponentModule,
     WishListModule,
 
-    // Checkout
+    // Checkout Core
+    CheckoutModule.forRoot(),
+    CheckoutOccModule,
+    CostCenterOccModule,
+    // Checkout UI
     CheckoutComponentModule,
     OrderConfirmationModule,
 
+    // Order
+    OrderHistoryModule,
+    OrderDetailsModule,
+    OrderCancellationModule,
+    OrderReturnModule,
+    ReturnRequestListModule,
+    ReturnRequestDetailModule,
+    ReplenishmentOrderHistoryModule,
+    ReplenishmentOrderDetailsModule,
+    ReplenishmentOrderConfirmationModule,
+
+    // SmartEdit
+    SmartEditModule.forRoot(),
+    // Personalization
+    PersonalizationModule.forRoot(),
+
+    // Qualtrics Core
+    // Qualtrics UI
     QualtricsModule,
+
+    // Asm Core
+    AsmOccModule,
+    // Asm UI
     AsmModule,
+
+    // Page Events
+    CartPageEventModule,
+    PageEventModule,
+    ProductPageEventModule,
+
+    /************************* Opt-in features *************************/
+
+    ExternalRoutesModule.forRoot(), // to opt-in explicitly, is added by default schematics
+
+    /************************* External features *************************/
+
+    StorefinderModule,
   ],
-  exports: [BaseStorefrontModule],
 })
-export class SpartacusSetupModule {}
+export class SpartacusFeaturesModule {}
