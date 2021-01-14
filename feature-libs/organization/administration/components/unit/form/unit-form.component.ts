@@ -73,14 +73,9 @@ export class UnitFormComponent implements OnInit {
 
   approvalProcess$: Observable<
     B2BApprovalProcess[]
-  > = this.unitService.getApprovalProcesses().pipe(
-    filter((items) => items?.length > 0),
-    tap((process) => {
-      if (process.length === 1) {
-        this.formGroup?.get('approvalProcess.code')?.setValue(process[0]?.code);
-      }
-    })
-  );
+  > = this.unitService
+    .getApprovalProcesses()
+    .pipe(filter((items) => items?.length > 0));
 
   constructor(
     protected itemService: ItemService<B2BUnit>,
