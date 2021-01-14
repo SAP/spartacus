@@ -443,9 +443,9 @@ export function selectAttribute(
       cy.get(`#${valueId}`)
         .click({ force: true })
         .then(() => {
+          checkUpdatingMessageNotDisplayed();
           checkGlobalMessageNotDisplayed();
           checkUpdatingMessageNotDisplayed();
-          //cy.get(`#${valueId}`).should('be.checked');
         });
       break;
     case 'single_selection_image':
@@ -454,9 +454,9 @@ export function selectAttribute(
       cy.get(`#${labelId}`)
         .click({ force: true })
         .then(() => {
+          checkUpdatingMessageNotDisplayed();
           checkGlobalMessageNotDisplayed();
           checkUpdatingMessageNotDisplayed();
-          cy.get(`#${valueId}-input`).should('be.checked');
         });
       break;
     case 'dropdown':
@@ -473,19 +473,27 @@ export function selectAttribute(
       const btnLoc = `#${valueId} .cx-product-card-action button`;
       cy.get(btnLoc).then((el) => cy.log(`text before click: '${el.text()}'`));
       cy.get(btnLoc)
-        .click()
+        .click({ force: true })
         .then(() => {
+          checkUpdatingMessageNotDisplayed();
           checkGlobalMessageNotDisplayed();
           checkUpdatingMessageNotDisplayed();
         });
-      cy.get(btnLoc)
+      cy.get(btnLoc, { timeout: 10000 })
         .invoke('text')
         .then((text) => {
           //Remove && Add for checkboxes
           // Select && Deselect for radio buttons
+          cy.log('Button name: ' + text);
           if (text === 'Remove' || text === 'Deselect') {
+            checkUpdatingMessageNotDisplayed();
+            checkGlobalMessageNotDisplayed();
+            checkUpdatingMessageNotDisplayed();
             checkProductCardSelected(valueId);
           } else {
+            checkUpdatingMessageNotDisplayed();
+            checkGlobalMessageNotDisplayed();
+            checkUpdatingMessageNotDisplayed();
             checkProductCardNotSelected(valueId);
           }
         });
@@ -540,7 +548,8 @@ export function checkImageNotSelected(
  * @param valueId{string} - Value ID
  */
 function checkProductCardSelected(valueId: string) {
-  cy.get(`#${valueId} .cx-product-card`).should(
+  cy.log('Check product-card is selected');
+  cy.get(`#${valueId} .cx-product-card`, { timeout: 10000 }).should(
     'have.class',
     'cx-product-card-selected'
   );
@@ -552,7 +561,8 @@ function checkProductCardSelected(valueId: string) {
  * @param valueId{string} - Value ID
  */
 function checkProductCardNotSelected(valueId: string) {
-  cy.get(`#${valueId} .cx-product-card`).should(
+  cy.log('Check product-card is not selected');
+  cy.get(`#${valueId} .cx-product-card`, { timeout: 10000 }).should(
     'have.not.class',
     'cx-product-card-selected'
   );
@@ -654,25 +664,42 @@ export function checkValueNotSelected(
  * @param quantity {number} - Quantity
  */
 function checkQuantity(sign: string, quantity?: number) {
-  cy.log("Click on '+' to increase quantity");
+  cy.log(`Click on \'${sign}\' to update quantity`);
   cy.get('button')
-    .contains(sign)
+    .contains(sign, { timeout: 10000 })
     .click({ force: true })
     .then(() => {
+      checkUpdatingMessageNotDisplayed();
       checkGlobalMessageNotDisplayed();
       checkUpdatingMessageNotDisplayed();
-      cy.get('input')
-        .invoke('val')
-        .then((val) => {
-          quantity = +val;
-          if (sign === '+') {
-            cy.log(`Get quantity after it has been increased ${quantity}`);
-          } else {
-            cy.log(`Get quantity after it has been decreased ${quantity}`);
-          }
-          cy.get('input').should('have.value', quantity);
-        });
     });
+  cy.get('input')
+    .invoke('val')
+    .then((val) => {
+      quantity = +val;
+      if (sign === '+') {
+        cy.log(`Get quantity after it has been increased ${quantity}`);
+      } else if (sign === '-') {
+        cy.log(`Get quantity after it has been decreased ${quantity}`);
+      }
+      cy.get('input').should('have.value', quantity);
+    });
+}
+
+/**
+ * Verifies whether the counter buttons ('+' and '-') are not disabled
+ *
+ * @param element - Xpath to the certain HTML element
+ */
+function checkCounterButtonsNotDisabled(element: string) {
+  cy.get(element, { timeout: 10000 }).within(() => {
+    cy.get('button')
+      .contains('+', { timeout: 10000 })
+      .should('not.be.disabled');
+    cy.get('button')
+      .contains('-', { timeout: 10000 })
+      .should('not.be.disabled');
+  });
 }
 
 /**
@@ -694,12 +721,76 @@ export function increaseQuantity(
   const attributeId = getAttributeId(attributeName, uiType);
   if (valueName) {
     const valueId = `${attributeId}--${valueName}`;
-    cy.get(`#${valueId} ${quantity_item_counter}`).within(() => {
+    cy.get(`#${valueId} ${quantity_item_counter}`, { timeout: 10000 }).within(
+      () => {
+        checkQuantity(plusSign, quantity);
+      }
+    );
+    checkCounterButtonsNotDisabled(`#${valueId} ${quantity_item_counter}`);
+  } else {
+    cy.get(`#${attributeId} ${quantity_item_counter}`, {
+      timeout: 10000,
+    }).within(() => {
       checkQuantity(plusSign, quantity);
     });
+    checkCounterButtonsNotDisabled(`#${attributeId} ${quantity_item_counter}`);
+  }
+}
+
+/**
+ * Decrease the current quantity.
+ * @param {string} uiType - UI type
+ * @param {string} attributeName - Attribute name
+ * @param {string} valueName - Value name* @param valueId {string} - Value ID
+ * @param quantity {number} - Quantity
+ */
+export function decreaseQuantity(
+  uiType: string,
+  attributeName: string,
+  valueName?: string,
+  quantity?: number
+) {
+  cy.log('Decrease quantity');
+  let isDecreased = false;
+  let element = '';
+  const attributeId = getAttributeId(attributeName, uiType);
+  if (valueName) {
+    const valueId = `${attributeId}--${valueName}`;
+    element = `#${valueId} ${quantity_item_counter}`;
+    cy.get(element, { timeout: 10000 }).within(() => {
+      checkQuantity('-', quantity);
+      isDecreased = true;
+    });
   } else {
-    cy.get(`#${attributeId} ${quantity_item_counter}`).within(() => {
-      checkQuantity(plusSign, quantity);
+    element = `#${attributeId} ${quantity_item_counter}`;
+    cy.get(element, { timeout: 10000 }).within(() => {
+      cy.get('input')
+        .invoke('val')
+        .then((val) => {
+          quantity = +val;
+          cy.log(`Get quantity before it has been decreased ${quantity}`);
+          cy.get('input').should('have.value', quantity);
+          if (quantity > 1) {
+            checkQuantity('-', quantity);
+            isDecreased = true;
+          } else {
+            cy.log(
+              `Quantity could not be decreased because it equals ${quantity}`
+            );
+          }
+        });
+    });
+  }
+
+  if (isDecreased) {
+    cy.get(element, { timeout: 10000 }).within(() => {
+      cy.get('input')
+        .invoke('value')
+        .then((value) => {
+          quantity = +value;
+          cy.log(`Get quantity after it has been decreased: ${quantity}`);
+          cy.get('input').should('have.value', quantity);
+        });
     });
   }
 }
@@ -720,8 +811,10 @@ export function checkQuantityAtAttribute(
   const attributeId = getAttributeId(attributeName, uiType);
   if (quantity) {
     cy.log(`Quantity equals ${quantity}`);
+    cy.get(`#${attributeId}  ${quantity_item_counter}`, {
+      timeout: 10000,
+    }).should('be.visible');
     cy.get(`#${attributeId}  ${quantity_item_counter}`).then(() => {
-      cy.get(quantity_item_counter).should('be.visible');
       cy.get(quantity_counter_input).should('not.have.attr', 'readonly');
       cy.get(quantity_counter_input).should('have.value', `${quantity}`);
       if (quantity === 1) {
@@ -739,6 +832,9 @@ export function checkQuantityAtAttribute(
       }
     });
   } else {
+    cy.get(`#${attributeId}  ${quantity_item_counter}`, {
+      timeout: 10000,
+    }).should('be.visible');
     cy.get(`#${attributeId}  ${quantity_item_counter}`).then(() => {
       cy.get(quantity_item_counter).should('be.visible');
       cy.get(quantity_counter_input).should('have.attr', 'readonly');
@@ -775,65 +871,6 @@ export function checkQuantityAtValue(
       cy.get(quantity_counter_input).should('have.attr', 'readonly');
       cy.get(quantity_counter_input).should('have.value', 0);
     });
-  }
-}
-
-/**
- * Decrease the current quantity.
- * @param {string} uiType - UI type
- * @param {string} attributeName - Attribute name
- * @param {string} valueName - Value name* @param valueId {string} - Value ID
- * @param quantity {number} - Quantity
- */
-export function decreaseQuantity(
-  uiType: string,
-  attributeName: string,
-  valueName?: string,
-  quantity?: number
-) {
-  cy.log('Decrease quantity');
-  const attributeId = getAttributeId(attributeName, uiType);
-  if (valueName) {
-    const valueId = `${attributeId}--${valueName}`;
-    cy.get(`#${valueId} ${quantity_item_counter}`).within(() => {
-      checkQuantity('-', quantity);
-    });
-  } else {
-    let isDecreased = false;
-    cy.get(`#${attributeId} ${quantity_item_counter}`).within(() => {
-      cy.get('input')
-        .invoke('val')
-        .then((val) => {
-          quantity = +val;
-          cy.log(`Get quantity before it has been decreased ${quantity}`);
-          cy.get('input').should('have.value', quantity);
-          if (quantity > 1) {
-            cy.log("Click on '-' to increase quantity");
-            cy.get('button')
-              .contains('-')
-              .click({ force: true })
-              .then(() => {
-                isDecreased = true;
-              });
-          } else {
-            cy.log(
-              `Quantity could not be decreased because it equals ${quantity}`
-            );
-          }
-        });
-    });
-
-    if (isDecreased) {
-      cy.get(`#${attributeId} ${quantity_item_counter}`).within(() => {
-        cy.get('input')
-          .invoke('value')
-          .then((value) => {
-            quantity = +value;
-            cy.log(`Get quantity after it has been decreased: ${quantity}`);
-            cy.get('input').should('have.value', quantity);
-          });
-      });
-    }
   }
 }
 

@@ -13,5 +13,7 @@
     "OCC_PREFIX_USER_ENDPOINT": "users",
     "OCC_PREFIX_ORDER_ENDPOINT": "orders",
     "BASE_SITE": "powertools-spa"
-  }
+  },
+  "viewportWidth": 1200,
+  "viewportHeight": 1400
 }

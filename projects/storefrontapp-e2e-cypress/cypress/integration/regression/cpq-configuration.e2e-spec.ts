@@ -91,7 +91,7 @@ context('CPQ Configuration', () => {
     });
   });
 
-  describe('Handling different UI type with quantity and price calculation', () => {
+  describe.only('Handling different UI type with quantity and price calculation', () => {
     it('should support radio button attribute type', () => {
       configuration.goToPDPage(POWERTOOLS, PROD_CODE_COF);
       configuration.clickOnConfigureBtnInCatalog();
@@ -170,11 +170,6 @@ context('CPQ Configuration', () => {
       configuration.increaseQuantity(RADGRP_PROD, ATTR_CAM_BODY);
       configuration.decreaseQuantity(RADGRP_PROD, ATTR_CAM_BODY);
 
-      configuration.checkValueNotSelected(
-        RADGRP_PROD,
-        ATTR_CAM_BODY,
-        VAL_CAM_BODY_D850
-      );
       configuration.checkValueSelected(
         RADGRP_PROD,
         ATTR_CAM_BODY,
@@ -212,6 +207,8 @@ context('CPQ Configuration', () => {
         VAL_NO_OPT_SEL
       );
       configuration.checkValueSelected(DDLB_PROD, ATTR_CAM_INS, VAL_CB_INS_Y2);
+      configuration.decreaseQuantity(DDLB_PROD, ATTR_CAM_INS, VAL_CB_INS_Y2);
+      configuration.checkValueSelected(DDLB_PROD, ATTR_CAM_INS, VAL_NO_OPT_SEL);
     });
 
     it('should support multi select bundle items', () => {
@@ -239,16 +236,8 @@ context('CPQ Configuration', () => {
       );
 
       configuration.selectAttribute(ATTR_CAM_MC, CHKBOX_PROD, VAL_CAM_MC_64);
+
       configuration.checkValueSelected(
-        CHKBOX_PROD,
-        ATTR_CAM_MC,
-        VAL_CAM_MC_128
-      );
-
-      configuration.checkValueSelected(CHKBOX_PROD, ATTR_CAM_MC, VAL_CAM_MC_64);
-
-      configuration.selectAttribute(ATTR_CAM_MC, CHKBOX_PROD, VAL_CAM_MC_128);
-      configuration.checkValueNotSelected(
         CHKBOX_PROD,
         ATTR_CAM_MC,
         VAL_CAM_MC_128
@@ -261,7 +250,6 @@ context('CPQ Configuration', () => {
         1
       );
       configuration.increaseQuantity(CHKBOX_PROD, ATTR_CAM_MC, VAL_CAM_MC_64);
-      configuration.decreaseQuantity(CHKBOX_PROD, ATTR_CAM_MC, VAL_CAM_MC_64);
     });
   });
 
