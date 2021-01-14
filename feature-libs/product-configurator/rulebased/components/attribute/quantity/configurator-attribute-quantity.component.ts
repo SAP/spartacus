@@ -7,7 +7,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { BehaviorSubject, Subscription, timer } from 'rxjs';
+import { Subscription, timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 
@@ -22,7 +22,6 @@ interface Quantity {
 })
 export class ConfiguratorAttributeQuantityComponent
   implements OnDestroy, OnInit {
-  loading$ = new BehaviorSubject<boolean>(false);
   quantity = new FormControl(1);
   protected sub: Subscription;
 
@@ -45,8 +44,6 @@ export class ConfiguratorAttributeQuantityComponent
   }
 
   onChangeQuantity(): void {
-    this.loading$.next(true);
-
     this.changeQuantity.emit({
       quantity: this.quantity.value,
     });
