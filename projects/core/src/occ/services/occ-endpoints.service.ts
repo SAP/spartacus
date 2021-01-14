@@ -68,6 +68,7 @@ export class OccEndpointsService {
    * Returns the value configured for a specific endpoint
    *
    * @param endpointKey the configuration key for the endpoint to return
+   * @param scope endpoint configuration scope
    */
   getRawEndpointValue(endpoint: string, scope?: string): string {
     const endpointValue = this.getEndpointForScope(endpoint, scope);
@@ -92,7 +93,7 @@ export class OccEndpointsService {
   }
 
   /**
-   * @Deprecated since 3.2 - use "buildOccBaseUrl" with the same parameters
+   * @Deprecated since 3.2 - use "getBaseUrl" with the same parameters
    *
    * Returns base OCC endpoint (baseUrl + prefix + baseSite) by if no parameters are specified
    *
@@ -145,19 +146,6 @@ export class OccEndpointsService {
       baseUrlProperties.baseSite === false ? '' : this.activeBaseSite;
 
     return urlPathJoin(baseUrl, prefix, baseSite);
-  }
-
-  /**
-   * Add the base OCC url properties to the specified endpoint string
-   *
-   * @param endpointString String value for the url endpoint
-   * @param propertiesToOmit Specify properties to not add to the url (baseUrl, prefix, baseSite)
-   */
-  buildUrlFromEndpointString(
-    endpointString: string,
-    propertiesToOmit?: BaseOccUrlProperties
-  ): string {
-    return urlPathJoin(this.getBaseUrl(propertiesToOmit), endpointString);
   }
 
   /**
@@ -301,6 +289,19 @@ export class OccEndpointsService {
         ? endpointConfig
         : endpointConfig?.[DEFAULT_SCOPE]) || endpoint
     );
+  }
+
+  /**
+   * Add the base OCC url properties to the specified endpoint string
+   *
+   * @param endpointString String value for the url endpoint
+   * @param propertiesToOmit Specify properties to not add to the url (baseUrl, prefix, baseSite)
+   */
+  private buildUrlFromEndpointString(
+    endpointString: string,
+    propertiesToOmit?: BaseOccUrlProperties
+  ): string {
+    return urlPathJoin(this.getBaseUrl(propertiesToOmit), endpointString);
   }
 
   private getPrefix(): string {

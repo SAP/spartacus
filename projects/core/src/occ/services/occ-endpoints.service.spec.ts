@@ -210,7 +210,7 @@ describe('OccEndpointsService', () => {
     });
   });
 
-  describe('getOccBaseUrl', () => {
+  describe('getBaseUrl', () => {
     it('should return base endpoint by default', () => {
       expect(service.getBaseUrl()).toEqual(baseEndpoint);
     });
