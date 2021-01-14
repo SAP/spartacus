@@ -153,7 +153,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       value: 123.45,
       currencyIso: 'USD',
     };
-    const locale: string = 'en-US';
+    const locale = 'en-US';
     cpqConfiguratorUtilitiesService.formatPriceForLocale(price, locale);
     expect(price.formattedValue).toBe('$123.45');
   });
@@ -163,7 +163,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       value: 123,
       currencyIso: 'USD',
     };
-    const locale: string = 'en-US';
+    const locale = 'en-US';
     cpqConfiguratorUtilitiesService.formatPriceForLocale(price, locale);
     expect(price.formattedValue).toBe('$123.00');
   });
@@ -173,7 +173,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       value: 123.456,
       currencyIso: 'USD',
     };
-    const locale: string = 'en-US';
+    const locale = 'en-US';
     cpqConfiguratorUtilitiesService.formatPriceForLocale(price, locale);
     expect(price.formattedValue).toBe('$123.46');
   });
@@ -183,7 +183,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       value: -123.45,
       currencyIso: 'USD',
     };
-    const locale: string = 'en-US';
+    const locale = 'en-US';
     cpqConfiguratorUtilitiesService.formatPriceForLocale(price, locale);
     expect(price.formattedValue).toBe('-$123.45');
   });
