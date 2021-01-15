@@ -20,13 +20,13 @@ import fs from 'fs';
 import glob from 'glob';
 import path from 'path';
 import {
+  error,
   Library,
-  logSuccess,
   logUpdatedFile,
-  prettyError,
   ProgramOptions,
   reportProgress,
   Repository,
+  success,
 } from './index';
 
 function readTsConfigFile(path: string): any {
@@ -122,7 +122,7 @@ function comparePathsConfigs(
     }
   });
   if (!silent && errors.length > 0) {
-    prettyError(tsConfigPath, errors, [
+    error(tsConfigPath, errors, [
       `This can be automatically fixed by running \`${chalk.bold(
         `yarn config:update`
       )}\`.`,
@@ -185,7 +185,7 @@ function handleSchematicsConfigs(
     }
   });
   if (showAllGood) {
-    logSuccess();
+    success();
   }
 }
 
@@ -238,7 +238,7 @@ function handleLibConfigs(
     }
   });
   if (showAllGood) {
-    logSuccess();
+    success();
   }
 }
 
@@ -275,7 +275,7 @@ function handleRootConfigs(
     showAllGood = false;
   }
   if (showAllGood) {
-    logSuccess();
+    success();
   }
 }
 
@@ -353,6 +353,6 @@ function handleAppConfigs(
     showAllGood = false;
   }
   if (showAllGood) {
-    logSuccess();
+    success();
   }
 }

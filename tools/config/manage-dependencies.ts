@@ -7,10 +7,9 @@
  * - if library have import in any *.ts, *.scss file to dependency it should be specified as peer (optional) dependency in lib package.json
  * - @spartacus/* peer deps should match version in their package.json
  * - deps version should match version in the root package.json
- * - all packages should have dependency on tslib
+ * - all TS packages should have dependency on tslib
  * - all used deps must be listed in root package.json
- * - schematics should also have version synced from the root package.json and library list of dependencies
- *
+ * - schematics should also have version synced from the root package.json and library list of dependencies (should be done in schematics)
  */
 
 import chalk from 'chalk';
@@ -20,13 +19,13 @@ import postcss from 'postcss-scss';
 import semver from 'semver';
 import * as ts from 'typescript';
 import {
+  error,
   Library,
   PackageJson,
-  prettyBreakingWarning,
-  prettyError,
   ProgramOptions,
   reportProgress,
   Repository,
+  warning,
 } from './index';
 
 // Utility functions
@@ -295,7 +294,7 @@ function filterNativeNodeAPIs(libraries: Record<string, LibDepsMetaData>) {
             imp.files.forEach((file) => {
               // Allow to use Node APIs in SSR
               if (!file.includes('ssr')) {
-                prettyError(
+                error(
                   file,
                   [
                     `Node.js API \`${chalk.bold(
@@ -342,7 +341,7 @@ function filterLocalAbsolutePathFiles(
             imp.usageIn.schematicsSpec
           ) {
             imp.files.forEach((file) => {
-              prettyError(
+              error(
                 file,
                 [
                   `Absolute import should not be used outside of spec files.\n   Referenced \`${chalk.bold(
@@ -405,7 +404,7 @@ function warnAboutRxInternalImports(
     Object.values(lib.tsImports).forEach((imp) => {
       if (imp.importPath.includes('rxjs/internal')) {
         imp.files.forEach((file) => {
-          prettyError(
+          error(
             file,
             [`\`${chalk.bold(imp.importPath)}\` internal import used.`],
             [
@@ -531,7 +530,7 @@ function checkIfWeHaveAllDependenciesInPackageJson(
     });
   });
   if (errors.length) {
-    prettyError('package.json', errors, [
+    error('package.json', errors, [
       `All dependencies that are directly referenced should be specified as \`${chalk.bold(
         'dependencies'
       )}\` or \`${chalk.bold('devDependencies')}\`.`,
@@ -618,7 +617,7 @@ function addMissingDependenciesToPackageJson(
       }
     });
     if (errors.length) {
-      prettyError(pathToPackageJson, errors, [
+      error(pathToPackageJson, errors, [
         `All dependencies that are directly referenced should be specified as \`${chalk.bold(
           'dependencies'
         )}\` or \`${chalk.bold('peerDependencies')}\`.`,
@@ -674,7 +673,7 @@ function removeNotUsedDependenciesFromPackageJson(
       }
     });
     if (errors.length > 0) {
-      prettyError(pathToPackageJson, errors, [
+      error(pathToPackageJson, errors, [
         `Dependencies that are not used should not be specified in package list of \`${chalk.bold(
           'dependencies'
         )}\` or \`${chalk.bold('peerDependencies')}\`.`,
@@ -692,7 +691,7 @@ function checkEmptyDevDependencies(libraries: Record<string, LibDepsMetaData>) {
   Object.values(libraries).forEach((lib) => {
     if (Object.keys(lib.devDependencies).length > 0) {
       const pathToPackageJson = `${lib.directory}/package.json`;
-      prettyError(
+      error(
         pathToPackageJson,
         [
           `Libraries should not have \`${chalk.bold(
@@ -764,7 +763,7 @@ function checkTsLibDep(
         }
       }
       if (errors.length > 0) {
-        prettyError(pathToPackageJson, errors, [
+        error(pathToPackageJson, errors, [
           `Each TS package should have \`${chalk.bold(
             'tslib'
           )}\` specified as \`${chalk.bold('dependency')}.`,
@@ -782,7 +781,7 @@ function checkForLockFile(libraries: Record<string, LibDepsMetaData>) {
   Object.values(libraries).forEach((lib) => {
     const lockFile = glob.sync(`${lib.directory}/yarn.lock`);
     if (lockFile.length > 0) {
-      prettyError(
+      error(
         lockFile[0],
         [
           `Library \`${chalk.bold(
@@ -824,7 +823,7 @@ function updateDependenciesVersions(
     types.forEach((type) => {
       Object.keys(packageJson[type] ?? {}).forEach((dep) => {
         if (!semver.validRange(packageJson[type][dep])) {
-          prettyError(
+          error(
             pathToPackageJson,
             [
               `Package \`${chalk.bold(
@@ -897,7 +896,7 @@ function updateDependenciesVersions(
       });
     });
     if (internalErrors.length > 0) {
-      prettyError(pathToPackageJson, internalErrors, [
+      error(pathToPackageJson, internalErrors, [
         `All spartacus dependencies should be version synchronized.`,
         `Version of the package in \`${chalk.bold(
           'peerDependencies'
@@ -910,7 +909,7 @@ function updateDependenciesVersions(
       ]);
     }
     if (errors.length > 0) {
-      prettyError(pathToPackageJson, errors, [
+      error(pathToPackageJson, errors, [
         `All external dependencies should have the same version as in the root \`${chalk.bold(
           'package.json'
         )}\`.`,
@@ -920,7 +919,7 @@ function updateDependenciesVersions(
       ]);
     }
     if (breakingErrors.length > 0) {
-      prettyBreakingWarning(pathToPackageJson, breakingErrors, [
+      warning(pathToPackageJson, breakingErrors, [
         `All external dependencies should have the same version as in the root \`${chalk.bold(
           'package.json'
         )}\`.`,
