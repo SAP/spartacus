@@ -41,10 +41,10 @@ class MockProductService {
 
 @Component({
   // tslint:disable-next-line: component-selector
-  selector: 'cx-configurator-overview-price',
+  selector: 'cx-configurator-price',
   template: '',
 })
-class MockOverviewPriceComponent {
+class MockConfiguratorPriceComponent {
   @Input() productPrice: number;
   @Input() quantity = 1;
 }
@@ -59,7 +59,7 @@ describe('ConfiguratorCPQOverviewAttributeComponent', () => {
         imports: [MediaModule, I18nTestingModule],
         declarations: [
           ConfiguratorCPQOverviewAttributeComponent,
-          MockOverviewPriceComponent,
+          MockConfiguratorPriceComponent,
         ],
         providers: [{ provide: ProductService, useClass: MockProductService }],
       }).compileComponents();

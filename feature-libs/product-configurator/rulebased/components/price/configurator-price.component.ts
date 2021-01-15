@@ -1,35 +1,35 @@
 import { Component, Input } from '@angular/core';
 
-export enum OverviewPriceType {
+export enum ConfiguratorPriceType {
   PRICE_ONLY = 'priceOnly',
   QUANTITY_ONLY = 'quantityOnly',
   PRICE_AND_QUANTITY = 'priceAndQuantity',
 }
 
 @Component({
-  selector: 'cx-configurator-overview-price',
-  templateUrl: './configurator-overview-price.component.html',
+  selector: 'cx-configurator-price',
+  templateUrl: './configurator-price.component.html',
 })
-export class ConfiguratorOverviewPriceComponent {
+export class ConfiguratorPriceComponent {
   @Input() productPrice: number;
   @Input() quantity = 1;
 
-  overviewPriceType = OverviewPriceType;
+  configuratorPriceType = ConfiguratorPriceType;
 
   /**
    * Returns price type according to the values passed to the component
    *
-   * @returns {OverviewPriceType} - price type
+   * @returns {ConfiguratorPriceType} - price type
    */
-  getOverviewPriceType(): OverviewPriceType {
+  getPriceType(): ConfiguratorPriceType {
     if (this?.productPrice && this.quantity === 1)
-      return OverviewPriceType.PRICE_ONLY;
+      return ConfiguratorPriceType.PRICE_ONLY;
 
     if (!this?.productPrice && this.quantity > 1)
-      return OverviewPriceType.QUANTITY_ONLY;
+      return ConfiguratorPriceType.QUANTITY_ONLY;
 
     if (this?.productPrice && this.quantity > 1)
-      return OverviewPriceType.PRICE_AND_QUANTITY;
+      return ConfiguratorPriceType.PRICE_AND_QUANTITY;
   }
 
   /**

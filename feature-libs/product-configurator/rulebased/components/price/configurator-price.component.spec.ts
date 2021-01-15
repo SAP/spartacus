@@ -1,27 +1,27 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
-  ConfiguratorOverviewPriceComponent,
-  OverviewPriceType,
-} from './configurator-overview-price.component';
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceType,
+} from './configurator-price.component';
 
 const mockProductPrice = 100;
 const mockProductQuantity = 10;
 const mockCalculatedTotal = 1000;
 
-describe('ConfiguratorOverviewPriceComponent', () => {
-  let component: ConfiguratorOverviewPriceComponent;
-  let fixture: ComponentFixture<ConfiguratorOverviewPriceComponent>;
+describe('ConfiguratorPriceComponent', () => {
+  let component: ConfiguratorPriceComponent;
+  let fixture: ComponentFixture<ConfiguratorPriceComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [ConfiguratorOverviewPriceComponent],
+        declarations: [ConfiguratorPriceComponent],
       }).compileComponents();
     })
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConfiguratorOverviewPriceComponent);
+    fixture = TestBed.createComponent(ConfiguratorPriceComponent);
     component = fixture.componentInstance;
   });
 
@@ -29,30 +29,30 @@ describe('ConfiguratorOverviewPriceComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('overview price type', () => {
+  describe('price type', () => {
     it('should be PRICE_ONLY', () => {
       component.productPrice = mockProductPrice;
 
-      const type = component.getOverviewPriceType();
+      const type = component.getPriceType();
 
-      expect(type).toEqual(OverviewPriceType.PRICE_ONLY);
+      expect(type).toEqual(ConfiguratorPriceType.PRICE_ONLY);
     });
 
     it('should be QUANTITY_ONLY', () => {
       component.quantity = mockProductQuantity;
 
-      const type = component.getOverviewPriceType();
+      const type = component.getPriceType();
 
-      expect(type).toEqual(OverviewPriceType.QUANTITY_ONLY);
+      expect(type).toEqual(ConfiguratorPriceType.QUANTITY_ONLY);
     });
 
     it('should be PRICE_AND_QUANTITY', () => {
       component.productPrice = mockProductPrice;
       component.quantity = mockProductQuantity;
 
-      const type = component.getOverviewPriceType();
+      const type = component.getPriceType();
 
-      expect(type).toEqual(OverviewPriceType.PRICE_AND_QUANTITY);
+      expect(type).toEqual(ConfiguratorPriceType.PRICE_AND_QUANTITY);
     });
   });
 
