@@ -4,7 +4,7 @@ import { AsmActions } from '../actions/index';
 export const initialState: AsmUi = <AsmUi>{ collapsed: false };
 
 export function reducer(
-  state = initialState,
+  state: AsmUi | undefined = initialState,
   action: AsmActions.AsmUiAction
 ): AsmUi {
   switch (action.type) {
