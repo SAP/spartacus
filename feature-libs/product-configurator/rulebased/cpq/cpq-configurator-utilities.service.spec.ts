@@ -144,18 +144,18 @@ describe('CpqConfiguratorUtilitiesService', () => {
       currencyIso: CURRENCY,
       value: 123.45,
     };
-    cpqConfiguratorUtilitiesService.formatPrice(price);
+    cpqConfiguratorUtilitiesService['formatPrice'](price);
     expect(price.formattedValue).toBe('$123.45');
   });
 
   it('should format price', () => {
     const price: Configurator.PriceDetails = {
-      value: 123.45,
+      value: 1123.45,
       currencyIso: 'USD',
     };
     const locale = 'en-US';
-    cpqConfiguratorUtilitiesService.formatPriceForLocale(price, locale);
-    expect(price.formattedValue).toBe('$123.45');
+    cpqConfiguratorUtilitiesService['formatPriceForLocale'](price, locale);
+    expect(price.formattedValue).toBe('$1,123.45');
   });
 
   it('should format price with missing fraction digits', () => {
@@ -164,7 +164,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       currencyIso: 'USD',
     };
     const locale = 'en-US';
-    cpqConfiguratorUtilitiesService.formatPriceForLocale(price, locale);
+    cpqConfiguratorUtilitiesService['formatPriceForLocale'](price, locale);
     expect(price.formattedValue).toBe('$123.00');
   });
 
@@ -174,7 +174,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       currencyIso: 'USD',
     };
     const locale = 'en-US';
-    cpqConfiguratorUtilitiesService.formatPriceForLocale(price, locale);
+    cpqConfiguratorUtilitiesService['formatPriceForLocale'](price, locale);
     expect(price.formattedValue).toBe('$123.46');
   });
 
@@ -184,7 +184,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       currencyIso: 'USD',
     };
     const locale = 'en-US';
-    cpqConfiguratorUtilitiesService.formatPriceForLocale(price, locale);
+    cpqConfiguratorUtilitiesService['formatPriceForLocale'](price, locale);
     expect(price.formattedValue).toBe('-$123.45');
   });
 });

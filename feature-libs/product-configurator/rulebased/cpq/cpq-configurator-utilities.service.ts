@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { getLocaleId } from '@angular/common';
 import { Configurator } from '../core/model/configurator.model';
 import { Cpq } from './cpq.models';
@@ -19,11 +19,11 @@ export class CpqConfiguratorUtilitiesService {
    * @param attr CPQ Attribute
    * @returns Quantity
    */
-  prepareQuantity(value: Cpq.Value, attr: Cpq.Attribute): number {
+  prepareQuantity(value: Cpq.Value, attribute: Cpq.Attribute): number {
     let quantity: number;
-    switch (attr.dataType) {
+    switch (attribute.dataType) {
       case Cpq.DataType.QTY_ATTRIBUTE_LEVEL:
-        quantity = Number(attr.quantity);
+        quantity = Number(attribute.quantity);
         break;
       case Cpq.DataType.QTY_VALUE_LEVEL:
         quantity = Number(value.quantity);
@@ -81,7 +81,7 @@ export class CpqConfiguratorUtilitiesService {
    * Prepares formatted price for given PriceDetails object
    * @param price Price details
    */
-  formatPrice(price: Configurator.PriceDetails): void {
+  protected formatPrice(price: Configurator.PriceDetails): void {
     this.languageService
       .getActive()
       .pipe(take(1))
@@ -93,26 +93,31 @@ export class CpqConfiguratorUtilitiesService {
   /**
    * Prepares formatted price for given PriceDetails object and Locale
    * @param price Price details
-   * @param originalLocale Original locale
+   * @param desiredLocale Original locale
    */
-  formatPriceForLocale(
+  protected formatPriceForLocale(
     price: Configurator.PriceDetails,
-    originalLocale: string
+    desiredLocale: string
   ): void {
-    let locale: string;
+    let availableLocale: string;
     try {
-      locale = getLocaleId(originalLocale);
+      availableLocale = getLocaleId(desiredLocale);
     } catch {
-      locale = 'en';
+      if (isDevMode()) {
+        console.warn(
+          `CpqConfiguratorUtilitiesService: No locale data registered for '${desiredLocale}' (see https://angular.io/api/common/registerLocaleData).`
+        );
+      }
+      availableLocale = 'en';
     }
     const currencySymbol: string = getCurrencySymbol(
       price.currencyIso,
       'narrow',
-      locale
+      availableLocale
     );
     price.formattedValue = formatCurrency(
       price.value,
-      locale,
+      availableLocale,
       currencySymbol,
       price.currencyIso
     );
