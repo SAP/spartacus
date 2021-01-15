@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-import globalI18next, { i18n, InitOptions } from 'i18next';
+import { i18n, InitOptions } from 'i18next';
 import i18nextXhrBackend from 'i18next-xhr-backend';
 import { Subscription } from 'rxjs';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
@@ -17,10 +17,6 @@ export function i18nextInit(
 ): () => Promise<any> {
   return () =>
     configInit.getStableConfig('i18n').then((config) => {
-      // SPIKE TODO REMOVE:
-      window['globalI18next'] = globalI18next;
-      window['i18next'] = i18next;
-
       let i18nextConfig: InitOptions = {
         ns: [], // don't preload any namespaces
         fallbackLng: config.i18n.fallbackLang,
