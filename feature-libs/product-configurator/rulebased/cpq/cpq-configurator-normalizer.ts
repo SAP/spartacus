@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { Converter } from '@spartacus/core';
 import { Configurator } from './../core/model/configurator.model';
 import { Cpq } from './cpq.models';
+import { CpqConfiguratorUtilitiesService } from './cpq-configurator-utilities.service';
 
 @Injectable()
 export class CpqConfiguratorNormalizer
   implements Converter<Cpq.Configuration, Configurator.Configuration> {
-  constructor() {}
+  constructor(protected cpqUtilitiesService: CpqConfiguratorUtilitiesService) {}
 
   convert(
     source: Cpq.Configuration,
@@ -130,11 +131,14 @@ export class CpqConfiguratorNormalizer
       productSystemId: sourceValue.productSystemId,
       selected: sourceValue.selected,
       quantity: Number(sourceValue.quantity),
-      valuePrice: this.prepareValuePrice(sourceValue, currency),
+      valuePrice: this.cpqUtilitiesService.prepareValuePrice(
+        sourceValue,
+        currency
+      ),
       images: [],
     };
-    value.valuePriceTotal = this.calculateValuePriceTotal(
-      this.prepareQuantity(sourceValue, sourceAttribute),
+    value.valuePriceTotal = this.cpqUtilitiesService.calculateValuePriceTotal(
+      this.cpqUtilitiesService.prepareQuantity(sourceValue, sourceAttribute),
       value.valuePrice
     );
 
@@ -273,59 +277,5 @@ export class CpqConfiguratorNormalizer
 
   protected hasAnyProducts(attributeValues: Cpq.Value[]): boolean {
     return attributeValues.some((value: Cpq.Value) => value?.productSystemId);
-  }
-
-  protected prepareQuantity(
-    valueSelected: Cpq.Value,
-    attr: Cpq.Attribute
-  ): number {
-    let quantity: number;
-    switch (attr.dataType) {
-      case Cpq.DataType.QTY_ATTRIBUTE_LEVEL:
-        quantity = Number(attr.quantity);
-        break;
-      case Cpq.DataType.QTY_VALUE_LEVEL:
-        quantity = Number(valueSelected.quantity);
-        break;
-      default:
-        quantity = null;
-    }
-    return quantity;
-  }
-
-  protected prepareValuePrice(
-    valueSelected: Cpq.Value,
-    currency: string
-  ): Configurator.PriceDetails {
-    let price: Configurator.PriceDetails = null;
-    if (valueSelected.price) {
-      price = {
-        currencyIso: currency,
-        value: parseFloat(valueSelected.price),
-      };
-      this.formatPrice(price);
-    }
-    return price;
-  }
-
-  protected calculateValuePriceTotal(
-    quantity: number,
-    valuePrice: Configurator.PriceDetails
-  ): Configurator.PriceDetails {
-    let valuePriceTotal: Configurator.PriceDetails = null;
-    if (valuePrice) {
-      const calculationQuantity: number = quantity ? quantity : 1;
-      valuePriceTotal = {
-        currencyIso: valuePrice.currencyIso,
-        value: calculationQuantity * valuePrice.value,
-      };
-      this.formatPrice(valuePriceTotal);
-    }
-    return valuePriceTotal;
-  }
-
-  protected formatPrice(price: Configurator.PriceDetails): void {
-    // TODO AK: implement formatting
-    price.formattedValue = price.value.toString() + ' ' + price.currencyIso;
   }
 }
