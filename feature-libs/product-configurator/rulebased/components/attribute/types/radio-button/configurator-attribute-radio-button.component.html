@@ -1,15 +1,13 @@
 <fieldset>
   <legend style="display: none">{{ attribute.label }}</legend>
   <div id="{{ createAttributeIdForConfigurator(attribute) }}">
-    <div class="form-quantity">
-      <label>{{ 'configurator.attribute.quantity' | cxTranslate }}</label>
-      <cx-item-counter
-        [allowZero]="!attribute.selectedSingleValue"
-        [control]="quantity"
-        [min]="attribute.selectedSingleValue ? 1 : 0"
-        [readonly]="!attribute.selectedSingleValue || (loading$ | async)"
-      ></cx-item-counter>
-    </div>
+    <cx-configurator-attribute-quantity
+      (changeQuantity)="onChangeQuantity($event)"
+      [initialQuantity]="attribute.selectedSingleValue ? attribute.quantity : 0"
+      [readonly]="readOnlyQuantity || (loading$ | async)"
+      *ngIf="withQuantity"
+    ></cx-configurator-attribute-quantity>
+
     <div class="form-check" *ngFor="let value of attribute.values">
       <input
         id="{{

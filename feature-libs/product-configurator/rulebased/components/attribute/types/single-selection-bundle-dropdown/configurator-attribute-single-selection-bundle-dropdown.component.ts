@@ -10,6 +10,7 @@ import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { FormControl } from '@angular/forms';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 
 @Component({
   selector: 'cx-configurator-attribute-single-selection-bundle-dropdown',
@@ -29,10 +30,21 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
+  constructor(private quantityService: ConfiguratorAttributeQuantityService) {
+    super();
+  }
+
   ngOnInit() {
     this.attributeDropDownForm.setValue(this.attribute.selectedSingleValue);
 
     this.selectionValue = this.attribute.values.find((value) => value.selected);
+  }
+
+  get withQuantity() {
+    return this.quantityService.withQuantity(
+      this.attribute.dataType,
+      this.attribute.uiType
+    );
   }
 
   onSelect(): void {
