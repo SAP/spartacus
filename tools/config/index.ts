@@ -25,24 +25,51 @@ program
 
 program.parse(process.argv);
 
-let errorsReported = false;
+let errorsCount = 0;
+let warningsCount = 0;
 
-export function warn(message) {
-  console.log(chalk.yellow(message));
+export function logSuccess() {
+  if (options.fix) {
+    console.log(chalk.green('✔ Nothing to update'));
+  } else {
+    console.log(chalk.green('✔ No problems found'));
+  }
 }
 
-export function error(message) {
-  errorsReported = true;
-  console.log(chalk.red(message));
+export function logUpdatedFile(path: string) {
+  console.log(chalk.green(`✔ File \`${chalk.bold(path)}\` updated`));
 }
 
-export function prettyError(file, errors, help) {
-  errorsReported = true;
+export function prettyError(
+  file: string,
+  errors: string[],
+  [help, ...extraHelp]: string[]
+): void {
+  errorsCount += errors.length;
   console.log(`
 ${chalk.gray(`----- ${file} -----`)}
-${errors.map((error) => chalk.red(` ✖ ${error}`)).join('\n')}
+${errors.map((error) => chalk.red(` ✖  ${error}`)).join('\n')}
 
-${chalk.blue(`${chalk.bold(' i ')}${help}`)}
+${chalk.blue(`${chalk.bold(' i  ')}${help}`)}${extraHelp
+    .map((help) => chalk.blue(`\n    ${help}`))
+    .join('')}
+${chalk.gray(`------${`-`.repeat(file.length)}------`)}
+`);
+}
+
+export function prettyBreakingWarning(
+  file: string,
+  warnings: string[],
+  [help, ...extraHelp]: string[]
+): void {
+  warningsCount += warnings.length;
+  console.log(`
+${chalk.gray(`----- ${file} -----`)}
+${warnings.map((warning) => chalk.yellow(` ⚠  ${warning}`)).join('\n')}
+
+${chalk.blue(`${chalk.bold(' i  ')}${help}`)}${extraHelp
+    .map((help) => chalk.blue(`\n    ${help}`))
+    .join('')}
 ${chalk.gray(`------${`-`.repeat(file.length)}------`)}
 `);
 }
@@ -175,9 +202,13 @@ manageTsConfigs(repository, options);
 if (options.fix) {
   console.log('\nFormatting files (might take some time)...\n');
   execSync('yarn prettier:fix');
-  console.log('✨ Update completed');
+  console.log(`✨ ${chalk.green('Update completed')}`);
 }
 
-if (errorsReported) {
+if (!options.fix) {
+  console.log(chalk.red(`\nErrors: ${errorsCount}`));
+  console.log(chalk.yellow(`Warnings: ${warningsCount}\n`));
+}
+if (errorsCount > 0) {
   process.exitCode = 1;
 }

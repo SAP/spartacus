@@ -1,5 +1,5 @@
 /**
- * Purpose of this script is to set correctly all required paths in `compilerOptions.paths` property in all our `tsconfig` files.
+ * Purpose of this script is to check/set correctly all required paths in `compilerOptions.paths` property in all our `tsconfig` files.
  * Use after adding new library or new entry point, or moving libraries in file system.
  *
  * This script is based on number of assumptions:
@@ -19,7 +19,15 @@ import { assign, parse, stringify } from 'comment-json';
 import fs from 'fs';
 import glob from 'glob';
 import path from 'path';
-import { Library, prettyError, ProgramOptions, Repository } from './index';
+import {
+  Library,
+  logSuccess,
+  logUpdatedFile,
+  prettyError,
+  ProgramOptions,
+  reportProgress,
+  Repository,
+} from './index';
 
 function readTsConfigFile(path: string): any {
   return parse(fs.readFileSync(path, 'utf-8'));
@@ -35,21 +43,23 @@ function joinPaths(...parts: string[]) {
   return path.join(...parts).replace(/\\/g, '/');
 }
 
-function logUpdatedFile(path: string) {
-  console.log(`✅ Updated ${path}`);
-}
-interface Lib extends Library {
+interface LibraryWithSpartacusDeps extends Library {
   /**
    * All spartacus packages that this library depend on.
    */
   spartacusDependencies: string[];
 }
 
+/**
+ * Checks and updates tsconfig files across repository.
+ */
 export function manageTsConfigs(
   repository: Repository,
   options: ProgramOptions
 ) {
-  const libraries: Record<string, Lib> = Object.values(repository)
+  const libraries: Record<string, LibraryWithSpartacusDeps> = Object.values(
+    repository
+  )
     .map((lib) => {
       return {
         ...lib,
@@ -58,17 +68,26 @@ export function manageTsConfigs(
         ).filter((dep) => dep.startsWith('@spartacus/')),
       };
     })
-    .reduce((acc: Record<string, Lib>, lib) => {
+    .reduce((acc: Record<string, LibraryWithSpartacusDeps>, lib) => {
       acc[lib.name] = lib;
       return acc;
     }, {});
 
   handleSchematicsConfigs(libraries, options);
-  updateLibConfigs(libraries, options);
-  updateRootConfigs(libraries, options);
-  updateAppConfigs(libraries, options);
+  handleLibConfigs(libraries, options);
+  handleRootConfigs(libraries, options);
+  handleAppConfigs(libraries, options);
 }
 
+/**
+ * Compare target paths with current paths and reports extra or missing entries.
+ *
+ * @param targetPaths paths that should be in the file
+ * @param tsConfigPath path to targeted config
+ * @param silent set to tru if you don't want to output errors (eg. in fix mode)
+ *
+ * @returns true when there were some errors
+ */
 function comparePathsConfigs(
   targetPaths: Record<string, string[]>,
   tsConfigPath: string,
@@ -103,15 +122,31 @@ function comparePathsConfigs(
     }
   });
   if (!silent && errors.length > 0) {
-    prettyError(
-      tsConfigPath,
-      errors,
+    prettyError(tsConfigPath, errors, [
       `This can be automatically fixed by running \`${chalk.bold(
         `yarn config:update`
-      )}\`.`
-    );
+      )}\`.`,
+    ]);
   }
   return errors.length > 0;
+}
+
+/**
+ * Compares paths and reports errors or updates configs.
+ *
+ * @returns true when there were some errors
+ */
+function handleConfigUpdate(
+  targetPaths: any,
+  file: string,
+  options: ProgramOptions
+): boolean {
+  const errorsPresent = comparePathsConfigs(targetPaths, file, options.fix);
+  if (errorsPresent && options.fix) {
+    setCompilerOptionsPaths(file, targetPaths);
+    logUpdatedFile(file);
+  }
+  return errorsPresent;
 }
 
 /**
@@ -119,12 +154,18 @@ function comparePathsConfigs(
  * schematics as peerDependency we add path to `@spartacus/schematics` lib.
  */
 function handleSchematicsConfigs(
-  libraries: Record<string, Lib>,
+  libraries: Record<string, LibraryWithSpartacusDeps>,
   options: ProgramOptions
-) {
+): void {
   const targetPaths = {
     '@spartacus/schematics': ['../../projects/schematics/src/public_api'],
   };
+  if (options.fix) {
+    reportProgress('Updating tsconfig.schematics.json files');
+  } else {
+    reportProgress('Checking tsconfig.schematics.json files');
+  }
+  let showAllGood = true;
   Object.values(libraries).forEach((library) => {
     const schematicsTsConfigPaths = glob.sync(
       `${library.directory}/tsconfig.schematics.json`
@@ -133,27 +174,35 @@ function handleSchematicsConfigs(
       schematicsTsConfigPaths.length &&
       library.spartacusDependencies.includes('@spartacus/schematics')
     ) {
-      const errorsPresent = comparePathsConfigs(
+      const hadErrors = handleConfigUpdate(
         targetPaths,
         schematicsTsConfigPaths[0],
-        options.fix
+        options
       );
-      if (errorsPresent && options.fix) {
-        setCompilerOptionsPaths(schematicsTsConfigPaths[0], targetPaths);
-        logUpdatedFile(schematicsTsConfigPaths[0]);
+      if (hadErrors) {
+        showAllGood = false;
       }
     }
   });
+  if (showAllGood) {
+    logSuccess();
+  }
 }
 
 /**
  * Adds paths to spartacus dependencies in libraries `tsconfig.lib.json` files.
  * We grab all spartacus dependencies and add for all of them all entry points.
  */
-function updateLibConfigs(
-  libraries: Record<string, Lib>,
+function handleLibConfigs(
+  libraries: Record<string, LibraryWithSpartacusDeps>,
   options: ProgramOptions
-) {
+): void {
+  if (options.fix) {
+    reportProgress('Updating tsconfig.lib.json files');
+  } else {
+    reportProgress('Checking tsconfig.lib.json files');
+  }
+  let showAllGood = true;
   Object.values(libraries).forEach((library) => {
     const libraryTsConfigPaths = glob.sync(
       `${library.directory}/tsconfig.lib.json`
@@ -178,29 +227,34 @@ function updateLibConfigs(
           );
           return { ...entryPoints, ...dependencyEntryPoints };
         }, {});
-      const errorsPresent = comparePathsConfigs(
+      const hadErrors = handleConfigUpdate(
         dependenciesEntryPoints,
         libraryTsConfigPaths[0],
-        options.fix
+        options
       );
-      if (errorsPresent && options.fix) {
-        setCompilerOptionsPaths(
-          libraryTsConfigPaths[0],
-          dependenciesEntryPoints
-        );
-        logUpdatedFile(libraryTsConfigPaths[0]);
+      if (hadErrors) {
+        showAllGood = false;
       }
     }
   });
+  if (showAllGood) {
+    logSuccess();
+  }
 }
 
 /**
  * Add paths to all libraries and all their entry points to root `tsconfig.json` and `tsconfig.compodoc.json` files.
  */
-function updateRootConfigs(
-  libraries: Record<string, Lib>,
+function handleRootConfigs(
+  libraries: Record<string, LibraryWithSpartacusDeps>,
   options: ProgramOptions
-) {
+): void {
+  if (options.fix) {
+    reportProgress('Updating root tsconfig files');
+  } else {
+    reportProgress('Checking root tsconfig files');
+  }
+  let showAllGood = true;
   const entryPoints = Object.values(libraries).reduce((acc, curr) => {
     curr.entryPoints.forEach((entryPoint) => {
       acc[entryPoint.entryPoint] = [
@@ -211,34 +265,31 @@ function updateRootConfigs(
     return acc;
   }, {});
 
-  const errorsPresent = comparePathsConfigs(
-    entryPoints,
-    './tsconfig.json',
-    options.fix
-  );
-  if (errorsPresent && options.fix) {
-    setCompilerOptionsPaths('./tsconfig.json', entryPoints);
-    logUpdatedFile('./tsconfig.json');
-  }
-
-  const errorsPresent2 = comparePathsConfigs(
+  const hadErrors = handleConfigUpdate(entryPoints, './tsconfig.json', options);
+  const hadErrorsCompodoc = handleConfigUpdate(
     entryPoints,
     './tsconfig.compodoc.json',
-    options.fix
+    options
   );
-  if (errorsPresent2 && options.fix) {
-    setCompilerOptionsPaths('./tsconfig.compodoc.json', entryPoints);
-    logUpdatedFile('./tsconfig.compodoc.json');
+  if (hadErrors || hadErrorsCompodoc) {
+    showAllGood = false;
+  }
+  if (showAllGood) {
+    logSuccess();
   }
 }
 
-function updateAppConfigs(
-  libraries: Record<string, Lib>,
+function handleAppConfigs(
+  libraries: Record<string, LibraryWithSpartacusDeps>,
   options: ProgramOptions
-) {
-  /**
-   * Add paths to `projects/storefrontapp/tsconfig.app.prod.json` config.
-   */
+): void {
+  if (options.fix) {
+    reportProgress('Updating app tsconfig files');
+  } else {
+    reportProgress('Checking app tsconfig files');
+  }
+  let showAllGood = true;
+  // Add paths to `projects/storefrontapp/tsconfig.app.prod.json` config.
   const appEntryPoints = Object.values(libraries)
     .filter((lib) => lib.name !== '@spartacus/schematics')
     .reduce((acc, curr) => {
@@ -250,22 +301,13 @@ function updateAppConfigs(
       return acc;
     }, {});
 
-  const errorsPresent = comparePathsConfigs(
+  const hadErrorsApp = handleConfigUpdate(
     appEntryPoints,
     'projects/storefrontapp/tsconfig.app.prod.json',
-    options.fix
+    options
   );
-  if (errorsPresent && options.fix) {
-    setCompilerOptionsPaths(
-      'projects/storefrontapp/tsconfig.app.prod.json',
-      appEntryPoints
-    );
-    logUpdatedFile('projects/storefrontapp/tsconfig.app.prod.json');
-  }
 
-  /**
-   * Add paths to `projects/storefrontapp/tsconfig.server.json` config.
-   */
+  // Add paths to `projects/storefrontapp/tsconfig.server.json` config.
   const serverEntryPoints = Object.values(libraries)
     .filter((lib) => lib.name !== '@spartacus/schematics')
     .reduce((acc, curr) => {
@@ -282,23 +324,13 @@ function updateAppConfigs(
       });
       return acc;
     }, {});
-
-  const errorsPresent2 = comparePathsConfigs(
+  const hadErrorsServer = handleConfigUpdate(
     serverEntryPoints,
     'projects/storefrontapp/tsconfig.server.json',
-    options.fix
+    options
   );
-  if (errorsPresent2 && options.fix) {
-    setCompilerOptionsPaths(
-      'projects/storefrontapp/tsconfig.server.json',
-      serverEntryPoints
-    );
-    logUpdatedFile('projects/storefrontapp/tsconfig.server.json');
-  }
 
-  /**
-   * Add paths to `projects/storefrontapp/tsconfig.server.prod.json` config.
-   */
+  // Add paths to `projects/storefrontapp/tsconfig.server.prod.json` config.
   const serverProdEntryPoints = Object.values(libraries)
     .filter((lib) => lib.name !== '@spartacus/schematics')
     .reduce((acc, curr) => {
@@ -311,16 +343,16 @@ function updateAppConfigs(
       return acc;
     }, {});
 
-  const errorsPresent3 = comparePathsConfigs(
+  const hadErrorsServerProd = handleConfigUpdate(
     serverProdEntryPoints,
     'projects/storefrontapp/tsconfig.server.prod.json',
-    options.fix
+    options
   );
-  if (errorsPresent3 && options.fix) {
-    setCompilerOptionsPaths(
-      'projects/storefrontapp/tsconfig.server.prod.json',
-      serverProdEntryPoints
-    );
-    logUpdatedFile('projects/storefrontapp/tsconfig.server.prod.json');
+
+  if (hadErrorsApp || hadErrorsServer || hadErrorsServerProd) {
+    showAllGood = false;
+  }
+  if (showAllGood) {
+    logSuccess();
   }
 }

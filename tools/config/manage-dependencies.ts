@@ -11,8 +11,6 @@
  * - all used deps must be listed in root package.json
  * - schematics should also have version synced from the root package.json and library list of dependencies
  *
- * Extra features
- * - check on CI to prompt with incorrect peerDeps
  */
 
 import chalk from 'chalk';
@@ -24,6 +22,7 @@ import * as ts from 'typescript';
 import {
   Library,
   PackageJson,
+  prettyBreakingWarning,
   prettyError,
   ProgramOptions,
   reportProgress,
@@ -185,15 +184,12 @@ export function manageDependencies(
   // Specify where imports are used (spec, lib, schematics, schematics spec)
   categorizeUsageOfDependencies(libraries);
   // Check for rxjs/internal imports
-  reportProgress('Checking `rx/internal` imports');
   warnAboutRxInternalImports(libraries);
   // Check if we reference files with relative paths outside of entry point
   filterLocalRelativeImports(libraries);
   // Check if we use node dependencies where we should not
-  reportProgress('Checking imports of Node.js APIs');
   filterNativeNodeAPIs(libraries);
   // Check if we use absolute paths where we should not
-  reportProgress('Checking absolute path imports');
   filterLocalAbsolutePathFiles(libraries);
   // Define list of external dependencies for each library
   getExternalDependenciesFromImports(libraries);
@@ -201,25 +197,17 @@ export function manageDependencies(
   const rootPackageJson: PackageJson = readJsonFile('./package.json');
 
   // Check if we have all dependencies directly referenced in package.json
-  reportProgress('Checking for missing dependencies in root package.json');
   checkIfWeHaveAllDependenciesInPackageJson(libraries, rootPackageJson);
 
   // Filer out spec dependencies as we already checked everything related to them
   filterOutSpecOnlyDependencies(libraries);
 
-  reportProgress('Checking for missing peerDependencies');
   addMissingDependenciesToPackageJson(libraries, rootPackageJson, options);
-  reportProgress('Checking unused dependencies');
   removeNotUsedDependenciesFromPackageJson(libraries, options);
-  reportProgress('Checking unnecessary `devDependencies`');
   checkEmptyDevDependencies(libraries);
-  reportProgress('Checking `tslib` dependency usage');
   checkTsLibDep(libraries, rootPackageJson, options);
-  reportProgress('Checking for unnecessary `yarn.lock` files');
   checkForLockFile(libraries);
-  reportProgress(
-    'Checking package versions between libraries and root package.json'
-  );
+
   updateDependenciesVersions(libraries, rootPackageJson, options);
 
   if (options.fix) {
@@ -297,6 +285,7 @@ function filterNativeNodeAPIs(libraries: Record<string, LibDepsMetaData>) {
     'zlib',
   ];
 
+  reportProgress('Checking imports of Node.js APIs');
   Object.values(libraries).forEach((lib) => {
     lib.tsImports = Object.values(lib.tsImports)
       .filter((imp) => {
@@ -313,7 +302,10 @@ function filterNativeNodeAPIs(libraries: Record<string, LibDepsMetaData>) {
                       imp.importPath
                     )}\` is referenced.`,
                   ],
-                  `Node.js APIs can only be used in SSR code or in schematics specs.\n   You might have wanted to import it from some library instead.`
+                  [
+                    `Node.js APIs can only be used in SSR code or in schematics specs.`,
+                    `You might have wanted to import it from some library instead.`,
+                  ]
                 );
               }
             });
@@ -335,6 +327,7 @@ function filterNativeNodeAPIs(libraries: Record<string, LibDepsMetaData>) {
 function filterLocalAbsolutePathFiles(
   libraries: Record<string, LibDepsMetaData>
 ) {
+  reportProgress('Checking absolute path imports');
   Object.values(libraries).forEach((lib) => {
     lib.tsImports = Object.values(lib.tsImports)
       .filter((imp) => {
@@ -356,7 +349,10 @@ function filterLocalAbsolutePathFiles(
                     imp.importPath
                   )}\``,
                 ],
-                `You should use absolute paths only for testing modules.\n   Use relative or entry point import instead.`
+                [
+                  `You should use absolute paths only for testing modules.`,
+                  `Use relative or entry point import instead.`,
+                ]
               );
             });
           }
@@ -404,6 +400,7 @@ function categorizeUsageOfDependencies(
 function warnAboutRxInternalImports(
   libraries: Record<string, LibDepsMetaData>
 ) {
+  reportProgress('Checking `rx/internal` imports');
   Object.values(libraries).forEach((lib) => {
     Object.values(lib.tsImports).forEach((imp) => {
       if (imp.importPath.includes('rxjs/internal')) {
@@ -411,9 +408,11 @@ function warnAboutRxInternalImports(
           prettyError(
             file,
             [`\`${chalk.bold(imp.importPath)}\` internal import used.`],
-            `To import from rxjs library you should use \`${chalk.bold(
-              'rxjs'
-            )}\` or \`${chalk.bold('rxjs/operators')}\` imports.`
+            [
+              `To import from rxjs library you should use \`${chalk.bold(
+                'rxjs'
+              )}\` or \`${chalk.bold('rxjs/operators')}\` imports.`,
+            ]
           );
         });
       }
@@ -516,6 +515,7 @@ function checkIfWeHaveAllDependenciesInPackageJson(
     ...packageJson.dependencies,
   };
   const errors = [];
+  reportProgress('Checking for missing dependencies in root package.json');
   Object.values(libraries).forEach((lib) => {
     Object.values(lib.externalDependencies).forEach((dep) => {
       if (
@@ -531,17 +531,14 @@ function checkIfWeHaveAllDependenciesInPackageJson(
     });
   });
   if (errors.length) {
-    prettyError(
-      'package.json',
-      errors,
+    prettyError('package.json', errors, [
       `All dependencies that are directly referenced should be specified as \`${chalk.bold(
         'dependencies'
-      )}\` or \`${chalk.bold(
-        'devDependencies'
-      )}\`.\n   Install them with \`${chalk.bold(
+      )}\` or \`${chalk.bold('devDependencies')}\`.`,
+      `Install them with \`${chalk.bold(
         'yarn add <dependency-name> (--dev)'
-      )}\`.`
-    );
+      )}\`.`,
+    ]);
   }
 }
 
@@ -581,6 +578,8 @@ function addMissingDependenciesToPackageJson(
     ...rootPackageJson.dependencies,
     ...rootPackageJson.devDependencies,
   };
+
+  reportProgress('Checking for missing peerDependencies');
   Object.values(libraries).forEach((lib) => {
     const pathToPackageJson = `${lib.directory}/package.json`;
     const errors = [];
@@ -619,17 +618,17 @@ function addMissingDependenciesToPackageJson(
       }
     });
     if (errors.length) {
-      prettyError(
-        pathToPackageJson,
-        errors,
+      prettyError(pathToPackageJson, errors, [
         `All dependencies that are directly referenced should be specified as \`${chalk.bold(
           'dependencies'
-        )}\` or \`${chalk.bold(
-          'peerDependencies'
-        )}\`.\n   This can be automatically fixed by running \`${chalk.bold(
+        )}\` or \`${chalk.bold('peerDependencies')}\`.`,
+        `Adding new \`${chalk.bold(
+          'peerDependency'
+        )}\` is considered a breaking change!`,
+        `This can be automatically fixed by running \`${chalk.bold(
           'yarn config:update'
-        )}\`.`
-      );
+        )}\`.`,
+      ]);
     }
   });
 }
@@ -646,6 +645,7 @@ function removeNotUsedDependenciesFromPackageJson(
     };
     const errors = [];
     const pathToPackageJson = `${lib.directory}/package.json`;
+    reportProgress('Checking unused dependencies');
     Object.keys(deps).forEach((dep) => {
       if (
         typeof lib.externalDependenciesForPackageJson[dep] === 'undefined' &&
@@ -674,23 +674,21 @@ function removeNotUsedDependenciesFromPackageJson(
       }
     });
     if (errors.length > 0) {
-      prettyError(
-        pathToPackageJson,
-        errors,
+      prettyError(pathToPackageJson, errors, [
         `Dependencies that are not used should not be specified in package list of \`${chalk.bold(
           'dependencies'
-        )}\` or \`${chalk.bold(
-          'peerDependencies'
-        )}\`.\n   This can be automatically fixed by running \`${chalk.bold(
+        )}\` or \`${chalk.bold('peerDependencies')}\`.`,
+        `This can be automatically fixed by running \`${chalk.bold(
           'yarn config:update'
-        )}\`.`
-      );
+        )}\`.`,
+      ]);
     }
   });
 }
 
 // Check if package does not have any devDependencies!
 function checkEmptyDevDependencies(libraries: Record<string, LibDepsMetaData>) {
+  reportProgress('Checking unnecessary `devDependencies`');
   Object.values(libraries).forEach((lib) => {
     if (Object.keys(lib.devDependencies).length > 0) {
       const pathToPackageJson = `${lib.directory}/package.json`;
@@ -701,9 +699,12 @@ function checkEmptyDevDependencies(libraries: Record<string, LibDepsMetaData>) {
             'devDependencies'
           )}\` specified in their package.json.`,
         ],
-        `You should use \`${chalk.bold(
-          'devDependencies'
-        )}\` from root package.json file.\n   You should remove this section from this package.json.`
+        [
+          `You should use \`${chalk.bold(
+            'devDependencies'
+          )}\` from root package.json file.`,
+          `You should remove this section from this package.json.`,
+        ]
       );
     }
   });
@@ -716,6 +717,8 @@ function checkTsLibDep(
   options: ProgramOptions
 ) {
   const tsLibVersion = rootPackageJson.dependencies['tslib'];
+
+  reportProgress('Checking `tslib` dependency usage');
   Object.values(libraries).forEach((lib) => {
     // Temporary workaround to not apply this to libraries without TS files. We should check presence of typescript
     if (lib.name !== '@spartacus/styles') {
@@ -761,23 +764,21 @@ function checkTsLibDep(
         }
       }
       if (errors.length > 0) {
-        prettyError(
-          pathToPackageJson,
-          errors,
+        prettyError(pathToPackageJson, errors, [
           `Each TS package should have \`${chalk.bold(
             'tslib'
-          )}\` specified as \`${chalk.bold(
-            'dependency'
-          )}.\n   This can be automatically fixed by running \`${chalk.bold(
+          )}\` specified as \`${chalk.bold('dependency')}.`,
+          `This can be automatically fixed by running \`${chalk.bold(
             'yarn config:update'
-          )}\`.`
-        );
+          )}\`.`,
+        ]);
       }
     }
   });
 }
 
 function checkForLockFile(libraries: Record<string, LibDepsMetaData>) {
+  reportProgress('Checking for unnecessary `yarn.lock` files');
   Object.values(libraries).forEach((lib) => {
     const lockFile = glob.sync(`${lib.directory}/yarn.lock`);
     if (lockFile.length > 0) {
@@ -788,9 +789,11 @@ function checkForLockFile(libraries: Record<string, LibDepsMetaData>) {
             lib.name
           )}\` should not have it's own \`${chalk.bold('yarn.lock')}\`.`,
         ],
-        `Libraries should use packages from root \`${chalk.bold(
-          'package.json'
-        )}\` and root \`${chalk.bold('node_modules')}\`.`
+        [
+          `Libraries should use packages from root \`${chalk.bold(
+            'package.json'
+          )}\` and root \`${chalk.bold('node_modules')}\`.`,
+        ]
       );
     }
   });
@@ -808,6 +811,9 @@ function updateDependenciesVersions(
     ...rootPackageJson.dependencies,
     ...rootPackageJson.devDependencies,
   };
+  reportProgress(
+    'Checking package versions between libraries and root package.json'
+  );
   Object.values(libraries).forEach((lib) => {
     const pathToPackageJson = `${lib.directory}/package.json`;
     const packageJson = lib.packageJsonContent;
@@ -825,7 +831,7 @@ function updateDependenciesVersions(
                 packageJson[type][dep]
               )}\` version is not correct.`,
             ],
-            `Install package version that follows semver.`
+            [`Install package version that follows semver.`]
           );
         }
         if (dep.startsWith('@spartacus')) {
@@ -891,39 +897,38 @@ function updateDependenciesVersions(
       });
     });
     if (internalErrors.length > 0) {
-      prettyError(
-        pathToPackageJson,
-        internalErrors,
-        `All spartacus dependencies should be version synchronized.\n   Version of the package in \`${chalk.bold(
+      prettyError(pathToPackageJson, internalErrors, [
+        `All spartacus dependencies should be version synchronized.`,
+        `Version of the package in \`${chalk.bold(
           'peerDependencies'
         )}\` should match package \`${chalk.bold(
           'version'
-        )}\` from repository.\n   This can be automatically fixed by running \`${chalk.bold(
+        )}\` from repository.`,
+        `This can be automatically fixed by running \`${chalk.bold(
           'yarn config:update'
-        )}\`.`
-      );
+        )}\`.`,
+      ]);
     }
     if (errors.length > 0) {
-      prettyError(
-        pathToPackageJson,
-        errors,
+      prettyError(pathToPackageJson, errors, [
         `All external dependencies should have the same version as in the root \`${chalk.bold(
           'package.json'
-        )}\`.\n   This can be automatically fixed by running \`${chalk.bold(
+        )}\`.`,
+        `This can be automatically fixed by running \`${chalk.bold(
           'yarn config:update'
-        )}\`.`
-      );
+        )}\`.`,
+      ]);
     }
     if (breakingErrors.length > 0) {
-      prettyError(
-        pathToPackageJson,
-        breakingErrors,
+      prettyBreakingWarning(pathToPackageJson, breakingErrors, [
         `All external dependencies should have the same version as in the root \`${chalk.bold(
           'package.json'
-        )}\`.\n   This can be automatically fixed by running \`${chalk.bold(
+        )}\`.`,
+        `Bumping to a higher dependency version is considered a breaking change!`,
+        `This can be automatically fixed by running \`${chalk.bold(
           'yarn config:update --breaking-changes'
-        )}\`.`
-      );
+        )}\`.`,
+      ]);
     }
   });
 }
