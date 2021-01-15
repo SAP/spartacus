@@ -21,6 +21,9 @@
     </div>
     <div class="cpq-attribute-label" *ngIf="attributeOverview?.attribute">
       <span>{{ attributeOverview.attribute }}</span>
+      <cx-configurator-price
+        [productPrice]="product?.price?.value"
+      ></cx-configurator-price>
     </div>
   </div>
 </ng-container>

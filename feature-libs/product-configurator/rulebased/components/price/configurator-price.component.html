@@ -1,0 +1,17 @@
+<div class="configurator-price">
+  <ng-container [ngSwitch]="getPriceType()">
+    <ng-container *ngSwitchCase="configuratorPriceType.PRICE_ONLY"
+      ><span>{{ calculateTotal() }}</span></ng-container
+    >
+
+    <ng-container *ngSwitchCase="configuratorPriceType.QUANTITY_ONLY"
+      ><span>{{ quantity }}</span></ng-container
+    >
+
+    <ng-container *ngSwitchCase="configuratorPriceType.PRICE_AND_QUANTITY"
+      ><span
+        >{{ quantity }} {{ productPrice }} {{ calculateTotal() }}</span
+      ></ng-container
+    >
+  </ng-container>
+</div>
