@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
+import { Injectable, OnDestroy } from '@angular/core';
 import globalI18next, { i18n, InitOptions } from 'i18next';
 import i18nextXhrBackend from 'i18next-xhr-backend';
+import { Subscription } from 'rxjs';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { LanguageService } from '../../site-context/facade/language.service';
 import { TranslationResources } from '../translation-resources';
@@ -10,7 +12,8 @@ export function i18nextInit(
   configInit: ConfigInitializerService,
   languageService: LanguageService,
   httpClient: HttpClient,
-  serverRequestOrigin: string
+  serverRequestOrigin: string,
+  siteContextI18nextSynchronizer: SiteContextI18nextSynchronizer
 ): () => Promise<any> {
   return () =>
     configInit.getStableConfig('i18n').then((config) => {
@@ -43,7 +46,7 @@ export function i18nextInit(
         // Don't use i18next's 'resources' config key for adding static translations,
         // because it will disable loading chunks from backend. We add resources here, in the init's callback.
         i18nextAddTranslations(i18next, config.i18n.resources);
-        syncI18nextWithSiteContext(i18next, languageService);
+        siteContextI18nextSynchronizer.init(i18next, languageService);
       });
     });
 }
@@ -65,12 +68,20 @@ export function i18nextAddTranslations(
   });
 }
 
-export function syncI18nextWithSiteContext(
-  i18next: i18n,
-  language: LanguageService
-) {
-  // always update language of i18next on site context (language) change
-  language.getActive().subscribe((lang) => i18next.changeLanguage(lang));
+@Injectable({ providedIn: 'root' })
+export class SiteContextI18nextSynchronizer implements OnDestroy {
+  sub: Subscription;
+
+  init(i18next: i18n, language: LanguageService) {
+    // always update language of i18next on site context (language) change
+    this.sub =
+      this.sub ??
+      language.getActive().subscribe((lang) => i18next.changeLanguage(lang));
+  }
+
+  ngOnDestroy() {
+    this.sub?.unsubscribe();
+  }
 }
 
 /**
