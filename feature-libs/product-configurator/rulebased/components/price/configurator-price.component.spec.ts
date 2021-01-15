@@ -30,7 +30,7 @@ describe('ConfiguratorPriceComponent', () => {
   });
 
   describe('price type', () => {
-    it('should be PRICE_ONLY', () => {
+    it('should be PRICE_ONLY if only price was passed to the component', () => {
       component.productPrice = mockProductPrice;
 
       const type = component.getPriceType();
@@ -38,7 +38,7 @@ describe('ConfiguratorPriceComponent', () => {
       expect(type).toEqual(ConfiguratorPriceType.PRICE_ONLY);
     });
 
-    it('should be QUANTITY_ONLY', () => {
+    it('should be QUANTITY_ONLY if only quantity was passed to the component', () => {
       component.quantity = mockProductQuantity;
 
       const type = component.getPriceType();
@@ -46,7 +46,7 @@ describe('ConfiguratorPriceComponent', () => {
       expect(type).toEqual(ConfiguratorPriceType.QUANTITY_ONLY);
     });
 
-    it('should be PRICE_AND_QUANTITY', () => {
+    it('should be PRICE_AND_QUANTITY if both price and quantity were passed to the component', () => {
       component.productPrice = mockProductPrice;
       component.quantity = mockProductQuantity;
 
