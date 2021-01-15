@@ -3,10 +3,13 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
-import { OrgUnitService } from '@spartacus/organization/administration/core';
+import {
+  B2BUnitNode,
+  OrgUnitService,
+} from '@spartacus/organization/administration/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { UnitItemService } from '../services/unit-item.service';
 import { UnitFormComponent } from './unit-form.component';
@@ -22,10 +25,10 @@ const mockForm = new FormGroup({
   }),
 });
 
+let activeUnitList$: BehaviorSubject<B2BUnitNode[]>;
+
 class MockOrgUnitService {
-  getActiveUnitList() {
-    return of([]);
-  }
+  getActiveUnitList = () => activeUnitList$.asObservable();
   loadList() {}
   getApprovalProcesses() {
     return of();
@@ -67,6 +70,8 @@ describe('UnitFormComponent', () => {
     spyOn(b2bUnitService, 'getActiveUnitList').and.callThrough();
     spyOn(b2bUnitService, 'loadList').and.callThrough();
     spyOn(b2bUnitService, 'getApprovalProcesses').and.callThrough();
+
+    activeUnitList$ = new BehaviorSubject([]);
   });
 
   beforeEach(() => {
@@ -100,9 +105,22 @@ describe('UnitFormComponent', () => {
 
   it('should disable parentOrgUnit form control', () => {
     component.createChildUnit = true;
-    let result: FormGroup;
-    component.form$.subscribe((form) => (result = form)).unsubscribe();
-    expect(result.get('parentOrgUnit.uid').disabled).toBeTruthy();
+    component.units$.subscribe().unsubscribe();
+    component.form$
+      .subscribe((form) => {
+        expect(form.get('parentOrgUnit.uid').disabled).toBeTruthy();
+      })
+      .unsubscribe();
+  });
+
+  it('should auto-select unit if only one is available', () => {
+    activeUnitList$.next([{ id: 'test' }]);
+    fixture.detectChanges();
+    component.form$
+      .subscribe((form) => {
+        expect(form.get('parentOrgUnit.uid').value).toEqual('test');
+      })
+      .unsubscribe();
   });
 
   describe('createUidWithName', () => {
