@@ -18,6 +18,7 @@ do
     case "$1" in
         '--suite' | '-s' )
             SUITE=":$2"
+            ENV_FILE="-b2b"
             shift
             shift
             ;;
@@ -53,7 +54,7 @@ fi
 
 echo '-----'
 echo 'Getting config for CI'
-cp ./ci-scripts/.env-ci .env
+cp ./ci-scripts/.env-ci${ENV_FILE} .env
 
 echo '-----'
 echo "Building Spartacus libraries"
