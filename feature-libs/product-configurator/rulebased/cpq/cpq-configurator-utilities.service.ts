@@ -16,7 +16,7 @@ export class CpqConfiguratorUtilitiesService {
   /**
    * Prepares quantity to be shown inthe overview page
    * @param value CPQ Value
-   * @param attr CPQ Attribute
+   * @param attribute CPQ Attribute
    * @returns Quantity
    */
   prepareQuantity(value: Cpq.Value, attribute: Cpq.Attribute): number {
