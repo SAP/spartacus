@@ -1,6 +1,6 @@
 import * as AngularCore from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { i18n } from 'i18next';
+import i18nextGlobal, { i18n } from 'i18next';
 import { first, take } from 'rxjs/operators';
 import { I18nConfig } from '../config/i18n-config';
 import { TranslationChunkService } from '../translation-chunk.service';
@@ -29,6 +29,7 @@ describe('I18nextTranslationService', () => {
           provide: TranslationChunkService,
           useValue: mockTranslationChunk,
         },
+        { provide: I18NEXT_INSTANCE, useValue: i18nextGlobal },
         I18nextTranslationService,
       ],
     });
