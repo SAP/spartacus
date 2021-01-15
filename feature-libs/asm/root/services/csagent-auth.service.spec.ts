@@ -13,7 +13,6 @@ import {
 import { TokenResponse } from 'angular-oauth2-oidc';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { AsmActions } from '../../core/store';
 import { AsmState, ASM_FEATURE } from '../../core/store/asm-state';
 import * as fromReducers from '../../core/store/reducers/index';
 import {
@@ -271,9 +270,9 @@ describe('CsAgentAuthService', () => {
         .subscribe((target) => (tokenTarget = target));
 
       expect(oAuthLibWrapperService.revokeAndLogout).toHaveBeenCalled();
-      expect(dispatch).toHaveBeenCalledWith(
-        new AsmActions.LogoutCustomerSupportAgent()
-      );
+      expect(dispatch).toHaveBeenCalledWith({
+        type: '[Auth] Logout Customer Support Agent',
+      });
       expect(tokenTarget).toBe(TokenTarget.User);
     });
 
