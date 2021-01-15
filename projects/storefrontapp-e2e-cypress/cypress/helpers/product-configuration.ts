@@ -413,6 +413,38 @@ export function getAttributeLabelId(attributeName: string): string {
 }
 
 /**
+ * Selects a product card and waits until it's state changes.
+ * @param {'radioGroup' | 'dropdown' | 'checkbox'} cardType - card type
+ * @param {string} attributeName - Attribute name
+ * @param {string} valueName - Value name
+ */
+export function selectProductCard(
+  cardType: 'radioGroup' | 'dropdown' | 'checkBoxList',
+  attributeName: string,
+  valueName: string
+) {
+  const uiType = cardType + 'Product';
+  selectAttribute(attributeName, uiType, valueName);
+  checkValueSelected(uiType, attributeName, valueName);
+}
+
+/**
+ * DeSelects a product card and waits until it's state changes.
+ * @param {'radioGroup' | 'dropdown' | 'checkbox'} cardType - card type
+ * @param {string} attributeName - Attribute name
+ * @param {string} valueName - Value name
+ */
+export function deSelectProductCard(
+  cardType: 'radioGroup' | 'dropdown' | 'checkBoxList',
+  attributeName: string,
+  valueName: string
+) {
+  const uiType = cardType + 'Product';
+  selectAttribute(attributeName, uiType, valueName);
+  checkValueNotSelected(uiType, attributeName, valueName);
+}
+
+/**
  * Selects a corresponding attribute value.
  *
  * @param {string} attributeName - Attribute name

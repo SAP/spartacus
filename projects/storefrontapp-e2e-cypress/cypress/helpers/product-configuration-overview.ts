@@ -111,3 +111,25 @@ export function verifyNotificationBannerOnOP(numberOfIssues?: number): void {
     element.get('.cx-error-msg').should('not.be.visible');
   }
 }
+
+/**
+ * Verifies whether the group header displayed.
+ */
+export function checkGroupHeaderDisplayed(
+  groupName: string,
+  groupIdx: number
+): void {
+  cy.get('cx-configurator-overview-form .cx-group h2')
+    .eq(groupIdx)
+    .should('contain.text', groupName);
+}
+
+/**
+ * Verifies whether the group header displayed.
+ */
+export function checkGroupHeaderNotDisplayed(groupName: string): void {
+  cy.get('cx-configurator-overview-form .cx-group').should(
+    'not.contain.text',
+    groupName
+  );
+}
