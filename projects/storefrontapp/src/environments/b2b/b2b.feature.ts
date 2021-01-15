@@ -10,12 +10,14 @@ import {
 } from '@spartacus/organization/order-approval/assets';
 import { OrderApprovalRootModule } from '@spartacus/organization/order-approval/root';
 import { B2bStorefrontModule } from '@spartacus/setup';
+import { SmartEditRootModule } from '@spartacus/smartedit/root';
 import { FeatureEnvironment } from '../models/feature.model';
 
 export const b2bFeature: FeatureEnvironment = {
   imports: [
     AdministrationRootModule,
     OrderApprovalRootModule,
+    SmartEditRootModule,
 
     B2bStorefrontModule.withConfig({
       context: {
@@ -35,6 +37,10 @@ export const b2bFeature: FeatureEnvironment = {
             import('@spartacus/organization/order-approval').then(
               (m) => m.OrderApprovalModule
             ),
+        },
+        smartEdit: {
+          module: () =>
+            import('@spartacus/smartedit').then((m) => m.SmartEditModule),
         },
       },
 

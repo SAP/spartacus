@@ -8,6 +8,7 @@ import {
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
+import { SmartEditConfig } from '@spartacus/smartedit/root';
 import { filter, take } from 'rxjs/operators';
 
 @Injectable({
@@ -26,8 +27,12 @@ export class SmartEditService {
     protected baseSiteService: BaseSiteService,
     protected zone: NgZone,
     protected winRef: WindowRef,
-    protected rendererFactory: RendererFactory2
+    protected rendererFactory: RendererFactory2,
+    protected config: SmartEditConfig
   ) {
+    // load webApplicationInjector.js first
+    this.loadScript();
+
     if (winRef.nativeWindow) {
       const window = winRef.nativeWindow as any;
       // rerender components and slots after editing
@@ -45,7 +50,7 @@ export class SmartEditService {
     }
   }
 
-  public processCmsPage() {
+  public processCmsPage(): void {
     this.baseSiteService
       .get()
       .pipe(filter(Boolean), take(1))
@@ -63,6 +68,20 @@ export class SmartEditService {
             this.addPageContract(cmsPage);
           });
       });
+  }
+
+  /**
+   * load webApplicationInjector.js
+   */
+  protected loadScript(): void {
+    const node = document.createElement('script');
+    node.src = '../webApplicationInjector.js';
+    node.id = 'smartedit-injector';
+    node.setAttribute(
+      'data-smartedit-allow-origin',
+      this.config.smartEdit.allowOrigin
+    );
+    document.getElementsByTagName('head')[0].appendChild(node);
   }
 
   /**
@@ -110,6 +129,9 @@ export class SmartEditService {
     }
   }
 
+  /**
+   * re-render CMS components and slots
+   */
   protected renderComponent(
     componentId: string,
     componentType?: string,
@@ -138,7 +160,7 @@ export class SmartEditService {
   }
 
   /**
-   * Add smartedit HTML markup contract
+   * add smartedit HTML markup contract
    */
   public addSmartEditContract(
     element: Element,
