@@ -14,7 +14,11 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
+import {
+  FeaturesConfigModule,
+  I18nTestingModule,
+  Product,
+} from '@spartacus/core';
 import { ModalDirective } from 'projects/storefrontlib/src/shared/components/modal/modal.directive';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
@@ -62,7 +66,7 @@ class MockPromotionsComponent {
   @Input() promotions;
 }
 
-const mockProduct = {
+const mockBasicProduct: Product = {
   baseOptions: [
     {
       selected: {
@@ -82,6 +86,248 @@ const mockProduct = {
   stock: {
     stockLevelStatus: 'outOfStock',
   },
+};
+
+const mockVariantProduct: Product = {
+  baseProduct: 'baseProduct1',
+  categories: [{ code: 'test1' }, { code: 'test2' }, { code: 'test3' }],
+  code: 'code_1',
+  multidimensional: true,
+  name: 'Test1',
+  purchasable: true,
+  variantMatrix: [
+    {
+      elements: [
+        {
+          elements: [
+            {
+              elements: [],
+              isLeaf: true,
+              parentVariantCategory: {
+                hasImage: false,
+                name: 'Size',
+              },
+              variantOption: {
+                code: 'code_1',
+                variantOptionQualifiers: [],
+              },
+              variantValueCategory: {
+                name: '7',
+              },
+            },
+            {
+              elements: [],
+              isLeaf: true,
+              parentVariantCategory: {
+                hasImage: false,
+                name: 'Size',
+              },
+              variantOption: {
+                code: 'code_2',
+                variantOptionQualifiers: [],
+              },
+              variantValueCategory: {
+                name: '7.5',
+              },
+            },
+          ],
+          isLeaf: false,
+          parentVariantCategory: {
+            hasImage: false,
+            name: 'Fit',
+          },
+          variantOption: {
+            code: 'code_1',
+            variantOptionQualifiers: [],
+          },
+          variantValueCategory: {
+            name: 'M',
+          },
+        },
+        {
+          elements: [
+            {
+              elements: [],
+              isLeaf: true,
+              parentVariantCategory: {
+                hasImage: false,
+                name: 'Size',
+              },
+              variantOption: {
+                code: 'code_3',
+                variantOptionQualifiers: [],
+              },
+              variantValueCategory: {
+                name: '7',
+              },
+            },
+            {
+              elements: [],
+              isLeaf: true,
+              parentVariantCategory: {
+                hasImage: false,
+                name: 'Size',
+              },
+              variantOption: {
+                code: 'code_4',
+                variantOptionQualifiers: [],
+              },
+              variantValueCategory: {
+                name: '7.5',
+              },
+            },
+          ],
+          isLeaf: false,
+          parentVariantCategory: {
+            hasImage: false,
+            name: 'Fit',
+          },
+          variantOption: {
+            code: 'code_3',
+            variantOptionQualifiers: [],
+          },
+          variantValueCategory: {
+            name: 'W',
+          },
+        },
+      ],
+      isLeaf: false,
+      parentVariantCategory: {
+        hasImage: true,
+        name: 'Color',
+      },
+      variantOption: {
+        code: 'code_1',
+        variantOptionQualifiers: [{ image: {} }],
+      },
+      variantValueCategory: {
+        name: 'Black',
+      },
+    },
+    {
+      elements: [
+        {
+          elements: [
+            {
+              elements: [],
+              isLeaf: true,
+              parentVariantCategory: {
+                hasImage: false,
+                name: 'Size',
+              },
+              variantOption: {
+                code: 'code_5',
+                variantOptionQualifiers: [],
+              },
+              variantValueCategory: {
+                name: '7',
+              },
+            },
+            {
+              elements: [],
+              isLeaf: true,
+              parentVariantCategory: {
+                hasImage: false,
+                name: 'Size',
+              },
+              variantOption: {
+                code: 'code_6',
+                variantOptionQualifiers: [],
+              },
+              variantValueCategory: {
+                name: '7.5',
+              },
+            },
+          ],
+          isLeaf: false,
+          parentVariantCategory: {
+            hasImage: false,
+            name: 'Fit',
+          },
+          variantOption: {
+            code: 'code_5',
+            variantOptionQualifiers: [],
+          },
+          variantValueCategory: {
+            name: 'M',
+          },
+        },
+        {
+          elements: [
+            {
+              elements: [],
+              isLeaf: true,
+              parentVariantCategory: {
+                hasImage: false,
+                name: 'Size',
+              },
+              variantOption: {
+                code: 'code_7',
+                variantOptionQualifiers: [],
+              },
+              variantValueCategory: {
+                name: '7',
+              },
+            },
+            {
+              elements: [],
+              isLeaf: true,
+              parentVariantCategory: {
+                hasImage: false,
+                name: 'Size',
+              },
+              variantOption: {
+                code: 'code_8',
+                variantOptionQualifiers: [],
+              },
+              variantValueCategory: {
+                name: '7.5',
+              },
+            },
+            {
+              elements: [],
+              isLeaf: true,
+              parentVariantCategory: {
+                hasImage: false,
+                name: 'Size',
+              },
+              variantOption: {
+                code: 'code_9',
+                variantOptionQualifiers: [],
+              },
+              variantValueCategory: {
+                name: '12.5',
+              },
+            },
+          ],
+          isLeaf: false,
+          parentVariantCategory: {
+            hasImage: false,
+            name: 'Fit',
+          },
+          variantOption: {
+            code: 'code_7',
+            variantOptionQualifiers: [],
+          },
+          variantValueCategory: {
+            name: 'W',
+          },
+        },
+      ],
+      isLeaf: false,
+      parentVariantCategory: {
+        hasImage: false,
+        name: 'Color',
+      },
+      variantOption: {
+        code: 'code_5',
+        variantOptionQualifiers: [],
+      },
+      variantValueCategory: {
+        name: 'Brown',
+      },
+    },
+  ],
 };
 
 class MockPromotionService {
@@ -137,7 +383,7 @@ describe('CartItemComponent', () => {
     fixture = TestBed.createComponent(CartItemComponent);
     cartItemComponent = fixture.componentInstance;
     cartItemComponent.item = {
-      product: mockProduct,
+      product: mockBasicProduct,
       updateable: true,
     };
     cartItemComponent.quantityControl = new FormControl('1');
@@ -196,7 +442,7 @@ describe('CartItemComponent', () => {
 
   it('should display variant properties', () => {
     const variants =
-      mockProduct.baseOptions[0].selected.variantOptionQualifiers;
+      mockBasicProduct.baseOptions[0].selected.variantOptionQualifiers;
     fixture.detectChanges();
 
     expect(el.queryAll(By.css('.cx-property')).length).toEqual(variants.length);
@@ -206,6 +452,74 @@ describe('CartItemComponent', () => {
       expect(infoContainer.innerText).toContain(
         `${variant.name}: ${variant.value}`
       );
+    });
+  });
+
+  it('should check if product is multi-d variant', () => {
+    cartItemComponent.ngOnInit();
+    fixture.detectChanges();
+
+    expect(cartItemComponent.isMultiDVariantsProduct).toHaveBeenCalledWith(
+      mockVariantProduct
+    );
+  });
+
+  describe('is multi-d variant product', () => {
+    describe('when multidimensional does not exist', () => {
+      it('should return false', () => {
+        const result = cartItemComponent.isMultiDVariantsProduct(
+          mockBasicProduct
+        );
+
+        expect(result).toEqual(false);
+      });
+
+      it('should leave variants as empty array', () => {
+        cartItemComponent.ngOnInit();
+        fixture.detectChanges();
+
+        expect(cartItemComponent.variants.length).toEqual(0);
+      });
+    });
+
+    describe('when multidimensional is false', () => {
+      it('should return false', () => {
+        mockBasicProduct.multidimensional = false;
+        const result = cartItemComponent.isMultiDVariantsProduct(
+          mockBasicProduct
+        );
+
+        expect(result).toEqual(false);
+      });
+
+      it('should leave variants as empty array', () => {
+        cartItemComponent.ngOnInit();
+        fixture.detectChanges();
+
+        expect(cartItemComponent.variants.length).toEqual(0);
+      });
+    });
+
+    describe('when multidimensional is true', () => {
+      it('should return true', () => {
+        const result = cartItemComponent.isMultiDVariantsProduct(
+          mockVariantProduct
+        );
+
+        expect(result).toEqual(true);
+      });
+
+      it('should set variants', () => {
+        cartItemComponent.ngOnInit();
+        fixture.detectChanges();
+
+        const multiDElements = fixture.debugElement.nativeElement.querySelectorAll(
+          '.multid-variant'
+        );
+
+        expect(cartItemComponent.variants.length).toEqual(3);
+        expect(multiDElements.length).toEqual(3);
+      });
     });
   });
 });

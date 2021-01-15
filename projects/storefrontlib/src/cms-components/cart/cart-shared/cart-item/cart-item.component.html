@@ -42,7 +42,28 @@
             </div>
           </div>
         </ng-container>
+
+        <!-- Multi-D Variants -->
+        <ng-container>
+          <!-- <ng-container *ngIf="item.product.variantMatrix?.length"> -->
+          <div
+            *ngFor="let variant of variants"
+            class="multid-variant cx-property"
+          >
+            <div
+              class="cx-label"
+              *ngIf="
+                variant.parentVariantCategory?.name &&
+                variant.variantValueCategory?.name
+              "
+            >
+              {{ variant.parentVariantCategory?.name }}:
+              {{ variant.variantValueCategory?.name }}
+            </div>
+          </div>
+        </ng-container>
       </div>
+
       <!-- Item Price -->
       <div
         *ngIf="item.basePrice"
