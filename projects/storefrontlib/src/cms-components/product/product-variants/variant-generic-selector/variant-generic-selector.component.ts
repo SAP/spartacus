@@ -50,6 +50,12 @@ export class VariantGenericSelectorComponent implements OnInit {
     return null;
   }
 
+  variantHasImages(variants: VariantMatrixElement[]): boolean {
+    return variants.some(
+      (variant: VariantMatrixElement) => variant.parentVariantCategory.hasImage
+    );
+  }
+
   private setVariants(): void {
     this.variants = [];
 
@@ -66,7 +72,8 @@ export class VariantGenericSelectorComponent implements OnInit {
       );
 
       if (1 !== level) {
-        productMatrix = productMatrix[currentLevelProductVariantIndex].elements;
+        productMatrix =
+          productMatrix[currentLevelProductVariantIndex]?.elements;
       }
 
       this.variants.push(productMatrix);
@@ -75,7 +82,6 @@ export class VariantGenericSelectorComponent implements OnInit {
 
   private getProductVariantMatrixIndex(matrix: VariantMatrixElement[]): number {
     let productVariantMatrixIndex: number;
-
     matrix.forEach((variant: VariantMatrixElement, index: number) => {
       if (variant.variantOption.code === this.product.code) {
         productVariantMatrixIndex = index;

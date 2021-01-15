@@ -120,7 +120,6 @@ export class CartItemComponent implements OnInit {
       );
 
       this.variants.push(productMatrix[0]);
-      console.log(this.variants);
     });
   }
 
