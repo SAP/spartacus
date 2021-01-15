@@ -71,6 +71,10 @@ else
 fi
 
 echo '-----'
+echo 'Getting config for CI'
+cp ./ci-scripts/.env-ci .env
+
+echo '-----'
 echo "Running Cypress end to end tests"
 
 yarn e2e:cy"${INTEGRATION}":start-run-ci"${CI_ENV}${SUITE}"
