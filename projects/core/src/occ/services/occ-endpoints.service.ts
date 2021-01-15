@@ -108,7 +108,7 @@ export class OccEndpointsService {
   }
 
   /**
-   * @Deprecated since 3.2 - use "buildUrlFromEndpointString" with the same parameters
+   * @Deprecated since 3.2 - use "buildUrl" with configurable endpoints instead
    *
    * Returns an OCC endpoint including baseUrl and baseSite
    *
