@@ -9,6 +9,7 @@ import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'cx-configurator-attribute-single-selection-bundle',
@@ -17,6 +18,8 @@ import { ConfiguratorAttributeQuantityService } from '../../quantity/configurato
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeSingleSelectionBundleComponent extends ConfiguratorAttributeBaseComponent {
+  loading$ = new BehaviorSubject<boolean>(false);
+
   @Input() attribute: Configurator.Attribute;
   @Input() ownerKey: string;
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();

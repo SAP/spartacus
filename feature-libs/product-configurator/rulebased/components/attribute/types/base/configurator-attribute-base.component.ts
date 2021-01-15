@@ -1,23 +1,15 @@
-import { Component } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
 
 /**
  * Service to provide unique keys for elements on the UI and for sending to configurator
  */
 
-@Component({
-  selector: 'cx-configurator-attribute-base',
-  template: ` <div>base works!!</div> `,
-})
 export class ConfiguratorAttributeBaseComponent {
   private static SEPERATOR = '--';
   private static PREFIX = 'cx-configurator';
   private static PREFIX_LABEL = 'label';
   private static PREFIX_OPTION_PRICE_VALUE = 'price--optionsPriceValue';
   private static PREFIX_DDLB_OPTION_PRICE_VALUE = 'option--price';
-
-  loading$ = new BehaviorSubject<boolean>(false);
 
   /**
    * Creates unique key for config value on the UI
