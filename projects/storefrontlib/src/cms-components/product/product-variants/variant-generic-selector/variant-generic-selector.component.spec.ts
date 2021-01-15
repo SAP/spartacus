@@ -341,6 +341,19 @@ fdescribe('VariantGenericSelectorComponent', () => {
       params: prepareMockProductBasedOnCode(selectedOptionValue),
     });
   });
+  it('should go to PDP when new image variant selected', () => {
+    spyOn(routingService, 'go').and.callThrough();
+    const mediaElements = fixture.debugElement.nativeElement.querySelectorAll(
+      '.image-variant-container cx-media'
+    );
+    const mediaEl = mediaElements[0];
+    mediaEl.dispatchEvent(new MouseEvent('click'));
+    fixture.detectChanges();
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'product',
+      params: prepareMockProductBasedOnCode('code_1'),
+    });
+  });
   describe('when variant array', () => {
     it('contain hasImage flag it should return true', () => {
       expect(component.variantHasImages(component.variants[0])).toEqual(true);
