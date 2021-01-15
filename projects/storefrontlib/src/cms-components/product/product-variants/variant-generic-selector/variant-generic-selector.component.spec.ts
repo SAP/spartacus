@@ -10,120 +10,254 @@ import {
 } from '@spartacus/core';
 import { NavigationExtras } from '@angular/router';
 import { Observable, of } from 'rxjs';
-
+import { MediaModule } from 'projects/storefrontlib/src/shared';
 const mockProduct: Product = {
-  code: 'code1',
-  name: 'Test1',
   baseProduct: 'baseProduct1',
   categories: [{ code: 'test1' }, { code: 'test2' }, { code: 'test3' }],
+  code: 'code_1',
+  multidimensional: true,
+  name: 'Test1',
+  purchasable: true,
   variantMatrix: [
     {
       elements: [
         {
-          isLeaf: false,
-          variantOption: { code: 'code1' },
-          parentVariantCategory: { name: 'Fit' },
-          variantValueCategory: { name: 'W' },
           elements: [
             {
               elements: [],
               isLeaf: true,
-              parentVariantCategory: { name: 'Size' },
-              variantOption: { code: 'code1' },
-              variantValueCategory: { name: '7' },
+              parentVariantCategory: {
+                hasImage: false,
+                name: 'Size',
+              },
+              variantOption: {
+                code: 'code_1',
+                variantOptionQualifiers: [],
+              },
+              variantValueCategory: {
+                name: '7',
+              },
             },
             {
               elements: [],
               isLeaf: true,
-              parentVariantCategory: { name: 'Size' },
-              variantOption: { code: 'code11' },
-              variantValueCategory: { name: '8' },
-            },
-            {
-              elements: [],
-              isLeaf: true,
-              parentVariantCategory: { name: 'Size' },
-              variantOption: { code: 'code12' },
-              variantValueCategory: { name: '9' },
+              parentVariantCategory: {
+                hasImage: false,
+                name: 'Size',
+              },
+              variantOption: {
+                code: 'code_2',
+                variantOptionQualifiers: [],
+              },
+              variantValueCategory: {
+                name: '7.5',
+              },
             },
           ],
+          isLeaf: false,
+          parentVariantCategory: {
+            hasImage: false,
+            name: 'Fit',
+          },
+          variantOption: {
+            code: 'code_1',
+            variantOptionQualifiers: [],
+          },
+          variantValueCategory: {
+            name: 'M',
+          },
         },
         {
-          isLeaf: false,
-          variantOption: { code: '26038000_1' },
-          parentVariantCategory: { name: 'Fit' },
-          variantValueCategory: { name: 'M' },
           elements: [
             {
               elements: [],
               isLeaf: true,
-              parentVariantCategory: { name: 'Size' },
-              variantOption: { code: 'code122' },
-              variantValueCategory: { name: '10' },
+              parentVariantCategory: {
+                hasImage: false,
+                name: 'Size',
+              },
+              variantOption: {
+                code: 'code_3',
+                variantOptionQualifiers: [],
+              },
+              variantValueCategory: {
+                name: '7',
+              },
             },
             {
               elements: [],
               isLeaf: true,
-              parentVariantCategory: { name: 'Size' },
-              variantOption: { code: 'code123' },
-              variantValueCategory: { name: '11' },
-            },
-            {
-              elements: [],
-              isLeaf: true,
-              parentVariantCategory: { name: 'Size' },
-              variantOption: { code: 'code124' },
-              variantValueCategory: { name: '12' },
+              parentVariantCategory: {
+                hasImage: false,
+                name: 'Size',
+              },
+              variantOption: {
+                code: 'code_4',
+                variantOptionQualifiers: [],
+              },
+              variantValueCategory: {
+                name: '7.5',
+              },
             },
           ],
+          isLeaf: false,
+          parentVariantCategory: {
+            hasImage: false,
+            name: 'Fit',
+          },
+          variantOption: {
+            code: 'code_3',
+            variantOptionQualifiers: [],
+          },
+          variantValueCategory: {
+            name: 'W',
+          },
         },
       ],
       isLeaf: false,
-      parentVariantCategory: { name: 'Color' },
-      variantOption: { code: 'code1' },
-      variantValueCategory: { name: 'Black' },
+      parentVariantCategory: {
+        hasImage: true,
+        name: 'Color',
+      },
+      variantOption: {
+        code: 'code_1',
+        variantOptionQualifiers: [{ image: {} }],
+      },
+      variantValueCategory: {
+        name: 'Black',
+      },
     },
     {
       elements: [
         {
-          isLeaf: false,
-          variantOption: { code: 'code3' },
-          parentVariantCategory: { name: 'Fit' },
-          variantValueCategory: { name: 'W' },
           elements: [
             {
               elements: [],
               isLeaf: true,
-              parentVariantCategory: { name: 'Size' },
-              variantOption: { code: 'code3' },
-              variantValueCategory: { name: '9' },
+              parentVariantCategory: {
+                hasImage: false,
+                name: 'Size',
+              },
+              variantOption: {
+                code: 'code_5',
+                variantOptionQualifiers: [],
+              },
+              variantValueCategory: {
+                name: '7',
+              },
+            },
+            {
+              elements: [],
+              isLeaf: true,
+              parentVariantCategory: {
+                hasImage: false,
+                name: 'Size',
+              },
+              variantOption: {
+                code: 'code_6',
+                variantOptionQualifiers: [],
+              },
+              variantValueCategory: {
+                name: '7.5',
+              },
             },
           ],
+          isLeaf: false,
+          parentVariantCategory: {
+            hasImage: false,
+            name: 'Fit',
+          },
+          variantOption: {
+            code: 'code_5',
+            variantOptionQualifiers: [],
+          },
+          variantValueCategory: {
+            name: 'M',
+          },
         },
         {
-          isLeaf: false,
-          variantOption: { code: 'code4' },
-          parentVariantCategory: { name: 'Fit' },
-          variantValueCategory: { name: 'M' },
           elements: [
             {
               elements: [],
               isLeaf: true,
-              parentVariantCategory: { name: 'Size' },
-              variantOption: { code: 'code4' },
-              variantValueCategory: { name: '12' },
+              parentVariantCategory: {
+                hasImage: false,
+                name: 'Size',
+              },
+              variantOption: {
+                code: 'code_7',
+                variantOptionQualifiers: [],
+              },
+              variantValueCategory: {
+                name: '7',
+              },
+            },
+            {
+              elements: [],
+              isLeaf: true,
+              parentVariantCategory: {
+                hasImage: false,
+                name: 'Size',
+              },
+              variantOption: {
+                code: 'code_8',
+                variantOptionQualifiers: [],
+              },
+              variantValueCategory: {
+                name: '7.5',
+              },
+            },
+            {
+              elements: [],
+              isLeaf: true,
+              parentVariantCategory: {
+                hasImage: false,
+                name: 'Size',
+              },
+              variantOption: {
+                code: 'code_9',
+                variantOptionQualifiers: [],
+              },
+              variantValueCategory: {
+                name: '12.5',
+              },
             },
           ],
+          isLeaf: false,
+          parentVariantCategory: {
+            hasImage: false,
+            name: 'Fit',
+          },
+          variantOption: {
+            code: 'code_7',
+            variantOptionQualifiers: [],
+          },
+          variantValueCategory: {
+            name: 'W',
+          },
         },
       ],
       isLeaf: false,
-      parentVariantCategory: { name: 'Color' },
-      variantOption: { code: 'code3' },
-      variantValueCategory: { name: 'Yellow' },
+      parentVariantCategory: {
+        hasImage: false,
+        name: 'Color',
+      },
+      variantOption: {
+        code: 'code_5',
+        variantOptionQualifiers: [],
+      },
+      variantValueCategory: {
+        name: 'Brown',
+      },
     },
   ],
 };
-
+function prepareMockProductBasedOnCode(code: string) {
+  const newProduct = JSON.parse(JSON.stringify(mockProduct));
+  newProduct.code = code;
+  newProduct.variantMatrix[0].variantOption.code = code;
+  return newProduct;
+}
 class MockRoutingService implements Partial<RoutingService> {
   go(
     _commands: any[] | UrlCommands,
@@ -131,25 +265,22 @@ class MockRoutingService implements Partial<RoutingService> {
     _extras?: NavigationExtras
   ): void {}
 }
-
 class MockProductService implements Partial<ProductService> {
   get(code: string): Observable<Product> {
-    return of({ ...mockProduct, code });
+    return of(prepareMockProductBasedOnCode(code));
   }
 }
-
 // TODO: remove fdescribe when work is done for this component
 fdescribe('VariantGenericSelectorComponent', () => {
   let component: VariantGenericSelectorComponent;
   let fixture: ComponentFixture<VariantGenericSelectorComponent>;
   let productService: ProductService;
   let routingService: RoutingService;
-
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [VariantGenericSelectorComponent],
-        imports: [RouterTestingModule, I18nTestingModule],
+        imports: [RouterTestingModule, I18nTestingModule, MediaModule],
         providers: [
           { provide: RoutingService, useClass: MockRoutingService },
           {
@@ -158,66 +289,64 @@ fdescribe('VariantGenericSelectorComponent', () => {
           },
         ],
       }).compileComponents();
-
-      productService = TestBed.inject(ProductService);
       routingService = TestBed.inject(RoutingService);
+      productService = TestBed.inject(ProductService);
     })
   );
-
   beforeEach(() => {
     fixture = TestBed.createComponent(VariantGenericSelectorComponent);
     component = fixture.componentInstance;
     component.product = mockProduct;
     fixture.detectChanges();
   });
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
   it('should get product based on passed product code', () => {
     spyOn(productService, 'get').and.callThrough();
     spyOn(component, 'changeVariant').and.callThrough();
-
-    component.changeVariant('code1');
-
+    component.changeVariant('code_1');
     expect(component.changeVariant).toHaveBeenCalled();
-    expect(productService.get).toHaveBeenCalledWith('code1', 'variants');
+    expect(productService.get).toHaveBeenCalledWith('code_1', 'variants');
   });
-
   it('should process product variant matrix and set variants for display', () => {
-    component.changeVariant('code1');
+    component.changeVariant('code_1');
     fixture.detectChanges();
-
     expect(component.variants.length).toEqual(mockProduct.categories.length);
   });
-
+  it('should render proper count of media variant based on provided variantsMatrix in product', () => {
+    const selectElements = fixture.debugElement.nativeElement.querySelectorAll(
+      '.variant-generic-selector .image-variant-container'
+    );
+    expect(selectElements.length).toEqual(1);
+  });
   it('should render proper count of select based on provided variantsMatrix in product', () => {
     const selectElements = fixture.debugElement.nativeElement.querySelectorAll(
-      '.variant-selector select'
+      '.select-variant-container select'
     );
-
-    expect(selectElements.length).toEqual(mockProduct.categories.length);
+    expect(selectElements.length).toEqual(2);
   });
-
   it('should go to PDP when new variant selected', () => {
     spyOn(routingService, 'go').and.callThrough();
     const selectElements = fixture.debugElement.nativeElement.querySelectorAll(
-      '.variant-selector select'
+      '.select-variant-container select'
     );
     const selectEl = selectElements[0];
     const selectedOptionValue = selectEl.options[1].value;
-
     selectEl.value = selectedOptionValue;
     selectEl.dispatchEvent(new Event('change'));
     fixture.detectChanges();
-
-    expect(component.product.code).toEqual(
-      mockProduct.variantMatrix[1].variantOption.code
-    );
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'product',
-      params: { ...mockProduct, code: selectedOptionValue },
+      params: prepareMockProductBasedOnCode(selectedOptionValue),
+    });
+  });
+  describe('when variant array', () => {
+    it('contain hasImage flag it should return true', () => {
+      expect(component.variantHasImages(component.variants[0])).toEqual(true);
+    });
+    it('does not contain hasImage flag it should return false', () => {
+      expect(component.variantHasImages(component.variants[1])).toEqual(false);
     });
   });
 });
