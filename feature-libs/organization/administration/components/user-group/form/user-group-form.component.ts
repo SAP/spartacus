@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { AbstractControl, FormGroup } from '@angular/forms';
 import {
   B2BUnitNode,
   OrgUnitService,
@@ -8,6 +8,7 @@ import {
 import { Observable } from 'rxjs';
 import { ItemService } from '../../shared/item.service';
 import { UserGroupItemService } from '../services/user-group-item.service';
+import { createCodeForEntityName } from '../../shared/utility/entity-code';
 
 @Component({
   selector: 'cx-org-user-group-form',
@@ -34,5 +35,9 @@ export class UserGroupFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.unitService.loadList();
+  }
+
+  createUidWithName(name: AbstractControl, code: AbstractControl): void {
+    createCodeForEntityName(name, code);
   }
 }

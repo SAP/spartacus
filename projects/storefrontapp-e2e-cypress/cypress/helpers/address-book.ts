@@ -2,11 +2,11 @@ import { AddressData, fillShippingAddress } from './checkout-forms';
 import * as alerts from './global-message';
 
 export const newAddress: AddressData = {
-  firstName: 'Foo',
-  lastName: 'Bar',
+  firstName: 'Cypress',
+  lastName: 'User',
   phone: '1234567',
   address: {
-    city: 'NS',
+    city: 'Montreal',
     country: 'Canada',
     line1: 'xxx1',
     line2: 'xxx2',
@@ -112,10 +112,7 @@ export function deleteExistingAddress() {
   // click cancel
   cy.get('.btn-secondary').should('contain', 'Cancel');
   cy.get('.btn-secondary').click();
-  cy.get('.cx-card-delete-msg').should(
-    'not.contain',
-    'Are you sure you want to delete this address?'
-  );
+  cy.get('.cx-card-delete-msg').should('not.exist');
 
   // click delete
   deleteFirstAddress();

@@ -46,6 +46,7 @@ export class CartDetailsComponent implements OnInit {
 
     this.selectiveCartEnabled = this.selectiveCartService.isEnabled();
 
+    // TODO(#10547): Switch in 4.0 `selectiveCartService.getLoaded` to `selectiveCartService.isStable` method
     this.cartLoaded$ = combineLatest([
       this.activeCartService.isStable(),
       this.selectiveCartEnabled
