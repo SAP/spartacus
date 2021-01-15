@@ -1,5 +1,5 @@
 import { Inject, Injectable, isDevMode } from '@angular/core';
-import i18next_global_instance, { i18n } from 'i18next';
+import { i18n } from 'i18next';
 import { Observable } from 'rxjs';
 import { I18nConfig } from '../config/i18n-config';
 import { TranslationChunkService } from '../translation-chunk.service';
@@ -11,26 +11,11 @@ export class I18nextTranslationService implements TranslationService {
   private readonly NON_BREAKING_SPACE = String.fromCharCode(160);
   protected readonly NAMESPACE_SEPARATOR = ':';
 
-  /**
-   * @deprecated use instead the constructor variant with `I18NEXT_INSTANCE` token as the 3rd parameter.
-   */
-  constructor(config: I18nConfig, translationChunk: TranslationChunkService);
-  constructor(
-    config: I18nConfig,
-    translationChunk: TranslationChunkService,
-    // tslint:disable-next-line: unified-signatures
-    i18next?: i18n
-  );
   constructor(
     protected config: I18nConfig,
     protected translationChunk: TranslationChunkService,
-    @Inject(I18NEXT_INSTANCE) protected i18next?: i18n
-  ) {
-    /**
-     * @deprecated TODO: remove the line below. The fallback `i18next_global_instance` should not be used anymore. @see I18NEXT_INSTANCE
-     */
-    this.i18next = this.i18next || i18next_global_instance;
-  }
+    @Inject(I18NEXT_INSTANCE) protected i18next: i18n
+  ) {}
 
   translate(
     key: string,
