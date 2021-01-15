@@ -47,6 +47,10 @@ ${chalk.gray(`------${`-`.repeat(file.length)}------`)}
 `);
 }
 
+export function reportProgress(message) {
+  console.log(`\n${message}`);
+}
+
 export type ProgramOptions = {
   fix: boolean | undefined;
   breakingChanges: boolean | undefined;
