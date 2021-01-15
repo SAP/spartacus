@@ -73,15 +73,6 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['my-account/coupon/claim/:couponCode'],
     paramsMapping: { couponCode: 'code' },
   },
-  configureCLOUDCPQCONFIGURATOR: {
-    paths: ['configure/cpq/:ownerType/entityKey/:entityKey'],
-  },
-  configureOverviewCLOUDCPQCONFIGURATOR: {
-    paths: [
-      'configure-overview/cpq/:ownerType/entityKey/:entityKey/displayOnly/:displayOnly',
-      'configure-overview/cpq/:ownerType/entityKey/:entityKey',
-    ],
-  },
   replenishmentOrders: {
     paths: ['my-account/my-replenishments'],
   },
