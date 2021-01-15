@@ -29,7 +29,10 @@ describe('I18nextTranslationService', () => {
           provide: TranslationChunkService,
           useValue: mockTranslationChunk,
         },
-        { provide: I18NEXT_INSTANCE, useValue: i18nextGlobal },
+        {
+          provide: I18NEXT_INSTANCE,
+          useFactory: () => i18nextGlobal.createInstance(),
+        },
         I18nextTranslationService,
       ],
     });
@@ -50,10 +53,13 @@ describe('I18nextTranslationService', () => {
   });
 
   describe('translate', () => {
+    beforeEach(() => {
+      i18next.isInitialized = true;
+    });
+
     describe(', when key exists,', () => {
       beforeEach(() => {
         spyOn(i18next, 'exists').and.returnValue(true);
-        i18next.isInitialized = true;
       });
 
       it('should emit result of i18next.t', () => {
@@ -74,7 +80,9 @@ describe('I18nextTranslationService', () => {
 
     describe(', when key does NOT exist,', () => {
       beforeEach(() => {
+        debugger;
         spyOn(i18next, 'exists').and.returnValue(false);
+        debugger;
         spyOn(i18next, 'loadNamespaces').and.returnValue(new Promise(() => {}));
       });
 
