@@ -17,6 +17,96 @@ import glob from 'glob';
 import { manageDependencies } from './manage-dependencies';
 import { manageTsConfigs } from './tsconfig-paths';
 
+// ------------ Utilities ------------
+
+/**
+ * Logger when everything was ok
+ */
+export function success(message?: string): void {
+  if (options.fix) {
+    console.log(chalk.green(message ?? ' ✔  Nothing to update'));
+  } else {
+    console.log(chalk.green(message ?? ' ✔  No problems found'));
+  }
+}
+
+/**
+ * Log updated file
+ *
+ * @param path updated file path
+ */
+export function logUpdatedFile(path: string): void {
+  console.log(chalk.green(` ✔  File \`${chalk.bold(path)}\` updated`));
+}
+
+/**
+ * Print error
+ *
+ * @param file related file
+ * @param errors list of errors
+ * @param help help information
+ */
+export function error(
+  file: string,
+  errors: string[],
+  [help, ...extraHelp]: string[]
+): void {
+  errorsCount += errors.length;
+  console.log(`
+${chalk.gray(`----- ${file} -----`)}
+${errors.map((error) => chalk.red(` ✖  ${error}`)).join('\n')}
+
+${chalk.blue(`${chalk.bold(' i  ')}${help}`)}${extraHelp
+    .map((help) => chalk.blue(`\n    ${help}`))
+    .join('')}
+${chalk.gray(`------${`-`.repeat(file.length)}------`)}
+`);
+}
+
+/**
+ * Print warning
+ *
+ * @param file related file
+ * @param warnings list of warnings
+ * @param help help information
+ */
+export function warning(
+  file: string,
+  warnings: string[],
+  [help, ...extraHelp]: string[]
+): void {
+  warningsCount += warnings.length;
+  console.log(`
+${chalk.gray(`----- ${file} -----`)}
+${warnings.map((warning) => chalk.yellow(` ⚠  ${warning}`)).join('\n')}
+
+${chalk.blue(`${chalk.bold(' i  ')}${help}`)}${extraHelp
+    .map((help) => chalk.blue(`\n    ${help}`))
+    .join('')}
+${chalk.gray(`------${`-`.repeat(file.length)}------`)}
+`);
+}
+
+/**
+ * Read content of json file
+ *
+ * @param path file path
+ */
+function readJsonFile(path: string): any {
+  return JSON.parse(readFileSync(path, 'utf-8'));
+}
+
+/**
+ * Log script step
+ *
+ * @param message step to log
+ */
+export function reportProgress(message: string): void {
+  console.log(`\n${message}`);
+}
+
+// ------------ Utilities end ------------
+
 const program = new Command();
 program
   .description('Check configuration in repository for inconsistencies')
@@ -193,92 +283,4 @@ if (!options.fix && (errorsCount > 0 || warningsCount > 0)) {
 // Fail script when there are some errors
 if (errorsCount > 0) {
   process.exitCode = 1;
-}
-
-// ------------ Utilities ------------
-
-/**
- * Logger when everything was ok
- */
-export function success(message?: string): void {
-  if (options.fix) {
-    console.log(chalk.green(message ?? ' ✔  Nothing to update'));
-  } else {
-    console.log(chalk.green(message ?? ' ✔  No problems found'));
-  }
-}
-
-/**
- * Log updated file
- *
- * @param path updated file path
- */
-export function logUpdatedFile(path: string): void {
-  console.log(chalk.green(` ✔  File \`${chalk.bold(path)}\` updated`));
-}
-
-/**
- * Print error
- *
- * @param file related file
- * @param errors list of errors
- * @param help help information
- */
-export function error(
-  file: string,
-  errors: string[],
-  [help, ...extraHelp]: string[]
-): void {
-  errorsCount += errors.length;
-  console.log(`
-${chalk.gray(`----- ${file} -----`)}
-${errors.map((error) => chalk.red(` ✖  ${error}`)).join('\n')}
-
-${chalk.blue(`${chalk.bold(' i  ')}${help}`)}${extraHelp
-    .map((help) => chalk.blue(`\n    ${help}`))
-    .join('')}
-${chalk.gray(`------${`-`.repeat(file.length)}------`)}
-`);
-}
-
-/**
- * Print warning
- *
- * @param file related file
- * @param warnings list of warnings
- * @param help help information
- */
-export function warning(
-  file: string,
-  warnings: string[],
-  [help, ...extraHelp]: string[]
-): void {
-  warningsCount += warnings.length;
-  console.log(`
-${chalk.gray(`----- ${file} -----`)}
-${warnings.map((warning) => chalk.yellow(` ⚠  ${warning}`)).join('\n')}
-
-${chalk.blue(`${chalk.bold(' i  ')}${help}`)}${extraHelp
-    .map((help) => chalk.blue(`\n    ${help}`))
-    .join('')}
-${chalk.gray(`------${`-`.repeat(file.length)}------`)}
-`);
-}
-
-/**
- * Read content of json file
- *
- * @param path file path
- */
-function readJsonFile(path: string): any {
-  return JSON.parse(readFileSync(path, 'utf-8'));
-}
-
-/**
- * Log script step
- *
- * @param message step to log
- */
-export function reportProgress(message: string): void {
-  console.log(`\n${message}`);
 }
