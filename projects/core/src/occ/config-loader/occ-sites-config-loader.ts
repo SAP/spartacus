@@ -13,10 +13,18 @@ export class OccSitesConfigLoader {
   protected readonly endpoint =
     'basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies(isocode),defaultCurrency(isocode),languages(isocode),defaultLanguage(isocode)))';
 
+  private getPrefix(): string {
+    if (
+      Boolean(this.config.backend?.occ?.prefix) &&
+      !this.config.backend?.occ?.prefix?.startsWith('/')
+    ) {
+      return '/' + this.config.backend.occ.prefix;
+    }
+    return this.config.backend.occ.prefix;
+  }
+
   private get baseEndpoint(): string {
-    return (
-      (this.config.backend.occ.baseUrl || '') + this.config.backend.occ.prefix
-    );
+    return (this.config.backend.occ.baseUrl || '') + this.getPrefix();
   }
 
   private get url(): string {
