@@ -1,3 +1,4 @@
+import { Action } from '@ngrx/store';
 import { AsmUi } from '../../models/asm.models';
 import { AsmActions } from '../actions/index';
 
@@ -5,13 +6,13 @@ export const initialState: AsmUi = <AsmUi>{ collapsed: false };
 
 export function reducer(
   state: AsmUi | undefined = initialState,
-  action: AsmActions.AsmUiAction
+  action: Action
 ): AsmUi {
   switch (action.type) {
     case AsmActions.ASM_UI_UPDATE: {
       return {
         ...state,
-        ...action.payload,
+        ...(action as AsmActions.AsmUiUpdate).payload,
       };
     }
     default: {

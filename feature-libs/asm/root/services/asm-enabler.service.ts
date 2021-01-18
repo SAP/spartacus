@@ -71,7 +71,7 @@ export class AsmEnablerService {
    */
   protected isLaunched(): boolean {
     const params = this.location.path().split('?')[1];
-    return Boolean(params && params.split('&').includes('asm=true'));
+    return !!params && params.split('&').includes('asm=true');
   }
 
   /**
