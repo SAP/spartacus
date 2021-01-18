@@ -1,4 +1,5 @@
-import { CxEvent } from '@spartacus/core';
+import { CartAddEntryEvent, CartAddEntrySuccessEvent } from '@spartacus/core';
+import { PageEvent } from '@spartacus/storefront';
 import { TmsModule } from '@spartacus/tms';
 import { FeatureEnvironment } from '../models/feature.model';
 
@@ -7,10 +8,10 @@ export const tmsFeature: FeatureEnvironment = {
     TmsModule.forRoot({
       tms: {
         gtm: {
-          events: [CxEvent],
+          events: [PageEvent, CartAddEntryEvent],
         },
         adobeLaunch: {
-          events: [CxEvent],
+          events: [PageEvent, CartAddEntrySuccessEvent],
         },
       },
     }),
