@@ -21,15 +21,14 @@ export class BulkPricesService {
   }
 
   private convert(productPriceScope: Product): BulkPrice[] {
-    const bulkPrices = [];
+    let bulkPrices = [];
+    
     if (productPriceScope != null) {
       const basePrice = productPriceScope.price.value;
       const volumePrices = productPriceScope.volumePrices;
 
-      for (let i = 0; i < volumePrices.length; i++) {
-        const tierPrice = this.parsePrice(volumePrices[i], basePrice);
-        bulkPrices.push(tierPrice);
-      }
+      bulkPrices = volumePrices.map(volumePrice =>
+        this.parsePrice(volumePrice, basePrice));
     }
 
     return bulkPrices;
