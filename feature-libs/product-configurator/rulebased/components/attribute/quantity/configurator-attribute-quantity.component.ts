@@ -35,7 +35,7 @@ export class ConfiguratorAttributeQuantityComponent
     this.quantity.setValue(this.initialQuantity);
 
     const debounceQuantity = this.quantity.valueChanges.pipe(
-      debounce(() => timer(500))
+      debounce(() => timer(350))
     );
 
     this.sub = debounceQuantity.subscribe(() => this.onChangeQuantity());
