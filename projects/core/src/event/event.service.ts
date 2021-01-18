@@ -50,17 +50,18 @@ export class EventService {
    */
   register<T>(eventType: Type<T>, source$: Observable<T>): () => void {
     let mergingSubjects: MergingSubject<T>[] = [];
-    let eventClass = eventType;
-    while (!!eventClass) {
-      console.log('registering for xxx: ', eventClass);
-      const eventMeta = this.getEventMeta(eventClass);
+    let parentType = eventType;
+    while (!!parentType) {
+      console.log('registering for xxx: ', parentType);
+      const eventMeta = this.getEventMeta(parentType);
+
       if (eventMeta.mergingSubject.has(source$)) {
         if (isDevMode()) {
           console.warn(
             `EventService: the event source`,
             source$,
             `has been already registered for the type`,
-            eventClass
+            parentType
           );
         }
       } else {
@@ -69,12 +70,12 @@ export class EventService {
       mergingSubjects.push(eventMeta.mergingSubject);
 
       if (
-        !eventClass.prototype ||
-        eventClass.prototype.__proto__.constructor.name === 'Object'
+        !parentType.prototype ||
+        parentType.prototype.__proto__.constructor.name === 'Object'
       ) {
         break;
       }
-      eventClass = eventClass.prototype.__proto__.constructor;
+      parentType = parentType.prototype.__proto__.constructor;
     }
 
     return () =>
@@ -180,23 +181,23 @@ export class EventService {
     //   eventType.prototype.__proto__.constructor.name
     // );
 
-    let eventClass = eventType;
-    while (!!eventClass) {
-      console.log('xxx registering: ', eventClass);
-      this.eventsMeta.set(eventClass, {
+    let parentType = eventType;
+    while (!!parentType) {
+      console.log('xxx registering: ', parentType);
+      this.eventsMeta.set(parentType, {
         inputSubject$: null, // will be created lazily by the `dispatch` method
         mergingSubject: new MergingSubject(),
       });
 
       if (
-        !eventClass.prototype ||
-        eventClass.prototype.__proto__.constructor.name === 'Object'
+        !parentType.prototype ||
+        parentType.prototype.__proto__.constructor.name === 'Object'
       ) {
         break;
       }
 
-      eventClass = eventClass.prototype.__proto__.constructor;
-      if (this.eventsMeta.has(eventClass)) {
+      parentType = parentType.prototype.__proto__.constructor;
+      if (this.eventsMeta.has(parentType)) {
         break;
       }
     }
@@ -214,24 +215,24 @@ export class EventService {
       );
     }
 
-    let eventClass = eventType;
+    let parentType = eventType;
     let extendsCxClass = false;
-    while (!!eventClass) {
-      if (!Object.getOwnPropertyNames(eventClass).includes('type')) {
+    while (!!parentType) {
+      if (!Object.getOwnPropertyNames(parentType).includes('type')) {
         console.warn(
-          `EventService: ${eventClass} does not contain the static 'type' property. Please add e.g.: static type = '${eventClass.name}'`
+          `EventService: ${parentType} does not contain the static 'type' property. Please add e.g.: static type = '${parentType.name}'`
         );
-      } else if (!extendsCxClass && eventClass['type'] === CxEvent.type) {
+      } else if (!extendsCxClass && parentType['type'] === CxEvent.type) {
         extendsCxClass = true;
       }
 
       if (
-        !eventClass.prototype ||
-        eventClass.prototype.__proto__.constructor.name === 'Object'
+        !parentType.prototype ||
+        parentType.prototype.__proto__.constructor.name === 'Object'
       ) {
         break;
       }
-      eventClass = eventClass.prototype.__proto__.constructor;
+      parentType = parentType.prototype.__proto__.constructor;
     }
 
     if (!extendsCxClass) {
