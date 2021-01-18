@@ -10,6 +10,7 @@ import {
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import { ConfigModule, TestConfigModule } from '@spartacus/core';
+import { QualtricsLoaderService } from '@spartacus/qualtrics/components';
 import {
   JsonLdBuilderModule,
   StorefrontComponent,
@@ -20,6 +21,7 @@ import { cdcFeature } from '../environments/cdc/cdc.feature';
 import { cdsFeature } from '../environments/cds/cds.feature';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
+import { DemoQualtricsLoaderService } from './demo-qualtrics.service';
 
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
@@ -85,7 +87,9 @@ if (environment.cdc) {
 
     ...devImports,
   ],
-
+  providers: [
+    { provide: QualtricsLoaderService, useClass: DemoQualtricsLoaderService },
+  ],
   bootstrap: [StorefrontComponent],
 })
 export class AppModule {}

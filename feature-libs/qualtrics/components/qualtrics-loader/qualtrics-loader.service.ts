@@ -1,11 +1,12 @@
 import {
   Injectable,
   isDevMode,
+  OnDestroy,
   Renderer2,
   RendererFactory2,
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { fromEvent, Observable, of } from 'rxjs';
+import { EMPTY, fromEvent, Observable, of, Subscription } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 export const QUALTRICS_EVENT_NAME = 'qsi_js_loaded';
@@ -26,7 +27,9 @@ export const QUALTRICS_EVENT_NAME = 'qsi_js_loaded';
 @Injectable({
   providedIn: 'root',
 })
-export class QualtricsLoaderService {
+export class QualtricsLoaderService implements OnDestroy {
+  private subscription = new Subscription();
+
   /**
    * Reference to the QSI API.
    */
@@ -47,7 +50,9 @@ export class QualtricsLoaderService {
    */
   protected qsi$: Observable<any> = this.qsiLoaded$.pipe(
     switchMap(() => this.isDataLoaded()),
-    map(() => this.winRef?.nativeWindow['QSI']),
+    map((dataLoaded) =>
+      dataLoaded ? this.winRef?.nativeWindow['QSI'] : EMPTY
+    ),
     filter((api) => Boolean(api)),
     tap((qsi) => (this.qsiApi = qsi))
   );
@@ -90,7 +95,7 @@ export class QualtricsLoaderService {
    * we run the API.
    */
   protected initialize() {
-    this.qsi$.subscribe(() => this.run());
+    this.subscription.add(this.qsi$.subscribe(() => this.run()));
   }
 
   /**
@@ -129,5 +134,9 @@ export class QualtricsLoaderService {
 
   protected get renderer(): Renderer2 {
     return this.rendererFactory.createRenderer(null, null);
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }
