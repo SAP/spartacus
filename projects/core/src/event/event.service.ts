@@ -68,14 +68,10 @@ export class EventService {
         eventMeta.mergingSubject.add(source$);
       }
       mergingSubjects.push(eventMeta.mergingSubject);
-
-      if (
-        !parentType.prototype ||
-        parentType.prototype.__proto__.constructor.name === 'Object'
-      ) {
+      if (!Object.getPrototypeOf(parentType).type) {
         break;
       }
-      parentType = parentType.prototype.__proto__.constructor;
+      parentType = Object.getPrototypeOf(parentType);
     }
 
     return () =>
@@ -151,36 +147,6 @@ export class EventService {
    * Creates the event meta object for the given event type
    */
   private createEventMeta<T>(eventType: Type<T>): void {
-    // console.log('-----------------------------------');
-    // console.log('eventType: ', eventType);
-    // console.log('(eventType as any).type: ', (eventType as any).type); // prints type property, if exists ✅
-    // console.log(
-    //   'Object.getPrototypeOf(eventType): ',
-    //   Object.getPrototypeOf(eventType)
-    // ); // gives class ✅
-    // console.log(
-    //   'Object.getPrototypeOf(eventType.prototype): ',
-    //   Object.getPrototypeOf(eventType.prototype)
-    // ); // gives class ✅
-    // console.log(
-    //   'Object.getPrototypeOf(eventType).type: ',
-    //   Object.getPrototypeOf(eventType).type
-    // ); // gives class super type ✅
-
-    // console.log('eventType.prototype: ', eventType.prototype);
-    // console.log(
-    //   'eventType.prototype.__proto__: ',
-    //   eventType.prototype.__proto__
-    // );
-    // console.log(
-    //   'eventType.prototype.__proto__.constructor: ',
-    //   eventType.prototype.__proto__.constructor
-    // );
-    // console.log(
-    //   'eventType.prototype.__proto__.constructor.name: ',
-    //   eventType.prototype.__proto__.constructor.name
-    // );
-
     let parentType = eventType;
     while (!!parentType) {
       console.log('xxx registering: ', parentType);
@@ -189,14 +155,11 @@ export class EventService {
         mergingSubject: new MergingSubject(),
       });
 
-      if (
-        !parentType.prototype ||
-        parentType.prototype.__proto__.constructor.name === 'Object'
-      ) {
+      if (!Object.getPrototypeOf(parentType).type) {
         break;
       }
 
-      parentType = parentType.prototype.__proto__.constructor;
+      parentType = Object.getPrototypeOf(parentType);
       if (this.eventsMeta.has(parentType)) {
         break;
       }
@@ -226,13 +189,10 @@ export class EventService {
         extendsCxClass = true;
       }
 
-      if (
-        !parentType.prototype ||
-        parentType.prototype.__proto__.constructor.name === 'Object'
-      ) {
+      if (!Object.getPrototypeOf(parentType).type) {
         break;
       }
-      parentType = parentType.prototype.__proto__.constructor;
+      parentType = Object.getPrototypeOf(parentType);
     }
 
     if (!extendsCxClass) {
