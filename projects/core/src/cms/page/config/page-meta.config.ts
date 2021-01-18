@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Config } from '../../../config';
+import { Config } from '../../../config/config-tokens';
 
 @Injectable({
   providedIn: 'root',
   useExisting: Config,
 })
 export abstract class PageMetaConfig {
-  pageResolvers?: PageResolverConfig;
+  pageMeta?: PageMetaResolversConfig;
 }
 
-export interface PageResolverConfig {
-  resolvers?: PageResolver[];
+export interface PageMetaResolversConfig {
+  resolvers?: PageMetaResolverConfig[];
 
   /**
    * Enables resolvers in dev mode regardless of the CSR configuration. This
@@ -20,7 +20,7 @@ export interface PageResolverConfig {
   enableInDevMode?: boolean;
 }
 
-export interface PageResolver {
+export interface PageMetaResolverConfig {
   /**
    * PageMeta property
    */

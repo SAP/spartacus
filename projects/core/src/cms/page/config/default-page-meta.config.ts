@@ -1,7 +1,7 @@
 import { PageMetaConfig } from './page-meta.config';
 
 export const defaultPageMetaConfig: PageMetaConfig = {
-  pageResolvers: {
+  pageMeta: {
     resolvers: [
       {
         property: 'title',
@@ -15,21 +15,18 @@ export const defaultPageMetaConfig: PageMetaConfig = {
         property: 'breadcrumbs',
         method: 'resolveBreadcrumbs',
       },
-      // SSR only resolvers
+      // @TODO (#10467) disable (`disabledInCsr`) description, image and robots resolvers to optimize resolving logic
       {
         property: 'description',
         method: 'resolveDescription',
-        disabledInCsr: true,
       },
       {
         property: 'image',
         method: 'resolveImage',
-        disabledInCsr: true,
       },
       {
         property: 'robots',
         method: 'resolveRobots',
-        disabledInCsr: true,
       },
     ],
   },

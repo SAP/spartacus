@@ -133,7 +133,7 @@ describe('PageMetaService', () => {
           {
             provide: PageMetaConfig,
             useValue: {
-              pageResolvers: {
+              pageMeta: {
                 resolvers: [
                   {
                     property: 'title',

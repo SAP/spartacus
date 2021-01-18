@@ -117,20 +117,18 @@ export class PageMetaService {
    */
   protected getResolverMethods(): { [property: string]: string } {
     let resolverMethods = {};
-    const configured = this.pageMetaConfig?.pageResolvers?.resolvers;
+    const configured = this.pageMetaConfig?.pageMeta?.resolvers;
     if (configured) {
       configured
         // filter the resolvers to avoid unnecessary processing in CSR
         .filter((resolver) => {
           return (
+            // always resolve in SSR
             !isPlatformBrowser(this.platformId) ||
-            !(
-              resolver.disabledInCsr &&
-              !(
-                isDevMode() &&
-                this.pageMetaConfig?.pageResolvers?.enableInDevMode
-              )
-            )
+            // resolve in CSR when it's not disabled
+            !resolver.disabledInCsr ||
+            // resolve in CSR when resolver is enabled in devMode
+            (isDevMode() && this.pageMetaConfig?.pageMeta?.enableInDevMode)
           );
         })
         .forEach(
