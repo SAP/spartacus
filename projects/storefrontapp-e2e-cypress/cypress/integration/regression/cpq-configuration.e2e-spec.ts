@@ -62,7 +62,7 @@ const VAL_CAM_PROF_Y = '8953';
 const ATTR_CAM_INS = '2899';
 /** No Option Selcted */
 const VAL_NO_OPT_SEL = '0';
-/** SanDisk Ultra 64GB SDHC */
+/** Insurance Select 2 years */
 const VAL_CB_INS_Y2 = '8735';
 
 const GRP_CAM_MAIN = 'Main Components';
@@ -312,8 +312,8 @@ context('CPQ Configuration', () => {
       configuration.deSelectProductCard(RADGRP, ATTR_CAM_BAG, VAL_CAM_BAG_LP);
 
       configuration.clickOnNextBtn(GRP_CAM_IAW);
-      //configuration.selectAttribute(ATTR_CAM_PROF, CHKBOX, VAL_CAM_PROF_Y);
-      //configuration.checkValueSelected(CHKBOX, ATTR_CAM_PROF, VAL_CAM_PROF_Y);
+      configuration.selectAttribute(ATTR_CAM_PROF, CHKBOX, VAL_CAM_PROF_Y);
+      configuration.checkValueSelected(CHKBOX, ATTR_CAM_PROF, VAL_CAM_PROF_Y);
       configuration.selectProductCard(DDLB, ATTR_CAM_INS, VAL_CB_INS_Y2);
       configuration.navigateToOverviewPage();
 
@@ -322,7 +322,20 @@ context('CPQ Configuration', () => {
       configurationOverview.checkGroupHeaderDisplayed(GRP_CAM_ACC, 1);
       configurationOverview.checkGroupHeaderDisplayed(GRP_CAM_IAW, 2);
 
-      //TODO check values displayed
+      type ovLineType = 'product' | 'simple';
+      const ovContent: { name: string; value: string; type: ovLineType }[] = [
+        { name: 'Camera Body', value: 'Nikon D850', type: 'product' },
+        { name: 'Memory Card', value: 'SanDisk Extreme Pro', type: 'product' },
+        { name: 'Lenses', value: 'Sigma 85mm F1.4 DG HS', type: 'product' },
+        { name: undefined, value: 'Nikon AF-P DX NIKKOR', type: 'product' },
+        { name: 'Bag', value: 'No option selected', type: 'simple' },
+        { name: 'Photographer', value: 'Yes', type: 'simple' },
+        { name: 'Insurance', value: 'Select 2 years', type: 'product' },
+      ];
+      ovContent.forEach((line, idx) => {
+        configurationOverview.checkAttrDisplayed(line.name, line.value, idx);
+        configurationOverview.checkAttrType(line.type, idx);
+      });
     });
   });
 });
