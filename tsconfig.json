@@ -79,13 +79,30 @@
       "@spartacus/storefinder/root": [
         "feature-libs/storefinder/root/public_api"
       ],
+
       // User library
-      "@spartacus/user/assets": ["feature-libs/user/assets/public_api"],
-      "@spartacus/user/components": ["feature-libs/user/components/public_api"],
-      "@spartacus/user/core": ["feature-libs/user/core/public_api"],
-      "@spartacus/user": ["feature-libs/user/public_api"],
-      "@spartacus/user/occ": ["feature-libs/user/occ/public_api"],
-      "@spartacus/user/root": ["feature-libs/user/root/public_api"],
+      "@spartacus/user/details": ["feature-libs/user/details/public_api"],
+      "@spartacus/user/details/root": [
+        "feature-libs/user/details/root/public_api"
+      ],
+
+      "@spartacus/user/profile": ["feature-libs/user/profile/public_api"],
+      "@spartacus/user/profile/root": [
+        "feature-libs/user/profile/root/public_api"
+      ],
+
+      "@spartacus/user/profile/core": [
+        "feature-libs/user/profile/core/public_api"
+      ],
+      "@spartacus/user/profile/occ": [
+        "feature-libs/user/profile/occ/public_api"
+      ],
+      "@spartacus/user/profile/components": [
+        "feature-libs/user/profile/components/public_api"
+      ],
+      "@spartacus/user/profile/assets": [
+        "feature-libs/user/profile/assets/public_api"
+      ],
 
       "@spartacus/cdc": ["integration-libs/cdc/public_api"],
       "@spartacus/cds": ["integration-libs/cds/public_api"],

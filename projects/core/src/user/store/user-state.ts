@@ -11,10 +11,12 @@ import {
   ReturnRequest,
   ReturnRequestList,
 } from '../../model/order.model';
-import { ReplenishmentOrderList } from '../../model/replenishment-order.model';
 import { CostCenter } from '../../model/org-unit.model';
 import { ProductInterestSearchResult } from '../../model/product-interest.model';
-import { ReplenishmentOrder } from '../../model/replenishment-order.model';
+import {
+  ReplenishmentOrder,
+  ReplenishmentOrderList,
+} from '../../model/replenishment-order.model';
 import { StateUtils } from '../../state/utils/index';
 
 export const USER_FEATURE = 'user';

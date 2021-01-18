@@ -9,8 +9,9 @@ import {
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
-import { ConfigModule, TestConfigModule } from '@spartacus/core';
+import { ConfigModule, provideConfig, TestConfigModule } from '@spartacus/core';
 import {
+  IconConfig,
   JsonLdBuilderModule,
   StorefrontComponent,
 } from '@spartacus/storefront';
@@ -79,11 +80,19 @@ if (environment.cdc) {
         level: '2.1',
       },
     }),
+
+    // ConfigModule.withConfig(),
     ...additionalImports,
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 
     ...devImports,
+  ],
+
+  providers: [
+    provideConfig({
+      icon: { symbols: { MIC: 'fas fa-microphone' } },
+    } as IconConfig),
   ],
 
   bootstrap: [StorefrontComponent],

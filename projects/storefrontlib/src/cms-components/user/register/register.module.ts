@@ -9,14 +9,13 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { SpinnerModule, FormErrorsModule } from '../../../shared/index';
-import { LoginModule } from '../login/login.module';
+import { FormErrorsModule, SpinnerModule } from '../../../shared/index';
 import { RegisterComponent } from './register.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    LoginModule,
+    // LoginModule,
     ReactiveFormsModule,
     RouterModule,
     UrlModule,

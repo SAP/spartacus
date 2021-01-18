@@ -247,7 +247,9 @@ export class UserService {
   }
 
   /**
-   * Updates the user's email
+   * Updates the user's email.
+   *
+   * @deprecated since version 3.2, moved to `UserEmailService` in the user library
    */
   updateEmail(password: string, newUid: string): void {
     this.userIdService.invokeWithUserId((userId) => {
@@ -262,7 +264,9 @@ export class UserService {
   }
 
   /**
-   * Returns the update user's email success flag
+   * Returns the update user's email success flag.
+   *
+   * @deprecated since version 3.2, moved to `UserEmailService` in the user library
    */
   getUpdateEmailResultSuccess(): Observable<boolean> {
     return this.store.pipe(
@@ -271,7 +275,9 @@ export class UserService {
   }
 
   /**
-   * Returns the update user's email error flag
+   * Returns the update user's email error flag.
+   *
+   * @deprecated since version 3.2, moved to `UserEmailService` in the user library
    */
   getUpdateEmailResultError(): Observable<boolean> {
     return this.store.pipe(
@@ -280,7 +286,9 @@ export class UserService {
   }
 
   /**
-   * Returns the update user's email loading flag
+   * Returns the update user's email loading flag.
+   *
+   * @deprecated since version 3.2, moved to `UserEmailService` in the user library
    */
   getUpdateEmailResultLoading(): Observable<boolean> {
     return this.store.pipe(
@@ -289,7 +297,9 @@ export class UserService {
   }
 
   /**
-   * Resets the update user's email processing state
+   * Resets the update user's email processing state.
+   *
+   * @deprecated since version 3.2, moved to `UserEmailService` in the user library
    */
   resetUpdateEmailResultState(): void {
     this.store.dispatch(new UserActions.ResetUpdateEmailAction());

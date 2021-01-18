@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FeaturesConfigModule } from '@spartacus/core';
 import { GlobalMessageComponentModule } from '../../cms-components/misc/global-message/global-message.module';
+import { IconModule } from '../../cms-components/misc/icon/icon.module';
 import { OutletRefModule } from '../../cms-structure/outlet/outlet-ref/outlet-ref.module';
 import { OutletModule } from '../../cms-structure/outlet/outlet.module';
 import { PageLayoutModule } from '../../cms-structure/page/page-layout/page-layout.module';
@@ -30,6 +31,8 @@ import { StorefrontComponent } from './storefront.component';
 
     SkipLinkModule,
     KeyboardFocusModule,
+
+    IconModule,
   ],
   declarations: [StorefrontComponent],
   exports: [StorefrontComponent],

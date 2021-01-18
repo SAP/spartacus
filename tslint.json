@@ -1,6 +1,10 @@
 {
   "rulesDirectory": ["node_modules/codelyzer"],
+
   "rules": {
+    "directive-selector": [true, "attribute", "cx", "camelCase"],
+    "component-selector": [true, "element", "cx", "kebab-case"],
+
     "arrow-return-shorthand": true,
     "callable-types": true,
     "class-name": true,
