@@ -8,6 +8,7 @@
     (handleQuantity)="onChangeQuantity($event)"
     (handleSelect)="onSelect($event)"
     *ngFor="let value of attribute.values"
+    [preventAction]="preventAction$ | async"
     [product]="value"
     [multiSelect]="true"
     [withQuantity]="withQuantity"

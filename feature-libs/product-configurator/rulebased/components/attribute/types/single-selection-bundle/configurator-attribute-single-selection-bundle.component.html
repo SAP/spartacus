@@ -21,6 +21,7 @@
     (handleDeselect)="onDeselect()"
     (handleSelect)="onSelect($event)"
     *ngFor="let value of attribute.values"
+    [preventAction]="attribute.required"
     [product]="value"
     [withQuantity]="false"
   >
