@@ -54,7 +54,7 @@ export class BulkPricesService {
     bulkPriceTemplate: BulkPrice,
     basePrice: number
   ): BulkPrice {
-    const bulkPrice = bulkPriceTemplate;
+    const bulkPrice = Object.assign({}, bulkPriceTemplate);
 
     const tierPrice = bulkPriceTemplate.value;
     const discount = Math.round(100.0 - (tierPrice / basePrice) * 100);
