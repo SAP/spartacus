@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ProductScope, ProductService } from '@spartacus/core';
+import { Price, Product, ProductScope, ProductService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { BulkPrice } from '../../core/model/bulk-price.model';
@@ -14,27 +14,28 @@ export class BulkPricesService {
 
   getBulkPrices(productCode: string): Observable<BulkPrice[]> {
     return this.productService.get(productCode, this.PRODUCT_SCOPE).pipe(
-      switchMap((p) => {
-        return of(this.convert(p));
+      switchMap((productPriceScope) => {
+        return of(this.convert(productPriceScope));
       })
     );
   }
 
-  convert(content: any): BulkPrice[] {
-    const bulkPrices = [];
-    if (content != null) {
-      const basePrice = content.price.value;
-      content = content.volumePrices;
-      for (let i = 0; i < content.length; i++) {
-        const tierPrice = this.parsePrice(content[i], basePrice);
-        bulkPrices.push(tierPrice);
-      }
+  private convert(productPriceScope: Product): BulkPrice[] {
+    let bulkPrices = [];
+
+    if (productPriceScope && productPriceScope !== {}) {
+      const basePrice = productPriceScope.price?.value;
+      const volumePrices = productPriceScope.volumePrices;
+
+      bulkPrices = volumePrices.map(volumePrice =>
+        this.parsePrice(volumePrice, basePrice));
     }
+
     return bulkPrices;
   }
 
-  parsePrice(priceTier: any, basePrice): BulkPrice {
-    const bulkPrice: BulkPrice = {
+  private parsePrice(priceTier: Price, basePrice: number): BulkPrice {
+    const bulkPriceTemplate: BulkPrice = {
       currencyIso: priceTier.currencyIso,
       formattedValue: priceTier.formattedValue,
       maxQuantity: priceTier.maxQuantity,
@@ -45,15 +46,18 @@ export class BulkPricesService {
       discount: 0,
     };
 
-    this.calculateDiscount(bulkPrice, basePrice);
-    return bulkPrice;
+    return this.calculateDiscount(bulkPriceTemplate, basePrice);
   }
 
-  calculateDiscount(bulkPrice: BulkPrice, basePrice: number): void {
-    const tierPrice = bulkPrice.value;
+  private calculateDiscount(bulkPriceTemplate: BulkPrice, basePrice: number): BulkPrice {
+    const bulkPrice = bulkPriceTemplate;
+
+    const tierPrice = bulkPriceTemplate.value;
     const discount = Math.round(100.0 - (tierPrice / basePrice) * 100);
-    const formatted = '-' + discount + '%';
+    const formatted = `-${discount}%`;
     bulkPrice.formattedDiscount = formatted;
     bulkPrice.discount = discount;
+
+    return bulkPrice;
   }
 }

@@ -11,16 +11,17 @@ import { switchMap } from 'rxjs/operators';
 })
 export class BulkPricingTableComponent implements OnInit, OnDestroy {
   pricingTiers: BulkPrice[];
-  dataStream: Subscription;
+  pricesSubscription: Subscription;
 
   constructor(
     private routingService: RoutingService,
     private bulkPrices: BulkPricesService
   ) {}
 
+  // TODO: once we are done with the template, remove the subscribe/unsubscribe code 
   ngOnInit(): void {
-    this.dataStream = this.getPrices().subscribe((p) => {
-      this.pricingTiers = p;
+    this.pricesSubscription = this.getPrices().subscribe((prices) => {
+      this.pricingTiers = prices;
     });
   }
 
@@ -35,15 +36,17 @@ export class BulkPricingTableComponent implements OnInit, OnDestroy {
   }
 
   getPrices(): Observable<BulkPrice[]> {
+    const productCodeKey = 'productCode';
+
     return this.routingService.getRouterState().pipe(
       switchMap((state) => {
-        const productCode = state.state.params['productCode'];
+        const productCode = state.state.params[productCodeKey];
         return this.bulkPrices.getBulkPrices(productCode);
       })
     );
   }
 
-  ngOnDestroy() {
-    this.dataStream.unsubscribe();
+  ngOnDestroy(): void {
+    this.pricesSubscription.unsubscribe();
   }
 }
