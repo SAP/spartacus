@@ -47,18 +47,6 @@ export class ConfiguratorAttributeCheckBoxListComponent
       }
       this.attributeCheckBoxForms.push(attributeCheckBoxForm);
     }
-
-    // if (this.withQuantityOnAttributeLevel) {
-    //   this.sub = this.quantity.valueChanges.subscribe((value) => {
-    //     if (!value) {
-    //       this.attributeCheckBoxForms.forEach((item, index) =>
-    //         this.attributeCheckBoxForms[index].setValue(false)
-    //       );
-    //       this.onSelect();
-    //     }
-    //     this.onHandleAttributeQuantity();
-    //   });
-    // }
   }
 
   get withQuantityOnAttributeLevel() {
