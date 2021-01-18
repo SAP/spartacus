@@ -11,7 +11,10 @@ import {
   LinkModule,
   TabParagraphContainerModule,
 } from './content/index';
-import { QualtricsModule, SiteContextSelectorModule } from './misc/index';
+import {
+  QualtricsModule as DeprecatedQualtricsModule,
+  SiteContextSelectorModule,
+} from './misc/index';
 import {
   AddressBookModule,
   CloseAccountModule,
@@ -74,7 +77,7 @@ import { WishListModule } from './wish-list/wish-list.module';
     BreadcrumbModule,
     SearchBoxModule,
     SiteContextSelectorModule,
-    QualtricsModule,
+    DeprecatedQualtricsModule,
     AddressBookModule,
     OrderHistoryModule,
     OrderCancellationModule,
