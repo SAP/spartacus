@@ -1,4 +1,8 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  TestBedStatic,
+} from '@angular/core/testing';
 import { QualtricsConfig } from './config/qualtrics-config';
 import { QualtricsLoaderService } from './qualtrics-loader.service';
 import { QualtricsComponent } from './qualtrics.component';
@@ -18,28 +22,31 @@ describe('QualtricsComponent', () => {
   let fixture: ComponentFixture<QualtricsComponent>;
   let service: QualtricsLoaderService;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [QualtricsComponent],
-        providers: [
-          {
-            provide: QualtricsLoaderService,
-            useClass: MockQualtricsLoaderService,
-          },
-          { provide: QualtricsConfig, useValue: mockQualtricsConfig },
-        ],
-      }).compileComponents();
-    })
-  );
+  function configureTestingModule(): TestBedStatic {
+    return TestBed.configureTestingModule({
+      declarations: [QualtricsComponent],
+      providers: [
+        {
+          provide: QualtricsLoaderService,
+          useClass: MockQualtricsLoaderService,
+        },
+        { provide: QualtricsConfig, useValue: mockQualtricsConfig },
+      ],
+    });
+  }
+
+  function stubSeviceAndCreateComponent() {
+    service = TestBed.inject(QualtricsLoaderService);
+    spyOn(service, 'addScript').and.stub();
+
+    fixture = TestBed.createComponent(QualtricsComponent);
+    component = fixture.componentInstance;
+  }
 
   describe('with config', () => {
     beforeEach(() => {
-      service = TestBed.inject(QualtricsLoaderService);
-      spyOn(service, 'addScript').and.stub();
-
-      fixture = TestBed.createComponent(QualtricsComponent);
-      component = fixture.componentInstance;
+      configureTestingModule();
+      stubSeviceAndCreateComponent();
     });
 
     it('should create component', () => {
@@ -49,6 +56,21 @@ describe('QualtricsComponent', () => {
     it('should add qualtrics script', () => {
       fixture.detectChanges();
       expect(service.addScript).toHaveBeenCalledWith(
+        'assets/deployment-script.js'
+      );
+    });
+  });
+
+  describe('without config', () => {
+    it('should NOT add qualtrics script', () => {
+      configureTestingModule().overrideProvider(QualtricsConfig, {
+        useValue: {},
+      });
+      TestBed.compileComponents();
+
+      stubSeviceAndCreateComponent();
+
+      expect(service.addScript).not.toHaveBeenCalledWith(
         'assets/deployment-script.js'
       );
     });
