@@ -37,7 +37,7 @@ export class ExternalJsFileLoader {
       script.addEventListener('error', errorCallback);
     }
 
-    document.head.appendChild(script);
+    this.document.head.appendChild(script);
   }
 
   /**
