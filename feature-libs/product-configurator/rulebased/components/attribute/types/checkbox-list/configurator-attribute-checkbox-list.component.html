@@ -1,4 +1,11 @@
 <div id="{{ createAttributeIdForConfigurator(attribute) }}">
+  <cx-configurator-attribute-quantity
+    (changeQuantity)="onChangeQuantity($event)"
+    [initialQuantity]="attribute.quantity"
+    [readonly]="readOnlyQuantity || (loading$ | async)"
+    *ngIf="withQuantity && withQuantityOnAttributeLevel"
+  ></cx-configurator-attribute-quantity>
+
   <ng-container *ngFor="let value of attribute.values; let i = index">
     <div class="form-check">
       <input
@@ -22,10 +29,11 @@
         >{{ value.valueDisplay }}</label
       >
     </div>
-    <cx-configurator-attribute-checkbox-quantity
-      (handleQuantity)="onChangeQuantity($event, i)"
-      [value]="value"
-      *ngIf="value.selected && withQuantity"
-    ></cx-configurator-attribute-checkbox-quantity>
+    <cx-configurator-attribute-quantity
+      (changeQuantity)="onChangeValueQuantity($event, value.valueCode, i)"
+      [initialQuantity]="value.quantity"
+      [readonly]="loading$ | async"
+      *ngIf="value.selected && withQuantity && !withQuantityOnAttributeLevel"
+    ></cx-configurator-attribute-quantity>
   </ng-container>
 </div>

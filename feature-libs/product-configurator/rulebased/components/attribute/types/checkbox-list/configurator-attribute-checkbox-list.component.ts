@@ -12,6 +12,8 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { BehaviorSubject } from 'rxjs';
+
 @Component({
   selector: 'cx-configurator-attribute-checkbox-list',
   templateUrl: './configurator-attribute-checkbox-list.component.html',
@@ -20,6 +22,9 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
 export class ConfiguratorAttributeCheckBoxListComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit {
+  attributeCheckBoxForms = new Array<FormControl>();
+  loading$ = new BehaviorSubject<boolean>(false);
+
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
   @Input() ownerKey: string;
@@ -31,8 +36,6 @@ export class ConfiguratorAttributeCheckBoxListComponent
   ) {
     super();
   }
-
-  attributeCheckBoxForms = new Array<FormControl>();
 
   ngOnInit() {
     for (const value of this.attribute.values) {
@@ -46,16 +49,31 @@ export class ConfiguratorAttributeCheckBoxListComponent
     }
   }
 
-  get withQuantity() {
+  get withQuantityOnAttributeLevel() {
     return (
       this.attribute.dataType ===
-      Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL
+      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
     );
   }
 
-  /**
-   * Triggered when a value is selected
-   */
+  get withQuantity() {
+    return (
+      this.attribute.dataType ===
+        Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL ||
+      this.attribute.dataType ===
+        Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL
+    );
+  }
+
+  get readOnlyQuantity() {
+    return (
+      this.attribute.dataType ===
+        Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL &&
+      (!this.attribute.values.find((value) => value.selected) ||
+        this.attribute.quantity === 0)
+    );
+  }
+
   onSelect(): void {
     const selectedValues = this.configUtilsService.assembleValuesForMultiSelectAttributes(
       this.attributeCheckBoxForms,
@@ -74,7 +92,22 @@ export class ConfiguratorAttributeCheckBoxListComponent
     this.selectionChange.emit(event);
   }
 
-  onChangeQuantity(eventObject, formIndex): void {
+  onHandleAttributeQuantity(quantity): void {
+    this.loading$.next(true);
+
+    const event: ConfigFormUpdateEvent = {
+      changedAttribute: {
+        ...this.attribute,
+        quantity,
+      },
+      ownerKey: this.ownerKey,
+      updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
+    };
+
+    this.selectionChange.emit(event);
+  }
+
+  onChangeValueQuantity(eventObject, valueCode, formIndex): void {
     if (eventObject.quantity === 0) {
       this.attributeCheckBoxForms[formIndex].setValue(false);
       this.onSelect();
@@ -86,7 +119,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
         this.attributeCheckBoxForms,
         this.attribute
       )
-      .find((item) => item.valueCode === eventObject.valueCode);
+      .find((item) => item.valueCode === valueCode);
 
     if (!value) {
       if (isDevMode()) {
@@ -108,5 +141,16 @@ export class ConfiguratorAttributeCheckBoxListComponent
     };
 
     this.selectionChange.emit(event);
+  }
+
+  onChangeQuantity(eventObject): void {
+    if (!eventObject.quantity) {
+      this.attributeCheckBoxForms.forEach((_, index) =>
+        this.attributeCheckBoxForms[index].setValue(false)
+      );
+      this.onSelect();
+    } else {
+      this.onHandleAttributeQuantity(eventObject.quantity);
+    }
   }
 }
