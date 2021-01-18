@@ -28,7 +28,7 @@ export const QUALTRICS_EVENT_NAME = 'qsi_js_loaded';
   providedIn: 'root',
 })
 export class QualtricsLoaderService implements OnDestroy {
-  private subscription = new Subscription();
+  protected subscription = new Subscription();
 
   /**
    * Reference to the QSI API.
