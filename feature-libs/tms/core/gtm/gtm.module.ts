@@ -1,7 +1,10 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule, Optional } from '@angular/core';
 import { TmsConfig } from '../config/tms-config';
 import { GoogleTagManagerService } from './gtm.service';
 
+/**
+ * The factory that conditionally (based on the configuration) starts collecting events
+ */
 export function gtmFactory(
   service: GoogleTagManagerService,
   config?: TmsConfig
@@ -19,7 +22,7 @@ export function gtmFactory(
     {
       provide: APP_INITIALIZER,
       useFactory: gtmFactory,
-      deps: [GoogleTagManagerService, TmsConfig],
+      deps: [GoogleTagManagerService, [new Optional(), TmsConfig]],
       multi: true,
     },
   ],

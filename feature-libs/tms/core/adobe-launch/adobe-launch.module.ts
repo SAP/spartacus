@@ -1,7 +1,10 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule, Optional } from '@angular/core';
 import { TmsConfig } from '../config/tms-config';
 import { AdobeLaunchService } from './adobe-launch.service';
 
+/**
+ * The factory that conditionally (based on the configuration) starts collecting events
+ */
 export function adobeLaunchFactory(
   service: AdobeLaunchService,
   config?: TmsConfig
@@ -19,7 +22,7 @@ export function adobeLaunchFactory(
     {
       provide: APP_INITIALIZER,
       useFactory: adobeLaunchFactory,
-      deps: [AdobeLaunchService, TmsConfig],
+      deps: [AdobeLaunchService, [new Optional(), TmsConfig]],
       multi: true,
     },
   ],
