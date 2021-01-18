@@ -3,18 +3,19 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule } from '@spartacus/core';
-import { ItemCounterModule, KeyboardFocusModule } from '@spartacus/storefront';
+import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
+import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator-attribute-quantity.module';
 
 @NgModule({
   imports: [
-    KeyboardFocusModule,
-    FormsModule,
-    ReactiveFormsModule,
     CommonModule,
+    ConfiguratorAttributeQuantityModule,
+    FormsModule,
     I18nModule,
+    KeyboardFocusModule,
     NgSelectModule,
-    ItemCounterModule,
+    ReactiveFormsModule,
   ],
   declarations: [ConfiguratorAttributeDropDownComponent],
   exports: [ConfiguratorAttributeDropDownComponent],

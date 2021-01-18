@@ -1,8 +1,11 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { Observable, of } from 'rxjs';
 import { Configurator } from '../core/model/configurator.model';
 import { CpqConfiguratorOverviewNormalizer } from './cpq-configurator-overview-normalizer';
 import { Cpq } from './cpq.models';
+import { CpqConfiguratorUtilitiesService } from './cpq-configurator-utilities.service';
+import { LanguageService } from '@spartacus/core';
 
 const ATTR_NAME = 'name of attribute';
 const attr: Cpq.Attribute = {
@@ -89,12 +92,25 @@ const multiSelectionProductValues: Cpq.Value[] = [
 
 const CURRENCY = 'USD';
 
+class MockLanguageService {
+  getActive(): Observable<string> {
+    return of('en-US');
+  }
+}
+
 describe('CpqConfiguratorOverviewNormalizer', () => {
   let serviceUnderTest: CpqConfiguratorOverviewNormalizer;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [CpqConfiguratorOverviewNormalizer],
+      providers: [
+        CpqConfiguratorOverviewNormalizer,
+        CpqConfiguratorUtilitiesService,
+        {
+          provide: LanguageService,
+          useClass: MockLanguageService,
+        },
+      ],
     });
 
     serviceUnderTest = TestBed.inject(
@@ -267,10 +283,10 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     expect(ovAttrs[0].quantity).toEqual(3);
     expect(ovAttrs[0].valuePrice.currencyIso).toBe(CURRENCY);
     expect(ovAttrs[0].valuePrice.value).toBe(123.45);
-    expect(ovAttrs[0].valuePrice.formattedValue).toBe('123.45 USD');
+    expect(ovAttrs[0].valuePrice.formattedValue).toBe('$123.45');
     expect(ovAttrs[0].valuePriceTotal.currencyIso).toBe(CURRENCY);
     expect(ovAttrs[0].valuePriceTotal.value).toBe(370.35);
-    expect(ovAttrs[0].valuePriceTotal.formattedValue).toBe('370.35 USD');
+    expect(ovAttrs[0].valuePriceTotal.formattedValue).toBe('$370.35');
   });
 
   it('should map quantity and price for attribute with quantity on value level', () => {
@@ -285,10 +301,10 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     expect(ovAttrs[0].quantity).toEqual(3);
     expect(ovAttrs[0].valuePrice.currencyIso).toBe(CURRENCY);
     expect(ovAttrs[0].valuePrice.value).toBe(123.45);
-    expect(ovAttrs[0].valuePrice.formattedValue).toBe('123.45 USD');
+    expect(ovAttrs[0].valuePrice.formattedValue).toBe('$123.45');
     expect(ovAttrs[0].valuePriceTotal.currencyIso).toBe(CURRENCY);
     expect(ovAttrs[0].valuePriceTotal.value).toBe(370.35);
-    expect(ovAttrs[0].valuePriceTotal.formattedValue).toBe('370.35 USD');
+    expect(ovAttrs[0].valuePriceTotal.formattedValue).toBe('$370.35');
   });
 
   it('should map price for user input attribute', () => {
@@ -301,108 +317,9 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     expect(ovAttrs[0].quantity).toEqual(null);
     expect(ovAttrs[0].valuePrice.currencyIso).toBe(CURRENCY);
     expect(ovAttrs[0].valuePrice.value).toBe(123.45);
-    expect(ovAttrs[0].valuePrice.formattedValue).toBe('123.45 USD');
+    expect(ovAttrs[0].valuePrice.formattedValue).toBe('$123.45');
     expect(ovAttrs[0].valuePriceTotal.currencyIso).toBe(CURRENCY);
     expect(ovAttrs[0].valuePriceTotal.value).toBe(123.45);
-    expect(ovAttrs[0].valuePriceTotal.formattedValue).toBe('123.45 USD');
-  });
-
-  it('should prepare quantity for attribute with quantity on attribute level', () => {
-    attr.values = singleSelectionValues;
-    attr.displayAs = Cpq.DisplayAs.RADIO_BUTTON;
-    attr.dataType = Cpq.DataType.QTY_ATTRIBUTE_LEVEL;
-    attr.quantity = '2';
-    attr.values[1].quantity = '1';
-    const quantity = serviceUnderTest['prepareQuantity'](attr.values[1], attr);
-    expect(quantity).toBe(2);
-  });
-
-  it('should prepare quantity for attribute with quantity on value level', () => {
-    attr.values = multiSelectionValues;
-    attr.displayAs = Cpq.DisplayAs.CHECK_BOX;
-    attr.dataType = Cpq.DataType.QTY_VALUE_LEVEL;
-    attr.quantity = '1';
-    attr.values[1].quantity = '3';
-    const quantity = serviceUnderTest['prepareQuantity'](attr.values[1], attr);
-    expect(quantity).toBe(3);
-  });
-
-  it('should retrieve quantity null for attribute without quantity', () => {
-    attr.values = multiSelectionValues;
-    attr.displayAs = Cpq.DisplayAs.CHECK_BOX;
-    attr.dataType = Cpq.DataType.N_A;
-    attr.quantity = '1';
-    attr.values[1].quantity = '1';
-    const quantity = serviceUnderTest['prepareQuantity'](attr.values[1], attr);
-    expect(quantity).toBeNull();
-  });
-
-  it('should prepare price', () => {
-    const valueSelected: Cpq.Value = { paV_ID: 1, price: '123.45' };
-    const valuePrice = serviceUnderTest['prepareValuePrice'](
-      valueSelected,
-      CURRENCY
-    );
-    expect(valuePrice.currencyIso).toBe(CURRENCY);
-    expect(valuePrice.value).toBe(123.45);
-    expect(valuePrice.formattedValue).toBe('123.45 USD');
-  });
-
-  it('should prepare price when no price exists', () => {
-    const valueSelected: Cpq.Value = { paV_ID: 1 };
-    const valuePrice = serviceUnderTest['prepareValuePrice'](
-      valueSelected,
-      CURRENCY
-    );
-    expect(valuePrice).toBeNull();
-  });
-
-  it('should calculate value price total', () => {
-    const quantity = 3;
-    const valuePrice: Configurator.PriceDetails = {
-      currencyIso: CURRENCY,
-      value: 123.45,
-    };
-    const valuePriceTotal = serviceUnderTest['calculateValuePriceTotal'](
-      quantity,
-      valuePrice
-    );
-    expect(valuePriceTotal.currencyIso).toBe(CURRENCY);
-    expect(valuePriceTotal.value).toBe(370.35);
-    expect(valuePriceTotal.formattedValue).toBe('370.35 USD');
-  });
-
-  it('should calculate value price total when no quantity', () => {
-    const quantity = null;
-    const valuePrice: Configurator.PriceDetails = {
-      currencyIso: CURRENCY,
-      value: 123.45,
-    };
-    const valuePriceTotal = serviceUnderTest['calculateValuePriceTotal'](
-      quantity,
-      valuePrice
-    );
-    expect(valuePriceTotal.currencyIso).toBe(CURRENCY);
-    expect(valuePriceTotal.value).toBe(123.45);
-    expect(valuePriceTotal.formattedValue).toBe('123.45 USD');
-  });
-
-  it('should calculate value price total when no value price', () => {
-    const quantity = 3;
-    const valuePrice: Configurator.PriceDetails = null;
-    const valuePriceTotal = serviceUnderTest['calculateValuePriceTotal'](
-      quantity,
-      valuePrice
-    );
-    expect(valuePriceTotal).toBeNull();
-  });
-
-  it('should format price', () => {
-    const price: Configurator.PriceDetails = {
-      currencyIso: CURRENCY,
-      value: 123.45,
-    };
-    serviceUnderTest['formatPrice'](price);
-    expect(price.formattedValue).toBe('123.45 USD');
+    expect(ovAttrs[0].valuePriceTotal.formattedValue).toBe('$123.45');
   });
 });

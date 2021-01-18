@@ -9,7 +9,6 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeProductCardComponent } from '../../product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeSingleSelectionBundleComponent } from './configurator-attribute-single-selection-bundle.component';
-import { By } from '@angular/platform-browser';
 
 @Component({
   selector: 'cx-configurator-attribute-product-card',
@@ -139,6 +138,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
       required: true,
       groupId: 'testGroup',
       values,
+      dataType: Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL,
     };
 
     spyOn(component, 'onHandleQuantity').and.callThrough();
@@ -151,7 +151,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
   });
 
   it('should render 4 multi selection bundle items after init', () => {
-    component.ngOnInit();
     fixture.detectChanges();
 
     const cardList = htmlElem.querySelectorAll(
@@ -162,29 +161,9 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
   });
 
   it('should mark one items as selected', () => {
-    component.ngOnInit();
-
     expect(component.attribute.values[0].selected).toEqual(true);
     expect(component.attribute.values[1].selected).toEqual(false);
     expect(component.attribute.values[2].selected).toEqual(false);
     expect(component.attribute.values[3].selected).toEqual(false);
-  });
-
-  it('should button be called with proper update quantity action', () => {
-    component.ngOnInit();
-
-    fixture.detectChanges();
-
-    const button = fixture.debugElement.queryAll(
-      By.css('cx-item-counter button')
-    )[1].nativeElement;
-
-    button.click();
-
-    component.onHandleQuantity();
-
-    fixture.detectChanges();
-
-    expect(component.onHandleQuantity).toHaveBeenCalled();
   });
 });

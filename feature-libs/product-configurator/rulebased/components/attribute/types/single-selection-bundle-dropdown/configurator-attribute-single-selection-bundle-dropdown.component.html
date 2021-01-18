@@ -19,19 +19,16 @@
     </option>
   </select>
 
-  <ng-container *ngIf="selectionValue?.valueCode !== '0'">
-    <cx-configurator-attribute-product-card
-      id="{{
-        createAttributeValueIdForConfigurator(
-          attribute,
-          selectionValue.valueCode
-        )
-      }}"
-      (handleDeselect)="onDeselect()"
-      (handleQuantity)="onChangeQuantity($event)"
-      [product]="selectionValue"
-      [singleDropdown]="true"
-    >
-    </cx-configurator-attribute-product-card>
-  </ng-container>
+  <cx-configurator-attribute-product-card
+    id="{{
+      createAttributeValueIdForConfigurator(attribute, selectionValue.valueCode)
+    }}"
+    (handleDeselect)="onDeselect()"
+    (handleQuantity)="onChangeQuantity($event)"
+    [product]="selectionValue"
+    [singleDropdown]="true"
+    [withQuantity]="withQuantity"
+    *ngIf="selectionValue?.valueCode !== '0'"
+  >
+  </cx-configurator-attribute-product-card>
 </div>

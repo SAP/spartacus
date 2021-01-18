@@ -125,8 +125,9 @@ context('CPQ Configuration', () => {
       configuration.checkValueNotSelected(CHKBOX, ATTR_COF_MODE, VAL_COF_MODE);
     });
 
-    it('should support single select (radio) bundle items', () => {
+    it.only('should support single select (radio) bundle items', () => {
       configuration.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_CAM);
+      configuration.checkCurrentGroupActive(GRP_CAM_MAIN);
 
       configuration.checkAttributeDisplayed(ATTR_CAM_BODY, RADGRP_PROD);
       configuration.checkQuantityAtAttribute(RADGRP_PROD, ATTR_CAM_BODY);

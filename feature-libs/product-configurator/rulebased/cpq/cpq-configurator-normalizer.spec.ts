@@ -1,8 +1,11 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { Observable, of } from 'rxjs';
 import { CpqConfiguratorNormalizer } from './cpq-configurator-normalizer';
 import { Cpq } from './cpq.models';
 import { Configurator } from './../core/model/configurator.model';
+import { CpqConfiguratorUtilitiesService } from './cpq-configurator-utilities.service';
+import { LanguageService } from '@spartacus/core';
 
 const cpqProductSystemId = 'PRODUCT_SYSTEM_ID';
 
@@ -157,12 +160,25 @@ const cpqConfigurationIncompleteInconsistent: Cpq.Configuration = {
   attributes: [],
 };
 
+class MockLanguageService {
+  getActive(): Observable<string> {
+    return of('en-US');
+  }
+}
+
 describe('CpqConfiguratorNormalizer', () => {
   let cpqConfiguratorNormalizer: CpqConfiguratorNormalizer;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [CpqConfiguratorNormalizer],
+      providers: [
+        CpqConfiguratorNormalizer,
+        CpqConfiguratorUtilitiesService,
+        {
+          provide: LanguageService,
+          useClass: MockLanguageService,
+        },
+      ],
     });
 
     cpqConfiguratorNormalizer = TestBed.inject(
@@ -231,12 +247,12 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(value.valuePrice).toEqual({
       currencyIso: 'USD',
       value: 123.45,
-      formattedValue: '123.45 USD',
+      formattedValue: '$123.45',
     });
     expect(value.valuePriceTotal).toEqual({
       currencyIso: 'USD',
       value: 370.35,
-      formattedValue: '370.35 USD',
+      formattedValue: '$370.35',
     });
   });
 
@@ -730,116 +746,5 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
       Configurator.DataType.NOT_IMPLEMENTED
     );
-  });
-
-  it('should prepare price', () => {
-    const valueSelected: Cpq.Value = { paV_ID: 1, price: '123.45' };
-    const valuePrice = cpqConfiguratorNormalizer['prepareValuePrice'](
-      valueSelected,
-      CURRENCY
-    );
-    expect(valuePrice.currencyIso).toBe(CURRENCY);
-    expect(valuePrice.value).toBe(123.45);
-    expect(valuePrice.formattedValue).toBe('123.45 USD');
-  });
-
-  it('should prepare price when no price exists', () => {
-    const valueSelected: Cpq.Value = { paV_ID: 1 };
-    const valuePrice = cpqConfiguratorNormalizer['prepareValuePrice'](
-      valueSelected,
-      CURRENCY
-    );
-    expect(valuePrice).toBeNull();
-  });
-
-  it('should calculate value price total', () => {
-    const quantity = 3;
-    const valuePrice: Configurator.PriceDetails = {
-      currencyIso: CURRENCY,
-      value: 123.45,
-    };
-    const valuePriceTotal = cpqConfiguratorNormalizer[
-      'calculateValuePriceTotal'
-    ](quantity, valuePrice);
-    expect(valuePriceTotal.currencyIso).toBe(CURRENCY);
-    expect(valuePriceTotal.value).toBe(370.35);
-    expect(valuePriceTotal.formattedValue).toBe('370.35 USD');
-  });
-
-  it('should calculate value price total when no quantity', () => {
-    const quantity = null;
-    const valuePrice: Configurator.PriceDetails = {
-      currencyIso: CURRENCY,
-      value: 123.45,
-    };
-    const valuePriceTotal = cpqConfiguratorNormalizer[
-      'calculateValuePriceTotal'
-    ](quantity, valuePrice);
-    expect(valuePriceTotal.currencyIso).toBe(CURRENCY);
-    expect(valuePriceTotal.value).toBe(123.45);
-    expect(valuePriceTotal.formattedValue).toBe('123.45 USD');
-  });
-
-  it('should calculate value price total when no value price', () => {
-    const quantity = 3;
-    const valuePrice: Configurator.PriceDetails = null;
-    const valuePriceTotal = cpqConfiguratorNormalizer[
-      'calculateValuePriceTotal'
-    ](quantity, valuePrice);
-    expect(valuePriceTotal).toBeNull();
-  });
-
-  it('should format price', () => {
-    const price: Configurator.PriceDetails = {
-      currencyIso: CURRENCY,
-      value: 123.45,
-    };
-    cpqConfiguratorNormalizer['formatPrice'](price);
-    expect(price.formattedValue).toBe('123.45 USD');
-  });
-
-  it('should prepare quantity for attribute with quantity on attribute level', () => {
-    const cpqAttr: Cpq.Attribute = {
-      pA_ID: 1,
-      stdAttrCode: 2,
-      quantity: '2',
-      dataType: Cpq.DataType.QTY_ATTRIBUTE_LEVEL,
-      values: [{ paV_ID: 1, selected: true, quantity: '1' }],
-    };
-    const quantity = cpqConfiguratorNormalizer['prepareQuantity'](
-      cpqAttr.values[0],
-      cpqAttr
-    );
-    expect(quantity).toBe(2);
-  });
-
-  it('should prepare quantity for attribute with quantity on value level', () => {
-    const cpqAttr: Cpq.Attribute = {
-      pA_ID: 1,
-      stdAttrCode: 2,
-      quantity: '1',
-      dataType: Cpq.DataType.QTY_VALUE_LEVEL,
-      values: [{ paV_ID: 1, selected: true, quantity: '3' }],
-    };
-    const quantity = cpqConfiguratorNormalizer['prepareQuantity'](
-      cpqAttr.values[0],
-      cpqAttr
-    );
-    expect(quantity).toBe(3);
-  });
-
-  it('should retrieve quantity null for attribute without quantity', () => {
-    const cpqAttr: Cpq.Attribute = {
-      pA_ID: 1,
-      stdAttrCode: 2,
-      quantity: '1',
-      dataType: Cpq.DataType.N_A,
-      values: [{ paV_ID: 1, selected: true, quantity: '1' }],
-    };
-    const quantity = cpqConfiguratorNormalizer['prepareQuantity'](
-      cpqAttr.values[0],
-      cpqAttr
-    );
-    expect(quantity).toBeNull();
   });
 });
