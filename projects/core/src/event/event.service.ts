@@ -1,7 +1,6 @@
 import { Injectable, isDevMode, Type } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { CxEvent } from './cx-event';
 import { MergingSubject } from './utils/merging-subject';
 
 /**
@@ -49,35 +48,21 @@ export class EventService {
    * @returns a teardown function which unregisters the given event source
    */
   register<T>(eventType: Type<T>, source$: Observable<T>): () => void {
-    let mergingSubjects: MergingSubject<T>[] = [];
-    let parentType = eventType;
-    while (!!parentType) {
-      console.log('registering for xxx: ', parentType);
-      const eventMeta = this.getEventMeta(parentType);
-
-      if (eventMeta.mergingSubject.has(source$)) {
-        if (isDevMode()) {
-          console.warn(
-            `EventService: the event source`,
-            source$,
-            `has been already registered for the type`,
-            parentType
-          );
-        }
-      } else {
-        eventMeta.mergingSubject.add(source$);
+    const eventMeta = this.getEventMeta(eventType);
+    if (eventMeta.mergingSubject.has(source$)) {
+      if (isDevMode()) {
+        console.warn(
+          `EventService: the event source`,
+          source$,
+          `has been already registered for the type`,
+          eventType
+        );
       }
-      mergingSubjects.push(eventMeta.mergingSubject);
-      if (!Object.getPrototypeOf(parentType).type) {
-        break;
-      }
-      parentType = Object.getPrototypeOf(parentType);
+    } else {
+      eventMeta.mergingSubject.add(source$);
     }
 
-    return () =>
-      mergingSubjects.forEach((mergingSubject) =>
-        mergingSubject.remove(source$)
-      );
+    return () => eventMeta.mergingSubject.remove(source$);
   }
 
   /**
@@ -97,18 +82,8 @@ export class EventService {
    */
   dispatch(event: Object): void {
     const eventType = event.constructor as Type<any>;
-
-    let parentType = eventType;
-    while (!!parentType) {
-      console.log('dispatching for xxx: ', parentType);
-      const inputSubject$ = this.getInputSubject(parentType);
-      inputSubject$.next(event);
-
-      if (!Object.getPrototypeOf(parentType).type) {
-        break;
-      }
-      parentType = Object.getPrototypeOf(parentType);
-    }
+    const inputSubject$ = this.getInputSubject(eventType);
+    inputSubject$.next(event);
   }
 
   /**
@@ -144,23 +119,10 @@ export class EventService {
    * Creates the event meta object for the given event type
    */
   private createEventMeta<T>(eventType: Type<T>): void {
-    let parentType = eventType;
-    while (!!parentType) {
-      console.log('xxx registering: ', parentType);
-      this.eventsMeta.set(parentType, {
-        inputSubject$: null, // will be created lazily by the `dispatch` method
-        mergingSubject: new MergingSubject(),
-      });
-
-      if (!Object.getPrototypeOf(parentType).type) {
-        break;
-      }
-
-      parentType = Object.getPrototypeOf(parentType);
-      if (this.eventsMeta.has(parentType)) {
-        break;
-      }
-    }
+    this.eventsMeta.set(eventType, {
+      inputSubject$: null, // will be created lazily by the `dispatch` method
+      mergingSubject: new MergingSubject(),
+    });
   }
 
   /**
@@ -171,30 +133,7 @@ export class EventService {
   private validateEventType<T>(eventType: Type<T>): void {
     if (!eventType?.constructor) {
       throw new Error(
-        `EventService: ${eventType} is not a valid event type. Please provide a class reference.`
-      );
-    }
-
-    let parentType = eventType;
-    let extendsCxClass = false;
-    while (!!parentType) {
-      if (!Object.getOwnPropertyNames(parentType).includes('type')) {
-        console.warn(
-          `EventService: ${parentType} does not contain the static 'type' property. Please add e.g.: static type = '${parentType.name}'`
-        );
-      } else if (!extendsCxClass && parentType['type'] === CxEvent.type) {
-        extendsCxClass = true;
-      }
-
-      if (!Object.getPrototypeOf(parentType).type) {
-        break;
-      }
-      parentType = Object.getPrototypeOf(parentType);
-    }
-
-    if (!extendsCxClass) {
-      console.warn(
-        `The ${eventType} (or its ancestors) does not inherit from the 'CxEvent'. Please inherit it.`
+        `EventService:  ${eventType} is not a valid event type. Please provide a class reference.`
       );
     }
   }
