@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ProductScope, ProductService } from '@spartacus/core';
+import { Price, Product, ProductScope, ProductService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { BulkPrice } from '../../core/model/bulk-price.model';
@@ -14,26 +14,28 @@ export class BulkPricesService {
 
   getBulkPrices(productCode: string): Observable<BulkPrice[]> {
     return this.productService.get(productCode, this.PRODUCT_SCOPE).pipe(
-      switchMap((p) => {
-        return of(this.convert(p));
+      switchMap((productPriceScope) => {
+        return of(this.convert(productPriceScope));
       })
     );
   }
 
-  private convert(content: any): BulkPrice[] {
+  private convert(productPriceScope: Product): BulkPrice[] {
     const bulkPrices = [];
-    if (content != null) {
-      const basePrice = content.price.value;
-      content = content.volumePrices;
-      for (let i = 0; i < content.length; i++) {
-        const tierPrice = this.parsePrice(content[i], basePrice);
+    if (productPriceScope != null) {
+      const basePrice = productPriceScope.price.value;
+      const volumePrices = productPriceScope.volumePrices;
+
+      for (let i = 0; i < volumePrices.length; i++) {
+        const tierPrice = this.parsePrice(volumePrices[i], basePrice);
         bulkPrices.push(tierPrice);
       }
     }
+
     return bulkPrices;
   }
 
-  private parsePrice(priceTier: any, basePrice): BulkPrice {
+  private parsePrice(priceTier: Price, basePrice: number): BulkPrice {
     const bulkPrice: BulkPrice = {
       currencyIso: priceTier.currencyIso,
       formattedValue: priceTier.formattedValue,
