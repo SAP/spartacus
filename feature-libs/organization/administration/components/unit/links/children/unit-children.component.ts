@@ -20,5 +20,10 @@ import { UnitChildrenService } from './unit-children.service';
 export class UnitChildrenComponent {
   unit$: Observable<B2BUnit> = this.currentUnitService.item$;
 
-  constructor(private currentUnitService: CurrentUnitService) {}
+  /**
+   * @deprecated since 3.0.10
+   * Include CurrentUnitService in constructor for bugfix #10688.
+   */
+  constructor();
+  constructor(protected currentUnitService?: CurrentUnitService) {}
 }

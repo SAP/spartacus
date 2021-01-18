@@ -36,6 +36,11 @@ export const NGRX_STORE = '@ngrx/store';
 export const NGRX_EFFECTS = '@ngrx/effects';
 
 export const NGUNIVERSAL_EXPRESS_ENGINE = '@nguniversal/express-engine';
+
+export const SPARTACUS_ORGANIZATION_ADMINISTRATION_CORE =
+  '@spartacus/organization/administration/core';
+export const SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS =
+  '@spartacus/organization/administration/components';
 /***** Imports end *****/
 
 /***** Classes start *****/
@@ -319,6 +324,8 @@ export const ANONYMOUS_CONSENT_TEMPLATES_CONNECTOR =
 export const VIEW_COMPONENT = 'ViewComponent';
 export const SPLIT_VIEW_COMPONENT = 'SplitViewComponent';
 export const OCC_CMS_COMPONENT_ADAPTER = 'OccCmsComponentAdapter';
+export const CURRENT_UNIT_SERVICE = 'CurrentUnitService';
+export const UNIT_CHILDREN_COMPONENT = 'UnitChildrenComponent';
 
 /***** Classes end *****/
 
