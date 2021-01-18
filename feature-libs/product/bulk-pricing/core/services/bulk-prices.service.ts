@@ -27,8 +27,9 @@ export class BulkPricesService {
       const basePrice = productPriceScope.price?.value;
       const volumePrices = productPriceScope.volumePrices;
 
-      bulkPrices = volumePrices.map(volumePrice =>
-        this.parsePrice(volumePrice, basePrice));
+      bulkPrices = volumePrices.map((volumePrice) =>
+        this.parsePrice(volumePrice, basePrice)
+      );
     }
 
     return bulkPrices;
@@ -49,7 +50,10 @@ export class BulkPricesService {
     return this.calculateDiscount(bulkPriceTemplate, basePrice);
   }
 
-  private calculateDiscount(bulkPriceTemplate: BulkPrice, basePrice: number): BulkPrice {
+  private calculateDiscount(
+    bulkPriceTemplate: BulkPrice,
+    basePrice: number
+  ): BulkPrice {
     const bulkPrice = bulkPriceTemplate;
 
     const tierPrice = bulkPriceTemplate.value;

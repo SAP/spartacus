@@ -22,7 +22,7 @@ export class BulkPricingTableComponent implements OnInit, OnDestroy {
     this.testString = 'bulk-pricing-table works!';
   }
 
-  // TODO: once we are done with the template, remove the subscribe/unsubscribe code 
+  // TODO: once we are done with the template, remove the subscribe/unsubscribe code
   ngOnInit(): void {
     this.pricesSubscription = this.getPrices().subscribe((prices) => {
       this.pricingTiers = prices;
