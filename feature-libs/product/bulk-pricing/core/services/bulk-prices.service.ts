@@ -36,7 +36,7 @@ export class BulkPricesService {
   }
 
   private parsePrice(priceTier: Price, basePrice: number): BulkPrice {
-    const bulkPrice: BulkPrice = {
+    const bulkPriceTemplate: BulkPrice = {
       currencyIso: priceTier.currencyIso,
       formattedValue: priceTier.formattedValue,
       maxQuantity: priceTier.maxQuantity,
@@ -47,15 +47,18 @@ export class BulkPricesService {
       discount: 0,
     };
 
-    this.calculateDiscount(bulkPrice, basePrice);
-    return bulkPrice;
+    return this.calculateDiscount(bulkPriceTemplate, basePrice);
   }
 
-  private calculateDiscount(bulkPrice: BulkPrice, basePrice: number): void {
-    const tierPrice = bulkPrice.value;
+  private calculateDiscount(bulkPriceTemplate: BulkPrice, basePrice: number): BulkPrice {
+    const bulkPrice = bulkPriceTemplate;
+
+    const tierPrice = bulkPriceTemplate.value;
     const discount = Math.round(100.0 - (tierPrice / basePrice) * 100);
     const formatted = '-' + discount + '%';
     bulkPrice.formattedDiscount = formatted;
     bulkPrice.discount = discount;
+
+    return bulkPrice;
   }
 }
