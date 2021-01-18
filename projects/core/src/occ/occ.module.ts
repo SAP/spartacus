@@ -1,6 +1,5 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { OccConfigLoaderModule } from 'projects/core/src/occ/config-loader/occ-config-loader.module';
 import { provideDefaultConfig } from '../config/config-providers';
 import { provideConfigValidator } from '../config/config-validator/config-validator';
 import { AsmOccModule } from './adapters/asm/asm-occ.module';
@@ -11,6 +10,7 @@ import { CostCenterOccModule } from './adapters/cost-center/cost-center-occ.modu
 import { ProductOccModule } from './adapters/product/product-occ.module';
 import { SiteContextOccModule } from './adapters/site-context/site-context-occ.module';
 import { UserOccModule } from './adapters/user/user-occ.module';
+import { OccConfigLoaderModule } from './config-loader/occ-config-loader.module';
 import { defaultOccConfig } from './config/default-occ-config';
 import { occConfigValidator } from './config/occ-config-validator';
 import { WithCredentialsInterceptor } from './interceptors/with-credentials.interceptor';

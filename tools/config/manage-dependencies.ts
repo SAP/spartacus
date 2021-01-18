@@ -18,7 +18,7 @@ import glob from 'glob';
 import postcss from 'postcss-scss';
 import semver from 'semver';
 import * as ts from 'typescript';
-import { PACKAGE_JSON, SPARTACUS_SCOPE } from './const';
+import { PACKAGE_JSON, SPARTACUS_SCHEMATICS, SPARTACUS_SCOPE } from './const';
 import {
   error,
   Library,
@@ -139,7 +139,11 @@ export function manageDependencies(
         const scssImports = {};
 
         // Gather data about ts imports
-        const tsFilesPaths = glob.sync(`${library.directory}/**/*.ts`);
+        const tsFilesPaths = glob.sync(`${library.directory}/**/*.ts`, {
+          // Ignore assets json translation scripts
+          // TODO: Remove when translation script will be moved to lib builder
+          ignore: [`projects/assets/generate-translations-*.ts`],
+        });
 
         tsFilesPaths.forEach((fileName) => {
           const sourceFile = ts.createSourceFile(
@@ -756,6 +760,13 @@ function removeNotUsedDependenciesFromPackageJson(
   libraries: Record<string, LibraryWithDependencies>,
   options: ProgramOptions
 ): void {
+  // Keep these dependencies in schematics as these are used as external schematics
+  const externalSchematics = [
+    '@angular/localize',
+    '@angular/pwa',
+    '@nguniversal/express-engine',
+  ];
+
   if (options.fix) {
     reportProgress('Removing unused dependencies');
   } else {
@@ -774,7 +785,10 @@ function removeNotUsedDependenciesFromPackageJson(
     Object.keys(deps).forEach((dep) => {
       if (
         typeof lib.externalDependenciesForPackageJson[dep] === 'undefined' &&
-        dep !== `tslib`
+        dep !== `tslib` &&
+        ((lib.name === SPARTACUS_SCHEMATICS &&
+          !externalSchematics.includes(dep)) ||
+          lib.name !== SPARTACUS_SCHEMATICS)
       ) {
         if (options.fix) {
           const packageJson = lib.packageJsonContent;

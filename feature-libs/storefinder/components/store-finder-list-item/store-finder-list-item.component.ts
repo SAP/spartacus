@@ -1,6 +1,5 @@
-import { Component, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { StoreDataService } from '@spartacus/storefinder/core';
-import { EventEmitter } from 'events';
 import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
 
 @Component({

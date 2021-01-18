@@ -29,7 +29,13 @@
     "@spartacus/schematics": "3.0.0",
     "@spartacus/storefront": "3.0.0",
     "bootstrap": "^4.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^6.6.0",
+    "@angular/forms": "^10.1.0",
+    "@ng-select/ng-select": "^5.0.9",
+    "@ngrx/effects": "^10.0.0",
+    "@ngrx/store": "^10.0.0",
+    "@schematics/angular": "^10.1.0",
+    "typescript": "~4.0.2"
   },
   "dependencies": {
     "tslib": "^2.0.0"

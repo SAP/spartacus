@@ -29,7 +29,12 @@
     "@spartacus/core": "3.0.0",
     "@spartacus/schematics": "3.0.0",
     "@spartacus/storefront": "3.0.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^6.6.0",
+    "@angular/forms": "^10.1.0",
+    "@ngrx/store": "^10.0.0",
+    "@ngrx/effects": "^10.0.0",
+    "@schematics/angular": "^10.1.0",
+    "bootstrap": "^4.3.1"
   },
   "dependencies": {
     "tslib": "^2.0.0"

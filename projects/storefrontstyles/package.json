@@ -13,13 +13,9 @@
     "access": "public"
   },
   "repository": "https://github.com/SAP/spartacus/tree/develop/projects/storefrontstyles",
-  "scripts": {
-    "sass": "node ./build-styles.js"
-  },
-  "devDependencies": {
-    "sass": "^1.25.0"
-  },
+  "devDependencies": {},
   "peerDependencies": {
+    "@ng-select/ng-select": "^5.0.9",
     "bootstrap": "^4.0"
   },
   "dependencies": {
