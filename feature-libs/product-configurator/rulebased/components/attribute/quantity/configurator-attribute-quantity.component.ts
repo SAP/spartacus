@@ -25,8 +25,10 @@ export class ConfiguratorAttributeQuantityComponent
   quantity = new FormControl(1);
   protected sub: Subscription;
 
+  @Input() allowZero: true;
   @Input() initialQuantity: Quantity;
   @Input() readonly = false;
+
   @Output() changeQuantity = new EventEmitter<Quantity>();
 
   ngOnInit() {
