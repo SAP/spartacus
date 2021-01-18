@@ -22,9 +22,9 @@ export class BulkPricesService {
 
   private convert(productPriceScope: Product): BulkPrice[] {
     let bulkPrices = [];
-    
-    if (productPriceScope != null) {
-      const basePrice = productPriceScope.price.value;
+
+    if (productPriceScope && productPriceScope !== {}) {
+      const basePrice = productPriceScope.price?.value;
       const volumePrices = productPriceScope.volumePrices;
 
       bulkPrices = volumePrices.map(volumePrice =>
