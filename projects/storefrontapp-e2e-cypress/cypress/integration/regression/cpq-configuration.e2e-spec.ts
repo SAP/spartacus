@@ -334,7 +334,8 @@ context('CPQ Configuration', () => {
         { name: 'Memory Card', value: 'SanDisk Extreme Pro', type: 'product' },
         { name: 'Lenses', value: 'Sigma 85mm F1.4 DG HS', type: 'product' },
         { name: undefined, value: 'Nikon AF-P DX NIKKOR', type: 'product' },
-        { name: 'Bag', value: 'No option selected', type: 'simple' }, // this is a bug
+        // Display of Bag is a bug - https://github.com/SAP/spartacus/issues/10749
+        { name: 'Bag', value: 'No option selected', type: 'simple' },
         { name: 'professional photographer?', value: 'yes', type: 'simple' },
         { name: 'Insurance', value: 'Pro 4 years', type: 'product' },
       ];
