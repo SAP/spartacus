@@ -1,11 +1,11 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { LanguageService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { Configurator } from '../core/model/configurator.model';
 import { CpqConfiguratorOverviewNormalizer } from './cpq-configurator-overview-normalizer';
-import { Cpq } from './cpq.models';
 import { CpqConfiguratorUtilitiesService } from './cpq-configurator-utilities.service';
-import { LanguageService } from '@spartacus/core';
+import { Cpq } from './cpq.models';
 
 const ATTR_NAME = 'name of attribute';
 const attr: Cpq.Attribute = {
@@ -132,8 +132,8 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     expect(serviceUnderTest.convert(input).totalNumberOfIssues).toBe(3);
   });
 
-  it('should convert tabs to groups', () => {
-    expect(serviceUnderTest.convert(input).groups.length).toBe(2);
+  it('should convert tabs to groups ignoring empty one', () => {
+    expect(serviceUnderTest.convert(input).groups.length).toBe(1);
   });
 
   it('should map tab ID', () => {
