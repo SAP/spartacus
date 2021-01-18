@@ -38,8 +38,8 @@ export class AdobeLaunchService implements OnDestroy {
   }
 
   protected pushToTms<T extends CxEvent>(event: T): void {
-    // TODO:#10247 - get ahold of the static type
-    this.window?._satellite?.track(CxEvent.type, event);
+    const type = Object.getPrototypeOf(event).constructor.type;
+    this.window?._satellite?.track(type, event);
   }
 
   get window(): AdobeLaunchWindow | undefined {
