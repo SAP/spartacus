@@ -16,7 +16,7 @@ export const myCompanyAdminUser: AccountData = {
     firstName: 'Linda',
     lastName: 'Wolf',
     titleCode: '',
-    password: 'Password123.',
+    password: 'pw4all',
     email: 'linda.wolf@rustic-hw.com',
   },
 };
