@@ -137,16 +137,34 @@ describe('BudgetFormComponent', () => {
     expect(b2bUnitService.loadList).toHaveBeenCalled();
   });
 
-  it('should auto-select unit if only one is available', () => {
-    activeUnitList$.next([{ id: 'test' }]);
-    fixture.detectChanges();
-    expect(component.form.get('orgUnit.uid').value).toEqual('test');
-  });
+  describe('autoSelect', () => {
+    beforeEach(() => {
+      activeUnitList$.next(null);
+      currencies$.next(null);
+    });
+    it('should auto-select unit if only one is available', () => {
+      activeUnitList$.next([{ id: 'test' }]);
+      fixture.detectChanges();
+      expect(component.form.get('orgUnit.uid').value).toEqual('test');
+    });
 
-  it('should auto-select currency if only one is available', () => {
-    currencies$.next([{ isocode: 'test' }]);
-    fixture.detectChanges();
-    expect(component.form.get('currency.isocode').value).toEqual('test');
+    it('should auto-select currency if only one is available', () => {
+      currencies$.next([{ isocode: 'test' }]);
+      fixture.detectChanges();
+      expect(component.form.get('currency.isocode').value).toEqual('test');
+    });
+
+    it('should not auto-select unit if more than one is available', () => {
+      activeUnitList$.next([{ id: 'test' }, { id: 'test' }]);
+      fixture.detectChanges();
+      expect(component.form.get('orgUnit.uid').value).toBeNull();
+    });
+
+    it('should not auto-select currency if more than one is available', () => {
+      currencies$.next([{ isocode: 'test' }, { isocode: 'test' }]);
+      fixture.detectChanges();
+      expect(component.form.get('currency.isocode').value).toBeNull();
+    });
   });
 
   describe('createCodeWithName', () => {
