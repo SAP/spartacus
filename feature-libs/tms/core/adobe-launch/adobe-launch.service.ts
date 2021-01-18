@@ -5,7 +5,9 @@ import { tap } from 'rxjs/operators';
 import { TmsConfig } from '../config/tms-config';
 
 export interface AdobeLaunchWindow extends Window {
-  dataLayer?: any[];
+  _satellite?: {
+    track?: (identifier: string, data: any) => void;
+  };
 }
 
 @Injectable({ providedIn: 'root' })
@@ -19,9 +21,11 @@ export class AdobeLaunchService implements OnDestroy {
   ) {}
 
   collect(): void {
-    // prep data layer
+    // prep the window object
     if (this.window) {
-      this.window.dataLayer = this.window.dataLayer || [];
+      this.window._satellite = this.window._satellite ?? {
+        track: (_identifier: string, _payload: any): void => {},
+      };
     }
 
     const events =
@@ -34,7 +38,8 @@ export class AdobeLaunchService implements OnDestroy {
   }
 
   protected pushToTms<T extends CxEvent>(event: T): void {
-    this.window?.dataLayer?.push(event);
+    // TODO:#10247 - get ahold of the static type
+    this.window?._satellite?.track(CxEvent.type, event);
   }
 
   get window(): AdobeLaunchWindow | undefined {
