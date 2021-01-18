@@ -14,6 +14,7 @@ import { execSync } from 'child_process';
 import { Command } from 'commander';
 import { readFileSync } from 'fs';
 import glob from 'glob';
+import { NG_PACKAGE_JSON, PACKAGE_JSON } from './const';
 import { manageDependencies } from './manage-dependencies';
 import { manageTsConfigs } from './tsconfig-paths';
 
@@ -40,27 +41,45 @@ export function logUpdatedFile(path: string): void {
 }
 
 /**
+ * Log violation (warning,error) for file
+ *
+ * @param file related file
+ * @param errors violation
+ * @param help help information
+ */
+function logViolation(
+  file: string,
+  violation: string,
+  [help, ...extraHelp]: string[]
+): void {
+  let minLength = 76;
+  console.log(`
+${chalk.gray(
+  `--- ${file} ${`-`.repeat(Math.max(0, minLength - file.length - 1))}`
+)}
+${violation}
+
+${chalk.blue(`${chalk.bold(' i  ')}${help}`)}${extraHelp
+    .map((help) => chalk.blue(`\n    ${help}`))
+    .join('')}
+${chalk.gray(`----${`-`.repeat(Math.max(file.length, minLength))}`)}
+`);
+}
+
+/**
  * Print error
  *
  * @param file related file
  * @param errors list of errors
  * @param help help information
  */
-export function error(
-  file: string,
-  errors: string[],
-  [help, ...extraHelp]: string[]
-): void {
+export function error(file: string, errors: string[], help: string[]): void {
   errorsCount += errors.length;
-  console.log(`
-${chalk.gray(`----- ${file} -----`)}
-${errors.map((error) => chalk.red(` ✖  ${error}`)).join('\n')}
-
-${chalk.blue(`${chalk.bold(' i  ')}${help}`)}${extraHelp
-    .map((help) => chalk.blue(`\n    ${help}`))
-    .join('')}
-${chalk.gray(`------${`-`.repeat(file.length)}------`)}
-`);
+  logViolation(
+    file,
+    errors.map((error) => chalk.red(` ✖  ${error}`)).join('\n'),
+    help
+  );
 }
 
 /**
@@ -73,18 +92,14 @@ ${chalk.gray(`------${`-`.repeat(file.length)}------`)}
 export function warning(
   file: string,
   warnings: string[],
-  [help, ...extraHelp]: string[]
+  help: string[]
 ): void {
   warningsCount += warnings.length;
-  console.log(`
-${chalk.gray(`----- ${file} -----`)}
-${warnings.map((warning) => chalk.yellow(` ⚠  ${warning}`)).join('\n')}
-
-${chalk.blue(`${chalk.bold(' i  ')}${help}`)}${extraHelp
-    .map((help) => chalk.blue(`\n    ${help}`))
-    .join('')}
-${chalk.gray(`------${`-`.repeat(file.length)}------`)}
-`);
+  logViolation(
+    file,
+    warnings.map((warning) => chalk.yellow(` ⚠  ${warning}`)).join('\n'),
+    help
+  );
 }
 
 /**
@@ -207,12 +222,12 @@ export type Repository = {
  * Paths to `package.json` files for all libraries.
  */
 const librariesPaths = glob.sync(
-  '{core-libs,feature-libs,integration-libs,projects}/!(node_modules)/package.json',
+  `{core-libs,feature-libs,integration-libs,projects}/!(node_modules)/${PACKAGE_JSON}`,
   {
     ignore: [
-      'projects/storefrontapp-e2e-cypress/package.json',
-      'projects/dev-schematics/package.json',
-      'projects/storefrontapp/package.json',
+      `projects/storefrontapp-e2e-cypress/${PACKAGE_JSON}`,
+      `projects/dev-schematics/${PACKAGE_JSON}`,
+      `projects/storefrontapp/${PACKAGE_JSON}`,
     ],
   }
 );
@@ -223,16 +238,16 @@ const repository = librariesPaths
     const packageJson: PackageJson = readJsonFile(libraryPath);
     const directory = libraryPath.substring(
       0,
-      libraryPath.length - `/package.json`.length
+      libraryPath.length - `/${PACKAGE_JSON}`.length
     );
 
-    const ngPackageFilesPaths = glob.sync(`${directory}/**/ng-package.json`);
+    const ngPackageFilesPaths = glob.sync(`${directory}/**/${NG_PACKAGE_JSON}`);
     const entryPoints = ngPackageFilesPaths.map((ngPackagePath) => {
       const ngPackageFileContent = readJsonFile(ngPackagePath);
       let pathWithoutLibDirectory = ngPackagePath.substring(directory.length);
       let pathWithoutNgPackage = pathWithoutLibDirectory.substring(
         0,
-        pathWithoutLibDirectory.length - `/ng-package.json`.length
+        pathWithoutLibDirectory.length - `/${NG_PACKAGE_JSON}`.length
       );
       return {
         entryPoint: `${packageJson.name}${pathWithoutNgPackage}`,

@@ -21,7 +21,7 @@
     "noUnusedParameters": true,
     "paths": {
       "@spartacus/schematics": [
-        "projects/schematics/src/public_api"
+        "projects/schematics/src/public_ap"
       ],
       "@spartacus/setup": [
         "core-libs/setup/public_api"

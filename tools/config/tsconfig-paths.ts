@@ -19,6 +19,7 @@ import { assign, parse, stringify } from 'comment-json';
 import fs from 'fs';
 import glob from 'glob';
 import path from 'path';
+import { SPARTACUS_SCHEMATICS, SPARTACUS_SCOPE } from './const';
 import {
   error,
   Library,
@@ -65,7 +66,7 @@ export function manageTsConfigs(
         ...lib,
         spartacusDependencies: Object.keys(
           lib.peerDependencies ?? {}
-        ).filter((dep) => dep.startsWith('@spartacus/')),
+        ).filter((dep) => dep.startsWith(`${SPARTACUS_SCOPE}/`)),
       };
     })
     .reduce((acc: Record<string, LibraryWithSpartacusDeps>, lib) => {
@@ -158,7 +159,7 @@ function handleSchematicsConfigs(
   options: ProgramOptions
 ): void {
   const targetPaths = {
-    '@spartacus/schematics': ['../../projects/schematics/src/public_api'],
+    [SPARTACUS_SCHEMATICS]: ['../../projects/schematics/src/public_api'],
   };
   if (options.fix) {
     reportProgress('Updating tsconfig.schematics.json files');
@@ -172,7 +173,7 @@ function handleSchematicsConfigs(
     );
     if (
       schematicsTsConfigPaths.length &&
-      library.spartacusDependencies.includes('@spartacus/schematics')
+      library.spartacusDependencies.includes(SPARTACUS_SCHEMATICS)
     ) {
       const hadErrors = handleConfigUpdate(
         targetPaths,
@@ -210,7 +211,7 @@ function handleLibConfigs(
     if (libraryTsConfigPaths.length) {
       let dependenciesEntryPoints = library.spartacusDependencies
         // @spartacus/schematics library should be used only in `tsconfig.schematics.json` file.
-        .filter((dependency) => dependency !== '@spartacus/schematics')
+        .filter((dependency) => dependency !== SPARTACUS_SCHEMATICS)
         .map((library) => libraries[library])
         .reduce((entryPoints, dependency) => {
           let dependencyEntryPoints = dependency.entryPoints.reduce(
@@ -265,10 +266,10 @@ function handleRootConfigs(
     return acc;
   }, {});
 
-  const hadErrors = handleConfigUpdate(entryPoints, './tsconfig.json', options);
+  const hadErrors = handleConfigUpdate(entryPoints, 'tsconfig.json', options);
   const hadErrorsCompodoc = handleConfigUpdate(
     entryPoints,
-    './tsconfig.compodoc.json',
+    'tsconfig.compodoc.json',
     options
   );
   if (hadErrors || hadErrorsCompodoc) {
@@ -291,7 +292,7 @@ function handleAppConfigs(
   let showAllGood = true;
   // Add paths to `projects/storefrontapp/tsconfig.app.prod.json` config.
   const appEntryPoints = Object.values(libraries)
-    .filter((lib) => lib.name !== '@spartacus/schematics')
+    .filter((lib) => lib.name !== SPARTACUS_SCHEMATICS)
     .reduce((acc, curr) => {
       curr.entryPoints.forEach((entryPoint) => {
         acc[entryPoint.entryPoint] = [
@@ -309,7 +310,7 @@ function handleAppConfigs(
 
   // Add paths to `projects/storefrontapp/tsconfig.server.json` config.
   const serverEntryPoints = Object.values(libraries)
-    .filter((lib) => lib.name !== '@spartacus/schematics')
+    .filter((lib) => lib.name !== SPARTACUS_SCHEMATICS)
     .reduce((acc, curr) => {
       curr.entryPoints.forEach((entryPoint) => {
         // For server configuration we need relative paths that's why we append `../..`
@@ -332,7 +333,7 @@ function handleAppConfigs(
 
   // Add paths to `projects/storefrontapp/tsconfig.server.prod.json` config.
   const serverProdEntryPoints = Object.values(libraries)
-    .filter((lib) => lib.name !== '@spartacus/schematics')
+    .filter((lib) => lib.name !== SPARTACUS_SCHEMATICS)
     .reduce((acc, curr) => {
       curr.entryPoints.forEach((entryPoint) => {
         // For server configuration we need relative paths that's why we append `../..`

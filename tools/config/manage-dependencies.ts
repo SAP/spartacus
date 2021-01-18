@@ -18,26 +18,50 @@ import glob from 'glob';
 import postcss from 'postcss-scss';
 import semver from 'semver';
 import * as ts from 'typescript';
+import { PACKAGE_JSON, SPARTACUS_SCOPE } from './const';
 import {
   error,
   Library,
+  logUpdatedFile,
   PackageJson,
   ProgramOptions,
   reportProgress,
   Repository,
+  success,
   warning,
 } from './index';
 
-// Utility functions
-function readJsonFile(path: string) {
+// ------------ Utilities ------------
+
+/**
+ * Read and parse json file content
+ *
+ * @param path json file path
+ *
+ * @returns content of the json
+ */
+function readJsonFile(path: string): any {
   return JSON.parse(fs.readFileSync(path, 'utf-8'));
 }
 
-function saveJsonFile(path: string, content: any) {
+/**
+ * Stringify and safe json file content
+ *
+ * @param path json file path
+ * @param content content to save
+ */
+function saveJsonFile(path: string, content: any): void {
   fs.writeFileSync(path, JSON.stringify(content, undefined, 2));
 }
 
-function delint(sourceFile: ts.SourceFile): Set<string> {
+/**
+ * Get list of all imports (paths)
+ *
+ * @param sourceFile ts source file
+ *
+ * @returns set with import paths
+ */
+function getAllImports(sourceFile: ts.SourceFile): Set<string> {
   const imports = new Set<string>();
   delintNode(sourceFile);
 
@@ -55,7 +79,9 @@ function delint(sourceFile: ts.SourceFile): Set<string> {
   return imports;
 }
 
-interface LibDepsMetaData extends Library {
+// ------------ Utilities end ------------
+
+interface LibraryWithDependencies extends Library {
   tsImports: {
     [importPath: string]: {
       importPath: string;
@@ -74,7 +100,7 @@ interface LibDepsMetaData extends Library {
       files: Set<string>;
     };
   };
-  externalDependencies?: {
+  externalDependencies: {
     [dependency: string]: {
       dependency: string;
       files: Set<string>;
@@ -87,7 +113,7 @@ interface LibDepsMetaData extends Library {
       };
     };
   };
-  externalDependenciesForPackageJson?: {
+  externalDependenciesForPackageJson: {
     [dependency: string]: {
       dependency: string;
       files: Set<string>;
@@ -108,23 +134,22 @@ export function manageDependencies(
 ) {
   const libraries = Object.values(repository)
     .map(
-      (library: Library): LibDepsMetaData => {
+      (library: Library): LibraryWithDependencies => {
         const tsImports = {};
         const scssImports = {};
 
+        // Gather data about ts imports
         const tsFilesPaths = glob.sync(`${library.directory}/**/*.ts`);
 
         tsFilesPaths.forEach((fileName) => {
-          // Parse a file
           const sourceFile = ts.createSourceFile(
             fileName,
             readFileSync(fileName).toString(),
             ts.ScriptTarget.ES2015,
-            /*setParentNodes */ true
+            true
           );
 
-          // delint it
-          const fileImports = delint(sourceFile);
+          const fileImports = getAllImports(sourceFile);
           fileImports.forEach((val) => {
             if (tsImports[val]) {
               tsImports[val].files.add(fileName);
@@ -143,6 +168,7 @@ export function manageDependencies(
           });
         });
 
+        // Gather data about scss imports
         const scssFilesPaths = glob.sync(`${library.directory}/**/*.scss`);
 
         scssFilesPaths.forEach((fileName) => {
@@ -175,39 +201,62 @@ export function manageDependencies(
         };
       }
     )
-    .reduce((acc: Record<string, LibDepsMetaData>, curr) => {
+    .reduce((acc: Record<string, LibraryWithDependencies>, curr) => {
       acc[curr.name] = curr;
       return acc;
     }, {});
 
-  // Specify where imports are used (spec, lib, schematics, schematics spec)
+  // Check where imports are used (spec, lib, schematics, schematics spec)
   categorizeUsageOfDependencies(libraries);
+
   // Check for rxjs/internal imports
-  warnAboutRxInternalImports(libraries);
-  // Check if we reference files with relative paths outside of entry point
+  checkRxInternalImports(libraries, options);
+
+  // Filter out al the relative paths for our source code
   filterLocalRelativeImports(libraries);
-  // Check if we use node dependencies where we should not
-  filterNativeNodeAPIs(libraries);
-  // Check if we use absolute paths where we should not
-  filterLocalAbsolutePathFiles(libraries);
+
+  // Check if we use node dependencies where we should not, then filter native Node imports.
+  filterNativeNodeAPIs(libraries, options);
+
+  // Check if we use absolute paths where we should not, then filter these.
+  filterLocalAbsolutePathFiles(libraries, options);
+
   // Define list of external dependencies for each library
-  getExternalDependenciesFromImports(libraries);
+  extractExternalDependenciesFromImports(libraries);
 
-  const rootPackageJson: PackageJson = readJsonFile('./package.json');
+  const rootPackageJsonContent: PackageJson = readJsonFile(`./${PACKAGE_JSON}`);
 
-  // Check if we have all dependencies directly referenced in package.json
-  checkIfWeHaveAllDependenciesInPackageJson(libraries, rootPackageJson);
+  // Check if we have all dependencies directly referenced in root package.json
+  checkIfWeHaveAllDependenciesInPackageJson(
+    libraries,
+    rootPackageJsonContent,
+    options
+  );
 
   // Filer out spec dependencies as we already checked everything related to them
   filterOutSpecOnlyDependencies(libraries);
 
-  addMissingDependenciesToPackageJson(libraries, rootPackageJson, options);
-  removeNotUsedDependenciesFromPackageJson(libraries, options);
-  checkEmptyDevDependencies(libraries);
-  checkTsLibDep(libraries, rootPackageJson, options);
-  checkForLockFile(libraries);
+  // Add to lib package.json missing dependencies
+  addMissingDependenciesToPackageJson(
+    libraries,
+    rootPackageJsonContent,
+    options
+  );
 
-  updateDependenciesVersions(libraries, rootPackageJson, options);
+  // Remove unused dependencies from libraries package.json files
+  removeNotUsedDependenciesFromPackageJson(libraries, options);
+
+  // Make sure that libraries don't have devDependencies
+  checkEmptyDevDependencies(libraries, options);
+
+  // Check if all TS packages have dependency on tslib
+  checkTsLibDep(libraries, rootPackageJsonContent, options);
+
+  // Check if libraries doesn't use local node_modules
+  checkForLockFile(libraries, options);
+
+  // Synchronize version in libraries dependencies to root package.json
+  updateDependenciesVersions(libraries, rootPackageJsonContent, options);
 
   if (options.fix) {
     savePackageJsonFiles(libraries);
@@ -218,8 +267,8 @@ export function manageDependencies(
  * Remove these imports from the object as it is no longer useful in processing.
  */
 function filterLocalRelativeImports(
-  libraries: Record<string, LibDepsMetaData>
-) {
+  libraries: Record<string, LibraryWithDependencies>
+): void {
   Object.values(libraries).forEach((lib) => {
     lib.tsImports = Object.values(lib.tsImports)
       .filter((imp) => !imp.importPath.startsWith('.'))
@@ -243,7 +292,10 @@ function filterLocalRelativeImports(
 /**
  * Filter native Node.js APIs
  */
-function filterNativeNodeAPIs(libraries: Record<string, LibDepsMetaData>) {
+function filterNativeNodeAPIs(
+  libraries: Record<string, LibraryWithDependencies>,
+  options: ProgramOptions
+): void {
   const nodeAPIs = [
     'fs',
     'fs/promise',
@@ -284,94 +336,121 @@ function filterNativeNodeAPIs(libraries: Record<string, LibDepsMetaData>) {
     'zlib',
   ];
 
-  reportProgress('Checking imports of Node.js APIs');
-  Object.values(libraries).forEach((lib) => {
-    lib.tsImports = Object.values(lib.tsImports)
-      .filter((imp) => {
-        if (nodeAPIs.includes(imp.importPath)) {
-          // Don't allow to use node api outside of schematics spec files
-          if (imp.usageIn.spec || imp.usageIn.lib || imp.usageIn.schematics) {
-            imp.files.forEach((file) => {
-              // Allow to use Node APIs in SSR
-              if (!file.includes('ssr')) {
-                error(
-                  file,
-                  [
-                    `Node.js API \`${chalk.bold(
-                      imp.importPath
-                    )}\` is referenced.`,
-                  ],
-                  [
-                    `Node.js APIs can only be used in SSR code or in schematics specs.`,
-                    `You might have wanted to import it from some library instead.`,
-                  ]
-                );
+  if (!options.fix) {
+    reportProgress('Checking imports of Node.js APIs');
+
+    let errorsFound = false;
+    Object.values(libraries).forEach((lib) => {
+      lib.tsImports = Object.values(lib.tsImports)
+        .filter((imp) => {
+          if (nodeAPIs.includes(imp.importPath)) {
+            // Don't run the check in fix mode
+            if (!options.fix) {
+              // Don't allow to use node api outside of schematics spec files
+              if (
+                imp.usageIn.spec ||
+                imp.usageIn.lib ||
+                imp.usageIn.schematics
+              ) {
+                imp.files.forEach((file) => {
+                  // Allow to use Node APIs in SSR
+                  if (!file.includes('ssr')) {
+                    errorsFound = true;
+                    error(
+                      file,
+                      [
+                        `Node.js API \`${chalk.bold(
+                          imp.importPath
+                        )}\` is referenced.`,
+                      ],
+                      [
+                        `Node.js APIs can only be used in SSR code or in schematics specs.`,
+                        `You might have wanted to import it from some library instead.`,
+                      ]
+                    );
+                  }
+                });
               }
-            });
+            }
+            return false;
           }
-          return false;
-        }
-        return true;
-      })
-      .reduce((acc, curr) => {
-        acc[curr.importPath] = curr;
-        return acc;
-      }, {});
-  });
+          return true;
+        })
+        .reduce((acc, curr) => {
+          acc[curr.importPath] = curr;
+          return acc;
+        }, {});
+    });
+    if (!errorsFound) {
+      success();
+    }
+  }
 }
 
 /**
  * Filer native Node.js APIs
  */
 function filterLocalAbsolutePathFiles(
-  libraries: Record<string, LibDepsMetaData>
-) {
-  reportProgress('Checking absolute path imports');
-  Object.values(libraries).forEach((lib) => {
-    lib.tsImports = Object.values(lib.tsImports)
-      .filter((imp) => {
-        // Allow to use absolute paths for spec files
-        if (
-          fs.existsSync(imp.importPath) ||
-          fs.existsSync(`${imp.importPath}.ts`)
-        ) {
+  libraries: Record<string, LibraryWithDependencies>,
+  options: ProgramOptions
+): void {
+  if (!options.fix) {
+    reportProgress('Checking absolute path imports');
+
+    let errorsFound = false;
+    Object.values(libraries).forEach((lib) => {
+      lib.tsImports = Object.values(lib.tsImports)
+        .filter((imp) => {
           if (
-            imp.usageIn.lib ||
-            imp.usageIn.schematics ||
-            imp.usageIn.schematicsSpec
+            fs.existsSync(imp.importPath) ||
+            fs.existsSync(`${imp.importPath}.ts`)
           ) {
-            imp.files.forEach((file) => {
-              error(
-                file,
-                [
-                  `Absolute import should not be used outside of spec files.\n   Referenced \`${chalk.bold(
-                    imp.importPath
-                  )}\``,
-                ],
-                [
-                  `You should use absolute paths only for testing modules.`,
-                  `Use relative or entry point import instead.`,
-                ]
-              );
-            });
+            // Don't run in fix mode
+            if (!options.fix) {
+              // Allow to use absolute paths for spec files
+              if (
+                imp.usageIn.lib ||
+                imp.usageIn.schematics ||
+                imp.usageIn.schematicsSpec
+              ) {
+                imp.files.forEach((file) => {
+                  errorsFound = true;
+                  error(
+                    file,
+                    [
+                      `Absolute import should not be used outside of spec files.\n    Referenced \`${chalk.bold(
+                        imp.importPath
+                      )}\``,
+                    ],
+                    [
+                      `You should use absolute paths only for testing modules.`,
+                      `Use relative or entry point import instead.`,
+                    ]
+                  );
+                });
+              }
+            }
+            return false;
           }
-          return false;
-        }
-        return true;
-      })
-      .reduce((acc, curr) => {
-        acc[curr.importPath] = curr;
-        return acc;
-      }, {});
-  });
+          return true;
+        })
+        .reduce((acc, curr) => {
+          acc[curr.importPath] = curr;
+          return acc;
+        }, {});
+    });
+    if (!errorsFound) {
+      success();
+    }
+  }
 }
 
 /**
  * Categorize in which type of files we use different dependencies
  */
 function categorizeUsageOfDependencies(
-  libraries: Record<string, LibDepsMetaData>
-) {
+  libraries: Record<string, LibraryWithDependencies>
+): void {
   Object.values(libraries).forEach((lib) => {
     Object.values(lib.tsImports).forEach((imp) => {
       imp.files.forEach((file) => {
@@ -394,37 +473,45 @@ function categorizeUsageOfDependencies(
 }
 
 /**
- * Warn about usage of rxjs/internal imports
+ * Check rxjs/internal imports
  */
-function warnAboutRxInternalImports(
-  libraries: Record<string, LibDepsMetaData>
-) {
-  reportProgress('Checking `rx/internal` imports');
-  Object.values(libraries).forEach((lib) => {
-    Object.values(lib.tsImports).forEach((imp) => {
-      if (imp.importPath.includes('rxjs/internal')) {
-        imp.files.forEach((file) => {
-          error(
-            file,
-            [`\`${chalk.bold(imp.importPath)}\` internal import used.`],
-            [
-              `To import from rxjs library you should use \`${chalk.bold(
-                'rxjs'
-              )}\` or \`${chalk.bold('rxjs/operators')}\` imports.`,
-            ]
-          );
-        });
-      }
+function checkRxInternalImports(
+  libraries: Record<string, LibraryWithDependencies>,
+  options: ProgramOptions
+): void {
+  if (!options.fix) {
+    reportProgress('Checking `rx/internal` imports');
+    let errorsFound = false;
+    Object.values(libraries).forEach((lib) => {
+      Object.values(lib.tsImports).forEach((imp) => {
+        if (imp.importPath.includes('rxjs/internal')) {
+          imp.files.forEach((file) => {
+            errorsFound = true;
+            error(
+              file,
+              [`\`${chalk.bold(imp.importPath)}\` internal import used.`],
+              [
+                `To import from rxjs library you should use \`${chalk.bold(
+                  'rxjs'
+                )}\` or \`${chalk.bold('rxjs/operators')}\` imports.`,
+              ]
+            );
+          });
+        }
+      });
     });
-  });
+    if (!errorsFound) {
+      success();
+    }
+  }
 }
 
 /**
- * Get external dependencies from imports
+ * Extract external dependencies from imports
  */
-function getExternalDependenciesFromImports(
-  libraries: Record<string, LibDepsMetaData>
-) {
+function extractExternalDependenciesFromImports(
+  libraries: Record<string, LibraryWithDependencies>
+): void {
   Object.values(libraries).forEach((lib) => {
     Object.values(lib.tsImports).forEach((imp) => {
       let dependency;
@@ -506,38 +593,45 @@ function getExternalDependenciesFromImports(
  * Get external dependencies from imports
  */
 function checkIfWeHaveAllDependenciesInPackageJson(
-  libraries: Record<string, LibDepsMetaData>,
-  packageJson: PackageJson
-) {
-  const allDeps = {
-    ...packageJson.devDependencies,
-    ...packageJson.dependencies,
-  };
-  const errors = [];
-  reportProgress('Checking for missing dependencies in root package.json');
-  Object.values(libraries).forEach((lib) => {
-    Object.values(lib.externalDependencies).forEach((dep) => {
-      if (
-        !dep.dependency.startsWith('@spartacus/') &&
-        !Object.keys(allDeps).includes(dep.dependency)
-      ) {
-        errors.push(
-          `Missing \`${chalk.bold(
-            dep.dependency
-          )}\` dependency that is used directly in \`${chalk.bold(lib.name)}\`.`
-        );
-      }
+  libraries: Record<string, LibraryWithDependencies>,
+  packageJson: PackageJson,
+  options: ProgramOptions
+): void {
+  if (!options.fix) {
+    const allDeps = {
+      ...packageJson.devDependencies,
+      ...packageJson.dependencies,
+    };
+    const errors = [];
+    reportProgress(`Checking for missing dependencies in root ${PACKAGE_JSON}`);
+    Object.values(libraries).forEach((lib) => {
+      Object.values(lib.externalDependencies).forEach((dep) => {
+        if (
+          !dep.dependency.startsWith(`${SPARTACUS_SCOPE}/`) &&
+          !Object.keys(allDeps).includes(dep.dependency)
+        ) {
+          errors.push(
+            `Missing \`${chalk.bold(
+              dep.dependency
+            )}\` dependency that is used directly in \`${chalk.bold(
+              lib.name
+            )}\`.`
+          );
+        }
+      });
     });
-  });
-  if (errors.length) {
-    error('package.json', errors, [
-      `All dependencies that are directly referenced should be specified as \`${chalk.bold(
-        'dependencies'
-      )}\` or \`${chalk.bold('devDependencies')}\`.`,
-      `Install them with \`${chalk.bold(
-        'yarn add <dependency-name> (--dev)'
-      )}\`.`,
-    ]);
+    if (errors.length) {
+      error(PACKAGE_JSON, errors, [
+        `All dependencies that are directly referenced should be specified as \`${chalk.bold(
+          'dependencies'
+        )}\` or \`${chalk.bold('devDependencies')}\`.`,
+        `Install them with \`${chalk.bold(
+          'yarn add <dependency-name> (--dev)'
+        )}\`.`,
+      ]);
+    } else {
+      success();
+    }
   }
 }
 
@@ -545,8 +639,8 @@ function checkIfWeHaveAllDependenciesInPackageJson(
  * Remove spec external dependencies as we already took care of them.
  */
 function filterOutSpecOnlyDependencies(
-  libraries: Record<string, LibDepsMetaData>
-) {
+  libraries: Record<string, LibraryWithDependencies>
+): void {
   Object.values(libraries).forEach((lib) => {
     lib.externalDependenciesForPackageJson = Object.values(
       lib.externalDependencies
@@ -568,19 +662,27 @@ function filterOutSpecOnlyDependencies(
   });
 }
 
+/**
+ * Adds peerDependencies to libraries package.json files
+ */
 function addMissingDependenciesToPackageJson(
-  libraries: Record<string, LibDepsMetaData>,
+  libraries: Record<string, LibraryWithDependencies>,
   rootPackageJson: PackageJson,
   options: ProgramOptions
-) {
+): void {
   const deps = {
     ...rootPackageJson.dependencies,
     ...rootPackageJson.devDependencies,
   };
-
-  reportProgress('Checking for missing peerDependencies');
+  if (options.fix) {
+    reportProgress('Updating missing peerDependencies');
+  } else {
+    reportProgress('Checking for missing peerDependencies');
+  }
+  const updates = new Set<string>();
+  let errorsFound = false;
   Object.values(libraries).forEach((lib) => {
-    const pathToPackageJson = `${lib.directory}/package.json`;
+    const pathToPackageJson = `${lib.directory}/${PACKAGE_JSON}`;
     const errors = [];
     Object.values(lib.externalDependenciesForPackageJson).forEach((dep) => {
       if (
@@ -594,17 +696,20 @@ function addMissingDependenciesToPackageJson(
           const version = deps[dep.dependency];
           if (
             typeof version === 'undefined' &&
-            !dep.dependency.startsWith('@spartacus/')
+            !dep.dependency.startsWith(`${SPARTACUS_SCOPE}/`)
           ) {
+            // Nothing we can do here. First the dependencies must be added to root package.json (previous check).
           } else {
             if (typeof packageJson.peerDependencies === 'undefined') {
               packageJson.peerDependencies = {};
             }
             if (typeof version !== 'undefined') {
               packageJson.peerDependencies[dep.dependency] = version;
+              updates.add(pathToPackageJson);
             } else if (dep.dependency !== lib.name) {
               packageJson.peerDependencies[dep.dependency] =
                 libraries[dep.dependency].version;
+              updates.add(pathToPackageJson);
             }
           }
         } else {
@@ -617,6 +722,7 @@ function addMissingDependenciesToPackageJson(
       }
     });
     if (errors.length) {
+      errorsFound = true;
       error(pathToPackageJson, errors, [
         `All dependencies that are directly referenced should be specified as \`${chalk.bold(
           'dependencies'
@@ -630,12 +736,33 @@ function addMissingDependenciesToPackageJson(
       ]);
     }
   });
+  if (options.fix) {
+    if (updates.size > 0) {
+      updates.forEach((packageJsonPath) => {
+        logUpdatedFile(packageJsonPath);
+      });
+    } else {
+      success();
+    }
+  } else if (!errorsFound) {
+    success();
+  }
 }
 
+/**
+ * Remove dependencies that are no longer referenced in the library
+ */
 function removeNotUsedDependenciesFromPackageJson(
-  libraries: Record<string, LibDepsMetaData>,
+  libraries: Record<string, LibraryWithDependencies>,
   options: ProgramOptions
-) {
+): void {
+  if (options.fix) {
+    reportProgress('Removing unused dependencies');
+  } else {
+    reportProgress('Checking unused dependencies');
+  }
+  const updates = new Set<string>();
+  let errorsFound = false;
   Object.values(libraries).forEach((lib) => {
     const deps = {
       ...lib.dependencies,
@@ -643,8 +770,7 @@ function removeNotUsedDependenciesFromPackageJson(
       ...lib.optionalDependencies,
     };
     const errors = [];
-    const pathToPackageJson = `${lib.directory}/package.json`;
-    reportProgress('Checking unused dependencies');
+    const pathToPackageJson = `${lib.directory}/${PACKAGE_JSON}`;
     Object.keys(deps).forEach((dep) => {
       if (
         typeof lib.externalDependenciesForPackageJson[dep] === 'undefined' &&
@@ -654,14 +780,17 @@ function removeNotUsedDependenciesFromPackageJson(
           const packageJson = lib.packageJsonContent;
           if (typeof packageJson?.dependencies?.[dep] !== 'undefined') {
             delete packageJson.dependencies[dep];
+            updates.add(pathToPackageJson);
           } else if (
             typeof packageJson?.peerDependencies?.[dep] !== 'undefined'
           ) {
             delete packageJson.peerDependencies[dep];
+            updates.add(pathToPackageJson);
           } else if (
             typeof packageJson?.optionalDependencies?.[dep] !== 'undefined'
           ) {
             delete packageJson.optionalDependencies[dep];
+            updates.add(pathToPackageJson);
           }
         } else {
           errors.push(
@@ -673,6 +802,7 @@ function removeNotUsedDependenciesFromPackageJson(
       }
     });
     if (errors.length > 0) {
+      errorsFound = true;
       error(pathToPackageJson, errors, [
         `Dependencies that are not used should not be specified in package list of \`${chalk.bold(
           'dependencies'
@@ -683,89 +813,126 @@ function removeNotUsedDependenciesFromPackageJson(
       ]);
     }
   });
+  if (options.fix) {
+    if (updates.size > 0) {
+      updates.forEach((packageJsonPath) => {
+        logUpdatedFile(packageJsonPath);
+      });
+    } else {
+      success();
+    }
+  } else if (!errorsFound) {
+    success();
+  }
 }
 
-// Check if package does not have any devDependencies!
-function checkEmptyDevDependencies(libraries: Record<string, LibDepsMetaData>) {
-  reportProgress('Checking unnecessary `devDependencies`');
-  Object.values(libraries).forEach((lib) => {
-    if (Object.keys(lib.devDependencies).length > 0) {
-      const pathToPackageJson = `${lib.directory}/package.json`;
-      error(
-        pathToPackageJson,
-        [
-          `Libraries should not have \`${chalk.bold(
-            'devDependencies'
-          )}\` specified in their package.json.`,
-        ],
-        [
-          `You should use \`${chalk.bold(
-            'devDependencies'
-          )}\` from root package.json file.`,
-          `You should remove this section from this package.json.`,
-        ]
-      );
+/**
+ * Check if package does not have any devDependencies
+ */
+function checkEmptyDevDependencies(
+  libraries: Record<string, LibraryWithDependencies>,
+  options: ProgramOptions
+): void {
+  if (!options.fix) {
+    reportProgress('Checking unnecessary `devDependencies`');
+    let errorsFound = false;
+    Object.values(libraries).forEach((lib) => {
+      if (Object.keys(lib.devDependencies).length > 0) {
+        const pathToPackageJson = `${lib.directory}/${PACKAGE_JSON}`;
+        errorsFound = true;
+        error(
+          pathToPackageJson,
+          [
+            `Libraries should not have \`${chalk.bold(
+              'devDependencies'
+            )}\` specified in their ${PACKAGE_JSON}.`,
+          ],
+          [
+            `You should use \`${chalk.bold(
+              'devDependencies'
+            )}\` from root ${PACKAGE_JSON} file.`,
+            `You should remove this section from this ${PACKAGE_JSON}.`,
+          ]
+        );
+      }
+    });
+    if (!errorsFound) {
+      success();
     }
-  });
+  }
 }
 
 // Check if we have everywhere tslib dependency
 function checkTsLibDep(
-  libraries: Record<string, LibDepsMetaData>,
+  libraries: Record<string, LibraryWithDependencies>,
   rootPackageJson: PackageJson,
   options: ProgramOptions
-) {
-  const tsLibVersion = rootPackageJson.dependencies['tslib'];
-
-  reportProgress('Checking `tslib` dependency usage');
+): void {
+  const tsLibName = 'tslib';
+  const tsLibVersion = rootPackageJson.dependencies[tsLibName];
+  if (options.fix) {
+    reportProgress(`Updating \`${tsLibName}\` dependency usage`);
+  } else {
+    reportProgress(`Checking \`${tsLibName}\` dependency usage`);
+  }
+  const updates = new Set<string>();
+  let errorsFound = false;
   Object.values(libraries).forEach((lib) => {
-    // Temporary workaround to not apply this to libraries without TS files. We should check presence of typescript
-    if (lib.name !== '@spartacus/styles') {
-      const pathToPackageJson = `${lib.directory}/package.json`;
+    // Styles library is the only library without TS
+    if (lib.name !== `${SPARTACUS_SCOPE}/styles`) {
+      const pathToPackageJson = `${lib.directory}/${PACKAGE_JSON}`;
       const errors = [];
-      if (!Object.keys(lib.dependencies).includes('tslib')) {
+      if (!Object.keys(lib.dependencies).includes(tsLibName)) {
         if (options.fix) {
           const packageJson = lib.packageJsonContent;
           if (typeof packageJson?.dependencies === 'undefined') {
             packageJson.dependencies = {};
           }
-          packageJson.dependencies['tslib'] = tsLibVersion;
+          packageJson.dependencies[tsLibName] = tsLibVersion;
+          updates.add(pathToPackageJson);
         } else {
           errors.push(
-            `Missing \`${chalk.bold('tslib')}\` dependency in \`${chalk.bold(
+            `Missing \`${chalk.bold(tsLibName)}\` dependency in \`${chalk.bold(
               'dependencies'
             )}\` list.`
           );
         }
       }
-      if (Object.keys(lib.peerDependencies).includes('tslib')) {
+      if (Object.keys(lib.peerDependencies).includes(tsLibName)) {
         if (options.fix) {
           const packageJson = lib.packageJsonContent;
-          delete packageJson.peerDependencies['tslib'];
+          delete packageJson.peerDependencies[tsLibName];
+          updates.add(pathToPackageJson);
         } else {
           errors.push(
-            `Dependency \`${chalk.bold('tslib')}\` should be in \`${chalk.bold(
+            `Dependency \`${chalk.bold(
+              tsLibName
+            )}\` should be in \`${chalk.bold(
               'dependencies'
             )}\` list. Not in the \`${chalk.bold('peerDependencies')}\`.`
           );
         }
       }
-      if (Object.keys(lib.optionalDependencies).includes('tslib')) {
+      if (Object.keys(lib.optionalDependencies).includes(tsLibName)) {
         if (options.fix) {
           const packageJson = lib.packageJsonContent;
-          delete packageJson.optionalDependencies['tslib'];
+          delete packageJson.optionalDependencies[tsLibName];
+          updates.add(pathToPackageJson);
         } else {
           errors.push(
-            `Dependency \`${chalk.bold('tslib')}\` should be in \`${chalk.bold(
+            `Dependency \`${chalk.bold(
+              tsLibName
+            )}\` should be in \`${chalk.bold(
               'dependencies'
             )}\` list. Not in the \`${chalk.bold('optionalDependency')}\`.`
           );
         }
       }
       if (errors.length > 0) {
+        errorsFound = true;
         error(pathToPackageJson, errors, [
           `Each TS package should have \`${chalk.bold(
-            'tslib'
+            tsLibName
           )}\` specified as \`${chalk.bold('dependency')}.`,
           `This can be automatically fixed by running \`${chalk.bold(
             'yarn config:update'
@@ -774,47 +941,76 @@ function checkTsLibDep(
       }
     }
   });
+  if (options.fix) {
+    if (updates.size > 0) {
+      updates.forEach((packageJsonPath) => {
+        logUpdatedFile(packageJsonPath);
+      });
+    } else {
+      success();
+    }
+  } else if (!errorsFound) {
+    success();
+  }
 }
 
-function checkForLockFile(libraries: Record<string, LibDepsMetaData>) {
-  reportProgress('Checking for unnecessary `yarn.lock` files');
-  Object.values(libraries).forEach((lib) => {
-    const lockFile = glob.sync(`${lib.directory}/yarn.lock`);
-    if (lockFile.length > 0) {
-      error(
-        lockFile[0],
-        [
-          `Library \`${chalk.bold(
-            lib.name
-          )}\` should not have it's own \`${chalk.bold('yarn.lock')}\`.`,
-        ],
-        [
-          `Libraries should use packages from root \`${chalk.bold(
-            'package.json'
-          )}\` and root \`${chalk.bold('node_modules')}\`.`,
-        ]
-      );
+function checkForLockFile(
+  libraries: Record<string, LibraryWithDependencies>,
+  options: ProgramOptions
+): void {
+  if (!options.fix) {
+    reportProgress('Checking for unnecessary `yarn.lock` files');
+    let errorsFound = false;
+    Object.values(libraries).forEach((lib) => {
+      const lockFile = glob.sync(`${lib.directory}/yarn.lock`);
+      if (lockFile.length > 0) {
+        errorsFound = true;
+        error(
+          lockFile[0],
+          [
+            `Library \`${chalk.bold(
+              lib.name
+            )}\` should not have it's own \`${chalk.bold('yarn.lock')}\`.`,
+          ],
+          [
+            `Libraries should use packages from root \`${chalk.bold(
+              PACKAGE_JSON
+            )}\` and root \`${chalk.bold('node_modules')}\`.`,
+          ]
+        );
+      }
+    });
+    if (!errorsFound) {
+      success();
     }
-  });
+  }
 }
 
 /**
  * Update versions in all libraries package json files
  */
 function updateDependenciesVersions(
-  libraries: Record<string, LibDepsMetaData>,
+  libraries: Record<string, LibraryWithDependencies>,
   rootPackageJson: PackageJson,
   options: ProgramOptions
-) {
+): void {
   const rootDeps = {
     ...rootPackageJson.dependencies,
     ...rootPackageJson.devDependencies,
   };
-  reportProgress(
-    'Checking package versions between libraries and root package.json'
-  );
+  if (options.fix) {
+    reportProgress(
+      `Updating packages versions between libraries and root ${PACKAGE_JSON}`
+    );
+  } else {
+    reportProgress(
+      `Checking packages versions between libraries and root ${PACKAGE_JSON}`
+    );
+  }
+  const updates = new Set<string>();
+  let errorsFound = false;
   Object.values(libraries).forEach((lib) => {
-    const pathToPackageJson = `${lib.directory}/package.json`;
+    const pathToPackageJson = `${lib.directory}/${PACKAGE_JSON}`;
     const packageJson = lib.packageJsonContent;
     const types = ['dependencies', 'peerDependencies', 'optionalDependencies'];
     const errors = [];
@@ -823,20 +1019,25 @@ function updateDependenciesVersions(
     types.forEach((type) => {
       Object.keys(packageJson[type] ?? {}).forEach((dep) => {
         if (!semver.validRange(packageJson[type][dep])) {
-          error(
-            pathToPackageJson,
-            [
-              `Package \`${chalk.bold(
-                packageJson[type][dep]
-              )}\` version is not correct.`,
-            ],
-            [`Install package version that follows semver.`]
-          );
+          if (!options.fix) {
+            errorsFound = true;
+            error(
+              pathToPackageJson,
+              [
+                `Package \`${chalk.bold(
+                  packageJson[type][dep]
+                )}\` version is not correct.`,
+              ],
+              [`Install package version that follows semver.`]
+            );
+          }
+          return;
         }
-        if (dep.startsWith('@spartacus')) {
+        if (dep.startsWith(SPARTACUS_SCOPE)) {
           if (packageJson[type][dep] !== libraries[dep].version) {
             if (options.fix) {
               packageJson[type][dep] = libraries[dep].version;
+              updates.add(pathToPackageJson);
             } else {
               internalErrors.push(
                 `Dependency \`${chalk.bold(
@@ -865,6 +1066,7 @@ function updateDependenciesVersions(
             // not a breaking change!
             if (options.fix) {
               packageJson[type][dep] = rootDeps[dep];
+              updates.add(pathToPackageJson);
             } else {
               errors.push(
                 `Dependency \`${chalk.bold(
@@ -872,7 +1074,7 @@ function updateDependenciesVersions(
                 )}\` have different version \`${chalk.bold(
                   packageJson[type][dep]
                 )}\` than the package in root \`${chalk.bold(
-                  'package.json'
+                  PACKAGE_JSON
                 )}\` file \`${chalk.bold(rootDeps[dep])}\`.`
               );
             }
@@ -880,14 +1082,15 @@ function updateDependenciesVersions(
             // breaking change!
             if (options.breakingChanges && options.fix) {
               packageJson[type][dep] = rootDeps[dep];
-            } else {
+              updates.add(pathToPackageJson);
+            } else if (!options.fix) {
               breakingErrors.push(
                 `Dependency \`${chalk.bold(
                   dep
                 )}\` have different version \`${chalk.bold(
                   packageJson[type][dep]
                 )}\` than the package in root \`${chalk.bold(
-                  'package.json'
+                  PACKAGE_JSON
                 )}\` file \`${chalk.bold(rootDeps[dep])}\`.`
               );
             }
@@ -896,6 +1099,7 @@ function updateDependenciesVersions(
       });
     });
     if (internalErrors.length > 0) {
+      errorsFound = true;
       error(pathToPackageJson, internalErrors, [
         `All spartacus dependencies should be version synchronized.`,
         `Version of the package in \`${chalk.bold(
@@ -909,9 +1113,10 @@ function updateDependenciesVersions(
       ]);
     }
     if (errors.length > 0) {
+      errorsFound = true;
       error(pathToPackageJson, errors, [
         `All external dependencies should have the same version as in the root \`${chalk.bold(
-          'package.json'
+          PACKAGE_JSON
         )}\`.`,
         `This can be automatically fixed by running \`${chalk.bold(
           'yarn config:update'
@@ -919,9 +1124,10 @@ function updateDependenciesVersions(
       ]);
     }
     if (breakingErrors.length > 0) {
+      errorsFound = true;
       warning(pathToPackageJson, breakingErrors, [
         `All external dependencies should have the same version as in the root \`${chalk.bold(
-          'package.json'
+          PACKAGE_JSON
         )}\`.`,
         `Bumping to a higher dependency version is considered a breaking change!`,
         `This can be automatically fixed by running \`${chalk.bold(
@@ -930,14 +1136,27 @@ function updateDependenciesVersions(
       ]);
     }
   });
+  if (options.fix) {
+    if (updates.size > 0) {
+      updates.forEach((packageJsonPath) => {
+        logUpdatedFile(packageJsonPath);
+      });
+    } else {
+      success();
+    }
+  } else if (!errorsFound) {
+    success();
+  }
 }
 
 /**
  * Save updated package.json files.
  */
-function savePackageJsonFiles(libraries: Record<string, LibDepsMetaData>) {
+function savePackageJsonFiles(
+  libraries: Record<string, LibraryWithDependencies>
+) {
   Object.values(libraries).forEach((lib) => {
-    const pathToPackageJson = `${lib.directory}/package.json`;
+    const pathToPackageJson = `${lib.directory}/${PACKAGE_JSON}`;
     const packageJson = lib.packageJsonContent;
     saveJsonFile(pathToPackageJson, packageJson);
   });
