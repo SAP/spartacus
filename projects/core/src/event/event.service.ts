@@ -98,19 +98,16 @@ export class EventService {
   dispatch(event: Object): void {
     const eventType = event.constructor as Type<any>;
 
-    let eventClass = eventType;
-    while (!!eventClass) {
-      console.log('dispatching for xxx: ', eventClass);
-      const inputSubject$ = this.getInputSubject(eventClass);
+    let parentType = eventType;
+    while (!!parentType) {
+      console.log('dispatching for xxx: ', parentType);
+      const inputSubject$ = this.getInputSubject(parentType);
       inputSubject$.next(event);
 
-      if (
-        !eventClass.prototype ||
-        eventClass.prototype.__proto__.constructor.name === 'Object'
-      ) {
+      if (!Object.getPrototypeOf(parentType).type) {
         break;
       }
-      eventClass = eventClass.prototype.__proto__.constructor;
+      parentType = Object.getPrototypeOf(parentType);
     }
   }
 
