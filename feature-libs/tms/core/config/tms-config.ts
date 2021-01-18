@@ -2,10 +2,15 @@ import { Injectable, Type } from '@angular/core';
 import { Config, CxEvent } from '@spartacus/core';
 
 export interface TmsEventsConfig {
-  enabled?: boolean;
+  /**
+   * An array of events to send to the configured TMS.
+   */
   events?: Type<CxEvent>[];
 }
 
+/**
+ * TMS configuration.
+ */
 @Injectable({
   providedIn: 'root',
   useExisting: Config,

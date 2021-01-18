@@ -4,6 +4,10 @@ import { AdobeLaunchModule } from './adobe-launch/adobe-launch.module';
 import { TmsConfig } from './config/tms-config';
 import { GoogleTagManagerModule } from './gtm/gtm.module';
 
+/**
+ * Main TMS module, that includes all TMS implementation supported by Spartacus.
+ *
+ */
 @NgModule({
   imports: [GoogleTagManagerModule, AdobeLaunchModule],
 })
