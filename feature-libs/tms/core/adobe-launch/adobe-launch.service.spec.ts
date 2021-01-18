@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { createFrom, CxEvent, EventService, WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { TmsConfig } from '../config';
-import { AdobeLaunchService } from './adobe-launch.service';
+import { AdobeLaunchPayload, AdobeLaunchService } from './adobe-launch.service';
 
 class MockWindowRef {
   get nativeWindow() {
@@ -39,7 +39,10 @@ describe('AdobeLaunchService', () => {
 
     service = TestBed.inject(AdobeLaunchService);
     eventService = TestBed.inject(EventService);
-    spyOnProperty(service, 'window').and.returnValue({ dataLayer: [] });
+    spyOnProperty(service, 'window').and.returnValue({
+      _tackData: (_payload: AdobeLaunchPayload): void => {},
+    });
+    spyOn(service.window, '_tackData').and.callThrough();
   });
 
   it('should be created', () => {
@@ -53,7 +56,9 @@ describe('AdobeLaunchService', () => {
 
       service.collect();
       expect(eventService.get).toHaveBeenCalledTimes(1);
-      expect(service.window.dataLayer).toEqual([testEvent]);
+      expect(service.window._tackData).toHaveBeenCalledWith({
+        [CxEvent.type]: testEvent,
+      });
     });
   });
 });
