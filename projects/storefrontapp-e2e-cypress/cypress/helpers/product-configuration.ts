@@ -370,8 +370,13 @@ export function checkAttrValueDisplayed(
   valueName: string
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
-  const valueId = `${attributeId}--${valueName}`;
-  cy.get(`#${valueId}`).should('be.visible');
+  let valueLocator: string;
+  if (uiType.startsWith('dropdown')) {
+    valueLocator = `#${attributeId} [value="${valueName}"]`;
+  } else {
+    valueLocator = `#${attributeId}--${valueName}`;
+  }
+  cy.get(`${valueLocator}`).should('be.visible');
 }
 
 /**
@@ -387,8 +392,13 @@ export function checkAttrValueNotDisplayed(
   valueName: string
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
-  const valueId = `${attributeId}--${valueName}`;
-  cy.get(`#${valueId}`).should('be.not.visible');
+  let valueLocator: string;
+  if (uiType.startsWith('dropdown')) {
+    valueLocator = `#${attributeId} [value="${valueName}"]`;
+  } else {
+    valueLocator = `#${attributeId}--${valueName}`;
+  }
+  cy.get(`${valueLocator}`).should('not.be.visible');
 }
 
 /**

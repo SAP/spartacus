@@ -64,6 +64,8 @@ const ATTR_CAM_INS = '2899';
 const VAL_NO_OPT_SEL = '0';
 /** Insurance Select 2 years */
 const VAL_CB_INS_Y2 = '8735';
+/** Insurance Pro 4 years */
+const VAL_CB_INS_P4 = '8738';
 
 const GRP_CAM_MAIN = 'Main Components';
 const GRP_CAM_ACC = 'Accessories';
@@ -313,8 +315,12 @@ context('CPQ Configuration', () => {
 
       configuration.clickOnNextBtn(GRP_CAM_IAW);
       configuration.selectAttribute(ATTR_CAM_PROF, CHKBOX, VAL_CAM_PROF_Y);
-      configuration.checkValueSelected(CHKBOX, ATTR_CAM_PROF, VAL_CAM_PROF_Y);
-      configuration.selectProductCard(DDLB, ATTR_CAM_INS, VAL_CB_INS_Y2);
+      configuration.checkAttrValueNotDisplayed(
+        ATTR_CAM_INS,
+        DDLB_PROD,
+        VAL_CB_INS_Y2
+      ); //wait for this option to disappear
+      configuration.selectProductCard(DDLB, ATTR_CAM_INS, VAL_CB_INS_P4);
       configuration.navigateToOverviewPage();
 
       configurationOverview.checkConfigOverviewPageDisplayed();
@@ -328,9 +334,9 @@ context('CPQ Configuration', () => {
         { name: 'Memory Card', value: 'SanDisk Extreme Pro', type: 'product' },
         { name: 'Lenses', value: 'Sigma 85mm F1.4 DG HS', type: 'product' },
         { name: undefined, value: 'Nikon AF-P DX NIKKOR', type: 'product' },
-        { name: 'Bag', value: 'No option selected', type: 'simple' },
-        { name: 'Photographer', value: 'Yes', type: 'simple' },
-        { name: 'Insurance', value: 'Select 2 years', type: 'product' },
+        { name: 'Bag', value: 'No option selected', type: 'simple' }, // this is a bug
+        { name: 'professional photographer?', value: 'yes', type: 'simple' },
+        { name: 'Insurance', value: 'Pro 4 years', type: 'product' },
       ];
       ovContent.forEach((line, idx) => {
         configurationOverview.checkAttrDisplayed(line.name, line.value, idx);
