@@ -48,10 +48,6 @@ done
 
 set -- "${POSITIONAL[@]}"
 
-if [[ -z "${CI_ENV}" ]]; then
-    CI_ENV=":2005"
-fi
-
 echo '-----'
 echo "Building Spartacus libraries"
 
@@ -74,6 +70,6 @@ fi
 echo '-----'
 echo "Running Cypress end to end tests"
 
-yarn e2e:"${INTEGRATION}":start:run:ci"${CI_ENV}${SUITE}"
+yarn e2e:"${INTEGRATION}":start:run:ci"${SUITE}"
 
 echo "Running Cypress end to end tests finished"
