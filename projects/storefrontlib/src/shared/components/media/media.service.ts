@@ -183,12 +183,14 @@ export class MediaService {
   /**
    * Resolves the absolute URL for the given url. In most cases, this URL represents
    * the relative URL on the backend. In that case, we prefix the url with the baseUrl.
+   *
+   * When we have receive an absolute URL, we return the URL as-is. An absolute URL might also
+   * start with double slash, which is used to resolve media cross from http and https.
    */
   protected resolveAbsoluteUrl(url: string): string {
-    if (!url) {
-      return null;
-    }
-    return url.startsWith('http') ? url : this.getBaseUrl() + url;
+    return !url || url.startsWith('http') || url.startsWith('//')
+      ? url
+      : this.getBaseUrl() + url;
   }
 
   /**
