@@ -30,7 +30,7 @@ describe('Language switch - checkout page', () => {
   });
 
   describe('checkout page', () => {
-    it('should change language in the shipping address url', () => {
+    it('should change language throughout checkout process', () => {
       // page being already tested in language-address-book
       cy.route(
         'PUT',
@@ -49,24 +49,18 @@ describe('Language switch - checkout page', () => {
       );
 
       siteContextSelector.addressBookNextStep();
-    });
 
-    it('should change language in the checkoutDeliveryPath url', () => {
       siteContextSelector.assertSiteContextChange(
         siteContextSelector.FULL_BASE_URL_DE_USD + checkoutDeliveryPath
       );
-    });
 
-    it('should change language in the checkoutDeliveryPath page', () => {
       cy.get('cx-delivery-mode .cx-delivery-mode:first').should(
         'have.text',
         'Standard-Lieferung'
       );
 
       siteContextSelector.deliveryModeNextStep();
-    });
 
-    it('should change language in the checkoutPaymentPath url', () => {
       // page being already tested in language-payment-details
 
       siteContextSelector.assertSiteContextChange(
@@ -74,15 +68,11 @@ describe('Language switch - checkout page', () => {
       );
 
       siteContextSelector.paymentDetailsNextStep();
-    });
 
-    it('should change language in the checkoutReviewPath url', () => {
       siteContextSelector.assertSiteContextChange(
         siteContextSelector.FULL_BASE_URL_DE_USD + checkoutReviewPath
       );
-    });
 
-    it('should change language in the checkoutReviewPath page', () => {
       cy.get('cx-review-submit .cx-link').should('contain', deutschName);
     });
   });
