@@ -1,5 +1,5 @@
 import { CartAddEntryEvent, CartAddEntrySuccessEvent } from '@spartacus/core';
-import { HomePageEvent, PageEvent } from '@spartacus/storefront';
+import { PageEvent } from '@spartacus/storefront';
 import { TmsModule } from '@spartacus/tms';
 import { FeatureEnvironment } from '../models/feature.model';
 
@@ -8,10 +8,10 @@ export const tmsFeature: FeatureEnvironment = {
     TmsModule.forRoot({
       tms: {
         gtm: {
-          events: [HomePageEvent, PageEvent, CartAddEntryEvent],
+          events: [PageEvent, CartAddEntryEvent],
         },
         adobeLaunch: {
-          events: [HomePageEvent, PageEvent, CartAddEntrySuccessEvent],
+          events: [PageEvent, CartAddEntrySuccessEvent],
         },
       },
     }),

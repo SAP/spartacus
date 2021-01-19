@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import { AbstractType, Injectable } from '@angular/core';
 import { Config, CxEvent } from '@spartacus/core';
 
 export interface TmsEventsConfig {
   /**
    * An array of events to send to the configured TMS.
    */
-  events?: CxEvent[];
+  events?: AbstractType<CxEvent>[];
 }
 
 /**
