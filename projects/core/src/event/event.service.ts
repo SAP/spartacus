@@ -67,6 +67,7 @@ export class EventService {
         }
       } else {
         eventMeta.mergingSubject.add(source$);
+        mergingSubjects.push(eventMeta.mergingSubject);
       }
 
       parentType = Object.getPrototypeOf(parentType);
