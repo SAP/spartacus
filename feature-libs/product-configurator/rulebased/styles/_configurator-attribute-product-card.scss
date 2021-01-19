@@ -19,14 +19,14 @@
   }
 
   .cx-product-card-imgs {
-    height: 3.5rem;
-    min-width: 3.5rem;
-    width: 3.5rem;
+    height: 3rem;
+    min-width: 3rem;
+    width: 3rem;
 
     @include media-breakpoint-up(md) {
-      height: 7rem;
-      min-width: 7rem;
-      width: 7rem;
+      height: 5rem;
+      min-width: 5rem;
+      width: 5rem;
     }
 
     .cx-product-card-imgs-fake,
@@ -98,6 +98,7 @@
     }
 
     .btn {
+      font-size: 1rem;
       width: 100%;
 
       @include media-breakpoint-up(md) {

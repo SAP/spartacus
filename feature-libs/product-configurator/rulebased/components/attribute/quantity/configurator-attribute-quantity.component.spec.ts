@@ -4,6 +4,11 @@ import { I18nTestingModule } from '@spartacus/core';
 import { ItemCounterComponent } from '@spartacus/storefront';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { QuantityConfig } from '../../config/quantity-config';
+
+class MockQuantityConfig {
+  debounceTime = 500;
+}
 
 describe(' ConfiguratorAttributeQuantityComponent', () => {
   let component: ConfiguratorAttributeQuantityComponent;
@@ -17,6 +22,12 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
           ItemCounterComponent,
         ],
         imports: [I18nTestingModule],
+        providers: [
+          {
+            provide: QuantityConfig,
+            useClass: MockQuantityConfig,
+          },
+        ],
       })
         .overrideComponent(ConfiguratorAttributeQuantityComponent, {
           set: {

@@ -8,21 +8,21 @@
 
   @include media-breakpoint-up(lg) {
     cx-page-slot.CpqConfigMenu {
-      max-inline-size: 30%;
+      max-inline-size: 25%;
     }
 
     cx-page-slot.CpqConfigContent {
-      max-inline-size: 70%;
+      max-inline-size: 75%;
     }
   }
 
   @include media-breakpoint-up(xl) {
     cx-page-slot.CpqConfigMenu {
-      max-inline-size: calc(1140px * 0.3);
+      max-inline-size: calc(1140px * 0.25);
     }
 
     cx-page-slot.CpqConfigContent {
-      max-inline-size: calc(1140px * 0.7);
+      max-inline-size: calc(1140px * 0.75);
     }
   }
 }

@@ -144,14 +144,6 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should create with OnInit', () => {
-    expect(component.disableDeselectAction$.getValue()).toBe(false);
-    component.disableDeselectAction$.next(true);
-    fixture.detectChanges();
-
-    expect(component.disableDeselectAction$.getValue()).toBe(true);
-  });
-
   it('should render 4 multi selection bundle items after init', () => {
     component.ngOnInit();
     fixture.detectChanges();
