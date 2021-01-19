@@ -44,6 +44,7 @@
     <div class="cx-product-card-rows">
       <cx-configurator-attribute-quantity
         (changeQuantity)="onChangeQuantity($event)"
+        [allowZero]="!preventAction"
         [initialQuantity]="product.quantity"
         [readonly]="loading$ | async"
         *ngIf="showQuantity"
@@ -60,7 +61,7 @@
             *ngIf="product.selected; else select"
             class="btn btn-action"
             (click)="onHandleDeselect()"
-            [disabled]="loading$ | async"
+            [disabled]="preventAction || (loading$ | async)"
           >
             {{ 'configurator.button.remove' | cxTranslate }}
           </button>
@@ -79,7 +80,7 @@
             *ngIf="product.selected; else select"
             class="btn btn-action"
             (click)="onHandleDeselect()"
-            [disabled]="loading$ | async"
+            [disabled]="preventAction || (loading$ | async)"
           >
             {{ 'configurator.button.remove' | cxTranslate }}
           </button>

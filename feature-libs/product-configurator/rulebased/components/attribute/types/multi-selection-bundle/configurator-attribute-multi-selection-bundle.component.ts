@@ -27,7 +27,7 @@ interface SelectionValue {
 export class ConfiguratorAttributeMultiSelectionBundleComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit {
-  disableDeselectAction$ = new BehaviorSubject<boolean>(false);
+  preventAction$ = new BehaviorSubject<boolean>(false);
   multipleSelectionValues: SelectionValue[] = [];
 
   @Input() attribute: Configurator.Attribute;
@@ -53,7 +53,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
       this.attribute.required &&
       this.multipleSelectionValues.filter((value) => value.selected).length < 2
     ) {
-      this.disableDeselectAction$.next(true);
+      this.preventAction$.next(true);
     }
   }
 
