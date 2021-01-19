@@ -18,7 +18,7 @@ export class MockFocusDirective {
   @Input('cxFocus') protected config;
 }
 
-describe('ConfigAttributeRadioButtonComponent', () => {
+fdescribe('ConfigAttributeRadioButtonComponent', () => {
   let component: ConfiguratorAttributeRadioButtonComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeRadioButtonComponent>;
   const ownerKey = 'theOwnerKey';
@@ -102,5 +102,63 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         }),
       })
     );
+  });
+
+  it('should call emit of selectionChange onDeselect', () => {
+    spyOn(component.selectionChange, 'emit').and.callThrough();
+
+    component.onDeselect();
+
+    expect(component.selectionChange.emit).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        ownerKey: ownerKey,
+        changedAttribute: jasmine.objectContaining({
+          name: name,
+          selectedSingleValue: '',
+          uiType: Configurator.UiType.RADIOBUTTON,
+          groupId: groupId,
+        }),
+      })
+    );
+  });
+
+  it('should call emit of selectionChange onHandleQuantity', () => {
+    const quantity = 2;
+
+    spyOn(component.selectionChange, 'emit').and.callThrough();
+
+    component.onHandleQuantity(quantity);
+
+    expect(component.selectionChange.emit).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        changedAttribute: jasmine.objectContaining({
+          name: name,
+          selectedSingleValue: initialSelectedValue,
+          uiType: Configurator.UiType.RADIOBUTTON,
+          groupId: groupId,
+          quantity,
+        }),
+        ownerKey: ownerKey,
+        updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
+      })
+    );
+  });
+
+  it('should call onHandleQuantity of event onChangeQuantity', () => {
+    const quantity = { quantity: 2 };
+
+    component.onChangeQuantity(quantity);
+
+    expect(component.onHandleQuantity).toHaveBeenCalled();
+  });
+
+  it('should call onDeselect of event onChangeQuantity', () => {
+    spyOn(component, 'onDeselect');
+
+    const quantity = { quantity: 0 };
+
+    component.onChangeQuantity(quantity);
+
+    expect(component.onDeselect).toHaveBeenCalled();
   });
 });
