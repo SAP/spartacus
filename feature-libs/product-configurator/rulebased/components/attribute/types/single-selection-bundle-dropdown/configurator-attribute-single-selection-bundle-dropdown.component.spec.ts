@@ -17,7 +17,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 })
 class MockProductCardComponent {}
 
-describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
+fdescribe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   let component: ConfiguratorAttributeSingleSelectionBundleDropdownComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeSingleSelectionBundleDropdownComponent>;
   let htmlElem: HTMLElement;
@@ -193,5 +193,41 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     );
 
     expect(card).toBeTruthy();
+  });
+
+  it('should call emit of event onDeselect', () => {
+    spyOn(component.selectionChange, 'emit').and.callThrough();
+
+    component.onDeselect();
+
+    expect(component.selectionChange.emit).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        changedAttribute: jasmine.objectContaining({
+          ...component.attribute,
+          selectedSingleValue: '0',
+        }),
+        ownerKey: component.ownerKey,
+        updateType: Configurator.UpdateType.ATTRIBUTE,
+      })
+    );
+  });
+
+  it('should call selectionChange on event onChangeQuantity', () => {
+    spyOn(component.selectionChange, 'emit').and.callThrough();
+
+    component.onChangeQuantity({
+      quantity: 2,
+    });
+
+    expect(component.selectionChange.emit).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        changedAttribute: jasmine.objectContaining({
+          ...component.attribute,
+          values: [{ ...component.selectionValue, quantity: 2 }],
+        }),
+        ownerKey: component.ownerKey,
+        updateType: Configurator.UpdateType.VALUE_QUANTITY,
+      })
+    );
   });
 });
