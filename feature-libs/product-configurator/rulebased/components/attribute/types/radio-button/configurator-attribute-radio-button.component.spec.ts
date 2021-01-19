@@ -18,7 +18,7 @@ export class MockFocusDirective {
   @Input('cxFocus') protected config;
 }
 
-fdescribe('ConfigAttributeRadioButtonComponent', () => {
+describe('ConfigAttributeRadioButtonComponent', () => {
   let component: ConfiguratorAttributeRadioButtonComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeRadioButtonComponent>;
   const ownerKey = 'theOwnerKey';
