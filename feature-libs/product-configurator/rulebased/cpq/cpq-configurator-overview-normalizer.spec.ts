@@ -132,8 +132,8 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     expect(serviceUnderTest.convert(input).totalNumberOfIssues).toBe(3);
   });
 
-  it('should convert tabs to groups', () => {
-    expect(serviceUnderTest.convert(input).groups.length).toBe(2);
+  it('should convert tabs to groups ignoring empty one', () => {
+    expect(serviceUnderTest.convert(input).groups.length).toBe(1);
   });
 
   it('should map tab ID', () => {
