@@ -1,11 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import {
-  Inject,
-  Injectable,
-  isDevMode,
-  Optional,
-  PLATFORM_ID,
-} from '@angular/core';
+import { Inject, Injectable, isDevMode, PLATFORM_ID } from '@angular/core';
 import { defer, Observable, of } from 'rxjs';
 import { filter, map, shareReplay, switchMap } from 'rxjs/operators';
 import { UnifiedInjector } from '../../lazy-loading/unified-injector';
@@ -16,6 +10,12 @@ import { PageMetaConfig } from '../page/config/page-meta.config';
 import { PageMetaResolver } from '../page/page-meta.resolver';
 import { CmsService } from './cms.service';
 
+/**
+ * Service that collects the page meta data by using injected page resolvers.
+ *
+ * Deprecation note: with version 4.0, we'll make the optional constructor arguments mandatory.
+ */
+// TODO(#10467): Remove and deprecated note.
 @Injectable({
   providedIn: 'root',
 })
@@ -28,21 +28,12 @@ export class PageMetaService {
     PageMetaResolver[]
   >;
 
-  /**
-   * @deprecated from 4.0 we'll extend the constructor to access the `PageMetaConfig` and `platformId`.
-   */
-  // TODO(#10467): Remove and migrate deprecated constructors
-  constructor(
-    cms: CmsService,
-    unifiedInjector?: UnifiedInjector,
-    config?: PageMetaConfig,
-    platformId?: string
-  );
+  // TODO(#10467): Drop optional constructor arguments.
   constructor(
     protected cms: CmsService,
     protected unifiedInjector?: UnifiedInjector,
-    @Optional() protected pageMetaConfig?: PageMetaConfig,
-    @Optional() @Inject(PLATFORM_ID) protected platformId?: string
+    protected pageMetaConfig?: PageMetaConfig,
+    @Inject(PLATFORM_ID) protected platformId?: string
   ) {}
 
   /**
