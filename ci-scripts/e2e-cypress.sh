@@ -70,6 +70,6 @@ fi
 echo '-----'
 echo "Running Cypress end to end tests"
 
-yarn e2e:"${INTEGRATION}":start:run:ci"${SUITE}"
+yarn e2e${INTEGRATION}:start:run:ci"${SUITE}"
 
 echo "Running Cypress end to end tests finished"
