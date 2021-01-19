@@ -24,7 +24,9 @@ export class CartPageEventBuilder {
   protected buildCartPageEvent(): Observable<CartPageEvent> {
     return this.eventService.get(NavigationEvent).pipe(
       filter((navigationEvent) => navigationEvent.semanticRoute === 'cart'),
-      map((navigationEvent) => createFrom(CartPageEvent, navigationEvent))
+      map((navigationEvent) =>
+        createFrom(CartPageEvent, { navigation: { ...navigationEvent } })
+      )
     );
   }
 }

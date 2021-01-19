@@ -52,7 +52,7 @@ export class ProductPageEventBuilder {
           take(1),
           map((product) =>
             createFrom(ProductDetailsPageEvent, {
-              ...navigationEvent,
+              navigation: { ...navigationEvent },
               categories: product.categories,
               code: product.code,
               name: product.name,
@@ -80,7 +80,9 @@ export class ProductPageEventBuilder {
 
         return searchResults$.pipe(
           map((searchResults) => ({
-            ...navigationEvent,
+            navigation: {
+              ...navigationEvent,
+            },
             ...{
               categoryCode: navigationEvent?.context?.id,
               numberOfResults: searchResults?.pagination?.totalResults,
@@ -109,7 +111,7 @@ export class ProductPageEventBuilder {
 
         return searchResults$.pipe(
           map((searchResults) => ({
-            ...navigationEvent,
+            navigation: { ...navigationEvent },
             ...{
               searchTerm: searchResults?.freeTextSearch,
               numberOfResults: searchResults?.pagination?.totalResults,

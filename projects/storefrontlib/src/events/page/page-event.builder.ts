@@ -24,7 +24,9 @@ export class PageEventBuilder {
   protected buildHomePageEvent(): Observable<HomePageEvent> {
     return this.eventService.get(NavigationEvent).pipe(
       filter((navigationEvent) => navigationEvent.semanticRoute === 'home'),
-      map((navigationEvent) => createFrom(HomePageEvent, navigationEvent))
+      map((navigationEvent) =>
+        createFrom(HomePageEvent, { navigation: { ...navigationEvent } })
+      )
     );
   }
 }
