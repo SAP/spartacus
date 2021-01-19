@@ -35,4 +35,4 @@ jobs:
       - name: Run e2es
         env:
           CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
-        run: yarn e2e:cy:run:ci:flaky:2005
+        run: yarn e2e:run:ci:flaky

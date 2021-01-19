@@ -53,10 +53,6 @@ if [[ -z "${CI_ENV}" ]]; then
 fi
 
 echo '-----'
-echo 'Getting config for CI'
-cp ./ci-scripts/.env-ci${ENV_FILE} .env
-
-echo '-----'
 echo "Building Spartacus libraries"
 
 yarn install
@@ -78,6 +74,6 @@ fi
 echo '-----'
 echo "Running Cypress end to end tests"
 
-yarn e2e:cy"${INTEGRATION}":start-run-ci"${CI_ENV}${SUITE}"
+yarn e2e:"${INTEGRATION}":start:run:ci"${CI_ENV}${SUITE}"
 
 echo "Running Cypress end to end tests finished"
