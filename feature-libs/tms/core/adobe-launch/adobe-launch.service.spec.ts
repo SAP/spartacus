@@ -1,7 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { createFrom, CxEvent, EventService, WindowRef } from '@spartacus/core';
+import {
+  createFrom,
+  CxEvent,
+  EventService,
+  LoginEvent,
+  WindowRef,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { TmsConfig } from '../config';
+import { TmsConfig } from '../config/tms-config';
 import { AdobeLaunchPayload, AdobeLaunchService } from './adobe-launch.service';
 
 class MockWindowRef {
@@ -51,13 +57,15 @@ describe('AdobeLaunchService', () => {
 
   describe('when an event is fired', () => {
     it('should be collected', () => {
-      const testEvent = createFrom(CxEvent, {});
+      const testEvent = createFrom(LoginEvent, {
+        test: 'xxx',
+      });
       spyOn(eventService, 'get').and.returnValue(of(testEvent));
 
       service.collect();
       expect(eventService.get).toHaveBeenCalledTimes(1);
       expect(service.window._trackData).toHaveBeenCalledWith({
-        [CxEvent.type]: testEvent,
+        [LoginEvent.type]: testEvent,
       });
     });
   });
