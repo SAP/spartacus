@@ -11,11 +11,11 @@ branches:
     - "/^epic\\/.*$/"
     - "/^release\\/.*$/"
 defaults: &defaults
-  script: "./ci-scripts/e2e-cypress.sh"
+  script: "export CYPRESS_CONFIG=cypress.ci.2005.json && ./ci-scripts/e2e-cypress.sh"
 jobs:
   - script: "./build.sh sonar" 
     name: "Validation checks / Unit tests / Sonar"
-  - script: "./ci-scripts/e2e-cypress.sh -s b2b"
+  - script: "export CYPRESS_CONFIG=cypress.ci.b2b.json && ./ci-scripts/e2e-cypress.sh -s b2b"
     name: E2E regression tests for B2B
   - script:
     name: "E2E tests for B2C, 1st job"
