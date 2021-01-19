@@ -8,8 +8,6 @@ To see the documentation on how to use schematics from a customers perspective, 
 Install angular schematics globally: `npm install -g @angular-devkit/schematics-cli`.
 Make sure that Angular CLI is up to date: `npm install -g @angular/cli@latest`
 
-Navigate to `$ cd projects/schematics` and install the dependencies using `$ yarn install`.
-
 ## Testing schematics
 
 ### Unit testing
@@ -31,51 +29,31 @@ The following points provide guidance on how to achieve that.
 
 ### Integration testing
 
-The best way to test an unpublished schematic is to publish it to a local npm registry. For more, see [developing update schematics](#Developing-update-schematics)
+The best way to test an unpublished schematic is to publish it to a local npm registry. For more, see [developing schematics](#Developing-schematics)
 
-## Developing update schematics
+## Developing schematics
 
-### Verdaccio setup
+### Preparing setup
 
-To setup a local npm registry, we're going to use [verdaccio](https://github.com/verdaccio/verdaccio). To set it up, do the following:
-
-- install it: `npm install --global verdaccio`
-- run it in a new terminal tab / window: `verdaccio`
-- create an npm user: `npm adduser --registry http://localhost:4873`. This is only needed when setting up _verdaccio_ for the first time.
-
-### Using verdaccio
-
-Create a new angular project:
-
-- `ng new spartacus-schematics-test` and `cd spartacus-schematics-test`
-- add Spartacus by running e.g. `ng add @spartacus/schematics@<version> --baseUrl https://spartacus-demo.eastus.cloudapp.azure.com:8443/ --baseSite electronics-spa`. Note the `<version>` after `ng add @spartacus/schematics`. This should be lower than the one you're going to publish. E.g. if developing schematics for Spartacus 3.0, then you should install Spartacus 2.0.
-- create `.npmrc` in the root of the project and paste the following content to it: `@spartacus:registry=http://localhost:4873` to point to the local npm server only for the `@spartacus` scoped packages. From this moment on, `@spartacus` scoped packages will use the local npm registry.
-- commit the changes, if any.
-
-You can now run any Spartacus schematics related command, e.g. `ng add @spartacus/schematics` or `ng update @spartacus/schematics`, and angular will pull the Spartacus schematics lib from _verdaccio_ instead from the public _npm_ registry.
-
-The next step is to publish libraries to _verdaccio_.
+- Create new angular project `ng new schematics-test --style=scss`
+- Run verdaccio script `ts-node ./tools/schematics/testing.ts`
 
 ### Publishing to verdaccio
 
-The simplest way to publish Spartacus libraries to _verdaccio_ is to use `scripts/publish-schematics-verdaccio.sh` script.
+- select option `publish` from the verdaccio script (it will bump package patch version and publish to verdaccio)
+- do changes, rebuild changed libraries and publish once again (every publish will bump to even higher version)
 
-> Before running the script, make sure _verdaccio_ is running: `$ verdaccio`.
+### Workflow for testing schematics
 
-To use it, just run `./publish-schematics-verdaccio.sh`. This will build _all_ the relevant spartacus libs and publish them to _verdaccio_.
+- run schematics you want to test (to revert schematics changes `git reset --hard HEAD && rm -rf node_modules && npm i`)
+- try until everything is perfect
 
-> NOTE: if _verdaccio_ refuses to publish libraries, and shows an error that says that the lib is already published with the same version, the quickest way around this seems to be [this](https://github.com/verdaccio/verdaccio/issues/1203#issuecomment-457361429) - open `nano ~/.config/verdaccio/config.yaml` and under `packages: '@*/*':` sections, comment out the `proxy: npmjs` line. After doing this, you should be able to publish the packages.
+### Workflow for testing migrations
 
-#### Iterative development
-
-As building all the Spartacus libraries every time you make a change to the schematics project takes time, it's not very convenient for iterative development. For this reason, you can run the script with `skip` flag - `./publish-schematics-verdaccio.sh skip`. This will skip building of all Spartacus libraries except the schematics, and it will unpublish and publish all the libraries again to _verdaccio_.
-
-When doing iterative development of the update schematics, it's for the best to do the following before testing the changes:
-
-- in the testing project:
-  - revert the `package.json` and `yarn.lock` changes
-  - delete the old `node_modules` folder and install the dependencies again: `rm -rf node_modules/ && yarn`
-  - run the `ng update @spartacus/schematics` command
+- add Spartacus by running e.g. `ng add @spartacus/schematics@<version> --baseUrl https://spartacus-demo.eastus.cloudapp.azure.com:8443/ --baseSite electronics-spa`. Note the `<version>` after `ng add @spartacus/schematics`. This should be lower than the one you're going to publish. E.g. if developing schematics for Spartacus 3.0, then you should install Spartacus 2.0.
+- commit the changes, if any.
+- run schematics you want to test (to revert schematics changes `git reset --hard HEAD && rm -rf node_modules && npm i`)
+- try until everything is perfect
 
 ## Update schematics
 
