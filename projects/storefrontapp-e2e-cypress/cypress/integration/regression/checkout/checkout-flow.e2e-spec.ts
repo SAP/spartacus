@@ -1,4 +1,4 @@
-import * as checkout from '../../helpers/checkout-flow';
+import * as checkout from '../../../helpers/checkout-flow';
 
 context('Checkout flow', () => {
   before(() => {

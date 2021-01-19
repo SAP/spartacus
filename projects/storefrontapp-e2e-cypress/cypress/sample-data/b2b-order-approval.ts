@@ -16,7 +16,7 @@ export const b2bUserAccount: AccountData = {
   registrationData: {
     firstName: '',
     lastName: '',
-    password: '12341234',
+    password: 'pw4all',
     titleCode: 'mr',
     email: b2bUser.uid,
   },
@@ -27,7 +27,7 @@ export const b2bApproverAccount: AccountData = {
   registrationData: {
     firstName: '',
     lastName: '',
-    password: '12341234',
+    password: 'pw4all',
     titleCode: 'mr',
     email: b2bApprover.uid,
   },

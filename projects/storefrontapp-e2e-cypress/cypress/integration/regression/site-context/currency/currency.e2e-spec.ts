@@ -1,5 +1,5 @@
-import * as siteContextSelector from '../../helpers/site-context-selector';
-import { switchSiteContext } from '../../support/utils/switch-site-context';
+import * as siteContextSelector from '../../../../helpers/site-context-selector';
+import { switchSiteContext } from '../../../../support/utils/switch-site-context';
 
 context('Currency change', () => {
   const productPath = siteContextSelector.PRODUCT_PATH_1;

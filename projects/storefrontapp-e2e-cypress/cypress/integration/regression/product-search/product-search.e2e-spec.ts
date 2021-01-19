@@ -1,4 +1,4 @@
-import * as productSearchFlow from '../../helpers/product-search';
+import * as productSearchFlow from '../../../helpers/product-search';
 
 context('Product search', () => {
   before(() => {
