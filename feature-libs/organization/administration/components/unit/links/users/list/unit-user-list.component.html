@@ -4,7 +4,11 @@
     class="link"
     routerLink="create"
     [class.disabled]="!(unit$ | async)?.active"
+    *cxFeatureLevel="'3.1'"
   >
+    {{ 'organization.create' | cxTranslate }}
+  </a>
+  <a actions class="link" routerLink="create" *cxFeatureLevel="'!3.1'">
     {{ 'organization.create' | cxTranslate }}
   </a>
 </cx-org-sub-list>

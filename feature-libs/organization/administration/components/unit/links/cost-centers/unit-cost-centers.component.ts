@@ -18,7 +18,11 @@ import { UnitCostCenterListService } from './unit-cost-centers.service';
   ],
 })
 export class UnitCostCenterListComponent {
-  unit$: Observable<B2BUnit> = this.currentUnitService.item$;
+  unit$: Observable<B2BUnit> = this.currentUnitService?.item$;
 
-  constructor(private currentUnitService: CurrentUnitService) {}
+  /**
+   * @deprecated since 3.0.10
+   * Include CurrentUnitService in constructor for bugfix #10688.
+   */
+  constructor(protected currentUnitService?: CurrentUnitService) {}
 }

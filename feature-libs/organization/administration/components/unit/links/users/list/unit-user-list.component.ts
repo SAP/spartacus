@@ -21,7 +21,11 @@ import { UnitUserListService } from '../services/unit-user-list.service';
 export class UnitUserListComponent {
   routerKey = ROUTE_PARAMS.userCode;
 
-  unit$: Observable<B2BUnit> = this.currentUnitService.item$;
+  unit$: Observable<B2BUnit> = this.currentUnitService?.item$;
 
-  constructor(private currentUnitService: CurrentUnitService) {}
+  /**
+   * @deprecated since 3.0.10
+   * Include CurrentUnitService in constructor for bugfix #10688.
+   */
+  constructor(protected currentUnitService?: CurrentUnitService) {}
 }
