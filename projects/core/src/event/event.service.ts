@@ -1,6 +1,5 @@
 import { Injectable, isDevMode, Type } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { MergingSubject } from './utils/merging-subject';
 
 /**
@@ -33,7 +32,7 @@ export class EventService {
   /**
    * The various events meta are collected in a map, stored by the event type class
    */
-  private eventsMeta = new Map<Type<any>, EventMeta<any>>();
+  private eventsMeta = new Map<Type<any> | any, EventMeta<any>>();
 
   /**
    * Register an event source for the given event type.
@@ -69,11 +68,11 @@ export class EventService {
    * Returns a stream of events for the given event type
    * @param eventTypes event type
    */
-  get<T>(eventType: Type<T>): Observable<T> {
+  get<T>(eventType: Type<T> | T): Observable<T> {
     let output$ = this.getEventMeta(eventType).mergingSubject.output$;
-    if (isDevMode()) {
-      output$ = this.getValidatedEventStream(output$, eventType);
-    }
+    // if (isDevMode()) {
+    //   output$ = this.getValidatedEventStream(output$, eventType);
+    // }
     return output$;
   }
 
@@ -104,7 +103,7 @@ export class EventService {
   /**
    * Returns the event meta object for the given event type
    */
-  private getEventMeta<T>(eventType: Type<T>): EventMeta<T> {
+  private getEventMeta<T>(eventType: Type<T> | T): EventMeta<T> {
     if (isDevMode()) {
       this.validateEventType(eventType);
     }
@@ -118,7 +117,7 @@ export class EventService {
   /**
    * Creates the event meta object for the given event type
    */
-  private createEventMeta<T>(eventType: Type<T>): void {
+  private createEventMeta<T>(eventType: Type<T> | T): void {
     this.eventsMeta.set(eventType, {
       inputSubject$: null, // will be created lazily by the `dispatch` method
       mergingSubject: new MergingSubject(),
@@ -130,7 +129,7 @@ export class EventService {
    *
    * Should be used only in dev mode.
    */
-  private validateEventType<T>(eventType: Type<T>): void {
+  private validateEventType<T>(eventType: Type<T> | T): void {
     if (!eventType?.constructor) {
       throw new Error(
         `EventService:  ${eventType} is not a valid event type. Please provide a class reference.`
@@ -143,23 +142,23 @@ export class EventService {
    *
    * Should be used only in dev mode.
    */
-  private getValidatedEventStream<T>(
-    source$: Observable<T>,
-    eventType: Type<T>
-  ): Observable<T> {
-    return source$.pipe(
-      tap((event) => {
-        if (!(event instanceof eventType)) {
-          console.warn(
-            `EventService: The stream`,
-            source$,
-            `emitted the event`,
-            event,
-            `that is not an instance of the declared type`,
-            eventType.name
-          );
-        }
-      })
-    );
-  }
+  // private getValidatedEventStream<T>(
+  //   source$: Observable<T>,
+  //   eventType: Type<T> | T
+  // ): Observable<T> {
+  //   return source$.pipe(
+  //     tap((event) => {
+  //       if ( !(event instanceof eventType)) {
+  //         console.warn(
+  //           `EventService: The stream`,
+  //           source$,
+  //           `emitted the event`,
+  //           event,
+  //           `that is not an instance of the declared type`,
+  //           eventType.name
+  //         );
+  //       }
+  //     })
+  //   );
+  // }
 }
