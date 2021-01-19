@@ -4,8 +4,7 @@ import { CxEvent, PageContext } from '@spartacus/core';
 /**
  * Indicates that a user visited an arbitrary page.
  */
-export class PageEvent extends CxEvent {
-  static type = 'PageEvent';
+export abstract class PageEvent extends CxEvent {
   context: PageContext;
   semanticRoute?: string;
   url: string;
@@ -16,5 +15,5 @@ export class PageEvent extends CxEvent {
  * Indicates that a user visited the home page.
  */
 export class HomePageEvent extends PageEvent {
-  static type = 'HomePageEvent';
+  static readonly type = 'HomePageEvent';
 }
