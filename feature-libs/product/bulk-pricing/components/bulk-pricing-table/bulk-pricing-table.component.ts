@@ -14,11 +14,11 @@ export class BulkPricingTableComponent implements OnInit, OnDestroy {
   pricesSubscription: Subscription;
   testString;
 
-  private readonly PRODUCT_KEY = 'productCode';
+  protected readonly PRODUCT_KEY = 'productCode';
 
   constructor(
-    private routingService: RoutingService,
-    private bulkPrices: BulkPricesService
+    protected routingService: RoutingService,
+    protected bulkPrices: BulkPricesService
   ) {
     // TODO: once we are done with the template, remove testString
     this.testString = 'bulk-pricing-table works!';
