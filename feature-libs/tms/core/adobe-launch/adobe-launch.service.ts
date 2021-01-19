@@ -9,7 +9,7 @@ export interface AdobeLaunchPayload {
 }
 
 export interface AdobeLaunchWindow extends Window {
-  _tackData?: (payload: AdobeLaunchPayload) => void;
+  _trackData?: (payload: AdobeLaunchPayload) => void;
 }
 
 /**
@@ -31,8 +31,8 @@ export class AdobeLaunchService implements OnDestroy {
   collect(): void {
     // prep the data layer
     if (this.window) {
-      this.window._tackData = this.window._tackData
-        ? this.window._tackData
+      this.window._trackData = this.window._trackData
+        ? this.window._trackData
         : (_payload: AdobeLaunchPayload): void => {};
     }
 
@@ -52,7 +52,7 @@ export class AdobeLaunchService implements OnDestroy {
    */
   protected pushToDataLayer<T extends CxEvent>(event: T): void {
     const type = Object.getPrototypeOf(event).constructor.type;
-    this.window?._tackData({ [type]: event });
+    this.window?._trackData({ [type]: event });
   }
 
   /**

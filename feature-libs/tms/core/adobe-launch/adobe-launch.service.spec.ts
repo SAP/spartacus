@@ -40,9 +40,9 @@ describe('AdobeLaunchService', () => {
     service = TestBed.inject(AdobeLaunchService);
     eventService = TestBed.inject(EventService);
     spyOnProperty(service, 'window').and.returnValue({
-      _tackData: (_payload: AdobeLaunchPayload): void => {},
+      _trackData: (_payload: AdobeLaunchPayload): void => {},
     });
-    spyOn(service.window, '_tackData').and.callThrough();
+    spyOn(service.window, '_trackData').and.callThrough();
   });
 
   it('should be created', () => {
@@ -56,7 +56,7 @@ describe('AdobeLaunchService', () => {
 
       service.collect();
       expect(eventService.get).toHaveBeenCalledTimes(1);
-      expect(service.window._tackData).toHaveBeenCalledWith({
+      expect(service.window._trackData).toHaveBeenCalledWith({
         [CxEvent.type]: testEvent,
       });
     });
