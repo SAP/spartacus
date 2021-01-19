@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Converter } from '@spartacus/core';
 import { Configurator } from '../core/model/configurator.model';
-import { Cpq } from './cpq.models';
 import { CpqConfiguratorUtilitiesService } from './cpq-configurator-utilities.service';
+import { Cpq } from './cpq.models';
+
+const NO_OPTION_SELECTED = 0;
 
 @Injectable()
 export class CpqConfiguratorOverviewNormalizer
@@ -73,7 +75,9 @@ export class CpqConfiguratorOverviewNormalizer
       case Cpq.DisplayAs.RADIO_BUTTON:
       case Cpq.DisplayAs.READ_ONLY:
       case Cpq.DisplayAs.DROPDOWN:
-        const selectedValue = attr.values?.find((val) => val.selected);
+        const selectedValue = attr.values?.find(
+          (val) => val.selected && val.paV_ID !== NO_OPTION_SELECTED
+        );
         if (selectedValue) {
           ovValues.push(this.extractOvValue(selectedValue, attr, currency));
         }
