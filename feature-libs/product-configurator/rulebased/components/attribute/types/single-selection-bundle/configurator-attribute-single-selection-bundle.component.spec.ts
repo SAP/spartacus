@@ -16,7 +16,7 @@ import { ConfiguratorAttributeSingleSelectionBundleComponent } from './configura
 })
 class MockProductCardComponent {}
 
-describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
+fdescribe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
   let component: ConfiguratorAttributeSingleSelectionBundleComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeSingleSelectionBundleComponent>;
   let htmlElem: HTMLElement;
@@ -131,6 +131,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
 
+    component.ownerKey = 'theOwnerKey';
     component.attribute = {
       name: 'attributeName',
       attrCode: 1111,
@@ -140,8 +141,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
       values,
       dataType: Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL,
     };
-
-    spyOn(component, 'onHandleQuantity').and.callThrough();
 
     fixture.detectChanges();
   });
@@ -165,5 +164,76 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
     expect(component.attribute.values[1].selected).toEqual(false);
     expect(component.attribute.values[2].selected).toEqual(false);
     expect(component.attribute.values[3].selected).toEqual(false);
+  });
+
+  it('should call emit of event onSelect', () => {
+    spyOn(component.selectionChange, 'emit').and.callThrough();
+
+    component.onSelect('1111');
+
+    expect(component.selectionChange.emit).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        changedAttribute: jasmine.objectContaining({
+          ...component.attribute,
+          selectedSingleValue: '1111',
+        }),
+        ownerKey: component.ownerKey,
+        updateType: Configurator.UpdateType.ATTRIBUTE,
+      })
+    );
+  });
+
+  it('should call emit of event onDeselect', () => {
+    spyOn(component.selectionChange, 'emit').and.callThrough();
+
+    component.onDeselect();
+
+    expect(component.selectionChange.emit).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        changedAttribute: jasmine.objectContaining({
+          ...component.attribute,
+          selectedSingleValue: '',
+        }),
+        ownerKey: component.ownerKey,
+        updateType: Configurator.UpdateType.ATTRIBUTE,
+      })
+    );
+  });
+
+  it('should call emit of event onHandleQuantity', () => {
+    spyOn(component.selectionChange, 'emit').and.callThrough();
+
+    component.onHandleQuantity(2);
+
+    expect(component.selectionChange.emit).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        changedAttribute: jasmine.objectContaining({
+          ...component.attribute,
+          quantity: 2,
+        }),
+        ownerKey: component.ownerKey,
+        updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
+      })
+    );
+  });
+
+  it('should call onHandleQuantity of event onChangeQuantity', () => {
+    spyOn(component, 'onHandleQuantity');
+
+    const quantity = { quantity: 2 };
+
+    component.onChangeQuantity(quantity);
+
+    expect(component.onHandleQuantity).toHaveBeenCalled();
+  });
+
+  it('should call onDeselect of event onChangeQuantity', () => {
+    spyOn(component, 'onDeselect');
+
+    const quantity = { quantity: 0 };
+
+    component.onChangeQuantity(quantity);
+
+    expect(component.onDeselect).toHaveBeenCalled();
   });
 });
