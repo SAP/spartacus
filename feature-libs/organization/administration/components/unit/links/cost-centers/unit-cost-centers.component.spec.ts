@@ -8,7 +8,7 @@ import { UnitCostCenterListService } from './unit-cost-centers.service';
 
 class MockUnitCostCenterListService {}
 
-class MockCurrentUnitService {}
+class MockCurrentUnitService implements Partial<CurrentUnitService> {}
 
 describe('UnitCostCenterListComponent', () => {
   let component: UnitCostCenterListComponent;

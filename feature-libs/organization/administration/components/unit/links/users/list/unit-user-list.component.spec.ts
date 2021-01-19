@@ -8,7 +8,7 @@ import { UnitUserListComponent } from './unit-user-list.component';
 
 class MockUnitUserListService {}
 
-class MockCurrentUnitService {}
+class MockCurrentUnitService implements Partial<CurrentUnitService> {}
 
 describe('UnitUserListComponent', () => {
   let component: UnitUserListComponent;

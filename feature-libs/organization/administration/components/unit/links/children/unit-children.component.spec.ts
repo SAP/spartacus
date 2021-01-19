@@ -8,7 +8,7 @@ import { UnitChildrenService } from './unit-children.service';
 
 class MockUnitChildrenService {}
 
-class MockCurrentUnitService {}
+class MockCurrentUnitService implements Partial<CurrentUnitService> {}
 
 describe('UnitChildrenComponent', () => {
   let component: UnitChildrenComponent;
