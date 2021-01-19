@@ -15,7 +15,7 @@ defaults: &defaults
 jobs:
   - script: "./build.sh sonar" 
     name: "Validation checks / Unit tests / Sonar"
-  - script: "export CYPRESS_CONFIG=cypress.ci.b2b.json && ./ci-scripts/e2e-cypress.sh -s b2b"
+  - script: "export CYPRESS_CONFIG=cypress.ci.b2b.json &&  export SPA_ENV=ci:b2b && ./ci-scripts/e2e-cypress.sh -s b2b"
     name: E2E regression tests for B2B
   - script:
     name: "E2E tests for B2C, 1st job"
