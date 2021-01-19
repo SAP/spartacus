@@ -125,12 +125,13 @@ export function checkGroupHeaderDisplayed(
 }
 
 /**
- * Verifies whether the group header displayed.
+ * Verifies whether the group header is not displayed.
  */
 export function checkGroupHeaderNotDisplayed(groupName: string): void {
-  cy.get('cx-configurator-overview-form .cx-group').each((elem) => {
-    elem.should('not.contain.text', groupName);
-  });
+  cy.get('cx-configurator-overview-form .cx-group').should(
+    'not.contain.text',
+    groupName
+  );
 }
 
 /**

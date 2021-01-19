@@ -303,7 +303,7 @@ context('CPQ Configuration', () => {
   });
 
   describe('Overview Page', () => {
-    it.only('should display user selections on overview page', () => {
+    it('should display user selections on overview page', () => {
       configuration.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_CAM);
 
       configuration.selectProductCard(RADGRP, ATTR_CAM_BODY, VAL_CAM_BODY_D850);
@@ -325,8 +325,8 @@ context('CPQ Configuration', () => {
 
       configurationOverview.checkConfigOverviewPageDisplayed();
       configurationOverview.checkGroupHeaderDisplayed(GRP_CAM_MAIN, 0);
-      configurationOverview.checkGroupHeaderDisplayed(GRP_CAM_ACC, 1);
-      configurationOverview.checkGroupHeaderDisplayed(GRP_CAM_IAW, 2);
+      configurationOverview.checkGroupHeaderNotDisplayed(GRP_CAM_ACC);
+      configurationOverview.checkGroupHeaderDisplayed(GRP_CAM_IAW, 1);
 
       type ovLineType = 'product' | 'simple';
       const ovContent: { name: string; value: string; type: ovLineType }[] = [
@@ -334,8 +334,6 @@ context('CPQ Configuration', () => {
         { name: 'Memory Card', value: 'SanDisk Extreme Pro', type: 'product' },
         { name: 'Lenses', value: 'Sigma 85mm F1.4 DG HS', type: 'product' },
         { name: undefined, value: 'Nikon AF-P DX NIKKOR', type: 'product' },
-        // Display of Bag is a bug - https://github.com/SAP/spartacus/issues/10749
-        { name: 'Bag', value: 'No option selected', type: 'simple' },
         { name: 'professional photographer?', value: 'yes', type: 'simple' },
         { name: 'Insurance', value: 'Pro 4 years', type: 'product' },
       ];
