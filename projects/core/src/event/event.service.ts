@@ -70,8 +70,6 @@ export class EventService {
       }
 
       parentType = Object.getPrototypeOf(parentType);
-
-      // TODO: check for the CxEvent?
     }
 
     return () =>
@@ -146,16 +144,6 @@ export class EventService {
 
       parentType = Object.getPrototypeOf(parentType);
 
-      console.log('parentType: ', parentType);
-      console.log(
-        'parentType instanceof CxEvent: ',
-        parentType instanceof CxEvent
-      );
-      console.log(
-        'parentType.constructor.type: ',
-        (parentType.constructor as any).type
-      );
-
       // stop as soon as the first parent is already registered
       if (this.eventsMeta.has(parentType)) {
         break;
@@ -174,6 +162,21 @@ export class EventService {
         `EventService:  ${eventType} is not a valid event type. Please provide a class reference.`
       );
     }
+
+    let parentType = eventType;
+    while (
+      parentType !== null &&
+      Object.getPrototypeOf(parentType) !== Object.getPrototypeOf({})
+    ) {
+      if ((parentType as any).type === CxEvent.type) {
+        return;
+      }
+
+      parentType = Object.getPrototypeOf(parentType);
+    }
+    console.warn(
+      `The ${eventType.name} (or one of its predecessors) does not inherit from the ${CxEvent}`
+    );
   }
 
   /**
