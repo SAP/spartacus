@@ -23,8 +23,6 @@ jobs:
         uses: bahmutov/npm-install@v1
         with:
           working-directory: projects/storefrontapp-e2e-cypress
-      - name: Get current config
-        run: cp ./ci-scripts/.env-ci .env
       - name: Build Spartacus
         run: yarn build:libs && yarn build:prod
       - name: Install pm2 server
