@@ -14,6 +14,8 @@ export class BulkPricingTableComponent implements OnInit, OnDestroy {
   pricesSubscription: Subscription;
   testString;
 
+  private readonly PRODUCT_KEY = 'productCode';
+
   constructor(
     private routingService: RoutingService,
     private bulkPrices: BulkPricesService
@@ -30,11 +32,9 @@ export class BulkPricingTableComponent implements OnInit, OnDestroy {
   }
 
   getPrices(): Observable<BulkPrice[]> {
-    const productCodeKey = 'productCode';
-
     return this.routingService.getRouterState().pipe(
       switchMap((state) => {
-        const productCode = state.state.params[productCodeKey];
+        const productCode = state.state.params[this.PRODUCT_KEY];
         return this.bulkPrices.getBulkPrices(productCode);
       })
     );
