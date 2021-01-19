@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ActionsSubject } from '@ngrx/store';
 import { createFrom, EventService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -10,10 +9,7 @@ import { CartPageEvent } from './cart-page.events';
   providedIn: 'root',
 })
 export class CartPageEventBuilder {
-  constructor(
-    protected actions: ActionsSubject,
-    protected eventService: EventService
-  ) {
+  constructor(protected eventService: EventService) {
     this.register();
   }
 

@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { ActivatedRouterStateSnapshot, EventService } from '@spartacus/core';
+import { createFrom, EventService } from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { NavigationEvent } from '../navigation';
 import { PageEventBuilder } from './page-event.builder';
-import { HomePageEvent, PageEvent } from './page.events';
+import { HomePageEvent } from './page.events';
 
 interface ActionWithPayload extends Action {
   payload: any;
@@ -25,39 +25,23 @@ describe('PageEventBuilder', () => {
     eventService = TestBed.inject(EventService);
   });
 
-  it('PageEvent', () => {
-    const payload = {
-      routerState: {
-        semanticRoute: 'aPage',
-        url: 'random url',
-      } as ActivatedRouterStateSnapshot,
-    };
-
-    let result: PageEvent;
-    eventService
-      .get(PageEvent)
-      .pipe(take(1))
-      .subscribe((value) => (result = value));
-
-    actions$.next({ type: ROUTER_NAVIGATED, payload });
-    expect(result).toEqual(jasmine.objectContaining(payload.routerState));
-  });
-
   it('HomePageEvent', () => {
-    const payload = {
-      routerState: {
-        semanticRoute: 'home',
-        url: 'home url',
-      } as ActivatedRouterStateSnapshot,
-    };
-
     let result: HomePageEvent;
     eventService
       .get(HomePageEvent)
       .pipe(take(1))
       .subscribe((value) => (result = value));
 
-    actions$.next({ type: ROUTER_NAVIGATED, payload });
-    expect(result).toEqual(jasmine.objectContaining(payload.routerState));
+    const navigationEvent = createFrom(NavigationEvent, {
+      context: { id: 'home' },
+      semanticRoute: 'home',
+      url: 'home url',
+      params: undefined,
+    });
+    eventService.dispatch(navigationEvent);
+    expect(result).toBeTruthy();
+    expect(result).toEqual(
+      jasmine.objectContaining({ navigation: { ...navigationEvent } })
+    );
   });
 });
