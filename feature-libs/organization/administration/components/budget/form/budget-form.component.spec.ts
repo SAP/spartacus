@@ -31,7 +31,6 @@ const mockForm = new FormGroup({
 
 let activeUnitList$: BehaviorSubject<B2BUnitNode[]>;
 let currencies$: BehaviorSubject<Currency[]>;
-let form$: BehaviorSubject<FormGroup>;
 
 class MockOrgUnitService {
   getActiveUnitList = () => activeUnitList$.asObservable();
@@ -43,7 +42,9 @@ class MockCurrencyService {
 }
 
 class MockItemService {
-  getForm = () => form$.asObservable();
+  getForm() {
+    return mockForm;
+  }
 }
 
 @Component({
@@ -93,7 +94,6 @@ describe('BudgetFormComponent', () => {
 
     activeUnitList$ = new BehaviorSubject([]);
     currencies$ = new BehaviorSubject([]);
-    form$ = new BehaviorSubject(mockForm);
   });
 
   beforeEach(() => {
@@ -138,9 +138,6 @@ describe('BudgetFormComponent', () => {
   });
 
   describe('autoSelect', () => {
-    beforeEach(() => {
-      component.form = mockForm;
-    });
     it('should auto-select unit if only one is available', () => {
       activeUnitList$.next([{ id: 'test' }]);
       fixture.detectChanges();
@@ -154,33 +151,17 @@ describe('BudgetFormComponent', () => {
     });
 
     it('should not auto-select unit if more than one is available', () => {
-      form$.next(
-        new FormGroup({
-          orgUnit: new FormGroup({
-            uid: new FormControl(),
-          }),
-        })
-      );
+      component.form.get('orgUnit.uid').setValue(null);
       activeUnitList$.next([{ id: 'test' }, { id: 'test' }]);
       fixture.detectChanges();
-      form$.subscribe((form) => {
-        expect(form.get('orgUnit.uid').value).toBeNull();
-      });
+      expect(component.form.get('orgUnit.uid').value).toBeNull();
     });
 
     it('should not auto-select currency if more than one is available', () => {
-      form$.next(
-        new FormGroup({
-          currency: new FormGroup({
-            isocode: new FormControl(),
-          }),
-        })
-      );
+      component.form.get('currency.isocode').setValue(null);
       currencies$.next([{ isocode: 'test' }, { isocode: 'test' }]);
       fixture.detectChanges();
-      form$.subscribe((form) => {
-        expect(form.get('currency.isocode').value).toBeNull();
-      });
+      expect(component.form.get('currency.isocode').value).toBeNull();
     });
   });
 
