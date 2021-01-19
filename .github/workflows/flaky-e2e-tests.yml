@@ -26,7 +26,7 @@ jobs:
       - name: Get current config
         run: cp ./ci-scripts/.env-ci .env
       - name: Build Spartacus
-        run: yarn build:libs && yarn build:ci:2005
+        run: yarn build:libs && yarn build:prod
       - name: Install pm2 server
         run: npm install -g pm2
       - name: Start server
