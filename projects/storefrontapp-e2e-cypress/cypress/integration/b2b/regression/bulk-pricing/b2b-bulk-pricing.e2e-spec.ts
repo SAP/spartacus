@@ -1,5 +1,4 @@
 import * as bulkPricingActions from '../../../../helpers/b2b/b2b-bulk-pricing';
-//import * as sampleData from '../../../../sample-data/b2b-bulk-pricing';
 
 describe('B2B - Bulk Pricing', () => {
   before(() => {
@@ -12,11 +11,9 @@ describe('B2B - Bulk Pricing', () => {
       bulkPricingActions.checkTableData();
     });
 
-    // it('should not render pricing table for products that do NOT contain bulk prices', () => {
-    //   bulkPricingActions.visitProductWithNoBulkPrices();
-    //   bulkPricingActions.checkNoTableRendered();
-    // });
+    it('should NOT render pricing table for products that DO NOT contain bulk prices', () => {
+      bulkPricingActions.visitProductWithNoBulkPrices();
+      bulkPricingActions.checkNoTableRendered();
+    });
   });
-
-  
 });

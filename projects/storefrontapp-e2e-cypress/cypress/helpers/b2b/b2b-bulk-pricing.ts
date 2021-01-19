@@ -32,13 +32,15 @@ export function visitProductWithBulkPrices() {
 
 export function checkTableData() {
   const selector = 'cx-bulk-pricing-table .table';
-  cy.get(selector).contains('td', sampleData.expectedData[0].quantity);
-  cy.get(selector).contains('td', sampleData.expectedData[0].price);
-  cy.get(selector).contains('td', sampleData.expectedData[0].discount);
+
+  sampleData.expectedData.forEach((element) => {
+    cy.get(selector).contains('td', element.quantity);
+    cy.get(selector).contains('td', element.price);
+    cy.get(selector).contains('td', element.discount);
+  });
 }
 
 export function visitProductWithNoBulkPrices() {
-  //cy.visit(`/product/${sampleData.PRODUCT_NO_PRICING}`);
   visitProduct(sampleData.PRODUCT_NO_PRICING);
 }
 
