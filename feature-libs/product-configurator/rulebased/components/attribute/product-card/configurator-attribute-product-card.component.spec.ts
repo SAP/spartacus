@@ -235,4 +235,33 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
     expect(quantityContainer).toBeDefined();
   });
+
+  it('should call handleQuantity on event onHandleQuantity', () => {
+    spyOn(component.handleQuantity, 'emit').and.callThrough();
+
+    component.onHandleQuantity(1);
+
+    expect(component.handleQuantity.emit).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        quantity: 1,
+        valueCode: component.product.valueCode,
+      })
+    );
+  });
+
+  it('should call onHandleDeselect of event onChangeQuantity', () => {
+    const quantity = { quantity: 0 };
+
+    component.onChangeQuantity(quantity);
+
+    expect(component.onHandleDeselect).toHaveBeenCalled();
+  });
+
+  it('should call onHandleQuantity of event onChangeQuantity', () => {
+    const quantity = { quantity: 2 };
+
+    component.onChangeQuantity(quantity);
+
+    expect(component.onHandleQuantity).toHaveBeenCalled();
+  });
 });
