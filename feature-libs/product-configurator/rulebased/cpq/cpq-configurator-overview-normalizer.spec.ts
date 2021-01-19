@@ -225,6 +225,17 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     expect(ovAttrs[0].productCode).toBeUndefined();
   });
 
+  it('should map DDLB selected value ignoring "No option selected"', () => {
+    attr.values = [
+      { paV_ID: 0, valueDisplay: 'No option selected', selected: true },
+      { paV_ID: 2, valueDisplay: 'another value', selected: false },
+      { paV_ID: 3, valueDisplay: 'yet another value', selected: false },
+    ];
+    attr.displayAs = Cpq.DisplayAs.DROPDOWN;
+    const ovAttrs = serviceUnderTest['convertAttribute'](attr, CURRENCY);
+    expect(ovAttrs.length).toBe(0);
+  });
+
   it('should map CHECK_BOX selected values', () => {
     attr.values = multiSelectionValues;
     attr.displayAs = Cpq.DisplayAs.CHECK_BOX;

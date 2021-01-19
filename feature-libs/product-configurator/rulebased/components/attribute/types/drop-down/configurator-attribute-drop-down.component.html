@@ -21,6 +21,7 @@
 
   <cx-configurator-attribute-quantity
     (changeQuantity)="onChangeQuantity($event)"
+    [allowZero]="attributeDropDownForm.value === '0'"
     [initialQuantity]="
       attributeDropDownForm.value !== '0' ? attribute.quantity : 0
     "
