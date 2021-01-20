@@ -16,7 +16,7 @@ export class CmsTicketInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (request.url.includes('/cms/') && this.service.cmsTicketId) {
+    if (this.service.cmsTicketId && request.url.includes('/cms/')) {
       request = request.clone({
         setParams: {
           cmsTicketId: this.service.cmsTicketId,

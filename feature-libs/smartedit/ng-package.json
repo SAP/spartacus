@@ -7,5 +7,10 @@
       "@spartacus/core": "core",
       "rxjs": "rxjs"
     }
-  }
+  },
+  "assets": [
+    "core/webApplicationInjector.js",
+    "schematics/**/*.json",
+    "schematics/**/*.js"
+  ]
 }

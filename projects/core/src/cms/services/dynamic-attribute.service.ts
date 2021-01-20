@@ -8,6 +8,10 @@ import { SlotDecorator } from '../decorators/slot-decorator';
 import { ContentSlotComponentData } from '../model/content-slot-component-data.model';
 import { ContentSlotData } from '../model/content-slot-data.model';
 
+/**
+ * Service that used to add dynamic attributes to CMS component
+ * and slot elements.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -42,15 +46,21 @@ export class DynamicAttributeService {
       slotData?: ContentSlotData;
     }
   ): void {
-    (getLastValueSync(this.componentDecorators$) || []).forEach((decorator) =>
-      decorator.decorate(element, renderer, cmsRenderingContext.componentData)
+    this.addAttributesToComponent(
+      element,
+      renderer,
+      cmsRenderingContext.componentData
     );
 
-    (getLastValueSync(this.slotDecorators$) || []).forEach((decorator) =>
-      decorator.decorate(element, renderer, cmsRenderingContext.slotData)
-    );
+    this.addAttributesToSlot(element, renderer, cmsRenderingContext.slotData);
   }
 
+  /**
+   * Add dynamic attributes to CMS component element
+   * @param element: CMS component element
+   * @param renderer
+   * @param componentData: component data
+   */
   addAttributesToComponent(
     element: Element,
     renderer: Renderer2,
@@ -61,6 +71,12 @@ export class DynamicAttributeService {
     );
   }
 
+  /**
+   * Add dynamic attributes to CMS slot element
+   * @param element: CMS slot element
+   * @param renderer
+   * @param slotData: slot data
+   */
   addAttributesToSlot(
     element: Element,
     renderer: Renderer2,
