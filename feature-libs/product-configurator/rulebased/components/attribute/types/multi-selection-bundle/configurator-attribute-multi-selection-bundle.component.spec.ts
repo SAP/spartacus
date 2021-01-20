@@ -128,6 +128,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
 
+    component.ownerKey = 'theOwnerKey';
     component.attribute = {
       name: 'attributeName',
       attrCode: 1111,
@@ -162,5 +163,122 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     expect(component.attribute.values[1].selected).toEqual(true);
     expect(component.attribute.values[2].selected).toEqual(false);
     expect(component.attribute.values[3].selected).toEqual(false);
+  });
+
+  it('should call selectionChange on event onChangeQuantity', () => {
+    spyOn(component.selectionChange, 'emit').and.callThrough();
+
+    component.ngOnInit();
+
+    component.onChangeQuantity({
+      valueCode: '1111',
+      quantity: 2,
+    });
+
+    expect(component.selectionChange.emit).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        changedAttribute: jasmine.objectContaining({
+          ...component.attribute,
+          values: [
+            {
+              name: 'valueName',
+              quantity: 2,
+              selected: true,
+              valueCode: '1111',
+            },
+          ],
+        }),
+        ownerKey: component.ownerKey,
+        updateType: Configurator.UpdateType.VALUE_QUANTITY,
+      })
+    );
+  });
+
+  it('should call selectionChange on event onDeselect', () => {
+    spyOn(component.selectionChange, 'emit').and.callThrough();
+
+    component.ngOnInit();
+
+    component.onDeselect('1111');
+
+    expect(component.selectionChange.emit).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        changedAttribute: jasmine.objectContaining({
+          ...component.attribute,
+          values: [
+            {
+              name: 'valueName',
+              quantity: 1,
+              selected: false,
+              valueCode: '1111',
+            },
+            {
+              name: 'valueName',
+              quantity: 1,
+              selected: true,
+              valueCode: '2222',
+            },
+            {
+              name: 'valueName',
+              quantity: 1,
+              selected: false,
+              valueCode: '3333',
+            },
+            {
+              name: 'valueName',
+              quantity: 1,
+              selected: false,
+              valueCode: '4444',
+            },
+          ],
+        }),
+        ownerKey: component.ownerKey,
+        updateType: Configurator.UpdateType.ATTRIBUTE,
+      })
+    );
+  });
+
+  it('should call selectionChange on event onSelect', () => {
+    spyOn(component.selectionChange, 'emit').and.callThrough();
+
+    component.ngOnInit();
+
+    component.onSelect('3333');
+
+    expect(component.selectionChange.emit).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        changedAttribute: jasmine.objectContaining({
+          ...component.attribute,
+          values: [
+            {
+              name: 'valueName',
+              quantity: 1,
+              selected: true,
+              valueCode: '1111',
+            },
+            {
+              name: 'valueName',
+              quantity: 1,
+              selected: true,
+              valueCode: '2222',
+            },
+            {
+              name: 'valueName',
+              quantity: 1,
+              selected: true,
+              valueCode: '3333',
+            },
+            {
+              name: 'valueName',
+              quantity: 1,
+              selected: false,
+              valueCode: '4444',
+            },
+          ],
+        }),
+        ownerKey: component.ownerKey,
+        updateType: Configurator.UpdateType.ATTRIBUTE,
+      })
+    );
   });
 });
