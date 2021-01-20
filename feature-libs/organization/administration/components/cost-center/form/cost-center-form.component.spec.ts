@@ -157,6 +157,7 @@ describe('CostCenterFormComponent', () => {
       expect(component.form.get('code').value).toEqual('unit-test-value');
     });
     it('should prevent setting code if value is provided for this field', () => {
+      component.form = mockForm;
       component.form.get('name').patchValue('Unit Test Value');
       component.form.get('code').patchValue('test code');
       component.form = mockForm;
