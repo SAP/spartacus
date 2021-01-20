@@ -10,6 +10,7 @@ import {
 import { Subscription, timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
+import { QuantityConfig } from '../../config/quantity-config';
 
 interface Quantity {
   quantity: number;
@@ -25,15 +26,19 @@ export class ConfiguratorAttributeQuantityComponent
   quantity = new FormControl(1);
   protected sub: Subscription;
 
+  @Input() allowZero = true;
   @Input() initialQuantity: Quantity;
   @Input() readonly = false;
+
   @Output() changeQuantity = new EventEmitter<Quantity>();
+
+  constructor(protected config: QuantityConfig) {}
 
   ngOnInit() {
     this.quantity.setValue(this.initialQuantity);
 
     const debounceQuantity = this.quantity.valueChanges.pipe(
-      debounce(() => timer(500))
+      debounce(() => timer(this.config.debounceTime))
     );
 
     this.sub = debounceQuantity.subscribe(() => this.onChangeQuantity());

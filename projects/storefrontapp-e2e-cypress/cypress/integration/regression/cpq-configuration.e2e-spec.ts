@@ -1,4 +1,5 @@
 import * as configuration from '../../helpers/product-configuration';
+import * as configurationOverview from '../../helpers/product-configuration-overview';
 import * as productSearch from '../../helpers/product-search';
 
 const POWERTOOLS = 'powertools-spa';
@@ -9,6 +10,7 @@ const CPQ_USER = 'cpq03';
 // UI types
 const RADGRP = 'radioGroup';
 const CHKBOX = 'checkBoxList';
+const DDLB = 'dropdown';
 const RADGRP_PROD = 'radioGroupProduct';
 const CHKBOX_PROD = 'checkBoxListProduct';
 const DDLB_PROD = 'dropdownProduct';
@@ -42,12 +44,28 @@ const ATTR_CAM_MC = '2894';
 const VAL_CAM_MC_128 = '8714';
 /**  SanDisk Ultra 64GB SDHC */
 const VAL_CAM_MC_64 = '8715';
+/** Lenses */
+const ATTR_CAM_LEN = '2895';
+/**  Sigma 85mm F1.4 DG HS*/
+const VAL_CAM_LEN_SI = '8718';
+/**  Nikon AF-P DX NIKKOR 70-300mm 1:4.5-6.3 G ED VR*/
+const VAL_CAM_LEN_NI = '8721';
+/** Bag */
+const ATTR_CAM_BAG = '2897';
+/** LowePro Streetline SL 140 */
+const VAL_CAM_BAG_LP = '8726';
+/** Are you a professional photographer? */
+const ATTR_CAM_PROF = '2968';
+/** YES */
+const VAL_CAM_PROF_Y = '8953';
 /** Insurance */
 const ATTR_CAM_INS = '2899';
 /** No Option Selcted */
 const VAL_NO_OPT_SEL = '0';
-/** SanDisk Ultra 64GB SDHC */
+/** Insurance Select 2 years */
 const VAL_CB_INS_Y2 = '8735';
+/** Insurance Pro 4 years */
+const VAL_CB_INS_P4 = '8738';
 
 const GRP_CAM_MAIN = 'Main Components';
 const GRP_CAM_ACC = 'Accessories';
@@ -125,7 +143,7 @@ context('CPQ Configuration', () => {
       configuration.checkValueNotSelected(CHKBOX, ATTR_COF_MODE, VAL_COF_MODE);
     });
 
-    it.only('should support single select (radio) bundle items', () => {
+    it('should support single select (radio) bundle items', () => {
       configuration.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_CAM);
       configuration.checkCurrentGroupActive(GRP_CAM_MAIN);
 
@@ -315,7 +333,45 @@ context('CPQ Configuration', () => {
     });
   });
 
-  describe('Handling quantity at attribute level', () => {
-    it('should support quantity for checkbox list attribute type', () => {});
+  describe('Overview Page', () => {
+    it('should display user selections on overview page', () => {
+      configuration.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_CAM);
+
+      configuration.selectProductCard(RADGRP, ATTR_CAM_BODY, VAL_CAM_BODY_D850);
+      configuration.selectProductCard(CHKBOX, ATTR_CAM_LEN, VAL_CAM_LEN_SI);
+      configuration.selectProductCard(CHKBOX, ATTR_CAM_LEN, VAL_CAM_LEN_NI);
+
+      configuration.clickOnNextBtn(GRP_CAM_ACC);
+      configuration.deSelectProductCard(RADGRP, ATTR_CAM_BAG, VAL_CAM_BAG_LP);
+
+      configuration.clickOnNextBtn(GRP_CAM_IAW);
+      configuration.selectAttribute(ATTR_CAM_PROF, CHKBOX, VAL_CAM_PROF_Y);
+      configuration.checkAttrValueNotDisplayed(
+        ATTR_CAM_INS,
+        DDLB_PROD,
+        VAL_CB_INS_Y2
+      ); //wait for this option to disappear
+      configuration.selectProductCard(DDLB, ATTR_CAM_INS, VAL_CB_INS_P4);
+      configuration.navigateToOverviewPage();
+
+      configurationOverview.checkConfigOverviewPageDisplayed();
+      configurationOverview.checkGroupHeaderDisplayed(GRP_CAM_MAIN, 0);
+      configurationOverview.checkGroupHeaderNotDisplayed(GRP_CAM_ACC);
+      configurationOverview.checkGroupHeaderDisplayed(GRP_CAM_IAW, 1);
+
+      type ovLineType = 'product' | 'simple';
+      const ovContent: { name: string; value: string; type: ovLineType }[] = [
+        { name: 'Camera Body', value: 'Nikon D850', type: 'product' },
+        { name: 'Memory Card', value: 'SanDisk Extreme Pro', type: 'product' },
+        { name: 'Lenses', value: 'Sigma 85mm F1.4 DG HS', type: 'product' },
+        { name: undefined, value: 'Nikon AF-P DX NIKKOR', type: 'product' },
+        { name: 'professional photographer?', value: 'yes', type: 'simple' },
+        { name: 'Insurance', value: 'Pro 4 years', type: 'product' },
+      ];
+      ovContent.forEach((line, idx) => {
+        configurationOverview.checkAttrDisplayed(line.name, line.value, idx);
+        configurationOverview.checkAttrType(line.type, idx);
+      });
+    });
   });
 });

@@ -111,3 +111,65 @@ export function verifyNotificationBannerOnOP(numberOfIssues?: number): void {
     element.get('.cx-error-msg').should('not.be.visible');
   }
 }
+
+/**
+ * Verifies whether the group header displayed.
+ */
+export function checkGroupHeaderDisplayed(
+  groupName: string,
+  groupIdx: number
+): void {
+  cy.get('cx-configurator-overview-form .cx-group h2')
+    .eq(groupIdx)
+    .should('contain.text', groupName);
+}
+
+/**
+ * Verifies whether the group header is not displayed.
+ */
+export function checkGroupHeaderNotDisplayed(groupName: string): void {
+  cy.get('cx-configurator-overview-form .cx-group').should(
+    'not.contain.text',
+    groupName
+  );
+}
+
+/**
+ * Verifies whether the attribute name and value are displayed at the given position.
+ */
+export function checkAttrDisplayed(
+  attributeName: string,
+  valueName: string,
+  attrbuteIdx: number
+): void {
+  cy.get(
+    'cx-configurator-cpq-overview-attribute, cx-configurator-overview-attribute'
+  )
+    .eq(attrbuteIdx)
+    .within(() => {
+      if (attributeName) {
+        cy.get('.cpq-attribute-label, .cx-attribute-label').should(
+          'contain.text',
+          attributeName
+        );
+      } else {
+        cy.get('.cpq-attribute-label, .cx-attribute-label').should('not.exist');
+      }
+      cy.get('.cpq-attribute-value, .cx-attribute-value').should(
+        'contain.text',
+        valueName
+      );
+    });
+}
+
+/**
+ * Verifies whether the attribute name and value are displayed at the given position.
+ */
+export function checkAttrType(
+  attributeType: 'product' | 'simple',
+  attrbuteIdx: number
+): void {
+  const expected =
+    attributeType === 'product' ? 'have.class' : 'not.have.class';
+  cy.get('.cx-attribute-value-pair').eq(attrbuteIdx).should(expected, 'bundle');
+}

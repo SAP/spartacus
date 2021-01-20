@@ -20,10 +20,11 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
   product$: Observable<Product>;
   loading$ = new BehaviorSubject<boolean>(false);
 
-  @Input() withQuantity = true;
+  @Input() preventAction = false;
   @Input() multiSelect = false;
   @Input() product: Configurator.Value;
   @Input() singleDropdown = false;
+  @Input() withQuantity = true;
   @Output() handleDeselect = new EventEmitter<string>();
   @Output() handleQuantity = new EventEmitter<QuantityUpdateEvent>();
   @Output() handleSelect = new EventEmitter<string>();

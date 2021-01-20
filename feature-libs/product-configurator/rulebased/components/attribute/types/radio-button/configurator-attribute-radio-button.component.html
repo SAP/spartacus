@@ -3,6 +3,9 @@
   <div id="{{ createAttributeIdForConfigurator(attribute) }}">
     <cx-configurator-attribute-quantity
       (changeQuantity)="onChangeQuantity($event)"
+      [allowZero]="
+        !attribute.selectedSingleValue || attribute.selectedSingleValue === '0'
+      "
       [initialQuantity]="attribute.selectedSingleValue ? attribute.quantity : 0"
       [readonly]="readOnlyQuantity || (loading$ | async)"
       *ngIf="withQuantity"

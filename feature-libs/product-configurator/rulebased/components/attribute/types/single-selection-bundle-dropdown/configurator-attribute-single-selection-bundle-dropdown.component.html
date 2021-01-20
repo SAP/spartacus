@@ -25,6 +25,7 @@
     }}"
     (handleDeselect)="onDeselect()"
     (handleQuantity)="onChangeQuantity($event)"
+    [preventAction]="true"
     [product]="selectionValue"
     [singleDropdown]="true"
     [withQuantity]="withQuantity"
