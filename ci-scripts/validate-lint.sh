@@ -72,6 +72,7 @@ echo "Cleaning schematics js files before prettier runs..."
 yarn --cwd projects/schematics run clean
 yarn --cwd feature-libs/organization run clean:schematics
 yarn --cwd feature-libs/storefinder run clean:schematics
+yarn --cwd feature-libs/checkout run clean:schematics
 
 echo "Validating code formatting (using prettier)"
 yarn prettier 2>&1 |  tee prettier.log
