@@ -118,6 +118,10 @@
       ],
       "@spartacus/vendor": [
         "projects/vendor/public_api"
+      ],
+      "checkout": [
+        "dist/checkout/checkout",
+        "dist/checkout"
       ]
     }
   },
