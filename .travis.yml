@@ -11,9 +11,10 @@ branches:
     - "/^epic\\/.*$/"
     - "/^release\\/.*$/"
 defaults: &defaults
-  script: "./ci-scripts/e2e-cypress.sh -s regression"
+  script: "./ci-scripts/e2e-cypress.sh"
 jobs:
   - script: "./build.sh sonar"
+  - script: "./ci-scripts/e2e-cypress.sh -s b2b"
   - script:
     name: "Cypress regression tests, 1st job"
     env: STAGE_NAME=spa-ci-regression
