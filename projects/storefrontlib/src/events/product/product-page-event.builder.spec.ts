@@ -9,11 +9,13 @@ import {
   ProductService,
 } from '@spartacus/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { skip, take } from 'rxjs/operators';
 import { PageEvent } from '../page/page.events';
 import { ProductPageEventBuilder } from './product-page-event.builder';
 import {
   CategoryPageResultsEvent,
+  FacetChangedEvent,
+  FacetValueToggledState,
   ProductDetailsPageEvent,
   SearchPageResultsEvent,
 } from './product-page.events';
@@ -252,6 +254,106 @@ describe('ProductPageEventModule', () => {
         } as ProductDetailsPageEvent)
       );
       sub.unsubscribe();
+    });
+  });
+
+  describe('FacetChangedEvent', () => {
+    it('should fire when the user performs a search or go to category page', () => {
+      let result: FacetChangedEvent;
+      eventService
+        .get(FacetChangedEvent)
+        .pipe(take(3))
+        .subscribe((value) => (result = value));
+
+      ['search', 'category', 'brand'].forEach((sr) => {
+        const pageEvent = createFrom(PageEvent, {
+          context: undefined,
+          semanticRoute: sr,
+          url: '',
+          params: undefined,
+        });
+        eventService.dispatch(pageEvent);
+        if (sr === 'search') {
+          getResultsBehavior.next({
+            breadcrumbs: [{ facetCode: 'test' }],
+            freeTextSearch: 'testQuery',
+          });
+        } else {
+          getResultsBehavior.next({
+            breadcrumbs: [
+              { facetCode: 'allCategories' },
+              { facetCode: 'test' },
+            ],
+          });
+        }
+        expect(result).toEqual(
+          jasmine.objectContaining({
+            appliedFacets: [{ facetCode: 'test' }],
+          } as FacetChangedEvent)
+        );
+      });
+    });
+
+    it('should fire when the user toggle a facet value', () => {
+      const prevSearchResults: ProductSearchPage = {
+        breadcrumbs: [
+          {
+            facetCode: 'testFacet',
+            facetName: 'testFacetName',
+            facetValueCode: 'testFacetValue',
+            facetValueName: 'testFacetValueName',
+          },
+        ],
+        freeTextSearch: 'testQuery',
+      };
+
+      const currSearchResults: ProductSearchPage = {
+        breadcrumbs: [
+          {
+            facetCode: 'testFacet',
+            facetName: 'testFacetName',
+            facetValueCode: 'testFacetValue',
+            facetValueName: 'testFacetValueName',
+          },
+          {
+            facetCode: 'otherFacet',
+            facetName: 'otherFacetName',
+            facetValueCode: 'otherFacetValue',
+            facetValueName: 'otherFacetValueName',
+          },
+        ],
+        freeTextSearch: 'testQuery',
+        facets: [
+          { name: 'otherFacetName', values: [{ name: 'otherFacetValueName' }] },
+        ],
+      };
+
+      let result: FacetChangedEvent;
+      eventService
+        .get(FacetChangedEvent)
+        .pipe(skip(1), take(1))
+        .subscribe((value) => (result = value));
+
+      const pageEvent = createFrom(PageEvent, {
+        context: undefined,
+        semanticRoute: 'search',
+        url: '',
+        params: undefined,
+      });
+      eventService.dispatch(pageEvent);
+      getResultsBehavior.next(prevSearchResults);
+      getResultsBehavior.next(currSearchResults);
+      expect(result).toEqual(
+        jasmine.objectContaining({
+          toggledFacet: {
+            facet: currSearchResults.facets[0],
+            state: {
+              value: { name: 'otherFacetValueName' },
+              toggled: FacetValueToggledState.TOGGLED_ON,
+            },
+          },
+        } as FacetChangedEvent)
+      );
     });
   });
 });

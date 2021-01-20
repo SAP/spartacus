@@ -8,8 +8,6 @@ import {
 } from '@spartacus/core';
 import { EMPTY, Observable } from 'rxjs';
 import { filter, map, pairwise, skip, switchMap, take } from 'rxjs/operators';
-import { ProductListComponentService } from '../../cms-components/product/product-list/container/product-list-component.service';
-import { FacetService } from '../../cms-components/product/product-list/product-facet-navigation/services';
 import { PageEvent } from '../page/page.events';
 import {
   CategoryPageResultsEvent,
@@ -26,9 +24,7 @@ export class ProductPageEventBuilder {
   constructor(
     protected eventService: EventService,
     protected productService: ProductService,
-    protected productSearchService: ProductSearchService,
-    protected facetService: FacetService,
-    protected productListComponentService: ProductListComponentService
+    protected productSearchService: ProductSearchService
   ) {
     this.register();
   }
@@ -155,7 +151,7 @@ export class ProductPageEventBuilder {
               activeFacets = curr.breadcrumbs.slice(1);
             }
 
-            if (Object.keys(prev).length !== 0) {
+            if (prev && Object.keys(prev).length !== 0) {
               const isCategory =
                 curr.breadcrumbs[0]?.facetCode === 'allCategories' &&
                 prev.breadcrumbs[0].facetCode ===
@@ -182,7 +178,7 @@ export class ProductPageEventBuilder {
                 }
 
                 if (toggled) {
-                  const facet = curr.facets.find(
+                  const facet = curr.facets?.find(
                     (f) => f.name === toggled.facetName
                   );
                   return createFrom(FacetChangedEvent, {
