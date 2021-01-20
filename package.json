@@ -12,7 +12,7 @@
     "build:cdc": "ng build cdc --prod",
     "build:cds": "ng build cds --prod",
     "build:incubator": "ng build incubator --prod",
-    "build:libs": "ng build core --prod && ng build storefrontlib --prod && yarn build:schematics && yarn build:organization && yarn build:product && yarn build:storefinder && yarn build:assets && yarn build:incubator && yarn build:cdc && yarn build:cds:lib && yarn build:setup",
+    "build:libs": "ng build core --prod && ng build storefrontlib --prod && yarn build:schematics && yarn build:organization && yarn build:product && yarn build:storefinder && yarn build:assets && yarn build:incubator && yarn build:cdc && yarn build:cds && yarn build:setup",
     "build:prod": "env-cmd -e ci:b2c,$SPA_ENV ng build storefrontapp --prod",
     "build:setup": "ng build setup --prod",
     "e2e:open": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:open",
