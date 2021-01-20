@@ -37,6 +37,7 @@
     "generate:publish:docs": "yarn generate:docs && yarn publish:docs",
     "i18n-lint": "i18n-lint -t \"{{,}}\" projects/storefrontlib/src/**/*.html feature-libs/**/*.html --exclude **/node_modules/**/*.html",
     "lint": "ng lint",
+    "lint:styles": "stylelint \"{projects,feature-libs}/**/*.scss\"",
     "prettier": "prettier --config ./.prettierrc --list-different \"{projects,feature-libs,core-libs,integration-libs}/**/*{.ts,.js,.json,.scss,.html}\"",
     "prettier:fix": "prettier --config ./.prettierrc --list-different \"{projects,feature-libs,core-libs,integration-libs}/**/*{.ts,.js,.json,.scss,.html}\" --write",
     "start": "env-cmd -e ci:b2c,$SPA_ENV ng serve",
