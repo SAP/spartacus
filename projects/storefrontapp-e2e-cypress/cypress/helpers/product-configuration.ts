@@ -77,7 +77,7 @@ export function goToCart(shopName: string) {
  */
 export function checkLoadingMsgNotDisplayed(): void {
   cy.log('Wait until the loading notification is not displayed anymore');
-  cy.get('cx-storefront').contains('Loading').should('not.be.visible');
+  cy.get('cx-storefront').should('not.contain.value', 'Loading');
 }
 
 /**
@@ -103,7 +103,6 @@ export function clickOnConfigureBtnInCatalog(): void {
   cy.get('cx-configure-product a')
     .click()
     .then(() => {
-      cy.get('cx-configure-product').should('not.be.visible');
       cy.location('pathname').should('contain', '/product/entityKey/');
       this.checkConfigPageDisplayed();
     });
@@ -214,7 +213,9 @@ export function checkConfigPageDisplayed(): void {
  */
 export function checkProductTitleDisplayed(): void {
   checkUpdatingMessageNotDisplayed();
-  cy.get('cx-configurator-product-title').should('be.visible');
+  cy.get('cx-configurator-product-title', { timeout: 10000 }).should(
+    'be.visible'
+  );
 }
 
 /**
@@ -828,9 +829,6 @@ export function clickAddToCartBtn(): void {
     .click()
     .then(() => {
       cy.location('pathname').should('contain', 'cartEntry/entityKey/');
-      checkUpdatingMessageNotDisplayed();
-      checkGlobalMessageNotDisplayed();
-      checkUpdatingMessageNotDisplayed();
       checkGlobalMessageNotDisplayed();
     });
 }

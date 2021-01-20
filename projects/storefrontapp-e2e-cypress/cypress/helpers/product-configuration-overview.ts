@@ -104,10 +104,12 @@ export function checkNotificationBannerOnOP(
  * @param {number} numberOfIssues - Expected number of issues
  */
 export function verifyNotificationBannerOnOP(numberOfIssues?: number): void {
-  const element = cy.get('cx-configurator-overview-notification-banner');
+  const element = cy.get('cx-configurator-overview-notification-banner', {
+    timeout: 10000,
+  });
   if (numberOfIssues) {
     this.checkNotificationBannerOnOP(element, numberOfIssues);
   } else {
-    element.get('.cx-error-msg').should('not.be.visible');
+    element.should('not.contain.html', 'div.cx-error-msg');
   }
 }
