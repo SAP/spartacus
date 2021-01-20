@@ -33,4 +33,4 @@ jobs:
       - name: Run e2es
         env:
           CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
-        run: yarn e2e:run:ci:flaky
+        run: export CYPRESS_CONFIG=cypress.ci.json && yarn e2e:run:ci:flaky

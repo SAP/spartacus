@@ -11,7 +11,7 @@ branches:
     - "/^epic\\/.*$/"
     - "/^release\\/.*$/"
 defaults: &defaults
-  script: "export CYPRESS_CONFIG=cypress.ci.2005.json && ./ci-scripts/e2e-cypress.sh"
+  script: "export CYPRESS_CONFIG=cypress.ci.json && ./ci-scripts/e2e-cypress.sh"
 jobs:
   - script: "./build.sh sonar" 
     name: "Validation checks / Unit tests / Sonar"
