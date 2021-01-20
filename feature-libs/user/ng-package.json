@@ -6,8 +6,14 @@
     "umdModuleIds": {
       "@spartacus/core": "core",
       "@spartacus/storefront": "storefront",
+      "@ng-select/ng-select": "ng-select",
       "rxjs": "rxjs"
     }
   },
-  "assets": ["**/*.scss", "schematics/**/*.json", "schematics/**/*.js"]
+  "assets": [
+    "**/*.scss",
+    "migrations/**/*.json",
+    "schematics/**/*.json",
+    "schematics/**/*.js"
+  ]
 }

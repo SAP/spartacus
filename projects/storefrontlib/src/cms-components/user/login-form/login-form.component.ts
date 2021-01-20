@@ -10,6 +10,9 @@ import { from } from 'rxjs';
 import { tap, withLatestFrom } from 'rxjs/operators';
 import { CustomFormValidators } from '../../../shared/index';
 
+/**
+ * @deprecated since 3.2, use @spartacus/user package instead.
+ */
 @Component({
   selector: 'cx-login-form',
   templateUrl: './login-form.component.html',

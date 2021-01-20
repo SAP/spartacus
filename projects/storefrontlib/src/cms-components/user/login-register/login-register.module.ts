@@ -12,6 +12,9 @@ import {
 import { PageSlotModule } from '../../../cms-structure/page/slot/page-slot.module';
 import { LoginRegisterComponent } from './login-register.component';
 
+/**
+ * @deprecated since 3.2, use @spartacus/user package instead.
+ */
 @NgModule({
   imports: [
     CommonModule,

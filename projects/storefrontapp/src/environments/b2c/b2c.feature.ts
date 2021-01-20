@@ -4,12 +4,12 @@ import {
 } from '@spartacus/storefinder/assets';
 import { StoreFinderRootModule } from '@spartacus/storefinder/root';
 import { B2cStorefrontModule } from '@spartacus/storefront';
-import { UserDetailsRootModule } from '@spartacus/user/details';
-import {
-  userTranslationChunksConfig,
-  userTranslations,
-} from 'feature-libs/user/profile/assets/public_api';
-import { UserProfileRootModule } from 'feature-libs/user/profile/root/public_api';
+import { UserDetailsRootModule } from '@spartacus/user/details/root';
+// import {
+//   userTranslationChunksConfig,
+//   userTranslations,
+// } from 'feature-libs/user/profile/assets/public_api';
+// import { UserProfileRootModule } from 'feature-libs/user/profile/root/public_api';
 import { FeatureEnvironment } from '../models/feature.model';
 
 export const b2cFeature: FeatureEnvironment = {
@@ -40,22 +40,25 @@ export const b2cFeature: FeatureEnvironment = {
           module: () =>
             import('@spartacus/user/details').then((m) => m.UserDetailsModule),
         },
-        userProfile: {
-          module: () =>
-            import('@spartacus/user/profile').then((m) => m.UserProfileModule),
-        },
+        // userProfile: {
+        //   module: () =>
+        //     import('@spartacus/user/profile').then((m) => m.UserProfileModule),
+        // },
       },
       i18n: {
-        resources: { ...storeFinderTranslations, ...userTranslations },
+        resources: {
+          ...storeFinderTranslations,
+          // ...userTranslations
+        },
         chunks: {
           ...storeFinderTranslationChunksConfig,
-          ...userTranslationChunksConfig,
+          // ...userTranslationChunksConfig,
         },
       },
     }),
 
     StoreFinderRootModule,
     UserDetailsRootModule,
-    UserProfileRootModule,
+    // UserProfileRootModule,
   ],
 };

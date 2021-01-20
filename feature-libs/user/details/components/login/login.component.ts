@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService, User, UserService } from '@spartacus/core';
+import { AuthService, User } from '@spartacus/core';
+import { UserService } from '@spartacus/user/details/core';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 

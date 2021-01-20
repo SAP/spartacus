@@ -80,17 +80,28 @@
         "feature-libs/storefinder/root/public_api"
       ],
 
-      // User library
+      // User Details
       "@spartacus/user/details": ["feature-libs/user/details/public_api"],
       "@spartacus/user/details/root": [
         "feature-libs/user/details/root/public_api"
       ],
-
+      "@spartacus/user/details/core": [
+        "feature-libs/user/details/core/public_api"
+      ],
+      "@spartacus/user/details/occ": [
+        "feature-libs/user/details/occ/public_api"
+      ],
+      "@spartacus/user/details/components": [
+        "feature-libs/user/details/components/public_api"
+      ],
+      "@spartacus/user/details/assets": [
+        "feature-libs/user/details/assets/public_api"
+      ],
+      // User Profile
       "@spartacus/user/profile": ["feature-libs/user/profile/public_api"],
       "@spartacus/user/profile/root": [
         "feature-libs/user/profile/root/public_api"
       ],
-
       "@spartacus/user/profile/core": [
         "feature-libs/user/profile/core/public_api"
       ],
