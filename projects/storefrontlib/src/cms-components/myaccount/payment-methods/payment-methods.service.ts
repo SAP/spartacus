@@ -39,21 +39,14 @@ export class PaymentMethodsService {
     );
   }
 
-  getCardContent({
-    defaultPayment,
-    accountHolderName,
-    expiryMonth,
-    expiryYear,
-    cardNumber,
-    cardType,
-  }: PaymentDetails): Observable<Card> {
+  getCardContent(paymentDetails: PaymentDetails): Observable<Card> {
     return combineLatest([
       this.translation.translate('paymentCard.setAsDefault'),
       this.translation.translate('common.delete'),
       this.translation.translate('paymentCard.deleteConfirmation'),
       this.translation.translate('paymentCard.expires', {
-        month: expiryMonth,
-        year: expiryYear,
+        month: paymentDetails.expiryMonth,
+        year: paymentDetails.expiryYear,
       }),
       this.translation.translate('paymentCard.defaultPaymentMethod'),
     ]).pipe(
@@ -66,17 +59,19 @@ export class PaymentMethodsService {
           textDefaultPaymentMethod,
         ]) => {
           const actions: { name: string; event: string }[] = [];
-          if (!defaultPayment) {
+          if (!paymentDetails.defaultPayment) {
             actions.push({ name: textSetAsDefault, event: 'default' });
           }
           actions.push({ name: textDelete, event: 'edit' });
           const card: Card = {
-            header: defaultPayment ? textDefaultPaymentMethod : null,
-            textBold: accountHolderName,
-            text: [cardNumber, textExpires],
+            header: paymentDetails.defaultPayment
+              ? textDefaultPaymentMethod
+              : null,
+            textBold: paymentDetails.accountHolderName,
+            text: [paymentDetails.cardNumber, textExpires],
             actions,
             deleteMsg: textDeleteConfirmation,
-            img: this.getCardIcon(cardType.code),
+            img: this.getCardIcon(paymentDetails.cardType.code),
           };
 
           return card;
@@ -102,8 +97,8 @@ export class PaymentMethodsService {
     this.userPaymentService.setPaymentMethodAsDefault(paymentMethod.id);
   }
 
-  getCardIcon(code: string): string {
-    let ccIcon: string;
+  getCardIcon(code: string): ICON_TYPE {
+    let ccIcon: ICON_TYPE;
     if (code === 'visa') {
       ccIcon = ICON_TYPE.VISA;
     } else if (code === 'master' || code === 'mastercard_eurocard') {
