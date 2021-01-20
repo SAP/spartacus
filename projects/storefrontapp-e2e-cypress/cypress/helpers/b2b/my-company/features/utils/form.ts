@@ -29,7 +29,6 @@ export function completeForm(
   formType: FormType
 ) {
   const valueKey = getValueKey(formType);
-  console.log(rowConfigs);
   rowConfigs.forEach((input) => {
     if (input.formLabel) {
       getFieldByLabel(input).then((el) => {
