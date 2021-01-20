@@ -105,57 +105,50 @@ describe('UnitFormComponent', () => {
   it('should disable parentOrgUnit form control', () => {
     component.createChildUnit = true;
     component.units$.subscribe().unsubscribe();
-    component.form$
-      .subscribe((form) => {
-        expect(form.get('parentOrgUnit.uid').disabled).toBeTruthy();
-      })
-      .unsubscribe();
+    expect(component.formGroup.get('parentOrgUnit.uid').disabled).toBeTruthy();
   });
 
   describe('autoSelect uid', () => {
+    beforeEach(() => {
+      component.formGroup.get('parentOrgUnit.uid').setValue(null);
+    });
+
     it('should auto-select unit if only one is available', () => {
       activeUnitList$.next([{ id: 'test' }]);
       fixture.detectChanges();
-      component.form$
-        .subscribe((form) => {
-          expect(form.get('parentOrgUnit.uid').value).toEqual('test');
-        })
-        .unsubscribe();
+      expect(component.formGroup.get('parentOrgUnit.uid').value).toEqual(
+        'test'
+      );
     });
 
     it('should not auto-select unit if more than one is available', () => {
-      activeUnitList$.next([{ id: 'test' }, { id: 'test' }]);
+      activeUnitList$.next([{ id: 'test1' }, { id: 'test2' }]);
       fixture.detectChanges();
-      component.form$
-        .subscribe((form) => {
-          expect(form.get('parentOrgUnit.uid').value).toBeNull();
-        })
-        .unsubscribe();
+      expect(component.formGroup.get('parentOrgUnit.uid').value).toBeNull();
     });
   });
 
   describe('createUidWithName', () => {
     it('should set uid field value if empty based on provided name value', () => {
-      component.form$
-        .subscribe((form) => {
-          form.get('name').patchValue('Unit Test Value');
-          form.get('uid').patchValue(undefined);
-          component.createUidWithName(form.get('name'), form.get('uid'));
+      component.formGroup.get('name').patchValue('Unit Test Value');
+      component.formGroup.get('uid').patchValue(undefined);
+      component.createUidWithName(
+        component.formGroup.get('name'),
+        component.formGroup.get('uid')
+      );
 
-          expect(form.get('uid').value).toEqual('unit-test-value');
-        })
-        .unsubscribe();
+      expect(component.formGroup.get('uid').value).toEqual('unit-test-value');
     });
-    it('should prevent setting uid if value is provided for this field', () => {
-      component.form$
-        .subscribe((form) => {
-          form.get('name').patchValue('Unit Test Value');
-          form.get('uid').patchValue('test uid');
-          component.createUidWithName(form.get('name'), form.get('uid'));
 
-          expect(form.get('uid').value).toEqual('test uid');
-        })
-        .unsubscribe();
+    it('should prevent setting uid if value is provided for this field', () => {
+      component.formGroup.get('name').patchValue('Unit Test Value');
+      component.formGroup.get('uid').patchValue('test uid');
+      component.createUidWithName(
+        component.formGroup.get('name'),
+        component.formGroup.get('uid')
+      );
+
+      expect(component.formGroup.get('uid').value).toEqual('test uid');
     });
   });
 });

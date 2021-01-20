@@ -119,7 +119,7 @@ describe('CostCenterFormComponent', () => {
     });
 
     it('should not auto-select unit if more than one is available', () => {
-      activeUnitList$.next([{ id: 'test' }, { id: 'test' }]);
+      activeUnitList$.next([{ id: 'test1' }, { id: 'test2' }]);
       fixture.detectChanges();
       expect(component.form.get('unit.uid').value).toBeNull();
     });
@@ -138,7 +138,7 @@ describe('CostCenterFormComponent', () => {
     });
 
     it('should not auto-select currency if more than one is available', () => {
-      currencies$.next([{ isocode: 'test' }, { isocode: 'test' }]);
+      currencies$.next([{ isocode: 'test1' }, { isocode: 'test2' }]);
       fixture.detectChanges();
       expect(component.form.get('currency.isocode').value).toBeNull();
     });
@@ -146,9 +146,9 @@ describe('CostCenterFormComponent', () => {
 
   describe('createCodeWithName', () => {
     it('should set code field value if empty based on provided name value', () => {
-      mockForm.get('name').patchValue('Unit Test Value');
-      mockForm.get('code').patchValue(undefined);
       component.form = mockForm;
+      component.form.get('name').patchValue('Unit Test Value');
+      component.form.get('code').patchValue(undefined);
       component.createCodeWithName(
         component.form.get('name'),
         component.form.get('code')
@@ -157,8 +157,8 @@ describe('CostCenterFormComponent', () => {
       expect(component.form.get('code').value).toEqual('unit-test-value');
     });
     it('should prevent setting code if value is provided for this field', () => {
-      mockForm.get('name').patchValue('Unit Test Value');
-      mockForm.get('code').patchValue('test code');
+      component.form.get('name').patchValue('Unit Test Value');
+      component.form.get('code').patchValue('test code');
       component.form = mockForm;
       component.createCodeWithName(
         component.form.get('name'),

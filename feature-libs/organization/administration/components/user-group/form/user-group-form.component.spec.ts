@@ -111,7 +111,7 @@ describe('UserGroupFormComponent', () => {
     });
 
     it('should not auto-select unit if more than one is available', () => {
-      activeUnitList$.next([{ id: 'test' }, { id: 'test' }]);
+      activeUnitList$.next([{ id: 'test1' }, { id: 'test2' }]);
       fixture.detectChanges();
       expect(component.form.get('orgUnit.uid').value).toBeNull();
     });
@@ -119,9 +119,9 @@ describe('UserGroupFormComponent', () => {
 
   describe('createUidWithName', () => {
     it('should set uid field value if empty based on provided name value', () => {
-      mockForm.get('name').patchValue('Unit Test Value');
-      mockForm.get('uid').patchValue(undefined);
       component.form = mockForm;
+      component.form.get('name').patchValue('Unit Test Value');
+      component.form.get('uid').patchValue(undefined);
       component.createUidWithName(
         component.form.get('name'),
         component.form.get('uid')
@@ -129,10 +129,11 @@ describe('UserGroupFormComponent', () => {
 
       expect(component.form.get('uid').value).toEqual('unit-test-value');
     });
+
     it('should prevent setting uid if value is provided for this field', () => {
-      mockForm.get('name').patchValue('Unit Test Value');
-      mockForm.get('uid').patchValue('test uid');
       component.form = mockForm;
+      component.form.get('name').patchValue('Unit Test Value');
+      component.form.get('uid').patchValue('test uid');
       component.createUidWithName(
         component.form.get('name'),
         component.form.get('uid')

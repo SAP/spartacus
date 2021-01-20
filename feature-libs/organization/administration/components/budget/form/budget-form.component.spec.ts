@@ -145,7 +145,7 @@ describe('BudgetFormComponent', () => {
     });
 
     it('should not auto-select unit if more than one is available', () => {
-      activeUnitList$.next([{ id: 'test' }, { id: 'test' }]);
+      activeUnitList$.next([{ id: 'test1' }, { id: 'test2' }]);
       fixture.detectChanges();
       expect(component.form.get('orgUnit.uid').value).toBeNull();
     });
@@ -182,6 +182,7 @@ describe('BudgetFormComponent', () => {
 
       expect(component.form.get('code').value).toEqual('unit-test-value');
     });
+
     it('should prevent setting code if value is provided for this field', () => {
       component.form = mockForm;
       component.form.get('name').patchValue('Unit Test Value');

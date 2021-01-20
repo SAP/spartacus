@@ -154,7 +154,7 @@ describe('PermissionFormComponent', () => {
     });
 
     it('should not auto-select unit if more than one is available', () => {
-      activeUnitList$.next([{ id: 'test' }, { id: 'test' }]);
+      activeUnitList$.next([{ id: 'test1' }, { id: 'test2' }]);
       fixture.detectChanges();
       expect(component.form.get('orgUnit.uid').value).toBeNull();
     });
@@ -173,7 +173,7 @@ describe('PermissionFormComponent', () => {
     });
 
     it('should not auto-select currency if more than one is available', () => {
-      currencies$.next([{ isocode: 'test' }, { isocode: 'test' }]);
+      currencies$.next([{ isocode: 'test1' }, { isocode: 'test2' }]);
       fixture.detectChanges();
       expect(component.form.get('currency.isocode').value).toBeNull();
     });
