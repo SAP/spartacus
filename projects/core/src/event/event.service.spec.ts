@@ -150,7 +150,7 @@ describe('EventService', () => {
     service.register(AddToCartSuccessEvent, of(new AddToCartSuccessEvent(1)));
     service.register(AddToCartFailEvent, of(new AddToCartFailEvent(2)));
 
-    let results: number[] = [];
+    const results: number[] = [];
     sub = service
       .get(CartEvent)
       .subscribe((result) => results.push(result.value));
