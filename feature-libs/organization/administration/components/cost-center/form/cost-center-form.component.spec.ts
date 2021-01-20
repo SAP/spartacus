@@ -160,7 +160,6 @@ describe('CostCenterFormComponent', () => {
       component.form = mockForm;
       component.form.get('name').patchValue('Unit Test Value');
       component.form.get('code').patchValue('test code');
-      component.form = mockForm;
       component.createCodeWithName(
         component.form.get('name'),
         component.form.get('code')
