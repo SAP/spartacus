@@ -1,5 +1,5 @@
 import { Inject, Injectable, isDevMode } from '@angular/core';
-import { i18n } from 'i18next';
+import i18nextGlobal, { i18n } from 'i18next'; // spike todo remove
 import { Observable } from 'rxjs';
 import { I18nConfig } from '../config/i18n-config';
 import { TranslationChunkService } from '../translation-chunk.service';
@@ -14,8 +14,12 @@ export class I18nextTranslationService implements TranslationService {
   constructor(
     protected config: I18nConfig,
     protected translationChunk: TranslationChunkService,
+    // Required param added in 3.0.x as a critical bug fix, not subject to the breaking changes policy
     @Inject(I18NEXT_INSTANCE) protected i18next: i18n
-  ) {}
+  ) {
+    console.log(`i18next['isGlobal']`, i18next['isGlobal']);
+    console.log(`i18nextGlobal['isGlobal']`, i18nextGlobal['isGlobal']);
+  }
 
   translate(
     key: string,
