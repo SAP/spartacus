@@ -1,124 +1,41 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  PaymentDetails,
-  TranslationService,
-  UserPaymentService,
-} from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
-import { ICON_TYPE } from '../../../cms-components/misc/icon';
-import { Card } from '../../../shared/components/card/card.component';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { PaymentDetails } from '@spartacus/core';
+import { defer, Observable } from 'rxjs';
+import { Card } from '../../../shared';
+import { PaymentMethodsService } from './payment-methods.service';
 
 @Component({
   selector: 'cx-payment-methods',
   templateUrl: './payment-methods.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PaymentMethodsComponent implements OnInit {
-  paymentMethods$: Observable<PaymentDetails[]>;
-  editCard: string;
-  iconTypes = ICON_TYPE;
-  loading$: Observable<boolean>;
+export class PaymentMethodsComponent {
+  paymentMethods$ = defer(() => this.service.get());
+  loading$ = this.service.loading$;
 
-  constructor(
-    private userPaymentService: UserPaymentService,
-    private translation: TranslationService
-  ) {}
+  constructor(protected service: PaymentMethodsService) {}
 
-  ngOnInit(): void {
-    this.paymentMethods$ = this.userPaymentService.getPaymentMethods().pipe(
-      tap((paymentDetails) => {
-        // Set first payment method to DEFAULT if none is set
-        if (
-          paymentDetails.length > 0 &&
-          !paymentDetails.find((paymentDetail) => paymentDetail.defaultPayment)
-        ) {
-          this.setDefaultPaymentMethod(paymentDetails[0]);
-        }
-      })
-    );
-
-    this.editCard = null;
-    this.loading$ = this.userPaymentService.getPaymentMethodsLoading();
-    this.userPaymentService.loadPaymentMethods();
-  }
-
-  getCardContent({
-    defaultPayment,
-    accountHolderName,
-    expiryMonth,
-    expiryYear,
-    cardNumber,
-    cardType,
-  }: PaymentDetails): Observable<Card> {
-    return combineLatest([
-      this.translation.translate('paymentCard.setAsDefault'),
-      this.translation.translate('common.delete'),
-      this.translation.translate('paymentCard.deleteConfirmation'),
-      this.translation.translate('paymentCard.expires', {
-        month: expiryMonth,
-        year: expiryYear,
-      }),
-      this.translation.translate('paymentCard.defaultPaymentMethod'),
-    ]).pipe(
-      map(
-        ([
-          textSetAsDefault,
-          textDelete,
-          textDeleteConfirmation,
-          textExpires,
-          textDefaultPaymentMethod,
-        ]) => {
-          const actions: { name: string; event: string }[] = [];
-          if (!defaultPayment) {
-            actions.push({ name: textSetAsDefault, event: 'default' });
-          }
-          actions.push({ name: textDelete, event: 'edit' });
-          const card: Card = {
-            header: defaultPayment ? textDefaultPaymentMethod : null,
-            textBold: accountHolderName,
-            text: [cardNumber, textExpires],
-            actions,
-            deleteMsg: textDeleteConfirmation,
-            img: this.getCardIcon(cardType.code),
-          };
-
-          return card;
-        }
-      )
-    );
-  }
-
-  deletePaymentMethod(paymentMethod: PaymentDetails): void {
-    this.userPaymentService.deletePaymentMethod(paymentMethod.id);
-    this.editCard = null;
-  }
-
-  setEdit(paymentMethod: PaymentDetails): void {
-    this.editCard = paymentMethod.id;
-  }
-
-  cancelCard(): void {
-    this.editCard = null;
+  getCardContent(paymentMethod: PaymentDetails): Observable<Card> {
+    return this.service.getCardContent(paymentMethod);
   }
 
   setDefaultPaymentMethod(paymentMethod: PaymentDetails): void {
-    this.userPaymentService.setPaymentMethodAsDefault(paymentMethod.id);
+    this.service.setDefault(paymentMethod);
   }
 
-  getCardIcon(code: string): string {
-    let ccIcon: string;
-    if (code === 'visa') {
-      ccIcon = this.iconTypes.VISA;
-    } else if (code === 'master' || code === 'mastercard_eurocard') {
-      ccIcon = this.iconTypes.MASTER_CARD;
-    } else if (code === 'diners') {
-      ccIcon = this.iconTypes.DINERS_CLUB;
-    } else if (code === 'amex') {
-      ccIcon = this.iconTypes.AMEX;
-    } else {
-      ccIcon = this.iconTypes.CREDIT_CARD;
-    }
+  deletePaymentMethod(paymentMethod: PaymentDetails): void {
+    this.service.delete(paymentMethod);
+  }
 
-    return ccIcon;
+  getEdit(): string {
+    return this.service.editCard;
+  }
+
+  setEdit(paymentMethod: PaymentDetails): void {
+    this.service.setEdit(paymentMethod);
+  }
+
+  cancelCard(): void {
+    this.service.cancelEdit();
   }
 }
