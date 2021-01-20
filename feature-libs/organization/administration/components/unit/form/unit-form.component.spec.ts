@@ -25,7 +25,8 @@ const mockForm = new FormGroup({
   }),
 });
 
-let activeUnitList$: BehaviorSubject<B2BUnitNode[]>;
+const activeUnitList$: BehaviorSubject<B2BUnitNode[]> = new BehaviorSubject([]);
+const unit$: BehaviorSubject<String> = new BehaviorSubject(null);
 
 class MockOrgUnitService {
   getActiveUnitList = () => activeUnitList$.asObservable();
@@ -37,7 +38,7 @@ class MockOrgUnitService {
 
 class MockItemService {
   get unit$() {
-    return of('uid');
+    return unit$.asObservable();
   }
   getForm() {
     return mockForm;
@@ -70,8 +71,6 @@ describe('UnitFormComponent', () => {
     spyOn(b2bUnitService, 'getActiveUnitList').and.callThrough();
     spyOn(b2bUnitService, 'loadList').and.callThrough();
     spyOn(b2bUnitService, 'getApprovalProcesses').and.callThrough();
-
-    activeUnitList$ = new BehaviorSubject([]);
   });
 
   beforeEach(() => {
@@ -113,14 +112,26 @@ describe('UnitFormComponent', () => {
       .unsubscribe();
   });
 
-  it('should auto-select unit if only one is available', () => {
-    activeUnitList$.next([{ id: 'test' }]);
-    fixture.detectChanges();
-    component.form$
-      .subscribe((form) => {
-        expect(form.get('parentOrgUnit.uid').value).toEqual('test');
-      })
-      .unsubscribe();
+  describe('autoSelect uid', () => {
+    it('should auto-select unit if only one is available', () => {
+      activeUnitList$.next([{ id: 'test' }]);
+      fixture.detectChanges();
+      component.form$
+        .subscribe((form) => {
+          expect(form.get('parentOrgUnit.uid').value).toEqual('test');
+        })
+        .unsubscribe();
+    });
+
+    it('should not auto-select unit if more than one is available', () => {
+      activeUnitList$.next([{ id: 'test' }, { id: 'test' }]);
+      fixture.detectChanges();
+      component.form$
+        .subscribe((form) => {
+          expect(form.get('parentOrgUnit.uid').value).toBeNull();
+        })
+        .unsubscribe();
+    });
   });
 
   describe('createUidWithName', () => {

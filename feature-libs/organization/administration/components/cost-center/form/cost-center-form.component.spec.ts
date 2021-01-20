@@ -2,11 +2,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CurrencyService, I18nTestingModule } from '@spartacus/core';
-import { OrgUnitService } from '@spartacus/organization/administration/core';
+import { Currency, CurrencyService, I18nTestingModule } from '@spartacus/core';
+import {
+  B2BUnitNode,
+  OrgUnitService,
+} from '@spartacus/organization/administration/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { CostCenterItemService } from '../services/cost-center-item.service';
 import { CostCenterFormComponent } from './cost-center-form.component';
@@ -22,23 +25,20 @@ const mockForm = new FormGroup({
   }),
 });
 
+const activeUnitList$: BehaviorSubject<B2BUnitNode[]> = new BehaviorSubject([]);
+const currencies$: BehaviorSubject<Currency[]> = new BehaviorSubject([]);
+
 class MockOrgUnitService {
-  getActiveUnitList() {
-    return of([]);
-  }
+  getActiveUnitList = () => activeUnitList$.asObservable();
   loadList() {}
 }
 
 class MockCurrencyService {
-  getAll() {
-    return of();
-  }
+  getAll = () => currencies$.asObservable();
 }
 
 class MockItemService {
-  getForm() {
-    return mockForm;
-  }
+  getForm() {}
 }
 
 describe('CostCenterFormComponent', () => {
@@ -85,6 +85,7 @@ describe('CostCenterFormComponent', () => {
   });
 
   it('should render form controls', () => {
+    component.form = mockForm;
     fixture.detectChanges();
     const formControls = fixture.debugElement.queryAll(By.css('input'));
     expect(formControls.length).toBeGreaterThan(0);
@@ -103,6 +104,44 @@ describe('CostCenterFormComponent', () => {
 
   it('should get active units from service', () => {
     expect(b2bUnitService.getActiveUnitList).toHaveBeenCalled();
+  });
+
+  describe('autoSelect uid', () => {
+    beforeEach(() => {
+      component.form = mockForm;
+      component.form.get('unit.uid').setValue(null);
+    });
+
+    it('should auto-select unit if only one is available', () => {
+      activeUnitList$.next([{ id: 'test' }]);
+      fixture.detectChanges();
+      expect(component.form.get('unit.uid').value).toEqual('test');
+    });
+
+    it('should not auto-select unit if more than one is available', () => {
+      activeUnitList$.next([{ id: 'test' }, { id: 'test' }]);
+      fixture.detectChanges();
+      expect(component.form.get('unit.uid').value).toBeNull();
+    });
+  });
+
+  describe('autoSelect currency', () => {
+    beforeEach(() => {
+      component.form = mockForm;
+      component.form.get('currency.isocode').setValue(null);
+    });
+
+    it('should auto-select currency if only one is available', () => {
+      currencies$.next([{ isocode: 'test' }]);
+      fixture.detectChanges();
+      expect(component.form.get('currency.isocode').value).toEqual('test');
+    });
+
+    it('should not auto-select currency if more than one is available', () => {
+      currencies$.next([{ isocode: 'test' }, { isocode: 'test' }]);
+      fixture.detectChanges();
+      expect(component.form.get('currency.isocode').value).toBeNull();
+    });
   });
 
   describe('createCodeWithName', () => {
