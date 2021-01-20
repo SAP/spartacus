@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   AuthConfigService,
   OAuthFlow,
@@ -18,7 +13,6 @@ import { CustomFormValidators } from '../../../shared/utils/validators/custom-fo
 })
 export class ForgotPasswordService {
   constructor(
-    protected fb: FormBuilder,
     protected userService: UserService,
     protected routingService: RoutingService,
     protected authConfigService: AuthConfigService
