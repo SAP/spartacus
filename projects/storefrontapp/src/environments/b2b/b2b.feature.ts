@@ -8,6 +8,11 @@ import {
   orderApprovalTranslationChunksConfig,
   orderApprovalTranslations,
 } from '@spartacus/organization/order-approval/assets';
+import {
+  bulkPricingTranslationChunksConfig,
+  bulkPricingTranslations,
+} from '@spartacus/product/bulk-pricing/assets';
+
 import { OrderApprovalRootModule } from '@spartacus/organization/order-approval/root';
 import { B2bStorefrontModule } from '@spartacus/setup';
 import { FeatureEnvironment } from '../models/feature.model';
@@ -50,6 +55,13 @@ export const b2bFeature: FeatureEnvironment = {
       i18n: {
         resources: organizationTranslations,
         chunks: organizationTranslationChunksConfig,
+        fallbackLang: 'en',
+      },
+    }),
+    ConfigModule.withConfig({
+      i18n: {
+        resources: bulkPricingTranslations,
+        chunks: bulkPricingTranslationChunksConfig,
         fallbackLang: 'en',
       },
     }),

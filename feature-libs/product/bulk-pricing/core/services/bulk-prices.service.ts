@@ -23,7 +23,7 @@ export class BulkPricesService {
   protected convert(productPriceScope: Product): BulkPrice[] {
     let bulkPrices = [];
 
-    if (productPriceScope && productPriceScope !== {}) {
+    if (productPriceScope) {
       const basePrice = productPriceScope.price?.value;
       const volumePrices = productPriceScope.volumePrices;
 
