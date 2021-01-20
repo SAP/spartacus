@@ -29,8 +29,8 @@ const mockForm = new FormGroup({
   budget: new FormControl(),
 });
 
-let activeUnitList$: BehaviorSubject<B2BUnitNode[]>;
-let currencies$: BehaviorSubject<Currency[]>;
+const activeUnitList$: BehaviorSubject<B2BUnitNode[]> = new BehaviorSubject([]);
+const currencies$: BehaviorSubject<Currency[]> = new BehaviorSubject([]);
 
 class MockOrgUnitService {
   getActiveUnitList = () => activeUnitList$.asObservable();
@@ -42,9 +42,7 @@ class MockCurrencyService {
 }
 
 class MockItemService {
-  getForm() {
-    return mockForm;
-  }
+  getForm() {}
 }
 
 @Component({
@@ -91,9 +89,6 @@ describe('BudgetFormComponent', () => {
     spyOn(currencyService, 'getAll').and.callThrough();
     spyOn(b2bUnitService, 'getActiveUnitList').and.callThrough();
     spyOn(b2bUnitService, 'loadList').and.callThrough();
-
-    activeUnitList$ = new BehaviorSubject([]);
-    currencies$ = new BehaviorSubject([]);
   });
 
   beforeEach(() => {
@@ -137,11 +132,31 @@ describe('BudgetFormComponent', () => {
     expect(b2bUnitService.loadList).toHaveBeenCalled();
   });
 
-  describe('autoSelect', () => {
+  describe('autoSelect uid', () => {
+    beforeEach(() => {
+      component.form = mockForm;
+      component.form.get('orgUnit.uid').setValue(null);
+    });
+
     it('should auto-select unit if only one is available', () => {
       activeUnitList$.next([{ id: 'test' }]);
       fixture.detectChanges();
       expect(component.form.get('orgUnit.uid').value).toEqual('test');
+    });
+
+    it('should not auto-select unit if more than one is available', () => {
+      component.form = mockForm;
+      component.form.get('orgUnit.uid').setValue(null);
+      activeUnitList$.next([{ id: 'test' }, { id: 'test' }]);
+      fixture.detectChanges();
+      expect(component.form.get('orgUnit.uid').value).toBeNull();
+    });
+  });
+
+  describe('autoSelect currency', () => {
+    beforeEach(() => {
+      component.form = mockForm;
+      component.form.get('currency.isocode').setValue(null);
     });
 
     it('should auto-select currency if only one is available', () => {
@@ -150,15 +165,7 @@ describe('BudgetFormComponent', () => {
       expect(component.form.get('currency.isocode').value).toEqual('test');
     });
 
-    it('should not auto-select unit if more than one is available', () => {
-      component.form.get('orgUnit.uid').setValue(null);
-      activeUnitList$.next([{ id: 'test' }, { id: 'test' }]);
-      fixture.detectChanges();
-      expect(component.form.get('orgUnit.uid').value).toBeNull();
-    });
-
     it('should not auto-select currency if more than one is available', () => {
-      component.form.get('currency.isocode').setValue(null);
       currencies$.next([{ isocode: 'test' }, { isocode: 'test' }]);
       fixture.detectChanges();
       expect(component.form.get('currency.isocode').value).toBeNull();
@@ -167,9 +174,9 @@ describe('BudgetFormComponent', () => {
 
   describe('createCodeWithName', () => {
     it('should set code field value if empty based on provided name value', () => {
-      mockForm.get('name').patchValue('Unit Test Value');
-      mockForm.get('code').patchValue(undefined);
       component.form = mockForm;
+      component.form.get('name').patchValue('Unit Test Value');
+      component.form.get('code').patchValue(undefined);
       component.createCodeWithName(
         component.form.get('name'),
         component.form.get('code')
@@ -178,9 +185,9 @@ describe('BudgetFormComponent', () => {
       expect(component.form.get('code').value).toEqual('unit-test-value');
     });
     it('should prevent setting code if value is provided for this field', () => {
-      mockForm.get('name').patchValue('Unit Test Value');
-      mockForm.get('code').patchValue('test code');
       component.form = mockForm;
+      component.form.get('name').patchValue('Unit Test Value');
+      component.form.get('code').patchValue('test code');
       component.createCodeWithName(
         component.form.get('name'),
         component.form.get('code')
