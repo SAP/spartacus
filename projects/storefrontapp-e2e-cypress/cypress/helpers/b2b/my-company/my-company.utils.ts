@@ -1,5 +1,4 @@
 import { ENTITY_UID_COOKIE_KEY, MyCompanyConfig } from './models/index';
-import { nextPage } from '../../product-search';
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
 import { myCompanyAdminUser } from '../../../sample-data/shared-users';
 import { testFeaturesFromConfig } from './my-company-features';

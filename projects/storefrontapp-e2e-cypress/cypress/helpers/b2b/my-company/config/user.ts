@@ -79,7 +79,7 @@ export const userConfig: MyCompanyConfig = {
     {
       label: 'Roles',
       variableName: 'roles',
-      formLabel: 'Roles',
+      inputType: INPUT_TYPE.CHECKBOX,
       createValue: 'Customer',
       updateValue: 'Manager',
       showInTable: true,

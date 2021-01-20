@@ -67,8 +67,9 @@ export const unitShippingAddressConfig: MyCompanyConfig = {
 export const userRolesConfig: MyCompanyConfig = {
   rows: [
     {
-      label: 'Roles',
+      formLabel: 'Roles',
       updateValue: 'Manager',
+      inputType: INPUT_TYPE.CHECKBOX,
     },
   ],
 };

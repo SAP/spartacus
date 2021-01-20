@@ -29,10 +29,10 @@ export function completeForm(
   formType: FormType
 ) {
   const valueKey = getValueKey(formType);
-
+  console.log(rowConfigs);
   rowConfigs.forEach((input) => {
     if (input.formLabel) {
-      getFieldByLabel(input.formLabel).then((el) => {
+      getFieldByLabel(input).then((el) => {
         if (!el.html().includes('disabled')) {
           switch (input.inputType) {
             case INPUT_TYPE.TEXT:
@@ -51,8 +51,10 @@ export function completeForm(
     }
   });
 
-  function getFieldByLabel(label: string) {
-    return cy.get('label span').contains(label).parent();
+  function getFieldByLabel(input: MyCompanyRowConfig) {
+    return input.inputType === INPUT_TYPE.CHECKBOX
+      ? cy.get('fieldset legend').contains(input.formLabel).parent()
+      : cy.get('label span').contains(input.formLabel).parent();
   }
 
   // For situations where more than one control exists in form with the same label.
@@ -64,7 +66,7 @@ export function completeForm(
     if (input.selector) {
       getFieldBySelector(input.selector).clear().type(input[valueKey]);
     } else {
-      getFieldByLabel(input.formLabel).within(() => {
+      getFieldByLabel(input).within(() => {
         cy.get(`input`).clear().type(input[valueKey]);
       });
     }
@@ -74,7 +76,7 @@ export function completeForm(
     if (input.selector) {
       getFieldBySelector(input.selector).clear().type(input[valueKey]);
     } else {
-      getFieldByLabel(input.formLabel).within(() => {
+      getFieldByLabel(input).within(() => {
         cy.get(`cx-date-time-picker input`).clear().type(input[valueKey]);
       });
     }
@@ -83,7 +85,7 @@ export function completeForm(
   function fillNgSelect(input: MyCompanyRowConfig) {
     // First check if `valueKey` is defined. For example select should be omitted if `updateValue` is empty.
     if (input[valueKey]) {
-      getFieldByLabel(input.formLabel).within(() => {
+      getFieldByLabel(input).within(() => {
         cy.get(`ng-select`).click();
       });
       cy.wait(1000); // Allow time for options to draw
@@ -94,7 +96,7 @@ export function completeForm(
   }
 
   function selectCheckbox(input) {
-    getFieldByLabel(input.formLabel).within(() => {
+    getFieldByLabel(input).within(() => {
       cy.get('[type="checkbox"]').check(input[valueKey]);
     });
   }
