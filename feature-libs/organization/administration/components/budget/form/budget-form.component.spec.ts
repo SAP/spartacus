@@ -145,8 +145,6 @@ describe('BudgetFormComponent', () => {
     });
 
     it('should not auto-select unit if more than one is available', () => {
-      component.form = mockForm;
-      component.form.get('orgUnit.uid').setValue(null);
       activeUnitList$.next([{ id: 'test' }, { id: 'test' }]);
       fixture.detectChanges();
       expect(component.form.get('orgUnit.uid').value).toBeNull();
