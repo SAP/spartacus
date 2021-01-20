@@ -61,12 +61,6 @@ describe('Spartacus Schematics: ng-add', () => {
       )
       .toPromise();
 
-    // Verify that we registered task only for installing packages (no PWA schematics)
-    const { tasks } = schematicRunner;
-    expect(tasks[0].name).toEqual('node-package');
-    expect((tasks[0].options as any).command).toEqual('install');
-    expect(tasks.length).toBe(1);
-
     const packageJson = tree.readContent('/package.json');
     const packageObj = JSON.parse(packageJson);
     const depPackageList = Object.keys(packageObj.dependencies);
@@ -76,28 +70,12 @@ describe('Spartacus Schematics: ng-add', () => {
   });
 
   it('should add spartacus with PWA via passed parameter', async () => {
-    await schematicRunner
+    const tree = await schematicRunner
       .runSchematicAsync(
         'ng-add',
         { ...defaultOptions, name: 'schematics-test', pwa: true },
         appTree
       )
-      .toPromise();
-
-    // Verify that we registered task for installing and running @angular/pwa schematics
-    const { tasks } = schematicRunner;
-    // We have 2 node-package install tasks registered
-    // Order matters. First install needs to be executed and then angular-pwa schematics
-    expect(tasks[1].name).toEqual('node-package');
-    expect((tasks[1].options as any).command).toEqual('install');
-    expect(tasks[2].name).toEqual('run-schematic');
-    expect((tasks[2].options as any).name).toEqual(
-      'run-angular-pwa-schematics'
-    );
-
-    // Run @angular/pwa schematics as it was registered as future task
-    const tree = await schematicRunner
-      .runSchematicAsync('run-angular-pwa-schematics', defaultOptions, appTree)
       .toPromise();
 
     const buffer = tree.read('src/manifest.webmanifest');
