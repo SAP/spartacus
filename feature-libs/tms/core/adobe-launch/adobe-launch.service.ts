@@ -4,12 +4,12 @@ import { merge, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { TmsConfig } from '../config/tms-config';
 
-export interface AdobeLaunchPayload {
+export interface AdobeLaunchDataLayer {
   [key: string]: any;
 }
 
 export interface AdobeLaunchWindow extends Window {
-  _trackData?: (payload: AdobeLaunchPayload) => void;
+  dataLayer?: AdobeLaunchDataLayer;
 }
 
 /**
@@ -31,9 +31,7 @@ export class AdobeLaunchService implements OnDestroy {
   collect(): void {
     // prep the data layer
     if (this.window) {
-      this.window._trackData = this.window._trackData
-        ? this.window._trackData
-        : (_payload: AdobeLaunchPayload): void => {};
+      this.window.dataLayer = this.window.dataLayer ?? {};
     }
 
     const events =
@@ -51,8 +49,13 @@ export class AdobeLaunchService implements OnDestroy {
    * @param event Spartacus event to dispatch
    */
   protected pushToDataLayer<T extends CxEvent>(event: T): void {
-    const type = Object.getPrototypeOf(event).constructor.type;
-    this.window?._trackData({ [type]: event });
+    if (this.window) {
+      const type = Object.getPrototypeOf(event).constructor.type;
+      this.window.dataLayer = {
+        ...this.window.dataLayer,
+        [type]: event,
+      };
+    }
   }
 
   /**

@@ -8,7 +8,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { TmsConfig } from '../config/tms-config';
-import { AdobeLaunchPayload, AdobeLaunchService } from './adobe-launch.service';
+import { AdobeLaunchService } from './adobe-launch.service';
 
 class MockWindowRef {
   get nativeWindow() {
@@ -45,10 +45,6 @@ describe('AdobeLaunchService', () => {
 
     service = TestBed.inject(AdobeLaunchService);
     eventService = TestBed.inject(EventService);
-    spyOnProperty(service, 'window').and.returnValue({
-      _trackData: (_payload: AdobeLaunchPayload): void => {},
-    });
-    spyOn(service.window, '_trackData').and.callThrough();
   });
 
   it('should be created', () => {
@@ -64,7 +60,7 @@ describe('AdobeLaunchService', () => {
 
       service.collect();
       expect(eventService.get).toHaveBeenCalledTimes(1);
-      expect(service.window._trackData).toHaveBeenCalledWith({
+      expect(service.window.dataLayer).toEqual({
         [LoginEvent.type]: testEvent,
       });
     });
