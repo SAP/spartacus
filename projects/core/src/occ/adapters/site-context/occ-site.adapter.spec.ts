@@ -15,7 +15,11 @@ import {
 import { defaultOccConfig } from '../../config/default-occ-config';
 import { OccConfig } from '../../config/occ-config';
 import { Occ } from '../../occ-models/occ.models';
-import { OccEndpointsService } from '../../services';
+import {
+  BaseOccUrlProperties,
+  DynamicAttributes,
+  OccEndpointsService,
+} from '../../services';
 import { OccSiteAdapter } from './occ-site.adapter';
 
 const MockOccModuleConfig: OccConfig = {
@@ -31,7 +35,7 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-class MockOccEndpointsService {
+class MockOccEndpointsService implements Partial<OccEndpointsService> {
   getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
     return this.getEndpoint(endpoint);
   }
@@ -45,8 +49,12 @@ class MockOccEndpointsService {
       MockOccModuleConfig.context.baseSite
     );
   }
-  getOccEndpoint(url: string) {
-    return url;
+  buildUrl(
+    endpoint: string,
+    _attributes?: DynamicAttributes,
+    _propertiesToOmit?: BaseOccUrlProperties
+  ) {
+    return endpoint;
   }
 }
 
@@ -73,7 +81,7 @@ describe('OccSiteAdapter', () => {
     occEndpointsService = TestBed.inject(OccEndpointsService);
     spyOn(converterService, 'pipeableMany').and.callThrough();
     spyOn(occEndpointsService, 'getUrl').and.callThrough();
-    spyOn(occEndpointsService, 'getOccEndpoint').and.callThrough();
+    spyOn(occEndpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -295,8 +303,10 @@ describe('OccSiteAdapter', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      expect(occEndpointsService.getOccEndpoint).toHaveBeenCalledWith(
-        'baseSites'
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+        'baseSites',
+        {},
+        { baseSite: false }
       );
       mockReq.flush({ baseSites: baseSites });
     });
