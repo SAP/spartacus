@@ -25,7 +25,7 @@ export class BulkPricingTableComponent implements OnInit {
 
   formatQuantity(tier: BulkPrice): string {
     let formattedQuantityRange = '';
-    if (tier.maxQuantity === null) {
+    if (!tier.maxQuantity) {
       formattedQuantityRange = tier.minQuantity + '+';
     } else {
       formattedQuantityRange = tier.minQuantity + ' - ' + tier.maxQuantity;
