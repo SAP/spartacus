@@ -10,7 +10,7 @@ import { BulkPrice } from '../../core/model/bulk-price.model';
 export class BulkPricesService {
   protected readonly PRODUCT_SCOPE = ProductScope.PRICES;
 
-  constructor(private productService: ProductService) {}
+  constructor(protected productService: ProductService) {}
 
   getBulkPrices(productCode: string): Observable<BulkPrice[]> {
     return this.productService.get(productCode, this.PRODUCT_SCOPE).pipe(
@@ -20,7 +20,7 @@ export class BulkPricesService {
     );
   }
 
-  private convert(productPriceScope: Product): BulkPrice[] {
+  protected convert(productPriceScope: Product): BulkPrice[] {
     let bulkPrices = [];
 
     if (productPriceScope && productPriceScope !== {}) {
@@ -35,7 +35,7 @@ export class BulkPricesService {
     return bulkPrices;
   }
 
-  private parsePrice(priceTier: Price, basePrice: number): BulkPrice {
+  protected parsePrice(priceTier: Price, basePrice: number): BulkPrice {
     const bulkPriceTemplate: BulkPrice = {
       currencyIso: priceTier.currencyIso,
       formattedValue: priceTier.formattedValue,
@@ -50,11 +50,11 @@ export class BulkPricesService {
     return this.calculateDiscount(bulkPriceTemplate, basePrice);
   }
 
-  private calculateDiscount(
+  protected calculateDiscount(
     bulkPriceTemplate: BulkPrice,
     basePrice: number
   ): BulkPrice {
-    const bulkPrice = bulkPriceTemplate;
+    const bulkPrice = Object.assign({}, bulkPriceTemplate);
 
     const tierPrice = bulkPriceTemplate.value;
     const discount = Math.round(100.0 - (tierPrice / basePrice) * 100);

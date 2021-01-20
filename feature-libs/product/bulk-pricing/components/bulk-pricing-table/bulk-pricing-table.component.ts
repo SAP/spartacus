@@ -10,11 +10,13 @@ import { switchMap } from 'rxjs/operators';
   templateUrl: './bulk-pricing-table.component.html',
 })
 export class BulkPricingTableComponent {
+  protected readonly PRODUCT_KEY = 'productCode';
+
   priceTiers$: Observable<BulkPrice[]> = this.getPrices();
 
   constructor(
-    private routingService: RoutingService,
-    private bulkPrices: BulkPricesService
+    protected routingService: RoutingService,
+    protected bulkPrices: BulkPricesService
   ) {}
 
   formatQuantity(tier: BulkPrice): string {
@@ -28,10 +30,9 @@ export class BulkPricingTableComponent {
   }
 
   getPrices(): Observable<BulkPrice[]> {
-    const productCodeKey = 'productCode';
     return this.routingService.getRouterState().pipe(
       switchMap((state) => {
-        const productCode = state.state.params[productCodeKey];
+        const productCode = state.state.params[this.PRODUCT_KEY];
         return this.bulkPrices.getBulkPrices(productCode);
       })
     );
