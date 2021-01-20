@@ -34,4 +34,4 @@ import {
     }),
   ],
 })
-export class SpartacusConfigurationModule {}
+export class SpartacusB2cConfigurationModule {}

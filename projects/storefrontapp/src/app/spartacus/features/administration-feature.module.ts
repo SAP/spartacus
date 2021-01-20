@@ -27,4 +27,4 @@ import {
     }),
   ],
 })
-export class AdministrationModule {}
+export class AdministrationFeatureModule {}

@@ -29,24 +29,6 @@ import {
         addToHomeScreen: true,
       },
     }),
-    // b2c
-    // provideConfig({
-    //   context: {
-    //     urlParameters: ['baseSite', 'language', 'currency'],
-    //     baseSite: [
-    //       'electronics-spa',
-    //       'electronics',
-    //       'apparel-de',
-    //       'apparel-uk',
-    //       'apparel-uk-spa',
-    //     ],
-    //   },
-    //   cart: {
-    //     selectiveCart: {
-    //       enabled: true,
-    //     },
-    //   },
-    // }),
   ],
 })
-export class SpartacusConfigurationModule {}
+export class SpartacusB2bConfigurationModule {}

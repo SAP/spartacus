@@ -26,4 +26,4 @@ import {
     }),
   ],
 })
-export class OrderApprovalModule {}
+export class OrderApprovalFeatureModule {}

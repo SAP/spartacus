@@ -17,6 +17,7 @@ import {
   FooterNavigationModule,
   ForgotPasswordModule,
   HamburgerMenuModule,
+  JsonLdBuilderModule,
   LinkModule,
   MyCouponsModule,
   MyInterestsModule,
@@ -75,9 +76,24 @@ import {
   UserModule,
   UserOccModule,
 } from '@spartacus/core';
-import { StorefinderModule } from './features/storefinder.module';
-import { AdministrationModule } from './features/administration.module';
-import { OrderApprovalModule } from './features/order-approval.module';
+import { StorefinderFeatureModule } from './features/storefinder-feature.module';
+import { AdministrationFeatureModule } from './features/administration-feature.module';
+import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
+import { environment } from '../../environments/environment';
+import { CdcFeatureModule } from './features/cdc-feature.module';
+import { CdsFeatureModule } from './features/cds-feature.module';
+
+const featureModules = [];
+
+if (environment.b2b) {
+  featureModules.push(AdministrationFeatureModule, OrderApprovalFeatureModule);
+}
+if (environment.cdc) {
+  featureModules.push(CdcFeatureModule);
+}
+if (environment.cds) {
+  featureModules.push(CdsFeatureModule);
+}
 
 @NgModule({
   imports: [
@@ -188,12 +204,12 @@ import { OrderApprovalModule } from './features/order-approval.module';
     /************************* Opt-in features *************************/
 
     ExternalRoutesModule.forRoot(), // to opt-in explicitly, is added by default schematics
+    JsonLdBuilderModule,
 
     /************************* External features *************************/
 
-    StorefinderModule,
-    AdministrationModule,
-    OrderApprovalModule,
+    StorefinderFeatureModule,
+    ...featureModules,
   ],
 })
 export class SpartacusFeaturesModule {}

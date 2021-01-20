@@ -23,4 +23,4 @@ import {
     }),
   ],
 })
-export class StorefinderModule {}
+export class StorefinderFeatureModule {}
