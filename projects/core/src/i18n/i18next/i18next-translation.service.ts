@@ -1,5 +1,5 @@
 import { Inject, Injectable, isDevMode } from '@angular/core';
-import { i18n } from 'i18next'; // spike todo remove
+import { i18n } from 'i18next';
 import { Observable } from 'rxjs';
 import { I18nConfig } from '../config/i18n-config';
 import { TranslationChunkService } from '../translation-chunk.service';
