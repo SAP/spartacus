@@ -221,11 +221,11 @@ The following files should be modified:
 Add the following scripts:
 
 ```json
-"build:myaccount": "ng build my-account --prod",
-"release:myaccount:with-changelog": "cd feature-libs/my-account && release-it && cd ../.."
+    "build:asm": "yarn --cwd feature-libs/asm run build:schematics && ng build asm --prod",
+    "release:asm:with-changelog": "cd feature-libs/asm && release-it && cd ../..",
 ```
 
-And replace `myaccount` and `my-account` instances with the name of yours lib.
+And replace `asm` instances with the name of yours lib.
 
 Optionally, add the generated lib to the `build:libs` and `test:libs` scripts.
 
