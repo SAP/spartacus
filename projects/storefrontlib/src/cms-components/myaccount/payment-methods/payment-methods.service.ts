@@ -21,11 +21,10 @@ export class PaymentMethodsService {
   constructor(
     protected userPaymentService: UserPaymentService,
     protected translation: TranslationService
-  ) {
-    this.userPaymentService.loadPaymentMethods();
-  }
+  ) {}
 
   get(): Observable<PaymentDetails[]> {
+    this.userPaymentService.loadPaymentMethods();
     return this.userPaymentService.getPaymentMethods().pipe(
       tap((paymentDetails) => {
         // Set first payment method to DEFAULT if none is set

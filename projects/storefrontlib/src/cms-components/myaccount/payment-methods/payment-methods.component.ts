@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { PaymentDetails } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { defer, Observable } from 'rxjs';
 import { Card } from '../../../shared';
 import { PaymentMethodsService } from './payment-methods.service';
 
@@ -10,7 +10,7 @@ import { PaymentMethodsService } from './payment-methods.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaymentMethodsComponent {
-  paymentMethods$ = this.service.get();
+  paymentMethods$ = defer(() => this.service.get());
   loading$ = this.service.loading$;
 
   constructor(protected service: PaymentMethodsService) {}

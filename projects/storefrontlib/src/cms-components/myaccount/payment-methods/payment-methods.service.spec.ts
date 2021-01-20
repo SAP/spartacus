@@ -69,8 +69,10 @@ describe('PaymentMethodsService', () => {
     spyOn(userPaymentService, 'getPaymentMethods').and.returnValue(
       of([mockPayment, mockPayment])
     );
+    spyOn(userPaymentService, 'loadPaymentMethods').and.stub();
 
     service.get();
+    expect(userPaymentService.loadPaymentMethods).toHaveBeenCalled();
     expect(userPaymentService.getPaymentMethods).toHaveBeenCalled();
   });
 
