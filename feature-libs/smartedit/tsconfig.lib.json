@@ -1,7 +1,6 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "strict": true,
     "outDir": "../../out-tsc/lib",
     "target": "es2015",
     "module": "es2020",
