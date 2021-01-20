@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BulkPricesService } from '../../core/services/bulk-prices.service';
 import { RoutingService } from '@spartacus/core';
 import { BulkPrice } from '../../core/model/bulk-price.model';
@@ -9,19 +9,23 @@ import { switchMap } from 'rxjs/operators';
   selector: 'cx-bulk-pricing-table',
   templateUrl: './bulk-pricing-table.component.html',
 })
-export class BulkPricingTableComponent {
+export class BulkPricingTableComponent implements OnInit {
   protected readonly PRODUCT_KEY = 'productCode';
 
-  priceTiers$: Observable<BulkPrice[]> = this.getPrices();
+  priceTiers$: Observable<BulkPrice[]>;
 
   constructor(
     protected routingService: RoutingService,
     protected bulkPrices: BulkPricesService
   ) {}
 
+  ngOnInit() {
+    this.priceTiers$ = this.getPrices();
+  }
+
   formatQuantity(tier: BulkPrice): string {
     let formattedQuantityRange = '';
-    if (tier.maxQuantity == null) {
+    if (tier.maxQuantity === null) {
       formattedQuantityRange = tier.minQuantity + '+';
     } else {
       formattedQuantityRange = tier.minQuantity + ' - ' + tier.maxQuantity;
