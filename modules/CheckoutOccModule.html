@@ -70,21 +70,37 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule } from &#x27;@angular/core&#x27;;
-import { CommonModule } from &#x27;@angular/common&#x27;;
-import { HttpClientModule } from &#x27;@angular/common/http&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
+import { NgModule } from &#x27;@angular/core&#x27;;
 import { CheckoutAdapter } from &#x27;../../../checkout/connectors/checkout/checkout.adapter&#x27;;
-import { OccCheckoutAdapter } from &#x27;./occ-checkout.adapter&#x27;;
-import { OccOrderNormalizer } from &#x27;./converters/occ-order-normalizer&#x27;;
 import { ORDER_NORMALIZER } from &#x27;../../../checkout/connectors/checkout/converters&#x27;;
+import { CheckoutCostCenterAdapter } from &#x27;../../../checkout/connectors/cost-center/checkout-cost-center.adapter&#x27;;
 import { CheckoutDeliveryAdapter } from &#x27;../../../checkout/connectors/delivery/checkout-delivery.adapter&#x27;;
-import { OccCheckoutDeliveryAdapter } from &#x27;./occ-checkout-delivery.adapter&#x27;;
+import {
+  CheckoutReplenishmentOrderAdapter,
+  REPLENISHMENT_ORDER_FORM_SERIALIZER,
+  REPLENISHMENT_ORDER_NORMALIZER,
+} from &#x27;../../../checkout/connectors/index&#x27;;
+import { PaymentTypeAdapter } from &#x27;../../../checkout/connectors/payment-type/payment-type.adapter&#x27;;
 import { CheckoutPaymentAdapter } from &#x27;../../../checkout/connectors/payment/checkout-payment.adapter&#x27;;
+import { provideDefaultConfig } from &#x27;../../../config/config-providers&#x27;;
+import {
+  OccOrderNormalizer,
+  OccReplenishmentOrderFormSerializer,
+  OccReplenishmentOrderNormalizer,
+} from &#x27;./converters/index&#x27;;
+import { defaultOccCheckoutConfig } from &#x27;./default-occ-checkout-config&#x27;;
+import { OccCheckoutCostCenterAdapter } from &#x27;./occ-checkout-cost-center.adapter&#x27;;
+import { OccCheckoutDeliveryAdapter } from &#x27;./occ-checkout-delivery.adapter&#x27;;
+import { OccCheckoutPaymentTypeAdapter } from &#x27;./occ-checkout-payment-type.adapter&#x27;;
 import { OccCheckoutPaymentAdapter } from &#x27;./occ-checkout-payment.adapter&#x27;;
+import { OccCheckoutReplenishmentOrderAdapter } from &#x27;./occ-checkout-replenishment-order.adapter&#x27;;
+import { OccCheckoutAdapter } from &#x27;./occ-checkout.adapter&#x27;;
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule],
   providers: [
+    provideDefaultConfig(defaultOccCheckoutConfig),
     {
       provide: CheckoutAdapter,
       useClass: OccCheckoutAdapter,
@@ -97,6 +113,28 @@ import { OccCheckoutPaymentAdapter } from &#x27;./occ-checkout-payment.adapter&#
     {
       provide: CheckoutPaymentAdapter,
       useClass: OccCheckoutPaymentAdapter,
+    },
+    {
+      provide: PaymentTypeAdapter,
+      useClass: OccCheckoutPaymentTypeAdapter,
+    },
+    {
+      provide: CheckoutCostCenterAdapter,
+      useClass: OccCheckoutCostCenterAdapter,
+    },
+    {
+      provide: CheckoutReplenishmentOrderAdapter,
+      useClass: OccCheckoutReplenishmentOrderAdapter,
+    },
+    {
+      provide: REPLENISHMENT_ORDER_NORMALIZER,
+      useExisting: OccReplenishmentOrderNormalizer,
+      multi: true,
+    },
+    {
+      provide: REPLENISHMENT_ORDER_FORM_SERIALIZER,
+      useExisting: OccReplenishmentOrderFormSerializer,
+      multi: true,
     },
   ],
 })
@@ -137,6 +175,7 @@ export class CheckoutOccModule {}
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
             var COMPODOC_CURRENT_PAGE_URL = 'CheckoutOccModule.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

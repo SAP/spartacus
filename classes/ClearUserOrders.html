@@ -107,7 +107,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/core/src/user/store/actions/user-orders.action.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/core/src/user/store/actions/user-orders.action.ts:40</a></div>
                             </td>
                         </tr>
 
@@ -140,7 +140,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/core/src/user/store/actions/user-orders.action.ts:39</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/core/src/user/store/actions/user-orders.action.ts:40</a></div>
                             </td>
                         </tr>
 
@@ -173,9 +173,10 @@ export class LoadUserOrders extends StateUtils.LoaderLoadAction {
   constructor(
     public payload: {
       userId: string;
-      pageSize: number;
+      pageSize?: number;
       currentPage?: number;
       sort?: string;
+      replenishmentOrderCode?: string;
     }
   ) {
     super(USER_ORDERS);
@@ -237,6 +238,7 @@ export type UserOrdersAction &#x3D;
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
             var COMPODOC_CURRENT_PAGE_URL = 'ClearUserOrders.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

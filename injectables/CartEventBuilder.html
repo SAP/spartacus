@@ -98,6 +98,14 @@
                                     <span class="modifier">Protected</span>
                                 <a href="#registerMapped">registerMapped</a>
                             </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#registerRemoveEntry">registerRemoveEntry</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#registerUpdateEntry">registerUpdateEntry</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -121,7 +129,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">projects/core/src/cart/event/cart-event.builder.ts:21</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">projects/core/src/cart/event/cart-event.builder.ts:23</a></div>
                             </td>
                         </tr>
 
@@ -212,8 +220,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="78"
-                            class="link-to-prism">projects/core/src/cart/event/cart-event.builder.ts:78</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="114"
+                            class="link-to-prism">projects/core/src/cart/event/cart-event.builder.ts:114</a></div>
                 </td>
             </tr>
 
@@ -291,8 +299,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="33"
-                            class="link-to-prism">projects/core/src/cart/event/cart-event.builder.ts:33</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">projects/core/src/cart/event/cart-event.builder.ts:35</a></div>
                 </td>
             </tr>
 
@@ -334,8 +342,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">projects/core/src/cart/event/cart-event.builder.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="44"
+                            class="link-to-prism">projects/core/src/cart/event/cart-event.builder.ts:44</a></div>
                 </td>
             </tr>
 
@@ -377,8 +385,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">projects/core/src/cart/event/cart-event.builder.ts:61</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="79"
+                            class="link-to-prism">projects/core/src/cart/event/cart-event.builder.ts:79</a></div>
                 </td>
             </tr>
 
@@ -441,6 +449,88 @@
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="registerRemoveEntry"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            registerRemoveEntry
+                        </b>
+                        <a href="#registerRemoveEntry"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>registerRemoveEntry()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">projects/core/src/cart/event/cart-event.builder.ts:59</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="registerUpdateEntry"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            registerUpdateEntry
+                        </b>
+                        <a href="#registerUpdateEntry"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>registerUpdateEntry()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="66"
+                            class="link-to-prism">projects/core/src/cart/event/cart-event.builder.ts:66</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
 
     </div>
@@ -450,8 +540,8 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { ofType } from &#x27;@ngrx/effects&#x27;;
 import { ActionsSubject } from &#x27;@ngrx/store&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
-import { filter, map, withLatestFrom } from &#x27;rxjs/operators&#x27;;
+import { Observable, of } from &#x27;rxjs&#x27;;
+import { filter, map, switchMap, withLatestFrom } from &#x27;rxjs/operators&#x27;;
 import { EventService } from &#x27;../../event/event.service&#x27;;
 import { ActionToEventMapping } from &#x27;../../state/event/action-to-event-mapping&#x27;;
 import { createFrom } from &#x27;../../util/create-from&#x27;;
@@ -461,6 +551,8 @@ import {
   CartAddEntryEvent,
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
+  CartRemoveEntrySuccessEvent,
+  CartUpdateEntrySuccessEvent,
 } from &#x27;./cart.events&#x27;;
 
 /**
@@ -481,12 +573,14 @@ export class CartEventBuilder {
    */
   protected register() {
     this.registerAddEntry();
+    this.registerRemoveEntry();
+    this.registerUpdateEntry();
   }
 
   /**
    * Register events for adding entry to the active cart
    */
-  protected registerAddEntry() {
+  protected registerAddEntry(): void {
     this.registerMapped({
       action: CartActions.CART_ADD_ENTRY,
       event: CartAddEntryEvent,
@@ -501,6 +595,20 @@ export class CartEventBuilder {
     });
   }
 
+  protected registerRemoveEntry(): void {
+    this.registerMapped({
+      action: CartActions.CART_REMOVE_ENTRY_SUCCESS,
+      event: CartRemoveEntrySuccessEvent,
+    });
+  }
+
+  protected registerUpdateEntry(): void {
+    this.registerMapped({
+      action: CartActions.CART_UPDATE_ENTRY_SUCCESS,
+      event: CartUpdateEntrySuccessEvent,
+    });
+  }
+
   /**
    * Registers a stream of target events mapped from the source actions that contain the cart id equal to the active cart id.
    *
@@ -509,13 +617,31 @@ export class CartEventBuilder {
    */
   protected registerMapped&lt;T&gt;(mapping: ActionToEventMapping&lt;T&gt;): () &#x3D;&gt; void {
     const eventStream$ &#x3D; this.getAction(mapping.action).pipe(
-      withLatestFrom(this.activeCartService.getActiveCartId()),
+      switchMap((action) &#x3D;&gt; {
+        // SwitchMap was used instead of withLatestFrom, because we only want to subscribe to cart stream when action is dispatched.
+        // Using withLatestFrom would trigger subscription to cart observables on event subscription and that causes side effects,
+        // such as loading cart when we don&#x27;t yet need it.
+        return of(action).pipe(
+          withLatestFrom(
+            this.activeCartService.getActive(),
+            this.activeCartService.getActiveCartId()
+          )
+        );
+      }),
       filter(
-        ([action, activeCartId]) &#x3D;&gt; action.payload[&#x27;cartId&#x27;] &#x3D;&#x3D;&#x3D; activeCartId // assuming that action&#x27;s payload contains the cart id
+        ([action, _activeCart, activeCartId]) &#x3D;&gt;
+          action.payload[&#x27;cartId&#x27;] &#x3D;&#x3D;&#x3D; activeCartId
       ),
-      map(([action]) &#x3D;&gt; createFrom(mapping.event, action.payload))
+      map(([action, activeCart]) &#x3D;&gt;
+        createFrom(mapping.event, {
+          ...action.payload,
+          cartCode: activeCart.code,
+          entry: action.payload.entry
+            ? action.payload.entry
+            : activeCart.entries[Number(action.payload.entryNumber)],
+        })
+      )
     );
-
     return this.event.register(mapping.event, eventStream$);
   }
 
@@ -564,6 +690,7 @@ export class CartEventBuilder {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CartEventBuilder.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

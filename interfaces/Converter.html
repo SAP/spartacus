@@ -128,8 +128,8 @@ By convention, we distinguish two flows:</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="21"
-                            class="link-to-prism">projects/core/src/util/converter.service.ts:21</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">projects/core/src/util/converter.service.ts:23</a></div>
                 </td>
             </tr>
 
@@ -206,9 +206,11 @@ used in case of stacking multiple converters (for example, to implement populato
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, InjectionToken, Injector } from &#x27;@angular/core&#x27;;
-import { Observable, OperatorFunction } from &#x27;rxjs&#x27;;
-import { map } from &#x27;rxjs/operators&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, InjectionToken, OnDestroy } from &#x27;@angular/core&#x27;;
+import { Observable, OperatorFunction, Subscription } from &#x27;rxjs&#x27;;
+import { map, tap } from &#x27;rxjs/operators&#x27;;
+import { UnifiedInjector } from &#x27;../lazy-loading/unified-injector&#x27;;
+import { getLastValueSync } from &#x27;./rxjs/get-last-value-sync&#x27;;
 
 /**
  * Converter is used to convert source data model to target data model.
@@ -232,8 +234,17 @@ export interface Converter&lt;S, T&gt; {
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
-export class ConverterService {
-  constructor(protected injector: Injector) {}
+export class ConverterService implements OnDestroy {
+  protected subscriptions &#x3D; new Subscription();
+
+  constructor(protected unifiedInjector: UnifiedInjector) {
+    // Clear cached converters when new injectors appear
+    const cacheResetLogic &#x3D; this.unifiedInjector.injectors$.pipe(
+      tap(() &#x3D;&gt; this.converters.clear())
+    );
+
+    this.subscriptions.add(cacheResetLogic.subscribe());
+  }
 
   private converters: Map&lt;
     InjectionToken&lt;Converter&lt;any, any&gt;&gt;,
@@ -244,16 +255,9 @@ export class ConverterService {
     injectionToken: InjectionToken&lt;Converter&lt;S, T&gt;&gt;
   ): Converter&lt;S, T&gt;[] {
     if (!this.converters.has(injectionToken)) {
-      const converters &#x3D; this.injector.get&lt;Converter&lt;S, T&gt;[]&gt;(
-        injectionToken,
-        []
+      const converters &#x3D; getLastValueSync(
+        this.unifiedInjector.getMulti(injectionToken)
       );
-      if (!Array.isArray(converters)) {
-        console.warn(
-          &#x27;Converter must be multi-provided, please use &quot;multi: true&quot; for&#x27;,
-          injectionToken.toString()
-        );
-      }
       this.converters.set(injectionToken, converters);
     }
 
@@ -331,6 +335,10 @@ export class ConverterService {
       return converter.convert(source, target);
     }, undefined as T);
   }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
 }
 </code></pre>
     </div>
@@ -360,6 +368,7 @@ export class ConverterService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'Converter.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

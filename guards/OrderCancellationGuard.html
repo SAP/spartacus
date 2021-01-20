@@ -99,7 +99,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(routing: <a href="../injectables/RoutingService.html">RoutingService</a>, orderAmendService: <a href="../injectables/OrderCancellationService.html">OrderCancellationService</a>)</code>
+<code>constructor(orderAmendService: <a href="../injectables/OrderCancellationService.html">OrderCancellationService</a>, semanticPathService: <a href="../injectables/SemanticPathService.html">SemanticPathService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -122,10 +122,10 @@
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>routing</td>
+                                                        <td>orderAmendService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/RoutingService.html" target="_self" >RoutingService</a></code>
+                                                                        <code><a href="../injectables/OrderCancellationService.html" target="_self" >OrderCancellationService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -134,10 +134,22 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>orderAmendService</td>
+                                                        <td>semanticPathService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/OrderCancellationService.html" target="_self" >OrderCancellationService</a></code>
+                                                                        <code><a href="../injectables/SemanticPathService.html" target="_self" >SemanticPathService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>router</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -181,8 +193,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/amend-order/cancellations/order-cancellation.guard.ts:17</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/amend-order/cancellations/order-cancellation.guard.ts:18</a></div>
                 </td>
             </tr>
 
@@ -204,8 +216,8 @@
 
         <div class="tab-pane fade  tab-source-code" id="c-source">
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { CanActivate, UrlTree } from &#x27;@angular/router&#x27;;
-import { RoutingService } from &#x27;@spartacus/core&#x27;;
+import { CanActivate, Router, UrlTree } from &#x27;@angular/router&#x27;;
+import { SemanticPathService } from &#x27;@spartacus/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { map } from &#x27;rxjs/operators&#x27;;
 import { OrderCancellationService } from &#x27;./order-cancellation.service&#x27;;
@@ -215,8 +227,9 @@ import { OrderCancellationService } from &#x27;./order-cancellation.service&#x27
 })
 export class OrderCancellationGuard implements CanActivate {
   constructor(
-    protected routing: RoutingService,
-    protected orderAmendService: OrderCancellationService
+    protected orderAmendService: OrderCancellationService,
+    protected semanticPathService: SemanticPathService,
+    protected router: Router
   ) {}
 
   canActivate(): Observable&lt;boolean | UrlTree&gt; {
@@ -226,8 +239,7 @@ export class OrderCancellationGuard implements CanActivate {
           // the order code is not available in the route
           // as long as we&#x27;re inside a guard, hence we redirect
           // to the common orders page.
-          this.routing.go({ cxRoute: &#x27;orders&#x27; });
-          return false;
+          return this.router.parseUrl(this.semanticPathService.get(&#x27;orders&#x27;));
         } else {
           return true;
         }
@@ -266,6 +278,7 @@ export class OrderCancellationGuard implements CanActivate {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'guard';
             var COMPODOC_CURRENT_PAGE_URL = 'OrderCancellationGuard.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

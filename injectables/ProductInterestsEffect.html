@@ -204,9 +204,7 @@
           ]),
           catchError((error) &#x3D;&gt;
             of(
-              new UserActions.AddProductInterestFail(
-                makeErrorSerializable(error)
-              )
+              new UserActions.AddProductInterestFail(normalizeHttpError(error))
             )
           )
         )
@@ -272,7 +270,7 @@
           catchError((error) &#x3D;&gt;
             of(
               new UserActions.LoadProductInterestsFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -342,7 +340,7 @@
           catchError((error) &#x3D;&gt;
             of(
               new UserActions.RemoveProductInterestFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -384,7 +382,7 @@ import { map, switchMap, catchError } from &#x27;rxjs/operators&#x27;;
 import { UserActions } from &#x27;../actions/index&#x27;;
 import { ProductInterestSearchResult } from &#x27;../../../model/product-interest.model&#x27;;
 import { UserInterestsConnector } from &#x27;../../connectors/interests/user-interests.connector&#x27;;
-import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
+import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
 
 @Injectable()
 export class ProductInterestsEffect {
@@ -416,7 +414,7 @@ export class ProductInterestsEffect {
           catchError((error) &#x3D;&gt;
             of(
               new UserActions.LoadProductInterestsFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -448,7 +446,7 @@ export class ProductInterestsEffect {
           catchError((error) &#x3D;&gt;
             of(
               new UserActions.RemoveProductInterestFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -478,9 +476,7 @@ export class ProductInterestsEffect {
           ]),
           catchError((error) &#x3D;&gt;
             of(
-              new UserActions.AddProductInterestFail(
-                makeErrorSerializable(error)
-              )
+              new UserActions.AddProductInterestFail(normalizeHttpError(error))
             )
           )
         )
@@ -521,6 +517,7 @@ export class ProductInterestsEffect {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'ProductInterestsEffect.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -288,7 +288,7 @@
                         <td class="col-md-4">
                                 <div class="io-description"><p>Returns an observable for the window resize event and emits an event
 every 300ms in case of resizing. An event is simulated initially.</p>
-<p>If there&#39;s no window object availale (i.e. in SSR), a null value is emitted.</p>
+<p>If there&#39;s no window object available (i.e. in SSR), a null value is emitted.</p>
 </div>
 
                                 <div class="io-description">
@@ -338,7 +338,7 @@ export class WindowRef {
    * Returns an observable for the window resize event and emits an event
    * every 300ms in case of resizing. An event is simulated initially.
    *
-   * If there&#x27;s no window object availale (i.e. in SSR), a null value is emitted.
+   * If there&#x27;s no window object available (i.e. in SSR), a null value is emitted.
    */
   get resize$(): Observable&lt;any&gt; {
     if (!this.nativeWindow) {
@@ -386,6 +386,7 @@ export class WindowRef {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'WindowRef.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

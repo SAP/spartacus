@@ -280,7 +280,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { JsonObject, logging } from &#x27;@angular-devkit/core&#x27;;
 import chalk from &#x27;chalk&#x27;;
-import * as program from &#x27;commander&#x27;;
+import program from &#x27;commander&#x27;;
 import * as ejs from &#x27;ejs&#x27;;
 import * as fs from &#x27;fs&#x27;;
 import * as path from &#x27;path&#x27;;
@@ -354,10 +354,12 @@ export default async function run(
     &#x27;@spartacus/assets&#x27;: &#x27;projects/assets&#x27;,
     &#x27;@spartacus/schematics&#x27;: &#x27;projects/schematics&#x27;,
     &#x27;@spartacus/incubator&#x27;: &#x27;projects/incubator&#x27;,
-    &#x27;@spartacus/cds&#x27;: &#x27;projects/cds&#x27;,
-    &#x27;@spartacus/my-account&#x27;: &#x27;feature-libs/my-account&#x27;,
+    &#x27;@spartacus/cds&#x27;: &#x27;integration-libs/cds&#x27;,
+    &#x27;@spartacus/organization&#x27;: &#x27;feature-libs/organization&#x27;,
     &#x27;@spartacus/product&#x27;: &#x27;feature-libs/product&#x27;,
+    &#x27;@spartacus/storefinder&#x27;: &#x27;feature-libs/storefinder&#x27;,
     &#x27;@spartacus/cdc&#x27;: &#x27;integration-libs/cdc&#x27;,
+    &#x27;@spartacus/setup&#x27;: &#x27;core-libs/setup&#x27;,
   };
 
   const duplexUtil &#x3D; through(function (chunk, _, callback) {
@@ -566,11 +568,9 @@ if (typeof config.to &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) {
     case &#x27;@spartacus/cds&#x27;:
       config.library &#x3D; &#x27;@spartacus/cds&#x27;;
       break;
-    case &#x27;myaccount&#x27;:
-    case &#x27;my-account&#x27;:
-    case &#x27;@spartacus/my-account&#x27;:
-    case &#x27;@spartacus/myaccount&#x27;:
-      config.library &#x3D; &#x27;@spartacus/my-account&#x27;;
+    case &#x27;organization&#x27;:
+    case &#x27;@spartacus/organization&#x27;:
+      config.library &#x3D; &#x27;@spartacus/organization&#x27;;
       break;
     case &#x27;product&#x27;:
     case &#x27;@spartacus/product&#x27;:
@@ -584,6 +584,14 @@ if (typeof config.to &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) {
     case &#x27;cdc&#x27;:
     case &#x27;@spartacus/cdc&#x27;:
       config.library &#x3D; &#x27;@spartacus/cdc&#x27;;
+      break;
+    case &#x27;storefinder&#x27;:
+    case &#x27;@spartacus/storefinder&#x27;:
+      config.library &#x3D; &#x27;@spartacus/storefinder&#x27;;
+      break;
+    case &#x27;setup&#x27;:
+    case &#x27;@spartacus/setup&#x27;:
+      config.library &#x3D; &#x27;@spartacus/setup&#x27;;
       break;
     default:
       config.library &#x3D; undefined;
@@ -619,6 +627,7 @@ run(config, new logging.NullLogger());
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'ChangelogOptions.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

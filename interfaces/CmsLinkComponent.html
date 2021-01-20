@@ -106,6 +106,10 @@
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
+                                        <a href="#styleAttributes">styleAttributes</a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#target">target</a>
                                 </li>
                                 <li>
@@ -297,13 +301,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="target"></a>
-                                        <span class="name"><b>target</b><a href="#target"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="styleAttributes"></a>
+                                        <span class="name"><b>styleAttributes</b><a href="#styleAttributes"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>target:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                        <code>styleAttributes:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -311,7 +315,49 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Style rules can be added to the CMS Link component to enhance the UX.
+The style attributes are typically derived from the (CMS) backend.</p>
+<p>The styleAttributes can contain a &quot;list&quot; of semicolon separated style rules.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="target"></a>
+                                        <span class="name"><b>target</b><a href="#target"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>target:     <code>string | boolean</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>string | boolean</code>
 
                                         </td>
                                     </tr>
@@ -372,6 +418,15 @@
   otherProperties?: any;
   typeCode?: string;
   uid?: string;
+
+  /**
+   * Style classes can be added to the CMS banner component to enhance the UX.
+   * The style classes are typically derived from the (CMS) backend and should
+   * match an existing CSS selector.
+   *
+   * The styleClasses can contain a &quot;list&quot; of space separated style classes.
+   */
+  styleClasses?: string;
 }
 
 export enum PageType {
@@ -388,7 +443,15 @@ export interface CmsLinkComponent extends CmsComponent {
   contentPage?: string;
   contentPageLabelOrId?: string;
   linkName?: string;
-  target?: boolean;
+  target?: string | boolean;
+
+  /**
+   * Style rules can be added to the CMS Link component to enhance the UX.
+   * The style attributes are typically derived from the (CMS) backend.
+   *
+   * The styleAttributes can contain a &quot;list&quot; of semicolon separated style rules.
+   */
+  styleAttributes?: string;
 }
 
 export interface CmsSiteContextSelectorComponent extends CmsComponent {
@@ -437,7 +500,7 @@ export interface CmsBannerComponent extends CmsComponent {
   container?: string;
   media?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia;
   urlLink?: string;
-  external?: string;
+  external?: string | boolean;
 }
 
 export enum CmsBannerCarouselEffect {
@@ -538,6 +601,7 @@ export interface CmsProductFacetNavigationComponent extends CmsComponent {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'CmsLinkComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

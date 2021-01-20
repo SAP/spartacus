@@ -56,9 +56,17 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/auth/services/client-error/client-error-handling.service.ts</code>
+            <code>projects/core/src/auth/client-auth/services/client-error-handling.service.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Service for handling <code>Authorization</code> header and errors for requests that
+require client token (eg. user registration).</p>
+
+            </p>
 
 
 
@@ -101,12 +109,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(authService: <a href="../injectables/AuthService.html">AuthService</a>)</code>
+<code>constructor(clientTokenService: <a href="../injectables/ClientTokenService.html">ClientTokenService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/core/src/auth/services/client-error/client-error-handling.service.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/core/src/auth/client-auth/services/client-error-handling.service.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -124,10 +132,10 @@
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>authService</td>
+                                                        <td>clientTokenService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                                        <code><a href="../injectables/ClientTokenService.html" target="_self" >ClientTokenService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -173,14 +181,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">projects/core/src/auth/services/client-error/client-error-handling.service.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">projects/core/src/auth/client-auth/services/client-error-handling.service.ts:42</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Clones the requests and provided <code>Authorization</code> header.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -257,14 +267,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">projects/core/src/auth/services/client-error/client-error-handling.service.ts:16</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">projects/core/src/auth/client-auth/services/client-error-handling.service.ts:24</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Refreshes client token and retries the request with the new token.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -323,26 +335,34 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { HttpRequest, HttpHandler } from &#x27;@angular/common/http&#x27;;
-
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpHandler, HttpRequest } from &#x27;@angular/common/http&#x27;;
+import { Injectable } from &#x27;@angular/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { switchMap, take } from &#x27;rxjs/operators&#x27;;
+import { ClientToken } from &#x27;../models/client-token.model&#x27;;
+import { ClientTokenService } from &#x27;./client-token.service&#x27;;
 
-import { AuthService } from &#x27;../../facade/auth.service&#x27;;
-import { ClientToken } from &#x27;../../models/token-types.model&#x27;;
-
+/**
+ * Service for handling &#x60;Authorization&#x60; header and errors for requests that
+ * require client token (eg. user registration).
+ */
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
 export class ClientErrorHandlingService {
-  constructor(protected authService: AuthService) {}
+  constructor(protected clientTokenService: ClientTokenService) {}
 
+  /**
+   * Refreshes client token and retries the request with the new token.
+   *
+   * @param request
+   * @param httpHandler
+   */
   public handleExpiredClientToken(
     request: HttpRequest&lt;any&gt;,
     next: HttpHandler
   ): Observable&lt;any&gt; {
-    return this.authService.refreshClientToken().pipe(
+    return this.clientTokenService.refreshClientToken().pipe(
       take(1),
       switchMap((token: ClientToken) &#x3D;&gt; {
         return next.handle(this.createNewRequestWithNewToken(request, token));
@@ -350,13 +370,19 @@ export class ClientErrorHandlingService {
     );
   }
 
+  /**
+   * Clones the requests and provided &#x60;Authorization&#x60; header.
+   *
+   * @param request
+   * @param token
+   */
   protected createNewRequestWithNewToken(
     request: HttpRequest&lt;any&gt;,
     token: ClientToken
   ): HttpRequest&lt;any&gt; {
     request &#x3D; request.clone({
       setHeaders: {
-        Authorization: &#x60;${token.token_type} ${token.access_token}&#x60;,
+        Authorization: &#x60;${token.token_type || &#x27;Bearer&#x27;} ${token.access_token}&#x60;,
       },
     });
     return request;
@@ -396,6 +422,7 @@ export class ClientErrorHandlingService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'ClientErrorHandlingService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

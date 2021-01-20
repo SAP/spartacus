@@ -82,6 +82,10 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Static</span>
+                                <a href="#dateRange">dateRange</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
                                 <a href="#emailsMustMatch">emailsMustMatch</a>
                             </li>
                             <li>
@@ -90,11 +94,23 @@
                             </li>
                             <li>
                                     <span class="modifier">Static</span>
+                                <a href="#mustBePositive">mustBePositive</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#noSpecialCharacters">noSpecialCharacters</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
                                 <a href="#passwordsMustMatch">passwordsMustMatch</a>
                             </li>
                             <li>
                                     <span class="modifier">Static</span>
                                 <a href="#passwordValidator">passwordValidator</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#patternValidation">patternValidation</a>
                             </li>
                             <li>
                                     <span class="modifier">Static</span>
@@ -123,6 +139,119 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="dateRange"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Static</span>
+                            dateRange
+                        </b>
+                        <a href="#dateRange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>dateRange(startDateKey: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, endDateKey: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, getDate: (value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>) => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="188"
+                            class="link-to-prism">projects/storefrontlib/src/shared/utils/validators/custom-form-validators.ts:188</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Checks if two email controls match</p>
+<p>NOTE: Use it as a form validator and pass dates for range</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>startDateKey</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>First date control name</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>endDateKey</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Second date control name</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>getDate</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Converting function</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Uses &#39;min&#39; and &#39;max validator error</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="emailsMustMatch"></a>
                     <span class="name">
                         <b>
@@ -143,8 +272,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="94"
-                            class="link-to-prism">projects/storefrontlib/src/shared/utils/validators/custom-form-validators.ts:94</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="99"
+                            class="link-to-prism">projects/storefrontlib/src/shared/utils/validators/custom-form-validators.ts:99</a></div>
                 </td>
             </tr>
 
@@ -240,8 +369,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="15"
-                            class="link-to-prism">projects/storefrontlib/src/shared/utils/validators/custom-form-validators.ts:15</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">projects/storefrontlib/src/shared/utils/validators/custom-form-validators.ts:20</a></div>
                 </td>
             </tr>
 
@@ -296,6 +425,158 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="mustBePositive"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Static</span>
+                            mustBePositive
+                        </b>
+                        <a href="#mustBePositive"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>mustBePositive(control: <a href="https://angular.io/api/forms/AbstractControl" target="_blank">AbstractControl</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="121"
+                            class="link-to-prism">projects/storefrontlib/src/shared/utils/validators/custom-form-validators.ts:121</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Checks if control&#39;s value is euqal or greater than 0</p>
+<p>NOTE: Use it as a control validator</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>control</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/forms/AbstractControl" target="_blank" >AbstractControl</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>ValidationErrors | null</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Uses &#39;cxNegativeAmount&#39; validator error</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="noSpecialCharacters"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Static</span>
+                            noSpecialCharacters
+                        </b>
+                        <a href="#noSpecialCharacters"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>noSpecialCharacters(control: <a href="https://angular.io/api/forms/AbstractControl" target="_blank">AbstractControl</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="137"
+                            class="link-to-prism">projects/storefrontlib/src/shared/utils/validators/custom-form-validators.ts:137</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Checks if control&#39;s value does not contain any special characters</p>
+<p>NOTE: Use it as a control validator</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>control</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/forms/AbstractControl" target="_blank" >AbstractControl</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>ValidationErrors | null</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Uses &#39;cxContainsSpecialCharacters&#39; validator error</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="passwordsMustMatch"></a>
                     <span class="name">
                         <b>
@@ -316,8 +597,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="68"
-                            class="link-to-prism">projects/storefrontlib/src/shared/utils/validators/custom-form-validators.ts:68</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="73"
+                            class="link-to-prism">projects/storefrontlib/src/shared/utils/validators/custom-form-validators.ts:73</a></div>
                 </td>
             </tr>
 
@@ -413,8 +694,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="33"
-                            class="link-to-prism">projects/storefrontlib/src/shared/utils/validators/custom-form-validators.ts:33</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">projects/storefrontlib/src/shared/utils/validators/custom-form-validators.ts:38</a></div>
                 </td>
             </tr>
 
@@ -469,6 +750,87 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="patternValidation"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Static</span>
+                            patternValidation
+                        </b>
+                        <a href="#patternValidation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>patternValidation(isValidFormat: (date: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>) => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="159"
+                            class="link-to-prism">projects/storefrontlib/src/shared/utils/validators/custom-form-validators.ts:159</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Checks if control&#39;s value passes pattern</p>
+<p>NOTE: Use it as a control validator</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>isValidFormat</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Pattern verification function</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://angular.io/api/forms/ValidatorFn" target="_blank" >ValidatorFn</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>: ValidationErrors | null} Uses &#39;pattern&#39; validator error</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="starRatingEmpty"></a>
                     <span class="name">
                         <b>
@@ -489,8 +851,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="51"
-                            class="link-to-prism">projects/storefrontlib/src/shared/utils/validators/custom-form-validators.ts:51</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="56"
+                            class="link-to-prism">projects/storefrontlib/src/shared/utils/validators/custom-form-validators.ts:56</a></div>
                 </td>
             </tr>
 
@@ -551,7 +913,12 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { AbstractControl, ValidationErrors, FormGroup } from &#x27;@angular/forms&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  AbstractControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+} from &#x27;@angular/forms&#x27;;
 import { EMAIL_PATTERN, PASSWORD_PATTERN } from &#x27;@spartacus/core&#x27;;
 
 export class CustomFormValidators {
@@ -568,7 +935,7 @@ export class CustomFormValidators {
   static emailValidator(control: AbstractControl): ValidationErrors | null {
     const email &#x3D; control.value as string;
 
-    return !email.length || email.match(EMAIL_PATTERN)
+    return email &amp;&amp; (!email.length || email.match(EMAIL_PATTERN))
       ? null
       : { cxInvalidEmail: true };
   }
@@ -586,7 +953,7 @@ export class CustomFormValidators {
   static passwordValidator(control: AbstractControl): ValidationErrors | null {
     const password &#x3D; control.value as string;
 
-    return !password.length || password.match(PASSWORD_PATTERN)
+    return password &amp;&amp; (!password.length || password.match(PASSWORD_PATTERN))
       ? null
       : { cxInvalidPassword: true };
   }
@@ -655,6 +1022,108 @@ export class CustomFormValidators {
 
     return validator;
   }
+
+  /**
+   * Checks if control&#x27;s value is euqal or greater than 0
+   *
+   * NOTE: Use it as a control validator
+   *
+   * @static
+   * @param {AbstractControl} control
+   * @returns {(ValidationErrors | null)} Uses &#x27;cxNegativeAmount&#x27; validator error
+   * @memberof CustomFormValidators
+   */
+  static mustBePositive(control: AbstractControl): ValidationErrors | null {
+    const amount &#x3D; control.value as number;
+
+    return amount &gt;&#x3D; 0 ? null : { cxNegativeAmount: true };
+  }
+
+  /**
+   * Checks if control&#x27;s value does not contain any special characters
+   *
+   * NOTE: Use it as a control validator
+   *
+   * @static
+   * @param {AbstractControl} control
+   * @returns {(ValidationErrors | null)} Uses &#x27;cxContainsSpecialCharacters&#x27; validator error
+   * @memberof CustomFormValidators
+   */
+  static noSpecialCharacters(
+    control: AbstractControl
+  ): ValidationErrors | null {
+    const forbiddenChars &#x3D; [&#x27;/&#x27;];
+    const str &#x3D; String(control.value);
+    const containsSpecialChars &#x3D; forbiddenChars.some((char) &#x3D;&gt;
+      str.includes(char)
+    );
+
+    return !containsSpecialChars ? null : { cxContainsSpecialCharacters: true };
+  }
+
+  /**
+   * Checks if control&#x27;s value passes pattern
+   *
+   * NOTE: Use it as a control validator
+   *
+   * @static
+   * @param {(date: string) &#x3D;&gt; boolean} isValidFormat Pattern verification function
+   * @returns {(control: AbstractControl): ValidationErrors | null} Uses &#x27;pattern&#x27; validator error
+   * @memberof CustomFormValidators
+   */
+  static patternValidation(
+    isValidFormat: (date: string) &#x3D;&gt; boolean
+  ): ValidatorFn {
+    const validator &#x3D; (control: AbstractControl): ValidationErrors | null &#x3D;&gt; {
+      const errors: ValidationErrors &#x3D; {};
+      if (
+        control.value &amp;&amp;
+        control.value !&#x3D;&#x3D; &#x27;&#x27; &amp;&amp;
+        !isValidFormat(control.value)
+      ) {
+        errors.pattern &#x3D; true;
+      }
+      return Object.keys(errors).length &#x3D;&#x3D;&#x3D; 0 ? null : errors;
+    };
+    return validator;
+  }
+
+  /**
+   * Checks if two email controls match
+   *
+   * NOTE: Use it as a form validator and pass dates for range
+   *
+   * @static
+   * @param {string} startDateKey First date control name
+   * @param {string} endDateKey Second date control name
+   * @param {(value: string) &#x3D;&gt; Date} getDate Converting function
+   * @returns Uses &#x27;min&#x27; and &#x27;max validator error
+   * @memberof CustomFormValidators
+   */
+  static dateRange(
+    startDateKey: string,
+    endDateKey: string,
+    getDate: (value: string) &#x3D;&gt; Date
+  ): (FormGroup) &#x3D;&gt; any {
+    const validator &#x3D; (formGroup: FormGroup): ValidationErrors | null &#x3D;&gt; {
+      const startDateControl &#x3D; formGroup.controls[startDateKey];
+      const endDateControl &#x3D; formGroup.controls[endDateKey];
+      const startDate &#x3D; getDate(startDateControl.value);
+      const endDate &#x3D; getDate(endDateControl.value);
+      if (!startDateControl.errors?.pattern) {
+        if (startDate &gt; endDate) {
+          startDateControl.setErrors({ max: true });
+        }
+      }
+      if (!endDateControl.errors?.pattern) {
+        if (endDate &lt; startDate) {
+          endDateControl.setErrors({ min: true });
+        }
+      }
+      return null;
+    };
+    return validator;
+  }
 }
 
 /**
@@ -711,6 +1180,7 @@ export function controlsMustMatch(
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
             var COMPODOC_CURRENT_PAGE_URL = 'CustomFormValidators.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

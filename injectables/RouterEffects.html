@@ -84,7 +84,7 @@
                                 <a href="#navigateBack$">navigateBack$</a>
                             </li>
                             <li>
-                                <a href="#navigateBuUrl$">navigateBuUrl$</a>
+                                <a href="#navigateByUrl$">navigateByUrl$</a>
                             </li>
                             <li>
                                 <a href="#navigateForward$">navigateForward$</a>
@@ -331,11 +331,11 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="navigateBuUrl$"></a>
+                        <a name="navigateByUrl$"></a>
                         <span class="name">
                             <b>
-                            navigateBuUrl$</b>
-                            <a href="#navigateBuUrl$"><span class="icon ion-ios-link"></span></a>
+                            navigateByUrl$</b>
+                            <a href="#navigateByUrl$"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
@@ -431,7 +431,7 @@ import { Actions, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
 import { Action } from &#x27;@ngrx/store&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { map, tap } from &#x27;rxjs/operators&#x27;;
-import { AuthActions } from &#x27;../../../auth/store/actions/index&#x27;;
+import { AuthActions } from &#x27;../../../auth/user-auth/store/actions/index&#x27;;
 import { SiteContextActions } from &#x27;../../../site-context/store/actions/index&#x27;;
 import { CmsRoute } from &#x27;../../models/cms-route&#x27;;
 import { RoutingActions } from &#x27;../actions/index&#x27;;
@@ -448,7 +448,7 @@ export class RouterEffects {
   );
 
   @Effect({ dispatch: false })
-  navigateBuUrl$: Observable&lt;any&gt; &#x3D; this.actions$.pipe(
+  navigateByUrl$: Observable&lt;any&gt; &#x3D; this.actions$.pipe(
     ofType(RoutingActions.ROUTER_GO_BY_URL),
     map((action: RoutingActions.RouteGoAction) &#x3D;&gt; action.payload),
     tap((url) &#x3D;&gt; {
@@ -525,6 +525,7 @@ export class RouterEffects {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'RouterEffects.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

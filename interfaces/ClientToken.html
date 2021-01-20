@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/auth/models/token-types.model.ts</code>
+            <code>projects/core/src/auth/client-auth/models/client-token.model.ts</code>
         </p>
 
 
@@ -222,24 +222,12 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export interface UserToken {
-  access_token: string;
-  token_type: string;
-  refresh_token: string;
-  expires_in: number;
-  scope: string[];
-  userId: string;
-  expiration_time?: string;
-}
-
-export interface ClientToken {
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export interface ClientToken {
   access_token: string;
   token_type: string;
   expires_in: number;
   scope: string;
 }
-
-export type AuthenticationToken &#x3D; UserToken | ClientToken;
 </code></pre>
     </div>
 </div>
@@ -268,6 +256,7 @@ export type AuthenticationToken &#x3D; UserToken | ClientToken;
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'ClientToken.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

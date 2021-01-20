@@ -320,7 +320,7 @@ export function validateCartPromotion(hasPromotion: boolean) {
 
 export function validateCart(qtyInCart: Number, qtyInSavedCart: Number) {
   if (qtyInCart &#x3D;&#x3D;&#x3D; 0) {
-    cy.getByText(&#x27;Your shopping cart is empty&#x27;).should(&#x27;exist&#x27;);
+    cy.findByText(&#x27;Your shopping cart is empty&#x27;).should(&#x27;exist&#x27;);
   } else {
     cy.get(&#x27;cx-cart-details cx-cart-item-list .cx-item-list-row&#x27;).should(
       &#x27;have.length&#x27;,
@@ -347,11 +347,11 @@ export function addProductToCart(product) {
   cy.visit(&#x60;/product/${product.code}&#x60;);
 
   cy.get(&#x27;cx-add-to-cart&#x27;)
-    .getAllByText(/Add To Cart/i)
+    .findAllByText(/Add To Cart/i)
     .click();
   cy.get(&#x27;cx-added-to-cart-dialog&#x27;).within(() &#x3D;&gt; {
     cy.get(&#x27;.cx-code&#x27;).should(&#x27;contain&#x27;, product.code);
-    cy.getByText(/view cart/i).click();
+    cy.findByText(/view cart/i).click();
   });
   validateProduct(product, 1, ItemList.Cart);
 }
@@ -457,6 +457,7 @@ export function verifyPlaceOrder() {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'TestProduct-1.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

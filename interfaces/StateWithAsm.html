@@ -128,11 +128,9 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { LoaderState } from &#x27;../../state/utils/loader/loader-state&#x27;;
 import { AsmUi, CustomerSearchPage } from &#x27;../models/asm.models&#x27;;
-import { UserToken } from &#x27;../../auth&#x27;;
 
 export const ASM_FEATURE &#x3D; &#x27;asm&#x27;;
 export const CUSTOMER_SEARCH_DATA &#x3D; &#x27;[asm] Customer search data&#x27;;
-export const CSAGENT_TOKEN_DATA &#x3D; &#x27;[Auth] Customer Support Agent Token Data&#x27;;
 
 export interface StateWithAsm {
   [ASM_FEATURE]: AsmState;
@@ -141,7 +139,6 @@ export interface StateWithAsm {
 export interface AsmState {
   customerSearchResult: LoaderState&lt;CustomerSearchPage&gt;;
   asmUi: AsmUi;
-  csagentToken: LoaderState&lt;UserToken&gt;;
 }
 </code></pre>
     </div>
@@ -171,6 +168,7 @@ export interface AsmState {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'StateWithAsm.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -56,7 +56,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/store-finder/store/effects/find-stores.effect.ts</code>
+            <code>feature-libs/storefinder/core/store/effects/find-stores.effect.ts</code>
         </p>
 
 
@@ -104,7 +104,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/core/src/store-finder/store/effects/find-stores.effect.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">feature-libs/storefinder/core/store/effects/find-stores.effect.ts:10</a></div>
                             </td>
                         </tr>
 
@@ -188,9 +188,7 @@
         map((data) &#x3D;&gt; new StoreFinderActions.FindStoreByIdSuccess(data)),
         catchError((error) &#x3D;&gt;
           of(
-            new StoreFinderActions.FindStoreByIdFail(
-              makeErrorSerializable(error)
-            )
+            new StoreFinderActions.FindStoreByIdFail(normalizeHttpError(error))
           )
         )
       )
@@ -209,7 +207,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">projects/core/src/store-finder/store/effects/find-stores.effect.ts:56</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">feature-libs/storefinder/core/store/effects/find-stores.effect.ts:52</a></div>
                             </td>
                         </tr>
 
@@ -262,11 +260,7 @@
             return new StoreFinderActions.FindStoresSuccess(data);
           }),
           catchError((error) &#x3D;&gt;
-            of(
-              new StoreFinderActions.FindStoresFail(
-                makeErrorSerializable(error)
-              )
-            )
+            of(new StoreFinderActions.FindStoresFail(normalizeHttpError(error)))
           )
         )
     )
@@ -284,7 +278,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/core/src/store-finder/store/effects/find-stores.effect.ts:17</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">feature-libs/storefinder/core/store/effects/find-stores.effect.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -301,9 +295,9 @@
 import { Actions, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { catchError, map, mergeMap, switchMap } from &#x27;rxjs/operators&#x27;;
-import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
 import { StoreFinderConnector } from &#x27;../../connectors/store-finder.connector&#x27;;
 import { StoreFinderActions } from &#x27;../actions/index&#x27;;
+import { normalizeHttpError } from &#x27;@spartacus/core&#x27;;
 
 @Injectable()
 export class FindStoresEffect {
@@ -341,11 +335,7 @@ export class FindStoresEffect {
             return new StoreFinderActions.FindStoresSuccess(data);
           }),
           catchError((error) &#x3D;&gt;
-            of(
-              new StoreFinderActions.FindStoresFail(
-                makeErrorSerializable(error)
-              )
-            )
+            of(new StoreFinderActions.FindStoresFail(normalizeHttpError(error)))
           )
         )
     )
@@ -363,9 +353,7 @@ export class FindStoresEffect {
         map((data) &#x3D;&gt; new StoreFinderActions.FindStoreByIdSuccess(data)),
         catchError((error) &#x3D;&gt;
           of(
-            new StoreFinderActions.FindStoreByIdFail(
-              makeErrorSerializable(error)
-            )
+            new StoreFinderActions.FindStoreByIdFail(normalizeHttpError(error))
           )
         )
       )
@@ -406,6 +394,7 @@ export class FindStoresEffect {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'FindStoresEffect.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

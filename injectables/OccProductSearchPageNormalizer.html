@@ -355,8 +355,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="81"
-                            class="link-to-prism">projects/core/src/occ/adapters/product/converters/occ-product-search-page-normalizer.ts:81</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">projects/core/src/occ/adapters/product/converters/occ-product-search-page-normalizer.ts:83</a></div>
                 </td>
             </tr>
 
@@ -590,19 +590,21 @@ export class OccProductSearchPageNormalizer
    * the facets.
    */
   private normalizeUselessFacets(target: ProductSearchPage): void {
-    target.facets &#x3D; target.facets.filter((facet) &#x3D;&gt; {
-      return (
-        !target.pagination ||
-        !target.pagination.totalResults ||
-        ((!facet.hasOwnProperty(&#x27;visible&#x27;) || facet.visible) &amp;&amp;
-          facet.values &amp;&amp;
-          facet.values.find((value) &#x3D;&gt; {
-            return (
-              value.selected || value.count &lt; target.pagination.totalResults
-            );
-          }))
-      );
-    });
+    if (target.facets) {
+      target.facets &#x3D; target.facets.filter((facet) &#x3D;&gt; {
+        return (
+          !target.pagination ||
+          !target.pagination.totalResults ||
+          ((!facet.hasOwnProperty(&#x27;visible&#x27;) || facet.visible) &amp;&amp;
+            facet.values &amp;&amp;
+            facet.values.find((value) &#x3D;&gt; {
+              return (
+                value.selected || value.count &lt; target.pagination.totalResults
+              );
+            }))
+        );
+      });
+    }
   }
 
   /*
@@ -659,6 +661,7 @@ export class OccProductSearchPageNormalizer
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'OccProductSearchPageNormalizer.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

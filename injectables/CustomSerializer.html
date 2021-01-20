@@ -105,7 +105,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="203" class="link-to-prism">projects/core/src/routing/store/reducers/router.reducer.ts:203</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="212" class="link-to-prism">projects/core/src/routing/store/reducers/router.reducer.ts:212</a></div>
                             </td>
                         </tr>
 
@@ -172,8 +172,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="199"
-                            class="link-to-prism">projects/core/src/routing/store/reducers/router.reducer.ts:199</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="208"
+                            class="link-to-prism">projects/core/src/routing/store/reducers/router.reducer.ts:208</a></div>
                 </td>
             </tr>
 
@@ -253,8 +253,8 @@ by reading the defined <code>data.cxRoute</code> from the Angular Routes.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="103"
-                            class="link-to-prism">projects/core/src/routing/store/reducers/router.reducer.ts:103</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="107"
+                            class="link-to-prism">projects/core/src/routing/store/reducers/router.reducer.ts:107</a></div>
                 </td>
             </tr>
 
@@ -314,13 +314,17 @@ import { ActionReducerMap } from &#x27;@ngrx/store&#x27;;
 import { PageType } from &#x27;../../../model/cms.model&#x27;;
 import { RoutingConfigService } from &#x27;../../configurable-routes/routing-config.service&#x27;;
 import { CmsActivatedRouteSnapshot } from &#x27;../../models/cms-route&#x27;;
-import { PageContext } from &#x27;../../models/page-context.model&#x27;;
+import {
+  HOME_PAGE_CONTEXT,
+  PageContext,
+  SMART_EDIT_CONTEXT,
+} from &#x27;../../models/page-context.model&#x27;;
+import { CHANGE_NEXT_PAGE_CONTEXT } from &#x27;../actions/router.action&#x27;;
 import {
   ActivatedRouterStateSnapshot,
   RouterState,
   State,
 } from &#x27;../routing-state&#x27;;
-import { CHANGE_NEXT_PAGE_CONTEXT } from &#x27;../actions/router.action&#x27;;
 
 export const initialState: RouterState &#x3D; {
   navigationId: 0,
@@ -455,7 +459,7 @@ export class CustomSerializer
     // we give smartedit preview page a PageContext
     if (state.url.length &gt; 0 &amp;&amp; state.url[0].path &#x3D;&#x3D;&#x3D; &#x27;cx-preview&#x27;) {
       context &#x3D; {
-        id: &#x27;smartedit-preview&#x27;,
+        id: SMART_EDIT_CONTEXT,
         type: PageType.CONTENT_PAGE,
       };
     } else {
@@ -477,7 +481,12 @@ export class CustomSerializer
           };
         } else {
           context &#x3D; {
-            id: &#x27;homepage&#x27;,
+            // We like URLs to be driven by the backend, the CMS actually returns the homepage
+            // if no page label is given. Our logic however requires an id. undefined doesn&#x27;t work.
+            id: HOME_PAGE_CONTEXT,
+
+            // We currently need to support a hardcoded page type, since the internal store uses the page
+            // type to store the content.
             type: PageType.CONTENT_PAGE,
           };
         }
@@ -547,6 +556,7 @@ export class CustomSerializer
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CustomSerializer.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -139,8 +139,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">projects/core/src/checkout/connectors/checkout/checkout.adapter.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">projects/core/src/checkout/connectors/checkout/checkout.adapter.ts:36</a></div>
                 </td>
             </tr>
 
@@ -225,8 +225,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">projects/core/src/checkout/connectors/checkout/checkout.adapter.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">projects/core/src/checkout/connectors/checkout/checkout.adapter.ts:47</a></div>
                 </td>
             </tr>
 
@@ -311,8 +311,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">projects/core/src/checkout/connectors/checkout/checkout.adapter.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="25"
+                            class="link-to-prism">projects/core/src/checkout/connectors/checkout/checkout.adapter.ts:25</a></div>
                 </td>
             </tr>
 
@@ -390,15 +390,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>placeOrder(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, cartId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>placeOrder(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, cartId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, termsChecked: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="12"
-                            class="link-to-prism">projects/core/src/checkout/connectors/checkout/checkout.adapter.ts:12</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="13"
+                            class="link-to-prism">projects/core/src/checkout/connectors/checkout/checkout.adapter.ts:13</a></div>
                 </td>
             </tr>
 
@@ -452,6 +452,22 @@
 
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>termsChecked</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The <code>boolean value</code> whether the terms were accepted or not</p>
+
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -488,8 +504,13 @@ export abstract class CheckoutAdapter {
    *
    * @param userId The &#x60;userId&#x60; for given user
    * @param cartId The &#x60;cartId&#x60; for cart used for placing order
+   * @param termsChecked The &#x60;boolean value&#x60; whether the terms were accepted or not
    */
-  abstract placeOrder(userId: string, cartId: string): Observable&lt;Order&gt;;
+  abstract placeOrder(
+    userId: string,
+    cartId: string,
+    termsChecked: boolean
+  ): Observable&lt;Order&gt;;
 
   /**
    * Abstract method used to load checkout details
@@ -553,6 +574,7 @@ export abstract class CheckoutAdapter {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
             var COMPODOC_CURRENT_PAGE_URL = 'CheckoutAdapter.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

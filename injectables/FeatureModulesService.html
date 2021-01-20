@@ -87,10 +87,6 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#dependencyModules">dependencyModules</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
                                     <span class="modifier">Optional</span>
                                 <a href="#featureModulesConfig">featureModulesConfig</a>
                             </li>
@@ -114,7 +110,7 @@
                                 <a href="#getCmsMapping">getCmsMapping</a>
                             </li>
                             <li>
-                                <a href="#getInjectors">getInjectors</a>
+                                <a href="#getModule">getModule</a>
                             </li>
                             <li>
                                 <a href="#hasFeatureFor">hasFeatureFor</a>
@@ -128,10 +124,6 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#resolveDependencyModule">resolveDependencyModule</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
                                 <a href="#resolveFeature">resolveFeature</a>
                             </li>
                             <li>
@@ -141,10 +133,6 @@
                             <li>
                                     <span class="modifier">Private</span>
                                 <a href="#resolveFeatureModule">resolveFeatureModule</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#resolveModuleFactory">resolveModuleFactory</a>
                             </li>
                         </ul>
                     </td>
@@ -164,12 +152,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(configInitializer: <a href="../injectables/ConfigInitializerService.html">ConfigInitializerService</a>, compiler: <a href="https://angular.io/api/core/Compiler" target="_blank">Compiler</a>, injector: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>)</code>
+<code>constructor(configInitializer: <a href="../injectables/ConfigInitializerService.html">ConfigInitializerService</a>, lazyModules: <a href="../injectables/LazyModulesService.html">LazyModulesService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts:66</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts:47</a></div>
                             </td>
                         </tr>
 
@@ -199,22 +187,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>compiler</td>
+                                                        <td>lazyModules</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/core/Compiler" target="_blank" >Compiler</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>injector</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="https://angular.io/api/core/Injector" target="_blank" >Injector</a></code>
+                                                                        <code><a href="../injectables/LazyModulesService.html" target="_self" >LazyModulesService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -258,8 +234,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="107"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts:107</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts:83</a></div>
                 </td>
             </tr>
 
@@ -312,35 +288,33 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getInjectors"></a>
+                    <a name="getModule"></a>
                     <span class="name">
                         <b>
-                            getInjectors
+                            getModule
                         </b>
-                        <a href="#getInjectors"><span class="icon ion-ios-link"></span></a>
+                        <a href="#getModule"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getInjectors(componentType: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>getModule(componentType: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="123"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts:123</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="98"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts:98</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Get all injectors for feature and its dependencies</p>
-<p>As it&#39;s a synchronous method, it works only for already resolved features,
-returning undefined otherwise</p>
+                    <div class="io-description"><p>Resolves feature module for provided component type</p>
 </div>
 
                     <div class="io-description">
@@ -372,7 +346,7 @@ returning undefined otherwise</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>[] | undefined</code>
+                        <b>Returns : </b>        <code><a href="../interfaces/Module.html" target="_self" >NgModuleRef | undefined</a></code>
 
                     </div>
                     <div class="io-description">
@@ -404,8 +378,8 @@ returning undefined otherwise</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="100"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts:100</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="76"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts:76</a></div>
                 </td>
             </tr>
 
@@ -479,8 +453,8 @@ component type</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="76"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts:76</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="56"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts:56</a></div>
                 </td>
             </tr>
 
@@ -518,8 +492,8 @@ component type</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="279"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts:279</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="214"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts:214</a></div>
                 </td>
             </tr>
 
@@ -530,80 +504,6 @@ component type</p>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="resolveDependencyModule"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            resolveDependencyModule
-                        </b>
-                        <a href="#resolveDependencyModule"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>resolveDependencyModule(moduleFunc: () => void)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="241"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts:241</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Resolves dependency module and initializes single module instance</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>moduleFunc</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        
                     </div>
                 </td>
             </tr>
@@ -633,8 +533,8 @@ component type</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="149"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts:149</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="117"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts:117</a></div>
                 </td>
             </tr>
 
@@ -708,8 +608,8 @@ component type</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="218"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts:218</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="193"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts:193</a></div>
                 </td>
             </tr>
 
@@ -775,15 +675,15 @@ component type</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>resolveFeatureModule(featureConfig: <a href="../interfaces/FeatureModuleConfig.html">FeatureModuleConfig</a>, depsModules: any[])</code>
+                    <code>resolveFeatureModule(featureConfig: <a href="../interfaces/FeatureModuleConfig.html">FeatureModuleConfig</a>, dependencyModuleRefs: <a href="../interfaces/Module.html">NgModuleRef<any>[]</a>, feature: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="185"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts:185</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="155"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts:155</a></div>
                 </td>
             </tr>
 
@@ -820,9 +720,9 @@ component type</p>
 
                                 </tr>
                                 <tr>
-                                    <td>depsModules</td>
+                                    <td>dependencyModuleRefs</td>
                                     <td>
-                                            <code>any[]</code>
+                                                <code><a href="../interfaces/Module.html" target="_self" >NgModuleRef&lt;any&gt;[]</a></code>
                                     </td>
 
                                     <td>
@@ -834,6 +734,20 @@ component type</p>
                                     </td>
 
                                 </tr>
+                                <tr>
+                                    <td>feature</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -841,80 +755,6 @@ component type</p>
                     </div>
                     <div class="io-description">
                         <b>Returns : </b>    <code>Observable&lt;FeatureInstance&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="resolveModuleFactory"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            resolveModuleFactory
-                        </b>
-                        <a href="#resolveModuleFactory"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>resolveModuleFactory(moduleFunc: () => void)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="261"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts:261</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Resolve any Angular module from an function that return module or moduleFactory</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>moduleFunc</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -956,34 +796,7 @@ component type</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts:58</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="dependencyModules"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Private</span>
-                            dependencyModules</b>
-                            <a href="#dependencyModules"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>new Map&lt;any, NgModuleRef&lt;any&gt;&gt;()</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts:66</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts:41</a></div>
                             </td>
                         </tr>
 
@@ -1012,7 +825,7 @@ component type</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts:53</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts:36</a></div>
                             </td>
                         </tr>
 
@@ -1045,7 +858,7 @@ component type</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts:64</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts:47</a></div>
                             </td>
                         </tr>
 
@@ -1059,11 +872,9 @@ component type</p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-  Compiler,
   Injectable,
   InjectFlags,
   Injector,
-  NgModuleFactory,
   NgModuleRef,
   OnDestroy,
 } from &#x27;@angular/core&#x27;;
@@ -1073,32 +884,17 @@ import {
   CmsConfig,
   ConfigChunk,
   ConfigInitializerService,
-  configurationFactory,
+  deepMerge,
   DefaultConfigChunk,
   FeatureModuleConfig,
+  LazyModulesService,
 } from &#x27;@spartacus/core&#x27;;
-import {
-  combineLatest,
-  defer,
-  forkJoin,
-  from,
-  merge,
-  Observable,
-  of,
-  queueScheduler,
-} from &#x27;rxjs&#x27;;
-import {
-  map,
-  observeOn,
-  pluck,
-  shareReplay,
-  switchMap,
-  tap,
-} from &#x27;rxjs/operators&#x27;;
+import { defer, forkJoin, merge, Observable, of } from &#x27;rxjs&#x27;;
+import { map, shareReplay, switchMap } from &#x27;rxjs/operators&#x27;;
 
 interface FeatureInstance extends FeatureModuleConfig {
   moduleRef?: NgModuleRef&lt;any&gt;;
-  depsModules?: any[];
+  dependencyModuleRefs?: NgModuleRef&lt;any&gt;[];
   componentsMappings?: CMSComponentConfig;
 }
 
@@ -1123,22 +919,15 @@ export class FeatureModulesService implements OnDestroy {
    */
   private features: Map&lt;string, Observable&lt;FeatureInstance&gt;&gt; &#x3D; new Map();
 
-  private dependencyModules &#x3D; new Map&lt;any, NgModuleRef&lt;any&gt;&gt;();
-
   constructor(
     protected configInitializer: ConfigInitializerService,
-    protected compiler: Compiler,
-    protected injector: Injector
+    protected lazyModules: LazyModulesService
   ) {
     this.initFeatureMap();
   }
 
   private initFeatureMap(): void {
-    (this.configInitializer.getStable
-      ? // use new API if available
-        this.configInitializer.getStable(&#x27;featureModules&#x27;)
-      : from(this.configInitializer.getStableConfig(&#x27;featureModules&#x27;))
-    ).subscribe((config) &#x3D;&gt; {
+    this.configInitializer.getStable(&#x27;featureModules&#x27;).subscribe((config) &#x3D;&gt; {
       this.featureModulesConfig &#x3D; config.featureModules ?? {};
 
       for (const [featureName, featureConfig] of Object.entries(
@@ -1175,30 +964,22 @@ export class FeatureModulesService implements OnDestroy {
   }
 
   /**
-   * Get all injectors for feature and its dependencies
+   * Resolves feature module for provided component type
    *
-   * As it&#x27;s a synchronous method, it works only for already resolved features,
-   * returning undefined otherwise
+   * @param componentType
    */
-  getInjectors(componentType: string): Injector[] | undefined {
+  getModule(componentType: string): NgModuleRef&lt;any&gt; | undefined {
     const feature &#x3D; this.componentFeatureMap.get(componentType);
-    let injectors;
+    let module;
 
     // we are returning injectors only for already resolved features
     this.features
       .get(feature)
       ?.subscribe((featureInstance) &#x3D;&gt; {
-        injectors &#x3D; [
-          // feature module injector
-          featureInstance.moduleRef.injector,
-          // injectors from dependency modules
-          ...featureInstance.depsModules.map(
-            (module) &#x3D;&gt; this.dependencyModules.get(module).injector
-          ),
-        ];
+        module &#x3D; featureInstance.moduleRef;
       })
       .unsubscribe();
-    return injectors;
+    return module;
   }
 
   /**
@@ -1221,7 +1002,7 @@ export class FeatureModulesService implements OnDestroy {
         const depsResolve &#x3D; featureConfig.dependencies?.length
           ? forkJoin(
               featureConfig.dependencies.map((depModuleFunc) &#x3D;&gt;
-                this.resolveDependencyModule(depModuleFunc)
+                this.lazyModules.resolveDependencyModuleInstance(depModuleFunc)
               )
             )
           : of(undefined);
@@ -1229,7 +1010,9 @@ export class FeatureModulesService implements OnDestroy {
         this.features.set(
           featureName,
           depsResolve.pipe(
-            switchMap((deps) &#x3D;&gt; this.resolveFeatureModule(featureConfig, deps)),
+            switchMap((deps) &#x3D;&gt;
+              this.resolveFeatureModule(featureConfig, deps, featureName)
+            ),
             shareReplay()
           )
         );
@@ -1244,32 +1027,37 @@ export class FeatureModulesService implements OnDestroy {
    */
   private resolveFeatureModule(
     featureConfig: FeatureModuleConfig,
-    depsModules: any[] &#x3D; []
+    dependencyModuleRefs: NgModuleRef&lt;any&gt;[] &#x3D; [],
+    feature: string
   ): Observable&lt;FeatureInstance&gt; {
-    return this.resolveModuleFactory(featureConfig?.module).pipe(
-      map(([moduleFactory]) &#x3D;&gt; {
-        const moduleRef &#x3D; moduleFactory.create(this.injector);
+    return this.lazyModules
+      .resolveModuleInstance(
+        featureConfig?.module,
+        feature,
+        dependencyModuleRefs
+      )
+      .pipe(
+        map((moduleRef) &#x3D;&gt; {
+          const featureInstance: FeatureInstance &#x3D; {
+            ...featureConfig,
+            moduleRef,
+            dependencyModuleRefs,
+            componentsMappings: {},
+          };
 
-        const featureInstance: FeatureInstance &#x3D; {
-          ...featureConfig,
-          moduleRef,
-          depsModules,
-          componentsMappings: {},
-        };
+          // resolve configuration for feature module
+          const resolvedConfiguration &#x3D; this.resolveFeatureConfiguration(
+            moduleRef.injector
+          );
 
-        // resolve configuration for feature module
-        const resolvedConfiguration &#x3D; this.resolveFeatureConfiguration(
-          moduleRef.injector
-        );
-
-        // extract cms components configuration from feature config
-        for (const componentType of featureInstance.cmsComponents) {
-          featureInstance.componentsMappings[componentType] &#x3D;
-            resolvedConfiguration.cmsComponents[componentType];
-        }
-        return featureInstance;
-      })
-    );
+          // extract cms components configuration from feature config
+          for (const componentType of featureInstance.cmsComponents) {
+            featureInstance.componentsMappings[componentType] &#x3D;
+              resolvedConfiguration.cmsComponents[componentType];
+          }
+          return featureInstance;
+        })
+      );
   }
 
   /**
@@ -1289,51 +1077,11 @@ export class FeatureModulesService implements OnDestroy {
       InjectFlags.Self
     );
 
-    return configurationFactory(
-      featureConfigChunks,
-      featureDefaultConfigChunks
+    return deepMerge(
+      {},
+      ...(featureDefaultConfigChunks ?? []),
+      ...(featureConfigChunks ?? [])
     ) as CmsConfig;
-  }
-
-  /**
-   * Resolves dependency module and initializes single module instance
-   */
-  private resolveDependencyModule(
-    moduleFunc: () &#x3D;&gt; Promise&lt;any&gt;
-  ): Observable&lt;any&gt; {
-    // We grab moduleFactory symbol from module function and if there is no
-    // such a module created yet, we create it and store it in a
-    // dependencyModules map
-    return this.resolveModuleFactory(moduleFunc).pipe(
-      tap(([moduleFactory, module]) &#x3D;&gt; {
-        if (!this.dependencyModules.has(module)) {
-          const moduleRef &#x3D; moduleFactory.create(this.injector);
-          this.dependencyModules.set(module, moduleRef);
-        }
-      }),
-      pluck(1)
-    );
-  }
-
-  /**
-   * Resolve any Angular module from an function that return module or moduleFactory
-   */
-  private resolveModuleFactory(
-    moduleFunc: () &#x3D;&gt; Promise&lt;any&gt;
-  ): Observable&lt;[NgModuleFactory&lt;any&gt;, any]&gt; {
-    return from(moduleFunc()).pipe(
-      switchMap((module) &#x3D;&gt;
-        module instanceof NgModuleFactory
-          ? (of([module, module]) as Observable&lt;[NgModuleFactory&lt;any&gt;, any]&gt;)
-          : combineLatest([
-              // using compiler here is for jit compatibility, there is no overhead
-              // for aot production builds as it will be stubbed
-              from(this.compiler.compileModuleAsync(module as any)),
-              of(module),
-            ])
-      ),
-      observeOn(queueScheduler)
-    );
   }
 
   ngOnDestroy(): void {
@@ -1341,9 +1089,6 @@ export class FeatureModulesService implements OnDestroy {
     merge(...Array.from(this.features.values())).subscribe((featureInstance) &#x3D;&gt;
       featureInstance.moduleRef?.destroy()
     );
-
-    // clean up all initialized dependency modules
-    this.dependencyModules.forEach((dependency) &#x3D;&gt; dependency.destroy());
   }
 }
 </code></pre>
@@ -1380,6 +1125,7 @@ export class FeatureModulesService implements OnDestroy {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'FeatureModulesService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

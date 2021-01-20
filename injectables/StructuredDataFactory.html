@@ -59,6 +59,14 @@
             <code>projects/storefrontlib/src/cms-structure/seo/structured-data/structured-data.factory.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Factory service that is used to build the structured data for
+all configured schema builders.</p>
+
+            </p>
 
 
 
@@ -75,7 +83,7 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#subscription">subscription</a>
                             </li>
                         </ul>
@@ -94,7 +102,7 @@
                                 <a href="#build">build</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#collectSchemas">collectSchemas</a>
                             </li>
                             <li>
@@ -123,7 +131,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/structured-data.factory.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/structured-data.factory.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -200,14 +208,17 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/structured-data.factory.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="28"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/structured-data.factory.ts:28</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Initiates the build of structured data by collecting all schema
+builders.</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -224,7 +235,7 @@
                     <a name="collectSchemas"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                             collectSchemas
                         </b>
                         <a href="#collectSchemas"><span class="icon ion-ios-link"></span></a>
@@ -241,14 +252,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="26"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/structured-data.factory.ts:26</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="41"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/structured-data.factory.ts:41</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Collects all schema builders and observe their structured data.</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>    <code>Observable&lt;any[]&gt;</code>
@@ -280,8 +293,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/structured-data.factory.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/structured-data.factory.ts:45</a></div>
                 </td>
             </tr>
 
@@ -310,7 +323,7 @@
                         <a name="subscription"></a>
                         <span class="name">
                             <b>
-                                <span class="modifier">Private</span>
+                                <span class="modifier">Protected</span>
                             subscription</b>
                             <a href="#subscription"><span class="icon ion-ios-link"></span></a>
                         </span>
@@ -322,9 +335,14 @@
 
                         </td>
                     </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new Subscription()</code>
+                        </td>
+                    </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/structured-data.factory.ts:18</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/structured-data.factory.ts:22</a></div>
                             </td>
                         </tr>
 
@@ -338,11 +356,15 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable, OnDestroy, Optional } from &#x27;@angular/core&#x27;;
-import { combineLatest, Observable, of, Subscription } from &#x27;rxjs&#x27;;
+import { combineLatest, Observable, Subscription } from &#x27;rxjs&#x27;;
 import { SchemaBuilder } from &#x27;./builders/schema.interface&#x27;;
 import { SCHEMA_BUILDER } from &#x27;./builders/tokens&#x27;;
 import { JsonLdScriptFactory } from &#x27;./json-ld-script.factory&#x27;;
 
+/**
+ * Factory service that is used to build the structured data for
+ * all configured schema builders.
+ */
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
@@ -354,27 +376,31 @@ export class StructuredDataFactory implements OnDestroy {
     private builders: SchemaBuilder[]
   ) {}
 
-  private subscription: Subscription;
+  protected subscription: Subscription &#x3D; new Subscription();
 
-  build() {
-    this.subscription &#x3D; this.collectSchemas().subscribe((schema: {}[]) &#x3D;&gt; {
-      this.scriptBuilder.build(schema);
-    });
+  /**
+   * Initiates the build of structured data by collecting all schema
+   * builders.
+   */
+  build(): void {
+    if (this.scriptBuilder.isJsonLdRequired() &amp;&amp; this.builders) {
+      this.subscription.add(
+        this.collectSchemas().subscribe((schema: {}[]) &#x3D;&gt; {
+          this.scriptBuilder.build(schema);
+        })
+      );
+    }
   }
 
-  private collectSchemas(): Observable&lt;any[]&gt; {
-    if (!this.scriptBuilder.isJsonLdRequired() || !this.builders) {
-      return of();
-    }
-    return combineLatest(
-      this.builders.map((builder) &#x3D;&gt; builder.build())
-    ).pipe();
+  /**
+   * Collects all schema builders and observe their structured data.
+   */
+  protected collectSchemas(): Observable&lt;any[]&gt; {
+    return combineLatest(this.builders.map((builder) &#x3D;&gt; builder.build()));
   }
 
   ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscription.unsubscribe();
   }
 }
 </code></pre>
@@ -411,6 +437,7 @@ export class StructuredDataFactory implements OnDestroy {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'StructuredDataFactory.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

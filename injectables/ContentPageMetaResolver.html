@@ -91,8 +91,16 @@ specific, for example by using the page template (see <code>CartPageMetaResolver
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#breadcrumbs$">breadcrumbs$</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Protected</span>
                                 <a href="#cms$">cms$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#homeBreadcrumb$">homeBreadcrumb$</a>
                             </li>
                             <li>
                                 <a href="#pageTemplate">pageTemplate</a>
@@ -145,12 +153,12 @@ specific, for example by using the page template (see <code>CartPageMetaResolver
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(cms: <a href="../injectables/CmsService.html">CmsService</a>, translation: <a href="../classes/TranslationService.html">TranslationService</a>)</code>
+<code>constructor(cms: <a href="../injectables/CmsService.html">CmsService</a>, translation: <a href="../classes/TranslationService.html">TranslationService</a>, routingPageMetaResolver: <a href="../injectables/RoutingPageMetaResolver.html">RoutingPageMetaResolver</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:50</a></div>
                             </td>
                         </tr>
 
@@ -184,6 +192,18 @@ specific, for example by using the page template (see <code>CartPageMetaResolver
                                                   
                                                         <td>
                                                                         <code><a href="../classes/TranslationService.html" target="_self" >TranslationService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>routingPageMetaResolver</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/RoutingPageMetaResolver.html" target="_self" >RoutingPageMetaResolver</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -227,15 +247,15 @@ specific, for example by using the page template (see <code>CartPageMetaResolver
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="73"
+                            class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:73</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Resolves a single breacrumb item to the home page for each <code>ContentPage</code>.
+                    <div class="io-description"><p>Resolves a single breadcrumb item to the home page for each <code>ContentPage</code>.
 The home page label is resolved from the translation service.</p>
 </div>
 
@@ -269,8 +289,8 @@ The home page label is resolved from the translation service.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="65"
+                            class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:65</a></div>
                 </td>
             </tr>
 
@@ -530,6 +550,53 @@ the page type and page template.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
+                        <a name="breadcrumbs$"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            breadcrumbs$</b>
+                            <a href="#breadcrumbs$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Observable&lt;BreadcrumbMeta[]&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>combineLatest([
+    this.homeBreadcrumb$,
+    defer(() &#x3D;&gt; this.routingPageMetaResolver.resolveBreadcrumbs()),
+  ]).pipe(
+    map(
+      (breadcrumbs) &#x3D;&gt; breadcrumbs.flat(),
+      shareReplay({ bufferSize: 1, refCount: true })
+    )
+  )</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:42</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>All the resolved breadcrumbs (including those from Angular child routes).</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
                         <a name="cms$"></a>
                         <span class="name">
                             <b>
@@ -554,13 +621,54 @@ the page type and page template.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:24</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:26</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
-                        <div class="io-description"><p>helper to provie access to the current CMS page </p>
+                        <div class="io-description"><p>helper to provide access to the current CMS page </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="homeBreadcrumb$"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Protected</span>
+                            homeBreadcrumb$</b>
+                            <a href="#homeBreadcrumb$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Observable&lt;BreadcrumbMeta[]&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>this.translation
+    .translate(&#x27;common.home&#x27;)
+    .pipe(map((label) &#x3D;&gt; [{ label: label, link: &#x27;/&#x27; }] as BreadcrumbMeta[]))</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:33</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Breadcrumb for the home page.</p>
 </div>
                     </td>
                 </tr>
@@ -654,14 +762,15 @@ the page type and page template.</p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
-import { filter, map } from &#x27;rxjs/operators&#x27;;
+import { combineLatest, defer, Observable } from &#x27;rxjs&#x27;;
+import { filter, map, shareReplay } from &#x27;rxjs/operators&#x27;;
 import { TranslationService } from &#x27;../../i18n/translation.service&#x27;;
 import { PageType } from &#x27;../../model/cms.model&#x27;;
 import { CmsService } from &#x27;../facade/cms.service&#x27;;
 import { BreadcrumbMeta, Page } from &#x27;../model/page.model&#x27;;
 import { PageMetaResolver } from &#x27;./page-meta.resolver&#x27;;
 import { PageBreadcrumbResolver, PageTitleResolver } from &#x27;./page.resolvers&#x27;;
+import { RoutingPageMetaResolver } from &#x27;./routing/routing-page-meta.resolver&#x27;;
 
 /**
  * Resolves the page data for all Content Pages based on the &#x60;PageType.CONTENT_PAGE&#x60;.
@@ -673,16 +782,40 @@ import { PageBreadcrumbResolver, PageTitleResolver } from &#x27;./page.resolvers
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
-export class ContentPageMetaResolver extends PageMetaResolver
+export class ContentPageMetaResolver
+  extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver {
-  /** helper to provie access to the current CMS page */
+  /** helper to provide access to the current CMS page */
   protected cms$: Observable&lt;Page&gt; &#x3D; this.cms
     .getCurrentPage()
     .pipe(filter((p) &#x3D;&gt; Boolean(p)));
 
+  /**
+   * Breadcrumb for the home page.
+   */
+  protected homeBreadcrumb$: Observable&lt;
+    BreadcrumbMeta[]
+  &gt; &#x3D; this.translation
+    .translate(&#x27;common.home&#x27;)
+    .pipe(map((label) &#x3D;&gt; [{ label: label, link: &#x27;/&#x27; }] as BreadcrumbMeta[]));
+
+  /**
+   * All the resolved breadcrumbs (including those from Angular child routes).
+   */
+  private breadcrumbs$: Observable&lt;BreadcrumbMeta[]&gt; &#x3D; combineLatest([
+    this.homeBreadcrumb$,
+    defer(() &#x3D;&gt; this.routingPageMetaResolver.resolveBreadcrumbs()),
+  ]).pipe(
+    map(
+      (breadcrumbs) &#x3D;&gt; breadcrumbs.flat(),
+      shareReplay({ bufferSize: 1, refCount: true })
+    )
+  );
+
   constructor(
     protected cms: CmsService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected routingPageMetaResolver: RoutingPageMetaResolver
   ) {
     super();
     this.pageType &#x3D; PageType.CONTENT_PAGE;
@@ -697,13 +830,11 @@ export class ContentPageMetaResolver extends PageMetaResolver
   }
 
   /**
-   * Resolves a single breacrumb item to the home page for each &#x60;ContentPage&#x60;.
+   * Resolves a single breadcrumb item to the home page for each &#x60;ContentPage&#x60;.
    * The home page label is resolved from the translation service.
    */
   resolveBreadcrumbs(): Observable&lt;BreadcrumbMeta[]&gt; {
-    return this.translation
-      .translate(&#x27;common.home&#x27;)
-      .pipe(map((label) &#x3D;&gt; [{ label: label, link: &#x27;/&#x27; }] as BreadcrumbMeta[]));
+    return this.breadcrumbs$;
   }
 }
 </code></pre>
@@ -740,6 +871,7 @@ export class ContentPageMetaResolver extends PageMetaResolver
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'ContentPageMetaResolver.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

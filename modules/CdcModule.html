@@ -181,8 +181,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="29"
-                            class="link-to-prism">integration-libs/cdc/src/cdc.module.ts:29</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">integration-libs/cdc/src/cdc.module.ts:26</a></div>
                 </td>
             </tr>
 
@@ -219,7 +219,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>ModuleWithProviders&lt;CdcModule&gt;</code>
+                        <b>Returns : </b>        <code><a href="../interfaces/Module.html" target="_self" >ModuleWithProviders&lt;CdcModule&gt;</a></code>
 
                     </div>
                     <div class="io-description">
@@ -235,14 +235,11 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { APP_INITIALIZER, ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
-import {
-  AuthService,
-  ConfigInitializerService,
-  provideConfig,
-} from &#x27;@spartacus/core&#x27;;
+import { ConfigInitializerService, provideConfig } from &#x27;@spartacus/core&#x27;;
+import { LogoutGuard } from &#x27;@spartacus/storefront&#x27;;
 import { CdcAuthModule } from &#x27;./auth/cdc-auth.module&#x27;;
-import { CdcAuthService } from &#x27;./auth/facade/cdc-auth.service&#x27;;
 import { CdcJsService } from &#x27;./auth/facade/cdc-js.service&#x27;;
+import { CdcLogoutGuard } from &#x27;./auth/guards/cdc-logout.guard&#x27;;
 import { GigyaRaasModule } from &#x27;./cms-components/gigya-raas/gigya-raas.module&#x27;;
 import { CdcConfig } from &#x27;./config/cdc-config&#x27;;
 
@@ -259,7 +256,7 @@ export function cdcJsFactory(
 
 @NgModule({
   imports: [GigyaRaasModule, CdcAuthModule],
-  providers: [{ provide: AuthService, useClass: CdcAuthService }],
+  providers: [{ provide: LogoutGuard, useExisting: CdcLogoutGuard }],
 })
 export class CdcModule {
   static forRoot(config: CdcConfig): ModuleWithProviders&lt;CdcModule&gt; {
@@ -313,6 +310,7 @@ export class CdcModule {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
             var COMPODOC_CURRENT_PAGE_URL = 'CdcModule.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

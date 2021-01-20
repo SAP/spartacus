@@ -56,10 +56,24 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/asm/facade/asm-auth.service.ts</code>
+            <code>projects/core/src/asm/services/asm-auth.service.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Version of AuthService that is working for both user na CS agent.
+Overrides AuthService when ASM module is enabled.</p>
 
+            </p>
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+            </p>
 
 
             <section>
@@ -76,23 +90,45 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#authorizeCustomerSupportAgent">authorizeCustomerSupportAgent</a>
+                                    <span class="modifier">Protected</span>
+                                <a href="#canUserLogin">canUserLogin</a>
                             </li>
                             <li>
-                                <a href="#getCustomerSupportAgentToken">getCustomerSupportAgentToken</a>
+                                <a href="#coreLogout">coreLogout</a>
                             </li>
                             <li>
-                                <a href="#getCustomerSupportAgentTokenLoading">getCustomerSupportAgentTokenLoading</a>
+                                <a href="#isUserLoggedIn">isUserLoggedIn</a>
                             </li>
                             <li>
-                                <a href="#isCustomerEmulationToken">isCustomerEmulationToken</a>
+                                    <span class="modifier">Async</span>
+                                <a href="#loginWithCredentials">loginWithCredentials</a>
                             </li>
                             <li>
-                                <a href="#logoutCustomerSupportAgent">logoutCustomerSupportAgent</a>
+                                <a href="#loginWithRedirect">loginWithRedirect</a>
                             </li>
                             <li>
-                                    <span class="modifier">Public</span>
-                                <a href="#startCustomerEmulationSession">startCustomerEmulationSession</a>
+                                    <span class="modifier">Protected</span>
+                                <a href="#warnAboutLoggedCSAgent">warnAboutLoggedCSAgent</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#checkOAuthParamsInUrl">checkOAuthParamsInUrl</a>
+                            </li>
+                            <li>
+                                <a href="#coreLogout">coreLogout</a>
+                            </li>
+                            <li>
+                                <a href="#isUserLoggedIn">isUserLoggedIn</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#loginWithCredentials">loginWithCredentials</a>
+                            </li>
+                            <li>
+                                <a href="#loginWithRedirect">loginWithRedirect</a>
+                            </li>
+                            <li>
+                                <a href="#logout">logout</a>
                             </li>
                         </ul>
                     </td>
@@ -112,12 +148,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(store: Store<StateWithAsm>, authService: <a href="../injectables/AuthService.html">AuthService</a>)</code>
+<code>constructor(store: Store<StateWithClientAuth>, userIdService: <a href="../injectables/UserIdService.html">UserIdService</a>, oAuthLibWrapperService: <a href="../injectables/OAuthLibWrapperService.html">OAuthLibWrapperService</a>, authStorageService: <a href="../injectables/AsmAuthStorageService.html">AsmAuthStorageService</a>, authRedirectService: <a href="../injectables/AuthRedirectService.html">AuthRedirectService</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html">GlobalMessageService</a>, routingService: <a href="../injectables/RoutingService.html">RoutingService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/core/src/asm/facade/asm-auth.service.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/core/src/asm/services/asm-auth.service.ts:26</a></div>
                             </td>
                         </tr>
 
@@ -138,7 +174,7 @@
                                                         <td>store</td>
                                                   
                                                         <td>
-                                                                    <code>Store&lt;StateWithAsm&gt;</code>
+                                                                    <code>Store&lt;StateWithClientAuth&gt;</code>
                                                         </td>
                                                   
                                                     <td>
@@ -147,10 +183,70 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>authService</td>
+                                                        <td>userIdService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                                        <code><a href="../injectables/UserIdService.html" target="_self" >UserIdService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>oAuthLibWrapperService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/OAuthLibWrapperService.html" target="_self" >OAuthLibWrapperService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>authStorageService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AsmAuthStorageService.html" target="_self" >AsmAuthStorageService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>authRedirectService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthRedirectService.html" target="_self" >AuthRedirectService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>globalMessageService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/GlobalMessageService.html" target="_self" >GlobalMessageService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>routingService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/RoutingService.html" target="_self" >RoutingService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -176,33 +272,159 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="authorizeCustomerSupportAgent"></a>
+                    <a name="canUserLogin"></a>
                     <span class="name">
                         <b>
-                            authorizeCustomerSupportAgent
+                            <span class="modifier">Protected</span>
+                            canUserLogin
                         </b>
-                        <a href="#authorizeCustomerSupportAgent"><span class="icon ion-ios-link"></span></a>
+                        <a href="#canUserLogin"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>authorizeCustomerSupportAgent(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, password: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>canUserLogin()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">projects/core/src/asm/facade/asm-auth.service.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">projects/core/src/asm/services/asm-auth.service.ts:46</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Loads a user token for a customer support agent</p>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="coreLogout"></a>
+                    <span class="name">
+                        <b>
+                            coreLogout
+                        </b>
+                        <a href="#coreLogout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>coreLogout()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="102"
+                            class="link-to-prism">projects/core/src/asm/services/asm-auth.service.ts:102</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Revokes tokens and clears state for logged user (tokens, userId).
+To perform logout it is best to use <code>logout</code> method. Use this method with caution.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isUserLoggedIn"></a>
+                    <span class="name">
+                        <b>
+                            isUserLoggedIn
+                        </b>
+                        <a href="#isUserLoggedIn"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isUserLoggedIn()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="124"
+                            class="link-to-prism">projects/core/src/asm/services/asm-auth.service.ts:124</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns <code>true</code> if user is logged in or being emulated.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loginWithCredentials"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Async</span>
+                            loginWithCredentials
+                        </b>
+                        <a href="#loginWithCredentials"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loginWithCredentials(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, password: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="77"
+                            class="link-to-prism">projects/core/src/asm/services/asm-auth.service.ts:77</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Loads a new user token with Resource Owner Password Flow when CS agent is not logged in.</p>
 </div>
 
                     <div class="io-description">
@@ -246,7 +468,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -260,37 +482,37 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getCustomerSupportAgentToken"></a>
+                    <a name="loginWithRedirect"></a>
                     <span class="name">
                         <b>
-                            getCustomerSupportAgentToken
+                            loginWithRedirect
                         </b>
-                        <a href="#getCustomerSupportAgentToken"><span class="icon ion-ios-link"></span></a>
+                        <a href="#loginWithRedirect"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getCustomerSupportAgentToken()</code>
+<code>loginWithRedirect()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">projects/core/src/asm/facade/asm-auth.service.ts:67</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="88"
+                            class="link-to-prism">projects/core/src/asm/services/asm-auth.service.ts:88</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns the customer support agent&#39;s token</p>
+                    <div class="io-description"><p>Initialize Implicit/Authorization Code flow by redirecting to OAuth server when CS agent is not logged in.</p>
 </div>
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;UserToken&gt;</code>
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 
                     </div>
                 </td>
@@ -301,33 +523,177 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getCustomerSupportAgentTokenLoading"></a>
+                    <a name="warnAboutLoggedCSAgent"></a>
                     <span class="name">
                         <b>
-                            getCustomerSupportAgentTokenLoading
+                            <span class="modifier">Protected</span>
+                            warnAboutLoggedCSAgent
                         </b>
-                        <a href="#getCustomerSupportAgentTokenLoading"><span class="icon ion-ios-link"></span></a>
+                        <a href="#warnAboutLoggedCSAgent"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getCustomerSupportAgentTokenLoading()</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>warnAboutLoggedCSAgent()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="74"
-                            class="link-to-prism">projects/core/src/asm/facade/asm-auth.service.ts:74</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="63"
+                            class="link-to-prism">projects/core/src/asm/services/asm-auth.service.ts:63</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns the customer support agent&#39;s token loading status</p>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkOAuthParamsInUrl"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Async</span>
+                            checkOAuthParamsInUrl
+                        </b>
+                        <a href="#checkOAuthParamsInUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>checkOAuthParamsInUrl()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../injectables/AuthService.html#source" target="_self" >AuthService:34</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Check params in url and if there is an code/token then try to login with those.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="coreLogout"></a>
+                    <span class="name">
+                        <b>
+                            coreLogout
+                        </b>
+                        <a href="#coreLogout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>coreLogout()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../injectables/AuthService.html#source" target="_self" >AuthService:79</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Revokes tokens and clears state for logged user (tokens, userId).
+To perform logout it is best to use <code>logout</code> method. Use this method with caution.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isUserLoggedIn"></a>
+                    <span class="name">
+                        <b>
+                            isUserLoggedIn
+                        </b>
+                        <a href="#isUserLoggedIn"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isUserLoggedIn()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../injectables/AuthService.html#source" target="_self" >AuthService:92</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns <code>true</code> if the user is logged in; and <code>false</code> if the user is anonymous.</p>
 </div>
 
                     <div class="io-description">
@@ -342,149 +708,41 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="isCustomerEmulationToken"></a>
+                    <a name="loginWithCredentials"></a>
                     <span class="name">
                         <b>
-                            isCustomerEmulationToken
+                            <span class="modifier">Async</span>
+                            loginWithCredentials
                         </b>
-                        <a href="#isCustomerEmulationToken"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>isCustomerEmulationToken(userToken: <a href="../interfaces/UserToken.html">UserToken</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="56"
-                            class="link-to-prism">projects/core/src/asm/facade/asm-auth.service.ts:56</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Utility function to determine if a given token is a customer emulation session token.</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>userToken</td>
-                                    <td>
-                                                <code><a href="../interfaces/UserToken.html" target="_self" >UserToken</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="logoutCustomerSupportAgent"></a>
-                    <span class="name">
-                        <b>
-                            logoutCustomerSupportAgent
-                        </b>
-                        <a href="#logoutCustomerSupportAgent"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>logoutCustomerSupportAgent()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="83"
-                            class="link-to-prism">projects/core/src/asm/facade/asm-auth.service.ts:83</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Logout a customer support agent</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="startCustomerEmulationSession"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            startCustomerEmulationSession
-                        </b>
-                        <a href="#startCustomerEmulationSession"><span class="icon ion-ios-link"></span></a>
+                        <a href="#loginWithCredentials"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>startCustomerEmulationSession(customerSupportAgentToken: <a href="../interfaces/UserToken.html">UserToken</a>, customerId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>loginWithCredentials(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, password: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">projects/core/src/asm/facade/asm-auth.service.ts:42</a></div>
+                    <div class="io-line">Inherited from         <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../injectables/AuthService.html#source" target="_self" >AuthService:60</a></code>
+</div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Starts an ASM customer emulation session.
-A customer emulation session is stoped by calling logout().</p>
+                    <div class="io-description"><p>Loads a new user token with Resource Owner Password Flow.</p>
 </div>
 
                     <div class="io-description">
@@ -499,9 +757,9 @@ A customer emulation session is stoped by calling logout().</p>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>customerSupportAgentToken</td>
+                                    <td>userId</td>
                                     <td>
-                                                <code><a href="../interfaces/UserToken.html" target="_self" >UserToken</a></code>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
 
                                     <td>
@@ -511,7 +769,7 @@ A customer emulation session is stoped by calling logout().</p>
 
                                 </tr>
                                 <tr>
-                                    <td>customerId</td>
+                                    <td>password</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
@@ -528,11 +786,105 @@ A customer emulation session is stoped by calling logout().</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
 
                     </div>
                     <div class="io-description">
                         
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loginWithRedirect"></a>
+                    <span class="name">
+                        <b>
+                            loginWithRedirect
+                        </b>
+                        <a href="#loginWithRedirect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loginWithRedirect()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../injectables/AuthService.html#source" target="_self" >AuthService:50</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Initialize Implicit/Authorization Code flow by redirecting to OAuth server.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="logout"></a>
+                    <span class="name">
+                        <b>
+                            logout
+                        </b>
+                        <a href="#logout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>logout()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../injectables/AuthService.html#source" target="_self" >AuthService:102</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Logout a storefront customer. It will initialize logout procedure by redirecting to the <code>logout</code> endpoint.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
                     </div>
                 </td>
             </tr>
@@ -545,94 +897,141 @@ A customer emulation session is stoped by calling logout().</p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { select, Store } from &#x27;@ngrx/store&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
-import { take } from &#x27;rxjs/operators&#x27;;
-import { AuthService } from &#x27;../../auth/facade/auth.service&#x27;;
-import { UserToken } from &#x27;../../auth/models/token-types.model&#x27;;
-import { AuthActions } from &#x27;../../auth/store/actions&#x27;;
-import { OCC_USER_ID_CURRENT } from &#x27;../../occ/utils/occ-constants&#x27;;
-import { AsmActions } from &#x27;../store/actions/index&#x27;;
-import { StateWithAsm } from &#x27;../store/asm-state&#x27;;
-import { AsmSelectors } from &#x27;../store/selectors/index&#x27;;
+import { Store } from &#x27;@ngrx/store&#x27;;
+import { combineLatest, from, Observable, of } from &#x27;rxjs&#x27;;
+import { map, switchMap, take } from &#x27;rxjs/operators&#x27;;
+import { StateWithClientAuth } from &#x27;../../auth/client-auth/store/client-auth-state&#x27;;
+import { AuthService } from &#x27;../../auth/user-auth/facade/auth.service&#x27;;
+import { UserIdService } from &#x27;../../auth/user-auth/facade/user-id.service&#x27;;
+import { AuthToken } from &#x27;../../auth/user-auth/models/auth-token.model&#x27;;
+import { AuthRedirectService } from &#x27;../../auth/user-auth/services/auth-redirect.service&#x27;;
+import { OAuthLibWrapperService } from &#x27;../../auth/user-auth/services/oauth-lib-wrapper.service&#x27;;
+import { AuthActions } from &#x27;../../auth/user-auth/store/actions/index&#x27;;
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+} from &#x27;../../global-message/index&#x27;;
+import { RoutingService } from &#x27;../../routing/facade/routing.service&#x27;;
+import { AsmAuthStorageService, TokenTarget } from &#x27;./asm-auth-storage.service&#x27;;
 
+/**
+ * Version of AuthService that is working for both user na CS agent.
+ * Overrides AuthService when ASM module is enabled.
+ */
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
-export class AsmAuthService {
+export class AsmAuthService extends AuthService {
   constructor(
-    protected store: Store&lt;StateWithAsm&gt;,
-    protected authService: AuthService
-  ) {}
+    protected store: Store&lt;StateWithClientAuth&gt;,
+    protected userIdService: UserIdService,
+    protected oAuthLibWrapperService: OAuthLibWrapperService,
+    protected authStorageService: AsmAuthStorageService,
+    protected authRedirectService: AuthRedirectService,
+    protected globalMessageService: GlobalMessageService,
+    protected routingService: RoutingService
+  ) {
+    super(
+      store,
+      userIdService,
+      oAuthLibWrapperService,
+      authStorageService,
+      authRedirectService,
+      routingService
+    );
+  }
+
+  protected canUserLogin(): boolean {
+    let tokenTarget: TokenTarget;
+    let token: AuthToken;
+
+    this.authStorageService
+      .getToken()
+      .subscribe((tok) &#x3D;&gt; (token &#x3D; tok))
+      .unsubscribe();
+    this.authStorageService
+      .getTokenTarget()
+      .subscribe((tokTarget) &#x3D;&gt; (tokenTarget &#x3D; tokTarget))
+      .unsubscribe();
+    return !(
+      Boolean(token?.access_token) &amp;&amp; tokenTarget &#x3D;&#x3D;&#x3D; TokenTarget.CSAgent
+    );
+  }
+
+  protected warnAboutLoggedCSAgent(): void {
+    this.globalMessageService.add(
+      {
+        key: &#x27;asm.auth.agentLoggedInError&#x27;,
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+  }
 
   /**
-   * Loads a user token for a customer support agent
+   * Loads a new user token with Resource Owner Password Flow when CS agent is not logged in.
    * @param userId
    * @param password
    */
-  authorizeCustomerSupportAgent(userId: string, password: string): void {
-    this.store.dispatch(
-      new AsmActions.LoadCustomerSupportAgentToken({
-        userId: userId,
-        password: password,
-      })
+  async loginWithCredentials(userId: string, password: string): Promise&lt;void&gt; {
+    if (this.canUserLogin()) {
+      await super.loginWithCredentials(userId, password);
+    } else {
+      this.warnAboutLoggedCSAgent();
+    }
+  }
+
+  /**
+   * Initialize Implicit/Authorization Code flow by redirecting to OAuth server when CS agent is not logged in.
+   */
+  loginWithRedirect(): boolean {
+    if (this.canUserLogin()) {
+      super.loginWithRedirect();
+      return true;
+    } else {
+      this.warnAboutLoggedCSAgent();
+      return false;
+    }
+  }
+
+  /**
+   * Revokes tokens and clears state for logged user (tokens, userId).
+   * To perform logout it is best to use &#x60;logout&#x60; method. Use this method with caution.
+   */
+  coreLogout(): Promise&lt;any&gt; {
+    return this.userIdService
+      .isEmulated()
+      .pipe(
+        take(1),
+        switchMap((isEmulated) &#x3D;&gt; {
+          if (isEmulated) {
+            this.authStorageService.clearEmulatedUserToken();
+            this.userIdService.clearUserId();
+            this.store.dispatch(new AuthActions.Logout());
+            return of(true);
+          } else {
+            return from(super.coreLogout());
+          }
+        })
+      )
+      .toPromise();
+  }
+
+  /**
+   * Returns &#x60;true&#x60; if user is logged in or being emulated.
+   */
+  isUserLoggedIn(): Observable&lt;boolean&gt; {
+    return combineLatest([
+      this.authStorageService.getToken(),
+      this.userIdService.isEmulated(),
+      this.authStorageService.getTokenTarget(),
+    ]).pipe(
+      map(
+        ([token, isEmulated, tokenTarget]) &#x3D;&gt;
+          Boolean(token?.access_token) &amp;&amp;
+          (tokenTarget &#x3D;&#x3D;&#x3D; TokenTarget.User ||
+            (tokenTarget &#x3D;&#x3D;&#x3D; TokenTarget.CSAgent &amp;&amp; isEmulated))
+      )
     );
-  }
-
-  /**
-   * Starts an ASM customer emulation session.
-   * A customer emulation session is stoped by calling logout().
-   * @param customerSupportAgentToken
-   * @param customerId
-   */
-  public startCustomerEmulationSession(
-    customerSupportAgentToken: UserToken,
-    customerId: string
-  ): void {
-    this.authService.authorizeWithToken({
-      ...customerSupportAgentToken,
-      userId: customerId,
-    });
-  }
-
-  /**
-   * Utility function to determine if a given token is a customer emulation session token.
-   * @param userToken
-   */
-  isCustomerEmulationToken(userToken: UserToken): boolean {
-    return (
-      Boolean(userToken) &amp;&amp;
-      Boolean(userToken.userId) &amp;&amp;
-      userToken.userId !&#x3D;&#x3D; OCC_USER_ID_CURRENT
-    );
-  }
-
-  /**
-   * Returns the customer support agent&#x27;s token
-   */
-  getCustomerSupportAgentToken(): Observable&lt;UserToken&gt; {
-    return this.store.pipe(select(AsmSelectors.getCustomerSupportAgentToken));
-  }
-
-  /**
-   * Returns the customer support agent&#x27;s token loading status
-   */
-  getCustomerSupportAgentTokenLoading(): Observable&lt;boolean&gt; {
-    return this.store.pipe(
-      select(AsmSelectors.getCustomerSupportAgentTokenLoading)
-    );
-  }
-
-  /**
-   * Logout a customer support agent
-   */
-  logoutCustomerSupportAgent(): void {
-    this.getCustomerSupportAgentToken()
-      .pipe(take(1))
-      .subscribe((userToken) &#x3D;&gt; {
-        this.store.dispatch(new AsmActions.LogoutCustomerSupportAgent());
-        this.store.dispatch(new AuthActions.RevokeUserToken(userToken));
-      });
   }
 }
 </code></pre>
@@ -669,6 +1068,7 @@ export class AsmAuthService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'AsmAuthService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

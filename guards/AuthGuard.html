@@ -58,9 +58,17 @@
             <h3>File</h3>
             </p>
             <p class="comment">
-                <code>projects/core/src/auth/guards/auth.guard.ts</code>
+                <code>projects/core/src/auth/user-auth/guards/auth.guard.ts</code>
             </p>
 
+                <p class="comment">
+                <h3>Description</h3>
+                </p>
+                <p class="comment">
+                    <p>Checks if there is currently logged in user.
+Use to protect pages dedicated only for logged in users.</p>
+
+                </p>
 
 
 
@@ -99,12 +107,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(routingService: <a href="../injectables/RoutingService.html">RoutingService</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>, authRedirectService: <a href="../injectables/AuthRedirectService.html">AuthRedirectService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>)</code>
+<code>constructor(authService: <a href="../injectables/AuthService.html">AuthService</a>, authRedirectService: <a href="../injectables/AuthRedirectService.html">AuthRedirectService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, semanticPathService: <a href="../injectables/SemanticPathService.html">SemanticPathService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/core/src/auth/guards/auth.guard.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/core/src/auth/user-auth/guards/auth.guard.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -121,18 +129,6 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                                <tr>
-                                                        <td>routingService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/RoutingService.html" target="_self" >RoutingService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
                                                 <tr>
                                                         <td>authService</td>
                                                   
@@ -162,6 +158,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>semanticPathService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SemanticPathService.html" target="_self" >SemanticPathService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -205,8 +213,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="21"
-                            class="link-to-prism">projects/core/src/auth/guards/auth.guard.ts:21</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">projects/core/src/auth/user-auth/guards/auth.guard.ts:24</a></div>
                 </td>
             </tr>
 
@@ -215,7 +223,7 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
+                        <b>Returns : </b>    <code>Observable&lt;boolean | UrlTree&gt;</code>
 
                     </div>
                 </td>
@@ -228,33 +236,36 @@
 
         <div class="tab-pane fade  tab-source-code" id="c-source">
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { CanActivate, Router } from &#x27;@angular/router&#x27;;
+import { CanActivate, Router, UrlTree } from &#x27;@angular/router&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { map } from &#x27;rxjs/operators&#x27;;
-import { RoutingService } from &#x27;../../routing/facade/routing.service&#x27;;
+import { SemanticPathService } from &#x27;../../../routing/configurable-routes/url-translation/semantic-path.service&#x27;;
 import { AuthService } from &#x27;../facade/auth.service&#x27;;
-import { UserToken } from &#x27;../models/token-types.model&#x27;;
-import { AuthRedirectService } from &#x27;./auth-redirect.service&#x27;;
+import { AuthRedirectService } from &#x27;../services/auth-redirect.service&#x27;;
 
+/**
+ * Checks if there is currently logged in user.
+ * Use to protect pages dedicated only for logged in users.
+ */
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
 export class AuthGuard implements CanActivate {
   constructor(
-    protected routingService: RoutingService,
     protected authService: AuthService,
     protected authRedirectService: AuthRedirectService,
-    protected router: Router
+    protected router: Router,
+    protected semanticPathService: SemanticPathService
   ) {}
 
-  canActivate(): Observable&lt;boolean&gt; {
-    return this.authService.getUserToken().pipe(
-      map((token: UserToken) &#x3D;&gt; {
-        if (!token.access_token) {
+  canActivate(): Observable&lt;boolean | UrlTree&gt; {
+    return this.authService.isUserLoggedIn().pipe(
+      map((isLoggedIn) &#x3D;&gt; {
+        if (!isLoggedIn) {
           this.authRedirectService.reportAuthGuard();
-          this.routingService.go({ cxRoute: &#x27;login&#x27; });
+          return this.router.parseUrl(this.semanticPathService.get(&#x27;login&#x27;));
         }
-        return !!token.access_token;
+        return isLoggedIn;
       })
     );
   }
@@ -290,6 +301,7 @@ export class AuthGuard implements CanActivate {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'guard';
             var COMPODOC_CURRENT_PAGE_URL = 'AuthGuard.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

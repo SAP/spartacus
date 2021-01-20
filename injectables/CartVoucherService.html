@@ -115,7 +115,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(store: Store<fromProcessStore.StateWithProcess<void>>, authService: <a href="../injectables/AuthService.html">AuthService</a>, activeCartService: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>)</code>
+<code>constructor(store: Store<fromProcessStore.StateWithProcess<void>>, activeCartService: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>, userIdService: <a href="../injectables/UserIdService.html">UserIdService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -150,10 +150,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>authService</td>
+                                                        <td>activeCartService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                                        <code><a href="../injectables/ActiveCartService.html" target="_self" >ActiveCartService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -162,10 +162,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>activeCartService</td>
+                                                        <td>userIdService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/ActiveCartService.html" target="_self" >ActiveCartService</a></code>
+                                                                        <code><a href="../injectables/UserIdService.html" target="_self" >UserIdService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -597,7 +597,7 @@
 import { select, Store } from &#x27;@ngrx/store&#x27;;
 import { combineLatest, Observable } from &#x27;rxjs&#x27;;
 import { map, take } from &#x27;rxjs/operators&#x27;;
-import { AuthService } from &#x27;../../auth/index&#x27;;
+import { UserIdService } from &#x27;../../auth/index&#x27;;
 import * as fromProcessStore from &#x27;../../process/store/process-state&#x27;;
 import {
   getProcessErrorFactory,
@@ -614,8 +614,8 @@ import { ActiveCartService } from &#x27;./active-cart.service&#x27;;
 export class CartVoucherService {
   constructor(
     protected store: Store&lt;fromProcessStore.StateWithProcess&lt;void&gt;&gt;,
-    protected authService: AuthService,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartService,
+    protected userIdService: UserIdService
   ) {}
 
   addVoucher(voucherId: string, cartId?: string): void {
@@ -686,13 +686,13 @@ export class CartVoucherService {
 
   private combineUserAndCartId(cartId: string): Observable&lt;[string, string]&gt; {
     if (cartId) {
-      return this.authService.getOccUserId().pipe(
+      return this.userIdService.getUserId().pipe(
         take(1),
         map((userId) &#x3D;&gt; [userId, cartId])
       );
     } else {
       return combineLatest([
-        this.authService.getOccUserId(),
+        this.userIdService.getUserId(),
         this.activeCartService.getActiveCartId(),
       ]).pipe(take(1));
     }
@@ -732,6 +732,7 @@ export class CartVoucherService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CartVoucherService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

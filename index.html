@@ -35,9 +35,9 @@
 <p>Spartacus is a lean, Angular-based JavaScript storefront for SAP Commerce Cloud. Spartacus talks to SAP Commerce Cloud exclusively through the Commerce REST API.</p>
 <ul>
 <li>Documentation is hosted on our dedicated <a href="https://sap.github.io/spartacus-docs/">Spartacus Documentation site</a>.</li>
-<li>Try out a <a href="https://spartacus.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com/">sample Spartacus storefront</a> on our public demo site.</li>
+<li>Try out a <a href="https://spartacus-demo.eastus.cloudapp.azure.com/">sample Spartacus storefront</a> on our public demo site.</li>
 <li>Technical questions? Get in touch with us on <a href="https://stackoverflow.com/questions/tagged/spartacus-storefront">Stack Overflow</a>.</li>
-<li>Non-technical questions? Join our <a href="https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTg1NGVjZmFkZjQzODc1MzFhMjc3OTZmMzIzYzg0YjMwODJiY2YxYjA5MTE5NjVmN2E5NjMxNjEzMGNlMDRjMjU">Slack workspace</a>.</li>
+<li>Non-technical questions? Join our <a href="https://join.slack.com/t/spartacus-storefront/shared_invite/zt-jekftqo0-HP6xt6IF~ffVB2cGG66fcQ">Slack workspace</a>.</li>
 <li>For details on the 2.0 launch, see the <a href="https://sap.github.io/spartacus-docs/release-information/">Release Information page</a> on our Spartacus documentation site.</li>
 </ul>
 <p>Spartacus is...</p>
@@ -62,6 +62,12 @@
 </ul>
 <p>See the <a href="https://sap.github.io/spartacus-docs/release-information/">Release documentation</a> for more information.</p>
 <h1 id="requirements">Requirements</h1>
+<p>If you are working with Spartacus 3.x, your Angular development environment should include the following:</p>
+<ul>
+<li><a href="https://angular.io/">Angular CLI</a>: <strong>10.1</strong> or later.</li>
+<li>node.js: 12.16.1 or later, &lt; 13.0. The most recent 12.x version is recommended.</li>
+<li>yarn: v1.15 or later</li>
+</ul>
 <p>If you are working with Spartacus 2.x, your Angular development environment should include the following:</p>
 <ul>
 <li><a href="https://angular.io/">Angular CLI</a>: <strong>9.1</strong> or later.</li>
@@ -99,13 +105,13 @@
 <p>Spartacus is provided &quot;as-is&quot; with no official lines of support.</p>
 <p>To get help from the Spartacus community:</p>
 <ul>
-<li>For more general questions, post a question in the Help chat of our <a href="https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTg1NGVjZmFkZjQzODc1MzFhMjc3OTZmMzIzYzg0YjMwODJiY2YxYjA5MTE5NjVmN2E5NjMxNjEzMGNlMDRjMjU">Slack workspace</a>.</li>
+<li>For more general questions, post a question in the Help chat of our <a href="https://join.slack.com/t/spartacus-storefront/shared_invite/zt-jekftqo0-HP6xt6IF~ffVB2cGG66fcQ">Slack workspace</a>.</li>
 <li>For developer questions, post a question to <a href="https://stackoverflow.com/questions/tagged/spartacus">Stack Overflow with the &#39;spartacus&#39; tag</a>.</li>
 </ul>
 <h1 id="contributing">Contributing</h1>
 <p>Team Spartacus welcomes feedback, ideas, requests, and especially code contributions.</p>
 <ul>
-<li>Post comments to our Feedback chat in our <a href="https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTg1NGVjZmFkZjQzODc1MzFhMjc3OTZmMzIzYzg0YjMwODJiY2YxYjA5MTE5NjVmN2E5NjMxNjEzMGNlMDRjMjU">Slack</a> channel.</li>
+<li>Post comments to our Feedback chat in our <a href="https://join.slack.com/t/spartacus-storefront/shared_invite/zt-jekftqo0-HP6xt6IF~ffVB2cGG66fcQ">Slack</a> channel.</li>
 <li>Read the <a href="CONTRIBUTING.md">Contributing document</a> and learn how to:<ul>
 <li>Help others</li>
 <li>Report an issue</li>
@@ -118,6 +124,7 @@
 <h1 id="license">License</h1>
 <p>Copyright (c) 2018 SAP SE or an SAP affiliate company. All rights reserved.
 This file is licensed under the Apache Software License, v. 2 except as noted otherwise in the <a href="LICENSE">LICENSE</a> file.</p>
+<p><img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" class="img-responsive"></p>
 
 
 
@@ -155,6 +162,7 @@ This file is licensed under the Apache Software License, v. 2 except as noted ot
             var COMPODOC_CURRENT_PAGE_DEPTH = 0;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'getting-started';
             var COMPODOC_CURRENT_PAGE_URL = 'index.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="./js/libs/custom-elements.min.js"></script>

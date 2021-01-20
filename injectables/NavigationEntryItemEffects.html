@@ -309,7 +309,7 @@
                   of(
                     new CmsActions.LoadCmsNavigationItemsFail(
                       data.nodeId,
-                      makeErrorSerializable(error)
+                      normalizeHttpError(error)
                     )
                   )
                 )
@@ -363,7 +363,7 @@ import { Actions, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { catchError, filter, map, mergeMap, take } from &#x27;rxjs/operators&#x27;;
 import { RoutingService } from &#x27;../../../routing/index&#x27;;
-import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
+import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
 import { CmsComponentConnector } from &#x27;../../connectors/component/cms-component.connector&#x27;;
 import { CmsActions } from &#x27;../actions/index&#x27;;
 
@@ -404,7 +404,7 @@ export class NavigationEntryItemEffects {
                   of(
                     new CmsActions.LoadCmsNavigationItemsFail(
                       data.nodeId,
-                      makeErrorSerializable(error)
+                      normalizeHttpError(error)
                     )
                   )
                 )
@@ -488,6 +488,7 @@ export class NavigationEntryItemEffects {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'NavigationEntryItemEffects.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

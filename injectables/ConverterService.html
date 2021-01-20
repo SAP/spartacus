@@ -78,6 +78,10 @@
                                     <span class="modifier">Private</span>
                                 <a href="#converters">converters</a>
                             </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#subscriptions">subscriptions</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -108,6 +112,9 @@
                                 <a href="#hasConverters">hasConverters</a>
                             </li>
                             <li>
+                                <a href="#ngOnDestroy">ngOnDestroy</a>
+                            </li>
+                            <li>
                                 <a href="#pipeable">pipeable</a>
                             </li>
                             <li>
@@ -131,12 +138,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(injector: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>)</code>
+<code>constructor(unifiedInjector: <a href="../injectables/UnifiedInjector.html">UnifiedInjector</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/core/src/util/converter.service.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/core/src/util/converter.service.ts:30</a></div>
                             </td>
                         </tr>
 
@@ -154,10 +161,10 @@
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>injector</td>
+                                                        <td>unifiedInjector</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/core/Injector" target="_blank" >Injector</a></code>
+                                                                        <code><a href="../injectables/UnifiedInjector.html" target="_self" >UnifiedInjector</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -201,8 +208,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="94"
-                            class="link-to-prism">projects/core/src/util/converter.service.ts:94</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="98"
+                            class="link-to-prism">projects/core/src/util/converter.service.ts:98</a></div>
                 </td>
             </tr>
 
@@ -294,8 +301,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="105"
-                            class="link-to-prism">projects/core/src/util/converter.service.ts:105</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="109"
+                            class="link-to-prism">projects/core/src/util/converter.service.ts:109</a></div>
                 </td>
             </tr>
 
@@ -389,8 +396,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="118"
-                            class="link-to-prism">projects/core/src/util/converter.service.ts:118</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="122"
+                            class="link-to-prism">projects/core/src/util/converter.service.ts:122</a></div>
                 </td>
             </tr>
 
@@ -482,8 +489,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">projects/core/src/util/converter.service.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">projects/core/src/util/converter.service.ts:46</a></div>
                 </td>
             </tr>
 
@@ -561,8 +568,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="58"
-                            class="link-to-prism">projects/core/src/util/converter.service.ts:58</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="62"
+                            class="link-to-prism">projects/core/src/util/converter.service.ts:62</a></div>
                 </td>
             </tr>
 
@@ -624,6 +631,45 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <b>
+                            ngOnDestroy
+                        </b>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="131"
+                            class="link-to-prism">projects/core/src/util/converter.service.ts:131</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="pipeable"></a>
                     <span class="name">
                         <b>
@@ -642,8 +688,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="68"
-                            class="link-to-prism">projects/core/src/util/converter.service.ts:68</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">projects/core/src/util/converter.service.ts:72</a></div>
                 </td>
             </tr>
 
@@ -723,8 +769,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="81"
-                            class="link-to-prism">projects/core/src/util/converter.service.ts:81</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">projects/core/src/util/converter.service.ts:85</a></div>
                 </td>
             </tr>
 
@@ -814,6 +860,33 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/core/src/util/converter.service.ts:41</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="subscriptions"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Protected</span>
+                            subscriptions</b>
+                            <a href="#subscriptions"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new Subscription()</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
                                     <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/core/src/util/converter.service.ts:30</a></div>
                             </td>
                         </tr>
@@ -827,9 +900,11 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, InjectionToken, Injector } from &#x27;@angular/core&#x27;;
-import { Observable, OperatorFunction } from &#x27;rxjs&#x27;;
-import { map } from &#x27;rxjs/operators&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, InjectionToken, OnDestroy } from &#x27;@angular/core&#x27;;
+import { Observable, OperatorFunction, Subscription } from &#x27;rxjs&#x27;;
+import { map, tap } from &#x27;rxjs/operators&#x27;;
+import { UnifiedInjector } from &#x27;../lazy-loading/unified-injector&#x27;;
+import { getLastValueSync } from &#x27;./rxjs/get-last-value-sync&#x27;;
 
 /**
  * Converter is used to convert source data model to target data model.
@@ -853,8 +928,17 @@ export interface Converter&lt;S, T&gt; {
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
-export class ConverterService {
-  constructor(protected injector: Injector) {}
+export class ConverterService implements OnDestroy {
+  protected subscriptions &#x3D; new Subscription();
+
+  constructor(protected unifiedInjector: UnifiedInjector) {
+    // Clear cached converters when new injectors appear
+    const cacheResetLogic &#x3D; this.unifiedInjector.injectors$.pipe(
+      tap(() &#x3D;&gt; this.converters.clear())
+    );
+
+    this.subscriptions.add(cacheResetLogic.subscribe());
+  }
 
   private converters: Map&lt;
     InjectionToken&lt;Converter&lt;any, any&gt;&gt;,
@@ -865,16 +949,9 @@ export class ConverterService {
     injectionToken: InjectionToken&lt;Converter&lt;S, T&gt;&gt;
   ): Converter&lt;S, T&gt;[] {
     if (!this.converters.has(injectionToken)) {
-      const converters &#x3D; this.injector.get&lt;Converter&lt;S, T&gt;[]&gt;(
-        injectionToken,
-        []
+      const converters &#x3D; getLastValueSync(
+        this.unifiedInjector.getMulti(injectionToken)
       );
-      if (!Array.isArray(converters)) {
-        console.warn(
-          &#x27;Converter must be multi-provided, please use &quot;multi: true&quot; for&#x27;,
-          injectionToken.toString()
-        );
-      }
       this.converters.set(injectionToken, converters);
     }
 
@@ -952,6 +1029,10 @@ export class ConverterService {
       return converter.convert(source, target);
     }, undefined as T);
   }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
 }
 </code></pre>
     </div>
@@ -987,6 +1068,7 @@ export class ConverterService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'ConverterService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

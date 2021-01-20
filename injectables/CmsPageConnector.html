@@ -266,9 +266,9 @@ configuration (see <code>CmsStructureConfigService</code>).</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Merge default page structure inot the given <code>CmsStructureModel</code>.
-This is benefitial for a fast setup of the UI without necessary
-finegrained CMS setup.</p>
+                    <div class="io-description"><p>Merge default page structure to the given <code>CmsStructureModel</code>.
+This is beneficial for a fast setup of the UI without necessary
+fine-grained CMS setup.</p>
 </div>
 
                     <div class="io-description">
@@ -328,14 +328,14 @@ finegrained CMS setup.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpErrorResponse } from &#x27;@angular/common/http&#x27;;
+import { Injectable } from &#x27;@angular/core&#x27;;
 import { Observable, of, throwError } from &#x27;rxjs&#x27;;
 import { catchError, switchMap } from &#x27;rxjs/operators&#x27;;
-import { HttpErrorResponse } from &#x27;@angular/common/http&#x27;;
-import { CmsPageAdapter } from &#x27;./cms-page.adapter&#x27;;
-import { CmsStructureConfigService } from &#x27;../../services/cms-structure-config.service&#x27;;
 import { PageContext } from &#x27;../../../routing/models/page-context.model&#x27;;
 import { CmsStructureModel } from &#x27;../../model/page.model&#x27;;
+import { CmsStructureConfigService } from &#x27;../../services/cms-structure-config.service&#x27;;
+import { CmsPageAdapter } from &#x27;./cms-page.adapter&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
@@ -379,9 +379,9 @@ export class CmsPageConnector {
 
   /**
    *
-   * Merge default page structure inot the given &#x60;CmsStructureModel&#x60;.
-   * This is benefitial for a fast setup of the UI without necessary
-   * finegrained CMS setup.
+   * Merge default page structure to the given &#x60;CmsStructureModel&#x60;.
+   * This is beneficial for a fast setup of the UI without necessary
+   * fine-grained CMS setup.
    */
   private mergeDefaultPageStructure(
     pageContext: PageContext,
@@ -427,6 +427,7 @@ export class CmsPageConnector {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CmsPageConnector.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

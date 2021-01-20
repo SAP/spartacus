@@ -101,7 +101,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/core/src/checkout/store/effects/address-verification.effect.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/core/src/checkout/store/effects/address-verification.effect.ts:25</a></div>
                             </td>
                         </tr>
 
@@ -184,9 +184,7 @@
       this.userAddressConnector.verify(payload.userId, payload.address).pipe(
         map((data) &#x3D;&gt; new CheckoutActions.VerifyAddressSuccess(data)),
         catchError((error) &#x3D;&gt;
-          of(
-            new CheckoutActions.VerifyAddressFail(makeErrorSerializable(error))
-          )
+          of(new CheckoutActions.VerifyAddressFail(normalizeHttpError(error)))
         )
       )
     )
@@ -222,7 +220,7 @@ import { Actions, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { catchError, map, mergeMap } from &#x27;rxjs/operators&#x27;;
 import { UserAddressConnector } from &#x27;../../../user/connectors/address/user-address.connector&#x27;;
-import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
+import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
 import { CheckoutActions } from &#x27;../actions/index&#x27;;
 
 @Injectable()
@@ -237,9 +235,7 @@ export class AddressVerificationEffect {
       this.userAddressConnector.verify(payload.userId, payload.address).pipe(
         map((data) &#x3D;&gt; new CheckoutActions.VerifyAddressSuccess(data)),
         catchError((error) &#x3D;&gt;
-          of(
-            new CheckoutActions.VerifyAddressFail(makeErrorSerializable(error))
-          )
+          of(new CheckoutActions.VerifyAddressFail(normalizeHttpError(error)))
         )
       )
     )
@@ -284,6 +280,7 @@ export class AddressVerificationEffect {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'AddressVerificationEffect.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

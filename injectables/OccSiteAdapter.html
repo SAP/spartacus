@@ -79,6 +79,9 @@
                                 <a href="#loadBaseSite">loadBaseSite</a>
                             </li>
                             <li>
+                                <a href="#loadBaseSites">loadBaseSites</a>
+                            </li>
+                            <li>
                                 <a href="#loadCountries">loadCountries</a>
                             </li>
                             <li>
@@ -113,7 +116,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/core/src/occ/adapters/site-context/occ-site.adapter.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/core/src/occ/adapters/site-context/occ-site.adapter.ts:20</a></div>
                             </td>
                         </tr>
 
@@ -195,15 +198,88 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>loadBaseSite()</code>
+<code>loadBaseSite(siteUid?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="70"
-                            class="link-to-prism">projects/core/src/occ/adapters/site-context/occ-site.adapter.ts:70</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="75"
+                            class="link-to-prism">projects/core/src/occ/adapters/site-context/occ-site.adapter.ts:75</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>There is no OCC API to load one site based on Uid.
+So, we have to load all sites, and find the one from the list.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>siteUid</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;BaseSite&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadBaseSites"></a>
+                    <span class="name">
+                        <b>
+                            loadBaseSites
+                        </b>
+                        <a href="#loadBaseSites"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadBaseSites()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="93"
+                            class="link-to-prism">projects/core/src/occ/adapters/site-context/occ-site.adapter.ts:93</a></div>
                 </td>
             </tr>
 
@@ -212,7 +288,7 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;BaseSite&gt;</code>
+                        <b>Returns : </b>    <code>Observable&lt;BaseSite[]&gt;</code>
 
                     </div>
                 </td>
@@ -241,8 +317,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="44"
-                            class="link-to-prism">projects/core/src/occ/adapters/site-context/occ-site.adapter.ts:44</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">projects/core/src/occ/adapters/site-context/occ-site.adapter.ts:45</a></div>
                 </td>
             </tr>
 
@@ -311,8 +387,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">projects/core/src/occ/adapters/site-context/occ-site.adapter.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">projects/core/src/occ/adapters/site-context/occ-site.adapter.ts:36</a></div>
                 </td>
             </tr>
 
@@ -350,8 +426,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="26"
-                            class="link-to-prism">projects/core/src/occ/adapters/site-context/occ-site.adapter.ts:26</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">projects/core/src/occ/adapters/site-context/occ-site.adapter.ts:27</a></div>
                 </td>
             </tr>
 
@@ -389,8 +465,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">projects/core/src/occ/adapters/site-context/occ-site.adapter.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">projects/core/src/occ/adapters/site-context/occ-site.adapter.ts:60</a></div>
                 </td>
             </tr>
 
@@ -443,13 +519,14 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpClient, HttpParams } from &#x27;@angular/common/http&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpClient } from &#x27;@angular/common/http&#x27;;
 import { Injectable } from &#x27;@angular/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { map } from &#x27;rxjs/operators&#x27;;
 import { Country, CountryType, Region } from &#x27;../../../model/address.model&#x27;;
 import { BaseSite, Currency, Language } from &#x27;../../../model/misc.model&#x27;;
 import {
+  BASE_SITE_NORMALIZER,
   COUNTRY_NORMALIZER,
   CURRENCY_NORMALIZER,
   LANGUAGE_NORMALIZER,
@@ -512,22 +589,36 @@ export class OccSiteAdapter implements SiteAdapter {
       );
   }
 
-  loadBaseSite(): Observable&lt;BaseSite&gt; {
-    const baseUrl &#x3D; this.occEndpointsService.getBaseEndpoint();
-    const urlSplits &#x3D; baseUrl.split(&#x27;/&#x27;);
-    const activeSite &#x3D; urlSplits.pop();
-    const url &#x3D; urlSplits.join(&#x27;/&#x27;) + &#x27;/basesites&#x27;;
-
-    const params &#x3D; new HttpParams({
-      fromString: &#x27;fields&#x3D;FULL&#x27;,
-    });
+  /**
+   * There is no OCC API to load one site based on Uid.
+   * So, we have to load all sites, and find the one from the list.
+   */
+  loadBaseSite(siteUid?: string): Observable&lt;BaseSite&gt; {
+    if (!siteUid) {
+      const baseUrl &#x3D; this.occEndpointsService.getBaseEndpoint();
+      const urlSplits &#x3D; baseUrl.split(&#x27;/&#x27;);
+      siteUid &#x3D; urlSplits.pop();
+    }
 
     return this.http
-      .get&lt;{ baseSites: BaseSite[] }&gt;(url, { params: params })
+      .get&lt;{ baseSites: BaseSite[] }&gt;(
+        this.occEndpointsService.getOccEndpoint(&#x27;baseSites&#x27;)
+      )
       .pipe(
         map((siteList) &#x3D;&gt; {
-          return siteList.baseSites.find((site) &#x3D;&gt; site.uid &#x3D;&#x3D;&#x3D; activeSite);
+          return siteList.baseSites.find((site) &#x3D;&gt; site.uid &#x3D;&#x3D;&#x3D; siteUid);
         })
+      );
+  }
+
+  loadBaseSites(): Observable&lt;BaseSite[]&gt; {
+    return this.http
+      .get&lt;{ baseSites: BaseSite[] }&gt;(
+        this.occEndpointsService.getOccEndpoint(&#x27;baseSites&#x27;)
+      )
+      .pipe(
+        map((baseSiteList) &#x3D;&gt; baseSiteList.baseSites),
+        this.converterService.pipeableMany(BASE_SITE_NORMALIZER)
       );
   }
 }
@@ -565,6 +656,7 @@ export class OccSiteAdapter implements SiteAdapter {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'OccSiteAdapter.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

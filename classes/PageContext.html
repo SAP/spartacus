@@ -110,7 +110,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="5" class="link-to-prism">projects/core/src/routing/models/page-context.model.ts:5</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/core/src/routing/models/page-context.model.ts:18</a></div>
                             </td>
                         </tr>
 
@@ -185,7 +185,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="4" class="link-to-prism">projects/core/src/routing/models/page-context.model.ts:4</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/core/src/routing/models/page-context.model.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -213,7 +213,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="5" class="link-to-prism">projects/core/src/routing/models/page-context.model.ts:5</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/core/src/routing/models/page-context.model.ts:18</a></div>
                             </td>
                         </tr>
 
@@ -233,6 +233,19 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PageType } from &#x27;../../model/cms.model&#x27;;
+
+/**
+ * The homepage id for the CMS homepage is not required when we query the backend.
+ * CMS business users can have multiple pages, that they might switch quickly without
+ * changing the page id. Therefore, we use a constant to keep track of the page in the
+ * store, but are able to ignore the id while querying the backend.
+ */
+export const HOME_PAGE_CONTEXT &#x3D; &#x27;__HOMEPAGE__&#x27;;
+
+/**
+ * SmartEdit preview page is loaded by previewToken which is added by interceptor
+ */
+export const SMART_EDIT_CONTEXT &#x3D; &#x27;smartedit-preview&#x27;;
 
 export class PageContext {
   id: string;
@@ -272,6 +285,7 @@ export class PageContext {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
             var COMPODOC_CURRENT_PAGE_URL = 'PageContext.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

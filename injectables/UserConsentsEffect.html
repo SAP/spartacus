@@ -110,7 +110,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="94" class="link-to-prism">projects/core/src/user/store/effects/user-consents.effect.ts:94</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">projects/core/src/user/store/effects/user-consents.effect.ts:90</a></div>
                             </td>
                         </tr>
 
@@ -193,7 +193,7 @@
       this.userConsentConnector.loadConsents(userId).pipe(
         map((consents) &#x3D;&gt; new UserActions.LoadUserConsentsSuccess(consents)),
         catchError((error) &#x3D;&gt;
-          of(new UserActions.LoadUserConsentsFail(makeErrorSerializable(error)))
+          of(new UserActions.LoadUserConsentsFail(normalizeHttpError(error)))
         )
       )
     )
@@ -257,7 +257,7 @@
               | UserActions.UserConsentsAction
               | GlobalMessageActions.RemoveMessagesByType
             &gt; &#x3D; [
-              new UserActions.GiveUserConsentFail(makeErrorSerializable(error)),
+              new UserActions.GiveUserConsentFail(normalizeHttpError(error)),
             ];
             if (
               action.type &#x3D;&#x3D;&#x3D; UserActions.TRANSFER_ANONYMOUS_CONSENT &amp;&amp;
@@ -365,11 +365,7 @@
       this.userConsentConnector.withdrawConsent(userId, consentCode).pipe(
         map(() &#x3D;&gt; new UserActions.WithdrawUserConsentSuccess()),
         catchError((error) &#x3D;&gt;
-          of(
-            new UserActions.WithdrawUserConsentFail(
-              makeErrorSerializable(error)
-            )
-          )
+          of(new UserActions.WithdrawUserConsentFail(normalizeHttpError(error)))
         )
       )
     )
@@ -407,7 +403,7 @@ import { catchError, concatMap, map } from &#x27;rxjs/operators&#x27;;
 import { GlobalMessageType } from &#x27;../../../global-message/models/global-message.model&#x27;;
 import { GlobalMessageActions } from &#x27;../../../global-message/store/actions&#x27;;
 import { SiteContextActions } from &#x27;../../../site-context/store/actions/index&#x27;;
-import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
+import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
 import { UserConsentConnector } from &#x27;../../connectors/consent/user-consent.connector&#x27;;
 import { UserActions } from &#x27;../actions/index&#x27;;
 
@@ -429,7 +425,7 @@ export class UserConsentsEffect {
       this.userConsentConnector.loadConsents(userId).pipe(
         map((consents) &#x3D;&gt; new UserActions.LoadUserConsentsSuccess(consents)),
         catchError((error) &#x3D;&gt;
-          of(new UserActions.LoadUserConsentsFail(makeErrorSerializable(error)))
+          of(new UserActions.LoadUserConsentsFail(normalizeHttpError(error)))
         )
       )
     )
@@ -457,7 +453,7 @@ export class UserConsentsEffect {
               | UserActions.UserConsentsAction
               | GlobalMessageActions.RemoveMessagesByType
             &gt; &#x3D; [
-              new UserActions.GiveUserConsentFail(makeErrorSerializable(error)),
+              new UserActions.GiveUserConsentFail(normalizeHttpError(error)),
             ];
             if (
               action.type &#x3D;&#x3D;&#x3D; UserActions.TRANSFER_ANONYMOUS_CONSENT &amp;&amp;
@@ -485,11 +481,7 @@ export class UserConsentsEffect {
       this.userConsentConnector.withdrawConsent(userId, consentCode).pipe(
         map(() &#x3D;&gt; new UserActions.WithdrawUserConsentSuccess()),
         catchError((error) &#x3D;&gt;
-          of(
-            new UserActions.WithdrawUserConsentFail(
-              makeErrorSerializable(error)
-            )
-          )
+          of(new UserActions.WithdrawUserConsentFail(normalizeHttpError(error)))
         )
       )
     )
@@ -534,6 +526,7 @@ export class UserConsentsEffect {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'UserConsentsEffect.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

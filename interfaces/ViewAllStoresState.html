@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/store-finder/store/store-finder-state.ts</code>
+            <code>feature-libs/storefinder/core/store/store-finder-state.ts</code>
         </p>
 
 
@@ -126,8 +126,8 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { StateUtils } from &#x27;../../state/utils&#x27;;
-import { StoreEntities } from &#x27;../model&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { StoreEntities } from &#x27;../model/store-entities&#x27;;
+import { StateUtils } from &#x27;@spartacus/core&#x27;;
 
 export const STORE_FINDER_FEATURE &#x3D; &#x27;stores&#x27;;
 export const STORE_FINDER_DATA &#x3D; &#x27;[StoreFinder] Store Finder Data&#x27;;
@@ -176,6 +176,7 @@ export interface ViewAllStoresState {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'ViewAllStoresState.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

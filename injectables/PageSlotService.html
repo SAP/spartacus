@@ -76,7 +76,7 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Protected</span>
-                                <a href="#instantSsrSlots">instantSsrSlots</a>
+                                <a href="#prerenderedSlots">prerenderedSlots</a>
                             </li>
                         </ul>
                     </td>
@@ -91,8 +91,11 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#getComponentDeferOptions">getComponentDeferOptions</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Protected</span>
-                                <a href="#discoverInstantSsrSlots">discoverInstantSsrSlots</a>
+                                <a href="#resolvePrerenderedSlots">resolvePrerenderedSlots</a>
                             </li>
                             <li>
                                 <a href="#shouldNotDefer">shouldNotDefer</a>
@@ -115,12 +118,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(platformId: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, document)</code>
+<code>constructor(cmsComponentsService: <a href="../injectables/CmsComponentsService.html">CmsComponentsService</a>, platformId: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, document)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/slot/page-slot.service.ts:8</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/slot/page-slot.service.ts:11</a></div>
                             </td>
                         </tr>
 
@@ -137,6 +140,18 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                                <tr>
+                                                        <td>cmsComponentsService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/CmsComponentsService.html" target="_self" >CmsComponentsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                                 <tr>
                                                         <td>platformId</td>
                                                   
@@ -178,28 +193,113 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="discoverInstantSsrSlots"></a>
+                    <a name="getComponentDeferOptions"></a>
+                    <span class="name">
+                        <b>
+                            getComponentDeferOptions
+                        </b>
+                        <a href="#getComponentDeferOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getComponentDeferOptions(slot: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, componentType: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/slot/page-slot.service.ts:57</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the defer options for the given component. If the wrapping
+page slot is prerendered, we would ignore the defer options altogether.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>slot</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>componentType</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/IntersectionOptions.html" target="_self" >IntersectionOptions</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resolvePrerenderedSlots"></a>
                     <span class="name">
                         <b>
                             <span class="modifier">Protected</span>
-                            discoverInstantSsrSlots
+                            resolvePrerenderedSlots
                         </b>
-                        <a href="#discoverInstantSsrSlots"><span class="icon ion-ios-link"></span></a>
+                        <a href="#resolvePrerenderedSlots"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>discoverInstantSsrSlots()</code>
+                    <code>resolvePrerenderedSlots()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/slot/page-slot.service.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/slot/page-slot.service.ts:24</a></div>
                 </td>
             </tr>
 
@@ -239,14 +339,19 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/slot/page-slot.service.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/slot/page-slot.service.ts:45</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Indicates if certain slot should be rendered instantly.</p>
+<p>It&#39;s especially useful when transitioning from SSR to CSR application,
+where we don&#39;t want to apply deferring logic to slots that are visible
+to avoid unnecessary flickering.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -297,12 +402,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="instantSsrSlots"></a>
+                        <a name="prerenderedSlots"></a>
                         <span class="name">
                             <b>
                                 <span class="modifier">Protected</span>
-                            instantSsrSlots</b>
-                            <a href="#instantSsrSlots"><span class="icon ion-ios-link"></span></a>
+                            prerenderedSlots</b>
+                            <a href="#prerenderedSlots"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
@@ -314,7 +419,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/slot/page-slot.service.ts:8</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/slot/page-slot.service.ts:11</a></div>
                             </td>
                         </tr>
 
@@ -329,26 +434,30 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable, PLATFORM_ID } from &#x27;@angular/core&#x27;;
 import { DOCUMENT, isPlatformBrowser } from &#x27;@angular/common&#x27;;
+import { IntersectionOptions } from &#x27;../../../layout/loading/intersection.model&#x27;;
+import { DeferLoadingStrategy } from &#x27;@spartacus/core&#x27;;
+import { CmsComponentsService } from &#x27;../../services/cms-components.service&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
 export class PageSlotService {
-  protected instantSsrSlots: string[] | undefined;
+  protected prerenderedSlots: string[] | undefined;
 
   constructor(
+    protected cmsComponentsService: CmsComponentsService,
     @Inject(PLATFORM_ID) protected platformId: any,
     @Inject(DOCUMENT) protected document
   ) {
-    this.discoverInstantSsrSlots();
+    this.resolvePrerenderedSlots();
   }
 
   /**
    * Finds all slots visible in the SSR pre-rendered DOM
    */
-  protected discoverInstantSsrSlots() {
+  protected resolvePrerenderedSlots(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.instantSsrSlots &#x3D; Array.from(
+      this.prerenderedSlots &#x3D; Array.from(
         this.document.querySelectorAll(&#x27;cx-page-slot&#x27;)
       )
         .filter(
@@ -356,16 +465,40 @@ export class PageSlotService {
             el.getBoundingClientRect().top &lt;
             this.document.documentElement.clientHeight
         )
-        .map((el: Element) &#x3D;&gt; el.classList[0]);
+        .map((el: Element) &#x3D;&gt; el.getAttribute(&#x27;position&#x27;));
     }
   }
 
+  /**
+   * Indicates if certain slot should be rendered instantly.
+   *
+   * It&#x27;s especially useful when transitioning from SSR to CSR application,
+   * where we don&#x27;t want to apply deferring logic to slots that are visible
+   * to avoid unnecessary flickering.
+   */
   shouldNotDefer(slot: string): boolean {
-    if (this.instantSsrSlots?.includes(slot)) {
-      this.instantSsrSlots.splice(this.instantSsrSlots.indexOf(slot), 1);
+    if (this.prerenderedSlots?.includes(slot)) {
+      this.prerenderedSlots.splice(this.prerenderedSlots.indexOf(slot), 1);
       return true;
     }
     return false;
+  }
+
+  /**
+   * Returns the defer options for the given component. If the wrapping
+   * page slot is prerendered, we would ignore the defer options altogether.
+   */
+  getComponentDeferOptions(
+    slot: string,
+    componentType: string
+  ): IntersectionOptions {
+    if (this.shouldNotDefer(slot)) {
+      return { deferLoading: DeferLoadingStrategy.INSTANT };
+    }
+    const deferLoading &#x3D; this.cmsComponentsService.getDeferLoadingStrategy(
+      componentType
+    );
+    return { deferLoading };
   }
 }
 </code></pre>
@@ -402,6 +535,7 @@ export class PageSlotService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'PageSlotService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

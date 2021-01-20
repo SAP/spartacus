@@ -60,7 +60,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/ssr/ng-express-engine-decorator.ts</code>
+            <code>core-libs/setup/ssr/engine-decorator/ng-express-engine-decorator.ts</code>
         </p>
 
             <p class="comment">
@@ -132,15 +132,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>get(ngExpressEngine: <a href="../undefineds/NgExpressEngine.html">NgExpressEngine</a>)</code>
+                    <code>get(ngExpressEngine: <a href="../undefineds/NgExpressEngine.html">NgExpressEngine</a>, optimizationOptions?: <a href="../interfaces/SsrOptimizationOptions.html">SsrOptimizationOptions</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="46"
-                            class="link-to-prism">projects/core/src/ssr/ng-express-engine-decorator.ts:46</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">core-libs/setup/ssr/engine-decorator/ng-express-engine-decorator.ts:50</a></div>
                 </td>
             </tr>
 
@@ -173,6 +173,18 @@
 
 
                                 </tr>
+                                <tr>
+                                    <td>optimizationOptions</td>
+                                    <td>
+                                                <code><a href="../interfaces/SsrOptimizationOptions.html" target="_self" >SsrOptimizationOptions</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -200,7 +212,11 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModuleFactory, StaticProvider, Type } from &#x27;@angular/core&#x27;;
-import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from &#x27;./ssr.providers&#x27;;
+import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from &#x27;@spartacus/core&#x27;;
+import { OptimizedSsrEngine } from &#x27;../optimized-engine/optimized-ssr-engine&#x27;;
+import { SsrOptimizationOptions } from &#x27;../optimized-engine/ssr-optimization-options&#x27;;
+import { REQUEST } from &#x27;@nguniversal/express-engine/tokens&#x27;;
+import { Request } from &#x27;express&#x27;;
 
 /**
  * These are the allowed options for the engine
@@ -227,7 +243,7 @@ export interface RenderOptions extends NgSetupOptions {
 export type NgExpressEngineInstance &#x3D; (
   filePath: string,
   options: RenderOptions,
-  callback: (err?: Error | null | undefined, html?: string | undefined) &#x3D;&gt; void
+  callback: (err?: Error | null, html?: string) &#x3D;&gt; void
 ) &#x3D;&gt; void;
 
 export type NgExpressEngine &#x3D; (
@@ -244,50 +260,65 @@ export class NgExpressEngineDecorator {
    *
    * @param ngExpressEngine
    */
-  static get(ngExpressEngine: NgExpressEngine): NgExpressEngine {
-    const result &#x3D; function cxNgExpressEngine(
-      setupOptions: NgSetupOptions
-    ): NgExpressEngineInstance {
-      return (filePath, options, callback) &#x3D;&gt; {
-        const engineInstance &#x3D; ngExpressEngine({
-          ...setupOptions,
-          providers: [
-            ...getServerRequestProviders(options),
-            ...(setupOptions.providers || []),
-          ],
-        });
-        return engineInstance(filePath, options, callback);
-      };
-    };
+  static get(
+    ngExpressEngine: NgExpressEngine,
+    optimizationOptions?: SsrOptimizationOptions
+  ): NgExpressEngine {
+    const result &#x3D; decorateExpressEngine(ngExpressEngine, optimizationOptions);
     return result;
   }
 }
 
+export function decorateExpressEngine(
+  ngExpressEngine: NgExpressEngine,
+  optimizationOptions: SsrOptimizationOptions &#x3D; {
+    concurrency: 20,
+    timeout: 3000,
+  }
+) {
+  return function (setupOptions: NgSetupOptions) {
+    const engineInstance &#x3D; ngExpressEngine({
+      ...setupOptions,
+      providers: [
+        // add spartacus related providers
+        ...getServerRequestProviders(),
+        ...(setupOptions.providers ?? []),
+      ],
+    });
+
+    // apply optimization wrapper if optimization options were defined
+    return optimizationOptions
+      ? new OptimizedSsrEngine(engineInstance, optimizationOptions)
+          .engineInstance
+      : engineInstance;
+  };
+}
+
 /**
- * Returns Spartacus&#x27; providers to be passed to the Angular express engine (in SSR)
+ * Returns Spartacus providers to be passed to the Angular express engine (in SSR)
  *
  * @param options
  */
-export function getServerRequestProviders(
-  options: RenderOptions
-): StaticProvider[] {
+export function getServerRequestProviders(): StaticProvider[] {
   return [
     {
       provide: SERVER_REQUEST_URL,
-      useValue: getRequestUrl(options.req),
+      useFactory: getRequestUrl,
+      deps: [REQUEST],
     },
     {
       provide: SERVER_REQUEST_ORIGIN,
-      useValue: getRequestOrigin(options.req),
+      useFactory: getRequestOrigin,
+      deps: [REQUEST],
     },
   ];
 }
 
-function getRequestUrl(req: any): string {
+function getRequestUrl(req: Request): string {
   return getRequestOrigin(req) + req.originalUrl;
 }
 
-function getRequestOrigin(req: any): string {
+function getRequestOrigin(req: Request): string {
   return req.protocol + &#x27;://&#x27; + req.get(&#x27;host&#x27;);
 }
 </code></pre>
@@ -319,6 +350,7 @@ function getRequestOrigin(req: any): string {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
             var COMPODOC_CURRENT_PAGE_URL = 'NgExpressEngineDecorator.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

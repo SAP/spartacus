@@ -129,6 +129,78 @@
     </table>
 </section>
 
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(globalMessageService: <a href="../injectables/GlobalMessageService.html">GlobalMessageService</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>, occEndpoints: <a href="../injectables/OccEndpointsService.html">OccEndpointsService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/forbidden/forbidden.handler.ts:32</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>globalMessageService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/GlobalMessageService.html" target="_self" >GlobalMessageService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>authService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>occEndpoints</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/OccEndpointsService.html" target="_self" >OccEndpointsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
 
             <section>
     
@@ -157,8 +229,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/forbidden/forbidden.handler.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="30"
+                            class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/forbidden/forbidden.handler.ts:30</a></div>
                 </td>
             </tr>
 
@@ -189,15 +261,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>handleError()</code>
+<code>handleError(request)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="13"
-                            class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/forbidden/forbidden.handler.ts:13</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="16"
+                            class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/forbidden/forbidden.handler.ts:16</a></div>
                 </td>
             </tr>
 
@@ -206,8 +278,35 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>request</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -466,7 +565,7 @@ a priority can be added to distinguish multiple handles for the same response st
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/forbidden/forbidden.handler.ts:11</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/forbidden/forbidden.handler.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -523,10 +622,13 @@ the handler can be found by the error interceptor.</p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { AuthService } from &#x27;../../../../auth/user-auth/facade/auth.service&#x27;;
+import { OccEndpointsService } from &#x27;../../../../occ/services/occ-endpoints.service&#x27;;
+import { Priority } from &#x27;../../../../util/applicable&#x27;;
+import { GlobalMessageService } from &#x27;../../../facade/global-message.service&#x27;;
 import { GlobalMessageType } from &#x27;../../../models/global-message.model&#x27;;
 import { HttpResponseStatus } from &#x27;../../../models/response-status.model&#x27;;
 import { HttpErrorHandler } from &#x27;../http-error.handler&#x27;;
-import { Priority } from &#x27;../../../../util/applicable&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
@@ -534,7 +636,14 @@ import { Priority } from &#x27;../../../../util/applicable&#x27;;
 export class ForbiddenHandler extends HttpErrorHandler {
   responseStatus &#x3D; HttpResponseStatus.FORBIDDEN;
 
-  handleError() {
+  handleError(request) {
+    if (
+      request.url.endsWith(
+        this.occEndpoints.getUrl(&#x27;user&#x27;, { userId: &#x27;current&#x27; })
+      )
+    ) {
+      this.authService.logout();
+    }
     this.globalMessageService.add(
       { key: &#x27;httpHandlers.forbidden&#x27; },
       GlobalMessageType.MSG_TYPE_ERROR
@@ -543,6 +652,14 @@ export class ForbiddenHandler extends HttpErrorHandler {
 
   getPriority(): Priority {
     return Priority.LOW;
+  }
+
+  constructor(
+    protected globalMessageService: GlobalMessageService,
+    protected authService: AuthService,
+    protected occEndpoints: OccEndpointsService
+  ) {
+    super(globalMessageService);
   }
 }
 </code></pre>
@@ -579,6 +696,7 @@ export class ForbiddenHandler extends HttpErrorHandler {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'ForbiddenHandler.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

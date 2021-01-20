@@ -60,7 +60,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/auth/store/actions/client-token.action.ts</code>
+            <code>projects/core/src/auth/client-auth/store/actions/client-token.action.ts</code>
         </p>
 
 
@@ -111,7 +111,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/core/src/auth/store/actions/client-token.action.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/core/src/auth/client-auth/store/actions/client-token.action.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -175,7 +175,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/core/src/auth/store/actions/client-token.action.ts:18</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/core/src/auth/client-auth/store/actions/client-token.action.ts:18</a></div>
                             </td>
                         </tr>
 
@@ -202,7 +202,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/core/src/auth/store/actions/client-token.action.ts:17</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/core/src/auth/client-auth/store/actions/client-token.action.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -221,9 +221,9 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { StateUtils } from &#x27;../../../state/utils/index&#x27;;
-import { ClientToken } from &#x27;../../models/token-types.model&#x27;;
-import { CLIENT_TOKEN_DATA } from &#x27;../auth-state&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { StateUtils } from &#x27;../../../../state/utils/index&#x27;;
+import { ClientToken } from &#x27;../../models/client-token.model&#x27;;
+import { CLIENT_TOKEN_DATA } from &#x27;../client-auth-state&#x27;;
 
 export const LOAD_CLIENT_TOKEN &#x3D; &#x27;[Token] Load Client Token&#x27;;
 export const LOAD_CLIENT_TOKEN_FAIL &#x3D; &#x27;[Token] Load Client Token Fail&#x27;;
@@ -283,6 +283,7 @@ export type ClientTokenAction &#x3D;
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
             var COMPODOC_CURRENT_PAGE_URL = 'LoadClientTokenFail.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

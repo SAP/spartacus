@@ -121,7 +121,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(checkoutStore: Store<StateWithCheckout | StateWithProcess>, authService: <a href="../injectables/AuthService.html">AuthService</a>, activeCartService: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>)</code>
+<code>constructor(checkoutStore: Store<StateWithCheckout | StateWithProcess>, activeCartService: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>, userIdService: <a href="../injectables/UserIdService.html">UserIdService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -156,10 +156,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>authService</td>
+                                                        <td>activeCartService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                                        <code><a href="../injectables/ActiveCartService.html" target="_self" >ActiveCartService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -168,10 +168,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>activeCartService</td>
+                                                        <td>userIdService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/ActiveCartService.html" target="_self" >ActiveCartService</a></code>
+                                                                        <code><a href="../injectables/UserIdService.html" target="_self" >UserIdService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -643,7 +643,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { select, Store } from &#x27;@ngrx/store&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
-import { AuthService } from &#x27;../../auth/facade/auth.service&#x27;;
+import { UserIdService } from &#x27;../../auth/user-auth/facade/user-id.service&#x27;;
 import { ActiveCartService } from &#x27;../../cart/facade/active-cart.service&#x27;;
 import { CardType, PaymentDetails } from &#x27;../../model/cart.model&#x27;;
 import { OCC_USER_ID_ANONYMOUS } from &#x27;../../occ/utils/occ-constants&#x27;;
@@ -663,8 +663,8 @@ import { CheckoutSelectors } from &#x27;../store/selectors/index&#x27;;
 export class CheckoutPaymentService {
   constructor(
     protected checkoutStore: Store&lt;StateWithCheckout | StateWithProcess&lt;void&gt;&gt;,
-    protected authService: AuthService,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartService,
+    protected userIdService: UserIdService
   ) {}
 
   /**
@@ -713,8 +713,8 @@ export class CheckoutPaymentService {
   createPaymentDetails(paymentDetails: PaymentDetails): void {
     if (this.actionAllowed()) {
       let userId;
-      this.authService
-        .getOccUserId()
+      this.userIdService
+        .getUserId()
         .subscribe((occUserId) &#x3D;&gt; (userId &#x3D; occUserId))
         .unsubscribe();
 
@@ -743,8 +743,8 @@ export class CheckoutPaymentService {
   setPaymentDetails(paymentDetails: PaymentDetails): void {
     if (this.actionAllowed()) {
       let userId;
-      this.authService
-        .getOccUserId()
+      this.userIdService
+        .getUserId()
         .subscribe((occUserId) &#x3D;&gt; (userId &#x3D; occUserId))
         .unsubscribe();
 
@@ -774,8 +774,8 @@ export class CheckoutPaymentService {
 
   protected actionAllowed(): boolean {
     let userId;
-    this.authService
-      .getOccUserId()
+    this.userIdService
+      .getUserId()
       .subscribe((occUserId) &#x3D;&gt; (userId &#x3D; occUserId))
       .unsubscribe();
     return (
@@ -818,6 +818,7 @@ export class CheckoutPaymentService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CheckoutPaymentService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

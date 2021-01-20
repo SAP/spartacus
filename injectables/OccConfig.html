@@ -177,11 +177,11 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { SiteContextConfig } from &#x27;../../site-context/config/site-context-config&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { Config } from &#x27;../../config/config-tokens&#x27;;
+import { SiteContextConfig } from &#x27;../../site-context/config/site-context-config&#x27;;
 import { OccEndpoints } from &#x27;../occ-models/occ-endpoints.model&#x27;;
 import { LoadingScopes } from &#x27;./loading-scopes-config&#x27;;
-import { Injectable } from &#x27;@angular/core&#x27;;
-import { Config } from &#x27;../../config/config.module&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
@@ -199,7 +199,6 @@ export abstract class OccConfig extends SiteContextConfig {
       useWithCredentials?: boolean;
 
       endpoints?: OccEndpoints;
-      legacy?: boolean;
     };
     media?: {
       /**
@@ -246,6 +245,7 @@ export abstract class OccConfig extends SiteContextConfig {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'OccConfig.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -117,7 +117,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/core/src/site-context/store/actions/base-site.action.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/core/src/site-context/store/actions/base-site.action.ts:44</a></div>
                             </td>
                         </tr>
 
@@ -181,7 +181,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/core/src/site-context/store/actions/base-site.action.ts:26</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/core/src/site-context/store/actions/base-site.action.ts:45</a></div>
                             </td>
                         </tr>
 
@@ -208,7 +208,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/core/src/site-context/store/actions/base-site.action.ts:25</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/core/src/site-context/store/actions/base-site.action.ts:44</a></div>
                             </td>
                         </tr>
 
@@ -233,6 +233,11 @@ import { BaseSite } from &#x27;../../../model/misc.model&#x27;;
 export const LOAD_BASE_SITE &#x3D; &#x27;[Site-context] Load BaseSite&#x27;;
 export const LOAD_BASE_SITE_FAIL &#x3D; &#x27;[Site-context] Load BaseSite Fail&#x27;;
 export const LOAD_BASE_SITE_SUCCESS &#x3D; &#x27;[Site-context] Load BaseSite Success&#x27;;
+
+export const LOAD_BASE_SITES &#x3D; &#x27;[Site-context] Load BaseSites&#x27;;
+export const LOAD_BASE_SITES_FAIL &#x3D; &#x27;[Site-context] Load BaseSites Fail&#x27;;
+export const LOAD_BASE_SITES_SUCCESS &#x3D; &#x27;[Site-context] Load BaseSites Success&#x27;;
+
 export const SET_ACTIVE_BASE_SITE &#x3D; &#x27;[Site-context] Set Active BaseSite&#x27;;
 export const BASE_SITE_CHANGE &#x3D; &#x27;[Site-context] BaseSite Change&#x27;;
 
@@ -250,6 +255,20 @@ export class LoadBaseSiteSuccess implements Action {
   constructor(public payload: BaseSite) {}
 }
 
+export class LoadBaseSites implements Action {
+  readonly type &#x3D; LOAD_BASE_SITES;
+}
+
+export class LoadBaseSitesFail implements Action {
+  readonly type &#x3D; LOAD_BASE_SITES_FAIL;
+  constructor(public payload: any) {}
+}
+
+export class LoadBaseSitesSuccess implements Action {
+  readonly type &#x3D; LOAD_BASE_SITES_SUCCESS;
+  constructor(public payload: BaseSite[]) {}
+}
+
 export class SetActiveBaseSite implements Action {
   readonly type &#x3D; SET_ACTIVE_BASE_SITE;
   constructor(public payload: string) {}
@@ -264,6 +283,9 @@ export type BaseSiteAction &#x3D;
   | LoadBaseSite
   | LoadBaseSiteFail
   | LoadBaseSiteSuccess
+  | LoadBaseSites
+  | LoadBaseSitesFail
+  | LoadBaseSitesSuccess
   | SetActiveBaseSite
   | BaseSiteChange;
 </code></pre>
@@ -295,6 +317,7 @@ export type BaseSiteAction &#x3D;
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
             var COMPODOC_CURRENT_PAGE_URL = 'SetActiveBaseSite.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

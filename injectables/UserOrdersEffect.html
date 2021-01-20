@@ -99,12 +99,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(actions$: Actions, orderConnector: <a href="../injectables/UserOrderConnector.html">UserOrderConnector</a>)</code>
+<code>constructor(actions$: Actions, orderConnector: <a href="../injectables/UserOrderConnector.html">UserOrderConnector</a>, replenishmentOrderConnector: <a href="../injectables/UserReplenishmentOrderConnector.html">UserReplenishmentOrderConnector</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/core/src/user/store/effects/user-orders.effect.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/core/src/user/store/effects/user-orders.effect.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -138,6 +138,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/UserOrderConnector.html" target="_self" >UserOrderConnector</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>replenishmentOrderConnector</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UserReplenishmentOrderConnector.html" target="_self" >UserReplenishmentOrderConnector</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -184,21 +196,28 @@
     ofType(UserActions.LOAD_USER_ORDERS),
     map((action: UserActions.LoadUserOrders) &#x3D;&gt; action.payload),
     switchMap((payload) &#x3D;&gt; {
-      return this.orderConnector
-        .getHistory(
-          payload.userId,
-          payload.pageSize,
-          payload.currentPage,
-          payload.sort
-        )
-        .pipe(
-          map((orders: OrderHistoryList) &#x3D;&gt; {
-            return new UserActions.LoadUserOrdersSuccess(orders);
-          }),
-          catchError((error) &#x3D;&gt;
-            of(new UserActions.LoadUserOrdersFail(makeErrorSerializable(error)))
+      return (Boolean(payload.replenishmentOrderCode)
+        ? this.replenishmentOrderConnector.loadReplenishmentDetailsHistory(
+            payload.userId,
+            payload.replenishmentOrderCode,
+            payload.pageSize,
+            payload.currentPage,
+            payload.sort
           )
-        );
+        : this.orderConnector.getHistory(
+            payload.userId,
+            payload.pageSize,
+            payload.currentPage,
+            payload.sort
+          )
+      ).pipe(
+        map((orders: OrderHistoryList) &#x3D;&gt; {
+          return new UserActions.LoadUserOrdersSuccess(orders);
+        }),
+        catchError((error) &#x3D;&gt;
+          of(new UserActions.LoadUserOrdersFail(normalizeHttpError(error)))
+        )
+      );
     })
   )</code>
                         </td>
@@ -214,7 +233,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/core/src/user/store/effects/user-orders.effect.ts:19</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">projects/core/src/user/store/effects/user-orders.effect.ts:23</a></div>
                             </td>
                         </tr>
 
@@ -260,7 +279,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/core/src/user/store/effects/user-orders.effect.ts:44</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">projects/core/src/user/store/effects/user-orders.effect.ts:55</a></div>
                             </td>
                         </tr>
 
@@ -279,15 +298,19 @@ import { Observable, of } from &#x27;rxjs&#x27;;
 import { catchError, map, switchMap } from &#x27;rxjs/operators&#x27;;
 import { OrderHistoryList } from &#x27;../../../model/order.model&#x27;;
 import { SiteContextActions } from &#x27;../../../site-context/store/actions/index&#x27;;
-import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
-import { UserOrderConnector } from &#x27;../../connectors/order/user-order.connector&#x27;;
+import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
+import {
+  UserOrderConnector,
+  UserReplenishmentOrderConnector,
+} from &#x27;../../connectors/index&#x27;;
 import { UserActions } from &#x27;../actions/index&#x27;;
 
 @Injectable()
 export class UserOrdersEffect {
   constructor(
     private actions$: Actions,
-    private orderConnector: UserOrderConnector
+    private orderConnector: UserOrderConnector,
+    private replenishmentOrderConnector: UserReplenishmentOrderConnector
   ) {}
 
   @Effect()
@@ -297,21 +320,28 @@ export class UserOrdersEffect {
     ofType(UserActions.LOAD_USER_ORDERS),
     map((action: UserActions.LoadUserOrders) &#x3D;&gt; action.payload),
     switchMap((payload) &#x3D;&gt; {
-      return this.orderConnector
-        .getHistory(
-          payload.userId,
-          payload.pageSize,
-          payload.currentPage,
-          payload.sort
-        )
-        .pipe(
-          map((orders: OrderHistoryList) &#x3D;&gt; {
-            return new UserActions.LoadUserOrdersSuccess(orders);
-          }),
-          catchError((error) &#x3D;&gt;
-            of(new UserActions.LoadUserOrdersFail(makeErrorSerializable(error)))
+      return (Boolean(payload.replenishmentOrderCode)
+        ? this.replenishmentOrderConnector.loadReplenishmentDetailsHistory(
+            payload.userId,
+            payload.replenishmentOrderCode,
+            payload.pageSize,
+            payload.currentPage,
+            payload.sort
           )
-        );
+        : this.orderConnector.getHistory(
+            payload.userId,
+            payload.pageSize,
+            payload.currentPage,
+            payload.sort
+          )
+      ).pipe(
+        map((orders: OrderHistoryList) &#x3D;&gt; {
+          return new UserActions.LoadUserOrdersSuccess(orders);
+        }),
+        catchError((error) &#x3D;&gt;
+          of(new UserActions.LoadUserOrdersFail(normalizeHttpError(error)))
+        )
+      );
     })
   );
 
@@ -359,6 +389,7 @@ export class UserOrdersEffect {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'UserOrdersEffect.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

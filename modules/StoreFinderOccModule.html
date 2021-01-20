@@ -54,7 +54,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/occ/adapters/store-finder/store-finder-occ.module.ts</code>
+            <code>feature-libs/storefinder/occ/store-finder-occ.module.ts</code>
         </p>
 
 
@@ -71,10 +71,11 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule } from &#x27;@angular/core&#x27;;
-import { provideDefaultConfig } from &#x27;../../../config/config.module&#x27;;
-import { StoreFinderAdapter } from &#x27;../../../store-finder/connectors/store-finder.adapter&#x27;;
-import { defaultOccStoreFinderConfig } from &#x27;./default-occ-store-finder-config&#x27;;
-import { OccStoreFinderAdapter } from &#x27;./occ-store-finder.adapter&#x27;;
+
+import { defaultOccStoreFinderConfig } from &#x27;./adapters/default-occ-store-finder-config&#x27;;
+import { OccStoreFinderAdapter } from &#x27;./adapters/occ-store-finder.adapter&#x27;;
+import { provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
+import { StoreFinderAdapter } from &#x27;@spartacus/storefinder/core&#x27;;
 
 @NgModule({
   providers: [
@@ -119,6 +120,7 @@ export class StoreFinderOccModule {}
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
             var COMPODOC_CURRENT_PAGE_URL = 'StoreFinderOccModule.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

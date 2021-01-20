@@ -56,9 +56,17 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/auth/services/client-authentication/client-authentication-token.service.ts</code>
+            <code>projects/core/src/auth/client-auth/services/client-authentication-token.service.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Responsible for requesting from OAuth server <code>ClientToken</code> for a particular
+auth client.</p>
+
+            </p>
 
 
 
@@ -96,12 +104,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(config: <a href="../injectables/AuthConfig.html">AuthConfig</a>, http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, occEndpointsService: <a href="../injectables/OccEndpointsService.html">OccEndpointsService</a>)</code>
+<code>constructor(http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, authConfigService: <a href="../injectables/AuthConfigService.html">AuthConfigService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/core/src/auth/services/client-authentication/client-authentication-token.service.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/core/src/auth/client-auth/services/client-authentication-token.service.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -119,18 +127,6 @@
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>config</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/AuthConfig.html" target="_self" >AuthConfig</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
                                                         <td>http</td>
                                                   
                                                         <td>
@@ -143,10 +139,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>occEndpointsService</td>
+                                                        <td>authConfigService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/OccEndpointsService.html" target="_self" >OccEndpointsService</a></code>
+                                                                        <code><a href="../injectables/AuthConfigService.html" target="_self" >AuthConfigService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -190,17 +186,25 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="18"
-                            class="link-to-prism">projects/core/src/auth/services/client-authentication/client-authentication-token.service.ts:18</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="25"
+                            class="link-to-prism">projects/core/src/auth/client-auth/services/client-authentication-token.service.ts:25</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Loads token with client authentication flow.</p>
+</div>
 
+                    <div>
+                    </div>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="../interfaces/ClientToken.html" target="_self" >Observable&lt;ClientToken&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>observable with ClientToken</p>
 
                     </div>
                 </td>
@@ -216,30 +220,37 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpClient, HttpHeaders, HttpParams } from &#x27;@angular/common/http&#x27;;
 import { Injectable } from &#x27;@angular/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
-import { OccEndpointsService } from &#x27;../../../occ/services/occ-endpoints.service&#x27;;
-import { AuthConfig } from &#x27;../../config/auth-config&#x27;;
-import { ClientToken } from &#x27;../../models/token-types.model&#x27;;
+import { AuthConfigService } from &#x27;../../user-auth/services/auth-config.service&#x27;;
+import { ClientToken } from &#x27;../models/client-token.model&#x27;;
 
+/**
+ * Responsible for requesting from OAuth server &#x60;ClientToken&#x60; for a particular
+ * auth client.
+ */
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
 export class ClientAuthenticationTokenService {
   constructor(
-    protected config: AuthConfig,
     protected http: HttpClient,
-    protected occEndpointsService: OccEndpointsService
+    protected authConfigService: AuthConfigService
   ) {}
 
+  /**
+   * Loads token with client authentication flow.
+   *
+   * @returns observable with ClientToken
+   */
   loadClientAuthenticationToken(): Observable&lt;ClientToken&gt; {
-    const url: string &#x3D; this.occEndpointsService.getRawEndpoint(&#x27;login&#x27;);
+    const url: string &#x3D; this.authConfigService.getTokenEndpoint();
     const params &#x3D; new HttpParams()
       .set(
         &#x27;client_id&#x27;,
-        encodeURIComponent(this.config.authentication.client_id)
+        encodeURIComponent(this.authConfigService.getClientId())
       )
       .set(
         &#x27;client_secret&#x27;,
-        encodeURIComponent(this.config.authentication.client_secret)
+        encodeURIComponent(this.authConfigService.getClientSecret())
       )
       .set(&#x27;grant_type&#x27;, &#x27;client_credentials&#x27;);
 
@@ -283,6 +294,7 @@ export class ClientAuthenticationTokenService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'ClientAuthenticationTokenService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

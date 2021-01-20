@@ -60,7 +60,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/cds/src/merchandising/cms-components/merchandising-carousel/model/merchandising-carousel-events.model.ts</code>
+            <code>integration-libs/cds/src/merchandising/cms-components/merchandising-carousel/model/merchandising-carousel-events.model.ts</code>
         </p>
 
 
@@ -69,7 +69,7 @@
                 <h3>Implements</h3>
             </p>
             <p class="comment">
-                            <code><a href="../interfaces/ProfileTagEvent.html" target="_self" >ProfileTagEvent</a></code>
+                            <code><a href="../interfaces/ProfileTagPushEvent.html" target="_self" >ProfileTagPushEvent</a></code>
             </p>
 
 
@@ -115,7 +115,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/cds/src/merchandising/cms-components/merchandising-carousel/model/merchandising-carousel-events.model.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">integration-libs/cds/src/merchandising/cms-components/merchandising-carousel/model/merchandising-carousel-events.model.ts:13</a></div>
                             </td>
                         </tr>
 
@@ -190,7 +190,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/cds/src/merchandising/cms-components/merchandising-carousel/model/merchandising-carousel-events.model.ts:13</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">integration-libs/cds/src/merchandising/cms-components/merchandising-carousel/model/merchandising-carousel-events.model.ts:13</a></div>
                             </td>
                         </tr>
 
@@ -222,7 +222,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/cds/src/merchandising/cms-components/merchandising-carousel/model/merchandising-carousel-events.model.ts:12</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">integration-libs/cds/src/merchandising/cms-components/merchandising-carousel/model/merchandising-carousel-events.model.ts:12</a></div>
                             </td>
                         </tr>
 
@@ -241,7 +241,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ProfileTagEvent } from &#x27;../../../../profiletag/index&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ProfileTagPushEvent } from &#x27;../../../../profiletag/index&#x27;;
 import { MerchandisingMetadata } from &#x27;../../../model/index&#x27;;
 
 export interface CarouselEvent {
@@ -251,7 +251,7 @@ export interface CarouselEvent {
   metadata?: MerchandisingMetadata;
 }
 
-export class MerchandisingCarouselViewedEvent implements ProfileTagEvent {
+export class MerchandisingCarouselViewedEvent implements ProfileTagPushEvent {
   name &#x3D; &#x27;CarouselViewed&#x27;;
   data: any;
   constructor(carouselEvent: CarouselEvent, productSkus: string[]) {
@@ -262,7 +262,7 @@ export class MerchandisingCarouselViewedEvent implements ProfileTagEvent {
   }
 }
 
-export class MerchandisingCarouselClickedEvent implements ProfileTagEvent {
+export class MerchandisingCarouselClickedEvent implements ProfileTagPushEvent {
   name &#x3D; &#x27;CarouselClicked&#x27;;
   data: any;
   constructor(
@@ -308,6 +308,7 @@ export class MerchandisingCarouselClickedEvent implements ProfileTagEvent {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
             var COMPODOC_CURRENT_PAGE_URL = 'MerchandisingCarouselViewedEvent.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

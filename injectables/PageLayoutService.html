@@ -345,7 +345,7 @@ for the given pageTemplate / breakpoint.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns a list of slots for a breakpoint specific configuratoin
+                    <div class="io-description"><p>Returns a list of slots for a breakpoint specific configuration
 If there&#39;s no specific configuration for the breakpoint,
 the closest available configuration will be returned.</p>
 </div>
@@ -1193,7 +1193,7 @@ export class PageLayoutService {
   }
 
   /**
-   * Returns a list of slots for a breakpoint specific configuratoin
+   * Returns a list of slots for a breakpoint specific configuration
    * If there&#x27;s no specific configuration for the breakpoint,
    * the closest available configuration will be returned.
    */
@@ -1220,7 +1220,7 @@ export class PageLayoutService {
     // find closest config
     const all &#x3D; this.breakpointService.breakpoints;
 
-    for (const br of all.splice(0, all.indexOf(breakpoint))) {
+    for (const br of all.slice(0, all.indexOf(breakpoint))) {
       if (
         layoutSlotConfig[br] &amp;&amp;
         layoutSlotConfig[br].hasOwnProperty(configAttribute)
@@ -1293,6 +1293,7 @@ export class PageLayoutService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'PageLayoutService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -66,6 +66,21 @@
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#subscription">subscription</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
 
                 <tr>
                     <td class="col-md-4">
@@ -80,12 +95,15 @@
                                 <a href="#getCartState">getCartState</a>
                             </li>
                             <li>
-                                    <span class="modifier">Protected</span>
-                                <a href="#onRead">onRead</a>
+                                    <span class="modifier">Public</span>
+                                <a href="#initSync">initSync</a>
                             </li>
                             <li>
-                                    <span class="modifier">Public</span>
-                                <a href="#sync">sync</a>
+                                <a href="#ngOnDestroy">ngOnDestroy</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#onRead">onRead</a>
                             </li>
                         </ul>
                     </td>
@@ -110,7 +128,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/core/src/cart/services/multi-cart-state-persistence.service.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/core/src/cart/services/multi-cart-state-persistence.service.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -201,8 +219,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">projects/core/src/cart/services/multi-cart-state-persistence.service.ts:30</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">projects/core/src/cart/services/multi-cart-state-persistence.service.ts:36</a></div>
                 </td>
             </tr>
 
@@ -212,6 +230,86 @@
 
                     <div class="io-description">
                         <b>Returns : </b>    <code>Observable&lt;literal type&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initSync"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            initSync
+                        </b>
+                        <a href="#initSync"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>initSync()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">projects/core/src/cart/services/multi-cart-state-persistence.service.ts:23</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <b>
+                            ngOnDestroy
+                        </b>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="58"
+                            class="link-to-prism">projects/core/src/cart/services/multi-cart-state-persistence.service.ts:58</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
                 </td>
@@ -242,8 +340,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="43"
-                            class="link-to-prism">projects/core/src/cart/services/multi-cart-state-persistence.service.ts:43</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">projects/core/src/cart/services/multi-cart-state-persistence.service.ts:49</a></div>
                 </td>
             </tr>
 
@@ -290,56 +388,48 @@
             </tr>
         </tbody>
     </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="sync"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            sync
-                        </b>
-                        <a href="#sync"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>sync()</code>
-                </td>
-            </tr>
+</section>
+            <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="subscription"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Protected</span>
+                            subscription</b>
+                            <a href="#subscription"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new Subscription()</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/core/src/cart/services/multi-cart-state-persistence.service.ts:15</a></div>
+                            </td>
+                        </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="21"
-                            class="link-to-prism">projects/core/src/cart/services/multi-cart-state-persistence.service.ts:21</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
 </section>
 
     </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, OnDestroy } from &#x27;@angular/core&#x27;;
 import { select, Store } from &#x27;@ngrx/store&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
+import { Observable, Subscription } from &#x27;rxjs&#x27;;
 import { distinctUntilKeyChanged, filter, map } from &#x27;rxjs/operators&#x27;;
 import { BASE_SITE_CONTEXT_ID } from &#x27;../../site-context&#x27;;
 import { SiteContextParamsService } from &#x27;../../site-context/services/site-context-params.service&#x27;;
@@ -350,20 +440,26 @@ import { StateWithMultiCart } from &#x27;../store/multi-cart-state&#x27;;
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
-export class MultiCartStatePersistenceService {
+export class MultiCartStatePersistenceService implements OnDestroy {
+  protected subscription &#x3D; new Subscription();
+
   constructor(
     protected statePersistenceService: StatePersistenceService,
     protected store: Store&lt;StateWithMultiCart&gt;,
     protected siteContextParamsService: SiteContextParamsService
   ) {}
 
-  public sync() {
-    this.statePersistenceService.syncWithStorage({
-      key: &#x27;cart&#x27;,
-      state$: this.getCartState(),
-      context$: this.siteContextParamsService.getValues([BASE_SITE_CONTEXT_ID]),
-      onRead: (state) &#x3D;&gt; this.onRead(state),
-    });
+  public initSync() {
+    this.subscription.add(
+      this.statePersistenceService.syncWithStorage({
+        key: &#x27;cart&#x27;,
+        state$: this.getCartState(),
+        context$: this.siteContextParamsService.getValues([
+          BASE_SITE_CONTEXT_ID,
+        ]),
+        onRead: (state) &#x3D;&gt; this.onRead(state),
+      })
+    );
   }
 
   protected getCartState(): Observable&lt;{ active: string }&gt; {
@@ -383,7 +479,13 @@ export class MultiCartStatePersistenceService {
     this.store.dispatch(new CartActions.ClearCartState());
     if (state) {
       this.store.dispatch(new CartActions.SetActiveCartId(state.active));
+    } else {
+      this.store.dispatch(new CartActions.SetActiveCartId(&#x27;&#x27;));
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
 </code></pre>
@@ -420,6 +522,7 @@ export class MultiCartStatePersistenceService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'MultiCartStatePersistenceService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

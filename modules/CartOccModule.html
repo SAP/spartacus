@@ -71,23 +71,22 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
-import { HttpClientModule } from &#x27;@angular/common/http&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
 import { CartAdapter } from &#x27;../../../cart/connectors/cart/cart.adapter&#x27;;
 import { CART_NORMALIZER } from &#x27;../../../cart/connectors/cart/converters&#x27;;
 import { CartEntryAdapter } from &#x27;../../../cart/connectors/entry/cart-entry.adapter&#x27;;
 import { SaveCartAdapter } from &#x27;../../../cart/connectors/save-cart/save-cart.adapter&#x27;;
 import { CartVoucherAdapter } from &#x27;../../../cart/connectors/voucher/cart-voucher.adapter&#x27;;
-import { provideDefaultConfig } from &#x27;../../../config/config.module&#x27;;
 import { OccCartNormalizer } from &#x27;./converters/occ-cart-normalizer&#x27;;
 import { defaultOccCartConfig } from &#x27;./default-occ-cart-config&#x27;;
 import { OccCartEntryAdapter } from &#x27;./occ-cart-entry.adapter&#x27;;
 import { OccCartVoucherAdapter } from &#x27;./occ-cart-voucher.adapter&#x27;;
 import { OccCartAdapter } from &#x27;./occ-cart.adapter&#x27;;
 import { OccSaveCartAdapter } from &#x27;./occ-save-cart.adapter&#x27;;
+import { provideDefaultConfig } from &#x27;../../../config/config-providers&#x27;;
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule],
   providers: [
     provideDefaultConfig(defaultOccCartConfig),
     {
@@ -150,6 +149,7 @@ export class CartOccModule {}
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
             var COMPODOC_CURRENT_PAGE_URL = 'CartOccModule.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

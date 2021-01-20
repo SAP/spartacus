@@ -77,6 +77,9 @@
                             <li>
                                 <a href="#loadBaseSite$">loadBaseSite$</a>
                             </li>
+                            <li>
+                                <a href="#loadBaseSites$">loadBaseSites$</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -101,7 +104,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/core/src/site-context/store/effects/base-site.effect.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/core/src/site-context/store/effects/base-site.effect.ts:44</a></div>
                             </td>
                         </tr>
 
@@ -183,11 +186,7 @@
       return this.siteConnector.getBaseSite().pipe(
         map((baseSite) &#x3D;&gt; new SiteContextActions.LoadBaseSiteSuccess(baseSite)),
         catchError((error) &#x3D;&gt;
-          of(
-            new SiteContextActions.LoadBaseSiteFail(
-              makeErrorSerializable(error)
-            )
-          )
+          of(new SiteContextActions.LoadBaseSiteFail(normalizeHttpError(error)))
         )
       );
     })
@@ -212,6 +211,61 @@
 
             </tbody>
         </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="loadBaseSites$"></a>
+                        <span class="name">
+                            <b>
+                            loadBaseSites$</b>
+                            <a href="#loadBaseSites$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Observable&lt;SiteContextActions.LoadBaseSitesSuccess | SiteContextActions.LoadBaseSitesFail&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>this.actions$.pipe(
+    ofType(SiteContextActions.LOAD_BASE_SITES),
+    exhaustMap(() &#x3D;&gt; {
+      return this.siteConnector.getBaseSites().pipe(
+        map(
+          (baseSites) &#x3D;&gt; new SiteContextActions.LoadBaseSitesSuccess(baseSites)
+        ),
+        catchError((error) &#x3D;&gt;
+          of(
+            new SiteContextActions.LoadBaseSitesFail(normalizeHttpError(error))
+          )
+        )
+      );
+    })
+  )</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Effect()<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/core/src/site-context/store/effects/base-site.effect.ts:27</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
 </section>
 
     </div>
@@ -222,7 +276,7 @@
 import { Actions, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { catchError, exhaustMap, map } from &#x27;rxjs/operators&#x27;;
-import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
+import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
 import { SiteConnector } from &#x27;../../connectors/site.connector&#x27;;
 import { SiteContextActions } from &#x27;../actions/index&#x27;;
 
@@ -237,10 +291,26 @@ export class BaseSiteEffects {
       return this.siteConnector.getBaseSite().pipe(
         map((baseSite) &#x3D;&gt; new SiteContextActions.LoadBaseSiteSuccess(baseSite)),
         catchError((error) &#x3D;&gt;
+          of(new SiteContextActions.LoadBaseSiteFail(normalizeHttpError(error)))
+        )
+      );
+    })
+  );
+
+  @Effect()
+  loadBaseSites$: Observable&lt;
+    | SiteContextActions.LoadBaseSitesSuccess
+    | SiteContextActions.LoadBaseSitesFail
+  &gt; &#x3D; this.actions$.pipe(
+    ofType(SiteContextActions.LOAD_BASE_SITES),
+    exhaustMap(() &#x3D;&gt; {
+      return this.siteConnector.getBaseSites().pipe(
+        map(
+          (baseSites) &#x3D;&gt; new SiteContextActions.LoadBaseSitesSuccess(baseSites)
+        ),
+        catchError((error) &#x3D;&gt;
           of(
-            new SiteContextActions.LoadBaseSiteFail(
-              makeErrorSerializable(error)
-            )
+            new SiteContextActions.LoadBaseSitesFail(normalizeHttpError(error))
           )
         )
       );
@@ -286,6 +356,7 @@ export class BaseSiteEffects {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'BaseSiteEffects.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

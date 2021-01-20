@@ -91,11 +91,11 @@ This builder includes data for sku number, name, description, brand and main ima
                                 <a href="#getProductBase">getProductBase</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#getProductBrand">getProductBrand</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#getProductImage">getProductImage</a>
                             </li>
                         </ul>
@@ -210,14 +210,16 @@ This builder includes data for sku number, name, description, brand and main ima
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="22"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/builders/product/jsonld-base-product.builder.ts:22</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="25"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/builders/product/jsonld-base-product.builder.ts:25</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Returns the product sku, name and description.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -265,7 +267,7 @@ This builder includes data for sku number, name, description, brand and main ima
                     <a name="getProductBrand"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                             getProductBrand
                         </b>
                         <a href="#getProductBrand"><span class="icon ion-ios-link"></span></a>
@@ -282,14 +284,17 @@ This builder includes data for sku number, name, description, brand and main ima
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="44"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/builders/product/jsonld-base-product.builder.ts:44</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/builders/product/jsonld-base-product.builder.ts:51</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Returns the brand object with the product manufacturer.</p>
+<p>If the brand is not available, an empty object is returned.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -320,7 +325,7 @@ This builder includes data for sku number, name, description, brand and main ima
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>{ brand: any; }</code>
+                        <b>Returns : </b>    <code>literal type</code>
 
                     </div>
                     <div class="io-description">
@@ -337,7 +342,7 @@ This builder includes data for sku number, name, description, brand and main ima
                     <a name="getProductImage"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                             getProductImage
                         </b>
                         <a href="#getProductImage"><span class="icon ion-ios-link"></span></a>
@@ -354,14 +359,17 @@ This builder includes data for sku number, name, description, brand and main ima
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="33"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/builders/product/jsonld-base-product.builder.ts:33</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="41"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/builders/product/jsonld-base-product.builder.ts:41</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Returns the image object with the main product image url.</p>
+<p>If the image is not available, an empty object is returned.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -392,7 +400,7 @@ This builder includes data for sku number, name, description, brand and main ima
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>{ image: any; } | { image?: undefined; }</code>
+                        <b>Returns : </b>    <code>literal type</code>
 
                     </div>
                     <div class="io-description">
@@ -429,6 +437,9 @@ export class JsonLdBaseProductBuilder implements JsonLdBuilder&lt;Product&gt; {
     });
   }
 
+  /**
+   * Returns the product sku, name and description.
+   */
   private getProductBase(product: Product) {
     const result: any &#x3D; { sku: product.code };
     if (product.name) {
@@ -440,23 +451,24 @@ export class JsonLdBaseProductBuilder implements JsonLdBuilder&lt;Product&gt; {
     return result;
   }
 
-  private getProductImage(product: Product) {
-    return product.images &amp;&amp;
-      product.images.PRIMARY &amp;&amp;
-      product.images.PRIMARY[&#x27;zoom&#x27;] &amp;&amp;
-      product.images.PRIMARY[&#x27;zoom&#x27;].url
-      ? {
-          image: product.images.PRIMARY[&#x27;zoom&#x27;].url,
-        }
-      : {};
+  /**
+   * Returns the image object with the main product image url.
+   *
+   * If the image is not available, an empty object is returned.
+   */
+  protected getProductImage(product: Product): { image?: string } {
+    const image &#x3D; product.images?.PRIMARY?.[&#x27;zoom&#x27;]?.url;
+    return image ? { image } : {};
   }
 
-  private getProductBrand(product: Product) {
-    return product[&#x27;manufacturer&#x27;]
-      ? {
-          brand: product[&#x27;manufacturer&#x27;],
-        }
-      : null;
+  /**
+   * Returns the brand object with the product manufacturer.
+   *
+   * If the brand is not available, an empty object is returned.
+   */
+  protected getProductBrand(product: Product): { brand?: string } {
+    const brand &#x3D; product.manufacturer;
+    return brand ? { brand } : {};
   }
 }
 </code></pre>
@@ -493,6 +505,7 @@ export class JsonLdBaseProductBuilder implements JsonLdBuilder&lt;Product&gt; {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'JsonLdBaseProductBuilder.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -80,9 +80,6 @@
                                 <a href="#convertProduct">convertProduct</a>
                             </li>
                             <li>
-                                <a href="#getProductReferences">getProductReferences</a>
-                            </li>
-                            <li>
                                 <a href="#loadProduct">loadProduct</a>
                             </li>
                         </ul>
@@ -103,12 +100,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(productService: <a href="../injectables/ProductService.html">ProductService</a>, referenceService: <a href="../injectables/ProductReferenceService.html">ProductReferenceService</a>, semanticPathService: <a href="../injectables/SemanticPathService.html">SemanticPathService</a>)</code>
+<code>constructor(productService: <a href="../injectables/ProductService.html">ProductService</a>, semanticPathService: <a href="../injectables/SemanticPathService.html">SemanticPathService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/storefrontlib/src/cms-components/product/carousel/product-carousel.service.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/storefrontlib/src/cms-components/product/carousel/product-carousel.service.ts:10</a></div>
                             </td>
                         </tr>
 
@@ -130,18 +127,6 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/ProductService.html" target="_self" >ProductService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>referenceService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/ProductReferenceService.html" target="_self" >ProductReferenceService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -199,8 +184,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="52"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/carousel/product-carousel.service.ts:52</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/carousel/product-carousel.service.ts:29</a></div>
                 </td>
             </tr>
 
@@ -284,112 +269,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getProductReferences"></a>
-                    <span class="name">
-                        <b>
-                            getProductReferences
-                        </b>
-                        <a href="#getProductReferences"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getProductReferences(code: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, referenceType: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, displayTitle: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, displayProductPrices: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="33"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/carousel/product-carousel.service.ts:33</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>code</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>referenceType</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>displayTitle</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>displayProductPrices</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;ProductCarouselItem[]&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="loadProduct"></a>
                     <span class="name">
                         <b>
@@ -408,8 +287,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="26"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/carousel/product-carousel.service.ts:26</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="19"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/carousel/product-carousel.service.ts:19</a></div>
                 </td>
             </tr>
 
@@ -465,13 +344,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import {
-  Product,
-  ProductReference,
-  ProductReferenceService,
-  ProductService,
-  SemanticPathService,
-} from &#x27;@spartacus/core&#x27;;
+import { Product, ProductService, SemanticPathService } from &#x27;@spartacus/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { filter, map } from &#x27;rxjs/operators&#x27;;
 import { ProductCarouselItem } from &#x27;./product-carousel.model&#x27;;
@@ -482,7 +355,6 @@ import { ProductCarouselItem } from &#x27;./product-carousel.model&#x27;;
 export class ProductCarouselService {
   constructor(
     protected productService: ProductService,
-    protected referenceService: ProductReferenceService,
     protected semanticPathService: SemanticPathService
   ) {}
 
@@ -493,22 +365,6 @@ export class ProductCarouselService {
     return this.productService.get(code).pipe(
       filter(Boolean),
       map((product) &#x3D;&gt; this.convertProduct(product))
-    );
-  }
-
-  getProductReferences(
-    code: string,
-    referenceType: string,
-    displayTitle: boolean,
-    displayProductPrices: boolean
-  ): Observable&lt;ProductCarouselItem[]&gt; {
-    return this.referenceService.get(code, referenceType).pipe(
-      filter(Boolean),
-      map((refs: ProductReference[]) &#x3D;&gt;
-        refs.map((ref) &#x3D;&gt;
-          this.convertProduct(ref.target, displayTitle, displayProductPrices)
-        )
-      )
     );
   }
 
@@ -574,6 +430,7 @@ export class ProductCarouselService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'ProductCarouselService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

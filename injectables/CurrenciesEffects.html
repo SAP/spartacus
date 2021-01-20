@@ -107,7 +107,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">projects/core/src/site-context/store/effects/currencies.effect.ts:69</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">projects/core/src/site-context/store/effects/currencies.effect.ts:67</a></div>
                             </td>
                         </tr>
 
@@ -230,7 +230,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">projects/core/src/site-context/store/effects/currencies.effect.ts:58</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">projects/core/src/site-context/store/effects/currencies.effect.ts:56</a></div>
                             </td>
                         </tr>
 
@@ -267,9 +267,7 @@
         ),
         catchError((error) &#x3D;&gt;
           of(
-            new SiteContextActions.LoadCurrenciesFail(
-              makeErrorSerializable(error)
-            )
+            new SiteContextActions.LoadCurrenciesFail(normalizeHttpError(error))
           )
         )
       );
@@ -337,7 +335,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/core/src/site-context/store/effects/currencies.effect.ts:47</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/core/src/site-context/store/effects/currencies.effect.ts:45</a></div>
                             </td>
                         </tr>
 
@@ -363,7 +361,7 @@ import {
   switchMapTo,
   tap,
 } from &#x27;rxjs/operators&#x27;;
-import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
+import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
 import { WindowRef } from &#x27;../../../window/window-ref&#x27;;
 import { SiteConnector } from &#x27;../../connectors/site.connector&#x27;;
 import { SiteContextActions } from &#x27;../actions/index&#x27;;
@@ -386,9 +384,7 @@ export class CurrenciesEffects {
         ),
         catchError((error) &#x3D;&gt;
           of(
-            new SiteContextActions.LoadCurrenciesFail(
-              makeErrorSerializable(error)
-            )
+            new SiteContextActions.LoadCurrenciesFail(normalizeHttpError(error))
           )
         )
       );
@@ -461,6 +457,7 @@ export class CurrenciesEffects {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CurrenciesEffects.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -189,7 +189,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
-import { provideDefaultConfig } from &#x27;../config/config.module&#x27;;
+import { provideDefaultConfig } from &#x27;../config/config-providers&#x27;;
 import { defaultAnonymousConsentsConfig } from &#x27;./config/default-anonymous-consents-config&#x27;;
 import { AnonymousConsentsService } from &#x27;./facade/anonymous-consents.service&#x27;;
 import { interceptors } from &#x27;./http-interceptors/index&#x27;;
@@ -246,6 +246,7 @@ export class AnonymousConsentsModule {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
             var COMPODOC_CURRENT_PAGE_URL = 'AnonymousConsentsModule.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

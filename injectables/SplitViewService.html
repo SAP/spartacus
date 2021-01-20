@@ -84,14 +84,14 @@ is maintained for a single split view.</p>
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Protected</span>
-                                <a href="#_splitViewCount">_splitViewCount</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Protected</span>
                                 <a href="#_views$">_views$</a>
                             </li>
                             <li>
                                 <a href="#defaultHideMode">defaultHideMode</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#splitViewCount">splitViewCount</a>
                             </li>
                         </ul>
                     </td>
@@ -125,6 +125,9 @@ is maintained for a single split view.</p>
                                 <a href="#toggle">toggle</a>
                             </li>
                             <li>
+                                <a href="#updateSplitView">updateSplitView</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Protected</span>
                                 <a href="#updateState">updateState</a>
                             </li>
@@ -146,9 +149,6 @@ is maintained for a single split view.</p>
                             <ul class="index-list">
                                 <li>
                                     <a href="#nextPosition">nextPosition</a>
-                                </li>
-                                <li>
-                                    <a href="#splitViewCount">splitViewCount</a>
                                 </li>
                                 <li>
                                     <a href="#views">views</a>
@@ -276,8 +276,8 @@ property is provided by the <code>defaultHideMode</code>, unless it&#39;s the fi
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="130"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/split-view/split-view.service.ts:130</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="162"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/split-view/split-view.service.ts:162</a></div>
                 </td>
             </tr>
 
@@ -348,8 +348,8 @@ property is provided by the <code>defaultHideMode</code>, unless it&#39;s the fi
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="41"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/split-view/split-view.service.ts:41</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/split-view/split-view.service.ts:55</a></div>
                 </td>
             </tr>
 
@@ -390,8 +390,8 @@ represents the last visible view.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="51"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/split-view/split-view.service.ts:51</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="65"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/split-view/split-view.service.ts:65</a></div>
                 </td>
             </tr>
 
@@ -462,8 +462,8 @@ represents the last visible view.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="68"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/split-view/split-view.service.ts:68</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="82"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/split-view/split-view.service.ts:82</a></div>
                 </td>
             </tr>
 
@@ -538,8 +538,8 @@ of views.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="94"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/split-view/split-view.service.ts:94</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="108"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/split-view/split-view.service.ts:108</a></div>
                 </td>
             </tr>
 
@@ -616,6 +616,80 @@ is used, to force the view.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="updateSplitView"></a>
+                    <span class="name">
+                        <b>
+                            updateSplitView
+                        </b>
+                        <a href="#updateSplitView"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateSplitView(splitViewCount: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="44"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/split-view/split-view.service.ts:44</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The split view is based on a number of views that can be used next to each other.
+When the number changes (i.e. if the screen goes from wide to small), the visibility state
+of the views should be updated.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>splitViewCount</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="updateState"></a>
                     <span class="name">
                         <b>
@@ -629,21 +703,23 @@ is used, to force the view.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateState(position: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, hide?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                    <code>updateState(position?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, hide?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="113"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/split-view/split-view.service.ts:113</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="130"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/split-view/split-view.service.ts:130</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Updates the hidden state of all the views.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -663,7 +739,7 @@ is used, to force the view.</p>
                                     </td>
 
                                     <td>
-                                        No
+                                        Yes
                                     </td>
 
 
@@ -702,39 +778,6 @@ is used, to force the view.</p>
         <h3 id="inputs">
             Properties
         </h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="_splitViewCount"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Protected</span>
-                            _splitViewCount</b>
-                            <a href="#_splitViewCount"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>2</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/storefrontlib/src/shared/components/split-view/split-view.service.ts:18</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
@@ -801,6 +844,39 @@ The default hide mode can be overridden.</p>
 
             </tbody>
         </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="splitViewCount"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Protected</span>
+                            splitViewCount</b>
+                            <a href="#splitViewCount"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>1</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/storefrontlib/src/shared/components/split-view/split-view.service.ts:18</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
 </section>
 
             <section>
@@ -823,7 +899,7 @@ The default hide mode can be overridden.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">projects/storefrontlib/src/shared/components/split-view/split-view.service.ts:80</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="94" class="link-to-prism">projects/storefrontlib/src/shared/components/split-view/split-view.service.ts:94</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -845,68 +921,6 @@ with controlling view numbers.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="splitViewCount"></a>
-                        <span class="name"><b>splitViewCount</b><a href="#splitViewCount"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-
-
-                <tr>
-                    <td class="col-md-4">
-                        <span class="accessor"><b>set</b><code>splitViewCount(count: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code></span>
-                    </td>
-                </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="144" class="link-to-prism">projects/storefrontlib/src/shared/components/split-view/split-view.service.ts:144</a></div>
-                                </td>
-                            </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-description"><p>Sets the view count for the split view.</p>
-<p>Defaults to 2.</p>
-</div>
-
-                                <div class="io-description">
-                                        <b>Parameters :</b>
-                                        <table class="params">
-                                            <thead>
-                                                <tr>
-                                                    <td>Name</td>
-                                                        <td>Type</td>
-                                                    <td>Optional</td>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                    <tr>
-                                                            <td>count</td>
-                                                    
-                                                            <td>
-                                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                                            </td>
-                                                    
-                                                        <td>
-                                                                No
-                                                        </td>
-                                                        
-                                                    </tr>
-                                            </tbody>
-                                        </table>
-                                </div>
-                                <div>
-                                </div>
-                                <div class="io-description">
-                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                                </div>
-                        </td>
-                    </tr>
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
                         <a name="views"></a>
                         <span class="name"><b>views</b><a href="#views"><span class="icon ion-ios-link"></span></a></span>
                     </td>
@@ -919,7 +933,7 @@ with controlling view numbers.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="151" class="link-to-prism">projects/storefrontlib/src/shared/components/split-view/split-view.service.ts:151</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="174" class="link-to-prism">projects/storefrontlib/src/shared/components/split-view/split-view.service.ts:174</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -958,7 +972,7 @@ export class SplitViewService {
    */
   defaultHideMode &#x3D; true;
 
-  protected _splitViewCount &#x3D; 2;
+  protected splitViewCount &#x3D; 1;
 
   protected _views$: BehaviorSubject&lt;any[]&gt; &#x3D; new BehaviorSubject([]);
 
@@ -968,12 +982,26 @@ export class SplitViewService {
    * property is provided by the &#x60;defaultHideMode&#x60;, unless it&#x27;s the first view (position: 0).
    */
   add(position: number, initialState?: SplitViewState) {
+    const state: SplitViewState &#x3D; {
+      ...{ hidden: position &#x3D;&#x3D;&#x3D; 0 ? false : this.defaultHideMode },
+      ...initialState,
+    };
     if (!this.views[position]) {
-      this.views[position] &#x3D; {
-        ...{ hidden: position &#x3D;&#x3D;&#x3D; 0 ? false : this.defaultHideMode },
-        ...initialState,
-      };
+      this.views[position] &#x3D; state;
+      this.updateState(position, state.hidden);
       this._views$.next(this.views);
+    }
+  }
+
+  /**
+   * The split view is based on a number of views that can be used next to each other.
+   * When the number changes (i.e. if the screen goes from wide to small), the visibility state
+   * of the views should be updated.
+   */
+  updateSplitView(splitViewCount: number) {
+    if (splitViewCount !&#x3D;&#x3D; this.splitViewCount) {
+      this.splitViewCount &#x3D; splitViewCount;
+      this.updateState();
     }
   }
 
@@ -1012,7 +1040,7 @@ export class SplitViewService {
     const activePosition &#x3D; this.getActive(this.views);
     this._views$.next(this.views.splice(0, position));
     if (activePosition &gt;&#x3D; position) {
-      this.updateState(position - 1);
+      this.updateState(position);
     }
   }
 
@@ -1050,20 +1078,38 @@ export class SplitViewService {
       position--;
     }
 
-    this.updateState(position, forceHide);
+    this.updateState(position, forceHide &#x3D;&#x3D;&#x3D; true);
   }
 
-  protected updateState(position: number, hide?: boolean) {
+  /**
+   * Updates the hidden state of all the views.
+   */
+  protected updateState(position?: number, hide?: boolean) {
     const views &#x3D; [...this.views];
-    const split: number &#x3D; this._splitViewCount - 1;
-    // toggle the hidden state per view, based on the next position and number of views per split view
-    views.forEach((view, pos) &#x3D;&gt; {
-      if (pos &#x3D;&#x3D;&#x3D; position) {
-        view.hidden &#x3D; hide ?? !(pos &gt;&#x3D; position - split &amp;&amp; pos &lt;&#x3D; position);
+    if (hide !&#x3D;&#x3D; undefined &amp;&amp; views[position]) {
+      views[position].hidden &#x3D; hide;
+    }
+    let lastVisible &#x3D;
+      views.length - [...views].reverse().findIndex((view) &#x3D;&gt; !view.hidden) - 1;
+
+    if (lastVisible &#x3D;&#x3D;&#x3D; views.length) {
+      if (position) {
+        // When there&#x27;s only 1 view (mobile), we might not find any active
+        // if the user navigates back.
+        lastVisible &#x3D; position - 1;
       } else {
-        view.hidden &#x3D; !(pos &gt;&#x3D; position - split &amp;&amp; pos &lt;&#x3D; position);
+        lastVisible &#x3D; views.length - 1;
+      }
+    }
+
+    views.forEach((view, pos) &#x3D;&gt; {
+      if (view &amp;&amp; pos !&#x3D;&#x3D; position) {
+        // hide other views that are outside the split view
+        view.hidden &#x3D;
+          pos &gt; lastVisible || pos &lt; lastVisible - (this.splitViewCount - 1);
       }
     });
+
     this._views$.next(views);
   }
 
@@ -1077,15 +1123,6 @@ export class SplitViewService {
       .findIndex((view: SplitViewState) &#x3D;&gt; !view.hidden);
     const last &#x3D; l &#x3D;&#x3D;&#x3D; -1 ? 0 : views.length - l - 1;
     return last;
-  }
-
-  /**
-   * Sets the view count for the split view.
-   *
-   * Defaults to 2.
-   */
-  set splitViewCount(count: number) {
-    this._splitViewCount &#x3D; count;
   }
 
   /**
@@ -1129,6 +1166,7 @@ export class SplitViewService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'SplitViewService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

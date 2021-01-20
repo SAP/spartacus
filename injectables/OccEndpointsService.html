@@ -101,6 +101,9 @@
                                 <a href="#getEndpointForScope">getEndpointForScope</a>
                             </li>
                             <li>
+                                <a href="#getOccEndpoint">getOccEndpoint</a>
+                            </li>
+                            <li>
                                 <a href="#getRawEndpoint">getRawEndpoint</a>
                             </li>
                             <li>
@@ -220,8 +223,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="55"
-                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:55</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:83</a></div>
                 </td>
             </tr>
 
@@ -261,8 +264,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="71"
-                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:71</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="99"
+                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:99</a></div>
                 </td>
             </tr>
 
@@ -340,8 +343,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="134"
-                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:134</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="162"
+                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:162</a></div>
                 </td>
             </tr>
 
@@ -404,6 +407,86 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getOccEndpoint"></a>
+                    <span class="name">
+                        <b>
+                            getOccEndpoint
+                        </b>
+                        <a href="#getOccEndpoint"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getOccEndpoint(endpoint: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:60</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns an endpoint starting from the OCC prefix (no baseSite), i.e. /occ/v2/{endpoint}
+Most OCC endpoints are related to a baseSite context and are therefor prefixed
+with the baseSite. The <code>/basesites</code> endpoint does not relate to a specific baseSite
+as it will load all baseSites.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>endpoint</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Endpoint suffix</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getRawEndpoint"></a>
                     <span class="name">
                         <b>
@@ -430,7 +513,7 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns and endpoint starting from the OCC baseUrl (no baseSite)</p>
+                    <div class="io-description"><p>Returns an endpoint starting from the OCC baseUrl (no baseSite)</p>
 </div>
 
                     <div class="io-description">
@@ -499,8 +582,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="85"
-                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:85</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="113"
+                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:113</a></div>
                 </td>
             </tr>
 
@@ -673,7 +756,7 @@ import { DynamicTemplate } from &#x27;../../config/utils/dynamic-template&#x27;;
 import { getContextParameterDefault } from &#x27;../../site-context/config/context-config-utils&#x27;;
 import { BaseSiteService } from &#x27;../../site-context/facade/base-site.service&#x27;;
 import { BASE_SITE_CONTEXT_ID } from &#x27;../../site-context/providers/context-ids&#x27;;
-import { CustomEncoder } from &#x27;../adapters/cart/custom.encoder&#x27;;
+import { HttpParamsURIEncoder } from &#x27;../../util/http-params-uri.encoder&#x27;;
 import { OccConfig } from &#x27;../config/occ-config&#x27;;
 import { DEFAULT_SCOPE } from &#x27;../occ-models/occ-endpoints.model&#x27;;
 
@@ -702,7 +785,7 @@ export class OccEndpointsService {
   }
 
   /**
-   * Returns and endpoint starting from the OCC baseUrl (no baseSite)
+   * Returns an endpoint starting from the OCC baseUrl (no baseSite)
    * @param endpoint Endpoint suffix
    */
   getRawEndpoint(endpoint: string): string {
@@ -716,6 +799,34 @@ export class OccEndpointsService {
     }
 
     return this.config.backend.occ.baseUrl + endpoint;
+  }
+
+  /**
+   * Returns an endpoint starting from the OCC prefix (no baseSite), i.e. /occ/v2/{endpoint}
+   * Most OCC endpoints are related to a baseSite context and are therefor prefixed
+   * with the baseSite. The &#x60;/basesites&#x60; endpoint does not relate to a specific baseSite
+   * as it will load all baseSites.
+   *
+   * @param endpoint Endpoint suffix
+   */
+  getOccEndpoint(endpoint: string): string {
+    if (!this.config?.backend?.occ) {
+      return &#x27;&#x27;;
+    }
+    endpoint &#x3D; this.config.backend.occ.endpoints?.[endpoint];
+
+    if (
+      !endpoint.startsWith(&#x27;/&#x27;) &amp;&amp;
+      !this.config.backend.occ.prefix.endsWith(&#x27;/&#x27;)
+    ) {
+      endpoint &#x3D; &#x27;/&#x27; + endpoint;
+    }
+
+    return (
+      this.config.backend.occ.baseUrl +
+      this.config.backend.occ.prefix +
+      endpoint
+    );
   }
 
   /**
@@ -767,7 +878,7 @@ export class OccEndpointsService {
     }
 
     if (queryParams) {
-      let httpParamsOptions &#x3D; { encoder: new CustomEncoder() };
+      let httpParamsOptions &#x3D; { encoder: new HttpParamsURIEncoder() };
 
       if (endpoint.includes(&#x27;?&#x27;)) {
         let queryParamsFromEndpoint;
@@ -859,6 +970,7 @@ export class OccEndpointsService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'OccEndpointsService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

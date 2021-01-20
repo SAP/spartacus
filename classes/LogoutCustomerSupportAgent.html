@@ -60,9 +60,16 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/asm/store/actions/csagent-token.action.ts</code>
+            <code>projects/core/src/asm/store/actions/logout-agent.action.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Action dispatched after customer support agent logout. Used to clear store data (ui, search results)</p>
+
+            </p>
 
 
             <p class="comment">
@@ -128,7 +135,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/core/src/asm/store/actions/csagent-token.action.ts:37</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/core/src/asm/store/actions/logout-agent.action.ts:10</a></div>
                             </td>
                         </tr>
 
@@ -147,51 +154,17 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { StateUtils } from &#x27;../../../state/utils/index&#x27;;
-import { UserToken } from &#x27;../../../auth/models/token-types.model&#x27;;
-import { CSAGENT_TOKEN_DATA } from &#x27;../asm-state&#x27;;
-import { Action } from &#x27;@ngrx/store&#x27;;
-import { LOGOUT_CUSTOMER_SUPPORT_AGENT } from &#x27;../../../auth/store/actions/login-logout.action&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Action } from &#x27;@ngrx/store&#x27;;
 
-export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN &#x3D;
-  &#x27;[Auth] Load Customer Service Agent Token&#x27;;
-export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_FAIL &#x3D;
-  &#x27;[Auth] Load Customer Service Agent Token Fail&#x27;;
-export const LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_SUCCESS &#x3D;
-  &#x27;[Auth] Load Customer Service Agent Token Success&#x27;;
+export const LOGOUT_CUSTOMER_SUPPORT_AGENT &#x3D;
+  &#x27;[Auth] Logout Customer Support Agent&#x27;;
 
-export class LoadCustomerSupportAgentToken extends StateUtils.LoaderLoadAction {
-  readonly type &#x3D; LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN;
-
-  constructor(public payload: { userId: string; password: string }) {
-    super(CSAGENT_TOKEN_DATA);
-  }
-}
-
-export class LoadCustomerSupportAgentTokenFail extends StateUtils.LoaderFailAction {
-  readonly type &#x3D; LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_FAIL;
-  constructor(public payload: any) {
-    super(CSAGENT_TOKEN_DATA);
-  }
-}
-
-export class LoadCustomerSupportAgentTokenSuccess extends StateUtils.LoaderSuccessAction {
-  readonly type &#x3D; LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_SUCCESS;
-  constructor(public payload: UserToken) {
-    super(CSAGENT_TOKEN_DATA);
-  }
-}
-
+/**
+ * Action dispatched after customer support agent logout. Used to clear store data (ui, search results)
+ */
 export class LogoutCustomerSupportAgent implements Action {
   readonly type &#x3D; LOGOUT_CUSTOMER_SUPPORT_AGENT;
 }
-
-// action types
-export type CustomerSupportAgentTokenAction &#x3D;
-  | LoadCustomerSupportAgentToken
-  | LoadCustomerSupportAgentTokenFail
-  | LoadCustomerSupportAgentTokenSuccess
-  | LogoutCustomerSupportAgent;
 </code></pre>
     </div>
 </div>
@@ -221,6 +194,7 @@ export type CustomerSupportAgentTokenAction &#x3D;
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
             var COMPODOC_CURRENT_PAGE_URL = 'LogoutCustomerSupportAgent.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -104,7 +104,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">projects/core/src/user/store/effects/user-details.effect.ts:48</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/core/src/user/store/effects/user-details.effect.ts:46</a></div>
                             </td>
                         </tr>
 
@@ -189,7 +189,7 @@
           return new UserActions.LoadUserDetailsSuccess(user);
         }),
         catchError((error) &#x3D;&gt;
-          of(new UserActions.LoadUserDetailsFail(makeErrorSerializable(error)))
+          of(new UserActions.LoadUserDetailsFail(normalizeHttpError(error)))
         )
       );
     })
@@ -243,9 +243,7 @@
           () &#x3D;&gt; new UserActions.UpdateUserDetailsSuccess(payload.userDetails)
         ),
         catchError((error) &#x3D;&gt;
-          of(
-            new UserActions.UpdateUserDetailsFail(makeErrorSerializable(error))
-          )
+          of(new UserActions.UpdateUserDetailsFail(normalizeHttpError(error)))
         )
       )
     )
@@ -281,7 +279,7 @@ import { Actions, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { catchError, concatMap, map, mergeMap } from &#x27;rxjs/operators&#x27;;
 import { User } from &#x27;../../../model/misc.model&#x27;;
-import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
+import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
 import { UserConnector } from &#x27;../../connectors/user/user.connector&#x27;;
 import { UserActions } from &#x27;../actions/index&#x27;;
 
@@ -299,7 +297,7 @@ export class UserDetailsEffects {
           return new UserActions.LoadUserDetailsSuccess(user);
         }),
         catchError((error) &#x3D;&gt;
-          of(new UserActions.LoadUserDetailsFail(makeErrorSerializable(error)))
+          of(new UserActions.LoadUserDetailsFail(normalizeHttpError(error)))
         )
       );
     })
@@ -317,9 +315,7 @@ export class UserDetailsEffects {
           () &#x3D;&gt; new UserActions.UpdateUserDetailsSuccess(payload.userDetails)
         ),
         catchError((error) &#x3D;&gt;
-          of(
-            new UserActions.UpdateUserDetailsFail(makeErrorSerializable(error))
-          )
+          of(new UserActions.UpdateUserDetailsFail(normalizeHttpError(error)))
         )
       )
     )
@@ -364,6 +360,7 @@ export class UserDetailsEffects {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'UserDetailsEffects.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -81,23 +81,6 @@
                     </td>
                 </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <h6><b>Methods</b></h6>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <ul class="index-list">
-                            <li>
-                                <a href="#isObject">isObject</a>
-                            </li>
-                            <li>
-                                <a href="#makeErrorSerializable">makeErrorSerializable</a>
-                            </li>
-                        </ul>
-                    </td>
-                </tr>
 
 
 
@@ -113,12 +96,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(actions$: Actions, userTokenService: <a href="../injectables/CdcUserAuthenticationTokenService.html">CdcUserAuthenticationTokenService</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html">GlobalMessageService</a>)</code>
+<code>constructor(actions$: Actions, userTokenService: <a href="../injectables/CdcUserAuthenticationTokenService.html">CdcUserAuthenticationTokenService</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html">GlobalMessageService</a>, cdcAuthService: <a href="../injectables/CdcAuthService.html">CdcAuthService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="107" class="link-to-prism">integration-libs/cdc/src/auth/store/effects/cdc-user-token.effect.ts:107</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">integration-libs/cdc/src/auth/store/effects/cdc-user-token.effect.ts:50</a></div>
                             </td>
                         </tr>
 
@@ -171,6 +154,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>cdcAuthService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/CdcAuthService.html" target="_self" >CdcAuthService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -180,152 +175,7 @@
         </table>
 </section>
 
-            <section>
-    
-    <h3 id="methods">
-        Methods
-    </h3>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="isObject"></a>
-                    <span class="name">
-                        <b>
-                            isObject
-                        </b>
-                        <a href="#isObject"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>isObject(item: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
-                </td>
-            </tr>
 
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="105"
-                            class="link-to-prism">integration-libs/cdc/src/auth/store/effects/cdc-user-token.effect.ts:105</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>item</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="makeErrorSerializable"></a>
-                    <span class="name">
-                        <b>
-                            makeErrorSerializable
-                        </b>
-                        <a href="#makeErrorSerializable"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>makeErrorSerializable(error: HttpErrorResponse | ErrorModel | any)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="76"
-                            class="link-to-prism">integration-libs/cdc/src/auth/store/effects/cdc-user-token.effect.ts:76</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>error</td>
-                                    <td>
-                                            <code>HttpErrorResponse | ErrorModel | any</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>HttpErrorModel | Error | any</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</section>
             <section>
     
         <h3 id="inputs">
@@ -345,7 +195,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code>Observable&lt;CdcAuthActions.CdcUserTokenAction | AuthActions.LoadUserTokenSuccess&gt;</code>
+                            <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#CdcUserTokenAction" target="_self" >Observable&lt;CdcAuthActions.CdcUserTokenAction&gt;</a></code>
 
                         </td>
                     </tr>
@@ -364,12 +214,9 @@
           payload.baseSite
         )
         .pipe(
-          map((token: UserToken) &#x3D;&gt; {
-            const date &#x3D; new Date();
-            date.setSeconds(date.getSeconds() + token.expires_in);
-            token.expiration_time &#x3D; date.toJSON();
-            token.userId &#x3D; OCC_USER_ID_CURRENT;
-            return new AuthActions.LoadUserTokenSuccess(token);
+          switchMap((token) &#x3D;&gt; {
+            this.cdcAuthService.loginWithToken(token);
+            return EMPTY;
           }),
           catchError((error) &#x3D;&gt; {
             this.globalMessageService.add(
@@ -378,7 +225,7 @@
             );
             return of(
               new CdcAuthActions.LoadCdcUserTokenFail({
-                error: this.makeErrorSerializable(error),
+                error: normalizeHttpError(error),
                 initialActionPayload: payload,
               })
             );
@@ -399,7 +246,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">integration-libs/cdc/src/auth/store/effects/cdc-user-token.effect.ts:38</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">integration-libs/cdc/src/auth/store/effects/cdc-user-token.effect.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -412,45 +259,24 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpErrorResponse } from &#x27;@angular/common/http&#x27;;
-import { Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Actions, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
 import {
-  AuthActions,
-  ErrorModel,
   GlobalMessageService,
   GlobalMessageType,
-  HttpErrorModel,
-  OCC_USER_ID_CURRENT,
-  UserToken,
+  normalizeHttpError,
 } from &#x27;@spartacus/core&#x27;;
-import { Observable, of } from &#x27;rxjs&#x27;;
-import { catchError, map, mergeMap } from &#x27;rxjs/operators&#x27;;
+import { EMPTY, Observable, of } from &#x27;rxjs&#x27;;
+import { catchError, map, mergeMap, switchMap } from &#x27;rxjs/operators&#x27;;
+import { CdcAuthService } from &#x27;../../facade&#x27;;
 import { CdcUserAuthenticationTokenService } from &#x27;../../services/user-authentication/cdc-user-authentication-token.service&#x27;;
 import { CdcAuthActions } from &#x27;../actions&#x27;;
-
-const UNKNOWN_ERROR &#x3D; {
-  error: &#x27;unknown error&#x27;,
-};
-
-const circularReplacer &#x3D; () &#x3D;&gt; {
-  const seen &#x3D; new WeakSet();
-  return (_key: any, value: any) &#x3D;&gt; {
-    if (typeof value &#x3D;&#x3D;&#x3D; &#x27;object&#x27; &amp;&amp; value !&#x3D;&#x3D; null) {
-      if (seen.has(value)) {
-        return;
-      }
-      seen.add(value);
-    }
-    return value;
-  };
-};
 
 @Injectable()
 export class CdcUserTokenEffects {
   @Effect()
   loadCdcUserToken$: Observable&lt;
-    CdcAuthActions.CdcUserTokenAction | AuthActions.LoadUserTokenSuccess
+    CdcAuthActions.CdcUserTokenAction
   &gt; &#x3D; this.actions$.pipe(
     ofType(CdcAuthActions.LOAD_CDC_USER_TOKEN),
     map((action: CdcAuthActions.LoadCdcUserToken) &#x3D;&gt; action.payload),
@@ -464,12 +290,9 @@ export class CdcUserTokenEffects {
           payload.baseSite
         )
         .pipe(
-          map((token: UserToken) &#x3D;&gt; {
-            const date &#x3D; new Date();
-            date.setSeconds(date.getSeconds() + token.expires_in);
-            token.expiration_time &#x3D; date.toJSON();
-            token.userId &#x3D; OCC_USER_ID_CURRENT;
-            return new AuthActions.LoadUserTokenSuccess(token);
+          switchMap((token) &#x3D;&gt; {
+            this.cdcAuthService.loginWithToken(token);
+            return EMPTY;
           }),
           catchError((error) &#x3D;&gt; {
             this.globalMessageService.add(
@@ -478,7 +301,7 @@ export class CdcUserTokenEffects {
             );
             return of(
               new CdcAuthActions.LoadCdcUserTokenFail({
-                error: this.makeErrorSerializable(error),
+                error: normalizeHttpError(error),
                 initialActionPayload: payload,
               })
             );
@@ -487,43 +310,11 @@ export class CdcUserTokenEffects {
     )
   );
 
-  makeErrorSerializable(
-    error: HttpErrorResponse | ErrorModel | any
-  ): HttpErrorModel | Error | any {
-    if (error instanceof Error) {
-      return {
-        message: error.message,
-        type: error.name,
-        reason: error.stack,
-      } as ErrorModel;
-    }
-
-    if (error instanceof HttpErrorResponse) {
-      let serializableError &#x3D; error.error;
-      if (this.isObject(error.error)) {
-        serializableError &#x3D; JSON.stringify(error.error, circularReplacer());
-      }
-
-      return {
-        message: error.message,
-        error: serializableError,
-        status: error.status,
-        statusText: error.statusText,
-        url: error.url,
-      } as HttpErrorModel;
-    }
-
-    return this.isObject(error) ? UNKNOWN_ERROR : error;
-  }
-
-  isObject(item: any): boolean {
-    return item &amp;&amp; typeof item &#x3D;&#x3D;&#x3D; &#x27;object&#x27; &amp;&amp; !Array.isArray(item);
-  }
-
   constructor(
     private actions$: Actions,
     private userTokenService: CdcUserAuthenticationTokenService,
-    private globalMessageService: GlobalMessageService
+    private globalMessageService: GlobalMessageService,
+    private cdcAuthService: CdcAuthService
   ) {}
 }
 </code></pre>
@@ -560,6 +351,7 @@ export class CdcUserTokenEffects {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CdcUserTokenEffects.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

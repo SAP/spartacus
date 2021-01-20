@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/cds/src/merchandising/cms-components/merchandising-carousel/model/merchandising-carousel-events.model.ts</code>
+            <code>integration-libs/cds/src/merchandising/cms-components/merchandising-carousel/model/merchandising-carousel-events.model.ts</code>
         </p>
 
 
@@ -228,7 +228,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ProfileTagEvent } from &#x27;../../../../profiletag/index&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ProfileTagPushEvent } from &#x27;../../../../profiletag/index&#x27;;
 import { MerchandisingMetadata } from &#x27;../../../model/index&#x27;;
 
 export interface CarouselEvent {
@@ -238,7 +238,7 @@ export interface CarouselEvent {
   metadata?: MerchandisingMetadata;
 }
 
-export class MerchandisingCarouselViewedEvent implements ProfileTagEvent {
+export class MerchandisingCarouselViewedEvent implements ProfileTagPushEvent {
   name &#x3D; &#x27;CarouselViewed&#x27;;
   data: any;
   constructor(carouselEvent: CarouselEvent, productSkus: string[]) {
@@ -249,7 +249,7 @@ export class MerchandisingCarouselViewedEvent implements ProfileTagEvent {
   }
 }
 
-export class MerchandisingCarouselClickedEvent implements ProfileTagEvent {
+export class MerchandisingCarouselClickedEvent implements ProfileTagPushEvent {
   name &#x3D; &#x27;CarouselClicked&#x27;;
   data: any;
   constructor(
@@ -294,6 +294,7 @@ export class MerchandisingCarouselClickedEvent implements ProfileTagEvent {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'CarouselEvent.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

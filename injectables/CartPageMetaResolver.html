@@ -150,7 +150,7 @@ generic <code>ContentPageMetaResolver</code> is overriden by this resolver.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/core/src/cart/services/cart-page-meta.resolver.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/core/src/cart/services/cart-page-meta.resolver.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -215,8 +215,8 @@ generic <code>ContentPageMetaResolver</code> is overriden by this resolver.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">projects/core/src/cart/services/cart-page-meta.resolver.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">projects/core/src/cart/services/cart-page-meta.resolver.ts:46</a></div>
                 </td>
             </tr>
 
@@ -256,8 +256,8 @@ generic <code>ContentPageMetaResolver</code> is overriden by this resolver.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="38"
-                            class="link-to-prism">projects/core/src/cart/services/cart-page-meta.resolver.ts:38</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">projects/core/src/cart/services/cart-page-meta.resolver.ts:39</a></div>
                 </td>
             </tr>
 
@@ -540,7 +540,7 @@ the page type and page template.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/core/src/cart/services/cart-page-meta.resolver.ts:25</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/core/src/cart/services/cart-page-meta.resolver.ts:26</a></div>
                             </td>
                         </tr>
 
@@ -655,7 +655,8 @@ import { PageType } from &#x27;../../model/cms.model&#x27;;
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
-export class CartPageMetaResolver extends PageMetaResolver
+export class CartPageMetaResolver
+  extends PageMetaResolver
   implements PageTitleResolver, PageRobotsResolver {
   protected cms$: Observable&lt;Page&gt; &#x3D; this.cms
     .getCurrentPage()
@@ -715,6 +716,7 @@ export class CartPageMetaResolver extends PageMetaResolver
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CartPageMetaResolver.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

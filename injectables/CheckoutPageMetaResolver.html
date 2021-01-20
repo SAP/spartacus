@@ -150,7 +150,7 @@ the more generic <code>ContentPageMetaResolver</code> is overriden by this resol
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/core/src/checkout/services/checkout-page-meta.resolver.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/core/src/checkout/services/checkout-page-meta.resolver.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -227,8 +227,8 @@ the more generic <code>ContentPageMetaResolver</code> is overriden by this resol
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">projects/core/src/checkout/services/checkout-page-meta.resolver.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="48"
+                            class="link-to-prism">projects/core/src/checkout/services/checkout-page-meta.resolver.ts:48</a></div>
                 </td>
             </tr>
 
@@ -266,8 +266,8 @@ the more generic <code>ContentPageMetaResolver</code> is overriden by this resol
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="37"
-                            class="link-to-prism">projects/core/src/checkout/services/checkout-page-meta.resolver.ts:37</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">projects/core/src/checkout/services/checkout-page-meta.resolver.ts:38</a></div>
                 </td>
             </tr>
 
@@ -540,7 +540,7 @@ the page type and page template.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/core/src/checkout/services/checkout-page-meta.resolver.ts:26</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/core/src/checkout/services/checkout-page-meta.resolver.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -656,7 +656,8 @@ import { PageType } from &#x27;../../model/cms.model&#x27;;
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
-export class CheckoutPageMetaResolver extends PageMetaResolver
+export class CheckoutPageMetaResolver
+  extends PageMetaResolver
   implements PageTitleResolver, PageRobotsResolver {
   protected cart$ &#x3D; this.activeCartService.getActive();
 
@@ -717,6 +718,7 @@ export class CheckoutPageMetaResolver extends PageMetaResolver
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CheckoutPageMetaResolver.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

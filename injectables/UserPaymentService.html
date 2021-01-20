@@ -117,7 +117,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(store: Store<StateWithUser | StateWithProcess>, authService: <a href="../injectables/AuthService.html">AuthService</a>)</code>
+<code>constructor(store: Store<StateWithUser | StateWithProcess>, userIdService: <a href="../injectables/UserIdService.html">UserIdService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -152,10 +152,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>authService</td>
+                                                        <td>userIdService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                                        <code><a href="../injectables/UserIdService.html" target="_self" >UserIdService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -584,7 +584,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { select, Store } from &#x27;@ngrx/store&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
-import { AuthService } from &#x27;../../auth/facade/auth.service&#x27;;
+import { UserIdService } from &#x27;../../auth/user-auth/facade/user-id.service&#x27;;
 import { Country } from &#x27;../../model/address.model&#x27;;
 import { PaymentDetails } from &#x27;../../model/cart.model&#x27;;
 import { StateWithProcess } from &#x27;../../process/store/process-state&#x27;;
@@ -598,14 +598,14 @@ import { StateWithUser } from &#x27;../store/user-state&#x27;;
 export class UserPaymentService {
   constructor(
     protected store: Store&lt;StateWithUser | StateWithProcess&lt;void&gt;&gt;,
-    protected authService: AuthService
+    protected userIdService: UserIdService
   ) {}
 
   /**
    * Loads all user&#x27;s payment methods.
    */
   loadPaymentMethods(): void {
-    this.authService.invokeWithUserId((userId) &#x3D;&gt; {
+    this.userIdService.invokeWithUserId((userId) &#x3D;&gt; {
       this.store.dispatch(new UserActions.LoadUserPaymentMethods(userId));
     });
   }
@@ -634,7 +634,7 @@ export class UserPaymentService {
    * @param paymentMethodId a payment method ID
    */
   setPaymentMethodAsDefault(paymentMethodId: string): void {
-    this.authService.invokeWithUserId((userId) &#x3D;&gt; {
+    this.userIdService.invokeWithUserId((userId) &#x3D;&gt; {
       this.store.dispatch(
         new UserActions.SetDefaultUserPaymentMethod({
           userId,
@@ -650,7 +650,7 @@ export class UserPaymentService {
    * @param paymentMethodId a payment method ID
    */
   deletePaymentMethod(paymentMethodId: string): void {
-    this.authService.invokeWithUserId((userId) &#x3D;&gt; {
+    this.userIdService.invokeWithUserId((userId) &#x3D;&gt; {
       this.store.dispatch(
         new UserActions.DeleteUserPaymentMethod({
           userId,
@@ -708,6 +708,7 @@ export class UserPaymentService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'UserPaymentService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

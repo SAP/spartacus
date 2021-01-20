@@ -309,13 +309,13 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { Occ } from &#x27;../../../occ-models/occ.models&#x27;;
+import { Order, OrderEntry } from &#x27;../../../../model/order.model&#x27;;
+import { PRODUCT_NORMALIZER } from &#x27;../../../../product/connectors/product/converters&#x27;;
 import {
   Converter,
   ConverterService,
 } from &#x27;../../../../util/converter.service&#x27;;
-import { Order, OrderEntry } from &#x27;../../../../model/order.model&#x27;;
-import { PRODUCT_NORMALIZER } from &#x27;../../../../product/connectors/product/converters&#x27;;
+import { Occ } from &#x27;../../../occ-models/occ.models&#x27;;
 
 @Injectable({ providedIn: &#x27;root&#x27; })
 export class OccOrderNormalizer implements Converter&lt;Occ.Order, Order&gt; {
@@ -392,6 +392,7 @@ export class OccOrderNormalizer implements Converter&lt;Occ.Order, Order&gt; {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'OccOrderNormalizer.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

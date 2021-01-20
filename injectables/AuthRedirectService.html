@@ -56,9 +56,16 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/auth/guards/auth-redirect.service.ts</code>
+            <code>projects/core/src/auth/user-auth/services/auth-redirect.service.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Responsible for saving last accessed page (or attempted) before login and for redirecting to that page after login.</p>
+
+            </p>
 
 
 
@@ -81,10 +88,6 @@
                             <li>
                                     <span class="modifier">Private</span>
                                 <a href="#lastAuthGuardNavigation">lastAuthGuardNavigation</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#redirectUrl">redirectUrl</a>
                             </li>
                         </ul>
                     </td>
@@ -129,12 +132,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(routing: <a href="../injectables/RoutingService.html">RoutingService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>)</code>
+<code>constructor(routing: <a href="../injectables/RoutingService.html">RoutingService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, authRedirectStorageService: <a href="../injectables/AuthRedirectStorageService.html">AuthRedirectStorageService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">projects/core/src/auth/guards/auth-redirect.service.ts:8</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/core/src/auth/user-auth/services/auth-redirect.service.ts:13</a></div>
                             </td>
                         </tr>
 
@@ -189,6 +192,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>authRedirectStorageService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthRedirectStorageService.html" target="_self" >AuthRedirectStorageService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -227,8 +242,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="65"
-                            class="link-to-prism">projects/core/src/auth/guards/auth-redirect.service.ts:65</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="89"
+                            class="link-to-prism">projects/core/src/auth/user-auth/services/auth-redirect.service.ts:89</a></div>
                 </td>
             </tr>
 
@@ -266,14 +281,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">projects/core/src/auth/guards/auth-redirect.service.ts:30</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="41"
+                            class="link-to-prism">projects/core/src/auth/user-auth/services/auth-redirect.service.ts:41</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Redirect to saved url (homepage if nothing is saved).</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -305,14 +322,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">projects/core/src/auth/guards/auth-redirect.service.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">projects/core/src/auth/user-auth/services/auth-redirect.service.ts:60</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Saves url of a page that user wanted to access, but wasn&#39;t yet logged in.</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -344,14 +363,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="46"
-                            class="link-to-prism">projects/core/src/auth/guards/auth-redirect.service.ts:46</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="69"
+                            class="link-to-prism">projects/core/src/auth/user-auth/services/auth-redirect.service.ts:69</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Saves url of a page that was accessed before entering a page only for not auth users.</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -387,7 +408,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/core/src/auth/guards/auth-redirect.service.ts:24</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/core/src/auth/user-auth/services/auth-redirect.service.ts:32</a></div>
                             </td>
                         </tr>
 
@@ -415,35 +436,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/core/src/auth/guards/auth-redirect.service.ts:25</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="redirectUrl"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Private</span>
-                            redirectUrl</b>
-                            <a href="#redirectUrl"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">projects/core/src/auth/guards/auth-redirect.service.ts:23</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/core/src/auth/user-auth/services/auth-redirect.service.ts:33</a></div>
                             </td>
                         </tr>
 
@@ -458,8 +451,13 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Router } from &#x27;@angular/router&#x27;;
-import { RoutingService } from &#x27;../../routing/facade/routing.service&#x27;;
+import { take } from &#x27;rxjs/operators&#x27;;
+import { RoutingService } from &#x27;../../../routing/facade/routing.service&#x27;;
+import { AuthRedirectStorageService } from &#x27;./auth-redirect-storage.service&#x27;;
 
+/**
+ * Responsible for saving last accessed page (or attempted) before login and for redirecting to that page after login.
+ */
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
@@ -476,31 +474,49 @@ export class AuthRedirectService {
    *    but is automatically redirected to the login page by the AuthGuard, and he signs in
    *    -&gt; Then we should redirect to the my-account page, not the product page
    */
-  constructor(private routing: RoutingService, private router: Router) {}
+  constructor(
+    protected routing: RoutingService,
+    protected router: Router,
+    protected authRedirectStorageService: AuthRedirectStorageService
+  ) {}
 
-  private redirectUrl: string;
   private ignoredUrls &#x3D; new Set&lt;string&gt;();
   private lastAuthGuardNavigation: {
     url: string;
     navigationId: number;
   };
 
+  /**
+   * Redirect to saved url (homepage if nothing is saved).
+   */
   redirect() {
-    if (this.redirectUrl &#x3D;&#x3D;&#x3D; undefined) {
-      this.routing.go(&#x27;/&#x27;);
-    } else {
-      this.routing.goByUrl(this.redirectUrl);
-    }
-    this.redirectUrl &#x3D; undefined;
-    this.lastAuthGuardNavigation &#x3D; undefined;
+    this.authRedirectStorageService
+      .getRedirectUrl()
+      .pipe(take(1))
+      .subscribe((redirectUrl) &#x3D;&gt; {
+        if (redirectUrl &#x3D;&#x3D;&#x3D; undefined) {
+          this.routing.go(&#x27;/&#x27;);
+        } else {
+          this.routing.goByUrl(redirectUrl);
+        }
+        this.authRedirectStorageService.setRedirectUrl(undefined);
+
+        this.lastAuthGuardNavigation &#x3D; undefined;
+      });
   }
 
+  /**
+   * Saves url of a page that user wanted to access, but wasn&#x27;t yet logged in.
+   */
   reportAuthGuard() {
     const { url, navigationId } &#x3D; this.getCurrentNavigation();
     this.lastAuthGuardNavigation &#x3D; { url, navigationId };
-    this.redirectUrl &#x3D; url;
+    this.authRedirectStorageService.setRedirectUrl(url);
   }
 
+  /**
+   * Saves url of a page that was accessed before entering a page only for not auth users.
+   */
   reportNotAuthGuard() {
     const { url, initialUrl, navigationId } &#x3D; this.getCurrentNavigation();
 
@@ -514,7 +530,8 @@ export class AuthRedirectService {
         !this.lastAuthGuardNavigation ||
         this.lastAuthGuardNavigation.navigationId &lt; navigationId - 1
       ) {
-        this.redirectUrl &#x3D; initialUrl;
+        this.authRedirectStorageService.setRedirectUrl(initialUrl);
+
         this.lastAuthGuardNavigation &#x3D; undefined;
       }
     }
@@ -569,6 +586,7 @@ export class AuthRedirectService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'AuthRedirectService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

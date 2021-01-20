@@ -196,9 +196,8 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { experimental, strings } from &#x27;@angular-devkit/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { strings } from &#x27;@angular-devkit/core&#x27;;
 import { SchematicsException, Tree } from &#x27;@angular-devkit/schematics&#x27;;
-import { getProjectTargetOptions } from &#x27;@angular/cdk/schematics&#x27;;
 import { Attribute, Element, HtmlParser, Node } from &#x27;@angular/compiler&#x27;;
 import {
   findNode,
@@ -216,6 +215,10 @@ import {
 } from &#x27;@schematics/angular/utility/change&#x27;;
 import * as ts from &#x27;typescript&#x27;;
 import { TODO_SPARTACUS, UTF_8 } from &#x27;../constants&#x27;;
+import {
+  getAngularJsonFile,
+  getDefaultProjectNameFromWorkspace,
+} from &#x27;./workspace-utils&#x27;;
 
 export enum InsertDirection {
   LEFT,
@@ -305,16 +308,16 @@ export function getAllTsSourceFiles(
   return results.map((f) &#x3D;&gt; getTsSourceFile(tree, f));
 }
 
-export function getIndexHtmlPath(
-  project: experimental.workspace.WorkspaceProject
-): string {
-  const buildOptions &#x3D; getProjectTargetOptions(project, &#x27;build&#x27;);
-
-  if (!buildOptions.index) {
+export function getIndexHtmlPath(tree: Tree): string {
+  const projectName &#x3D; getDefaultProjectNameFromWorkspace(tree);
+  const angularJson &#x3D; getAngularJsonFile(tree);
+  const indexHtml: string &#x3D;
+    angularJson.projects[projectName]?.architect?.build?.options?.index;
+  if (!indexHtml) {
     throw new SchematicsException(&#x27;&quot;index.html&quot; file not found.&#x27;);
   }
 
-  return buildOptions.index;
+  return indexHtml;
 }
 
 export function getPathResultsForFile(
@@ -436,7 +439,7 @@ export function insertHtmlComment(
 }
 
 function buildHtmlComment(commentText: string): string {
-  return &#x60;&lt;!-- ${commentText} --&gt;&#x60;;
+  return &#x60;&lt;!-- ${TODO_SPARTACUS} ${commentText} --&gt;&#x60;;
 }
 
 export function commitChanges(
@@ -459,10 +462,16 @@ export function commitChanges(
       } else {
         recorder.insertRight(pos, toAdd);
       }
-    } else if (change instanceof ReplaceChange) {
+    } else if (change instanceof RemoveChange) {
       const pos &#x3D; change[&#x27;pos&#x27;];
-      const oldText &#x3D; change[&#x27;oldText&#x27;];
-      const newText &#x3D; change[&#x27;newText&#x27;];
+      const length &#x3D; change[&#x27;toRemove&#x27;].length;
+      recorder.remove(pos, length);
+    } else if (change instanceof NoopChange) {
+      // nothing to do here...
+    } else {
+      const pos &#x3D; (change as ReplaceChange)[&#x27;pos&#x27;];
+      const oldText &#x3D; (change as ReplaceChange)[&#x27;oldText&#x27;];
+      const newText &#x3D; (change as ReplaceChange)[&#x27;newText&#x27;];
 
       recorder.remove(pos, oldText.length);
       if (insertDirection &#x3D;&#x3D;&#x3D; InsertDirection.LEFT) {
@@ -470,10 +479,6 @@ export function commitChanges(
       } else {
         recorder.insertRight(pos, newText);
       }
-    } else if (change instanceof RemoveChange) {
-      const pos &#x3D; change[&#x27;pos&#x27;];
-      const length &#x3D; change[&#x27;toRemove&#x27;].length;
-      recorder.remove(pos, length);
     }
   });
   host.commitUpdate(recorder);
@@ -724,7 +729,7 @@ export function removeConstructorParam(
   const changes: Change[] &#x3D; [];
 
   if (shouldRemoveImportAndParam(source, paramToRemove)) {
-    const importRemovalChange &#x3D; removeImport(source, sourcePath, paramToRemove);
+    const importRemovalChange &#x3D; removeImport(source, paramToRemove);
     const constructorParamRemovalChanges &#x3D; removeConstructorParamInternal(
       sourcePath,
       constructorNode,
@@ -822,9 +827,8 @@ function shouldRemoveImportAndParam(
   return true;
 }
 
-function removeImport(
+export function removeImport(
   source: ts.SourceFile,
-  sourcePath: string,
   importToRemove: ClassType
 ): Change {
   const importDeclarationNode &#x3D; getImportDeclarationNode(
@@ -872,7 +876,7 @@ function removeImport(
 
     position &#x3D; importSpecifier.importNode.getStart();
   }
-  return new RemoveChange(sourcePath, position, toRemove);
+  return new RemoveChange(source.fileName, position, toRemove);
 }
 
 function getImportDeclarationNode(
@@ -1251,7 +1255,7 @@ function findLevel1NodesByTextAndKind(
     .filter((n) &#x3D;&gt; n.getText() &#x3D;&#x3D;&#x3D; text);
 }
 
-function findMultiLevelNodesByTextAndKind(
+export function findMultiLevelNodesByTextAndKind(
   nodes: ts.Node[],
   text: string,
   syntaxKind: ts.SyntaxKind
@@ -1309,6 +1313,12 @@ export function getLineFromTSFile(
 
   return [lineStart, nextLineStart - lineStart];
 }
+
+export function getServerTsPath(host: Tree): string | undefined {
+  const projectName &#x3D; getDefaultProjectNameFromWorkspace(host);
+  const angularJson &#x3D; getAngularJsonFile(host);
+  return angularJson.projects[projectName].architect?.server?.options?.main;
+}
 </code></pre>
     </div>
 </div>
@@ -1337,6 +1347,7 @@ export function getLineFromTSFile(
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'DeprecatedNode.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

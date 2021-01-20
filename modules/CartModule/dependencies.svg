@@ -22,41 +22,53 @@
 <text text-anchor="start" x="429.7258" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Exports</text>
 <g id="clust1" class="cluster">
 <title>cluster_CartModule</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="93,-70 93,-195 403,-195 403,-70 93,-70"/>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="11,-70 11,-195 485,-195 485,-70 11,-70"/>
 </g>
 <g id="clust3" class="cluster">
 <title>cluster_CartModule_imports</title>
-<polygon fill="none" stroke="#000000" points="101,-78 101,-130 395,-130 395,-78 101,-78"/>
+<polygon fill="none" stroke="#000000" points="19,-78 19,-130 477,-130 477,-78 19,-78"/>
 </g>
 <!-- CartEventModule -->
 <g id="node1" class="node">
 <title>CartEventModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="387.3104,-122 384.3104,-126 363.3104,-126 360.3104,-122 270.6896,-122 270.6896,-86 387.3104,-86 387.3104,-122"/>
-<text text-anchor="middle" x="329" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">CartEventModule</text>
+<polygon fill="#8dd3c7" stroke="#000000" points="469.3104,-122 466.3104,-126 445.3104,-126 442.3104,-122 352.6896,-122 352.6896,-86 469.3104,-86 469.3104,-122"/>
+<text text-anchor="middle" x="411" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">CartEventModule</text>
 </g>
 <!-- CartModule -->
-<g id="node3" class="node">
+<g id="node4" class="node">
 <title>CartModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="296.6529,-187 293.6529,-191 272.6529,-191 269.6529,-187 213.3471,-187 213.3471,-151 296.6529,-151 296.6529,-187"/>
-<text text-anchor="middle" x="255" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">CartModule</text>
+<polygon fill="#8dd3c7" stroke="#000000" points="303.6529,-187 300.6529,-191 279.6529,-191 276.6529,-187 220.3471,-187 220.3471,-151 303.6529,-151 303.6529,-187"/>
+<text text-anchor="middle" x="262" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">CartModule</text>
 </g>
 <!-- CartEventModule&#45;&gt;CartModule -->
 <g id="edge1" class="edge">
 <title>CartEventModule&#45;&gt;CartModule</title>
-<path fill="none" stroke="#000000" d="M283.8356,-122.1061C283.8356,-122.1061 283.8356,-140.991 283.8356,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="280.3356,-140.9909 283.8356,-150.991 287.3356,-140.991 280.3356,-140.9909"/>
+<path fill="none" stroke="#000000" d="M411,-122.1061C411,-141.3391 411,-169 411,-169 411,-169 313.9013,-169 313.9013,-169"/>
+<polygon fill="#000000" stroke="#000000" points="313.9014,-165.5001 303.9013,-169 313.9013,-172.5001 313.9014,-165.5001"/>
+</g>
+<!-- CartPersistenceModule -->
+<g id="node2" class="node">
+<title>CartPersistenceModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="335.1247,-122 332.1247,-126 311.1247,-126 308.1247,-122 188.8753,-122 188.8753,-86 335.1247,-86 335.1247,-122"/>
+<text text-anchor="middle" x="262" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">CartPersistenceModule</text>
+</g>
+<!-- CartPersistenceModule&#45;&gt;CartModule -->
+<g id="edge2" class="edge">
+<title>CartPersistenceModule&#45;&gt;CartModule</title>
+<path fill="none" stroke="#000000" d="M262,-122.1061C262,-122.1061 262,-140.991 262,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="258.5001,-140.9909 262,-150.991 265.5001,-140.991 258.5001,-140.9909"/>
 </g>
 <!-- MultiCartStoreModule -->
-<g id="node2" class="node">
+<g id="node3" class="node">
 <title>MultiCartStoreModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="253.3173,-122 250.3173,-126 229.3173,-126 226.3173,-122 108.6827,-122 108.6827,-86 253.3173,-86 253.3173,-122"/>
-<text text-anchor="middle" x="181" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">MultiCartStoreModule</text>
+<polygon fill="#8dd3c7" stroke="#000000" points="171.3173,-122 168.3173,-126 147.3173,-126 144.3173,-122 26.6827,-122 26.6827,-86 171.3173,-86 171.3173,-122"/>
+<text text-anchor="middle" x="99" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">MultiCartStoreModule</text>
 </g>
 <!-- MultiCartStoreModule&#45;&gt;CartModule -->
-<g id="edge2" class="edge">
+<g id="edge3" class="edge">
 <title>MultiCartStoreModule&#45;&gt;CartModule</title>
-<path fill="none" stroke="#000000" d="M233.1662,-122.1061C233.1662,-122.1061 233.1662,-140.991 233.1662,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="229.6663,-140.9909 233.1662,-150.991 236.6663,-140.991 229.6663,-140.9909"/>
+<path fill="none" stroke="#000000" d="M99,-122.1061C99,-141.3391 99,-169 99,-169 99,-169 210.0234,-169 210.0234,-169"/>
+<polygon fill="#000000" stroke="#000000" points="210.0235,-172.5001 220.0234,-169 210.0234,-165.5001 210.0235,-172.5001"/>
 </g>
 </g>
 </svg>

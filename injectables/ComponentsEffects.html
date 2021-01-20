@@ -362,13 +362,13 @@ import { Actions, createEffect, ofType } from &#x27;@ngrx/effects&#x27;;
 import { Action } from &#x27;@ngrx/store&#x27;;
 import { from, Observable } from &#x27;rxjs&#x27;;
 import { catchError, groupBy, mergeMap, switchMap } from &#x27;rxjs/operators&#x27;;
-import { AuthActions } from &#x27;../../../auth/store/actions/index&#x27;;
+import { AuthActions } from &#x27;../../../auth/user-auth/store/actions/index&#x27;;
 import { CmsComponent } from &#x27;../../../model/cms.model&#x27;;
 import { PageContext } from &#x27;../../../routing/index&#x27;;
 import { SiteContextActions } from &#x27;../../../site-context/store/actions/index&#x27;;
-import { bufferDebounceTime } from &#x27;../../../util/buffer-debounce-time&#x27;;
-import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
-import { withdrawOn } from &#x27;../../../util/withdraw-on&#x27;;
+import { bufferDebounceTime } from &#x27;../../../util/rxjs/buffer-debounce-time&#x27;;
+import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
+import { withdrawOn } from &#x27;../../../util/rxjs/withdraw-on&#x27;;
 import { CmsComponentConnector } from &#x27;../../connectors/component/cms-component.connector&#x27;;
 import { serializePageContext } from &#x27;../../utils/cms-utils&#x27;;
 import { CmsActions } from &#x27;../actions/index&#x27;;
@@ -453,7 +453,7 @@ export class ComponentsEffects {
             (uid) &#x3D;&gt;
               new CmsActions.LoadCmsComponentFail({
                 uid,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
                 pageContext,
               })
           )
@@ -496,6 +496,7 @@ export class ComponentsEffects {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'ComponentsEffects.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

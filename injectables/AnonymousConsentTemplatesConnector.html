@@ -179,7 +179,7 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable | null</code>
+                        <b>Returns : </b>    <code>Observable&lt;AnonymousConsent[]&gt;</code>
 
                     </div>
                 </td>
@@ -246,11 +246,8 @@ export class AnonymousConsentTemplatesConnector {
     return this.adapter.loadAnonymousConsentTemplates();
   }
 
-  loadAnonymousConsents(): Observable&lt;AnonymousConsent[]&gt; | null {
-    // TODO{#8158} - remove the conditional check, and just &#x60;return this.adapter.loadAnonymousConsents()&#x60;
-    return this.adapter.loadAnonymousConsents
-      ? this.adapter.loadAnonymousConsents()
-      : null;
+  loadAnonymousConsents(): Observable&lt;AnonymousConsent[]&gt; {
+    return this.adapter.loadAnonymousConsents();
   }
 }
 </code></pre>
@@ -287,6 +284,7 @@ export class AnonymousConsentTemplatesConnector {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'AnonymousConsentTemplatesConnector.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -458,7 +458,7 @@ export function removeAllItemsFromCart() {
 
 export function removeCartItem(product) {
   getCartItem(product.name).within(() &#x3D;&gt; {
-    cy.getByText(&#x27;Remove&#x27;).click();
+    cy.findByText(&#x27;Remove&#x27;).click();
   });
 }
 
@@ -666,6 +666,7 @@ export function loginCartUser() {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'TestProduct.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

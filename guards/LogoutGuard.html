@@ -58,7 +58,7 @@
             <h3>File</h3>
             </p>
             <p class="comment">
-                <code>projects/storefrontlib/src/cms-components/user/logout/logout-guard.ts</code>
+                <code>projects/storefrontlib/src/cms-components/user/logout/logout.guard.ts</code>
             </p>
 
                 <p class="comment">
@@ -93,11 +93,11 @@ to the login route instead.</p>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
-                                <a href="#logout">logout</a>
+                                <a href="#getRedirectUrl">getRedirectUrl</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
-                                <a href="#redirect">redirect</a>
+                                <a href="#logout">logout</a>
                             </li>
                         </ul>
                     </td>
@@ -117,12 +117,12 @@ to the login route instead.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(auth: <a href="../injectables/AuthService.html">AuthService</a>, cms: <a href="../injectables/CmsService.html">CmsService</a>, routing: <a href="../injectables/RoutingService.html">RoutingService</a>, semanticPathService: <a href="../injectables/SemanticPathService.html">SemanticPathService</a>, protectedRoutes: <a href="../injectables/ProtectedRoutesService.html">ProtectedRoutesService</a>)</code>
+<code>constructor(auth: <a href="../injectables/AuthService.html">AuthService</a>, cms: <a href="../injectables/CmsService.html">CmsService</a>, semanticPathService: <a href="../injectables/SemanticPathService.html">SemanticPathService</a>, protectedRoutes: <a href="../injectables/ProtectedRoutesService.html">ProtectedRoutesService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/storefrontlib/src/cms-components/user/logout/logout-guard.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">projects/storefrontlib/src/cms-components/user/logout/logout.guard.ts:23</a></div>
                             </td>
                         </tr>
 
@@ -164,18 +164,6 @@ to the login route instead.</p>
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>routing</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/RoutingService.html" target="_self" >RoutingService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
                                                         <td>semanticPathService</td>
                                                   
                                                         <td>
@@ -192,6 +180,18 @@ to the login route instead.</p>
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/ProtectedRoutesService.html" target="_self" >ProtectedRoutesService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>router</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -235,8 +235,8 @@ to the login route instead.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="33"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/user/logout/logout-guard.ts:33</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/user/logout/logout.guard.ts:32</a></div>
                 </td>
             </tr>
 
@@ -245,7 +245,53 @@ to the login route instead.</p>
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+                        <b>Returns : </b>    <code>Observable&lt;boolean | UrlTree&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getRedirectUrl"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            getRedirectUrl
+                        </b>
+                        <a href="#getRedirectUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getRedirectUrl()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/user/logout/logout.guard.ts:68</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Whenever there is no specific &quot;logout&quot; page configured in the CMS,
+we redirect after the user is logged out.</p>
+<p>The user gets redirected to the homepage, unless the homepage is protected
+(in case of a closed shop). We&#39;ll redirect to the login page instead.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://angular.io/api/router/UrlTree" target="_blank" >UrlTree</a></code>
 
                     </div>
                 </td>
@@ -276,66 +322,17 @@ to the login route instead.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/user/logout/logout-guard.ts:67</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Log user out.</p>
-<p>This is delegated to the <code>AuthService</code>.</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="redirect"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Protected</span>
-                            redirect
-                        </b>
-                        <a href="#redirect"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>redirect()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="57"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/user/logout/logout-guard.ts:57</a></div>
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/user/logout/logout.guard.ts:57</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Whenever there is no specific &quot;logout&quot; page configured in the CMS,
-we redirect after the user is logged out.</p>
-<p>The user gets redirected to the homepage, unless the homepage is protected
-(in case of a closed shop). We&#39;ll redirect to the login page instead.</p>
-</div>
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
 
                     </div>
                 </td>
@@ -348,17 +345,16 @@ we redirect after the user is logged out.</p>
 
         <div class="tab-pane fade  tab-source-code" id="c-source">
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { CanActivate } from &#x27;@angular/router&#x27;;
+import { CanActivate, Router, UrlTree } from &#x27;@angular/router&#x27;;
 import {
   AuthService,
   CmsService,
   PageType,
   ProtectedRoutesService,
-  RoutingService,
   SemanticPathService,
 } from &#x27;@spartacus/core&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
-import { tap } from &#x27;rxjs/operators&#x27;;
+import { from, Observable } from &#x27;rxjs&#x27;;
+import { map, switchMap } from &#x27;rxjs/operators&#x27;;
 
 /**
  * Guards the _logout_ route.
@@ -374,26 +370,38 @@ export class LogoutGuard implements CanActivate {
   constructor(
     protected auth: AuthService,
     protected cms: CmsService,
-    protected routing: RoutingService,
     protected semanticPathService: SemanticPathService,
-    protected protectedRoutes: ProtectedRoutesService
+    protected protectedRoutes: ProtectedRoutesService,
+    protected router: Router
   ) {}
 
-  canActivate(): Observable&lt;any&gt; {
-    this.logout();
-
-    return this.cms
-      .hasPage({
-        id: this.semanticPathService.get(&#x27;logout&#x27;),
-        type: PageType.CONTENT_PAGE,
+  canActivate(): Observable&lt;boolean | UrlTree&gt; {
+    /**
+     * First we want to complete logout process before redirecting to logout page
+     * We want to avoid errors like &#x60;token is no longer valid&#x60;
+     */
+    return from(this.logout()).pipe(
+      switchMap(() &#x3D;&gt; {
+        return this.cms
+          .hasPage({
+            id: this.semanticPathService.get(&#x27;logout&#x27;),
+            type: PageType.CONTENT_PAGE,
+          })
+          .pipe(
+            map((hasPage) &#x3D;&gt; {
+              if (!hasPage) {
+                return this.getRedirectUrl();
+              }
+              // TODO(#9385): Use CMS page guard here.
+              return hasPage;
+            })
+          );
       })
-      .pipe(
-        tap((hasPage) &#x3D;&gt; {
-          if (!hasPage) {
-            this.redirect();
-          }
-        })
-      );
+    );
+  }
+
+  protected logout(): Promise&lt;any&gt; {
+    return this.auth.coreLogout();
   }
 
   /**
@@ -403,18 +411,9 @@ export class LogoutGuard implements CanActivate {
    * The user gets redirected to the homepage, unless the homepage is protected
    * (in case of a closed shop). We&#x27;ll redirect to the login page instead.
    */
-  protected redirect(): void {
+  protected getRedirectUrl(): UrlTree {
     const cxRoute &#x3D; this.protectedRoutes.shouldProtect ? &#x27;login&#x27; : &#x27;home&#x27;;
-    this.routing.go({ cxRoute });
-  }
-
-  /**
-   * Log user out.
-   *
-   * This is delegated to the &#x60;AuthService&#x60;.
-   */
-  protected logout(): void {
-    this.auth.logout();
+    return this.router.parseUrl(this.semanticPathService.get(cxRoute));
   }
 }
 </code></pre>
@@ -448,6 +447,7 @@ export class LogoutGuard implements CanActivate {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'guard';
             var COMPODOC_CURRENT_PAGE_URL = 'LogoutGuard.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

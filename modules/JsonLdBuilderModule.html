@@ -63,7 +63,7 @@
         </p>
         <p class="comment">
             <p>Provides several standard json-ld builders that contribute
-to colleting and building json-ld data.</p>
+to collecting and building json-ld data.</p>
 
         </p>
 
@@ -90,7 +90,7 @@ import { JSONLD_PRODUCT_BUILDER, SCHEMA_BUILDER } from &#x27;./tokens&#x27;;
 
 /**
  * Provides several standard json-ld builders that contribute
- * to colleting and building json-ld data.
+ * to collecting and building json-ld data.
  */
 @NgModule({
   providers: [
@@ -104,8 +104,8 @@ import { JSONLD_PRODUCT_BUILDER, SCHEMA_BUILDER } from &#x27;./tokens&#x27;;
       useExisting: BreadcrumbSchemaBuilder,
       multi: true,
     },
-    // lower level json-ld builder classes offering fine-graiend control
-    // for product related schema&#x27;s
+    // lower level json-ld builder classes offering fine-grained control
+    // for product related schemas
     {
       provide: JSONLD_PRODUCT_BUILDER,
       useExisting: JsonLdBaseProductBuilder,
@@ -160,6 +160,7 @@ export class JsonLdBuilderModule {}
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
             var COMPODOC_CURRENT_PAGE_URL = 'JsonLdBuilderModule.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

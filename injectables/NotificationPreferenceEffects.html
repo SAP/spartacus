@@ -192,7 +192,7 @@
         catchError((error) &#x3D;&gt;
           of(
             new UserActions.LoadNotificationPreferencesFail(
-              makeErrorSerializable(error)
+              normalizeHttpError(error)
             )
           )
         )
@@ -253,7 +253,7 @@
         catchError((error) &#x3D;&gt;
           of(
             new UserActions.UpdateNotificationPreferencesFail(
-              makeErrorSerializable(error)
+              normalizeHttpError(error)
             )
           )
         )
@@ -290,7 +290,7 @@
 import { Actions, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { catchError, map, mergeMap, switchMap } from &#x27;rxjs/operators&#x27;;
-import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
+import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
 import { UserNotificationPreferenceConnector } from &#x27;../../connectors/notification-preference/user-notification-preference.connector&#x27;;
 import { UserActions } from &#x27;../actions/index&#x27;;
 
@@ -311,7 +311,7 @@ export class NotificationPreferenceEffects {
         catchError((error) &#x3D;&gt;
           of(
             new UserActions.LoadNotificationPreferencesFail(
-              makeErrorSerializable(error)
+              normalizeHttpError(error)
             )
           )
         )
@@ -336,7 +336,7 @@ export class NotificationPreferenceEffects {
         catchError((error) &#x3D;&gt;
           of(
             new UserActions.UpdateNotificationPreferencesFail(
-              makeErrorSerializable(error)
+              normalizeHttpError(error)
             )
           )
         )
@@ -383,6 +383,7 @@ export class NotificationPreferenceEffects {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'NotificationPreferenceEffects.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

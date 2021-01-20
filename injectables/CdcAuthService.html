@@ -59,13 +59,14 @@
             <code>integration-libs/cdc/src/auth/facade/cdc-auth.service.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Service to support custom CDC OAuth flow.</p>
 
-            <p class="comment">
-                <h3>Extends</h3>
             </p>
-            <p class="comment">
-                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
-            </p>
+
 
 
             <section>
@@ -82,47 +83,13 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#authorizeWithCustomCdcFlow">authorizeWithCustomCdcFlow</a>
+                                <a href="#loginWithCustomCdcFlow">loginWithCustomCdcFlow</a>
                             </li>
                             <li>
-                                <a href="#logout">logout</a>
+                                <a href="#loginWithToken">loginWithToken</a>
                             </li>
                             <li>
                                 <a href="#logoutFromCdc">logoutFromCdc</a>
-                            </li>
-                            <li>
-                                <a href="#authorize">authorize</a>
-                            </li>
-                            <li>
-                                <a href="#authorizeWithToken">authorizeWithToken</a>
-                            </li>
-                            <li>
-                                <a href="#getClientToken">getClientToken</a>
-                            </li>
-                            <li>
-                                <a href="#getOccUserId">getOccUserId</a>
-                            </li>
-                            <li>
-                                <a href="#getUserToken">getUserToken</a>
-                            </li>
-                            <li>
-                                <a href="#invokeWithUserId">invokeWithUserId</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Protected</span>
-                                <a href="#isClientTokenLoaded">isClientTokenLoaded</a>
-                            </li>
-                            <li>
-                                <a href="#isUserLoggedIn">isUserLoggedIn</a>
-                            </li>
-                            <li>
-                                <a href="#logout">logout</a>
-                            </li>
-                            <li>
-                                <a href="#refreshClientToken">refreshClientToken</a>
-                            </li>
-                            <li>
-                                <a href="#refreshUserToken">refreshUserToken</a>
                             </li>
                         </ul>
                     </td>
@@ -142,12 +109,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(store: Store<StateWithAuth>, winRef: <a href="../injectables/WindowRef.html">WindowRef</a>)</code>
+<code>constructor(store: Store, winRef: <a href="../injectables/WindowRef.html">WindowRef</a>, authStorageService: <a href="../injectables/AuthStorageService.html">AuthStorageService</a>, userIdService: <a href="../injectables/UserIdService.html">UserIdService</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html">GlobalMessageService</a>, authRedirectService: <a href="../injectables/AuthRedirectService.html">AuthRedirectService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">integration-libs/cdc/src/auth/facade/cdc-auth.service.ts:9</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">integration-libs/cdc/src/auth/facade/cdc-auth.service.ts:24</a></div>
                             </td>
                         </tr>
 
@@ -168,7 +135,7 @@
                                                         <td>store</td>
                                                   
                                                         <td>
-                                                                    <code>Store&lt;StateWithAuth&gt;</code>
+                                                                    <code>Store</code>
                                                         </td>
                                                   
                                                     <td>
@@ -181,6 +148,54 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/WindowRef.html" target="_self" >WindowRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>authStorageService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthStorageService.html" target="_self" >AuthStorageService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>userIdService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UserIdService.html" target="_self" >UserIdService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>globalMessageService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/GlobalMessageService.html" target="_self" >GlobalMessageService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>authRedirectService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthRedirectService.html" target="_self" >AuthRedirectService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -206,26 +221,26 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="authorizeWithCustomCdcFlow"></a>
+                    <a name="loginWithCustomCdcFlow"></a>
                     <span class="name">
                         <b>
-                            authorizeWithCustomCdcFlow
+                            loginWithCustomCdcFlow
                         </b>
-                        <a href="#authorizeWithCustomCdcFlow"><span class="icon ion-ios-link"></span></a>
+                        <a href="#loginWithCustomCdcFlow"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>authorizeWithCustomCdcFlow(UID: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, UIDSignature: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, signatureTimestamp: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, idToken: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, baseSite: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>loginWithCustomCdcFlow(UID: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, UIDSignature: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, signatureTimestamp: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, idToken: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, baseSite: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="26"
-                            class="link-to-prism">integration-libs/cdc/src/auth/facade/cdc-auth.service.ts:26</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">integration-libs/cdc/src/auth/facade/cdc-auth.service.ts:43</a></div>
                 </td>
             </tr>
 
@@ -326,38 +341,65 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="logout"></a>
+                    <a name="loginWithToken"></a>
                     <span class="name">
                         <b>
-                            logout
+                            loginWithToken
                         </b>
-                        <a href="#logout"><span class="icon ion-ios-link"></span></a>
+                        <a href="#loginWithToken"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>logout()</code>
+<code>loginWithToken(token)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">integration-libs/cdc/src/auth/facade/cdc-auth.service.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="66"
+                            class="link-to-prism">integration-libs/cdc/src/auth/facade/cdc-auth.service.ts:66</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Logout a storefront customer</p>
+                    <div class="io-description"><p>Transform and store the token received from custom flow to library format and login user.</p>
 </div>
 
                     <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>token</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -385,8 +427,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="56"
-                            class="link-to-prism">integration-libs/cdc/src/auth/facade/cdc-auth.service.ts:56</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">integration-libs/cdc/src/auth/facade/cdc-auth.service.ts:128</a></div>
                 </td>
             </tr>
 
@@ -404,707 +446,6 @@
             </tr>
         </tbody>
     </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="authorize"></a>
-                    <span class="name">
-                        <b>
-                            authorize
-                        </b>
-                        <a href="#authorize"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>authorize(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, password: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/AuthService.html#source" target="_self" >AuthService:26</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Loads a new user token</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>userId</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>password</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="authorizeWithToken"></a>
-                    <span class="name">
-                        <b>
-                            authorizeWithToken
-                        </b>
-                        <a href="#authorizeWithToken"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>authorizeWithToken(token: <a href="../interfaces/UserToken.html">UserToken</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/AuthService.html#source" target="_self" >AuthService:90</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Store the provided token</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>token</td>
-                                    <td>
-                                                <code><a href="../interfaces/UserToken.html" target="_self" >UserToken</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getClientToken"></a>
-                    <span class="name">
-                        <b>
-                            getClientToken
-                        </b>
-                        <a href="#getClientToken"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getClientToken()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/AuthService.html#source" target="_self" >AuthService:112</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Returns a client token.  The client token from the store is returned if there is one.
-Otherwise, an new token is fetched from the backend and saved in the store.</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/ClientToken.html" target="_self" >Observable&lt;ClientToken&gt;</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getOccUserId"></a>
-                    <span class="name">
-                        <b>
-                            getOccUserId
-                        </b>
-                        <a href="#getOccUserId"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getOccUserId()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/AuthService.html#source" target="_self" >AuthService:45</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>This function provides the userId the OCC calls should use, depending
-on whether there is an active storefront session or not.</p>
-<p>It returns the userId of the current storefront user or &#39;anonymous&#39;
-in the case there are no signed in user in the storefront.</p>
-<p>The user id of a regular customer session is &#39;current&#39;.  In the case of an
-asm customer emulation session, the userId will be the customerId.</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;string&gt;</code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getUserToken"></a>
-                    <span class="name">
-                        <b>
-                            getUserToken
-                        </b>
-                        <a href="#getUserToken"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getUserToken()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/AuthService.html#source" target="_self" >AuthService:71</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Returns the user&#39;s token</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;UserToken&gt;</code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="invokeWithUserId"></a>
-                    <span class="name">
-                        <b>
-                            invokeWithUserId
-                        </b>
-                        <a href="#invokeWithUserId"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>invokeWithUserId(cb: (userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>) => void)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/AuthService.html#source" target="_self" >AuthService:62</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Calls provided callback with current user id.</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>cb</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>callback function to invoke</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Subscription</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="isClientTokenLoaded"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Protected</span>
-                            isClientTokenLoaded
-                        </b>
-                        <a href="#isClientTokenLoaded"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>isClientTokenLoaded(state: LoaderState<ClientToken>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/AuthService.html#source" target="_self" >AuthService:145</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>state</td>
-                                    <td>
-                                            <code>LoaderState&lt;ClientToken&gt;</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="isUserLoggedIn"></a>
-                    <span class="name">
-                        <b>
-                            isUserLoggedIn
-                        </b>
-                        <a href="#isUserLoggedIn"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>isUserLoggedIn()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/AuthService.html#source" target="_self" >AuthService:152</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Returns <code>true</code> if the user is logged in; and <code>false</code> if the user is anonymous.</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="logout"></a>
-                    <span class="name">
-                        <b>
-                            logout
-                        </b>
-                        <a href="#logout"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>logout()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/AuthService.html#source" target="_self" >AuthService:97</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Logout a storefront customer</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="refreshClientToken"></a>
-                    <span class="name">
-                        <b>
-                            refreshClientToken
-                        </b>
-                        <a href="#refreshClientToken"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>refreshClientToken()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/AuthService.html#source" target="_self" >AuthService:133</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Fetches a clientToken from the backend ans saves it in the store where getClientToken can use it.
-The new clientToken is returned.</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/ClientToken.html" target="_self" >Observable&lt;ClientToken&gt;</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="refreshUserToken"></a>
-                    <span class="name">
-                        <b>
-                            refreshUserToken
-                        </b>
-                        <a href="#refreshUserToken"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>refreshUserToken(token: <a href="../interfaces/UserToken.html">UserToken</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/AuthService.html#source" target="_self" >AuthService:79</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Refreshes the user token</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>token</td>
-                                    <td>
-                                                <code><a href="../interfaces/UserToken.html" target="_self" >UserToken</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>a user token to refresh</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 </section>
 
     </div>
@@ -1113,19 +454,36 @@ The new clientToken is returned.</p>
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Store } from &#x27;@ngrx/store&#x27;;
-import { AuthService, StateWithAuth, WindowRef } from &#x27;@spartacus/core&#x27;;
+import {
+  AsmAuthStorageService,
+  AuthActions,
+  AuthRedirectService,
+  AuthStorageService,
+  AuthToken,
+  GlobalMessageService,
+  GlobalMessageType,
+  OCC_USER_ID_CURRENT,
+  TokenTarget,
+  UserIdService,
+  WindowRef,
+} from &#x27;@spartacus/core&#x27;;
 import { CdcAuthActions } from &#x27;../store/actions&#x27;;
 
+/**
+ * Service to support custom CDC OAuth flow.
+ */
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
-export class CdcAuthService extends AuthService {
+export class CdcAuthService {
   constructor(
-    protected store: Store&lt;StateWithAuth&gt;,
-    protected winRef: WindowRef
-  ) {
-    super(store);
-  }
+    protected store: Store,
+    protected winRef: WindowRef,
+    protected authStorageService: AuthStorageService,
+    protected userIdService: UserIdService,
+    protected globalMessageService: GlobalMessageService,
+    protected authRedirectService: AuthRedirectService,
+  ) {}
 
   /**
    * Loads a new user token using custom oauth flow
@@ -1136,7 +494,7 @@ export class CdcAuthService extends AuthService {
    * @param idToken
    * @param baseSite
    */
-  authorizeWithCustomCdcFlow(
+  loginWithCustomCdcFlow(
     UID: string,
     UIDSignature: string,
     signatureTimestamp: string,
@@ -1155,12 +513,67 @@ export class CdcAuthService extends AuthService {
   }
 
   /**
-   * Logout a storefront customer
+   * Transform and store the token received from custom flow to library format and login user.
+   *
+   * @param token
    */
-  logout(): void {
-    super.logout();
-    // trigger logout from CDC
-    this.logoutFromCdc();
+  loginWithToken(token: Partial&lt;AuthToken&gt; &amp; { expires_in?: number }): void {
+    let tokenTarget: TokenTarget;
+    let currentToken: AuthToken;
+    if (&#x27;getTokenTarget&#x27; in this.authStorageService) {
+      (this.authStorageService as AsmAuthStorageService)
+        .getToken()
+        .subscribe((tok) &#x3D;&gt; (currentToken &#x3D; tok))
+        .unsubscribe();
+      (this.authStorageService as AsmAuthStorageService)
+        .getTokenTarget()
+        .subscribe((tokTarget) &#x3D;&gt; (tokenTarget &#x3D; tokTarget))
+        .unsubscribe();
+      if (
+        Boolean(currentToken?.access_token) &amp;&amp;
+        tokenTarget &#x3D;&#x3D;&#x3D; TokenTarget.CSAgent
+      ) {
+        this.globalMessageService.add(
+          {
+            key: &#x27;asm.auth.agentLoggedInError&#x27;,
+          },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+        return;
+      }
+    }
+
+    // Code mostly based on auth lib we use and the way it handles token properties
+    this.authStorageService.setItem(&#x27;access_token&#x27;, token.access_token);
+
+    if (token.granted_scopes &amp;&amp; Array.isArray(token.granted_scopes)) {
+      this.authStorageService.setItem(
+        &#x27;granted_scopes&#x27;,
+        JSON.stringify(token.granted_scopes)
+      );
+    }
+
+    this.authStorageService.setItem(&#x27;access_token_stored_at&#x27;, &#x27;&#x27; + Date.now());
+
+    if (token.expires_in) {
+      const expiresInMilliseconds &#x3D; token.expires_in * 1000;
+      const now &#x3D; new Date();
+      const expiresAt &#x3D; now.getTime() + expiresInMilliseconds;
+      this.authStorageService.setItem(&#x27;expires_at&#x27;, &#x27;&#x27; + expiresAt);
+    }
+
+    if (token.refresh_token) {
+      this.authStorageService.setItem(&#x27;refresh_token&#x27;, token.refresh_token);
+    }
+
+    // OCC specific code
+    this.userIdService.setUserId(OCC_USER_ID_CURRENT);
+
+    this.store.dispatch(new AuthActions.Login());
+
+    // Remove any global errors and redirect user on successful login
+    this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+    this.authRedirectService.redirect();
   }
 
   /**
@@ -1204,6 +617,7 @@ export class CdcAuthService extends AuthService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CdcAuthService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

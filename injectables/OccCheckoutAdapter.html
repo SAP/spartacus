@@ -115,7 +115,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout.adapter.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout.adapter.ts:22</a></div>
                             </td>
                         </tr>
 
@@ -204,8 +204,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="65"
-                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout.adapter.ts:65</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="70"
+                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout.adapter.ts:70</a></div>
                 </td>
             </tr>
 
@@ -286,8 +286,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="76"
-                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout.adapter.ts:76</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="81"
+                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout.adapter.ts:81</a></div>
                 </td>
             </tr>
 
@@ -370,8 +370,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout.adapter.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout.adapter.ts:29</a></div>
                 </td>
             </tr>
 
@@ -452,8 +452,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout.adapter.ts:54</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout.adapter.ts:59</a></div>
                 </td>
             </tr>
 
@@ -529,15 +529,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>placeOrder(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, cartId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>placeOrder(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, cartId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, termsChecked: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout.adapter.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout.adapter.ts:34</a></div>
                 </td>
             </tr>
 
@@ -572,6 +572,18 @@
                                     <td>cartId</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>termsChecked</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
                                     </td>
 
                                     <td>
@@ -619,9 +631,7 @@ import {
 import { OCC_USER_ID_ANONYMOUS } from &#x27;../../utils/occ-constants&#x27;;
 
 // To be changed to a more optimised params after ticket: C3PO-1076
-const FULL_PARAMS &#x3D; &#x27;fields&#x3D;FULL&#x27;;
 const CHECKOUT_PARAMS &#x3D; &#x27;deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)&#x27;;
-const ORDERS_ENDPOINT &#x3D; &#x27;/orders&#x27;;
 const CARTS_ENDPOINT &#x3D; &#x27;/carts/&#x27;;
 
 @Injectable()
@@ -637,21 +647,28 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
     return this.occEndpoints.getEndpoint(orderEndpoint);
   }
 
-  public placeOrder(userId: string, cartId: string): Observable&lt;Order&gt; {
-    const url &#x3D; this.getEndpoint(userId, ORDERS_ENDPOINT);
-    const params &#x3D; new HttpParams({
-      fromString: &#x27;cartId&#x3D;&#x27; + cartId + &#x27;&amp;&#x27; + FULL_PARAMS,
-    });
-
+  public placeOrder(
+    userId: string,
+    cartId: string,
+    termsChecked: boolean
+  ): Observable&lt;Order&gt; {
     let headers &#x3D; new HttpHeaders({
       &#x27;Content-Type&#x27;: &#x27;application/x-www-form-urlencoded&#x27;,
     });
+
     if (userId &#x3D;&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS) {
       headers &#x3D; InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
     }
+    const params &#x3D; new HttpParams()
+      .set(&#x27;cartId&#x27;, cartId)
+      .set(&#x27;termsChecked&#x27;, termsChecked.toString());
 
     return this.http
-      .post&lt;Occ.Order&gt;(url, {}, { headers, params })
+      .post&lt;Occ.Order&gt;(
+        this.occEndpoints.getUrl(&#x27;placeOrder&#x27;, { userId }),
+        {},
+        { headers, params }
+      )
       .pipe(this.converter.pipeable(ORDER_NORMALIZER));
   }
 
@@ -719,6 +736,7 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'OccCheckoutAdapter.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

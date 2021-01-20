@@ -195,10 +195,9 @@ import { JsonLdBuilder } from &#x27;../schema.interface&#x27;;
 export class JsonLdProductOfferBuilder implements JsonLdBuilder&lt;Product&gt; {
   build(product: Product): Observable&lt;any&gt; {
     const schema: any &#x3D; { &#x27;@type&#x27;: &#x27;Offer&#x27; };
-    if (product.price) {
-      if (product.price.value) {
-        schema.price &#x3D; product.price.value;
-      }
+
+    if (product.price?.value) {
+      schema.price &#x3D; product.price.value;
       if (product.price.currencyIso) {
         schema.priceCurrency &#x3D; product.price.currencyIso;
       }
@@ -209,9 +208,7 @@ export class JsonLdProductOfferBuilder implements JsonLdBuilder&lt;Product&gt; {
         product.stock.stockLevelStatus &#x3D;&#x3D;&#x3D; &#x27;inStock&#x27; ? &#x27;InStock&#x27; : &#x27;OutOfStock&#x27;;
     }
 
-    return of({
-      offers: schema,
-    });
+    return of({ offers: schema });
   }
 }
 </code></pre>
@@ -248,6 +245,7 @@ export class JsonLdProductOfferBuilder implements JsonLdBuilder&lt;Product&gt; {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'JsonLdProductOfferBuilder.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

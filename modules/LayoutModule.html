@@ -198,12 +198,15 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule } from &#x27;@angular/core&#x27;;
+import { provideConfig } from &#x27;@spartacus/core&#x27;;
 import { OutletRefModule } from &#x27;../cms-structure/outlet/outlet-ref/outlet-ref.module&#x27;;
+import { defaultLayoutConfig } from &#x27;./config/default-layout.config&#x27;;
 import { DirectionModule } from &#x27;./direction/direction.module&#x27;;
 import { LaunchDialogModule } from &#x27;./launch-dialog/index&#x27;;
 
 @NgModule({
   imports: [OutletRefModule, LaunchDialogModule.forRoot(), DirectionModule],
+  providers: [provideConfig(defaultLayoutConfig)],
   exports: [OutletRefModule],
 })
 export class LayoutModule {}
@@ -243,6 +246,7 @@ export class LayoutModule {}
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
             var COMPODOC_CURRENT_PAGE_URL = 'LayoutModule.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

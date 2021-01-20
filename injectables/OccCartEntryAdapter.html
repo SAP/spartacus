@@ -319,8 +319,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="71"
-                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart-entry.adapter.ts:71</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart-entry.adapter.ts:72</a></div>
                 </td>
             </tr>
 
@@ -415,8 +415,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="44"
-                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart-entry.adapter.ts:44</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart-entry.adapter.ts:45</a></div>
                 </td>
             </tr>
 
@@ -551,8 +551,9 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
       {
         userId,
         cartId,
+        quantity, // The &quot;quantity&quot; parameter is required for the b2b add to cart endpoint.
       },
-      { code: productCode, qty: quantity }
+      { code: productCode, qty: quantity } // The &quot;qty&quot; parameter is used for the base b2c add to cart endpoint.
     );
 
     return this.http
@@ -639,6 +640,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'OccCartEntryAdapter.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

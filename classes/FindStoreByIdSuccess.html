@@ -60,7 +60,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/store-finder/store/actions/find-stores.action.ts</code>
+            <code>feature-libs/storefinder/core/store/actions/find-stores.action.ts</code>
         </p>
 
 
@@ -111,7 +111,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">projects/core/src/store-finder/store/actions/find-stores.action.ts:68</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">feature-libs/storefinder/core/store/actions/find-stores.action.ts:66</a></div>
                             </td>
                         </tr>
 
@@ -175,7 +175,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">projects/core/src/store-finder/store/actions/find-stores.action.ts:69</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">feature-libs/storefinder/core/store/actions/find-stores.action.ts:67</a></div>
                             </td>
                         </tr>
 
@@ -202,7 +202,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">projects/core/src/store-finder/store/actions/find-stores.action.ts:68</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">feature-libs/storefinder/core/store/actions/find-stores.action.ts:66</a></div>
                             </td>
                         </tr>
 
@@ -221,10 +221,8 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { GeoPoint } from &#x27;../../../model/misc.model&#x27;;
-import { StateUtils } from &#x27;../../../state/utils/index&#x27;;
-import { StoreFinderSearchConfig } from &#x27;../../model/search-config&#x27;;
-import { STORE_FINDER_DATA } from &#x27;../store-finder-state&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { STORE_FINDER_DATA } from &#x27;../store-finder-state&#x27;;
+import { GeoPoint, SearchConfig, StateUtils } from &#x27;@spartacus/core&#x27;;
 
 export const FIND_STORES_ON_HOLD &#x3D; &#x27;[StoreFinder] On Hold&#x27;;
 export const FIND_STORES &#x3D; &#x27;[StoreFinder] Find Stores&#x27;;
@@ -248,7 +246,7 @@ export class FindStores extends StateUtils.LoaderLoadAction {
   constructor(
     public payload: {
       queryText: string;
-      searchConfig?: StoreFinderSearchConfig;
+      searchConfig?: SearchConfig;
       longitudeLatitude?: GeoPoint;
       useMyLocation?: boolean;
       countryIsoCode?: string;
@@ -331,6 +329,7 @@ export type FindStoresAction &#x3D;
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
             var COMPODOC_CURRENT_PAGE_URL = 'FindStoreByIdSuccess.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

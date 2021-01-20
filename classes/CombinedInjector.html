@@ -60,18 +60,19 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/shared/utils/combined-injector.ts</code>
+            <code>projects/core/src/util/combined-injector.ts</code>
         </p>
 
             <p class="comment">
                 <h3>Description</h3>
             </p>
             <p class="comment">
-                <p>CombinedInjector is able to combine more than one injector together in a way
-that main injector is supported by complementary injectors.</p>
-<p>Should be used as a parent injector for components, when we want to have access
-to both providers from component hierarchical injectors and providers from any
-number of additional injectors (lazy loaded modules for example).</p>
+                <p>CombinedInjector is able to combine more than one injector together.</p>
+<p>Can be used to instantiate lazy loaded modules with dependency modules,
+so lazy loaded module can use instances provided in all dependency modules.</p>
+<p>Injector tries to resolve token in all Injector, taking into account the order
+in which they were provided in complementaryInjectors and fallbacks to the
+mainInjector.</p>
 
             </p>
 
@@ -129,7 +130,7 @@ number of additional injectors (lazy loaded modules for example).</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/storefrontlib/src/shared/utils/combined-injector.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">projects/core/src/util/combined-injector.ts:21</a></div>
                             </td>
                         </tr>
 
@@ -216,8 +217,8 @@ number of additional injectors (lazy loaded modules for example).</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="29"
-                            class="link-to-prism">projects/storefrontlib/src/shared/utils/combined-injector.ts:29</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="31"
+                            class="link-to-prism">projects/core/src/util/combined-injector.ts:31</a></div>
                 </td>
             </tr>
 
@@ -318,8 +319,8 @@ number of additional injectors (lazy loaded modules for example).</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">projects/storefrontlib/src/shared/utils/combined-injector.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">projects/core/src/util/combined-injector.ts:36</a></div>
                 </td>
             </tr>
 
@@ -400,8 +401,8 @@ number of additional injectors (lazy loaded modules for example).</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">projects/storefrontlib/src/shared/utils/combined-injector.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="37"
+                            class="link-to-prism">projects/core/src/util/combined-injector.ts:37</a></div>
                 </td>
             </tr>
 
@@ -492,12 +493,14 @@ number of additional injectors (lazy loaded modules for example).</p>
 const NOT_FOUND_SYMBOL &#x3D; {};
 
 /**
- * CombinedInjector is able to combine more than one injector together in a way
- * that main injector is supported by complementary injectors.
+ * CombinedInjector is able to combine more than one injector together.
  *
- * Should be used as a parent injector for components, when we want to have access
- * to both providers from component hierarchical injectors and providers from any
- * number of additional injectors (lazy loaded modules for example).
+ * Can be used to instantiate lazy loaded modules with dependency modules,
+ * so lazy loaded module can use instances provided in all dependency modules.
+ *
+ * Injector tries to resolve token in all Injector, taking into account the order
+ * in which they were provided in complementaryInjectors and fallbacks to the
+ * mainInjector.
  */
 export class CombinedInjector implements Injector {
   /**
@@ -526,12 +529,9 @@ export class CombinedInjector implements Injector {
       );
     }
 
-    for (const injector of [
-      this.mainInjector,
-      ...this.complementaryInjectors,
-    ]) {
-      // First we are resolving providers provided at Self level in all injectors,
-      // starting with main injector and going through complementary ones...
+    for (const injector of [...this.complementaryInjectors]) {
+      // First we are resolving providers provided at Self level
+      // in all complementary injectors...
       const service &#x3D; injector.get(token, NOT_FOUND_SYMBOL, InjectFlags.Self);
       if (service !&#x3D;&#x3D; NOT_FOUND_SYMBOL) {
         return service;
@@ -570,6 +570,7 @@ export class CombinedInjector implements Injector {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
             var COMPODOC_CURRENT_PAGE_URL = 'CombinedInjector.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

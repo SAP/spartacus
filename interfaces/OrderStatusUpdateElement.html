@@ -212,7 +212,7 @@
 import { Image } from &#x27;./image.model&#x27;;
 import { Product, Stock } from &#x27;./product.model&#x27;;
 import { GeoPoint, PaginationModel, SortModel } from &#x27;./misc.model&#x27;;
-import { Cart, Principal } from &#x27;./cart.model&#x27;;
+import { Cart } from &#x27;./cart.model&#x27;;
 import { OpeningSchedule } from &#x27;./point-of-service.model&#x27;;
 
 export interface CategoryHierarchy {
@@ -311,22 +311,6 @@ export interface StoreFinderStockSearchPage {
   sourceLongitude?: number;
   stores?: PointOfServiceStock[];
 }
-
-export interface UserGroup {
-  members?: Principal[];
-  membersCount?: number;
-  name?: string;
-  subGroups?: UserGroup[];
-  uid?: string;
-}
-
-export interface UserGroupList {
-  currentPage?: number;
-  numberOfPages?: number;
-  pageSize?: number;
-  totalNumber?: number;
-  userGroups?: UserGroup[];
-}
 </code></pre>
     </div>
 </div>
@@ -355,6 +339,7 @@ export interface UserGroupList {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'OrderStatusUpdateElement.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

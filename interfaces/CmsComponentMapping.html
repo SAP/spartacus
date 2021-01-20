@@ -127,7 +127,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>childRoutes:         <code><a href="https://angular.io/api/router/Routes" target="_blank" >Routes</a></code>
+                                        <code>childRoutes:     <code>Route[] | CmsComponentChildRoutesConfig</code>
 </code>
                                     </td>
                                 </tr>
@@ -135,7 +135,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://angular.io/api/router/Routes" target="_blank" >Routes</a></code>
+                                            <i>Type : </i>    <code>Route[] | CmsComponentChildRoutesConfig</code>
 
                                         </td>
                                     </tr>
@@ -369,11 +369,9 @@ in the viewport.</p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, StaticProvider } from &#x27;@angular/core&#x27;;
-import { Routes } from &#x27;@angular/router&#x27;;
-import { AuthConfig } from &#x27;../../auth/config/auth-config&#x27;;
-import { KymaConfig } from &#x27;../../kyma/config/kyma-config&#x27;;
+import { Route } from &#x27;@angular/router&#x27;;
+import { Config } from &#x27;../../config/config-tokens&#x27;;
 import { OccConfig } from &#x27;../../occ/config/occ-config&#x27;;
-import { Config } from &#x27;../../config/config.module&#x27;;
 
 export interface StandardCmsComponentConfig {
   CMSSiteContextComponent?: CmsComponentMapping;
@@ -407,10 +405,25 @@ export interface JspIncludeCmsComponentConfig {
 export const JSP_INCLUDE_CMS_COMPONENT_TYPE &#x3D; &#x27;JspIncludeComponent&#x27;;
 export const CMS_FLEX_COMPONENT_TYPE &#x3D; &#x27;CMSFlexComponent&#x27;;
 
+/**
+ * Configuration of the CMS component&#x27;s child routes
+ */
+export interface CmsComponentChildRoutesConfig {
+  /**
+   * Route &#x60;data&#x60; property to apply on the parent (host) route of the CMS child routes.
+   */
+  parent?: Pick&lt;Route, &#x27;data&#x27;&gt;;
+
+  /**
+   * Child routes defined by the existence of the CMS component on the page.
+   */
+  children?: Route[];
+}
+
 export interface CmsComponentMapping {
   component?: any;
   providers?: StaticProvider[];
-  childRoutes?: Routes;
+  childRoutes?: Route[] | CmsComponentChildRoutesConfig;
   disableSSR?: boolean;
   i18nKeys?: string[];
   guards?: any[];
@@ -456,14 +469,7 @@ export interface FeatureModuleConfig {
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class CmsConfig extends OccConfig
-  implements AuthConfig, KymaConfig {
-  authentication?: {
-    client_id?: string;
-    client_secret?: string;
-    kyma_client_id?: string;
-    kyma_client_secret?: string;
-  };
+export abstract class CmsConfig extends OccConfig {
   featureModules?: { [featureName: string]: FeatureModuleConfig };
   cmsComponents?: CMSComponentConfig;
 }
@@ -495,6 +501,7 @@ export abstract class CmsConfig extends OccConfig
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'CmsComponentMapping.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -128,10 +128,6 @@
                             <li>
                                 <a href="#transform">transform</a>
                             </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#warn">warn</a>
-                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -462,8 +458,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="162"
-                            class="link-to-prism">projects/core/src/routing/configurable-routes/url-translation/semantic-path.service.ts:162</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="155"
+                            class="link-to-prism">projects/core/src/routing/configurable-routes/url-translation/semantic-path.service.ts:155</a></div>
                 </td>
             </tr>
 
@@ -546,8 +542,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="155"
-                            class="link-to-prism">projects/core/src/routing/configurable-routes/url-translation/semantic-path.service.ts:155</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="148"
+                            class="link-to-prism">projects/core/src/routing/configurable-routes/url-translation/semantic-path.service.ts:148</a></div>
                 </td>
             </tr>
 
@@ -982,78 +978,6 @@ c) object { cxRoute: <route name>, params: { ... } } - same as above, but with p
             </tr>
         </tbody>
     </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="warn"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            warn
-                        </b>
-                        <a href="#warn"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>warn(...args: any[])</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="169"
-                            class="link-to-prism">projects/core/src/routing/configurable-routes/url-translation/semantic-path.service.ts:169</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>args</td>
-                                    <td>
-                                            <code>any[]</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 </section>
             <section>
     
@@ -1099,12 +1023,12 @@ c) object { cxRoute: <route name>, params: { ... } } - same as above, but with p
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, isDevMode } from &#x27;@angular/core&#x27;;
-import { UrlParsingService } from &#x27;./url-parsing.service&#x27;;
-import { RouteConfig, ParamsMapping } from &#x27;../routes-config&#x27;;
-import { getParamName, isParam } from &#x27;./path-utils&#x27;;
-import { UrlCommandRoute, UrlCommands, UrlCommand } from &#x27;./url-command&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { ParamsMapping, RouteConfig } from &#x27;../routes-config&#x27;;
 import { RoutingConfigService } from &#x27;../routing-config.service&#x27;;
+import { getParamName, isParam } from &#x27;./path-utils&#x27;;
+import { UrlCommand, UrlCommandRoute, UrlCommands } from &#x27;./url-command&#x27;;
+import { UrlParsingService } from &#x27;./url-parsing.service&#x27;;
 
 @Injectable({ providedIn: &#x27;root&#x27; })
 export class SemanticPathService {
@@ -1241,13 +1165,6 @@ export class SemanticPathService {
     );
 
     if (foundPath &#x3D;&#x3D;&#x3D; undefined || foundPath &#x3D;&#x3D;&#x3D; null) {
-      this.warn(
-        &#x60;No configured path matches all its params to given object. &#x60;,
-        &#x60;Route config: &#x60;,
-        routeConfig,
-        &#x60;Params object: &#x60;,
-        params
-      );
       return null;
     }
     return foundPath;
@@ -1265,12 +1182,6 @@ export class SemanticPathService {
       return paramsMapping[paramName] || paramName;
     }
     return paramName;
-  }
-
-  private warn(...args) {
-    if (isDevMode()) {
-      console.warn(...args);
-    }
   }
 }
 </code></pre>
@@ -1307,6 +1218,7 @@ export class SemanticPathService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'SemanticPathService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

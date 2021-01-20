@@ -63,29 +63,45 @@
 <text text-anchor="start" x="429.7258" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Exports</text>
 <g id="clust1" class="cluster">
 <title>cluster_StoreFinderCoreModule</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="154,-70 154,-195 342,-195 342,-70 154,-70"/>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="45,-70 45,-195 451,-195 451,-70 45,-70"/>
 </g>
 <g id="clust3" class="cluster">
 <title>cluster_StoreFinderCoreModule_imports</title>
-<polygon fill="none" stroke="#000000" points="162,-78 162,-130 334,-130 334,-78 162,-78"/>
+<polygon fill="none" stroke="#000000" points="271,-78 271,-130 443,-130 443,-78 271,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_StoreFinderCoreModule_providers</title>
+<polygon fill="none" stroke="#000000" points="53,-78 53,-130 263,-130 263,-78 53,-78"/>
 </g>
 <!-- StoreFinderStoreModule -->
 <g id="node1" class="node">
 <title>StoreFinderStoreModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="325.6951,-122 322.6951,-126 301.6951,-126 298.6951,-122 170.3049,-122 170.3049,-86 325.6951,-86 325.6951,-122"/>
-<text text-anchor="middle" x="248" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">StoreFinderStoreModule</text>
+<polygon fill="#8dd3c7" stroke="#000000" points="434.6951,-122 431.6951,-126 410.6951,-126 407.6951,-122 279.3049,-122 279.3049,-86 434.6951,-86 434.6951,-122"/>
+<text text-anchor="middle" x="357" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">StoreFinderStoreModule</text>
 </g>
 <!-- StoreFinderCoreModule -->
 <g id="node2" class="node">
 <title>StoreFinderCoreModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="324.3585,-187 321.3585,-191 300.3585,-191 297.3585,-187 171.6415,-187 171.6415,-151 324.3585,-151 324.3585,-187"/>
-<text text-anchor="middle" x="248" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">StoreFinderCoreModule</text>
+<polygon fill="#8dd3c7" stroke="#000000" points="333.3585,-187 330.3585,-191 309.3585,-191 306.3585,-187 180.6415,-187 180.6415,-151 333.3585,-151 333.3585,-187"/>
+<text text-anchor="middle" x="257" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">StoreFinderCoreModule</text>
 </g>
 <!-- StoreFinderStoreModule&#45;&gt;StoreFinderCoreModule -->
 <g id="edge1" class="edge">
 <title>StoreFinderStoreModule&#45;&gt;StoreFinderCoreModule</title>
-<path fill="none" stroke="#000000" d="M248,-122.1061C248,-122.1061 248,-140.991 248,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="244.5001,-140.9909 248,-150.991 251.5001,-140.991 244.5001,-140.9909"/>
+<path fill="none" stroke="#000000" d="M306.4159,-122.1061C306.4159,-122.1061 306.4159,-140.991 306.4159,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="302.9159,-140.9909 306.4159,-150.991 309.9159,-140.991 302.9159,-140.9909"/>
+</g>
+<!-- StoreFinderConnector -->
+<g id="node3" class="node">
+<title>StoreFinderConnector</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="158" cy="-104" rx="96.71" ry="18"/>
+<text text-anchor="middle" x="158" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">StoreFinderConnector</text>
+</g>
+<!-- StoreFinderConnector&#45;&gt;StoreFinderCoreModule -->
+<g id="edge2" class="edge">
+<title>StoreFinderConnector&#45;&gt;StoreFinderCoreModule</title>
+<path fill="none" stroke="#000000" d="M217.7128,-118.4256C217.7128,-118.4256 217.7128,-140.8939 217.7128,-140.8939"/>
+<polygon fill="#000000" stroke="#000000" points="214.2129,-140.8938 217.7128,-150.8939 221.2129,-140.8939 214.2129,-140.8938"/>
 </g>
 </g>
 </svg>
@@ -117,7 +133,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/store-finder/store-finder.module.ts</code>
+            <code>feature-libs/storefinder/core/store-finder-core.module.ts</code>
         </p>
 
 
@@ -125,6 +141,15 @@
 
         <div class="container-fluid module">
             <div class="row">
+                <div class="col-sm-3">
+                    <h3>Providers<a href="https://angular.io/api/core/NgModule#providers" target="_blank"
+                            title="Official documentation about module providers"><span class="icon ion-ios-information-circle-outline"></a></h3>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="../injectables/StoreFinderConnector.html">StoreFinderConnector</a>
+                        </li>
+                    </ul>
+                </div>
                 <div class="col-sm-3">
                     <h3>Imports<a href="https://angular.io/api/core/NgModule#imports" target="_blank" title="Official documentation about module imports"><span
                                 class="icon ion-ios-information-circle-outline"></a></h3>
@@ -143,13 +168,17 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule } from &#x27;@angular/core&#x27;;
-import { provideDefaultConfig } from &#x27;../config/config.module&#x27;;
+import { provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
 import { defaultStoreFinderConfig } from &#x27;./config/default-store-finder-config&#x27;;
 import { StoreFinderStoreModule } from &#x27;./store/store-finder-store.module&#x27;;
+import { StoreFinderConnector } from &#x27;./connectors/store-finder.connector&#x27;;
 
 @NgModule({
   imports: [StoreFinderStoreModule],
-  providers: [provideDefaultConfig(defaultStoreFinderConfig)],
+  providers: [
+    provideDefaultConfig(defaultStoreFinderConfig),
+    StoreFinderConnector,
+  ],
 })
 export class StoreFinderCoreModule {}
 </code></pre>
@@ -188,6 +217,7 @@ export class StoreFinderCoreModule {}
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
             var COMPODOC_CURRENT_PAGE_URL = 'StoreFinderCoreModule.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

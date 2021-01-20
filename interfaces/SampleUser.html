@@ -79,27 +79,35 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#address">address</a>
                                 </li>
                                 <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#email">email</a>
                                 </li>
                                 <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#firstName">firstName</a>
                                 </li>
                                 <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#fullName">fullName</a>
                                 </li>
                                 <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#lastName">lastName</a>
                                 </li>
                                 <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#password">password</a>
                                 </li>
                                 <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#payment">payment</a>
                                 </li>
                                 <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#phone">phone</a>
                                 </li>
                             </ul>
@@ -136,6 +144,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -165,6 +178,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -194,6 +212,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -223,6 +246,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -252,6 +280,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -281,6 +314,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -310,6 +348,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -339,6 +382,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -353,28 +401,28 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { generateMail, randomString } from &#x27;../helpers/user&#x27;;
 
 export interface SampleUser {
-  firstName: string;
-  lastName: string;
-  fullName: string;
-  password: string;
-  email: string;
-  phone: string;
-  address: {
-    city: string;
-    line1: string;
-    line2: string;
-    country: string;
+  firstName?: string;
+  lastName?: string;
+  fullName?: string;
+  password?: string;
+  email?: string;
+  phone?: string;
+  address?: {
+    city?: string;
+    line1?: string;
+    line2?: string;
+    country?: string;
     state?: string;
-    postal: string;
+    postal?: string;
   };
-  payment: {
-    card: string;
-    number: string;
-    expires: {
-      month: string;
-      year: string;
+  payment?: {
+    card?: string;
+    number?: string;
+    expires?: {
+      month?: string;
+      year?: string;
     };
-    cvv: string;
+    cvv?: string;
   };
 }
 
@@ -469,6 +517,7 @@ export const delivery &#x3D; {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'SampleUser.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

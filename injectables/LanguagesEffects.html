@@ -107,7 +107,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">projects/core/src/site-context/store/effects/languages.effect.ts:68</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">projects/core/src/site-context/store/effects/languages.effect.ts:66</a></div>
                             </td>
                         </tr>
 
@@ -230,7 +230,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/core/src/site-context/store/effects/languages.effect.ts:57</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">projects/core/src/site-context/store/effects/languages.effect.ts:55</a></div>
                             </td>
                         </tr>
 
@@ -266,9 +266,7 @@
         ),
         catchError((error) &#x3D;&gt;
           of(
-            new SiteContextActions.LoadLanguagesFail(
-              makeErrorSerializable(error)
-            )
+            new SiteContextActions.LoadLanguagesFail(normalizeHttpError(error))
           )
         )
       );
@@ -336,7 +334,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/core/src/site-context/store/effects/languages.effect.ts:46</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/core/src/site-context/store/effects/languages.effect.ts:44</a></div>
                             </td>
                         </tr>
 
@@ -362,7 +360,7 @@ import {
   switchMapTo,
   tap,
 } from &#x27;rxjs/operators&#x27;;
-import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
+import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
 import { WindowRef } from &#x27;../../../window/window-ref&#x27;;
 import { SiteConnector } from &#x27;../../connectors/site.connector&#x27;;
 import { SiteContextActions } from &#x27;../actions/index&#x27;;
@@ -384,9 +382,7 @@ export class LanguagesEffects {
         ),
         catchError((error) &#x3D;&gt;
           of(
-            new SiteContextActions.LoadLanguagesFail(
-              makeErrorSerializable(error)
-            )
+            new SiteContextActions.LoadLanguagesFail(normalizeHttpError(error))
           )
         )
       );
@@ -459,6 +455,7 @@ export class LanguagesEffects {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'LanguagesEffects.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

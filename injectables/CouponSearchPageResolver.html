@@ -167,7 +167,7 @@ to the search page route.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/core/src/product/services/coupon-search-page-meta.resolver.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/core/src/product/services/coupon-search-page-meta.resolver.ts:35</a></div>
                             </td>
                         </tr>
 
@@ -280,8 +280,8 @@ to the search page route.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="81"
-                            class="link-to-prism">projects/core/src/product/services/coupon-search-page-meta.resolver.ts:81</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="82"
+                            class="link-to-prism">projects/core/src/product/services/coupon-search-page-meta.resolver.ts:82</a></div>
                 </td>
             </tr>
 
@@ -350,8 +350,8 @@ to the search page route.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">projects/core/src/product/services/coupon-search-page-meta.resolver.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">projects/core/src/product/services/coupon-search-page-meta.resolver.ts:49</a></div>
                 </td>
             </tr>
 
@@ -389,8 +389,8 @@ to the search page route.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="70"
-                            class="link-to-prism">projects/core/src/product/services/coupon-search-page-meta.resolver.ts:70</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="71"
+                            class="link-to-prism">projects/core/src/product/services/coupon-search-page-meta.resolver.ts:71</a></div>
                 </td>
             </tr>
 
@@ -672,7 +672,7 @@ the page type and page template.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/core/src/product/services/coupon-search-page-meta.resolver.ts:29</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/core/src/product/services/coupon-search-page-meta.resolver.ts:30</a></div>
                             </td>
                         </tr>
 
@@ -781,7 +781,7 @@ the page type and page template.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">projects/core/src/product/services/coupon-search-page-meta.resolver.ts:85</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">projects/core/src/product/services/coupon-search-page-meta.resolver.ts:86</a></div>
                                 </td>
                             </tr>
 
@@ -796,7 +796,7 @@ the page type and page template.</p>
 import { ActivatedRoute } from &#x27;@angular/router&#x27;;
 import { combineLatest, Observable } from &#x27;rxjs&#x27;;
 import { filter, map, switchMap } from &#x27;rxjs/operators&#x27;;
-import { AuthService } from &#x27;../../auth/facade/auth.service&#x27;;
+import { AuthService } from &#x27;../../auth/user-auth/facade/auth.service&#x27;;
 import { BreadcrumbMeta, Page } from &#x27;../../cms/model/page.model&#x27;;
 import {
   PageBreadcrumbResolver,
@@ -818,7 +818,8 @@ import { SemanticPathService } from &#x27;../../routing/configurable-routes/url-
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
-export class CouponSearchPageResolver extends PageMetaResolver
+export class CouponSearchPageResolver
+  extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver {
   protected total$: Observable&lt;
     number
@@ -914,6 +915,7 @@ export class CouponSearchPageResolver extends PageMetaResolver
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CouponSearchPageResolver.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -59,6 +59,26 @@
             <code>projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>The <code>BreakpointService</code> resolves the various screen sizes that are used in
+the storefront. The screen sizes are globally configurable based on your
+layout requirements. You can adjust the screen sizes by setting the minimum
+and/or maximum size for a breakpoint, as well as extending the configuration
+with new screens.</p>
+<p>By default, the <code>BreakpointService</code> is based on the breakpoints from the
+Bootstrap ui library:</p>
+<ul>
+<li><code>xs</code>: &lt; 576px</li>
+<li><code>sm</code>: 576px - 767px</li>
+<li><code>md</code>: 768px - 991px</li>
+<li><code>lg</code>: 992px - 1199px</li>
+<li><code>xl</code>: &gt;= 1200px</li>
+</ul>
+
+            </p>
 
 
 
@@ -66,6 +86,24 @@
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_breakpoints">_breakpoints</a>
+                            </li>
+                            <li>
+                                <a href="#breakpoint$">breakpoint$</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
 
                 <tr>
                     <td class="col-md-4">
@@ -81,7 +119,11 @@
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
-                                <a href="#getClosest">getClosest</a>
+                                <a href="#getMaxSize">getMaxSize</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#getMinSize">getMinSize</a>
                             </li>
                             <li>
                                 <a href="#getSize">getSize</a>
@@ -94,6 +136,10 @@
                             </li>
                             <li>
                                 <a href="#isUp">isUp</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#resolveBreakpointsFromConfig">resolveBreakpointsFromConfig</a>
                             </li>
                         </ul>
                     </td>
@@ -112,13 +158,13 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                    <a href="#breakpoint$">breakpoint$</a>
-                                </li>
-                                <li>
                                     <a href="#breakpoints">breakpoints</a>
                                 </li>
                                 <li>
-                                    <a href="#window">window</a>
+                                    <a href="#fallbackBreakpoint">fallbackBreakpoint</a>
+                                </li>
+                                <li>
+                                    <a href="#config">config</a>
                                 </li>
                             </ul>
                         </td>
@@ -133,12 +179,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(winRef: <a href="../injectables/WindowRef.html">WindowRef</a>, config: <a href="../injectables/LayoutConfig.html">LayoutConfig</a>)</code>
+<code>constructor(winRef: <a href="../injectables/WindowRef.html">WindowRef</a>, layoutConfig: <a href="../injectables/LayoutConfig.html">LayoutConfig</a>, platform: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:39</a></div>
                             </td>
                         </tr>
 
@@ -168,10 +214,22 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>config</td>
+                                                        <td>layoutConfig</td>
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/LayoutConfig.html" target="_self" >LayoutConfig</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>platform</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -217,14 +275,21 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="99"
-                            class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:99</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="183"
+                            class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:183</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Returns a <code>BREAKPOINT</code> for the given window size.</p>
+<p>This method tries to match the closest breakpoint for the given
+window size. We&#39;ll fallback to the <code>largest</code> size in case the window
+is greater than the largest configurable breakpoint.</p>
+<p>The windowWidth should be smaller than the maximum size of any of the
+screen sizes defined in the <code>LayoutConfig.breakpoints</code>.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -269,28 +334,105 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getClosest"></a>
+                    <a name="getMaxSize"></a>
                     <span class="name">
                         <b>
                             <span class="modifier">Protected</span>
-                            getClosest
+                            getMaxSize
                         </b>
-                        <a href="#getClosest"><span class="icon ion-ios-link"></span></a>
+                        <a href="#getMaxSize"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getClosest(windowWidth?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    <code>getMaxSize(breakpoint: <a href="../undefineds/BREAKPOINT.html">BREAKPOINT</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="104"
-                            class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:104</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="152"
+                            class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:152</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the <em>maximum</em> size for the breakpoint, given by the
+<code>LayoutConfig.breakpoints</code> configuration. We will try to resolve the
+max size form the current breakpoint, but if this is not available, we
+resolve it form the next breakpoint</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>breakpoint</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/enumerations.html#BREAKPOINT" target="_self" >BREAKPOINT</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getMinSize"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            getMinSize
+                        </b>
+                        <a href="#getMinSize"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getMinSize(breakpoint: <a href="../undefineds/BREAKPOINT.html">BREAKPOINT</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="169"
+                            class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:169</a></div>
                 </td>
             </tr>
 
@@ -310,13 +452,13 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>windowWidth</td>
+                                    <td>breakpoint</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                <code><a href="../miscellaneous/enumerations.html#BREAKPOINT" target="_self" >BREAKPOINT</a></code>
                                     </td>
 
                                     <td>
-                                        Yes
+                                        No
                                     </td>
 
 
@@ -327,7 +469,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/enumerations.html#BREAKPOINT" target="_self" >BREAKPOINT</a></code>
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
 
                     </div>
                     <div class="io-description">
@@ -359,23 +501,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:39</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:64</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns the <em>maximum</em> size for the breakpint, given by the <code>LayoutConfig.breakpoints</code>
-configuration. If no configuration is available for the given breakpoint, the
-method will return the default values:</p>
-<ul>
-<li>xs: 567</li>
-<li>sm: 768</li>
-<li>md: 992</li>
-<li>lg: 1200</li>
-</ul>
+                    <div class="io-description"><p>Returns the <em>maximum</em> size for the breakpoint, given by the <code>LayoutConfig.breakpoints</code>
+configuration.</p>
 </div>
 
                     <div class="io-description">
@@ -439,8 +574,8 @@ method will return the default values:</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="65"
-                            class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:65</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="82"
+                            class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:82</a></div>
                 </td>
             </tr>
 
@@ -514,15 +649,15 @@ window innerWidth is smaller than the configured size of <code>BREAKPOINT.md</co
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="95"
-                            class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:95</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="112"
+                            class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:112</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Indicates whether the current screen size fits to the given breakpoint</p>
+                    <div class="io-description"><p>Indicates whether the given breakpoint fits in the current screen size.</p>
 </div>
 
                     <div class="io-description">
@@ -586,8 +721,8 @@ window innerWidth is smaller than the configured size of <code>BREAKPOINT.md</co
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="82"
-                            class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:82</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="99"
+                            class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:99</a></div>
                 </td>
             </tr>
 
@@ -639,34 +774,127 @@ window innerWidth is larger than the configured size of <code>BREAKPOINT.sm</cod
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resolveBreakpointsFromConfig"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            resolveBreakpointsFromConfig
+                        </b>
+                        <a href="#resolveBreakpointsFromConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>resolveBreakpointsFromConfig()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="131"
+                            class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:131</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Resolves the breakpoints and sorts them according to the configured size.</p>
+<p>The sort order is by small to large screens.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/enumerations.html#BREAKPOINT" target="_self" >BREAKPOINT[]</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="_breakpoints"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            _breakpoints</b>
+                            <a href="#_breakpoints"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../miscellaneous/enumerations.html#BREAKPOINT" target="_self" >BREAKPOINT[]</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:32</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="breakpoint$"></a>
+                        <span class="name">
+                            <b>
+                            breakpoint$</b>
+                            <a href="#breakpoint$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../miscellaneous/enumerations.html#BREAKPOINT" target="_self" >Observable&lt;BREAKPOINT&gt;</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>isPlatformBrowser(this.platform)
+    ? this.winRef.resize$.pipe(
+        map((event) &#x3D;&gt; this.getBreakpoint((&lt;Window&gt;event.target).innerWidth)),
+        distinctUntilChanged()
+      )
+    : of(this.fallbackBreakpoint)</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:34</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
 </section>
 
             <section>
     <h3 id="accessors">
         Accessors
     </h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="breakpoint$"></a>
-                        <span class="name"><b>breakpoint$</b><a href="#breakpoint$"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <span class="accessor"><b>get</b><code>breakpoint$()</code></span>
-                    </td>
-                </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:20</a></div>
-                                </td>
-                            </tr>
-
-            </tbody>
-        </table>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
@@ -683,12 +911,14 @@ window innerWidth is larger than the configured size of <code>BREAKPOINT.sm</cod
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:48</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:53</a></div>
                                 </td>
                             </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-description"><p>Returns all available breakpoints for the system.</p>
+                                <div class="io-description"><p>Returns the breakpoints for the storefront layout.</p>
+<p>The breakpoints are driven by the <code>LayoutConfig.breakpoints</code> and sorted based on
+the given screen size.</p>
 </div>
 
                                 <div class="io-description">
@@ -704,21 +934,67 @@ window innerWidth is larger than the configured size of <code>BREAKPOINT.sm</cod
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="window"></a>
-                        <span class="name"><b>window</b><a href="#window"><span class="icon ion-ios-link"></span></a></span>
+                        <a name="fallbackBreakpoint"></a>
+                        <span class="name"><b>fallbackBreakpoint</b><a href="#fallbackBreakpoint"><span class="icon ion-ios-link"></span></a></span>
                     </td>
                 </tr>
 
                 <tr>
                     <td class="col-md-4">
-                        <span class="accessor"><b>get</b><code>window()</code></span>
+                        <span class="accessor"><b>get</b><code>fallbackBreakpoint()</code></span>
                     </td>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="114" class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:114</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="122" class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:122</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Returns the fallback breakpoint in case no breakpoint can be resolved. This is
+typically the case when we&#39;re on SSR without an actual window.</p>
+<p>Returns the smallest screen size (mobile first).</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="../miscellaneous/enumerations.html#BREAKPOINT" target="_self" >BREAKPOINT</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="config"></a>
+                        <span class="name"><b>config</b><a href="#config"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>config()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="193" class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:193</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Helper method to return the breakpoint configuration.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="../interfaces/BreakPoint.html" target="_self" >LayoutBreakPoints</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -727,61 +1003,78 @@ window innerWidth is larger than the configured size of <code>BREAKPOINT.sm</cod
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { isPlatformBrowser } from &#x27;@angular/common&#x27;;
+import { Inject, Injectable, PLATFORM_ID } from &#x27;@angular/core&#x27;;
 import { WindowRef } from &#x27;@spartacus/core&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { distinctUntilChanged, map } from &#x27;rxjs/operators&#x27;;
-import { BREAKPOINT, LayoutConfig } from &#x27;../config/layout-config&#x27;;
+import {
+  BreakPoint,
+  BREAKPOINT,
+  LayoutBreakPoints,
+  LayoutConfig,
+} from &#x27;../config/layout-config&#x27;;
 
-const DEFAULT_BREAKPOINTS &#x3D; {
-  [BREAKPOINT.xs]: 576,
-  [BREAKPOINT.sm]: 768,
-  [BREAKPOINT.md]: 992,
-  [BREAKPOINT.lg]: 1200,
-};
-
+/**
+ * The &#x60;BreakpointService&#x60; resolves the various screen sizes that are used in
+ * the storefront. The screen sizes are globally configurable based on your
+ * layout requirements. You can adjust the screen sizes by setting the minimum
+ * and/or maximum size for a breakpoint, as well as extending the configuration
+ * with new screens.
+ *
+ * By default, the &#x60;BreakpointService&#x60; is based on the breakpoints from the
+ * Bootstrap ui library:
+ * - &#x60;xs&#x60;: &lt; 576px
+ * - &#x60;sm&#x60;: 576px - 767px
+ * - &#x60;md&#x60;: 768px - 991px
+ * - &#x60;lg&#x60;: 992px - 1199px
+ * - &#x60;xl&#x60;: &gt;&#x3D; 1200px
+ */
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
 export class BreakpointService {
-  constructor(private winRef: WindowRef, private config: LayoutConfig) {}
+  private _breakpoints: BREAKPOINT[];
 
-  get breakpoint$(): Observable&lt;BREAKPOINT&gt; {
-    if (!this.window) {
-      return of(BREAKPOINT.xs);
-    }
-    return this.winRef.resize$.pipe(
-      map((event) &#x3D;&gt; this.getBreakpoint((&lt;Window&gt;event.target).innerWidth)),
-      distinctUntilChanged()
-    );
-  }
+  breakpoint$: Observable&lt;BREAKPOINT&gt; &#x3D; isPlatformBrowser(this.platform)
+    ? this.winRef.resize$.pipe(
+        map((event) &#x3D;&gt; this.getBreakpoint((&lt;Window&gt;event.target).innerWidth)),
+        distinctUntilChanged()
+      )
+    : of(this.fallbackBreakpoint);
 
-  /**
-   * Returns the _maximum_ size for the breakpint, given by the &#x60;LayoutConfig.breakpoints&#x60;
-   * configuration. If no configuration is available for the given breakpoint, the
-   * method will return the default values:
-   * - xs: 567
-   * - sm: 768
-   * - md: 992
-   * - lg: 1200
-   */
-  getSize(breakpoint: BREAKPOINT): number {
-    return this.config.breakpoints?.hasOwnProperty(breakpoint)
-      ? this.config.breakpoints[breakpoint]
-      : DEFAULT_BREAKPOINTS[breakpoint];
-  }
+  constructor(
+    protected winRef: WindowRef,
+    protected layoutConfig: LayoutConfig,
+    @Inject(PLATFORM_ID) protected platform: any
+  ) {}
 
   /**
-   * Returns all available breakpoints for the system.
+   * Returns the breakpoints for the storefront layout.
+   *
+   * The breakpoints are driven by the &#x60;LayoutConfig.breakpoints&#x60; and sorted based on
+   * the given screen size.
    */
   get breakpoints(): BREAKPOINT[] {
-    return [
-      BREAKPOINT.xs,
-      BREAKPOINT.sm,
-      BREAKPOINT.md,
-      BREAKPOINT.lg,
-      BREAKPOINT.xl,
-    ];
+    if (!this._breakpoints) {
+      this._breakpoints &#x3D; this.resolveBreakpointsFromConfig();
+    }
+    return this._breakpoints;
+  }
+
+  /**
+   * Returns the _maximum_ size for the breakpoint, given by the &#x60;LayoutConfig.breakpoints&#x60;
+   * configuration.
+   */
+  getSize(breakpoint: BREAKPOINT): number {
+    return (
+      this.getMaxSize(breakpoint) ??
+      // if there&#x27;s no direct max value or explicit max value
+      // we must derive the max value from the previous min
+      this.getMinSize(
+        this.breakpoints?.[this.breakpoints.indexOf(breakpoint) + 1]
+      )
+    );
   }
 
   /**
@@ -819,29 +1112,91 @@ export class BreakpointService {
   }
 
   /**
-   * Indicates whether the current screen size fits to the given breakpoint
+   * Indicates whether the given breakpoint fits in the current screen size.
    */
   isEqual(breakpoint: BREAKPOINT): Observable&lt;boolean&gt; {
     return this.breakpoint$.pipe(map((br) &#x3D;&gt; br &#x3D;&#x3D;&#x3D; breakpoint));
   }
 
-  protected getBreakpoint(windowWidth: number): BREAKPOINT {
-    const breakpoint &#x3D; this.getClosest(windowWidth);
-    return BREAKPOINT[breakpoint || BREAKPOINT.lg];
+  /**
+   * Returns the fallback breakpoint in case no breakpoint can be resolved. This is
+   * typically the case when we&#x27;re on SSR without an actual window.
+   *
+   * Returns the smallest screen size (mobile first).
+   */
+  protected get fallbackBreakpoint(): BREAKPOINT {
+    return this.breakpoints?.[0];
   }
 
-  protected getClosest(windowWidth?: number): BREAKPOINT {
-    if (!windowWidth) {
-      windowWidth &#x3D; this.window.innerWidth;
+  /**
+   * Resolves the breakpoints and sorts them according to the configured size.
+   *
+   * The sort order is by small to large screens.
+   */
+  protected resolveBreakpointsFromConfig(): BREAKPOINT[] {
+    const sortByScreenSize &#x3D; (next: BREAKPOINT, prev: BREAKPOINT): number &#x3D;&gt; {
+      const maxNext &#x3D; Math.max(
+        this.getMinSize(next) + 1 || 0,
+        this.getMaxSize(next) || 0
+      );
+      const maxPrev &#x3D; Math.max(
+        this.getMinSize(prev) + 1 || 0,
+        this.getMaxSize(prev) || 0
+      );
+      return maxNext &lt; maxPrev ? -1 : 0;
+    };
+    return (Object.keys(this.config) as BREAKPOINT[]).sort(sortByScreenSize);
+  }
+
+  /**
+   * Returns the _maximum_ size for the breakpoint, given by the
+   * &#x60;LayoutConfig.breakpoints&#x60; configuration. We will try to resolve the
+   * max size form the current breakpoint, but if this is not available, we
+   * resolve it form the next breakpoint
+   */
+  protected getMaxSize(breakpoint: BREAKPOINT): number {
+    const breakpointConfig &#x3D; this.config[breakpoint];
+
+    if (!breakpointConfig) {
+      return null;
     }
 
-    return windowWidth &gt; this.getSize(BREAKPOINT.lg)
-      ? BREAKPOINT.xl
-      : this.breakpoints.find((br) &#x3D;&gt; windowWidth &lt;&#x3D; this.getSize(br));
+    // we treat numbers as the max number by default
+    if (typeof breakpointConfig &#x3D;&#x3D;&#x3D; &#x27;number&#x27;) {
+      return breakpointConfig as number;
+    } else if (breakpointConfig.max) {
+      return breakpointConfig.max;
+    } else {
+      return null;
+    }
   }
 
-  get window(): Window {
-    return this.winRef.nativeWindow;
+  protected getMinSize(breakpoint: BREAKPOINT): number {
+    return (this.config[breakpoint] as BreakPoint)?.min;
+  }
+
+  /**
+   * Returns a &#x60;BREAKPOINT&#x60; for the given window size.
+   *
+   * This method tries to match the closest breakpoint for the given
+   * window size. We&#x27;ll fallback to the &#x60;largest&#x60; size in case the window
+   * is greater than the largest configurable breakpoint.
+   *
+   * The windowWidth should be smaller than the maximum size of any of the
+   * screen sizes defined in the &#x60;LayoutConfig.breakpoints&#x60;.
+   */
+  protected getBreakpoint(windowWidth: number): BREAKPOINT {
+    return (
+      this.breakpoints.find((br) &#x3D;&gt; windowWidth &lt; this.getSize(br)) ??
+      this.breakpoints?.[this.breakpoints.length - 1]
+    );
+  }
+
+  /**
+   * Helper method to return the breakpoint configuration.
+   */
+  protected get config(): LayoutBreakPoints {
+    return this.layoutConfig?.breakpoints || {};
   }
 }
 </code></pre>
@@ -878,6 +1233,7 @@ export class BreakpointService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'BreakpointService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

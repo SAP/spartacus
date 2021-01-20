@@ -132,7 +132,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(store: Store<StateWithUser | StateWithProcess>, authService: <a href="../injectables/AuthService.html">AuthService</a>)</code>
+<code>constructor(store: Store<StateWithUser | StateWithProcess>, userIdService: <a href="../injectables/UserIdService.html">UserIdService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -167,10 +167,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>authService</td>
+                                                        <td>userIdService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                                        <code><a href="../injectables/UserIdService.html" target="_self" >UserIdService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -942,7 +942,7 @@
 import { select, Store } from &#x27;@ngrx/store&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { map, tap } from &#x27;rxjs/operators&#x27;;
-import { AuthService } from &#x27;../../auth/facade/auth.service&#x27;;
+import { UserIdService } from &#x27;../../auth/user-auth/facade/user-id.service&#x27;;
 import {
   ReturnRequest,
   ReturnRequestEntryInputList,
@@ -965,7 +965,7 @@ import { CANCEL_RETURN_PROCESS_ID, StateWithUser } from &#x27;../store/user-stat
 export class OrderReturnRequestService {
   constructor(
     protected store: Store&lt;StateWithUser | StateWithProcess&lt;void&gt;&gt;,
-    protected authService: AuthService
+    protected userIdService: UserIdService
   ) {}
 
   /**
@@ -976,7 +976,7 @@ export class OrderReturnRequestService {
   createOrderReturnRequest(
     returnRequestInput: ReturnRequestEntryInputList
   ): void {
-    this.authService.invokeWithUserId((userId) &#x3D;&gt; {
+    this.userIdService.invokeWithUserId((userId) &#x3D;&gt; {
       this.store.dispatch(
         new UserActions.CreateOrderReturnRequest({
           userId,
@@ -1017,7 +1017,7 @@ export class OrderReturnRequestService {
    * @param returnRequestCode
    */
   loadOrderReturnRequestDetail(returnRequestCode: string): void {
-    this.authService.invokeWithUserId((userId) &#x3D;&gt; {
+    this.userIdService.invokeWithUserId((userId) &#x3D;&gt; {
       this.store.dispatch(
         new UserActions.LoadOrderReturnRequest({
           userId,
@@ -1038,7 +1038,7 @@ export class OrderReturnRequestService {
     currentPage?: number,
     sort?: string
   ): void {
-    this.authService.invokeWithUserId((userId) &#x3D;&gt; {
+    this.userIdService.invokeWithUserId((userId) &#x3D;&gt; {
       if (userId !&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS) {
         this.store.dispatch(
           new UserActions.LoadOrderReturnRequestList({
@@ -1087,7 +1087,7 @@ export class OrderReturnRequestService {
     returnRequestCode: string,
     returnRequestModification: ReturnRequestModification
   ): void {
-    this.authService.invokeWithUserId((userId) &#x3D;&gt; {
+    this.userIdService.invokeWithUserId((userId) &#x3D;&gt; {
       this.store.dispatch(
         new UserActions.CancelOrderReturnRequest({
           userId,
@@ -1157,6 +1157,7 @@ export class OrderReturnRequestService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'OrderReturnRequestService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

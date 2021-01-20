@@ -99,7 +99,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(cmsStructureConfigService: <a href="../injectables/CmsStructureConfigService.html">CmsStructureConfigService</a>, adapter: <a href="../classes/CmsComponentAdapter.html">CmsComponentAdapter</a>, config: <a href="../injectables/OccConfig.html">OccConfig</a>)</code>
+<code>constructor(cmsStructureConfigService: <a href="../injectables/CmsStructureConfigService.html">CmsStructureConfigService</a>, cmsComponentAdapter: <a href="../classes/CmsComponentAdapter.html">CmsComponentAdapter</a>, config: <a href="../injectables/OccConfig.html">OccConfig</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -134,7 +134,7 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>adapter</td>
+                                                        <td>cmsComponentAdapter</td>
                                                   
                                                         <td>
                                                                         <code><a href="../classes/CmsComponentAdapter.html" target="_self" >CmsComponentAdapter</a></code>
@@ -364,7 +364,7 @@ import { CmsComponentAdapter } from &#x27;./cms-component.adapter&#x27;;
 export class CmsComponentConnector {
   constructor(
     protected cmsStructureConfigService: CmsStructureConfigService,
-    protected adapter: CmsComponentAdapter,
+    protected cmsComponentAdapter: CmsComponentAdapter,
     protected config: OccConfig
   ) {}
 
@@ -378,7 +378,7 @@ export class CmsComponentConnector {
         switchMap((configuredComponent) &#x3D;&gt;
           configuredComponent
             ? of(configuredComponent)
-            : this.adapter.load(id, pageContext)
+            : this.cmsComponentAdapter.load(id, pageContext)
         )
       );
   }
@@ -398,15 +398,14 @@ export class CmsComponentConnector {
         );
 
         if (missingIds.length &gt; 0) {
-          return (this.config.backend.occ.legacy
-            ? this.adapter.findComponentsByIdsLegacy(missingIds, pageContext)
-            : this.adapter.findComponentsByIds(missingIds, pageContext)
-          ).pipe(
-            map((loadedComponents) &#x3D;&gt; [
-              ...configuredComponents.filter(Boolean),
-              ...loadedComponents,
-            ])
-          );
+          return this.cmsComponentAdapter
+            .findComponentsByIds(missingIds, pageContext)
+            .pipe(
+              map((loadedComponents) &#x3D;&gt; [
+                ...configuredComponents.filter(Boolean),
+                ...loadedComponents,
+              ])
+            );
         } else {
           return of(configuredComponents);
         }
@@ -448,6 +447,7 @@ export class CmsComponentConnector {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CmsComponentConnector.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

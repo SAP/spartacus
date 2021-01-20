@@ -132,12 +132,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(config: <a href="../injectables/I18nConfig.html">I18nConfig</a>, translationChunk: <a href="../injectables/TranslationChunkService.html">TranslationChunkService</a>)</code>
+<code>constructor(config: <a href="../injectables/I18nConfig.html">I18nConfig</a>, translationChunk: <a href="../injectables/TranslationChunkService.html">TranslationChunkService</a>, i18next: i18n)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:12</a></div>
                             </td>
                         </tr>
 
@@ -171,6 +171,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/TranslationChunkService.html" target="_self" >TranslationChunkService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>i18next</td>
+                                                  
+                                                        <td>
+                                                                    <code>i18n</code>
                                                         </td>
                                                   
                                                     <td>
@@ -216,8 +228,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="69"
-                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:69</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="71"
+                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:71</a></div>
                 </td>
             </tr>
 
@@ -290,8 +302,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="81"
-                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:81</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:83</a></div>
                 </td>
             </tr>
 
@@ -372,8 +384,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:61</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="63"
+                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:63</a></div>
                 </td>
             </tr>
 
@@ -444,8 +456,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="73"
-                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:73</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="75"
+                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:75</a></div>
                 </td>
             </tr>
 
@@ -526,8 +538,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="18"
-                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:18</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:20</a></div>
                 </td>
             </tr>
 
@@ -640,7 +652,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:11</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:12</a></div>
                             </td>
                         </tr>
 
@@ -668,7 +680,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:10</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:11</a></div>
                             </td>
                         </tr>
 
@@ -681,12 +693,13 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, isDevMode } from &#x27;@angular/core&#x27;;
-import i18next from &#x27;i18next&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable, isDevMode } from &#x27;@angular/core&#x27;;
+import { i18n } from &#x27;i18next&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { I18nConfig } from &#x27;../config/i18n-config&#x27;;
 import { TranslationChunkService } from &#x27;../translation-chunk.service&#x27;;
 import { TranslationService } from &#x27;../translation.service&#x27;;
+import { I18NEXT_INSTANCE } from &#x27;./i18next-instance&#x27;;
 
 @Injectable({ providedIn: &#x27;root&#x27; })
 export class I18nextTranslationService implements TranslationService {
@@ -695,7 +708,8 @@ export class I18nextTranslationService implements TranslationService {
 
   constructor(
     protected config: I18nConfig,
-    protected translationChunk: TranslationChunkService
+    protected translationChunk: TranslationChunkService,
+    @Inject(I18NEXT_INSTANCE) protected i18next: i18n
   ) {}
 
   translate(
@@ -715,34 +729,34 @@ export class I18nextTranslationService implements TranslationService {
 
     return new Observable&lt;string&gt;((subscriber) &#x3D;&gt; {
       const translate &#x3D; () &#x3D;&gt; {
-        if (!i18next.isInitialized) {
+        if (!this.i18next.isInitialized) {
           return;
         }
-        if (i18next.exists(namespacedKey, options)) {
-          subscriber.next(i18next.t(namespacedKey, options));
+        if (this.i18next.exists(namespacedKey, options)) {
+          subscriber.next(this.i18next.t(namespacedKey, options));
         } else {
           if (whitespaceUntilLoaded) {
             subscriber.next(this.NON_BREAKING_SPACE);
           }
-          i18next.loadNamespaces(chunkName, () &#x3D;&gt; {
-            if (!i18next.exists(namespacedKey, options)) {
+          this.i18next.loadNamespaces(chunkName, () &#x3D;&gt; {
+            if (!this.i18next.exists(namespacedKey, options)) {
               this.reportMissingKey(key, chunkName);
               subscriber.next(this.getFallbackValue(namespacedKey));
             } else {
-              subscriber.next(i18next.t(namespacedKey, options));
+              subscriber.next(this.i18next.t(namespacedKey, options));
             }
           });
         }
       };
 
       translate();
-      i18next.on(&#x27;languageChanged&#x27;, translate);
-      return () &#x3D;&gt; i18next.off(&#x27;languageChanged&#x27;, translate);
+      this.i18next.on(&#x27;languageChanged&#x27;, translate);
+      return () &#x3D;&gt; this.i18next.off(&#x27;languageChanged&#x27;, translate);
     });
   }
 
   loadChunks(chunkNames: string | string[]): Promise&lt;any&gt; {
-    return i18next.loadNamespaces(chunkNames);
+    return this.i18next.loadNamespaces(chunkNames);
   }
 
   /**
@@ -799,6 +813,7 @@ export class I18nextTranslationService implements TranslationService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'I18nextTranslationService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

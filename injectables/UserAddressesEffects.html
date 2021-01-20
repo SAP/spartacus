@@ -138,7 +138,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="148" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:148</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="138" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:138</a></div>
                             </td>
                         </tr>
 
@@ -241,8 +241,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="167"
-                            class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:167</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="157"
+                            class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:157</a></div>
                 </td>
             </tr>
 
@@ -282,8 +282,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="160"
-                            class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:160</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="150"
+                            class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:150</a></div>
                 </td>
             </tr>
 
@@ -369,7 +369,7 @@
             return new UserActions.AddUserAddressSuccess(data);
           }),
           catchError((error) &#x3D;&gt;
-            of(new UserActions.AddUserAddressFail(makeErrorSerializable(error)))
+            of(new UserActions.AddUserAddressFail(normalizeHttpError(error)))
           )
         );
     })
@@ -387,7 +387,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:38</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:36</a></div>
                             </td>
                         </tr>
 
@@ -425,11 +425,7 @@
             return new UserActions.DeleteUserAddressSuccess(data);
           }),
           catchError((error) &#x3D;&gt;
-            of(
-              new UserActions.DeleteUserAddressFail(
-                makeErrorSerializable(error)
-              )
-            )
+            of(new UserActions.DeleteUserAddressFail(normalizeHttpError(error)))
           )
         );
     })
@@ -447,7 +443,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:91</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:85</a></div>
                             </td>
                         </tr>
 
@@ -483,9 +479,7 @@
           return new UserActions.LoadUserAddressesSuccess(addresses);
         }),
         catchError((error) &#x3D;&gt;
-          of(
-            new UserActions.LoadUserAddressesFail(makeErrorSerializable(error))
-          )
+          of(new UserActions.LoadUserAddressesFail(normalizeHttpError(error)))
         )
       );
     })
@@ -544,7 +538,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="118" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:118</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="108" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:108</a></div>
                             </td>
                         </tr>
 
@@ -591,7 +585,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="142" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:142</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="132" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:132</a></div>
                             </td>
                         </tr>
 
@@ -638,7 +632,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="130" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:130</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="120" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:120</a></div>
                             </td>
                         </tr>
 
@@ -691,11 +685,7 @@
             }
           }),
           catchError((error) &#x3D;&gt;
-            of(
-              new UserActions.UpdateUserAddressFail(
-                makeErrorSerializable(error)
-              )
-            )
+            of(new UserActions.UpdateUserAddressFail(normalizeHttpError(error)))
           )
         );
     })
@@ -713,7 +703,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:58</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:56</a></div>
                             </td>
                         </tr>
 
@@ -735,7 +725,7 @@ import {
   GlobalMessageType,
 } from &#x27;../../../global-message/index&#x27;;
 import { Address } from &#x27;../../../model/address.model&#x27;;
-import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
+import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
 import { UserAddressConnector } from &#x27;../../connectors/address/user-address.connector&#x27;;
 import { UserAddressService } from &#x27;../../facade/user-address.service&#x27;;
 import { UserActions } from &#x27;../actions/index&#x27;;
@@ -754,9 +744,7 @@ export class UserAddressesEffects {
           return new UserActions.LoadUserAddressesSuccess(addresses);
         }),
         catchError((error) &#x3D;&gt;
-          of(
-            new UserActions.LoadUserAddressesFail(makeErrorSerializable(error))
-          )
+          of(new UserActions.LoadUserAddressesFail(normalizeHttpError(error)))
         )
       );
     })
@@ -776,7 +764,7 @@ export class UserAddressesEffects {
             return new UserActions.AddUserAddressSuccess(data);
           }),
           catchError((error) &#x3D;&gt;
-            of(new UserActions.AddUserAddressFail(makeErrorSerializable(error)))
+            of(new UserActions.AddUserAddressFail(normalizeHttpError(error)))
           )
         );
     })
@@ -805,11 +793,7 @@ export class UserAddressesEffects {
             }
           }),
           catchError((error) &#x3D;&gt;
-            of(
-              new UserActions.UpdateUserAddressFail(
-                makeErrorSerializable(error)
-              )
-            )
+            of(new UserActions.UpdateUserAddressFail(normalizeHttpError(error)))
           )
         );
     })
@@ -829,11 +813,7 @@ export class UserAddressesEffects {
             return new UserActions.DeleteUserAddressSuccess(data);
           }),
           catchError((error) &#x3D;&gt;
-            of(
-              new UserActions.DeleteUserAddressFail(
-                makeErrorSerializable(error)
-              )
-            )
+            of(new UserActions.DeleteUserAddressFail(normalizeHttpError(error)))
           )
         );
     })
@@ -930,6 +910,7 @@ export class UserAddressesEffects {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'UserAddressesEffects.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -195,7 +195,7 @@
             })
         ),
         catchError((error) &#x3D;&gt;
-          of(new UserActions.LoadRegionsFail(makeErrorSerializable(error)))
+          of(new UserActions.LoadRegionsFail(normalizeHttpError(error)))
         )
       );
     })
@@ -279,7 +279,7 @@ import { Observable, of } from &#x27;rxjs&#x27;;
 import { catchError, map, switchMap } from &#x27;rxjs/operators&#x27;;
 import { SiteConnector } from &#x27;../../../site-context/connectors/site.connector&#x27;;
 import { StateUtils } from &#x27;../../../state/utils/index&#x27;;
-import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
+import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
 import { UserActions } from &#x27;../actions/index&#x27;;
 import { REGIONS } from &#x27;../user-state&#x27;;
 
@@ -301,7 +301,7 @@ export class RegionsEffects {
             })
         ),
         catchError((error) &#x3D;&gt;
-          of(new UserActions.LoadRegionsFail(makeErrorSerializable(error)))
+          of(new UserActions.LoadRegionsFail(normalizeHttpError(error)))
         )
       );
     })
@@ -354,6 +354,7 @@ export class RegionsEffects {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'RegionsEffects.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -181,8 +181,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="11"
-                            class="link-to-prism">projects/core/src/checkout/checkout.module.ts:11</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="12"
+                            class="link-to-prism">projects/core/src/checkout/checkout.module.ts:12</a></div>
                 </td>
             </tr>
 
@@ -191,7 +191,7 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>ModuleWithProviders&lt;CheckoutModule&gt;</code>
+                        <b>Returns : </b>        <code><a href="../interfaces/Module.html" target="_self" >ModuleWithProviders&lt;CheckoutModule&gt;</a></code>
 
                     </div>
                 </td>
@@ -206,6 +206,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
 import { PageMetaResolver } from &#x27;../cms/page/page-meta.resolver&#x27;;
 import { CheckoutEventModule } from &#x27;./events/checkout-event.module&#x27;;
+import { interceptors } from &#x27;./http-interceptors/index&#x27;;
 import { CheckoutPageMetaResolver } from &#x27;./services/checkout-page-meta.resolver&#x27;;
 import { CheckoutStoreModule } from &#x27;./store/checkout-store.module&#x27;;
 
@@ -217,6 +218,7 @@ export class CheckoutModule {
     return {
       ngModule: CheckoutModule,
       providers: [
+        ...interceptors,
         {
           provide: PageMetaResolver,
           useExisting: CheckoutPageMetaResolver,
@@ -262,6 +264,7 @@ export class CheckoutModule {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
             var COMPODOC_CURRENT_PAGE_URL = 'CheckoutModule.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

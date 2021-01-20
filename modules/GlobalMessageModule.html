@@ -176,7 +176,7 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/GlobalMessage.html" target="_self" >ModuleWithProviders&lt;GlobalMessageModule&gt;</a></code>
+                        <b>Returns : </b>    <code>ModuleWithProviders&lt;GlobalMessageModule&gt;</code>
 
                     </div>
                 </td>
@@ -197,8 +197,8 @@ import {
 import { GlobalMessageStoreModule } from &#x27;./store/global-message-store.module&#x27;;
 import { GlobalMessageEffect } from &#x27;./store/effects/global-message.effect&#x27;;
 
-import { provideDefaultConfigFactory } from &#x27;../config/config.module&#x27;;
 import { defaultGlobalMessageConfigFactory } from &#x27;./config/default-global-message-config&#x27;;
+import { provideDefaultConfigFactory } from &#x27;../config/config-providers&#x27;;
 
 @NgModule({
   imports: [
@@ -251,6 +251,7 @@ export class GlobalMessageModule {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
             var COMPODOC_CURRENT_PAGE_URL = 'GlobalMessageModule.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

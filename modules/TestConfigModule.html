@@ -144,7 +144,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >ModuleWithProviders&lt;TestConfigModule&gt;</a></code>
+                        <b>Returns : </b>        <code><a href="../interfaces/Module.html" target="_self" >ModuleWithProviders&lt;TestConfigModule&gt;</a></code>
 
                     </div>
                     <div class="io-description">
@@ -166,8 +166,8 @@ import {
   NgModule,
   PLATFORM_ID,
 } from &#x27;@angular/core&#x27;;
-import { provideConfigFactory } from &#x27;./config.module&#x27;;
 import { getCookie } from &#x27;./utils/get-cookie&#x27;;
+import { provideConfigFactory } from &#x27;./config-providers&#x27;;
 
 export const TEST_CONFIG_COOKIE_NAME &#x3D; new InjectionToken&lt;string&gt;(
   &#x27;TEST_CONFIG_COOKIE_NAME&#x27;
@@ -266,6 +266,7 @@ export class TestConfigModule {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
             var COMPODOC_CURRENT_PAGE_URL = 'TestConfigModule.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

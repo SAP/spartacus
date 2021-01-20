@@ -84,32 +84,11 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#cartId">cartId</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
                                 <a href="#cartSelector$">cartSelector$</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#cartUser">cartUser</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                    <span class="modifier">Readonly</span>
-                                <a href="#PREVIOUS_USER_ID_INITIAL_VALUE">PREVIOUS_USER_ID_INITIAL_VALUE</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#previousUserId">previousUserId</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
                                 <a href="#subscription">subscription</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#userId">userId</a>
                             </li>
                         </ul>
                     </td>
@@ -150,6 +129,9 @@
                             </li>
                             <li>
                                 <a href="#getEntry">getEntry</a>
+                            </li>
+                            <li>
+                                <a href="#getLastEntry">getLastEntry</a>
                             </li>
                             <li>
                                 <a href="#getLoading">getLoading</a>
@@ -227,12 +209,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(store: Store<StateWithMultiCart>, authService: <a href="../injectables/AuthService.html">AuthService</a>, multiCartService: <a href="../injectables/MultiCartService.html">MultiCartService</a>)</code>
+<code>constructor(store: Store<StateWithMultiCart>, multiCartService: <a href="../injectables/MultiCartService.html">MultiCartService</a>, userIdService: <a href="../injectables/UserIdService.html">UserIdService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:56</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:69</a></div>
                             </td>
                         </tr>
 
@@ -262,10 +244,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>authService</td>
+                                                        <td>multiCartService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                                        <code><a href="../injectables/MultiCartService.html" target="_self" >MultiCartService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -274,10 +256,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>multiCartService</td>
+                                                        <td>userIdService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/MultiCartService.html" target="_self" >MultiCartService</a></code>
+                                                                        <code><a href="../injectables/UserIdService.html" target="_self" >UserIdService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -321,8 +303,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="374"
-                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:374</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="446"
+                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:446</a></div>
                 </td>
             </tr>
 
@@ -393,8 +375,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="401"
-                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:401</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="484"
+                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:484</a></div>
                 </td>
             </tr>
 
@@ -472,8 +454,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="226"
-                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:226</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="280"
+                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:280</a></div>
                 </td>
             </tr>
 
@@ -542,8 +524,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="316"
-                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:316</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="382"
+                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:382</a></div>
                 </td>
             </tr>
 
@@ -626,8 +608,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="133"
-                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:133</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="157"
+                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:157</a></div>
                 </td>
             </tr>
 
@@ -667,8 +649,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="140"
-                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:140</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="164"
+                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:164</a></div>
                 </td>
             </tr>
 
@@ -708,8 +690,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="381"
-                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:381</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="457"
+                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:457</a></div>
                 </td>
             </tr>
 
@@ -749,8 +731,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="150"
-                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:150</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="175"
+                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:175</a></div>
                 </td>
             </tr>
 
@@ -790,8 +772,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="360"
-                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:360</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="432"
+                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:432</a></div>
                 </td>
             </tr>
 
@@ -799,6 +781,80 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Returns cart entry</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>productCode</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;OrderEntry&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getLastEntry"></a>
+                    <span class="name">
+                        <b>
+                            getLastEntry
+                        </b>
+                        <a href="#getLastEntry"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getLastEntry(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="189"
+                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:189</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns last cart entry for provided product code.
+Needed to cover processes where multiple entries can share the same product code
+(e.g. promotions or configurable products)</p>
 </div>
 
                     <div class="io-description">
@@ -862,8 +918,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="160"
-                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:160</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="201"
+                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:201</a></div>
                 </td>
             </tr>
 
@@ -905,8 +961,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="419"
-                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:419</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="502"
+                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:502</a></div>
                 </td>
             </tr>
 
@@ -980,8 +1036,8 @@ This is for an edge case</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="70"
-                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:70</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:83</a></div>
                 </td>
             </tr>
 
@@ -1014,15 +1070,15 @@ This is for an edge case</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>isCartCreating(cartState)</code>
+                    <code>isCartCreating(cartState: ProcessesLoaderState<Cart>, cartId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="246"
-                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:246</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="302"
+                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:302</a></div>
                 </td>
             </tr>
 
@@ -1036,12 +1092,28 @@ This is for an edge case</p>
                             <thead>
                                 <tr>
                                     <td>Name</td>
+                                    <td>Type</td>
                                     <td>Optional</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>cartState</td>
+                                    <td>
+                                            <code>ProcessesLoaderState&lt;Cart&gt;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>cartId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
 
                                     <td>
                                         No
@@ -1089,8 +1161,8 @@ This is for an edge case</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="407"
-                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:407</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="490"
+                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:490</a></div>
                 </td>
             </tr>
 
@@ -1161,8 +1233,8 @@ This is for an edge case</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="432"
-                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:432</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="513"
+                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:513</a></div>
                 </td>
             </tr>
 
@@ -1224,15 +1296,15 @@ This is for an edge case</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>isGuestCart()</code>
+<code>isGuestCart(cart?: <a href="../interfaces/Cart.html">Cart</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="388"
-                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:388</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="465"
+                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:465</a></div>
                 </td>
             </tr>
 
@@ -1243,8 +1315,39 @@ This is for an edge case</p>
 </div>
 
                     <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>cart</td>
+                                    <td>
+                                                <code><a href="../interfaces/Cart.html" target="_self" >Cart</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -1267,15 +1370,15 @@ This is for an edge case</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>isJustLoggedIn(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>isJustLoggedIn(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, previousUserId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="438"
-                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:438</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="519"
+                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:519</a></div>
                 </td>
             </tr>
 
@@ -1296,6 +1399,18 @@ This is for an edge case</p>
                             <tbody>
                                 <tr>
                                     <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>previousUserId</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
@@ -1344,8 +1459,8 @@ This is for an edge case</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="170"
-                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:170</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="211"
+                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:211</a></div>
                 </td>
             </tr>
 
@@ -1380,15 +1495,15 @@ This is for an edge case</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>load(cartId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>load(cartId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="206"
-                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:206</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="267"
+                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:267</a></div>
                 </td>
             </tr>
 
@@ -1409,6 +1524,18 @@ This is for an edge case</p>
                             <tbody>
                                 <tr>
                                     <td>cartId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>userId</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
@@ -1452,15 +1579,15 @@ This is for an edge case</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>loadOrMerge(cartId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>loadOrMerge(cartId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, previousUserId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="182"
-                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:182</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="223"
+                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:223</a></div>
                 </td>
             </tr>
 
@@ -1481,6 +1608,30 @@ This is for an edge case</p>
                             <tbody>
                                 <tr>
                                     <td>cartId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>previousUserId</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
@@ -1529,8 +1680,8 @@ This is for an edge case</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="66"
-                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:66</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="79"
+                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:79</a></div>
                 </td>
             </tr>
 
@@ -1568,8 +1719,8 @@ This is for an edge case</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="332"
-                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:332</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="400"
+                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:400</a></div>
                 </td>
             </tr>
 
@@ -1642,8 +1793,8 @@ This is for an edge case</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="256"
-                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:256</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="315"
+                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:315</a></div>
                 </td>
             </tr>
 
@@ -1714,8 +1865,8 @@ This is for an edge case</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="240"
-                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:240</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="296"
+                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:296</a></div>
                 </td>
             </tr>
 
@@ -1753,8 +1904,8 @@ This is for an edge case</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="346"
-                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:346</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="414"
+                            class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:414</a></div>
                 </td>
             </tr>
 
@@ -1842,7 +1993,7 @@ This is for an edge case</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:38</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:46</a></div>
                             </td>
                         </tr>
 
@@ -1864,10 +2015,17 @@ This is for an edge case</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>this.store.pipe(
+                            <i>Default value : </i><code>this.userIdService.getUserId().pipe(
+    // We want to wait with initialization of cartId until we have userId initialized
+    // We have take(1) to not trigger this stream, when userId changes.
+    take(1),
+    switchMapTo(this.store),
     select(MultiCartSelectors.getActiveCartId),
+    // We also wait until we initialize cart from localStorage. Before that happens cartId in store &#x3D;&#x3D;&#x3D; null
+    filter((cartId) &#x3D;&gt; cartId !&#x3D;&#x3D; activeCartInitialState),
     map((cartId) &#x3D;&gt; {
-      if (!cartId) {
+      if (cartId &#x3D;&#x3D;&#x3D; &#x27;&#x27;) {
+        // We fallback to current when we don&#x27;t have particular cart id -&gt; cartId &#x3D;&#x3D;&#x3D; &#x27;&#x27;, because that&#x27;s how you reference latest user cart.
         return OCC_CART_ID_CURRENT;
       }
       return cartId;
@@ -1877,29 +2035,7 @@ This is for an edge case</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:45</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="cartId"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Private</span>
-                            cartId</b>
-                            <a href="#cartId"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:42</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:50</a></div>
                             </td>
                         </tr>
 
@@ -1928,96 +2064,7 @@ This is for an edge case</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:54</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="cartUser"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Private</span>
-                            cartUser</b>
-                            <a href="#cartUser"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="../interfaces/User.html" target="_self" >User</a></code>
-
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:43</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="PREVIOUS_USER_ID_INITIAL_VALUE"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Private</span>
-                                <span class="modifier">Readonly</span>
-                            PREVIOUS_USER_ID_INITIAL_VALUE</b>
-                            <a href="#PREVIOUS_USER_ID_INITIAL_VALUE"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>&#x27;PREVIOUS_USER_ID_INITIAL_VALUE&#x27;</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:35</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="previousUserId"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Private</span>
-                            previousUserId</b>
-                            <a href="#previousUserId"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>this.PREVIOUS_USER_ID_INITIAL_VALUE</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:37</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:67</a></div>
                             </td>
                         </tr>
 
@@ -2044,34 +2091,7 @@ This is for an edge case</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:39</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="userId"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Private</span>
-                            userId</b>
-                            <a href="#userId"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>OCC_USER_ID_ANONYMOUS</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:41</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/core/src/cart/facade/active-cart.service.ts:47</a></div>
                             </td>
                         </tr>
 
@@ -2086,19 +2106,29 @@ This is for an edge case</p>
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, OnDestroy } from &#x27;@angular/core&#x27;;
 import { select, Store } from &#x27;@ngrx/store&#x27;;
-import { EMPTY, Observable, Subscription, timer } from &#x27;rxjs&#x27;;
+import {
+  combineLatest,
+  EMPTY,
+  Observable,
+  of,
+  Subscription,
+  timer,
+  using,
+} from &#x27;rxjs&#x27;;
 import {
   debounce,
   distinctUntilChanged,
   filter,
   map,
+  pairwise,
   shareReplay,
   switchMap,
+  switchMapTo,
   take,
   tap,
   withLatestFrom,
 } from &#x27;rxjs/operators&#x27;;
-import { AuthService } from &#x27;../../auth/index&#x27;;
+import { UserIdService } from &#x27;../../auth/index&#x27;;
 import { Cart } from &#x27;../../model/cart.model&#x27;;
 import { User } from &#x27;../../model/misc.model&#x27;;
 import { OrderEntry } from &#x27;../../model/order.model&#x27;;
@@ -2110,6 +2140,7 @@ import {
 import { ProcessesLoaderState } from &#x27;../../state/utils/processes-loader/processes-loader-state&#x27;;
 import { EMAIL_PATTERN } from &#x27;../../util/regex-pattern&#x27;;
 import { StateWithMultiCart } from &#x27;../store/multi-cart-state&#x27;;
+import { activeCartInitialState } from &#x27;../store/reducers/multi-cart.reducer&#x27;;
 import { MultiCartSelectors } from &#x27;../store/selectors/index&#x27;;
 import { getCartIdByUserId, isTempCartId } from &#x27;../utils/utils&#x27;;
 import { MultiCartService } from &#x27;./multi-cart.service&#x27;;
@@ -2118,33 +2149,35 @@ import { MultiCartService } from &#x27;./multi-cart.service&#x27;;
   providedIn: &#x27;root&#x27;,
 })
 export class ActiveCartService implements OnDestroy {
-  private readonly PREVIOUS_USER_ID_INITIAL_VALUE &#x3D;
-    &#x27;PREVIOUS_USER_ID_INITIAL_VALUE&#x27;;
-  private previousUserId &#x3D; this.PREVIOUS_USER_ID_INITIAL_VALUE;
   private activeCart$: Observable&lt;Cart&gt;;
   protected subscription &#x3D; new Subscription();
 
-  private userId &#x3D; OCC_USER_ID_ANONYMOUS;
-  private cartId;
-  private cartUser: User;
-
-  private activeCartId$ &#x3D; this.store.pipe(
+  // This stream is used for referencing carts in API calls.
+  private activeCartId$ &#x3D; this.userIdService.getUserId().pipe(
+    // We want to wait with initialization of cartId until we have userId initialized
+    // We have take(1) to not trigger this stream, when userId changes.
+    take(1),
+    switchMapTo(this.store),
     select(MultiCartSelectors.getActiveCartId),
+    // We also wait until we initialize cart from localStorage. Before that happens cartId in store &#x3D;&#x3D;&#x3D; null
+    filter((cartId) &#x3D;&gt; cartId !&#x3D;&#x3D; activeCartInitialState),
     map((cartId) &#x3D;&gt; {
-      if (!cartId) {
+      if (cartId &#x3D;&#x3D;&#x3D; &#x27;&#x27;) {
+        // We fallback to current when we don&#x27;t have particular cart id -&gt; cartId &#x3D;&#x3D;&#x3D; &#x27;&#x27;, because that&#x27;s how you reference latest user cart.
         return OCC_CART_ID_CURRENT;
       }
       return cartId;
     })
   );
+
   private cartSelector$ &#x3D; this.activeCartId$.pipe(
     switchMap((cartId) &#x3D;&gt; this.multiCartService.getCartEntity(cartId))
   );
 
   constructor(
     protected store: Store&lt;StateWithMultiCart&gt;,
-    protected authService: AuthService,
-    protected multiCartService: MultiCartService
+    protected multiCartService: MultiCartService,
+    protected userIdService: UserIdService
   ) {
     this.initActiveCart();
   }
@@ -2154,35 +2187,39 @@ export class ActiveCartService implements OnDestroy {
   }
 
   protected initActiveCart() {
+    // Any change of user id is also interesting for us, because we have to merge/load/switch cart in those cases.
     this.subscription.add(
-      this.authService.getOccUserId().subscribe((userId) &#x3D;&gt; {
-        this.userId &#x3D; userId;
-        if (this.userId !&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS) {
-          if (this.isJustLoggedIn(userId)) {
-            this.loadOrMerge(this.cartId);
+      this.userIdService
+        .getUserId()
+        .pipe(
+          // We never trigger cart merge/load on app initialization here and that&#x27;s why we wait with pairwise for a change of userId (not initialization).
+          pairwise(),
+          switchMap(([previousUserId, userId]) &#x3D;&gt;
+            // We need cartId once we have the previous and current userId. We don&#x27;t want to subscribe to cartId stream before.
+            combineLatest([
+              of(previousUserId),
+              of(userId),
+              this.activeCartId$,
+            ]).pipe(take(1))
+          )
+        )
+        .subscribe(([previousUserId, userId, cartId]) &#x3D;&gt; {
+          // Only change of user and not a logout (current user id !&#x3D;&#x3D; anonymous) should trigger loading mechanism
+          if (this.isJustLoggedIn(userId, previousUserId)) {
+            this.loadOrMerge(cartId, userId, previousUserId);
           }
-        }
-        this.previousUserId &#x3D; userId;
-      })
+        })
     );
 
-    this.subscription.add(
-      this.activeCartId$.subscribe((cartId) &#x3D;&gt; {
-        this.cartId &#x3D; cartId;
-      })
-    );
-
-    this.activeCart$ &#x3D; this.cartSelector$.pipe(
-      withLatestFrom(this.activeCartId$),
-      map(([cartEntity, activeCartId]: [ProcessesLoaderState&lt;Cart&gt;, string]): {
+    // Stream for getting the cart value
+    const activeCartValue$ &#x3D; this.cartSelector$.pipe(
+      map((cartEntity: ProcessesLoaderState&lt;Cart&gt;): {
         cart: Cart;
-        cartId: string;
         isStable: boolean;
         loaded: boolean;
       } &#x3D;&gt; {
         return {
           cart: cartEntity.value,
-          cartId: activeCartId,
           isStable: !cartEntity.loading &amp;&amp; cartEntity.processesCount &#x3D;&#x3D;&#x3D; 0,
           loaded:
             (cartEntity.error || cartEntity.success) &amp;&amp; !cartEntity.loading,
@@ -2191,23 +2228,30 @@ export class ActiveCartService implements OnDestroy {
       // we want to emit empty carts even if those are not stable
       // on merge cart action we want to switch to empty cart so no one would use old cartId which can be already obsolete
       // so on merge action the resulting stream looks like this: old_cart -&gt; {} -&gt; new_cart
-      filter(({ isStable, cart }) &#x3D;&gt; isStable || this.isEmpty(cart)),
-      tap(({ cart, cartId, loaded, isStable }) &#x3D;&gt; {
+      filter(({ isStable, cart }) &#x3D;&gt; isStable || this.isEmpty(cart))
+    );
+
+    // Responsible for loading cart when it&#x27;s not (eg. app initialization when we have only cart id)
+    const activeCartLoading$ &#x3D; activeCartValue$.pipe(
+      withLatestFrom(this.activeCartId$, this.userIdService.getUserId()),
+      tap(([{ cart, loaded, isStable }, cartId, userId]) &#x3D;&gt; {
         if (
           isStable &amp;&amp;
           this.isEmpty(cart) &amp;&amp;
           !loaded &amp;&amp;
           !isTempCartId(cartId)
         ) {
-          this.load(cartId);
+          this.load(cartId, userId);
         }
-      }),
+      })
+    );
+
+    this.activeCart$ &#x3D; using(
+      () &#x3D;&gt; activeCartLoading$.subscribe(),
+      () &#x3D;&gt; activeCartValue$
+    ).pipe(
+      // Normalization for empty cart value. It will always be returned as empty object.
       map(({ cart }) &#x3D;&gt; (cart ? cart : {})),
-      tap((cart) &#x3D;&gt; {
-        if (cart) {
-          this.cartUser &#x3D; cart.user;
-        }
-      }),
       distinctUntilChanged(),
       shareReplay({ bufferSize: 1, refCount: true })
     );
@@ -2225,7 +2269,8 @@ export class ActiveCartService implements OnDestroy {
    */
   getActiveCartId(): Observable&lt;string&gt; {
     return this.activeCart$.pipe(
-      map((cart) &#x3D;&gt; getCartIdByUserId(cart, this.userId)),
+      withLatestFrom(this.userIdService.getUserId()),
+      map(([cart, userId]) &#x3D;&gt; getCartIdByUserId(cart, userId)),
       distinctUntilChanged()
     );
   }
@@ -2236,6 +2281,22 @@ export class ActiveCartService implements OnDestroy {
   getEntries(): Observable&lt;OrderEntry[]&gt; {
     return this.activeCartId$.pipe(
       switchMap((cartId) &#x3D;&gt; this.multiCartService.getEntries(cartId)),
+      distinctUntilChanged()
+    );
+  }
+
+  /**
+   * Returns last cart entry for provided product code.
+   * Needed to cover processes where multiple entries can share the same product code
+   * (e.g. promotions or configurable products)
+   *
+   * @param productCode
+   */
+  getLastEntry(productCode: string): Observable&lt;OrderEntry&gt; {
+    return this.activeCartId$.pipe(
+      switchMap((cartId) &#x3D;&gt;
+        this.multiCartService.getLastEntry(cartId, productCode)
+      ),
       distinctUntilChanged()
     );
   }
@@ -2265,12 +2326,17 @@ export class ActiveCartService implements OnDestroy {
     );
   }
 
-  private loadOrMerge(cartId: string): void {
+  private loadOrMerge(
+    cartId: string,
+    userId: string,
+    previousUserId: string
+  ): void {
     // for login user, whenever there&#x27;s an existing cart, we will load the user
     // current cart and merge it into the existing cart
-    if (!cartId || cartId &#x3D;&#x3D;&#x3D; OCC_CART_ID_CURRENT) {
+    // cartId will be defined (not &#x27;&#x27;, null, undefined)
+    if (cartId &#x3D;&#x3D;&#x3D; OCC_CART_ID_CURRENT) {
       this.multiCartService.loadCart({
-        userId: this.userId,
+        userId,
         cartId: OCC_CART_ID_CURRENT,
         extraData: {
           active: true,
@@ -2278,9 +2344,24 @@ export class ActiveCartService implements OnDestroy {
       });
     } else if (this.isGuestCart()) {
       this.guestCartMerge(cartId);
+    } else if (
+      userId !&#x3D;&#x3D; previousUserId &amp;&amp;
+      userId !&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS &amp;&amp;
+      previousUserId !&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS
+    ) {
+      // This case covers the case when you are logged in and then asm user logs in and you don&#x27;t want to merge, but only load emulated user cart
+      // Similarly when you are logged in as asm user and you logout and want to resume previous user session
+      this.multiCartService.loadCart({
+        userId,
+        cartId,
+        extraData: {
+          active: true,
+        },
+      });
     } else {
+      // We have particular cart locally, but we logged in, so we need to combine this with current cart or make it ours.
       this.multiCartService.mergeToCurrentCart({
-        userId: this.userId,
+        userId,
         cartId,
         extraData: {
           active: true,
@@ -2289,19 +2370,12 @@ export class ActiveCartService implements OnDestroy {
     }
   }
 
-  private load(cartId: string): void {
-    if (this.userId !&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS) {
+  private load(cartId: string, userId: string): void {
+    // We want to load cart in every case apart from anonymous user and current cart combination
+    if (!(userId &#x3D;&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS &amp;&amp; cartId &#x3D;&#x3D;&#x3D; OCC_CART_ID_CURRENT)) {
       this.multiCartService.loadCart({
-        userId: this.userId,
-        cartId: cartId ? cartId : OCC_CART_ID_CURRENT,
-        extraData: {
-          active: true,
-        },
-      });
-    } else if (cartId &amp;&amp; cartId !&#x3D;&#x3D; OCC_CART_ID_CURRENT) {
-      this.multiCartService.loadCart({
-        userId: this.userId,
-        cartId: cartId,
+        userId,
+        cartId,
         extraData: {
           active: true,
         },
@@ -2314,13 +2388,15 @@ export class ActiveCartService implements OnDestroy {
       productCode: entry.product.code,
       quantity: entry.quantity,
     }));
-    this.requireLoadedCartForGuestMerge().subscribe((cartState) &#x3D;&gt; {
-      this.multiCartService.addEntries(
-        this.userId,
-        getCartIdByUserId(cartState.value, this.userId),
-        entriesToAdd
-      );
-    });
+    this.requireLoadedCartForGuestMerge()
+      .pipe(withLatestFrom(this.userIdService.getUserId()))
+      .subscribe(([cartState, userId]) &#x3D;&gt; {
+        this.multiCartService.addEntries(
+          userId,
+          getCartIdByUserId(cartState.value, userId),
+          entriesToAdd
+        );
+      });
   }
 
   private requireLoadedCartForGuestMerge() {
@@ -2329,12 +2405,15 @@ export class ActiveCartService implements OnDestroy {
     );
   }
 
-  private isCartCreating(cartState) {
+  private isCartCreating(
+    cartState: ProcessesLoaderState&lt;Cart&gt;,
+    cartId: string
+  ) {
     // cart creating is always represented with loading flags
     // when all loading flags are false it means that we restored wrong cart id
     // could happen on context change or reload right in the middle on cart create call
     return (
-      isTempCartId(this.cartId) &amp;&amp;
+      isTempCartId(cartId) &amp;&amp;
       (cartState.loading || cartState.success || cartState.error)
     );
   }
@@ -2352,42 +2431,49 @@ export class ActiveCartService implements OnDestroy {
     return cartSelector$.pipe(
       filter((cartState) &#x3D;&gt; !cartState.loading),
       // Avoid load/create call when there are new cart creating at the moment
-      filter((cartState) &#x3D;&gt; !this.isCartCreating(cartState)),
+      withLatestFrom(this.activeCartId$),
+      filter(([cartState, cartId]) &#x3D;&gt; !this.isCartCreating(cartState, cartId)),
+      map(([cartState]) &#x3D;&gt; cartState),
       take(1),
-      switchMap((cartState) &#x3D;&gt; {
+      withLatestFrom(this.userIdService.getUserId()),
+      tap(([cartState, userId]) &#x3D;&gt; {
         // Try to load the cart, because it might have been created on another device between our login and add entry call
-        if (
-          this.isEmpty(cartState.value) &amp;&amp;
-          this.userId !&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS
-        ) {
-          this.load(undefined);
+        if (this.isEmpty(cartState.value) &amp;&amp; userId !&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS) {
+          this.load(OCC_CART_ID_CURRENT, userId);
         }
+      }),
+      switchMap(() &#x3D;&gt; {
         return cartSelector$;
       }),
       filter((cartState) &#x3D;&gt; !cartState.loading),
       // create cart can happen to anonymous user if it is not empty or to any other user if it is loaded and empty
+      withLatestFrom(this.userIdService.getUserId()),
       filter(
-        (cartState) &#x3D;&gt;
-          this.userId &#x3D;&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS ||
+        ([cartState, userId]) &#x3D;&gt;
+          userId &#x3D;&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS ||
           cartState.success ||
           cartState.error
       ),
       take(1),
-      switchMap((cartState) &#x3D;&gt; {
+      tap(([cartState, userId]) &#x3D;&gt; {
         if (this.isEmpty(cartState.value)) {
           this.multiCartService.createCart({
-            userId: this.userId,
+            userId,
             extraData: {
               active: true,
             },
           });
         }
+      }),
+      switchMap(() &#x3D;&gt; {
         return cartSelector$;
       }),
       filter((cartState) &#x3D;&gt; !cartState.loading),
       filter((cartState) &#x3D;&gt; cartState.success || cartState.error),
       // wait for active cart id to point to code/guid to avoid some work on temp cart entity
-      filter((cartState) &#x3D;&gt; !this.isCartCreating(cartState)),
+      withLatestFrom(this.activeCartId$),
+      filter(([cartState, cartId]) &#x3D;&gt; !this.isCartCreating(cartState, cartId)),
+      map(([cartState]) &#x3D;&gt; cartState),
       filter((cartState) &#x3D;&gt; !this.isEmpty(cartState.value)),
       take(1)
     );
@@ -2400,14 +2486,16 @@ export class ActiveCartService implements OnDestroy {
    * @param quantity
    */
   addEntry(productCode: string, quantity: number): void {
-    this.requireLoadedCart().subscribe((cartState) &#x3D;&gt; {
-      this.multiCartService.addEntry(
-        this.userId,
-        getCartIdByUserId(cartState.value, this.userId),
-        productCode,
-        quantity
-      );
-    });
+    this.requireLoadedCart()
+      .pipe(withLatestFrom(this.userIdService.getUserId()))
+      .subscribe(([cartState, userId]) &#x3D;&gt; {
+        this.multiCartService.addEntry(
+          userId,
+          getCartIdByUserId(cartState.value, userId),
+          productCode,
+          quantity
+        );
+      });
   }
 
   /**
@@ -2416,11 +2504,11 @@ export class ActiveCartService implements OnDestroy {
    * @param entry
    */
   removeEntry(entry: OrderEntry): void {
-    this.multiCartService.removeEntry(
-      this.userId,
-      this.cartId,
-      entry.entryNumber
-    );
+    this.activeCartId$
+      .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
+      .subscribe(([cartId, userId]) &#x3D;&gt; {
+        this.multiCartService.removeEntry(userId, cartId, entry.entryNumber);
+      });
   }
 
   /**
@@ -2430,12 +2518,16 @@ export class ActiveCartService implements OnDestroy {
    * @param quantity
    */
   updateEntry(entryNumber: number, quantity: number): void {
-    this.multiCartService.updateEntry(
-      this.userId,
-      this.cartId,
-      entryNumber,
-      quantity
-    );
+    this.activeCartId$
+      .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
+      .subscribe(([cartId, userId]) &#x3D;&gt; {
+        this.multiCartService.updateEntry(
+          userId,
+          cartId,
+          entryNumber,
+          quantity
+        );
+      });
   }
 
   /**
@@ -2458,7 +2550,11 @@ export class ActiveCartService implements OnDestroy {
    * @param email
    */
   addEmail(email: string): void {
-    this.multiCartService.assignEmail(this.cartId, this.userId, email);
+    this.activeCartId$
+      .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
+      .subscribe(([cartId, userId]) &#x3D;&gt; {
+        this.multiCartService.assignEmail(cartId, userId, email);
+      });
   }
 
   /**
@@ -2468,14 +2564,21 @@ export class ActiveCartService implements OnDestroy {
     return this.getActive().pipe(map((cart) &#x3D;&gt; cart.user));
   }
 
+  // TODO: Make cart required param in 4.0 and drop the subscribe/unsubscribe.
   /**
    * Returns true for guest cart
    */
-  isGuestCart(): boolean {
+  isGuestCart(cart?: Cart): boolean {
+    if (!cart) {
+      this.activeCart$
+        .subscribe((activeCart) &#x3D;&gt; (cart &#x3D; activeCart))
+        .unsubscribe();
+    }
+    const cartUser &#x3D; cart?.user;
     return (
-      this.cartUser &amp;&amp;
-      (this.cartUser.name &#x3D;&#x3D;&#x3D; OCC_USER_ID_GUEST ||
-        this.isEmail(this.cartUser.uid.split(&#x27;|&#x27;).slice(1).join(&#x27;|&#x27;)))
+      cartUser &amp;&amp;
+      (cartUser.name &#x3D;&#x3D;&#x3D; OCC_USER_ID_GUEST ||
+        this.isEmail(cartUser.uid.split(&#x27;|&#x27;).slice(1).join(&#x27;|&#x27;)))
     );
   }
 
@@ -2508,11 +2611,9 @@ export class ActiveCartService implements OnDestroy {
       .pipe(take(1))
       .subscribe((entries) &#x3D;&gt; {
         cartEntries &#x3D; entries;
+        this.multiCartService.deleteCart(cartId, OCC_USER_ID_ANONYMOUS);
+        this.addEntriesGuestMerge(cartEntries);
       });
-
-    this.multiCartService.deleteCart(cartId, OCC_USER_ID_ANONYMOUS);
-
-    this.addEntriesGuestMerge(cartEntries);
   }
 
   private isEmpty(cart: Cart): boolean {
@@ -2521,10 +2622,10 @@ export class ActiveCartService implements OnDestroy {
     );
   }
 
-  private isJustLoggedIn(userId: string): boolean {
+  private isJustLoggedIn(userId: string, previousUserId: string): boolean {
     return (
-      this.previousUserId !&#x3D;&#x3D; userId &amp;&amp; // *just* logged in
-      this.previousUserId !&#x3D;&#x3D; this.PREVIOUS_USER_ID_INITIAL_VALUE // not app initialization
+      userId !&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS &amp;&amp; // not logged out
+      previousUserId !&#x3D;&#x3D; userId // *just* logged in / switched to ASM emulation
     );
   }
 }
@@ -2562,6 +2663,7 @@ export class ActiveCartService implements OnDestroy {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'ActiveCartService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

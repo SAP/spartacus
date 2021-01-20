@@ -196,7 +196,7 @@
           catchError((error) &#x3D;&gt;
             of(
               new ProductActions.GetProductSuggestionsFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -261,7 +261,7 @@
               catchError((error) &#x3D;&gt;
                 of(
                   new ProductActions.SearchProductsFail(
-                    makeErrorSerializable(error),
+                    normalizeHttpError(error),
                     action.auxiliary
                   )
                 )
@@ -301,7 +301,7 @@
 import { Actions, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { catchError, groupBy, map, mergeMap, switchMap } from &#x27;rxjs/operators&#x27;;
-import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
+import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
 import { ProductSearchConnector } from &#x27;../../connectors/search/product-search.connector&#x27;;
 import { ProductActions } from &#x27;../actions/index&#x27;;
 
@@ -328,7 +328,7 @@ export class ProductsSearchEffects {
               catchError((error) &#x3D;&gt;
                 of(
                   new ProductActions.SearchProductsFail(
-                    makeErrorSerializable(error),
+                    normalizeHttpError(error),
                     action.auxiliary
                   )
                 )
@@ -359,7 +359,7 @@ export class ProductsSearchEffects {
           catchError((error) &#x3D;&gt;
             of(
               new ProductActions.GetProductSuggestionsFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -406,6 +406,7 @@ export class ProductsSearchEffects {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'ProductsSearchEffects.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

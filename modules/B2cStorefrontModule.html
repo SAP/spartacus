@@ -206,8 +206,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">projects/storefrontlib/src/recipes/b2c-storefront.module.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">projects/storefrontlib/src/recipes/b2c-storefront.module.ts:32</a></div>
                 </td>
             </tr>
 
@@ -244,7 +244,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>ModuleWithProviders&lt;B2cStorefrontModule&gt;</code>
+                        <b>Returns : </b>        <code><a href="../interfaces/Module.html" target="_self" >ModuleWithProviders&lt;B2cStorefrontModule&gt;</a></code>
 
                     </div>
                     <div class="io-description">
@@ -259,20 +259,18 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
-import {
-  provideConfig,
-  provideDefaultConfig,
-  provideDefaultConfigFactory,
-} from &#x27;@spartacus/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpClientModule } from &#x27;@angular/common/http&#x27;;
+import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
+import { provideConfig, provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
 import { CmsLibModule } from &#x27;../cms-components/cms-lib.module&#x27;;
 import { StorefrontConfig } from &#x27;../storefront-config&#x27;;
-import { b2cLayoutConfig, mediaConfig } from &#x27;./config/index&#x27;;
-import { defaultCmsContentConfig } from &#x27;./config/static-cms-structure/default-cms-content.config&#x27;;
+import { layoutConfig, mediaConfig } from &#x27;./config/index&#x27;;
+import { defaultCmsContentProviders } from &#x27;./config/static-cms-structure&#x27;;
 import { StorefrontModule } from &#x27;./storefront.module&#x27;;
 
 @NgModule({
   imports: [
+    HttpClientModule,
     StorefrontModule,
 
     // the cms lib module contains all components that added in the bundle
@@ -285,9 +283,9 @@ import { StorefrontModule } from &#x27;./storefront.module&#x27;;
         addToHomeScreen: true,
       },
     }),
-    provideDefaultConfig(b2cLayoutConfig),
+    provideDefaultConfig(layoutConfig),
     provideDefaultConfig(mediaConfig),
-    provideDefaultConfigFactory(defaultCmsContentConfig),
+    ...defaultCmsContentProviders,
   ],
   exports: [StorefrontModule],
 })
@@ -337,6 +335,7 @@ export class B2cStorefrontModule {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
             var COMPODOC_CURRENT_PAGE_URL = 'B2cStorefrontModule.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

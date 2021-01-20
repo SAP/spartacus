@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/cds/src/profiletag/model/profile-tag.model.ts</code>
+            <code>integration-libs/cds/src/profiletag/model/profile-tag.model.ts</code>
         </p>
 
 
@@ -132,12 +132,12 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Cart } from &#x27;@spartacus/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PersonalizationAction } from &#x27;@spartacus/core&#x27;;
 
 export interface ProfileTagWindowObject extends Window {
   Y_TRACKING: {
     q?: ProfileTagJsConfig[][];
-    eventLayer?: ProfileTagEvent[];
+    eventLayer?: ProfileTagPushEvent[];
   };
 }
 
@@ -168,20 +168,24 @@ export enum InternalProfileTagEventNames {
   DEBUG_FLAG_CHANGED &#x3D; &#x27;profiletag_debugFlagChanged&#x27;,
 }
 
-interface ProfileTagCart {
-  cart: Cart;
-}
-
-export interface ProfileTagEvent {
+export interface ProfileTagPushEvent {
   name: string;
-  data?: any;
+  data?: {
+    segments?: string[];
+    actions?: PersonalizationAction[];
+    [x: string]: any;
+  };
 }
 
-export class NavigatedPushEvent implements ProfileTagEvent {
+export class NavigatedPushEvent implements ProfileTagPushEvent {
   name &#x3D; &#x27;Navigated&#x27;;
+  data: any;
+  constructor(data?) {
+    this.data &#x3D; data;
+  }
 }
 
-export class ConsentChangedPushEvent implements ProfileTagEvent {
+export class ConsentChangedPushEvent implements ProfileTagPushEvent {
   name &#x3D; &#x27;ConsentChanged&#x27;;
   data: { granted: boolean } &#x3D; { granted: undefined };
   constructor(granted: boolean) {
@@ -189,10 +193,117 @@ export class ConsentChangedPushEvent implements ProfileTagEvent {
   }
 }
 
-export class CartChangedPushEvent implements ProfileTagEvent {
-  name &#x3D; &#x27;CartSnapshot&#x27;;
-  data: ProfileTagCart;
-  constructor(data: ProfileTagCart) {
+export class KeywordSearchPushEvent implements ProfileTagPushEvent {
+  name &#x3D; &#x27;KeywordSearch&#x27;;
+  data: any;
+  constructor(data: { searchTerm: string; numResults: Number }) {
+    this.data &#x3D; data;
+  }
+}
+
+export class ProductViewPushEvent implements ProfileTagPushEvent {
+  name &#x3D; &#x27;ProductDetailsPageViewed&#x27;;
+  data: any;
+  constructor(data: {
+    productSku: string;
+    productName: string;
+    productPrice: Number;
+    productCategory: string;
+    productCategoryName: string;
+    categories: Array&lt;string&gt;;
+  }) {
+    this.data &#x3D; data;
+  }
+}
+
+export class CategoryViewPushEvent implements ProfileTagPushEvent {
+  name &#x3D; &#x27;CategoryPageViewed&#x27;;
+  data: any;
+  constructor(data: { productCategory: string; productCategoryName: string }) {
+    this.data &#x3D; data;
+  }
+}
+
+// TODO:#cds - check the class name and the &#x60;name&#x60; property
+export class BrandPageVisitedEvent implements ProfileTagPushEvent {
+  name &#x3D; &#x27;BrandPageVisitedEvent&#x27;;
+  data: { brandCode: string; brandName: string };
+  constructor(data: { brandCode: string; brandName: string }) {
+    this.data &#x3D; data;
+  }
+}
+
+export class HomePageViewPushEvent implements ProfileTagPushEvent {
+  name &#x3D; &#x27;HomePageViewed&#x27;;
+  data: any;
+  constructor(data?: any) {
+    this.data &#x3D; data;
+  }
+}
+
+export class OrderConfirmationPushEvent implements ProfileTagPushEvent {
+  name &#x3D; &#x27;OrderConfirmationPageViewed&#x27;;
+  data: any;
+  constructor(data?: any) {
+    this.data &#x3D; data;
+  }
+}
+
+export class CartViewPushEvent implements ProfileTagPushEvent {
+  name &#x3D; &#x27;CartPageViewed&#x27;;
+  data: any;
+  constructor(data?: any) {
+    this.data &#x3D; data;
+  }
+}
+
+export class AddedToCartPushEvent implements ProfileTagPushEvent {
+  name &#x3D; &#x27;AddedToCart&#x27;;
+  data: any;
+  constructor(data: {
+    productQty: number;
+    productSku: string;
+    productName: string;
+    cartId: string;
+    cartCode: string;
+    categories: Array&lt;string&gt;;
+    productCategoryName: string;
+    productCategory: string;
+    productPrice: Number;
+  }) {
+    this.data &#x3D; data;
+  }
+}
+
+export class RemovedFromCartPushEvent implements ProfileTagPushEvent {
+  name &#x3D; &#x27;RemovedFromCart&#x27;;
+  data: any;
+  constructor(data: {
+    productSku: string;
+    productName: string;
+    productCategory: string;
+    cartId: string;
+    cartCode: string;
+    productCategoryName: string;
+    categories: Array&lt;string&gt;;
+  }) {
+    this.data &#x3D; data;
+  }
+}
+
+export class ModifiedCartPushEvent implements ProfileTagPushEvent {
+  name &#x3D; &#x27;ModifiedCart&#x27;;
+  data: any;
+  constructor(data: {
+    productQty: number;
+    productSku: string;
+    productName: string;
+    cartId: string;
+    cartCode: string;
+    categories: Array&lt;string&gt;;
+    productCategoryName: string;
+    productCategory: string;
+  }) {
     this.data &#x3D; data;
   }
 }
@@ -224,6 +335,7 @@ export class CartChangedPushEvent implements ProfileTagEvent {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'DebugEvent.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

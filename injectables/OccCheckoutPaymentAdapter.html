@@ -1080,7 +1080,7 @@ import { CardType, PaymentDetails } from &#x27;../../../model/cart.model&#x27;;
 import { ConverterService } from &#x27;../../../util/converter.service&#x27;;
 import { Occ } from &#x27;../../occ-models&#x27;;
 import { OccEndpointsService } from &#x27;../../services/occ-endpoints.service&#x27;;
-import { CustomEncoder } from &#x27;../cart/custom.encoder&#x27;;
+import { HttpParamsURIEncoder } from &#x27;../../../util/http-params-uri.encoder&#x27;;
 
 const ENDPOINT_CARD_TYPES &#x3D; &#x27;cardtypes&#x27;;
 
@@ -1186,7 +1186,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
       &#x27;Content-Type&#x27;: &#x27;application/x-www-form-urlencoded&#x27;,
       Accept: &#x27;text/html&#x27;,
     });
-    let httpParams &#x3D; new HttpParams({ encoder: new CustomEncoder() });
+    let httpParams &#x3D; new HttpParams({ encoder: new HttpParamsURIEncoder() });
     Object.keys(parameters).forEach((key) &#x3D;&gt; {
       httpParams &#x3D; httpParams.append(key, parameters[key]);
     });
@@ -1202,7 +1202,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     cartId: string,
     parameters: any
   ): Observable&lt;PaymentDetails&gt; {
-    let httpParams &#x3D; new HttpParams({ encoder: new CustomEncoder() });
+    let httpParams &#x3D; new HttpParams({ encoder: new HttpParamsURIEncoder() });
     Object.keys(parameters).forEach((key) &#x3D;&gt; {
       httpParams &#x3D; httpParams.append(key, parameters[key]);
     });
@@ -1326,6 +1326,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'OccCheckoutPaymentAdapter.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

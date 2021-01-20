@@ -194,15 +194,15 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/current-product.service.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/current-product.service.ts:29</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Will emit current product or null, if there is no current product (i.e. we are not on PDP)</p>
+                    <div class="io-description"><p>Returns an observable for the current product</p>
 </div>
 
                     <div class="io-description">
@@ -238,7 +238,8 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>Product</p>
+
                     </div>
                 </td>
             </tr>
@@ -306,7 +307,9 @@ export class CurrentProductService {
   protected readonly DEFAULT_PRODUCT_SCOPE &#x3D; ProductScope.DETAILS;
 
   /**
-   * Will emit current product or null, if there is no current product (i.e. we are not on PDP)
+   * Returns an observable for the current product
+   * @returns Product
+   * @returns null if product can&#x27;t be found
    *
    * @param scopes
    */
@@ -315,6 +318,7 @@ export class CurrentProductService {
   ): Observable&lt;Product | null&gt; {
     return this.routingService.getRouterState().pipe(
       map((state) &#x3D;&gt; state.state.params[&#x27;productCode&#x27;]),
+      distinctUntilChanged(),
       switchMap((productCode: string) &#x3D;&gt; {
         return productCode
           ? this.productService.get(
@@ -323,8 +327,7 @@ export class CurrentProductService {
             )
           : of(null);
       }),
-      filter((x) &#x3D;&gt; x !&#x3D;&#x3D; undefined),
-      distinctUntilChanged()
+      filter((product) &#x3D;&gt; product !&#x3D;&#x3D; undefined)
     );
   }
 }
@@ -362,6 +365,7 @@ export class CurrentProductService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CurrentProductService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -105,12 +105,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(authService: <a href="../injectables/AuthService.html">AuthService</a>, asmAuthService: <a href="../injectables/AsmAuthService.html">AsmAuthService</a>, routingService: <a href="../injectables/RoutingService.html">RoutingService</a>, winRef: <a href="../injectables/WindowRef.html">WindowRef</a>)</code>
+<code>constructor(authService: <a href="../injectables/AuthService.html">AuthService</a>, csAgentAuthService: <a href="../injectables/CsAgentAuthService.html">CsAgentAuthService</a>, winRef: <a href="../injectables/WindowRef.html">WindowRef</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-component.service.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-component.service.ts:9</a></div>
                             </td>
                         </tr>
 
@@ -140,22 +140,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>asmAuthService</td>
+                                                        <td>csAgentAuthService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/AsmAuthService.html" target="_self" >AsmAuthService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>routingService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/RoutingService.html" target="_self" >RoutingService</a></code>
+                                                                        <code><a href="../injectables/CsAgentAuthService.html" target="_self" >CsAgentAuthService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -211,8 +199,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-component.service.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-component.service.ts:24</a></div>
                 </td>
             </tr>
 
@@ -250,8 +238,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-component.service.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-component.service.ts:20</a></div>
                 </td>
             </tr>
 
@@ -289,8 +277,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="23"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-component.service.ts:23</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="16"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-component.service.ts:16</a></div>
                 </td>
             </tr>
 
@@ -328,8 +316,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="57"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-component.service.ts:57</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-component.service.ts:35</a></div>
                 </td>
             </tr>
 
@@ -338,7 +326,7 @@
                 <td class="col-md-4">
                     <div class="io-description"><p>We&#39;re currently only removing the persisted storage in the browser
 to ensure the ASM experience isn&#39;t loaded on the next visit. There are a few
-optimsiations we could think of:</p>
+optimizations we could think of:</p>
 <ul>
 <li>drop the <code>asm</code> parameter from the URL, in case it&#39;s still there</li>
 <li>remove the generated UI from the DOM (outlets currently do not support this)</li>
@@ -360,14 +348,8 @@ optimsiations we could think of:</p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import {
-  AsmAuthService,
-  AuthService,
-  RoutingService,
-  WindowRef,
-} from &#x27;@spartacus/core&#x27;;
-import { Observable, of } from &#x27;rxjs&#x27;;
-import { mergeMap, take } from &#x27;rxjs/operators&#x27;;
+import { AuthService, CsAgentAuthService, WindowRef } from &#x27;@spartacus/core&#x27;;
+import { Observable } from &#x27;rxjs&#x27;;
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from &#x27;../asm-constants&#x27;;
 
 @Injectable({
@@ -376,42 +358,26 @@ import { ASM_ENABLED_LOCAL_STORAGE_KEY } from &#x27;../asm-constants&#x27;;
 export class AsmComponentService {
   constructor(
     protected authService: AuthService,
-    protected asmAuthService: AsmAuthService,
-    protected routingService: RoutingService,
+    protected csAgentAuthService: CsAgentAuthService,
     protected winRef: WindowRef
   ) {}
 
   logoutCustomerSupportAgentAndCustomer(): void {
-    this.authService
-      .getUserToken()
-      .pipe(take(1))
-      .subscribe((token) &#x3D;&gt; {
-        if (this.asmAuthService.isCustomerEmulationToken(token)) {
-          this.logoutCustomer();
-        }
-        this.asmAuthService.logoutCustomerSupportAgent();
-      });
+    this.csAgentAuthService.logoutCustomerSupportAgent();
   }
 
   logoutCustomer(): void {
     this.authService.logout();
-    this.routingService.go({ cxRoute: &#x27;home&#x27; });
   }
 
   isCustomerEmulationSessionInProgress(): Observable&lt;boolean&gt; {
-    return this.authService
-      .getUserToken()
-      .pipe(
-        mergeMap((userToken) &#x3D;&gt;
-          of(this.asmAuthService.isCustomerEmulationToken(userToken))
-        )
-      );
+    return this.csAgentAuthService.isCustomerEmulated();
   }
 
   /**
    * We&#x27;re currently only removing the persisted storage in the browser
    * to ensure the ASM experience isn&#x27;t loaded on the next visit. There are a few
-   * optimsiations we could think of:
+   * optimizations we could think of:
    * - drop the &#x60;asm&#x60; parameter from the URL, in case it&#x27;s still there
    * - remove the generated UI from the DOM (outlets currently do not support this)
    */
@@ -455,6 +421,7 @@ export class AsmComponentService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'AsmComponentService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -221,7 +221,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
+                        <b>Returns : </b>    <code>Observable&lt;boolean | UrlTree&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -237,9 +237,9 @@
 
         <div class="tab-pane fade  tab-source-code" id="c-source">
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { ActivatedRouteSnapshot, CanActivate } from &#x27;@angular/router&#x27;;
+import { ActivatedRouteSnapshot, CanActivate, UrlTree } from &#x27;@angular/router&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
-import { AuthGuard } from &#x27;../../auth/guards/auth.guard&#x27;;
+import { AuthGuard } from &#x27;../../auth/user-auth/guards/auth.guard&#x27;;
 import { ProtectedRoutesService } from &#x27;./protected-routes.service&#x27;;
 
 @Injectable({ providedIn: &#x27;root&#x27; })
@@ -252,7 +252,7 @@ export class ProtectedRoutesGuard implements CanActivate {
   /**
    * When the anticipated url is protected, it switches to the AuthGuard. Otherwise emits true.
    */
-  canActivate(route: ActivatedRouteSnapshot): Observable&lt;boolean&gt; {
+  canActivate(route: ActivatedRouteSnapshot): Observable&lt;boolean | UrlTree&gt; {
     let urlSegments: string[] &#x3D; route.url.map((seg) &#x3D;&gt; seg.path);
 
     // For the root path &#x60;/&#x60; ActivatedRoute contains an empty array of segments:
@@ -295,6 +295,7 @@ export class ProtectedRoutesGuard implements CanActivate {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'guard';
             var COMPODOC_CURRENT_PAGE_URL = 'ProtectedRoutesGuard.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

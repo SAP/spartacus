@@ -91,11 +91,7 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#getPagesEndpoint">getPagesEndpoint</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#getPagesRequestParams">getPagesRequestParams</a>
                             </li>
                             <li>
@@ -124,7 +120,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/core/src/occ/adapters/cms/occ-cms-page.adapter.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/core/src/occ/adapters/cms/occ-cms-page.adapter.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -195,94 +191,10 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getPagesEndpoint"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            getPagesEndpoint
-                        </b>
-                        <a href="#getPagesEndpoint"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getPagesEndpoint(params: literal type, fields?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="53"
-                            class="link-to-prism">projects/core/src/occ/adapters/cms/occ-cms-page.adapter.ts:53</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>params</td>
-                                    <td>
-                                            <code>literal type</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>fields</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="getPagesRequestParams"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                             getPagesRequestParams
                         </b>
                         <a href="#getPagesRequestParams"><span class="icon ion-ios-link"></span></a>
@@ -292,21 +204,34 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getPagesRequestParams(pageContext: <a href="../interfaces/Page.html">PageContext</a>)</code>
+                    <code>getPagesRequestParams(context: <a href="../interfaces/Page.html">PageContext</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="63"
-                            class="link-to-prism">projects/core/src/occ/adapters/cms/occ-cms-page.adapter.ts:63</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="69"
+                            class="link-to-prism">projects/core/src/occ/adapters/cms/occ-cms-page.adapter.ts:69</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>The OCC CMS API allows to query pages by a combination of pageType, label and code.</p>
+<p>When a <code>ContentPage</code> is requested, we use the <code>pageLabelOrId</code>:</p>
+<div><pre class="line-numbers"><code class="language-none">   * &quot;/pages?pageLabelOrId=/my-page&amp;pageType=ContentPage&quot;
+   * ```
+
+Other pages are queried by code:
+</code></pre></div><ul>
+<li>&quot;/pages?code=1234&amp;pageType=ProductPage&quot;</li>
+<li><div><pre class="line-numbers"><code class="language-none"></code></pre></div></li>
+</ul>
+<p>The page context is ignored for a home page request or in case of a
+<code>smartedit-preview</code> request.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -320,7 +245,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>pageContext</td>
+                                    <td>context</td>
                                     <td>
                                                 <code><a href="../interfaces/Page.html" target="_self" >PageContext</a></code>
                                     </td>
@@ -337,7 +262,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>literal type</code>
+                        <b>Returns : </b>        <code><a href="../interfaces/OccCmsPageRequest.html" target="_self" >OccCmsPageRequest</a></code>
 
                     </div>
                     <div class="io-description">
@@ -362,15 +287,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>load(pageContext: <a href="../interfaces/Page.html">PageContext</a>, fields?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>load(pageContext: <a href="../interfaces/Page.html">PageContext</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="22"
-                            class="link-to-prism">projects/core/src/occ/adapters/cms/occ-cms-page.adapter.ts:22</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">projects/core/src/occ/adapters/cms/occ-cms-page.adapter.ts:39</a></div>
                 </td>
             </tr>
 
@@ -397,18 +322,6 @@
 
                                     <td>
                                         No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>fields</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
                                     </td>
 
 
@@ -455,7 +368,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/core/src/occ/adapters/cms/occ-cms-page.adapter.ts:14</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/core/src/occ/adapters/cms/occ-cms-page.adapter.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -475,76 +388,82 @@ import { CmsPageAdapter } from &#x27;../../../cms/connectors/page/cms-page.adapt
 import { CMS_PAGE_NORMALIZER } from &#x27;../../../cms/connectors/page/converters&#x27;;
 import { CmsStructureModel } from &#x27;../../../cms/model/page.model&#x27;;
 import { PageType } from &#x27;../../../model/cms.model&#x27;;
-import { PageContext } from &#x27;../../../routing&#x27;;
+import {
+  HOME_PAGE_CONTEXT,
+  PageContext,
+  SMART_EDIT_CONTEXT,
+} from &#x27;../../../routing/models/page-context.model&#x27;;
 import { ConverterService } from &#x27;../../../util/converter.service&#x27;;
 import { OccEndpointsService } from &#x27;../../services/occ-endpoints.service&#x27;;
 
-@Injectable()
+export interface OccCmsPageRequest {
+  pageLabelOrId?: string;
+  pageType?: PageType;
+  code?: string;
+  fields?: string;
+}
+
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
 export class OccCmsPageAdapter implements CmsPageAdapter {
   protected headers &#x3D; new HttpHeaders().set(&#x27;Content-Type&#x27;, &#x27;application/json&#x27;);
 
   constructor(
-    private http: HttpClient,
-    private occEndpoints: OccEndpointsService,
+    protected http: HttpClient,
+    protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService
   ) {}
 
-  load(
-    pageContext: PageContext,
-    fields?: string
-  ): Observable&lt;CmsStructureModel&gt; {
-    // load page by Id
-    if (pageContext.type &#x3D;&#x3D;&#x3D; undefined) {
-      return this.http
-        .get(
-          this.occEndpoints.getUrl(
-            &#x27;page&#x27;,
-            {
-              id: pageContext.id,
-            },
-            { fields: fields ? fields : &#x27;DEFAULT&#x27; }
-          ),
-          {
-            headers: this.headers,
-          }
-        )
-        .pipe(this.converter.pipeable(CMS_PAGE_NORMALIZER));
-    }
+  /**
+   * @override returns the OCC CMS page data for the given context and converts
+   * the data by any configured &#x60;CMS_PAGE_NORMALIZER&#x60;.
+   */
+  load(pageContext: PageContext): Observable&lt;CmsStructureModel&gt; {
+    const params &#x3D; this.getPagesRequestParams(pageContext);
 
-    // load page by PageContext
-    const httpParams &#x3D; this.getPagesRequestParams(pageContext);
+    const endpoint &#x3D; !pageContext.type
+      ? this.occEndpoints.getUrl(&#x27;page&#x27;, undefined, params)
+      : this.occEndpoints.getUrl(&#x27;pages&#x27;, undefined, params);
+
     return this.http
-      .get(this.getPagesEndpoint(httpParams, fields), {
-        headers: this.headers,
-      })
+      .get(endpoint, { headers: this.headers })
       .pipe(this.converter.pipeable(CMS_PAGE_NORMALIZER));
   }
 
-  private getPagesEndpoint(
-    params: {
-      [key: string]: string;
-    },
-    fields?: string
-  ): string {
-    fields &#x3D; fields ? fields : &#x27;DEFAULT&#x27;;
-    return this.occEndpoints.getUrl(&#x27;pages&#x27;, {}, { fields, ...params });
-  }
-
-  private getPagesRequestParams(
-    pageContext: PageContext
-  ): { [key: string]: any } {
-    let httpParams &#x3D; {};
-
-    // smartedit preview page is loaded by previewToken which added by interceptor
-    if (pageContext.id !&#x3D;&#x3D; &#x27;smartedit-preview&#x27;) {
-      httpParams &#x3D; { pageType: pageContext.type };
-
-      if (pageContext.type &#x3D;&#x3D;&#x3D; PageType.CONTENT_PAGE) {
-        httpParams[&#x27;pageLabelOrId&#x27;] &#x3D; pageContext.id;
-      } else {
-        httpParams[&#x27;code&#x27;] &#x3D; pageContext.id;
-      }
+  /**
+   * The OCC CMS API allows to query pages by a combination of pageType, label and code.
+   *
+   * When a &#x60;ContentPage&#x60; is requested, we use the &#x60;pageLabelOrId&#x60;:
+   *
+   * &#x60;&#x60;&#x60;
+   * &quot;/pages?pageLabelOrId&#x3D;/my-page&amp;pageType&#x3D;ContentPage&quot;
+   * &#x60;&#x60;&#x60;
+   *
+   * Other pages are queried by code:
+   *
+   * &#x60;&#x60;&#x60;
+   * &quot;/pages?code&#x3D;1234&amp;pageType&#x3D;ProductPage&quot;
+   * &#x60;&#x60;&#x60;
+   *
+   * The page context is ignored for a home page request or in case of a
+   * &#x60;smartedit-preview&#x60; request.
+   */
+  protected getPagesRequestParams(context: PageContext): OccCmsPageRequest {
+    if (context.id &#x3D;&#x3D;&#x3D; HOME_PAGE_CONTEXT || context.id &#x3D;&#x3D;&#x3D; SMART_EDIT_CONTEXT) {
+      return {};
     }
+
+    const httpParams: OccCmsPageRequest &#x3D; {};
+    if (context.type) {
+      httpParams.pageType &#x3D; context.type;
+    }
+    if (context.type &#x3D;&#x3D;&#x3D; PageType.CONTENT_PAGE) {
+      httpParams.pageLabelOrId &#x3D; context.id;
+    } else {
+      httpParams.code &#x3D; context.id;
+    }
+
     return httpParams;
   }
 }
@@ -582,6 +501,7 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'OccCmsPageAdapter.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -126,10 +126,14 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { LoaderState } from &#x27;../../state/utils/loader/loader-state&#x27;;
-import { CardType, PaymentDetails } from &#x27;../../model/cart.model&#x27;;
-import { Address, AddressValidation } from &#x27;../../model/address.model&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Address, AddressValidation } from &#x27;../../model/address.model&#x27;;
+import { CardType, PaymentDetails, PaymentType } from &#x27;../../model/cart.model&#x27;;
 import { DeliveryMode, Order } from &#x27;../../model/order.model&#x27;;
+import {
+  ORDER_TYPE,
+  ReplenishmentOrder,
+} from &#x27;../../model/replenishment-order.model&#x27;;
+import { LoaderState } from &#x27;../../state/utils/loader/loader-state&#x27;;
 
 export const CHECKOUT_FEATURE &#x3D; &#x27;checkout&#x27;;
 export const CHECKOUT_DETAILS &#x3D; &#x27;[Checkout] Checkout Details&#x27;;
@@ -139,6 +143,9 @@ export const SET_DELIVERY_MODE_PROCESS_ID &#x3D; &#x27;setDeliveryMode&#x27;;
 export const SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID &#x3D;
   &#x27;setSupportedDeliveryMode&#x27;;
 export const SET_PAYMENT_DETAILS_PROCESS_ID &#x3D; &#x27;setPaymentDetails&#x27;;
+export const GET_PAYMENT_TYPES_PROCESS_ID &#x3D; &#x27;getPaymentTypes&#x27;;
+export const SET_COST_CENTER_PROCESS_ID &#x3D; &#x27;setCostCenter&#x27;;
+export const PLACED_ORDER_PROCESS_ID &#x3D; &#x27;placeOrder&#x27;;
 
 export interface StateWithCheckout {
   [CHECKOUT_FEATURE]: CheckoutState;
@@ -153,19 +160,39 @@ export interface CardTypesState {
 }
 
 export interface CheckoutStepsState {
+  poNumber: {
+    po: string;
+    costCenter: string;
+  };
   address: Address;
   deliveryMode: {
     supported: { [code: string]: DeliveryMode };
     selected: string;
   };
   paymentDetails: PaymentDetails;
-  orderDetails: Order;
+  orderDetails: Order | ReplenishmentOrder;
+}
+
+export interface PaymentTypesState {
+  entities: { [code: string]: PaymentType };
+  selected: string;
+}
+
+export interface OrderTypesState {
+  selected: ORDER_TYPE;
+}
+
+export interface PaymentTypesState {
+  entities: { [code: string]: PaymentType };
+  selected: string;
 }
 
 export interface CheckoutState {
   steps: LoaderState&lt;CheckoutStepsState&gt;;
   cardTypes: CardTypesState;
   addressVerification: AddressVerificationState;
+  paymentTypes: PaymentTypesState;
+  orderType: OrderTypesState;
 }
 </code></pre>
     </div>
@@ -195,6 +222,7 @@ export interface CheckoutState {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'AddressVerificationState.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

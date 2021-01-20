@@ -101,7 +101,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/core/src/checkout/store/effects/card-types.effect.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/core/src/checkout/store/effects/card-types.effect.ts:24</a></div>
                             </td>
                         </tr>
 
@@ -183,9 +183,7 @@
       return this.checkoutPaymentConnector.getCardTypes().pipe(
         map((cardTypes) &#x3D;&gt; new CheckoutActions.LoadCardTypesSuccess(cardTypes)),
         catchError((error) &#x3D;&gt;
-          of(
-            new CheckoutActions.LoadCardTypesFail(makeErrorSerializable(error))
-          )
+          of(new CheckoutActions.LoadCardTypesFail(normalizeHttpError(error)))
         )
       );
     })
@@ -220,7 +218,7 @@
 import { Actions, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { catchError, map, switchMap } from &#x27;rxjs/operators&#x27;;
-import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
+import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
 import { CheckoutPaymentConnector } from &#x27;../../connectors/payment/checkout-payment.connector&#x27;;
 import { CheckoutActions } from &#x27;../actions/index&#x27;;
 
@@ -235,9 +233,7 @@ export class CardTypesEffects {
       return this.checkoutPaymentConnector.getCardTypes().pipe(
         map((cardTypes) &#x3D;&gt; new CheckoutActions.LoadCardTypesSuccess(cardTypes)),
         catchError((error) &#x3D;&gt;
-          of(
-            new CheckoutActions.LoadCardTypesFail(makeErrorSerializable(error))
-          )
+          of(new CheckoutActions.LoadCardTypesFail(normalizeHttpError(error)))
         )
       );
     })
@@ -282,6 +278,7 @@ export class CardTypesEffects {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CardTypesEffects.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

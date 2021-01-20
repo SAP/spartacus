@@ -136,12 +136,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(tpl: TemplateRef<any>, outletService: <a href="../injectables/OutletService.html">OutletService</a>, features?: <a href="../injectables/FeatureConfigService.html">FeatureConfigService</a>)</code>
+<code>constructor(tpl: TemplateRef<any>, outletService: <a href="../injectables/OutletService.html">OutletService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet-ref/outlet-ref.directive.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet-ref/outlet-ref.directive.ts:18</a></div>
                             </td>
                         </tr>
 
@@ -182,18 +182,6 @@
                                                     </td>
                                                     
                                                 </tr>
-                                                <tr>
-                                                        <td>features</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/FeatureConfigService.html" target="_self" >FeatureConfigService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            Yes
-                                                    </td>
-                                                    
-                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -221,7 +209,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet-ref/outlet-ref.directive.ts:19</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet-ref/outlet-ref.directive.ts:18</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -242,7 +230,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet-ref/outlet-ref.directive.ts:17</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet-ref/outlet-ref.directive.ts:16</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -278,8 +266,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="41"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet-ref/outlet-ref.directive.ts:41</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet-ref/outlet-ref.directive.ts:29</a></div>
                 </td>
             </tr>
 
@@ -317,8 +305,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="37"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet-ref/outlet-ref.directive.ts:37</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="25"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet-ref/outlet-ref.directive.ts:25</a></div>
                 </td>
             </tr>
 
@@ -348,7 +336,6 @@
   OnInit,
   TemplateRef,
 } from &#x27;@angular/core&#x27;;
-import { FeatureConfigService } from &#x27;@spartacus/core&#x27;;
 import { OutletPosition } from &#x27;../outlet.model&#x27;;
 import { OutletService } from &#x27;../outlet.service&#x27;;
 
@@ -361,20 +348,9 @@ export class OutletRefDirective implements OnInit, OnDestroy {
   @Input()
   cxOutletPos: OutletPosition;
 
-  /**
-   * @deprecated since 2.1, see #8201
-   */
-  constructor(tpl: TemplateRef&lt;any&gt;, outletService: OutletService);
-  constructor(
-    tpl: TemplateRef&lt;any&gt;,
-    outletService: OutletService,
-    // tslint:disable-next-line: unified-signatures
-    features: FeatureConfigService
-  );
   constructor(
     private tpl: TemplateRef&lt;any&gt;,
-    private outletService: OutletService,
-    private features?: FeatureConfigService
+    private outletService: OutletService
   ) {}
 
   ngOnInit() {
@@ -382,9 +358,7 @@ export class OutletRefDirective implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.features?.isLevel(&#x27;2.1&#x27;)) {
-      this.outletService.remove(this.cxOutletRef, this.cxOutletPos, this.tpl);
-    }
+    this.outletService.remove(this.cxOutletRef, this.cxOutletPos, this.tpl);
   }
 }
 </code></pre>
@@ -422,6 +396,7 @@ export class OutletRefDirective implements OnInit, OnDestroy {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'directive';
             var COMPODOC_CURRENT_PAGE_URL = 'OutletRefDirective.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

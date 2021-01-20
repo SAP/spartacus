@@ -210,7 +210,7 @@
             from([
               new CartActions.CartAddEntryFail({
                 ...payload,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               }),
               new CartActions.LoadCart({
                 cartId: payload.cartId,
@@ -310,7 +310,7 @@
             from([
               new CartActions.CartRemoveEntryFail({
                 ...payload,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               }),
               new CartActions.LoadCart({
                 cartId: payload.cartId,
@@ -383,7 +383,7 @@
             from([
               new CartActions.CartUpdateEntryFail({
                 ...payload,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               }),
               new CartActions.LoadCart({
                 cartId: payload.cartId,
@@ -427,8 +427,8 @@ import { from, Observable } from &#x27;rxjs&#x27;;
 import { catchError, concatMap, map } from &#x27;rxjs/operators&#x27;;
 import { CartModification } from &#x27;../../../model/cart.model&#x27;;
 import { SiteContextActions } from &#x27;../../../site-context/store/actions/index&#x27;;
-import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
-import { withdrawOn } from &#x27;../../../util/withdraw-on&#x27;;
+import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
+import { withdrawOn } from &#x27;../../../util/rxjs/withdraw-on&#x27;;
 import { CartEntryConnector } from &#x27;../../connectors/entry/cart-entry.connector&#x27;;
 import { CartActions } from &#x27;../actions/index&#x27;;
 
@@ -469,7 +469,7 @@ export class CartEntryEffects {
             from([
               new CartActions.CartAddEntryFail({
                 ...payload,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               }),
               new CartActions.LoadCart({
                 cartId: payload.cartId,
@@ -503,7 +503,7 @@ export class CartEntryEffects {
             from([
               new CartActions.CartRemoveEntryFail({
                 ...payload,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               }),
               new CartActions.LoadCart({
                 cartId: payload.cartId,
@@ -542,7 +542,7 @@ export class CartEntryEffects {
             from([
               new CartActions.CartUpdateEntryFail({
                 ...payload,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               }),
               new CartActions.LoadCart({
                 cartId: payload.cartId,
@@ -594,6 +594,7 @@ export class CartEntryEffects {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CartEntryEffects.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

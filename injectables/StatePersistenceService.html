@@ -80,6 +80,9 @@
                                 <a href="#generateKeyWithContext">generateKeyWithContext</a>
                             </li>
                             <li>
+                                <a href="#readStateFromStorage">readStateFromStorage</a>
+                            </li>
+                            <li>
                                 <a href="#syncWithStorage">syncWithStorage</a>
                             </li>
                         </ul>
@@ -172,8 +175,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="83"
-                            class="link-to-prism">projects/core/src/state/services/state-persistence.service.ts:83</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="110"
+                            class="link-to-prism">projects/core/src/state/services/state-persistence.service.ts:110</a></div>
                 </td>
             </tr>
 
@@ -227,6 +230,87 @@
                     </div>
                     <div class="io-description">
                         
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="readStateFromStorage"></a>
+                    <span class="name">
+                        <b>
+                            readStateFromStorage
+                        </b>
+                        <a href="#readStateFromStorage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>readStateFromStorage(undefined: literal type)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="93"
+                            class="link-to-prism">projects/core/src/state/services/state-persistence.service.ts:93</a></div>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Type parameters :</b>
+                    <ul class="type-parameters">
+                        <li>T</li>
+                    </ul>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Helper to read state from persistent storage (localStorage, sessionStorage).
+It is useful if you need synchronously access state saved with <code>syncWithStorage</code>.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>T</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>State from the storage</p>
+
                     </div>
                 </td>
             </tr>
@@ -406,6 +490,33 @@ export class StatePersistenceService {
     return subscriptions;
   }
 
+  /**
+   * Helper to read state from persistent storage (localStorage, sessionStorage).
+   * It is useful if you need synchronously access state saved with &#x60;syncWithStorage&#x60;.
+   *
+   * @param key Key to use in storage for state. Should be unique for each feature.
+   * @param context Context value for state
+   * @param storageType Storage type from to read state
+   *
+   * @returns State from the storage
+   */
+  readStateFromStorage&lt;T&gt;({
+    key,
+    context &#x3D; &#x27;&#x27;,
+    storageType &#x3D; StorageSyncType.LOCAL_STORAGE,
+  }: {
+    key: string;
+    context?: string | Array&lt;string&gt;;
+    storageType?: StorageSyncType;
+  }): T {
+    const storage &#x3D; getStorage(storageType, this.winRef);
+
+    return readFromStorage(
+      storage,
+      this.generateKeyWithContext(context, key)
+    ) as T;
+  }
+
   protected generateKeyWithContext(
     context: string | Array&lt;string&gt;,
     key: string
@@ -447,6 +558,7 @@ export class StatePersistenceService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'StatePersistenceService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

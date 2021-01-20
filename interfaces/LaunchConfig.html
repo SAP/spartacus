@@ -157,6 +157,8 @@ export interface LaunchRoute {
  */
 export enum DIALOG_TYPE {
   POPOVER &#x3D; &#x27;POPOVER&#x27;,
+  POPOVER_CENTER &#x3D; &#x27;POPOVER_CENTER&#x27;,
+  POPOVER_CENTER_BACKDROP &#x3D; &#x27;POPOVER_CENTER_BACKDROP&#x27;,
   DIALOG &#x3D; &#x27;DIALOG&#x27;,
   SIDEBAR_START &#x3D; &#x27;SIDEBAR_START&#x27;,
   SIDEBAR_END &#x3D; &#x27;SIDEBAR_END&#x27;,
@@ -169,6 +171,8 @@ export enum LAUNCH_CALLER {
   ASM &#x3D; &#x27;ASM&#x27;,
   SKIP_LINKS &#x3D; &#x27;SKIP_LINKS&#x27;,
   ANONYMOUS_CONSENT &#x3D; &#x27;ANONYMOUS_CONSENT&#x27;,
+  REPLENISHMENT_ORDER &#x3D; &#x27;REPLENISHMENT_ORDER&#x27;,
+  PLACE_ORDER_SPINNER &#x3D; &#x27;PLACE_ORDER_SPINNER&#x27;,
 }
 </code></pre>
     </div>
@@ -198,6 +202,7 @@ export enum LAUNCH_CALLER {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'LaunchConfig.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

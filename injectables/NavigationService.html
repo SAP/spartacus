@@ -273,8 +273,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="169"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:169</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="188"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:188</a></div>
                 </td>
             </tr>
 
@@ -354,7 +354,7 @@ and product pages (productCode)</p>
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>returns an observable with the <code>NavigationNode</code> for the given <code>CmsNavigationComponent</code>.
-This function will load the navigation underlying entries and childs if they haven&#39;t been
+This function will load the navigation underlying entries and children if they haven&#39;t been
 loaded so far.</p>
 </div>
 
@@ -527,8 +527,8 @@ loaded so far.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="144"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:144</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="153"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:153</a></div>
                 </td>
             </tr>
 
@@ -727,7 +727,7 @@ export class NavigationService {
 
   /**
    * returns an observable with the &#x60;NavigationNode&#x60; for the given &#x60;CmsNavigationComponent&#x60;.
-   * This function will load the navigation underlying entries and childs if they haven&#x27;t been
+   * This function will load the navigation underlying entries and children if they haven&#x27;t been
    * loaded so far.
    */
   public getNavigationNode(
@@ -814,11 +814,20 @@ export class NavigationService {
       node.title &#x3D; nodeData.title;
     }
 
+    // populate style classes to apply CMS driven styling
+    if (nodeData.styleClasses) {
+      node.styleClasses &#x3D; nodeData.styleClasses;
+    }
+    // populate style attributes to apply CMS driven styling
+    if (nodeData.styleAttributes) {
+      node.styleAttributes &#x3D; nodeData.styleAttributes;
+    }
+
     if (nodeData.entries &amp;&amp; nodeData.entries.length &gt; 0) {
       this.populateLink(node, nodeData.entries[0], items);
     }
 
-    if (nodeData.children &amp;&amp; nodeData.children.length &gt; 0) {
+    if (nodeData.children?.length &gt; 0) {
       const children &#x3D; nodeData.children
         .map((child) &#x3D;&gt; this.populateNavigationNode(child, items))
         .filter(Boolean);
@@ -848,7 +857,17 @@ export class NavigationService {
         node.url &#x3D; url;
         // the backend provide boolean value for the target
         // in case the link should be opened in a new window
-        node.target &#x3D; !!item.target ? &#x27;_blank&#x27; : &#x27;&#x27;;
+        if (item.target &#x3D;&#x3D;&#x3D; &#x27;true&#x27; || item.target &#x3D;&#x3D;&#x3D; true) {
+          node.target &#x3D; &#x27;_blank&#x27;;
+        }
+      }
+      // populate style classes to apply CMS driven styling
+      if (item.styleClasses) {
+        node.styleClasses &#x3D; item.styleClasses;
+      }
+      // populate style attributes to apply CMS driven styling
+      if (item.styleAttributes) {
+        node.styleAttributes &#x3D; item.styleAttributes;
       }
     }
   }
@@ -917,6 +936,7 @@ export class NavigationService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'NavigationService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

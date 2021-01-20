@@ -236,7 +236,7 @@
             from([
               new CartActions.AddEmailToCartFail({
                 ...payload,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               }),
               new CartActions.LoadCart({
                 userId: payload.userId,
@@ -357,7 +357,7 @@
             of(
               new CartActions.CreateCartFail({
                 ...payload,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -417,7 +417,7 @@
           from([
             new CartActions.DeleteCartFail({
               ...payload,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             }),
             // Error might happen in higher backend layer and cart could still be removed.
             // When load fail with NotFound error then RemoveCart action will kick in and clear that cart in our state.
@@ -543,7 +543,7 @@
               return of(
                 new CartActions.LoadCartFail({
                   ...payload,
-                  error: makeErrorSerializable(error),
+                  error: normalizeHttpError(error),
                 })
               );
             })
@@ -825,8 +825,8 @@ import { CheckoutActions } from &#x27;../../../checkout/store/actions&#x27;;
 import { Cart } from &#x27;../../../model/cart.model&#x27;;
 import { OCC_CART_ID_CURRENT } from &#x27;../../../occ/utils/occ-constants&#x27;;
 import { SiteContextActions } from &#x27;../../../site-context/store/actions/index&#x27;;
-import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
-import { withdrawOn } from &#x27;../../../util/withdraw-on&#x27;;
+import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
+import { withdrawOn } from &#x27;../../../util/rxjs/withdraw-on&#x27;;
 import { CartConnector } from &#x27;../../connectors/cart/cart.connector&#x27;;
 import { getCartIdByUserId, isCartNotFoundError } from &#x27;../../utils/utils&#x27;;
 import { CartActions } from &#x27;../actions/index&#x27;;
@@ -921,7 +921,7 @@ export class CartEffects {
               return of(
                 new CartActions.LoadCartFail({
                   ...payload,
-                  error: makeErrorSerializable(error),
+                  error: normalizeHttpError(error),
                 })
               );
             })
@@ -975,7 +975,7 @@ export class CartEffects {
             of(
               new CartActions.CreateCartFail({
                 ...payload,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               })
             )
           )
@@ -1095,7 +1095,7 @@ export class CartEffects {
             from([
               new CartActions.AddEmailToCartFail({
                 ...payload,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               }),
               new CartActions.LoadCart({
                 userId: payload.userId,
@@ -1125,7 +1125,7 @@ export class CartEffects {
           from([
             new CartActions.DeleteCartFail({
               ...payload,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             }),
             // Error might happen in higher backend layer and cart could still be removed.
             // When load fail with NotFound error then RemoveCart action will kick in and clear that cart in our state.
@@ -1178,6 +1178,7 @@ export class CartEffects {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CartEffects.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

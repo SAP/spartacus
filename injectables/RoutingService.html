@@ -91,6 +91,9 @@
                                 <a href="#getPageContext">getPageContext</a>
                             </li>
                             <li>
+                                <a href="#getParams">getParams</a>
+                            </li>
+                            <li>
                                 <a href="#getRouterState">getRouterState</a>
                             </li>
                             <li>
@@ -124,12 +127,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(store: Store<RouterState>, winRef: <a href="../injectables/WindowRef.html">WindowRef</a>, semanticPathService: <a href="../injectables/SemanticPathService.html">SemanticPathService</a>)</code>
+<code>constructor(store: Store<RouterState>, winRef: <a href="../injectables/WindowRef.html">WindowRef</a>, semanticPathService: <a href="../injectables/SemanticPathService.html">SemanticPathService</a>, routingParamsService: <a href="../injectables/RoutingParamsService.html">RoutingParamsService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -182,6 +185,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>routingParamsService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/RoutingParamsService.html" target="_self" >RoutingParamsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -218,8 +233,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="83"
-                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:83</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="93"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:93</a></div>
                 </td>
             </tr>
 
@@ -259,8 +274,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:59</a></div>
                 </td>
             </tr>
 
@@ -331,8 +346,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="98"
-                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:98</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="108"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:108</a></div>
                 </td>
             </tr>
 
@@ -372,8 +387,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:50</a></div>
                 </td>
             </tr>
 
@@ -413,8 +428,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="33"
-                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:33</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:43</a></div>
                 </td>
             </tr>
 
@@ -426,6 +441,48 @@
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="../interfaces/Page.html" target="_self" >Observable&lt;PageContext&gt;</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getParams"></a>
+                    <span class="name">
+                        <b>
+                            getParams
+                        </b>
+                        <a href="#getParams"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getParams()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:29</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the list of all parameters of the full route. This includes
+active child routes.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;literal type&gt;</code>
 
                     </div>
                 </td>
@@ -454,8 +511,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="26"
-                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:26</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:36</a></div>
                 </td>
             </tr>
 
@@ -495,8 +552,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="66"
-                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:66</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="76"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:76</a></div>
                 </td>
             </tr>
 
@@ -602,8 +659,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="76"
-                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:76</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="86"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:86</a></div>
                 </td>
             </tr>
 
@@ -674,8 +731,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="56"
-                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:56</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="66"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:66</a></div>
                 </td>
             </tr>
 
@@ -717,8 +774,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="108"
-                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:108</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="118"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:118</a></div>
                 </td>
             </tr>
 
@@ -817,6 +874,7 @@ import { PageContext } from &#x27;../models/page-context.model&#x27;;
 import { RoutingActions } from &#x27;../store/actions/index&#x27;;
 import { RouterState } from &#x27;../store/routing-state&#x27;;
 import { RoutingSelector } from &#x27;../store/selectors/index&#x27;;
+import { RoutingParamsService } from &#x27;./routing-params.service&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
@@ -825,8 +883,17 @@ export class RoutingService {
   constructor(
     protected store: Store&lt;RouterState&gt;,
     protected winRef: WindowRef,
-    protected semanticPathService: SemanticPathService
+    protected semanticPathService: SemanticPathService,
+    protected routingParamsService: RoutingParamsService
   ) {}
+
+  /**
+   * Get the list of all parameters of the full route. This includes
+   * active child routes.
+   */
+  getParams(): Observable&lt;{ [key: string]: string }&gt; {
+    return this.routingParamsService?.getParams();
+  }
 
   /**
    * Get the current router state
@@ -961,6 +1028,7 @@ export class RoutingService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'RoutingService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

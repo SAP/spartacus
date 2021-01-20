@@ -443,8 +443,8 @@ export function verifyPaymentCard(cardLength: number) {
 }
 
 export function setOtherPaymentToDefault() {
-  cy.get(&#x27;cx-payment-methods .cx-card-link&#x27;)
-    .getByText(&#x27;Set as default&#x27;)
+  cy.get(&#x27;cx-payment-methods&#x27;)
+    .findByText(&#x27;Set as default&#x27;)
     .click({ force: true });
 
   const firstCard &#x3D; cy.get(&#x27;.cx-payment-card&#x27;).first();
@@ -454,7 +454,7 @@ export function setOtherPaymentToDefault() {
 }
 
 export function deletePayment() {
-  cy.getAllByText(&#x27;Delete&#x27;).first().click({ force: true });
+  cy.findAllByText(&#x27;Delete&#x27;).first().click({ force: true });
 
   // should see confirmation message
   cy.get(&#x27;.cx-card-delete-msg&#x27;).should(
@@ -471,7 +471,7 @@ export function deletePayment() {
   );
 
   // delete the payment
-  cy.getAllByText(&#x27;Delete&#x27;).first().click({ force: true });
+  cy.findAllByText(&#x27;Delete&#x27;).first().click({ force: true });
   cy.get(&#x27;.btn-primary&#x27;).should(&#x27;contain&#x27;, &#x27;Delete&#x27;);
   cy.get(&#x27;.btn-primary&#x27;).click({ force: true });
   cy.get(&#x27;.cx-payment-card&#x27;).should(&#x27;have.length&#x27;, 1);
@@ -555,8 +555,8 @@ function addPaymentMethod(paymentDetail: PaymentDetail) {
         )}/users/current/carts/${cartid}/paymentdetails&#x60;,
         headers: {
           Authorization: &#x60;bearer ${
-            JSON.parse(localStorage.getItem(&#x27;spartacus-local-data&#x27;)).auth
-              .userToken.token.access_token
+            JSON.parse(localStorage.getItem(&#x27;spartacus⚿⚿auth&#x27;)).token
+              .access_token
           }&#x60;,
         },
         body: paymentDetail,
@@ -593,6 +593,7 @@ function addPaymentMethod(paymentDetail: PaymentDetail) {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'PaymentDetail.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

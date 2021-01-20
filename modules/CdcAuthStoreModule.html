@@ -71,7 +71,6 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
-import { HttpClientModule } from &#x27;@angular/common/http&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
 import { EffectsModule } from &#x27;@ngrx/effects&#x27;;
 import { CdcUserTokenEffects } from &#x27;./effects&#x27;;
@@ -79,7 +78,6 @@ import { CdcUserTokenEffects } from &#x27;./effects&#x27;;
 @NgModule({
   imports: [
     CommonModule,
-    HttpClientModule,
     EffectsModule.forFeature([CdcUserTokenEffects]),
   ],
 })
@@ -120,6 +118,7 @@ export class CdcAuthStoreModule {}
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
             var COMPODOC_CURRENT_PAGE_URL = 'CdcAuthStoreModule.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -143,6 +143,8 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { APP_INITIALIZER, Injector, NgModule } from &#x27;@angular/core&#x27;;
+import { provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
+import { defaultSeoConfig } from &#x27;./config&#x27;;
 import { htmlLangProvider } from &#x27;./html-lang-provider&#x27;;
 import { SeoMetaService } from &#x27;./seo-meta.service&#x27;;
 import { StructuredDataModule } from &#x27;./structured-data/structured-data.module&#x27;;
@@ -158,6 +160,7 @@ export function initSeoService(injector: Injector) {
 @NgModule({
   imports: [StructuredDataModule],
   providers: [
+    provideDefaultConfig(defaultSeoConfig),
     {
       provide: APP_INITIALIZER,
       useFactory: initSeoService,
@@ -204,6 +207,7 @@ export class SeoModule {}
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
             var COMPODOC_CURRENT_PAGE_URL = 'SeoModule.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

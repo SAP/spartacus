@@ -136,7 +136,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:40</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:32</a></div>
                             </td>
                         </tr>
 
@@ -237,8 +237,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="41"
+                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:41</a></div>
                 </td>
             </tr>
 
@@ -321,8 +321,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="198"
-                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:198</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="187"
+                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:187</a></div>
                 </td>
             </tr>
 
@@ -448,8 +448,8 @@ max age reload implementations</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="95"
-                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:95</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="86"
+                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:86</a></div>
                 </td>
             </tr>
 
@@ -534,8 +534,8 @@ max age reload implementations</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="150"
-                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:150</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="139"
+                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:139</a></div>
                 </td>
             </tr>
 
@@ -620,8 +620,8 @@ max age reload implementations</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="85"
-                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:85</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="76"
+                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:76</a></div>
                 </td>
             </tr>
 
@@ -692,8 +692,8 @@ max age reload implementations</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="56"
-                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:56</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="48"
+                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:48</a></div>
                 </td>
             </tr>
 
@@ -784,7 +784,7 @@ max age reload implementations</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:38</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:30</a></div>
                             </td>
                         </tr>
 
@@ -801,15 +801,7 @@ max age reload implementations</p>
 import { Inject, Injectable, PLATFORM_ID } from &#x27;@angular/core&#x27;;
 import { Actions, ofType } from &#x27;@ngrx/effects&#x27;;
 import { select, Store } from &#x27;@ngrx/store&#x27;;
-import {
-  combineLatest,
-  defer,
-  merge,
-  Observable,
-  of,
-  SchedulerLike,
-  using,
-} from &#x27;rxjs&#x27;;
+import { defer, merge, Observable, of, SchedulerLike, using } from &#x27;rxjs&#x27;;
 import {
   debounceTime,
   delay,
@@ -824,11 +816,11 @@ import {
 import { deepMerge } from &#x27;../../config/utils/deep-merge&#x27;;
 import { Product } from &#x27;../../model/product.model&#x27;;
 import { LoadingScopesService } from &#x27;../../occ/services/loading-scopes.service&#x27;;
-import { withdrawOn } from &#x27;../../util/withdraw-on&#x27;;
+import { withdrawOn } from &#x27;../../util/rxjs/withdraw-on&#x27;;
 import { ProductActions } from &#x27;../store/actions/index&#x27;;
 import { StateWithProduct } from &#x27;../store/product-state&#x27;;
 import { ProductSelectors } from &#x27;../store/selectors/index&#x27;;
-import { polish } from &#x27;../../util/polish&#x27;;
+import { uniteLatest } from &#x27;../../util/rxjs/unite-latest&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
@@ -867,10 +859,9 @@ export class ProductLoadingService {
     }
 
     if (scopes.length &gt; 1) {
-      this.products[productCode][this.getScopesIndex(scopes)] &#x3D; combineLatest(
+      this.products[productCode][this.getScopesIndex(scopes)] &#x3D; uniteLatest(
         scopes.map((scope) &#x3D;&gt; this.products[productCode][scope])
       ).pipe(
-        polish(),
         map((productParts) &#x3D;&gt;
           productParts.every(Boolean)
             ? deepMerge({}, ...productParts)
@@ -901,9 +892,7 @@ export class ProductLoadingService {
       ),
       map(
         (productState) &#x3D;&gt;
-          !productState?.loading &amp;&amp;
-          !productState?.success &amp;&amp;
-          !productState?.error
+          !productState.loading &amp;&amp; !productState.success &amp;&amp; !productState.error
       ),
       distinctUntilChanged(),
       filter((x) &#x3D;&gt; x)
@@ -1068,6 +1057,7 @@ export class ProductLoadingService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'ProductLoadingService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

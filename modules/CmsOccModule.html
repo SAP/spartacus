@@ -71,7 +71,6 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
-import { HttpClientModule } from &#x27;@angular/common/http&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
 import { CmsPageAdapter } from &#x27;../../../cms/connectors/page/cms-page.adapter&#x27;;
 import { OccCmsComponentAdapter } from &#x27;./occ-cms-component.adapter&#x27;;
@@ -81,7 +80,7 @@ import { CMS_PAGE_NORMALIZER } from &#x27;../../../cms/connectors/page/converter
 import { CmsComponentAdapter } from &#x27;../../../cms/connectors/component/cms-component.adapter&#x27;;
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule],
   providers: [
     {
       provide: CmsPageAdapter,
@@ -135,6 +134,7 @@ export class CmsOccModule {}
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
             var COMPODOC_CURRENT_PAGE_URL = 'CmsOccModule.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

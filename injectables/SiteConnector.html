@@ -79,6 +79,9 @@
                                 <a href="#getBaseSite">getBaseSite</a>
                             </li>
                             <li>
+                                <a href="#getBaseSites">getBaseSites</a>
+                            </li>
+                            <li>
                                 <a href="#getCountries">getCountries</a>
                             </li>
                             <li>
@@ -171,7 +174,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getBaseSite()</code>
+<code>getBaseSite(siteUid?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -188,7 +191,77 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>siteUid</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
                         <b>Returns : </b>    <code>Observable&lt;BaseSite&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getBaseSites"></a>
+                    <span class="name">
+                        <b>
+                            getBaseSites
+                        </b>
+                        <a href="#getBaseSites"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getBaseSites()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">projects/core/src/site-context/connectors/site.connector.ts:33</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;BaseSite[]&gt;</code>
 
                     </div>
                 </td>
@@ -447,8 +520,12 @@ export class SiteConnector {
     return this.adapter.loadRegions(countryIsoCode);
   }
 
-  getBaseSite(): Observable&lt;BaseSite&gt; {
-    return this.adapter.loadBaseSite();
+  getBaseSite(siteUid?: string): Observable&lt;BaseSite&gt; {
+    return this.adapter.loadBaseSite(siteUid);
+  }
+
+  getBaseSites(): Observable&lt;BaseSite[]&gt; {
+    return this.adapter.loadBaseSites();
   }
 }
 </code></pre>
@@ -485,6 +562,7 @@ export class SiteConnector {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'SiteConnector.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

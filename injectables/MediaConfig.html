@@ -84,6 +84,10 @@ rendering of the media, SEO and performance.</p>
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Optional</span>
+                                <a href="#imageLoadingStrategy">imageLoadingStrategy</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Optional</span>
                                 <a href="#mediaFormats">mediaFormats</a>
                             </li>
                         </ul>
@@ -106,6 +110,45 @@ rendering of the media, SEO and performance.</p>
         <h3 id="inputs">
             Properties
         </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="imageLoadingStrategy"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Optional</span>
+                            imageLoadingStrategy</b>
+                            <a href="#imageLoadingStrategy"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../miscellaneous/enumerations.html#ImageLoadingStrategy" target="_self" >ImageLoadingStrategy</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.config.ts:36</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Indicates how the browser should load the image. There&#39;s only one
+global strategy for all media cross media in Spartacus.</p>
+<p>See <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img">https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img</a> for more
+information.</p>
+<p>If the <code>lazy</code> strategy is in place, the <code>loading=&quot;lazy&quot;</code> attribute is added to the
+img element.</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
@@ -147,9 +190,9 @@ a format.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { MediaFormatSize } from &#x27;./media.model&#x27;;
-import { Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Config } from &#x27;@spartacus/core&#x27;;
+import { ImageLoadingStrategy, MediaFormatSize } from &#x27;./media.model&#x27;;
 
 /**
  * Provides configuration specific to Media, such as images. This is used to optimize
@@ -171,6 +214,18 @@ export abstract class MediaConfig {
      */
     [format: string]: MediaFormatSize;
   };
+
+  /**
+   * Indicates how the browser should load the image. There&#x27;s only one
+   * global strategy for all media cross media in Spartacus.
+   *
+   * See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img for more
+   * information.
+   *
+   * If the &#x60;lazy&#x60; strategy is in place, the &#x60;loading&#x3D;&quot;lazy&quot;&#x60; attribute is added to the
+   * img element.
+   */
+  imageLoadingStrategy?: ImageLoadingStrategy;
 }
 </code></pre>
     </div>
@@ -206,6 +261,7 @@ export abstract class MediaConfig {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'MediaConfig.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

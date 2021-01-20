@@ -133,8 +133,8 @@ import {
   NgModule,
   PLATFORM_ID,
 } from &#x27;@angular/core&#x27;;
-import { provideConfigFactory } from &#x27;./config.module&#x27;;
 import { getCookie } from &#x27;./utils/get-cookie&#x27;;
+import { provideConfigFactory } from &#x27;./config-providers&#x27;;
 
 export const TEST_CONFIG_COOKIE_NAME &#x3D; new InjectionToken&lt;string&gt;(
   &#x27;TEST_CONFIG_COOKIE_NAME&#x27;
@@ -225,6 +225,7 @@ export class TestConfigModule {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'TestConfigModuleOptions.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

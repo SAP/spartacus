@@ -186,7 +186,7 @@
           return new AsmActions.CustomerSearchSuccess(customerSearchResults);
         }),
         catchError((error) &#x3D;&gt;
-          of(new AsmActions.CustomerSearchFail(makeErrorSerializable(error)))
+          of(new AsmActions.CustomerSearchFail(normalizeHttpError(error)))
         )
       )
     )
@@ -221,7 +221,7 @@
 import { Actions, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { catchError, map, switchMap } from &#x27;rxjs/operators&#x27;;
-import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
+import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
 import { AsmConnector } from &#x27;../../connectors/asm.connector&#x27;;
 import { CustomerSearchPage } from &#x27;../../models/asm.models&#x27;;
 import { AsmActions } from &#x27;../actions/index&#x27;;
@@ -238,7 +238,7 @@ export class CustomerEffects {
           return new AsmActions.CustomerSearchSuccess(customerSearchResults);
         }),
         catchError((error) &#x3D;&gt;
-          of(new AsmActions.CustomerSearchFail(makeErrorSerializable(error)))
+          of(new AsmActions.CustomerSearchFail(normalizeHttpError(error)))
         )
       )
     )
@@ -280,6 +280,7 @@ export class CustomerEffects {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CustomerEffects.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

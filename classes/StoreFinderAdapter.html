@@ -60,7 +60,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/store-finder/connectors/store-finder.adapter.ts</code>
+            <code>feature-libs/storefinder/core/connectors/store-finder.adapter.ts</code>
         </p>
 
 
@@ -135,8 +135,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">projects/core/src/store-finder/connectors/store-finder.adapter.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="15"
+                            class="link-to-prism">feature-libs/storefinder/core/connectors/store-finder.adapter.ts:15</a></div>
                 </td>
             </tr>
 
@@ -207,8 +207,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="18"
-                            class="link-to-prism">projects/core/src/store-finder/connectors/store-finder.adapter.ts:18</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="13"
+                            class="link-to-prism">feature-libs/storefinder/core/connectors/store-finder.adapter.ts:13</a></div>
                 </td>
             </tr>
 
@@ -241,15 +241,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>search(query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, searchConfig: <a href="../interfaces/StoreFinderSearchConfig.html">StoreFinderSearchConfig</a>, longitudeLatitude?: <a href="../interfaces/GeoPoint.html">GeoPoint</a>, radius?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    <code>search(query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, searchConfig: <a href="../interfaces/SearchConfig.html">SearchConfig</a>, longitudeLatitude?: <a href="../interfaces/GeoPoint.html">GeoPoint</a>, radius?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="11"
-                            class="link-to-prism">projects/core/src/store-finder/connectors/store-finder.adapter.ts:11</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="6"
+                            class="link-to-prism">feature-libs/storefinder/core/connectors/store-finder.adapter.ts:6</a></div>
                 </td>
             </tr>
 
@@ -283,7 +283,7 @@
                                 <tr>
                                     <td>searchConfig</td>
                                     <td>
-                                                <code><a href="../interfaces/StoreFinderSearchConfig.html" target="_self" >StoreFinderSearchConfig</a></code>
+                                                <code><a href="../interfaces/SearchConfig.html" target="_self" >SearchConfig</a></code>
                                     </td>
 
                                     <td>
@@ -342,19 +342,14 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { StoreFinderSearchConfig } from &#x27;../model/search-config&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
-import { PointOfService } from &#x27;../../model/point-of-service.model&#x27;;
-import { GeoPoint } from &#x27;../../model/misc.model&#x27;;
-import {
-  StoreFinderSearchPage,
-  StoreCount,
-} from &#x27;../../model/store-finder.model&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Observable } from &#x27;rxjs&#x27;;
+import { GeoPoint, PointOfService, SearchConfig } from &#x27;@spartacus/core&#x27;;
+import { StoreCount, StoreFinderSearchPage } from &#x27;../model/store-finder.model&#x27;;
 
 export abstract class StoreFinderAdapter {
   abstract search(
     query: string,
-    searchConfig: StoreFinderSearchConfig,
+    searchConfig: SearchConfig,
     longitudeLatitude?: GeoPoint,
     radius?: number
   ): Observable&lt;StoreFinderSearchPage&gt;;
@@ -392,6 +387,7 @@ export abstract class StoreFinderAdapter {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
             var COMPODOC_CURRENT_PAGE_URL = 'StoreFinderAdapter.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

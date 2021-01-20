@@ -197,7 +197,7 @@
           catchError((error) &#x3D;&gt;
             of(
               new UserActions.DeleteUserPaymentMethodFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -255,7 +255,7 @@
         catchError((error) &#x3D;&gt;
           of(
             new UserActions.LoadUserPaymentMethodsFail(
-              makeErrorSerializable(error)
+              normalizeHttpError(error)
             )
           )
         )
@@ -316,7 +316,7 @@
           catchError((error) &#x3D;&gt;
             of(
               new UserActions.SetDefaultUserPaymentMethodFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -355,7 +355,7 @@ import { Action } from &#x27;@ngrx/store&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { catchError, map, mergeMap, switchMap } from &#x27;rxjs/operators&#x27;;
 import { PaymentDetails } from &#x27;../../../model/cart.model&#x27;;
-import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
+import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
 import { UserPaymentConnector } from &#x27;../../connectors/payment/user-payment.connector&#x27;;
 import { UserActions } from &#x27;../actions/index&#x27;;
 
@@ -373,7 +373,7 @@ export class UserPaymentMethodsEffects {
         catchError((error) &#x3D;&gt;
           of(
             new UserActions.LoadUserPaymentMethodsFail(
-              makeErrorSerializable(error)
+              normalizeHttpError(error)
             )
           )
         )
@@ -396,7 +396,7 @@ export class UserPaymentMethodsEffects {
           catchError((error) &#x3D;&gt;
             of(
               new UserActions.SetDefaultUserPaymentMethodFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -418,7 +418,7 @@ export class UserPaymentMethodsEffects {
           catchError((error) &#x3D;&gt;
             of(
               new UserActions.DeleteUserPaymentMethodFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -465,6 +465,7 @@ export class UserPaymentMethodsEffects {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'UserPaymentMethodsEffects.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

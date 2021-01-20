@@ -120,12 +120,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(actions$: Actions, anonymousConsentTemplatesConnector: <a href="../injectables/AnonymousConsentTemplatesConnector.html">AnonymousConsentTemplatesConnector</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>, anonymousConsentsConfig: <a href="../injectables/AnonymousConsentsConfig.html">AnonymousConsentsConfig</a>, anonymousConsentService: <a href="../injectables/AnonymousConsentsService.html">AnonymousConsentsService</a>, userConsentService: <a href="../injectables/UserConsentService.html">UserConsentService</a>)</code>
+<code>constructor(actions$: Actions, anonymousConsentTemplatesConnector: <a href="../injectables/AnonymousConsentTemplatesConnector.html">AnonymousConsentTemplatesConnector</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>, anonymousConsentsConfig: <a href="../injectables/AnonymousConsentsConfig.html">AnonymousConsentsConfig</a>, anonymousConsentService: <a href="../injectables/AnonymousConsentsService.html">AnonymousConsentsService</a>, userConsentService: <a href="../injectables/UserConsentService.html">UserConsentService</a>, userIdService: <a href="../injectables/UserIdService.html">UserIdService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="229" class="link-to-prism">projects/core/src/anonymous-consents/store/effects/anonymous-consents.effect.ts:229</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="230" class="link-to-prism">projects/core/src/anonymous-consents/store/effects/anonymous-consents.effect.ts:230</a></div>
                             </td>
                         </tr>
 
@@ -214,6 +214,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>userIdService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UserIdService.html" target="_self" >UserIdService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -252,8 +264,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="247"
-                            class="link-to-prism">projects/core/src/anonymous-consents/store/effects/anonymous-consents.effect.ts:247</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="249"
+                            class="link-to-prism">projects/core/src/anonymous-consents/store/effects/anonymous-consents.effect.ts:249</a></div>
                 </td>
             </tr>
 
@@ -354,15 +366,19 @@ in which case <code>true</code> is returned.</p>
     ofType(AnonymousConsentsActions.ANONYMOUS_CONSENT_CHECK_UPDATED_VERSIONS),
     withLatestFrom(this.anonymousConsentService.getConsents()),
     concatMap(([_, currentConsents]) &#x3D;&gt; {
-      // TODO{#8158} - remove this if block
-      if (!this.anonymousConsentTemplatesConnector.loadAnonymousConsents()) {
-        return of(new AnonymousConsentsActions.LoadAnonymousConsentTemplates());
-      }
-
       return this.anonymousConsentTemplatesConnector
         .loadAnonymousConsents()
         .pipe(
           map((newConsents) &#x3D;&gt; {
+            if (!newConsents) {
+              if (isDevMode()) {
+                console.warn(
+                  &#x27;No consents were loaded. Please check the Spartacus documentation as this could be a back-end configuration issue.&#x27;
+                );
+              }
+              return false;
+            }
+
             const currentConsentVersions &#x3D; currentConsents.map(
               (consent) &#x3D;&gt; consent.templateVersion
             );
@@ -383,7 +399,7 @@ in which case <code>true</code> is returned.</p>
           catchError((error) &#x3D;&gt;
             of(
               new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -431,9 +447,7 @@ in which case <code>true</code> is returned.</p>
                     <tr>
                         <td class="col-md-4">
                             <i>Default value : </i><code>this.actions$.pipe(
-    ofType&lt;AuthActions.LoadUserTokenSuccess&gt;(
-      AuthActions.LOAD_USER_TOKEN_SUCCESS
-    ),
+    ofType&lt;AuthActions.Login&gt;(AuthActions.LOGIN),
     filter(
       (action) &#x3D;&gt;
         Boolean(this.anonymousConsentsConfig.anonymousConsents) &amp;&amp;
@@ -445,7 +459,7 @@ in which case <code>true</code> is returned.</p>
     concatMap(() &#x3D;&gt;
       this.userConsentService.getConsentsResultSuccess().pipe(
         withLatestFrom(
-          this.authService.getOccUserId(),
+          this.userIdService.getUserId(),
           this.userConsentService.getConsents(),
           this.authService.isUserLoggedIn()
         ),
@@ -499,7 +513,7 @@ in which case <code>true</code> is returned.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="172" class="link-to-prism">projects/core/src/anonymous-consents/store/effects/anonymous-consents.effect.ts:172</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="175" class="link-to-prism">projects/core/src/anonymous-consents/store/effects/anonymous-consents.effect.ts:175</a></div>
                             </td>
                         </tr>
 
@@ -557,7 +571,7 @@ in which case <code>true</code> is returned.</p>
           catchError((error) &#x3D;&gt;
             of(
               new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -577,7 +591,7 @@ in which case <code>true</code> is returned.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">projects/core/src/anonymous-consents/store/effects/anonymous-consents.effect.ts:72</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">projects/core/src/anonymous-consents/store/effects/anonymous-consents.effect.ts:76</a></div>
                             </td>
                         </tr>
 
@@ -605,9 +619,7 @@ in which case <code>true</code> is returned.</p>
                     <tr>
                         <td class="col-md-4">
                             <i>Default value : </i><code>this.actions$.pipe(
-    ofType&lt;AuthActions.LoadUserTokenSuccess&gt;(
-      AuthActions.LOAD_USER_TOKEN_SUCCESS
-    ),
+    ofType&lt;AuthActions.Login&gt;(AuthActions.LOGIN),
     filter(() &#x3D;&gt; Boolean(this.anonymousConsentsConfig.anonymousConsents)),
     withLatestFrom(
       this.actions$.pipe(
@@ -620,7 +632,7 @@ in which case <code>true</code> is returned.</p>
     switchMap(() &#x3D;&gt;
       this.anonymousConsentService.getConsents().pipe(
         withLatestFrom(
-          this.authService.getOccUserId(),
+          this.userIdService.getUserId(),
           this.anonymousConsentService.getTemplates(),
           this.authService.isUserLoggedIn()
         ),
@@ -671,7 +683,7 @@ in which case <code>true</code> is returned.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="114" class="link-to-prism">projects/core/src/anonymous-consents/store/effects/anonymous-consents.effect.ts:114</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="119" class="link-to-prism">projects/core/src/anonymous-consents/store/effects/anonymous-consents.effect.ts:119</a></div>
                             </td>
                         </tr>
 
@@ -684,7 +696,7 @@ in which case <code>true</code> is returned.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, isDevMode } from &#x27;@angular/core&#x27;;
 import { Actions, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
 import { EMPTY, Observable, of } from &#x27;rxjs&#x27;;
 import {
@@ -697,10 +709,10 @@ import {
   tap,
   withLatestFrom,
 } from &#x27;rxjs/operators&#x27;;
-import { AuthActions, AuthService } from &#x27;../../../auth/index&#x27;;
+import { AuthActions, AuthService, UserIdService } from &#x27;../../../auth/index&#x27;;
 import { UserConsentService } from &#x27;../../../user/facade/user-consent.service&#x27;;
 import { UserActions } from &#x27;../../../user/store/actions/index&#x27;;
-import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
+import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
 import { AnonymousConsentsConfig } from &#x27;../../config/anonymous-consents-config&#x27;;
 import { AnonymousConsentTemplatesConnector } from &#x27;../../connectors/anonymous-consent-templates.connector&#x27;;
 import { AnonymousConsentsService } from &#x27;../../facade/index&#x27;;
@@ -717,15 +729,19 @@ export class AnonymousConsentsEffects {
     ofType(AnonymousConsentsActions.ANONYMOUS_CONSENT_CHECK_UPDATED_VERSIONS),
     withLatestFrom(this.anonymousConsentService.getConsents()),
     concatMap(([_, currentConsents]) &#x3D;&gt; {
-      // TODO{#8158} - remove this if block
-      if (!this.anonymousConsentTemplatesConnector.loadAnonymousConsents()) {
-        return of(new AnonymousConsentsActions.LoadAnonymousConsentTemplates());
-      }
-
       return this.anonymousConsentTemplatesConnector
         .loadAnonymousConsents()
         .pipe(
           map((newConsents) &#x3D;&gt; {
+            if (!newConsents) {
+              if (isDevMode()) {
+                console.warn(
+                  &#x27;No consents were loaded. Please check the Spartacus documentation as this could be a back-end configuration issue.&#x27;
+                );
+              }
+              return false;
+            }
+
             const currentConsentVersions &#x3D; currentConsents.map(
               (consent) &#x3D;&gt; consent.templateVersion
             );
@@ -746,7 +762,7 @@ export class AnonymousConsentsEffects {
           catchError((error) &#x3D;&gt;
             of(
               new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -788,7 +804,7 @@ export class AnonymousConsentsEffects {
           catchError((error) &#x3D;&gt;
             of(
               new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -796,13 +812,12 @@ export class AnonymousConsentsEffects {
     )
   );
 
+  // TODO(#9416): This won&#x27;t work with flow different than &#x60;Resource Owner Password Flow&#x60; which involves redirect (maybe in popup in will work)
   @Effect()
   transferAnonymousConsentsToUser$: Observable&lt;
     UserActions.TransferAnonymousConsent | Observable&lt;never&gt;
   &gt; &#x3D; this.actions$.pipe(
-    ofType&lt;AuthActions.LoadUserTokenSuccess&gt;(
-      AuthActions.LOAD_USER_TOKEN_SUCCESS
-    ),
+    ofType&lt;AuthActions.Login&gt;(AuthActions.LOGIN),
     filter(() &#x3D;&gt; Boolean(this.anonymousConsentsConfig.anonymousConsents)),
     withLatestFrom(
       this.actions$.pipe(
@@ -815,7 +830,7 @@ export class AnonymousConsentsEffects {
     switchMap(() &#x3D;&gt;
       this.anonymousConsentService.getConsents().pipe(
         withLatestFrom(
-          this.authService.getOccUserId(),
+          this.userIdService.getUserId(),
           this.anonymousConsentService.getTemplates(),
           this.authService.isUserLoggedIn()
         ),
@@ -858,9 +873,7 @@ export class AnonymousConsentsEffects {
   giveRequiredConsentsToUser$: Observable&lt;
     UserActions.GiveUserConsent | Observable&lt;never&gt;
   &gt; &#x3D; this.actions$.pipe(
-    ofType&lt;AuthActions.LoadUserTokenSuccess&gt;(
-      AuthActions.LOAD_USER_TOKEN_SUCCESS
-    ),
+    ofType&lt;AuthActions.Login&gt;(AuthActions.LOGIN),
     filter(
       (action) &#x3D;&gt;
         Boolean(this.anonymousConsentsConfig.anonymousConsents) &amp;&amp;
@@ -872,7 +885,7 @@ export class AnonymousConsentsEffects {
     concatMap(() &#x3D;&gt;
       this.userConsentService.getConsentsResultSuccess().pipe(
         withLatestFrom(
-          this.authService.getOccUserId(),
+          this.userIdService.getUserId(),
           this.userConsentService.getConsents(),
           this.authService.isUserLoggedIn()
         ),
@@ -920,7 +933,8 @@ export class AnonymousConsentsEffects {
     private authService: AuthService,
     private anonymousConsentsConfig: AnonymousConsentsConfig,
     private anonymousConsentService: AnonymousConsentsService,
-    private userConsentService: UserConsentService
+    private userConsentService: UserConsentService,
+    private userIdService: UserIdService
   ) {}
 
   /**
@@ -981,6 +995,7 @@ export class AnonymousConsentsEffects {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'AnonymousConsentsEffects.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

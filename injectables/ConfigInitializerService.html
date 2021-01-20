@@ -152,7 +152,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(config: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, initializerGuard)</code>
+<code>constructor(config: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, initializerGuard, rootConfig: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -190,6 +190,18 @@
                                                         <td>initializerGuard</td>
                                                   
                                                         <td>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>rootConfig</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -235,8 +247,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="86"
-                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:86</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="89"
+                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:89</a></div>
                 </td>
             </tr>
 
@@ -321,8 +333,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="72"
-                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:72</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="75"
+                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:75</a></div>
                 </td>
             </tr>
 
@@ -393,80 +405,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="38"
-                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:38</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>scopes</td>
-                                    <td>
-                                            <code>string[]</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getStableConfig"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Async</span>
-                            getStableConfig
-                        </b>
-                        <a href="#getStableConfig"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getStableConfig(...scopes: string[])</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="63"
-                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:63</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:50</a></div>
                 </td>
             </tr>
 
@@ -515,6 +455,78 @@ string describing config part, e.g.:
                     <div>
                     </div>
                     <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getStableConfig"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Async</span>
+                            getStableConfig
+                        </b>
+                        <a href="#getStableConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getStableConfig(...scopes: string[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="66"
+                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:66</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>scopes</td>
+                                    <td>
+                                            <code>string[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
                         <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
 
                     </div>
@@ -549,8 +561,8 @@ string describing config part, e.g.:
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="125"
-                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:125</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:128</a></div>
                 </td>
             </tr>
 
@@ -621,8 +633,8 @@ string describing config part, e.g.:
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="112"
-                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:112</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="115"
+                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:115</a></div>
                 </td>
             </tr>
 
@@ -722,7 +734,7 @@ string describing config part, e.g.:
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:25</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:26</a></div>
                             </td>
                         </tr>
 
@@ -751,7 +763,7 @@ string describing config part, e.g.:
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:30</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:31</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -778,10 +790,10 @@ import {
   CONFIG_INITIALIZER_FORROOT_GUARD,
   ConfigInitializer,
 } from &#x27;./config-initializer&#x27;;
-import { Config } from &#x27;../config.module&#x27;;
 import { BehaviorSubject, Observable, of } from &#x27;rxjs&#x27;;
 import { filter, mapTo, take } from &#x27;rxjs/operators&#x27;;
 import { deepMerge } from &#x27;../utils/deep-merge&#x27;;
+import { Config, RootConfig } from &#x27;../config-tokens&#x27;;
 
 /**
  * Provides support for CONFIG_INITIALIZERS
@@ -794,7 +806,8 @@ export class ConfigInitializerService {
     @Inject(Config) protected config: any,
     @Optional()
     @Inject(CONFIG_INITIALIZER_FORROOT_GUARD)
-    protected initializerGuard
+    protected initializerGuard,
+    @Inject(RootConfig) protected rootConfig: any
   ) {}
 
   protected ongoingScopes$ &#x3D; new BehaviorSubject&lt;string[]&gt;(undefined);
@@ -809,7 +822,18 @@ export class ConfigInitializerService {
     );
   }
 
-  // backport of 3.0 API for a bug fix
+  /**
+   * Recommended way to get config for code that can run before app will finish
+   * initialization (APP_INITIALIZERS, selected service constructors)
+   *
+   * Used without parameters waits for the whole config to become stable
+   *
+   * Parameters allow to describe which part of the config should be stable using
+   * string describing config part, e.g.:
+   * &#x27;siteContext&#x27;, &#x27;siteContext.language&#x27;, etc.
+   *
+   * @param scopes String describing parts of the config we want to be sure are stable
+   */
   getStable(...scopes: string[]): Observable&lt;any&gt; {
     if (this.isStable) {
       return of(this.config);
@@ -824,16 +848,7 @@ export class ConfigInitializerService {
   }
 
   /**
-   * Recommended way to get config for code that can run before app will finish
-   * initialization (APP_INITIALIZERS, selected service constructors)
-   *
-   * Used without parameters waits for the whole config to become stable
-   *
-   * Parameters allow to describe which part of the config should be stable using
-   * string describing config part, e.g.:
-   * &#x27;siteContext&#x27;, &#x27;siteContext.language&#x27;, etc.
-   *
-   * @param scopes String describing parts of the config we want to be sure are stable
+   * @deprecated since 3.0, use getStable() instead
    */
   async getStableConfig(...scopes: string[]): Promise&lt;any&gt; {
     return this.getStable(...scopes).toPromise();
@@ -925,7 +940,11 @@ export class ConfigInitializerService {
 
       asyncConfigs.push(
         (async () &#x3D;&gt; {
-          deepMerge(this.config, await initializer.configFactory());
+          const initializerConfig &#x3D; await initializer.configFactory();
+          // contribute configuration to rootConfig
+          deepMerge(this.rootConfig, initializerConfig);
+          // contribute configuration to global config
+          deepMerge(this.config, initializerConfig);
           this.finishScopes(initializer.scopes);
         })()
       );
@@ -971,6 +990,7 @@ export class ConfigInitializerService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'ConfigInitializerService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

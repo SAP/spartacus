@@ -96,7 +96,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, config: <a href="../injectables/AuthConfig.html">AuthConfig</a>, occEndpointsService: <a href="../injectables/OccEndpointsService.html">OccEndpointsService</a>)</code>
+<code>constructor(http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, authConfigService: <a href="../injectables/AuthConfigService.html">AuthConfigService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -131,22 +131,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>config</td>
+                                                        <td>authConfigService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/AuthConfig.html" target="_self" >AuthConfig</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>occEndpointsService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/OccEndpointsService.html" target="_self" >OccEndpointsService</a></code>
+                                                                        <code><a href="../injectables/AuthConfigService.html" target="_self" >AuthConfigService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -190,8 +178,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">integration-libs/cdc/src/auth/services/user-authentication/cdc-user-authentication-token.service.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">integration-libs/cdc/src/auth/services/user-authentication/cdc-user-authentication-token.service.ts:23</a></div>
                 </td>
             </tr>
 
@@ -309,7 +297,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;UserToken&gt;</code>
+                        <b>Returns : </b>    <code>Observable&lt;&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -327,7 +315,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpClient, HttpParams } from &#x27;@angular/common/http&#x27;;
 import { Injectable } from &#x27;@angular/core&#x27;;
-import { AuthConfig, OccEndpointsService, UserToken } from &#x27;@spartacus/core&#x27;;
+import { AuthConfigService, AuthToken } from &#x27;@spartacus/core&#x27;;
 import { Observable, throwError } from &#x27;rxjs&#x27;;
 import { catchError } from &#x27;rxjs/operators&#x27;;
 
@@ -335,8 +323,7 @@ import { catchError } from &#x27;rxjs/operators&#x27;;
 export class CdcUserAuthenticationTokenService {
   constructor(
     protected http: HttpClient,
-    protected config: AuthConfig,
-    protected occEndpointsService: OccEndpointsService
+    protected authConfigService: AuthConfigService
   ) {}
 
   /**
@@ -354,11 +341,11 @@ export class CdcUserAuthenticationTokenService {
     signatureTimestamp: string,
     idToken: string,
     baseSite: string
-  ): Observable&lt;UserToken&gt; {
-    const url &#x3D; this.occEndpointsService.getRawEndpoint(&#x27;login&#x27;);
+  ): Observable&lt;Partial&lt;AuthToken&gt; &amp; { expires_in?: number }&gt; {
+    const url &#x3D; this.authConfigService.getTokenEndpoint();
     const params &#x3D; new HttpParams()
-      .set(&#x27;client_id&#x27;, this.config.authentication.client_id)
-      .set(&#x27;client_secret&#x27;, this.config.authentication.client_secret)
+      .set(&#x27;client_id&#x27;, this.authConfigService.getClientId())
+      .set(&#x27;client_secret&#x27;, this.authConfigService.getClientSecret())
       .set(&#x27;grant_type&#x27;, &#x27;custom&#x27;)
       .set(&#x27;UID&#x27;, UID)
       .set(&#x27;UIDSignature&#x27;, UIDSignature)
@@ -367,7 +354,7 @@ export class CdcUserAuthenticationTokenService {
       .set(&#x27;baseSite&#x27;, baseSite);
 
     return this.http
-      .post&lt;UserToken&gt;(url, params)
+      .post&lt;Partial&lt;AuthToken&gt; &amp; { expires_in?: number }&gt;(url, params)
       .pipe(catchError((error: any) &#x3D;&gt; throwError(error)));
   }
 }
@@ -405,6 +392,7 @@ export class CdcUserAuthenticationTokenService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CdcUserAuthenticationTokenService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

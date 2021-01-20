@@ -56,7 +56,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/occ/adapters/store-finder/occ-store-finder.adapter.ts</code>
+            <code>feature-libs/storefinder/occ/adapters/occ-store-finder.adapter.ts</code>
         </p>
 
 
@@ -111,7 +111,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">projects/core/src/occ/adapters/store-finder/occ-store-finder.adapter.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">feature-libs/storefinder/occ/adapters/occ-store-finder.adapter.ts:23</a></div>
                             </td>
                         </tr>
 
@@ -195,7 +195,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>callOccFindStores(query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, searchConfig: <a href="../interfaces/StoreFinderSearchConfig.html">StoreFinderSearchConfig</a>, longitudeLatitude?: <a href="../interfaces/GeoPoint.html">GeoPoint</a>, radius?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    <code>callOccFindStores(query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, searchConfig: <a href="../interfaces/SearchConfig.html">SearchConfig</a>, longitudeLatitude?: <a href="../interfaces/GeoPoint.html">GeoPoint</a>, radius?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
@@ -203,7 +203,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="63"
-                            class="link-to-prism">projects/core/src/occ/adapters/store-finder/occ-store-finder.adapter.ts:63</a></div>
+                            class="link-to-prism">feature-libs/storefinder/occ/adapters/occ-store-finder.adapter.ts:63</a></div>
                 </td>
             </tr>
 
@@ -237,7 +237,7 @@
                                 <tr>
                                     <td>searchConfig</td>
                                     <td>
-                                                <code><a href="../interfaces/StoreFinderSearchConfig.html" target="_self" >StoreFinderSearchConfig</a></code>
+                                                <code><a href="../interfaces/SearchConfig.html" target="_self" >SearchConfig</a></code>
                                     </td>
 
                                     <td>
@@ -309,7 +309,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="55"
-                            class="link-to-prism">projects/core/src/occ/adapters/store-finder/occ-store-finder.adapter.ts:55</a></div>
+                            class="link-to-prism">feature-libs/storefinder/occ/adapters/occ-store-finder.adapter.ts:55</a></div>
                 </td>
             </tr>
 
@@ -379,7 +379,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="44"
-                            class="link-to-prism">projects/core/src/occ/adapters/store-finder/occ-store-finder.adapter.ts:44</a></div>
+                            class="link-to-prism">feature-libs/storefinder/occ/adapters/occ-store-finder.adapter.ts:44</a></div>
                 </td>
             </tr>
 
@@ -410,7 +410,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>search(query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, searchConfig: <a href="../interfaces/StoreFinderSearchConfig.html">StoreFinderSearchConfig</a>, longitudeLatitude?: <a href="../interfaces/GeoPoint.html">GeoPoint</a>, radius?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>search(query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, searchConfig: <a href="../interfaces/SearchConfig.html">SearchConfig</a>, longitudeLatitude?: <a href="../interfaces/GeoPoint.html">GeoPoint</a>, radius?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
@@ -418,7 +418,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">projects/core/src/occ/adapters/store-finder/occ-store-finder.adapter.ts:30</a></div>
+                            class="link-to-prism">feature-libs/storefinder/occ/adapters/occ-store-finder.adapter.ts:30</a></div>
                 </td>
             </tr>
 
@@ -452,7 +452,7 @@
                                 <tr>
                                     <td>searchConfig</td>
                                     <td>
-                                                <code><a href="../interfaces/StoreFinderSearchConfig.html" target="_self" >StoreFinderSearchConfig</a></code>
+                                                <code><a href="../interfaces/SearchConfig.html" target="_self" >SearchConfig</a></code>
                                     </td>
 
                                     <td>
@@ -511,22 +511,22 @@
 import { Injectable } from &#x27;@angular/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { map } from &#x27;rxjs/operators&#x27;;
-import { GeoPoint } from &#x27;../../../model/misc.model&#x27;;
-import { PointOfService } from &#x27;../../../model/point-of-service.model&#x27;;
 import {
-  StoreCount,
-  StoreFinderSearchPage,
-} from &#x27;../../../model/store-finder.model&#x27;;
-import {
-  POINT_OF_SERVICE_NORMALIZER,
   STORE_COUNT_NORMALIZER,
   STORE_FINDER_SEARCH_PAGE_NORMALIZER,
-} from &#x27;../../../store-finder/connectors&#x27;;
-import { StoreFinderAdapter } from &#x27;../../../store-finder/connectors/store-finder.adapter&#x27;;
-import { StoreFinderSearchConfig } from &#x27;../../../store-finder/model&#x27;;
-import { ConverterService } from &#x27;../../../util/converter.service&#x27;;
-import { Occ } from &#x27;../../occ-models/occ.models&#x27;;
-import { OccEndpointsService } from &#x27;../../services/occ-endpoints.service&#x27;;
+  StoreCount,
+  StoreFinderAdapter,
+  StoreFinderSearchPage,
+} from &#x27;@spartacus/storefinder/core&#x27;;
+import {
+  ConverterService,
+  GeoPoint,
+  Occ,
+  OccEndpointsService,
+  POINT_OF_SERVICE_NORMALIZER,
+  PointOfService,
+  SearchConfig,
+} from &#x27;@spartacus/core&#x27;;
 
 @Injectable()
 export class OccStoreFinderAdapter implements StoreFinderAdapter {
@@ -538,7 +538,7 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
 
   search(
     query: string,
-    searchConfig: StoreFinderSearchConfig,
+    searchConfig: SearchConfig,
     longitudeLatitude?: GeoPoint,
     radius?: number
   ): Observable&lt;StoreFinderSearchPage&gt; {
@@ -571,7 +571,7 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
 
   protected callOccFindStores(
     query: string,
-    searchConfig: StoreFinderSearchConfig,
+    searchConfig: SearchConfig,
     longitudeLatitude?: GeoPoint,
     radius?: number
   ): Observable&lt;Occ.StoreFinderSearchPage&gt; {
@@ -634,6 +634,7 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'OccStoreFinderAdapter.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -59,6 +59,13 @@
             <code>projects/storefrontlib/src/cms-structure/services/cms-components.service.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Service with logic related to resolving component from cms mapping</p>
+
+            </p>
 
 
 
@@ -118,13 +125,17 @@
                                 <a href="#getI18nKeys">getI18nKeys</a>
                             </li>
                             <li>
-                                <a href="#getInjectors">getInjectors</a>
-                            </li>
-                            <li>
                                 <a href="#getMapping">getMapping</a>
                             </li>
                             <li>
+                                <a href="#getModule">getModule</a>
+                            </li>
+                            <li>
                                 <a href="#shouldRender">shouldRender</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#standardizeChildRoutes">standardizeChildRoutes</a>
                             </li>
                         </ul>
                     </td>
@@ -149,7 +160,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:35</a></div>
                             </td>
                         </tr>
 
@@ -238,8 +249,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:51</a></div>
                 </td>
             </tr>
 
@@ -314,8 +325,8 @@ of potential errors that could be thrown otherwise.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="157"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:157</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="168"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:168</a></div>
                 </td>
             </tr>
 
@@ -354,7 +365,7 @@ of potential errors that could be thrown otherwise.</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Route[]</code>
+                        <b>Returns : </b>        <code><a href="../interfaces/CmsComponentChildRoutesConfig.html" target="_self" >CmsComponentChildRoutesConfig</a></code>
 
                     </div>
                     <div class="io-description">
@@ -386,8 +397,8 @@ of potential errors that could be thrown otherwise.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="150"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:150</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="161"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:161</a></div>
                 </td>
             </tr>
 
@@ -460,8 +471,8 @@ of potential errors that could be thrown otherwise.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="77"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:77</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:83</a></div>
                 </td>
             </tr>
 
@@ -542,8 +553,8 @@ of potential errors that could be thrown otherwise.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="170"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:170</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="207"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:207</a></div>
                 </td>
             </tr>
 
@@ -614,8 +625,8 @@ of potential errors that could be thrown otherwise.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="183"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:183</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="220"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:220</a></div>
                 </td>
             </tr>
 
@@ -668,76 +679,6 @@ of potential errors that could be thrown otherwise.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getInjectors"></a>
-                    <span class="name">
-                        <b>
-                            getInjectors
-                        </b>
-                        <a href="#getInjectors"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getInjectors(componentType: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="102"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:102</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>componentType</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Injector[]</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="getMapping"></a>
                     <span class="name">
                         <b>
@@ -756,8 +697,8 @@ of potential errors that could be thrown otherwise.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="120"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:120</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="131"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:131</a></div>
                 </td>
             </tr>
 
@@ -815,6 +756,79 @@ should be called and completed first.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getModule"></a>
+                    <span class="name">
+                        <b>
+                            getModule
+                        </b>
+                        <a href="#getModule"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getModule(componentType: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="114"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:114</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the feature module for a cms component.
+It will only work for cms components provided by feature modules.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>componentType</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Module.html" target="_self" >NgModuleRef | undefined</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="shouldRender"></a>
                     <span class="name">
                         <b>
@@ -833,8 +847,8 @@ should be called and completed first.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="142"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:142</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="153"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:153</a></div>
                 </td>
             </tr>
 
@@ -884,6 +898,82 @@ could be disabled for server side renderings</p>
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="standardizeChildRoutes"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            standardizeChildRoutes
+                        </b>
+                        <a href="#standardizeChildRoutes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>standardizeChildRoutes(childRoutesConfigs: (Route[] | CmsComponentChildRoutesConfig)[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="185"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:185</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Standardizes the format of <code>childRoutes</code> config.</p>
+<p>Some <code>childRoutes</code> configs are simple arrays of Routes (without the notion of the parent route).
+But some configs can be an object with children routes and their parent defined in separate property.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>childRoutesConfigs</td>
+                                    <td>
+                                            <code>(Route[] | CmsComponentChildRoutesConfig)[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/CmsComponentChildRoutesConfig.html" target="_self" >CmsComponentChildRoutesConfig</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
             <section>
     
@@ -916,7 +1006,7 @@ could be disabled for server side renderings</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:22</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:32</a></div>
                             </td>
                         </tr>
 
@@ -949,7 +1039,7 @@ could be disabled for server side renderings</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:19</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:29</a></div>
                             </td>
                         </tr>
 
@@ -982,7 +1072,7 @@ could be disabled for server side renderings</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:18</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-components.service.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -995,19 +1085,29 @@ could be disabled for server side renderings</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable, Injector, PLATFORM_ID } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { isPlatformServer } from &#x27;@angular/common&#x27;;
 import {
+  Inject,
+  Injectable,
+  isDevMode,
+  NgModuleRef,
+  PLATFORM_ID,
+} from &#x27;@angular/core&#x27;;
+import { Route } from &#x27;@angular/router&#x27;;
+import {
+  CmsComponentChildRoutesConfig,
   CmsComponentMapping,
   CmsConfig,
   deepMerge,
   DeferLoadingStrategy,
 } from &#x27;@spartacus/core&#x27;;
-import { Route } from &#x27;@angular/router&#x27;;
-import { isPlatformServer } from &#x27;@angular/common&#x27;;
 import { defer, forkJoin, Observable, of } from &#x27;rxjs&#x27;;
 import { mapTo, share, tap } from &#x27;rxjs/operators&#x27;;
 import { FeatureModulesService } from &#x27;./feature-modules.service&#x27;;
 
+/**
+ * Service with logic related to resolving component from cms mapping
+ */
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
@@ -1021,10 +1121,6 @@ export class CmsComponentsService {
     Observable&lt;CmsComponentMapping&gt;
   &gt; &#x3D; new Map();
 
-  /**
-   * @deprecated since 2.1
-   * constructor(config: CmsConfig, platformId: Object);
-   */
   constructor(
     protected config: CmsConfig,
     @Inject(PLATFORM_ID) protected platformId: Object,
@@ -1051,7 +1147,7 @@ export class CmsComponentsService {
           const staticConfig &#x3D; this.config.cmsComponents[componentType];
 
           // check if this component type is managed by feature module
-          if (this.featureModules?.hasFeatureFor(componentType)) {
+          if (this.featureModules.hasFeatureFor(componentType)) {
             featureResolvers.push(
               // we delegate populating this.mappings to feature resolver
               this.getFeatureMappingResolver(componentType, staticConfig)
@@ -1096,11 +1192,16 @@ export class CmsComponentsService {
     return this.mappingResolvers.get(componentType);
   }
 
-  getInjectors(componentType: string): Injector[] {
+  /**
+   * Returns the feature module for a cms component.
+   * It will only work for cms components provided by feature modules.
+   *
+   * @param componentType
+   */
+  getModule(componentType: string): NgModuleRef&lt;any&gt; | undefined {
     return (
-      (this.featureModules?.hasFeatureFor(componentType) &amp;&amp;
-        this.featureModules.getInjectors(componentType)) ??
-      []
+      this.featureModules.hasFeatureFor(componentType) &amp;&amp;
+      this.featureModules.getModule(componentType)
     );
   }
 
@@ -1119,7 +1220,7 @@ export class CmsComponentsService {
       this.mappings[componentType] ??
       this.config.cmsComponents?.[componentType];
 
-    if (!componentConfig) {
+    if (isDevMode() &amp;&amp; !componentConfig) {
       if (!this.missingComponents.includes(componentType)) {
         this.missingComponents.push(componentType);
         console.warn(
@@ -1151,14 +1252,40 @@ export class CmsComponentsService {
   /**
    * Get cms driven child routes for components
    */
-  getChildRoutes(componentTypes: string[]): Route[] {
-    const routes &#x3D; [];
+  getChildRoutes(componentTypes: string[]): CmsComponentChildRoutesConfig {
+    const configs &#x3D; [];
     for (const componentType of componentTypes) {
       if (this.shouldRender(componentType)) {
-        routes.push(...(this.getMapping(componentType)?.childRoutes ?? []));
+        configs.push(this.getMapping(componentType)?.childRoutes ?? []);
       }
     }
-    return routes;
+
+    return this.standardizeChildRoutes(configs);
+  }
+
+  /**
+   * Standardizes the format of &#x60;childRoutes&#x60; config.
+   *
+   * Some &#x60;childRoutes&#x60; configs are simple arrays of Routes (without the notion of the parent route).
+   * But some configs can be an object with children routes and their parent defined in separate property.
+   */
+  protected standardizeChildRoutes(
+    childRoutesConfigs: (Route[] | CmsComponentChildRoutesConfig)[]
+  ): CmsComponentChildRoutesConfig {
+    const result: CmsComponentChildRoutesConfig &#x3D; { children: [] };
+
+    (childRoutesConfigs || []).forEach((config) &#x3D;&gt; {
+      if (Array.isArray(config)) {
+        result.children.push(...config);
+      } else {
+        result.children.push(...(config.children || []));
+        if (config.parent) {
+          result.parent &#x3D; config.parent;
+        }
+      }
+    });
+
+    return result;
   }
 
   /**
@@ -1223,6 +1350,7 @@ export class CmsComponentsService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CmsComponentsService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

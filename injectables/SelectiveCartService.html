@@ -177,7 +177,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(store: Store<StateWithMultiCart>, userService: <a href="../injectables/UserService.html">UserService</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>, multiCartService: <a href="../injectables/MultiCartService.html">MultiCartService</a>, baseSiteService: <a href="../injectables/BaseSiteService.html">BaseSiteService</a>, cartConfigService: <a href="../injectables/CartConfigService.html">CartConfigService</a>)</code>
+<code>constructor(store: Store<StateWithMultiCart>, userService: <a href="../injectables/UserService.html">UserService</a>, multiCartService: <a href="../injectables/MultiCartService.html">MultiCartService</a>, baseSiteService: <a href="../injectables/BaseSiteService.html">BaseSiteService</a>, cartConfigService: <a href="../injectables/CartConfigService.html">CartConfigService</a>, userIdService: <a href="../injectables/UserIdService.html">UserIdService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -224,18 +224,6 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>authService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
                                                         <td>multiCartService</td>
                                                   
                                                         <td>
@@ -264,6 +252,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/CartConfigService.html" target="_self" >CartConfigService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>userIdService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UserIdService.html" target="_self" >UserIdService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -1260,7 +1260,7 @@
 import { Store } from &#x27;@ngrx/store&#x27;;
 import { BehaviorSubject, combineLatest, Observable, of } from &#x27;rxjs&#x27;;
 import { filter, map, shareReplay, switchMap, take, tap } from &#x27;rxjs/operators&#x27;;
-import { AuthService } from &#x27;../../auth/facade/auth.service&#x27;;
+import { UserIdService } from &#x27;../../auth/user-auth/facade/user-id.service&#x27;;
 import { Cart } from &#x27;../../model/cart.model&#x27;;
 import { OrderEntry } from &#x27;../../model/order.model&#x27;;
 import { OCC_USER_ID_ANONYMOUS } from &#x27;../../occ/utils/occ-constants&#x27;;
@@ -1297,10 +1297,10 @@ export class SelectiveCartService {
   constructor(
     protected store: Store&lt;StateWithMultiCart&gt;,
     protected userService: UserService,
-    protected authService: AuthService,
     protected multiCartService: MultiCartService,
     protected baseSiteService: BaseSiteService,
-    protected cartConfigService: CartConfigService
+    protected cartConfigService: CartConfigService,
+    protected userIdService: UserIdService
   ) {
     combineLatest([
       this.userService.get(),
@@ -1314,7 +1314,7 @@ export class SelectiveCartService {
       }
     });
 
-    this.authService.getOccUserId().subscribe((userId) &#x3D;&gt; {
+    this.userIdService.getUserId().subscribe((userId) &#x3D;&gt; {
       this.userId &#x3D; userId;
 
       if (this.isJustLoggedIn(userId)) {
@@ -1476,6 +1476,7 @@ export class SelectiveCartService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'SelectiveCartService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

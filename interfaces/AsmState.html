@@ -82,9 +82,6 @@
                                         <a href="#asmUi">asmUi</a>
                                 </li>
                                 <li>
-                                        <a href="#csagentToken">csagentToken</a>
-                                </li>
-                                <li>
                                         <a href="#customerSearchResult">customerSearchResult</a>
                                 </li>
                             </ul>
@@ -131,35 +128,6 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="csagentToken"></a>
-                                        <span class="name"><b>csagentToken</b><a href="#csagentToken"><span class="icon ion-ios-link"></span></a></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>csagentToken:     <code>LoaderState&lt;UserToken&gt;</code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>    <code>LoaderState&lt;UserToken&gt;</code>
-
-                                        </td>
-                                    </tr>
-
-
-
-
-
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
                                         <a name="customerSearchResult"></a>
                                         <span class="name"><b>customerSearchResult</b><a href="#customerSearchResult"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
@@ -192,11 +160,9 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { LoaderState } from &#x27;../../state/utils/loader/loader-state&#x27;;
 import { AsmUi, CustomerSearchPage } from &#x27;../models/asm.models&#x27;;
-import { UserToken } from &#x27;../../auth&#x27;;
 
 export const ASM_FEATURE &#x3D; &#x27;asm&#x27;;
 export const CUSTOMER_SEARCH_DATA &#x3D; &#x27;[asm] Customer search data&#x27;;
-export const CSAGENT_TOKEN_DATA &#x3D; &#x27;[Auth] Customer Support Agent Token Data&#x27;;
 
 export interface StateWithAsm {
   [ASM_FEATURE]: AsmState;
@@ -205,7 +171,6 @@ export interface StateWithAsm {
 export interface AsmState {
   customerSearchResult: LoaderState&lt;CustomerSearchPage&gt;;
   asmUi: AsmUi;
-  csagentToken: LoaderState&lt;UserToken&gt;;
 }
 </code></pre>
     </div>
@@ -235,6 +200,7 @@ export interface AsmState {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'AsmState.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

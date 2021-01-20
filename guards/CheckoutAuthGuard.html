@@ -99,12 +99,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(routingService: <a href="../injectables/RoutingService.html">RoutingService</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>, authRedirectService: <a href="../injectables/AuthRedirectService.html">AuthRedirectService</a>, checkoutConfigService: <a href="../injectables/CheckoutConfigService.html">CheckoutConfigService</a>, activeCartService: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>)</code>
+<code>constructor(authService: <a href="../injectables/AuthService.html">AuthService</a>, authRedirectService: <a href="../injectables/AuthRedirectService.html">AuthRedirectService</a>, checkoutConfigService: <a href="../injectables/CheckoutConfigService.html">CheckoutConfigService</a>, activeCartService: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>, semanticPathService: <a href="../injectables/SemanticPathService.html">SemanticPathService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, userService: <a href="../injectables/UserService.html">UserService</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html">GlobalMessageService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/guards/checkout-auth.guard.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/guards/checkout-auth.guard.ts:22</a></div>
                             </td>
                         </tr>
 
@@ -121,18 +121,6 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                                <tr>
-                                                        <td>routingService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/RoutingService.html" target="_self" >RoutingService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
                                                 <tr>
                                                         <td>authService</td>
                                                   
@@ -181,6 +169,54 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>semanticPathService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SemanticPathService.html" target="_self" >SemanticPathService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>router</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>userService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UserService.html" target="_self" >UserService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>globalMessageService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/GlobalMessageService.html" target="_self" >GlobalMessageService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -217,8 +253,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/guards/checkout-auth.guard.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/guards/checkout-auth.guard.ts:34</a></div>
                 </td>
             </tr>
 
@@ -227,7 +263,7 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
+                        <b>Returns : </b>    <code>Observable&lt;boolean | UrlTree&gt;</code>
 
                     </div>
                 </td>
@@ -240,17 +276,21 @@
 
         <div class="tab-pane fade  tab-source-code" id="c-source">
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { CanActivate } from &#x27;@angular/router&#x27;;
+import { CanActivate, Router, UrlTree } from &#x27;@angular/router&#x27;;
 import {
   ActiveCartService,
   AuthRedirectService,
   AuthService,
-  RoutingService,
+  B2BUser,
+  B2BUserRole,
+  GlobalMessageService,
+  GlobalMessageType,
+  SemanticPathService,
   User,
-  UserToken,
+  UserService,
 } from &#x27;@spartacus/core&#x27;;
 import { combineLatest, Observable } from &#x27;rxjs&#x27;;
-import { map } from &#x27;rxjs/operators&#x27;;
+import { map, filter } from &#x27;rxjs/operators&#x27;;
 import { CheckoutConfigService } from &#x27;../services/checkout-config.service&#x27;;
 
 @Injectable({
@@ -258,32 +298,60 @@ import { CheckoutConfigService } from &#x27;../services/checkout-config.service&
 })
 export class CheckoutAuthGuard implements CanActivate {
   constructor(
-    protected routingService: RoutingService,
     protected authService: AuthService,
     protected authRedirectService: AuthRedirectService,
     protected checkoutConfigService: CheckoutConfigService,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartService,
+    protected semanticPathService: SemanticPathService,
+    protected router: Router,
+    protected userService: UserService,
+    protected globalMessageService: GlobalMessageService
   ) {}
 
-  canActivate(): Observable&lt;boolean&gt; {
+  canActivate(): Observable&lt;boolean | UrlTree&gt; {
     return combineLatest([
-      this.authService.getUserToken(),
+      this.authService.isUserLoggedIn(),
       this.activeCartService.getAssignedUser(),
+      this.userService.get(),
+      this.activeCartService.isStable(),
     ]).pipe(
-      map(([token, user]: [UserToken, User]) &#x3D;&gt; {
-        if (!token.access_token) {
-          if (this.activeCartService.isGuestCart()) {
-            return Boolean(user);
+      filter(([, , , isStable]) &#x3D;&gt; Boolean(isStable)),
+      map(
+        ([isLoggedIn, cartUser, user]: [
+          boolean,
+          User,
+          User | B2BUser,
+          boolean
+        ]) &#x3D;&gt; {
+          if (!isLoggedIn) {
+            if (this.activeCartService.isGuestCart()) {
+              return Boolean(cartUser);
+            }
+            this.authRedirectService.reportAuthGuard();
+            if (this.checkoutConfigService.isGuestCheckout()) {
+              return this.router.createUrlTree(
+                [this.semanticPathService.get(&#x27;login&#x27;)],
+                { queryParams: { forced: true } }
+              );
+            } else {
+              return this.router.parseUrl(
+                this.semanticPathService.get(&#x27;login&#x27;)
+              );
+            }
+          } else if (&#x27;roles&#x27; in user) {
+            const roles &#x3D; (&lt;B2BUser&gt;user).roles;
+            if (roles.includes(B2BUserRole.CUSTOMER)) {
+              return true;
+            }
+            this.globalMessageService.add(
+              { key: &#x27;checkout.invalid.accountType&#x27; },
+              GlobalMessageType.MSG_TYPE_WARNING
+            );
+            return false;
           }
-          if (this.checkoutConfigService.isGuestCheckout()) {
-            this.routingService.go({ cxRoute: &#x27;login&#x27; }, { forced: true });
-          } else {
-            this.routingService.go({ cxRoute: &#x27;login&#x27; });
-          }
-          this.authRedirectService.reportAuthGuard();
+          return isLoggedIn;
         }
-        return !!token.access_token;
-      })
+      )
     );
   }
 }
@@ -318,6 +386,7 @@ export class CheckoutAuthGuard implements CanActivate {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'guard';
             var COMPODOC_CURRENT_PAGE_URL = 'CheckoutAuthGuard.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

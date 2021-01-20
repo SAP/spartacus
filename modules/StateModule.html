@@ -104,7 +104,7 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/State.html" target="_self" >ModuleWithProviders&lt;StateModule&gt;</a></code>
+                        <b>Returns : </b>    <code>ModuleWithProviders&lt;StateModule&gt;</code>
 
                     </div>
                 </td>
@@ -117,9 +117,9 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
-import { provideDefaultConfig } from &#x27;../config/config.module&#x27;;
 import { defaultStateConfig } from &#x27;./config/default-state-config&#x27;;
 import { stateMetaReducers } from &#x27;./reducers/index&#x27;;
+import { provideDefaultConfig } from &#x27;../config/config-providers&#x27;;
 
 @NgModule({})
 export class StateModule {
@@ -169,6 +169,7 @@ export class StateModule {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
             var COMPODOC_CURRENT_PAGE_URL = 'StateModule.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

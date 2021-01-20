@@ -76,13 +76,13 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#get">get</a>
+                            </li>
+                            <li>
                                 <a href="#getActive">getActive</a>
                             </li>
                             <li>
                                 <a href="#getAll">getAll</a>
-                            </li>
-                            <li>
-                                <a href="#getBaseSiteData">getBaseSiteData</a>
                             </li>
                             <li>
                                 <a href="#initialize">initialize</a>
@@ -172,6 +172,78 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="get"></a>
+                    <span class="name">
+                        <b>
+                            get
+                        </b>
+                        <a href="#get"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>get(siteUid?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">projects/core/src/site-context/facade/base-site.service.ts:49</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get base site data based on site uid</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>siteUid</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;BaseSite&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getActive"></a>
                     <span class="name">
                         <b>
@@ -239,52 +311,11 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>We currently don&#39;t support switching baseSite at run time</p>
+                    <div class="io-description"><p>Get all base sites data</p>
 </div>
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;string[]&gt;</code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getBaseSiteData"></a>
-                    <span class="name">
-                        <b>
-                            getBaseSiteData
-                        </b>
-                        <a href="#getBaseSiteData"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getBaseSiteData()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="71"
-                            class="link-to-prism">projects/core/src/site-context/facade/base-site.service.ts:71</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Get the base site details data</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;BaseSite&gt;</code>
+                        <b>Returns : </b>    <code>Observable&lt;BaseSite[]&gt;</code>
 
                     </div>
                 </td>
@@ -313,8 +344,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="53"
-                            class="link-to-prism">projects/core/src/site-context/facade/base-site.service.ts:53</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="80"
+                            class="link-to-prism">projects/core/src/site-context/facade/base-site.service.ts:80</a></div>
                 </td>
             </tr>
 
@@ -354,8 +385,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="38"
-                            class="link-to-prism">projects/core/src/site-context/facade/base-site.service.ts:38</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="65"
+                            class="link-to-prism">projects/core/src/site-context/facade/base-site.service.ts:65</a></div>
                 </td>
             </tr>
 
@@ -392,7 +423,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Subscription</code>
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
                     <div class="io-description">
@@ -410,8 +441,8 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { select, Store } from &#x27;@ngrx/store&#x27;;
-import { Observable, Subscription } from &#x27;rxjs&#x27;;
-import { filter, map, take, tap } from &#x27;rxjs/operators&#x27;;
+import { Observable } from &#x27;rxjs&#x27;;
+import { filter, map, switchMap, take, tap } from &#x27;rxjs/operators&#x27;;
 import { BaseSite } from &#x27;../../model/misc.model&#x27;;
 import { getContextParameterDefault } from &#x27;../config/context-config-utils&#x27;;
 import { SiteContextConfig } from &#x27;../config/site-context-config&#x27;;
@@ -422,7 +453,7 @@ import { StateWithSiteContext } from &#x27;../store/state&#x27;;
 import { SiteContext } from &#x27;./site-context.interface&#x27;;
 
 @Injectable()
-export class BaseSiteService implements SiteContext&lt;string&gt; {
+export class BaseSiteService implements SiteContext&lt;BaseSite&gt; {
   constructor(
     protected store: Store&lt;StateWithSiteContext&gt;,
     protected config: SiteContextConfig
@@ -439,14 +470,41 @@ export class BaseSiteService implements SiteContext&lt;string&gt; {
   }
 
   /**
-   * We currently don&#x27;t support switching baseSite at run time
+   * Get all base sites data
    */
-  getAll(): Observable&lt;string[]&gt; {
-    return this.getActive().pipe(map((baseSite) &#x3D;&gt; [baseSite]));
+  getAll(): Observable&lt;BaseSite[]&gt; {
+    return this.store.pipe(
+      select(SiteContextSelectors.getAllBaseSites),
+      tap((sites) &#x3D;&gt; {
+        if (!sites) {
+          this.store.dispatch(new SiteContextActions.LoadBaseSites());
+        }
+      }),
+      filter((sites) &#x3D;&gt; Boolean(sites))
+    );
   }
 
-  setActive(baseSite: string): Subscription {
-    return this.store
+  /**
+   * Get base site data based on site uid
+   */
+  get(siteUid?: string): Observable&lt;BaseSite&gt; {
+    if (siteUid) {
+      return this.getAll().pipe(
+        map((sites) &#x3D;&gt; sites.find((site) &#x3D;&gt; site.uid &#x3D;&#x3D;&#x3D; siteUid))
+      );
+    }
+
+    return this.getActive().pipe(
+      switchMap((activeSiteUid) &#x3D;&gt;
+        this.getAll().pipe(
+          map((sites) &#x3D;&gt; sites.find((site) &#x3D;&gt; site.uid &#x3D;&#x3D;&#x3D; activeSiteUid))
+        )
+      )
+    );
+  }
+
+  setActive(baseSite: string): void {
+    this.store
       .pipe(select(SiteContextSelectors.getActiveBaseSite), take(1))
       .subscribe((activeBaseSite) &#x3D;&gt; {
         if (baseSite &amp;&amp; activeBaseSite !&#x3D;&#x3D; baseSite) {
@@ -472,20 +530,6 @@ export class BaseSiteService implements SiteContext&lt;string&gt; {
 
     this.setActive(
       getContextParameterDefault(this.config, BASE_SITE_CONTEXT_ID)
-    );
-  }
-
-  /**
-   * Get the base site details data
-   */
-  getBaseSiteData(): Observable&lt;BaseSite&gt; {
-    return this.store.pipe(
-      select(SiteContextSelectors.getBaseSiteData),
-      tap((baseSite) &#x3D;&gt; {
-        if (Object.keys(baseSite).length &#x3D;&#x3D;&#x3D; 0) {
-          this.store.dispatch(new SiteContextActions.LoadBaseSite());
-        }
-      })
     );
   }
 }
@@ -523,6 +567,7 @@ export class BaseSiteService implements SiteContext&lt;string&gt; {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'BaseSiteService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

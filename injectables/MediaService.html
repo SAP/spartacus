@@ -152,6 +152,9 @@ The baseUrl is read from the <code>occConfig.backend.media.baseUrl</code> or
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
+                                    <a href="#loadingStrategy">loadingStrategy</a>
+                                </li>
+                                <li>
                                     <a href="#sortedFormats">sortedFormats</a>
                                 </li>
                                 <li>
@@ -175,7 +178,7 @@ The baseUrl is read from the <code>occConfig.backend.media.baseUrl</code> or
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:34</a></div>
                             </td>
                         </tr>
 
@@ -254,8 +257,8 @@ The baseUrl is read from the <code>occConfig.backend.media.baseUrl</code> or
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="170"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:170</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="204"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:204</a></div>
                 </td>
             </tr>
 
@@ -265,7 +268,8 @@ The baseUrl is read from the <code>occConfig.backend.media.baseUrl</code> or
                     <div class="io-description"><p>The base URL is either driven by a specific <code>backend.media.baseUrl</code>, or by the
 <code>backend.occ.baseUrl</code>.</p>
 <p>The <code>backend.media.baseUrl</code> can be used to load media from a different location.</p>
-<p>In Commerce Cloud, a differnt location could mean a different &quot;aspect&quot;.</p>
+<p>In Commerce Cloud, a different location could mean a different &quot;aspect&quot;.</p>
+<p>Defaults to empty string in case no config is provided.</p>
 </div>
 
                     <div class="io-description">
@@ -298,8 +302,8 @@ The baseUrl is read from the <code>occConfig.backend.media.baseUrl</code> or
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="52"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:52</a></div>
                 </td>
             </tr>
 
@@ -397,8 +401,8 @@ for specific formats.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="155"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:155</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="187"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:187</a></div>
                 </td>
             </tr>
 
@@ -472,8 +476,8 @@ the relative URL on the backend. In that case, we prefix the url with the baseUr
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="121"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:121</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="140"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:140</a></div>
                 </td>
             </tr>
 
@@ -546,8 +550,8 @@ the relative URL on the backend. In that case, we prefix the url with the baseUr
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="106"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:106</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="125"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:125</a></div>
                 </td>
             </tr>
 
@@ -634,8 +638,8 @@ format is resolved. If even that is not possible, the first format is returned.<
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="97"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:97</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="116"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:116</a></div>
                 </td>
             </tr>
 
@@ -713,23 +717,25 @@ format is resolved. If even that is not possible, the first format is returned.<
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>resolveSrcSet(media: MediaContainer | Image)</code>
+                    <code>resolveSrcSet(media: MediaContainer | Image, maxFormat?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="131"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:131</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="153"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:153</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns a set of media for the available media formats. Additionally, the congiured media
+                    <div class="io-description"><p>Returns a set of media for the available media formats. Additionally, the configured media
 format width is added to the srcset, so that browsers can select the appropriate media.</p>
+<p>The optional maxFormat indicates that only sources till a certain format should be added
+to the srcset.</p>
 </div>
 
                     <div class="io-description">
@@ -751,6 +757,18 @@ format width is added to the srcset, so that browsers can select the appropriate
 
                                     <td>
                                         No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>maxFormat</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
                                     </td>
 
 
@@ -798,7 +816,7 @@ format width is added to the srcset, so that browsers can select the appropriate
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:29</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:34</a></div>
                             </td>
                         </tr>
 
@@ -826,7 +844,7 @@ format width is added to the srcset, so that browsers can select the appropriate
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:28</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:33</a></div>
                             </td>
                         </tr>
 
@@ -850,6 +868,40 @@ size is sorted on top.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
+                        <a name="loadingStrategy"></a>
+                        <span class="name"><b>loadingStrategy</b><a href="#loadingStrategy"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>loadingStrategy()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:77</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Reads the loading strategy from the <code>MediaConfig</code>.</p>
+<p>Defaults to <code>ImageLoadingStrategy.EAGER</code>.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="../miscellaneous/enumerations.html#ImageLoadingStrategy" target="_self" >ImageLoadingStrategy</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
                         <a name="sortedFormats"></a>
                         <span class="name"><b>sortedFormats</b><a href="#sortedFormats"><span class="icon ion-ios-link"></span></a></span>
                     </td>
@@ -862,7 +914,7 @@ size is sorted on top.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:70</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:89</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -897,7 +949,7 @@ benefits.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:87</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:106</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -924,7 +976,12 @@ import { Config, Image, OccConfig } from &#x27;@spartacus/core&#x27;;
 import { BreakpointService } from &#x27;../../../layout/breakpoint/breakpoint.service&#x27;;
 import { StorefrontConfig } from &#x27;../../../storefront-config&#x27;;
 import { MediaConfig } from &#x27;./media.config&#x27;;
-import { Media, MediaContainer, MediaFormatSize } from &#x27;./media.model&#x27;;
+import {
+  ImageLoadingStrategy,
+  Media,
+  MediaContainer,
+  MediaFormatSize,
+} from &#x27;./media.model&#x27;;
 
 /**
  * Service which generates media URLs. It leverage the MediaContainer and MediaFormats so
@@ -955,6 +1012,8 @@ export class MediaService {
      * The BreakpointService is no longer used in version 2.0 as the different size formats are
      * driven by configuration only. There&#x27;s however a change that this service will play a role
      * in the near future, which is why we keep the constructor as-is.
+     *
+     * @deprecated
      */
     protected breakpointService: BreakpointService
   ) {}
@@ -979,8 +1038,20 @@ export class MediaService {
     return {
       src: this.resolveAbsoluteUrl(mainMedia?.url),
       alt: alt || mainMedia?.altText,
-      srcset: this.resolveSrcSet(mediaContainer),
+      srcset: this.resolveSrcSet(mediaContainer, format),
     };
+  }
+
+  /**
+   * Reads the loading strategy from the &#x60;MediaConfig&#x60;.
+   *
+   * Defaults to &#x60;ImageLoadingStrategy.EAGER&#x60;.
+   */
+  get loadingStrategy(): ImageLoadingStrategy {
+    return (
+      (this.config as MediaConfig)?.imageLoadingStrategy ??
+      ImageLoadingStrategy.EAGER
+    );
   }
 
   /**
@@ -989,7 +1060,7 @@ export class MediaService {
    * benefits.
    */
   protected get sortedFormats(): { code: string; size: MediaFormatSize }[] {
-    if (!this._sortedFormats) {
+    if (!this._sortedFormats &amp;&amp; (this.config as MediaConfig)?.mediaFormats) {
       this._sortedFormats &#x3D; Object.keys(
         (this.config as MediaConfig).mediaFormats
       )
@@ -999,7 +1070,7 @@ export class MediaService {
         }))
         .sort((a, b) &#x3D;&gt; (a.size.width &gt; b.size.width ? 1 : -1));
     }
-    return this._sortedFormats;
+    return this._sortedFormats ?? [];
   }
 
   /**
@@ -1046,15 +1117,28 @@ export class MediaService {
   }
 
   /**
-   * Returns a set of media for the available media formats. Additionally, the congiured media
+   * Returns a set of media for the available media formats. Additionally, the configured media
    * format width is added to the srcset, so that browsers can select the appropriate media.
+   *
+   * The optional maxFormat indicates that only sources till a certain format should be added
+   * to the srcset.
    */
-  protected resolveSrcSet(media: MediaContainer | Image): string {
+  protected resolveSrcSet(
+    media: MediaContainer | Image,
+    maxFormat?: string
+  ): string {
     if (!media) {
       return undefined;
     }
 
-    const srcset &#x3D; this.sortedFormats.reduce((set, format) &#x3D;&gt; {
+    // Only create srcset images that are smaller than the given &#x60;maxFormat&#x60; (if any)
+    let formats &#x3D; this.sortedFormats;
+    const max: number &#x3D; formats.findIndex((f) &#x3D;&gt; f.code &#x3D;&#x3D;&#x3D; maxFormat);
+    if (max &gt; -1) {
+      formats &#x3D; formats.slice(0, max + 1);
+    }
+
+    const srcset &#x3D; formats.reduce((set, format) &#x3D;&gt; {
       if (!!media[format.code]) {
         if (set) {
           set +&#x3D; &#x27;, &#x27;;
@@ -1086,12 +1170,14 @@ export class MediaService {
    *
    * The &#x60;backend.media.baseUrl&#x60; can be used to load media from a different location.
    *
-   * In Commerce Cloud, a differnt location could mean a different &quot;aspect&quot;.
+   * In Commerce Cloud, a different location could mean a different &quot;aspect&quot;.
+   *
+   * Defaults to empty string in case no config is provided.
    */
   protected getBaseUrl(): string {
     return (
-      (this.config as OccConfig).backend.media.baseUrl ||
-      (this.config as OccConfig).backend.occ.baseUrl ||
+      (this.config as OccConfig).backend?.media?.baseUrl ??
+      (this.config as OccConfig).backend?.occ?.baseUrl ??
       &#x27;&#x27;
     );
   }
@@ -1130,6 +1216,7 @@ export class MediaService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'MediaService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

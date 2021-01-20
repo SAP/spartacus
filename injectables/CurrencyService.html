@@ -386,7 +386,7 @@ default session currency of the store.</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
                     <div class="io-description">
@@ -496,8 +496,8 @@ export class CurrencyService implements SiteContext&lt;Currency&gt; {
   /**
    * Sets the active language.
    */
-  setActive(isocode: string) {
-    return this.store
+  setActive(isocode: string): void {
+    this.store
       .pipe(select(SiteContextSelectors.getActiveCurrency), take(1))
       .subscribe((activeCurrency) &#x3D;&gt; {
         if (activeCurrency !&#x3D;&#x3D; isocode) {
@@ -513,7 +513,7 @@ export class CurrencyService implements SiteContext&lt;Currency&gt; {
    * by the last visit (stored in session storage) or by the
    * default session currency of the store.
    */
-  initialize() {
+  initialize(): void {
     let value;
     this.getActive()
       .subscribe((val) &#x3D;&gt; (value &#x3D; val))
@@ -573,6 +573,7 @@ export class CurrencyService implements SiteContext&lt;Currency&gt; {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'CurrencyService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -148,7 +148,8 @@ import {
   PageLayoutComponent,
   PageLayoutModule,
 } from &#x27;../../../cms-structure/page/index&#x27;;
-import { LogoutGuard } from &#x27;./logout-guard&#x27;;
+import { LogoutGuard } from &#x27;./logout.guard&#x27;;
+import { CmsPageGuard } from &#x27;../../../cms-structure/guards/cms-page.guard&#x27;;
 
 @NgModule({
   imports: [
@@ -156,7 +157,7 @@ import { LogoutGuard } from &#x27;./logout-guard&#x27;;
     RouterModule.forChild([
       {
         path: null,
-        canActivate: [LogoutGuard],
+        canActivate: [CmsPageGuard, LogoutGuard],
         component: PageLayoutComponent,
         data: { cxRoute: &#x27;logout&#x27; },
       },
@@ -200,6 +201,7 @@ export class LogoutModule {}
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
             var COMPODOC_CURRENT_PAGE_URL = 'LogoutModule.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

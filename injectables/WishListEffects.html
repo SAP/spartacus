@@ -102,7 +102,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(actions$: Actions, cartConnector: <a href="../injectables/CartConnector.html">CartConnector</a>, saveCartConnector: <a href="../injectables/SaveCartConnector.html">SaveCartConnector</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>, store: Store<StateWithMultiCart>)</code>
+<code>constructor(actions$: Actions, cartConnector: <a href="../injectables/CartConnector.html">CartConnector</a>, saveCartConnector: <a href="../injectables/SaveCartConnector.html">SaveCartConnector</a>, userIdService: <a href="../injectables/UserIdService.html">UserIdService</a>, store: Store<StateWithMultiCart>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -161,10 +161,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>authService</td>
+                                                        <td>userIdService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                                        <code><a href="../injectables/UserIdService.html" target="_self" >UserIdService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -243,7 +243,7 @@
                 from([
                   new CartActions.CreateWishListFail({
                     cartId: cart.code,
-                    error: makeErrorSerializable(error),
+                    error: normalizeHttpError(error),
                   }),
                 ])
               )
@@ -330,7 +330,7 @@
               userId,
               cartId: tempCartId,
               customerId,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             }),
           ])
         )
@@ -383,7 +383,7 @@
       SiteContextActions.CURRENCY_CHANGE
     ),
     withLatestFrom(
-      this.authService.getOccUserId(),
+      this.userIdService.getUserId(),
       this.store.pipe(select(MultiCartSelectors.getWishListId))
     ),
     switchMap(([, userId, wishListId]) &#x3D;&gt; {
@@ -401,7 +401,7 @@
               new CartActions.LoadWishListFail({
                 userId,
                 cartId: wishListId,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               }),
             ])
           )
@@ -447,9 +447,9 @@ import {
   switchMap,
   withLatestFrom,
 } from &#x27;rxjs/operators&#x27;;
-import { AuthService } from &#x27;../../../auth/facade/auth.service&#x27;;
+import { UserIdService } from &#x27;../../../auth/user-auth/facade/user-id.service&#x27;;
 import { SiteContextActions } from &#x27;../../../site-context/store/actions/index&#x27;;
-import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
+import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
 import { CartConnector } from &#x27;../../connectors/cart/cart.connector&#x27;;
 import { SaveCartConnector } from &#x27;../../connectors/save-cart/save-cart.connecter&#x27;;
 import { getCartIdByUserId, getWishlistName } from &#x27;../../utils/utils&#x27;;
@@ -486,7 +486,7 @@ export class WishListEffects {
                 from([
                   new CartActions.CreateWishListFail({
                     cartId: cart.code,
-                    error: makeErrorSerializable(error),
+                    error: normalizeHttpError(error),
                   }),
                 ])
               )
@@ -540,7 +540,7 @@ export class WishListEffects {
               userId,
               cartId: tempCartId,
               customerId,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             }),
           ])
         )
@@ -557,7 +557,7 @@ export class WishListEffects {
       SiteContextActions.CURRENCY_CHANGE
     ),
     withLatestFrom(
-      this.authService.getOccUserId(),
+      this.userIdService.getUserId(),
       this.store.pipe(select(MultiCartSelectors.getWishListId))
     ),
     switchMap(([, userId, wishListId]) &#x3D;&gt; {
@@ -575,7 +575,7 @@ export class WishListEffects {
               new CartActions.LoadWishListFail({
                 userId,
                 cartId: wishListId,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               }),
             ])
           )
@@ -589,7 +589,7 @@ export class WishListEffects {
     private actions$: Actions,
     private cartConnector: CartConnector,
     private saveCartConnector: SaveCartConnector,
-    private authService: AuthService,
+    private userIdService: UserIdService,
     private store: Store&lt;StateWithMultiCart&gt;
   ) {}
 }
@@ -627,6 +627,7 @@ export class WishListEffects {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'WishListEffects.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

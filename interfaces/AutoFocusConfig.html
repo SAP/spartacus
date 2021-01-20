@@ -215,6 +215,29 @@ export interface TabFocusConfig extends AutoFocusConfig {
   tab?: boolean | &#x27;scroll&#x27; | string;
 }
 
+export enum TrapFocus {
+  /**
+   * Will trap the focus at the start of the focus group.
+   */
+  start &#x3D; &#x27;start&#x27;,
+  /**
+   * Will trap the focus only at the end of the focus group.
+   */
+  end &#x3D; &#x27;end&#x27;,
+  /**
+   * Will not trap the focus in both directions. This is actually not are
+   * a great example of focus trap, but it will give the benefit of keyboard
+   * tabbing by arrows.
+   */
+  both &#x3D; &#x27;both&#x27;,
+}
+
+export type TrapFocusType &#x3D;
+  | boolean
+  | TrapFocus.start
+  | TrapFocus.end
+  | TrapFocus.both;
+
 /**
  * The keyboard navigation (tab, shift-tab and up down keys) is _trapped_
  * for the nested focusable elements. This means that the focus can not
@@ -223,7 +246,7 @@ export interface TabFocusConfig extends AutoFocusConfig {
  */
 export interface TrapFocusConfig extends TabFocusConfig {
   /** traps the focus */
-  trap?: boolean | &#x27;start&#x27; | &#x27;end&#x27;;
+  trap?: TrapFocusType;
 }
 
 export interface LockFocusConfig extends TrapFocusConfig {
@@ -263,6 +286,7 @@ export interface FocusConfig extends LockFocusConfig {}
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'AutoFocusConfig.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

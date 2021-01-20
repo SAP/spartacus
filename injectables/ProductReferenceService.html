@@ -79,7 +79,10 @@
                                 <a href="#cleanReferences">cleanReferences</a>
                             </li>
                             <li>
-                                <a href="#get">get</a>
+                                <a href="#getProductReferences">getProductReferences</a>
+                            </li>
+                            <li>
+                                <a href="#loadProductReferences">loadProductReferences</a>
                             </li>
                         </ul>
                     </td>
@@ -104,7 +107,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/core/src/product/facade/product-reference.service.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/core/src/product/facade/product-reference.service.ts:12</a></div>
                             </td>
                         </tr>
 
@@ -169,8 +172,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">projects/core/src/product/facade/product-reference.service.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">projects/core/src/product/facade/product-reference.service.ts:43</a></div>
                 </td>
             </tr>
 
@@ -190,26 +193,108 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="get"></a>
+                    <a name="getProductReferences"></a>
                     <span class="name">
                         <b>
-                            get
+                            getProductReferences
                         </b>
-                        <a href="#get"><span class="icon ion-ios-link"></span></a>
+                        <a href="#getProductReferences"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>get(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, referenceType?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, pageSize?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>getProductReferences(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, referenceType: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">projects/core/src/product/facade/product-reference.service.ts:16</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">projects/core/src/product/facade/product-reference.service.ts:29</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>productCode</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>referenceType</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;ProductReference[]&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadProductReferences"></a>
+                    <span class="name">
+                        <b>
+                            loadProductReferences
+                        </b>
+                        <a href="#loadProductReferences"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadProductReferences(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, referenceType?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, pageSize?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="15"
+                            class="link-to-prism">projects/core/src/product/facade/product-reference.service.ts:15</a></div>
                 </td>
             </tr>
 
@@ -270,7 +355,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;ProductReference[]&gt;</code>
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
                     <div class="io-description">
@@ -289,11 +374,10 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { select, Store } from &#x27;@ngrx/store&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
-import { tap } from &#x27;rxjs/operators&#x27;;
 import { ProductReference } from &#x27;../../model/product.model&#x27;;
+import { ProductSelectors } from &#x27;../store&#x27;;
 import { ProductActions } from &#x27;../store/actions/index&#x27;;
 import { StateWithProduct } from &#x27;../store/product-state&#x27;;
-import { ProductSelectors } from &#x27;../store/selectors/index&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
@@ -301,10 +385,23 @@ import { ProductSelectors } from &#x27;../store/selectors/index&#x27;;
 export class ProductReferenceService {
   constructor(protected store: Store&lt;StateWithProduct&gt;) {}
 
-  get(
+  loadProductReferences(
     productCode: string,
     referenceType?: string,
     pageSize?: number
+  ): void {
+    this.store.dispatch(
+      new ProductActions.LoadProductReferences({
+        productCode,
+        referenceType,
+        pageSize,
+      })
+    );
+  }
+
+  getProductReferences(
+    productCode: string,
+    referenceType: string
   ): Observable&lt;ProductReference[]&gt; {
     return this.store.pipe(
       select(
@@ -312,18 +409,7 @@ export class ProductReferenceService {
           productCode,
           referenceType
         )
-      ),
-      tap((references) &#x3D;&gt; {
-        if (references &#x3D;&#x3D;&#x3D; undefined &amp;&amp; productCode !&#x3D;&#x3D; undefined) {
-          this.store.dispatch(
-            new ProductActions.LoadProductReferences({
-              productCode,
-              referenceType,
-              pageSize,
-            })
-          );
-        }
-      })
+      )
     );
   }
 
@@ -365,6 +451,7 @@ export class ProductReferenceService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'ProductReferenceService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

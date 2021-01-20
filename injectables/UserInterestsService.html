@@ -132,7 +132,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(store: Store<StateWithUser | StateWithProcess>, authService: <a href="../injectables/AuthService.html">AuthService</a>)</code>
+<code>constructor(store: Store<StateWithUser | StateWithProcess>, userIdService: <a href="../injectables/UserIdService.html">UserIdService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -167,10 +167,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>authService</td>
+                                                        <td>userIdService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                                        <code><a href="../injectables/UserIdService.html" target="_self" >UserIdService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -971,7 +971,7 @@
 import { select, Store } from &#x27;@ngrx/store&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { map, tap } from &#x27;rxjs/operators&#x27;;
-import { AuthService } from &#x27;../../auth/facade/auth.service&#x27;;
+import { UserIdService } from &#x27;../../auth/user-auth/facade/user-id.service&#x27;;
 import {
   NotificationType,
   ProductInterestEntryRelation,
@@ -997,7 +997,7 @@ import {
 export class UserInterestsService {
   constructor(
     protected store: Store&lt;StateWithUser | StateWithProcess&lt;void&gt;&gt;,
-    protected authService: AuthService
+    protected userIdService: UserIdService
   ) {}
 
   /**
@@ -1013,7 +1013,7 @@ export class UserInterestsService {
     productCode?: string,
     notificationType?: NotificationType
   ): void {
-    this.authService.invokeWithUserId((userId) &#x3D;&gt; {
+    this.userIdService.invokeWithUserId((userId) &#x3D;&gt; {
       this.store.dispatch(
         new UserActions.LoadProductInterests({
           userId,
@@ -1072,7 +1072,7 @@ export class UserInterestsService {
     item: ProductInterestEntryRelation,
     singleDelete?: boolean
   ): void {
-    this.authService.invokeWithUserId((userId) &#x3D;&gt; {
+    this.userIdService.invokeWithUserId((userId) &#x3D;&gt; {
       this.store.dispatch(
         new UserActions.RemoveProductInterest({
           userId,
@@ -1111,7 +1111,7 @@ export class UserInterestsService {
     productCode: string,
     notificationType: NotificationType
   ): void {
-    this.authService.invokeWithUserId((userId) &#x3D;&gt; {
+    this.userIdService.invokeWithUserId((userId) &#x3D;&gt; {
       this.store.dispatch(
         new UserActions.AddProductInterest({
           userId,
@@ -1195,6 +1195,7 @@ export class UserInterestsService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'UserInterestsService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

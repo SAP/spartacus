@@ -86,6 +86,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Abstract</span>
+                                <a href="#loadBaseSites">loadBaseSites</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
                                 <a href="#loadCountries">loadCountries</a>
                             </li>
                             <li>
@@ -136,7 +140,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>loadBaseSite()</code>
+                    <code>loadBaseSite(siteUid?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -151,11 +155,85 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Abstract method used to get base site data.</p>
+                    <div class="io-description"><p>Abstract method used to get base site data based on siteUid.</p>
 </div>
 
                     <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>siteUid</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
                         <b>Returns : </b>    <code>Observable&lt;BaseSite&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadBaseSites"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Abstract</span>
+                            loadBaseSites
+                        </b>
+                        <a href="#loadBaseSites"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadBaseSites()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">projects/core/src/site-context/connectors/site.adapter.ts:34</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Abstract method used to get all base sites data.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;BaseSite[]&gt;</code>
 
                     </div>
                 </td>
@@ -432,9 +510,14 @@ export abstract class SiteAdapter {
   abstract loadRegions(countryIsoCode: string): Observable&lt;Region[]&gt;;
 
   /**
-   * Abstract method used to get base site data.
+   * Abstract method used to get base site data based on siteUid.
    */
-  abstract loadBaseSite(): Observable&lt;BaseSite&gt;;
+  abstract loadBaseSite(siteUid?: string): Observable&lt;BaseSite&gt;;
+
+  /**
+   * Abstract method used to get all base sites data.
+   */
+  abstract loadBaseSites(): Observable&lt;BaseSite[]&gt;;
 }
 </code></pre>
     </div>
@@ -465,6 +548,7 @@ export abstract class SiteAdapter {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
             var COMPODOC_CURRENT_PAGE_URL = 'SiteAdapter.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

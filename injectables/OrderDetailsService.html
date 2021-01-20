@@ -118,7 +118,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-details.service.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-details.service.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -195,8 +195,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="33"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-details.service.ts:33</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-details.service.ts:40</a></div>
                 </td>
             </tr>
 
@@ -238,7 +238,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-details.service.ts:10</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-details.service.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -265,7 +265,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-details.service.ts:11</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-details.service.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -281,7 +281,13 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Order, RoutingService, UserOrderService } from &#x27;@spartacus/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
-import { map, shareReplay, switchMap, tap } from &#x27;rxjs/operators&#x27;;
+import {
+  distinctUntilChanged,
+  map,
+  shareReplay,
+  switchMap,
+  tap,
+} from &#x27;rxjs/operators&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
@@ -294,9 +300,10 @@ export class OrderDetailsService {
     private userOrderService: UserOrderService,
     private routingService: RoutingService
   ) {
-    this.orderCode$ &#x3D; this.routingService
-      .getRouterState()
-      .pipe(map((routingData) &#x3D;&gt; routingData.state.params.orderCode));
+    this.orderCode$ &#x3D; this.routingService.getRouterState().pipe(
+      map((routingData) &#x3D;&gt; routingData.state.params.orderCode),
+      distinctUntilChanged()
+    );
 
     this.orderLoad$ &#x3D; this.orderCode$.pipe(
       tap((orderCode) &#x3D;&gt; {
@@ -350,6 +357,7 @@ export class OrderDetailsService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'OrderDetailsService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

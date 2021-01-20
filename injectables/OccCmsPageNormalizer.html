@@ -79,19 +79,19 @@
                                 <a href="#convert">convert</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#normalizeComponentData">normalizeComponentData</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#normalizePageComponentData">normalizePageComponentData</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#normalizePageData">normalizePageData</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#normalizePageSlotData">normalizePageSlotData</a>
                             </li>
                         </ul>
@@ -207,7 +207,7 @@
                     <a name="normalizeComponentData"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                             normalizeComponentData
                         </b>
                         <a href="#normalizeComponentData"><span class="icon ion-ios-link"></span></a>
@@ -217,21 +217,25 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>normalizeComponentData(source: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, target: <a href="../interfaces/CmsStructureModel.html">CmsStructureModel</a>)</code>
+                    <code>normalizeComponentData(source: Occ.CMSPage, target: <a href="../interfaces/CmsStructureModel.html">CmsStructureModel</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="81"
-                            class="link-to-prism">projects/core/src/occ/adapters/cms/converters/occ-cms-page-normalizer.ts:81</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">projects/core/src/occ/adapters/cms/converters/occ-cms-page-normalizer.ts:128</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Adds the actual component data whenever available in the CMS page data.</p>
+<p>If the data is not populated in this payload, it is loaded separately
+(<code>OccCmsComponentAdapter</code>).</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -247,7 +251,7 @@
                                 <tr>
                                     <td>source</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            <code>Occ.CMSPage</code>
                                     </td>
 
                                     <td>
@@ -291,7 +295,7 @@
                     <a name="normalizePageComponentData"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                             normalizePageComponentData
                         </b>
                         <a href="#normalizePageComponentData"><span class="icon ion-ios-link"></span></a>
@@ -301,21 +305,23 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>normalizePageComponentData(source: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, target: <a href="../interfaces/CmsStructureModel.html">CmsStructureModel</a>)</code>
+                    <code>normalizePageComponentData(source: Occ.CMSPage, target: <a href="../interfaces/CmsStructureModel.html">CmsStructureModel</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="52"
-                            class="link-to-prism">projects/core/src/occ/adapters/cms/converters/occ-cms-page-normalizer.ts:52</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="88"
+                            class="link-to-prism">projects/core/src/occ/adapters/cms/converters/occ-cms-page-normalizer.ts:88</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Registers the <code>ContentSlotComponentData</code> for each component.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -331,7 +337,7 @@
                                 <tr>
                                     <td>source</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            <code>Occ.CMSPage</code>
                                     </td>
 
                                     <td>
@@ -375,7 +381,7 @@
                     <a name="normalizePageData"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                             normalizePageData
                         </b>
                         <a href="#normalizePageData"><span class="icon ion-ios-link"></span></a>
@@ -385,21 +391,23 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>normalizePageData(source: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, target: <a href="../interfaces/CmsStructureModel.html">CmsStructureModel</a>)</code>
+                    <code>normalizePageData(source: Occ.CMSPage, target: <a href="../interfaces/CmsStructureModel.html">CmsStructureModel</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="26"
-                            class="link-to-prism">projects/core/src/occ/adapters/cms/converters/occ-cms-page-normalizer.ts:26</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">projects/core/src/occ/adapters/cms/converters/occ-cms-page-normalizer.ts:29</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Converts the OCC cms page model to the <code>Page</code> in the <code>CmsStructureModel</code>.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -415,7 +423,7 @@
                                 <tr>
                                     <td>source</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            <code>Occ.CMSPage</code>
                                     </td>
 
                                     <td>
@@ -459,7 +467,7 @@
                     <a name="normalizePageSlotData"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                             normalizePageSlotData
                         </b>
                         <a href="#normalizePageSlotData"><span class="icon ion-ios-link"></span></a>
@@ -469,21 +477,23 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>normalizePageSlotData(source: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, target: <a href="../interfaces/CmsStructureModel.html">CmsStructureModel</a>)</code>
+                    <code>normalizePageSlotData(source: Occ.CMSPage, target: <a href="../interfaces/CmsStructureModel.html">CmsStructureModel</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">projects/core/src/occ/adapters/cms/converters/occ-cms-page-normalizer.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="66"
+                            class="link-to-prism">projects/core/src/occ/adapters/cms/converters/occ-cms-page-normalizer.ts:66</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Adds a ContentSlotData for each page slot in the <code>CmsStructureModel</code>.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -499,7 +509,7 @@
                                 <tr>
                                     <td>source</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            <code>Occ.CMSPage</code>
                                     </td>
 
                                     <td>
@@ -549,7 +559,7 @@ import {
 } from &#x27;../../../../cms/config/cms-config&#x27;;
 import { ContentSlotComponentData } from &#x27;../../../../cms/model/content-slot-component-data.model&#x27;;
 import { ContentSlotData } from &#x27;../../../../cms/model/content-slot-data.model&#x27;;
-import { CmsStructureModel } from &#x27;../../../../cms/model/page.model&#x27;;
+import { CmsStructureModel, Page } from &#x27;../../../../cms/model/page.model&#x27;;
 import { Converter } from &#x27;../../../../util/converter.service&#x27;;
 import { Occ } from &#x27;../../../occ-models/occ.models&#x27;;
 
@@ -567,47 +577,85 @@ export class OccCmsPageNormalizer
     return target;
   }
 
-  private normalizePageData(source: any, target: CmsStructureModel): void {
-    target.page &#x3D; {
-      loadTime: Date.now(),
-      name: source.name,
-      type: source.typeCode,
-      title: source.title,
-      pageId: source.uid,
-      template: source.template,
-      slots: {},
-      properties: source.properties,
-      label: source.label,
-    };
+  /**
+   * Converts the OCC cms page model to the &#x60;Page&#x60; in the &#x60;CmsStructureModel&#x60;.
+   */
+  protected normalizePageData(
+    source: Occ.CMSPage,
+    target: CmsStructureModel
+  ): void {
+    if (!source) {
+      return;
+    }
+    const page: Page &#x3D; {};
+
+    if (source.name) {
+      page.name &#x3D; source.name;
+    }
+    if (source.typeCode) {
+      page.type &#x3D; source.typeCode;
+    }
+    if (source.label) {
+      page.label &#x3D; source.label;
+    }
+    if (source.template) {
+      page.template &#x3D; source.template;
+    }
+    if (source.uid) {
+      page.pageId &#x3D; source.uid;
+    }
+    if (source.title) {
+      page.title &#x3D; source.title;
+    }
+    if (source.properties) {
+      page.properties &#x3D; source.properties;
+    }
+
+    target.page &#x3D; page;
   }
 
-  private normalizePageSlotData(source: any, target: CmsStructureModel): void {
+  /**
+   * Adds a ContentSlotData for each page slot in the &#x60;CmsStructureModel&#x60;.
+   */
+  protected normalizePageSlotData(
+    source: Occ.CMSPage,
+    target: CmsStructureModel
+  ): void {
+    if (!source?.contentSlots) {
+      return;
+    }
     if (!Array.isArray(source.contentSlots.contentSlot)) {
       source.contentSlots.contentSlot &#x3D; [source.contentSlots.contentSlot];
     }
+    target.page.slots &#x3D; {};
     for (const slot of source.contentSlots.contentSlot) {
-      target.page.slots[slot.position] &#x3D; {
-        components: [],
-        properties: slot.properties,
-      } as ContentSlotData;
+      target.page.slots[slot.position] &#x3D; {} as ContentSlotData;
+      if (slot.properties) {
+        target.page.slots[slot.position].properties &#x3D; slot.properties;
+      }
     }
   }
 
-  private normalizePageComponentData(
-    source: any,
+  /**
+   * Registers the &#x60;ContentSlotComponentData&#x60; for each component.
+   */
+  protected normalizePageComponentData(
+    source: Occ.CMSPage,
     target: CmsStructureModel
   ): void {
+    if (!source?.contentSlots?.contentSlot) {
+      return;
+    }
     for (const slot of source.contentSlots.contentSlot) {
-      if (
-        slot.components.component &amp;&amp;
-        Array.isArray(slot.components.component)
-      ) {
+      if (Array.isArray(slot.components?.component)) {
         for (const component of slot.components.component) {
           const comp: ContentSlotComponentData &#x3D; {
             uid: component.uid,
             typeCode: component.typeCode,
-            properties: component.properties,
           };
+          if (component.properties) {
+            comp.properties &#x3D; component.properties;
+          }
 
           if (component.typeCode &#x3D;&#x3D;&#x3D; CMS_FLEX_COMPONENT_TYPE) {
             comp.flexType &#x3D; component.flexType;
@@ -616,24 +664,45 @@ export class OccCmsPageNormalizer
           } else {
             comp.flexType &#x3D; component.typeCode;
           }
+          if (!target.page.slots[slot.position].components) {
+            target.page.slots[slot.position].components &#x3D; [];
+          }
           target.page.slots[slot.position].components.push(comp);
         }
       }
     }
   }
 
-  private normalizeComponentData(source: any, target: CmsStructureModel): void {
-    target.components &#x3D; [];
+  /**
+   * Adds the actual component data whenever available in the CMS page data.
+   *
+   * If the data is not populated in this payload, it is loaded separately
+   * (&#x60;OccCmsComponentAdapter&#x60;).
+   */
+  protected normalizeComponentData(
+    source: Occ.CMSPage,
+    target: CmsStructureModel
+  ): void {
+    if (!source?.contentSlots?.contentSlot) {
+      return;
+    }
 
     for (const slot of source.contentSlots.contentSlot) {
-      if (
-        slot.components.component &amp;&amp;
-        Array.isArray(slot.components.component)
-      ) {
+      if (Array.isArray(slot.components?.component)) {
         for (const component of slot.components.component as any) {
-          // we dont put properties into component state
+          // while we&#x27;re hoping to get this right from the backend api,
+          // the OCC api stills seems out of sync with the right model.
+          if (component.modifiedtime) {
+            component.modifiedTime &#x3D; component.modifiedtime;
+            delete component.modifiedtime;
+          }
+
+          // we don&#x27;t put properties into component state
           if (component.properties) {
             component.properties &#x3D; undefined;
+          }
+          if (!target.components) {
+            target.components &#x3D; [];
           }
           target.components.push(component);
         }
@@ -675,6 +744,7 @@ export class OccCmsPageNormalizer
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'OccCmsPageNormalizer.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

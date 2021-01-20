@@ -86,6 +86,9 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
+                                        <a href="#cartCode">cartCode</a>
+                                </li>
+                                <li>
                                         <a href="#cartId">cartId</a>
                                 </li>
                                 <li>
@@ -102,6 +105,35 @@
 
             <section>
                 <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="cartCode"></a>
+                                        <span class="name"><b>cartCode</b><a href="#cartCode"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>cartCode:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
                     <table class="table table-sm table-bordered">
                         <tbody>
                                 <tr>
@@ -172,6 +204,7 @@
  */
 export interface CartEvent {
   cartId: string;
+  cartCode: string;
   userId: string;
 }
 
@@ -179,6 +212,7 @@ export interface CartEvent {
 
 export class CartAddEntryEvent implements CartEvent {
   cartId: string;
+  cartCode: string;
   userId: string;
   productCode: string;
   quantity: number;
@@ -186,6 +220,7 @@ export class CartAddEntryEvent implements CartEvent {
 
 export class CartAddEntrySuccessEvent implements CartEvent {
   cartId: string;
+  cartCode: string;
   userId: string;
   productCode: string;
   quantity: number;
@@ -196,9 +231,25 @@ export class CartAddEntrySuccessEvent implements CartEvent {
 
 export class CartAddEntryFailEvent implements CartEvent {
   cartId: string;
+  cartCode: string;
   userId: string;
   productCode: string;
   quantity: number;
+}
+
+export class CartRemoveEntrySuccessEvent implements CartEvent {
+  cartId: string;
+  cartCode: string;
+  userId: string;
+  entry: OrderEntry;
+}
+
+export class CartUpdateEntrySuccessEvent implements CartEvent {
+  cartId: string;
+  cartCode: string;
+  userId: string;
+  quantity: number;
+  entry: OrderEntry;
 }
 </code></pre>
     </div>
@@ -228,6 +279,7 @@ export class CartAddEntryFailEvent implements CartEvent {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
             var COMPODOC_CURRENT_PAGE_URL = 'CartEvent.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

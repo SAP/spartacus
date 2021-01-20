@@ -477,7 +477,7 @@ Otherwise it returns <code>false</code>.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns <code>true</code> if there&#39;s a missmatch in template versions between the provided <code>currentTemplates</code> and <code>newTemplates</code></p>
+                    <div class="io-description"><p>Returns <code>true</code> if there&#39;s a mismatch in template versions between the provided <code>currentTemplates</code> and <code>newTemplates</code></p>
 </div>
 
                     <div class="io-description">
@@ -894,7 +894,7 @@ Otherwise it returns <code>false</code>.</p>
 <li><code>loadIfMissing</code> parameter is set to <code>true</code></li>
 <li>the <code>templates</code> in the store are <code>undefined</code></li>
 </ul>
-<p>Othewise it just returns the value from the store.</p>
+<p>Otherwise it just returns the value from the store.</p>
 </div>
 
                     <div class="io-description">
@@ -1846,7 +1846,7 @@ Otherwise, it returns <code>false</code>.</p>
 import { select, Store } from &#x27;@ngrx/store&#x27;;
 import { combineLatest, iif, Observable } from &#x27;rxjs&#x27;;
 import { filter, map, switchMap, tap, withLatestFrom } from &#x27;rxjs/operators&#x27;;
-import { AuthService } from &#x27;../../auth/index&#x27;;
+import { AuthService } from &#x27;../../auth/user-auth/facade/auth.service&#x27;;
 import {
   AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
@@ -1877,7 +1877,7 @@ export class AnonymousConsentsService {
    *   - &#x60;loadIfMissing&#x60; parameter is set to &#x60;true&#x60;
    *   - the &#x60;templates&#x60; in the store are &#x60;undefined&#x60;
    *
-   * Othewise it just returns the value from the store.
+   * Otherwise it just returns the value from the store.
    *
    * @param loadIfMissing setting to &#x60;true&#x60; will trigger the load of the templates if the currently stored templates are &#x60;undefined&#x60;
    */
@@ -2126,7 +2126,7 @@ export class AnonymousConsentsService {
   }
 
   /**
-   * Returns &#x60;true&#x60; if there&#x27;s a missmatch in template versions between the provided &#x60;currentTemplates&#x60; and &#x60;newTemplates&#x60;
+   * Returns &#x60;true&#x60; if there&#x27;s a mismatch in template versions between the provided &#x60;currentTemplates&#x60; and &#x60;newTemplates&#x60;
    * @param currentTemplates current templates to check
    * @param newTemplates new templates to check
    */
@@ -2223,6 +2223,7 @@ export class AnonymousConsentsService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'AnonymousConsentsService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

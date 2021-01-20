@@ -79,8 +79,8 @@
                                 <a href="#build">build</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#createJsonLdScriptElement">createJsonLdScriptElement</a>
+                                    <span class="modifier">Protected</span>
+                                <a href="#getJsonLdScriptElement">getJsonLdScriptElement</a>
                             </li>
                             <li>
                                 <a href="#isJsonLdRequired">isJsonLdRequired</a>
@@ -106,12 +106,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(platformId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, winRef: <a href="../injectables/WindowRef.html">WindowRef</a>, rendererFactory: <a href="https://angular.io/api/core/RendererFactory2" target="_blank">RendererFactory2</a>, sanitizer: <a href="https://angular.io/api/platform-browser/DomSanitizer" target="_blank">DomSanitizer</a>)</code>
+<code>constructor(platformId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, winRef: <a href="../injectables/WindowRef.html">WindowRef</a>, rendererFactory: <a href="https://angular.io/api/core/RendererFactory2" target="_blank">RendererFactory2</a>, sanitizer: <a href="https://angular.io/api/platform-browser/DomSanitizer" target="_blank">DomSanitizer</a>, config: <a href="../injectables/SeoConfig.html">SeoConfig</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/json-ld-script.factory.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/json-ld-script.factory.ts:18</a></div>
                             </td>
                         </tr>
 
@@ -176,6 +176,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>config</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SeoConfig.html" target="_self" >SeoConfig</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -212,8 +224,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="25"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/json-ld-script.factory.ts:25</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/json-ld-script.factory.ts:27</a></div>
                 </td>
             </tr>
 
@@ -264,34 +276,43 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="createJsonLdScriptElement"></a>
+                    <a name="getJsonLdScriptElement"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
-                            createJsonLdScriptElement
+                            <span class="modifier">Protected</span>
+                            getJsonLdScriptElement
                         </b>
-                        <a href="#createJsonLdScriptElement"><span class="icon ion-ios-link"></span></a>
+                        <a href="#getJsonLdScriptElement"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createJsonLdScriptElement()</code>
+                    <code>getJsonLdScriptElement()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/json-ld-script.factory.ts:39</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/json-ld-script.factory.ts:54</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Creates a json-ld script element. The element is created one, and appended
+to the html body element.</p>
+<p>```html</p>
+<ul>
+<li><script id="json-ld" type="application/ld+json"></li>
+<li></script></li>
+<li>```</li>
+</ul>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>    <code>HTMLScriptElement</code>
@@ -323,16 +344,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/json-ld-script.factory.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/json-ld-script.factory.ts:38</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Only return schema data in case of SSR or development mode,
-to not waste memory unnecessary.</p>
+                    <div class="io-description"><p>Indicates whether json ld data should be generated.</p>
+<p>This is only required on the server, but can be enabled in dev mode.</p>
 </div>
 
                     <div class="io-description">
@@ -365,8 +386,8 @@ to not waste memory unnecessary.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="65"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/json-ld-script.factory.ts:65</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="80"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/json-ld-script.factory.ts:80</a></div>
                 </td>
             </tr>
 
@@ -435,6 +456,7 @@ import {
 } from &#x27;@angular/core&#x27;;
 import { DomSanitizer } from &#x27;@angular/platform-browser&#x27;;
 import { WindowRef } from &#x27;@spartacus/core&#x27;;
+import { SeoConfig } from &#x27;../config&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
@@ -444,24 +466,38 @@ export class JsonLdScriptFactory {
     @Inject(PLATFORM_ID) protected platformId: string,
     protected winRef: WindowRef,
     protected rendererFactory: RendererFactory2,
-    protected sanitizer: DomSanitizer
+    protected sanitizer: DomSanitizer,
+    protected config: SeoConfig
   ) {}
 
   build(schema: {}[]): void {
     if (schema &amp;&amp; this.isJsonLdRequired()) {
-      this.createJsonLdScriptElement().innerHTML &#x3D; this.sanitize(schema);
+      this.getJsonLdScriptElement().innerHTML &#x3D; this.sanitize(schema);
     }
   }
 
   /**
-   * Only return schema data in case of SSR or development mode,
-   * to not waste memory unnecessary.
+   * Indicates whether json ld data should be generated.
+   *
+   * This is only required on the server, but can be enabled in dev mode.
    */
   isJsonLdRequired(): boolean {
-    return !isPlatformBrowser(this.platformId) || isDevMode();
+    return (
+      !isPlatformBrowser(this.platformId) ||
+      (isDevMode() &amp;&amp; !this.config.seo?.structuredData?.disableInDevMode)
+    );
   }
 
-  private createJsonLdScriptElement(): HTMLScriptElement {
+  /**
+   * Creates a json-ld script element. The element is created one, and appended
+   * to the html body element.
+   *
+   * &#x60;&#x60;&#x60;html
+   * &lt;script id&#x3D;&quot;json-ld&quot; type&#x3D;&quot;application/ld+json&quot;&gt;
+   * &lt;/script&gt;
+   * &#x60;&#x60;&#x60;
+   */
+  protected getJsonLdScriptElement(): HTMLScriptElement {
     const id &#x3D; &#x27;json-ld&#x27;;
     let scriptElement: HTMLScriptElement &#x3D; &lt;HTMLScriptElement&gt;(
       this.winRef.document.getElementById(id)
@@ -529,6 +565,7 @@ export class JsonLdScriptFactory {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'JsonLdScriptFactory.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -644,12 +644,12 @@ explicit reload might be needed.</p>
 import { select, Store } from &#x27;@ngrx/store&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { Product } from &#x27;../../model/product.model&#x27;;
+import { DEFAULT_SCOPE } from &#x27;../../occ/occ-models/occ-endpoints.model&#x27;;
+import { ProductScope } from &#x27;../model/product-scope&#x27;;
+import { ProductLoadingService } from &#x27;../services/product-loading.service&#x27;;
 import { ProductActions } from &#x27;../store/actions/index&#x27;;
 import { StateWithProduct } from &#x27;../store/product-state&#x27;;
 import { ProductSelectors } from &#x27;../store/selectors/index&#x27;;
-import { ProductLoadingService } from &#x27;../services/product-loading.service&#x27;;
-import { ProductScope } from &#x27;../model/product-scope&#x27;;
-import { DEFAULT_SCOPE } from &#x27;../../occ/occ-models/occ-endpoints.model&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
@@ -767,6 +767,7 @@ export class ProductService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'ProductService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

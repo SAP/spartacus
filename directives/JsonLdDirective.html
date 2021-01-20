@@ -65,6 +65,10 @@
                 <p>Low level directive that adds a json-ld script tag to the component.
 This code bypasses the strict XSS security, as otherwise we&#39;re not able
 to append a script tag with JS inside.</p>
+<p>This helper directive is actually not used in Spartacus, as Spartacus
+appends json-ld the data to the document body.</p>
+<p>This directive can however be used by merchants to write static schema data
+to the DOM in a save way.</p>
 
             </p>
 
@@ -98,8 +102,8 @@ to append a script tag with JS inside.</p>
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#writeJsonLd">writeJsonLd</a>
+                                    <span class="modifier">Protected</span>
+                                <a href="#generateJsonLdScript">generateJsonLdScript</a>
                             </li>
                         </ul>
                     </td>
@@ -166,7 +170,7 @@ to append a script tag with JS inside.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/json-ld.directive.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/json-ld.directive.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -228,9 +232,15 @@ to append a script tag with JS inside.</p>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/json-ld.directive.ts:14</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/json-ld.directive.ts:23</a></div>
                             </td>
                         </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Writes the schema data to a json-ld script element.</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 </section>
@@ -256,7 +266,7 @@ to append a script tag with JS inside.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/json-ld.directive.ts:18</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/json-ld.directive.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -275,34 +285,37 @@ to append a script tag with JS inside.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="writeJsonLd"></a>
+                    <a name="generateJsonLdScript"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
-                            writeJsonLd
+                            <span class="modifier">Protected</span>
+                            generateJsonLdScript
                         </b>
-                        <a href="#writeJsonLd"><span class="icon ion-ios-link"></span></a>
+                        <a href="#generateJsonLdScript"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>writeJsonLd(schema: literal type)</code>
+                    <code>generateJsonLdScript(schema: string | literal type)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="25"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/json-ld.directive.ts:25</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/json-ld.directive.ts:38</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Returns the json-ld script tag with the schema data. The script is
+<em>bypassing</em> sanitization explicitly.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -318,7 +331,7 @@ to append a script tag with JS inside.</p>
                                 <tr>
                                     <td>schema</td>
                                     <td>
-                                            <code>literal type</code>
+                                            <code>string | literal type</code>
                                     </td>
 
                                     <td>
@@ -333,7 +346,7 @@ to append a script tag with JS inside.</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <b>Returns : </b>        <code><a href="https://angular.io/api/platform-browser/SafeHtml" target="_blank" >SafeHtml</a></code>
 
                     </div>
                     <div class="io-description">
@@ -366,11 +379,13 @@ to append a script tag with JS inside.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/json-ld.directive.ts:14</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/json-ld.directive.ts:23</a></div>
                                 </td>
                             </tr>
                     <tr>
                         <td class="col-md-4">
+                                <div class="io-description"><p>Writes the schema data to a json-ld script element.</p>
+</div>
 
                                 <div class="io-description">
                                         <b>Parameters :</b>
@@ -418,13 +433,22 @@ import { JsonLdScriptFactory } from &#x27;./json-ld-script.factory&#x27;;
  * Low level directive that adds a json-ld script tag to the component.
  * This code bypasses the strict XSS security, as otherwise we&#x27;re not able
  * to append a script tag with JS inside.
+ *
+ * This helper directive is actually not used in Spartacus, as Spartacus
+ * appends json-ld the data to the document body.
+ *
+ * This directive can however be used by merchants to write static schema data
+ * to the DOM in a save way.
  */
 @Directive({
   selector: &#x27;[cxJsonLd]&#x27;,
 })
 export class JsonLdDirective {
-  @Input() set cxJsonLd(schema: string | number) {
-    this.writeJsonLd(schema);
+  /**
+   * Writes the schema data to a json-ld script element.
+   */
+  @Input() set cxJsonLd(schema: string | {}) {
+    this.jsonLD &#x3D; this.generateJsonLdScript(schema);
   }
 
   @HostBinding(&#x27;innerHTML&#x27;) jsonLD: SafeHtml;
@@ -434,11 +458,15 @@ export class JsonLdDirective {
     protected sanitizer: DomSanitizer
   ) {}
 
-  private writeJsonLd(schema: {}) {
+  /**
+   * Returns the json-ld script tag with the schema data. The script is
+   * _bypassing_ sanitization explicitly.
+   */
+  protected generateJsonLdScript(schema: string | {}): SafeHtml {
     if (schema &amp;&amp; this.jsonLdScriptFactory.isJsonLdRequired()) {
       const sanitizedSchema &#x3D; this.jsonLdScriptFactory.sanitize(schema);
       const html &#x3D; &#x60;&lt;script type&#x3D;&quot;application/ld+json&quot;&gt;${sanitizedSchema}&lt;/script&gt;&#x60;;
-      this.jsonLD &#x3D; this.sanitizer.bypassSecurityTrustHtml(html);
+      return this.sanitizer.bypassSecurityTrustHtml(html);
     }
   }
 }
@@ -477,6 +505,7 @@ export class JsonLdDirective {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'directive';
             var COMPODOC_CURRENT_PAGE_URL = 'JsonLdDirective.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

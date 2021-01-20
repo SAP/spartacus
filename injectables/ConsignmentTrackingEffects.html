@@ -195,7 +195,7 @@
           catchError((error) &#x3D;&gt;
             of(
               new UserActions.LoadConsignmentTrackingFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -233,7 +233,7 @@ import { Actions, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { catchError, map, switchMap } from &#x27;rxjs/operators&#x27;;
 import { ConsignmentTracking } from &#x27;../../../model/consignment-tracking.model&#x27;;
-import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
+import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
 import { UserOrderConnector } from &#x27;../../connectors/order/user-order.connector&#x27;;
 import { UserActions } from &#x27;../actions/index&#x27;;
 
@@ -260,7 +260,7 @@ export class ConsignmentTrackingEffects {
           catchError((error) &#x3D;&gt;
             of(
               new UserActions.LoadConsignmentTrackingFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -307,6 +307,7 @@ export class ConsignmentTrackingEffects {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'ConsignmentTrackingEffects.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

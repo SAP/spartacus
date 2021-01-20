@@ -191,7 +191,7 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>ModuleWithProviders&lt;CmsModule&gt;</code>
+                        <b>Returns : </b>        <code><a href="../interfaces/Module.html" target="_self" >ModuleWithProviders&lt;CmsModule&gt;</a></code>
 
                     </div>
                 </td>
@@ -204,11 +204,11 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
-import { provideDefaultConfig } from &#x27;../config/config.module&#x27;;
 import { defaultCmsModuleConfig } from &#x27;./config/default-cms-config&#x27;;
 import { CmsService } from &#x27;./facade/cms.service&#x27;;
 import { CmsPageTitleModule } from &#x27;./page/page.module&#x27;;
 import { CmsStoreModule } from &#x27;./store/cms-store.module&#x27;;
+import { provideDefaultConfig } from &#x27;../config/config-providers&#x27;;
 
 @NgModule({
   imports: [CmsStoreModule, CmsPageTitleModule],
@@ -257,6 +257,7 @@ export class CmsModule {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
             var COMPODOC_CURRENT_PAGE_URL = 'CmsModule.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

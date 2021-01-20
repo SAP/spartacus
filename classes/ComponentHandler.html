@@ -151,8 +151,8 @@ different types of CMS mapped components</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/handlers/component-handler.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/handlers/component-handler.ts:38</a></div>
                 </td>
             </tr>
 
@@ -192,8 +192,8 @@ different types of CMS mapped components</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/handlers/component-handler.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="37"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/handlers/component-handler.ts:37</a></div>
                 </td>
             </tr>
 
@@ -257,15 +257,15 @@ different types of CMS mapped components</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>launcher(componentMapping: <a href="../interfaces/CmsComponentMapping.html">CmsComponentMapping</a>, viewContainerRef: <a href="https://angular.io/api/core/ViewContainerRef" target="_blank">ViewContainerRef</a>, elementInjector?: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>)</code>
+                    <code>launcher(componentMapping: <a href="../interfaces/CmsComponentMapping.html">CmsComponentMapping</a>, viewContainerRef: <a href="https://angular.io/api/core/ViewContainerRef" target="_blank">ViewContainerRef</a>, elementInjector?: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>, module?: <a href="../interfaces/Module.html">NgModuleRef<any></a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/handlers/component-handler.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="30"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/handlers/component-handler.ts:30</a></div>
                 </td>
             </tr>
 
@@ -327,6 +327,18 @@ Unsubscribing from the launcher will remove and tear down the component.</p>
 
 
                                 </tr>
+                                <tr>
+                                    <td>module</td>
+                                    <td>
+                                                <code><a href="../interfaces/Module.html" target="_self" >NgModuleRef&lt;any&gt;</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -357,6 +369,7 @@ Unsubscribing from the launcher will remove and tear down the component.</p>
   ComponentRef,
   ElementRef,
   Injector,
+  NgModuleRef,
   ViewContainerRef,
 } from &#x27;@angular/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
@@ -379,11 +392,13 @@ export abstract class ComponentHandler implements Applicable {
    * @param componentMapping
    * @param viewContainerRef
    * @param elementInjector
+   * @param module
    */
   abstract launcher(
     componentMapping: CmsComponentMapping,
     viewContainerRef: ViewContainerRef,
-    elementInjector?: Injector
+    elementInjector?: Injector,
+    module?: NgModuleRef&lt;any&gt;
   ): Observable&lt;{ elementRef: ElementRef; componentRef?: ComponentRef&lt;any&gt; }&gt;;
 
   abstract hasMatch(componentMapping: CmsComponentMapping): boolean;
@@ -418,6 +433,7 @@ export abstract class ComponentHandler implements Applicable {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
             var COMPODOC_CURRENT_PAGE_URL = 'ComponentHandler.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

@@ -102,12 +102,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(actions$: Actions, userConnector: <a href="../injectables/UserConnector.html">UserConnector</a>)</code>
+<code>constructor(actions$: Actions, userConnector: <a href="../injectables/UserConnector.html">UserConnector</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">projects/core/src/user/store/effects/user-register.effect.ts:68</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">projects/core/src/user/store/effects/user-register.effect.ts:65</a></div>
                             </td>
                         </tr>
 
@@ -148,6 +148,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>authService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -177,7 +189,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="../classes/LoadUserToken.html" target="_self" >Observable&lt;UserActions.UserRegisterOrRemoveAction | AuthActions.LoadUserToken&gt;</a></code>
+                            <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#UserRegisterOrRemoveAction" target="_self" >Observable&lt;UserActions.UserRegisterOrRemoveAction&gt;</a></code>
 
                         </td>
                     </tr>
@@ -188,15 +200,12 @@
     map((action: UserActions.RegisterGuest) &#x3D;&gt; action.payload),
     mergeMap(({ guid, password }) &#x3D;&gt;
       this.userConnector.registerGuest(guid, password).pipe(
-        switchMap((user) &#x3D;&gt; [
-          new AuthActions.LoadUserToken({
-            userId: user.uid,
-            password: password,
-          }),
-          new UserActions.RegisterGuestSuccess(),
-        ]),
+        switchMap((user) &#x3D;&gt; {
+          this.authService.loginWithCredentials(user.uid, password);
+          return [new UserActions.RegisterGuestSuccess()];
+        }),
         catchError((error) &#x3D;&gt;
-          of(new UserActions.RegisterGuestFail(makeErrorSerializable(error)))
+          of(new UserActions.RegisterGuestFail(normalizeHttpError(error)))
         )
       )
     )
@@ -248,7 +257,7 @@
       this.userConnector.register(user).pipe(
         map(() &#x3D;&gt; new UserActions.RegisterUserSuccess()),
         catchError((error) &#x3D;&gt;
-          of(new UserActions.RegisterUserFail(makeErrorSerializable(error)))
+          of(new UserActions.RegisterUserFail(normalizeHttpError(error)))
         )
       )
     )
@@ -287,7 +296,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="../classes/Logout.html" target="_self" >Observable&lt;UserActions.UserRegisterOrRemoveAction | AuthActions.Logout&gt;</a></code>
+                            <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#UserRegisterOrRemoveAction" target="_self" >Observable&lt;UserActions.UserRegisterOrRemoveAction&gt;</a></code>
 
                         </td>
                     </tr>
@@ -298,12 +307,12 @@
     map((action: UserActions.RemoveUser) &#x3D;&gt; action.payload),
     mergeMap((userId: string) &#x3D;&gt; {
       return this.userConnector.remove(userId).pipe(
-        switchMap(() &#x3D;&gt; [
-          new UserActions.RemoveUserSuccess(),
-          new AuthActions.Logout(),
-        ]),
+        switchMap(() &#x3D;&gt; {
+          this.authService.logout();
+          return [new UserActions.RemoveUserSuccess()];
+        }),
         catchError((error) &#x3D;&gt;
-          of(new UserActions.RemoveUserFail(makeErrorSerializable(error)))
+          of(new UserActions.RemoveUserFail(normalizeHttpError(error)))
         )
       );
     })
@@ -321,7 +330,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">projects/core/src/user/store/effects/user-register.effect.ts:52</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/core/src/user/store/effects/user-register.effect.ts:49</a></div>
                             </td>
                         </tr>
 
@@ -338,9 +347,9 @@
 import { Actions, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { catchError, map, mergeMap, switchMap } from &#x27;rxjs/operators&#x27;;
-import { AuthActions } from &#x27;../../../auth/store/actions/index&#x27;;
+import { AuthService } from &#x27;../../../auth/user-auth/facade/auth.service&#x27;;
 import { UserSignUp } from &#x27;../../../model/misc.model&#x27;;
-import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
+import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
 import { UserConnector } from &#x27;../../connectors/user/user.connector&#x27;;
 import { UserActions } from &#x27;../actions/index&#x27;;
 
@@ -356,7 +365,7 @@ export class UserRegisterEffects {
       this.userConnector.register(user).pipe(
         map(() &#x3D;&gt; new UserActions.RegisterUserSuccess()),
         catchError((error) &#x3D;&gt;
-          of(new UserActions.RegisterUserFail(makeErrorSerializable(error)))
+          of(new UserActions.RegisterUserFail(normalizeHttpError(error)))
         )
       )
     )
@@ -364,21 +373,18 @@ export class UserRegisterEffects {
 
   @Effect()
   registerGuest$: Observable&lt;
-    UserActions.UserRegisterOrRemoveAction | AuthActions.LoadUserToken
+    UserActions.UserRegisterOrRemoveAction
   &gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.REGISTER_GUEST),
     map((action: UserActions.RegisterGuest) &#x3D;&gt; action.payload),
     mergeMap(({ guid, password }) &#x3D;&gt;
       this.userConnector.registerGuest(guid, password).pipe(
-        switchMap((user) &#x3D;&gt; [
-          new AuthActions.LoadUserToken({
-            userId: user.uid,
-            password: password,
-          }),
-          new UserActions.RegisterGuestSuccess(),
-        ]),
+        switchMap((user) &#x3D;&gt; {
+          this.authService.loginWithCredentials(user.uid, password);
+          return [new UserActions.RegisterGuestSuccess()];
+        }),
         catchError((error) &#x3D;&gt;
-          of(new UserActions.RegisterGuestFail(makeErrorSerializable(error)))
+          of(new UserActions.RegisterGuestFail(normalizeHttpError(error)))
         )
       )
     )
@@ -386,18 +392,18 @@ export class UserRegisterEffects {
 
   @Effect()
   removeUser$: Observable&lt;
-    UserActions.UserRegisterOrRemoveAction | AuthActions.Logout
+    UserActions.UserRegisterOrRemoveAction
   &gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.REMOVE_USER),
     map((action: UserActions.RemoveUser) &#x3D;&gt; action.payload),
     mergeMap((userId: string) &#x3D;&gt; {
       return this.userConnector.remove(userId).pipe(
-        switchMap(() &#x3D;&gt; [
-          new UserActions.RemoveUserSuccess(),
-          new AuthActions.Logout(),
-        ]),
+        switchMap(() &#x3D;&gt; {
+          this.authService.logout();
+          return [new UserActions.RemoveUserSuccess()];
+        }),
         catchError((error) &#x3D;&gt;
-          of(new UserActions.RemoveUserFail(makeErrorSerializable(error)))
+          of(new UserActions.RemoveUserFail(normalizeHttpError(error)))
         )
       );
     })
@@ -405,7 +411,8 @@ export class UserRegisterEffects {
 
   constructor(
     private actions$: Actions,
-    private userConnector: UserConnector
+    private userConnector: UserConnector,
+    private authService: AuthService
   ) {}
 }
 </code></pre>
@@ -442,6 +449,7 @@ export class UserRegisterEffects {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'UserRegisterEffects.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

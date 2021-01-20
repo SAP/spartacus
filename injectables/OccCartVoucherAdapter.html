@@ -534,7 +534,7 @@ import { Observable, throwError } from &#x27;rxjs&#x27;;
 import { catchError } from &#x27;rxjs/operators&#x27;;
 import { CartVoucherAdapter } from &#x27;../../../cart/connectors/voucher/cart-voucher.adapter&#x27;;
 import { CART_VOUCHER_NORMALIZER } from &#x27;../../../cart/connectors/voucher/converters&#x27;;
-import { OCC_USER_ID_ANONYMOUS } from &#x27;../../../occ/utils/occ-constants&#x27;;
+import { OCC_USER_ID_ANONYMOUS } from &#x27;../../utils/occ-constants&#x27;;
 import { ConverterService } from &#x27;../../../util/converter.service&#x27;;
 import { OccEndpointsService } from &#x27;../../services/occ-endpoints.service&#x27;;
 import {
@@ -628,6 +628,7 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'OccCartVoucherAdapter.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

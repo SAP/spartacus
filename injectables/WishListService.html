@@ -115,7 +115,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(store: Store<StateWithMultiCart>, authService: <a href="../injectables/AuthService.html">AuthService</a>, userService: <a href="../injectables/UserService.html">UserService</a>, multiCartService: <a href="../injectables/MultiCartService.html">MultiCartService</a>)</code>
+<code>constructor(store: Store<StateWithMultiCart>, userService: <a href="../injectables/UserService.html">UserService</a>, multiCartService: <a href="../injectables/MultiCartService.html">MultiCartService</a>, userIdService: <a href="../injectables/UserIdService.html">UserIdService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -150,18 +150,6 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>authService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
                                                         <td>userService</td>
                                                   
                                                         <td>
@@ -178,6 +166,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/MultiCartService.html" target="_self" >MultiCartService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>userIdService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UserIdService.html" target="_self" >UserIdService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -652,7 +652,7 @@ import {
   tap,
   withLatestFrom,
 } from &#x27;rxjs/operators&#x27;;
-import { AuthService } from &#x27;../../auth/facade/auth.service&#x27;;
+import { UserIdService } from &#x27;../../auth/user-auth/facade/user-id.service&#x27;;
 import { Cart, OrderEntry } from &#x27;../../model/index&#x27;;
 import { OCC_USER_ID_ANONYMOUS } from &#x27;../../occ/utils/occ-constants&#x27;;
 import { UserService } from &#x27;../../user/facade/user.service&#x27;;
@@ -668,9 +668,9 @@ import { MultiCartService } from &#x27;./multi-cart.service&#x27;;
 export class WishListService {
   constructor(
     protected store: Store&lt;StateWithMultiCart&gt;,
-    protected authService: AuthService,
     protected userService: UserService,
-    protected multiCartService: MultiCartService
+    protected multiCartService: MultiCartService,
+    protected userIdService: UserIdService
   ) {}
 
   createWishList(userId: string, name?: string, description?: string): void {
@@ -683,7 +683,7 @@ export class WishListService {
     return combineLatest([
       this.getWishListId(),
       this.userService.get(),
-      this.authService.getOccUserId(),
+      this.userIdService.getUserId(),
     ]).pipe(
       distinctUntilChanged(),
       tap(([wishListId, user, userId]) &#x3D;&gt; {
@@ -715,7 +715,7 @@ export class WishListService {
     this.getWishListId()
       .pipe(
         distinctUntilChanged(),
-        withLatestFrom(this.authService.getOccUserId(), this.userService.get()),
+        withLatestFrom(this.userIdService.getUserId(), this.userService.get()),
         tap(([wishListId, userId, user]) &#x3D;&gt; {
           if (
             !Boolean(wishListId) &amp;&amp;
@@ -737,7 +737,7 @@ export class WishListService {
     this.getWishListId()
       .pipe(
         distinctUntilChanged(),
-        withLatestFrom(this.authService.getOccUserId(), this.userService.get()),
+        withLatestFrom(this.userIdService.getUserId(), this.userService.get()),
         tap(([wishListId, userId, user]) &#x3D;&gt; {
           if (
             !Boolean(wishListId) &amp;&amp;
@@ -803,6 +803,7 @@ export class WishListService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'WishListService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

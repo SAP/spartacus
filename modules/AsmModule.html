@@ -166,8 +166,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="13"
-                            class="link-to-prism">projects/core/src/asm/asm.module.ts:13</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="25"
+                            class="link-to-prism">projects/core/src/asm/asm.module.ts:25</a></div>
                 </td>
             </tr>
 
@@ -176,7 +176,7 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>ModuleWithProviders&lt;AsmModule&gt;</code>
+                        <b>Returns : </b>        <code><a href="../interfaces/Module.html" target="_self" >ModuleWithProviders&lt;AsmModule&gt;</a></code>
 
                     </div>
                 </td>
@@ -189,21 +189,53 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
-import { HttpClientModule } from &#x27;@angular/common/http&#x27;;
-import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
-import { provideDefaultConfig } from &#x27;../config/config.module&#x27;;
+import { APP_INITIALIZER, ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
+import { AuthService } from &#x27;../auth/user-auth/facade/auth.service&#x27;;
+import { AuthHttpHeaderService } from &#x27;../auth/user-auth/services/auth-http-header.service&#x27;;
+import { AuthStorageService } from &#x27;../auth/user-auth/services/auth-storage.service&#x27;;
+import { provideDefaultConfig } from &#x27;../config/config-providers&#x27;;
 import { defaultAsmConfig } from &#x27;./config/default-asm-config&#x27;;
+import { AsmAuthHttpHeaderService } from &#x27;./services/asm-auth-http-header.service&#x27;;
+import { AsmAuthStorageService } from &#x27;./services/asm-auth-storage.service&#x27;;
+import { AsmAuthService } from &#x27;./services/asm-auth.service&#x27;;
+import { AsmStatePersistenceService } from &#x27;./services/asm-state-persistence.service&#x27;;
 import { AsmStoreModule } from &#x27;./store/asm-store.module&#x27;;
-import { interceptors } from &#x27;./http-interceptors/index&#x27;;
+
+export function asmStatePersistenceFactory(
+  asmStatePersistenceService: AsmStatePersistenceService
+) {
+  const result &#x3D; () &#x3D;&gt; asmStatePersistenceService.initSync();
+  return result;
+}
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule, AsmStoreModule],
+  imports: [CommonModule, AsmStoreModule],
 })
 export class AsmModule {
   static forRoot(): ModuleWithProviders&lt;AsmModule&gt; {
     return {
       ngModule: AsmModule,
-      providers: [...interceptors, provideDefaultConfig(defaultAsmConfig)],
+      providers: [
+        provideDefaultConfig(defaultAsmConfig),
+        {
+          provide: AuthStorageService,
+          useExisting: AsmAuthStorageService,
+        },
+        {
+          provide: AuthService,
+          useExisting: AsmAuthService,
+        },
+        {
+          provide: AuthHttpHeaderService,
+          useExisting: AsmAuthHttpHeaderService,
+        },
+        {
+          provide: APP_INITIALIZER,
+          useFactory: asmStatePersistenceFactory,
+          deps: [AsmStatePersistenceService],
+          multi: true,
+        },
+      ],
     };
   }
 }
@@ -243,6 +275,7 @@ export class AsmModule {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
             var COMPODOC_CURRENT_PAGE_URL = 'AsmModule.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

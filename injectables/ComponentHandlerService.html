@@ -127,7 +127,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/component-handler.service.ts:21</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/component-handler.service.ts:22</a></div>
                             </td>
                         </tr>
 
@@ -185,15 +185,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getLauncher(componentMapping: <a href="../interfaces/CmsComponentMapping.html">CmsComponentMapping</a>, viewContainerRef: <a href="https://angular.io/api/core/ViewContainerRef" target="_blank">ViewContainerRef</a>, elementInjector?: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>)</code>
+<code>getLauncher(componentMapping: <a href="../interfaces/CmsComponentMapping.html">CmsComponentMapping</a>, viewContainerRef: <a href="https://angular.io/api/core/ViewContainerRef" target="_blank">ViewContainerRef</a>, elementInjector?: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>, module?: <a href="../interfaces/Module.html">NgModuleRef<any></a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="58"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/component-handler.service.ts:58</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/component-handler.service.ts:59</a></div>
                 </td>
             </tr>
 
@@ -250,6 +250,18 @@
 
 
                                 </tr>
+                                <tr>
+                                    <td>module</td>
+                                    <td>
+                                                <code><a href="../interfaces/Module.html" target="_self" >NgModuleRef&lt;any&gt;</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -290,8 +302,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/component-handler.service.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/component-handler.service.ts:36</a></div>
                 </td>
             </tr>
 
@@ -366,7 +378,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/component-handler.service.ts:28</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/component-handler.service.ts:29</a></div>
                             </td>
                         </tr>
 
@@ -386,6 +398,7 @@
   Injectable,
   Injector,
   isDevMode,
+  NgModuleRef,
   Optional,
   ViewContainerRef,
 } from &#x27;@angular/core&#x27;;
@@ -439,12 +452,14 @@ export class ComponentHandlerService {
   getLauncher(
     componentMapping: CmsComponentMapping,
     viewContainerRef: ViewContainerRef,
-    elementInjector?: Injector
+    elementInjector?: Injector,
+    module?: NgModuleRef&lt;any&gt;
   ): Observable&lt;{ elementRef: ElementRef; componentRef?: ComponentRef&lt;any&gt; }&gt; {
     return this.resolve(componentMapping)?.launcher(
       componentMapping,
       viewContainerRef,
-      elementInjector
+      elementInjector,
+      module
     );
   }
 }
@@ -482,6 +497,7 @@ export class ComponentHandlerService {
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
             var COMPODOC_CURRENT_PAGE_URL = 'ComponentHandlerService.html';
+            var MAX_SEARCH_RESULTS = 15;
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>
