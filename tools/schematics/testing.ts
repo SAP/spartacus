@@ -68,21 +68,21 @@ function buildSchematics() {
 }
 
 async function executeCommand(
-  command: 'publish' | 'build schematics' | 'build all libs'
+  command: 'publish' | 'build projects/schematics' | 'build all libs'
 ): Promise<void> {
   switch (command) {
     case 'publish':
       publishLibs();
       break;
-    case 'build schematics':
+    case 'build projects/schematics':
       buildSchematics();
       break;
     case 'build all libs':
       buildLibs();
       break;
     default:
-      const a: never = command;
-      throw new Error(`Command ${a} not covered!`);
+      const cmd: never = command;
+      throw new Error(`Command ${cmd} not covered!`);
   }
 }
 
@@ -92,14 +92,15 @@ async function program() {
   verdaccioProcess = startVerdaccio();
   try {
     // Give time for verdaccio to boot up
+    console.log('Waiting for verdaccio to boot...');
     execSync(`sleep 30`);
 
     while (true) {
       const choices = <const>[
         'publish',
-        'exit',
-        'build schematics',
+        'build projects/schematics',
         'build all libs',
+        'exit',
       ];
       const response: { command: typeof choices[number] } = await prompt({
         name: 'command',

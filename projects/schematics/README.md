@@ -41,6 +41,7 @@ The best way to test an unpublished schematic is to publish it to a local npm re
 
 ### Publishing to verdaccio
 
+- before you publish for the first time make sure you have builded libs or run `build all libs`
 - select option `publish` from the verdaccio script (it will bump package patch version and publish to verdaccio)
 - do changes, rebuild changed libraries and publish once again (every publish will bump to even higher version)
 
