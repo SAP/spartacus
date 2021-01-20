@@ -170,7 +170,7 @@ export function siteContextChange(
       throw new Error(`Unsupported context label : ${label}`);
     }
   }
-  cy.wait(`@${alias}`).its('status').should('eq', 200);
+  cy.wait(`@${alias}`);
 
   cy.route('GET', `*${contextParam}=${selectedOption}*`).as('switchedContext');
   switchSiteContext(selectedOption, label);
