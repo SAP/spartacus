@@ -61,7 +61,16 @@
       "@spartacus/core": ["../../dist/core"],
       "@spartacus/incubator": ["../../dist/incubator"],
       "@spartacus/storefront": ["../../dist/storefrontlib"],
-      "@spartacus/vendor": ["../../dist/vendor"]
+      "@spartacus/vendor": ["../../dist/vendor"],
+      "@spartacus/product/variants/generic/components": [
+        "../../dist/product/variants/generic/components/public_api"
+      ],
+      "@spartacus/product/variants/generic/core": [
+        "../../dist/product/variants/generic/core/public_api"
+      ],
+      "@spartacus/product/variants/generic/occ": [
+        "../../dist/product/variants/generic/occ/public_api"
+      ]
     }
   }
 }

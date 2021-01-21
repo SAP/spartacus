@@ -115,6 +115,15 @@
       ],
       "@spartacus/vendor": [
         "projects/vendor/public_api"
+      ],
+      "@spartacus/product/variants/generic/components": [
+        "feature-libs/product/variants/generic/components/public_api"
+      ],
+      "@spartacus/product/variants/generic/core": [
+        "feature-libs/product/variants/generic/core/public_api"
+      ],
+      "@spartacus/product/variants/generic/occ": [
+        "feature-libs/product/variants/generic/occ/public_api"
       ]
     }
   },

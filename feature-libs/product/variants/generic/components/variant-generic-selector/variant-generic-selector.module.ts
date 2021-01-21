@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { UrlModule, I18nModule } from '@spartacus/core';
 import { RouterModule } from '@angular/router';
-import { MediaModule } from 'projects/storefrontlib/src/shared';
+import { MediaModule } from '@spartacus/storefront';
 import { VariantGenericSelectorComponent } from './variant-generic-selector.component';
 
 @NgModule({
