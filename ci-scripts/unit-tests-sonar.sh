@@ -64,9 +64,6 @@ echo "Running schematics unit tests and code coverage for storefinder library"
 exec 5>&1
 output=$(yarn --cwd feature-libs/storefinder run test:schematics --coverage=true | tee /dev/fd/5)
 
-echo "Running unit tests and code coverage for checkout library"
-exec 5>&1
-
 echo "Running unit tests and code coverage for setup"
 exec 5>&1
 output=$(ng test setup --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
