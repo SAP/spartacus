@@ -1,6 +1,7 @@
 import { AssertionError } from 'assert';
 import { user } from '../sample-data/checkout-flow';
 import * as authentication from './auth-forms';
+import Chainable = Cypress.Chainable;
 import {
   AddressData,
   fillPaymentDetails,
@@ -8,7 +9,6 @@ import {
   PaymentDetails,
 } from './checkout-forms';
 import { navigation } from './navigation';
-import Chainable = Cypress.Chainable;
 
 const shippingAddressData: AddressData = user;
 const billingAddress: AddressData = user;
@@ -962,9 +962,6 @@ export function clickAddToCartBtn(): void {
     .click()
     .then(() => {
       cy.location('pathname').should('contain', 'cartEntry/entityKey/');
-      checkUpdatingMessageNotDisplayed();
-      checkGlobalMessageNotDisplayed();
-      checkUpdatingMessageNotDisplayed();
       checkGlobalMessageNotDisplayed();
     });
 }

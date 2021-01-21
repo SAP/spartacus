@@ -38,8 +38,10 @@ class MockConfiguratorCommonsService {
 }
 
 class MockMessageConfig {
-  updateConfigurationMessage = {
-    waitingTime: waitingTime,
+  productConfigurator = {
+    updateConfigurationMessage: {
+      waitingTime: waitingTime,
+    },
   };
 }
 @Component({

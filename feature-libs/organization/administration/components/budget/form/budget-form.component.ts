@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { AbstractControl, FormGroup } from '@angular/forms';
 import { Currency, CurrencyService } from '@spartacus/core';
 import {
   B2BUnitNode,
@@ -11,6 +11,7 @@ import { CurrentItemService } from '../../shared/current-item.service';
 import { ItemService } from '../../shared/item.service';
 import { BudgetItemService } from '../services/budget-item.service';
 import { CurrentBudgetService } from '../services/current-budget.service';
+import { createCodeForEntityName } from '../../shared/utility/entity-code';
 
 @Component({
   selector: 'cx-org-budget-form',
@@ -42,5 +43,9 @@ export class BudgetFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.unitService.loadList();
+  }
+
+  createCodeWithName(name: AbstractControl, code: AbstractControl): void {
+    createCodeForEntityName(name, code);
   }
 }
