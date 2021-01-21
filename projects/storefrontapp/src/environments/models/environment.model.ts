@@ -4,6 +4,6 @@ export interface Environment {
   occApiPrefix: string;
   b2b: boolean;
   cds: boolean;
-  productconfig: boolean;
+  productConfig: boolean;
   cdc: boolean;
 }

@@ -12,7 +12,7 @@ export const environment: Environment = {
     'https://spartacus-devci767.eastus.cloudapp.azure.com:9002',
   // 'https://spartacus-dev0.eastus.cloudapp.azure.com:9002',
   occApiPrefix: build.process.env.SPARTACUS_API_PREFIX ?? '/occ/v2/',
-  productconfig: true,
+  productConfig: build.process.env.SPARTACUS_PRODUCT_CONFIGURATOR ?? true,
   cds: build.process.env.SPARTACUS_CDS ?? false,
   b2b: build.process.env.SPARTACUS_B2B ?? false,
   cdc: build.process.env.SPARTACUS_CDC ?? false,

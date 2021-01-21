@@ -36,7 +36,7 @@ let additionalImports = [];
 if (environment.cds) {
   additionalImports = [...additionalImports, ...cdsFeature.imports];
 }
-if (environment.productconfig) {
+if (environment.productConfig) {
   additionalImports = [...additionalImports, ...productConfigFeature.imports];
 }
 if (environment.b2b) {
