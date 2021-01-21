@@ -125,4 +125,3 @@
     }
   },
   "exclude": ["./dist", "./projects/storefrontapp-e2e-cypress"]
-}
