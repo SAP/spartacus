@@ -9,5 +9,4 @@ export const environment: Environment = {
   cds: build.process.env.SPARTACUS_CDS,
   b2b: build.process.env.SPARTACUS_B2B,
   cdc: build.process.env.SPARTACUS_CDC,
-  productConfig: build.process.env.SPARTACUS_PRODUCT_CONFIGURATOR ?? true,
 };
