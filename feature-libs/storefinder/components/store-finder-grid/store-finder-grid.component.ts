@@ -1,16 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GeoPoint } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { StoreFinderService } from '@spartacus/storefinder/core';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import {
+  FindStoresState,
+  StoreFinderService,
+} from '@spartacus/storefinder/core';
 
 @Component({
   selector: 'cx-store-finder-grid',
   templateUrl: './store-finder-grid.component.html',
 })
 export class StoreFinderGridComponent implements OnInit, OnDestroy {
-  locations$: any;
-  isLoading$: Observable<boolean>;
   defaultLocation: GeoPoint;
   country: string;
   region: string;
@@ -20,11 +21,24 @@ export class StoreFinderGridComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) {}
 
-  ngOnInit() {
-    this.isLoading$ = this.storeFinderService.getViewAllStoresLoading();
-    this.locations$ = this.storeFinderService.getViewAllStoresEntities();
-    this.defaultLocation = {};
+  isLoading$: Observable<boolean> = this.storeFinderService.getStoresLoading();
+  locations$: Observable<
+    FindStoresState
+  > = this.storeFinderService.getFindStoresEntities();
+  isLoaded$: Observable<boolean> = this.storeFinderService.getStoresLoaded();
+  loadData: Subscription = combineLatest([
+    this.isLoaded$,
+    this.isLoading$,
+  ]).subscribe(([loaded, loading]) => {
+    if (!loaded && !loading) this.findStores();
+  });
 
+  ngOnInit() {
+    this.defaultLocation = {};
+    this.findStores();
+  }
+
+  findStores() {
     if (this.route.snapshot.params.country) {
       this.storeFinderService.findStoresAction(
         '',
@@ -36,6 +50,7 @@ export class StoreFinderGridComponent implements OnInit, OnDestroy {
       );
     }
   }
-
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.loadData.unsubscribe();
+  }
 }

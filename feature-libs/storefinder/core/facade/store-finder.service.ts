@@ -38,6 +38,13 @@ export class StoreFinderService {
   }
 
   /**
+   * Returns boolean observable for store's success state
+   */
+  getStoresLoaded(): Observable<boolean> {
+    return this.store.pipe(select(StoreFinderSelectors.getStoresSucess));
+  }
+
+  /**
    * Returns observable for store's entities
    */
   getFindStoresEntities(): Observable<FindStoresState> {
