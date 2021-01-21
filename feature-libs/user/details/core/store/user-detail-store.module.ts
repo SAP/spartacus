@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { effects } from './effects/index';
-import { metaReducers, reducerProvider, reducerToken } from './reducers';
+import { metaReducers, reducerProvider, reducerToken } from './reducers/index';
 import { USER_FEATURE } from './user-details.state';
 
 @NgModule({

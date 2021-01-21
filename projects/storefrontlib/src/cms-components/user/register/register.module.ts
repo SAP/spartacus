@@ -12,6 +12,9 @@ import {
 import { FormErrorsModule, SpinnerModule } from '../../../shared/index';
 import { RegisterComponent } from './register.component';
 
+/**
+ * @deprecated since 3.2, use @spartacus/user package instead.
+ */
 @NgModule({
   imports: [
     CommonModule,
