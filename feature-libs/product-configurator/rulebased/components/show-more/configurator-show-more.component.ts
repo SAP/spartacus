@@ -27,6 +27,7 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   constructor(protected cdRef: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
+    console.log('hi', this.text);
     this.textNormalized = this.normalize(this.text);
 
     if (this.textNormalized.length > this.textSize) {
