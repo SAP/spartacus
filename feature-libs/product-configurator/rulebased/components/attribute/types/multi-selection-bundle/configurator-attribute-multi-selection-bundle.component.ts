@@ -60,24 +60,24 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
 
   get withQuantityOnAttributeLevel() {
     return (
-      this.attribute.dataType ===
+      this.attribute?.dataType ===
       Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
     );
   }
 
   get withQuantity() {
     return this.quantityService.withQuantity(
-      this.attribute.dataType,
-      this.attribute.uiType
+      this.attribute?.dataType,
+      this.attribute?.uiType
     );
   }
 
   get readOnlyQuantity() {
     return (
-      this.attribute.dataType ===
+      this.attribute?.dataType ===
         Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL &&
-      (!this.attribute.values.find((value) => value.selected) ||
-        this.attribute.quantity === 0)
+      (!this.attribute?.values.find((value) => value.selected) ||
+        this.attribute?.quantity === 0)
     );
   }
 
