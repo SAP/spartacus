@@ -62,7 +62,9 @@
       "@spartacus/organization/order-approval/root": [
         "feature-libs/organization/order-approval/root/public_api"
       ],
-      "@spartacus/product": ["feature-libs/product/public_api"],
+      "@spartacus/product": [
+        "feature-libs/product/public_api"
+      ],
       "@spartacus/product-configurator": [
         "feature-libs/product-configurator/public_api"
       ],
@@ -83,14 +85,25 @@
       ],      
       "@spartacus/product-configurator/rulebased/root": [
         "feature-libs/product-configurator/rulebased/root/public_api"
-      ],      
-      "@spartacus/storefinder": ["feature-libs/storefinder/public_api"],
-      "@spartacus/storefinder/root": ["feature-libs/storefinder/root/public_api"],
-      "@spartacus/storefinder/core": ["feature-libs/storefinder/core/public_api"],
-      "@spartacus/storefinder/occ": ["feature-libs/storefinder/occ/public_api"],
-      "@spartacus/storefinder/components": ["feature-libs/storefinder/components/public_api"],
-      "@spartacus/storefinder/assets": ["feature-libs/storefinder/assets/public_api"],
-  
+      ],       
+      "@spartacus/storefinder/assets": [
+        "feature-libs/storefinder/assets/public_api"
+      ],
+      "@spartacus/storefinder/components": [
+        "feature-libs/storefinder/components/public_api"
+      ],
+      "@spartacus/storefinder/core": [
+        "feature-libs/storefinder/core/public_api"
+      ],
+      "@spartacus/storefinder": [
+        "feature-libs/storefinder/public_api"
+      ],
+      "@spartacus/storefinder/occ": [
+        "feature-libs/storefinder/occ/public_api"
+      ],
+      "@spartacus/storefinder/root": [
+        "feature-libs/storefinder/root/public_api"
+      ],
       "@spartacus/cdc": [
         "integration-libs/cdc/public_api"
       ],
