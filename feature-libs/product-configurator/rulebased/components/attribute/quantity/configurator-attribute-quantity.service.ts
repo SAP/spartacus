@@ -16,6 +16,7 @@ export class ConfiguratorAttributeQuantityService {
     switch (uiType) {
       case Configurator.UiType.DROPDOWN:
       case Configurator.UiType.RADIOBUTTON:
+      case Configurator.UiType.DROPDOWN_PRODUCT:
       case Configurator.UiType.RADIOBUTTON_PRODUCT:
         return dataType ===
           Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
@@ -23,7 +24,6 @@ export class ConfiguratorAttributeQuantityService {
           : false;
 
       case Configurator.UiType.CHECKBOXLIST_PRODUCT:
-      case Configurator.UiType.DROPDOWN_PRODUCT:
         return dataType === Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL
           ? true
           : false;
