@@ -71,9 +71,9 @@ export class DebugSpikeComponent {
 @NgModule({
   providers: [
     provideOutlet({
-      id: 'cx-storefront',
+      id: 'cx-header',
       component: DebugSpikeComponent,
-      position: OutletPosition.BEFORE,
+      position: OutletPosition.AFTER,
     }),
   ],
   imports: [
