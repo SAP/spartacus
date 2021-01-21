@@ -36,9 +36,7 @@ let additionalImports = [];
 if (environment.cds) {
   additionalImports = [...additionalImports, ...cdsFeature.imports];
 }
-if (environment.productConfig) {
-  additionalImports = [...additionalImports, ...productConfigFeature.imports];
-}
+
 if (environment.b2b) {
   additionalImports = [...additionalImports, ...b2bFeature.imports];
 } else {
@@ -48,6 +46,8 @@ if (environment.b2b) {
 if (environment.cdc) {
   additionalImports = [...additionalImports, ...cdcFeature.imports];
 }
+
+additionalImports = [...additionalImports, ...productConfigFeature.imports];
 
 @NgModule({
   imports: [
