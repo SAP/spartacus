@@ -10,14 +10,15 @@ import { Subscription } from 'rxjs';
 })
 export class AsmToggleUiComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
-  isCollapsed: boolean | undefined;
+  isCollapsed: boolean;
 
   constructor(protected asmService: AsmService) {}
 
   ngOnInit(): void {
     this.subscription.add(
       this.asmService.getAsmUiState().subscribe((uiState: AsmUi) => {
-        this.isCollapsed = uiState.collapsed;
+        this.isCollapsed =
+          uiState.collapsed === undefined ? false : uiState.collapsed;
       })
     );
   }

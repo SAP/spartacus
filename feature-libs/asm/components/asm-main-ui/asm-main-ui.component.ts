@@ -28,7 +28,7 @@ export class AsmMainUiComponent implements OnInit {
   customerSupportAgentLoggedIn$: Observable<boolean>;
   csAgentTokenLoading$: Observable<boolean>;
   customer$: Observable<User | undefined>;
-  isCollapsed$: Observable<boolean | undefined>;
+  isCollapsed$: Observable<boolean>;
 
   @HostBinding('class.hidden') disabled = false;
 
@@ -59,7 +59,11 @@ export class AsmMainUiComponent implements OnInit {
     );
     this.isCollapsed$ = this.asmService
       .getAsmUiState()
-      .pipe(map((uiState: AsmUi) => uiState.collapsed));
+      .pipe(
+        map((uiState: AsmUi) =>
+          uiState.collapsed === undefined ? false : uiState.collapsed
+        )
+      );
   }
 
   private handleCustomerSessionStartRedirection(): void {
