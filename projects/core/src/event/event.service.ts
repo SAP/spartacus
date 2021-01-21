@@ -43,6 +43,8 @@ export class EventService {
    *  when the event source is no longer maintained by its creator
    * (i.e. in `ngOnDestroy` if the event source was registered in the component).
    *
+   * @since 3.1 - registers the given `source$` for the parent classes of the given `eventType`.
+   *
    * @param eventType the event type
    * @param source$ an observable that represents the source
    *
@@ -145,6 +147,15 @@ export class EventService {
       );
     }
 
+    this.validateCxEvent(eventType);
+  }
+
+  /**
+   * Validates if the given type (or its prototype chain) extends from the CxEvent.
+   *
+   * Should be used only in the dev mode.
+   */
+  private validateCxEvent<T>(eventType: AbstractType<T>): void {
     let parentType = eventType;
     while (
       parentType !== null &&
@@ -156,8 +167,9 @@ export class EventService {
 
       parentType = Object.getPrototypeOf(parentType);
     }
+
     console.warn(
-      `The ${eventType.name} (or one of its predecessors) does not inherit from the ${CxEvent}`
+      `The ${eventType.name} (or one of its parent classes) does not inherit from the ${CxEvent.type}`
     );
   }
 
