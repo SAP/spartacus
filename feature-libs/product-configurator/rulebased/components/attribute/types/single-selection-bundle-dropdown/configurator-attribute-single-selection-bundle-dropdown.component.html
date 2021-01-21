@@ -24,12 +24,21 @@
       createAttributeValueIdForConfigurator(attribute, selectionValue.valueCode)
     }}"
     (handleDeselect)="onDeselect()"
-    (handleQuantity)="onChangeQuantity($event)"
     [preventAction]="true"
     [product]="selectionValue"
     [singleDropdown]="true"
-    [withQuantity]="withQuantity"
+    [withQuantity]="false"
     *ngIf="selectionValue?.valueCode !== '0'"
   >
   </cx-configurator-attribute-product-card>
+
+  <cx-configurator-attribute-quantity
+    (changeQuantity)="onChangeQuantity($event)"
+    [allowZero]="attribute.required"
+    [initialQuantity]="
+      attributeDropDownForm.value !== '0' ? attribute.quantity : 0
+    "
+    [readonly]="readOnlyQuantity || (loading$ | async)"
+    *ngIf="withQuantity"
+  ></cx-configurator-attribute-quantity>
 </div>

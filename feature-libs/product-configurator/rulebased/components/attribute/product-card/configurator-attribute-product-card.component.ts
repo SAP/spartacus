@@ -43,11 +43,7 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
   }
 
   get showQuantity() {
-    return (
-      this.withQuantity &&
-      this.product.selected &&
-      (this.multiSelect || this.singleDropdown)
-    );
+    return this.withQuantity && this.product.selected && this.multiSelect;
   }
 
   onHandleSelect(): void {

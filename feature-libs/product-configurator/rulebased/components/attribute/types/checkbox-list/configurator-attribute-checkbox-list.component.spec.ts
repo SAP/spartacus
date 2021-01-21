@@ -143,7 +143,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
   });
 
   it('should call withQuantity', () => {
-    expect(component.withQuantity).toBeTruthy();
+    expect(component.withQuantity).toBeFalsy();
   });
 
   it('should call readOnlyQuantity', () => {
