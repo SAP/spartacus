@@ -9,7 +9,7 @@
     }
   },
   "assets": [
-    "core/webApplicationInjector.js",
+    "assets/webApplicationInjector.js",
     "schematics/**/*.json",
     "schematics/**/*.js"
   ]

@@ -75,7 +75,7 @@ export class SmartEditService {
    */
   protected loadScript(): void {
     const node = document.createElement('script');
-    node.src = '../webApplicationInjector.js';
+    node.src = 'assets/webApplicationInjector.js';
     node.id = 'smartedit-injector';
     node.setAttribute(
       'data-smartedit-allow-origin',

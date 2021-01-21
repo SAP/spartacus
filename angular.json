@@ -25,7 +25,12 @@
             "assets": [
               "projects/storefrontapp/src/favicon.ico",
               "projects/storefrontapp/src/assets",
-              "projects/storefrontapp/src/manifest.json"
+              "projects/storefrontapp/src/manifest.json",
+              {
+                "glob": "**/*",
+                "input": "feature-libs/smartedit/assets",
+                "output": "projects/storefrontapp/src/assets/"
+              }
             ],
             "extractCss": true,
             "styles": [
@@ -112,7 +117,12 @@
             "assets": [
               "projects/storefrontapp/src/favicon.ico",
               "projects/storefrontapp/src/assets",
-              "projects/storefrontapp/src/manifest.json"
+              "projects/storefrontapp/src/manifest.json",
+              {
+                "glob": "**/*",
+                "input": "feature-libs/smartedit/assets",
+                "output": "projects/storefrontapp/src/assets/"
+              }
             ],
             "codeCoverageExclude": ["dist/**/*"]
           }
