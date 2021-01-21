@@ -91,7 +91,7 @@
     "build:product": "ng build product --prod",
     "release:organization:with-changelog": "cd feature-libs/organization && release-it && cd ../..",
     "release:product:with-changelog": "cd feature-libs/product && release-it && cd ../..",
-    "build:checkout": "yarn --cwd feature-libs/checkout run build:schematics && ng build checkout --prod",
+    "build:checkout": "ng build checkout --prod",
     "release:checkout:with-changelog": "cd feature-libs/checkout && release-it && cd ../..",
     "build:storefinder": "yarn --cwd feature-libs/storefinder run build:schematics && ng build storefinder --prod",
     "release:storefinder:with-changelog": "cd feature-libs/storefinder && release-it && cd ../..",
