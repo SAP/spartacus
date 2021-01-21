@@ -2,11 +2,14 @@ import {
   ASSIGNMENT_LABELS,
   CONFIRMATION_LABELS,
   MyCompanyConfig,
-} from './models/index';
-import { completeForm, FormType } from './my-company-form';
-import { ignoreCaseSensivity, loginAsMyCompanyAdmin } from './my-company.utils';
+} from '../models/index';
+import { completeForm, FormType } from './utils/form';
+import {
+  ignoreCaseSensivity,
+  loginAsMyCompanyAdmin,
+} from '../my-company.utils';
 
-export function testAssignmentFromConfig(config: MyCompanyConfig) {
+export function assignmentsTest(config: MyCompanyConfig) {
   config?.subCategories?.forEach((subConfig: MyCompanyConfig) => {
     describe(`${config.name} Assignment - ${subConfig.name}`, () => {
       let firstOption: string;

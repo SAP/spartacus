@@ -1,6 +1,6 @@
 import { FULL_BASE_URL_EN_USD } from '../../../site-context-selector';
 import { randomString } from '../../../user';
-import { INPUT_TYPE, MyCompanyConfig } from '../models';
+import { INPUT_TYPE, MyCompanyConfig, MY_COMPANY_FEATURE } from '../models';
 
 export const purchaseLimitConfigs: MyCompanyConfig[] = [
   {
@@ -9,7 +9,6 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
     apiEndpoint: '/users/current/orderApprovalPermissions',
     objectType: 'orderApprovalPermissions',
     selectOptionsEndpoint: '*orderApprovalPermissionTypes*',
-    canDisable: true,
     verifyStatusInDetails: true,
     rows: [
       {
@@ -57,6 +56,13 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
         showInDetails: true,
       },
     ],
+    features: [
+      MY_COMPANY_FEATURE.CREATE,
+      MY_COMPANY_FEATURE.DISABLE,
+      MY_COMPANY_FEATURE.UPDATE,
+      MY_COMPANY_FEATURE.LIST,
+      ,
+    ],
   },
   {
     name: 'Purchase Limit',
@@ -65,7 +71,6 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
     apiEndpoint: '/users/current/orderApprovalPermissions',
     objectType: 'orderApprovalPermissions',
     selectOptionsEndpoint: '*orderApprovalPermissionTypes*',
-    disableListChecking: true,
     rows: [
       {
         label: 'Code',
@@ -132,6 +137,11 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
         showInDetails: true,
       },
     ],
+    features: [
+      MY_COMPANY_FEATURE.CREATE,
+      MY_COMPANY_FEATURE.DISABLE,
+      MY_COMPANY_FEATURE.UPDATE,
+    ],
   },
   {
     name: 'Purchase Limit',
@@ -140,7 +150,6 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
     apiEndpoint: '/users/current/orderApprovalPermissions',
     objectType: 'orderApprovalPermissions',
     selectOptionsEndpoint: '*orderApprovalPermissionTypes*',
-    disableListChecking: true,
     rows: [
       {
         label: 'Code',
@@ -216,6 +225,11 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
         formLabel: 'Parent Unit',
         showInDetails: true,
       },
+    ],
+    features: [
+      MY_COMPANY_FEATURE.CREATE,
+      MY_COMPANY_FEATURE.DISABLE,
+      MY_COMPANY_FEATURE.UPDATE,
     ],
   },
 ];

@@ -1,6 +1,6 @@
 import { FULL_BASE_URL_EN_USD } from '../../../site-context-selector';
 import { randomString } from '../../../user';
-import { INPUT_TYPE, MyCompanyConfig } from '../models';
+import { INPUT_TYPE, MyCompanyConfig, MY_COMPANY_FEATURE } from '../models';
 import { costCenterConfig } from './cost-center.config';
 import { userConfig } from './user';
 
@@ -67,8 +67,9 @@ export const unitShippingAddressConfig: MyCompanyConfig = {
 export const userRolesConfig: MyCompanyConfig = {
   rows: [
     {
-      label: 'Roles',
+      formLabel: 'Roles',
       updateValue: 'Manager',
+      inputType: INPUT_TYPE.CHECKBOX,
     },
   ],
 };
@@ -78,8 +79,6 @@ export const unitConfig: MyCompanyConfig = {
   baseUrl: `${FULL_BASE_URL_EN_USD}/organization/units`,
   apiEndpoint: '/orgUnits',
   objectType: 'children',
-  nestedTableRows: true,
-  canDisable: true,
   verifyStatusInDetails: true,
   rows: [
     {
@@ -222,5 +221,12 @@ export const unitConfig: MyCompanyConfig = {
       objectType: 'members',
       createConfig: costCenterConfig,
     },
+  ],
+  features: [
+    MY_COMPANY_FEATURE.CREATE,
+    MY_COMPANY_FEATURE.DISABLE,
+    MY_COMPANY_FEATURE.UPDATE,
+    MY_COMPANY_FEATURE.NESTED_LIST,
+    MY_COMPANY_FEATURE.ASSIGNMENTS,
   ],
 };
