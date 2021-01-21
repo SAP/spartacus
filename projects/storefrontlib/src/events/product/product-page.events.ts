@@ -1,4 +1,4 @@
-import { Category, Price } from '@spartacus/core';
+import { Category, Price, Suggestion } from '@spartacus/core';
 import { PageEvent } from '../page/page.events';
 
 /**
@@ -32,6 +32,7 @@ export class SearchPageResultsEvent extends PageEvent {
 /**
  * Indicates that the user chose a suggestion
  */
-export class SearchSuggestionSelectedEvent extends PageEvent {
-  suggestionTerm: string;
+export class SearchSuggestionSelectedEvent {
+  selectedSuggestion: string;
+  searchSuggestions: Suggestion[];
 }

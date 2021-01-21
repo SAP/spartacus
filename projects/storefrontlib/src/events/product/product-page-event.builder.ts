@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { ofType } from '@ngrx/effects';
+import { ActionsSubject } from '@ngrx/store';
 import {
   createFrom,
   EventService,
@@ -6,7 +8,7 @@ import {
   ProductService,
   SearchboxService,
 } from '@spartacus/core';
-import { EMPTY, Observable } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import {
   filter,
   map,
@@ -31,7 +33,8 @@ export class ProductPageEventBuilder {
     protected eventService: EventService,
     protected productService: ProductService,
     protected productSearchService: ProductSearchService,
-    protected searchBoxService: SearchboxService // TODO deprecation yay!
+    protected searchBoxService: SearchboxService, // TODO deprecation yay!
+    protected actionsSubject: ActionsSubject
   ) {
     this.register();
   }
@@ -150,7 +153,11 @@ export class ProductPageEventBuilder {
         }
 
         return searchResults$.pipe(
-          withLatestFrom(this.searchBoxService.getSuggestionResults()),
+          switchMap((searchResults) => {
+            return of(searchResults).pipe(
+              withLatestFrom(this.searchBoxService.getSuggestionResults())
+            );
+          }),
           filter(
             ([searchResults, suggestions]) =>
               Boolean(searchResults?.freeTextSearch) &&
@@ -159,14 +166,20 @@ export class ProductPageEventBuilder {
                   suggestion.value === searchResults?.freeTextSearch
               ).length > 0
           ),
-          map(([searchResults]) =>
+          map(([searchResults, suggestions]) =>
             createFrom(SearchSuggestionSelectedEvent, {
-              ...pageEvent,
-              suggestionTerm: searchResults?.freeTextSearch,
+              selectedSuggestion: searchResults?.freeTextSearch,
+              searchSuggestions: suggestions,
             })
           )
         );
       })
     );
+  }
+
+  protected getAction(
+    actionType: string | string[]
+  ): Observable<{ type: string; payload?: any }> {
+    return this.actionsSubject.pipe(ofType(...[].concat(actionType)));
   }
 }

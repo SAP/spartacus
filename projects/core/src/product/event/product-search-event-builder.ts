@@ -4,14 +4,10 @@ import { ActionsSubject } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { EventService } from '../../event/event.service';
-import { ActionToEventMapping } from '../../state/event/action-to-event-mapping';
 import { createFrom } from '../../util/create-from';
 import { SearchboxService } from '../facade/searchbox.service';
 import { ProductActions } from '../store/index';
-import {
-  ProductSearchSuggestionResultsEvent,
-  ProductSearchTypeEvent,
-} from './product-search-events';
+import { ProductSearchSuggestionResultsEvent } from './product-search-events';
 
 @Injectable({
   providedIn: 'root',
@@ -29,18 +25,7 @@ export class ProductSearchEventBuilder {
    * Registers Search events
    */
   protected register(): void {
-    this.registerProductSearchTypeEvent();
     this.registerProductSuggestionResultsEvent();
-  }
-
-  /**
-   * Registers typing in search bar event
-   */
-  protected registerProductSearchTypeEvent() {
-    this.mapSearchEvent({
-      action: ProductActions.GET_PRODUCT_SUGGESTIONS,
-      event: ProductSearchTypeEvent,
-    });
   }
 
   /**
@@ -53,18 +38,9 @@ export class ProductSearchEventBuilder {
     );
   }
 
-  protected mapSearchEvent<T>(mapping: ActionToEventMapping<T>): () => void {
-    const eventStream$ = this.getAction(mapping.action).pipe(
-      map((action) =>
-        createFrom<any>(mapping.event, {
-          searchQuery: action.payload.term,
-        })
-      )
-    );
-
-    return this.eventService.register(mapping.event, eventStream$);
-  }
-
+  /**
+   * Returns a stream listening to suggestions results and actions that returns ProductSearchSuggestionResultsEvent
+   */
   protected buildSuggestionResultsEvent(): Observable<
     ProductSearchSuggestionResultsEvent
   > {
@@ -72,13 +48,19 @@ export class ProductSearchEventBuilder {
       withLatestFrom(this.getAction(ProductActions.GET_PRODUCT_SUGGESTIONS)),
       map(([suggestions, searchAction]) =>
         createFrom(ProductSearchSuggestionResultsEvent, {
-          searchQuery: searchAction.payload.term,
+          searchQuery: searchAction?.payload?.term,
           searchSuggestions: suggestions,
         })
       )
     );
   }
 
+  // TODO_LP place in util file
+  /**
+   * Returns a stream of actions only of a given type(s)
+   *
+   * @param actionType type(s) of actions
+   */
   protected getAction(
     actionType: string | string[]
   ): Observable<{ type: string; payload?: any }> {
