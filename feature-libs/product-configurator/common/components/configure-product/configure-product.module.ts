@@ -31,11 +31,11 @@ import { ConfigureProductComponent } from './configure-product.component';
   ],
   providers: [
     provideOutlet({
-      id: ProductListOutlets.PLP_GRID_ITEM_END,
+      id: ProductListOutlets.GRID_ITEM_END,
       component: ConfigureProductComponent,
     }),
     provideOutlet({
-      id: ProductListOutlets.PLP_LIST_ITEM_END,
+      id: ProductListOutlets.LIST_ITEM_END,
       component: ConfigureProductComponent,
     }),
   ],
