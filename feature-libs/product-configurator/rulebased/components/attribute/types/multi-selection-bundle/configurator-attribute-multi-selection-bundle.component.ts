@@ -41,8 +41,6 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
   }
 
   ngOnInit() {
-    console.log(this.attribute.dataType, this.attribute.uiType);
-
     this.multipleSelectionValues = this.attribute.values.map(
       ({ name, quantity, selected, valueCode }) => ({
         name,
@@ -153,6 +151,18 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     );
   }
 
+  onDeselectAll(): void {
+    const event: ConfigFormUpdateEvent = {
+      changedAttribute: {
+        ...this.attribute,
+        values: [],
+      },
+      ownerKey: this.ownerKey,
+      updateType: Configurator.UpdateType.ATTRIBUTE,
+    };
+    this.selectionChange.emit(event);
+  }
+
   onChangeValueQuantity(eventValue): void {
     this.selectionChange.emit(
       this.updateMultipleSelectionValuesQuantity(eventValue)
@@ -160,17 +170,10 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
   }
 
   onChangeAttributeQuantity(eventObject): void {
-    if (!eventObject.quantity) {
-      const event: ConfigFormUpdateEvent = {
-        changedAttribute: {
-          ...this.attribute,
-          values: [],
-        },
-        ownerKey: this.ownerKey,
-        updateType: Configurator.UpdateType.ATTRIBUTE,
-      };
+    this.loading$.next(true);
 
-      this.selectionChange.emit(event);
+    if (!eventObject.quantity) {
+      this.onDeselectAll();
     } else {
       this.onHandleAttributeQuantity(eventObject.quantity);
     }

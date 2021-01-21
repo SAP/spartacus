@@ -165,7 +165,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     expect(component.attribute.values[3].selected).toEqual(false);
   });
 
-  it('should call selectionChange on event onChangeQuantity', () => {
+  it('should call selectionChange on event onChangeValueQuantity', () => {
     spyOn(component.selectionChange, 'emit').and.callThrough();
 
     component.ngOnInit();
@@ -280,5 +280,35 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
         updateType: Configurator.UpdateType.ATTRIBUTE,
       })
     );
+  });
+
+  it('should call selectionChange on event onDeselectAll', () => {
+    spyOn(component.selectionChange, 'emit').and.callThrough();
+
+    component.ngOnInit();
+
+    component.onDeselectAll();
+
+    expect(component.selectionChange.emit).toHaveBeenCalled();
+  });
+
+  it('should call onHandleAttributeQuantity of event onChangeAttributeQuantity', () => {
+    spyOn(component, 'onHandleAttributeQuantity');
+
+    const quantity = { quantity: 2 };
+
+    component.onChangeAttributeQuantity(quantity);
+
+    expect(component.onHandleAttributeQuantity).toHaveBeenCalled();
+  });
+
+  it('should call onDeselectAll of event onChangeAttributeQuantity', () => {
+    spyOn(component, 'onDeselectAll');
+
+    const quantity = { quantity: 0 };
+
+    component.onChangeAttributeQuantity(quantity);
+
+    expect(component.onDeselectAll).toHaveBeenCalled();
   });
 });
