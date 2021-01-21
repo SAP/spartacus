@@ -35,7 +35,6 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
   ngOnInit() {
     this.product$ = this.productService.get(this.product.productSystemId).pipe(
       map((respProduct) => {
-        console.log(respProduct);
         return respProduct
           ? respProduct
           : this.transformToProductType(this.product);

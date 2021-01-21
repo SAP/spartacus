@@ -35,6 +35,7 @@
           {{ productAsync.code }}
         </div>
         <cx-configurator-show-more
+          *ngIf="productAsync?.description"
           [text]="productAsync?.description"
           [textSize]="50"
         ></cx-configurator-show-more>
