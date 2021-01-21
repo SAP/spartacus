@@ -42,34 +42,32 @@ export class CmsPageGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
     return this.protectedRoutesGuard.canActivate(route).pipe(
-      switchMap((canActivate) => {
-        return canActivate === true
+      switchMap((canActivate) =>
+        canActivate === true
           ? this.routingService.getNextPageContext().pipe(
               take(1),
-              switchMap((pageContext) => {
-                return this.cmsService
-                  .getPage(pageContext, this.shouldReload())
-                  .pipe(
-                    first(),
-                    switchMap((pageData) =>
-                      pageData
-                        ? this.service.canActivatePage(
-                            pageContext,
-                            pageData,
-                            route,
-                            state
-                          )
-                        : this.service.canActivateNotFoundPage(
-                            pageContext,
-                            route,
-                            state
-                          )
-                    )
-                  );
-              })
+              switchMap((pageContext) =>
+                this.cmsService.getPage(pageContext, this.shouldReload()).pipe(
+                  first(),
+                  switchMap((pageData) =>
+                    pageData
+                      ? this.service.canActivatePage(
+                          pageContext,
+                          pageData,
+                          route,
+                          state
+                        )
+                      : this.service.canActivateNotFoundPage(
+                          pageContext,
+                          route,
+                          state
+                        )
+                  )
+                )
+              )
             )
-          : of(canActivate);
-      })
+          : of(canActivate)
+      )
     );
   }
 
