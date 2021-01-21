@@ -49,34 +49,21 @@ export class EventService {
    * @returns a teardown function which unregisters the given event source
    */
   register<T>(eventType: AbstractType<T>, source$: Observable<T>): () => void {
-    const mergingSubjects: MergingSubject<T>[] = [];
-    let parentType = eventType;
-    while (
-      parentType !== null &&
-      Object.getPrototypeOf(parentType) !== Object.getPrototypeOf({})
-    ) {
-      const eventMeta = this.getEventMeta(parentType);
-      if (eventMeta.mergingSubject.has(source$)) {
-        if (isDevMode()) {
-          console.warn(
-            `EventService: the event source`,
-            source$,
-            `has been already registered for the type`,
-            parentType
-          );
-        }
-      } else {
-        eventMeta.mergingSubject.add(source$);
-        mergingSubjects.push(eventMeta.mergingSubject);
+    const eventMeta = this.getEventMeta(eventType);
+    if (eventMeta.mergingSubject.has(source$)) {
+      if (isDevMode()) {
+        console.warn(
+          `EventService: the event source`,
+          source$,
+          `has been already registered for the type`,
+          eventType
+        );
       }
-
-      parentType = Object.getPrototypeOf(parentType);
+    } else {
+      eventMeta.mergingSubject.add(source$);
     }
 
-    return () =>
-      mergingSubjects.forEach((mergingSubject) =>
-        mergingSubject.remove(source$)
-      );
+    return () => eventMeta.mergingSubject.remove(source$);
   }
 
   /**
@@ -129,26 +116,20 @@ export class EventService {
     return this.eventsMeta.get(eventType);
   }
 
-  /**
-   * Creates the event meta object for the given event type
-   */
   private createEventMeta<T>(eventType: AbstractType<T>): void {
-    let parentType = eventType;
+    const eventMeta: EventMeta<T> = {
+      inputSubject$: null, // will be created lazily by the `dispatch` method
+      mergingSubject: new MergingSubject<T>(),
+    };
+    this.eventsMeta.set(eventType, eventMeta);
+
+    let parentEvent = Object.getPrototypeOf(eventType);
     while (
-      parentType !== null &&
-      Object.getPrototypeOf(parentType) !== Object.getPrototypeOf({})
+      parentEvent !== null &&
+      Object.getPrototypeOf(parentEvent) !== Object.getPrototypeOf({})
     ) {
-      this.eventsMeta.set(parentType, {
-        inputSubject$: null, // will be created lazily by the `dispatch` method
-        mergingSubject: new MergingSubject(),
-      });
-
-      parentType = Object.getPrototypeOf(parentType);
-
-      // stop as soon as the first parent is already registered
-      if (this.eventsMeta.has(parentType)) {
-        break;
-      }
+      this.register(parentEvent, eventMeta.mergingSubject.output$);
+      parentEvent = Object.getPrototypeOf(parentEvent);
     }
   }
 
