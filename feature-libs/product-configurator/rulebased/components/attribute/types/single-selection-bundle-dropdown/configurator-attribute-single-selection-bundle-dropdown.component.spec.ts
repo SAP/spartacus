@@ -219,15 +219,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       quantity: 2,
     });
 
-    expect(component.selectionChange.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        changedAttribute: jasmine.objectContaining({
-          ...component.attribute,
-          values: [{ ...component.selectionValue, quantity: 2 }],
-        }),
-        ownerKey: component.ownerKey,
-        updateType: Configurator.UpdateType.VALUE_QUANTITY,
-      })
-    );
+    expect(component.selectionChange.emit).toHaveBeenCalled();
   });
 });
