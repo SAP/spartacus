@@ -9,7 +9,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { first, switchMap } from 'rxjs/operators';
+import { first, switchMap, take } from 'rxjs/operators';
 import { CmsPageGuardService } from './cms-page-guard.service';
 
 @Injectable({
@@ -42,31 +42,34 @@ export class CmsPageGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
     return this.protectedRoutesGuard.canActivate(route).pipe(
-      switchMap((canActivate) =>
-        canActivate === true
+      switchMap((canActivate) => {
+        return canActivate === true
           ? this.routingService.getNextPageContext().pipe(
-              switchMap((pageContext) =>
-                this.cmsService.getPage(pageContext, this.shouldReload()).pipe(
-                  first(),
-                  switchMap((pageData) =>
-                    pageData
-                      ? this.service.canActivatePage(
-                          pageContext,
-                          pageData,
-                          route,
-                          state
-                        )
-                      : this.service.canActivateNotFoundPage(
-                          pageContext,
-                          route,
-                          state
-                        )
-                  )
-                )
-              )
+              take(1),
+              switchMap((pageContext) => {
+                return this.cmsService
+                  .getPage(pageContext, this.shouldReload())
+                  .pipe(
+                    first(),
+                    switchMap((pageData) =>
+                      pageData
+                        ? this.service.canActivatePage(
+                            pageContext,
+                            pageData,
+                            route,
+                            state
+                          )
+                        : this.service.canActivateNotFoundPage(
+                            pageContext,
+                            route,
+                            state
+                          )
+                    )
+                  );
+              })
             )
-          : of(canActivate)
-      )
+          : of(canActivate);
+      })
     );
   }
 
