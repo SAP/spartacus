@@ -14,6 +14,7 @@ import {
   JsonLdBuilderModule,
   StorefrontComponent,
 } from '@spartacus/storefront';
+// import { AdobeLaunchService } from '@spartacus/tms';
 import { b2bFeature } from '../environments/b2b/b2b.feature';
 import { b2cFeature } from '../environments/b2c/b2c.feature';
 import { cdcFeature } from '../environments/cdc/cdc.feature';
@@ -21,6 +22,7 @@ import { cdsFeature } from '../environments/cds/cds.feature';
 import { environment } from '../environments/environment';
 import { tmsFeature } from '../environments/tms/tms.feature';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
+// import { CustomAdobeLaunchService } from './custom-adobe-launch.service';
 
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
@@ -92,5 +94,8 @@ if (environment.tms) {
   ],
 
   bootstrap: [StorefrontComponent],
+  // providers: [
+  //   { provide: AdobeLaunchService, useClass: CustomAdobeLaunchService },
+  // ],
 })
 export class AppModule {}
