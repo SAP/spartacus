@@ -56,4 +56,21 @@ describe('FindStores Selectors', () => {
       expect(result).toEqual(true);
     });
   });
+
+  describe('getStoresSucess', () => {
+    it('should return isLoaded flag', () => {
+      let result: boolean;
+      store
+        .pipe(select(StoreFinderSelectors.getStoresSucess))
+        .subscribe((value) => (result = value));
+
+      expect(result).toEqual(false);
+
+      store.dispatch(
+        new StoreFinderActions.FindStoresSuccess({ queryText: '' })
+      );
+
+      expect(result).toEqual(true);
+    });
+  });
 });

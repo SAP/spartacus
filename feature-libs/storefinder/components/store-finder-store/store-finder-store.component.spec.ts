@@ -8,15 +8,22 @@ import {
 } from '@spartacus/core';
 import { StoreFinderStoreComponent } from './store-finder-store.component';
 import { ICON_TYPE, SpinnerModule } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 
-const mockStoreFinderService = {
-  getStoresLoading: jasmine.createSpy(),
-  getFindStoresEntities: jasmine.createSpy().and.returnValue(of(Observable)),
-  viewStoreById: jasmine.createSpy().and.returnValue(of(Observable)),
-};
+const isLoading$: BehaviorSubject<Boolean> = new BehaviorSubject(true);
+const isLoaded$: BehaviorSubject<Boolean> = new BehaviorSubject(true);
+class MockStoreFinderService {
+  getStoresLoading = () => isLoading$.asObservable();
+  getStoresLoaded = () => isLoaded$.asObservable();
+  getFindStoresEntities() {
+    return of();
+  }
+  viewStoreById() {
+    return of();
+  }
+}
 
 @Component({
   selector: 'cx-icon',
@@ -62,7 +69,7 @@ describe('StoreFinderStoreComponent', () => {
           { provide: RoutingService, useValue: { go: jasmine.createSpy() } },
           {
             provide: StoreFinderService,
-            useValue: mockStoreFinderService,
+            useClass: MockStoreFinderService,
           },
           {
             provide: ActivatedRoute,
@@ -90,5 +97,14 @@ describe('StoreFinderStoreComponent', () => {
     expect(routingService.go).toHaveBeenCalledWith([
       `store-finder/country/${mockActivatedRoute.snapshot.params.country}`,
     ]);
+  });
+
+  it('should call findStores on language change', () => {
+    spyOn(component, 'requestStoresData');
+    isLoading$.next(false);
+    isLoaded$.next(false);
+    fixture.detectChanges();
+
+    expect(component.requestStoresData).toHaveBeenCalled();
   });
 });

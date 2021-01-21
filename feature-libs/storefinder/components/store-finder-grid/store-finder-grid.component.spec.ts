@@ -2,8 +2,8 @@ import { Component, Input } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { RoutingService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { RoutingService, TranslationService } from '@spartacus/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { StoreFinderGridComponent } from './store-finder-grid.component';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { SpinnerModule } from '@spartacus/storefront';
@@ -20,17 +20,31 @@ class MockStoreFinderListItemComponent {
   location;
 }
 
+class MockTranslationService {
+  translate(): Observable<string> {
+    return of();
+  }
+}
+
 const mockActivatedRoute = {
   snapshot: {
     params: {},
   },
 };
 
-const mockStoreFinderService = {
-  getViewAllStoresEntities: jasmine.createSpy().and.returnValue(of(Observable)),
-  getViewAllStoresLoading: jasmine.createSpy(),
-  findStoresAction: jasmine.createSpy().and.returnValue(of(Observable)),
-};
+const isLoading$: BehaviorSubject<Boolean> = new BehaviorSubject(true);
+const isLoaded$: BehaviorSubject<Boolean> = new BehaviorSubject(true);
+
+class MockStoreFinderService {
+  getFindStoresEntities() {
+    return of();
+  }
+  getStoresLoading = () => isLoading$.asObservable();
+  getStoresLoaded = () => isLoaded$.asObservable();
+  findStoresAction() {
+    return of();
+  }
+}
 
 const mockRoutingService = {
   go: jasmine.createSpy('go'),
@@ -51,9 +65,10 @@ describe('StoreFinderGridComponent', () => {
           MockStoreFinderListItemComponent,
         ],
         providers: [
-          { provide: StoreFinderService, useValue: mockStoreFinderService },
+          { provide: StoreFinderService, useClass: MockStoreFinderService },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
           { provide: RoutingService, useValue: mockRoutingService },
+          { provide: TranslationService, useClass: MockTranslationService },
         ],
       }).compileComponents();
     })
@@ -62,14 +77,16 @@ describe('StoreFinderGridComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderGridComponent);
     component = fixture.componentInstance;
+    StoreFinderGridComponent.prototype.ngOnInit = () => {};
     route = TestBed.inject(ActivatedRoute);
     storeFinderService = TestBed.inject(StoreFinderService);
   });
 
   it('should create with country routing parameter', () => {
+    component.ngOnInit();
     route.snapshot.params = { country: countryIsoCode };
+    spyOn(storeFinderService, 'findStoresAction');
     fixture.detectChanges();
-
     expect(component).toBeTruthy();
     expect(storeFinderService.findStoresAction).toHaveBeenCalledWith(
       '',
@@ -89,5 +106,14 @@ describe('StoreFinderGridComponent', () => {
     fixture.detectChanges();
 
     expect(component).toBeTruthy();
+  });
+
+  it('should call findStores on language change', () => {
+    spyOn(component, 'findStores');
+    isLoading$.next(false);
+    isLoaded$.next(false);
+    fixture.detectChanges();
+
+    expect(component.findStores).toHaveBeenCalled();
   });
 });

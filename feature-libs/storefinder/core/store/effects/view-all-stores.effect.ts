@@ -38,7 +38,7 @@ export class ViewAllStoresEffect {
   );
 
   @Effect()
-  clearStoreFinderData: Observable<
+  clearStoreFinderData$: Observable<
     StoreFinderActions.ClearStoreFinderData
   > = this.actions$.pipe(
     ofType(
