@@ -38,10 +38,19 @@ export class ConfiguratorAttributeCheckBoxListComponent
   }
 
   ngOnInit() {
+    const selectedValues = this.attribute.values.filter(
+      (value) => value.selected
+    );
+
     for (const value of this.attribute.values) {
       let attributeCheckBoxForm;
+
       if (value.selected === true) {
-        attributeCheckBoxForm = new FormControl(true);
+        attributeCheckBoxForm = new FormControl({
+          value: true,
+          disabled:
+            this.attribute.required && selectedValues.length < 2 ? true : false,
+        });
       } else {
         attributeCheckBoxForm = new FormControl(false);
       }

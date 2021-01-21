@@ -370,8 +370,13 @@ export function checkAttrValueDisplayed(
   valueName: string
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
-  const valueId = `${attributeId}--${valueName}`;
-  cy.get(`#${valueId}`).should('be.visible');
+  let valueLocator: string;
+  if (uiType.startsWith('dropdown')) {
+    valueLocator = `#${attributeId} [value="${valueName}"]`;
+  } else {
+    valueLocator = `#${attributeId}--${valueName}`;
+  }
+  cy.get(`${valueLocator}`).should('be.visible');
 }
 
 /**
@@ -387,8 +392,13 @@ export function checkAttrValueNotDisplayed(
   valueName: string
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
-  const valueId = `${attributeId}--${valueName}`;
-  cy.get(`#${valueId}`).should('be.not.visible');
+  let valueLocator: string;
+  if (uiType.startsWith('dropdown')) {
+    valueLocator = `#${attributeId} [value="${valueName}"]`;
+  } else {
+    valueLocator = `#${attributeId}--${valueName}`;
+  }
+  cy.get(`${valueLocator}`).should('not.be.visible');
 }
 
 /**
@@ -410,6 +420,38 @@ export function getAttributeId(attributeName: string, uiType: string): string {
  */
 export function getAttributeLabelId(attributeName: string): string {
   return `cx-configurator--label--${attributeName}`;
+}
+
+/**
+ * Selects a product card and waits until it's state changes.
+ * @param {'radioGroup' | 'dropdown' | 'checkbox'} cardType - card type
+ * @param {string} attributeName - Attribute name
+ * @param {string} valueName - Value name
+ */
+export function selectProductCard(
+  cardType: 'radioGroup' | 'dropdown' | 'checkBoxList',
+  attributeName: string,
+  valueName: string
+) {
+  const uiType = cardType + 'Product';
+  selectAttribute(attributeName, uiType, valueName);
+  checkValueSelected(uiType, attributeName, valueName);
+}
+
+/**
+ * DeSelects a product card and waits until it's state changes.
+ * @param {'radioGroup' | 'dropdown' | 'checkbox'} cardType - card type
+ * @param {string} attributeName - Attribute name
+ * @param {string} valueName - Value name
+ */
+export function deSelectProductCard(
+  cardType: 'radioGroup' | 'dropdown' | 'checkBoxList',
+  attributeName: string,
+  valueName: string
+) {
+  const uiType = cardType + 'Product';
+  selectAttribute(attributeName, uiType, valueName);
+  checkValueNotSelected(uiType, attributeName, valueName);
 }
 
 /**

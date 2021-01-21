@@ -1,9 +1,9 @@
 <div class="cx-quantity">
   <label>{{ 'configurator.attribute.quantity' | cxTranslate }}</label>
   <cx-item-counter
-    [allowZero]="true"
+    [allowZero]="allowZero"
     [control]="quantity"
-    [min]="0"
+    [min]="allowZero ? 0 : 1"
     [readonly]="readonly"
   ></cx-item-counter>
 </div>
