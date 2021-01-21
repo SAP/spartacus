@@ -1,19 +1,20 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, isDevMode, OnDestroy } from '@angular/core';
 import { CxEvent, EventService, WindowRef } from '@spartacus/core';
 import { merge, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { TmsConfig } from '../config/tms-config';
 
-export interface AdobeLaunchDataLayer {
-  [key: string]: any;
-}
+export type AdobeLaunchDataLayer = (
+  data: any,
+  linkObject?: any,
+  eventObject?: any
+) => void;
 
 export interface AdobeLaunchWindow extends Window {
-  dataLayer?: AdobeLaunchDataLayer;
+  _trackData?: AdobeLaunchDataLayer;
 }
 
 /**
- * This service dispatches events to the Adobe Launch's `Window._trackData`.
+ * This service interacts with the configured data layer object by pushing the Spartacus events to it.
  */
 @Injectable({ providedIn: 'root' })
 export class AdobeLaunchService implements OnDestroy {
@@ -29,45 +30,47 @@ export class AdobeLaunchService implements OnDestroy {
    * This method is called only once to start collecting and dispatching events to Adobe Launch
    */
   collect(): void {
-    // prep the data layer
-    if (this.window) {
-      this.window.dataLayer = this.window.dataLayer ?? {};
-    }
+    this.prepareDataLayer();
 
     const events =
       this.tmsConfig.tms?.adobeLaunch?.events?.map((event) =>
         this.eventsService.get(event)
       ) || [];
-    this.subscription = merge(...events)
-      .pipe(tap((x) => console.log('adobe event: ', x)))
-      .subscribe((event) => this.pushToDataLayer(event));
+    this.subscription = merge(...events).subscribe((event) =>
+      this.pushToDataLayer(event)
+    );
   }
 
   /**
-   * Called every time an event fires.
-   *
-   * @param event Spartacus event to dispatch
+   * Prepares the data layer object on the `window`.
    */
-  protected pushToDataLayer<T extends CxEvent>(event: T): void {
+  protected prepareDataLayer(): void {
     if (this.window) {
-      const type = Object.getPrototypeOf(event).constructor.type;
-      this.window.dataLayer = {
-        ...this.window.dataLayer,
-        [type]: event,
-      };
+      this.window._trackData =
+        this.window._trackData ??
+        function (_data: any, _linkObject?: any, _eventObject?: any): void {};
     }
   }
 
   /**
-   * Returns a Window object (if not in SSR) enriched with the Adobe Launch's data layer property.
+   * Called each time an event fires.
+   *
+   * @param event Spartacus event to dispatch
+   */
+  protected pushToDataLayer<T extends CxEvent>(event: T): void {
+    if (isDevMode()) {
+      console.log(`🎤 Adobe Launch received event: ${JSON.stringify(event)}`);
+    }
+    this.window?._trackData(event);
+  }
+
+  /**
+   * Returns a Window object (if not in SSR) enriched with the data layer property.
    */
   get window(): AdobeLaunchWindow | undefined {
     return this.windowRef.nativeWindow;
   }
 
-  /**
-   * Angular's lifecycle hook
-   */
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
