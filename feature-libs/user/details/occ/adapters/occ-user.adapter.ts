@@ -8,7 +8,7 @@ import {
 } from '@spartacus/user/details/core';
 import { Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OccUserAdapter implements UserAdapter {
   constructor(
     protected http: HttpClient,
