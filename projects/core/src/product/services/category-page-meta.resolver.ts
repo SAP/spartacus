@@ -15,9 +15,10 @@ import {
   PageTitleResolver,
 } from '../../cms/page/page.resolvers';
 import { TranslationService } from '../../i18n/translation.service';
-import { PageType } from '../../model/cms.model';
+import { CmsComponent, PageType } from '../../model/cms.model';
 import { ProductSearchPage } from '../../model/product-search.model';
 import { ProductSearchService } from '../facade/product-search.service';
+import { MetaResolversConfigService } from './meta-resolvers-config.service';
 
 /**
  * Resolves the page data for the Product Listing Page.
@@ -58,13 +59,15 @@ export class CategoryPageMetaResolver
     cmsService: CmsService,
     translation: TranslationService,
     // tslint:disable-next-line: unified-signatures
-    basePageMetaResolver?: BasePageMetaResolver
+    basePageMetaResolver?: BasePageMetaResolver,
+    metaResolversConfigService?: MetaResolversConfigService
   );
   constructor(
     protected productSearchService: ProductSearchService,
     protected cms: CmsService,
     protected translation: TranslationService,
-    @Optional() protected basePageMetaResolver?: BasePageMetaResolver
+    @Optional() protected basePageMetaResolver?: BasePageMetaResolver,
+    protected metaResolversConfigService?: MetaResolversConfigService
   ) {
     super();
     this.pageType = PageType.CATEGORY_PAGE;
@@ -126,8 +129,11 @@ export class CategoryPageMetaResolver
       (key) =>
         !!page.slots[key].components?.find(
           (comp) =>
+            // TODO: could be removed in 4.0
             comp.typeCode === 'CMSProductListComponent' ||
-            comp.typeCode === 'ProductGridComponent'
+            comp.typeCode === 'ProductGridComponent' ||
+            //
+            this.isProductListComponent(comp)
         )
     );
   }
@@ -140,5 +146,11 @@ export class CategoryPageMetaResolver
   // TODO(#10467) drop the 3.1 note.
   resolveRobots(): Observable<PageRobotsMeta[]> {
     return this.basePageMetaResolver?.resolveRobots() ?? of([]);
+  }
+
+  private isProductListComponent(comp: CmsComponent): boolean {
+    return this.metaResolversConfigService?.categoryPage?.productListComponents?.includes(
+      comp.typeCode
+    );
   }
 }

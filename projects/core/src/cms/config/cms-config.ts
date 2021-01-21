@@ -35,6 +35,8 @@ export interface JspIncludeCmsComponentConfig {
 
 export const JSP_INCLUDE_CMS_COMPONENT_TYPE = 'JspIncludeComponent';
 export const CMS_FLEX_COMPONENT_TYPE = 'CMSFlexComponent';
+export const CMS_PRODUCT_LIST_COMPONENT_TYPE = 'CMSProductListComponent';
+export const PRODUCT_GRID_COMPONENT_TYPE = 'ProductGridComponent';
 
 /**
  * Configuration of the CMS component's child routes
