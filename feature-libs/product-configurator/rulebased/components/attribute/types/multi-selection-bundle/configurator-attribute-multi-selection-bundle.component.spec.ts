@@ -170,7 +170,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
 
     component.ngOnInit();
 
-    component.onChangeQuantity({
+    component.onChangeValueQuantity({
       valueCode: '1111',
       quantity: 2,
     });
