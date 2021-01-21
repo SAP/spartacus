@@ -1,8 +1,8 @@
-import { registerLocaleData } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeJa from '@angular/common/locales/ja';
 import localeZh from '@angular/common/locales/zh';
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import {
   BrowserModule,
   BrowserTransferStateModule,
@@ -12,6 +12,8 @@ import { translationChunksConfig, translations } from '@spartacus/assets';
 import { ConfigModule, TestConfigModule } from '@spartacus/core';
 import {
   JsonLdBuilderModule,
+  OutletPosition,
+  provideOutlet,
   StorefrontComponent,
 } from '@spartacus/storefront';
 import { b2bFeature } from '../environments/b2b/b2b.feature';
@@ -49,8 +51,33 @@ if (environment.cdc) {
   additionalImports = [...additionalImports, ...cdcFeature.imports];
 }
 
+console.log(`********************************************`);
+console.log('environment', environment);
+console.log('environment.productConfig', environment.productConfig);
+console.log(`********************************************`);
+
+@Component({
+  template: `<ul>
+    <li>
+      <pre>'environment', {{ environment | json }}</pre>
+    </li>
+    <li>'environment.productConfig', {{ environment.productConfig }}</li>
+  </ul> `,
+})
+export class DebugSpikeComponent {
+  environment = environment;
+}
+
 @NgModule({
+  providers: [
+    provideOutlet({
+      id: 'cx-storefront',
+      component: DebugSpikeComponent,
+      position: OutletPosition.BEFORE,
+    }),
+  ],
   imports: [
+    CommonModule,
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     BrowserTransferStateModule,
     JsonLdBuilderModule,
@@ -88,7 +115,7 @@ if (environment.cdc) {
 
     ...devImports,
   ],
-
+  declarations: [DebugSpikeComponent],
   bootstrap: [StorefrontComponent],
 })
 export class AppModule {}
