@@ -1,9 +1,9 @@
 // This file is required by karma.conf.js and loads recursively all the .spec and framework files
 
-import '@angular/localize/init';
 import 'zone.js/dist/zone';
 import 'zone.js/dist/zone-testing';
 import { getTestBed } from '@angular/core/testing';
+import '@angular/localize/init';
 import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting,
@@ -28,4 +28,8 @@ getTestBed().initTestEnvironment(
 // Then we find all the tests.
 const context = require.context('./', true, /\.spec\.ts$/);
 // And load the modules.
-context.keys().map(context);
+context
+  .keys()
+  // filter tests from node_modules
+  .filter((key) => !key.startsWith('@'))
+  .forEach(context);
