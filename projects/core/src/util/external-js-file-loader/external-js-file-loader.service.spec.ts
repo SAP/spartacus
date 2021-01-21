@@ -121,4 +121,20 @@ describe('ExternalJsFileLoader', () => {
     expect(jsDomElement.src).toEqual(SCRIPT_LOAD_URL);
     expect(jsDomElement.addEventListener).toHaveBeenCalledTimes(0);
   });
+
+  it('should load script with attribute', () => {
+    // given
+    spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
+    spyOn(documentMock, 'appendChild').and.callThrough();
+
+    // when
+    externalJsFileLoader.loadWithAttributes(SCRIPT_LOAD_URL, [
+      { key: 'key', value: 'value' },
+    ]);
+
+    // then
+    expect(documentMock.createElement).toHaveBeenCalledWith('script');
+    expect(jsDomElement.src).toEqual(SCRIPT_LOAD_URL);
+    expect(jsDomElement.getAttribute('key')).toEqual('value');
+  });
 });

@@ -4,9 +4,12 @@ import {
   BaseSite,
   BaseSiteService,
   CmsService,
+  ExternalJsFileLoader,
   Page,
   RoutingService,
 } from '@spartacus/core';
+import { defaultSmartEditConfig } from 'feature-libs/smartedit/root/config/default-smart-edit-config';
+import { SmartEditConfig } from 'feature-libs/smartedit/root/config/smart-edit-config';
 import { Observable, of } from 'rxjs';
 import { SmartEditService } from './smart-edit.service';
 
@@ -29,19 +32,26 @@ class MockBaseSiteService {
     return of();
   }
 }
+
+class MockExternalJsFileLoader {
+  public loadWithAttributes(): void {}
+}
 describe('SmartEditService', () => {
   let service: SmartEditService;
   let cmsService: CmsService;
   let routingService: RoutingService;
   let baseSiteService: BaseSiteService;
+  let externalJsFileLoader: ExternalJsFileLoader;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         SmartEditService,
+        { provide: SmartEditConfig, useValue: defaultSmartEditConfig },
         { provide: CmsService, useClass: MockCmsService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: BaseSiteService, useClass: MockBaseSiteService },
+        { provide: ExternalJsFileLoader, useClass: MockExternalJsFileLoader },
       ],
     });
 
@@ -49,12 +59,19 @@ describe('SmartEditService', () => {
     cmsService = TestBed.inject(CmsService);
     routingService = TestBed.inject(RoutingService);
     baseSiteService = TestBed.inject(BaseSiteService);
+    externalJsFileLoader = TestBed.inject(ExternalJsFileLoader);
 
     spyOn(routingService, 'go').and.stub();
+    spyOn(externalJsFileLoader, 'loadWithAttributes').and.callThrough();
   });
 
   it('should SmartEditService is injected', () => {
     expect(service).toBeTruthy();
+  });
+
+  it('should be able to load webApplicationInjector.js', () => {
+    service['loadScript']();
+    expect(externalJsFileLoader.loadWithAttributes).toHaveBeenCalled();
   });
 
   describe('should add page contract', () => {

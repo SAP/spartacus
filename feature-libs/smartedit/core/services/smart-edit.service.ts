@@ -3,6 +3,7 @@ import {
   BaseSite,
   BaseSiteService,
   CmsService,
+  ExternalJsFileLoader,
   Page,
   PageType,
   RoutingService,
@@ -28,7 +29,8 @@ export class SmartEditService {
     protected zone: NgZone,
     protected winRef: WindowRef,
     protected rendererFactory: RendererFactory2,
-    protected config: SmartEditConfig
+    protected config: SmartEditConfig,
+    protected jsFileLoader: ExternalJsFileLoader
   ) {
     // load webApplicationInjector.js first
     this.loadScript();
@@ -74,14 +76,13 @@ export class SmartEditService {
    * load webApplicationInjector.js
    */
   protected loadScript(): void {
-    const node = document.createElement('script');
-    node.src = 'assets/webApplicationInjector.js';
-    node.id = 'smartedit-injector';
-    node.setAttribute(
-      'data-smartedit-allow-origin',
-      this.config.smartEdit.allowOrigin
-    );
-    document.getElementsByTagName('head')[0].appendChild(node);
+    this.jsFileLoader.loadWithAttributes('assets/webApplicationInjector.js', [
+      { key: 'id', value: 'smartedit-injector' },
+      {
+        key: 'data-smartedit-allow-origin',
+        value: this.config.smartEdit.allowOrigin,
+      },
+    ]);
   }
 
   /**
