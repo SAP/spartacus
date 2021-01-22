@@ -21,14 +21,21 @@
 
       <div class="cx-product-card-info">
         <div class="cx-product-card-name">
-          <a
-            [routerLink]="{ cxRoute: 'product', params: productAsync } | cxUrl"
-            class="cx-link"
-            cxModal="dismiss"
-            target="_blank"
-          >
-            {{ productAsync.name }}</a
-          >
+          <p *ngIf="productAsync?.noLink; else withLink">
+            {{ productAsync.name }}
+          </p>
+          <ng-template #withLink>
+            <a
+              [routerLink]="
+                { cxRoute: 'product', params: productAsync } | cxUrl
+              "
+              class="cx-link"
+              cxModal="dismiss"
+              target="_blank"
+            >
+              {{ productAsync.name }}</a
+            >
+          </ng-template>
         </div>
         <div class="cx-product-card-code">
           {{ 'configurator.attribute.id' | cxTranslate }}:

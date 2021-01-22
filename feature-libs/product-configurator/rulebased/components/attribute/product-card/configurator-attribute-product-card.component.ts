@@ -12,13 +12,17 @@ import { QuantityUpdateEvent } from '../../form/configurator-form.event';
 import { Product, ProductService } from '@spartacus/core';
 import { map } from 'rxjs/operators';
 
+interface ProductExtended extends Product {
+  noLink?: boolean;
+}
+
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   templateUrl: './configurator-attribute-product-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeProductCardComponent implements OnInit {
-  product$: Observable<Product>;
+  product$: Observable<ProductExtended>;
   loading$ = new BehaviorSubject<boolean>(false);
 
   @Input() preventAction = false;
@@ -26,6 +30,7 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
   @Input() product: Configurator.Value;
   @Input() singleDropdown = false;
   @Input() withQuantity = true;
+
   @Output() handleDeselect = new EventEmitter<string>();
   @Output() handleQuantity = new EventEmitter<QuantityUpdateEvent>();
   @Output() handleSelect = new EventEmitter<string>();
@@ -73,12 +78,13 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
     });
   }
 
-  transformToProductType(value: Configurator.Value): Product {
+  transformToProductType(value: Configurator.Value): ProductExtended {
     return {
       code: value.valueCode,
       description: value.description,
       images: {},
       name: value.valueDisplay,
+      noLink: true,
     };
   }
 }
