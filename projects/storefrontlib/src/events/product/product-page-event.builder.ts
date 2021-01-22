@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import {
   createFrom,
   EventService,
+  FeatureConfigService,
   ProductSearchService,
   ProductService,
 } from '@spartacus/core';
 import { EMPTY, Observable } from 'rxjs';
 import { filter, map, skip, switchMap, take } from 'rxjs/operators';
 import { NavigationEvent } from '../navigation/navigation.event';
+import { PageEvent } from '../page/page.events';
 import {
   CategoryPageResultsEvent,
   ProductDetailsPageEvent,
@@ -21,7 +23,8 @@ export class ProductPageEventBuilder {
   constructor(
     protected eventService: EventService,
     protected productService: ProductService,
-    protected productSearchService: ProductSearchService
+    protected productSearchService: ProductSearchService,
+    /** @deprecated @since 3.1 - this will be remove in 4.0 */ protected featureConfigService?: FeatureConfigService
   ) {
     this.register();
   }
@@ -52,6 +55,7 @@ export class ProductPageEventBuilder {
           take(1),
           map((product) =>
             createFrom(ProductDetailsPageEvent, {
+              ...this.createDeprecatedPageEvent(navigationEvent),
               navigation: { ...navigationEvent },
               categories: product.categories,
               code: product.code,
@@ -79,18 +83,16 @@ export class ProductPageEventBuilder {
         }
 
         return searchResults$.pipe(
-          map((searchResults) => ({
-            navigation: {
-              ...navigationEvent,
-            },
-            ...{
-              categoryCode: navigationEvent?.context?.id,
-              numberOfResults: searchResults?.pagination?.totalResults,
-              categoryName: searchResults.breadcrumbs?.[0].facetValueName,
-            },
-          })),
-          map((categoryPage) =>
-            createFrom(CategoryPageResultsEvent, categoryPage)
+          map((searchResults) =>
+            createFrom(CategoryPageResultsEvent, {
+              ...this.createDeprecatedPageEvent(navigationEvent),
+              navigation: { ...navigationEvent },
+              ...{
+                categoryCode: navigationEvent?.context?.id,
+                numberOfResults: searchResults?.pagination?.totalResults,
+                categoryName: searchResults.breadcrumbs?.[0].facetValueName,
+              },
+            })
           )
         );
       })
@@ -110,16 +112,26 @@ export class ProductPageEventBuilder {
         }
 
         return searchResults$.pipe(
-          map((searchResults) => ({
-            navigation: { ...navigationEvent },
-            ...{
-              searchTerm: searchResults?.freeTextSearch,
-              numberOfResults: searchResults?.pagination?.totalResults,
-            },
-          })),
-          map((searchPage) => createFrom(SearchPageResultsEvent, searchPage))
+          map((searchResults) =>
+            createFrom(SearchPageResultsEvent, {
+              ...this.createDeprecatedPageEvent(navigationEvent),
+              navigation: { ...navigationEvent },
+              ...{
+                searchTerm: searchResults?.freeTextSearch,
+                numberOfResults: searchResults?.pagination?.totalResults,
+              },
+            })
+          )
         );
       })
     );
+  }
+
+  private createDeprecatedPageEvent(
+    navigationEvent: NavigationEvent
+  ): PageEvent | undefined {
+    return this.featureConfigService?.isLevel('!3.1')
+      ? { ...navigationEvent }
+      : undefined;
   }
 }

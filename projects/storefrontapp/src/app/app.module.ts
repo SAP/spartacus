@@ -83,7 +83,7 @@ if (environment.tms) {
       },
 
       features: {
-        level: '2.1',
+        level: '3.1',
       },
     }),
     ...additionalImports,

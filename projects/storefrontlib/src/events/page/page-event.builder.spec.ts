@@ -1,28 +1,50 @@
 import { TestBed } from '@angular/core/testing';
-import { Action, ActionsSubject } from '@ngrx/store';
-import { createFrom, EventService } from '@spartacus/core';
-import { Subject } from 'rxjs';
+import {
+  createFrom,
+  EventService,
+  FeatureConfigService,
+} from '@spartacus/core';
 import { take } from 'rxjs/operators';
 import { NavigationEvent } from '../navigation';
 import { PageEventBuilder } from './page-event.builder';
-import { HomePageEvent } from './page.events';
+import { HomePageEvent, PageEvent } from './page.events';
 
-interface ActionWithPayload extends Action {
-  payload: any;
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isLevel(_version: string): boolean {
+    return true;
+  }
 }
 
 describe('PageEventBuilder', () => {
   let eventService: EventService;
-  let actions$: Subject<ActionWithPayload>;
 
   beforeEach(() => {
-    actions$ = new Subject();
     TestBed.configureTestingModule({
-      providers: [{ provide: ActionsSubject, useValue: actions$ }],
+      providers: [
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+      ],
     });
 
     TestBed.inject(PageEventBuilder); // register events
     eventService = TestBed.inject(EventService);
+  });
+
+  it('PageEvent', () => {
+    let result: PageEvent;
+    eventService
+      .get(PageEvent)
+      .pipe(take(1))
+      .subscribe((value) => (result = value));
+
+    const navigationEvent = createFrom(NavigationEvent, {
+      context: { id: 'aPage' },
+      semanticRoute: 'aPage',
+      url: 'random url',
+      params: undefined,
+    });
+    eventService.dispatch(navigationEvent);
+    expect(result).toBeTruthy();
+    expect(result).toEqual(jasmine.objectContaining({ ...navigationEvent }));
   });
 
   it('HomePageEvent', () => {

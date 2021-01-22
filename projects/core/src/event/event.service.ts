@@ -1,6 +1,7 @@
 import { AbstractType, Injectable, isDevMode } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { FeatureConfigService } from '../features-config/services/feature-config.service';
 import { CxEvent } from './cx-event';
 import { MergingSubject } from './utils/merging-subject';
 
@@ -31,6 +32,10 @@ interface EventMeta<T> {
   providedIn: 'root',
 })
 export class EventService {
+  constructor(
+    /** @deprecated @since 3.1 - this will be remove in 4.0 */ protected featureConfigService?: FeatureConfigService
+  ) {}
+
   /**
    * The various events meta are collected in a map, stored by the event type class
    */
@@ -125,13 +130,15 @@ export class EventService {
     };
     this.eventsMeta.set(eventType, eventMeta);
 
-    let parentEvent = Object.getPrototypeOf(eventType);
-    while (
-      parentEvent !== null &&
-      Object.getPrototypeOf(parentEvent) !== Object.getPrototypeOf({})
-    ) {
-      this.register(parentEvent, eventMeta.mergingSubject.output$);
-      parentEvent = Object.getPrototypeOf(parentEvent);
+    if (this.featureConfigService?.isLevel('3.1')) {
+      let parentEvent = Object.getPrototypeOf(eventType);
+      while (
+        parentEvent !== null &&
+        Object.getPrototypeOf(parentEvent) !== Object.getPrototypeOf({})
+      ) {
+        this.register(parentEvent, eventMeta.mergingSubject.output$);
+        parentEvent = Object.getPrototypeOf(parentEvent);
+      }
     }
   }
 
@@ -147,7 +154,9 @@ export class EventService {
       );
     }
 
-    this.validateCxEvent(eventType);
+    if (this.featureConfigService?.isLevel('3.1')) {
+      this.validateCxEvent(eventType);
+    }
   }
 
   /**
