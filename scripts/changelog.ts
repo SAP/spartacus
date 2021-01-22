@@ -301,9 +301,9 @@ if (typeof config.to === 'undefined') {
     case '@spartacus/product/configurators/variant':
     case '@spartacus/product/configurators/textfield':
     case '@spartacus/product/variants':
-    case '@spartacus/product/variants/generic':
-    case '@spartacus/product/variants/generic/components':
-    case '@spartacus/product/variants/generic/occ':
+    case '@spartacus/product/multi-d':
+    case '@spartacus/product/multi-d/components':
+    case '@spartacus/product/multi-d/occ':
       config.library = '@spartacus/product';
       break;
     case 'cdc':

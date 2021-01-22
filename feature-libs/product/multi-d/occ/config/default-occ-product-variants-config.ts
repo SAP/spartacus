@@ -1,6 +1,6 @@
 import { OccConfig } from '@spartacus/core';
 
-export const defaultOccProductVariantsConfig: OccConfig = {
+export const defaultOccProductVariantsMultidimensionalConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {

@@ -14,11 +14,11 @@ import {
 import { filter, take } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-variant-generic-selector',
+  selector: 'cx-variants-multi-dimensional-selector',
   templateUrl: './variant-generic-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VariantGenericSelectorComponent implements OnInit {
+export class VariantsMultiDimensionalSelectorComponent implements OnInit {
   @Input()
   product: Product;
 

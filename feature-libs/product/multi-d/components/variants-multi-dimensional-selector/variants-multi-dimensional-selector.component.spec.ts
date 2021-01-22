@@ -1,4 +1,3 @@
-import { VariantGenericSelectorComponent } from '@spartacus/storefront';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -11,6 +10,8 @@ import {
 import { NavigationExtras } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { MediaModule } from 'projects/storefrontlib/src/shared';
+import { VariantsMultiDimensionalSelectorComponent } from './variants-multi-dimensional-selector.component';
+
 const mockProduct: Product = {
   baseProduct: 'baseProduct1',
   categories: [{ code: 'test1' }, { code: 'test2' }, { code: 'test3' }],
@@ -271,15 +272,15 @@ class MockProductService implements Partial<ProductService> {
   }
 }
 // TODO: remove fdescribe when work is done for this component
-fdescribe('VariantGenericSelectorComponent', () => {
-  let component: VariantGenericSelectorComponent;
-  let fixture: ComponentFixture<VariantGenericSelectorComponent>;
+fdescribe('VariantMultiDimensionalSelectorComponent', () => {
+  let component: VariantsMultiDimensionalSelectorComponent;
+  let fixture: ComponentFixture<VariantsMultiDimensionalSelectorComponent>;
   let productService: ProductService;
   let routingService: RoutingService;
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [VariantGenericSelectorComponent],
+        declarations: [VariantsMultiDimensionalSelectorComponent],
         imports: [RouterTestingModule, I18nTestingModule, MediaModule],
         providers: [
           { provide: RoutingService, useClass: MockRoutingService },
@@ -294,7 +295,9 @@ fdescribe('VariantGenericSelectorComponent', () => {
     })
   );
   beforeEach(() => {
-    fixture = TestBed.createComponent(VariantGenericSelectorComponent);
+    fixture = TestBed.createComponent(
+      VariantsMultiDimensionalSelectorComponent
+    );
     component = fixture.componentInstance;
     component.product = mockProduct;
     fixture.detectChanges();

@@ -14,7 +14,7 @@ import { VariantColorSelectorModule } from './variant-color-selector/variant-col
 import { VariantStyleIconsModule } from './variant-style-icons/variant-style-icons.module';
 import { ProductVariantGuard } from './guards/product-variant.guard';
 import { VariantStyleIconsComponent } from './variant-style-icons/variant-style-icons.component';
-import { VariantGenericSelectorModule } from '@spartacus/product/variants/generic';
+import { VariantGenericSelectorModule } from '@spartacus/product/multi-d';
 
 @NgModule({
   imports: [

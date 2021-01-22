@@ -119,14 +119,14 @@
       "@spartacus/vendor": [
         "projects/vendor/public_api"
       ],
-      "@spartacus/product/variants/generic/components": [
-        "feature-libs/product/variants/generic/components/public_api"
+      "@spartacus/product/multi-d/components": [
+        "feature-libs/product/multi-d/components/public_api"
       ],
-      "@spartacus/product/variants/generic/core": [
-        "feature-libs/product/variants/generic/core/public_api"
+      "@spartacus/product/multi-d/core": [
+        "feature-libs/product/multi-d/core/public_api"
       ],
-      "@spartacus/product/variants/generic/occ": [
-        "feature-libs/product/variants/generic/occ/public_api"
+      "@spartacus/product/multi-d/occ": [
+        "feature-libs/product/multi-d/occ/public_api"
       ],
     }
   },
