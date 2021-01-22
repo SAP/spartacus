@@ -4,10 +4,7 @@ import { AsmActions } from '../actions/index';
 
 export const initialState: AsmUi = <AsmUi>{ collapsed: false };
 
-export function reducer(
-  state: AsmUi | undefined = initialState,
-  action: Action
-): AsmUi {
+export function reducer(state: AsmUi = initialState, action: Action): AsmUi {
   switch (action.type) {
     case AsmActions.ASM_UI_UPDATE: {
       return {

@@ -62,8 +62,8 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
   private handleSearchTerm(searchTermValue: string) {
     if (
-      Boolean(this.selectedCustomer) &&
-      searchTermValue !== this.selectedCustomer?.name
+      !!this.selectedCustomer &&
+      searchTermValue !== this.selectedCustomer.name
     ) {
       this.selectedCustomer = undefined;
     }
@@ -74,7 +74,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     if (searchTermValue.trim().length >= 3) {
       this.asmService.customerSearch({
         query: searchTermValue,
-        pageSize: this.config?.asm?.customerSearch?.maxResults,
+        pageSize: this.config.asm?.customerSearch?.maxResults,
       });
     }
   }
@@ -88,8 +88,8 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    if (this.customerSelectionForm.valid && Boolean(this.selectedCustomer)) {
-      this.submitEvent.emit({ customerId: this.selectedCustomer?.customerId });
+    if (this.customerSelectionForm.valid && !!this.selectedCustomer) {
+      this.submitEvent.emit({ customerId: this.selectedCustomer.customerId });
     } else {
       this.customerSelectionForm.markAllAsTouched();
     }

@@ -65,7 +65,7 @@ export class AsmStatePersistenceService implements OnDestroy {
         if (emulatedToken) {
           emulatedToken = { ...emulatedUserToken } as AuthToken;
           // To minimize risk of user account hijacking we don't persist emulated user refresh_token
-          delete emulatedToken?.refresh_token;
+          delete emulatedToken.refresh_token;
         }
         return {
           ui,
