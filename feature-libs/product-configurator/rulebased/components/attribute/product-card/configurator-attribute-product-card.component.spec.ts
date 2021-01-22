@@ -143,6 +143,16 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     expect(button.disabled).toBe(false);
   });
 
+  it('should button be enabled when card actions are disabled and card is selected', () => {
+    component.product.selected = true;
+
+    fixture.detectChanges();
+
+    const button = fixture.debugElement.query(By.css('button.btn'))
+      .nativeElement;
+    expect(button.disabled).toBe(false);
+  });
+
   it('should button be called with proper select method', () => {
     const button = fixture.debugElement.query(By.css('button.btn'))
       .nativeElement;
@@ -153,11 +163,37 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     expect(component.onHandleSelect).toHaveBeenCalled();
   });
 
+  it('should button be called with proper deselect action', () => {
+    component.product.selected = true;
+
+    fixture.detectChanges();
+
+    const button = fixture.debugElement.query(By.css('button.btn'))
+      .nativeElement;
+
+    button.click();
+
+    fixture.detectChanges();
+
+    expect(component.onHandleDeselect).toHaveBeenCalled();
+  });
+
   it('should button have select text when card type is no multi select and card is no selected', () => {
     const button = fixture.debugElement.query(By.css('button.btn'))
       .nativeElement;
 
     expect(button.innerText).toContain('configurator.button.select');
+  });
+
+  it('should button have deselect text when card type is no multi select and card is selected', () => {
+    component.product.selected = true;
+
+    fixture.detectChanges();
+
+    const button = fixture.debugElement.query(By.css('button.btn'))
+      .nativeElement;
+
+    expect(button.innerText).toContain('configurator.button.remove');
   });
 
   it('should button have add text when card type is multi select and card is no selected', () => {

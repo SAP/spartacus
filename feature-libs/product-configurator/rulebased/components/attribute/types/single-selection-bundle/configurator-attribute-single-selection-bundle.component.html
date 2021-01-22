@@ -5,6 +5,7 @@
   <div class="cx-single-selection-bundle-quantity">
     <cx-configurator-attribute-quantity
       (changeQuantity)="onChangeQuantity($event)"
+      (handleDeselect)="onDeselect()"
       [initialQuantity]="attribute.selectedSingleValue ? attribute.quantity : 0"
       [allowZero]="!attribute.required"
       [readonly]="readOnlyQuantity || (loading$ | async)"
