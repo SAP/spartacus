@@ -7,10 +7,6 @@ git:
   depth: false
 branches:
   only:
-    - develop
+    - feature/GH-10679
 jobs:
   - script: "./ci-scripts/deploy-hs.sh"
-addons:
-  chrome: stable
-  sonarcloud:
-    organization: sap
