@@ -7,6 +7,7 @@ import {
   Address,
   ADDRESS_LIST_NORMALIZER,
   ADDRESS_NORMALIZER,
+  ADDRESS_SERIALIZER,
   ConverterService,
   OccEndpointsService,
   SearchConfig,
@@ -60,6 +61,7 @@ describe('OccOrgUnitAdapter', () => {
     service = TestBed.inject(OccOrgUnitAdapter);
     httpMock = TestBed.inject(HttpTestingController);
     spyOn(converterService, 'pipeable').and.callThrough();
+    spyOn(converterService, 'convert').and.callThrough();
   });
 
   afterEach(() => {
@@ -251,6 +253,10 @@ describe('OccOrgUnitAdapter', () => {
   describe('create address', () => {
     it('should create address', () => {
       service.createAddress(userId, orgUnitId, address).subscribe();
+      expect(converterService.convert).toHaveBeenCalledWith(
+        address,
+        ADDRESS_SERIALIZER
+      );
       const mockReq = httpMock.expectOne(
         (req) =>
           req.method === 'POST' &&
@@ -269,6 +275,10 @@ describe('OccOrgUnitAdapter', () => {
   describe('update address', () => {
     it('should update address', () => {
       service.updateAddress(userId, orgUnitId, addressId, address).subscribe();
+      expect(converterService.convert).toHaveBeenCalledWith(
+        address,
+        ADDRESS_SERIALIZER
+      );
       const mockReq = httpMock.expectOne(
         (req) => req.method === 'PATCH' && req.url === 'orgUnitsAddress'
       );
