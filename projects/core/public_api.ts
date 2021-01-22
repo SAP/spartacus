@@ -34,4 +34,5 @@ export { Cart } from './src/model/cart.model';
 export { CostCenter, B2BUnit, B2BUser } from './src/model/org-unit.model';
 export { AuthToken } from './src/auth/user-auth/models/auth-token.model';
 export { Order, OrderEntry, DeliveryMode } from './src/model/order.model';
+export { OccEndpoints } from './src/occ/occ-models/occ-endpoints.model';
 /** AUGMENTABLE_TYPES_END */
