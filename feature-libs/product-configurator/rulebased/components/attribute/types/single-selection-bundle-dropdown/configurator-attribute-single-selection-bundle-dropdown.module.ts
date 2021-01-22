@@ -6,6 +6,7 @@ import { KeyboardFocusModule } from '@spartacus/storefront';
 import { NgModule } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ConfiguratorAttributeProductCardModule } from '../../product-card/configurator-attribute-product-card.module';
+import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator-attribute-quantity.module';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { ConfiguratorAttributeProductCardModule } from '../../product-card/confi
     KeyboardFocusModule,
     NgSelectModule,
     ReactiveFormsModule,
+    ConfiguratorAttributeQuantityModule,
   ],
   declarations: [ConfiguratorAttributeSingleSelectionBundleDropdownComponent],
   exports: [ConfiguratorAttributeSingleSelectionBundleDropdownComponent],

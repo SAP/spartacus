@@ -4,7 +4,7 @@
     [allowZero]="!attribute.required"
     [initialQuantity]="attribute.quantity"
     [readonly]="readOnlyQuantity || (loading$ | async)"
-    *ngIf="withQuantity && withQuantityOnAttributeLevel"
+    *ngIf="withQuantityOnAttributeLevel"
   ></cx-configurator-attribute-quantity>
 
   <ng-container *ngFor="let value of attribute.values; let i = index">

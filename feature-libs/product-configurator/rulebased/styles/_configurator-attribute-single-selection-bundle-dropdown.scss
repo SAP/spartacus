@@ -1,4 +1,8 @@
 %cx-configurator-attribute-single-selection-bundle-dropdown {
   @include cx-configurator-attribute-type();
   @include cx-configurator-form-group();
+
+  .attribute-quantity {
+    padding-block-start: 1rem;
+  }
 }
