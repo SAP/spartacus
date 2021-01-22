@@ -193,7 +193,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     const button = fixture.debugElement.query(By.css('button.btn'))
       .nativeElement;
 
-    expect(button.innerText).toContain('configurator.button.remove');
+    expect(button.innerText).toContain('configurator.button.deselect');
   });
 
   it('should button have add text when card type is multi select and card is no selected', () => {
