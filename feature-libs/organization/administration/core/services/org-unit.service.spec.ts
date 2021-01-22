@@ -577,6 +577,7 @@ describe('OrgUnitService', () => {
         new OrgUnitActions.LoadOrgUnitNodes({ userId })
       );
     });
+
     it('should filter unit list', () => {
       store.dispatch(
         new OrgUnitActions.LoadOrgUnitNodesSuccess([
@@ -593,11 +594,13 @@ describe('OrgUnitService', () => {
           unitNodes = data;
         })
         .unsubscribe();
+
       expect(unitNodes).toEqual([
         { id: 'unit1', active: true } as B2BUnitNode,
         { id: 'unit3', active: true } as B2BUnitNode,
       ]);
     });
+
     it('should sort unit list', () => {
       store.dispatch(
         new OrgUnitActions.LoadOrgUnitNodesSuccess([
@@ -614,6 +617,7 @@ describe('OrgUnitService', () => {
           unitNodes = data;
         })
         .unsubscribe();
+
       expect(unitNodes).toEqual([
         { id: 'Aunit', active: true } as B2BUnitNode,
         { id: 'Bunit', active: true } as B2BUnitNode,
