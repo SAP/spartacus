@@ -12,7 +12,7 @@ import {
   CartPageEvent,
   CategoryPageResultsEvent,
   HomePageEvent,
-  NavigationEvent,
+  PageEvent,
   ProductDetailsPageEvent,
   SearchPageResultsEvent,
 } from '@spartacus/storefront';
@@ -123,8 +123,8 @@ export class ProfileTagPushEventsService {
   protected categoryPageVisited(): Observable<ProfileTagPushEvent> {
     return this.eventService.get(CategoryPageResultsEvent).pipe(
       withLatestFrom(
-        this.eventService.get(NavigationEvent).pipe(
-          startWith(<NavigationEvent>null), // https://github.com/ReactiveX/rxjs/issues/4772
+        this.eventService.get(PageEvent).pipe(
+          startWith(<PageEvent>null), // https://github.com/ReactiveX/rxjs/issues/4772
           pairwise()
         )
       ),
@@ -208,7 +208,7 @@ export class ProfileTagPushEventsService {
    */
   protected navigatedEvent(): Observable<ProfileTagPushEvent> {
     return this.eventService
-      .get(NavigationEvent)
+      .get(PageEvent)
       .pipe(mapTo(new NavigatedPushEvent()));
   }
 
