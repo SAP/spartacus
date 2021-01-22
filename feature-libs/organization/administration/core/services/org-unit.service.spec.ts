@@ -577,9 +577,15 @@ describe('OrgUnitService', () => {
         new OrgUnitActions.LoadOrgUnitNodes({ userId })
       );
     });
-    it('should sort unit list', () => {
-      spyOn(service, 'sortUnitList').and.callThrough();
-
+    it('should filter unit list', () => {
+      store.dispatch(
+        new OrgUnitActions.LoadOrgUnitNodesSuccess([
+          { id: 'unit1', active: true } as B2BUnitNode,
+          { id: 'unit2', active: false } as B2BUnitNode,
+          { id: 'unit3', active: true } as B2BUnitNode,
+          { id: 'unit4', active: false } as B2BUnitNode,
+        ])
+      );
       let unitNodes: B2BUnitNode[];
       service
         .getActiveUnitList()
@@ -587,9 +593,33 @@ describe('OrgUnitService', () => {
           unitNodes = data;
         })
         .unsubscribe();
-
-      expect(unitNodes).toEqual(undefined);
-      expect(service.sortUnitList).toHaveBeenCalled();
+      expect(unitNodes).toEqual([
+        { id: 'unit1', active: true } as B2BUnitNode,
+        { id: 'unit3', active: true } as B2BUnitNode,
+      ]);
+    });
+    it('should sort unit list', () => {
+      store.dispatch(
+        new OrgUnitActions.LoadOrgUnitNodesSuccess([
+          { id: 'Bunit', active: true } as B2BUnitNode,
+          { id: 'Cunit', active: true } as B2BUnitNode,
+          { id: 'Aunit', active: true } as B2BUnitNode,
+          { id: 'Dunit', active: true } as B2BUnitNode,
+        ])
+      );
+      let unitNodes: B2BUnitNode[];
+      service
+        .getActiveUnitList()
+        .subscribe((data) => {
+          unitNodes = data;
+        })
+        .unsubscribe();
+      expect(unitNodes).toEqual([
+        { id: 'Aunit', active: true } as B2BUnitNode,
+        { id: 'Bunit', active: true } as B2BUnitNode,
+        { id: 'Cunit', active: true } as B2BUnitNode,
+        { id: 'Dunit', active: true } as B2BUnitNode,
+      ]);
     });
   });
 

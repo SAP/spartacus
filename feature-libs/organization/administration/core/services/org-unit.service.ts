@@ -254,7 +254,7 @@ export class OrgUnitService {
     );
   }
 
-  sortUnitList(a: B2BUnitNode, b: B2BUnitNode) {
+  protected sortUnitList(a: B2BUnitNode, b: B2BUnitNode) {
     return a.id.toLowerCase() < b.id.toLowerCase()
       ? -1
       : a.id.toLowerCase() > b.id.toLowerCase()
