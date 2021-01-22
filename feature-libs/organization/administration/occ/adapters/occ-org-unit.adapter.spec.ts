@@ -17,6 +17,7 @@ import {
   B2BUNIT_NODE_LIST_NORMALIZER,
   B2BUNIT_NODE_NORMALIZER,
   B2BUNIT_NORMALIZER,
+  B2BUNIT_SERIALIZER,
   B2B_USERS_NORMALIZER,
 } from '@spartacus/organization/administration/core';
 import { OccOrgUnitAdapter } from './occ-org-unit.adapter';
@@ -123,6 +124,10 @@ describe('OccOrgUnitAdapter', () => {
   describe('update orgUnit', () => {
     it('should update orgUnit', () => {
       service.update(userId, orgUnitId, orgUnit).subscribe();
+      expect(converterService.convert).toHaveBeenCalledWith(
+        orgUnit,
+        B2BUNIT_SERIALIZER
+      );
       const mockReq = httpMock.expectOne(
         (req) =>
           req.method === 'PATCH' &&
