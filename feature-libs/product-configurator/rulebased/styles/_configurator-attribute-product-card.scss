@@ -56,11 +56,16 @@
     }
 
     .cx-product-card-name {
-      a {
+      a,
+      p {
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
+      }
+
+      p {
+        color: var(--cx-color-primary);
       }
     }
 
