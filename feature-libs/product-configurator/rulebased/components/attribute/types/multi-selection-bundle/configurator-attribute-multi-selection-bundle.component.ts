@@ -29,6 +29,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
   implements OnInit {
   preventAction$ = new BehaviorSubject<boolean>(false);
   multipleSelectionValues: SelectionValue[] = [];
+  loading$ = new BehaviorSubject<boolean>(false);
 
   @Input() attribute: Configurator.Attribute;
   @Input() ownerKey: string;
@@ -57,10 +58,26 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     }
   }
 
+  get withQuantityOnAttributeLevel() {
+    return (
+      this.attribute?.dataType ===
+      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
+    );
+  }
+
   get withQuantity() {
     return this.quantityService.withQuantity(
-      this.attribute.dataType,
-      this.attribute.uiType
+      this.attribute?.dataType,
+      this.attribute?.uiType
+    );
+  }
+
+  get readOnlyQuantity() {
+    return (
+      this.attribute?.dataType ===
+        Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL &&
+      (!this.attribute?.values.find((value) => value.selected) ||
+        this.attribute?.quantity === 0)
     );
   }
 
@@ -107,6 +124,21 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     return event;
   }
 
+  onHandleAttributeQuantity(quantity): void {
+    this.loading$.next(true);
+
+    const event: ConfigFormUpdateEvent = {
+      changedAttribute: {
+        ...this.attribute,
+        quantity,
+      },
+      ownerKey: this.ownerKey,
+      updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
+    };
+
+    this.selectionChange.emit(event);
+  }
+
   onSelect(eventValue): void {
     this.selectionChange.emit(
       this.updateMultipleSelectionValues(eventValue, true)
@@ -119,9 +151,31 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     );
   }
 
-  onChangeQuantity(eventValue): void {
+  onDeselectAll(): void {
+    const event: ConfigFormUpdateEvent = {
+      changedAttribute: {
+        ...this.attribute,
+        values: [],
+      },
+      ownerKey: this.ownerKey,
+      updateType: Configurator.UpdateType.ATTRIBUTE,
+    };
+    this.selectionChange.emit(event);
+  }
+
+  onChangeValueQuantity(eventValue): void {
     this.selectionChange.emit(
       this.updateMultipleSelectionValuesQuantity(eventValue)
     );
+  }
+
+  onChangeAttributeQuantity(eventObject): void {
+    this.loading$.next(true);
+
+    if (!eventObject.quantity) {
+      this.onDeselectAll();
+    } else {
+      this.onHandleAttributeQuantity(eventObject.quantity);
+    }
   }
 }

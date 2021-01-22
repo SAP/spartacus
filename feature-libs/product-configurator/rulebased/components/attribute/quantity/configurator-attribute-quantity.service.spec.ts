@@ -46,7 +46,7 @@ describe('ConfiguratorAttributeQuantityService', () => {
         Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL,
         Configurator.UiType.DROPDOWN_PRODUCT
       )
-    ).toBe(true);
+    ).toBe(false);
   });
 
   it('should withQuantity be false when UIType DROPDOWN_PRODUCT and DataType is not USER_SELECTION_QTY_VALUE_LEVEL', () => {
@@ -55,6 +55,6 @@ describe('ConfiguratorAttributeQuantityService', () => {
         Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL,
         Configurator.UiType.DROPDOWN_PRODUCT
       )
-    ).toBe(false);
+    ).toBe(true);
   });
 });
