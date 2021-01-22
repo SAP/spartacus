@@ -5,7 +5,6 @@
   <div class="cx-single-selection-bundle-quantity">
     <cx-configurator-attribute-quantity
       (changeQuantity)="onChangeQuantity($event)"
-      (handleDeselect)="onDeselect()"
       [initialQuantity]="attribute.selectedSingleValue ? attribute.quantity : 0"
       [allowZero]="!attribute.required"
       [readonly]="readOnlyQuantity || (loading$ | async)"
@@ -21,6 +20,7 @@
   <cx-configurator-attribute-product-card
     id="{{ createAttributeValueIdForConfigurator(attribute, value.valueCode) }}"
     (handleSelect)="onSelect($event)"
+    (handleDeselect)="onDeselect()"
     *ngFor="let value of attribute.values"
     [preventAction]="attribute.required"
     [product]="value"
