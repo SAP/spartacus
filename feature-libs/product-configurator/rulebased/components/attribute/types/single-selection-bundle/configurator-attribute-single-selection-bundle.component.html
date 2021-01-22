@@ -19,8 +19,8 @@
 
   <cx-configurator-attribute-product-card
     id="{{ createAttributeValueIdForConfigurator(attribute, value.valueCode) }}"
-    (handleSelect)="onSelect($event)"
     (handleDeselect)="onDeselect()"
+    (handleSelect)="onSelect($event)"
     *ngFor="let value of attribute.values"
     [preventAction]="attribute.required"
     [product]="value"
