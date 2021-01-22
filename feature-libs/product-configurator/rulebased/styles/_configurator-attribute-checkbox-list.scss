@@ -1,6 +1,11 @@
 %cx-configurator-attribute-checkbox-list {
   @include cx-configurator-attribute-type();
+
   .attribute-quantity {
     padding: 1rem 0;
+  }
+
+  .form-check input:disabled + .form-check-label {
+    color: var(--cx-color-text);
   }
 }
