@@ -12,8 +12,6 @@ function download_cli {
 function install_cli {
     echo "Installing cli"
 
-    # temporary step. Delete it when asset can be downloaded.
-    cp ~/sandbox/node/${APP}.zip .
     unzip -o ${APP}.zip -d ${APP}
     cd ${APP}
     npm run install-cli
