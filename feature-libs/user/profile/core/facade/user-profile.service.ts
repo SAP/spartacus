@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { UserIdService, UserService } from '@spartacus/core';
-import { User } from '@spartacus/user/details/core';
+import { User } from '@spartacus/user/account/core';
 import { Observable } from 'rxjs';
 import { Title } from '../model/user-profile.model';
 import { UserActions } from '../store/index';
 import {
   REMOVE_USER_PROCESS_ID,
   StateWithUserProfile,
-  UPDATE_USER_DETAILS_PROCESS_ID,
+  UPDATE_USER_PROFILE_PROCESS_ID,
 } from '../store/user-profile.state';
 import { UserRegisterService } from './user-register.service';
 import { getCallState } from './utils';
@@ -24,7 +24,7 @@ export class UserProfileService {
 
   updateProfileCallState = getCallState(
     this.store,
-    UPDATE_USER_DETAILS_PROCESS_ID,
+    UPDATE_USER_PROFILE_PROCESS_ID,
     () => {
       this.store.dispatch(new UserActions.UpdatePasswordReset());
     }
@@ -51,7 +51,7 @@ export class UserProfileService {
   update(userDetails: User): void {
     this.userIdService.invokeWithUserId((userId) => {
       this.store.dispatch(
-        new UserActions.UpdateUserDetails({
+        new UserActions.UpdateUserProfile({
           username: userId,
           userDetails,
         })

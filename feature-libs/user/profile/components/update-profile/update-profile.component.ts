@@ -5,7 +5,7 @@ import {
   RoutingService,
   Title,
 } from '@spartacus/core';
-import { User } from '@spartacus/user/details/core';
+import { User } from '@spartacus/user/account/core';
 import { UserProfileService } from '@spartacus/user/profile/core';
 import { Observable, Subscription } from 'rxjs';
 

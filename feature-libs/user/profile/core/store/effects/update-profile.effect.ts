@@ -9,25 +9,25 @@ import { UserActions as UserProfileActions } from '../actions/index';
 @Injectable()
 export class UpdateProfileEffects {
   @Effect()
-  updateUserDetails$: Observable<
-    | UserProfileActions.UpdateUserDetailsSuccess
-    | UserProfileActions.UpdateUserDetailsFail
+  updateUserProfiles$: Observable<
+    | UserProfileActions.UpdateUserProfileSuccess
+    | UserProfileActions.UpdateUserProfileFail
   > = this.actions$.pipe(
-    ofType(UserProfileActions.UPDATE_USER_DETAILS),
-    map((action: UserProfileActions.UpdateUserDetails) => action.payload),
+    ofType(UserProfileActions.UPDATE_USER_PROFILE),
+    map((action: UserProfileActions.UpdateUserProfile) => action.payload),
     concatMap((payload) =>
       this.userProfileConnector
         .update(payload.username, payload.userDetails)
         .pipe(
           map(
             () =>
-              new UserProfileActions.UpdateUserDetailsSuccess(
+              new UserProfileActions.UpdateUserProfileSuccess(
                 payload.userDetails
               )
           ),
           catchError((error) =>
             of(
-              new UserProfileActions.UpdateUserDetailsFail(
+              new UserProfileActions.UpdateUserProfileFail(
                 normalizeHttpError(error)
               )
             )

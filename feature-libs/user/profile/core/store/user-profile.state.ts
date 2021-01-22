@@ -23,7 +23,7 @@ import { ConsignmentTracking, Country, Region, Title } from '@spartacus/core';
 
 export const USER_PROFILE_FEATURE = 'userProfile';
 
-export const UPDATE_USER_DETAILS_PROCESS_ID = 'updateUserDetails';
+export const UPDATE_USER_PROFILE_PROCESS_ID = 'updateUserProfile';
 
 export const UPDATE_EMAIL_PROCESS_ID = 'updateEmail';
 export const UPDATE_PASSWORD_PROCESS_ID = 'updatePassword';

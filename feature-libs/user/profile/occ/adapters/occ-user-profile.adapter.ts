@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-// import { UserAdapter } from '../../../user/connectors/user/user.adapter';
 import {
   ConverterService,
   InterceptorUtil,
@@ -8,7 +7,7 @@ import {
   OccEndpointsService,
   USE_CLIENT_TOKEN,
 } from '@spartacus/core';
-import { User, USER_NORMALIZER } from '@spartacus/user/details/core';
+import { User, USER_NORMALIZER } from '@spartacus/user/account/core';
 import {
   Title,
   TITLE_NORMALIZER,

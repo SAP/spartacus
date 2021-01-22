@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CloseAccountModule } from './close-account';
+import { CloseAccountModule } from './close-account/close-account.module';
 import { ForgotPasswordModule } from './forgot-password/forgot-password.module';
 import { RegisterComponentModule } from './register/register.module';
 import { ResetPasswordModule } from './reset-password/reset-password.module';

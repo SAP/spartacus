@@ -5,7 +5,7 @@ import {
   StateUtils,
   StateWithProcess,
 } from '@spartacus/core';
-import { User } from '@spartacus/user/details/core';
+import { User } from '@spartacus/user/account/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Title, UserSignUp } from '../model/user-profile.model';
@@ -32,13 +32,6 @@ export class UserRegisterService {
     return this.store.pipe(
       select(ProcessSelectors.getProcessStateFactory(REGISTER_USER_PROCESS_ID))
     );
-  }
-
-  /**
-   * Register a new user from guest.
-   */
-  registerGuest(guid: string, password: string): void {
-    this.store.dispatch(new UserActions.RegisterGuest({ guid, password }));
   }
 
   /**

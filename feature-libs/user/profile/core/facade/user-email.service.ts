@@ -7,7 +7,7 @@ import {
   UserActions,
   UserIdService,
 } from '@spartacus/core';
-import { User } from '@spartacus/user/details/core';
+import { User } from '@spartacus/user/account/core';
 import { Observable } from 'rxjs';
 import { UPDATE_EMAIL_PROCESS_ID } from '../store/user-profile.state';
 

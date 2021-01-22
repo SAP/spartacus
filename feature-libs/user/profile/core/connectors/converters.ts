@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import { Converter } from '@spartacus/core';
-import { User } from '@spartacus/user/details/core';
+import { User } from '@spartacus/user/account/core';
 import { Title, UserSignUp } from '../model/user-profile.model';
 
 export const USER_SERIALIZER = new InjectionToken<Converter<User, any>>(

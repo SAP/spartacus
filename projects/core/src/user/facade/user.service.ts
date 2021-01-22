@@ -70,8 +70,6 @@ export class UserService {
    *
    * @param guid
    * @param password
-   *
-   * @deprecated since 3.2, use `UserRegisterService.registerGuest()` from `@spartacus/user` package.package.
    */
   registerGuest(guid: string, password: string): void {
     this.store.dispatch(new UserActions.RegisterGuest({ guid, password }));

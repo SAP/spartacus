@@ -6,7 +6,7 @@ import {
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
-import { User } from '@spartacus/user/details/core';
+import { User } from '@spartacus/user/account/core';
 import { Observable } from 'rxjs';
 import { UserActions } from '../store/actions/index';
 import { UserSelectors } from '../store/selectors/index';

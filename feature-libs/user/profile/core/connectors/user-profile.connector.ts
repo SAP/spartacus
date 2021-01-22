@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { User } from '@spartacus/user/details/core';
+import { User } from '@spartacus/user/account/core';
 import { Observable } from 'rxjs';
 import { Title, UserSignUp } from '../model/user-profile.model';
 import { UserProfileAdapter } from './user-profile.adapter';

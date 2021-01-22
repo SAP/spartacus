@@ -4,8 +4,8 @@ import {
 } from '@spartacus/storefinder/assets';
 import { StoreFinderRootModule } from '@spartacus/storefinder/root';
 import { B2cStorefrontModule } from '@spartacus/storefront';
-import { UserDetailsRootModule } from '@spartacus/user/details/root';
 import { UserProfileRootModule } from '@spartacus/user/profile/root';
+import { UserAccountRootModule } from 'feature-libs/user/account/root/public_api';
 import {
   userProfileTranslations,
   userTranslationChunksConfig,
@@ -38,7 +38,9 @@ export const b2cFeature: FeatureEnvironment = {
         },
         userDetails: {
           module: () =>
-            import('@spartacus/user/details').then((m) => m.UserDetailsModule),
+            import('feature-libs/user/account/public_api').then(
+              (m) => m.UserAccountModule
+            ),
         },
         userProfile: {
           module: () =>
@@ -58,7 +60,7 @@ export const b2cFeature: FeatureEnvironment = {
     }),
 
     StoreFinderRootModule,
-    UserDetailsRootModule,
+    UserAccountRootModule,
     UserProfileRootModule,
   ],
 };

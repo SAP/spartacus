@@ -58,9 +58,6 @@ export class ResetRegisterUserProcess extends StateUtils.EntityLoaderResetAction
   }
 }
 
-/**
- * @deprecated since 3.2, moved to `@spartacus/user/profile/core`
- */
 export class RegisterGuest implements Action {
   readonly type = REGISTER_GUEST;
   constructor(public payload: { guid: string; password: string }) {}
