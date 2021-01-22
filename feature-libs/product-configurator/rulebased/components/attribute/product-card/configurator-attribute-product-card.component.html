@@ -78,22 +78,13 @@
         </ng-container>
         <ng-template #single>
           <button
-            *ngIf="product.selected; else select"
+            *ngIf="!product.selected"
             class="btn btn-action"
-            (click)="onHandleDeselect()"
-            [disabled]="preventAction || (loading$ | async)"
+            (click)="onHandleSelect()"
+            [disabled]="loading$ | async"
           >
-            {{ 'configurator.button.remove' | cxTranslate }}
+            {{ 'configurator.button.select' | cxTranslate }}
           </button>
-          <ng-template #select>
-            <button
-              class="btn btn-primary"
-              (click)="onHandleSelect()"
-              [disabled]="loading$ | async"
-            >
-              {{ 'configurator.button.select' | cxTranslate }}
-            </button>
-          </ng-template>
         </ng-template>
       </div>
     </div>
