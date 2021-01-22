@@ -95,7 +95,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     }
   }
 
-  onDocumentClick(event: any) {
+  onDocumentClick(event: Event) {
     if (Boolean(this.resultList)) {
       if (
         this.resultList.nativeElement.contains(event.target) ||
