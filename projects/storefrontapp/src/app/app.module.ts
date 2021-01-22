@@ -89,3 +89,6 @@ if (environment.cdc) {
   bootstrap: [StorefrontComponent],
 })
 export class AppModule {}
+
+// test todo remove:
+export const x = 'test CI';
