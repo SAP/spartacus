@@ -55,7 +55,7 @@ export class UserProfileConnector {
   }
 
   remove(userId: string): Observable<{}> {
-    return this.userProfileAdapter.remove(userId);
+    return this.userProfileAdapter.close(userId);
   }
 
   getTitles(): Observable<Title[]> {

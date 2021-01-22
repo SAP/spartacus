@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { UserIdService } from '@spartacus/core';
-import { User, UserService } from '@spartacus/user/details/core';
+import { UserIdService, UserService } from '@spartacus/core';
+import { User } from '@spartacus/user/details/core';
 import { Observable } from 'rxjs';
 import { Title } from '../model/user-profile.model';
 import { UserActions } from '../store/index';
 import {
+  REMOVE_USER_PROCESS_ID,
   StateWithUserProfile,
   UPDATE_USER_DETAILS_PROCESS_ID,
 } from '../store/user-profile.state';
@@ -29,14 +30,23 @@ export class UserProfileService {
     }
   );
 
+  closeAccountCallState = getCallState(
+    this.store,
+    REMOVE_USER_PROCESS_ID,
+    () => {
+      this.store.dispatch(new UserActions.RemoveUserReset());
+    }
+  );
+
   // TODO: consider getCurrent()
   get() {
     return this.userService.get();
   }
 
   /**
-   * Updates the user's details
-   * @param userDetails to be updated
+   * Updates the user's details.
+   *
+   * @param userDetails to be updated.
    */
   update(userDetails: User): void {
     this.userIdService.invokeWithUserId((userId) => {
@@ -46,6 +56,15 @@ export class UserProfileService {
           userDetails,
         })
       );
+    });
+  }
+
+  /**
+   * Closes the user account.
+   */
+  close(): void {
+    this.userIdService.invokeWithUserId((userId) => {
+      this.store.dispatch(new UserActions.RemoveUser(userId));
     });
   }
 

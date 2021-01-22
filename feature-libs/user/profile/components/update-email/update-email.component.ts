@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import {
   AuthService,
   GlobalMessageService,
@@ -6,13 +6,14 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { UserEmailService } from '@spartacus/user/profile/core';
-import { Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-update-email',
   templateUrl: './update-email.component.html',
 })
-export class UpdateEmailComponent implements OnInit, OnDestroy {
+export class UpdateEmailComponent implements OnDestroy {
   constructor(
     private routingService: RoutingService,
     private globalMessageService: GlobalMessageService,
@@ -22,17 +23,7 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
   private newUid: string;
-  isLoading$: Observable<boolean>;
-
-  ngOnInit() {
-    this.userEmailService.updateEmailCallState.clear();
-    this.subscription.add(
-      this.userEmailService.updateEmailCallState
-        .isSuccessful()
-        .subscribe((success) => this.onSuccess(success))
-    );
-    this.isLoading$ = this.userEmailService.updateEmailCallState.isLoading();
-  }
+  isLoading$ = new BehaviorSubject(false);
 
   onCancel(): void {
     this.routingService.go({ cxRoute: 'home' });
@@ -40,7 +31,18 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
 
   onSubmit({ newUid, password }: { newUid: string; password: string }): void {
     this.newUid = newUid;
-    this.userEmailService.update(password, newUid);
+    this.subscription.add(
+      this.userEmailService
+        .update(password, newUid)
+        .pipe(
+          tap((state) => {
+            console.log(state);
+            this.isLoading$.next(state.loading);
+            this.onSuccess(state.success);
+          })
+        )
+        .subscribe()
+    );
   }
 
   async onSuccess(success: boolean): Promise<void> {
@@ -64,6 +66,5 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-    this.userEmailService.updateEmailCallState.clear();
   }
 }

@@ -13,6 +13,7 @@ import { provideDefaultConfig } from '@spartacus/core';
             'UpdatePasswordComponent',
             'ForgotPasswordComponent',
             'ResetPasswordComponent',
+            'CloseAccountComponent',
           ],
         },
       },

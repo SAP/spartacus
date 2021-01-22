@@ -17,7 +17,6 @@ export class OccUserAdapter implements UserAdapter {
   ) {}
 
   load(userId: string): Observable<User> {
-    console.log('load user?', userId);
     const url = this.occEndpoints.getUrl('user', { userId });
     return this.http
       .get<Occ.User>(url)

@@ -6,16 +6,16 @@ import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
   Occ,
+  OccConfig,
+  OccEndpointsService,
   TITLE_NORMALIZER,
   User,
+  UserSignUp,
   USER_NORMALIZER,
   USER_SERIALIZER,
   USER_SIGN_UP_SERIALIZER,
-  UserSignUp,
 } from '@spartacus/core';
-import { OccConfig } from '../../config/occ-config';
-import { OccEndpointsService } from '../../services';
-import { OccUserAdapter } from './occ-user.adapter';
+import { OccUserAdapter } from './occ-user-details.adapter';
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,
@@ -29,7 +29,7 @@ const user: User = {
   displayUid: password,
 };
 
-describe('OccUserAdapter', () => {
+describe('OccUserDetailAdapter', () => {
   let occUserAdapter: OccUserAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;

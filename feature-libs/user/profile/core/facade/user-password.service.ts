@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { UserIdService } from '@spartacus/core';
+import {
+  ProcessSelectors,
+  StateUtils,
+  StateWithProcess,
+  UserIdService,
+} from '@spartacus/core';
+import { User } from '@spartacus/user/details/core';
 import { Observable } from 'rxjs';
 import { UserActions } from '../store/actions/index';
 import { UserSelectors } from '../store/selectors/index';
@@ -8,29 +14,27 @@ import {
   StateWithUserProfile,
   UPDATE_PASSWORD_PROCESS_ID,
 } from '../store/user-profile.state';
-import { getCallState } from './utils';
 
 @Injectable({ providedIn: 'root' })
 export class UserPasswordService {
   constructor(
-    protected store: Store<StateWithUserProfile>,
+    protected store: Store<StateWithUserProfile | StateWithProcess<User>>,
     protected userIdService: UserIdService
   ) {}
 
-  updatePasswordCallState = getCallState(
-    this.store,
-    UPDATE_PASSWORD_PROCESS_ID,
-    () => {
-      this.store.dispatch(new UserActions.UpdatePasswordReset());
-    }
-  );
-
   /**
    * Updates the password for the user
+   *
+   * The method returns an observable with `LoaderState` information, including the
+   * actual user data.
+   *
    * @param oldPassword the current password that will be changed
    * @param newPassword the new password
    */
-  update(oldPassword: string, newPassword: string): void {
+  update(
+    oldPassword: string,
+    newPassword: string
+  ): Observable<StateUtils.LoaderState<User>> {
     this.userIdService
       .takeUserId(true)
       .subscribe((userId) =>
@@ -38,6 +42,11 @@ export class UserPasswordService {
           new UserActions.UpdatePassword({ userId, oldPassword, newPassword })
         )
       );
+    return this.store.pipe(
+      select(
+        ProcessSelectors.getProcessStateFactory(UPDATE_PASSWORD_PROCESS_ID)
+      )
+    );
   }
 
   /*
@@ -49,6 +58,7 @@ export class UserPasswordService {
 
   /**
    * Reset new password. Part of the forgot password flow.
+   *
    * @param token
    * @param password
    */

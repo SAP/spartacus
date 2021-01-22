@@ -20,8 +20,8 @@ import {
 } from '@spartacus/core';
 import { CustomFormValidators, sortTitles } from '@spartacus/storefront';
 import { UserRegisterService, UserSignUp } from '@spartacus/user/profile/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { filter, map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-register',
@@ -29,9 +29,9 @@ import { filter, map } from 'rxjs/operators';
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   titles$: Observable<Title[]>;
-  loading$: Observable<
-    boolean
-  > = this.userRegisterService.registerCallState.isLoading();
+
+  isLoading$ = new BehaviorSubject(false);
+
   private subscription = new Subscription();
 
   anonymousConsent$: Observable<{
@@ -80,8 +80,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
         return titles.sort(sortTitles);
       })
     );
-
-    this.registerUserProcessInit();
 
     // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
     this.subscription.add(
@@ -136,8 +134,16 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   registerUser(): void {
-    this.userRegisterService.register(
-      this.collectDataFromRegisterForm(this.registerForm.value)
+    this.subscription.add(
+      this.userRegisterService
+        .register(this.collectDataFromRegisterForm(this.registerForm.value))
+        .pipe(
+          tap((state) => {
+            this.isLoading$.next(state.loading);
+            this.onRegisterUserSuccess(state.success);
+          })
+        )
+        .subscribe()
     );
   }
 
@@ -199,19 +205,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     }
   }
 
-  private registerUserProcessInit(): void {
-    this.userRegisterService.registerCallState.clear();
-    this.subscription.add(
-      this.userRegisterService.registerCallState
-        .isSuccessful()
-        .subscribe((success) => {
-          this.onRegisterUserSuccess(success);
-        })
-    );
-  }
-
   ngOnDestroy() {
     this.subscription.unsubscribe();
-    this.userRegisterService.registerCallState.clear();
   }
 }

@@ -14,7 +14,6 @@ import {
 import { QualtricsModule, SiteContextSelectorModule } from './misc/index';
 import {
   AddressBookModule,
-  CloseAccountModule,
   ConsentManagementModule,
   MyCouponsModule,
   MyInterestsModule,
@@ -84,7 +83,6 @@ import { WishListModule } from './wish-list/wish-list.module';
     OrderDetailsModule,
     PaymentMethodsModule,
     ConsentManagementModule,
-    CloseAccountModule,
     CartComponentModule,
     TabParagraphContainerModule,
     OrderConfirmationModule,
@@ -107,6 +105,7 @@ import { WishListModule } from './wish-list/wish-list.module';
 
     UserComponentModule, // almost empty
 
+    // CloseAccountModule,
     // UpdateEmailModule,
     // UpdatePasswordModule,
     // UpdateProfileModule,

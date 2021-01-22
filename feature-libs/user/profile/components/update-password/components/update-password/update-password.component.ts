@@ -1,35 +1,27 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
 } from '@spartacus/core';
 import { UserPasswordService } from '@spartacus/user/profile/core';
-import { Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-update-password',
   templateUrl: './update-password.component.html',
 })
-export class UpdatePasswordComponent implements OnInit, OnDestroy {
+export class UpdatePasswordComponent implements OnDestroy {
   private subscription = new Subscription();
-  loading$: Observable<boolean>;
+
+  isLoading$ = new BehaviorSubject(false);
 
   constructor(
     private routingService: RoutingService,
     private userPasswordService: UserPasswordService,
     private globalMessageService: GlobalMessageService
   ) {}
-
-  ngOnInit(): void {
-    this.userPasswordService.updatePasswordCallState.clear();
-    this.loading$ = this.userPasswordService.updatePasswordCallState.isLoading();
-    this.subscription.add(
-      this.userPasswordService.updatePasswordCallState
-        .isSuccessful()
-        .subscribe((success) => this.onSuccess(success))
-    );
-  }
 
   onSuccess(success: boolean): void {
     if (success) {
@@ -52,11 +44,21 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
     oldPassword: string;
     newPassword: string;
   }): void {
-    this.userPasswordService.update(oldPassword, newPassword);
+    this.subscription.add(
+      this.userPasswordService
+        .update(oldPassword, newPassword)
+        .pipe(
+          tap((state) => {
+            console.log(state);
+            this.isLoading$.next(state.loading);
+            this.onSuccess(state.success);
+          })
+        )
+        .subscribe()
+    );
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    this.userPasswordService.updatePasswordCallState.clear();
   }
 }

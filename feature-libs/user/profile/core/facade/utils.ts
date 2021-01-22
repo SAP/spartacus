@@ -27,14 +27,17 @@ export function getCallState(store: Store<any>, processId: string, clear?) {
         select(ProcessSelectors.getProcessLoadingFactory(processId))
       );
     },
+    /**
+     * Indicates that the load state is successfully finished.
+     */
+    isLoaded() {
+      return store.pipe(
+        select(ProcessSelectors.getProcessSuccessFactory(processId))
+      );
+    },
     hasError() {
       return store.pipe(
         select(ProcessSelectors.getProcessErrorFactory(processId))
-      );
-    },
-    isSuccessful() {
-      return store.pipe(
-        select(ProcessSelectors.getProcessSuccessFactory(processId))
       );
     },
     clear() {

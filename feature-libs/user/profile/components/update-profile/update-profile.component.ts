@@ -36,7 +36,7 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
 
     this.subscription.add(
       this.userProfileService.updateProfileCallState
-        .isSuccessful()
+        .isLoaded()
         .subscribe((success) => this.onSuccess(success))
     );
   }

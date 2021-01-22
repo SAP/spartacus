@@ -25,7 +25,7 @@ export abstract class UserProfileAdapter {
     newPassword: string
   ): Observable<{}>;
 
-  abstract remove(userId: string): Observable<{}>;
+  abstract close(userId: string): Observable<{}>;
 
   abstract loadTitles(): Observable<Title[]>;
 }

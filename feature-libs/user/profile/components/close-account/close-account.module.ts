@@ -8,14 +8,10 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { IconModule } from '../../../cms-components/misc/icon/index';
-import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
+import { IconModule, SpinnerModule } from '@spartacus/storefront';
 import { CloseAccountModalComponent } from './components/close-account-modal/close-account-modal.component';
 import { CloseAccountComponent } from './components/close-account/close-account.component';
 
-/**
- * @deprecated since 3.2, moved to @spartacus/user package.
- */
 @NgModule({
   imports: [
     CommonModule,
@@ -36,7 +32,5 @@ import { CloseAccountComponent } from './components/close-account/close-account.
     }),
   ],
   declarations: [CloseAccountComponent, CloseAccountModalComponent],
-  exports: [CloseAccountComponent, CloseAccountModalComponent],
-  entryComponents: [CloseAccountComponent, CloseAccountModalComponent],
 })
 export class CloseAccountModule {}

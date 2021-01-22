@@ -118,7 +118,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     return this.http.put(url, httpParams, { headers });
   }
 
-  remove(userId: string): Observable<{}> {
+  close(userId: string): Observable<{}> {
     const url = this.occEndpoints.getUrl('user', { userId });
     return this.http.delete<User>(url);
   }

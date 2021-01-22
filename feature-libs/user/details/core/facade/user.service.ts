@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { StateWithProcess, UserIdService } from '@spartacus/core';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  StateWithProcess,
+  UserIdService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { User } from '../model/user.model';
@@ -35,10 +39,17 @@ export class UserService {
    * Loads the user's details.
    */
   protected load(): void {
-    this.userIdService
-      .takeUserId(true)
-      .subscribe((userId) =>
-        this.store.dispatch(new UserDetailAction.LoadUserDetails(userId))
-      );
+    // this.userIdService.takeUserId(true).subscribe((userId) => {
+    //   if (userId !== OCC_USER_ID_ANONYMOUS) {
+    //     this.store.dispatch(new UserDetailAction.LoadUserDetails(userId));
+    //   }
+    // });
+
+    this.userIdService.invokeWithUserId((userId) => {
+      if (userId !== OCC_USER_ID_ANONYMOUS) {
+        console.log('dispatch...', userId);
+        this.store.dispatch(new UserDetailAction.LoadUserDetails(userId));
+      }
+    });
   }
 }

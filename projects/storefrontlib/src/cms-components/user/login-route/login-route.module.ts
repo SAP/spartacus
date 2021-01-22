@@ -13,7 +13,7 @@ import { LoginGuard } from './login.guard';
  *
  * Instead of manually invoking OAuth redirect you only have to redirect to `login` page.
  *
- * @deprecated since 3.2, use @spartacus/user package instead.
+ * @deprecated since 3.2, moved to `@spartacus/user` package.
  */
 @NgModule({
   imports: [

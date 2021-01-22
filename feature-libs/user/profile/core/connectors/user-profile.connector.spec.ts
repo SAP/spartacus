@@ -12,7 +12,7 @@ class MockUserAdapter implements UserProfileAdapter {
   registerGuest = createSpy('registerGuest').and.callFake((userId) =>
     of(userId)
   );
-  remove = createSpy('remove').and.returnValue(of({}));
+  close = createSpy('remove').and.returnValue(of({}));
   requestForgotPasswordEmail = createSpy(
     'requestForgotPasswordEmail'
   ).and.returnValue(of({}));
@@ -83,7 +83,7 @@ describe('UserConnector', () => {
     let result;
     service.remove('user-id').subscribe((res) => (result = res));
     expect(result).toEqual({});
-    expect(adapter.remove).toHaveBeenCalledWith('user-id');
+    expect(adapter.close).toHaveBeenCalledWith('user-id');
   });
 
   it('requestForgotPasswordEmail should call adapter', () => {

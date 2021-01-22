@@ -29,24 +29,6 @@ export class UserDetailsEffects {
     })
   );
 
-  // @Effect()
-  // updateUserDetails$: Observable<
-  //   UserActions.UpdateUserDetailsSuccess | UserActions.UpdateUserDetailsFail
-  // > = this.actions$.pipe(
-  //   ofType(UserActions.UPDATE_USER_DETAILS),
-  //   map((action: UserActions.UpdateUserDetails) => action.payload),
-  //   concatMap((payload) =>
-  //     this.userConnector.update(payload.username, payload.userDetails).pipe(
-  //       map(
-  //         () => new UserActions.UpdateUserDetailsSuccess(payload.userDetails)
-  //       ),
-  //       catchError((error) =>
-  //         of(new UserActions.UpdateUserDetailsFail(normalizeHttpError(error)))
-  //       )
-  //     )
-  //   )
-  // );
-
   constructor(
     private actions$: Actions,
     private userConnector: UserConnector
