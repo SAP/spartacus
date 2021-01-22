@@ -10,6 +10,7 @@ import { Configurator } from '../../../core/model/configurator.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { QuantityUpdateEvent } from '../../form/configurator-form.event';
 import { Product, ProductService } from '@spartacus/core';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-configurator-attribute-product-card',
@@ -32,15 +33,17 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
   constructor(protected productService: ProductService) {}
 
   ngOnInit() {
-    this.product$ = this.productService.get(this.product.productSystemId);
+    this.product$ = this.productService.get(this.product.productSystemId).pipe(
+      map((respProduct) => {
+        return respProduct
+          ? respProduct
+          : this.transformToProductType(this.product);
+      })
+    );
   }
 
   get showQuantity() {
-    return (
-      this.withQuantity &&
-      this.product.selected &&
-      (this.multiSelect || this.singleDropdown)
-    );
+    return this.withQuantity && this.product.selected && this.multiSelect;
   }
 
   onHandleSelect(): void {
@@ -68,5 +71,14 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
       quantity,
       valueCode: this.product.valueCode,
     });
+  }
+
+  transformToProductType(value: Configurator.Value): Product {
+    return {
+      code: value.valueCode,
+      description: value.description,
+      images: {},
+      name: value.valueDisplay,
+    };
   }
 }

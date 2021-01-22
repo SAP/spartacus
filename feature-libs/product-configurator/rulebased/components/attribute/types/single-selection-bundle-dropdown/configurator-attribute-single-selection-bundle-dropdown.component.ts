@@ -11,6 +11,7 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { FormControl } from '@angular/forms';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'cx-configurator-attribute-single-selection-bundle-dropdown',
@@ -22,6 +23,7 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit {
   attributeDropDownForm = new FormControl('');
+  loading$ = new BehaviorSubject<boolean>(false);
   selectionValue: Configurator.Value;
 
   @Input() attribute: Configurator.Attribute;
@@ -44,6 +46,12 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
     return this.quantityService.withQuantity(
       this.attribute.dataType,
       this.attribute.uiType
+    );
+  }
+
+  get readOnlyQuantity() {
+    return this.quantityService.readOnlyQuantity(
+      this.attributeDropDownForm.value
     );
   }
 
@@ -72,19 +80,16 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
     this.selectionChange.emit(event);
   }
 
-  onChangeQuantity(eventValue): void {
-    if (!this.selectionValue) return;
-
-    const value = { ...this.selectionValue };
-    value.quantity = eventValue.quantity;
+  onChangeQuantity(eventObject): void {
+    this.loading$.next(true);
 
     const event: ConfigFormUpdateEvent = {
       changedAttribute: {
         ...this.attribute,
-        values: [value],
+        quantity: eventObject.quantity,
       },
       ownerKey: this.ownerKey,
-      updateType: Configurator.UpdateType.VALUE_QUANTITY,
+      updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
     };
 
     this.selectionChange.emit(event);

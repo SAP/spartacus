@@ -9,7 +9,7 @@
       <div class="cx-product-card-imgs">
         <ng-container *ngIf="productAsync?.images?.PRIMARY; else noimages">
           <cx-media
-            [container]="productAsync.images?.PRIMARY"
+            [container]="productAsync?.images?.PRIMARY"
             format="product"
           ></cx-media>
         </ng-container>
@@ -35,7 +35,8 @@
           {{ productAsync.code }}
         </div>
         <cx-configurator-show-more
-          [text]="productAsync.description"
+          *ngIf="productAsync?.description"
+          [text]="productAsync?.description"
           [textSize]="50"
         ></cx-configurator-show-more>
       </div>
