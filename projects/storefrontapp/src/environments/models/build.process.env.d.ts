@@ -12,7 +12,6 @@ interface Env {
   SPARTACUS_BASE_URL: string;
   SPARTACUS_API_PREFIX: string;
   SPARTACUS_CDS: boolean;
-  SPARTACUS_PRODUCTCONFIG: boolean;
   SPARTACUS_B2B: boolean;
   SPARTACUS_CDC: boolean;
 }
