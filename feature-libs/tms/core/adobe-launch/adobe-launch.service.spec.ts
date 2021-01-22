@@ -45,6 +45,10 @@ describe('AdobeLaunchService', () => {
 
     service = TestBed.inject(AdobeLaunchService);
     eventService = TestBed.inject(EventService);
+    spyOnProperty(service, 'window').and.returnValue({
+      _trackData: (_data: any): void => {},
+    });
+    spyOn(service.window, '_trackData').and.callThrough();
   });
 
   it('should be created', () => {
@@ -60,9 +64,7 @@ describe('AdobeLaunchService', () => {
 
       service.collect();
       expect(eventService.get).toHaveBeenCalledTimes(1);
-      expect(service.window.dataLayer).toEqual({
-        [LoginEvent.type]: testEvent,
-      });
+      expect(service.window._trackData).toHaveBeenCalledWith(testEvent);
     });
   });
 });
