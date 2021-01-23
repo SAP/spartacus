@@ -41,7 +41,7 @@ function build_spa {
 function deploy_spa {
     echo "-----"
     echo "Deploying Spartacus"
-    upp application deploy -b "00000000000000000000000000000001" -s ./dist/storefrontapp -e stage
+    upp application deploy -b a0000000000000000000000000000001 -s ./dist/storefrontapp -e stage
 }
 
 download_cli
