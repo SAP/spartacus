@@ -8,6 +8,11 @@ function download_cli {
 
     curl -u $GH_USER:$GH_TOKEN -L -H "Accept: application/octet-stream" \
         "https://github.tools.sap/api/v3/repos/cx-commerce/upscale-partner-platform-cli/releases/assets/6121" -o ${APP}.zip
+    
+    if [! -s ${APP}.zip ]; then
+        echo "Error downloading CLI"
+        exit 1
+    fi
 }
 
 function install_cli {
@@ -17,6 +22,7 @@ function install_cli {
     unzip -o ${APP}.zip -d ${APP}
     cd ${APP}
     npm run install-cli
+    cd ..
 }
 
 function config_cli {
@@ -35,8 +41,11 @@ function build_spa {
 function deploy_spa {
     echo "-----"
     echo "Deploying Spartacus"
-    upp application deploy -s ./dist -e stage
+    upp application deploy -b "00000000000000000000000000000001" -s ./dist/storefrontapp -e stage
 }
 
 download_cli
 install_cli
+config_cli
+build_spa
+deploy_spa
