@@ -20,6 +20,7 @@ SPARTACUS_PROJECTS=(
         "core-libs/setup"
         "feature-libs/organization"
         "feature-libs/storefinder"
+        "feature-libs/qualtrics"
         )
 
 SPARTACUS_REPO_URL="git://github.com/SAP/spartacus.git"
