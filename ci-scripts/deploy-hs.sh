@@ -19,6 +19,13 @@ function install_cli {
     npm run install-cli
 }
 
+function config_cli {
+    echo "-----"
+    echo "Configuring cli"
+
+    upp config -z -t ${UPP_TENANT} -c ${UPP_CLIENT} -s ${UPP_SECRET} -r us10 -i 3 -a us10.stage.upp.upscalecommerce.com
+}
+
 function build_spa {
     echo "-----"
     echo "Building Spartacus"
