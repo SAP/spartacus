@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   AsmService,
@@ -85,6 +85,7 @@ class MockCustomerEmulationComponent {}
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   remove() {}
+  add() {}
 }
 
 class MockRoutingService implements Partial<RoutingService> {
@@ -121,28 +122,30 @@ describe('AsmMainUiComponent', () => {
   let asmComponentService: AsmComponentService;
   let asmService: AsmService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        AsmMainUiComponent,
-        MockAsmToggleUiComponent,
-        MockCSAgentLoginFormComponent,
-        MockCustomerSelectionComponent,
-        MockAsmSessionTimerComponent,
-        MockCustomerEmulationComponent,
-      ],
-      providers: [
-        { provide: AuthService, useClass: MockAuthService },
-        { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
-        { provide: UserService, useClass: MockUserService },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: RoutingService, useClass: MockRoutingService },
-        { provide: AsmComponentService, useClass: MockAsmComponentService },
-        { provide: AsmService, useClass: MockAsmService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [
+          AsmMainUiComponent,
+          MockAsmToggleUiComponent,
+          MockCSAgentLoginFormComponent,
+          MockCustomerSelectionComponent,
+          MockAsmSessionTimerComponent,
+          MockCustomerEmulationComponent,
+        ],
+        providers: [
+          { provide: AuthService, useClass: MockAuthService },
+          { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
+          { provide: UserService, useClass: MockUserService },
+          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+          { provide: RoutingService, useClass: MockRoutingService },
+          { provide: AsmComponentService, useClass: MockAsmComponentService },
+          { provide: AsmService, useClass: MockAsmService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AsmMainUiComponent);
@@ -195,6 +198,18 @@ describe('AsmMainUiComponent', () => {
     expect(
       csAgentAuthService.startCustomerEmulationSession
     ).toHaveBeenCalledWith(testCustomerId);
+  });
+
+  it('should not call authService.startCustomerEmulationSession() when customerId is undefined', () => {
+    spyOn(csAgentAuthService, 'startCustomerEmulationSession').and.stub();
+    spyOn(globalMessageService, 'add').and.stub();
+
+    component.startCustomerEmulationSession({ customerId: undefined });
+
+    expect(globalMessageService.add).toHaveBeenCalled();
+    expect(
+      csAgentAuthService.startCustomerEmulationSession
+    ).not.toHaveBeenCalled();
   });
 
   it('should display the login form by default and when the collapse state is false', () => {

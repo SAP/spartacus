@@ -38,5 +38,9 @@ export const asm = {
       agentLoggedInError:
         'Cannot login as user when there is an active CS agent session. Please either emulate user or logout CS agent.',
     },
+    error: {
+      noCustomerId:
+        'No customerId found for selected user. Session cannot be started.',
+    },
   },
 };

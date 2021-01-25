@@ -41,7 +41,7 @@ export class UserItemService extends ItemService<B2BUser> {
   }
 
   protected getDetailsRoute(): string {
-    return 'userDetails';
+    return 'orgUserDetails';
   }
 
   // @override to avoid errors while creation

@@ -1,2 +1,4 @@
 projects/storefrontapp/src/webApplicationInjector.js
+projects/schematics/**/*.js
 **/*.md
+**/*.yml

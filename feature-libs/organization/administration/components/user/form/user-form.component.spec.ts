@@ -14,12 +14,13 @@ import {
   UserService,
 } from '@spartacus/core';
 import {
+  B2BUnitNode,
   B2BUserService,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { UserItemService } from '../services/user-item.service';
 import { UserFormComponent } from './user-form.component';
@@ -37,6 +38,8 @@ const mockForm = new FormGroup({
   isAssignedToApprovers: new FormControl(),
   roles: new FormArray([]),
 });
+
+const activeUnitList$: BehaviorSubject<B2BUnitNode[]> = new BehaviorSubject([]);
 
 class MockUserService {
   getTitles(): Observable<Title[]> {
@@ -58,9 +61,7 @@ class MockB2BUserService implements Partial<B2BUserService> {
 }
 
 class MockOrgUnitService {
-  getActiveUnitList() {
-    return of([]);
-  }
+  getActiveUnitList = () => activeUnitList$.asObservable();
   loadList() {}
 }
 
@@ -130,5 +131,24 @@ describe('UserFormComponent', () => {
     component.form = mockForm;
     fixture.detectChanges();
     expect(b2bUnitService.loadList).toHaveBeenCalled();
+  });
+
+  describe('autoSelect uid', () => {
+    beforeEach(() => {
+      component.form = mockForm;
+      component.form.get('orgUnit.uid').setValue(null);
+    });
+
+    it('should auto-select unit if only one is available', () => {
+      activeUnitList$.next([{ id: 'test' }]);
+      fixture.detectChanges();
+      expect(component.form.get('orgUnit.uid').value).toEqual('test');
+    });
+
+    it('should not auto-select unit if more than one is available', () => {
+      activeUnitList$.next([{ id: 'test1' }, { id: 'test2' }]);
+      fixture.detectChanges();
+      expect(component.form.get('orgUnit.uid').value).toBeNull();
+    });
   });
 });

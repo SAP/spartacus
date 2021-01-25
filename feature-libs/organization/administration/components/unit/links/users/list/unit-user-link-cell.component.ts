@@ -4,6 +4,7 @@ import {
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
 import { ItemService } from '../../../../shared/item.service';
 import { CellComponent } from '../../../../shared/table/cell.component';
 
@@ -13,16 +14,16 @@ import { CellComponent } from '../../../../shared/table/cell.component';
     <a
       *ngIf="hasItem && unitKey$ | async as uid"
       [routerLink]="
-        { cxRoute: 'unitUserRoles', params: getRouterModel(uid) } | cxUrl
+        { cxRoute: 'orgUnitUserRoles', params: getRouterModel(uid) } | cxUrl
       "
     >
-      {{ 'user.roles' | cxTranslate }}
+      {{ 'orgUser.roles' | cxTranslate }}
     </a>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UnitUserRolesCellComponent extends CellComponent {
-  unitKey$ = this.itemService.key$;
+  unitKey$: Observable<string> = this.itemService.key$;
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
     protected itemService: ItemService<B2BUnit>

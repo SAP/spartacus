@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
@@ -56,19 +56,21 @@ describe('CheckoutProgressComponent', () => {
   let component: CheckoutProgressComponent;
   let fixture: ComponentFixture<CheckoutProgressComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
-      declarations: [
-        CheckoutProgressComponent,
-        MockTranslateUrlPipe,
-        MockMultiLinePipe,
-      ],
-      providers: [
-        { provide: CheckoutStepService, useClass: MockCheckoutStepService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule, I18nTestingModule],
+        declarations: [
+          CheckoutProgressComponent,
+          MockTranslateUrlPipe,
+          MockMultiLinePipe,
+        ],
+        providers: [
+          { provide: CheckoutStepService, useClass: MockCheckoutStepService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutProgressComponent);
