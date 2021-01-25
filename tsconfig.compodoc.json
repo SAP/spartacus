@@ -95,6 +95,15 @@
       "@spartacus/storefinder/root": [
         "feature-libs/storefinder/root/public_api"
       ],
+      "@spartacus/qualtrics": [
+        "feature-libs/qualtrics/public_api"
+      ],
+      "@spartacus/qualtrics/root": [
+        "feature-libs/qualtrics/root/public_api"
+      ],
+      "@spartacus/qualtrics/components": [
+        "feature-libs/qualtrics/components/public_api"
+      ],
       "@spartacus/cdc": [
         "integration-libs/cdc/public_api"
       ],
