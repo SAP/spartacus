@@ -21,14 +21,21 @@
 
       <div class="cx-product-card-info">
         <div class="cx-product-card-name">
-          <a
-            [routerLink]="{ cxRoute: 'product', params: productAsync } | cxUrl"
-            class="cx-link"
-            cxModal="dismiss"
-            target="_blank"
-          >
-            {{ productAsync.name }}</a
-          >
+          <p *ngIf="productAsync?.noLink; else withLink">
+            {{ productAsync.name }}
+          </p>
+          <ng-template #withLink>
+            <a
+              [routerLink]="
+                { cxRoute: 'product', params: productAsync } | cxUrl
+              "
+              class="cx-link"
+              cxModal="dismiss"
+              target="_blank"
+            >
+              {{ productAsync.name }}</a
+            >
+          </ng-template>
         </div>
         <div class="cx-product-card-code">
           {{ 'configurator.attribute.id' | cxTranslate }}:
@@ -78,20 +85,22 @@
         </ng-container>
         <ng-template #single>
           <button
-            *ngIf="product.selected; else select"
-            class="btn btn-action"
-            (click)="onHandleDeselect()"
-            [disabled]="preventAction || (loading$ | async)"
+            class="btn btn-primary"
+            (click)="onHandleSelect()"
+            [disabled]="loading$ | async"
+            *ngIf="!product.selected; else deselect"
           >
-            {{ 'configurator.button.remove' | cxTranslate }}
+            {{ 'configurator.button.select' | cxTranslate }}
           </button>
-          <ng-template #select>
+
+          <ng-template #deselect>
             <button
-              class="btn btn-primary"
-              (click)="onHandleSelect()"
+              *ngIf="!preventAction"
+              class="btn btn-action"
+              (click)="onHandleDeselect()"
               [disabled]="loading$ | async"
             >
-              {{ 'configurator.button.select' | cxTranslate }}
+              {{ 'configurator.button.deselect' | cxTranslate }}
             </button>
           </ng-template>
         </ng-template>
