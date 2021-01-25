@@ -4,7 +4,8 @@
     align-items: center;
     justify-content: flex-start;
     flex-wrap: wrap;
-    padding: 15px 0;
+    padding-block-start: 15px;
+    padding-block-end: 15px;
 
     &-thumbnail {
       width: 7rem;
@@ -24,7 +25,8 @@
     &-value {
       flex: 1;
       align-self: flex-start;
-      padding: 0 15px;
+      padding-inline-start: 15px;
+      padding-inline-end: 15px;
     }
 
     &-label {
@@ -37,7 +39,7 @@
 
       @include media-breakpoint-up(md) {
         width: 58.3333333333%;
-        padding: 0;
+        padding: 0px;
       }
     }
 

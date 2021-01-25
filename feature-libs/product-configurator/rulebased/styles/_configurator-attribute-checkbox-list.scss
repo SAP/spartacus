@@ -1,6 +1,7 @@
 %cx-configurator-attribute-checkbox-list {
   @include cx-configurator-attribute-type();
-  .attribute-quantity {
-    padding: 1rem 0;
+
+  .cx-quantity {
+    padding-block-end: 1rem;
   }
 }
