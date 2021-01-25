@@ -5,7 +5,7 @@ import { AsmState, StateWithAsm } from '../asm-state';
 import { getAsmState } from './feature.selector';
 
 /**
- * @deprecated since 3.0, use asm lib instead
+ * @deprecated since 3.2, use asm lib instead
  */
 export const getCustomerSearchResultsLoaderState: MemoizedSelector<
   StateWithAsm,
@@ -16,7 +16,7 @@ export const getCustomerSearchResultsLoaderState: MemoizedSelector<
 );
 
 /**
- * @deprecated since 3.0, use asm lib instead
+ * @deprecated since 3.2, use asm lib instead
  */
 export const getCustomerSearchResults: MemoizedSelector<
   StateWithAsm,
@@ -26,7 +26,7 @@ export const getCustomerSearchResults: MemoizedSelector<
 );
 
 /**
- * @deprecated since 3.0, use asm lib instead
+ * @deprecated since 3.2, use asm lib instead
  */
 export const getCustomerSearchResultsLoading: MemoizedSelector<
   StateWithAsm,

@@ -6,7 +6,7 @@ import { defaultOccAsmConfig } from './default-occ-asm-config';
 import { OccAsmAdapter } from './occ-asm.adapter';
 
 /**
- * @deprecated since 3.0, use asm lib instead
+ * @deprecated since 3.2, use asm lib instead
  */
 @NgModule({
   imports: [CommonModule],

@@ -1,7 +1,7 @@
 import { PaginationModel, SortModel, User } from '../../model/misc.model';
 
 /**
- * @deprecated since 3.0, use asm lib instead
+ * @deprecated since 3.2, use asm lib instead
  */
 export interface CustomerSearchPage {
   entries: User[];
@@ -10,7 +10,7 @@ export interface CustomerSearchPage {
 }
 
 /**
- * @deprecated since 3.0, use asm lib instead
+ * @deprecated since 3.2, use asm lib instead
  */
 export interface CustomerSearchOptions {
   query?: string;
@@ -18,7 +18,7 @@ export interface CustomerSearchOptions {
 }
 
 /**
- * @deprecated since 3.0, use asm lib instead
+ * @deprecated since 3.2, use asm lib instead
  */
 export interface AsmUi {
   collapsed?: boolean;

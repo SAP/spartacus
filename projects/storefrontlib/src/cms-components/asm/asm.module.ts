@@ -18,7 +18,7 @@ import { CustomerSelectionComponent } from './customer-selection/customer-select
 import { defaultAsmLayoutConfig } from './default-asm-layout.config';
 
 /**
- * @deprecated since 3.0, use asm lib instead
+ * @deprecated since 3.2, use asm lib instead
  */
 @NgModule({
   imports: [

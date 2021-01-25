@@ -11,7 +11,7 @@ import { StateWithAsm } from '../store/asm-state';
 import { AsmSelectors } from '../store/index';
 
 /**
- * @deprecated since 3.0, use asm lib instead
+ * @deprecated since 3.2, use asm lib instead
  */
 @Injectable({
   providedIn: 'root',

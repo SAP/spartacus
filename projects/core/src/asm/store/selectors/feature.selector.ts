@@ -2,7 +2,7 @@ import { createFeatureSelector, MemoizedSelector } from '@ngrx/store';
 import { AsmState, ASM_FEATURE, StateWithAsm } from '../asm-state';
 
 /**
- * @deprecated since 3.0, use asm lib instead
+ * @deprecated since 3.2, use asm lib instead
  */
 export const getAsmState: MemoizedSelector<
   StateWithAsm,

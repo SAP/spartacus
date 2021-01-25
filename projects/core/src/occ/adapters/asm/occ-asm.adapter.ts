@@ -17,7 +17,7 @@ import {
 } from '../../utils/interceptor-util';
 
 /**
- * @deprecated since 3.0, use asm lib instead
+ * @deprecated since 3.2, use asm lib instead
  */
 @Injectable()
 export class OccAsmAdapter implements AsmAdapter {

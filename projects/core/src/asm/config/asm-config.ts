@@ -3,7 +3,7 @@ import { Config } from '../../config/config-tokens';
 import { OccConfig } from '../../occ/config/occ-config';
 
 /**
- * @deprecated since 3.0, use asm lib instead
+ * @deprecated since 3.2, use asm lib instead
  */
 @Injectable({
   providedIn: 'root',
