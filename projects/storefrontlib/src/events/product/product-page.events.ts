@@ -33,6 +33,15 @@ export class SearchPageResultsEvent extends PageEvent {
  * Indicates that the user chose a suggestion
  */
 export class SearchSuggestionSelectedEvent {
+  freeText: string;
   selectedSuggestion: string;
   searchSuggestions: Suggestion[];
+}
+
+/**
+ * Indicates that the user chose a product suggestion
+ */
+export class SearchProductSelectedEvent {
+  freeText: string;
+  selectedCode: string;
 }

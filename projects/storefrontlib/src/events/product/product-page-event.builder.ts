@@ -4,6 +4,7 @@ import { ActionsSubject } from '@ngrx/store';
 import {
   createFrom,
   EventService,
+  ProductActions,
   ProductSearchService,
   ProductService,
   SearchboxService,
@@ -22,6 +23,7 @@ import {
   CategoryPageResultsEvent,
   ProductDetailsPageEvent,
   SearchPageResultsEvent,
+  SearchProductSelectedEvent,
   SearchSuggestionSelectedEvent,
 } from './product-page.events';
 
@@ -55,6 +57,10 @@ export class ProductPageEventBuilder {
     this.eventService.register(
       SearchSuggestionSelectedEvent,
       this.buildSuggestionSelectedSearchPageEvent()
+    );
+    this.eventService.register(
+      SearchProductSelectedEvent,
+      this.buildProductSelectedEvent()
     );
   }
 
@@ -143,33 +149,69 @@ export class ProductPageEventBuilder {
   > {
     const searchResults$ = this.productSearchService.getResults().pipe(
       // skipping the initial value, and preventing emission of the previous search state
-      skip(1)
+      skip(1),
+      switchMap((searchResults) => {
+        return of(searchResults).pipe(
+          withLatestFrom(this.searchBoxService.getSuggestionResults())
+        );
+      }),
+      filter(
+        ([searchResults, suggestions]) =>
+          Boolean(searchResults?.freeTextSearch) &&
+          suggestions?.filter(
+            (suggestion) => suggestion.value === searchResults?.freeTextSearch
+          ).length > 0
+      )
+    );
+
+    const freeTextSearch$ = this.getAction(
+      ProductActions.GET_PRODUCT_SUGGESTIONS
     );
 
     return this.eventService.get(PageEvent).pipe(
-      switchMap((pageEvent) => {
+      withLatestFrom(freeTextSearch$),
+      switchMap(([pageEvent, suggestionAction]) => {
         if (pageEvent?.semanticRoute !== 'search') {
           return EMPTY;
         }
 
         return searchResults$.pipe(
-          switchMap((searchResults) => {
-            return of(searchResults).pipe(
-              withLatestFrom(this.searchBoxService.getSuggestionResults())
-            );
-          }),
-          filter(
-            ([searchResults, suggestions]) =>
-              Boolean(searchResults?.freeTextSearch) &&
-              suggestions?.filter(
-                (suggestion) =>
-                  suggestion.value === searchResults?.freeTextSearch
-              ).length > 0
-          ),
           map(([searchResults, suggestions]) =>
             createFrom(SearchSuggestionSelectedEvent, {
-              selectedSuggestion: searchResults?.freeTextSearch,
+              freeText: suggestionAction.payload?.term,
+              selectedSuggestion: searchResults.freeTextSearch,
               searchSuggestions: suggestions,
+            })
+          )
+        );
+      })
+    );
+  }
+
+  protected buildProductSelectedEvent(): Observable<
+    SearchProductSelectedEvent
+  > {
+    const searchResults$ = this.searchBoxService.getResults();
+
+    return this.eventService.get(PageEvent).pipe(
+      filter((pageEvent) => pageEvent.semanticRoute === 'product'),
+      switchMap((pageEvent) => {
+        return this.productService.get(pageEvent.context.id).pipe(
+          filter((product) => Boolean(product)),
+          take(1),
+          switchMap((product) => {
+            return of(product).pipe(withLatestFrom(searchResults$));
+          }),
+          filter(
+            ([product, searchResults]) =>
+              searchResults.products?.filter(
+                (suggestionProduct) => suggestionProduct.code === product.code
+              ).length > 0
+          ),
+          map(([product, searchResults]) =>
+            createFrom(SearchProductSelectedEvent, {
+              freeText: searchResults.freeTextSearch,
+              selectedCode: product.code,
             })
           )
         );
