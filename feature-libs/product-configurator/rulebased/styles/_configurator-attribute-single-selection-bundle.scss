@@ -2,6 +2,11 @@
   &:not(:empty) {
     width: 100%;
 
+    cx-configurator-attribute-quantity {
+      padding-inline-start: 1rem;
+      padding-inline-end: 1rem;
+    }
+
     .cx-single-selection-bundle-quantity {
       display: flex;
       justify-content: space-between;

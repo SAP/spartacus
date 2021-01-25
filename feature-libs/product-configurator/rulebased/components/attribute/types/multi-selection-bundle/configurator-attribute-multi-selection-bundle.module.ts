@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeProductCardModule } from '../../product-card/configurator-attribute-product-card.module';
+import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator-attribute-quantity.module';
 import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurator-attribute-multi-selection-bundle.component';
 
 @NgModule({
@@ -20,6 +21,7 @@ import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurat
     ReactiveFormsModule,
     RouterModule,
     UrlModule,
+    ConfiguratorAttributeQuantityModule,
   ],
 })
 export class ConfiguratorAttributeMultiSelectionBundleModule {}

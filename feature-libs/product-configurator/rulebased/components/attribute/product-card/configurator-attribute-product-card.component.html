@@ -9,7 +9,7 @@
       <div class="cx-product-card-imgs">
         <ng-container *ngIf="productAsync?.images?.PRIMARY; else noimages">
           <cx-media
-            [container]="productAsync.images?.PRIMARY"
+            [container]="productAsync?.images?.PRIMARY"
             format="product"
           ></cx-media>
         </ng-container>
@@ -21,21 +21,29 @@
 
       <div class="cx-product-card-info">
         <div class="cx-product-card-name">
-          <a
-            [routerLink]="{ cxRoute: 'product', params: productAsync } | cxUrl"
-            class="cx-link"
-            cxModal="dismiss"
-            target="_blank"
-          >
-            {{ productAsync.name }}</a
-          >
+          <p *ngIf="productAsync?.noLink; else withLink">
+            {{ productAsync.name }}
+          </p>
+          <ng-template #withLink>
+            <a
+              [routerLink]="
+                { cxRoute: 'product', params: productAsync } | cxUrl
+              "
+              class="cx-link"
+              cxModal="dismiss"
+              target="_blank"
+            >
+              {{ productAsync.name }}</a
+            >
+          </ng-template>
         </div>
         <div class="cx-product-card-code">
           {{ 'configurator.attribute.id' | cxTranslate }}:
           {{ productAsync.code }}
         </div>
         <cx-configurator-show-more
-          [text]="productAsync.description"
+          *ngIf="productAsync?.description"
+          [text]="productAsync?.description"
           [textSize]="50"
         ></cx-configurator-show-more>
       </div>
@@ -44,6 +52,7 @@
     <div class="cx-product-card-rows">
       <cx-configurator-attribute-quantity
         (changeQuantity)="onChangeQuantity($event)"
+        [allowZero]="!preventAction"
         [initialQuantity]="product.quantity"
         [readonly]="loading$ | async"
         *ngIf="showQuantity"
@@ -60,7 +69,7 @@
             *ngIf="product.selected; else select"
             class="btn btn-action"
             (click)="onHandleDeselect()"
-            [disabled]="loading$ | async"
+            [disabled]="preventAction || (loading$ | async)"
           >
             {{ 'configurator.button.remove' | cxTranslate }}
           </button>
@@ -76,20 +85,22 @@
         </ng-container>
         <ng-template #single>
           <button
-            *ngIf="product.selected; else select"
-            class="btn btn-action"
-            (click)="onHandleDeselect()"
+            class="btn btn-primary"
+            (click)="onHandleSelect()"
             [disabled]="loading$ | async"
+            *ngIf="!product.selected; else deselect"
           >
-            {{ 'configurator.button.remove' | cxTranslate }}
+            {{ 'configurator.button.select' | cxTranslate }}
           </button>
-          <ng-template #select>
+
+          <ng-template #deselect>
             <button
-              class="btn btn-primary"
-              (click)="onHandleSelect()"
+              *ngIf="!preventAction"
+              class="btn btn-action"
+              (click)="onHandleDeselect()"
               [disabled]="loading$ | async"
             >
-              {{ 'configurator.button.select' | cxTranslate }}
+              {{ 'configurator.button.deselect' | cxTranslate }}
             </button>
           </ng-template>
         </ng-template>

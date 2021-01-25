@@ -8,8 +8,37 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 
 class MockGroupService {}
+class MockConfiguratorAttributeQuantityService {
+  readOnlyQuantity(value): boolean {
+    return !value || value === '0';
+  }
+  withQuantity(
+    dataType: Configurator.DataType,
+    uiType: Configurator.UiType
+  ): boolean {
+    switch (uiType) {
+      case Configurator.UiType.DROPDOWN:
+      case Configurator.UiType.RADIOBUTTON:
+      case Configurator.UiType.RADIOBUTTON_PRODUCT:
+        return dataType ===
+          Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
+          ? true
+          : false;
+
+      case Configurator.UiType.CHECKBOXLIST_PRODUCT:
+      case Configurator.UiType.DROPDOWN_PRODUCT:
+        return dataType === Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL
+          ? true
+          : false;
+
+      default:
+        return false;
+    }
+  }
+}
 @Directive({
   selector: '[cxFocus]',
 })
@@ -35,6 +64,10 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
           {
             provide: ConfiguratorGroupsService,
             useClass: MockGroupService,
+          },
+          {
+            provide: ConfiguratorAttributeQuantityService,
+            useClass: MockConfiguratorAttributeQuantityService,
           },
         ],
       })
@@ -68,7 +101,9 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
 
     component = fixture.componentInstance;
 
+    component.ownerKey = 'theOwnerKey';
     component.attribute = {
+      dataType: Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL,
       name: 'attributeName',
       attrCode: 444,
       uiType: Configurator.UiType.CHECKBOXLIST,
@@ -105,5 +140,92 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     valueToSelect.click();
     fixture.detectChanges();
     expect(valueToSelect.checked).toBeFalsy();
+  });
+
+  it('should call withQuantity', () => {
+    expect(component.withQuantity).toBeFalsy();
+  });
+
+  it('should call readOnlyQuantity', () => {
+    expect(component.readOnlyQuantity).toBeFalse();
+  });
+
+  it('should call emit of selectionChange onHandleAttributeQuantity', () => {
+    const quantity = 2;
+
+    spyOn(component.selectionChange, 'emit').and.callThrough();
+
+    component.onHandleAttributeQuantity(quantity);
+
+    expect(component.selectionChange.emit).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        changedAttribute: jasmine.objectContaining({
+          ...component.attribute,
+          quantity,
+        }),
+        ownerKey: component.ownerKey,
+        updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
+      })
+    );
+  });
+
+  it('should call emit of selectionChange onChangeValueQuantity', () => {
+    spyOn(component.selectionChange, 'emit').and.callThrough();
+
+    component.onChangeValueQuantity({ quantity: 0 }, '1', 0);
+
+    expect(component.selectionChange.emit).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        changedAttribute: jasmine.objectContaining({
+          ...component.attribute,
+          values: [
+            {
+              name: 'val1',
+              quantity: undefined,
+              selected: false,
+              valueCode: '1',
+            },
+            {
+              name: 'val2',
+              quantity: undefined,
+              selected: false,
+              valueCode: '2',
+            },
+            {
+              name: 'val3',
+              quantity: undefined,
+              selected: true,
+              valueCode: '3',
+            },
+          ],
+        }),
+        ownerKey: component.ownerKey,
+        updateType: Configurator.UpdateType.ATTRIBUTE,
+      })
+    );
+  });
+
+  it('should call onHandleAttributeQuantity of event onChangeQuantity', () => {
+    spyOn(component, 'onHandleAttributeQuantity');
+
+    const quantity = { quantity: 2 };
+
+    component.onChangeQuantity(quantity);
+
+    expect(component.onHandleAttributeQuantity).toHaveBeenCalled();
+  });
+
+  it('should call onSelect of event onChangeQuantity', () => {
+    spyOn(component, 'onSelect');
+
+    const quantity = { quantity: 0 };
+
+    component.onChangeQuantity(quantity);
+
+    expect(component.onSelect).toHaveBeenCalled();
+  });
+
+  it('should call withQuantityOnAttributeLevel', () => {
+    expect(component.withQuantityOnAttributeLevel).toBeTruthy();
   });
 });

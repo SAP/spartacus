@@ -10,6 +10,11 @@ import { Configurator } from '../../../core/model/configurator.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { QuantityUpdateEvent } from '../../form/configurator-form.event';
 import { Product, ProductService } from '@spartacus/core';
+import { map } from 'rxjs/operators';
+
+interface ProductExtended extends Product {
+  noLink?: boolean;
+}
 
 @Component({
   selector: 'cx-configurator-attribute-product-card',
@@ -17,13 +22,15 @@ import { Product, ProductService } from '@spartacus/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeProductCardComponent implements OnInit {
-  product$: Observable<Product>;
+  product$: Observable<ProductExtended>;
   loading$ = new BehaviorSubject<boolean>(false);
 
-  @Input() withQuantity = true;
+  @Input() preventAction = false;
   @Input() multiSelect = false;
   @Input() product: Configurator.Value;
   @Input() singleDropdown = false;
+  @Input() withQuantity = true;
+
   @Output() handleDeselect = new EventEmitter<string>();
   @Output() handleQuantity = new EventEmitter<QuantityUpdateEvent>();
   @Output() handleSelect = new EventEmitter<string>();
@@ -31,15 +38,17 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
   constructor(protected productService: ProductService) {}
 
   ngOnInit() {
-    this.product$ = this.productService.get(this.product.productSystemId);
+    this.product$ = this.productService.get(this.product.productSystemId).pipe(
+      map((respProduct) => {
+        return respProduct
+          ? respProduct
+          : this.transformToProductType(this.product);
+      })
+    );
   }
 
   get showQuantity() {
-    return (
-      this.withQuantity &&
-      this.product.selected &&
-      (this.multiSelect || this.singleDropdown)
-    );
+    return this.withQuantity && this.product.selected && this.multiSelect;
   }
 
   onHandleSelect(): void {
@@ -67,5 +76,15 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
       quantity,
       valueCode: this.product.valueCode,
     });
+  }
+
+  transformToProductType(value: Configurator.Value): ProductExtended {
+    return {
+      code: value.valueCode,
+      description: value.description,
+      images: {},
+      name: value.valueDisplay,
+      noLink: true,
+    };
   }
 }

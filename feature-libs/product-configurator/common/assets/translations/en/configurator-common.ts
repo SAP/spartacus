@@ -39,6 +39,7 @@ export const configurator = {
       back: 'Back',
       more: 'more',
       less: 'less',
+      deselect: 'Deselect',
       select: 'Select',
       add: 'Add',
       remove: 'Remove',

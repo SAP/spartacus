@@ -13,6 +13,7 @@ import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { BehaviorSubject } from 'rxjs';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 
 @Component({
   selector: 'cx-configurator-attribute-checkbox-list',
@@ -32,16 +33,26 @@ export class ConfiguratorAttributeCheckBoxListComponent
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   constructor(
-    protected configUtilsService: ConfiguratorStorefrontUtilsService
+    protected configUtilsService: ConfiguratorStorefrontUtilsService,
+    private quantityService: ConfiguratorAttributeQuantityService
   ) {
     super();
   }
 
   ngOnInit() {
+    const selectedValues = this.attribute.values.filter(
+      (value) => value.selected
+    );
+
     for (const value of this.attribute.values) {
       let attributeCheckBoxForm;
+
       if (value.selected === true) {
-        attributeCheckBoxForm = new FormControl(true);
+        attributeCheckBoxForm = new FormControl({
+          value: true,
+          disabled:
+            this.attribute.required && selectedValues.length < 2 ? true : false,
+        });
       } else {
         attributeCheckBoxForm = new FormControl(false);
       }
@@ -57,11 +68,9 @@ export class ConfiguratorAttributeCheckBoxListComponent
   }
 
   get withQuantity() {
-    return (
-      this.attribute.dataType ===
-        Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL ||
-      this.attribute.dataType ===
-        Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL
+    return this.quantityService.withQuantity(
+      this.attribute.dataType,
+      this.attribute.uiType
     );
   }
 

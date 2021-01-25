@@ -11,7 +11,11 @@ import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show
 import { ConfiguratorAttributeProductCardComponent } from './configurator-attribute-product-card.component';
 import { Observable, of } from 'rxjs';
 
-const product: Product = {
+interface ProductExtended extends Product {
+  noLink?: boolean;
+}
+
+const product: ProductExtended = {
   name: 'Product Name',
   code: 'PRODUCT_CODE',
   images: {
@@ -33,6 +37,15 @@ const product: Product = {
       formattedValue: '$1.000',
     },
   },
+};
+
+const productTarnsformed: ProductExtended = {
+  code: '1111-2222',
+  description:
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+  images: {},
+  name: 'Lorem Ipsum Dolor',
+  noLink: true,
 };
 
 class MockProductService {
@@ -185,7 +198,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     const button = fixture.debugElement.query(By.css('button.btn'))
       .nativeElement;
 
-    expect(button.innerText).toContain('configurator.button.remove');
+    expect(button.innerText).toContain('configurator.button.deselect');
   });
 
   it('should button have add text when card type is multi select and card is no selected', () => {
@@ -234,5 +247,40 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     );
 
     expect(quantityContainer).toBeDefined();
+  });
+
+  it('should call handleQuantity on event onHandleQuantity', () => {
+    spyOn(component.handleQuantity, 'emit').and.callThrough();
+
+    component.onHandleQuantity(1);
+
+    expect(component.handleQuantity.emit).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        quantity: 1,
+        valueCode: component.product.valueCode,
+      })
+    );
+  });
+
+  it('should call onHandleDeselect of event onChangeQuantity', () => {
+    const quantity = { quantity: 0 };
+
+    component.onChangeQuantity(quantity);
+
+    expect(component.onHandleDeselect).toHaveBeenCalled();
+  });
+
+  it('should call onHandleQuantity of event onChangeQuantity', () => {
+    const quantity = { quantity: 2 };
+
+    component.onChangeQuantity(quantity);
+
+    expect(component.onHandleQuantity).toHaveBeenCalled();
+  });
+
+  it('should transformToProductType return Product', () => {
+    expect(component.transformToProductType(component.product)).toEqual(
+      productTarnsformed
+    );
   });
 });
