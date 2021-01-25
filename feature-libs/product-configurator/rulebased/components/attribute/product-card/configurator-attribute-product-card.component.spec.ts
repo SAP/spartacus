@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -14,6 +14,17 @@ import { Observable, of } from 'rxjs';
 interface ProductExtended extends Product {
   noLink?: boolean;
 }
+
+const mockValueProductPrice = 100;
+const mockValueProductPriceTotal = 200;
+const mockValueProduct: Configurator.Value = {
+  valuePrice: {
+    value: mockValueProductPrice,
+  },
+  valuePriceTotal: {
+    value: mockValueProductPriceTotal,
+  },
+};
 
 const product: ProductExtended = {
   name: 'Product Name',
@@ -39,7 +50,7 @@ const product: ProductExtended = {
   },
 };
 
-const productTarnsformed: ProductExtended = {
+const productTransformed: ProductExtended = {
   code: '1111-2222',
   description:
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
@@ -52,6 +63,17 @@ class MockProductService {
   get(): Observable<Product> {
     return of(product);
   }
+}
+
+@Component({
+  // tslint:disable-next-line: component-selector
+  selector: 'cx-configurator-price',
+  template: '',
+})
+class MockConfiguratorPriceComponent {
+  @Input() productPrice: number;
+  @Input() quantity = 1;
+  @Input() totalPrice: number;
 }
 
 describe('ConfiguratorAttributeProductCardComponent', () => {
@@ -99,6 +121,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           ConfiguratorAttributeProductCardComponent,
           ConfiguratorShowMoreComponent,
           ItemCounterComponent,
+          MockConfiguratorPriceComponent,
         ],
         providers: [
           {
@@ -213,7 +236,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     expect(button.innerText).toContain('configurator.button.add');
   });
 
-  it('should button have remove text when card type is multi selectand card is selected', () => {
+  it('should button have remove text when card type is multi select and card is selected', () => {
     component.multiSelect = true;
     component.product.selected = true;
 
@@ -225,7 +248,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     expect(button.innerText).toContain('configurator.button.remove');
   });
 
-  it('should quantity be hidden when card type is no multielect', () => {
+  it('should quantity be hidden when card type is no multi select', () => {
     component.multiSelect = false;
 
     fixture.detectChanges();
@@ -280,7 +303,47 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
   it('should transformToProductType return Product', () => {
     expect(component.transformToProductType(component.product)).toEqual(
-      productTarnsformed
+      productTransformed
     );
+  });
+
+  describe('product price', () => {
+    describe('(single)', () => {
+      it('should be retrieved correctly', () => {
+        const price = component.getProductPrice(mockValueProduct);
+
+        expect(price).toEqual(mockValueProductPrice);
+      });
+
+      it('should not be retrieved if no value', () => {
+        const valueProductWithoutPrice: Configurator.Value = {
+          ...mockValueProduct,
+          valuePrice: {},
+        };
+        const price = component.getProductPrice(valueProductWithoutPrice);
+
+        expect(price).toBeUndefined();
+      });
+    });
+
+    describe('(total)', () => {
+      it('should be retrieved correctly', () => {
+        const priceTotal = component.getProductTotalPrice(mockValueProduct);
+
+        expect(priceTotal).toEqual(mockValueProductPriceTotal);
+      });
+
+      it('should not be retrieved if no value', () => {
+        const valueProductWithoutPriceTotal: Configurator.Value = {
+          ...mockValueProduct,
+          valuePriceTotal: {},
+        };
+        const price = component.getProductTotalPrice(
+          valueProductWithoutPriceTotal
+        );
+
+        expect(price).toBeUndefined();
+      });
+    });
   });
 });

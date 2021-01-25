@@ -1,6 +1,24 @@
 %cx-configurator-attribute-multi-selection-bundle {
-  .attribute-quantity {
-    padding-block-end: 1rem;
-    padding-block-start: 1rem;
+  &:not(:empty) {
+    width: 100%;
+
+    cx-configurator-attribute-quantity {
+      padding-inline-start: 1rem;
+      padding-inline-end: 1rem;
+    }
+
+    .cx-multi-selection-bundle-quantity {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-block-start: 2rem;
+      margin-inline-end: 1rem;
+      margin-block-end: 2rem;
+      margin-inline-start: 1rem;
+
+      .cx-multi-selection-bundle-price {
+        font-weight: bold;
+      }
+    }
   }
 }

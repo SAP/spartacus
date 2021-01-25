@@ -19,6 +19,10 @@
         margin-inline-start: auto;
       }
     }
+
+    &.column {
+      flex-direction: column;
+    }
   }
 
   .cx-product-card-imgs {

@@ -10,6 +10,22 @@ import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-s
 import { ConfiguratorAttributeProductCardComponent } from '../../product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurator-attribute-multi-selection-bundle.component';
 
+let testAttribute: Configurator.Attribute;
+
+const createTestValue = (
+  price: number,
+  total: number,
+  selected = true
+): Configurator.Value => ({
+  selected,
+  valuePrice: {
+    value: price,
+  },
+  valuePriceTotal: {
+    value: total,
+  },
+});
+
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   template: '',
@@ -310,5 +326,326 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     component.onChangeAttributeQuantity(quantity);
 
     expect(component.onDeselectAll).toHaveBeenCalled();
+  });
+
+  describe('isAnyValueSelected()', () => {
+    it('should be true if one selected', () => {
+      testAttribute = {
+        name: 'testAttribute',
+        values: [createTestValue(100, 300)],
+      };
+
+      const isSelected = component.isAnyValueSelected(testAttribute);
+
+      expect(isSelected).toBeTrue();
+    });
+
+    it('should be true if many selected', () => {
+      testAttribute = {
+        name: 'testAttribute',
+        values: [createTestValue(100, 300), createTestValue(200, 800)],
+      };
+
+      const isSelected = component.isAnyValueSelected(testAttribute);
+
+      expect(isSelected).toBeTrue();
+    });
+
+    it('should be false if no values', () => {
+      testAttribute = {
+        name: 'testAttribute',
+        values: [],
+      };
+
+      const isSelected = component.isAnyValueSelected(testAttribute);
+
+      expect(isSelected).toBeFalse();
+    });
+
+    it('should be false if nothing selected', () => {
+      testAttribute = {
+        name: 'testAttribute',
+        values: [
+          createTestValue(100, 300, false),
+          createTestValue(200, 800, false),
+        ],
+      };
+
+      const isSelected = component.isAnyValueSelected(testAttribute);
+
+      expect(isSelected).toBeFalse();
+    });
+  });
+
+  describe('selected values price calculation', () => {
+    describe('should return number', () => {
+      it('on only one selected value', () => {
+        testAttribute = {
+          name: 'testAttribute',
+          values: [createTestValue(100, 100)],
+        };
+
+        const valuesPrice = component.getSelectedValuesPrice(testAttribute);
+
+        expect(valuesPrice).toEqual(100);
+      });
+
+      it('on one selected value', () => {
+        testAttribute = {
+          name: 'testAttribute',
+          values: [createTestValue(100, 100), createTestValue(100, 100, false)],
+        };
+
+        const valuesPrice = component.getSelectedValuesPrice(testAttribute);
+
+        expect(valuesPrice).toEqual(100);
+      });
+
+      it('on many selected-only values', () => {
+        testAttribute = {
+          name: 'testAttribute',
+          values: [
+            createTestValue(100, 100),
+            createTestValue(200, 200),
+            createTestValue(500, 500),
+          ],
+        };
+
+        const valuesPrice = component.getSelectedValuesPrice(testAttribute);
+
+        expect(valuesPrice).toEqual(800);
+      });
+
+      it('on many selected values', () => {
+        testAttribute = {
+          name: 'testAttribute',
+          values: [
+            createTestValue(100, 100),
+            createTestValue(200, 200),
+            createTestValue(500, 500),
+            createTestValue(50, 50, false),
+          ],
+        };
+
+        const valuesPrice = component.getSelectedValuesPrice(testAttribute);
+
+        expect(valuesPrice).toEqual(800);
+      });
+
+      it('if some values have no price', () => {
+        testAttribute = {
+          name: 'testAttribute',
+          values: [
+            createTestValue(100, 100),
+            createTestValue(200, 200),
+            createTestValue(null, 500),
+          ],
+        };
+
+        const valuesPrice = component.getSelectedValuesPrice(testAttribute);
+
+        expect(valuesPrice).toEqual(300);
+      });
+    });
+
+    describe('should return 0', () => {
+      it('without values', () => {
+        testAttribute = {
+          name: 'testAttribute',
+          values: [],
+        };
+
+        const valuesPrice = component.getSelectedValuesPrice(testAttribute);
+
+        expect(valuesPrice).toEqual(0);
+      });
+
+      it('with values without prices', () => {
+        testAttribute = {
+          name: 'testAttribute',
+          values: [
+            createTestValue(null, null),
+            createTestValue(null, null),
+            createTestValue(null, null),
+          ],
+        };
+
+        const valuesPrice = component.getSelectedValuesPrice(testAttribute);
+
+        expect(valuesPrice).toEqual(0);
+      });
+
+      it('without any selected values', () => {
+        testAttribute = {
+          name: 'testAttribute',
+          values: [
+            createTestValue(null, null, false),
+            createTestValue(null, null, false),
+            createTestValue(null, null, false),
+          ],
+        };
+
+        const valuesPrice = component.getSelectedValuesPrice(testAttribute);
+
+        expect(valuesPrice).toEqual(0);
+      });
+    });
+
+    describe('should not return number', () => {
+      it('without values property', () => {
+        testAttribute = {
+          name: 'testAttribute',
+        };
+
+        const valuesPrice = component.getSelectedValuesPrice(testAttribute);
+
+        expect(valuesPrice).toBeUndefined();
+      });
+    });
+  });
+
+  describe('selected values price total calculation', () => {
+    describe('should return number', () => {
+      it('on only one selected value', () => {
+        testAttribute = {
+          name: 'testAttribute',
+          values: [createTestValue(100, 100)],
+        };
+
+        const valuesPrice = component.getSelectedValuesPriceTotal(
+          testAttribute
+        );
+
+        expect(valuesPrice).toEqual(100);
+      });
+
+      it('on one selected value', () => {
+        testAttribute = {
+          name: 'testAttribute',
+          values: [createTestValue(100, 100), createTestValue(100, 100, false)],
+        };
+
+        const valuesPrice = component.getSelectedValuesPriceTotal(
+          testAttribute
+        );
+
+        expect(valuesPrice).toEqual(100);
+      });
+
+      it('on many selected-only values', () => {
+        testAttribute = {
+          name: 'testAttribute',
+          values: [
+            createTestValue(100, 100),
+            createTestValue(200, 200),
+            createTestValue(500, 500),
+          ],
+        };
+
+        const valuesPrice = component.getSelectedValuesPriceTotal(
+          testAttribute
+        );
+
+        expect(valuesPrice).toEqual(800);
+      });
+
+      it('on many selected values', () => {
+        testAttribute = {
+          name: 'testAttribute',
+          values: [
+            createTestValue(100, 100),
+            createTestValue(200, 200),
+            createTestValue(500, 500),
+            createTestValue(50, 50, false),
+          ],
+        };
+
+        const valuesPrice = component.getSelectedValuesPriceTotal(
+          testAttribute
+        );
+
+        expect(valuesPrice).toEqual(800);
+      });
+
+      it('if some values have no total price', () => {
+        testAttribute = {
+          name: 'testAttribute',
+          values: [
+            createTestValue(100, 100),
+            createTestValue(200, 200),
+            createTestValue(null, null),
+          ],
+        };
+
+        const valuesPrice = component.getSelectedValuesPriceTotal(
+          testAttribute
+        );
+
+        expect(valuesPrice).toEqual(300);
+      });
+    });
+
+    describe('should return 0', () => {
+      it('without values', () => {
+        testAttribute = {
+          name: 'testAttribute',
+          values: [],
+        };
+
+        const valuesPrice = component.getSelectedValuesPriceTotal(
+          testAttribute
+        );
+
+        expect(valuesPrice).toEqual(0);
+      });
+
+      it('with values without total prices', () => {
+        testAttribute = {
+          name: 'testAttribute',
+          values: [
+            createTestValue(null, null),
+            createTestValue(null, null),
+            createTestValue(null, null),
+          ],
+        };
+
+        const valuesPrice = component.getSelectedValuesPriceTotal(
+          testAttribute
+        );
+
+        expect(valuesPrice).toEqual(0);
+      });
+
+      it('without any selected values', () => {
+        testAttribute = {
+          name: 'testAttribute',
+          values: [
+            createTestValue(null, null, false),
+            createTestValue(null, null, false),
+            createTestValue(null, null, false),
+          ],
+        };
+
+        const valuesPrice = component.getSelectedValuesPriceTotal(
+          testAttribute
+        );
+
+        expect(valuesPrice).toEqual(0);
+      });
+    });
+
+    describe('should not return number', () => {
+      it('without values property', () => {
+        testAttribute = {
+          name: 'testAttribute',
+        };
+
+        const valuesPrice = component.getSelectedValuesPriceTotal(
+          testAttribute
+        );
+
+        expect(valuesPrice).toBeUndefined();
+      });
+    });
   });
 });

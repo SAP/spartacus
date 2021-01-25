@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 export enum ConfiguratorPriceType {
   PRICE_ONLY = 'priceOnly',
@@ -9,10 +9,12 @@ export enum ConfiguratorPriceType {
 @Component({
   selector: 'cx-configurator-price',
   templateUrl: './configurator-price.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorPriceComponent {
   @Input() productPrice: number;
   @Input() quantity = 1;
+  @Input() totalPrice: number;
 
   configuratorPriceType = ConfiguratorPriceType;
 
@@ -40,6 +42,8 @@ export class ConfiguratorPriceComponent {
   calculateTotal(): number {
     if (!this?.productPrice) return;
 
-    return this.productPrice * this.quantity;
+    return this.totalPrice
+      ? this.totalPrice
+      : this.productPrice * this.quantity;
   }
 }

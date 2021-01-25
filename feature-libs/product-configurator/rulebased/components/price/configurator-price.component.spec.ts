@@ -7,6 +7,7 @@ import {
 const mockProductPrice = 100;
 const mockProductQuantity = 10;
 const mockCalculatedTotal = 1000;
+const mockInputTotal = 2000;
 
 describe('ConfiguratorPriceComponent', () => {
   let component: ConfiguratorPriceComponent;
@@ -23,6 +24,8 @@ describe('ConfiguratorPriceComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorPriceComponent);
     component = fixture.componentInstance;
+
+    component.totalPrice = null;
   });
 
   it('should be created', () => {
@@ -78,6 +81,15 @@ describe('ConfiguratorPriceComponent', () => {
       const total = component.calculateTotal();
 
       expect(total).toBeUndefined();
+    });
+
+    it('it should not calculate and use passed total price', () => {
+      component.productPrice = mockProductPrice;
+      component.totalPrice = mockInputTotal;
+
+      const total = component.calculateTotal();
+
+      expect(total).toEqual(mockInputTotal);
     });
   });
 });

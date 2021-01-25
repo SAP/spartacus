@@ -58,12 +58,13 @@
         *ngIf="showQuantity"
         class="cx-product-card-quantity"
       ></cx-configurator-attribute-quantity>
-
-      <div class="cx-product-card-price"></div>
     </div>
 
-    <div class="cx-product-card-rows" *ngIf="!singleDropdown">
-      <div class="cx-product-card-action">
+    <div
+      class="cx-product-card-rows column"
+      *ngIf="!singleDropdown || getProductPrice(product)"
+    >
+      <div class="cx-product-card-action" *ngIf="!singleDropdown">
         <ng-container *ngIf="multiSelect; else single">
           <button
             *ngIf="product.selected; else select"
@@ -104,6 +105,14 @@
             </button>
           </ng-template>
         </ng-template>
+      </div>
+
+      <div class="cx-product-card-price" *ngIf="getProductPrice(product)">
+        <cx-configurator-price
+          [productPrice]="getProductPrice(product)"
+          [quantity]="product.quantity"
+          [totalPrice]="getProductTotalPrice(product)"
+        ></cx-configurator-price>
       </div>
     </div>
   </div>

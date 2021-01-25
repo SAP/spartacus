@@ -178,4 +178,29 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
       this.onHandleAttributeQuantity(eventObject.quantity);
     }
   }
+
+  isAnyValueSelected(attribute: Configurator.Attribute): boolean | undefined {
+    return attribute?.values?.some(
+      (value: Configurator.Value) => value?.selected
+    );
+  }
+
+  getSelectedValuesPrice(
+    attribute: Configurator.Attribute
+  ): number | undefined {
+    return attribute?.values
+      ?.filter((value: Configurator.Value) => value?.selected)
+      ?.reduce((total, value) => total + (value?.valuePrice?.value ?? 0), 0);
+  }
+
+  getSelectedValuesPriceTotal(
+    attribute: Configurator.Attribute
+  ): number | undefined {
+    return attribute?.values
+      ?.filter((value: Configurator.Value) => value?.selected)
+      ?.reduce(
+        (total, value) => total + (value?.valuePriceTotal?.value ?? 0),
+        0
+      );
+  }
 }

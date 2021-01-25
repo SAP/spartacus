@@ -2,24 +2,33 @@
   id="{{ createAttributeIdForConfigurator(attribute) }}"
   *ngIf="attribute?.values?.length"
 >
-  <cx-configurator-attribute-quantity
-    (changeQuantity)="onChangeQuantity($event)"
-    [initialQuantity]="attribute.selectedSingleValue ? attribute.quantity : 0"
-    [allowZero]="!attribute.required"
-    [readonly]="readOnlyQuantity || (loading$ | async)"
-    *ngIf="withQuantity"
-  ></cx-configurator-attribute-quantity>
+  <div class="cx-single-selection-bundle-quantity" *ngIf="withQuantity">
+    <cx-configurator-attribute-quantity
+      (changeQuantity)="onChangeQuantity($event)"
+      [initialQuantity]="
+        attribute?.selectedSingleValue ? attribute?.quantity : 0
+      "
+      [allowZero]="!attribute?.required"
+      [readonly]="readOnlyQuantity || (loading$ | async)"
+    ></cx-configurator-attribute-quantity>
 
-  <div
-    class="cx-single-selection-bundle-price"
-    *ngIf="attribute.selectedSingleValue"
-  ></div>
+    <div
+      class="cx-single-selection-bundle-price"
+      *ngIf="attribute?.selectedSingleValue"
+    >
+      <cx-configurator-price
+        [productPrice]="getSelectedValuePrice(attribute)"
+        [quantity]="attribute?.quantity"
+        [totalPrice]="getSelectedValueTotalPrice(attribute)"
+      ></cx-configurator-price>
+    </div>
+  </div>
 
   <cx-configurator-attribute-product-card
-    id="{{ createAttributeValueIdForConfigurator(attribute, value.valueCode) }}"
+    [id]="createAttributeValueIdForConfigurator(attribute, value?.valueCode)"
     (handleDeselect)="onDeselect()"
     (handleSelect)="onSelect($event)"
-    *ngFor="let value of attribute.values"
+    *ngFor="let value of attribute?.values"
     [preventAction]="attribute.required"
     [product]="value"
     [withQuantity]="false"

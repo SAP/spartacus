@@ -2,19 +2,27 @@
   id="{{ createAttributeIdForConfigurator(attribute) }}"
   *ngIf="attribute?.values?.length"
 >
-  <div class="cx-multi-selection-bundle-quantity">
+  <div
+    class="cx-multi-selection-bundle-quantity"
+    *ngIf="withQuantityOnAttributeLevel"
+  >
     <cx-configurator-attribute-quantity
       (changeQuantity)="onChangeAttributeQuantity($event)"
       [allowZero]="!attribute.required"
       [initialQuantity]="attribute.quantity"
       [readonly]="readOnlyQuantity || (loading$ | async)"
-      *ngIf="withQuantityOnAttributeLevel"
     ></cx-configurator-attribute-quantity>
 
     <div
       class="cx-multi-selection-bundle-price"
-      *ngIf="attribute.selectedSingleValue"
-    ></div>
+      *ngIf="isAnyValueSelected(attribute)"
+    >
+      <cx-configurator-price
+        [productPrice]="getSelectedValuesPrice(attribute)"
+        [quantity]="attribute?.quantity"
+        [totalPrice]="getSelectedValuesPriceTotal(attribute)"
+      ></cx-configurator-price>
+    </div>
   </div>
 
   <cx-configurator-attribute-product-card

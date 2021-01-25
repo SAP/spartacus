@@ -69,7 +69,7 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
     }
   }
 
-  onHandleQuantity(quantity): void {
+  onHandleQuantity(quantity: number): void {
     this.loading$.next(true);
 
     this.handleQuantity.emit({
@@ -86,5 +86,13 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
       name: value.valueDisplay,
       noLink: true,
     };
+  }
+
+  getProductPrice(product: Configurator.Value): number | undefined {
+    return product?.valuePrice?.value;
+  }
+
+  getProductTotalPrice(product: Configurator.Value): number | undefined {
+    return product?.valuePriceTotal?.value;
   }
 }

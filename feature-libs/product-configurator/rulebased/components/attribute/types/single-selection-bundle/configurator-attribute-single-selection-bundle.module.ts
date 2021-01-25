@@ -7,6 +7,7 @@ import { ItemCounterModule, KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeProductCardModule } from '../../product-card/configurator-attribute-product-card.module';
 import { ConfiguratorAttributeSingleSelectionBundleComponent } from './configurator-attribute-single-selection-bundle.component';
 import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator-attribute-quantity.module';
+import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator
     ReactiveFormsModule,
     RouterModule,
     UrlModule,
+    ConfiguratorPriceModule,
   ],
   declarations: [ConfiguratorAttributeSingleSelectionBundleComponent],
   exports: [ConfiguratorAttributeSingleSelectionBundleComponent],

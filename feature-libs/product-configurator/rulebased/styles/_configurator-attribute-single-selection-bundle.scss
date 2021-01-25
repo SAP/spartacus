@@ -10,11 +10,11 @@
     .cx-single-selection-bundle-quantity {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       margin-block-start: 2rem;
       margin-inline-end: 1rem;
       margin-block-end: 2rem;
       margin-inline-start: 1rem;
-      max-width: 28rem;
 
       .cx-single-selection-bundle-price {
         font-weight: bold;

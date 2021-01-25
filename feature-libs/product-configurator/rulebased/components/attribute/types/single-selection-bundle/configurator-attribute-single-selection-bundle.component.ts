@@ -94,4 +94,16 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
       this.onHandleQuantity(eventObject.quantity);
     }
   }
+
+  getSelectedValuePrice(attribute: Configurator.Attribute): number | undefined {
+    return attribute?.values?.find((value) => value?.selected)?.valuePrice
+      ?.value;
+  }
+
+  getSelectedValuePriceTotal(
+    attribute: Configurator.Attribute
+  ): number | undefined {
+    return attribute?.values?.find((value) => value?.selected)?.valuePriceTotal
+      ?.value;
+  }
 }
