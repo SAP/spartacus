@@ -1,7 +1,8 @@
+import { QualtricsRootModule } from '@spartacus/qualtrics/root';
 import { SmartEditRootModule } from '@spartacus/smartedit/root';
 import {
   storeFinderTranslationChunksConfig,
-  storeFinderTranslations,
+  storeFinderTranslations
 } from '@spartacus/storefinder/assets';
 import { StoreFinderRootModule } from '@spartacus/storefinder/root';
 import { B2cStorefrontModule } from '@spartacus/storefront';
@@ -35,6 +36,10 @@ export const b2cFeature: FeatureEnvironment = {
           module: () =>
             import('@spartacus/smartedit').then((m) => m.SmartEditModule),
         },
+        qualtrics: {
+          module: () =>
+            import('@spartacus/qualtrics').then((m) => m.QualtricsModule),
+        },
       },
       i18n: {
         resources: storeFinderTranslations,
@@ -43,5 +48,6 @@ export const b2cFeature: FeatureEnvironment = {
     }),
     StoreFinderRootModule,
     SmartEditRootModule,
+    QualtricsRootModule,
   ],
 };

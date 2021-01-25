@@ -80,6 +80,7 @@ export default async function run(
     '@spartacus/product': 'feature-libs/product',
     '@spartacus/storefinder': 'feature-libs/storefinder',
     '@spartacus/smartedit': 'feature-libs/smartedit',
+    '@spartacus/qualtrics': 'feature-libs/qualtrics',
     '@spartacus/cdc': 'integration-libs/cdc',
     '@spartacus/setup': 'core-libs/setup',
   };
@@ -310,6 +311,14 @@ if (typeof config.to === 'undefined') {
     case 'storefinder':
     case '@spartacus/storefinder':
       config.library = '@spartacus/storefinder';
+      break;
+    case 'qualtrics':
+    case '@spartacus/qualtrics':
+      config.library = '@spartacus/qualtrics';
+      break;
+    case 'smartedit':
+    case '@spartacus/smartedit':
+      config.library = '@spartacus/smartedit';
       break;
     case 'setup':
     case '@spartacus/setup':

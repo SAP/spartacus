@@ -45,6 +45,10 @@
               {
                 "input": "projects/storefrontapp/src/styles/lib-storefinder.scss",
                 "bundleName": "storefinder"
+              },
+              {
+                "input": "projects/storefrontapp/src/styles/lib-qualtrics.scss",
+                "bundleName": "qualtrics"
               }
             ],
             "stylePreprocessorOptions": {
@@ -610,6 +614,44 @@
         }
       }
     },
+    "qualtrics": {
+      "projectType": "library",
+      "root": "feature-libs/qualtrics",
+      "sourceRoot": "feature-libs/qualtrics",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "feature-libs/qualtrics/tsconfig.lib.json",
+            "project": "feature-libs/qualtrics/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "feature-libs/qualtrics/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "feature-libs/qualtrics/test.ts",
+            "tsConfig": "feature-libs/qualtrics/tsconfig.spec.json",
+            "karmaConfig": "feature-libs/qualtrics/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "feature-libs/qualtrics/tsconfig.lib.json",
+              "feature-libs/qualtrics/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
     "smartedit": {
       "projectType": "library",
       "root": "feature-libs/smartedit",
@@ -631,16 +673,16 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "feature-libs/smartedit/test.ts",
+           "main": "feature-libs/smartedit/test.ts",
             "tsConfig": "feature-libs/smartedit/tsconfig.spec.json",
             "karmaConfig": "feature-libs/smartedit/karma.conf.js"
-          }
+            }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "feature-libs/smartedit/tsconfig.lib.json",
+             "feature-libs/smartedit/tsconfig.lib.json",
               "feature-libs/smartedit/tsconfig.spec.json"
             ],
             "exclude": ["**/node_modules/**"]
