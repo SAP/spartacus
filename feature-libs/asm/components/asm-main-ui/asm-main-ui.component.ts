@@ -93,7 +93,7 @@ export class AsmMainUiComponent implements OnInit {
     this.asmComponentService.logoutCustomerSupportAgentAndCustomer();
   }
 
-  startCustomerEmulationSession({ customerId }: { customerId: string }): void {
+  startCustomerEmulationSession({ customerId }: { customerId?: string }): void {
     if (customerId) {
       this.csAgentAuthService.startCustomerEmulationSession(customerId);
       this.startingCustomerSession = true;

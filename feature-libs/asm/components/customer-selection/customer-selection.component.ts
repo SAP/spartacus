@@ -32,7 +32,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   selectedCustomer: User | undefined;
 
   @Output()
-  submitEvent = new EventEmitter<{ customerId: string | undefined }>();
+  submitEvent = new EventEmitter<{ customerId?: string }>();
 
   @ViewChild('resultList') resultList: ElementRef;
   @ViewChild('searchTerm') searchTerm: ElementRef;
