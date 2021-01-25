@@ -35,7 +35,7 @@ function readTsConfigFile(path: string): any {
 }
 
 function setCompilerOptionsPaths(tsconfigPath: string, paths: Object) {
-  const tsConfigContent = parse(fs.readFileSync(tsconfigPath, 'utf-8'));
+  const tsConfigContent = readTsConfigFile(tsconfigPath);
   assign(tsConfigContent.compilerOptions, { paths });
   fs.writeFileSync(tsconfigPath, stringify(tsConfigContent, null, 2));
 }
