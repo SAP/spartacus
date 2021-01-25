@@ -104,6 +104,7 @@ export function checkNotificationBannerOnOP(
  * @param {number} numberOfIssues - Expected number of issues
  */
 export function verifyNotificationBannerOnOP(numberOfIssues?: number): void {
+  cy.wait('@configure_overview');
   const element = cy.get('cx-configurator-overview-notification-banner', {
     timeout: 10000,
   });
@@ -112,4 +113,15 @@ export function verifyNotificationBannerOnOP(numberOfIssues?: number): void {
   } else {
     element.should('not.contain.html', 'div.cx-error-msg');
   }
+}
+/**
+ * Registers OCC call for OV page in order to wait for it
+ */
+export function registerConfigurationOvOCC() {
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/ccpconfigurator/*/configurationOverview?lang=en&curr=USD`
+  ).as('configure_overview');
 }
