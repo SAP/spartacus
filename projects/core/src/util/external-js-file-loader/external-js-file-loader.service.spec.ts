@@ -7,8 +7,10 @@ import { ExternalJsFileLoader } from './external-js-file-loader.service';
 const SCRIPT_LOAD_URL = 'http://url/';
 
 class DocumentMock {
+  head = {
+    appendChild() {},
+  };
   createElement() {}
-  appendChild() {}
 }
 
 describe('ExternalJsFileLoader', () => {
@@ -16,6 +18,7 @@ describe('ExternalJsFileLoader', () => {
 
   let documentMock: Document;
   let jsDomElement: any;
+  // const headElement: HTMLElement = document.createElement('head');
 
   beforeEach(() => {
     const bed = TestBed.configureTestingModule({
@@ -31,12 +34,12 @@ describe('ExternalJsFileLoader', () => {
     externalJsFileLoader = bed.inject(ExternalJsFileLoader);
     documentMock = bed.inject(DOCUMENT);
     jsDomElement = document.createElement('script');
+    // headEl = new HTMLHeadElement();
   });
 
   it('should load script with params and load/error callbacks', () => {
     // given
     spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
-    spyOn(documentMock, 'appendChild').and.callThrough();
     spyOn(jsDomElement, 'addEventListener').and.callThrough();
     const params = { param1: 'value1', param2: 'value2' };
     const callback = function () {};
@@ -65,7 +68,6 @@ describe('ExternalJsFileLoader', () => {
   it('should load script with params and callback', () => {
     // given
     spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
-    spyOn(documentMock, 'appendChild').and.callThrough();
     spyOn(jsDomElement, 'addEventListener').and.callThrough();
     const params = { param1: 'value1', param2: 'value2' };
     const callback = function () {};
@@ -89,7 +91,6 @@ describe('ExternalJsFileLoader', () => {
   it('should load script with params', () => {
     // given
     spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
-    spyOn(documentMock, 'appendChild').and.callThrough();
     spyOn(jsDomElement, 'addEventListener').and.callThrough();
     const params = { param1: 'value1', param2: 'value2 plus space' };
 
@@ -109,7 +110,6 @@ describe('ExternalJsFileLoader', () => {
   it('should load script', () => {
     // given
     spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
-    spyOn(documentMock, 'appendChild').and.callThrough();
     spyOn(jsDomElement, 'addEventListener').and.callThrough();
 
     // when
