@@ -2,10 +2,10 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { Title } from '../../../model/index';
 import { UserProfileAdapter } from '../../connectors/index';
-import { UserConnector } from '../../connectors/user/user.connector';
-import { UserActions } from '../actions/index';
+import { UserProfileConnector } from '../../connectors/user-profile.connector';
+import { Title } from '../../model/index';
+import { UserProfileActions } from '../actions/index';
 import { TitlesEffects } from './titles.effect';
 
 const mockTitles: Title[] = [
@@ -28,7 +28,7 @@ const mockTitles: Title[] = [
 ];
 
 describe('Titles effect', () => {
-  let service: UserConnector;
+  let service: UserProfileConnector;
   let effect: TitlesEffects;
   let actions$: Observable<any>;
 
@@ -42,15 +42,15 @@ describe('Titles effect', () => {
     });
 
     effect = TestBed.inject(TitlesEffects);
-    service = TestBed.inject(UserConnector);
+    service = TestBed.inject(UserProfileConnector);
 
     spyOn(service, 'getTitles').and.returnValue(of(mockTitles));
   });
 
   describe('loadTitles$', () => {
     it('should load the titles', () => {
-      const action = new UserActions.LoadTitles();
-      const completion = new UserActions.LoadTitlesSuccess(mockTitles);
+      const action = new UserProfileActions.LoadTitles();
+      const completion = new UserProfileActions.LoadTitlesSuccess(mockTitles);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

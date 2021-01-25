@@ -1,5 +1,5 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -8,12 +8,12 @@ import {
   I18nTestingModule,
   OAuthFlow,
   RoutingService,
-  UserService,
 } from '@spartacus/core';
-import { FormErrorsModule } from '../../../shared/index';
+import { FormErrorsModule } from '@spartacus/storefront';
+import { UserPasswordService } from '@spartacus/user/profile/core';
 import { ForgotPasswordComponent } from './forgot-password.component';
 
-class MockUserService implements Partial<UserService> {
+class MockUserPasswordService implements Partial<UserPasswordService> {
   requestForgotPasswordEmail() {}
 }
 class MockRoutingService implements Partial<RoutingService> {
@@ -39,7 +39,7 @@ describe('ForgotPasswordComponent', () => {
   let userEmail: AbstractControl;
   let authConfigService: AuthConfigService;
   let routingService: RoutingService;
-  let userService: UserService;
+  let userPasswordService: UserPasswordService;
 
   beforeEach(
     waitForAsync(() => {
@@ -52,7 +52,7 @@ describe('ForgotPasswordComponent', () => {
         ],
         declarations: [ForgotPasswordComponent, MockUrlPipe],
         providers: [
-          { provide: UserService, useClass: MockUserService },
+          { provide: UserPasswordService, useClass: MockUserPasswordService },
           { provide: RoutingService, useClass: MockRoutingService },
           { provide: AuthConfigService, useClass: MockAuthConfigService },
         ],
@@ -64,7 +64,7 @@ describe('ForgotPasswordComponent', () => {
     fixture = TestBed.createComponent(ForgotPasswordComponent);
     authConfigService = TestBed.inject(AuthConfigService);
     routingService = TestBed.inject(RoutingService);
-    userService = TestBed.inject(UserService);
+    userPasswordService = TestBed.inject(UserPasswordService);
     component = fixture.componentInstance;
     form = fixture.debugElement.query(By.css('form'));
 
@@ -87,7 +87,10 @@ describe('ForgotPasswordComponent', () => {
 
   describe('requestForgetPasswordEmail', () => {
     it('should request email for forgot password and redirect to login page', () => {
-      spyOn(userService, 'requestForgotPasswordEmail').and.callThrough();
+      spyOn(
+        userPasswordService,
+        'requestForgotPasswordEmail'
+      ).and.callThrough();
       spyOn(routingService, 'go').and.callThrough();
 
       component.forgotPasswordForm.setValue({
@@ -96,14 +99,17 @@ describe('ForgotPasswordComponent', () => {
 
       component.requestForgotPasswordEmail();
 
-      expect(userService.requestForgotPasswordEmail).toHaveBeenCalledWith(
-        'test@test.com'
-      );
+      expect(
+        userPasswordService.requestForgotPasswordEmail
+      ).toHaveBeenCalledWith('test@test.com');
       expect(routingService.go).toHaveBeenCalled();
     });
 
     it('should not redirect when flow different than ResourceOwnerPasswordFlow is used', () => {
-      spyOn(userService, 'requestForgotPasswordEmail').and.callThrough();
+      spyOn(
+        userPasswordService,
+        'requestForgotPasswordEmail'
+      ).and.callThrough();
       spyOn(routingService, 'go').and.callThrough();
       spyOn(authConfigService, 'getOAuthFlow').and.returnValue(
         OAuthFlow.ImplicitFlow
@@ -115,9 +121,9 @@ describe('ForgotPasswordComponent', () => {
 
       component.requestForgotPasswordEmail();
 
-      expect(userService.requestForgotPasswordEmail).toHaveBeenCalledWith(
-        'test@test.com'
-      );
+      expect(
+        userPasswordService.requestForgotPasswordEmail
+      ).toHaveBeenCalledWith('test@test.com');
       expect(routingService.go).not.toHaveBeenCalled();
     });
   });

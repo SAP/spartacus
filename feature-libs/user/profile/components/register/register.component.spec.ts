@@ -1,5 +1,5 @@
 import { Component, Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -15,11 +15,13 @@ import {
   I18nTestingModule,
   OAuthFlow,
   RoutingService,
+  StateUtils,
   Title,
-  UserService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { FormErrorsModule } from '../../../shared/index';
+import { FormErrorsModule } from '@spartacus/storefront';
+import { User } from '@spartacus/user/account/core';
+import { UserRegisterService } from '@spartacus/user/profile/core';
+import { Observable, of } from 'rxjs';
 import { RegisterComponent } from './register.component';
 import createSpy = jasmine.createSpy;
 
@@ -57,8 +59,8 @@ class MockUrlPipe implements PipeTransform {
 })
 class MockSpinnerComponent {}
 
-let registerUserIsLoading: BehaviorSubject<boolean>;
-let registerUserIsSuccess: BehaviorSubject<boolean>;
+// let registerUserIsLoading: BehaviorSubject<boolean>;
+// let registerUserIsSuccess: BehaviorSubject<boolean>;
 
 class MockGlobalMessageService {
   add = createSpy();
@@ -104,7 +106,7 @@ describe('RegisterComponent', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
 
-  let userService: UserService;
+  let userRegisterService: UserRegisterService;
   let mockGlobalMessageService: GlobalMessageService;
   let mockRoutingService: RoutingService;
   let anonymousConsentService: AnonymousConsentsService;
@@ -112,11 +114,10 @@ describe('RegisterComponent', () => {
 
   beforeEach(
     waitForAsync(() => {
-      registerUserIsLoading = new BehaviorSubject(false);
-      registerUserIsSuccess = new BehaviorSubject(false);
-      class MockUserService {
+      // registerUserIsLoading = new BehaviorSubject(false);
+      // registerUserIsSuccess = new BehaviorSubject(false);
+      class MockUserRegisterService {
         loadTitles(): void {}
-        resetRegisterUserProcessState(): void {}
 
         getTitles(): Observable<Title[]> {
           return of([]);
@@ -128,13 +129,8 @@ describe('RegisterComponent', () => {
           _lastName: string,
           _email: string,
           _password: string
-        ): void {}
-
-        getRegisterUserResultLoading(): Observable<boolean> {
-          return registerUserIsLoading.asObservable();
-        }
-        getRegisterUserResultSuccess(): Observable<boolean> {
-          return registerUserIsSuccess.asObservable();
+        ): Observable<StateUtils.LoaderState<User>> {
+          return of({});
         }
       }
 
@@ -147,7 +143,7 @@ describe('RegisterComponent', () => {
         ],
         declarations: [RegisterComponent, MockUrlPipe, MockSpinnerComponent],
         providers: [
-          { provide: UserService, useClass: MockUserService },
+          { provide: UserRegisterService, useClass: MockUserRegisterService },
           {
             provide: GlobalMessageService,
             useClass: MockGlobalMessageService,
@@ -175,7 +171,7 @@ describe('RegisterComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterComponent);
-    userService = TestBed.inject(UserService);
+    userRegisterService = TestBed.inject(UserRegisterService);
     mockGlobalMessageService = TestBed.inject(GlobalMessageService);
     mockRoutingService = TestBed.inject(RoutingService);
     anonymousConsentService = TestBed.inject(AnonymousConsentsService);
@@ -205,7 +201,9 @@ describe('RegisterComponent', () => {
 
   describe('ngOnInit', () => {
     it('should load titles', () => {
-      spyOn(userService, 'getTitles').and.returnValue(of(mockTitlesList));
+      spyOn(userRegisterService, 'getTitles').and.returnValue(
+        of(mockTitlesList)
+      );
 
       component.ngOnInit();
 
@@ -218,21 +216,26 @@ describe('RegisterComponent', () => {
       expect(titleList).toEqual(mockTitlesList);
     });
 
-    it('should fetch registerUser process loading state', () => {
-      const getSpinner = () => fixture.debugElement.query(By.css('cx-spinner'));
+    it('should show spinner when loading = true', () => {
+      spyOn(userRegisterService, 'register').and.returnValue(
+        of({ loading: true })
+      );
       component.ngOnInit();
-
-      // when false
-      registerUserIsLoading.next(false);
+      component.registerUser();
       fixture.detectChanges();
+      const spinner = fixture.debugElement.query(By.css('cx-spinner'));
+      expect(spinner?.nativeElement).toBeDefined();
+    });
 
-      expect(getSpinner()).toBeFalsy();
-
-      // when true
-      registerUserIsLoading.next(true);
+    it('should hide spinner when loading = false', () => {
+      spyOn(userRegisterService, 'register').and.returnValue(
+        of({ loading: false })
+      );
+      component.ngOnInit();
+      component.registerUser();
       fixture.detectChanges();
-
-      expect(getSpinner()).toBeTruthy();
+      const spinner = fixture.debugElement.query(By.css('cx-spinner'));
+      expect(spinner?.nativeElement).toBeUndefined();
     });
   });
 
@@ -250,16 +253,14 @@ describe('RegisterComponent', () => {
     });
   });
 
-  describe('submit', () => {
-    beforeEach(() => {
-      spyOn(userService, 'register').and.stub();
-
+  describe('register', () => {
+    it('should submit form', () => {
+      spyOn(userRegisterService, 'register').and.returnValue(
+        of({ success: true })
+      );
       component.ngOnInit();
       component.registerUser();
-    });
-
-    it('should submit form', () => {
-      expect(userService.register).toHaveBeenCalledWith({
+      expect(userRegisterService.register).toHaveBeenCalledWith({
         firstName: '',
         lastName: '',
         uid: '',
@@ -269,7 +270,12 @@ describe('RegisterComponent', () => {
     });
 
     it('should redirect to login page and show message (new flow)', () => {
-      registerUserIsSuccess.next(true);
+      spyOn(userRegisterService, 'register').and.returnValue(
+        of({ success: true })
+      );
+      component.ngOnInit();
+      component.registerUser();
+      // registerUserIsSuccess.next(true);
 
       expect(mockRoutingService.go).toHaveBeenCalledWith('login');
       expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
@@ -279,13 +285,18 @@ describe('RegisterComponent', () => {
     });
 
     it('should not redirect in different flow that ResourceOwnerPasswordFlow', () => {
+      spyOn(userRegisterService, 'register').and.returnValue(
+        of({ success: true })
+      );
       spyOn(authConfigService, 'getOAuthFlow').and.returnValue(
         OAuthFlow.ImplicitFlow
       );
+      component.ngOnInit();
+      component.registerUser();
 
-      registerUserIsSuccess.next(true);
+      // registerUserIsSuccess.next(true);
 
-      expect(mockRoutingService.go).not.toHaveBeenCalled();
+      // expect(mockRoutingService.go).not.toHaveBeenCalled();
       expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
         { key: 'register.postRegisterMessage' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION

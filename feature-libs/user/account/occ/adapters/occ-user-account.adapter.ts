@@ -4,7 +4,7 @@ import { ConverterService, Occ, OccEndpointsService } from '@spartacus/core';
 import {
   User,
   UserAccountAdapter,
-  USER_NORMALIZER,
+  USER_ACCOUNT_NORMALIZER,
 } from '@spartacus/user/account/core';
 import { Observable } from 'rxjs';
 
@@ -20,6 +20,6 @@ export class OccUserAccountAdapter implements UserAccountAdapter {
     const url = this.occEndpoints.getUrl('user', { userId });
     return this.http
       .get<Occ.User>(url)
-      .pipe(this.converter.pipeable(USER_NORMALIZER));
+      .pipe(this.converter.pipeable(USER_ACCOUNT_NORMALIZER));
   }
 }

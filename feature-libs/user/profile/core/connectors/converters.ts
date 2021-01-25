@@ -3,6 +3,14 @@ import { Converter } from '@spartacus/core';
 import { User } from '@spartacus/user/account/core';
 import { Title, UserSignUp } from '../model/user-profile.model';
 
+export const USER_PROFILE_NORMALIZER = new InjectionToken<Converter<User, any>>(
+  'UserProfileNormalizer'
+);
+
+export const USER_PROFILE_SERIALIZER = new InjectionToken<Converter<User, any>>(
+  'UserProfileSerializer'
+);
+
 export const USER_SERIALIZER = new InjectionToken<Converter<User, any>>(
   'UserSerializer'
 );

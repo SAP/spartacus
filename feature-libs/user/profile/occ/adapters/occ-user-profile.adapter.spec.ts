@@ -6,20 +6,45 @@ import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
   Occ,
-  TITLE_NORMALIZER,
-  User,
-  USER_NORMALIZER,
-  USER_SERIALIZER,
-  USER_SIGN_UP_SERIALIZER,
-  UserSignUp,
+  OccConfig,
+  OccEndpointsService,
 } from '@spartacus/core';
-import { OccConfig } from '../../config/occ-config';
-import { OccEndpointsService } from '../../services';
-import { OccUserAdapter } from './occ-user.adapter';
+import { User } from '@spartacus/user/account/core';
 import {
-  MockOccEndpointsService,
-  mockOccModuleConfig,
-} from './unit-test.helper';
+  TITLE_NORMALIZER,
+  UserSignUp,
+  USER_PROFILE_SERIALIZER,
+  USER_SIGN_UP_SERIALIZER,
+} from '@spartacus/user/profile/core';
+import { OccUserProfileAdapter } from './occ-user-profile.adapter';
+
+export const mockOccModuleConfig: OccConfig = {
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
+  },
+
+  context: {
+    baseSite: [''],
+  },
+};
+
+export class MockOccEndpointsService {
+  getUrl(endpointKey: string, _urlParams?: object, _queryParams?: object) {
+    return this.getEndpoint(endpointKey);
+  }
+  getEndpoint(endpoint: string) {
+    if (!endpoint.startsWith('/')) {
+      endpoint = '/' + endpoint;
+    }
+    return endpoint;
+  }
+  getBaseEndpoint() {
+    return '';
+  }
+}
 
 const username = 'mockUsername';
 const password = '1234';
@@ -29,17 +54,17 @@ const user: User = {
   displayUid: password,
 };
 
-describe('OccUserAdapter', () => {
-  let occUserAdapter: OccUserAdapter;
+describe('OccUserProfileAdapter', () => {
+  let occUserAdapter: OccUserProfileAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
-  let occEnpointsService: OccEndpointsService;
+  let occEndpointsService: OccEndpointsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccUserAdapter,
+        OccUserProfileAdapter,
         { provide: OccConfig, useValue: mockOccModuleConfig },
         {
           provide: OccEndpointsService,
@@ -48,47 +73,18 @@ describe('OccUserAdapter', () => {
       ],
     });
 
-    occUserAdapter = TestBed.inject(OccUserAdapter);
+    occUserAdapter = TestBed.inject(OccUserProfileAdapter);
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
-    occEnpointsService = TestBed.inject(OccEndpointsService);
+    occEndpointsService = TestBed.inject(OccEndpointsService);
     spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'convert').and.callThrough();
-    spyOn(occEnpointsService, 'getUrl').and.callThrough();
+    spyOn(occEndpointsService, 'getUrl').and.callThrough();
   });
 
   afterEach(() => {
     httpMock.verify();
-  });
-
-  describe('load user details', () => {
-    it('should load user details for given username and access token', () => {
-      occUserAdapter.load(username).subscribe((result) => {
-        expect(result).toEqual(user);
-      });
-
-      const mockReq = httpMock.expectOne((req) => {
-        return req.method === 'GET';
-      });
-
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('user', {
-        userId: user.customerId,
-      });
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(user);
-    });
-
-    it('should use converter', () => {
-      occUserAdapter.load(username).subscribe();
-      httpMock
-        .expectOne((req) => {
-          return req.method === 'GET';
-        })
-        .flush(user);
-      expect(converter.pipeable).toHaveBeenCalledWith(USER_NORMALIZER);
-    });
   });
 
   describe('update user details', () => {
@@ -101,7 +97,7 @@ describe('OccUserAdapter', () => {
       const mockReq = httpMock.expectOne((req) => {
         return req.method === 'PATCH';
       });
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('user', {
+      expect(occEndpointsService.getUrl).toHaveBeenCalledWith('user', {
         userId: user.customerId,
       });
 
@@ -124,12 +120,12 @@ describe('OccUserAdapter', () => {
         .flush(userUpdates);
       expect(converter.convert).toHaveBeenCalledWith(
         userUpdates,
-        USER_SERIALIZER
+        USER_PROFILE_SERIALIZER
       );
     });
   });
 
-  describe('resiter user', () => {
+  describe('register user', () => {
     it('should able to register a new user', () => {
       const userSignUp: UserSignUp = {
         uid: 'uid',
@@ -140,7 +136,7 @@ describe('OccUserAdapter', () => {
       const mockReq = httpMock.expectOne((req) => {
         return req.method === 'POST';
       });
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('userRegister');
+      expect(occEndpointsService.getUrl).toHaveBeenCalledWith('userRegister');
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -178,7 +174,7 @@ describe('OccUserAdapter', () => {
           req.serializeBody() === `guid=${guid}&password=${pwd}`
         );
       });
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('userRegister');
+      expect(occEndpointsService.getUrl).toHaveBeenCalledWith('userRegister');
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -199,7 +195,7 @@ describe('OccUserAdapter', () => {
           req.serializeBody() === `userId=${testUserId}`
         );
       });
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      expect(occEndpointsService.getUrl).toHaveBeenCalledWith(
         'userForgotPassword'
       );
 
@@ -221,7 +217,7 @@ describe('OccUserAdapter', () => {
         return req.method === 'POST';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      expect(occEndpointsService.getUrl).toHaveBeenCalledWith(
         'userResetPassword'
       );
       expect(mockReq.request.headers.get('cx-use-client-token')).toBeTruthy();
@@ -235,17 +231,17 @@ describe('OccUserAdapter', () => {
     });
   });
 
-  describe('remove user account: ', () => {
+  describe('close user account: ', () => {
     it('should be able to close user account', () => {
       occUserAdapter
-        .remove('testUserId')
+        .close('testUserId')
         .subscribe((result) => expect(result).toEqual(''));
 
       const mockReq = httpMock.expectOne((req) => {
         return req.method === 'DELETE';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('user', {
+      expect(occEndpointsService.getUrl).toHaveBeenCalledWith('user', {
         userId: 'testUserId',
       });
       expect(mockReq.cancelled).toBeFalsy();
@@ -274,7 +270,7 @@ describe('OccUserAdapter', () => {
       });
 
       expect(
-        occEnpointsService.getUrl
+        occEndpointsService.getUrl
       ).toHaveBeenCalledWith('userUpdateLoginId', { userId });
       expect(mockReq.cancelled).toBeFalsy();
 
@@ -303,7 +299,7 @@ describe('OccUserAdapter', () => {
       });
 
       expect(
-        occEnpointsService.getUrl
+        occEndpointsService.getUrl
       ).toHaveBeenCalledWith('userUpdatePassword', { userId });
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -335,7 +331,7 @@ describe('OccUserAdapter', () => {
         return req.method === 'GET';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('titles');
+      expect(occEndpointsService.getUrl).toHaveBeenCalledWith('titles');
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(titlesList);

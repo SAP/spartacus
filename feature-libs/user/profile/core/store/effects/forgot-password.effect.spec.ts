@@ -1,16 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { GlobalMessageActions, GlobalMessageType } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { GlobalMessageType } from '../../../global-message/models/global-message.model';
-import { GlobalMessageActions } from '../../../global-message/store/actions/index';
-import { UserAdapter } from '../../connectors/user/user.adapter';
-import { UserConnector } from '../../connectors/user/user.connector';
-import { UserActions } from '../actions/index';
+import { UserProfileConnector } from '../../connectors/user-profile.connector';
+import { UserProfileActions } from '../actions/index';
 import { ForgotPasswordEffects } from './forgot-password.effect';
 
-describe('', () => {
-  let service: UserConnector;
+class MockUserProfileConnector {
+  requestForgotPasswordEmail() {}
+}
+
+describe('UserProfileConnector', () => {
+  let service: UserProfileConnector;
   let effect: ForgotPasswordEffects;
   let actions$: Observable<any>;
 
@@ -18,23 +20,23 @@ describe('', () => {
     TestBed.configureTestingModule({
       providers: [
         ForgotPasswordEffects,
-        { provide: UserAdapter, useValue: {} },
+        { provide: UserProfileConnector, useClass: MockUserProfileConnector },
         provideMockActions(() => actions$),
       ],
     });
 
     effect = TestBed.inject(ForgotPasswordEffects);
-    service = TestBed.inject(UserConnector);
+    service = TestBed.inject(UserProfileConnector);
 
     spyOn(service, 'requestForgotPasswordEmail').and.returnValue(of({}));
   });
 
   describe('requestForgotPasswordEmail$', () => {
     it('should be able to request a forgot password email', () => {
-      const action = new UserActions.ForgotPasswordEmailRequest(
+      const action = new UserProfileActions.ForgotPasswordEmailRequest(
         'test@test.com'
       );
-      const completion1 = new UserActions.ForgotPasswordEmailRequestSuccess();
+      const completion1 = new UserProfileActions.ForgotPasswordEmailRequestSuccess();
       const completion2 = new GlobalMessageActions.AddMessage({
         text: { key: 'forgottenPassword.passwordResetEmailSent' },
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,

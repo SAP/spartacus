@@ -7,13 +7,14 @@ import {
   OccEndpointsService,
   USE_CLIENT_TOKEN,
 } from '@spartacus/core';
-import { User, USER_NORMALIZER } from '@spartacus/user/account/core';
+import { User } from '@spartacus/user/account/core';
 import {
   Title,
   TITLE_NORMALIZER,
   UserProfileAdapter,
   UserSignUp,
-  USER_SERIALIZER,
+  USER_PROFILE_NORMALIZER,
+  USER_PROFILE_SERIALIZER,
   USER_SIGN_UP_SERIALIZER,
 } from '@spartacus/user/profile/core';
 import { Observable } from 'rxjs';
@@ -31,7 +32,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
 
   update(userId: string, user: User): Observable<{}> {
     const url = this.occEndpoints.getUrl('user', { userId });
-    user = this.converter.convert(user, USER_SERIALIZER);
+    user = this.converter.convert(user, USER_PROFILE_SERIALIZER);
     return this.http.patch(url, user);
   }
 
@@ -45,7 +46,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
 
     return this.http
       .post<User>(url, user, { headers })
-      .pipe(this.converter.pipeable(USER_NORMALIZER));
+      .pipe(this.converter.pipeable(USER_PROFILE_NORMALIZER));
   }
 
   registerGuest(guid: string, password: string): Observable<User> {
@@ -61,7 +62,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
 
     return this.http
       .post<User>(url, httpParams, { headers })
-      .pipe(this.converter.pipeable(USER_NORMALIZER));
+      .pipe(this.converter.pipeable(USER_PROFILE_NORMALIZER));
   }
 
   requestForgotPasswordEmail(userEmailAddress: string): Observable<{}> {

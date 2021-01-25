@@ -36,7 +36,6 @@ export class UpdateEmailComponent implements OnDestroy {
         .update(password, newUid)
         .pipe(
           tap((state) => {
-            console.log(state);
             this.isLoading$.next(state.loading);
             this.onSuccess(state.success);
           })

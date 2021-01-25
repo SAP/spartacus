@@ -1,10 +1,10 @@
 import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import { UserSignUp } from '../../model/user-profile.model';
 import {
+  CLOSE_USER_PROCESS_ID,
   REGISTER_USER_PROCESS_ID,
-  REMOVE_USER_PROCESS_ID,
 } from '../user-profile.state';
-import { UserActions } from './index';
+import { UserProfileActions } from './index';
 
 const user: UserSignUp = {
   titleCode: '',
@@ -17,10 +17,10 @@ const user: UserSignUp = {
 describe('User Register Actions', () => {
   describe('RegisterUser Action', () => {
     it('should create the action', () => {
-      const action = new UserActions.RegisterUser(user);
+      const action = new UserProfileActions.RegisterUser(user);
 
       expect({ ...action }).toEqual({
-        type: UserActions.REGISTER_USER,
+        type: UserProfileActions.REGISTER_USER,
         payload: user,
         meta: StateUtils.entityLoadMeta(
           PROCESS_FEATURE,
@@ -33,10 +33,10 @@ describe('User Register Actions', () => {
   describe('RegisterUserFail Action', () => {
     it('should create the action', () => {
       const error = 'anError';
-      const action = new UserActions.RegisterUserFail(error);
+      const action = new UserProfileActions.RegisterUserFail(error);
 
       expect({ ...action }).toEqual({
-        type: UserActions.REGISTER_USER_FAIL,
+        type: UserProfileActions.REGISTER_USER_FAIL,
         payload: error,
         meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
@@ -49,10 +49,10 @@ describe('User Register Actions', () => {
 
   describe('RegisterUserSuccess Action', () => {
     it('should create the action', () => {
-      const action = new UserActions.RegisterUserSuccess();
+      const action = new UserProfileActions.RegisterUserSuccess();
 
       expect({ ...action }).toEqual({
-        type: UserActions.REGISTER_USER_SUCCESS,
+        type: UserProfileActions.REGISTER_USER_SUCCESS,
         meta: StateUtils.entitySuccessMeta(
           PROCESS_FEATURE,
           REGISTER_USER_PROCESS_ID
@@ -66,12 +66,12 @@ describe('User Register Actions', () => {
 describe('Guest Register Actions', () => {
   describe('RegisterGuest Action', () => {
     it('should create the action', () => {
-      const action = new UserActions.RegisterGuest({
+      const action = new UserProfileActions.RegisterGuest({
         guid: 'guid',
         password: 'password',
       });
       expect({ ...action }).toEqual({
-        type: UserActions.REGISTER_GUEST,
+        type: UserProfileActions.REGISTER_GUEST,
         payload: { guid: 'guid', password: 'password' },
       });
     });
@@ -80,10 +80,10 @@ describe('Guest Register Actions', () => {
   describe('RegisterGuestFail Action', () => {
     it('should create the action', () => {
       const error = 'anError';
-      const action = new UserActions.RegisterGuestFail(error);
+      const action = new UserProfileActions.RegisterGuestFail(error);
 
       expect({ ...action }).toEqual({
-        type: UserActions.REGISTER_GUEST_FAIL,
+        type: UserProfileActions.REGISTER_GUEST_FAIL,
         payload: error,
       });
     });
@@ -91,10 +91,10 @@ describe('Guest Register Actions', () => {
 
   describe('RegisterGuestSuccess Action', () => {
     it('should create the action', () => {
-      const action = new UserActions.RegisterGuestSuccess();
+      const action = new UserProfileActions.RegisterGuestSuccess();
 
       expect({ ...action }).toEqual({
-        type: UserActions.REGISTER_GUEST_SUCCESS,
+        type: UserProfileActions.REGISTER_GUEST_SUCCESS,
       });
     });
   });
@@ -103,14 +103,11 @@ describe('Guest Register Actions', () => {
 describe('Remove User Actions', () => {
   describe('RemoveUser Action', () => {
     it('should create the action', () => {
-      const action = new UserActions.RemoveUser('testUserId');
+      const action = new UserProfileActions.RemoveUser('testUserId');
       expect({ ...action }).toEqual({
-        type: UserActions.REMOVE_USER,
+        type: UserProfileActions.REMOVE_USER,
         payload: 'testUserId',
-        meta: StateUtils.entityLoadMeta(
-          PROCESS_FEATURE,
-          REMOVE_USER_PROCESS_ID
-        ),
+        meta: StateUtils.entityLoadMeta(PROCESS_FEATURE, CLOSE_USER_PROCESS_ID),
       });
     });
   });
@@ -118,14 +115,14 @@ describe('Remove User Actions', () => {
   describe('RemoveUserFail Action', () => {
     it('should create the action', () => {
       const error = 'anError';
-      const action = new UserActions.RemoveUserFail(error);
+      const action = new UserProfileActions.RemoveUserFail(error);
 
       expect({ ...action }).toEqual({
-        type: UserActions.REMOVE_USER_FAIL,
+        type: UserProfileActions.REMOVE_USER_FAIL,
         payload: error,
         meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
-          REMOVE_USER_PROCESS_ID,
+          CLOSE_USER_PROCESS_ID,
           error
         ),
       });
@@ -134,13 +131,13 @@ describe('Remove User Actions', () => {
 
   describe('RemoveUserSuccess Action', () => {
     it('should create the action', () => {
-      const action = new UserActions.RemoveUserSuccess();
+      const action = new UserProfileActions.RemoveUserSuccess();
 
       expect({ ...action }).toEqual({
-        type: UserActions.REMOVE_USER_SUCCESS,
+        type: UserProfileActions.REMOVE_USER_SUCCESS,
         meta: StateUtils.entitySuccessMeta(
           PROCESS_FEATURE,
-          REMOVE_USER_PROCESS_ID
+          CLOSE_USER_PROCESS_ID
         ),
         payload: undefined,
       });
@@ -149,13 +146,13 @@ describe('Remove User Actions', () => {
 
   describe('RemoveUserReset Action', () => {
     it('should create the action', () => {
-      const action = new UserActions.RemoveUserReset();
+      const action = new UserProfileActions.RemoveUserReset();
 
       expect({ ...action }).toEqual({
-        type: UserActions.REMOVE_USER_RESET,
+        type: UserProfileActions.REMOVE_USER_RESET,
         meta: StateUtils.entityResetMeta(
           PROCESS_FEATURE,
-          REMOVE_USER_PROCESS_ID
+          CLOSE_USER_PROCESS_ID
         ),
       });
     });

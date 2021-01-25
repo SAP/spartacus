@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, combineReducers, StoreModule } from '@ngrx/store';
+import { AuthService } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { AuthService } from '../../../auth/user-auth/facade/auth.service';
-import { UserSignUp } from '../../../model/misc.model';
-import { UserAdapter } from '../../connectors/user/user.adapter';
-import { UserConnector } from '../../connectors/user/user.connector';
-import { UserActions } from '../actions/index';
+import { UserProfileAdapter } from '../../connectors/user-profile.adapter';
+import { UserProfileConnector } from '../../connectors/user-profile.connector';
+import { UserSignUp } from '../../model/user-profile.model';
+import { UserProfileActions } from '../actions/index';
 import * as fromStoreReducers from '../reducers/index';
 import { UserRegisterEffects } from './user-register.effect';
 
@@ -29,7 +29,7 @@ class MockAuthService implements Partial<AuthService> {
 describe('UserRegister effect', () => {
   let effect: UserRegisterEffects;
   let actions$: Observable<Action>;
-  let userConnector: UserConnector;
+  let userProfileConnector: UserProfileConnector;
   let authService: AuthService;
 
   beforeEach(() => {
@@ -42,25 +42,27 @@ describe('UserRegister effect', () => {
       ],
       providers: [
         UserRegisterEffects,
-        { provide: UserAdapter, useValue: {} },
+        { provide: UserProfileAdapter, useValue: {} },
         { provide: AuthService, useClass: MockAuthService },
         provideMockActions(() => actions$),
       ],
     });
 
     effect = TestBed.inject(UserRegisterEffects);
-    userConnector = TestBed.inject(UserConnector);
+    userProfileConnector = TestBed.inject(UserProfileConnector);
     authService = TestBed.inject(AuthService);
 
-    spyOn(userConnector, 'register').and.returnValue(of({}));
-    spyOn(userConnector, 'registerGuest').and.returnValue(of({ uid: 'test' }));
-    spyOn(userConnector, 'remove').and.returnValue(of({}));
+    spyOn(userProfileConnector, 'register').and.returnValue(of({}));
+    spyOn(userProfileConnector, 'registerGuest').and.returnValue(
+      of({ uid: 'test' })
+    );
+    spyOn(userProfileConnector, 'remove').and.returnValue(of({}));
   });
 
   describe('registerUser$', () => {
     it('should register user', () => {
-      const action = new UserActions.RegisterUser(user);
-      const completion = new UserActions.RegisterUserSuccess();
+      const action = new UserProfileActions.RegisterUser(user);
+      const completion = new UserProfileActions.RegisterUserSuccess();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', {
@@ -74,11 +76,11 @@ describe('UserRegister effect', () => {
   describe('registerGuest$', () => {
     it('should register guest', () => {
       spyOn(authService, 'loginWithCredentials');
-      const action = new UserActions.RegisterGuest({
+      const action = new UserProfileActions.RegisterGuest({
         guid: 'guid',
         password: 'password',
       });
-      const completion = new UserActions.RegisterGuestSuccess();
+      const completion = new UserProfileActions.RegisterGuestSuccess();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(b)', {
@@ -97,8 +99,8 @@ describe('UserRegister effect', () => {
     it('should remove user', () => {
       spyOn(authService, 'logout');
 
-      const action = new UserActions.RemoveUser('testUserId');
-      const completion = new UserActions.RemoveUserSuccess();
+      const action = new UserProfileActions.RemoveUser('testUserId');
+      const completion = new UserProfileActions.RemoveUserSuccess();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(b)', {

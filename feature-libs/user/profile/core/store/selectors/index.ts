@@ -1,2 +1,2 @@
-import * as UserSelectors from './user-profile.selectors';
-export { UserSelectors };
+import * as UserProfileSelectors from './user-profile.selectors';
+export { UserProfileSelectors };

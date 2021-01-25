@@ -1,2 +1,2 @@
-import * as UserActions from './user-profile.actions';
-export { UserActions };
+import * as UserProfileActions from './user-profile.actions';
+export { UserProfileActions };

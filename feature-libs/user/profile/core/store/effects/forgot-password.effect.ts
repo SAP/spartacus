@@ -8,18 +8,18 @@ import {
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map, switchMap } from 'rxjs/operators';
 import { UserProfileConnector } from '../../connectors/user-profile.connector';
-import { UserActions } from '../actions/index';
+import { UserProfileActions } from '../actions/index';
 
 @Injectable()
 export class ForgotPasswordEffects {
   @Effect()
   requestForgotPasswordEmail$: Observable<
-    | UserActions.ForgotPasswordEmailRequestSuccess
+    | UserProfileActions.ForgotPasswordEmailRequestSuccess
     | GlobalMessageActions.AddMessage
-    | UserActions.ForgotPasswordEmailRequestFail
+    | UserProfileActions.ForgotPasswordEmailRequestFail
   > = this.actions$.pipe(
-    ofType(UserActions.FORGOT_PASSWORD_EMAIL_REQUEST),
-    map((action: UserActions.ForgotPasswordEmailRequest) => {
+    ofType(UserProfileActions.FORGOT_PASSWORD_EMAIL_REQUEST),
+    map((action: UserProfileActions.ForgotPasswordEmailRequest) => {
       return action.payload;
     }),
     concatMap((userEmailAddress) => {
@@ -27,7 +27,7 @@ export class ForgotPasswordEffects {
         .requestForgotPasswordEmail(userEmailAddress)
         .pipe(
           switchMap(() => [
-            new UserActions.ForgotPasswordEmailRequestSuccess(),
+            new UserProfileActions.ForgotPasswordEmailRequestSuccess(),
             new GlobalMessageActions.AddMessage({
               text: { key: 'forgottenPassword.passwordResetEmailSent' },
               type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
@@ -35,7 +35,7 @@ export class ForgotPasswordEffects {
           ]),
           catchError((error) =>
             of(
-              new UserActions.ForgotPasswordEmailRequestFail(
+              new UserProfileActions.ForgotPasswordEmailRequestFail(
                 normalizeHttpError(error)
               )
             )

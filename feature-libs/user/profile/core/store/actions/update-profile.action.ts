@@ -9,11 +9,10 @@ export const RESET_USER_PROFILE = '[User] Reset User Details';
 
 export class UpdateUserProfile extends StateUtils.EntityLoadAction {
   readonly type = UPDATE_USER_PROFILE;
-  constructor(public payload: { username: string; userDetails: User }) {
+  constructor(public payload: { uid: string; details: User }) {
     super(PROCESS_FEATURE, UPDATE_USER_PROFILE_PROCESS_ID);
   }
 }
-
 export class UpdateUserProfileFail extends StateUtils.EntityFailAction {
   readonly type = UPDATE_USER_PROFILE_FAIL;
   constructor(public payload: any) {

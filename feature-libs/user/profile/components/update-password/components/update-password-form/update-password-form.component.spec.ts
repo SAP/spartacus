@@ -1,11 +1,15 @@
 import { DebugElement } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
-import * as testUtils from '../../../../../shared/utils/forms/form-test-utils';
+import { FormErrorsModule } from '@spartacus/storefront';
 import { UpdatePasswordFormComponent } from './update-password-form.component';
-import { FormErrorsModule } from '../../../../../shared/index';
+
+export function clickSubmit(fixture: ComponentFixture<any>) {
+  const submitBtn = fixture.debugElement.query(By.css('button[type="submit"]'));
+  submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
+}
 
 describe('UpdatePasswordFormComponent', () => {
   let component: UpdatePasswordFormComponent;
@@ -46,7 +50,7 @@ describe('UpdatePasswordFormComponent', () => {
     it('should be called when submit button is clicked', () => {
       spyOn(component, 'onSubmit').and.stub();
 
-      testUtils.clickSubmit(fixture);
+      clickSubmit(fixture);
 
       expect(component.onSubmit).toHaveBeenCalled();
     });

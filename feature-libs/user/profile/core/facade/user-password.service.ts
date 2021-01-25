@@ -4,22 +4,23 @@ import {
   ProcessSelectors,
   StateUtils,
   StateWithProcess,
-  UserIdService,
 } from '@spartacus/core';
 import { User } from '@spartacus/user/account/core';
 import { Observable } from 'rxjs';
-import { UserActions } from '../store/actions/index';
-import { UserSelectors } from '../store/selectors/index';
+import { tap } from 'rxjs/operators';
+import { UserProfileActions } from '../store/actions/index';
+import { UserProfileSelectors } from '../store/selectors/index';
 import {
   StateWithUserProfile,
   UPDATE_PASSWORD_PROCESS_ID,
 } from '../store/user-profile.state';
+import { UserProfileService } from './user-profile.service';
 
 @Injectable({ providedIn: 'root' })
 export class UserPasswordService {
   constructor(
     protected store: Store<StateWithUserProfile | StateWithProcess<User>>,
-    protected userIdService: UserIdService
+    protected userProfileService: UserProfileService
   ) {}
 
   /**
@@ -35,25 +36,26 @@ export class UserPasswordService {
     oldPassword: string,
     newPassword: string
   ): Observable<StateUtils.LoaderState<User>> {
-    this.userIdService
-      .takeUserId(true)
-      .subscribe((userId) =>
-        this.store.dispatch(
-          new UserActions.UpdatePassword({ userId, oldPassword, newPassword })
+    this.userProfileService
+      .getUser()
+      .pipe(
+        tap((user) =>
+          this.store.dispatch(
+            new UserProfileActions.UpdatePassword({
+              uid: user.uid,
+              oldPassword,
+              newPassword,
+            })
+          )
         )
-      );
+      )
+      .subscribe();
+
     return this.store.pipe(
       select(
         ProcessSelectors.getProcessStateFactory(UPDATE_PASSWORD_PROCESS_ID)
       )
     );
-  }
-
-  /*
-   * Request an email to reset a forgotten password.
-   */
-  requestForgotPasswordEmail(email: string): void {
-    this.store.dispatch(new UserActions.ForgotPasswordEmailRequest(email));
   }
 
   /**
@@ -63,13 +65,24 @@ export class UserPasswordService {
    * @param password
    */
   reset(token: string, password: string): void {
-    this.store.dispatch(new UserActions.ResetPassword({ token, password }));
+    this.store.dispatch(
+      new UserProfileActions.ResetPassword({ token, password })
+    );
+  }
+
+  /*
+   * Request an email to reset a forgotten password.
+   */
+  requestForgotPasswordEmail(email: string): void {
+    this.store.dispatch(
+      new UserProfileActions.ForgotPasswordEmailRequest(email)
+    );
   }
 
   /**
    * Return whether user's password is successfully reset
    */
   isPasswordReset(): Observable<boolean> {
-    return this.store.pipe(select(UserSelectors.getResetPassword));
+    return this.store.pipe(select(UserProfileSelectors.getResetPassword));
   }
 }

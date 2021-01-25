@@ -1,69 +1,77 @@
+import * as AngularCore from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-import { UserActions, UserAdapter, UserConnector } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import * as fromEffect from './update-email.effect';
+import { UserProfileAdapter } from '../../connectors/user-profile.adapter';
+import { UserProfileConnector } from '../../connectors/user-profile.connector';
+import { UserProfileActions } from '../actions/index';
+import * as fromEffects from './update-password.effect';
 
-describe('Update Email Effect', () => {
-  let updateEmailEffect: fromEffect.UpdateEmailEffects;
-  let userService: UserConnector;
+describe('Update Password Effect', () => {
+  let updatePasswordEffect: fromEffects.UpdatePasswordEffects;
+  let userService: UserProfileConnector;
   let actions$: Observable<Action>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        fromEffect.UpdateEmailEffects,
-        { provide: UserAdapter, useValue: {} },
+        fromEffects.UpdatePasswordEffects,
+        { provide: UserProfileAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
-    updateEmailEffect = TestBed.inject(fromEffect.UpdateEmailEffects);
-    userService = TestBed.inject(UserConnector);
+    updatePasswordEffect = TestBed.inject(fromEffects.UpdatePasswordEffects);
+    userService = TestBed.inject(UserProfileConnector);
+
+    // avoid warnings because of incorrect error
+    spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
   });
 
-  describe('updateEmail$', () => {
-    it('should return UpdateEmailSuccess action', () => {
-      spyOn(userService, 'updateEmail').and.returnValue(of({}));
+  describe('updatePassword$', () => {
+    it('should return UpdatePasswordSuccess action', () => {
+      spyOn(userService, 'updatePassword').and.returnValue(of({}));
 
-      const uid = 'test@test.com';
-      const password = 'Qwe123!';
-      const newUid = 'tester@sap.com';
+      const userId = 'user@email.com';
+      const oldPassword = 'oldPwd123';
+      const newPassword = 'newPwd345';
 
-      const action = new UserActions.UpdateEmailAction({
-        uid,
-        password,
-        newUid,
+      const action = new UserProfileActions.UpdatePassword({
+        uid: userId,
+        oldPassword,
+        newPassword,
       });
-      const completion = new UserActions.UpdateEmailSuccessAction(newUid);
+      const completion = new UserProfileActions.UpdatePasswordSuccess();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
-      expect(updateEmailEffect.updateEmail$).toBeObservable(expected);
+      expect(updatePasswordEffect.updatePassword$).toBeObservable(expected);
     });
 
-    it('should return UpdateEmailFail action', () => {
-      const error = 'error';
-      spyOn(userService, 'updateEmail').and.returnValue(throwError(error));
+    it('should return UpdatePasswordFail action', () => {
+      const mockError = 'error';
+      spyOn(userService, 'updatePassword').and.returnValue(
+        throwError(mockError)
+      );
 
-      const uid = 'test@test.com';
-      const password = 'Qwe123!';
-      const newUid = 'tester@sap.com';
+      const userId = 'user@email.com';
+      const oldPassword = 'oldPwd123';
+      const newPassword = 'newPwd345';
 
-      const action = new UserActions.UpdateEmailAction({
-        uid,
-        password,
-        newUid,
+      const action = new UserProfileActions.UpdatePassword({
+        uid: userId,
+        oldPassword,
+        newPassword,
       });
-      const completion = new UserActions.UpdateEmailErrorAction(undefined);
+      const completion = new UserProfileActions.UpdatePasswordFail(undefined);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
-      expect(updateEmailEffect.updateEmail$).toBeObservable(expected);
+      expect(updatePasswordEffect.updatePassword$).toBeObservable(expected);
     });
   });
 });

@@ -4,29 +4,35 @@ import { normalizeHttpError } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
 import { UserProfileConnector } from '../../connectors/user-profile.connector';
-import { UserActions } from '../actions/index';
+import { UserProfileActions } from '../actions/index';
 
 @Injectable()
 export class UpdateEmailEffects {
   constructor(
     private actions$: Actions,
-    private userAccountConnector: UserProfileConnector
+    private userProfileConnector: UserProfileConnector
   ) {}
 
   @Effect()
   updateEmail$: Observable<
-    UserActions.UpdateEmailSuccessAction | UserActions.UpdateEmailErrorAction
+    | UserProfileActions.UpdateEmailSuccessAction
+    | UserProfileActions.UpdateEmailErrorAction
   > = this.actions$.pipe(
-    ofType(UserActions.UPDATE_EMAIL),
-    map((action: UserActions.UpdateEmailAction) => action.payload),
+    ofType(UserProfileActions.UPDATE_EMAIL),
+    map((action: UserProfileActions.UpdateEmailAction) => action.payload),
     concatMap((payload) =>
-      this.userAccountConnector
+      this.userProfileConnector
         .updateEmail(payload.uid, payload.password, payload.newUid)
         .pipe(
-          map(() => new UserActions.UpdateEmailSuccessAction(payload.newUid)),
+          map(
+            () =>
+              new UserProfileActions.UpdateEmailSuccessAction(payload.newUid)
+          ),
           catchError((error) =>
             of(
-              new UserActions.UpdateEmailErrorAction(normalizeHttpError(error))
+              new UserProfileActions.UpdateEmailErrorAction(
+                normalizeHttpError(error)
+              )
             )
           )
         )

@@ -39,13 +39,6 @@ describe('UserConnector', () => {
     expect(service).toBeTruthy();
   });
 
-  it('get should call adapter', () => {
-    let result;
-    service.get('user-id').subscribe((res) => (result = res));
-    expect(result).toEqual('load-user-id');
-    expect(adapter.load).toHaveBeenCalledWith('user-id');
-  });
-
   it('update should call adapter', () => {
     let result;
     service.update('user-id', {}).subscribe((res) => (result = res));

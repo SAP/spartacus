@@ -2,8 +2,8 @@ import {
   PROCESS_FEATURE,
   StateUtils,
   UPDATE_EMAIL_PROCESS_ID,
-  UserActions,
 } from '@spartacus/core';
+import { UserProfileActions } from '.';
 
 describe('Update Email Actions', () => {
   describe('UpdateEmailAction', () => {
@@ -12,14 +12,14 @@ describe('Update Email Actions', () => {
       const password = 'Qwe123!';
       const newUid = 'tester@sap.com';
 
-      const action = new UserActions.UpdateEmailAction({
+      const action = new UserProfileActions.UpdateEmailAction({
         uid,
         password,
         newUid,
       });
 
       expect({ ...action }).toEqual({
-        type: UserActions.UPDATE_EMAIL,
+        type: UserProfileActions.UPDATE_EMAIL,
         payload: { uid, password, newUid },
         meta: StateUtils.entityLoadMeta(
           PROCESS_FEATURE,
@@ -32,10 +32,10 @@ describe('Update Email Actions', () => {
   describe('UpdateEmailSuccessAction', () => {
     it('should create the action', () => {
       const newUid = 'tester@sap.com';
-      const action = new UserActions.UpdateEmailSuccessAction(newUid);
+      const action = new UserProfileActions.UpdateEmailSuccessAction(newUid);
 
       expect({ ...action }).toEqual({
-        type: UserActions.UPDATE_EMAIL_SUCCESS,
+        type: UserProfileActions.UPDATE_EMAIL_SUCCESS,
         newUid,
         meta: StateUtils.entitySuccessMeta(
           PROCESS_FEATURE,
@@ -50,10 +50,10 @@ describe('Update Email Actions', () => {
     it('should create the action', () => {
       const error = 'error';
 
-      const action = new UserActions.UpdateEmailErrorAction(error);
+      const action = new UserProfileActions.UpdateEmailErrorAction(error);
 
       expect({ ...action }).toEqual({
-        type: UserActions.UPDATE_EMAIL_ERROR,
+        type: UserProfileActions.UPDATE_EMAIL_ERROR,
         payload: error,
         meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
@@ -66,10 +66,10 @@ describe('Update Email Actions', () => {
 
   describe('ResetEmailAction', () => {
     it('should create the action', () => {
-      const action = new UserActions.ResetUpdateEmailAction();
+      const action = new UserProfileActions.ResetUpdateEmailAction();
 
       expect({ ...action }).toEqual({
-        type: UserActions.RESET_EMAIL,
+        type: UserProfileActions.RESET_EMAIL,
         meta: StateUtils.entityResetMeta(
           PROCESS_FEATURE,
           UPDATE_EMAIL_PROCESS_ID

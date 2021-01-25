@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   AuthService,
   GlobalMessageService,
@@ -7,9 +7,8 @@ import {
   RoutingService,
   UserService,
 } from '@spartacus/core';
+import { ICON_TYPE, ModalService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { ICON_TYPE } from '../../../../../cms-components/misc/index';
-import { ModalService } from '../../../../../shared/components/modal/index';
 import { CloseAccountModalComponent } from './close-account-modal.component';
 import createSpy = jasmine.createSpy;
 

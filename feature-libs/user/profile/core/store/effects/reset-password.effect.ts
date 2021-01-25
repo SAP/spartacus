@@ -8,22 +8,22 @@ import {
 import { from, Observable } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { UserProfileConnector } from '../../connectors/user-profile.connector';
-import { UserActions } from '../actions/index';
+import { UserProfileActions } from '../actions/index';
 
 @Injectable()
 export class ResetPasswordEffects {
   @Effect()
   resetPassword$: Observable<
-    | UserActions.ResetPasswordSuccess
+    | UserProfileActions.ResetPasswordSuccess
     | GlobalMessageActions.AddMessage
-    | UserActions.ResetPasswordFail
+    | UserProfileActions.ResetPasswordFail
   > = this.actions$.pipe(
-    ofType(UserActions.RESET_PASSWORD),
-    map((action: UserActions.ResetPassword) => action.payload),
+    ofType(UserProfileActions.RESET_PASSWORD),
+    map((action: UserProfileActions.ResetPassword) => action.payload),
     switchMap(({ token, password }) => {
       return this.userAccountConnector.resetPassword(token, password).pipe(
         switchMap(() => [
-          new UserActions.ResetPasswordSuccess(),
+          new UserProfileActions.ResetPasswordSuccess(),
           new GlobalMessageActions.AddMessage({
             text: { key: 'forgottenPassword.passwordResetSuccess' },
             type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
@@ -31,8 +31,11 @@ export class ResetPasswordEffects {
         ]),
         catchError((error) => {
           const actions: Array<
-            UserActions.ResetPasswordFail | GlobalMessageActions.AddMessage
-          > = [new UserActions.ResetPasswordFail(normalizeHttpError(error))];
+            | UserProfileActions.ResetPasswordFail
+            | GlobalMessageActions.AddMessage
+          > = [
+            new UserProfileActions.ResetPasswordFail(normalizeHttpError(error)),
+          ];
           if (error?.error?.errors) {
             error.error.errors.forEach((err) => {
               if (err.message) {

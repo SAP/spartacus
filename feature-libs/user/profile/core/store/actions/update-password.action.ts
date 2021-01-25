@@ -10,7 +10,7 @@ export const UPDATE_PASSWORD_RESET =
 export class UpdatePassword extends StateUtils.EntityLoadAction {
   readonly type = UPDATE_PASSWORD;
   constructor(
-    public payload: { userId: string; oldPassword: string; newPassword: string }
+    public payload: { uid: string; oldPassword: string; newPassword: string }
   ) {
     super(PROCESS_FEATURE, UPDATE_PASSWORD_PROCESS_ID);
   }

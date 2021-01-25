@@ -10,9 +10,9 @@ import {
   OAuthFlow,
   RoutingConfig,
 } from '@spartacus/core';
+import { CmsPageGuard } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { LoginGuard } from './login.guard';
 
 class MockAuthService implements Partial<AuthService> {

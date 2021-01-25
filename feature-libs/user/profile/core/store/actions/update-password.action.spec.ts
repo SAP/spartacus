@@ -1,22 +1,22 @@
 import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
-import { UPDATE_PASSWORD_PROCESS_ID } from '../user.state';
-import { UserActions } from './index';
+import { UPDATE_PASSWORD_PROCESS_ID } from '../user-profile.state';
+import { UserProfileActions } from './index';
 
 describe('Update Password Actions', () => {
   describe('UpdatePassword Action', () => {
     it('should create the action', () => {
-      const userId = 'user@email.com';
+      const uid = 'user@email.com';
       const oldPassword = 'oldPass123';
       const newPassword = 'newPass456';
-      const action = new UserActions.UpdatePassword({
-        userId,
+      const action = new UserProfileActions.UpdatePassword({
+        uid,
         oldPassword,
         newPassword,
       });
 
       expect({ ...action }).toEqual({
-        type: UserActions.UPDATE_PASSWORD,
-        payload: { userId, oldPassword, newPassword },
+        type: UserProfileActions.UPDATE_PASSWORD,
+        payload: { uid, oldPassword, newPassword },
         meta: StateUtils.entityLoadMeta(
           PROCESS_FEATURE,
           UPDATE_PASSWORD_PROCESS_ID
@@ -28,10 +28,10 @@ describe('Update Password Actions', () => {
   describe('UpdatePasswordFail Action', () => {
     it('should create the action', () => {
       const error = 'error';
-      const action = new UserActions.UpdatePasswordFail(error);
+      const action = new UserProfileActions.UpdatePasswordFail(error);
 
       expect({ ...action }).toEqual({
-        type: UserActions.UPDATE_PASSWORD_FAIL,
+        type: UserProfileActions.UPDATE_PASSWORD_FAIL,
         payload: error,
         meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
@@ -44,10 +44,10 @@ describe('Update Password Actions', () => {
 
   describe('UpdatePasswordSuccess Action', () => {
     it('should create the action', () => {
-      const action = new UserActions.UpdatePasswordSuccess();
+      const action = new UserProfileActions.UpdatePasswordSuccess();
 
       expect({ ...action }).toEqual({
-        type: UserActions.UPDATE_PASSWORD_SUCCESS,
+        type: UserProfileActions.UPDATE_PASSWORD_SUCCESS,
         meta: StateUtils.entitySuccessMeta(
           PROCESS_FEATURE,
           UPDATE_PASSWORD_PROCESS_ID
@@ -59,10 +59,10 @@ describe('Update Password Actions', () => {
 
   describe('UpdatePasswordReset Action', () => {
     it('should create the action', () => {
-      const action = new UserActions.UpdatePasswordReset();
+      const action = new UserProfileActions.UpdatePasswordReset();
 
       expect({ ...action }).toEqual({
-        type: UserActions.UPDATE_PASSWORD_RESET,
+        type: UserProfileActions.UPDATE_PASSWORD_RESET,
         meta: StateUtils.entityResetMeta(
           PROCESS_FEATURE,
           UPDATE_PASSWORD_PROCESS_ID

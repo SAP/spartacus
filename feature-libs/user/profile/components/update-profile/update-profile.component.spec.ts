@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NavigationExtras } from '@angular/router';
 import {
@@ -13,12 +13,13 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
+  StateUtils,
   Title,
   UrlCommands,
   User,
-  UserService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { UserProfileService } from '../../core/facade/user-profile.service';
 import { UpdateProfileComponent } from './update-profile.component';
 
 @Component({
@@ -41,8 +42,8 @@ class MockUpdateProfileFormComponent {
 })
 class MockCxSpinnerComponent {}
 
-class UserServiceMock {
-  get(): Observable<User> {
+class MockUserProfileService implements Partial<UserProfileService> {
+  getUser(): Observable<User> {
     return of();
   }
 
@@ -50,18 +51,12 @@ class UserServiceMock {
     return of();
   }
 
-  loadTitles(): void {}
-
-  updatePersonalDetails(): void {}
-
-  resetUpdatePersonalDetailsProcessingState(): void {}
-
-  getUpdatePersonalDetailsResultLoading(): Observable<boolean> {
-    return of(true);
+  update(): Observable<StateUtils.LoaderState<User>> {
+    return of();
   }
 
-  getUpdatePersonalDetailsResultSuccess(): Observable<boolean> {
-    return of();
+  close(): Observable<StateUtils.LoaderState<User>> {
+    return;
   }
 }
 class RoutingServiceMock {
@@ -81,7 +76,7 @@ describe('UpdateProfileComponent', () => {
   let fixture: ComponentFixture<UpdateProfileComponent>;
   let el: DebugElement;
 
-  let userService: UserService;
+  let userProfileService: UserProfileService;
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
 
@@ -95,8 +90,8 @@ describe('UpdateProfileComponent', () => {
         ],
         providers: [
           {
-            provide: UserService,
-            useClass: UserServiceMock,
+            provide: UserProfileService,
+            useClass: MockUserProfileService,
           },
           {
             provide: RoutingService,
@@ -116,7 +111,7 @@ describe('UpdateProfileComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    userService = TestBed.inject(UserService);
+    userProfileService = TestBed.inject(UserProfileService);
     routingService = TestBed.inject(RoutingService);
     globalMessageService = TestBed.inject(GlobalMessageService);
 
@@ -127,24 +122,27 @@ describe('UpdateProfileComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should reset the loading state when the component is initialized', () => {
-    spyOn(userService, 'resetUpdatePersonalDetailsProcessingState').and.stub();
+  // it('should show the spinner when updating', () => {
+  //   spyOn(userService, 'getUpdatePersonalDetailsResultLoading').and.returnValue(
+  //     of(true)
+  //   );
+  //   component.ngOnInit();
+  //   fixture.detectChanges();
+  //   expect(el.query(By.css('cx-spinner'))).toBeTruthy();
+  // });
 
-    component.ngOnInit();
-    expect(
-      userService.resetUpdatePersonalDetailsProcessingState
-    ).toHaveBeenCalled();
+  it('should show spinner when loading = true', () => {
+    spyOn(userProfileService, 'update').and.returnValue(of({ loading: true }));
+    component.onSubmit({ userUpdates: { uid: 'what' } });
+    fixture.detectChanges();
+    expect(el.query(By.css('cx-spinner'))).toBeTruthy();
   });
 
-  it('should show the spinner when updating', () => {
-    spyOn(userService, 'getUpdatePersonalDetailsResultLoading').and.returnValue(
-      of(true)
-    );
-
-    component.ngOnInit();
+  it('should not show spinner when loading = false', () => {
+    spyOn(userProfileService, 'update').and.returnValue(of({ loading: false }));
+    component.onSubmit({ userUpdates: { uid: 'what' } });
     fixture.detectChanges();
-
-    expect(el.query(By.css('cx-spinner'))).toBeTruthy();
+    expect(el.query(By.css('cx-spinner'))).toBeFalsy();
   });
 
   it('should navigate to home when cancelled', () => {
@@ -155,25 +153,12 @@ describe('UpdateProfileComponent', () => {
   });
 
   it('should call updatePersonalDetails on submit', () => {
-    spyOn(userService, 'updatePersonalDetails').and.stub();
-
+    spyOn(userProfileService, 'update').and.callThrough();
     const userUpdates: User = {
       firstName: 'X',
     };
-
     component.onSubmit({ userUpdates });
-    expect(userService.updatePersonalDetails).toHaveBeenCalledWith(userUpdates);
-  });
-
-  it('should call the internal onSuccess() method when the user was successfully updated', () => {
-    spyOn(component, 'onSuccess').and.stub();
-    spyOn(userService, 'getUpdatePersonalDetailsResultSuccess').and.returnValue(
-      of(true)
-    );
-
-    component.ngOnInit();
-
-    expect(component.onSuccess).toHaveBeenCalled();
+    expect(userProfileService.update).toHaveBeenCalledWith(userUpdates);
   });
 
   describe('onSuccess', () => {

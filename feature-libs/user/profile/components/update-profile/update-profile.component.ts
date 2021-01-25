@@ -7,7 +7,8 @@ import {
 } from '@spartacus/core';
 import { User } from '@spartacus/user/account/core';
 import { UserProfileService } from '@spartacus/user/profile/core';
-import { Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-update-profile',
@@ -18,7 +19,7 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
 
   titles$: Observable<Title[]>;
   user$: Observable<User>;
-  loading$: Observable<boolean>;
+  isLoading$ = new BehaviorSubject(false);
 
   constructor(
     private routingService: RoutingService,
@@ -27,18 +28,8 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // reset the previous form processing state
-    this.userProfileService.updateProfileCallState.clear();
-
-    this.user$ = this.userProfileService.get();
+    this.user$ = this.userProfileService.getUser();
     this.titles$ = this.userProfileService.getTitles();
-    this.loading$ = this.userProfileService.updateProfileCallState.isLoading();
-
-    this.subscription.add(
-      this.userProfileService.updateProfileCallState
-        .isLoaded()
-        .subscribe((success) => this.onSuccess(success))
-    );
   }
 
   onSuccess(success: boolean): void {
@@ -56,11 +47,20 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
   }
 
   onSubmit({ userUpdates }: { userUpdates: User }): void {
-    this.userProfileService.update(userUpdates);
+    this.subscription.add(
+      this.userProfileService
+        .update(userUpdates)
+        .pipe(
+          tap((state) => {
+            this.isLoading$.next(state.loading);
+            this.onSuccess(state.success);
+          })
+        )
+        .subscribe()
+    );
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    this.userProfileService.updateProfileCallState.clear();
   }
 }

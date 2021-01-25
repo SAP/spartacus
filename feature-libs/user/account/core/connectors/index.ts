@@ -1,3 +1,3 @@
-export * from './user.connector';
-export * from './user.adapter';
 export * from './converters';
+export * from './user-account.adapter';
+export * from './user-account.connector';

@@ -49,7 +49,6 @@ export class UpdatePasswordComponent implements OnDestroy {
         .update(oldPassword, newPassword)
         .pipe(
           tap((state) => {
-            console.log(state);
             this.isLoading$.next(state.loading);
             this.onSuccess(state.success);
           })

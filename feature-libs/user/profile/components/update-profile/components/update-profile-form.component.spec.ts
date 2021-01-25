@@ -1,10 +1,10 @@
 import { DebugElement } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, User } from '@spartacus/core';
+import { FormErrorsModule } from '@spartacus/storefront';
 import { UpdateProfileFormComponent } from './update-profile-form.component';
-import { FormErrorsModule } from '../../../../shared/index';
 
 const mockUser: User = {
   titleCode: 'dr',

@@ -5,21 +5,21 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { UserProfileConnector } from '../../connectors/user-profile.connector';
 import { UserSignUp } from '../../model/user-profile.model';
-import { UserActions } from '../actions/index';
+import { UserProfileActions } from '../actions/index';
 
 @Injectable()
 export class UserRegisterEffects {
   @Effect()
   registerUser$: Observable<
-    UserActions.UserRegisterOrRemoveAction
+    UserProfileActions.UserRegisterOrRemoveAction
   > = this.actions$.pipe(
-    ofType(UserActions.REGISTER_USER),
-    map((action: UserActions.RegisterUser) => action.payload),
+    ofType(UserProfileActions.REGISTER_USER),
+    map((action: UserProfileActions.RegisterUser) => action.payload),
     mergeMap((user: UserSignUp) =>
       this.userConnector.register(user).pipe(
-        map(() => new UserActions.RegisterUserSuccess()),
+        map(() => new UserProfileActions.RegisterUserSuccess()),
         catchError((error) =>
-          of(new UserActions.RegisterUserFail(normalizeHttpError(error)))
+          of(new UserProfileActions.RegisterUserFail(normalizeHttpError(error)))
         )
       )
     )
@@ -27,18 +27,20 @@ export class UserRegisterEffects {
 
   @Effect()
   registerGuest$: Observable<
-    UserActions.UserRegisterOrRemoveAction
+    UserProfileActions.UserRegisterOrRemoveAction
   > = this.actions$.pipe(
-    ofType(UserActions.REGISTER_GUEST),
-    map((action: UserActions.RegisterGuest) => action.payload),
+    ofType(UserProfileActions.REGISTER_GUEST),
+    map((action: UserProfileActions.RegisterGuest) => action.payload),
     mergeMap(({ guid, password }) =>
       this.userConnector.registerGuest(guid, password).pipe(
         switchMap((user) => {
           this.authService.loginWithCredentials(user.uid, password);
-          return [new UserActions.RegisterGuestSuccess()];
+          return [new UserProfileActions.RegisterGuestSuccess()];
         }),
         catchError((error) =>
-          of(new UserActions.RegisterGuestFail(normalizeHttpError(error)))
+          of(
+            new UserProfileActions.RegisterGuestFail(normalizeHttpError(error))
+          )
         )
       )
     )
@@ -46,18 +48,18 @@ export class UserRegisterEffects {
 
   @Effect()
   removeUser$: Observable<
-    UserActions.UserRegisterOrRemoveAction
+    UserProfileActions.UserRegisterOrRemoveAction
   > = this.actions$.pipe(
-    ofType(UserActions.REMOVE_USER),
-    map((action: UserActions.RemoveUser) => action.payload),
+    ofType(UserProfileActions.REMOVE_USER),
+    map((action: UserProfileActions.RemoveUser) => action.payload),
     mergeMap((userId: string) => {
       return this.userConnector.remove(userId).pipe(
         switchMap(() => {
           this.authService.logout();
-          return [new UserActions.RemoveUserSuccess()];
+          return [new UserProfileActions.RemoveUserSuccess()];
         }),
         catchError((error) =>
-          of(new UserActions.RemoveUserFail(normalizeHttpError(error)))
+          of(new UserProfileActions.RemoveUserFail(normalizeHttpError(error)))
         )
       );
     })

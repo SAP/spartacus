@@ -3,20 +3,17 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  I18nTestingModule,
-  RoutingService,
-  UserService,
-} from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
+import { UserPasswordService } from '@spartacus/user/profile/core';
 import { of } from 'rxjs';
 import { ResetPasswordFormComponent } from './reset-password-form.component';
 
-class MockUserService {
+class MockUserPasswordService {
+  reset() {}
   isPasswordReset() {
     return of();
   }
-  resetPassword() {}
 }
 
 const router = {
@@ -36,7 +33,7 @@ describe('ResetPasswordFormComponent', () => {
   let component: ResetPasswordFormComponent;
   let fixture: ComponentFixture<ResetPasswordFormComponent>;
 
-  let userService: UserService;
+  let userPasswordService: UserPasswordService;
   let routingService: RoutingService;
 
   let form: DebugElement;
@@ -56,7 +53,7 @@ describe('ResetPasswordFormComponent', () => {
         ],
         declarations: [ResetPasswordFormComponent],
         providers: [
-          { provide: UserService, useClass: MockUserService },
+          { provide: UserPasswordService, useClass: MockUserPasswordService },
           { provide: RoutingService, useClass: MockRoutingService },
         ],
       }).compileComponents();
@@ -71,7 +68,7 @@ describe('ResetPasswordFormComponent', () => {
     password = component.resetPasswordForm.controls['password'];
     rePassword = component.resetPasswordForm.controls['repassword'];
 
-    userService = TestBed.inject(UserService);
+    userPasswordService = TestBed.inject(UserPasswordService);
     routingService = TestBed.inject(RoutingService);
   });
 
@@ -99,14 +96,14 @@ describe('ResetPasswordFormComponent', () => {
   });
 
   it('should resetPassword on submit when form is valid', () => {
-    spyOn(userService, 'resetPassword');
+    spyOn(userPasswordService, 'reset');
 
     password.setValue(validPassword);
     rePassword.setValue(validPassword);
     fixture.detectChanges();
     form.triggerEventHandler('submit', null);
 
-    expect(userService.resetPassword).toHaveBeenCalledWith(
+    expect(userPasswordService.reset).toHaveBeenCalledWith(
       'test token',
       validPassword
     );
@@ -114,7 +111,7 @@ describe('ResetPasswordFormComponent', () => {
 
   it('should go to login page when password reset successfully', () => {
     spyOn(routingService, 'go').and.stub();
-    spyOn(userService, 'isPasswordReset').and.returnValue(of(true));
+    spyOn(userPasswordService, 'isPasswordReset').and.returnValue(of(true));
     component.ngOnInit();
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
   });

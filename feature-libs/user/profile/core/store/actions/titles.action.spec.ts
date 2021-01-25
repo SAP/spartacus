@@ -1,11 +1,11 @@
-import { UserActions } from './index';
+import { UserProfileActions } from './index';
 
 describe('Titles Actions', () => {
   describe('LoadTitles', () => {
     it('should create the action', () => {
-      const action = new UserActions.LoadTitles();
+      const action = new UserProfileActions.LoadTitles();
       expect({ ...action }).toEqual({
-        type: UserActions.LOAD_TITLES,
+        type: UserProfileActions.LOAD_TITLES,
       });
     });
   });
@@ -13,10 +13,10 @@ describe('Titles Actions', () => {
   describe('LoadTitlesFail', () => {
     it('should create the action', () => {
       const error = 'anError';
-      const action = new UserActions.LoadTitlesFail(error);
+      const action = new UserProfileActions.LoadTitlesFail(error);
 
       expect({ ...action }).toEqual({
-        type: UserActions.LOAD_TITLES_FAIL,
+        type: UserProfileActions.LOAD_TITLES_FAIL,
         payload: error,
       });
     });
@@ -34,9 +34,9 @@ describe('Titles Actions', () => {
           name: 'Mrs.',
         },
       ];
-      const action = new UserActions.LoadTitlesSuccess(titles);
+      const action = new UserProfileActions.LoadTitlesSuccess(titles);
       expect({ ...action }).toEqual({
-        type: UserActions.LOAD_TITLES_SUCCESS,
+        type: UserProfileActions.LOAD_TITLES_SUCCESS,
         payload: titles,
       });
     });

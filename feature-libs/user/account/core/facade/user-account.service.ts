@@ -6,9 +6,8 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { User } from '../model/user.model';
-import { UserAccountAction } from '../store/actions/index';
 import { UserAccountSelectors } from '../store/selectors/index';
 import { StateWithUser } from '../store/user-account.state';
 
@@ -22,27 +21,28 @@ export class UserAccountService {
   /**
    * Returns the current user.
    *
-   * Loads the user if it's not yet loaded.
+   * If there's no user logged in (i.e. anonymous session), an error is thrown.
    */
-  get(): Observable<User> {
-    return this.store.pipe(
-      select(UserAccountSelectors.getDetails),
-      tap((details) => {
-        if (Object.keys(details).length === 0) {
-          this.load();
+  getUser(): Observable<User> {
+    return this.store.pipe(select(UserAccountSelectors.getDetails)).pipe(
+      take(1),
+      map((user) => {
+        if (user.uid === OCC_USER_ID_ANONYMOUS) {
+          throw new Error('User is not logged in.');
         }
+        return user;
       })
     );
   }
 
-  /**
-   * Loads the user's details.
-   */
-  protected load(): void {
-    this.userIdService.invokeWithUserId((userId) => {
-      if (userId !== OCC_USER_ID_ANONYMOUS) {
-        this.store.dispatch(new UserAccountAction.LoadUserAccount(userId));
-      }
-    });
-  }
+  // /**
+  //  * Loads the user's details.
+  //  */
+  // protected load(): void {
+  //   this.userIdService.invokeWithUserId((userId) => {
+  //     if (userId !== OCC_USER_ID_ANONYMOUS) {
+  //       this.store.dispatch(new UserAccountActions.LoadUserAccount(userId));
+  //     }
+  //   });
+  // }
 }

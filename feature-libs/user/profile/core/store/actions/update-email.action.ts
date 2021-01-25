@@ -1,8 +1,5 @@
-import {
-  PROCESS_FEATURE,
-  StateUtils,
-  UPDATE_EMAIL_PROCESS_ID,
-} from '@spartacus/core';
+import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
+import { UPDATE_EMAIL_PROCESS_ID } from '../user-profile.state';
 
 export const UPDATE_EMAIL = '[User] Update Email';
 export const UPDATE_EMAIL_ERROR = '[User] Update Email Error';

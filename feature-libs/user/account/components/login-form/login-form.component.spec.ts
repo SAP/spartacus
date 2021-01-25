@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -10,8 +10,8 @@ import {
   I18nTestingModule,
   WindowRef,
 } from '@spartacus/core';
+import { FormErrorsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { FormErrorsModule } from '../../../shared/index';
 import { LoginFormComponent } from './login-form.component';
 import createSpy = jasmine.createSpy;
 

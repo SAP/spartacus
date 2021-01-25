@@ -4,37 +4,45 @@ import {
   ProcessSelectors,
   StateUtils,
   StateWithProcess,
-  UserActions,
-  UserIdService,
 } from '@spartacus/core';
 import { User } from '@spartacus/user/account/core';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { UserProfileActions } from '../store/actions/index';
 import { UPDATE_EMAIL_PROCESS_ID } from '../store/user-profile.state';
-
+import { UserProfileService } from './user-profile.service';
 @Injectable({ providedIn: 'root' })
 export class UserEmailService {
   constructor(
     protected store: Store<StateWithProcess<User>>,
-    protected userIdService: UserIdService
+    protected userProfileService: UserProfileService
   ) {}
 
   /**
    * Updates the user's email.
    *
-   * The method returns an observable with `LoaderState` information, including the
-   * actual user data.
+   * @param password to users password to confirm the users
+   * @param newUid the new proposed email address.
    */
   update(
     password: string,
     newUid: string
   ): Observable<StateUtils.LoaderState<User>> {
-    this.userIdService
-      .takeUserId(true)
-      .subscribe((uid) =>
-        this.store.dispatch(
-          new UserActions.UpdateEmailAction({ uid, password, newUid })
+    this.userProfileService
+      .getUser()
+      .pipe(
+        tap((user) =>
+          this.store.dispatch(
+            new UserProfileActions.UpdateEmailAction({
+              uid: user.uid,
+              password,
+              newUid,
+            })
+          )
         )
-      );
+      )
+      .subscribe();
+
     return this.store.pipe(
       select(ProcessSelectors.getProcessStateFactory(UPDATE_EMAIL_PROCESS_ID))
     );

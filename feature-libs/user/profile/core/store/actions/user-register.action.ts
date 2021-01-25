@@ -2,8 +2,8 @@ import { Action } from '@ngrx/store';
 import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import { UserSignUp } from '../../model/user-profile.model';
 import {
+  CLOSE_USER_PROCESS_ID,
   REGISTER_USER_PROCESS_ID,
-  REMOVE_USER_PROCESS_ID,
 } from '../user-profile.state';
 
 export const REGISTER_USER = '[User] Register User';
@@ -65,28 +65,28 @@ export class RegisterGuestSuccess implements Action {
 export class RemoveUser extends StateUtils.EntityLoadAction {
   readonly type = REMOVE_USER;
   constructor(public payload: string) {
-    super(PROCESS_FEATURE, REMOVE_USER_PROCESS_ID);
+    super(PROCESS_FEATURE, CLOSE_USER_PROCESS_ID);
   }
 }
 
 export class RemoveUserFail extends StateUtils.EntityFailAction {
   readonly type = REMOVE_USER_FAIL;
   constructor(public payload: any) {
-    super(PROCESS_FEATURE, REMOVE_USER_PROCESS_ID, payload);
+    super(PROCESS_FEATURE, CLOSE_USER_PROCESS_ID, payload);
   }
 }
 
 export class RemoveUserSuccess extends StateUtils.EntitySuccessAction {
   readonly type = REMOVE_USER_SUCCESS;
   constructor() {
-    super(PROCESS_FEATURE, REMOVE_USER_PROCESS_ID);
+    super(PROCESS_FEATURE, CLOSE_USER_PROCESS_ID);
   }
 }
 
 export class RemoveUserReset extends StateUtils.EntityLoaderResetAction {
   readonly type = REMOVE_USER_RESET;
   constructor() {
-    super(PROCESS_FEATURE, REMOVE_USER_PROCESS_ID);
+    super(PROCESS_FEATURE, CLOSE_USER_PROCESS_ID);
   }
 }
 

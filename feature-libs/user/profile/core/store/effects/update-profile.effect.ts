@@ -4,7 +4,7 @@ import { normalizeHttpError } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
 import { UserProfileConnector } from '../../connectors/user-profile.connector';
-import { UserActions as UserProfileActions } from '../actions/index';
+import { UserProfileActions } from '../actions/index';
 
 @Injectable()
 export class UpdateProfileEffects {
@@ -16,23 +16,18 @@ export class UpdateProfileEffects {
     ofType(UserProfileActions.UPDATE_USER_PROFILE),
     map((action: UserProfileActions.UpdateUserProfile) => action.payload),
     concatMap((payload) =>
-      this.userProfileConnector
-        .update(payload.username, payload.userDetails)
-        .pipe(
-          map(
-            () =>
-              new UserProfileActions.UpdateUserProfileSuccess(
-                payload.userDetails
-              )
-          ),
-          catchError((error) =>
-            of(
-              new UserProfileActions.UpdateUserProfileFail(
-                normalizeHttpError(error)
-              )
+      this.userProfileConnector.update(payload.uid, payload.details).pipe(
+        map(
+          () => new UserProfileActions.UpdateUserProfileSuccess(payload.details)
+        ),
+        catchError((error) =>
+          of(
+            new UserProfileActions.UpdateUserProfileFail(
+              normalizeHttpError(error)
             )
           )
         )
+      )
     )
   );
 

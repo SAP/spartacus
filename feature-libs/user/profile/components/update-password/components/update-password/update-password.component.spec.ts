@@ -1,5 +1,5 @@
 import { Component, DebugElement, Output } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NavigationExtras } from '@angular/router';
@@ -9,24 +9,17 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
+  StateUtils,
   UrlCommands,
   User,
-  UserService,
 } from '@spartacus/core';
+import { UserPasswordService } from '@spartacus/user/profile/core';
 import { Observable, of } from 'rxjs';
 import { UpdatePasswordComponent } from './update-password.component';
 
-class MockUserService {
-  get(): Observable<User> {
-    return of();
-  }
-  updatePassword(): void {}
-  resetUpdatePasswordProcessState(): void {}
-  getUpdatePasswordResultLoading(): Observable<boolean> {
-    return of(true);
-  }
-  getUpdatePasswordResultSuccess(): Observable<boolean> {
-    return of();
+class MockUserPasswordService {
+  update(): Observable<StateUtils.LoaderState<User>> {
+    return of({});
   }
 }
 class MockRoutingService {
@@ -60,7 +53,7 @@ describe('UpdatePasswordComponent', () => {
   let fixture: ComponentFixture<UpdatePasswordComponent>;
   let el: DebugElement;
 
-  let userService: UserService;
+  let userPasswordService: UserPasswordService;
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
 
@@ -74,7 +67,7 @@ describe('UpdatePasswordComponent', () => {
           MockCxSpinnerComponent,
         ],
         providers: [
-          { provide: UserService, useClass: MockUserService },
+          { provide: UserPasswordService, useClass: MockUserPasswordService },
           { provide: RoutingService, useClass: MockRoutingService },
           { provide: GlobalMessageService, useClass: GlobalMessageServiceMock },
         ],
@@ -87,7 +80,7 @@ describe('UpdatePasswordComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    userService = TestBed.inject(UserService);
+    userPasswordService = TestBed.inject(UserPasswordService);
     routingService = TestBed.inject(RoutingService);
     globalMessageService = TestBed.inject(GlobalMessageService);
 
@@ -98,51 +91,40 @@ describe('UpdatePasswordComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should reset the loading state when the component is initialized', () => {
-    spyOn(userService, 'resetUpdatePasswordProcessState').and.stub();
-
-    component.ngOnInit();
-    expect(userService.resetUpdatePasswordProcessState).toHaveBeenCalled();
-  });
-
   it('should show the spinner when updating', () => {
-    spyOn(userService, 'getUpdatePasswordResultLoading').and.returnValue(
-      of(true)
+    spyOn(userPasswordService, 'update').and.returnValue(
+      of({ loading: true } as StateUtils.LoaderState<User>)
     );
-
-    component.ngOnInit();
+    component.onSubmit({ oldPassword: 'foo', newPassword: 'bar' });
     fixture.detectChanges();
     expect(el.query(By.css('cx-spinner'))).toBeTruthy();
   });
 
+  it('should not show the spinner when updating', () => {
+    spyOn(userPasswordService, 'update').and.returnValue(
+      of({ loading: false } as StateUtils.LoaderState<User>)
+    );
+    fixture.detectChanges();
+    component.onSubmit({ oldPassword: 'foo', newPassword: 'bar' });
+    expect(el.query(By.css('cx-spinner'))).toBeFalsy();
+  });
+
   it('should navigate to home when cancelled', () => {
     spyOn(routingService, 'go').and.stub();
-
     component.onCancel();
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
   });
 
   it('should call updatePassword on submit', () => {
-    spyOn(userService, 'updatePassword').and.stub();
+    spyOn(userPasswordService, 'update').and.callThrough();
 
     const oldPassword = 'oldPassword';
     const newPassword = 'newPassword';
     component.onSubmit({ oldPassword, newPassword });
-    expect(userService.updatePassword).toHaveBeenCalledWith(
+    expect(userPasswordService.update).toHaveBeenCalledWith(
       oldPassword,
       newPassword
     );
-  });
-
-  it('should call the internal onSuccess() method when the password was successfully updated', () => {
-    spyOn(component, 'onSuccess').and.stub();
-    spyOn(userService, 'getUpdatePasswordResultSuccess').and.returnValue(
-      of(true)
-    );
-
-    component.ngOnInit();
-
-    expect(component.onSuccess).toHaveBeenCalled();
   });
 
   describe('onSuccess', () => {
@@ -175,8 +157,6 @@ describe('UpdatePasswordComponent', () => {
   it('should unsubscribe from any subscriptions when destroyed', () => {
     const subscriptions = component['subscription'];
     spyOn(subscriptions, 'unsubscribe').and.callThrough();
-
-    component.ngOnInit();
     component.ngOnDestroy();
     expect(subscriptions.unsubscribe).toHaveBeenCalled();
   });

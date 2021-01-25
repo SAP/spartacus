@@ -4,7 +4,7 @@ import { normalizeHttpError } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
 import { UserProfileConnector } from '../../connectors/user-profile.connector';
-import { UserActions } from '../actions/index';
+import { UserProfileActions } from '../actions/index';
 
 @Injectable()
 export class UpdatePasswordEffects {
@@ -15,21 +15,22 @@ export class UpdatePasswordEffects {
 
   @Effect()
   updatePassword$: Observable<
-    UserActions.UpdatePasswordSuccess | UserActions.UpdatePasswordFail
+    | UserProfileActions.UpdatePasswordSuccess
+    | UserProfileActions.UpdatePasswordFail
   > = this.actions$.pipe(
-    ofType(UserActions.UPDATE_PASSWORD),
-    map((action: UserActions.UpdatePassword) => action.payload),
+    ofType(UserProfileActions.UPDATE_PASSWORD),
+    map((action: UserProfileActions.UpdatePassword) => action.payload),
     concatMap((payload) =>
       this.userAccountConnector
-        .updatePassword(
-          payload.userId,
-          payload.oldPassword,
-          payload.newPassword
-        )
+        .updatePassword(payload.uid, payload.oldPassword, payload.newPassword)
         .pipe(
-          map(() => new UserActions.UpdatePasswordSuccess()),
+          map(() => new UserProfileActions.UpdatePasswordSuccess()),
           catchError((error) =>
-            of(new UserActions.UpdatePasswordFail(normalizeHttpError(error)))
+            of(
+              new UserProfileActions.UpdatePasswordFail(
+                normalizeHttpError(error)
+              )
+            )
           )
         )
     )
