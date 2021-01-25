@@ -1,1 +1,1 @@
-export * from './variants-generic.module';
+export * from './variants-multi-dimensional.module';

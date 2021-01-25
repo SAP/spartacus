@@ -14,10 +14,10 @@
       [product]="product"
       [variants]="variants[variantType.COLOR]"
     ></cx-variant-color-selector>
-    <cx-variant-generic-selector
+    <cx-variants-multi-dimensional-selector
       *ngIf="product.multidimensional && product.variantMatrix"
       [product]="product"
     >
-    </cx-variant-generic-selector>
+    </cx-variants-multi-dimensional-selector>
   </div>
 </ng-container>

@@ -63,14 +63,10 @@
       "@spartacus/storefront": ["../../dist/storefrontlib"],
       "@spartacus/vendor": ["../../dist/vendor"],
       "@spartacus/product/multi-d/components": [
-        "../../dist/product/multi-d/components/public_api"
+        "../../dist/product/multi-d/components"
       ],
-      "@spartacus/product/multi-d/core": [
-        "../../dist/product/multi-d/core/public_api"
-      ],
-      "@spartacus/product/multi-d/occ": [
-        "../../dist/product/multi-d/occ/public_api"
-      ]
+      "@spartacus/product/multi-d/core": ["../../dist/product/multi-d/core"],
+      "@spartacus/product/multi-d/occ": ["../../dist/product/multi-d/occ"]
     }
   }
 }

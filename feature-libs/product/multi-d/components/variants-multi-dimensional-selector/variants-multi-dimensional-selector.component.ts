@@ -15,7 +15,7 @@ import { filter, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-variants-multi-dimensional-selector',
-  templateUrl: './variant-generic-selector.component.html',
+  templateUrl: './variants-multi-dimensional-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VariantsMultiDimensionalSelectorComponent implements OnInit {

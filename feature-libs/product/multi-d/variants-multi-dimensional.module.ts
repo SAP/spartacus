@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
-import { VariantGenericCoreModule } from '@spartacus/product/variants/core';
-import { VariantGenericOccModule } from '@spartacus/product/variants/occ';
-import { VariantGenericComponentsModule } from '@spartacus/product/variants/components';
+import { VariantsMultiDimensionalCoreModule } from '@spartacus/product/multi-d/core';
+import { VariantsMultiDimensionalOccModule } from '@spartacus/product/multi-d/occ';
+import { VariantsMultiDimensionalComponentsModule } from '@spartacus/product/multi-d/components';
 
 @NgModule({
   imports: [
-    VariantGenericCoreModule.forRoot(),
-    VariantGenericOccModule,
-    VariantGenericComponentsModule,
+    VariantsMultiDimensionalCoreModule,
+    VariantsMultiDimensionalOccModule,
+    VariantsMultiDimensionalComponentsModule,
   ],
 })
 export class VariantsMultiDimensionalModule {}
