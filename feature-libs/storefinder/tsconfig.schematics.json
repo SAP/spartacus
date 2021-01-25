@@ -18,7 +18,10 @@
     "target": "es6",
     "types": ["jest", "node"],
     "resolveJsonModule": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "paths": {
+      "@spartacus/schematics": ["../../projects/schematics/src/public_api"]
+    }
   },
   "include": ["schematics/**/*.ts"],
   "exclude": ["schematics/*/files/**/*", "schematics/**/*_spec.ts"]
