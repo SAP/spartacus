@@ -2,7 +2,7 @@
   @include cx-configurator-attribute-type();
   @include cx-configurator-form-group();
 
-  cx-configurator-attribute-quantity {
-    margin-block-start: 1rem;
+  .cx-quantity {
+    padding-block-end: 1rem;
   }
 }
