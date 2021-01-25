@@ -29,7 +29,7 @@
               {
                 "glob": "**/*",
                 "input": "feature-libs/smartedit/assets",
-                "output": "projects/storefrontapp/src/assets/"
+                "output": "assets/"
               }
             ],
             "extractCss": true,
@@ -121,7 +121,7 @@
               {
                 "glob": "**/*",
                 "input": "feature-libs/smartedit/assets",
-                "output": "projects/storefrontapp/src/assets/"
+                "output": "assets/"
               }
             ],
             "codeCoverageExclude": ["dist/**/*"]

@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { ConfigInitializerService, LazyModulesService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { defaultSmartEditConfig } from '../config/default-smart-edit-config';
-import { SmartEditConfig } from '../public_api';
+import { SmartEditConfig } from '../config/smart-edit-config';
 import { SmartEditLauncherService } from './smart-edit-launcher.service';
 
 class MockLocation {
@@ -27,7 +27,9 @@ class MockConfigInitializerService
 }
 
 class MockLazyModule {
-  resolveModuleInstance() {}
+  resolveModuleInstance() {
+    return of();
+  }
 }
 
 @NgModule({})

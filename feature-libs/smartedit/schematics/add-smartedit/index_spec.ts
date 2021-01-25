@@ -7,7 +7,7 @@ import {
   SpartacusOptions,
 } from '@spartacus/schematics';
 import * as path from 'path';
-import { CLI_SMARTEDIT_FEATURE } from '../constants';
+import { CLI_SMARTEDIT_FEATURE, SPARTACUS_SMARTEDIT } from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const appModulePath = 'src/app/app.module.ts';
@@ -78,6 +78,48 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
   });
 
   describe('SmartEdit feature', () => {
+    describe('assets', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync('ng-add', defaultOptions, appTree)
+          .toPromise();
+      });
+
+      it('should install @spartacus/smartedit library', () => {
+        const packageJson = appTree.readContent('package.json');
+        expect(packageJson).toContain(SPARTACUS_SMARTEDIT);
+      });
+
+      it('should add update angular.json with smartedit/assets', async () => {
+        const content = appTree.readContent('/angular.json');
+        const angularJson = JSON.parse(content);
+        const buildAssets: any[] =
+          angularJson.projects['schematics-test'].architect.build.options
+            .assets;
+        expect(buildAssets).toEqual([
+          'src/favicon.ico',
+          'src/assets',
+          {
+            glob: '**/*',
+            input: './node_modules/@spartacus/smartedit/assets',
+            output: 'assets/',
+          },
+        ]);
+
+        const testAssets: any[] =
+          angularJson.projects['schematics-test'].architect.test.options.assets;
+        expect(testAssets).toEqual([
+          'src/favicon.ico',
+          'src/assets',
+          {
+            glob: '**/*',
+            input: './node_modules/@spartacus/smartedit/assets',
+            output: 'assets/',
+          },
+        ]);
+      });
+    });
+
     describe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner

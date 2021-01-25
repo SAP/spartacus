@@ -23,6 +23,7 @@ import {
   SMARTEDIT_MODULE,
   SMARTEDIT_ROOT_MODULE,
   SPARTACUS_SMARTEDIT,
+  SPARTACUS_SMARTEDIT_ASSETS,
   SPARTACUS_SMARTEDIT_ROOT,
 } from '../constants';
 
@@ -54,6 +55,10 @@ function addSmartEditFeature(
     rootModule: {
       name: SMARTEDIT_ROOT_MODULE,
       importPath: SPARTACUS_SMARTEDIT_ROOT,
+    },
+    assets: {
+      input: SPARTACUS_SMARTEDIT_ASSETS,
+      glob: '**/*',
     },
   });
 }
