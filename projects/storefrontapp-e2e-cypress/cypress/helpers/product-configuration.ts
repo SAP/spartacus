@@ -514,6 +514,30 @@ export function selectAttribute(
 }
 
 /**
+ * Selects a corresponding attribute value.
+ *
+ * @param {string} uiType - UI type
+ * @param {string} attributeName - attribute name
+ * @param {string} valueName - value name
+ * @param {number} quantity - quantity
+ */
+export function setQuantity(
+  uiType: string,
+  attributeName: string,
+  quantity: string,
+  valueName?: string
+): void {
+  let containerId = getAttributeId(attributeName, uiType);
+  if (valueName) {
+    containerId = `${containerId}--${valueName}`;
+  }
+  cy.log('conatinerId: ' + containerId);
+  cy.get(`#${containerId} cx-configurator-attribute-quantity input`).type(
+    '{selectall}' + quantity
+  );
+}
+
+/**
  * Verifies whether the image value is selected.
  *
  * @param {string} attributeName - Attribute name

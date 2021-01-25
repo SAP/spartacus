@@ -303,10 +303,11 @@ context('CPQ Configuration', () => {
   });
 
   describe('Overview Page', () => {
-    it('should display user selections on overview page', () => {
+    it.only('should display user selections and prices on overview page', () => {
       configuration.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_CAM);
 
       configuration.selectProductCard(RADGRP, ATTR_CAM_BODY, VAL_CAM_BODY_D850);
+      configuration.setQuantity(CHKBOX_PROD, ATTR_CAM_MC, VAL_CAM_MC_128, '2');
       configuration.selectProductCard(CHKBOX, ATTR_CAM_LEN, VAL_CAM_LEN_SI);
       configuration.selectProductCard(CHKBOX, ATTR_CAM_LEN, VAL_CAM_LEN_NI);
 
@@ -328,17 +329,43 @@ context('CPQ Configuration', () => {
       configurationOverview.checkGroupHeaderNotDisplayed(GRP_CAM_ACC);
       configurationOverview.checkGroupHeaderDisplayed(GRP_CAM_IAW, 1);
 
-      type ovLineType = 'product' | 'simple';
-      const ovContent: { name: string; value: string; type: ovLineType }[] = [
-        { name: 'Camera Body', value: 'Nikon D850', type: 'product' },
-        { name: 'Memory Card', value: 'SanDisk Extreme Pro', type: 'product' },
-        { name: 'Lenses', value: 'Sigma 85mm F1.4 DG HS', type: 'product' },
-        { name: undefined, value: 'Nikon AF-P DX NIKKOR', type: 'product' },
+      type ovContentType = {
+        name?: string;
+        value: string;
+        type: 'product' | 'simple';
+        price?: string;
+      };
+      const ovContent: ovContentType[] = [
+        {
+          name: 'Camera Body',
+          value: 'Nikon D850',
+          type: 'product',
+          price: '599', // $599.00
+        },
+        {
+          name: 'Memory Card',
+          value: 'SanDisk Extreme Pro',
+          type: 'product',
+          price: '37.99', // 2 x $37.99 = $75.98
+        },
+        {
+          name: 'Lenses',
+          value: 'Sigma 85mm F1.4 DG HS',
+          type: 'product',
+          price: '999', // $999.00
+        },
+        { value: 'Nikon AF-P DX NIKKOR', type: 'product' },
         { name: 'professional photographer?', value: 'yes', type: 'simple' },
-        { name: 'Insurance', value: 'Pro 4 years', type: 'product' },
+        {
+          name: 'Insurance',
+          value: 'Pro 4 years',
+          type: 'product',
+          price: '69', // $69.00
+        },
       ];
       ovContent.forEach((line, idx) => {
         configurationOverview.checkAttrDisplayed(line.name, line.value, idx);
+        configurationOverview.checkAttrPriceDisplayed(line.price, idx);
         configurationOverview.checkAttrType(line.type, idx);
       });
     });
