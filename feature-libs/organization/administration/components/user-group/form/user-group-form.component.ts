@@ -6,6 +6,7 @@ import {
   UserGroup,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { ItemService } from '../../shared/item.service';
 import { UserGroupItemService } from '../services/user-group-item.service';
 import { createCodeForEntityName } from '../../shared/utility/entity-code';
@@ -26,7 +27,13 @@ export class UserGroupFormComponent implements OnInit {
   form: FormGroup = this.itemService.getForm();
 
   // getList ???
-  units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList();
+  units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList().pipe(
+    tap((units) => {
+      if (units.length === 1) {
+        this.form?.get('orgUnit.uid')?.setValue(units[0]?.id);
+      }
+    })
+  );
 
   constructor(
     protected itemService: ItemService<UserGroup>,
