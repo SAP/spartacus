@@ -83,6 +83,18 @@ export class ConfiguratorAttributeCheckBoxListComponent
     );
   }
 
+  get allowZeroValueQuantity() {
+    const selectedValues = this.attribute.values.filter(
+      (value) => value.selected
+    );
+
+    if (this.attribute.required) {
+      return selectedValues.length > 1;
+    }
+
+    return true;
+  }
+
   onSelect(): void {
     const selectedValues = this.configUtilsService.assembleValuesForMultiSelectAttributes(
       this.attributeCheckBoxForms,
