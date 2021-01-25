@@ -971,7 +971,7 @@ function checkForLockFile(
           [
             `Library \`${chalk.bold(
               lib.name
-            )}\` should not have it's own \`${chalk.bold('yarn.lock')}\`.`,
+            )}\` should not have its own \`${chalk.bold('yarn.lock')}\`.`,
           ],
           [
             `Libraries should use packages from root \`${chalk.bold(
