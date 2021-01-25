@@ -4,52 +4,10 @@ import {
   MyCompanyConfig,
   MyCompanyRowConfig,
   TestListOptions,
-} from './models/index';
-import { loginAsMyCompanyAdmin, waitForData } from './my-company.utils';
+} from '../../models';
+import { waitForData } from '../../my-company.utils';
 
 let requestData: any;
-
-export function testListFromConfig(config: MyCompanyConfig): void {
-  if (!config.disableListChecking) {
-    describe(`${config.name} List`, () => {
-      beforeEach(() => {
-        loginAsMyCompanyAdmin();
-        cy.server();
-      });
-
-      if (!config.nestedTableRows) {
-        it('should show and paginate list', () => {
-          cy.visit(`/organization`);
-          testList(config, {
-            trigger: () =>
-              cy
-                .get(`cx-page-slot.BodyContent a`)
-                .contains(config.name)
-                .click(),
-          });
-        });
-
-        testListSorting(config);
-      } else {
-        it('should show expanded nested list', () => {
-          cy.visit(`/organization`);
-          testList(config, {
-            trigger: () =>
-              cy
-                .get(`cx-page-slot.BodyContent a`)
-                .contains(config.name)
-                .click(),
-            nested: { expandAll: true },
-          });
-        });
-
-        it('should show collapsed nested list', () => {
-          testList(config, { nested: { collapseAll: true } });
-        });
-      }
-    });
-  }
-}
 
 export function testList(
   config: MyCompanyConfig,
@@ -58,7 +16,7 @@ export function testList(
   cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
   if (options.trigger) {
     waitForData((data) => {
-      requestData = data;
+      const requestData = data;
       validateList(requestData);
     }, options.trigger());
   } else {

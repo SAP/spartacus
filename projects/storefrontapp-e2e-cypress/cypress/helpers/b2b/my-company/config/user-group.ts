@@ -1,6 +1,6 @@
 import { FULL_BASE_URL_EN_USD } from '../../../site-context-selector';
 import { randomString } from '../../../user';
-import { INPUT_TYPE, MyCompanyConfig } from '../models';
+import { INPUT_TYPE, MyCompanyConfig, MY_COMPANY_FEATURE } from '../models';
 
 export const userGroupConfig: MyCompanyConfig = {
   name: 'User Group',
@@ -61,5 +61,11 @@ export const userGroupConfig: MyCompanyConfig = {
       canUnassignAll: true,
       manageAssignments: true,
     },
+  ],
+  features: [
+    MY_COMPANY_FEATURE.CREATE,
+    MY_COMPANY_FEATURE.UPDATE,
+    MY_COMPANY_FEATURE.LIST,
+    MY_COMPANY_FEATURE.ASSIGNMENTS,
   ],
 };

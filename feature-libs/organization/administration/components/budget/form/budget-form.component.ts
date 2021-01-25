@@ -7,6 +7,7 @@ import {
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { CurrentItemService } from '../../shared/current-item.service';
 import { ItemService } from '../../shared/item.service';
 import { BudgetItemService } from '../services/budget-item.service';
@@ -32,8 +33,21 @@ import { createCodeForEntityName } from '../../shared/utility/entity-code';
 export class BudgetFormComponent implements OnInit {
   form: FormGroup = this.itemService.getForm();
 
-  units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList();
-  currencies$: Observable<Currency[]> = this.currencyService.getAll();
+  units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList().pipe(
+    tap((units) => {
+      if (units.length === 1) {
+        this.form?.get('orgUnit.uid')?.setValue(units[0]?.id);
+      }
+    })
+  );
+
+  currencies$: Observable<Currency[]> = this.currencyService.getAll().pipe(
+    tap((currency) => {
+      if (currency.length === 1) {
+        this.form?.get('currency.isocode')?.setValue(currency[0]?.isocode);
+      }
+    })
+  );
 
   constructor(
     protected itemService: ItemService<Budget>,
