@@ -33,7 +33,7 @@
     <cx-configurator-attribute-quantity
       (changeQuantity)="onChangeValueQuantity($event, value.valueCode, i)"
       [initialQuantity]="value.quantity"
-      [allowZero]="!attribute.required"
+      [allowZero]="allowZeroValueQuantity"
       [readonly]="loading$ | async"
       *ngIf="value.selected && withQuantity && !withQuantityOnAttributeLevel"
     ></cx-configurator-attribute-quantity>

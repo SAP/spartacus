@@ -108,6 +108,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
       attrCode: 444,
       uiType: Configurator.UiType.CHECKBOXLIST,
       values: values,
+      required: true,
     };
     fixture.detectChanges();
   });
@@ -227,5 +228,9 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
 
   it('should call withQuantityOnAttributeLevel', () => {
     expect(component.withQuantityOnAttributeLevel).toBeTruthy();
+  });
+
+  it('should check allowZeroValueQuantity getter', () => {
+    expect(component.allowZeroValueQuantity).toBeTruthy();
   });
 });
