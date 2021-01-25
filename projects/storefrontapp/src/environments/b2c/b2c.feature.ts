@@ -1,3 +1,4 @@
+import { QualtricsRootModule } from '@spartacus/qualtrics/root';
 import {
   storeFinderTranslationChunksConfig,
   storeFinderTranslations,
@@ -30,6 +31,10 @@ export const b2cFeature: FeatureEnvironment = {
           module: () =>
             import('@spartacus/storefinder').then((m) => m.StoreFinderModule),
         },
+        qualtrics: {
+          module: () =>
+            import('@spartacus/qualtrics').then((m) => m.QualtricsModule),
+        },
       },
       i18n: {
         resources: storeFinderTranslations,
@@ -37,5 +42,6 @@ export const b2cFeature: FeatureEnvironment = {
       },
     }),
     StoreFinderRootModule,
+    QualtricsRootModule,
   ],
 };
