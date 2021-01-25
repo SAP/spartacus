@@ -32,15 +32,21 @@ const resolveIssuesLinkSelector =
  * @param {string} productId - Product ID
  * @return {Chainable<Window>} - New configuration window
  */
-export function goToConfigurationPage(
-  shopName: string,
-  productId: string
-): Chainable<Window> {
+export function goToConfigurationPage(shopName: string, productId: string) {
+  registerConfigurationRoute();
   const location = `/${shopName}/en/USD/configure/vc/product/entityKey/${productId}`;
-  return cy.visit(location).then(() => {
-    cy.location('pathname').should('contain', location);
-    this.checkConfigPageDisplayed();
-  });
+  cy.visit(location);
+  cy.wait('@configure_product');
+  this.checkConfigPageDisplayed();
+}
+
+export function registerConfigurationRoute() {
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/products/*/configurators/ccpconfigurator?lang=en&curr=USD`
+  ).as('configure_product');
 }
 
 /**
@@ -833,23 +839,27 @@ export function clickAddToCartBtn(): void {
     });
 }
 
+export function registerCartRefreshRoute() {
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/*/carts/*?fields=*&lang=en&curr=USD`
+  ).as('refresh_cart');
+}
+
+export function closeAddedToCartDialog() {
+  cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click({ force: true });
+}
+
 /**
  * Clicks on 'Add to cart' on the product details page.
  */
 export function clickOnAddToCartBtnOnPD(): void {
-  cy.get('cx-add-to-cart button.btn-primary')
-    .contains('Add to cart')
-    .click()
-    .then(() => {
-      cy.get('cx-added-to-cart-dialog').should('be.visible');
-      cy.get('div.cx-dialog-body').should('be.visible');
-      cy.get('div.cx-dialog-buttons a.btn-primary')
-        .contains('view cart')
-        .should('be.visible');
-      cy.get('div.cx-dialog-buttons a.btn-secondary')
-        .contains('proceed to checkout')
-        .should('be.visible');
-    });
+  registerCartRefreshRoute();
+
+  cy.get('cx-add-to-cart button[type=submit]').first().click({ force: true });
+  cy.wait('@refresh_cart');
 }
 
 /**

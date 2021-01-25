@@ -10,6 +10,9 @@ import {
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import { ConfigModule, TestConfigModule } from '@spartacus/core';
+import { configuratorTranslations } from '@spartacus/product-configurator/common/assets';
+import { RulebasedConfiguratorRootModule } from '@spartacus/product-configurator/rulebased/root';
+import { TextfieldConfiguratorRootModule } from '@spartacus/product-configurator/textfield/root';
 import {
   JsonLdBuilderModule,
   StorefrontComponent,
@@ -79,6 +82,29 @@ if (environment.cdc) {
         level: '2.1',
       },
     }),
+    // PRODUCT CONFIGURATOR
+    ConfigModule.withConfig({
+      i18n: {
+        resources: configuratorTranslations,
+      },
+      featureModules: {
+        rulebased: {
+          module: () =>
+            import('@spartacus/product-configurator/rulebased').then(
+              (m) => m.RulebasedConfiguratorModule
+            ),
+        },
+        textfield: {
+          module: () =>
+            import('@spartacus/product-configurator/textfield').then(
+              (m) => m.TextfieldConfiguratorModule
+            ),
+        },
+      },
+    }),
+    RulebasedConfiguratorRootModule,
+    TextfieldConfiguratorRootModule,
+    // PRODUCT CONFIGURATOR END
     ...additionalImports,
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
