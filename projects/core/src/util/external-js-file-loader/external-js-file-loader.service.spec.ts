@@ -18,7 +18,6 @@ describe('ExternalJsFileLoader', () => {
 
   let documentMock: Document;
   let jsDomElement: any;
-  // const headElement: HTMLElement = document.createElement('head');
 
   beforeEach(() => {
     const bed = TestBed.configureTestingModule({
@@ -34,7 +33,6 @@ describe('ExternalJsFileLoader', () => {
     externalJsFileLoader = bed.inject(ExternalJsFileLoader);
     documentMock = bed.inject(DOCUMENT);
     jsDomElement = document.createElement('script');
-    // headEl = new HTMLHeadElement();
   });
 
   it('should load script with params and load/error callbacks', () => {
