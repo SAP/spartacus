@@ -18,7 +18,6 @@ export abstract class QualtricsConfig {
      * Deployment script, loaded from a resource, to integrate the deployment of the qualtrics project.
      * You would typically store the file in the local assets folder.
      *
-     * Defaults to `assets/qualtricsIntegration.js`
      */
     scriptSource?: string;
   };
