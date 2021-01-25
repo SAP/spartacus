@@ -303,7 +303,7 @@ context('CPQ Configuration', () => {
   });
 
   describe('Overview Page', () => {
-    it.only('should display user selections and prices on overview page', () => {
+    it('should display user selections and prices on overview page', () => {
       configuration.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_CAM);
 
       configuration.selectProductCard(RADGRP, ATTR_CAM_BODY, VAL_CAM_BODY_D850);
