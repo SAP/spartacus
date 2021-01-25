@@ -6,7 +6,7 @@ import { provideDefaultConfig } from '@spartacus/core';
     provideDefaultConfig({
       featureModules: {
         qualtrics: {
-          cmsComponents: ['QualtricsEmbeddedFeedbackComponent'],
+          cmsComponents: ['QualtricsComponent'],
         },
       },
     }),
