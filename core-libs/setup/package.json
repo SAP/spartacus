@@ -20,12 +20,10 @@
     "@angular/core": "^10.1.0",
     "rxjs": "^6.6.0",
     "@spartacus/core": "3.0.0",
-    "@spartacus/storefront": "3.0.0",
-    "tslib": "^2.0.0"
+    "@spartacus/storefront": "3.0.0"
   },
   "optionalDependencies": {
     "@nguniversal/express-engine": "^10.1.0",
-    "express": "^4.15.0",
-    "tslib": "%2.0.0"
+    "express": "^4.15.0"
   }
 }
