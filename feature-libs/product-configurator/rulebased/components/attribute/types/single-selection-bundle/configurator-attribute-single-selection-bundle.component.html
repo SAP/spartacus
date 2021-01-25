@@ -5,6 +5,7 @@
   <cx-configurator-attribute-quantity
     (changeQuantity)="onChangeQuantity($event)"
     [initialQuantity]="attribute.selectedSingleValue ? attribute.quantity : 0"
+    [allowZero]="!attribute.required"
     [readonly]="readOnlyQuantity || (loading$ | async)"
     *ngIf="withQuantity"
   ></cx-configurator-attribute-quantity>
