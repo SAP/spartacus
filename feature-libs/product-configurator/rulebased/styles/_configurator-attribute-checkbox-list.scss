@@ -4,4 +4,8 @@
   .cx-quantity {
     padding-block-end: 1rem;
   }
+
+  .form-check input:disabled + .form-check-label {
+    color: var(--cx-color-text);
+  }
 }
