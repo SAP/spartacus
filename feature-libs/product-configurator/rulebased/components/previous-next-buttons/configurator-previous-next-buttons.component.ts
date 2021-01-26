@@ -41,9 +41,7 @@ export class ConfiguratorPreviousNextButtonsComponent {
         this.configuratorGroupsService.navigateToGroup(configuration, groupId)
       );
 
-    this.configUtils.scrollToConfigurationElement(
-      '.VariantConfigurationTemplate'
-    );
+    this.configUtils.scrollToConfigurationElement('.CpqConfigHeader');
   }
 
   onNext(configuration: Configurator.Configuration): void {
@@ -54,9 +52,7 @@ export class ConfiguratorPreviousNextButtonsComponent {
         this.configuratorGroupsService.navigateToGroup(configuration, groupId)
       );
 
-    this.configUtils.scrollToConfigurationElement(
-      '.VariantConfigurationTemplate'
-    );
+    this.configUtils.scrollToConfigurationElement('.CpqConfigHeader');
   }
 
   isFirstGroup(owner: CommonConfigurator.Owner): Observable<boolean> {
