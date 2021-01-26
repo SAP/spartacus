@@ -7,6 +7,13 @@ import { interceptors } from './http-interceptors/index';
   providers: [
     ...interceptors,
     provideDefaultConfig(defaultPersonalizationConfig),
+    provideDefaultConfig({
+      featureModules: {
+        personalization: {
+          cmsComponents: ['PersonalizationScriptComponent'],
+        },
+      },
+    }),
   ],
 })
 export class PersonalizationRootModule {}
