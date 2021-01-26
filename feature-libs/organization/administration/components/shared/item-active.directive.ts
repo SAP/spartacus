@@ -11,10 +11,14 @@ import { BaseItem } from './organization.model';
 export class ItemActiveDirective<T = BaseItem> implements OnInit, OnDestroy {
   protected subscription;
 
+  /**
+   * @deprecated since 3.0.2
+   * Include RoutingService in constructor for bugfix #10878.
+   */
   constructor(
     protected itemService: ItemService<T>,
     protected messageService: MessageService,
-    protected routingService: RoutingService
+    protected routingService?: RoutingService
   ) {}
 
   ngOnInit() {
@@ -38,15 +42,21 @@ export class ItemActiveDirective<T = BaseItem> implements OnInit, OnDestroy {
       type: GlobalMessageType.MSG_TYPE_ERROR,
     });
 
-    this.routingService
-      .getRouterState()
-      .pipe(take(1))
-      .subscribe((routerState) => {
-        this.routingService.go([
-          routerState.state.context.id,
-          item.customerId ?? item.uid,
-        ]);
-      });
+    /**
+     * @deprecated since 3.0.2
+     * TODO: Remove condition for Routing Service import on next major.
+     */
+    if (this.routingService) {
+      this.routingService
+        .getRouterState()
+        .pipe(take(1))
+        .subscribe((routerState) => {
+          this.routingService.go([
+            routerState.state.context.id,
+            item.customerId ?? item.uid,
+          ]);
+        });
+    }
   }
 
   ngOnDestroy() {
