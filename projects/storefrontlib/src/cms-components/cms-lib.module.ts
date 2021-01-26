@@ -61,7 +61,7 @@ import { UserComponentModule } from './user/user.module';
 import { WishListModule } from './wish-list/wish-list.module';
 
 /**
- * @deprecated since 3.2, use individual imports instead
+ * @deprecated since 3.1, use individual imports instead
  */
 @NgModule({
   imports: [

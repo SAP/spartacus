@@ -2,9 +2,9 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
 
 /**
- * @deprecated since 3.2
+ * @deprecated since 3.1
  *
- * Remove, don't use
+ * TODO: remove in 4.0
  */
 @NgModule({})
 export class ViewConfigModule {

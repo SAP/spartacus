@@ -16,7 +16,7 @@ import { provideDefaultConfig } from '../config/config-providers';
 import { CostCenterOccModule } from './adapters/cost-center/cost-center-occ.module';
 
 /**
- * @deprecated since 3.2
+ * @deprecated since 3.1, use individual imports instead
  */
 @NgModule({
   imports: [
