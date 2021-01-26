@@ -328,6 +328,9 @@ export const CURRENT_UNIT_SERVICE = 'CurrentUnitService';
 export const UNIT_CHILDREN_COMPONENT = 'UnitChildrenComponent';
 export const UNIT_COST_CENTER_LIST_COMPONENT = 'UnitCostCenterListComponent';
 export const UNIT_USER_LIST_COMPONENT = 'UnitUserListComponent';
+export const ITEM_ACTIVE_DIRECTIVE = 'ItemActiveDirective';
+export const ITEM_SERVICE = 'ItemService';
+export const MESSAGE_SERVICE = 'MessageService';
 
 /***** Classes end *****/
 
