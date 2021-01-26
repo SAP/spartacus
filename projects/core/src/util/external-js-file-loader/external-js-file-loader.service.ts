@@ -7,7 +7,7 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 export class ExternalJsFileLoader {
   constructor(
     @Inject(DOCUMENT) protected document: any,
-    @Inject(PLATFORM_ID) protected platformId: Object
+    @Inject(PLATFORM_ID) protected platformId?: Object
   ) {}
 
   /**
@@ -23,7 +23,10 @@ export class ExternalJsFileLoader {
     callback?: EventListener,
     errorCallback?: EventListener
   ): void {
-    if (isPlatformServer(this.platformId)) {
+    if (this.platformId && isPlatformServer(this.platformId)) {
+      if (errorCallback) {
+        errorCallback(new Event('error'));
+      }
       return;
     }
     const script: HTMLScriptElement = this.document.createElement('script');
