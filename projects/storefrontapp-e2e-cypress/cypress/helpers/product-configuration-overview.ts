@@ -163,6 +163,26 @@ export function checkAttrDisplayed(
 }
 
 /**
+ * Verifies whether the attribute price is displayed at the given position.
+ */
+export function checkAttrPriceDisplayed(
+  priceString: string,
+  attrbuteIdx: number
+): void {
+  cy.get(
+    'cx-configurator-cpq-overview-attribute, cx-configurator-overview-attribute'
+  )
+    .eq(attrbuteIdx)
+    .within(() => {
+      if (priceString) {
+        cy.get('cx-configurator-price').should('contain.text', priceString);
+      } else {
+        cy.get('cx-configurator-price').should('not.exist');
+      }
+    });
+}
+
+/**
  * Verifies whether the attribute name and value are displayed at the given position.
  */
 export function checkAttrType(
