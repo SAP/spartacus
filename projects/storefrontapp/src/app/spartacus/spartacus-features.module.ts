@@ -42,7 +42,6 @@ import {
   ProductSummaryModule,
   ProductTabsModule,
   ProductVariantsModule,
-  QualtricsModule,
   ReplenishmentOrderConfirmationModule,
   ReplenishmentOrderDetailsModule,
   ReplenishmentOrderHistoryModule,
@@ -187,10 +186,6 @@ if (environment.cds) {
     SmartEditModule.forRoot(),
     // Personalization
     PersonalizationModule.forRoot(),
-
-    // Qualtrics Core
-    // Qualtrics UI
-    QualtricsModule,
 
     // Asm Core
     AsmOccModule,
