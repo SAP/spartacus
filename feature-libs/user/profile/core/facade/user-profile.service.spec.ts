@@ -1,15 +1,10 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import {
-  OCC_USER_ID_CURRENT,
-  PROCESS_FEATURE,
-  UserIdService,
-} from '@spartacus/core';
-import { User } from '@spartacus/user/account/core';
+import { OCC_USER_ID_CURRENT, ProcessModule } from '@spartacus/core';
+import { User, UserAccountService } from '@spartacus/user/account/core';
 import { Observable, of } from 'rxjs';
 import { Title } from '../model/user-profile.model';
 import { UserProfileActions } from '../store/actions';
-import * as fromProcessReducers from '../store/reducers';
 import * as fromStoreReducers from '../store/reducers/index';
 import {
   StateWithUserProfile,
@@ -18,9 +13,9 @@ import {
 import { UserPasswordService } from './user-password.service';
 import { UserProfileService } from './user-profile.service';
 
-class MockUserIdService implements Partial<UserIdService> {
-  takeUserId(): Observable<string | null> {
-    return of(OCC_USER_ID_CURRENT);
+class MockUserAccountService implements Partial<UserAccountService> {
+  getUser(): Observable<User> {
+    return of({ uid: OCC_USER_ID_CURRENT });
   }
 }
 
@@ -32,18 +27,15 @@ describe('UserProfileService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
+        ProcessModule,
         StoreModule.forFeature(
           USER_PROFILE_FEATURE,
           fromStoreReducers.getReducers()
         ),
-        StoreModule.forFeature(
-          PROCESS_FEATURE,
-          fromProcessReducers.getReducers()
-        ),
       ],
       providers: [
         UserProfileService,
-        { provide: UserIdService, useClass: MockUserIdService },
+        { provide: UserAccountService, useClass: MockUserAccountService },
       ],
     });
 
@@ -60,11 +52,10 @@ describe('UserProfileService', () => {
   ));
 
   it('should update user profile', () => {
-    const username = 'xxx';
     const userDetails: User = {
-      uid: username,
+      uid: 'xxx',
     };
-    service.update(userDetails).subscribe().unsubscribe();
+    service.update(userDetails);
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserProfileActions.UpdateUserProfile({
         uid: OCC_USER_ID_CURRENT,

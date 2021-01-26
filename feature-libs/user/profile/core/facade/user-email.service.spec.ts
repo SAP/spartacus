@@ -1,10 +1,9 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { OCC_USER_ID_CURRENT, PROCESS_FEATURE } from '@spartacus/core';
+import { OCC_USER_ID_CURRENT, ProcessModule } from '@spartacus/core';
 import { User } from '@spartacus/user/account/core';
 import { Observable, of } from 'rxjs';
 import { UserProfileActions } from '../store/actions/index';
-import * as fromProcessReducers from '../store/reducers';
 import * as fromStoreReducers from '../store/reducers/index';
 import {
   StateWithUserProfile,
@@ -27,13 +26,10 @@ describe('UserEmailService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
+        ProcessModule,
         StoreModule.forFeature(
           USER_PROFILE_FEATURE,
           fromStoreReducers.getReducers()
-        ),
-        StoreModule.forFeature(
-          PROCESS_FEATURE,
-          fromProcessReducers.getReducers()
         ),
       ],
       providers: [
@@ -59,7 +55,7 @@ describe('UserEmailService', () => {
     const newUid = 'tester@sap.com';
 
     it('should dispatch UpdateEmail action', () => {
-      userEmailService.update(password, newUid).subscribe().unsubscribe();
+      userEmailService.update(password, newUid);
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserProfileActions.UpdateEmailAction({
           uid: OCC_USER_ID_CURRENT,
