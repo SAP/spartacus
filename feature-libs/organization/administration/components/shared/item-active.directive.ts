@@ -1,5 +1,4 @@
 import { Directive, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { GlobalMessageType, RoutingService } from '@spartacus/core';
 import { distinctUntilChanged, filter, take } from 'rxjs/operators';
 import { ItemService } from './item.service';
@@ -15,8 +14,7 @@ export class ItemActiveDirective<T = BaseItem> implements OnInit, OnDestroy {
   constructor(
     protected itemService: ItemService<T>,
     protected messageService: MessageService,
-    protected routingService: RoutingService,
-    protected route: ActivatedRoute
+    protected routingService: RoutingService
   ) {}
 
   ngOnInit() {

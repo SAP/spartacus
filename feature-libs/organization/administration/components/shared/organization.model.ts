@@ -36,6 +36,7 @@ export type BaseItem = {
   // tmp alternative "key"
   customerId?: string;
   id?: string;
+  uid?: string;
 
   active?: boolean;
   orgUnit?: any;
