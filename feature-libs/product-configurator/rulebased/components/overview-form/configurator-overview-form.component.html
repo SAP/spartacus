@@ -8,6 +8,7 @@
         <div
           *ngFor="let attributeOverview of group.attributes"
           class="cx-attribute-value-pair"
+          [class.margin]="attributeOverview?.attribute"
           [class.bundle]="
             attributeOverview?.type === attributeOverviewType.BUNDLE
           "

@@ -28,6 +28,25 @@ const resolveIssuesLinkSelector =
   'cx-configure-cart-entry button.cx-action-link';
 
 /**
+ * ui types
+ */
+export type uiType =
+  | 'radioGroup'
+  | 'checkBoxList'
+  | 'multi_selection_image'
+  | 'single_selection_image'
+  | 'dropdown'
+  | 'input'
+  | 'dropdownProduct'
+  | 'radioGroupProduct'
+  | 'checkBoxListProduct';
+
+/**
+ * bundle types
+ */
+export type cardType = 'radioGroup' | 'dropdown' | 'checkBoxList';
+
+/**
  * Navigates to the product configuration page.
  *
  * @param {string} shopName - shop name
@@ -158,7 +177,7 @@ export function clickOnEditConfigurationLink(cartItemIndex: number): void {
  */
 export function checkFocus(
   attributeName: string,
-  uiType: string,
+  uiType: uiType,
   valueName: string
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
@@ -322,7 +341,7 @@ export function checkStatusIconDisplayed(
  */
 export function checkAttributeDisplayed(
   attributeName: string,
-  uiType: string
+  uiType: uiType
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
   cy.get(`#${attributeId}`).should('be.visible');
@@ -351,7 +370,7 @@ export function checkAttributeHeaderDisplayed(
  */
 export function checkAttributeNotDisplayed(
   attributeName: string,
-  uiType: string
+  uiType: uiType
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
   cy.get(`#${attributeId}`).should('be.not.visible');
@@ -366,7 +385,7 @@ export function checkAttributeNotDisplayed(
  */
 export function checkAttrValueDisplayed(
   attributeName: string,
-  uiType: string,
+  uiType: uiType,
   valueName: string
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
@@ -388,7 +407,7 @@ export function checkAttrValueDisplayed(
  */
 export function checkAttrValueNotDisplayed(
   attributeName: string,
-  uiType: string,
+  uiType: uiType,
   valueName: string
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
@@ -408,7 +427,7 @@ export function checkAttrValueNotDisplayed(
  * @param {string} uiType - UI type
  * @return {string} - Attribute ID
  */
-export function getAttributeId(attributeName: string, uiType: string): string {
+export function getAttributeId(attributeName: string, uiType: uiType): string {
   return `cx-configurator--${uiType}--${attributeName}`;
 }
 
@@ -429,13 +448,32 @@ export function getAttributeLabelId(attributeName: string): string {
  * @param {string} valueName - Value name
  */
 export function selectProductCard(
-  cardType: 'radioGroup' | 'dropdown' | 'checkBoxList',
+  cardType: cardType,
   attributeName: string,
   valueName: string
 ) {
-  const uiType = cardType + 'Product';
+  const uiType: uiType = convertCardTypeToUiType(cardType);
   selectAttribute(attributeName, uiType, valueName);
   checkValueSelected(uiType, attributeName, valueName);
+}
+/**
+ * converts the given card/bundle type to the corresponding ui type
+ * @param cardType card type
+ */
+export function convertCardTypeToUiType(cardType: cardType) {
+  let uiType: uiType;
+  switch (cardType) {
+    case 'radioGroup':
+      uiType = 'radioGroupProduct';
+      break;
+    case 'dropdown':
+      uiType = 'dropdownProduct';
+      break;
+    case 'checkBoxList':
+      uiType = 'checkBoxListProduct';
+      break;
+  }
+  return uiType;
 }
 
 /**
@@ -449,7 +487,7 @@ export function deSelectProductCard(
   attributeName: string,
   valueName: string
 ) {
-  const uiType = cardType + 'Product';
+  const uiType: uiType = convertCardTypeToUiType(cardType);
   selectAttribute(attributeName, uiType, valueName);
   checkValueNotSelected(uiType, attributeName, valueName);
 }
@@ -464,7 +502,7 @@ export function deSelectProductCard(
  */
 export function selectAttribute(
   attributeName: string,
-  uiType: string,
+  uiType: uiType,
   valueName: string,
   value?: string
 ): void {
@@ -514,6 +552,30 @@ export function selectAttribute(
 }
 
 /**
+ * Selects a corresponding attribute value.
+ *
+ * @param {string} uiType - UI type
+ * @param {number} quantity - quantity
+ * @param {string} attributeName - attribute name
+ * @param {string} valueName - value name
+ */
+export function setQuantity(
+  uiType: uiType,
+  quantity: number,
+  attributeName: string,
+  valueName?: string
+): void {
+  let containerId = getAttributeId(attributeName, uiType);
+  if (valueName) {
+    containerId = `${containerId}--${valueName}`;
+  }
+  cy.log('conatinerId: ' + containerId);
+  cy.get(`#${containerId} cx-configurator-attribute-quantity input`).type(
+    '{selectall}' + quantity
+  );
+}
+
+/**
  * Verifies whether the image value is selected.
  *
  * @param {string} attributeName - Attribute name
@@ -521,7 +583,7 @@ export function selectAttribute(
  * @param {string} valueName - Value name
  */
 export function checkImageSelected(
-  uiType: string,
+  uiType: uiType,
   attributeName: string,
   valueName: string
 ): void {
@@ -539,7 +601,7 @@ export function checkImageSelected(
  * @param {string} valueName - Value name
  */
 export function checkImageNotSelected(
-  uiType: string,
+  uiType: uiType,
   attributeName: string,
   valueName: string
 ): void {
@@ -556,7 +618,7 @@ export function checkImageNotSelected(
  * @param {string} valueName - Value name
  */
 export function checkValueSelected(
-  uiType: string,
+  uiType: uiType,
   attributeName: string,
   valueName: string
 ): void {
@@ -591,7 +653,7 @@ export function checkValueSelected(
  * @param {string} valueName - Value name
  */
 export function checkValueNotSelected(
-  uiType: string,
+  uiType: uiType,
   attributeName: string,
   valueName: string
 ) {
@@ -682,7 +744,7 @@ function verifyNumberOfConflicts(numberOfConflicts: number): void {
  */
 export function selectConflictingValue(
   attributeName: string,
-  uiType: string,
+  uiType: uiType,
   valueName: string,
   numberOfConflicts: number
 ): void {
@@ -703,7 +765,7 @@ export function selectConflictingValue(
  */
 export function deselectConflictingValue(
   attributeName: string,
-  uiType: string,
+  uiType: uiType,
   valueName: string
 ): void {
   this.selectAttribute(attributeName, uiType, valueName);
