@@ -719,9 +719,23 @@ describe('CpqConfiguratorNormalizer', () => {
       stdAttrCode: 2,
       dataType: Cpq.DataType.QTY_VALUE_LEVEL,
       displayAs: Cpq.DisplayAs.CHECK_BOX,
+      isLineItem: true,
     };
     expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
       Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL
+    );
+  });
+
+  it('should convert CPQ dataType User Selection with Quantity on value level (QTY_VALUE_LEVEL) for non line item multi selection attribute', () => {
+    const attribute: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+      dataType: Cpq.DataType.QTY_VALUE_LEVEL,
+      displayAs: Cpq.DisplayAs.CHECK_BOX,
+      isLineItem: false,
+    };
+    expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
+      Configurator.DataType.USER_SELECTION_NO_QTY
     );
   });
 

@@ -223,6 +223,11 @@ export class CpqConfiguratorNormalizer
           cpqAttribute.displayAs === Cpq.DisplayAs.DROPDOWN
         ) {
           dataType = Configurator.DataType.USER_SELECTION_NO_QTY;
+        } else if (
+          cpqAttribute.displayAs === Cpq.DisplayAs.CHECK_BOX &&
+          !cpqAttribute.isLineItem
+        ) {
+          dataType = Configurator.DataType.USER_SELECTION_NO_QTY;
         } else {
           dataType = Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL;
         }
