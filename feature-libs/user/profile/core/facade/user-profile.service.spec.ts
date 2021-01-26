@@ -14,7 +14,7 @@ import { UserPasswordService } from './user-password.service';
 import { UserProfileService } from './user-profile.service';
 
 class MockUserAccountService implements Partial<UserAccountService> {
-  getUser(): Observable<User> {
+  get(): Observable<User> {
     return of({ uid: OCC_USER_ID_CURRENT });
   }
 }

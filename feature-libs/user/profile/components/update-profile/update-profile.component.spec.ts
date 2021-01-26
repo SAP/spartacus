@@ -43,7 +43,7 @@ class MockUpdateProfileFormComponent {
 class MockCxSpinnerComponent {}
 
 class MockUserProfileService implements Partial<UserProfileService> {
-  getUser(): Observable<User> {
+  get(): Observable<User> {
     return of();
   }
 

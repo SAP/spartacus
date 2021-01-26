@@ -15,7 +15,7 @@ import { UserProfileService } from './user-profile.service';
 import { UserRegisterService } from './user-register.service';
 
 class MockUserProfileService implements Partial<UserProfileService> {
-  getUser(): Observable<User> {
+  get(): Observable<User> {
     return of({ uid: OCC_USER_ID_CURRENT });
   }
   getTitles(): Observable<Title[]> {

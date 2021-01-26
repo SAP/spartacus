@@ -28,7 +28,7 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.user$ = this.userProfileService.getUser();
+    this.user$ = this.userProfileService.get();
     this.titles$ = this.userProfileService.getTitles();
   }
 

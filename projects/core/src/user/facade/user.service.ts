@@ -45,6 +45,8 @@ export class UserService {
 
   /**
    * Loads the user's details.
+   *
+   * @deprecated since 3.2, use `UserAccountService.load()` from `@spartacus/user` package.
    */
   load(): void {
     this.userIdService.invokeWithUserId((userId) => {

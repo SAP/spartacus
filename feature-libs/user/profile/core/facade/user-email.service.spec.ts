@@ -1,6 +1,10 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { OCC_USER_ID_CURRENT, ProcessModule } from '@spartacus/core';
+import {
+  OCC_USER_ID_CURRENT,
+  ProcessModule,
+  StateUtils,
+} from '@spartacus/core';
 import { User } from '@spartacus/user/account/core';
 import { Observable, of } from 'rxjs';
 import { UserProfileActions } from '../store/actions/index';
@@ -13,7 +17,7 @@ import { UserEmailService } from './user-email.service';
 import { UserProfileService } from './user-profile.service';
 
 class MockUserProfileService implements Partial<UserProfileService> {
-  getUser(): Observable<User> {
+  get(): Observable<User> {
     return of({ uid: OCC_USER_ID_CURRENT });
   }
 }
@@ -63,6 +67,17 @@ describe('UserEmailService', () => {
           newUid,
         })
       );
+    });
+
+    it('should return loading process state', () => {
+      let result: StateUtils.LoaderState<User>;
+      userEmailService
+        .update(password, newUid)
+        .subscribe((state) => {
+          result = state;
+        })
+        .unsubscribe();
+      expect(result.loading).toBeTruthy();
     });
   });
 });

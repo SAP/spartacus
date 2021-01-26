@@ -7,7 +7,7 @@ import {
 } from '@spartacus/core';
 import { User, UserAccountService } from '@spartacus/user/account/core';
 import { Observable } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap, take, tap } from 'rxjs/operators';
 import { Title } from '../model/user-profile.model';
 import { UserProfileActions, UserProfileSelectors } from '../store/index';
 import {
@@ -23,8 +23,8 @@ export class UserProfileService {
     protected userAccountService: UserAccountService
   ) {}
 
-  getUser(): Observable<User> {
-    return this.userAccountService.getUser();
+  get(): Observable<User> {
+    return this.userAccountService.get();
   }
 
   /**
@@ -33,8 +33,9 @@ export class UserProfileService {
    * @param details User details to be updated.
    */
   update(details: User): Observable<StateUtils.LoaderState<User>> {
-    this.getUser()
+    this.get()
       .pipe(
+        take(1),
         tap((user) =>
           this.store.dispatch(
             new UserProfileActions.UpdateUserProfile({ uid: user.uid, details })
@@ -50,7 +51,7 @@ export class UserProfileService {
    * Closes the user account.
    */
   close(): Observable<StateUtils.LoaderState<User>> {
-    return this.getUser().pipe(
+    return this.get().pipe(
       tap((user) =>
         this.store.dispatch(new UserProfileActions.RemoveUser(user.uid))
       ),

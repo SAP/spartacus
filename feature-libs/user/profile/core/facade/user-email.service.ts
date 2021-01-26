@@ -7,7 +7,7 @@ import {
 } from '@spartacus/core';
 import { User } from '@spartacus/user/account/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 import { UserProfileActions } from '../store/actions/index';
 import { UPDATE_EMAIL_PROCESS_ID } from '../store/user-profile.state';
 import { UserProfileService } from './user-profile.service';
@@ -29,8 +29,9 @@ export class UserEmailService {
     newUid: string
   ): Observable<StateUtils.LoaderState<User>> {
     this.userProfileService
-      .getUser()
+      .get()
       .pipe(
+        take(1),
         tap((user) =>
           this.store.dispatch(
             new UserProfileActions.UpdateEmailAction({

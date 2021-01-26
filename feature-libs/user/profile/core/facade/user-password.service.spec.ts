@@ -13,7 +13,7 @@ import { UserPasswordService } from './user-password.service';
 import { UserProfileService } from './user-profile.service';
 
 class MockUserProfileService implements Partial<UserProfileService> {
-  getUser(): Observable<User> {
+  get(): Observable<User> {
     return of({ uid: OCC_USER_ID_CURRENT });
   }
 }

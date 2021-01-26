@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import {
-  OCC_USER_ID_ANONYMOUS,
-  StateWithProcess,
-  UserIdService,
-} from '@spartacus/core';
+import { StateWithProcess, UserIdService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { User } from '../model/user.model';
+import { UserAccountActions } from '../store/actions/index';
 import { UserAccountSelectors } from '../store/selectors/index';
 import { StateWithUser } from '../store/user-account.state';
 
@@ -20,29 +17,25 @@ export class UserAccountService {
 
   /**
    * Returns the current user.
-   *
-   * If there's no user logged in (i.e. anonymous session), an error is thrown.
    */
-  getUser(): Observable<User> {
+  get(): Observable<User> {
     return this.store.pipe(select(UserAccountSelectors.getDetails)).pipe(
-      take(1),
-      map((user) => {
-        if (user.uid === OCC_USER_ID_ANONYMOUS) {
-          throw new Error('User is not logged in.');
+      tap((user) => {
+        if (Object.keys(user).length === 0) {
+          this.load();
         }
-        return user;
       })
     );
   }
 
-  // /**
-  //  * Loads the user's details.
-  //  */
-  // protected load(): void {
-  //   this.userIdService.invokeWithUserId((userId) => {
-  //     if (userId !== OCC_USER_ID_ANONYMOUS) {
-  //       this.store.dispatch(new UserAccountActions.LoadUserAccount(userId));
-  //     }
-  //   });
-  // }
+  /**
+   * Loads the user's details.
+   */
+  load(): void {
+    this.userIdService
+      .takeUserId(true)
+      .subscribe((userId) =>
+        this.store.dispatch(new UserAccountActions.LoadUserAccount(userId))
+      );
+  }
 }

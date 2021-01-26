@@ -7,7 +7,7 @@ import {
 } from '@spartacus/core';
 import { User } from '@spartacus/user/account/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 import { UserProfileActions } from '../store/actions/index';
 import { UserProfileSelectors } from '../store/selectors/index';
 import {
@@ -37,8 +37,9 @@ export class UserPasswordService {
     newPassword: string
   ): Observable<StateUtils.LoaderState<User>> {
     this.userProfileService
-      .getUser()
+      .get()
       .pipe(
+        take(1),
         tap((user) =>
           this.store.dispatch(
             new UserProfileActions.UpdatePassword({
@@ -70,6 +71,13 @@ export class UserPasswordService {
     );
   }
 
+  /**
+   * Return whether user's password is successfully reset
+   */
+  isPasswordReset(): Observable<boolean> {
+    return this.store.pipe(select(UserProfileSelectors.getResetPassword));
+  }
+
   /*
    * Request an email to reset a forgotten password.
    */
@@ -77,12 +85,5 @@ export class UserPasswordService {
     this.store.dispatch(
       new UserProfileActions.ForgotPasswordEmailRequest(email)
     );
-  }
-
-  /**
-   * Return whether user's password is successfully reset
-   */
-  isPasswordReset(): Observable<boolean> {
-    return this.store.pipe(select(UserProfileSelectors.getResetPassword));
   }
 }
