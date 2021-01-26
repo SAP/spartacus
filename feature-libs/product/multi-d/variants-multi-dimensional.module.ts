@@ -5,7 +5,7 @@ import { VariantsMultiDimensionalComponentsModule } from '@spartacus/product/mul
 
 @NgModule({
   imports: [
-    VariantsMultiDimensionalCoreModule,
+    VariantsMultiDimensionalCoreModule.forRoot(),
     VariantsMultiDimensionalOccModule,
     VariantsMultiDimensionalComponentsModule,
   ],

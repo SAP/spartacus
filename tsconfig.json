@@ -119,6 +119,11 @@
       "@spartacus/vendor": [
         "projects/vendor/public_api"
       ],
+
+
+      "@spartacus/product/multi-d": [
+        "feature-libs/product/multi-d/public_api"
+      ],
       "@spartacus/product/multi-d/components": [
         "feature-libs/product/multi-d/components/public_api"
       ],
@@ -128,6 +133,24 @@
       "@spartacus/product/multi-d/occ": [
         "feature-libs/product/multi-d/occ/public_api"
       ],
+      "@spartacus/product/variants": [
+        "feature-libs/product/variants/public_api"
+      ],
+      "@spartacus/product/variants/assets": [
+        "feature-libs/product/variants/assets/public_api"
+      ],
+      "@spartacus/product/variants/components": [
+        "feature-libs/product/variants/components/public_api"
+      ],
+      "@spartacus/product/variants/core": [
+        "feature-libs/product/variants/core/public_api"
+      ],
+      "@spartacus/product/variants/occ": [
+        "feature-libs/product/variants/occ/public_api"
+      ],
+      "@spartacus/product/variants/root": [
+        "feature-libs/product/variants/root/public_api"
+      ]
     }
   },
   "exclude": [

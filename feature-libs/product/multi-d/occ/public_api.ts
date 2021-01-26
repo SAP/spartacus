@@ -1,1 +1,1 @@
-export * from './variant-generic-occ.module';
+export * from './variants-multi-dimensional-occ.module';
