@@ -246,12 +246,12 @@ context('CPQ Configuration', () => {
       configuration
         .goToConfigurationPage(POWERTOOLS, PROD_CODE_CAM, 'cpq')
         .then(() => {
-          configuration.waitForProductCardsLoad(9);
+          configuration.waitForProductCardsLoad(12);
           configuration.checkPreviousBtnDisabled();
           configuration.checkNextBtnEnabled();
 
           configuration.clickOnNextBtn(GRP_CAM_ACC);
-          configuration.waitForProductCardsLoad(13);
+          configuration.waitForProductCardsLoad(14);
           configuration.checkPreviousBtnEnabled();
           configuration.checkNextBtnEnabled();
 
@@ -261,7 +261,7 @@ context('CPQ Configuration', () => {
           configuration.checkNextBtnDisabled();
 
           configuration.clickOnPreviousBtn(GRP_CAM_ACC);
-          configuration.waitForProductCardsLoad(13);
+          configuration.waitForProductCardsLoad(14);
         });
     });
 
@@ -269,18 +269,18 @@ context('CPQ Configuration', () => {
       configuration
         .goToConfigurationPage(POWERTOOLS, PROD_CODE_CAM, 'cpq')
         .then(() => {
-          configuration.waitForProductCardsLoad(9);
+          configuration.waitForProductCardsLoad(12);
 
           configuration.clickOnGroup(2);
           configuration.waitForProductCardsLoad(0);
           configuration.checkCurrentGroupActive(GRP_CAM_IAW);
 
           configuration.clickOnGroup(1);
-          configuration.waitForProductCardsLoad(13);
+          configuration.waitForProductCardsLoad(14);
           configuration.checkCurrentGroupActive(GRP_CAM_ACC);
 
           configuration.clickOnGroup(0);
-          configuration.waitForProductCardsLoad(9);
+          configuration.waitForProductCardsLoad(12);
           configuration.checkCurrentGroupActive(GRP_CAM_MAIN);
         });
     });
@@ -289,7 +289,7 @@ context('CPQ Configuration', () => {
       configuration
         .goToConfigurationPage(POWERTOOLS, PROD_CODE_CAM, 'cpq')
         .then(() => {
-          configuration.waitForProductCardsLoad(9);
+          configuration.waitForProductCardsLoad(12);
 
           configuration.checkAttributeHeaderDisplayed(ATTR_NAMES.GRP_CAM_MAIN);
 
