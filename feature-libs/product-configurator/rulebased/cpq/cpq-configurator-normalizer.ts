@@ -111,7 +111,7 @@ export class CpqConfiguratorNormalizer
   setSelectedSingleValue(attribute: Configurator.Attribute) {
     const selectedValues = attribute.values
       .map((entry) => entry)
-      .filter((entry) => entry.selected);
+      .filter((entry) => entry.selected && entry.valueCode !== '0');
     if (selectedValues && selectedValues.length === 1) {
       attribute.selectedSingleValue = selectedValues[0].valueCode;
     }
@@ -123,6 +123,9 @@ export class CpqConfiguratorNormalizer
     currency: string,
     values: Configurator.Value[]
   ): void {
+    if (this.hasValueToBeIgnored(sourceAttribute, sourceValue)) {
+      return;
+    }
     const value: Configurator.Value = {
       valueCode: sourceValue.paV_ID.toString(),
       name: sourceValue.valueCode,
@@ -282,5 +285,21 @@ export class CpqConfiguratorNormalizer
 
   protected hasAnyProducts(attributeValues: Cpq.Value[]): boolean {
     return attributeValues.some((value: Cpq.Value) => value?.productSystemId);
+  }
+
+  protected hasValueToBeIgnored(
+    attribute: Cpq.Attribute,
+    value: Cpq.Value
+  ): boolean {
+    const selectedValues: Cpq.Value[] = attribute.values
+      .map((entry) => entry)
+      .filter((entry) => entry.selected && entry.paV_ID !== 0);
+    return (
+      attribute.displayAs === Cpq.DisplayAs.DROPDOWN &&
+      attribute.required &&
+      selectedValues &&
+      selectedValues.length > 0 &&
+      value.paV_ID === 0
+    );
   }
 }
