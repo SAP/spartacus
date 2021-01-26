@@ -110,7 +110,7 @@
     "e2e:cy:open:b2b": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:open:b2b",
     "config:update": "ts-node ./tools/config/index.ts --fix",
     "config:check": "ts-node ./tools/config/index.ts",
-    "ngcc:lock:remove": "rm -rf ./node_modules/.cli-ngcc/"
+    "ngcc:lock:remove": "rm -rf ./node_modules/.cli-ngcc/*.lock"
   },
   "private": false,
   "dependencies": {
