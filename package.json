@@ -8,7 +8,7 @@
   "scripts": {
     "build": "ng build storefrontapp --prod",
     "build:assets": "yarn --cwd ./projects/assets build",
-    "build:libs": "ng build core --prod && ng build storefrontlib --prod && yarn build:schematics && yarn build:organization && yarn build:product && yarn build:product-configurator && yarn build:storefinder && yarn build:qualtrics && yarn build:assets && yarn build:incubator && yarn build:cdc && yarn build:cds:lib && yarn build:setup",
+    "build:libs": "yarn ngcc:lock:remove && ng build core --prod && ng build storefrontlib --prod && yarn build:schematics && yarn build:organization && yarn build:product && yarn build:product-configurator && yarn build:storefinder && yarn build:qualtrics && yarn build:assets && yarn build:incubator && yarn build:cdc && yarn build:cds:lib && yarn build:setup",
     "build:incubator": "ng build incubator --prod",
     "build:setup": "ng build setup --prod",
     "e2e:cy:open": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:open",
