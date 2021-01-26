@@ -7,8 +7,7 @@ POSITIONAL=()
 readonly help_display="Usage: $0 [ command_options ] [ param ]
 
     command options:
-        --suite, -s                             choose an e2e suite to run. Default: b2c
-        --integration, -i                       run an additional e2e integration suite (cds, cdc, etc)
+        --suite, -s                             e2e suite to run (b2c, b2b, cds, flaky). Default: b2c
         --environment, --env                    [ 2005 | 2011 | ccv2]. Default: 2005
         --help, -h                              show help
 "
@@ -18,12 +17,6 @@ do
     case "$1" in
         '--suite' | '-s' )
             SUITE=":$2"
-            ENV_FILE="-b2b"
-            shift
-            shift
-            ;;
-        '--integration' | '-i' )
-            INTEGRATION=":$2"
             shift
             shift
             ;;
@@ -55,7 +48,7 @@ yarn install
 
 (cd projects/storefrontapp-e2e-cypress && yarn install)
 
-yarn build:libs && yarn build"${INTEGRATION}" 2>&1 | tee build.log
+yarn build:libs 2>&1 | tee build.log
 
 results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
 if [[ -z "${results}" ]]; then
@@ -70,6 +63,6 @@ fi
 echo '-----'
 echo "Running Cypress end to end tests"
 
-yarn e2e${INTEGRATION}:start:run:ci"${SUITE}"
+yarn e2e:start:run:ci"${SUITE}"
 
 echo "Running Cypress end to end tests finished"

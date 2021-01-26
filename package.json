@@ -7,7 +7,7 @@
     "node": ">=10 <14"
   },
   "scripts": {
-    "build": "env-cmd -e ci:b2c,$SPA_ENV ng build storefrontapp",
+    "build": "env-cmd -e ci:b2c,$SPA_ENV ng build storefrontapp --prod",
     "build:assets": "yarn --cwd ./projects/assets build",
     "build:cdc": "ng build cdc --prod",
     "build:cds": "ng build cds --prod",
@@ -31,8 +31,6 @@
     "e2e:start:run:ci:b2b": "start-server-and-test start:prod http-get://localhost:4200 e2e:run:ci:b2b",
     "e2e:start:run:ci:cds": "start-server-and-test start:prod http-get://localhost:4200 e2e:run:ci:cds",
     "e2e:start:run:ci:flaky": "start-server-and-test start:prod  http-get://localhost:4200 e2e:run:ci:flaky",
-    "e2e:start:open:cds": "start-server-and-test start:prod http-get://localhost:4200 e2e:open",
-    "e2e:start:run:cds": "start-server-and-test start:prod http-get://localhost:4200 e2e:run",
     "generate:changelog": "ts-node ./scripts/changelog.ts",
     "generate:docs": "npx @compodoc/compodoc -p tsconfig.compodoc.json && ./scripts/zip-docs.sh",
     "generate:publish:docs": "yarn generate:docs && yarn publish:docs",
@@ -43,7 +41,6 @@
     "prettier:fix": "prettier --config ./.prettierrc --list-different \"{projects,feature-libs,core-libs,integration-libs}/**/*{.ts,.js,.json,.scss,.html}\" --write",
     "start": "env-cmd -e ci:b2c,$SPA_ENV ng serve",
     "start:prod": "env-cmd -e ci:b2c,$SPA_ENV ng serve --prod",
-    "start:ssl": "env-cmd -e ci:b2c,$SPA_ENV ng serve --ssl",
     "start:pwa": "cd ./dist/storefrontapp/ && http-server -p 4200",
     "test": "ng test",
     "test:libs": "concurrently \"ng test core --code-coverage\" \"ng test storefrontlib --code-coverage\" \"ng test organization --code-coverage\" \"ng test storefinder --code-coverage\" \"ng test qualtrics --code-coverage\" \"ng test product --code-coverage\" \"ng test cdc --code-coverage\" \"ng test setup --code-coverage\"",
