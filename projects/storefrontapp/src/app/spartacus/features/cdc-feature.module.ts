@@ -1,6 +1,7 @@
+import { NgModule } from '@angular/core';
 import { CdcModule } from '@spartacus/cdc';
-import { FeatureEnvironment } from '../models/feature.model';
-export const cdcFeature: FeatureEnvironment = {
+
+@NgModule({
   imports: [
     CdcModule.forRoot({
       cdc: [
@@ -17,4 +18,5 @@ export const cdcFeature: FeatureEnvironment = {
       ],
     }),
   ],
-};
+})
+export class CdcFeatureModule {}

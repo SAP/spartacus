@@ -1,7 +1,7 @@
+import { NgModule } from '@angular/core';
 import { CdsModule } from '@spartacus/cds';
-import { FeatureEnvironment } from '../models/feature.model';
 
-export const cdsFeature: FeatureEnvironment = {
+@NgModule({
   imports: [
     CdsModule.forRoot({
       cds: {
@@ -24,4 +24,5 @@ export const cdsFeature: FeatureEnvironment = {
       },
     }),
   ],
-};
+})
+export class CdsFeatureModule {}
