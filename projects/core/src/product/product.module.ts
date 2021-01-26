@@ -1,6 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { PageMetaResolver } from '../cms/page/page-meta.resolver';
-import { ProductSearchEventModule } from './event/product-search-event.module';
 import { CategoryPageMetaResolver } from './services/category-page-meta.resolver';
 import { CouponSearchPageResolver } from './services/coupon-search-page-meta.resolver';
 import { ProductPageMetaResolver } from './services/product-page-meta.resolver';
@@ -31,7 +30,7 @@ const pageTitleResolvers = [
 ];
 
 @NgModule({
-  imports: [ProductStoreModule, ProductSearchEventModule],
+  imports: [ProductStoreModule],
 })
 export class ProductModule {
   static forRoot(): ModuleWithProviders<ProductModule> {
