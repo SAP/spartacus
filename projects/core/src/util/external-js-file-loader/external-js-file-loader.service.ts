@@ -7,7 +7,7 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 export class ExternalJsFileLoader {
   constructor(
     @Inject(DOCUMENT) protected document: any,
-    @Inject(PLATFORM_ID) protected platformId: Object,
+    @Inject(PLATFORM_ID) protected platformId: Object
   ) {}
 
   /**
