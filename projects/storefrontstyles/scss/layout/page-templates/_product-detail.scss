@@ -15,7 +15,10 @@
 
         cx-product-images {
           grid-column: 1;
-          grid-row: 1 / span 6;
+          grid-row: 1 / span 5;
+          @include forVersion(3.1) {
+            grid-row: 1 / span 6;
+          }
         }
 
         cx-product-intro {
