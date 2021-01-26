@@ -9,6 +9,7 @@ import {
   ProductService,
   SearchboxService,
 } from '@spartacus/core';
+import { PageEvent } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import {
   filter,
@@ -18,7 +19,6 @@ import {
   take,
   withLatestFrom,
 } from 'rxjs/operators';
-import { PageEvent } from '../page';
 import {
   SearchBoxProductSelectedEvent,
   SearchBoxSuggestionResultsEvent,

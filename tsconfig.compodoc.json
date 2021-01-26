@@ -74,6 +74,9 @@
       "@spartacus/product/configurators/variant": [
         "feature-libs/product/configurators/variant/public_api"
       ],
+      "@spartacus/product/events": [
+        "feature-libs/product/events/public_api"
+      ],
       "@spartacus/product": [
         "feature-libs/product/public_api"
       ],
