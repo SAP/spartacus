@@ -108,7 +108,8 @@
     "e2e:cy:b2b:start-run-ci:2005": "start-server-and-test start:ci:b2b http-get://localhost:4200 e2e:cy:run:b2b:ci",
     "start:ci:b2b": "cross-env SPARTACUS_BASE_URL=https://spartacus-devci767.eastus.cloudapp.azure.com:9002 SPARTACUS_API_PREFIX=/occ/v2/ SPARTACUS_B2B=true yarn start",
     "e2e:cy:open:b2b": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:open:b2b",
-    "config:update": "ts-node ./tools/tsconfig-paths/index.ts"
+    "config:update": "ts-node ./tools/config/index.ts --fix",
+    "config:check": "ts-node ./tools/config/index.ts"
   },
   "private": false,
   "dependencies": {
@@ -165,7 +166,7 @@
     "@types/node": "^12.11.1",
     "@types/parse5": "^5.0.3",
     "@types/shelljs": "^0.8.7",
-    "chalk": "^2.4.2",
+    "chalk": "^4.1.0",
     "codelyzer": "^6.0.0",
     "commander": "^3.0.0",
     "concurrently": "^5.3.0",
@@ -194,6 +195,8 @@
     "karma-junit-reporter": "^1.2.0",
     "ng-packagr": "^10.1.0",
     "npm-package-versions": "^1.0.1",
+    "postcss": "^8.2.3",
+    "postcss-scss": "^3.0.4",
     "prettier": "~2.1.1",
     "release-it": "^14.2.2",
     "rimraf": "^3.0.2",
