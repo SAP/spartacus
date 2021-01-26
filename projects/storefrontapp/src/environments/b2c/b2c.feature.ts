@@ -5,6 +5,7 @@ import {
   storeFinderTranslationChunksConfig,
   storeFinderTranslations,
 } from '@spartacus/storefinder/assets';
+import { VariantsRootModule } from '@spartacus/product/variants/root';
 
 export const b2cFeature: FeatureEnvironment = {
   imports: [
@@ -30,6 +31,11 @@ export const b2cFeature: FeatureEnvironment = {
           module: () =>
             import('@spartacus/storefinder').then((m) => m.StoreFinderModule),
         },
+
+        variants: {
+          module: () =>
+            import('@spartacus/product/variants').then((m) => m.VariantsModule),
+        },
       },
       i18n: {
         resources: storeFinderTranslations,
@@ -37,5 +43,6 @@ export const b2cFeature: FeatureEnvironment = {
       },
     }),
     StoreFinderRootModule,
+    VariantsRootModule,
   ],
 };
