@@ -58,6 +58,7 @@ yarn install
 
 (cd projects/storefrontapp-e2e-cypress && yarn install)
 
+yarn ngcc:lock:remove
 yarn build:libs && yarn build"${INTEGRATION}" 2>&1 | tee build.log
 
 results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
