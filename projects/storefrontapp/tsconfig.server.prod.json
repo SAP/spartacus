@@ -33,6 +33,9 @@
       "@spartacus/organization/order-approval/root": [
         "../../dist/organization/order-approval/root"
       ],
+      "@spartacus/personalization/core": ["../../dist/personalization/core"],
+      "@spartacus/personalization": ["../../dist/personalization"],
+      "@spartacus/personalization/root": ["../../dist/personalization/root"],
       "@spartacus/product/configurators/common": [
         "../../dist/product/configurators/common"
       ],
@@ -47,6 +50,9 @@
         "../../dist/product/configurators/variant"
       ],
       "@spartacus/product": ["../../dist/product"],
+      "@spartacus/qualtrics/components": ["../../dist/qualtrics/components"],
+      "@spartacus/qualtrics": ["../../dist/qualtrics"],
+      "@spartacus/qualtrics/root": ["../../dist/qualtrics/root"],
       "@spartacus/storefinder/assets": ["../../dist/storefinder/assets"],
       "@spartacus/storefinder/components": [
         "../../dist/storefinder/components"
@@ -55,9 +61,6 @@
       "@spartacus/storefinder": ["../../dist/storefinder"],
       "@spartacus/storefinder/occ": ["../../dist/storefinder/occ"],
       "@spartacus/storefinder/root": ["../../dist/storefinder/root"],
-      "@spartacus/qualtrics/components": ["../../dist/qualtrics/components"],
-      "@spartacus/qualtrics": ["../../dist/qualtrics"],
-      "@spartacus/qualtrics/root": ["../../dist/qualtrics/root"],
       "@spartacus/cdc": ["../../dist/cdc"],
       "@spartacus/cds": ["../../dist/cds"],
       "@spartacus/assets": ["../../dist/assets"],

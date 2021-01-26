@@ -1,4 +1,4 @@
 /*
  * Public API Surface of personalizatiion
  */
-export * from './qualtrics.module';
+export * from './personalization.module';

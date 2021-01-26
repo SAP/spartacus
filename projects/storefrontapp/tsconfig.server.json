@@ -36,6 +36,15 @@
       "@spartacus/organization/order-approval/root": [
         "../../feature-libs/organization/order-approval/root/public_api"
       ],
+      "@spartacus/personalization/core": [
+        "../../feature-libs/personalization/core/public_api"
+      ],
+      "@spartacus/personalization": [
+        "../../feature-libs/personalization/public_api"
+      ],
+      "@spartacus/personalization/root": [
+        "../../feature-libs/personalization/root/public_api"
+      ],
       "@spartacus/product/configurators/common": [
         "../../feature-libs/product/configurators/common/public_api"
       ],
@@ -52,6 +61,13 @@
         "../../feature-libs/product/configurators/variant/public_api"
       ],
       "@spartacus/product": ["../../feature-libs/product/public_api"],
+      "@spartacus/qualtrics/components": [
+        "../../feature-libs/qualtrics/components/public_api"
+      ],
+      "@spartacus/qualtrics": ["../../feature-libs/qualtrics/public_api"],
+      "@spartacus/qualtrics/root": [
+        "../../feature-libs/qualtrics/root/public_api"
+      ],
       "@spartacus/storefinder/assets": [
         "../../feature-libs/storefinder/assets/public_api"
       ],
@@ -67,13 +83,6 @@
       ],
       "@spartacus/storefinder/root": [
         "../../feature-libs/storefinder/root/public_api"
-      ],
-      "@spartacus/qualtrics/components": [
-        "../../feature-libs/qualtrics/components/public_api"
-      ],
-      "@spartacus/qualtrics": ["../../feature-libs/qualtrics/public_api"],
-      "@spartacus/qualtrics/root": [
-        "../../feature-libs/qualtrics/root/public_api"
       ],
       "@spartacus/cdc": ["../../integration-libs/cdc/public_api"],
       "@spartacus/cds": ["../../integration-libs/cds/public_api"],

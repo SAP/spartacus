@@ -20,9 +20,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "paths": {
-      "@spartacus/schematics": [
-        "projects/schematics/src/public_api"
-      ],
       "@spartacus/setup": [
         "core-libs/setup/public_api"
       ],
@@ -59,6 +56,15 @@
       "@spartacus/organization/order-approval/root": [
         "feature-libs/organization/order-approval/root/public_api"
       ],
+      "@spartacus/personalization/core": [
+        "feature-libs/personalization/core/public_api"
+      ],
+      "@spartacus/personalization": [
+        "feature-libs/personalization/public_api"
+      ],
+      "@spartacus/personalization/root": [
+        "feature-libs/personalization/root/public_api"
+      ],
       "@spartacus/product/configurators/common": [
         "feature-libs/product/configurators/common/public_api"
       ],
@@ -76,6 +82,15 @@
       ],
       "@spartacus/product": [
         "feature-libs/product/public_api"
+      ],
+      "@spartacus/qualtrics/components": [
+        "feature-libs/qualtrics/components/public_api"
+      ],
+      "@spartacus/qualtrics": [
+        "feature-libs/qualtrics/public_api"
+      ],
+      "@spartacus/qualtrics/root": [
+        "feature-libs/qualtrics/root/public_api"
       ],
       "@spartacus/storefinder/assets": [
         "feature-libs/storefinder/assets/public_api"
@@ -95,15 +110,6 @@
       "@spartacus/storefinder/root": [
         "feature-libs/storefinder/root/public_api"
       ],
-      "@spartacus/qualtrics": [
-        "feature-libs/qualtrics/public_api"
-      ],
-      "@spartacus/qualtrics/root": [
-        "feature-libs/qualtrics/root/public_api"
-      ],
-      "@spartacus/qualtrics/components": [
-        "feature-libs/qualtrics/components/public_api"
-      ],
       "@spartacus/cdc": [
         "integration-libs/cdc/public_api"
       ],
@@ -118,6 +124,9 @@
       ],
       "@spartacus/incubator": [
         "projects/incubator/public_api"
+      ],
+      "@spartacus/schematics": [
+        "projects/schematics/src/public_api"
       ],
       "@spartacus/storefront": [
         "projects/storefrontlib/src/public_api"

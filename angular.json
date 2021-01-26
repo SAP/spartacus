@@ -646,7 +646,7 @@
     "personalization": {
       "projectType": "library",
       "root": "feature-libs/personalization",
-      "sourceRoot": "feature-libs/personalization/src",
+      "sourceRoot": "feature-libs/personalization",
       "prefix": "cx",
       "architect": {
         "build": {

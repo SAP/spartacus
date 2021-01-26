@@ -1,0 +1,34 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "personalization-${version}",
+    "commitMessage": "Bumping personalization version to ${version}",
+    "tagAnnotation": "Bumping personalization version to ${version}"
+  },
+  "npm": {
+    "publishPath": "./../../dist/personalization"
+  },
+  "hooks": {
+    "after:version:bump": "cd ../.. && yarn build:personalization"
+  },
+  "github": {
+    "release": true,
+    "assets": ["../../docs.tar.gz", "../../docs.zip"],
+    "releaseName": "@spartacus/personalization@${version}",
+    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib personalization --to personalization-${version}"
+  },
+  "plugins": {
+    "../../scripts/release-it/bumper.js": {
+      "out": [
+        {
+          "file": "package.json",
+          "path": [
+            "peerDependencies.@spartacus/core",
+            "peerDependencies.@spartacus/schematics"
+          ]
+        }
+      ]
+    }
+  }
+}

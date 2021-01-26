@@ -12,7 +12,9 @@
     "importHelpers": true,
     "types": [],
     "lib": ["es2020", "dom"],
-    "paths": {}
+    "paths": {
+      "@spartacus/core": ["dist/core"]
+    }
   },
   "angularCompilerOptions": {
     "skipTemplateCodegen": true,
