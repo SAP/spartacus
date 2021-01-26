@@ -1,6 +1,7 @@
 import { Directive, OnDestroy, OnInit } from '@angular/core';
-import { GlobalMessageType } from '@spartacus/core';
-import { distinctUntilChanged, filter } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
+import { GlobalMessageType, RoutingService } from '@spartacus/core';
+import { distinctUntilChanged, filter, take } from 'rxjs/operators';
 import { ItemService } from './item.service';
 import { MessageService } from './message/services/message.service';
 import { BaseItem } from './organization.model';
@@ -13,7 +14,9 @@ export class ItemActiveDirective<T = BaseItem> implements OnInit, OnDestroy {
 
   constructor(
     protected itemService: ItemService<T>,
-    protected messageService: MessageService
+    protected messageService: MessageService,
+    protected routingService: RoutingService,
+    protected route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -36,6 +39,16 @@ export class ItemActiveDirective<T = BaseItem> implements OnInit, OnDestroy {
       },
       type: GlobalMessageType.MSG_TYPE_ERROR,
     });
+
+    this.routingService
+      .getRouterState()
+      .pipe(take(1))
+      .subscribe((routerState) => {
+        this.routingService.go([
+          routerState.state.context.id,
+          item.customerId ?? item.uid,
+        ]);
+      });
   }
 
   ngOnDestroy() {
