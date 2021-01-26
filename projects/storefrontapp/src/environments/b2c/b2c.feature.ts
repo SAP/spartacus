@@ -1,3 +1,4 @@
+import { QualtricsRootModule } from '@spartacus/qualtrics/root';
 import {
   storeFinderTranslationChunksConfig,
   storeFinderTranslations,
@@ -38,13 +39,15 @@ export const b2cFeature: FeatureEnvironment = {
         },
         userDetails: {
           module: () =>
-            import('feature-libs/user/account/public_api').then(
-              (m) => m.UserAccountModule
-            ),
+            import('@spartacus/user/account').then((m) => m.UserAccountModule),
         },
         userProfile: {
           module: () =>
             import('@spartacus/user/profile').then((m) => m.UserProfileModule),
+        },
+        qualtrics: {
+          module: () =>
+            import('@spartacus/qualtrics').then((m) => m.QualtricsModule),
         },
       },
       i18n: {
@@ -62,5 +65,6 @@ export const b2cFeature: FeatureEnvironment = {
     StoreFinderRootModule,
     UserAccountRootModule,
     UserProfileRootModule,
+    QualtricsRootModule,
   ],
 };

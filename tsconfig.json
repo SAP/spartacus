@@ -79,8 +79,11 @@
       "@spartacus/storefinder/root": [
         "feature-libs/storefinder/root/public_api"
       ],
-
-      // User Account
+      "@spartacus/qualtrics": ["feature-libs/qualtrics/public_api"],
+      "@spartacus/qualtrics/root": ["feature-libs/qualtrics/root/public_api"],
+      "@spartacus/qualtrics/components": [
+        "feature-libs/qualtrics/components/public_api"
+      ],
       "@spartacus/user/account": ["feature-libs/user/account/public_api"],
       "@spartacus/user/account/root": [
         "feature-libs/user/account/root/public_api"
@@ -114,7 +117,6 @@
       "@spartacus/user/profile/assets": [
         "feature-libs/user/profile/assets/public_api"
       ],
-
       "@spartacus/cdc": ["integration-libs/cdc/public_api"],
       "@spartacus/cds": ["integration-libs/cds/public_api"],
       "@spartacus/assets": ["projects/assets/src/public_api"],
