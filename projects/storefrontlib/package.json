@@ -1,17 +1,14 @@
 {
   "name": "@spartacus/storefront",
   "version": "3.0.0",
-  "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
     "spartacus",
     "storefront",
     "angular"
   ],
-  "license": "Apache-2.0",
-  "publishConfig": {
-    "access": "public"
-  },
+  "homepage": "https://github.com/SAP/spartacus",
   "repository": "https://github.com/SAP/spartacus/tree/develop/projects/storefrontlib",
+  "license": "Apache-2.0",
   "dependencies": {
     "tslib": "^2.0.0"
   },
@@ -25,10 +22,13 @@
     "@ng-bootstrap/ng-bootstrap": "^7.0.0",
     "@ng-select/ng-select": "^5.0.9",
     "@ngrx/effects": "^10.0.0",
+    "@ngrx/router-store": "^10.0.0",
     "@ngrx/store": "^10.0.0",
     "@spartacus/core": "3.0.0",
-    "rxjs": "^6.6.0",
     "ngx-infinite-scroll": "^8.0.0",
-    "@ngrx/router-store": "^10.0.0"
+    "rxjs": "^6.6.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

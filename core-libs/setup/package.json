@@ -2,7 +2,6 @@
   "name": "@spartacus/setup",
   "version": "3.0.0",
   "description": "Includes features that makes Spartacus and it's setup easier and streamlined.",
-  "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
     "spartacus",
     "framework",
@@ -10,11 +9,12 @@
     "setup",
     "recipe"
   ],
-  "license": "Apache-2.0",
-  "publishConfig": {
-    "access": "public"
-  },
+  "homepage": "https://github.com/SAP/spartacus",
   "repository": "https://github.com/SAP/spartacus/tree/develop/core-libs/setup",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
   "peerDependencies": {
     "@angular/common": "^10.1.0",
     "@angular/core": "^10.1.0",
@@ -25,7 +25,7 @@
     "@nguniversal/express-engine": "^10.1.0",
     "express": "^4.15.0"
   },
-  "dependencies": {
-    "tslib": "^2.0.0"
+  "publishConfig": {
+    "access": "public"
   }
 }
