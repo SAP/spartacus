@@ -211,9 +211,6 @@ export type Library = {
   }>;
 };
 
-/**
- * Representation of repo
- */
 export type Repository = {
   [library: string]: Library;
 };

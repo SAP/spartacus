@@ -35,7 +35,7 @@ function readTsConfigFile(path: string): any {
 }
 
 function setCompilerOptionsPaths(tsconfigPath: string, paths: Object) {
-  const tsConfigContent = parse(fs.readFileSync(tsconfigPath, 'utf-8'));
+  const tsConfigContent = readTsConfigFile(tsconfigPath);
   assign(tsConfigContent.compilerOptions, { paths });
   fs.writeFileSync(tsconfigPath, stringify(tsConfigContent, null, 2));
 }
@@ -151,7 +151,7 @@ function handleConfigUpdate(
 }
 
 /**
- * When library have it's own schematics (tsconfig.schematics.json exists) and have
+ * When library have its own schematics ts config (tsconfig.schematics.json exists) and have
  * schematics as peerDependency we add path to `@spartacus/schematics` lib.
  */
 function handleSchematicsConfigs(
@@ -191,7 +191,7 @@ function handleSchematicsConfigs(
 }
 
 /**
- * Adds paths to spartacus dependencies in libraries `tsconfig.lib.json` files.
+ * Adds paths to spartacus dependencies in `tsconfig.lib.json` files.
  * We grab all spartacus dependencies and add for all of them all entry points.
  */
 function handleLibConfigs(
@@ -218,7 +218,7 @@ function handleLibConfigs(
             (acc, entry) => {
               return {
                 ...acc,
-                // In tsconfig.lib.json files we reference builded paths. eg. `@spartacus/storefront`: ['dist/storefrontlib/src/public_api']`
+                // In tsconfig.lib.json files we reference built paths. eg. `@spartacus/storefront`: ['dist/storefrontlib/src/public_api']
                 [entry.entryPoint]: [
                   joinPaths('dist', dependency.distDir, entry.directory),
                 ],
@@ -259,7 +259,7 @@ function handleRootConfigs(
   const entryPoints = Object.values(libraries).reduce((acc, curr) => {
     curr.entryPoints.forEach((entryPoint) => {
       acc[entryPoint.entryPoint] = [
-        // We reference source files entry points in these configs. eg. `projects/storefrontlib/src/public_api`
+        // We reference source files entry points in these configs. E.g. `projects/storefrontlib/src/public_api`
         joinPaths(curr.directory, entryPoint.directory, entryPoint.entryFile),
       ];
     });

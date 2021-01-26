@@ -13,6 +13,7 @@
  */
 
 import chalk from 'chalk';
+import { execSync } from 'child_process';
 import fs, { readFileSync } from 'fs';
 import glob from 'glob';
 import postcss from 'postcss-scss';
@@ -427,7 +428,7 @@ function filterLocalAbsolutePathFiles(
                       )}\``,
                     ],
                     [
-                      `You should use absolute paths only for testing modules.`,
+                      `You can use absolute paths only in test files.`,
                       `Use relative or entry point import instead.`,
                     ]
                   );
@@ -630,7 +631,7 @@ function checkIfWeHaveAllDependenciesInPackageJson(
           'dependencies'
         )}\` or \`${chalk.bold('devDependencies')}\`.`,
         `Install them with \`${chalk.bold(
-          'yarn add <dependency-name> (--dev)'
+          'yarn add <dependency-name> [--dev]'
         )}\`.`,
       ]);
     } else {
@@ -733,7 +734,7 @@ function addMissingDependenciesToPackageJson(
         )}\` or \`${chalk.bold('peerDependencies')}\`.`,
         `Adding new \`${chalk.bold(
           'peerDependency'
-        )}\` is considered a breaking change!`,
+        )}\` might be a breaking change!`,
         `This can be automatically fixed by running \`${chalk.bold(
           'yarn config:update'
         )}\`.`,
@@ -984,7 +985,7 @@ function checkForLockFile(
           [
             `Library \`${chalk.bold(
               lib.name
-            )}\` should not have it's own \`${chalk.bold('yarn.lock')}\`.`,
+            )}\` should not have its own \`${chalk.bold('yarn.lock')}\`.`,
           ],
           [
             `Libraries should use packages from root \`${chalk.bold(
@@ -1169,9 +1170,14 @@ function updateDependenciesVersions(
 function savePackageJsonFiles(
   libraries: Record<string, LibraryWithDependencies>
 ) {
+  reportProgress('Saving package.json files to disk');
   Object.values(libraries).forEach((lib) => {
     const pathToPackageJson = `${lib.directory}/${PACKAGE_JSON}`;
     const packageJson = lib.packageJsonContent;
     saveJsonFile(pathToPackageJson, packageJson);
+    execSync(`cd ${lib.directory} && npx sort-package-json`, {
+      stdio: 'ignore',
+    });
+    logUpdatedFile(pathToPackageJson);
   });
 }

@@ -46,6 +46,7 @@
       "@spartacus/organization",
       "@spartacus/product",
       "@spartacus/storefinder",
+      "@spartacus/qualtrics",
       "@spartacus/cdc",
       "@spartacus/setup"
     ]
