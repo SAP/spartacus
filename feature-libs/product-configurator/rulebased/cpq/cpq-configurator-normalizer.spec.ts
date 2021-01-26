@@ -259,18 +259,18 @@ describe('CpqConfiguratorNormalizer', () => {
   });
 
   it('should remove value "No option selected" for required DDLB when a "real" value already selected', () => {
-    const cpqValue1: Cpq.Value = { paV_ID: 0, selected: false };
-    const cpqValue2: Cpq.Value = { paV_ID: 1, selected: true };
+    const cpqValueA: Cpq.Value = { paV_ID: 0, selected: false };
+    const cpqValueB: Cpq.Value = { paV_ID: 1, selected: true };
     const cpqAttr: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
       displayAs: Cpq.DisplayAs.DROPDOWN,
       required: true,
-      values: [cpqValue1, cpqValue2],
+      values: [cpqValueA, cpqValueB],
     };
     const values: Configurator.Value[] = [];
     cpqConfiguratorNormalizer.convertValue(
-      cpqValue1,
+      cpqValueA,
       cpqAttr,
       CURRENCY,
       values
@@ -279,18 +279,18 @@ describe('CpqConfiguratorNormalizer', () => {
   });
 
   it('should not remove value "No option selected" for non required DDLB when a "real" value already selected', () => {
-    const cpqValue1: Cpq.Value = { paV_ID: 0, selected: false };
-    const cpqValue2: Cpq.Value = { paV_ID: 1, selected: true };
+    const cpqValueA: Cpq.Value = { paV_ID: 0, selected: false };
+    const cpqValueB: Cpq.Value = { paV_ID: 1, selected: true };
     const cpqAttr: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
       displayAs: Cpq.DisplayAs.DROPDOWN,
       required: false,
-      values: [cpqValue1, cpqValue2],
+      values: [cpqValueA, cpqValueB],
     };
     const values: Configurator.Value[] = [];
     cpqConfiguratorNormalizer.convertValue(
-      cpqValue1,
+      cpqValueA,
       cpqAttr,
       CURRENCY,
       values
@@ -806,77 +806,77 @@ describe('CpqConfiguratorNormalizer', () => {
   });
 
   it('should determine the "No option selected" value for required DDLB as "to be ignored" when a "real" value already selected', () => {
-    const cpqValue1: Cpq.Value = { paV_ID: 0, selected: false };
-    const cpqValue2: Cpq.Value = { paV_ID: 1, selected: true };
+    const cpqValueA: Cpq.Value = { paV_ID: 0, selected: false };
+    const cpqValueB: Cpq.Value = { paV_ID: 1, selected: true };
     const cpqAttr: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
       displayAs: Cpq.DisplayAs.DROPDOWN,
       required: true,
-      values: [cpqValue1, cpqValue2],
+      values: [cpqValueA, cpqValueB],
     };
     expect(
-      cpqConfiguratorNormalizer['hasValueToBeIgnored'](cpqAttr, cpqValue1)
+      cpqConfiguratorNormalizer['hasValueToBeIgnored'](cpqAttr, cpqValueA)
     ).toBe(true);
   });
 
   it('should determine the "No option selected" value for non required DDLB as not "to be ignored" when a "real" value already selected', () => {
-    const cpqValue1: Cpq.Value = { paV_ID: 0, selected: false };
-    const cpqValue2: Cpq.Value = { paV_ID: 1, selected: true };
+    const cpqValueA: Cpq.Value = { paV_ID: 0, selected: false };
+    const cpqValueB: Cpq.Value = { paV_ID: 1, selected: true };
     const cpqAttr: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
       displayAs: Cpq.DisplayAs.DROPDOWN,
       required: false,
-      values: [cpqValue1, cpqValue2],
+      values: [cpqValueA, cpqValueB],
     };
     expect(
-      cpqConfiguratorNormalizer['hasValueToBeIgnored'](cpqAttr, cpqValue1)
+      cpqConfiguratorNormalizer['hasValueToBeIgnored'](cpqAttr, cpqValueA)
     ).toBe(false);
   });
 
   it('should determine the "No option selected" value for not DDLB as not "to be ignored" when a "real" value already selected', () => {
-    const cpqValue1: Cpq.Value = { paV_ID: 0, selected: false };
-    const cpqValue2: Cpq.Value = { paV_ID: 1, selected: true };
+    const cpqValueA: Cpq.Value = { paV_ID: 0, selected: false };
+    const cpqValueB: Cpq.Value = { paV_ID: 1, selected: true };
     const cpqAttr: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
       displayAs: Cpq.DisplayAs.RADIO_BUTTON,
       required: true,
-      values: [cpqValue1, cpqValue2],
+      values: [cpqValueA, cpqValueB],
     };
     expect(
-      cpqConfiguratorNormalizer['hasValueToBeIgnored'](cpqAttr, cpqValue1)
+      cpqConfiguratorNormalizer['hasValueToBeIgnored'](cpqAttr, cpqValueA)
     ).toBe(false);
   });
 
   it('should determine the "No option selected" value for required DDLB as not "to be ignored" when no "real" value already selected', () => {
-    const cpqValue1: Cpq.Value = { paV_ID: 0, selected: true };
-    const cpqValue2: Cpq.Value = { paV_ID: 1, selected: false };
+    const cpqValueA: Cpq.Value = { paV_ID: 0, selected: true };
+    const cpqValueB: Cpq.Value = { paV_ID: 1, selected: false };
     const cpqAttr: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
       displayAs: Cpq.DisplayAs.DROPDOWN,
       required: true,
-      values: [cpqValue1, cpqValue2],
+      values: [cpqValueA, cpqValueB],
     };
     expect(
-      cpqConfiguratorNormalizer['hasValueToBeIgnored'](cpqAttr, cpqValue1)
+      cpqConfiguratorNormalizer['hasValueToBeIgnored'](cpqAttr, cpqValueA)
     ).toBe(false);
   });
 
   it('should determine the "real" value for required DDLB as not "to be ignored" when another "real" value already selected', () => {
-    const cpqValue1: Cpq.Value = { paV_ID: 2, selected: false };
-    const cpqValue2: Cpq.Value = { paV_ID: 1, selected: true };
+    const cpqValueA: Cpq.Value = { paV_ID: 2, selected: false };
+    const cpqValueB: Cpq.Value = { paV_ID: 1, selected: true };
     const cpqAttr: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
       displayAs: Cpq.DisplayAs.DROPDOWN,
       required: true,
-      values: [cpqValue1, cpqValue2],
+      values: [cpqValueA, cpqValueB],
     };
     expect(
-      cpqConfiguratorNormalizer['hasValueToBeIgnored'](cpqAttr, cpqValue1)
+      cpqConfiguratorNormalizer['hasValueToBeIgnored'](cpqAttr, cpqValueA)
     ).toBe(false);
   });
 });
