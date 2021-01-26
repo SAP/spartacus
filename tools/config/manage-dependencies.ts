@@ -1095,7 +1095,7 @@ function updateDependenciesVersions(
             }
           } else {
             // breaking change!
-            if (options.breakingChanges && options.fix) {
+            if (options.bumpVersions && options.fix) {
               packageJson[type][dep] = rootDeps[dep];
               updates.add(pathToPackageJson);
             } else if (!options.fix) {
@@ -1144,9 +1144,10 @@ function updateDependenciesVersions(
         `All external dependencies should have the same version as in the root \`${chalk.bold(
           PACKAGE_JSON
         )}\`.`,
-        `Bumping to a higher dependency version is considered a breaking change!`,
+        `Bumping to a higher dependency version should be only done in major releases!`,
+        `We want to specify everywhere the lowest compatible dependency version with Spartacus.`,
         `This can be automatically fixed by running \`${chalk.bold(
-          'yarn config:update --breaking-changes'
+          'yarn config:update --bump-versions'
         )}\`.`,
       ]);
     }
