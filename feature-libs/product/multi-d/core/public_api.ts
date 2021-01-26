@@ -1,2 +1,2 @@
-export * from './variant-generic-core.module';
+export * from './variants-multi-dimensional-core.module';
 export * from './guards/index';

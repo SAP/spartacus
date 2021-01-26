@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
-import { ProductVariantsComponent } from '../components';
-import { ProductVariantGuard } from '@spartacus/product/variants/core';
+import { ProductVariantsComponent } from '@spartacus/product/variants/components';
+import { ProductVariantsGuard } from '@spartacus/product/variants/core';
 
 @NgModule({
   providers: [
@@ -9,7 +9,7 @@ import { ProductVariantGuard } from '@spartacus/product/variants/core';
       cmsComponents: {
         ProductVariantSelectorComponent: {
           component: ProductVariantsComponent,
-          guards: [ProductVariantGuard],
+          guards: [ProductVariantsGuard],
         },
       },
     }),
