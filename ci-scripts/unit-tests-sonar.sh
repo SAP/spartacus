@@ -76,6 +76,18 @@ echo "Running schematics unit tests and code coverage for qualtrics library"
 exec 5>&1
 output=$(yarn --cwd feature-libs/qualtrics run test:schematics --coverage=true | tee /dev/fd/5)
 
+echo "Running unit tests and code coverage for personalization library"
+exec 5>&1
+output=$(ng test personalization --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
+coverage=$(echo $output | grep -i "does not meet global threshold" || true)
+if [[ -n "$coverage" ]]; then
+    echo "Error: Tests did not meet coverage expectations"
+    exit 1
+fi
+echo "Running schematics unit tests and code coverage for personalization library"
+exec 5>&1
+output=$(yarn --cwd feature-libs/personalization run test:schematics --coverage=true | tee /dev/fd/5)
+
 echo "Running unit tests and code coverage for setup"
 exec 5>&1
 output=$(ng test setup --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
