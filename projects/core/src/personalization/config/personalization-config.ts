@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Config } from '../../config/config-tokens';
 
+/**
+ * @deprecated since 3.2, use personalization lib instead
+ */
 @Injectable({
   providedIn: 'root',
   useExisting: Config,

@@ -9,6 +9,7 @@ import {
   orderApprovalTranslations,
 } from '@spartacus/organization/order-approval/assets';
 import { OrderApprovalRootModule } from '@spartacus/organization/order-approval/root';
+import { PersonalizationRootModule } from '@spartacus/personalization/root';
 import { B2bStorefrontModule } from '@spartacus/setup';
 import { FeatureEnvironment } from '../models/feature.model';
 
@@ -16,6 +17,7 @@ export const b2bFeature: FeatureEnvironment = {
   imports: [
     AdministrationRootModule,
     OrderApprovalRootModule,
+    PersonalizationRootModule,
 
     B2bStorefrontModule.withConfig({
       context: {
@@ -34,6 +36,12 @@ export const b2bFeature: FeatureEnvironment = {
           module: () =>
             import('@spartacus/organization/order-approval').then(
               (m) => m.OrderApprovalModule
+            ),
+        },
+        personalization: {
+          module: () =>
+            import('@spartacus/personalization').then(
+              (m) => m.PersonalizationModule
             ),
         },
       },

@@ -1,5 +1,8 @@
 import { PersonalizationConfig } from './personalization-config';
 
+/**
+ * @deprecated since 3.2, use personalization lib instead
+ */
 export const defaultPersonalizationConfig: PersonalizationConfig = {
   personalization: {
     enabled: false,
