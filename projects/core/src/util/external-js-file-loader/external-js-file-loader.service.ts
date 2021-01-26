@@ -1,14 +1,17 @@
-import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable } from '@angular/core';
+import { DOCUMENT, isPlatformServer } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExternalJsFileLoader {
-  constructor(@Inject(DOCUMENT) protected document: any) {}
+  constructor(
+    @Inject(DOCUMENT) protected document: any,
+    @Inject(PLATFORM_ID) protected platformId: Object,
+  ) {}
 
   /**
-   * Loads a javascript from an external URL
+   * Loads a javascript from an external URL. Loading is skipped during SSR.
    * @param src URL for the script to be loaded
    * @param params additional parameters to be attached to the given URL
    * @param callback a function to be invoked after the script has been loaded
@@ -20,6 +23,9 @@ export class ExternalJsFileLoader {
     callback?: EventListener,
     errorCallback?: EventListener
   ): void {
+    if (isPlatformServer(this.platformId)) {
+      return;
+    }
     const script: HTMLScriptElement = this.document.createElement('script');
     script.type = 'text/javascript';
     if (params) {
