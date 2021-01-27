@@ -111,7 +111,7 @@ export class CpqConfiguratorNormalizer
   setSelectedSingleValue(attribute: Configurator.Attribute) {
     const selectedValues = attribute.values
       .map((entry) => entry)
-      .filter((entry) => entry.selected && entry.valueCode !== '0');
+      .filter((entry) => entry.selected);
     if (selectedValues && selectedValues.length === 1) {
       attribute.selectedSingleValue = selectedValues[0].valueCode;
     }
@@ -253,7 +253,10 @@ export class CpqConfiguratorNormalizer
       case Configurator.UiType.DROPDOWN:
       case Configurator.UiType.DROPDOWN_PRODUCT:
       case Configurator.UiType.SINGLE_SELECTION_IMAGE: {
-        if (!attribute.selectedSingleValue) {
+        if (
+          !attribute.selectedSingleValue ||
+          attribute.selectedSingleValue === '0'
+        ) {
           attribute.incomplete = true;
         }
         break;
