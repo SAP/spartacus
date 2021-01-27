@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CxEvent, EventService, WindowRef } from '@spartacus/core';
-import { AdobeLaunchService, TmsConfig } from '@spartacus/tms';
+import { AdobeLaunchService } from '@spartacus/tms/adobe-launch';
+import { TmsConfig } from '@spartacus/tms/core';
 
 type CustomAdobeLaunchDataLayer = {};
 
