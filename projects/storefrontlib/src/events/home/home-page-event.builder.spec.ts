@@ -5,18 +5,17 @@ import {
   FeatureConfigService,
 } from '@spartacus/core';
 import { take } from 'rxjs/operators';
-import { NavigationEvent } from '../navigation';
-import { PageEventBuilder } from './page-event.builder';
-import { PageEvent } from './page.events';
+import { NavigationEvent } from '../navigation/navigation.event';
+import { HomePageEventBuilder } from './home-page-event.builder';
+import { HomePageEvent } from './home-page.events';
 
-// TODO: #10896 - delete this whole file
 class MockFeatureConfigService implements Partial<FeatureConfigService> {
   isLevel(_version: string): boolean {
     return true;
   }
 }
 
-describe('PageEventBuilder', () => {
+describe('HomePageEventBuilder', () => {
   let eventService: EventService;
 
   beforeEach(() => {
@@ -26,25 +25,29 @@ describe('PageEventBuilder', () => {
       ],
     });
 
-    TestBed.inject(PageEventBuilder); // register events
+    TestBed.inject(HomePageEventBuilder); // register events
     eventService = TestBed.inject(EventService);
   });
 
-  it('PageEvent', () => {
-    let result: PageEvent;
+  it('HomePageEvent', () => {
+    let result: HomePageEvent;
     eventService
-      .get(PageEvent)
+      .get(HomePageEvent)
       .pipe(take(1))
       .subscribe((value) => (result = value));
 
     const navigationEvent = createFrom(NavigationEvent, {
-      context: { id: 'aPage' },
-      semanticRoute: 'aPage',
-      url: 'random url',
+      context: { id: 'home' },
+      semanticRoute: 'home',
+      url: 'home url',
       params: undefined,
     });
     eventService.dispatch(navigationEvent);
     expect(result).toBeTruthy();
-    expect(result).toEqual(jasmine.objectContaining({ ...navigationEvent }));
+    expect(result).toEqual(
+      jasmine.objectContaining({
+        navigation: { ...navigationEvent } as HomePageEvent,
+      })
+    );
   });
 });

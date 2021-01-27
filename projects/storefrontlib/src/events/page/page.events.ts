@@ -25,10 +25,3 @@ export class PageEvent extends CxEvent {
 
   navigation?: NavigationEvent;
 }
-
-/**
- * Indicates that a user visited the home page.
- */
-export class HomePageEvent extends PageEvent {
-  static readonly type = 'HomePageEvent';
-}

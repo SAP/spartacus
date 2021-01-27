@@ -20,6 +20,7 @@ import {
 import { OutletModule } from '../cms-structure/outlet/outlet.module';
 import { RoutingModule } from '../cms-structure/routing/routing.module';
 import { CartPageEventModule } from '../events/cart/cart-page-event.module';
+import { HomePageEventModule } from '../events/home/home-page-event.module';
 import { NavigationEventModule } from '../events/navigation/navigation-event.module';
 import { PageEventModule } from '../events/page/page-event.module';
 import { ProductPageEventModule } from '../events/product/product-page-event.module';
@@ -56,6 +57,7 @@ import { ViewConfigModule } from '../shared/config/view-config.module';
     CartPageEventModule,
     PageEventModule,
     ProductPageEventModule,
+    HomePageEventModule,
   ],
   exports: [LayoutModule],
   providers: [...provideConfigFromMetaTags()],
