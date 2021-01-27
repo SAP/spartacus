@@ -35,13 +35,7 @@ export class ConfiguratorOverviewNotificationBannerComponent {
       this.configuratorCommonsService.getConfiguration(routerData.owner)
     ),
     distinctUntilKeyChanged('configId'),
-    map((configuration) => {
-      if (configuration.totalNumberOfIssues) {
-        return configuration.totalNumberOfIssues;
-      } else {
-        return this.countNumberOfIssues(configuration);
-      }
-    })
+    map((configuration) => configuration.totalNumberOfIssues)
   );
 
   iconTypes = ICON_TYPE;
@@ -51,31 +45,6 @@ export class ConfiguratorOverviewNotificationBannerComponent {
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService
   ) {}
-
-  /**
-   * Count number of issues for a configuration.
-   * This method will be removed when OCC returns the total number of issues.
-   * Our calculation does not cover all groups but only the currently selected
-   * one
-   * @param configuration Current configuration
-   * @returns Number of issues
-   */
-  countNumberOfIssues(configuration: Configurator.Configuration): number {
-    const numberOfConflicts = configuration.flatGroups.filter(
-      (group) => group.groupType === Configurator.GroupType.CONFLICT_GROUP
-    ).length;
-    let numberOfIncompleteFields = 0;
-    configuration.flatGroups
-      .filter(
-        (group) => group.groupType === Configurator.GroupType.ATTRIBUTE_GROUP
-      )
-      .forEach(
-        (group) =>
-          (numberOfIncompleteFields =
-            numberOfIncompleteFields + this.countIssuesInGroup(group))
-      );
-    return numberOfConflicts + numberOfIncompleteFields;
-  }
 
   protected countIssuesInGroup(group: Configurator.Group): number {
     let numberOfIssues = 0;
