@@ -8,6 +8,7 @@ import { BreadcrumbMeta, Page, PageRobotsMeta } from '../model/page.model';
 import { BasePageMetaResolver } from './base-page-meta.resolver';
 import { PageMetaResolver } from './page-meta.resolver';
 import {
+  CanonicalPageResolver,
   PageBreadcrumbResolver,
   PageRobotsResolver,
   PageTitleResolver,
@@ -26,7 +27,11 @@ import { RoutingPageMetaResolver } from './routing/routing-page-meta.resolver';
 })
 export class ContentPageMetaResolver
   extends PageMetaResolver
-  implements PageTitleResolver, PageBreadcrumbResolver, PageRobotsResolver {
+  implements
+    PageTitleResolver,
+    PageBreadcrumbResolver,
+    PageRobotsResolver,
+    CanonicalPageResolver {
   /**
    * @deprecated since 3.1, we'll use the BasePageMetaResolver in future versions.
    */
@@ -109,5 +114,12 @@ export class ContentPageMetaResolver
   // TODO(#10467) drop the 3.1 note.
   resolveRobots(): Observable<PageRobotsMeta[]> {
     return this.basePageMetaResolver?.resolveRobots();
+  }
+
+  /**
+   * @override resolves the canonical page for the content page.
+   */
+  resolveCanonicalUrl(): Observable<string> {
+    return this.basePageMetaResolver?.resolveCanonicalUrl();
   }
 }

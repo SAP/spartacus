@@ -75,3 +75,10 @@ export interface PageRobotsResolver {
    */
   resolveRobots(): Observable<PageRobotsMeta[]>;
 }
+
+export interface CanonicalPageResolver {
+  /**
+   * Resolves the canonical url for the page.
+   */
+  resolveCanonicalUrl(url: string): any;
+}

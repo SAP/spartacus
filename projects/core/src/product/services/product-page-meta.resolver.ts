@@ -179,4 +179,11 @@ export class ProductPageMetaResolver
   resolveRobots(): Observable<PageRobotsMeta[]> {
     return of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX]);
   }
+
+  /**
+   * Resolves the canonical url for the product page.
+   */
+  resolveCanonicalUrl(): Observable<string> {
+    return this.basePageMetaResolver?.resolveCanonicalUrl();
+  }
 }

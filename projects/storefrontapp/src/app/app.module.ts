@@ -1,4 +1,5 @@
 import { registerLocaleData } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
 import localeJa from '@angular/common/locales/ja';
 import localeZh from '@angular/common/locales/zh';
@@ -7,15 +8,14 @@ import {
   BrowserModule,
   BrowserTransferStateModule,
 } from '@angular/platform-browser';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import { ConfigModule, TestConfigModule } from '@spartacus/core';
 import { StorefrontComponent } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
-import { HttpClientModule } from '@angular/common/http';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
 import { AppRoutingModule } from './app-routing.module';
 import { SpartacusModule } from './spartacus/spartacus.module';
 

@@ -86,4 +86,14 @@ export class SearchPageMetaResolver
   resolveRobots(): Observable<PageRobotsMeta[]> {
     return this.basePageMetaResolver?.resolveRobots() ?? of([]);
   }
+
+  /**
+   * Resolves the canonical page for the search page.
+   *
+   * The default options will be used to resolve the url, which means that
+   * the all query parameters are removed and https and www are added explicitly.
+   */
+  resolveCanonicalUrl(): Observable<string> {
+    return this.basePageMetaResolver?.resolveCanonicalUrl();
+  }
 }

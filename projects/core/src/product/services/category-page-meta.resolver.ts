@@ -141,4 +141,14 @@ export class CategoryPageMetaResolver
   resolveRobots(): Observable<PageRobotsMeta[]> {
     return this.basePageMetaResolver?.resolveRobots() ?? of([]);
   }
+
+  /**
+   * Resolves the canonical url for the category listing page.
+   *
+   * The default options will be used to resolve the url, which means that
+   * the all query parameters are removed and https and www are added explicitly.
+   */
+  resolveCanonicalUrl(): Observable<string> {
+    return this.basePageMetaResolver?.resolveCanonicalUrl();
+  }
 }
