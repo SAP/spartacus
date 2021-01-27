@@ -1,7 +1,7 @@
 import { Injectable, isDevMode, OnDestroy } from '@angular/core';
 import { CxEvent, EventService, WindowRef } from '@spartacus/core';
 import { TmsConfig } from '@spartacus/tms/core';
-import { merge, Subscription } from 'rxjs';
+import { merge, Observable, Subscription } from 'rxjs';
 
 export type AdobeLaunchDataLayer = (
   data: any,
@@ -36,9 +36,18 @@ export class AdobeLaunchService implements OnDestroy {
       this.tmsConfig.tms?.adobeLaunch?.events?.map((event) =>
         this.eventsService.get(event)
       ) || [];
-    this.subscription = merge(...events).subscribe((event) =>
+    this.subscription = this.mapEvents(events).subscribe((event) =>
       this.pushToDataLayer(event)
     );
+  }
+
+  /**
+   * Maps the given events to an appropriate type that fits the specified TMS' structure.
+   */
+  protected mapEvents<T extends CxEvent>(
+    events: Observable<T>[]
+  ): Observable<T> {
+    return merge(...events);
   }
 
   /**
