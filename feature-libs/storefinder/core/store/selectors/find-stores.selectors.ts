@@ -29,7 +29,7 @@ export const getStoresLoading: MemoizedSelector<
   StateUtils.loaderLoadingSelector(state)
 );
 
-export const getStoresSucess: MemoizedSelector<
+export const getStoresSuccess: MemoizedSelector<
   StateWithStoreFinder,
   boolean
 > = createSelector(getFindStoresState, (state) =>

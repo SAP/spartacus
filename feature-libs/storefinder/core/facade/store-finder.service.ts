@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Action, select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { StoreFinderActions } from '../store/actions/index';
 import { StoreFinderSelectors } from '../store/selectors/index';
 import {
@@ -16,6 +16,7 @@ import {
   SearchConfig,
   WindowRef,
 } from '@spartacus/core';
+import { StoreEntities } from '../model';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +29,34 @@ export class StoreFinderService {
     protected winRef: WindowRef,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService
-  ) {}
+  ) {
+    combineLatest([
+      this.getStoresLoading(),
+      this.getStoresLoaded(),
+      this.getFindStoresEntities(),
+      this.routingService.getParams(),
+    ]).subscribe(([loading, loaded, value, params]) => {
+      if (!loading && !loaded) {
+        if (
+          this.isEmpty(value.findStoresEntities) &&
+          params.country &&
+          !params.store
+        ) {
+          this.findStoresAction(
+            '',
+            {
+              pageSize: -1,
+            },
+            undefined,
+            params.country
+          );
+        }
+        if (this.isEmpty(value.findStoreEntitiesById) && params.store) {
+          this.viewStoreById(params.store);
+        }
+      }
+    });
+  }
 
   /**
    * Returns boolean observable for store's loading state
@@ -41,7 +69,7 @@ export class StoreFinderService {
    * Returns boolean observable for store's success state
    */
   getStoresLoaded(): Observable<boolean> {
-    return this.store.pipe(select(StoreFinderSelectors.getStoresSucess));
+    return this.store.pipe(select(StoreFinderSelectors.getStoresSuccess));
   }
 
   /**
@@ -151,5 +179,11 @@ export class StoreFinderService {
       this.geolocationWatchId = null;
     }
     this.store.dispatch(callbackAction);
+  }
+
+  private isEmpty(store: StoreEntities): boolean {
+    return (
+      !store || (typeof store === 'object' && Object.keys(store).length === 0)
+    );
   }
 }

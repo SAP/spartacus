@@ -10,11 +10,16 @@ import { StoresState, STORE_FINDER_DATA } from '../store-finder-state';
 import { SiteContextActions, StateUtils } from '@spartacus/core';
 import { OrganizationState } from '@spartacus/organization/administration/core';
 import { StoreFinderActions } from '../actions';
+import { findStoresReducer } from './find-stores.reducer';
+import { viewAllStoresReducer } from './view-all-stores.reducer';
 
 export function getReducers(): ActionReducerMap<StoresState> {
   return {
-    findStores: StateUtils.loaderReducer(STORE_FINDER_DATA),
-    viewAllStores: StateUtils.loaderReducer(STORE_FINDER_DATA),
+    findStores: StateUtils.loaderReducer(STORE_FINDER_DATA, findStoresReducer),
+    viewAllStores: StateUtils.loaderReducer(
+      STORE_FINDER_DATA,
+      viewAllStoresReducer
+    ),
   };
 }
 

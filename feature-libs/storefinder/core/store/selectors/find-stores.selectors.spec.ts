@@ -61,7 +61,7 @@ describe('FindStores Selectors', () => {
     it('should return isLoaded flag', () => {
       let result: boolean;
       store
-        .pipe(select(StoreFinderSelectors.getStoresSucess))
+        .pipe(select(StoreFinderSelectors.getStoresSuccess))
         .subscribe((value) => (result = value));
 
       expect(result).toEqual(false);
