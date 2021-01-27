@@ -82,23 +82,3 @@ export interface CanonicalPageResolver {
    */
   resolveCanonicalUrl(url: string): any;
 }
-
-/**
- * Resolves alternative links for multilingual content as well as content exposed
- * in different markets (often country based). This is used by crawlers to present the
- * right page to the end user.
- */
-export interface AlternativePagesResolver {
-  resolveAlternativePages(): Observable<
-    {
-      url: string;
-
-      /**
-       * The language isoCode. This can be the 2-character ISO-code ('en', 'de', 'fr', etc'),
-       * but if similar languages are used for different countries/markets, a combination of
-       * language and country can be used (`US-en`, `EN-en`, `FR-fr`, etc).
-       */
-      language: string;
-    }[]
-  >;
-}
