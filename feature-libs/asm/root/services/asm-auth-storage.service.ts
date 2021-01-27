@@ -31,7 +31,7 @@ export class AsmAuthStorageService extends AuthStorageService {
    * This supports in-store use case when CS Agent want's to quickly help
    * customer and then give an option to customer to continue the process.
    */
-  protected emulatedUserToken: AuthToken;
+  protected emulatedUserToken?: AuthToken;
 
   /**
    * Get target user for current auth token.
@@ -56,7 +56,7 @@ export class AsmAuthStorageService extends AuthStorageService {
    *
    * @return previously logged in user token.
    */
-  getEmulatedUserToken(): AuthToken {
+  getEmulatedUserToken(): AuthToken | undefined {
     return this.emulatedUserToken;
   }
 

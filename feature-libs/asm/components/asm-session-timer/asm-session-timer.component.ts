@@ -74,6 +74,11 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
 
   protected getTimerStartDelayInSeconds(): number {
     if (
+      this.config.asm?.agentSessionTimer?.startingDelayInSeconds === undefined
+    ) {
+      return 600;
+    }
+    if (
       this.config.asm.agentSessionTimer.startingDelayInSeconds >
       this.maxStartDelayInSeconds
     ) {

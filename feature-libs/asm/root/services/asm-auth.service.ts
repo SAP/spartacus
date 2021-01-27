@@ -44,8 +44,8 @@ export class AsmAuthService extends AuthService {
   }
 
   protected canUserLogin(): boolean {
-    let tokenTarget: TokenTarget;
-    let token: AuthToken;
+    let tokenTarget: TokenTarget | undefined;
+    let token: AuthToken | undefined;
 
     this.authStorageService
       .getToken()
