@@ -49,7 +49,6 @@ export class PageMetaService {
     breadcrumbs: 'resolveBreadcrumbs',
     image: 'resolveImage',
     robots: 'resolveRobots',
-    canonicalUrl: 'resolveCanonicalUrl',
   };
 
   protected meta$: Observable<PageMeta | null> = defer(() =>
