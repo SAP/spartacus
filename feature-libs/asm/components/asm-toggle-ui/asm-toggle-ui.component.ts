@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   encapsulation: ViewEncapsulation.None,
 })
 export class AsmToggleUiComponent implements OnInit, OnDestroy {
-  private subscription = new Subscription();
+  protected subscription = new Subscription();
   isCollapsed: boolean;
 
   constructor(protected asmService: AsmService) {}

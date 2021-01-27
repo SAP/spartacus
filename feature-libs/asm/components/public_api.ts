@@ -1,1 +1,1 @@
-export * from './asm-components.module';
+export * from './index';

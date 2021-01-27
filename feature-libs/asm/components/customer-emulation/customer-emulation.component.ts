@@ -12,7 +12,7 @@ import { AsmComponentService } from '../services/asm-component.service';
 export class CustomerEmulationComponent implements OnInit, OnDestroy {
   customer: User;
   isCustomerEmulationSessionInProgress$: Observable<boolean>;
-  private subscription = new Subscription();
+  protected subscription = new Subscription();
 
   constructor(
     protected asmComponentService: AsmComponentService,

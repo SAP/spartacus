@@ -32,7 +32,7 @@ export class AsmMainUiComponent implements OnInit {
 
   @HostBinding('class.hidden') disabled = false;
 
-  private startingCustomerSession = false;
+  protected startingCustomerSession = false;
 
   constructor(
     protected authService: AuthService,
@@ -62,7 +62,7 @@ export class AsmMainUiComponent implements OnInit {
       .pipe(map((uiState) => uiState.collapsed));
   }
 
-  private handleCustomerSessionStartRedirection(): void {
+  protected handleCustomerSessionStartRedirection(): void {
     this.asmComponentService
       .isCustomerEmulationSessionInProgress()
       .pipe(take(1))

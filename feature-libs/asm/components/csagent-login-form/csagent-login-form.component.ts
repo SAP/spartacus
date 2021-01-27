@@ -23,7 +23,7 @@ export class CSAgentLoginFormComponent implements OnInit {
   @Output()
   submitEvent = new EventEmitter<{ userId: string; password: string }>();
 
-  constructor(private fb: FormBuilder) {}
+  constructor(protected fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.csAgentLoginForm = this.fb.group({

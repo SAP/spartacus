@@ -26,7 +26,7 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class CustomerSelectionComponent implements OnInit, OnDestroy {
   customerSelectionForm: FormGroup;
-  private subscription = new Subscription();
+  protected subscription = new Subscription();
   searchResultsLoading$: Observable<boolean>;
   searchResults: Observable<CustomerSearchPage>;
   selectedCustomer: User;
@@ -38,9 +38,9 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   @ViewChild('searchTerm') searchTerm: ElementRef;
 
   constructor(
-    private fb: FormBuilder,
-    private asmService: AsmService,
-    private config: AsmConfig
+    protected fb: FormBuilder,
+    protected asmService: AsmService,
+    protected config: AsmConfig
   ) {}
 
   ngOnInit(): void {
@@ -60,7 +60,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     );
   }
 
-  private handleSearchTerm(searchTermValue: string) {
+  protected handleSearchTerm(searchTermValue: string) {
     if (
       Boolean(this.selectedCustomer) &&
       searchTermValue !== this.selectedCustomer.name

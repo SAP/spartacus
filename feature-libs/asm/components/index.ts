@@ -1,4 +1,3 @@
-/** we currently do not export all those components and services in the public API */
 export * from './asm-components.module';
 export * from './asm-main-ui/asm-main-ui.component';
 export * from './asm-session-timer/asm-session-timer.component';

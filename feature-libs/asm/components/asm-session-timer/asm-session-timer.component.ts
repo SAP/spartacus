@@ -18,17 +18,17 @@ import { AsmComponentService } from '../services/asm-component.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class AsmSessionTimerComponent implements OnInit, OnDestroy {
-  private subscriptions = new Subscription();
-  private interval: any;
-  private maxStartDelayInSeconds = 60000;
+  protected subscriptions = new Subscription();
+  protected interval: any;
+  protected maxStartDelayInSeconds = 60000;
   timeLeft: number;
 
   constructor(
-    private config: AsmConfig,
-    private asmComponentService: AsmComponentService,
-    private routingService: RoutingService,
-    private changeDetectorRef: ChangeDetectorRef,
-    private userIdService: UserIdService
+    protected config: AsmConfig,
+    protected asmComponentService: AsmComponentService,
+    protected routingService: RoutingService,
+    protected changeDetectorRef: ChangeDetectorRef,
+    protected userIdService: UserIdService
   ) {}
 
   ngOnInit(): void {
@@ -47,7 +47,7 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
     this.resetOnCustomerSessionChange();
   }
 
-  private resetOnNavigate(): void {
+  protected resetOnNavigate(): void {
     this.subscriptions.add(
       this.routingService.isNavigating().subscribe((isNavigating) => {
         if (isNavigating) {
@@ -57,7 +57,7 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
     );
   }
 
-  private resetOnCustomerSessionChange(): void {
+  protected resetOnCustomerSessionChange(): void {
     this.subscriptions.add(
       this.userIdService
         .getUserId()
@@ -72,7 +72,7 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getTimerStartDelayInSeconds(): number {
+  protected getTimerStartDelayInSeconds(): number {
     if (
       this.config.asm.agentSessionTimer.startingDelayInSeconds >
       this.maxStartDelayInSeconds
