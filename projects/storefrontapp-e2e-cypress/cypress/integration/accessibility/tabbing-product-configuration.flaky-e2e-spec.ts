@@ -1,7 +1,12 @@
+import { verifyTabbingOrder } from '../../helpers/accessibility/tabbing-order';
+import { tabbingOrderConfig as tabConfig } from '../../helpers/accessibility/tabbing-order.config';
 import * as configuration from '../../helpers/product-configuration';
 import * as configurationOverview from '../../helpers/product-configuration-overview';
-import { tabbingOrderConfig as tabConfig } from '../../helpers/accessibility/tabbing-order.config';
-import { verifyTabbingOrder } from '../../helpers/accessibility/tabbing-order';
+/**
+ * This suite is marked as flaky due to performance (synchronization) issues on
+ * https://spartacus-devci767.eastus.cloudapp.azure.com:9002 that we analyze in
+ * https://cxjira.sap.com/browse/TIGER-7252
+ */
 
 const electronicsShop = 'electronics-spa';
 const testProduct = 'CONF_CAMERA_SL';
