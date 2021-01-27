@@ -14,6 +14,9 @@ import { KeyboardFocusModule } from '../a11y/keyboard-focus/keyboard-focus.modul
 import { SkipLinkModule } from '../a11y/skip-link/skip-link.module';
 import { StorefrontComponent } from './storefront.component';
 
+/**
+ * @deprecated since 3.1, see https://sap.github.io/spartacus-docs/getting-started/reference-app-structure
+ */
 @NgModule({
   imports: [
     CommonModule,

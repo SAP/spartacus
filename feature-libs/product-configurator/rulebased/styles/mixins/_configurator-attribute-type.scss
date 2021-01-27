@@ -1,0 +1,10 @@
+@mixin cx-configurator-attribute-type {
+  display: flex;
+  flex-direction: row;
+  padding-inline-start: 0px;
+  padding-inline-end: 34px;
+  padding-block-start: 10px;
+  padding-block-end: 0px;
+
+  margin-inline-start: 17px;
+}

@@ -15,6 +15,9 @@ import { defaultOccConfig } from './config/default-occ-config';
 import { occConfigValidator } from './config/occ-config-validator';
 import { WithCredentialsInterceptor } from './interceptors/with-credentials.interceptor';
 
+/**
+ * @deprecated since 3.1, use individual imports instead
+ */
 @NgModule({
   imports: [
     AsmOccModule,

@@ -1,0 +1,7 @@
+<button
+  class="cx-btn btn btn-block btn-primary cx-add-to-cart-btn"
+  [routerLink]="{ cxRoute: 'cart' } | cxUrl"
+  (click)="onAddToCart()"
+>
+  {{ getButtonText() | cxTranslate }}
+</button>
