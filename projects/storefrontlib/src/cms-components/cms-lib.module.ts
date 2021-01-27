@@ -59,6 +59,7 @@ import { ProductSummaryModule } from './product/product-summary/product-summary.
 import { ProductVariantsModule } from './product/product-variants/product-variants.module';
 import { UserComponentModule } from './user/user.module';
 import { WishListModule } from './wish-list/wish-list.module';
+
 @NgModule({
   imports: [
     AnonymousConsentManagementBannerModule,
