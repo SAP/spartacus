@@ -24,6 +24,7 @@ export class ProductPageEventBuilder {
     protected eventService: EventService,
     protected productService: ProductService,
     protected productSearchService: ProductSearchService,
+    // TODO: #10896 - remove this
     /** @deprecated @since 3.1 - this will be remove in 4.0 */ protected featureConfigService?: FeatureConfigService
   ) {
     this.register();
@@ -130,6 +131,7 @@ export class ProductPageEventBuilder {
   private createDeprecatedPageEvent(
     navigationEvent: NavigationEvent
   ): PageEvent | undefined {
+    // TODO: #10896 - remove this if block
     return this.featureConfigService?.isLevel('!3.1')
       ? { ...navigationEvent }
       : undefined;

@@ -15,12 +15,14 @@ import { HomePageEvent, PageEvent } from './page.events';
 export class PageEventBuilder {
   constructor(
     protected eventService: EventService,
+    // TODO: #10896 - remove this
     /** @deprecated @since 3.1 - this will be remove in 4.0 */ protected featureConfigService?: FeatureConfigService
   ) {
     this.register();
   }
 
   protected register(): void {
+    // TODO: #10896 - remove this if block
     if (this.featureConfigService?.isLevel('!3.1')) {
       this.eventService.register(PageEvent, this.buildPageEvent());
     }

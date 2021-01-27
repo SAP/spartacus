@@ -33,7 +33,7 @@ interface EventMeta<T> {
 })
 export class EventService {
   constructor(
-    // TODO: #10896 - remove this injection
+    // TODO: #10896 - remove this
     /** @deprecated @since 3.1 - this will be remove in 4.0 */ protected featureConfigService?: FeatureConfigService
   ) {}
 
@@ -115,11 +115,10 @@ export class EventService {
    * Returns the event meta object for the given event type
    */
   private getEventMeta<T>(eventType: AbstractType<T>): EventMeta<T> {
-    if (isDevMode()) {
-      this.validateEventType(eventType);
-    }
-
     if (!this.eventsMeta.get(eventType)) {
+      if (isDevMode()) {
+        this.validateEventType(eventType);
+      }
       this.createEventMeta(eventType);
     }
     return this.eventsMeta.get(eventType);
