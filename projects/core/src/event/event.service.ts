@@ -33,6 +33,7 @@ interface EventMeta<T> {
 })
 export class EventService {
   constructor(
+    // TODO: #10896 - remove this injection
     /** @deprecated @since 3.1 - this will be remove in 4.0 */ protected featureConfigService?: FeatureConfigService
   ) {}
 
@@ -55,7 +56,7 @@ export class EventService {
    *
    * @returns a teardown function which unregisters the given event source
    */
-  // TODO: change from `AbstractType` to `Type`.
+  // TODO: #10896 - change from `AbstractType` to `Type`.
   register<T>(eventType: AbstractType<T>, source$: Observable<T>): () => void {
     const eventMeta = this.getEventMeta(eventType);
     if (eventMeta.mergingSubject.has(source$)) {
@@ -131,6 +132,7 @@ export class EventService {
     };
     this.eventsMeta.set(eventType, eventMeta);
 
+    // TODO: #10896 - remove this if block
     if (this.featureConfigService?.isLevel('3.1')) {
       let parentEvent = Object.getPrototypeOf(eventType);
       while (
@@ -155,6 +157,7 @@ export class EventService {
       );
     }
 
+    // TODO: #10896 - remove this if block
     if (this.featureConfigService?.isLevel('3.1')) {
       this.validateCxEvent(eventType);
     }
