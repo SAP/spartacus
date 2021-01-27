@@ -21,7 +21,7 @@ import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 })
 export class AsmEnablerService {
   private asmModuleInstance$: Observable<
-    NgModuleRef<any>
+    NgModuleRef<any> | undefined
   > = this.configInitializer.getStable('featureModules').pipe(
     map((config: CmsConfig) => config.featureModules ?? {}),
     switchMap((featureModulesConfig) =>
@@ -71,7 +71,7 @@ export class AsmEnablerService {
    */
   protected isLaunched(): boolean {
     const params = this.location.path().split('?')[1];
-    return params && params.split('&').includes('asm=true');
+    return !!params && params.split('&').includes('asm=true');
   }
 
   /**

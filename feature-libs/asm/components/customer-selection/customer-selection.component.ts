@@ -29,10 +29,10 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   searchResultsLoading$: Observable<boolean>;
   searchResults: Observable<CustomerSearchPage>;
-  selectedCustomer: User;
+  selectedCustomer: User | undefined;
 
   @Output()
-  submitEvent = new EventEmitter<{ customerId: string }>();
+  submitEvent = new EventEmitter<{ customerId?: string }>();
 
   @ViewChild('resultList') resultList: ElementRef;
   @ViewChild('searchTerm') searchTerm: ElementRef;
@@ -62,7 +62,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
   private handleSearchTerm(searchTermValue: string) {
     if (
-      Boolean(this.selectedCustomer) &&
+      !!this.selectedCustomer &&
       searchTermValue !== this.selectedCustomer.name
     ) {
       this.selectedCustomer = undefined;
@@ -74,7 +74,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     if (searchTermValue.trim().length >= 3) {
       this.asmService.customerSearch({
         query: searchTermValue,
-        pageSize: this.config.asm.customerSearch.maxResults,
+        pageSize: this.config.asm?.customerSearch?.maxResults,
       });
     }
   }
@@ -88,14 +88,14 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    if (this.customerSelectionForm.valid && Boolean(this.selectedCustomer)) {
+    if (this.customerSelectionForm.valid && !!this.selectedCustomer) {
       this.submitEvent.emit({ customerId: this.selectedCustomer.customerId });
     } else {
       this.customerSelectionForm.markAllAsTouched();
     }
   }
 
-  onDocumentClick(event) {
+  onDocumentClick(event: Event) {
     if (Boolean(this.resultList)) {
       if (
         this.resultList.nativeElement.contains(event.target) ||
