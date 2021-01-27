@@ -1,4 +1,10 @@
-import { APP_INITIALIZER, NgModule, Optional } from '@angular/core';
+import {
+  APP_INITIALIZER,
+  ModuleWithProviders,
+  NgModule,
+  Optional,
+} from '@angular/core';
+import { provideConfig } from '@spartacus/core';
 import { TmsConfig } from '@spartacus/tms/core';
 import { AdobeLaunchService } from './services/adobe-launch.service';
 
@@ -27,4 +33,11 @@ export function adobeLaunchFactory(
     },
   ],
 })
-export class AdobeLaunchModule {}
+export class AdobeLaunchModule {
+  static forRoot(config?: TmsConfig): ModuleWithProviders<AdobeLaunchModule> {
+    return {
+      ngModule: AdobeLaunchModule,
+      providers: [provideConfig(config)],
+    };
+  }
+}

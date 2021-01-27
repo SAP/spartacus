@@ -1,4 +1,10 @@
-import { APP_INITIALIZER, NgModule, Optional } from '@angular/core';
+import {
+  APP_INITIALIZER,
+  ModuleWithProviders,
+  NgModule,
+  Optional,
+} from '@angular/core';
+import { provideConfig } from '@spartacus/core';
 import { TmsConfig } from '@spartacus/tms/core';
 import { GoogleTagManagerService } from './services/gtm.service';
 
@@ -27,4 +33,13 @@ export function gtmFactory(
     },
   ],
 })
-export class GoogleTagManagerModule {}
+export class GoogleTagManagerModule {
+  static forRoot(
+    config?: TmsConfig
+  ): ModuleWithProviders<GoogleTagManagerModule> {
+    return {
+      ngModule: GoogleTagManagerModule,
+      providers: [provideConfig(config)],
+    };
+  }
+}
