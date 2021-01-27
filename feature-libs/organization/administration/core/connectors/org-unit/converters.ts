@@ -14,7 +14,7 @@ export const B2BUNIT_NORMALIZER = new InjectionToken<Converter<any, B2BUnit>>(
   'B2BUnitNormalizer'
 );
 
-export const B2BUNIT_SERIALIZER = new InjectionToken<Converter<any, B2BUnit>>(
+export const B2BUNIT_SERIALIZER = new InjectionToken<Converter<B2BUnit, any>>(
   'B2BUnitSerializer'
 );
 
