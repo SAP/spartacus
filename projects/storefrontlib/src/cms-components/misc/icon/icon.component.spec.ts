@@ -1,5 +1,5 @@
 import { Component, DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import { IconLoaderService } from './icon-loader.service';
@@ -37,15 +37,17 @@ describe('IconComponent', () => {
   let fixture: ComponentFixture<IconComponent>;
   let service: IconLoaderService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [],
-      declarations: [IconComponent],
-      providers: [
-        { provide: IconLoaderService, useClass: MockIconLoaderService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [],
+        declarations: [IconComponent],
+        providers: [
+          { provide: IconLoaderService, useClass: MockIconLoaderService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(IconComponent);
@@ -182,15 +184,17 @@ describe('host icon components', () => {
   let fixture: ComponentFixture<MockIconTestComponent>;
   let debugElement;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [IconModule],
-      declarations: [MockIconTestComponent],
-      providers: [
-        { provide: IconLoaderService, useClass: MockIconLoaderService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [IconModule],
+        declarations: [MockIconTestComponent],
+        providers: [
+          { provide: IconLoaderService, useClass: MockIconLoaderService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(IconComponent);

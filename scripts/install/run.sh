@@ -90,7 +90,7 @@ function create_ssr {
 }
 
 function create_ssr_pwa {
-    create_app ssr_pwa
+    create_app ssr-pwa
 }
 
 function add_spartacus_csr {
@@ -110,7 +110,7 @@ function add_spartacus_ssr {
 }
 
 function add_spartacus_ssr_pwa {
-    ( cd ${INSTALLATION_DIR} && cd ssr_pwa && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa && ng add @spartacus/storefinder@${SPARTACUS_VERSION} --interactive false
+    ( cd ${INSTALLATION_DIR} && cd ssr-pwa && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa && ng add @spartacus/storefinder@${SPARTACUS_VERSION} --interactive false
         if [ "$ADD_B2B_LIBS" = true ] ; then
             ng add @spartacus/organization@${SPARTACUS_VERSION} --interactive false
         fi
@@ -208,7 +208,7 @@ function prestart_csr {
         echo "Skipping prestart csr script"
     else
         printh "Prestart setup for csr app"
-        ( cd ${INSTALLATION_DIR}/csr && yarn build )
+        ( cd ${INSTALLATION_DIR}/csr && yarn build --prod )
     fi
 }
 
@@ -226,7 +226,7 @@ function prestart_ssr_pwa {
         echo "Skipping prestart ssr script (with pwa support)"
     else
         printh "Prestart setup for ssr app (with pwa support)"
-        ( cd ${INSTALLATION_DIR}/ssr_pwa && yarn build && yarn build:ssr )
+        ( cd ${INSTALLATION_DIR}/ssr-pwa && yarn build && yarn build:ssr )
     fi
 }
 
@@ -256,7 +256,7 @@ function start_ssr_pwa_unix {
     else
         prestart_ssr_pwa
         printh "Starting ssr app (with pwa support)"
-        ( cd ${INSTALLATION_DIR}/ssr_pwa && export PORT=${SSR_PWA_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "ssr_pwa-${SSR_PWA_PORT}" dist/ssr/server/main.js )
+        ( cd ${INSTALLATION_DIR}/ssr-pwa && export PORT=${SSR_PWA_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "ssr-pwa-${SSR_PWA_PORT}" dist/ssr/server/main.js )
     fi
 }
 
@@ -282,7 +282,7 @@ function start_apps {
 function stop_apps {
     pm2 stop "csr-${CSR_PORT}"
     pm2 stop "ssr-${SSR_PORT}"
-    pm2 stop "ssr_pwa-${SSR_PORT}"
+    pm2 stop "ssr-pwa-${SSR_PORT}"
 }
 
 function run_e2e_tests {

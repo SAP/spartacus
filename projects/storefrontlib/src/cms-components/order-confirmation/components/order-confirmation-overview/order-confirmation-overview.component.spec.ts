@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CheckoutService,
   I18nTestingModule,
@@ -57,13 +57,17 @@ describe('OrderConfirmationOverviewComponent', () => {
   let fixture: ComponentFixture<OrderConfirmationOverviewComponent>;
   let checkoutService: CheckoutService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [OrderConfirmationOverviewComponent],
-      providers: [{ provide: CheckoutService, useClass: MockCheckoutService }],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [OrderConfirmationOverviewComponent],
+        providers: [
+          { provide: CheckoutService, useClass: MockCheckoutService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderConfirmationOverviewComponent);
