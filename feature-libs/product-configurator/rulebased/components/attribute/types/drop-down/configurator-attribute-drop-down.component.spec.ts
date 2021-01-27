@@ -48,7 +48,7 @@ function createValue(code: string, name: string, isSelected: boolean) {
   return value;
 }
 
-fdescribe('ConfigAttributeDropDownComponent', () => {
+describe('ConfigAttributeDropDownComponent', () => {
   let component: ConfiguratorAttributeDropDownComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeDropDownComponent>;
   let htmlElem: HTMLElement;
