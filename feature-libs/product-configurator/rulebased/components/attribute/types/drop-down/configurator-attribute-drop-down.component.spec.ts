@@ -6,26 +6,29 @@ import { ConfiguratorAttributeQuantityService } from '../../quantity/configurato
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
+import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 
 class MockConfiguratorAttributeQuantityService {
   readOnlyQuantity(value): boolean {
     return !value || value === '0';
   }
+
   withQuantity(
     dataType: Configurator.DataType,
     uiType: Configurator.UiType
   ): boolean {
     switch (uiType) {
+      case Configurator.UiType.DROPDOWN_PRODUCT:
       case Configurator.UiType.DROPDOWN:
-      case Configurator.UiType.RADIOBUTTON:
       case Configurator.UiType.RADIOBUTTON_PRODUCT:
+      case Configurator.UiType.RADIOBUTTON:
         return dataType ===
           Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
           ? true
           : false;
 
+      case Configurator.UiType.CHECKBOXLIST:
       case Configurator.UiType.CHECKBOXLIST_PRODUCT:
-      case Configurator.UiType.DROPDOWN_PRODUCT:
         return dataType === Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL
           ? true
           : false;
@@ -36,13 +39,30 @@ class MockConfiguratorAttributeQuantityService {
   }
 }
 
-describe('ConfigAttributeDropDownComponent', () => {
+function createValue(code: string, name: string, isSelected: boolean) {
+  const value: Configurator.Value = {
+    valueCode: code,
+    name: name,
+    selected: isSelected,
+  };
+  return value;
+}
+
+fdescribe('ConfigAttributeDropDownComponent', () => {
   let component: ConfiguratorAttributeDropDownComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeDropDownComponent>;
+  let htmlElem: HTMLElement;
+
   const ownerKey = 'theOwnerKey';
   const name = 'theName';
   const groupId = 'theGroupId';
   const selectedValue = 'selectedValue';
+
+  const value1 = createValue('1', 'val1', true);
+  const value2 = createValue('2', 'val2', false);
+  const value3 = createValue('3', 'val3', false);
+
+  const values: Configurator.Value[] = [value1, value2, value3];
 
   beforeEach(
     waitForAsync(() => {
@@ -68,6 +88,8 @@ describe('ConfigAttributeDropDownComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorAttributeDropDownComponent);
+    htmlElem = fixture.nativeElement;
+
     component = fixture.componentInstance;
     component.attribute = {
       name: name,
@@ -77,6 +99,7 @@ describe('ConfigAttributeDropDownComponent', () => {
       selectedSingleValue: selectedValue,
       quantity: 1,
       groupId: groupId,
+      values,
     };
     fixture.detectChanges();
   });
@@ -153,5 +176,25 @@ describe('ConfigAttributeDropDownComponent', () => {
 
   it('should call readOnlyQuantity', () => {
     expect(component.readOnlyQuantity).toBeFalse();
+  });
+
+  it('should not display attribute quantity when dataType is no quantity', () => {
+    component.attribute.dataType = Configurator.DataType.USER_SELECTION_NO_QTY;
+
+    fixture.detectChanges();
+
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-attribute-quantity'
+    );
+  });
+
+  it('should display attribute quantity when dataType is with attribute quantity', () => {
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.form-group'
+    );
   });
 });

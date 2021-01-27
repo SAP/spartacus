@@ -9,11 +9,7 @@ import { ConfiguratorStorefrontUtilsService } from '../../../service/configurato
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
-import {
-  // CommonConfigurator,
-  CommonConfiguratorTestUtilsService,
-  // CommonConfiguratorUtilsService,
-} from '@spartacus/product-configurator/common';
+import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 
 class MockGroupService {}
 class MockConfiguratorAttributeQuantityService {
