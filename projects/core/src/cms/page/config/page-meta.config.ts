@@ -38,3 +38,25 @@ export interface PageMetaResolverConfig {
    */
   disabledInCsr?: boolean;
 }
+
+export interface CanonicalUrlOptions {
+  /**
+   * Forces a trailing slash to avoid both https://www.myshop.com and https://www.myshop.com/.
+   */
+  forceTrailingSlash?: boolean;
+
+  /**
+   * Forces the use of `https://` in the canonical URL.
+   */
+  forceHttps?: boolean;
+
+  /**
+   * Forces the `www` subdomain, do that canonical URLs are always prefixed.
+   */
+  forceWww?: boolean;
+
+  /**
+   * Removes query parameters from the URL to avoid page duplicates.
+   */
+  removeQueryParams?: boolean | string[];
+}

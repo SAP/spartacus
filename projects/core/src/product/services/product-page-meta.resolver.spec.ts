@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { BasePageMetaResolver, PageRobotsMeta } from '../../cms';
 import { I18nTestingModule, TranslationService } from '../../i18n';
 import { Product } from '../../model';
@@ -70,11 +70,15 @@ class MockBasePageMetaResolver {
   resolveRobots() {
     return of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX]);
   }
+  resolveCanonicalUrl(): Observable<string> {
+    return of();
+  }
 }
 
 describe('ProductPageMetaResolver', () => {
   let service: ProductPageMetaResolver;
   let productService: ProductService;
+  let basePageMetaResolver: BasePageMetaResolver;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -93,6 +97,7 @@ describe('ProductPageMetaResolver', () => {
 
     service = TestBed.inject(ProductPageMetaResolver);
     productService = TestBed.inject(ProductService);
+    basePageMetaResolver = TestBed.inject(BasePageMetaResolver);
   });
 
   it('should be created', () => {
@@ -196,5 +201,11 @@ describe('ProductPageMetaResolver', () => {
     expect(result).toContain(PageRobotsMeta.INDEX);
     expect(result).not.toContain(PageRobotsMeta.NOINDEX);
     expect(result).not.toContain(PageRobotsMeta.NOFOLLOW);
+  });
+
+  it('should resolve canonical url from the BasePageMetaResolver.resolveCanonicalUrl()', async () => {
+    spyOn(basePageMetaResolver, 'resolveCanonicalUrl').and.callThrough();
+    service.resolveCanonicalUrl().subscribe().unsubscribe();
+    expect(basePageMetaResolver.resolveCanonicalUrl).toHaveBeenCalled();
   });
 });

@@ -1,13 +1,9 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Meta, MetaDefinition, Title } from '@angular/platform-browser';
-import {
-  PageMeta,
-  PageMetaService,
-  PageRobotsMeta,
-  WindowRef,
-} from '@spartacus/core';
+import { PageMeta, PageMetaService, PageRobotsMeta } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { LinkBuilder } from './link.builder';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +13,7 @@ export class SeoMetaService implements OnDestroy {
     protected ngTitle: Title,
     protected ngMeta: Meta,
     protected pageMetaService: PageMetaService,
-    protected winRef?: WindowRef
+    protected linkBuilder?: LinkBuilder
   ) {}
 
   private subscription: Subscription;
@@ -62,29 +58,11 @@ export class SeoMetaService implements OnDestroy {
   /**
    * Add the canonical Url to the head of the page.
    *
-   * If the canonical url already exists (which is unlikely as canonical links
-   * are typically only added in SSR), the link is removed.
+   * If the canonical url already exists the link is removed. This is quite
+   * unlikely though, since canonical links are (typically) only added in SSR.
    */
   protected set canonicalUrl(url: string) {
-    const id = 'cxCanonical';
-    let link: HTMLLinkElement = <HTMLLinkElement>(
-      this.winRef.document.getElementById(id)
-    );
-
-    if (url) {
-      if (!link) {
-        link = this.winRef.document.createElement('link');
-        link.setAttribute('rel', 'canonical');
-        link.setAttribute('id', id);
-        // link.rel = 'canonical';
-        // link.id = id;
-        this.winRef.document.head.appendChild(link);
-      }
-      link.setAttribute('href', url);
-    } else {
-      // removing the link is an edge case, but useful if the canonical url is created in CSR
-      link?.remove();
-    }
+    this.linkBuilder.addCanonicalLink(url);
   }
 
   protected addTag(meta: MetaDefinition) {

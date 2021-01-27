@@ -3,6 +3,7 @@ import { Observable, of } from 'rxjs';
 import { BasePageMetaResolver, CmsService, Page } from '..';
 import { I18nTestingModule, TranslationService } from '../../i18n';
 import { PageType } from '../../model/cms.model';
+import { WindowRef } from '../../window/window-ref';
 import { PageMetaService } from '../facade';
 import { BreadcrumbMeta, PageRobotsMeta } from '../model/page.model';
 import { RoutingPageMetaResolver } from './routing/routing-page-meta.resolver';
@@ -31,6 +32,13 @@ class MockRoutingPageMetaResolver implements Partial<RoutingPageMetaResolver> {
     return of([]);
   }
 }
+class MockWindowRef implements Partial<WindowRef> {
+  document = {
+    location: {
+      href: 'http://storefront.com/page?query=abc&pageSize=10&page=1',
+    },
+  } as Document;
+}
 
 describe('BasePageMetaResolver', () => {
   let service: BasePageMetaResolver;
@@ -49,6 +57,10 @@ describe('BasePageMetaResolver', () => {
         {
           provide: RoutingPageMetaResolver,
           useClass: MockRoutingPageMetaResolver,
+        },
+        {
+          provide: WindowRef,
+          useClass: MockWindowRef,
         },
       ],
     });
@@ -118,5 +130,144 @@ describe('BasePageMetaResolver', () => {
 
     expect(result).toContain(PageRobotsMeta.FOLLOW);
     expect(result).toContain(PageRobotsMeta.INDEX);
+  });
+
+  // resolveCanonicalUrl
+  describe('canonical Url', () => {
+    it(`should resolve defaults`, () => {
+      let result: string;
+      service
+        .resolveCanonicalUrl()
+        .subscribe((meta) => {
+          result = meta;
+        })
+        .unsubscribe();
+      expect(result).toEqual('https://www.storefront.com/page/');
+    });
+
+    it(`should contain https`, () => {
+      let result: string;
+      service
+        .resolveCanonicalUrl({ forceHttps: true })
+        .subscribe((meta) => {
+          result = meta;
+        })
+        .unsubscribe();
+      expect(result).toContain('https://');
+    });
+
+    it(`should stick to http`, () => {
+      let result: string;
+      service
+        .resolveCanonicalUrl({ forceHttps: false })
+        .subscribe((meta) => {
+          result = meta;
+        })
+        .unsubscribe();
+      expect(result).toContain('http://');
+    });
+
+    it(`should add www`, () => {
+      let result: string;
+      service
+        .resolveCanonicalUrl({ forceWww: true })
+        .subscribe((meta) => {
+          result = meta;
+        })
+        .unsubscribe();
+      expect(result).toContain('https://www.');
+    });
+
+    it(`should not add www`, () => {
+      let result: string;
+      service
+        .resolveCanonicalUrl({ forceWww: false })
+        .subscribe((meta) => {
+          result = meta;
+        })
+        .unsubscribe();
+      expect(result).not.toContain('www.');
+    });
+
+    it(`should add trailing slash`, () => {
+      let result: string;
+      service
+        .resolveCanonicalUrl({
+          forceTrailingSlash: true,
+          removeQueryParams: true,
+        })
+        .subscribe((meta) => {
+          result = meta;
+        })
+        .unsubscribe();
+      expect(result).toContain('https://www.storefront.com/page/');
+    });
+
+    it(`should not add trailing slash`, () => {
+      let result: string;
+      service
+        .resolveCanonicalUrl({
+          forceTrailingSlash: false,
+          removeQueryParams: true,
+        })
+        .subscribe((meta) => {
+          result = meta;
+        })
+        .unsubscribe();
+      expect(result).toEqual('https://www.storefront.com/page');
+    });
+
+    it(`should not add trailing slash after query parameters`, () => {
+      let result: string;
+      service
+        .resolveCanonicalUrl({
+          forceTrailingSlash: true,
+          removeQueryParams: false,
+        })
+        .subscribe((meta) => {
+          result = meta;
+        })
+        .unsubscribe();
+      expect(result).toEqual(
+        'https://www.storefront.com/page?query=abc&pageSize=10&page=1'
+      );
+    });
+
+    it(`should remove all parameters`, () => {
+      let result: string;
+      service
+        .resolveCanonicalUrl({ removeQueryParams: true })
+        .subscribe((meta) => {
+          result = meta;
+        })
+        .unsubscribe();
+      expect(result).toEqual('https://www.storefront.com/page/');
+    });
+
+    it(`should remove specific parameters`, () => {
+      let result: string;
+      service
+        .resolveCanonicalUrl({ removeQueryParams: ['pageSize'] })
+        .subscribe((meta) => {
+          result = meta;
+        })
+        .unsubscribe();
+      expect(result).toEqual(
+        'https://www.storefront.com/page?query=abc&page=1'
+      );
+    });
+
+    it(`should keep all parameters`, () => {
+      let result: string;
+      service
+        .resolveCanonicalUrl({ removeQueryParams: false })
+        .subscribe((meta) => {
+          result = meta;
+        })
+        .unsubscribe();
+      expect(result).toEqual(
+        'https://www.storefront.com/page?query=abc&pageSize=10&page=1'
+      );
+    });
   });
 });
