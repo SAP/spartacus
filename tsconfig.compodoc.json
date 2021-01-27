@@ -20,9 +20,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "paths": {
-      "@spartacus/schematics": [
-        "projects/schematics/src/public_api"
-      ],
       "@spartacus/setup": [
         "core-libs/setup/public_api"
       ],
@@ -119,6 +116,9 @@
       ],
       "@spartacus/incubator": [
         "projects/incubator/public_api"
+      ],
+      "@spartacus/schematics": [
+        "projects/schematics/src/public_api"
       ],
       "@spartacus/storefront": [
         "projects/storefrontlib/src/public_api"
