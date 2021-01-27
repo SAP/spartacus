@@ -1,4 +1,5 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { CxEvent, EventService, WindowRef } from '@spartacus/core';
 import { TmsConfig } from '@spartacus/tms/core';
 import { merge, Observable, Subscription } from 'rxjs';
@@ -19,14 +20,17 @@ export class GoogleTagManagerService implements OnDestroy {
   constructor(
     protected eventsService: EventService,
     protected windowRef: WindowRef,
-    protected tmsConfig: TmsConfig
+    protected tmsConfig: TmsConfig,
+    @Inject(PLATFORM_ID) protected platformId: any
   ) {}
 
   /**
    * This method is called only once to start collecting and dispatching events to GTM
    */
   collect(): void {
-    this.prepareDataLayer();
+    if (isPlatformBrowser(this.platformId)) {
+      this.prepareDataLayer();
+    }
 
     const events =
       this.tmsConfig.tms?.gtm?.events?.map((event) =>
