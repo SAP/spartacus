@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, defer, Observable, of } from 'rxjs';
 import { filter, map, shareReplay } from 'rxjs/operators';
-import { CanonicalUrlOptions } from '.';
 import { TranslationService } from '../../i18n/translation.service';
 import { WindowRef } from '../../window/window-ref';
 import { CmsService } from '../facade/cms.service';
 import { BreadcrumbMeta, Page, PageRobotsMeta } from '../model/page.model';
+import { CanonicalUrlOptions, PageMetaConfig } from './config/page-meta.config';
 import {
   PageBreadcrumbResolver,
   PageRobotsResolver,
@@ -22,7 +22,8 @@ export class BasePageMetaResolver
     protected cmsService: CmsService,
     protected translation: TranslationService,
     protected routingPageMetaResolver: RoutingPageMetaResolver,
-    protected winRef: WindowRef
+    protected pageMetaConfig?: PageMetaConfig,
+    protected winRef?: WindowRef
   ) {}
 
   /**
@@ -70,21 +71,18 @@ export class BasePageMetaResolver
   }
 
   /**
-   * Resolves the canonical for the page. The canonical page will be created with
-   * the following default options:
-   * - https is always added (in case this is not forced by the host)
-   * - the `www` subdomain is always added
-   * - query parameters are removed
+   * Resolves the canonical for the page.
    *
+   * The canonical url is created by the help of the default `CanonicalUrlOptions` from
+   * the pageMeta options. The options can be further adjusted by the options argument.
    */
   resolveCanonicalUrl(options?: CanonicalUrlOptions): Observable<string> {
+    return of(this.buildCanonicalUrl(options));
+  }
+
+  protected buildCanonicalUrl(options?: CanonicalUrlOptions): string {
     const config = {
-      ...({
-        forceHttps: true,
-        forceWww: true,
-        removeQueryParams: true,
-        forceTrailingSlash: true,
-      } as CanonicalUrlOptions),
+      ...this.pageMetaConfig.pageMeta.options.canonicalUrl,
       ...options,
     };
 
@@ -120,7 +118,6 @@ export class BasePageMetaResolver
     ) {
       url = url + '/';
     }
-
-    return of(url);
+    return url;
   }
 }

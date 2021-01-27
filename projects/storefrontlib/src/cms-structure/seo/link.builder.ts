@@ -16,7 +16,7 @@ export class LinkBuilder {
    * If an id is provided, the link will be updated.
    * If no url is provided, the link element will be deleted.
    */
-  addCanonicalLink(url: string) {
+  addCanonicalLink(url: string): void {
     const elId = 'cxCanonical';
     if (elId && !url) {
       this.removeLink(elId);

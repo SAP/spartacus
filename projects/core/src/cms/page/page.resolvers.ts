@@ -80,5 +80,5 @@ export interface CanonicalPageResolver {
   /**
    * Resolves the canonical url for the page.
    */
-  resolveCanonicalUrl(url: string): any;
+  resolveCanonicalUrl(): Observable<string>;
 }

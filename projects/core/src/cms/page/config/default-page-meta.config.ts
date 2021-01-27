@@ -34,5 +34,13 @@ export const defaultPageMetaConfig: PageMetaConfig = {
         method: 'resolveRobots',
       },
     ],
+    options: {
+      canonicalUrl: {
+        forceHttps: true,
+        forceWww: true,
+        removeQueryParams: true,
+        forceTrailingSlash: true,
+      },
+    },
   },
 };
