@@ -12,6 +12,7 @@ import {
 import { PageEvent } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import {
+  distinctUntilChanged,
   filter,
   map,
   skip,
@@ -62,9 +63,14 @@ export class SearchBoxEventBuilder {
   > {
     return this.searchBoxService.getSuggestionResults().pipe(
       withLatestFrom(this.getAction(ProductActions.GET_PRODUCT_SUGGESTIONS)),
+      distinctUntilChanged(
+        (prev, curr) =>
+          prev[1].payload?.term === curr[1].payload?.term &&
+          prev[0].length > curr[0].length
+      ),
       map(([suggestions, searchAction]) =>
         createFrom(SearchBoxSuggestionResultsEvent, {
-          searchQuery: searchAction?.payload?.term,
+          searchQuery: searchAction.payload?.term,
           searchSuggestions: suggestions,
         })
       )
@@ -137,7 +143,7 @@ export class SearchBoxEventBuilder {
           }),
           filter(
             ([product, searchResults]) =>
-              searchResults.products?.filter(
+              searchResults?.products?.filter(
                 (suggestionProduct) => suggestionProduct.code === product.code
               ).length > 0
           ),
