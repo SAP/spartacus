@@ -103,7 +103,7 @@
     "release:product:with-changelog": "cd feature-libs/product && release-it && cd ../..",
     "build:storefinder": "yarn --cwd feature-libs/storefinder run build:schematics && ng build storefinder --prod",
     "release:storefinder:with-changelog": "cd feature-libs/storefinder && release-it && cd ../..",
-    "build:asm": "yarn --cwd feature-libs/asm run build:schematics && ng build asm --prod",
+    "build:asm": "ng build asm --prod",
     "release:asm:with-changelog": "cd feature-libs/asm && release-it && cd ../..",
     "start:b2b:ci:2005": "cross-env SPARTACUS_BASE_URL=https://spartacus-dev3.eastus.cloudapp.azure.com:9002 SPARTACUS_API_PREFIX=/occ/v2/ SPARTACUS_B2B=true ng serve --prod",
     "build:cdc": "ng build cdc --prod",
