@@ -1,0 +1,29 @@
+%cx-configurator-textfield-input-field {
+  display: flex;
+  flex-direction: column;
+  margin-inline-start: 17px;
+  padding-block-start: 10px;
+
+  label {
+    @include type('5');
+    padding-block-start: 10px;
+  }
+
+  .form-group {
+    margin-block-end: 0.5rem;
+  }
+
+  @include media-breakpoint-up(md) {
+    label,
+    .form-group {
+      inline-size: 75%;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    label,
+    .form-group {
+      inline-size: 100%;
+    }
+  }
+}
