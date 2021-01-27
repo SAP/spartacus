@@ -1,6 +1,6 @@
 import { APP_INITIALIZER, NgModule, Optional } from '@angular/core';
-import { TmsConfig } from '../config/tms-config';
-import { GoogleTagManagerService } from './gtm.service';
+import { TmsConfig } from '@spartacus/tms/core';
+import { GoogleTagManagerService } from './services/gtm.service';
 
 /**
  * The factory that conditionally (based on the configuration) starts collecting events

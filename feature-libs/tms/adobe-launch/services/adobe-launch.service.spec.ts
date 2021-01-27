@@ -6,8 +6,8 @@ import {
   LoginEvent,
   WindowRef,
 } from '@spartacus/core';
+import { TmsConfig } from '@spartacus/tms/core';
 import { Observable, of } from 'rxjs';
-import { TmsConfig } from '../config/tms-config';
 import { AdobeLaunchService } from './adobe-launch.service';
 
 class MockWindowRef {

@@ -1,6 +1,6 @@
 import { APP_INITIALIZER, NgModule, Optional } from '@angular/core';
-import { TmsConfig } from '../config/tms-config';
-import { AdobeLaunchService } from './adobe-launch.service';
+import { TmsConfig } from '@spartacus/tms/core';
+import { AdobeLaunchService } from './services/adobe-launch.service';
 
 /**
  * The factory that conditionally (based on the configuration) starts collecting events

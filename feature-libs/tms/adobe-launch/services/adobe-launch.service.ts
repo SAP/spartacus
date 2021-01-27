@@ -1,7 +1,7 @@
 import { Injectable, isDevMode, OnDestroy } from '@angular/core';
 import { CxEvent, EventService, WindowRef } from '@spartacus/core';
+import { TmsConfig } from '@spartacus/tms/core';
 import { merge, Subscription } from 'rxjs';
-import { TmsConfig } from '../config/tms-config';
 
 export type AdobeLaunchDataLayer = (
   data: any,
