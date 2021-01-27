@@ -34,7 +34,7 @@ interface EventMeta<T> {
 export class EventService {
   constructor(
     // TODO: #10896 - remove this
-    /** @deprecated @since 3.1 - this will be remove in 4.0 */ protected featureConfigService?: FeatureConfigService
+    /** @deprecated @since 3.1 - this will be removed in 4.0 */ protected featureConfigService?: FeatureConfigService
   ) {}
 
   /**
@@ -131,7 +131,7 @@ export class EventService {
     };
     this.eventsMeta.set(eventType, eventMeta);
 
-    // TODO: #10896 - remove this if block
+    // TODO: #10896 - remove this if block, and leave its body
     if (this.featureConfigService?.isLevel('3.1')) {
       let parentEvent = Object.getPrototypeOf(eventType);
       while (
@@ -156,7 +156,7 @@ export class EventService {
       );
     }
 
-    // TODO: #10896 - remove this if block
+    // TODO: #10896 - remove this if block and leave its body
     if (this.featureConfigService?.isLevel('3.1')) {
       this.validateCxEvent(eventType);
     }

@@ -16,7 +16,8 @@ import { CartPageEvent } from './cart-page.events';
 export class CartPageEventBuilder {
   constructor(
     protected eventService: EventService,
-    /** @deprecated @since 3.1 - this will be remove in 4.0 */ protected featureConfigService?: FeatureConfigService
+    // TODO: #10896 - remove this
+    /** @deprecated @since 3.1 - this will be removed in 4.0 */ protected featureConfigService?: FeatureConfigService
   ) {
     this.register();
   }
@@ -39,6 +40,7 @@ export class CartPageEventBuilder {
     );
   }
 
+  // TODO: #10896 - remove this method
   private createDeprecatedPageEvent(
     navigationEvent: NavigationEvent
   ): PageEvent | undefined {
