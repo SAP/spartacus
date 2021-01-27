@@ -1,45 +1,23 @@
-import { Component, DebugElement, Output } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
-import { NavigationExtras } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
-  GlobalMessage,
-  GlobalMessageService,
-  GlobalMessageType,
-  RoutingService,
-  UrlCommands,
-  User,
-  UserService,
-} from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+  ChangeDetectionStrategy,
+  Component,
+  DebugElement,
+} from '@angular/core';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { I18nTestingModule } from '@spartacus/core';
+import { Subject } from 'rxjs';
 import { UpdatePasswordComponent } from './update-password.component';
-
-class MockUserService {
-  get(): Observable<User> {
-    return of();
-  }
-  updatePassword(): void {}
-  resetUpdatePasswordProcessState(): void {}
-  getUpdatePasswordResultLoading(): Observable<boolean> {
-    return of(true);
-  }
-  getUpdatePasswordResultSuccess(): Observable<boolean> {
-    return of();
-  }
-}
-class MockRoutingService {
-  go(
-    _commands: any[] | UrlCommands,
-    _query?: object,
-    _extras?: NavigationExtras
-  ): void {}
-}
-class GlobalMessageServiceMock {
-  add(_message: GlobalMessage): void {}
-}
-
+import { UpdatePasswordService } from './update-password.service';
+import { FormErrorsModule } from '@spartacus/storefront';
+import { RouterTestingModule } from '@angular/router/testing';
+import { UrlTestingModule } from '../../../../../core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 
 @Component({
   selector: 'cx-spinner',
@@ -47,29 +25,51 @@ class GlobalMessageServiceMock {
 })
 class MockCxSpinnerComponent {}
 
-describe('UpdatePasswordComponent', () => {
+const isUpdatingSubject = new Subject();
+class MockUpdatePasswordService {
+  form: FormGroup = new FormGroup({
+    oldPassword: new FormControl(),
+    newPassword: new FormControl(),
+    newPasswordConfirm: new FormControl(),
+  });
+  isUpdating$ = isUpdatingSubject;
+  reset(): void {}
+
+  save(): void {}
+}
+
+fdescribe('UpdatePasswordComponent', () => {
   let component: UpdatePasswordComponent;
   let fixture: ComponentFixture<UpdatePasswordComponent>;
   let el: DebugElement;
+  let oldPassword: AbstractControl;
+  let newPassword: AbstractControl;
+  let newPasswordConfirm: AbstractControl;
 
-  let userService: UserService;
-  let routingService: RoutingService;
-  let globalMessageService: GlobalMessageService;
+  let updatePasswordService: UpdatePasswordService;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, RouterTestingModule],
-        declarations: [
-          UpdatePasswordComponent,
-          MockCxSpinnerComponent,
+        imports: [
+          ReactiveFormsModule,
+          I18nTestingModule,
+          FormErrorsModule,
+          RouterTestingModule,
+          UrlTestingModule,
         ],
+        declarations: [UpdatePasswordComponent, MockCxSpinnerComponent],
         providers: [
-          { provide: UserService, useClass: MockUserService },
-          { provide: RoutingService, useClass: MockRoutingService },
-          { provide: GlobalMessageService, useClass: GlobalMessageServiceMock },
+          {
+            provide: UpdatePasswordService,
+            useClass: MockUpdatePasswordService,
+          },
         ],
-      }).compileComponents();
+      })
+        .overrideComponent(UpdatePasswordComponent, {
+          set: { changeDetection: ChangeDetectionStrategy.Default },
+        })
+        .compileComponents();
     })
   );
 
@@ -77,97 +77,81 @@ describe('UpdatePasswordComponent', () => {
     fixture = TestBed.createComponent(UpdatePasswordComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-
-    userService = TestBed.inject(UserService);
-    routingService = TestBed.inject(RoutingService);
-    globalMessageService = TestBed.inject(GlobalMessageService);
+    updatePasswordService = TestBed.inject(UpdatePasswordService);
 
     fixture.detectChanges();
+
+    oldPassword = component.form.controls.oldPassword;
+    newPassword = component.form.controls.newPassword;
+    newPasswordConfirm = component.form.controls.newPasswordConfirm;
   });
+
+  function setFormValue() {
+    const oldPwd = 'Qwe123!';
+    const newPwd = 'Qwe123!';
+
+    oldPassword.setValue(oldPwd);
+    newPassword.setValue(newPwd);
+    newPasswordConfirm.setValue(newPwd);
+  }
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should reset the loading state when the component is initialized', () => {
-    spyOn(userService, 'resetUpdatePasswordProcessState').and.stub();
-
-    expect(userService.resetUpdatePasswordProcessState).toHaveBeenCalled();
-  });
-
   it('should show the spinner when updating', () => {
-    spyOn(userService, 'getUpdatePasswordResultLoading').and.returnValue(
-      of(true)
-    );
-
-    component.ngOnInit();
+    isUpdatingSubject.next(true);
     fixture.detectChanges();
+
     expect(el.query(By.css('cx-spinner'))).toBeTruthy();
   });
 
-  it('should navigate to home when cancelled', () => {
-    spyOn(routingService, 'go').and.stub();
+  it('should call updateEmail on submit', () => {
+    spyOn(updatePasswordService, 'save').and.stub();
 
-    component.onCancel();
-    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
+    setFormValue();
+
+    component.onSubmit();
+    expect(updatePasswordService.save).toHaveBeenCalled();
   });
 
-  it('should call updatePassword on submit', () => {
-    spyOn(userService, 'updatePassword').and.stub();
+  describe('Form Interactions', () => {
+    describe('Submit button', () => {
+      it('should be disabled while loading', () => {
+        // updateEmailService.isUpdating$ = of(true);
+        isUpdatingSubject.next(true);
+        fixture.detectChanges();
+        const submitBtn = el.query(By.css('button[type="submit"]'));
+        expect(submitBtn.nativeElement.disabled).toBeTruthy();
+      });
 
-    const oldPassword = 'oldPassword';
-    const newPassword = 'newPassword';
-    component.onSubmit({ oldPassword, newPassword });
-    expect(userService.updatePassword).toHaveBeenCalledWith(
-      oldPassword,
-      newPassword
-    );
-  });
-
-  it('should call the internal onSuccess() method when the password was successfully updated', () => {
-    spyOn(component, 'onSuccess').and.stub();
-    spyOn(userService, 'getUpdatePasswordResultSuccess').and.returnValue(
-      of(true)
-    );
-
-    component.ngOnInit();
-
-    expect(component.onSuccess).toHaveBeenCalled();
-  });
-
-  describe('onSuccess', () => {
-    describe('when the password was successfully updated', () => {
-      it('should add a global message and navigate to a url ', () => {
-        spyOn(globalMessageService, 'add').and.stub();
-        spyOn(routingService, 'go').and.stub();
-
-        component.onSuccess(true);
-        expect(globalMessageService.add).toHaveBeenCalledWith(
-          { key: 'updatePasswordForm.passwordUpdateSuccess' },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
-        );
-        expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
+      it('should call onSubmit() when clicked', () => {
+        spyOn(component, 'onSubmit').and.stub();
+        isUpdatingSubject.next(false);
+        fixture.detectChanges();
+        const submitBtn = el.query(By.css('button[type="submit"]'));
+        submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
+        expect(component.onSubmit).toHaveBeenCalled();
       });
     });
 
-    describe('when the password was NOT successfully updated', () => {
-      it('should NOT add a global message and NOT navigate to a url ', () => {
-        spyOn(globalMessageService, 'add').and.stub();
-        spyOn(routingService, 'go').and.stub();
+    describe('Cancel Button', () => {
+      it('should be disabled while loading', () => {
+        // updateEmailService.isUpdating$ = of(true);
+        isUpdatingSubject.next(true);
+        fixture.detectChanges();
+        const cancelBtn = el.query(By.css('button[type="button"]'));
+        expect(cancelBtn.nativeElement.disabled).toBeTruthy();
+      });
 
-        component.onSuccess(false);
-        expect(routingService.go).not.toHaveBeenCalled();
-        expect(globalMessageService.add).not.toHaveBeenCalled();
+      it('should go to home when clicked', () => {
+        isUpdatingSubject.next(false);
+        fixture.detectChanges();
+        const cancelBtn = el.query(By.css('button[type="button"]'));
+        expect(
+          cancelBtn.nativeElement.getAttribute('ng-reflect-router-link')
+        ).toContain('home');
       });
     });
-  });
-
-  it('should unsubscribe from any subscriptions when destroyed', () => {
-    const subscriptions = component['subscription'];
-    spyOn(subscriptions, 'unsubscribe').and.callThrough();
-
-    component.ngOnInit();
-    component.ngOnDestroy();
-    expect(subscriptions.unsubscribe).toHaveBeenCalled();
   });
 });
