@@ -40,14 +40,6 @@ class GlobalMessageServiceMock {
   add(_message: GlobalMessage): void {}
 }
 
-@Component({
-  selector: 'cx-update-password-form',
-  template: '',
-})
-class MockUpdatePasswordFormComponent {
-  @Output()
-  submited = null;
-}
 
 @Component({
   selector: 'cx-spinner',
@@ -70,7 +62,6 @@ describe('UpdatePasswordComponent', () => {
         imports: [ReactiveFormsModule, RouterTestingModule],
         declarations: [
           UpdatePasswordComponent,
-          MockUpdatePasswordFormComponent,
           MockCxSpinnerComponent,
         ],
         providers: [
@@ -101,7 +92,6 @@ describe('UpdatePasswordComponent', () => {
   it('should reset the loading state when the component is initialized', () => {
     spyOn(userService, 'resetUpdatePasswordProcessState').and.stub();
 
-    component.ngOnInit();
     expect(userService.resetUpdatePasswordProcessState).toHaveBeenCalled();
   });
 

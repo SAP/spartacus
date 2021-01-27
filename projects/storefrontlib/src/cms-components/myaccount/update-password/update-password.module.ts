@@ -1,16 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
   I18nModule,
+  UrlModule,
   provideDefaultConfig,
 } from '@spartacus/core';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
-import { UpdatePasswordFormComponent } from './components/update-password-form/update-password-form.component';
-import { UpdatePasswordComponent } from './components/update-password/update-password.component';
 import { FormErrorsModule } from '../../../shared/index';
+import { UpdatePasswordComponent } from './update-password.component';
 
 @NgModule({
   imports: [
@@ -18,6 +19,8 @@ import { FormErrorsModule } from '../../../shared/index';
     FormsModule,
     ReactiveFormsModule,
     SpinnerModule,
+    UrlModule,
+    RouterModule,
     I18nModule,
     FormErrorsModule,
   ],
@@ -31,8 +34,7 @@ import { FormErrorsModule } from '../../../shared/index';
       },
     }),
   ],
-  declarations: [UpdatePasswordComponent, UpdatePasswordFormComponent],
-  exports: [UpdatePasswordComponent, UpdatePasswordFormComponent],
-  entryComponents: [UpdatePasswordComponent],
+  declarations: [UpdatePasswordComponent],
+  exports: [UpdatePasswordComponent],
 })
 export class UpdatePasswordModule {}
