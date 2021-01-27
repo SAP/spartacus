@@ -1,4 +1,4 @@
-import { Injectable, isDevMode, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { CxEvent, EventService, WindowRef } from '@spartacus/core';
 import { TmsConfig } from '@spartacus/tms/core';
 import { merge, Observable, Subscription } from 'rxjs';
@@ -67,7 +67,7 @@ export class AdobeLaunchService implements OnDestroy {
    * @param event Spartacus event to dispatch
    */
   protected pushToDataLayer<T extends CxEvent>(event: T): void {
-    if (isDevMode()) {
+    if (this.tmsConfig.tms?.adobeLaunch?.debug) {
       console.log(`🎤 Adobe Launch received event: ${JSON.stringify(event)}`);
     }
     this.window?._trackData(event);

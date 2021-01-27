@@ -1,13 +1,6 @@
 import { AbstractType, Injectable } from '@angular/core';
 import { Config, CxEvent } from '@spartacus/core';
 
-export interface TmsEventsConfig {
-  /**
-   * An array of events to send to the configured TMS.
-   */
-  events?: AbstractType<CxEvent>[];
-}
-
 /**
  * TMS configuration.
  */
@@ -20,10 +13,24 @@ export abstract class TmsConfig {
     /**
      * GTM configuration.
      */
-    gtm?: TmsEventsConfig;
+    gtm?: {
+      /** Should be enabled in development mode only */
+      debug?: boolean;
+      /**
+       * An array of events to send to the configured TMS.
+       */
+      events?: AbstractType<CxEvent>[];
+    };
     /**
      * Adobe Launch configuration.
      */
-    adobeLaunch?: TmsEventsConfig;
+    adobeLaunch?: {
+      /** Should be enabled in development mode only */
+      debug?: boolean;
+      /**
+       * An array of events to send to the configured TMS.
+       */
+      events?: AbstractType<CxEvent>[];
+    };
   };
 }

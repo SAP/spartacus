@@ -9,6 +9,7 @@ import { GoogleTagManagerModule } from '@spartacus/tms/gtm';
     GoogleTagManagerModule.forRoot({
       tms: {
         gtm: {
+          debug: false,
           // events: [PageEvent, CartAddEntryEvent],
         },
       },
@@ -16,6 +17,7 @@ import { GoogleTagManagerModule } from '@spartacus/tms/gtm';
     AdobeLaunchModule.forRoot({
       tms: {
         adobeLaunch: {
+          debug: false,
           events: [PageEvent, CartAddEntrySuccessEvent],
         },
       },
