@@ -36,7 +36,9 @@ export class ConfiguratorOverviewNotificationBannerComponent {
     ),
     distinctUntilKeyChanged('configId'),
     map((configuration) => {
-      if (configuration.totalNumberOfIssues) {
+      if (configuration.overview?.totalNumberOfIssues) {
+        return configuration.overview.totalNumberOfIssues;
+      } else if (configuration.totalNumberOfIssues) {
         return configuration.totalNumberOfIssues;
       } else {
         return this.countNumberOfIssues(configuration);
