@@ -7,8 +7,7 @@ import {
   SearchConfig,
   UserIdService,
 } from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
-import { of } from 'rxjs/internal/observable/of';
+import { BehaviorSubject, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OrganizationItemStatus, Permission, UserGroup } from '../model';
 import { LoadStatus } from '../model/organization-item-status';

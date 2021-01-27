@@ -1,0 +1,18 @@
+%cx-configure-cart-entry {
+  a.link,
+  label.disabled-link {
+    color: var(--cx-color-primary);
+    text-decoration: none;
+    font-size: inherit;
+    inline-size: max-content;
+  }
+
+  a.link:hover {
+    text-decoration: underline;
+  }
+
+  label.disabled-link {
+    display: inline-block;
+    margin: 0;
+  }
+}
