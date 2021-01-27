@@ -55,6 +55,7 @@ export class EventService {
    *
    * @returns a teardown function which unregisters the given event source
    */
+  // TODO: change from `AbstractType` to `Type`.
   register<T>(eventType: AbstractType<T>, source$: Observable<T>): () => void {
     const eventMeta = this.getEventMeta(eventType);
     if (eventMeta.mergingSubject.has(source$)) {
