@@ -9,6 +9,11 @@ import { ConfiguratorStorefrontUtilsService } from '../../../service/configurato
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
+import {
+  // CommonConfigurator,
+  CommonConfiguratorTestUtilsService,
+  // CommonConfiguratorUtilsService,
+} from '@spartacus/product-configurator/common';
 
 class MockGroupService {}
 class MockConfiguratorAttributeQuantityService {
@@ -20,16 +25,17 @@ class MockConfiguratorAttributeQuantityService {
     uiType: Configurator.UiType
   ): boolean {
     switch (uiType) {
+      case Configurator.UiType.DROPDOWN_PRODUCT:
       case Configurator.UiType.DROPDOWN:
-      case Configurator.UiType.RADIOBUTTON:
       case Configurator.UiType.RADIOBUTTON_PRODUCT:
+      case Configurator.UiType.RADIOBUTTON:
         return dataType ===
           Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
           ? true
           : false;
 
+      case Configurator.UiType.CHECKBOXLIST:
       case Configurator.UiType.CHECKBOXLIST_PRODUCT:
-      case Configurator.UiType.DROPDOWN_PRODUCT:
         return dataType === Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL
           ? true
           : false;
@@ -49,6 +55,7 @@ export class MockFocusDirective {
 describe('ConfigAttributeCheckBoxListComponent', () => {
   let component: ConfiguratorAttributeCheckBoxListComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeCheckBoxListComponent>;
+  let htmlElem: HTMLElement;
 
   beforeEach(
     waitForAsync(() => {
@@ -99,6 +106,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
       ConfiguratorAttributeCheckBoxListComponent
     );
 
+    htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
 
     component.ownerKey = 'theOwnerKey';
@@ -232,5 +240,57 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
 
   it('should check allowZeroValueQuantity getter', () => {
     expect(component.allowZeroValueQuantity).toBeTruthy();
+  });
+
+  // HTML
+
+  it('should not display attribute quantity when dataType is no quantity', () => {
+    component.attribute.dataType = Configurator.DataType.USER_SELECTION_NO_QTY;
+
+    fixture.detectChanges();
+
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-attribute-quantity'
+    );
+  });
+
+  it('should not display value quantity when dataType is no quantity', () => {
+    component.attribute.dataType = Configurator.DataType.USER_SELECTION_NO_QTY;
+
+    fixture.detectChanges();
+
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-attribute-quantity'
+    );
+  });
+
+  it('should display attribute quantity when dataType is with attribute quantity', () => {
+    component.attribute.dataType =
+      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
+
+    fixture.detectChanges();
+
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-attribute-quantity'
+    );
+  });
+
+  it('should display value quantity when dataType is with value quantity', () => {
+    component.attribute.dataType =
+      Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL;
+
+    fixture.detectChanges();
+
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-attribute-quantity'
+    );
   });
 });
