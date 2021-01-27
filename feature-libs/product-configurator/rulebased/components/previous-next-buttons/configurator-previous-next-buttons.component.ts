@@ -42,7 +42,7 @@ export class ConfiguratorPreviousNextButtonsComponent {
       );
 
     this.configUtils.scrollToConfigurationElement(
-      '.VariantConfigurationTemplate'
+      '.VariantConfigurationTemplate, .CpqConfigContent'
     );
   }
 
@@ -55,7 +55,7 @@ export class ConfiguratorPreviousNextButtonsComponent {
       );
 
     this.configUtils.scrollToConfigurationElement(
-      '.VariantConfigurationTemplate'
+      '.VariantConfigurationTemplate, .CpqConfigContent'
     );
   }
 
