@@ -18,7 +18,7 @@ export class OccOrderNormalizer implements Converter<Occ.Order, Order> {
 
     if (source.entries) {
       target.entries = source.entries.map((entry) =>
-        this.convertOrderEntry(entry)
+        this.convertOrderEntry(entry, source.code)
       );
     }
 
@@ -27,24 +27,25 @@ export class OccOrderNormalizer implements Converter<Occ.Order, Order> {
         ...consignment,
         entries: consignment.entries.map((entry) => ({
           ...entry,
-          orderEntry: this.convertOrderEntry(entry.orderEntry),
+          orderEntry: this.convertOrderEntry(entry.orderEntry, source.code),
         })),
       }));
     }
 
     if (source.unconsignedEntries) {
       target.unconsignedEntries = source.unconsignedEntries.map((entry) =>
-        this.convertOrderEntry(entry)
+        this.convertOrderEntry(entry, source.code)
       );
     }
 
     return target;
   }
 
-  private convertOrderEntry(source: Occ.OrderEntry): OrderEntry {
+  private convertOrderEntry(source: Occ.OrderEntry, code: string): OrderEntry {
     return {
       ...source,
       product: this.converter.convert(source.product, PRODUCT_NORMALIZER),
+      orderCode: code,
     };
   }
 }

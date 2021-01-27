@@ -14,9 +14,7 @@
   "dependencies": {
     "tslib": "^2.0.0"
   },
-  "peerDependencies": {
-    "@angular/core": "^10.1.0"
-  },
+  "peerDependencies": {},
   "publishConfig": {
     "access": "public"
   }
