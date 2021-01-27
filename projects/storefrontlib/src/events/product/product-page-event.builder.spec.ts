@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import {
   createFrom,
   EventService,
-  FeatureConfigService,
   Product,
   ProductSearchPage,
   ProductSearchService,
@@ -28,12 +27,6 @@ class MockProductSearchService {
   getResults = () => getResultsBehavior;
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isLevel(_version: string): boolean {
-    return true;
-  }
-}
-
 describe('ProductPageEventModule', () => {
   let eventService: EventService;
 
@@ -42,7 +35,6 @@ describe('ProductPageEventModule', () => {
       providers: [
         { provide: ProductService, useClass: MockProductService },
         { provide: ProductSearchService, useClass: MockProductSearchService },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     });
 

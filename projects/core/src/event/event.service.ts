@@ -1,4 +1,4 @@
-import { AbstractType, Injectable, isDevMode } from '@angular/core';
+import { AbstractType, Injectable, isDevMode, Optional } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { FeatureConfigService } from '../features-config/services/feature-config.service';
@@ -34,7 +34,8 @@ interface EventMeta<T> {
 export class EventService {
   constructor(
     // TODO: #10896 - remove this
-    /** @deprecated @since 3.1 - this will be removed in 4.0 */ protected featureConfigService?: FeatureConfigService
+    /** @deprecated @since 3.1 - this will be removed in 4.0 */ @Optional()
+    protected featureConfigService?: FeatureConfigService
   ) {}
 
   /**

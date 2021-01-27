@@ -9,14 +9,7 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import { take } from 'rxjs/operators';
-import { FeatureConfigService } from '../../features-config/services/feature-config.service';
 import { ConfigurationService } from './configuration.service';
-
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isLevel(_version: string): boolean {
-    return true;
-  }
-}
 
 @NgModule({
   providers: [
@@ -32,7 +25,6 @@ describe('ConfigurationService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         provideDefaultConfig({
           a: 'default a',
           b: 'default b',
