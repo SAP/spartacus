@@ -34,10 +34,12 @@ import {
   FooterNavigationModule,
   ForgotPasswordModule,
   HamburgerMenuModule,
+  HomePageEventModule,
   JsonLdBuilderModule,
   LinkModule,
   MyCouponsModule,
   MyInterestsModule,
+  NavigationEventModule,
   NavigationModule,
   NotificationPreferenceModule,
   OrderCancellationModule,
@@ -197,6 +199,8 @@ if (environment.tms) {
     AsmModule,
 
     // Page Events
+    NavigationEventModule,
+    HomePageEventModule,
     CartPageEventModule,
     PageEventModule,
     ProductPageEventModule,
