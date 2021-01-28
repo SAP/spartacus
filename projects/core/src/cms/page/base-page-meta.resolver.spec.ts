@@ -66,13 +66,14 @@ describe('BasePageMetaResolver', () => {
               options: {
                 canonicalUrl: {
                   forceHttps: true,
-                  forceTrailingSlash:true,
-                  forceWww:true,
-                  removeQueryParams: true
-                }
-              }
-            } 
+                  forceTrailingSlash: true,
+                  forceWww: true,
+                  removeQueryParams: true,
+                },
+              },
+            },
           } as PageMetaConfig,
+        },
         {
           provide: WindowRef,
           useClass: MockWindowRef,
