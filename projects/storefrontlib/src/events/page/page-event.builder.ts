@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ActionsSubject } from '@ngrx/store';
 import {
   createFrom,
   EventService,
@@ -14,10 +15,12 @@ import { PageEvent } from './page.events';
 })
 // TODO: #10896 - delete this whole file
 /**
- * @deprecated @since 3.1 - this builder will be remove in 4.0
+ * @deprecated @since 3.1 - this builder will be removed in 4.0. Please use NavigationEventBuilder and NavigationEvent instead.
  */
 export class PageEventBuilder {
   constructor(
+    /** @deprecated @since 3.1 - this will be removed in 4.0 */
+    protected actions: ActionsSubject,
     protected eventService: EventService,
     /** @deprecated @since 3.1 - this will be removed in 4.0 */ protected featureConfigService?: FeatureConfigService
   ) {
