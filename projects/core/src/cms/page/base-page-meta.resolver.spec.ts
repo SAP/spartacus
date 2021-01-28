@@ -148,7 +148,6 @@ describe('BasePageMetaResolver', () => {
     expect(result).toContain(PageRobotsMeta.INDEX);
   });
 
-  // resolveCanonicalUrl
   describe('canonical Url', () => {
     it(`should resolve defaults`, () => {
       let result: string;
@@ -159,6 +158,17 @@ describe('BasePageMetaResolver', () => {
         })
         .unsubscribe();
       expect(result).toEqual('https://www.storefront.com/page/');
+    });
+
+    it(`should use custom url`, () => {
+      let result: string;
+      service
+        .resolveCanonicalUrl(undefined, 'http://test.com/xyz')
+        .subscribe((meta) => {
+          result = meta;
+        })
+        .unsubscribe();
+      expect(result).toContain('https://www.test.com/xyz/');
     });
 
     it(`should contain https`, () => {

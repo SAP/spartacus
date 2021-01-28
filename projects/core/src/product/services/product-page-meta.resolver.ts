@@ -1,4 +1,4 @@
-import { Injectable, Optional } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { BreadcrumbMeta, PageRobotsMeta } from '../../cms/model/page.model';
@@ -14,7 +14,7 @@ import {
 } from '../../cms/page/page.resolvers';
 import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
-import { Product } from '../../model/product.model';
+import { Category, Product } from '../../model/product.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductService } from '../facade/product.service';
 import { ProductScope } from '../model/product-scope';
@@ -39,7 +39,9 @@ export class ProductPageMetaResolver
     PageImageResolver,
     PageRobotsResolver {
   // reusable observable for product data based on the current page
-  protected product$ = this.routingService.getRouterState().pipe(
+  protected product$: Observable<
+    Product
+  > = this.routingService.getRouterState().pipe(
     map((state) => state.state.params['productCode']),
     filter((code) => !!code),
     switchMap((code) => this.productService.get(code, ProductScope.DETAILS)),
@@ -66,7 +68,7 @@ export class ProductPageMetaResolver
     protected routingService: RoutingService,
     protected productService: ProductService,
     protected translation: TranslationService,
-    @Optional() protected basePageMetaResolver?: BasePageMetaResolver
+    protected basePageMetaResolver?: BasePageMetaResolver
   ) {
     super();
     this.pageType = PageType.PRODUCT_PAGE;
@@ -94,10 +96,10 @@ export class ProductPageMetaResolver
    */
   resolveTitle(): Observable<string> {
     return this.product$.pipe(
-      switchMap((p: Product) => {
-        let title = p.name;
-        title += this.resolveFirstCategory(p);
-        title += this.resolveManufacturer(p);
+      switchMap((product) => {
+        let title = product.name;
+        title += this.resolveFirstCategory(product);
+        title += this.resolveManufacturer(product);
         return this.translation.translate('pageMetaResolver.product.title', {
           title: title,
         });
@@ -111,9 +113,9 @@ export class ProductPageMetaResolver
    */
   resolveDescription(): Observable<string> {
     return this.product$.pipe(
-      switchMap((p: Product) =>
+      switchMap((product) =>
         this.translation.translate('pageMetaResolver.product.description', {
-          description: p.summary,
+          description: product.summary,
         })
       )
     );
@@ -128,10 +130,10 @@ export class ProductPageMetaResolver
       this.product$.pipe(),
       this.translation.translate('common.home'),
     ]).pipe(
-      map(([p, label]: [Product, string]) => {
+      map(([product, label]) => {
         const breadcrumbs = [];
-        breadcrumbs.push({ label: label, link: '/' });
-        for (const { name, code, url } of p.categories || []) {
+        breadcrumbs.push({ label, link: '/' });
+        for (const { name, code, url } of product.categories || []) {
           breadcrumbs.push({
             label: name || code,
             link: url,
@@ -148,16 +150,16 @@ export class ProductPageMetaResolver
    */
   resolveImage(): Observable<string> {
     return this.product$.pipe(
-      map((p: Product) =>
-        (<any>p.images?.PRIMARY)?.zoom?.url
-          ? (<any>p.images.PRIMARY).zoom.url
+      map((product) =>
+        (<any>product.images?.PRIMARY)?.zoom?.url
+          ? (<any>product.images.PRIMARY).zoom.url
           : null
       )
     );
   }
 
   protected resolveFirstCategory(product: Product): string {
-    let firstCategory;
+    let firstCategory: Category;
     if (product.categories?.length > 0) {
       firstCategory = product.categories[0];
     }
@@ -181,9 +183,30 @@ export class ProductPageMetaResolver
   }
 
   /**
-   * Resolves the canonical url for the product page.
+   * Resolves the canonical url for the product page using the default canonical url
+   * configuration.
+   *
+   * In case of a variant product, the baseProduct code is used to resolve the url. It's important
+   * to know that this has a few limitations:
+   * - We're not always able to get the super baseProduct, in case of multi-level variants.
+   *   OCC only exposes the direct baseProduct, which might still not resolve in the correct
+   *   canonical URL. This is business driven and subject to change in a customization.
+   * - The url resolved for the variant doesn't contain any content other then the product code.
+   *   This means that we do not provide any product data to resolve pretty URLs (for example
+   *   the product title).
    */
   resolveCanonicalUrl(): Observable<string> {
-    return this.basePageMetaResolver?.resolveCanonicalUrl();
+    return this.product$.pipe(
+      switchMap((product) => {
+        if (product.baseProduct) {
+          const url = this.routingService.getUrl({
+            cxRoute: 'product',
+            params: { code: product.baseProduct },
+          });
+          return this.basePageMetaResolver?.resolveCanonicalUrl(undefined, url);
+        }
+        return this.basePageMetaResolver?.resolveCanonicalUrl();
+      })
+    );
   }
 }

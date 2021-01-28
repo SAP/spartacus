@@ -42,5 +42,6 @@ export const defaultPageMetaConfig: PageMetaConfig = {
         forceTrailingSlash: true,
       },
     },
+    enableInDevMode: true,
   },
 };

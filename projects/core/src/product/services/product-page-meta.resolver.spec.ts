@@ -7,8 +7,8 @@ import { RoutingService } from '../../routing';
 import { ProductService } from '../facade';
 import { ProductPageMetaResolver } from './product-page-meta.resolver';
 
-class MockRoutingService {
-  getRouterState() {
+class MockRoutingService implements Partial<RoutingService> {
+  getRouterState(): Observable<any> {
     return of({
       state: {
         params: {
@@ -16,6 +16,9 @@ class MockRoutingService {
         },
       },
     });
+  }
+  getUrl(): string {
+    return;
   }
 }
 
@@ -37,6 +40,11 @@ const MockProduct: Product = {
     },
   },
   manufacturer: 'Canon',
+};
+
+const MockProductVariant: Product = {
+  baseProduct: 'base_1234',
+  code: 'variant_1234',
 };
 
 const MockProductWithoutImages: Product = {
@@ -79,6 +87,7 @@ describe('ProductPageMetaResolver', () => {
   let service: ProductPageMetaResolver;
   let productService: ProductService;
   let basePageMetaResolver: BasePageMetaResolver;
+  let routingService: RoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -98,6 +107,7 @@ describe('ProductPageMetaResolver', () => {
     service = TestBed.inject(ProductPageMetaResolver);
     productService = TestBed.inject(ProductService);
     basePageMetaResolver = TestBed.inject(BasePageMetaResolver);
+    routingService = TestBed.inject(RoutingService);
   });
 
   it('should be created', () => {
@@ -204,8 +214,29 @@ describe('ProductPageMetaResolver', () => {
   });
 
   it('should resolve canonical url from the BasePageMetaResolver.resolveCanonicalUrl()', async () => {
+    spyOn(routingService, 'getUrl').and.returnValue(
+      'https://store.com/product/123'
+    );
     spyOn(basePageMetaResolver, 'resolveCanonicalUrl').and.callThrough();
     service.resolveCanonicalUrl().subscribe().unsubscribe();
-    expect(basePageMetaResolver.resolveCanonicalUrl).toHaveBeenCalled();
+    expect(basePageMetaResolver.resolveCanonicalUrl).toHaveBeenCalledWith();
+  });
+
+  it('should resolve canonical url for product variant', async () => {
+    spyOn(productService, 'get').and.returnValue(of(MockProductVariant));
+    spyOn(routingService, 'getUrl').and.returnValue(
+      'https://store.com/product/base_1234'
+    );
+    spyOn(basePageMetaResolver, 'resolveCanonicalUrl').and.callThrough();
+    service.resolveCanonicalUrl().subscribe().unsubscribe();
+
+    expect(routingService.getUrl).toHaveBeenCalledWith({
+      cxRoute: 'product',
+      params: { code: 'base_1234' },
+    });
+    expect(basePageMetaResolver.resolveCanonicalUrl).toHaveBeenCalledWith(
+      undefined,
+      'https://store.com/product/base_1234'
+    );
   });
 });

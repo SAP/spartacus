@@ -76,17 +76,24 @@ export class BasePageMetaResolver
    * The canonical url is created by the help of the default `CanonicalUrlOptions` from
    * the pageMeta options. The options can be further adjusted by the options argument.
    */
-  resolveCanonicalUrl(options?: CanonicalUrlOptions): Observable<string> {
-    return of(this.buildCanonicalUrl(options));
+  resolveCanonicalUrl(
+    options?: CanonicalUrlOptions,
+    url?: string
+  ): Observable<string> {
+    return of(this.buildCanonicalUrl(options, url));
   }
 
-  protected buildCanonicalUrl(options?: CanonicalUrlOptions): string {
+  protected buildCanonicalUrl(
+    options?: CanonicalUrlOptions,
+    url?: string
+  ): string {
     const config = {
       ...this.pageMetaConfig.pageMeta.options.canonicalUrl,
       ...options,
     };
-
-    let url = this.winRef.document.location.href;
+    if (!url) {
+      url = this.winRef.document.location.href;
+    }
 
     // ensure that we always use https
     if (config.forceHttps && url.indexOf('http://') > -1) {
