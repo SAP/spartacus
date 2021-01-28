@@ -69,8 +69,8 @@ describe('ProductPageEventModule', () => {
         jasmine.objectContaining({
           searchTerm: searchResults.freeTextSearch,
           numberOfResults: searchResults.pagination.totalResults,
-          ...navigationEvent,
-        } as SearchPageResultsEvent)
+          navigation: { ...navigationEvent },
+        })
       );
     });
 
@@ -99,8 +99,8 @@ describe('ProductPageEventModule', () => {
         jasmine.objectContaining({
           searchTerm: searchResults.freeTextSearch,
           numberOfResults: searchResults.pagination.totalResults,
-          ...navigationEvent,
-        } as SearchPageResultsEvent)
+          navigation: { ...navigationEvent },
+        })
       );
 
       getResultsBehavior.next({
@@ -111,8 +111,8 @@ describe('ProductPageEventModule', () => {
         jasmine.objectContaining({
           searchTerm: 'new',
           numberOfResults: searchResults.pagination.totalResults,
-          ...navigationEvent,
-        } as SearchPageResultsEvent)
+          navigation: { ...navigationEvent },
+        })
       );
       sub.unsubscribe();
     });
@@ -159,11 +159,11 @@ describe('ProductPageEventModule', () => {
 
     expect(result).toEqual(
       jasmine.objectContaining({
-        ...navigationEvent,
+        navigation: { ...navigationEvent },
         categoryCode: navigationEvent.context.id,
         categoryName: searchResults.breadcrumbs[0].facetValueName,
         numberOfResults: searchResults.pagination.totalResults,
-      } as CategoryPageResultsEvent)
+      })
     );
   });
 
@@ -194,7 +194,7 @@ describe('ProductPageEventModule', () => {
       expect(result).toBeTruthy();
       expect(result).toEqual(
         jasmine.objectContaining({
-          ...productPageEvent,
+          navigation: { ...productPageEvent },
           code: product.code,
           categories: product.categories,
           name: product.name,

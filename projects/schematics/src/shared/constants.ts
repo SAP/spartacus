@@ -332,6 +332,7 @@ export const UNIT_USER_LIST_COMPONENT = 'UnitUserListComponent';
 
 export const CART_PAGE_EVENT_BUILDER = 'CartPageEventBuilder';
 export const HOME_PAGE_EVENT_BUILDER = 'HomePageEventBuilder';
+export const PRODUCT_PAGE_EVENT_BUILDER = 'ProductPageEventBuilder';
 
 /***** Classes end *****/
 
