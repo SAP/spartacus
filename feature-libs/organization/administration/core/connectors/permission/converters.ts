@@ -23,5 +23,5 @@ export const PERMISSION_TYPES_NORMALIZER = new InjectionToken<
 >('PermissionTypesListNormalizer');
 
 export const PERMISSION_SERIALIZER = new InjectionToken<
-  Converter<any, Permission>
+  Converter<Permission, any>
 >('PermissionSerializer');
