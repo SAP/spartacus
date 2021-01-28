@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Directive,
   Input,
   Pipe,
   PipeTransform,
@@ -12,6 +13,7 @@ import {
   ProductService,
   RoutingService,
 } from '@spartacus/core';
+import { OutletDirective } from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { ProductListItemContext } from '../../product-list-item-context';
 import { ProductGridItemComponent } from './product-grid-item.component';
@@ -70,6 +72,12 @@ class MockStyleIconsComponent {
 class MockRoutingService {}
 class MockProductService {}
 
+@Directive({
+  selector: '[cxOutlet]',
+})
+class MockOutletDirective implements Partial<OutletDirective> {
+  @Input() cxOutlet: string;
+}
 describe('ProductGridItemComponent in product-list', () => {
   let component: ProductGridItemComponent;
   let fixture: ComponentFixture<ProductGridItemComponent>;
@@ -103,6 +111,7 @@ describe('ProductGridItemComponent in product-list', () => {
           MockCxIconComponent,
           MockStyleIconsComponent,
           MockFeatureLevelDirective,
+          MockOutletDirective,
         ],
         providers: [
           {
