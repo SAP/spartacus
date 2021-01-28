@@ -37,6 +37,10 @@ export class ConfiguratorAttributeQuantityComponent
   ngOnInit() {
     this.quantity.setValue(this.initialQuantity);
 
+    if (this.readonly) {
+      this.quantity.disable();
+    }
+
     const debounceQuantity = this.quantity.valueChanges.pipe(
       debounce(() => timer(this.config.debounceTime))
     );
