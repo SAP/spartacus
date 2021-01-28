@@ -664,7 +664,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "feature-libs/personalization/src/test.ts",
+            "main": "feature-libs/personalization/test.ts",
             "tsConfig": "feature-libs/personalization/tsconfig.spec.json",
             "karmaConfig": "feature-libs/personalization/karma.conf.js"
           }
