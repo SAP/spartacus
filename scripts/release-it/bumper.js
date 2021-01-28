@@ -1,7 +1,6 @@
 const fs = require('fs');
 const util = require('util');
-const get = require('lodash.get');
-const set = require('lodash.set');
+const _ = require('lodash');
 const { Plugin } = require('release-it');
 
 const readFile = util.promisify(fs.readFile);
@@ -23,7 +22,7 @@ class Bumper extends Plugin {
     if (file) {
       const data = await readFile(file);
       const parsed = JSON.parse(data);
-      version = get(parsed, path);
+      version = _.get(parsed, path);
     }
     return version;
   }
@@ -44,10 +43,10 @@ class Bumper extends Plugin {
         const indent = '  ';
         const parsed = JSON.parse(data);
         if (typeof path === 'string') {
-          set(parsed, path, version);
+          _.set(parsed, path, version);
         } else {
           path.map((path) => {
-            set(parsed, path, version);
+            _.set(parsed, path, version);
           });
         }
         return writeFile(file, JSON.stringify(parsed, null, indent) + '\n');
