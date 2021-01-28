@@ -17,14 +17,14 @@ import { SmartEditConfig } from '../config/smart-edit-config';
   providedIn: 'root',
 })
 export class SmartEditLauncherService {
-  private _cmsTicketId: string;
+  private _cmsTicketId: string | undefined;
 
-  get cmsTicketId(): string {
+  get cmsTicketId(): string | undefined {
     return this._cmsTicketId;
   }
 
   private smartEditModuleInstance$: Observable<
-    NgModuleRef<any>
+    NgModuleRef<any> | undefined
   > = this.configInitializer.getStable('featureModules').pipe(
     map((config: CmsConfig) => config.featureModules ?? {}),
     switchMap((featureModulesConfig) =>

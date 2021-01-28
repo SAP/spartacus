@@ -17,10 +17,10 @@ import { filter, take } from 'rxjs/operators';
 })
 export class SmartEditService {
   private isPreviewPage = false;
-  private _currentPageId: string;
+  private _currentPageId: string | undefined;
 
-  private defaultPreviewProductCode: string;
-  private defaultPreviewCategoryCode: string;
+  private defaultPreviewProductCode: string | undefined;
+  private defaultPreviewCategoryCode: string | undefined;
 
   constructor(
     protected cmsService: CmsService,
@@ -40,9 +40,9 @@ export class SmartEditService {
       // rerender components and slots after editing
       window.smartedit = window.smartedit || {};
       window.smartedit.renderComponent = (
-        componentId,
-        componentType,
-        parentId
+        componentId: string,
+        componentType: string,
+        parentId: string
       ) => {
         return this.renderComponent(componentId, componentType, parentId);
       };
@@ -55,15 +55,15 @@ export class SmartEditService {
   public processCmsPage(): void {
     this.baseSiteService
       .get()
-      .pipe(filter(Boolean), take(1))
-      .subscribe((site: BaseSite) => {
+      .pipe(filter<BaseSite>(Boolean), take(1))
+      .subscribe((site) => {
         this.defaultPreviewCategoryCode = site.defaultPreviewCategoryCode;
         this.defaultPreviewProductCode = site.defaultPreviewProductCode;
 
         this.cmsService
           .getCurrentPage()
-          .pipe(filter(Boolean))
-          .subscribe((cmsPage: Page) => {
+          .pipe(filter<Page>(Boolean))
+          .subscribe((cmsPage) => {
             this._currentPageId = cmsPage.pageId;
             // before adding contract to page, we need redirect to that page
             this.goToPreviewPage(cmsPage);
@@ -93,7 +93,7 @@ export class SmartEditService {
     const element = this.winRef.document.body;
 
     // remove old page contract
-    const previousContract = [];
+    const previousContract: string[] = [];
     Array.from(element.classList).forEach((attr) =>
       previousContract.push(attr)
     );
@@ -179,7 +179,7 @@ export class SmartEditService {
           const propValue = groupProps[propName];
           if (propName === 'classes') {
             const classes = propValue.split(' ');
-            classes.forEach((classItem) => {
+            classes.forEach((classItem: string) => {
               renderer.addClass(element, classItem);
             });
           } else {
