@@ -6,6 +6,7 @@ import { PageType } from '../../model/cms.model';
 import { WindowRef } from '../../window/window-ref';
 import { PageMetaService } from '../facade';
 import { BreadcrumbMeta, PageRobotsMeta } from '../model/page.model';
+import { PageMetaConfig } from './config/page-meta.config';
 import { RoutingPageMetaResolver } from './routing/routing-page-meta.resolver';
 
 const mockContentPage: Page = {
@@ -58,6 +59,20 @@ describe('BasePageMetaResolver', () => {
           provide: RoutingPageMetaResolver,
           useClass: MockRoutingPageMetaResolver,
         },
+        {
+          provide: PageMetaConfig,
+          useValue: {
+            pageMeta: {
+              options: {
+                canonicalUrl: {
+                  forceHttps: true,
+                  forceTrailingSlash:true,
+                  forceWww:true,
+                  removeQueryParams: true
+                }
+              }
+            } 
+          } as PageMetaConfig,
         {
           provide: WindowRef,
           useClass: MockWindowRef,
