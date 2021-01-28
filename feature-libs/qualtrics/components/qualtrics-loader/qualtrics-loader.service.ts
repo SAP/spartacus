@@ -50,11 +50,11 @@ export class QualtricsLoaderService implements OnDestroy {
    */
   protected qsi$: Observable<any> = this.qsiLoaded$.pipe(
     switchMap(() => this.isDataLoaded()),
-    map((dataLoaded) =>
-      dataLoaded ? this.winRef?.nativeWindow['QSI'] : EMPTY
+    map((dataLoaded: boolean) =>
+      dataLoaded ? this.winRef?.nativeWindow['QSI' as any] : EMPTY
     ),
-    filter((api) => Boolean(api)),
-    tap((qsi) => (this.qsiApi = qsi))
+    filter((api: any) => Boolean(api)),
+    tap((qsi: any) => (this.qsiApi = qsi))
   );
 
   constructor(
@@ -94,7 +94,7 @@ export class QualtricsLoaderService implements OnDestroy {
    * Qualtrics specific event (`qsi_js_loaded`). As soon as this events happens,
    * we run the API.
    */
-  protected initialize() {
+  protected initialize(): void {
     this.subscription.add(this.qsi$.subscribe(() => this.run()));
   }
 
@@ -136,7 +136,7 @@ export class QualtricsLoaderService implements OnDestroy {
     return this.rendererFactory.createRenderer(null, null);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }
 }
