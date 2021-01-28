@@ -29,7 +29,7 @@ class Bumper extends Plugin {
 
   bump(version) {
     const { out } = this.options;
-    const { isDryRun } = this.global;
+    const { isDryRun } = this.config;
     if (!out) return;
     return Promise.all(
       out.map(async (out) => {
