@@ -8,10 +8,13 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
+import { FormErrorsModule } from '../../../shared/index';
 import { UpdateProfileFormComponent } from './components/update-profile-form.component';
 import { UpdateProfileComponent } from './update-profile.component';
-import { FormErrorsModule } from '../../../shared/index';
 
+/**
+ * @deprecated since 3.2, moved to @spartacus/user package.
+ */
 @NgModule({
   imports: [
     CommonModule,

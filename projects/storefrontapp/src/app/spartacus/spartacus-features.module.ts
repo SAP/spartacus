@@ -1,5 +1,21 @@
 import { NgModule } from '@angular/core';
 import {
+  AnonymousConsentsModule,
+  AsmOccModule,
+  AuthModule,
+  CartModule,
+  CartOccModule,
+  CheckoutModule,
+  CheckoutOccModule,
+  CostCenterOccModule,
+  ExternalRoutesModule,
+  PersonalizationModule,
+  ProductModule,
+  ProductOccModule,
+  SmartEditModule,
+  UserOccModule,
+} from '@spartacus/core';
+import {
   AddressBookModule,
   AnonymousConsentManagementBannerModule,
   AnonymousConsentsDialogModule,
@@ -11,11 +27,9 @@ import {
   CartPageEventModule,
   CategoryNavigationModule,
   CheckoutComponentModule,
-  CloseAccountModule,
   CmsParagraphModule,
   ConsentManagementModule,
   FooterNavigationModule,
-  ForgotPasswordModule,
   HamburgerMenuModule,
   JsonLdBuilderModule,
   LinkModule,
@@ -45,43 +59,22 @@ import {
   ReplenishmentOrderConfirmationModule,
   ReplenishmentOrderDetailsModule,
   ReplenishmentOrderHistoryModule,
-  ResetPasswordModule,
   ReturnRequestDetailModule,
   ReturnRequestListModule,
   SearchBoxModule,
   SiteContextSelectorModule,
   StockNotificationModule,
   TabParagraphContainerModule,
-  UpdateEmailModule,
-  UpdatePasswordModule,
-  UpdateProfileModule,
-  UserComponentModule,
   WishListModule,
 } from '@spartacus/storefront';
-import {
-  AnonymousConsentsModule,
-  AsmOccModule,
-  AuthModule,
-  CartModule,
-  CartOccModule,
-  CheckoutModule,
-  CheckoutOccModule,
-  CostCenterOccModule,
-  ExternalRoutesModule,
-  PersonalizationModule,
-  ProductModule,
-  ProductOccModule,
-  SmartEditModule,
-  UserModule,
-  UserOccModule,
-} from '@spartacus/core';
-import { StorefinderFeatureModule } from './features/storefinder-feature.module';
-import { AdministrationFeatureModule } from './features/administration-feature.module';
-import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { environment } from '../../environments/environment';
+import { AdministrationFeatureModule } from './features/administration-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
+import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
+import { StorefinderFeatureModule } from './features/storefinder-feature.module';
+import { UserFeatureModule } from './features/user-feature.module';
 
 const featureModules = [];
 
@@ -114,17 +107,9 @@ if (environment.cds) {
     BreadcrumbModule,
 
     // User Core
-    UserModule.forRoot(),
     UserOccModule,
     // User UI
-    UserComponentModule,
     AddressBookModule,
-    UpdateEmailModule,
-    UpdatePasswordModule,
-    UpdateProfileModule,
-    CloseAccountModule,
-    ForgotPasswordModule,
-    ResetPasswordModule,
     PaymentMethodsModule,
     NotificationPreferenceModule,
     MyInterestsModule,
@@ -203,7 +188,7 @@ if (environment.cds) {
     JsonLdBuilderModule,
 
     /************************* External features *************************/
-
+    UserFeatureModule,
     StorefinderFeatureModule,
     QualtricsFeatureModule,
     ...featureModules,

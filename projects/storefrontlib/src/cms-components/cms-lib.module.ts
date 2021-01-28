@@ -14,7 +14,9 @@ import {
 import { QualtricsModule, SiteContextSelectorModule } from './misc/index';
 import {
   AddressBookModule,
+  CloseAccountModule,
   ConsentManagementModule,
+  ForgotPasswordModule,
   MyCouponsModule,
   MyInterestsModule,
   NotificationPreferenceModule,
@@ -25,8 +27,12 @@ import {
   PaymentMethodsModule,
   ReplenishmentOrderDetailsModule,
   ReplenishmentOrderHistoryModule,
+  ResetPasswordModule,
   ReturnRequestDetailModule,
   ReturnRequestListModule,
+  UpdateEmailModule,
+  UpdatePasswordModule,
+  UpdateProfileModule,
 } from './myaccount/index';
 import {
   BreadcrumbModule,
@@ -108,12 +114,12 @@ import { WishListModule } from './wish-list/wish-list.module';
 
     UserComponentModule, // almost empty
 
-    // CloseAccountModule,
-    // UpdateEmailModule,
-    // UpdatePasswordModule,
-    // UpdateProfileModule,
-    // ForgotPasswordModule,
-    // ResetPasswordModule,
+    CloseAccountModule,
+    UpdateEmailModule,
+    UpdatePasswordModule,
+    UpdateProfileModule,
+    ForgotPasswordModule,
+    ResetPasswordModule,
   ],
 })
 export class CmsLibModule {}

@@ -10,6 +10,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '../../../shared/index';
+import { LoginModule } from '../login/login.module';
 import { RegisterComponent } from './register.component';
 
 /**
@@ -18,7 +19,7 @@ import { RegisterComponent } from './register.component';
 @NgModule({
   imports: [
     CommonModule,
-    // LoginModule,
+    LoginModule,
     ReactiveFormsModule,
     RouterModule,
     UrlModule,

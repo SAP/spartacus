@@ -8,9 +8,12 @@ import {
   NotAuthGuard,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { ResetPasswordFormComponent } from './reset-password-form.component';
 import { FormErrorsModule } from '../../../shared/index';
+import { ResetPasswordFormComponent } from './reset-password-form.component';
 
+/**
+ * @deprecated since 3.2, moved to @spartacus/user package.
+ */
 @NgModule({
   imports: [
     CommonModule,
