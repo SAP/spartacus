@@ -2,7 +2,7 @@ export const DEFAULT_SCOPE = 'default';
 
 export interface OccEndpoint {
   default?: string;
-  [scope: string]: string;
+  [scope: string]: string | undefined;
 }
 
 export interface ProductOccEndpoint extends OccEndpoint {
