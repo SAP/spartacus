@@ -11,7 +11,7 @@ import { user } from './user';
 
 export const en = {
   address,
-  asm, // @deprecated since 3.2, use asm lib instead
+  asm,
   cart,
   checkout,
   common,
