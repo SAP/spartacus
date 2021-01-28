@@ -97,7 +97,7 @@
     "release:product-configurator:with-changelog": "cd feature-libs/product-configurator && release-it && cd ../..",
     "build:storefinder": "yarn --cwd feature-libs/storefinder run build:schematics && ng build storefinder --prod",
     "release:storefinder:with-changelog": "cd feature-libs/storefinder && release-it && cd ../..",
-    "build:asm": "ng build asm --prod",
+    "build:asm": "yarn --cwd feature-libs/asm run build:schematics && ng build asm --prod",
     "release:asm:with-changelog": "cd feature-libs/asm && release-it && cd ../..",
     "build:qualtrics": "yarn --cwd feature-libs/qualtrics run build:schematics && ng build qualtrics --prod",
     "release:qualtrics:with-changelog": "cd feature-libs/qualtrics && release-it && cd ../..",
