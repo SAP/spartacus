@@ -1,3 +1,7 @@
 %cx-configurator-price {
   font-weight: bold;
+
+  .cx-greyed-out {
+    color: var(--cx-color-light);
+  }
 }

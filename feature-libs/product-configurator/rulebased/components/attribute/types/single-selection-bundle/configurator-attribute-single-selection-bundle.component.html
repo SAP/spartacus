@@ -17,9 +17,14 @@
       *ngIf="attribute?.selectedSingleValue"
     >
       <cx-configurator-price
-        [productPrice]="getSelectedValuePrice(attribute)"
-        [quantity]="attribute?.quantity"
-        [totalPrice]="getSelectedValuePriceTotal(attribute)"
+        *ngIf="withQuantity"
+        [formula]="
+          setFormula(
+            attribute?.quantity,
+            getSelectedValuePrice(attribute),
+            getSelectedValuePriceTotal(attribute)
+          )
+        "
       ></cx-configurator-price>
     </div>
   </div>
@@ -31,7 +36,6 @@
     *ngFor="let value of attribute?.values"
     [preventAction]="attribute.required"
     [product]="value"
-    [withQuantity]="false"
   >
   </cx-configurator-attribute-product-card>
 </div>

@@ -133,7 +133,10 @@ export class CpqConfiguratorNormalizer
       description: sourceValue.description,
       productSystemId: sourceValue.productSystemId,
       selected: sourceValue.selected,
-      quantity: Number(sourceValue.quantity),
+      quantity: this.cpqUtilitiesService.prepareQuantity(
+        sourceValue,
+        sourceAttribute
+      ),
       valuePrice: this.cpqUtilitiesService.prepareValuePrice(
         sourceValue,
         currency

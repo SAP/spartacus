@@ -10,8 +10,8 @@ import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-s
 import { ConfiguratorAttributeProductCardComponent } from '../../product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurator-attribute-multi-selection-bundle.component';
 
-let testAttribute: Configurator.Attribute;
-
+//let testAttribute: Configurator.Attribute;
+/**
 const createTestValue = (
   price: number,
   total: number,
@@ -25,6 +25,7 @@ const createTestValue = (
     value: total,
   },
 });
+ */
 
 @Component({
   selector: 'cx-configurator-attribute-product-card',
@@ -328,6 +329,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     expect(component.onDeselectAll).toHaveBeenCalled();
   });
 
+  /**
   describe('isAnyValueSelected()', () => {
     it('should be true if one selected', () => {
       testAttribute = {
@@ -648,4 +650,5 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
       });
     });
   });
+   */
 });

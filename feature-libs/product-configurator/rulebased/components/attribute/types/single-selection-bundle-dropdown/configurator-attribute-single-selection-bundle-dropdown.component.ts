@@ -99,4 +99,29 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
       this.selectionChange.emit(event);
     }
   }
+
+  getSelectedValuePrice(
+    attribute: Configurator.Attribute
+  ): Configurator.PriceDetails | undefined {
+    return attribute?.values?.find((value) => value?.selected)?.valuePrice;
+  }
+
+  getSelectedValuePriceTotal(
+    attribute: Configurator.Attribute
+  ): Configurator.PriceDetails | undefined {
+    return attribute?.values?.find((value) => value?.selected)?.valuePriceTotal;
+  }
+
+  setFormula(
+    quantity?: number,
+    valuePrice?: Configurator.PriceDetails,
+    valuePriceTotal?: Configurator.PriceDetails
+  ) {
+    return {
+      quantity: quantity,
+      valuePrice: valuePrice,
+      valuePriceTotal: valuePriceTotal,
+      isLightedUp: true,
+    };
+  }
 }

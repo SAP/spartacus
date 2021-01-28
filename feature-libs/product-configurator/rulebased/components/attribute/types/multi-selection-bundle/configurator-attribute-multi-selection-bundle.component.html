@@ -18,9 +18,8 @@
       *ngIf="isAnyValueSelected(attribute)"
     >
       <cx-configurator-price
-        [productPrice]="getSelectedValuesPrice(attribute)"
-        [quantity]="attribute?.quantity"
-        [totalPrice]="getSelectedValuesPriceTotal(attribute)"
+        *ngIf="withQuantityOnAttributeLevel"
+        [formula]="setFormula(null)"
       ></cx-configurator-price>
     </div>
   </div>

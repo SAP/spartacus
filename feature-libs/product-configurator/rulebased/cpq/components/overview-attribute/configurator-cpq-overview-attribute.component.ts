@@ -29,4 +29,17 @@ export class ConfiguratorCPQOverviewAttributeComponent implements OnInit {
   getProductPrimaryImage(product: Product): ImageGroup | ImageGroup[] {
     return product?.images?.PRIMARY;
   }
+
+  setFormula(
+    quantity?: number,
+    valuePrice?: Configurator.PriceDetails,
+    valuePriceTotal?: Configurator.PriceDetails
+  ) {
+    return {
+      quantity: quantity,
+      valuePrice: valuePrice,
+      valuePriceTotal: valuePriceTotal,
+      isLightedUp: true,
+    };
+  }
 }

@@ -109,9 +109,14 @@
 
       <div class="cx-product-card-price" *ngIf="getProductPrice(product)">
         <cx-configurator-price
-          [productPrice]="getProductPrice(product)"
-          [quantity]="product.quantity"
-          [totalPrice]="getProductTotalPrice(product)"
+          [formula]="
+            setFormula(
+              product.quantity,
+              product.valuePrice,
+              product.valuePriceTotal,
+              product.selected
+            )
+          "
         ></cx-configurator-price>
       </div>
     </div>

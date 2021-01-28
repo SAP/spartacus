@@ -1,49 +1,56 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-export enum ConfiguratorPriceType {
-  PRICE_ONLY = 'priceOnly',
-  QUANTITY_ONLY = 'quantityOnly',
-  PRICE_AND_QUANTITY = 'priceAndQuantity',
-}
-
 @Component({
   selector: 'cx-configurator-price',
   templateUrl: './configurator-price.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorPriceComponent {
-  @Input() productPrice: number;
-  @Input() quantity = 1;
-  @Input() totalPrice: number;
-
-  configuratorPriceType = ConfiguratorPriceType;
+  @Input() formula: any = {
+    quantity: 0,
+    valuePrice: null,
+    valuePriceTotal: null,
+    isLightedUp: false,
+  };
 
   /**
-   * Returns price type according to the values passed to the component
+   * Retrieves the price type according to the values passed to the component
    *
-   * @returns {ConfiguratorPriceType} - price type
+   * @returns {string} - price calculation formula
    */
-  getPriceType(): ConfiguratorPriceType {
-    if (this?.productPrice && this.quantity === 1)
-      return ConfiguratorPriceType.PRICE_ONLY;
-
-    if (!this?.productPrice && this.quantity > 1)
-      return ConfiguratorPriceType.QUANTITY_ONLY;
-
-    if (this?.productPrice && this.quantity > 1)
-      return ConfiguratorPriceType.PRICE_AND_QUANTITY;
+  getPriceCalculation(): string {
+    if (this.formula?.valuePrice.value === 0) {
+      if (this.formula?.quantity >= 1) {
+        return this.formula?.quantity.toString();
+      } else if (this.formula?.valuePriceTotal?.value !== 0) {
+        {
+          return this.formula?.valuePriceTotal?.formattedValue;
+        }
+      }
+    } else if (this.formula?.valuePrice?.value !== 0) {
+      if (this.formula?.quantity >= 1) {
+        return (
+          this.formula?.quantity.toString() +
+          ' x ' +
+          this.formula?.valuePrice?.formattedValue +
+          ' = ' +
+          this.formula?.valuePriceTotal?.formattedValue
+        );
+      } else {
+        return this.formula?.valuePrice?.formattedValue;
+      }
+    }
   }
 
-  /**
-   * Returns total price calculated from product price and quantity
-   *
-   * @returns {number} - total price
-   */
-  calculateTotal(): number {
-    if (!this?.productPrice) return;
+  isPriceGreyedOut() {
+    return !this.formula?.isLightedUp;
+  }
 
-    return this.totalPrice
-      ? this.totalPrice
-      : this.productPrice * this.quantity;
+  isDataForPriceCalculationDefined() {
+    return (
+      this?.formula?.quantity ||
+      this?.formula?.valuePrice ||
+      this?.formula?.valuePriceTotal
+    );
   }
 }

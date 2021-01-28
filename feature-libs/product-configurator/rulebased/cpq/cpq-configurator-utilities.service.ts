@@ -14,13 +14,16 @@ export class CpqConfiguratorUtilitiesService {
   constructor(protected languageService: LanguageService) {}
 
   /**
-   * Prepares quantity to be shown inthe overview page
+   * Prepares quantity to be shown in the overview page
    * @param value CPQ Value
    * @param attribute CPQ Attribute
    * @returns Quantity
    */
   prepareQuantity(value: Cpq.Value, attribute: Cpq.Attribute): number {
     let quantity: number;
+    if (!value?.selected) {
+      return null;
+    }
     switch (attribute.dataType) {
       case Cpq.DataType.QTY_ATTRIBUTE_LEVEL:
         quantity = Number(attribute.quantity);

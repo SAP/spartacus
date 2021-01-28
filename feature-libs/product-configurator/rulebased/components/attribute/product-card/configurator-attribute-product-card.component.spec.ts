@@ -15,17 +15,6 @@ interface ProductExtended extends Product {
   noLink?: boolean;
 }
 
-const mockValueProductPrice = 100;
-const mockValueProductPriceTotal = 200;
-const mockValueProduct: Configurator.Value = {
-  valuePrice: {
-    value: mockValueProductPrice,
-  },
-  valuePriceTotal: {
-    value: mockValueProductPriceTotal,
-  },
-};
-
 const product: ProductExtended = {
   name: 'Product Name',
   code: 'PRODUCT_CODE',
@@ -305,45 +294,5 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     expect(component.transformToProductType(component.product)).toEqual(
       productTransformed
     );
-  });
-
-  describe('product price', () => {
-    describe('(single)', () => {
-      it('should be retrieved correctly', () => {
-        const price = component.getProductPrice(mockValueProduct);
-
-        expect(price).toEqual(mockValueProductPrice);
-      });
-
-      it('should not be retrieved if no value', () => {
-        const valueProductWithoutPrice: Configurator.Value = {
-          ...mockValueProduct,
-          valuePrice: {},
-        };
-        const price = component.getProductPrice(valueProductWithoutPrice);
-
-        expect(price).toBeUndefined();
-      });
-    });
-
-    describe('(total)', () => {
-      it('should be retrieved correctly', () => {
-        const priceTotal = component.getProductTotalPrice(mockValueProduct);
-
-        expect(priceTotal).toEqual(mockValueProductPriceTotal);
-      });
-
-      it('should not be retrieved if no value', () => {
-        const valueProductWithoutPriceTotal: Configurator.Value = {
-          ...mockValueProduct,
-          valuePriceTotal: {},
-        };
-        const price = component.getProductTotalPrice(
-          valueProductWithoutPriceTotal
-        );
-
-        expect(price).toBeUndefined();
-      });
-    });
   });
 });

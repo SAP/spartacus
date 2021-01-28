@@ -41,4 +41,14 @@
     [readonly]="readOnlyQuantity || (loading$ | async)"
     *ngIf="withQuantity"
   ></cx-configurator-attribute-quantity>
+  <cx-configurator-price
+    *ngIf="withQuantity"
+    [formula]="
+      setFormula(
+        attribute?.quantity,
+        getSelectedValuePrice(attribute),
+        getSelectedValuePriceTotal(attribute)
+      )
+    "
+  ></cx-configurator-price>
 </div>
