@@ -38,12 +38,15 @@ export class HomePageEventBuilder {
     );
   }
 
-  // TODO: #10896 - remove this method
   private createDeprecatedPageEvent(
     navigationEvent: NavigationEvent
   ): PageEvent | undefined {
-    return this.featureConfigService?.isLevel('!3.1')
-      ? { ...navigationEvent }
-      : undefined;
+    if (
+      !this.featureConfigService ||
+      this.featureConfigService.isLevel('!3.1')
+    ) {
+      return { ...navigationEvent };
+    }
+    return undefined;
   }
 }
