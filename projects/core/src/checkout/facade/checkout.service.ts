@@ -176,6 +176,15 @@ export class CheckoutService {
   }
 
   /**
+   * Check if checkout details are stable (no longer loading)
+   */
+  isLoading(): Observable<boolean> {
+    return this.checkoutStore.pipe(
+      select(CheckoutSelectors.getCheckoutLoading)
+    );
+  }
+
+  /**
    * Get order details
    */
   getOrderDetails(): Observable<Order | ReplenishmentOrder> {

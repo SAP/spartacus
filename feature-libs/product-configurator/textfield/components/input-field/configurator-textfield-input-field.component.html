@@ -1,0 +1,14 @@
+<label
+  id="{{ getIdLabel(attribute) }}"
+  class="cx-configurator-textfield-label"
+  [attr.aria-label]="attribute.configurationLabel"
+  >{{ attribute.configurationLabel }}</label
+>
+<div class="form-group">
+  <input
+    [formControl]="attributeInputForm"
+    class="form-control"
+    (change)="onInputChange()"
+    attr.aria-labelledby="{{ getIdLabel(attribute) }}"
+  />
+</div>

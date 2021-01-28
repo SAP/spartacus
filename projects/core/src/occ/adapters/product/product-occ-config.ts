@@ -16,7 +16,7 @@ export interface ProductScopesConfig extends LoadingScopesConfig {
   details?: ProductLoadingScopeConfig;
   attributes?: ProductLoadingScopeConfig;
   variants?: ProductLoadingScopeConfig;
-  [scope: string]: ProductLoadingScopeConfig;
+  [scope: string]: ProductLoadingScopeConfig | undefined;
 }
 
 export interface ProductLoadingScopeConfig extends LoadingScopeConfig {
