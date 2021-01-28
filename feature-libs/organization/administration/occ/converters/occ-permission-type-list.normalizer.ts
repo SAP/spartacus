@@ -23,10 +23,12 @@ export class OccPermissionTypeListNormalizer
     target?: OrderApprovalPermissionType[]
   ): OrderApprovalPermissionType[] {
     if (target === undefined) {
-      target = source.orderApprovalPermissionTypes.map((permissionType) =>
-        this.converter.convert(permissionType, PERMISSION_TYPE_NORMALIZER)
-      );
+      // target = what should be here??
     }
+    target = source.orderApprovalPermissionTypes.map((permissionType) =>
+      this.converter.convert(permissionType, PERMISSION_TYPE_NORMALIZER)
+    );
+
     return target;
   }
 }
