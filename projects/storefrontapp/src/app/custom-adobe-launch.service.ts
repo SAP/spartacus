@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { CxEvent, EventService, WindowRef } from '@spartacus/core';
 import { AdobeLaunchService } from '@spartacus/tms/adobe-launch';
 import { TmsConfig } from '@spartacus/tms/core';
@@ -14,9 +14,10 @@ export class CustomAdobeLaunchService extends AdobeLaunchService {
   constructor(
     protected eventsService: EventService,
     protected windowRef: WindowRef,
-    protected tmsConfig: TmsConfig
+    protected tmsConfig: TmsConfig,
+    @Inject(PLATFORM_ID) protected platformId: any
   ) {
-    super(eventsService, windowRef, tmsConfig);
+    super(eventsService, windowRef, tmsConfig, platformId);
   }
 
   protected prepareDataLayer(): void {
