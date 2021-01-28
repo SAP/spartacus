@@ -2,7 +2,9 @@
   &:not(:empty) {
     width: 100%;
 
-    cx-configurator-attribute-quantity {
+    .cx-quantity {
+      padding-block-start: 1rem;
+      padding-block-end: 1rem;
       padding-inline-start: 1rem;
       padding-inline-end: 1rem;
     }

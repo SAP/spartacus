@@ -10,6 +10,7 @@ import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeProductCardComponent } from './configurator-attribute-product-card.component';
 import { Observable, of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator';
 
 interface ProductExtended extends Product {
   noLink?: boolean;
@@ -68,6 +69,7 @@ class MockConfiguratorPriceComponent {
 describe('ConfiguratorAttributeProductCardComponent', () => {
   let component: ConfiguratorAttributeProductCardComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeProductCardComponent>;
+  let htmlElem: HTMLElement;
 
   const createImage = (url: string, altText: string): Configurator.Image => {
     const image: Configurator.Image = {
@@ -132,6 +134,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     fixture = TestBed.createComponent(
       ConfiguratorAttributeProductCardComponent
     );
+    htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     component.multiSelect = false;
     component.product = createValue(
@@ -293,6 +296,62 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
   it('should transformToProductType return Product', () => {
     expect(component.transformToProductType(component.product)).toEqual(
       productTransformed
+    );
+  });
+
+  it('should display quantity when props withQuantity is true', () => {
+    component.withQuantity = true;
+    component.product.selected = true;
+    component.multiSelect = true;
+
+    fixture.detectChanges();
+
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-attribute-quantity'
+    );
+  });
+
+  it('should not display quantity when props withQuantity is false', () => {
+    component.withQuantity = false;
+    component.product.selected = true;
+    component.multiSelect = true;
+
+    fixture.detectChanges();
+
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-attribute-quantity'
+    );
+  });
+
+  it('should not display quantity when props multiSelect is false', () => {
+    component.withQuantity = true;
+    component.product.selected = true;
+    component.multiSelect = false;
+
+    fixture.detectChanges();
+
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-attribute-quantity'
+    );
+  });
+
+  it('should not display quantity when value is no selected', () => {
+    component.withQuantity = true;
+    component.product.selected = false;
+    component.multiSelect = true;
+
+    fixture.detectChanges();
+
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-attribute-quantity'
     );
   });
 });
