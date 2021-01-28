@@ -150,7 +150,7 @@ const cpqConfiguration: Cpq.Configuration = {
 const cpqConfigurationIncompleteInconsistent: Cpq.Configuration = {
   productSystemId: cpqProductSystemId,
   incompleteMessages: ['incomplete message'],
-  incompleteAttributes: [],
+  incompleteAttributes: ['Attribute1', 'Attribute2'],
   invalidMessages: [],
   failedValidations: [],
   errorMessages: [],
@@ -210,7 +210,7 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(result.productCode).toBe(cpqProductSystemId);
     expect(result.complete).toBe(false);
     expect(result.consistent).toBe(false);
-    expect(result.totalNumberOfIssues).toBe(1);
+    expect(result.totalNumberOfIssues).toBe(3);
   });
 
   it('should convert values', () => {

@@ -149,6 +149,25 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
     );
   });
 
+  it('should display banner when there are issues counted in Configurator.Overview', () => {
+    const productConfigurationWithConflictsCountedInOverview: Configurator.Configuration = productConfigurationWithoutIssues;
+    productConfigurationWithConflictsCountedInOverview.overview = {
+      totalNumberOfIssues: 5,
+    };
+    configurationObs = of(productConfigurationWithConflictsCountedInOverview);
+    initialize(routerData);
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'cx-icon'
+    );
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-error-msg'
+    );
+  });
+
   it('should display no banner in order history when there are issues', () => {
     configurationObs = of(productConfiguration);
     initialize(orderRouterData);

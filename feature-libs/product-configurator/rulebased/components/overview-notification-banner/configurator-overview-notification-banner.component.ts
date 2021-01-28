@@ -7,12 +7,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import {
-  distinctUntilKeyChanged,
-  filter,
-  map,
-  switchMap,
-} from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 
@@ -34,9 +29,10 @@ export class ConfiguratorOverviewNotificationBannerComponent {
     switchMap((routerData) =>
       this.configuratorCommonsService.getConfiguration(routerData.owner)
     ),
-    distinctUntilKeyChanged('configId'),
     map((configuration) => {
-      if (configuration.totalNumberOfIssues) {
+      if (configuration.overview?.totalNumberOfIssues) {
+        return configuration.overview.totalNumberOfIssues;
+      } else if (configuration.totalNumberOfIssues) {
         return configuration.totalNumberOfIssues;
       } else {
         return this.countNumberOfIssues(configuration);
