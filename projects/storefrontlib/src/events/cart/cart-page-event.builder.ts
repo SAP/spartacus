@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ActionsSubject } from '@ngrx/store';
 import {
   createFrom,
   EventService,
@@ -15,6 +16,9 @@ import { CartPageEvent } from './cart-page.events';
 })
 export class CartPageEventBuilder {
   constructor(
+    // TODO: #10896 - remove this
+    /** @deprecated @since 3.1 - this will be removed in 4.0 */
+    protected actions: ActionsSubject,
     protected eventService: EventService,
     // TODO: #10896 - remove this
     /** @deprecated @since 3.1 - this will be removed in 4.0 */ protected featureConfigService?: FeatureConfigService

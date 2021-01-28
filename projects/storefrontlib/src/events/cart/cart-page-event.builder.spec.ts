@@ -1,5 +1,7 @@
 import { TestBed } from '@angular/core/testing';
+import { ActionsSubject } from '@ngrx/store';
 import { createFrom, EventService } from '@spartacus/core';
+import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { NavigationEvent } from '../navigation/navigation.event';
 import { CartPageEventBuilder } from './cart-page-event.builder';
@@ -9,7 +11,10 @@ describe('CartPageEventBuilder', () => {
   let eventService: EventService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      // TODO: #10896 - remove this
+      providers: [{ provide: ActionsSubject, useValue: new Subject() }],
+    });
 
     TestBed.inject(CartPageEventBuilder); // register events
     eventService = TestBed.inject(EventService);
@@ -32,7 +37,7 @@ describe('CartPageEventBuilder', () => {
     expect(result).toBeTruthy();
     expect(result).toEqual(
       jasmine.objectContaining({
-        ...navigationEvent,
+        navigation: { ...navigationEvent },
       } as CartPageEvent)
     );
   });
