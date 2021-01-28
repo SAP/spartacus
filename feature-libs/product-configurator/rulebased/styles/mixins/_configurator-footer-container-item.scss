@@ -1,0 +1,9 @@
+@mixin cx-configurator-footer-container-item {
+  @include media-breakpoint-down(sm) {
+    inline-size: 100%;
+  }
+
+  padding-inline-start: 10px;
+  padding-inline-end: 10px;
+  inline-size: 40%;
+}

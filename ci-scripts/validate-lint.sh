@@ -2,16 +2,6 @@
 set -e
 set -o pipefail
 
-function validatestyles {
-    echo "-----"
-    echo "Validating styles app"
-    pushd projects/storefrontstyles
-    yarn
-    yarn sass
-    rm -rf temp-scss
-    popd
-}
-
 function validateStylesLint {
     echo "----"
     echo "Running styleslint"
@@ -60,7 +50,6 @@ else
     exit 1
 fi
 
-validatestyles
 validateStylesLint
 
 echo "Validating code linting"
