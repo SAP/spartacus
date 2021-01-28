@@ -3,11 +3,13 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
+import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator';
 import { ItemCounterComponent, MediaModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeProductCardComponent } from '../../product-card/configurator-attribute-product-card.component';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurator-attribute-multi-selection-bundle.component';
 
 @Component({
@@ -15,6 +17,36 @@ import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurat
   template: '',
 })
 class MockProductCardComponent {}
+
+class MockConfiguratorAttributeQuantityService {
+  readOnlyQuantity(value): boolean {
+    return !value || value === '0';
+  }
+  withQuantity(
+    dataType: Configurator.DataType,
+    uiType: Configurator.UiType
+  ): boolean {
+    switch (uiType) {
+      case Configurator.UiType.DROPDOWN_PRODUCT:
+      case Configurator.UiType.DROPDOWN:
+      case Configurator.UiType.RADIOBUTTON_PRODUCT:
+      case Configurator.UiType.RADIOBUTTON:
+        return dataType ===
+          Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
+          ? true
+          : false;
+
+      case Configurator.UiType.CHECKBOXLIST:
+      case Configurator.UiType.CHECKBOXLIST_PRODUCT:
+        return dataType === Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL
+          ? true
+          : false;
+
+      default:
+        return false;
+    }
+  }
+}
 
 describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   let component: ConfiguratorAttributeMultiSelectionBundleComponent;
@@ -74,6 +106,10 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
               {
                 provide: ConfiguratorAttributeProductCardComponent,
                 useClass: MockProductCardComponent,
+              },
+              {
+                provide: ConfiguratorAttributeQuantityService,
+                useClass: MockConfiguratorAttributeQuantityService,
               },
             ],
           },
@@ -310,5 +346,30 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     component.onChangeAttributeQuantity(quantity);
 
     expect(component.onDeselectAll).toHaveBeenCalled();
+  });
+
+  it('should not display attribute quantity when dataType is no quantity', () => {
+    component.attribute.dataType = Configurator.DataType.USER_SELECTION_NO_QTY;
+
+    fixture.detectChanges();
+
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-attribute-quantity'
+    );
+  });
+
+  it('should display attribute quantity when dataType is with attribute quantity', () => {
+    component.attribute.dataType =
+      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
+
+    fixture.detectChanges();
+
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-attribute-quantity'
+    );
   });
 });
