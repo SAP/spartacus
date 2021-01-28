@@ -8,6 +8,9 @@ import { CxEvent } from '../../event/cx-event';
  * dependencies
  */
 export class ModuleInitializedEvent extends CxEvent {
+  /**
+   * Event's type
+   */
   static readonly type = 'ModuleInitializedEvent';
   /**
    * Name/identifier of the feature associated with this module.
