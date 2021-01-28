@@ -8,7 +8,7 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
 
 class MockConfiguratorAttributeQuantityService {
-  readOnlyQuantity(value): boolean {
+  disableQuantityActions(value): boolean {
     return !value || value === '0';
   }
   withQuantity(
@@ -151,7 +151,7 @@ describe('ConfigAttributeDropDownComponent', () => {
     expect(component.withQuantity).toBeTruthy();
   });
 
-  it('should call readOnlyQuantity', () => {
-    expect(component.readOnlyQuantity).toBeFalse();
+  it('should call disableQuantityActions', () => {
+    expect(component.disableQuantityActions).toBeFalse();
   });
 });

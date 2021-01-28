@@ -7,7 +7,7 @@
       (changeQuantity)="onChangeAttributeQuantity($event)"
       [allowZero]="!attribute.required"
       [initialQuantity]="attribute.quantity"
-      [readonly]="readOnlyQuantity || (loading$ | async)"
+      [disableQuantityActions]="disableQuantityActions || (loading$ | async)"
       *ngIf="withQuantityOnAttributeLevel"
     ></cx-configurator-attribute-quantity>
 
