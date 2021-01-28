@@ -7,7 +7,7 @@ export const USER_GROUP_NORMALIZER = new InjectionToken<
 >('UserGroupNormalizer');
 
 export const USER_GROUP_SERIALIZER = new InjectionToken<
-  Converter<any, UserGroup>
+  Converter<UserGroup, any>
 >('UserGroupSerializer');
 
 export const USER_GROUPS_NORMALIZER = new InjectionToken<
