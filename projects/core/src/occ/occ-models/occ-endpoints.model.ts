@@ -2,7 +2,7 @@ export const DEFAULT_SCOPE = 'default';
 
 export interface OccEndpoint {
   default?: string;
-  [scope: string]: string;
+  [scope: string]: string | undefined;
 }
 
 export interface ProductOccEndpoint extends OccEndpoint {
@@ -247,6 +247,74 @@ export interface OccEndpoints {
    * @member {string}
    */
   addressVerification?: string | OccEndpoint;
+  /**
+   * Endpoint for create configuration
+   *
+   * @member {string}
+   */
+  createVariantConfiguration?: string;
+  /**
+   * Endpoint for create configuration for the textfield configurator
+   *
+   * @member {string}
+   */
+  createTextfieldConfiguration?: string;
+  /**
+   * Endpoint for add textfield configuration to cart
+   *
+   * @member {string}
+   */
+  addTextfieldConfigurationToCart?: string;
+  /**
+   * Endpoint for reading textfield configuration attached to the cart entry
+   */
+  readTextfieldConfigurationForCartEntry?: string;
+  /**
+   * Endpoint for updating textfield configuration attached to the cart entry
+   */
+  updateTextfieldConfigurationForCartEntry?: string;
+  /**
+   * Endpoint to read configuration
+   *
+   * @member {string}
+   */
+  readVariantConfiguration?: string;
+  /**
+   * Endpoint to update configuration
+   *
+   * @member {string}
+   */
+  updateVariantConfiguration?: string;
+  /**
+   * Endpoint to add configuration to cart
+   *
+   * @member {string}
+   */
+  addVariantConfigurationToCart?: string;
+  /**
+   * Endpoint for reading configuration attached to the cart entry
+   */
+  readVariantConfigurationForCartEntry?: string;
+  /**
+   * Endpoint for updating configuration attached to the cart entry
+   */
+  updateVariantConfigurationForCartEntry?: string;
+  /**
+   * Endpoint for reading configuration overview attached to the order entry
+   */
+  readVariantConfigurationOverviewForOrderEntry?: string;
+  /**
+   * Endpoint to read configuration price
+   *
+   * @member {string}
+   */
+  readVariantConfigurationPriceSummary?: string;
+  /**
+   * Endpoint to get configuration Overview
+   *
+   * @member {string}
+   */
+  getVariantConfigurationOverview?: string;
   /**
    * Endpoint for consignment tracking
    *
