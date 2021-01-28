@@ -312,7 +312,7 @@ export class ActiveCartService implements OnDestroy {
     );
   }
 
-  private requireLoadedCart(
+  requireLoadedCart(
     customCartSelector$?: Observable<ProcessesLoaderState<Cart>>
   ): Observable<ProcessesLoaderState<Cart>> {
     // For guest cart merge we want to filter guest cart in the whole stream
