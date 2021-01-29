@@ -1,11 +1,10 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import { AsmAuthStorageService, TokenTarget } from '@spartacus/asm/root';
+import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 import { AuthToken, StatePersistenceService } from '@spartacus/core';
 import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AsmUi } from '../models/asm.models';
-import { AsmActions, AsmSelectors, StateWithAsm } from '../store';
+import { AsmUiService } from './asm-ui.service';
 
 /**
  * ASM state synced to browser storage.
@@ -28,7 +27,7 @@ export class AsmStatePersistenceService implements OnDestroy {
 
   constructor(
     protected statePersistenceService: StatePersistenceService,
-    protected store: Store<StateWithAsm>,
+    protected asmUiService: AsmUiService,
     protected authStorageService: AsmAuthStorageService
   ) {}
 
@@ -56,7 +55,7 @@ export class AsmStatePersistenceService implements OnDestroy {
    */
   protected getAsmState(): Observable<SyncedAsmState> {
     return combineLatest([
-      this.store.pipe(select(AsmSelectors.getAsmUi)),
+      this.asmUiService.getAsmUiState(),
       of(this.authStorageService.getEmulatedUserToken()),
       this.authStorageService.getTokenTarget(),
     ]).pipe(
@@ -83,7 +82,7 @@ export class AsmStatePersistenceService implements OnDestroy {
   protected onRead(state: SyncedAsmState) {
     if (state) {
       if (state.ui) {
-        this.store.dispatch(new AsmActions.AsmUiUpdate(state.ui));
+        this.asmUiService.updateAsmUiState(state.ui);
       }
       if (state.emulatedUserToken) {
         this.authStorageService.setEmulatedUserToken(state.emulatedUserToken);

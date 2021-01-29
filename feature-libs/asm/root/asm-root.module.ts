@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import {
   AuthHttpHeaderService,
   AuthService,
@@ -8,7 +8,14 @@ import { AsmLoaderModule } from './asm-loader.module';
 import { AsmAuthHttpHeaderService } from './services/asm-auth-http-header.service';
 import { AsmAuthStorageService } from './services/asm-auth-storage.service';
 import { AsmAuthService } from './services/asm-auth.service';
+import { AsmStatePersistenceService } from './services/asm-state-persistence.service';
 
+export function asmStatePersistenceFactory(
+  asmStatePersistenceService: AsmStatePersistenceService
+) {
+  const result = () => asmStatePersistenceService.initSync();
+  return result;
+}
 @NgModule({
   imports: [AsmLoaderModule],
   providers: [
@@ -23,6 +30,12 @@ import { AsmAuthService } from './services/asm-auth.service';
     {
       provide: AuthHttpHeaderService,
       useExisting: AsmAuthHttpHeaderService,
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: asmStatePersistenceFactory,
+      deps: [AsmStatePersistenceService],
+      multi: true,
     },
   ],
 })

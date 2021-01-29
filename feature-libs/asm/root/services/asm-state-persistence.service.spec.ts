@@ -4,8 +4,8 @@ import { AsmAuthStorageService, TokenTarget } from '@spartacus/asm/root';
 import { AuthToken, StatePersistenceService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { AsmActions, ASM_FEATURE, StateWithAsm } from '../store';
-import * as fromAsmReducers from '../store/reducers/index';
+import { AsmActions, ASM_FEATURE, StateWithAsm } from '../../core/store';
+import * as fromAsmReducers from '../../core/store/reducers/index';
 import { AsmStatePersistenceService } from './asm-state-persistence.service';
 
 class MockAsmAuthStorageService implements Partial<AsmAuthStorageService> {

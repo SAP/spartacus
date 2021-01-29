@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { AsmUi, AsmUiService } from '@spartacus/asm/root';
 import { Observable } from 'rxjs';
 import {
-  AsmUi,
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '../models/asm.models';
@@ -14,7 +14,10 @@ import { AsmSelectors } from '../store/index';
   providedIn: 'root',
 })
 export class AsmService {
-  constructor(protected store: Store<StateWithAsm>) {}
+  constructor(
+    protected store: Store<StateWithAsm>,
+    protected asmUiService: AsmUiService
+  ) {}
 
   /**
    * Search for customers
@@ -51,13 +54,13 @@ export class AsmService {
    * Updates the state of the ASM UI
    */
   updateAsmUiState(asmUi: AsmUi): void {
-    this.store.dispatch(new AsmActions.AsmUiUpdate(asmUi));
+    this.asmUiService.updateAsmUiState(asmUi);
   }
 
   /**
    * Get the state of the ASM UI
    */
   getAsmUiState(): Observable<AsmUi> {
-    return this.store.pipe(select(AsmSelectors.getAsmUi));
+    return this.asmUiService.getAsmUiState();
   }
 }
