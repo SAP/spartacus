@@ -3,30 +3,43 @@ import {
   Component,
   Input,
   OnChanges,
+  Optional,
 } from '@angular/core';
+import { ProductListOutlets } from '../../product-outlets.model';
 import {
   ProductListItemContext,
-  ProductListItemContextOwner,
-} from '../../product-list-item-context';
-import { ProductListOutlets } from '../../product-outlets.model';
+  ProductListItemContextSource,
+} from '../model/product-list-item.context';
 
 @Component({
   selector: 'cx-product-list-item',
   templateUrl: './product-list-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    { provide: ProductListItemContext, useClass: ProductListItemContextOwner },
+    ProductListItemContextSource,
+    {
+      provide: ProductListItemContext,
+      useExisting: ProductListItemContextSource,
+    },
   ],
 })
 export class ProductListItemComponent implements OnChanges {
   readonly Outlets = ProductListOutlets;
   @Input() product: any;
 
-  constructor(protected productListItemContext: ProductListItemContext) {}
+  // TODO(#10946): make ProductListItemContextSource a required dependency
+  // tslint:disable-next-line: unified-signatures
+  constructor(productListItemContextSource: ProductListItemContextSource);
+  /**
+   * @deprecated since 3.1
+   */
+  constructor();
+  constructor(
+    @Optional()
+    protected productListItemContextSource?: ProductListItemContextSource
+  ) {}
 
   ngOnChanges(): void {
-    (this.productListItemContext as ProductListItemContextOwner).setProduct(
-      this.product
-    );
+    this.productListItemContextSource?._product$.next(this.product);
   }
 }

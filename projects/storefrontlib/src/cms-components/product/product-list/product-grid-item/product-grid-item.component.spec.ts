@@ -13,7 +13,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
-import { ProductListItemContext } from '../../product-list-item-context';
+import { ProductListItemContext } from '../model/product-list-item.context';
 import { ProductGridItemComponent } from './product-grid-item.component';
 
 @Component({
@@ -197,12 +197,12 @@ describe('ProductGridItemComponent in product-list', () => {
   });
 
   it('should have defined instance of list item context', () => {
-    expect(component['productListItemContext']).toBeDefined();
+    expect(component['productListItemContextSource']).toBeDefined();
   });
 
   it('should transmit product through the item context', (done) => {
     const productListItemContext: ProductListItemContext =
-      component['productListItemContext'];
+      component['productListItemContextSource'];
     productListItemContext.product$.subscribe((product) => {
       expect(product).toBe(mockProduct);
       done();
