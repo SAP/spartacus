@@ -23,7 +23,8 @@ export class CpqConfiguratorNormalizer
         source.failedValidations.length === 0 &&
         source.errorMessages.length === 0 &&
         source.conflictMessages.length === 0,
-      totalNumberOfIssues: source.numberOfConflicts,
+      totalNumberOfIssues:
+        source.incompleteAttributes.length + source.numberOfConflicts,
       productCode: source.productSystemId,
       groups: [],
       flatGroups: [],
