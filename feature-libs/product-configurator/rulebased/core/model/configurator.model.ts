@@ -23,6 +23,7 @@ export namespace Configurator {
     negativeAllowed?: boolean;
     hasConflicts?: boolean;
     retractTriggered?: boolean;
+    attributePriceTotal?: PriceDetails;
   }
 
   export interface Value {
