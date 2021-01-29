@@ -5,7 +5,7 @@ import { I18nTestingModule, Product } from '@spartacus/core';
 import {
   CurrentProductService,
   ProductListItemContext,
-  ProductListItemContextOwner,
+  ProductListItemContextSource,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorProductScope } from '../../core/model/configurator-product-scope';
@@ -35,7 +35,7 @@ class MockUrlPipe implements PipeTransform {
 
 let component: ConfigureProductComponent;
 let currentProductService: CurrentProductService;
-let productListItemContext: ProductListItemContext;
+let productListItemContextSource: ProductListItemContextSource;
 let fixture: ComponentFixture<ConfigureProductComponent>;
 let htmlElem: HTMLElement;
 
@@ -56,9 +56,10 @@ function setupWithCurrentProductService(useCurrentProductServiceOnly: boolean) {
       imports: [I18nTestingModule, RouterTestingModule],
       declarations: [ConfigureProductComponent, MockUrlPipe],
       providers: [
+        ProductListItemContextSource,
         {
           provide: ProductListItemContext,
-          useClass: ProductListItemContextOwner,
+          useClass: ProductListItemContextSource,
         },
         {
           provide: CurrentProductService,
@@ -66,14 +67,8 @@ function setupWithCurrentProductService(useCurrentProductServiceOnly: boolean) {
         },
       ],
     }).compileComponents();
-    productListItemContext = TestBed.inject(
-      ProductListItemContext as Type<ProductListItemContext>
-    );
-    if (productListItemContext) {
-      (productListItemContext as ProductListItemContextOwner).setProduct(
-        mockProduct
-      );
-    }
+    productListItemContextSource = TestBed.inject(ProductListItemContextSource);
+    productListItemContextSource._product$.next(mockProduct);
   }
 
   currentProductService = TestBed.inject(
