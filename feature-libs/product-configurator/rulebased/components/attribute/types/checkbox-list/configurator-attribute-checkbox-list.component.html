@@ -3,7 +3,7 @@
     (changeQuantity)="onChangeQuantity($event)"
     [allowZero]="!attribute.required"
     [initialQuantity]="attribute.quantity"
-    [readonly]="readOnlyQuantity || (loading$ | async)"
+    [disableQuantityActions]="disableQuantityActions || (loading$ | async)"
     *ngIf="withQuantityOnAttributeLevel"
   ></cx-configurator-attribute-quantity>
 
@@ -34,7 +34,7 @@
       (changeQuantity)="onChangeValueQuantity($event, value.valueCode, i)"
       [initialQuantity]="value.quantity"
       [allowZero]="allowZeroValueQuantity"
-      [readonly]="loading$ | async"
+      [disableQuantityActions]="loading$ | async"
       *ngIf="value.selected && withQuantity && !withQuantityOnAttributeLevel"
     ></cx-configurator-attribute-quantity>
   </ng-container>

@@ -14,7 +14,7 @@ import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configura
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 
 class MockConfiguratorAttributeQuantityService {
-  readOnlyQuantity(value): boolean {
+  disableQuantityActions(value): boolean {
     return !value || value === '0';
   }
   withQuantity(

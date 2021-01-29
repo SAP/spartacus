@@ -54,7 +54,7 @@
         (changeQuantity)="onChangeQuantity($event)"
         [allowZero]="!preventAction"
         [initialQuantity]="product.quantity"
-        [readonly]="loading$ | async"
+        [disableQuantityActions]="loading$ | async"
         *ngIf="showQuantity"
         class="cx-product-card-quantity"
       ></cx-configurator-attribute-quantity>

@@ -49,8 +49,8 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
     );
   }
 
-  get readOnlyQuantity() {
-    return this.quantityService.readOnlyQuantity(
+  get disableQuantityActions() {
+    return this.quantityService.disableQuantityActions(
       this.attributeDropDownForm.value
     );
   }

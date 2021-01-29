@@ -50,7 +50,7 @@ class MockConfiguratorPriceComponent {
 }
 
 class MockConfiguratorAttributeQuantityService {
-  readOnlyQuantity(value): boolean {
+  disableQuantityActions(value): boolean {
     return !value || value === '0';
   }
   withQuantity(

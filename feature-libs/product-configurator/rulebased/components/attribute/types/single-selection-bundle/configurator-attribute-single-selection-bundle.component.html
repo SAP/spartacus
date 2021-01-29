@@ -2,14 +2,13 @@
   id="{{ createAttributeIdForConfigurator(attribute) }}"
   *ngIf="attribute?.values?.length"
 >
-  <div class="cx-single-selection-bundle-quantity" *ngIf="withQuantity">
+  <div class="cx-single-selection-bundle-quantity">
     <cx-configurator-attribute-quantity
       (changeQuantity)="onChangeQuantity($event)"
-      [initialQuantity]="
-        attribute?.selectedSingleValue ? attribute?.quantity : 0
-      "
-      [allowZero]="!attribute?.required"
-      [readonly]="readOnlyQuantity || (loading$ | async)"
+      [initialQuantity]="attribute.selectedSingleValue ? attribute.quantity : 0"
+      [allowZero]="!attribute.required"
+      [disableQuantityActions]="disableQuantityActions || (loading$ | async)"
+      *ngIf="withQuantity"
     ></cx-configurator-attribute-quantity>
 
     <div class="cx-single-selection-bundle-price">

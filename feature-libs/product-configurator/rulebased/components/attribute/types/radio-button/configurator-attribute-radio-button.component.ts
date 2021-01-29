@@ -44,8 +44,8 @@ export class ConfiguratorAttributeRadioButtonComponent
     );
   }
 
-  get readOnlyQuantity() {
-    return this.quantityService.readOnlyQuantity(
+  get disableQuantityActions() {
+    return this.quantityService.disableQuantityActions(
       this.attribute.selectedSingleValue
     );
   }

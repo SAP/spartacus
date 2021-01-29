@@ -13,7 +13,7 @@ import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configura
 
 class MockGroupService {}
 class MockConfiguratorAttributeQuantityService {
-  readOnlyQuantity(value): boolean {
+  disableQuantityActions(value): boolean {
     return !value || value === '0';
   }
   withQuantity(
@@ -151,8 +151,8 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     expect(component.withQuantity).toBeFalsy();
   });
 
-  it('should call readOnlyQuantity', () => {
-    expect(component.readOnlyQuantity).toBeFalse();
+  it('should call disableQuantityActions', () => {
+    expect(component.disableQuantityActions).toBeFalse();
   });
 
   it('should call emit of selectionChange onHandleAttributeQuantity', () => {

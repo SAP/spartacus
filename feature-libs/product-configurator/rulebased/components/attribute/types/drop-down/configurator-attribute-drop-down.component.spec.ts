@@ -9,7 +9,7 @@ import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute
 import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 
 class MockConfiguratorAttributeQuantityService {
-  readOnlyQuantity(value): boolean {
+  disableQuantityActions(value): boolean {
     return !value || value === '0';
   }
 
@@ -174,8 +174,8 @@ describe('ConfigAttributeDropDownComponent', () => {
     expect(component.withQuantity).toBeTruthy();
   });
 
-  it('should call readOnlyQuantity', () => {
-    expect(component.readOnlyQuantity).toBeFalse();
+  it('should call disableQuantityActions', () => {
+    expect(component.disableQuantityActions).toBeFalse();
   });
 
   it('should not display attribute quantity when dataType is no quantity', () => {
