@@ -10,7 +10,3 @@ export interface CustomerSearchOptions {
   query?: string;
   pageSize?: number;
 }
-
-export interface AsmUi {
-  collapsed?: boolean;
-}
