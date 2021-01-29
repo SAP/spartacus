@@ -68,6 +68,7 @@ When you are working on a feature or a bug, or making any other change to the Sp
 ### Migration Mechanism
 
 After upgrading to a new major version, the migration mechanism should be updated at the very beginning of the new development cycle. For example, if Spartacus has been updated from version 2.x to 3.0, the updated mechanism should be merged to the `develop` branch as soon as possible. This allows contributors to include migrations with their features and bug fixes from the very start of the development cycle.
+
 ### Structure for Updating Schematics
 
 The `projects/schematics/src/migrations/migrations.json` file contains a list of all the migration scripts for every Spartacus version. The following is an example of a migration script:
@@ -126,7 +127,7 @@ The following is an example flow for adding a migration:
 - For every breaking change, you must do the following:
   - Document the breaking change by updating the corresponding migration doc file (such as `docs/migration/3_0.md`), and if necessary, ensure that code comments have been added.
   - Build automation tasks, as described in the [Validations](#validations), [Constructor Deprecation](#constructor-deprecation), and [Component Deprecation](#component-deprecation)) sections, above.
-  - Test the added migrations by running tests, trying to migrate an example app, and so on.
+  - [Test the added migrations](#testing-schematics) by running tests, [trying to migrate an example app](#Developing-schematics), and so on.
 
 You can see an example of adding a migration in [this pull request](https://github.com/SAP/spartacus/pull/9946/files).
 
