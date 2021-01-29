@@ -5,7 +5,6 @@ import {
   Input,
   Pipe,
   PipeTransform,
-  SimpleChange,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
@@ -15,12 +14,19 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
+import {
+  FeaturesConfigModule,
+  I18nTestingModule,
+  PromotionLocation,
+} from '@spartacus/core';
 import { ModalDirective } from 'projects/storefrontlib/src/shared/components/modal/modal.directive';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
-import { CartItemContext } from './cart-item-component.model';
 import { CartItemComponent } from './cart-item.component';
+import {
+  CartItemContext,
+  CartItemContextSource,
+} from './model/cart-item.context';
 
 @Pipe({
   name: 'cxUrl',
@@ -153,39 +159,76 @@ describe('CartItemComponent', () => {
     expect(cartItemComponent).toBeTruthy();
   });
 
-  it('should know initial empty item context', () => {
-    const cartItemContext: CartItemContext = cartItemComponent[
-      'cartItemContext'
-    ] as CartItemContext;
-    expect(cartItemContext).toBeDefined();
-
-    cartItemContext.context$
-      .subscribe((cartContextModel) => {
-        expect(cartContextModel).toEqual({});
-      })
-      .unsubscribe();
+  it('should provide locally CartItemContextSource', () => {
+    expect(TestBed.inject(CartItemContextSource)).toBeTruthy();
   });
-  it('should know item context content after onChanges fired', () => {
-    const cartItemContext: CartItemContext = cartItemComponent[
-      'cartItemContext'
-    ] as CartItemContext;
-    expect(cartItemContext).toBeDefined();
-    cartItemComponent.ngOnChanges({
-      item: new SimpleChange(
-        undefined,
-        {
-          product: mockProduct,
-          updateable: true,
-          statusSummaryList: [],
-        },
-        false
-      ),
+
+  it('should provide locally CartItemContext', () => {
+    expect(TestBed.inject(CartItemContext)).toBe(
+      TestBed.inject(CartItemContextSource)
+    );
+  });
+
+  describe('after onChanges fired', () => {
+    let cartItemContextSource: CartItemContextSource;
+
+    beforeEach(() => {
+      cartItemContextSource = TestBed.inject(CartItemContextSource);
     });
-    cartItemContext.context$
-      .subscribe((cartContextModel) => {
-        expect(cartContextModel.item.product).toEqual(mockProduct);
-      })
-      .unsubscribe();
+
+    it('should push "compact" to context', () => {
+      spyOn(cartItemContextSource._compact$, 'next');
+      cartItemComponent.compact = true;
+      cartItemComponent.ngOnChanges();
+      expect(cartItemContextSource._compact$.next).toHaveBeenCalledWith(
+        cartItemComponent.compact
+      );
+    });
+
+    it('should push "readonly" to context', () => {
+      spyOn(cartItemContextSource._readonly$, 'next');
+      cartItemComponent.readonly = true;
+      cartItemComponent.ngOnChanges();
+      expect(cartItemContextSource._readonly$.next).toHaveBeenCalledWith(
+        cartItemComponent.readonly
+      );
+    });
+
+    it('should push "item" to context', () => {
+      spyOn(cartItemContextSource._item$, 'next');
+      cartItemComponent.item = { orderCode: '123' };
+      cartItemComponent.ngOnChanges();
+      expect(cartItemContextSource._item$.next).toHaveBeenCalledWith(
+        cartItemComponent.item
+      );
+    });
+
+    it('should push "quantityControl" to context', () => {
+      spyOn(cartItemContextSource._quantityControl$, 'next');
+      cartItemComponent.quantityControl = new FormControl(2);
+      cartItemComponent.ngOnChanges();
+      expect(cartItemContextSource._quantityControl$.next).toHaveBeenCalledWith(
+        cartItemComponent.quantityControl
+      );
+    });
+
+    it('should push "promotionLocation" to context', () => {
+      spyOn(cartItemContextSource._promotionLocation$, 'next');
+      cartItemComponent.promotionLocation = PromotionLocation.Order;
+      cartItemComponent.ngOnChanges();
+      expect(
+        cartItemContextSource._promotionLocation$.next
+      ).toHaveBeenCalledWith(cartItemComponent.promotionLocation);
+    });
+
+    it('should push "options" to context', () => {
+      spyOn(cartItemContextSource._options$, 'next');
+      cartItemComponent.options = { isSaveForLater: true };
+      cartItemComponent.ngOnChanges();
+      expect(cartItemContextSource._options$.next).toHaveBeenCalledWith(
+        cartItemComponent.options
+      );
+    });
   });
 
   it('should create cart details component', () => {

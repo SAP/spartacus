@@ -1,25 +1,18 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  Optional,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import {
   OrderEntry,
   PromotionLocation,
   PromotionResult,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
+import { CartItemComponentOutlets } from './model/cart-item-component.outlets';
 import {
-  CartItemComponentOutlets,
   CartItemContext,
-  CartItemContextModel,
-} from './cart-item-component.model';
+  CartItemContextSource,
+} from './model/cart-item.context';
 
 /**
  * @deprecated since 3.0 - use `OrderEntry` instead
@@ -43,7 +36,10 @@ export interface CartItemComponentOptions {
 @Component({
   selector: 'cx-cart-item',
   templateUrl: './cart-item.component.html',
-  providers: [CartItemContext],
+  providers: [
+    CartItemContextSource,
+    { provide: CartItemContext, useExisting: CartItemContextSource },
+  ],
 })
 export class CartItemComponent implements OnInit, OnChanges {
   @Input() compact = false;
@@ -63,9 +59,20 @@ export class CartItemComponent implements OnInit, OnChanges {
   iconTypes = ICON_TYPE;
   readonly Outlets = CartItemComponentOutlets;
 
+  // TODO(#10946): make CartItemContextSource a required dependency
+  // tslint:disable-next-line: unified-signatures
+  constructor(
+    promotionService: PromotionService,
+    // tslint:disable-next-line: unified-signatures
+    cartItemContextSource: CartItemContextSource
+  );
+  /**
+   * @deprecated since 3.1
+   */
+  constructor(promotionService: PromotionService);
   constructor(
     protected promotionService: PromotionService,
-    @Optional() protected cartItemContext?: CartItemContext
+    @Optional() protected cartItemContextSource?: CartItemContextSource
   ) {}
 
   ngOnInit() {
@@ -75,22 +82,15 @@ export class CartItemComponent implements OnInit, OnChanges {
     );
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    this.populateCartItemContext(changes);
-  }
-
-  private populateCartItemContext(changes: SimpleChanges) {
-    if (this.cartItemContext) {
-      const newChunk = Object.entries(changes).reduce(
-        (acc, [key, change]) => ({ ...acc, [key]: change.currentValue }),
-        {} as CartItemContextModel
-      );
-
-      const context$ = this.cartItemContext.context$ as BehaviorSubject<
-        CartItemContextModel
-      >;
-      context$.next({ ...context$.value, ...newChunk });
-    }
+  ngOnChanges() {
+    this.cartItemContextSource?._compact$.next(this.compact);
+    this.cartItemContextSource?._readonly$.next(this.readonly);
+    this.cartItemContextSource?._item$.next(this.item);
+    this.cartItemContextSource?._quantityControl$.next(this.quantityControl);
+    this.cartItemContextSource?._promotionLocation$.next(
+      this.promotionLocation
+    );
+    this.cartItemContextSource?._options$.next(this.options);
   }
 
   isProductOutOfStock(product: any) {
