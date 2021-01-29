@@ -13,12 +13,18 @@ export abstract class CartEvent extends CxEvent {
 // =====================================================================
 
 export class CartAddEntryEvent extends CartEvent {
+  /**
+   * Event's type
+   */
   static readonly type = 'CartAddEntryEvent';
   productCode: string;
   quantity: number;
 }
 
 export class CartAddEntrySuccessEvent extends CartEvent {
+  /**
+   * Event's type
+   */
   static readonly type = 'CartAddEntrySuccessEvent';
   productCode: string;
   quantity: number;
@@ -28,17 +34,26 @@ export class CartAddEntrySuccessEvent extends CartEvent {
 }
 
 export class CartAddEntryFailEvent extends CartEvent {
+  /**
+   * Event's type
+   */
   static readonly type = 'CartAddEntryFailEvent';
   productCode: string;
   quantity: number;
 }
 
 export class CartRemoveEntrySuccessEvent extends CartEvent {
+  /**
+   * Event's type
+   */
   static readonly type = 'CartRemoveEntrySuccessEvent';
   entry: OrderEntry;
 }
 
 export class CartUpdateEntrySuccessEvent extends CartEvent {
+  /**
+   * Event's type
+   */
   static readonly type = 'CartUpdateEntrySuccessEvent';
   quantity: number;
   entry: OrderEntry;

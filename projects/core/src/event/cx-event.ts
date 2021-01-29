@@ -1,5 +1,7 @@
 /**
- * This generic CxEvent is intended to be inherited from any other Spartacus event.
+ * An umbrella event, intended to be inherited by all other Spartacus' events.
+ *
+ * "One event to rule them all".
  */
 export abstract class CxEvent {
   /**

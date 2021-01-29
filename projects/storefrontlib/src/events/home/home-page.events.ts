@@ -5,5 +5,5 @@ import { PageEvent } from '../page/page.events';
  */
 export class HomePageEvent extends PageEvent {
   /** event's type */
-  static type = 'HomePageEvent';
+  static readonly type = 'HomePageEvent';
 }

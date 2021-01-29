@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { CartAddEntrySuccessEvent } from '@spartacus/core';
-import { PageEvent } from '@spartacus/storefront';
+import { CartAddEntryEvent, CartAddEntrySuccessEvent } from '@spartacus/core';
+import { NavigationEvent } from '@spartacus/storefront';
 import { AdobeLaunchModule } from '@spartacus/tms/adobe-launch';
 import { GoogleTagManagerModule } from '@spartacus/tms/gtm';
 
@@ -10,7 +10,7 @@ import { GoogleTagManagerModule } from '@spartacus/tms/gtm';
       tms: {
         gtm: {
           debug: false,
-          // events: [PageEvent, CartAddEntryEvent],
+          events: [NavigationEvent, CartAddEntryEvent],
         },
       },
     }),
@@ -18,7 +18,7 @@ import { GoogleTagManagerModule } from '@spartacus/tms/gtm';
       tms: {
         adobeLaunch: {
           debug: false,
-          events: [PageEvent, CartAddEntrySuccessEvent],
+          events: [NavigationEvent, CartAddEntrySuccessEvent],
         },
       },
     }),
