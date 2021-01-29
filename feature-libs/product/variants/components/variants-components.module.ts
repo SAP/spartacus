@@ -7,7 +7,6 @@ import { VariantStyleSelectorModule } from './variant-style-selector/variant-sty
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { ProductVariantsGuard } from '@spartacus/product/variants/core';
 import { ProductVariantsComponent } from './product-variants/product-variants.component';
-import { VariantsMultiDimensionalSelectorModule } from '../../multi-d/components/variants-multi-dimensional-selector';
 
 @NgModule({
   imports: [
@@ -16,8 +15,6 @@ import { VariantsMultiDimensionalSelectorModule } from '../../multi-d/components
     VariantSizeSelectorModule,
     VariantStyleIconsModule,
     VariantStyleSelectorModule,
-
-    VariantsMultiDimensionalSelectorModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
