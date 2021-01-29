@@ -9,6 +9,7 @@ import { Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { EventData } from './events/search-box-event.builder';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
 
@@ -103,6 +104,16 @@ export class SearchBoxComponent {
    */
   open(): void {
     this.searchBoxComponentService.toggleBodyClass('searchbox-is-active', true);
+  }
+
+  /**
+   * Dispatch UI events for Suggestion or Product selected
+   *
+   * @param freeText
+   * @param eventData
+   */
+  dispatchUIEvent(eventData: EventData) {
+    this.searchBoxComponentService.registerUIEvents(eventData);
   }
 
   /**

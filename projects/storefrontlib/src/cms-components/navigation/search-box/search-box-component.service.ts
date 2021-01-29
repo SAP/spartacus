@@ -6,8 +6,9 @@ import {
   TranslationService,
   WindowRef,
 } from '@spartacus/core';
-import { combineLatest, Observable, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
+import { EventData } from './events/index';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
 
 const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';
@@ -16,12 +17,34 @@ const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';
   providedIn: 'root',
 })
 export class SearchBoxComponentService {
+  /**
+   * Event stream from Product Selected UI events
+   */
+  private searchBoxProductSelectedEvents$ = new BehaviorSubject<EventData>(
+    null
+  );
+
+  /**
+   * Event stream from Suggestion Selected UI events
+   */
+  private searchBoxSuggestionSelectedEvents$ = new BehaviorSubject<EventData>(
+    null
+  );
+
   constructor(
     public searchService: SearchboxService,
     protected routingService: RoutingService,
     protected translationService: TranslationService,
     protected winRef: WindowRef
   ) {}
+
+  get searchBoxProductSelectedEvents(): Observable<EventData> {
+    return this.searchBoxProductSelectedEvents$.asObservable();
+  }
+
+  get searchBoxSuggestionSelectedEvents(): Observable<EventData> {
+    return this.searchBoxSuggestionSelectedEvents$.asObservable();
+  }
 
   /**
    * Executes the search for products and suggestions,
@@ -98,6 +121,20 @@ export class SearchBoxComponentService {
       add
         ? this.winRef.document.body.classList.add(className)
         : this.winRef.document.body.classList.remove(className);
+    }
+  }
+
+  /**
+   * Registers a searchbox UI event by pushing it to the right event stream
+   *
+   * @param freeText
+   * @param eventData
+   */
+  registerUIEvents(eventData: EventData) {
+    if (eventData.isProduct) {
+      this.searchBoxProductSelectedEvents$.next(eventData);
+    } else {
+      this.searchBoxSuggestionSelectedEvents$.next(eventData);
     }
   }
 

@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ActionsSubject } from '@ngrx/store';
 import {
   createFrom,
   EventService,
   ProductSearchService,
   ProductService,
-  SearchboxService,
 } from '@spartacus/core';
 import { EMPTY, Observable } from 'rxjs';
 import { filter, map, skip, switchMap, take } from 'rxjs/operators';
@@ -23,9 +21,7 @@ export class ProductPageEventBuilder {
   constructor(
     protected eventService: EventService,
     protected productService: ProductService,
-    protected productSearchService: ProductSearchService,
-    protected searchBoxService: SearchboxService, // TODO deprecation yay!
-    protected actionsSubject: ActionsSubject
+    protected productSearchService: ProductSearchService
   ) {
     this.register();
   }

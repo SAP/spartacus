@@ -10,7 +10,9 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { EventData } from './events/index';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
 import createSpy = jasmine.createSpy;
@@ -240,6 +242,42 @@ describe('SearchBoxComponentService', () => {
 
       service.getResults(searchBoxConfig).subscribe((r) => (result = r));
       expect(result.message).toBeFalsy();
+    });
+  });
+
+  describe('UI Events', () => {
+    it('should push UI events based on type', () => {
+      const productEvents: EventData[] = [];
+      const suggestionEvents: EventData[] = [];
+
+      service.searchBoxProductSelectedEvents
+        .pipe(filter((value) => Boolean(value)))
+        .subscribe((value) => productEvents.push(value));
+
+      service.searchBoxSuggestionSelectedEvents
+        .pipe(filter((value) => Boolean(value)))
+        .subscribe((value) => suggestionEvents.push(value));
+
+      service.registerUIEvents({
+        freeText: 'test1',
+        isProduct: true,
+        selected: '12345',
+      });
+      service.registerUIEvents({
+        freeText: 'test2',
+        isProduct: true,
+        selected: '67890',
+      });
+      service.registerUIEvents({
+        freeText: 'test3',
+        isProduct: false,
+        selected: 'test',
+        values: [{ value: 'test' }],
+      });
+
+      console.log(productEvents);
+      expect(productEvents.length).toEqual(2);
+      expect(suggestionEvents.length).toEqual(1);
     });
   });
 });

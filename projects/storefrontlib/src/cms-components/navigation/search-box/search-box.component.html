@@ -59,6 +59,13 @@
       (keydown.enter)="close($event, true)"
       (keydown.escape)="close($event, true)"
       (blur)="close($event)"
+      (click)="
+        dispatchUIEvent(searchInput.value, {
+          isProduct: false,
+          selected: suggestion,
+          values: result.suggestions
+        })
+      "
     >
     </a>
   </div>
@@ -78,6 +85,12 @@
       (keydown.enter)="close($event, true)"
       (keydown.escape)="close($event, true)"
       (blur)="close($event)"
+      (click)="
+        dispatchUIEvent(searchInput.value, {
+          isProduct: true,
+          selected: product.code
+        })
+      "
     >
       <cx-media
         *ngIf="config.displayProductImages"

@@ -9,6 +9,7 @@ import {
 } from '@spartacus/core';
 import { MediaModule } from '../../../shared/components/media/media.module';
 import { IconModule } from '../../misc/icon/icon.module';
+import { SearchBoxEventModule } from './events/search-box-event.module';
 import { HighlightPipe } from './highlight.pipe';
 import { SearchBoxComponent } from './search-box.component';
 
@@ -20,6 +21,7 @@ import { SearchBoxComponent } from './search-box.component';
     IconModule,
     UrlModule,
     I18nModule,
+    SearchBoxEventModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
