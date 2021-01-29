@@ -101,7 +101,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(document: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+<code>constructor(document: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, platformId?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">Object</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -132,6 +132,18 @@
                                                   
                                                     <td>
                                                             No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>platformId</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank" >Object</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
                                                     </td>
                                                     
                                                 </tr>
@@ -173,15 +185,15 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">projects/core/src/util/external-js-file-loader/external-js-file-loader.service.ts:17</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">projects/core/src/util/external-js-file-loader/external-js-file-loader.service.ts:20</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Loads a javascript from an external URL</p>
+                    <div class="io-description"><p>Loads a javascript from an external URL. Loading is skipped during SSR.</p>
 </div>
 
                     <div class="io-description">
@@ -300,8 +312,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">projects/core/src/util/external-js-file-loader/external-js-file-loader.service.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="56"
+                            class="link-to-prism">projects/core/src/util/external-js-file-loader/external-js-file-loader.service.ts:56</a></div>
                 </td>
             </tr>
 
@@ -361,17 +373,20 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DOCUMENT } from &#x27;@angular/common&#x27;;
-import { Inject, Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DOCUMENT, isPlatformServer } from &#x27;@angular/common&#x27;;
+import { Inject, Injectable, PLATFORM_ID } from &#x27;@angular/core&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
 export class ExternalJsFileLoader {
-  constructor(@Inject(DOCUMENT) protected document: any) {}
+  constructor(
+    @Inject(DOCUMENT) protected document: any,
+    @Inject(PLATFORM_ID) protected platformId?: Object
+  ) {}
 
   /**
-   * Loads a javascript from an external URL
+   * Loads a javascript from an external URL. Loading is skipped during SSR.
    * @param src URL for the script to be loaded
    * @param params additional parameters to be attached to the given URL
    * @param callback a function to be invoked after the script has been loaded
@@ -383,6 +398,12 @@ export class ExternalJsFileLoader {
     callback?: EventListener,
     errorCallback?: EventListener
   ): void {
+    if (this.platformId &amp;&amp; isPlatformServer(this.platformId)) {
+      if (errorCallback) {
+        errorCallback(new Event(&#x27;error&#x27;));
+      }
+      return;
+    }
     const script: HTMLScriptElement &#x3D; this.document.createElement(&#x27;script&#x27;);
     script.type &#x3D; &#x27;text/javascript&#x27;;
     if (params) {
@@ -400,7 +421,7 @@ export class ExternalJsFileLoader {
       script.addEventListener(&#x27;error&#x27;, errorCallback);
     }
 
-    document.head.appendChild(script);
+    this.document.head.appendChild(script);
   }
 
   /**

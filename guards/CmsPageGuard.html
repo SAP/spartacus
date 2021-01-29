@@ -330,8 +330,8 @@ based on their configuration (<code>cmsComponents</code> config).</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="76"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/guards/cms-page.guard.ts:76</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="77"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/guards/cms-page.guard.ts:77</a></div>
                 </td>
             </tr>
 
@@ -365,7 +365,7 @@ import {
   RoutingService,
 } from &#x27;@spartacus/core&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
-import { first, switchMap } from &#x27;rxjs/operators&#x27;;
+import { first, switchMap, take } from &#x27;rxjs/operators&#x27;;
 import { CmsPageGuardService } from &#x27;./cms-page-guard.service&#x27;;
 
 @Injectable({
@@ -401,6 +401,7 @@ export class CmsPageGuard implements CanActivate {
       switchMap((canActivate) &#x3D;&gt;
         canActivate &#x3D;&#x3D;&#x3D; true
           ? this.routingService.getNextPageContext().pipe(
+              take(1),
               switchMap((pageContext) &#x3D;&gt;
                 this.cmsService.getPage(pageContext, this.shouldReload()).pipe(
                   first(),

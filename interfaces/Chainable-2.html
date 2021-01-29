@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontapp-e2e-cypress/cypress/support/login.commands.ts</code>
+            <code>projects/storefrontapp-e2e-cypress/cypress/support/cx-config.commands.ts</code>
         </p>
 
 
@@ -79,7 +79,7 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#login">login</a>
+                                        <a href="#cxConfig">cxConfig</a>
                                 </li>
                             </ul>
                         </td>
@@ -96,13 +96,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="login"></a>
-                                        <span class="name"><b>login</b><a href="#login"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="cxConfig"></a>
+                                        <span class="name"><b>cxConfig</b><a href="#cxConfig"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>login:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                        <code>cxConfig:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -121,7 +121,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Headless login</p>
+                                    <div class="io-description"><p>Provides dynamically a chunk of the <code>StorefrontConfig</code>.</p>
 </div>
                                 </td>
                             </tr>
@@ -132,31 +132,28 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { login, setSessionData } from &#x27;./utils/login&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { StorefrontConfig } from &#x27;@spartacus/storefront&#x27;;
 
 declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Headless login
+       * Provides dynamically a chunk of the &#x60;StorefrontConfig&#x60;.
        *
        * @memberof Cypress.Chainable
        *
        * @example
         &#x60;&#x60;&#x60;
-        cy.login(username, password)
+        cy.cxConfig(config)
         &#x60;&#x60;&#x60;
        */
-      login: (username: string, password: string) &#x3D;&gt; void;
+      cxConfig: (config: StorefrontConfig) &#x3D;&gt; void;
     }
   }
 }
 
-Cypress.Commands.add(&#x27;login&#x27;, (username: string, password: string) &#x3D;&gt; {
-  cy.server();
-  login(username, password).then((res) &#x3D;&gt; {
-    setSessionData(res.body);
-  });
+Cypress.Commands.add(&#x27;cxConfig&#x27;, (config) &#x3D;&gt; {
+  cy.setCookie(&#x27;cxConfigE2E&#x27;, encodeURIComponent(JSON.stringify(config)));
 });
 </code></pre>
     </div>
