@@ -4,20 +4,20 @@ import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configura
 
 const createTestData = (
   quantity: number,
-  valuePrice: number,
-  valuePriceTotal: number,
+  price: number,
+  priceTotal: number,
   isLightedUp = false
 ): any => ({
   quantity: quantity,
-  valuePrice: {
+  price: {
     currencyIso: '$',
-    formattedValue: valuePrice ? '$' + valuePrice : '',
-    value: valuePrice,
+    formattedValue: price ? '$' + price : '',
+    value: price,
   },
-  valuePriceTotal: {
+  priceTotal: {
     currencyIso: '$',
-    formattedValue: valuePrice ? '$' + valuePrice : '',
-    value: valuePriceTotal,
+    formattedValue: price ? '$' + price : '',
+    value: priceTotal,
   },
   isLightedUp: isLightedUp,
 });
@@ -60,8 +60,8 @@ describe('ConfiguratorPriceComponent', () => {
     it('should be defined: zero quantity', () => {
       component.formula = {
         quantity: 0,
-        valuePrice: undefined,
-        valuePriceTotal: undefined,
+        price: undefined,
+        priceTotal: undefined,
         isLightedUp: undefined,
       };
       fixture.detectChanges();
@@ -76,8 +76,8 @@ describe('ConfiguratorPriceComponent', () => {
     it('should be defined: quantity equal to or greater than 1', () => {
       component.formula = {
         quantity: 1,
-        valuePrice: undefined,
-        valuePriceTotal: undefined,
+        price: undefined,
+        priceTotal: undefined,
         isLightedUp: true,
       };
       fixture.detectChanges();
@@ -92,10 +92,10 @@ describe('ConfiguratorPriceComponent', () => {
     it('should be defined: zero value price', () => {
       component.formula = {
         quantity: undefined,
-        valuePrice: {
+        price: {
           value: 0,
         },
-        valuePriceTotal: undefined,
+        priceTotal: undefined,
         isLightedUp: false,
       };
       fixture.detectChanges();
@@ -110,10 +110,10 @@ describe('ConfiguratorPriceComponent', () => {
     it('should be defined: value price greater than zero', () => {
       component.formula = {
         quantity: undefined,
-        valuePrice: {
+        price: {
           value: 10,
         },
-        valuePriceTotal: undefined,
+        priceTotal: undefined,
         isLightedUp: true,
       };
       fixture.detectChanges();
@@ -128,8 +128,8 @@ describe('ConfiguratorPriceComponent', () => {
     it('should be defined: zero value price total', () => {
       component.formula = {
         quantity: undefined,
-        valuePrice: undefined,
-        valuePriceTotal: {
+        price: undefined,
+        priceTotal: {
           value: 0,
         },
         isLightedUp: false,
@@ -146,8 +146,8 @@ describe('ConfiguratorPriceComponent', () => {
     it('should be defined: value price total greater zero', () => {
       component.formula = {
         quantity: undefined,
-        valuePrice: undefined,
-        valuePriceTotal: {
+        price: undefined,
+        priceTotal: {
           value: 20,
         },
         isLightedUp: true,
@@ -165,10 +165,10 @@ describe('ConfiguratorPriceComponent', () => {
       component.formula = createTestData(2, 10, 20);
       component.formula = {
         quantity: 2,
-        valuePrice: {
+        price: {
           value: 10,
         },
-        valuePriceTotal: {
+        priceTotal: {
           value: 20,
         },
         isLightedUp: true,
@@ -187,8 +187,8 @@ describe('ConfiguratorPriceComponent', () => {
     it('should not be greyed out', () => {
       component.formula = {
         quantity: undefined,
-        valuePrice: undefined,
-        valuePriceTotal: undefined,
+        price: undefined,
+        priceTotal: undefined,
         isLightedUp: undefined,
       };
       fixture.detectChanges();
@@ -235,7 +235,7 @@ describe('ConfiguratorPriceComponent', () => {
       fixture.detectChanges();
 
       const result = component.getPriceCalculation();
-      expect(result).toEqual(component.formula.valuePriceTotal.formattedValue);
+      expect(result).toEqual(component.formula.priceTotal.formattedValue);
     });
 
     it('should only contain value price in price formula', () => {
@@ -243,7 +243,7 @@ describe('ConfiguratorPriceComponent', () => {
       fixture.detectChanges();
 
       const result = component.getPriceCalculation();
-      expect(result).toEqual(component.formula.valuePrice.formattedValue);
+      expect(result).toEqual(component.formula.price.formattedValue);
     });
 
     it('should contain complete price formula', () => {
@@ -254,9 +254,9 @@ describe('ConfiguratorPriceComponent', () => {
       const priceFormula =
         component.formula.quantity +
         ' x ' +
-        component.formula.valuePrice.formattedValue +
+        component.formula.price.formattedValue +
         ' = ' +
-        component.formula.valuePriceTotal.formattedValue;
+        component.formula.priceTotal.formattedValue;
       expect(result).toEqual(priceFormula);
     });
   });

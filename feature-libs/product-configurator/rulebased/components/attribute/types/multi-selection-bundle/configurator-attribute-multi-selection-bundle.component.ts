@@ -206,9 +206,9 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
       );
   }
 
-  setFormula(valuesPriceTotal?: Configurator.PriceDetails) {
+  setFormula(priceTotal?: Configurator.PriceDetails) {
     return {
-      valuePriceTotal: valuesPriceTotal,
+      priceTotal: priceTotal,
       isLightedUp: true,
     };
   }

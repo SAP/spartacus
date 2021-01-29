@@ -96,20 +96,20 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
 
   setFormula(
     quantity?: number,
-    valuePrice?: Configurator.PriceDetails,
-    valuePriceTotal?: Configurator.PriceDetails,
+    price?: Configurator.PriceDetails,
+    priceTotal?: Configurator.PriceDetails,
     isLightedUp?: boolean
   ) {
     if (!this.multiSelect) {
       return {
-        valuePrice: valuePrice,
+        price: price,
         isLightedUp: isLightedUp,
       };
     }
     return {
       quantity: quantity,
-      valuePrice: valuePrice,
-      valuePriceTotal: valuePriceTotal,
+      price: price,
+      priceTotal: priceTotal,
       isLightedUp: isLightedUp,
     };
   }

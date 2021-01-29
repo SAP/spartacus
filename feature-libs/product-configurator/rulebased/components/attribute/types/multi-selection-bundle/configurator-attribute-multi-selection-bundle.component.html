@@ -13,13 +13,9 @@
       [readonly]="readOnlyQuantity || (loading$ | async)"
     ></cx-configurator-attribute-quantity>
 
-    <div
-      class="cx-multi-selection-bundle-price"
-      *ngIf="isAnyValueSelected(attribute)"
-    >
+    <div class="cx-multi-selection-bundle-price">
       <cx-configurator-price
-        *ngIf="withQuantityOnAttributeLevel"
-        [formula]="setFormula(null)"
+        [formula]="setFormula(attribute.attributePriceTotal)"
       ></cx-configurator-price>
     </div>
   </div>

@@ -114,13 +114,13 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
 
   setFormula(
     quantity?: number,
-    valuePrice?: Configurator.PriceDetails,
-    valuePriceTotal?: Configurator.PriceDetails
+    price?: Configurator.PriceDetails,
+    priceTotal?: Configurator.PriceDetails
   ) {
     return {
       quantity: quantity,
-      valuePrice: valuePrice,
-      valuePriceTotal: valuePriceTotal,
+      price: price,
+      valuePriceTotal: priceTotal,
       isLightedUp: true,
     };
   }

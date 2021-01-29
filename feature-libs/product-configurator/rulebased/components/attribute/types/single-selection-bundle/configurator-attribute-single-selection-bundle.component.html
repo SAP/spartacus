@@ -12,12 +12,8 @@
       [readonly]="readOnlyQuantity || (loading$ | async)"
     ></cx-configurator-attribute-quantity>
 
-    <div
-      class="cx-single-selection-bundle-price"
-      *ngIf="attribute?.selectedSingleValue"
-    >
+    <div class="cx-single-selection-bundle-price">
       <cx-configurator-price
-        *ngIf="withQuantity"
         [formula]="
           setFormula(
             attribute?.quantity,

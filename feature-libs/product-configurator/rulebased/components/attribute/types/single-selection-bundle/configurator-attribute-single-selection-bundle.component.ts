@@ -109,13 +109,13 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
 
   setFormula(
     quantity?: number,
-    valuePrice?: Configurator.PriceDetails,
-    valuePriceTotal?: Configurator.PriceDetails
+    price?: Configurator.PriceDetails,
+    priceTotal?: Configurator.PriceDetails
   ) {
     return {
       quantity: quantity,
-      valuePrice: valuePrice,
-      valuePriceTotal: valuePriceTotal,
+      price: price,
+      priceTotal: priceTotal,
       isLightedUp: true,
     };
   }

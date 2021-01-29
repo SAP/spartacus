@@ -8,8 +8,8 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 export class ConfiguratorPriceComponent {
   @Input() formula: any = {
     quantity: 0,
-    valuePrice: null,
-    valuePriceTotal: null,
+    price: null,
+    priceTotal: null,
     isLightedUp: false,
   };
 
@@ -19,25 +19,25 @@ export class ConfiguratorPriceComponent {
    * @returns {string} - price calculation formula
    */
   getPriceCalculation(): string {
-    if (this.formula?.valuePrice?.value === 0) {
+    if (this.formula?.price?.value === 0) {
       if (this.formula?.quantity >= 1) {
         return this.formula?.quantity.toString();
-      } else if (this.formula?.valuePriceTotal?.value !== 0) {
+      } else if (this.formula?.priceTotal?.value !== 0) {
         {
-          return this.formula?.valuePriceTotal?.formattedValue;
+          return this.formula?.priceTotal?.formattedValue;
         }
       }
-    } else if (this.formula?.valuePrice?.value !== 0) {
+    } else if (this.formula?.price?.value !== 0) {
       if (this.formula?.quantity >= 1) {
         return (
           this.formula?.quantity.toString() +
           ' x ' +
-          this.formula?.valuePrice?.formattedValue +
+          this.formula?.price?.formattedValue +
           ' = ' +
-          this.formula?.valuePriceTotal?.formattedValue
+          this.formula?.priceTotal?.formattedValue
         );
       } else {
-        return this.formula?.valuePrice?.formattedValue;
+        return this.formula?.price?.formattedValue;
       }
     }
   }
@@ -47,11 +47,10 @@ export class ConfiguratorPriceComponent {
   }
 
   isFormulaDataDefined() {
-    const isDefined =
+    return (
       (this.formula?.quantity && this.formula?.quantity !== 0) ||
-      (this.formula?.valuePrice && this.formula?.valuePrice?.value !== 0) ||
-      (this.formula?.valuePriceTotal &&
-        this.formula?.valuePriceTotal?.value !== 0);
-    return isDefined;
+      (this.formula?.price && this.formula?.price?.value !== 0) ||
+      (this.formula?.priceTotal && this.formula?.priceTotal?.value !== 0)
+    );
   }
 }
