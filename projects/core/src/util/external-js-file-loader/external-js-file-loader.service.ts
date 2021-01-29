@@ -1,4 +1,4 @@
-import { DOCUMENT, isPlatformServer } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 
 @Injectable({
@@ -11,8 +11,8 @@ export class ExternalJsFileLoader {
   ) {}
 
   /**
-   * @deprecated since 3.2, use loadWithAttributes(src, params?, attributes?, callback?, errorCallback?)
-   * instead. In 4.0, loadWithAttributes will be renamed to load.
+   * @deprecated since 3.2, use addScript(src, params?, attributes?, callback?, errorCallback?)
+   * instead.
    *
    * Loads a javascript from an external URL. Loading is skipped during SSR.
    * @param src URL for the script to be loaded
@@ -26,7 +26,7 @@ export class ExternalJsFileLoader {
     callback?: EventListener,
     errorCallback?: EventListener
   ): void {
-    this.loadWithAttributes(
+    this.addScript(
       src,
       params,
       { type: 'text/javascript', async: true, defer: true },
@@ -35,39 +35,35 @@ export class ExternalJsFileLoader {
     );
   }
   /**
-   * Loads a javascript from an external URL. Loading is skipped during SSR.
+   * Loads a javascript from an external URL.
    * @param src URL for the script to be loaded
    * @param params additional parameters to be attached to the given URL
    * @param attributes the attributes of HTML script tag (exclude src)
    * @param callback a function to be invoked after the script has been loaded
    * @param errorCallback function to be invoked after error during script loading
    */
-  public loadWithAttributes(
+  public addScript(
     src: string,
     params?: Object,
     attributes?: Object,
     callback?: EventListener,
     errorCallback?: EventListener
   ): void {
-    if (this.platformId && isPlatformServer(this.platformId)) {
-      if (errorCallback) {
-        errorCallback(new Event('error'));
-      }
+    if (params) {
+      src = src + this.parseParams(params);
+    }
+
+    if (this.hasScript(src)) {
       return;
     }
 
     const script: HTMLScriptElement = this.document.createElement('script');
-    if (params) {
-      script.src = src + this.parseParams(params);
-    } else {
-      script.src = src;
-    }
+    script.src = src;
 
     if (attributes) {
-      const attrKey = Object.keys(attributes);
-      attrKey.forEach((key) => {
+      Object.keys(attributes).forEach((key) => {
+        // custom attributes
         if (key.startsWith('data-')) {
-          // custom attributes
           script.setAttribute(key, attributes[key]);
         } else {
           script[key] = attributes[key];
@@ -83,6 +79,13 @@ export class ExternalJsFileLoader {
     }
 
     this.document.head.appendChild(script);
+  }
+
+  /**
+   * Indicates if the script is already added to the DOM.
+   */
+  protected hasScript(src?: string): boolean {
+    return !!this.document.querySelector(`script[src="${src}"]`);
   }
 
   /**
