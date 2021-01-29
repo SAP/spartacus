@@ -5,11 +5,18 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LanguageService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorUIConfig } from '../../../config/configurator-ui-config';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-attribute-numeric-input-field.component';
 
@@ -26,6 +33,13 @@ class MockTranslateUrlPipe implements PipeTransform {
 export class MockFocusDirective {
   @Input('cxFocus') protected config;
 }
+
+const DEBOUNCE_TIME = 10;
+const MockConfiguratorUIConfig: ConfiguratorUIConfig = {
+  rulebasedConfigurator: {
+    inputDebounceTime: DEBOUNCE_TIME,
+  },
+};
 
 function checkForValidationMessage(
   component: ConfiguratorAttributeNumericInputFieldComponent,
@@ -66,6 +80,10 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         providers: [
           ConfiguratorAttributeBaseComponent,
           { provide: LanguageService, useValue: mockLanguageService },
+          {
+            provide: ConfiguratorUIConfig,
+            useValue: MockConfiguratorUIConfig,
+          },
         ],
       })
         .overrideComponent(ConfiguratorAttributeNumericInputFieldComponent, {
@@ -175,4 +193,52 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     component.onChange();
     expect(component.inputChange.emit).toHaveBeenCalledTimes(0);
   });
+
+  it('should delay emit inputValue for debounce period', fakeAsync(() => {
+    spyOn(component.inputChange, 'emit');
+    component.attributeInputForm.setValue('123');
+    fixture.detectChanges();
+    expect(component.inputChange.emit).not.toHaveBeenCalled();
+    tick(DEBOUNCE_TIME);
+    expect(component.inputChange.emit).toHaveBeenCalled();
+  }));
+
+  it('should only emit once with last value if inputValue is changed within debounce period', fakeAsync(() => {
+    spyOn(component.inputChange, 'emit');
+    component.attributeInputForm.setValue('123');
+    fixture.detectChanges();
+    tick(DEBOUNCE_TIME / 2);
+    component.attributeInputForm.setValue('123456');
+    fixture.detectChanges();
+    tick(DEBOUNCE_TIME / 2);
+    expect(component.inputChange.emit).not.toHaveBeenCalled();
+    tick(DEBOUNCE_TIME);
+    expect(component.inputChange.emit).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        changedAttribute: jasmine.objectContaining({
+          userInput: '123456',
+        }),
+      })
+    );
+  }));
+
+  it('should only emit twice if inputValue is changed after debounce period', fakeAsync(() => {
+    spyOn(component.inputChange, 'emit');
+    component.attributeInputForm.setValue('123');
+    fixture.detectChanges();
+    tick(DEBOUNCE_TIME);
+    component.attributeInputForm.setValue('123456');
+    fixture.detectChanges();
+    tick(DEBOUNCE_TIME);
+    expect(component.inputChange.emit).toHaveBeenCalledTimes(2);
+  }));
+
+  it('should not emit inputValue after destroy', fakeAsync(() => {
+    spyOn(component.inputChange, 'emit');
+    component.attributeInputForm.setValue('123');
+    fixture.detectChanges();
+    component.ngOnDestroy();
+    tick(DEBOUNCE_TIME);
+    expect(component.inputChange.emit).not.toHaveBeenCalled();
+  }));
 });

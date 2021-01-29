@@ -5,7 +5,6 @@
     class="form-control"
     attr.role="{{ attribute.dataType }}"
     attr.aria-required="{{ attribute.required }}"
-    (change)="onChange()"
     maxlength="{{ attribute.maxlength }}"
     attr.aria-labelledby="{{ createAriaLabelledBy('label', attribute.name) }}"
   />

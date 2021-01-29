@@ -5,11 +5,15 @@ import {
   EventEmitter,
   Input,
   isDevMode,
+  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { timer } from 'rxjs';
+import { debounce } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorUIConfig } from '../../../config/configurator-ui-config';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeNumericInputFieldService } from './configurator-attribute-numeric-input-field.component.service';
@@ -21,7 +25,7 @@ import { ConfiguratorAttributeNumericInputFieldService } from './configurator-at
 })
 export class ConfiguratorAttributeNumericInputFieldComponent
   extends ConfiguratorAttributeBaseComponent
-  implements OnInit {
+  implements OnInit, OnDestroy {
   attributeInputForm: FormControl;
   numericFormatPattern: string;
   locale: string;
@@ -32,9 +36,11 @@ export class ConfiguratorAttributeNumericInputFieldComponent
   @Input() language: string;
 
   @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
+  sub: any;
 
   constructor(
-    protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService
+    protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
+    protected config: ConfiguratorUIConfig
   ) {
     super();
   }
@@ -72,6 +78,14 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     if (this.attribute.userInput) {
       this.attributeInputForm.setValue(this.attribute.userInput);
     }
+
+    this.sub = this.attributeInputForm.valueChanges
+      .pipe(
+        debounce(() =>
+          timer(this.config.rulebasedConfigurator.inputDebounceTime)
+        )
+      )
+      .subscribe(() => this.onChange());
   }
 
   /**
@@ -83,6 +97,10 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     if (!this.attributeInputForm.invalid) {
       this.inputChange.emit(event);
     }
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
   protected createEventFromInput(): ConfigFormUpdateEvent {
