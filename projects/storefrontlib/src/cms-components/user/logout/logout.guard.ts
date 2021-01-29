@@ -16,8 +16,6 @@ import { map, switchMap } from 'rxjs/operators';
  * Takes care of routing the user to a logout page (if available) or redirects to
  * the homepage. If the homepage is protected, the user is redirected
  * to the login route instead.
- *
- * @deprecated since 3.2, moved to `@spartacus/user` package.
  */
 @Injectable({
   providedIn: 'root',

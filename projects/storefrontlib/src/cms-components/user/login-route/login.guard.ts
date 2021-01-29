@@ -20,8 +20,6 @@ import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
  *
  * Takes care of routing the user to a auth server login page (if implicit or code flow is used).
  * In case of Resource Owner Password Flow just renders the page as normal CMS page.
- *
- * @deprecated since 3.2, moved to `@spartacus/user` package.
  */
 @Injectable({
   providedIn: 'root',

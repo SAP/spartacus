@@ -85,7 +85,7 @@ describe('UserAccountService', () => {
     it('should load user details', () => {
       const userIdService = TestBed.inject(UserIdService);
       spyOn(userIdService, 'takeUserId').and.callThrough();
-      service.load();
+      service.get().subscribe().unsubscribe();
 
       expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(

@@ -33,6 +33,8 @@ import {
   HamburgerMenuModule,
   JsonLdBuilderModule,
   LinkModule,
+  LoginRouteModule,
+  LogoutModule,
   MyCouponsModule,
   MyInterestsModule,
   NavigationModule,
@@ -92,6 +94,8 @@ if (environment.cds) {
   imports: [
     // Auth Core
     AuthModule.forRoot(),
+    LogoutModule, // will be come part of auth package
+    LoginRouteModule, // will be come part of auth package
 
     // Basic Cms Components
     HamburgerMenuModule,

@@ -31,9 +31,9 @@ export class UserAccountService {
   /**
    * Loads the user's details.
    */
-  load(): void {
+  protected load(): void {
     this.userIdService
-      .takeUserId(true)
+      .takeUserId()
       .subscribe((userId) =>
         this.store.dispatch(new UserAccountActions.LoadUserAccount(userId))
       );
