@@ -1,4 +1,4 @@
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformServer } from '@angular/common';
 import { Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { CxEvent, EventService, WindowRef } from '@spartacus/core';
 import { TmsConfig } from '@spartacus/tms/core';
@@ -29,9 +29,11 @@ export class AdobeLaunchService implements OnDestroy {
    * This method is called only once to start collecting and dispatching events to Adobe Launch
    */
   collect(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      this.prepareDataLayer();
+    if (isPlatformServer(this.platformId)) {
+      return;
     }
+
+    this.prepareDataLayer();
 
     const events =
       this.tmsConfig.tms?.adobeLaunch?.events?.map((event) =>
@@ -69,7 +71,7 @@ export class AdobeLaunchService implements OnDestroy {
     if (this.tmsConfig.tms?.adobeLaunch?.debug) {
       console.log(`🎤 Adobe Launch received event: ${JSON.stringify(event)}`);
     }
-    if (isPlatformBrowser(this.platformId) && this.window) {
+    if (this.window) {
       this.window.digitalData = {
         ...this.window.digitalData,
         ...event,
