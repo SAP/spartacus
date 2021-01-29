@@ -11,4 +11,4 @@ branches:
     - "/^epic\\/.*$/"
     - "/^release\\/.*$/"
 jobs:
-  - script: "./scripts/deploy/xdn-deploy.sh"
+  - script: "cd ./scripts/deploy && ./xdn-deploy.sh"
