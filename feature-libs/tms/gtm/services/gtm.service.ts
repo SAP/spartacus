@@ -4,10 +4,8 @@ import { CxEvent, EventService, WindowRef } from '@spartacus/core';
 import { TmsConfig } from '@spartacus/tms/core';
 import { merge, Observable, Subscription } from 'rxjs';
 
-export type GtmDataLayer = any[];
-
 export interface GtmWindow extends Window {
-  dataLayer?: GtmDataLayer;
+  dataLayer?: any[];
 }
 
 /**
@@ -15,6 +13,9 @@ export interface GtmWindow extends Window {
  */
 @Injectable({ providedIn: 'root' })
 export class GoogleTagManagerService implements OnDestroy {
+  /**
+   * Stores subscriptions to events.
+   */
   protected subscription = new Subscription();
 
   constructor(
@@ -37,7 +38,7 @@ export class GoogleTagManagerService implements OnDestroy {
         this.eventsService.get(event)
       ) || [];
     this.subscription = this.mapEvents(events).subscribe((event) =>
-      this.pushToDataLayer(event)
+      this.push(event)
     );
   }
 
@@ -64,11 +65,13 @@ export class GoogleTagManagerService implements OnDestroy {
    *
    * @param event Spartacus event to dispatch
    */
-  protected pushToDataLayer<T extends CxEvent>(event: T): void {
+  protected push<T extends CxEvent>(event: T): void {
     if (this.tmsConfig.tms?.gtm?.debug) {
       console.log(`🎤 GTM received event: ${JSON.stringify(event)}`);
     }
-    this.window?.dataLayer?.push(event);
+    if (isPlatformBrowser(this.platformId) && this.window) {
+      this.window.dataLayer?.push(event);
+    }
   }
 
   /**
@@ -78,6 +81,9 @@ export class GoogleTagManagerService implements OnDestroy {
     return this.windowRef.nativeWindow;
   }
 
+  /**
+   * Angular's callback
+   */
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

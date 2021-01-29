@@ -3,10 +3,8 @@ import { CxEvent, EventService, WindowRef } from '@spartacus/core';
 import { AdobeLaunchService } from '@spartacus/tms/adobe-launch';
 import { TmsConfig } from '@spartacus/tms/core';
 
-type CustomAdobeLaunchDataLayer = {};
-
 interface CustomAdobeLaunchWindow extends Window {
-  myDataLayer?: CustomAdobeLaunchDataLayer;
+  _trackData?: (data: any, linkObject?: any, eventObject?: any) => void;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -22,7 +20,9 @@ export class CustomAdobeLaunchService extends AdobeLaunchService {
 
   protected prepareDataLayer(): void {
     if (this.window) {
-      this.window.myDataLayer = {};
+      this.window._trackData =
+        this.window._trackData ??
+        function (_data: any, _linkObject?: any, _eventObject?: any): void {};
     }
   }
 
@@ -31,7 +31,7 @@ export class CustomAdobeLaunchService extends AdobeLaunchService {
       console.log(
         `🎭  CUSTOM Adobe Launch received data: ${JSON.stringify(event)}`
       );
-      this.window.myDataLayer = { myEvent: event };
+      this.window._trackData(event);
     }
   }
 
