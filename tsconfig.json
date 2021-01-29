@@ -133,6 +133,9 @@
       "@spartacus/product/multi-d/occ": [
         "feature-libs/product/multi-d/occ/public_api"
       ],
+      "@spartacus/product/multi-d/root": [
+        "feature-libs/product/multi-d/root/public_api"
+      ],
       "@spartacus/product/variants": [
         "feature-libs/product/variants/public_api"
       ],

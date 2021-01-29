@@ -8,7 +8,6 @@ import { VariantSizeSelectorModule } from '../variant-size-selector/variant-size
 import { VariantColorSelectorModule } from '../variant-color-selector/variant-color-selector.module';
 import { VariantStyleIconsModule } from '../variant-style-icons/variant-style-icons.module';
 import { VariantStyleIconsComponent } from '../variant-style-icons/variant-style-icons.component';
-import { VariantsMultiDimensionalSelectorModule } from '@spartacus/product/multi-d/components';
 
 @NgModule({
   imports: [
@@ -20,7 +19,6 @@ import { VariantsMultiDimensionalSelectorModule } from '@spartacus/product/multi
     VariantSizeSelectorModule,
     VariantColorSelectorModule,
     VariantStyleIconsModule,
-    VariantsMultiDimensionalSelectorModule,
   ],
   declarations: [ProductVariantsComponent],
   entryComponents: [ProductVariantsComponent],

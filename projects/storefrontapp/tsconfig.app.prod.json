@@ -66,6 +66,9 @@
       ],
       "@spartacus/product/multi-d/core": ["dist/product/multi-d/core"],
       "@spartacus/product/multi-d/occ": ["dist/product/multi-d/occ"],
+      "@spartacus/product/multi-d/root": [
+        "dist/product/multi-d/root/public_api"
+      ],
       "@spartacus/product/variants": ["dist/product/variants"],
       "@spartacus/product/variants/assets": ["dist/product/variants/assets"],
       "@spartacus/product/variants/components": [
