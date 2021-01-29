@@ -11,8 +11,8 @@ export const defaultOccProductConfig: OccConfig = {
           list:
             'orgProducts/${productCode}?fields=code,name,summary,price(formattedValue),images(DEFAULT,galleryIndex)',
           details:
-            'orgProducts/${productCode}?fields=averageRating,stock(DEFAULT),description,availableForPickup,code,url,price(DEFAULT),numberOfReviews,manufacturer,categories(FULL),priceRange,multidimensional,configuratorType,configurable,tags,images(FULL)',
-          attributes: 'orgProducts/${productCode}?fields=classifications',
+            'products/${productCode}?fields=averageRating,stock(DEFAULT),description,availableForPickup,code,url,price(DEFAULT),numberOfReviews,manufacturer,categories(FULL),priceRange,multidimensional,tags,images(FULL)',
+          attributes: 'products/${productCode}?fields=classifications',
           variants:
             'orgProducts/${productCode}?fields=name,categories,multidimensional,variantMatrix,purchasable,baseOptions(DEFAULT),baseProduct,variantOptions(DEFAULT),variantType',
         },
@@ -24,7 +24,7 @@ export const defaultOccProductConfig: OccConfig = {
           'products/${productCode}/references?fields=DEFAULT,references(target(images(FULL)))',
         // tslint:disable:max-line-length
         productSearch:
-          'products/search?fields=products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL),averageRating,variantOptions),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT),freeTextSearch,currentQuery',
+          'products/search?fields=products(code,name,summary,configurable,configuratorType,price(FULL),images(DEFAULT),stock(FULL),averageRating,variantOptions),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT),freeTextSearch,currentQuery',
         // tslint:enable
         productSuggestions: 'products/suggestions',
       },

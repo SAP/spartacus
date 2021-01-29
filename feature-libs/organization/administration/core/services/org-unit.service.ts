@@ -249,8 +249,17 @@ export class OrgUnitService {
 
   getActiveUnitList(): Observable<B2BUnitNode[]> {
     return this.getList().pipe(
-      map((units) => units.filter((unit) => unit.active))
+      map((units) => units.filter((unit) => unit.active)),
+      map((units) => units.sort(this.sortUnitList))
     );
+  }
+
+  protected sortUnitList(a: B2BUnitNode, b: B2BUnitNode) {
+    return a.id.toLowerCase() < b.id.toLowerCase()
+      ? -1
+      : a.id.toLowerCase() > b.id.toLowerCase()
+      ? 1
+      : 0;
   }
 
   getUsers(
