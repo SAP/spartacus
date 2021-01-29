@@ -11,6 +11,9 @@ export class ExternalJsFileLoader {
   ) {}
 
   /**
+   * @deprecated since 3.2, use loadWithAttributes(src, params?, attributes?, callback?, errorCallback?)
+   * instead. In 4.0, loadWithAttributes will be renamed to load.
+   *
    * Loads a javascript from an external URL. Loading is skipped during SSR.
    * @param src URL for the script to be loaded
    * @param params additional parameters to be attached to the given URL
@@ -23,22 +26,55 @@ export class ExternalJsFileLoader {
     callback?: EventListener,
     errorCallback?: EventListener
   ): void {
+    this.loadWithAttributes(
+      src,
+      params,
+      { type: 'text/javascript', async: true, defer: true },
+      callback,
+      errorCallback
+    );
+  }
+  /**
+   * Loads a javascript from an external URL. Loading is skipped during SSR.
+   * @param src URL for the script to be loaded
+   * @param params additional parameters to be attached to the given URL
+   * @param attributes the attributes of HTML script tag (exclude src)
+   * @param callback a function to be invoked after the script has been loaded
+   * @param errorCallback function to be invoked after error during script loading
+   */
+  public loadWithAttributes(
+    src: string,
+    params?: Object,
+    attributes?: Object,
+    callback?: EventListener,
+    errorCallback?: EventListener
+  ): void {
     if (this.platformId && isPlatformServer(this.platformId)) {
       if (errorCallback) {
         errorCallback(new Event('error'));
       }
       return;
     }
+
     const script: HTMLScriptElement = this.document.createElement('script');
-    script.type = 'text/javascript';
     if (params) {
       script.src = src + this.parseParams(params);
     } else {
       script.src = src;
     }
 
-    script.async = true;
-    script.defer = true;
+    if (attributes) {
+      const attrKey = Object.keys(attributes);
+      attrKey.forEach((key) => {
+        if (key.startsWith('data-')) {
+          // custom attributes
+          script.setAttribute(key, attributes[key]);
+        } else {
+          script[key] = attributes[key];
+        }
+      });
+    }
+
     if (callback) {
       script.addEventListener('load', callback);
     }
