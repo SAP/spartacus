@@ -8,7 +8,7 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { EventData } from './events/index';
+import { SearchBoxEventData } from './events/index';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
 
 const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';
@@ -20,16 +20,16 @@ export class SearchBoxComponentService {
   /**
    * Event stream from Product Selected UI events
    */
-  private searchBoxProductSelectedEvents$ = new BehaviorSubject<EventData>(
-    null
-  );
+  private searchBoxProductSelectedEvents$ = new BehaviorSubject<
+    SearchBoxEventData
+  >(null);
 
   /**
    * Event stream from Suggestion Selected UI events
    */
-  private searchBoxSuggestionSelectedEvents$ = new BehaviorSubject<EventData>(
-    null
-  );
+  private searchBoxSuggestionSelectedEvents$ = new BehaviorSubject<
+    SearchBoxEventData
+  >(null);
 
   constructor(
     public searchService: SearchboxService,
@@ -38,11 +38,11 @@ export class SearchBoxComponentService {
     protected winRef: WindowRef
   ) {}
 
-  get searchBoxProductSelectedEvents(): Observable<EventData> {
+  get searchBoxProductSelectedEvents(): Observable<SearchBoxEventData> {
     return this.searchBoxProductSelectedEvents$.asObservable();
   }
 
-  get searchBoxSuggestionSelectedEvents(): Observable<EventData> {
+  get searchBoxSuggestionSelectedEvents(): Observable<SearchBoxEventData> {
     return this.searchBoxSuggestionSelectedEvents$.asObservable();
   }
 
@@ -130,7 +130,7 @@ export class SearchBoxComponentService {
    * @param freeText
    * @param eventData
    */
-  registerUIEvents(eventData: EventData) {
+  registerUIEvents(eventData: SearchBoxEventData) {
     if (eventData.isProduct) {
       this.searchBoxProductSelectedEvents$.next(eventData);
     } else {

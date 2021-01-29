@@ -8,7 +8,7 @@ import {
   SearchBoxSuggestionSelectedEvent,
 } from './search-box.events';
 
-export interface EventData {
+export interface SearchBoxEventData {
   freeText: string;
   isProduct: boolean;
   selected: string;

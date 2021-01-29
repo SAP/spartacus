@@ -60,7 +60,8 @@
       (keydown.escape)="close($event, true)"
       (blur)="close($event)"
       (click)="
-        dispatchUIEvent(searchInput.value, {
+        dispatchUIEvent({
+          freeText: searchInput.value,
           isProduct: false,
           selected: suggestion,
           values: result.suggestions
@@ -86,7 +87,8 @@
       (keydown.escape)="close($event, true)"
       (blur)="close($event)"
       (click)="
-        dispatchUIEvent(searchInput.value, {
+        dispatchUIEvent({
+          freeText: searchInput.value,
           isProduct: true,
           selected: product.code
         })

@@ -12,7 +12,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { EventData } from './events/index';
+import { SearchBoxEventData } from './events/index';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
 import createSpy = jasmine.createSpy;
@@ -247,8 +247,8 @@ describe('SearchBoxComponentService', () => {
 
   describe('UI Events', () => {
     it('should push UI events based on type', () => {
-      const productEvents: EventData[] = [];
-      const suggestionEvents: EventData[] = [];
+      const productEvents: SearchBoxEventData[] = [];
+      const suggestionEvents: SearchBoxEventData[] = [];
 
       service.searchBoxProductSelectedEvents
         .pipe(filter((value) => Boolean(value)))

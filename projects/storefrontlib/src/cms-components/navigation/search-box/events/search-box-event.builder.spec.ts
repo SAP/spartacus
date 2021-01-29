@@ -3,7 +3,10 @@ import { createFrom, EventService, Product, Suggestion } from '@spartacus/core';
 import { SearchBoxComponentService } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { EventData, SearchBoxEventBuilder } from './search-box-event.builder';
+import {
+  SearchBoxEventBuilder,
+  SearchBoxEventData,
+} from './search-box-event.builder';
 import {
   SearchBoxProductSelectedEvent,
   SearchBoxSuggestionSelectedEvent,
@@ -19,8 +22,12 @@ const mockProduct: Product = {
   code: '123456',
 };
 
-const searchBoxProductSelectedEvents$ = new BehaviorSubject<EventData>(null);
-const searchBoxSuggestionSelectedEvents$ = new BehaviorSubject<EventData>(null);
+const searchBoxProductSelectedEvents$ = new BehaviorSubject<SearchBoxEventData>(
+  null
+);
+const searchBoxSuggestionSelectedEvents$ = new BehaviorSubject<
+  SearchBoxEventData
+>(null);
 class MockSearchBoxComponentService
   implements Partial<SearchBoxComponentService> {
   get searchBoxProductSelectedEvents() {
