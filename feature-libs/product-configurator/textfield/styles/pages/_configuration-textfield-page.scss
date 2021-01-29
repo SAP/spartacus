@@ -1,0 +1,16 @@
+%TextfieldConfigurationTemplate {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+  padding: 2rem 0 2rem 0;
+  max-width: 1140px;
+  margin: auto;
+
+  @include media-breakpoint-up(lg) {
+    cx-page-slot.TextfieldConfigContent {
+      max-width: 75%;
+    }
+  }
+}
