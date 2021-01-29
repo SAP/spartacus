@@ -2,17 +2,16 @@ import { User } from '@spartacus/core';
 
 export const UPDATE_USER_ACCOUNT_PROCESS_ID = 'updateUserAccount';
 
-export const USER_FEATURE = 'user';
+export const USER_ACCOUNT_FEATURE = 'userAccount';
 
-export interface StateWithUser {
-  [USER_FEATURE]: UserState;
+export interface StateWithUserAccount {
+  [USER_ACCOUNT_FEATURE]: UserAccountState;
 }
 
-export interface UserState {
-  account: UserAccountState;
-}
-
-// TODO: consider moving here
 export interface UserAccountState {
+  account: UserAccountDetailsState;
+}
+
+export interface UserAccountDetailsState {
   details: User;
 }

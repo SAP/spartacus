@@ -11,7 +11,7 @@ class MockUserProfileConnector {
   requestForgotPasswordEmail() {}
 }
 
-describe('UserProfileConnector', () => {
+describe('Forgot Password Effect', () => {
   let service: UserProfileConnector;
   let effect: ForgotPasswordEffects;
   let actions$: Observable<any>;

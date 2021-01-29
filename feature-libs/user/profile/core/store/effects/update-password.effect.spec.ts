@@ -11,7 +11,7 @@ import * as fromEffects from './update-password.effect';
 
 describe('Update Password Effect', () => {
   let updatePasswordEffect: fromEffects.UpdatePasswordEffects;
-  let userService: UserProfileConnector;
+  let userProfileService: UserProfileConnector;
   let actions$: Observable<Action>;
 
   beforeEach(() => {
@@ -24,7 +24,7 @@ describe('Update Password Effect', () => {
     });
 
     updatePasswordEffect = TestBed.inject(fromEffects.UpdatePasswordEffects);
-    userService = TestBed.inject(UserProfileConnector);
+    userProfileService = TestBed.inject(UserProfileConnector);
 
     // avoid warnings because of incorrect error
     spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
@@ -32,7 +32,7 @@ describe('Update Password Effect', () => {
 
   describe('updatePassword$', () => {
     it('should return UpdatePasswordSuccess action', () => {
-      spyOn(userService, 'updatePassword').and.returnValue(of({}));
+      spyOn(userProfileService, 'updatePassword').and.returnValue(of({}));
 
       const userId = 'user@email.com';
       const oldPassword = 'oldPwd123';
@@ -53,7 +53,9 @@ describe('Update Password Effect', () => {
 
     it('should return UpdatePasswordFail action', () => {
       const error = 'error';
-      spyOn(userService, 'updatePassword').and.returnValue(throwError(error));
+      spyOn(userProfileService, 'updatePassword').and.returnValue(
+        throwError(error)
+      );
 
       const userId = 'user@email.com';
       const oldPassword = 'oldPwd123';

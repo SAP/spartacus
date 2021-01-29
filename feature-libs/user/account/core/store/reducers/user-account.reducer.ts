@@ -1,25 +1,15 @@
-import { User, UserActions } from '@spartacus/core';
+import { User } from '@spartacus/core';
+import { UserAccountActions } from '../actions/index';
 
 export const initialState: User = <User>{};
 
 export function reducer(
   state = initialState,
-  action: UserActions.UserDetailsAction | UserActions.EmailActions
+  action: UserAccountActions.UserAccountAction
 ): User {
   switch (action.type) {
-    case UserActions.LOAD_USER_DETAILS_SUCCESS: {
+    case UserAccountActions.LOAD_USER_ACCOUNT_SUCCESS: {
       return action.payload;
-    }
-
-    case UserActions.UPDATE_USER_DETAILS_SUCCESS: {
-      const updatedDetails: User = {
-        ...state,
-        ...action.userUpdates,
-      };
-      return {
-        ...updatedDetails,
-        name: `${updatedDetails.firstName} ${updatedDetails.lastName}`,
-      };
     }
   }
 

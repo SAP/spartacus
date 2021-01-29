@@ -3,7 +3,10 @@ import { select, Store, StoreModule } from '@ngrx/store';
 import { User } from '../../model/index';
 import { UserAccountActions } from '../actions/index';
 import * as fromReducers from '../reducers/index';
-import { StateWithUser, USER_FEATURE } from '../user-account.state';
+import {
+  StateWithUserAccount,
+  USER_ACCOUNT_FEATURE,
+} from '../user-account.state';
 import { UserAccountSelectors } from './index';
 
 const mockUserDetails: User = {
@@ -15,13 +18,16 @@ const mockUserDetails: User = {
 };
 
 describe('User Details Selectors', () => {
-  let store: Store<StateWithUser>;
+  let store: Store<StateWithUserAccount>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers()),
+        StoreModule.forFeature(
+          USER_ACCOUNT_FEATURE,
+          fromReducers.getReducers()
+        ),
       ],
     });
 

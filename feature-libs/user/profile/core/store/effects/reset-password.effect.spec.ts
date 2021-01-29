@@ -8,7 +8,7 @@ import { UserProfileConnector } from '../../connectors/user-profile.connector';
 import { UserProfileActions } from '../actions/index';
 import { ResetPasswordEffects } from './reset-password.effect';
 
-describe('', () => {
+describe('Reset Password Effect', () => {
   let service: UserProfileConnector;
   let effect: ResetPasswordEffects;
   let actions$: Observable<any>;
@@ -24,14 +24,13 @@ describe('', () => {
 
     effect = TestBed.inject(ResetPasswordEffects);
     service = TestBed.inject(UserProfileConnector);
-
-    spyOn(service, 'resetPassword').and.returnValue(of({}));
   });
 
   describe('resetPassword$', () => {
     it('should be able to reset password', () => {
+      spyOn(service, 'resetPassword').and.returnValue(of({}));
       const action = new UserProfileActions.ResetPassword({
-        token: 'teset token',
+        token: 'test token',
         password: 'test password',
       });
       const completion1 = new UserProfileActions.ResetPasswordSuccess();

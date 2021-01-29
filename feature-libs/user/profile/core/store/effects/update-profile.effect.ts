@@ -9,7 +9,7 @@ import { UserProfileActions } from '../actions/index';
 @Injectable()
 export class UpdateProfileEffects {
   @Effect()
-  updateUserProfiles$: Observable<
+  updateUserProfile$: Observable<
     | UserProfileActions.UpdateUserProfileSuccess
     | UserProfileActions.UpdateUserProfileFail
   > = this.actions$.pipe(

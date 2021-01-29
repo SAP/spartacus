@@ -6,12 +6,12 @@ import { tap } from 'rxjs/operators';
 import { User } from '../model/user.model';
 import { UserAccountActions } from '../store/actions/index';
 import { UserAccountSelectors } from '../store/selectors/index';
-import { StateWithUser } from '../store/user-account.state';
+import { StateWithUserAccount } from '../store/user-account.state';
 
 @Injectable({ providedIn: 'root' })
 export class UserAccountService {
   constructor(
-    protected store: Store<StateWithUser | StateWithProcess<void>>,
+    protected store: Store<StateWithUserAccount | StateWithProcess<void>>,
     protected userIdService: UserIdService
   ) {}
 

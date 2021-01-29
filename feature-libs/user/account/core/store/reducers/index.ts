@@ -6,12 +6,12 @@ import {
   MetaReducer,
 } from '@ngrx/store';
 import { AuthActions } from '@spartacus/core';
-import { UserState } from '../user-account.state';
+import { UserAccountState } from '../user-account.state';
 import * as fromUserAccountReducer from './user-account.reducer';
 
 export * from './user-account.reducer';
 
-export function getReducers(): ActionReducerMap<UserState> {
+export function getReducers(): ActionReducerMap<UserAccountState> {
   return {
     account: combineReducers({
       details: fromUserAccountReducer.reducer,
@@ -20,8 +20,8 @@ export function getReducers(): ActionReducerMap<UserState> {
 }
 
 export const reducerToken: InjectionToken<ActionReducerMap<
-  UserState
->> = new InjectionToken<ActionReducerMap<UserState>>('UserReducers');
+  UserAccountState
+>> = new InjectionToken<ActionReducerMap<UserAccountState>>('UserReducers');
 
 export const reducerProvider: Provider = {
   provide: reducerToken,

@@ -13,10 +13,11 @@ import { LogoutGuard } from './guards/logout.guard';
   imports: [
     PageLayoutModule,
 
+    // move to auth
     RouterModule.forChild([
       {
         path: null,
-        canActivate: [LoginGuard],
+        canActivate: [LoginGuard], // consider moving to auth
         component: PageLayoutComponent,
         data: { cxRoute: 'login' },
       },
