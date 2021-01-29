@@ -19,7 +19,7 @@ export class ConfiguratorPriceComponent {
    * @returns {string} - price calculation formula
    */
   getPriceCalculation(): string {
-    if (this.formula?.valuePrice.value === 0) {
+    if (this.formula?.valuePrice?.value === 0) {
       if (this.formula?.quantity >= 1) {
         return this.formula?.quantity.toString();
       } else if (this.formula?.valuePriceTotal?.value !== 0) {
@@ -47,10 +47,11 @@ export class ConfiguratorPriceComponent {
   }
 
   isFormulaDataDefined() {
-    return (
-      (this?.formula?.quantity && this?.formula?.quantity !== 0) ||
-      (this?.formula?.valuePrice && this?.formula?.valuePrice !== 0) ||
-      (this?.formula?.valuePriceTotal && this?.formula?.valuePriceTotal !== 0)
-    );
+    const isDefined =
+      (this.formula?.quantity && this.formula?.quantity !== 0) ||
+      (this.formula?.valuePrice && this.formula?.valuePrice?.value !== 0) ||
+      (this.formula?.valuePriceTotal &&
+        this.formula?.valuePriceTotal?.value !== 0);
+    return isDefined;
   }
 }
