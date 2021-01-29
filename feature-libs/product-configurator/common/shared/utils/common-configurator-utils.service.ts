@@ -73,9 +73,9 @@ export class CommonConfiguratorUtilsService {
   }
 
   /**
-   * Gets cart user
+   * Gets user assigned to a cart which we can use for OCC requests
    * @param cart Cart
-   * @returns User identifier
+   * @returns Observable of user identifiers
    */
   getUserId(cart: Cart): Observable<string> {
     return this.userIdService
