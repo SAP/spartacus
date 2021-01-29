@@ -368,6 +368,11 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(attribute.incomplete).toBe(false);
     expect(attribute.quantity).toBe(configuratorAttributeQuantity);
     expect(attribute.dataType).toBe(configuratorAttributeDataType);
+    expect(attribute.attributePriceTotal).toEqual({
+      currencyIso: 'USD',
+      value: 123.45,
+      formattedValue: '$123.45',
+    });
 
     const values = attribute.values;
     expect(values.length).toBe(2);

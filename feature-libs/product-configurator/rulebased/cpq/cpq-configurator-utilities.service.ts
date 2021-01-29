@@ -81,6 +81,26 @@ export class CpqConfiguratorUtilitiesService {
   }
 
   /**
+   * Calculates total attribute price
+   * @param attribute Configurator Attribute
+   * @returns PriceDetails for total attribute price
+   */
+  calculateAttributePriceTotal(
+    attribute: Configurator.Attribute,
+    currency: string
+  ): Configurator.PriceDetails {
+    const priceTotal: number = attribute.values
+      .filter((entry) => entry.selected && entry.valuePriceTotal)
+      .reduce((total, item) => total + item.valuePriceTotal.value, 0);
+    const attributePriceTotal: Configurator.PriceDetails = {
+      currencyIso: currency,
+      value: priceTotal,
+    };
+    this.formatPrice(attributePriceTotal);
+    return attributePriceTotal;
+  }
+
+  /**
    * Prepares formatted price for given PriceDetails object
    * @param price Price details
    */

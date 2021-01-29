@@ -187,4 +187,35 @@ describe('CpqConfiguratorUtilitiesService', () => {
     cpqConfiguratorUtilitiesService['formatPriceForLocale'](price, locale);
     expect(price.formattedValue).toBe('-$123.45');
   });
+
+  it('should calculate attribute price total', () => {
+    const attribute: Configurator.Attribute = {
+      name: 'AttributeName',
+      values: [
+        {
+          selected: true,
+          valuePriceTotal: { currencyIso: CURRENCY, value: 100 },
+        },
+        {
+          selected: true,
+          valuePriceTotal: { currencyIso: CURRENCY, value: 0.01 },
+        },
+        {
+          selected: true,
+        },
+        {
+          selected: false,
+          valuePriceTotal: { currencyIso: CURRENCY, value: 200 },
+        },
+      ],
+    };
+
+    const attributePriceTotal = cpqConfiguratorUtilitiesService.calculateAttributePriceTotal(
+      attribute,
+      CURRENCY
+    );
+    expect(attributePriceTotal.currencyIso).toBe(CURRENCY);
+    expect(attributePriceTotal.value).toBe(100.01);
+    expect(attributePriceTotal.formattedValue).toBe('$100.01');
+  });
 });

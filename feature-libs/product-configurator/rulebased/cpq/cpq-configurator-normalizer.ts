@@ -104,7 +104,10 @@ export class CpqConfiguratorNormalizer
       );
       this.setSelectedSingleValue(attribute);
     }
-
+    attribute.attributePriceTotal = this.cpqUtilitiesService.calculateAttributePriceTotal(
+      attribute,
+      currency
+    );
     this.compileAttributeIncomplete(attribute);
     attributeList.push(attribute);
   }
