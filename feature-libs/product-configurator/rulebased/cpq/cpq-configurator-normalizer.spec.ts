@@ -59,7 +59,6 @@ const cpqGroupDisplayName2 = 'GROUP_DISPLAY_NAME2';
 const cpqGroupIsIncomplete2 = false;
 const cpqGroupIsSelected2 = false;
 
-const configuratorValueQuantity = Number(cpqValueQuantity);
 const configuratorAttributeQuantity = Number(cpqAttributeQuantity);
 const configuratorAttributeDataType =
   Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
@@ -231,7 +230,7 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(value.description).toBe(cpqValueDescription);
     expect(value.productSystemId).toBe(cpqValueProductSystemId);
     expect(value.selected).toBe(true);
-    expect(value.quantity).toBe(configuratorValueQuantity);
+    expect(value.quantity).toBe(3);
   });
 
   it('should map prices during value convertion', () => {

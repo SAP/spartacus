@@ -21,9 +21,13 @@ const createTestValue = (
 ): Configurator.Value => ({
   selected,
   valuePrice: {
+    currencyIso: '$',
+    formattedValue: price ? '$' + price : '',
     value: price,
   },
   valuePriceTotal: {
+    currencyIso: '$',
+    formattedValue: price ? '$' + price : '',
     value: total,
   },
 });
@@ -326,7 +330,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
       });
     });
 
-    describe('should not return number', () => {
+    describe('should not return price', () => {
       it('without values property', () => {
         testAttribute = {
           name: 'testAttribute',
@@ -356,7 +360,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
 
         const valuePrice = component.getSelectedValuePrice(testAttribute);
 
-        expect(valuePrice).toBeUndefined();
+        expect(valuePrice.value).toBeUndefined();
       });
     });
   });
@@ -369,20 +373,23 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
           values: [createTestValue(100, 100)],
         };
 
-        //const valuePrice = component.getSelectedValuePriceTotal(testAttribute);
-
-        //expect(valuePrice).toEqual(100);
+        const valuePriceTotal = component.getSelectedValuePriceTotal(
+          testAttribute
+        );
+        expect(valuePriceTotal.value).toEqual(100);
       });
 
       it('on selected value', () => {
         testAttribute = {
           name: 'testAttribute',
-          values: [createTestValue(100, 100), createTestValue(100, 100, false)],
+          values: [createTestValue(100, 100), createTestValue(200, 200, false)],
         };
 
-        //const valuePrice = component.getSelectedValuePriceTotal(testAttribute);
+        const valuePriceTotal = component.getSelectedValuePriceTotal(
+          testAttribute
+        );
 
-        // expect(valuePrice).toEqual(100);
+        expect(valuePriceTotal.value).toEqual(100);
       });
     });
 
@@ -392,9 +399,11 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
           name: 'testAttribute',
         };
 
-        const valuePrice = component.getSelectedValuePriceTotal(testAttribute);
+        const valuePriceTotal = component.getSelectedValuePriceTotal(
+          testAttribute
+        );
 
-        expect(valuePrice).toBeUndefined();
+        expect(valuePriceTotal).toBeUndefined();
       });
 
       it('without values', () => {
@@ -403,9 +412,11 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
           values: [],
         };
 
-        const valuePrice = component.getSelectedValuePriceTotal(testAttribute);
+        const valuePriceTotal = component.getSelectedValuePriceTotal(
+          testAttribute
+        );
 
-        expect(valuePrice).toBeUndefined();
+        expect(valuePriceTotal).toBeUndefined();
       });
 
       it('without price property', () => {
@@ -414,9 +425,11 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
           values: [createTestValue(undefined, undefined)],
         };
 
-        const valuePrice = component.getSelectedValuePriceTotal(testAttribute);
+        const valuePriceTotal = component.getSelectedValuePriceTotal(
+          testAttribute
+        );
 
-        expect(valuePrice).toBeUndefined();
+        expect(valuePriceTotal.value).toBeUndefined();
       });
     });
   });

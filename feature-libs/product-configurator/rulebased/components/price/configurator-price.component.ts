@@ -42,15 +42,15 @@ export class ConfiguratorPriceComponent {
     }
   }
 
-  isPriceGreyedOut() {
-    return !this.formula?.isLightedUp;
+  isPriceLightedUp() {
+    return this.formula?.isLightedUp;
   }
 
-  isDataForPriceCalculationDefined() {
+  isFormulaDataDefined() {
     return (
-      this?.formula?.quantity ||
-      this?.formula?.valuePrice ||
-      this?.formula?.valuePriceTotal
+      (this?.formula?.quantity && this?.formula?.quantity !== 0) ||
+      (this?.formula?.valuePrice && this?.formula?.valuePrice !== 0) ||
+      (this?.formula?.valuePriceTotal && this?.formula?.valuePriceTotal !== 0)
     );
   }
 }

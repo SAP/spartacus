@@ -1,7 +1,7 @@
-<ng-container *ngIf="isDataForPriceCalculationDefined()">
+<ng-container *ngIf="isFormulaDataDefined()">
   <div
     class="cx-price-calculation"
-    [ngClass]="{ 'cx-greyed-out': isPriceGreyedOut() }"
+    [ngClass]="{ 'cx-greyed-out': !isPriceLightedUp() }"
   >
     {{ getPriceCalculation() }}
   </div>
