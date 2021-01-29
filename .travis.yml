@@ -10,28 +10,5 @@ branches:
     - develop
     - "/^epic\\/.*$/"
     - "/^release\\/.*$/"
-defaults: &defaults
-  script: "./ci-scripts/e2e-cypress.sh"
 jobs:
-  - script: "./build.sh sonar"
-  - script: "./ci-scripts/e2e-cypress.sh -s b2b"
-  - script:
-    name: "Cypress regression tests, 1st job"
-    env: STAGE_NAME=spa-ci-regression
-    <<: *defaults
-  - script:
-    name: "Cypress regression tests, 2st job"
-    env: STAGE_NAME=spa-ci-regression
-    <<: *defaults
-  - script:
-    name: "Cypress regression tests, 3rd job"
-    env: STAGE_NAME=spa-ci-regression
-    <<: *defaults
-  - script:
-    name: "Cypress regression tests, 4th job"
-    env: STAGE_NAME=spa-ci-regression
-    <<: *defaults
-addons:
-  chrome: stable
-  sonarcloud:
-    organization: sap
+  - script: "./scripts/deploy/xdn-deploy.sh"
