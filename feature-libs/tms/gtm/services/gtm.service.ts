@@ -65,7 +65,7 @@ export class GoogleTagManagerService implements OnDestroy {
   /**
    * Called each time an event fires.
    *
-   * @param event Spartacus event to dispatch
+   * @param event Spartacus event to push to the data layer.
    */
   protected push<T extends CxEvent>(event: T): void {
     if (this.tmsConfig.tms?.gtm?.debug) {

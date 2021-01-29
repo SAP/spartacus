@@ -26,7 +26,7 @@ export class CustomAdobeLaunchService extends AdobeLaunchService {
     }
   }
 
-  protected pushToDataLayer<T extends CxEvent>(event: T): void {
+  protected push<T extends CxEvent>(event: T): void {
     if (this.window) {
       console.log(
         `🎭  CUSTOM Adobe Launch received data: ${JSON.stringify(event)}`

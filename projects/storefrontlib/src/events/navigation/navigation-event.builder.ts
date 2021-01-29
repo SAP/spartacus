@@ -11,6 +11,9 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { NavigationEvent } from './navigation.event';
 
+/**
+ * A builder for the NavigationEvent
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -22,11 +25,17 @@ export class NavigationEventBuilder {
     this.register();
   }
 
+  /**
+   * Registers events
+   */
   protected register(): void {
-    this.eventService.register(NavigationEvent, this.buildPageEvent());
+    this.eventService.register(NavigationEvent, this.buildNavigationEvent());
   }
 
-  protected buildPageEvent(): Observable<NavigationEvent> {
+  /**
+   * Builds the navigation events
+   */
+  protected buildNavigationEvent(): Observable<NavigationEvent> {
     return this.getNavigatedEvent().pipe(
       map((state) =>
         createFrom(NavigationEvent, {

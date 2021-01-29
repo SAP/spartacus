@@ -40,7 +40,7 @@ export class AdobeLaunchService implements OnDestroy {
         this.eventsService.get(event)
       ) || [];
     this.subscription = this.mapEvents(events).subscribe((event) =>
-      this.pushToDataLayer(event)
+      this.push(event)
     );
   }
 
@@ -65,9 +65,9 @@ export class AdobeLaunchService implements OnDestroy {
   /**
    * Called each time an event fires.
    *
-   * @param event Spartacus event to dispatch
+   * @param event Spartacus event to push to the data layer.
    */
-  protected pushToDataLayer<T extends CxEvent>(event: T): void {
+  protected push<T extends CxEvent>(event: T): void {
     if (this.tmsConfig.tms?.adobeLaunch?.debug) {
       console.log(`🎤 Adobe Launch received event: ${JSON.stringify(event)}`);
     }
