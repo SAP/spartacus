@@ -2,23 +2,11 @@
   &:not(:empty) {
     width: 100%;
 
-    cx-configurator-attribute-quantity {
+    .cx-quantity {
+      padding-block-start: 1rem;
+      padding-block-end: 1rem;
       padding-inline-start: 1rem;
       padding-inline-end: 1rem;
-    }
-
-    .cx-single-selection-bundle-quantity {
-      display: flex;
-      justify-content: space-between;
-      margin-block-start: 2rem;
-      margin-inline-end: 1rem;
-      margin-block-end: 2rem;
-      margin-inline-start: 1rem;
-      max-width: 28rem;
-
-      .cx-single-selection-bundle-price {
-        font-weight: bold;
-      }
     }
   }
 }
