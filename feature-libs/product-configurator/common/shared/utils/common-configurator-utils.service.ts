@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 import {
   Cart,
   OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_CURRENT,
   OrderEntry,
+  UserIdService,
 } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
 import { OrderEntryStatus } from './../../core/model/common-configurator.model';
 
@@ -13,12 +15,13 @@ import { OrderEntryStatus } from './../../core/model/common-configurator.model';
  */
 @Injectable({ providedIn: 'root' })
 export class CommonConfiguratorUtilsService {
+  constructor(protected userIdService: UserIdService) {}
   /**
    * Compiles a unique key for a configuration owner and sets it into the 'key'
    * attribute
    * @param owner Specifies the owner of a product configuration
    */
-  public setOwnerKey(owner: CommonConfigurator.Owner) {
+  setOwnerKey(owner: CommonConfigurator.Owner) {
     if (owner.type === CommonConfigurator.OwnerType.PRODUCT) {
       if (!owner.id) {
         throw new Error('We expect a product code!');
@@ -43,7 +46,7 @@ export class CommonConfiguratorUtilsService {
    * @param entryNumber Entry number
    * @returns {string} owner ID
    */
-  public getComposedOwnerId(documentId: string, entryNumber: number): string {
+  getComposedOwnerId(documentId: string, entryNumber: number): string {
     return documentId + '+' + entryNumber;
   }
 
@@ -52,7 +55,7 @@ export class CommonConfiguratorUtilsService {
    * @param ownerId ID of owner
    * @returns {any} object containing documentId and entryNumber
    */
-  public decomposeOwnerId(ownerId: string): any {
+  decomposeOwnerId(ownerId: string): any {
     const parts: string[] = ownerId.split('+');
     if (parts.length !== 2) {
       throw new Error('We only expect 2 parts in ownerId, separated by +');
@@ -65,18 +68,23 @@ export class CommonConfiguratorUtilsService {
    * @param cart Cart
    * @returns Cart identifier
    */
-  public getCartId(cart: Cart): string {
+  getCartId(cart: Cart): string {
     return cart.user.uid === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code;
   }
+
   /**
    * Gets cart user
    * @param cart Cart
    * @returns User identifier
    */
-  public getUserId(cart: Cart): string {
-    return cart.user.uid === OCC_USER_ID_ANONYMOUS
-      ? cart.user.uid
-      : OCC_USER_ID_CURRENT;
+  getUserId(cart: Cart): Observable<string> {
+    return this.userIdService
+      .getUserId()
+      .pipe(
+        map((id) =>
+          cart.user.uid === OCC_USER_ID_ANONYMOUS ? cart.user.uid : id
+        )
+      );
   }
 
   /**

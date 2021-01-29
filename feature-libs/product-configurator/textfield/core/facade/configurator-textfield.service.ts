@@ -6,7 +6,7 @@ import {
   CommonConfiguratorUtilsService,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { filter, map, switchMapTo, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../state/actions/index';
 import { StateWithConfigurationTextfield } from '../state/configuration-textfield-state';
@@ -92,16 +92,21 @@ export class ConfiguratorTextfieldService {
       .requireLoadedCart()
       .pipe(take(1))
       .subscribe((cartState) => {
-        const addToCartParameters: ConfiguratorTextfield.AddToCartParameters = {
-          userId: this.configuratorUtils.getUserId(cartState.value),
-          cartId: this.configuratorUtils.getCartId(cartState.value),
-          productCode: productCode,
-          configuration: configuration,
-          quantity: 1,
-        };
-        this.store.dispatch(
-          new ConfiguratorTextfieldActions.AddToCart(addToCartParameters)
-        );
+        this.configuratorUtils
+          .getUserId(cartState.value)
+          .pipe(take(1))
+          .subscribe((id) => {
+            const addToCartParameters: ConfiguratorTextfield.AddToCartParameters = {
+              userId: id,
+              cartId: this.configuratorUtils.getCartId(cartState.value),
+              productCode: productCode,
+              configuration: configuration,
+              quantity: 1,
+            };
+            this.store.dispatch(
+              new ConfiguratorTextfieldActions.AddToCart(addToCartParameters)
+            );
+          });
       });
   }
 
@@ -119,17 +124,22 @@ export class ConfiguratorTextfieldService {
       .requireLoadedCart()
       .pipe(take(1))
       .subscribe((cartState) => {
-        const updateCartParameters: ConfiguratorTextfield.UpdateCartEntryParameters = {
-          userId: this.configuratorUtils.getUserId(cartState.value),
-          cartId: this.configuratorUtils.getCartId(cartState.value),
-          cartEntryNumber: cartEntryNumber,
-          configuration: configuration,
-        };
-        this.store.dispatch(
-          new ConfiguratorTextfieldActions.UpdateCartEntryConfiguration(
-            updateCartParameters
-          )
-        );
+        this.configuratorUtils
+          .getUserId(cartState.value)
+          .pipe(take(1))
+          .subscribe((id) => {
+            const updateCartParameters: ConfiguratorTextfield.UpdateCartEntryParameters = {
+              userId: id,
+              cartId: this.configuratorUtils.getCartId(cartState.value),
+              cartEntryNumber: cartEntryNumber,
+              configuration: configuration,
+            };
+            this.store.dispatch(
+              new ConfiguratorTextfieldActions.UpdateCartEntryConfiguration(
+                updateCartParameters
+              )
+            );
+          });
       });
   }
 
@@ -144,25 +154,37 @@ export class ConfiguratorTextfieldService {
     owner: CommonConfigurator.Owner
   ): Observable<ConfiguratorTextfield.Configuration> {
     return this.activeCartService.requireLoadedCart().pipe(
-      map((cartState) => ({
-        userId: this.configuratorUtils.getUserId(cartState.value),
-        cartId: this.configuratorUtils.getCartId(cartState.value),
-        cartEntryNumber: owner.id,
-        owner: owner,
-      })),
-      tap((readFromCartEntryParameters) =>
-        this.store.dispatch(
-          new ConfiguratorTextfieldActions.ReadCartEntryConfiguration(
-            readFromCartEntryParameters
+      switchMap((cartState) =>
+        this.configuratorUtils
+          .getUserId(cartState.value)
+          .pipe(
+            take(1),
+            map((id) => ({ cartState, id }))
           )
-        )
-      ),
-      switchMapTo(
-        this.store.pipe(
-          select(ConfiguratorTextFieldSelectors.getConfigurationContent)
-        )
-      ),
-      filter((configuration) => !this.isConfigurationInitial(configuration))
+          .pipe(
+            map((cont) => ({
+              userId: cont.id,
+              cartId: this.configuratorUtils.getCartId(cont.cartState.value),
+              cartEntryNumber: owner.id,
+              owner: owner,
+            })),
+            tap((readFromCartEntryParameters) =>
+              this.store.dispatch(
+                new ConfiguratorTextfieldActions.ReadCartEntryConfiguration(
+                  readFromCartEntryParameters
+                )
+              )
+            ),
+            switchMapTo(
+              this.store.pipe(
+                select(ConfiguratorTextFieldSelectors.getConfigurationContent)
+              )
+            ),
+            filter(
+              (configuration) => !this.isConfigurationInitial(configuration)
+            )
+          )
+      )
     );
   }
 
