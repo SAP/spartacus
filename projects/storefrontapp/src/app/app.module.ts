@@ -9,11 +9,15 @@ import {
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
-import { ConfigModule, TestConfigModule } from '@spartacus/core';
+import { ConfigModule, EventService, TestConfigModule } from '@spartacus/core';
 import {
   JsonLdBuilderModule,
   StorefrontComponent,
 } from '@spartacus/storefront';
+import {
+  SearchBoxProductSelectedEvent,
+  SearchBoxSuggestionSelectedEvent,
+} from 'projects/storefrontlib/src/cms-components/navigation/search-box/events';
 import { b2bFeature } from '../environments/b2b/b2b.feature';
 import { b2cFeature } from '../environments/b2c/b2c.feature';
 import { cdcFeature } from '../environments/cdc/cdc.feature';
@@ -88,4 +92,13 @@ if (environment.cdc) {
 
   bootstrap: [StorefrontComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(eventService: EventService) {
+    eventService.get(SearchBoxProductSelectedEvent).subscribe((event) => {
+      console.log('PRODUCT', event);
+    });
+    eventService.get(SearchBoxSuggestionSelectedEvent).subscribe((event) => {
+      console.log('SUGGESTION', event);
+    });
+  }
+}

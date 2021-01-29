@@ -45,9 +45,6 @@
       "@spartacus/product/configurators/variant": [
         "dist/product/configurators/variant"
       ],
-      "@spartacus/product/events": [
-        "dist/product/events/public_api"
-      ],
       "@spartacus/product": ["dist/product"],
       "@spartacus/storefinder/assets": ["dist/storefinder/assets"],
       "@spartacus/storefinder/components": ["dist/storefinder/components"],
