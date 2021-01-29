@@ -2,19 +2,20 @@
 
 ENDPOINT="gilberto-alvarado-spartacus-default.moovweb-edge.io"
 
-function build_spa {
-    echo "-----"
-    echo "Building Spartacus"
-    yarn install && yarn build:libs && yarn build --prod
-}
-
 function deploy_spa {
     echo "-----"
-    echo "Deploying Spartacus"
+    echo "Installing xdn cli"
     npm i -g @xdn/cli@latest
+
+    echo "-----"
+    echo "Creating new Spartacus shell app"
+
     ng new spartacus --style=scss --routing=false
     cd spartacus
     ng add @spartacus/schematics --ssr --pwa
+
+    echo "-----"
+    echo "Initializing XDN and adding configuration"
     xdn init
 
     # add CX endpoint to xdn.config.js
@@ -27,7 +28,9 @@ function deploy_spa {
 
     cp routes.ts spartacus/
 
+    echo "-----"
+    echo "Starting XDN deployment"
     xdn deploy --branch --token=$XDN_DEPLOY_TOKEN
 }
 
-# deploy_spa
+deploy_spa
