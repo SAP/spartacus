@@ -75,6 +75,7 @@ describe('ConfigAttributeInputFieldComponent', () => {
     component.ownerType = CommonConfigurator.OwnerType.CART_ENTRY;
     component.ownerKey = ownerKey;
     fixture.detectChanges();
+    spyOn(component.inputChange, 'emit');
   });
 
   it('should create', () => {
@@ -104,7 +105,6 @@ describe('ConfigAttributeInputFieldComponent', () => {
   });
 
   it('should emit inputValue onChange', () => {
-    spyOn(component.inputChange, 'emit').and.callThrough();
     component.attributeInputForm.setValue(userInput);
     component.onChange();
     expect(component.inputChange.emit).toHaveBeenCalledWith(
@@ -128,7 +128,6 @@ describe('ConfigAttributeInputFieldComponent', () => {
   });
 
   it('should delay emit inputValue for debounce period', fakeAsync(() => {
-    spyOn(component.inputChange, 'emit');
     component.attributeInputForm.setValue('testValue');
     fixture.detectChanges();
     expect(component.inputChange.emit).not.toHaveBeenCalled();
@@ -137,7 +136,6 @@ describe('ConfigAttributeInputFieldComponent', () => {
   }));
 
   it('should only emit once with last value if inputValue is changed within debounce period', fakeAsync(() => {
-    spyOn(component.inputChange, 'emit');
     component.attributeInputForm.setValue('testValue');
     fixture.detectChanges();
     tick(DEBOUNCE_TIME / 2);
@@ -155,8 +153,7 @@ describe('ConfigAttributeInputFieldComponent', () => {
     );
   }));
 
-  it('should only emit twice if inputValue is changed after debounce period', fakeAsync(() => {
-    spyOn(component.inputChange, 'emit');
+  it('should emit twice if inputValue is changed after debounce period', fakeAsync(() => {
     component.attributeInputForm.setValue('testValue');
     fixture.detectChanges();
     tick(DEBOUNCE_TIME);
@@ -167,7 +164,6 @@ describe('ConfigAttributeInputFieldComponent', () => {
   }));
 
   it('should not emit inputValue after destroy', fakeAsync(() => {
-    spyOn(component.inputChange, 'emit');
     component.attributeInputForm.setValue('123');
     fixture.detectChanges();
     component.ngOnDestroy();

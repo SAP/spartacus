@@ -110,6 +110,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     };
     fixture.detectChanges();
     htmlElem = fixture.nativeElement;
+    spyOn(component.inputChange, 'emit');
   });
 
   function checkForValidity(
@@ -181,13 +182,11 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   });
 
   it('should raise event in case input was changed', () => {
-    spyOn(component.inputChange, 'emit').and.callThrough();
     component.onChange();
     expect(component.inputChange.emit).toHaveBeenCalled();
   });
 
   it('should raise no event in case input was changed and control is invalid', () => {
-    spyOn(component.inputChange, 'emit').and.callThrough();
     component.ngOnInit();
     component.attributeInputForm.setValue('122A23');
     component.onChange();
@@ -195,7 +194,6 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   });
 
   it('should delay emit inputValue for debounce period', fakeAsync(() => {
-    spyOn(component.inputChange, 'emit');
     component.attributeInputForm.setValue('123');
     fixture.detectChanges();
     expect(component.inputChange.emit).not.toHaveBeenCalled();
@@ -204,7 +202,6 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   }));
 
   it('should only emit once with last value if inputValue is changed within debounce period', fakeAsync(() => {
-    spyOn(component.inputChange, 'emit');
     component.attributeInputForm.setValue('123');
     fixture.detectChanges();
     tick(DEBOUNCE_TIME / 2);
@@ -222,8 +219,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     );
   }));
 
-  it('should only emit twice if inputValue is changed after debounce period', fakeAsync(() => {
-    spyOn(component.inputChange, 'emit');
+  it('should emit twice if inputValue is changed after debounce period', fakeAsync(() => {
     component.attributeInputForm.setValue('123');
     fixture.detectChanges();
     tick(DEBOUNCE_TIME);
@@ -234,7 +230,6 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   }));
 
   it('should not emit inputValue after destroy', fakeAsync(() => {
-    spyOn(component.inputChange, 'emit');
     component.attributeInputForm.setValue('123');
     fixture.detectChanges();
     component.ngOnDestroy();
