@@ -31,7 +31,7 @@ import { ProductListRouteParams, SearchCriteria } from './product-list.model';
 @Injectable({ providedIn: 'root' })
 export class ProductListComponentService {
   // TODO: make it configurable
-  protected defaultPageSize = 10;
+  protected defaultPageSize = 12;
 
   protected readonly RELEVANCE_ALLCATEGORIES = ':relevance:allCategories:';
 
