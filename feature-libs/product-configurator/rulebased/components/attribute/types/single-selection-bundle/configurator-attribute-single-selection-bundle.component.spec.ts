@@ -19,7 +19,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 class MockProductCardComponent {}
 
 class MockConfiguratorAttributeQuantityService {
-  readOnlyQuantity(value): boolean {
+  disableQuantityActions(value): boolean {
     return !value || value === '0';
   }
   withQuantity(

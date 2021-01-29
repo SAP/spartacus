@@ -28,7 +28,7 @@ export class ConfiguratorAttributeQuantityComponent
 
   @Input() allowZero = true;
   @Input() initialQuantity: Quantity;
-  @Input() readonly = false;
+  @Input() disableQuantityActions = false;
 
   @Output() changeQuantity = new EventEmitter<Quantity>();
 
@@ -36,6 +36,10 @@ export class ConfiguratorAttributeQuantityComponent
 
   ngOnInit() {
     this.quantity.setValue(this.initialQuantity);
+
+    if (this.disableQuantityActions) {
+      this.quantity.disable();
+    }
 
     const debounceQuantity = this.quantity.valueChanges.pipe(
       debounce(() => timer(this.config.debounceTime))
