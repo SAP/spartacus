@@ -1,6 +1,7 @@
 import { Component, Optional } from '@angular/core';
 import { OrderEntry } from '@spartacus/core';
 import { CartItemContext, ICON_TYPE } from '@spartacus/storefront';
+import { EMPTY } from 'rxjs';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 
 @Component({
@@ -12,9 +13,13 @@ export class ConfiguratorIssuesNotificationComponent {
 
   constructor(
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    @Optional()
-    public cartItemContext?: CartItemContext
+    // TODO(#10946): make CartItemContext a required dependency
+    @Optional() protected cartItemContext?: CartItemContext
   ) {}
+
+  readonly orderEntry$ = this.cartItemContext?.item$ ?? EMPTY;
+  readonly quantityControl$ = this.cartItemContext?.quantityControl$ ?? EMPTY;
+  readonly readonly$ = this.cartItemContext?.readonly$ ?? EMPTY;
 
   /**
    * Verifies whether the item has any issues.
