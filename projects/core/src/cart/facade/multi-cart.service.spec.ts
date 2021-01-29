@@ -421,6 +421,30 @@ describe('MultiCartService', () => {
     });
   });
 
+  describe('getLastEntry', () => {
+    it('should return last cart entry', () => {
+      let result;
+      service.getLastEntry('xxx', '1234').subscribe((cart) => {
+        result = cart;
+      });
+
+      expect(result).toEqual(undefined);
+
+      store.dispatch(
+        new CartActions.LoadCartSuccess({
+          userId: 'userId',
+          extraData: {
+            active: true,
+          },
+          cart: testCart,
+          cartId: testCart.code,
+        })
+      );
+
+      expect(result).toEqual(testCart.entries[1]);
+    });
+  });
+
   describe('assignEmail', () => {
     it('should dispatch AddEmailToCart action', () => {
       service.assignEmail('cartId', 'userId', 'test@email.com');

@@ -5,11 +5,16 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ProductGridItemComponent } from './product-grid-item.component';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  ProductService,
+  RoutingService,
+} from '@spartacus/core';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
+import { ProductListItemContext } from '../../product-list-item-context';
+import { ProductGridItemComponent } from './product-grid-item.component';
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -62,6 +67,9 @@ class MockStyleIconsComponent {
   @Input() variants: any[];
 }
 
+class MockRoutingService {}
+class MockProductService {}
+
 describe('ProductGridItemComponent in product-list', () => {
   let component: ProductGridItemComponent;
   let fixture: ComponentFixture<ProductGridItemComponent>;
@@ -96,7 +104,20 @@ describe('ProductGridItemComponent in product-list', () => {
           MockStyleIconsComponent,
           MockFeatureLevelDirective,
         ],
+        providers: [
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
+          {
+            provide: ProductService,
+            useClass: MockProductService,
+          },
+        ],
       })
+        .overrideComponent(ProductGridItemComponent, {
+          set: { changeDetection: ChangeDetectionStrategy.Default },
+        })
         .overrideComponent(ProductGridItemComponent, {
           set: { changeDetection: ChangeDetectionStrategy.Default },
         })
@@ -109,6 +130,7 @@ describe('ProductGridItemComponent in product-list', () => {
     component = fixture.componentInstance;
     component.product = mockProduct;
 
+    component.ngOnChanges();
     fixture.detectChanges();
   });
 
@@ -172,5 +194,18 @@ describe('ProductGridItemComponent in product-list', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector('cx-add-to-cart')
     ).toBeNull();
+  });
+
+  it('should have defined instance of list item context', () => {
+    expect(component['productListItemContext']).toBeDefined();
+  });
+
+  it('should transmit product through the item context', (done) => {
+    const productListItemContext: ProductListItemContext =
+      component['productListItemContext'];
+    productListItemContext.product$.subscribe((product) => {
+      expect(product).toBe(mockProduct);
+      done();
+    });
   });
 });
