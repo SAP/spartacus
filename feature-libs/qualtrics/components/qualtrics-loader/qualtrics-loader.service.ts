@@ -46,7 +46,7 @@ export class QualtricsLoaderService implements OnDestroy {
    * QSI load event that happens when the QSI JS file is loaded.
    */
   private qsiLoaded$: Observable<any> = isPlatformBrowser(this.platformId)
-    ? fromEvent(this.window, QUALTRICS_EVENT_NAME)
+    ? fromEvent(this.window as QualtricsWindow, QUALTRICS_EVENT_NAME)
     : of();
 
   /**
