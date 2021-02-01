@@ -5,6 +5,9 @@ import { Observable, ReplaySubject } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { CartItemComponentOptions } from '../cart-item.component';
 
+/**
+ * Context for `CartItemComponent`.
+ */
 @Injectable()
 export abstract class CartItemContext {
   readonly compact$: Observable<boolean>;
@@ -15,6 +18,11 @@ export abstract class CartItemContext {
   readonly options$: Observable<CartItemComponentOptions>;
 }
 
+/**
+ * Context source for `CartItemComponent`.
+ *
+ * `CartItemContext` should be used in child components instead.
+ */
 @Injectable()
 export class CartItemContextSource implements CartItemContext {
   readonly _compact$ = new ReplaySubject<boolean>(1);
