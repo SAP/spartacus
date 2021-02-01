@@ -1,0 +1,28 @@
+{
+  "name": "@spartacus/tms",
+  "version": "3.0.0",
+  "description": "TMS - Tag management system",
+  "keywords": [
+    "spartacus",
+    "framework",
+    "storefront",
+    "tms",
+    "adobe launch",
+    "gtm"
+  ],
+  "homepage": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "peerDependencies": {
+    "@angular/common": "^10.2.4",
+    "@angular/core": "^10.1.0",
+    "@spartacus/core": "3.1.0-next.0",
+    "rxjs": "^6.6.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -80,6 +80,7 @@ export default async function run(
     '@spartacus/product': 'feature-libs/product',
     '@spartacus/product-configurator': 'feature-libs/product-configurator',
     '@spartacus/storefinder': 'feature-libs/storefinder',
+    '@spartacus/tms': 'feature-libs/tms',
     '@spartacus/qualtrics': 'feature-libs/qualtrics',
     '@spartacus/cdc': 'integration-libs/cdc',
     '@spartacus/setup': 'core-libs/setup',
@@ -311,6 +312,9 @@ if (typeof config.to === 'undefined') {
     case '@spartacus/storefinder':
       config.library = '@spartacus/storefinder';
       break;
+    case 'tms':
+    case '@spartacus/tms':
+      config.library = '@spartacus/tms';
     case 'qualtrics':
     case '@spartacus/qualtrics':
       config.library = '@spartacus/qualtrics';

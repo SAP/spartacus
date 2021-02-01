@@ -65,7 +65,7 @@ if (!environment.production) {
       },
 
       features: {
-        level: '2.1',
+        level: '3.1',
       },
     }),
 
@@ -101,5 +101,8 @@ if (!environment.production) {
   ],
 
   bootstrap: [StorefrontComponent],
+  // providers: [
+  //   { provide: AdobeLaunchService, useClass: CustomAdobeLaunchService },
+  // ],
 })
 export class AppModule {}

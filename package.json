@@ -108,6 +108,8 @@
     "e2e:cy:b2b:start-run-ci:2005": "start-server-and-test start:ci:b2b http-get://localhost:4200 e2e:cy:run:b2b:ci",
     "start:ci:b2b": "cross-env SPARTACUS_BASE_URL=https://spartacus-devci767.eastus.cloudapp.azure.com:9002 SPARTACUS_API_PREFIX=/occ/v2/ SPARTACUS_B2B=true yarn start",
     "e2e:cy:open:b2b": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:open:b2b",
+    "build:tms": "ng build tms --prod",
+    "release:tms:with-changelog": "cd feature-libs/tms && release-it && cd ../..",
     "config:update": "ts-node ./tools/config/index.ts --fix",
     "config:check": "ts-node ./tools/config/index.ts",
     "ngcc:lock:remove": "rm -rf ./node_modules/.cli-ngcc/*.lock"
