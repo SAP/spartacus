@@ -59,9 +59,9 @@ export class ConfiguratorCartService {
               this.commonConfigUtilsService
                 .getUserId(cartState.value)
                 .pipe(take(1))
-                .subscribe((id) => {
+                .subscribe((userId) => {
                   const readFromCartEntryParameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-                    userId: id,
+                    userId: userId,
                     cartId: this.commonConfigUtilsService.getCartId(
                       cartState.value
                     ),
@@ -141,9 +141,9 @@ export class ConfiguratorCartService {
         this.commonConfigUtilsService
           .getUserId(cartState.value)
           .pipe(take(1))
-          .subscribe((id) => {
+          .subscribe((userId) => {
             const addToCartParameters: Configurator.AddToCartParameters = {
-              userId: id,
+              userId: userId,
               cartId: this.commonConfigUtilsService.getCartId(cartState.value),
               productCode: productCode,
               quantity: 1,
@@ -172,13 +172,10 @@ export class ConfiguratorCartService {
         this.commonConfigUtilsService
           .getUserId(cartState.value)
           .pipe(take(1))
-          .subscribe((id) => {
-            const cartId = this.commonConfigUtilsService.getCartId(
-              cartState.value
-            );
+          .subscribe((userId) => {
             const parameters: Configurator.UpdateConfigurationForCartEntryParameters = {
-              userId: id,
-              cartId: cartId,
+              userId: userId,
+              cartId: this.commonConfigUtilsService.getCartId(cartState.value),
               cartEntryNumber: configuration.owner.id,
               configuration: configuration,
             };
