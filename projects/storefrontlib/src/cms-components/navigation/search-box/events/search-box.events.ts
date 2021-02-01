@@ -14,5 +14,5 @@ export class SearchBoxSuggestionSelectedEvent {
  */
 export class SearchBoxProductSelectedEvent {
   freeText: string;
-  selectedCode: string;
+  productCode: string;
 }

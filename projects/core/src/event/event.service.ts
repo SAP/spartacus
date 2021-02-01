@@ -80,15 +80,6 @@ export class EventService {
 
   /**
    * Dispatches an instance of an individual event.
-   */
-  // dispatch(event: Object): void {
-  //   const eventType = event.constructor as Type<any>;
-  //   const inputSubject$ = this.getInputSubject(eventType);
-  //   inputSubject$.next(event);
-  // }
-
-  /**
-   * Dispatches an instance of an individual event.
    * If the eventType is provided a new event will be created for that type and with the event data.
    *
    * @param event an event

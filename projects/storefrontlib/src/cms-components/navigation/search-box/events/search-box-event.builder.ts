@@ -43,7 +43,7 @@ export class SearchBoxEventBuilder {
     this.eventService.dispatch<SearchBoxProductSelectedEvent>(
       {
         freeText: eventData.freeText,
-        selectedCode: eventData.selected,
+        productCode: eventData.selected,
       },
       SearchBoxProductSelectedEvent
     );

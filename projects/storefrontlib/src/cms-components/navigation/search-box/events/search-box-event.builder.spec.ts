@@ -98,7 +98,7 @@ describe('SearchBoxEventBuilder', () => {
         SearchBoxProductSelectedEvent,
         {
           freeText: 'camera',
-          selectedCode: mockProduct.code,
+          productCode: mockProduct.code,
         }
       );
 
