@@ -7,6 +7,7 @@ import { CardModule } from '../../shared/card/card.module';
 import { ToggleStatusModule } from '../../shared/detail/toggle-status-action/toggle-status.module';
 import { UnitDetailsComponent } from './unit-details.component';
 import { IconModule } from '@spartacus/storefront';
+import { EditEnableMessageModule } from '../../shared/detail/edit-enable-message/edit-enable-message.module';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { IconModule } from '@spartacus/storefront';
     ToggleStatusModule,
     ItemExistsModule,
     IconModule,
+    EditEnableMessageModule,
   ],
   declarations: [UnitDetailsComponent],
   exports: [UnitDetailsComponent],

@@ -50,6 +50,8 @@ export const orgUser = {
     create: 'User {{item.firstName}} {{item.lastName}} created successfully',
     updatePassword:
       'User {{item.firstName}} {{item.lastName}} password updated successfully',
+    enableEdit: ' Enable the unit to allow editing',
+    enableParent: ' Parent must be enabled before this unit may be enabled',
   },
 
   approver: {

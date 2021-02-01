@@ -14,30 +14,8 @@
     i18nRoot="orgUnit"
   ></cx-org-toggle-status>
 
-  <section
-    main
-    class="details"
-    *ngIf="!model.active && model.parentOrgUnit?.active"
-  >
-    <div class="property">
-      <cx-icon class="icon-info" [type]="iconTypes.INFO"></cx-icon>
-      <span>{{ 'orgUnit.messages.enableEdit' | cxTranslate }}</span>
-    </div>
-  </section>
-
-  <section
-    main
-    class="details"
-    *ngIf="model.parentOrgUnit && !model.parentOrgUnit?.active"
-  >
-    <div class="messages">
-      <cx-icon class="icon-info" [type]="iconTypes.INFO"></cx-icon>
-      <ul>
-        <li>{{ 'orgUnit.messages.enableEdit' | cxTranslate }}</li>
-        <li>{{ 'orgUnit.messages.enableParent' | cxTranslate }}</li>
-      </ul>
-    </div>
-  </section>
+  <cx-edit-enable-message main i18nRoot="orgUnit" *ngIf="!model.active">
+  </cx-edit-enable-message>
 
   <section main class="details" cxOrgItemExists>
     <div class="property">

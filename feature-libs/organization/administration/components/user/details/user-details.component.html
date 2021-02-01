@@ -14,6 +14,9 @@
     i18nRoot="orgUser"
   ></cx-org-toggle-status>
 
+  <cx-edit-enable-message main i18nRoot="orgUser" *ngIf="!model.active">
+  </cx-edit-enable-message>
+
   <section main class="details" cxOrgItemExists>
     <div class="property">
       <label>{{ 'orgUser.name' | cxTranslate }}</label>

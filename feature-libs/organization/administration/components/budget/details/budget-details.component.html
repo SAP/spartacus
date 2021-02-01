@@ -10,6 +10,9 @@
 
   <cx-org-toggle-status actions i18nRoot="orgBudget"></cx-org-toggle-status>
 
+  <cx-edit-enable-message main i18nRoot="orgBudget" *ngIf="!model.active">
+  </cx-edit-enable-message>
+
   <section main class="details" cxOrgItemExists>
     <div class="property">
       <label>{{ 'orgBudget.name' | cxTranslate }}</label>
