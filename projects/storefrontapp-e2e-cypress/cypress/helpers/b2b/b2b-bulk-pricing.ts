@@ -41,17 +41,16 @@ export function checkTableData() {
   });
 }
 
-export function preformCheckoutWithCorrectPrice(){
-
+export function preformCheckoutWithCorrectPrice() {
   const quantity: string = sampleData.TEST_QUANTITY;
   const expectedTotal: any = sampleData.EXPECTED_TOTAL;
   const selector = 'cx-add-to-cart form div cx-item-counter input';
   cy.get(selector).type('{selectall}').type(quantity);
   const btnSelector = 'cx-add-to-cart form button';
   cy.get(btnSelector).last().click();
-  
+
   cy.wait(2000);
-  const valueSelector = "cx-added-to-cart-dialog .cx-dialog-total"
+  const valueSelector = 'cx-added-to-cart-dialog .cx-dialog-total';
   cy.get(valueSelector).contains(expectedTotal);
 }
 
