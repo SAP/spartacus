@@ -304,6 +304,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     attr.values = multiSelectionValues;
     attr.displayAs = Cpq.DisplayAs.CHECK_BOX;
     attr.dataType = Cpq.DataType.QTY_VALUE_LEVEL;
+    attr.isLineItem = true;
     attr.quantity = '1';
     attr.values[1].quantity = '3';
     attr.values[1].price = '123.45';

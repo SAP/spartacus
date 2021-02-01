@@ -124,6 +124,56 @@ describe('CpqConfiguratorUtilitiesService', () => {
     expect(quantity).toBe(3);
   });
 
+  it('should prepare quantity for Checkbox Lineitem attribute with quantity on value level', () => {
+    const cpqAttr: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+      quantity: '1',
+      dataType: Cpq.DataType.QTY_VALUE_LEVEL,
+      displayAs: Cpq.DisplayAs.CHECK_BOX,
+      isLineItem: true,
+      values: [{ paV_ID: 1, selected: true, quantity: '3' }],
+    };
+    const quantity = cpqConfiguratorUtilitiesService.prepareQuantity(
+      cpqAttr.values[0],
+      cpqAttr
+    );
+    expect(quantity).toBe(3);
+  });
+
+  it('should prepare quantity for Checkbox Non-Lineitem attribute with quantity on value level', () => {
+    const cpqAttr: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+      quantity: '1',
+      dataType: Cpq.DataType.QTY_VALUE_LEVEL,
+      displayAs: Cpq.DisplayAs.CHECK_BOX,
+      isLineItem: false,
+      values: [{ paV_ID: 1, selected: true, quantity: '3' }],
+    };
+    const quantity = cpqConfiguratorUtilitiesService.prepareQuantity(
+      cpqAttr.values[0],
+      cpqAttr
+    );
+    expect(quantity).toBeNull;
+  });
+
+  it('should prepare quantity for Radiobutton attribute with quantity on value level', () => {
+    const cpqAttr: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+      quantity: '1',
+      dataType: Cpq.DataType.QTY_VALUE_LEVEL,
+      displayAs: Cpq.DisplayAs.RADIO_BUTTON,
+      values: [{ paV_ID: 1, selected: true, quantity: '3' }],
+    };
+    const quantity = cpqConfiguratorUtilitiesService.prepareQuantity(
+      cpqAttr.values[0],
+      cpqAttr
+    );
+    expect(quantity).toBeNull;
+  });
+
   it('should retrieve quantity null for attribute without quantity', () => {
     const cpqAttr: Cpq.Attribute = {
       pA_ID: 1,
@@ -217,5 +267,98 @@ describe('CpqConfiguratorUtilitiesService', () => {
     expect(attributePriceTotal.currencyIso).toBe(CURRENCY);
     expect(attributePriceTotal.value).toBe(100.01);
     expect(attributePriceTotal.formattedValue).toBe('$100.01');
+  });
+
+  it('should convert CPQ dataType INPUT_STRING', () => {
+    const attribute: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+      dataType: Cpq.DataType.INPUT_STRING,
+    };
+    expect(cpqConfiguratorUtilitiesService.convertDataType(attribute)).toBe(
+      Configurator.DataType.INPUT_STRING
+    );
+  });
+
+  it('should convert CPQ dataType INPUT_NUMBER', () => {
+    const attribute: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+      dataType: Cpq.DataType.INPUT_NUMBER,
+    };
+    expect(cpqConfiguratorUtilitiesService.convertDataType(attribute)).toBe(
+      Configurator.DataType.INPUT_NUMBER
+    );
+  });
+
+  it('should convert CPQ dataType User Selection (N/A)', () => {
+    const attribute: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+      dataType: Cpq.DataType.N_A,
+    };
+    expect(cpqConfiguratorUtilitiesService.convertDataType(attribute)).toBe(
+      Configurator.DataType.USER_SELECTION_NO_QTY
+    );
+  });
+
+  it('should convert CPQ dataType User Selection with Quantity on attribute level (QTY_ATTRIBUTE_LEVEL)', () => {
+    const attribute: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+      dataType: Cpq.DataType.QTY_ATTRIBUTE_LEVEL,
+    };
+    expect(cpqConfiguratorUtilitiesService.convertDataType(attribute)).toBe(
+      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
+    );
+  });
+
+  it('should convert CPQ dataType User Selection with Quantity on value level (QTY_VALUE_LEVEL)', () => {
+    const attribute: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+      dataType: Cpq.DataType.QTY_VALUE_LEVEL,
+      displayAs: Cpq.DisplayAs.CHECK_BOX,
+      isLineItem: true,
+    };
+    expect(cpqConfiguratorUtilitiesService.convertDataType(attribute)).toBe(
+      Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL
+    );
+  });
+
+  it('should convert CPQ dataType User Selection with Quantity on value level (QTY_VALUE_LEVEL) for non line item multi selection attribute', () => {
+    const attribute: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+      dataType: Cpq.DataType.QTY_VALUE_LEVEL,
+      displayAs: Cpq.DisplayAs.CHECK_BOX,
+      isLineItem: false,
+    };
+    expect(cpqConfiguratorUtilitiesService.convertDataType(attribute)).toBe(
+      Configurator.DataType.USER_SELECTION_NO_QTY
+    );
+  });
+
+  it('should convert CPQ dataType User Selection with Quantity on value level (QTY_VALUE_LEVEL) for single selection attribute', () => {
+    const attribute: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+      dataType: Cpq.DataType.QTY_VALUE_LEVEL,
+      displayAs: Cpq.DisplayAs.RADIO_BUTTON,
+    };
+    expect(cpqConfiguratorUtilitiesService.convertDataType(attribute)).toBe(
+      Configurator.DataType.USER_SELECTION_NO_QTY
+    );
+  });
+
+  it('should convert CPQ not supported dataType to NOT_IMPLEMENTED', () => {
+    const attribute: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+      dataType: null,
+    };
+    expect(cpqConfiguratorUtilitiesService.convertDataType(attribute)).toBe(
+      Configurator.DataType.NOT_IMPLEMENTED
+    );
   });
 });

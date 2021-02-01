@@ -20,12 +20,18 @@ export class CpqConfiguratorUtilitiesService {
    * @returns Quantity
    */
   prepareQuantity(value: Cpq.Value, attribute: Cpq.Attribute): number {
+    if (!value.selected) {
+      return null;
+    }
+    const configuratorDataType: Configurator.DataType = this.convertDataType(
+      attribute
+    );
     let quantity: number;
-    switch (attribute.dataType) {
-      case Cpq.DataType.QTY_ATTRIBUTE_LEVEL:
+    switch (configuratorDataType) {
+      case Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL:
         quantity = Number(attribute.quantity);
         break;
-      case Cpq.DataType.QTY_VALUE_LEVEL:
+      case Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL:
         quantity = Number(value.quantity);
         break;
       default:
@@ -141,5 +147,52 @@ export class CpqConfiguratorUtilitiesService {
       currencySymbol,
       price.currencyIso
     );
+  }
+
+  /**
+   * Converts the CPQ Attribute data type into the Configurator Attribute data type
+   * @param cpqAttribute CPQ Attribute
+   * @returns Data type of the configurator attribute
+   */
+  convertDataType(cpqAttribute: Cpq.Attribute): Configurator.DataType {
+    let dataType: Configurator.DataType;
+    switch (cpqAttribute.dataType) {
+      case Cpq.DataType.INPUT_STRING: {
+        dataType = Configurator.DataType.INPUT_STRING;
+        break;
+      }
+      case Cpq.DataType.INPUT_NUMBER: {
+        dataType = Configurator.DataType.INPUT_NUMBER;
+        break;
+      }
+      case Cpq.DataType.N_A: {
+        dataType = Configurator.DataType.USER_SELECTION_NO_QTY;
+        break;
+      }
+      case Cpq.DataType.QTY_ATTRIBUTE_LEVEL: {
+        dataType = Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
+        break;
+      }
+      case Cpq.DataType.QTY_VALUE_LEVEL: {
+        if (
+          cpqAttribute.displayAs === Cpq.DisplayAs.RADIO_BUTTON ||
+          cpqAttribute.displayAs === Cpq.DisplayAs.DROPDOWN
+        ) {
+          dataType = Configurator.DataType.USER_SELECTION_NO_QTY;
+        } else if (
+          cpqAttribute.displayAs === Cpq.DisplayAs.CHECK_BOX &&
+          !cpqAttribute.isLineItem
+        ) {
+          dataType = Configurator.DataType.USER_SELECTION_NO_QTY;
+        } else {
+          dataType = Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL;
+        }
+        break;
+      }
+      default: {
+        dataType = Configurator.DataType.NOT_IMPLEMENTED;
+      }
+    }
+    return dataType;
   }
 }
