@@ -1,5 +1,10 @@
 <div id="{{ createAttributeIdForConfigurator(attribute) }}">
-  <div class="form-check">
+  <div
+    *ngIf="
+      attribute.values && attribute.values[0] && attribute.values[0].valueCode
+    "
+    class="form-check"
+  >
     <input
       id="{{
         createAttributeValueIdForConfigurator(

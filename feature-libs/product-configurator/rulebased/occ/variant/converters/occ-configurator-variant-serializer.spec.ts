@@ -191,6 +191,18 @@ describe('OccConfiguratorVariantSerializer', () => {
     ).toBe(OccConfigurator.GroupType.INSTANCE);
   });
 
+  it('should map group type for undefined', () => {
+    expect(
+      occConfiguratorVariantSerializer.convertGroupType(undefined)
+    ).toBeUndefined();
+
+    expect(
+      occConfiguratorVariantSerializer.convertGroupType(
+        Configurator.GroupType.SUB_ITEM_GROUP
+      )
+    ).toBe(OccConfigurator.GroupType.INSTANCE);
+  });
+
   it('should fill formatted value for numeric attributes', () => {
     const numericAttribute: Configurator.Attribute = {
       name: 'attr',
@@ -274,6 +286,10 @@ describe('OccConfiguratorVariantSerializer', () => {
       occConfiguratorVariantSerializer.convertCharacteristicType(
         Configurator.UiType.READ_ONLY
       )
+    ).toBe(OccConfigurator.UiType.NOT_IMPLEMENTED);
+
+    expect(
+      occConfiguratorVariantSerializer.convertCharacteristicType(undefined)
     ).toBe(OccConfigurator.UiType.NOT_IMPLEMENTED);
 
     expect(

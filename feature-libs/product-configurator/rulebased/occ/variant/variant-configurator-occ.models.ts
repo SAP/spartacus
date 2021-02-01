@@ -95,9 +95,9 @@ export namespace OccConfigurator {
     cartId?: string;
     product?: AddToCartProductData;
     quantity?: number;
-    configId: string;
-    entryNumber: string;
-    configurationInfos: ConfigurationInfo[];
+    configId?: string;
+    entryNumber?: string;
+    configurationInfos?: ConfigurationInfo[];
   }
 
   export interface ConfigurationInfo {
@@ -109,7 +109,7 @@ export namespace OccConfigurator {
   }
 
   export interface Overview {
-    id: string;
+    id?: string;
     totalNumberOfIssues?: number;
     groups?: GroupOverview[];
     pricing?: PriceSummary;
