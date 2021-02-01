@@ -1,7 +1,10 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
+  Inject,
   Injectable,
   isDevMode,
   OnDestroy,
+  PLATFORM_ID,
   Renderer2,
   RendererFactory2,
 } from '@angular/core';
@@ -10,6 +13,10 @@ import { EMPTY, fromEvent, Observable, of, Subscription } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 export const QUALTRICS_EVENT_NAME = 'qsi_js_loaded';
+
+interface QualtricsWindow extends Window {
+  QSI?: any;
+}
 
 /**
  * Service to integration Qualtrics.
@@ -38,8 +45,8 @@ export class QualtricsLoaderService implements OnDestroy {
   /**
    * QSI load event that happens when the QSI JS file is loaded.
    */
-  private qsiLoaded$: Observable<any> = this.winRef?.nativeWindow
-    ? fromEvent(this.winRef.nativeWindow, QUALTRICS_EVENT_NAME)
+  private qsiLoaded$: Observable<any> = isPlatformBrowser(this.platformId)
+    ? fromEvent(this.window, QUALTRICS_EVENT_NAME)
     : of();
 
   /**
@@ -50,16 +57,19 @@ export class QualtricsLoaderService implements OnDestroy {
    */
   protected qsi$: Observable<any> = this.qsiLoaded$.pipe(
     switchMap(() => this.isDataLoaded()),
-    map((dataLoaded: boolean) =>
-      dataLoaded ? this.winRef?.nativeWindow['QSI' as any] : EMPTY
-    ),
+    map((dataLoaded: boolean) => (dataLoaded ? this.window?.QSI : EMPTY)),
     filter((api: any) => Boolean(api)),
     tap((qsi: any) => (this.qsiApi = qsi))
   );
 
+  get window(): QualtricsWindow | undefined {
+    return this.winRef?.nativeWindow;
+  }
+
   constructor(
     protected winRef: WindowRef,
-    protected rendererFactory: RendererFactory2
+    protected rendererFactory: RendererFactory2,
+    @Inject(PLATFORM_ID) protected platformId: any
   ) {
     this.initialize();
   }
