@@ -1,11 +1,13 @@
 import { TestBed } from '@angular/core/testing';
+import { ActionsSubject } from '@ngrx/store';
 import {
   createFrom,
   EventService,
   FeatureConfigService,
 } from '@spartacus/core';
+import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { NavigationEvent } from '../navigation';
+import { NavigationEvent } from '../navigation/navigation.event';
 import { PageEventBuilder } from './page-event.builder';
 import { PageEvent } from './page.events';
 
@@ -23,6 +25,8 @@ describe('PageEventBuilder', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        // TODO: #10896 - remove this
+        { provide: ActionsSubject, useValue: new Subject() },
       ],
     });
 
