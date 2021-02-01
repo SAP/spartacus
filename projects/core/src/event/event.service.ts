@@ -1,6 +1,7 @@
 import { Injectable, isDevMode, Type } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { createFrom } from '../util/create-from';
 import { MergingSubject } from './utils/merging-subject';
 
 /**
@@ -80,8 +81,25 @@ export class EventService {
   /**
    * Dispatches an instance of an individual event.
    */
-  dispatch(event: Object): void {
-    const eventType = event.constructor as Type<any>;
+  // dispatch(event: Object): void {
+  //   const eventType = event.constructor as Type<any>;
+  //   const inputSubject$ = this.getInputSubject(eventType);
+  //   inputSubject$.next(event);
+  // }
+
+  /**
+   * Dispatches an instance of an individual event.
+   * If the eventType is provided a new event will be created for that type and with the event data.
+   *
+   * @param event an event
+   * @param eventType (optional) - type of event
+   */
+  dispatch<T>(event: T, eventType?: Type<T>): void {
+    if (!eventType) {
+      eventType = event.constructor as Type<T>;
+    } else if (!(event instanceof eventType)) {
+      event = createFrom(eventType, event);
+    }
     const inputSubject$ = this.getInputSubject(eventType);
     inputSubject$.next(event);
   }

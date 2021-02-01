@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
-import { createFrom, EventService, Product, Suggestion } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { SearchBoxComponentService } from '../search-box-component.service';
+import { EventService, Product, Suggestion } from '@spartacus/core';
 import {
   SearchBoxProductSelectedEvent,
   SearchBoxSuggestionSelectedEvent,
@@ -19,56 +16,36 @@ export interface SearchBoxEventData {
   providedIn: 'root',
 })
 export class SearchBoxEventBuilder {
-  constructor(
-    protected eventService: EventService,
-    protected searchBoxComponentService: SearchBoxComponentService
-  ) {
-    this.register();
-  }
+  constructor(protected eventService: EventService) {}
 
-  protected register(): void {
-    this.eventService.register(
-      SearchBoxSuggestionSelectedEvent,
-      this.buildSuggestionSelectedSearchEvent()
-    );
-    this.eventService.register(
-      SearchBoxProductSelectedEvent,
-      this.buildProductSelectedEvent()
+  /**
+   * Dispatch suggestion selected event for the provided data
+   *
+   * @param eventData data for the suggestion selected event
+   */
+  dispatchSuggestionSelectedEvent(eventData: SearchBoxEventData): void {
+    this.eventService.dispatch<SearchBoxSuggestionSelectedEvent>(
+      {
+        freeText: eventData.freeText,
+        selectedSuggestion: eventData.selected,
+        searchSuggestions: eventData.values as Suggestion[],
+      },
+      SearchBoxSuggestionSelectedEvent
     );
   }
 
   /**
-   * Returns a stream that will fire an event when a product suggestion is selected, which results in the user navigating to the product details page
+   * Dispatch product selected event for the provided data
+   *
+   * @param eventData data for the product selected event
    */
-  protected buildSuggestionSelectedSearchEvent(): Observable<
-    SearchBoxSuggestionSelectedEvent
-  > {
-    return this.searchBoxComponentService.searchBoxSuggestionSelectedEvents.pipe(
-      filter((event) => Boolean(event)),
-      map((data) =>
-        createFrom(SearchBoxSuggestionSelectedEvent, {
-          freeText: data.freeText,
-          selectedSuggestion: data.selected,
-          searchSuggestions: data.values as Suggestion[],
-        })
-      )
-    );
-  }
-
-  /**
-   * Returns a stream that will fire an event when a product suggestion is selected, which results in the user navigating to the product details page
-   */
-  protected buildProductSelectedEvent(): Observable<
-    SearchBoxProductSelectedEvent
-  > {
-    return this.searchBoxComponentService.searchBoxProductSelectedEvents.pipe(
-      filter((event) => Boolean(event)),
-      map((data) =>
-        createFrom(SearchBoxProductSelectedEvent, {
-          freeText: data.freeText,
-          selectedCode: data.selected,
-        })
-      )
+  dispatchProductSelectedEvent(eventData: SearchBoxEventData): void {
+    this.eventService.dispatch<SearchBoxProductSelectedEvent>(
+      {
+        freeText: eventData.freeText,
+        selectedCode: eventData.selected,
+      },
+      SearchBoxProductSelectedEvent
     );
   }
 }

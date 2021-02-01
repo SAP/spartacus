@@ -10,9 +10,8 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { filter } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { SearchBoxEventData } from './events/index';
+import { SearchBoxEventBuilder } from './events/search-box-event.builder';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
 import createSpy = jasmine.createSpy;
@@ -61,6 +60,15 @@ class MockTranslationService {
   }
 }
 
+class MockSearchBoxEventBuilder implements Partial<SearchBoxEventBuilder> {
+  dispatchProductSelectedEvent = createSpy(
+    'dispatchProductSelectedEvent'
+  ).and.stub();
+  dispatchSuggestionSelectedEvent = createSpy(
+    'dispatchSuggestionSelectedEvent'
+  ).and.stub();
+}
+
 const mockSearchResults: ProductSearchPage = {
   products: [
     {
@@ -76,6 +84,7 @@ const mockSearchResults: ProductSearchPage = {
 describe('SearchBoxComponentService', () => {
   let service: SearchBoxComponentService;
   let searchBoxService: SearchboxService;
+  let searchBoxEventBuilder: SearchBoxEventBuilder;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
@@ -92,6 +101,10 @@ describe('SearchBoxComponentService', () => {
           provide: SearchboxService,
           useClass: MockSearchBoxService,
         },
+        {
+          provide: SearchBoxEventBuilder,
+          useClass: MockSearchBoxEventBuilder,
+        },
         { provide: TranslationService, useClass: MockTranslationService },
         SearchBoxComponentService,
         WindowRef,
@@ -99,6 +112,7 @@ describe('SearchBoxComponentService', () => {
     });
     service = TestBed.inject(SearchBoxComponentService);
     searchBoxService = TestBed.inject(SearchboxService);
+    searchBoxEventBuilder = TestBed.inject(SearchBoxEventBuilder);
   });
 
   it('should be created', () => {
@@ -247,37 +261,26 @@ describe('SearchBoxComponentService', () => {
 
   describe('UI Events', () => {
     it('should push UI events based on type', () => {
-      const productEvents: SearchBoxEventData[] = [];
-      const suggestionEvents: SearchBoxEventData[] = [];
-
-      service.searchBoxProductSelectedEvents
-        .pipe(filter((value) => Boolean(value)))
-        .subscribe((value) => productEvents.push(value));
-
-      service.searchBoxSuggestionSelectedEvents
-        .pipe(filter((value) => Boolean(value)))
-        .subscribe((value) => suggestionEvents.push(value));
-
-      service.registerUIEvents({
+      const mockEventData1 = {
         freeText: 'test1',
         isProduct: true,
         selected: '12345',
-      });
-      service.registerUIEvents({
+      };
+      const mockEventData2 = {
         freeText: 'test2',
-        isProduct: true,
-        selected: '67890',
-      });
-      service.registerUIEvents({
-        freeText: 'test3',
         isProduct: false,
         selected: 'test',
         values: [{ value: 'test' }],
-      });
+      };
+      service.registerUIEvents(mockEventData1);
+      service.registerUIEvents(mockEventData2);
 
-      console.log(productEvents);
-      expect(productEvents.length).toEqual(2);
-      expect(suggestionEvents.length).toEqual(1);
+      expect(
+        searchBoxEventBuilder.dispatchProductSelectedEvent
+      ).toHaveBeenCalledWith(mockEventData1);
+      expect(
+        searchBoxEventBuilder.dispatchSuggestionSelectedEvent
+      ).toHaveBeenCalledWith(mockEventData2);
     });
   });
 });

@@ -1,12 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { createFrom, EventService, Product, Suggestion } from '@spartacus/core';
-import { SearchBoxComponentService } from '@spartacus/storefront';
-import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import {
-  SearchBoxEventBuilder,
-  SearchBoxEventData,
-} from './search-box-event.builder';
+import { SearchBoxEventBuilder } from './search-box-event.builder';
 import {
   SearchBoxProductSelectedEvent,
   SearchBoxSuggestionSelectedEvent,
@@ -22,38 +17,12 @@ const mockProduct: Product = {
   code: '123456',
 };
 
-const searchBoxProductSelectedEvents$ = new BehaviorSubject<SearchBoxEventData>(
-  null
-);
-const searchBoxSuggestionSelectedEvents$ = new BehaviorSubject<
-  SearchBoxEventData
->(null);
-class MockSearchBoxComponentService
-  implements Partial<SearchBoxComponentService> {
-  get searchBoxProductSelectedEvents() {
-    return searchBoxProductSelectedEvents$;
-  }
-
-  get searchBoxSuggestionSelectedEvents() {
-    return searchBoxSuggestionSelectedEvents$;
-  }
-}
-
 describe('SearchBoxEventBuilder', () => {
   let eventService: EventService;
+  let searchBoxEventBuilder: SearchBoxEventBuilder;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        {
-          provide: SearchBoxComponentService,
-          useClass: MockSearchBoxComponentService,
-        },
-      ],
-    });
-
-    TestBed.inject(SearchBoxEventBuilder); // register events
-
+    searchBoxEventBuilder = TestBed.inject(SearchBoxEventBuilder); // register events
     eventService = TestBed.inject(EventService);
   });
 
@@ -74,7 +43,7 @@ describe('SearchBoxEventBuilder', () => {
         }
       );
 
-      searchBoxSuggestionSelectedEvents$.next({
+      searchBoxEventBuilder.dispatchSuggestionSelectedEvent({
         freeText: 'camera',
         isProduct: false,
         selected: mockSuggestions[0].value,
@@ -84,6 +53,36 @@ describe('SearchBoxEventBuilder', () => {
       expect(result).toEqual(
         jasmine.objectContaining(searchBoxSuggestionSelectedEvent)
       );
+    });
+
+    it('should fire multiple event', () => {
+      const result: SearchBoxSuggestionSelectedEvent[] = [];
+      eventService
+        .get(SearchBoxSuggestionSelectedEvent)
+        .subscribe((value) => result.push(value));
+
+      searchBoxEventBuilder.dispatchSuggestionSelectedEvent({
+        freeText: 'camera',
+        isProduct: false,
+        selected: mockSuggestions[0].value,
+        values: mockSuggestions,
+      });
+
+      searchBoxEventBuilder.dispatchSuggestionSelectedEvent({
+        freeText: 'camileo',
+        isProduct: false,
+        selected: mockSuggestions[1].value,
+        values: mockSuggestions,
+      });
+
+      searchBoxEventBuilder.dispatchSuggestionSelectedEvent({
+        freeText: 'camcorder',
+        isProduct: false,
+        selected: mockSuggestions[2].value,
+        values: mockSuggestions,
+      });
+
+      expect(result.length).toEqual(3);
     });
   });
 
@@ -103,7 +102,7 @@ describe('SearchBoxEventBuilder', () => {
         }
       );
 
-      searchBoxProductSelectedEvents$.next({
+      searchBoxEventBuilder.dispatchProductSelectedEvent({
         freeText: 'camera',
         isProduct: true,
         selected: mockProduct.code,
