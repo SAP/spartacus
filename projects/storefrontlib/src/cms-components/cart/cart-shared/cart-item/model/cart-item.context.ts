@@ -21,7 +21,7 @@ export abstract class CartItemContext {
 /**
  * Context source for `CartItemComponent`.
  *
- * `CartItemContext` should be used in child components instead.
+ * `CartItemContext` should be injected instead in child components.
  */
 @Injectable()
 export class CartItemContextSource implements CartItemContext {

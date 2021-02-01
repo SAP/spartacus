@@ -14,7 +14,7 @@ export abstract class ProductListItemContext {
 /**
  * Context source for `ProductListItemComponent`.
  *
- * `ProductListItemContext` should be used in child components instead.
+ * `ProductListItemContext` should be injected instead in child components.
  */
 @Injectable()
 export class ProductListItemContextSource extends ProductListItemContext {
