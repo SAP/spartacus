@@ -32,8 +32,8 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return this.anonymousConsentsService.getConsents().pipe(
-      take(1),
       withLatestFrom(this.authService.isUserLoggedIn()),
+      take(1),
       switchMap(([consents, isUserLoggedIn]) => {
         if (!this.isOccUrl(request.url)) {
           return next.handle(request);

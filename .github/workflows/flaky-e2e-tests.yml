@@ -24,7 +24,7 @@ jobs:
         with:
           working-directory: projects/storefrontapp-e2e-cypress
       - name: Build Spartacus
-        run: yarn build:libs && yarn build:ci:2005
+        run: yarn build:libs && yarn build
       - name: Install pm2 server
         run: npm install -g pm2
       - name: Start server
@@ -33,4 +33,4 @@ jobs:
       - name: Run e2es
         env:
           CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
-        run: yarn e2e:cy:run:ci:flaky:2005
+        run: export CYPRESS_CONFIG=cypress.ci.json && yarn e2e:run:ci:flaky

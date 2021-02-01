@@ -1,3 +1,5 @@
+<!-- Item Start Outlet -->
+<ng-template [cxOutlet]="Outlets.START"> </ng-template>
 <div [ngClass]="compact ? 'cx-compact row' : 'row'">
   <!-- Item Image -->
   <div class="col-2 cx-image-container">
@@ -28,6 +30,9 @@
         <div *ngIf="item.product.code" class="cx-code">
           {{ 'cartItems.id' | cxTranslate }} {{ item.product.code }}
         </div>
+        <!-- Item Information Outlet -->
+        <ng-template [cxOutlet]="Outlets.INFORMATION"> </ng-template>
+
         <!-- Variants -->
         <ng-container *ngIf="item.product.baseOptions?.length">
           <div
@@ -97,11 +102,11 @@
           >
             {{ item.product.stock.stockLevel }}
           </div>
-          <ng-template #forceInstock
-            ><div class="cx-value">
+          <ng-template #forceInstock>
+            <div class="cx-value">
               {{ 'saveForLaterItems.forceInStock' | cxTranslate }}
-            </div></ng-template
-          >
+            </div>
+          </ng-template>
         </div>
       </ng-container>
     </div>
