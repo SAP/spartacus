@@ -119,6 +119,11 @@ describe('CommonConfiguratorUtilsService', () => {
       };
       expect(classUnderTest.getCartId(namedCart)).toBe(CART_CODE);
     });
+
+    it('throw error if cart Id cannot be found', () => {
+      const incompleteCart: Cart = {};
+      expect(() => classUnderTest.getCartId(incompleteCart)).toThrowError();
+    });
   });
 
   describe('getUserId', () => {

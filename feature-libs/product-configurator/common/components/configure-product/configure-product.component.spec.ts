@@ -19,10 +19,19 @@ const mockProduct: Product = {
   configurable: true,
   configuratorType: configuratorType,
 };
+const mockProductNotConfigurable: Product = {
+  configurable: false,
+};
 
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
     return of(mockProduct);
+  }
+}
+
+class MockCurrentProductServiceReturnsNull {
+  getProduct(): Observable<Product | null> {
+    return of(null);
   }
 }
 
@@ -39,8 +48,22 @@ let productListItemContext: ProductListItemContext;
 let fixture: ComponentFixture<ConfigureProductComponent>;
 let htmlElem: HTMLElement;
 
-function setupWithCurrentProductService(useCurrentProductServiceOnly: boolean) {
-  if (useCurrentProductServiceOnly) {
+function setupWithCurrentProductService(
+  useCurrentProductServiceOnly: boolean,
+  currenProductServiceReturnsNull: boolean = false
+) {
+  if (useCurrentProductServiceOnly && currenProductServiceReturnsNull) {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterTestingModule],
+      declarations: [ConfigureProductComponent, MockUrlPipe],
+      providers: [
+        {
+          provide: CurrentProductService,
+          useClass: MockCurrentProductServiceReturnsNull,
+        },
+      ],
+    }).compileComponents();
+  } else if (useCurrentProductServiceOnly) {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, RouterTestingModule],
       declarations: [ConfigureProductComponent, MockUrlPipe],
@@ -124,6 +147,14 @@ describe('ConfigureProductComponent', () => {
     setupWithCurrentProductService(true);
     component.product$.subscribe((product) => {
       expect(product).toBe(mockProduct);
+      done();
+    });
+  });
+
+  it('should emit non-configurable dummy in case it was launched with product service which emits null', (done) => {
+    setupWithCurrentProductService(true, true);
+    component.product$.subscribe((product) => {
+      expect(product).toEqual(mockProductNotConfigurable);
       done();
     });
   });

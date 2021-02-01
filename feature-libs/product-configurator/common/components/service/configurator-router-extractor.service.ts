@@ -27,7 +27,7 @@ export class ConfiguratorRouterExtractorService {
       filter((routingData) => routingData.nextState === undefined),
       map((routingData) => {
         const owner = this.createOwnerFromRouterState(routingData);
-
+        const semanticRoute = routingData.state?.semanticRoute;
         const routerData: ConfiguratorRouter.Data = {
           owner: owner,
           isOwnerCartEntry:
@@ -36,11 +36,11 @@ export class ConfiguratorRouterExtractorService {
           resolveIssues:
             routingData.state.queryParams?.resolveIssues === 'true',
           forceReload: routingData.state?.queryParams?.forceReload === 'true',
-          pageType: routingData.state.semanticRoute.includes(
-            this.ROUTE_FRAGMENT_OVERVIEW
-          )
-            ? ConfiguratorRouter.PageType.OVERVIEW
-            : ConfiguratorRouter.PageType.CONFIGURATION,
+          pageType:
+            semanticRoute &&
+            semanticRoute.includes(this.ROUTE_FRAGMENT_OVERVIEW)
+              ? ConfiguratorRouter.PageType.OVERVIEW
+              : ConfiguratorRouter.PageType.CONFIGURATION,
         };
 
         return routerData;
@@ -63,7 +63,7 @@ export class ConfiguratorRouterExtractorService {
       owner.id = params.rootProduct;
     }
     const configuratorType = this.getConfiguratorTypeFromSemanticRoute(
-      routerState.state.semanticRoute
+      routerState.state?.semanticRoute
     );
     owner.configuratorType = configuratorType;
     this.configUtilsService.setOwnerKey(owner);
@@ -78,14 +78,18 @@ export class ConfiguratorRouterExtractorService {
    * @returns Configurator type
    */
   protected getConfiguratorTypeFromSemanticRoute(
-    semanticRoute: string
+    semanticRoute: string | undefined
   ): string {
-    let configuratorType: string;
-    if (semanticRoute.startsWith(this.ROUTE_FRAGMENT_OVERVIEW)) {
-      configuratorType = semanticRoute.split(this.ROUTE_FRAGMENT_OVERVIEW)[1];
-    } else if (semanticRoute.startsWith(this.ROUTE_FRAGMENT_CONFIGURE)) {
-      configuratorType = semanticRoute.split(this.ROUTE_FRAGMENT_CONFIGURE)[1];
+    if (!semanticRoute) {
+      throw new Error('Semantic route must be defined');
     }
-    return configuratorType;
+
+    if (semanticRoute.startsWith(this.ROUTE_FRAGMENT_OVERVIEW)) {
+      return semanticRoute.split(this.ROUTE_FRAGMENT_OVERVIEW)[1];
+    } else if (semanticRoute.startsWith(this.ROUTE_FRAGMENT_CONFIGURE)) {
+      return semanticRoute.split(this.ROUTE_FRAGMENT_CONFIGURE)[1];
+    } else {
+      throw new Error('Not able to detemine configurator type');
+    }
   }
 }
