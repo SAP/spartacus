@@ -1,7 +1,8 @@
 import { Component, Optional } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { OrderEntry } from '@spartacus/core';
 import { CartItemContext, ICON_TYPE } from '@spartacus/storefront';
-import { EMPTY } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 
 @Component({
@@ -17,9 +18,12 @@ export class ConfiguratorIssuesNotificationComponent {
     @Optional() protected cartItemContext?: CartItemContext
   ) {}
 
-  readonly orderEntry$ = this.cartItemContext?.item$ ?? EMPTY;
-  readonly quantityControl$ = this.cartItemContext?.quantityControl$ ?? EMPTY;
-  readonly readonly$ = this.cartItemContext?.readonly$ ?? EMPTY;
+  readonly orderEntry$: Observable<OrderEntry> =
+    this.cartItemContext?.item$ ?? EMPTY;
+  readonly quantityControl$: Observable<FormControl> =
+    this.cartItemContext?.quantityControl$ ?? EMPTY;
+  readonly readonly$: Observable<boolean> =
+    this.cartItemContext?.readonly$ ?? EMPTY;
 
   /**
    * Verifies whether the item has any issues.

@@ -1,7 +1,8 @@
 import { Component, Optional } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { OrderEntry } from '@spartacus/core';
 import { CartItemContext } from '@spartacus/storefront';
-import { EMPTY } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-configurator-cart-entry-info',
@@ -13,9 +14,12 @@ export class ConfiguratorCartEntryInfoComponent {
     @Optional() protected cartItemContext?: CartItemContext
   ) {}
 
-  readonly orderEntry$ = this.cartItemContext?.item$ ?? EMPTY;
-  readonly quantityControl$ = this.cartItemContext?.quantityControl$ ?? EMPTY;
-  readonly readonly$ = this.cartItemContext?.readonly$ ?? EMPTY;
+  readonly orderEntry$: Observable<OrderEntry> =
+    this.cartItemContext?.item$ ?? EMPTY;
+  readonly quantityControl$: Observable<FormControl> =
+    this.cartItemContext?.quantityControl$ ?? EMPTY;
+  readonly readonly$: Observable<boolean> =
+    this.cartItemContext?.readonly$ ?? EMPTY;
 
   /**
    * Verifies whether the configuration infos have any entries and the first entry has a status.
