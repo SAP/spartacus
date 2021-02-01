@@ -7,5 +7,5 @@ export const bulkPricingTranslations: TranslationResources = {
 
 // expose all translation chunk mapping for bulkPricing feature
 export const bulkPricingTranslationChunksConfig: TranslationChunksConfig = {
-  bulkPricing: ['bulkPricing'],
+  bulkPricing: ['bulkPricingTable'],
 };

@@ -20,10 +20,10 @@ export class BulkPricesService {
     );
   }
 
-  private convert(productPriceScope: Product): BulkPrice[] {
+  protected convert(productPriceScope: Product): BulkPrice[] {
     let bulkPrices = [];
 
-    if (productPriceScope && productPriceScope !== {}) {
+    if (productPriceScope) {
       const basePrice = productPriceScope.price?.value;
       const volumePrices = productPriceScope.volumePrices;
 
@@ -35,7 +35,7 @@ export class BulkPricesService {
     return bulkPrices;
   }
 
-  private parsePrice(priceTier: Price, basePrice: number): BulkPrice {
+  protected parsePrice(priceTier: Price, basePrice: number): BulkPrice {
     const bulkPriceTemplate: BulkPrice = {
       currencyIso: priceTier.currencyIso,
       formattedValue: priceTier.formattedValue,
@@ -50,7 +50,7 @@ export class BulkPricesService {
     return this.calculateDiscount(bulkPriceTemplate, basePrice);
   }
 
-  private calculateDiscount(
+  protected calculateDiscount(
     bulkPriceTemplate: BulkPrice,
     basePrice: number
   ): BulkPrice {
