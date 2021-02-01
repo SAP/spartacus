@@ -59,7 +59,7 @@ function setupWithCurrentProductService(useCurrentProductServiceOnly: boolean) {
         ProductListItemContextSource,
         {
           provide: ProductListItemContext,
-          useClass: ProductListItemContextSource,
+          useExisting: ProductListItemContextSource,
         },
         {
           provide: CurrentProductService,
