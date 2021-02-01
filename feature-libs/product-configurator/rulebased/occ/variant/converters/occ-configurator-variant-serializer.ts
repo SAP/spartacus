@@ -96,7 +96,7 @@ export class OccConfiguratorVariantSerializer
     }
   }
 
-  convertValue(
+  protected convertValue(
     value: Configurator.Value | undefined,
     values: OccConfigurator.Value[] | undefined
   ) {
@@ -110,7 +110,7 @@ export class OccConfiguratorVariantSerializer
     }
   }
 
-  convertCharacteristicType(
+  protected convertCharacteristicType(
     type: Configurator.UiType | undefined
   ): OccConfigurator.UiType {
     let uiType: OccConfigurator.UiType;
@@ -158,7 +158,7 @@ export class OccConfiguratorVariantSerializer
     return uiType;
   }
 
-  convertGroupType(
+  protected convertGroupType(
     groupType: Configurator.GroupType | undefined
   ): OccConfigurator.GroupType {
     if (groupType) {
