@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Injector,
   Input,
   Pipe,
   PipeTransform,
@@ -13,9 +14,11 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
-import { ProductListItemContext } from '../model/product-list-item.context';
+import {
+  ProductListItemContext,
+  ProductListItemContextSource,
+} from '../model/product-list-item.context';
 import { ProductListItemComponent } from './product-list-item.component';
-
 @Component({
   selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>',
@@ -71,6 +74,7 @@ class MockProductService {}
 
 describe('ProductListItemComponent in product-list', () => {
   let component: ProductListItemComponent;
+  let componentInjector: Injector;
   let fixture: ComponentFixture<ProductListItemComponent>;
 
   const mockProduct = {
@@ -118,9 +122,6 @@ describe('ProductListItemComponent in product-list', () => {
         .overrideComponent(ProductListItemComponent, {
           set: { changeDetection: ChangeDetectionStrategy.Default },
         })
-        .overrideComponent(ProductListItemComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
         .compileComponents();
     })
   );
@@ -128,6 +129,7 @@ describe('ProductListItemComponent in product-list', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductListItemComponent);
     component = fixture.componentInstance;
+    componentInjector = fixture.debugElement.injector;
 
     component.product = mockProduct;
 
@@ -207,10 +209,21 @@ describe('ProductListItemComponent in product-list', () => {
     expect(component['productListItemContextSource']).toBeDefined();
   });
 
-  it('should transmit product through the item context', (done) => {
-    const productListItemContext: ProductListItemContext =
-      component['productListItemContextSource'];
-    productListItemContext.product$.subscribe((product) => {
+  it('should provide ProductListItemContextSource', () => {
+    expect(componentInjector.get(ProductListItemContextSource)).toBeTruthy();
+  });
+
+  it('should provide ProductListItemContext', () => {
+    expect(componentInjector.get(ProductListItemContext)).toBe(
+      componentInjector.get(ProductListItemContextSource)
+    );
+  });
+
+  it('should transmit product through the item context on ngOnChanges', (done) => {
+    const contextSource: ProductListItemContextSource = componentInjector.get(ProductListItemContextSource);
+    spyOn(contextSource._product$, 'next');
+    component.ngOnChanges();
+    contextSource.product$.subscribe((product) => {
       expect(product).toBe(mockProduct);
       done();
     });

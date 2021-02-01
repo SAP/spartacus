@@ -2,6 +2,7 @@ import {
   Component,
   DebugElement,
   Directive,
+  Injector,
   Input,
   Pipe,
   PipeTransform,
@@ -102,6 +103,7 @@ class MockPromotionService {
 
 describe('CartItemComponent', () => {
   let cartItemComponent: CartItemComponent;
+  let componentInjector: Injector;
   let fixture: ComponentFixture<CartItemComponent>;
   let el: DebugElement;
 
@@ -144,6 +146,8 @@ describe('CartItemComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CartItemComponent);
     cartItemComponent = fixture.componentInstance;
+    componentInjector = fixture.debugElement.injector;
+
     cartItemComponent.item = {
       product: mockProduct,
       updateable: true,
@@ -160,12 +164,12 @@ describe('CartItemComponent', () => {
   });
 
   it('should provide locally CartItemContextSource', () => {
-    expect(TestBed.inject(CartItemContextSource)).toBeTruthy();
+    expect(componentInjector.get(CartItemContextSource)).toBeTruthy();
   });
 
   it('should provide locally CartItemContext', () => {
-    expect(TestBed.inject(CartItemContext)).toBe(
-      TestBed.inject(CartItemContextSource)
+    expect(componentInjector.get(CartItemContext)).toBe(
+      componentInjector.get(CartItemContextSource)
     );
   });
 
@@ -173,7 +177,7 @@ describe('CartItemComponent', () => {
     let cartItemContextSource: CartItemContextSource;
 
     beforeEach(() => {
-      cartItemContextSource = TestBed.inject(CartItemContextSource);
+      cartItemContextSource = componentInjector.get(CartItemContextSource);
     });
 
     it('should push "compact" to context', () => {
