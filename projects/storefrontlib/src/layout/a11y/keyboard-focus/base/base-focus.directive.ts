@@ -4,7 +4,6 @@ import {
   HostBinding,
   Input,
   OnInit,
-  AfterViewInit,
 } from '@angular/core';
 import { BaseFocusConfig } from '../keyboard-focus.model';
 import { BaseFocusService } from './base-focus.service';
@@ -20,7 +19,7 @@ import { BaseFocusService } from './base-focus.service';
  * - Lock Focus
  */
 @Directive()
-export abstract class BaseFocusDirective implements OnInit, AfterViewInit {
+export abstract class BaseFocusDirective implements OnInit {
   /**
    * Optional configuration for the focus directive drives the behaviour of the keyboard
    * focus directive.
@@ -39,14 +38,10 @@ export abstract class BaseFocusDirective implements OnInit, AfterViewInit {
     protected elementRef: ElementRef<HTMLElement>,
     protected service: BaseFocusService
   ) {}
+
   ngOnInit(): void {
     this.setDefaultConfiguration();
-  }
-  ngAfterViewInit(): void {
-    /* to avoid unit test error:
-    Failed: ExpressionChangedAfterItHasBeenCheckedError: Expression has changed after it was checked
-    */
-    setTimeout(() => (this.requiredTabindex = -1), 0);
+    this.requiredTabindex = -1;
   }
 
   /**

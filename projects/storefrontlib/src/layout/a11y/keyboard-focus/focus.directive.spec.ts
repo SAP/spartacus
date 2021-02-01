@@ -47,7 +47,6 @@ describe('FocusDirective', () => {
   it('should default tabindex to -1', () => {
     const el: HTMLElement = fixture.debugElement.query(By.css('#a'))
       .nativeElement;
-    fixture.detectChanges();
-    setTimeout(() => expect(el.getAttribute('tabindex')).toEqual('-1'), 0);
+    expect(el.getAttribute('tabindex')).toEqual('-1');
   });
 });
