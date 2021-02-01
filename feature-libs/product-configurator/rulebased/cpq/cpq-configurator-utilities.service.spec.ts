@@ -155,7 +155,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       cpqAttr.values[0],
       cpqAttr
     );
-    expect(quantity).toBeNull;
+    expect(quantity).toBeNull();
   });
 
   it('should prepare quantity for Radiobutton attribute with quantity on value level', () => {
@@ -171,7 +171,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       cpqAttr.values[0],
       cpqAttr
     );
-    expect(quantity).toBeNull;
+    expect(quantity).toBeNull();
   });
 
   it('should retrieve quantity null for attribute without quantity', () => {
