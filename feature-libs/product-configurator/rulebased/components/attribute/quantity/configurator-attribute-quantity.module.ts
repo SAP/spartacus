@@ -5,7 +5,7 @@ import { ItemCounterModule } from '@spartacus/storefront';
 import {
   ConfiguratorUIConfig,
   DefaultConfiguratorUIConfig,
-} from '../../config';
+} from '../../config/configurator-ui-config';
 import { ConfiguratorAttributeQuantityComponent } from './configurator-attribute-quantity.component';
 
 @NgModule({
