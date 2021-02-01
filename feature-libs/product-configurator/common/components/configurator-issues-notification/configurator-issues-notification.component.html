@@ -1,5 +1,5 @@
 <ng-container *ngIf="orderEntry$ | async as orderEntry">
-  <ng-container *ngIf="hasIssues(orderEntry && !(readonly$ | async))">
+  <ng-container *ngIf="hasIssues(orderEntry) && !(readonly$ | async)">
     <cx-icon [type]="iconTypes.ERROR"></cx-icon>
     <div class="cx-error-msg">
       {{
