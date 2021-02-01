@@ -10,7 +10,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { Subscription, timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
-import { ConfiguratorUIConfig } from '../../config';
+import { ConfiguratorUIConfig } from '../../config/configurator-ui-config';
 
 interface Quantity {
   quantity: number;

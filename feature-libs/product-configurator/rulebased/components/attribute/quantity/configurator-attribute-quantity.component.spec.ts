@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { ItemCounterComponent } from '@spartacus/storefront';
-import { ConfiguratorUIConfig } from '../../config';
+import { ConfiguratorUIConfig } from '../../config/configurator-ui-config';
 import { ConfiguratorAttributeQuantityComponent } from './configurator-attribute-quantity.component';
 
 describe(' ConfiguratorAttributeQuantityComponent', () => {
