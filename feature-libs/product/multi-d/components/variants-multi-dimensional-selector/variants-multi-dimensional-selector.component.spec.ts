@@ -11,6 +11,7 @@ import { NavigationExtras } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { MediaModule } from 'projects/storefrontlib/src/shared';
 import { VariantsMultiDimensionalSelectorComponent } from './variants-multi-dimensional-selector.component';
+import { ProductScope } from '@spartacus/product/multi-d/core';
 
 const mockProduct: Product = {
   baseProduct: 'baseProduct1',
@@ -271,8 +272,8 @@ class MockProductService implements Partial<ProductService> {
     return of(prepareMockProductBasedOnCode(code));
   }
 }
-// TODO: remove fdescribe when work is done for this component
-fdescribe('VariantMultiDimensionalSelectorComponent', () => {
+
+describe('VariantMultiDimensionalSelectorComponent', () => {
   let component: VariantsMultiDimensionalSelectorComponent;
   let fixture: ComponentFixture<VariantsMultiDimensionalSelectorComponent>;
   let productService: ProductService;
@@ -294,6 +295,7 @@ fdescribe('VariantMultiDimensionalSelectorComponent', () => {
       productService = TestBed.inject(ProductService);
     })
   );
+
   beforeEach(() => {
     fixture = TestBed.createComponent(
       VariantsMultiDimensionalSelectorComponent
@@ -302,33 +304,42 @@ fdescribe('VariantMultiDimensionalSelectorComponent', () => {
     component.product = mockProduct;
     fixture.detectChanges();
   });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
   it('should get product based on passed product code', () => {
     spyOn(productService, 'get').and.callThrough();
     spyOn(component, 'changeVariant').and.callThrough();
     component.changeVariant('code_1');
     expect(component.changeVariant).toHaveBeenCalled();
-    expect(productService.get).toHaveBeenCalledWith('code_1', 'variants');
+    expect(productService.get).toHaveBeenCalledWith(
+      'code_1',
+      ProductScope.VARIANTS_MULTIDIMENSIONAL
+    );
   });
+
   it('should process product variant matrix and set variants for display', () => {
     component.changeVariant('code_1');
     fixture.detectChanges();
     expect(component.variants.length).toEqual(mockProduct.categories.length);
   });
+
   it('should render proper count of media variant based on provided variantsMatrix in product', () => {
     const selectElements = fixture.debugElement.nativeElement.querySelectorAll(
       '.variant-generic-selector .image-variant-container'
     );
     expect(selectElements.length).toEqual(1);
   });
+
   it('should render proper count of select based on provided variantsMatrix in product', () => {
     const selectElements = fixture.debugElement.nativeElement.querySelectorAll(
       '.select-variant-container select'
     );
     expect(selectElements.length).toEqual(2);
   });
+
   it('should go to PDP when new variant selected', () => {
     spyOn(routingService, 'go').and.callThrough();
     const selectElements = fixture.debugElement.nativeElement.querySelectorAll(
@@ -344,6 +355,7 @@ fdescribe('VariantMultiDimensionalSelectorComponent', () => {
       params: prepareMockProductBasedOnCode(selectedOptionValue),
     });
   });
+
   describe('when variant array', () => {
     it('contain hasImage flag it should return true', () => {
       expect(component.variantHasImages(component.variants[0])).toEqual(true);

@@ -10,7 +10,6 @@ import {
   ProductScope,
   ProductService,
   SemanticPathService,
-  VariantOption,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
@@ -18,7 +17,7 @@ import { filter, switchMap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class ProductVariantGuard implements CanActivate {
+export class VariantsMultiDimensionalGuard implements CanActivate {
   constructor(
     protected productService: ProductService,
     protected semanticPathService: SemanticPathService,
@@ -57,12 +56,5 @@ export class ProductVariantGuard implements CanActivate {
         }
       })
     );
-  }
-
-  findVariant(variants: VariantOption[]): VariantOption {
-    const results: VariantOption[] = variants.filter((variant) => {
-      return variant.stock && variant.stock.stockLevel ? variant : false;
-    });
-    return !results.length && variants.length ? variants[0] : results[0];
   }
 }

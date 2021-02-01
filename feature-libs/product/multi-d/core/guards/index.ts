@@ -1,1 +1,1 @@
-export * from './product-variant.guard';
+export * from './variants-multi-dimensional.guard';
