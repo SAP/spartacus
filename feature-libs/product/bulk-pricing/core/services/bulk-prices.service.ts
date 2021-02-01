@@ -8,7 +8,7 @@ import { BulkPrice } from '../../core/model/bulk-price.model';
   providedIn: 'root',
 })
 export class BulkPricesService {
-  protected readonly PRODUCT_SCOPE = ProductScope.PRICES;
+  protected readonly PRODUCT_SCOPE = ProductScope.BULK_PRICES;
 
   constructor(private productService: ProductService) {}
 
