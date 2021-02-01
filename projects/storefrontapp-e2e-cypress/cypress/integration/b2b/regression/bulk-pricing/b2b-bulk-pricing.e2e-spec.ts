@@ -11,6 +11,11 @@ describe('B2B - Bulk Pricing', () => {
       bulkPricingActions.checkTableData();
     });
 
+    it('should checkout using the proper bulk price based on quantity', () => {
+      bulkPricingActions.visitProductWithBulkPrices();
+      bulkPricingActions.preformCheckoutWithCorrectPrice();
+    });
+
     it('should NOT render pricing table for products that DO NOT contain bulk prices', () => {
       bulkPricingActions.visitProductWithNoBulkPrices();
       bulkPricingActions.checkNoTableRendered();
