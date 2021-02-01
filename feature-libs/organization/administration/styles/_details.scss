@@ -21,8 +21,12 @@
 
       margin-bottom: 30px;
     }
-    .icon {
-      color: #289eda;
+    .messages {
+      display: flex;
+    }
+    .icon-info {
+      color: var(--cx-color, var(--cx-color-info));
+      display: contents;
     }
 
     label,
