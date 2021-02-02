@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { WindowRef } from '../../window/window-ref';
 import { SemanticPathService } from '../configurable-routes/url-translation/semantic-path.service';
 import { UrlCommands } from '../configurable-routes/url-translation/url-command';
@@ -87,8 +87,9 @@ export class RoutingService {
    * The absolute URL uses the origin of the current location.
    */
   getUrl(commands: UrlCommands): string {
+    // TODO(#10467): Remove the warning as soon as the router becomes mandatory
     if (!this.router) {
-      throwError('no router available to create the url tree');
+      console.warn('No router injected to create the url tree');
       return;
     }
     let url = this.winRef.document.location.origin;
