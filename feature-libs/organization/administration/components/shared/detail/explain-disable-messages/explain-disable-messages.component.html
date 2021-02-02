@@ -1,0 +1,22 @@
+<!-- <ng-container *ngIf="current$ | async as item"> -->
+<section
+  class="details"
+  *ngIf="(current$ | async as item) || !(current$ | async)?.active"
+>
+  <!-- <div class="messages"> -->
+  <cx-icon class="icon-info" [type]="iconTypes.INFO"></cx-icon>
+  <ul>
+    <li>{{ i18nRoot + '.messages.enableEdit' | cxTranslate }}</li>
+    <li *ngIf="isParentDisabled(item)">
+      {{ i18nRoot + '.messages.enableParent' | cxTranslate }}
+    </li>
+  </ul>
+  <!-- </div> -->
+  <!-- <ng-template #enableEdit>
+    <div class="property">
+      <cx-icon class="icon-info" [type]="iconTypes.INFO"></cx-icon>
+      <span>{{ i18nRoot + '.messages.enableEdit' | cxTranslate }}</span>
+    </div>
+  </ng-template> -->
+</section>
+<!-- </ng-container> -->

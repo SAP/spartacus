@@ -5,11 +5,11 @@ import { ItemService } from '../../item.service';
 import { BaseItem } from '../../organization.model';
 
 @Component({
-  selector: 'cx-edit-enable-message',
-  templateUrl: './edit-enable-message.component.html',
+  selector: 'cx-explain-disable-messages',
+  templateUrl: './explain-disable-messages.component.html',
   host: { class: 'content-wrapper' },
 })
-export class EditEnableMessageComponent<T extends BaseItem> {
+export class ExplainDisableMessagesComponent<T extends BaseItem> {
   /**
    * The disabled state is calculated but can be provided as well.
    */
@@ -31,7 +31,7 @@ export class EditEnableMessageComponent<T extends BaseItem> {
   constructor(protected itemService: ItemService<T>) {}
   iconTypes = ICON_TYPE;
 
-  isDisabled(item: T): boolean {
+  isParentDisabled(item: T): boolean {
     return (
       this.disabled ??
       !(item.orgUnit || (item as any).unit || (item as any).parentOrgUnit)
