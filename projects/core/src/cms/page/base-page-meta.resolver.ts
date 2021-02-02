@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, defer, Observable, of } from 'rxjs';
+import { combineLatest, defer, Observable } from 'rxjs';
 import { filter, map, shareReplay } from 'rxjs/operators';
 import { TranslationService } from '../../i18n/translation.service';
 import { WindowRef } from '../../window/window-ref';
@@ -80,7 +80,7 @@ export class BasePageMetaResolver
     options?: CanonicalUrlOptions,
     url?: string
   ): Observable<string> {
-    return of(this.buildCanonicalUrl(options, url));
+    return this.page$.pipe(map(() => this.buildCanonicalUrl(options, url)));
   }
 
   protected buildCanonicalUrl(
