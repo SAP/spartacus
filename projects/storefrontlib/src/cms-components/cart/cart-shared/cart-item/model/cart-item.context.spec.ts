@@ -15,52 +15,52 @@ describe('CartItemContextSource', () => {
     contextSource = TestBed.inject(CartItemContextSource);
   });
 
-  it('should transmit compact', (done) => {
-    contextSource._compact$.next(true);
+  it('should replay latest value of "compact"', (done) => {
+    contextSource.compact$.next(true);
     contextSource.compact$.subscribe((value) => {
       expect(value).toBe(true);
       done();
     });
   });
 
-  it('should transmit readonly', (done) => {
-    contextSource._readonly$.next(false);
+  it('should replay latest value of "readonly"', (done) => {
+    contextSource.readonly$.next(false);
     contextSource.readonly$.subscribe((value) => {
       expect(value).toBe(false);
       done();
     });
   });
 
-  it('should transmit item', (done) => {
+  it('should replay latest value of "item"', (done) => {
     const item: OrderEntry = { orderCode: '123' };
-    contextSource._item$.next(item);
+    contextSource.item$.next(item);
     contextSource.item$.subscribe((value) => {
       expect(value).toBe(item);
       done();
     });
   });
 
-  it('should transmit quantityControl', (done) => {
+  it('should replay latest value of "quantityControl"', (done) => {
     const quantityControl = new FormControl();
-    contextSource._quantityControl$.next(quantityControl);
-    contextSource._quantityControl$.subscribe((value) => {
+    contextSource.quantityControl$.next(quantityControl);
+    contextSource.quantityControl$.subscribe((value) => {
       expect(value).toBe(quantityControl);
       done();
     });
   });
 
-  it('should transmit promotionLocation', (done) => {
+  it('should replay latest value of "promotionLocation"', (done) => {
     const promotionLocation: PromotionLocation = PromotionLocation.Order;
-    contextSource._promotionLocation$.next(promotionLocation);
+    contextSource.promotionLocation$.next(promotionLocation);
     contextSource.promotionLocation$.subscribe((value) => {
       expect(value).toBe(promotionLocation);
       done();
     });
   });
 
-  it('should transmit options', (done) => {
+  it('should replay latest value of "options"', (done) => {
     const options: CartItemComponentOptions = { isSaveForLater: true };
-    contextSource._options$.next(options);
+    contextSource.options$.next(options);
     contextSource.options$.subscribe((value) => {
       expect(value).toBe(options);
       done();

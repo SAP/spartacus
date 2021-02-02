@@ -13,9 +13,9 @@ describe('ProductListItemContextSource', () => {
     contextSource = TestBed.inject(ProductListItemContextSource);
   });
 
-  it('should transmit product', (done) => {
+  it('should replay latest value of "product"', (done) => {
     const mockProduct: Product = { name: 'Test product' };
-    contextSource._product$.next(mockProduct);
+    contextSource.product$.next(mockProduct);
     contextSource.product$.subscribe((product) => {
       expect(product).toBe(mockProduct);
       done();

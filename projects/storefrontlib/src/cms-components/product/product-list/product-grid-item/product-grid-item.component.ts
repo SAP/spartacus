@@ -4,6 +4,7 @@ import {
   Input,
   OnChanges,
   Optional,
+  SimpleChanges,
 } from '@angular/core';
 import { ProductListOutlets } from '../../product-outlets.model';
 import {
@@ -39,7 +40,9 @@ export class ProductGridItemComponent implements OnChanges {
     protected productListItemContextSource?: ProductListItemContextSource
   ) {}
 
-  ngOnChanges(): void {
-    this.productListItemContextSource?._product$.next(this.product);
+  ngOnChanges(changes?: SimpleChanges): void {
+    if (changes?.product) {
+      this.productListItemContextSource?.product$.next(this.product);
+    }
   }
 }

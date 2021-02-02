@@ -5,6 +5,7 @@ import {
   Input,
   Pipe,
   PipeTransform,
+  SimpleChange,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -133,7 +134,7 @@ describe('ProductListItemComponent in product-list', () => {
 
     component.product = mockProduct;
 
-    component.ngOnChanges();
+    component.ngOnChanges({});
     fixture.detectChanges();
   });
 
@@ -219,13 +220,14 @@ describe('ProductListItemComponent in product-list', () => {
     );
   });
 
-  it('should transmit product through the item context on ngOnChanges', (done) => {
-    const contextSource: ProductListItemContextSource = componentInjector.get(ProductListItemContextSource);
-    spyOn(contextSource._product$, 'next');
+  it('should push "product" to context', () => {
+    const contextSource: ProductListItemContextSource = componentInjector.get(
+      ProductListItemContextSource
+    );
+    spyOn(contextSource.product$, 'next');
     component.ngOnChanges();
-    contextSource.product$.subscribe((product) => {
-      expect(product).toBe(mockProduct);
-      done();
-    });
+    expect(contextSource.product$.next).not.toHaveBeenCalled();
+    component.ngOnChanges({ product: {} as SimpleChange });
+    expect(contextSource.product$.next).toHaveBeenCalledWith(mockProduct);
   });
 });

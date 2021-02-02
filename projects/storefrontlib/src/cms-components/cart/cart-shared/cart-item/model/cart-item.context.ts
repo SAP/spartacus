@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { OrderEntry, PromotionLocation } from '@spartacus/core';
 import { Observable, ReplaySubject } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
 import { CartItemComponentOptions } from '../cart-item.component';
 
 /**
@@ -25,25 +24,10 @@ export abstract class CartItemContext {
  */
 @Injectable()
 export class CartItemContextSource implements CartItemContext {
-  readonly _compact$ = new ReplaySubject<boolean>(1);
-  readonly compact$ = this._compact$.pipe(distinctUntilChanged());
-
-  readonly _readonly$ = new ReplaySubject<boolean>(1);
-  readonly readonly$ = this._readonly$.pipe(distinctUntilChanged());
-
-  readonly _item$ = new ReplaySubject<OrderEntry>(1);
-  readonly item$ = this._item$.pipe(distinctUntilChanged());
-
-  readonly _quantityControl$ = new ReplaySubject<FormControl>(1);
-  readonly quantityControl$ = this._quantityControl$.pipe(
-    distinctUntilChanged()
-  );
-
-  readonly _promotionLocation$ = new ReplaySubject<PromotionLocation>(1);
-  readonly promotionLocation$ = this._promotionLocation$.pipe(
-    distinctUntilChanged()
-  );
-
-  readonly _options$ = new ReplaySubject<CartItemComponentOptions>(1);
-  readonly options$ = this._options$.pipe(distinctUntilChanged());
+  readonly compact$ = new ReplaySubject<boolean>(1);
+  readonly readonly$ = new ReplaySubject<boolean>(1);
+  readonly item$ = new ReplaySubject<OrderEntry>(1);
+  readonly quantityControl$ = new ReplaySubject<FormControl>(1);
+  readonly promotionLocation$ = new ReplaySubject<PromotionLocation>(1);
+  readonly options$ = new ReplaySubject<CartItemComponentOptions>(1);
 }

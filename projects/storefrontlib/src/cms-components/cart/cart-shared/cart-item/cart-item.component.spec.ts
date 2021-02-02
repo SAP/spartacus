@@ -6,6 +6,7 @@ import {
   Input,
   Pipe,
   PipeTransform,
+  SimpleChange,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
@@ -181,55 +182,71 @@ describe('CartItemComponent', () => {
     });
 
     it('should push "compact" to context', () => {
-      spyOn(cartItemContextSource._compact$, 'next');
+      spyOn(cartItemContextSource.compact$, 'next');
       cartItemComponent.compact = true;
       cartItemComponent.ngOnChanges();
-      expect(cartItemContextSource._compact$.next).toHaveBeenCalledWith(
+      expect(cartItemContextSource.compact$.next).not.toHaveBeenCalled();
+      cartItemComponent.ngOnChanges({ compact: {} as SimpleChange });
+      expect(cartItemContextSource.compact$.next).toHaveBeenCalledWith(
         cartItemComponent.compact
       );
     });
 
     it('should push "readonly" to context', () => {
-      spyOn(cartItemContextSource._readonly$, 'next');
+      spyOn(cartItemContextSource.readonly$, 'next');
       cartItemComponent.readonly = true;
       cartItemComponent.ngOnChanges();
-      expect(cartItemContextSource._readonly$.next).toHaveBeenCalledWith(
+      expect(cartItemContextSource.readonly$.next).not.toHaveBeenCalled();
+      cartItemComponent.ngOnChanges({ readonly: {} as SimpleChange });
+      expect(cartItemContextSource.readonly$.next).toHaveBeenCalledWith(
         cartItemComponent.readonly
       );
     });
 
     it('should push "item" to context', () => {
-      spyOn(cartItemContextSource._item$, 'next');
+      spyOn(cartItemContextSource.item$, 'next');
       cartItemComponent.item = { orderCode: '123' };
       cartItemComponent.ngOnChanges();
-      expect(cartItemContextSource._item$.next).toHaveBeenCalledWith(
+      expect(cartItemContextSource.item$.next).not.toHaveBeenCalled();
+      cartItemComponent.ngOnChanges({ item: {} as SimpleChange });
+      expect(cartItemContextSource.item$.next).toHaveBeenCalledWith(
         cartItemComponent.item
       );
     });
 
     it('should push "quantityControl" to context', () => {
-      spyOn(cartItemContextSource._quantityControl$, 'next');
+      spyOn(cartItemContextSource.quantityControl$, 'next');
       cartItemComponent.quantityControl = new FormControl(2);
       cartItemComponent.ngOnChanges();
-      expect(cartItemContextSource._quantityControl$.next).toHaveBeenCalledWith(
+      expect(
+        cartItemContextSource.quantityControl$.next
+      ).not.toHaveBeenCalled();
+      cartItemComponent.ngOnChanges({ quantityControl: {} as SimpleChange });
+      expect(cartItemContextSource.quantityControl$.next).toHaveBeenCalledWith(
         cartItemComponent.quantityControl
       );
     });
 
     it('should push "promotionLocation" to context', () => {
-      spyOn(cartItemContextSource._promotionLocation$, 'next');
+      spyOn(cartItemContextSource.promotionLocation$, 'next');
       cartItemComponent.promotionLocation = PromotionLocation.Order;
       cartItemComponent.ngOnChanges();
       expect(
-        cartItemContextSource._promotionLocation$.next
+        cartItemContextSource.promotionLocation$.next
+      ).not.toHaveBeenCalled();
+      cartItemComponent.ngOnChanges({ promotionLocation: {} as SimpleChange });
+      expect(
+        cartItemContextSource.promotionLocation$.next
       ).toHaveBeenCalledWith(cartItemComponent.promotionLocation);
     });
 
     it('should push "options" to context', () => {
-      spyOn(cartItemContextSource._options$, 'next');
+      spyOn(cartItemContextSource.options$, 'next');
       cartItemComponent.options = { isSaveForLater: true };
       cartItemComponent.ngOnChanges();
-      expect(cartItemContextSource._options$.next).toHaveBeenCalledWith(
+      expect(cartItemContextSource.options$.next).not.toHaveBeenCalled();
+      cartItemComponent.ngOnChanges({ options: {} as SimpleChange });
+      expect(cartItemContextSource.options$.next).toHaveBeenCalledWith(
         cartItemComponent.options
       );
     });

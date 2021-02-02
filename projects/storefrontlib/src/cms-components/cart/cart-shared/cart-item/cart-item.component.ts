@@ -1,4 +1,11 @@
-import { Component, Input, OnChanges, OnInit, Optional } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  Optional,
+  SimpleChanges,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import {
   OrderEntry,
@@ -82,15 +89,27 @@ export class CartItemComponent implements OnInit, OnChanges {
     );
   }
 
-  ngOnChanges() {
-    this.cartItemContextSource?._compact$.next(this.compact);
-    this.cartItemContextSource?._readonly$.next(this.readonly);
-    this.cartItemContextSource?._item$.next(this.item);
-    this.cartItemContextSource?._quantityControl$.next(this.quantityControl);
-    this.cartItemContextSource?._promotionLocation$.next(
-      this.promotionLocation
-    );
-    this.cartItemContextSource?._options$.next(this.options);
+  ngOnChanges(changes?: SimpleChanges) {
+    if (changes?.compact) {
+      this.cartItemContextSource?.compact$.next(this.compact);
+    }
+    if (changes?.readonly) {
+      this.cartItemContextSource?.readonly$.next(this.readonly);
+    }
+    if (changes?.item) {
+      this.cartItemContextSource?.item$.next(this.item);
+    }
+    if (changes?.quantityControl) {
+      this.cartItemContextSource?.quantityControl$.next(this.quantityControl);
+    }
+    if (changes?.promotionLocation) {
+      this.cartItemContextSource?.promotionLocation$.next(
+        this.promotionLocation
+      );
+    }
+    if (changes?.options) {
+      this.cartItemContextSource?.options$.next(this.options);
+    }
   }
 
   isProductOutOfStock(product: any) {
