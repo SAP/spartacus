@@ -23,5 +23,5 @@ export const environment: Environment = {
   cds: build.process.env.SPARTACUS_CDS ?? false,
   b2b: build.process.env.SPARTACUS_B2B ?? false,
   cdc: build.process.env.SPARTACUS_CDC ?? false,
-  tms: build.process.env.SPARTACUS_TMS ?? true,
+  tracking: build.process.env.SPARTACUS_TRACKING ?? true,
 };

@@ -4,7 +4,7 @@ import {
   CartRemoveEntrySuccessEvent,
 } from '@spartacus/core';
 import { NavigationEvent } from '@spartacus/storefront';
-import { TmsModule } from '@spartacus/tms';
+import { TmsModule } from '@spartacus/tracking/tms';
 
 @NgModule({
   imports: [
@@ -20,4 +20,4 @@ import { TmsModule } from '@spartacus/tms';
     }),
   ],
 })
-export class TmsFeatureModule {}
+export class TrackingFeatureModule {}

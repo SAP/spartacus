@@ -1,11 +1,12 @@
 {
-  "name": "@spartacus/tms",
+  "name": "@spartacus/tracking",
   "version": "3.0.0",
-  "description": "TMS - Tag management system",
+  "description": "Spartacus tracking and personalization library",
   "keywords": [
     "spartacus",
     "framework",
     "storefront",
+    "tracking",
     "tms",
     "adobe launch",
     "gtm"

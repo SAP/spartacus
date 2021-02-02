@@ -81,7 +81,8 @@
       "@spartacus/storefinder/root": [
         "../../feature-libs/storefinder/root/public_api"
       ],
-      "@spartacus/tms": ["../../feature-libs/tms/public_api"],
+      "@spartacus/tracking": ["../../feature-libs/tracking/public_api"],
+      "@spartacus/tracking/tms": ["../../feature-libs/tracking/tms/public_api"],
       "@spartacus/cdc": ["../../integration-libs/cdc/public_api"],
       "@spartacus/cds": ["../../integration-libs/cds/public_api"],
       "@spartacus/assets": ["../../projects/assets/src/public_api"],

@@ -8,7 +8,7 @@ import { provideConfig, provideDefaultConfig } from '@spartacus/core';
 import { defaultAdobeLaunchConfig } from './config/default-adobe-launch.config';
 import { defaultGoogleTagManagerConfig } from './config/default-gtm.config';
 import { TmsConfig } from './config/tms-config';
-import { TmsService } from './tms.service';
+import { TmsService } from './services/tms.service';
 
 /**
  * The factory that conditionally (based on the configuration) starts collecting events

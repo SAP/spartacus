@@ -2,7 +2,7 @@ import { isPlatformServer } from '@angular/common';
 import { Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { CxEvent, EventService, WindowRef } from '@spartacus/core';
 import { merge, Observable, Subscription } from 'rxjs';
-import { TmsConfig } from './config/tms-config';
+import { TmsConfig } from '../config/tms-config';
 
 /**
  * This service interacts with the configured data layer object by pushing the Spartacus events to it.
