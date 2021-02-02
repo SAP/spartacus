@@ -81,7 +81,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           { provide: LanguageService, useValue: mockLanguageService },
           {
             provide: ConfiguratorUIConfig,
-            useValue: MockConfiguratorUIConfig,
+            useValue: DefaultConfiguratorUIConfig,
           },
         ],
       })
