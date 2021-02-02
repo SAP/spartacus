@@ -26,8 +26,9 @@ export class FocusDirective extends LockFocusDirective implements OnChanges {
     super(elementRef, service, renderer);
   }
 
+  // responsible for refresh focus based on the configured refresh property name
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.shouldAutofocus && !!changes?.config?.currentValue?.refreshFocus) {
+    if (this.shouldAutofocus && !!changes.config.currentValue?.refreshFocus) {
       super.handleFocus();
     }
   }
