@@ -35,8 +35,9 @@ export const orgPurchaseLimit = {
     confirmDisabled: 'Purchase Limit {{ item.code }} disabled successfully',
     update: 'Purchase Limit {{ item.code }} updated successfully',
     create: 'Purchase Limit {{ item.code }} created successfully',
-    disabledEdit: ' Enable the unit to allow editing',
-    disabledParent: ' Parent must be enabled before this unit may be enabled',
+    disabledEdit: 'Enable the purchase limit to allow editing',
+    disabledParent:
+      'Unit must be enabled before this purchase limit may be enabled',
   },
 
   per: {

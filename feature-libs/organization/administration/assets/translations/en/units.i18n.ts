@@ -25,8 +25,8 @@ export const orgUnit = {
     confirmDisabled: 'Unit {{item.name}} disabled successfully',
     update: 'Unit {{ item.name }} updated successfully',
     create: 'Unit {{ item.name }} created successfully',
-    disabledEdit: ' Enable the unit to allow editing',
-    disabledParent: ' Parent must be enabled before this unit may be enabled',
+    disabledEdit: 'Enable the unit to allow editing',
+    disabledParent: 'Parent must be enabled before this unit may be enabled',
   },
 
   links: {
