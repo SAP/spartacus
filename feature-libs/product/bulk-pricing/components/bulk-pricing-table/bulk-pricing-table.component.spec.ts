@@ -69,7 +69,7 @@ describe('BulkPricingTableComponent', () => {
       discount: 20
     };
 
-    it('mockTierWithMaxQuantity', () => {
+    it('should correctly format mockTierWithMaxQuantity', () => {
 
       const expectedFormattedQuantity = '1 - 5';
       const formattedQuantity = component.formatQuantity(mockTierWithMaxQuantity);
@@ -77,7 +77,7 @@ describe('BulkPricingTableComponent', () => {
       expect(formattedQuantity).toBe(expectedFormattedQuantity);
     });
 
-    it('mockTierWithoutMaxQuantity', () => {
+    it('should correctly format mockTierWithoutMaxQuantity', () => {
 
       const expectedFormattedQuantity = '1+';
       const formattedQuantity = component.formatQuantity(mockTierWithoutMaxQuantity);
@@ -87,7 +87,7 @@ describe('BulkPricingTableComponent', () => {
   });
 
   describe('getPrices', () => {
-    it('bla', () => {
+    it('should call getBulkPrices with a right parameter', () => {
       spyOn(bulkPricesService, 'getBulkPrices');
 
       component.getPrices()
