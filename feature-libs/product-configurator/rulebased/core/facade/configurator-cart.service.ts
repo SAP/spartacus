@@ -6,6 +6,7 @@ import {
   OCC_USER_ID_CURRENT,
   StateUtils,
   StateWithMultiCart,
+  UserIdService,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -25,7 +26,8 @@ export class ConfiguratorCartService {
     protected store: Store<StateWithConfigurator>,
     protected activeCartService: ActiveCartService,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    protected checkoutService: CheckoutService
+    protected checkoutService: CheckoutService,
+    protected userIdService: UserIdService
   ) {}
 
   /**
@@ -56,8 +58,8 @@ export class ConfiguratorCartService {
             .requireLoadedCart()
             .pipe(take(1))
             .subscribe((cartState) => {
-              this.commonConfigUtilsService
-                .getUserId(cartState.value)
+              this.userIdService
+                .getUserId()
                 .pipe(take(1))
                 .subscribe((userId) => {
                   const readFromCartEntryParameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
@@ -138,8 +140,8 @@ export class ConfiguratorCartService {
       .requireLoadedCart()
       .pipe(take(1))
       .subscribe((cartState) => {
-        this.commonConfigUtilsService
-          .getUserId(cartState.value)
+        this.userIdService
+          .getUserId()
           .pipe(take(1))
           .subscribe((userId) => {
             const addToCartParameters: Configurator.AddToCartParameters = {
@@ -169,8 +171,8 @@ export class ConfiguratorCartService {
       .requireLoadedCart()
       .pipe(take(1))
       .subscribe((cartState) => {
-        this.commonConfigUtilsService
-          .getUserId(cartState.value)
+        this.userIdService
+          .getUserId()
           .pipe(take(1))
           .subscribe((userId) => {
             const parameters: Configurator.UpdateConfigurationForCartEntryParameters = {

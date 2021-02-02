@@ -2,7 +2,6 @@ import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import {
   Cart,
-  OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
   OrderEntry,
   UserIdService,
@@ -25,12 +24,6 @@ const cartAnonymous: Cart = {
   code: CART_CODE,
   guid: CART_GUID,
   user: { uid: OCC_USER_ID_ANONYMOUS },
-};
-
-const cartNamedUser: Cart = {
-  code: CART_CODE,
-  guid: CART_GUID,
-  user: { uid: OCC_CART_ID_CURRENT },
 };
 
 let cartItem: OrderEntry;
@@ -145,21 +138,6 @@ describe('CommonConfiguratorUtilsService', () => {
         user: { name: 'Ulf Becker', uid: 'ulf.becker@rustic-hw.com' },
       };
       expect(classUnderTest.getCartId(namedCart)).toBe(CART_CODE);
-    });
-  });
-
-  describe('getUserId', () => {
-    it('should return userId anonymous in case maintained in cart', (done) => {
-      classUnderTest.getUserId(cartAnonymous).subscribe((id) => {
-        expect(id).toBe(OCC_USER_ID_ANONYMOUS);
-      });
-      done();
-    });
-    it('should return userId from userIdService in case cart does not belong to anonymous user', (done) => {
-      classUnderTest.getUserId(cartNamedUser).subscribe((id) => {
-        expect(id).toBe(NAMED_USER);
-      });
-      done();
     });
   });
 

@@ -5,8 +5,6 @@ import {
   OrderEntry,
   UserIdService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
 import { OrderEntryStatus } from './../../core/model/common-configurator.model';
 
@@ -70,21 +68,6 @@ export class CommonConfiguratorUtilsService {
    */
   getCartId(cart: Cart): string {
     return cart.user.uid === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code;
-  }
-
-  /**
-   * Gets user assigned to a cart which we can use for OCC requests
-   * @param cart Cart
-   * @returns Observable of user identifier
-   */
-  getUserId(cart: Cart): Observable<string> {
-    return this.userIdService
-      .getUserId()
-      .pipe(
-        map((id) =>
-          cart.user.uid === OCC_USER_ID_ANONYMOUS ? cart.user.uid : id
-        )
-      );
   }
 
   /**

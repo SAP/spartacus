@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { ActiveCartService } from '@spartacus/core';
+import { ActiveCartService, UserIdService } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -19,7 +19,8 @@ export class ConfiguratorTextfieldService {
   constructor(
     protected store: Store<StateWithConfigurationTextfield>,
     protected activeCartService: ActiveCartService,
-    protected configuratorUtils: CommonConfiguratorUtilsService
+    protected configuratorUtils: CommonConfiguratorUtilsService,
+    protected userIdService: UserIdService
   ) {}
 
   /**
@@ -92,8 +93,8 @@ export class ConfiguratorTextfieldService {
       .requireLoadedCart()
       .pipe(take(1))
       .subscribe((cartState) => {
-        this.configuratorUtils
-          .getUserId(cartState.value)
+        this.userIdService
+          .getUserId()
           .pipe(take(1))
           .subscribe((userId) => {
             const addToCartParameters: ConfiguratorTextfield.AddToCartParameters = {
@@ -124,8 +125,8 @@ export class ConfiguratorTextfieldService {
       .requireLoadedCart()
       .pipe(take(1))
       .subscribe((cartState) => {
-        this.configuratorUtils
-          .getUserId(cartState.value)
+        this.userIdService
+          .getUserId()
           .pipe(take(1))
           .subscribe((userId) => {
             const updateCartParameters: ConfiguratorTextfield.UpdateCartEntryParameters = {
@@ -155,8 +156,8 @@ export class ConfiguratorTextfieldService {
   ): Observable<ConfiguratorTextfield.Configuration> {
     return this.activeCartService.requireLoadedCart().pipe(
       switchMap((cartState) =>
-        this.configuratorUtils
-          .getUserId(cartState.value)
+        this.userIdService
+          .getUserId()
           .pipe(
             take(1),
             map((userId) => ({ cartState, userId: userId }))
