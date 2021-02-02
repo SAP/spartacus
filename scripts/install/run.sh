@@ -207,7 +207,7 @@ function install_from_sources {
 
 function build_csr {
     if [ -z "${CSR_PORT}" ]; then
-        echo "Skipping csr app build"
+        echo "Skipping csr app build (No port defined)"
     else
         printh "Building csr app"
         ( cd ${INSTALLATION_DIR}/spartacus && yarn build --prod )
@@ -216,7 +216,7 @@ function build_csr {
 
 function build_ssr {
     if [ -z "${SSR_PORT}" ]; then
-        echo "Skipping ssr app build"
+        echo "Skipping ssr app build (No port defined)"
     else
         printh "Building ssr app"
         ( cd ${INSTALLATION_DIR}/spartacus-ssr && yarn build && yarn build:ssr )
@@ -225,16 +225,16 @@ function build_ssr {
 
 function build_ssr_pwa {
     if [ -z "${SSR_PWA_PORT}" ]; then
-        echo "Skipping ssr app build (with pwa support)"
+        echo "Skipping ssr with PWA app build (No port defined)"
     else
-        printh "Building ssr app (with pwa support)"
+        printh "Building ssr app with PWA"
         ( cd ${INSTALLATION_DIR}/spartacus-ssr-pwa && yarn build && yarn build:ssr )
     fi
 }
 
 function start_csr_unix {
     if [ -z "${CSR_PORT}" ]; then
-        echo "Skipping csr app start"
+        echo "Skipping csr app start (no port defined)"
     else
         build_csr
         printh "Starting csr app"
@@ -244,7 +244,7 @@ function start_csr_unix {
 
 function start_ssr_unix {
      if [ -z "${SSR_PORT}" ]; then
-        echo "Skipping ssr app start"
+        echo "Skipping ssr app start (no port defined)"
     else
         build_ssr
         printh "Starting ssr app"
@@ -254,7 +254,7 @@ function start_ssr_unix {
 
 function start_ssr_pwa_unix {
      if [ -z "${SSR_PWA_PORT}" ]; then
-        echo "Skipping ssr (with pwa support) app start"
+        echo "Skipping ssr (with pwa support) app start (no port defined)"
     else
         build_ssr_pwa
         printh "Starting ssr app (with pwa support)"
