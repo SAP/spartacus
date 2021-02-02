@@ -1054,15 +1054,19 @@ function updateDependenciesVersions(
               packageJson[type][dep] = libraries[dep].version;
               updates.add(pathToPackageJson);
             } else {
-              internalErrors.push(
-                `Dependency \`${chalk.bold(
-                  dep
-                )}\` have different version \`${chalk.bold(
-                  packageJson[type][dep]
-                )}\` than the package in repository \`${chalk.bold(
-                  libraries[dep].version
-                )}\`.`
-              );
+              // Temporary disable check on vendor lib, as we don't publish it.
+              // TODO: Remove workaround for vendor (figure out what we do with the lib)
+              if (packageJson.name !== '@spartacus/vendor') {
+                internalErrors.push(
+                  `Dependency \`${chalk.bold(
+                    dep
+                  )}\` have different version \`${chalk.bold(
+                    packageJson[type][dep]
+                  )}\` than the package in repository \`${chalk.bold(
+                    libraries[dep].version
+                  )}\`.`
+                );
+              }
             }
           }
         } else if (
