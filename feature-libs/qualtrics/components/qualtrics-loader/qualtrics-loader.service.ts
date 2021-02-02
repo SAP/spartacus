@@ -45,9 +45,10 @@ export class QualtricsLoaderService implements OnDestroy {
   /**
    * QSI load event that happens when the QSI JS file is loaded.
    */
-  private qsiLoaded$: Observable<any> = isPlatformBrowser(this.platformId)
-    ? fromEvent(this.window as QualtricsWindow, QUALTRICS_EVENT_NAME)
-    : of();
+  private qsiLoaded$: Observable<any> =
+    isPlatformBrowser(this.platformId) && this.window
+      ? fromEvent(this.window, QUALTRICS_EVENT_NAME)
+      : of();
 
   /**
    * Emits the Qualtrics Site Intercept (QSI) JavaScript API whenever available.
@@ -58,12 +59,12 @@ export class QualtricsLoaderService implements OnDestroy {
   protected qsi$: Observable<any> = this.qsiLoaded$.pipe(
     switchMap(() => this.isDataLoaded()),
     map((dataLoaded: boolean) => (dataLoaded ? this.window?.QSI : EMPTY)),
-    filter((api: any) => Boolean(api)),
+    filter((qsi: any) => Boolean(qsi)),
     tap((qsi: any) => (this.qsiApi = qsi))
   );
 
   get window(): QualtricsWindow | undefined {
-    return this.winRef?.nativeWindow;
+    return this.winRef.nativeWindow;
   }
 
   constructor(
