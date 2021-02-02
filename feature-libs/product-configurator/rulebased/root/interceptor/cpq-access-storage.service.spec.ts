@@ -1,15 +1,23 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  discardPeriodicTasks,
+  fakeAsync,
+  flush,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { AuthService } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
-import { BehaviorSubject, interval, Observable, of, Subject } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { CpqAccessData } from './cpq-access-data.models';
 import { CpqAccessLoaderService } from './cpq-access-loader.service';
 import {
   CpqAccessStorageService,
   CpqConfiguratorTokenConfig,
+  DefaultCpqConfiguratorTokenConfig,
 } from './cpq-access-storage.service';
 import createSpy = jasmine.createSpy;
 
@@ -49,13 +57,8 @@ class AuthServiceMock {
   isUserLoggedIn = createSpy().and.callFake(() => authDataObs);
 }
 
-const TestCpqConfiguratorTokenConfig: CpqConfiguratorTokenConfig = {
-  cpqConfigurator: {
-    tokenExpirationBuffer: 10, // ten ms
-    tokenMaxValidity: 1000, //one second
-    tokenMinValidity: 5, // five ms
-  },
-};
+const TIME_UNTIL_TOKEN_EXPIRES =
+  DefaultCpqConfiguratorTokenConfig.cpqConfigurator.tokenExpirationBuffer * 6; // one minute
 
 describe('CpqAccessStorageService', () => {
   let serviceUnderTest: CpqAccessStorageService;
@@ -72,7 +75,7 @@ describe('CpqAccessStorageService', () => {
           },
           {
             provide: CpqConfiguratorTokenConfig,
-            useValue: TestCpqConfiguratorTokenConfig,
+            useValue: DefaultCpqConfiguratorTokenConfig,
           },
           {
             provide: AuthService,
@@ -88,7 +91,8 @@ describe('CpqAccessStorageService', () => {
         CpqAccessLoaderService as Type<CpqAccessLoaderService>
       );
 
-      accessDataSoonExpiring.accessTokenExpirationTime = Date.now() + 20;
+      accessDataSoonExpiring.accessTokenExpirationTime =
+        Date.now() + TIME_UNTIL_TOKEN_EXPIRES;
 
       accessDataObs = accessDataSubject = new Subject<CpqAccessData>();
       authDataObs = authDataSubject = new BehaviorSubject<Boolean>(true);
@@ -97,8 +101,7 @@ describe('CpqAccessStorageService', () => {
   );
 
   afterEach(() => {
-    authDataSubject.next(false);
-    waitForAsync(() => {}); // Guard to ensure that all aysnc is stopped
+    authDataSubject.next(false); // stops the auto pulling of access data
   });
 
   it('should create service', () => {
@@ -107,7 +110,7 @@ describe('CpqAccessStorageService', () => {
 
   it('should return access data', () => {
     accessDataObs = of(accessData);
-    serviceUnderTest.getCachedCpqAccessData().subscribe((returnedData) => {
+    takeOneCpqAccessData().subscribe((returnedData) => {
       expect(returnedData).toBeDefined();
       expect(returnedData.accessToken).toEqual(accessData.accessToken);
       expect(returnedData.accessTokenExpirationTime).toEqual(
@@ -120,12 +123,12 @@ describe('CpqAccessStorageService', () => {
   it('should cache access data', () => {
     let counter = 0;
     // first request
-    serviceUnderTest.getCachedCpqAccessData().subscribe((returnedData) => {
+    takeOneCpqAccessData().subscribe((returnedData) => {
       expect(returnedData).toBeDefined();
       counter++;
     });
     // second request, while first is in progress ()
-    serviceUnderTest.getCachedCpqAccessData().subscribe((returnedData) => {
+    takeOneCpqAccessData().subscribe((returnedData) => {
       expect(returnedData).toBeDefined();
       counter++;
     });
@@ -133,7 +136,8 @@ describe('CpqAccessStorageService', () => {
     // fullfill first request
     accessDataSubject.next(accessData);
 
-    serviceUnderTest.getCachedCpqAccessData().subscribe((returnedData) => {
+    // thrid request
+    takeOneCpqAccessData().subscribe((returnedData) => {
       expect(returnedData).toBeDefined();
       counter++;
     });
@@ -141,44 +145,37 @@ describe('CpqAccessStorageService', () => {
     expect(counter).toBe(3, '3 consumes should have been called each once');
   });
 
-  it('should transparently fetch new token, when access data has expired', (done) => {
+  it('should transparently fetch new token, when access data has expired', fakeAsync(() => {
     accessDataObs = accessDataSubject = new BehaviorSubject<CpqAccessData>(
       expiredAccessData
     );
     serviceUnderTest.getCachedCpqAccessData().subscribe((returnedData) => {
       expect(returnedData).toBeDefined();
       expect(returnedData).toBe(accessData); //make sure that second/valid token data is returned
-      done();
     });
     accessDataSubject.next(accessData);
-  });
+    discardPeriodicTasks();
+  }));
 
-  it('should do only one additional call when expired token is emitted followed by valid one', (done) => {
-    serviceUnderTest.getCachedCpqAccessData().subscribe();
-    serviceUnderTest.getCachedCpqAccessData().subscribe();
-    serviceUnderTest.getCachedCpqAccessData().subscribe();
-    serviceUnderTest.getCachedCpqAccessData().subscribe();
-    serviceUnderTest.getCachedCpqAccessData().subscribe();
+  it('should do only one additional call when expired token is emitted followed by valid one', fakeAsync(() => {
+    const subscription = serviceUnderTest.getCachedCpqAccessData().subscribe();
+    subscription.add(serviceUnderTest.getCachedCpqAccessData().subscribe());
+    subscription.add(serviceUnderTest.getCachedCpqAccessData().subscribe());
+    subscription.add(serviceUnderTest.getCachedCpqAccessData().subscribe());
     accessDataSubject.next(expiredAccessData);
     accessDataSubject.next(accessData);
-    interval(15)
-      .pipe(take(1))
-      .subscribe(() => {
-        expect(cpqAccessLoaderService.getCpqAccessData).toHaveBeenCalledTimes(
-          2
-        );
-        done();
-      });
-  });
+
+    tick(TIME_UNTIL_TOKEN_EXPIRES);
+    expect(cpqAccessLoaderService.getCpqAccessData).toHaveBeenCalledTimes(2);
+    subscription.unsubscribe();
+    discardPeriodicTasks();
+  }));
 
   it('should accept token that soon expires', (done) => {
-    serviceUnderTest
-      .getCachedCpqAccessData()
-      .pipe(take(1))
-      .subscribe((returnedData) => {
-        expect(returnedData).toBe(accessDataSoonExpiring);
-        done();
-      });
+    takeOneCpqAccessData().subscribe((returnedData) => {
+      expect(returnedData).toBe(accessDataSoonExpiring);
+      done();
+    });
     accessDataSubject.next(accessDataSoonExpiring);
   });
 
@@ -191,122 +188,82 @@ describe('CpqAccessStorageService', () => {
     );
   });
 
-  it('should trigger new call if token expires over time', (done) => {
-    serviceUnderTest
-      .getCachedCpqAccessData()
-      .pipe(take(1))
-      .subscribe((returnedData) => {
-        expect(returnedData).toBe(accessDataSoonExpiring);
-      });
-    interval(20)
-      .pipe(
-        take(1),
-        switchMap(() => serviceUnderTest.getCachedCpqAccessData())
-      )
-      .subscribe((returnedData) => {
-        expect(returnedData).toBe(accessData);
-        done();
-      });
+  it('should trigger new call if token expires over time', fakeAsync(() => {
+    takeOneCpqAccessData().subscribe((returnedData) => {
+      expect(returnedData).toBe(accessDataSoonExpiring);
+    });
     accessDataSubject.next(accessDataSoonExpiring);
-    interval(30)
-      .pipe(take(1))
-      .subscribe(() => {
-        accessDataSubject.next(accessData);
-      });
-  });
 
-  it('should use only one publication for multiple observables after cache refresh', (done) => {
-    serviceUnderTest
-      .getCachedCpqAccessData()
-      .pipe(take(1))
-      .subscribe((returnedData) => {
-        expect(returnedData).toBe(accessDataSoonExpiring);
-      });
-    const existingSubscription = serviceUnderTest.getCachedCpqAccessData();
-    existingSubscription.pipe(take(1)).subscribe((returnedData) => {
+    tick(TIME_UNTIL_TOKEN_EXPIRES);
+    takeOneCpqAccessData().subscribe((returnedData) => {
+      expect(returnedData).toBe(accessData);
+    });
+    accessDataSubject.next(accessData);
+    discardPeriodicTasks();
+  }));
+
+  it('should use only one publication for multiple observables after cache refresh', fakeAsync(() => {
+    takeOneCpqAccessData().subscribe((returnedData) => {
+      expect(returnedData).toBe(accessDataSoonExpiring);
+    });
+    const existingObs = takeOneCpqAccessData();
+    existingObs.subscribe((returnedData) => {
       expect(returnedData).toBe(accessDataSoonExpiring);
       expect(cpqAccessLoaderService.getCpqAccessData).toHaveBeenCalledTimes(1);
     });
-
-    interval(30)
-      .pipe(
-        take(1),
-        switchMap(() => serviceUnderTest.getCachedCpqAccessData())
-      )
-      .subscribe((returnedData) => {
-        expect(returnedData).toBe(accessData);
-        existingSubscription.subscribe((data) => {
-          expect(data).toBe(accessData);
-          //We expect one more call to the backend as token expired
-          expect(cpqAccessLoaderService.getCpqAccessData).toHaveBeenCalledTimes(
-            2
-          );
-          done();
-        });
-      });
-
     accessDataSubject.next(accessDataSoonExpiring);
-    interval(40)
-      .pipe(take(1))
-      .subscribe(() => {
-        accessDataSubject.next(accessData);
-      });
-  });
 
-  it('should cancel refresh of expired token on user log out', (done) => {
-    serviceUnderTest.getCachedCpqAccessData().subscribe((returnedData) => {
-      expect(returnedData).toBe(accessDataSoonExpiring);
-    });
-    accessDataSubject.next(accessDataSoonExpiring);
-    authDataSubject.next(false);
-    interval(30)
-      .pipe(take(1))
-      .subscribe(() => {
-        expect(cpqAccessLoaderService.getCpqAccessData).toHaveBeenCalledTimes(
-          1
-        );
-        done();
-      });
-  });
-
-  it('should fetch new token after logoff/login cycle', (done) => {
-    serviceUnderTest
-      .getCachedCpqAccessData()
-      .pipe(take(1))
-      .subscribe((returnedData) => {
-        expect(returnedData).toBe(accessDataSoonExpiring);
-      });
-    interval(20)
-      .pipe(
-        take(1),
-        switchMap(() => serviceUnderTest.getCachedCpqAccessData())
-      )
-      .subscribe((returnedData) => {
-        expect(returnedData).toBe(anotherAccessData);
+    tick(TIME_UNTIL_TOKEN_EXPIRES);
+    takeOneCpqAccessData().subscribe((returnedData) => {
+      expect(returnedData).toBe(accessData);
+      existingObs.subscribe((data) => {
+        expect(data).toBe(accessData);
         //We expect one more call to the backend as token expired
         expect(cpqAccessLoaderService.getCpqAccessData).toHaveBeenCalledTimes(
           2
         );
-        done();
       });
+    });
+    accessDataSubject.next(accessData);
+    discardPeriodicTasks();
+  }));
+
+  it('should cancel refresh of expired token on user log out', fakeAsync(() => {
+    takeOneCpqAccessData().subscribe((returnedData) => {
+      expect(returnedData).toBe(accessDataSoonExpiring);
+    });
     accessDataSubject.next(accessDataSoonExpiring);
     authDataSubject.next(false);
-    interval(10)
-      .pipe(take(1))
-      .subscribe(() => {
-        accessDataSubject.next(accessData); // nobody should receive this, as user is logged off
-      });
 
-    interval(30)
-      .pipe(take(1))
-      .subscribe(() => {
-        authDataSubject.next(true);
-        accessDataSubject.next(anotherAccessData);
-      });
-  });
+    tick(TIME_UNTIL_TOKEN_EXPIRES);
+    accessDataSubject.next(anotherAccessData);
+    expect(cpqAccessLoaderService.getCpqAccessData).toHaveBeenCalledTimes(1);
+    discardPeriodicTasks();
+  }));
+
+  it('should fetch new token after logoff/login cycle', fakeAsync(() => {
+    takeOneCpqAccessData().subscribe((returnedData) => {
+      expect(returnedData).toBe(accessDataSoonExpiring);
+    });
+    accessDataSubject.next(accessDataSoonExpiring);
+    authDataSubject.next(false);
+
+    tick(TIME_UNTIL_TOKEN_EXPIRES);
+    serviceUnderTest.getCachedCpqAccessData().subscribe((returnedData) => {
+      expect(returnedData).toBe(anotherAccessData);
+      //We expect one more call to the backend as token expired
+      expect(cpqAccessLoaderService.getCpqAccessData).toHaveBeenCalledTimes(2);
+    });
+    accessDataSubject.next(accessData); // nobody should receive this, as user is logged off
+
+    flush();
+    authDataSubject.next(true);
+    accessDataSubject.next(anotherAccessData);
+    discardPeriodicTasks();
+  }));
 
   it('should get new token after refesh', (done) => {
-    const obs = serviceUnderTest.getCachedCpqAccessData().pipe(take(1));
+    const obs = takeOneCpqAccessData();
     accessDataSubject.next(accessData);
     serviceUnderTest.renewCachedCpqAccessData();
     accessDataSubject.next(anotherAccessData);
@@ -317,34 +274,26 @@ describe('CpqAccessStorageService', () => {
     });
   });
 
-  it('should not emit old token after refesh anymore', (done) => {
-    const obs = serviceUnderTest.getCachedCpqAccessData().pipe(take(1));
+  it('should not emit old token after refesh anymore', fakeAsync(() => {
+    const obs = takeOneCpqAccessData();
     accessDataSubject.next(accessData);
     serviceUnderTest.renewCachedCpqAccessData();
     obs.subscribe((returnedData) => {
       expect(returnedData).toBe(anotherAccessData);
       expect(cpqAccessLoaderService.getCpqAccessData).toHaveBeenCalledTimes(2);
-      done();
     });
-    interval(10)
-      .pipe(take(1))
-      .subscribe(() => {
-        accessDataSubject.next(anotherAccessData);
-      });
-  });
+    flush();
+    accessDataSubject.next(anotherAccessData);
+    discardPeriodicTasks();
+  }));
 
   it('should not fail on refresh when not initialized', (done) => {
     serviceUnderTest.renewCachedCpqAccessData();
-    serviceUnderTest
-      .getCachedCpqAccessData()
-      .pipe(take(1))
-      .subscribe((returnedData) => {
-        expect(returnedData).toBe(accessData);
-        expect(cpqAccessLoaderService.getCpqAccessData).toHaveBeenCalledTimes(
-          1
-        );
-        done();
-      });
+    takeOneCpqAccessData().subscribe((returnedData) => {
+      expect(returnedData).toBe(accessData);
+      expect(cpqAccessLoaderService.getCpqAccessData).toHaveBeenCalledTimes(1);
+      done();
+    });
     accessDataSubject.next(accessData);
   });
 
@@ -363,4 +312,8 @@ describe('CpqAccessStorageService', () => {
     authDataSubject.next(true);
     accessDataSubject.next(accessData);
   });
+
+  function takeOneCpqAccessData() {
+    return serviceUnderTest.getCachedCpqAccessData().pipe(take(1));
+  }
 });
