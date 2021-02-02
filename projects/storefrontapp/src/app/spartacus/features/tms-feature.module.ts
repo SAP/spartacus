@@ -1,24 +1,20 @@
 import { NgModule } from '@angular/core';
-import { CartAddEntryEvent, CartAddEntrySuccessEvent } from '@spartacus/core';
+import {
+  CartAddEntrySuccessEvent,
+  CartRemoveEntrySuccessEvent,
+} from '@spartacus/core';
 import { NavigationEvent } from '@spartacus/storefront';
-import { AdobeLaunchModule } from '@spartacus/tms/adobe-launch';
-import { GoogleTagManagerModule } from '@spartacus/tms/gtm';
+import { TmsModule } from '@spartacus/tms';
 
 @NgModule({
   imports: [
-    GoogleTagManagerModule.forRoot({
+    TmsModule.forRoot({
       tms: {
         gtm: {
-          debug: false,
-          events: [NavigationEvent, CartAddEntryEvent],
-        },
-      },
-    }),
-    AdobeLaunchModule.forRoot({
-      tms: {
-        adobeLaunch: {
-          debug: false,
           events: [NavigationEvent, CartAddEntrySuccessEvent],
+        },
+        adobeLaunch: {
+          events: [NavigationEvent, CartRemoveEntrySuccessEvent],
         },
       },
     }),
