@@ -3,14 +3,18 @@ import { Inject, Injectable } from '@angular/core';
 import { fromEvent, Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, startWith } from 'rxjs/operators';
 import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '../util/ssr.tokens';
-
+/**
+ * Provides access to the window and document in a save way for both SSR and CRS.
+ *
+ * The document that is resolved during SSR will also be
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class WindowRef {
   readonly document: Document;
 
-  // TODO: make optional arguments mandatory with next major release
+  // TODO(#10467): make optional arguments mandatory with next major release
   constructor(
     @Inject(DOCUMENT) document,
     @Inject(SERVER_REQUEST_URL) protected serverRequestUrl?: string,
@@ -18,15 +22,21 @@ export class WindowRef {
   ) {
     // it's a workaround to have document property properly typed
     // see: https://github.com/angular/angular/issues/15640
-    this.document = document;
+    this.document = this.resolveDocument(document);
+  }
 
+  /**
+   * Resolves the document and provides the href and origin in case they're undefined.
+   * This is useful in SSR, where those values are lacking.
+   */
+  protected resolveDocument(document: Document): Document {
     if (!document.location) {
-      document.location = {};
-      if (serverRequestUrl && serverRequestOrigin) {
-        document.location.href = serverRequestUrl;
-        document.location.origin = serverRequestOrigin;
-      }
+      document.location = {
+        href: this.serverRequestUrl,
+        origin: this.serverRequestOrigin,
+      } as any;
     }
+    return document;
   }
 
   get nativeWindow(): Window {
