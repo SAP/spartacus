@@ -19,7 +19,7 @@ export class ExplainDisableMessagesComponent<T extends BaseItem> {
    * The localization of messages is based on the i18n root. Messages are
    * concatenated to the root, such as:
    *
-   * `[i18nRoot].messages.enableEdit`
+   * `[i18nRoot].messages.disabledEdit`
    */
   @Input() i18nRoot: string;
 

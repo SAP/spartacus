@@ -21,8 +21,8 @@
 
       margin-bottom: 30px;
     }
-    .messages {
-      display: flex;
+    .removeBullet {
+      list-style: none;
     }
     .icon-info {
       color: var(--cx-color, var(--cx-color-info));
@@ -65,5 +65,8 @@
         }
       }
     }
+  }
+  .messages {
+    flex-wrap: nowrap;
   }
 }
