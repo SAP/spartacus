@@ -2,6 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
 import { fromEvent, Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, startWith } from 'rxjs/operators';
+import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '../util/ssr.tokens';
 
 @Injectable({
   providedIn: 'root',
@@ -9,10 +10,23 @@ import { debounceTime, distinctUntilChanged, startWith } from 'rxjs/operators';
 export class WindowRef {
   readonly document: Document;
 
-  constructor(@Inject(DOCUMENT) document) {
+  // TODO: make optional arguments mandatory with next major release
+  constructor(
+    @Inject(DOCUMENT) document,
+    @Inject(SERVER_REQUEST_URL) protected serverRequestUrl?: string,
+    @Inject(SERVER_REQUEST_ORIGIN) protected serverRequestOrigin?: string
+  ) {
     // it's a workaround to have document property properly typed
     // see: https://github.com/angular/angular/issues/15640
     this.document = document;
+
+    if (!document.location) {
+      document.location = {};
+      if (serverRequestUrl && serverRequestOrigin) {
+        document.location.href = serverRequestUrl;
+        document.location.origin = serverRequestOrigin;
+      }
+    }
   }
 
   get nativeWindow(): Window {
