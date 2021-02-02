@@ -10,7 +10,7 @@ import { EMPTY, Observable } from 'rxjs';
 })
 export class ConfiguratorCartEntryInfoComponent {
   constructor(
-    // TODO(#10946): make CartItemContext a required dependency
+    // TODO(#10946): make CartItemContext a required dependency and drop fallbacks to `?? EMPTY`.
     @Optional() protected cartItemContext?: CartItemContext
   ) {}
 
