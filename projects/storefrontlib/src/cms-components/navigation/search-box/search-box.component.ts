@@ -9,9 +9,12 @@ import { Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { SearchBoxEventData } from './events/search-box-event.builder';
 import { SearchBoxComponentService } from './search-box-component.service';
-import { SearchBoxConfig, SearchResults } from './search-box.model';
+import {
+  SearchBoxConfig,
+  SearchBoxEventData,
+  SearchResults,
+} from './search-box.model';
 
 const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
   minCharactersBeforeRequest: 1,

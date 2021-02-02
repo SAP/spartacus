@@ -1,15 +1,24 @@
 import { Injectable } from '@angular/core';
 import {
+  EventService,
   ProductSearchPage,
   RoutingService,
   SearchboxService,
+  Suggestion,
   TranslationService,
   WindowRef,
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { SearchBoxEventBuilder, SearchBoxEventData } from './events/index';
-import { SearchBoxConfig, SearchResults } from './search-box.model';
+import {
+  SearchBoxProductSelectedEvent,
+  SearchBoxSuggestionSelectedEvent,
+} from './search-box.events';
+import {
+  SearchBoxConfig,
+  SearchBoxEventData,
+  SearchResults,
+} from './search-box.model';
 
 const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';
 
@@ -22,7 +31,7 @@ export class SearchBoxComponentService {
     protected routingService: RoutingService,
     protected translationService: TranslationService,
     protected winRef: WindowRef,
-    protected searchBoxEventService: SearchBoxEventBuilder
+    protected eventService: EventService
   ) {}
 
   /**
@@ -111,9 +120,22 @@ export class SearchBoxComponentService {
    */
   registerUIEvents(eventData: SearchBoxEventData) {
     if (eventData.isProduct) {
-      this.searchBoxEventService.dispatchProductSelectedEvent(eventData);
+      this.eventService.dispatch<SearchBoxProductSelectedEvent>(
+        {
+          freeText: eventData.freeText,
+          productCode: eventData.selected,
+        },
+        SearchBoxProductSelectedEvent
+      );
     } else {
-      this.searchBoxEventService.dispatchSuggestionSelectedEvent(eventData);
+      this.eventService.dispatch<SearchBoxSuggestionSelectedEvent>(
+        {
+          freeText: eventData.freeText,
+          selectedSuggestion: eventData.selected,
+          searchSuggestions: eventData.values as Suggestion[],
+        },
+        SearchBoxSuggestionSelectedEvent
+      );
     }
   }
 
