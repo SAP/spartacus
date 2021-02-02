@@ -3,18 +3,15 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { ItemCounterComponent } from '@spartacus/storefront';
-import { ConfiguratorUIConfig } from '../../config/configurator-ui-config';
+import {
+  ConfiguratorUIConfig,
+  DefaultConfiguratorUIConfig,
+} from '../../config/configurator-ui-config';
 import { ConfiguratorAttributeQuantityComponent } from './configurator-attribute-quantity.component';
 
 describe(' ConfiguratorAttributeQuantityComponent', () => {
   let component: ConfiguratorAttributeQuantityComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeQuantityComponent>;
-
-  const MockConfiguratorUIConfig: ConfiguratorUIConfig = {
-    rulebasedConfigurator: {
-      quantityDebounceTime: 500,
-    },
-  };
 
   beforeEach(
     waitForAsync(() => {
@@ -27,7 +24,7 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
         providers: [
           {
             provide: ConfiguratorUIConfig,
-            useValue: MockConfiguratorUIConfig,
+            useValue: DefaultConfiguratorUIConfig,
           },
         ],
       })

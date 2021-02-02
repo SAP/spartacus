@@ -16,7 +16,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LanguageService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorUIConfig } from '../../../config/configurator-ui-config';
+import {
+  ConfiguratorUIConfig,
+  DefaultConfiguratorUIConfig,
+} from '../../../config/configurator-ui-config';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-attribute-numeric-input-field.component';
 
@@ -34,12 +37,8 @@ export class MockFocusDirective {
   @Input('cxFocus') protected config;
 }
 
-const DEBOUNCE_TIME = 10;
-const MockConfiguratorUIConfig: ConfiguratorUIConfig = {
-  rulebasedConfigurator: {
-    inputDebounceTime: DEBOUNCE_TIME,
-  },
-};
+const DEBOUNCE_TIME =
+  DefaultConfiguratorUIConfig.rulebasedConfigurator.inputDebounceTime;
 
 function checkForValidationMessage(
   component: ConfiguratorAttributeNumericInputFieldComponent,

@@ -10,7 +10,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorUIConfig } from '../../../config/configurator-ui-config';
+import {
+  ConfiguratorUIConfig,
+  DefaultConfiguratorUIConfig,
+} from '../../../config/configurator-ui-config';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribute-input-field.component';
 
@@ -29,12 +32,8 @@ describe('ConfigAttributeInputFieldComponent', () => {
   const groupId = 'theGroupId';
   const userInput = 'theUserInput';
 
-  const DEBOUNCE_TIME = 10;
-  const MockConfiguratorUIConfig: ConfiguratorUIConfig = {
-    rulebasedConfigurator: {
-      inputDebounceTime: DEBOUNCE_TIME,
-    },
-  };
+  const DEBOUNCE_TIME =
+    DefaultConfiguratorUIConfig.rulebasedConfigurator.inputDebounceTime;
 
   beforeEach(
     waitForAsync(() => {
@@ -48,7 +47,7 @@ describe('ConfigAttributeInputFieldComponent', () => {
           ConfiguratorAttributeBaseComponent,
           {
             provide: ConfiguratorUIConfig,
-            useValue: MockConfiguratorUIConfig,
+            useValue: DefaultConfiguratorUIConfig,
           },
         ],
       })
