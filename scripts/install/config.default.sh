@@ -7,8 +7,9 @@
 # Will replace default host (https://localhost:9002) as a backend endpoint
 # Make sure you specify the full url for the backend (https://[host]:[port]
 BACKEND_URL="https://localhost:9002"
-
 OCC_PREFIX="/occ/v2/"
+
+APP_NAME='spartacus'
 
 SPARTACUS_PROJECTS=(
         "projects/core"

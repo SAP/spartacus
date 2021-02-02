@@ -42,7 +42,7 @@ function prepare_install {
 
     cmd_clean
 
-    printh 'Installing packages for spartacus pre-installation'
+    printh "Installing packages for ${APP_NAME} pre-installation"
 
     npm i -g verdaccio
     npm i -g serve
@@ -55,9 +55,10 @@ function prepare_install {
 }
 
 function clone_repo {
-    printh "Cloning Spartacus installation repo."
+    printh "Cloning ${APP_NAME} installation repo."
 
-    echo "Cloning from ${SPARTACUS_REPO_URL}"
+    echo "Cloning from ${SPARTACUS_REPO_URL}. Currently in `pwd`"
+    echo `ls -l ../../../spartacus-latest`
 
     git clone -b ${BRANCH} ${SPARTACUS_REPO_URL} ${CLONE_DIR} --depth 1
 }
@@ -121,22 +122,22 @@ function create_apps {
         echo "Skipping csr app install (no port defined)"
     else
         printh "Installing csr app"
-        create_shell_app 'spartacus'
-        add_spartacus_csr 'spartacus'
+        create_shell_app 'csr'
+        add_spartacus_csr 'csr'
     fi
     if [ -z "${SSR_PORT}" ]; then
         echo "Skipping ssr app install (no port defined)"
     else
         printh "Installing ssr app"
-        create_shell_app 'spartacus-ssr'
-        add_spartacus_ssr 'spartacus-ssr'
+        create_shell_app 'ssr'
+        add_spartacus_ssr 'ssr'
     fi
     if [ -z "${SSR_PWA_PORT}" ]; then
         echo "Skipping ssr with pwa app install (no port defined)"
     else
         printh "Installing ssr app (with pwa support)"
-        create_shell_app 'spartacus-ssr-pwa'
-        add_spartacus_ssr_pwa 'spartacus-ssr-pwa'
+        create_shell_app 'ssr-pwa'
+        add_spartacus_ssr_pwa 'ssr-pwa'
     fi
 }
 
@@ -210,7 +211,7 @@ function build_csr {
         echo "Skipping csr app build (No port defined)"
     else
         printh "Building csr app"
-        ( cd ${INSTALLATION_DIR}/spartacus && yarn build --prod )
+        ( cd ${INSTALLATION_DIR}/csr && yarn build --prod )
     fi
 }
 
@@ -219,7 +220,7 @@ function build_ssr {
         echo "Skipping ssr app build (No port defined)"
     else
         printh "Building ssr app"
-        ( cd ${INSTALLATION_DIR}/spartacus-ssr && yarn build && yarn build:ssr )
+        ( cd ${INSTALLATION_DIR}/ssr && yarn build && yarn build:ssr )
     fi
 }
 
@@ -228,7 +229,7 @@ function build_ssr_pwa {
         echo "Skipping ssr with PWA app build (No port defined)"
     else
         printh "Building ssr app with PWA"
-        ( cd ${INSTALLATION_DIR}/spartacus-ssr-pwa && yarn build && yarn build:ssr )
+        ( cd ${INSTALLATION_DIR}/ssr-pwa && yarn build && yarn build:ssr )
     fi
 }
 
@@ -238,7 +239,7 @@ function start_csr_unix {
     else
         build_csr
         printh "Starting csr app"
-        pm2 start --name "csr-${CSR_PORT}" serve -- ${INSTALLATION_DIR}/spartacus/dist/spartacus/ --single -p ${CSR_PORT}
+        pm2 start --name "csr-${CSR_PORT}" serve -- ${INSTALLATION_DIR}/${APP_NAME}/dist/${APP_NAME}/ --single -p ${CSR_PORT}
     fi
 }
 
@@ -248,7 +249,7 @@ function start_ssr_unix {
     else
         build_ssr
         printh "Starting ssr app"
-        ( cd ${INSTALLATION_DIR}/spartacus-ssr && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "ssr-${SSR_PORT}" dist/spartacus-ssr/server/main.js )
+        ( cd ${INSTALLATION_DIR}/ssr && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "ssr-${SSR_PORT}" dist/spartacus-ssr/server/main.js )
     fi
 }
 
@@ -323,9 +324,18 @@ else
     . ./config.default.sh
 fi
 
-# top directory for the installation output (must be outside of the project)
+if [[ -z ${SPARTACUS_VERSION} ]]; then
+    SPARTACUS_VERSION="latest"
+fi
+
+if [[ -z ${BRANCH} ]]; then
+    BRANCH="develop"
+fi
+
+# top directory for the installation (must be outside of the main project)
 if [ -z ${BASE_DIR} ]; then
     BASE_DIR="../../../spartacus-${SPARTACUS_VERSION}"
+    echo "Setting base directory to ${BASE_DIR}"
 fi
 CLONE_DIR="${BASE_DIR}/${CLONE_DIR}"
 INSTALLATION_DIR="${BASE_DIR}/${INSTALLATION_DIR}"
