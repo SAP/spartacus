@@ -23,7 +23,7 @@ class MockHeaderComponent {}
   selector: 'cx-global-message',
   template: '',
 })
-class MockGlobalMessagerComponent {}
+class MockGlobalMessageComponent {}
 
 @Component({
   selector: 'cx-page-slot',
@@ -79,7 +79,7 @@ describe('StorefrontComponent', () => {
         declarations: [
           StorefrontComponent,
           MockHeaderComponent,
-          MockGlobalMessagerComponent,
+          MockGlobalMessageComponent,
           MockFooterComponent,
           DynamicSlotComponent,
           MockPageLayoutComponent,
