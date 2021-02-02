@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
-import { LinkBuilder } from './link.builder';
+import { PageMetaLinkService } from './page-meta-link.service';
 
-describe('LinkBuilder', () => {
-  let linkBuilder: LinkBuilder;
+describe('PageMetaLinkService', () => {
+  let service: PageMetaLinkService;
   let winRef: WindowRef;
 
   const pageUrl = 'https://www.myurl.com/en/USD';
@@ -13,16 +13,16 @@ describe('LinkBuilder', () => {
       providers: [WindowRef],
     });
 
-    linkBuilder = TestBed.inject(LinkBuilder);
+    service = TestBed.inject(PageMetaLinkService);
     winRef = TestBed.inject(WindowRef);
   });
 
   it('should inject service', () => {
-    expect(linkBuilder).toBeTruthy();
+    expect(service).toBeTruthy();
   });
 
   it('should add canonical link', () => {
-    linkBuilder.addCanonicalLink(pageUrl);
+    service.addCanonicalLink(pageUrl);
     const linkElement: HTMLLinkElement = winRef.document.getElementById(
       'cxCanonical'
     ) as HTMLLinkElement;
@@ -30,8 +30,8 @@ describe('LinkBuilder', () => {
   });
 
   it('should update existing canonical link', () => {
-    linkBuilder.addCanonicalLink('https://www.myurl.com/first/');
-    linkBuilder.addCanonicalLink('https://www.myurl.com/2nd/');
+    service.addCanonicalLink('https://www.myurl.com/first/');
+    service.addCanonicalLink('https://www.myurl.com/2nd/');
     const linkElement: HTMLLinkElement = winRef.document.getElementById(
       'cxCanonical'
     ) as HTMLLinkElement;
@@ -39,8 +39,8 @@ describe('LinkBuilder', () => {
   });
 
   it('should remove existing canonical link', () => {
-    linkBuilder.addCanonicalLink(pageUrl);
-    linkBuilder.addCanonicalLink(undefined);
+    service.addCanonicalLink(pageUrl);
+    service.addCanonicalLink(undefined);
     const linkElement: HTMLLinkElement = winRef.document.getElementById(
       'cxCanonical'
     ) as HTMLLinkElement;

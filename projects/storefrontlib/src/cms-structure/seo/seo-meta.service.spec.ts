@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Meta, Title } from '@angular/platform-browser';
 import { PageMeta, PageMetaService, PageRobotsMeta } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { LinkBuilder } from './link.builder';
+import { PageMetaLinkService } from './page-meta-link.service';
 import { SeoMetaService } from './seo-meta.service';
 
 class MockPageMetaService {
@@ -16,7 +16,7 @@ class MockPageMetaService {
   }
 }
 
-class MockLinkBuilder implements Partial<LinkBuilder> {
+class MockPageMetaLinkService implements Partial<PageMetaLinkService> {
   addCanonicalLink(): void {}
 }
 
@@ -37,7 +37,7 @@ describe('SeoTitleService', () => {
         Title,
         Meta,
         { provide: PageMetaService, useClass: MockPageMetaService },
-        { provide: LinkBuilder, useClass: MockLinkBuilder },
+        { provide: PageMetaLinkService, useClass: MockPageMetaLinkService },
       ],
     });
 
@@ -49,7 +49,7 @@ describe('SeoTitleService', () => {
 
     updateMetaTagSpy = spyOn(ngMetaService, 'updateTag');
     addCanonicalLinkSpy = spyOn(
-      TestBed.inject(LinkBuilder),
+      TestBed.inject(PageMetaLinkService),
       'addCanonicalLink'
     );
   });

@@ -4,7 +4,7 @@ import { WindowRef } from '@spartacus/core';
 @Injectable({
   providedIn: 'root',
 })
-export class LinkBuilder {
+export class PageMetaLinkService {
   constructor(
     protected winRef: WindowRef,
     protected rendererFactory: RendererFactory2

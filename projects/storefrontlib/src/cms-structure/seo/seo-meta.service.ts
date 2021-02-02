@@ -3,7 +3,7 @@ import { Meta, MetaDefinition, Title } from '@angular/platform-browser';
 import { PageMeta, PageMetaService, PageRobotsMeta } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { LinkBuilder } from './link.builder';
+import { PageMetaLinkService } from './page-meta-link.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,7 @@ export class SeoMetaService implements OnDestroy {
     protected ngTitle: Title,
     protected ngMeta: Meta,
     protected pageMetaService: PageMetaService,
-    protected linkBuilder?: LinkBuilder
+    protected pageMetaLinkService?: PageMetaLinkService
   ) {}
 
   private subscription: Subscription;
@@ -62,7 +62,7 @@ export class SeoMetaService implements OnDestroy {
    * unlikely though, since canonical links are (typically) only added in SSR.
    */
   protected set canonicalUrl(url: string) {
-    this.linkBuilder.addCanonicalLink(url);
+    this.pageMetaLinkService.addCanonicalLink(url);
   }
 
   protected addTag(meta: MetaDefinition) {
