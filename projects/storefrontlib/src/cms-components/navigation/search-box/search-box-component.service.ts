@@ -27,11 +27,27 @@ const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';
 })
 export class SearchBoxComponentService {
   constructor(
+    searchService: SearchboxService,
+    routingService: RoutingService,
+    translationService: TranslationService,
+    winRef: WindowRef
+  );
+  /**
+   * @deprecated since version 3.2
+   * Use constructor(searchService: SearchboxService, routingService: RoutingService, translationService: TranslationService, winRef: WindowRef, eventService?: EventService) instead
+   */
+  constructor(
+    searchService: SearchboxService,
+    routingService: RoutingService,
+    translationService: TranslationService,
+    winRef: WindowRef
+  );
+  constructor(
     public searchService: SearchboxService,
     protected routingService: RoutingService,
     protected translationService: TranslationService,
     protected winRef: WindowRef,
-    protected eventService: EventService
+    protected eventService?: EventService
   ) {}
 
   /**
@@ -119,23 +135,26 @@ export class SearchBoxComponentService {
    * @param eventData
    */
   registerUIEvents(eventData: SearchBoxEventData) {
-    if (eventData.isProduct) {
-      this.eventService.dispatch<SearchBoxProductSelectedEvent>(
-        {
-          freeText: eventData.freeText,
-          productCode: eventData.selected,
-        },
-        SearchBoxProductSelectedEvent
-      );
-    } else {
-      this.eventService.dispatch<SearchBoxSuggestionSelectedEvent>(
-        {
-          freeText: eventData.freeText,
-          selectedSuggestion: eventData.selected,
-          searchSuggestions: eventData.values as Suggestion[],
-        },
-        SearchBoxSuggestionSelectedEvent
-      );
+    // TODO: in 4.0 remove "eventService" check
+    if (this.eventService) {
+      if (eventData.isProduct) {
+        this.eventService.dispatch<SearchBoxProductSelectedEvent>(
+          {
+            freeText: eventData.freeText,
+            productCode: eventData.selected,
+          },
+          SearchBoxProductSelectedEvent
+        );
+      } else {
+        this.eventService.dispatch<SearchBoxSuggestionSelectedEvent>(
+          {
+            freeText: eventData.freeText,
+            selectedSuggestion: eventData.selected,
+            searchSuggestions: eventData.values as Suggestion[],
+          },
+          SearchBoxSuggestionSelectedEvent
+        );
+      }
     }
   }
 
