@@ -2,17 +2,23 @@
   id="{{ createAttributeIdForConfigurator(attribute) }}"
   *ngIf="attribute?.values?.length"
 >
-  <div class="cx-attribute-level-quantity-price">
+  <div
+    *ngIf="withQuantityOnAttributeLevel && attribute.attributePriceTotal"
+    class="cx-attribute-level-quantity-price"
+  >
     <cx-configurator-attribute-quantity
+      *ngIf="withQuantityOnAttributeLevel"
       (changeQuantity)="onChangeAttributeQuantity($event)"
       [allowZero]="!attribute.required"
       [initialQuantity]="attribute.quantity"
       [disableQuantityActions]="disableQuantityActions || (loading$ | async)"
-      *ngIf="withQuantityOnAttributeLevel"
     ></cx-configurator-attribute-quantity>
 
     <cx-configurator-price
-      *ngIf="attribute.attributePriceTotal"
+      *ngIf="
+        attribute.attributePriceTotal.value !== 0 &&
+        withQuantityOnAttributeLevel
+      "
       [formula]="setFormula(attribute.attributePriceTotal)"
     ></cx-configurator-price>
   </div>

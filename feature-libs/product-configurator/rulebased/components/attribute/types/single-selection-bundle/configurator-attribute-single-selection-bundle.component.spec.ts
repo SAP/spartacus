@@ -53,6 +53,7 @@ class MockConfiguratorAttributeQuantityService {
   disableQuantityActions(value): boolean {
     return !value || value === '0';
   }
+
   withQuantity(
     dataType: Configurator.DataType,
     uiType: Configurator.UiType
@@ -313,9 +314,8 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
           values: [createTestValue(100, 100)],
         };
 
-        // const valuePrice = component.getSelectedValuePrice(testAttribute);
-
-        //expect(valuePrice).toEqual(100);
+        const valuePrice = component.getSelectedValuePrice(testAttribute);
+        expect(valuePrice.value).toEqual(100);
       });
 
       it('on selected value', () => {
@@ -324,9 +324,8 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
           values: [createTestValue(100, 100), createTestValue(100, 100, false)],
         };
 
-        //const valuePrice = component.getSelectedValuePrice(testAttribute);
-
-        //expect(valuePrice).toEqual(100);
+        const valuePrice = component.getSelectedValuePrice(testAttribute);
+        expect(valuePrice.value).toEqual(100);
       });
     });
 
@@ -337,7 +336,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
         };
 
         const valuePrice = component.getSelectedValuePrice(testAttribute);
-
         expect(valuePrice).toBeUndefined();
       });
 
@@ -348,7 +346,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
         };
 
         const valuePrice = component.getSelectedValuePrice(testAttribute);
-
         expect(valuePrice).toBeUndefined();
       });
 
@@ -359,7 +356,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
         };
 
         const valuePrice = component.getSelectedValuePrice(testAttribute);
-
         expect(valuePrice.value).toBeUndefined();
       });
     });
@@ -433,29 +429,75 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
       });
     });
   });
-  // HTML
-  it('should not display attribute quantity when dataType is no quantity', () => {
-    component.attribute.dataType = Configurator.DataType.USER_SELECTION_NO_QTY;
 
-    fixture.detectChanges();
+  describe('quantity at attribute level', () => {
+    it('should not display attribute quantity when dataType is no quantity', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_NO_QTY;
 
-    CommonConfiguratorTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      'cx-configurator-attribute-quantity'
-    );
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-quantity'
+      );
+    });
+
+    it('should display attribute quantity when dataType is with attribute quantity', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-quantity'
+      );
+    });
   });
 
-  it('should display attribute quantity when dataType is with attribute quantity', () => {
-    component.attribute.dataType =
-      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
+  describe('price info at attribute level', () => {
+    it('should not display price component', () => {
+      component.attribute.quantity = undefined;
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_NO_QTY;
+      component.attribute.values[0].valuePrice = undefined;
+      component.attribute.values[0].valuePriceTotal = undefined;
+      fixture.detectChanges();
 
-    fixture.detectChanges();
+      expect(component.getProductPrice(component.attribute)).toBeUndefined();
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-price'
+      );
+    });
 
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      'cx-configurator-attribute-quantity'
-    );
+    it('should display price component', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
+      component.attribute.quantity = 5;
+      component.attribute.values[0].valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$10',
+        value: 10,
+      };
+      component.attribute.values[0].valuePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '$100',
+        value:
+          component.attribute.values[0].valuePrice.value *
+          component.attribute.quantity,
+      };
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-price'
+      );
+    });
   });
 });

@@ -685,7 +685,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     });
   });
 
-  describe('quantity', () => {
+  describe('quantity at attribute level', () => {
     it('should not display attribute quantity when dataType is no quantity', () => {
       component.attribute.dataType =
         Configurator.DataType.USER_SELECTION_NO_QTY;
@@ -701,6 +701,11 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     it('should display attribute quantity when dataType is with attribute quantity', () => {
       component.attribute.dataType =
         Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
+      component.attribute.attributePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '$100',
+        value: 100,
+      };
       fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
@@ -713,6 +718,8 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
 
   describe('price info at attribute level', () => {
     it('should not display price component', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
       component.attribute.attributePriceTotal = undefined;
       fixture.detectChanges();
 
@@ -724,6 +731,8 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     });
 
     it('should display price component', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
       component.attribute.attributePriceTotal = {
         currencyIso: '$',
         formattedValue: '$100',
