@@ -112,6 +112,16 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
     return attribute?.values?.find((value) => value?.selected)?.valuePriceTotal;
   }
 
+  getProductPrice(
+    attribute: Configurator.Attribute
+  ): Configurator.PriceDetails | number {
+    return (
+      attribute?.quantity &&
+      this.getSelectedValuePrice(attribute) &&
+      this.getSelectedValuePriceTotal(attribute)
+    );
+  }
+
   setFormula(
     quantity?: number,
     price?: Configurator.PriceDetails,
@@ -120,7 +130,7 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
     return {
       quantity: quantity,
       price: price,
-      valuePriceTotal: priceTotal,
+      priceTotal: priceTotal,
       isLightedUp: true,
     };
   }
