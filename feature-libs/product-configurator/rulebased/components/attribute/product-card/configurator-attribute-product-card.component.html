@@ -51,11 +51,11 @@
 
     <div class="cx-product-card-rows">
       <cx-configurator-attribute-quantity
+        *ngIf="showQuantity"
         (changeQuantity)="onChangeQuantity($event)"
         [allowZero]="!preventAction"
         [initialQuantity]="product.quantity"
         [disableQuantityActions]="loading$ | async"
-        *ngIf="showQuantity"
         class="cx-product-card-quantity"
       ></cx-configurator-attribute-quantity>
     </div>
@@ -109,6 +109,7 @@
 
       <div class="cx-product-card-price">
         <cx-configurator-price
+          *ngIf="getProductPrice(product)"
           [formula]="
             setFormula(
               product.quantity,

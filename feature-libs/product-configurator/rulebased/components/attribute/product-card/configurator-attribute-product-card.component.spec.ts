@@ -157,201 +157,309 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should button be enabled when card actions are disabled and card is no selected', () => {
-    const button = fixture.debugElement.query(By.css('button.btn'))
-      .nativeElement;
-    expect(button.disabled).toBe(false);
+  describe('Buttons constellation', () => {
+    it('should button be enabled when card actions are disabled and card is no selected', () => {
+      const button = fixture.debugElement.query(By.css('button.btn'))
+        .nativeElement;
+      expect(button.disabled).toBe(false);
+    });
+
+    it('should button be enabled when card actions are disabled and card is selected', () => {
+      component.product.selected = true;
+
+      fixture.detectChanges();
+
+      const button = fixture.debugElement.query(By.css('button.btn'))
+        .nativeElement;
+      expect(button.disabled).toBe(false);
+    });
+
+    it('should button be called with proper select method', () => {
+      const button = fixture.debugElement.query(By.css('button.btn'))
+        .nativeElement;
+      button.click();
+
+      fixture.detectChanges();
+
+      expect(component.onHandleSelect).toHaveBeenCalled();
+    });
+
+    it('should button be called with proper deselect action', () => {
+      component.product.selected = true;
+
+      fixture.detectChanges();
+
+      const button = fixture.debugElement.query(By.css('button.btn'))
+        .nativeElement;
+
+      button.click();
+
+      fixture.detectChanges();
+
+      expect(component.onHandleDeselect).toHaveBeenCalled();
+    });
+
+    it('should button have select text when card type is no multi select and card is no selected', () => {
+      const button = fixture.debugElement.query(By.css('button.btn'))
+        .nativeElement;
+
+      expect(button.innerText).toContain('configurator.button.select');
+    });
+
+    it('should button have deselect text when card type is no multi select and card is selected', () => {
+      component.product.selected = true;
+
+      fixture.detectChanges();
+
+      const button = fixture.debugElement.query(By.css('button.btn'))
+        .nativeElement;
+
+      expect(button.innerText).toContain('configurator.button.deselect');
+    });
+
+    it('should button have add text when card type is multi select and card is no selected', () => {
+      component.multiSelect = true;
+      component.product.selected = false;
+
+      fixture.detectChanges();
+
+      const button = fixture.debugElement.query(By.css('button.btn'))
+        .nativeElement;
+
+      expect(button.innerText).toContain('configurator.button.add');
+    });
+
+    it('should button have remove text when card type is multi select and card is selected', () => {
+      component.multiSelect = true;
+      component.product.selected = true;
+
+      fixture.detectChanges();
+
+      const button = fixture.debugElement.query(By.css('button.btn'))
+        .nativeElement;
+
+      expect(button.innerText).toContain('configurator.button.remove');
+    });
   });
 
-  it('should button be enabled when card actions are disabled and card is selected', () => {
-    component.product.selected = true;
+  describe('Quantity', () => {
+    it('should quantity be hidden when card type is no multi select', () => {
+      component.multiSelect = false;
 
-    fixture.detectChanges();
+      fixture.detectChanges();
 
-    const button = fixture.debugElement.query(By.css('button.btn'))
-      .nativeElement;
-    expect(button.disabled).toBe(false);
+      const quantityContainer = fixture.debugElement.query(
+        By.css('.cx-configurator-attribute-product-card-quantity')
+      );
+
+      expect(quantityContainer).toBeNull();
+    });
+
+    it('should quantity be visible when card type is multi select', () => {
+      component.multiSelect = true;
+
+      fixture.detectChanges();
+
+      const quantityContainer = fixture.debugElement.query(
+        By.css('.cx-configurator-attribute-product-card-quantity')
+      );
+
+      expect(quantityContainer).toBeDefined();
+    });
+
+    it('should call handleQuantity on event onHandleQuantity', () => {
+      spyOn(component.handleQuantity, 'emit').and.callThrough();
+
+      component.onHandleQuantity(1);
+
+      expect(component.handleQuantity.emit).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          quantity: 1,
+          valueCode: component.product.valueCode,
+        })
+      );
+    });
+
+    it('should call onHandleDeselect of event onChangeQuantity', () => {
+      const quantity = { quantity: 0 };
+
+      component.onChangeQuantity(quantity);
+
+      expect(component.onHandleDeselect).toHaveBeenCalled();
+    });
+
+    it('should call onHandleQuantity of event onChangeQuantity', () => {
+      const quantity = { quantity: 2 };
+
+      component.onChangeQuantity(quantity);
+
+      expect(component.onHandleQuantity).toHaveBeenCalled();
+    });
+
+    it('should transformToProductType return Product', () => {
+      expect(component.transformToProductType(component.product)).toEqual(
+        productTransformed
+      );
+    });
+
+    it('should display quantity when props withQuantity is true', () => {
+      component.withQuantity = true;
+      component.product.selected = true;
+      component.multiSelect = true;
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-quantity'
+      );
+    });
+
+    it('should not display quantity when props withQuantity is false', () => {
+      component.withQuantity = false;
+      component.product.selected = true;
+      component.multiSelect = true;
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-quantity'
+      );
+    });
+
+    it('should not display quantity when props multiSelect is false', () => {
+      component.withQuantity = true;
+      component.product.selected = true;
+      component.multiSelect = false;
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-quantity'
+      );
+    });
+
+    it('should not display quantity when value is no selected', () => {
+      component.withQuantity = true;
+      component.product.selected = false;
+      component.multiSelect = true;
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-quantity'
+      );
+    });
   });
 
-  it('should button be called with proper select method', () => {
-    const button = fixture.debugElement.query(By.css('button.btn'))
-      .nativeElement;
-    button.click();
+  describe('Product price', () => {
+    it('should return no price details and do not display content of cx-configurator-price ', () => {
+      component.product.selected = true;
+      component.product.quantity = undefined;
+      component.product.valuePrice = undefined;
+      component.product.valuePriceTotal = undefined;
+      fixture.detectChanges();
 
-    fixture.detectChanges();
+      expect(component.getProductPrice(component.product)).toBeUndefined();
 
-    expect(component.onHandleSelect).toHaveBeenCalled();
-  });
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-price'
+      );
+    });
 
-  it('should button be called with proper deselect action', () => {
-    component.product.selected = true;
+    it('should return price details with quantity and display content of cx-configurator-price ', () => {
+      component.product.selected = true;
+      component.product.quantity = 2;
+      component.product.valuePrice = undefined;
+      component.product.valuePriceTotal = undefined;
+      fixture.detectChanges();
 
-    fixture.detectChanges();
+      expect(component.getProductPrice(component.product)).toBe(
+        component.product.quantity
+      );
 
-    const button = fixture.debugElement.query(By.css('button.btn'))
-      .nativeElement;
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-price'
+      );
+    });
 
-    button.click();
+    it('should return price details with value price and display content of cx-configurator-price ', () => {
+      component.product.selected = true;
+      component.product.quantity = undefined;
+      component.product.valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$20',
+        value: 20,
+      };
+      component.product.valuePriceTotal = undefined;
+      fixture.detectChanges();
 
-    fixture.detectChanges();
+      expect(component.getProductPrice(component.product)).toBe(
+        component.product.valuePrice
+      );
 
-    expect(component.onHandleDeselect).toHaveBeenCalled();
-  });
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-price'
+      );
+    });
 
-  it('should button have select text when card type is no multi select and card is no selected', () => {
-    const button = fixture.debugElement.query(By.css('button.btn'))
-      .nativeElement;
+    it('should return price details with value price total and display content of cx-configurator-price ', () => {
+      component.product.selected = true;
+      component.product.quantity = undefined;
+      component.product.valuePrice = undefined;
+      component.product.valuePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '$100',
+        value: 100,
+      };
+      fixture.detectChanges();
 
-    expect(button.innerText).toContain('configurator.button.select');
-  });
+      expect(component.getProductPrice(component.product)).toBe(
+        component.product.valuePriceTotal
+      );
 
-  it('should button have deselect text when card type is no multi select and card is selected', () => {
-    component.product.selected = true;
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-price'
+      );
+    });
 
-    fixture.detectChanges();
+    it('should display content of cx-configurator-price ', () => {
+      component.product.selected = true;
+      component.product.quantity = 2;
+      component.product.valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$10',
+        value: 10,
+      };
+      component.product.valuePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '$20',
+        value: 20,
+      };
+      fixture.detectChanges();
 
-    const button = fixture.debugElement.query(By.css('button.btn'))
-      .nativeElement;
+      expect(component.getProductPrice(component.product)).not.toBeUndefined();
 
-    expect(button.innerText).toContain('configurator.button.deselect');
-  });
-
-  it('should button have add text when card type is multi select and card is no selected', () => {
-    component.multiSelect = true;
-    component.product.selected = false;
-
-    fixture.detectChanges();
-
-    const button = fixture.debugElement.query(By.css('button.btn'))
-      .nativeElement;
-
-    expect(button.innerText).toContain('configurator.button.add');
-  });
-
-  it('should button have remove text when card type is multi select and card is selected', () => {
-    component.multiSelect = true;
-    component.product.selected = true;
-
-    fixture.detectChanges();
-
-    const button = fixture.debugElement.query(By.css('button.btn'))
-      .nativeElement;
-
-    expect(button.innerText).toContain('configurator.button.remove');
-  });
-
-  it('should quantity be hidden when card type is no multi select', () => {
-    component.multiSelect = false;
-
-    fixture.detectChanges();
-
-    const quantityContainer = fixture.debugElement.query(
-      By.css('.cx-configurator-attribute-product-card-quantity')
-    );
-
-    expect(quantityContainer).toBeNull();
-  });
-
-  it('should quantity be visible when card type is multi select', () => {
-    component.multiSelect = true;
-
-    fixture.detectChanges();
-
-    const quantityContainer = fixture.debugElement.query(
-      By.css('.cx-configurator-attribute-product-card-quantity')
-    );
-
-    expect(quantityContainer).toBeDefined();
-  });
-
-  it('should call handleQuantity on event onHandleQuantity', () => {
-    spyOn(component.handleQuantity, 'emit').and.callThrough();
-
-    component.onHandleQuantity(1);
-
-    expect(component.handleQuantity.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        quantity: 1,
-        valueCode: component.product.valueCode,
-      })
-    );
-  });
-
-  it('should call onHandleDeselect of event onChangeQuantity', () => {
-    const quantity = { quantity: 0 };
-
-    component.onChangeQuantity(quantity);
-
-    expect(component.onHandleDeselect).toHaveBeenCalled();
-  });
-
-  it('should call onHandleQuantity of event onChangeQuantity', () => {
-    const quantity = { quantity: 2 };
-
-    component.onChangeQuantity(quantity);
-
-    expect(component.onHandleQuantity).toHaveBeenCalled();
-  });
-
-  it('should transformToProductType return Product', () => {
-    expect(component.transformToProductType(component.product)).toEqual(
-      productTransformed
-    );
-  });
-
-  it('should display quantity when props withQuantity is true', () => {
-    component.withQuantity = true;
-    component.product.selected = true;
-    component.multiSelect = true;
-
-    fixture.detectChanges();
-
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      'cx-configurator-attribute-quantity'
-    );
-  });
-
-  it('should not display quantity when props withQuantity is false', () => {
-    component.withQuantity = false;
-    component.product.selected = true;
-    component.multiSelect = true;
-
-    fixture.detectChanges();
-
-    CommonConfiguratorTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      'cx-configurator-attribute-quantity'
-    );
-  });
-
-  it('should not display quantity when props multiSelect is false', () => {
-    component.withQuantity = true;
-    component.product.selected = true;
-    component.multiSelect = false;
-
-    fixture.detectChanges();
-
-    CommonConfiguratorTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      'cx-configurator-attribute-quantity'
-    );
-  });
-
-  it('should not display quantity when value is no selected', () => {
-    component.withQuantity = true;
-    component.product.selected = false;
-    component.multiSelect = true;
-
-    fixture.detectChanges();
-
-    CommonConfiguratorTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      'cx-configurator-attribute-quantity'
-    );
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-price'
+      );
+    });
   });
 });
