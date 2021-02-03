@@ -4,7 +4,7 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ConverterService, Cart } from '@spartacus/core';
+import { Cart, ConverterService } from '@spartacus/core';
 import { OccConfig } from '../../index';
 import { OccCheckoutCostCenterAdapter } from './occ-checkout-cost-center.adapter';
 

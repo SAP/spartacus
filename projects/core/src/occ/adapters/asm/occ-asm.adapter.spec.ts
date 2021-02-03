@@ -14,7 +14,11 @@ import {
 import { User } from '../../../model/misc.model';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 import { ConverterService } from '../../../util/converter.service';
-import { OccEndpointsService } from '../../services';
+import {
+  BaseOccUrlProperties,
+  DynamicAttributes,
+  OccEndpointsService,
+} from '../../services';
 import { OccAsmAdapter } from './occ-asm.adapter';
 
 const MockAsmConfig: AsmConfig = {
@@ -46,8 +50,12 @@ class MockBaseSiteService {
   }
 }
 
-class MockOccEndpointsService {
-  getRawEndpoint(endpoint: string): string {
+class MockOccEndpointsService implements Partial<OccEndpointsService> {
+  buildUrl(
+    endpoint: string,
+    _attributes?: DynamicAttributes,
+    _propertiesToOmit?: BaseOccUrlProperties
+  ) {
     return endpoint;
   }
 }
@@ -74,7 +82,7 @@ describe('OccAsmAdapter', () => {
     converterService = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
     spyOn(converterService, 'pipeable').and.callThrough();
-    spyOn(occEnpointsService, 'getRawEndpoint').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   it('should be created', () => {
@@ -108,8 +116,10 @@ describe('OccAsmAdapter', () => {
     expect(converterService.pipeable).toHaveBeenCalledWith(
       CUSTOMER_SEARCH_PAGE_NORMALIZER
     );
-    expect(occEnpointsService.getRawEndpoint).toHaveBeenCalledWith(
-      'asmCustomerSearch'
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'asmCustomerSearch',
+      {},
+      { prefix: false, baseSite: false }
     );
   });
 
@@ -135,8 +145,10 @@ describe('OccAsmAdapter', () => {
     expect(converterService.pipeable).toHaveBeenCalledWith(
       CUSTOMER_SEARCH_PAGE_NORMALIZER
     );
-    expect(occEnpointsService.getRawEndpoint).toHaveBeenCalledWith(
-      'asmCustomerSearch'
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'asmCustomerSearch',
+      {},
+      { prefix: false, baseSite: false }
     );
   });
 
@@ -167,8 +179,10 @@ describe('OccAsmAdapter', () => {
     expect(converterService.pipeable).toHaveBeenCalledWith(
       CUSTOMER_SEARCH_PAGE_NORMALIZER
     );
-    expect(occEnpointsService.getRawEndpoint).toHaveBeenCalledWith(
-      'asmCustomerSearch'
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'asmCustomerSearch',
+      {},
+      { prefix: false, baseSite: false }
     );
   });
 });

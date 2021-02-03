@@ -20,6 +20,8 @@ SPARTACUS_PROJECTS=(
         "core-libs/setup"
         "feature-libs/organization"
         "feature-libs/storefinder"
+        "feature-libs/product-configurator"
+        "feature-libs/qualtrics"
         )
 
 SPARTACUS_REPO_URL="git://github.com/SAP/spartacus.git"
@@ -41,3 +43,5 @@ SSR_PORT="4100"
 SSR_PWA_PORT=
 
 ADD_B2B_LIBS=false
+
+ADD_PRODUCT_CONFIGURATOR=true
