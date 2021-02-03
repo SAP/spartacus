@@ -8,16 +8,23 @@ import { provideConfig, provideDefaultConfig } from '@spartacus/core';
 import { defaultAdobeLaunchConfig } from './config/default-adobe-launch.config';
 import { defaultGoogleTagManagerConfig } from './config/default-gtm.config';
 import { TmsConfig } from './config/tms-config';
+import { tmsConfigValidator } from './config/tms-config-validator';
 import { TmsService } from './services/tms.service';
 
 /**
  * The factory that conditionally (based on the configuration) starts collecting events
  */
-export function tmsFactory(service: TmsService, config?: TmsConfig) {
+export function tmsFactory(
+  service: TmsService,
+  config?: TmsConfig
+): () => void {
   const result = () => {
-    if (config?.tms) {
-      service.collect();
+    const validation = tmsConfigValidator(config);
+    if (validation) {
+      throw new Error(validation);
     }
+
+    service.collect();
   };
   return result;
 }
