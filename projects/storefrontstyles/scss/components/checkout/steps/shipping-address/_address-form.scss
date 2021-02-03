@@ -2,4 +2,8 @@
 
 %cx-address-form {
   @include checkout-media-style();
+
+  .action-btns {
+    padding: 1rem 0;
+  }
 }
