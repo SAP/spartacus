@@ -42,7 +42,7 @@ function prepare_install {
 
     cmd_clean
 
-    printh "Installing packages for ${APP_NAME} pre-installation"
+    printh "Installing packages for Spartacus pre-installation"
 
     npm i -g verdaccio
     npm i -g serve
@@ -55,10 +55,10 @@ function prepare_install {
 }
 
 function clone_repo {
-    printh "Cloning ${APP_NAME} installation repo."
+    printh "Cloning Spartacus installation repo."
 
     echo "Cloning from ${SPARTACUS_REPO_URL}. Currently in `pwd`"
-    echo `ls -l ../../../spartacus-latest`
+    ls -l ${BASE_DIR}
 
     git clone -b ${BRANCH} ${SPARTACUS_REPO_URL} ${CLONE_DIR} --depth 1
 }
@@ -95,7 +95,7 @@ function add_spartacus_csr {
     add_b2b
     if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
         ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false
-    fi        
+    fi
     )
 }
 
@@ -104,7 +104,7 @@ function add_spartacus_ssr {
     add_b2b
     if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
         ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false
-    fi           
+    fi
     )
 }
 
@@ -113,7 +113,7 @@ function add_spartacus_ssr_pwa {
     add_b2b
     if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
         ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false
-    fi           
+    fi
     )
 }
 
@@ -122,22 +122,22 @@ function create_apps {
         echo "Skipping csr app install (no port defined)"
     else
         printh "Installing csr app"
-        create_shell_app 'csr'
-        add_spartacus_csr 'csr'
+        create_shell_app ${CSR_APP_NAME}
+        add_spartacus_csr ${CSR_APP_NAME}
     fi
     if [ -z "${SSR_PORT}" ]; then
         echo "Skipping ssr app install (no port defined)"
     else
         printh "Installing ssr app"
-        create_shell_app 'ssr'
-        add_spartacus_ssr 'ssr'
+        create_shell_app ${SSR_APP_NAME}
+        add_spartacus_ssr ${SSR_APP_NAME}
     fi
     if [ -z "${SSR_PWA_PORT}" ]; then
         echo "Skipping ssr with pwa app install (no port defined)"
     else
         printh "Installing ssr app (with pwa support)"
-        create_shell_app 'ssr-pwa'
-        add_spartacus_ssr_pwa 'ssr-pwa'
+        create_shell_app ${SSR_PWA_APP_NAME}
+        add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME}
     fi
 }
 
@@ -211,7 +211,7 @@ function build_csr {
         echo "Skipping csr app build (No port defined)"
     else
         printh "Building csr app"
-        ( cd ${INSTALLATION_DIR}/csr && yarn build --prod )
+        ( cd ${INSTALLATION_DIR}/${CSR_APP_NAME} && yarn build --prod )
     fi
 }
 
@@ -220,7 +220,7 @@ function build_ssr {
         echo "Skipping ssr app build (No port defined)"
     else
         printh "Building ssr app"
-        ( cd ${INSTALLATION_DIR}/ssr && yarn build && yarn build:ssr )
+        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && yarn build && yarn build:ssr )
     fi
 }
 
@@ -229,7 +229,7 @@ function build_ssr_pwa {
         echo "Skipping ssr with PWA app build (No port defined)"
     else
         printh "Building ssr app with PWA"
-        ( cd ${INSTALLATION_DIR}/ssr-pwa && yarn build && yarn build:ssr )
+        ( cd ${INSTALLATION_DIR}/${SSR_PWA_APP_NAME} && yarn build && yarn build:ssr )
     fi
 }
 
@@ -239,7 +239,7 @@ function start_csr_unix {
     else
         build_csr
         printh "Starting csr app"
-        pm2 start --name "csr-${CSR_PORT}" serve -- ${INSTALLATION_DIR}/${APP_NAME}/dist/${APP_NAME}/ --single -p ${CSR_PORT}
+        pm2 start --name "${CSR_APP_NAME}-${CSR_PORT}" serve -- ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/${CSR_APP_NAME}/ --single -p ${CSR_PORT}
     fi
 }
 
@@ -249,7 +249,7 @@ function start_ssr_unix {
     else
         build_ssr
         printh "Starting ssr app"
-        ( cd ${INSTALLATION_DIR}/ssr && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "ssr-${SSR_PORT}" dist/spartacus-ssr/server/main.js )
+        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/main.js )
     fi
 }
 
@@ -259,13 +259,13 @@ function start_ssr_pwa_unix {
     else
         build_ssr_pwa
         printh "Starting ssr app (with pwa support)"
-        ( cd ${INSTALLATION_DIR}/ssr-pwa && export PORT=${SSR_PWA_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "ssr-pwa-${SSR_PWA_PORT}" dist/spartacus-ssr-pwa/server/main.js )
+        ( cd ${INSTALLATION_DIR}/${SSR_PWA_APP_NAME} && export PORT=${SSR_PWA_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "${SSR_PWA_APP_NAME}-${SSR_PWA_PORT}" dist/${SSR_PWA_APP_NAME}/server/main.js )
     fi
 }
 
 function start_windows_apps {
     build_csr
-    concurrently "serve ${INSTALLATION_DIR}/csr/dist/csr --single -p ${CSR_PORT}" --names "csr"
+    concurrently "serve ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/csr --single -p ${CSR_PORT}" --names "${CSR_APP_NAME}-{CSR_PORT}}"
 }
 
 function start_apps {
@@ -283,9 +283,9 @@ function start_apps {
 }
 
 function stop_apps {
-    pm2 stop "csr-${CSR_PORT}"
-    pm2 stop "ssr-${SSR_PORT}"
-    pm2 stop "ssr-pwa-${SSR_PORT}"
+    pm2 stop "${CSR_APP_NAME}-${CSR_PORT}"
+    pm2 stop "${SSR_APP_NAME}-${SSR_PORT}"
+    pm2 stop "${SSR_PWA_APP_NAME}-${SSR_PORT}"
 }
 
 function run_e2e_tests {
@@ -316,12 +316,12 @@ fi
 
 readonly commands="${1}"
 
+echo "Loading configs from ./config.default.sh"
+. ./config.default.sh
+
 if [ -f "./config.sh" ]; then
-    echo "Config file ./config.sh found. Loading configurations"
+    echo "Custom config file ./config.sh found. Loading configurations (overriding vars from the default config)."
     . ./config.sh
-else
-    echo "Custom config file not found. Loading configs from ./config.default.sh"
-    . ./config.default.sh
 fi
 
 if [[ -z ${SPARTACUS_VERSION} ]]; then
@@ -340,6 +340,10 @@ fi
 CLONE_DIR="${BASE_DIR}/${CLONE_DIR}"
 INSTALLATION_DIR="${BASE_DIR}/${INSTALLATION_DIR}"
 E2E_TEST_DIR="${BASE_DIR}/${E2E_TEST_DIR}"
+
+CSR_APP_NAME="csr"
+SSR_APP_NAME="ssr"
+SSR_PWA_APP_NAME="ssr-pwa"
 
 for current_command in $(echo "${commands}" | tr "+" "\n"); do
 

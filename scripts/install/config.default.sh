@@ -9,8 +9,6 @@
 BACKEND_URL="https://localhost:9002"
 OCC_PREFIX="/occ/v2/"
 
-APP_NAME='spartacus'
-
 SPARTACUS_PROJECTS=(
         "projects/core"
         "projects/assets"
