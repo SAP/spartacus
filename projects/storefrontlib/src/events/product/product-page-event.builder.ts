@@ -1,18 +1,15 @@
 import { Injectable } from '@angular/core';
 import {
-  Breadcrumb,
   createFrom,
   EventService,
   ProductSearchService,
   ProductService,
 } from '@spartacus/core';
 import { EMPTY, Observable } from 'rxjs';
-import { filter, map, pairwise, skip, switchMap, take } from 'rxjs/operators';
+import { filter, map, skip, switchMap, take } from 'rxjs/operators';
 import { PageEvent } from '../page/page.events';
 import {
   CategoryPageResultsEvent,
-  FacetChangedEvent,
-  FacetValueToggledState,
   ProductDetailsPageEvent,
   SearchPageResultsEvent,
 } from './product-page.events';
@@ -41,10 +38,6 @@ export class ProductPageEventBuilder {
     this.eventService.register(
       CategoryPageResultsEvent,
       this.buildCategoryResultsPageEvent()
-    );
-    this.eventService.register(
-      FacetChangedEvent,
-      this.buildFacetChangedEvent()
     );
   }
 
@@ -126,101 +119,5 @@ export class ProductPageEventBuilder {
         );
       })
     );
-  }
-
-  protected buildFacetChangedEvent(): Observable<FacetChangedEvent> {
-    return this.eventService.get(PageEvent).pipe(
-      switchMap((pageEvent) => {
-        if (
-          pageEvent?.semanticRoute !== 'search' &&
-          pageEvent?.semanticRoute !== 'category' &&
-          pageEvent?.semanticRoute !== 'brand'
-        ) {
-          return EMPTY;
-        }
-
-        return this.productSearchService.getResults().pipe(
-          pairwise(),
-          map(([prev, curr]) => {
-            // remove the root ('allCategories') from category
-            let activeFacets = curr.breadcrumbs;
-            if (
-              pageEvent.semanticRoute === 'category' ||
-              pageEvent.semanticRoute === 'brand'
-            ) {
-              activeFacets = curr.breadcrumbs.slice(1);
-            }
-
-            if (prev && Object.keys(prev).length !== 0) {
-              const isCategory =
-                curr.breadcrumbs[0]?.facetCode === 'allCategories' &&
-                prev.breadcrumbs[0].facetCode ===
-                  curr.breadcrumbs[0].facetCode &&
-                prev.breadcrumbs[0].facetValueCode ===
-                  curr.breadcrumbs[0].facetValueCode;
-
-              const isSearch =
-                prev.freeTextSearch !== '' &&
-                prev.freeTextSearch === curr.freeTextSearch;
-
-              if (isCategory || isSearch) {
-                let toggledState = FacetValueToggledState.TOGGLED_ON;
-                let toggled = this.getToggledBreadcrumb(
-                  curr.breadcrumbs,
-                  prev.breadcrumbs
-                );
-                if (!toggled) {
-                  toggled = this.getToggledBreadcrumb(
-                    prev.breadcrumbs,
-                    curr.breadcrumbs
-                  );
-                  toggledState = FacetValueToggledState.TOGGLED_OFF;
-                }
-
-                if (toggled) {
-                  const facet = curr.facets?.find(
-                    (f) => f.name === toggled.facetName
-                  );
-                  return createFrom(FacetChangedEvent, {
-                    ...pageEvent,
-                    appliedFacets: activeFacets,
-                    toggledFacet: {
-                      facet,
-                      state: {
-                        value: facet.values.find(
-                          (v) => v.name === toggled.facetValueName
-                        ),
-                        toggled: toggledState,
-                      },
-                    },
-                  });
-                }
-              }
-            }
-
-            return createFrom(FacetChangedEvent, {
-              ...pageEvent,
-              appliedFacets: activeFacets,
-            });
-          })
-        );
-      })
-    );
-  }
-
-  private getToggledBreadcrumb(
-    bc1: Breadcrumb[],
-    bc2: Breadcrumb[]
-  ): Breadcrumb {
-    if (bc1.length - bc2.length === 1) {
-      return bc1.find(
-        (x) =>
-          !bc2.find(
-            (y) =>
-              y.facetCode === x.facetCode &&
-              y.facetValueCode === x.facetValueCode
-          )
-      );
-    }
   }
 }
