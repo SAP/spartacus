@@ -1,8 +1,8 @@
 import { Component, Optional } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { OrderEntry } from '@spartacus/core';
 import { CartItemContext } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-configurator-cart-entry-info',
@@ -16,8 +16,11 @@ export class ConfiguratorCartEntryInfoComponent {
 
   readonly orderEntry$: Observable<OrderEntry> =
     this.cartItemContext?.item$ ?? EMPTY;
-  readonly quantityControl$: Observable<FormControl> =
-    this.cartItemContext?.quantityControl$ ?? EMPTY;
+
+  readonly disabled$: Observable<boolean> = (
+    this.cartItemContext?.quantityControl$ ?? EMPTY
+  ).pipe(map((formControl) => formControl.disabled));
+
   readonly readonly$: Observable<boolean> =
     this.cartItemContext?.readonly$ ?? EMPTY;
 

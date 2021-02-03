@@ -1,8 +1,8 @@
 import { Component, Optional } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { OrderEntry } from '@spartacus/core';
 import { CartItemContext, ICON_TYPE } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 
 @Component({
@@ -20,8 +20,11 @@ export class ConfiguratorIssuesNotificationComponent {
 
   readonly orderEntry$: Observable<OrderEntry> =
     this.cartItemContext?.item$ ?? EMPTY;
-  readonly quantityControl$: Observable<FormControl> =
-    this.cartItemContext?.quantityControl$ ?? EMPTY;
+
+  readonly disabled$: Observable<boolean> = (
+    this.cartItemContext?.quantityControl$ ?? EMPTY
+  ).pipe(map((formControl) => formControl.disabled));
+
   readonly readonly$: Observable<boolean> =
     this.cartItemContext?.readonly$ ?? EMPTY;
 
