@@ -68,7 +68,7 @@ function setupWithCurrentProductService(useCurrentProductServiceOnly: boolean) {
       ],
     }).compileComponents();
     productListItemContextSource = TestBed.inject(ProductListItemContextSource);
-    productListItemContextSource._product$.next(mockProduct);
+    productListItemContextSource.product$.next(mockProduct);
   }
 
   currentProductService = TestBed.inject(

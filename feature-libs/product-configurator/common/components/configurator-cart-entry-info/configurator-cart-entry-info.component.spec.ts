@@ -6,8 +6,7 @@ import {
   I18nTestingModule,
   OrderEntry,
 } from '@spartacus/core';
-import { CartItemContext, CartItemContextModel } from '@spartacus/storefront';
-import { BehaviorSubject } from 'rxjs';
+import { CartItemContext, CartItemContextSource } from '@spartacus/storefront';
 import {
   ConfigurationInfo,
   StatusSummary,
@@ -15,21 +14,18 @@ import {
 import { ConfiguratorCartEntryInfoComponent } from './configurator-cart-entry-info.component';
 
 function emitNewContextValue(
-  cartItemOutletConfiguratorComponent: ConfiguratorCartEntryInfoComponent,
+  component: ConfiguratorCartEntryInfoComponent,
   statusSummary: StatusSummary[],
   configurationInfos: ConfigurationInfo[],
   readOnly: boolean
 ) {
-  const cartItemContext: CartItemContextModel = {
-    item: {
-      statusSummaryList: statusSummary,
-      configurationInfos: configurationInfos,
-    },
-    readonly: readOnly,
+  const item = {
+    statusSummaryList: statusSummary,
+    configurationInfos: configurationInfos,
   };
-  const context$ = cartItemOutletConfiguratorComponent.cartItemContext
-    .context$ as BehaviorSubject<CartItemContextModel>;
-  context$.next(cartItemContext);
+  const contextSource = component['cartItemContext'] as CartItemContextSource;
+  contextSource.item$.next(item);
+  contextSource.readonly$.next(readOnly);
 }
 
 describe('ConfiguratorCartEntryInfoComponent', () => {
@@ -47,7 +43,8 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
         ],
         declarations: [ConfiguratorCartEntryInfoComponent],
         providers: [
-          CartItemContext,
+          CartItemContextSource,
+          { provide: CartItemContext, useExisting: CartItemContextSource },
           {
             provide: ControlContainer,
           },
@@ -66,10 +63,6 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
 
   it('should create CartItemOutletConfiguratorComponent', () => {
     expect(configuratorCartEntryInfoComponent).toBeTruthy();
-  });
-
-  it('should know cart item context', () => {
-    expect(configuratorCartEntryInfoComponent.cartItemContext).toBeTruthy();
   });
 
   describe('configuration infos', () => {

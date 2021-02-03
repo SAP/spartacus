@@ -1,8 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { OrderEntry } from '@spartacus/core';
-import { CartItemContext, CartItemContextModel } from '@spartacus/storefront';
-import { BehaviorSubject } from 'rxjs';
+import { CartItemContext, CartItemContextSource } from '@spartacus/storefront';
 import {
   ConfigurationInfo,
   OrderEntryStatus,
@@ -19,7 +18,7 @@ class MockTranslatePipe implements PipeTransform {
 
 let item: OrderEntry;
 function emitNewContextValue(
-  cartItemOutletConfiguratorComponent: ConfiguratorIssuesNotificationComponent,
+  component: ConfiguratorIssuesNotificationComponent,
   statusSummary: StatusSummary[],
   configurationInfos: ConfigurationInfo[],
   readOnly: boolean,
@@ -30,14 +29,10 @@ function emitNewContextValue(
     configurationInfos: configurationInfos,
     product: { configurable: productConfigurable },
   };
-  const cartItemContext: any = {
-    item: item,
-    readonly: readOnly,
-    quantityControl: {},
-  };
-  const context$ = cartItemOutletConfiguratorComponent.cartItemContext
-    .context$ as BehaviorSubject<CartItemContextModel>;
-  context$.next(cartItemContext);
+  const contextSource = component['cartItemContext'] as CartItemContextSource;
+  contextSource.item$.next(item);
+  contextSource.readonly$.next(readOnly);
+  contextSource.quantityControl$.next({} as any);
 }
 
 describe('ConfigureIssuesNotificationComponent', () => {
@@ -52,7 +47,10 @@ describe('ConfigureIssuesNotificationComponent', () => {
           ConfiguratorIssuesNotificationComponent,
           MockTranslatePipe,
         ],
-        providers: [CartItemContext],
+        providers: [
+          CartItemContextSource,
+          { provide: CartItemContext, useExisting: CartItemContextSource },
+        ],
       }).compileComponents();
     })
   );
@@ -67,10 +65,6 @@ describe('ConfigureIssuesNotificationComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should know cart context', () => {
-    expect(component.cartItemContext).toBeDefined();
   });
 
   it('should return number of issues of ERROR status', () => {
