@@ -17,7 +17,6 @@ export const ANGULAR_FORMS = '@angular/forms';
 export const ANGULAR_ROUTER = '@angular/router';
 export const ANGULAR_HTTP = '@angular/common/http';
 
-export const ANGULAR_LOCALIZE = '@angular/localize';
 export const RXJS = 'rxjs';
 export const ANGULAR_COMMON = '@angular/common';
 export const ANGULAR_PLATFORM_BROWSER = '@angular/platform-browser';
