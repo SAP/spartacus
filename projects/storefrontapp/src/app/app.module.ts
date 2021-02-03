@@ -63,7 +63,10 @@ if (!environment.production) {
         chunks: translationChunksConfig,
         fallbackLang: 'en',
       },
-
+      checkout:{
+        guest: true, 
+        express: true,
+      },
       features: {
         level: '2.1',
       },
