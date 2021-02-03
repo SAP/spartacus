@@ -47,7 +47,17 @@
     {{ cart.totalDiscounts?.formattedValue }}
   </div>
   <div class="cx-summary-row" *ngIf="!cart.net">
-    {{ 'orderCost.grossTax' | cxTranslate }}
+    <ng-container
+      *ngIf="
+        cart.totalPriceWithTax.value !== cart.totalPrice.value;
+        else includeTax
+      "
+    >
+      {{ 'orderCost.grossTax' | cxTranslate }}
+    </ng-container>
+    <ng-template #includeTax>
+      {{ 'orderCost.grossIncludeTax' | cxTranslate }}
+    </ng-template>
     {{ cart.totalTax?.formattedValue }}.
   </div>
 </div>
