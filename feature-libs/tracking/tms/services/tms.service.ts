@@ -37,7 +37,6 @@ export class TmsService implements OnDestroy {
       const events =
         collectorConfig.events?.map((event) => this.eventsService.get(event)) ||
         [];
-      // TODO:#tms - should we subscribe per collector?
       this.subscription.add(
         this.mapEvents(events, collector).subscribe((event) => {
           if (collectorConfig.debug) {
