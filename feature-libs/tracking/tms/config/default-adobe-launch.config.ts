@@ -23,8 +23,6 @@ export const defaultAdobeLaunchConfig: TmsConfig = {
           };
         }
       },
-      debug: false,
-      events: [],
     },
   },
 };

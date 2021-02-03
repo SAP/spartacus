@@ -18,8 +18,6 @@ export const defaultGoogleTagManagerConfig: TmsConfig = {
         const win = winRef.nativeWindow as GtmWindow;
         win?.dataLayer?.push(event);
       },
-      debug: false,
-      events: [],
     },
   },
 };

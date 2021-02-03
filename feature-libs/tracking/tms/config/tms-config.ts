@@ -18,7 +18,7 @@ export interface TmsCollectorConfig {
   /**
    * Events to send to the configured TMS.
    */
-  events: AbstractType<CxEvent>[];
+  events?: AbstractType<CxEvent>[];
 }
 
 /**
