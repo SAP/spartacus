@@ -6,10 +6,6 @@ import { Config, CxEvent, WindowRef } from '@spartacus/core';
  */
 export interface TmsCollectorConfig {
   /**
-   * Initializes the data layer.
-   */
-  dataLayerInit?: (winRef: WindowRef) => void;
-  /**
    * Pushes the event to the configured data layer.
    */
   dataLayerPush?: <T extends CxEvent>(event: T, winRef: WindowRef) => void;

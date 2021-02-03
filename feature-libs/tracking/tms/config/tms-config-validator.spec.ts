@@ -3,16 +3,6 @@ import { TmsConfig } from './tms-config';
 import { tmsConfigValidator } from './tms-config-validator';
 
 describe('tmsConfigValidator', () => {
-  it('should warn about undefined dataLayerInit', () => {
-    const config: TmsConfig = {
-      tms: {
-        gtm: {
-          events: [],
-        },
-      },
-    };
-    expect(tmsConfigValidator(config)).toBeTruthy();
-  });
   it('should warn about undefined dataLayerPush', () => {
     const config: TmsConfig = {
       tms: {
@@ -28,7 +18,6 @@ describe('tmsConfigValidator', () => {
     const config: TmsConfig = {
       tms: {
         gtm: {
-          dataLayerInit: (_winRef: WindowRef) => {},
           dataLayerPush: <T extends CxEvent>(
             _event: T,
             _winRef: WindowRef
@@ -36,7 +25,6 @@ describe('tmsConfigValidator', () => {
           events: [],
         },
         adobeLaunch: {
-          dataLayerInit: (_winRef: WindowRef) => {},
           dataLayerPush: <T extends CxEvent>(
             _event: T,
             _winRef: WindowRef

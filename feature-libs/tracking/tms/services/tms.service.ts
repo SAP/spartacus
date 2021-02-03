@@ -32,10 +32,6 @@ export class TmsService implements OnDestroy {
     for (const collector in this.tmsConfig.tms) {
       const collectorConfig = this.tmsConfig.tms[collector];
 
-      if (collectorConfig.dataLayerInit) {
-        collectorConfig.dataLayerInit(this.windowRef);
-      }
-
       const events =
         collectorConfig.events?.map((event) => this.eventsService.get(event)) ||
         [];

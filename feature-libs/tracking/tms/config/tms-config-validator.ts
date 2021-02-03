@@ -8,11 +8,8 @@ export function tmsConfigValidator(config?: TmsConfig): string | void {
   for (const collector in config.tms) {
     const collectorConfig = config.tms[collector];
 
-    if (
-      collectorConfig.dataLayerInit === undefined ||
-      collectorConfig.dataLayerPush === undefined
-    ) {
-      return `Please configure 'dataLayerInit' or 'dataLayerPush' functions for the '${collector}' collector before using the TMS feature.`;
+    if (collectorConfig.dataLayerPush === undefined) {
+      return `Please configure 'dataLayerPush' functions for the '${collector}' collector before using the TMS feature.`;
     }
   }
 }

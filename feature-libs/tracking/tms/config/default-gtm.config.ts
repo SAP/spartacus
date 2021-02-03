@@ -8,14 +8,11 @@ interface GtmWindow extends Window {
 export const defaultGoogleTagManagerConfig: TmsConfig = {
   tms: {
     gtm: {
-      dataLayerInit: (winRef: WindowRef) => {
-        const win = winRef.nativeWindow as GtmWindow;
-        if (win) {
-          win.dataLayer = win.dataLayer ?? [];
-        }
-      },
       dataLayerPush: <T extends CxEvent>(event: T, winRef: WindowRef) => {
         const win = winRef.nativeWindow as GtmWindow;
+        if (!win?.dataLayer) {
+          win.dataLayer = win.dataLayer ?? [];
+        }
         win?.dataLayer?.push(event);
       },
     },

@@ -8,15 +8,13 @@ interface AdobeLaunchWindow extends Window {
 export const defaultAdobeLaunchConfig: TmsConfig = {
   tms: {
     adobeLaunch: {
-      dataLayerInit: (winRef: WindowRef) => {
-        const win = winRef.nativeWindow as AdobeLaunchWindow;
-        if (win) {
-          win.digitalData = win.digitalData ?? {};
-        }
-      },
       dataLayerPush: <T extends CxEvent>(event: T, winRef: WindowRef) => {
         const win = winRef.nativeWindow as AdobeLaunchWindow;
         if (win) {
+          if (!win.digitalData) {
+            win.digitalData = win.digitalData ?? {};
+          }
+
           win.digitalData = {
             ...win.digitalData,
             ...event,
