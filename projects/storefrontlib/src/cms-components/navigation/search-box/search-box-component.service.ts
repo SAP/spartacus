@@ -28,7 +28,7 @@ export class SearchBoxComponentService {
     winRef: WindowRef
   );
   /**
-   * @deprecated since version 3.2
+   * @deprecated since version 3.1
    * Use constructor(searchService: SearchboxService, routingService: RoutingService, translationService: TranslationService, winRef: WindowRef, eventService?: EventService) instead
    */
   // TODO(#10988): Remove deprecated constructors
