@@ -59,7 +59,7 @@ export class AuthHttpHeaderService {
     return rawValue;
   }
 
-  protected createAuthorizationHeader(): { Authorization?: string } {
+  protected createAuthorizationHeader(): { Authorization: string } | {} {
     let token;
     this.authStorageService
       .getToken()

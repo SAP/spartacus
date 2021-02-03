@@ -5,11 +5,16 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ProductListItemComponent } from './product-list-item.component';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  ProductService,
+  RoutingService,
+} from '@spartacus/core';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
+import { ProductListItemContext } from '../../product-list-item-context';
+import { ProductListItemComponent } from './product-list-item.component';
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -61,6 +66,9 @@ class MockStyleIconsComponent {
   @Input() variants: any[];
 }
 
+class MockRoutingService {}
+class MockProductService {}
+
 describe('ProductListItemComponent in product-list', () => {
   let component: ProductListItemComponent;
   let fixture: ComponentFixture<ProductListItemComponent>;
@@ -96,7 +104,20 @@ describe('ProductListItemComponent in product-list', () => {
           MockStyleIconsComponent,
           MockFeatureLevelDirective,
         ],
+        providers: [
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
+          {
+            provide: ProductService,
+            useClass: MockProductService,
+          },
+        ],
       })
+        .overrideComponent(ProductListItemComponent, {
+          set: { changeDetection: ChangeDetectionStrategy.Default },
+        })
         .overrideComponent(ProductListItemComponent, {
           set: { changeDetection: ChangeDetectionStrategy.Default },
         })
@@ -110,6 +131,7 @@ describe('ProductListItemComponent in product-list', () => {
 
     component.product = mockProduct;
 
+    component.ngOnChanges();
     fixture.detectChanges();
   });
 
@@ -179,5 +201,18 @@ describe('ProductListItemComponent in product-list', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector('cx-add-to-cart')
     ).toBeNull();
+  });
+
+  it('should have defined instance of list item context', () => {
+    expect(component['productListItemContext']).toBeDefined();
+  });
+
+  it('should transmit product through the item context', (done) => {
+    const productListItemContext: ProductListItemContext =
+      component['productListItemContext'];
+    productListItemContext.product$.subscribe((product) => {
+      expect(product).toBe(mockProduct);
+      done();
+    });
   });
 });

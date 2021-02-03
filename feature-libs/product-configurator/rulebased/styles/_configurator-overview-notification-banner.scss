@@ -1,0 +1,54 @@
+%cx-configurator-overview-notification-banner {
+  display: none;
+
+  &:not(:empty) {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    max-width: 1140px;
+    background-color: rgba(245, 206, 206, 1);
+    margin-block-end: 1.25rem;
+    padding-inline-start: 20px;
+    padding-inline-end: 25px;
+    padding-block-start: 5px;
+    padding-block-end: 5px;
+
+    @include media-breakpoint-up(xs) {
+      align-items: center;
+    }
+
+    @include media-breakpoint-down(sm) {
+      padding-inline-start: 20px;
+      padding-inline-end: 20px;
+    }
+
+    cx-icon,
+    .cx-icon {
+      align-self: flex-start;
+      color: var(--cx-color-danger);
+      font-size: 30px;
+      padding-inline-start: 5px;
+      padding-inline-end: 15px;
+      padding-block-start: 5px;
+      padding-block-end: 5px;
+    }
+
+    .cx-error-msg {
+      padding-inline-end: 15px;
+
+      button.link {
+        color: var(--cx-color-text);
+        border-width: 0;
+        background-color: transparent;
+        font-size: inherit;
+        inline-size: max-content;
+        text-decoration: underline;
+
+        &:hover {
+          color: var(--cx-color-primary);
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}

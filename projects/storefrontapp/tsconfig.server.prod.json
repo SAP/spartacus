@@ -33,6 +33,8 @@
       "@spartacus/organization/order-approval/root": [
         "../../dist/organization/order-approval/root"
       ],
+
+
       "@spartacus/product/bulk-pricing/assets": [
         "../../dist/product/bulk-pricing/assets"
       ],
@@ -43,17 +45,32 @@
       "@spartacus/product/configurators/common": [
         "../../dist/product/configurators/common"
       ],
-      "@spartacus/product/configurators/cpq": [
-        "../../dist/product/configurators/cpq"
+      "@spartacus/product-configurator/common/assets": [
+        "../../dist/product-configurator/common/assets"
       ],
-      "@spartacus/product/configurators": ["../../dist/product/configurators"],
-      "@spartacus/product/configurators/textfield": [
-        "../../dist/product/configurators/textfield"
+
+
+      
+      "@spartacus/product-configurator/common": [
+        "../../dist/product-configurator/common"
       ],
-      "@spartacus/product/configurators/variant": [
-        "../../dist/product/configurators/variant"
+      "@spartacus/product-configurator": ["../../dist/product-configurator"],
+      "@spartacus/product-configurator/rulebased": [
+        "../../dist/product-configurator/rulebased"
+      ],
+      "@spartacus/product-configurator/rulebased/root": [
+        "../../dist/product-configurator/rulebased/root"
+      ],
+      "@spartacus/product-configurator/textfield": [
+        "../../dist/product-configurator/textfield"
+      ],
+      "@spartacus/product-configurator/textfield/root": [
+        "../../dist/product-configurator/textfield/root"
       ],
       "@spartacus/product": ["../../dist/product"],
+      "@spartacus/qualtrics/components": ["../../dist/qualtrics/components"],
+      "@spartacus/qualtrics": ["../../dist/qualtrics"],
+      "@spartacus/qualtrics/root": ["../../dist/qualtrics/root"],
       "@spartacus/storefinder/assets": ["../../dist/storefinder/assets"],
       "@spartacus/storefinder/components": [
         "../../dist/storefinder/components"

@@ -36,6 +36,11 @@ export const NGRX_STORE = '@ngrx/store';
 export const NGRX_EFFECTS = '@ngrx/effects';
 
 export const NGUNIVERSAL_EXPRESS_ENGINE = '@nguniversal/express-engine';
+
+export const SPARTACUS_ORGANIZATION_ADMINISTRATION_CORE =
+  '@spartacus/organization/administration/core';
+export const SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS =
+  '@spartacus/organization/administration/components';
 /***** Imports end *****/
 
 /***** Classes start *****/
@@ -319,6 +324,10 @@ export const ANONYMOUS_CONSENT_TEMPLATES_CONNECTOR =
 export const VIEW_COMPONENT = 'ViewComponent';
 export const SPLIT_VIEW_COMPONENT = 'SplitViewComponent';
 export const OCC_CMS_COMPONENT_ADAPTER = 'OccCmsComponentAdapter';
+export const CURRENT_UNIT_SERVICE = 'CurrentUnitService';
+export const UNIT_CHILDREN_COMPONENT = 'UnitChildrenComponent';
+export const UNIT_COST_CENTER_LIST_COMPONENT = 'UnitCostCenterListComponent';
+export const UNIT_USER_LIST_COMPONENT = 'UnitUserListComponent';
 
 /***** Classes end *****/
 
@@ -487,6 +496,9 @@ export const LAYOUT_CONFIG = 'LayoutConfig';
 
 export const TOKEN_REVOCATION_HEADER = 'TOKEN_REVOCATION_HEADER';
 export const SPLIT_VIEW_DEACTIVATE_GUARD = 'SplitViewDeactivateGuard';
+
+export const QUALTRICS_EMBEDDED_FEEDBACK_SCSS_FILE_NAME =
+  'qualtrics-embedded-feedback.scss';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
@@ -626,6 +638,12 @@ export const SPARTACUS_STOREFINDER_ASSETS = `${SPARTACUS_STOREFINDER}/assets`;
 export const STOREFINDER_TRANSLATIONS = 'storeFinderTranslations';
 export const STOREFINDER_TRANSLATION_CHUNKS_CONFIG =
   'storeFinderTranslationChunksConfig';
+
+export const QUALTRICS_MODULE = 'QualtricsModule';
+export const QUALTRICS_FEATURE_NAME = 'qualtrics';
+export const QUALTRICS_ROOT_MODULE = 'QualtricsRootModule';
+export const SPARTACUS_QUALTRICS = '@spartacus/qualtrics';
+export const SPARTACUS_QUALTRICS_ROOT = `${SPARTACUS_QUALTRICS}/root`;
 
 export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
 
