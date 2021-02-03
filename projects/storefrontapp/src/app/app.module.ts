@@ -12,7 +12,13 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
-import { ConfigModule, TestConfigModule } from '@spartacus/core';
+import {
+  ConfigModule,
+  EventService,
+  LoginEvent,
+  LogoutEvent,
+  TestConfigModule,
+} from '@spartacus/core';
 import { configuratorTranslations } from '@spartacus/product-configurator/common/assets';
 import { RulebasedConfiguratorRootModule } from '@spartacus/product-configurator/rulebased/root';
 import { TextfieldConfiguratorRootModule } from '@spartacus/product-configurator/textfield/root';
@@ -102,4 +108,13 @@ if (!environment.production) {
 
   bootstrap: [StorefrontComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(public eventService: EventService) {
+    eventService
+      .get(LoginEvent)
+      .subscribe((event) => console.log('LOGIN', event));
+    eventService
+      .get(LogoutEvent)
+      .subscribe((event) => console.log('LOGOUT', event));
+  }
+}
