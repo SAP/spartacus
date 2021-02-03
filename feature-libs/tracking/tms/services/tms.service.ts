@@ -39,7 +39,7 @@ export class TmsService implements OnDestroy {
         [];
       // TODO:#tms - should we subscribe per collector?
       this.subscription.add(
-        this.mapEvents(events).subscribe((event) => {
+        this.mapEvents(events, collector).subscribe((event) => {
           if (collectorConfig.debug) {
             console.log(
               `🎤 Pushing the following event to ${collector}: `,
@@ -54,9 +54,13 @@ export class TmsService implements OnDestroy {
 
   /**
    * Maps the given events to an appropriate type that fits the specified TMS' structure.
+   *
+   * @param events - the events to map
+   * @param collector - a name of the collector for which the events should be mapped
    */
   protected mapEvents<T extends CxEvent>(
-    events: Observable<T>[]
+    events: Observable<T>[],
+    _collector: string
   ): Observable<T> {
     return merge(...events);
   }
