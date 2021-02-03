@@ -2,12 +2,7 @@
   &:not(:empty) {
     width: 100%;
 
-    cx-configurator-attribute-quantity {
-      padding-inline-start: 1rem;
-      padding-inline-end: 1rem;
-    }
-
-    .cx-multi-selection-bundle-quantity {
+    .cx-attribute-level-quantity-price {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -16,8 +11,9 @@
       margin-block-end: 2rem;
       margin-inline-start: 1rem;
 
-      .cx-multi-selection-bundle-price {
-        font-weight: bold;
+      cx-configurator-attribute-quantity {
+        padding-inline-start: 1rem;
+        padding-inline-end: 1rem;
       }
     }
   }

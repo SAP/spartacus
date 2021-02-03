@@ -235,7 +235,7 @@ describe('ConfiguratorPriceComponent', () => {
       fixture.detectChanges();
 
       const result = component.getPriceCalculation();
-      expect(result).toEqual(component.formula.priceTotal.formattedValue);
+      expect(result).toContain(component.formula.priceTotal.formattedValue);
     });
 
     it('should only contain value price in price formula', () => {
@@ -243,7 +243,7 @@ describe('ConfiguratorPriceComponent', () => {
       fixture.detectChanges();
 
       const result = component.getPriceCalculation();
-      expect(result).toEqual(component.formula.price.formattedValue);
+      expect(result).toContain(component.formula.price.formattedValue);
     });
 
     it('should contain complete price formula', () => {
@@ -253,8 +253,9 @@ describe('ConfiguratorPriceComponent', () => {
       const result = component.getPriceCalculation();
       const priceFormula =
         component.formula.quantity +
-        ' x ' +
+        'x(' +
         component.formula.price.formattedValue +
+        ')' +
         ' = ' +
         component.formula.priceTotal.formattedValue;
       expect(result).toEqual(priceFormula);

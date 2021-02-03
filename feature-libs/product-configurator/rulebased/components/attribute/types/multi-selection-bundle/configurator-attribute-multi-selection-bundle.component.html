@@ -2,7 +2,7 @@
   id="{{ createAttributeIdForConfigurator(attribute) }}"
   *ngIf="attribute?.values?.length"
 >
-  <div class="cx-multi-selection-bundle-quantity">
+  <div class="cx-attribute-level-quantity-price">
     <cx-configurator-attribute-quantity
       (changeQuantity)="onChangeAttributeQuantity($event)"
       [allowZero]="!attribute.required"
@@ -11,11 +11,10 @@
       *ngIf="withQuantityOnAttributeLevel"
     ></cx-configurator-attribute-quantity>
 
-    <div class="cx-multi-selection-bundle-price">
-      <cx-configurator-price
-        [formula]="setFormula(attribute.attributePriceTotal)"
-      ></cx-configurator-price>
-    </div>
+    <cx-configurator-price
+      *ngIf="attribute.attributePriceTotal"
+      [formula]="setFormula(attribute.attributePriceTotal)"
+    ></cx-configurator-price>
   </div>
 
   <cx-configurator-attribute-product-card

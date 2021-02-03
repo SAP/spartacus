@@ -24,15 +24,16 @@ export class ConfiguratorPriceComponent {
         return this.formula?.quantity.toString();
       } else if (this.formula?.priceTotal?.value !== 0) {
         {
-          return this.formula?.priceTotal?.formattedValue;
+          return '+ ' + this.formula?.priceTotal?.formattedValue;
         }
       }
     } else if (this.formula?.price?.value !== 0) {
       if (this.formula?.quantity >= 1) {
         return (
           this.formula?.quantity.toString() +
-          ' x ' +
+          'x(' +
           this.formula?.price?.formattedValue +
+          ')' +
           ' = ' +
           this.formula?.priceTotal?.formattedValue
         );

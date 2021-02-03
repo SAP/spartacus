@@ -12,8 +12,8 @@ import { ConfiguratorAttributeProductCardComponent } from '../../product-card/co
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurator-attribute-multi-selection-bundle.component';
 
-//let testAttribute: Configurator.Attribute;
-/**
+let testAttribute: Configurator.Attribute;
+
 const createTestValue = (
   price: number,
   total: number,
@@ -27,7 +27,6 @@ const createTestValue = (
     value: total,
   },
 });
- */
 
 @Component({
   selector: 'cx-configurator-attribute-product-card',
@@ -365,7 +364,6 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     expect(component.onDeselectAll).toHaveBeenCalled();
   });
 
-  /**
   describe('isAnyValueSelected()', () => {
     it('should be true if one selected', () => {
       testAttribute = {
@@ -686,29 +684,58 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
       });
     });
   });
-   */
-  it('should not display attribute quantity when dataType is no quantity', () => {
-    component.attribute.dataType = Configurator.DataType.USER_SELECTION_NO_QTY;
 
-    fixture.detectChanges();
+  describe('quantity', () => {
+    it('should not display attribute quantity when dataType is no quantity', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_NO_QTY;
+      fixture.detectChanges();
 
-    CommonConfiguratorTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      'cx-configurator-attribute-quantity'
-    );
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-quantity'
+      );
+    });
+
+    it('should display attribute quantity when dataType is with attribute quantity', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-quantity'
+      );
+    });
   });
 
-  it('should display attribute quantity when dataType is with attribute quantity', () => {
-    component.attribute.dataType =
-      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
+  describe('price info at attribute level', () => {
+    it('should not display price component', () => {
+      component.attribute.attributePriceTotal = undefined;
+      fixture.detectChanges();
 
-    fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-price'
+      );
+    });
 
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      'cx-configurator-attribute-quantity'
-    );
+    it('should display price component', () => {
+      component.attribute.attributePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '$100',
+        value: 100,
+      };
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-price'
+      );
+    });
   });
 });

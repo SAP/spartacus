@@ -242,7 +242,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
   });
 
-  describe('Quantity', () => {
+  describe('quantity', () => {
     it('should quantity be hidden when card type is no multi select', () => {
       component.multiSelect = false;
 
@@ -359,7 +359,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
   });
 
-  describe('Product price', () => {
+  describe('product price at value level', () => {
     it('should return no price details and do not display content of cx-configurator-price ', () => {
       component.product.selected = true;
       component.product.quantity = undefined;

@@ -208,6 +208,10 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
 
   setFormula(priceTotal?: Configurator.PriceDetails) {
     return {
+      quantity: 0,
+      price: {
+        value: 0,
+      },
       priceTotal: priceTotal,
       isLightedUp: true,
     };
