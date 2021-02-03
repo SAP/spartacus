@@ -11,10 +11,10 @@ import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
 import {
-  SearchBoxConfig,
-  SearchBoxEventData,
-  SearchResults,
-} from './search-box.model';
+  SearchBoxProductSelectedEvent,
+  SearchBoxSuggestionSelectedEvent,
+} from './search-box.events';
+import { SearchBoxConfig, SearchResults } from './search-box.model';
 
 const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
   minCharactersBeforeRequest: 1,
@@ -110,13 +110,21 @@ export class SearchBoxComponent {
   }
 
   /**
-   * Dispatch UI events for Suggestion or Product selected
+   * Dispatch UI events for Suggestion selected
    *
-   * @param freeText
-   * @param eventData
+   * @param eventData the data for the event
    */
-  dispatchUIEvent(eventData: SearchBoxEventData) {
-    this.searchBoxComponentService.registerUIEvents(eventData);
+  dispatchSuggestionEvent(eventData: SearchBoxSuggestionSelectedEvent): void {
+    this.searchBoxComponentService.dispatchSuggestionSelectedEvent(eventData);
+  }
+
+  /**
+   * Dispatch UI events for Product selected
+   *
+   * @param eventData the data for the event
+   */
+  dispatchProductEvent(eventData: SearchBoxProductSelectedEvent): void {
+    this.searchBoxComponentService.dispatchProductSelectedEvent(eventData);
   }
 
   /**

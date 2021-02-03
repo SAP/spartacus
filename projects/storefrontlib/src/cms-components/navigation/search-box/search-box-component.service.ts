@@ -4,7 +4,6 @@ import {
   ProductSearchPage,
   RoutingService,
   SearchboxService,
-  Suggestion,
   TranslationService,
   WindowRef,
 } from '@spartacus/core';
@@ -14,11 +13,7 @@ import {
   SearchBoxProductSelectedEvent,
   SearchBoxSuggestionSelectedEvent,
 } from './search-box.events';
-import {
-  SearchBoxConfig,
-  SearchBoxEventData,
-  SearchResults,
-} from './search-box.model';
+import { SearchBoxConfig, SearchResults } from './search-box.model';
 
 const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';
 
@@ -36,11 +31,14 @@ export class SearchBoxComponentService {
    * @deprecated since version 3.2
    * Use constructor(searchService: SearchboxService, routingService: RoutingService, translationService: TranslationService, winRef: WindowRef, eventService?: EventService) instead
    */
+  // TODO(#10988): Remove deprecated constructors
   constructor(
     searchService: SearchboxService,
     routingService: RoutingService,
     translationService: TranslationService,
-    winRef: WindowRef
+    winRef: WindowRef,
+    // tslint:disable-next-line: unified-signatures
+    eventService?: EventService
   );
   constructor(
     public searchService: SearchboxService,
@@ -129,32 +127,41 @@ export class SearchBoxComponentService {
   }
 
   /**
-   * Registers a searchbox UI event by pushing it to the right event stream
+   * Dispatches a searchbox event for product selected
    *
-   * @param freeText
-   * @param eventData
+   * @param eventData data for the "SearchBoxProductSelectedEvent"
    */
-  registerUIEvents(eventData: SearchBoxEventData) {
-    // TODO: in 4.0 remove "eventService" check
+  dispatchProductSelectedEvent(eventData: SearchBoxProductSelectedEvent): void {
+    // TODO(#10988): for 4.0 remove "eventService" check
     if (this.eventService) {
-      if (eventData.isProduct) {
-        this.eventService.dispatch<SearchBoxProductSelectedEvent>(
-          {
-            freeText: eventData.freeText,
-            productCode: eventData.selected,
-          },
-          SearchBoxProductSelectedEvent
-        );
-      } else {
-        this.eventService.dispatch<SearchBoxSuggestionSelectedEvent>(
-          {
-            freeText: eventData.freeText,
-            selectedSuggestion: eventData.selected,
-            searchSuggestions: eventData.values as Suggestion[],
-          },
-          SearchBoxSuggestionSelectedEvent
-        );
-      }
+      this.eventService.dispatch<SearchBoxProductSelectedEvent>(
+        {
+          freeText: eventData.freeText,
+          productCode: eventData.productCode,
+        },
+        SearchBoxProductSelectedEvent
+      );
+    }
+  }
+
+  /**
+   * Dispatches a searchbox event for suggestion selected
+   *
+   * @param eventData data for the "SearchBoxSuggestionSelectedEvent"
+   */
+  dispatchSuggestionSelectedEvent(
+    eventData: SearchBoxSuggestionSelectedEvent
+  ): void {
+    // TODO(#10988): for 4.0 remove "eventService" check
+    if (this.eventService) {
+      this.eventService.dispatch<SearchBoxSuggestionSelectedEvent>(
+        {
+          freeText: eventData.freeText,
+          selectedSuggestion: eventData.selectedSuggestion,
+          searchSuggestions: eventData.searchSuggestions,
+        },
+        SearchBoxSuggestionSelectedEvent
+      );
     }
   }
 

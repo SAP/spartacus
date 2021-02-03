@@ -272,23 +272,18 @@ describe('SearchBoxComponentService', () => {
           .pipe(take(1))
           .subscribe((value) => (result = value));
 
-        const searchBoxSuggestionSelectedEvent = createFrom(
-          SearchBoxSuggestionSelectedEvent,
-          {
-            freeText: 'camera',
-            selectedSuggestion: mockSuggestions[0].value,
-            searchSuggestions: mockSuggestions,
-          }
-        );
-
-        const mockEventData = {
+        const mockEventData: SearchBoxSuggestionSelectedEvent = {
           freeText: 'camera',
-          isProduct: false,
-          selected: mockSuggestions[0].value,
-          values: mockSuggestions,
+          selectedSuggestion: mockSuggestions[0].value,
+          searchSuggestions: mockSuggestions,
         };
 
-        service.registerUIEvents(mockEventData);
+        const searchBoxSuggestionSelectedEvent = createFrom(
+          SearchBoxSuggestionSelectedEvent,
+          mockEventData
+        );
+
+        service.dispatchSuggestionSelectedEvent(mockEventData);
 
         expect(result).toEqual(
           jasmine.objectContaining(searchBoxSuggestionSelectedEvent)
@@ -303,28 +298,25 @@ describe('SearchBoxComponentService', () => {
 
         const mockEventData1 = {
           freeText: 'camera',
-          isProduct: false,
-          selected: mockSuggestions[0].value,
-          values: mockSuggestions,
+          selectedSuggestion: mockSuggestions[0].value,
+          searchSuggestions: mockSuggestions,
         };
 
         const mockEventData2 = {
           freeText: 'camileo',
-          isProduct: false,
-          selected: mockSuggestions[1].value,
-          values: mockSuggestions,
+          selectedSuggestion: mockSuggestions[1].value,
+          searchSuggestions: mockSuggestions,
         };
 
         const mockEventData3 = {
           freeText: 'cameras',
-          isProduct: false,
-          selected: mockSuggestions[2].value,
-          values: mockSuggestions,
+          selectedSuggestion: mockSuggestions[2].value,
+          searchSuggestions: mockSuggestions,
         };
 
-        service.registerUIEvents(mockEventData1);
-        service.registerUIEvents(mockEventData2);
-        service.registerUIEvents(mockEventData3);
+        service.dispatchSuggestionSelectedEvent(mockEventData1);
+        service.dispatchSuggestionSelectedEvent(mockEventData2);
+        service.dispatchSuggestionSelectedEvent(mockEventData3);
 
         expect(result.length).toEqual(3);
       });
@@ -338,6 +330,11 @@ describe('SearchBoxComponentService', () => {
           .pipe(take(1))
           .subscribe((value) => (result = value));
 
+        const mockEventData: SearchBoxProductSelectedEvent = {
+          freeText: 'camera',
+          productCode: mockProduct.code,
+        };
+
         const searchBoxProductSelectedEvent = createFrom(
           SearchBoxProductSelectedEvent,
           {
@@ -346,13 +343,7 @@ describe('SearchBoxComponentService', () => {
           }
         );
 
-        const mockEventData = {
-          freeText: 'camera',
-          isProduct: true,
-          selected: mockProduct.code,
-        };
-
-        service.registerUIEvents(mockEventData);
+        service.dispatchProductSelectedEvent(mockEventData);
 
         expect(result).toEqual(
           jasmine.objectContaining(searchBoxProductSelectedEvent)
