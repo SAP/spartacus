@@ -29,7 +29,6 @@ export class TmsService implements OnDestroy {
       return;
     }
 
-    // TODO:#tms - check will it work if `tms` config slice is not provided
     for (const collector in this.tmsConfig.tms) {
       const collectorConfig = this.tmsConfig.tms[collector];
 
