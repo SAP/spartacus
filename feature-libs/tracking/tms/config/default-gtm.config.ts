@@ -7,7 +7,7 @@ export const defaultGoogleTagManagerConfig: TmsConfig = {
     gtm: {
       pushStrategy: <T extends CxEvent>(event: T, windowLike: WindowLike) => {
         windowLike.dataLayer = windowLike.dataLayer ?? [];
-        windowLike.dataLayer?.push(event);
+        windowLike.dataLayer.push(event);
       },
     },
   },
