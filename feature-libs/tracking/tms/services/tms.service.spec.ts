@@ -11,7 +11,6 @@ import { TmsConfig } from '../config/tms-config';
 import { WindowLike } from '../model/tms.model';
 import { TmsService } from './tms.service';
 
-const winLikeMock = {} as WindowLike;
 const event = createFrom(LoginEvent, {});
 class MockEventService {
   get(): Observable<LoginEvent> {
@@ -23,13 +22,13 @@ const tmsConfig: TmsConfig = {
   tms: {
     gtm: {
       eventMapper: (event) => event,
-      pushStrategy: <T extends CxEvent>(_event: T, _winRef: WindowLike) => {},
+      pushStrategy: <T extends CxEvent>(_event: T, _winLike: WindowLike) => {},
       debug: false,
       events: [LoginEvent],
     },
     adobeLaunch: {
       eventMapper: (event) => event,
-      pushStrategy: <T extends CxEvent>(_event: T, _winRef: WindowLike) => {},
+      pushStrategy: <T extends CxEvent>(_event: T, _winLike: WindowLike) => {},
       debug: false,
       events: [LoginEvent],
     },
@@ -44,7 +43,7 @@ describe('TmsService', () => {
       providers: [
         { provide: TmsConfig, useValue: tmsConfig },
         { provide: EventService, useClass: MockEventService },
-        { provide: WindowRef, useValue: winLikeMock },
+        { provide: WindowRef, useValue: {} },
       ],
     });
 
@@ -60,15 +59,15 @@ describe('TmsService', () => {
     expect(service).toBeTruthy();
   });
 
-  fit('should invoke the provided pushStrategy() function', () => {
+  it('should invoke the provided pushStrategy() function', () => {
     service.collect();
     expect(tmsConfig.tms.gtm.pushStrategy).toHaveBeenCalledWith(
       event,
-      winLikeMock
+      undefined
     );
     expect(tmsConfig.tms.adobeLaunch.pushStrategy).toHaveBeenCalledWith(
       event,
-      winLikeMock
+      undefined
     );
   });
 
