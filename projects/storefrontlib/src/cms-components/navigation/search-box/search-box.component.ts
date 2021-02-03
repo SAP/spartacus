@@ -2,11 +2,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  OnDestroy,
+  OnInit,
   Optional,
 } from '@angular/core';
 import {
   CmsSearchBoxComponent,
-  RoutingConfigService,
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
@@ -31,7 +32,7 @@ const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
   templateUrl: './search-box.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchBoxComponent {
+export class SearchBoxComponent implements OnInit, OnDestroy {
   @Input() config: SearchBoxConfig;
 
   /**
@@ -51,31 +52,36 @@ export class SearchBoxComponent {
    * for example when we click inside the search result section.
    */
   private ignoreCloseEvent = false;
-  public chosenWord = '';
-  public updateChosenWordFromUrl: Subscription;
+  chosenWord = '';
+  public subscription: Subscription;
+
   /**
    * The component data is optional, so that this component
    * can be reused without CMS integration.
    */
 
   constructor(
+    searchBoxComponentService: SearchBoxComponentService,
+    componentData: CmsComponentData<CmsSearchBoxComponent>,
+    winRef: WindowRef,
+    // tslint:disable-next-line: unified-signatures
+    routingService: RoutingService
+  );
+  /**
+   * @deprecated
+   */
+  constructor(
+    searchBoxComponentService: SearchBoxComponentService,
+    componentData: CmsComponentData<CmsSearchBoxComponent>,
+    winRef: WindowRef
+  );
+  constructor(
     protected searchBoxComponentService: SearchBoxComponentService,
     @Optional()
     protected componentData: CmsComponentData<CmsSearchBoxComponent>,
     protected winRef: WindowRef,
-    protected routingService: RoutingService,
-    protected routingConfigService: RoutingConfigService
-  ) {
-    this.updateChosenWordFromUrl = this.routingService
-      .getRouterState()
-      .subscribe((data) => {
-        const search = this.routingConfigService
-          .getRouteConfig('search')
-          .paths[0].split('/')[0];
-        if (!data.nextState && !data?.state?.url?.split('/').includes(search))
-          this.chosenWord = '';
-      });
-  }
+    protected routingService?: RoutingService
+  ) {}
 
   /**
    * Returns the SearchBox configuration. The configuration is driven by multiple
@@ -106,6 +112,15 @@ export class SearchBoxComponent {
   results$: Observable<SearchResults> = this.config$.pipe(
     switchMap((config) => this.searchBoxComponentService.getResults(config))
   );
+
+  ngOnInit() {
+    this.subscription = this.routingService
+      .getRouterState()
+      .subscribe((data) => {
+        if (!data.nextState && data.state.params?.query !== this.chosenWord)
+          this.chosenWord = '';
+      });
+  }
 
   /**
    * Closes the searchBox and opens the search result page.
@@ -256,6 +271,6 @@ export class SearchBoxComponent {
   }
 
   ngOnDestroy() {
-    this.updateChosenWordFromUrl.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }

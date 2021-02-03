@@ -7,15 +7,14 @@ import {
   CmsSearchBoxComponent,
   I18nTestingModule,
   ProductSearchService,
-  RoutingConfigService,
   RoutingService,
+  RouterState,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxComponent } from './search-box.component';
 import { SearchResults } from './search-box.model';
-import { RouterState } from './../../../../../core/src/routing/store/routing-state';
 
 const mockSearchBoxComponentData: CmsSearchBoxComponent = {
   uid: '001',
@@ -70,12 +69,12 @@ class MockMediaComponent {
   @Input() alt;
 }
 
-let routerState$: BehaviorSubject<RouterState> = new BehaviorSubject({
+const routerState$: BehaviorSubject<RouterState> = new BehaviorSubject({
   nextState: undefined,
   state: {
-    url: '/abc',
+    url: null,
     queryParams: null,
-    params: null,
+    params: {},
     context: null,
     cmsRequired: null,
   },
@@ -84,12 +83,6 @@ let routerState$: BehaviorSubject<RouterState> = new BehaviorSubject({
 
 class MockRoutingService implements Partial<RoutingService> {
   getRouterState = () => routerState$.asObservable();
-}
-
-class MockRoutingConfigService implements Partial<RoutingConfigService> {
-  getRouteConfig() {
-    return { paths: ['search/query'] };
-  }
 }
 
 describe('SearchBoxComponent', () => {
@@ -150,10 +143,6 @@ describe('SearchBoxComponent', () => {
             useClass: SearchBoxComponentServiceSpy,
           },
           {
-            provide: RoutingConfigService,
-            useClass: MockRoutingConfigService,
-          },
-          {
             provide: RoutingService,
             useClass: MockRoutingService,
           },
@@ -172,6 +161,7 @@ describe('SearchBoxComponent', () => {
 
       fixture = TestBed.createComponent(SearchBoxComponent);
       searchBoxComponent = fixture.componentInstance;
+      searchBoxComponent.ngOnInit();
 
       routingService = TestBed.inject(RoutingService);
 
@@ -299,11 +289,23 @@ describe('SearchBoxComponent', () => {
       ).toBeTruthy();
     });
 
-    it('should contain chosen word from the dropdrown', () => {
+    it('should contain chosen word from the dropdown', () => {
+      const mockRouterState = {
+        nextState: undefined,
+        state: {
+          url: null,
+          queryParams: null,
+          params: { query: 'camera' },
+          context: null,
+          cmsRequired: null,
+        },
+        navigationId: null,
+      };
       const input = fixture.debugElement.query(By.css('input'));
       const PRODUCT_SEARCH_STRING = 'camera';
       input.nativeElement.value = PRODUCT_SEARCH_STRING;
       input.triggerEventHandler('keydown.enter', {});
+      routerState$.next(mockRouterState);
       fixture.detectChanges();
       expect(searchBoxComponent.chosenWord).toEqual(PRODUCT_SEARCH_STRING);
       expect(
@@ -315,9 +317,9 @@ describe('SearchBoxComponent', () => {
       const mockRouterState = {
         nextState: undefined,
         state: {
-          url: '/test',
+          url: null,
           queryParams: null,
-          params: null,
+          params: {},
           context: null,
           cmsRequired: null,
         },
