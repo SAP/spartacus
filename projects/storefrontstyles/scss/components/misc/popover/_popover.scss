@@ -1,2 +1,25 @@
-%cx-popover {
+// %cx-popover {
+//   .cx-popover {
+//     position: absolute;
+//   }
+// }
+.cx-popover {
+  position: absolute;
+  width: 200px;
+  background-color: var(--cx-color-light);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  top: 50px;
+  right: 50px;
+
+  .arrow {
+    position: absolute;
+    top: -18px;
+    left: 20px;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 20px solid var(--cx-color-light);
+    width: 0;
+    height: 0;
+  }
 }

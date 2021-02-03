@@ -172,13 +172,13 @@ export const costCenterTableConfig: TableConfig = {
     },
 
     [OrganizationTableType.COST_CENTER_BUDGETS]: {
-      cells: ['name', 'details', 'actions'],
+      cells: ['name', 'popover', 'actions'],
       options: {
         cells: {
           name: {
             linkable: false,
           },
-          details: {
+          popover: {
             dataComponent: BudgetDetailsCellComponent,
           },
           actions: {
