@@ -1,4 +1,5 @@
-import { CxEvent, WindowRef } from '@spartacus/core';
+import { CxEvent } from '@spartacus/core';
+import { WindowLike } from '../model/tms.model';
 import { TmsConfig } from './tms-config';
 import { tmsConfigValidator } from './tms-config-validator';
 
@@ -18,16 +19,16 @@ describe('tmsConfigValidator', () => {
     const config: TmsConfig = {
       tms: {
         gtm: {
-          dataLayerPush: <T extends CxEvent>(
+          pushStrategy: <T extends CxEvent>(
             _event: T,
-            _winRef: WindowRef
+            _winRef: WindowLike
           ) => {},
           events: [],
         },
         adobeLaunch: {
-          dataLayerPush: <T extends CxEvent>(
+          pushStrategy: <T extends CxEvent>(
             _event: T,
-            _winRef: WindowRef
+            _winRef: WindowLike
           ) => {},
           events: [],
         },

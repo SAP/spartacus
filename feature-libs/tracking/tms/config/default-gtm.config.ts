@@ -5,10 +5,8 @@ import { TmsConfig } from './tms-config';
 export const defaultGoogleTagManagerConfig: TmsConfig = {
   tms: {
     gtm: {
-      dataLayerPush: <T extends CxEvent>(event: T, windowLike: WindowLike) => {
-        if (!windowLike.dataLayer) {
-          windowLike.dataLayer = windowLike.dataLayer ?? [];
-        }
+      pushStrategy: <T extends CxEvent>(event: T, windowLike: WindowLike) => {
+        windowLike.dataLayer = windowLike.dataLayer ?? [];
         windowLike.dataLayer?.push(event);
       },
     },

@@ -15,7 +15,7 @@ export interface TmsCollectorConfig {
   /**
    * Pushes the event to the configured data layer.
    */
-  dataLayerPush?: <T extends CxEvent>(
+  pushStrategy?: <T extends CxEvent>(
     event: T | any,
     windowLike: WindowLike
   ) => void;

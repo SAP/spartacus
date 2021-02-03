@@ -8,9 +8,10 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { TmsConfig } from '../config/tms-config';
+import { WindowLike } from '../model/tms.model';
 import { TmsService } from './tms.service';
 
-const winRefMock = {} as WindowRef;
+const winLikeMock = {} as WindowLike;
 const event = createFrom(LoginEvent, {});
 class MockEventService {
   get(): Observable<LoginEvent> {
@@ -21,14 +22,14 @@ class MockEventService {
 const tmsConfig: TmsConfig = {
   tms: {
     gtm: {
-      dataLayerInit: (_winRef: WindowRef) => {},
-      dataLayerPush: <T extends CxEvent>(_event: T, _winRef: WindowRef) => {},
+      eventMapper: (event) => event,
+      pushStrategy: <T extends CxEvent>(_event: T, _winRef: WindowLike) => {},
       debug: false,
       events: [LoginEvent],
     },
     adobeLaunch: {
-      dataLayerInit: (_winRef: WindowRef) => {},
-      dataLayerPush: <T extends CxEvent>(_event: T, _winRef: WindowRef) => {},
+      eventMapper: (event) => event,
+      pushStrategy: <T extends CxEvent>(_event: T, _winRef: WindowLike) => {},
       debug: false,
       events: [LoginEvent],
     },
@@ -43,38 +44,37 @@ describe('TmsService', () => {
       providers: [
         { provide: TmsConfig, useValue: tmsConfig },
         { provide: EventService, useClass: MockEventService },
-        { provide: WindowRef, useValue: winRefMock },
+        { provide: WindowRef, useValue: winLikeMock },
       ],
     });
 
     service = TestBed.inject(TmsService);
 
-    spyOn(tmsConfig.tms.gtm, 'dataLayerInit').and.callThrough();
-    spyOn(tmsConfig.tms.gtm, 'dataLayerPush').and.callThrough();
-    spyOn(tmsConfig.tms.adobeLaunch, 'dataLayerInit').and.callThrough();
-    spyOn(tmsConfig.tms.adobeLaunch, 'dataLayerPush').and.callThrough();
+    spyOn(tmsConfig.tms.gtm, 'pushStrategy').and.callThrough();
+    spyOn(tmsConfig.tms.adobeLaunch, 'pushStrategy').and.callThrough();
+    spyOn(tmsConfig.tms.gtm, 'eventMapper').and.callThrough();
+    spyOn(tmsConfig.tms.adobeLaunch, 'eventMapper').and.callThrough();
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should invoke the provided dataLayerInit() function', () => {
+  fit('should invoke the provided pushStrategy() function', () => {
     service.collect();
-    expect(tmsConfig.tms.gtm.dataLayerInit).toHaveBeenCalledWith(winRefMock);
-    expect(tmsConfig.tms.adobeLaunch.dataLayerInit).toHaveBeenCalledWith(
-      winRefMock
+    expect(tmsConfig.tms.gtm.pushStrategy).toHaveBeenCalledWith(
+      event,
+      winLikeMock
+    );
+    expect(tmsConfig.tms.adobeLaunch.pushStrategy).toHaveBeenCalledWith(
+      event,
+      winLikeMock
     );
   });
-  it('should invoke the provided dataLayerPush() function', () => {
+
+  it('should invoke the provided eventMapper() function', () => {
     service.collect();
-    expect(tmsConfig.tms.gtm.dataLayerPush).toHaveBeenCalledWith(
-      event,
-      winRefMock
-    );
-    expect(tmsConfig.tms.adobeLaunch.dataLayerPush).toHaveBeenCalledWith(
-      event,
-      winRefMock
-    );
+    expect(tmsConfig.tms.gtm.eventMapper).toHaveBeenCalledWith(event);
+    expect(tmsConfig.tms.adobeLaunch.eventMapper).toHaveBeenCalledWith(event);
   });
 });

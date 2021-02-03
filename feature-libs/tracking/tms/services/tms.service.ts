@@ -43,11 +43,11 @@ export class TmsService implements OnDestroy {
               event
             );
           }
-          if (collectorConfig.dataLayerPush) {
+          if (collectorConfig.pushStrategy) {
             event = collectorConfig.eventMapper
               ? collectorConfig.eventMapper(event)
               : event;
-            collectorConfig.dataLayerPush(event, this.windowRef.nativeWindow);
+            collectorConfig.pushStrategy(event, this.windowRef.nativeWindow);
           }
         })
       );
