@@ -32,7 +32,9 @@ export class TmsService implements OnDestroy {
     for (const collector in this.tmsConfig.tms) {
       const collectorConfig = this.tmsConfig.tms[collector];
 
-      collectorConfig.dataLayerInit(this.windowRef);
+      if (collectorConfig.dataLayerInit) {
+        collectorConfig.dataLayerInit(this.windowRef);
+      }
 
       const events =
         collectorConfig.events?.map((event) => this.eventsService.get(event)) ||
@@ -45,7 +47,9 @@ export class TmsService implements OnDestroy {
               event
             );
           }
-          collectorConfig.dataLayerPush(event, this.windowRef);
+          if (collectorConfig.dataLayerPush) {
+            collectorConfig.dataLayerPush(event, this.windowRef);
+          }
         })
       );
     }
