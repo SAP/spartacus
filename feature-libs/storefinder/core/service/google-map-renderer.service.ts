@@ -1,8 +1,8 @@
 /// <reference types="@types/googlemaps" />
-import { ExternalJsFileLoader } from '@spartacus/core';
 import { Injectable } from '@angular/core';
-import { StoreDataService } from '../facade/store-data.service';
+import { ExternalJsFileLoader } from '@spartacus/core';
 import { StoreFinderConfig } from '../config/store-finder-config';
+import { StoreDataService } from '../facade/store-data.service';
 
 @Injectable({
   providedIn: 'root',
@@ -30,9 +30,10 @@ export class GoogleMapRendererService {
     selectMarkerHandler?: Function
   ): void {
     if (this.googleMap === null) {
-      this.externalJsFileLoader.load(
+      this.externalJsFileLoader.addScript(
         this.config.googleMaps.apiUrl,
         { key: this.config.googleMaps.apiKey },
+        { type: 'text/javascript', async: true, defer: true },
         () => {
           this.drawMap(mapElement, locations, selectMarkerHandler);
         }

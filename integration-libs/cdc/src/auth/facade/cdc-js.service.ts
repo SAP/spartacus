@@ -80,9 +80,10 @@ export class CdcJsService implements OnDestroy {
             );
             if (scriptForBaseSite) {
               const javascriptUrl = `${scriptForBaseSite}&lang=${language}`;
-              this.externalJsFileLoader.load(
+              this.externalJsFileLoader.addScript(
                 javascriptUrl,
                 undefined,
+                { type: 'text/javascript', async: true, defer: true },
                 () => {
                   this.registerEventListeners(baseSite);
                   this.loaded$.next(true);
