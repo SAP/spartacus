@@ -60,6 +60,9 @@ import { ProductVariantsModule } from './product/product-variants/product-varian
 import { UserComponentModule } from './user/user.module';
 import { WishListModule } from './wish-list/wish-list.module';
 
+/**
+ * @deprecated since 3.1, use individual imports instead
+ */
 @NgModule({
   imports: [
     AnonymousConsentManagementBannerModule,

@@ -78,7 +78,9 @@ export default async function run(
     '@spartacus/cds': 'integration-libs/cds',
     '@spartacus/organization': 'feature-libs/organization',
     '@spartacus/product': 'feature-libs/product',
+    '@spartacus/product-configurator': 'feature-libs/product-configurator',
     '@spartacus/storefinder': 'feature-libs/storefinder',
+    '@spartacus/qualtrics': 'feature-libs/qualtrics',
     '@spartacus/cdc': 'integration-libs/cdc',
     '@spartacus/setup': 'core-libs/setup',
   };
@@ -295,12 +297,11 @@ if (typeof config.to === 'undefined') {
       break;
     case 'product':
     case '@spartacus/product':
-    case '@spartacus/product/configurators':
-    case '@spartacus/product/configurators/common':
-    case '@spartacus/product/configurators/cpq':
-    case '@spartacus/product/configurators/variant':
-    case '@spartacus/product/configurators/textfield':
       config.library = '@spartacus/product';
+      break;
+    case 'product-configurator':
+    case '@spartacus/product-configurator':
+      config.library = '@spartacus/product-configurator';
       break;
     case 'cdc':
     case '@spartacus/cdc':
@@ -309,6 +310,10 @@ if (typeof config.to === 'undefined') {
     case 'storefinder':
     case '@spartacus/storefinder':
       config.library = '@spartacus/storefinder';
+      break;
+    case 'qualtrics':
+    case '@spartacus/qualtrics':
+      config.library = '@spartacus/qualtrics';
       break;
     case 'setup':
     case '@spartacus/setup':
