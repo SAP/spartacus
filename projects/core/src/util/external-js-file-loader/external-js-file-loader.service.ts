@@ -1,5 +1,10 @@
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, isPlatformServer } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+
+export enum ScriptAddTo {
+  HEAD = 'head',
+  BODY = 'body',
+}
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +16,8 @@ export class ExternalJsFileLoader {
   ) {}
 
   /**
-   * @deprecated since 3.2, use addScript(src, params?, attributes?, callback?, errorCallback?)
+   * @deprecated since 3.2,
+   * use addScript(src, params?, attributes?, callback?, errorCallback?, onSsr?, inElement?)
    * instead.
    *
    * Loads a javascript from an external URL. Loading is skipped during SSR.
@@ -41,22 +47,28 @@ export class ExternalJsFileLoader {
    * @param attributes the attributes of HTML script tag (exclude src)
    * @param callback a function to be invoked after the script has been loaded
    * @param errorCallback function to be invoked after error during script loading
+   * @param onSsr whether add script on SSR, by default false (CSR)
+   * @param inElement HTML body or head where script will be placed
    */
   public addScript(
     src: string,
     params?: Object,
     attributes?: Object,
     callback?: EventListener,
-    errorCallback?: EventListener
+    errorCallback?: EventListener,
+    onSsr = false,
+    inElement = ScriptAddTo.HEAD
   ): void {
-    if (params) {
-      src = src + this.parseParams(params);
-    }
-
-    if (this.hasScript(src)) {
+    if (
+      (!onSsr && this.platformId && isPlatformServer(this.platformId)) ||
+      (onSsr && this.hasScript(src))
+    ) {
       return;
     }
 
+    if (params) {
+      src = src + this.parseParams(params);
+    }
     const script: HTMLScriptElement = this.document.createElement('script');
     script.src = src;
 
@@ -78,7 +90,9 @@ export class ExternalJsFileLoader {
       script.addEventListener('error', errorCallback);
     }
 
-    this.document.head.appendChild(script);
+    inElement === ScriptAddTo.HEAD
+      ? this.document.head.appendChild(script)
+      : this.document.body.appendChild(script);
   }
 
   /**
