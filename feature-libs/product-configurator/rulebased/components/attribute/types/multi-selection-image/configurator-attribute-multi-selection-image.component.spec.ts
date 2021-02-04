@@ -95,7 +95,6 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
       groupId: 'testGroup',
       values: values,
     };
-
     fixture.detectChanges();
   });
 

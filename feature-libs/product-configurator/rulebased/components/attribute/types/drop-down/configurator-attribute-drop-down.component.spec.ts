@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
+import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
-import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 
 class MockConfiguratorAttributeQuantityService {
   disableQuantityActions(value): boolean {

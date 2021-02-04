@@ -48,11 +48,7 @@
           [product]="product"
         ></cx-add-to-cart>
         <!-- List Item Outlet -->
-        <ng-template
-          [cxOutlet]="Outlets.LIST_ITEM_END"
-          [cxOutletContext]="{ product: product }"
-        >
-        </ng-template>
+        <ng-template [cxOutlet]="Outlets.LIST_ITEM_END"> </ng-template>
       </div>
     </div>
   </div>

@@ -1,4 +1,3 @@
-import { translations } from '@spartacus/assets';
 import { ConfigModule } from '@spartacus/core';
 import { configuratorTranslations } from '@spartacus/product-configurator/common/assets';
 import { RulebasedConfiguratorRootModule } from '@spartacus/product-configurator/rulebased/root';
@@ -9,10 +8,7 @@ export const productConfigFeature: FeatureEnvironment = {
   imports: [
     ConfigModule.withConfig({
       i18n: {
-        resources: {
-          en: { ...translations.en, ...configuratorTranslations.en },
-        },
-        fallbackLang: 'en',
+        resources: configuratorTranslations,
       },
       featureModules: {
         rulebased: {

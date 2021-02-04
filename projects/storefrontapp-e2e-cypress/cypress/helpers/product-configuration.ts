@@ -66,6 +66,15 @@ export function goToConfigurationPage(
   });
 }
 
+export function registerConfigurationRoute() {
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/products/*/configurators/ccpconfigurator?lang=en&curr=USD`
+  ).as('configure_product');
+}
+
 /**
  * Navigates to the CPQ product configuration page.
  *

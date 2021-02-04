@@ -30,7 +30,6 @@ export class ConfiguratorFormComponent implements OnInit {
       );
     })
   );
-
   currentGroup$: Observable<
     Configurator.Group
   > = this.configRouterExtractorService
