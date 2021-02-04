@@ -4,9 +4,9 @@ import { FormControl } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { ItemCounterComponent } from '@spartacus/storefront';
 import {
-  ConfiguratorUIConfig,
-  DefaultConfiguratorUIConfig,
-} from '../../config/configurator-ui-config';
+  ConfiguratorUISettings,
+  DefaultConfiguratorUISettings,
+} from '../../config/configurator-ui-settings';
 import { ConfiguratorAttributeQuantityComponent } from './configurator-attribute-quantity.component';
 
 describe(' ConfiguratorAttributeQuantityComponent', () => {
@@ -23,8 +23,8 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
         imports: [I18nTestingModule],
         providers: [
           {
-            provide: ConfiguratorUIConfig,
-            useValue: DefaultConfiguratorUIConfig,
+            provide: ConfiguratorUISettings,
+            useValue: DefaultConfiguratorUISettings,
           },
         ],
       })

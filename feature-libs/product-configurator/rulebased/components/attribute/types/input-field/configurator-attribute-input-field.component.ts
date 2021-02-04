@@ -12,7 +12,7 @@ import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Subscription, timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorUIConfig } from '../../../config/configurator-ui-config';
+import { ConfiguratorUISettings } from '../../../config/configurator-ui-settings';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
@@ -34,7 +34,7 @@ export class ConfiguratorAttributeInputFieldComponent
 
   @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  constructor(protected config: ConfiguratorUIConfig) {
+  constructor(protected config: ConfiguratorUISettings) {
     super();
   }
 

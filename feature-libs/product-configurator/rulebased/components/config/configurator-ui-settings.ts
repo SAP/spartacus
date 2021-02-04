@@ -1,11 +1,11 @@
-export abstract class ConfiguratorUIConfig {
+export abstract class ConfiguratorUISettings {
   rulebasedConfigurator: {
     quantityDebounceTime?: number;
     inputDebounceTime?: number;
   };
 }
 
-export const DefaultConfiguratorUIConfig: ConfiguratorUIConfig = {
+export const DefaultConfiguratorUISettings: ConfiguratorUISettings = {
   rulebasedConfigurator: {
     quantityDebounceTime: 750,
     inputDebounceTime: 500,

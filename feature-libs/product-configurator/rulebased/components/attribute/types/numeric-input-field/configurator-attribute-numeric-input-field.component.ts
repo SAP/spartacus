@@ -13,7 +13,7 @@ import { FormControl } from '@angular/forms';
 import { timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorUIConfig } from '../../../config/configurator-ui-config';
+import { ConfiguratorUISettings } from '../../../config/configurator-ui-settings';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeNumericInputFieldService } from './configurator-attribute-numeric-input-field.component.service';
@@ -40,7 +40,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
 
   constructor(
     protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
-    protected config: ConfiguratorUIConfig
+    protected config: ConfiguratorUISettings
   ) {
     super();
   }

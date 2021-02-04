@@ -11,9 +11,9 @@ import { By } from '@angular/platform-browser';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../../../core/model/configurator.model';
 import {
-  ConfiguratorUIConfig,
-  DefaultConfiguratorUIConfig,
-} from '../../../config/configurator-ui-config';
+  ConfiguratorUISettings,
+  DefaultConfiguratorUISettings,
+} from '../../../config/configurator-ui-settings';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribute-input-field.component';
 
@@ -33,7 +33,7 @@ describe('ConfigAttributeInputFieldComponent', () => {
   const userInput = 'theUserInput';
 
   const DEBOUNCE_TIME =
-    DefaultConfiguratorUIConfig.rulebasedConfigurator.inputDebounceTime;
+    DefaultConfiguratorUISettings.rulebasedConfigurator.inputDebounceTime;
 
   beforeEach(
     waitForAsync(() => {
@@ -46,8 +46,8 @@ describe('ConfigAttributeInputFieldComponent', () => {
         providers: [
           ConfiguratorAttributeBaseComponent,
           {
-            provide: ConfiguratorUIConfig,
-            useValue: DefaultConfiguratorUIConfig,
+            provide: ConfiguratorUISettings,
+            useValue: DefaultConfiguratorUISettings,
           },
         ],
       })

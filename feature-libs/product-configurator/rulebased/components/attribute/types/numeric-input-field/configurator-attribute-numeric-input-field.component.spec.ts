@@ -17,9 +17,9 @@ import { LanguageService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
 import {
-  ConfiguratorUIConfig,
-  DefaultConfiguratorUIConfig,
-} from '../../../config/configurator-ui-config';
+  ConfiguratorUISettings,
+  DefaultConfiguratorUISettings,
+} from '../../../config/configurator-ui-settings';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-attribute-numeric-input-field.component';
 
@@ -38,7 +38,7 @@ export class MockFocusDirective {
 }
 
 const DEBOUNCE_TIME =
-  DefaultConfiguratorUIConfig.rulebasedConfigurator.inputDebounceTime;
+  DefaultConfiguratorUISettings.rulebasedConfigurator.inputDebounceTime;
 
 function checkForValidationMessage(
   component: ConfiguratorAttributeNumericInputFieldComponent,
@@ -80,8 +80,8 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           ConfiguratorAttributeBaseComponent,
           { provide: LanguageService, useValue: mockLanguageService },
           {
-            provide: ConfiguratorUIConfig,
-            useValue: DefaultConfiguratorUIConfig,
+            provide: ConfiguratorUISettings,
+            useValue: DefaultConfiguratorUISettings,
           },
         ],
       })
