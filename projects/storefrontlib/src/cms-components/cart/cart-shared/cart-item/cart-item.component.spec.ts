@@ -25,10 +25,8 @@ import { ModalDirective } from 'projects/storefrontlib/src/shared/components/mod
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { CartItemComponent } from './cart-item.component';
-import {
-  CartItemContext,
-  CartItemContextSource,
-} from './model/cart-item.context';
+import { CartItemContextSource } from './model/cart-item-context-source.model';
+import { CartItemContext } from './model/cart-item-context.model';
 
 @Pipe({
   name: 'cxUrl',
@@ -181,71 +179,71 @@ describe('CartItemComponent', () => {
       cartItemContextSource = componentInjector.get(CartItemContextSource);
     });
 
-    it('should push "compact" to context', () => {
+    it('should push change of input "compact" to context', () => {
       spyOn(cartItemContextSource.compact$, 'next');
       cartItemComponent.compact = true;
-      cartItemComponent.ngOnChanges();
-      expect(cartItemContextSource.compact$.next).not.toHaveBeenCalled();
-      cartItemComponent.ngOnChanges({ compact: {} as SimpleChange });
+      cartItemComponent.ngOnChanges({
+        compact: { currentValue: cartItemComponent.compact } as SimpleChange,
+      });
       expect(cartItemContextSource.compact$.next).toHaveBeenCalledWith(
         cartItemComponent.compact
       );
     });
 
-    it('should push "readonly" to context', () => {
+    it('should push change of input "readonly" to context', () => {
       spyOn(cartItemContextSource.readonly$, 'next');
       cartItemComponent.readonly = true;
-      cartItemComponent.ngOnChanges();
-      expect(cartItemContextSource.readonly$.next).not.toHaveBeenCalled();
-      cartItemComponent.ngOnChanges({ readonly: {} as SimpleChange });
+      cartItemComponent.ngOnChanges({
+        readonly: { currentValue: cartItemComponent.readonly } as SimpleChange,
+      });
       expect(cartItemContextSource.readonly$.next).toHaveBeenCalledWith(
         cartItemComponent.readonly
       );
     });
 
-    it('should push "item" to context', () => {
+    it('should push change of input "item" to context', () => {
       spyOn(cartItemContextSource.item$, 'next');
       cartItemComponent.item = { orderCode: '123' };
-      cartItemComponent.ngOnChanges();
-      expect(cartItemContextSource.item$.next).not.toHaveBeenCalled();
-      cartItemComponent.ngOnChanges({ item: {} as SimpleChange });
+      cartItemComponent.ngOnChanges({
+        item: { currentValue: cartItemComponent.item } as SimpleChange,
+      });
       expect(cartItemContextSource.item$.next).toHaveBeenCalledWith(
         cartItemComponent.item
       );
     });
 
-    it('should push "quantityControl" to context', () => {
+    it('should push change of input "quantityControl" to context', () => {
       spyOn(cartItemContextSource.quantityControl$, 'next');
       cartItemComponent.quantityControl = new FormControl(2);
-      cartItemComponent.ngOnChanges();
-      expect(
-        cartItemContextSource.quantityControl$.next
-      ).not.toHaveBeenCalled();
-      cartItemComponent.ngOnChanges({ quantityControl: {} as SimpleChange });
+      cartItemComponent.ngOnChanges({
+        quantityControl: {
+          currentValue: cartItemComponent.quantityControl,
+        } as SimpleChange,
+      });
       expect(cartItemContextSource.quantityControl$.next).toHaveBeenCalledWith(
         cartItemComponent.quantityControl
       );
     });
 
-    it('should push "promotionLocation" to context', () => {
+    it('should push change of input "promotionLocation" to context', () => {
       spyOn(cartItemContextSource.promotionLocation$, 'next');
       cartItemComponent.promotionLocation = PromotionLocation.Order;
-      cartItemComponent.ngOnChanges();
-      expect(
-        cartItemContextSource.promotionLocation$.next
-      ).not.toHaveBeenCalled();
-      cartItemComponent.ngOnChanges({ promotionLocation: {} as SimpleChange });
+      cartItemComponent.ngOnChanges({
+        promotionLocation: {
+          currentValue: cartItemComponent.quantityControl,
+        } as SimpleChange,
+      });
       expect(
         cartItemContextSource.promotionLocation$.next
       ).toHaveBeenCalledWith(cartItemComponent.promotionLocation);
     });
 
-    it('should push "options" to context', () => {
+    it('should push change of input "options" to context', () => {
       spyOn(cartItemContextSource.options$, 'next');
       cartItemComponent.options = { isSaveForLater: true };
-      cartItemComponent.ngOnChanges();
-      expect(cartItemContextSource.options$.next).not.toHaveBeenCalled();
-      cartItemComponent.ngOnChanges({ options: {} as SimpleChange });
+      cartItemComponent.ngOnChanges({
+        options: { currentValue: cartItemComponent.options } as SimpleChange,
+      });
       expect(cartItemContextSource.options$.next).toHaveBeenCalledWith(
         cartItemComponent.options
       );
