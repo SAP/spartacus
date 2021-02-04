@@ -40,6 +40,7 @@ export class ConfiguratorCPQOverviewAttributeComponent implements OnInit {
       price: price,
       priceTotal: priceTotal,
       isLightedUp: true,
+      isOverview: true,
     };
   }
 }

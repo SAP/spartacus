@@ -11,43 +11,63 @@ export class ConfiguratorPriceComponent {
     price: null,
     priceTotal: null,
     isLightedUp: false,
+    isOverview: false,
   };
 
-  /**
-   * Retrieves the price type according to the values passed to the component
-   *
-   * @returns {string} - price calculation formula
-   */
-  getPriceCalculation(): string {
-    if (this.formula?.price?.value === 0) {
-      if (this.formula?.quantity >= 1) {
-        return this.formula?.quantity.toString();
-      } else if (this.formula?.priceTotal?.value !== 0) {
-        {
-          return '+ ' + this.formula?.priceTotal?.formattedValue;
-        }
-      }
-    } else if (this.formula?.price?.value !== 0) {
-      if (this.formula?.quantity >= 1) {
-        return (
-          this.formula?.quantity.toString() +
-          'x(' +
-          this.formula?.price?.formattedValue +
-          ')' +
-          ' = ' +
-          this.formula?.priceTotal?.formattedValue
-        );
-      } else {
-        return this.formula?.price?.formattedValue;
-      }
+  displayQuantityOnly() {
+    return (
+      this.formula?.quantity &&
+      this.formula?.quantity >= 1 &&
+      this.formula.isOverview &&
+      this.formula?.price?.value === 0
+    );
+  }
+
+  get quantity(): string {
+    return this.formula?.quantity?.toString();
+  }
+
+  get price(): string {
+    if (this.formula?.priceTotal) {
+      return this.priceTotal;
+    } else {
+      return '+ ' + this.formula?.price?.formattedValue;
     }
   }
 
-  isPriceLightedUp() {
-    return this.formula?.isLightedUp;
+  displayQuantityAndPrice() {
+    return this.formula?.price?.value !== 0 && this.formula?.quantity >= 1;
   }
 
-  isFormulaDataDefined() {
+  get quantityWihPrice(): string {
+    return this.quantity + 'x(' + this.formula?.price?.formattedValue + ')';
+  }
+
+  get priceTotal(): string {
+    return '+ ' + this.formula?.priceTotal?.formattedValue;
+  }
+
+  displayPrice() {
+    return (
+      (this.formula?.price?.value || this.formula?.priceTotal?.value) &&
+      !this.displayQuantityAndPrice()
+    );
+  }
+
+  isPriceLightedUp() {
+    return this.formula.isLightedUp;
+  }
+
+  get styleClass() {
+    let styleClass = 'cx-price';
+    if (!this.isPriceLightedUp()) {
+      styleClass += ' cx-greyed-out';
+    }
+
+    return styleClass;
+  }
+
+  displayFormula() {
     return (
       (this.formula?.quantity && this.formula?.quantity !== 0) ||
       (this.formula?.price && this.formula?.price?.value !== 0) ||

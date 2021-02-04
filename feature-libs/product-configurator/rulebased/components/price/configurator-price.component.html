@@ -1,8 +1,17 @@
-<ng-container *ngIf="isFormulaDataDefined()">
-  <div
-    class="cx-price-calculation"
-    [ngClass]="{ 'cx-greyed-out': !isPriceLightedUp() }"
-  >
-    {{ getPriceCalculation() }}
-  </div>
+<ng-container *ngIf="displayFormula()">
+  <ng-container *ngIf="displayPrice()">
+    <div [ngClass]="styleClass">{{ price }}</div>
+  </ng-container>
+  <ng-container *ngIf="displayQuantityOnly()">
+    <div class="cx-quantity">
+      <label>{{ 'configurator.attribute.quantity' | cxTranslate }}</label>
+      <div>{{ quantity }}</div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="displayQuantityAndPrice()">
+    <div class="cx-quantity-price">
+      {{ quantityWihPrice }}
+    </div>
+    <div class="cx-price-total">{{ priceTotal }}</div>
+  </ng-container>
 </ng-container>
