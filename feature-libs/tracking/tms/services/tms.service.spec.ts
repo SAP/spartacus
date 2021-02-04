@@ -8,7 +8,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { TmsConfig } from '../config/tms-config';
-import { WindowLike } from '../model/tms.model';
+import { WindowObject } from '../model/tms.model';
 import { TmsService } from './tms.service';
 
 const event = createFrom(LoginEvent, {});
@@ -22,13 +22,13 @@ const tmsConfig: TmsConfig = {
   tagManager: {
     gtm: {
       eventMapper: (event) => event,
-      pushStrategy: <T extends CxEvent>(_event: T, _winLike: WindowLike) => {},
+      pushStrategy: <T extends CxEvent>(_event: T, _winObj: WindowObject) => {},
       debug: false,
       events: [LoginEvent],
     },
     aep: {
       eventMapper: (event) => event,
-      pushStrategy: <T extends CxEvent>(_event: T, _winLike: WindowLike) => {},
+      pushStrategy: <T extends CxEvent>(_event: T, _winObj: WindowObject) => {},
       debug: false,
       events: [LoginEvent],
     },

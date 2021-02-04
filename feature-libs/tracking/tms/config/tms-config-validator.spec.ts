@@ -1,5 +1,5 @@
 import { CxEvent } from '@spartacus/core';
-import { WindowLike } from '../model/tms.model';
+import { WindowObject } from '../model/tms.model';
 import { TmsConfig } from './tms-config';
 import { tmsConfigValidator } from './tms-config-validator';
 
@@ -21,14 +21,14 @@ describe('tmsConfigValidator', () => {
         gtm: {
           pushStrategy: <T extends CxEvent>(
             _event: T,
-            _winRef: WindowLike
+            _winObj: WindowObject
           ) => {},
           events: [],
         },
         aep: {
           pushStrategy: <T extends CxEvent>(
             _event: T,
-            _winRef: WindowLike
+            _winObj: WindowObject
           ) => {},
           events: [],
         },

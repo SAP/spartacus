@@ -1,6 +1,6 @@
 import { AbstractType, Injectable } from '@angular/core';
 import { Config, CxEvent } from '@spartacus/core';
-import { WindowLike } from '../model/tms.model';
+import { WindowObject } from '../model/tms.model';
 
 /**
  * Collector configuration
@@ -17,7 +17,7 @@ export interface TmsCollectorConfig {
    */
   pushStrategy?: <T extends CxEvent>(
     event: T | any,
-    windowLike: WindowLike
+    windowObject: WindowObject
   ) => void;
   /**
    * Events to send to the configured TMS.
