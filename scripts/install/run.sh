@@ -332,6 +332,18 @@ if [[ -z ${BRANCH} ]]; then
     BRANCH="develop"
 fi
 
+if [[ -z ${CSR_APP_NAME} ]]; then
+    CSR_APP_NAME="csr"
+fi
+
+if [[ -z ${SSR_APP_NAME} ]]; then
+    SSR_APP_NAME="ssr"
+fi
+
+if [[ -z ${SSR_PWA_APP_NAME} ]]; then
+    SSR_PWA_APP_NAME="ssr-pwa"
+fi
+
 # top directory for the installation (must be outside of the main project)
 if [ -z ${BASE_DIR} ]; then
     BASE_DIR="../../../spartacus-${SPARTACUS_VERSION}"
@@ -340,10 +352,6 @@ fi
 CLONE_DIR="${BASE_DIR}/${CLONE_DIR}"
 INSTALLATION_DIR="${BASE_DIR}/${INSTALLATION_DIR}"
 E2E_TEST_DIR="${BASE_DIR}/${E2E_TEST_DIR}"
-
-CSR_APP_NAME="csr"
-SSR_APP_NAME="ssr"
-SSR_PWA_APP_NAME="ssr-pwa"
 
 for current_command in $(echo "${commands}" | tr "+" "\n"); do
 
