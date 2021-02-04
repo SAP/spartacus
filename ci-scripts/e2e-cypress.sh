@@ -61,7 +61,9 @@ else
 fi
 echo '-----'
 echo "Building Spartacus storefront app"
-yarn build && yarn start:pwa &
+yarn build
+
+yarn start:pwa &
 
 echo '-----'
 echo "Running Cypress end to end tests"
