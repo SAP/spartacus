@@ -1,19 +1,23 @@
 import { CxEvent } from '@spartacus/core';
 import { WindowObject } from '../model/tms.model';
-import { TmsConfig } from './tms-config';
+import { TmsCollectorConfig, TmsConfig } from './tms-config';
+
+export const defaultAepPushStrategy = <T extends CxEvent>(
+  event: T | any,
+  windowObject: WindowObject,
+  config: TmsCollectorConfig
+): void => {
+  const dataLayerProperty = config.dataLayerProperty ?? 'digitalData';
+  windowObject[dataLayerProperty] = {
+    ...windowObject[dataLayerProperty],
+    ...event,
+  };
+};
 
 export const defaultAdobeLaunchConfig: TmsConfig = {
   tagManager: {
     aep: {
-      pushStrategy: <T extends CxEvent>(
-        event: T,
-        windowObject: WindowObject
-      ) => {
-        windowObject.digitalData = {
-          ...windowObject.digitalData,
-          ...event,
-        };
-      },
+      pushStrategy: defaultAepPushStrategy,
     },
   },
 };

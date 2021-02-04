@@ -30,7 +30,7 @@ export class TmsService implements OnDestroy {
     }
 
     for (const collector in this.tmsConfig.tagManager) {
-      const collectorConfig = this.tmsConfig.tagManager[collector];
+      const collectorConfig = this.tmsConfig.tagManager[collector] ?? {};
 
       const events =
         collectorConfig.events?.map((event) => this.eventsService.get(event)) ||
@@ -47,7 +47,11 @@ export class TmsService implements OnDestroy {
             event = collectorConfig.eventMapper
               ? collectorConfig.eventMapper(event)
               : event;
-            collectorConfig.pushStrategy(event, this.windowRef.nativeWindow);
+            collectorConfig.pushStrategy(
+              event,
+              this.windowRef.nativeWindow,
+              collectorConfig
+            );
           }
         })
       );

@@ -9,6 +9,10 @@ export interface TmsCollectorConfig {
   /** Should be enabled in development mode only */
   debug?: boolean;
   /**
+   * The name for the data layer object.
+   */
+  dataLayerProperty?: string;
+  /**
    * An optional custom mapping function used to map the event's payload
    */
   eventMapper?: <T extends CxEvent>(event: T) => T | any;
@@ -17,7 +21,8 @@ export interface TmsCollectorConfig {
    */
   pushStrategy?: <T extends CxEvent>(
     event: T | any,
-    windowObject: WindowObject
+    windowObject: WindowObject,
+    config: TmsCollectorConfig
   ) => void;
   /**
    * Events to send to the configured TMS.
@@ -46,8 +51,8 @@ export abstract class TmsConfig {
      */
     aep?: TmsCollectorConfig;
     /**
-     * Any other custom collector
+     * Any custom collector
      */
-    [tms: string]: TmsCollectorConfig;
+    [tms: string]: TmsCollectorConfig | undefined;
   };
 }
