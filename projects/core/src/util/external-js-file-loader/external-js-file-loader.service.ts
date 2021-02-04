@@ -1,7 +1,7 @@
 import { DOCUMENT, isPlatformServer } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 
-export enum ScriptAddTo {
+export enum ScriptPlacement {
   HEAD = 'head',
   BODY = 'body',
 }
@@ -16,9 +16,7 @@ export class ExternalJsFileLoader {
   ) {}
 
   /**
-   * @deprecated since 3.2,
-   * use addScript(src, params?, attributes?, callback?, errorCallback?, onSsr?, inElement?)
-   * instead.
+   * @deprecated since 3.2, use embedScript(embedOptions) instead
    *
    * Loads a javascript from an external URL. Loading is skipped during SSR.
    * @param src URL for the script to be loaded
@@ -32,45 +30,57 @@ export class ExternalJsFileLoader {
     callback?: EventListener,
     errorCallback?: EventListener
   ): void {
-    this.addScript(
+    this.embedScript({
       src,
       params,
-      { type: 'text/javascript', async: true, defer: true },
+      attributes: { type: 'text/javascript' },
       callback,
-      errorCallback
-    );
+      errorCallback,
+    });
   }
+
   /**
-   * Loads a javascript from an external URL.
-   * @param src URL for the script to be loaded
-   * @param params additional parameters to be attached to the given URL
-   * @param attributes the attributes of HTML script tag (exclude src)
-   * @param callback a function to be invoked after the script has been loaded
-   * @param errorCallback function to be invoked after error during script loading
-   * @param onSsr whether add script on SSR, by default false (CSR)
-   * @param inElement HTML body or head where script will be placed
+   * Embeds a javascript from an external URL.
+   *
+   * @param embedOptions
+   * src: URL for the script to be loaded
+   * params: additional parameters to be attached to the given URL
+   * attributes: the attributes of HTML script tag (exclude src)
+   * callback: a function to be invoked after the script has been loaded
+   * errorCallback: function to be invoked after error during script loading
+   * placement: HTML body or head where script will be placed
    */
-  public addScript(
-    src: string,
-    params?: Object,
-    attributes?: Object,
-    callback?: EventListener,
-    errorCallback?: EventListener,
-    onSsr = false,
-    inElement = ScriptAddTo.HEAD
-  ): void {
-    if (
-      (!onSsr && this.platformId && isPlatformServer(this.platformId)) ||
-      (onSsr && this.hasScript(src))
-    ) {
+  public embedScript(embedOptions: {
+    src: string;
+    params?: Object;
+    attributes?: Object;
+    callback?: EventListener;
+    errorCallback?: EventListener;
+    placement?: ScriptPlacement;
+  }): void {
+    const {
+      src,
+      params,
+      attributes,
+      callback,
+      errorCallback,
+      placement = ScriptPlacement.HEAD,
+    } = embedOptions;
+
+    const isSSR = this.platformId && isPlatformServer(this.platformId);
+    if ((callback || errorCallback) && isSSR) {
       return;
     }
 
-    if (params) {
-      src = src + this.parseParams(params);
+    const source = params ? src + this.parseParams(params) : src;
+    if (!isSSR && this.hasScript(source)) {
+      return;
     }
+
     const script: HTMLScriptElement = this.document.createElement('script');
-    script.src = src;
+    script.src = source;
+    script.async = true;
+    script.defer = true;
 
     if (attributes) {
       Object.keys(attributes).forEach((key) => {
@@ -90,7 +100,7 @@ export class ExternalJsFileLoader {
       script.addEventListener('error', errorCallback);
     }
 
-    inElement === ScriptAddTo.HEAD
+    placement === ScriptPlacement.HEAD
       ? this.document.head.appendChild(script)
       : this.document.body.appendChild(script);
   }

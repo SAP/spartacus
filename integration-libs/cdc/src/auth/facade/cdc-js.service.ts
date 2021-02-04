@@ -80,18 +80,18 @@ export class CdcJsService implements OnDestroy {
             );
             if (scriptForBaseSite) {
               const javascriptUrl = `${scriptForBaseSite}&lang=${language}`;
-              this.externalJsFileLoader.addScript(
-                javascriptUrl,
-                undefined,
-                { type: 'text/javascript', async: true, defer: true },
-                () => {
+              this.externalJsFileLoader.embedScript({
+                src: javascriptUrl,
+                params: undefined,
+                attributes: { type: 'text/javascript' },
+                callback: () => {
                   this.registerEventListeners(baseSite);
                   this.loaded$.next(true);
                 },
-                () => {
+                errorCallback: () => {
                   this.errorLoading$.next(true);
-                }
-              );
+                },
+              });
               this.winRef.nativeWindow['__gigyaConf'] = { include: 'id_token' };
             }
           })

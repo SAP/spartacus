@@ -42,12 +42,12 @@ interface Window {
 }
 
 class ExternalJsFileLoaderMock {
-  public addScript(
-    _src: string,
-    _params?: Object,
-    _attributes?: Object,
-    _callback?: EventListener
-  ): void {}
+  public embedScript(_embedOptions: {
+    _src: string;
+    _params?: Object;
+    _attributes?: Object;
+    _callback?: EventListener;
+  }): void {}
 }
 
 class MockCdcAuthService implements Partial<CdcAuthService> {
@@ -133,9 +133,9 @@ describe('CdcJsService', () => {
 
   describe('didLoad', () => {
     it('should return CDC script loading state', () => {
-      spyOn(externalJsFileLoader, 'addScript').and.callFake(
-        (_a, _b, _c, loadCb) => {
-          loadCb({} as Event);
+      spyOn(externalJsFileLoader, 'embedScript').and.callFake(
+        (embedOptions: { src; params; attributes; loadCb }) => {
+          embedOptions.loadCb({} as Event);
         }
       );
 
@@ -155,9 +155,9 @@ describe('CdcJsService', () => {
 
   describe('didScriptFailToLoad', () => {
     it('should return CDC script loading error state', () => {
-      spyOn(externalJsFileLoader, 'addScript').and.callFake(
-        (_a, _b, _c, _d, errorCb) => {
-          errorCb({} as Event);
+      spyOn(externalJsFileLoader, 'embedScript').and.callFake(
+        (embedOptions: { src; params; attributes; callback; errorCb }) => {
+          embedOptions.errorCb({} as Event);
         }
       );
 
@@ -180,19 +180,19 @@ describe('CdcJsService', () => {
       const site = 'electronics-spa';
       const language = 'en';
 
-      spyOn(externalJsFileLoader, 'addScript');
+      spyOn(externalJsFileLoader, 'embedScript');
       spyOn(baseSiteService, 'getActive').and.returnValue(of(site));
       spyOn(languageService, 'getActive').and.returnValue(of(language));
 
       service.loadCdcJavascript();
 
-      expect(externalJsFileLoader.addScript).toHaveBeenCalledWith(
-        'sample-url&lang=en',
-        undefined,
-        { type: 'text/javascript', async: true, defer: true },
-        jasmine.any(Function),
-        jasmine.any(Function)
-      );
+      expect(externalJsFileLoader.embedScript).toHaveBeenCalledWith({
+        src: 'sample-url&lang=en',
+        params: undefined,
+        attributes: { type: 'text/javascript' },
+        callback: jasmine.any(Function) as any,
+        errorCallback: jasmine.any(Function) as any,
+      });
       expect(winRef.nativeWindow['__gigyaConf']).toEqual({
         include: 'id_token',
       });
@@ -202,13 +202,13 @@ describe('CdcJsService', () => {
       const site = 'electronics';
       const language = 'en';
 
-      spyOn(externalJsFileLoader, 'addScript');
+      spyOn(externalJsFileLoader, 'embedScript');
       spyOn(baseSiteService, 'getActive').and.returnValue(of(site));
       spyOn(languageService, 'getActive').and.returnValue(of(language));
 
       service.initialize();
 
-      expect(externalJsFileLoader.addScript).not.toHaveBeenCalled();
+      expect(externalJsFileLoader.embedScript).not.toHaveBeenCalled();
     });
   });
 
@@ -217,7 +217,7 @@ describe('CdcJsService', () => {
       const site = 'electronics-spa';
       const language = 'en';
 
-      spyOn(externalJsFileLoader, 'addScript').and.callFake(() => {
+      spyOn(externalJsFileLoader, 'embedScript').and.callFake(() => {
         service['registerEventListeners']('electronics-spa');
       });
       spyOn(baseSiteService, 'getActive').and.returnValue(of(site));

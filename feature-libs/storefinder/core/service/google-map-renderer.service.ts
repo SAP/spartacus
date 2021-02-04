@@ -30,14 +30,14 @@ export class GoogleMapRendererService {
     selectMarkerHandler?: Function
   ): void {
     if (this.googleMap === null) {
-      this.externalJsFileLoader.addScript(
-        this.config.googleMaps.apiUrl,
-        { key: this.config.googleMaps.apiKey },
-        { type: 'text/javascript', async: true, defer: true },
-        () => {
+      this.externalJsFileLoader.embedScript({
+        src: this.config.googleMaps.apiUrl,
+        params: { key: this.config.googleMaps.apiKey },
+        attributes: { type: 'text/javascript' },
+        callback: () => {
           this.drawMap(mapElement, locations, selectMarkerHandler);
-        }
-      );
+        },
+      });
     } else {
       this.drawMap(mapElement, locations, selectMarkerHandler);
     }

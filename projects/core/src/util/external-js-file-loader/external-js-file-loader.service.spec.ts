@@ -5,7 +5,7 @@ import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ExternalJsFileLoader,
-  ScriptAddTo,
+  ScriptPlacement,
 } from './external-js-file-loader.service';
 
 const SCRIPT_LOAD_URL = 'http://url/';
@@ -20,6 +20,9 @@ class DocumentMock {
   createElement() {}
   querySelector() {}
 }
+
+const callback = function () {};
+const errorCallback = function () {};
 
 let externalJsFileLoader: ExternalJsFileLoader;
 let documentMock: Document;
@@ -46,16 +49,14 @@ describe('ExternalJsFileLoader', () => {
     spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
     spyOn(jsDomElement, 'addEventListener').and.callThrough();
     const params = { param1: 'value1', param2: 'value2' };
-    const callback = function () {};
-    const errorCallback = function () {};
 
-    externalJsFileLoader.addScript(
-      SCRIPT_LOAD_URL,
+    externalJsFileLoader.embedScript({
+      src: SCRIPT_LOAD_URL,
       params,
-      undefined,
+      attributes: undefined,
       callback,
-      errorCallback
-    );
+      errorCallback,
+    });
     expect(documentMock.createElement).toHaveBeenCalledWith('script');
     expect(jsDomElement.src).toContain(SCRIPT_LOAD_URL);
     expect(jsDomElement.src.split('?')[1]).toEqual(
@@ -74,9 +75,13 @@ describe('ExternalJsFileLoader', () => {
   it('should add script with attributes', () => {
     spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
 
-    externalJsFileLoader.addScript(SCRIPT_LOAD_URL, undefined, {
-      type: 'text/javascript',
-      'data-custom-attr': 'custom-attribute-value',
+    externalJsFileLoader.embedScript({
+      src: SCRIPT_LOAD_URL,
+      params: undefined,
+      attributes: {
+        type: 'text/javascript',
+        'data-custom-attr': 'custom-attribute-value',
+      },
     });
     expect(documentMock.createElement).toHaveBeenCalledWith('script');
     expect(jsDomElement.src).toEqual(SCRIPT_LOAD_URL);
@@ -90,15 +95,14 @@ describe('ExternalJsFileLoader', () => {
     spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
     spyOn(documentMock.body, 'appendChild').and.callThrough();
 
-    externalJsFileLoader.addScript(
-      SCRIPT_LOAD_URL,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      false,
-      ScriptAddTo.BODY
-    );
+    externalJsFileLoader.embedScript({
+      src: SCRIPT_LOAD_URL,
+      params: undefined,
+      attributes: undefined,
+      callback: undefined,
+      errorCallback: undefined,
+      placement: ScriptPlacement.BODY,
+    });
     expect(documentMock.createElement).toHaveBeenCalledWith('script');
     expect(documentMock.body.appendChild).toHaveBeenCalled();
   });
@@ -122,42 +126,27 @@ describe('with SSR', () => {
     jsDomElement = document.createElement('script');
   });
 
-  it('should skip during SSR if onSsr is false', () => {
+  it('should skip during SSR if there is callback or errorCallback', () => {
     spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
 
-    externalJsFileLoader.addScript(
-      SCRIPT_LOAD_URL,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      false
-    );
+    externalJsFileLoader.embedScript({
+      src: SCRIPT_LOAD_URL,
+      params: undefined,
+      attributes: undefined,
+      callback,
+      errorCallback,
+    });
     expect(documentMock.createElement).not.toHaveBeenCalledWith('script');
   });
 
-  it('should add script during SSR, but skip during CSR', () => {
+  it('should add script during SSR', () => {
     spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
-    externalJsFileLoader.addScript(
-      SCRIPT_LOAD_URL,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      true
-    );
+    externalJsFileLoader.embedScript({
+      src: SCRIPT_LOAD_URL,
+      params: undefined,
+      attributes: undefined,
+    });
 
-    // call again during CSR
-    spyOn(documentMock, 'querySelector').and.returnValue(jsDomElement);
-    externalJsFileLoader.addScript(
-      SCRIPT_LOAD_URL,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      true
-    );
-    // only create element once
     expect(documentMock.createElement).toHaveBeenCalledWith('script');
     expect(documentMock.createElement).toHaveBeenCalledTimes(1);
   });
