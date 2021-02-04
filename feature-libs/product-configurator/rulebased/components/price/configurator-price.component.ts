@@ -14,6 +14,9 @@ export class ConfiguratorPriceComponent {
     isOverview: false,
   };
 
+  /**
+   * Verifies whether only quantity should be displayed.
+   */
   displayQuantityOnly() {
     return (
       this.formula?.quantity &&
@@ -23,6 +26,9 @@ export class ConfiguratorPriceComponent {
     );
   }
 
+  /**
+   * Retrieves the quantity.
+   */
   get quantity(): string {
     return this.formula?.quantity?.toString();
   }
@@ -35,18 +41,30 @@ export class ConfiguratorPriceComponent {
     }
   }
 
+  /**
+   * Verifies whether quantity with price should be displayed.
+   */
   displayQuantityAndPrice() {
     return this.formula?.price?.value !== 0 && this.formula?.quantity >= 1;
   }
 
+  /**
+   * Retrieves formula for quantity with price.
+   */
   get quantityWihPrice(): string {
     return this.quantity + 'x(' + this.formula?.price?.formattedValue + ')';
   }
 
+  /**
+   * Retrieves the total price.
+   */
   get priceTotal(): string {
     return '+ ' + this.formula?.priceTotal?.formattedValue;
   }
 
+  /**
+   * Verifies whether only price should be displayed.
+   */
   displayPrice() {
     return (
       (this.formula?.price?.value || this.formula?.priceTotal?.value) &&
@@ -54,10 +72,16 @@ export class ConfiguratorPriceComponent {
     );
   }
 
+  /**
+   * Verifies whether the price is lighted up.
+   */
   isPriceLightedUp() {
     return this.formula.isLightedUp;
   }
 
+  /**
+   * Retrieves the styling for the corresponding element.
+   */
   get styleClass() {
     let styleClass = 'cx-price';
     if (!this.isPriceLightedUp()) {
@@ -67,6 +91,9 @@ export class ConfiguratorPriceComponent {
     return styleClass;
   }
 
+  /**
+   * Verifies whether the price formula should be displayed.
+   */
   displayFormula() {
     return (
       (this.formula?.quantity && this.formula?.quantity !== 0) ||
