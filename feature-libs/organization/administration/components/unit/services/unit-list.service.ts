@@ -37,7 +37,6 @@ export class UnitListService extends ListService<B2BUnitTreeNode> {
       switchMap((node) =>
         this.unitItemService.key$.pipe(
           map((key) => {
-            console.log('Jerry unitTree service initialize');
             this.unitTreeService.initialize(node, key);
             return node;
           })
@@ -55,7 +54,6 @@ export class UnitListService extends ListService<B2BUnitTreeNode> {
     depthLevel = 0,
     pagination = { totalResults: 0 }
   ): EntitiesModel<B2BUnitTreeNode> {
-    console.log('Jerry in convertList');
     let values = [];
     if (!unit) {
       return;
@@ -68,11 +66,10 @@ export class UnitListService extends ListService<B2BUnitTreeNode> {
       depthLevel,
       // tmp, should be normalized
       uid: unit.id,
+      children: [...unit.children].sort((unitA, unitB) =>
+        unitA.name.localeCompare(unitB.name)
+      ),
     };
-
-    node.children = [...node.children].sort((unitA, unitB) =>
-      unitA.name.localeCompare(unitB.name)
-    );
 
     values.push(node);
     pagination.totalResults++;
