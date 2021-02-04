@@ -15,7 +15,6 @@ import { VariantConfiguratorOverviewModule } from './variant/variant-configurato
 @NgModule({
   imports: [
     CommonModule,
-
     RulebasedConfiguratorRootFeatureModule,
     VariantConfiguratorInteractiveModule,
     VariantConfiguratorOverviewModule,
