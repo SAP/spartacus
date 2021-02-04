@@ -1,8 +1,15 @@
 import { isPlatformServer } from '@angular/common';
-import { Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
+import {
+  Inject,
+  Injectable,
+  Injector,
+  OnDestroy,
+  PLATFORM_ID,
+} from '@angular/core';
 import { CxEvent, EventService, WindowRef } from '@spartacus/core';
 import { merge, Observable, Subscription } from 'rxjs';
-import { TmsConfig } from '../config/tms-config';
+import { TmsCollectorConfig, TmsConfig } from '../config/tms-config';
+import { TmsMapper } from '../model/tms.model';
 
 /**
  * This service interacts with the configured data layer object by pushing the Spartacus events to it.
@@ -18,6 +25,7 @@ export class TmsService implements OnDestroy {
     protected eventsService: EventService,
     protected windowRef: WindowRef,
     protected tmsConfig: TmsConfig,
+    protected injector: Injector,
     @Inject(PLATFORM_ID) protected platformId: any
   ) {}
 
@@ -44,9 +52,8 @@ export class TmsService implements OnDestroy {
             );
           }
           if (collectorConfig.pushStrategy) {
-            event = collectorConfig.eventMapper
-              ? collectorConfig.eventMapper(event)
-              : event;
+            event = this.invokeMapper(event, collectorConfig);
+
             collectorConfig.pushStrategy(
               event,
               this.windowRef.nativeWindow,
@@ -56,6 +63,18 @@ export class TmsService implements OnDestroy {
         })
       );
     }
+  }
+
+  private invokeMapper<T extends CxEvent>(
+    event: T,
+    collectorConfig: TmsCollectorConfig
+  ): T | any {
+    if (!collectorConfig.eventMapper) {
+      return event;
+    }
+
+    const mapper: TmsMapper = this.injector.get(collectorConfig.eventMapper);
+    return mapper.map(event);
   }
 
   /**
