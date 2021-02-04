@@ -1,6 +1,7 @@
 import {
   Compiler,
   Injectable,
+  InjectFlags,
   Injector,
   NgModuleFactory,
   NgModuleRef,
@@ -15,11 +16,20 @@ import {
   queueScheduler,
   Subscription,
 } from 'rxjs';
-import { map, observeOn, publishReplay, switchMap, tap } from 'rxjs/operators';
-import { createFrom } from '../util/create-from';
-import { ModuleInitializedEvent } from './events/module-initialized-event';
+import {
+  concatMap,
+  map,
+  observeOn,
+  publishReplay,
+  switchMap,
+  switchMapTo,
+  tap,
+} from 'rxjs/operators';
 import { EventService } from '../event/event.service';
 import { CombinedInjector } from '../util/combined-injector';
+import { createFrom } from '../util/create-from';
+import { ModuleInitializedEvent } from './events/module-initialized-event';
+import { MODULE_INITIALIZER } from './tokens';
 
 /**
  * Utility service for managing dynamic imports of Angular services
@@ -73,6 +83,7 @@ export class LazyModulesService implements OnDestroy {
 
     return this.resolveModuleFactory(moduleFunc).pipe(
       map(([moduleFactory]) => moduleFactory.create(parentInjector)),
+      concatMap((moduleRef) => this.runModuleInitializersForModule(moduleRef)),
       tap((moduleRef) =>
         this.events.dispatch(
           createFrom(ModuleInitializedEvent, {
@@ -104,6 +115,7 @@ export class LazyModulesService implements OnDestroy {
 
         return this.dependencyModules.get(module);
       }),
+      concatMap((moduleRef) => this.runModuleInitializersForModule(moduleRef)),
       tap((moduleRef) =>
         this.events.dispatch(
           createFrom(ModuleInitializedEvent, {
@@ -112,6 +124,52 @@ export class LazyModulesService implements OnDestroy {
         )
       )
     );
+  }
+
+  public runModuleInitializersForModule(
+    moduleRef: NgModuleRef<any>
+  ): Observable<NgModuleRef<any>> {
+    const moduleInits: any[] = moduleRef.injector.get<any[]>(
+      MODULE_INITIALIZER,
+      undefined,
+      InjectFlags.Self
+    );
+
+    console.log('mi: runModuleInitializersForModule moduleInits', moduleInits);
+
+    const asyncInitPromises = this.runModuleInitializerFunctions(moduleInits);
+    console.log('mi: asyncInitPromises', asyncInitPromises);
+    if (!asyncInitPromises.length) {
+      return of(moduleRef);
+    } else {
+      return from(Promise.all(asyncInitPromises)).pipe(
+        switchMapTo(of(moduleRef))
+      );
+    }
+  }
+  /**
+   * DOC TODO
+   */
+  public runModuleInitializerFunctions(
+    moduleInits: (() => any)[]
+  ): Promise<any>[] {
+    const initPromises: Promise<any>[] = [];
+    if (moduleInits) {
+      for (let i = 0; i < moduleInits.length; i++) {
+        const initResult = moduleInits[i]();
+        if (this.isObjectPromise(initResult)) {
+          initPromises.push(initResult);
+        }
+      }
+    }
+    return initPromises;
+  }
+
+  /**
+   * Determine if the argument is shaped like a Promise
+   */
+  private isObjectPromise<T = any>(obj: any): obj is Promise<T> {
+    return !!obj && typeof obj.then === 'function';
   }
 
   /**

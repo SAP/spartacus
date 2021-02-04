@@ -1,17 +1,31 @@
-import { ModuleWithProviders, NgModule } from '@angular/core';
-import { StateModule } from './state/state.module';
-import { ConfigInitializerModule } from './config/config-initializer/config-initializer.module';
-import { ConfigModule } from './config/config.module';
-import { ConfigValidatorModule } from './config/config-validator/config-validator.module';
-import { I18nModule } from './i18n/i18n.module';
+import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { CmsModule } from './cms/cms.module';
-import { GlobalMessageModule } from './global-message/global-message.module';
-import { ProcessModule } from './process/process.module';
+import { ConfigInitializerModule } from './config/config-initializer/config-initializer.module';
+import { ConfigValidatorModule } from './config/config-validator/config-validator.module';
+import { ConfigModule } from './config/config.module';
 import { FeaturesConfigModule } from './features-config/features-config.module';
-import { SiteContextModule } from './site-context/site-context.module';
-import { MetaTagConfigModule } from './occ/config/meta-tag-config.module';
+import { GlobalMessageModule } from './global-message/global-message.module';
+import { I18nModule } from './i18n/i18n.module';
+import { LazyModulesService } from './lazy-loading/lazy-modules.service';
+import { MODULE_INITIALIZER } from './lazy-loading/tokens';
 import { BaseOccModule } from './occ/base-occ.module';
+import { MetaTagConfigModule } from './occ/config/meta-tag-config.module';
+import { ProcessModule } from './process/process.module';
+import { SiteContextModule } from './site-context/site-context.module';
+import { StateModule } from './state/state.module';
 
+export function moduleInitializersFactory(
+  lazyModuleService: LazyModulesService,
+  moduleInitializerFunctions: (() => any)[]
+): () => any {
+  return () => {
+    Promise.all(
+      lazyModuleService.runModuleInitializerFunctions(
+        moduleInitializerFunctions
+      )
+    );
+  };
+}
 @NgModule({
   imports: [
     StateModule.forRoot(),
@@ -32,6 +46,19 @@ export class BaseCoreModule {
   static forRoot(): ModuleWithProviders<BaseCoreModule> {
     return {
       ngModule: BaseCoreModule,
+      providers: [
+        {
+          provide: APP_INITIALIZER,
+          useFactory: moduleInitializersFactory,
+          deps: [LazyModulesService, MODULE_INITIALIZER],
+          multi: true,
+        },
+        {
+          provide: MODULE_INITIALIZER,
+          useFactory: () => () => {},
+          multi: true,
+        },
+      ],
     };
   }
 }
