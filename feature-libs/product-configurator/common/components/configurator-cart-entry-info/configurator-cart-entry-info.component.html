@@ -16,6 +16,6 @@
     [cartEntry]="orderEntry"
     [readOnly]="readonly$ | async"
     [msgBanner]="false"
-    [disabled]="(disabled$ | async)"
+    [disabled]="(quantityControlDisabled$ | async)"
   ></cx-configure-cart-entry>
 </ng-container>
