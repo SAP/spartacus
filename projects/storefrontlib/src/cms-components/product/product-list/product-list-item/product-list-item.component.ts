@@ -7,10 +7,8 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { ProductListOutlets } from '../../product-outlets.model';
-import {
-  ProductListItemContext,
-  ProductListItemContextSource,
-} from '../model/product-list-item.context';
+import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
+import { ProductListItemContext } from '../model/product-list-item-context.model';
 
 @Component({
   selector: 'cx-product-list-item',

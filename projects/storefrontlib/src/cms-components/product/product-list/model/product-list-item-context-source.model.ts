@@ -1,14 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Product } from '@spartacus/core';
-import { Observable, ReplaySubject } from 'rxjs';
-
-/**
- * Context for `ProductListItemComponent`.
- */
-@Injectable()
-export abstract class ProductListItemContext {
-  readonly product$: Observable<Product>;
-}
+import { ReplaySubject } from 'rxjs';
+import { ProductListItemContext } from './product-list-item-context.model';
 
 /**
  * Context source for `ProductListItemComponent`.

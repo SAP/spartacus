@@ -15,7 +15,7 @@ import {
 import { Observable } from 'rxjs';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
-import { CartItemComponentOutlets } from './model/cart-item-component.outlets';
+import { CartItemComponentOutlets } from './model/cart-item-component-outlets.model';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
 import { CartItemContext } from './model/cart-item-context.model';
 

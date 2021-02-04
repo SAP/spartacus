@@ -15,10 +15,8 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
-import {
-  ProductListItemContext,
-  ProductListItemContextSource,
-} from '../model/product-list-item.context';
+import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
+import { ProductListItemContext } from '../model/product-list-item-context.model';
 import { ProductListItemComponent } from './product-list-item.component';
 @Component({
   selector: 'cx-add-to-cart',
@@ -220,14 +218,15 @@ describe('ProductListItemComponent in product-list', () => {
     );
   });
 
-  it('should push "product" to context', () => {
+  it('should push changes of input"product" to context', () => {
     const contextSource: ProductListItemContextSource = componentInjector.get(
       ProductListItemContextSource
     );
     spyOn(contextSource.product$, 'next');
-    component.ngOnChanges();
-    expect(contextSource.product$.next).not.toHaveBeenCalled();
-    component.ngOnChanges({ product: {} as SimpleChange });
+    component.product = mockProduct;
+    component.ngOnChanges({
+      product: { currentValue: component.product } as SimpleChange,
+    });
     expect(contextSource.product$.next).toHaveBeenCalledWith(mockProduct);
   });
 });
