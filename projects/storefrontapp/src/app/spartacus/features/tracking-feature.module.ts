@@ -9,11 +9,11 @@ import { TmsModule } from '@spartacus/tracking/tms';
 @NgModule({
   imports: [
     TmsModule.forRoot({
-      tms: {
+      tagManager: {
         gtm: {
           events: [NavigationEvent, CartAddEntrySuccessEvent],
         },
-        adobeLaunch: {
+        aep: {
           events: [NavigationEvent, CartRemoveEntrySuccessEvent],
         },
       },

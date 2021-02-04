@@ -3,7 +3,7 @@ import { WindowLike } from '../model/tms.model';
 import { TmsConfig } from './tms-config';
 
 export const defaultGoogleTagManagerConfig: TmsConfig = {
-  tms: {
+  tagManager: {
     gtm: {
       pushStrategy: <T extends CxEvent>(event: T, windowLike: WindowLike) => {
         windowLike.dataLayer = windowLike.dataLayer ?? [];

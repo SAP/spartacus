@@ -19,14 +19,14 @@ class MockEventService {
 }
 
 const tmsConfig: TmsConfig = {
-  tms: {
+  tagManager: {
     gtm: {
       eventMapper: (event) => event,
       pushStrategy: <T extends CxEvent>(_event: T, _winLike: WindowLike) => {},
       debug: false,
       events: [LoginEvent],
     },
-    adobeLaunch: {
+    aep: {
       eventMapper: (event) => event,
       pushStrategy: <T extends CxEvent>(_event: T, _winLike: WindowLike) => {},
       debug: false,
@@ -49,10 +49,10 @@ describe('TmsService', () => {
 
     service = TestBed.inject(TmsService);
 
-    spyOn(tmsConfig.tms.gtm, 'pushStrategy').and.callThrough();
-    spyOn(tmsConfig.tms.adobeLaunch, 'pushStrategy').and.callThrough();
-    spyOn(tmsConfig.tms.gtm, 'eventMapper').and.callThrough();
-    spyOn(tmsConfig.tms.adobeLaunch, 'eventMapper').and.callThrough();
+    spyOn(tmsConfig.tagManager.gtm, 'pushStrategy').and.callThrough();
+    spyOn(tmsConfig.tagManager.aep, 'pushStrategy').and.callThrough();
+    spyOn(tmsConfig.tagManager.gtm, 'eventMapper').and.callThrough();
+    spyOn(tmsConfig.tagManager.aep, 'eventMapper').and.callThrough();
   });
 
   it('should be created', () => {
@@ -61,11 +61,11 @@ describe('TmsService', () => {
 
   it('should invoke the provided pushStrategy() function', () => {
     service.collect();
-    expect(tmsConfig.tms.gtm.pushStrategy).toHaveBeenCalledWith(
+    expect(tmsConfig.tagManager.gtm.pushStrategy).toHaveBeenCalledWith(
       event,
       undefined
     );
-    expect(tmsConfig.tms.adobeLaunch.pushStrategy).toHaveBeenCalledWith(
+    expect(tmsConfig.tagManager.aep.pushStrategy).toHaveBeenCalledWith(
       event,
       undefined
     );
@@ -73,7 +73,7 @@ describe('TmsService', () => {
 
   it('should invoke the provided eventMapper() function', () => {
     service.collect();
-    expect(tmsConfig.tms.gtm.eventMapper).toHaveBeenCalledWith(event);
-    expect(tmsConfig.tms.adobeLaunch.eventMapper).toHaveBeenCalledWith(event);
+    expect(tmsConfig.tagManager.gtm.eventMapper).toHaveBeenCalledWith(event);
+    expect(tmsConfig.tagManager.aep.eventMapper).toHaveBeenCalledWith(event);
   });
 });

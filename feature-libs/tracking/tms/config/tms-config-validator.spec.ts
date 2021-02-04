@@ -6,8 +6,8 @@ import { tmsConfigValidator } from './tms-config-validator';
 describe('tmsConfigValidator', () => {
   it('should warn about undefined dataLayerPush', () => {
     const config: TmsConfig = {
-      tms: {
-        adobeLaunch: {
+      tagManager: {
+        aep: {
           events: [],
         },
       },
@@ -17,7 +17,7 @@ describe('tmsConfigValidator', () => {
 
   it('should not warn if the config is valid', () => {
     const config: TmsConfig = {
-      tms: {
+      tagManager: {
         gtm: {
           pushStrategy: <T extends CxEvent>(
             _event: T,
@@ -25,7 +25,7 @@ describe('tmsConfigValidator', () => {
           ) => {},
           events: [],
         },
-        adobeLaunch: {
+        aep: {
           pushStrategy: <T extends CxEvent>(
             _event: T,
             _winRef: WindowLike

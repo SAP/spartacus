@@ -5,8 +5,8 @@ export function tmsConfigValidator(config?: TmsConfig): string | void {
     return `Please provide the 'tms' configuration before using the TMS feature.`;
   }
 
-  for (const collector in config.tms) {
-    const collectorConfig = config.tms[collector];
+  for (const collector in config.tagManager) {
+    const collectorConfig = config.tagManager[collector];
 
     if (collectorConfig.pushStrategy === undefined) {
       return `Please configure 'pushStrategy' functions for the '${collector}' collector before using the TMS feature.`;

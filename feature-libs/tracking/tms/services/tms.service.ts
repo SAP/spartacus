@@ -29,8 +29,8 @@ export class TmsService implements OnDestroy {
       return;
     }
 
-    for (const collector in this.tmsConfig.tms) {
-      const collectorConfig = this.tmsConfig.tms[collector];
+    for (const collector in this.tmsConfig.tagManager) {
+      const collectorConfig = this.tmsConfig.tagManager[collector];
 
       const events =
         collectorConfig.events?.map((event) => this.eventsService.get(event)) ||
