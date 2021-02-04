@@ -10,7 +10,6 @@ branches:
     - develop
     - "/^epic\\/.*$/"
     - "/^release\\/.*$/"
-    - "feature/dev7672"
 defaults: &defaults
   script: "export CYPRESS_CONFIG=cypress.ci.json && ./ci-scripts/e2e-cypress.sh"
 jobs:
