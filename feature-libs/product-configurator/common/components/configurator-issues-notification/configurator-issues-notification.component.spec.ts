@@ -1,7 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { FormControl } from '@angular/forms';
 import { OrderEntry } from '@spartacus/core';
 import { CartItemContext, CartItemContextSource } from '@spartacus/storefront';
+import { ReplaySubject } from 'rxjs';
+import { take, toArray } from 'rxjs/operators';
 import {
   ConfigurationInfo,
   OrderEntryStatus,
@@ -16,29 +19,32 @@ class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
 
-let item: OrderEntry;
-function emitNewContextValue(
-  component: ConfiguratorIssuesNotificationComponent,
-  statusSummary: StatusSummary[],
-  configurationInfos: ConfigurationInfo[],
-  readOnly: boolean,
-  productConfigurable: boolean = true
-) {
-  item = {
-    statusSummaryList: statusSummary,
-    configurationInfos: configurationInfos,
-    product: { configurable: productConfigurable },
-  };
-  const contextSource = component['cartItemContext'] as CartItemContextSource;
-  contextSource.item$.next(item);
-  contextSource.readonly$.next(readOnly);
-  contextSource.quantityControl$.next({} as any);
+class MockCartItemContext implements Partial<CartItemContext> {
+  item$ = new ReplaySubject<OrderEntry>(1);
+  readonly$ = new ReplaySubject<boolean>(1);
+  quantityControl$ = new ReplaySubject<FormControl>(1);
 }
 
 describe('ConfigureIssuesNotificationComponent', () => {
   let component: ConfiguratorIssuesNotificationComponent;
   let fixture: ComponentFixture<ConfiguratorIssuesNotificationComponent>;
   let htmlElem: HTMLElement;
+  let mockCartItemContext: Partial<CartItemContextSource>;
+
+  function emitNewContextValue(testData: {
+    statusSummary: StatusSummary[];
+    configurationInfos: ConfigurationInfo[];
+    readOnly: boolean;
+    productConfigurable: boolean;
+  }) {
+    mockCartItemContext.item$.next({
+      statusSummaryList: testData.statusSummary,
+      configurationInfos: testData.configurationInfos,
+      product: { configurable: testData.productConfigurable ?? true },
+    });
+    mockCartItemContext.readonly$.next(testData.readOnly);
+    mockCartItemContext.quantityControl$.next(new FormControl());
+  }
 
   beforeEach(
     waitForAsync(() => {
@@ -48,8 +54,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
           MockTranslatePipe,
         ],
         providers: [
-          CartItemContextSource,
-          { provide: CartItemContext, useExisting: CartItemContextSource },
+          { provide: CartItemContext, useClass: MockCartItemContext },
         ],
       }).compileComponents();
     })
@@ -59,6 +64,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
     fixture = TestBed.createComponent(ConfiguratorIssuesNotificationComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
+    mockCartItemContext = TestBed.inject(CartItemContext) as any;
 
     fixture.detectChanges();
   });
@@ -67,61 +73,52 @@ describe('ConfigureIssuesNotificationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return number of issues of ERROR status', () => {
-    emitNewContextValue(
-      component,
-      [{ numberOfIssues: 2, status: OrderEntryStatus.Error }],
-      null,
-      false
-    );
-    expect(component.getNumberOfIssues(item)).toBe(2);
+  it('should expose orderEntry$', (done) => {
+    const orderEntry: OrderEntry = { orderCode: '123' };
+
+    component.orderEntry$.pipe(take(1)).subscribe((value) => {
+      expect(value).toBe(orderEntry);
+      done();
+    });
+
+    mockCartItemContext.item$.next(orderEntry);
   });
 
-  it('should return number of issues of ERROR status if ERROR and SUCCESS statuses are present', () => {
-    emitNewContextValue(
-      component,
-      [
-        { numberOfIssues: 1, status: OrderEntryStatus.Success },
-        { numberOfIssues: 3, status: OrderEntryStatus.Error },
-      ],
-      null,
-      false
-    );
+  it('should expose quantityControlDisabled$', (done) => {
+    component.quantityControlDisabled$
+      .pipe(take(3), toArray())
+      .subscribe((values) => {
+        expect(values).toEqual([false, true, false]);
+        done();
+      });
 
-    expect(component.getNumberOfIssues(item)).toBe(3);
+    const formControl: FormControl = new FormControl();
+    mockCartItemContext.quantityControl$.next(formControl);
+    formControl.disable();
+    formControl.enable();
+    mockCartItemContext.quantityControl$.next(formControl);
+    formControl.disable();
   });
 
-  it('should return number of issues as 0 if only SUCCESS status is present', () => {
-    emitNewContextValue(
-      component,
-      [{ numberOfIssues: 2, status: OrderEntryStatus.Success }],
-      null,
-      false
-    );
+  it('should expose readonly$', (done) => {
+    component.readonly$.pipe(take(2), toArray()).subscribe((values) => {
+      expect(values).toEqual([true, false]);
+      done();
+    });
 
-    expect(component.getNumberOfIssues(item)).toBe(0);
-  });
-
-  it('should return number of issues as 0 if statusSummaryList is undefined', () => {
-    emitNewContextValue(component, null, null, false);
-    expect(component.getNumberOfIssues(item)).toBe(0);
-  });
-
-  it('should return number of issues as 0 if statusSummaryList is empty', () => {
-    emitNewContextValue(component, [], null, false);
-    expect(component.getNumberOfIssues(item)).toBe(0);
+    mockCartItemContext.readonly$.next(true);
+    mockCartItemContext.readonly$.next(false);
   });
 
   it('should display configure from cart in case issues are present', () => {
-    emitNewContextValue(
-      component,
-      [{ numberOfIssues: 2, status: OrderEntryStatus.Error }],
-      null,
-      false
-    );
+    emitNewContextValue({
+      statusSummary: [{ numberOfIssues: 2, status: OrderEntryStatus.Error }],
+      configurationInfos: null,
+      readOnly: false,
+      productConfigurable: true,
+    });
 
     fixture.detectChanges();
-    expect(component.hasIssues(item)).toBeTrue();
 
     expect(
       htmlElem.querySelectorAll('cx-configure-cart-entry').length
@@ -133,16 +130,14 @@ describe('ConfigureIssuesNotificationComponent', () => {
   });
 
   it('should not display configure from cart in case issues are present but product not configurable', () => {
-    emitNewContextValue(
-      component,
-      [{ numberOfIssues: 2, status: OrderEntryStatus.Error }],
-      null,
-      false,
-      false
-    );
+    emitNewContextValue({
+      statusSummary: [{ numberOfIssues: 2, status: OrderEntryStatus.Error }],
+      configurationInfos: null,
+      readOnly: false,
+      productConfigurable: false,
+    });
 
     fixture.detectChanges();
-    expect(component.hasIssues(item)).toBeTrue();
 
     expect(htmlElem.querySelectorAll('cx-configure-cart-entry').length).toBe(
       0,
@@ -152,15 +147,14 @@ describe('ConfigureIssuesNotificationComponent', () => {
   });
 
   it('should return false if number of issues of ERROR status is = 0', () => {
-    emitNewContextValue(
-      component,
-      [{ numberOfIssues: 2, status: OrderEntryStatus.Success }],
-      null,
-      false
-    );
+    emitNewContextValue({
+      statusSummary: [{ numberOfIssues: 2, status: OrderEntryStatus.Success }],
+      configurationInfos: null,
+      readOnly: false,
+      productConfigurable: true,
+    });
 
     fixture.detectChanges();
-    expect(component.hasIssues(item)).toBeFalse();
     expect(htmlElem.querySelectorAll('cx-configure-cart-entry').length).toBe(
       0,
       'expected configure cart entry not to be present, but it is; innerHtml: ' +
