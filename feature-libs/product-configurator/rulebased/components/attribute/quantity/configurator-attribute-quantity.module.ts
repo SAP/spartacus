@@ -3,9 +3,9 @@ import { NgModule } from '@angular/core';
 import { Config, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { ItemCounterModule } from '@spartacus/storefront';
 import {
-  ConfiguratorUIConfig,
-  DefaultConfiguratorUIConfig,
-} from '../../config/configurator-ui-config';
+  ConfiguratorUISettings,
+  DefaultConfiguratorUISettings,
+} from '../../config';
 import { ConfiguratorAttributeQuantityComponent } from './configurator-attribute-quantity.component';
 
 @NgModule({
@@ -14,8 +14,8 @@ import { ConfiguratorAttributeQuantityComponent } from './configurator-attribute
   exports: [ConfiguratorAttributeQuantityComponent],
   imports: [CommonModule, I18nModule, ItemCounterModule],
   providers: [
-    provideDefaultConfig(DefaultConfiguratorUIConfig),
-    { provide: ConfiguratorUIConfig, useExisting: Config },
+    provideDefaultConfig(DefaultConfiguratorUISettings),
+    { provide: ConfiguratorUISettings, useExisting: Config },
   ],
 })
 export class ConfiguratorAttributeQuantityModule {}
