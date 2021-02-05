@@ -308,6 +308,7 @@ export const MULTI_CART_STATE_PERSISTENCE_SERVICE =
   'MultiCartStatePersistenceService';
 export const LANGUAGE_SERVICE = 'LanguageService';
 export const CURRENCY_SERVICE = 'CurrencyService';
+export const SEARCH_BOX_SERVICE = 'SearchboxService';
 
 export const ASM_AUTH_SERVICE = 'AsmAuthService';
 
