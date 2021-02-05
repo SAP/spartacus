@@ -59,10 +59,15 @@ else
     rm build.log
     exit 1
 fi
+echo '-----'
+echo "Building Spartacus storefront app"
+yarn build
+
+yarn start:pwa &
 
 echo '-----'
 echo "Running Cypress end to end tests"
 
-yarn e2e:start:run:ci"${SUITE}"
+yarn e2e:run:ci"${SUITE}"
 
 echo "Running Cypress end to end tests finished"

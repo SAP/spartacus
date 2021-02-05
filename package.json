@@ -43,7 +43,7 @@
     "prettier:fix": "prettier --config ./.prettierrc --list-different \"{projects,feature-libs,core-libs,integration-libs}/**/*{.ts,.js,.json,.scss,.html}\" --write",
     "start": "env-cmd -e ci,b2c,$SPA_ENV ng serve",
     "start:prod": "env-cmd -e ci,b2c,$SPA_ENV ng serve --prod",
-    "start:pwa": "cd ./dist/storefrontapp/ && http-server -p 4200",
+    "start:pwa": "cd ./dist/storefrontapp/ && http-server --silent --proxy http://localhost:4200? -p 4200",
     "test": "ng test",
     "test:libs": "concurrently \"ng test core --code-coverage\" \"ng test storefrontlib --code-coverage\" \"ng test organization --code-coverage\" \"ng test storefinder --code-coverage\" \"ng test product --code-coverage\" \"ng test cdc --code-coverage\" \"ng test setup --code-coverage\"",
     "test:storefront:lib": "ng test storefrontlib --sourceMap --code-coverage",
