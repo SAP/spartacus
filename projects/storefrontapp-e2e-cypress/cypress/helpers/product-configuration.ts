@@ -102,7 +102,7 @@ export function goToCPQConfigurationPage(
 export function goToPDPage(shopName: string, productId: string): void {
   const location = `${shopName}/en/USD/product/${productId}/${productId}`;
   cy.visit(location).then(() => {
-    checkLoadingMsgNotDisplayed();
+    //checkLoadingMsgNotDisplayed();
     cy.location('pathname').should('contain', location);
     cy.get('.ProductDetailsPageTemplate').should('be.visible');
   });
@@ -247,7 +247,7 @@ export function clickOnPreviousBtn(previousGroup: string): void {
  * Verifies whether the configuration page is displayed.
  */
 export function checkConfigPageDisplayed(): void {
-  checkLoadingMsgNotDisplayed();
+  //checkLoadingMsgNotDisplayed();
   checkGlobalMessageNotDisplayed();
   checkTabBarDisplayed();
   checkGroupTitleDisplayed();
