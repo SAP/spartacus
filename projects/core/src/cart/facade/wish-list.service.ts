@@ -39,12 +39,12 @@ export class WishListService {
 
   getWishList(): Observable<Cart> {
     return combineLatest([
+      this.getWishListId(),
       this.userService.get(),
       this.userIdService.getUserId(),
-      this.getWishListId(),
     ]).pipe(
       distinctUntilChanged(),
-      map(([user, userId, wishListId]) => {
+      tap(([wishListId, user, userId]) => {
         if (
           !Boolean(wishListId) &&
           userId !== OCC_USER_ID_ANONYMOUS &&
@@ -53,10 +53,9 @@ export class WishListService {
         ) {
           this.loadWishList(userId, user.customerId);
         }
-        return wishListId;
       }),
-      filter((wishListId) => Boolean(wishListId)),
-      switchMap((wishListId) => this.multiCartService.getCart(wishListId))
+      filter(([wishListId]) => Boolean(wishListId)),
+      switchMap(([wishListId]) => this.multiCartService.getCart(wishListId))
     );
   }
 
