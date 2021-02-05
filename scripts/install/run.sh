@@ -98,6 +98,9 @@ function add_spartacus_csr {
         if [ "$ADD_B2B_LIBS" = true ] ; then
             ng add @spartacus/organization@${SPARTACUS_VERSION} --interactive false
         fi
+        if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
+            ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false
+        fi        
     )
 }
 
@@ -106,6 +109,9 @@ function add_spartacus_ssr {
         if [ "$ADD_B2B_LIBS" = true ] ; then
             ng add @spartacus/organization@${SPARTACUS_VERSION} --interactive false
         fi
+        if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
+            ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false
+        fi           
     )
 }
 
@@ -114,6 +120,9 @@ function add_spartacus_ssr_pwa {
         if [ "$ADD_B2B_LIBS" = true ] ; then
             ng add @spartacus/organization@${SPARTACUS_VERSION} --interactive false
         fi
+        if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
+            ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false
+        fi           
     )
 }
 
@@ -192,6 +201,9 @@ function local_install {
 
     printh "Creating storefinder npm package"
     ( cd ${CLONE_DIR}/dist/storefinder && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
+
+    printh "Creating product-configurator npm package"
+    ( cd ${CLONE_DIR}/dist/product-configurator && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )    
 
     create_apps
 

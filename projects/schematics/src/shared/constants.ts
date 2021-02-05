@@ -308,6 +308,7 @@ export const MULTI_CART_STATE_PERSISTENCE_SERVICE =
   'MultiCartStatePersistenceService';
 export const LANGUAGE_SERVICE = 'LanguageService';
 export const CURRENCY_SERVICE = 'CurrencyService';
+export const SEARCH_BOX_SERVICE = 'SearchboxService';
 
 export const ASM_AUTH_SERVICE = 'AsmAuthService';
 
@@ -496,6 +497,9 @@ export const LAYOUT_CONFIG = 'LayoutConfig';
 
 export const TOKEN_REVOCATION_HEADER = 'TOKEN_REVOCATION_HEADER';
 export const SPLIT_VIEW_DEACTIVATE_GUARD = 'SplitViewDeactivateGuard';
+
+export const QUALTRICS_EMBEDDED_FEEDBACK_SCSS_FILE_NAME =
+  'qualtrics-embedded-feedback.scss';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
@@ -635,6 +639,12 @@ export const SPARTACUS_STOREFINDER_ASSETS = `${SPARTACUS_STOREFINDER}/assets`;
 export const STOREFINDER_TRANSLATIONS = 'storeFinderTranslations';
 export const STOREFINDER_TRANSLATION_CHUNKS_CONFIG =
   'storeFinderTranslationChunksConfig';
+
+export const QUALTRICS_MODULE = 'QualtricsModule';
+export const QUALTRICS_FEATURE_NAME = 'qualtrics';
+export const QUALTRICS_ROOT_MODULE = 'QualtricsRootModule';
+export const SPARTACUS_QUALTRICS = '@spartacus/qualtrics';
+export const SPARTACUS_QUALTRICS_ROOT = `${SPARTACUS_QUALTRICS}/root`;
 
 export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
 
