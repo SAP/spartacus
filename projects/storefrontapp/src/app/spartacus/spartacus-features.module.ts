@@ -82,6 +82,7 @@ import { environment } from '../../environments/environment';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
+import { VariantsFeatureModule } from "./features/variants-feature.module";
 
 const featureModules = [];
 
@@ -206,6 +207,7 @@ if (environment.cds) {
 
     StorefinderFeatureModule,
     QualtricsFeatureModule,
+    VariantsFeatureModule,
     ...featureModules,
   ],
 })

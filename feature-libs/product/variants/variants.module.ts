@@ -5,7 +5,7 @@ import { VariantsComponentsModule } from '@spartacus/product/variants/components
 
 @NgModule({
   imports: [
-    VariantsCoreModule.forRoot(),
+    VariantsCoreModule,
     VariantsOccModule,
     VariantsComponentsModule,
   ],
