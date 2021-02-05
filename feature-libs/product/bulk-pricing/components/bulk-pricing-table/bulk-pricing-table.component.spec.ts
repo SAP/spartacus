@@ -5,7 +5,7 @@ import { BulkPricingTableComponent } from './bulk-pricing-table.component';
 
 import { RoutingService } from '@spartacus/core';
 import { BulkPricesService } from '../../core/services/bulk-prices.service';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 const mockState = {
   state: {
@@ -14,15 +14,28 @@ const mockState = {
     }
   }
 }
-class MockRoutingService {
+
+const mockTierWithMaxQuantity: BulkPrice = {
+  minQuantity : 1,
+  maxQuantity : 5,
+  value: 200,
+  discount: 20
+};
+
+const mockTierWithoutMaxQuantity: BulkPrice = {
+  minQuantity : 1,
+  value: 200,
+  discount: 20
+};
+class MockRoutingService implements Partial<RoutingService> {
   go() {}
-  getRouterState() {
+  getRouterState(): Observable<any> {
     return of(mockState);
   }
 }
 
-class MockBulkPricesService {
-  getBulkPrices() {
+class MockBulkPricesService implements Partial<BulkPricesService>  {
+  getBulkPrices(): Observable<BulkPrice[]> {
     return of([]);
   }
 }
@@ -56,21 +69,7 @@ describe('BulkPricingTableComponent', () => {
   });
 
   describe('formatQuantity', () => {
-    const mockTierWithMaxQuantity: BulkPrice = {
-      minQuantity : 1,
-      maxQuantity : 5,
-      value: 200,
-      discount: 20
-    };
-
-    const mockTierWithoutMaxQuantity: BulkPrice = {
-      minQuantity : 1,
-      value: 200,
-      discount: 20
-    };
-
     it('should format mockTierWithMaxQuantity', () => {
-
       const expectedFormattedQuantity = '1 - 5';
       const formattedQuantity = component.formatQuantity(mockTierWithMaxQuantity);
 
@@ -78,7 +77,6 @@ describe('BulkPricingTableComponent', () => {
     });
 
     it('should format mockTierWithoutMaxQuantity', () => {
-
       const expectedFormattedQuantity = '1+';
       const formattedQuantity = component.formatQuantity(mockTierWithoutMaxQuantity);
 
