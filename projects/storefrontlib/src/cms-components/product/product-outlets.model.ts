@@ -5,6 +5,5 @@ export enum ProductDetailOutlets {
   SUMMARY = 'PDP.SUMMARY',
 }
 export enum ProductListOutlets {
-  GRID_ITEM_END = 'PLP.GRID.ITEM.END',
-  LIST_ITEM_END = 'PLP.LIST.ITEM.END',
+  ITEM_ACTIONS = 'cx-product-list-item.actions',
 }
