@@ -15,8 +15,8 @@
         </ng-container>
 
         <ng-template #noimages>
-          <div class="cx-product-card-imgs-fake"></div
-        ></ng-template>
+          <div class="cx-product-card-imgs-fake"></div>
+        </ng-template>
       </div>
 
       <div class="cx-product-card-info">
@@ -49,76 +49,77 @@
       </div>
     </div>
 
-    <div class="cx-product-card-rows">
-      <cx-configurator-attribute-quantity
-        *ngIf="showQuantity"
-        (changeQuantity)="onChangeQuantity($event)"
-        [allowZero]="!preventAction"
-        [initialQuantity]="product.quantity"
-        [disableQuantityActions]="loading$ | async"
-        class="cx-product-card-quantity"
-      ></cx-configurator-attribute-quantity>
-    </div>
-
     <div
       class="cx-product-card-rows column"
       *ngIf="!singleDropdown || getProductPrice(product)"
     >
-      <div class="cx-product-card-action" *ngIf="!singleDropdown">
-        <ng-container *ngIf="multiSelect; else single">
-          <button
-            *ngIf="product.selected; else select"
-            class="btn btn-action"
-            (click)="onHandleDeselect()"
-            [disabled]="preventAction || (loading$ | async)"
-          >
-            {{ 'configurator.button.remove' | cxTranslate }}
-          </button>
-          <ng-template #select>
+      <div class="cx-product-card-quantity-price">
+        <div class="cx-product-card-quantity">
+          <cx-configurator-attribute-quantity
+            *ngIf="showQuantity"
+            (changeQuantity)="onChangeQuantity($event)"
+            [allowZero]="!preventAction"
+            [initialQuantity]="product.quantity"
+            [disableQuantityActions]="loading$ | async"
+          ></cx-configurator-attribute-quantity>
+        </div>
+        <div class="cx-product-card-price">
+          <cx-configurator-price
+            *ngIf="getProductPrice(product)"
+            [formula]="
+              setFormula(
+                product.quantity,
+                product.valuePrice,
+                product.valuePriceTotal,
+                product.selected
+              )
+            "
+          ></cx-configurator-price>
+        </div>
+      </div>
+      <div class="cx-product-card-action">
+        <div class="cx-product-card-action-btn" *ngIf="!singleDropdown">
+          <ng-container *ngIf="multiSelect; else single">
+            <button
+              *ngIf="product.selected; else select"
+              class="btn btn-action"
+              (click)="onHandleDeselect()"
+              [disabled]="preventAction || (loading$ | async)"
+            >
+              {{ 'configurator.button.remove' | cxTranslate }}
+            </button>
+            <ng-template #select>
+              <button
+                class="btn btn-primary"
+                (click)="onHandleSelect()"
+                [disabled]="loading$ | async"
+              >
+                {{ 'configurator.button.add' | cxTranslate }}
+              </button>
+            </ng-template>
+          </ng-container>
+          <ng-template #single>
             <button
               class="btn btn-primary"
               (click)="onHandleSelect()"
               [disabled]="loading$ | async"
+              *ngIf="!product.selected; else deselect"
             >
-              {{ 'configurator.button.add' | cxTranslate }}
+              {{ 'configurator.button.select' | cxTranslate }}
             </button>
-          </ng-template>
-        </ng-container>
-        <ng-template #single>
-          <button
-            class="btn btn-primary"
-            (click)="onHandleSelect()"
-            [disabled]="loading$ | async"
-            *ngIf="!product.selected; else deselect"
-          >
-            {{ 'configurator.button.select' | cxTranslate }}
-          </button>
 
-          <ng-template #deselect>
-            <button
-              *ngIf="!preventAction"
-              class="btn btn-action"
-              (click)="onHandleDeselect()"
-              [disabled]="loading$ | async"
-            >
-              {{ 'configurator.button.deselect' | cxTranslate }}
-            </button>
+            <ng-template #deselect>
+              <button
+                *ngIf="!preventAction"
+                class="btn btn-action"
+                (click)="onHandleDeselect()"
+                [disabled]="loading$ | async"
+              >
+                {{ 'configurator.button.deselect' | cxTranslate }}
+              </button>
+            </ng-template>
           </ng-template>
-        </ng-template>
-      </div>
-
-      <div class="cx-product-card-price">
-        <cx-configurator-price
-          *ngIf="getProductPrice(product)"
-          [formula]="
-            setFormula(
-              product.quantity,
-              product.valuePrice,
-              product.valuePriceTotal,
-              product.selected
-            )
-          "
-        ></cx-configurator-price>
+        </div>
       </div>
     </div>
   </div>

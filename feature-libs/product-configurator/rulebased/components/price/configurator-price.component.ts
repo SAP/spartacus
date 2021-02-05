@@ -65,7 +65,7 @@ export class ConfiguratorPriceComponent {
   /**
    * Verifies whether only price should be displayed.
    */
-  displayPrice() {
+  displayPriceOnly() {
     return (
       (this.formula?.price?.value || this.formula?.priceTotal?.value) &&
       !this.displayQuantityAndPrice()
