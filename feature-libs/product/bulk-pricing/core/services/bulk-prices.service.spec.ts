@@ -1,37 +1,58 @@
 import { TestBed } from '@angular/core/testing';
-import { Product, ProductService } from '@spartacus/core';
-import { Observable } from 'rxjs/internal/Observable';
+import { ProductService } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
+// import { BulkPrice } from '../model/bulk-price.model';
 
 import { BulkPricesService } from './bulk-prices.service';
+const mockProductCode = '2221933';
 
-const mockProducts = {
-  1: {
-    code: '1',
-    name: 'product 1',
-    price: {
-      formattedValue: '100.00',
-    },
-    images: {
-      PRIMARY: {
-        product: {
-          url: 'whatever.jpg',
-        },
-      },
-    },
+const mockBulkPrices = {
+  price: {
+     currencyIso: 'USD',
+     formattedValue: '$4.00',
+     priceType: 'BUY',
+     value: 4.0
   },
-  2: {
-    code: '2',
-    name: 'product 2',
-    price: {
-      formattedValue: '200.00',
-    },
-  },
+  volumePrices: [ {
+     currencyIso: 'USD',
+     formattedValue: '$4.00',
+     maxQuantity: 9,
+     minQuantity: 1,
+     priceType: 'BUY',
+     value: 4.0
+  }, {
+     currencyIso: 'USD',
+     formattedValue: '$3.89',
+     maxQuantity: 29,
+     minQuantity: 10,
+     priceType: 'BUY',
+     value: 3.89
+  }, {
+     currencyIso: 'USD',
+     formattedValue: '$3.69',
+     maxQuantity: 49,
+     minQuantity: 30,
+     priceType: 'BUY',
+     value: 3.69
+  }, {
+     currencyIso: 'USD',
+     formattedValue: '$3.49',
+     maxQuantity: 99,
+     minQuantity: 50,
+     priceType: 'BUY',
+     value: 3.49
+  }, {
+     currencyIso: 'USD',
+     formattedValue: '$2.99',
+     minQuantity: 100,
+     priceType: 'BUY',
+     value: 2.99
+  } ]
 };
 
 class MockProductService {
-  get(code): Observable<Product> {
-    return of(mockProducts[code]);
+  get() {
+    return of(mockBulkPrices);
   }
 }
 
@@ -45,7 +66,6 @@ describe('BulkPricesService', () => {
           provide: ProductService,
           useClass: MockProductService,
         },
-        
       ],
     });
     
@@ -53,6 +73,64 @@ describe('BulkPricesService', () => {
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    let actualPrices;
+    let expectedPrices = [ 
+      { 
+        currencyIso: 'USD', 
+        formattedValue: '$4.00', 
+        maxQuantity: 9, 
+        minQuantity: 1, 
+        priceType: 'BUY', 
+        value: 4, 
+        formattedDiscount: '0%', 
+        discount: 0 
+      }, 
+      { 
+        currencyIso: 'USD', 
+        formattedValue: '$3.89', 
+        maxQuantity: 29, 
+        minQuantity: 10, 
+        priceType: 'BUY', 
+        value: 3.89, 
+        formattedDiscount: '-3%', 
+        discount: 3 
+      }, 
+      { 
+        currencyIso: 'USD',
+        formattedValue: '$3.69',
+        maxQuantity: 49, 
+        minQuantity: 30, 
+        priceType: 'BUY', 
+        value: 3.69, 
+        formattedDiscount: '-8%', 
+        discount: 8 
+      }, 
+      { 
+        currencyIso: 'USD', 
+        formattedValue: '$3.49', 
+        maxQuantity: 99, 
+        minQuantity: 50, 
+        priceType: 'BUY', 
+        value: 3.49, 
+        formattedDiscount: '-13%', 
+        discount: 13 
+      }, 
+      { 
+        currencyIso: 'USD', 
+        formattedValue: '$2.99', 
+        maxQuantity: undefined, 
+        minQuantity: 100, 
+        priceType: 'BUY', 
+        value: 2.99, 
+        formattedDiscount: '-25%', 
+        discount: 25 
+      }
+    ];
+    service.getBulkPrices(mockProductCode)
+      .subscribe(formattedPrices => {
+        actualPrices = formattedPrices;
+      }).unsubscribe();
+
+    expect(actualPrices).toEqual(expectedPrices);
   });
 });

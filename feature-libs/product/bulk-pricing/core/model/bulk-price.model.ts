@@ -6,5 +6,5 @@ export interface BulkPrice {
   priceType?: string;
   value: number;
   formattedDiscount?: string;
-  discount: number;
+  discount?: number;
 }
