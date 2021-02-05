@@ -74,9 +74,6 @@
       "@spartacus/product-configurator/rulebased/root": [
         "feature-libs/product-configurator/rulebased/root/public_api"
       ],
-      "@spartacus/product-configurator/common/assets": [
-        "feature-libs/product-configurator/common/assets/public_api"
-      ],
       "@spartacus/product-configurator/textfield": [
         "feature-libs/product-configurator/textfield/public_api"
       ],
@@ -94,12 +91,6 @@
       ],
       "@spartacus/qualtrics/root": [
         "feature-libs/qualtrics/root/public_api"
-      ],
-      "@spartacus/product-configurator/rulebased": [
-        "feature-libs/product-configurator/rulebased/public_api"
-      ],
-      "@spartacus/product-configurator/rulebased/root": [
-        "feature-libs/product-configurator/rulebased/root/public_api"
       ],
       "@spartacus/storefinder/assets": [
         "feature-libs/storefinder/assets/public_api"
