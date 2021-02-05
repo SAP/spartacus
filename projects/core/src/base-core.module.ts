@@ -1,4 +1,9 @@
-import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
+import {
+  APP_INITIALIZER,
+  ModuleWithProviders,
+  NgModule,
+  Optional,
+} from '@angular/core';
 import { CmsModule } from './cms/cms.module';
 import { ConfigInitializerModule } from './config/config-initializer/config-initializer.module';
 import { ConfigValidatorModule } from './config/config-validator/config-validator.module';
@@ -50,12 +55,7 @@ export class BaseCoreModule {
         {
           provide: APP_INITIALIZER,
           useFactory: moduleInitializersFactory,
-          deps: [LazyModulesService, MODULE_INITIALIZER],
-          multi: true,
-        },
-        {
-          provide: MODULE_INITIALIZER,
-          useFactory: () => () => {},
+          deps: [LazyModulesService, [new Optional(), MODULE_INITIALIZER]],
           multi: true,
         },
       ],

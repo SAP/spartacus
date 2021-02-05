@@ -126,37 +126,50 @@ export class LazyModulesService implements OnDestroy {
     );
   }
 
+  /**
+   * The purpose of this function is to run MODULE_INITIALIZER logic that can be provided
+   * by a lazy loaded module.  The module is recieved as a function parameter.
+   * This function returns an Observable to the module reference passed as an argument.
+   *
+   * @param {NgModuleRef<any>} moduleRef
+   *
+   * @returns {Observable<NgModuleRef<any>>}
+   */
+
   public runModuleInitializersForModule(
     moduleRef: NgModuleRef<any>
   ): Observable<NgModuleRef<any>> {
     const moduleInits: any[] = moduleRef.injector.get<any[]>(
       MODULE_INITIALIZER,
-      undefined,
+      [],
       InjectFlags.Self
     );
-
-    console.log('mi: runModuleInitializersForModule moduleInits', moduleInits);
-
     const asyncInitPromises = this.runModuleInitializerFunctions(moduleInits);
-    console.log('mi: asyncInitPromises', asyncInitPromises);
-    if (!asyncInitPromises.length) {
-      return of(moduleRef);
-    } else {
+    if (asyncInitPromises.length) {
       return from(Promise.all(asyncInitPromises)).pipe(
         switchMapTo(of(moduleRef))
       );
+    } else {
+      return of(moduleRef);
     }
   }
   /**
-   * DOC TODO
+   * This function accepts an array of functions and runs them all. For each function that returns a promise,
+   * the resulting promise is stored in an array of promises.  That array of promises is returned.
+   * It is not required for the functions to return a Promise.  All functions are run.  The return values
+   * that are not a Promise are simply not stored and returned.
+   *
+   * @param {(() => any)[]} initFunctions An array of functions too be run.
+   *
+   * @return {Promise<any>[]} An array of Promise returned by the functions, if any,
    */
   public runModuleInitializerFunctions(
-    moduleInits: (() => any)[]
+    initFunctions: (() => any)[]
   ): Promise<any>[] {
     const initPromises: Promise<any>[] = [];
-    if (moduleInits) {
-      for (let i = 0; i < moduleInits.length; i++) {
-        const initResult = moduleInits[i]();
+    if (initFunctions) {
+      for (let i = 0; i < initFunctions.length; i++) {
+        const initResult = initFunctions[i]();
         if (this.isObjectPromise(initResult)) {
           initPromises.push(initResult);
         }
