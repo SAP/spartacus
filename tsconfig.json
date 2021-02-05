@@ -74,6 +74,9 @@
       "@spartacus/product-configurator/rulebased/root": [
         "feature-libs/product-configurator/rulebased/root/public_api"
       ],
+      "@spartacus/product-configurator/common/assets": [
+        "feature-libs/product-configurator/common/assets/public_api"
+      ],
       "@spartacus/product-configurator/textfield": [
         "feature-libs/product-configurator/textfield/public_api"
       ],
@@ -91,6 +94,12 @@
       ],
       "@spartacus/qualtrics/root": [
         "feature-libs/qualtrics/root/public_api"
+      ],
+      "@spartacus/product-configurator/rulebased": [
+        "feature-libs/product-configurator/rulebased/public_api"
+      ],
+      "@spartacus/product-configurator/rulebased/root": [
+        "feature-libs/product-configurator/rulebased/root/public_api"
       ],
       "@spartacus/storefinder/assets": [
         "feature-libs/storefinder/assets/public_api"
@@ -130,22 +139,6 @@
       ],
       "@spartacus/storefront": [
         "projects/storefrontlib/src/public_api"
-      ],
-
-      "@spartacus/product/multi-d": [
-        "feature-libs/product/multi-d/public_api"
-      ],
-      "@spartacus/product/multi-d/components": [
-        "feature-libs/product/multi-d/components/public_api"
-      ],
-      "@spartacus/product/multi-d/core": [
-        "feature-libs/product/multi-d/core/public_api"
-      ],
-      "@spartacus/product/multi-d/occ": [
-        "feature-libs/product/multi-d/occ/public_api"
-      ],
-      "@spartacus/product/multi-d/root": [
-        "feature-libs/product/multi-d/root/public_api"
       ],
       "@spartacus/product/variants": [
         "feature-libs/product/variants/public_api"
