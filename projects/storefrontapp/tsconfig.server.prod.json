@@ -70,7 +70,6 @@
       "@spartacus/core": ["../../dist/core"],
       "@spartacus/incubator": ["../../dist/incubator"],
       "@spartacus/storefront": ["../../dist/storefrontlib"],
-      "@spartacus/vendor": ["../../dist/vendor"],
 
       "@spartacus/product/multi-d": ["../../dist/product/multi-d"],
       "@spartacus/product/multi-d/components": [
