@@ -15,7 +15,7 @@ export interface TmsCollectorConfig {
   /**
    * An optional custom mapping function used to map the event's payload
    */
-  eventMapper?: Type<TmsMapper>;
+  eventMapper?: Type<TmsMapper> | (<T extends CxEvent>(event: T) => T | any);
   /**
    * Pushes the event to the configured data layer.
    */

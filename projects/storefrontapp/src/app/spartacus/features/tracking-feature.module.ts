@@ -27,7 +27,10 @@ export class AepMapper implements TmsMapper {
     TmsModule.forRoot({
       tagManager: {
         gtm: {
-          eventMapper: GtmMapper,
+          eventMapper: (event) => {
+            console.log('gtm inline function');
+            return event;
+          },
           events: [NavigationEvent, CartAddEntrySuccessEvent],
         },
         aep: {

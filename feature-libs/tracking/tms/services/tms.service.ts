@@ -73,6 +73,13 @@ export class TmsService implements OnDestroy {
       return event;
     }
 
+    if (typeof collectorConfig.eventMapper === 'function') {
+      const mapper = collectorConfig.eventMapper as <T extends CxEvent>(
+        event: T
+      ) => T | any;
+      return mapper(event);
+    }
+
     const mapper: TmsMapper = this.injector.get(collectorConfig.eventMapper);
     return mapper.map(event);
   }
