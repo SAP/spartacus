@@ -1,4 +1,4 @@
-import { AbstractType, Injectable, Type } from '@angular/core';
+import { AbstractType, Injectable, InjectionToken, Type } from '@angular/core';
 import { Config, CxEvent } from '@spartacus/core';
 import { TmsMapper, WindowObject } from '../model/tms.model';
 
@@ -15,7 +15,7 @@ export interface TmsCollectorConfig {
   /**
    * An optional custom mapping function used to map the event's payload
    */
-  eventMapper?: Type<TmsMapper> | (<T extends CxEvent>(event: T) => T | any);
+  eventMapper?: Type<TmsMapper> | InjectionToken<TmsMapper>;
   /**
    * Pushes the event to the configured data layer.
    */

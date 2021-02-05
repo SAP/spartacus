@@ -5,7 +5,7 @@ import {
   CxEvent,
 } from '@spartacus/core';
 import { NavigationEvent } from '@spartacus/storefront';
-import { TmsMapper, TmsModule } from '@spartacus/tracking/tms';
+import { TmsMapper, TmsModule, TMS_MAPPER } from '@spartacus/tracking/tms';
 
 @Injectable({ providedIn: 'root' })
 export class GtmMapper implements TmsMapper {
@@ -23,14 +23,17 @@ export class AepMapper implements TmsMapper {
 }
 
 @NgModule({
+  providers: [
+    {
+      provide: TMS_MAPPER,
+      useExisting: GtmMapper,
+    },
+  ],
   imports: [
     TmsModule.forRoot({
       tagManager: {
         gtm: {
-          eventMapper: (event) => {
-            console.log('gtm inline function');
-            return event;
-          },
+          eventMapper: TMS_MAPPER,
           events: [NavigationEvent, CartAddEntrySuccessEvent],
         },
         aep: {

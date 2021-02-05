@@ -9,7 +9,7 @@ import {
 import { CxEvent, EventService, WindowRef } from '@spartacus/core';
 import { merge, Observable, Subscription } from 'rxjs';
 import { TmsCollectorConfig, TmsConfig } from '../config/tms-config';
-import { TmsMapper } from '../model/tms.model';
+import { TmsMapper, TMS_MAPPER } from '../model/tms.model';
 
 /**
  * This service interacts with the configured data layer object by pushing the Spartacus events to it.
@@ -26,7 +26,8 @@ export class TmsService implements OnDestroy {
     protected windowRef: WindowRef,
     protected tmsConfig: TmsConfig,
     protected injector: Injector,
-    @Inject(PLATFORM_ID) protected platformId: any
+    @Inject(PLATFORM_ID) protected platformId: any,
+    @Inject(TMS_MAPPER) protected working: TmsMapper
   ) {}
 
   /**
@@ -73,14 +74,16 @@ export class TmsService implements OnDestroy {
       return event;
     }
 
-    if (typeof collectorConfig.eventMapper === 'function') {
-      const mapper = collectorConfig.eventMapper as <T extends CxEvent>(
-        event: T
-      ) => T | any;
-      return mapper(event);
-    }
+    // if (typeof collectorConfig.eventMapper === 'function') {
+    //   const mapper = collectorConfig.eventMapper as <T extends CxEvent>(
+    //     event: T
+    //   ) => T | any;
+    //   return mapper(event);
+    // }
 
-    const mapper: TmsMapper = this.injector.get(collectorConfig.eventMapper);
+    console.log('prints GtmMapper: ', this.working);
+
+    const mapper = this.injector.get<TmsMapper>(collectorConfig.eventMapper);
     return mapper.map(event);
   }
 

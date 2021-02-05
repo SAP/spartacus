@@ -1,3 +1,4 @@
+import { InjectionToken } from '@angular/core';
 import { CxEvent } from '@spartacus/core';
 
 /**
@@ -14,3 +15,7 @@ export interface WindowObject extends Window {
 export interface TmsMapper {
   map<T extends CxEvent>(event: T): T | object;
 }
+
+export const TMS_MAPPER = new InjectionToken<TmsMapper>(
+  'tms-mapper-injection-token'
+);
