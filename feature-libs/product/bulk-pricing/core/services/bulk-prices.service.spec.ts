@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ProductService } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
-// import { BulkPrice } from '../model/bulk-price.model';
 
 import { BulkPricesService } from './bulk-prices.service';
 const mockProductCode = '2221933';
@@ -73,6 +72,10 @@ describe('BulkPricesService', () => {
   });
 
   it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+
+  it('should correctly format bulk prices', () => {
     let actualPrices;
     let expectedPrices = [ 
       { 
