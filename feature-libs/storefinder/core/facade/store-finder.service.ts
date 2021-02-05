@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { Action, select, Store } from '@ngrx/store';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { StoreFinderActions } from '../store/actions/index';
 import { StoreFinderSelectors } from '../store/selectors/index';
 import {
@@ -17,45 +17,24 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { StoreEntities } from '../model';
+import { filter, withLatestFrom } from 'rxjs/operators';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
 })
-export class StoreFinderService {
+export class StoreFinderService implements OnDestroy {
   private geolocationWatchId: number = null;
+  protected subscription = new Subscription();
 
   constructor(
     protected store: Store<StateWithStoreFinder>,
     protected winRef: WindowRef,
     protected globalMessageService: GlobalMessageService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    @Inject(PLATFORM_ID) protected platformId: any
   ) {
-    combineLatest([
-      this.getStoresLoading(),
-      this.getStoresLoaded(),
-      this.getFindStoresEntities(),
-      this.routingService.getParams(),
-    ]).subscribe(([loading, loaded, value, params]) => {
-      if (!loading && !loaded) {
-        if (
-          this.isEmpty(value.findStoresEntities) &&
-          params.country &&
-          !params.store
-        ) {
-          this.findStoresAction(
-            '',
-            {
-              pageSize: -1,
-            },
-            undefined,
-            params.country
-          );
-        }
-        if (this.isEmpty(value.findStoreEntitiesById) && params.store) {
-          this.viewStoreById(params.store);
-        }
-      }
-    });
+    this.initialize();
   }
 
   /**
@@ -185,5 +164,48 @@ export class StoreFinderService {
     return (
       !store || (typeof store === 'object' && Object.keys(store).length === 0)
     );
+  }
+
+  protected initialize() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.subscription = this.getFindStoresEntities()
+        .pipe(
+          filter(
+            (data) =>
+              this.isEmpty(data.findStoresEntities) &&
+              this.isEmpty(data.findStoreEntitiesById)
+          ),
+          withLatestFrom(
+            this.getStoresLoading(),
+            this.getStoresLoaded(),
+            this.routingService.getParams()
+          )
+        )
+        .subscribe(([value, loading, loaded, params]) => {
+          if (!loading && !loaded) {
+            if (
+              this.isEmpty(value.findStoresEntities) &&
+              params.country &&
+              !params.store
+            ) {
+              this.findStoresAction(
+                '',
+                {
+                  pageSize: -1,
+                },
+                undefined,
+                params.country
+              );
+            }
+            if (params.store) {
+              this.viewStoreById(params.store);
+            }
+          }
+        });
+    }
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }

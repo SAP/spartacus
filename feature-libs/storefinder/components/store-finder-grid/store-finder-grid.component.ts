@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GeoPoint } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'cx-store-finder-grid',
   templateUrl: './store-finder-grid.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StoreFinderGridComponent implements OnInit {
   defaultLocation: GeoPoint;
@@ -30,7 +31,7 @@ export class StoreFinderGridComponent implements OnInit {
     this.findStores();
   }
 
-  findStores() {
+  protected findStores() {
     if (this.route.snapshot.params.country) {
       this.storeFinderService.findStoresAction(
         '',
