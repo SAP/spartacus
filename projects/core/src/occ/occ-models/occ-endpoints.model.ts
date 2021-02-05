@@ -2,7 +2,7 @@ export const DEFAULT_SCOPE = 'default';
 
 export interface OccEndpoint {
   default?: string;
-  [scope: string]: string;
+  [scope: string]: string | undefined;
 }
 
 export interface ProductOccEndpoint extends OccEndpoint {
@@ -115,24 +115,6 @@ export interface OccEndpoints {
    * @member {string} [addEmail]
    */
   addEmail?: string | OccEndpoint;
-  /**
-   * Get a store location
-   *
-   * @member {string} [page]
-   */
-  store?: string | OccEndpoint;
-  /**
-   * Get a list of store locations
-   *
-   * @member {string} [page]
-   */
-  stores?: string | OccEndpoint;
-  /**
-   * Gets a store location count per country and regions
-   *
-   * @member {string} [page]
-   */
-  storescounts?: string | OccEndpoint;
   /**
    * Get a list of available languages
    *
@@ -428,6 +410,66 @@ export interface OccEndpoints {
    */
   placeOrder?: string | OccEndpoint;
   /**
+   * Endpoint to schedule a replenishment order
+   *
+   * * @member {string}
+   */
+  scheduleReplenishmentOrder?: string | OccEndpoint;
+  /**
+   * * Endpoint for the list of one user's replenishment orders
+   *
+   * * @member {string}
+   */
+  replenishmentOrderHistory?: string | OccEndpoint;
+  /* Endpoint to get a replenishment order details
+   *
+   * * @member {string}
+   */
+  replenishmentOrderDetails?: string | OccEndpoint;
+  /**
+   * Endpoint to get a replenishment order history for a replenishment
+   *
+   * * @member {string}
+   */
+  replenishmentOrderDetailsHistory?: string | OccEndpoint;
+  /**
+   * Endpoint to get a replenishment order history for a replenishment
+   *
+   * * @member {string}
+   */
+  cancelReplenishmentOrder?: string | OccEndpoint;
+  /**
+   * Endpoint for getting all base sites
+   *
+   * @member {string}
+   */
+  baseSites?: string | OccEndpoint;
+  /** Endpoint to returns active cost centers
+   *
+   * @member {string}
+   */
+  getActiveCostCenters?: string | OccEndpoint;
+
+  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
+  /**
+   * Get a store location
+   *
+   * @member {string} [page]
+   */
+  store?: string | OccEndpoint;
+  /**
+   * Get a list of store locations
+   *
+   * @member {string} [page]
+   */
+  stores?: string | OccEndpoint;
+  /**
+   * Gets a store location count per country and regions
+   *
+   * @member {string} [page]
+   */
+  storescounts?: string | OccEndpoint;
+  /**
    * Endpoint for userGroupOrderApprovalPermission
    *
    * @member {string}
@@ -566,35 +608,6 @@ export interface OccEndpoints {
    */
   costCenters?: string | OccEndpoint;
   /**
-   * Endpoint to schedule a replenishment order
-   *
-   * * @member {string}
-   */
-  scheduleReplenishmentOrder?: string | OccEndpoint;
-  /**
-   * * Endpoint for the list of one user's replenishment orders
-   *
-   * * @member {string}
-   */
-  replenishmentOrderHistory?: string | OccEndpoint;
-  /* Endpoint to get a replenishment order details
-   *
-   * * @member {string}
-   */
-  replenishmentOrderDetails?: string | OccEndpoint;
-  /**
-   * Endpoint to get a replenishment order history for a replenishment
-   *
-   * * @member {string}
-   */
-  replenishmentOrderDetailsHistory?: string | OccEndpoint;
-  /**
-   * Endpoint to get a replenishment order history for a replenishment
-   *
-   * * @member {string}
-   */
-  cancelReplenishmentOrder?: string | OccEndpoint;
-  /**
    * Endpoint for all costCenters
    *
    * @member {string}
@@ -702,15 +715,5 @@ export interface OccEndpoints {
    * @member {string}
    */
   orderApprovalDecision?: string | OccEndpoint;
-  /**
-   * Endpoint for getting all base sites
-   *
-   * @member {string}
-   */
-  baseSites?: string | OccEndpoint;
-  /** Endpoint to returns active cost centers
-   *
-   * @member {string}
-   */
-  getActiveCostCenters?: string | OccEndpoint;
+  // DEPRECATION END
 }

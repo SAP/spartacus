@@ -86,7 +86,7 @@ export enum DeferLoadingStrategy {
 export interface CMSComponentConfig
   extends StandardCmsComponentConfig,
     JspIncludeCmsComponentConfig {
-  [componentType: string]: CmsComponentMapping;
+  [componentType: string]: CmsComponentMapping | undefined;
 }
 
 export interface FeatureModuleConfig {

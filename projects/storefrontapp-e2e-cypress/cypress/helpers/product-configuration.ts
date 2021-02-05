@@ -66,6 +66,15 @@ export function goToConfigurationPage(
   });
 }
 
+export function registerConfigurationRoute() {
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/products/*/configurators/ccpconfigurator?lang=en&curr=USD`
+  ).as('configure_product');
+}
+
 /**
  * Navigates to the CPQ product configuration page.
  *
@@ -93,7 +102,7 @@ export function goToCPQConfigurationPage(
 export function goToPDPage(shopName: string, productId: string): void {
   const location = `${shopName}/en/USD/product/${productId}/${productId}`;
   cy.visit(location).then(() => {
-    checkLoadingMsgNotDisplayed();
+    //checkLoadingMsgNotDisplayed();
     cy.location('pathname').should('contain', location);
     cy.get('.ProductDetailsPageTemplate').should('be.visible');
   });
@@ -238,7 +247,7 @@ export function clickOnPreviousBtn(previousGroup: string): void {
  * Verifies whether the configuration page is displayed.
  */
 export function checkConfigPageDisplayed(): void {
-  checkLoadingMsgNotDisplayed();
+  //checkLoadingMsgNotDisplayed();
   checkGlobalMessageNotDisplayed();
   checkTabBarDisplayed();
   checkGroupTitleDisplayed();

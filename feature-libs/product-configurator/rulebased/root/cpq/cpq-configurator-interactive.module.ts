@@ -1,10 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import {
-  CmsConfig,
-  ProductModule,
-  provideDefaultConfig,
-} from '@spartacus/core';
+import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import {
   CmsPageGuard,
   HamburgerMenuModule,
@@ -17,13 +13,10 @@ import {
  */
 @NgModule({
   imports: [
-    ProductModule,
-
     RouterModule.forChild([
       {
         path: null,
         data: {
-          pageLabel: '/configure/cpq',
           cxRoute: 'configureCLOUDCPQCONFIGURATOR',
         },
         component: PageLayoutComponent,
