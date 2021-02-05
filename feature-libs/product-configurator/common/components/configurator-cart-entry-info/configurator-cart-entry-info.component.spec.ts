@@ -68,20 +68,14 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
     mockCartItemContext.item$.next(orderEntry);
   });
 
-  it('should expose quantityControlDisabled$', (done) => {
-    component.quantityControlDisabled$
-      .pipe(take(3), toArray())
-      .subscribe((values) => {
-        expect(values).toEqual([false, true, false]);
-        done();
-      });
+  it('should expose quantityControl$', (done) => {
+    const quantityControl = new FormControl();
+    component.quantityControl$.pipe(take(1)).subscribe((value) => {
+      expect(value).toBe(quantityControl);
+      done();
+    });
 
-    const formControl: FormControl = new FormControl();
-    mockCartItemContext.quantityControl$.next(formControl);
-    formControl.disable();
-    formControl.enable();
-    mockCartItemContext.quantityControl$.next(formControl);
-    formControl.disable();
+    mockCartItemContext.quantityControl$.next(quantityControl);
   });
 
   it('should expose readonly$', (done) => {
