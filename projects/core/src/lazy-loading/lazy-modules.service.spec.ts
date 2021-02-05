@@ -12,7 +12,7 @@ import { LazyModulesService } from './lazy-modules.service';
 @NgModule({})
 class MockLazyModule {}
 
-fdescribe('LazyModulesService', () => {
+describe('LazyModulesService', () => {
   let service: LazyModulesService;
 
   beforeEach(() => {
