@@ -85,9 +85,9 @@ const ATTR_NAMES = {
 context('CPQ Configuration', () => {
   beforeEach(() => {
     cy.visit('/');
-    configuration.checkLoadingMsgNotDisplayed();
+    //configuration.checkLoadingMsgNotDisplayed();
     configuration.login(EMAIL, PASSWORD, CPQ_USER);
-    configuration.checkLoadingMsgNotDisplayed();
+    //configuration.checkLoadingMsgNotDisplayed();
   });
 
   describe('Navigate to Product Configuration Page', () => {

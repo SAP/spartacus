@@ -2,6 +2,7 @@
   "defaultCommandTimeout": 10000,
   "baseUrl": "http://localhost:4200",
   "requestTimeout": 15000,
+  "chromeWebSecurity": false,
   "retries": {
     "runMode": 2
   },
