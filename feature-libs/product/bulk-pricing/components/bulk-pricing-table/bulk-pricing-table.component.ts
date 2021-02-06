@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BulkPricesService } from '../../core/services/bulk-prices.service';
 import { RoutingService } from '@spartacus/core';
 import { BulkPrice } from '../../core/model/bulk-price.model';
@@ -9,17 +9,23 @@ import { switchMap } from 'rxjs/operators';
   selector: 'cx-bulk-pricing-table',
   templateUrl: './bulk-pricing-table.component.html',
 })
-export class BulkPricingTableComponent {
-  priceTiers$: Observable<BulkPrice[]> = this.getPrices();
+export class BulkPricingTableComponent implements OnInit {
+  protected readonly PRODUCT_KEY = 'productCode';
+
+  priceTiers$: Observable<BulkPrice[]>;
 
   constructor(
-    private routingService: RoutingService,
-    private bulkPrices: BulkPricesService
+    protected routingService: RoutingService,
+    protected bulkPrices: BulkPricesService
   ) {}
+
+  ngOnInit() {
+    this.priceTiers$ = this.getPrices();
+  }
 
   formatQuantity(tier: BulkPrice): string {
     let formattedQuantityRange = '';
-    if (tier.maxQuantity == null) {
+    if (!tier.maxQuantity) {
       formattedQuantityRange = tier.minQuantity + '+';
     } else {
       formattedQuantityRange = tier.minQuantity + ' - ' + tier.maxQuantity;
@@ -28,10 +34,9 @@ export class BulkPricingTableComponent {
   }
 
   getPrices(): Observable<BulkPrice[]> {
-    const productCodeKey = 'productCode';
     return this.routingService.getRouterState().pipe(
       switchMap((state) => {
-        const productCode = state.state.params[productCodeKey];
+        const productCode = state.state.params[this.PRODUCT_KEY];
         return this.bulkPrices.getBulkPrices(productCode);
       })
     );
