@@ -6,7 +6,7 @@ export const expectedData = [
   {
     quantity: '1 - 9',
     price: '$4.00',
-    discount: '-0%',
+    discount: '0%',
   },
   {
     quantity: '10 - 29',
