@@ -28,6 +28,11 @@ export function moduleInitializersFactory(
       lazyModuleService.runModuleInitializerFunctions(
         moduleInitializerFunctions
       )
+    ).catch((error) =>
+      console.error(
+        `MODULE_INITIALIZER promise was rejected when app was initialized: `,
+        error
+      )
     );
   };
 }

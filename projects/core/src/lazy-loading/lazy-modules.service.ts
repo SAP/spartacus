@@ -17,6 +17,7 @@ import {
   Subscription,
 } from 'rxjs';
 import {
+  catchError,
   concatMap,
   map,
   observeOn,
@@ -147,6 +148,13 @@ export class LazyModulesService implements OnDestroy {
     const asyncInitPromises = this.runModuleInitializerFunctions(moduleInits);
     if (asyncInitPromises.length) {
       return from(Promise.all(asyncInitPromises)).pipe(
+        catchError((error) => {
+          console.error(
+            `MODULE_INITIALIZER promise was rejected while lazy loading a module: `,
+            error
+          );
+          return of(error);
+        }),
         switchMapTo(of(moduleRef))
       );
     } else {
