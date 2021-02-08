@@ -24,7 +24,7 @@ import { ConfiguratorCartEntryInfoComponent } from './configurator-cart-entry-in
 
   providers: [
     provideOutlet({
-      id: CartOutlets.DETAILS,
+      id: CartOutlets.ITEM_DETAILS,
       position: OutletPosition.AFTER,
       component: ConfiguratorCartEntryInfoComponent,
     }),

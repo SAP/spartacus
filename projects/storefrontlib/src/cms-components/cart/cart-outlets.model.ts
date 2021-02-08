@@ -3,5 +3,5 @@
  */
 export enum CartOutlets {
   ITEM = 'cx-cart-item',
-  DETAILS = 'cx-cart-item.details',
+  ITEM_DETAILS = 'cx-cart-item.details',
 }
