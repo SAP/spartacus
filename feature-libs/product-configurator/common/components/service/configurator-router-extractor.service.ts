@@ -62,10 +62,13 @@ export class ConfiguratorRouterExtractorService {
       owner.type = CommonConfigurator.OwnerType.PRODUCT;
       owner.id = params.rootProduct;
     }
-    const configuratorType = this.getConfiguratorTypeFromSemanticRoute(
-      routerState.state?.semanticRoute
-    );
-    owner.configuratorType = configuratorType;
+    const semanticRoute = routerState.state?.semanticRoute;
+    if (semanticRoute) {
+      const configuratorType = this.getConfiguratorTypeFromSemanticRoute(
+        routerState.state?.semanticRoute
+      );
+      owner.configuratorType = configuratorType;
+    }
     this.configUtilsService.setOwnerKey(owner);
     return owner;
   }
@@ -78,12 +81,8 @@ export class ConfiguratorRouterExtractorService {
    * @returns Configurator type
    */
   protected getConfiguratorTypeFromSemanticRoute(
-    semanticRoute: string | undefined
+    semanticRoute: string
   ): string {
-    if (!semanticRoute) {
-      throw new Error('Semantic route must be defined');
-    }
-
     if (semanticRoute.startsWith(this.ROUTE_FRAGMENT_OVERVIEW)) {
       return semanticRoute.split(this.ROUTE_FRAGMENT_OVERVIEW)[1];
     } else if (semanticRoute.startsWith(this.ROUTE_FRAGMENT_CONFIGURE)) {

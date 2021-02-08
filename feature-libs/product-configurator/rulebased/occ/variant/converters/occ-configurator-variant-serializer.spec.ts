@@ -168,12 +168,6 @@ describe('OccConfiguratorVariantSerializer', () => {
     expect(occGroups.length).toBe(1);
   });
 
-  it('should not add groups if source is not provided', () => {
-    const occGroups: OccConfigurator.Group[] = [];
-    occConfiguratorVariantSerializer.convertGroup(undefined, occGroups);
-    expect(occGroups.length).toBe(0);
-  });
-
   it('should take sub groups into account', () => {
     const occGroups: OccConfigurator.Group[] = [];
 
@@ -185,22 +179,16 @@ describe('OccConfiguratorVariantSerializer', () => {
 
   it('should map group types properly', () => {
     expect(
-      occConfiguratorVariantSerializer['convertGroupType'](
+      occConfiguratorVariantSerializer.convertGroupType(
         Configurator.GroupType.ATTRIBUTE_GROUP
       )
     ).toBe(OccConfigurator.GroupType.CSTIC_GROUP);
 
     expect(
-      occConfiguratorVariantSerializer['convertGroupType'](
+      occConfiguratorVariantSerializer.convertGroupType(
         Configurator.GroupType.SUB_ITEM_GROUP
       )
     ).toBe(OccConfigurator.GroupType.INSTANCE);
-  });
-
-  it('should map group type for undefined', () => {
-    expect(
-      occConfiguratorVariantSerializer['convertGroupType'](undefined)
-    ).toBe(OccConfigurator.GroupType.CSTIC_GROUP);
   });
 
   it('should fill formatted value for numeric attributes', () => {
@@ -256,12 +244,6 @@ describe('OccConfiguratorVariantSerializer', () => {
     expect(occAttributes[0].domainValues[1].langDepName).toBe('name2');
   });
 
-  it('should cope with an undefined attribute', () => {
-    const occAttributes = [];
-    occConfiguratorVariantSerializer.convertAttribute(undefined, occAttributes);
-    expect(occAttributes.length).toBe(0);
-  });
-
   it('should consider that an attribute was retracted', () => {
     const attributeWithRetraction: Configurator.Attribute = {
       name: 'attr',
@@ -277,67 +259,57 @@ describe('OccConfiguratorVariantSerializer', () => {
 
   it('should map ui types properly', () => {
     expect(
-      occConfiguratorVariantSerializer['convertCharacteristicType'](
+      occConfiguratorVariantSerializer.convertCharacteristicType(
         Configurator.UiType.NUMERIC
       )
     ).toBe(OccConfigurator.UiType.NUMERIC);
 
     expect(
-      occConfiguratorVariantSerializer['convertCharacteristicType'](
+      occConfiguratorVariantSerializer.convertCharacteristicType(
         Configurator.UiType.RADIOBUTTON
       )
     ).toBe(OccConfigurator.UiType.RADIO_BUTTON);
 
     expect(
-      occConfiguratorVariantSerializer['convertCharacteristicType'](
+      occConfiguratorVariantSerializer.convertCharacteristicType(
         Configurator.UiType.READ_ONLY
       )
     ).toBe(OccConfigurator.UiType.NOT_IMPLEMENTED);
 
     expect(
-      occConfiguratorVariantSerializer['convertCharacteristicType'](undefined)
-    ).toBe(OccConfigurator.UiType.NOT_IMPLEMENTED);
-
-    expect(
-      occConfiguratorVariantSerializer['convertCharacteristicType'](
+      occConfiguratorVariantSerializer.convertCharacteristicType(
         Configurator.UiType.DROPDOWN
       )
     ).toBe(OccConfigurator.UiType.DROPDOWN);
 
     expect(
-      occConfiguratorVariantSerializer['convertCharacteristicType'](
+      occConfiguratorVariantSerializer.convertCharacteristicType(
         Configurator.UiType.STRING
       )
     ).toBe(OccConfigurator.UiType.STRING);
 
     expect(
-      occConfiguratorVariantSerializer['convertCharacteristicType'](
+      occConfiguratorVariantSerializer.convertCharacteristicType(
         Configurator.UiType.CHECKBOXLIST
       )
     ).toBe(OccConfigurator.UiType.CHECK_BOX_LIST);
 
     expect(
-      occConfiguratorVariantSerializer['convertCharacteristicType'](
+      occConfiguratorVariantSerializer.convertCharacteristicType(
         Configurator.UiType.CHECKBOX
       )
     ).toBe(OccConfigurator.UiType.CHECK_BOX);
 
     expect(
-      occConfiguratorVariantSerializer['convertCharacteristicType'](
+      occConfiguratorVariantSerializer.convertCharacteristicType(
         Configurator.UiType.MULTI_SELECTION_IMAGE
       )
     ).toBe(OccConfigurator.UiType.MULTI_SELECTION_IMAGE);
 
     expect(
-      occConfiguratorVariantSerializer['convertCharacteristicType'](
+      occConfiguratorVariantSerializer.convertCharacteristicType(
         Configurator.UiType.SINGLE_SELECTION_IMAGE
       )
     ).toBe(OccConfigurator.UiType.SINGLE_SELECTION_IMAGE);
-  });
-
-  it('should cope with undefined value', () => {
-    const values: OccConfigurator.Value[] = [];
-    occConfiguratorVariantSerializer['convertValue'](undefined, values);
-    expect(values.length).toBe(0);
   });
 });

@@ -18,9 +18,9 @@ export class OccConfiguratorVariantUpdateCartEntrySerializer
       ...target,
       userId: source.userId,
       cartId: source.cartId,
-      product: { code: source.configuration?.productCode },
+      product: { code: source.configuration.productCode },
       entryNumber: source.cartEntryNumber,
-      configId: source.configuration?.configId,
+      configId: source.configuration.configId,
       configurationInfos: [{ configuratorType: 'CPQCONFIGURATOR' }],
     };
 
