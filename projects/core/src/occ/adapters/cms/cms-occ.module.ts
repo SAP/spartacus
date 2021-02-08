@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { CmsPageAdapter } from '../../../cms/connectors/page/cms-page.adapter';
 import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
@@ -9,7 +8,7 @@ import { CMS_PAGE_NORMALIZER } from '../../../cms/connectors/page/converters';
 import { CmsComponentAdapter } from '../../../cms/connectors/component/cms-component.adapter';
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule],
   providers: [
     {
       provide: CmsPageAdapter,

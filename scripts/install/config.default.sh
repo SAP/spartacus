@@ -7,15 +7,20 @@
 # Will replace default host (https://localhost:9002) as a backend endpoint
 # Make sure you specify the full url for the backend (https://[host]:[port]
 BACKEND_URL="https://localhost:9002"
-
 OCC_PREFIX="/occ/v2/"
 
 SPARTACUS_PROJECTS=(
-        "core"
-        "assets"
-        "storefrontlib"
-        "storefrontstyles"
-        "schematics"
+        "projects/core"
+        "projects/assets"
+        "projects/storefrontlib"
+        "projects/storefrontstyles"
+        "projects/schematics"
+        "integration-libs/cds"
+        "core-libs/setup"
+        "feature-libs/organization"
+        "feature-libs/storefinder"
+        "feature-libs/product-configurator"
+        "feature-libs/qualtrics"
         )
 
 SPARTACUS_REPO_URL="git://github.com/SAP/spartacus.git"
@@ -35,3 +40,11 @@ SPARTACUS_VERSION='latest'
 CSR_PORT="4200"
 SSR_PORT="4100"
 SSR_PWA_PORT=
+
+CSR_APP_NAME="csr"
+SSR_APP_NAME="ssr"
+SSR_PWA_APP_NAME="ssr-pwa"
+
+ADD_B2B_LIBS=false
+
+ADD_PRODUCT_CONFIGURATOR=true

@@ -1,0 +1,92 @@
+%CompanyPageTemplate {
+  max-width: var(--cx-page-width-max);
+
+  margin: auto;
+  margin-bottom: 40px;
+  @include media-breakpoint-down(sm) {
+    cx-page-slot {
+      margin: 0;
+    }
+  }
+
+  // Since svg images are not embedded in the DOM (svg in `img` tags are isolated)
+  // we use a color filter technique to manipulate the primary color. Color filters
+  // use a specific instruction to arrive at the same color. The `--cx-color-primary`
+  // variable unfortunately won't cut it here.
+  // You can generate the right filters with https://codepen.io/sosuke/pen/Pjoqqp
+  cx-banner cx-media {
+    --cx-img-filter: invert(71%) sepia(50%) saturate(7474%) hue-rotate(329deg)
+      brightness(110%) contrast(99%);
+  }
+
+  .BodyContent {
+    justify-content: space-between;
+    @include media-breakpoint-up(sm) {
+      margin: 0 10px;
+    }
+  }
+
+  // the current rotating banner styles are very opinionated, hence we revert it all.
+  cx-banner p {
+    all: unset;
+  }
+
+  cx-banner {
+    flex: 100%;
+
+    margin-top: 20px;
+
+    @include media-breakpoint-up(md) {
+      flex: 0 0 calc(33% - 10px);
+    }
+    @include media-breakpoint-down(md) {
+      flex: calc(50% - 40px);
+      margin-inline-start: 10px;
+      margin-inline-end: 10px;
+    }
+
+    @include media-breakpoint-down(sm) {
+      flex: 100%;
+      margin-inline-start: 20px;
+      margin-inline-end: 20px;
+    }
+
+    cx-generic-link,
+    a {
+      height: 100%;
+    }
+
+    a {
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      grid-template-rows: min-content 1fr;
+      gap: 3% 30px;
+      grid-template-areas: 'media .' 'media .';
+
+      padding: 25px 25px 25px 30px;
+
+      border: solid 1px var(--cx-color-light);
+      &:hover {
+        text-decoration: none;
+        border-color: var(--cx-color-background);
+        background: var(--cx-color-background);
+      }
+
+      cx-media {
+        grid-area: media;
+        img {
+          filter: var(--cx-img-filter);
+          width: 50px;
+          height: 50px;
+        }
+      }
+
+      p {
+        color: var(--cx-color-text);
+        &.headline {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}

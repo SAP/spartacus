@@ -7,6 +7,7 @@ import {
 } from '../table.model';
 
 @Component({
+  selector: 'cx-table-header-cell',
   template: `{{ header || (localizedHeader | cxTranslate) }}`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -22,6 +22,8 @@ declare namespace Cypress {
   }
 }
 
+// test
+
 Cypress.Commands.add(
   'selectUserMenuOption',
   ({ isMobile, option }: { option: string; isMobile?: boolean }) => {
@@ -30,9 +32,10 @@ Cypress.Commands.add(
       cy.get('cx-hamburger-menu [aria-label="Menu"]').click({ force: true });
     }
 
-    cy.get('nav a')
-      .getAllByText(new RegExp(option, 'i'))
-      .first()
+    cy.get(
+      'cx-login > cx-page-slot > cx-navigation > cx-navigation-ui > nav > div > div'
+    )
+      .findByText(new RegExp(option, 'i'))
       .click({ force: true });
   }
 );

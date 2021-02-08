@@ -19,7 +19,7 @@ export class RoutingService {
     protected store: Store<RouterState>,
     protected winRef: WindowRef,
     protected semanticPathService: SemanticPathService,
-    protected routingParamsService?: RoutingParamsService
+    protected routingParamsService: RoutingParamsService
   ) {}
 
   /**
@@ -49,6 +49,15 @@ export class RoutingService {
    */
   getNextPageContext(): Observable<PageContext> {
     return this.store.pipe(select(RoutingSelector.getNextPageContext));
+  }
+
+  /**
+   * Allow to change next page context for the ongoing navigation
+   *
+   * @param pageContext
+   */
+  changeNextPageContext(pageContext: PageContext) {
+    this.store.dispatch(new RoutingActions.ChangeNextPageContext(pageContext));
   }
 
   /**

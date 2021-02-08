@@ -72,13 +72,11 @@ textarea {
   }
 }
 
-ng-select {
-  &.ng-invalid {
-    &.ng-dirty,
-    &.ng-touched {
-      .ng-select-container {
-        border-color: var(--cx-color-danger);
-      }
+ng-select.ng-invalid {
+  &.ng-dirty,
+  &.ng-touched {
+    .ng-select-container {
+      border-color: var(--cx-color-danger);
     }
   }
 }
@@ -112,6 +110,10 @@ label {
       font-weight: var(--cx-font-weight-semi);
     }
   }
+}
+
+legend {
+  margin-bottom: $label-margin-bottom;
 }
 
 .form-check {

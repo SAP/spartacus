@@ -92,20 +92,6 @@ export const myAccount = {
       cancelSuccess:
         'Replenishment order #{{replenishmentOrderCode}} has been successfully cancelled',
     },
-    approvalDetails: {
-      header: 'Customer Approval Details',
-      permission: 'Permission',
-      approver: 'Approver',
-      status: 'Status',
-      approverComments: 'Approver Comments',
-      noApprovalNotes: 'None',
-      permissionType_B2BBudgetExceededPermission:
-        'The budget associated with chosen cost center has been exceeded',
-      permissionType_B2BOrderThresholdPermission:
-        'Order total exceeded per-order limit',
-      permissionType_B2BOrderThresholdTimespanPermission:
-        'Order total exceeded per-timespan limit',
-    },
   },
   orderHistory: {
     orderHistory: 'Order history',
@@ -189,6 +175,7 @@ export const myAccount = {
     },
     lastNameIsRequired: 'Last name is required.',
     profileUpdateSuccess: 'Personal details successfully updated',
+    customerId: 'Customer #',
   },
   consentManagementForm: {
     clearAll: 'Clear all',

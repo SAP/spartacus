@@ -7,17 +7,15 @@ import {
   PLATFORM_ID,
 } from '@angular/core';
 import {
-  AuthRedirectService,
+  AuthService,
   BaseSiteService,
   ExternalJsFileLoader,
-  GlobalMessageService,
-  GlobalMessageType,
   LanguageService,
   User,
   UserService,
   WindowRef,
 } from '@spartacus/core';
-import { combineLatest, ReplaySubject, Subscription } from 'rxjs';
+import { combineLatest, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CdcConfig } from '../../config/cdc-config';
 import { CdcAuthService } from './cdc-auth.service';
@@ -36,9 +34,8 @@ export class CdcJsService implements OnDestroy {
     protected languageService: LanguageService,
     protected externalJsFileLoader: ExternalJsFileLoader,
     protected winRef: WindowRef,
-    protected auth: CdcAuthService,
-    protected globalMessageService: GlobalMessageService,
-    protected authRedirectService: AuthRedirectService,
+    protected cdcAuth: CdcAuthService,
+    protected auth: AuthService,
     protected zone: NgZone,
     protected userService: UserService,
     @Inject(PLATFORM_ID) protected platform: any
@@ -54,14 +51,14 @@ export class CdcJsService implements OnDestroy {
   /**
    * Returns observable with the information if CDC script is loaded.
    */
-  didLoad() {
+  didLoad(): Observable<boolean> {
     return this.loaded$.asObservable();
   }
 
   /**
    * Returns observable with the information if CDC script failed to load.
    */
-  didScriptFailToLoad() {
+  didScriptFailToLoad(): Observable<boolean> {
     return this.errorLoading$.asObservable();
   }
 
@@ -117,14 +114,6 @@ export class CdcJsService implements OnDestroy {
    * @param baseSite
    */
   protected registerEventListeners(baseSite: string): void {
-    this.subscription.add(
-      this.auth.getUserToken().subscribe((data) => {
-        if (data && data.access_token) {
-          this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-          this.authRedirectService.redirect();
-        }
-      })
-    );
     this.addCdcEventHandlers(baseSite);
   }
 
@@ -149,7 +138,7 @@ export class CdcJsService implements OnDestroy {
    */
   onLoginEventHandler(baseSite: string, response?: any) {
     if (response) {
-      this.auth.authorizeWithCustomCdcFlow(
+      this.cdcAuth.loginWithCustomCdcFlow(
         response.UID,
         response.UIDSignature,
         response.signatureTimestamp,

@@ -1,8 +1,6 @@
-import { Inject, Injectable, InjectFlags, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { Inject, Injectable, OnDestroy } from '@angular/core';
+import { BehaviorSubject, Observable, Subscription, zip } from 'rxjs';
 import { deepMerge } from '../utils/deep-merge';
-import { EventService } from '../../event/event.service';
-import { ModuleInitializedEvent } from '../../cms/events/module-initialized-event';
 import { isFeatureEnabled } from '../../features-config';
 import {
   Config,
@@ -11,6 +9,8 @@ import {
   DefaultConfigChunk,
   RootConfig,
 } from '../config-tokens';
+import { UnifiedInjector } from '../../lazy-loading/unified-injector';
+import { skip, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -31,43 +31,53 @@ export class ConfigurationService implements OnDestroy {
   private readonly ambientDefaultConfig: any = {};
   private readonly ambientConfig: any = {};
 
-  private eventsSubscription: Subscription;
+  private subscription: Subscription;
 
   constructor(
     @Inject(RootConfig) protected rootConfig: any,
     @Inject(DefaultConfig) protected defaultConfig: any,
-    protected events: EventService,
+    protected unifiedInjector: UnifiedInjector,
     @Inject(Config) config: any
   ) {
     this.config = config;
     this.unifiedConfig$ = new BehaviorSubject(config);
 
-    this.eventsSubscription = this.events
-      .get(ModuleInitializedEvent)
-      .subscribe((moduleInitialized) => {
-        this.processModule(moduleInitialized);
-      });
+    // We need to use subscription to propagate changes to the config from the beginning.
+    // It will be possible to make it lazy, when we drop this compatibility feature
+    // in the future.
+    this.subscription = this.feedUnifiedConfig().subscribe();
   }
 
-  // We are extracting ambient configuration from lazy loaded modules
-  private processModule(moduleInitialized: ModuleInitializedEvent) {
-    const defaultConfigs = moduleInitialized.moduleRef.injector.get(
-      DefaultConfigChunk,
-      null,
-      InjectFlags.Self
-    );
-    if (defaultConfigs?.length) {
-      deepMerge(this.ambientDefaultConfig, ...defaultConfigs);
-    }
-    const configs = moduleInitialized.moduleRef.injector.get(
+  private feedUnifiedConfig(): Observable<any> {
+    const configChunks$: Observable<object[]> = this.unifiedInjector.get(
       ConfigChunk,
-      null,
-      InjectFlags.Self
+      []
     );
-    if (configs?.length) {
-      deepMerge(this.ambientConfig, ...configs);
+    const defaultConfigChunks$ = this.unifiedInjector.get(
+      DefaultConfigChunk,
+      []
+    );
+
+    return zip(configChunks$, defaultConfigChunks$).pipe(
+      // we don't need result from the root injector
+      skip(1),
+      tap(([configChunks, defaultConfigChunks]) =>
+        this.processConfig(configChunks, defaultConfigChunks)
+      )
+    );
+  }
+
+  private processConfig(configChunks: any[], defaultConfigChunks: any[]) {
+    if (defaultConfigChunks?.length) {
+      deepMerge(this.ambientDefaultConfig, ...defaultConfigChunks);
     }
-    this.emitUnifiedConfig();
+    if (configChunks.length) {
+      deepMerge(this.ambientConfig, ...configChunks);
+    }
+
+    if (configChunks.length || defaultConfigChunks.length) {
+      this.emitUnifiedConfig();
+    }
   }
 
   private emitUnifiedConfig(): void {
@@ -87,8 +97,8 @@ export class ConfigurationService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.eventsSubscription) {
-      this.eventsSubscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
     (this.unifiedConfig$ as BehaviorSubject<any>).complete();
   }

@@ -4,7 +4,7 @@ import {
 } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
-import { UTF_8 } from '../shared/constants';
+import { NGUNIVERSAL_EXPRESS_ENGINE, UTF_8 } from '../shared/constants';
 import { getPathResultsForFile } from '../shared/utils/file-utils';
 
 const collectionPath = path.join(__dirname, '../collection.json');
@@ -54,8 +54,13 @@ describe('Spartacus Schematics: ng-add', () => {
 
   it('should add spartacus deps', async () => {
     const tree = await schematicRunner
-      .runSchematicAsync('add-spartacus', defaultOptions, appTree)
+      .runSchematicAsync(
+        'ng-add',
+        { ...defaultOptions, name: 'schematics-test' },
+        appTree
+      )
       .toPromise();
+
     const packageJson = tree.readContent('/package.json');
     const packageObj = JSON.parse(packageJson);
     const depPackageList = Object.keys(packageObj.dependencies);
@@ -72,6 +77,7 @@ describe('Spartacus Schematics: ng-add', () => {
         appTree
       )
       .toPromise();
+
     const buffer = tree.read('src/manifest.webmanifest');
     expect(buffer).toBeTruthy();
 
@@ -103,9 +109,7 @@ describe('Spartacus Schematics: ng-add', () => {
 
     if (packageJsonBuffer) {
       const packageJSON = JSON.parse(packageJsonBuffer.toString(UTF_8));
-      expect(
-        packageJSON.dependencies['@nguniversal/express-engine']
-      ).toBeTruthy();
+      expect(packageJSON.dependencies[NGUNIVERSAL_EXPRESS_ENGINE]).toBeTruthy();
       expect(packageJSON.dependencies['@angular/platform-server']).toBeTruthy();
     }
 

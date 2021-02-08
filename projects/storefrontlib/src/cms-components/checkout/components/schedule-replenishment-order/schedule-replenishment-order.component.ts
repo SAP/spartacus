@@ -136,10 +136,6 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
     return this.currentDaysOfWeek.includes(day);
   }
 
-  currentISODate(date: string): string {
-    return date.split('T')[0];
-  }
-
   private initConfig(): void {
     this.isMonthly =
       this.scheduleReplenishmentFormData.recurrencePeriod ===

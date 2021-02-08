@@ -1,12 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { defaultQualtricsConfig } from './config/default-qualtrics-config';
 import { QualtricsComponent } from './qualtrics.component';
 
+/**
+ * @deprecated since 3.1 - moved to feature-lib
+ * Please take a look at https://sap.github.io/spartacus-docs/qualtrics-integration/#page-title
+ * to see how to migrate into the new feature-lib.
+ * Do not import from the storefront. Instead import from the qualtrics feature-lib.
+ */
 @NgModule({
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule],
   declarations: [QualtricsComponent],
   entryComponents: [QualtricsComponent],
   providers: [

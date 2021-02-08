@@ -1,14 +1,22 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
-  Cart,
   ActiveCartService,
+  Cart,
   OrderEntry,
   PromotionLocation,
   PromotionResult,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, map, startWith, switchMap, tap } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  shareReplay,
+  startWith,
+  switchMap,
+  switchMapTo,
+  tap,
+} from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { ModalService } from '../../../../shared/components/modal/modal.service';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
@@ -23,7 +31,12 @@ export class AddedToCartDialogComponent implements OnInit {
   entry$: Observable<OrderEntry>;
   cart$: Observable<Cart>;
   loaded$: Observable<boolean>;
+  addedEntryWasMerged$: Observable<boolean>;
+  /**
+   * @deprecated since 3.0, set numberOfEntriesBeforeAdd instead
+   */
   increment: boolean;
+  numberOfEntriesBeforeAdd: number;
   orderPromotions$: Observable<PromotionResult[]>;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
@@ -71,7 +84,8 @@ export class AddedToCartDialogComponent implements OnInit {
             })
           )
         ),
-        map(() => <FormControl>this.form.get('quantity'))
+        map(() => <FormControl>this.form.get('quantity')),
+        shareReplay({ bufferSize: 1, refCount: true })
       );
     }
     return this.quantityControl$;
@@ -80,6 +94,11 @@ export class AddedToCartDialogComponent implements OnInit {
   ngOnInit() {
     this.orderPromotions$ = this.promotionService.getOrderPromotions(
       this.promotionLocation
+    );
+    this.addedEntryWasMerged$ = this.loaded$.pipe(
+      filter((loaded) => loaded),
+      switchMapTo(this.cartService.getEntries()),
+      map((entries) => entries.length === this.numberOfEntriesBeforeAdd)
     );
   }
 

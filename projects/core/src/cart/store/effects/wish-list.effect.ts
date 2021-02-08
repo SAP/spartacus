@@ -9,9 +9,9 @@ import {
   switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { AuthService } from '../../../auth/facade/auth.service';
+import { UserIdService } from '../../../auth/user-auth/facade/user-id.service';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { SaveCartConnector } from '../../connectors/save-cart/save-cart.connecter';
 import { getCartIdByUserId, getWishlistName } from '../../utils/utils';
@@ -48,7 +48,7 @@ export class WishListEffects {
                 from([
                   new CartActions.CreateWishListFail({
                     cartId: cart.code,
-                    error: makeErrorSerializable(error),
+                    error: normalizeHttpError(error),
                   }),
                 ])
               )
@@ -102,7 +102,7 @@ export class WishListEffects {
               userId,
               cartId: tempCartId,
               customerId,
-              error: makeErrorSerializable(error),
+              error: normalizeHttpError(error),
             }),
           ])
         )
@@ -119,7 +119,7 @@ export class WishListEffects {
       SiteContextActions.CURRENCY_CHANGE
     ),
     withLatestFrom(
-      this.authService.getOccUserId(),
+      this.userIdService.getUserId(),
       this.store.pipe(select(MultiCartSelectors.getWishListId))
     ),
     switchMap(([, userId, wishListId]) => {
@@ -137,7 +137,7 @@ export class WishListEffects {
               new CartActions.LoadWishListFail({
                 userId,
                 cartId: wishListId,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               }),
             ])
           )
@@ -151,7 +151,7 @@ export class WishListEffects {
     private actions$: Actions,
     private cartConnector: CartConnector,
     private saveCartConnector: SaveCartConnector,
-    private authService: AuthService,
+    private userIdService: UserIdService,
     private store: Store<StateWithMultiCart>
   ) {}
 }

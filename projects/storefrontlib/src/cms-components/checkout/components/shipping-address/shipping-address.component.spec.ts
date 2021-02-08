@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -141,45 +141,50 @@ describe('ShippingAddressComponent', () => {
   let checkoutStepService: CheckoutStepService;
   let userCostCenterService: UserCostCenterService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        ShippingAddressComponent,
-        MockAddressFormComponent,
-        MockCardComponent,
-        MockSpinnerComponent,
-      ],
-      providers: [
-        { provide: UserAddressService, useClass: MockUserAddressService },
-        { provide: ActiveCartService, useClass: MockActiveCartService },
-        {
-          provide: CheckoutDeliveryService,
-          useClass: MockCheckoutDeliveryService,
-        },
-        { provide: CheckoutStepService, useClass: MockCheckoutStepService },
-        { provide: ActivatedRoute, useValue: mockActivatedRoute },
-        { provide: PaymentTypeService, useClass: MockPaymentTypeService },
-        { provide: UserCostCenterService, useClass: MockUserCostCenterService },
-        {
-          provide: CheckoutCostCenterService,
-          useClass: MockCheckoutCostCenterService,
-        },
-      ],
-    })
-      .overrideComponent(ShippingAddressComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [
+          ShippingAddressComponent,
+          MockAddressFormComponent,
+          MockCardComponent,
+          MockSpinnerComponent,
+        ],
+        providers: [
+          { provide: UserAddressService, useClass: MockUserAddressService },
+          { provide: ActiveCartService, useClass: MockActiveCartService },
+          {
+            provide: CheckoutDeliveryService,
+            useClass: MockCheckoutDeliveryService,
+          },
+          { provide: CheckoutStepService, useClass: MockCheckoutStepService },
+          { provide: ActivatedRoute, useValue: mockActivatedRoute },
+          { provide: PaymentTypeService, useClass: MockPaymentTypeService },
+          {
+            provide: UserCostCenterService,
+            useClass: MockUserCostCenterService,
+          },
+          {
+            provide: CheckoutCostCenterService,
+            useClass: MockCheckoutCostCenterService,
+          },
+        ],
       })
-      .compileComponents();
+        .overrideComponent(ShippingAddressComponent, {
+          set: { changeDetection: ChangeDetectionStrategy.Default },
+        })
+        .compileComponents();
 
-    checkoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
-    activeCartService = TestBed.inject(ActiveCartService);
-    checkoutStepService = TestBed.inject(
-      CheckoutStepService as Type<CheckoutStepService>
-    );
-    userAddressService = TestBed.inject(UserAddressService);
-    userCostCenterService = TestBed.inject(UserCostCenterService);
-  }));
+      checkoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
+      activeCartService = TestBed.inject(ActiveCartService);
+      checkoutStepService = TestBed.inject(
+        CheckoutStepService as Type<CheckoutStepService>
+      );
+      userAddressService = TestBed.inject(UserAddressService);
+      userCostCenterService = TestBed.inject(UserCostCenterService);
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ShippingAddressComponent);
@@ -233,6 +238,13 @@ describe('ShippingAddressComponent', () => {
 
       component.ngOnInit();
       expect(userAddressService.loadAddresses).not.toHaveBeenCalled();
+    });
+
+    it('should not invoke addAddress when address is undefined/ not modified.', () => {
+      component.addAddress(undefined);
+      expect(
+        checkoutDeliveryService.createAndSetAddress
+      ).not.toHaveBeenCalled();
     });
   });
 

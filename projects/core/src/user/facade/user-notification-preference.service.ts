@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { AuthService } from '../../auth/facade/auth.service';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { NotificationPreference } from '../../model/notification-preference.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import { getProcessLoadingFactory } from '../../process/store/selectors/process.selectors';
@@ -18,7 +18,7 @@ import {
 export class UserNotificationPreferenceService {
   constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
-    protected authService: AuthService
+    protected userIdService: UserIdService
   ) {}
 
   /**
@@ -39,7 +39,7 @@ export class UserNotificationPreferenceService {
    * Loads all notification preferences.
    */
   loadPreferences(): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       this.store.dispatch(new UserActions.LoadNotificationPreferences(userId));
     });
   }
@@ -63,7 +63,7 @@ export class UserNotificationPreferenceService {
    * @param preferences a preference list
    */
   updatePreferences(preferences: NotificationPreference[]): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.UpdateNotificationPreferences({
           userId,

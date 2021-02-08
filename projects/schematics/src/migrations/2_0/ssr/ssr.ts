@@ -1,3 +1,4 @@
+import { strings } from '@angular-devkit/core';
 import {
   apply,
   chain,
@@ -12,8 +13,6 @@ import {
   UpdateRecorder,
   url,
 } from '@angular-devkit/schematics';
-import { strings } from '@angular-devkit/core';
-import * as ts from 'typescript';
 import {
   getDecoratorMetadata,
   getMetadataField,
@@ -24,18 +23,20 @@ import {
   NodeDependencyType,
   removePackageJsonDependency,
 } from '@schematics/angular/utility/dependencies';
-import { getPathResultsForFile } from '../../../shared/utils/file-utils';
+import * as ts from 'typescript';
 import {
   ANGULAR_CORE,
   ANGULAR_UNIVERSAL_BUILDERS,
   ANGULAR_UNIVERSAL_EXPRESS_VERSION,
+  NGUNIVERSAL_EXPRESS_ENGINE,
   UTF_8,
 } from '../../../shared/constants';
+import { checkIfSSRIsUsed } from '../../../shared/utils/package-utils';
 import { getDefaultProjectNameFromWorkspace } from '../../../shared/utils/workspace-utils';
 
 export function migrate(): Rule {
-  return async (host: any) => {
-    return (await checkIfSSRIsUsed(host))
+  return (host: Tree) => {
+    return checkIfSSRIsUsed(host)
       ? chain([
           backupExistingFiles(),
           overwriteServerTsFile(),
@@ -109,7 +110,7 @@ export function modifyPackageJsonScripts(): Rule {
       {
         type: NodeDependencyType.Default,
         version: ANGULAR_UNIVERSAL_EXPRESS_VERSION,
-        name: '@nguniversal/express-engine',
+        name: NGUNIVERSAL_EXPRESS_ENGINE,
         overwrite: true,
       },
       {
@@ -177,7 +178,7 @@ export function removeImportsInMainServerFile(): Rule {
     removeFullLineFromImportDeclarationsByModuleName(
       mainServerTsSourceFile,
       recorder,
-      '@nguniversal/express-engine'
+      NGUNIVERSAL_EXPRESS_ENGINE
     );
     removeFullLineFromImportDeclarationsByModuleName(
       mainServerTsSourceFile,
@@ -296,28 +297,6 @@ export function updateAngularJsonFile(): Rule {
     };
     tree.overwrite('angular.json', JSON.stringify(angularJson, null, 2));
   };
-}
-
-async function checkIfSSRIsUsed(tree: Tree): Promise<boolean> {
-  const projectName = getDefaultProjectNameFromWorkspace(tree);
-  const buffer = tree.read('angular.json');
-  if (!buffer) {
-    throw new SchematicsException('Could not find angular.json');
-  }
-  const angularFileBuffer = buffer.toString(UTF_8);
-  const angularJson = JSON.parse(angularFileBuffer);
-  const isServerConfiguration = !!angularJson.projects[projectName].architect[
-    'server'
-  ];
-  const serverFilePath = getPathResultsForFile(tree, 'server.ts', '/')[0];
-  const serverBuffer = tree.read(serverFilePath);
-  if (!serverBuffer) {
-    return false;
-  }
-  const serverFileBuffer = serverBuffer.toString(UTF_8);
-  const isServerSideAvailable = serverFileBuffer && !!serverFileBuffer.length;
-
-  return !!(isServerConfiguration && isServerSideAvailable);
 }
 
 function createSourceFileWithStrippedBOM(

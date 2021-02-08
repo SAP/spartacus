@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CheckoutCostCenterService,
   CostCenter,
@@ -45,7 +45,7 @@ describe('CostCenterComponent', () => {
   let fixture: ComponentFixture<CostCenterComponent>;
   let checkoutCostCenterService: CheckoutCostCenterService;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [CostCenterComponent],
@@ -64,7 +64,7 @@ describe('CostCenterComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CostCenterComponent);
@@ -75,17 +75,6 @@ describe('CostCenterComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should get cost center id from cart', () => {
-    let cartCostCenter: string;
-
-    component.cartCostCenter$
-      .subscribe((data) => (cartCostCenter = data))
-      .unsubscribe();
-
-    expect(cartCostCenter).toBeTruthy();
-    expect(cartCostCenter).toEqual(mockCostCenters[0].code);
   });
 
   it('should return false for payment type when it is NOT ACCOUNT type', () => {
@@ -121,6 +110,37 @@ describe('CostCenterComponent', () => {
 
     expect(costCenter).toBeTruthy();
     expect(costCenter).toEqual(mockCostCenters);
+  });
+
+  it('should NOT set default if the cart already CONTAINS a cost center', () => {
+    spyOn(checkoutCostCenterService, 'setCostCenter').and.stub();
+    let costCenter: CostCenter[];
+
+    component.costCenters$
+      .subscribe((data) => (costCenter = data))
+      .unsubscribe();
+
+    expect(costCenter).toBeTruthy();
+    expect(costCenter).toEqual(mockCostCenters);
+    expect(component['costCenterId']).toEqual(mockCostCenters[0].code);
+    expect(checkoutCostCenterService.setCostCenter).not.toHaveBeenCalled();
+  });
+
+  it('should set default if the cart does NOT contain a cost center', () => {
+    spyOn(checkoutCostCenterService, 'setCostCenter').and.stub();
+    spyOn(checkoutCostCenterService, 'getCostCenter').and.returnValue(of(null));
+    let costCenter: CostCenter[];
+
+    component.costCenters$
+      .subscribe((data) => (costCenter = data))
+      .unsubscribe();
+
+    expect(costCenter).toBeTruthy();
+    expect(costCenter).toEqual(mockCostCenters);
+    expect(component['costCenterId']).toEqual(mockCostCenters[0].code);
+    expect(checkoutCostCenterService.setCostCenter).toHaveBeenCalledWith(
+      mockCostCenters[0].code
+    );
   });
 
   it('should set cost center', () => {

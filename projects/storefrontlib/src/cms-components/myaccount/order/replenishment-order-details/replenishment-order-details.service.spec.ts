@@ -146,4 +146,35 @@ describe('ReplenishmentOrderDetailsService', () => {
     ).toHaveBeenCalled();
     expect(orderDetails).toBe(mockReplenishmentOrder);
   });
+
+  it('should emit distinct replenishmentOrderCode values', () => {
+    const mockRouterNewOrderCode = {
+      ...mockRouter,
+      state: {
+        ...mockRouter.state,
+        params: {
+          replenishmentOrderCode: '123',
+        },
+      },
+    };
+
+    routerSubject.next(mockRouter);
+
+    let replenishmentOrderCode: string;
+    replenishmentOrderDetailsService['replenishmentOrderCode$'].subscribe(
+      (data) => {
+        replenishmentOrderCode = data;
+      }
+    );
+
+    expect(replenishmentOrderCode).toEqual(
+      mockRouter.state.params.replenishmentOrderCode
+    );
+
+    routerSubject.next(mockRouterNewOrderCode);
+
+    expect(replenishmentOrderCode).toEqual(
+      mockRouterNewOrderCode.state.params.replenishmentOrderCode
+    );
+  });
 });

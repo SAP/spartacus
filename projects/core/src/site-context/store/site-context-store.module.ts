@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -27,7 +26,6 @@ export function siteContextStoreConfigFactory(): StateConfig {
 @NgModule({
   imports: [
     CommonModule,
-    HttpClientModule,
     StoreModule.forFeature(SITE_CONTEXT_FEATURE, reducerToken),
     EffectsModule.forFeature(effects),
   ],

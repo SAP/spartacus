@@ -5,17 +5,22 @@ import {
   UserReplenishmentOrderService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  map,
+  shareReplay,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReplenishmentOrderDetailsService {
-  protected replenishmentOrderCode$ = this.routingService
-    .getRouterState()
-    .pipe(
-      map((routingData) => routingData.state.params.replenishmentOrderCode)
-    );
+  protected replenishmentOrderCode$ = this.routingService.getRouterState().pipe(
+    map((routingData) => routingData.state.params.replenishmentOrderCode),
+    distinctUntilChanged()
+  );
 
   protected replenishmentOrderLoad$ = this.replenishmentOrderCode$.pipe(
     tap((replenishmentOrderCode: string) => {

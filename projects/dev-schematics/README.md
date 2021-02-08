@@ -8,18 +8,22 @@ For dev-schematics to be applied properly, you need an Angular application with 
 
 ### Prerequisites for local testing
 
-There might be a situation where you want to use the `@spartacus/schematics` that hasn't been released yet (e.g. its public API is not up-to-date).
+Note: there might be a situation where you want to use the `@spartacus/schematics` that hasn't been released yet (e.g. its public API is not up-to-date).
+This can be solved by using `verdaccio`.
 
 These are the steps to take in order to test both `@spartacus/schematics` and `spartacus/dev-schematics` locally:
 
 1. Launch local verdaccio in yours terminal with command `verdaccio`
-2. **(Optional step)**: From the project root go to `/projects/schematics` and change lib version in package.json file (for local testing purposes only, please remember to revert it before committing any changes)
-3. Now (in new terminal or tab) go to dev-schematics scripts: `/projects/dev-schematics/scripts`
-4. Run `./test-dev-schematics-local.sh <version>` where `<version>` is **optional** argument for providing schematics version if it was changed in optional step (`projects/schematics/package.json`). The script will perform all necessary steps to ensure up to date schematics version on your local verdaccio. When the script finishes running, you should be ready to test your dev-schematics.
+2. **(Optional step)**: From the project's root navigate to `/projects/schematics` and change the lib version in package.json file (this is for the local testing purposes only, please remember to revert it before committing any changes)
+3. In the new terminal, navigate to the dev-schematics scripts: `$ cd /projects/dev-schematics/scripts`
+4. Run `./test-dev-schematics-local.sh [version]` where `version` is an **optional** argument for specifying the schematics version. Only provide this if it was changed in the 2nd optional step. When the script runs, you should be ready to test your dev-schematics changes.
 
 ## Adding dev-schematics to your Spartacus project
 
-Make sure that you have `.npmrc` in the root of your testing project, and that it contains the following content: `@spartacus:registry=http://localhost:4873`.
+Make sure that:
+
+- Spartacus is already added to you project
+- you have `.npmrc` in the root of your testing project, that it contains the following content: `@spartacus:registry=http://localhost:4873`.
 
 Run the following command from dev-schematics project:
 

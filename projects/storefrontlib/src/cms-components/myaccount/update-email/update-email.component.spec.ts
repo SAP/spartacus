@@ -1,5 +1,5 @@
 import { Component, DebugElement, EventEmitter, Output } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NavigationExtras } from '@angular/router';
@@ -48,8 +48,10 @@ class MockUserService {
   }
 }
 
-class MockAuthService {
-  logout(): void {}
+class MockAuthService implements Partial<AuthService> {
+  coreLogout() {
+    return Promise.resolve();
+  }
 }
 
 class MockRoutingService {
@@ -73,34 +75,36 @@ describe('UpdateEmailComponent', () => {
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
-      declarations: [
-        UpdateEmailComponent,
-        MockUpdateEmailFormComponent,
-        MockCxSpinnerComponent,
-      ],
-      providers: [
-        {
-          provide: UserService,
-          useClass: MockUserService,
-        },
-        {
-          provide: AuthService,
-          useClass: MockAuthService,
-        },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: GlobalMessageService,
-          useClass: MockGlobalMessageService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [ReactiveFormsModule],
+        declarations: [
+          UpdateEmailComponent,
+          MockUpdateEmailFormComponent,
+          MockCxSpinnerComponent,
+        ],
+        providers: [
+          {
+            provide: UserService,
+            useClass: MockUserService,
+          },
+          {
+            provide: AuthService,
+            useClass: MockAuthService,
+          },
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
+          {
+            provide: GlobalMessageService,
+            useClass: MockGlobalMessageService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UpdateEmailComponent);
@@ -162,9 +166,9 @@ describe('UpdateEmailComponent', () => {
 
   describe('onSuccess', () => {
     describe('when the user was successfully updated', () => {
-      it('should add a global message and navigate to a url ', () => {
+      it('should add a global message and navigate to a url ', async () => {
         spyOn(userService, 'updateEmail').and.stub();
-        spyOn(authService, 'logout').and.stub();
+        spyOn(authService, 'coreLogout').and.stub();
 
         const newUid = 'new@sap.com';
 
@@ -173,7 +177,7 @@ describe('UpdateEmailComponent', () => {
         spyOn(globalMessageService, 'add').and.stub();
         spyOn(routingService, 'go').and.stub();
 
-        component.onSuccess(true);
+        await component.onSuccess(true);
 
         expect(globalMessageService.add).toHaveBeenCalledWith(
           {
@@ -183,7 +187,7 @@ describe('UpdateEmailComponent', () => {
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
 
-        expect(authService.logout).toHaveBeenCalled();
+        expect(authService.coreLogout).toHaveBeenCalled();
 
         expect(routingService.go).toHaveBeenCalledWith(
           { cxRoute: 'login' },

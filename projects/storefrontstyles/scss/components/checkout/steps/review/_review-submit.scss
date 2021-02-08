@@ -227,6 +227,9 @@ cx-schedule-replenishment-order {
       flex-direction: row;
       margin-top: 20px;
       flex-wrap: wrap;
+      @include media-breakpoint-up(md) {
+        margin-inline-start: 2.375rem;
+      }
 
       &:not(:last-child) {
         margin-bottom: 10px;
@@ -235,7 +238,7 @@ cx-schedule-replenishment-order {
       .form-control {
         height: 32px;
         font-size: $small-font-size;
-        padding: 0 11px;
+        padding: 0 9px;
       }
 
       .form-data-label {
@@ -252,11 +255,19 @@ cx-schedule-replenishment-order {
         margin-inline-end: 1.8rem;
       }
 
+      .cx-dayMonth {
+        margin-inline-start: 1.8rem;
+      }
+
       .cx-day-of-month {
         width: 5rem;
       }
 
       .cx-month {
+        display: flex;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        max-width: 5.75rem;
         @include media-breakpoint-down(sm) {
           flex-grow: unset;
           width: 50%;
@@ -279,13 +290,14 @@ cx-schedule-replenishment-order {
         }
 
         .cx-week-day {
-          padding-top: 12px;
+          margin-bottom: 0;
         }
 
         .form-check {
           flex: 0 50%;
           display: flex;
           align-items: center;
+          margin-bottom: 13px;
         }
       }
     }

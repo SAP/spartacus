@@ -13,9 +13,9 @@ import { CheckoutDetailsService } from '../services/checkout-details.service';
 export class DeliveryModeSetGuard implements CanActivate {
   constructor(
     private checkoutDetailsService: CheckoutDetailsService,
-    private checkoutStepService: CheckoutStepService,
     private routingConfigService: RoutingConfigService,
-    private router: Router
+    private router: Router,
+    private checkoutStepService: CheckoutStepService
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {

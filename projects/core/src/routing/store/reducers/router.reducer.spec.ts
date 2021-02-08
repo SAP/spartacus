@@ -8,8 +8,10 @@ import {
   StoreRouterConnectingModule,
 } from '@ngrx/router-store';
 import { Store, StoreModule } from '@ngrx/store';
+import { HOME_PAGE_CONTEXT, PageContext } from '@spartacus/core';
 import { PageType } from '../../../model/cms.model';
 import { RoutingConfig } from '../../configurable-routes/config/routing-config';
+import { ChangeNextPageContext } from '../actions/router.action';
 import { RouterState } from '../routing-state';
 import * as fromReducer from './router.reducer';
 
@@ -155,7 +157,7 @@ describe('Router Reducer', () => {
           type: fromNgrxRouter.ROUTER_NAVIGATED,
         };
         const state = fromReducer.reducer(initialState, action);
-        expect(state.state).toBe(action.payload.routerState);
+        expect(state.state).toEqual(action.payload.routerState);
       });
       it('should clear nextState', () => {
         const initialState: RouterState = {
@@ -177,6 +179,46 @@ describe('Router Reducer', () => {
         };
         const state = fromReducer.reducer(initialState, action);
         expect(state.nextState).toBe(undefined);
+      });
+      it('should prioritize context from the next state', () => {
+        const initialState: RouterState = {
+          ...fromReducer.initialState,
+          nextState: {
+            url: '',
+            queryParams: {},
+            params: {},
+            context: {
+              id: 'nextContext',
+            },
+            cmsRequired: false,
+            semanticRoute: '',
+          },
+        };
+        const action = {
+          ...templateAction,
+          type: fromNgrxRouter.ROUTER_NAVIGATED,
+        };
+        const state = fromReducer.reducer(initialState, action);
+        expect(state.state.context).toEqual({ id: 'nextContext' });
+      });
+      it('should ignore context from the next state if undefined', () => {
+        const initialState: RouterState = {
+          ...fromReducer.initialState,
+          nextState: {
+            url: '',
+            queryParams: {},
+            params: {},
+            context: null,
+            cmsRequired: false,
+            semanticRoute: '',
+          },
+        };
+        const action = {
+          ...templateAction,
+          type: fromNgrxRouter.ROUTER_NAVIGATED,
+        };
+        const state = fromReducer.reducer(initialState, action);
+        expect(state.state.context).toEqual({ id: 'homepage' });
       });
     });
 
@@ -221,7 +263,7 @@ describe('Router Reducer', () => {
         url: '/',
         queryParams: {},
         params: {},
-        context: { id: 'homepage', type: PageType.CONTENT_PAGE },
+        context: { id: HOME_PAGE_CONTEXT, type: PageType.CONTENT_PAGE },
         cmsRequired: false,
         semanticRoute: SemanticRoutes.HOME,
       });
@@ -375,6 +417,39 @@ describe('Router Reducer', () => {
     it('for unknown route - undefined', async () => {
       await zone.run(() => router.navigateByUrl('/sales'));
       expect(semanticRoute).toEqual(undefined);
+    });
+  });
+
+  describe('CHANGE_NEXT_PAGE_CONTEXT action', () => {
+    it('should return the default state if no next state is present', () => {
+      const { initialState } = fromReducer;
+      const pageContext: PageContext = {
+        type: PageType.CONTENT_PAGE,
+        id: 'test',
+      };
+      const action = new ChangeNextPageContext(pageContext);
+      const state = fromReducer.reducer(initialState, action);
+      expect(state).toBe(initialState);
+    });
+
+    it('should change page context in next state', () => {
+      let state: RouterState = {
+        ...fromReducer.initialState,
+        nextState: {
+          ...fromReducer.initialState.state,
+          context: {
+            id: 'initial',
+            type: PageType.CATEGORY_PAGE,
+          },
+        },
+      };
+      const pageContext: PageContext = {
+        type: PageType.CONTENT_PAGE,
+        id: 'test',
+      };
+      const action = new ChangeNextPageContext(pageContext);
+      state = fromReducer.reducer(state, action);
+      expect(state.nextState.context).toBe(pageContext);
     });
   });
 });

@@ -22,7 +22,7 @@
       {{
         cart.deliveryCost?.formattedValue
           ? cart.deliveryCost.formattedValue
-          : 'TBD'
+          : ('orderCost.toBeDetermined' | cxTranslate)
       }}
     </div>
   </div>

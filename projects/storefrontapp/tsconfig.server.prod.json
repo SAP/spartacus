@@ -3,30 +3,73 @@
   "compilerOptions": {
     "esModuleInterop": false,
     "paths": {
-      "@spartacus/core": ["../../dist/core"],
-      "@spartacus/storefront": ["../../dist/storefrontlib"],
-      "@spartacus/cds": ["../../dist/cds"],
-      "@spartacus/assets": ["../../dist/assets"],
-      "@spartacus/my-account": ["../../dist/my-account"],
-      "@spartacus/my-account/organization": [
-        "../../dist/my-account/organization"
+      "@spartacus/setup": ["../../dist/setup"],
+      "@spartacus/setup/ssr": ["../../dist/setup/ssr"],
+      "@spartacus/organization/administration/assets": [
+        "../../dist/organization/administration/assets"
+      ],
+      "@spartacus/organization/administration/components": [
+        "../../dist/organization/administration/components"
+      ],
+      "@spartacus/organization/administration/core": [
+        "../../dist/organization/administration/core"
+      ],
+      "@spartacus/organization/administration": [
+        "../../dist/organization/administration"
+      ],
+      "@spartacus/organization/administration/occ": [
+        "../../dist/organization/administration/occ"
+      ],
+      "@spartacus/organization/administration/root": [
+        "../../dist/organization/administration/root"
+      ],
+      "@spartacus/organization": ["../../dist/organization"],
+      "@spartacus/organization/order-approval/assets": [
+        "../../dist/organization/order-approval/assets"
+      ],
+      "@spartacus/organization/order-approval": [
+        "../../dist/organization/order-approval"
+      ],
+      "@spartacus/organization/order-approval/root": [
+        "../../dist/organization/order-approval/root"
+      ],
+      "@spartacus/product-configurator/common/assets": [
+        "../../dist/product-configurator/common/assets"
+      ],
+      "@spartacus/product-configurator/common": [
+        "../../dist/product-configurator/common"
+      ],
+      "@spartacus/product-configurator": ["../../dist/product-configurator"],
+      "@spartacus/product-configurator/rulebased": [
+        "../../dist/product-configurator/rulebased"
+      ],
+      "@spartacus/product-configurator/rulebased/root": [
+        "../../dist/product-configurator/rulebased/root"
+      ],
+      "@spartacus/product-configurator/textfield": [
+        "../../dist/product-configurator/textfield"
+      ],
+      "@spartacus/product-configurator/textfield/root": [
+        "../../dist/product-configurator/textfield/root"
       ],
       "@spartacus/product": ["../../dist/product"],
-      "@spartacus/product/configurators": ["../../dist/product/configurators"],
-      "@spartacus/product/configurators/common": [
-        "../../dist/product/configurators/common"
+      "@spartacus/qualtrics/components": ["../../dist/qualtrics/components"],
+      "@spartacus/qualtrics": ["../../dist/qualtrics"],
+      "@spartacus/qualtrics/root": ["../../dist/qualtrics/root"],
+      "@spartacus/storefinder/assets": ["../../dist/storefinder/assets"],
+      "@spartacus/storefinder/components": [
+        "../../dist/storefinder/components"
       ],
-      "@spartacus/product/configurators/cpq": [
-        "../../dist/product/configurators/cpq"
-      ],
-      "@spartacus/product/configurators/variant": [
-        "../../dist/product/configurators/variant"
-      ],
-      "@spartacus/product/configurators/textfield": [
-        "../../dist/product/configurators/textfield"
-      ],
+      "@spartacus/storefinder/core": ["../../dist/storefinder/core"],
+      "@spartacus/storefinder": ["../../dist/storefinder"],
+      "@spartacus/storefinder/occ": ["../../dist/storefinder/occ"],
+      "@spartacus/storefinder/root": ["../../dist/storefinder/root"],
       "@spartacus/cdc": ["../../dist/cdc"],
-      "@spartacus/setup": ["../../dist/setup"]
+      "@spartacus/cds": ["../../dist/cds"],
+      "@spartacus/assets": ["../../dist/assets"],
+      "@spartacus/core": ["../../dist/core"],
+      "@spartacus/incubator": ["../../dist/incubator"],
+      "@spartacus/storefront": ["../../dist/storefrontlib"]
     }
   }
 }

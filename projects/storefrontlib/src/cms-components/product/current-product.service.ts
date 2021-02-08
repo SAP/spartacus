@@ -20,15 +20,17 @@ export class CurrentProductService {
   protected readonly DEFAULT_PRODUCT_SCOPE = ProductScope.DETAILS;
 
   /**
-   * Will emit current product or null, if there is no current product (i.e. we are not on PDP)
+   * Returns an observable for the current product
+   * @returns Product
+   * @returns null if product can't be found
    *
    * @param scopes
    */
   getProduct(
     scopes?: (ProductScope | string)[] | ProductScope | string
   ): Observable<Product | null> {
-    return this.routingService.getRouterState().pipe(
-      map((state) => state.state.params['productCode']),
+    return this.getCode().pipe(
+      distinctUntilChanged(),
       switchMap((productCode: string) => {
         return productCode
           ? this.productService.get(
@@ -37,8 +39,13 @@ export class CurrentProductService {
             )
           : of(null);
       }),
-      filter((x) => x !== undefined),
-      distinctUntilChanged()
+      filter((product) => product !== undefined)
     );
+  }
+
+  protected getCode(): Observable<string> {
+    return this.routingService
+      .getRouterState()
+      .pipe(map((state) => state.state.params['productCode']));
   }
 }

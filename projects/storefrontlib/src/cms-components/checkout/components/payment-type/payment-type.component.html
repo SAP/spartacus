@@ -7,6 +7,7 @@
       <input
         #poNumber
         class="form-control"
+        formControlName="poNumber"
         type="text"
         placeholder="{{ 'checkoutPO.placeholder' | cxTranslate }}"
         value="{{ cartPoNumber$ | async }}"
@@ -36,6 +37,7 @@
             (change)="changeType(type.code)"
             [value]="type.code"
             [checked]="type.code == typeSelected"
+            formControlName="paymentType"
           />
           <label
             class="cx-payment-type-label form-check-label form-radio-label"

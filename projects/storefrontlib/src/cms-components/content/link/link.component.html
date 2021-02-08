@@ -1,6 +1,7 @@
 <cx-generic-link
-  *ngIf="component.data$ | async as data"
+  *ngIf="data$ | async as data"
   [url]="data.url"
   [style]="data.styleAttributes"
+  [target]="getTarget(data)"
   >{{ data.linkName }}</cx-generic-link
 >

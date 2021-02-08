@@ -5,6 +5,7 @@ import { OrderEntry } from '../../model/order.model';
  */
 export interface CartEvent {
   cartId: string;
+  cartCode: string;
   userId: string;
 }
 
@@ -12,6 +13,7 @@ export interface CartEvent {
 
 export class CartAddEntryEvent implements CartEvent {
   cartId: string;
+  cartCode: string;
   userId: string;
   productCode: string;
   quantity: number;
@@ -19,6 +21,7 @@ export class CartAddEntryEvent implements CartEvent {
 
 export class CartAddEntrySuccessEvent implements CartEvent {
   cartId: string;
+  cartCode: string;
   userId: string;
   productCode: string;
   quantity: number;
@@ -29,7 +32,23 @@ export class CartAddEntrySuccessEvent implements CartEvent {
 
 export class CartAddEntryFailEvent implements CartEvent {
   cartId: string;
+  cartCode: string;
   userId: string;
   productCode: string;
   quantity: number;
+}
+
+export class CartRemoveEntrySuccessEvent implements CartEvent {
+  cartId: string;
+  cartCode: string;
+  userId: string;
+  entry: OrderEntry;
+}
+
+export class CartUpdateEntrySuccessEvent implements CartEvent {
+  cartId: string;
+  cartCode: string;
+  userId: string;
+  quantity: number;
+  entry: OrderEntry;
 }

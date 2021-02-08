@@ -1,28 +1,27 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   AuthService,
   I18nTestingModule,
   RoutingService,
   UserService,
-  UserToken,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { FormErrorsModule } from '../../../../shared/index';
 import { GuestRegisterFormComponent } from './guest-register-form.component';
 import createSpy = jasmine.createSpy;
-import { FormErrorsModule } from '../../../../shared/index';
 
-class MockAuthService {
-  getUserToken(): Observable<UserToken> {
-    return of({ access_token: 'test' } as UserToken);
+class MockAuthService implements Partial<AuthService> {
+  isUserLoggedIn(): Observable<boolean> {
+    return of(true);
   }
 }
 
-class MockUserService {
+class MockUserService implements Partial<UserService> {
   registerGuest = createSpy();
 }
 
-class MockRoutingService {
+class MockRoutingService implements Partial<RoutingService> {
   go = jasmine.createSpy('go');
 }
 
@@ -33,17 +32,19 @@ describe('GuestRegisterFormComponent', () => {
   let userService: UserService;
   let routingService: RoutingService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule],
-      declarations: [GuestRegisterFormComponent],
-      providers: [
-        { provide: AuthService, useClass: MockAuthService },
-        { provide: UserService, useClass: MockUserService },
-        { provide: RoutingService, useClass: MockRoutingService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule],
+        declarations: [GuestRegisterFormComponent],
+        providers: [
+          { provide: AuthService, useClass: MockAuthService },
+          { provide: UserService, useClass: MockUserService },
+          { provide: RoutingService, useClass: MockRoutingService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(GuestRegisterFormComponent);
