@@ -3,7 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { AsmAuthStorageService, TokenTarget } from '@spartacus/asm/root';
 import { AuthToken, StatePersistenceService } from '@spartacus/core';
 import { combineLatest, Observable, of, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { AsmUi } from '../models/asm.models';
 import { AsmActions, AsmSelectors, StateWithAsm } from '../store';
 
@@ -56,7 +56,12 @@ export class AsmStatePersistenceService implements OnDestroy {
    */
   protected getAsmState(): Observable<SyncedAsmState> {
     return combineLatest([
-      this.store.pipe(select(AsmSelectors.getAsmUi)),
+      this.store.pipe(
+        // Since getAsmState() may be called while the module is lazy loded
+        // The asm state slice may not exist yet in the first store emissions.
+        filter((store) => !!store.asm),
+        select(AsmSelectors.getAsmUi)
+      ),
       of(this.authStorageService.getEmulatedUserToken()),
       this.authStorageService.getTokenTarget(),
     ]).pipe(

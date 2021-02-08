@@ -114,7 +114,7 @@ export class FeatureModulesService implements OnDestroy {
    *
    * It will first resolve all module dependencies if defined
    */
-  private resolveFeature(featureName: string): Observable<FeatureInstance> {
+  resolveFeature(featureName: string): Observable<FeatureInstance> {
     return defer(() => {
       if (!this.features.has(featureName)) {
         const featureConfig = this.featureModulesConfig[featureName];
@@ -177,10 +177,12 @@ export class FeatureModulesService implements OnDestroy {
             moduleRef.injector
           );
 
-          // extract cms components configuration from feature config
-          for (const componentType of featureInstance.cmsComponents) {
-            featureInstance.componentsMappings[componentType] =
-              resolvedConfiguration.cmsComponents[componentType];
+          // extract cms components configuration from feature config, if any
+          if (!!featureInstance.cmsComponents) {
+            for (const componentType of featureInstance.cmsComponents) {
+              featureInstance.componentsMappings[componentType] =
+                resolvedConfiguration.cmsComponents[componentType];
+            }
           }
           return featureInstance;
         })

@@ -19,7 +19,7 @@ export function asmStatePersistenceFactory(
     provideDefaultConfig(defaultAsmConfig),
     AsmConnector,
     {
-      provide: APP_INITIALIZER,
+      provide: APP_INITIALIZER, // TODO GH-10854: Change this to MODULE_INITIALIZER
       useFactory: asmStatePersistenceFactory,
       deps: [AsmStatePersistenceService],
       multi: true,
