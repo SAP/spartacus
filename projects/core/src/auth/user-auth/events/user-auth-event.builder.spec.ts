@@ -1,11 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
+import { User } from '@spartacus/core';
 import { EventService } from 'projects/core/src/event';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { UserService } from '../../../user/facade/user.service';
 import { AuthActions } from '../store/actions';
 import { UserAuthEventBuilder } from './user-auth-event.builder';
 import { LoginEvent, LogoutEvent } from './user-auth.events';
+
+const userData$ = new BehaviorSubject<User>({});
+class MockUserService implements Partial<UserService> {
+  get = () => userData$.asObservable();
+}
 
 describe('UserAuthEventBuilder', () => {
   let eventService: EventService;
@@ -14,7 +21,10 @@ describe('UserAuthEventBuilder', () => {
   beforeEach(() => {
     actions$ = new Subject();
     TestBed.configureTestingModule({
-      providers: [{ provide: ActionsSubject, useValue: actions$ }],
+      providers: [
+        { provide: ActionsSubject, useValue: actions$ },
+        { provide: UserService, useClass: MockUserService },
+      ],
     });
 
     TestBed.inject(UserAuthEventBuilder); // register events
@@ -23,31 +33,33 @@ describe('UserAuthEventBuilder', () => {
 
   describe('LogoutEvent', () => {
     it('should emit a LogoutEvent on LOGOUT action', () => {
+      userData$.next({ customerId: 'test' });
+
       let result: LogoutEvent;
       eventService
         .get(LogoutEvent)
         .pipe(take(1))
         .subscribe((value) => (result = value));
 
+      userData$.next({});
       actions$.next({ type: AuthActions.LOGOUT });
+
       expect(result).toEqual(new LogoutEvent());
     });
 
-    it('should emit a LogoutEvent for each LOGOUT action', () => {
+    it('should NOT emit a LogoutEvent on LOGOUT action if the user is NOT authenticated', () => {
+      userData$.next({});
+
       let result: LogoutEvent;
       eventService
         .get(LogoutEvent)
-        .pipe(take(2))
+        .pipe(take(1))
         .subscribe((value) => (result = value));
 
+      userData$.next({});
       actions$.next({ type: AuthActions.LOGOUT });
-      expect(result).toEqual(new LogoutEvent());
 
-      result = null;
-
-      actions$.next({ type: AuthActions.LOGIN });
-      actions$.next({ type: AuthActions.LOGOUT });
-      expect(result).toEqual(new LogoutEvent());
+      expect(result).toBeUndefined();
     });
   });
 

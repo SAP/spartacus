@@ -45,14 +45,13 @@ export class UserAuthEventBuilder {
    * Register a logout event
    */
   protected registerLogoutEvent(): void {
-    // this.stateEventService.register({
-    //   action: AuthActions.LOGOUT,
-    //   event: LogoutEvent,
-    // });
-    this.eventService.register(LogoutEvent, this.thing());
+    this.eventService.register(LogoutEvent, this.buildLogoutEvent());
   }
 
-  protected thing(): Observable<LogoutEvent> {
+  /**
+   * Returns logout event stream
+   */
+  protected buildLogoutEvent(): Observable<LogoutEvent> {
     return this.getAction(AuthActions.LOGOUT).pipe(
       withLatestFrom(
         this.userService.get().pipe(
@@ -62,7 +61,6 @@ export class UserAuthEventBuilder {
       ),
       map(() => createFrom(LogoutEvent, {}))
     );
-    // this.userService.get().pipe(tap())
   }
 
   /**
