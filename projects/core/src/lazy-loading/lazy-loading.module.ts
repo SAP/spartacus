@@ -11,7 +11,7 @@ export function moduleInitializersFactory(
   lazyModuleService: LazyModulesService,
   moduleInitializerFunctions: (() => any)[]
 ): () => any {
-  return () => {
+  const factoryFunction = () => {
     const asyncInitPromises: Promise<
       any
     >[] = lazyModuleService.runModuleInitializerFunctions(
@@ -25,6 +25,7 @@ export function moduleInitializersFactory(
       throw error;
     });
   };
+  return factoryFunction;
 }
 
 @NgModule({})
