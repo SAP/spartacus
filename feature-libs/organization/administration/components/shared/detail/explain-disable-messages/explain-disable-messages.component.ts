@@ -24,6 +24,11 @@ export class ExplainDisableMessagesComponent<T extends BaseItem> {
   @Input() i18nRoot: string;
 
   /**
+   * Flag for disabledCreate message
+   */
+  @Input() disabledCreateMessage?: string;
+
+  /**
    * resolves the current item.
    */
   current$: Observable<T> = this.itemService.current$;

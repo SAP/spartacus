@@ -3,11 +3,18 @@
   *ngIf="!(current$ | async)?.active && current$ | async as item"
 >
   <cx-icon class="icon-info" [type]="iconTypes.INFO"></cx-icon>
-  <ul [ngClass]="{ removeBullet: !isParentDisabled(item) }">
-    <li>
+  <ul
+    [ngClass]="{
+      removeBullet: !isParentDisabled(item) || disabledCreateMessage
+    }"
+  >
+    <li *ngIf="disabledCreateMessage">
+      {{ i18nRoot + '.messages.disabledCreate' | cxTranslate }}
+    </li>
+    <li *ngIf="!disabledCreateMessage">
       {{ i18nRoot + '.messages.disabledEdit' | cxTranslate }}
     </li>
-    <li *ngIf="isParentDisabled(item)">
+    <li *ngIf="isParentDisabled(item) && !disabledCreateMessage">
       {{ i18nRoot + '.messages.disabledParent' | cxTranslate }}
     </li>
   </ul>
