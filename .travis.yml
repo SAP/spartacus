@@ -7,8 +7,6 @@ git:
   depth: false
 branches:
   only:
-    - develop
-    - "/^epic\\/.*$/"
-    - "/^release\\/.*$/"
+    - feature/GH-10803
 jobs:
-  - script: "cd ./scripts/deploy && ./xdn-deploy.sh"
+  - script: "cd ./scripts/install && ./xdn-deploy.sh"

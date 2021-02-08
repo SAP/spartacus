@@ -53,9 +53,7 @@ function pre_install {
 }
 
 function clone_repo {
-    printh "Cloning Spartacus installation repo."
-
-    echo "Cloning from ${SPARTACUS_REPO_URL}"
+    printh "Cloning Spartacus installation repo from ${SPARTACUS_REPO_URL}"
 
     git clone -b ${BRANCH} ${SPARTACUS_REPO_URL} ${CLONE_DIR} --depth 1
 }
@@ -310,8 +308,8 @@ function run_e2e_tests {
 function cmd_help {
     echo "Usage: run [command]"
     echo "Available commands are:"
-    echo " install"
-    echo " install_npm"
+    echo " install (from sources)"
+    echo " install_npm (from npm packages)"
     echo " start"
     echo " stop"
     echo " e2e"
