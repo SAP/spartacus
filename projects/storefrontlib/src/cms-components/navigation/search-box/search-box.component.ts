@@ -8,11 +8,12 @@ import {
 } from '@angular/core';
 import {
   CmsSearchBoxComponent,
+  PageType,
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
@@ -67,18 +68,22 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   constructor(
     searchBoxComponentService: SearchBoxComponentService,
     componentData: CmsComponentData<CmsSearchBoxComponent>,
+    winRef: WindowRef
+  );
+
+  /**
+   * @deprecated since version 3.1
+   * Use constructor(searchBoxComponentService: SearchBoxComponentService, componentData: CmsComponentData<CmsSearchBoxComponent>, winRef: WindowRef, protected routingService: RoutingService); instead
+   */
+  // TODO(#11041): Remove deprecated constructors
+  constructor(
+    searchBoxComponentService: SearchBoxComponentService,
+    componentData: CmsComponentData<CmsSearchBoxComponent>,
     winRef: WindowRef,
     // tslint:disable-next-line: unified-signatures
     routingService: RoutingService
   );
-  /**
-   * @deprecated
-   */
-  constructor(
-    searchBoxComponentService: SearchBoxComponentService,
-    componentData: CmsComponentData<CmsSearchBoxComponent>,
-    winRef: WindowRef
-  );
+
   constructor(
     protected searchBoxComponentService: SearchBoxComponentService,
     @Optional()
@@ -117,11 +122,15 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     switchMap((config) => this.searchBoxComponentService.getResults(config))
   );
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.subscription = this.routingService
       .getRouterState()
+      .pipe(filter((data) => !data.nextState))
       .subscribe((data) => {
-        if (!data.nextState && data.state.params?.query !== this.chosenWord)
+        if (
+          data.state?.context?.id !== 'search' ||
+          data.state?.context?.type !== PageType.CONTENT_PAGE
+        )
           this.chosenWord = '';
       });
   }
@@ -214,7 +223,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     return <HTMLElement>this.winRef.document.activeElement;
   }
 
-  updateChosenWord(chosenWord: string) {
+  updateChosenWord(chosenWord: string): void {
     this.chosenWord = chosenWord;
   }
 
@@ -292,7 +301,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }

@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import {
   CmsSearchBoxComponent,
   I18nTestingModule,
+  PageType,
   ProductSearchService,
   RoutingService,
   RouterState,
@@ -73,17 +74,23 @@ class MockMediaComponent {
   @Input() alt;
 }
 
-const routerState$: BehaviorSubject<RouterState> = new BehaviorSubject({
+const mockRouterState: RouterState = {
   nextState: undefined,
   state: {
     url: null,
     queryParams: null,
-    params: {},
+    params: null,
     context: null,
     cmsRequired: null,
   },
   navigationId: null,
-});
+};
+
+const routerState$: BehaviorSubject<RouterState> = new BehaviorSubject(
+  mockRouterState
+);
+
+const PRODUCT_SEARCH_STRING = 'camera';
 
 class MockRoutingService implements Partial<RoutingService> {
   getRouterState = () => routerState$.asObservable();
@@ -201,7 +208,6 @@ describe('SearchBoxComponent', () => {
 
     it('should launch the search page, given it is not an empty search', () => {
       const input = fixture.debugElement.query(By.css('input'));
-      const PRODUCT_SEARCH_STRING = 'camera';
 
       input.nativeElement.value = PRODUCT_SEARCH_STRING;
       input.triggerEventHandler('keydown.enter', {});
@@ -300,19 +306,11 @@ describe('SearchBoxComponent', () => {
     });
 
     it('should contain chosen word from the dropdown', () => {
-      const mockRouterState = {
-        nextState: undefined,
-        state: {
-          url: null,
-          queryParams: null,
-          params: { query: 'camera' },
-          context: null,
-          cmsRequired: null,
-        },
-        navigationId: null,
-      };
       const input = fixture.debugElement.query(By.css('input'));
-      const PRODUCT_SEARCH_STRING = 'camera';
+      mockRouterState.state.context = {
+        id: 'search',
+        type: PageType.CONTENT_PAGE,
+      };
       input.nativeElement.value = PRODUCT_SEARCH_STRING;
       input.triggerEventHandler('keydown.enter', {});
       routerState$.next(mockRouterState);
@@ -324,27 +322,14 @@ describe('SearchBoxComponent', () => {
     });
 
     it('should not contain searched word when navigating to another page', () => {
-      const mockRouterState = {
-        nextState: undefined,
-        state: {
-          url: null,
-          queryParams: null,
-          params: {},
-          context: null,
-          cmsRequired: null,
-        },
-        navigationId: null,
-      };
       const input = fixture.debugElement.query(By.css('input'));
-      const PRODUCT_SEARCH_STRING = 'camera';
+      mockRouterState.state.context = null;
       input.nativeElement.value = PRODUCT_SEARCH_STRING;
       input.triggerEventHandler('keydown.enter', {});
       routerState$.next(mockRouterState);
       fixture.detectChanges();
       expect(searchBoxComponent.chosenWord).toEqual('');
-      expect(
-        fixture.debugElement.query(By.css('input')).nativeElement.value
-      ).toEqual('');
+      expect(input.nativeElement.value).toEqual('');
     });
 
     describe('Arrow key tests', () => {
