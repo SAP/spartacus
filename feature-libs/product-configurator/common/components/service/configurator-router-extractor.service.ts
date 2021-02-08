@@ -65,7 +65,7 @@ export class ConfiguratorRouterExtractorService {
     const semanticRoute = routerState.state?.semanticRoute;
     if (semanticRoute) {
       const configuratorType = this.getConfiguratorTypeFromSemanticRoute(
-        routerState.state?.semanticRoute
+        semanticRoute
       );
       owner.configuratorType = configuratorType;
     }
