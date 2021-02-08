@@ -26,7 +26,7 @@ SPARTACUS_REPO_URL="git://github.com/SAP/spartacus.git"
 BRANCH='develop'
 
 # custom location for the installation output and others
-BASE_DIR='/tmp'
+BASE_DIR='/tmp/spartacus-latest'
 CLONE_DIR="clone"
 INSTALLATION_DIR="apps"
 
