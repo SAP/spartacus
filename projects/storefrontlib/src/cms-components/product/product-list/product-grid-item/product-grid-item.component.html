@@ -37,7 +37,7 @@
   ></cx-variant-style-icons>
 </div>
 
-<ng-template [cxOutlet]="ProductListOutlets.ITEM_ACTIONS"> 
+<ng-template [cxOutlet]="ProductListOutlets.ITEM_ACTIONS">
   <cx-add-to-cart
     *ngIf="product.stock?.stockLevelStatus !== 'outOfStock'"
     [showQuantity]="false"
