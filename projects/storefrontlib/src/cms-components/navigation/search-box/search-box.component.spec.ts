@@ -316,9 +316,7 @@ describe('SearchBoxComponent', () => {
       routerState$.next(mockRouterState);
       fixture.detectChanges();
       expect(searchBoxComponent.chosenWord).toEqual(PRODUCT_SEARCH_STRING);
-      expect(
-        fixture.debugElement.query(By.css('input')).nativeElement.value
-      ).toEqual(searchBoxComponent.chosenWord);
+      expect(input.nativeElement.value).toEqual(PRODUCT_SEARCH_STRING);
     });
 
     it('should not contain searched word when navigating to another page', () => {

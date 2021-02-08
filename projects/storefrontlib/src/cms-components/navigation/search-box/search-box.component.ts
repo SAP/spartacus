@@ -128,8 +128,10 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       .pipe(filter((data) => !data.nextState))
       .subscribe((data) => {
         if (
-          data.state?.context?.id !== 'search' ||
-          data.state?.context?.type !== PageType.CONTENT_PAGE
+          !(
+            data.state.context?.id === 'search' &&
+            data.state.context?.type === PageType.CONTENT_PAGE
+          )
         )
           this.chosenWord = '';
       });
