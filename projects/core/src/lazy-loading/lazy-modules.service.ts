@@ -146,12 +146,14 @@ export class LazyModulesService implements OnDestroy {
       [],
       InjectFlags.Self
     );
-    const asyncInitPromises: Promise<any>[] = this.runModuleInitializerFunctions(moduleInits);
+    const asyncInitPromises: Promise<
+      any
+    >[] = this.runModuleInitializerFunctions(moduleInits);
     if (asyncInitPromises.length) {
       return from(Promise.all(asyncInitPromises)).pipe(
         catchError((error) => {
           console.error(
-            `MODULE_INITIALIZER promise was rejected while lazy loading a module: `,
+            'MODULE_INITIALIZER promise was rejected while lazy loading a module.',
             error
           );
           return throwError(error);
@@ -176,15 +178,23 @@ export class LazyModulesService implements OnDestroy {
     initFunctions: (() => any)[]
   ): Promise<any>[] {
     const initPromises: Promise<any>[] = [];
-    if (initFunctions) {
-      for (let i = 0; i < initFunctions.length; i++) {
-        const initResult = initFunctions[i]();
-        if (this.isObjectPromise(initResult)) {
-          initPromises.push(initResult);
+    try {
+      if (initFunctions) {
+        for (let i = 0; i < initFunctions.length; i++) {
+          const initResult = initFunctions[i]();
+          if (this.isObjectPromise(initResult)) {
+            initPromises.push(initResult);
+          }
         }
       }
+      return initPromises;
+    } catch (error) {
+      console.error(
+        `MODULE_INITIALIZER init function throwed an error. `,
+        error
+      );
+      throw error;
     }
-    return initPromises;
   }
 
   /**
