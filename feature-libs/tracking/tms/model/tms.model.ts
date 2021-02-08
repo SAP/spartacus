@@ -1,5 +1,5 @@
-import { InjectionToken } from '@angular/core';
 import { CxEvent } from '@spartacus/core';
+import { TmsCollectorConfig } from '../config/tms-config';
 
 /**
  * Window object enriched with a custom property.
@@ -10,12 +10,25 @@ export interface WindowObject extends Window {
 }
 
 /**
- * Interface that a class can implement in order to recognized as a TMS mapper.
+ * Interface that a class can implement in order to be recognized as a TMS collector.
  */
-export interface TmsMapper {
-  map<T extends CxEvent>(event: T): T | object;
-}
+export interface TmsCollector {
+  /**
+   * Initializes the data layer.
+   */
+  init(config: TmsCollectorConfig, windowObject: WindowObject): void;
 
-export const TMS_MAPPER = new InjectionToken<TmsMapper>(
-  'tms-mapper-injection-token'
-);
+  /**
+   * Pushes the provided event to the data layer.
+   */
+  pushEvent<T extends CxEvent>(
+    config: TmsCollectorConfig,
+    windowObject: WindowObject,
+    event: T | any
+  ): void;
+
+  /**
+   * Maps the Spartacus event to another object.
+   */
+  map?<T extends CxEvent>(event: T): T | object;
+}

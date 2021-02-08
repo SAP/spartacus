@@ -8,8 +8,8 @@ import {
 } from '@angular/core';
 import { CxEvent, EventService, WindowRef } from '@spartacus/core';
 import { merge, Observable, Subscription } from 'rxjs';
-import { TmsCollectorConfig, TmsConfig } from '../config/tms-config';
-import { TmsMapper, TMS_MAPPER } from '../model/tms.model';
+import { TmsConfig } from '../config/tms-config';
+import { TmsCollector } from '../model/tms.model';
 
 /**
  * This service interacts with the configured data layer object by pushing the Spartacus events to it.
@@ -26,8 +26,7 @@ export class TmsService implements OnDestroy {
     protected windowRef: WindowRef,
     protected tmsConfig: TmsConfig,
     protected injector: Injector,
-    @Inject(PLATFORM_ID) protected platformId: any,
-    @Inject(TMS_MAPPER) protected working: TmsMapper
+    @Inject(PLATFORM_ID) protected platformId: any
   ) {}
 
   /**
@@ -38,53 +37,36 @@ export class TmsService implements OnDestroy {
       return;
     }
 
-    for (const collector in this.tmsConfig.tagManager) {
-      const collectorConfig = this.tmsConfig.tagManager[collector] ?? {};
-
+    for (const tmsCollectorConfig in this.tmsConfig.tagManager) {
+      const collectorConfig =
+        this.tmsConfig.tagManager[tmsCollectorConfig] ?? {};
       const events =
         collectorConfig.events?.map((event) => this.eventsService.get(event)) ||
         [];
+
+      const collector = this.injector.get<TmsCollector>(
+        collectorConfig.collector
+      );
+      collector.init(collectorConfig, this.windowRef.nativeWindow);
+
       this.subscription.add(
-        this.mapEvents(events, collector).subscribe((event) => {
+        this.mapEvents(events).subscribe((event) => {
           if (collectorConfig.debug) {
             console.log(
-              `🎤 Pushing the following event to ${collector}: `,
+              `🎤 Pushing the following event to ${tmsCollectorConfig}: `,
               event
             );
           }
-          if (collectorConfig.pushStrategy) {
-            event = this.invokeMapper(event, collectorConfig);
 
-            collectorConfig.pushStrategy(
-              event,
-              this.windowRef.nativeWindow,
-              collectorConfig
-            );
-          }
+          event = collector.map ? collector.map(event) : event;
+          collector.pushEvent(
+            collectorConfig,
+            this.windowRef.nativeWindow,
+            event
+          );
         })
       );
     }
-  }
-
-  private invokeMapper<T extends CxEvent>(
-    event: T,
-    collectorConfig: TmsCollectorConfig
-  ): T | any {
-    if (!collectorConfig.eventMapper) {
-      return event;
-    }
-
-    // if (typeof collectorConfig.eventMapper === 'function') {
-    //   const mapper = collectorConfig.eventMapper as <T extends CxEvent>(
-    //     event: T
-    //   ) => T | any;
-    //   return mapper(event);
-    // }
-
-    console.log('prints GtmMapper: ', this.working);
-
-    const mapper = this.injector.get<TmsMapper>(collectorConfig.eventMapper);
-    return mapper.map(event);
   }
 
   /**
@@ -94,8 +76,7 @@ export class TmsService implements OnDestroy {
    * @param collector - a name of the collector for which the events should be mapped
    */
   protected mapEvents<T extends CxEvent>(
-    events: Observable<T>[],
-    _collector: string
+    events: Observable<T>[]
   ): Observable<T> {
     return merge(...events);
   }

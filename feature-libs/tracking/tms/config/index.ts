@@ -1,3 +1,3 @@
-export * from './default-adobe-launch.config';
-export * from './default-gtm.config';
+export * from './aep-collector.service';
+export * from './gtm-collector.service';
 export * from './tms-config';
