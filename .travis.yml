@@ -11,24 +11,26 @@ branches:
     - "/^epic\\/.*$/"
     - "/^release\\/.*$/"
 defaults: &defaults
-  script: "./ci-scripts/e2e-cypress.sh"
+  script: "export CYPRESS_CONFIG=cypress.ci.json && ./ci-scripts/e2e-cypress.sh"
 jobs:
-  - script: "./build.sh sonar"
-  - script: "./ci-scripts/e2e-cypress.sh -s b2b"
+  - script: "./build.sh sonar" 
+    name: "Validation checks / Unit tests / Sonar"
+  - script: "export CYPRESS_CONFIG=cypress.ci.b2b.json &&  export SPA_ENV='ci,b2b' && ./ci-scripts/e2e-cypress.sh -s b2b"
+    name: E2E regression tests for B2B
   - script:
-    name: "Cypress regression tests, 1st job"
+    name: "E2E tests for B2C, 1st job"
     env: STAGE_NAME=spa-ci-regression
     <<: *defaults
   - script:
-    name: "Cypress regression tests, 2st job"
+    name: "E2E tests for B2C, 2st job"
     env: STAGE_NAME=spa-ci-regression
     <<: *defaults
   - script:
-    name: "Cypress regression tests, 3rd job"
+    name: "E2E tests for B2C, 3rd job"
     env: STAGE_NAME=spa-ci-regression
     <<: *defaults
   - script:
-    name: "Cypress regression tests, 4th job"
+    name: "E2E tests for B2C, 4th job"
     env: STAGE_NAME=spa-ci-regression
     <<: *defaults
 addons:
