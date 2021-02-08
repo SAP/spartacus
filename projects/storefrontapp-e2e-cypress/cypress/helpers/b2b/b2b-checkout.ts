@@ -1,9 +1,11 @@
+import { tabbingOrderConfig as config } from '../../helpers/accessibility/b2b/tabbing-order.config';
 import {
   b2bAccountShipToUser,
   b2bProduct,
   b2bUnit,
   b2bUser,
   costCenter,
+  order_type,
   poNumber,
   POWERTOOLS_BASESITE,
   POWERTOOLS_DEFAULT_DELIVERY_MODE,
@@ -19,6 +21,7 @@ import {
   SampleUser,
   user,
 } from '../../sample-data/checkout-flow';
+import { verifyTabbingOrder } from '../accessibility/tabbing-order';
 import {
   addCheapProductToCart,
   visitHomePage,
@@ -48,7 +51,7 @@ export function addB2bProductToCartAndCheckout() {
     '/checkout/payment-type',
     'getPaymentType'
   );
-  cy.getByText(/proceed to checkout/i).click();
+  cy.findByText(/proceed to checkout/i).click();
   cy.wait(`@${paymentTypePage}`).its('status').should('eq', 200);
 }
 
@@ -60,11 +63,17 @@ export function enterPONumber() {
   cy.get('cx-payment-type').within(() => {
     cy.get('.form-control').clear().type(poNumber);
   });
+
+  // Accessibility
+  verifyTabbingOrder(
+    'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+    config.paymentMethod
+  );
 }
 
 export function selectAccountPayment() {
   cy.get('cx-payment-type').within(() => {
-    cy.getByText('Account').click({ force: true });
+    cy.findByText('Account').click({ force: true });
   });
 
   const shippingPage = waitForPage(
@@ -77,7 +86,7 @@ export function selectAccountPayment() {
 
 export function selectCreditCardPayment() {
   cy.get('cx-payment-type').within(() => {
-    cy.getByText('Credit Card').click({ force: true });
+    cy.findByText('Credit Card').click({ force: true });
   });
 
   const shippingPage = waitForPage(
@@ -115,6 +124,13 @@ export function selectAccountShippingAddress() {
     '/checkout/delivery-mode',
     'getDeliveryPage'
   );
+
+  // Accessibility
+  verifyTabbingOrder(
+    'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+    config.shippingAddressAccount
+  );
+
   cy.get('button.btn-primary').click({ force: true });
   cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
 }
@@ -125,6 +141,13 @@ export function selectAccountDeliveryMode(
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get(`#${deliveryMode}`).should('be.checked');
   const orderReview = waitForPage('/checkout/review-order', 'getReviewOrder');
+
+  // Accessibility
+  verifyTabbingOrder(
+    'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+    config.deliveryMode
+  );
+
   cy.get('.cx-checkout-btns button.btn-primary').click();
   cy.wait(`@${orderReview}`).its('status').should('eq', 200);
 }
@@ -142,22 +165,22 @@ export function reviewB2bReviewOrderPage(
       .contains('cx-card', 'Purchase Order Number')
       .find('.cx-card-container')
       .within(() => {
-        cy.getByText(poNumber);
+        cy.findByText(poNumber);
       });
 
     cy.get('.cx-review-summary-card')
       .contains('cx-card', 'Method of Payment')
       .find('.cx-card-container')
       .within(() => {
-        cy.getByText('Account');
+        cy.findByText('Account');
       });
 
     cy.get('.cx-review-summary-card')
       .contains('cx-card', 'Cost Center')
       .find('.cx-card-container')
       .within(() => {
-        cy.getByText(costCenter);
-        cy.getByText(`(${b2bUnit})`);
+        cy.findByText(costCenter);
+        cy.findByText(`(${b2bUnit})`);
       });
   }
 
@@ -165,15 +188,15 @@ export function reviewB2bReviewOrderPage(
     .contains('cx-card', 'Ship To')
     .find('.cx-card-container')
     .within(() => {
-      cy.getByText(sampleUser.fullName);
-      cy.getByText(sampleUser.address.line1);
+      cy.findByText(sampleUser.fullName);
+      cy.findByText(sampleUser.address.line1);
     });
 
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Shipping Method')
     .find('.cx-card-container')
     .within(() => {
-      cy.getByText('Standard Delivery');
+      cy.findByText('Standard Delivery');
     });
 
   cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
@@ -193,7 +216,7 @@ export function reviewB2bReviewOrderPage(
     .check(orderType)
     .should('be.checked');
 
-  cy.getByText('Terms & Conditions')
+  cy.findByText('Terms & Conditions')
     .should('have.attr', 'target', '_blank')
     .should(
       'have.attr',
@@ -202,6 +225,19 @@ export function reviewB2bReviewOrderPage(
     );
 
   cy.get('input[formcontrolname="termsAndConditions"]').check();
+
+  // Accessibility
+  if (orderType === order_type.SCHEDULE_REPLENISHMENT) {
+    verifyTabbingOrder(
+      'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+      config.replenishmentOrderAccountCheckoutReviewOrder
+    );
+  } else {
+    verifyTabbingOrder(
+      'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+      isAccount ? config.checkoutReviewOrderAccount : config.checkoutReviewOrder
+    );
+  }
 }
 
 export function completeReplenishmentForm(replenishmentPeriod: string) {

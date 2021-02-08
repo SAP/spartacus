@@ -62,8 +62,12 @@ export class StorefrontComponent implements OnInit, OnDestroy {
       });
   }
 
-  collapseMenuIfClickOutside(event: MouseEvent) {
-    if ((<HTMLElement>event.target).className.includes('is-expanded')) {
+  collapseMenuIfClickOutside(event: any): void {
+    const element = event.target;
+    if (
+      element.nodeName.toLowerCase() === 'header' &&
+      element.className.includes('is-expanded')
+    ) {
       this.collapseMenu();
     }
   }

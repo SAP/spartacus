@@ -51,7 +51,10 @@ export class PaginationComponent {
     private activatedRoute: ActivatedRoute
   ) {}
 
-  private render(pagination: PaginationModel) {
+  protected render(pagination: PaginationModel): void {
+    if (!pagination) {
+      return;
+    }
     this.pages = this.paginationBuilder.paginate(
       pagination.totalPages,
       pagination.currentPage

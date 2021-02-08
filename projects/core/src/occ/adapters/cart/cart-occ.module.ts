@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { CartBundleAdapter } from '../../../cart/connectors/bundle';
 import { CartAdapter } from '../../../cart/connectors/cart/cart.adapter';
@@ -17,7 +16,7 @@ import { OccSaveCartAdapter } from './occ-save-cart.adapter';
 import { provideDefaultConfig } from '../../../config/config-providers';
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule],
   providers: [
     provideDefaultConfig(defaultOccCartConfig),
     {

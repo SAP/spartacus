@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { AuthService } from '../../auth/index';
+import { take } from 'rxjs/operators';
+import { UserIdService } from '../../auth/index';
 import * as fromReducers from '../../cart/store/reducers/index';
 import { OrderEntry, User } from '../../model';
 import {
@@ -33,8 +34,8 @@ const mockCartEntry: OrderEntry = {
   quantity: 1,
 };
 
-class AuthServiceStub {
-  getOccUserId(): Observable<string> {
+class UserIdServiceStub implements Partial<UserIdService> {
+  getUserId(): Observable<string> {
     return new BehaviorSubject<string>(OCC_USER_ID_CURRENT).asObservable();
   }
 }
@@ -58,19 +59,19 @@ class MultiCartServiceStub {
   isStable() {}
 }
 
-class UserServiceStup {
+class UserServiceStub implements Partial<UserService> {
   get(): Observable<User> {
     return of(testUser);
   }
 }
 
-class BaseSiteServiceStub {
+class BaseSiteServiceStub implements Partial<BaseSiteService> {
   getActive(): Observable<string> {
     return of('electronics-spa');
   }
 }
 
-class CartConfigServiceStub {
+class CartConfigServiceStub implements Partial<CartConfigService> {
   isSelectiveCartEnabled(): boolean {
     return true;
   }
@@ -95,8 +96,8 @@ describe('Selective Cart Service', () => {
       providers: [
         SelectiveCartService,
         { provide: MultiCartService, useClass: MultiCartServiceStub },
-        { provide: AuthService, useClass: AuthServiceStub },
-        { provide: UserService, useClass: UserServiceStup },
+        { provide: UserIdService, useClass: UserIdServiceStub },
+        { provide: UserService, useClass: UserServiceStub },
         { provide: BaseSiteService, useClass: BaseSiteServiceStub },
         { provide: CartConfigService, useClass: CartConfigServiceStub },
       ],
@@ -338,6 +339,32 @@ describe('Selective Cart Service', () => {
     it('should return false when selectiveCart is disabled', () => {
       spyOn(cartConfigService, 'isSelectiveCartEnabled').and.returnValue(false);
       expect(service.isEnabled()).toEqual(false);
+    });
+  });
+
+  describe('isStable', () => {
+    it('should return true when isStable returns true', (done) => {
+      spyOn(multiCartService, 'isStable').and.returnValue(of(true));
+
+      service
+        .isStable()
+        .pipe(take(1))
+        .subscribe((val) => {
+          expect(val).toBe(true);
+          done();
+        });
+    });
+
+    it('should return false when isStable returns false', (done) => {
+      spyOn(multiCartService, 'isStable').and.returnValue(of(false));
+
+      service
+        .isStable()
+        .pipe(take(1))
+        .subscribe((val) => {
+          expect(val).toBe(false);
+          done();
+        });
     });
   });
 

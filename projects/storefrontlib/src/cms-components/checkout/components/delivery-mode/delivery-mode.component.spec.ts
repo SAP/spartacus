@@ -1,5 +1,5 @@
 import { Component, Type } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -9,11 +9,11 @@ import {
   I18nTestingModule,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { LoaderState } from '../../../../../../core/src/state/utils/loader';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { DeliveryModeComponent } from './delivery-mode.component';
 import createSpy = jasmine.createSpy;
-import { LoaderState } from '../../../../../../core/src/state/utils/loader';
 
 @Component({
   selector: 'cx-spinner',
@@ -79,27 +79,32 @@ describe('DeliveryModeComponent', () => {
   let mockCheckoutConfigService: CheckoutConfigService;
   let checkoutStepService: CheckoutStepService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule],
-      declarations: [DeliveryModeComponent, MockSpinnerComponent],
-      providers: [
-        {
-          provide: CheckoutDeliveryService,
-          useClass: MockCheckoutDeliveryService,
-        },
-        { provide: CheckoutStepService, useClass: MockCheckoutStepService },
-        { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
-        { provide: ActivatedRoute, useValue: mockActivatedRoute },
-      ],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [ReactiveFormsModule, I18nTestingModule],
+        declarations: [DeliveryModeComponent, MockSpinnerComponent],
+        providers: [
+          {
+            provide: CheckoutDeliveryService,
+            useClass: MockCheckoutDeliveryService,
+          },
+          { provide: CheckoutStepService, useClass: MockCheckoutStepService },
+          {
+            provide: CheckoutConfigService,
+            useClass: MockCheckoutConfigService,
+          },
+          { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        ],
+      }).compileComponents();
 
-    mockCheckoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
-    mockCheckoutConfigService = TestBed.inject(CheckoutConfigService);
-    checkoutStepService = TestBed.inject(
-      CheckoutStepService as Type<CheckoutStepService>
-    );
-  }));
+      mockCheckoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
+      mockCheckoutConfigService = TestBed.inject(CheckoutConfigService);
+      checkoutStepService = TestBed.inject(
+        CheckoutStepService as Type<CheckoutStepService>
+      );
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DeliveryModeComponent);
@@ -141,7 +146,9 @@ describe('DeliveryModeComponent', () => {
     expect(
       mockCheckoutConfigService.getPreferredDeliveryMode
     ).toHaveBeenCalledWith(mockSupportedDeliveryModes);
-    expect(component.currentDeliveryModeId).toBe(mockDeliveryMode1.code);
+    expect(component.mode.controls['deliveryModeId'].value).toBe(
+      mockDeliveryMode1.code
+    );
   });
 
   it('should select the delivery mode, which has been chosen before', () => {
@@ -163,22 +170,8 @@ describe('DeliveryModeComponent', () => {
     expect(
       mockCheckoutConfigService.getPreferredDeliveryMode
     ).not.toHaveBeenCalled();
-    expect(component.currentDeliveryModeId).toBe(mockDeliveryMode2.code);
-  });
-
-  it('should set delivery mode after invoking next()', () => {
-    component.currentDeliveryModeId = mockDeliveryMode1.code;
-    spyOn(
-      mockCheckoutDeliveryService,
-      'getSelectedDeliveryMode'
-    ).and.returnValue(of(mockDeliveryMode1));
-
-    component.ngOnInit();
-    component.mode.controls['deliveryModeId'].setValue('code');
-    component.next();
-
-    expect(mockCheckoutDeliveryService.setDeliveryMode).toHaveBeenCalledWith(
-      mockDeliveryMode1.code
+    expect(component.mode.controls['deliveryModeId'].value).toBe(
+      mockDeliveryMode2.code
     );
   });
 
@@ -211,18 +204,19 @@ describe('DeliveryModeComponent', () => {
   describe('UI continue button', () => {
     const getContinueBtn = () =>
       fixture.debugElement.query(By.css('.cx-checkout-btns .btn-primary'));
+    const setDeliveryModeId = (value: string) => {
+      component.mode.controls['deliveryModeId'].setValue(value);
+    };
 
     it('should be disabled when delivery mode is not selected', () => {
-      component.mode.controls['deliveryModeId'].setValue(null);
+      setDeliveryModeId(null);
       fixture.detectChanges();
 
       expect(getContinueBtn().nativeElement.disabled).toBe(true);
     });
 
     it('should be enabled when delivery mode is selected', () => {
-      component.mode.controls['deliveryModeId'].setValue(
-        mockDeliveryMode1.code
-      );
+      setDeliveryModeId(mockDeliveryMode1.code);
       fixture.detectChanges();
 
       expect(getContinueBtn().nativeElement.disabled).toBe(false);
@@ -230,6 +224,9 @@ describe('DeliveryModeComponent', () => {
 
     it('should call "next" function after being clicked', () => {
       spyOn(component, 'next');
+
+      setDeliveryModeId(mockDeliveryMode1.code);
+      fixture.detectChanges();
       getContinueBtn().nativeElement.click();
       fixture.detectChanges();
 
@@ -238,13 +235,14 @@ describe('DeliveryModeComponent', () => {
   });
 
   describe('UI back button', () => {
-    const getContinueBtn = () =>
+    const getBackBtn = () =>
       fixture.debugElement.query(By.css('.cx-checkout-btns .btn-action'));
 
     it('should call "back" function after being clicked', () => {
       spyOn(component, 'back');
-      getContinueBtn().nativeElement.click();
+
       fixture.detectChanges();
+      getBackBtn().nativeElement.click();
 
       expect(component.back).toHaveBeenCalled();
     });

@@ -4,7 +4,7 @@ import { TabFocusDirective } from '../tab/tab-focus.directive';
 import { TrapFocusService } from './trap-focus.service';
 
 /**
- * Directive that keeps the focus inside the focussable child elements,
+ * Directive that keeps the focus inside the focusable child elements,
  * also known as a _focus trap_.
  */
 @Directive() // selector: '[cxTrapFocus]'

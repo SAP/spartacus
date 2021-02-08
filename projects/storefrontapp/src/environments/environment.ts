@@ -8,12 +8,10 @@ import { Environment } from './models/environment.model';
 export const environment: Environment = {
   production: false,
   occBaseUrl:
-    build.process.env.SPARTACUS_BASE_URL ??
-    'https://spartacus-dev0.eastus.cloudapp.azure.com:9002',
-  // 'https://spartacus-dev3.eastus.cloudapp.azure.com:9002',
-  // 'https://api.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com',
-  occApiPrefix: build.process.env.SPARTACUS_API_PREFIX ?? '/occ/v2/',
-  b2b: false,
-  cds: false,
-  cdc: false,
+    buildProcess.env.CX_BASE_URL ??
+    'https://spartacus-devci7672.eastus.cloudapp.azure.com:9002',
+  occApiPrefix: '/occ/v2/',
+  cds: buildProcess.env.CX_CDS ?? false,
+  b2b: buildProcess.env.CX_B2B ?? false,
+  cdc: buildProcess.env.CX_CDC ?? false,
 };

@@ -3,7 +3,12 @@ import { Config, Image, OccConfig } from '@spartacus/core';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 import { StorefrontConfig } from '../../../storefront-config';
 import { MediaConfig } from './media.config';
-import { Media, MediaContainer, MediaFormatSize } from './media.model';
+import {
+  ImageLoadingStrategy,
+  Media,
+  MediaContainer,
+  MediaFormatSize,
+} from './media.model';
 
 /**
  * Service which generates media URLs. It leverage the MediaContainer and MediaFormats so
@@ -34,6 +39,8 @@ export class MediaService {
      * The BreakpointService is no longer used in version 2.0 as the different size formats are
      * driven by configuration only. There's however a change that this service will play a role
      * in the near future, which is why we keep the constructor as-is.
+     *
+     * @deprecated
      */
     protected breakpointService: BreakpointService
   ) {}
@@ -58,8 +65,20 @@ export class MediaService {
     return {
       src: this.resolveAbsoluteUrl(mainMedia?.url),
       alt: alt || mainMedia?.altText,
-      srcset: this.resolveSrcSet(mediaContainer),
+      srcset: this.resolveSrcSet(mediaContainer, format),
     };
+  }
+
+  /**
+   * Reads the loading strategy from the `MediaConfig`.
+   *
+   * Defaults to `ImageLoadingStrategy.EAGER`.
+   */
+  get loadingStrategy(): ImageLoadingStrategy {
+    return (
+      (this.config as MediaConfig)?.imageLoadingStrategy ??
+      ImageLoadingStrategy.EAGER
+    );
   }
 
   /**
@@ -68,7 +87,7 @@ export class MediaService {
    * benefits.
    */
   protected get sortedFormats(): { code: string; size: MediaFormatSize }[] {
-    if (!this._sortedFormats) {
+    if (!this._sortedFormats && (this.config as MediaConfig)?.mediaFormats) {
       this._sortedFormats = Object.keys(
         (this.config as MediaConfig).mediaFormats
       )
@@ -78,7 +97,7 @@ export class MediaService {
         }))
         .sort((a, b) => (a.size.width > b.size.width ? 1 : -1));
     }
-    return this._sortedFormats;
+    return this._sortedFormats ?? [];
   }
 
   /**
@@ -125,15 +144,28 @@ export class MediaService {
   }
 
   /**
-   * Returns a set of media for the available media formats. Additionally, the congiured media
+   * Returns a set of media for the available media formats. Additionally, the configured media
    * format width is added to the srcset, so that browsers can select the appropriate media.
+   *
+   * The optional maxFormat indicates that only sources till a certain format should be added
+   * to the srcset.
    */
-  protected resolveSrcSet(media: MediaContainer | Image): string {
+  protected resolveSrcSet(
+    media: MediaContainer | Image,
+    maxFormat?: string
+  ): string {
     if (!media) {
       return undefined;
     }
 
-    const srcset = this.sortedFormats.reduce((set, format) => {
+    // Only create srcset images that are smaller than the given `maxFormat` (if any)
+    let formats = this.sortedFormats;
+    const max: number = formats.findIndex((f) => f.code === maxFormat);
+    if (max > -1) {
+      formats = formats.slice(0, max + 1);
+    }
+
+    const srcset = formats.reduce((set, format) => {
       if (!!media[format.code]) {
         if (set) {
           set += ', ';
@@ -151,12 +183,14 @@ export class MediaService {
   /**
    * Resolves the absolute URL for the given url. In most cases, this URL represents
    * the relative URL on the backend. In that case, we prefix the url with the baseUrl.
+   *
+   * When we have receive an absolute URL, we return the URL as-is. An absolute URL might also
+   * start with double slash, which is used to resolve media cross from http and https.
    */
   protected resolveAbsoluteUrl(url: string): string {
-    if (!url) {
-      return null;
-    }
-    return url.startsWith('http') ? url : this.getBaseUrl() + url;
+    return !url || url.startsWith('http') || url.startsWith('//')
+      ? url
+      : this.getBaseUrl() + url;
   }
 
   /**
@@ -165,12 +199,14 @@ export class MediaService {
    *
    * The `backend.media.baseUrl` can be used to load media from a different location.
    *
-   * In Commerce Cloud, a differnt location could mean a different "aspect".
+   * In Commerce Cloud, a different location could mean a different "aspect".
+   *
+   * Defaults to empty string in case no config is provided.
    */
   protected getBaseUrl(): string {
     return (
-      (this.config as OccConfig).backend.media.baseUrl ||
-      (this.config as OccConfig).backend.occ.baseUrl ||
+      (this.config as OccConfig).backend?.media?.baseUrl ??
+      (this.config as OccConfig).backend?.occ?.baseUrl ??
       ''
     );
   }

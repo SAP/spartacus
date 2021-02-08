@@ -9,7 +9,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { first, switchMap } from 'rxjs/operators';
+import { first, switchMap, take } from 'rxjs/operators';
 import { CmsPageGuardService } from './cms-page-guard.service';
 
 @Injectable({
@@ -43,8 +43,9 @@ export class CmsPageGuard implements CanActivate {
   ): Observable<boolean | UrlTree> {
     return this.protectedRoutesGuard.canActivate(route).pipe(
       switchMap((canActivate) =>
-        canActivate
+        canActivate === true
           ? this.routingService.getNextPageContext().pipe(
+              take(1),
               switchMap((pageContext) =>
                 this.cmsService.getPage(pageContext, this.shouldReload()).pipe(
                   first(),
@@ -65,7 +66,7 @@ export class CmsPageGuard implements CanActivate {
                 )
               )
             )
-          : of(false)
+          : of(canActivate)
       )
     );
   }

@@ -1,0 +1,78 @@
+<cx-org-form [i18nRoot]="i18nRoot">
+  <ng-container *ngIf="form$ | async as form" [formGroup]="form" main>
+    <label>
+      <span class="label-content required">{{
+        'orgUnit.name' | cxTranslate
+      }}</span>
+      <input
+        type="text"
+        class="form-control"
+        required
+        placeholder="{{ 'orgUnit.name' | cxTranslate }}"
+        formControlName="name"
+        (blur)="createUidWithName(form.get('name'), form.get('uid'))"
+      />
+      <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+    </label>
+
+    <label>
+      <span class="label-content required">{{
+        'orgUnit.uid' | cxTranslate
+      }}</span>
+      <input
+        class="form-control"
+        type="text"
+        required
+        placeholder="{{ 'orgUnit.uid' | cxTranslate }}"
+        formControlName="uid"
+      />
+      <cx-form-errors [control]="form.get('uid')"></cx-form-errors>
+    </label>
+
+    <label
+      formGroupName="approvalProcess"
+      class="full-width"
+      aria-required="true"
+    >
+      <span class="label-content required">{{
+        'orgUnit.approvalProcess' | cxTranslate
+      }}</span>
+      <ng-select
+        formControlName="code"
+        [searchable]="false"
+        [items]="approvalProcess$ | async"
+        bindLabel="name"
+        bindValue="code"
+        appendTo="cx-org-list"
+      >
+      </ng-select>
+      <cx-form-errors
+        [control]="form.get('approvalProcess.code')"
+      ></cx-form-errors>
+    </label>
+
+    <label
+      *ngIf="form.get('parentOrgUnit')"
+      aria-required="true"
+      formGroupName="parentOrgUnit"
+    >
+      <span class="label-content required">{{
+        'orgUnit.form.parentOrgUnit' | cxTranslate
+      }}</span>
+      <ng-select
+        formControlName="uid"
+        [searchable]="true"
+        [clearable]="false"
+        [items]="units$ | async"
+        bindLabel="name"
+        bindValue="id"
+        appendTo="cx-org-list"
+        [placeholder]="'orgUnit.form.parentOrgUnit' | cxTranslate"
+      >
+      </ng-select>
+      <cx-form-errors
+        [control]="form.get('parentOrgUnit.uid')"
+      ></cx-form-errors>
+    </label>
+  </ng-container>
+</cx-org-form>

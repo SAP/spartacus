@@ -5,7 +5,6 @@ import {
   OnInit,
   TemplateRef,
 } from '@angular/core';
-import { FeatureConfigService } from '@spartacus/core';
 import { OutletPosition } from '../outlet.model';
 import { OutletService } from '../outlet.service';
 
@@ -18,20 +17,9 @@ export class OutletRefDirective implements OnInit, OnDestroy {
   @Input()
   cxOutletPos: OutletPosition;
 
-  /**
-   * @deprecated since 2.1, see #8201
-   */
-  constructor(tpl: TemplateRef<any>, outletService: OutletService);
-  constructor(
-    tpl: TemplateRef<any>,
-    outletService: OutletService,
-    // tslint:disable-next-line: unified-signatures
-    features: FeatureConfigService
-  );
   constructor(
     private tpl: TemplateRef<any>,
-    private outletService: OutletService,
-    private features?: FeatureConfigService
+    private outletService: OutletService
   ) {}
 
   ngOnInit() {
@@ -39,8 +27,6 @@ export class OutletRefDirective implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.features?.isLevel('2.1')) {
-      this.outletService.remove(this.cxOutletRef, this.cxOutletPos, this.tpl);
-    }
+    this.outletService.remove(this.cxOutletRef, this.cxOutletPos, this.tpl);
   }
 }

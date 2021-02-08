@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -75,22 +75,24 @@ describe('CartItemListComponent', () => {
     ['removeEntry']
   );
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        RouterTestingModule,
-        PromotionsModule,
-        I18nTestingModule,
-        FeaturesConfigModule,
-      ],
-      declarations: [CartItemListComponent, MockCartItemComponent],
-      providers: [
-        { provide: ActiveCartService, useClass: MockActiveCartService },
-        { provide: SelectiveCartService, useValue: mockSelectiveCartService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          ReactiveFormsModule,
+          RouterTestingModule,
+          PromotionsModule,
+          I18nTestingModule,
+          FeaturesConfigModule,
+        ],
+        declarations: [CartItemListComponent, MockCartItemComponent],
+        providers: [
+          { provide: ActiveCartService, useClass: MockActiveCartService },
+          { provide: SelectiveCartService, useValue: mockSelectiveCartService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartItemListComponent);
@@ -220,10 +222,10 @@ describe('CartItemListComponent', () => {
     component.items = multipleMockItems;
     fixture.detectChanges();
     expect(
-      component.form.controls[multipleMockItems[0].product.code]
+      component.form.controls[multipleMockItems[0].entryNumber]
     ).toBeDefined();
     expect(
-      component.form.controls[multipleMockItems[1].product.code]
+      component.form.controls[multipleMockItems[1].entryNumber]
     ).toBeDefined();
   });
 
@@ -231,9 +233,15 @@ describe('CartItemListComponent', () => {
     component.options = { isSaveForLater: true };
     fixture.detectChanges();
     const item = mockItems[0];
-    expect(component.form.controls[item.product.code]).toBeDefined();
+    expect(component.form.controls[item.entryNumber]).toBeDefined();
     component.removeEntry(item);
     expect(mockSelectiveCartService.removeEntry).toHaveBeenCalledWith(item);
-    expect(component.form.controls[item.product.code]).toBeUndefined();
+    expect(component.form.controls[item.entryNumber]).toBeUndefined();
+  });
+
+  it('should handle null item lists properly', () => {
+    component.items = undefined;
+    const itemCount = component.items.length;
+    expect(itemCount).toEqual(0);
   });
 });

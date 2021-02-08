@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Pipe, PipeTransform } from '@angular/core';
 import {
-  async,
+  waitForAsync,
   ComponentFixture,
   fakeAsync,
   TestBed,
@@ -8,10 +8,10 @@ import {
 } from '@angular/core/testing';
 import {
   AsmConfig,
-  AuthService,
   I18nTestingModule,
   OCC_USER_ID_ANONYMOUS,
   RoutingService,
+  UserIdService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
@@ -26,16 +26,16 @@ const MockAsmConfig: AsmConfig = {
   },
 };
 
-class MockAuthService {
-  getOccUserId(): Observable<string> {
+class MockUserIdService implements Partial<UserIdService> {
+  getUserId(): Observable<string> {
     return of('');
   }
 }
 
-class MockAsmComponentService {
+class MockAsmComponentService implements Partial<AsmComponentService> {
   logoutCustomerSupportAgentAndCustomer(): void {}
 }
-class MockRoutingService {
+class MockRoutingService implements Partial<RoutingService> {
   go() {}
   isNavigating() {
     return of(false);
@@ -55,31 +55,33 @@ describe('AsmSessionTimerComponent', () => {
   let config: AsmConfig;
   let asmComponentService: AsmComponentService;
   let routingService: RoutingService;
-  let authService: AuthService;
+  let userIdService: UserIdService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [AsmSessionTimerComponent, MockFormatTimerPipe],
-      providers: [
-        {
-          provide: ChangeDetectorRef,
-          useValue: { markForCheck: createSpy('markForCheck') },
-        },
-        { provide: AsmConfig, useValue: MockAsmConfig },
-        { provide: AsmComponentService, useClass: MockAsmComponentService },
-        { provide: RoutingService, useClass: MockRoutingService },
-        { provide: AuthService, useClass: MockAuthService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [AsmSessionTimerComponent, MockFormatTimerPipe],
+        providers: [
+          {
+            provide: ChangeDetectorRef,
+            useValue: { markForCheck: createSpy('markForCheck') },
+          },
+          { provide: AsmConfig, useValue: MockAsmConfig },
+          { provide: AsmComponentService, useClass: MockAsmComponentService },
+          { provide: RoutingService, useClass: MockRoutingService },
+          { provide: UserIdService, useClass: MockUserIdService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AsmSessionTimerComponent);
     config = TestBed.inject(AsmConfig);
     asmComponentService = TestBed.inject(AsmComponentService);
     routingService = TestBed.inject(RoutingService);
-    authService = TestBed.inject(AuthService);
+    userIdService = TestBed.inject(UserIdService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -151,7 +153,7 @@ describe('AsmSessionTimerComponent', () => {
       OCC_USER_ID_ANONYMOUS
     );
     spyOn(component, 'resetTimer').and.callThrough();
-    spyOn(authService, 'getOccUserId').and.returnValue(occUserId$);
+    spyOn(userIdService, 'getUserId').and.returnValue(occUserId$);
     spyOn(routingService, 'isNavigating').and.returnValue(of(false));
     component.ngOnInit(); // reset 1, initial value anonymous.
     occUserId$.next('customer01'); // reset 2, staring an emulation session.

@@ -9,10 +9,12 @@ import {
   AnonymousConsent,
   AnonymousConsentsConfig,
   AnonymousConsentsService,
+  AuthConfigService,
   ConsentTemplate,
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
+  OAuthFlow,
   RoutingService,
   Title,
   UserService,
@@ -20,7 +22,7 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { sortTitles, CustomFormValidators } from '../../../shared/index';
+import { CustomFormValidators, sortTitles } from '../../../shared/index';
 
 @Component({
   selector: 'cx-register',
@@ -67,7 +69,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     protected fb: FormBuilder,
     protected router: RoutingService,
     protected anonymousConsentsService: AnonymousConsentsService,
-    protected anonymousConsentsConfig: AnonymousConsentsConfig
+    protected anonymousConsentsConfig: AnonymousConsentsConfig,
+    protected authConfigService: AuthConfigService
   ) {}
 
   ngOnInit() {
@@ -173,7 +176,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   private onRegisterUserSuccess(success: boolean): void {
     if (success) {
-      this.router.go('login');
+      if (
+        this.authConfigService.getOAuthFlow() ===
+        OAuthFlow.ResourceOwnerPasswordFlow
+      ) {
+        this.router.go('login');
+      }
       this.globalMessageService.add(
         { key: 'register.postRegisterMessage' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION

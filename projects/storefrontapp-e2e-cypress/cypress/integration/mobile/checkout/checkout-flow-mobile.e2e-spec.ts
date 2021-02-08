@@ -12,7 +12,7 @@ function waitForHomePage() {
   clickHamburger();
 }
 
-context(`${formats.mobile.width + 1}p resolution - Big happy path`, () => {
+context(`${formats.mobile.width + 1}p resolution - Checkout flow`, () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     cy.viewport(formats.mobile.width, formats.mobile.height);
@@ -21,49 +21,24 @@ context(`${formats.mobile.width + 1}p resolution - Big happy path`, () => {
 
   beforeEach(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
+    cy.restoreLocalStorage();
   });
 
-  it('should register successfully', () => {
-    waitForHomePage();
+  afterEach(() => {
+    cy.saveLocalStorage();
+  });
 
+  it('should peform checkout registering a new user', () => {
+    waitForHomePage();
     checkout.registerUser();
     verifyGlobalMessageAfterRegistration();
-  });
-
-  it('should go to product page from category page', () => {
     checkout.goToCheapProductDetailsPage();
-  });
-
-  it('should add product to cart and go to checkout', () => {
     checkout.addCheapProductToCartAndLogin();
-  });
-
-  it('should fill in address form', () => {
     checkout.fillAddressFormWithCheapProduct();
-  });
-
-  it('should choose delivery', () => {
     checkout.verifyDeliveryMethod();
-  });
-
-  it('should fill in payment form', () => {
     checkout.fillPaymentFormWithCheapProduct();
-  });
-
-  it('should review and place order', () => {
     checkout.placeOrderWithCheapProduct();
-  });
-
-  it('should display summary page', () => {
     checkout.verifyOrderConfirmationPageWithCheapProduct();
-  });
-
-  it('should be able to check order in order history', () => {
-    // hack: visit other page to trigger store -> local storage sync
-    cy.selectUserMenuOption({
-      option: 'Personal Details',
-      isMobile: true,
-    });
     cy.waitForOrderToBePlacedRequest();
     clickHamburger();
     checkout.viewOrderHistoryWithCheapProduct();

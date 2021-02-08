@@ -2,11 +2,11 @@ import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
   ActiveCartService,
-  StateUtils,
   PROCESS_FEATURE,
+  StateUtils,
 } from '@spartacus/core';
 import { of } from 'rxjs';
-import { AuthService } from '../../auth';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Address, AddressValidation } from '../../model/address.model';
 import { Cart } from '../../model/cart.model';
 import { DeliveryMode } from '../../model/order.model';
@@ -19,12 +19,12 @@ import { CheckoutDeliveryService } from './checkout-delivery.service';
 describe('CheckoutDeliveryService', () => {
   let service: CheckoutDeliveryService;
   let activeCartService: ActiveCartService;
-  let authService: AuthService;
+  let userIdService: UserIdService;
   let store: Store<CheckoutState>;
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
 
-  class ActiveCartServiceStub {
+  class ActiveCartServiceStub implements Partial<ActiveCartService> {
     cart;
     isGuestCart() {
       return true;
@@ -39,9 +39,9 @@ describe('CheckoutDeliveryService', () => {
     }
   }
 
-  class AuthServiceStub {
+  class UserIdServiceStub implements Partial<UserIdService> {
     userId;
-    getOccUserId() {
+    getUserId() {
       return of(userId);
     }
   }
@@ -68,17 +68,17 @@ describe('CheckoutDeliveryService', () => {
       ],
       providers: [
         CheckoutDeliveryService,
-        { provide: AuthService, useClass: AuthServiceStub },
+        { provide: UserIdService, useClass: UserIdServiceStub },
         { provide: ActiveCartService, useClass: ActiveCartServiceStub },
       ],
     });
 
     service = TestBed.inject(CheckoutDeliveryService);
     activeCartService = TestBed.inject(ActiveCartService);
-    authService = TestBed.inject(AuthService);
+    userIdService = TestBed.inject(UserIdService);
     store = TestBed.inject(Store);
 
-    authService['userId'] = userId;
+    userIdService['userId'] = userId;
     activeCartService['cart'] = cart;
 
     spyOn(store, 'dispatch').and.callThrough();

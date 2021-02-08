@@ -35,6 +35,7 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
         content: '/';
       }
       a {
+        text-transform: capitalize;
         color: inherit;
         padding: 5px 5px;
       }

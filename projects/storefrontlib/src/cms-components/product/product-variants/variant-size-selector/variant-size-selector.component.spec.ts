@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
@@ -28,19 +28,21 @@ describe('VariantSizeSelectorComponent', () => {
   let component: VariantSizeSelectorComponent;
   let fixture: ComponentFixture<VariantSizeSelectorComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [VariantSizeSelectorComponent],
-      imports: [RouterTestingModule, I18nTestingModule],
-      providers: [
-        { provide: RoutingService, useClass: MockRoutingService },
-        {
-          provide: ProductService,
-          useClass: MockProductService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [VariantSizeSelectorComponent],
+        imports: [RouterTestingModule, I18nTestingModule],
+        providers: [
+          { provide: RoutingService, useClass: MockRoutingService },
+          {
+            provide: ProductService,
+            useClass: MockProductService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(VariantSizeSelectorComponent);

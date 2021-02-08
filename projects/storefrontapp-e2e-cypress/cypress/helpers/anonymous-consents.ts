@@ -9,7 +9,7 @@ import { signOutUser } from './login';
 import { LANGUAGE_DE, LANGUAGE_LABEL } from './site-context-selector';
 import { generateMail, randomString } from './user';
 
-const ANONYMOUS_BANNER = 'cx-anonymous-consent-management-banner';
+export const ANONYMOUS_BANNER = 'cx-anonymous-consent-management-banner';
 const ANONYMOUS_DIALOG = 'cx-anonymous-consent-dialog';
 const BE_CHECKED = 'be.checked';
 const NOT_BE_CHECKED = 'not.be.checked';
@@ -71,19 +71,15 @@ export function registerNewUserAndLogin(
   hiddenConsent?
 ) {
   const loginPage = waitForPage('/login', 'getLoginPage');
-  cy.getByText(/Sign in \/ Register/i).click();
+  cy.get('cx-login [role="link"]').click();
   cy.wait(`@${loginPage}`).its('status').should('eq', 200);
   const registerPage = waitForPage('/login/register', 'getRegisterPage');
-  cy.getByText('Register').click();
+  cy.findByText('Register').click();
   cy.wait(`@${registerPage}`).its('status').should('eq', 200);
   register(newUser, giveRegistrationConsent, hiddenConsent);
   cy.get('cx-breadcrumb').contains('Login');
 
   login(newUser.email, newUser.password);
-}
-
-export function navigateToHome() {
-  cy.get('cx-generic-link a[title="SAP Commerce"]').click({ force: true });
 }
 
 export function navigateToConsentPage() {
@@ -249,7 +245,8 @@ export function moveAnonymousUserToLoggedInUser() {
     navigateToConsentPage();
     giveConsent();
 
-    navigateToHome();
+    cy.visit('/');
+
     checkBanner();
     signOutUser();
 
@@ -258,7 +255,7 @@ export function moveAnonymousUserToLoggedInUser() {
     closeDialog();
 
     const loginPage = waitForPage('/login', 'getLoginPage');
-    cy.getByText(/Sign in \/ Register/i).click();
+    cy.get('cx-login [role="link"]').click();
     cy.wait(`@${loginPage}`).its('status').should('eq', 200);
 
     login(
@@ -292,7 +289,7 @@ export function testAsLoggedInUser() {
     closeDialog();
 
     const loginPage = waitForPage('/login', 'getLoginPage');
-    cy.getByText(/Sign in \/ Register/i).click();
+    cy.get('cx-login [role="link"]').click();
     cy.wait(`@${loginPage}`).its('status').should('eq', 200);
 
     login(

@@ -1,6 +1,5 @@
 import { Component, TemplateRef } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FeaturesConfig } from '@spartacus/core';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
 import { OutletDirective } from '../outlet.directive';
@@ -56,24 +55,22 @@ function refreshOutlet(fixture: ComponentFixture<TestContainerComponent>) {
 describe('OutletRefDirective', () => {
   let service: OutletService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [],
-      declarations: [
-        TestContainerComponent,
-        OutletDirective,
-        OutletRefDirective,
-      ],
-      providers: [
-        OutletService,
-        { provide: DeferLoaderService, useClass: MockDeferLoaderService },
-        {
-          provide: FeaturesConfig,
-          useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #8201
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [],
+        declarations: [
+          TestContainerComponent,
+          OutletDirective,
+          OutletRefDirective,
+        ],
+        providers: [
+          OutletService,
+          { provide: DeferLoaderService, useClass: MockDeferLoaderService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     service = TestBed.inject(OutletService);

@@ -18,7 +18,7 @@ import {
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { IntersectionOptions } from '../../../layout/loading/intersection.model';
-import { CmsComponentsService } from '../../services/cms-components.service';
+import { PageSlotService } from './page-slot.service';
 
 /**
  * The `PageSlotComponent` is used to render the CMS page slot and it's components.
@@ -42,7 +42,9 @@ export class PageSlotComponent implements OnInit, OnDestroy {
    * The position is used to find the CMS components for the page slot. It is also
    * added as an additional CSS class so that layout can be applied.
    */
-  @Input() set position(value: string) {
+  @HostBinding('attr.position')
+  @Input()
+  set position(value: string) {
     this.position$.next(value);
   }
   get position(): string {
@@ -97,8 +99,8 @@ export class PageSlotComponent implements OnInit, OnDestroy {
     protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
     protected elementRef: ElementRef,
-    protected cmsComponentsService: CmsComponentsService,
-    protected cd: ChangeDetectorRef
+    protected cd: ChangeDetectorRef,
+    protected pageSlotService: PageSlotService
   ) {}
 
   ngOnInit() {
@@ -160,10 +162,10 @@ export class PageSlotComponent implements OnInit, OnDestroy {
    * rendered instantly or whether it should be deferred.
    */
   getComponentDeferOptions(componentType: string): IntersectionOptions {
-    const deferLoading = this.cmsComponentsService.getDeferLoadingStrategy(
+    return this.pageSlotService.getComponentDeferOptions(
+      this.position,
       componentType
     );
-    return { deferLoading };
   }
 
   protected isDistinct(old: ContentSlotData, current: ContentSlotData) {

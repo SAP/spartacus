@@ -15,7 +15,7 @@ $caretSize: 7px;
     }
     &:not(:first-child) {
       padding-inline-start: 16px;
-      border-left: 1px solid var(--cx-color-secondary);
+      border-inline-start: 1px solid var(--cx-color-secondary);
     }
   }
   label {

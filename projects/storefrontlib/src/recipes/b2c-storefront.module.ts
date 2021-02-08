@@ -1,17 +1,15 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import {
-  provideConfig,
-  provideDefaultConfig,
-  provideDefaultConfigFactory,
-} from '@spartacus/core';
+import { provideConfig, provideDefaultConfig } from '@spartacus/core';
 import { CmsLibModule } from '../cms-components/cms-lib.module';
 import { StorefrontConfig } from '../storefront-config';
 import { layoutConfig, mediaConfig } from './config/index';
-import { defaultCmsContentConfig } from './config/static-cms-structure/default-cms-content.config';
+import { defaultCmsContentProviders } from './config/static-cms-structure';
 import { StorefrontModule } from './storefront.module';
 
 @NgModule({
   imports: [
+    HttpClientModule,
     StorefrontModule,
 
     // the cms lib module contains all components that added in the bundle
@@ -26,7 +24,7 @@ import { StorefrontModule } from './storefront.module';
     }),
     provideDefaultConfig(layoutConfig),
     provideDefaultConfig(mediaConfig),
-    provideDefaultConfigFactory(defaultCmsContentConfig),
+    ...defaultCmsContentProviders,
   ],
   exports: [StorefrontModule],
 })

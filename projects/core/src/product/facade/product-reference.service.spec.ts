@@ -2,24 +2,24 @@ import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import { ProductReference } from '../../model/product.model';
+import { Product, ProductReference } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
-import { PRODUCT_FEATURE, ProductsState } from '../store/product-state';
+import { ProductsState, PRODUCT_FEATURE } from '../store/product-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { ProductReferenceService } from './product-reference.service';
 
-describe('ReferenceService', () => {
+const mockProduct: Product = {
+  code: 'productCode',
+  name: 'testProduct',
+};
+const mockProductReferences: ProductReference[] = [
+  { referenceType: 'SIMILAR', target: mockProduct },
+  { referenceType: 'ACCESSORIES', target: mockProduct },
+];
+
+describe('ProductReferenceService', () => {
   let service: ProductReferenceService;
   let store: Store<ProductsState>;
-  const productCode = 'productCode';
-  const product = {
-    code: productCode,
-    name: 'testProduct',
-  };
-  const productReferences: ProductReference[] = [
-    { referenceType: 'SIMILAR', target: product },
-    { referenceType: 'ACCESSORIES', target: product },
-  ];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -45,33 +45,36 @@ describe('ReferenceService', () => {
     }
   ));
 
-  describe('get(productCode)', () => {
-    it('should be able to get product references', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(productReferences)
-      );
-      let result: ProductReference[];
-      service.get(productCode).subscribe((data) => {
-        result = data;
-      });
+  it('should be able to load product references', () => {
+    service.loadProductReferences(
+      mockProduct.code,
+      mockProductReferences[0].referenceType
+    );
 
-      expect(result).toEqual(productReferences);
-    });
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ProductActions.LoadProductReferences({
+        productCode: mockProduct.code,
+        referenceType: mockProductReferences[0].referenceType,
+        pageSize: undefined,
+      })
+    );
+  });
 
-    it('should be able to load product references', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(undefined)
-      );
-      service.get(productCode).subscribe().unsubscribe();
+  it('should be able to get product references', () => {
+    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+      of(mockProductReferences)
+    );
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new ProductActions.LoadProductReferences({
-          productCode: 'productCode',
-          referenceType: undefined,
-          pageSize: undefined,
-        })
-      );
-    });
+    let result: ProductReference[];
+    service
+      .getProductReferences(
+        mockProduct.code,
+        mockProductReferences[0].referenceType
+      )
+      .subscribe((data) => (result = data))
+      .unsubscribe();
+
+    expect(result).toEqual(mockProductReferences);
   });
 
   describe('cleanReferences', () => {

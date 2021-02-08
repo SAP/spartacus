@@ -14,7 +14,6 @@ import {
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { PromotionService } from '../../../shared/services/promotion/promotion.service';
-import { Item } from '../cart-shared/cart-item/cart-item.component';
 
 @Component({
   selector: 'cx-cart-details',
@@ -54,6 +53,7 @@ export class CartDetailsComponent implements OnInit {
 
     this.selectiveCartEnabled = this.selectiveCartService.isEnabled();
 
+    // TODO(#10547): Switch in 4.0 `selectiveCartService.getLoaded` to `selectiveCartService.isStable` method
     this.cartLoaded$ = combineLatest([
       this.activeCartService.isStable(),
       this.selectiveCartEnabled
@@ -74,7 +74,7 @@ export class CartDetailsComponent implements OnInit {
     );
   }
 
-  saveForLater(item: Item) {
+  saveForLater(item: OrderEntry) {
     if (this.loggedIn) {
       this.activeCartService.removeEntry(item);
       this.selectiveCartService.addEntry(item.product.code, item.quantity);

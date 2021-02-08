@@ -91,8 +91,8 @@ export function verifyPaymentCard(cardLength: number) {
 }
 
 export function setOtherPaymentToDefault() {
-  cy.get('cx-payment-methods .cx-card-link')
-    .getByText('Set as default')
+  cy.get('cx-payment-methods')
+    .findByText('Set as default')
     .click({ force: true });
 
   const firstCard = cy.get('.cx-payment-card').first();
@@ -102,7 +102,7 @@ export function setOtherPaymentToDefault() {
 }
 
 export function deletePayment() {
-  cy.getAllByText('Delete').first().click({ force: true });
+  cy.findAllByText('Delete').first().click({ force: true });
 
   // should see confirmation message
   cy.get('.cx-card-delete-msg').should(
@@ -110,16 +110,12 @@ export function deletePayment() {
     'Are you sure you want to delete this payment method?'
   );
 
-  // click cancel
   cy.get('.btn-secondary').should('contain', 'Cancel');
   cy.get('.btn-secondary').click({ force: true });
-  cy.get('.cx-card-body__delete-ms').should(
-    'not.contain',
-    'Are you sure you want to delete this payment method?'
-  );
+  cy.get('.cx-card-body__delete-ms').should('not.exist');
 
   // delete the payment
-  cy.getAllByText('Delete').first().click({ force: true });
+  cy.findAllByText('Delete').first().click({ force: true });
   cy.get('.btn-primary').should('contain', 'Delete');
   cy.get('.btn-primary').click({ force: true });
   cy.get('.cx-payment-card').should('have.length', 1);
@@ -203,8 +199,8 @@ function addPaymentMethod(paymentDetail: PaymentDetail) {
         )}/users/current/carts/${cartid}/paymentdetails`,
         headers: {
           Authorization: `bearer ${
-            JSON.parse(localStorage.getItem('spartacus-local-data')).auth
-              .userToken.token.access_token
+            JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token
+              .access_token
           }`,
         },
         body: paymentDetail,

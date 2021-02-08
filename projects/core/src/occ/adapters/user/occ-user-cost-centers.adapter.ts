@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { COST_CENTERS_NORMALIZER } from '../../../cost-center/connectors/cost-center/converters';
@@ -19,13 +19,8 @@ export class OccUserCostCenterAdapter implements UserCostCenterAdapter {
   ) {}
 
   loadActiveList(userId: string): Observable<EntitiesModel<CostCenter>> {
-    // TODO(#8877): Use configurable endpoints
-    const params = new HttpParams().set(
-      'fields',
-      'DEFAULT,unit(BASIC,addresses(DEFAULT))'
-    );
     return this.http
-      .get<Occ.CostCentersList>(this.getCostCentersEndpoint(userId), { params })
+      .get<Occ.CostCentersList>(this.getCostCentersEndpoint(userId))
       .pipe(this.converter.pipeable(COST_CENTERS_NORMALIZER));
   }
 
@@ -33,6 +28,6 @@ export class OccUserCostCenterAdapter implements UserCostCenterAdapter {
     userId: string,
     params?: SearchConfig
   ): string {
-    return this.occEndpoints.getUrl('costCenters', { userId }, params);
+    return this.occEndpoints.getUrl('getActiveCostCenters', { userId }, params);
   }
 }

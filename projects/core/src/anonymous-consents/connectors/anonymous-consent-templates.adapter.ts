@@ -10,6 +10,5 @@ export abstract class AnonymousConsentTemplatesAdapter {
   /**
    * Loads anonymous consents in an optimal way.
    */
-  // TODO{#8158} - make this method required by removing the the `?` after the method name
-  abstract loadAnonymousConsents?(): Observable<AnonymousConsent[]>;
+  abstract loadAnonymousConsents(): Observable<AnonymousConsent[]>;
 }

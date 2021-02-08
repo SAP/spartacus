@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "factory": "./add-organization/index#addSpartacusOrganization",
+      "description": "Add and configure Spartacus' Organization library",
+      "schema": "./add-organization/schema.json",
+      "private": true,
+      "hidden": true,
+      "aliases": ["install"]
+    }
+  }
+}

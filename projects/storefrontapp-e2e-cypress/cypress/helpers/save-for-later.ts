@@ -116,7 +116,7 @@ export function validateCartPromotion(hasPromotion: boolean) {
 
 export function validateCart(qtyInCart: Number, qtyInSavedCart: Number) {
   if (qtyInCart === 0) {
-    cy.getByText('Your shopping cart is empty').should('exist');
+    cy.findByText('Your shopping cart is empty').should('exist');
   } else {
     cy.get('cx-cart-details cx-cart-item-list .cx-item-list-row').should(
       'have.length',
@@ -143,11 +143,11 @@ export function addProductToCart(product) {
   cy.visit(`/product/${product.code}`);
 
   cy.get('cx-add-to-cart')
-    .getAllByText(/Add To Cart/i)
+    .findAllByText(/Add To Cart/i)
     .click();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-code').should('contain', product.code);
-    cy.getByText(/view cart/i).click();
+    cy.findByText(/view cart/i).click();
   });
   validateProduct(product, 1, ItemList.Cart);
 }
