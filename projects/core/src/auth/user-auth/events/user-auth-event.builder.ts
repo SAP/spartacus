@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ofType } from '@ngrx/effects';
-import { ActionsSubject } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map, pairwise, withLatestFrom } from 'rxjs/operators';
 import { EventService } from '../../../event/event.service';
-import { StateEventService } from '../../../state/event/state-event.service';
+import {
+  ActionToEventMappingService,
+  StateEventService,
+} from '../../../state/event/index';
 import { UserService } from '../../../user/facade/user.service';
 import { createFrom } from '../../../util/create-from';
 import { AuthActions } from '../store/actions/index';
@@ -17,7 +18,7 @@ export class UserAuthEventBuilder {
   constructor(
     protected stateEventService: StateEventService,
     protected userService: UserService,
-    protected actionsSubject: ActionsSubject,
+    protected actionToEventMapping: ActionToEventMappingService,
     protected eventService: EventService
   ) {
     this.register();
@@ -52,7 +53,7 @@ export class UserAuthEventBuilder {
    * Returns logout event stream
    */
   protected buildLogoutEvent(): Observable<LogoutEvent> {
-    return this.getAction(AuthActions.LOGOUT).pipe(
+    return this.actionToEventMapping.getAction(AuthActions.LOGOUT).pipe(
       withLatestFrom(
         this.userService.get().pipe(
           pairwise(),
@@ -61,16 +62,5 @@ export class UserAuthEventBuilder {
       ),
       map(() => createFrom(LogoutEvent, {}))
     );
-  }
-
-  /**
-   * Returns a stream of actions only of a given type(s)
-   *
-   * @param actionType type(s) of actions
-   */
-  protected getAction(
-    actionType: string | string[]
-  ): Observable<{ type: string; payload?: any }> {
-    return this.actionsSubject.pipe(ofType(...[].concat(actionType)));
   }
 }

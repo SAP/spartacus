@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { User } from '@spartacus/core';
-import { EventService } from 'projects/core/src/event';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { EventService } from '../../../event/event.service';
+import { User } from '../../../model/misc.model';
 import { UserService } from '../../../user/facade/user.service';
 import { AuthActions } from '../store/actions';
 import { UserAuthEventBuilder } from './user-auth-event.builder';
@@ -15,8 +15,8 @@ class MockUserService implements Partial<UserService> {
 }
 
 describe('UserAuthEventBuilder', () => {
-  let eventService: EventService;
   let actions$: Subject<Action>;
+  let eventService: EventService;
 
   beforeEach(() => {
     actions$ = new Subject();
