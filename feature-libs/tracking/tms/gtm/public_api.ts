@@ -1,2 +1,2 @@
-export * from './default-gtm.config';
+export * from './config/index';
 export * from './gtm-collector.service';
