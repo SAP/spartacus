@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -14,6 +14,10 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxComponent } from './search-box.component';
+import {
+  SearchBoxProductSelectedEvent,
+  SearchBoxSuggestionSelectedEvent,
+} from './search-box.events';
 import { SearchResults } from './search-box.model';
 
 const mockSearchBoxComponentData: CmsSearchBoxComponent = {
@@ -96,7 +100,8 @@ describe('SearchBoxComponent', () => {
     return <HTMLElement>document.activeElement;
   }
 
-  class SearchBoxComponentServiceSpy {
+  class SearchBoxComponentServiceSpy
+    implements Partial<SearchBoxComponentService> {
     launchSearchPage = jasmine.createSpy('launchSearchPage');
     getResults = jasmine.createSpy('search').and.callFake(() =>
       of(<SearchResults>{
@@ -109,7 +114,12 @@ describe('SearchBoxComponent', () => {
         ],
       })
     );
-
+    dispatchSuggestionSelectedEvent = jasmine.createSpy(
+      'dispatchSuggestionSelectedEvent'
+    );
+    dispatchProductSelectedEvent = jasmine.createSpy(
+      'dispatchSuggestionSelectedEvent'
+    );
     search() {}
     toggleBodyClass() {}
   }
@@ -388,6 +398,34 @@ describe('SearchBoxComponent', () => {
             By.css('.results div:nth-child(2) > a:last-child')
           ).nativeElement
         ).toBe(getFocusedElement());
+      });
+    });
+
+    describe('Events', () => {
+      it('should dispatch suggestion selected event', () => {
+        const mockEventData: SearchBoxSuggestionSelectedEvent = {
+          freeText: 'camera',
+          selectedSuggestion: 'camera',
+          searchSuggestions: [{ value: 'camera' }, { value: 'camileo' }],
+        };
+
+        searchBoxComponent.dispatchSuggestionEvent(mockEventData);
+
+        expect(serviceSpy.dispatchSuggestionSelectedEvent).toHaveBeenCalledWith(
+          mockEventData
+        );
+      });
+      it('should dispatch product selected event', () => {
+        const mockEventData: SearchBoxProductSelectedEvent = {
+          freeText: 'camera',
+          productCode: '12345',
+        };
+
+        searchBoxComponent.dispatchProductEvent(mockEventData);
+
+        expect(serviceSpy.dispatchProductSelectedEvent).toHaveBeenCalledWith(
+          mockEventData
+        );
       });
     });
   });

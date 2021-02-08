@@ -16,6 +16,10 @@ import { map, switchMap, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
+import {
+  SearchBoxProductSelectedEvent,
+  SearchBoxSuggestionSelectedEvent,
+} from './search-box.events';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
 
 const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
@@ -136,6 +140,24 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    */
   open(): void {
     this.searchBoxComponentService.toggleBodyClass('searchbox-is-active', true);
+  }
+
+  /**
+   * Dispatch UI events for Suggestion selected
+   *
+   * @param eventData the data for the event
+   */
+  dispatchSuggestionEvent(eventData: SearchBoxSuggestionSelectedEvent): void {
+    this.searchBoxComponentService.dispatchSuggestionSelectedEvent(eventData);
+  }
+
+  /**
+   * Dispatch UI events for Product selected
+   *
+   * @param eventData the data for the event
+   */
+  dispatchProductEvent(eventData: SearchBoxProductSelectedEvent): void {
+    this.searchBoxComponentService.dispatchProductSelectedEvent(eventData);
   }
 
   /**
