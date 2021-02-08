@@ -143,7 +143,7 @@ To handle CSS changes, we print a link to the CSS migration documentation, where
 The following is an example flow for adding a migration:
 
 - Check whether any of the changed files are exported in the public API. If no, then no further action is required.
-- Check whether any of the changes you have made are breaking changes. If not, no further action is required. For more information, see [Maintaining Public APIs]({{ site.baseurl }}{% link _pages/contributing/breaking-changes.md %}).
+- Check whether any of the changes you have made are breaking changes. If not, no further action is required. For more information, see [Maintaining Public APIs](https://sap.github.io/spartacus-docs/breaking-changes/).
 - For every breaking change, you must do the following:
   - Document the breaking change by updating the corresponding migration doc file (such as `docs/migration/3_0.md`), and if necessary, ensure that code comments have been added.
   - Build automation tasks, as described in the [Validations](#validations), [Constructor Deprecation](#constructor-deprecation), and [Component Deprecation](#component-deprecation)) sections, above.
