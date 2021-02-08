@@ -4,7 +4,7 @@ import { filter, map, pairwise } from 'rxjs/operators';
 import { EventService } from '../../event/event.service';
 import { Breadcrumb } from '../../model/product-search.model';
 import { createFrom } from '../../util/create-from';
-import { ProductSearchService } from '../facade';
+import { ProductSearchService } from '../facade/product-search.service';
 import { FacetChangedEvent } from './product.events';
 
 @Injectable({
@@ -18,7 +18,7 @@ export class ProductEventBuilder {
     this.register();
   }
 
-  protected register() {
+  protected register(): void {
     this.eventService.register(
       FacetChangedEvent,
       this.buildFacetChangedEvent()
@@ -32,7 +32,7 @@ export class ProductEventBuilder {
         if (prev && Object.keys(prev).length !== 0) {
           const isCategory =
             curr.breadcrumbs[0]?.facetCode === 'allCategories' &&
-            prev.breadcrumbs[0]?.facetCode === curr.breadcrumbs[0].facetCode &&
+            prev.breadcrumbs[0]?.facetCode === curr.breadcrumbs[0]?.facetCode &&
             prev.breadcrumbs[0].facetValueCode ===
               curr.breadcrumbs[0].facetValueCode;
 
@@ -47,7 +47,6 @@ export class ProductEventBuilder {
         const toggled =
           this.getToggledBreadcrumb(curr.breadcrumbs, prev.breadcrumbs) ||
           this.getToggledBreadcrumb(prev.breadcrumbs, curr.breadcrumbs);
-
         if (toggled) {
           return createFrom(FacetChangedEvent, {
             code: toggled.facetCode,
