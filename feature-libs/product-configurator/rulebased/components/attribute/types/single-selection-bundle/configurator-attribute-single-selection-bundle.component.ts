@@ -94,4 +94,39 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
       this.onHandleQuantity(eventObject.quantity);
     }
   }
+
+  getSelectedValuePrice(
+    attribute: Configurator.Attribute
+  ): Configurator.PriceDetails | undefined {
+    return attribute?.values?.find((value) => value?.selected)?.valuePrice;
+  }
+
+  getSelectedValuePriceTotal(
+    attribute: Configurator.Attribute
+  ): Configurator.PriceDetails | undefined {
+    return attribute?.values?.find((value) => value?.selected)?.valuePriceTotal;
+  }
+
+  getProductPrice(
+    attribute: Configurator.Attribute
+  ): Configurator.PriceDetails | number {
+    return (
+      attribute?.quantity &&
+      this.getSelectedValuePrice(attribute) &&
+      this.getSelectedValuePriceTotal(attribute)
+    );
+  }
+
+  setFormula(
+    quantity?: number,
+    price?: Configurator.PriceDetails,
+    priceTotal?: Configurator.PriceDetails
+  ) {
+    return {
+      quantity: quantity,
+      price: price,
+      priceTotal: priceTotal,
+      isLightedUp: true,
+    };
+  }
 }

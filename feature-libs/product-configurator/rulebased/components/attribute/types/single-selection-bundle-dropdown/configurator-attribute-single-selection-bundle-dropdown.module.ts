@@ -7,6 +7,7 @@ import { NgModule } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ConfiguratorAttributeProductCardModule } from '../../product-card/configurator-attribute-product-card.module';
 import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator-attribute-quantity.module';
+import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator
     NgSelectModule,
     ReactiveFormsModule,
     ConfiguratorAttributeQuantityModule,
+    ConfiguratorPriceModule,
   ],
   declarations: [ConfiguratorAttributeSingleSelectionBundleDropdownComponent],
   exports: [ConfiguratorAttributeSingleSelectionBundleDropdownComponent],

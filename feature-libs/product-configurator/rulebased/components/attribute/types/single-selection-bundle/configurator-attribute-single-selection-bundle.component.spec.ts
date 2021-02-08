@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -12,16 +12,48 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 
+let testAttribute: Configurator.Attribute;
+
+const createTestValue = (
+  price: number,
+  total: number,
+  selected = true
+): Configurator.Value => ({
+  selected,
+  valuePrice: {
+    currencyIso: '$',
+    formattedValue: price ? '$' + price : '',
+    value: price,
+  },
+  valuePriceTotal: {
+    currencyIso: '$',
+    formattedValue: price ? '$' + price : '',
+    value: total,
+  },
+});
+
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   template: '',
 })
 class MockProductCardComponent {}
 
+@Component({
+  // tslint:disable-next-line: component-selector
+  selector: 'cx-configurator-price',
+  template: '',
+})
+class MockConfiguratorPriceComponent {
+  @Input() productPrice: number;
+  @Input() quantity = 1;
+  @Input() totalPrice: number;
+}
+
 class MockConfiguratorAttributeQuantityService {
   disableQuantityActions(value): boolean {
     return !value || value === '0';
   }
+
   withQuantity(
     dataType: Configurator.DataType,
     uiType: Configurator.UiType
@@ -96,6 +128,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
           ConfiguratorShowMoreComponent,
           ItemCounterComponent,
           MockProductCardComponent,
+          MockConfiguratorPriceComponent,
         ],
       })
         .overrideComponent(
@@ -273,30 +306,198 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
     expect(component.onDeselect).toHaveBeenCalled();
   });
 
-  // HTML
+  describe('selected value price calculation', () => {
+    describe('should return number', () => {
+      it('on selected value only', () => {
+        testAttribute = {
+          name: 'testAttribute',
+          values: [createTestValue(100, 100)],
+        };
 
-  it('should not display attribute quantity when dataType is no quantity', () => {
-    component.attribute.dataType = Configurator.DataType.USER_SELECTION_NO_QTY;
+        const valuePrice = component.getSelectedValuePrice(testAttribute);
+        expect(valuePrice.value).toEqual(100);
+      });
 
-    fixture.detectChanges();
+      it('on selected value', () => {
+        testAttribute = {
+          name: 'testAttribute',
+          values: [createTestValue(100, 100), createTestValue(100, 100, false)],
+        };
 
-    CommonConfiguratorTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      'cx-configurator-attribute-quantity'
-    );
+        const valuePrice = component.getSelectedValuePrice(testAttribute);
+        expect(valuePrice.value).toEqual(100);
+      });
+    });
+
+    describe('should not return price', () => {
+      it('without values property', () => {
+        testAttribute = {
+          name: 'testAttribute',
+        };
+
+        const valuePrice = component.getSelectedValuePrice(testAttribute);
+        expect(valuePrice).toBeUndefined();
+      });
+
+      it('without values', () => {
+        testAttribute = {
+          name: 'testAttribute',
+          values: [],
+        };
+
+        const valuePrice = component.getSelectedValuePrice(testAttribute);
+        expect(valuePrice).toBeUndefined();
+      });
+
+      it('without price property', () => {
+        testAttribute = {
+          name: 'testAttribute',
+          values: [createTestValue(undefined, undefined)],
+        };
+
+        const valuePrice = component.getSelectedValuePrice(testAttribute);
+        expect(valuePrice.value).toBeUndefined();
+      });
+    });
   });
 
-  it('should display attribute quantity when dataType is with attribute quantity', () => {
-    component.attribute.dataType =
-      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
+  describe('selected value price total calculation', () => {
+    describe('should return number', () => {
+      it('on selected value only', () => {
+        testAttribute = {
+          name: 'testAttribute',
+          values: [createTestValue(100, 100)],
+        };
 
-    fixture.detectChanges();
+        const valuePriceTotal = component.getSelectedValuePriceTotal(
+          testAttribute
+        );
+        expect(valuePriceTotal.value).toEqual(100);
+      });
 
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      'cx-configurator-attribute-quantity'
-    );
+      it('on selected value', () => {
+        testAttribute = {
+          name: 'testAttribute',
+          values: [createTestValue(100, 100), createTestValue(200, 200, false)],
+        };
+
+        const valuePriceTotal = component.getSelectedValuePriceTotal(
+          testAttribute
+        );
+
+        expect(valuePriceTotal.value).toEqual(100);
+      });
+    });
+
+    describe('should not return number', () => {
+      it('without values property', () => {
+        testAttribute = {
+          name: 'testAttribute',
+        };
+
+        const valuePriceTotal = component.getSelectedValuePriceTotal(
+          testAttribute
+        );
+
+        expect(valuePriceTotal).toBeUndefined();
+      });
+
+      it('without values', () => {
+        testAttribute = {
+          name: 'testAttribute',
+          values: [],
+        };
+
+        const valuePriceTotal = component.getSelectedValuePriceTotal(
+          testAttribute
+        );
+
+        expect(valuePriceTotal).toBeUndefined();
+      });
+
+      it('without price property', () => {
+        testAttribute = {
+          name: 'testAttribute',
+          values: [createTestValue(undefined, undefined)],
+        };
+
+        const valuePriceTotal = component.getSelectedValuePriceTotal(
+          testAttribute
+        );
+
+        expect(valuePriceTotal.value).toBeUndefined();
+      });
+    });
+  });
+
+  describe('quantity at attribute level', () => {
+    it('should not display attribute quantity when dataType is no quantity', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_NO_QTY;
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-quantity'
+      );
+    });
+
+    it('should display attribute quantity when dataType is with attribute quantity', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-quantity'
+      );
+    });
+  });
+
+  describe('price info at attribute level', () => {
+    it('should not display price component', () => {
+      component.attribute.quantity = undefined;
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_NO_QTY;
+      component.attribute.values[0].valuePrice = undefined;
+      component.attribute.values[0].valuePriceTotal = undefined;
+      fixture.detectChanges();
+
+      expect(component.getProductPrice(component.attribute)).toBeUndefined();
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-price'
+      );
+    });
+
+    it('should display price component', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
+      component.attribute.quantity = 5;
+      component.attribute.values[0].valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$10',
+        value: 10,
+      };
+      component.attribute.values[0].valuePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '$100',
+        value:
+          component.attribute.values[0].valuePrice.value *
+          component.attribute.quantity,
+      };
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-price'
+      );
+    });
   });
 });
