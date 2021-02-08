@@ -8,11 +8,12 @@
       removeBullet: !isParentDisabled(item) || disabledCreateMessage
     }"
   >
-    <li *ngIf="disabledCreateMessage">
-      {{ i18nRoot + '.messages.disabledCreate' | cxTranslate }}
-    </li>
-    <li *ngIf="!disabledCreateMessage">
-      {{ i18nRoot + '.messages.disabledEdit' | cxTranslate }}
+    <li>
+      {{
+        disabledCreateMessage
+          ? (i18nRoot + '.messages.disabledCreate' | cxTranslate)
+          : (i18nRoot + '.messages.disabledEdit' | cxTranslate)
+      }}
     </li>
     <li *ngIf="isParentDisabled(item) && !disabledCreateMessage">
       {{ i18nRoot + '.messages.disabledParent' | cxTranslate }}
