@@ -32,7 +32,7 @@ export class ConfigureProductComponent {
     CommonConfigurator.OwnerType.PRODUCT;
 
   constructor(
-    @Optional() protected productListItemContext: ProductListItemContext,
-    @Optional() protected currentProductService: CurrentProductService
+    @Optional() protected productListItemContext: ProductListItemContext, // when on PLP
+    @Optional() protected currentProductService: CurrentProductService // when on PDP
   ) {}
 }
