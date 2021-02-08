@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { CxEvent } from '@spartacus/core';
-import { TmsCollector, WindowObject } from '../model/tms.model';
-import { TmsCollectorConfig } from './tms-config';
+import {
+  TmsCollector,
+  TmsCollectorConfig,
+  WindowObject,
+} from '@spartacus/tracking/tms/core';
 
 /**
  * Default Adobe Experience Platform collector.

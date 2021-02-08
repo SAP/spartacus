@@ -3,6 +3,7 @@ import {
   Inject,
   Injectable,
   Injector,
+  isDevMode,
   OnDestroy,
   PLATFORM_ID,
 } from '@angular/core';
@@ -43,6 +44,15 @@ export class TmsService implements OnDestroy {
       const events =
         collectorConfig.events?.map((event) => this.eventsService.get(event)) ||
         [];
+
+      if (!collectorConfig.collector) {
+        if (isDevMode()) {
+          console.warn(
+            `Skipping the '${tmsCollectorConfig}', as the collector is not defined.`
+          );
+        }
+        continue;
+      }
 
       const collector = this.injector.get<TmsCollector>(
         collectorConfig.collector

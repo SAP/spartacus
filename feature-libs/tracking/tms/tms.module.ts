@@ -1,9 +1,8 @@
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { provideConfig, provideDefaultConfig } from '@spartacus/core';
-import { defaultAdobeLaunchConfig } from './config/default-aep.config';
-import { defaultGoogleTagManagerConfig } from './config/default-gtm.config';
-import { TmsConfig } from './config/tms-config';
-import { TmsService } from './services/tms.service';
+import { defaultAdobeExperiencePlatformConfig } from '@spartacus/tracking/tms/aep';
+import { TmsConfig, TmsService } from '@spartacus/tracking/tms/core';
+import { defaultGoogleTagManagerConfig } from '@spartacus/tracking/tms/gtm';
 
 /**
  * The factory that conditionally (based on the configuration) starts collecting events
@@ -28,7 +27,7 @@ export class TmsModule {
     return {
       ngModule: TmsModule,
       providers: [
-        provideDefaultConfig(defaultAdobeLaunchConfig),
+        provideDefaultConfig(defaultAdobeExperiencePlatformConfig),
         provideDefaultConfig(defaultGoogleTagManagerConfig),
         provideConfig(config),
       ],
