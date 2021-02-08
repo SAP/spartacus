@@ -10,22 +10,22 @@ import { Observable, of } from 'rxjs';
 const mockState = {
   state: {
     params: {
-      productCode: 'testCode'
-    }
-  }
-}
+      productCode: 'testCode',
+    },
+  },
+};
 
 const mockTierWithMaxQuantity: BulkPrice = {
-  minQuantity : 1,
-  maxQuantity : 5,
+  minQuantity: 1,
+  maxQuantity: 5,
   value: 200,
-  discount: 20
+  discount: 20,
 };
 
 const mockTierWithoutMaxQuantity: BulkPrice = {
-  minQuantity : 1,
+  minQuantity: 1,
   value: 200,
-  discount: 20
+  discount: 20,
 };
 class MockRoutingService implements Partial<RoutingService> {
   go() {}
@@ -34,7 +34,7 @@ class MockRoutingService implements Partial<RoutingService> {
   }
 }
 
-class MockBulkPricesService implements Partial<BulkPricesService>  {
+class MockBulkPricesService implements Partial<BulkPricesService> {
   getBulkPrices(): Observable<BulkPrice[]> {
     return of([]);
   }
@@ -46,7 +46,6 @@ describe('BulkPricingTableComponent', () => {
   let bulkPricesService: BulkPricesService;
 
   beforeEach(() => {
-
     TestBed.configureTestingModule({
       declarations: [BulkPricingTableComponent],
       providers: [
@@ -71,14 +70,18 @@ describe('BulkPricingTableComponent', () => {
   describe('formatQuantity', () => {
     it('should format mockTierWithMaxQuantity', () => {
       const expectedFormattedQuantity = '1 - 5';
-      const formattedQuantity = component.formatQuantity(mockTierWithMaxQuantity);
+      const formattedQuantity = component.formatQuantity(
+        mockTierWithMaxQuantity
+      );
 
       expect(formattedQuantity).toBe(expectedFormattedQuantity);
     });
 
     it('should format mockTierWithoutMaxQuantity', () => {
       const expectedFormattedQuantity = '1+';
-      const formattedQuantity = component.formatQuantity(mockTierWithoutMaxQuantity);
+      const formattedQuantity = component.formatQuantity(
+        mockTierWithoutMaxQuantity
+      );
 
       expect(formattedQuantity).toBe(expectedFormattedQuantity);
     });
@@ -88,9 +91,10 @@ describe('BulkPricingTableComponent', () => {
     it('should call getBulkPrices with a right parameter', () => {
       spyOn(bulkPricesService, 'getBulkPrices');
 
-      component.getPrices()
-      .subscribe(() => {})
-      .unsubscribe();
+      component
+        .getPrices()
+        .subscribe(() => {})
+        .unsubscribe();
 
       expect(bulkPricesService.getBulkPrices).toHaveBeenCalledWith('testCode');
     });

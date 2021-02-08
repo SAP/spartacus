@@ -58,8 +58,8 @@ export class BulkPricesService {
 
     const tierPrice = bulkPriceTemplate.value;
     const discount = Math.round(100.0 - (tierPrice / basePrice) * 100);
-    
-    const formatted = (discount === 0) ? `${discount}%` : `-${discount}%`;
+
+    const formatted = discount === 0 ? `${discount}%` : `-${discount}%`;
     bulkPrice.formattedDiscount = formatted;
     bulkPrice.discount = discount;
 
