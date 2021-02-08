@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 ENDPOINT="gilberto-alvarado-spartacus-default.moovweb-edge.io"
 ANGULAR_CLI_VERSION='~10.1.0'
