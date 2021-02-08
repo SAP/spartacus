@@ -12,16 +12,18 @@ export function moduleInitializersFactory(
   moduleInitializerFunctions: (() => any)[]
 ): () => any {
   return () => {
-    Promise.all(
-      lazyModuleService.runModuleInitializerFunctions(
-        moduleInitializerFunctions
-      )
-    ).catch((error) =>
+    const asyncInitPromises: Promise<
+      any
+    >[] = lazyModuleService.runModuleInitializerFunctions(
+      moduleInitializerFunctions
+    );
+    Promise.all(asyncInitPromises).catch((error) => {
       console.error(
         `MODULE_INITIALIZER promise was rejected when app was initialized: `,
         error
-      )
-    );
+      );
+      throw error;
+    });
   };
 }
 

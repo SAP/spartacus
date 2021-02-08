@@ -15,6 +15,7 @@ import {
   of,
   queueScheduler,
   Subscription,
+  throwError,
 } from 'rxjs';
 import {
   catchError,
@@ -145,7 +146,7 @@ export class LazyModulesService implements OnDestroy {
       [],
       InjectFlags.Self
     );
-    const asyncInitPromises = this.runModuleInitializerFunctions(moduleInits);
+    const asyncInitPromises: Promise<any>[] = this.runModuleInitializerFunctions(moduleInits);
     if (asyncInitPromises.length) {
       return from(Promise.all(asyncInitPromises)).pipe(
         catchError((error) => {
@@ -153,7 +154,7 @@ export class LazyModulesService implements OnDestroy {
             `MODULE_INITIALIZER promise was rejected while lazy loading a module: `,
             error
           );
-          return of(error);
+          return throwError(error);
         }),
         switchMapTo(of(moduleRef))
       );
