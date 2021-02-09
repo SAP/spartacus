@@ -23,7 +23,7 @@ auth:
     file: ./htpasswd
     # Maximum amount of users allowed to register, defaults to "+inf".
     # You can set this to -1 to disable registration.
-    # max_users: 1000
+    max_users: -1
 
 # a list of other known repositories we can talk to
 uplinks:
@@ -33,9 +33,9 @@ uplinks:
 packages:
   '@*/*':
     # scoped packages
-    access: $all
-    publish: $all
-    unpublish: $all
+    access: $anonymous
+    publish: $anonymous
+    unpublish: $authenticated
     proxy: npmjs
 
   '**':
