@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'cx-configurator-price',
   templateUrl: './configurator-price.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorPriceComponent {
   @Input() formula: any = {

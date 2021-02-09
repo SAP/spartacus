@@ -1,9 +1,12 @@
 .cx-product-card {
-  border-block-end: 1px solid var(--cx-color-background);
-  margin-block-end: 16px;
+  border-block-start: 1px solid var(--cx-color-light);
   padding-block-start: 16px;
   padding-block-end: 16px;
   width: 100%;
+
+  &:last-of-type {
+    border-block-end: 1px solid var(---cx-color-light);
+  }
 
   @include media-breakpoint-down(sm) {
     padding-inline-start: 16px;
