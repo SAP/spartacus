@@ -41,9 +41,6 @@ export class TmsService implements OnDestroy {
     for (const tmsCollectorConfig in this.tmsConfig.tagManager) {
       const collectorConfig =
         this.tmsConfig.tagManager[tmsCollectorConfig] ?? {};
-      const events =
-        collectorConfig.events?.map((event) => this.eventsService.get(event)) ||
-        [];
 
       if (!collectorConfig.collector) {
         if (isDevMode()) {
@@ -54,6 +51,9 @@ export class TmsService implements OnDestroy {
         continue;
       }
 
+      const events =
+        collectorConfig.events?.map((event) => this.eventsService.get(event)) ||
+        [];
       const collector = this.injector.get<TmsCollector>(
         collectorConfig.collector
       );
