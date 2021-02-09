@@ -1,2 +1,8 @@
+# verdaccio storage
+install/storage
+
+# Environment config file
+install/config.sh
+
 *.map
 *.d.ts
