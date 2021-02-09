@@ -4,11 +4,11 @@ import {
   CartRemoveEntrySuccessEvent,
 } from '@spartacus/core';
 import { NavigationEvent } from '@spartacus/storefront';
-import { TmsModule } from '@spartacus/tracking/tms';
+import { TmsCoreModule } from '@spartacus/tracking/tms/core';
 
 @NgModule({
   imports: [
-    TmsModule.forRoot({
+    TmsCoreModule.forRoot({
       tagManager: {
         gtm: {
           events: [NavigationEvent, CartAddEntrySuccessEvent],

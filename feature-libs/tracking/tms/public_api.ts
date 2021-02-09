@@ -1,1 +1,1 @@
-export * from './tms.module';
+export {};
