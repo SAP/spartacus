@@ -10,7 +10,7 @@
     "inlineSources": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "types": [], 
+    "types": [],
     "lib": ["dom", "esnext"],
     "paths": {}
   },

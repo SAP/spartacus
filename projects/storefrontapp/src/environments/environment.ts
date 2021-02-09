@@ -8,7 +8,7 @@ import { Environment } from './models/environment.model';
 export const environment: Environment = {
   production: false,
   occBaseUrl:
-    "https://spartacus-dev2.eastus.cloudapp.azure.com:9002" ??
+    'https://spartacus-dev2.eastus.cloudapp.azure.com:9002' ??
     'https://spartacus-dev2.eastus.cloudapp.azure.com:9002',
   occApiPrefix: '/occ/v2/',
   cds: false ?? false,

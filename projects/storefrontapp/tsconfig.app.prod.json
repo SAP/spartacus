@@ -33,7 +33,6 @@
         "dist/organization/order-approval/root"
       ],
 
-
       "@spartacus/product/bulk-pricing/assets": [
         "dist/product/bulk-pricing/assets"
       ],
@@ -48,7 +47,7 @@
       "@spartacus/product-configurator": ["dist/product-configurator"],
       "@spartacus/product-configurator/common": [
         "dist/product-configurator/common"
-      ],     
+      ],
 
       "@spartacus/product-configurator/common/assets": [
         "dist/product-configurator/common/assets"

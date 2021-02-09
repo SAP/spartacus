@@ -88,7 +88,11 @@ import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module
 const featureModules = [];
 
 if (environment.b2b) {
-  featureModules.push(AdministrationFeatureModule, OrderApprovalFeatureModule, BulkPricingFeatureModule);
+  featureModules.push(
+    AdministrationFeatureModule,
+    OrderApprovalFeatureModule,
+    BulkPricingFeatureModule
+  );
 }
 if (environment.cdc) {
   featureModules.push(CdcFeatureModule);
