@@ -1,7 +1,5 @@
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
-import { provideConfig, provideDefaultConfig } from '@spartacus/core';
-import { defaultAdobeExperiencePlatformConfig } from '@spartacus/tracking/tms/aep';
-import { defaultGoogleTagManagerConfig } from '@spartacus/tracking/tms/gtm';
+import { provideConfig } from '@spartacus/core';
 import { TmsConfig } from './config/tms-config';
 import { TmsService } from './services/tms.service';
 
@@ -25,8 +23,6 @@ export class TmsCoreModule {
           deps: [TmsService],
           multi: true,
         },
-        provideDefaultConfig(defaultAdobeExperiencePlatformConfig),
-        provideDefaultConfig(defaultGoogleTagManagerConfig),
         provideConfig(config),
       ],
     };
