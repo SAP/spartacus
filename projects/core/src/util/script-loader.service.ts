@@ -43,7 +43,7 @@ export class ScriptLoader {
       placement = ScriptPlacement.HEAD,
     } = embedOptions;
 
-    const isSSR = this.platformId && isPlatformServer(this.platformId);
+    const isSSR = isPlatformServer(this.platformId);
     if ((callback || errorCallback) && isSSR) {
       return;
     }

@@ -2,8 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import {
   AuthService,
   BaseSiteService,
-  ExternalJsFileLoader,
   LanguageService,
+  ScriptLoader,
   User,
   UserService,
   WindowRef,
@@ -41,7 +41,7 @@ interface Window {
   gigya?: any;
 }
 
-class ExternalJsFileLoaderMock {
+class ScriptLoaderMock {
   public embedScript(_embedOptions: {
     _src: string;
     _params?: Object;
@@ -86,7 +86,7 @@ describe('CdcJsService', () => {
   let service: CdcJsService;
   let baseSiteService: BaseSiteService;
   let languageService: LanguageService;
-  let externalJsFileLoader: ExternalJsFileLoader;
+  let scriptLoader: ScriptLoader;
   let cdcAuth: CdcAuthService;
   let userService: UserService;
   let winRef: WindowRef;
@@ -98,7 +98,7 @@ describe('CdcJsService', () => {
         { provide: CdcConfig, useValue: sampleCdcConfig },
         { provide: BaseSiteService, useClass: BaseSiteServiceStub },
         { provide: LanguageService, useClass: LanguageServiceStub },
-        { provide: ExternalJsFileLoader, useClass: ExternalJsFileLoaderMock },
+        { provide: ScriptLoader, useClass: ScriptLoaderMock },
         { provide: CdcAuthService, useClass: MockCdcAuthService },
         { provide: UserService, useClass: MockUserService },
         { provide: WindowRef, useValue: mockedWindowRef },
@@ -110,7 +110,7 @@ describe('CdcJsService', () => {
     service = TestBed.inject(CdcJsService);
     baseSiteService = TestBed.inject(BaseSiteService);
     languageService = TestBed.inject(LanguageService);
-    externalJsFileLoader = TestBed.inject(ExternalJsFileLoader);
+    scriptLoader = TestBed.inject(ScriptLoader);
     cdcAuth = TestBed.inject(CdcAuthService);
     userService = TestBed.inject(UserService);
     authService = TestBed.inject(AuthService);
@@ -133,7 +133,7 @@ describe('CdcJsService', () => {
 
   describe('didLoad', () => {
     it('should return CDC script loading state', () => {
-      spyOn(externalJsFileLoader, 'embedScript').and.callFake(
+      spyOn(scriptLoader, 'embedScript').and.callFake(
         (embedOptions: { src; params; attributes; loadCb }) => {
           embedOptions.loadCb({} as Event);
         }
@@ -155,7 +155,7 @@ describe('CdcJsService', () => {
 
   describe('didScriptFailToLoad', () => {
     it('should return CDC script loading error state', () => {
-      spyOn(externalJsFileLoader, 'embedScript').and.callFake(
+      spyOn(scriptLoader, 'embedScript').and.callFake(
         (embedOptions: { src; params; attributes; callback; errorCb }) => {
           embedOptions.errorCb({} as Event);
         }
@@ -180,13 +180,13 @@ describe('CdcJsService', () => {
       const site = 'electronics-spa';
       const language = 'en';
 
-      spyOn(externalJsFileLoader, 'embedScript');
+      spyOn(scriptLoader, 'embedScript');
       spyOn(baseSiteService, 'getActive').and.returnValue(of(site));
       spyOn(languageService, 'getActive').and.returnValue(of(language));
 
       service.loadCdcJavascript();
 
-      expect(externalJsFileLoader.embedScript).toHaveBeenCalledWith({
+      expect(scriptLoader.embedScript).toHaveBeenCalledWith({
         src: 'sample-url&lang=en',
         params: undefined,
         attributes: { type: 'text/javascript' },
@@ -202,13 +202,13 @@ describe('CdcJsService', () => {
       const site = 'electronics';
       const language = 'en';
 
-      spyOn(externalJsFileLoader, 'embedScript');
+      spyOn(scriptLoader, 'embedScript');
       spyOn(baseSiteService, 'getActive').and.returnValue(of(site));
       spyOn(languageService, 'getActive').and.returnValue(of(language));
 
       service.initialize();
 
-      expect(externalJsFileLoader.embedScript).not.toHaveBeenCalled();
+      expect(scriptLoader.embedScript).not.toHaveBeenCalled();
     });
   });
 
@@ -217,7 +217,7 @@ describe('CdcJsService', () => {
       const site = 'electronics-spa';
       const language = 'en';
 
-      spyOn(externalJsFileLoader, 'embedScript').and.callFake(() => {
+      spyOn(scriptLoader, 'embedScript').and.callFake(() => {
         service['registerEventListeners']('electronics-spa');
       });
       spyOn(baseSiteService, 'getActive').and.returnValue(of(site));

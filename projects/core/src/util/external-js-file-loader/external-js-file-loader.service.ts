@@ -14,7 +14,7 @@ export class ExternalJsFileLoader {
   ) {}
 
   /**
-   * @deprecated since 3.2, use embedScript(embedOptions) instead
+   * @deprecated since 3.2, use ScriptLoader.embedScript(embedOptions) instead
    *
    * Loads a javascript from an external URL. Loading is skipped during SSR.
    * @param src URL for the script to be loaded

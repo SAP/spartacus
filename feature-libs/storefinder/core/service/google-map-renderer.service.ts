@@ -1,6 +1,6 @@
 /// <reference types="@types/googlemaps" />
 import { Injectable } from '@angular/core';
-import { ExternalJsFileLoader } from '@spartacus/core';
+import { ExternalJsFileLoader, ScriptLoader } from '@spartacus/core';
 import { StoreFinderConfig } from '../config/store-finder-config';
 import { StoreDataService } from '../facade/store-data.service';
 
@@ -14,7 +14,8 @@ export class GoogleMapRendererService {
   constructor(
     protected config: StoreFinderConfig,
     protected externalJsFileLoader: ExternalJsFileLoader,
-    protected storeDataService: StoreDataService
+    protected storeDataService: StoreDataService,
+    protected scriptLoader?: ScriptLoader
   ) {}
 
   /**
@@ -30,14 +31,24 @@ export class GoogleMapRendererService {
     selectMarkerHandler?: Function
   ): void {
     if (this.googleMap === null) {
-      this.externalJsFileLoader.embedScript({
-        src: this.config.googleMaps.apiUrl,
-        params: { key: this.config.googleMaps.apiKey },
-        attributes: { type: 'text/javascript' },
-        callback: () => {
-          this.drawMap(mapElement, locations, selectMarkerHandler);
-        },
-      });
+      if (this.scriptLoader) {
+        this.scriptLoader.embedScript({
+          src: this.config.googleMaps.apiUrl,
+          params: { key: this.config.googleMaps.apiKey },
+          attributes: { type: 'text/javascript' },
+          callback: () => {
+            this.drawMap(mapElement, locations, selectMarkerHandler);
+          },
+        });
+      } else {
+        this.externalJsFileLoader.load(
+          this.config.googleMaps.apiUrl,
+          { key: this.config.googleMaps.apiKey },
+          () => {
+            this.drawMap(mapElement, locations, selectMarkerHandler);
+          }
+        );
+      }
     } else {
       this.drawMap(mapElement, locations, selectMarkerHandler);
     }

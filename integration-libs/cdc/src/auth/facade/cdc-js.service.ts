@@ -11,6 +11,7 @@ import {
   BaseSiteService,
   ExternalJsFileLoader,
   LanguageService,
+  ScriptLoader,
   User,
   UserService,
   WindowRef,
@@ -38,7 +39,8 @@ export class CdcJsService implements OnDestroy {
     protected auth: AuthService,
     protected zone: NgZone,
     protected userService: UserService,
-    @Inject(PLATFORM_ID) protected platform: any
+    @Inject(PLATFORM_ID) protected platform: any,
+    protected scriptLoader?: ScriptLoader
   ) {}
 
   /**
@@ -80,18 +82,32 @@ export class CdcJsService implements OnDestroy {
             );
             if (scriptForBaseSite) {
               const javascriptUrl = `${scriptForBaseSite}&lang=${language}`;
-              this.externalJsFileLoader.embedScript({
-                src: javascriptUrl,
-                params: undefined,
-                attributes: { type: 'text/javascript' },
-                callback: () => {
-                  this.registerEventListeners(baseSite);
-                  this.loaded$.next(true);
-                },
-                errorCallback: () => {
-                  this.errorLoading$.next(true);
-                },
-              });
+              if (this.scriptLoader) {
+                this.scriptLoader.embedScript({
+                  src: javascriptUrl,
+                  params: undefined,
+                  attributes: { type: 'text/javascript' },
+                  callback: () => {
+                    this.registerEventListeners(baseSite);
+                    this.loaded$.next(true);
+                  },
+                  errorCallback: () => {
+                    this.errorLoading$.next(true);
+                  },
+                });
+              } else {
+                this.externalJsFileLoader.load(
+                  javascriptUrl,
+                  undefined,
+                  () => {
+                    this.registerEventListeners(baseSite);
+                    this.loaded$.next(true);
+                  },
+                  () => {
+                    this.errorLoading$.next(true);
+                  }
+                );
+              }
               this.winRef.nativeWindow['__gigyaConf'] = { include: 'id_token' };
             }
           })
