@@ -1,0 +1,31 @@
+%cx-configurator-price {
+  display: none;
+
+  &:not(:empty) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    .cx-quantity-price {
+      font-size: var(--cx-font-small, 0.9rem);
+    }
+
+    .cx-price,
+    .cx-quantity,
+    .cx-price-total {
+      font-weight: bold;
+    }
+
+    .cx-greyed-out {
+      color: var(--cx-color-light);
+    }
+
+    .cx-quantity {
+      display: flex;
+      flex-direction: row;
+      label {
+        padding-inline-end: 0.5rem;
+      }
+    }
+  }
+}

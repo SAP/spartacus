@@ -69,7 +69,7 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
     }
   }
 
-  onHandleQuantity(quantity): void {
+  onHandleQuantity(quantity: number): void {
     this.loading$.next(true);
 
     this.handleQuantity.emit({
@@ -85,6 +85,29 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
       images: {},
       name: value.valueDisplay,
       noLink: true,
+    };
+  }
+
+  getProductPrice(): Configurator.PriceDetails | number {
+    return (
+      this.product?.valuePrice ||
+      this.product?.quantity ||
+      this.product?.valuePriceTotal
+    );
+  }
+
+  extractPriceFormulaParameters() {
+    if (!this.multiSelect) {
+      return {
+        price: this.product.valuePrice,
+        isLightedUp: this.product.selected,
+      };
+    }
+    return {
+      quantity: this.product.quantity,
+      price: this.product.valuePrice,
+      priceTotal: this.product.valuePriceTotal,
+      isLightedUp: this.product.selected,
     };
   }
 }

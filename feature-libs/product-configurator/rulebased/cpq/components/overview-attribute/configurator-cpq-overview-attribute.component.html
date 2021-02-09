@@ -19,10 +19,10 @@
         {{ attributeOverview.productCode }}</span
       >
     </div>
-    <div class="cpq-attribute-label" *ngIf="attributeOverview?.attribute">
-      <span>{{ attributeOverview.attribute }}</span>
+    <div class="cpq-attribute-label">
+      <span>{{ attributeOverview?.attribute }}</span>
       <cx-configurator-price
-        [productPrice]="product?.price?.value"
+        [formula]="extractPriceFormulaParameters()"
       ></cx-configurator-price>
     </div>
   </div>
