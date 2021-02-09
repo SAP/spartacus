@@ -7,12 +7,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import {
-  distinctUntilKeyChanged,
-  filter,
-  map,
-  switchMap,
-} from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 
@@ -34,12 +29,14 @@ export class ConfiguratorOverviewNotificationBannerComponent {
     switchMap((routerData) =>
       this.configuratorCommonsService.getConfiguration(routerData.owner)
     ),
-    distinctUntilKeyChanged('configId'),
     map((configuration) => {
-      if (configuration.totalNumberOfIssues) {
+      if (configuration.overview?.totalNumberOfIssues) {
+        return configuration.overview.totalNumberOfIssues;
+      } else if (configuration.totalNumberOfIssues) {
         return configuration.totalNumberOfIssues;
       } else {
-        return this.countNumberOfIssues(configuration);
+        //TODO fix before merging to develop. We can never reach that line
+        return 0;
       }
     })
   );
@@ -51,31 +48,6 @@ export class ConfiguratorOverviewNotificationBannerComponent {
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService
   ) {}
-
-  /**
-   * Count number of issues for a configuration.
-   * This method will be removed when OCC returns the total number of issues.
-   * Our calculation does not cover all groups but only the currently selected
-   * one
-   * @param configuration Current configuration
-   * @returns Number of issues
-   */
-  countNumberOfIssues(configuration: Configurator.Configuration): number {
-    const numberOfConflicts = configuration.flatGroups.filter(
-      (group) => group.groupType === Configurator.GroupType.CONFLICT_GROUP
-    ).length;
-    let numberOfIncompleteFields = 0;
-    configuration.flatGroups
-      .filter(
-        (group) => group.groupType === Configurator.GroupType.ATTRIBUTE_GROUP
-      )
-      .forEach(
-        (group) =>
-          (numberOfIncompleteFields =
-            numberOfIncompleteFields + this.countIssuesInGroup(group))
-      );
-    return numberOfConflicts + numberOfIncompleteFields;
-  }
 
   protected countIssuesInGroup(group: Configurator.Group): number {
     let numberOfIssues = 0;

@@ -74,10 +74,8 @@
         -webkit-transition: all 0.7s ease-in-out;
 
         &.open {
-          /*
-            A larger value than the details need, this will be used to animate the closing/opening.
-            If the value is to large the closing will "delay" as the max-height will be reduced from the specified value down to 0.
-          */
+          // A larger value than the details need, this will be used to animate the closing/opening.
+          // If the value is to large the closing will "delay" as the max-height will be reduced from the specified value down to 0.
           max-block-size: 400px;
         }
 

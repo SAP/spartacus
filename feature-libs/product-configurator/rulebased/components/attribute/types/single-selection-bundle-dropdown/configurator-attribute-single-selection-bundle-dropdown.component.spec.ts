@@ -10,7 +10,38 @@ import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-s
 import { I18nTestingModule } from '@spartacus/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 
+class MockConfiguratorAttributeQuantityService {
+  disableQuantityActions(value): boolean {
+    return !value || value === '0';
+  }
+  withQuantity(
+    dataType: Configurator.DataType,
+    uiType: Configurator.UiType
+  ): boolean {
+    switch (uiType) {
+      case Configurator.UiType.DROPDOWN_PRODUCT:
+      case Configurator.UiType.DROPDOWN:
+      case Configurator.UiType.RADIOBUTTON_PRODUCT:
+      case Configurator.UiType.RADIOBUTTON:
+        return dataType ===
+          Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
+          ? true
+          : false;
+
+      case Configurator.UiType.CHECKBOXLIST:
+      case Configurator.UiType.CHECKBOXLIST_PRODUCT:
+        return dataType === Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL
+          ? true
+          : false;
+
+      default:
+        return false;
+    }
+  }
+}
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   template: '',
@@ -84,6 +115,10 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
                   provide: ConfiguratorAttributeProductCardComponent,
                   useClass: MockProductCardComponent,
                 },
+                {
+                  provide: ConfiguratorAttributeQuantityService,
+                  useClass: MockConfiguratorAttributeQuantityService,
+                },
               ],
             },
           }
@@ -143,6 +178,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     component.selectionValue = values[0];
 
     component.attribute = {
+      uiType: Configurator.UiType.DROPDOWN_PRODUCT,
       attrCode,
       groupId,
       name: nameFake,
@@ -220,5 +256,30 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     });
 
     expect(component.selectionChange.emit).toHaveBeenCalled();
+  });
+
+  it('should display attribute quantity when dataType is with attribute quantity', () => {
+    component.attribute.dataType =
+      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
+
+    fixture.detectChanges();
+
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-attribute-quantity'
+    );
+  });
+
+  it('should not display attribute quantity when dataType is no quantity', () => {
+    component.attribute.dataType = Configurator.DataType.USER_SELECTION_NO_QTY;
+
+    fixture.detectChanges();
+
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      'cx-configurator-attribute-quantity'
+    );
   });
 });

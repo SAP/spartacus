@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { I18nTestingModule } from '@spartacus/core';
+import { ItemCounterComponent } from '@spartacus/storefront';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
-import { I18nTestingModule } from '@spartacus/core';
-import { ItemCounterComponent } from '@spartacus/storefront';
 
 class MockGroupService {}
 

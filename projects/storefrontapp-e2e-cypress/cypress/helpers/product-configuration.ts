@@ -66,6 +66,15 @@ export function goToConfigurationPage(
   });
 }
 
+export function registerConfigurationRoute() {
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/products/*/configurators/ccpconfigurator?lang=en&curr=USD`
+  ).as('configure_product');
+}
+
 /**
  * Navigates to the CPQ product configuration page.
  *
@@ -93,7 +102,7 @@ export function goToCPQConfigurationPage(
 export function goToPDPage(shopName: string, productId: string): void {
   const location = `${shopName}/en/USD/product/${productId}/${productId}`;
   cy.visit(location).then(() => {
-    checkLoadingMsgNotDisplayed();
+    //checkLoadingMsgNotDisplayed();
     cy.location('pathname').should('contain', location);
     cy.get('.ProductDetailsPageTemplate').should('be.visible');
   });
@@ -144,7 +153,6 @@ export function clickOnConfigureBtnInCatalog(): void {
   cy.get('cx-configure-product a')
     .click()
     .then(() => {
-      cy.get('cx-configure-product').should('not.be.visible');
       cy.location('pathname').should('contain', '/product/entityKey/');
       this.checkConfigPageDisplayed();
     });
@@ -238,7 +246,7 @@ export function clickOnPreviousBtn(previousGroup: string): void {
  * Verifies whether the configuration page is displayed.
  */
 export function checkConfigPageDisplayed(): void {
-  checkLoadingMsgNotDisplayed();
+  //checkLoadingMsgNotDisplayed();
   checkGlobalMessageNotDisplayed();
   checkTabBarDisplayed();
   checkGroupTitleDisplayed();
@@ -417,7 +425,7 @@ export function checkAttrValueNotDisplayed(
   } else {
     valueLocator = `#${attributeId}--${valueName}`;
   }
-  cy.get(`${valueLocator}`).should('not.be.visible');
+  cy.get(`${valueLocator}`).should('not.exist');
 }
 
 /**
@@ -633,7 +641,7 @@ export function checkValueSelected(
     if (uiType === 'dropdownProduct') {
       if (valueName === '0') {
         // no product card for 'no option slected'
-        cy.get(`#${valueId} .cx-product-card`).should('not.be.visible');
+        cy.get(`#${valueId} .cx-product-card`).should('not.exist');
       } else {
         cy.get(`#${valueId} .cx-product-card`).should('be.visible');
       }

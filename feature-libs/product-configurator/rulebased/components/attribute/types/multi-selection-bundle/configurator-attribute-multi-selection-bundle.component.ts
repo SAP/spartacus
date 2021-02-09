@@ -72,7 +72,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     );
   }
 
-  get readOnlyQuantity() {
+  get disableQuantityActions() {
     return (
       this.attribute?.dataType ===
         Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL &&

@@ -14,12 +14,12 @@ describe('ConfiguratorAttributeQuantityService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should readOnlyQuantity be false when has value', () => {
-    expect(service.readOnlyQuantity(10)).toBe(false);
+  it('should disableQuantityActions be false when has value', () => {
+    expect(service.disableQuantityActions(10)).toBe(false);
   });
 
-  it('should readOnlyQuantity be true when value is missing', () => {
-    expect(service.readOnlyQuantity(0)).toBe(true);
+  it('should disableQuantityActions be true when value is missing', () => {
+    expect(service.disableQuantityActions(0)).toBe(true);
   });
 
   it('should withQuantity be true when UIType DROPDOWN and DataType USER_SELECTION_QTY_ATTRIBUTE_LEVEL', () => {

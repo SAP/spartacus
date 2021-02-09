@@ -16,17 +16,19 @@ describe('ProfileTagComponent', () => {
   let component: ProfileTagComponent;
   let fixture: ComponentFixture<ProfileTagComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ProfileTagComponent],
-      providers: [
-        {
-          provide: ProfileTagInjectorService,
-          useClass: MockProfileTagInjector,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ProfileTagComponent],
+        providers: [
+          {
+            provide: ProfileTagInjectorService,
+            useClass: MockProfileTagInjector,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProfileTagComponent);

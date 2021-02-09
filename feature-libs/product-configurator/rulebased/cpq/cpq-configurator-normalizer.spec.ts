@@ -59,7 +59,6 @@ const cpqGroupDisplayName2 = 'GROUP_DISPLAY_NAME2';
 const cpqGroupIsIncomplete2 = false;
 const cpqGroupIsSelected2 = false;
 
-const configuratorValueQuantity = Number(cpqValueQuantity);
 const configuratorAttributeQuantity = Number(cpqAttributeQuantity);
 const configuratorAttributeDataType =
   Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
@@ -150,7 +149,7 @@ const cpqConfiguration: Cpq.Configuration = {
 const cpqConfigurationIncompleteInconsistent: Cpq.Configuration = {
   productSystemId: cpqProductSystemId,
   incompleteMessages: ['incomplete message'],
-  incompleteAttributes: [],
+  incompleteAttributes: ['Attribute1', 'Attribute2'],
   invalidMessages: [],
   failedValidations: [],
   errorMessages: [],
@@ -210,7 +209,7 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(result.productCode).toBe(cpqProductSystemId);
     expect(result.complete).toBe(false);
     expect(result.consistent).toBe(false);
-    expect(result.totalNumberOfIssues).toBe(1);
+    expect(result.totalNumberOfIssues).toBe(3);
   });
 
   it('should convert values', () => {
@@ -231,7 +230,7 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(value.description).toBe(cpqValueDescription);
     expect(value.productSystemId).toBe(cpqValueProductSystemId);
     expect(value.selected).toBe(true);
-    expect(value.quantity).toBe(configuratorValueQuantity);
+    expect(value.quantity).toBe(3);
   });
 
   it('should map prices during value convertion', () => {
@@ -369,6 +368,11 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(attribute.incomplete).toBe(false);
     expect(attribute.quantity).toBe(configuratorAttributeQuantity);
     expect(attribute.dataType).toBe(configuratorAttributeDataType);
+    expect(attribute.attributePriceTotal).toEqual({
+      currencyIso: 'USD',
+      value: 123.45,
+      formattedValue: '$123.45',
+    });
 
     const values = attribute.values;
     expect(values.length).toBe(2);
@@ -710,99 +714,6 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(attributeCheckboxlistWithValue.incomplete).toBe(false);
     expect(attributeMSIWOValue.incomplete).toBe(true);
     expect(attributeMSIWithValue.incomplete).toBe(false);
-  });
-
-  it('should convert CPQ dataType INPUT_STRING', () => {
-    const attribute: Cpq.Attribute = {
-      pA_ID: 1,
-      stdAttrCode: 2,
-      dataType: Cpq.DataType.INPUT_STRING,
-    };
-    expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
-      Configurator.DataType.INPUT_STRING
-    );
-  });
-
-  it('should convert CPQ dataType INPUT_NUMBER', () => {
-    const attribute: Cpq.Attribute = {
-      pA_ID: 1,
-      stdAttrCode: 2,
-      dataType: Cpq.DataType.INPUT_NUMBER,
-    };
-    expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
-      Configurator.DataType.INPUT_NUMBER
-    );
-  });
-
-  it('should convert CPQ dataType User Selection (N/A)', () => {
-    const attribute: Cpq.Attribute = {
-      pA_ID: 1,
-      stdAttrCode: 2,
-      dataType: Cpq.DataType.N_A,
-    };
-    expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
-      Configurator.DataType.USER_SELECTION_NO_QTY
-    );
-  });
-
-  it('should convert CPQ dataType User Selection with Quantity on attribute level (QTY_ATTRIBUTE_LEVEL)', () => {
-    const attribute: Cpq.Attribute = {
-      pA_ID: 1,
-      stdAttrCode: 2,
-      dataType: Cpq.DataType.QTY_ATTRIBUTE_LEVEL,
-    };
-    expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
-      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
-    );
-  });
-
-  it('should convert CPQ dataType User Selection with Quantity on value level (QTY_VALUE_LEVEL)', () => {
-    const attribute: Cpq.Attribute = {
-      pA_ID: 1,
-      stdAttrCode: 2,
-      dataType: Cpq.DataType.QTY_VALUE_LEVEL,
-      displayAs: Cpq.DisplayAs.CHECK_BOX,
-      isLineItem: true,
-    };
-    expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
-      Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL
-    );
-  });
-
-  it('should convert CPQ dataType User Selection with Quantity on value level (QTY_VALUE_LEVEL) for non line item multi selection attribute', () => {
-    const attribute: Cpq.Attribute = {
-      pA_ID: 1,
-      stdAttrCode: 2,
-      dataType: Cpq.DataType.QTY_VALUE_LEVEL,
-      displayAs: Cpq.DisplayAs.CHECK_BOX,
-      isLineItem: false,
-    };
-    expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
-      Configurator.DataType.USER_SELECTION_NO_QTY
-    );
-  });
-
-  it('should convert CPQ dataType User Selection with Quantity on value level (QTY_VALUE_LEVEL) for single selection attribute', () => {
-    const attribute: Cpq.Attribute = {
-      pA_ID: 1,
-      stdAttrCode: 2,
-      dataType: Cpq.DataType.QTY_VALUE_LEVEL,
-      displayAs: Cpq.DisplayAs.RADIO_BUTTON,
-    };
-    expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
-      Configurator.DataType.USER_SELECTION_NO_QTY
-    );
-  });
-
-  it('should convert CPQ not supported dataType to NOT_IMPLEMENTED', () => {
-    const attribute: Cpq.Attribute = {
-      pA_ID: 1,
-      stdAttrCode: 2,
-      dataType: null,
-    };
-    expect(cpqConfiguratorNormalizer.convertDataType(attribute)).toBe(
-      Configurator.DataType.NOT_IMPLEMENTED
-    );
   });
 
   it('should determine the "No option selected" value for required DDLB as "to be ignored" when a "real" value already selected', () => {

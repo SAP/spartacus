@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ConfiguratorAttributeQuantityService {
-  readOnlyQuantity(value): boolean {
+  disableQuantityActions(value): boolean {
     return !value || value === '0';
   }
 

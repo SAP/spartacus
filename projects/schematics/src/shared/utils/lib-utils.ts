@@ -45,7 +45,7 @@ export interface FeatureConfig {
   name: string;
   featureModule: Module;
   rootModule: Module;
-  i18n: I18NConfig;
+  i18n?: I18NConfig;
   defaultConfig?: {
     name: string;
     importPath: string;
@@ -149,12 +149,14 @@ function handleFeature<T extends LibraryOptions>(
       changes.push(rootModuleImportChange, ...rootModuleAddedToImportsChanges);
     }
 
-    const i18nChanges = provideI18NConfig(
-      host,
-      getTsSourceFile(host, appModulePath),
-      config.i18n
-    );
-    changes.push(...i18nChanges);
+    if (config.i18n) {
+      const i18nChanges = provideI18NConfig(
+        host,
+        getTsSourceFile(host, appModulePath),
+        config.i18n
+      );
+      changes.push(...i18nChanges);
+    }
 
     if (options.lazy) {
       const lazyLoadingChange = mergeLazyLoadingConfig(

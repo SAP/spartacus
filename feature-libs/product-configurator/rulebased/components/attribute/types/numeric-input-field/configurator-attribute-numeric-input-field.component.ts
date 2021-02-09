@@ -57,9 +57,9 @@ export class ConfiguratorAttributeNumericInputFieldComponent
   }
 
   ngOnInit() {
-    //locales are available as languages in the commerce backend
+    //locales are available as 'languages' in the commerce backend
+    this.locale = this.getInstalledLocale(this.language);
 
-    this.locale = this.getLanguage(this.language);
     this.attributeInputForm = new FormControl('', [
       this.configAttributeNumericInputFieldService.getNumberFormatValidator(
         this.locale,
@@ -113,7 +113,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     };
   }
 
-  protected getLanguage(locale: string): string {
+  protected getInstalledLocale(locale: string): string {
     try {
       getLocaleId(locale);
       return locale;

@@ -7,11 +7,11 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
-import { BehaviorSubject } from 'rxjs';
+import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
 @Component({
   selector: 'cx-configurator-attribute-drop-down',
@@ -45,8 +45,8 @@ export class ConfiguratorAttributeDropDownComponent
     );
   }
 
-  get readOnlyQuantity() {
-    return this.quantityService.readOnlyQuantity(
+  get disableQuantityActions() {
+    return this.quantityService.disableQuantityActions(
       this.attributeDropDownForm.value
     );
   }
