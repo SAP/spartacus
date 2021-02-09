@@ -1,6 +1,4 @@
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
-import { provideConfig } from '@spartacus/core';
-import { TmsConfig } from './config/tms-config';
 import { TmsService } from './services/tms.service';
 
 /**
@@ -13,7 +11,7 @@ export function tmsFactory(service: TmsService): () => void {
 
 @NgModule({})
 export class TmsCoreModule {
-  static forRoot(config?: TmsConfig): ModuleWithProviders<TmsCoreModule> {
+  static forRoot(): ModuleWithProviders<TmsCoreModule> {
     return {
       ngModule: TmsCoreModule,
       providers: [
@@ -23,7 +21,6 @@ export class TmsCoreModule {
           deps: [TmsService],
           multi: true,
         },
-        provideConfig(config),
       ],
     };
   }

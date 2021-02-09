@@ -31,7 +31,7 @@ export class TmsService implements OnDestroy {
   ) {}
 
   /**
-   * This method is called only once to start collecting and dispatching events to GTM
+   * This method is called only once to start collecting and dispatching events
    */
   collect(): void {
     if (isPlatformServer(this.platformId)) {
