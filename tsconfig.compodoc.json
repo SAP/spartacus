@@ -130,7 +130,7 @@
       ],
       "@spartacus/checkout": [
         "feature-libs/checkout/public_api"
-      ],
+      ]
     }
   },
   "exclude": [
