@@ -248,8 +248,8 @@ describe('UnitListService', () => {
     });
 
     it('should automatically sort unit tree by name', () => {
-      let serviceForSort = service as UnitListServiceForSortTest;
-      let convertedTree = serviceForSort.convertListItemWrapper(
+      const serviceForSort = service as UnitListServiceForSortTest;
+      const convertedTree = serviceForSort.convertListItemWrapper(
         mockedTreeBeforeConvert
       );
 
