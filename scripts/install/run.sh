@@ -138,30 +138,18 @@ function create_apps {
     fi
 }
 
-function install_from_sources {
-    printh "Installing with local @spartacus/*@${SPARTACUS_VERSION}"
+function install_local_packages {
 
-    prepare_install
+    local REGISTRY_URL='http://localhost:4873/'
 
-    npm set @spartacus:registry http://localhost:4873/
-
-    clone_repo
-
-    printh "Installing source dependencies."
-    ( cd ${CLONE_DIR} && yarn install )
-
-    printh "Building spa libraries from source."
-    ( cd ${CLONE_DIR} && yarn build:libs)
-
-    printh "Updating projects versions."
-    update_projects_versions ${SPARTACUS_PROJECTS[@]}
+    npm set @spartacus:registry ${REGISTRY_URL}
 
     verdaccio --config ./config.yaml &
 
     VERDACCIO_PID=$!
     echo "verdaccio PID: ${VERDACCIO_PID}"
 
-    sleep 45
+    sleep 15
 
     printh "Creating core npm package"
     ( cd ${CLONE_DIR}/dist/core && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
@@ -193,6 +181,32 @@ function install_from_sources {
     printh "Creating product-configurator npm package"
     ( cd ${CLONE_DIR}/dist/product-configurator && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )    
 
+}
+
+function build_spartacus {
+
+    clone_repo
+
+    printh "Installing source dependencies."
+    ( cd ${CLONE_DIR} && yarn install )
+
+    printh "Building spa libraries from source."
+    ( cd ${CLONE_DIR} && yarn build:libs)
+
+    printh "Updating projects versions."
+    update_projects_versions ${SPARTACUS_PROJECTS[@]}
+
+}
+
+function install_from_sources {
+    printh "Installing with local @spartacus/*@${SPARTACUS_VERSION}"
+
+#    prepare_install
+
+#    build_spartacus
+
+    install_local_packages
+
     create_apps
 
     sleep 5
@@ -200,6 +214,7 @@ function install_from_sources {
     (kill ${VERDACCIO_PID} || echo "Verdaccio not running on PID ${VERDACCIO_PID}. Was it already runnig before starting the script?")
 
     npm set @spartacus:registry https://registry.npmjs.org/
+
     echo "Finished: npm @spartacus:registry set back to https://registry.npmjs.org/"
 }
 
