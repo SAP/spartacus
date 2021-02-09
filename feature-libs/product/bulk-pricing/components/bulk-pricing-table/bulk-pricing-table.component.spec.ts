@@ -4,7 +4,7 @@ import { BulkPrice } from '../../core/model/bulk-price.model';
 import { BulkPricingTableComponent } from './bulk-pricing-table.component';
 
 import { RoutingService } from '@spartacus/core';
-import { BulkPricesService } from '../../core/services/bulk-prices.service';
+import { BulkPricingService } from '../../core/services/bulk-pricing.service';
 import { Observable, of } from 'rxjs';
 
 const mockState = {
@@ -34,7 +34,7 @@ class MockRoutingService implements Partial<RoutingService> {
   }
 }
 
-class MockBulkPricesService implements Partial<BulkPricesService> {
+class MockBulkPricingService implements Partial<BulkPricingService> {
   getBulkPrices(): Observable<BulkPrice[]> {
     return of([]);
   }
@@ -43,18 +43,18 @@ class MockBulkPricesService implements Partial<BulkPricesService> {
 describe('BulkPricingTableComponent', () => {
   let component: BulkPricingTableComponent;
   let fixture: ComponentFixture<BulkPricingTableComponent>;
-  let bulkPricesService: BulkPricesService;
+  let bulkPricingService: BulkPricingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [BulkPricingTableComponent],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: BulkPricesService, useClass: MockBulkPricesService },
+        { provide: BulkPricingService, useClass: MockBulkPricingService },
       ],
     }).compileComponents();
 
-    bulkPricesService = TestBed.inject(BulkPricesService);
+    bulkPricingService = TestBed.inject(BulkPricingService);
   });
 
   beforeEach(() => {
@@ -89,14 +89,14 @@ describe('BulkPricingTableComponent', () => {
 
   describe('getPrices', () => {
     it('should call getBulkPrices with a right parameter', () => {
-      spyOn(bulkPricesService, 'getBulkPrices');
+      spyOn(bulkPricingService, 'getBulkPrices');
 
       component
         .getPrices()
         .subscribe(() => {})
         .unsubscribe();
 
-      expect(bulkPricesService.getBulkPrices).toHaveBeenCalledWith('testCode');
+      expect(bulkPricingService.getBulkPrices).toHaveBeenCalledWith('testCode');
     });
   });
 });

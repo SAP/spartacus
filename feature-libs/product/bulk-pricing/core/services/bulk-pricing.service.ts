@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { Price, Product, ProductScope, ProductService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { BulkPrice } from '../../core/model/bulk-price.model';
+import { BulkPrice } from '../model/bulk-price.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class BulkPricesService {
+export class BulkPricingService {
   protected readonly PRODUCT_SCOPE = ProductScope.PRICES;
 
   constructor(protected productService: ProductService) {}

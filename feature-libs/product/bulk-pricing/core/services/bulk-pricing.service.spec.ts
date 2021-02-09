@@ -3,7 +3,7 @@ import { ProductService } from '@spartacus/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { of } from 'rxjs/internal/observable/of';
 
-import { BulkPricesService } from './bulk-prices.service';
+import { BulkPricingService } from './bulk-pricing.service';
 const mockProductCode = '2221933';
 
 const mockBulkPrices = {
@@ -116,7 +116,7 @@ class MockProductService implements Partial<ProductService> {
 }
 
 describe('BulkPricesService', () => {
-  let service: BulkPricesService;
+  let service: BulkPricingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -128,7 +128,7 @@ describe('BulkPricesService', () => {
       ],
     });
 
-    service = TestBed.inject(BulkPricesService);
+    service = TestBed.inject(BulkPricingService);
   });
 
   it('should be created', () => {

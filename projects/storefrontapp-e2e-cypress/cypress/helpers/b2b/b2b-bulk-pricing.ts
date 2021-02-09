@@ -1,4 +1,3 @@
-import { StringDecoder } from 'string_decoder';
 import * as sampleData from '../../sample-data/b2b-bulk-pricing';
 import { waitForPage } from '../checkout-flow';
 
