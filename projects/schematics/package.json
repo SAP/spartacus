@@ -46,7 +46,7 @@
       "@spartacus/storefinder",
       "@spartacus/qualtrics",
       "@spartacus/cdc",
-      "@spartacus/tms",
+      "@spartacus/tracking",
       "@spartacus/setup"
     ]
   },

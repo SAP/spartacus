@@ -107,17 +107,20 @@
       "@spartacus/storefinder/root": [
         "feature-libs/storefinder/root/public_api"
       ],
-      "@spartacus/tms/adobe-launch": [
-        "feature-libs/tms/adobe-launch/public_api"
+      "@spartacus/tracking": [
+        "feature-libs/tracking/public_api"
       ],
-      "@spartacus/tms/core": [
-        "feature-libs/tms/core/public_api"
+      "@spartacus/tracking/tms/aep": [
+        "feature-libs/tracking/tms/aep/public_api"
       ],
-      "@spartacus/tms/gtm": [
-        "feature-libs/tms/gtm/public_api"
+      "@spartacus/tracking/tms/core": [
+        "feature-libs/tracking/tms/core/public_api"
       ],
-      "@spartacus/tms": [
-        "feature-libs/tms/public_api"
+      "@spartacus/tracking/tms/gtm": [
+        "feature-libs/tracking/tms/gtm/public_api"
+      ],
+      "@spartacus/tracking/tms": [
+        "feature-libs/tracking/tms/public_api"
       ],
       "@spartacus/cdc": [
         "integration-libs/cdc/public_api"

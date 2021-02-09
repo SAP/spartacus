@@ -101,8 +101,5 @@ if (!environment.production) {
   ],
 
   bootstrap: [StorefrontComponent],
-  // providers: [
-  //   { provide: AdobeLaunchService, useClass: CustomAdobeLaunchService },
-  // ],
 })
 export class AppModule {}

@@ -84,7 +84,7 @@ import { CdsFeatureModule } from './features/cds-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder-feature.module';
-import { TmsFeatureModule } from './features/tms-feature.module';
+import { TrackingFeatureModule } from './features/tracking-feature.module';
 
 const featureModules = [];
 
@@ -96,9 +96,6 @@ if (environment.cdc) {
 }
 if (environment.cds) {
   featureModules.push(CdsFeatureModule);
-}
-if (environment.tms) {
-  featureModules.push(TmsFeatureModule);
 }
 
 @NgModule({
@@ -205,6 +202,7 @@ if (environment.tms) {
     PageEventModule,
     ProductPageEventModule,
 
+    TrackingFeatureModule,
     /************************* Opt-in features *************************/
 
     ExternalRoutesModule.forRoot(), // to opt-in explicitly, is added by default schematics
