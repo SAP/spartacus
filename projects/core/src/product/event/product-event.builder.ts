@@ -30,7 +30,7 @@ export class ProductEventBuilder {
 
   /**
    * To get the changed facet, we need to compare the product search results
-   * got before and after togglling the facet value. These 2 product searches must
+   * got before and after toggling the facet value. These 2 product searches must
    * have the same search queries except one different solr filter term. That means
    * these 2 searches must have the same 'freeTextSearch'; and if they are category
    * searches, they must have the same root (in the same category or brand).
@@ -64,23 +64,27 @@ export class ProductEventBuilder {
   private compareSearchResults(
     prev: ProductSearchPage,
     curr: ProductSearchPage
-  ) {
-    // for text searches, they must have the same freeTextSearch
-    const sameFreeTextSearch =
-      prev.freeTextSearch !== '' && prev.freeTextSearch === curr.freeTextSearch;
+  ): boolean {
+    if (prev && Object.keys(prev).length !== 0) {
+      // for text searches, they must have the same freeTextSearch
+      const sameFreeTextSearch =
+        prev.freeTextSearch !== '' &&
+        prev.freeTextSearch === curr.freeTextSearch;
 
-    // for category searches, they must have the same root
-    const sameCatetoryRoot =
-      curr.breadcrumbs[0]?.facetCode === 'allCategories' &&
-      prev.breadcrumbs[0]?.facetCode === curr.breadcrumbs[0]?.facetCode &&
-      // same category or brand
-      prev.breadcrumbs[0].facetValueCode === curr.breadcrumbs[0].facetValueCode;
+      // for category searches, they must have the same root
+      const sameCategoryRoot =
+        curr.breadcrumbs[0]?.facetCode === 'allCategories' &&
+        prev.breadcrumbs[0]?.facetCode === curr.breadcrumbs[0]?.facetCode &&
+        // same category or brand
+        prev.breadcrumbs[0].facetValueCode ===
+          curr.breadcrumbs[0].facetValueCode;
 
-    return sameFreeTextSearch || sameCatetoryRoot;
+      return sameFreeTextSearch || sameCategoryRoot;
+    }
   }
 
   /**
-   * Get the toggled breadcrum. The 2 breadcrumb lists got from the 2 search results
+   * Get the toggled breadcrumb. The 2 breadcrumb lists got from the 2 search results
    * only can have one different solr filter term.
    */
   private getToggledBreadcrumb(
