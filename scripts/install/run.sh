@@ -151,6 +151,8 @@ function install_local_packages {
 
     sleep 10
 
+    npm adduser --registry ${REGISTRY_URL}
+
     printh "Creating core npm package"
     ( cd ${CLONE_DIR}/dist/core && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 
