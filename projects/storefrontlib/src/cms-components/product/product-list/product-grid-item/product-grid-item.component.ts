@@ -23,7 +23,7 @@ import { ProductListItemContext } from '../model/product-list-item-context.model
   ],
 })
 export class ProductGridItemComponent implements OnChanges {
-  readonly Outlets = ProductListOutlets;
+  readonly ProductListOutlets = ProductListOutlets;
   @Input() product: any;
 
   // TODO(#10946): make ProductListItemContextSource a required dependency

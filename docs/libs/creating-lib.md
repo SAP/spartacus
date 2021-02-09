@@ -141,8 +141,6 @@ Adjust the `@spartacus/core` and/or `@spartacus/storefront` depending on the nee
 Make sure the versions match the current spartacus version.
 Make sure the `@angular` peer dependencies matches the versions specified in the _core_ lib.
 
-- `test.ts` - add `import '@angular/localize/init';`
-
 - `tsconfig.lib.json`
 
 Use the following template:
