@@ -11,7 +11,7 @@
     ></cx-configurator-attribute-quantity>
 
     <cx-configurator-price
-      *ngIf="getProductPrice()"
+      *ngIf="isPriceDataDefined()"
       [formula]="extractPriceFormulaParameters()"
     ></cx-configurator-price>
   </div>
