@@ -1,12 +1,8 @@
 /* tslint:disable:deprecation */
 // for now there is no better way than to use document.createElement here, therefore we need to disable tslint deprecation rule here
 import { DOCUMENT } from '@angular/common';
-import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import {
-  ExternalJsFileLoader,
-  ScriptPlacement,
-} from './external-js-file-loader.service';
+import { ExternalJsFileLoader } from './external-js-file-loader.service';
 
 const SCRIPT_LOAD_URL = 'http://url/';
 
@@ -14,23 +10,17 @@ class DocumentMock {
   head = {
     appendChild() {},
   };
-  body = {
-    appendChild() {},
-  };
   createElement() {}
-  querySelector() {}
 }
 
-const callback = function () {};
-const errorCallback = function () {};
-
-let externalJsFileLoader: ExternalJsFileLoader;
-let documentMock: Document;
-let jsDomElement: any;
-
 describe('ExternalJsFileLoader', () => {
+  let externalJsFileLoader: ExternalJsFileLoader;
+
+  let documentMock: Document;
+  let jsDomElement: any;
+
   beforeEach(() => {
-    TestBed.configureTestingModule({
+    const bed = TestBed.configureTestingModule({
       providers: [
         ExternalJsFileLoader,
         {
@@ -40,24 +30,25 @@ describe('ExternalJsFileLoader', () => {
       ],
     });
 
-    externalJsFileLoader = TestBed.inject(ExternalJsFileLoader);
-    documentMock = TestBed.inject(DOCUMENT);
+    externalJsFileLoader = bed.inject(ExternalJsFileLoader);
+    documentMock = bed.inject(DOCUMENT);
     jsDomElement = document.createElement('script');
   });
 
-  it('should add script with params and load/error callbacks', () => {
+  it('should load script with params and load/error callbacks', () => {
+    // given
     spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
     spyOn(jsDomElement, 'addEventListener').and.callThrough();
     const params = { param1: 'value1', param2: 'value2' };
+    const callback = function () {};
+    const errorCallback = function () {};
 
-    externalJsFileLoader.embedScript({
-      src: SCRIPT_LOAD_URL,
-      params,
-      attributes: undefined,
-      callback,
-      errorCallback,
-    });
+    // when
+    externalJsFileLoader.load(SCRIPT_LOAD_URL, params, callback, errorCallback);
+
+    // then
     expect(documentMock.createElement).toHaveBeenCalledWith('script');
+    expect(jsDomElement.type).toEqual('text/javascript');
     expect(jsDomElement.src).toContain(SCRIPT_LOAD_URL);
     expect(jsDomElement.src.split('?')[1]).toEqual(
       'param1=value1&param2=value2'
@@ -72,82 +63,60 @@ describe('ExternalJsFileLoader', () => {
     );
   });
 
-  it('should add script with attributes', () => {
+  it('should load script with params and callback', () => {
+    // given
     spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
+    spyOn(jsDomElement, 'addEventListener').and.callThrough();
+    const params = { param1: 'value1', param2: 'value2' };
+    const callback = function () {};
 
-    externalJsFileLoader.embedScript({
-      src: SCRIPT_LOAD_URL,
-      params: undefined,
-      attributes: {
-        type: 'text/javascript',
-        'data-custom-attr': 'custom-attribute-value',
-      },
-    });
+    // when
+    externalJsFileLoader.load(SCRIPT_LOAD_URL, params, callback);
+
+    // then
     expect(documentMock.createElement).toHaveBeenCalledWith('script');
-    expect(jsDomElement.src).toEqual(SCRIPT_LOAD_URL);
     expect(jsDomElement.type).toEqual('text/javascript');
-    expect(jsDomElement.getAttribute('data-custom-attr')).toEqual(
-      'custom-attribute-value'
+    expect(jsDomElement.src).toContain(SCRIPT_LOAD_URL);
+    expect(jsDomElement.src.split('?')[1]).toEqual(
+      'param1=value1&param2=value2'
+    );
+    expect(jsDomElement.addEventListener).toHaveBeenCalledWith(
+      'load',
+      callback
     );
   });
 
-  it('should be able to add script in body element', () => {
+  it('should load script with params', () => {
+    // given
     spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
-    spyOn(documentMock.body, 'appendChild').and.callThrough();
+    spyOn(jsDomElement, 'addEventListener').and.callThrough();
+    const params = { param1: 'value1', param2: 'value2 plus space' };
 
-    externalJsFileLoader.embedScript({
-      src: SCRIPT_LOAD_URL,
-      params: undefined,
-      attributes: undefined,
-      callback: undefined,
-      errorCallback: undefined,
-      placement: ScriptPlacement.BODY,
-    });
+    // when
+    externalJsFileLoader.load(SCRIPT_LOAD_URL, params);
+
+    // then
     expect(documentMock.createElement).toHaveBeenCalledWith('script');
-    expect(documentMock.body.appendChild).toHaveBeenCalled();
-  });
-});
-
-describe('with SSR', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        ExternalJsFileLoader,
-        {
-          provide: DOCUMENT,
-          useClass: DocumentMock,
-        },
-        { provide: PLATFORM_ID, useValue: 'server' },
-      ],
-    });
-
-    externalJsFileLoader = TestBed.inject(ExternalJsFileLoader);
-    documentMock = TestBed.inject(DOCUMENT);
-    jsDomElement = document.createElement('script');
+    expect(jsDomElement.type).toEqual('text/javascript');
+    expect(jsDomElement.src).toContain(SCRIPT_LOAD_URL);
+    expect(jsDomElement.src.split('?')[1]).toEqual(
+      'param1=value1&param2=value2%20plus%20space'
+    );
+    expect(jsDomElement.addEventListener).toHaveBeenCalledTimes(0);
   });
 
-  it('should skip during SSR if there is callback or errorCallback', () => {
+  it('should load script', () => {
+    // given
     spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
+    spyOn(jsDomElement, 'addEventListener').and.callThrough();
 
-    externalJsFileLoader.embedScript({
-      src: SCRIPT_LOAD_URL,
-      params: undefined,
-      attributes: undefined,
-      callback,
-      errorCallback,
-    });
-    expect(documentMock.createElement).not.toHaveBeenCalledWith('script');
-  });
+    // when
+    externalJsFileLoader.load(SCRIPT_LOAD_URL);
 
-  it('should add script during SSR', () => {
-    spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
-    externalJsFileLoader.embedScript({
-      src: SCRIPT_LOAD_URL,
-      params: undefined,
-      attributes: undefined,
-    });
-
+    // then
     expect(documentMock.createElement).toHaveBeenCalledWith('script');
-    expect(documentMock.createElement).toHaveBeenCalledTimes(1);
+    expect(jsDomElement.type).toEqual('text/javascript');
+    expect(jsDomElement.src).toEqual(SCRIPT_LOAD_URL);
+    expect(jsDomElement.addEventListener).toHaveBeenCalledTimes(0);
   });
 });
