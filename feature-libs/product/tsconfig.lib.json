@@ -10,12 +10,9 @@
     "inlineSources": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "types": [],
+    "types": [], 
     "lib": ["dom", "esnext"],
-    "paths": {
-      "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"]
-    }
+    "paths": {}
   },
   "angularCompilerOptions": {
     "skipTemplateCodegen": true,

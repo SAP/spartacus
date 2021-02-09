@@ -143,6 +143,23 @@ describe('Lib utils', () => {
       expect(appModule).toContain(`resources: ${I18N_RESOURCES},`);
       expect(appModule).toContain(`chunks: ${I18N_CHUNKS},`);
     });
+    it('should NOT add i18n if the config is not present', async () => {
+      const featureConfig: FeatureConfig = {
+        ...BASE_FEATURE_CONFIG,
+        i18n: undefined,
+      };
+      const rule = addLibraryFeature(
+        appModulePath,
+        BASE_OPTIONS,
+        featureConfig
+      );
+      const result = await schematicRunner.callRule(rule, appTree).toPromise();
+
+      const appModule = result.read(appModulePath).toString(UTF_8);
+      expect(appModule).not.toContain(`providers: [
+        provideConfig({
+          i18n: {`);
+    });
     describe('when no default config is present', () => {
       it('should not add it', async () => {
         const rule = addLibraryFeature(

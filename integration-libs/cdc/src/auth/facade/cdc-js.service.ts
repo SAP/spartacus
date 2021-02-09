@@ -15,7 +15,7 @@ import {
   UserService,
   WindowRef,
 } from '@spartacus/core';
-import { combineLatest, ReplaySubject, Subscription } from 'rxjs';
+import { combineLatest, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CdcConfig } from '../../config/cdc-config';
 import { CdcAuthService } from './cdc-auth.service';
@@ -51,14 +51,14 @@ export class CdcJsService implements OnDestroy {
   /**
    * Returns observable with the information if CDC script is loaded.
    */
-  didLoad() {
+  didLoad(): Observable<boolean> {
     return this.loaded$.asObservable();
   }
 
   /**
    * Returns observable with the information if CDC script failed to load.
    */
-  didScriptFailToLoad() {
+  didScriptFailToLoad(): Observable<boolean> {
     return this.errorLoading$.asObservable();
   }
 

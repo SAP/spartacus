@@ -9,6 +9,7 @@ export const fontawesomeIconConfig: IconConfig = {
       STAR: 'fas fa-star',
       GRID: 'fas fa-th-large',
       LIST: 'fas fa-bars',
+      CARET_UP: 'fas fa-angle-up',
       CARET_DOWN: 'fas fa-angle-down',
       CARET_RIGHT: 'fas fa-angle-right',
       CARET_LEFT: 'fas fa-angle-left',

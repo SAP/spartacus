@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BulkPricesService } from '../../core/services/bulk-prices.service';
+import { BulkPricingService } from '../../core/services/bulk-pricing.service';
 import { RoutingService } from '@spartacus/core';
 import { BulkPrice } from '../../core/model/bulk-price.model';
 import { Observable } from 'rxjs';
@@ -16,7 +16,7 @@ export class BulkPricingTableComponent implements OnInit {
 
   constructor(
     protected routingService: RoutingService,
-    protected bulkPrices: BulkPricesService
+    protected bulkPricingService: BulkPricingService
   ) {}
 
   ngOnInit() {
@@ -37,7 +37,7 @@ export class BulkPricingTableComponent implements OnInit {
     return this.routingService.getRouterState().pipe(
       switchMap((state) => {
         const productCode = state.state.params[this.PRODUCT_KEY];
-        return this.bulkPrices.getBulkPrices(productCode);
+        return this.bulkPricingService.getBulkPrices(productCode);
       })
     );
   }
