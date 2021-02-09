@@ -12,8 +12,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 
-let testAttribute: Configurator.Attribute;
-
 const createTestValue = (
   price: number,
   total: number,
@@ -39,7 +37,6 @@ const createTestValue = (
 class MockProductCardComponent {}
 
 @Component({
-  // tslint:disable-next-line: component-selector
   selector: 'cx-configurator-price',
   template: '',
 })
@@ -309,123 +306,59 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
   describe('selected value price calculation', () => {
     describe('should return number', () => {
       it('on selected value only', () => {
-        testAttribute = {
+        component.attribute = {
           name: 'testAttribute',
           values: [createTestValue(100, 100)],
         };
+        fixture.detectChanges();
 
-        const valuePrice = component.getSelectedValuePrice(testAttribute);
+        const valuePrice = component.getSelectedValuePrice();
         expect(valuePrice.value).toEqual(100);
       });
 
       it('on selected value', () => {
-        testAttribute = {
+        component.attribute = {
           name: 'testAttribute',
           values: [createTestValue(100, 100), createTestValue(100, 100, false)],
         };
+        fixture.detectChanges();
 
-        const valuePrice = component.getSelectedValuePrice(testAttribute);
+        const valuePrice = component.getSelectedValuePrice();
         expect(valuePrice.value).toEqual(100);
       });
     });
 
     describe('should not return price', () => {
       it('without values property', () => {
-        testAttribute = {
+        component.attribute = {
           name: 'testAttribute',
         };
+        fixture.detectChanges();
 
-        const valuePrice = component.getSelectedValuePrice(testAttribute);
+        const valuePrice = component.getSelectedValuePrice();
         expect(valuePrice).toBeUndefined();
       });
 
       it('without values', () => {
-        testAttribute = {
+        component.attribute = {
           name: 'testAttribute',
           values: [],
         };
+        fixture.detectChanges();
 
-        const valuePrice = component.getSelectedValuePrice(testAttribute);
+        const valuePrice = component.getSelectedValuePrice();
         expect(valuePrice).toBeUndefined();
       });
 
       it('without price property', () => {
-        testAttribute = {
+        component.attribute = {
           name: 'testAttribute',
           values: [createTestValue(undefined, undefined)],
         };
+        fixture.detectChanges();
 
-        const valuePrice = component.getSelectedValuePrice(testAttribute);
+        const valuePrice = component.getSelectedValuePrice();
         expect(valuePrice.value).toBeUndefined();
-      });
-    });
-  });
-
-  describe('selected value price total calculation', () => {
-    describe('should return number', () => {
-      it('on selected value only', () => {
-        testAttribute = {
-          name: 'testAttribute',
-          values: [createTestValue(100, 100)],
-        };
-
-        const valuePriceTotal = component.getSelectedValuePriceTotal(
-          testAttribute
-        );
-        expect(valuePriceTotal.value).toEqual(100);
-      });
-
-      it('on selected value', () => {
-        testAttribute = {
-          name: 'testAttribute',
-          values: [createTestValue(100, 100), createTestValue(200, 200, false)],
-        };
-
-        const valuePriceTotal = component.getSelectedValuePriceTotal(
-          testAttribute
-        );
-
-        expect(valuePriceTotal.value).toEqual(100);
-      });
-    });
-
-    describe('should not return number', () => {
-      it('without values property', () => {
-        testAttribute = {
-          name: 'testAttribute',
-        };
-
-        const valuePriceTotal = component.getSelectedValuePriceTotal(
-          testAttribute
-        );
-
-        expect(valuePriceTotal).toBeUndefined();
-      });
-
-      it('without values', () => {
-        testAttribute = {
-          name: 'testAttribute',
-          values: [],
-        };
-
-        const valuePriceTotal = component.getSelectedValuePriceTotal(
-          testAttribute
-        );
-
-        expect(valuePriceTotal).toBeUndefined();
-      });
-
-      it('without price property', () => {
-        testAttribute = {
-          name: 'testAttribute',
-          values: [createTestValue(undefined, undefined)],
-        };
-
-        const valuePriceTotal = component.getSelectedValuePriceTotal(
-          testAttribute
-        );
-
-        expect(valuePriceTotal.value).toBeUndefined();
       });
     });
   });
@@ -467,7 +400,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
       component.attribute.values[0].valuePriceTotal = undefined;
       fixture.detectChanges();
 
-      expect(component.getProductPrice(component.attribute)).toBeUndefined();
+      expect(component.getProductPrice()).toBeUndefined();
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
@@ -479,6 +412,11 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
       component.attribute.dataType =
         Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
       component.attribute.quantity = 5;
+      component.attribute.attributePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '$10',
+        value: 50,
+      };
       component.attribute.values[0].valuePrice = {
         currencyIso: '$',
         formattedValue: '$10',
@@ -493,6 +431,8 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
       };
       fixture.detectChanges();
 
+      const price = component.getProductPrice();
+      expect(price).toBeDefined();
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,

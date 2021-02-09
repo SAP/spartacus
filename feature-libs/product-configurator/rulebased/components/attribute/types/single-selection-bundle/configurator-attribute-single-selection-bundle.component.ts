@@ -95,37 +95,23 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
     }
   }
 
-  getSelectedValuePrice(
-    attribute: Configurator.Attribute
-  ): Configurator.PriceDetails | undefined {
-    return attribute?.values?.find((value) => value?.selected)?.valuePrice;
+  getSelectedValuePrice(): Configurator.PriceDetails | undefined {
+    return this.attribute?.values?.find((value) => value?.selected)?.valuePrice;
   }
 
-  getSelectedValuePriceTotal(
-    attribute: Configurator.Attribute
-  ): Configurator.PriceDetails | undefined {
-    return attribute?.values?.find((value) => value?.selected)?.valuePriceTotal;
-  }
-
-  getProductPrice(
-    attribute: Configurator.Attribute
-  ): Configurator.PriceDetails | number {
+  getProductPrice(): Configurator.PriceDetails | number {
     return (
-      attribute?.quantity &&
-      this.getSelectedValuePrice(attribute) &&
-      this.getSelectedValuePriceTotal(attribute)
+      this.attribute?.quantity &&
+      this.getSelectedValuePrice() &&
+      this.attribute?.attributePriceTotal
     );
   }
 
-  setFormula(
-    quantity?: number,
-    price?: Configurator.PriceDetails,
-    priceTotal?: Configurator.PriceDetails
-  ) {
+  extractPriceFormulaParameters() {
     return {
-      quantity: quantity,
-      price: price,
-      priceTotal: priceTotal,
+      quantity: this.attribute?.quantity,
+      price: this.getSelectedValuePrice(),
+      priceTotal: this.attribute?.attributePriceTotal,
       isLightedUp: true,
     };
   }

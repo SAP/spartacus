@@ -30,15 +30,11 @@ export class ConfiguratorCPQOverviewAttributeComponent implements OnInit {
     return product?.images?.PRIMARY;
   }
 
-  setFormula(
-    quantity?: number,
-    price?: Configurator.PriceDetails,
-    priceTotal?: Configurator.PriceDetails
-  ) {
+  extractPriceFormulaParameters() {
     return {
-      quantity: quantity,
-      price: price,
-      priceTotal: priceTotal,
+      quantity: this.attributeOverview?.quantity,
+      price: this.attributeOverview?.valuePrice,
+      priceTotal: this.attributeOverview?.valuePriceTotal,
       isLightedUp: true,
       isOverview: true,
     };

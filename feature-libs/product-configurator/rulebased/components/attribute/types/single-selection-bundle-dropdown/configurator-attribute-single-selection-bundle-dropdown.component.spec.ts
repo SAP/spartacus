@@ -295,7 +295,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       component.attribute.values[0].valuePriceTotal = undefined;
       fixture.detectChanges();
 
-      expect(component.getProductPrice(component.attribute)).toBeUndefined();
+      expect(component.getProductPrice()).toBeUndefined();
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
@@ -307,20 +307,28 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       component.attribute.dataType =
         Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
       component.attribute.quantity = 5;
-      component.attribute.values[0].valuePrice = {
+      component.attribute.attributePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '$10',
+        value: 50,
+      };
+      component.attribute.values[0].selected = false;
+      component.attribute.values[1].valuePrice = {
         currencyIso: '$',
         formattedValue: '$10',
         value: 10,
       };
-      component.attribute.values[0].valuePriceTotal = {
+      component.attribute.values[1].valuePriceTotal = {
         currencyIso: '$',
         formattedValue: '$100',
         value:
-          component.attribute.values[0].valuePrice.value *
+          component.attribute.values[1].valuePrice.value *
           component.attribute.quantity,
       };
       fixture.detectChanges();
 
+      const price = component.getProductPrice();
+      expect(price).toBeDefined();
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,

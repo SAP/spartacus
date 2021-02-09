@@ -1,4 +1,13 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Configurator } from '../../core';
+
+export interface ConfiguratorPriceComponentOptions {
+  quantity?: number;
+  price?: Configurator.PriceDetails;
+  priceTotal?: Configurator.PriceDetails;
+  isLightedUp?: boolean;
+  isOverview?: boolean;
+}
 
 @Component({
   selector: 'cx-configurator-price',
@@ -6,7 +15,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorPriceComponent {
-  @Input() formula: any = {
+  @Input() formula: ConfiguratorPriceComponentOptions = {
     quantity: 0,
     price: null,
     priceTotal: null,
@@ -33,6 +42,9 @@ export class ConfiguratorPriceComponent {
     return this.formula?.quantity?.toString();
   }
 
+  /**
+   * Retrieves price.
+   */
   get price(): string {
     if (this.formula?.priceTotal) {
       return this.priceTotal;
