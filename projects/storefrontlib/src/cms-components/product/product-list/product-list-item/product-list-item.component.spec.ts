@@ -1,16 +1,24 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Injector,
   Input,
   Pipe,
   PipeTransform,
+  SimpleChange,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ProductListItemComponent } from './product-list-item.component';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  ProductService,
+  RoutingService,
+} from '@spartacus/core';
+import { OutletModule } from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
-
+import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
+import { ProductListItemContext } from '../model/product-list-item-context.model';
+import { ProductListItemComponent } from './product-list-item.component';
 @Component({
   selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>',
@@ -61,8 +69,12 @@ class MockStyleIconsComponent {
   @Input() variants: any[];
 }
 
+class MockRoutingService {}
+class MockProductService {}
+
 describe('ProductListItemComponent in product-list', () => {
   let component: ProductListItemComponent;
+  let componentInjector: Injector;
   let fixture: ComponentFixture<ProductListItemComponent>;
 
   const mockProduct = {
@@ -85,7 +97,7 @@ describe('ProductListItemComponent in product-list', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
+        imports: [RouterTestingModule, I18nTestingModule, OutletModule],
         declarations: [
           ProductListItemComponent,
           MockPictureComponent,
@@ -95,6 +107,16 @@ describe('ProductListItemComponent in product-list', () => {
           MockCxIconComponent,
           MockStyleIconsComponent,
           MockFeatureLevelDirective,
+        ],
+        providers: [
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
+          {
+            provide: ProductService,
+            useClass: MockProductService,
+          },
         ],
       })
         .overrideComponent(ProductListItemComponent, {
@@ -107,9 +129,11 @@ describe('ProductListItemComponent in product-list', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductListItemComponent);
     component = fixture.componentInstance;
+    componentInjector = fixture.debugElement.injector;
 
     component.product = mockProduct;
 
+    component.ngOnChanges({});
     fixture.detectChanges();
   });
 
@@ -179,5 +203,31 @@ describe('ProductListItemComponent in product-list', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector('cx-add-to-cart')
     ).toBeNull();
+  });
+
+  it('should have defined instance of list item context', () => {
+    expect(component['productListItemContextSource']).toBeDefined();
+  });
+
+  it('should provide ProductListItemContextSource', () => {
+    expect(componentInjector.get(ProductListItemContextSource)).toBeTruthy();
+  });
+
+  it('should provide ProductListItemContext', () => {
+    expect(componentInjector.get(ProductListItemContext)).toBe(
+      componentInjector.get(ProductListItemContextSource)
+    );
+  });
+
+  it('should push changes of input"product" to context', () => {
+    const contextSource: ProductListItemContextSource = componentInjector.get(
+      ProductListItemContextSource
+    );
+    spyOn(contextSource.product$, 'next');
+    component.product = mockProduct;
+    component.ngOnChanges({
+      product: { currentValue: component.product } as SimpleChange,
+    });
+    expect(contextSource.product$.next).toHaveBeenCalledWith(mockProduct);
   });
 });

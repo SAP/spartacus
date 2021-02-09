@@ -1,0 +1,47 @@
+<div id="{{ createAttributeIdForConfigurator(attribute) }}">
+  <ng-container
+    *ngIf="
+      attribute.values != undefined && attribute.values.length > 0;
+      else noStaticDomain
+    "
+  >
+    <ng-container *ngFor="let value of attribute.values">
+      <div
+        id="{{ createValueUiKey('label', attribute.name, value.valueCode) }}"
+        class="cx-read-only-label"
+        *ngIf="value.selected"
+        tabindex="0"
+      >
+        {{ value.valueDisplay }}
+      </div>
+    </ng-container>
+  </ng-container>
+  <ng-template #noStaticDomain>
+    <ng-container *ngIf="attribute.selectedSingleValue"
+      ><div
+        id="{{
+          createValueUiKey(
+            'label',
+            attribute.name,
+            attribute.selectedSingleValue
+          )
+        }}"
+        class="cx-read-only-label"
+        tabindex="0"
+      >
+        {{ attribute.selectedSingleValue }}
+      </div>
+    </ng-container>
+    <ng-container *ngIf="attribute.userInput"
+      ><div
+        id="{{
+          createValueUiKey('label', attribute.name, attribute.userInput)
+        }}"
+        class="cx-read-only-label"
+        tabindex="0"
+      >
+        {{ attribute.userInput }}
+      </div>
+    </ng-container>
+  </ng-template>
+</div>

@@ -22,7 +22,6 @@ import * as ts from 'typescript';
 import { routerModule } from '../new-approach/migrations/router-module';
 import {
   ANGULAR_CORE,
-  ANGULAR_LOCALIZE,
   ANGULAR_OAUTH2_OIDC,
   ANGULAR_SCHEMATICS,
   B2C_STOREFRONT_MODULE,
@@ -329,11 +328,6 @@ export function addSpartacus(options: SpartacusOptions): Rule {
         type: NodeDependencyType.Default,
         version: angularVersion,
         name: '@angular/service-worker',
-      },
-      {
-        type: NodeDependencyType.Default,
-        version: angularVersion,
-        name: ANGULAR_LOCALIZE,
       },
       {
         type: NodeDependencyType.Default,
