@@ -17,7 +17,7 @@ function deploy_spa {
     echo "Building and installing Spartacus from libs"
 
     ./run.sh install
-    cd /tmp/spartacus-latest
+    cd ${APP_HOME}
 
     echo "-----"
     echo "Initializing XDN and adding configuration"
