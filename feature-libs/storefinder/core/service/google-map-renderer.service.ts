@@ -12,6 +12,22 @@ export class GoogleMapRendererService {
   private markers: google.maps.Marker[];
 
   constructor(
+    config: StoreFinderConfig,
+    externalJsFileLoader: ExternalJsFileLoader,
+    storeDataService: StoreDataService,
+    // tslint:disable-next-line:unified-signatures
+    scriptLoader?: ScriptLoader
+  );
+  /**
+   * @deprecated since 3.2
+   */
+  constructor(
+    config: StoreFinderConfig,
+    externalJsFileLoader: ExternalJsFileLoader,
+    storeDataService: StoreDataService
+  );
+  // TODO: remove externalJsFileLoader in 4.0
+  constructor(
     protected config: StoreFinderConfig,
     protected externalJsFileLoader: ExternalJsFileLoader,
     protected storeDataService: StoreDataService,
