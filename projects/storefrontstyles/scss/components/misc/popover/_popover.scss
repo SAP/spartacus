@@ -1,25 +1,23 @@
 // %cx-popover {
-//   .cx-popover {
-//     position: absolute;
-//   }
-// }
-.cx-popover {
-  position: absolute;
-  width: 200px;
-  background-color: var(--cx-color-light);
-  border-radius: 0.5rem;
-  padding: 1rem;
-  top: 50px;
-  right: 50px;
 
-  .arrow {
-    position: absolute;
-    top: -18px;
-    left: 20px;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-bottom: 20px solid var(--cx-color-light);
-    width: 0;
-    height: 0;
-  }
+// }
+
+.cx-popover {
+  padding: 0.2rem;
+  top: 0;
+  left: 50%;
+  z-index: 1060;
+  max-width: 276px;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: left;
+  text-align: start;
+  line-break: auto;
+  font-size: 0.875rem;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0.3rem;
+  white-space: normal;
 }

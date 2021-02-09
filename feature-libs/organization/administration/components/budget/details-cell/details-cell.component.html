@@ -1,7 +1,5 @@
-
 <ng-template #details>
-  <span>Hello <strong>Popover</strong>! {{test$ | async }}</span>
+  <span>Hello <strong>Popover</strong>! {{ test$ | async }}</span>
 </ng-template>
 
-
-<button class="link" [cxPopover]="details">Details</button>
+<button class="link" [cxPopover]="details" [placement]="'top'">Details</button>

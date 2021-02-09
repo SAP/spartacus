@@ -1,4 +1,7 @@
 <div class="cx-popover">
   <div class="arrow"></div>
-  <ng-container *ngTemplateOutlet="content"></ng-container>
+  <ng-container *ngIf="isTemplate">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </ng-container>
+  <span *ngIf="!isTemplate">{{ content }}</span>
 </div>

@@ -10,8 +10,4 @@ import { CellComponent } from '../../shared';
 })
 export class BudgetDetailsCellComponent extends CellComponent {
   test$ = of('hello world').pipe(tap((data) => console.log(data)));
-
-  public get key() {
-    return this.model.code;
-  }
 }
