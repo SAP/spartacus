@@ -201,9 +201,9 @@ function build_spartacus {
 function install_from_sources {
     printh "Installing with local @spartacus/*@${SPARTACUS_VERSION}"
 
-#    prepare_install
+    prepare_install
 
-#    build_spartacus
+    build_spartacus
 
     install_local_packages
 
