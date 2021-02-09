@@ -40,8 +40,6 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     super();
   }
 
-  //constructor(protected cpqUtilitiesService: CpqConfiguratorUtilitiesService) {}
-
   ngOnInit() {
     this.multipleSelectionValues = this.attribute.values.map(
       ({ name, quantity, selected, valueCode }) => ({
@@ -187,32 +185,13 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     );
   }
 
-  getSelectedValuesPrice(
-    attribute: Configurator.Attribute
-  ): number | undefined {
-    return attribute?.values
-      ?.filter((value: Configurator.Value) => value?.selected)
-      ?.reduce((total, value) => total + (value?.valuePrice?.value ?? 0), 0);
-  }
-
-  getSelectedValuesPriceTotal(
-    attribute: Configurator.Attribute
-  ): number | undefined {
-    return attribute?.values
-      ?.filter((value: Configurator.Value) => value?.selected)
-      ?.reduce(
-        (total, value) => total + (value?.valuePriceTotal?.value ?? 0),
-        0
-      );
-  }
-
-  setFormula(priceTotal?: Configurator.PriceDetails) {
+  extractPriceFormulaParameters() {
     return {
       quantity: 0,
       price: {
         value: 0,
       },
-      priceTotal: priceTotal,
+      priceTotal: this.attribute.attributePriceTotal,
       isLightedUp: true,
     };
   }

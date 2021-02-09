@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ConfiguratorPriceComponent } from './configurator-price.component';
-import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator';
+import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 import { I18nTestingModule } from '@spartacus/core';
 
 const createTestData = (

@@ -51,7 +51,7 @@
 
     <div
       class="cx-product-card-rows column"
-      *ngIf="!singleDropdown || getProductPrice(product)"
+      *ngIf="!singleDropdown || getProductPrice()"
     >
       <div class="cx-product-card-quantity-price">
         <div class="cx-product-card-quantity">
@@ -65,15 +65,8 @@
         </div>
         <div class="cx-product-card-price">
           <cx-configurator-price
-            *ngIf="getProductPrice(product)"
-            [formula]="
-              setFormula(
-                product.quantity,
-                product.valuePrice,
-                product.valuePriceTotal,
-                product.selected
-              )
-            "
+            *ngIf="getProductPrice()"
+            [formula]="extractPriceFormulaParameters()"
           ></cx-configurator-price>
         </div>
       </div>

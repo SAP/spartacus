@@ -88,29 +88,26 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
     };
   }
 
-  getProductPrice(
-    product: Configurator.Value
-  ): Configurator.PriceDetails | number {
-    return product?.valuePrice || product?.quantity || product?.valuePriceTotal;
+  getProductPrice(): Configurator.PriceDetails | number {
+    return (
+      this.product?.valuePrice ||
+      this.product?.quantity ||
+      this.product?.valuePriceTotal
+    );
   }
 
-  setFormula(
-    quantity?: number,
-    price?: Configurator.PriceDetails,
-    priceTotal?: Configurator.PriceDetails,
-    isLightedUp?: boolean
-  ) {
+  extractPriceFormulaParameters() {
     if (!this.multiSelect) {
       return {
-        price: price,
-        isLightedUp: isLightedUp,
+        price: this.product.valuePrice,
+        isLightedUp: this.product.selected,
       };
     }
     return {
-      quantity: quantity,
-      price: price,
-      priceTotal: priceTotal,
-      isLightedUp: isLightedUp,
+      quantity: this.product.quantity,
+      price: this.product.valuePrice,
+      priceTotal: this.product.valuePriceTotal,
+      isLightedUp: this.product.selected,
     };
   }
 }

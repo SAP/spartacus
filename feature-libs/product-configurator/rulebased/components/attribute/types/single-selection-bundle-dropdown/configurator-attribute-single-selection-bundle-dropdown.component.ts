@@ -12,6 +12,7 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
 import { FormControl } from '@angular/forms';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { BehaviorSubject } from 'rxjs';
+import { ConfiguratorPriceService } from '../../../../core/facade/configurator-price.service';
 
 @Component({
   selector: 'cx-configurator-attribute-single-selection-bundle-dropdown',
@@ -32,7 +33,10 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  constructor(private quantityService: ConfiguratorAttributeQuantityService) {
+  constructor(
+    private quantityService: ConfiguratorAttributeQuantityService,
+    private priceService: ConfiguratorPriceService
+  ) {
     super();
   }
 
@@ -100,37 +104,19 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
     }
   }
 
-  getSelectedValuePrice(
-    attribute: Configurator.Attribute
-  ): Configurator.PriceDetails | undefined {
-    return attribute?.values?.find((value) => value?.selected)?.valuePrice;
+  getSelectedValuePrice(): Configurator.PriceDetails | undefined {
+    return this.priceService.getSelectedValuePrice(this.attribute);
   }
 
-  getSelectedValuePriceTotal(
-    attribute: Configurator.Attribute
-  ): Configurator.PriceDetails | undefined {
-    return attribute?.values?.find((value) => value?.selected)?.valuePriceTotal;
+  isPriceDataDefined(): boolean {
+    return this.priceService.isPriceDataDefined(this.attribute);
   }
 
-  getProductPrice(
-    attribute: Configurator.Attribute
-  ): Configurator.PriceDetails | number {
-    return (
-      attribute?.quantity &&
-      this.getSelectedValuePrice(attribute) &&
-      this.getSelectedValuePriceTotal(attribute)
-    );
-  }
-
-  setFormula(
-    quantity?: number,
-    price?: Configurator.PriceDetails,
-    priceTotal?: Configurator.PriceDetails
-  ) {
+  extractPriceFormulaParameters() {
     return {
-      quantity: quantity,
-      price: price,
-      priceTotal: priceTotal,
+      quantity: this.attribute?.quantity,
+      price: this.getSelectedValuePrice(),
+      priceTotal: this.attribute?.attributePriceTotal,
       isLightedUp: true,
     };
   }

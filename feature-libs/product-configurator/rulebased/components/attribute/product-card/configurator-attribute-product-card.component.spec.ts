@@ -56,7 +56,6 @@ class MockProductService {
 }
 
 @Component({
-  // tslint:disable-next-line: component-selector
   selector: 'cx-configurator-price',
   template: '',
 })
@@ -367,7 +366,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       component.product.valuePriceTotal = undefined;
       fixture.detectChanges();
 
-      expect(component.getProductPrice(component.product)).toBeUndefined();
+      expect(component.getProductPrice()).toBeUndefined();
 
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
@@ -383,9 +382,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       component.product.valuePriceTotal = undefined;
       fixture.detectChanges();
 
-      expect(component.getProductPrice(component.product)).toBe(
-        component.product.quantity
-      );
+      expect(component.getProductPrice()).toBe(component.product.quantity);
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
@@ -405,9 +402,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       component.product.valuePriceTotal = undefined;
       fixture.detectChanges();
 
-      expect(component.getProductPrice(component.product)).toBe(
-        component.product.valuePrice
-      );
+      expect(component.getProductPrice()).toBe(component.product.valuePrice);
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
@@ -427,7 +422,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       };
       fixture.detectChanges();
 
-      expect(component.getProductPrice(component.product)).toBe(
+      expect(component.getProductPrice()).toBe(
         component.product.valuePriceTotal
       );
 
@@ -453,7 +448,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       };
       fixture.detectChanges();
 
-      expect(component.getProductPrice(component.product)).not.toBeUndefined();
+      expect(component.getProductPrice()).not.toBeUndefined();
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,

@@ -22,13 +22,7 @@
     <div class="cpq-attribute-label">
       <span>{{ attributeOverview?.attribute }}</span>
       <cx-configurator-price
-        [formula]="
-          setFormula(
-            attributeOverview?.quantity,
-            attributeOverview?.valuePrice,
-            attributeOverview?.valuePriceTotal
-          )
-        "
+        [formula]="extractPriceFormulaParameters()"
       ></cx-configurator-price>
     </div>
   </div>
