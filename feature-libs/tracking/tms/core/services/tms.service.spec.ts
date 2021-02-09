@@ -50,11 +50,12 @@ describe('TmsService', () => {
   let aepCollector: AepCollectorMock;
 
   beforeEach(() => {
+    const windowObject = {} as WindowObject;
     TestBed.configureTestingModule({
       providers: [
         { provide: TmsConfig, useValue: tmsConfig },
         { provide: EventService, useClass: MockEventService },
-        { provide: WindowRef, useValue: window },
+        { provide: WindowRef, useValue: windowObject },
         GtmCollectorMock,
         AepCollectorMock,
       ],
