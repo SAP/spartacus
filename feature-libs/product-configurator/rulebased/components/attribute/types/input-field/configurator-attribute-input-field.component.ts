@@ -3,12 +3,16 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { Subscription, timer } from 'rxjs';
+import { debounce } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorUISettings } from '../../../config/configurator-ui-settings';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
@@ -19,14 +23,20 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
 })
 export class ConfiguratorAttributeInputFieldComponent
   extends ConfiguratorAttributeBaseComponent
-  implements OnInit {
+  implements OnInit, OnDestroy {
   attributeInputForm = new FormControl('');
+  protected sub: Subscription;
+
   @Input() ownerType: CommonConfigurator.OwnerType;
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
   @Input() ownerKey: string;
 
   @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
+
+  constructor(protected config: ConfiguratorUISettings) {
+    super();
+  }
 
   ngOnInit() {
     this.attributeInputForm.setValue(this.attribute.userInput);
@@ -38,6 +48,13 @@ export class ConfiguratorAttributeInputFieldComponent
     ) {
       this.attributeInputForm.markAsTouched();
     }
+    this.sub = this.attributeInputForm.valueChanges
+      .pipe(
+        debounce(() =>
+          timer(this.config.rulebasedConfigurator.inputDebounceTime)
+        )
+      )
+      .subscribe(() => this.onChange());
   }
 
   /**
@@ -53,5 +70,9 @@ export class ConfiguratorAttributeInputFieldComponent
     };
 
     this.inputChange.emit(event);
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 }

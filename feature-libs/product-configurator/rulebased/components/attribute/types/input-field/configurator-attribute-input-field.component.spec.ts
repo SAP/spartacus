@@ -1,9 +1,19 @@
 import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../../../core/model/configurator.model';
+import {
+  ConfiguratorUISettings,
+  DefaultConfiguratorUISettings,
+} from '../../../config/configurator-ui-settings';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribute-input-field.component';
 
@@ -22,6 +32,9 @@ describe('ConfigAttributeInputFieldComponent', () => {
   const groupId = 'theGroupId';
   const userInput = 'theUserInput';
 
+  const DEBOUNCE_TIME =
+    DefaultConfiguratorUISettings.rulebasedConfigurator.inputDebounceTime;
+
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -30,7 +43,13 @@ describe('ConfigAttributeInputFieldComponent', () => {
           MockFocusDirective,
         ],
         imports: [ReactiveFormsModule],
-        providers: [ConfiguratorAttributeBaseComponent],
+        providers: [
+          ConfiguratorAttributeBaseComponent,
+          {
+            provide: ConfiguratorUISettings,
+            useValue: DefaultConfiguratorUISettings,
+          },
+        ],
       })
         .overrideComponent(ConfiguratorAttributeInputFieldComponent, {
           set: {
@@ -55,6 +74,7 @@ describe('ConfigAttributeInputFieldComponent', () => {
     component.ownerType = CommonConfigurator.OwnerType.CART_ENTRY;
     component.ownerKey = ownerKey;
     fixture.detectChanges();
+    spyOn(component.inputChange, 'emit');
   });
 
   it('should create', () => {
@@ -79,13 +99,12 @@ describe('ConfigAttributeInputFieldComponent', () => {
     expect(styleClasses).toContain('ng-invalid');
   });
 
-  it('should set form as touched  on init', () => {
+  it('should set form as touched on init', () => {
     expect(component.attributeInputForm.touched).toEqual(true);
   });
 
-  it('should call emit of selectionChange onSelect', () => {
+  it('should emit inputValue onChange', () => {
     component.attributeInputForm.setValue(userInput);
-    spyOn(component.inputChange, 'emit').and.callThrough();
     component.onChange();
     expect(component.inputChange.emit).toHaveBeenCalledWith(
       jasmine.objectContaining({
@@ -106,4 +125,48 @@ describe('ConfigAttributeInputFieldComponent', () => {
     component.ngOnInit();
     expect(component.attributeInputForm.value).toEqual(userInput);
   });
+
+  it('should delay emit inputValue for debounce period', fakeAsync(() => {
+    component.attributeInputForm.setValue('testValue');
+    fixture.detectChanges();
+    expect(component.inputChange.emit).not.toHaveBeenCalled();
+    tick(DEBOUNCE_TIME);
+    expect(component.inputChange.emit).toHaveBeenCalled();
+  }));
+
+  it('should only emit once with last value if inputValue is changed within debounce period', fakeAsync(() => {
+    component.attributeInputForm.setValue('testValue');
+    fixture.detectChanges();
+    tick(DEBOUNCE_TIME / 2);
+    component.attributeInputForm.setValue('testValue123');
+    fixture.detectChanges();
+    tick(DEBOUNCE_TIME / 2);
+    expect(component.inputChange.emit).not.toHaveBeenCalled();
+    tick(DEBOUNCE_TIME);
+    expect(component.inputChange.emit).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        changedAttribute: jasmine.objectContaining({
+          userInput: 'testValue123',
+        }),
+      })
+    );
+  }));
+
+  it('should emit twice if inputValue is changed after debounce period', fakeAsync(() => {
+    component.attributeInputForm.setValue('testValue');
+    fixture.detectChanges();
+    tick(DEBOUNCE_TIME);
+    component.attributeInputForm.setValue('testValue123');
+    fixture.detectChanges();
+    tick(DEBOUNCE_TIME);
+    expect(component.inputChange.emit).toHaveBeenCalledTimes(2);
+  }));
+
+  it('should not emit inputValue after destroy', fakeAsync(() => {
+    component.attributeInputForm.setValue('123');
+    fixture.detectChanges();
+    component.ngOnDestroy();
+    tick(DEBOUNCE_TIME);
+    expect(component.inputChange.emit).not.toHaveBeenCalled();
+  }));
 });
