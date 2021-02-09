@@ -12,6 +12,10 @@ import {
   VariantQualifier,
 } from '@spartacus/core';
 
+/**
+ * @deprecated since 3.1
+ * Use feature-library @spartacus/product/variants instead
+ */
 @Component({
   selector: 'cx-variant-style-icons',
   templateUrl: './variant-style-icons.component.html',

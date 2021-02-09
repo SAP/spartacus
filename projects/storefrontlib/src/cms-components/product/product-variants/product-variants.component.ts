@@ -4,6 +4,10 @@ import { Observable } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { tap, filter, distinctUntilChanged } from 'rxjs/operators';
 
+/**
+ * @deprecated since 3.1
+ * Use feature-library @spartacus/product/variants instead
+ */
 @Component({
   selector: 'cx-product-variants',
   templateUrl: './product-variants.component.html',

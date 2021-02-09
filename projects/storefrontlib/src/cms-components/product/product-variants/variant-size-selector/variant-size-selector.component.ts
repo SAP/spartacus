@@ -10,6 +10,10 @@ import {
 } from '@spartacus/core';
 import { filter, take } from 'rxjs/operators';
 
+/**
+ * @deprecated since 3.1
+ * Use feature-library @spartacus/product/variants instead
+ */
 @Component({
   selector: 'cx-variant-size-selector',
   templateUrl: './variant-size-selector.component.html',
