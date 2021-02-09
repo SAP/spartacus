@@ -40,7 +40,7 @@ export const orgBudget = {
     update: 'Budget {{ item.name }} updated successfully',
     create: 'Budget {{ item.name }} created successfully',
     disabledEdit: 'Enable the budget to allow editing',
-    disabledParent: 'Unit must be enabled before this budget may be enabled',
+    disabledEnable: 'Unit must be enabled before this budget may be enabled',
   },
 
   links: {

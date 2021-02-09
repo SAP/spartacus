@@ -8,9 +8,9 @@
     {{ 'organization.create' | cxTranslate }}
   </a>
   <cx-explain-disable-messages
-    messages
+    info
     i18nRoot="orgUnitChildren"
-    disabledCreateMessage="disabledCreateMessage"
+    [displayMessageConfig]="{ disabledCreate: true }"
   >
   </cx-explain-disable-messages>
 </cx-org-sub-list>

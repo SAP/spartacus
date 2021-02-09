@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { ItemService } from '../../item.service';
@@ -9,7 +9,8 @@ import { BaseItem } from '../../organization.model';
   templateUrl: './explain-disable-messages.component.html',
   host: { class: 'content-wrapper' },
 })
-export class ExplainDisableMessagesComponent<T extends BaseItem> {
+export class ExplainDisableMessagesComponent<T extends BaseItem>
+  implements OnInit {
   /**
    * The disabled state is calculated but can be provided as well.
    */
@@ -24,9 +25,13 @@ export class ExplainDisableMessagesComponent<T extends BaseItem> {
   @Input() i18nRoot: string;
 
   /**
-   * Flag for disabledCreate message
+   * To configure the messages to display
    */
-  @Input() disabledCreateMessage?: string;
+  @Input() displayMessageConfig: {
+    disabledEdit?: boolean;
+    disabledEnable?: boolean;
+    disabledCreate?: boolean;
+  };
 
   /**
    * resolves the current item.
@@ -35,6 +40,16 @@ export class ExplainDisableMessagesComponent<T extends BaseItem> {
 
   constructor(protected itemService: ItemService<T>) {}
   iconTypes = ICON_TYPE;
+
+  ngOnInit() {
+    if (!this.displayMessageConfig) {
+      this.displayMessageConfig = {
+        disabledEdit: true,
+        disabledEnable: true,
+        disabledCreate: false,
+      };
+    }
+  }
 
   isParentDisabled(item: T): boolean {
     return (

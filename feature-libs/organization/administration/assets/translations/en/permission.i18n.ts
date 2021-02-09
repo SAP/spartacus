@@ -36,7 +36,7 @@ export const orgPurchaseLimit = {
     update: 'Purchase Limit {{ item.code }} updated successfully',
     create: 'Purchase Limit {{ item.code }} created successfully',
     disabledEdit: 'Enable the purchase limit to allow editing',
-    disabledParent:
+    disabledEnable:
       'Unit must be enabled before this purchase limit may be enabled',
   },
 

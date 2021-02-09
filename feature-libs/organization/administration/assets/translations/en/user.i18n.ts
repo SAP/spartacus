@@ -51,7 +51,7 @@ export const orgUser = {
     updatePassword:
       'User {{item.firstName}} {{item.lastName}} password updated successfully',
     disabledEdit: 'Enable the user to allow editing',
-    disabledParent: 'Unit must be enabled before this user may be enabled',
+    disabledEnable: 'Unit must be enabled before this user may be enabled',
   },
 
   approver: {

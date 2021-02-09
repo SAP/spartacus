@@ -1,22 +1,21 @@
-<section
-  class="messages details"
-  *ngIf="!(current$ | async)?.active && current$ | async as item"
->
-  <cx-icon class="icon-info" [type]="iconTypes.INFO"></cx-icon>
+<section *ngIf="!(current$ | async)?.active && current$ | async as item">
+  <cx-icon class="cx-icon" [type]="iconTypes.INFO"></cx-icon>
   <ul
     [ngClass]="{
-      removeBullet: !isParentDisabled(item) || disabledCreateMessage
+      removeBullet:
+        !isParentDisabled(item) ||
+        displayMessageConfig?.disabledCreate ||
+        !displayMessageConfig?.disabledEnable
     }"
   >
-    <li>
-      {{
-        disabledCreateMessage
-          ? (i18nRoot + '.messages.disabledCreate' | cxTranslate)
-          : (i18nRoot + '.messages.disabledEdit' | cxTranslate)
-      }}
+    <li *ngIf="displayMessageConfig?.disabledEdit">
+      {{ i18nRoot + '.messages.disabledEdit' | cxTranslate }}
     </li>
-    <li *ngIf="isParentDisabled(item) && !disabledCreateMessage">
-      {{ i18nRoot + '.messages.disabledParent' | cxTranslate }}
+    <li *ngIf="isParentDisabled(item) && displayMessageConfig?.disabledEnable">
+      {{ i18nRoot + '.messages.disabledEnable' | cxTranslate }}
+    </li>
+    <li *ngIf="displayMessageConfig?.disabledCreate">
+      {{ i18nRoot + '.messages.disabledCreate' | cxTranslate }}
     </li>
   </ul>
 </section>
