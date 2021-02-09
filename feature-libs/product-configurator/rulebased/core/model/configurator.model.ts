@@ -50,7 +50,7 @@ export namespace Configurator {
   }
 
   export interface Configuration {
-    configId?: string;
+    configId: string;
     consistent?: boolean;
     complete?: boolean;
     totalNumberOfIssues?: number;
