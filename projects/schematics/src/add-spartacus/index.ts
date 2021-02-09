@@ -2,21 +2,29 @@ import { experimental } from '@angular-devkit/core';
 import { italic, red } from '@angular-devkit/core/src/terminal';
 import {
   chain,
+  externalSchematic,
   noop,
   Rule,
   SchematicContext,
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
-import { isImported } from '@schematics/angular/utility/ast-utils';
+import {
+  getDecoratorMetadata,
+  isImported,
+} from '@schematics/angular/utility/ast-utils';
 import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
+import * as ts from 'typescript';
+import { routerModule } from '../new-approach/migrations/router-module';
 import {
+  ANGULAR_CORE,
   ANGULAR_LOCALIZE,
   ANGULAR_OAUTH2_OIDC,
+  ANGULAR_SCHEMATICS,
   B2C_STOREFRONT_MODULE,
   DEFAULT_ANGULAR_OAUTH2_OIDC_VERSION,
   DEFAULT_NGRX_VERSION,
@@ -42,10 +50,9 @@ import {
 } from '../shared/utils/package-utils';
 import { parseCSV } from '../shared/utils/transform-utils';
 import {
-  getAngularJsonFile,
-  getDefaultProjectNameFromWorkspace,
   getProjectFromWorkspace,
   getProjectTargets,
+  getSourceRoot,
 } from '../shared/utils/workspace-utils';
 import { Schema as SpartacusOptions } from './schema';
 
@@ -138,12 +145,14 @@ function updateAppModule(options: SpartacusOptions): Rule {
   };
 }
 
-function installStyles(tree: Tree, options: SpartacusOptions): Rule {
+function installStyles(options: SpartacusOptions): Rule {
   return (host: Tree) => {
-    const projectName = getDefaultProjectNameFromWorkspace(tree);
-    const angularJson = getAngularJsonFile(tree);
+    const project = getProjectFromWorkspace(host, options);
+    const rootStyles = getProjectTargets(project)?.build?.options?.styles?.[0];
     const styleFilePath =
-      angularJson.projects[projectName]?.architect?.build?.options?.styles[0];
+      typeof rootStyles === 'object'
+        ? ((rootStyles as any)?.input as string)
+        : rootStyles;
 
     if (!styleFilePath) {
       console.warn(
@@ -251,6 +260,7 @@ function updateIndexFile(tree: Tree, options: SpartacusOptions): Rule {
 
 export function addSpartacus(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
+    console.log(options);
     const project = getProjectFromWorkspace(tree, options);
     const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
     const angularVersion = getAngularVersion(tree);
@@ -339,11 +349,65 @@ export function addSpartacus(options: SpartacusOptions): Rule {
 
     return chain([
       addPackageJsonDependencies(dependencies),
+      ensureModuleExists('app-routing', 'app', 'app', options.project),
+      routerModule(options.project),
+      // add app-routing module to app.module
+      // add store module
+      // add effects module
+      ensureModuleExists('spartacus', 'app/spartacus', 'app', options.project),
+      // add base storefront module
+      // add base storefront to declarations
+      ensureModuleExists(
+        'spartacus-features',
+        'app/spartacus',
+        'spartacus',
+        options.project
+      ),
+      // add all the features modules
+      ensureModuleExists(
+        'spartacus-configuration',
+        'app/spartacus',
+        'spartacus',
+        options.project
+      ),
+      // add the configuration
       updateAppModule(options),
-      installStyles(tree, options),
+      installStyles(options),
       updateMainComponent(project, options),
       options.useMetaTags ? updateIndexFile(tree, options) : noop(),
       installPackageJsonDependencies(),
     ])(tree, context);
+  };
+}
+
+function ensureModuleExists(
+  name: string,
+  path: string,
+  module: string,
+  project: string
+): Rule {
+  return (host: Tree) => {
+    const modulePath = `${getSourceRoot(host, { project: project })}/${path}`;
+    const filePath = `${modulePath}/${name}.module.ts`;
+    if (host.exists(filePath)) {
+      const module = getTsSourceFile(host, filePath);
+      const metadata = getDecoratorMetadata(
+        module,
+        'NgModule',
+        ANGULAR_CORE
+      )[0] as ts.ObjectLiteralExpression;
+
+      if (metadata) {
+        return noop();
+      }
+    }
+
+    return externalSchematic(ANGULAR_SCHEMATICS, 'module', {
+      name: name,
+      flat: true,
+      commonModule: false,
+      path: modulePath,
+      module: module,
+    });
   };
 }

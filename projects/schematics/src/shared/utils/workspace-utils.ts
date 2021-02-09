@@ -66,11 +66,13 @@ export function getAngularJsonFile(
   ) as unknown) as experimental.workspace.WorkspaceSchema;
 }
 
-export function getProjectFromWorkspace(
+export function getProjectFromWorkspace<
+  TProjectType extends ProjectType.Application
+>(
   tree: Tree,
   options: SpartacusOptions,
   files = DEFAULT_POSSIBLE_PROJECT_FILES
-): experimental.workspace.WorkspaceProject {
+): WorkspaceProject<TProjectType> {
   const { workspace } = getWorkspace(tree, files);
 
   if (!options.project) {
@@ -88,7 +90,7 @@ export function getProjectFromWorkspace(
     );
   }
 
-  return project;
+  return project as WorkspaceProject<ProjectType.Application>;
 }
 
 export function getDefaultProjectNameFromWorkspace(tree: Tree): string {
