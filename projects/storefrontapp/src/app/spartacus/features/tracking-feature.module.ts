@@ -6,11 +6,11 @@ import {
 } from '@spartacus/core';
 import { NavigationEvent } from '@spartacus/storefront';
 import { AepModule } from '@spartacus/tracking/tms/aep';
-import { TmsCoreModule } from '@spartacus/tracking/tms/core';
+import { BaseTmsModule } from '@spartacus/tracking/tms/core';
 import { GtmModule } from '@spartacus/tracking/tms/gtm';
 
 @NgModule({
-  imports: [TmsCoreModule.forRoot(), GtmModule.forRoot(), AepModule.forRoot()],
+  imports: [BaseTmsModule.forRoot(), GtmModule, AepModule],
   providers: [
     provideConfig({
       tagManager: {

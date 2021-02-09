@@ -10,10 +10,10 @@ export function tmsFactory(service: TmsService): () => void {
 }
 
 @NgModule({})
-export class TmsCoreModule {
-  static forRoot(): ModuleWithProviders<TmsCoreModule> {
+export class BaseTmsModule {
+  static forRoot(): ModuleWithProviders<BaseTmsModule> {
     return {
-      ngModule: TmsCoreModule,
+      ngModule: BaseTmsModule,
       providers: [
         {
           provide: APP_INITIALIZER,
