@@ -5,7 +5,6 @@ import { I18nTestingModule, Product } from '@spartacus/core';
 import {
   CurrentProductService,
   ProductListItemContext,
-  ProductListItemContextOwner,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorProductScope } from '../../core/model/configurator-product-scope';
@@ -20,10 +19,14 @@ const mockProduct: Product = {
   configuratorType: configuratorType,
 };
 
-class MockCurrentProductService {
+class MockCurrentProductService implements Partial<CurrentProductService> {
   getProduct(): Observable<Product> {
     return of(mockProduct);
   }
+}
+
+class MockProductListItemContext implements Partial<ProductListItemContext> {
+  product$ = of(mockProduct);
 }
 
 @Pipe({
@@ -35,7 +38,6 @@ class MockUrlPipe implements PipeTransform {
 
 let component: ConfigureProductComponent;
 let currentProductService: CurrentProductService;
-let productListItemContext: ProductListItemContext;
 let fixture: ComponentFixture<ConfigureProductComponent>;
 let htmlElem: HTMLElement;
 
@@ -58,7 +60,7 @@ function setupWithCurrentProductService(useCurrentProductServiceOnly: boolean) {
       providers: [
         {
           provide: ProductListItemContext,
-          useClass: ProductListItemContextOwner,
+          useClass: MockProductListItemContext,
         },
         {
           provide: CurrentProductService,
@@ -66,14 +68,6 @@ function setupWithCurrentProductService(useCurrentProductServiceOnly: boolean) {
         },
       ],
     }).compileComponents();
-    productListItemContext = TestBed.inject(
-      ProductListItemContext as Type<ProductListItemContext>
-    );
-    if (productListItemContext) {
-      (productListItemContext as ProductListItemContextOwner).setProduct(
-        mockProduct
-      );
-    }
   }
 
   currentProductService = TestBed.inject(

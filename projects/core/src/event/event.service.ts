@@ -1,7 +1,14 @@
-import { AbstractType, Injectable, isDevMode, Optional } from '@angular/core';
+import {
+  AbstractType,
+  Injectable,
+  isDevMode,
+  Optional,
+  Type,
+} from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { FeatureConfigService } from '../features-config/services/feature-config.service';
+import { createFrom } from '../util/create-from';
 import { CxEvent } from './cx-event';
 import { MergingSubject } from './utils/merging-subject';
 
@@ -90,9 +97,17 @@ export class EventService {
 
   /**
    * Dispatches an instance of an individual event.
+   * If the eventType is provided a new event will be created for that type and with the event data.
+   *
+   * @param event an event
+   * @param eventType (optional) - type of event
    */
-  dispatch(event: Object): void {
-    const eventType = event.constructor as AbstractType<any>;
+  dispatch<T>(event: T, eventType?: Type<T>): void {
+    if (!eventType) {
+      eventType = event.constructor as Type<T>;
+    } else if (!(event instanceof eventType)) {
+      event = createFrom(eventType, event);
+    }
     const inputSubject$ = this.getInputSubject(eventType);
     inputSubject$.next(event);
   }

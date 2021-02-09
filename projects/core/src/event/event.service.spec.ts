@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject, of, Subject, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { FeatureConfigService } from '../features-config/services/feature-config.service';
 import { CxEvent } from './cx-event';
 import { EventService } from './event.service';
@@ -95,6 +96,17 @@ describe('EventService', () => {
     service.dispatch(new EventA(3));
 
     expect(results).toEqual([new EventA(2), new EventA(3)]);
+  });
+
+  it('should create an event before dispatching', () => {
+    let result: EventA;
+    sub = service
+      .get(EventA)
+      .pipe(take(1))
+      .subscribe((e) => (result = e));
+    service.dispatch({ a: 1 }, EventA);
+
+    expect(result).toEqual(new EventA(1));
   });
 
   it('should allow for manual unregistering', () => {

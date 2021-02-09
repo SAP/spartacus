@@ -142,9 +142,6 @@
       ],
       "@spartacus/storefront": [
         "projects/storefrontlib/src/public_api"
-      ],
-      "@spartacus/vendor": [
-        "projects/vendor/public_api"
       ]
     }
   },
