@@ -7,8 +7,8 @@ import { BulkPrice } from '../model/bulk-price.model';
 @Injectable({
   providedIn: 'root',
 })
-export class BulkPricingService {
-  protected readonly PRODUCT_SCOPE = ProductScope.PRICES;
+export class BulkPricService {
+  protected readonly PRODUCT_SCOPE = ProductScope.BULK_PRICES;
 
   constructor(protected productService: ProductService) {}
 
