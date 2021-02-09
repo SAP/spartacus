@@ -199,9 +199,8 @@ Use the following template:
 }
 ```
 
-- run `ts-node ./tools/tsconfig-paths/index.ts` script to update `compilerOptions.path` property in tsconfig files
+- run `yarn config:update` script to update `compilerOptions.path` property in tsconfig files
 - `tsconfig.lib.prod.json` - save to re-format it. Make sure that Ivy is off (for the time being, this will change in the future)
-- `tsconfig.spec.json` - save to re-format
 - `tslint.json` - change from `lib` to `cx` in the `directive-selector` and `component-selector`
 - the rest of the generated file should be removed
 
@@ -287,8 +286,6 @@ Also make sure to add the lib to the `switch` statement at the end of the file.
 
 - `sonar-project.properties` - list your library to this file
 
-- `tsconfig.compodoc.json` - add your library to this file
-
 - `projects/schematics/package.json` - add the library to the package group
 
 - `scripts/templates/changelog.ejs` - add the library to `const CUSTOM_SORT_ORDER`
@@ -324,7 +321,7 @@ If adding multiple entry points to the generated library, make sure to do the fo
 
 - make sure to follow the general folder structure, as seen in e.g. `feature-libs/product` library
 - add `ng-package.json` to each of the feature folders
-- run `ts-node ./tools/tsconfig-paths/index.ts` script to update `compilerOptions.path` property in tsconfig files
+- run `yarn config:update` script to update `compilerOptions.path` property in tsconfig files
 
 ## Testing
 

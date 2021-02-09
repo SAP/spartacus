@@ -1,0 +1,39 @@
+%cx-configurator-cart-entry-info {
+  .cx-configuration-info {
+    display: flex;
+
+    @include media-breakpoint-up(xl) {
+      flex-direction: row;
+    }
+
+    @include media-breakpoint-down(xl) {
+      flex-direction: column;
+    }
+
+    &:first-of-type {
+      margin-block-start: 10px;
+    }
+
+    &:last-of-type {
+      margin-block-end: 10px;
+    }
+
+    .cx-label {
+      @include type('8');
+      word-break: break-word;
+    }
+
+    .cx-value {
+      @include type('7');
+      word-break: break-word;
+      padding-inline-start: 0px;
+    }
+
+    @include media-breakpoint-down(xl) {
+      .cx-label,
+      .cx-value {
+        width: 100%;
+      }
+    }
+  }
+}
