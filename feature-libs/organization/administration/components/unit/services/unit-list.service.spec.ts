@@ -87,6 +87,75 @@ const mockedTree = {
   ],
 };
 
+const mockedTreeBeforeConvert = {
+  id: 'Rustic',
+  name: 'Rustic',
+  active: true,
+  children: [
+    {
+      id: 'test3',
+      name: 'test3',
+      parent: 'Rustic',
+      active: true,
+      children: [],
+    },
+    {
+      id: 'test1',
+      name: 'test1',
+      parent: 'Rustic',
+      active: true,
+      children: [],
+    },
+    {
+      id: 'test2',
+      name: 'test2',
+      parent: 'Rustic',
+      active: true,
+      children: [],
+    },
+  ],
+};
+
+const mockedTreeAfterConvert = {
+  pagination: {
+    totalResults: 4,
+  },
+  values: [
+    {
+      active: true,
+      children: [
+        {
+          id: 'test1',
+          name: 'test1',
+          parent: 'Rustic',
+          active: true,
+          children: [],
+        },
+        {
+          id: 'test2',
+          name: 'test2',
+          parent: 'Rustic',
+          active: true,
+          children: [],
+        },
+        {
+          id: 'test3',
+          name: 'test3',
+          parent: 'Rustic',
+          active: true,
+          children: [],
+        },
+      ],
+      count: 3,
+      depthLevel: 0,
+      expanded: false,
+      id: 'Rustic',
+      name: 'Rustic',
+      uid: 'Rustic',
+    },
+  ],
+};
+
 const treeToggle$ = new BehaviorSubject(
   new Map().set(mockedTree.id, TREE_TOGGLE.EXPANDED)
 );
@@ -113,6 +182,12 @@ export class MockUnitTreeService {
   isExpanded = createSpy('isExpanded').and.returnValue(false);
 }
 
+export class UnitListServiceForSortTest extends UnitListService {
+  public convertListItemWrapper(unit: B2BUnitNode) {
+    return this.convertListItem(unit);
+  }
+}
+
 describe('UnitListService', () => {
   let service: UnitListService;
   let treeService: UnitTreeService;
@@ -120,7 +195,10 @@ describe('UnitListService', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         providers: [
-          UnitListService,
+          {
+            provide: UnitListService,
+            useClass: UnitListServiceForSortTest,
+          },
           {
             provide: UnitTreeService,
             useClass: MockUnitTreeService,
@@ -167,6 +245,15 @@ describe('UnitListService', () => {
 
       service.getData().subscribe((table) => (result = table));
       verifyExpandedAll(result);
+    });
+
+    it('should automatically sort unit tree by name', () => {
+      let serviceForSort = service as UnitListServiceForSortTest;
+      let convertedTree = serviceForSort.convertListItemWrapper(
+        mockedTreeBeforeConvert
+      );
+
+      expect(convertedTree).toEqual(mockedTreeAfterConvert);
     });
   });
 });
