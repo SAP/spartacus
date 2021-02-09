@@ -1,8 +1,9 @@
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { provideConfig, provideDefaultConfig } from '@spartacus/core';
 import { defaultAdobeExperiencePlatformConfig } from '@spartacus/tracking/tms/aep';
-import { TmsConfig, TmsService } from '@spartacus/tracking/tms/core';
 import { defaultGoogleTagManagerConfig } from '@spartacus/tracking/tms/gtm';
+import { TmsConfig } from './config/tms-config';
+import { TmsService } from './services/tms.service';
 
 /**
  * The factory that conditionally (based on the configuration) starts collecting events
