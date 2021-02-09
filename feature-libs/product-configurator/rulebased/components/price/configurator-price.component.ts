@@ -1,45 +1,116 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Configurator } from '../../core';
 
-export enum ConfiguratorPriceType {
-  PRICE_ONLY = 'priceOnly',
-  QUANTITY_ONLY = 'quantityOnly',
-  PRICE_AND_QUANTITY = 'priceAndQuantity',
+export interface ConfiguratorPriceComponentOptions {
+  quantity?: number;
+  price?: Configurator.PriceDetails;
+  priceTotal?: Configurator.PriceDetails;
+  isLightedUp?: boolean;
+  isOverview?: boolean;
 }
 
 @Component({
   selector: 'cx-configurator-price',
   templateUrl: './configurator-price.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorPriceComponent {
-  @Input() productPrice: number;
-  @Input() quantity = 1;
-
-  configuratorPriceType = ConfiguratorPriceType;
+  @Input() formula: ConfiguratorPriceComponentOptions = {
+    quantity: 0,
+    price: null,
+    priceTotal: null,
+    isLightedUp: false,
+    isOverview: false,
+  };
 
   /**
-   * Returns price type according to the values passed to the component
-   *
-   * @returns {ConfiguratorPriceType} - price type
+   * Verifies whether only quantity should be displayed.
    */
-  getPriceType(): ConfiguratorPriceType {
-    if (this?.productPrice && this.quantity === 1)
-      return ConfiguratorPriceType.PRICE_ONLY;
-
-    if (!this?.productPrice && this.quantity > 1)
-      return ConfiguratorPriceType.QUANTITY_ONLY;
-
-    if (this?.productPrice && this.quantity > 1)
-      return ConfiguratorPriceType.PRICE_AND_QUANTITY;
+  displayQuantityOnly() {
+    return (
+      this.formula?.quantity &&
+      this.formula?.quantity >= 1 &&
+      this.formula.isOverview &&
+      this.formula?.price?.value === 0
+    );
   }
 
   /**
-   * Returns total price calculated from product price and quantity
-   *
-   * @returns {number} - total price
+   * Retrieves the quantity.
    */
-  calculateTotal(): number {
-    if (!this?.productPrice) return;
+  get quantity(): string {
+    return this.formula?.quantity?.toString();
+  }
 
-    return this.productPrice * this.quantity;
+  /**
+   * Retrieves price.
+   */
+  get price(): string {
+    if (this.formula?.priceTotal) {
+      return this.priceTotal;
+    } else {
+      return '+ ' + this.formula?.price?.formattedValue;
+    }
+  }
+
+  /**
+   * Verifies whether quantity with price should be displayed.
+   */
+  displayQuantityAndPrice() {
+    return this.formula?.price?.value !== 0 && this.formula?.quantity >= 1;
+  }
+
+  /**
+   * Retrieves formula for quantity with price.
+   */
+  get quantityWihPrice(): string {
+    return this.quantity + 'x(' + this.formula?.price?.formattedValue + ')';
+  }
+
+  /**
+   * Retrieves the total price.
+   */
+  get priceTotal(): string {
+    return '+ ' + this.formula?.priceTotal?.formattedValue;
+  }
+
+  /**
+   * Verifies whether only price should be displayed.
+   */
+  displayPriceOnly() {
+    return (
+      (this.formula?.price?.value || this.formula?.priceTotal?.value) &&
+      !this.displayQuantityAndPrice()
+    );
+  }
+
+  /**
+   * Verifies whether the price is lighted up.
+   */
+  isPriceLightedUp() {
+    return this.formula.isLightedUp;
+  }
+
+  /**
+   * Retrieves the styling for the corresponding element.
+   */
+  get styleClass() {
+    let styleClass = 'cx-price';
+    if (!this.isPriceLightedUp()) {
+      styleClass += ' cx-greyed-out';
+    }
+
+    return styleClass;
+  }
+
+  /**
+   * Verifies whether the price formula should be displayed.
+   */
+  displayFormula() {
+    return (
+      (this.formula?.quantity && this.formula?.quantity !== 0) ||
+      (this.formula?.price && this.formula?.price?.value !== 0) ||
+      (this.formula?.priceTotal && this.formula?.priceTotal?.value !== 0)
+    );
   }
 }
