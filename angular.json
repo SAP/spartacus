@@ -41,7 +41,7 @@
               {
                 "input": "projects/storefrontapp/src/styles/lib-product-configurator.scss",
                 "bundleName": "product-configurator"
-              },              
+              },
               {
                 "input": "projects/storefrontapp/src/styles/lib-storefinder.scss",
                 "bundleName": "storefinder"
@@ -105,12 +105,6 @@
             "development": {
               "browserTarget": "storefrontapp:build:development"
             }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "storefrontapp:build"
           }
         },
         "test": {
@@ -265,44 +259,6 @@
             "tsConfig": [
               "projects/core/tsconfig.lib.json",
               "projects/core/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      }
-    },
-    "vendor": {
-      "root": "projects/vendor",
-      "sourceRoot": "projects/vendor/src",
-      "projectType": "library",
-      "prefix": "cx",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "tsConfig": "projects/vendor/tsconfig.lib.json",
-            "project": "projects/vendor/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/vendor/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/vendor/src/test.ts",
-            "tsConfig": "projects/vendor/tsconfig.spec.json",
-            "karmaConfig": "projects/vendor/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/vendor/tsconfig.lib.json",
-              "projects/vendor/tsconfig.spec.json"
             ],
             "exclude": ["**/node_modules/**"]
           }
