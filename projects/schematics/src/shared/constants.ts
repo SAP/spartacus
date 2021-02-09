@@ -500,6 +500,13 @@ export const SPLIT_VIEW_DEACTIVATE_GUARD = 'SplitViewDeactivateGuard';
 
 export const QUALTRICS_EMBEDDED_FEEDBACK_SCSS_FILE_NAME =
   'qualtrics-embedded-feedback.scss';
+
+export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
+export const VARIANT_COLOR_SELECTOR_COMPONENT = 'VariantColorSelectorComponent';
+export const VARIANT_SIZE_SELECTOR_COMPONENT = 'VariantSizeSelectorComponent';
+export const VARIANT_STYLE_ICONS_COMPONENT = 'VariantStyleIconsComponent';
+export const VARIANT_STYLE_SELECTOR_COMPONENT = 'VariantStyleSelectorComponent';
+
 /***** Removed public api end *****/
 
 /***** Properties start *****/
