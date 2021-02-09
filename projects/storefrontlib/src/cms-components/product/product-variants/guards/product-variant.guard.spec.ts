@@ -6,7 +6,6 @@ import {
   ProductService,
   RoutingConfig,
   SemanticPathService,
-  UrlCommands,
 } from '@spartacus/core';
 import { ProductVariantGuard } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -16,14 +15,12 @@ const mockPurchasableProduct = {
   name: 'purchasableProduct',
   productCode: 'purchasableTest123',
   purchasable: true,
-  multidimensional: false,
 };
 
 const mockNonPurchasableProduct = {
   name: 'nonPurchasableProduct',
   productCode: 'purchasableTest123',
   purchasable: false,
-  multidimensional: false,
   variantOptions: [
     {
       code: 'mock_code_3',
@@ -34,40 +31,6 @@ const mockNonPurchasableProduct = {
       stock: { stockLevel: 0 },
     },
   ],
-};
-
-const mockMultidimensionalProductAndPurchasable = {
-  name: 'multidimensionalProduct',
-  productCode: 'multidimensionalTest123',
-  purchasable: true,
-  multidimensional: true,
-  variantMatrix: [
-    {
-      variantOption: {
-        code: 'multidimensionalVariantTest123',
-      },
-    },
-  ],
-};
-
-const mockMultidimensionalProductAndWithOutPurchasable = {
-  name: 'multidimensionalProduct',
-  productCode: 'multidimensionalTest123',
-  purchasable: false,
-  multidimensional: true,
-  variantMatrix: [
-    {
-      variantOption: {
-        code: 'multidimensionalVariantTest123',
-      },
-    },
-  ],
-};
-
-const mockMultidimensionalProductWithVariantMAtrix = {
-  name: 'multidimensionalProduct',
-  productCode: 'multidimensionalTest123',
-  multidimensional: true,
 };
 
 const activatedRoute = ({
@@ -81,16 +44,10 @@ class MockProductService implements Partial<ProductService> {
     return of();
   }
 }
-class MockSemanticPathService implements Partial<SemanticPathService> {
-  transform(_commands: UrlCommands): any[] {
-    return [];
-  }
-}
 
 describe('ProductVariantGuard', () => {
   let guard: ProductVariantGuard;
   let productService: ProductService;
-  let semanticPathService: MockSemanticPathService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -102,7 +59,6 @@ describe('ProductVariantGuard', () => {
               routes: {
                 product: {
                   paths: ['product/:productCode/:name'],
-                  paramsMapping: { productCode: 'code' },
                 },
               },
             },
@@ -112,124 +68,52 @@ describe('ProductVariantGuard', () => {
           provide: ProductService,
           useClass: MockProductService,
         },
-        {
-          provide: SemanticPathService,
-          useClass: MockSemanticPathService,
-        },
+        SemanticPathService,
       ],
       imports: [RouterTestingModule],
     });
 
     guard = TestBed.inject(ProductVariantGuard);
     productService = TestBed.inject(ProductService);
-    semanticPathService = TestBed.inject(SemanticPathService);
   });
 
-  fdescribe('canActivate', () => {
-    it('should return true if no productCode in route parameter (launch from smartedit)', (done) => {
-      const activatedRouteWithoutParams = ({
-        params: {},
-      } as unknown) as ActivatedRouteSnapshot;
+  it('should return true if product is purchasable', (done) => {
+    spyOn(productService, 'get').and.returnValue(of(mockPurchasableProduct));
 
-      guard
-        .canActivate(activatedRouteWithoutParams)
-        .pipe(take(1))
-        .subscribe((val) => {
-          expect(val).toBeTruthy();
-          done();
-        });
-    });
+    guard
+      .canActivate(activatedRoute)
+      .pipe(take(1))
+      .subscribe((val) => {
+        expect(val).toBeTruthy();
+        done();
+      });
+  });
 
-    // Gen 1 variants
-    describe('product without multidimensional parameter', () => {
-      it('should return true if product is purchasable', (done) => {
-        spyOn(productService, 'get').and.returnValue(
-          of(mockPurchasableProduct)
+  it('should return url for product variant if product is non-purchasable', (done) => {
+    spyOn(productService, 'get').and.returnValue(of(mockNonPurchasableProduct));
+
+    guard
+      .canActivate(activatedRoute)
+      .pipe(take(1))
+      .subscribe((val) => {
+        expect(val.toString()).toEqual(
+          '/product/purchasableTest123/nonPurchasableProduct'
         );
-
-        guard
-          .canActivate(activatedRoute)
-          .pipe(take(1))
-          .subscribe((val) => {
-            expect(val).toBeTruthy();
-            done();
-          });
+        done();
       });
+  });
 
-      it('should return url for product variant if product is non-purchasable', (done) => {
-        spyOn(productService, 'get').and.returnValue(
-          of(mockNonPurchasableProduct)
-        );
+  it('should return true if no productCode in route parameter (launch from smartedit)', (done) => {
+    const activatedRouteWithoutParams = ({
+      params: {},
+    } as unknown) as ActivatedRouteSnapshot;
 
-        spyOn(semanticPathService, 'transform').and.returnValue([
-          `/product/${mockNonPurchasableProduct.productCode}/${mockNonPurchasableProduct.name}`,
-        ]);
-
-        guard
-          .canActivate(activatedRoute)
-          .pipe(take(1))
-          .subscribe((val) => {
-            expect(val.toString()).toEqual(
-              '/product/purchasableTest123/nonPurchasableProduct'
-            );
-            done();
-          });
+    guard
+      .canActivate(activatedRouteWithoutParams)
+      .pipe(take(1))
+      .subscribe((val) => {
+        expect(val).toBeTruthy();
+        done();
       });
-    });
-
-    // Mutli-D variants
-    describe('product with multidimensional parameter', () => {
-      describe('and product has variantMatrix', () => {
-        it('should return true if product is purchasable', (done) => {
-          spyOn(productService, 'get').and.returnValue(
-            of(mockMultidimensionalProductAndPurchasable)
-          );
-
-          guard
-            .canActivate(activatedRoute)
-            .pipe(take(1))
-            .subscribe((val) => {
-              expect(val).toBeTruthy();
-              done();
-            });
-        });
-
-        it('should return url if product is not purchasable and navigate to product variatn page', (done) => {
-          spyOn(productService, 'get').and.returnValue(
-            of(mockMultidimensionalProductAndWithOutPurchasable)
-          );
-
-          spyOn(semanticPathService, 'transform').and.returnValue([
-            `/product/${mockMultidimensionalProductAndWithOutPurchasable.variantMatrix[0].variantOption.code}/${mockMultidimensionalProductAndWithOutPurchasable.name}`,
-          ]);
-
-          guard
-            .canActivate(activatedRoute)
-            .pipe(take(1))
-            .subscribe((val) => {
-              expect(val.toString()).toEqual(
-                '/product/multidimensionalVariantTest123/multidimensionalProduct'
-              );
-              done();
-            });
-        });
-      });
-
-      describe('and product has not variantMatrix', () => {
-        it('should return true', (done) => {
-          spyOn(productService, 'get').and.returnValue(
-            of(mockMultidimensionalProductWithVariantMAtrix)
-          );
-
-          guard
-            .canActivate(activatedRoute)
-            .pipe(take(1))
-            .subscribe((val) => {
-              expect(val).toBeTruthy();
-              done();
-            });
-        });
-      });
-    });
   });
 });
