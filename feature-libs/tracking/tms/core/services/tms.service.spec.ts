@@ -7,29 +7,38 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { TmsConfig } from '../config/tms-config';
-import { WindowObject } from '../model/tms.model';
+import { TmsCollectorConfig, TmsConfig } from '../config/tms-config';
+import { TmsCollector, WindowObject } from '../model/tms.model';
 import { TmsService } from './tms.service';
 
-const event = createFrom(LoginEvent, {});
+const loginEvent = createFrom(LoginEvent, {});
+class GtmCollectorMock implements Partial<TmsCollector> {
+  init(_config: TmsCollectorConfig, _windowObject: WindowObject): void {}
+  pushEvent<T extends CxEvent>(
+    _config: TmsCollectorConfig,
+    _windowObject: WindowObject,
+    _event: T | any
+  ): void {}
+  map<T extends CxEvent>(event: T): T | object {
+    return event;
+  }
+}
+class AepCollectorMock extends GtmCollectorMock {}
+
 class MockEventService {
   get(): Observable<LoginEvent> {
-    return of(event);
+    return of(loginEvent);
   }
 }
 
 const tmsConfig: TmsConfig = {
   tagManager: {
     gtm: {
-      eventMapper: (event) => event,
-      pushStrategy: <T extends CxEvent>(_event: T, _winObj: WindowObject) => {},
-      debug: false,
+      collector: GtmCollectorMock,
       events: [LoginEvent],
     },
     aep: {
-      eventMapper: (event) => event,
-      pushStrategy: <T extends CxEvent>(_event: T, _winObj: WindowObject) => {},
-      debug: false,
+      collector: AepCollectorMock,
       events: [LoginEvent],
     },
   },
@@ -37,43 +46,59 @@ const tmsConfig: TmsConfig = {
 
 describe('TmsService', () => {
   let service: TmsService;
+  let gtmCollector: GtmCollectorMock;
+  let aepCollector: AepCollectorMock;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         { provide: TmsConfig, useValue: tmsConfig },
         { provide: EventService, useClass: MockEventService },
-        { provide: WindowRef, useValue: {} },
+        { provide: WindowRef, useValue: window },
+        GtmCollectorMock,
+        AepCollectorMock,
       ],
     });
 
     service = TestBed.inject(TmsService);
+    gtmCollector = TestBed.inject(GtmCollectorMock);
+    aepCollector = TestBed.inject(AepCollectorMock);
 
-    spyOn(tmsConfig.tagManager.gtm, 'pushStrategy').and.callThrough();
-    spyOn(tmsConfig.tagManager.aep, 'pushStrategy').and.callThrough();
-    spyOn(tmsConfig.tagManager.gtm, 'eventMapper').and.callThrough();
-    spyOn(tmsConfig.tagManager.aep, 'eventMapper').and.callThrough();
+    spyOn(gtmCollector, 'init').and.callThrough();
+    spyOn(gtmCollector, 'map').and.callThrough();
+    spyOn(gtmCollector, 'pushEvent').and.callThrough();
+    spyOn(aepCollector, 'init').and.callThrough();
+    spyOn(aepCollector, 'map').and.callThrough();
+    spyOn(aepCollector, 'pushEvent').and.callThrough();
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should invoke the provided pushStrategy() function', () => {
+  it('should call the init function', () => {
     service.collect();
-    expect(tmsConfig.tagManager.gtm.pushStrategy).toHaveBeenCalledWith(
-      event,
+    expect(gtmCollector.init).toHaveBeenCalledWith(
+      tmsConfig.tagManager.gtm,
       undefined
     );
-    expect(tmsConfig.tagManager.aep.pushStrategy).toHaveBeenCalledWith(
-      event,
+    expect(aepCollector.init).toHaveBeenCalledWith(
+      tmsConfig.tagManager.aep,
       undefined
     );
   });
 
-  it('should invoke the provided eventMapper() function', () => {
+  it('should invoke the pushEvent function', () => {
     service.collect();
-    expect(tmsConfig.tagManager.gtm.eventMapper).toHaveBeenCalledWith(event);
-    expect(tmsConfig.tagManager.aep.eventMapper).toHaveBeenCalledWith(event);
+    expect(gtmCollector.pushEvent).toHaveBeenCalledWith(
+      tmsConfig.tagManager.gtm,
+      undefined,
+      loginEvent
+    );
+    expect(aepCollector.pushEvent).toHaveBeenCalledWith(
+      tmsConfig.tagManager.aep,
+      undefined,
+      loginEvent
+    );
   });
 });
