@@ -7,10 +7,10 @@ import { BulkPrice } from '../model/bulk-price.model';
 @Injectable({
   providedIn: 'root',
 })
-export class BulkPricingService {
+export class BulkPricService {
   protected readonly PRODUCT_SCOPE = ProductScope.BULK_PRICES;
 
-  constructor(private productService: ProductService) {}
+  constructor(protected productService: ProductService) {}
 
   getBulkPrices(productCode: string): Observable<BulkPrice[]> {
     return this.productService.get(productCode, this.PRODUCT_SCOPE).pipe(
