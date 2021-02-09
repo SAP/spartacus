@@ -6,24 +6,21 @@ import {
   ProductService,
   RoutingConfig,
   SemanticPathService,
-  UrlCommands,
 } from '@spartacus/core';
-import { ProductVariantsGuard } from '@spartacus/product/variants/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { ProductVariantsGuard } from './product-variants.guard';
 
 const mockPurchasableProduct = {
   name: 'purchasableProduct',
   productCode: 'purchasableTest123',
   purchasable: true,
-  multidimensional: false,
 };
 
 const mockNonPurchasableProduct = {
   name: 'nonPurchasableProduct',
   productCode: 'purchasableTest123',
   purchasable: false,
-  multidimensional: false,
   variantOptions: [
     {
       code: 'mock_code_3',
@@ -47,16 +44,10 @@ class MockProductService implements Partial<ProductService> {
     return of();
   }
 }
-class MockSemanticPathService implements Partial<SemanticPathService> {
-  transform(_commands: UrlCommands): any[] {
-    return [];
-  }
-}
 
 describe('ProductVariantsGuard', () => {
   let guard: ProductVariantsGuard;
   let productService: ProductService;
-  let semanticPathService: MockSemanticPathService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -68,7 +59,6 @@ describe('ProductVariantsGuard', () => {
               routes: {
                 product: {
                   paths: ['product/:productCode/:name'],
-                  paramsMapping: { productCode: 'code' },
                 },
               },
             },
@@ -78,68 +68,52 @@ describe('ProductVariantsGuard', () => {
           provide: ProductService,
           useClass: MockProductService,
         },
-        {
-          provide: SemanticPathService,
-          useClass: MockSemanticPathService,
-        },
+        SemanticPathService,
       ],
       imports: [RouterTestingModule],
     });
 
     guard = TestBed.inject(ProductVariantsGuard);
     productService = TestBed.inject(ProductService);
-    semanticPathService = TestBed.inject(SemanticPathService);
   });
 
-  describe('canActivate', () => {
-    it('should return true if no productCode in route parameter (launch from smartedit)', (done) => {
-      const activatedRouteWithoutParams = ({
-        params: {},
-      } as unknown) as ActivatedRouteSnapshot;
+  it('should return true if product is purchasable', (done) => {
+    spyOn(productService, 'get').and.returnValue(of(mockPurchasableProduct));
 
-      guard
-        .canActivate(activatedRouteWithoutParams)
-        .pipe(take(1))
-        .subscribe((val) => {
-          expect(val).toBeTruthy();
-          done();
-        });
-    });
-
-    describe('product without multidimensional parameter', () => {
-      it('should return true if product is purchasable', (done) => {
-        spyOn(productService, 'get').and.returnValue(
-          of(mockPurchasableProduct)
-        );
-
-        guard
-          .canActivate(activatedRoute)
-          .pipe(take(1))
-          .subscribe((val) => {
-            expect(val).toBeTruthy();
-            done();
-          });
+    guard
+      .canActivate(activatedRoute)
+      .pipe(take(1))
+      .subscribe((val) => {
+        expect(val).toBeTruthy();
+        done();
       });
+  });
 
-      it('should return url for product variant if product is non-purchasable', (done) => {
-        spyOn(productService, 'get').and.returnValue(
-          of(mockNonPurchasableProduct)
+  it('should return url for product variant if product is non-purchasable', (done) => {
+    spyOn(productService, 'get').and.returnValue(of(mockNonPurchasableProduct));
+
+    guard
+      .canActivate(activatedRoute)
+      .pipe(take(1))
+      .subscribe((val) => {
+        expect(val.toString()).toEqual(
+          '/product/purchasableTest123/nonPurchasableProduct'
         );
-
-        spyOn(semanticPathService, 'transform').and.returnValue([
-          `/product/${mockNonPurchasableProduct.productCode}/${mockNonPurchasableProduct.name}`,
-        ]);
-
-        guard
-          .canActivate(activatedRoute)
-          .pipe(take(1))
-          .subscribe((val) => {
-            expect(val.toString()).toEqual(
-              '/product/purchasableTest123/nonPurchasableProduct'
-            );
-            done();
-          });
+        done();
       });
-    });
+  });
+
+  it('should return true if no productCode in route parameter (launch from smartedit)', (done) => {
+    const activatedRouteWithoutParams = ({
+      params: {},
+    } as unknown) as ActivatedRouteSnapshot;
+
+    guard
+      .canActivate(activatedRouteWithoutParams)
+      .pipe(take(1))
+      .subscribe((val) => {
+        expect(val).toBeTruthy();
+        done();
+      });
   });
 });
