@@ -9,5 +9,4 @@ export const environment: Environment = {
   cds: buildProcess.env.CX_CDS,
   b2b: buildProcess.env.CX_B2B,
   cdc: buildProcess.env.CX_CDC,
-  tracking: buildProcess.env.CX_TRACKING,
 };

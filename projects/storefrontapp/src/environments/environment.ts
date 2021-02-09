@@ -22,5 +22,4 @@ export const environment: Environment = {
   cds: buildProcess.env.CX_CDS ?? false,
   b2b: buildProcess.env.CX_B2B ?? false,
   cdc: buildProcess.env.CX_CDC ?? false,
-  tracking: buildProcess.env.CX_TRACKING ?? true,
 };

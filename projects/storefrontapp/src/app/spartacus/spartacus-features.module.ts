@@ -97,9 +97,6 @@ if (environment.cdc) {
 if (environment.cds) {
   featureModules.push(CdsFeatureModule);
 }
-if (environment.tracking) {
-  featureModules.push(TrackingFeatureModule);
-}
 
 @NgModule({
   imports: [
@@ -205,6 +202,7 @@ if (environment.tracking) {
     PageEventModule,
     ProductPageEventModule,
 
+    TrackingFeatureModule,
     /************************* Opt-in features *************************/
 
     ExternalRoutesModule.forRoot(), // to opt-in explicitly, is added by default schematics
