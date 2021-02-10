@@ -1,15 +1,27 @@
-<section *ngIf="!(current$ | async)?.active && current$ | async as item">
-  <cx-icon [type]="iconTypes.INFO"></cx-icon>
-  <ul>
-    <li *ngIf="displayMessageConfig?.disabledCreate">
-      {{ i18nRoot + '.messages.disabledCreate' | cxTranslate }}
-    </li>
-    <li *ngIf="displayMessageConfig?.disabledEdit">
-      {{ i18nRoot + '.messages.disabledEdit' | cxTranslate }}
-    </li>
-    <li *ngIf="isParentDisabled(item) && displayMessageConfig?.disabledEnable">
-      {{ i18nRoot + '.messages.disabledEnable' | cxTranslate }}
-    </li>
-    <ng-content></ng-content>
-  </ul>
-</section>
+<ng-container *ngIf="current$ | async as item">
+  <section
+    *ngIf="
+      isItemDisabled(item) ||
+      isParentDisabled(item) ||
+      isRootUnit(item) ||
+      disabled
+    "
+  >
+    <cx-icon [type]="iconTypes.INFO"></cx-icon>
+    <ul>
+      <li *ngIf="isItemDisabled(item) && displayMessage?.disabledCreate">
+        {{ i18nRoot + '.messages.disabledCreate' | cxTranslate }}
+      </li>
+      <li *ngIf="isItemDisabled(item) && displayMessage?.disabledEdit">
+        {{ i18nRoot + '.messages.disabledEdit' | cxTranslate }}
+      </li>
+      <li *ngIf="isParentDisabled(item)">
+        {{ i18nRoot + '.messages.disabledEnable' | cxTranslate }}
+      </li>
+      <li *ngIf="isRootUnit(item)">
+        {{ i18nRoot + '.messages.disabledDisable' | cxTranslate }}
+      </li>
+      <ng-content></ng-content>
+    </ul>
+  </section>
+</ng-container>

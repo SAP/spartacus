@@ -10,7 +10,11 @@
   <cx-explain-disable-messages
     info
     i18nRoot="orgUnitChildren"
-    [displayMessageConfig]="{ disabledCreate: true }"
+    [displayMessage]="{
+      disabledCreate: true,
+      disabledEnable: false,
+      disabledEdit: false
+    }"
   >
   </cx-explain-disable-messages>
 </cx-org-sub-list>

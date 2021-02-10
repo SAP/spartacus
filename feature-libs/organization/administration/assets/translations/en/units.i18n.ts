@@ -27,6 +27,7 @@ export const orgUnit = {
     create: 'Unit {{ item.name }} created successfully',
     disabledEdit: 'Enable the unit to allow editing',
     disabledEnable: 'Parent must be enabled before this unit may be enabled',
+    disabledDisable: 'Root unit can not be disabled.',
   },
 
   links: {
