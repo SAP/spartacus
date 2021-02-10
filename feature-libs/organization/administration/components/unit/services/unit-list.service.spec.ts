@@ -182,12 +182,6 @@ export class MockUnitTreeService {
   isExpanded = createSpy('isExpanded').and.returnValue(false);
 }
 
-export class UnitListServiceForSortTest extends UnitListService {
-  public convertListItemWrapper(unit: B2BUnitNode) {
-    return this.convertListItem(unit);
-  }
-}
-
 describe('UnitListService', () => {
   let service: UnitListService;
   let treeService: UnitTreeService;
@@ -195,10 +189,7 @@ describe('UnitListService', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         providers: [
-          {
-            provide: UnitListService,
-            useClass: UnitListServiceForSortTest,
-          },
+          UnitListService,
           {
             provide: UnitTreeService,
             useClass: MockUnitTreeService,
@@ -248,10 +239,7 @@ describe('UnitListService', () => {
     });
 
     it('should automatically sort unit tree by name', () => {
-      const serviceForSort = service as UnitListServiceForSortTest;
-      const convertedTree = serviceForSort.convertListItemWrapper(
-        mockedTreeBeforeConvert
-      );
+      const convertedTree = service['convertListItem'](mockedTreeBeforeConvert);
 
       expect(convertedTree).toEqual(mockedTreeAfterConvert);
     });
