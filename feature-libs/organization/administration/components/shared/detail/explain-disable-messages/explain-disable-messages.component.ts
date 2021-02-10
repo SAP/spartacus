@@ -35,6 +35,8 @@ export class ExplainDisableMessagesComponent<T extends BaseItem>
     disabledDisable?: boolean;
   };
 
+  @Input() enableCustomMessage: boolean = false;
+
   /**
    * resolves the current item.
    */
