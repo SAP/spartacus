@@ -131,7 +131,7 @@ export class OptimizedSsrEngine {
           waitingForRender = setTimeout(() => {
             waitingForRender = undefined;
             this.fallbackToCsr(response, filePath, callback);
-            console.log(
+            this.log(
               `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${request?.url}`
             );
           }, timeout);
