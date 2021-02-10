@@ -44,6 +44,7 @@ export class OccLoadedConfigConverter {
         baseStore.defaultCurrency
       ),
       urlParameters: this.getUrlParams(baseSite.urlEncodingAttributes),
+      theme: baseSite.theme,
     };
   }
 

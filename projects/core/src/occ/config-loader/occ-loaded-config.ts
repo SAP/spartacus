@@ -18,4 +18,9 @@ export interface OccLoadedConfig {
    * Site context parameters to persist in the route
    */
   urlParameters?: string[];
+
+  /**
+   * Site theme
+   */
+  theme?: string;
 }
