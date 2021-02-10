@@ -9,7 +9,6 @@ import {
 import {
   AuthService,
   BaseSiteService,
-  ExternalJsFileLoader,
   LanguageService,
   ScriptLoader,
   User,
@@ -29,19 +28,17 @@ export class CdcJsService implements OnDestroy {
   protected errorLoading$ = new ReplaySubject<boolean>(1);
   protected subscription: Subscription = new Subscription();
 
-  // TODO: remove externalJsFileLoader in 4.0
   constructor(
     protected cdcConfig: CdcConfig,
     protected baseSiteService: BaseSiteService,
     protected languageService: LanguageService,
-    protected externalJsFileLoader: ExternalJsFileLoader,
+    protected scriptLoader: ScriptLoader,
     protected winRef: WindowRef,
     protected cdcAuth: CdcAuthService,
     protected auth: AuthService,
     protected zone: NgZone,
     protected userService: UserService,
-    @Inject(PLATFORM_ID) protected platform: any,
-    protected scriptLoader?: ScriptLoader
+    @Inject(PLATFORM_ID) protected platform: any
   ) {}
 
   /**
@@ -83,32 +80,18 @@ export class CdcJsService implements OnDestroy {
             );
             if (scriptForBaseSite) {
               const javascriptUrl = `${scriptForBaseSite}&lang=${language}`;
-              if (this.scriptLoader) {
-                this.scriptLoader.embedScript({
-                  src: javascriptUrl,
-                  params: undefined,
-                  attributes: { type: 'text/javascript' },
-                  callback: () => {
-                    this.registerEventListeners(baseSite);
-                    this.loaded$.next(true);
-                  },
-                  errorCallback: () => {
-                    this.errorLoading$.next(true);
-                  },
-                });
-              } else {
-                this.externalJsFileLoader.load(
-                  javascriptUrl,
-                  undefined,
-                  () => {
-                    this.registerEventListeners(baseSite);
-                    this.loaded$.next(true);
-                  },
-                  () => {
-                    this.errorLoading$.next(true);
-                  }
-                );
-              }
+              this.scriptLoader.embedScript({
+                src: javascriptUrl,
+                params: undefined,
+                attributes: { type: 'text/javascript' },
+                callback: () => {
+                  this.registerEventListeners(baseSite);
+                  this.loaded$.next(true);
+                },
+                errorCallback: () => {
+                  this.errorLoading$.next(true);
+                },
+              });
               this.winRef.nativeWindow['__gigyaConf'] = { include: 'id_token' };
             }
           })
