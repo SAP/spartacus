@@ -1,14 +1,13 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ConfiguratorAttributeQuantityComponent } from './configurator-attribute-quantity.component';
+import { FormControl } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { ItemCounterComponent } from '@spartacus/storefront';
-import { ChangeDetectionStrategy } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { QuantityConfig } from '../../config/quantity-config';
-
-class MockQuantityConfig {
-  debounceTime = 500;
-}
+import {
+  ConfiguratorUISettings,
+  DefaultConfiguratorUISettings,
+} from '../../config/configurator-ui-settings';
+import { ConfiguratorAttributeQuantityComponent } from './configurator-attribute-quantity.component';
 
 describe(' ConfiguratorAttributeQuantityComponent', () => {
   let component: ConfiguratorAttributeQuantityComponent;
@@ -24,8 +23,8 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
         imports: [I18nTestingModule],
         providers: [
           {
-            provide: QuantityConfig,
-            useClass: MockQuantityConfig,
+            provide: ConfiguratorUISettings,
+            useValue: DefaultConfiguratorUISettings,
           },
         ],
       })
