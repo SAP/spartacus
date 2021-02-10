@@ -319,7 +319,7 @@ function getRequestUrl(req: Request): string {
 }
 
 function getRequestOrigin(req: Request): string {
-  return req.protocol + &#x27;://&#x27; + req.get(&#x27;host&#x27;);
+  return req.protocol + &#x27;://&#x27; + req.hostname;
 }
 </code></pre>
     </div>
