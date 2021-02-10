@@ -62,11 +62,10 @@ export class OptimizedSsrEngine {
     );
 
     if (isRendering) {
-      this.log(`CSR fallback: rendering in progress (${request.url})`, true);
+      this.log(`CSR fallback: rendering in progress (${request.url})`);
     } else if (concurrencyLimitExceed) {
       this.log(
-        `CSR fallback: Concurrency limit exceeded (${this.ssrOptions.concurrency})`,
-        true
+        `CSR fallback: Concurrency limit exceeded (${this.ssrOptions.concurrency})`
       );
     }
 
@@ -132,7 +131,8 @@ export class OptimizedSsrEngine {
             waitingForRender = undefined;
             this.fallbackToCsr(response, filePath, callback);
             this.log(
-              `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${request?.url}`
+              `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${request?.url}`,
+              false
             );
           }, timeout);
         } else {
@@ -141,11 +141,11 @@ export class OptimizedSsrEngine {
 
         // start rendering
         this.renderingCache.setAsRendering(renderingKey);
-        this.log(`Rendering started (${request?.url})`, true);
+        this.log(`Rendering started (${request?.url})`);
         this.expressEngine(filePath, options, (err, html) => {
           this.currentConcurrency--;
 
-          this.log(`Rendering completed (${request?.url})`, true);
+          this.log(`Rendering completed (${request?.url})`);
 
           if (waitingForRender) {
             // if request is still waiting for render, return it
@@ -168,11 +168,11 @@ export class OptimizedSsrEngine {
         this.fallbackToCsr(response, filePath, callback);
       }
     } else {
-      this.log(`Render from cache (${request?.url})`, true);
+      this.log(`Render from cache (${request?.url})`);
     }
   }
 
-  protected log(message: string, debug: boolean) {
+  protected log(message: string, debug = true) {
     if (!debug || this.ssrOptions.debug) {
       console.log(message);
     }
