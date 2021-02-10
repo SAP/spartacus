@@ -35,6 +35,9 @@ export class ExplainDisableMessagesComponent<T extends BaseItem>
     disabledDisable?: boolean;
   };
 
+  /**
+   * Flag to enable custom message(s), it will override all other messages
+   */
   @Input() enableCustomMessage: boolean = false;
 
   /**
