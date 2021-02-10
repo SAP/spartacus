@@ -19,7 +19,6 @@ import {
 } from '@schematics/angular/utility/dependencies';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import * as ts from 'typescript';
-import { routerModule } from '../new-approach/migrations/router-module';
 import {
   ANGULAR_CORE,
   ANGULAR_OAUTH2_OIDC,
@@ -53,6 +52,7 @@ import {
   getProjectTargets,
   getSourceRoot,
 } from '../shared/utils/workspace-utils';
+import { setupRouterModule } from './router';
 import { Schema as SpartacusOptions } from './schema';
 
 function prepareSiteContextConfig(options: SpartacusOptions): string {
@@ -259,7 +259,6 @@ function updateIndexFile(tree: Tree, options: SpartacusOptions): Rule {
 
 export function addSpartacus(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    console.log(options);
     const project = getProjectFromWorkspace(tree, options);
     const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
     const angularVersion = getAngularVersion(tree);
@@ -344,8 +343,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
     return chain([
       addPackageJsonDependencies(dependencies),
       ensureModuleExists('app-routing', 'app', 'app', options.project),
-      routerModule(options.project),
-      // add app-routing module to app.module
+      setupRouterModule(options.project),
       // add store module
       // add effects module
       ensureModuleExists('spartacus', 'app/spartacus', 'app', options.project),
