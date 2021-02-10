@@ -1,10 +1,14 @@
 <div id="{{ createAttributeIdForConfigurator(attribute) }}">
   <cx-configurator-attribute-quantity
-    (changeQuantity)="onChangeQuantity($event)"
-    [allowZero]="!attribute.required"
-    [initialQuantity]="attribute.quantity"
-    [disableQuantityActions]="disableQuantityActions || (loading$ | async)"
     *ngIf="withQuantityOnAttributeLevel"
+    (changeQuantity)="onChangeQuantity($event)"
+    [quantityOptions]="
+      extractQuantityParameters(
+        !attribute.required,
+        attribute.quantity,
+        disableQuantityActions || (loading$ | async)
+      )
+    "
   ></cx-configurator-attribute-quantity>
 
   <ng-container *ngFor="let value of attribute.values; let i = index">
@@ -31,11 +35,15 @@
       >
     </div>
     <cx-configurator-attribute-quantity
-      (changeQuantity)="onChangeValueQuantity($event, value.valueCode, i)"
-      [initialQuantity]="value.quantity"
-      [allowZero]="allowZeroValueQuantity"
-      [disableQuantityActions]="loading$ | async"
       *ngIf="value.selected && withQuantity && !withQuantityOnAttributeLevel"
+      (changeQuantity)="onChangeValueQuantity($event, value.valueCode, i)"
+      [quantityOptions]="
+        extractQuantityParameters(
+          allowZeroValueQuantity,
+          value.quantity,
+          loading$ | async
+        )
+      "
     ></cx-configurator-attribute-quantity>
   </ng-container>
 </div>

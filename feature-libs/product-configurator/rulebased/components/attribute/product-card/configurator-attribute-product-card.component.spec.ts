@@ -135,8 +135,8 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     );
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
-    component.multiSelect = false;
-    component.product = createValue(
+    component.productCardOptions.multiSelect = false;
+    component.productCardOptions.product = createValue(
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       [createImage('url', 'alt')],
       1,
@@ -164,7 +164,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should button be enabled when card actions are disabled and card is selected', () => {
-      component.product.selected = true;
+      component.productCardOptions.product.selected = true;
 
       fixture.detectChanges();
 
@@ -184,7 +184,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should button be called with proper deselect action', () => {
-      component.product.selected = true;
+      component.productCardOptions.product.selected = true;
 
       fixture.detectChanges();
 
@@ -206,7 +206,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should button have deselect text when card type is no multi select and card is selected', () => {
-      component.product.selected = true;
+      component.productCardOptions.product.selected = true;
 
       fixture.detectChanges();
 
@@ -217,8 +217,8 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should button have add text when card type is multi select and card is no selected', () => {
-      component.multiSelect = true;
-      component.product.selected = false;
+      component.productCardOptions.multiSelect = true;
+      component.productCardOptions.product.selected = false;
 
       fixture.detectChanges();
 
@@ -229,8 +229,8 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should button have remove text when card type is multi select and card is selected', () => {
-      component.multiSelect = true;
-      component.product.selected = true;
+      component.productCardOptions.multiSelect = true;
+      component.productCardOptions.product.selected = true;
 
       fixture.detectChanges();
 
@@ -243,7 +243,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
   describe('quantity', () => {
     it('should quantity be hidden when card type is no multi select', () => {
-      component.multiSelect = false;
+      component.productCardOptions.multiSelect = false;
 
       fixture.detectChanges();
 
@@ -255,7 +255,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should quantity be visible when card type is multi select', () => {
-      component.multiSelect = true;
+      component.productCardOptions.multiSelect = true;
 
       fixture.detectChanges();
 
@@ -274,7 +274,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       expect(component.handleQuantity.emit).toHaveBeenCalledWith(
         jasmine.objectContaining({
           quantity: 1,
-          valueCode: component.product.valueCode,
+          valueCode: component.productCardOptions.product.valueCode,
         })
       );
     });
@@ -296,15 +296,15 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should transformToProductType return Product', () => {
-      expect(component.transformToProductType(component.product)).toEqual(
-        productTransformed
-      );
+      expect(
+        component.transformToProductType(component.productCardOptions.product)
+      ).toEqual(productTransformed);
     });
 
     it('should display quantity when props withQuantity is true', () => {
-      component.withQuantity = true;
-      component.product.selected = true;
-      component.multiSelect = true;
+      component.productCardOptions.withQuantity = true;
+      component.productCardOptions.product.selected = true;
+      component.productCardOptions.multiSelect = true;
 
       fixture.detectChanges();
 
@@ -316,9 +316,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should not display quantity when props withQuantity is false', () => {
-      component.withQuantity = false;
-      component.product.selected = true;
-      component.multiSelect = true;
+      component.productCardOptions.withQuantity = false;
+      component.productCardOptions.product.selected = true;
+      component.productCardOptions.multiSelect = true;
 
       fixture.detectChanges();
 
@@ -330,9 +330,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should not display quantity when props multiSelect is false', () => {
-      component.withQuantity = true;
-      component.product.selected = true;
-      component.multiSelect = false;
+      component.productCardOptions.withQuantity = true;
+      component.productCardOptions.product.selected = true;
+      component.productCardOptions.multiSelect = false;
 
       fixture.detectChanges();
 
@@ -344,9 +344,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should not display quantity when value is no selected', () => {
-      component.withQuantity = true;
-      component.product.selected = false;
-      component.multiSelect = true;
+      component.productCardOptions.withQuantity = true;
+      component.productCardOptions.product.selected = false;
+      component.productCardOptions.multiSelect = true;
 
       fixture.detectChanges();
 
@@ -360,10 +360,10 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
   describe('product price at value level', () => {
     it('should return no price details and do not display content of cx-configurator-price ', () => {
-      component.product.selected = true;
-      component.product.quantity = undefined;
-      component.product.valuePrice = undefined;
-      component.product.valuePriceTotal = undefined;
+      component.productCardOptions.product.selected = true;
+      component.productCardOptions.product.quantity = undefined;
+      component.productCardOptions.product.valuePrice = undefined;
+      component.productCardOptions.product.valuePriceTotal = undefined;
       fixture.detectChanges();
 
       expect(component.getProductPrice()).toBeUndefined();
@@ -376,13 +376,15 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should return price details with quantity and display content of cx-configurator-price ', () => {
-      component.product.selected = true;
-      component.product.quantity = 2;
-      component.product.valuePrice = undefined;
-      component.product.valuePriceTotal = undefined;
+      component.productCardOptions.product.selected = true;
+      component.productCardOptions.product.quantity = 2;
+      component.productCardOptions.product.valuePrice = undefined;
+      component.productCardOptions.product.valuePriceTotal = undefined;
       fixture.detectChanges();
 
-      expect(component.getProductPrice()).toBe(component.product.quantity);
+      expect(component.getProductPrice()).toBe(
+        component.productCardOptions.product.quantity
+      );
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
@@ -392,17 +394,19 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should return price details with value price and display content of cx-configurator-price ', () => {
-      component.product.selected = true;
-      component.product.quantity = undefined;
-      component.product.valuePrice = {
+      component.productCardOptions.product.selected = true;
+      component.productCardOptions.product.quantity = undefined;
+      component.productCardOptions.product.valuePrice = {
         currencyIso: '$',
         formattedValue: '$20',
         value: 20,
       };
-      component.product.valuePriceTotal = undefined;
+      component.productCardOptions.product.valuePriceTotal = undefined;
       fixture.detectChanges();
 
-      expect(component.getProductPrice()).toBe(component.product.valuePrice);
+      expect(component.getProductPrice()).toBe(
+        component.productCardOptions.product.valuePrice
+      );
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
@@ -412,10 +416,10 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should return price details with value price total and display content of cx-configurator-price ', () => {
-      component.product.selected = true;
-      component.product.quantity = undefined;
-      component.product.valuePrice = undefined;
-      component.product.valuePriceTotal = {
+      component.productCardOptions.product.selected = true;
+      component.productCardOptions.product.quantity = undefined;
+      component.productCardOptions.product.valuePrice = undefined;
+      component.productCardOptions.product.valuePriceTotal = {
         currencyIso: '$',
         formattedValue: '$100',
         value: 100,
@@ -423,7 +427,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       fixture.detectChanges();
 
       expect(component.getProductPrice()).toBe(
-        component.product.valuePriceTotal
+        component.productCardOptions.product.valuePriceTotal
       );
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
@@ -434,14 +438,14 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should display content of cx-configurator-price ', () => {
-      component.product.selected = true;
-      component.product.quantity = 2;
-      component.product.valuePrice = {
+      component.productCardOptions.product.selected = true;
+      component.productCardOptions.product.quantity = 2;
+      component.productCardOptions.product.valuePrice = {
         currencyIso: '$',
         formattedValue: '$10',
         value: 10,
       };
-      component.product.valuePriceTotal = {
+      component.productCardOptions.product.valuePriceTotal = {
         currencyIso: '$',
         formattedValue: '$20',
         value: 20,

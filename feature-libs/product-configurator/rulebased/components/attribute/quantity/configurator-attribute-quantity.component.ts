@@ -12,8 +12,14 @@ import { Subscription, timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { ConfiguratorUISettings } from '../../config/configurator-ui-settings';
 
-interface Quantity {
+export interface Quantity {
   quantity: number;
+}
+
+export interface ConfiguratorAttributeQuantityComponentOptions {
+  allowZero?: boolean;
+  initialQuantity?: Quantity;
+  disableQuantityActions?: boolean;
 }
 
 @Component({
@@ -26,18 +32,20 @@ export class ConfiguratorAttributeQuantityComponent
   quantity = new FormControl(1);
   protected sub: Subscription;
 
-  @Input() allowZero = true;
-  @Input() initialQuantity: Quantity;
-  @Input() disableQuantityActions = false;
+  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions = {
+    allowZero: true,
+    initialQuantity: undefined,
+    disableQuantityActions: false,
+  };
 
   @Output() changeQuantity = new EventEmitter<Quantity>();
 
   constructor(protected config: ConfiguratorUISettings) {}
 
   ngOnInit() {
-    this.quantity.setValue(this.initialQuantity);
+    this.quantity.setValue(this.quantityOptions.initialQuantity);
 
-    if (this.disableQuantityActions) {
+    if (this.quantityOptions.disableQuantityActions) {
       this.quantity.disable();
     }
 

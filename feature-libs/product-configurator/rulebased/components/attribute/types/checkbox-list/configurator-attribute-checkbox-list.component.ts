@@ -174,4 +174,16 @@ export class ConfiguratorAttributeCheckBoxListComponent
       this.onHandleAttributeQuantity(eventObject.quantity);
     }
   }
+
+  extractQuantityParameters(
+    allowZero: boolean,
+    initialQuantity: number,
+    disableQuantityActions: boolean
+  ) {
+    return {
+      allowZero: allowZero,
+      initialQuantity: initialQuantity,
+      disableQuantityActions: disableQuantityActions,
+    };
+  }
 }

@@ -16,6 +16,14 @@ interface ProductExtended extends Product {
   noLink?: boolean;
 }
 
+export interface ConfiguratorAttributeProductCardComponentOptions {
+  preventAction?: boolean;
+  multiSelect?: boolean;
+  product?: Configurator.Value;
+  singleDropdown?: boolean;
+  withQuantity?: boolean;
+}
+
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   templateUrl: './configurator-attribute-product-card.component.html',
@@ -25,11 +33,14 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
   product$: Observable<ProductExtended>;
   loading$ = new BehaviorSubject<boolean>(false);
 
-  @Input() preventAction = false;
-  @Input() multiSelect = false;
-  @Input() product: Configurator.Value;
-  @Input() singleDropdown = false;
-  @Input() withQuantity = true;
+  @Input()
+  productCardOptions: ConfiguratorAttributeProductCardComponentOptions = {
+    preventAction: false,
+    multiSelect: false,
+    product: undefined,
+    singleDropdown: false,
+    withQuantity: true,
+  };
 
   @Output() handleDeselect = new EventEmitter<string>();
   @Output() handleQuantity = new EventEmitter<QuantityUpdateEvent>();
@@ -38,27 +49,33 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
   constructor(protected productService: ProductService) {}
 
   ngOnInit() {
-    this.product$ = this.productService.get(this.product.productSystemId).pipe(
-      map((respProduct) => {
-        return respProduct
-          ? respProduct
-          : this.transformToProductType(this.product);
-      })
-    );
+    this.product$ = this.productService
+      .get(this.productCardOptions.product.productSystemId)
+      .pipe(
+        map((respProduct) => {
+          return respProduct
+            ? respProduct
+            : this.transformToProductType(this.productCardOptions.product);
+        })
+      );
   }
 
   get showQuantity() {
-    return this.withQuantity && this.product.selected && this.multiSelect;
+    return (
+      this.productCardOptions.withQuantity &&
+      this.productCardOptions.product.selected &&
+      this.productCardOptions.multiSelect
+    );
   }
 
   onHandleSelect(): void {
     this.loading$.next(true);
-    this.handleSelect.emit(this.product.valueCode);
+    this.handleSelect.emit(this.productCardOptions.product.valueCode);
   }
 
   onHandleDeselect(): void {
     this.loading$.next(true);
-    this.handleDeselect.emit(this.product.valueCode);
+    this.handleDeselect.emit(this.productCardOptions.product.valueCode);
   }
 
   onChangeQuantity(eventObject): void {
@@ -74,7 +91,7 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
 
     this.handleQuantity.emit({
       quantity,
-      valueCode: this.product.valueCode,
+      valueCode: this.productCardOptions.product.valueCode,
     });
   }
 
@@ -90,24 +107,32 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
 
   getProductPrice(): Configurator.PriceDetails | number {
     return (
-      this.product?.valuePrice ||
-      this.product?.quantity ||
-      this.product?.valuePriceTotal
+      this.productCardOptions.product?.valuePrice ||
+      this.productCardOptions.product?.quantity ||
+      this.productCardOptions.product?.valuePriceTotal
     );
   }
 
   extractPriceFormulaParameters() {
-    if (!this.multiSelect) {
+    if (!this.productCardOptions.multiSelect) {
       return {
-        price: this.product.valuePrice,
-        isLightedUp: this.product.selected,
+        price: this.productCardOptions.product.valuePrice,
+        isLightedUp: this.productCardOptions.product.selected,
       };
     }
     return {
-      quantity: this.product.quantity,
-      price: this.product.valuePrice,
-      priceTotal: this.product.valuePriceTotal,
-      isLightedUp: this.product.selected,
+      quantity: this.productCardOptions.product.quantity,
+      price: this.productCardOptions.product.valuePrice,
+      priceTotal: this.productCardOptions.product.valuePriceTotal,
+      isLightedUp: this.productCardOptions.product.selected,
+    };
+  }
+
+  extractQuantityParameters(disableQuantityActions: boolean) {
+    return {
+      allowZero: !this.productCardOptions.preventAction,
+      initialQuantity: this.productCardOptions.product.quantity,
+      disableQuantityActions: disableQuantityActions,
     };
   }
 }

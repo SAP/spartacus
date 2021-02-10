@@ -195,4 +195,24 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
       isLightedUp: true,
     };
   }
+
+  extractProductCardParameters(
+    preventAction: boolean,
+    value: Configurator.Value
+  ) {
+    return {
+      preventAction: preventAction,
+      product: value,
+      multiSelect: true,
+      withQuantity: this.withQuantity,
+    };
+  }
+
+  extractQuantityParameters(disableQuantityActions: boolean) {
+    return {
+      allowZero: !this.attribute.required,
+      initialQuantity: this.attribute.quantity,
+      disableQuantityActions: disableQuantityActions,
+    };
+  }
 }

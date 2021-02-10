@@ -120,4 +120,22 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
       isLightedUp: true,
     };
   }
+
+  extractProductCardParameters() {
+    return {
+      preventAction: true,
+      product: this.selectionValue,
+      singleDropdown: true,
+      withQuantity: false,
+    };
+  }
+
+  extractQuantityParameters(disableQuantityActions: boolean) {
+    return {
+      allowZero: !this.attribute.required,
+      initialQuantity:
+        this.attributeDropDownForm.value !== '0' ? this.attribute.quantity : 0,
+      disableQuantityActions: disableQuantityActions,
+    };
+  }
 }

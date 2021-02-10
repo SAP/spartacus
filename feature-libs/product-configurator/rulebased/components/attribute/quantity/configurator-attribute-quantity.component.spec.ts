@@ -41,9 +41,9 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
     fixture = TestBed.createComponent(ConfiguratorAttributeQuantityComponent);
 
     component = fixture.componentInstance;
-    component.initialQuantity = { quantity: 1 };
+    component.quantityOptions.initialQuantity = { quantity: 1 };
     component.quantity = new FormControl(1);
-    component.disableQuantityActions = false;
+    component.quantityOptions.disableQuantityActions = false;
 
     spyOn(component.changeQuantity, 'emit').and.callThrough();
     fixture.detectChanges();

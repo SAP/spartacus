@@ -115,4 +115,21 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
       isLightedUp: true,
     };
   }
+
+  extractProductCardParameters(value: Configurator.Value) {
+    return {
+      preventAction: this.attribute.required,
+      product: value,
+    };
+  }
+
+  extractQuantityParameters(disableQuantityActions: boolean) {
+    return {
+      allowZero: !this.attribute.required,
+      initialQuantity: this.attribute.selectedSingleValue
+        ? this.attribute.quantity
+        : 0,
+      disableQuantityActions: disableQuantityActions,
+    };
+  }
 }
