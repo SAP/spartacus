@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { LanguageService } from '@spartacus/core';
+import { LanguageService, TranslationService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { Configurator } from '../core/model/configurator.model';
 import { CpqConfiguratorOverviewNormalizer } from './cpq-configurator-overview-normalizer';
@@ -15,9 +15,10 @@ const attr: Cpq.Attribute = {
 };
 
 const GRP_DESCR = 'description of tab';
+const GENERAL_GRP_DESCR = 'General';
 const tab: Cpq.Tab = {
   id: 1,
-  name: GRP_DESCR,
+  displayName: GRP_DESCR,
   attributes: [attr, { stdAttrCode: 12, pA_ID: 122 }],
 };
 
@@ -98,6 +99,12 @@ class MockLanguageService {
   }
 }
 
+class MockTranslationService {
+  translate(): Observable<string> {
+    return of('General');
+  }
+}
+
 describe('CpqConfiguratorOverviewNormalizer', () => {
   let serviceUnderTest: CpqConfiguratorOverviewNormalizer;
 
@@ -109,6 +116,10 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
         {
           provide: LanguageService,
           useClass: MockLanguageService,
+        },
+        {
+          provide: TranslationService,
+          useClass: MockTranslationService,
         },
       ],
     });
@@ -144,6 +155,15 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     expect(serviceUnderTest['convertTab'](tab, CURRENCY).groupDescription).toBe(
       GRP_DESCR
     );
+  });
+
+  it('should map tab description for General group', () => {
+    const generalTab: Cpq.Tab = {
+      id: 0,
+    };
+    expect(
+      serviceUnderTest['convertTab'](generalTab, CURRENCY).groupDescription
+    ).toBe(GENERAL_GRP_DESCR);
   });
 
   it('should convert attributes', () => {

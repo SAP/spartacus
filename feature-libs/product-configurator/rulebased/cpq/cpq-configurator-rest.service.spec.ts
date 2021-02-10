@@ -33,6 +33,13 @@ const configResponseOnlyOneTab: Cpq.Configuration = {
   attributes: [{ pA_ID: 11, stdAttrCode: 111 }],
 };
 
+const configResponseNoTab: Cpq.Configuration = {
+  productSystemId: productCode,
+  completed: false,
+  tabs: [],
+  attributes: [{ pA_ID: 11, stdAttrCode: 111 }],
+};
+
 const configResponseTab1: Cpq.Configuration = {
   productSystemId: productCode,
   completed: false,
@@ -205,6 +212,26 @@ describe('CpqConfiguratorRestService', () => {
     });
 
     mockDisplayConfig(configResponseOnlyOneTab);
+  });
+
+  it('should merge results for configuration without group', () => {
+    serviceUnderTest['getConfigurationWithAllTabsAndAttribues'](
+      configId
+    ).subscribe((mergedConfig) => {
+      const expectedInput: Cpq.Configuration = {
+        ...configResponseNoTab,
+        attributes: undefined,
+        tabs: [
+          {
+            id: 0,
+            attributes: configResponseOnlyOneTab.attributes,
+          },
+        ],
+      };
+      expect(mergedConfig).toEqual(expectedInput);
+    });
+
+    mockDisplayConfig(configResponseNoTab);
   });
 
   it('should read overview and call normalizer for config with only one group', () => {
