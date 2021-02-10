@@ -8,3 +8,8 @@ export function generateMail(alias: string, newTimestamp: boolean) {
 export function randomString() {
   return Math.random().toString(36).substr(2, 9);
 }
+
+export function randomNumber(limit: number) {
+  const randomNum = Math.ceil(Math.random() * limit);
+  return randomNum;
+}

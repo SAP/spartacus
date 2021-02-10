@@ -16,6 +16,7 @@ import {
   replenishmentDay,
 } from '../../sample-data/b2b-checkout';
 import {
+  cartWithCheapProduct,
   SampleCartProduct,
   SampleProduct,
   SampleUser,
@@ -27,7 +28,17 @@ import {
   visitHomePage,
   waitForPage,
 } from '../checkout-flow';
+import { randomNumber } from '../../helpers/user';
 import { generateMail, randomString } from '../user';
+import {
+  AddressData,
+  fillPaymentDetails,
+  fillShippingAddress,
+  PaymentDetails,
+} from '../../helpers/checkout-forms';
+const randomQuantity = randomNumber(9);
+const randomQuantityInDialog = randomNumber(9);
+const randomQuantityInCart = randomNumber(9);
 
 export function loginB2bUser() {
   b2bUser.registrationData.email = generateMail(randomString(), true);
@@ -36,7 +47,9 @@ export function loginB2bUser() {
   cy.get('.cx-login-greet').should('contain', user.fullName);
 }
 
-export function addB2bProductToCartAndCheckout() {
+export function addB2bProductToCart(cartData: SampleCartProduct) {
+  const total = randomQuantity * Number(cartData.total);
+
   cy.visit(`${POWERTOOLS_BASESITE}/en/USD/product/${products[0].code}`);
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', products[0].code);
@@ -44,13 +57,58 @@ export function addB2bProductToCartAndCheckout() {
   cy.get('cx-breadcrumb').within(() => {
     cy.get('h1').should('contain', products[0].name);
   });
+  cy.get('cx-item-counter input').type(`{selectall}${randomQuantity}`);
 
   addCheapProductToCart(products[0]);
+
+  cy.get('.cx-total .cx-value').should('contain', total.toString());
+  cy.get('cx-item-counter input')
+    .invoke('val')
+    .should('contain', randomQuantity);
+}
+
+export function updateB2bProductInDialog(cartData: SampleCartProduct) {
+  const total = Number(cartData.total) * randomQuantityInDialog;
+
+  cy.get('cx-item-counter input')
+    .eq(1)
+    .type(`{selectall}${randomQuantityInDialog}`)
+    .blur();
+
+  cy.get('.cx-total .cx-value').should('contain', total.toString());
+  cy.get('cx-item-counter input')
+    .eq(1)
+    .invoke('val')
+    .should('contain', randomQuantityInDialog);
+
+  const cartPage = waitForPage('/cart', 'getCartPage');
+  cy.findByText(/view cart/i).click();
+  cy.wait(`@${cartPage}`).its('status').should('eq', 200);
+}
+
+export function updateB2bProductInCartAndCheckout(cartData: SampleCartProduct) {
+  const totalFromDialog = Number(cartData.total) * randomQuantityInDialog;
+  const totalFromCart = Number(cartData.total) * randomQuantityInCart;
+
+  cy.get('cx-item-counter input')
+    .invoke('val')
+    .should('contain', randomQuantityInDialog);
+
+  cy.get('.cx-total .cx-value').should('contain', totalFromDialog.toString());
+  cy.get('cx-item-counter input')
+    .type(`{selectall}${randomQuantityInCart}`)
+    .blur();
+  cy.get('cx-item-counter input')
+    .invoke('val')
+    .should('contain', randomQuantityInCart);
+
+  cy.get('.cx-total .cx-value').should('contain', totalFromCart.toString());
 
   const paymentTypePage = waitForPage(
     '/checkout/payment-type',
     'getPaymentType'
   );
+
   cy.findByText(/proceed to checkout/i).click();
   cy.wait(`@${paymentTypePage}`).its('status').should('eq', 200);
 }
@@ -158,6 +216,9 @@ export function reviewB2bReviewOrderPage(
   isAccount: boolean,
   orderType: string
 ) {
+  const total = randomQuantityInCart * Number(cartData.total);
+  const totalAndShipping = total + Number(cartData.estimatedShipping);
+
   cy.get('.cx-review-title').should('contain', 'Review');
 
   if (isAccount) {
@@ -201,7 +262,7 @@ export function reviewB2bReviewOrderPage(
 
   cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
     .eq(0)
-    .should('contain', cartData.total);
+    .should('contain', total.toString());
 
   cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
     .eq(1)
@@ -209,7 +270,7 @@ export function reviewB2bReviewOrderPage(
 
   cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
     'contain',
-    cartData.totalAndShipping
+    totalAndShipping
   );
 
   cy.get('cx-schedule-replenishment-order [type="radio"]')
@@ -287,6 +348,10 @@ export function reviewB2bOrderConfirmation(
   isAccount: boolean = true,
   replenishment?: string
 ) {
+  const totalAndShipping =
+    randomQuantityInCart * Number(cartData.total) +
+    Number(cartData.estimatedShipping);
+
   cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
 
   cy.get('h2').should('contain', 'Thank you for your order!');
@@ -374,6 +439,41 @@ export function reviewB2bOrderConfirmation(
 
   cy.get('cx-order-summary .cx-summary-amount').should(
     'contain',
-    cartData.totalAndShipping
+    totalAndShipping
   );
+}
+
+export function fillAddressFormWithCheapProduct(
+  shippingAddressData: AddressData = user,
+  cartData: SampleCartProduct = cartWithCheapProduct
+) {
+  const total = Number(cartData.total) * randomQuantityInCart;
+  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+  cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
+    .first()
+    .find('.cx-summary-amount')
+    .should('contain', total.toString());
+  const deliveryPage = waitForPage(
+    '/checkout/delivery-mode',
+    'getDeliveryPage'
+  );
+  fillShippingAddress(shippingAddressData);
+  cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
+}
+
+export function fillPaymentFormWithCheapProduct(
+  paymentDetailsData: PaymentDetails = user,
+  billingAddress?: AddressData,
+  cartData: SampleCartProduct = cartWithCheapProduct
+) {
+  const totalAndShipping =
+    Number(cartData.total) * randomQuantityInCart +
+    Number(cartData.estimatedShipping);
+  cy.get('.cx-checkout-title').should('contain', 'Payment');
+  cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
+    .find('.cx-summary-amount')
+    .should('contain', totalAndShipping);
+  const reivewPage = waitForPage('/checkout/review-order', 'getReviewPage');
+  fillPaymentDetails(paymentDetailsData, billingAddress);
+  cy.wait(`@${reivewPage}`).its('status').should('eq', 200);
 }

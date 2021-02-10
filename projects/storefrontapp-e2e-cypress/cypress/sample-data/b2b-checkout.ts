@@ -16,16 +16,15 @@ export const b2bUnit = 'PunchOut Organization';
 export const replenishmentDay = '8';
 export const replenishmentDate = '2100-01-01';
 export const convertedReplenishmentDate = 'Jan 01 2100';
-
 export const b2bProduct: SampleProduct = {
   name: 'Cordless screwdriver 2436',
   code: '3881074',
 };
 
 export const cartWithB2bProduct: SampleCartProduct = {
-  estimatedShipping: '$9.99',
-  total: '$35.00',
-  totalAndShipping: '$44.99',
+  estimatedShipping: '9.99',
+  total: '35.00',
+  totalAndShipping: '44.99',
 };
 
 export const b2bAccountShipToUser: SampleUser = {

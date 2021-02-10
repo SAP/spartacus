@@ -31,8 +31,16 @@ context('B2B - Replenishment Checkout flow', () => {
         b2bCheckout.loginB2bUser();
       });
 
-      it('should add a product to cart', () => {
-        b2bCheckout.addB2bProductToCartAndCheckout();
+      it('should add a product to cart and verify quantity and total amount', () => {
+        b2bCheckout.addB2bProductToCart(cartWithB2bProduct);
+      });
+
+      it('should update product quantity and total amount in add-to-cart-dialog', () => {
+        b2bCheckout.updateB2bProductInDialog(cartWithB2bProduct);
+      });
+
+      it('should verify and update product quantity and total amount in cart', () => {
+        b2bCheckout.updateB2bProductInCartAndCheckout(cartWithB2bProduct);
       });
 
       it('should select Account payment type', () => {
