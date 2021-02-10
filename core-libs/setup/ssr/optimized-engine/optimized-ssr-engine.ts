@@ -61,14 +61,13 @@ export class OptimizedSsrEngine {
       this.getRenderingKey(request)
     );
 
-    if (this.ssrOptions.debug) {
-      if (isRendering) {
-        console.log(`CSR fallback: rendering in progress (${request.url})`);
-      } else if (concurrencyLimitExceed) {
-        console.log(
-          `CSR fallback: Concurrency limit exceeded (${this.ssrOptions.concurrency})`
-        );
-      }
+    if (isRendering) {
+      this.log(`CSR fallback: rendering in progress (${request.url})`, true);
+    } else if (concurrencyLimitExceed) {
+      this.log(
+        `CSR fallback: Concurrency limit exceeded (${this.ssrOptions.concurrency})`,
+        true
+      );
     }
 
     return (
