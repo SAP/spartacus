@@ -4,7 +4,7 @@ import * as alerts from './global-message';
 import { generateMail, randomString } from './user';
 
 export const testUser = 'test-user-with-coupons@ydev.hybris.com';
-export const testPassword = 'Password123.';
+export const testPassword = 'pw4all';
 export const claimCouponUrl = '/my-account/coupon/claim/';
 export const loginContainUrl = '/login';
 export const myCouponsContainUrl = '/my-account/coupons';
