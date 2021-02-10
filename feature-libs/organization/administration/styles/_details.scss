@@ -66,11 +66,15 @@
 
     display: flex;
     flex-wrap: nowrap;
-    .removeBullet {
-      list-style: none;
-      padding-left: 1.5em;
+
+    ul {
+      > li:only-child {
+        list-style: none;
+        margin-inline-start: -1.5em;
+      }
     }
-    .cx-icon {
+
+    cx-icon[ng-reflect-type='INFO'] {
       color: var(--cx-color, var(--cx-color-info));
       display: contents;
     }

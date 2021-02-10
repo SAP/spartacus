@@ -1,21 +1,15 @@
 <section *ngIf="!(current$ | async)?.active && current$ | async as item">
-  <cx-icon class="cx-icon" [type]="iconTypes.INFO"></cx-icon>
-  <ul
-    [ngClass]="{
-      removeBullet:
-        !isParentDisabled(item) ||
-        displayMessageConfig?.disabledCreate ||
-        !displayMessageConfig?.disabledEnable
-    }"
-  >
+  <cx-icon [type]="iconTypes.INFO"></cx-icon>
+  <ul>
+    <li *ngIf="displayMessageConfig?.disabledCreate">
+      {{ i18nRoot + '.messages.disabledCreate' | cxTranslate }}
+    </li>
     <li *ngIf="displayMessageConfig?.disabledEdit">
       {{ i18nRoot + '.messages.disabledEdit' | cxTranslate }}
     </li>
     <li *ngIf="isParentDisabled(item) && displayMessageConfig?.disabledEnable">
       {{ i18nRoot + '.messages.disabledEnable' | cxTranslate }}
     </li>
-    <li *ngIf="displayMessageConfig?.disabledCreate">
-      {{ i18nRoot + '.messages.disabledCreate' | cxTranslate }}
-    </li>
+    <ng-content></ng-content>
   </ul>
 </section>
