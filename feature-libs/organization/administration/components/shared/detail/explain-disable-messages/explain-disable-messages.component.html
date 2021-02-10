@@ -8,7 +8,7 @@
     "
   >
     <cx-icon [type]="iconTypes.INFO"></cx-icon>
-    <ul *ngIf="!enableCustomMessage; else customMessage">
+    <ul>
       <li *ngIf="isItemDisabled(item) && displayMessage?.disabledCreate">
         {{ i18nRoot + '.messages.disabledCreate' | cxTranslate }}
       </li>
@@ -21,11 +21,7 @@
       <li *ngIf="isRootUnit(item)">
         {{ i18nRoot + '.messages.disabledDisable' | cxTranslate }}
       </li>
+      <ng-content *ngIf="enableCustomMessage"></ng-content>
     </ul>
-    <ng-template #customMessage>
-      <ul>
-        <ng-content></ng-content>
-      </ul>
-    </ng-template>
   </section>
 </ng-container>
