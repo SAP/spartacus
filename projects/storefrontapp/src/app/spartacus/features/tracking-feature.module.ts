@@ -6,7 +6,7 @@ import {
 } from '@spartacus/core';
 import { NavigationEvent } from '@spartacus/storefront';
 import { AepModule } from '@spartacus/tracking/tms/aep';
-import { BaseTmsModule } from '@spartacus/tracking/tms/core';
+import { BaseTmsModule, TmsConfig } from '@spartacus/tracking/tms/core';
 import { GtmModule } from '@spartacus/tracking/tms/gtm';
 
 @NgModule({
@@ -21,7 +21,7 @@ import { GtmModule } from '@spartacus/tracking/tms/gtm';
           events: [NavigationEvent, CartRemoveEntrySuccessEvent],
         },
       },
-    }),
+    } as TmsConfig),
   ],
 })
 export class TrackingFeatureModule {}
