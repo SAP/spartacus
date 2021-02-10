@@ -29,35 +29,6 @@ export class CdcJsService implements OnDestroy {
   protected errorLoading$ = new ReplaySubject<boolean>(1);
   protected subscription: Subscription = new Subscription();
 
-  constructor(
-    cdcConfig: CdcConfig,
-    baseSiteService: BaseSiteService,
-    languageService: LanguageService,
-    externalJsFileLoader: ExternalJsFileLoader,
-    winRef: WindowRef,
-    cdcAuth: CdcAuthService,
-    auth: AuthService,
-    zone: NgZone,
-    userService: UserService,
-    platform: any,
-    // tslint:disable-next-line:unified-signatures
-    scriptLoader?: ScriptLoader
-  );
-  /**
-   * @deprecated since 3.2
-   */
-  constructor(
-    cdcConfig: CdcConfig,
-    baseSiteService: BaseSiteService,
-    languageService: LanguageService,
-    externalJsFileLoader: ExternalJsFileLoader,
-    winRef: WindowRef,
-    cdcAuth: CdcAuthService,
-    auth: AuthService,
-    zone: NgZone,
-    userService: UserService,
-    platform: any
-  );
   // TODO: remove externalJsFileLoader in 4.0
   constructor(
     protected cdcConfig: CdcConfig,
