@@ -20,7 +20,6 @@ import { ConfiguratorPriceService } from '../../../../core/facade/configurator-p
 })
 export class ConfiguratorAttributeSingleSelectionBundleComponent extends ConfiguratorAttributeBaseComponent {
   loading$ = new BehaviorSubject<boolean>(false);
-  preventAction$ = new BehaviorSubject<boolean>(false);
 
   @Input() attribute: Configurator.Attribute;
   @Input() ownerKey: string;
