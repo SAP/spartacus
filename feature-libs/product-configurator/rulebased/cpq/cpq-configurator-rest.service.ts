@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConverterService } from '@spartacus/core';
-import { forkJoin, of } from 'rxjs';
-import { Observable } from 'rxjs/internal/Observable';
+import { forkJoin, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Configurator } from '../core/model/configurator.model';
 import { CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT } from '../root/interceptor/cpq-configurator-rest.interceptor';

@@ -178,4 +178,21 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
       this.onHandleAttributeQuantity(eventObject.quantity);
     }
   }
+
+  isAnyValueSelected(attribute: Configurator.Attribute): boolean | undefined {
+    return attribute?.values?.some(
+      (value: Configurator.Value) => value?.selected
+    );
+  }
+
+  extractPriceFormulaParameters() {
+    return {
+      quantity: 0,
+      price: {
+        value: 0,
+      },
+      priceTotal: this.attribute.attributePriceTotal,
+      isLightedUp: true,
+    };
+  }
 }

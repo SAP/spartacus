@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ConfiguratorPriceComponent } from './configurator-price.component';
+import { I18nModule } from '@spartacus/core';
 
 @NgModule({
-  imports: [CommonModule],
   declarations: [ConfiguratorPriceComponent],
-  exports: [ConfiguratorPriceComponent],
   entryComponents: [ConfiguratorPriceComponent],
+  exports: [ConfiguratorPriceComponent],
+  imports: [CommonModule, I18nModule],
 })
 export class ConfiguratorPriceModule {}

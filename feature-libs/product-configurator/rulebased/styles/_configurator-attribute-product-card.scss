@@ -1,22 +1,53 @@
 .cx-product-card {
   border-block-end: 1px solid var(--cx-color-background);
   margin-block-end: 1rem;
-  padding-inline-start: 1rem;
-  padding-inline-end: 1rem;
   padding-block-start: 1rem;
   padding-block-end: 1rem;
   width: 100%;
 
+  @include media-breakpoint-down(sm) {
+    padding-inline-start: 1rem;
+    padding-inline-end: 1rem;
+  }
+
   @include media-breakpoint-up(md) {
     display: flex;
+    flex-direction: row;
   }
 
   .cx-product-card-rows {
     display: flex;
+    flex-wrap: wrap;
 
     @include media-breakpoint-up(md) {
       &:last-of-type {
         margin-inline-start: auto;
+      }
+    }
+
+    &.column {
+      flex-direction: column;
+    }
+
+    .cx-product-card-quantity-price {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      margin-block-end: 1rem;
+
+      @include media-breakpoint-down(sm) {
+        margin-block-start: 0.5rem;
+        margin-block-end: 0.5rem;
+      }
+    }
+
+    .cx-product-card-action {
+      display: flex;
+      flex-direction: row;
+
+      @include media-breakpoint-up(md) {
+        align-self: flex-end;
       }
     }
   }
@@ -87,29 +118,27 @@
   }
 
   .cx-product-card-price {
-    font-weight: bold;
-    margin-block-start: 1.5rem;
-    margin-block-end: 1.5rem;
-    margin-inline-start: auto;
+    height: 48px;
   }
 
   .cx-product-card-quantity {
-    margin-block-start: 1.5rem;
-    margin-block-end: 1.5rem;
+    @include media-breakpoint-down(sm) {
+      margin-block-start: 0.5rem;
+      margin-block-end: 0.5rem;
+    }
 
     @include media-breakpoint-up(md) {
-      margin-inline-end: 2rem;
-      margin-inline-start: 2rem;
+      margin-inline-end: 4rem;
     }
   }
 
-  .cx-product-card-action {
-    width: 100%;
-
+  .cx-product-card-action-btn {
     @include media-breakpoint-up(md) {
-      display: flex;
-      justify-content: space-between;
       min-width: 6rem;
+    }
+
+    @include media-breakpoint-down(sm) {
+      width: 100%;
     }
 
     .btn {

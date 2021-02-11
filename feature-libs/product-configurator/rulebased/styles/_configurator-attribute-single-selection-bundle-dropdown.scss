@@ -2,7 +2,11 @@
   @include cx-configurator-attribute-type();
   @include cx-configurator-form-group();
 
-  cx-configurator-attribute-quantity {
-    padding-block-start: 1rem;
+  .cx-attribute-level-quantity-price {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-block-start: 2rem;
+    margin-block-end: 2rem;
   }
 }

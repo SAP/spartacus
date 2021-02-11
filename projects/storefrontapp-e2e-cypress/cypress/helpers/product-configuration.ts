@@ -153,7 +153,6 @@ export function clickOnConfigureBtnInCatalog(): void {
   cy.get('cx-configure-product a')
     .click()
     .then(() => {
-      cy.get('cx-configure-product').should('not.be.visible');
       cy.location('pathname').should('contain', '/product/entityKey/');
       this.checkConfigPageDisplayed();
     });
@@ -426,7 +425,7 @@ export function checkAttrValueNotDisplayed(
   } else {
     valueLocator = `#${attributeId}--${valueName}`;
   }
-  cy.get(`${valueLocator}`).should('not.be.visible');
+  cy.get(`${valueLocator}`).should('not.exist');
 }
 
 /**
@@ -642,7 +641,7 @@ export function checkValueSelected(
     if (uiType === 'dropdownProduct') {
       if (valueName === '0') {
         // no product card for 'no option slected'
-        cy.get(`#${valueId} .cx-product-card`).should('not.be.visible');
+        cy.get(`#${valueId} .cx-product-card`).should('not.exist');
       } else {
         cy.get(`#${valueId} .cx-product-card`).should('be.visible');
       }

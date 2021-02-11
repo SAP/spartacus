@@ -2,11 +2,14 @@
   &:not(:empty) {
     width: 100%;
 
-    .cx-quantity {
-      padding-block-start: 1rem;
-      padding-block-end: 1rem;
-      padding-inline-start: 1rem;
-      padding-inline-end: 1rem;
+    .cx-attribute-level-quantity-price {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-block-start: 2rem;
+      margin-inline-end: 1rem;
+      margin-block-end: 2rem;
+      margin-inline-start: 1rem;
     }
   }
 }
