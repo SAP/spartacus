@@ -3,15 +3,14 @@ import { Action, ActionsSubject } from '@ngrx/store';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { EventService } from '../../../event/event.service';
-import { User } from '../../../model/misc.model';
-import { UserService } from '../../../user/facade/user.service';
+import { AuthService } from '../facade/auth.service';
 import { AuthActions } from '../store/actions';
 import { UserAuthEventBuilder } from './user-auth-event.builder';
 import { LoginEvent, LogoutEvent } from './user-auth.events';
 
-const userData$ = new BehaviorSubject<User>({});
-class MockUserService implements Partial<UserService> {
-  get = () => userData$.asObservable();
+const isUserLoggedIn$ = new BehaviorSubject<boolean>(false);
+class MockAuthService implements Partial<AuthService> {
+  isUserLoggedIn = () => isUserLoggedIn$.asObservable();
 }
 
 describe('UserAuthEventBuilder', () => {
@@ -23,7 +22,7 @@ describe('UserAuthEventBuilder', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: ActionsSubject, useValue: actions$ },
-        { provide: UserService, useClass: MockUserService },
+        { provide: AuthService, useClass: MockAuthService },
       ],
     });
 
@@ -32,8 +31,8 @@ describe('UserAuthEventBuilder', () => {
   });
 
   describe('LogoutEvent', () => {
-    it('should emit a LogoutEvent on LOGOUT action', () => {
-      userData$.next({ customerId: 'test' });
+    it('should emit a LogoutEvent when a user logs OUT', () => {
+      isUserLoggedIn$.next(true);
 
       let result: LogoutEvent;
       eventService
@@ -41,14 +40,13 @@ describe('UserAuthEventBuilder', () => {
         .pipe(take(1))
         .subscribe((value) => (result = value));
 
-      userData$.next({});
-      actions$.next({ type: AuthActions.LOGOUT });
+      isUserLoggedIn$.next(false);
 
       expect(result).toEqual(new LogoutEvent());
     });
 
-    it('should NOT emit a LogoutEvent on LOGOUT action if the user is NOT authenticated', () => {
-      userData$.next({});
+    it('should NOT emit a LogoutEvent when a user logs IN', () => {
+      isUserLoggedIn$.next(false);
 
       let result: LogoutEvent;
       eventService
@@ -56,10 +54,38 @@ describe('UserAuthEventBuilder', () => {
         .pipe(take(1))
         .subscribe((value) => (result = value));
 
-      userData$.next({});
-      actions$.next({ type: AuthActions.LOGOUT });
+      isUserLoggedIn$.next(true);
 
       expect(result).toBeUndefined();
+    });
+
+    it('should NOT emit a LogoutEvent when a user STAYS logged IN', () => {
+      isUserLoggedIn$.next(true);
+
+      let result: LogoutEvent;
+      eventService
+        .get(LogoutEvent)
+        .pipe(take(1))
+        .subscribe((value) => (result = value));
+
+      isUserLoggedIn$.next(true);
+
+      expect(result).toBeUndefined();
+    });
+
+    it('should emit ONE LogoutEvent when a user logs OUT', () => {
+      isUserLoggedIn$.next(true);
+
+      let result: LogoutEvent;
+      eventService.get(LogoutEvent).subscribe((value) => (result = value));
+
+      isUserLoggedIn$.next(true);
+      isUserLoggedIn$.next(false);
+      isUserLoggedIn$.next(false);
+      isUserLoggedIn$.next(false);
+      isUserLoggedIn$.next(true);
+
+      expect(result).toEqual(new LogoutEvent());
     });
   });
 

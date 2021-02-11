@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { filter, map, pairwise, withLatestFrom } from 'rxjs/operators';
+import { filter, map, pairwise } from 'rxjs/operators';
 import { EventService } from '../../../event/event.service';
 import {
   ActionToEventMappingService,
   StateEventService,
 } from '../../../state/event/index';
-import { UserService } from '../../../user/facade/user.service';
 import { createFrom } from '../../../util/create-from';
+import { AuthService } from '../facade/auth.service';
 import { AuthActions } from '../store/actions/index';
 import { LoginEvent, LogoutEvent } from './user-auth.events';
 
@@ -17,9 +17,9 @@ import { LoginEvent, LogoutEvent } from './user-auth.events';
 export class UserAuthEventBuilder {
   constructor(
     protected stateEventService: StateEventService,
-    protected userService: UserService,
-    protected actionToEventMapping: ActionToEventMappingService,
-    protected eventService: EventService
+    protected eventService: EventService,
+    protected authService: AuthService,
+    protected actionToEventMapping: ActionToEventMappingService
   ) {
     this.register();
   }
@@ -53,13 +53,9 @@ export class UserAuthEventBuilder {
    * Returns logout event stream
    */
   protected buildLogoutEvent(): Observable<LogoutEvent> {
-    return this.actionToEventMapping.getAction(AuthActions.LOGOUT).pipe(
-      withLatestFrom(
-        this.userService.get().pipe(
-          pairwise(),
-          filter(([prev, curr]) => prev.customerId !== curr.customerId)
-        )
-      ),
+    return this.authService.isUserLoggedIn().pipe(
+      pairwise(),
+      filter(([prev, curr]) => prev && !curr),
       map(() => createFrom(LogoutEvent, {}))
     );
   }
