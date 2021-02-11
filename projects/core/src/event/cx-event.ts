@@ -1,5 +1,5 @@
 /**
- * An umbrella event, intended to be inherited by all other Spartacus' events.
+ * Intended to be inherited by all other Spartacus' events.
  *
  * "One event to rule them all".
  */
