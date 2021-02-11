@@ -54,6 +54,7 @@ import {
 } from '../shared/utils/workspace-utils';
 import { setupRouterModule } from './router';
 import { Schema as SpartacusOptions } from './schema';
+import { setupStoreModules } from './store';
 
 function prepareSiteContextConfig(options: SpartacusOptions): string {
   const currency = parseCSV(options.currency, ['USD']).toUpperCase();
@@ -344,8 +345,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       addPackageJsonDependencies(dependencies),
       ensureModuleExists('app-routing', 'app', 'app', options.project),
       setupRouterModule(options.project),
-      // add store module
-      // add effects module
+      setupStoreModules(options.project),
       ensureModuleExists('spartacus', 'app/spartacus', 'app', options.project),
       // add base storefront module
       // add base storefront to declarations

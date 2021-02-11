@@ -1,11 +1,3 @@
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-
 import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
 import { CallExpression, Node, SourceFile, ts } from 'ts-morph';
 import { isImportedFrom } from '../shared/utils/import-utils';
@@ -53,10 +45,6 @@ function configureRouterModule(
 
 function getRouterModule(sourceFile: SourceFile): CallExpression | undefined {
   let routerNode;
-
-  // We only want to consider RouterModule.forRoot()
-  // It needs to be in `imports` array in NgModule decorator
-  // The RouterModule must be imported from @angular/router and decorator from @angular/core
 
   function visitor(node: Node) {
     if (Node.isCallExpression(node)) {
