@@ -3,7 +3,6 @@ import { Store, StoreModule } from '@ngrx/store';
 import {
   AuthRedirectService,
   AuthToken,
-  getReducers,
   GlobalMessageService,
   OAuthLibWrapperService,
   PROCESS_FEATURE,
@@ -11,6 +10,7 @@ import {
   StateWithClientAuth,
   UserIdService,
 } from '@spartacus/core';
+import { getReducers } from 'projects/core/src/process/store/reducers/index';
 import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import {
