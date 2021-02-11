@@ -1,10 +1,12 @@
 <ng-container *ngIf="current$ | async as item">
+  <span #customMessage><ng-content></ng-content></span>
   <section
     *ngIf="
       isItemDisabled(item) ||
       isParentDisabled(item) ||
       isRootUnit(item) ||
-      disabled
+      disabled ||
+      !customMessage.innerHTML.trim()
     "
   >
     <cx-icon [type]="iconTypes.INFO"></cx-icon>
@@ -21,7 +23,7 @@
       <li *ngIf="isRootUnit(item)">
         {{ i18nRoot + '.messages.disabledDisable' | cxTranslate }}
       </li>
-      <ng-content *ngIf="enableCustomMessage"></ng-content>
+      <ng-content></ng-content>
     </ul>
   </section>
 </ng-container>
