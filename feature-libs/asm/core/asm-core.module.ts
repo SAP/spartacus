@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
+import { NgModule } from '@angular/core';
+import { MODULE_INITIALIZER, provideDefaultConfig } from '@spartacus/core';
 import { defaultAsmConfig } from './config/default-asm-config';
 import { AsmConnector } from './connectors/asm.connector';
 import { AsmStatePersistenceService } from './services/asm-state-persistence.service';
@@ -19,7 +19,7 @@ export function asmStatePersistenceFactory(
     provideDefaultConfig(defaultAsmConfig),
     AsmConnector,
     {
-      provide: APP_INITIALIZER, // TODO GH-10854: Change this to MODULE_INITIALIZER
+      provide: MODULE_INITIALIZER,
       useFactory: asmStatePersistenceFactory,
       deps: [AsmStatePersistenceService],
       multi: true,
