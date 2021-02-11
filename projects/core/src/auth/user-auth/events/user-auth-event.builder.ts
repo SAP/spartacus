@@ -2,10 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, map, pairwise } from 'rxjs/operators';
 import { EventService } from '../../../event/event.service';
-import {
-  ActionToEventMappingService,
-  StateEventService,
-} from '../../../state/event/index';
+import { StateEventService } from '../../../state/event/index';
 import { createFrom } from '../../../util/create-from';
 import { AuthService } from '../facade/auth.service';
 import { AuthActions } from '../store/actions/index';
@@ -18,8 +15,7 @@ export class UserAuthEventBuilder {
   constructor(
     protected stateEventService: StateEventService,
     protected eventService: EventService,
-    protected authService: AuthService,
-    protected actionToEventMapping: ActionToEventMappingService
+    protected authService: AuthService
   ) {
     this.register();
   }
