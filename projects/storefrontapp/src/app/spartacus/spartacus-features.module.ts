@@ -1,5 +1,22 @@
 import { NgModule } from '@angular/core';
 import {
+  AnonymousConsentsModule,
+  AsmOccModule,
+  AuthModule,
+  CartModule,
+  CartOccModule,
+  CheckoutModule,
+  CheckoutOccModule,
+  CostCenterOccModule,
+  ExternalRoutesModule,
+  PersonalizationModule,
+  ProductModule,
+  ProductOccModule,
+  SmartEditModule,
+  UserModule,
+  UserOccModule,
+} from '@spartacus/core';
+import {
   AddressBookModule,
   AnonymousConsentManagementBannerModule,
   AnonymousConsentsDialogModule,
@@ -58,35 +75,23 @@ import {
   UserComponentModule,
   WishListModule,
 } from '@spartacus/storefront';
-import {
-  AnonymousConsentsModule,
-  AsmOccModule,
-  AuthModule,
-  CartModule,
-  CartOccModule,
-  CheckoutModule,
-  CheckoutOccModule,
-  CostCenterOccModule,
-  ExternalRoutesModule,
-  PersonalizationModule,
-  ProductModule,
-  ProductOccModule,
-  SmartEditModule,
-  UserModule,
-  UserOccModule,
-} from '@spartacus/core';
-import { StorefinderFeatureModule } from './features/storefinder-feature.module';
-import { AdministrationFeatureModule } from './features/administration-feature.module';
-import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { environment } from '../../environments/environment';
+import { AdministrationFeatureModule } from './features/administration-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
+import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
+import { SavedCartFeatureModule } from './features/saved-cart-feature.module';
+import { StorefinderFeatureModule } from './features/storefinder-feature.module';
 
 const featureModules = [];
 
 if (environment.b2b) {
-  featureModules.push(AdministrationFeatureModule, OrderApprovalFeatureModule);
+  featureModules.push(
+    AdministrationFeatureModule,
+    OrderApprovalFeatureModule,
+    SavedCartFeatureModule
+  );
 }
 if (environment.cdc) {
   featureModules.push(CdcFeatureModule);
