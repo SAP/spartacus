@@ -26,6 +26,9 @@
       "@spartacus/setup/ssr": [
         "core-libs/setup/ssr/public_api"
       ],
+      "@spartacus/cart": [
+        "feature-libs/cart/src/public_api"
+      ],
       "@spartacus/organization/administration/assets": [
         "feature-libs/organization/administration/assets/public_api"
       ],
