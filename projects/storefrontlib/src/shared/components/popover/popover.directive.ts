@@ -86,24 +86,31 @@ export class PopoverDirective {
       );
       if (this.popoverContainer && this.popoverContainer.instance) {
         this.popoverContainer.instance.content = this.cxPopover;
+        this.ngZoneSubscription = this.ngZone.onStable.subscribe(() => {
+          if (this.popoverContainer) {
+            const popoverClass = this.positioningService.positionElements(
+              this.element.nativeElement,
+              this.popoverContainer.location.nativeElement,
+              this.placement,
+              this.appendToBody
+            );
+            this.renderer.removeAttribute(
+              this.popoverContainer.location.nativeElement,
+              'class'
+            );
+            this.renderer.addClass(
+              this.popoverContainer.location.nativeElement,
+              popoverClass
+            );
+          }
+        });
         if (this.appendToBody) {
           this.renderer.appendChild(
             this.document.body,
             this.popoverContainer.location.nativeElement
           );
         }
-        this.ngZoneSubscription = this.ngZone.onStable.subscribe(() => {
-          if (this.popoverContainer) {
-            this.positioningService.positionElements(
-              this.element.nativeElement,
-              this.popoverContainer.location.nativeElement,
-              this.placement,
-              this.appendToBody
-            );
-          }
-        });
       }
-      this.changeDetectorRef.markForCheck();
       this.openPopover.emit();
     }
   }
@@ -116,7 +123,6 @@ export class PopoverDirective {
       this.ngZoneSubscription.unsubscribe();
     }
     this.viewContainer.clear();
-    this.closePopover.emit();
   }
 
   /**
