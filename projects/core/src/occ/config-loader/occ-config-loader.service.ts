@@ -59,7 +59,7 @@ export class OccConfigLoaderService {
   /**
    * Initializes the Spartacus config asynchronously basing on the external config
    */
-  loadConfig(): Promise<I18nConfig | SiteContextConfig> {
+  loadConfig(): Promise<I18nConfig | SiteContextConfig | SiteThemeConfig> {
     return this.get()
       .pipe(
         tap((externalConfig) => this.transfer(externalConfig)),

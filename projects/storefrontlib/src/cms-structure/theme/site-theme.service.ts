@@ -9,15 +9,14 @@ import { SiteThemeConfig } from './site-theme.config';
 @Injectable({ providedIn: 'root' })
 export class SiteThemeService {
   protected rootComponent: ComponentRef<any>;
-  protected renderer: Renderer2 = this.rendererFactory.createRenderer(
-    null,
-    null
-  );
+  protected renderer: Renderer2;
 
   constructor(
     protected config: SiteThemeConfig,
     protected rendererFactory: RendererFactory2
-  ) {}
+  ) {
+    this.renderer = rendererFactory.createRenderer(null, null);
+  }
 
   init(rootComponent: ComponentRef<any>) {
     // allow to initialize only once
@@ -28,10 +27,11 @@ export class SiteThemeService {
   }
 
   setTheme(theme: string) {
-    console.log(theme);
-    console.log(this.rootComponent);
-
-    // TODO: apply a css class on the root component, i.e. `cx-theme--<THEME_VALUE>`
-    // this.renderer.addClass(this.rootComponent.instance, `cx-theme--${theme}`); // NOT WORKING?
+    if (theme) {
+      this.renderer.addClass(
+        this.rootComponent.location.nativeElement,
+        `cx-theme--${theme}`
+      );
+    }
   }
 }
