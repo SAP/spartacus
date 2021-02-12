@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Configurator } from '../../core';
+import { Configurator } from '../../core/model/configurator.model';
 
 export interface ConfiguratorPriceComponentOptions {
   quantity?: number;

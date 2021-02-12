@@ -2,14 +2,6 @@
   &:not(:empty) {
     width: 100%;
 
-    .cx-attribute-level-quantity-price {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-block-start: 2rem;
-      margin-inline-end: 1rem;
-      margin-block-end: 2rem;
-      margin-inline-start: 1rem;
-    }
+    @include cx-configurator-attribute-level-quantity-price();
   }
 }
