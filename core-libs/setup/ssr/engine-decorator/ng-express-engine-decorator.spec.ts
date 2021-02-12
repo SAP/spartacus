@@ -23,7 +23,7 @@ describe('NgExpressEngineDecorator', () => {
         req: {
           protocol: 'https',
           originalUrl: '/electronics/en/USD/cart',
-          get: jasmine.createSpy('req.get').and.returnValue('site.com'),
+          hostname: 'site.com',
         },
       } as any;
 
