@@ -113,7 +113,7 @@ export const userConfig: MyCompanyConfig = {
     {
       name: 'Approvers',
       baseUrl: `/approvers`,
-      apiEndpoint: '**/approvers**',
+      apiEndpoint: '**/orgCustomers**',
       entityIdField: 'customerId',
       objectType: 'users',
       manageAssignments: true,
