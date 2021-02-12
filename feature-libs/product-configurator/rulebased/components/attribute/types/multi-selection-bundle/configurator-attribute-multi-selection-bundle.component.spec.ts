@@ -447,7 +447,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   describe('price info at attribute level', () => {
     it('should not display price component', () => {
       component.attribute.dataType =
-        Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
+        Configurator.DataType.USER_SELECTION_NO_QTY;
       component.attribute.attributePriceTotal = undefined;
       fixture.detectChanges();
 

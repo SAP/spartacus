@@ -359,22 +359,6 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
   });
 
   describe('product price at value level', () => {
-    it('should return no price details and do not display content of cx-configurator-price ', () => {
-      component.product.selected = true;
-      component.product.quantity = undefined;
-      component.product.valuePrice = undefined;
-      component.product.valuePriceTotal = undefined;
-      fixture.detectChanges();
-
-      expect(component.getProductPrice()).toBeUndefined();
-
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        'cx-configurator-price'
-      );
-    });
-
     it('should return price details with quantity and display content of cx-configurator-price ', () => {
       component.product.selected = true;
       component.product.quantity = 2;

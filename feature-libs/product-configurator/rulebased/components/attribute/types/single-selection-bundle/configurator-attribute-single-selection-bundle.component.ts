@@ -10,7 +10,6 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { BehaviorSubject } from 'rxjs';
-import { ConfiguratorPriceService } from '../../../../core/facade/configurator-price.service';
 
 @Component({
   selector: 'cx-configurator-attribute-single-selection-bundle',
@@ -26,10 +25,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
   @Input() ownerKey: string;
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  constructor(
-    private quantityService: ConfiguratorAttributeQuantityService,
-    private priceService: ConfiguratorPriceService
-  ) {
+  constructor(private quantityService: ConfiguratorAttributeQuantityService) {
     super();
   }
 
@@ -100,11 +96,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
   }
 
   getSelectedValuePrice(): Configurator.PriceDetails | undefined {
-    return this.priceService.getSelectedValuePrice(this.attribute);
-  }
-
-  isPriceDataDefined(): boolean {
-    return this.priceService.isPriceDataDefined(this.attribute);
+    return this.attribute?.values?.find((value) => value?.selected)?.valuePrice;
   }
 
   extractPriceFormulaParameters() {

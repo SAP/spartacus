@@ -11,7 +11,6 @@ import { ItemCounterComponent } from '@spartacus/storefront';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { ConfiguratorPriceService } from '@spartacus/product-configurator/rulebased';
 
 const createTestValue = (
   price: number,
@@ -128,7 +127,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
           MockProductCardComponent,
           MockConfiguratorPriceComponent,
         ],
-        providers: [ConfiguratorPriceService],
       })
         .overrideComponent(
           ConfiguratorAttributeSingleSelectionBundleComponent,
@@ -402,7 +400,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
       component.attribute.values[0].valuePriceTotal = undefined;
       fixture.detectChanges();
 
-      expect(component.isPriceDataDefined()).toBeFalse();
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
@@ -433,8 +430,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
       };
       fixture.detectChanges();
 
-      const price = component.isPriceDataDefined();
-      expect(price).toBeTrue();
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,

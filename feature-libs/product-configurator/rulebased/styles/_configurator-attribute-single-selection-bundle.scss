@@ -1,7 +1,3 @@
 %cx-configurator-attribute-single-selection-bundle {
-  &:not(:empty) {
-    width: 100%;
-
-    @include cx-configurator-attribute-level-quantity-price();
-  }
+  @include cx-configurator-attribute-level-quantity-price();
 }

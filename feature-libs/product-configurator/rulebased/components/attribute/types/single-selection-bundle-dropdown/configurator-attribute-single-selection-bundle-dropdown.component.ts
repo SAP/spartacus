@@ -12,7 +12,6 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
 import { FormControl } from '@angular/forms';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { BehaviorSubject } from 'rxjs';
-import { ConfiguratorPriceService } from '../../../../core/facade/configurator-price.service';
 
 @Component({
   selector: 'cx-configurator-attribute-single-selection-bundle-dropdown',
@@ -33,10 +32,7 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  constructor(
-    private quantityService: ConfiguratorAttributeQuantityService,
-    private priceService: ConfiguratorPriceService
-  ) {
+  constructor(private quantityService: ConfiguratorAttributeQuantityService) {
     super();
   }
 
@@ -105,11 +101,7 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   }
 
   getSelectedValuePrice(): Configurator.PriceDetails | undefined {
-    return this.priceService.getSelectedValuePrice(this.attribute);
-  }
-
-  isPriceDataDefined(): boolean {
-    return this.priceService.isPriceDataDefined(this.attribute);
+    return this.attribute?.values?.find((value) => value?.selected)?.valuePrice;
   }
 
   extractPriceFormulaParameters() {

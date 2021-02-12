@@ -8,22 +8,14 @@
 
     .cx-quantity-price {
       font-size: var(--cx-font-small, 0.9rem);
-      display: -webkit-box;
-      -webkit-line-clamp: 1;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      line-break: anywhere;
+      @include cx-configurator-truncate-content();
     }
 
     .cx-price,
     .cx-quantity,
     .cx-price-total {
       font-weight: bold;
-      display: -webkit-box;
-      -webkit-line-clamp: 1;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      line-break: anywhere;
+      @include cx-configurator-truncate-content();
     }
 
     .cx-greyed-out {

@@ -12,7 +12,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
-import { ConfiguratorPriceService } from '@spartacus/product-configurator/rulebased';
 
 class MockConfiguratorAttributeQuantityService {
   disableQuantityActions(value): boolean {
@@ -104,10 +103,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
           RouterTestingModule,
           UrlTestingModule,
         ],
-        providers: [
-          ConfiguratorAttributeBaseComponent,
-          ConfiguratorPriceService,
-        ],
+        providers: [ConfiguratorAttributeBaseComponent],
       })
         .overrideComponent(
           ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
@@ -299,7 +295,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       component.attribute.values[0].valuePriceTotal = undefined;
       fixture.detectChanges();
 
-      expect(component.isPriceDataDefined()).toBeFalse();
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
@@ -331,8 +326,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       };
       fixture.detectChanges();
 
-      const price = component.isPriceDataDefined();
-      expect(price).toBeTrue();
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,

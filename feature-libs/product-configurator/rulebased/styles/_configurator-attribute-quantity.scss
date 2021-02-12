@@ -1,17 +1,13 @@
 %cx-configurator-attribute-quantity {
-  display: none;
+  display: flex;
+  flex-direction: column;
 
-  &:not(:empty) {
+  .cx-quantity {
     display: flex;
-    flex-direction: column;
+    align-items: center;
 
-    .cx-quantity {
-      align-items: center;
-      display: flex;
-
-      label {
-        margin-inline-end: 0.5rem;
-      }
+    label {
+      margin-inline-end: 0.5rem;
     }
   }
 }
