@@ -71,6 +71,11 @@
   </div>
 </ng-template>
 
-<button class="link" [cxPopover]="details" [placement]="'auto'">
+<button
+  class="link"
+  [cxPopover]="details"
+  [placement]="'auto'"
+  [appendToBody]="true"
+>
   {{ model.name }}
 </button>

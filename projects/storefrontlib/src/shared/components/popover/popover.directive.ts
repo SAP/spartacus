@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
   Directive,
   ElementRef,
@@ -7,12 +8,14 @@ import {
   ComponentFactoryResolver,
   ComponentRef,
   Renderer2,
-  OnDestroy,
-  OnInit,
   ChangeDetectorRef,
   Output,
   EventEmitter,
+  Inject,
+  NgZone,
+  HostListener,
 } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { PopoverComponent } from './popover.component';
 import { PopoverPosition } from './popover.model';
 import { PositioningService } from './positioning-service';
@@ -23,7 +26,7 @@ import { PositioningService } from './positioning-service';
 @Directive({
   selector: '[cxPopover]',
 })
-export class PopoverDirective implements OnInit, OnDestroy {
+export class PopoverDirective {
   /**
    * Template or string to be rendered inside popover wrapper component.
    */
@@ -38,6 +41,11 @@ export class PopoverDirective implements OnInit, OnDestroy {
    * Flag used to prevent firing popover open function.
    */
   @Input() disablePopover?: boolean;
+
+  /**
+   * Append popover component into 'body' selector.
+   */
+  @Input() appendToBody?: boolean;
 
   /**
    * An event emitted when the popover is opened.
@@ -61,6 +69,11 @@ export class PopoverDirective implements OnInit, OnDestroy {
   popoverContainer: ComponentRef<PopoverComponent>;
 
   /**
+   * Property containing ngZone subscription.
+   */
+  ngZoneSubscription: Subscription;
+
+  /**
    * Method performs open action for popover component.
    */
   open() {
@@ -73,13 +86,21 @@ export class PopoverDirective implements OnInit, OnDestroy {
       );
       if (this.popoverContainer && this.popoverContainer.instance) {
         this.popoverContainer.instance.content = this.cxPopover;
-        setTimeout(() => {
-          this.positioningService.positionElements(
-            this.element.nativeElement,
-            this.popoverContainer.location.nativeElement,
-            this.placement,
-            false
+        if (this.appendToBody) {
+          this.renderer.appendChild(
+            this.document.body,
+            this.popoverContainer.location.nativeElement
           );
+        }
+        this.ngZoneSubscription = this.ngZone.onStable.subscribe(() => {
+          if (this.popoverContainer) {
+            this.positioningService.positionElements(
+              this.element.nativeElement,
+              this.popoverContainer.location.nativeElement,
+              this.placement,
+              this.appendToBody
+            );
+          }
         });
       }
       this.changeDetectorRef.markForCheck();
@@ -91,19 +112,32 @@ export class PopoverDirective implements OnInit, OnDestroy {
    * Method performs close action for popover component.
    */
   close() {
+    if (this.ngZoneSubscription) {
+      this.ngZoneSubscription.unsubscribe();
+    }
     this.viewContainer.clear();
     this.closePopover.emit();
   }
 
   /**
-   * Method toggles between open and close actions depends on `isOpen` property value.
+   * Method triggers clicked element from event and toggles popover component.
    */
-  toggle() {
-    if (!this.isOpen) {
+  trigger(event: Event) {
+    if (event && this.element.nativeElement === event.target && !this.isOpen) {
+      this.isOpen = true;
       this.open();
     } else {
+      this.isOpen = false;
       this.close();
     }
+  }
+
+  /**
+   * Listener for every click events in document.
+   */
+  @HostListener('document:click', ['$event'])
+  clickEvent(event: Event) {
+    this.trigger(event);
   }
 
   constructor(
@@ -112,20 +146,8 @@ export class PopoverDirective implements OnInit, OnDestroy {
     protected componentFactoryResolver: ComponentFactoryResolver,
     protected renderer: Renderer2,
     protected changeDetectorRef: ChangeDetectorRef,
-    protected positioningService: PositioningService
+    protected positioningService: PositioningService,
+    protected ngZone: NgZone,
+    @Inject(DOCUMENT) protected document: any
   ) {}
-
-  ngOnInit(): void {
-    this.renderer.listen('window', 'click', (e: Event) => {
-      if (e.target === this.element.nativeElement && !this.isOpen) {
-        this.isOpen = true;
-        this.open();
-      } else {
-        this.isOpen = false;
-        this.close();
-      }
-    });
-  }
-
-  ngOnDestroy(): void {}
 }
