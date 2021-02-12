@@ -23,7 +23,7 @@ import { CostCenterFormComponent } from './form/cost-center-form.component';
 import { CostCenterItemService } from './services/cost-center-item.service';
 import { CostCenterListService } from './services/cost-center-list.service';
 import { CostCenterRoutePageMetaResolver } from './services/cost-center-route-page-meta.resolver';
-import { BudgetDetailsCellComponent } from '../budget/details-cell/details-cell.component';
+import { BudgetDetailsCellComponent } from '../budget/details-cell/budget-details-cell.component';
 
 const listPath = `organization/cost-centers/:${ROUTE_PARAMS.costCenterCode}`;
 const paramsMapping: ParamsMapping = {
@@ -155,9 +155,6 @@ export const costCenterTableConfig: TableConfig = {
       cells: ['name', 'actions'],
       options: {
         cells: {
-          name: {
-            linkable: false,
-          },
           details: {
             dataComponent: BudgetDetailsCellComponent,
           },
@@ -172,13 +169,10 @@ export const costCenterTableConfig: TableConfig = {
     },
 
     [OrganizationTableType.COST_CENTER_BUDGETS]: {
-      cells: ['name', 'popover', 'actions'],
+      cells: ['details', 'actions'],
       options: {
         cells: {
-          name: {
-            linkable: false,
-          },
-          popover: {
+          details: {
             dataComponent: BudgetDetailsCellComponent,
           },
           actions: {
