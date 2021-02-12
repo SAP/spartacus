@@ -98,13 +98,4 @@ describe('StoreFinderStoreComponent', () => {
       `store-finder/country/${mockActivatedRoute.snapshot.params.country}`,
     ]);
   });
-
-  it('should call findStores on language change', () => {
-    spyOn(component, 'requestStoresData');
-    isLoading$.next(false);
-    isLoaded$.next(false);
-    fixture.detectChanges();
-
-    expect(component.requestStoresData).toHaveBeenCalled();
-  });
 });

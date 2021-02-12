@@ -4,10 +4,11 @@ import { I18nTestingModule } from '@spartacus/core';
 import { StoreFinderStoresCountComponent } from './store-finder-stores-count.component';
 import { SpinnerModule } from '@spartacus/storefront';
 import { StoreFinderService } from '@spartacus/storefinder/core';
+import { Observable, of } from 'rxjs';
 
 const mockStoreFinderService = {
   viewAllStores: jasmine.createSpy(),
-  getViewAllStoresEntities: jasmine.createSpy(),
+  getViewAllStoresEntities: jasmine.createSpy().and.returnValue(of(Observable)),
   getViewAllStoresLoading: jasmine.createSpy(),
 };
 

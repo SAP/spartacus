@@ -14,33 +14,26 @@ export class StoreFinderGridComponent implements OnInit {
   defaultLocation: GeoPoint;
   country: string;
   region: string;
+  locations$: any;
+  isLoading$: Observable<boolean>;
 
   constructor(
     private storeFinderService: StoreFinderService,
     private route: ActivatedRoute
   ) {}
-  locations$: any;
-  isLoading$: Observable<boolean>;
 
   ngOnInit() {
-    this.defaultLocation = {};
-    this.isLoading$ = this.storeFinderService.getViewAllStoresLoading();
+    this.isLoading$ = this.storeFinderService.getStoresLoading();
     this.locations$ = this.storeFinderService
       .getFindStoresEntities()
       .pipe(map((data) => data.findStoresEntities));
+    this.defaultLocation = {};
     this.findStores();
   }
 
   protected findStores() {
     if (this.route.snapshot.params.country) {
-      this.storeFinderService.findStoresAction(
-        '',
-        {
-          pageSize: -1,
-        },
-        undefined,
-        this.route.snapshot.params.country
-      );
+      this.storeFinderService.callFindStoresAction(this.route.snapshot.params);
     }
   }
 }

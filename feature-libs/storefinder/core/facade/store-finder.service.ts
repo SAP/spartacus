@@ -28,13 +28,36 @@ export class StoreFinderService implements OnDestroy {
   protected subscription = new Subscription();
 
   constructor(
+    store: Store<StateWithStoreFinder>,
+    winRef: WindowRef,
+    globalMessageService: GlobalMessageService,
+    routingService: RoutingService
+  );
+
+  /**
+   * @deprecated since version 3.1
+   * Use constructor(protected store: Store<StateWithStoreFinder>, protected winRef: WindowRef, protected globalMessageService: GlobalMessageService,
+   * protected routingService: RoutingService @Inject(PLATFORM_ID) protected platformId: any); instead
+   */
+  // TODO(#11093): Remove deprecated constructors
+
+  constructor(
+    store: Store<StateWithStoreFinder>,
+    winRef: WindowRef,
+    globalMessageService: GlobalMessageService,
+    routingService: RoutingService,
+    // tslint:disable-next-line: unified-signatures
+    platformId: any
+  );
+
+  constructor(
     protected store: Store<StateWithStoreFinder>,
     protected winRef: WindowRef,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
-    @Inject(PLATFORM_ID) protected platformId: any
+    @Inject(PLATFORM_ID) protected platformId?: any
   ) {
-    this.initialize();
+    this.reloadStoreEntitiesOnContextChange();
   }
 
   /**
@@ -166,7 +189,10 @@ export class StoreFinderService implements OnDestroy {
     );
   }
 
-  protected initialize() {
+  /**
+   * Reload store data when store entities are empty because of the context change
+   */
+  protected reloadStoreEntitiesOnContextChange() {
     if (isPlatformBrowser(this.platformId)) {
       this.subscription = this.getFindStoresEntities()
         .pipe(
@@ -181,28 +207,28 @@ export class StoreFinderService implements OnDestroy {
             this.routingService.getParams()
           )
         )
-        .subscribe(([value, loading, loaded, params]) => {
+        .subscribe(([, loading, loaded, routeParams]) => {
           if (!loading && !loaded) {
-            if (
-              this.isEmpty(value.findStoresEntities) &&
-              params.country &&
-              !params.store
-            ) {
-              this.findStoresAction(
-                '',
-                {
-                  pageSize: -1,
-                },
-                undefined,
-                params.country
-              );
+            if (routeParams.country && !routeParams.store) {
+              this.callFindStoresAction(routeParams);
             }
-            if (params.store) {
-              this.viewStoreById(params.store);
+            if (routeParams.store) {
+              this.viewStoreById(routeParams.store);
             }
           }
         });
     }
+  }
+
+  callFindStoresAction(routeParams) {
+    this.findStoresAction(
+      '',
+      {
+        pageSize: -1,
+      },
+      undefined,
+      routeParams.country
+    );
   }
 
   ngOnDestroy() {

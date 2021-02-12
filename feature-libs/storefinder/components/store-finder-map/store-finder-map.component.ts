@@ -25,14 +25,7 @@ export class StoreFinderMapComponent implements OnChanges {
   constructor(private googleMapRendererService: GoogleMapRendererService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (
-      Object.entries(
-        changes.locations?.currentValue[
-          Object.keys(changes.locations?.currentValue)[0]
-        ]
-      ).length > 0 &&
-      this.locations
-    ) {
+    if (changes.locations && this.locations) {
       this.renderMap();
     }
   }
