@@ -155,7 +155,7 @@ export const costCenterTableConfig: TableConfig = {
       cells: ['name', 'actions'],
       options: {
         cells: {
-          details: {
+          name: {
             dataComponent: BudgetDetailsCellComponent,
           },
           actions: {
@@ -169,10 +169,10 @@ export const costCenterTableConfig: TableConfig = {
     },
 
     [OrganizationTableType.COST_CENTER_BUDGETS]: {
-      cells: ['details', 'actions'],
+      cells: ['name', 'actions'],
       options: {
         cells: {
-          details: {
+          name: {
             dataComponent: BudgetDetailsCellComponent,
           },
           actions: {
