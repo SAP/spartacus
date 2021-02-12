@@ -177,6 +177,8 @@ export function checkWishListPersisted(product: TestProduct) {
     option: 'Sign Out',
   });
 
+  cy.location('pathname').should('eq', `/${Cypress.env('BASE_SITE')}/en/USD/`);
+
   cy.findByText(/Sign in \/ Register/i).click();
 
   loginWishListUser();
