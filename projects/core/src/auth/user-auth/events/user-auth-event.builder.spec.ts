@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject, StoreModule } from '@ngrx/store';
 import { TokenResponse } from 'angular-oauth2-oidc';
 import { UserService } from 'projects/core/src/user/facade/user.service';
-import { BehaviorSubject, of, Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { CsAgentAuthService } from '../../../asm/facade/csagent-auth.service';
 import {
@@ -31,7 +31,7 @@ const asmUser: AuthToken = {
   access_token_stored_at: 'now',
 };
 
-const token$ = new BehaviorSubject<AuthToken>({} as AuthToken);
+const token$ = new Subject<AuthToken>();
 class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn = () =>
     token$.asObservable().pipe(map((token) => !!token.access_token));
@@ -58,9 +58,8 @@ class MockAsmAuthStorageService implements Partial<AsmAuthStorageService> {
   clearEmulatedUserToken() {}
 }
 
-const mockUser$ = new BehaviorSubject<User>({});
 class MockUserService implements Partial<UserService> {
-  get = () => mockUser$.asObservable();
+  get = () => of({} as User);
 }
 
 class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
@@ -72,16 +71,18 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
   }
 }
 
-const isEmulated$ = new BehaviorSubject<boolean>(false);
 class MockUserIdService implements Partial<UserIdService> {
   setUserId() {}
-  isEmulated = () => isEmulated$.asObservable();
+  isEmulated() {
+    return of(false);
+  }
 }
 
 describe('UserAuthEventBuilder', () => {
   let actions$: Subject<Action>;
   let eventService: EventService;
   let csAgentAuthService: CsAgentAuthService;
+  let userIdService: UserIdService;
 
   beforeEach(() => {
     actions$ = new Subject();
@@ -107,17 +108,18 @@ describe('UserAuthEventBuilder', () => {
     TestBed.inject(UserAuthEventBuilder); // register events
     eventService = TestBed.inject(EventService);
     csAgentAuthService = TestBed.inject(CsAgentAuthService);
+    userIdService = TestBed.inject(UserIdService);
   });
 
   describe('LogoutEvent', () => {
     it('should emit a LogoutEvent when a user logs OUT', () => {
-      token$.next(authenticatedUser);
-
       let result: LogoutEvent;
       eventService
         .get(LogoutEvent)
         .pipe(take(1))
         .subscribe((value) => (result = value));
+
+      token$.next(authenticatedUser);
 
       token$.next(anonymousUser);
 
@@ -125,13 +127,13 @@ describe('UserAuthEventBuilder', () => {
     });
 
     it('should NOT emit a LogoutEvent when a user logs IN', () => {
-      token$.next(anonymousUser);
-
       let result: LogoutEvent;
       eventService
         .get(LogoutEvent)
         .pipe(take(1))
         .subscribe((value) => (result = value));
+
+      token$.next(anonymousUser);
 
       token$.next(authenticatedUser);
 
@@ -139,8 +141,6 @@ describe('UserAuthEventBuilder', () => {
     });
 
     it('should NOT emit a LogoutEvent when a user STAYS logged IN', () => {
-      token$.next(authenticatedUser);
-
       let result: LogoutEvent;
       eventService
         .get(LogoutEvent)
@@ -149,15 +149,16 @@ describe('UserAuthEventBuilder', () => {
 
       token$.next(authenticatedUser);
 
+      token$.next(authenticatedUser);
+
       expect(result).toBeUndefined();
     });
 
     it('should emit ONE LogoutEvent when a user logs OUT', () => {
-      token$.next(authenticatedUser);
-
       let result: LogoutEvent;
       eventService.get(LogoutEvent).subscribe((value) => (result = value));
 
+      token$.next(authenticatedUser);
       token$.next(authenticatedUser);
       token$.next(anonymousUser);
       token$.next(anonymousUser);
@@ -169,13 +170,13 @@ describe('UserAuthEventBuilder', () => {
 
     describe('ASM', () => {
       it('should NOT fire when an ASM agent logs IN if a user was NOT authenticated', () => {
-        token$.next(anonymousUser);
-
         let result: LogoutEvent;
         eventService
           .get(LogoutEvent)
           .pipe(take(1))
           .subscribe((value) => (result = value));
+
+        token$.next(anonymousUser);
 
         csAgentAuthService.authorizeCustomerSupportAgent('test', 'test');
 
@@ -183,14 +184,15 @@ describe('UserAuthEventBuilder', () => {
       });
 
       it('should NOT fire when an ASM agent logs OUT if an emulation session was in progress', async () => {
-        isEmulated$.next(true);
-        token$.next(asmUser);
+        spyOn(userIdService, 'isEmulated').and.returnValue(of(true));
 
         let result: LogoutEvent;
         eventService
           .get(LogoutEvent)
           .pipe(take(1))
           .subscribe((value) => (result = value));
+
+        token$.next(asmUser);
 
         await csAgentAuthService.logoutCustomerSupportAgent();
 
@@ -198,14 +200,15 @@ describe('UserAuthEventBuilder', () => {
       });
 
       it('should NOT fire when an ASM agent logs OUT if an emulation session was NOT in progress', async () => {
-        isEmulated$.next(false);
-        token$.next(anonymousUser);
+        spyOn(userIdService, 'isEmulated').and.returnValue(of(false));
 
         let result: LogoutEvent;
         eventService
           .get(LogoutEvent)
           .pipe(take(1))
           .subscribe((value) => (result = value));
+
+        token$.next(anonymousUser);
 
         await csAgentAuthService.logoutCustomerSupportAgent();
 
@@ -251,7 +254,6 @@ describe('UserAuthEventBuilder', () => {
           .pipe(take(1))
           .subscribe((value) => (result = value));
 
-        actions$.next({ type: AuthActions.LOGIN });
         csAgentAuthService.startCustomerEmulationSession('test id');
 
         expect(result).toEqual(new LoginEvent());
