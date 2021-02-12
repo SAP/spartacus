@@ -128,6 +128,7 @@ describe(`OccLoadedConfigConverter`, () => {
             },
           ],
           urlEncodingAttributes: ['language', 'currency'],
+          theme: 'test-theme',
         },
       ];
       const currentUrl = 'testUrl';
@@ -137,6 +138,7 @@ describe(`OccLoadedConfigConverter`, () => {
         languages: ['en', 'de'],
         currencies: ['EUR', 'USD'],
         urlParameters: ['language', 'currency'],
+        theme: 'test-theme',
       });
     });
 
