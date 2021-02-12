@@ -4,8 +4,6 @@ import { from, Observable } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
 import { CartModification } from '../../../model/cart.model';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
-import { withdrawOn } from '../../../util/withdraw-on';
 import { CartBundleConnector } from '../../connectors/bundle/index';
 import { CartActions } from '../actions/index';
 
@@ -47,7 +45,7 @@ export class CartBundleEffects {
             from([
               new CartActions.CreateBundleFail({
                 ...payload,
-                error: makeErrorSerializable(error),
+                error: error,
               }),
               new CartActions.LoadCart({
                 cartId: payload.cartId,
@@ -56,8 +54,8 @@ export class CartBundleEffects {
             ])
           )
         );
-    }),
-    withdrawOn(this.contextChange$)
+    })
+    // withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -83,7 +81,7 @@ export class CartBundleEffects {
             from([
               new CartActions.GetBundlesFail({
                 ...payload,
-                error: makeErrorSerializable(error),
+                error: error,
               }),
               new CartActions.LoadCart({
                 cartId: payload.cartId,
@@ -92,8 +90,8 @@ export class CartBundleEffects {
             ])
           )
         );
-    }),
-    withdrawOn(this.contextChange$)
+    })
+    // withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -117,7 +115,7 @@ export class CartBundleEffects {
             from([
               new CartActions.RemoveBundleFail({
                 ...payload,
-                error: makeErrorSerializable(error),
+                error: error,
               }),
               new CartActions.LoadCart({
                 cartId: payload.cartId,
@@ -126,8 +124,8 @@ export class CartBundleEffects {
             ])
           )
         )
-    ),
-    withdrawOn(this.contextChange$)
+    )
+    // withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -158,7 +156,7 @@ export class CartBundleEffects {
             from([
               new CartActions.UpdateBundleFail({
                 ...payload,
-                error: makeErrorSerializable(error),
+                error: error,
               }),
               new CartActions.LoadCart({
                 cartId: payload.cartId,
@@ -167,8 +165,8 @@ export class CartBundleEffects {
             ])
           )
         )
-    ),
-    withdrawOn(this.contextChange$)
+    )
+    // withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -198,7 +196,7 @@ export class CartBundleEffects {
             from([
               new CartActions.GetBundleAllowedProductsFail({
                 ...payload,
-                error: makeErrorSerializable(error),
+                error: error,
               }),
               new CartActions.LoadCart({
                 cartId: payload.cartId,
@@ -207,8 +205,8 @@ export class CartBundleEffects {
             ])
           )
         );
-    }),
-    withdrawOn(this.contextChange$)
+    })
+    // withdrawOn(this.contextChange$)
   );
 
   constructor(
