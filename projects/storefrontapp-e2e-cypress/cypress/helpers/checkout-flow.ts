@@ -118,6 +118,7 @@ export function verifyDeliveryMethod(
     '/checkout/payment-details',
     'getPaymentPage'
   );
+  cy.wait(3000);
   cy.get('.cx-checkout-btns button.btn-primary').click();
   cy.wait(`@${paymentPage}`).its('status').should('eq', 200);
 }
