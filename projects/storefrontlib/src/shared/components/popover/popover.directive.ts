@@ -10,6 +10,8 @@ import {
   OnDestroy,
   OnInit,
   ChangeDetectorRef,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { PopoverComponent } from './popover.component';
 import { PopoverPosition } from './popover.model';
@@ -28,17 +30,81 @@ export class PopoverDirective implements OnInit, OnDestroy {
   @Input() cxPopover: string | TemplateRef<any>;
 
   /**
-   * The preferred placement of the popover. Default popover position is 'top'.
+   * The preferred placement of the popover. Default popover position is 'auto'.
    */
-  @Input() placement?: PopoverPosition = PopoverPosition.TOP;
+  @Input() placement?: PopoverPosition = PopoverPosition.AUTO;
+
+  /**
+   * Flag used to prevent firing popover open function.
+   */
+  @Input() disablePopover?: boolean;
+
+  /**
+   * An event emitted when the popover is opened.
+   */
+  @Output() openPopover?: EventEmitter<void> = new EventEmitter();
+
+  /**
+   * An event emitted when the popover is closed.
+   */
+  @Output() closePopover?: EventEmitter<void> = new EventEmitter();
+
+  /**
+   * Flag used to inform about current state of popover component.
+   * Popover is closed by default, so value is set to false.
+   */
+  isOpen: boolean;
 
   /**
    * Popover component instance.
    */
-  protected popoverContainer: ComponentRef<PopoverComponent>;
+  popoverContainer: ComponentRef<PopoverComponent>;
 
-  private toggle: boolean;
-  private unlistener: () => void;
+  /**
+   * Method performs open action for popover component.
+   */
+  open() {
+    if (!this.disablePopover) {
+      const containerFactory = this.componentFactoryResolver.resolveComponentFactory(
+        PopoverComponent
+      );
+      this.popoverContainer = this.viewContainer.createComponent(
+        containerFactory
+      );
+      if (this.popoverContainer && this.popoverContainer.instance) {
+        this.popoverContainer.instance.content = this.cxPopover;
+        setTimeout(() => {
+          positionElements(
+            this.element.nativeElement,
+            this.popoverContainer.location.nativeElement,
+            this.placement,
+            false
+          );
+        });
+      }
+      this.changeDetectorRef.markForCheck();
+      this.openPopover.emit();
+    }
+  }
+
+  /**
+   * Method performs close action for popover component.
+   */
+  close() {
+    this.viewContainer.clear();
+    this.closePopover.emit();
+  }
+
+  /**
+   * Method toggles between open and close actions depends on `isOpen` property value.
+   */
+  toggle() {
+    if (!this.isOpen) {
+      this.open();
+    } else {
+      this.close();
+    }
+  }
 
   constructor(
     protected element: ElementRef,
@@ -49,46 +115,16 @@ export class PopoverDirective implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.unlistener = this.renderer.listen('window', 'click', (e: Event) => {
-      if (e.target === this.element.nativeElement && !this.toggle) {
-        this.toggle = true;
+    this.renderer.listen('window', 'click', (e: Event) => {
+      if (e.target === this.element.nativeElement && !this.isOpen) {
+        this.isOpen = true;
         this.open();
       } else {
-        this.toggle = false;
+        this.isOpen = false;
         this.close();
       }
     });
   }
 
-  open() {
-    const containerFactory = this.componentFactoryResolver.resolveComponentFactory(
-      PopoverComponent
-    );
-
-    this.popoverContainer = this.viewContainer.createComponent(
-      containerFactory
-    );
-
-    if (this.popoverContainer && this.popoverContainer.instance) {
-      this.popoverContainer.instance.content = this.cxPopover;
-
-      setTimeout(() => {
-        positionElements(
-          this.element.nativeElement,
-          this.popoverContainer.location.nativeElement,
-          this.placement,
-          false
-        );
-      });
-    }
-    this.changeDetectorRef.markForCheck();
-  }
-
-  close() {
-    this.viewContainer.clear();
-  }
-
-  ngOnDestroy(): void {
-    this.unlistener();
-  }
+  ngOnDestroy(): void {}
 }
