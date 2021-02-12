@@ -28,10 +28,15 @@ export class SiteThemeService {
 
   setTheme(theme: string) {
     if (theme) {
-      this.renderer.addClass(
-        this.rootComponent.location.nativeElement,
-        `cx-theme--${theme}`
-      );
+      const element = this.rootComponent.location.nativeElement;
+      // remove the old theme
+      Array.from(element.classList).forEach((attr: string) => {
+        if (attr.startsWith('cx-theme--')) {
+          this.renderer.removeClass(element, attr);
+        }
+      });
+      // add the new theme
+      this.renderer.addClass(element, `cx-theme--${theme}`);
     }
   }
 }
