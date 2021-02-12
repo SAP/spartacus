@@ -1,17 +1,50 @@
-export class Positioning {
-  private getAllStyles(element: HTMLElement) {
-    return window.getComputedStyle(element);
+import { Injectable } from '@angular/core';
+import { WindowRef } from '@spartacus/core';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class PositioningService {
+  protected get allowedPlacements(): Array<Placement> {
+    return [
+      'top',
+      'bottom',
+      'left',
+      'right',
+      'top-left',
+      'top-right',
+      'bottom-left',
+      'bottom-right',
+      'left-top',
+      'left-bottom',
+      'right-top',
+      'right-bottom',
+    ];
   }
 
-  private getStyle(element: HTMLElement, prop: string): string {
+  protected get placementSeparator(): RegExp {
+    return /\s+/;
+  }
+
+  protected get window(): Window {
+    return this.winRef.nativeWindow;
+  }
+
+  constructor(protected winRef: WindowRef) {}
+
+  protected getAllStyles(element: HTMLElement) {
+    return this.window?.getComputedStyle(element);
+  }
+
+  protected getStyle(element: HTMLElement, prop: string): string {
     return this.getAllStyles(element)[prop];
   }
 
-  private isStaticPositioned(element: HTMLElement): boolean {
+  protected isStaticPositioned(element: HTMLElement): boolean {
     return (this.getStyle(element, 'position') || 'static') === 'static';
   }
 
-  private offsetParent(element: HTMLElement): HTMLElement {
+  protected offsetParent(element: HTMLElement): HTMLElement {
     let offsetParentEl =
       <HTMLElement>element.offsetParent || document.documentElement;
 
@@ -26,7 +59,7 @@ export class Positioning {
     return offsetParentEl || document.documentElement;
   }
 
-  position(element: HTMLElement, round = true): ClientRect {
+  protected position(element: HTMLElement, round = true): ClientRect {
     let elPosition: ClientRect;
     let parentOffset: ClientRect = {
       width: 0,
@@ -75,11 +108,11 @@ export class Positioning {
     return elPosition;
   }
 
-  offset(element: HTMLElement, round = true): ClientRect {
+  protected offset(element: HTMLElement, round = true): ClientRect {
     const elBcr = element.getBoundingClientRect();
     const viewportOffset = {
-      top: window.pageYOffset - document.documentElement.clientTop,
-      left: window.pageXOffset - document.documentElement.clientLeft,
+      top: this.window?.pageYOffset - document.documentElement.clientTop,
+      left: this.window?.pageXOffset - document.documentElement.clientLeft,
     };
 
     let elOffset = {
@@ -106,7 +139,7 @@ export class Positioning {
   /*
     Return false if the element to position is outside the viewport
   */
-  positionElements(
+  protected _positionElements(
     hostElement: HTMLElement,
     targetElement: HTMLElement,
     placement: string,
@@ -192,8 +225,8 @@ export class Positioning {
     // Check if the targetElement is inside the viewport
     const targetElBCR = targetElement.getBoundingClientRect();
     const html = document.documentElement;
-    const windowHeight = window.innerHeight || html.clientHeight;
-    const windowWidth = window.innerWidth || html.clientWidth;
+    const windowHeight = this.window?.innerHeight || html.clientHeight;
+    const windowWidth = this.window?.innerWidth || html.clientWidth;
 
     return (
       targetElBCR.left >= 0 &&
@@ -202,49 +235,12 @@ export class Positioning {
       targetElBCR.bottom <= windowHeight
     );
   }
-}
 
-const placementSeparator = /\s+/;
-export const positionService = new Positioning();
-
-/*
- * Accept the placement array and applies the appropriate placement dependent on the viewport.
- * Returns the applied placement.
- * In case of auto placement, placements are selected in order
- *   'top', 'bottom', 'left', 'right',
- *   'top-left', 'top-right',
- *   'bottom-left', 'bottom-right',
- *   'left-top', 'left-bottom',
- *   'right-top', 'right-bottom'.
- * */
-export function positionElements(
-  hostElement: HTMLElement,
-  targetElement: HTMLElement,
-  placement: string | Placement | PlacementArray,
-  appendToBody?: boolean,
-  baseClass?: string
-): Placement | null {
-  let placementVals: Array<Placement> = Array.isArray(placement)
-    ? placement
-    : (placement.split(placementSeparator) as Array<Placement>);
-
-  const allowedPlacements = [
-    'top',
-    'bottom',
-    'left',
-    'right',
-    'top-left',
-    'top-right',
-    'bottom-left',
-    'bottom-right',
-    'left-top',
-    'left-bottom',
-    'right-top',
-    'right-bottom',
-  ];
-
-  const classList = targetElement.classList;
-  const addClassesToTarget = (targetPlacement: Placement): Array<string> => {
+  protected addClassesToTarget(
+    targetPlacement: Placement,
+    baseClass,
+    classList
+  ): Array<string> {
     const [primary, secondary] = targetPlacement.split('-');
     const classes: string[] = [];
     if (baseClass) {
@@ -258,72 +254,100 @@ export function positionElements(
       });
     }
     return classes;
-  };
-
-  // Remove old placement classes to avoid issues
-  if (baseClass) {
-    allowedPlacements.forEach((placementToRemove) => {
-      classList.remove(`${baseClass}-${placementToRemove}`);
-    });
   }
 
-  // replace auto placement with other placements
-  let hasAuto = placementVals.findIndex((val) => val === 'auto');
-  if (hasAuto >= 0) {
-    allowedPlacements.forEach(function (obj) {
-      if (placementVals.find((val) => val.search('^' + obj) !== -1) == null) {
-        placementVals.splice(hasAuto++, 1, obj as Placement);
+  /*
+   * Accept the placement array and applies the appropriate placement dependent on the viewport.
+   * Returns the applied placement.
+   * In case of auto placement, placements are selected in order
+   *   'top', 'bottom', 'left', 'right',
+   *   'top-left', 'top-right',
+   *   'bottom-left', 'bottom-right',
+   *   'left-top', 'left-bottom',
+   *   'right-top', 'right-bottom'.
+   * */
+  positionElements(
+    hostElement: HTMLElement,
+    targetElement: HTMLElement,
+    placement: string | Placement | PlacementArray,
+    appendToBody?: boolean,
+    baseClass?: string
+  ): Placement | null {
+    let placementVals: Array<Placement> = Array.isArray(placement)
+      ? placement
+      : (placement.split(this.placementSeparator) as Array<Placement>);
+
+    const classList = targetElement.classList;
+
+    // Remove old placement classes to avoid issues
+    if (baseClass) {
+      this.allowedPlacements.forEach((placementToRemove) => {
+        classList.remove(`${baseClass}-${placementToRemove}`);
+      });
+    }
+
+    // replace auto placement with other placements
+    let hasAuto = placementVals.findIndex((val) => val === 'auto');
+    if (hasAuto >= 0) {
+      this.allowedPlacements.forEach(function (obj) {
+        if (placementVals.find((val) => val.search('^' + obj) !== -1) == null) {
+          placementVals.splice(hasAuto++, 1, obj as Placement);
+        }
+      });
+    }
+
+    // coordinates where to position
+
+    // Required for transform:
+    const style = targetElement.style;
+    style.position = 'absolute';
+    style.top = '0';
+    style.left = '0';
+    style['will-change'] = 'transform';
+
+    let testPlacement: Placement | null = null;
+    let isInViewport = false;
+    for (testPlacement of placementVals) {
+      let addedClasses = this.addClassesToTarget(
+        testPlacement,
+        baseClass,
+        classList
+      );
+
+      if (
+        this._positionElements(
+          hostElement,
+          targetElement,
+          testPlacement,
+          appendToBody
+        )
+      ) {
+        isInViewport = true;
+        break;
       }
-    });
-  }
 
-  // coordinates where to position
+      // Remove the baseClasses for further calculation
+      if (baseClass) {
+        addedClasses.forEach((classname) => {
+          classList.remove(classname);
+        });
+      }
+    }
 
-  // Required for transform:
-  const style = targetElement.style;
-  style.position = 'absolute';
-  style.top = '0';
-  style.left = '0';
-  style['will-change'] = 'transform';
-
-  let testPlacement: Placement | null = null;
-  let isInViewport = false;
-  for (testPlacement of placementVals) {
-    let addedClasses = addClassesToTarget(testPlacement);
-
-    if (
-      positionService.positionElements(
+    if (!isInViewport) {
+      // If nothing match, the first placement is the default one
+      testPlacement = placementVals[0];
+      this.addClassesToTarget(testPlacement, baseClass, classList);
+      this._positionElements(
         hostElement,
         targetElement,
         testPlacement,
         appendToBody
-      )
-    ) {
-      isInViewport = true;
-      break;
+      );
     }
 
-    // Remove the baseClasses for further calculation
-    if (baseClass) {
-      addedClasses.forEach((classname) => {
-        classList.remove(classname);
-      });
-    }
+    return testPlacement;
   }
-
-  if (!isInViewport) {
-    // If nothing match, the first placement is the default one
-    testPlacement = placementVals[0];
-    addClassesToTarget(testPlacement);
-    positionService.positionElements(
-      hostElement,
-      targetElement,
-      testPlacement,
-      appendToBody
-    );
-  }
-
-  return testPlacement;
 }
 
 export type Placement =

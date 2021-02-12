@@ -15,7 +15,7 @@ import {
 } from '@angular/core';
 import { PopoverComponent } from './popover.component';
 import { PopoverPosition } from './popover.model';
-import { positionElements } from './utils/positioning';
+import { PositioningService } from './positioning-service';
 
 /**
  * Directive to bind popover with any DOM element.
@@ -74,7 +74,7 @@ export class PopoverDirective implements OnInit, OnDestroy {
       if (this.popoverContainer && this.popoverContainer.instance) {
         this.popoverContainer.instance.content = this.cxPopover;
         setTimeout(() => {
-          positionElements(
+          this.positioningService.positionElements(
             this.element.nativeElement,
             this.popoverContainer.location.nativeElement,
             this.placement,
@@ -111,7 +111,8 @@ export class PopoverDirective implements OnInit, OnDestroy {
     protected viewContainer: ViewContainerRef,
     protected componentFactoryResolver: ComponentFactoryResolver,
     protected renderer: Renderer2,
-    protected changeDetectorRef: ChangeDetectorRef
+    protected changeDetectorRef: ChangeDetectorRef,
+    protected positioningService: PositioningService
   ) {}
 
   ngOnInit(): void {
