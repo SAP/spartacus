@@ -230,7 +230,7 @@ export function addCheapProductToCartAndLogin(
   );
   loginUser(sampleUser);
   // Double timeout, because we have here a cascade of requests (login, load /checkout page, merge cart, load shipping page)
-  cy.wait(`@${shippingPage}`, { timeout: 30000 })
+  cy.wait(`@${shippingPage}`, { timeout: 90000 })
     .its('status')
     .should('eq', 200);
 }
