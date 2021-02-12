@@ -236,6 +236,26 @@ export class PositioningService {
     );
   }
 
+  protected addClassesToTarget(
+    targetPlacement: Placement,
+    baseClass,
+    classList
+  ): Array<string> {
+    const [primary, secondary] = targetPlacement.split('-');
+    const classes: string[] = [];
+    if (baseClass) {
+      classes.push(`${baseClass}-${primary}`);
+      if (secondary) {
+        classes.push(`${baseClass}-${primary}-${secondary}`);
+      }
+
+      classes.forEach((classname) => {
+        classList.add(classname);
+      });
+    }
+    return classes;
+  }
+
   /*
    * Accept the placement array and applies the appropriate placement dependent on the viewport.
    * Returns the applied placement.
@@ -258,21 +278,6 @@ export class PositioningService {
       : (placement.split(this.placementSeparator) as Array<Placement>);
 
     const classList = targetElement.classList;
-    const addClassesToTarget = (targetPlacement: Placement): Array<string> => {
-      const [primary, secondary] = targetPlacement.split('-');
-      const classes: string[] = [];
-      if (baseClass) {
-        classes.push(`${baseClass}-${primary}`);
-        if (secondary) {
-          classes.push(`${baseClass}-${primary}-${secondary}`);
-        }
-
-        classes.forEach((classname) => {
-          classList.add(classname);
-        });
-      }
-      return classes;
-    };
 
     // Remove old placement classes to avoid issues
     if (baseClass) {
@@ -303,7 +308,11 @@ export class PositioningService {
     let testPlacement: Placement | null = null;
     let isInViewport = false;
     for (testPlacement of placementVals) {
-      let addedClasses = addClassesToTarget(testPlacement);
+      let addedClasses = this.addClassesToTarget(
+        testPlacement,
+        baseClass,
+        classList
+      );
 
       if (
         this._positionElements(
@@ -328,7 +337,7 @@ export class PositioningService {
     if (!isInViewport) {
       // If nothing match, the first placement is the default one
       testPlacement = placementVals[0];
-      addClassesToTarget(testPlacement);
+      this.addClassesToTarget(testPlacement, baseClass, classList);
       this._positionElements(
         hostElement,
         targetElement,
