@@ -1,18 +1,12 @@
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Observable } from 'rxjs';
+import { CellComponent } from '../../shared';
+import { BudgetItemService } from '../services/budget-item.service';
 import {
-  Component,
-  ChangeDetectionStrategy,
-  // OnInit
-} from '@angular/core';
-// import { Observable } from 'rxjs';
-import {
-  CellComponent,
-  // , ItemService
-} from '../../shared';
-// import {
-//   OutletContextData,
-//   TableDataOutletContext,
-// } from '@spartacus/storefront';
-// import { Budget } from '../../../core/model/budget.model';
+  OutletContextData,
+  TableDataOutletContext,
+} from '@spartacus/storefront';
+import { Budget } from '../../../core/model/budget.model';
 
 @Component({
   selector: 'cx-org-budget-details-cell',
@@ -20,16 +14,16 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetDetailsCellComponent extends CellComponent {
-  // implements OnInit {
-  // model$: Observable<Budget>;
-  //
-  // constructor(
-  //   protected outlet: OutletContextData<TableDataOutletContext>,
-  //   protected itemService: ItemService<Budget>
-  // ) {
-  //   super(outlet);
-  // }
-  // ngOnInit() {
-  //   this.model$ = this.itemService.load(this.model.code);
-  // }
+  model$: Observable<Budget>;
+
+  constructor(
+    protected outlet: OutletContextData<TableDataOutletContext>,
+    protected itemService: BudgetItemService
+  ) {
+    super(outlet);
+  }
+
+  openPopover() {
+    this.model$ = this.itemService.load(this.model.code);
+  }
 }
