@@ -192,8 +192,8 @@ export class StoreFinderService implements OnDestroy {
   /**
    * Reload store data when store entities are empty because of the context change
    */
-  protected reloadStoreEntitiesOnContextChange() {
-    if (isPlatformBrowser(this.platformId)) {
+  protected reloadStoreEntitiesOnContextChange(): void {
+    if (isPlatformBrowser(this.platformId) || !this.platformId) {
       this.subscription = this.getFindStoresEntities()
         .pipe(
           filter(
@@ -220,7 +220,7 @@ export class StoreFinderService implements OnDestroy {
     }
   }
 
-  callFindStoresAction(routeParams) {
+  callFindStoresAction(routeParams: { [key: string]: string }): void {
     this.findStoresAction(
       '',
       {

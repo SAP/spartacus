@@ -56,7 +56,7 @@ describe('FindStores Selectors', () => {
     });
   });
 
-  describe('getStoresSucess', () => {
+  describe('getStoresSuccess', () => {
     it('should return isLoaded flag', () => {
       let result: boolean;
       store

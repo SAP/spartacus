@@ -8,21 +8,17 @@ import {
 } from '@spartacus/core';
 import { StoreFinderStoreComponent } from './store-finder-store.component';
 import { ICON_TYPE, SpinnerModule } from '@spartacus/storefront';
-import { BehaviorSubject, of } from 'rxjs';
+import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { StoreFinderService } from '@spartacus/storefinder/core';
+import createSpy = jasmine.createSpy;
 
-const isLoading$: BehaviorSubject<Boolean> = new BehaviorSubject(true);
-const isLoaded$: BehaviorSubject<Boolean> = new BehaviorSubject(true);
-class MockStoreFinderService {
-  getStoresLoading = () => isLoading$.asObservable();
-  getStoresLoaded = () => isLoaded$.asObservable();
-  getFindStoresEntities() {
-    return of();
-  }
-  viewStoreById() {
-    return of();
-  }
+class MockStoreFinderService implements Partial<StoreFinderService> {
+  getStoresLoading = createSpy('getStoresLoading');
+  getFindStoresEntities = createSpy('getFindStoresEntities').and.returnValue(
+    of()
+  );
+  viewStoreById = createSpy('viewStoreById');
 }
 
 @Component({

@@ -31,7 +31,7 @@ export class StoreFinderGridComponent implements OnInit {
     this.findStores();
   }
 
-  protected findStores() {
+  protected findStores(): void {
     if (this.route.snapshot.params.country) {
       this.storeFinderService.callFindStoresAction(this.route.snapshot.params);
     }

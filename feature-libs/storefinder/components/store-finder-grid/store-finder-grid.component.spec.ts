@@ -7,6 +7,7 @@ import { Observable, of } from 'rxjs';
 import { StoreFinderGridComponent } from './store-finder-grid.component';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { SpinnerModule } from '@spartacus/storefront';
+import createSpy = jasmine.createSpy;
 
 const countryIsoCode = 'CA';
 const regionIsoCode = 'CA-QC';
@@ -20,7 +21,7 @@ class MockStoreFinderListItemComponent {
   location;
 }
 
-class MockTranslationService {
+class MockTranslationService implements Partial<TranslationService> {
   translate(): Observable<string> {
     return of();
   }
@@ -32,14 +33,16 @@ const mockActivatedRoute = {
   },
 };
 
-const mockStoreFinderService = {
-  getFindStoresEntities: jasmine.createSpy().and.returnValue(of(Observable)),
-  getStoresLoading: jasmine.createSpy(),
-  callFindStoresAction: jasmine.createSpy().and.returnValue(of(Observable)),
-};
+class MockStoreFinderService implements Partial<StoreFinderService> {
+  getFindStoresEntities = createSpy('getFindStoresEntities').and.returnValue(
+    of()
+  );
+  getStoresLoading = createSpy('getStoresLoading');
+  callFindStoresAction = createSpy('callFindStoresAction');
+}
 
 const mockRoutingService = {
-  go: jasmine.createSpy('go'),
+  go: createSpy('go'),
 };
 
 describe('StoreFinderGridComponent', () => {
@@ -57,7 +60,7 @@ describe('StoreFinderGridComponent', () => {
           MockStoreFinderListItemComponent,
         ],
         providers: [
-          { provide: StoreFinderService, useValue: mockStoreFinderService },
+          { provide: StoreFinderService, useClass: MockStoreFinderService },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
           { provide: RoutingService, useValue: mockRoutingService },
           { provide: TranslationService, useClass: MockTranslationService },

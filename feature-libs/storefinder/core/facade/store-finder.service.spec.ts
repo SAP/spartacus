@@ -26,7 +26,7 @@ const routerParam$: BehaviorSubject<{
   [key: string]: string;
 }> = new BehaviorSubject({});
 
-class MockRoutingService {
+class MockRoutingService implements Partial<RoutingService> {
   go(
     _commands: any[] | UrlCommands,
     _query?: object,
