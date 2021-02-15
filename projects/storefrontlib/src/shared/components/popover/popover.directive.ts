@@ -12,13 +12,12 @@ import {
   Output,
   EventEmitter,
   Inject,
-  NgZone,
-  HostListener,
+  OnInit,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { WindowRef } from '@spartacus/core';
 import { PopoverComponent } from './popover.component';
 import { PopoverPosition } from './popover.model';
-import { PositioningService } from './positioning-service';
+import { PositioningService } from './positioning.service';
 
 /**
  * Directive to bind popover with any DOM element.
@@ -26,7 +25,7 @@ import { PositioningService } from './positioning-service';
 @Directive({
   selector: '[cxPopover]',
 })
-export class PopoverDirective {
+export class PopoverDirective implements OnInit {
   /**
    * Template or string to be rendered inside popover wrapper component.
    */
@@ -69,11 +68,6 @@ export class PopoverDirective {
   popoverContainer: ComponentRef<PopoverComponent>;
 
   /**
-   * Property containing ngZone subscription.
-   */
-  ngZoneSubscription: Subscription;
-
-  /**
    * Method performs open action for popover component.
    */
   open() {
@@ -86,25 +80,11 @@ export class PopoverDirective {
       );
       if (this.popoverContainer && this.popoverContainer.instance) {
         this.popoverContainer.instance.content = this.cxPopover;
-        this.ngZoneSubscription = this.ngZone.onStable.subscribe(() => {
-          if (this.popoverContainer) {
-            const popoverClass = this.positioningService.positionElements(
-              this.element.nativeElement,
-              this.popoverContainer.location.nativeElement,
-              this.placement,
-              this.appendToBody
-            );
-            this.renderer.removeAttribute(
-              this.popoverContainer.location.nativeElement,
-              'class'
-            );
-            this.renderer.addClass(
-              this.popoverContainer.location.nativeElement,
-              popoverClass
-            );
-          }
-        });
+        this.popoverContainer.instance.triggerElement = this.element;
+        this.popoverContainer.instance.popoverInstance = this.popoverContainer;
+        this.popoverContainer.instance.position = this.placement;
         if (this.appendToBody) {
+          this.popoverContainer.instance.appendToBody = this.appendToBody;
           this.renderer.appendChild(
             this.document.body,
             this.popoverContainer.location.nativeElement
@@ -112,6 +92,7 @@ export class PopoverDirective {
         }
       }
       this.openPopover.emit();
+      this.changeDetectorRef.markForCheck();
     }
   }
 
@@ -119,31 +100,22 @@ export class PopoverDirective {
    * Method performs close action for popover component.
    */
   close() {
-    if (this.ngZoneSubscription) {
-      this.ngZoneSubscription.unsubscribe();
-    }
     this.viewContainer.clear();
+    this.closePopover.emit();
   }
 
-  /**
-   * Method triggers clicked element from event and toggles popover component.
-   */
-  trigger(event: Event) {
-    if (event && this.element.nativeElement === event.target && !this.isOpen) {
-      this.isOpen = true;
-      this.open();
-    } else {
-      this.isOpen = false;
-      this.close();
-    }
-  }
-
-  /**
-   * Listener for every click events in document.
-   */
-  @HostListener('document:click', ['$event'])
-  clickEvent(event: Event) {
-    this.trigger(event);
+  ngOnInit(): void {
+    this.renderer.listen(this.winRef.nativeWindow, 'click', (e: Event) => {
+      if (e.target === this.element.nativeElement && !this.isOpen) {
+        this.isOpen = true;
+        this.open();
+      } else {
+        if (this.isOpen) {
+          this.isOpen = false;
+          this.close();
+        }
+      }
+    });
   }
 
   constructor(
@@ -153,7 +125,7 @@ export class PopoverDirective {
     protected renderer: Renderer2,
     protected changeDetectorRef: ChangeDetectorRef,
     protected positioningService: PositioningService,
-    protected ngZone: NgZone,
+    protected winRef: WindowRef,
     @Inject(DOCUMENT) protected document: any
   ) {}
 }
