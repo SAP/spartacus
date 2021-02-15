@@ -762,11 +762,7 @@ function removeNotUsedDependenciesFromPackageJson(
   options: ProgramOptions
 ): void {
   // Keep these dependencies in schematics as these are used as external schematics
-  const externalSchematics = [
-    '@angular/localize',
-    '@angular/pwa',
-    '@nguniversal/express-engine',
-  ];
+  const externalSchematics = ['@angular/pwa', '@nguniversal/express-engine'];
 
   if (options.fix) {
     reportProgress('Removing unused dependencies');

@@ -2,8 +2,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import {
-  CartItemComponentOutlets,
+  CartOutlets,
   IconModule,
+  OutletPosition,
   provideOutlet,
 } from '@spartacus/storefront';
 import { ConfiguratorIssuesNotificationModule } from '../configurator-issues-notification/configurator-issues-notification.module';
@@ -23,7 +24,8 @@ import { ConfiguratorCartEntryInfoComponent } from './configurator-cart-entry-in
 
   providers: [
     provideOutlet({
-      id: CartItemComponentOutlets.INFORMATION,
+      id: CartOutlets.ITEM_DETAILS,
+      position: OutletPosition.AFTER,
       component: ConfiguratorCartEntryInfoComponent,
     }),
   ],
