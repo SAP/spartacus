@@ -5,6 +5,7 @@ import { switchSiteContext } from '../support/utils/switch-site-context';
 import { login, register } from './auth-forms';
 import { waitForPage } from './checkout-flow';
 import { checkBanner } from './homepage';
+import { CMS_LOGIN_PAGE, CMS_REGISTER_PAGE } from './interceptors';
 import { signOutUser } from './login';
 import { LANGUAGE_DE, LANGUAGE_LABEL } from './site-context-selector';
 import { generateMail, randomString } from './user';
@@ -70,12 +71,10 @@ export function registerNewUserAndLogin(
   giveRegistrationConsent = false,
   hiddenConsent?
 ) {
-  const loginPage = waitForPage('/login', 'getLoginPage');
   cy.get('cx-login [role="link"]').click();
-  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
-  const registerPage = waitForPage('/login/register', 'getRegisterPage');
+  cy.wait(CMS_LOGIN_PAGE).its('response.statusCode').should('eq', 200);
   cy.findByText('Register').click();
-  cy.wait(`@${registerPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_REGISTER_PAGE).its('response.statusCode').should('eq', 200);
   register(newUser, giveRegistrationConsent, hiddenConsent);
   cy.get('cx-breadcrumb').contains('Login');
 
@@ -87,7 +86,7 @@ export function navigateToConsentPage() {
   cy.selectUserMenuOption({
     option: 'Consent Management',
   });
-  cy.wait(`@${consentsPage}`).its('status').should('eq', 200);
+  cy.wait(consentsPage).its('response.statusCode').should('eq', 200);
 }
 
 export function seeBannerAsAnonymous() {
@@ -254,9 +253,8 @@ export function moveAnonymousUserToLoggedInUser() {
     toggleAnonymousConsent(2);
     closeDialog();
 
-    const loginPage = waitForPage('/login', 'getLoginPage');
     cy.get('cx-login [role="link"]').click();
-    cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+    cy.wait(CMS_LOGIN_PAGE).its('response.statusCode').should('eq', 200);
 
     login(
       standardUser.registrationData.email,
@@ -288,9 +286,8 @@ export function testAsLoggedInUser() {
     toggleAnonymousConsent(2);
     closeDialog();
 
-    const loginPage = waitForPage('/login', 'getLoginPage');
     cy.get('cx-login [role="link"]').click();
-    cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+    cy.wait(CMS_LOGIN_PAGE).its('response.statusCode').should('eq', 200);
 
     login(
       standardUser.registrationData.email,
@@ -314,9 +311,14 @@ export function changeLanguageTest() {
     checkAllInputConsentState(BE_CHECKED);
     closeDialog();
 
-    cy.route('GET', `*${LANGUAGE_DE}*`).as('switchedContext');
+    cy.intercept({
+      query: {
+        lang: LANGUAGE_DE,
+      },
+      method: 'GET',
+    }).as('switchedContext');
     switchSiteContext(LANGUAGE_DE, LANGUAGE_LABEL);
-    cy.wait('@switchedContext').its('status').should('eq', 200);
+    cy.wait('@switchedContext').its('response.statusCode').should('eq', 200);
 
     openDialogUsingFooterLink();
     checkAllInputConsentState(BE_CHECKED);

@@ -1,11 +1,13 @@
 import { CheckoutConfig } from '@spartacus/storefront';
 import { assertAddressForm } from '../../../helpers/address-book';
-import { login } from '../../../helpers/auth-forms';
 import * as guestCheckout from '../../../helpers/checkout-as-guest';
 import * as checkout from '../../../helpers/checkout-flow';
-import { waitForPage } from '../../../helpers/checkout-flow';
+import {
+  CMS_LOGIN_PAGE,
+  CMS_SHIPPING_ADDRESS_PAGE,
+} from '../../../helpers/interceptors';
 import { validateUpdateProfileForm } from '../../../helpers/update-profile';
-import { cheapProduct, user } from '../../../sample-data/checkout-flow';
+import { user } from '../../../sample-data/checkout-flow';
 
 context('Checkout as guest', () => {
   before(() => {
@@ -96,23 +98,19 @@ context('Checkout as guest', () => {
 
       checkout.fillAddressFormWithCheapProduct();
 
-      const shippingPage = checkout.waitForPage(
-        '/checkout/shipping-address',
-        'getShippingPage'
-      );
-
-      const loginPage = waitForPage('/login', 'getLoginPage');
       cy.findByText(/Sign in \/ Register/i).click();
-      cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+      cy.wait(CMS_LOGIN_PAGE).its('response.statusCode').should('eq', 200);
 
       login(user.email, user.password);
-      cy.wait(`@${shippingPage}`).its('status').should('eq', 200);
+      cy.wait(CMS_SHIPPING_ADDRESS_PAGE)
+        .its('response.statusCode')
+        .should('eq', 200);
 
       cy.get('cx-mini-cart .count').contains('1');
 
       const cartPage = waitForPage('/cart', 'getCartPage');
       cy.get('cx-mini-cart').click();
-      cy.wait(`@${cartPage}`).its('status').should('eq', 200);
+      cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
 
       cy.get('cx-cart-item-list')
         .contains('cx-cart-item', cheapProduct.code)

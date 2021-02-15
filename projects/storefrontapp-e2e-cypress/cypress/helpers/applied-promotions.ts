@@ -25,13 +25,13 @@ export function addProductToCart() {
   cy.get('cx-add-to-cart')
     .findByText(/Add To Cart/i)
     .click();
-  cy.server();
-  cy.route(
-    `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  cy.intercept({
+    method: 'GET',
+    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/current/carts/*`
-  ).as('cart');
-  cy.wait(`@cart`).its('status').should('eq', 200);
+    )}/users/current/carts/**`,
+  }).as('carts');
+  cy.wait(`@carts`).its('response.statusCode').should('eq', 200);
 }
 
 export function goToCartDetailsViewFromCartDialog() {

@@ -2,6 +2,7 @@ import { user } from '../../sample-data/checkout-flow';
 import { focusableSelectors } from '../../support/utils/a11y-tab';
 import { register as authRegister } from '../auth-forms';
 import { waitForPage } from '../checkout-flow';
+import { CMS_CART_PAGE, CMS_HOMEPAGE, CMS_LOGIN_PAGE } from '../interceptors';
 import { loginUser } from '../login';
 import { TabbingOrderTypes, TabElement } from './tabbing-order.model';
 
@@ -155,31 +156,26 @@ export function getFormFieldByValue(value: string) {
 }
 
 export function register() {
-  const loginPage = waitForPage('/login', 'getLoginPage');
   cy.visit('/login/register');
   authRegister(user);
-  cy.wait(`@${loginPage}`);
+  cy.wait(CMS_LOGIN_PAGE);
 }
 
 export function login() {
-  const homePage = waitForPage('homepage', 'getHomePage');
   cy.visit('/login');
   loginUser();
-  cy.wait(`@${homePage}`);
+  cy.wait(CMS_HOMEPAGE);
 }
 
 export function registerAndLogin(): void {
-  const loginPage = waitForPage('/login', 'getLoginPage');
-  const homePage = waitForPage('homepage', 'getHomePage');
   cy.visit('/login/register');
   authRegister(user);
-  cy.wait(`@${loginPage}`);
+  cy.wait(CMS_LOGIN_PAGE);
   loginUser();
-  cy.wait(`@${homePage}`);
+  cy.wait(CMS_HOMEPAGE);
 }
 
 export function addProduct(productCode?: string): void {
-  const cartPage = waitForPage('/cart', 'getCartPage');
   const productUrl = productCode ? `/product/${productCode}` : testProductUrl;
 
   cy.visit(productUrl);
@@ -191,11 +187,11 @@ export function addProduct(productCode?: string): void {
       .first()
       .click();
   });
-  cy.wait(`@${cartPage}`);
+  cy.wait(CMS_CART_PAGE);
 }
 
 export function checkoutNextStep(url: string) {
   const nextStep = waitForPage(url, 'getNextStep');
   cy.findAllByText('Continue').first().click({ force: true });
-  cy.wait(`@${nextStep}`);
+  cy.wait(nextStep);
 }

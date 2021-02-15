@@ -2,6 +2,11 @@ import { assertAddressForm } from '../../../helpers/address-book';
 import { login } from '../../../helpers/auth-forms';
 import * as guestCheckout from '../../../helpers/checkout-as-guest';
 import * as checkout from '../../../helpers/checkout-flow';
+import {
+  CMS_CART_PAGE,
+  CMS_LOGIN_PAGE,
+  CMS_SHIPPING_ADDRESS_PAGE,
+} from '../../../helpers/interceptors';
 import { validateUpdateProfileForm } from '../../../helpers/update-profile';
 import {
   addMutipleProductWithoutVariantToCart,
@@ -145,23 +150,18 @@ context('Apparel - checkout as guest', () => {
         cartWithSingleVariantProduct
       );
 
-      const shippingPage = checkout.waitForPage(
-        '/checkout/shipping-address',
-        'getShippingPage'
-      );
-
-      const loginPage = checkout.waitForPage('/login', 'getLoginPage');
       cy.findByText(/Sign in \/ Register/i).click();
-      cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+      cy.wait(CMS_LOGIN_PAGE).its('response.statusCode').should('eq', 200);
 
       login(variantUser.email, variantUser.password);
-      cy.wait(`@${shippingPage}`).its('status').should('eq', 200);
+      cy.wait(CMS_SHIPPING_ADDRESS_PAGE)
+        .its('response.statusCode')
+        .should('eq', 200);
 
       cy.get('cx-mini-cart .count').contains('1');
 
-      const cartPage = checkout.waitForPage('/cart', 'getCartPage');
       cy.get('cx-mini-cart').click();
-      cy.wait(`@${cartPage}`).its('status').should('eq', 200);
+      cy.wait(CMS_CART_PAGE).its('response.statusCode').should('eq', 200);
 
       cy.get('cx-cart-item-list')
         .contains('cx-cart-item', variantProduct.code)

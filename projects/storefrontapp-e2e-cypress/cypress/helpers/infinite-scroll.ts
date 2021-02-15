@@ -30,10 +30,13 @@ export function configScroll(
 }
 
 export function createDefaultQuery() {
-  cy.route(
-    'GET',
-    `${searchUrlPrefix}?fields=*&query=:relevance:allCategories:816*`
-  ).as(defaultQueryName);
+  cy.intercept({
+    method: 'GET',
+    pathname: searchUrlPrefix,
+    query: {
+      query: ':relevance:allCategories:816',
+    },
+  }).as(defaultQueryName);
 }
 
 export function assertDefaultNumberOfProducts(view) {

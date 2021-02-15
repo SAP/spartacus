@@ -135,7 +135,7 @@ export function visitPaymentDetailsPage(isMobile: boolean = false) {
     option: 'Payment Details',
     isMobile,
   });
-  cy.wait(`@${paymentDetailPage}`).its('status').should('eq', 200);
+  cy.wait(paymentDetailPage).its('response.statusCode').should('eq', 200);
 }
 
 export function paymentMethodsTest(isMobile: boolean = false) {

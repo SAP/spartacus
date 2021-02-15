@@ -4,8 +4,8 @@ import {
   replenishmentOrderHistoryHeaderValue,
   replenishmentOrderHistoryUrl,
 } from './b2b/b2b-replenishment-order-history';
-import { waitForPage } from './checkout-flow';
 import { checkBanner } from './homepage';
+import { CMS_HOMEPAGE } from './interceptors';
 import { switchLanguage } from './language';
 
 const orderHistoryLink = '/my-account/orders';
@@ -60,13 +60,11 @@ export const orderHistoryTest = {
   },
   checkStartShoppingButton() {
     it('should be able to start shopping from an empty Order History', () => {
-      const homePage = waitForPage('homepage', 'getHomePage');
-
       cy.get('.btn.btn-primary.btn-block.active')
         .findByText('Start Shopping')
         .click();
 
-      cy.wait(`@${homePage}`).its('status').should('eq', 200);
+      cy.wait(CMS_HOMEPAGE).its('response.statusCode').should('eq', 200);
       checkBanner();
     });
   },
@@ -96,11 +94,15 @@ export const orderHistoryTest = {
   },
   checkSortingByCode() {
     it('should sort the orders table by given code', () => {
-      cy.server();
-      cy.route('GET', /sort=byOrderNumber/).as('query_order_asc');
+      cy.intercept({
+        method: 'GET',
+        query: {
+          sort: 'byOrderNumber',
+        },
+      }).as('query_order_asc');
       cy.visit('/my-account/orders');
       cy.get('.top cx-sorting .ng-select').ngSelect('Order Number');
-      cy.wait('@query_order_asc').its('status').should('eq', 200);
+      cy.wait('@query_order_asc').its('response.statusCode').should('eq', 200);
       cy.get('.cx-order-history-code > .cx-order-history-value').then(
         ($orders) => {
           expect(parseInt($orders[0].textContent, 10)).to.be.lessThan(

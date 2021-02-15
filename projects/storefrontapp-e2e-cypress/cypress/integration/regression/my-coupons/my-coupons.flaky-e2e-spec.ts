@@ -22,7 +22,6 @@ describe('My coupons test for anonymous user', () => {
     before(() => {
       myCoupons.createStandardUser();
       cy.reload();
-      visitHomePage();
     });
 
     beforeEach(() => {
@@ -30,6 +29,7 @@ describe('My coupons test for anonymous user', () => {
     });
 
     it('claim customer coupon that is successful for anonymous user', () => {
+      visitHomePage();
       myCoupons.verifyClaimCouponSuccessAsAnonymous(myCoupons.validCouponCode);
     });
 
@@ -71,7 +71,7 @@ describe('My coupons test for login user', () => {
 });
 
 describe('My coupons test for pagination and sort', () => {
-  before(() => {
+  beforeEach(() => {
     cy.window().then((win) => {
       win.sessionStorage.clear();
       win.localStorage.clear();

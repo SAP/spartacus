@@ -1,4 +1,5 @@
 import { waitForPage } from '../../../checkout-flow';
+import { CMS_REVIEW_PAGE } from '../../../interceptors';
 import { verifyTabbingOrder } from '../../tabbing-order';
 import { TabElement } from '../../tabbing-order.model';
 
@@ -8,11 +9,9 @@ export function checkoutReviewOrderTabbingOrder(
   config: TabElement[],
   checkout: boolean = false
 ) {
-  const reviewPage = waitForPage('/checkout/review-order', 'getReviewPage');
-
   cy.visit('/checkout/review-order');
 
-  cy.wait(`@${reviewPage}`);
+  cy.wait(CMS_REVIEW_PAGE);
 
   cy.get('cx-review-submit .cx-review-title').should('exist');
 
@@ -31,6 +30,6 @@ export function checkoutReviewOrderTabbingOrder(
       'getOrderConfirmationPage'
     );
     cy.get('cx-place-order button.btn-primary').click();
-    cy.wait(`@${orderConfirmationPage}`).its('status').should('eq', 200);
+    cy.wait(orderConfirmationPage).its('response.statusCode').should('eq', 200);
   }
 }

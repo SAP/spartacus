@@ -1,14 +1,14 @@
 import {
-  configScroll,
-  isPaginationNotVisible,
   backtoTopIsNotVisible,
-  scrollToFooter,
   backToTopIsVisible,
+  configScroll,
+  createDefaultQuery,
+  isPaginationNotVisible,
   isPaginationVisible,
-  verifySortingResetsList,
+  scrollToFooter,
   verifyFilterResetsList,
   verifyGridResetsList,
-  createDefaultQuery,
+  verifySortingResetsList,
 } from '../../helpers/infinite-scroll';
 import { searchUrlPrefix } from '../../helpers/product-search';
 
@@ -22,7 +22,6 @@ describe('Infinite scroll', () => {
   });
 
   beforeEach(() => {
-    cy.server();
     createDefaultQuery();
   });
 
@@ -30,15 +29,21 @@ describe('Infinite scroll', () => {
     configScroll(true, 0, false);
     cy.visit(testUrl);
 
-    cy.route(
-      'GET',
-      `${searchUrlPrefix}?fields=*&query=:topRated:allCategories:816:brand:brand_5*`
-    ).as('gridQuery');
+    cy.intercept({
+      method: 'GET',
+      pathname: searchUrlPrefix,
+      query: {
+        query: ':topRated:allCategories:816:brand:brand_5',
+      },
+    }).as('gridQuery');
 
-    cy.route(
-      'GET',
-      `${searchUrlPrefix}?fields=*&query=:relevance:allCategories:816&*&sort=topRated*`
-    ).as('sortQuery');
+    cy.intercept({
+      method: 'GET',
+      pathname: searchUrlPrefix,
+      query: {
+        query: ':relevance:allCategories:816&*&sort=topRated',
+      },
+    }).as('sortQuery');
 
     cy.wait(defaultQueryAlias).then((waitXHR) => {
       const totalResults = waitXHR.response.body.pagination.totalResults;

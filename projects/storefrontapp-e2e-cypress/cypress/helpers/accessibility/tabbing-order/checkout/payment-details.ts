@@ -1,9 +1,9 @@
 import { user } from '../../../../sample-data/checkout-flow';
-import { waitForPage } from '../../../checkout-flow';
 import {
   fillBillingAddress,
   fillPaymentDetails,
 } from '../../../checkout-forms';
+import { CMS_PAYMENT_PAGE } from '../../../interceptors';
 import { checkoutNextStep, verifyTabbingOrder } from '../../tabbing-order';
 import { TabElement } from '../../tabbing-order.model';
 
@@ -21,13 +21,8 @@ export function checkoutPaymentDetailsTabbingOrder(config: TabElement[]) {
     )}/countries?type=BILLING*`
   ).as('countries');
 
-  const paymentPage = waitForPage(
-    '/checkout/payment-details',
-    'getPaymentPage'
-  );
-
   cy.visit('/checkout/payment-details');
-  cy.wait(`@${paymentPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_PAYMENT_PAGE).its('response.statusCode').should('eq', 200);
 
   cy.wait('@cardTypes');
   cy.wait('@countries');

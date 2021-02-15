@@ -21,7 +21,7 @@ function testBrandPage(
     `/${language}/${currency}/${merchandisingCarousel.canonBrandPagePath}`
   );
 
-  cy.wait(`@${categoryPage}`).its('status').should('eq', 200);
+  cy.wait(categoryPage).its('response.statusCode').should('eq', 200);
 
   merchandisingCarousel.verifyMerchandisingCarouselRendersOnBrandPage(
     strategyRequestAlias,

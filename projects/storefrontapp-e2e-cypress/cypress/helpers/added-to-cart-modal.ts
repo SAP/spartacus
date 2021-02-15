@@ -114,13 +114,12 @@ export function addDifferentProducts(isMobile: Boolean = false) {
   cy.get('cx-added-to-cart-dialog .btn-primary').click();
   cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
 
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  cy.intercept({
+    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/anonymous/carts/*`
-  ).as('getRefreshedCart');
+    )}/users/anonymous/carts/**`,
+    method: 'GET',
+  }).as('getRefreshedCart');
 
   // delete a product and check if the total is updated
   cy.get('cx-cart-item-list .cx-item-list-items')
@@ -158,7 +157,7 @@ export function addDifferentProducts(isMobile: Boolean = false) {
       expect(totalPrice).equal('$927.89');
     });
 
-  cy.wait('@getRefreshedCart').its('status').should('eq', 200);
+  cy.wait('@getRefreshedCart').its('response.statusCode').should('eq', 200);
   // delete the last product in cart
   cy.get('cx-cart-item-list .cx-item-list-items')
     .contains('.cx-info', productName2)

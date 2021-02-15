@@ -1,6 +1,10 @@
 import { user } from '../sample-data/checkout-flow';
 import { switchSiteContext } from '../support/utils/switch-site-context';
-import { waitForPage } from './checkout-flow';
+import {
+  CMS_DELIVERY_PAGE,
+  CMS_PAYMENT_PAGE,
+  CMS_REVIEW_PAGE,
+} from './interceptors';
 
 export const LANGUAGES = 'languages';
 export const CURRENCIES = 'currencies';
@@ -87,15 +91,9 @@ export function doPlaceOrder() {
 
 export function addressBookNextStep() {
   cy.get('cx-shipping-address .cx-card-link').click({ force: true });
-
-  const deliveryPage = waitForPage(
-    CHECKOUT_DELIVERY_MODE_PATH,
-    'getDeliveryPage'
-  );
-
   cy.get('cx-shipping-address .btn-primary').click();
 
-  cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_DELIVERY_PAGE).its('response.statusCode').should('eq', 200);
 }
 
 export function deliveryModeNextStep() {
@@ -103,14 +101,9 @@ export function deliveryModeNextStep() {
     force: true,
   });
 
-  const paymentPage = waitForPage(
-    CHECKOUT_PAYMENT_DETAILS_PATH,
-    'getPaymentPage'
-  );
-
   cy.get('cx-delivery-mode .btn-primary').click();
 
-  cy.wait(`@${paymentPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_PAYMENT_PAGE).its('response.statusCode').should('eq', 200);
 }
 
 export function paymentDetailsNextStep() {
@@ -118,11 +111,9 @@ export function paymentDetailsNextStep() {
     force: true,
   });
 
-  const reviewPage = waitForPage(CHECKOUT_REVIEW_ORDER_PATH, 'getReviewPage');
-
   cy.get('cx-payment-method .btn-primary').click();
 
-  cy.wait(`@${reviewPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_REVIEW_PAGE).its('response.statusCode').should('eq', 200);
 }
 
 export function createRoute(request: string, alias: string): void {

@@ -3,6 +3,7 @@ import {
   LANGUAGE_EN,
 } from '../../../helpers/site-context-selector';
 import { waitForPage } from '../../checkout-flow';
+import { CMS_HOMEPAGE } from '../../interceptors';
 
 interface StrategyRequestContext {
   language?: string;
@@ -328,7 +329,7 @@ export function clickOnCarouselItem(
       cy.root().should('be.visible');
       const productPage = waitForPage('ProductPage', 'getProductPage');
       cy.get('a').click();
-      cy.wait(`@${productPage}`).its('status').should('eq', 200);
+      cy.wait(productPage).its('response.statusCode').should('eq', 200);
     });
 
   if (checkForCarouselEvent) {
@@ -339,9 +340,8 @@ export function clickOnCarouselItem(
 }
 
 export function navigateToHomepage(): void {
-  const homePage = waitForPage('homepage', 'getHomePage');
   cy.get('cx-page-slot.SiteLogo').click();
-  cy.wait(`@${homePage}`).its('status').should('eq', 200);
+  cy.wait(CMS_HOMEPAGE).its('response.statusCode').should('eq', 200);
 }
 
 export function navigateToCategory(categoryName: string): void {
@@ -349,7 +349,7 @@ export function navigateToCategory(categoryName: string): void {
   cy.get('cx-category-navigation cx-generic-link a')
     .contains(categoryName)
     .click({ force: true });
-  cy.wait(`@${categoryPage}`).its('status').should('eq', 200);
+  cy.wait(categoryPage).its('response.statusCode').should('eq', 200);
 }
 
 export function waitForCarouselViewEvent(): void {

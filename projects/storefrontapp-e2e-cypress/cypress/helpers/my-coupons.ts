@@ -115,17 +115,17 @@ export function claimCoupon(
 
   cy.visit(claimCouponUrl + couponCode);
 
-  cy.wait(`@${claimCouponPage}`).its('status').should('eq', 200);
-  cy.wait(`@${claimCouponsPostRequest}`)
-    .its('status')
+  cy.wait(claimCouponPage).its('response.statusCode').should('eq', 200);
+  cy.wait(claimCouponsPostRequest)
+    .its('response.statusCode')
     .should('eq', validCouponPostRequest);
 
   if (validCouponPostRequest === 400) {
     alerts.getErrorAlert().should('exist');
   }
 
-  cy.wait(`@${couponsPage}`).its('status').should('eq', 200);
-  cy.wait(`@${getCoupons}`).its('status').should('eq', 200);
+  cy.wait(couponsPage).its('response.statusCode').should('eq', 200);
+  cy.wait(getCoupons).its('response.statusCode').should('eq', 200);
 }
 
 export function createStandardUser() {
@@ -200,7 +200,7 @@ export function verifyFindProduct(couponCode: string, productNumber: number) {
         .click();
     });
 
-  cy.wait(`@${productSearchPage}`).its('status').should('eq', 200);
+  cy.wait(productSearchPage).its('response.statusCode').should('eq', 200);
 
   cy.get('cx-breadcrumb').within(() => {
     cy.get('span:last a').should('contain', 'My coupons');
@@ -211,17 +211,18 @@ export function verifyFindProduct(couponCode: string, productNumber: number) {
 
 export function waitClaimCouponPostRequest(couponCode: string): string {
   const aliasName = 'claimCoupon';
-  cy.server();
-  cy.route(
-    'POST',
-    `${pageUrl}/users/current/customercoupons/${couponCode}/claim*`
-  ).as(aliasName);
-  return `${aliasName}`;
+  cy.intercept({
+    method: 'POST',
+    pathname: `${pageUrl}/users/current/customercoupons/${couponCode}/claim`,
+  }).as(aliasName);
+  return `@${aliasName}`;
 }
 
 export function waitClaimCouponGetRequest(): string {
   const aliasName = 'getCoupons';
-  cy.server();
-  cy.route('GET', `${pageUrl}/users/current/customercoupons*`).as(aliasName);
-  return `${aliasName}`;
+  cy.intercept({
+    method: 'GET',
+    pathname: `${pageUrl}/users/current/customercoupons`,
+  }).as(aliasName);
+  return `@${aliasName}`;
 }

@@ -18,7 +18,7 @@ function testPDPPage(productId: string): void {
     `/${merchandisingCarousel.DEFAULT_LANGUAGE}/${merchandisingCarousel.DEFAULT_CURRENCY}/product/${productId}`
   );
 
-  cy.wait(`@${productPage}`).its('status').should('eq', 200);
+  cy.wait(productPage).its('response.statusCode').should('eq', 200);
 
   merchandisingCarousel.verifyMerchandisingCarouselRendersOnPDPPage(
     strategyRequestAlias,

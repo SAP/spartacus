@@ -133,24 +133,32 @@ export function verifyAsAnonymous() {
 }
 
 export function deleteFirstAddress() {
-  cy.server();
-  cy.route(
-    'DELETE',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  cy.intercept({
+    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/*/addresses/*?lang=en&curr=USD`
-  ).as('deleteAddress');
-  cy.route(
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    )}/users/*/addresses/*`,
+    query: {
+      lang: 'en',
+      curr: 'USD',
+    },
+    method: 'DELETE',
+  }).as('deleteAddress');
+  cy.intercept({
+    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/*/addresses?lang=en&curr=USD`
-  ).as('fetchAddresses');
+    )}/users/*/addresses`,
+    query: {
+      lang: 'en',
+      curr: 'USD',
+    },
+    method: 'GET',
+  }).as('fetchAddresses');
 
   const firstCard = cy.get('cx-card').first();
   firstCard.contains('Delete').click();
   cy.get('.cx-card-delete button.btn-primary').click();
-  cy.wait('@deleteAddress').its('status').should('eq', 200);
-  cy.wait('@fetchAddresses').its('status').should('eq', 200);
+  cy.wait('@deleteAddress').its('response.statusCode').should('eq', 200);
+  cy.wait('@fetchAddresses').its('response.statusCode').should('eq', 200);
 }
 
 export function addressBookTest() {
