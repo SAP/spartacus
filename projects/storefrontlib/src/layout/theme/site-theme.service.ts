@@ -4,7 +4,7 @@ import {
   Renderer2,
   RendererFactory2,
 } from '@angular/core';
-import { SiteThemeConfig } from './site-theme.config';
+import { SiteContextConfig, THEME_CONTEXT_ID } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
 export class SiteThemeService {
@@ -12,17 +12,16 @@ export class SiteThemeService {
   protected renderer: Renderer2;
 
   constructor(
-    protected config: SiteThemeConfig,
+    protected config: SiteContextConfig,
     protected rendererFactory: RendererFactory2
-  ) {
-    this.renderer = rendererFactory.createRenderer(null, null);
-  }
+  ) {}
 
   init(rootComponent: ComponentRef<any>) {
+    this.renderer = this.rendererFactory.createRenderer(null, null);
     // allow to initialize only once
     if (!this.rootComponent) {
       this.rootComponent = rootComponent;
-      this.setTheme(this.config.theme);
+      this.setTheme(this.config.context[THEME_CONTEXT_ID]?.[0]);
     }
   }
 

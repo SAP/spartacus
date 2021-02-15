@@ -20,7 +20,7 @@ export interface OccLoadedConfig {
   urlParameters?: string[];
 
   /**
-   * Site theme
+   * Site theme that provides a mechanism to introduce site specific style rules
    */
   theme?: string;
 }

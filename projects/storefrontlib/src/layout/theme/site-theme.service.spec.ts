@@ -1,6 +1,6 @@
 import { Component, ComponentRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { SiteThemeConfig } from './site-theme.config';
+import { SiteContextConfig } from '@spartacus/core';
 import { SiteThemeService } from './site-theme.service';
 
 @Component({
@@ -17,7 +17,10 @@ describe('SiteThemeService', () => {
     TestBed.configureTestingModule({
       providers: [
         SiteThemeService,
-        { provide: SiteThemeConfig, useValue: { theme: 'test-theme' } },
+        {
+          provide: SiteContextConfig,
+          useValue: { context: { theme: ['test-theme'] } },
+        },
       ],
       declarations: [TestComponent],
     }).compileComponents();

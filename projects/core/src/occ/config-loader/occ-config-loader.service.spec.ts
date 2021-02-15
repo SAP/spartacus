@@ -2,7 +2,6 @@ import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { TransferState } from '@angular/platform-browser';
 import { Config } from '@spartacus/core';
-import { SiteThemeConfig } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { I18nConfig } from '../../i18n';
 import { BaseSite } from '../../model/misc.model';
@@ -31,11 +30,13 @@ describe(`OccConfigLoaderService`, () => {
     config,
   }: {
     platform: string;
-    config: I18nConfig | SiteContextConfig | SiteThemeConfig;
+    config: I18nConfig | SiteContextConfig;
   }) {
     mockBaseSites = [];
     mockExternalConfig = { baseSite: 'test', theme: 'test-theme' };
-    mockSiteContextConfig = { context: { baseSite: ['testSite'] } };
+    mockSiteContextConfig = {
+      context: { baseSite: ['testSite'], theme: ['test-theme'] },
+    };
     mockI18nConfig = { i18n: { fallbackLang: 'testLang' } };
 
     const mockOccSitesConfigLoader = {
@@ -91,7 +92,6 @@ describe(`OccConfigLoaderService`, () => {
         beforeEach(() => {
           rehydratedExternalConfig = {
             test: 'rehydrated',
-            theme: 'test-theme',
           };
           spyOn(transferState, 'get').and.returnValue(rehydratedExternalConfig);
         });
@@ -111,9 +111,8 @@ describe(`OccConfigLoaderService`, () => {
             undefined
           );
           expect(result).toEqual({
-            context: { baseSite: ['testSite'] },
+            context: { baseSite: ['testSite'], theme: ['test-theme'] },
             i18n: { fallbackLang: 'testLang' },
-            theme: 'test-theme',
           });
         });
 
@@ -144,9 +143,8 @@ describe(`OccConfigLoaderService`, () => {
             document.location.href
           );
           expect(result).toEqual({
-            context: { baseSite: ['testSite'] },
+            context: { baseSite: ['testSite'], theme: ['test-theme'] },
             i18n: { fallbackLang: 'testLang' },
-            theme: 'test-theme',
           });
         });
 
@@ -174,9 +172,8 @@ describe(`OccConfigLoaderService`, () => {
           mockServerRequestUrl
         );
         expect(result).toEqual({
-          context: { baseSite: ['testSite'] },
+          context: { baseSite: ['testSite'], theme: ['test-theme'] },
           i18n: { fallbackLang: 'testLang' },
-          theme: 'test-theme',
         });
       });
 
@@ -202,8 +199,7 @@ describe(`OccConfigLoaderService`, () => {
         const result = await service.loadConfig();
 
         expect(result).toEqual({
-          context: { baseSite: ['testSite'] },
-          theme: 'test-theme',
+          context: { baseSite: ['testSite'], theme: ['test-theme'] },
         });
       });
     });

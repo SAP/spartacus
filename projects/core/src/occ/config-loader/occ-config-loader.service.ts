@@ -11,7 +11,6 @@ import {
   StateKey,
   TransferState,
 } from '@angular/platform-browser';
-import { SiteThemeConfig } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Config } from '../../config/config-tokens';
@@ -59,7 +58,7 @@ export class OccConfigLoaderService {
   /**
    * Initializes the Spartacus config asynchronously basing on the external config
    */
-  loadConfig(): Promise<I18nConfig | SiteContextConfig | SiteThemeConfig> {
+  loadConfig(): Promise<I18nConfig | SiteContextConfig> {
     return this.get()
       .pipe(
         tap((externalConfig) => this.transfer(externalConfig)),
@@ -120,14 +119,12 @@ export class OccConfigLoaderService {
 
   protected getConfigChunks(
     externalConfig: OccLoadedConfig
-  ): (I18nConfig | SiteContextConfig | SiteThemeConfig)[] {
+  ): (I18nConfig | SiteContextConfig)[] {
     const chunks: any[] = [this.converter.toSiteContextConfig(externalConfig)];
 
     if (this.shouldReturnI18nChunk()) {
       chunks.push(this.converter.toI18nConfig(externalConfig));
     }
-
-    chunks.push(<SiteThemeConfig>{ theme: externalConfig.theme });
 
     return chunks;
   }
