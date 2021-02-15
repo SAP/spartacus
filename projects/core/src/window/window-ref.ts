@@ -13,8 +13,6 @@ export class WindowRef {
   /**
    * @deprecated since 3.2. Provide PLATFORM_ID as a second constructor parameter
    */
-  constructor(document);
-  constructor(document, platformId?: Object);
   constructor(
     @Inject(DOCUMENT) document,
     @Inject(PLATFORM_ID) protected platformId?: Object
