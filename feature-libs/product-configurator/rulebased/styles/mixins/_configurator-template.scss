@@ -1,0 +1,9 @@
+@mixin cx-configurator-template {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+  padding-block-end: 2rem;
+  margin: auto;
+}

@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EntitiesModel, I18nTestingModule } from '@spartacus/core';
-import { EventEmitter } from 'events';
 import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { of } from 'rxjs';
 import { CardTestingModule } from '../card/card.testing.module';
