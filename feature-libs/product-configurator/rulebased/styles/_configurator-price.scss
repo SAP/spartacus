@@ -8,6 +8,7 @@
 
     .cx-quantity-price {
       font-size: var(--cx-font-small, 0.9rem);
+
       @include cx-configurator-truncate-content();
     }
 
@@ -15,6 +16,7 @@
     .cx-quantity,
     .cx-price-total {
       font-weight: bold;
+
       @include cx-configurator-truncate-content();
     }
 
