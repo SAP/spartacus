@@ -15,15 +15,19 @@ export class WindowRef {
     this.document = document;
   }
 
-  get nativeWindow(): Window {
+  /**
+   * Exposes global `window` object. In SSR when `window` is not available it returns `undefined`.
+   * To detect platform where the code is executed use `isPlatformBrowser` and `isPlatformServer` from `@angular/common`.
+   */
+  get nativeWindow(): Window | undefined {
     return typeof window !== 'undefined' ? window : undefined;
   }
 
-  get sessionStorage(): Storage {
+  get sessionStorage(): Storage | undefined {
     return this.nativeWindow ? this.nativeWindow.sessionStorage : undefined;
   }
 
-  get localStorage(): Storage {
+  get localStorage(): Storage | undefined {
     return this.nativeWindow ? this.nativeWindow.localStorage : undefined;
   }
 
