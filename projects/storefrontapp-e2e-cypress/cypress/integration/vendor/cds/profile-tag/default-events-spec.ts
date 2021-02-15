@@ -321,7 +321,7 @@ describe('Profile-tag events', () => {
     cy.get(
       'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras"]'
     ).click();
-    cy.wait(`@${categoryPage}`).its('status').should('eq', 200);
+    cy.wait(categoryPage).its('response.statusCode').should('eq', 200);
     cy.window().then((win) => {
       expect(
         profileTagHelper.eventCount(win, profileTagHelper.EventNames.NAVIGATED)
@@ -412,5 +412,5 @@ function goToProductPage(): Cypress.Chainable<number> {
     'getProductPage'
   );
   cy.get('.Section4 cx-banner').first().find('img').click({ force: true });
-  return cy.wait(`@${productPage}`).its('status').should('eq', 200);
+  return cy.wait(productPage).its('response.statusCode').should('eq', 200);
 }

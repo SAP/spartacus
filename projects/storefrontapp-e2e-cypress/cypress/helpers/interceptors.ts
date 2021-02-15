@@ -1,0 +1,9 @@
+export const CMS_HOMEPAGE = '@cmsHomepage';
+export const CMS_LOGIN_PAGE = '@cmsLoginPage';
+export const CMS_REGISTER_PAGE = '@cmsRegisterPage';
+export const CMS_LOGOUT_PAGE = '@cmsLogoutPage';
+export const CMS_CART_PAGE = '@cmsCartPage';
+export const CMS_SHIPPING_ADDRESS_PAGE = '@cmsShippingAddressPage';
+export const CMS_DELIVERY_PAGE = '@cmsDeliveryPage';
+export const CMS_PAYMENT_PAGE = '@cmsPaymentPage';
+export const CMS_REVIEW_PAGE = '@cmsReviewPage';

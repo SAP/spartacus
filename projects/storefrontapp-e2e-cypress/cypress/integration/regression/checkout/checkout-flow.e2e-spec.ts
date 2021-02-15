@@ -3,18 +3,10 @@ import * as checkout from '../../../helpers/checkout-flow';
 context('Checkout flow', () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
-    checkout.visitHomePage();
-  });
-
-  beforeEach(() => {
-    cy.restoreLocalStorage();
-  });
-
-  afterEach(() => {
-    cy.saveLocalStorage();
   });
 
   it('should perform checkout', () => {
+    checkout.visitHomePage();
     checkout.registerUser();
     checkout.goToCheapProductDetailsPage();
     checkout.addCheapProductToCartAndLogin();

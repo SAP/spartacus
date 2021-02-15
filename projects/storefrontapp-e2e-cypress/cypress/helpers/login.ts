@@ -1,7 +1,7 @@
 import { user } from '../sample-data/checkout-flow';
 import { login, register } from './auth-forms';
-import { waitForPage } from './checkout-flow';
 import * as alerts from './global-message';
+import { CMS_LOGIN_PAGE, CMS_REGISTER_PAGE } from './interceptors';
 
 export const userGreetSelector = 'cx-login .cx-login-greet';
 export const loginLinkSelector = 'cx-login [role="link"]';
@@ -18,11 +18,10 @@ export const defaultUser = {
  * @returns Newly registered user
  */
 export function registerUserFromLoginPage() {
-  const registerPage = waitForPage('/login/register', 'getRegisterPage');
   cy.get('cx-page-layout > cx-page-slot > cx-login-register')
     .findByText('Register')
     .click();
-  cy.wait(`@${registerPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_REGISTER_PAGE).its('response.statusCode').should('eq', 200);
 
   register(user);
   return user;
@@ -35,9 +34,8 @@ export function registerUserFromLoginPage() {
  * @returns Newly registered user
  */
 export function registerUser() {
-  const loginPage = waitForPage('/login', 'getLoginPage');
   cy.get(loginLinkSelector).click();
-  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_LOGIN_PAGE).its('response.statusCode').should('eq', 200);
 
   return registerUserFromLoginPage();
 }
@@ -55,9 +53,8 @@ export function loginUser() {
 }
 
 export function loginWithBadCredentials() {
-  const loginPage = waitForPage('/login', 'getLoginPage');
   cy.get(loginLinkSelector).click();
-  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_LOGIN_PAGE).its('response.statusCode').should('eq', 200);
 
   login(user.email, 'Password321');
 
@@ -69,17 +66,18 @@ export function loginWithBadCredentials() {
 }
 
 export function loginAsDefaultUser() {
-  const loginPage = waitForPage('/login', 'getLoginPage');
   cy.get(loginLinkSelector).click();
-  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_LOGIN_PAGE).its('response.statusCode').should('eq', 200);
 
   login(defaultUser.name, defaultUser.password);
 }
 
 export function listenForTokenRevocationRequest(): string {
   const aliasName = 'tokenRevocation';
-  cy.server();
-  cy.route('POST', '/authorizationserver/oauth/revoke').as(aliasName);
+  cy.intercept({
+    method: 'POST',
+    pathname: '/authorizationserver/oauth/revoke',
+  }).as(aliasName);
 
   return `@${aliasName}`;
 }

@@ -1,18 +1,16 @@
 import { user } from '../../../../sample-data/checkout-flow';
-import { waitForPage } from '../../../checkout-flow';
 import { fillShippingAddress } from '../../../checkout-forms';
+import { CMS_SHIPPING_ADDRESS_PAGE } from '../../../interceptors';
 import { checkoutNextStep, verifyTabbingOrder } from '../../tabbing-order';
 import { TabElement } from '../../tabbing-order.model';
 
 const containerSelector = 'cx-page-layout.MultiStepCheckoutSummaryPageTemplate';
 
 export function checkoutShippingAddressNewTabbingOrder(config: TabElement[]) {
-  const shippingAddressPage = waitForPage(
-    '/checkout/shipping-address',
-    'getShippingAddress'
-  );
   cy.visit('/checkout/shipping-address');
-  cy.wait(`@${shippingAddressPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_SHIPPING_ADDRESS_PAGE)
+    .its('response.statusCode')
+    .should('eq', 200);
 
   const { firstName, lastName, phone, address } = user;
   fillShippingAddress({ firstName, lastName, phone, address }, false);
@@ -25,12 +23,10 @@ export function checkoutShippingAddressNewTabbingOrder(config: TabElement[]) {
 export function checkoutShippingAddressExistingTabbingOrder(
   config: TabElement[]
 ) {
-  const shippingAddressPage = waitForPage(
-    '/checkout/shipping-address',
-    'getShippingAddress'
-  );
   cy.visit('/checkout/shipping-address');
-  cy.wait(`@${shippingAddressPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_SHIPPING_ADDRESS_PAGE)
+    .its('response.statusCode')
+    .should('eq', 200);
 
   cy.get('cx-card').within(() => {
     cy.get('.cx-card-label-bold').should('not.be.empty');
@@ -44,11 +40,6 @@ export function checkoutShippingAddressExistingTabbingOrder(
 }
 
 export function checkoutShippingAddressAccount(config: TabElement[]) {
-  const shippingAddressPage = waitForPage(
-    '/checkout/shipping-address',
-    'getShippingAddress'
-  );
-
   cy.route(
     'PUT',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -57,7 +48,9 @@ export function checkoutShippingAddressAccount(config: TabElement[]) {
   ).as('setAddress');
 
   cy.visit('/checkout/shipping-address');
-  cy.wait(`@${shippingAddressPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_SHIPPING_ADDRESS_PAGE)
+    .its('response.statusCode')
+    .should('eq', 200);
 
   cy.wait('@setAddress').its('status').should('eq', 200);
 

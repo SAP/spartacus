@@ -16,6 +16,16 @@ import {
   fillShippingAddress,
   PaymentDetails,
 } from './checkout-forms';
+import {
+  CMS_DELIVERY_PAGE,
+  CMS_HOMEPAGE,
+  CMS_LOGIN_PAGE,
+  CMS_LOGOUT_PAGE,
+  CMS_PAYMENT_PAGE,
+  CMS_REGISTER_PAGE,
+  CMS_REVIEW_PAGE,
+  CMS_SHIPPING_ADDRESS_PAGE,
+} from './interceptors';
 
 export const ELECTRONICS_BASESITE = 'electronics-spa';
 export const ELECTRONICS_CURRENCY = 'USD';
@@ -23,14 +33,12 @@ export const ELECTRONICS_CURRENCY = 'USD';
 export const ELECTRONICS_DEFAULT_DELIVERY_MODE = 'deliveryMode-standard-net';
 
 export function visitHomePage(queryStringParams?: string) {
-  const homePage = waitForPage('homepage', 'getHomePage');
-
   if (queryStringParams) {
     cy.visit(`/?${queryStringParams}`);
   } else {
     cy.visit('/');
   }
-  cy.wait(`@${homePage}`).its('status').should('eq', 200);
+  cy.wait(CMS_HOMEPAGE).its('response.statusCode').should('eq', 200);
 }
 
 export function signOut() {
@@ -43,13 +51,11 @@ export function registerUser(
   giveRegistrationConsent: boolean = false,
   sampleUser: SampleUser = user
 ) {
-  const loginPage = waitForPage('/login', 'getLoginPage');
   cy.findByText(/Sign in \/ Register/i).click();
-  cy.wait(`@${loginPage}`);
+  cy.wait(CMS_LOGIN_PAGE);
 
-  const registerPage = waitForPage('/login/register', 'getRegisterPage');
   cy.findByText('Register').click();
-  cy.wait(`@${registerPage}`);
+  cy.wait(CMS_REGISTER_PAGE);
 
   register(sampleUser, giveRegistrationConsent);
   cy.get('cx-breadcrumb').contains('Login');
@@ -57,16 +63,14 @@ export function registerUser(
 }
 
 export function signInUser(sampleUser: SampleUser = user) {
-  const loginPage = waitForPage('/login', 'getLoginPage');
   cy.findByText(/Sign in \/ Register/i).click();
-  cy.wait(`@${loginPage}`);
+  cy.wait(CMS_LOGIN_PAGE);
   login(sampleUser.email, sampleUser.password);
 }
 
 export function signOutUser(sampleUser: SampleUser = user) {
-  const logoutPage = waitForPage('/logout', 'getLogoutPage');
   signOut();
-  cy.wait(`@${logoutPage}`);
+  cy.wait(CMS_LOGOUT_PAGE);
   cy.get('.cx-login-greet').should('not.contain', sampleUser.fullName);
 }
 
@@ -114,12 +118,8 @@ export function verifyDeliveryMethod(
 ) {
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get(`#${deliveryMode}`).should('be.checked');
-  const paymentPage = waitForPage(
-    '/checkout/payment-details',
-    'getPaymentPage'
-  );
   cy.get('.cx-checkout-btns button.btn-primary').click();
-  cy.wait(`@${paymentPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_PAYMENT_PAGE).its('response.statusCode').should('eq', 200);
 }
 
 export function fillPaymentForm(
@@ -203,10 +203,15 @@ export function goToCheapProductDetailsPage(
 export function clickCheapProductDetailsFromHomePage(
   sampleProduct: SampleProduct = cheapProduct
 ) {
-  const productCode = `ProductPage&code=${sampleProduct.code}`;
-  const productPage = waitForPage(productCode, 'getProductPage');
+  const productPage = waitForPage(
+    {
+      pageType: 'ProductPage',
+      code: sampleProduct.code,
+    },
+    'getProductPage'
+  );
   cy.get('.Section4 cx-banner').first().find('img').click({ force: true });
-  cy.wait(`@${productPage}`).its('status').should('eq', 200);
+  cy.wait(productPage).its('response.statusCode').should('eq', 200);
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', sampleProduct.code);
   });
@@ -220,18 +225,13 @@ export function addCheapProductToCartAndLogin(
   sampleProduct: SampleProduct = cheapProduct
 ) {
   addCheapProductToCart(sampleProduct);
-  const loginPage = waitForPage('/login', 'getLoginPage');
   cy.findByText(/proceed to checkout/i).click();
-  cy.wait(`@${loginPage}`);
+  cy.wait(CMS_LOGIN_PAGE);
 
-  const shippingPage = waitForPage(
-    '/checkout/shipping-address',
-    'getShippingPage'
-  );
   loginUser(sampleUser);
   // Double timeout, because we have here a cascade of requests (login, load /checkout page, merge cart, load shipping page)
-  cy.wait(`@${shippingPage}`, { timeout: 30000 })
-    .its('status')
+  cy.wait(CMS_SHIPPING_ADDRESS_PAGE, { timeout: 30000 })
+    .its('response.statusCode')
     .should('eq', 200);
 }
 
@@ -239,21 +239,18 @@ export function addCheapProductToCartAndProceedToCheckout(
   sampleProduct: SampleProduct = cheapProduct
 ) {
   addCheapProductToCart(sampleProduct);
-  const loginPage = waitForPage('/login', 'getLoginPage');
   cy.findByText(/proceed to checkout/i).click();
-  cy.wait(`@${loginPage}`);
+  cy.wait(CMS_LOGIN_PAGE);
 }
 
 export function addCheapProductToCartAndBeginCheckoutForSignedInCustomer(
   sampleProduct: SampleProduct = cheapProduct
 ) {
   addCheapProductToCart(sampleProduct);
-  const shippingPage = waitForPage(
-    '/checkout/shipping-address',
-    'getShippingPage'
-  );
   cy.findByText(/proceed to checkout/i).click();
-  cy.wait(`@${shippingPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_SHIPPING_ADDRESS_PAGE)
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
 export function addCheapProductToCart(
@@ -276,12 +273,8 @@ export function fillAddressFormWithCheapProduct(
     .first()
     .find('.cx-summary-amount')
     .should('contain', cartData.total);
-  const deliveryPage = waitForPage(
-    '/checkout/delivery-mode',
-    'getDeliveryPage'
-  );
   fillShippingAddress(shippingAddressData);
-  cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_DELIVERY_PAGE).its('response.statusCode').should('eq', 200);
 }
 
 export function fillPaymentFormWithCheapProduct(
@@ -293,9 +286,8 @@ export function fillPaymentFormWithCheapProduct(
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
     .should('contain', cartData.totalAndShipping);
-  const reivewPage = waitForPage('/checkout/review-order', 'getReviewPage');
   fillPaymentDetails(paymentDetailsData, billingAddress);
-  cy.wait(`@${reivewPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_REVIEW_PAGE).its('response.statusCode').should('eq', 200);
 }
 
 export function placeOrderWithCheapProduct(
@@ -341,7 +333,7 @@ export function placeOrderWithCheapProduct(
     'getOrderConfirmationPage'
   );
   cy.get('cx-place-order button.btn-primary').click();
-  cy.wait(`@${orderConfirmationPage}`).its('status').should('eq', 200);
+  cy.wait(orderConfirmationPage).its('response.statusCode').should('eq', 200);
 }
 
 export function verifyOrderConfirmationPageWithCheapProduct(
@@ -403,7 +395,7 @@ export function viewOrderHistoryWithCheapProduct(
   cy.selectUserMenuOption({
     option: 'Order History',
   });
-  cy.wait(`@${orderHistoryPage}`).its('status').should('eq', 200);
+  cy.wait(orderHistoryPage).its('response.statusCode').should('eq', 200);
   cy.get('cx-order-history h3').should('contain', 'Order history');
   cy.get('.cx-order-history-table tr')
     .first()
@@ -411,15 +403,24 @@ export function viewOrderHistoryWithCheapProduct(
     .should('contain', cartData.totalAndShipping);
 }
 
-export function waitForPage(page: string, alias: string): string {
-  // homepage is not explicitly being asked as it's driven by the backend.
-  const endpoint = page === 'homepage' ? `*` : `*${page}*`;
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+export function waitForPage(
+  page: string | Record<string, string>,
+  alias: string
+): string {
+  let request = {
+    method: 'GET',
+    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages${endpoint}`
-  ).as(alias);
-  return alias;
+    )}/cms/pages`,
+  };
+  if (typeof page === 'string') {
+    request['query'] = {
+      pageType: 'ContentPage',
+      pageLabelOrId: page,
+    };
+  } else {
+    request['query'] = page;
+  }
+  cy.intercept(request).as(alias);
+  return `@${alias}`;
 }

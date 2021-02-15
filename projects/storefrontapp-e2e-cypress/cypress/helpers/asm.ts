@@ -5,6 +5,7 @@ import * as loginHelper from '../helpers/login';
 import * as profile from '../helpers/update-profile';
 import { login } from './auth-forms';
 import { getErrorAlert } from './global-message';
+import { CMS_LOGIN_PAGE } from './interceptors';
 
 let customer: any;
 
@@ -211,9 +212,8 @@ export function asmTests(isMobile: boolean) {
 
     describe('When a regular customer session and an asm agent session are both active', () => {
       it('asm ui should only display a message that the session in progress is a regular session.', () => {
-        const loginPage = checkout.waitForPage('/login', 'getLoginPage');
         cy.visit('/login?asm=true');
-        cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+        cy.wait(CMS_LOGIN_PAGE).its('response.statusCode').should('eq', 200);
 
         agentLogin();
         login(customer.email, customer.password);
@@ -234,26 +234,29 @@ export function asmTests(isMobile: boolean) {
 
 function listenForAuthenticationRequest(): string {
   const aliasName = 'csAgentAuthentication';
-  cy.server();
-  cy.route('POST', `/authorizationserver/oauth/token`).as(aliasName);
+  cy.intercept({
+    method: 'POST',
+    pathname: `/authorizationserver/oauth/token`,
+  }).as(aliasName);
   return `@${aliasName}`;
 }
 export function listenForCustomerSearchRequest(): string {
   const aliasName = 'customerSearch';
-  cy.server();
-  cy.route('GET', `/assistedservicewebservices/customers/search?*`).as(
-    aliasName
-  );
+  cy.intercept({
+    method: 'GET',
+    pathname: `/assistedservicewebservices/customers/search`,
+  }).as(aliasName);
   return `@${aliasName}`;
 }
 
 function listenForUserDetailsRequest(): string {
   const aliasName = 'userDetails';
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/users/*`
-  ).as(aliasName);
+  cy.intercept({
+    method: 'GET',
+    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/**`,
+  }).as(aliasName);
   return `@${aliasName}`;
 }
 
@@ -264,11 +267,11 @@ export function agentLogin(): void {
   cy.get('cx-customer-selection').should('not.exist');
   cy.get('cx-csagent-login-form form').within(() => {
     cy.get('[formcontrolname="userId"]').type('asagent');
-    cy.get('[formcontrolname="password"]').type('123456');
+    cy.get('[formcontrolname="password"]').type('pw4all');
     cy.get('button[type="submit"]').click();
   });
 
-  cy.wait(authRequest).its('status').should('eq', 200);
+  cy.wait(authRequest).its('response.statusCode').should('eq', 200);
   cy.get('cx-csagent-login-form').should('not.exist');
   cy.get('cx-customer-selection').should('exist');
 }
@@ -282,12 +285,14 @@ function startCustomerEmulation(): void {
   cy.get('cx-customer-selection form').within(() => {
     cy.get('[formcontrolname="searchTerm"]').type(customer.email);
   });
-  cy.wait(customerSearchRequestAlias).its('status').should('eq', 200);
+  cy.wait(customerSearchRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
 
   cy.get('cx-customer-selection div.asm-results button').click();
   cy.get('button[type="submit"]').click();
 
-  cy.wait(userDetailsRequestAlias).its('status').should('eq', 200);
+  cy.wait(userDetailsRequestAlias).its('response.statusCode').should('eq', 200);
   cy.get('cx-customer-emulation input')
     .invoke('attr', 'placeholder')
     .should('contain', customer.fullName);
@@ -300,7 +305,7 @@ function loginCustomerInStorefront() {
   const authRequest = listenForAuthenticationRequest();
 
   login(customer.email, customer.password);
-  cy.wait(authRequest).its('status').should('eq', 200);
+  cy.wait(authRequest).its('response.statusCode').should('eq', 200);
 }
 
 function agentSignOut() {

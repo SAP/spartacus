@@ -1,5 +1,5 @@
 import { fillLoginForm, LoginUser } from '../../../auth-forms';
-import { waitForPage } from '../../../checkout-flow';
+import { CMS_LOGOUT_PAGE } from '../../../interceptors';
 import { INPUT_TYPE, MyCompanyConfig } from '../models';
 import { loginAsMyCompanyAdmin } from '../my-company.utils';
 import { completeForm, FormType } from './utils/form';
@@ -97,9 +97,8 @@ export function userPasswordTest(config: MyCompanyConfig): void {
 }
 
 function logOut() {
-  const logoutPage = waitForPage('/logout', 'getLogoutPage');
   cy.selectUserMenuOption({
     option: 'Sign Out',
   });
-  cy.wait(`@${logoutPage}`);
+  cy.wait(CMS_LOGOUT_PAGE);
 }

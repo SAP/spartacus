@@ -9,6 +9,12 @@ import {
   fillShippingAddress,
   PaymentDetails,
 } from './checkout-forms';
+import {
+  CMS_CART_PAGE,
+  CMS_DELIVERY_PAGE,
+  CMS_REVIEW_PAGE,
+  CMS_SHIPPING_ADDRESS_PAGE,
+} from './interceptors';
 import { generateMail, randomString } from './user';
 
 interface TestProduct {
@@ -70,7 +76,7 @@ export function addToWishListAnonymous(product: TestProduct) {
 
   cy.visit(`/product/${product.code}`);
 
-  cy.wait(`@${productPage}`);
+  cy.wait(productPage);
 
   cy.get('cx-add-to-wishlist .button-add-link').click({ force: true });
 
@@ -98,7 +104,7 @@ export function addToWishList(product: TestProduct) {
 
   cy.visit(`/product/${product.code}`);
 
-  cy.wait(`@${productPage}`);
+  cy.wait(productPage);
 
   waitForGetWishList();
 
@@ -193,7 +199,7 @@ export function goToProductPage(product: TestProduct) {
   getWishListItem(product.name).within(() => {
     cy.get('.cx-name>.cx-link').click({ force: true });
   });
-  cy.wait(`@${productPage}`);
+  cy.wait(productPage);
 }
 
 export function checkoutFromWishList(checkoutProducts: TestProduct[]) {
@@ -216,9 +222,8 @@ export function checkoutFromCart(checkoutProducts: TestProduct[]) {
 }
 
 function goToCartAndCheckout(checkoutProducts: TestProduct[]) {
-  const cartPage = waitForPage('/cart', 'getCartPage');
   cy.get('cx-mini-cart').click();
-  cy.wait(`@${cartPage}`);
+  cy.wait(CMS_CART_PAGE);
 
   for (const product of checkoutProducts) {
     cy.get('cx-cart-item-list').contains('cx-cart-item', product.code);
@@ -226,22 +231,16 @@ function goToCartAndCheckout(checkoutProducts: TestProduct[]) {
 }
 
 function proceedToCheckout() {
-  const shippingAddressPage = waitForPage(
-    '/checkout/shipping-address',
-    'getShippingAddressPage'
-  );
   cy.findByText(/proceed to checkout/i).click();
-  cy.wait(`@${shippingAddressPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_SHIPPING_ADDRESS_PAGE)
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
 function fillAddressForm(shippingAddressData: AddressData = user) {
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
-  const deliveryPage = waitForPage(
-    '/checkout/delivery-mode',
-    'getDeliveryPage'
-  );
   fillShippingAddress(shippingAddressData);
-  cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_DELIVERY_PAGE).its('response.statusCode').should('eq', 200);
 }
 
 function fillPaymentForm(
@@ -249,9 +248,8 @@ function fillPaymentForm(
   billingAddress?: AddressData
 ) {
   cy.get('.cx-checkout-title').should('contain', 'Payment');
-  const reviewPage = waitForPage('/checkout/review-order', 'getReviewPage');
   fillPaymentDetails(paymentDetailsData, billingAddress);
-  cy.wait(`@${reviewPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_REVIEW_PAGE).its('response.statusCode').should('eq', 200);
 }
 
 function placeOrderWithProducts(checkoutProducts: TestProduct[]) {
@@ -274,7 +272,7 @@ function placeOrderWithProducts(checkoutProducts: TestProduct[]) {
     'getOrderConfirmationPage'
   );
   cy.get('cx-place-order button.btn-primary').click();
-  cy.wait(`@${orderConfirmationPage}`).its('status').should('eq', 200);
+  cy.wait(orderConfirmationPage).its('response.statusCode').should('eq', 200);
 }
 
 function verifyOrderConfirmationPage(checkoutProducts: TestProduct[]) {

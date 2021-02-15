@@ -27,6 +27,11 @@ import {
   visitHomePage,
   waitForPage,
 } from '../checkout-flow';
+import {
+  CMS_DELIVERY_PAGE,
+  CMS_REVIEW_PAGE,
+  CMS_SHIPPING_ADDRESS_PAGE,
+} from '../interceptors';
 import { generateMail, randomString } from '../user';
 
 export function loginB2bUser() {
@@ -52,7 +57,7 @@ export function addB2bProductToCartAndCheckout() {
     'getPaymentType'
   );
   cy.findByText(/proceed to checkout/i).click();
-  cy.wait(`@${paymentTypePage}`).its('status').should('eq', 200);
+  cy.wait(paymentTypePage).its('response.statusCode').should('eq', 200);
 }
 
 export function enterPONumber() {
@@ -76,12 +81,10 @@ export function selectAccountPayment() {
     cy.findByText('Account').click({ force: true });
   });
 
-  const shippingPage = waitForPage(
-    '/checkout/shipping-address',
-    'getShippingPage'
-  );
   cy.get('button.btn-primary').click({ force: true });
-  cy.wait(`@${shippingPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_SHIPPING_ADDRESS_PAGE)
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
 export function selectCreditCardPayment() {
@@ -89,12 +92,10 @@ export function selectCreditCardPayment() {
     cy.findByText('Credit Card').click({ force: true });
   });
 
-  const shippingPage = waitForPage(
-    '/checkout/shipping-address',
-    'getShippingPage'
-  );
   cy.get('button.btn-primary').click({ force: true });
-  cy.wait(`@${shippingPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_SHIPPING_ADDRESS_PAGE)
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
 export function selectAccountShippingAddress() {
@@ -120,11 +121,6 @@ export function selectAccountShippingAddress() {
   cy.wait('@getCart');
   cy.get('cx-card .card-header').should('contain', 'Selected');
 
-  const deliveryPage = waitForPage(
-    '/checkout/delivery-mode',
-    'getDeliveryPage'
-  );
-
   // Accessibility
   verifyTabbingOrder(
     'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
@@ -132,7 +128,7 @@ export function selectAccountShippingAddress() {
   );
 
   cy.get('button.btn-primary').click({ force: true });
-  cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_DELIVERY_PAGE).its('response.statusCode').should('eq', 200);
 }
 
 export function selectAccountDeliveryMode(
@@ -140,7 +136,6 @@ export function selectAccountDeliveryMode(
 ) {
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get(`#${deliveryMode}`).should('be.checked');
-  const orderReview = waitForPage('/checkout/review-order', 'getReviewOrder');
 
   // Accessibility
   verifyTabbingOrder(
@@ -149,7 +144,7 @@ export function selectAccountDeliveryMode(
   );
 
   cy.get('.cx-checkout-btns button.btn-primary').click();
-  cy.wait(`@${orderReview}`).its('status').should('eq', 200);
+  cy.wait(CMS_REVIEW_PAGE).its('response.statusCode').should('eq', 200);
 }
 
 export function reviewB2bReviewOrderPage(
@@ -277,7 +272,7 @@ export function placeOrder(orderUrl: string) {
     'getOrderConfirmationPage'
   );
   cy.get('cx-place-order button.btn-primary').click();
-  cy.wait(`@${orderConfirmationPage}`).its('status').should('eq', 200);
+  cy.wait(orderConfirmationPage).its('response.statusCode').should('eq', 200);
 }
 
 export function reviewB2bOrderConfirmation(

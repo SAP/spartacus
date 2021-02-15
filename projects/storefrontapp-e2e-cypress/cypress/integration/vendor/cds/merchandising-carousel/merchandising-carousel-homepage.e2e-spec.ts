@@ -1,4 +1,4 @@
-import { waitForPage } from '../../../../helpers/checkout-flow';
+import { CMS_HOMEPAGE } from '../../../../helpers/interceptors';
 import { navigation } from '../../../../helpers/navigation';
 import {
   CURRENCY_JPY,
@@ -13,10 +13,9 @@ import * as merchandisingCarousel from '../../../../helpers/vendor/cds/merchandi
 import { switchSiteContext } from '../../../../support/utils/switch-site-context';
 
 function testHomePage(): void {
-  const homePage = waitForPage('homepage', 'getHomePage');
   navigation.visitHomePage({});
 
-  cy.wait(`@${homePage}`).its('status').should('eq', 200);
+  cy.wait(CMS_HOMEPAGE).its('response.statusCode').should('eq', 200);
 
   merchandisingCarousel.verifyMerchandisingCarouselRendersOnHomePage(
     strategyRequestAlias,

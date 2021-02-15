@@ -1,18 +1,13 @@
-import { waitForPage } from '../../../checkout-flow';
+import { CMS_DELIVERY_PAGE } from '../../../interceptors';
 import { checkoutNextStep, verifyTabbingOrder } from '../../tabbing-order';
 import { TabElement } from '../../tabbing-order.model';
 
 const containerSelector = 'cx-page-layout.MultiStepCheckoutSummaryPageTemplate';
 
 export function checkoutDeliveryModeTabbingOrder(config: TabElement[]) {
-  const deliveryPage = waitForPage(
-    '/checkout/delivery-mode',
-    'getDeliveryPage'
-  );
-
   cy.visit('/checkout/delivery-mode');
 
-  cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_DELIVERY_PAGE).its('response.statusCode').should('eq', 200);
 
   cy.get('cx-delivery-mode input').should('exist');
 
@@ -22,13 +17,8 @@ export function checkoutDeliveryModeTabbingOrder(config: TabElement[]) {
 }
 
 export function checkoutDeliveryModeTabbingOrderAccount(config: TabElement[]) {
-  const deliveryPage = waitForPage(
-    '/checkout/delivery-mode',
-    'getDeliveryPage'
-  );
-
   cy.visit('/checkout/delivery-mode');
-  cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_DELIVERY_PAGE).its('response.statusCode').should('eq', 200);
 
   cy.get('cx-delivery-mode input').should('exist');
 

@@ -1,5 +1,10 @@
 import { product } from '../sample-data/checkout-flow';
 import { config, login, setSessionData } from '../support/utils/login';
+import {
+  CMS_DELIVERY_PAGE,
+  CMS_PAYMENT_PAGE,
+  CMS_SHIPPING_ADDRESS_PAGE,
+} from './interceptors';
 
 export const username = 'test-user-cypress@ydev.hybris.com';
 export const password = 'Password123.';
@@ -153,16 +158,8 @@ export function addPaymentMethod() {
 }
 
 export function selectShippingAddress() {
-  cy.server();
-
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/cms/pages?*/checkout/shipping-address*`
-  ).as('getShippingPage');
   cy.findByText(/proceed to checkout/i).click();
-  cy.wait('@getShippingPage');
+  cy.wait(CMS_SHIPPING_ADDRESS_PAGE);
 
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
@@ -172,33 +169,22 @@ export function selectShippingAddress() {
   cy.get('.cx-card-title').should('contain', 'Default Shipping Address');
   cy.get('.card-header').should('contain', 'Selected');
 
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  cy.intercept({
+    method: 'PUT',
+    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages?*/checkout/delivery-mode*`
-  ).as('getDeliveryPage');
-  cy.route(
-    'PUT',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/**/deliverymode?*`
-  ).as('putDeliveryMode');
+    )}/**/deliverymode`,
+  }).as('putDeliveryMode');
   cy.get('button.btn-primary').click();
-  cy.wait('@getDeliveryPage').its('status').should('eq', 200);
-  cy.wait('@putDeliveryMode').its('status').should('eq', 200);
+  cy.wait(CMS_DELIVERY_PAGE).its('response.statusCode').should('eq', 200);
+  cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
 }
 
 export function selectDeliveryMethod() {
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/cms/pages?*/checkout/payment-details*`
-  ).as('getPaymentPage');
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get('#deliveryMode-standard-net').should('be.checked');
   cy.get('button.btn-primary').click();
-  cy.wait('@getPaymentPage').its('status').should('eq', 200);
+  cy.wait(CMS_PAYMENT_PAGE).its('response.statusCode').should('eq', 200);
 }
 
 export function selectPaymentMethod() {

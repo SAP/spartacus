@@ -1,7 +1,12 @@
 import { standardUser } from '../sample-data/shared-users';
 import { login, register } from './auth-forms';
-import { waitForPage } from './checkout-flow';
 import { PRODUCT_LISTING } from './data-configuration';
+import {
+  CMS_CART_PAGE,
+  CMS_LOGIN_PAGE,
+  CMS_LOGOUT_PAGE,
+  CMS_REGISTER_PAGE,
+} from './interceptors';
 import { createProductQuery, QUERY_ALIAS } from './product-search';
 import { generateMail, randomString } from './user';
 
@@ -268,17 +273,15 @@ export function addProductWhenLoggedIn(mobile: boolean) {
 }
 
 export function logOutAndNavigateToEmptyCart() {
-  const logoutPage = waitForPage('/logout', 'getLogoutPage');
   cy.selectUserMenuOption({
     option: 'Sign Out',
   });
-  cy.wait(`@${logoutPage}`);
+  cy.wait(CMS_LOGOUT_PAGE);
 
   cy.get('cx-login [role="link"]').should('contain', 'Sign In');
 
-  const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
-  cy.wait(`@${cartPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_CART_PAGE).its('response.statusCode').should('eq', 200);
 
   validateEmptyCart();
 }
@@ -316,9 +319,8 @@ export function verifyMergedCartWhenLoggedIn() {
   const product0 = products[1];
   const product1 = products[2];
 
-  const loginPage = waitForPage('/login', 'getLoginPage');
   cy.get('cx-login [role="link"]').click();
-  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_LOGIN_PAGE).its('response.statusCode').should('eq', 200);
 
   login(
     standardUser.registrationData.email,
@@ -336,15 +338,13 @@ export function verifyMergedCartWhenLoggedIn() {
 }
 
 export function logOutAndEmptyCart() {
-  const logoutPage = waitForPage('/logout', 'getLogoutPage');
   cy.selectUserMenuOption({
     option: 'Sign Out',
   });
-  cy.wait(`@${logoutPage}`);
+  cy.wait(CMS_LOGOUT_PAGE);
 
-  const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
-  cy.wait(`@${cartPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_CART_PAGE).its('response.statusCode').should('eq', 200);
 
   validateEmptyCart();
 }
@@ -405,18 +405,16 @@ export const cartUser = {
 };
 
 export function registerCartUser() {
-  const registerPage = waitForPage('/login/register', 'getRegisterPage');
   cy.visit('/login/register');
-  cy.wait(`@${registerPage}`);
+  cy.wait(CMS_REGISTER_PAGE);
 
   register({ ...cartUser.registrationData });
   cy.url().should('not.contain', 'register');
 }
 
 export function loginCartUser() {
-  const loginPage = waitForPage('/login', 'getLoginPage');
   cy.visit('/login');
-  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_LOGIN_PAGE).its('response.statusCode').should('eq', 200);
   login(cartUser.registrationData.email, cartUser.registrationData.password);
   cy.url().should('not.contain', 'login');
 }

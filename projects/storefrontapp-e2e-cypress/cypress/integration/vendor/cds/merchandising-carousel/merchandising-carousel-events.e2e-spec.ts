@@ -1,4 +1,4 @@
-import { waitForPage } from '../../../../helpers/checkout-flow';
+import { CMS_HOMEPAGE } from '../../../../helpers/interceptors';
 import { navigation } from '../../../../helpers/navigation';
 import {
   cdsHelper,
@@ -31,10 +31,9 @@ context('Merchandising Carousel - events', () => {
         merchandisingCarousel.carouselEventRequestAlias
       );
 
-      const homePage = waitForPage('homepage', 'getHomePage');
       navigation.visitHomePage({});
 
-      cy.wait(`@${homePage}`).its('status').should('eq', 200);
+      cy.wait(CMS_HOMEPAGE).its('response.statusCode').should('eq', 200);
 
       merchandisingCarousel.verifyRequestToStrategyService(
         strategyRequestAlias,

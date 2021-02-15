@@ -1,5 +1,6 @@
 import { SampleUser, user } from '../sample-data/checkout-flow';
 import * as checkout from './checkout-flow';
+import { CMS_SHIPPING_ADDRESS_PAGE } from './interceptors';
 
 export function loginAsGuest(sampleUser: SampleUser = user) {
   const guestLoginPage = checkout.waitForPage(
@@ -9,7 +10,7 @@ export function loginAsGuest(sampleUser: SampleUser = user) {
   cy.get('.register')
     .findByText(/Guest Checkout/i)
     .click();
-  cy.wait(`@${guestLoginPage}`).its('status').should('eq', 200);
+  cy.wait(guestLoginPage).its('response.statusCode').should('eq', 200);
   cy.get('cx-checkout-login').within(() => {
     cy.get('[formcontrolname="email"]').clear().type(sampleUser.email);
     cy.get('[formcontrolname="emailConfirmation"]')
@@ -17,11 +18,9 @@ export function loginAsGuest(sampleUser: SampleUser = user) {
       .type(sampleUser.email);
     cy.get('button[type=submit]').click();
   });
-  const shippingPage = checkout.waitForPage(
-    '/checkout/shipping-address',
-    'getShippingPage'
-  );
-  cy.wait(`@${shippingPage}`).its('status').should('eq', 200);
+  cy.wait(CMS_SHIPPING_ADDRESS_PAGE)
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
 export function createAccountFromGuest(password: string) {
