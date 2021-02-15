@@ -45,9 +45,11 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   ngOnInit() {
     this.attributeDropDownForm.setValue(this.attribute?.selectedSingleValue);
 
-    this.selectionValue = this.attribute?.values.find(
-      (value) => value.selected
-    );
+    if (this.attribute?.values && this.attribute?.values?.length > 0) {
+      this.selectionValue = this.attribute?.values.find(
+        (value) => value.selected
+      );
+    }
   }
 
   get withQuantity() {

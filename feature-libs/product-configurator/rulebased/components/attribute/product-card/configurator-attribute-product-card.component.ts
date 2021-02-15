@@ -39,13 +39,7 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
   loading$ = new BehaviorSubject<boolean>(false);
 
   @Input()
-  productCardOptions: ConfiguratorAttributeProductCardComponentOptions = {
-    preventAction: false,
-    multiSelect: false,
-    product: undefined,
-    singleDropdown: false,
-    withQuantity: true,
-  };
+  productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
 
   @Output() handleDeselect = new EventEmitter<string>();
   @Output() handleQuantity = new EventEmitter<QuantityUpdateEvent>();

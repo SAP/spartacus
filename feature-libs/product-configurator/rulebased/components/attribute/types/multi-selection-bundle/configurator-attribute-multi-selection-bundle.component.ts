@@ -47,14 +47,16 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
   }
 
   ngOnInit() {
-    this.multipleSelectionValues = this.attribute?.values.map(
-      ({ name, quantity, selected, valueCode }) => ({
-        name,
-        quantity,
-        selected,
-        valueCode,
-      })
-    );
+    if (this.attribute?.values && this.attribute?.values?.length > 0) {
+      this.multipleSelectionValues = this.attribute?.values.map(
+        ({ name, quantity, selected, valueCode }) => ({
+          name,
+          quantity,
+          selected,
+          valueCode,
+        })
+      );
+    }
 
     if (
       this.attribute?.required &&

@@ -135,8 +135,8 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     );
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
-    component.productCardOptions.multiSelect = false;
-    component.productCardOptions.product = createValue(
+
+    const value: Configurator.Value = createValue(
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       [createImage('url', 'alt')],
       1,
@@ -144,6 +144,14 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       '1111-2222',
       'Lorem Ipsum Dolor'
     );
+
+    component.productCardOptions = {
+      preventAction: false,
+      multiSelect: false,
+      product: value,
+      singleDropdown: false,
+      withQuantity: true,
+    };
 
     spyOn(component, 'onHandleDeselect').and.callThrough();
     spyOn(component, 'onHandleQuantity').and.callThrough();

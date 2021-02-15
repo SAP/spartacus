@@ -32,11 +32,7 @@ export class ConfiguratorAttributeQuantityComponent
   quantity = new FormControl(1);
   protected sub: Subscription;
 
-  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions = {
-    allowZero: true,
-    initialQuantity: undefined,
-    disableQuantityActions: false,
-  };
+  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
 
   @Output() changeQuantity = new EventEmitter<Quantity>();
 
