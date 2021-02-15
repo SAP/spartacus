@@ -581,6 +581,32 @@ export function setQuantity(
   cy.get(`#${containerId} cx-configurator-attribute-quantity input`).type(
     '{selectall}' + quantity
   );
+  checkUpdatingMessageNotDisplayed();
+}
+
+/**
+ * Selects a corresponding attribute value.
+ *
+ * @param {string} uiType - UI type
+ * @param {string} priceFormula - quantity
+ * @param {string} attributeName - attribute name
+ * @param {string} valueName - value name
+ */
+export function checkPrice(
+  uiType: uiType,
+  priceFormula: string,
+  attributeName: string,
+  valueName?: string
+): void {
+  let containerId = getAttributeId(attributeName, uiType);
+  if (valueName) {
+    containerId = `${containerId}--${valueName}`;
+  }
+  cy.log('conatinerId: ' + containerId);
+  cy.get(`#${containerId} cx-configurator-price`).should(
+    'contain.text',
+    priceFormula
+  );
 }
 
 /**
