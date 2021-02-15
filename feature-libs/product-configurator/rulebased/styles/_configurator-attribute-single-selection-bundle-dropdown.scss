@@ -5,7 +5,17 @@
   flex-direction: column;
 
   cx-configurator-attribute-product-card {
-    margin-inline-start: 0px;
+    &:first-of-type {
+      .cx-product-card-rows {
+        padding-inline-start: 0px;
+      }
+    }
+
+    .cx-product-card-rows {
+      &.column {
+        padding-inline-end: 0px;
+      }
+    }
 
     &:first-of-type {
       .cx-product-card {
@@ -25,7 +35,6 @@
     align-items: center;
     margin-block-start: 32px;
     margin-block-end: 32px;
-    margin-inline-end: 16px;
 
     @include media-breakpoint-down(sm) {
       margin-inline-end: 0px;
