@@ -6,7 +6,13 @@ import { provideDefaultConfig } from '@spartacus/core';
     provideDefaultConfig({
       featureModules: {
         cartSavedCart: {
-          cmsComponents: ['SavedCartComponent'],
+          cmsComponents: [
+            'AddToSavedCartsComponent',
+            'AccountSavedCartHistoryComponent',
+            'SavedCartDetailsOverviewComponent',
+            'SavedCartDetailsItemsComponent',
+            'SavedCartDetailsActionComponent',
+          ],
         },
       },
     }),
