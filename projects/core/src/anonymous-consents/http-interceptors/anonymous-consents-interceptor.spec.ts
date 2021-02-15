@@ -9,7 +9,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
 import {
@@ -264,16 +264,13 @@ describe('AnonymousConsentsInterceptor', () => {
 
   describe('intercept', () => {
     let http: HttpClient;
-    let sub: Subscription;
 
     beforeEach(() => {
       http = TestBed.inject(HttpClient);
-      sub = new Subscription();
     });
 
     afterEach(() => {
       httpMock.verify();
-      sub.unsubscribe();
     });
 
     describe('when sending a request', () => {
@@ -286,7 +283,7 @@ describe('AnonymousConsentsInterceptor', () => {
           of(false).pipe(delay(DELAY_TIME))
         );
 
-        sub = http.get('/xxx').subscribe();
+        http.get('/xxx').subscribe();
         tick(DELAY_TIME);
         httpMock.expectOne((req) => req.method === 'GET', 'GET');
       }));
@@ -298,7 +295,7 @@ describe('AnonymousConsentsInterceptor', () => {
         );
         spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
 
-        sub = http.get('/xxx').subscribe();
+        http.get('/xxx').subscribe();
         tick(DELAY_TIME);
         httpMock.expectOne((req) => req.method === 'GET', 'GET');
       }));
@@ -310,7 +307,7 @@ describe('AnonymousConsentsInterceptor', () => {
         spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
         spyOn<any>(interceptor, handleRequestMethod).and.callThrough();
 
-        sub = http.get('/xxx').subscribe();
+        http.get('/xxx').subscribe();
 
         httpMock.expectOne((req) => req.method === 'GET', 'GET');
         expect(interceptor[handleRequestMethod]).toHaveBeenCalled();
