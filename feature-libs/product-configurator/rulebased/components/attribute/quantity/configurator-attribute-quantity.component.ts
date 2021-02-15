@@ -43,7 +43,7 @@ export class ConfiguratorAttributeQuantityComponent
   constructor(protected config: ConfiguratorUISettings) {}
 
   ngOnInit() {
-    this.quantity.setValue(this.quantityOptions?.initialQuantity);
+    this.quantity.setValue(this.quantityOptions?.initialQuantity?.quantity);
 
     if (this.quantityOptions?.disableQuantityActions) {
       this.quantity.disable();
