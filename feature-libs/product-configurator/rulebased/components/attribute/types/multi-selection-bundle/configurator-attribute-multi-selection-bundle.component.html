@@ -3,7 +3,7 @@
   *ngIf="attribute?.values?.length"
 >
   <div
-    *ngIf="withQuantityOnAttributeLevel && attribute.attributePriceTotal"
+    *ngIf="withQuantityOnAttributeLevel && attribute?.attributePriceTotal"
     class="cx-attribute-level-quantity-price"
   >
     <cx-configurator-attribute-quantity
@@ -14,17 +14,19 @@
     ></cx-configurator-attribute-quantity>
 
     <cx-configurator-price
-      *ngIf="attribute.attributePriceTotal.value !== 0"
+      *ngIf="attribute?.attributePriceTotal?.value !== 0"
       [formula]="extractPriceFormulaParameters()"
     ></cx-configurator-price>
   </div>
 
   <cx-configurator-attribute-product-card
-    id="{{ createAttributeValueIdForConfigurator(attribute, value.valueCode) }}"
+    id="{{
+      createAttributeValueIdForConfigurator(attribute, value?.valueCode)
+    }}"
     (handleDeselect)="onDeselect($event)"
     (handleQuantity)="onChangeValueQuantity($event)"
     (handleSelect)="onSelect($event)"
-    *ngFor="let value of attribute.values"
+    *ngFor="let value of attribute?.values"
     [productCardOptions]="
       extractProductCardParameters(preventAction$ | async, value)
     "

@@ -11,6 +11,11 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { QuantityUpdateEvent } from '../../form/configurator-form.event';
 import { Product, ProductService } from '@spartacus/core';
 import { map } from 'rxjs/operators';
+import {
+  ConfiguratorAttributeQuantityComponentOptions,
+  Quantity,
+} from '../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorPriceComponentOptions } from '../../price/configurator-price.component';
 
 interface ProductExtended extends Product {
   noLink?: boolean;
@@ -50,32 +55,32 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
 
   ngOnInit() {
     this.product$ = this.productService
-      .get(this.productCardOptions.product.productSystemId)
+      .get(this.productCardOptions?.product?.productSystemId)
       .pipe(
         map((respProduct) => {
           return respProduct
             ? respProduct
-            : this.transformToProductType(this.productCardOptions.product);
+            : this.transformToProductType(this.productCardOptions?.product);
         })
       );
   }
 
   get showQuantity() {
     return (
-      this.productCardOptions.withQuantity &&
-      this.productCardOptions.product.selected &&
-      this.productCardOptions.multiSelect
+      this.productCardOptions?.withQuantity &&
+      this.productCardOptions?.product?.selected &&
+      this.productCardOptions?.multiSelect
     );
   }
 
   onHandleSelect(): void {
     this.loading$.next(true);
-    this.handleSelect.emit(this.productCardOptions.product.valueCode);
+    this.handleSelect.emit(this.productCardOptions?.product?.valueCode);
   }
 
   onHandleDeselect(): void {
     this.loading$.next(true);
-    this.handleDeselect.emit(this.productCardOptions.product.valueCode);
+    this.handleDeselect.emit(this.productCardOptions?.product?.valueCode);
   }
 
   onChangeQuantity(eventObject): void {
@@ -91,47 +96,75 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
 
     this.handleQuantity.emit({
       quantity,
-      valueCode: this.productCardOptions.product.valueCode,
+      valueCode: this.productCardOptions?.product?.valueCode,
     });
   }
 
   transformToProductType(value: Configurator.Value): ProductExtended {
     return {
-      code: value.valueCode,
-      description: value.description,
+      code: value?.valueCode,
+      description: value?.description,
       images: {},
-      name: value.valueDisplay,
+      name: value?.valueDisplay,
       noLink: true,
     };
   }
 
-  getProductPrice(): Configurator.PriceDetails | number {
+  /**
+   * Verifies whether the product card is selected
+   */
+  isProductCardSelected(): boolean {
     return (
-      this.productCardOptions.product?.valuePrice ||
-      this.productCardOptions.product?.quantity ||
-      this.productCardOptions.product?.valuePriceTotal
+      this.productCardOptions?.product &&
+      this.productCardOptions?.product?.selected &&
+      !this.productCardOptions?.singleDropdown
     );
   }
 
-  extractPriceFormulaParameters() {
-    if (!this.productCardOptions.multiSelect) {
+  getProductPrice(): Configurator.PriceDetails | number {
+    return (
+      this.productCardOptions?.product?.valuePrice ||
+      this.productCardOptions?.product?.quantity ||
+      this.productCardOptions?.product?.valuePriceTotal
+    );
+  }
+
+  /**
+   * Extract corresponding price formula parameters
+   *
+   *  @return {ConfiguratorPriceComponentOptions} - New price formula
+   */
+  extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
+    if (!this.productCardOptions?.multiSelect) {
       return {
-        price: this.productCardOptions.product.valuePrice,
-        isLightedUp: this.productCardOptions.product.selected,
+        price: this.productCardOptions?.product?.valuePrice,
+        isLightedUp: this.productCardOptions?.product?.selected,
       };
     }
     return {
-      quantity: this.productCardOptions.product.quantity,
-      price: this.productCardOptions.product.valuePrice,
-      priceTotal: this.productCardOptions.product.valuePriceTotal,
-      isLightedUp: this.productCardOptions.product.selected,
+      quantity: this.productCardOptions?.product?.quantity,
+      price: this.productCardOptions?.product?.valuePrice,
+      priceTotal: this.productCardOptions?.product?.valuePriceTotal,
+      isLightedUp: this.productCardOptions?.product?.selected,
     };
   }
 
-  extractQuantityParameters(disableQuantityActions: boolean) {
+  /**
+   *  Extract corresponding quantity parameters
+   *
+   * @param {boolean} disableQuantityActions - Disable quantity actions
+   * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
+   */
+  extractQuantityParameters(
+    disableQuantityActions: boolean
+  ): ConfiguratorAttributeQuantityComponentOptions {
+    const initialQuantity: Quantity = {
+      quantity: this.productCardOptions?.product?.quantity,
+    };
+
     return {
-      allowZero: !this.productCardOptions.preventAction,
-      initialQuantity: this.productCardOptions.product.quantity,
+      allowZero: !this.productCardOptions?.preventAction,
+      initialQuantity: initialQuantity,
       disableQuantityActions: disableQuantityActions,
     };
   }

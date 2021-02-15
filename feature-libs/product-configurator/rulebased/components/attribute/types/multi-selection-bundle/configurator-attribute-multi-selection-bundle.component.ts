@@ -11,6 +11,12 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { BehaviorSubject } from 'rxjs';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
+import {
+  ConfiguratorAttributeQuantityComponentOptions,
+  Quantity,
+} from '../../quantity/configurator-attribute-quantity.component';
 
 interface SelectionValue {
   name: string;
@@ -41,7 +47,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
   }
 
   ngOnInit() {
-    this.multipleSelectionValues = this.attribute.values.map(
+    this.multipleSelectionValues = this.attribute?.values.map(
       ({ name, quantity, selected, valueCode }) => ({
         name,
         quantity,
@@ -51,7 +57,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     );
 
     if (
-      this.attribute.required &&
+      this.attribute?.required &&
       this.multipleSelectionValues.filter((value) => value.selected).length < 2
     ) {
       this.preventAction$.next(true);
@@ -185,21 +191,33 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     );
   }
 
-  extractPriceFormulaParameters() {
+  /**
+   * Extract corresponding price formula parameters
+   *
+   * @return {ConfiguratorPriceComponentOptions} - New price formula
+   */
+  extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
     return {
       quantity: 0,
       price: {
         value: 0,
       },
-      priceTotal: this.attribute.attributePriceTotal,
+      priceTotal: this.attribute?.attributePriceTotal,
       isLightedUp: true,
     };
   }
 
+  /**
+   * Extract corresponding product card parameters
+   *
+   * @param {boolean} preventAction - Prevent action
+   * @param {Configurator.Value} value - Value
+   * @return {ConfiguratorAttributeProductCardComponentOptions} - New product card options
+   */
   extractProductCardParameters(
     preventAction: boolean,
     value: Configurator.Value
-  ) {
+  ): ConfiguratorAttributeProductCardComponentOptions {
     return {
       preventAction: preventAction,
       product: value,
@@ -208,10 +226,22 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     };
   }
 
-  extractQuantityParameters(disableQuantityActions: boolean) {
+  /**
+   *  Extract corresponding quantity parameters
+   *
+   * @param {boolean} disableQuantityActions - Disable quantity actions
+   * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
+   */
+  extractQuantityParameters(
+    disableQuantityActions: boolean
+  ): ConfiguratorAttributeQuantityComponentOptions {
+    const initialQuantity: Quantity = {
+      quantity: this.attribute?.quantity,
+    };
+
     return {
-      allowZero: !this.attribute.required,
-      initialQuantity: this.attribute.quantity,
+      allowZero: !this.attribute?.required,
+      initialQuantity: initialQuantity,
       disableQuantityActions: disableQuantityActions,
     };
   }

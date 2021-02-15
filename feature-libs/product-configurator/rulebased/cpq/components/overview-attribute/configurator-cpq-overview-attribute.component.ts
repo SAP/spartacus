@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ImageGroup, Product, ProductService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { Configurator } from '../../../core/model/index';
+import { ConfiguratorPriceComponentOptions } from '../../../components/price/configurator-price.component';
 
 @Component({
   selector: 'cx-configurator-cpq-overview-attribute',
@@ -30,7 +31,12 @@ export class ConfiguratorCPQOverviewAttributeComponent implements OnInit {
     return product?.images?.PRIMARY;
   }
 
-  extractPriceFormulaParameters() {
+  /**
+   * Extract corresponding price formula parameters
+   *
+   * @return {ConfiguratorPriceComponentOptions} - New price formula
+   */
+  extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
     return {
       quantity: this.attributeOverview?.quantity,
       price: this.attributeOverview?.valuePrice,

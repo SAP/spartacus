@@ -43,15 +43,15 @@ export class ConfiguratorAttributeQuantityComponent
   constructor(protected config: ConfiguratorUISettings) {}
 
   ngOnInit() {
-    this.quantity.setValue(this.quantityOptions.initialQuantity);
+    this.quantity.setValue(this.quantityOptions?.initialQuantity);
 
-    if (this.quantityOptions.disableQuantityActions) {
+    if (this.quantityOptions?.disableQuantityActions) {
       this.quantity.disable();
     }
 
     const debounceQuantity = this.quantity.valueChanges.pipe(
       debounce(() =>
-        timer(this.config.rulebasedConfigurator.quantityDebounceTime)
+        timer(this.config?.rulebasedConfigurator?.quantityDebounceTime)
       )
     );
 
@@ -64,7 +64,7 @@ export class ConfiguratorAttributeQuantityComponent
 
   onChangeQuantity(): void {
     this.changeQuantity.emit({
-      quantity: this.quantity.value,
+      quantity: this.quantity?.value,
     });
   }
 }

@@ -11,6 +11,12 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { BehaviorSubject } from 'rxjs';
 import { ConfiguratorPriceService } from '../../../../core/facade/configurator-price.service';
+import {
+  ConfiguratorAttributeQuantityComponentOptions,
+  Quantity,
+} from '../../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
 
 @Component({
   selector: 'cx-configurator-attribute-single-selection-bundle',
@@ -35,14 +41,14 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
 
   get withQuantity() {
     return this.quantityService.withQuantity(
-      this.attribute.dataType,
-      this.attribute.uiType
+      this.attribute?.dataType,
+      this.attribute?.uiType
     );
   }
 
   get disableQuantityActions() {
     return this.quantityService.disableQuantityActions(
-      this.attribute.selectedSingleValue
+      this.attribute?.selectedSingleValue
     );
   }
 
@@ -107,7 +113,12 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
     return this.priceService.isPriceDataDefined(this.attribute);
   }
 
-  extractPriceFormulaParameters() {
+  /**
+   * Extract corresponding price formula parameters
+   *
+   * @return {ConfiguratorPriceComponentOptions} - New price formula
+   */
+  extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
     return {
       quantity: this.attribute?.quantity,
       price: this.getSelectedValuePrice(),
@@ -116,19 +127,39 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
     };
   }
 
-  extractProductCardParameters(value: Configurator.Value) {
+  /**
+   * Extract corresponding product card parameters
+   *
+   * @param {Configurator.Value} value - Value
+   * @return {ConfiguratorAttributeProductCardComponentOptions} - New product card options
+   */
+  extractProductCardParameters(
+    value: Configurator.Value
+  ): ConfiguratorAttributeProductCardComponentOptions {
     return {
-      preventAction: this.attribute.required,
+      preventAction: this.attribute?.required,
       product: value,
     };
   }
 
-  extractQuantityParameters(disableQuantityActions: boolean) {
-    return {
-      allowZero: !this.attribute.required,
-      initialQuantity: this.attribute.selectedSingleValue
+  /**
+   *  Extract corresponding quantity parameters
+   *
+   * @param {boolean} disableQuantityActions - Disable quantity actions
+   * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
+   */
+  extractQuantityParameters(
+    disableQuantityActions: boolean
+  ): ConfiguratorAttributeQuantityComponentOptions {
+    const initialQuantity: Quantity = {
+      quantity: this.attribute?.selectedSingleValue
         ? this.attribute.quantity
         : 0,
+    };
+
+    return {
+      allowZero: !this.attribute?.required,
+      initialQuantity: initialQuantity,
       disableQuantityActions: disableQuantityActions,
     };
   }

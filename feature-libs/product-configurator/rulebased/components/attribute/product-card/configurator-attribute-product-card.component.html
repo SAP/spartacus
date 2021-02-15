@@ -2,9 +2,7 @@
   <div
     class="cx-product-card"
     [ngClass]="{
-      'cx-product-card-selected':
-        productCardOptions.product.selected &&
-        !productCardOptions.singleDropdown
+      'cx-product-card-selected': isProductCardSelected()
     }"
   >
     <div class="cx-product-card-rows">
@@ -73,15 +71,15 @@
       <div class="cx-product-card-action">
         <div
           class="cx-product-card-action-btn"
-          *ngIf="!productCardOptions.singleDropdown"
+          *ngIf="!productCardOptions?.singleDropdown"
         >
-          <ng-container *ngIf="productCardOptions.multiSelect; else single">
+          <ng-container *ngIf="productCardOptions?.multiSelect; else single">
             <button
-              *ngIf="productCardOptions.product.selected; else select"
+              *ngIf="productCardOptions?.product?.selected; else select"
               class="btn btn-action"
               (click)="onHandleDeselect()"
               [disabled]="
-                productCardOptions.preventAction || (loading$ | async)
+                productCardOptions?.preventAction || (loading$ | async)
               "
             >
               {{ 'configurator.button.remove' | cxTranslate }}
@@ -101,14 +99,14 @@
               class="btn btn-primary"
               (click)="onHandleSelect()"
               [disabled]="loading$ | async"
-              *ngIf="!productCardOptions.product.selected; else deselect"
+              *ngIf="!productCardOptions?.product?.selected; else deselect"
             >
               {{ 'configurator.button.select' | cxTranslate }}
             </button>
 
             <ng-template #deselect>
               <button
-                *ngIf="!productCardOptions.preventAction"
+                *ngIf="!productCardOptions?.preventAction"
                 class="btn btn-action"
                 (click)="onHandleDeselect()"
                 [disabled]="loading$ | async"
