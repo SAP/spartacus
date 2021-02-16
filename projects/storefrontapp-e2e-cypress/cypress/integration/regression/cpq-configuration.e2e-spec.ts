@@ -307,21 +307,61 @@ context('CPQ Configuration', () => {
       configuration.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_CAM);
 
       configuration.selectProductCard(RADGRP, ATTR_CAM_BODY, VAL_CAM_BODY_D850);
+      configuration.checkPrice(
+        RADGRP_PROD,
+        '$1,500.00',
+        ATTR_CAM_BODY,
+        VAL_CAM_BODY_D850
+      );
+
+      configuration.checkPrice(
+        CHKBOX_PROD,
+        '1x($100.00) + $100.00',
+        ATTR_CAM_MC,
+        VAL_CAM_MC_128
+      );
       configuration.setQuantity(CHKBOX_PROD, 2, ATTR_CAM_MC, VAL_CAM_MC_128);
+      configuration.checkPrice(
+        CHKBOX_PROD,
+        '2x($100.00) + $200.00',
+        ATTR_CAM_MC,
+        VAL_CAM_MC_128
+      );
+
       configuration.selectProductCard(CHKBOX, ATTR_CAM_LEN, VAL_CAM_LEN_SI);
       configuration.selectProductCard(CHKBOX, ATTR_CAM_LEN, VAL_CAM_LEN_NI);
+      configuration.checkPrice(
+        CHKBOX_PROD,
+        '$800.00',
+        ATTR_CAM_LEN,
+        VAL_CAM_LEN_SI
+      );
+      configuration.checkPrice(
+        CHKBOX_PROD,
+        '$700.00',
+        ATTR_CAM_LEN,
+        VAL_CAM_LEN_NI
+      );
 
       configuration.clickOnNextBtn(GRP_CAM_ACC);
       configuration.deSelectProductCard(RADGRP, ATTR_CAM_BAG, VAL_CAM_BAG_LP);
 
       configuration.clickOnNextBtn(GRP_CAM_IAW);
       configuration.selectAttribute(ATTR_CAM_PROF, CHKBOX, VAL_CAM_PROF_Y);
+      //wait for this option to disappear
       configuration.checkAttrValueNotDisplayed(
         ATTR_CAM_INS,
         DDLB_PROD,
         VAL_CB_INS_Y2
-      ); //wait for this option to disappear
+      );
+
       configuration.selectProductCard(DDLB, ATTR_CAM_INS, VAL_CB_INS_P4);
+      configuration.checkPrice(
+        DDLB_PROD,
+        '$600.00',
+        ATTR_CAM_INS,
+        VAL_CB_INS_P4
+      );
       configuration.navigateToOverviewPage();
 
       configurationOverview.checkConfigOverviewPageDisplayed();
@@ -340,27 +380,27 @@ context('CPQ Configuration', () => {
           name: 'Camera Body',
           value: 'Nikon D850',
           type: 'product',
-          price: '599', // $599.00
+          price: '+ $1,500.00',
         },
         {
           name: 'Memory Card',
           value: 'SanDisk Extreme Pro',
           type: 'product',
-          price: '37.99', // 2 x $37.99 = $75.98
+          price: '2x($100.00) + $200.00',
         },
         {
           name: 'Lenses',
           value: 'Sigma 85mm F1.4 DG HS',
           type: 'product',
-          price: '999', // $999.00
+          price: '$800.00',
         },
-        { value: 'Nikon AF-P DX NIKKOR', type: 'product' },
+        { value: 'Nikon AF-P DX NIKKOR', type: 'product', price: '$700.00' },
         { name: 'professional photographer?', value: 'yes', type: 'simple' },
         {
           name: 'Insurance',
           value: 'Pro 4 years',
           type: 'product',
-          price: '69', // $69.00
+          price: '$600.00',
         },
       ];
       ovContent.forEach((line, idx) => {

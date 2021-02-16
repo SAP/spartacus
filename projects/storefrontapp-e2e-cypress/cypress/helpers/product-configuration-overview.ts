@@ -165,7 +165,9 @@ export function checkAttrDisplayed(
           attributeName
         );
       } else {
-        cy.get('.cpq-attribute-label, .cx-attribute-label').should('not.exist');
+        cy.get('.cpq-attribute-label span, .cx-attribute-label span').should(
+          'be.empty'
+        );
       }
       cy.get('.cpq-attribute-value, .cx-attribute-value').should(
         'contain.text',
