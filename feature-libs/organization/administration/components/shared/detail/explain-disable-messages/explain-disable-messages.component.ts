@@ -6,7 +6,7 @@ import { BaseItem } from '../../organization.model';
 import { B2BUnit } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-explain-disable-messages',
+  selector: 'cx-org-explain-disable-messages',
   templateUrl: './explain-disable-messages.component.html',
   host: { class: 'content-wrapper' },
 })
