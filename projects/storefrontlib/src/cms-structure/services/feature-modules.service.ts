@@ -179,8 +179,11 @@ export class FeatureModulesService implements OnDestroy {
 
           // extract cms components configuration from feature config
           for (const componentType of featureInstance.cmsComponents) {
-            featureInstance.componentsMappings[componentType] =
-              resolvedConfiguration.cmsComponents[componentType];
+            featureInstance.componentsMappings[
+              componentType
+            ] = resolvedConfiguration.hasOwnProperty('cmsComponents')
+              ? resolvedConfiguration.cmsComponents[componentType]
+              : {};
           }
           return featureInstance;
         })
