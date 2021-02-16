@@ -144,7 +144,6 @@ export function selectAccountShippingAddress() {
 export function selectAccountDeliveryMode(
   deliveryMode: string = POWERTOOLS_DEFAULT_DELIVERY_MODE
 ) {
-
   cy.server();
   cy.route(
     'PUT',
@@ -164,7 +163,9 @@ export function selectAccountDeliveryMode(
   cy.get('.cx-checkout-btns button.btn-primary').click();
 
   cy.wait('@putDeliveryMode').its('status').should('eq', 200);
-  cy.wait(`@${orderReview}`, { timeout: 30000 }).its('status').should('eq', 200);
+  cy.wait(`@${orderReview}`, { timeout: 30000 })
+    .its('status')
+    .should('eq', 200);
 }
 
 export function reviewB2bReviewOrderPage(
@@ -294,7 +295,9 @@ export function placeOrder(orderUrl: string) {
 
   cy.get('cx-place-order button.btn-primary').click();
   // temporary solution for very slow backend response while placing order
-  cy.wait(`@${orderConfirmationPage}`, { timeout: 60000 }).its('status').should('eq', 200);
+  cy.wait(`@${orderConfirmationPage}`, { timeout: 60000 })
+    .its('status')
+    .should('eq', 200);
 }
 
 export function reviewB2bOrderConfirmation(
