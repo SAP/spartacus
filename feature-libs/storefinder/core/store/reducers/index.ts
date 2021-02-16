@@ -8,7 +8,6 @@ import {
 import { InjectionToken, Provider } from '@angular/core';
 import { StoresState, STORE_FINDER_DATA } from '../store-finder-state';
 import { SiteContextActions, StateUtils } from '@spartacus/core';
-import { OrganizationState } from '@spartacus/organization/administration/core';
 import { StoreFinderActions } from '../actions';
 import { findStoresReducer } from './find-stores.reducer';
 import { viewAllStoresReducer } from './view-all-stores.reducer';
@@ -33,8 +32,8 @@ export const reducerProvider: Provider = {
 };
 
 export function clearStoreFinderState(
-  reducer: ActionReducer<OrganizationState, Action>
-): ActionReducer<OrganizationState, Action> {
+  reducer: ActionReducer<StoresState, Action>
+): ActionReducer<StoresState, Action> {
   return function (state, action) {
     if (action.type === SiteContextActions.LANGUAGE_CHANGE) {
       state = undefined;
