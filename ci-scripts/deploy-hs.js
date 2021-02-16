@@ -1,12 +1,16 @@
 #!/usr/bin/env node
 
+const crypto = require('crypto');
 const exec = require('child_process').exec;
-const process = exec(
-  'upp application deploy -b a0000000000000000000000000000001 -s ./dist/storefrontapp -e stage'
-);
 
-let exp = /https\:\/\/\w+\.cloudfront\.net/;
+//TODO get git branch suffix to generate the SHA
+const bundleId = crypto.createHmac('sha1', '10679').digest('hex').substring(0,32);
+const command = `upp application deploy -b ${bundleId} -s ./dist/storefrontapp -e stage`
+
+const exp = /https\:\/\/\w+\.cloudfront\.net/;
 let output = '';
+
+const process = exec(command);
 
 process.stdout.on('data', (data) => {
   line = data.toString();
@@ -20,8 +24,7 @@ process.stdout.on('data', (data) => {
 });
 
 process.on('close', (data) => {
-  console.log('Process done. Output ommitted for now --> ');
-  // console.log(output);
+    console.log('--> Process done. Output ommitted for now');
 });
 
 process.on('exit', (code) => {
