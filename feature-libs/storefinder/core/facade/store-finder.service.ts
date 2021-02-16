@@ -3,11 +3,7 @@ import { Action, select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { StoreFinderActions } from '../store/actions/index';
 import { StoreFinderSelectors } from '../store/selectors/index';
-import {
-  FindStoresState,
-  StateWithStoreFinder,
-  ViewAllStoresState,
-} from '../store/store-finder-state';
+import { StateWithStoreFinder } from '../store/store-finder-state';
 import {
   GeoPoint,
   GlobalMessageService,
@@ -17,7 +13,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { StoreEntities } from '../model';
-import { filter, withLatestFrom } from 'rxjs/operators';
+import { filter, map, withLatestFrom } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
@@ -77,8 +73,11 @@ export class StoreFinderService implements OnDestroy {
   /**
    * Returns observable for store's entities
    */
-  getFindStoresEntities(): Observable<FindStoresState> {
-    return this.store.pipe(select(StoreFinderSelectors.getFindStoresEntities));
+  getFindStoresEntities(): Observable<StoreEntities> {
+    return this.store.pipe(
+      select(StoreFinderSelectors.getFindStoresEntities),
+      map((data) => data.findStoresEntities)
+    );
   }
 
   /**
@@ -93,9 +92,10 @@ export class StoreFinderService implements OnDestroy {
   /**
    * Returns observable for view all store's entities
    */
-  getViewAllStoresEntities(): Observable<ViewAllStoresState> {
+  getViewAllStoresEntities(): Observable<StoreEntities> {
     return this.store.pipe(
-      select(StoreFinderSelectors.getViewAllStoresEntities)
+      select(StoreFinderSelectors.getViewAllStoresEntities),
+      map((data) => data.viewAllStoresEntities)
     );
   }
 
@@ -196,11 +196,7 @@ export class StoreFinderService implements OnDestroy {
     if (isPlatformBrowser(this.platformId) || !this.platformId) {
       this.subscription = this.getFindStoresEntities()
         .pipe(
-          filter(
-            (data) =>
-              this.isEmpty(data.findStoresEntities) &&
-              this.isEmpty(data.findStoreEntitiesById)
-          ),
+          filter((data) => this.isEmpty(data)),
           withLatestFrom(
             this.getStoresLoading(),
             this.getStoresLoaded(),

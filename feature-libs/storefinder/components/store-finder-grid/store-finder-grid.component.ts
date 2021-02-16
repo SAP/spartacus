@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { GeoPoint } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { StoreFinderService } from '@spartacus/storefinder/core';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-store-finder-grid',
@@ -24,9 +23,7 @@ export class StoreFinderGridComponent implements OnInit {
 
   ngOnInit() {
     this.isLoading$ = this.storeFinderService.getStoresLoading();
-    this.locations$ = this.storeFinderService
-      .getFindStoresEntities()
-      .pipe(map((data) => data.findStoresEntities));
+    this.locations$ = this.storeFinderService.getFindStoresEntities();
     this.defaultLocation = {};
     this.findStores();
   }

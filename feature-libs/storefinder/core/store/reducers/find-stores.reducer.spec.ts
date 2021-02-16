@@ -48,7 +48,7 @@ describe('Find Stores Reducer', () => {
       );
       const resultAction = new StoreFinderActions.FindStoreByIdSuccess(results);
       const state = fromReducers.findStoresReducer(loadingState, resultAction);
-      expect(state.findStoreEntitiesById).toEqual(results);
+      expect(state.findStoresEntities).toEqual(results);
     });
   });
 });

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { StoreFinderService } from '@spartacus/storefinder/core';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-store-finder-stores-count',
@@ -15,9 +14,7 @@ export class StoreFinderStoresCountComponent implements OnInit {
 
   ngOnInit() {
     this.storeFinderService.viewAllStores();
-    this.locations$ = this.storeFinderService
-      .getViewAllStoresEntities()
-      .pipe(map((data) => data.viewAllStoresEntities));
+    this.locations$ = this.storeFinderService.getViewAllStoresEntities();
 
     this.isLoading$ = this.storeFinderService.getViewAllStoresLoading();
   }

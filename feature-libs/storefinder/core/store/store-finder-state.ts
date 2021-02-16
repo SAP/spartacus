@@ -15,7 +15,6 @@ export interface StoresState {
 
 export interface FindStoresState {
   findStoresEntities: StoreEntities;
-  findStoreEntitiesById: StoreEntities;
 }
 
 export interface ViewAllStoresState {

@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { StoreFinderService } from '@spartacus/storefinder/core';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-store-finder-store',
@@ -27,9 +26,7 @@ export class StoreFinderStoreComponent implements OnInit {
   ngOnInit() {
     if (!this.location) {
       this.requestStoresData();
-      this.location$ = this.storeFinderService
-        .getFindStoresEntities()
-        .pipe(map((data) => data.findStoreEntitiesById));
+      this.location$ = this.storeFinderService.getFindStoresEntities();
       this.isLoading$ = this.storeFinderService.getStoresLoading();
     }
   }
