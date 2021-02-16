@@ -1,12 +1,10 @@
 <ng-container *ngIf="current$ | async as item">
-  <span #customMessage><ng-content></ng-content></span>
   <section
     *ngIf="
       isItemDisabled(item) ||
       isParentDisabled(item) ||
       isRootUnit(item) ||
-      disabled ||
-      !customMessage.innerHTML.trim()
+      forceDisplay
     "
   >
     <cx-icon [type]="iconTypes.INFO"></cx-icon>

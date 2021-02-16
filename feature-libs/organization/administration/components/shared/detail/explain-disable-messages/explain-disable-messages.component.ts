@@ -13,11 +13,6 @@ import { B2BUnit } from '@spartacus/core';
 export class ExplainDisableMessagesComponent<T extends BaseItem>
   implements OnInit {
   /**
-   * The disabled state is calculated but can be provided as well.
-   */
-  @Input() disabled: boolean;
-
-  /**
    * The localization of messages is based on the i18n root. Messages are
    * concatenated to the root, such as:
    *
@@ -36,9 +31,9 @@ export class ExplainDisableMessagesComponent<T extends BaseItem>
   };
 
   /**
-   * Flag to enable custom message(s), it will override all other messages
+   * Flag to enable display custom message(s) even if no condition has been met
    */
-  @Input() enableCustomMessage: boolean = false;
+  @Input() forceDisplay = false;
 
   /**
    * resolves the current item.
