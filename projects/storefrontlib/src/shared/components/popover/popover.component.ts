@@ -22,7 +22,7 @@ import { PositioningService } from './positioning.service';
 })
 export class PopoverComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
-   * Template or string to be rendered inside popover wrapper component.
+   * String or template to be rendered inside popover wrapper component.
    */
   @Input() content: string | TemplateRef<any>;
 

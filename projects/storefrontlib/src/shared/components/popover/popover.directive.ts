@@ -34,7 +34,7 @@ export class PopoverDirective implements OnInit {
   /**
    * The preferred placement of the popover. Default popover position is 'auto'.
    */
-  @Input() placement?: PopoverPosition = PopoverPosition.AUTO;
+  @Input() placement?: PopoverPosition;
 
   /**
    * Flag used to prevent firing popover open function.

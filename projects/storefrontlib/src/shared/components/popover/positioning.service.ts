@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
+import { PopoverPosition, PopoverPositionArray } from './popover.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PositioningService {
-  protected get allowedPlacements(): Array<Placement> {
+  protected get allowedPlacements(): Array<PopoverPositionArray> {
     return [
       'top',
       'bottom',
@@ -237,7 +238,7 @@ export class PositioningService {
   }
 
   protected addClassesToTarget(
-    targetPlacement: Placement,
+    targetPlacement: PopoverPosition,
     baseClass,
     classList
   ): Array<string> {
@@ -269,13 +270,13 @@ export class PositioningService {
   positionElements(
     hostElement: HTMLElement,
     targetElement: HTMLElement,
-    placement: string | Placement | PlacementArray,
+    placement: string | PopoverPosition | PopoverPositionArray,
     appendToBody?: boolean,
     baseClass?: string
-  ): Placement | null {
-    let placementVals: Array<Placement> = Array.isArray(placement)
+  ): PopoverPosition | null {
+    let placementVals: Array<PopoverPosition> = Array.isArray(placement)
       ? placement
-      : (placement.split(this.placementSeparator) as Array<Placement>);
+      : (placement.split(this.placementSeparator) as Array<PopoverPosition>);
 
     const classList = targetElement.classList;
 
@@ -291,7 +292,7 @@ export class PositioningService {
     if (hasAuto >= 0) {
       this.allowedPlacements.forEach(function (obj) {
         if (placementVals.find((val) => val.search('^' + obj) !== -1) == null) {
-          placementVals.splice(hasAuto++, 1, obj as Placement);
+          placementVals.splice(hasAuto++, 1, obj as PopoverPosition);
         }
       });
     }
@@ -305,7 +306,7 @@ export class PositioningService {
     style.left = '0';
     style['will-change'] = 'transform';
 
-    let testPlacement: Placement | null = null;
+    let testPlacement: PopoverPosition | null = null;
     let isInViewport = false;
     for (testPlacement of placementVals) {
       let addedClasses = this.addClassesToTarget(
@@ -349,20 +350,3 @@ export class PositioningService {
     return testPlacement;
   }
 }
-
-export type Placement =
-  | 'auto'
-  | 'top'
-  | 'bottom'
-  | 'left'
-  | 'right'
-  | 'top-left'
-  | 'top-right'
-  | 'bottom-left'
-  | 'bottom-right'
-  | 'left-top'
-  | 'left-bottom'
-  | 'right-top'
-  | 'right-bottom';
-
-export type PlacementArray = Placement | Array<Placement> | string;
