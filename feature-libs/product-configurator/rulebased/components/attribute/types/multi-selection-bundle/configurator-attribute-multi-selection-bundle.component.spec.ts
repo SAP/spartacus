@@ -12,6 +12,22 @@ import { ConfiguratorAttributeProductCardComponent } from '../../product-card/co
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurator-attribute-multi-selection-bundle.component';
 
+let testAttribute: Configurator.Attribute;
+
+const createTestValue = (
+  price: number,
+  total: number,
+  selected = true
+): Configurator.Value => ({
+  selected,
+  valuePrice: {
+    value: price,
+  },
+  valuePriceTotal: {
+    value: total,
+  },
+});
+
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   template: '',
@@ -346,6 +362,55 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
     component.onChangeAttributeQuantity(quantity);
 
     expect(component.onDeselectAll).toHaveBeenCalled();
+  });
+
+  describe('isAnyValueSelected()', () => {
+    it('should be true if one selected', () => {
+      testAttribute = {
+        name: 'testAttribute',
+        values: [createTestValue(100, 300)],
+      };
+
+      const isSelected = component.isAnyValueSelected(testAttribute);
+
+      expect(isSelected).toBeTrue();
+    });
+
+    it('should be true if many selected', () => {
+      testAttribute = {
+        name: 'testAttribute',
+        values: [createTestValue(100, 300), createTestValue(200, 800)],
+      };
+
+      const isSelected = component.isAnyValueSelected(testAttribute);
+
+      expect(isSelected).toBeTrue();
+    });
+
+    it('should be false if no values', () => {
+      testAttribute = {
+        name: 'testAttribute',
+        values: [],
+      };
+
+      const isSelected = component.isAnyValueSelected(testAttribute);
+
+      expect(isSelected).toBeFalse();
+    });
+
+    it('should be false if nothing selected', () => {
+      testAttribute = {
+        name: 'testAttribute',
+        values: [
+          createTestValue(100, 300, false),
+          createTestValue(200, 800, false),
+        ],
+      };
+
+      const isSelected = component.isAnyValueSelected(testAttribute);
+
+      expect(isSelected).toBeFalse();
+    });
   });
 
   describe('quantity at attribute level', () => {

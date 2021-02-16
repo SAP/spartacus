@@ -187,6 +187,12 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     }
   }
 
+  isAnyValueSelected(attribute: Configurator.Attribute): boolean | undefined {
+    return attribute?.values?.some(
+      (value: Configurator.Value) => value?.selected
+    );
+  }
+
   /**
    * Extract corresponding price formula parameters
    *

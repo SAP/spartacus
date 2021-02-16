@@ -25,6 +25,7 @@ import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-
 })
 export class ConfiguratorAttributeSingleSelectionBundleComponent extends ConfiguratorAttributeBaseComponent {
   loading$ = new BehaviorSubject<boolean>(false);
+  preventAction$ = new BehaviorSubject<boolean>(false);
 
   @Input() attribute: Configurator.Attribute;
   @Input() ownerKey: string;
