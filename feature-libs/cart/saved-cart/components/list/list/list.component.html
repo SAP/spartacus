@@ -1,0 +1,130 @@
+<ng-container>
+  <div class="container">
+    <!-- HEADER -->
+    <div class="cx-saved-cart-list-header">
+      <h3>
+        {{ 'savedCartList.savedCarts' | cxTranslate: { count: '?' } }}
+      </h3>
+    </div>
+
+    <!-- BODY -->
+    <div class="cx-saved-cart-list-body">
+      <!-- TO DO -->
+      <ng-container *ngIf="true; else noSavedCarts">
+        <!-- Select Form and Pagination Top -->
+        <div class="cx-saved-cart-list-sort top row">
+          <div
+            class="cx-saved-cart-list-form-group form-group col-sm-12 col-md-4 col-lg-4"
+          >
+            <cx-sorting
+              [sortOptions]="type.orderHistory.sorts"
+              [sortLabels]="getSortLabels() | async"
+              (sortListEvent)="changeSortCode($event)"
+              [selectedOption]="type.orderHistory.pagination.sort"
+              placeholder="{{
+                'savedCartList.sortByModifiedDate' | cxTranslate
+              }}"
+            ></cx-sorting>
+          </div>
+
+          <div
+            *ngIf="type.orderHistory.pagination.totalPages > 1"
+            class="cx-saved-cart-list-pagination"
+          >
+            <cx-pagination
+              [pagination]="type.orderHistory.pagination"
+              (viewPageEvent)="pageChange($event)"
+            ></cx-pagination>
+          </div>
+        </div>
+
+        <!-- TABLE -->
+        <table class="table cx-saved-cart-list-table">
+          <thead class="cx-saved-cart-list-thead-mobile">
+            <th scope="col">
+              {{ 'savedCartList.name' | cxTranslate }}
+            </th>
+            <th scope="col">{{ 'savedCartList.id' | cxTranslate }}</th>
+            <th scope="col">
+              {{ 'savedCartList.savedDate' | cxTranslate }}
+            </th>
+            <th scope="col">{{ 'savedCartList.description' | cxTranslate }}</th>
+            <th scope="col">{{ 'savedCartList.quantity' | cxTranslate }}</th>
+            <th scope="col">{{ 'savedCartList.total' | cxTranslate }}</th>
+            <th scope="col">{{ 'savedCartList.actions' | cxTranslate }}</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cart of savedCarts">
+              <td class="cx-saved-cart-list-name">
+                <div class="d-md-none cx-saved-cart-list-label">
+                  {{ 'savedCartList.name' | cxTranslate }}
+                </div>
+                <p class="cx-saved-cart-list-value">
+                  {{ cart?.name }}
+                </p>
+              </td>
+              <td class="cx-saved-cart-list-id">
+                <div class="d-md-none cx-saved-cart-list-label">
+                  {{ 'savedCartList.id' | cxTranslate }}
+                </div>
+                <p class="cx-saved-cart-list-value">{{ order?.id }}</p>
+              </td>
+              <td class="cx-saved-cart-list-date">
+                <div class="d-md-none cx-saved-cart-list-label">
+                  {{ 'savedCartList.savedDate' | cxTranslate }}
+                </div>
+                <p class="cx-saved-cart-list-value">
+                  {{ cart?.savedDate | cxDate: 'longDate' }}
+                </p>
+              </td>
+              <td class="cx-saved-cart-list-description">
+                <div class="d-md-none cx-saved-cart-list-label">
+                  {{ 'savedCartList.description' | cxTranslate }}
+                </div>
+                <p class="cx-saved-cart-list-value">
+                  {{ cart?.description }}
+                </p>
+              </td>
+              <td class="cx-saved-cart-list-quantity">
+                <div class="d-md-none cx-saved-cart-list-label">
+                  {{ 'savedCartList.quantity' | cxTranslate }}
+                </div>
+                <p class="cx-saved-cart-list-value">
+                  {{ cart?.quantity }}
+                </p>
+              </td>
+              <td class="cx-saved-cart-list-total">
+                <div class="d-md-none cx-saved-cart-list-label">
+                  {{ 'savedCartList.total' | cxTranslate }}
+                </div>
+                <p class="cx-saved-cart-list-value">
+                  {{ cart?.total }}
+                </p>
+              </td>
+              <td class="cx-saved-cart-list-actions">
+                <div class="d-md-none cx-saved-cart-list-label">
+                  {{ 'savedCartList.actions' | cxTranslate }}
+                </div>
+                <a>
+                  {{ 'savedCartList.makeCartActive' | cxTranslate }}
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-container>
+
+      <!-- NO SAVED CARTS CONTAINER -->
+      <ng-template #noSavedCarts>
+        <div
+          *ngIf="isLoaded$ | async"
+          class="cx-saved-cart-list-no-saved-carts row"
+        >
+          <div class="col-sm-12 col-md-6 col-lg-4">
+            <div>{{ 'savedCartList.notFound' | cxTranslate }}</div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</ng-container>
