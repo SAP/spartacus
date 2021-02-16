@@ -692,29 +692,29 @@ export interface OccEndpoints {
    */
   b2bUserPermission?: string | OccEndpoint;
   /**
-   * Start a cart bundle with a given identifier
+   * Starts a bundle once the productCode, its quantity, and a bundle templateId is provided. A successful result returns a CartModification response.
    *
    * @member {string} [cart]
    */
-  startBundle?: string | OccEndpoint;
+  bundleStart?: string | OccEndpoint;
   /**
-   * View a cart's bundles with a given identifier
-   *
-   * @member {string} [cart]
-   */
-  viewBundles?: string | OccEndpoint;
-  /**
-   * Modify a cart bundle a cart bundle with a given identifier
-   *
-   * @member {string} [cart]
-   */
-  editBundle?: string | OccEndpoint;
-  /**
-   * Search for allowed products for a given entryGroup
+   * Returns products and additional data based on the entry group and search query provided. Examples include available facets, available sorting, and pagination options. It can also include spelling suggestions. To disable spelling suggestions “enableSpellCheck” must be set to “FALSE” on the SearchQuery. Default is set to "TRUE". The configuration of indexed properties is required for spellchecking. Any of the products returned can be added to the specific entry group (bundle).
    *
    * @member {string} [cart]
    */
   bundleAllowedProductsSearch?: string | OccEndpoint;
+  /**
+   * Adds a product to a cart entry group.
+   *
+   * @member {string} [cart]
+   */
+  bundleAddEntry?: string | OccEndpoint;
+  /**
+   * Removes an entry group from an associated cart. The entry group is identified by an entryGroupNumber. The cart is identified by the cartId.
+   *
+   * @member {string} [cart]
+   */
+  bundleDelete?: string | OccEndpoint;
   /**
    * Endpoint for order approvals
    *

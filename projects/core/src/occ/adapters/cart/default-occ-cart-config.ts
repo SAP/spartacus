@@ -18,13 +18,13 @@ export const defaultOccCartConfig: OccConfig = {
         deleteCart: 'users/${userId}/carts/${cartId}',
         cartVoucher: 'users/${userId}/carts/${cartId}/vouchers',
         saveCart: 'users/${userId}/carts/${cartId}/save',
-        startBundle: 'users/${userId}/carts/${cartId}/bundles?fields=DEFAULT',
-        viewBundles:
-          'users/${userId}/carts/${cartId}?fields=entryGroups(entries,DEFAULT)',
-        editBundle:
-          'users/${userId}/carts/${cartId}/entrygroups/${entryGroupNumber}',
+        bundleStart: 'users/${userId}/carts/${cartId}/bundles?fields=DEFAULT',
         bundleAllowedProductsSearch:
           'users/${userId}/carts/${cartId}/entrygroups/${entryGroupId}/allowedProductsSearch',
+        bundleAddEntry:
+          'users/${userId}/carts/${cartId}/entrygroups/${entryGroupNumber}',
+        bundleDelete:
+          'users/${userId}/carts/${cartId}/entrygroups/${entryGroupNumber}',
         // TODO: startCheckout: ''
         // tslint:enable
       },

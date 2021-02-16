@@ -1,4 +1,5 @@
-import { Product } from 'projects/core/src/model/product.model';
+import { Product } from '../../../model/product.model';
+import { SearchConfig } from 'projects/core/src/product/model/search-config';
 import { Observable } from 'rxjs';
 import { CartModification } from '../../../model/cart.model';
 
@@ -10,7 +11,7 @@ export abstract class CartBundleAdapter {
    * User identifier or one of the literals : ‘current’ for currently authenticated user, ‘anonymous’ for anonymous user.
    *
    * @param cartId
-   * Cart identifier: cart code for logged in user, cart guid for anonymous user, ‘current’ for the last modified cart.
+   * Cart code for logged in user, cart guid for anonymous user, ‘current’ for the last modified cart.
    *
    * @param productCode
    * Product code.
@@ -21,7 +22,7 @@ export abstract class CartBundleAdapter {
    * @param templateId
    * Id of a template to create a bundle.
    */
-  abstract start(
+  abstract bundleStart(
     userId: string,
     cartId: string,
     productCode: string,
@@ -30,22 +31,46 @@ export abstract class CartBundleAdapter {
   ): Observable<CartModification>;
 
   /**
-   * Abstract method used to add entry to cart
+   * Returns products and additional data based on the entry group and search query provided.
    *
    * @param userId
+   * User identifier or one of the literals : ‘current’ for currently authenticated user, ‘anonymous’ for anonymous user.
+   *
    * @param cartId
+   * Cart code for logged in user, cart guid for anonymous user, ‘current’ for the last modified cart
+   *
+   * @param entryGroupNumber
+   * Each entry group in a cart has a specific entry group number. Entry group numbers are integers starting at one. They are defined in ascending order.
+   *
+   * @param searchConfig
+   * Options for search.
    */
-  abstract getAll(userId: string, cartId: string): Observable<CartModification>;
+  abstract bundleAllowedProductsSearch(
+    userId: string,
+    cartId: string,
+    entryGroupNumber: number,
+    searchConfig?: SearchConfig
+  ): Observable<CartModification>;
 
   /**
-   * Abstract method used to update entry in cart
+   * Adds a product to a cart entry group.
+   *
    * @param userId
+   * User identifier or one of the literals : ‘current’ for currently authenticated user, ‘anonymous’ for anonymous user.
+   *
    * @param cartId
+   * Cart code for logged in user, cart guid for anonymous user, ‘current’ for the last modified cart
+   *
    * @param entryGroupNumber
-   * @param product
+   * Each entry group in a cart has a specific entry group number. Entry group numbers are integers starting at one. They are defined in ascending order.
+   *
+   * @param productCode
+   * Product code.
+   *
    * @param quantity
+   * Quantity of the product added to cart.
    */
-  abstract update(
+  abstract bundleAddEntry(
     userId: string,
     cartId: string,
     entryGroupNumber: number,
@@ -54,28 +79,20 @@ export abstract class CartBundleAdapter {
   ): Observable<CartModification>;
 
   /**
-   * Abstract method used to remove entry from cart
+   * Removes an entry group from an associated cart. The entry group is identified by an entryGroupNumber. The cart is identified by the cartId.
    *
    * @param userId
+   * User identifier or one of the literals : ‘current’ for currently authenticated user, ‘anonymous’ for anonymous user.
+   *
    * @param cartId
-   * @param entryGroupId
+   * Cart code for logged in user, cart guid for anonymous user, ‘current’ for the last modified cart
+   *
+   * @param entryGroupNumber
+   * Each entry group in a cart has a specific entry group number. Entry group numbers are integers starting at one. They are defined in ascending order.
    */
-  abstract remove(
+  abstract bundleDelete(
     userId: string,
     cartId: string,
     entryGroupNumber: number
-  ): Observable<any>;
-
-  /**
-   * Abstract method used to get allowed products in entryGroup
-   *
-   * @param userId
-   * @param cartId
-   * @param entryGroupId
-   */
-  abstract getBundleAllowedProducts(
-    userId: string,
-    cartId: string,
-    entryGroupId: number
   ): Observable<any>;
 }
