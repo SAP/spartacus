@@ -180,7 +180,7 @@ export function clickOnEditConfigurationLink(cartItemIndex: number): void {
  * Verifies whether the corresponding value ID is focused.
  *
  * @param {string} attributeName - Attribute name
- * @param {string} uiType - UI type
+ * @param {uiType} uiType - UI type
  * @param {string} valueName - Value name
  */
 export function checkFocus(
@@ -345,7 +345,7 @@ export function checkStatusIconDisplayed(
  * Verifies whether the attribute is displayed.
  *
  * @param {string} attributeName - Attribute name
- * @param {string} uiType - UI type
+ * @param {uiType} uiType - UI type
  */
 export function checkAttributeDisplayed(
   attributeName: string,
@@ -374,7 +374,7 @@ export function checkAttributeHeaderDisplayed(
  * Verifies whether the attribute is not displayed.
  *
  * @param {string} attributeName - Attribute name
- * @param {string} uiType - UI type
+ * @param {uiType} uiType - UI type
  */
 export function checkAttributeNotDisplayed(
   attributeName: string,
@@ -388,7 +388,7 @@ export function checkAttributeNotDisplayed(
  * Verifies whether the attribute value is displayed.
  *
  * @param {string} attributeName - Attribute name
- * @param {string} uiType - UI type
+ * @param {uiType} uiType - UI type
  * @param {string} valueName - Value name
  */
 export function checkAttrValueDisplayed(
@@ -410,7 +410,7 @@ export function checkAttrValueDisplayed(
  * Verifies whether the attribute value is not displayed.
  *
  * @param {string} attributeName - Attribute name
- * @param {string} uiType - UI type
+ * @param {uiType} uiType - UI type
  * @param {string} valueName - Value name
  */
 export function checkAttrValueNotDisplayed(
@@ -432,7 +432,7 @@ export function checkAttrValueNotDisplayed(
  * Retrieves attribute ID.
  *
  * @param {string} attributeName - Attribute name
- * @param {string} uiType - UI type
+ * @param {uiType} uiType - UI type
  * @return {string} - Attribute ID
  */
 export function getAttributeId(attributeName: string, uiType: uiType): string {
@@ -504,7 +504,7 @@ export function deSelectProductCard(
  * Selects a corresponding attribute value.
  *
  * @param {string} attributeName - Attribute name
- * @param {string} uiType - UI type
+ * @param {uiType} uiType - UI type
  * @param {string} valueName - Value name
  * @param {string} value - Value
  */
@@ -562,7 +562,7 @@ export function selectAttribute(
 /**
  * Selects a corresponding attribute value.
  *
- * @param {string} uiType - UI type
+ * @param {uiType} uiType - UI type
  * @param {number} quantity - quantity
  * @param {string} attributeName - attribute name
  * @param {string} valueName - value name
@@ -587,7 +587,7 @@ export function setQuantity(
 /**
  * Selects a corresponding attribute value.
  *
- * @param {string} uiType - UI type
+ * @param {uiType} uiType - UI type
  * @param {string} priceFormula - quantity
  * @param {string} attributeName - attribute name
  * @param {string} valueName - value name
@@ -613,7 +613,7 @@ export function checkPrice(
  * Verifies whether the image value is selected.
  *
  * @param {string} attributeName - Attribute name
- * @param {string} uiType - UI type
+ * @param {uiType} uiType - UI type
  * @param {string} valueName - Value name
  */
 export function checkImageSelected(
@@ -630,7 +630,7 @@ export function checkImageSelected(
 /**
  * Verifies whether the image value is not selected.
  *
- * @param {string} uiType - UI type
+ * @param {uiType} uiType - UI type
  * @param {string} attributeName - Attribute name
  * @param {string} valueName - Value name
  */
@@ -647,7 +647,7 @@ export function checkImageNotSelected(
 /**
  * Verifies whether a corresponding UI type is selected.
  *
- * @param {string} uiType - UI type
+ * @param {uiType} uiType - UI type
  * @param {string} attributeName - Attribute name
  * @param {string} valueName - Value name
  */
@@ -682,7 +682,7 @@ export function checkValueSelected(
 /**
  * Verifies whether a corresponding UI type not selected.
  *
- * param {string} uiType - UI type
+ * @param {uiType} uiType - UI type
  * @param {string} attributeName - Attribute name
  * @param {string} valueName - Value name
  */
@@ -772,7 +772,7 @@ function verifyNumberOfConflicts(numberOfConflicts: number): void {
  * Finally verifies whether the expected number of conflicts is accurate.
  *
  * @param {string} attributeName - Attribute name
- * @param {string} uiType - UI type
+ * @param {uiType} uiType - UI type
  * @param {string} valueName - Value name
  * @param {number} numberOfConflicts - Expected number of conflicts
  */
@@ -794,7 +794,7 @@ export function selectConflictingValue(
  * the conflict header group in the group menu is not displayed either.
  *
  * @param {string} attributeName - Attribute name
- * @param {string} uiType - UI type
+ * @param {uiType} uiType - UI type
  * @param {string} valueName - Value name
  */
 export function deselectConflictingValue(
