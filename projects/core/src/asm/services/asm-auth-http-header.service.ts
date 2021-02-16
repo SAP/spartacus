@@ -93,7 +93,7 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
    * On backend errors indicating expired `refresh_token` we need to logout
    * currently logged in user and CS agent.
    */
-  public handleExpiredRefreshToken(): void {
+  public handleExpiredRefreshToken(redirectToLogin = true): void {
     this.csAgentAuthService
       .isCustomerSupportAgentLoggedIn()
       .pipe(take(1))
@@ -107,7 +107,7 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
             GlobalMessageType.MSG_TYPE_ERROR
           );
         } else {
-          super.handleExpiredRefreshToken();
+          super.handleExpiredRefreshToken(redirectToLogin);
         }
       });
   }

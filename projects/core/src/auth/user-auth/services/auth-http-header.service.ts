@@ -1,10 +1,11 @@
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { filter, switchMap, take, tap } from 'rxjs/operators';
+import { EMPTY, Observable } from 'rxjs';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
+import { InterceptorUtil } from '../../../occ/utils/interceptor-util';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
 import { AuthToken } from '../models/auth-token.model';
@@ -54,6 +55,10 @@ export class AuthHttpHeaderService {
     return url.includes(this.occEndpoints.getBaseEndpoint());
   }
 
+  protected isCMSUrl(url: string): boolean {
+    return url.includes(this.occEndpoints.getBaseEndpoint() + '/cms/');
+  }
+
   protected getAuthorizationHeader(request: HttpRequest<any>): string {
     const rawValue = request.headers.get('Authorization');
     return rawValue;
@@ -80,10 +85,15 @@ export class AuthHttpHeaderService {
   public handleExpiredAccessToken(
     request: HttpRequest<any>,
     next: HttpHandler
-  ): Observable<HttpEvent<AuthToken>> {
-    return this.handleExpiredToken().pipe(
+  ): Observable<HttpEvent<AuthToken> | never> {
+    const isCMSRequest = this.isCMSUrl(request.urlWithParams);
+    return this.handleExpiredToken(!isCMSRequest).pipe(
       switchMap((token: AuthToken) => {
-        return next.handle(this.createNewRequestWithNewToken(request, token));
+        const req = this.createNewRequestWithNewToken(request, token);
+        if (req) {
+          return next.handle(req);
+        }
+        return EMPTY;
       })
     );
   }
@@ -91,11 +101,13 @@ export class AuthHttpHeaderService {
   /**
    * Logout user, redirected to login page and informs about expired session.
    */
-  public handleExpiredRefreshToken(): void {
+  public handleExpiredRefreshToken(redirectToLogin = true): void {
     // Logout user
     // TODO(#9638): Use logout route when it will support passing redirect url
     this.authService.coreLogout();
-    this.routingService.go({ cxRoute: 'login' });
+    if (redirectToLogin) {
+      this.routingService.go({ cxRoute: 'login' });
+    }
     this.globalMessageService.add(
       {
         key: 'httpHandlers.sessionExpired',
@@ -110,7 +122,9 @@ export class AuthHttpHeaderService {
    *
    * @return observable which omits new access_token. (Warn: might never emit!).
    */
-  protected handleExpiredToken(): Observable<AuthToken> {
+  protected handleExpiredToken(
+    redirectToLogin = true
+  ): Observable<AuthToken | undefined> {
     const stream = this.authStorageService.getToken();
     let oldToken: AuthToken;
     return stream.pipe(
@@ -118,26 +132,35 @@ export class AuthHttpHeaderService {
         if (token.access_token && token.refresh_token && !oldToken) {
           this.oAuthLibWrapperService.refreshToken();
         } else if (!token.refresh_token) {
-          this.handleExpiredRefreshToken();
+          this.handleExpiredRefreshToken(redirectToLogin);
         }
         oldToken = oldToken || token;
       }),
       filter(
         (token: AuthToken) => oldToken.access_token !== token.access_token
       ),
+      map((token: AuthToken) => (token.access_token ? token : undefined)),
       take(1)
     );
   }
 
   protected createNewRequestWithNewToken(
     request: HttpRequest<any>,
-    token: AuthToken
-  ): HttpRequest<any> {
-    request = request.clone({
-      setHeaders: {
-        Authorization: `${token.token_type || 'Bearer'} ${token.access_token}`,
-      },
-    });
-    return request;
+    token: AuthToken | undefined
+  ): HttpRequest<any> | void {
+    if (token) {
+      request = request.clone({
+        setHeaders: {
+          Authorization: `${token.token_type || 'Bearer'} ${
+            token.access_token
+          }`,
+        },
+      });
+      return request;
+    } else if (this.isCMSUrl(request.urlWithParams)) {
+      // Only for CMS requests we can repeat it without an access_token
+      request = InterceptorUtil.removeHeader('Authorization', request);
+      return request;
+    }
   }
 }

@@ -149,6 +149,36 @@ describe('AuthHttpHeaderService', () => {
         });
     });
 
+    it('should invoke expired refresh token handler without redirect and retry the call without token for cms requests', (done) => {
+      const token = new BehaviorSubject({
+        access_token: `old_token`,
+      } as AuthToken);
+      const handler = (a) => of(a);
+      spyOn(authService, 'coreLogout').and.callFake(() => {
+        token.next({} as AuthToken);
+        return Promise.resolve();
+      });
+      spyOn(authStorageService, 'getToken').and.returnValue(
+        token.asObservable().pipe(observeOn(queueScheduler))
+      );
+      spyOn(service, 'handleExpiredRefreshToken').and.callThrough();
+      spyOn(oAuthLibWrapperService, 'refreshToken').and.callThrough();
+      service
+        .handleExpiredAccessToken(
+          new HttpRequest('GET', 'some-server/occ/cms/page'),
+          { handle: handler } as HttpHandler
+        )
+        .pipe(take(1))
+        .subscribe((res: any) => {
+          expect(res.headers.has('Authorization')).toBeFalse();
+          expect(res.url).toEqual('some-server/occ/cms/page');
+          expect(res.method).toEqual('GET');
+          expect(oAuthLibWrapperService.refreshToken).not.toHaveBeenCalled();
+          expect(service.handleExpiredRefreshToken).toHaveBeenCalledWith(false);
+          done();
+        });
+    });
+
     it('should invoke expired refresh token handler when there is no refresh token', () => {
       const handler = (a) => of(a);
       spyOn(oAuthLibWrapperService, 'refreshToken').and.callThrough();
@@ -186,6 +216,14 @@ describe('AuthHttpHeaderService', () => {
         },
         GlobalMessageType.MSG_TYPE_ERROR
       );
+    });
+
+    it('should not redirect when redirectToLogin is false', () => {
+      spyOn(routingService, 'go').and.callThrough();
+
+      service.handleExpiredRefreshToken(false);
+
+      expect(routingService.go).not.toHaveBeenCalled();
     });
   });
 });

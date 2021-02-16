@@ -155,6 +155,16 @@ describe('AsmAuthHttpHeaderService', () => {
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
     });
 
+    it('should pass the redirectToLogin parameter to super function', () => {
+      spyOn(authService, 'coreLogout').and.callThrough();
+      spyOn(routingService, 'go').and.callThrough();
+
+      service.handleExpiredRefreshToken(false);
+
+      expect(authService.coreLogout).toHaveBeenCalled();
+      expect(routingService.go).not.toHaveBeenCalledWith();
+    });
+
     it('should logoutCustomerSupportAgent when cs agent is logged in', () => {
       spyOn(authService, 'coreLogout').and.callThrough();
       spyOn(
