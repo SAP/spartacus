@@ -7,7 +7,10 @@ import {
   ConfiguratorUISettings,
   DefaultConfiguratorUISettings,
 } from '../../config/configurator-ui-settings';
-import { ConfiguratorAttributeQuantityComponent } from './configurator-attribute-quantity.component';
+import {
+  ConfiguratorAttributeQuantityComponent,
+  Quantity,
+} from './configurator-attribute-quantity.component';
 
 describe(' ConfiguratorAttributeQuantityComponent', () => {
   let component: ConfiguratorAttributeQuantityComponent;
@@ -41,9 +44,15 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
     fixture = TestBed.createComponent(ConfiguratorAttributeQuantityComponent);
 
     component = fixture.componentInstance;
-    component.initialQuantity = { quantity: 1 };
     component.quantity = new FormControl(1);
-    component.disableQuantityActions = false;
+    const initialQuantity: Quantity = {
+      quantity: 1,
+    };
+    component.quantityOptions = {
+      allowZero: true,
+      initialQuantity: initialQuantity,
+      disableQuantityActions: false,
+    };
 
     spyOn(component.changeQuantity, 'emit').and.callThrough();
     fixture.detectChanges();
