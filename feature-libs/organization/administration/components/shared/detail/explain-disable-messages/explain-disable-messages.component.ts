@@ -23,7 +23,7 @@ export class ExplainDisableMessagesComponent<T extends BaseItem>
   /**
    * To configure the messages to display and override defaultMessageConfig
    */
-  @Input() displayMessage: {
+  @Input() displayMessageConfig: {
     disabledCreate?: boolean;
     disabledEdit?: boolean;
     disabledEnable?: boolean;
@@ -44,9 +44,9 @@ export class ExplainDisableMessagesComponent<T extends BaseItem>
   iconTypes = ICON_TYPE;
 
   ngOnInit() {
-    this.displayMessage = {
+    this.displayMessageConfig = {
       ...this.defaultMessageConfig,
-      ...this.displayMessage,
+      ...this.displayMessageConfig,
     };
   }
 
@@ -56,7 +56,7 @@ export class ExplainDisableMessagesComponent<T extends BaseItem>
 
   isParentDisabled(item: T): boolean {
     return (
-      this.displayMessage.disabledEnable &&
+      this.displayMessageConfig.disabledEnable &&
       !(item.orgUnit || (item as any).unit || (item as any).parentOrgUnit)
         ?.active &&
       !this.isRootUnit(item)
@@ -65,7 +65,7 @@ export class ExplainDisableMessagesComponent<T extends BaseItem>
 
   isRootUnit(item: B2BUnit): boolean {
     return (
-      this.displayMessage.disabledDisable &&
+      this.displayMessageConfig.disabledDisable &&
       item?.uid &&
       item?.name &&
       !(item as any)?.orgUnit &&

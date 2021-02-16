@@ -9,10 +9,10 @@
   >
     <cx-icon [type]="iconTypes.INFO"></cx-icon>
     <ul>
-      <li *ngIf="isItemDisabled(item) && displayMessage?.disabledCreate">
+      <li *ngIf="isItemDisabled(item) && displayMessageConfig?.disabledCreate">
         {{ i18nRoot + '.messages.disabledCreate' | cxTranslate }}
       </li>
-      <li *ngIf="isItemDisabled(item) && displayMessage?.disabledEdit">
+      <li *ngIf="isItemDisabled(item) && displayMessageConfig?.disabledEdit">
         {{ i18nRoot + '.messages.disabledEdit' | cxTranslate }}
       </li>
       <li *ngIf="isParentDisabled(item)">
