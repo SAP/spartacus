@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Converter } from '@spartacus/core';
+import { Converter, TranslationService } from '@spartacus/core';
 import { Configurator } from '../core/model/configurator.model';
 import { CpqConfiguratorUtilitiesService } from './cpq-configurator-utilities.service';
 import { Cpq } from './cpq.models';
+import { take } from 'rxjs/operators';
 
 const NO_OPTION_SELECTED = 0;
 
 @Injectable()
 export class CpqConfiguratorOverviewNormalizer
   implements Converter<Cpq.Configuration, Configurator.Overview> {
-  constructor(protected cpqUtilitiesService: CpqConfiguratorUtilitiesService) {}
+  constructor(
+    protected cpqUtilitiesService: CpqConfiguratorUtilitiesService,
+    protected translation: TranslationService
+  ) {}
 
   convert(
     source: Cpq.Configuration,
@@ -34,12 +38,20 @@ export class CpqConfiguratorOverviewNormalizer
     tab.attributes?.forEach((attr) => {
       ovAttributes = ovAttributes.concat(this.convertAttribute(attr, currency));
     });
-
-    return {
+    const groupOverview: Configurator.GroupOverview = {
       id: tab.id.toString(),
-      groupDescription: tab.name,
+      groupDescription: tab.displayName,
       attributes: ovAttributes,
     };
+    if (groupOverview.id === '0') {
+      this.translation
+        .translate('configurator.group.general')
+        .pipe(take(1))
+        .subscribe(
+          (generalText) => (groupOverview.groupDescription = generalText)
+        );
+    }
+    return groupOverview;
   }
 
   protected convertAttribute(

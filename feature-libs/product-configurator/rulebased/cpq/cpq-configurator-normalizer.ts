@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Converter } from '@spartacus/core';
+import { Converter, TranslationService } from '@spartacus/core';
 import { Configurator } from './../core/model/configurator.model';
 import { Cpq } from './cpq.models';
 import { CpqConfiguratorUtilitiesService } from './cpq-configurator-utilities.service';
+import { take } from 'rxjs/operators';
 
 @Injectable()
 export class CpqConfiguratorNormalizer
   implements Converter<Cpq.Configuration, Configurator.Configuration> {
-  constructor(protected cpqUtilitiesService: CpqConfiguratorUtilitiesService) {}
+  constructor(
+    protected cpqUtilitiesService: CpqConfiguratorUtilitiesService,
+    protected translation: TranslationService
+  ) {}
 
   convert(
     source: Cpq.Configuration,
@@ -38,6 +42,16 @@ export class CpqConfiguratorNormalizer
         resultTarget.flatGroups
       )
     );
+
+    if (!resultTarget.groups || resultTarget.groups.length === 0) {
+      this.convertGenericGroup(
+        source.attributes,
+        source.incompleteAttributes,
+        source.currencyISOCode,
+        resultTarget.groups,
+        resultTarget.flatGroups
+      );
+    }
     return resultTarget;
   }
 
@@ -71,6 +85,37 @@ export class CpqConfiguratorNormalizer
     groupList.push(group);
   }
 
+  convertGenericGroup(
+    sourceAttributes: Cpq.Attribute[],
+    incompleteAttributes: string[],
+    currency: string,
+    groupList: Configurator.Group[],
+    flatGroupList: Configurator.Group[]
+  ) {
+    const attributes: Configurator.Attribute[] = [];
+    sourceAttributes.forEach((sourceAttribute) =>
+      this.convertAttribute(sourceAttribute, 0, currency, attributes)
+    );
+    const group: Configurator.Group = {
+      id: '0',
+      name: '_GEN',
+      configurable: true,
+      complete: incompleteAttributes && incompleteAttributes.length > 0,
+      consistent: true,
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+      attributes: attributes,
+      subGroups: [],
+    };
+
+    this.translation
+      .translate('configurator.group.general')
+      .pipe(take(1))
+      .subscribe((generalText) => (group.description = generalText));
+
+    groupList.push(group);
+    flatGroupList.push(group);
+  }
+
   convertAttribute(
     sourceAttribute: Cpq.Attribute,
     groupId: number,
@@ -84,10 +129,7 @@ export class CpqConfiguratorNormalizer
       label: sourceAttribute.label,
       required: sourceAttribute.required,
       isLineItem: sourceAttribute.isLineItem,
-      uiType: this.convertAttributeType(
-        sourceAttribute.displayAs,
-        this.hasAnyProducts(sourceAttribute?.values)
-      ),
+      uiType: this.convertAttributeType(sourceAttribute),
       dataType: this.cpqUtilitiesService.convertDataType(sourceAttribute),
       quantity: Number(sourceAttribute.quantity),
       groupId: groupId.toString(),
@@ -98,7 +140,10 @@ export class CpqConfiguratorNormalizer
       images: [],
     };
 
-    if (sourceAttribute.values) {
+    if (
+      sourceAttribute.values &&
+      sourceAttribute.displayAs !== Cpq.DisplayAs.INPUT
+    ) {
       sourceAttribute.values.forEach((value) =>
         this.convertValue(value, sourceAttribute, currency, attribute.values)
       );
@@ -155,7 +200,7 @@ export class CpqConfiguratorNormalizer
     values.push(value);
   }
 
-  convertAttributeType(
+  convertAttributeTypeOld(
     displayAs: Cpq.DisplayAs,
     displayAsProduct = false
   ): Configurator.UiType {
@@ -198,6 +243,67 @@ export class CpqConfiguratorNormalizer
 
       case Cpq.DisplayAs.READ_ONLY: {
         uiType = Configurator.UiType.READ_ONLY;
+        break;
+      }
+
+      default: {
+        uiType = Configurator.UiType.NOT_IMPLEMENTED;
+      }
+    }
+    return uiType;
+  }
+
+  convertAttributeType(sourceAttribute: Cpq.Attribute): Configurator.UiType {
+    const displayAs: Cpq.DisplayAs = sourceAttribute.displayAs;
+    const displayAsProduct: boolean = this.hasAnyProducts(
+      sourceAttribute?.values
+    );
+    const isEnabled: boolean = sourceAttribute.isEnabled;
+
+    if (
+      !isEnabled &&
+      (displayAs === Cpq.DisplayAs.RADIO_BUTTON ||
+        displayAs === Cpq.DisplayAs.DROPDOWN ||
+        displayAs === Cpq.DisplayAs.CHECK_BOX ||
+        displayAs === Cpq.DisplayAs.INPUT)
+    ) {
+      return Configurator.UiType.READ_ONLY;
+    }
+
+    let uiType: Configurator.UiType;
+    switch (displayAs) {
+      case Cpq.DisplayAs.RADIO_BUTTON: {
+        if (displayAsProduct) {
+          uiType = Configurator.UiType.RADIOBUTTON_PRODUCT;
+        } else {
+          uiType = Configurator.UiType.RADIOBUTTON;
+        }
+
+        break;
+      }
+
+      case Cpq.DisplayAs.DROPDOWN: {
+        if (displayAsProduct) {
+          uiType = Configurator.UiType.DROPDOWN_PRODUCT;
+        } else {
+          uiType = Configurator.UiType.DROPDOWN;
+        }
+
+        break;
+      }
+
+      case Cpq.DisplayAs.CHECK_BOX: {
+        if (displayAsProduct) {
+          uiType = Configurator.UiType.CHECKBOXLIST_PRODUCT;
+        } else {
+          uiType = Configurator.UiType.CHECKBOXLIST;
+        }
+
+        break;
+      }
+
+      case Cpq.DisplayAs.INPUT: {
+        uiType = Configurator.UiType.STRING;
         break;
       }
 
