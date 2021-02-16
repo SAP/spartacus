@@ -83,19 +83,23 @@ export class CpqConfiguratorRestService {
   ): Observable<Cpq.Configuration> {
     return this.callConfigurationDisplay(configId).pipe(
       switchMap((currentTab) => {
-        // prepare requests for remaining tabs
         const tabRequests: Observable<Cpq.Configuration>[] = [];
-        currentTab.tabs.forEach((tab) => {
-          if (tab.isSelected) {
-            // details of the currently selected tab are already fetched
-            tabRequests.push(of(currentTab));
-          } else {
-            tabRequests.push(
-              this.callConfigurationDisplay(configId, tab.id.toString())
-            );
-          }
-        });
-
+        if (currentTab.tabs && currentTab.tabs.length > 0) {
+          // prepare requests for remaining tabs
+          currentTab.tabs.forEach((tab) => {
+            if (tab.isSelected) {
+              // details of the currently selected tab are already fetched
+              tabRequests.push(of(currentTab));
+            } else {
+              tabRequests.push(
+                this.callConfigurationDisplay(configId, tab.id.toString())
+              );
+            }
+          });
+        } else {
+          // tabs are not defined in model, general tab is used
+          tabRequests.push(of(currentTab));
+        }
         // fire requests for remaining tabs and wait until all are finished
         return forkJoin(tabRequests);
       }),
@@ -111,12 +115,18 @@ export class CpqConfiguratorRestService {
     };
     ovConfig.attributes = undefined;
     ovConfig.tabs = [];
-
     tabReqResultList.forEach((tabReqResult) => {
+      let ovTab: Cpq.Tab;
       const currentTab = tabReqResult.tabs.find((tab) => tab.isSelected);
-      const ovTab = {
-        ...currentTab,
-      };
+      if (tabReqResult.tabs && tabReqResult.tabs.length > 0) {
+        ovTab = {
+          ...currentTab,
+        };
+      } else {
+        ovTab = {
+          id: 0,
+        };
+      }
       ovTab.attributes = tabReqResult.attributes;
       ovConfig.tabs.push(ovTab);
     });
