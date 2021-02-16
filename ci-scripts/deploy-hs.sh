@@ -4,13 +4,13 @@ APP="upp-cli"
 
 function download_cli {
     echo "-----"
-    echo "Downloading cli"
+    echo "Downloading upp cli zip"
 
     curl -u $GH_USER:$GH_TOKEN -L -H "Accept: application/octet-stream" \
-        "https://github.tools.sap/api/v3/repos/cx-commerce/upscale-partner-platform-cli/releases/assets/6121" -o ${APP}.zip
+        "https://github.tools.sap/api/v3/repos/cx-commerce/upscale-partner-platform-cli/releases/assets/7203" -o ${APP}.zip
     
     if [ ! -s ${APP}.zip ]; then
-        echo "Error downloading CLI"
+        echo "Error downloading upp CLI zip. Check url and configs"
         exit 1
     fi
 }
