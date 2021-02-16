@@ -25,8 +25,8 @@ export const orgUnit = {
     confirmDisabled: 'Unit {{item.name}} disabled successfully',
     update: 'Unit {{ item.name }} updated successfully',
     create: 'Unit {{ item.name }} created successfully',
-    disabledEdit: 'Enable the unit to allow editing',
-    disabledEnable: 'Parent must be enabled before this unit may be enabled',
+    disabledEdit: 'Enable the unit to allow editing.',
+    disabledEnable: 'Parent must be enabled before this unit may be enabled.',
     disabledDisable: 'Root unit can not be disabled.',
   },
 
@@ -107,7 +107,7 @@ export const orgUnitChildren = {
   title: 'Child units',
   subtitle: 'Unit: {{item.name}}',
   messages: {
-    disabledCreate: 'Child unit can not be created for disabled unit',
+    disabledCreate: 'Child unit can not be created for disabled unit.',
   },
 };
 
@@ -145,7 +145,7 @@ export const orgUnitUsers = {
   title: 'Assigned users',
   subtitle: 'Unit: {{item.name}}',
   messages: {
-    disabledCreate: 'User can not be created for disabled unit',
+    disabledCreate: 'User can not be created for disabled unit.',
   },
 };
 
@@ -161,7 +161,7 @@ export const orgUnitCostCenters = {
   title: 'Assigned cost centers',
   subtitle: 'Unit: {{item.name}}',
   messages: {
-    disabledCreate: 'Cost center can not be created for disabled unit',
+    disabledCreate: 'Cost center can not be created for disabled unit.',
   },
 };
 
