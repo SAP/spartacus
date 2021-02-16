@@ -102,4 +102,14 @@ export class ConfiguratorAttributeRadioButtonComponent
       this.onHandleQuantity(eventObject.quantity);
     }
   }
+
+  extractQuantityParameters(disableQuantityActions: boolean) {
+    return {
+      allowZero: !this.attribute.required,
+      initialQuantity: this.attribute.selectedSingleValue
+        ? this.attribute.quantity
+        : 0,
+      disableQuantityActions: disableQuantityActions,
+    };
+  }
 }

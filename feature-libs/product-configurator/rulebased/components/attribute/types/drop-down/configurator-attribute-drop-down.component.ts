@@ -88,4 +88,13 @@ export class ConfiguratorAttributeDropDownComponent
       this.onHandleQuantity(eventObject.quantity);
     }
   }
+
+  extractQuantityParameters(disableQuantityActions: boolean) {
+    return {
+      allowZero: !this.attribute.required,
+      initialQuantity:
+        this.attributeDropDownForm.value !== '0' ? this.attribute.quantity : 0,
+      disableQuantityActions: disableQuantityActions,
+    };
+  }
 }
