@@ -10,32 +10,29 @@ import { SiteContextConfig, THEME_CONTEXT_ID } from '@spartacus/core';
 export class SiteThemeService {
   protected rootComponent: ComponentRef<any>;
   protected renderer: Renderer2;
+  protected existingTheme: string;
 
   constructor(
     protected config: SiteContextConfig,
     protected rendererFactory: RendererFactory2
   ) {}
 
-  init(rootComponent: ComponentRef<any>) {
+  init(rootComponent: ComponentRef<any>): void {
     this.renderer = this.rendererFactory.createRenderer(null, null);
-    // allow to initialize only once
-    if (!this.rootComponent) {
-      this.rootComponent = rootComponent;
-      this.setTheme(this.config.context[THEME_CONTEXT_ID]?.[0]);
-    }
+    this.rootComponent = rootComponent;
+    this.setTheme(this.config.context[THEME_CONTEXT_ID]?.[0]);
   }
 
-  setTheme(theme: string) {
+  setTheme(theme: string): void {
     if (theme) {
       const element = this.rootComponent.location.nativeElement;
       // remove the old theme
-      Array.from(element.classList).forEach((attr: string) => {
-        if (attr.startsWith('cx-theme--')) {
-          this.renderer.removeClass(element, attr);
-        }
-      });
+      if (this.existingTheme) {
+        this.renderer.removeClass(element, this.existingTheme);
+      }
       // add the new theme
-      this.renderer.addClass(element, `cx-theme--${theme}`);
+      this.renderer.addClass(element, theme);
+      this.existingTheme = theme;
     }
   }
 }

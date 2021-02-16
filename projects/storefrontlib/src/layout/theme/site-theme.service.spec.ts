@@ -38,29 +38,20 @@ describe('SiteThemeService', () => {
 
     service.init(componentRef);
     expect(service.setTheme).toHaveBeenCalledWith('test-theme');
-    // call init again
-    service.init(componentRef);
-    expect(service.setTheme).toHaveBeenCalledTimes(1);
   });
 
   it('should set theme to component', () => {
     service.init(componentRef);
     expect(
-      componentRef.location.nativeElement.classList.contains(
-        'cx-theme--test-theme'
-      )
+      componentRef.location.nativeElement.classList.contains('test-theme')
     ).toBeTruthy();
 
     service.setTheme('new-theme');
     expect(
-      componentRef.location.nativeElement.classList.contains(
-        'cx-theme--new-theme'
-      )
+      componentRef.location.nativeElement.classList.contains('new-theme')
     ).toBeTruthy();
     expect(
-      componentRef.location.nativeElement.classList.contains(
-        'cx-theme--test-theme'
-      )
+      componentRef.location.nativeElement.classList.contains('test-theme')
     ).toBeFalsy();
   });
 });
