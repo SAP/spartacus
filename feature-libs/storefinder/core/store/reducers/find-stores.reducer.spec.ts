@@ -7,7 +7,7 @@ describe('Find Stores Reducer', () => {
     it('should return the default state', () => {
       const { initialState } = fromReducers;
       const action = {} as any;
-      const state = fromReducers.reducer(undefined, action);
+      const state = fromReducers.findStoresReducer(undefined, action);
 
       expect(state).toBe(initialState);
     });
@@ -23,9 +23,12 @@ describe('Find Stores Reducer', () => {
         searchConfig,
       });
 
-      const loadingState = fromReducers.reducer(initialState, loadAction);
+      const loadingState = fromReducers.findStoresReducer(
+        initialState,
+        loadAction
+      );
       const resultAction = new StoreFinderActions.FindStoresSuccess(results);
-      const state = fromReducers.reducer(loadingState, resultAction);
+      const state = fromReducers.findStoresReducer(loadingState, resultAction);
 
       expect(state.findStoresEntities).toEqual(results);
     });
@@ -39,10 +42,12 @@ describe('Find Stores Reducer', () => {
         storeId: 'testId',
       });
 
-      const loadingState = fromReducers.reducer(initialState, loadAction);
+      const loadingState = fromReducers.findStoresReducer(
+        initialState,
+        loadAction
+      );
       const resultAction = new StoreFinderActions.FindStoreByIdSuccess(results);
-      const state = fromReducers.reducer(loadingState, resultAction);
-
+      const state = fromReducers.findStoresReducer(loadingState, resultAction);
       expect(state.findStoresEntities).toEqual(results);
     });
   });
