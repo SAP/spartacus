@@ -6,7 +6,7 @@ import {
   flush,
   TestBed,
   tick,
-  waitForAsync
+  waitForAsync,
 } from '@angular/core/testing';
 import { AuthService } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
@@ -17,7 +17,7 @@ import { CpqAccessLoaderService } from './cpq-access-loader.service';
 import {
   CpqAccessStorageService,
   CpqConfiguratorTokenConfig,
-  DefaultCpqConfiguratorTokenConfig
+  DefaultCpqConfiguratorTokenConfig,
 } from './cpq-access-storage.service';
 import createSpy = jasmine.createSpy;
 
@@ -313,7 +313,7 @@ describe('CpqAccessStorageService', () => {
     accessDataSubject.next(accessData);
   });
 
-  function takeOneCpqAccessData():Observable<CpqAccessData> {
+  function takeOneCpqAccessData(): Observable<CpqAccessData> {
     return serviceUnderTest.getCachedCpqAccessData().pipe(take(1));
   }
 });
