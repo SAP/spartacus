@@ -46,7 +46,7 @@ export class OccEndpointsService {
   }
 
   /**
-   * @Deprecated since 3.2 - use "getRawEndpointValue" or "buildUrl" instead
+   * @Deprecated since 3.1 - use "getRawEndpointValue" or "buildUrl" instead
    *
    * Returns an endpoint starting from the OCC baseUrl (no baseSite)
    * @param endpoint Endpoint suffix
@@ -77,7 +77,7 @@ export class OccEndpointsService {
   }
 
   /**
-   * @Deprecated since 3.2 - use "buildUrl" instead
+   * @Deprecated since 3.1 - use "buildUrl" instead
    *
    * Returns an endpoint starting from the OCC prefix (no baseSite), i.e. /occ/v2/{endpoint}
    * Most OCC endpoints are related to a baseSite context and are therefor prefixed
@@ -93,7 +93,7 @@ export class OccEndpointsService {
   }
 
   /**
-   * @Deprecated since 3.2 - use "getBaseUrl" with the same parameters
+   * @Deprecated since 3.1 - use "getBaseUrl" with the same parameters
    *
    * Returns base OCC endpoint (baseUrl + prefix + baseSite) by if no parameters are specified
    *
@@ -108,7 +108,7 @@ export class OccEndpointsService {
   }
 
   /**
-   * @Deprecated since 3.2 - use "buildUrl" with configurable endpoints instead
+   * @Deprecated since 3.1 - use "buildUrl" with configurable endpoints instead
    *
    * Returns an OCC endpoint including baseUrl and baseSite
    *
@@ -204,7 +204,7 @@ export class OccEndpointsService {
   }
 
   /**
-   * @Deprecated since 3.2 - use "buildUrl" instead
+   * @Deprecated since 3.1 - use "buildUrl" instead
    *
    * Returns a fully qualified OCC Url (including baseUrl and baseSite)
    * @param endpoint Name of the OCC endpoint key config
@@ -212,6 +212,7 @@ export class OccEndpointsService {
    * @param queryParams Query parameters
    * @param scope
    */
+  // TODO #10729: Handle deprecation
   getUrl(
     endpoint: string,
     urlParams?: object,
