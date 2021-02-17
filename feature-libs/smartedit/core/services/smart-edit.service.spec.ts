@@ -4,9 +4,9 @@ import {
   BaseSite,
   BaseSiteService,
   CmsService,
-  ExternalJsFileLoader,
   Page,
   RoutingService,
+  ScriptLoader,
 } from '@spartacus/core';
 import { defaultSmartEditConfig } from 'feature-libs/smartedit/root/config/default-smart-edit-config';
 import { SmartEditConfig } from 'feature-libs/smartedit/root/config/smart-edit-config';
@@ -33,15 +33,15 @@ class MockBaseSiteService {
   }
 }
 
-class MockExternalJsFileLoader {
-  public loadWithAttributes(): void {}
+class MockScriptLoader {
+  public embedScript(): void {}
 }
 describe('SmartEditService', () => {
   let service: SmartEditService;
   let cmsService: CmsService;
   let routingService: RoutingService;
   let baseSiteService: BaseSiteService;
-  let externalJsFileLoader: ExternalJsFileLoader;
+  let scriptLoader: ScriptLoader;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -51,7 +51,7 @@ describe('SmartEditService', () => {
         { provide: CmsService, useClass: MockCmsService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: BaseSiteService, useClass: MockBaseSiteService },
-        { provide: ExternalJsFileLoader, useClass: MockExternalJsFileLoader },
+        { provide: ScriptLoader, useClass: MockScriptLoader },
       ],
     });
 
@@ -59,10 +59,10 @@ describe('SmartEditService', () => {
     cmsService = TestBed.inject(CmsService);
     routingService = TestBed.inject(RoutingService);
     baseSiteService = TestBed.inject(BaseSiteService);
-    externalJsFileLoader = TestBed.inject(ExternalJsFileLoader);
+    scriptLoader = TestBed.inject(ScriptLoader);
 
     spyOn(routingService, 'go').and.stub();
-    spyOn(externalJsFileLoader, 'loadWithAttributes').and.callThrough();
+    spyOn(scriptLoader, 'embedScript').and.callThrough();
   });
 
   it('should SmartEditService is injected', () => {
@@ -71,7 +71,7 @@ describe('SmartEditService', () => {
 
   it('should be able to load webApplicationInjector.js', () => {
     service['loadScript']();
-    expect(externalJsFileLoader.loadWithAttributes).toHaveBeenCalled();
+    expect(scriptLoader.embedScript).toHaveBeenCalled();
   });
 
   describe('should add page contract', () => {

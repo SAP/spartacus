@@ -3,10 +3,10 @@ import {
   BaseSite,
   BaseSiteService,
   CmsService,
-  ExternalJsFileLoader,
   Page,
   PageType,
   RoutingService,
+  ScriptLoader,
   WindowRef,
 } from '@spartacus/core';
 import { SmartEditConfig } from '@spartacus/smartedit/root';
@@ -30,7 +30,7 @@ export class SmartEditService {
     protected winRef: WindowRef,
     protected rendererFactory: RendererFactory2,
     protected config: SmartEditConfig,
-    protected jsFileLoader: ExternalJsFileLoader
+    protected scriptLoader: ScriptLoader
   ) {
     // load webApplicationInjector.js first
     this.loadScript();
@@ -76,13 +76,14 @@ export class SmartEditService {
    * load webApplicationInjector.js
    */
   protected loadScript(): void {
-    this.jsFileLoader.loadWithAttributes('assets/webApplicationInjector.js', [
-      { key: 'id', value: 'smartedit-injector' },
-      {
-        key: 'data-smartedit-allow-origin',
-        value: this.config.smartEdit.allowOrigin,
+    this.scriptLoader.embedScript({
+      src: 'assets/webApplicationInjector.js',
+      params: undefined,
+      attributes: {
+        id: 'text/smartedit-injector',
+        'data-smartedit-allow-origin': this.config.smartEdit.allowOrigin,
       },
-    ]);
+    });
   }
 
   /**
