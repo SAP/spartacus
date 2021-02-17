@@ -3,11 +3,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { PopoverModule } from '@spartacus/storefront';
-import { BudgetDetailsCellComponent } from './budget-details-cell.component';
+import { CostCenterDetailsCellComponent } from './cost-center-details-cell.component';
 
 @NgModule({
   imports: [CommonModule, PopoverModule, RouterModule, I18nModule, UrlModule],
-  declarations: [BudgetDetailsCellComponent],
-  exports: [BudgetDetailsCellComponent],
+  declarations: [CostCenterDetailsCellComponent],
+  exports: [CostCenterDetailsCellComponent],
 })
-export class BudgetDetailsCellModule {}
+export class CostCenterDetailsCellModule {}

@@ -1,0 +1,71 @@
+<ng-template #details>
+  <div class="popover-details">
+    <div class="property">
+      <label>{{ 'orgCostCenter.name' | cxTranslate }}</label>
+      <a
+        class="value"
+        [routerLink]="
+          {
+            cxRoute: 'orgCostCenterDetails',
+            params: model
+          } | cxUrl
+        "
+      >
+        {{ model.name }}
+      </a>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgCostCenter.code' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.code }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgCostCenter.active' | cxTranslate }}</label>
+      <span
+        class="value"
+        [class.is-active]="model.active"
+        [class.is-inactive]="!model.active"
+      >
+        {{
+          (model.active ? 'organization.enabled' : 'organization.disabled')
+            | cxTranslate
+        }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgCostCenter.currency' | cxTranslate }}</label>
+
+      <span class="value">
+        {{ model.currency?.isocode }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgCostCenter.unit' | cxTranslate }}</label>
+      <a
+        class="value"
+        [routerLink]="
+          {
+            cxRoute: 'orgUnitDetails',
+            params: model.unit
+          } | cxUrl
+        "
+      >
+        {{ model.unit?.name }}
+      </a>
+    </div>
+  </div>
+</ng-template>
+
+<button
+  class="button link"
+  [cxPopover]="details"
+  [placement]="'auto'"
+  [appendToBody]="true"
+>
+  {{ model.name }}
+</button>
