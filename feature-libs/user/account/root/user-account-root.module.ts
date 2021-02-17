@@ -8,7 +8,7 @@ export function defaultUserAccountComponentsConfig() {
     featureModules: {
       [USER_ACCOUNT_FEATURE]: {
         cmsComponents: [
-          // 'LoginComponent',
+          'LoginComponent',
           'ReturningCustomerLoginComponent',
           'ReturningCustomerRegisterComponent',
         ],
