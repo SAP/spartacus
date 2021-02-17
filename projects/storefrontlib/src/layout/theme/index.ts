@@ -1,2 +1,2 @@
-export * from './site-theme.module';
+export { SiteThemeModule } from './site-theme.module';
 export * from './site-theme.service';
