@@ -31,7 +31,7 @@
         <tbody>
           <tr
             *ngFor="let savedCart of savedCarts.carts"
-            (click)="goToSavedCartDetails($event, savedCart)"
+            (click)="goToSavedCartDetails(savedCart)"
           >
             <td class="cx-saved-cart-list-cart-name">
               <div class="d-md-none cx-saved-cart-list-label">

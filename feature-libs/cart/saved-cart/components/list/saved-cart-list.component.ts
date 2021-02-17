@@ -740,7 +740,7 @@ export class SavedCartListComponent implements OnDestroy {
   goToSavedCartDetails(cart: Cart): void {
     this.routing.go({
       cxRoute: 'savedCartsDetails',
-      params: cart,
+      params: { savedCartId: cart?.code },
     });
   }
 
