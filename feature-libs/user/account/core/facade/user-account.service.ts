@@ -13,15 +13,12 @@ export class UserAccountService implements UserAccountFacade {
   constructor(
     protected store: Store<StateWithUserAccount | StateWithProcess<void>>,
     protected userIdService: UserIdService
-  ) {
-    console.log('DQNUserAccount');
-  }
+  ) {}
 
   /**
    * Returns the current user.
    */
   get(): Observable<User> {
-    console.log('DQNUserAccountGet');
     return this.store.pipe(select(UserAccountSelectors.getDetails)).pipe(
       tap((user) => {
         if (Object.keys(user).length === 0) {
@@ -35,7 +32,6 @@ export class UserAccountService implements UserAccountFacade {
    * Loads the user's details.
    */
   protected load(): void {
-    console.log('DQNUserAccountLoad');
     this.userIdService
       .takeUserId()
       .subscribe((userId) =>
