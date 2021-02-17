@@ -1,12 +1,12 @@
 <ng-template #details>
-  <div class="popover-details" *ngIf="model$ | async as model">
+  <div class="popover-details">
     <div class="property">
       <label>{{ 'orgBudget.name' | cxTranslate }}</label>
       <a
         class="value"
         [routerLink]="
           {
-            cxRoute: 'orgBudget',
+            cxRoute: 'orgBudgetDetails',
             params: model
           } | cxUrl
         "
@@ -75,7 +75,6 @@
   [cxPopover]="details"
   [placement]="'auto'"
   [appendToBody]="true"
-  (openPopover)="openPopover()"
 >
   {{ model.name }}
 </button>
