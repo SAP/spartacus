@@ -61,7 +61,7 @@ export class TmsService implements OnDestroy {
       const collector = this.injector.get<TmsCollector>(
         collectorConfig.collector
       );
-      collector.init(collectorConfig, this.windowRef.nativeWindow);
+      collector.init(collectorConfig, this.windowRef.nativeWindow!);
 
       this.subscription.add(
         this.mapEvents(events).subscribe((event) => {
@@ -75,7 +75,7 @@ export class TmsService implements OnDestroy {
           event = collector.map ? collector.map(event) : event;
           collector.pushEvent(
             collectorConfig,
-            this.windowRef.nativeWindow,
+            this.windowRef.nativeWindow!,
             event
           );
         })
