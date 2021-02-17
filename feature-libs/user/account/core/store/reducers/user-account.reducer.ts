@@ -1,4 +1,4 @@
-import { User } from '@spartacus/core';
+import { User } from '@spartacus/user/account/root';
 import { UserAccountActions } from '../actions/index';
 
 export const initialState: User = <User>{};

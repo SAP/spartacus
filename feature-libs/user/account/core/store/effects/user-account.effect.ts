@@ -4,7 +4,7 @@ import { normalizeHttpError } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { UserAccountConnector } from '../../connectors/user-account.connector';
-import { User } from '../../model/user.model';
+import { User } from '@spartacus/user/account/root';
 import { UserAccountActions } from '../actions/index';
 
 @Injectable()

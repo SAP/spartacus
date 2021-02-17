@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConverterService, Occ, OccEndpointsService } from '@spartacus/core';
 import {
-  User,
-  UserAccountAdapter,
   USER_ACCOUNT_NORMALIZER,
+  UserAccountAdapter,
 } from '@spartacus/user/account/core';
+import { User } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })

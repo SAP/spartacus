@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { User } from '../../model/user.model';
+import { User } from '@spartacus/user/account/root';
 
 export const LOAD_USER_ACCOUNT = '[User] Load User Details';
 export const LOAD_USER_ACCOUNT_FAIL = '[User] Load User Details Fail';

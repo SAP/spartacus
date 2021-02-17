@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { User } from '../../model/user.model';
+import { User } from '@spartacus/user/account/root';
 import {
   StateWithUserAccount,
   UserAccountDetailsState,
