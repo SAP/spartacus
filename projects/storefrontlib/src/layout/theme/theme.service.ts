@@ -17,9 +17,16 @@ export class ThemeService {
     protected rendererFactory: RendererFactory2
   ) {}
 
+  /**
+   * This function is to be called for the root component that is
+   * bootstrapped.
+   */
   init(rootComponent: ComponentRef<any>): void {
     this.renderer = this.rendererFactory.createRenderer(null, null);
     this.rootComponent = rootComponent;
+    // Theme value is a string. It is put in the generic multi-value
+    // property of the SiteContextConfig. So the array's first item
+    // is the theme value.
     this.setTheme(this.config.context[THEME_CONTEXT_ID]?.[0]);
   }
 
