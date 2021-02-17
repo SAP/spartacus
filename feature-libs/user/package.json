@@ -39,6 +39,7 @@
     "@ngrx/store": "^10.0.0",
     "@spartacus/core": "3.0.0",
     "@spartacus/storefront": "3.0.0",
+    "@spartacus/styles": "3.0.0",
     "chalk": "^4.1.0",
     "rxjs": "^6.6.0",
     "typescript": "~4.0.2"
