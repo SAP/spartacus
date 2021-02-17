@@ -11,6 +11,7 @@ export function UserProfileFacadeFactory() {
     facade: UserProfileFacade,
     feature: USER_PROFILE_FEATURE,
     methods: ['get', 'update', 'close', 'getTitles'],
+    async: true,
   });
 }
 

@@ -10,6 +10,7 @@ export function UserEmailFacadeFactory() {
     facade: UserEmailFacade,
     feature: USER_PROFILE_FEATURE,
     methods: ['update'],
+    async: true,
   });
 }
 

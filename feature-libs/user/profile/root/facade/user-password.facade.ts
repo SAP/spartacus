@@ -15,6 +15,7 @@ export function UserPasswordFacadeFactory() {
       'isPasswordReset',
       'requestForgotPasswordEmail',
     ],
+    async: true,
   });
 }
 

@@ -12,6 +12,7 @@ export function userAccountFacadeFactory() {
     facade: UserAccountFacade,
     feature: [USER_ACCOUNT_CORE_FEATURE, USER_ACCOUNT_FEATURE],
     methods: ['get'],
+    async: true,
   });
 }
 

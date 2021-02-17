@@ -9,6 +9,11 @@ export interface FacadeDescriptor<T> {
   feature: string | string[];
   methods?: (keyof T)[];
   properties?: (keyof T)[];
+  /**
+   * Feature should have to be initialized with an async delay in mind.
+   * Required to make lazy NgRx store feature ready.
+   */
+  async?: boolean;
 }
 
 @Injectable({
@@ -55,13 +60,13 @@ export class FacadeFactoryService {
     this.facades.set(facade, resolver$);
   }
 
-  protected call(facade: AbstractType<any>, method: string) {
+  protected call(facade: AbstractType<any>, method: string): Observable<any> {
     return this.facades
       .get(facade)
       .pipe(switchMap((service) => service[method]()));
   }
 
-  protected get(facade: AbstractType<any>, property: string) {
+  protected get(facade: AbstractType<any>, property: string): Observable<any> {
     return this.facades
       .get(facade)
       .pipe(switchMap((service) => service[property]));

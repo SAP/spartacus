@@ -11,6 +11,7 @@ export function UserRegisterFacadeFactory() {
     facade: UserRegisterFacade,
     feature: USER_PROFILE_FEATURE,
     methods: ['register', 'registerGuest', 'getTitles'],
+    async: true,
   });
 }
 
