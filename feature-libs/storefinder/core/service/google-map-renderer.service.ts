@@ -46,8 +46,8 @@ export class GoogleMapRendererService {
     locations: any[],
     selectMarkerHandler?: Function
   ): void {
-    if (this.googleMap === null) {
-      if (this.scriptLoader) {
+    if (Object.entries(locations[Object.keys(locations)[0]]).length > 0)
+      if (this.googleMap === null) {
         this.scriptLoader.embedScript({
           src: this.config.googleMaps.apiUrl,
           params: { key: this.config.googleMaps.apiKey },
@@ -57,17 +57,8 @@ export class GoogleMapRendererService {
           },
         });
       } else {
-        this.externalJsFileLoader.load(
-          this.config.googleMaps.apiUrl,
-          { key: this.config.googleMaps.apiKey },
-          () => {
-            this.drawMap(mapElement, locations, selectMarkerHandler);
-          }
-        );
+        this.drawMap(mapElement, locations, selectMarkerHandler);
       }
-    } else {
-      this.drawMap(mapElement, locations, selectMarkerHandler);
-    }
   }
 
   /**
