@@ -65,7 +65,7 @@ export class OptimizedSsrEngine {
       this.log(`CSR fallback: rendering in progress (${request.url})`);
     } else if (concurrencyLimitExceed) {
       this.log(
-        `CSR fallback: Concurrency limit exceeded (${this.ssrOptions.concurrency})`
+        `CSR fallback: Concurrency limit exceeded (${this.ssrOptions?.concurrency})`
       );
     }
 
@@ -97,7 +97,7 @@ export class OptimizedSsrEngine {
     const key = this.getRenderingKey(request);
 
     if (this.renderingCache.isReady(key)) {
-      const cached = this.renderingCache.get(key);
+      const cached = this.renderingCache.get(key)!;
       callback(cached.err, cached.html);
 
       if (!this.ssrOptions?.cache) {
@@ -122,7 +122,7 @@ export class OptimizedSsrEngine {
     if (!this.returnCachedRender(request, callback)) {
       if (this.shouldRender(request)) {
         this.currentConcurrency++;
-        let waitingForRender;
+        let waitingForRender: NodeJS.Timeout | undefined;
 
         if (this.shouldTimeout(request)) {
           // establish timeout for rendering
@@ -173,7 +173,7 @@ export class OptimizedSsrEngine {
   }
 
   protected log(message: string, debug = true) {
-    if (!debug || this.ssrOptions.debug) {
+    if (!debug || this.ssrOptions?.debug) {
       console.log(message);
     }
   }
