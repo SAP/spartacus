@@ -30,6 +30,7 @@ import { UserRoutePageMetaResolver } from './services/user-route-page-meta.resol
 import { UserUserGroupListComponent } from './user-groups';
 import { UserAssignedUserGroupListComponent } from './user-groups/assigned/user-assigned-user-group-list.component';
 import { UserDetailsCellComponent } from './details-cell/user-details-cell.component';
+import { UserGroupDetailsCellComponent } from '../user-group/details-cell/user-group-details-cell.component';
 
 const listPath = `organization/users/:${ROUTE_PARAMS.userCode}`;
 const paramsMapping: ParamsMapping = {
@@ -245,17 +246,23 @@ export const userTableConfig: TableConfig = {
       },
     },
     [OrganizationTableType.USER_USER_GROUPS]: {
-      cells: ['uid', 'actions'],
+      cells: ['name', 'actions'],
       options: {
         cells: {
+          name: {
+            dataComponent: UserGroupDetailsCellComponent,
+          },
           actions,
         },
       },
     },
     [OrganizationTableType.USER_ASSIGNED_USER_GROUPS]: {
-      cells: ['uid', 'actions'],
+      cells: ['name', 'actions'],
       options: {
         cells: {
+          name: {
+            dataComponent: UserGroupDetailsCellComponent,
+          },
           actions,
         },
         pagination,
