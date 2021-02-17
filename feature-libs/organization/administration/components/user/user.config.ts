@@ -31,6 +31,7 @@ import { UserUserGroupListComponent } from './user-groups';
 import { UserAssignedUserGroupListComponent } from './user-groups/assigned/user-assigned-user-group-list.component';
 import { UserDetailsCellComponent } from './details-cell/user-details-cell.component';
 import { UserGroupDetailsCellComponent } from '../user-group/details-cell/user-group-details-cell.component';
+import { PermissionDetailsCellComponent } from '../permission/details-cell/permission-details-cell.component';
 
 const listPath = `organization/users/:${ROUTE_PARAMS.userCode}`;
 const paramsMapping: ParamsMapping = {
@@ -272,6 +273,9 @@ export const userTableConfig: TableConfig = {
       cells: ['code', 'actions'],
       options: {
         cells: {
+          code: {
+            dataComponent: PermissionDetailsCellComponent,
+          },
           actions,
         },
       },
@@ -280,6 +284,9 @@ export const userTableConfig: TableConfig = {
       cells: ['code', 'actions'],
       options: {
         cells: {
+          code: {
+            dataComponent: PermissionDetailsCellComponent,
+          },
           actions,
         },
         pagination,
