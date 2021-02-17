@@ -24,6 +24,7 @@ import { UserGroupListService } from './services/user-group-list.service';
 import { UserGroupRoutePageMetaResolver } from './services/user-group-route-page-meta.resolver';
 import { UserGroupAssignedUserListComponent } from './users/assigned/user-group-assigned-user-list.component';
 import { UserGroupUserListComponent } from './users/user-group-user-list.component';
+import { UserDetailsCellComponent } from '../user/details-cell/user-details-cell.component';
 
 const listPath = `organization/user-groups/:${ROUTE_PARAMS.userGroupCode}`;
 const paramsMapping: ParamsMapping = {
@@ -177,6 +178,9 @@ export const userGroupTableConfig: TableConfig = {
       cells: ['name', 'actions'],
       options: {
         cells: {
+          name: {
+            dataComponent: UserDetailsCellComponent,
+          },
           actions: {
             dataComponent: AssignCellComponent,
           },
@@ -191,6 +195,9 @@ export const userGroupTableConfig: TableConfig = {
       cells: ['name', 'actions'],
       options: {
         cells: {
+          name: {
+            dataComponent: UserDetailsCellComponent,
+          },
           actions: {
             dataComponent: AssignCellComponent,
           },

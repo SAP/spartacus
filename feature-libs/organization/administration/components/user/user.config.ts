@@ -29,6 +29,7 @@ import { UserListService } from './services/user-list.service';
 import { UserRoutePageMetaResolver } from './services/user-route-page-meta.resolver';
 import { UserUserGroupListComponent } from './user-groups';
 import { UserAssignedUserGroupListComponent } from './user-groups/assigned/user-assigned-user-group-list.component';
+import { UserDetailsCellComponent } from './details-cell/user-details-cell.component';
 
 const listPath = `organization/users/:${ROUTE_PARAMS.userCode}`;
 const paramsMapping: ParamsMapping = {
@@ -188,11 +189,10 @@ export function userTableConfigFactory(): TableConfig {
   return userTableConfig;
 }
 
-const cells = {
-  actions: {
-    dataComponent: AssignCellComponent,
-  },
+const actions = {
+  dataComponent: AssignCellComponent,
 };
+
 const pagination = {
   pageSize: MAX_OCC_INTEGER_VALUE,
 };
@@ -224,39 +224,57 @@ export const userTableConfig: TableConfig = {
     [OrganizationTableType.USER_APPROVERS]: {
       cells: ['name', 'actions'],
       options: {
-        cells,
+        cells: {
+          name: {
+            dataComponent: UserDetailsCellComponent,
+          },
+          actions,
+        },
       },
     },
     [OrganizationTableType.USER_ASSIGNED_APPROVERS]: {
       cells: ['name', 'actions'],
       options: {
-        cells,
+        cells: {
+          name: {
+            dataComponent: UserDetailsCellComponent,
+          },
+          actions,
+        },
         pagination,
       },
     },
     [OrganizationTableType.USER_USER_GROUPS]: {
       cells: ['uid', 'actions'],
       options: {
-        cells,
+        cells: {
+          actions,
+        },
       },
     },
     [OrganizationTableType.USER_ASSIGNED_USER_GROUPS]: {
       cells: ['uid', 'actions'],
       options: {
-        cells,
+        cells: {
+          actions,
+        },
         pagination,
       },
     },
     [OrganizationTableType.USER_PERMISSIONS]: {
       cells: ['code', 'actions'],
       options: {
-        cells,
+        cells: {
+          actions,
+        },
       },
     },
     [OrganizationTableType.USER_ASSIGNED_PERMISSIONS]: {
       cells: ['code', 'actions'],
       options: {
-        cells,
+        cells: {
+          actions,
+        },
         pagination,
       },
     },
