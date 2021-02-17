@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -eu
 
+echo "--> Who am I: `whoami`"
+
 APP="upp-cli"
 
 echo "-----"
@@ -15,11 +17,13 @@ if [ ! -s ${APP}.zip ]; then
 fi
 
 echo "-----"
-echo "Installing cli"
+echo "Installing upp cli"
 
 unzip -o ${APP}.zip -d ${APP}
 cd ${APP}
-npm run install-cli
+npm install npm-force-resolutions
+
+npm install -g
 cd ..
 
 echo "-----"
