@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
+set -eu
 
 APP="upp-cli"
 
 echo "-----"
 echo "Downloading upp cli zip"
 
-curl -u $GHT_USER:$GHT_TOKEN -L -H "Accept: application/octet-stream" \
+curl -u ${GHT_USER}:${GHT_TOKEN} -L -H "Accept: application/octet-stream" \
     "https://github.tools.sap/api/v3/repos/cx-commerce/upscale-partner-platform-cli/releases/assets/7203" -o ${APP}.zip
 
 if [ ! -s ${APP}.zip ]; then
