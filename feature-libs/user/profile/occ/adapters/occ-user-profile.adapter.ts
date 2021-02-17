@@ -10,18 +10,16 @@ import {
 import { User } from '@spartacus/user/account/root';
 import {
   TITLE_NORMALIZER,
-  UserProfileAdapter,
   USER_PROFILE_NORMALIZER,
   USER_PROFILE_SERIALIZER,
   USER_SIGN_UP_SERIALIZER,
+  UserProfileAdapter,
 } from '@spartacus/user/profile/core';
 import { Title, UserSignUp } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class OccUserProfileAdapter implements UserProfileAdapter {
   constructor(
     protected http: HttpClient,
