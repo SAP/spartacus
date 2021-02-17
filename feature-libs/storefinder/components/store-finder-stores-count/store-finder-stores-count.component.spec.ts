@@ -4,12 +4,16 @@ import { I18nTestingModule } from '@spartacus/core';
 import { StoreFinderStoresCountComponent } from './store-finder-stores-count.component';
 import { SpinnerModule } from '@spartacus/storefront';
 import { StoreFinderService } from '@spartacus/storefinder/core';
+import { of } from 'rxjs';
+import createSpy = jasmine.createSpy;
 
-const mockStoreFinderService = {
-  viewAllStores: jasmine.createSpy(),
-  getViewAllStoresEntities: jasmine.createSpy(),
-  getViewAllStoresLoading: jasmine.createSpy(),
-};
+class MockStoreFinderService implements Partial<StoreFinderService> {
+  viewAllStores = createSpy('viewAllStores');
+  getViewAllStoresEntities = createSpy(
+    'getViewAllStoresEntities'
+  ).and.returnValue(of());
+  getViewAllStoresLoading = createSpy('getViewAllStoresLoading');
+}
 
 describe('StoreFinderStoresCountComponent', () => {
   let component: StoreFinderStoresCountComponent;
@@ -23,7 +27,7 @@ describe('StoreFinderStoresCountComponent', () => {
         providers: [
           {
             provide: StoreFinderService,
-            useValue: mockStoreFinderService,
+            useClass: MockStoreFinderService,
           },
         ],
       }).compileComponents();
