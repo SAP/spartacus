@@ -152,18 +152,20 @@ export function checkGroupHeaderNotDisplayed(groupName: string): void {
 export function checkAttrDisplayed(
   attributeName: string,
   valueName: string,
-  attrbuteIdx: number
+  attributeIdx: number
 ): void {
   cy.get(
     'cx-configurator-cpq-overview-attribute, cx-configurator-overview-attribute'
   )
-    .eq(attrbuteIdx)
+    .eq(attributeIdx)
     .within(() => {
+      cy.log('Attribute name: ' + attributeName);
       if (attributeName) {
         cy.get('.cx-attribute-label').should('contain.text', attributeName);
       } else {
         cy.get('.cx-attribute-label').should('not.be.visible');
       }
+      cy.log('Value name: ' + valueName);
       cy.get('.cx-value-info, .cx-attribute-value').should(
         'contain.text',
         valueName
@@ -176,12 +178,12 @@ export function checkAttrDisplayed(
  */
 export function checkAttrPriceDisplayed(
   priceString: string,
-  attrbuteIdx: number
+  attributeIdx: number
 ): void {
   cy.get(
     'cx-configurator-cpq-overview-attribute, cx-configurator-overview-attribute'
   )
-    .eq(attrbuteIdx)
+    .eq(attributeIdx)
     .within(() => {
       if (priceString) {
         cy.get('cx-configurator-price').should('contain.text', priceString);
@@ -196,9 +198,11 @@ export function checkAttrPriceDisplayed(
  */
 export function checkAttrType(
   attributeType: 'product' | 'simple',
-  attrbuteIdx: number
+  attributeIdx: number
 ): void {
   const expected =
     attributeType === 'product' ? 'have.class' : 'not.have.class';
-  cy.get('.cx-attribute-value-pair').eq(attrbuteIdx).should(expected, 'bundle');
+  cy.get('.cx-attribute-value-pair')
+    .eq(attributeIdx)
+    .should(expected, 'bundle');
 }
