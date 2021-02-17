@@ -9,10 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - uses: actions/setup-node@v2
       - name: Setup UPP CLI
         run: ./ci-scripts/upp-cli-setup.sh
       - name: Build Spartacus
-        run: yarn build:libs && yarn build
+        run: yarn install && yarn build:libs && yarn build
       - name: Deploy Spartacus
         run: ./ci-scripts/deploy-hs.js
         env:
