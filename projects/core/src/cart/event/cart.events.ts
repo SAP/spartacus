@@ -1,9 +1,10 @@
+import { CxEvent } from '../../event/cx-event';
 import { OrderEntry } from '../../model/order.model';
 
 /**
- * Base cart event. Most cart events should have `cartId` and `userId`.
+ * Base cart event. Most cart events should have these properties.
  */
-export interface CartEvent {
+export abstract class CartEvent extends CxEvent {
   cartId: string;
   cartCode: string;
   userId: string;
@@ -11,18 +12,20 @@ export interface CartEvent {
 
 // =====================================================================
 
-export class CartAddEntryEvent implements CartEvent {
-  cartId: string;
-  cartCode: string;
-  userId: string;
+export class CartAddEntryEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CartAddEntryEvent';
   productCode: string;
   quantity: number;
 }
 
-export class CartAddEntrySuccessEvent implements CartEvent {
-  cartId: string;
-  cartCode: string;
-  userId: string;
+export class CartAddEntrySuccessEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CartAddEntrySuccessEvent';
   productCode: string;
   quantity: number;
   entry: OrderEntry;
@@ -30,25 +33,28 @@ export class CartAddEntrySuccessEvent implements CartEvent {
   deliveryModeChanged: boolean;
 }
 
-export class CartAddEntryFailEvent implements CartEvent {
-  cartId: string;
-  cartCode: string;
-  userId: string;
+export class CartAddEntryFailEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CartAddEntryFailEvent';
   productCode: string;
   quantity: number;
 }
 
-export class CartRemoveEntrySuccessEvent implements CartEvent {
-  cartId: string;
-  cartCode: string;
-  userId: string;
+export class CartRemoveEntrySuccessEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CartRemoveEntrySuccessEvent';
   entry: OrderEntry;
 }
 
-export class CartUpdateEntrySuccessEvent implements CartEvent {
-  cartId: string;
-  cartCode: string;
-  userId: string;
+export class CartUpdateEntrySuccessEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CartUpdateEntrySuccessEvent';
   quantity: number;
   entry: OrderEntry;
 }
