@@ -34,10 +34,12 @@ import {
   FooterNavigationModule,
   ForgotPasswordModule,
   HamburgerMenuModule,
+  HomePageEventModule,
   JsonLdBuilderModule,
   LinkModule,
   MyCouponsModule,
   MyInterestsModule,
+  NavigationEventModule,
   NavigationModule,
   NotificationPreferenceModule,
   OrderCancellationModule,
@@ -83,6 +85,7 @@ import { OrderApprovalFeatureModule } from './features/order-approval-feature.mo
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
 import { SavedCartFeatureModule } from './features/saved-cart-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder-feature.module';
+import { TrackingFeatureModule } from './features/tracking-feature.module';
 
 const featureModules = [];
 
@@ -198,10 +201,13 @@ if (environment.cds) {
     AsmModule,
 
     // Page Events
+    NavigationEventModule,
+    HomePageEventModule,
     CartPageEventModule,
     PageEventModule,
     ProductPageEventModule,
 
+    TrackingFeatureModule,
     /************************* Opt-in features *************************/
 
     ExternalRoutesModule.forRoot(), // to opt-in explicitly, is added by default schematics

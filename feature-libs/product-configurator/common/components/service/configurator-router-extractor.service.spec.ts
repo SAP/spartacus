@@ -191,4 +191,20 @@ describe('ConfigRouterExtractorService', () => {
       expect(owner.type).toBe(CommonConfigurator.OwnerType.CART_ENTRY);
     });
   });
+
+  describe('getConfiguratorTypeFromSemanticRoute', () => {
+    it('should throw error if semantic route is undefined', () => {
+      expect(() =>
+        serviceUnderTest['getConfiguratorTypeFromSemanticRoute'](undefined)
+      ).toThrowError();
+    });
+
+    it('should throw error if semantic route is not configuration neither OV page', () => {
+      expect(() =>
+        serviceUnderTest['getConfiguratorTypeFromSemanticRoute'](
+          'isNoKnownRoute'
+        )
+      ).toThrowError();
+    });
+  });
 });
