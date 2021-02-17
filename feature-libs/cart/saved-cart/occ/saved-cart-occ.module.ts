@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CostCenterOccModule, provideDefaultConfig } from '@spartacus/core';
+import { provideDefaultConfig } from '@spartacus/core';
 import { defaultOccSavedCartConfig } from './config/default-occ-saved-cart-config';
 
 @NgModule({
-  imports: [CommonModule, CostCenterOccModule],
+  imports: [CommonModule],
   providers: [provideDefaultConfig(defaultOccSavedCartConfig)],
 })
 export class SavedCartOccModule {}
