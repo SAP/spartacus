@@ -13,7 +13,6 @@
     }
 
     .cx-price,
-    .cx-quantity,
     .cx-price-total {
       font-weight: bold;
 
@@ -22,14 +21,6 @@
 
     .cx-greyed-out {
       color: var(--cx-color-light);
-    }
-
-    .cx-quantity {
-      display: flex;
-      flex-direction: row;
-      label {
-        padding-inline-end: 0.5rem;
-      }
     }
   }
 }

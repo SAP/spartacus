@@ -6,7 +6,6 @@ export interface ConfiguratorPriceComponentOptions {
   price?: Configurator.PriceDetails;
   priceTotal?: Configurator.PriceDetails;
   isLightedUp?: boolean;
-  isOverview?: boolean;
 }
 
 @Component({
@@ -16,20 +15,6 @@ export interface ConfiguratorPriceComponentOptions {
 })
 export class ConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
-
-  /**
-   * Verifies whether only quantity should be displayed.
-   *
-   * @return {boolean} - 'true' if only quantity should be displayed, otherwise 'false'
-   */
-  displayQuantityOnly(): boolean {
-    return (
-      this.formula?.quantity &&
-      this.formula?.quantity >= 1 &&
-      this.formula.isOverview &&
-      this.formula?.price?.value === 0
-    );
-  }
 
   /**
    * Retrieves the quantity.

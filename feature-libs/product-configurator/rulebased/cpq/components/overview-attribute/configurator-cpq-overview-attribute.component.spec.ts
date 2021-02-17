@@ -126,7 +126,7 @@ describe('ConfiguratorCPQOverviewAttributeComponent', () => {
 
   describe('UI', () => {
     const getProductImage = () =>
-      fixture.debugElement.queryAll(By.css('.cpq-attribute-thumbnail img'))[0];
+      fixture.debugElement.queryAll(By.css('.cx-thumbnail img'))[0];
 
     describe('product image', () => {
       it('should be visible if primary', () => {

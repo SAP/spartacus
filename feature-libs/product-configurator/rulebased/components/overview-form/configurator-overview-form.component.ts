@@ -66,4 +66,15 @@ export class ConfiguratorOverviewFormComponent {
       ) !== undefined
     );
   }
+
+  isSameAttribute(
+    attributes: Configurator.AttributeOverview[],
+    index: number
+  ): boolean {
+    if (index === 0) {
+      return attributes[index]?.attribute === attributes[index + 1]?.attribute;
+    } else {
+      return attributes[index]?.attribute === attributes[index - 1]?.attribute;
+    }
+  }
 }
