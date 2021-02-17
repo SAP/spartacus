@@ -10,8 +10,8 @@ import {
 } from '../../../helpers/product-search';
 import { viewportContext } from '../../../helpers/viewport-context';
 
-viewportContext(['mobile', 'desktop'], () => {
-  context('Product search product type flow', () => {
+context('Product search product type flow', () => {
+  viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/');
