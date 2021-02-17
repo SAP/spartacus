@@ -46,8 +46,9 @@
       "@spartacus/storefinder",
       "@spartacus/qualtrics",
       "@spartacus/cdc",
-      "@spartacus/setup",
-      "@spartacus/cart"
+      "@spartacus/tracking",
+      "@spartacus/cart",
+      "@spartacus/setup"
     ]
   },
   "schematics": "./src/collection.json"

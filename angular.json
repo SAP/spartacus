@@ -645,6 +645,44 @@
         }
       }
     },
+    "tracking": {
+      "projectType": "library",
+      "root": "feature-libs/tracking",
+      "sourceRoot": "feature-libs/tracking/src",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "feature-libs/tracking/tsconfig.lib.json",
+            "project": "feature-libs/tracking/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "feature-libs/tracking/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "feature-libs/tracking/test.ts",
+            "tsConfig": "feature-libs/tracking/tsconfig.spec.json",
+            "karmaConfig": "feature-libs/tracking/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "feature-libs/tracking/tsconfig.lib.json",
+              "feature-libs/tracking/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
     "cart": {
       "projectType": "library",
       "root": "feature-libs/cart",
