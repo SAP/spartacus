@@ -13,7 +13,7 @@ import {
 export const resultsTitle = 'cx-breadcrumb h1';
 const category = 'canon';
 
-export function productStoreFlow(mobile?: string) {
+export function productStoreFlow() {
   cy.server();
 
   // createProductQuery(queries.q1);
@@ -43,7 +43,7 @@ export function productStoreFlow(mobile?: string) {
   );
   cy.route('GET', `${searchUrlPrefix}?fields=*`).as('facets');
 
-  clickFacet('Stores', mobile);
+  clickFacet('Stores');
 
   cy.wait(`@facets`).its('status').should('eq', 200);
 
