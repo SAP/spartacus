@@ -116,6 +116,9 @@
       "@spartacus/cds": [
         "integration-libs/cds/public_api"
       ],
+      "@spartacus/digital-payments": [
+        "integration-libs/digital-payments/public_api"
+      ],
       "@spartacus/assets": [
         "projects/assets/src/public_api"
       ],

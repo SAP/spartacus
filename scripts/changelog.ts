@@ -83,6 +83,7 @@ export default async function run(
     '@spartacus/qualtrics': 'feature-libs/qualtrics',
     '@spartacus/cdc': 'integration-libs/cdc',
     '@spartacus/setup': 'core-libs/setup',
+    '@spartacus/digital-payments': 'integration-libs/digital-payments',
   };
 
   const duplexUtil = through(function (chunk, _, callback) {
@@ -306,6 +307,10 @@ if (typeof config.to === 'undefined') {
     case 'cdc':
     case '@spartacus/cdc':
       config.library = '@spartacus/cdc';
+      break;
+    case 'digital-payments':
+    case '@spartacus/digital-payments':
+      config.library = '@spartacus/digital-payments';
       break;
     case 'storefinder':
     case '@spartacus/storefinder':

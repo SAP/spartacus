@@ -66,6 +66,7 @@
       "@spartacus/storefinder/root": ["../../dist/storefinder/root"],
       "@spartacus/cdc": ["../../dist/cdc"],
       "@spartacus/cds": ["../../dist/cds"],
+      "@spartacus/digital-payments": ["../../dist/digital-payments"],
       "@spartacus/assets": ["../../dist/assets"],
       "@spartacus/core": ["../../dist/core"],
       "@spartacus/incubator": ["../../dist/incubator"],

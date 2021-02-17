@@ -81,6 +81,7 @@ import { OrderApprovalFeatureModule } from './features/order-approval-feature.mo
 import { environment } from '../../environments/environment';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
+import { DigitalPaymentFeatureModule } from './features/digital-payments-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
 
 const featureModules = [];
@@ -93,6 +94,9 @@ if (environment.cdc) {
 }
 if (environment.cds) {
   featureModules.push(CdsFeatureModule);
+}
+if (environment.digitalPayments) {
+  featureModules.push(DigitalPaymentFeatureModule);
 }
 
 @NgModule({
