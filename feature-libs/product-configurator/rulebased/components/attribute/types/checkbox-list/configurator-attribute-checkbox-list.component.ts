@@ -14,6 +14,10 @@ import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import {
+  ConfiguratorAttributeQuantityComponentOptions,
+  Quantity,
+} from '../../quantity/configurator-attribute-quantity.component';
 
 @Component({
   selector: 'cx-configurator-attribute-checkbox-list',
@@ -175,14 +179,26 @@ export class ConfiguratorAttributeCheckBoxListComponent
     }
   }
 
+  /**
+   * Extract corresponding quantity parameters
+   *
+   * @param {boolean} allowZero - Allow zero
+   * @param {number} initialQuantity - Initial quantity
+   * @param {boolean} disableQuantityActions - Disable quantity actions
+   * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
+   */
   extractQuantityParameters(
     allowZero: boolean,
     initialQuantity: number,
     disableQuantityActions: boolean
-  ) {
+  ): ConfiguratorAttributeQuantityComponentOptions {
+    const initQuantity: Quantity = {
+      quantity: initialQuantity,
+    };
+
     return {
       allowZero: allowZero,
-      initialQuantity: initialQuantity,
+      initialQuantity: initQuantity,
       disableQuantityActions: disableQuantityActions,
     };
   }

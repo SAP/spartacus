@@ -160,14 +160,11 @@ export function checkAttrDisplayed(
     .eq(attrbuteIdx)
     .within(() => {
       if (attributeName) {
-        cy.get('.cpq-attribute-label, .cx-attribute-label').should(
-          'contain.text',
-          attributeName
-        );
+        cy.get('.cx-attribute-label').should('contain.text', attributeName);
       } else {
-        cy.get('.cpq-attribute-label, .cx-attribute-label').should('not.exist');
+        cy.get('.cx-attribute-label').should('not.be.visible');
       }
-      cy.get('.cpq-attribute-value, .cx-attribute-value').should(
+      cy.get('.cx-value-info, .cx-attribute-value').should(
         'contain.text',
         valueName
       );

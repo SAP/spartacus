@@ -84,29 +84,7 @@
     }
 
     .cx-product-card-imgs {
-      height: 3rem;
-      min-width: 3rem;
-      width: 3rem;
-
-      @include media-breakpoint-up(md) {
-        height: 5rem;
-        min-width: 5rem;
-        width: 5rem;
-      }
-
-      .cx-product-card-imgs-fake,
-      cx-media {
-        background-color: var(--cx-color-light);
-        height: 100%;
-        width: 100%;
-      }
-
-      img {
-        object-fit: cover;
-        object-position: center;
-        height: 100%;
-        width: 100%;
-      }
+      @include cx-configurator-image();
     }
 
     .cx-product-card-info {

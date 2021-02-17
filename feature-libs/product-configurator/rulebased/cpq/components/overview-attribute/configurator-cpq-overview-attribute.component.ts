@@ -42,7 +42,29 @@ export class ConfiguratorCPQOverviewAttributeComponent implements OnInit {
       price: this.attributeOverview?.valuePrice,
       priceTotal: this.attributeOverview?.valuePriceTotal,
       isLightedUp: true,
-      isOverview: true,
     };
+  }
+
+  /**
+   * Verifies whether the quantity should be displayed.
+   *
+   * @return {boolean} - 'true' if the quantity should be displayed, otherwise 'false'
+   */
+  displayQuantity(): boolean {
+    return (
+      this.attributeOverview?.quantity && this.attributeOverview?.quantity > 0
+    );
+  }
+
+  /**
+   * Verifies whether the item price should be displayed.
+   *
+   * @return {boolean} - 'true' if the item price price should be displayed, otherwise 'false'
+   */
+  displayPrice(): boolean {
+    return (
+      this.attributeOverview?.valuePrice &&
+      this.attributeOverview?.valuePrice?.value > 0
+    );
   }
 }

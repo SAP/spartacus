@@ -302,7 +302,7 @@ context('CPQ Configuration', () => {
     });
   });
 
-  describe('Overview Page', () => {
+  describe.only('Overview Page', () => {
     it('should display user selections and prices on overview page', () => {
       configuration.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_CAM);
 
@@ -340,27 +340,27 @@ context('CPQ Configuration', () => {
           name: 'Camera Body',
           value: 'Nikon D850',
           type: 'product',
-          price: '599', // $599.00
+          price: '+ $1,500.00',
         },
         {
           name: 'Memory Card',
           value: 'SanDisk Extreme Pro',
           type: 'product',
-          price: '37.99', // 2 x $37.99 = $75.98
+          price: '2x($100.00) + $200.00',
         },
         {
           name: 'Lenses',
           value: 'Sigma 85mm F1.4 DG HS',
           type: 'product',
-          price: '999', // $999.00
+          price: '+ $800.00',
         },
-        { value: 'Nikon AF-P DX NIKKOR', type: 'product' },
+        { value: 'Nikon AF-P DX NIKKOR', type: 'product', price: '+ $700.00' },
         { name: 'professional photographer?', value: 'yes', type: 'simple' },
         {
           name: 'Insurance',
           value: 'Pro 4 years',
           type: 'product',
-          price: '69', // $69.00
+          price: '+ $600.00',
         },
       ];
       ovContent.forEach((line, idx) => {

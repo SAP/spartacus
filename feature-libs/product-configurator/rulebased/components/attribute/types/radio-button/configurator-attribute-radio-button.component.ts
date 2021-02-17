@@ -12,6 +12,10 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import {
+  ConfiguratorAttributeQuantityComponentOptions,
+  Quantity,
+} from '../../quantity/configurator-attribute-quantity.component';
 
 @Component({
   selector: 'cx-configurator-attribute-radio-button',
@@ -103,12 +107,24 @@ export class ConfiguratorAttributeRadioButtonComponent
     }
   }
 
-  extractQuantityParameters(disableQuantityActions: boolean) {
-    return {
-      allowZero: !this.attribute.required,
-      initialQuantity: this.attribute.selectedSingleValue
+  /**
+   *  Extract corresponding quantity parameters
+   *
+   * @param {boolean} disableQuantityActions - Disable quantity actions
+   * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
+   */
+  extractQuantityParameters(
+    disableQuantityActions: boolean
+  ): ConfiguratorAttributeQuantityComponentOptions {
+    const initialQuantity: Quantity = {
+      quantity: this.attribute.selectedSingleValue
         ? this.attribute.quantity
         : 0,
+    };
+
+    return {
+      allowZero: !this.attribute.required,
+      initialQuantity: initialQuantity,
       disableQuantityActions: disableQuantityActions,
     };
   }
