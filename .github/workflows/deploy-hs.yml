@@ -1,0 +1,24 @@
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+name: Hosting service deployment
+jobs:
+  hostingServiceDeploy:
+    environment: dev
+    name: Hosting service deployment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup UPP CLI
+        run: ./ci-scripts/upp-cli-setup.sh
+      - name: Build Spartacus
+        run: yarn build:libs && yarn build
+      - name: Deploy Spartacus
+        run: ./ci-scripts/deploy-hs.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GHT_USER: ${{ secrets.GHT_USER}}
+          GHT_TOKEN: ${{ secrets.GHT_TOKEN}}
+          UPP_TENANT: ${{ secrets.UPP_TENANT}}
+          UPP_CLIENT: ${{ secrets.UPP_CLIENT}}
+          UPP_SECRET: ${{ secrets.UPP_SECRET}}
