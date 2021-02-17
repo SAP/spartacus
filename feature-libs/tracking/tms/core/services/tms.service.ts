@@ -61,6 +61,7 @@ export class TmsService implements OnDestroy {
       const collector = this.injector.get<TmsCollector>(
         collectorConfig.collector
       );
+      // tslint:disable-next-line:no-non-null-assertion
       collector.init(collectorConfig, this.windowRef.nativeWindow!);
 
       this.subscription.add(
@@ -75,6 +76,7 @@ export class TmsService implements OnDestroy {
           event = collector.map ? collector.map(event) : event;
           collector.pushEvent(
             collectorConfig,
+            // tslint:disable-next-line:no-non-null-assertion
             this.windowRef.nativeWindow!,
             event
           );
