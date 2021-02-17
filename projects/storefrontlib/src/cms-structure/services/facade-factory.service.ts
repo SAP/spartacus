@@ -1,6 +1,18 @@
 import { AbstractType, inject, Injectable, Injector } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { debounceTime, map, shareReplay, switchMap } from 'rxjs/operators';
+import {
+  ConnectableObservable,
+  EMPTY,
+  isObservable,
+  Observable,
+  throwError,
+} from 'rxjs';
+import {
+  debounceTime,
+  map,
+  publishReplay,
+  shareReplay,
+  switchMap,
+} from 'rxjs/operators';
 import { FeatureModulesService } from './feature-modules.service';
 import { CmsConfig } from '@spartacus/core';
 
@@ -61,9 +73,20 @@ export class FacadeFactoryService {
   }
 
   protected call(facade: AbstractType<any>, method: string): Observable<any> {
-    return this.facades
-      .get(facade)
-      .pipe(switchMap((service) => service[method]()));
+    const callResult$ = this.facades.get(facade).pipe(
+      map((service) => service[method]()),
+      publishReplay()
+    );
+    (callResult$ as ConnectableObservable<any>).connect();
+
+    return callResult$.pipe(
+      switchMap((result) => {
+        if (isObservable(result)) {
+          return result;
+        }
+        return EMPTY;
+      })
+    );
   }
 
   protected get(facade: AbstractType<any>, property: string): Observable<any> {
