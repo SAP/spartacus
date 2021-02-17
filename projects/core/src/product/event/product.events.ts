@@ -1,7 +1,9 @@
+import { CxEvent } from '../../event/cx-event';
+
 /**
  * Indicates that a user select or unselect a facet value
  */
-export class FacetChangedEvent {
+export class FacetChangedEvent extends CxEvent {
   code: string;
   name?: string;
   valueCode: string;
