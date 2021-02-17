@@ -1,11 +1,10 @@
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-name: Hosting service deployment
+name: Hosting service
 jobs:
   hostingServiceDeploy:
-    environment: dev
-    name: Hosting service deployment
+    name: Deployment
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
