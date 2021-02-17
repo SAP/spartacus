@@ -24,6 +24,11 @@ class GtmCollectorMock implements Partial<TmsCollector> {
   }
 }
 class AepCollectorMock extends GtmCollectorMock {}
+class WindowObjectMock {
+  isBrowser(): boolean {
+    return true;
+  }
+}
 
 class MockEventService {
   get(): Observable<LoginEvent> {
@@ -50,12 +55,11 @@ describe('TmsService', () => {
   let aepCollector: AepCollectorMock;
 
   beforeEach(() => {
-    const windowObject = {} as WindowObject;
     TestBed.configureTestingModule({
       providers: [
         { provide: TmsConfig, useValue: tmsConfig },
         { provide: EventService, useClass: MockEventService },
-        { provide: WindowRef, useValue: windowObject },
+        { provide: WindowRef, useClass: WindowObjectMock },
         GtmCollectorMock,
         AepCollectorMock,
       ],

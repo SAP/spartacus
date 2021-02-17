@@ -1,12 +1,4 @@
-import { isPlatformServer } from '@angular/common';
-import {
-  Inject,
-  Injectable,
-  Injector,
-  isDevMode,
-  OnDestroy,
-  PLATFORM_ID,
-} from '@angular/core';
+import { Injectable, Injector, isDevMode, OnDestroy } from '@angular/core';
 import { CxEvent, EventService, WindowRef } from '@spartacus/core';
 import { merge, Observable, Subscription } from 'rxjs';
 import { TmsConfig } from '../config/tms-config';
@@ -26,15 +18,14 @@ export class TmsService implements OnDestroy {
     protected eventsService: EventService,
     protected windowRef: WindowRef,
     protected tmsConfig: TmsConfig,
-    protected injector: Injector,
-    @Inject(PLATFORM_ID) protected platformId: any
+    protected injector: Injector
   ) {}
 
   /**
-   * This method is called only once to start collecting and dispatching events
+   * Called only once to start collecting and dispatching events
    */
   collect(): void {
-    if (isPlatformServer(this.platformId)) {
+    if (!this.windowRef.isBrowser()) {
       return;
     }
 
@@ -61,7 +52,8 @@ export class TmsService implements OnDestroy {
       const collector = this.injector.get<TmsCollector>(
         collectorConfig.collector
       );
-      collector.init(collectorConfig, this.windowRef.nativeWindow);
+      // tslint:disable-next-line:no-non-null-assertion
+      collector.init(collectorConfig, this.windowRef.nativeWindow!);
 
       this.subscription.add(
         this.mapEvents(events).subscribe((event) => {
@@ -75,7 +67,8 @@ export class TmsService implements OnDestroy {
           event = collector.map ? collector.map(event) : event;
           collector.pushEvent(
             collectorConfig,
-            this.windowRef.nativeWindow,
+            // tslint:disable-next-line:no-non-null-assertion
+            this.windowRef.nativeWindow!,
             event
           );
         })
