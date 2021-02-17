@@ -124,7 +124,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-details.service.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-details.service.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -225,8 +225,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="55"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-details.service.ts:55</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-details.service.ts:57</a></div>
                 </td>
             </tr>
 
@@ -264,8 +264,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="69"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-details.service.ts:69</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="71"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-details.service.ts:71</a></div>
                 </td>
             </tr>
 
@@ -303,8 +303,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-details.service.ts:61</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="63"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-details.service.ts:63</a></div>
                 </td>
             </tr>
 
@@ -346,7 +346,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-details.service.ts:25</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-details.service.ts:26</a></div>
                             </td>
                         </tr>
 
@@ -373,7 +373,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-details.service.ts:26</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-details.service.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -398,6 +398,7 @@ import {
 } from &#x27;@spartacus/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import {
+  distinctUntilChanged,
   filter,
   map,
   shareReplay,
@@ -433,6 +434,7 @@ export class CheckoutDetailsService {
     );
 
     this.getCheckoutDetailsLoaded$ &#x3D; this.cartId$.pipe(
+      distinctUntilChanged(),
       tap((cartId) &#x3D;&gt; this.checkoutService.loadCheckoutDetails(cartId)),
       shareReplay(1),
       switchMap(() &#x3D;&gt; this.checkoutService.getCheckoutDetailsLoaded()),

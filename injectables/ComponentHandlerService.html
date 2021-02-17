@@ -373,7 +373,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>new Set&lt;CmsComponentMapping&gt;()</code>
+                            <i>Default value : </i><code>new Set&lt;CmsComponentMapping&lt;any&gt;&gt;()</code>
                         </td>
                     </tr>
                         <tr>
@@ -402,9 +402,9 @@
   Optional,
   ViewContainerRef,
 } from &#x27;@angular/core&#x27;;
-import { ComponentHandler } from &#x27;../handlers/component-handler&#x27;;
 import { CmsComponentMapping, resolveApplicable } from &#x27;@spartacus/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
+import { ComponentHandler } from &#x27;../handlers/component-handler&#x27;;
 
 /**
  * Responsible for obtaining component handler for specified component mapping
@@ -419,7 +419,7 @@ export class ComponentHandlerService {
     protected handlers: ComponentHandler[]
   ) {}
 
-  protected invalidMappings &#x3D; new Set&lt;CmsComponentMapping&gt;();
+  protected invalidMappings &#x3D; new Set&lt;CmsComponentMapping&lt;any&gt;&gt;();
 
   /**
    * Get best matching component handler

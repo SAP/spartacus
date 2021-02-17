@@ -118,8 +118,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="8"
-                            class="link-to-prism">feature-libs/organization/administration/occ/converters/occ-permission-normalizer.ts:8</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="10"
+                            class="link-to-prism">feature-libs/organization/administration/occ/converters/occ-permission-normalizer.ts:10</a></div>
                 </td>
             </tr>
 
@@ -188,7 +188,9 @@
 import { Converter, Occ } from &#x27;@spartacus/core&#x27;;
 import { Permission } from &#x27;@spartacus/organization/administration/core&#x27;;
 
-@Injectable()
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
 export class OccPermissionNormalizer
   implements Converter&lt;Occ.Permission, Permission&gt; {
   convert(source: Occ.Permission, target?: Permission): Permission {

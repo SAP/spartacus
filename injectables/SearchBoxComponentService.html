@@ -94,6 +94,12 @@
                                 <a href="#clearResults">clearResults</a>
                             </li>
                             <li>
+                                <a href="#dispatchProductSelectedEvent">dispatchProductSelectedEvent</a>
+                            </li>
+                            <li>
+                                <a href="#dispatchSuggestionSelectedEvent">dispatchSuggestionSelectedEvent</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Private</span>
                                 <a href="#fetchTranslation">fetchTranslation</a>
                             </li>
@@ -150,12 +156,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(searchService: <a href="../injectables/SearchboxService.html">SearchboxService</a>, routingService: <a href="../injectables/RoutingService.html">RoutingService</a>, translationService: <a href="../classes/TranslationService.html">TranslationService</a>, winRef: <a href="../injectables/WindowRef.html">WindowRef</a>)</code>
+<code>constructor(searchService: <a href="../injectables/SearchboxService.html">SearchboxService</a>, routingService: <a href="../injectables/RoutingService.html">RoutingService</a>, translationService: <a href="../classes/TranslationService.html">TranslationService</a>, winRef: <a href="../injectables/WindowRef.html">WindowRef</a>, eventService?: <a href="../injectables/EventService.html">EventService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:42</a></div>
                             </td>
                         </tr>
 
@@ -220,6 +226,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>eventService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/EventService.html" target="_self" >EventService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -256,8 +274,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="85"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:85</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="110"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:110</a></div>
                 </td>
             </tr>
 
@@ -271,6 +289,160 @@ no longer emited upon next search.</p>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dispatchProductSelectedEvent"></a>
+                    <span class="name">
+                        <b>
+                            dispatchProductSelectedEvent
+                        </b>
+                        <a href="#dispatchProductSelectedEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>dispatchProductSelectedEvent(eventData: <a href="../classes/SearchBoxProductSelectedEvent.html">SearchBoxProductSelectedEvent</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="134"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:134</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Dispatches a searchbox event for product selected</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>eventData</td>
+                                    <td>
+                                                <code><a href="../classes/SearchBoxProductSelectedEvent.html" target="_self" >SearchBoxProductSelectedEvent</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>data for the &quot;SearchBoxProductSelectedEvent&quot;</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dispatchSuggestionSelectedEvent"></a>
+                    <span class="name">
+                        <b>
+                            dispatchSuggestionSelectedEvent
+                        </b>
+                        <a href="#dispatchSuggestionSelectedEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>dispatchSuggestionSelectedEvent(eventData: <a href="../classes/SearchBoxSuggestionSelectedEvent.html">SearchBoxSuggestionSelectedEvent</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="152"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:152</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Dispatches a searchbox event for suggestion selected</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>eventData</td>
+                                    <td>
+                                                <code><a href="../classes/SearchBoxSuggestionSelectedEvent.html" target="_self" >SearchBoxSuggestionSelectedEvent</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>data for the &quot;SearchBoxSuggestionSelectedEvent&quot;</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -300,8 +472,8 @@ no longer emited upon next search.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="210"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:210</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="274"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:274</a></div>
                 </td>
             </tr>
 
@@ -384,8 +556,8 @@ no longer emited upon next search.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="163"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:163</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="227"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:227</a></div>
                 </td>
             </tr>
 
@@ -459,8 +631,8 @@ a suggestion to provide easy access to the search result page</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="124"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:124</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="188"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:188</a></div>
                 </td>
             </tr>
 
@@ -534,8 +706,8 @@ Otherwise it emits an empty object.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="138"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:138</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="202"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:202</a></div>
                 </td>
             </tr>
 
@@ -607,8 +779,8 @@ available, we try to get an exact match suggestion.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="62"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:62</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="87"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:87</a></div>
                 </td>
             </tr>
 
@@ -683,8 +855,8 @@ rules can be applied.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="179"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:179</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="243"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:243</a></div>
                 </td>
             </tr>
 
@@ -756,8 +928,8 @@ Otherwise it emits null.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="90"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:90</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="115"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:115</a></div>
                 </td>
             </tr>
 
@@ -828,8 +1000,8 @@ Otherwise it emits null.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="112"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:112</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="176"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:176</a></div>
                 </td>
             </tr>
 
@@ -906,8 +1078,8 @@ Otherwise it emits null.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="203"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:203</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="267"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:267</a></div>
                 </td>
             </tr>
 
@@ -978,8 +1150,8 @@ Otherwise it emits null.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="56"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:56</a></div>
                 </td>
             </tr>
 
@@ -1064,8 +1236,8 @@ products or suggestions.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="94"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:94</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="119"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:119</a></div>
                 </td>
             </tr>
 
@@ -1151,7 +1323,7 @@ products or suggestions.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:20</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:44</a></div>
                             </td>
                         </tr>
 
@@ -1166,6 +1338,7 @@ products or suggestions.</p>
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import {
+  EventService,
   ProductSearchPage,
   RoutingService,
   SearchboxService,
@@ -1174,6 +1347,10 @@ import {
 } from &#x27;@spartacus/core&#x27;;
 import { combineLatest, Observable, of } from &#x27;rxjs&#x27;;
 import { map, switchMap, tap } from &#x27;rxjs/operators&#x27;;
+import {
+  SearchBoxProductSelectedEvent,
+  SearchBoxSuggestionSelectedEvent,
+} from &#x27;./search-box.events&#x27;;
 import { SearchBoxConfig, SearchResults } from &#x27;./search-box.model&#x27;;
 
 const HAS_SEARCH_RESULT_CLASS &#x3D; &#x27;has-searchbox-results&#x27;;
@@ -1183,10 +1360,30 @@ const HAS_SEARCH_RESULT_CLASS &#x3D; &#x27;has-searchbox-results&#x27;;
 })
 export class SearchBoxComponentService {
   constructor(
+    searchService: SearchboxService,
+    routingService: RoutingService,
+    translationService: TranslationService,
+    winRef: WindowRef
+  );
+  /**
+   * @deprecated since version 3.1
+   * Use constructor(searchService: SearchboxService, routingService: RoutingService, translationService: TranslationService, winRef: WindowRef, eventService?: EventService) instead
+   */
+  // TODO(#10988): Remove deprecated constructors
+  constructor(
+    searchService: SearchboxService,
+    routingService: RoutingService,
+    translationService: TranslationService,
+    winRef: WindowRef,
+    // tslint:disable-next-line: unified-signatures
+    eventService?: EventService
+  );
+  constructor(
     public searchService: SearchboxService,
     protected routingService: RoutingService,
     protected translationService: TranslationService,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
+    protected eventService?: EventService
   ) {}
 
   /**
@@ -1264,6 +1461,45 @@ export class SearchBoxComponentService {
       add
         ? this.winRef.document.body.classList.add(className)
         : this.winRef.document.body.classList.remove(className);
+    }
+  }
+
+  /**
+   * Dispatches a searchbox event for product selected
+   *
+   * @param eventData data for the &quot;SearchBoxProductSelectedEvent&quot;
+   */
+  dispatchProductSelectedEvent(eventData: SearchBoxProductSelectedEvent): void {
+    // TODO(#10988): for 4.0 remove &quot;eventService&quot; check
+    if (this.eventService) {
+      this.eventService.dispatch&lt;SearchBoxProductSelectedEvent&gt;(
+        {
+          freeText: eventData.freeText,
+          productCode: eventData.productCode,
+        },
+        SearchBoxProductSelectedEvent
+      );
+    }
+  }
+
+  /**
+   * Dispatches a searchbox event for suggestion selected
+   *
+   * @param eventData data for the &quot;SearchBoxSuggestionSelectedEvent&quot;
+   */
+  dispatchSuggestionSelectedEvent(
+    eventData: SearchBoxSuggestionSelectedEvent
+  ): void {
+    // TODO(#10988): for 4.0 remove &quot;eventService&quot; check
+    if (this.eventService) {
+      this.eventService.dispatch&lt;SearchBoxSuggestionSelectedEvent&gt;(
+        {
+          freeText: eventData.freeText,
+          selectedSuggestion: eventData.selectedSuggestion,
+          searchSuggestions: eventData.searchSuggestions,
+        },
+        SearchBoxSuggestionSelectedEvent
+      );
     }
   }
 

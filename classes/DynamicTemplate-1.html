@@ -120,21 +120,23 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>resolve(templateString: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, templateVariables: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">Object</a>)</code>
+                    <code>resolve(templateString: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, templateVariables: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">Object</a>, encodeVariable?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2"
-                            class="link-to-prism">projects/core/src/config/utils/dynamic-template.ts:2</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="9"
+                            class="link-to-prism">projects/core/src/config/utils/dynamic-template.ts:9</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Populates the given template with the variables provided</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -144,6 +146,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -158,6 +161,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>template of the OCC endpoint</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>templateVariables</td>
@@ -170,6 +177,26 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>variables to replace in the template</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>encodeVariable</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>encode variable before placing it in the template</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -198,12 +225,26 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export class DynamicTemplate {
-  static resolve(templateString: string, templateVariables: Object) {
+  /**
+   * Populates the given template with the variables provided
+   *
+   * @param templateString template of the OCC endpoint
+   * @param templateVariables variables to replace in the template
+   * @param encodeVariable encode variable before placing it in the template
+   */
+  static resolve(
+    templateString: string,
+    templateVariables: Object,
+    encodeVariable?: boolean
+  ): string {
     for (const variableLabel of Object.keys(templateVariables)) {
       const placeholder &#x3D; new RegExp(&#x27;\\${&#x27; + variableLabel + &#x27;}&#x27;, &#x27;g&#x27;);
       templateString &#x3D; templateString.replace(
         placeholder,
-        templateVariables[variableLabel]
+        // TODO 4.0: default to encodeVariable &#x3D; true
+        encodeVariable
+          ? encodeURIComponent(templateVariables[variableLabel])
+          : templateVariables[variableLabel]
       );
     }
     return templateString;

@@ -118,8 +118,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="7"
-                            class="link-to-prism">feature-libs/organization/administration/occ/converters/occ-budget-normalizer.ts:7</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="9"
+                            class="link-to-prism">feature-libs/organization/administration/occ/converters/occ-budget-normalizer.ts:9</a></div>
                 </td>
             </tr>
 
@@ -188,7 +188,9 @@
 import { Converter, Occ, TimeUtils } from &#x27;@spartacus/core&#x27;;
 import { Budget } from &#x27;@spartacus/organization/administration/core&#x27;;
 
-@Injectable()
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
 export class OccBudgetNormalizer implements Converter&lt;Occ.Budget, Budget&gt; {
   convert(source: Occ.Budget, target?: Budget): Budget {
     if (target &#x3D;&#x3D;&#x3D; undefined) {

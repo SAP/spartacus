@@ -181,7 +181,6 @@
                                 <a href="#removeEntry">removeEntry</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
                                 <a href="#requireLoadedCart">requireLoadedCart</a>
                             </li>
                             <li>
@@ -1776,7 +1775,6 @@ This is for an edge case</p>
                     <a name="requireLoadedCart"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
                             requireLoadedCart
                         </b>
                         <a href="#requireLoadedCart"><span class="icon ion-ios-link"></span></a>
@@ -1785,8 +1783,7 @@ This is for an edge case</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>requireLoadedCart(customCartSelector$?: Observable<ProcessesLoaderState<Cart>>)</code>
+<code>requireLoadedCart(customCartSelector$?: Observable<ProcessesLoaderState<Cart>>)</code>
                 </td>
             </tr>
 
@@ -2418,7 +2415,7 @@ export class ActiveCartService implements OnDestroy {
     );
   }
 
-  private requireLoadedCart(
+  requireLoadedCart(
     customCartSelector$?: Observable&lt;ProcessesLoaderState&lt;Cart&gt;&gt;
   ): Observable&lt;ProcessesLoaderState&lt;Cart&gt;&gt; {
     // For guest cart merge we want to filter guest cart in the whole stream

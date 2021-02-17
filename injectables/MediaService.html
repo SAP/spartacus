@@ -257,8 +257,8 @@ The baseUrl is read from the <code>occConfig.backend.media.baseUrl</code> or
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="204"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:204</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="206"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:206</a></div>
                 </td>
             </tr>
 
@@ -401,8 +401,8 @@ for specific formats.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="187"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:187</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="190"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:190</a></div>
                 </td>
             </tr>
 
@@ -411,6 +411,8 @@ for specific formats.</p>
                 <td class="col-md-4">
                     <div class="io-description"><p>Resolves the absolute URL for the given url. In most cases, this URL represents
 the relative URL on the backend. In that case, we prefix the url with the baseUrl.</p>
+<p>When we have receive an absolute URL, we return the URL as-is. An absolute URL might also
+start with double slash, which is used to resolve media cross from http and https.</p>
 </div>
 
                     <div class="io-description">
@@ -1156,12 +1158,14 @@ export class MediaService {
   /**
    * Resolves the absolute URL for the given url. In most cases, this URL represents
    * the relative URL on the backend. In that case, we prefix the url with the baseUrl.
+   *
+   * When we have receive an absolute URL, we return the URL as-is. An absolute URL might also
+   * start with double slash, which is used to resolve media cross from http and https.
    */
   protected resolveAbsoluteUrl(url: string): string {
-    if (!url) {
-      return null;
-    }
-    return url.startsWith(&#x27;http&#x27;) ? url : this.getBaseUrl() + url;
+    return !url || url.startsWith(&#x27;http&#x27;) || url.startsWith(&#x27;//&#x27;)
+      ? url
+      : this.getBaseUrl() + url;
   }
 
   /**

@@ -118,8 +118,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="9"
-                            class="link-to-prism">projects/core/src/occ/adapters/cost-center/converters/occ-cost-center-serializer.ts:9</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="11"
+                            class="link-to-prism">projects/core/src/occ/adapters/cost-center/converters/occ-cost-center-serializer.ts:11</a></div>
                 </td>
             </tr>
 
@@ -189,7 +189,9 @@ import { CostCenter } from &#x27;../../../../model/org-unit.model&#x27;;
 import { Converter } from &#x27;../../../../util/converter.service&#x27;;
 import { Occ } from &#x27;../../../occ-models/occ.models&#x27;;
 
-@Injectable()
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
 export class OccCostCenterSerializer
   implements Converter&lt;CostCenter, Occ.CostCenter&gt; {
   convert(source: CostCenter, target?: Occ.CostCenter): Occ.CostCenter {

@@ -101,7 +101,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">feature-libs/organization/order-approval/occ/converters/occ-order-approval-list-normalizer.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">feature-libs/organization/order-approval/occ/converters/occ-order-approval-list-normalizer.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -166,8 +166,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">feature-libs/organization/order-approval/occ/converters/occ-order-approval-list-normalizer.ts:16</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">feature-libs/organization/order-approval/occ/converters/occ-order-approval-list-normalizer.ts:18</a></div>
                 </td>
             </tr>
 
@@ -242,7 +242,9 @@ import {
 import { OrderApproval } from &#x27;../../core/model/order-approval.model&#x27;;
 import { ORDER_APPROVAL_NORMALIZER } from &#x27;../../core/connectors/converters&#x27;;
 
-@Injectable()
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
 export class OccOrderApprovalListNormalizer
   implements Converter&lt;Occ.OrderApprovalsList, EntitiesModel&lt;OrderApproval&gt;&gt; {
   constructor(private converter: ConverterService) {}

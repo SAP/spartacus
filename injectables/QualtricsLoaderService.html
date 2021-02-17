@@ -56,7 +56,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts</code>
+            <code>feature-libs/qualtrics/components/qualtrics-loader/qualtrics-loader.service.ts</code>
         </p>
 
             <p class="comment">
@@ -100,6 +100,10 @@ the script can be added in alternatives ways.</p>
                                     <span class="modifier">Private</span>
                                 <a href="#qsiLoaded$">qsiLoaded$</a>
                             </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#subscription">subscription</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -116,7 +120,6 @@ the script can be added in alternatives ways.</p>
                                 <a href="#addScript">addScript</a>
                             </li>
                             <li>
-                                    <span class="modifier">Protected</span>
                                 <a href="#hasScript">hasScript</a>
                             </li>
                             <li>
@@ -126,6 +129,9 @@ the script can be added in alternatives ways.</p>
                             <li>
                                     <span class="modifier">Protected</span>
                                 <a href="#isDataLoaded">isDataLoaded</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy">ngOnDestroy</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
@@ -148,6 +154,9 @@ the script can be added in alternatives ways.</p>
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
+                                    <a href="#window">window</a>
+                                </li>
+                                <li>
                                     <a href="#renderer">renderer</a>
                                 </li>
                             </ul>
@@ -163,12 +172,12 @@ the script can be added in alternatives ways.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(winRef: <a href="../injectables/WindowRef.html">WindowRef</a>, rendererFactory: <a href="https://angular.io/api/core/RendererFactory2" target="_blank">RendererFactory2</a>)</code>
+<code>constructor(winRef: <a href="../injectables/WindowRef.html">WindowRef</a>, rendererFactory: <a href="https://angular.io/api/core/RendererFactory2" target="_blank">RendererFactory2</a>, platformId: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts:53</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">feature-libs/qualtrics/components/qualtrics-loader/qualtrics-loader.service.ts:68</a></div>
                             </td>
                         </tr>
 
@@ -202,6 +211,18 @@ the script can be added in alternatives ways.</p>
                                                   
                                                         <td>
                                                                         <code><a href="https://angular.io/api/core/RendererFactory2" target="_blank" >RendererFactory2</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>platformId</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -245,8 +266,8 @@ the script can be added in alternatives ways.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="101"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts:101</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="84"
+                            class="link-to-prism">feature-libs/qualtrics/components/qualtrics-loader/qualtrics-loader.service.ts:84</a></div>
                 </td>
             </tr>
 
@@ -304,7 +325,6 @@ the Qualtrics API directly to <em>unload</em> and <em>run</em> the project.</p>
                     <a name="hasScript"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Protected</span>
                             hasScript
                         </b>
                         <a href="#hasScript"><span class="icon ion-ios-link"></span></a>
@@ -313,16 +333,15 @@ the Qualtrics API directly to <em>unload</em> and <em>run</em> the project.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>hasScript(source?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>hasScript(source?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="126"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts:126</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="99"
+                            class="link-to-prism">feature-libs/qualtrics/components/qualtrics-loader/qualtrics-loader.service.ts:99</a></div>
                 </td>
             </tr>
 
@@ -395,8 +414,8 @@ the Qualtrics API directly to <em>unload</em> and <em>run</em> the project.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts:67</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="108"
+                            class="link-to-prism">feature-libs/qualtrics/components/qualtrics-loader/qualtrics-loader.service.ts:108</a></div>
                 </td>
             </tr>
 
@@ -440,8 +459,8 @@ we run the API.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="119"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts:119</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="142"
+                            class="link-to-prism">feature-libs/qualtrics/components/qualtrics-loader/qualtrics-loader.service.ts:142</a></div>
                 </td>
             </tr>
 
@@ -455,6 +474,45 @@ You can observe any data in this method.</p>
 
                     <div class="io-description">
                         <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <b>
+                            ngOnDestroy
+                        </b>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="150"
+                            class="link-to-prism">feature-libs/qualtrics/components/qualtrics-loader/qualtrics-loader.service.ts:150</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
                 </td>
@@ -485,8 +543,8 @@ You can observe any data in this method.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="77"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts:77</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="118"
+                            class="link-to-prism">feature-libs/qualtrics/components/qualtrics-loader/qualtrics-loader.service.ts:118</a></div>
                 </td>
             </tr>
 
@@ -566,15 +624,15 @@ running it again. We don&#39;t do this by default, but offer a flag to condition
                         <td class="col-md-4">
                             <i>Default value : </i><code>this.qsiLoaded$.pipe(
     switchMap(() &#x3D;&gt; this.isDataLoaded()),
-    map(() &#x3D;&gt; this.winRef?.nativeWindow[&#x27;QSI&#x27;]),
-    filter((api) &#x3D;&gt; Boolean(api)),
-    tap((qsi) &#x3D;&gt; (this.qsiApi &#x3D; qsi))
+    map((dataLoaded: boolean) &#x3D;&gt; (dataLoaded ? this.window?.QSI : EMPTY)),
+    filter((qsi: any) &#x3D;&gt; Boolean(qsi)),
+    tap((qsi: any) &#x3D;&gt; (this.qsiApi &#x3D; qsi))
   )</code>
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts:48</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">feature-libs/qualtrics/components/qualtrics-loader/qualtrics-loader.service.ts:59</a></div>
                             </td>
                         </tr>
 
@@ -610,7 +668,7 @@ The API is also stored locally in the service, in case it&#39;s required later o
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts:33</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">feature-libs/qualtrics/components/qualtrics-loader/qualtrics-loader.service.ts:43</a></div>
                             </td>
                         </tr>
 
@@ -644,14 +702,14 @@ The API is also stored locally in the service, in case it&#39;s required later o
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>this.winRef?.nativeWindow
-    ? fromEvent(this.winRef.nativeWindow, QUALTRICS_EVENT_NAME)
-    : of()</code>
+                            <i>Default value : </i><code>isPlatformBrowser(this.platformId) &amp;&amp; this.window
+      ? fromEvent(this.window, QUALTRICS_EVENT_NAME)
+      : of()</code>
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts:38</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">feature-libs/qualtrics/components/qualtrics-loader/qualtrics-loader.service.ts:48</a></div>
                             </td>
                         </tr>
 
@@ -664,12 +722,61 @@ The API is also stored locally in the service, in case it&#39;s required later o
 
             </tbody>
         </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="subscription"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Protected</span>
+                            subscription</b>
+                            <a href="#subscription"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new Subscription()</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">feature-libs/qualtrics/components/qualtrics-loader/qualtrics-loader.service.ts:38</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
 </section>
 
             <section>
     <h3 id="accessors">
         Accessors
     </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="window"></a>
+                        <span class="name"><b>window</b><a href="#window"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>window()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">feature-libs/qualtrics/components/qualtrics-loader/qualtrics-loader.service.ts:66</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
@@ -686,7 +793,7 @@ The API is also stored locally in the service, in case it&#39;s required later o
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="130" class="link-to-prism">projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts:130</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="146" class="link-to-prism">feature-libs/qualtrics/components/qualtrics-loader/qualtrics-loader.service.ts:146</a></div>
                                 </td>
                             </tr>
 
@@ -697,17 +804,25 @@ The API is also stored locally in the service, in case it&#39;s required later o
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { isPlatformBrowser } from &#x27;@angular/common&#x27;;
+import {
+  Inject,
   Injectable,
   isDevMode,
+  OnDestroy,
+  PLATFORM_ID,
   Renderer2,
   RendererFactory2,
 } from &#x27;@angular/core&#x27;;
 import { WindowRef } from &#x27;@spartacus/core&#x27;;
-import { fromEvent, Observable, of } from &#x27;rxjs&#x27;;
+import { EMPTY, fromEvent, Observable, of, Subscription } from &#x27;rxjs&#x27;;
 import { filter, map, switchMap, tap } from &#x27;rxjs/operators&#x27;;
 
 export const QUALTRICS_EVENT_NAME &#x3D; &#x27;qsi_js_loaded&#x27;;
+
+interface QualtricsWindow extends Window {
+  QSI?: any;
+}
 
 /**
  * Service to integration Qualtrics.
@@ -725,7 +840,9 @@ export const QUALTRICS_EVENT_NAME &#x3D; &#x27;qsi_js_loaded&#x27;;
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
-export class QualtricsLoaderService {
+export class QualtricsLoaderService implements OnDestroy {
+  protected subscription &#x3D; new Subscription();
+
   /**
    * Reference to the QSI API.
    */
@@ -734,9 +851,10 @@ export class QualtricsLoaderService {
   /**
    * QSI load event that happens when the QSI JS file is loaded.
    */
-  private qsiLoaded$: Observable&lt;any&gt; &#x3D; this.winRef?.nativeWindow
-    ? fromEvent(this.winRef.nativeWindow, QUALTRICS_EVENT_NAME)
-    : of();
+  private qsiLoaded$: Observable&lt;any&gt; &#x3D;
+    isPlatformBrowser(this.platformId) &amp;&amp; this.window
+      ? fromEvent(this.window, QUALTRICS_EVENT_NAME)
+      : of();
 
   /**
    * Emits the Qualtrics Site Intercept (QSI) JavaScript API whenever available.
@@ -746,16 +864,46 @@ export class QualtricsLoaderService {
    */
   protected qsi$: Observable&lt;any&gt; &#x3D; this.qsiLoaded$.pipe(
     switchMap(() &#x3D;&gt; this.isDataLoaded()),
-    map(() &#x3D;&gt; this.winRef?.nativeWindow[&#x27;QSI&#x27;]),
-    filter((api) &#x3D;&gt; Boolean(api)),
-    tap((qsi) &#x3D;&gt; (this.qsiApi &#x3D; qsi))
+    map((dataLoaded: boolean) &#x3D;&gt; (dataLoaded ? this.window?.QSI : EMPTY)),
+    filter((qsi: any) &#x3D;&gt; Boolean(qsi)),
+    tap((qsi: any) &#x3D;&gt; (this.qsiApi &#x3D; qsi))
   );
+
+  get window(): QualtricsWindow | undefined {
+    return this.winRef.nativeWindow;
+  }
 
   constructor(
     protected winRef: WindowRef,
-    protected rendererFactory: RendererFactory2
+    protected rendererFactory: RendererFactory2,
+    @Inject(PLATFORM_ID) protected platformId: any
   ) {
     this.initialize();
+  }
+
+  /**
+   * Adds the deployment script to the DOM.
+   *
+   * The script will not be added twice if it was loaded before. In that case, we use
+   * the Qualtrics API directly to _unload_ and _run_ the project.
+   */
+  addScript(scriptSource: string): void {
+    if (this.hasScript(scriptSource)) {
+      this.run(true);
+    } else {
+      const script: HTMLScriptElement &#x3D; this.renderer.createElement(&#x27;script&#x27;);
+      script.type &#x3D; &#x27;text/javascript&#x27;;
+      script.defer &#x3D; true;
+      script.src &#x3D; scriptSource;
+      this.renderer.appendChild(this.winRef.document.body, script);
+    }
+  }
+
+  /**
+   * Indicates if the script is already added to the DOM.
+   */
+  hasScript(source?: string): boolean {
+    return !!this.winRef.document.querySelector(&#x60;script[src&#x3D;&quot;${source}&quot;]&#x60;);
   }
 
   /**
@@ -763,8 +911,8 @@ export class QualtricsLoaderService {
    * Qualtrics specific event (&#x60;qsi_js_loaded&#x60;). As soon as this events happens,
    * we run the API.
    */
-  protected initialize() {
-    this.qsi$.subscribe(() &#x3D;&gt; this.run());
+  protected initialize(): void {
+    this.subscription.add(this.qsi$.subscribe(() &#x3D;&gt; this.run()));
   }
 
   /**
@@ -792,24 +940,6 @@ export class QualtricsLoaderService {
   }
 
   /**
-   * Adds the deployment script to the DOM.
-   *
-   * The script will not be added twice if it was loaded before. In that case, we use
-   * the Qualtrics API directly to _unload_ and _run_ the project.
-   */
-  addScript(scriptSource: string): void {
-    if (this.hasScript(scriptSource)) {
-      this.run(true);
-    } else {
-      const script: HTMLScriptElement &#x3D; this.renderer.createElement(&#x27;script&#x27;);
-      script.type &#x3D; &#x27;text/javascript&#x27;;
-      script.defer &#x3D; true;
-      script.src &#x3D; scriptSource;
-      this.renderer.appendChild(this.winRef.document.body, script);
-    }
-  }
-
-  /**
    * This logic exist in order to let the client(s) add their own logic to wait for any kind of page data.
    * You can observe any data in this method.
    *
@@ -819,15 +949,12 @@ export class QualtricsLoaderService {
     return of(true);
   }
 
-  /**
-   * Indicates if the script is already added to the DOM.
-   */
-  protected hasScript(source?: string): boolean {
-    return !!this.winRef.document.querySelector(&#x60;script[src&#x3D;&quot;${source}&quot;]&#x60;);
-  }
-
   protected get renderer(): Renderer2 {
     return this.rendererFactory.createRenderer(null, null);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }
 </code></pre>

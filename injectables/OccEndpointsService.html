@@ -91,7 +91,17 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#buildUrl">buildUrl</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#buildUrlFromEndpointString">buildUrlFromEndpointString</a>
+                            </li>
+                            <li>
                                 <a href="#getBaseEndpoint">getBaseEndpoint</a>
+                            </li>
+                            <li>
+                                <a href="#getBaseUrl">getBaseUrl</a>
                             </li>
                             <li>
                                 <a href="#getEndpoint">getEndpoint</a>
@@ -104,7 +114,14 @@
                                 <a href="#getOccEndpoint">getOccEndpoint</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getPrefix">getPrefix</a>
+                            </li>
+                            <li>
                                 <a href="#getRawEndpoint">getRawEndpoint</a>
+                            </li>
+                            <li>
+                                <a href="#getRawEndpointValue">getRawEndpointValue</a>
                             </li>
                             <li>
                                 <a href="#getUrl">getUrl</a>
@@ -146,7 +163,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:35</a></div>
                             </td>
                         </tr>
 
@@ -205,74 +222,33 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getBaseEndpoint"></a>
+                    <a name="buildUrl"></a>
                     <span class="name">
                         <b>
-                            getBaseEndpoint
+                            buildUrl
                         </b>
-                        <a href="#getBaseEndpoint"><span class="icon ion-ios-link"></span></a>
+                        <a href="#buildUrl"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getBaseEndpoint()</code>
+<code>buildUrl(endpoint: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, attributes?: <a href="../interfaces/DynamicAttributes.html">DynamicAttributes</a>, propertiesToOmit?: <a href="../interfaces/BaseOccUrlProperties.html">BaseOccUrlProperties</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="83"
-                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:83</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="158"
+                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:158</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns base OCC endpoint (baseUrl + prefix + baseSite)</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getEndpoint"></a>
-                    <span class="name">
-                        <b>
-                            getEndpoint
-                        </b>
-                        <a href="#getEndpoint"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getEndpoint(endpoint: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="99"
-                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:99</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Returns an OCC endpoint including baseUrl and baseSite</p>
+                    <div class="io-description"><p>Returns a fully qualified OCC Url</p>
 </div>
 
                     <div class="io-description">
@@ -299,7 +275,385 @@
 
 
                                     <td>
+                                        <p>Name of the OCC endpoint key</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>attributes</td>
+                                    <td>
+                                                <code><a href="../interfaces/DynamicAttributes.html" target="_self" >DynamicAttributes</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Dynamic attributes used to build the url</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>propertiesToOmit</td>
+                                    <td>
+                                                <code><a href="../interfaces/BaseOccUrlProperties.html" target="_self" >BaseOccUrlProperties</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Specify properties to not add to the url (baseUrl, prefix, baseSite)</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="buildUrlFromEndpointString"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            buildUrlFromEndpointString
+                        </b>
+                        <a href="#buildUrlFromEndpointString"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>buildUrlFromEndpointString(endpointString: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, propertiesToOmit?: <a href="../interfaces/BaseOccUrlProperties.html">BaseOccUrlProperties</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="301"
+                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:301</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Add the base OCC url properties to the specified endpoint string</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>endpointString</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>String value for the url endpoint</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>propertiesToOmit</td>
+                                    <td>
+                                                <code><a href="../interfaces/BaseOccUrlProperties.html" target="_self" >BaseOccUrlProperties</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Specify properties to not add to the url (baseUrl, prefix, baseSite)</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getBaseEndpoint"></a>
+                    <span class="name">
+                        <b>
+                            getBaseEndpoint
+                        </b>
+                        <a href="#getBaseEndpoint"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getBaseEndpoint(propertiesToOmit?: <a href="../interfaces/BaseOccUrlProperties.html">BaseOccUrlProperties</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="102"
+                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:102</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>propertiesToOmit</td>
+                                    <td>
+                                                <code><a href="../interfaces/BaseOccUrlProperties.html" target="_self" >BaseOccUrlProperties</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Specify properties to not add to the url (baseUrl, prefix, baseSite)</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getBaseUrl"></a>
+                    <span class="name">
+                        <b>
+                            getBaseUrl
+                        </b>
+                        <a href="#getBaseUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getBaseUrl(baseUrlProperties: <a href="../interfaces/BaseOccUrlProperties.html">BaseOccUrlProperties</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="133"
+                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:133</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns base OCC endpoint (baseUrl + prefix + baseSite) base on provided values</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>baseUrlProperties</td>
+                                    <td>
+                                                <code><a href="../interfaces/BaseOccUrlProperties.html" target="_self" >BaseOccUrlProperties</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>{
+      baseUrl: true,
+      prefix: true,
+      baseSite: true,
+    }</code>
+                                    </td>
+
+                                    <td>
+                                        <p>Specify properties to not add to the url (baseUrl, prefix, baseSite)</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getEndpoint"></a>
+                    <span class="name">
+                        <b>
+                            getEndpoint
+                        </b>
+                        <a href="#getEndpoint"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getEndpoint(endpoint: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, propertiesToOmit?: <a href="../interfaces/BaseOccUrlProperties.html">BaseOccUrlProperties</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="118"
+                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:118</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>endpoint</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
                                         <p>Endpoint suffix</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>propertiesToOmit</td>
+                                    <td>
+                                                <code><a href="../interfaces/BaseOccUrlProperties.html" target="_self" >BaseOccUrlProperties</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Specify properties to not add to the url (baseUrl, prefix, baseSite)</p>
 
                                     </td>
                                 </tr>
@@ -343,8 +697,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="162"
-                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:162</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="265"
+                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:265</a></div>
                 </td>
             </tr>
 
@@ -425,19 +779,14 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="60"
-                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:60</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="89"
+                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:89</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns an endpoint starting from the OCC prefix (no baseSite), i.e. /occ/v2/{endpoint}
-Most OCC endpoints are related to a baseSite context and are therefor prefixed
-with the baseSite. The <code>/basesites</code> endpoint does not relate to a specific baseSite
-as it will load all baseSites.</p>
-</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -487,6 +836,47 @@ as it will load all baseSites.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getPrefix"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            getPrefix
+                        </b>
+                        <a href="#getPrefix"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getPrefix()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="308"
+                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:308</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getRawEndpoint"></a>
                     <span class="name">
                         <b>
@@ -505,16 +895,14 @@ as it will load all baseSites.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:39</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:54</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns an endpoint starting from the OCC baseUrl (no baseSite)</p>
-</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -541,6 +929,97 @@ as it will load all baseSites.</p>
 
                                     <td>
                                         <p>Endpoint suffix</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getRawEndpointValue"></a>
+                    <span class="name">
+                        <b>
+                            getRawEndpointValue
+                        </b>
+                        <a href="#getRawEndpointValue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getRawEndpointValue(endpoint: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scope?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="73"
+                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:73</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the value configured for a specific endpoint</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>endpoint</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>scope</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>endpoint configuration scope</p>
 
                                     </td>
                                 </tr>
@@ -582,16 +1061,14 @@ as it will load all baseSites.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="113"
-                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:113</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="216"
+                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:216</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns a fully qualified OCC Url (including baseUrl and baseSite)</p>
-</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -710,7 +1187,7 @@ as it will load all baseSites.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:15</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -739,7 +1216,7 @@ as it will load all baseSites.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:17</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:30</a></div>
                                 </td>
                             </tr>
 
@@ -759,6 +1236,19 @@ import { BASE_SITE_CONTEXT_ID } from &#x27;../../site-context/providers/context-
 import { HttpParamsURIEncoder } from &#x27;../../util/http-params-uri.encoder&#x27;;
 import { OccConfig } from &#x27;../config/occ-config&#x27;;
 import { DEFAULT_SCOPE } from &#x27;../occ-models/occ-endpoints.model&#x27;;
+import { urlPathJoin } from &#x27;../utils/occ-url-util&#x27;;
+
+export interface BaseOccUrlProperties {
+  baseUrl?: boolean;
+  prefix?: boolean;
+  baseSite?: boolean;
+}
+
+export interface DynamicAttributes {
+  urlParams?: object;
+  queryParams?: object;
+  scope?: string;
+}
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
@@ -785,6 +1275,8 @@ export class OccEndpointsService {
   }
 
   /**
+   * @Deprecated since 3.1 - use &quot;getRawEndpointValue&quot; or &quot;buildUrl&quot; instead
+   *
    * Returns an endpoint starting from the OCC baseUrl (no baseSite)
    * @param endpoint Endpoint suffix
    */
@@ -802,6 +1294,20 @@ export class OccEndpointsService {
   }
 
   /**
+   * Returns the value configured for a specific endpoint
+   *
+   * @param endpointKey the configuration key for the endpoint to return
+   * @param scope endpoint configuration scope
+   */
+  getRawEndpointValue(endpoint: string, scope?: string): string {
+    const endpointValue &#x3D; this.getEndpointForScope(endpoint, scope);
+
+    return endpointValue;
+  }
+
+  /**
+   * @Deprecated since 3.1 - use &quot;buildUrl&quot; instead
+   *
    * Returns an endpoint starting from the OCC prefix (no baseSite), i.e. /occ/v2/{endpoint}
    * Most OCC endpoints are related to a baseSite context and are therefor prefixed
    * with the baseSite. The &#x60;/basesites&#x60; endpoint does not relate to a specific baseSite
@@ -810,58 +1316,132 @@ export class OccEndpointsService {
    * @param endpoint Endpoint suffix
    */
   getOccEndpoint(endpoint: string): string {
-    if (!this.config?.backend?.occ) {
-      return &#x27;&#x27;;
-    }
-    endpoint &#x3D; this.config.backend.occ.endpoints?.[endpoint];
+    endpoint &#x3D; this.getRawEndpointValue(endpoint);
 
-    if (
-      !endpoint.startsWith(&#x27;/&#x27;) &amp;&amp;
-      !this.config.backend.occ.prefix.endsWith(&#x27;/&#x27;)
-    ) {
-      endpoint &#x3D; &#x27;/&#x27; + endpoint;
-    }
-
-    return (
-      this.config.backend.occ.baseUrl +
-      this.config.backend.occ.prefix +
-      endpoint
-    );
+    return this.getEndpoint(endpoint, { baseSite: false });
   }
 
   /**
-   * Returns base OCC endpoint (baseUrl + prefix + baseSite)
+   * @Deprecated since 3.1 - use &quot;getBaseUrl&quot; with the same parameters
+   *
+   * Returns base OCC endpoint (baseUrl + prefix + baseSite) by if no parameters are specified
+   *
+   * @param propertiesToOmit Specify properties to not add to the url (baseUrl, prefix, baseSite)
    */
-  getBaseEndpoint(): string {
+  getBaseEndpoint(propertiesToOmit?: BaseOccUrlProperties): string {
     if (!this.config?.backend?.occ) {
       return &#x27;&#x27;;
     }
 
-    return (
-      (this.config.backend.occ.baseUrl || &#x27;&#x27;) +
-      this.config.backend.occ.prefix +
-      this.activeBaseSite
-    );
+    return this.getBaseUrl(propertiesToOmit);
   }
 
   /**
+   * @Deprecated since 3.1 - use &quot;buildUrl&quot; with configurable endpoints instead
+   *
    * Returns an OCC endpoint including baseUrl and baseSite
+   *
    * @param endpoint Endpoint suffix
+   * @param propertiesToOmit Specify properties to not add to the url (baseUrl, prefix, baseSite)
    */
-  getEndpoint(endpoint: string): string {
-    if (!endpoint.startsWith(&#x27;/&#x27;)) {
+  getEndpoint(
+    endpoint: string,
+    propertiesToOmit?: BaseOccUrlProperties
+  ): string {
+    if (!endpoint.startsWith(&#x27;/&#x27;) &amp;&amp; !this.getPrefix().endsWith(&#x27;/&#x27;)) {
       endpoint &#x3D; &#x27;/&#x27; + endpoint;
     }
-    return this.getBaseEndpoint() + endpoint;
+    return this.buildUrlFromEndpointString(endpoint, propertiesToOmit);
   }
 
   /**
+   * Returns base OCC endpoint (baseUrl + prefix + baseSite) base on provided values
+   *
+   * @param baseUrlProperties Specify properties to not add to the url (baseUrl, prefix, baseSite)
+   */
+  getBaseUrl(
+    baseUrlProperties: BaseOccUrlProperties &#x3D; {
+      baseUrl: true,
+      prefix: true,
+      baseSite: true,
+    }
+  ): string {
+    const baseUrl &#x3D;
+      baseUrlProperties.baseUrl &#x3D;&#x3D;&#x3D; false
+        ? &#x27;&#x27;
+        : this.config.backend.occ.baseUrl;
+    const prefix &#x3D; baseUrlProperties.prefix &#x3D;&#x3D;&#x3D; false ? &#x27;&#x27; : this.getPrefix();
+    const baseSite &#x3D;
+      baseUrlProperties.baseSite &#x3D;&#x3D;&#x3D; false ? &#x27;&#x27; : this.activeBaseSite;
+
+    return urlPathJoin(baseUrl, prefix, baseSite);
+  }
+
+  /**
+   * Returns a fully qualified OCC Url
+   *
+   * @param endpoint Name of the OCC endpoint key
+   * @param attributes Dynamic attributes used to build the url
+   * @param propertiesToOmit Specify properties to not add to the url (baseUrl, prefix, baseSite)
+   */
+  buildUrl(
+    endpoint: string,
+    attributes?: DynamicAttributes,
+    propertiesToOmit?: BaseOccUrlProperties
+  ): string {
+    let url &#x3D; this.getEndpointForScope(endpoint, attributes?.scope);
+
+    if (attributes) {
+      const { urlParams, queryParams } &#x3D; attributes;
+
+      if (urlParams) {
+        url &#x3D; DynamicTemplate.resolve(url, attributes.urlParams, true);
+      }
+
+      if (queryParams) {
+        let httpParamsOptions &#x3D; { encoder: new HttpParamsURIEncoder() };
+
+        if (url.includes(&#x27;?&#x27;)) {
+          let queryParamsFromEndpoint: string;
+          [url, queryParamsFromEndpoint] &#x3D; url.split(&#x27;?&#x27;);
+          httpParamsOptions &#x3D; {
+            ...httpParamsOptions,
+            ...{ fromString: queryParamsFromEndpoint },
+          };
+        }
+
+        let httpParams &#x3D; new HttpParams(httpParamsOptions);
+        Object.keys(queryParams).forEach((key) &#x3D;&gt; {
+          const value &#x3D; queryParams[key];
+          if (value !&#x3D;&#x3D; undefined) {
+            if (value &#x3D;&#x3D;&#x3D; null) {
+              httpParams &#x3D; httpParams.delete(key);
+            } else {
+              httpParams &#x3D; httpParams.set(key, value);
+            }
+          }
+        });
+
+        const params &#x3D; httpParams.toString();
+        if (params.length) {
+          url +&#x3D; &#x27;?&#x27; + params;
+        }
+      }
+    }
+
+    return this.buildUrlFromEndpointString(url, propertiesToOmit);
+  }
+
+  /**
+   * @Deprecated since 3.1 - use &quot;buildUrl&quot; instead
+   *
    * Returns a fully qualified OCC Url (including baseUrl and baseSite)
    * @param endpoint Name of the OCC endpoint key config
    * @param urlParams  URL parameters
    * @param queryParams Query parameters
    * @param scope
    */
+  // TODO #10729: Handle deprecation
   getUrl(
     endpoint: string,
     urlParams?: object,
@@ -881,7 +1461,7 @@ export class OccEndpointsService {
       let httpParamsOptions &#x3D; { encoder: new HttpParamsURIEncoder() };
 
       if (endpoint.includes(&#x27;?&#x27;)) {
-        let queryParamsFromEndpoint;
+        let queryParamsFromEndpoint: string;
         [endpoint, queryParamsFromEndpoint] &#x3D; endpoint.split(&#x27;?&#x27;);
 
         httpParamsOptions &#x3D; {
@@ -913,6 +1493,11 @@ export class OccEndpointsService {
 
   private getEndpointForScope(endpoint: string, scope?: string): string {
     const endpointsConfig &#x3D; this.config.backend?.occ?.endpoints;
+
+    if (!Boolean(endpointsConfig)) {
+      return &#x27;&#x27;;
+    }
+
     const endpointConfig &#x3D; endpointsConfig[endpoint];
 
     if (scope) {
@@ -934,6 +1519,29 @@ export class OccEndpointsService {
         ? endpointConfig
         : endpointConfig?.[DEFAULT_SCOPE]) || endpoint
     );
+  }
+
+  /**
+   * Add the base OCC url properties to the specified endpoint string
+   *
+   * @param endpointString String value for the url endpoint
+   * @param propertiesToOmit Specify properties to not add to the url (baseUrl, prefix, baseSite)
+   */
+  private buildUrlFromEndpointString(
+    endpointString: string,
+    propertiesToOmit?: BaseOccUrlProperties
+  ): string {
+    return urlPathJoin(this.getBaseUrl(propertiesToOmit), endpointString);
+  }
+
+  private getPrefix(): string {
+    if (
+      this.config?.backend?.occ?.prefix &amp;&amp;
+      !this.config.backend.occ.prefix.startsWith(&#x27;/&#x27;)
+    ) {
+      return &#x27;/&#x27; + this.config.backend.occ.prefix;
+    }
+    return this.config.backend.occ.prefix;
   }
 }
 </code></pre>

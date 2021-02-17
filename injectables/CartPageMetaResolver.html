@@ -65,7 +65,7 @@
             <p class="comment">
                 <p>Resolves the page metadata for the Cart page (Using the <code>PageType.CONTENT_PAGE</code>
 and the <code>CartPageTemplate</code>). If the cart page matches this template, the more
-generic <code>ContentPageMetaResolver</code> is overriden by this resolver.</p>
+generic <code>ContentPageMetaResolver</code> is overridden by this resolver.</p>
 <p>The page title and robots are resolved in this implementation only.</p>
 
             </p>
@@ -77,6 +77,11 @@ generic <code>ContentPageMetaResolver</code> is overriden by this resolver.</p>
                         <code><a href="../classes/PageMetaResolver.html" target="_self" >PageMetaResolver</a></code>
             </p>
 
+            <p class="comment">
+                <h3>Example</h3>
+            </p>
+            <div class="io-description">
+            </div>
 
             <section>
     <h3 id="index">Index</h3>
@@ -145,12 +150,12 @@ generic <code>ContentPageMetaResolver</code> is overriden by this resolver.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(cms: <a href="../injectables/CmsService.html">CmsService</a>)</code>
+<code>constructor(cms: <a href="../injectables/CmsService.html">CmsService</a>, basePageMetaResolver?: <a href="../injectables/BasePageMetaResolver.html">BasePageMetaResolver</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/core/src/cart/services/cart-page-meta.resolver.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/core/src/cart/services/cart-page-meta.resolver.ts:38</a></div>
                             </td>
                         </tr>
 
@@ -176,6 +181,18 @@ generic <code>ContentPageMetaResolver</code> is overriden by this resolver.</p>
                                                   
                                                     <td>
                                                             No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>basePageMetaResolver</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/BasePageMetaResolver.html" target="_self" >BasePageMetaResolver</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
                                                     </td>
                                                     
                                                 </tr>
@@ -215,16 +232,14 @@ generic <code>ContentPageMetaResolver</code> is overriden by this resolver.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="46"
-                            class="link-to-prism">projects/core/src/cart/services/cart-page-meta.resolver.ts:46</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">projects/core/src/cart/services/cart-page-meta.resolver.ts:67</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns robots for the cart pages, which default to NOINDEX and NOFOLLOW.</p>
-</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="../interfaces/Page.html" target="_self" >Observable&lt;PageRobotsMeta[]&gt;</a></code>
@@ -256,16 +271,14 @@ generic <code>ContentPageMetaResolver</code> is overriden by this resolver.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">projects/core/src/cart/services/cart-page-meta.resolver.ts:39</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="56"
+                            class="link-to-prism">projects/core/src/cart/services/cart-page-meta.resolver.ts:56</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Resolves the page title, which is driven by the backend.</p>
-</div>
 
                     <div class="io-description">
                         <b>Returns : </b>    <code>Observable&lt;string&gt;</code>
@@ -540,7 +553,7 @@ the page type and page template.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/core/src/cart/services/cart-page-meta.resolver.ts:26</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">projects/core/src/cart/services/cart-page-meta.resolver.ts:52</a></div>
                             </td>
                         </tr>
 
@@ -633,11 +646,12 @@ the page type and page template.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Optional } from &#x27;@angular/core&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { filter, map } from &#x27;rxjs/operators&#x27;;
 import { CmsService } from &#x27;../../cms/facade/cms.service&#x27;;
 import { Page, PageRobotsMeta } from &#x27;../../cms/model/page.model&#x27;;
+import { BasePageMetaResolver } from &#x27;../../cms/page/base-page-meta.resolver&#x27;;
 import { PageMetaResolver } from &#x27;../../cms/page/page-meta.resolver&#x27;;
 import {
   PageRobotsResolver,
@@ -648,36 +662,56 @@ import { PageType } from &#x27;../../model/cms.model&#x27;;
 /**
  * Resolves the page metadata for the Cart page (Using the &#x60;PageType.CONTENT_PAGE&#x60;
  * and the &#x60;CartPageTemplate&#x60;). If the cart page matches this template, the more
- * generic &#x60;ContentPageMetaResolver&#x60; is overriden by this resolver.
+ * generic &#x60;ContentPageMetaResolver&#x60; is overridden by this resolver.
  *
  * The page title and robots are resolved in this implementation only.
+ *
+ * @deprecated since 3.1, in future versions we&#x27;ll drop this service as the logic
+ * is no longer specific since we introduce backend driven robots.
  */
+// TODO(#10467): Remove implementation
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
 export class CartPageMetaResolver
   extends PageMetaResolver
   implements PageTitleResolver, PageRobotsResolver {
-  protected cms$: Observable&lt;Page&gt; &#x3D; this.cms
-    .getCurrentPage()
-    .pipe(filter((page) &#x3D;&gt; !!page));
-
-  constructor(protected cms: CmsService) {
+  /**
+   * @deprecated since 3.1, we&#x27;ll use the BasePageMetaResolver in future versions and
+   * drop the CmsService from the constructor as it will no longer be used.
+   */
+  // TODO(#10467): Remove deprecated constructors
+  constructor(cms: CmsService);
+  // tslint:disable-next-line: unified-signatures
+  constructor(cms: CmsService, basePageMetaResolver?: BasePageMetaResolver);
+  constructor(
+    protected cms: CmsService,
+    @Optional() protected basePageMetaResolver?: BasePageMetaResolver
+  ) {
     super();
     this.pageType &#x3D; PageType.CONTENT_PAGE;
     this.pageTemplate &#x3D; &#x27;CartPageTemplate&#x27;;
   }
 
+  // TODO(#10467): remove the cms property as it&#x27;s no longer needed when we use the &#x60;BasePageMetaResolver&#x60;
   /**
-   * Resolves the page title, which is driven by the backend.
+   * @deprecated since 3.1, we&#x27;ll use the BasePageMetaResolver to resolve the page title
    */
+  protected cms$: Observable&lt;Page&gt; &#x3D; this.cms
+    .getCurrentPage()
+    .pipe(filter((page) &#x3D;&gt; !!page));
+
   resolveTitle(): Observable&lt;string&gt; {
-    return this.cms$.pipe(map((p) &#x3D;&gt; p.title));
+    // TODO(#10467): resolve the title from the &#x60;BasePageMetaResolver.resolveTitle()&#x60; only
+    return this.basePageMetaResolver
+      ? this.basePageMetaResolver.resolveTitle()
+      : this.cms$.pipe(map((p) &#x3D;&gt; p.title));
   }
 
   /**
-   * Returns robots for the cart pages, which default to NOINDEX and NOFOLLOW.
+   * @Override Returns robots for the cart pages, which default to NOINDEX/NOFOLLOW.
    */
+  // TODO(#10467): resolve robots from &#x60;BasePageMetaResolver&#x60; instead
   resolveRobots(): Observable&lt;PageRobotsMeta[]&gt; {
     return of([PageRobotsMeta.NOFOLLOW, PageRobotsMeta.NOINDEX]);
   }

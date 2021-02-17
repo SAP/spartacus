@@ -22,17 +22,17 @@
 <text text-anchor="start" x="429.7258" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Exports</text>
 <g id="clust1" class="cluster">
 <title>cluster_CommonConfiguratorModule</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="126,-70 126,-195 370,-195 370,-70 126,-70"/>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="129,-70 129,-195 367,-195 367,-70 129,-70"/>
 </g>
 <g id="clust3" class="cluster">
 <title>cluster_CommonConfiguratorModule_imports</title>
-<polygon fill="none" stroke="#000000" points="134,-78 134,-130 362,-130 362,-78 134,-78"/>
+<polygon fill="none" stroke="#000000" points="137,-78 137,-130 359,-130 359,-78 137,-78"/>
 </g>
-<!-- CommonConfiguratorCoreModule -->
+<!-- CommonConfiguratorOccModule -->
 <g id="node1" class="node">
-<title>CommonConfiguratorCoreModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="353.6937,-122 350.6937,-126 329.6937,-126 326.6937,-122 142.3063,-122 142.3063,-86 353.6937,-86 353.6937,-122"/>
-<text text-anchor="middle" x="248" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">CommonConfiguratorCoreModule</text>
+<title>CommonConfiguratorOccModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="351.0182,-122 348.0182,-126 327.0182,-126 324.0182,-122 144.9818,-122 144.9818,-86 351.0182,-86 351.0182,-122"/>
+<text text-anchor="middle" x="248" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">CommonConfiguratorOccModule</text>
 </g>
 <!-- CommonConfiguratorModule -->
 <g id="node2" class="node">
@@ -40,9 +40,9 @@
 <polygon fill="#8dd3c7" stroke="#000000" points="339.9818,-187 336.9818,-191 315.9818,-191 312.9818,-187 156.0182,-187 156.0182,-151 339.9818,-151 339.9818,-187"/>
 <text text-anchor="middle" x="248" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">CommonConfiguratorModule</text>
 </g>
-<!-- CommonConfiguratorCoreModule&#45;&gt;CommonConfiguratorModule -->
+<!-- CommonConfiguratorOccModule&#45;&gt;CommonConfiguratorModule -->
 <g id="edge1" class="edge">
-<title>CommonConfiguratorCoreModule&#45;&gt;CommonConfiguratorModule</title>
+<title>CommonConfiguratorOccModule&#45;&gt;CommonConfiguratorModule</title>
 <path fill="none" stroke="#000000" d="M248,-122.1061C248,-122.1061 248,-140.991 248,-140.991"/>
 <polygon fill="#000000" stroke="#000000" points="244.5001,-140.9909 248,-150.991 251.5001,-140.991 244.5001,-140.9909"/>
 </g>

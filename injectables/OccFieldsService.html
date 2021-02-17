@@ -533,7 +533,7 @@ export class OccFieldsService {
     const paramsMap &#x3D; {};
 
     if (params) {
-      params.split(&#x27;&amp;&#x27;).map((param) &#x3D;&gt; {
+      params.split(&#x27;&amp;&#x27;).forEach((param) &#x3D;&gt; {
         const keyValue &#x3D; param.split(&#x27;&#x3D;&#x27;);
         paramsMap[keyValue[0]] &#x3D; keyValue[1];
       });

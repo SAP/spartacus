@@ -180,6 +180,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, isDevMode, Type } from &#x27;@angular/core&#x27;;
 import { Observable, Subject } from &#x27;rxjs&#x27;;
 import { tap } from &#x27;rxjs/operators&#x27;;
+import { createFrom } from &#x27;../util/create-from&#x27;;
 import { MergingSubject } from &#x27;./utils/merging-subject&#x27;;
 
 /**
@@ -258,9 +259,17 @@ export class EventService {
 
   /**
    * Dispatches an instance of an individual event.
+   * If the eventType is provided a new event will be created for that type and with the event data.
+   *
+   * @param event an event
+   * @param eventType (optional) - type of event
    */
-  dispatch(event: Object): void {
-    const eventType &#x3D; event.constructor as Type&lt;any&gt;;
+  dispatch&lt;T&gt;(event: T, eventType?: Type&lt;T&gt;): void {
+    if (!eventType) {
+      eventType &#x3D; event.constructor as Type&lt;T&gt;;
+    } else if (!(event instanceof eventType)) {
+      event &#x3D; createFrom(eventType, event);
+    }
     const inputSubject$ &#x3D; this.getInputSubject(eventType);
     inputSubject$.next(event);
   }

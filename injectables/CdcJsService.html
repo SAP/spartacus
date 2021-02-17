@@ -413,7 +413,7 @@
 </div>
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
 
                     </div>
                 </td>
@@ -454,7 +454,7 @@
 </div>
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
 
                     </div>
                 </td>
@@ -1000,7 +1000,7 @@ import {
   UserService,
   WindowRef,
 } from &#x27;@spartacus/core&#x27;;
-import { combineLatest, ReplaySubject, Subscription } from &#x27;rxjs&#x27;;
+import { combineLatest, Observable, ReplaySubject, Subscription } from &#x27;rxjs&#x27;;
 import { take } from &#x27;rxjs/operators&#x27;;
 import { CdcConfig } from &#x27;../../config/cdc-config&#x27;;
 import { CdcAuthService } from &#x27;./cdc-auth.service&#x27;;
@@ -1036,14 +1036,14 @@ export class CdcJsService implements OnDestroy {
   /**
    * Returns observable with the information if CDC script is loaded.
    */
-  didLoad() {
+  didLoad(): Observable&lt;boolean&gt; {
     return this.loaded$.asObservable();
   }
 
   /**
    * Returns observable with the information if CDC script failed to load.
    */
-  didScriptFailToLoad() {
+  didScriptFailToLoad(): Observable&lt;boolean&gt; {
     return this.errorLoading$.asObservable();
   }
 

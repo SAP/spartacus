@@ -65,14 +65,62 @@
             </div>
         </div>
 
+        <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="forRoot"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Static</span>
+                            forRoot
+                        </b>
+                        <a href="#forRoot"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>forRoot()</code>
+                </td>
+            </tr>
 
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="19"
+                            class="link-to-prism">projects/core/src/cms/page/page.module.ts:19</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>ModuleWithProviders&lt;CmsPageTitleModule&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
     </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule } from &#x27;@angular/core&#x27;;
-import { PageMetaResolver } from &#x27;./page-meta.resolver&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
+import { provideDefaultConfig } from &#x27;../../config/config-providers&#x27;;
+import { defaultPageMetaConfig } from &#x27;./config/default-page-meta.config&#x27;;
 import { ContentPageMetaResolver } from &#x27;./content-page-meta.resolver&#x27;;
+import { PageMetaResolver } from &#x27;./page-meta.resolver&#x27;;
 
 @NgModule({
   providers: [
@@ -83,7 +131,16 @@ import { ContentPageMetaResolver } from &#x27;./content-page-meta.resolver&#x27;
     },
   ],
 })
-export class CmsPageTitleModule {}
+
+// TODO(#10467): Consider renaming to CmsPageModule or PageModule
+export class CmsPageTitleModule {
+  static forRoot(): ModuleWithProviders&lt;CmsPageTitleModule&gt; {
+    return {
+      ngModule: CmsPageTitleModule,
+      providers: [provideDefaultConfig(defaultPageMetaConfig)],
+    };
+  }
+}
 </code></pre>
     </div>
 </div>

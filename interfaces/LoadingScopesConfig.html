@@ -74,7 +74,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <code>[scope: string]:        <code><a href="../interfaces/LoadingScopeConfig.html" target="_self" >LoadingScopeConfig</a></code>
+                        <code>[scope: string]:        <code><a href="../interfaces/LoadingScopeConfig.html" target="_self" >LoadingScopeConfig | undefined</a></code>
 </code>
                     </td>
                 </tr>
@@ -103,11 +103,11 @@
 }
 
 export interface LoadingScopesConfig {
-  [scope: string]: LoadingScopeConfig;
+  [scope: string]: LoadingScopeConfig | undefined;
 }
 
 export interface LoadingScopes {
-  [model: string]: LoadingScopesConfig;
+  [model: string]: LoadingScopesConfig | undefined;
 }
 </code></pre>
     </div>

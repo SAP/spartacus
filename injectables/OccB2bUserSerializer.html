@@ -101,7 +101,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="5" class="link-to-prism">feature-libs/organization/administration/occ/converters/occ-b2b-user-serializer.ts:5</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="7" class="link-to-prism">feature-libs/organization/administration/occ/converters/occ-b2b-user-serializer.ts:7</a></div>
                             </td>
                         </tr>
 
@@ -136,8 +136,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="8"
-                            class="link-to-prism">feature-libs/organization/administration/occ/converters/occ-b2b-user-serializer.ts:8</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="10"
+                            class="link-to-prism">feature-libs/organization/administration/occ/converters/occ-b2b-user-serializer.ts:10</a></div>
                 </td>
             </tr>
 
@@ -205,7 +205,9 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { B2BUser, Converter, Occ } from &#x27;@spartacus/core&#x27;;
 
-@Injectable()
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
 export class OccB2bUserSerializer implements Converter&lt;B2BUser, Occ.B2BUser&gt; {
   constructor() {}
 

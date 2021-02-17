@@ -357,7 +357,9 @@ export default async function run(
     &#x27;@spartacus/cds&#x27;: &#x27;integration-libs/cds&#x27;,
     &#x27;@spartacus/organization&#x27;: &#x27;feature-libs/organization&#x27;,
     &#x27;@spartacus/product&#x27;: &#x27;feature-libs/product&#x27;,
+    &#x27;@spartacus/product-configurator&#x27;: &#x27;feature-libs/product-configurator&#x27;,
     &#x27;@spartacus/storefinder&#x27;: &#x27;feature-libs/storefinder&#x27;,
+    &#x27;@spartacus/qualtrics&#x27;: &#x27;feature-libs/qualtrics&#x27;,
     &#x27;@spartacus/cdc&#x27;: &#x27;integration-libs/cdc&#x27;,
     &#x27;@spartacus/setup&#x27;: &#x27;core-libs/setup&#x27;,
   };
@@ -574,12 +576,11 @@ if (typeof config.to &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) {
       break;
     case &#x27;product&#x27;:
     case &#x27;@spartacus/product&#x27;:
-    case &#x27;@spartacus/product/configurators&#x27;:
-    case &#x27;@spartacus/product/configurators/common&#x27;:
-    case &#x27;@spartacus/product/configurators/cpq&#x27;:
-    case &#x27;@spartacus/product/configurators/variant&#x27;:
-    case &#x27;@spartacus/product/configurators/textfield&#x27;:
       config.library &#x3D; &#x27;@spartacus/product&#x27;;
+      break;
+    case &#x27;product-configurator&#x27;:
+    case &#x27;@spartacus/product-configurator&#x27;:
+      config.library &#x3D; &#x27;@spartacus/product-configurator&#x27;;
       break;
     case &#x27;cdc&#x27;:
     case &#x27;@spartacus/cdc&#x27;:
@@ -588,6 +589,10 @@ if (typeof config.to &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) {
     case &#x27;storefinder&#x27;:
     case &#x27;@spartacus/storefinder&#x27;:
       config.library &#x3D; &#x27;@spartacus/storefinder&#x27;;
+      break;
+    case &#x27;qualtrics&#x27;:
+    case &#x27;@spartacus/qualtrics&#x27;:
+      config.library &#x3D; &#x27;@spartacus/qualtrics&#x27;;
       break;
     case &#x27;setup&#x27;:
     case &#x27;@spartacus/setup&#x27;:

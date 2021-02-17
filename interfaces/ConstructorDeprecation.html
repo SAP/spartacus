@@ -296,7 +296,12 @@ import {
   ReplaceChange,
 } from &#x27;@schematics/angular/utility/change&#x27;;
 import * as ts from &#x27;typescript&#x27;;
-import { TODO_SPARTACUS, UTF_8 } from &#x27;../constants&#x27;;
+import {
+  ANGULAR_CORE,
+  INJECT_DECORATOR,
+  TODO_SPARTACUS,
+  UTF_8,
+} from &#x27;../constants&#x27;;
 import {
   getAngularJsonFile,
   getDefaultProjectNameFromWorkspace,
@@ -309,7 +314,24 @@ export enum InsertDirection {
 
 export interface ClassType {
   className: string;
-  importPath: string;
+  importPath?: string;
+  literalInference?: string;
+  injectionToken?: {
+    token: string;
+    importPath?: string;
+    isArray?: boolean;
+  };
+}
+
+interface InjectServiceConfiguration {
+  constructorNode: ts.Node | undefined;
+  path: string;
+  serviceName: string;
+  modifier: &#x27;private&#x27; | &#x27;protected&#x27; | &#x27;public&#x27; | &#x27;no-modifier&#x27;;
+  propertyName?: string;
+  propertyType?: string;
+  injectionToken?: string;
+  isArray?: boolean;
 }
 
 export interface ComponentProperty {
@@ -666,7 +688,10 @@ function checkImports(
   parameterClassTypes: ClassType[]
 ): boolean {
   for (const classImport of parameterClassTypes) {
-    if (!isImported(source, classImport.className, classImport.importPath)) {
+    if (
+      classImport.importPath &amp;&amp;
+      !isImported(source, classImport.className, classImport.importPath)
+    ) {
       return false;
     }
   }
@@ -761,21 +786,25 @@ export function addConstructorParam(
   if (!constructorNode) {
     throw new SchematicsException(&#x60;No constructor found in ${sourcePath}.&#x60;);
   }
-
   const changes: Change[] &#x3D; [];
-
   if (!isInjected(constructorNode, paramToAdd)) {
     changes.push(
-      injectService(
+      injectService({
         constructorNode,
-        sourcePath,
-        paramToAdd.className,
-        &#x27;no-modifier&#x27;
-      )
+        path: sourcePath,
+        serviceName: paramToAdd.className,
+        modifier: &#x27;no-modifier&#x27;,
+        propertyType: paramToAdd.literalInference,
+        injectionToken: paramToAdd.injectionToken?.token,
+        isArray: paramToAdd.injectionToken?.isArray,
+      })
     );
   }
 
-  if (!isImported(source, paramToAdd.className, paramToAdd.importPath)) {
+  if (
+    paramToAdd.importPath &amp;&amp;
+    !isImported(source, paramToAdd.className, paramToAdd.importPath)
+  ) {
     changes.push(
       insertImport(
         source,
@@ -784,6 +813,37 @@ export function addConstructorParam(
         paramToAdd.importPath
       )
     );
+  }
+  if (paramToAdd.injectionToken?.token) {
+    if (!isImported(source, INJECT_DECORATOR, ANGULAR_CORE)) {
+      changes.push(
+        insertImport(source, sourcePath, INJECT_DECORATOR, ANGULAR_CORE)
+      );
+    }
+
+    /**
+     * This is for the case when an injection token is the same as the import&#x27;s type.
+     * In this case we don&#x27;t want to add two imports.
+     * Ex: &#x60;@Inject(LaunchRenderStrategy) launchRenderStrategy: LaunchRenderStrategy[]&#x60;
+     */
+    if (
+      paramToAdd.injectionToken.importPath &amp;&amp;
+      paramToAdd.injectionToken.token !&#x3D;&#x3D; paramToAdd.className &amp;&amp;
+      !isImported(
+        source,
+        paramToAdd.injectionToken.token,
+        paramToAdd.injectionToken.importPath
+      )
+    ) {
+      changes.push(
+        insertImport(
+          source,
+          sourcePath,
+          paramToAdd.injectionToken.token,
+          paramToAdd.injectionToken.importPath
+        )
+      );
+    }
   }
 
   const paramName &#x3D; getParamName(source, constructorNode, paramToAdd);
@@ -812,13 +872,22 @@ export function removeConstructorParam(
 
   if (shouldRemoveImportAndParam(source, paramToRemove)) {
     const importRemovalChange &#x3D; removeImport(source, paramToRemove);
+    const injectImportRemovalChange &#x3D; removeInjectImports(
+      source,
+      constructorNode,
+      paramToRemove
+    );
     const constructorParamRemovalChanges &#x3D; removeConstructorParamInternal(
       sourcePath,
       constructorNode,
       paramToRemove
     );
 
-    changes.push(importRemovalChange, ...constructorParamRemovalChanges);
+    changes.push(
+      importRemovalChange,
+      ...constructorParamRemovalChanges,
+      ...injectImportRemovalChange
+    );
   }
   const paramName &#x3D; getParamName(source, constructorNode, paramToRemove);
   if (!paramName) {
@@ -833,6 +902,19 @@ export function removeConstructorParam(
   changes.push(...superRemoval);
 
   return changes;
+}
+
+export function shouldRemoveDecorator(
+  constructorNode: ts.Node,
+  decoratorIdentifier: string
+): boolean {
+  const decoratorParameters &#x3D; findNodes(
+    constructorNode,
+    ts.SyntaxKind.Decorator
+  ).filter((x) &#x3D;&gt; x.getText().includes(decoratorIdentifier));
+
+  // if there are 0, or exactly 1 usage of the &#x60;decoratorIdentifier&#x60; in the whole class, we can safely remove it.
+  return decoratorParameters.length &lt; 2;
 }
 
 function getParamName(
@@ -909,6 +991,45 @@ function shouldRemoveImportAndParam(
   return true;
 }
 
+export function removeInjectImports(
+  source: ts.SourceFile,
+  constructorNode: ts.Node,
+  paramToRemove: ClassType
+): Change[] {
+  if (!paramToRemove.injectionToken) {
+    return [new NoopChange()];
+  }
+
+  const importRemovalChange: Change[] &#x3D; [];
+
+  if (shouldRemoveDecorator(constructorNode, INJECT_DECORATOR))
+    importRemovalChange.push(
+      removeImport(source, {
+        className: INJECT_DECORATOR,
+        importPath: ANGULAR_CORE,
+      })
+    );
+
+  /**
+   * This is for the case when an injection token is the same as the import&#x27;s type.
+   * In this case we don&#x27;t want to have two import removal changes.
+   * Ex: &#x60;@Inject(LaunchRenderStrategy) launchRenderStrategy: LaunchRenderStrategy[]&#x60;
+   */
+  if (
+    paramToRemove.injectionToken.importPath &amp;&amp;
+    paramToRemove.injectionToken.token !&#x3D;&#x3D; paramToRemove.className
+  ) {
+    importRemovalChange.push(
+      removeImport(source, {
+        className: paramToRemove.injectionToken.token,
+        importPath: paramToRemove.injectionToken.importPath,
+      })
+    );
+  }
+
+  return importRemovalChange;
+}
+
 export function removeImport(
   source: ts.SourceFile,
   importToRemove: ClassType
@@ -965,6 +1086,10 @@ function getImportDeclarationNode(
   source: ts.SourceFile,
   importToCheck: ClassType
 ): ts.Node | undefined {
+  if (!importToCheck.importPath) {
+    return undefined;
+  }
+
   // collect al the import declarations
   const importDeclarationNodes &#x3D; getImportDeclarations(
     source,
@@ -1085,21 +1210,22 @@ function updateConstructorSuperNode(
   constructorNode: ts.Node,
   propertyName: string
 ): InsertChange {
-  const callExpressions &#x3D; findNodes(
-    constructorNode,
-    ts.SyntaxKind.CallExpression
-  );
+  const callBlock &#x3D; findNodes(constructorNode, ts.SyntaxKind.Block);
   propertyName &#x3D; strings.camelize(propertyName);
 
-  if (callExpressions.length &#x3D;&#x3D;&#x3D; 0) {
-    throw new SchematicsException(&#x27;No super() call found.&#x27;);
+  if (callBlock.length &#x3D;&#x3D;&#x3D; 0) {
+    throw new SchematicsException(&#x27;No constructor body found.&#x27;);
   }
+
+  const callExpression &#x3D; findNodes(callBlock[0], ts.SyntaxKind.CallExpression);
+
   // super has to be the first expression in constructor
-  const firstCallExpression &#x3D; callExpressions[0];
+  const firstCallExpression &#x3D; callExpression[0];
   const superKeyword &#x3D; findNodes(
     firstCallExpression,
     ts.SyntaxKind.SuperKeyword
   );
+
   if (superKeyword &amp;&amp; superKeyword.length &#x3D;&#x3D;&#x3D; 0) {
     throw new SchematicsException(&#x27;No super() call found.&#x27;);
   }
@@ -1121,34 +1247,38 @@ function updateConstructorSuperNode(
 }
 
 export function injectService(
-  constructorNode: ts.Node | undefined,
-  path: string,
-  serviceName: string,
-  modifier: &#x27;private&#x27; | &#x27;protected&#x27; | &#x27;public&#x27; | &#x27;no-modifier&#x27;,
-  propertyName?: string
+  config: InjectServiceConfiguration
 ): InsertChange {
-  if (!constructorNode) {
-    throw new SchematicsException(&#x60;No constructor found in ${path}.&#x60;);
+  if (!config.constructorNode) {
+    throw new SchematicsException(&#x60;No constructor found in ${config.path}.&#x60;);
   }
 
-  const constructorParameters &#x3D; getConstructorParameterList(constructorNode);
+  const constructorParameters &#x3D; getConstructorParameterList(
+    config.constructorNode
+  );
 
   let toInsert &#x3D; &#x27;&#x27;;
-  let position &#x3D; constructorNode.getStart() + &#x27;constructor(&#x27;.length;
+  let position &#x3D; config.constructorNode.getStart() + &#x27;constructor(&#x27;.length;
   if (constructorParameters.length &gt; 0) {
     toInsert +&#x3D; &#x27;, &#x27;;
     const lastParam &#x3D; constructorParameters[constructorParameters.length - 1];
     position &#x3D; lastParam.end;
   }
 
-  propertyName &#x3D; propertyName
-    ? strings.camelize(propertyName)
-    : strings.camelize(serviceName);
+  config.propertyName &#x3D; config.propertyName
+    ? strings.camelize(config.propertyName)
+    : strings.camelize(config.serviceName);
 
-  if (modifier !&#x3D;&#x3D; &#x27;no-modifier&#x27;) toInsert +&#x3D; &#x60;${modifier} &#x60;;
-  toInsert +&#x3D; &#x60;${propertyName}: ${strings.classify(serviceName)}&#x60;;
+  config.propertyType &#x3D;
+    config.propertyType ?? strings.classify(config.serviceName);
 
-  return new InsertChange(path, position, toInsert);
+  if (config.injectionToken) toInsert +&#x3D; &#x60;@Inject(${config.injectionToken}) &#x60;;
+  if (config.modifier !&#x3D;&#x3D; &#x27;no-modifier&#x27;) toInsert +&#x3D; &#x60;${config.modifier} &#x60;;
+  toInsert +&#x3D; &#x60;${config.propertyName}: ${config.propertyType}&#x60;;
+
+  if (config.isArray) toInsert +&#x3D; &#x27;[]&#x27;;
+
+  return new InsertChange(config.path, position, toInsert);
 }
 
 export function buildSpartacusComment(comment: string): string {

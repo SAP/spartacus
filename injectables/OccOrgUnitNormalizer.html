@@ -118,8 +118,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="6"
-                            class="link-to-prism">feature-libs/organization/administration/occ/converters/occ-org-unit-normalizer.ts:6</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="8"
+                            class="link-to-prism">feature-libs/organization/administration/occ/converters/occ-org-unit-normalizer.ts:8</a></div>
                 </td>
             </tr>
 
@@ -187,7 +187,9 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { B2BUnit, Converter, Occ } from &#x27;@spartacus/core&#x27;;
 
-@Injectable()
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
 export class OccOrgUnitNormalizer implements Converter&lt;Occ.B2BUnit, B2BUnit&gt; {
   convert(source: Occ.B2BUnit, target?: B2BUnit): B2BUnit {
     if (target &#x3D;&#x3D;&#x3D; undefined) {

@@ -107,6 +107,9 @@
                                 <a href="#getPlaceOrderSuccess">getPlaceOrderSuccess</a>
                             </li>
                             <li>
+                                <a href="#isLoading">isLoading</a>
+                            </li>
+                            <li>
                                 <a href="#loadCheckoutDetails">loadCheckoutDetails</a>
                             </li>
                             <li>
@@ -232,8 +235,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="204"
-                            class="link-to-prism">projects/core/src/checkout/facade/checkout.service.ts:204</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="213"
+                            class="link-to-prism">projects/core/src/checkout/facade/checkout.service.ts:213</a></div>
                 </td>
             </tr>
 
@@ -471,8 +474,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="198"
-                            class="link-to-prism">projects/core/src/checkout/facade/checkout.service.ts:198</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="207"
+                            class="link-to-prism">projects/core/src/checkout/facade/checkout.service.ts:207</a></div>
                 </td>
             </tr>
 
@@ -512,8 +515,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="181"
-                            class="link-to-prism">projects/core/src/checkout/facade/checkout.service.ts:181</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="190"
+                            class="link-to-prism">projects/core/src/checkout/facade/checkout.service.ts:190</a></div>
                 </td>
             </tr>
 
@@ -644,6 +647,47 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Returns the place or schedule replenishment order&#39;s success flag</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isLoading"></a>
+                    <span class="name">
+                        <b>
+                            isLoading
+                        </b>
+                        <a href="#isLoading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isLoading()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="181"
+                            class="link-to-prism">projects/core/src/checkout/facade/checkout.service.ts:181</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Check if checkout details are stable (no longer loading)</p>
 </div>
 
                     <div class="io-description">
@@ -909,8 +953,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="191"
-                            class="link-to-prism">projects/core/src/checkout/facade/checkout.service.ts:191</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="200"
+                            class="link-to-prism">projects/core/src/checkout/facade/checkout.service.ts:200</a></div>
                 </td>
             </tr>
 
@@ -1144,6 +1188,15 @@ export class CheckoutService {
   getCheckoutDetailsLoaded(): Observable&lt;boolean&gt; {
     return this.checkoutStore.pipe(
       select(CheckoutSelectors.getCheckoutDetailsLoaded)
+    );
+  }
+
+  /**
+   * Check if checkout details are stable (no longer loading)
+   */
+  isLoading(): Observable&lt;boolean&gt; {
+    return this.checkoutStore.pipe(
+      select(CheckoutSelectors.getCheckoutLoading)
     );
   }
 

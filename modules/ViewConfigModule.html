@@ -94,8 +94,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="6"
-                            class="link-to-prism">projects/storefrontlib/src/shared/config/view-config.module.ts:6</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="11"
+                            class="link-to-prism">projects/storefrontlib/src/shared/config/view-config.module.ts:11</a></div>
                 </td>
             </tr>
 
@@ -119,6 +119,11 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
 import { provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
 
+/**
+ * @deprecated since 3.1
+ *
+ * TODO: remove in 4.0
+ */
 @NgModule({})
 export class ViewConfigModule {
   static forRoot(): ModuleWithProviders&lt;ViewConfigModule&gt; {

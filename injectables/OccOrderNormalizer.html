@@ -247,7 +247,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>convertOrderEntry(source: Occ.OrderEntry)</code>
+                    <code>convertOrderEntry(source: Occ.OrderEntry, code: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -278,6 +278,18 @@
                                     <td>source</td>
                                     <td>
                                             <code>Occ.OrderEntry</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>code</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
 
                                     <td>
@@ -328,7 +340,7 @@ export class OccOrderNormalizer implements Converter&lt;Occ.Order, Order&gt; {
 
     if (source.entries) {
       target.entries &#x3D; source.entries.map((entry) &#x3D;&gt;
-        this.convertOrderEntry(entry)
+        this.convertOrderEntry(entry, source.code)
       );
     }
 
@@ -337,24 +349,25 @@ export class OccOrderNormalizer implements Converter&lt;Occ.Order, Order&gt; {
         ...consignment,
         entries: consignment.entries.map((entry) &#x3D;&gt; ({
           ...entry,
-          orderEntry: this.convertOrderEntry(entry.orderEntry),
+          orderEntry: this.convertOrderEntry(entry.orderEntry, source.code),
         })),
       }));
     }
 
     if (source.unconsignedEntries) {
       target.unconsignedEntries &#x3D; source.unconsignedEntries.map((entry) &#x3D;&gt;
-        this.convertOrderEntry(entry)
+        this.convertOrderEntry(entry, source.code)
       );
     }
 
     return target;
   }
 
-  private convertOrderEntry(source: Occ.OrderEntry): OrderEntry {
+  private convertOrderEntry(source: Occ.OrderEntry, code: string): OrderEntry {
     return {
       ...source,
       product: this.converter.convert(source.product, PRODUCT_NORMALIZER),
+      orderCode: code,
     };
   }
 }

@@ -122,6 +122,9 @@
                                 <a href="#resolveBreadcrumbs">resolveBreadcrumbs</a>
                             </li>
                             <li>
+                                <a href="#resolveRobots">resolveRobots</a>
+                            </li>
+                            <li>
                                 <a href="#resolveTitle">resolveTitle</a>
                             </li>
                             <li>
@@ -151,12 +154,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(productSearchService: <a href="../injectables/ProductSearchService.html">ProductSearchService</a>, cms: <a href="../injectables/CmsService.html">CmsService</a>, translation: <a href="../classes/TranslationService.html">TranslationService</a>)</code>
+<code>constructor(productSearchService: <a href="../injectables/ProductSearchService.html">ProductSearchService</a>, cms: <a href="../injectables/CmsService.html">CmsService</a>, translation: <a href="../classes/TranslationService.html">TranslationService</a>, basePageMetaResolver?: <a href="../injectables/BasePageMetaResolver.html">BasePageMetaResolver</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:62</a></div>
                             </td>
                         </tr>
 
@@ -209,6 +212,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>basePageMetaResolver</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/BasePageMetaResolver.html" target="_self" >BasePageMetaResolver</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -247,8 +262,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="101"
-                            class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:101</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="124"
+                            class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:124</a></div>
                 </td>
             </tr>
 
@@ -319,8 +334,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="77"
-                            class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:77</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="100"
+                            class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:100</a></div>
                 </td>
             </tr>
 
@@ -401,8 +416,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="64"
-                            class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:64</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="87"
+                            class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:87</a></div>
                 </td>
             </tr>
 
@@ -412,6 +427,45 @@
 
                     <div class="io-description">
                         <b>Returns : </b>    <code>Observable&lt;BreadcrumbMeta[]&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resolveRobots"></a>
+                    <span class="name">
+                        <b>
+                            resolveRobots
+                        </b>
+                        <a href="#resolveRobots"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resolveRobots()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="141"
+                            class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:141</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Page.html" target="_self" >Observable&lt;PageRobotsMeta[]&gt;</a></code>
 
                     </div>
                 </td>
@@ -440,8 +494,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="50"
-                            class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:50</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="73"
+                            class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:73</a></div>
                 </td>
             </tr>
 
@@ -729,7 +783,7 @@ the page type and page template.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:28</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/core/src/product/services/category-page-meta.resolver.ts:34</a></div>
                             </td>
                         </tr>
 
@@ -822,14 +876,20 @@ the page type and page template.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Optional } from &#x27;@angular/core&#x27;;
 import { combineLatest, Observable, of } from &#x27;rxjs&#x27;;
 import { filter, map, switchMap } from &#x27;rxjs/operators&#x27;;
 import { CmsService } from &#x27;../../cms/facade/cms.service&#x27;;
-import { BreadcrumbMeta, Page } from &#x27;../../cms/model/page.model&#x27;;
+import {
+  BreadcrumbMeta,
+  Page,
+  PageRobotsMeta,
+} from &#x27;../../cms/model/page.model&#x27;;
+import { BasePageMetaResolver } from &#x27;../../cms/page/base-page-meta.resolver&#x27;;
 import { PageMetaResolver } from &#x27;../../cms/page/page-meta.resolver&#x27;;
 import {
   PageBreadcrumbResolver,
+  PageRobotsResolver,
   PageTitleResolver,
 } from &#x27;../../cms/page/page.resolvers&#x27;;
 import { TranslationService } from &#x27;../../i18n/translation.service&#x27;;
@@ -847,7 +907,7 @@ import { ProductSearchService } from &#x27;../facade/product-search.service&#x27
 })
 export class CategoryPageMetaResolver
   extends PageMetaResolver
-  implements PageTitleResolver, PageBreadcrumbResolver {
+  implements PageTitleResolver, PageBreadcrumbResolver, PageRobotsResolver {
   // reusable observable for search page data
   protected searchPage$: Observable&lt;
     ProductSearchPage | Page
@@ -862,10 +922,27 @@ export class CategoryPageMetaResolver
     )
   );
 
+  /**
+   * @deprecated since 3.1, we&#x27;ll use the BasePageMetaResolver in future versions
+   */
+  // TODO(#10467): Remove deprecated constructors
+  constructor(
+    productSearchService: ProductSearchService,
+    cmsService: CmsService,
+    translation: TranslationService
+  );
+  constructor(
+    productSearchService: ProductSearchService,
+    cmsService: CmsService,
+    translation: TranslationService,
+    // tslint:disable-next-line: unified-signatures
+    basePageMetaResolver?: BasePageMetaResolver
+  );
   constructor(
     protected productSearchService: ProductSearchService,
     protected cms: CmsService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    @Optional() protected basePageMetaResolver?: BasePageMetaResolver
   ) {
     super();
     this.pageType &#x3D; PageType.CATEGORY_PAGE;
@@ -931,6 +1008,16 @@ export class CategoryPageMetaResolver
             comp.typeCode &#x3D;&#x3D;&#x3D; &#x27;ProductGridComponent&#x27;
         )
     );
+  }
+
+  /**
+   * @override
+   * This is added in 3.1 and will be ignored if the &#x60;BasePageMetaResolver&#x60; is not
+   * available.
+   */
+  // TODO(#10467) drop the 3.1 note.
+  resolveRobots(): Observable&lt;PageRobotsMeta[]&gt; {
+    return this.basePageMetaResolver?.resolveRobots() ?? of([]);
   }
 }
 </code></pre>

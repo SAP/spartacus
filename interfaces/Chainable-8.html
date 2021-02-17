@@ -179,7 +179,7 @@ Cypress.Commands.add(&#x27;requirePlacedOrder&#x27;, (auth, cartId) &#x3D;&gt; {
   }
 
   cy.server();
-  placeOrder().then((resp) &#x3D;&gt; cy.wrap(resp));
+  placeOrder().then((response) &#x3D;&gt; cy.wrap(response));
 });
 </code></pre>
     </div>

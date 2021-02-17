@@ -187,7 +187,7 @@ child route defines its own resolver).</p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Type } from &#x27;@angular/core&#x27;;
-import { ActivatedRouteSnapshot } from &#x27;@angular/router&#x27;;
+import { ActivatedRouteSnapshot, Data, Route } from &#x27;@angular/router&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { BreadcrumbMeta } from &#x27;../../model/page.model&#x27;;
 
@@ -197,11 +197,13 @@ import { BreadcrumbMeta } from &#x27;../../model/page.model&#x27;;
  */
 export interface ActivatedRouteSnapshotWithPageMeta
   extends ActivatedRouteSnapshot {
-  routeConfig: ActivatedRouteSnapshot[&#x27;routeConfig&#x27;] &amp; {
-    data?: ActivatedRouteSnapshot[&#x27;routeConfig&#x27;][&#x27;data&#x27;] &amp; {
-      cxPageMeta?: RoutePageMetaConfig;
-    };
-  };
+  routeConfig:
+    | (Route &amp; {
+        data?: Data &amp; {
+          cxPageMeta?: RoutePageMetaConfig;
+        };
+      })
+    | null;
 }
 
 /**

@@ -86,6 +86,7 @@
                                         <a href="#featureModule">featureModule</a>
                                 </li>
                                 <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#i18n">i18n</a>
                                 </li>
                                 <li>
@@ -195,6 +196,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -345,7 +351,7 @@ export interface FeatureConfig {
   name: string;
   featureModule: Module;
   rootModule: Module;
-  i18n: I18NConfig;
+  i18n?: I18NConfig;
   defaultConfig?: {
     name: string;
     importPath: string;
@@ -449,12 +455,14 @@ function handleFeature&lt;T extends LibraryOptions&gt;(
       changes.push(rootModuleImportChange, ...rootModuleAddedToImportsChanges);
     }
 
-    const i18nChanges &#x3D; provideI18NConfig(
-      host,
-      getTsSourceFile(host, appModulePath),
-      config.i18n
-    );
-    changes.push(...i18nChanges);
+    if (config.i18n) {
+      const i18nChanges &#x3D; provideI18NConfig(
+        host,
+        getTsSourceFile(host, appModulePath),
+        config.i18n
+      );
+      changes.push(...i18nChanges);
+    }
 
     if (options.lazy) {
       const lazyLoadingChange &#x3D; mergeLazyLoadingConfig(

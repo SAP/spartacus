@@ -171,6 +171,11 @@ export interface Page {
   slots?: { [key: string]: ContentSlotData };
   properties?: any;
   label?: string;
+
+  /**
+   * Lists the page robot information for the given page: &#x60;INDEX&#x60;, &#x60;NOINDEX&#x60;, &#x60;FOLLOW&#x60; or &#x60;NOFOLLOW&#x60;
+   */
+  robots?: PageRobotsMeta[];
 }
 
 /**

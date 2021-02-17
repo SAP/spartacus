@@ -362,10 +362,17 @@ export function addToCart() {
   cy.get(&#x27;cx-add-to-cart button[type&#x3D;submit]&#x27;).first().click({ force: true });
 }
 
-export function registerCartRefreshRoute() {
-  cy.server();
+export function registerCartPageRoute() {
+  cy.intercept(
+    &#x27;GET&#x27;,
+    &#x60;${Cypress.env(&#x27;OCC_PREFIX&#x27;)}/${Cypress.env(
+      &#x27;BASE_SITE&#x27;
+    )}/cms/pages?pageType&#x3D;ContentPage&amp;pageLabelOrId&#x3D;%2Fcart&amp;lang&#x3D;en&amp;curr&#x3D;USD&#x60;
+  ).as(&#x27;cart_page&#x27;);
+}
 
-  cy.route(
+export function registerCartRefreshRoute() {
+  cy.intercept(
     &#x27;GET&#x27;,
     &#x60;${Cypress.env(&#x27;OCC_PREFIX&#x27;)}/${Cypress.env(
       &#x27;BASE_SITE&#x27;
@@ -374,9 +381,7 @@ export function registerCartRefreshRoute() {
 }
 
 export function registerCreateCartRoute() {
-  cy.server();
-
-  cy.route(
+  cy.intercept(
     &#x27;POST&#x27;,
     &#x60;${Cypress.env(&#x27;OCC_PREFIX&#x27;)}/${Cypress.env(
       &#x27;BASE_SITE&#x27;
@@ -385,9 +390,7 @@ export function registerCreateCartRoute() {
 }
 
 export function registerSaveCartRoute() {
-  cy.server();
-
-  cy.route(
+  cy.intercept(
     &#x27;PATCH&#x27;,
     &#x60;${Cypress.env(&#x27;OCC_PREFIX&#x27;)}/${Cypress.env(
       &#x27;BASE_SITE&#x27;
@@ -422,24 +425,41 @@ export function checkAddedToCartDialog(itemsNumber &#x3D; 1) {
 }
 
 export function addProductToCartViaAutoComplete(mobile: boolean) {
+  registerCartRefreshRoute();
+  registerCartPageRoute();
   const product &#x3D; products[0];
   goToFirstProductFromSearch(product.code, mobile);
   addToCart();
+
+  cy.wait(&#x27;@refresh_cart&#x27;);
+
   closeAddedToCartDialog();
-  checkMiniCartCount(1).click({ force: true });
+  checkMiniCartCount(1);
+  cy.get(&#x27;cx-mini-cart &gt; a&#x27;).click({ force: true });
+
+  cy.wait(&#x27;@cart_page&#x27;);
+
   checkProductInCart(product);
 }
 
 export function addProductToCartViaSearchPage(mobile: boolean) {
+  registerCartRefreshRoute();
+  registerCartPageRoute();
+
   const product &#x3D; products[4];
 
   goToFirstProductFromSearch(product.code, mobile);
 
   addToCart();
 
+  cy.wait(&#x27;@refresh_cart&#x27;);
+
   closeAddedToCartDialog();
 
   checkMiniCartCount(2).click({ force: true });
+  cy.get(&#x27;cx-mini-cart &gt; a&#x27;).click({ force: true });
+
+  cy.wait(&#x27;@cart_page&#x27;);
 
   checkProductInCart(product);
 }
@@ -574,18 +594,22 @@ export function logOutAndEmptyCart() {
 export function manipulateCartQuantity() {
   const product &#x3D; products[1];
 
-  cy.visit(&#x60;/product/${product.code}&#x60;);
-
   registerCartRefreshRoute();
+  registerCartPageRoute();
+
+  cy.visit(&#x60;/product/${product.code}&#x60;);
 
   addToCart();
 
-  cy.wait(&#x27;@refresh_cart&#x27;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
+  cy.wait(&#x27;@refresh_cart&#x27;);
 
   checkAddedToCartDialog();
   closeAddedToCartDialog();
 
-  checkMiniCartCount(1).click({ force: true });
+  checkMiniCartCount(1);
+  cy.get(&#x27;cx-mini-cart &gt; a&#x27;).click({ force: true });
+
+  cy.wait(&#x27;@cart_page&#x27;);
 
   checkProductInCart(product, 1).within(() &#x3D;&gt; {
     incrementQuantity();

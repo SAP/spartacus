@@ -220,8 +220,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="108"
-                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:108</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="110"
+                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:110</a></div>
                 </td>
             </tr>
 
@@ -292,8 +292,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="86"
-                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:86</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="88"
+                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:88</a></div>
                 </td>
             </tr>
 
@@ -376,8 +376,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="63"
-                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:63</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="65"
+                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:65</a></div>
                 </td>
             </tr>
 
@@ -554,8 +554,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="104"
-                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:104</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="106"
+                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:106</a></div>
                 </td>
             </tr>
 
@@ -616,8 +616,8 @@
   HttpResponse,
 } from &#x27;@angular/common/http&#x27;;
 import { Injectable } from &#x27;@angular/core&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
-import { switchMap, take, tap, withLatestFrom } from &#x27;rxjs/operators&#x27;;
+import { combineLatest, Observable } from &#x27;rxjs&#x27;;
+import { switchMap, take, tap } from &#x27;rxjs/operators&#x27;;
 import { AuthService } from &#x27;../../auth/index&#x27;;
 import {
   AnonymousConsent,
@@ -641,8 +641,10 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
     request: HttpRequest&lt;any&gt;,
     next: HttpHandler
   ): Observable&lt;HttpEvent&lt;any&gt;&gt; {
-    return this.anonymousConsentsService.getConsents().pipe(
-      withLatestFrom(this.authService.isUserLoggedIn()),
+    return combineLatest([
+      this.anonymousConsentsService.getConsents(),
+      this.authService.isUserLoggedIn(),
+    ]).pipe(
       take(1),
       switchMap(([consents, isUserLoggedIn]) &#x3D;&gt; {
         if (!this.isOccUrl(request.url)) {

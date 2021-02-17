@@ -92,6 +92,10 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getPrefix">getPrefix</a>
+                            </li>
+                            <li>
                                 <a href="#load">load</a>
                             </li>
                         </ul>
@@ -193,6 +197,47 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getPrefix"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            getPrefix
+                        </b>
+                        <a href="#getPrefix"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getPrefix()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="16"
+                            class="link-to-prism">projects/core/src/occ/config-loader/occ-sites-config-loader.ts:16</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="load"></a>
                     <span class="name">
                         <b>
@@ -211,8 +256,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="26"
-                            class="link-to-prism">projects/core/src/occ/config-loader/occ-sites-config-loader.ts:26</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">projects/core/src/occ/config-loader/occ-sites-config-loader.ts:34</a></div>
                 </td>
             </tr>
 
@@ -290,7 +335,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/core/src/occ/config-loader/occ-sites-config-loader.ts:16</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/core/src/occ/config-loader/occ-sites-config-loader.ts:26</a></div>
                                 </td>
                             </tr>
 
@@ -312,7 +357,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/core/src/occ/config-loader/occ-sites-config-loader.ts:22</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/core/src/occ/config-loader/occ-sites-config-loader.ts:30</a></div>
                                 </td>
                             </tr>
 
@@ -338,10 +383,18 @@ export class OccSitesConfigLoader {
   protected readonly endpoint &#x3D;
     &#x27;basesites?fields&#x3D;baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies(isocode),defaultCurrency(isocode),languages(isocode),defaultLanguage(isocode)))&#x27;;
 
+  private getPrefix(): string {
+    if (
+      Boolean(this.config.backend?.occ?.prefix) &amp;&amp;
+      !this.config.backend?.occ?.prefix?.startsWith(&#x27;/&#x27;)
+    ) {
+      return &#x27;/&#x27; + this.config.backend.occ.prefix;
+    }
+    return this.config.backend.occ.prefix;
+  }
+
   private get baseEndpoint(): string {
-    return (
-      (this.config.backend.occ.baseUrl || &#x27;&#x27;) + this.config.backend.occ.prefix
-    );
+    return (this.config.backend.occ.baseUrl || &#x27;&#x27;) + this.getPrefix();
   }
 
   private get url(): string {

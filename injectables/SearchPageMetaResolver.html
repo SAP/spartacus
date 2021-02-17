@@ -65,7 +65,7 @@
             <p class="comment">
                 <p>Resolves the page data for the Search Result Page based on the
 <code>PageType.CATEGORY_PAGE</code> and the <code>SearchResultsListPageTemplate</code> template.</p>
-<p>Only the page title is resolved in the standard implemenation.</p>
+<p>Only the page title is resolved in the standard implementation.</p>
 
             </p>
 
@@ -116,6 +116,9 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#resolveRobots">resolveRobots</a>
+                            </li>
+                            <li>
                                 <a href="#resolveTitle">resolveTitle</a>
                             </li>
                             <li>
@@ -145,12 +148,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(routingService: <a href="../injectables/RoutingService.html">RoutingService</a>, productSearchService: <a href="../injectables/ProductSearchService.html">ProductSearchService</a>, translation: <a href="../classes/TranslationService.html">TranslationService</a>)</code>
+<code>constructor(routingService: <a href="../injectables/RoutingService.html">RoutingService</a>, productSearchService: <a href="../injectables/ProductSearchService.html">ProductSearchService</a>, translation: <a href="../classes/TranslationService.html">TranslationService</a>, basePageMetaResolver?: <a href="../injectables/BasePageMetaResolver.html">BasePageMetaResolver</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:56</a></div>
                             </td>
                         </tr>
 
@@ -203,6 +206,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>basePageMetaResolver</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/BasePageMetaResolver.html" target="_self" >BasePageMetaResolver</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -217,6 +232,45 @@
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resolveRobots"></a>
+                    <span class="name">
+                        <b>
+                            resolveRobots
+                        </b>
+                        <a href="#resolveRobots"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resolveRobots()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="86"
+                            class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:86</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Page.html" target="_self" >Observable&lt;PageRobotsMeta[]&gt;</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -239,8 +293,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:68</a></div>
                 </td>
             </tr>
 
@@ -521,7 +575,7 @@ the page type and page template.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:29</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:35</a></div>
                             </td>
                         </tr>
 
@@ -557,7 +611,7 @@ the page type and page template.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:22</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/core/src/product/services/search-page-meta.resolver.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -650,10 +704,16 @@ the page type and page template.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { combineLatest, Observable } from &#x27;rxjs&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Optional } from &#x27;@angular/core&#x27;;
+import { combineLatest, Observable, of } from &#x27;rxjs&#x27;;
 import { filter, map, switchMap } from &#x27;rxjs/operators&#x27;;
-import { PageMetaResolver } from &#x27;../../cms&#x27;;
+import { PageRobotsMeta } from &#x27;../../cms/model/page.model&#x27;;
+import { BasePageMetaResolver } from &#x27;../../cms/page/base-page-meta.resolver&#x27;;
+import { PageMetaResolver } from &#x27;../../cms/page/page-meta.resolver&#x27;;
+import {
+  PageRobotsResolver,
+  PageTitleResolver,
+} from &#x27;../../cms/page/page.resolvers&#x27;;
 import { TranslationService } from &#x27;../../i18n/translation.service&#x27;;
 import { PageType } from &#x27;../../model/cms.model&#x27;;
 import { RoutingService } from &#x27;../../routing/facade/routing.service&#x27;;
@@ -663,14 +723,14 @@ import { ProductSearchService } from &#x27;../facade/product-search.service&#x27
  * Resolves the page data for the Search Result Page based on the
  * &#x60;PageType.CATEGORY_PAGE&#x60; and the &#x60;SearchResultsListPageTemplate&#x60; template.
  *
- * Only the page title is resolved in the standard implemenation.
+ * Only the page title is resolved in the standard implementation.
  */
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
 export class SearchPageMetaResolver
   extends PageMetaResolver
-  implements PageMetaResolver {
+  implements PageMetaResolver, PageTitleResolver, PageRobotsResolver {
   protected total$: Observable&lt;
     number
   &gt; &#x3D; this.productSearchService.getResults().pipe(
@@ -684,10 +744,27 @@ export class SearchPageMetaResolver
     .getRouterState()
     .pipe(map((state) &#x3D;&gt; state.state.params[&#x27;query&#x27;]));
 
+  /**
+   * @deprecated since 3.1 we&#x27;ll use the &#x60;BasePageMetaResolver&#x60; going forward
+   */
+  // TODO(#10467): Remove deprecated constructors
+  constructor(
+    routingService: RoutingService,
+    productSearchService: ProductSearchService,
+    translation: TranslationService
+  );
+  constructor(
+    routingService: RoutingService,
+    productSearchService: ProductSearchService,
+    translation: TranslationService,
+    // tslint:disable-next-line: unified-signatures
+    basePageMetaResolver?: BasePageMetaResolver
+  );
   constructor(
     protected routingService: RoutingService,
     protected productSearchService: ProductSearchService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    @Optional() protected basePageMetaResolver?: BasePageMetaResolver
   ) {
     super();
     this.pageType &#x3D; PageType.CONTENT_PAGE;
@@ -704,6 +781,16 @@ export class SearchPageMetaResolver
         })
       )
     );
+  }
+
+  /**
+   * @override
+   * This is added in 3.1 and will be ignored if the &#x60;BasePageMetaResolver&#x60; is not
+   * available.
+   */
+  // TODO(#10467) drop the 3.1 note.
+  resolveRobots(): Observable&lt;PageRobotsMeta[]&gt; {
+    return this.basePageMetaResolver?.resolveRobots() ?? of([]);
   }
 }
 </code></pre>

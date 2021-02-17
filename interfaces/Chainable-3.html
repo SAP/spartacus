@@ -154,8 +154,19 @@ declare global {
 
 Cypress.Commands.add(&#x27;login&#x27;, (username: string, password: string) &#x3D;&gt; {
   cy.server();
-  login(username, password).then((res) &#x3D;&gt; {
-    setSessionData(res.body);
+  login(username, password).then((response) &#x3D;&gt; {
+    setSessionData(response.body);
+    Cypress.log({
+      name: &#x27;login&#x27;,
+      displayName: &#x27;User login&#x27;,
+      message: [&#x60;🔒 Logging in user | ${username}&#x60;],
+      consoleProps: () &#x3D;&gt; {
+        return {
+          &#x27;User name&#x27;: username,
+          &#x27;Session data&#x27;: response.body,
+        };
+      },
+    });
   });
 });
 </code></pre>

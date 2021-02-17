@@ -88,6 +88,10 @@
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
+                                        <a href="#data">data</a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#deferLoading">deferLoading</a>
                                 </li>
                                 <li>
@@ -183,6 +187,51 @@
 
 
 
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="data"></a>
+                                        <span class="name"><b>data</b><a href="#data"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>data:     <code>T</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>T</code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>The component data can be statically configured. The data can be used for various reasons:</p>
+<ul>
+<li>Improve performance with an initial data that doesn&#39;t require API response</li>
+<li>Introduce UI properties that are not available on the API</li>
+<li>Build ghost design based on the initial data that is used prior to the backend data is loaded</li>
+</ul>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -371,6 +420,7 @@ in the viewport.</p>
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, StaticProvider } from &#x27;@angular/core&#x27;;
 import { Route } from &#x27;@angular/router&#x27;;
 import { Config } from &#x27;../../config/config-tokens&#x27;;
+import { CmsComponent } from &#x27;../../model/cms.model&#x27;;
 import { OccConfig } from &#x27;../../occ/config/occ-config&#x27;;
 
 export interface StandardCmsComponentConfig {
@@ -420,13 +470,21 @@ export interface CmsComponentChildRoutesConfig {
   children?: Route[];
 }
 
-export interface CmsComponentMapping {
+export interface CmsComponentMapping&lt;T &#x3D; CmsComponent&gt; {
   component?: any;
   providers?: StaticProvider[];
   childRoutes?: Route[] | CmsComponentChildRoutesConfig;
   disableSSR?: boolean;
   i18nKeys?: string[];
   guards?: any[];
+
+  /**
+   * The component data can be statically configured. The data can be used for various reasons:
+   * - Improve performance with an initial data that doesn&#x27;t require API response
+   * - Introduce UI properties that are not available on the API
+   * - Build ghost design based on the initial data that is used prior to the backend data is loaded
+   */
+  data?: T;
 
   /**
    * DeferLoading can be specified globally, but also per component.
@@ -447,7 +505,7 @@ export enum DeferLoadingStrategy {
 export interface CMSComponentConfig
   extends StandardCmsComponentConfig,
     JspIncludeCmsComponentConfig {
-  [componentType: string]: CmsComponentMapping;
+  [componentType: string]: CmsComponentMapping | undefined;
 }
 
 export interface FeatureModuleConfig {

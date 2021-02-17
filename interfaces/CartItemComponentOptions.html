@@ -170,7 +170,14 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, OnInit } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  Optional,
+  SimpleChanges,
+} from &#x27;@angular/core&#x27;;
 import { FormControl } from &#x27;@angular/forms&#x27;;
 import {
   OrderEntry,
@@ -179,6 +186,10 @@ import {
 } from &#x27;@spartacus/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { PromotionService } from &#x27;../../../../shared/services/promotion/promotion.service&#x27;;
+import { ICON_TYPE } from &#x27;../../../misc/icon/icon.model&#x27;;
+import { CartOutlets } from &#x27;../../cart-outlets.model&#x27;;
+import { CartItemContextSource } from &#x27;./model/cart-item-context-source.model&#x27;;
+import { CartItemContext } from &#x27;./model/cart-item-context.model&#x27;;
 
 /**
  * @deprecated since 3.0 - use &#x60;OrderEntry&#x60; instead
@@ -190,6 +201,8 @@ export interface Item {
   basePrice?: any;
   totalPrice?: any;
   updateable?: boolean;
+  statusSummaryList?: any[];
+  configurationInfos?: any[];
 }
 
 export interface CartItemComponentOptions {
@@ -200,8 +213,12 @@ export interface CartItemComponentOptions {
 @Component({
   selector: &#x27;cx-cart-item&#x27;,
   templateUrl: &#x27;./cart-item.component.html&#x27;,
+  providers: [
+    CartItemContextSource,
+    { provide: CartItemContext, useExisting: CartItemContextSource },
+  ],
 })
-export class CartItemComponent implements OnInit {
+export class CartItemComponent implements OnInit, OnChanges {
   @Input() compact &#x3D; false;
   @Input() item: OrderEntry;
   @Input() readonly &#x3D; false;
@@ -216,14 +233,53 @@ export class CartItemComponent implements OnInit {
   };
 
   appliedProductPromotions$: Observable&lt;PromotionResult[]&gt;;
+  iconTypes &#x3D; ICON_TYPE;
+  readonly CartOutlets &#x3D; CartOutlets;
 
-  constructor(protected promotionService: PromotionService) {}
+  // TODO(#10946): make CartItemContextSource a required dependency
+  // tslint:disable-next-line: unified-signatures
+  constructor(
+    promotionService: PromotionService,
+    // tslint:disable-next-line: unified-signatures
+    cartItemContextSource: CartItemContextSource
+  );
+  /**
+   * @deprecated since 3.1
+   */
+  constructor(promotionService: PromotionService);
+  constructor(
+    protected promotionService: PromotionService,
+    @Optional() protected cartItemContextSource?: CartItemContextSource
+  ) {}
 
   ngOnInit() {
     this.appliedProductPromotions$ &#x3D; this.promotionService.getProductPromotionForEntry(
       this.item,
       this.promotionLocation
     );
+  }
+
+  ngOnChanges(changes?: SimpleChanges) {
+    if (changes?.compact) {
+      this.cartItemContextSource?.compact$.next(this.compact);
+    }
+    if (changes?.readonly) {
+      this.cartItemContextSource?.readonly$.next(this.readonly);
+    }
+    if (changes?.item) {
+      this.cartItemContextSource?.item$.next(this.item);
+    }
+    if (changes?.quantityControl) {
+      this.cartItemContextSource?.quantityControl$.next(this.quantityControl);
+    }
+    if (changes?.promotionLocation) {
+      this.cartItemContextSource?.promotionLocation$.next(
+        this.promotionLocation
+      );
+    }
+    if (changes?.options) {
+      this.cartItemContextSource?.options$.next(this.options);
+    }
   }
 
   isProductOutOfStock(product: any) {

@@ -100,6 +100,10 @@
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
+                                        <a href="#robots">robots</a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#slots">slots</a>
                                 </li>
                                 <li>
@@ -299,6 +303,46 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
+                                        <a name="robots"></a>
+                                        <span class="name"><b>robots</b><a href="#robots"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>robots:         <code><a href="../interfaces/Page.html" target="_self" >PageRobotsMeta[]</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="../interfaces/Page.html" target="_self" >PageRobotsMeta[]</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Lists the page robot information for the given page: <code>INDEX</code>, <code>NOINDEX</code>, <code>FOLLOW</code> or <code>NOFOLLOW</code></p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
                                         <a name="slots"></a>
                                         <span class="name"><b>slots</b><a href="#slots"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
@@ -449,6 +493,11 @@ export interface Page {
   slots?: { [key: string]: ContentSlotData };
   properties?: any;
   label?: string;
+
+  /**
+   * Lists the page robot information for the given page: &#x60;INDEX&#x60;, &#x60;NOINDEX&#x60;, &#x60;FOLLOW&#x60; or &#x60;NOFOLLOW&#x60;
+   */
+  robots?: PageRobotsMeta[];
 }
 
 /**

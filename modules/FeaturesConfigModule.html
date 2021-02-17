@@ -214,7 +214,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>forRoot(defaultLevel?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>forRoot(defaultLevel: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -238,6 +238,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Default value</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -248,9 +249,12 @@
                                     </td>
 
                                     <td>
-                                        Yes
+                                        No
                                     </td>
 
+                                    <td>
+                                        <code>&#x27;3.0&#x27;</code>
+                                    </td>
 
                                 </tr>
                             </tbody>
@@ -286,7 +290,7 @@ import { provideDefaultConfig } from &#x27;../config/config-providers&#x27;;
 })
 export class FeaturesConfigModule {
   static forRoot(
-    defaultLevel?: string
+    defaultLevel &#x3D; &#x27;3.0&#x27;
   ): ModuleWithProviders&lt;FeaturesConfigModule&gt; {
     return {
       ngModule: FeaturesConfigModule,

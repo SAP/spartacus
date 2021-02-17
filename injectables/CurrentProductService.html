@@ -92,6 +92,10 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#getCode">getCode</a>
+                            </li>
+                            <li>
                                 <a href="#getProduct">getProduct</a>
                             </li>
                         </ul>
@@ -172,6 +176,47 @@
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getCode"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            getCode
+                        </b>
+                        <a href="#getCode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getCode()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/current-product.service.ts:46</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;string&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -316,8 +361,7 @@ export class CurrentProductService {
   getProduct(
     scopes?: (ProductScope | string)[] | ProductScope | string
   ): Observable&lt;Product | null&gt; {
-    return this.routingService.getRouterState().pipe(
-      map((state) &#x3D;&gt; state.state.params[&#x27;productCode&#x27;]),
+    return this.getCode().pipe(
       distinctUntilChanged(),
       switchMap((productCode: string) &#x3D;&gt; {
         return productCode
@@ -329,6 +373,12 @@ export class CurrentProductService {
       }),
       filter((product) &#x3D;&gt; product !&#x3D;&#x3D; undefined)
     );
+  }
+
+  protected getCode(): Observable&lt;string&gt; {
+    return this.routingService
+      .getRouterState()
+      .pipe(map((state) &#x3D;&gt; state.state.params[&#x27;productCode&#x27;]));
   }
 }
 </code></pre>

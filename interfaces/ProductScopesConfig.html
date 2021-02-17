@@ -114,7 +114,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <code>[scope: string]:        <code><a href="../interfaces/ProductLoadingScopeConfig.html" target="_self" >ProductLoadingScopeConfig</a></code>
+                        <code>[scope: string]:        <code><a href="../miscellaneous/variables.html#Config" target="_self" >ProductLoadingScopeConfig | undefined</a></code>
 </code>
                     </td>
                 </tr>
@@ -288,7 +288,7 @@ export interface ProductScopesConfig extends LoadingScopesConfig {
   details?: ProductLoadingScopeConfig;
   attributes?: ProductLoadingScopeConfig;
   variants?: ProductLoadingScopeConfig;
-  [scope: string]: ProductLoadingScopeConfig;
+  [scope: string]: ProductLoadingScopeConfig | undefined;
 }
 
 export interface ProductLoadingScopeConfig extends LoadingScopeConfig {

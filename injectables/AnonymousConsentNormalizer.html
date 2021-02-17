@@ -159,7 +159,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>convert(source: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, target: AnonymousConsent[])</code>
+<code>convert(source: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -183,7 +183,6 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
-                                    <td>Default value</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -197,23 +196,6 @@
                                         No
                                     </td>
 
-                                    <td>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td>target</td>
-                                    <td>
-                                            <code>AnonymousConsent[]</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-                                    <td>
-                                        <code>[]</code>
-                                    </td>
 
                                 </tr>
                             </tbody>
@@ -248,9 +230,8 @@ export class AnonymousConsentNormalizer
   implements Converter&lt;string, AnonymousConsent[]&gt; {
   constructor(protected anonymousConsentsService: AnonymousConsentsService) {}
 
-  convert(source: string, target: AnonymousConsent[] &#x3D; []): AnonymousConsent[] {
-    target &#x3D; this.anonymousConsentsService.decodeAndDeserialize(source);
-    return target;
+  convert(source: string): AnonymousConsent[] {
+    return this.anonymousConsentsService.decodeAndDeserialize(source);
   }
 }
 </code></pre>

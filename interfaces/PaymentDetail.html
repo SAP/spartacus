@@ -462,13 +462,9 @@ export function deletePayment() {
     &#x27;Are you sure you want to delete this payment method?&#x27;
   );
 
-  // click cancel
   cy.get(&#x27;.btn-secondary&#x27;).should(&#x27;contain&#x27;, &#x27;Cancel&#x27;);
   cy.get(&#x27;.btn-secondary&#x27;).click({ force: true });
-  cy.get(&#x27;.cx-card-body__delete-ms&#x27;).should(
-    &#x27;not.contain&#x27;,
-    &#x27;Are you sure you want to delete this payment method?&#x27;
-  );
+  cy.get(&#x27;.cx-card-body__delete-ms&#x27;).should(&#x27;not.exist&#x27;);
 
   // delete the payment
   cy.findAllByText(&#x27;Delete&#x27;).first().click({ force: true });

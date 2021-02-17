@@ -228,8 +228,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="71"
-                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:71</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:72</a></div>
                 </td>
             </tr>
 
@@ -302,8 +302,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="83"
-                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:83</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="84"
+                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:84</a></div>
                 </td>
             </tr>
 
@@ -384,8 +384,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="63"
-                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:63</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:64</a></div>
                 </td>
             </tr>
 
@@ -456,8 +456,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="75"
-                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:75</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="76"
+                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:76</a></div>
                 </td>
             </tr>
 
@@ -538,8 +538,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="21"
+                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:21</a></div>
                 </td>
             </tr>
 
@@ -709,6 +709,7 @@ export class I18nextTranslationService implements TranslationService {
   constructor(
     protected config: I18nConfig,
     protected translationChunk: TranslationChunkService,
+    // Required param added in 3.0.x as a critical bug fix, not subject to the breaking changes policy
     @Inject(I18NEXT_INSTANCE) protected i18next: i18n
   ) {}
 

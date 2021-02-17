@@ -240,8 +240,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="53"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:53</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:55</a></div>
                 </td>
             </tr>
 
@@ -349,8 +349,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="61"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:61</a></div>
                 </td>
             </tr>
 
@@ -478,7 +478,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:33</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:35</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -537,7 +537,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:37</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:39</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -596,7 +596,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:41</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:43</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -655,7 +655,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:47</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:49</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -705,8 +705,8 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, OnDestroy } from &#x27;@angular/core&#x27;;
 import { Meta, MetaDefinition, Title } from &#x27;@angular/platform-browser&#x27;;
 import { PageMeta, PageMetaService, PageRobotsMeta } from &#x27;@spartacus/core&#x27;;
-import { filter } from &#x27;rxjs/operators&#x27;;
 import { Subscription } from &#x27;rxjs&#x27;;
+import { filter } from &#x27;rxjs/operators&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
@@ -731,6 +731,8 @@ export class SeoMetaService implements OnDestroy {
     this.title &#x3D; meta.title;
     this.description &#x3D; meta.description;
     this.image &#x3D; meta.image;
+    // TODO(#10467): since we only resolve robots on SSR, we should consider to drop the defaults
+    // with next major, as it&#x27;s confusing to get the wrong defaults while navigating in CSR.
     this.robots &#x3D; meta.robots || [PageRobotsMeta.INDEX, PageRobotsMeta.FOLLOW];
   }
 
@@ -749,7 +751,7 @@ export class SeoMetaService implements OnDestroy {
   }
 
   protected set robots(value: PageRobotsMeta[]) {
-    if (value) {
+    if (value &amp;&amp; value.length &gt; 0) {
       this.addTag({ name: &#x27;robots&#x27;, content: value.join(&#x27;, &#x27;) });
     }
   }

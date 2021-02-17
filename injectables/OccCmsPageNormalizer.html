@@ -94,6 +94,10 @@
                                     <span class="modifier">Protected</span>
                                 <a href="#normalizePageSlotData">normalizePageSlotData</a>
                             </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#normalizeRobots">normalizeRobots</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -134,8 +138,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="15"
-                            class="link-to-prism">projects/core/src/occ/adapters/cms/converters/occ-cms-page-normalizer.ts:15</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="19"
+                            class="link-to-prism">projects/core/src/occ/adapters/cms/converters/occ-cms-page-normalizer.ts:19</a></div>
                 </td>
             </tr>
 
@@ -224,8 +228,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="128"
-                            class="link-to-prism">projects/core/src/occ/adapters/cms/converters/occ-cms-page-normalizer.ts:128</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="134"
+                            class="link-to-prism">projects/core/src/occ/adapters/cms/converters/occ-cms-page-normalizer.ts:134</a></div>
                 </td>
             </tr>
 
@@ -312,8 +316,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="88"
-                            class="link-to-prism">projects/core/src/occ/adapters/cms/converters/occ-cms-page-normalizer.ts:88</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="94"
+                            class="link-to-prism">projects/core/src/occ/adapters/cms/converters/occ-cms-page-normalizer.ts:94</a></div>
                 </td>
             </tr>
 
@@ -398,8 +402,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="29"
-                            class="link-to-prism">projects/core/src/occ/adapters/cms/converters/occ-cms-page-normalizer.ts:29</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">projects/core/src/occ/adapters/cms/converters/occ-cms-page-normalizer.ts:33</a></div>
                 </td>
             </tr>
 
@@ -484,8 +488,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="66"
-                            class="link-to-prism">projects/core/src/occ/adapters/cms/converters/occ-cms-page-normalizer.ts:66</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">projects/core/src/occ/adapters/cms/converters/occ-cms-page-normalizer.ts:72</a></div>
                 </td>
             </tr>
 
@@ -546,6 +550,92 @@
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="normalizeRobots"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            normalizeRobots
+                        </b>
+                        <a href="#normalizeRobots"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>normalizeRobots(source: Occ.CMSPage, target: <a href="../interfaces/Page.html">Page</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="168"
+                            class="link-to-prism">projects/core/src/occ/adapters/cms/converters/occ-cms-page-normalizer.ts:168</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Normalizes the page robot string to an array of <code>PageRobotsMeta</code> items.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>source</td>
+                                    <td>
+                                            <code>Occ.CMSPage</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>target</td>
+                                    <td>
+                                                <code><a href="../interfaces/Page.html" target="_self" >Page</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
 
     </div>
@@ -559,7 +649,11 @@ import {
 } from &#x27;../../../../cms/config/cms-config&#x27;;
 import { ContentSlotComponentData } from &#x27;../../../../cms/model/content-slot-component-data.model&#x27;;
 import { ContentSlotData } from &#x27;../../../../cms/model/content-slot-data.model&#x27;;
-import { CmsStructureModel, Page } from &#x27;../../../../cms/model/page.model&#x27;;
+import {
+  CmsStructureModel,
+  Page,
+  PageRobotsMeta,
+} from &#x27;../../../../cms/model/page.model&#x27;;
 import { Converter } from &#x27;../../../../util/converter.service&#x27;;
 import { Occ } from &#x27;../../../occ-models/occ.models&#x27;;
 
@@ -610,6 +704,8 @@ export class OccCmsPageNormalizer
     if (source.properties) {
       page.properties &#x3D; source.properties;
     }
+
+    this.normalizeRobots(source, page);
 
     target.page &#x3D; page;
   }
@@ -708,6 +804,35 @@ export class OccCmsPageNormalizer
         }
       }
     }
+  }
+
+  /**
+   * Normalizes the page robot string to an array of &#x60;PageRobotsMeta&#x60; items.
+   */
+  protected normalizeRobots(source: Occ.CMSPage, target: Page): void {
+    const robots &#x3D; [];
+    if (source.robotTag) {
+      switch (source.robotTag) {
+        case Occ.PageRobots.INDEX_FOLLOW:
+          robots.push(PageRobotsMeta.INDEX);
+          robots.push(PageRobotsMeta.FOLLOW);
+          break;
+        case Occ.PageRobots.NOINDEX_FOLLOW:
+          robots.push(PageRobotsMeta.NOINDEX);
+          robots.push(PageRobotsMeta.FOLLOW);
+          break;
+        case Occ.PageRobots.INDEX_NOFOLLOW:
+          robots.push(PageRobotsMeta.INDEX);
+          robots.push(PageRobotsMeta.NOFOLLOW);
+          break;
+        case Occ.PageRobots.NOINDEX_NOFOLLOW:
+          robots.push(PageRobotsMeta.NOINDEX);
+          robots.push(PageRobotsMeta.NOFOLLOW);
+          break;
+      }
+    }
+
+    target.robots &#x3D; robots;
   }
 }
 </code></pre>

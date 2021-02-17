@@ -172,8 +172,8 @@ event type.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="121"
-                            class="link-to-prism">projects/core/src/event/event.service.ts:121</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="130"
+                            class="link-to-prism">projects/core/src/event/event.service.ts:130</a></div>
                 </td>
             </tr>
 
@@ -245,22 +245,31 @@ event type.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>dispatch(event: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">Object</a>)</code>
+<code>dispatch(event: T, eventType?: <a href="../undefineds/Type.html">Type<T></a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="83"
-                            class="link-to-prism">projects/core/src/event/event.service.ts:83</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="88"
+                            class="link-to-prism">projects/core/src/event/event.service.ts:88</a></div>
                 </td>
             </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <b>Type parameters :</b>
+                    <ul class="type-parameters">
+                        <li>T</li>
+                    </ul>
+                </td>
+            </tr>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Dispatches an instance of an individual event.</p>
+                    <div class="io-description"><p>Dispatches an instance of an individual event.
+If the eventType is provided a new event will be created for that type and with the event data.</p>
 </div>
 
                     <div class="io-description">
@@ -271,13 +280,14 @@ event type.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>event</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank" >Object</a></code>
+                                            <code>T</code>
                                     </td>
 
                                     <td>
@@ -285,6 +295,26 @@ event type.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>an event</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>eventType</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/enumerations.html#Type" target="_self" >Type&lt;T&gt;</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>(optional) - type of event</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -324,8 +354,8 @@ event type.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="72"
-                            class="link-to-prism">projects/core/src/event/event.service.ts:72</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="73"
+                            class="link-to-prism">projects/core/src/event/event.service.ts:73</a></div>
                 </td>
             </tr>
 
@@ -406,8 +436,8 @@ event type.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="107"
-                            class="link-to-prism">projects/core/src/event/event.service.ts:107</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="116"
+                            class="link-to-prism">projects/core/src/event/event.service.ts:116</a></div>
                 </td>
             </tr>
 
@@ -488,8 +518,8 @@ event type.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="94"
-                            class="link-to-prism">projects/core/src/event/event.service.ts:94</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="103"
+                            class="link-to-prism">projects/core/src/event/event.service.ts:103</a></div>
                 </td>
             </tr>
 
@@ -576,8 +606,8 @@ The subject is created on demand, when it&#39;s needed for the first time.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="146"
-                            class="link-to-prism">projects/core/src/event/event.service.ts:146</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="155"
+                            class="link-to-prism">projects/core/src/event/event.service.ts:155</a></div>
                 </td>
             </tr>
 
@@ -669,8 +699,8 @@ The subject is created on demand, when it&#39;s needed for the first time.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="50"
-                            class="link-to-prism">projects/core/src/event/event.service.ts:50</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">projects/core/src/event/event.service.ts:51</a></div>
                 </td>
             </tr>
 
@@ -776,8 +806,8 @@ The subject is created on demand, when it&#39;s needed for the first time.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="133"
-                            class="link-to-prism">projects/core/src/event/event.service.ts:133</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="142"
+                            class="link-to-prism">projects/core/src/event/event.service.ts:142</a></div>
                 </td>
             </tr>
 
@@ -861,7 +891,7 @@ The subject is created on demand, when it&#39;s needed for the first time.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/core/src/event/event.service.ts:36</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/core/src/event/event.service.ts:37</a></div>
                             </td>
                         </tr>
 
@@ -883,6 +913,7 @@ The subject is created on demand, when it&#39;s needed for the first time.</p>
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, isDevMode, Type } from &#x27;@angular/core&#x27;;
 import { Observable, Subject } from &#x27;rxjs&#x27;;
 import { tap } from &#x27;rxjs/operators&#x27;;
+import { createFrom } from &#x27;../util/create-from&#x27;;
 import { MergingSubject } from &#x27;./utils/merging-subject&#x27;;
 
 /**
@@ -961,9 +992,17 @@ export class EventService {
 
   /**
    * Dispatches an instance of an individual event.
+   * If the eventType is provided a new event will be created for that type and with the event data.
+   *
+   * @param event an event
+   * @param eventType (optional) - type of event
    */
-  dispatch(event: Object): void {
-    const eventType &#x3D; event.constructor as Type&lt;any&gt;;
+  dispatch&lt;T&gt;(event: T, eventType?: Type&lt;T&gt;): void {
+    if (!eventType) {
+      eventType &#x3D; event.constructor as Type&lt;T&gt;;
+    } else if (!(event instanceof eventType)) {
+      event &#x3D; createFrom(eventType, event);
+    }
     const inputSubject$ &#x3D; this.getInputSubject(eventType);
     inputSubject$.next(event);
   }

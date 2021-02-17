@@ -85,10 +85,6 @@ for specified component&#39;s uid</p>
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#getCmsData">getCmsData</a>
-                            </li>
-                            <li>
                                     <span class="modifier">Public</span>
                                 <a href="#getInjector">getInjector</a>
                             </li>
@@ -174,98 +170,6 @@ for specified component&#39;s uid</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getCmsData"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            getCmsData
-                        </b>
-                        <a href="#getCmsData"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getCmsData(uid: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, parentInjector?: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="21"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cms-injector.service.ts:21</a></div>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <b>Type parameters :</b>
-                    <ul class="type-parameters">
-                        <li>T</li>
-                    </ul>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>uid</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>parentInjector</td>
-                                    <td>
-                                                <code><a href="https://angular.io/api/core/Injector" target="_blank" >Injector</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/CmsComponentData.html" target="_self" >CmsComponentData&lt;T&gt;</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="getInjector"></a>
                     <span class="name">
                         <b>
@@ -286,8 +190,8 @@ for specified component&#39;s uid</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="33"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cms-injector.service.ts:33</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="21"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cms-injector.service.ts:21</a></div>
                 </td>
             </tr>
 
@@ -365,9 +269,9 @@ for specified component&#39;s uid</p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Injector } from &#x27;@angular/core&#x27;;
-import { CmsComponentData } from &#x27;../../model/cms-component-data&#x27;;
-import { CmsComponent, CmsService } from &#x27;@spartacus/core&#x27;;
 import { CmsComponentsService } from &#x27;../../../services/cms-components.service&#x27;;
+import { CmsComponentData } from &#x27;../../model/cms-component-data&#x27;;
+import { ComponentDataProvider } from &#x27;./component-data.provider&#x27;;
 
 /**
  * Used to prepare injector for CMS components.
@@ -384,18 +288,6 @@ export class CmsInjectorService {
     protected injector: Injector
   ) {}
 
-  private getCmsData&lt;T extends CmsComponent&gt;(
-    uid: string,
-    parentInjector?: Injector
-  ): CmsComponentData&lt;T&gt; {
-    return {
-      uid: uid,
-      data$: (parentInjector ?? this.injector)
-        .get(CmsService)
-        .getComponentData&lt;T&gt;(uid),
-    };
-  }
-
   public getInjector(
     type: string,
     uid: string,
@@ -403,12 +295,15 @@ export class CmsInjectorService {
   ): Injector {
     const configProviders &#x3D;
       this.cmsComponentsService.getMapping(type)?.providers ?? [];
-
     return Injector.create({
       providers: [
         {
           provide: CmsComponentData,
-          useValue: this.getCmsData(uid),
+          useFactory: (dataProvider: ComponentDataProvider) &#x3D;&gt; ({
+            uid,
+            data$: dataProvider.get(uid, type),
+          }),
+          deps: [ComponentDataProvider],
         },
         ...configProviders,
       ],
