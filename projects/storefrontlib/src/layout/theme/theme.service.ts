@@ -7,7 +7,7 @@ import {
 import { SiteContextConfig, THEME_CONTEXT_ID } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
-export class SiteThemeService {
+export class ThemeService {
   protected rootComponent: ComponentRef<any>;
   protected renderer: Renderer2;
   protected existingTheme: string;

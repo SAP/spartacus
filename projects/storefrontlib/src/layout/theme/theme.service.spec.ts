@@ -1,7 +1,7 @@
 import { Component, ComponentRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SiteContextConfig } from '@spartacus/core';
-import { SiteThemeService } from './site-theme.service';
+import { ThemeService } from './theme.service';
 
 @Component({
   selector: 'cx-test',
@@ -9,14 +9,14 @@ import { SiteThemeService } from './site-theme.service';
 })
 class TestComponent {}
 
-describe('SiteThemeService', () => {
-  let service: SiteThemeService;
+describe('ThemeService', () => {
+  let service: ThemeService;
   let componentRef: ComponentRef<TestComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        SiteThemeService,
+        ThemeService,
         {
           provide: SiteContextConfig,
           useValue: { context: { theme: ['test-theme'] } },
@@ -25,7 +25,7 @@ describe('SiteThemeService', () => {
       declarations: [TestComponent],
     }).compileComponents();
 
-    service = TestBed.inject(SiteThemeService);
+    service = TestBed.inject(ThemeService);
     componentRef = TestBed.createComponent(TestComponent).componentRef;
   });
 
