@@ -76,7 +76,8 @@
 
     cx-icon[ng-reflect-type='INFO'] {
       color: var(--cx-color, var(--cx-color-info));
-      display: contents;
+      align-self: flex-start;
+      margin-top: 4px;
     }
   }
 }
