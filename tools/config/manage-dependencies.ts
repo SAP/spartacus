@@ -675,7 +675,7 @@ function addMissingDependenciesToPackageJson(
   rootPackageJson: PackageJson,
   options: ProgramOptions
 ): void {
-  const deps = {
+  const deps: PackageJson['dependencies'] | PackageJson['devDependencies'] = {
     ...rootPackageJson.dependencies,
     ...rootPackageJson.devDependencies,
   };
@@ -1005,7 +1005,9 @@ function updateDependenciesVersions(
   rootPackageJson: PackageJson,
   options: ProgramOptions
 ): void {
-  const rootDeps = {
+  const rootDeps:
+    | PackageJson['dependencies']
+    | PackageJson['devDependencies'] = {
     ...rootPackageJson.dependencies,
     ...rootPackageJson.devDependencies,
   };
@@ -1071,11 +1073,11 @@ function updateDependenciesVersions(
         ) {
           // Careful with breaking changes!
           if (
-            semver.major(semver.minVersion(packageJson[type]?.[dep])) ===
-              semver.major(semver.minVersion(rootDeps[dep])) &&
+            semver.major(semver.minVersion(packageJson[type]![dep])!) ===
+              semver.major(semver.minVersion(rootDeps[dep])!) &&
             semver.gte(
-              semver.minVersion(packageJson[type]?.[dep]),
-              semver.minVersion(rootDeps[dep])
+              semver.minVersion(packageJson[type]![dep])!,
+              semver.minVersion(rootDeps[dep])!
             )
           ) {
             // not a breaking change!
