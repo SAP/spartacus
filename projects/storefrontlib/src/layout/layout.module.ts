@@ -4,14 +4,14 @@ import { OutletRefModule } from '../cms-structure/outlet/outlet-ref/outlet-ref.m
 import { defaultLayoutConfig } from './config/default-layout.config';
 import { DirectionModule } from './direction/direction.module';
 import { LaunchDialogModule } from './launch-dialog/index';
-import { SiteThemeModule } from './theme/site-theme.module';
+import { ThemeModule } from './theme/theme.module';
 
 @NgModule({
   imports: [
     OutletRefModule,
     LaunchDialogModule.forRoot(),
     DirectionModule,
-    SiteThemeModule,
+    ThemeModule,
   ],
   providers: [provideConfig(defaultLayoutConfig)],
   exports: [OutletRefModule],

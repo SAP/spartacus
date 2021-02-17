@@ -1,2 +1,2 @@
-export { SiteThemeModule } from './site-theme.module';
-export * from './site-theme.service';
+export { ThemeModule } from './theme.module';
+export * from './theme.service';
