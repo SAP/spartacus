@@ -39,6 +39,7 @@ import { UnitItemService } from './services/unit-item.service';
 import { UnitListService } from './services/unit-list.service';
 import { UnitRoutePageMetaResolver } from './services/unit-route-page-meta.resolver';
 import { CostCenterDetailsCellComponent } from '../cost-center/details-cell/cost-center-details-cell.component';
+import { UnitDetailsCellComponent } from './details-cell/unit-details-cell.component';
 
 const listPath = `organization/units/:${ROUTE_PARAMS.unitCode}`;
 const paramsMapping: ParamsMapping = {
@@ -308,6 +309,9 @@ export const unitsTableConfig: TableConfig = {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
         cells: {
+          name: {
+            dataComponent: UnitDetailsCellComponent,
+          },
           active: {
             dataComponent: StatusCellComponent,
             linkable: false,
