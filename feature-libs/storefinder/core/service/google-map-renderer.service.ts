@@ -29,17 +29,18 @@ export class GoogleMapRendererService {
     locations: any[],
     selectMarkerHandler?: Function
   ): void {
-    if (this.googleMap === null) {
-      this.externalJsFileLoader.load(
-        this.config.googleMaps.apiUrl,
-        { key: this.config.googleMaps.apiKey },
-        () => {
-          this.drawMap(mapElement, locations, selectMarkerHandler);
-        }
-      );
-    } else {
-      this.drawMap(mapElement, locations, selectMarkerHandler);
-    }
+    if (Object.entries(locations[Object.keys(locations)[0]]).length > 0)
+      if (this.googleMap === null) {
+        this.externalJsFileLoader.load(
+          this.config.googleMaps.apiUrl,
+          { key: this.config.googleMaps.apiKey },
+          () => {
+            this.drawMap(mapElement, locations, selectMarkerHandler);
+          }
+        );
+      } else {
+        this.drawMap(mapElement, locations, selectMarkerHandler);
+      }
   }
 
   /**

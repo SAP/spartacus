@@ -2,7 +2,7 @@ import { waitForPage } from './checkout-flow';
 
 export function loginUsingUserWithOrder() {
   const username = 'test-user-with-orders@ydev.hybris.com';
-  const password = 'Password123.';
+  const password = 'pw4all';
   cy.login(username, password);
 
   const homePage = waitForPage('homepage', 'getHomePage');
