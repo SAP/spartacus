@@ -22,10 +22,10 @@ export class TmsService implements OnDestroy {
   ) {}
 
   /**
-   * This method is called only once to start collecting and dispatching events
+   * Called only once to start collecting and dispatching events
    */
   collect(): void {
-    if (this.windowRef.isBrowser()) {
+    if (!this.windowRef.isBrowser()) {
       return;
     }
 
