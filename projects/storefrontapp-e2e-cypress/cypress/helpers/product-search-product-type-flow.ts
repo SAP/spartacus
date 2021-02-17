@@ -12,7 +12,7 @@ import {
 export const resultsTitle = 'cx-breadcrumb h1';
 export const category = 'sony';
 
-export function productTypeFlow(mobile?: string) {
+export function productTypeFlow() {
   cy.server();
 
   createProductQuery(
@@ -39,7 +39,7 @@ export function productTypeFlow(mobile?: string) {
   assertNumberOfProducts(`@${QUERY_ALIAS.SONY}`, `"${category}"`);
 
   // Filter by brand
-  clickFacet('Brand', mobile);
+  clickFacet('Brand');
 
   cy.wait(`@${QUERY_ALIAS.BRAND_PAGE}`).its('status').should('eq', 200);
 
@@ -52,7 +52,7 @@ export function productTypeFlow(mobile?: string) {
   assertNumberOfProducts(`@${QUERY_ALIAS.SONY}`, `"${category}"`);
 
   // Filter by price
-  clickFacet('Price', mobile);
+  clickFacet('Price');
 
   cy.wait(`@${QUERY_ALIAS.PRICE_DSC_FILTER}`).its('status').should('eq', 200);
 
@@ -65,7 +65,7 @@ export function productTypeFlow(mobile?: string) {
   assertNumberOfProducts(`@${QUERY_ALIAS.SONY_CLEAR_FACET}`, `"${category}"`);
 
   // Filter by category
-  clickFacet('Category', mobile);
+  clickFacet('Category');
 
   cy.wait(`@${QUERY_ALIAS.CATEGORY_FILTER}`).its('status').should('eq', 200);
 
@@ -77,7 +77,7 @@ export function productTypeFlow(mobile?: string) {
 
   assertNumberOfProducts(`@${QUERY_ALIAS.SONY_CLEAR_FACET}`, `"${category}"`);
 
-  clickFacet('Color', mobile);
+  clickFacet('Color');
 
   cy.wait(`@${QUERY_ALIAS.COLOR_FILTER}`).its('status').should('eq', 200);
 
