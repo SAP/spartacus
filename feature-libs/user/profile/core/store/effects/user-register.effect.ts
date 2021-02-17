@@ -4,7 +4,7 @@ import { AuthService, normalizeHttpError } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { UserProfileConnector } from '../../connectors/user-profile.connector';
-import { UserSignUp } from '../../model/user-profile.model';
+import { UserSignUp } from '@spartacus/user/profile/root';
 import { UserProfileActions } from '../actions/index';
 
 @Injectable()

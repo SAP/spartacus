@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { Title } from '@spartacus/core';
+import { Title } from '@spartacus/user/profile/root';
 import {
   StateWithUserProfile,
   TitleEntities,

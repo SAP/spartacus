@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Title } from '@spartacus/core';
+import { Title } from '@spartacus/user/profile/root';
 
 export const LOAD_TITLES = '[User] Load Titles';
 export const LOAD_TITLES_FAIL = '[User] Load Titles Fail';

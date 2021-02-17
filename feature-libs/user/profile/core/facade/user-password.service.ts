@@ -5,7 +5,7 @@ import {
   StateUtils,
   StateWithProcess,
 } from '@spartacus/core';
-import { User } from '@spartacus/user/account/core';
+import { User } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { UserProfileActions } from '../store/actions/index';
@@ -15,9 +15,10 @@ import {
   UPDATE_PASSWORD_PROCESS_ID,
 } from '../store/user-profile.state';
 import { UserProfileService } from './user-profile.service';
+import { UserPasswordFacade } from '@spartacus/user/profile/root';
 
-@Injectable({ providedIn: 'root' })
-export class UserPasswordService {
+@Injectable()
+export class UserPasswordService implements UserPasswordFacade {
   constructor(
     protected store: Store<StateWithUserProfile | StateWithProcess<User>>,
     protected userProfileService: UserProfileService

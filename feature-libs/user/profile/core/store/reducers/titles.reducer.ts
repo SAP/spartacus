@@ -1,4 +1,4 @@
-import { Title } from '../../model/user-profile.model';
+import { Title } from '@spartacus/user/profile/root';
 import { UserProfileActions } from '../actions/index';
 import { TitlesState } from '../user-profile.state';
 

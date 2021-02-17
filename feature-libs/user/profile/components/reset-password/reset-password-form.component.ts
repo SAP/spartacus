@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
-import { UserPasswordService } from '@spartacus/user/profile/core';
+import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -32,7 +32,7 @@ export class ResetPasswordFormComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private routingService: RoutingService,
-    private userPasswordService: UserPasswordService
+    private userPassword: UserPasswordFacade
   ) {}
 
   ngOnInit() {
@@ -43,7 +43,7 @@ export class ResetPasswordFormComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
-      this.userPasswordService.isPasswordReset().subscribe((reset) => {
+      this.userPassword.isPasswordReset().subscribe((reset) => {
         if (reset) {
           this.routingService.go({ cxRoute: 'login' });
         }
@@ -54,7 +54,7 @@ export class ResetPasswordFormComponent implements OnInit, OnDestroy {
   resetPassword() {
     if (this.resetPasswordForm.valid) {
       const password = this.resetPasswordForm.get('password').value;
-      this.userPasswordService.reset(this.token, password);
+      this.userPassword.reset(this.token, password);
     } else {
       this.resetPasswordForm.markAllAsTouched();
     }

@@ -4,7 +4,7 @@ import {
   GlobalMessageType,
   RoutingService,
 } from '@spartacus/core';
-import { UserPasswordService } from '@spartacus/user/profile/core';
+import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -19,7 +19,7 @@ export class UpdatePasswordComponent implements OnDestroy {
 
   constructor(
     private routingService: RoutingService,
-    private userPasswordService: UserPasswordService,
+    private userPassword: UserPasswordFacade,
     private globalMessageService: GlobalMessageService
   ) {}
 
@@ -45,7 +45,7 @@ export class UpdatePasswordComponent implements OnDestroy {
     newPassword: string;
   }): void {
     this.subscription.add(
-      this.userPasswordService
+      this.userPassword
         .update(oldPassword, newPassword)
         .pipe(
           tap((state) => {

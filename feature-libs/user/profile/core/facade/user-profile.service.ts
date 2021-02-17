@@ -5,22 +5,23 @@ import {
   StateUtils,
   StateWithProcess,
 } from '@spartacus/core';
-import { User, UserAccountService } from '@spartacus/user/account/core';
+import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
 import { switchMap, take, tap } from 'rxjs/operators';
-import { Title } from '../model/user-profile.model';
+import { Title } from '@spartacus/user/profile/root';
 import { UserProfileActions, UserProfileSelectors } from '../store/index';
 import {
   CLOSE_USER_PROCESS_ID,
   StateWithUserProfile,
   UPDATE_USER_PROFILE_PROCESS_ID,
 } from '../store/user-profile.state';
+import { UserProfileFacade } from '@spartacus/user/profile/root';
 
-@Injectable({ providedIn: 'root' })
-export class UserProfileService {
+@Injectable()
+export class UserProfileService implements UserProfileFacade {
   constructor(
     protected store: Store<StateWithUserProfile | StateWithProcess<User>>,
-    protected userAccountService: UserAccountService
+    protected userAccountService: UserAccountFacade
   ) {}
 
   get(): Observable<User> {

@@ -5,21 +5,25 @@ import {
   StateUtils,
   StateWithProcess,
 } from '@spartacus/core';
-import { User } from '@spartacus/user/account/core';
+import { User } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
-import { Title, UserSignUp } from '../model/user-profile.model';
+import {
+  Title,
+  UserProfileFacade,
+  UserRegisterFacade,
+  UserSignUp,
+} from '@spartacus/user/profile/root';
 import { UserProfileActions } from '../store/actions/index';
 import {
   REGISTER_USER_PROCESS_ID,
   StateWithUserProfile,
 } from '../store/user-profile.state';
-import { UserProfileService } from './user-profile.service';
 
-@Injectable({ providedIn: 'root' })
-export class UserRegisterService {
+@Injectable()
+export class UserRegisterService implements UserRegisterFacade {
   constructor(
     protected store: Store<StateWithUserProfile | StateWithProcess<User>>,
-    protected userProfileService: UserProfileService
+    protected userProfile: UserProfileFacade
   ) {}
 
   /**
@@ -50,6 +54,6 @@ export class UserRegisterService {
    * Returns titles that can be used for the user profiles.
    */
   getTitles(): Observable<Title[]> {
-    return this.userProfileService.getTitles();
+    return this.userProfile.getTitles();
   }
 }

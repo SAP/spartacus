@@ -3,10 +3,9 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
-  Title,
 } from '@spartacus/core';
-import { User } from '@spartacus/user/account/core';
-import { UserProfileService } from '@spartacus/user/profile/core';
+import { User } from '@spartacus/user/account/root';
+import { Title, UserProfileFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -23,13 +22,13 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
 
   constructor(
     private routingService: RoutingService,
-    private userProfileService: UserProfileService,
+    private userProfile: UserProfileFacade,
     private globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit(): void {
-    this.user$ = this.userProfileService.get();
-    this.titles$ = this.userProfileService.getTitles();
+    this.user$ = this.userProfile.get();
+    this.titles$ = this.userProfile.getTitles();
   }
 
   onSuccess(success: boolean): void {
@@ -48,7 +47,7 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
 
   onSubmit({ userUpdates }: { userUpdates: User }): void {
     this.subscription.add(
-      this.userProfileService
+      this.userProfile
         .update(userUpdates)
         .pipe(
           tap((state) => {

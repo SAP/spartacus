@@ -7,16 +7,15 @@ import {
   OccEndpointsService,
   USE_CLIENT_TOKEN,
 } from '@spartacus/core';
-import { User } from '@spartacus/user/account/core';
+import { User } from '@spartacus/user/account/root';
 import {
-  Title,
   TITLE_NORMALIZER,
   UserProfileAdapter,
-  UserSignUp,
   USER_PROFILE_NORMALIZER,
   USER_PROFILE_SERIALIZER,
   USER_SIGN_UP_SERIALIZER,
 } from '@spartacus/user/profile/core';
+import { Title, UserSignUp } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

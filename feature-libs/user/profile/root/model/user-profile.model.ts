@@ -1,6 +1,6 @@
 import { Address, Currency, Language } from '@spartacus/core';
 
-declare module '@spartacus/user/account/core' {
+declare module '@spartacus/user/account/root' {
   export interface User {
     currency?: Currency;
     customerId?: string;

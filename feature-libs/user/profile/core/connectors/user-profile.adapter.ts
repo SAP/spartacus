@@ -1,6 +1,6 @@
-import { User } from '@spartacus/user/account/core';
+import { User } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
-import { Title, UserSignUp } from '../model/user-profile.model';
+import { Title, UserSignUp } from '@spartacus/user/profile/root';
 
 export abstract class UserProfileAdapter {
   abstract update(username: string, user: User): Observable<{}>;

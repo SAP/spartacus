@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { User } from '@spartacus/user/account/core';
+import { User } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
-import { Title, UserSignUp } from '../model/user-profile.model';
+import { Title, UserSignUp } from '@spartacus/user/profile/root';
 import { UserProfileAdapter } from './user-profile.adapter';
 
 @Injectable({
