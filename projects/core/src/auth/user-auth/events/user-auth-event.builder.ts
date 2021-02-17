@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { StateEventService } from '../../../state/event/state-event.service';
+import { Observable } from 'rxjs';
+import { filter, map, pairwise } from 'rxjs/operators';
+import { EventService } from '../../../event/event.service';
+import { StateEventService } from '../../../state/event/index';
+import { createFrom } from '../../../util/create-from';
+import { AuthService } from '../facade/auth.service';
 import { AuthActions } from '../store/actions/index';
 import { LoginEvent, LogoutEvent } from './user-auth.events';
 
@@ -7,7 +12,11 @@ import { LoginEvent, LogoutEvent } from './user-auth.events';
   providedIn: 'root',
 })
 export class UserAuthEventBuilder {
-  constructor(protected stateEventService: StateEventService) {
+  constructor(
+    protected stateEventService: StateEventService,
+    protected eventService: EventService,
+    protected authService: AuthService
+  ) {
     this.register();
   }
 
@@ -33,9 +42,17 @@ export class UserAuthEventBuilder {
    * Register a logout event
    */
   protected registerLogoutEvent(): void {
-    this.stateEventService.register({
-      action: AuthActions.LOGOUT,
-      event: LogoutEvent,
-    });
+    this.eventService.register(LogoutEvent, this.buildLogoutEvent());
+  }
+
+  /**
+   * Returns logout event stream
+   */
+  protected buildLogoutEvent(): Observable<LogoutEvent> {
+    return this.authService.isUserLoggedIn().pipe(
+      pairwise(),
+      filter(([prev, curr]) => prev && !curr),
+      map(() => createFrom(LogoutEvent, {}))
+    );
   }
 }
