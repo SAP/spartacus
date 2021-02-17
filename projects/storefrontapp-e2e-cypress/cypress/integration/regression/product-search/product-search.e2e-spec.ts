@@ -33,7 +33,7 @@ context('Product search', () => {
 
   describe('Facets', () => {
     it('should filter results using facet filtering', () => {
-      productSearchFlow.filterUsingFacetFiltering('');
+      productSearchFlow.filterUsingFacetFiltering();
     });
 
     it('should be able to clear active facet', () => {

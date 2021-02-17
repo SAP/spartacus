@@ -2,19 +2,19 @@ import * as productSearchTypeFlow from '../../../helpers/product-search-product-
 import { formats } from '../../../sample-data/viewports';
 
 context(
-  `${formats.mobile.width + 1}p resolution - Product search product type flow`,
+  `${formats.mobile.width}p resolution - Product search product type flow`,
+  {
+    viewportHeight: formats.mobile.height,
+    viewportWidth: formats.mobile.width,
+  },
   () => {
     before(() => {
       cy.visit('/');
     });
 
-    beforeEach(() => {
-      cy.viewport(formats.mobile.width, formats.mobile.height);
-    });
-
     describe('Product search', () => {
       it('should be able to search with specific product type', () => {
-        productSearchTypeFlow.productTypeFlow('.cx-facet-mobile');
+        productSearchTypeFlow.productTypeFlow();
       });
     });
   }
