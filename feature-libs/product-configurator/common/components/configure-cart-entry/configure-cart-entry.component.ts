@@ -41,12 +41,17 @@ export class ConfigureCartEntryComponent {
    * @returns {string} - an entry key
    */
   getEntityKey(): string {
-    return this.cartEntry.orderCode !== undefined
+    const entryNumber = this.cartEntry.entryNumber;
+    if (entryNumber === undefined) {
+      throw new Error('No entryNumber present in entry');
+    }
+
+    return this.cartEntry.orderCode
       ? this.commonConfigUtilsService.getComposedOwnerId(
           this.cartEntry.orderCode,
-          this.cartEntry.entryNumber
+          entryNumber
         )
-      : '' + this.cartEntry.entryNumber;
+      : entryNumber.toString();
   }
 
   /**
@@ -55,7 +60,7 @@ export class ConfigureCartEntryComponent {
    * @returns {string} - a route
    */
   getRoute(): string {
-    const configuratorType = this.cartEntry.product.configuratorType;
+    const configuratorType = this.cartEntry.product?.configuratorType;
     return this.readOnly
       ? 'configureOverview' + configuratorType
       : 'configure' + configuratorType;
