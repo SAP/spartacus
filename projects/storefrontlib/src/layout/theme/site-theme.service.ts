@@ -27,9 +27,7 @@ export class SiteThemeService {
     if (theme) {
       const element = this.rootComponent.location.nativeElement;
       // remove the old theme
-      if (this.existingTheme) {
-        this.renderer.removeClass(element, this.existingTheme);
-      }
+      this.renderer.removeClass(element, this.existingTheme);
       // add the new theme
       this.renderer.addClass(element, theme);
       this.existingTheme = theme;
