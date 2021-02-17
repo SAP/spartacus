@@ -6,8 +6,8 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
 import {
   AnonymousConsent,
@@ -31,8 +31,10 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    return this.anonymousConsentsService.getConsents().pipe(
-      withLatestFrom(this.authService.isUserLoggedIn()),
+    return combineLatest([
+      this.anonymousConsentsService.getConsents(),
+      this.authService.isUserLoggedIn(),
+    ]).pipe(
       take(1),
       switchMap(([consents, isUserLoggedIn]) => {
         if (!this.isOccUrl(request.url)) {
