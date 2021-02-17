@@ -103,7 +103,7 @@ export class FacadeFactoryService {
       result[method] = () => this.call(facade, method as string);
     });
     (properties ?? []).forEach((property) => {
-      result[property] = () => this.get(facade, property as string);
+      result[property] = this.get(facade, property as string);
     });
 
     return result;
