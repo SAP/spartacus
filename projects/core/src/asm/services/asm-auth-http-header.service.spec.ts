@@ -162,7 +162,7 @@ describe('AsmAuthHttpHeaderService', () => {
       service.handleExpiredRefreshToken(false);
 
       expect(authService.coreLogout).toHaveBeenCalled();
-      expect(routingService.go).not.toHaveBeenCalledWith();
+      expect(routingService.go).not.toHaveBeenCalled();
     });
 
     it('should logoutCustomerSupportAgent when cs agent is logged in', () => {
