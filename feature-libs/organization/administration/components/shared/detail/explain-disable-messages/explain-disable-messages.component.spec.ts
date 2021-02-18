@@ -32,6 +32,7 @@ describe('ExplainDisableMessagesComponent', () => {
     fixture = TestBed.createComponent(ExplainDisableMessagesComponent);
     component = fixture.componentInstance;
     component.i18nRoot = 'orgUnit';
+    component.displayMessageConfig = {};
     fixture.detectChanges();
   });
 
@@ -42,6 +43,26 @@ describe('ExplainDisableMessagesComponent', () => {
   describe('disabledEdit', () => {
     it('should display disabledEdit message when edit button is disabled', () => {
       current$.next({ active: false });
+      component.displayMessageConfig = { disabledEdit: true };
+      component.ngOnInit();
+      fixture.detectChanges();
+      const element = fixture.debugElement.query(By.css('section > ul'))
+        .nativeElement;
+      expect(element.innerText).toContain('.messages.disabledEdit');
+    });
+
+    it('should not display disabledEdit message when edit button is enabled', () => {
+      current$.next({ active: true });
+      fixture.detectChanges();
+      console.log(fixture.debugElement.query(By.css('section')));
+      expect(fixture.debugElement.query(By.css('section'))).toBeNull();
+    });
+  });
+
+  describe('disabledEdit', () => {
+    it('should display disabledEdit message when edit button is disabled', () => {
+      current$.next({ active: false });
+      component.displayMessageConfig = { disabledEdit: true };
       component.ngOnInit();
       fixture.detectChanges();
       const element = fixture.debugElement.query(By.css('section > ul'))
