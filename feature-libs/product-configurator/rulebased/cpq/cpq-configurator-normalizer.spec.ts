@@ -41,6 +41,7 @@ const cpqAttributeStdAttrCode2 = 2;
 const cpqAttributeDescription2 = 'VALUE_DESCRIPTION_2';
 const cpqAttributeLabel2 = 'VALUE_LABEL_2';
 const cpqAttributeDisplayAs2 = Cpq.DisplayAs.INPUT;
+const cpqAttributeDataType2 = Cpq.DataType.INPUT_STRING;
 const cpqAttributeRequired2 = false;
 const cpqAttributeIncomplete2 = false;
 const cpqAttributeIsLineItem2 = false;
@@ -108,6 +109,7 @@ const cpqAttribute2: Cpq.Attribute = {
   description: cpqAttributeDescription2,
   label: cpqAttributeLabel2,
   displayAs: cpqAttributeDisplayAs2,
+  dataType: cpqAttributeDataType2,
   required: cpqAttributeRequired2,
   isEnabled: true,
   incomplete: cpqAttributeIncomplete2,
@@ -460,6 +462,24 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(values.length).toBe(0);
   });
 
+  it('should use attribute name when attribute label is not available', () => {
+    const attributeList: Configurator.Attribute[] = [];
+    const cpqAttributeWithoutLabel: Cpq.Attribute = {
+      ...cpqAttribute,
+      label: undefined,
+      name: 'AttributeName',
+    };
+    cpqConfiguratorNormalizer.convertAttribute(
+      cpqAttributeWithoutLabel,
+      cpqGroupId,
+      CURRENCY,
+      attributeList
+    );
+    const attribute: Configurator.Attribute = attributeList[0];
+    expect(attributeList.length).toBe(1);
+    expect(attribute.label).toBe('AttributeName');
+  });
+
   it('should convert a group', () => {
     const groups: Configurator.Group[] = [];
     const flatGroups: Configurator.Group[] = [];
@@ -592,16 +612,31 @@ describe('CpqConfiguratorNormalizer', () => {
       );
     });
 
-    it('should return UIType STRING for CPQ DisplayAs INPUT', () => {
+    it('should return UIType STRING for CPQ DisplayAs INPUT and DataType INPUT_STRING', () => {
       const cpqAttr: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
         displayAs: Cpq.DisplayAs.INPUT,
+        dataType: Cpq.DataType.INPUT_STRING,
         isEnabled: true,
         values: [],
       };
       expect(cpqConfiguratorNormalizer.convertAttributeType(cpqAttr)).toBe(
         Configurator.UiType.STRING
+      );
+    });
+
+    it('should return UIType NOT_IMPLEMENTED for CPQ DisplayAs INPUT and DataType differt from INPUT_STRING', () => {
+      const cpqAttr: Cpq.Attribute = {
+        pA_ID: 1,
+        stdAttrCode: 2,
+        displayAs: Cpq.DisplayAs.INPUT,
+        dataType: Cpq.DataType.INPUT_NUMBER,
+        isEnabled: true,
+        values: [],
+      };
+      expect(cpqConfiguratorNormalizer.convertAttributeType(cpqAttr)).toBe(
+        Configurator.UiType.NOT_IMPLEMENTED
       );
     });
 

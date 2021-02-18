@@ -203,9 +203,20 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
   it('should map user input as attribute value', () => {
     attr.userInput = 'input';
     attr.displayAs = Cpq.DisplayAs.INPUT;
+    attr.dataType = Cpq.DataType.INPUT_STRING;
     const ovAttrs = serviceUnderTest['convertAttribute'](attr, CURRENCY);
     expect(ovAttrs.length).toBe(1);
     expect(ovAttrs[0].value).toEqual('input');
+    expect(ovAttrs[0].productCode).toBeUndefined();
+  });
+
+  it('should map user input with not supported DataType as NOT_IMPLEMENTED', () => {
+    attr.userInput = 'input';
+    attr.displayAs = Cpq.DisplayAs.INPUT;
+    attr.dataType = Cpq.DataType.INPUT_NUMBER;
+    const ovAttrs = serviceUnderTest['convertAttribute'](attr, CURRENCY);
+    expect(ovAttrs.length).toBe(1);
+    expect(ovAttrs[0].value).toEqual('NOT_IMPLEMENTED');
     expect(ovAttrs[0].productCode).toBeUndefined();
   });
 
@@ -227,12 +238,12 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     expect(ovAttrs[0].productCode).toEqual('pCode2');
   });
 
-  it('should map ReadOnly selected value', () => {
+  it('should map ReadOnly as NOT_IMPLEMENTED', () => {
     attr.values = singleSelectionValues;
     attr.displayAs = Cpq.DisplayAs.READ_ONLY;
     const ovAttrs = serviceUnderTest['convertAttribute'](attr, CURRENCY);
     expect(ovAttrs.length).toBe(1);
-    expect(ovAttrs[0].value).toEqual('selected value');
+    expect(ovAttrs[0].value).toEqual('NOT_IMPLEMENTED');
     expect(ovAttrs[0].productCode).toBeUndefined();
   });
 

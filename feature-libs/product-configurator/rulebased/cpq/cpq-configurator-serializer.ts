@@ -73,6 +73,9 @@ export class CpqConfiguratorSerializer
       attribute.uiType === Configurator.UiType.NUMERIC
     ) {
       updateAttribute.changeAttributeValue.userInput = attribute.userInput;
+      if (!updateAttribute.changeAttributeValue?.userInput) {
+        updateAttribute.changeAttributeValue.userInput = ' ';
+      }
     }
     return updateAttribute;
   }
