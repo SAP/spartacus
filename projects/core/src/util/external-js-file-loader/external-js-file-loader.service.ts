@@ -55,23 +55,6 @@ export class ExternalJsFileLoader {
   }
 
   /**
-   * Loads a javascript from an external source with some additional attributes
-   * @param src URL for the script to be loaded
-   * @param attributes attributes set to the <script>
-   */
-  public loadWithAttributes(
-    src: string,
-    attributes?: { key: string; value: string }[]
-  ): void {
-    const script: HTMLScriptElement = this.document.createElement('script');
-    script.src = src;
-    if (attributes) {
-      attributes.forEach((attr) => script.setAttribute(attr.key, attr.value));
-    }
-    document.head.appendChild(script);
-  }
-
-  /**
    * Parses the given object with parameters to a string "param1=value1&param2=value2"
    * @param params object containing parameters
    */

@@ -30,6 +30,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "schematics": "./schematics/collection.json"
+  }
 }
