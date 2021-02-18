@@ -2,7 +2,7 @@
 // do NOT re-order imports - ZONE MUST BE IMPORTED FIRST!
 import 'zone.js/dist/zone';
 import 'zone.js/dist/zone-testing';
-// all other imports 
+// all other imports
 import { getTestBed } from '@angular/core/testing';
 import {
   BrowserDynamicTestingModule,
