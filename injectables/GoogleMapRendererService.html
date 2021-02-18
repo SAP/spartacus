@@ -228,8 +228,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="50"
-                            class="link-to-prism">feature-libs/storefinder/core/service/google-map-renderer.service.ts:50</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">feature-libs/storefinder/core/service/google-map-renderer.service.ts:51</a></div>
                 </td>
             </tr>
 
@@ -323,8 +323,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="92"
-                            class="link-to-prism">feature-libs/storefinder/core/service/google-map-renderer.service.ts:92</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="93"
+                            class="link-to-prism">feature-libs/storefinder/core/service/google-map-renderer.service.ts:93</a></div>
                 </td>
             </tr>
 
@@ -418,8 +418,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">feature-libs/storefinder/core/service/google-map-renderer.service.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">feature-libs/storefinder/core/service/google-map-renderer.service.ts:60</a></div>
                 </td>
             </tr>
 
@@ -497,8 +497,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="127"
-                            class="link-to-prism">feature-libs/storefinder/core/service/google-map-renderer.service.ts:127</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">feature-libs/storefinder/core/service/google-map-renderer.service.ts:128</a></div>
                 </td>
             </tr>
 
@@ -606,8 +606,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="71"
-                            class="link-to-prism">feature-libs/storefinder/core/service/google-map-renderer.service.ts:71</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">feature-libs/storefinder/core/service/google-map-renderer.service.ts:72</a></div>
                 </td>
             </tr>
 
@@ -881,17 +881,18 @@ export class GoogleMapRendererService {
     locations: any[],
     selectMarkerHandler?: Function
   ): void {
-    if (this.googleMap &#x3D;&#x3D;&#x3D; null) {
-      this.externalJsFileLoader.load(
-        this.config.googleMaps.apiUrl,
-        { key: this.config.googleMaps.apiKey },
-        () &#x3D;&gt; {
-          this.drawMap(mapElement, locations, selectMarkerHandler);
-        }
-      );
-    } else {
-      this.drawMap(mapElement, locations, selectMarkerHandler);
-    }
+    if (Object.entries(locations[Object.keys(locations)[0]]).length &gt; 0)
+      if (this.googleMap &#x3D;&#x3D;&#x3D; null) {
+        this.externalJsFileLoader.load(
+          this.config.googleMaps.apiUrl,
+          { key: this.config.googleMaps.apiKey },
+          () &#x3D;&gt; {
+            this.drawMap(mapElement, locations, selectMarkerHandler);
+          }
+        );
+      } else {
+        this.drawMap(mapElement, locations, selectMarkerHandler);
+      }
   }
 
   /**

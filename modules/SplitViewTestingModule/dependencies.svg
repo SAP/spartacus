@@ -22,45 +22,69 @@
 <text text-anchor="start" x="429.7258" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Exports</text>
 <g id="clust1" class="cluster">
 <title>cluster_SplitViewTestingModule</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="161,-70 161,-268 335,-268 335,-70 161,-70"/>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="62,-70 62,-268 434,-268 434,-70 62,-70"/>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_SplitViewTestingModule_declarations</title>
-<polygon fill="none" stroke="#000000" points="171,-78 171,-130 325,-130 325,-78 171,-78"/>
+<polygon fill="none" stroke="#000000" points="74,-78 74,-130 423,-130 423,-78 74,-78"/>
 </g>
-<g id="clust5" class="cluster">
+<g id="clust6" class="cluster">
 <title>cluster_SplitViewTestingModule_exports</title>
-<polygon fill="none" stroke="#000000" points="169,-208 169,-260 327,-260 327,-208 169,-208"/>
+<polygon fill="none" stroke="#000000" points="70,-208 70,-260 426,-260 426,-208 70,-208"/>
 </g>
-<!-- MockIconComponent -->
+<!-- MockSplitViewComponent -->
 <g id="node1" class="node">
-<title>MockIconComponent</title>
-<polygon fill="#ffffb3" stroke="#000000" points="317.3669,-122 178.6331,-122 178.6331,-86 317.3669,-86 317.3669,-122"/>
-<text text-anchor="middle" x="248" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">MockIconComponent</text>
+<title>MockSplitViewComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="415.2646,-122 244.7354,-122 244.7354,-86 415.2646,-86 415.2646,-122"/>
+<text text-anchor="middle" x="330" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">MockSplitViewComponent</text>
 </g>
 <!-- SplitViewTestingModule -->
-<g id="node2" class="node">
-<title>SplitViewTestingModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="327.3159,-187 324.3159,-191 303.3159,-191 300.3159,-187 168.6841,-187 168.6841,-151 327.3159,-151 327.3159,-187"/>
-<text text-anchor="middle" x="248" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">SplitViewTestingModule</text>
-</g>
-<!-- MockIconComponent&#45;&gt;SplitViewTestingModule -->
-<g id="edge1" class="edge">
-<title>MockIconComponent&#45;&gt;SplitViewTestingModule</title>
-<path fill="none" stroke="#000000" d="M248,-122.1061C248,-122.1061 248,-140.991 248,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="244.5001,-140.9909 248,-150.991 251.5001,-140.991 244.5001,-140.9909"/>
-</g>
-<!-- MockIconComponent  -->
 <g id="node3" class="node">
-<title>MockIconComponent </title>
-<polygon fill="#fb8072" stroke="#000000" points="319.3673,-252 176.6327,-252 176.6327,-216 319.3673,-216 319.3673,-252"/>
-<text text-anchor="middle" x="248" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">MockIconComponent </text>
+<title>SplitViewTestingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="234.3159,-187 231.3159,-191 210.3159,-191 207.3159,-187 75.6841,-187 75.6841,-151 234.3159,-151 234.3159,-187"/>
+<text text-anchor="middle" x="155" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">SplitViewTestingModule</text>
 </g>
-<!-- SplitViewTestingModule&#45;&gt;MockIconComponent  -->
+<!-- MockSplitViewComponent&#45;&gt;SplitViewTestingModule -->
+<g id="edge1" class="edge">
+<title>MockSplitViewComponent&#45;&gt;SplitViewTestingModule</title>
+<path fill="none" stroke="#000000" d="M244.4616,-104C235.8253,-104 230.1564,-104 230.1564,-104 230.1564,-104 230.1564,-140.8939 230.1564,-140.8939"/>
+<polygon fill="#000000" stroke="#000000" points="226.6565,-140.8938 230.1564,-150.8939 233.6565,-140.8939 226.6565,-140.8938"/>
+</g>
+<!-- MockViewComponent -->
+<g id="node2" class="node">
+<title>MockViewComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="226.3103,-122 81.6897,-122 81.6897,-86 226.3103,-86 226.3103,-122"/>
+<text text-anchor="middle" x="154" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">MockViewComponent</text>
+</g>
+<!-- MockViewComponent&#45;&gt;SplitViewTestingModule -->
 <g id="edge2" class="edge">
-<title>SplitViewTestingModule&#45;&gt;MockIconComponent </title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M248,-187.1061C248,-187.1061 248,-205.991 248,-205.991"/>
-<polygon fill="#000000" stroke="#000000" points="244.5001,-205.9909 248,-215.991 251.5001,-205.991 244.5001,-205.9909"/>
+<title>MockViewComponent&#45;&gt;SplitViewTestingModule</title>
+<path fill="none" stroke="#000000" d="M154,-122.1061C154,-122.1061 154,-140.991 154,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="150.5001,-140.9909 154,-150.991 157.5001,-140.991 150.5001,-140.9909"/>
+</g>
+<!-- MockSplitViewComponent  -->
+<g id="node4" class="node">
+<title>MockSplitViewComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="418.2646,-252 243.7354,-252 243.7354,-216 418.2646,-216 418.2646,-252"/>
+<text text-anchor="middle" x="331" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">MockSplitViewComponent </text>
+</g>
+<!-- SplitViewTestingModule&#45;&gt;MockSplitViewComponent  -->
+<g id="edge3" class="edge">
+<title>SplitViewTestingModule&#45;&gt;MockSplitViewComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M230.0314,-187.1061C230.0314,-206.3391 230.0314,-234 230.0314,-234 230.0314,-234 233.6485,-234 233.6485,-234"/>
+<polygon fill="#000000" stroke="#000000" points="233.6485,-237.5001 243.6485,-234 233.6484,-230.5001 233.6485,-237.5001"/>
+</g>
+<!-- MockViewComponent  -->
+<g id="node5" class="node">
+<title>MockViewComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="225.8101,-252 78.1899,-252 78.1899,-216 225.8101,-216 225.8101,-252"/>
+<text text-anchor="middle" x="152" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">MockViewComponent </text>
+</g>
+<!-- SplitViewTestingModule&#45;&gt;MockViewComponent  -->
+<g id="edge4" class="edge">
+<title>SplitViewTestingModule&#45;&gt;MockViewComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M152,-187.1061C152,-187.1061 152,-205.991 152,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="148.5001,-205.9909 152,-215.991 155.5001,-205.991 148.5001,-205.9909"/>
 </g>
 </g>
 </svg>

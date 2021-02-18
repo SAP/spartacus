@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontapp-e2e-cypress/cypress/support/a11y-tab.commands.ts</code>
+            <code>projects/storefrontapp-e2e-cypress/cypress/support/cart.commands.ts</code>
         </p>
 
 
@@ -79,7 +79,7 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#pressTab">pressTab</a>
+                                        <a href="#addToCart">addToCart</a>
                                 </li>
                             </ul>
                         </td>
@@ -96,13 +96,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="pressTab"></a>
-                                        <span class="name"><b>pressTab</b><a href="#pressTab"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="addToCart"></a>
+                                        <span class="name"><b>addToCart</b><a href="#addToCart"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>pressTab:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                        <code>addToCart:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -121,7 +121,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Tab through the app</p>
+                                    <div class="io-description"><p>Creates a new cart and adds items to it</p>
 </div>
                                 </td>
                             </tr>
@@ -132,41 +132,48 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { focusableSelectors, getNextFocusableElement } from &#x27;./utils/a11y-tab&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { addToCart, createCart } from &#x27;./utils/cart&#x27;;
 
-declare global {
-  namespace Cypress {
-    interface Chainable {
-      /**
-       * Tab through the app
-       *
+declare namespace Cypress {
+  interface Chainable {
+    /**
+       * Creates a new cart and adds items to it
        * @memberof Cypress.Chainable
-       *
        * @example
         &#x60;&#x60;&#x60;
-        cy.pressTab()
+        cy.addToCart(productCode, quantity, accessToken)
         &#x60;&#x60;&#x60;
        */
-      pressTab: () &#x3D;&gt; void;
-    }
+    addToCart: (itemId: string, quantity: string, accessToken: string) &#x3D;&gt; void;
   }
 }
 
-Cypress.Commands.add(&#x27;pressTab&#x27;, () &#x3D;&gt; {
-  cy.document().then((document) &#x3D;&gt; {
-    const elements &#x3D; Array.from(
-      &lt;NodeListOf&lt;HTMLElement&gt;&gt;(
-        document.querySelectorAll(focusableSelectors.join(&#x27;,&#x27;))
-      )
-    ).filter((element) &#x3D;&gt; element.offsetParent !&#x3D;&#x3D; null);
+Cypress.Commands.add(
+  &#x27;addToCart&#x27;,
+  (productCode: string, quantity: string, accessToken: string) &#x3D;&gt; {
+    cy.server();
 
-    const activeElementIndex &#x3D; elements.indexOf(
-      document.activeElement as HTMLElement
-    );
+    createCart(accessToken).then((response) &#x3D;&gt; {
+      const cartId &#x3D; response.body.code;
+      addToCart(cartId, productCode, quantity, accessToken).then(() &#x3D;&gt; {
+        Cypress.log({
+          name: &#x27;addToCart&#x27;,
+          displayName: &#x27;Add to cart&#x27;,
+          message: [&#x60;🛒 Product(s) added to cart&#x60;],
+          consoleProps: () &#x3D;&gt; {
+            return {
+              &#x27;Cart ID&#x27;: cartId,
+              &#x27;Product code&#x27;: productCode,
+              Quantity: quantity,
+            };
+          },
+        });
 
-    getNextFocusableElement(elements, activeElementIndex).focus();
-  });
-});
+        cy.wrap(cartId);
+      });
+    });
+  }
+);
 </code></pre>
     </div>
 </div>

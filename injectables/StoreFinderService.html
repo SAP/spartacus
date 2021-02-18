@@ -78,6 +78,10 @@
                                     <span class="modifier">Private</span>
                                 <a href="#geolocationWatchId">geolocationWatchId</a>
                             </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#subscription">subscription</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -91,6 +95,9 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#callFindStoresAction">callFindStoresAction</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Private</span>
                                 <a href="#clearWatchGeolocation">clearWatchGeolocation</a>
                             </li>
@@ -101,6 +108,9 @@
                                 <a href="#getFindStoresEntities">getFindStoresEntities</a>
                             </li>
                             <li>
+                                <a href="#getStoresLoaded">getStoresLoaded</a>
+                            </li>
+                            <li>
                                 <a href="#getStoresLoading">getStoresLoading</a>
                             </li>
                             <li>
@@ -108,6 +118,17 @@
                             </li>
                             <li>
                                 <a href="#getViewAllStoresLoading">getViewAllStoresLoading</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#isEmpty">isEmpty</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy">ngOnDestroy</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#reloadStoreEntitiesOnContextChange">reloadStoreEntitiesOnContextChange</a>
                             </li>
                             <li>
                                 <a href="#viewAllStores">viewAllStores</a>
@@ -133,12 +154,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(store: Store<StateWithStoreFinder>, winRef: <a href="../injectables/WindowRef.html">WindowRef</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html">GlobalMessageService</a>, routingService: <a href="../injectables/RoutingService.html">RoutingService</a>)</code>
+<code>constructor(store: Store<StateWithStoreFinder>, winRef: <a href="../injectables/WindowRef.html">WindowRef</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html">GlobalMessageService</a>, routingService: <a href="../injectables/RoutingService.html">RoutingService</a>, platformId?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:47</a></div>
                             </td>
                         </tr>
 
@@ -203,6 +224,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>platformId</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -217,6 +250,76 @@
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="callFindStoresAction"></a>
+                    <span class="name">
+                        <b>
+                            callFindStoresAction
+                        </b>
+                        <a href="#callFindStoresAction"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>callFindStoresAction(routeParams: literal type)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="219"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:219</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>routeParams</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -241,8 +344,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="139"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:139</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="176"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:176</a></div>
                 </td>
             </tr>
 
@@ -311,8 +414,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="74"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:74</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="111"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:111</a></div>
                 </td>
             </tr>
 
@@ -468,8 +571,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="43"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:43</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="76"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:76</a></div>
                 </td>
             </tr>
 
@@ -480,7 +583,48 @@
 </div>
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/FindStores.html" target="_self" >Observable&lt;FindStoresState&gt;</a></code>
+                        <b>Returns : </b>        <code><a href="../interfaces/StoreEntities.html" target="_self" >Observable&lt;StoreEntities&gt;</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getStoresLoaded"></a>
+                    <span class="name">
+                        <b>
+                            getStoresLoaded
+                        </b>
+                        <a href="#getStoresLoaded"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getStoresLoaded()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="69"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:69</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns boolean observable for store&#39;s success state</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
 
                     </div>
                 </td>
@@ -509,8 +653,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="62"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:62</a></div>
                 </td>
             </tr>
 
@@ -550,8 +694,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="95"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:95</a></div>
                 </td>
             </tr>
 
@@ -562,7 +706,7 @@
 </div>
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/ViewAllStores.html" target="_self" >Observable&lt;ViewAllStoresState&gt;</a></code>
+                        <b>Returns : </b>        <code><a href="../interfaces/StoreEntities.html" target="_self" >Observable&lt;StoreEntities&gt;</a></code>
 
                     </div>
                 </td>
@@ -591,8 +735,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="50"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:50</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="86"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:86</a></div>
                 </td>
             </tr>
 
@@ -604,6 +748,160 @@
 
                     <div class="io-description">
                         <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isEmpty"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            isEmpty
+                        </b>
+                        <a href="#isEmpty"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isEmpty(store: <a href="../interfaces/StoreEntities.html">StoreEntities</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="186"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:186</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>store</td>
+                                    <td>
+                                                <code><a href="../interfaces/StoreEntities.html" target="_self" >StoreEntities</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <b>
+                            ngOnDestroy
+                        </b>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="230"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:230</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="reloadStoreEntitiesOnContextChange"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            reloadStoreEntitiesOnContextChange
+                        </b>
+                        <a href="#reloadStoreEntitiesOnContextChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>reloadStoreEntitiesOnContextChange()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="195"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:195</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Reload store data when store entities are empty because of the context change</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
                 </td>
@@ -632,8 +930,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="125"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:125</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="162"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:162</a></div>
                 </td>
             </tr>
 
@@ -673,8 +971,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="133"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:133</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="170"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:170</a></div>
                 </td>
             </tr>
 
@@ -760,6 +1058,33 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:23</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="subscription"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Protected</span>
+                            subscription</b>
+                            <a href="#subscription"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new Subscription()</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
                                     <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:24</a></div>
                             </td>
                         </tr>
@@ -773,16 +1098,12 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable, OnDestroy, PLATFORM_ID } from &#x27;@angular/core&#x27;;
 import { Action, select, Store } from &#x27;@ngrx/store&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
+import { Observable, Subscription } from &#x27;rxjs&#x27;;
 import { StoreFinderActions } from &#x27;../store/actions/index&#x27;;
 import { StoreFinderSelectors } from &#x27;../store/selectors/index&#x27;;
-import {
-  FindStoresState,
-  StateWithStoreFinder,
-  ViewAllStoresState,
-} from &#x27;../store/store-finder-state&#x27;;
+import { StateWithStoreFinder } from &#x27;../store/store-finder-state&#x27;;
 import {
   GeoPoint,
   GlobalMessageService,
@@ -791,19 +1112,49 @@ import {
   SearchConfig,
   WindowRef,
 } from &#x27;@spartacus/core&#x27;;
+import { StoreEntities } from &#x27;../model&#x27;;
+import { filter, map, withLatestFrom } from &#x27;rxjs/operators&#x27;;
+import { isPlatformBrowser } from &#x27;@angular/common&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
-export class StoreFinderService {
+export class StoreFinderService implements OnDestroy {
   private geolocationWatchId: number &#x3D; null;
+  protected subscription &#x3D; new Subscription();
+
+  constructor(
+    store: Store&lt;StateWithStoreFinder&gt;,
+    winRef: WindowRef,
+    globalMessageService: GlobalMessageService,
+    routingService: RoutingService
+  );
+
+  /**
+   * @deprecated since version 3.1
+   * Use constructor(protected store: Store&lt;StateWithStoreFinder&gt;, protected winRef: WindowRef, protected globalMessageService: GlobalMessageService,
+   * protected routingService: RoutingService @Inject(PLATFORM_ID) protected platformId: any); instead
+   */
+  // TODO(#11093): Remove deprecated constructors
+
+  constructor(
+    store: Store&lt;StateWithStoreFinder&gt;,
+    winRef: WindowRef,
+    globalMessageService: GlobalMessageService,
+    routingService: RoutingService,
+    // tslint:disable-next-line: unified-signatures
+    platformId: any
+  );
 
   constructor(
     protected store: Store&lt;StateWithStoreFinder&gt;,
     protected winRef: WindowRef,
     protected globalMessageService: GlobalMessageService,
-    protected routingService: RoutingService
-  ) {}
+    protected routingService: RoutingService,
+    @Inject(PLATFORM_ID) protected platformId?: any
+  ) {
+    this.reloadStoreEntitiesOnContextChange();
+  }
 
   /**
    * Returns boolean observable for store&#x27;s loading state
@@ -813,10 +1164,20 @@ export class StoreFinderService {
   }
 
   /**
+   * Returns boolean observable for store&#x27;s success state
+   */
+  getStoresLoaded(): Observable&lt;boolean&gt; {
+    return this.store.pipe(select(StoreFinderSelectors.getStoresSuccess));
+  }
+
+  /**
    * Returns observable for store&#x27;s entities
    */
-  getFindStoresEntities(): Observable&lt;FindStoresState&gt; {
-    return this.store.pipe(select(StoreFinderSelectors.getFindStoresEntities));
+  getFindStoresEntities(): Observable&lt;StoreEntities&gt; {
+    return this.store.pipe(
+      select(StoreFinderSelectors.getFindStoresEntities),
+      map((data) &#x3D;&gt; data.findStoresEntities)
+    );
   }
 
   /**
@@ -831,9 +1192,10 @@ export class StoreFinderService {
   /**
    * Returns observable for view all store&#x27;s entities
    */
-  getViewAllStoresEntities(): Observable&lt;ViewAllStoresState&gt; {
+  getViewAllStoresEntities(): Observable&lt;StoreEntities&gt; {
     return this.store.pipe(
-      select(StoreFinderSelectors.getViewAllStoresEntities)
+      select(StoreFinderSelectors.getViewAllStoresEntities),
+      map((data) &#x3D;&gt; data.viewAllStoresEntities)
     );
   }
 
@@ -919,6 +1281,54 @@ export class StoreFinderService {
       this.geolocationWatchId &#x3D; null;
     }
     this.store.dispatch(callbackAction);
+  }
+
+  private isEmpty(store: StoreEntities): boolean {
+    return (
+      !store || (typeof store &#x3D;&#x3D;&#x3D; &#x27;object&#x27; &amp;&amp; Object.keys(store).length &#x3D;&#x3D;&#x3D; 0)
+    );
+  }
+
+  /**
+   * Reload store data when store entities are empty because of the context change
+   */
+  protected reloadStoreEntitiesOnContextChange(): void {
+    if (isPlatformBrowser(this.platformId) || !this.platformId) {
+      this.subscription &#x3D; this.getFindStoresEntities()
+        .pipe(
+          filter((data) &#x3D;&gt; this.isEmpty(data)),
+          withLatestFrom(
+            this.getStoresLoading(),
+            this.getStoresLoaded(),
+            this.routingService.getParams()
+          )
+        )
+        .subscribe(([, loading, loaded, routeParams]) &#x3D;&gt; {
+          if (!loading &amp;&amp; !loaded) {
+            if (routeParams.country &amp;&amp; !routeParams.store) {
+              this.callFindStoresAction(routeParams);
+            }
+            if (routeParams.store) {
+              this.viewStoreById(routeParams.store);
+            }
+          }
+        });
+    }
+  }
+
+  callFindStoresAction(routeParams: { [key: string]: string }): void {
+    this.findStoresAction(
+      &#x27;&#x27;,
+      {
+        pageSize: -1,
+      },
+      undefined,
+      routeParams.country
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }
 </code></pre>

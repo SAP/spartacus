@@ -107,7 +107,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">feature-libs/storefinder/core/store/actions/view-all-stores.action.ts:9</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">feature-libs/storefinder/core/store/actions/view-all-stores.action.ts:11</a></div>
                             </td>
                         </tr>
 
@@ -140,7 +140,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">feature-libs/storefinder/core/store/actions/view-all-stores.action.ts:9</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">feature-libs/storefinder/core/store/actions/view-all-stores.action.ts:11</a></div>
                             </td>
                         </tr>
 
@@ -161,10 +161,12 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { STORE_FINDER_DATA } from &#x27;../store-finder-state&#x27;;
 import { StateUtils } from &#x27;@spartacus/core&#x27;;
+import { Action } from &#x27;@ngrx/store&#x27;;
 
 export const VIEW_ALL_STORES &#x3D; &#x27;[StoreFinder] View All Stores&#x27;;
 export const VIEW_ALL_STORES_FAIL &#x3D; &#x27;[StoreFinder] View All Stores Fail&#x27;;
 export const VIEW_ALL_STORES_SUCCESS &#x3D; &#x27;[StoreFinder] View All Stores Success&#x27;;
+export const CLEAR_STORE_FINDER_DATA &#x3D; &#x27;[StoreFinder] Clear Data&#x27;;
 
 export class ViewAllStores extends StateUtils.LoaderLoadAction {
   readonly type &#x3D; VIEW_ALL_STORES;
@@ -187,10 +189,15 @@ export class ViewAllStoresSuccess extends StateUtils.LoaderSuccessAction {
   }
 }
 
+export class ClearStoreFinderData implements Action {
+  readonly type &#x3D; CLEAR_STORE_FINDER_DATA;
+}
+
 export type ViewAllStoresAction &#x3D;
   | ViewAllStores
   | ViewAllStoresFail
-  | ViewAllStoresSuccess;
+  | ViewAllStoresSuccess
+  | ClearStoreFinderData;
 </code></pre>
     </div>
 </div>

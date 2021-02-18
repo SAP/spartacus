@@ -2054,8 +2054,12 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-IconTestingModule-02e9e2249f2a423f983ce2a097a55358"' :
                                             'id="xs-components-links-module-IconTestingModule-02e9e2249f2a423f983ce2a097a55358"' }>
                                             <li class="link">
-                                                <a href="components/MockIconComponent.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">MockIconComponent</a>
+                                                <a href="components/MockSplitViewComponent.html"
+                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">MockSplitViewComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/MockViewComponent.html"
+                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">MockViewComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -2351,10 +2355,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         </div>
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-MessageModule-64e30f9bfc9d827bd600f45bb2f5ad30"' :
                                             'id="xs-components-links-module-MessageModule-64e30f9bfc9d827bd600f45bb2f5ad30"' }>
-                                            <li class="link">
-                                                <a href="components/MessageComponent-1.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">MessageComponent</a>
-                                            </li>
                                             <li class="link">
                                                 <a href="components/MessageComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">MessageComponent</a>
@@ -3857,8 +3857,12 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-SplitViewTestingModule-ae4068cadbdd699333ab1f16e7be5c9f"' :
                                             'id="xs-components-links-module-SplitViewTestingModule-ae4068cadbdd699333ab1f16e7be5c9f"' }>
                                             <li class="link">
-                                                <a href="components/MockIconComponent.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">MockIconComponent</a>
+                                                <a href="components/MockSplitViewComponent.html"
+                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">MockSplitViewComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/MockViewComponent.html"
+                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">MockViewComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -4945,13 +4949,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                         </div>
                         <ul class="links collapse " ${ isNormalMode ? 'id="components-links"' : 'id="xs-components-links"' }>
                             <li class="link">
-                                <a href="components/MessageComponent.html" data-type="entity-link">MessageComponent</a>
-                            </li>
-                            <li class="link">
-                                <a href="components/MockSplitViewComponent.html" data-type="entity-link">MockSplitViewComponent</a>
-                            </li>
-                            <li class="link">
-                                <a href="components/MockViewComponent.html" data-type="entity-link">MockViewComponent</a>
+                                <a href="components/MockIconComponent.html" data-type="entity-link">MockIconComponent</a>
                             </li>
                             <li class="link">
                                 <a href="components/ReplenishmentOrderCancellationComponent.html" data-type="entity-link">ReplenishmentOrderCancellationComponent</a>
@@ -5343,6 +5341,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="classes/ClearScheduleReplenishmentOrderAction.html" data-type="entity-link">ClearScheduleReplenishmentOrderAction</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/ClearStoreFinderData.html" data-type="entity-link">ClearStoreFinderData</a>
                             </li>
                             <li class="link">
                                 <a href="classes/ClearSupportedDeliveryModes.html" data-type="entity-link">ClearSupportedDeliveryModes</a>

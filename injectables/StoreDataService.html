@@ -662,7 +662,7 @@ export class StoreDataService {
    * @param location store location
    */
   getStoreLatitude(location: PointOfService): number {
-    return location.geoPoint.latitude;
+    return location?.geoPoint?.latitude;
   }
 
   /**
@@ -670,7 +670,7 @@ export class StoreDataService {
    * @param location store location
    */
   getStoreLongitude(location: PointOfService): number {
-    return location.geoPoint.longitude;
+    return location?.geoPoint?.longitude;
   }
 
   /**
@@ -721,7 +721,16 @@ export class StoreDataService {
   protected getSchedule(location: PointOfService, date: Date): any {
     const weekday &#x3D; this.weekDays[date.getDay()];
     return location.openingHours.weekDayOpeningList.find(
-      (weekDayOpeningListItem) &#x3D;&gt; weekDayOpeningListItem.weekDay &#x3D;&#x3D;&#x3D; weekday
+      (weekDayOpeningListItem) &#x3D;&gt;
+        weekDayOpeningListItem.weekDay &#x3D;&#x3D;&#x3D;
+          date.toLocaleString(window.sessionStorage.language, {
+            weekday: &#x27;short&#x27;,
+          }) ||
+        weekDayOpeningListItem.weekDay &#x3D;&#x3D;&#x3D;
+          date.toLocaleString(window.sessionStorage.language, {
+            weekday: &#x27;long&#x27;,
+          }) ||
+        weekDayOpeningListItem.weekDay &#x3D;&#x3D;&#x3D; weekday
     );
   }
 }

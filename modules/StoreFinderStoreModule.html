@@ -76,14 +76,16 @@ import { CommonModule } from &#x27;@angular/common&#x27;;
 import { StoreModule } from &#x27;@ngrx/store&#x27;;
 import { EffectsModule } from &#x27;@ngrx/effects&#x27;;
 
-import { reducerProvider, reducerToken } from &#x27;./reducers/index&#x27;;
+import { reducerProvider, reducerToken, metaReducers } from &#x27;./reducers/index&#x27;;
 import { effects } from &#x27;./effects/index&#x27;;
 import { STORE_FINDER_FEATURE } from &#x27;./store-finder-state&#x27;;
 
 @NgModule({
   imports: [
     CommonModule,
-    StoreModule.forFeature(STORE_FINDER_FEATURE, reducerToken),
+    StoreModule.forFeature(STORE_FINDER_FEATURE, reducerToken, {
+      metaReducers,
+    }),
     EffectsModule.forFeature(effects),
   ],
   providers: [reducerProvider],
