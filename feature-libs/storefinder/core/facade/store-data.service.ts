@@ -90,18 +90,20 @@ export class StoreDataService {
    */
   protected getSchedule(location: PointOfService, date: Date): any {
     const weekday = this.weekDays[date.getDay()];
-    const language = this.winRef.sessionStorage?.getItem('language');
+    const language = this.winRef?.sessionStorage?.getItem('language');
     return location.openingHours.weekDayOpeningList.find(
       (weekDayOpeningListItem) =>
-        weekDayOpeningListItem.weekDay ===
-          date.toLocaleString(language as any, {
-            weekday: 'short',
-          }) ||
-        weekDayOpeningListItem.weekDay ===
-          date.toLocaleString(language as any, {
-            weekday: 'long',
-          }) ||
-        weekDayOpeningListItem.weekDay === weekday
+        Boolean(language)
+          ? weekDayOpeningListItem.weekDay ===
+              date.toLocaleString(language as string, {
+                weekday: 'short',
+              }) ||
+            weekDayOpeningListItem.weekDay ===
+              date.toLocaleString(language as string, {
+                weekday: 'long',
+              }) ||
+            weekDayOpeningListItem.weekDay === weekday
+          : weekDayOpeningListItem.weekDay === weekday
     );
   }
 }
