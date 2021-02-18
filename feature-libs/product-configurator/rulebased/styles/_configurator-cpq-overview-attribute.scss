@@ -51,8 +51,8 @@
           }
 
           .cx-item {
-            width: 65%;
-            @include cx-configurator-truncate-content();
+            width: fit-content;
+            line-break: anywhere;
           }
         }
       }
@@ -61,6 +61,7 @@
     .cx-attribute-price-container {
       display: flex;
       flex-direction: row;
+      flex-wrap: wrap;
       justify-content: space-between;
       align-items: flex-start;
       color: var(--cx-color-secondary);
@@ -70,6 +71,10 @@
         width: 100%;
         align-items: flex-start;
         padding-block-start: 5px;
+      }
+
+      .cx-attribute-label {
+        padding-inline-end: 10px;
       }
     }
   }
