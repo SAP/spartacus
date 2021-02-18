@@ -22,9 +22,9 @@ echo "Installing upp cli"
 
 unzip -o ${APP}.zip -d ${APP}
 cd ${APP}
-sudo npm install npm-force-resolutions
+npm install
+npm run install-cli
 
-sudo npm install -g
 cd ..
 
 echo "-----"
