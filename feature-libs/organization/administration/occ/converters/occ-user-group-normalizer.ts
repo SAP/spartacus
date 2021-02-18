@@ -11,9 +11,7 @@ export class OccUserGroupNormalizer
 
   convert(source: Occ.OrgUnitUserGroup, target?: UserGroup): UserGroup {
     if (target === undefined) {
-      target = {
-        ...(source as any),
-      };
+      target = { ...(source as any) };
     }
     return target;
   }
