@@ -11,12 +11,19 @@
   "homepage": "https://github.com/SAP/spartacus",
   "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/product",
   "license": "Apache-2.0",
+  "scripts": {
+    "variants:build:schematics": "yarn variants:clean:schematics && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
+    "variants:clean:schematics": "../../node_modules/.bin/rimraf \"variants/schematics/**/*.js\" \"variants/schematics/**/*.js.map\" \"variants/schematics/**/*.d.ts\"",
+    "variants:test:schematics": "yarn --cwd ../../projects/schematics/ run clean && yarn variants:clean:schematics && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
+  },
   "dependencies": {
     "tslib": "^2.0.0"
   },
   "peerDependencies": {
+    "@angular-devkit/schematics": "^10.1.0",
     "@angular/common": "^10.1.0",
     "@angular/core": "^10.1.0",
+    "@schematics/angular": "^10.1.0",
     "@angular/router": "^10.1.0",
     "@spartacus/core": "3.1.0-next.0",
     "@spartacus/storefront": "3.1.0-next.0",
@@ -25,5 +32,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "schematics": "./collection.json"
 }

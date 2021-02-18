@@ -1,0 +1,11 @@
+{
+  "$schema": "../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "add-product-variants": {
+      "description": "Add product base variants module.",
+      "factory": "./variants/schematics/add-variants/index#addVariantsFeatures",
+      "schema": "./variants/schematics/add-variants/schema.json",
+      "aliases": ["variants"]
+    }
+  }
+}

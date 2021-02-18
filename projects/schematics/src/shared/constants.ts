@@ -654,6 +654,16 @@ export const SPARTACUS_QUALTRICS_ROOT = `${SPARTACUS_QUALTRICS}/root`;
 
 export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
 
+export const VARIANTS_MODULE = 'VariantsModule';
+export const VARIANTS_FEATURE_NAME = 'variants';
+export const VARIANTS_ROOT_MODULE = 'VariantsRootModule';
+export const SPARTACUS_VARIANTS = '@spartacus/product/variants';
+export const SPARTACUS_VARIANTS_ROOT = `${SPARTACUS_VARIANTS}/root`;
+export const PRODUCT_SCSS_FILE_NAME = 'product.scss';
+export const SPARTACUS_VARIANTS_ASSETS = `${SPARTACUS_VARIANTS}/assets`;
+export const VARIANTS_TRANSLATIONS = 'variantsTranslations';
+export const VARIANTS_TRANSLATION_CHUNKS_CONFIG =
+  'variantsTranslationChunksConfig';
 /***** APIs end *****/
 
 /***** Storefinder start *****/
