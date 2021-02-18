@@ -8,28 +8,17 @@
 
     .cx-quantity-price {
       font-size: var(--cx-font-small, 0.9rem);
-
-      @include cx-configurator-truncate-content();
+      line-break: anywhere;
     }
 
     .cx-price,
-    .cx-quantity,
     .cx-price-total {
       font-weight: bold;
-
-      @include cx-configurator-truncate-content();
+      line-break: anywhere;
     }
 
     .cx-greyed-out {
       color: var(--cx-color-light);
-    }
-
-    .cx-quantity {
-      display: flex;
-      flex-direction: row;
-      label {
-        padding-inline-end: 0.5rem;
-      }
     }
   }
 }

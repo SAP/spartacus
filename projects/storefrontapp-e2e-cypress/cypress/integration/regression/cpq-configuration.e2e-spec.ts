@@ -392,15 +392,19 @@ context('CPQ Configuration', () => {
           name: 'Lenses',
           value: 'Sigma 85mm F1.4 DG HS',
           type: 'product',
-          price: '$800.00',
+          price: '+ $800.00',
         },
-        { value: 'Nikon AF-P DX NIKKOR', type: 'product', price: '$700.00' },
-        { name: 'professional photographer?', value: 'yes', type: 'simple' },
+        { value: 'Nikon AF-P DX NIKKOR', type: 'product', price: '+ $700.00' },
+        {
+          name: 'professional photographer?',
+          value: 'yes',
+          type: 'simple',
+        },
         {
           name: 'Insurance',
           value: 'Pro 4 years',
           type: 'product',
-          price: '$600.00',
+          price: '+ $600.00',
         },
       ];
       ovContent.forEach((line, idx) => {

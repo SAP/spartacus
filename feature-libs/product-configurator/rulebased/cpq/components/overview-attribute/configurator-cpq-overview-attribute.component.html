@@ -1,7 +1,7 @@
 <ng-container *ngIf="product$ | async as product">
-  <div class="cpq-attribute">
+  <div class="cx-value-container">
     <div
-      class="cpq-attribute-thumbnail"
+      class="cx-thumbnail"
       [ngClass]="{ empty: !getProductPrimaryImage(product) }"
     >
       <cx-media
@@ -10,20 +10,35 @@
         format="product"
       ></cx-media>
     </div>
-    <div class="cpq-attribute-value">
-      <a class="cpq-attribute-link" href="#" *ngIf="attributeOverview?.value">{{
+    <div class="cx-value-info">
+      <a class="cx-link" href="#" *ngIf="attributeOverview?.value">{{
         attributeOverview.value
       }}</a>
-      <span class="cpq-attribute-code" *ngIf="attributeOverview?.productCode">
+      <span class="cx-code" *ngIf="attributeOverview?.productCode">
         {{ 'configurator.attribute.id' | cxTranslate }}:
         {{ attributeOverview.productCode }}</span
       >
+      <div *ngIf="displayQuantity()" class="cx-quantity">
+        <span class="cx-identifier"
+          >{{ 'configurator.attribute.quantity' | cxTranslate }}:</span
+        >
+        <span class="cx-item">{{ attributeOverview.quantity }}</span>
+      </div>
+      <div *ngIf="displayPrice()" class="cx-price">
+        <span class="cx-identifier"
+          >{{ 'configurator.overviewForm.itemPrice' | cxTranslate }}:</span
+        >
+        <span class="cx-item">{{
+          attributeOverview.valuePrice.formattedValue
+        }}</span>
+      </div>
     </div>
-    <div class="cpq-attribute-label">
-      <span>{{ attributeOverview?.attribute }}</span>
-      <cx-configurator-price
-        [formula]="extractPriceFormulaParameters()"
-      ></cx-configurator-price>
-    </div>
+  </div>
+
+  <div class="cx-attribute-price-container">
+    <span class="cx-attribute-label">{{ attributeOverview?.attribute }}</span>
+    <cx-configurator-price
+      [formula]="extractPriceFormulaParameters()"
+    ></cx-configurator-price>
   </div>
 </ng-container>

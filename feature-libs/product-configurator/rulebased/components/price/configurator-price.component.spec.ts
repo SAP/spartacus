@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ConfiguratorPriceComponent } from './configurator-price.component';
 import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
-import { I18nTestingModule } from '@spartacus/core';
 
 const createTestData = (
   quantity: number,
@@ -34,7 +33,6 @@ describe('ConfiguratorPriceComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [ConfiguratorPriceComponent],
-        imports: [I18nTestingModule],
       }).compileComponents();
     })
   );
@@ -59,11 +57,6 @@ describe('ConfiguratorPriceComponent', () => {
         htmlElem,
         '.cx-price'
       );
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        '.cx-quantity'
-      );
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
@@ -82,7 +75,6 @@ describe('ConfiguratorPriceComponent', () => {
         },
         priceTotal: undefined,
         isLightedUp: true,
-        isOverview: false,
       };
       fixture.detectChanges();
 
@@ -90,11 +82,6 @@ describe('ConfiguratorPriceComponent', () => {
         expect,
         htmlElem,
         '.cx-price'
-      );
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-quantity'
       );
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
@@ -113,11 +100,6 @@ describe('ConfiguratorPriceComponent', () => {
         expect,
         htmlElem,
         '.cx-price'
-      );
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-quantity'
       );
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
@@ -146,11 +128,6 @@ describe('ConfiguratorPriceComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-quantity'
-      );
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
         '.cx-quantity-price'
       );
       expect(component.price).toEqual('+ $10');
@@ -168,11 +145,6 @@ describe('ConfiguratorPriceComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-quantity'
-      );
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
         '.cx-quantity-price'
       );
       expect(component.priceTotal).toEqual('+ $150');
@@ -186,11 +158,6 @@ describe('ConfiguratorPriceComponent', () => {
         expect,
         htmlElem,
         '.cx-price'
-      );
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        '.cx-quantity'
       );
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,

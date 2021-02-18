@@ -12,6 +12,10 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import {
+  ConfiguratorAttributeQuantityComponentOptions,
+  Quantity,
+} from '../../quantity/configurator-attribute-quantity.component';
 
 @Component({
   selector: 'cx-configurator-attribute-drop-down',
@@ -89,11 +93,23 @@ export class ConfiguratorAttributeDropDownComponent
     }
   }
 
-  extractQuantityParameters(disableQuantityActions: boolean) {
+  /**
+   *  Extract corresponding quantity parameters
+   *
+   * @param {boolean} disableQuantityActions - Disable quantity actions
+   * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
+   */
+  extractQuantityParameters(
+    disableQuantityActions: boolean
+  ): ConfiguratorAttributeQuantityComponentOptions {
+    const initialQuantity: Quantity = {
+      quantity:
+        this.attributeDropDownForm.value !== '0' ? this.attribute.quantity : 0,
+    };
+
     return {
       allowZero: !this.attribute.required,
-      initialQuantity:
-        this.attributeDropDownForm.value !== '0' ? this.attribute.quantity : 0,
+      initialQuantity: initialQuantity,
       disableQuantityActions: disableQuantityActions,
     };
   }

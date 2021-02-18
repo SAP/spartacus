@@ -59,6 +59,7 @@ export const configurator = {
     overviewForm: {
       noAttributeHeader: 'No Results',
       noAttributeText: 'Remove filter(s) to see Overview content',
+      itemPrice: 'Item Price',
     },
     group: {
       general: 'General',

@@ -1,64 +1,81 @@
 %cx-configurator-cpq-overview-attribute {
-  .cpq-attribute {
+  display: none;
+
+  &:not(:empty) {
     display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
     padding-block-start: 15px;
     padding-block-end: 15px;
 
-    &-thumbnail {
-      width: 7rem;
-      height: 7rem;
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+    }
 
-      cx-media {
-        width: 7rem;
-        height: 7rem;
-        text-align: center;
+    .cx-value-container {
+      display: flex;
+      flex-direction: row;
+      width: 40%;
+
+      @include media-breakpoint-down(sm) {
+        width: 100%;
       }
 
-      &.empty {
-        background-color: var(--cx-color-light);
+      .cx-thumbnail {
+        @include cx-configurator-image();
+      }
+
+      .cx-value-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding-inline-start: 15px;
+        padding-inline-end: 15px;
+        width: 80%;
+
+        .cx-code {
+          display: block;
+          color: var(--cx-color-secondary);
+          font-size: 0.875rem;
+          overflow-wrap: anywhere;
+          padding-block-end: 5px;
+        }
+
+        .cx-quantity,
+        .cx-price {
+          display: flex;
+          flex-direction: row;
+
+          .cx-identifier {
+            width: 35%;
+          }
+
+          .cx-item {
+            width: fit-content;
+            line-break: anywhere;
+          }
+        }
       }
     }
 
-    &-value {
-      flex: 1;
-      align-self: flex-start;
-      padding-inline-start: 15px;
-      padding-inline-end: 15px;
-    }
-
-    &-label {
+    .cx-attribute-price-container {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
       justify-content: space-between;
-      align-items: flex-end;
-      padding-block-start: 5px;
+      align-items: flex-start;
       color: var(--cx-color-secondary);
-
-      @include media-breakpoint-up(md) {
-        width: 58.3333333333%;
-      }
+      width: 60%;
 
       @include media-breakpoint-down(sm) {
-        flex-direction: column;
+        width: 100%;
+        align-items: flex-start;
+        padding-block-start: 5px;
       }
 
-      &-name {
+      .cx-attribute-label {
+        padding-inline-end: 10px;
       }
-    }
-
-    &-code {
-      display: block;
-      color: var(--cx-color-secondary);
-      font-size: 0.875rem;
-      overflow-wrap: anywhere;
-    }
-
-    .overview-price {
-      color: var(--cx-color-text);
     }
   }
 }

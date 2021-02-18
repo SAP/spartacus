@@ -53,8 +53,8 @@ export class ConfiguratorOverviewFormComponent {
 
   /**
    * Does the configuration contain any selected attribute values?
-   * @param configuration Current configuration
-   * @returns Any attributes available
+   * @param {Configurator.Configuration} configuration - Current configuration
+   * @returns {boolean} - Any attributes available
    */
   hasAttributes(configuration: Configurator.Configuration): boolean {
     if (!(configuration?.overview?.groups?.length > 0)) {
@@ -65,5 +65,30 @@ export class ConfiguratorOverviewFormComponent {
         (group) => group.attributes?.length > 0
       ) !== undefined
     );
+  }
+
+  /**
+   * Verifies whether the next or the previous attributes are same.
+   *
+   * @param {Configurator.AttributeOverview[]} attributes - Attribute array
+   * @param {number} index - Index of the attribute in the array
+   * @return {boolean} - 'True' if it is the same attribute, otherwise 'false'
+   */
+  isSameAttribute(
+    attributes: Configurator.AttributeOverview[],
+    index: number
+  ): boolean {
+    if (attributes.length > 1) {
+      if (index === 0) {
+        return (
+          attributes[index]?.attribute === attributes[index + 1]?.attribute
+        );
+      } else {
+        return (
+          attributes[index]?.attribute === attributes[index - 1]?.attribute
+        );
+      }
+    }
+    return false;
   }
 }

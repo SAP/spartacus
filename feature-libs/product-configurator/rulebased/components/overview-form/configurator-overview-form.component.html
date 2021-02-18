@@ -6,9 +6,9 @@
           {{ group.groupDescription }}
         </h2>
         <div
-          *ngFor="let attributeOverview of group.attributes"
+          *ngFor="let attributeOverview of group.attributes; let i = index"
           class="cx-attribute-value-pair"
-          [class.margin]="attributeOverview?.attribute"
+          [class.margin]="!isSameAttribute(group.attributes, i)"
           [class.bundle]="
             attributeOverview?.type === attributeOverviewType.BUNDLE
           "

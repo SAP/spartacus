@@ -74,6 +74,7 @@ class MockConfiguratorCommonsService {
       : defaultConfigObservable;
     return obs;
   }
+
   getConfigurationWithOverview(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
@@ -82,6 +83,7 @@ class MockConfiguratorCommonsService {
       : of(configuration);
     return obs;
   }
+
   removeConfiguration(): void {}
 }
 
@@ -205,6 +207,45 @@ describe('ConfigurationOverviewFormComponent', () => {
       overview: { groups: [{ id: 'GROUP1' }] },
     };
     expect(component.hasAttributes(configWOOverviewAttributes)).toBe(false);
+  });
+
+  describe('isSameAttribute', () => {
+    it("should return 'false' because the attributes array is empty", () => {
+      initialize();
+      const attributes: Configurator.AttributeOverview[] = [];
+      const result = component.isSameAttribute(attributes, 0);
+      expect(result).toBe(false);
+    });
+
+    it("should return 'false' because it is not the same attribute", () => {
+      initialize();
+      const attributes: Configurator.AttributeOverview[] = [
+        {
+          attribute: 'C2',
+          value: 'V2',
+        },
+      ];
+      const result = component.isSameAttribute(attributes, 0);
+      expect(result).toBe(false);
+    });
+
+    it("should return 'true' because it is the same attribute", () => {
+      initialize();
+      const attributes: Configurator.AttributeOverview[] = [
+        {
+          attribute: 'C2',
+          value: 'V2',
+        },
+        {
+          attribute: 'C2',
+          value: 'V3',
+        },
+      ];
+      let result = component.isSameAttribute(attributes, 0);
+      expect(result).toBe(true);
+      result = component.isSameAttribute(attributes, 1);
+      expect(result).toBe(true);
+    });
   });
 });
 

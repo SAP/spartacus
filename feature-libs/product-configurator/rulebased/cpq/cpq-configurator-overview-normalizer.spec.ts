@@ -178,12 +178,13 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     ).toEqual(ATTR_NAME);
   });
 
-  it('should map attribute name only for first value', () => {
+  it('should map attribute name for every value', () => {
     attr.values = multiSelectionValues;
     attr.displayAs = Cpq.DisplayAs.CHECK_BOX;
     const ovAttrs = serviceUnderTest['convertAttribute'](attr, CURRENCY);
     expect(ovAttrs[0].attribute).toEqual(ATTR_NAME);
-    expect(ovAttrs[1].attribute).toBeUndefined();
+    expect(ovAttrs[1].attribute).toEqual(ATTR_NAME);
+    expect(ovAttrs[0].attribute).toEqual(ovAttrs[1].attribute);
   });
 
   it('should map attribute type GENREAL', () => {
