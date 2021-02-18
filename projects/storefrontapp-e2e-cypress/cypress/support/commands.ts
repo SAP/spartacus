@@ -6,6 +6,7 @@ import './a11y-tab.commands';
 import './cart.commands';
 import './cx-config.commands';
 import './login.commands';
+import './mobile.commands';
 import './ng-select.commands';
 import './order-placed.commands';
 import './require-logged-in.commands';
