@@ -14,35 +14,22 @@ const cpqValueCode = 'VALUE_CODE';
 const cpqValueDisplay = 'VALUE_DISPLAY';
 const cpqValueDescription = 'VALUE_DESCRIPTION';
 const cpqValueProductSystemId = 'VALUE_PRODUCT_SYSTEM_ID';
-const cpqValueQuantity = '2';
-const cpqValuePrice = '123.45';
-
-const cpqValuePavId2 = 2;
-const cpqValueCode2 = 'VALUE_CODE_2';
-const cpqValueDisplay2 = 'VALUE_DISPLAY_2';
-const cpqValueDescription2 = 'VALUE_DESCRIPTION_2';
-const cpqValueProductSystemId2 = 'VALUE_PRODUCT_SYSTEM_ID_2';
 
 const cpqAttributePaId = 11;
 const cpqAttributeStdAttrCode = 1;
 const cpqAttributeDescription = 'VALUE_DESCRIPTION';
 const cpqAttributeLabel = 'VALUE_LABEL';
-const cpqAttributeDisplayAs = Cpq.DisplayAs.RADIO_BUTTON;
 const cpqAttributeRequired = true;
-const cpqAttributeIncomplete = true;
 const cpqAttributeIsLineItem = true;
 const cpqAttributeHasConflict = true;
 const cpqAttributeUserInput = '';
 const cpqAttributeQuantity = '1';
-const cpqAttributeDataType = Cpq.DataType.QTY_ATTRIBUTE_LEVEL;
 
 const cpqAttributePaId2 = 22;
 const cpqAttributeStdAttrCode2 = 2;
 const cpqAttributeDescription2 = 'VALUE_DESCRIPTION_2';
 const cpqAttributeLabel2 = 'VALUE_LABEL_2';
-const cpqAttributeDisplayAs2 = Cpq.DisplayAs.INPUT;
 const cpqAttributeRequired2 = false;
-const cpqAttributeIncomplete2 = false;
 const cpqAttributeIsLineItem2 = false;
 const cpqAttributeHasConflict2 = false;
 const cpqAttributeUserInput2 = 'USER_INPUT_2';
@@ -51,13 +38,8 @@ const cpqGroupId = 1;
 const cpqGroupName = 'GROUP_NAME';
 const cpqGroupDisplayName = 'GROUP_DISPLAY_NAME';
 const cpqGroupIsIncomplete = false;
-const cpqGroupIsSelected = true;
 
 const cpqGroupId2 = 2;
-const cpqGroupName2 = 'GROUP_NAME2';
-const cpqGroupDisplayName2 = 'GROUP_DISPLAY_NAME2';
-const cpqGroupIsIncomplete2 = false;
-const cpqGroupIsSelected2 = false;
 
 const configuratorAttributeQuantity = Number(cpqAttributeQuantity);
 const configuratorAttributeDataType =
@@ -72,16 +54,16 @@ const cpqValue: Cpq.Value = {
   description: cpqValueDescription,
   productSystemId: cpqValueProductSystemId,
   selected: true,
-  quantity: cpqValueQuantity,
-  price: cpqValuePrice,
+  quantity: '2',
+  price: '123.45',
 };
 
 const cpqValue2: Cpq.Value = {
-  paV_ID: cpqValuePavId2,
-  valueCode: cpqValueCode2,
-  valueDisplay: cpqValueDisplay2,
-  description: cpqValueDescription2,
-  productSystemId: cpqValueProductSystemId2,
+  paV_ID: 2,
+  valueCode: 'VALUE_CODE_2',
+  valueDisplay: 'VALUE_DISPLAY_2',
+  description: 'VALUE_DESCRIPTION_2',
+  productSystemId: 'VALUE_PRODUCT_SYSTEM_ID_2',
   selected: false,
 };
 
@@ -90,15 +72,15 @@ const cpqAttribute: Cpq.Attribute = {
   stdAttrCode: cpqAttributeStdAttrCode,
   description: cpqAttributeDescription,
   label: cpqAttributeLabel,
-  displayAs: cpqAttributeDisplayAs,
+  displayAs: Cpq.DisplayAs.RADIO_BUTTON,
   required: cpqAttributeRequired,
   isEnabled: true,
-  incomplete: cpqAttributeIncomplete,
+  incomplete: true,
   isLineItem: cpqAttributeIsLineItem,
   hasConflict: cpqAttributeHasConflict,
   userInput: cpqAttributeUserInput,
   quantity: cpqAttributeQuantity,
-  dataType: cpqAttributeDataType,
+  dataType: Cpq.DataType.QTY_ATTRIBUTE_LEVEL,
   values: [cpqValue, cpqValue2],
 };
 
@@ -107,10 +89,11 @@ const cpqAttribute2: Cpq.Attribute = {
   stdAttrCode: cpqAttributeStdAttrCode2,
   description: cpqAttributeDescription2,
   label: cpqAttributeLabel2,
-  displayAs: cpqAttributeDisplayAs2,
+  displayAs: Cpq.DisplayAs.INPUT,
+  dataType: Cpq.DataType.INPUT_STRING,
   required: cpqAttributeRequired2,
   isEnabled: true,
-  incomplete: cpqAttributeIncomplete2,
+  incomplete: false,
   isLineItem: cpqAttributeIsLineItem2,
   hasConflict: cpqAttributeHasConflict2,
   userInput: cpqAttributeUserInput2,
@@ -124,15 +107,15 @@ const cpqTab: Cpq.Tab = {
   name: cpqGroupName,
   displayName: cpqGroupDisplayName,
   isIncomplete: cpqGroupIsIncomplete,
-  isSelected: cpqGroupIsSelected,
+  isSelected: true,
 };
 
 const cpqTab2: Cpq.Tab = {
   id: cpqGroupId2,
-  name: cpqGroupName2,
-  displayName: cpqGroupDisplayName2,
-  isIncomplete: cpqGroupIsIncomplete2,
-  isSelected: cpqGroupIsSelected2,
+  name: 'GROUP_NAME2',
+  displayName: 'GROUP_DISPLAY_NAME2',
+  isIncomplete: false,
+  isSelected: false,
 };
 
 const cpqConfiguration: Cpq.Configuration = {
@@ -460,6 +443,24 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(values.length).toBe(0);
   });
 
+  it('should use attribute name when attribute label is not available', () => {
+    const attributeList: Configurator.Attribute[] = [];
+    const cpqAttributeWithoutLabel: Cpq.Attribute = {
+      ...cpqAttribute,
+      label: undefined,
+      name: 'AttributeName',
+    };
+    cpqConfiguratorNormalizer.convertAttribute(
+      cpqAttributeWithoutLabel,
+      cpqGroupId,
+      CURRENCY,
+      attributeList
+    );
+    const attribute: Configurator.Attribute = attributeList[0];
+    expect(attributeList.length).toBe(1);
+    expect(attribute.label).toBe('AttributeName');
+  });
+
   it('should convert a group', () => {
     const groups: Configurator.Group[] = [];
     const flatGroups: Configurator.Group[] = [];
@@ -592,16 +593,31 @@ describe('CpqConfiguratorNormalizer', () => {
       );
     });
 
-    it('should return UIType STRING for CPQ DisplayAs INPUT', () => {
+    it('should return UIType STRING for CPQ DisplayAs INPUT and DataType INPUT_STRING', () => {
       const cpqAttr: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
         displayAs: Cpq.DisplayAs.INPUT,
+        dataType: Cpq.DataType.INPUT_STRING,
         isEnabled: true,
         values: [],
       };
       expect(cpqConfiguratorNormalizer.convertAttributeType(cpqAttr)).toBe(
         Configurator.UiType.STRING
+      );
+    });
+
+    it('should return UIType NOT_IMPLEMENTED for CPQ DisplayAs INPUT and DataType differt from INPUT_STRING', () => {
+      const cpqAttr: Cpq.Attribute = {
+        pA_ID: 1,
+        stdAttrCode: 2,
+        displayAs: Cpq.DisplayAs.INPUT,
+        dataType: Cpq.DataType.INPUT_NUMBER,
+        isEnabled: true,
+        values: [],
+      };
+      expect(cpqConfiguratorNormalizer.convertAttributeType(cpqAttr)).toBe(
+        Configurator.UiType.NOT_IMPLEMENTED
       );
     });
 
