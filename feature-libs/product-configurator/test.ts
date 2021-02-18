@@ -11,8 +11,6 @@ import {
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
 
-
-
 declare const require: {
   context(
     path: string,
