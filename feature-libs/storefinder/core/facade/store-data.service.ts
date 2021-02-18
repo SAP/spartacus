@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PointOfService } from '@spartacus/core';
+import { PointOfService, WindowRef } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
@@ -79,17 +79,29 @@ export class StoreDataService {
    */
   protected getSchedule(location: PointOfService, date: Date): any {
     const weekday = this.weekDays[date.getDay()];
+    const language = this.winRef.sessionStorage?.getItem('language');
     return location.openingHours.weekDayOpeningList.find(
       (weekDayOpeningListItem) =>
         weekDayOpeningListItem.weekDay ===
-          date.toLocaleString(window.sessionStorage.language, {
+          date.toLocaleString(language as any, {
             weekday: 'short',
           }) ||
         weekDayOpeningListItem.weekDay ===
-          date.toLocaleString(window.sessionStorage.language, {
+          date.toLocaleString(language as any, {
             weekday: 'long',
           }) ||
         weekDayOpeningListItem.weekDay === weekday
     );
   }
+
+  /**
+   * @deprecated since version 3.1
+   * Use constructor(private winRef: WindowRef) {} instead
+   */
+  // TODO(#11093): Remove deprecated constructors
+  constructor(
+    // tslint:disable-next-line: unified-signatures
+    winRef: WindowRef
+  );
+  constructor(private winRef?: WindowRef) {}
 }
