@@ -60,24 +60,20 @@
     }
   }
   cx-org-explain-disable-messages > section {
-    padding-top: 30px;
-    padding-inline-start: 30px;
-    padding-inline-end: 10px;
-
-    display: flex;
-    flex-wrap: nowrap;
+    padding: 25px 30px;
 
     ul {
+      margin: 0;
       > li:only-child {
         list-style: none;
         margin-inline-start: -1.5em;
       }
     }
 
-    cx-icon[ng-reflect-type='INFO'] {
-      color: var(--cx-color, var(--cx-color-info));
+    > .cx-icon {
       align-self: flex-start;
       margin-top: 4px;
+      color: var(--cx-color, var(--cx-color-info));
     }
   }
 }
