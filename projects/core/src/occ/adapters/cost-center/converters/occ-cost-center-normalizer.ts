@@ -10,11 +10,10 @@ export class OccCostCenterNormalizer
   implements Converter<Occ.CostCenter, CostCenter> {
   convert(source: Occ.CostCenter, target?: CostCenter): CostCenter {
     if (target === undefined) {
-      target = {
-        ...(source as any),
-        active: this.normalizeBoolean(source.active),
-      };
+      target = { ...(source as any) };
     }
+    target.active = this.normalizeBoolean(source.active);
+
     return target;
   }
 
