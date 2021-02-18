@@ -21,7 +21,6 @@ describe('ExplainDisableMessagesComponent', () => {
     TestBed.configureTestingModule({
       imports: [CommonModule, I18nTestingModule, IconModule],
       declarations: [ExplainDisableMessagesComponent],
-
       providers: [
         {
           provide: ItemService,
@@ -43,26 +42,18 @@ describe('ExplainDisableMessagesComponent', () => {
   describe('disabledEdit', () => {
     it('should display disabledEdit message when edit button is disabled', () => {
       current$.next({ active: false });
+      component.ngOnInit();
       fixture.detectChanges();
       const element = fixture.debugElement.query(By.css('section > ul'))
         .nativeElement;
-      expect(element.innerText).toContain('disabledEdit');
+      expect(element.innerText).toContain('.messages.disabledEdit');
     });
 
     it('should not display disabledEdit message when edit button is enabled', () => {
       current$.next({ active: true });
       fixture.detectChanges();
       console.log(fixture.debugElement.query(By.css('section')));
-      // expect(fixture.debugElement.query(By.css('section'))).toBeNull();
-    });
-
-    it('should not display disabledEdit message when create button is disabled', () => {
-      current$.next({ active: false });
-      component.displayMessageConfig = { disabledCreate: true };
-      fixture.detectChanges();
-      const elements = fixture.debugElement.queryAll(By.css('section > ul'));
-      elements.forEach((el) => console.log(el.nativeElement));
-      expect(elements[0].nativeElement.innerText).not.toContain('disabledEdit');
+      expect(fixture.debugElement.query(By.css('section'))).toBeNull();
     });
   });
 
@@ -76,6 +67,7 @@ describe('ExplainDisableMessagesComponent', () => {
     });
 
     it('should not display disabledEnable message when enable button is enabled', () => {
+      current$.next({ active: true, orgUnit: { active: true } });
       expect(fixture.debugElement.query(By.css('section'))).toBeNull();
     });
 
@@ -92,7 +84,11 @@ describe('ExplainDisableMessagesComponent', () => {
   describe('disabledCreate', () => {
     it('should display disabledCreate message when create button is disabled', () => {
       current$.next({ active: false });
-      component.displayMessageConfig = { disabledCreate: true };
+      component.displayMessageConfig = {
+        disabledCreate: true,
+        disabledEdit: false,
+      };
+
       fixture.detectChanges();
       const element = fixture.debugElement.query(By.css('section > ul'))
         .nativeElement;
@@ -120,9 +116,15 @@ describe('ExplainDisableMessagesComponent', () => {
         .nativeElement;
       expect(element.innerText).toContain('disabledDisable');
     });
+  });
 
-    it('should not display disabledDisable message when disable button is enabled', () => {
-      expect(fixture.debugElement.query(By.css('section'))).toBeNull();
+  describe('i18root', () => {
+    it('asdasds', () => {
+      component.i18nRoot = 'myRoot';
+      fixture.detectChanges();
+      // const element = fixture.debugElement.query(By.css('section > ul'))
+      //   .nativeElement;
+      expect(element.innerText).toContain('myRoot.messages.disabledDisable');
     });
   });
 });
