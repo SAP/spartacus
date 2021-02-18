@@ -17,6 +17,17 @@ export class StoreDataService {
   };
 
   /**
+   * @deprecated since version 3.1
+   * Use constructor(private winRef: WindowRef) {} instead
+   */
+  // TODO(#11093): Remove deprecated constructors
+  constructor(
+    // tslint:disable-next-line: unified-signatures
+    winRef: WindowRef
+  );
+  constructor(protected winRef?: WindowRef) {}
+
+  /**
    * Returns store latitude
    * @param location store location
    */
@@ -93,15 +104,4 @@ export class StoreDataService {
         weekDayOpeningListItem.weekDay === weekday
     );
   }
-
-  /**
-   * @deprecated since version 3.1
-   * Use constructor(private winRef: WindowRef) {} instead
-   */
-  // TODO(#11093): Remove deprecated constructors
-  constructor(
-    // tslint:disable-next-line: unified-signatures
-    winRef: WindowRef
-  );
-  constructor(private winRef?: WindowRef) {}
 }
