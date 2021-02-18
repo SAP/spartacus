@@ -1,5 +1,5 @@
-import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { fromEvent, Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, startWith } from 'rxjs/operators';
 import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '../util/ssr.tokens';
@@ -14,9 +14,13 @@ import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '../util/ssr.tokens';
 export class WindowRef {
   readonly document: Document;
 
-  // TODO(#10467): make optional arguments mandatory with next major release
+  // TODO(#11133): Make platformId required in 4.0
+  /**
+   * @deprecated since 3.2. Provide PLATFORM_ID as a second constructor parameter
+   */
   constructor(
-    @Inject(DOCUMENT) document,
+    @Inject(DOCUMENT) document: Document,
+    @Inject(PLATFORM_ID) protected platformId?: Object,
     @Inject(SERVER_REQUEST_URL) protected serverRequestUrl?: string,
     @Inject(SERVER_REQUEST_ORIGIN) protected serverRequestOrigin?: string
   ) {
@@ -39,15 +43,39 @@ export class WindowRef {
     return document;
   }
 
-  get nativeWindow(): Window {
-    return typeof window !== 'undefined' ? window : undefined;
+  /**
+   * Returns true when invoked in browser context.
+   * Use this method to check if you can access `window` and other browser globals.
+   */
+  isBrowser(): boolean {
+    // TODO(#11133): Remove condition when platformId will be always provided
+    return this.platformId
+      ? isPlatformBrowser(this.platformId)
+      : typeof window !== 'undefined';
   }
 
-  get sessionStorage(): Storage {
+  /**
+   * Exposes global `window` object. In SSR when `window` is not available it returns `undefined`.
+   * To detect if you can safely use `nativeWindow` use `isBrowser` to check execution platform.
+   */
+  get nativeWindow(): Window | undefined {
+    // TODO(#11133): Consider throwing in SSR
+    return this.isBrowser() ? window : undefined;
+  }
+
+  /**
+   * Exposes global `sessionStorage` object. In SSR when `sessionStorage` is not available it returns `undefined`.
+   * To detect if you can safely use `sessionStorage` use `isBrowser` to check execution platform.
+   */
+  get sessionStorage(): Storage | undefined {
     return this.nativeWindow ? this.nativeWindow.sessionStorage : undefined;
   }
 
-  get localStorage(): Storage {
+  /**
+   * Exposes global `localStorage` object. In SSR when `localStorage` is not available it returns `undefined`.
+   * To detect if you can safely use `localStorage` use `isBrowser` to check execution platform.
+   */
+  get localStorage(): Storage | undefined {
     return this.nativeWindow ? this.nativeWindow.localStorage : undefined;
   }
 

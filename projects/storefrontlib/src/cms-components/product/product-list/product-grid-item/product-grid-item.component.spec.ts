@@ -2,9 +2,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   Directive,
+  Injector,
   Input,
   Pipe,
   PipeTransform,
+  SimpleChange,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -13,9 +15,10 @@ import {
   ProductService,
   RoutingService,
 } from '@spartacus/core';
-import { OutletDirective } from '@spartacus/storefront';
+import { OutletDirective, OutletModule } from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
-import { ProductListItemContext } from '../../product-list-item-context';
+import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
+import { ProductListItemContext } from '../model/product-list-item-context.model';
 import { ProductGridItemComponent } from './product-grid-item.component';
 
 @Component({
@@ -80,6 +83,7 @@ class MockOutletDirective implements Partial<OutletDirective> {
 }
 describe('ProductGridItemComponent in product-list', () => {
   let component: ProductGridItemComponent;
+  let componentInjector: Injector;
   let fixture: ComponentFixture<ProductGridItemComponent>;
 
   const mockProduct = {
@@ -101,7 +105,7 @@ describe('ProductGridItemComponent in product-list', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
+        imports: [RouterTestingModule, I18nTestingModule, OutletModule],
         declarations: [
           ProductGridItemComponent,
           MockMediaComponent,
@@ -127,9 +131,6 @@ describe('ProductGridItemComponent in product-list', () => {
         .overrideComponent(ProductGridItemComponent, {
           set: { changeDetection: ChangeDetectionStrategy.Default },
         })
-        .overrideComponent(ProductGridItemComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
         .compileComponents();
     })
   );
@@ -137,6 +138,8 @@ describe('ProductGridItemComponent in product-list', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductGridItemComponent);
     component = fixture.componentInstance;
+    componentInjector = fixture.debugElement.injector;
+
     component.product = mockProduct;
 
     component.ngOnChanges();
@@ -205,16 +208,25 @@ describe('ProductGridItemComponent in product-list', () => {
     ).toBeNull();
   });
 
-  it('should have defined instance of list item context', () => {
-    expect(component['productListItemContext']).toBeDefined();
+  it('should provide ProductListItemContextSource', () => {
+    expect(componentInjector.get(ProductListItemContextSource)).toBeTruthy();
   });
 
-  it('should transmit product through the item context', (done) => {
-    const productListItemContext: ProductListItemContext =
-      component['productListItemContext'];
-    productListItemContext.product$.subscribe((product) => {
-      expect(product).toBe(mockProduct);
-      done();
+  it('should provide ProductListItemContext', () => {
+    expect(componentInjector.get(ProductListItemContext)).toBe(
+      componentInjector.get(ProductListItemContextSource)
+    );
+  });
+
+  it('should push changes of input"product" to context', () => {
+    const contextSource: ProductListItemContextSource = componentInjector.get(
+      ProductListItemContextSource
+    );
+    spyOn(contextSource.product$, 'next');
+    component.product = mockProduct;
+    component.ngOnChanges({
+      product: { currentValue: component.product } as SimpleChange,
     });
+    expect(contextSource.product$.next).toHaveBeenCalledWith(mockProduct);
   });
 });

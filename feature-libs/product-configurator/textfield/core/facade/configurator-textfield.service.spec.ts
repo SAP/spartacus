@@ -6,9 +6,10 @@ import {
   ActiveCartService,
   Cart,
   OCC_USER_ID_ANONYMOUS,
+  UserIdService,
 } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../state/actions/index';
 import {
@@ -103,6 +104,12 @@ class MockActiveCartService {
   }
 }
 
+class MockUserIdService {
+  getUserId(): Observable<string> {
+    return of(OCC_USER_ID_ANONYMOUS);
+  }
+}
+
 describe('ConfiguratorTextfieldService', () => {
   let serviceUnderTest: ConfiguratorTextfieldService;
   let store: Store<StateWithConfigurationTextfield>;
@@ -125,6 +132,10 @@ describe('ConfiguratorTextfieldService', () => {
           {
             provide: ActiveCartService,
             useClass: MockActiveCartService,
+          },
+          {
+            provide: UserIdService,
+            useClass: MockUserIdService,
           },
         ],
       }).compileComponents();
