@@ -17,6 +17,9 @@ import {
   readPackageJson,
   validateSpartacusInstallation,
   LibraryOptions as SpartacusVariantsOptions,
+} from '@spartacus/schematics';
+
+import {
   PRODUCT_SCSS_FILE_NAME,
   VARIANTS_FEATURE_NAME,
   VARIANTS_MODULE,
@@ -26,7 +29,7 @@ import {
   SPARTACUS_VARIANTS_ASSETS,
   VARIANTS_TRANSLATION_CHUNKS_CONFIG,
   VARIANTS_TRANSLATIONS,
-} from '@spartacus/schematics';
+} from './../constants';
 
 export function addVariantsFeatures(options: SpartacusVariantsOptions): Rule {
   return (tree: Tree, _context: SchematicContext) => {

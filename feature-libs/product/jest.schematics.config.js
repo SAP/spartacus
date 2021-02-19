@@ -19,7 +19,7 @@ module.exports = {
     },
   },
 
-  roots: ['<rootDir>'],
+  roots: ['<rootDir>/schematics'],
   modulePaths: ['<rootDir>/../../projects/schematics'],
   testMatch: ['**/+(*_)+(spec).+(ts)'],
   moduleFileExtensions: ['js', 'ts', 'json'],

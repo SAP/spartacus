@@ -5,8 +5,8 @@ import {
 import {
   LibraryOptions as SpartacusVariantsOptions,
   SpartacusOptions,
-  SPARTACUS_VARIANTS,
 } from '@spartacus/schematics';
+import { CLI_VARIANTS_FEATURE, SPARTACUS_VARIANTS } from './../constants';
 import * as path from 'path';
 
 const collectionPath = path.join(__dirname, '../collection.json');
@@ -35,7 +35,7 @@ describe('Spartacus Variants schematics: ng-add', () => {
   const defaultOptions: SpartacusVariantsOptions = {
     project: 'schematics-test',
     lazy: true,
-    features: [],
+    features: [CLI_VARIANTS_FEATURE],
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {
@@ -48,8 +48,8 @@ describe('Spartacus Variants schematics: ng-add', () => {
       '../../projects/schematics/src/collection.json'
     );
     schematicRunner.registerCollection(
-      '@spartacus/organization',
-      '../../feature-libs/organization/schematics/collection.json'
+      '@spartacus/product',
+      '../../feature-libs/product/schematics/collection.json'
     );
 
     appTree = await schematicRunner
@@ -208,7 +208,7 @@ describe('Spartacus Variants schematics: ng-add', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
         .runExternalSchematicAsync(
-          '@spartacus/organization',
+          '@spartacus/product',
           'ng-add',
           { ...spartacusDefaultOptions, name: 'schematics-test' },
           appTree
