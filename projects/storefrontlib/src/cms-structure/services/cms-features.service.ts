@@ -1,10 +1,4 @@
-import {
-  Injectable,
-  InjectFlags,
-  Injector,
-  NgModuleRef,
-  OnDestroy,
-} from '@angular/core';
+import { Injectable, InjectFlags, Injector, NgModuleRef } from '@angular/core';
 import {
   CMSComponentConfig,
   CmsComponentMapping,
@@ -14,28 +8,23 @@ import {
   deepMerge,
   DefaultConfigChunk,
   FeatureModuleConfig,
-  LazyModulesService,
+  FeatureModulesService,
 } from '@spartacus/core';
-import { defer, forkJoin, merge, Observable, of } from 'rxjs';
-import { map, shareReplay, switchMap } from 'rxjs/operators';
-import { CmsFeaturesService } from './cms-features.service';
+import { defer, Observable } from 'rxjs';
+import { map, shareReplay } from 'rxjs/operators';
 
 interface FeatureInstance extends FeatureModuleConfig {
   moduleRef?: NgModuleRef<any>;
-  dependencyModuleRefs?: NgModuleRef<any>[];
   componentsMappings?: CMSComponentConfig;
 }
 
 /**
  * Service responsible for resolving cms config based feature modules.
- *
- * @deprecated since 3.2, use CmsFeaturesService instead
  */
 @Injectable({
   providedIn: 'root',
-  useExisting: CmsFeaturesService
 })
-export class FeatureModulesService implements OnDestroy {
+export class CmsFeaturesService {
   // feature modules configuration
   private featureModulesConfig?: {
     [featureName: string]: FeatureModuleConfig;
@@ -48,11 +37,14 @@ export class FeatureModulesService implements OnDestroy {
    * Contains either FeatureInstance or FeatureInstance resolver for not yet
    * resolved feature modules
    */
-  private features: Map<string, Observable<FeatureInstance>> = new Map();
+  private featureInstances: Map<
+    string,
+    Observable<FeatureInstance>
+  > = new Map();
 
   constructor(
     protected configInitializer: ConfigInitializerService,
-    protected lazyModules: LazyModulesService
+    protected featureModules: FeatureModulesService
   ) {
     this.initFeatureMap();
   }
@@ -87,7 +79,7 @@ export class FeatureModulesService implements OnDestroy {
   getCmsMapping(componentType: string): Observable<CmsComponentMapping> {
     const feature = this.componentFeatureMap.get(componentType);
 
-    return this.resolveFeature(feature).pipe(
+    return this.resolveFeatureInstance(feature).pipe(
       map(
         (featureInstance) => featureInstance.componentsMappings[componentType]
       )
@@ -104,7 +96,7 @@ export class FeatureModulesService implements OnDestroy {
     let module;
 
     // we are returning injectors only for already resolved features
-    this.features
+    this.featureInstances
       .get(feature)
       ?.subscribe((featureInstance) => {
         module = featureInstance.moduleRef;
@@ -118,77 +110,48 @@ export class FeatureModulesService implements OnDestroy {
    *
    * It will first resolve all module dependencies if defined
    */
-  private resolveFeature(featureName: string): Observable<FeatureInstance> {
+  private resolveFeatureInstance(
+    featureName: string
+  ): Observable<FeatureInstance> {
     return defer(() => {
-      if (!this.features.has(featureName)) {
-        const featureConfig = this.featureModulesConfig[featureName];
-
-        if (!featureConfig?.module) {
-          throw new Error(
-            'No module defined for Feature Module ' + featureName
-          );
-        }
-
-        // resolve dependencies first (if any)
-        const depsResolve = featureConfig.dependencies?.length
-          ? forkJoin(
-              featureConfig.dependencies.map((depModuleFunc) =>
-                this.lazyModules.resolveDependencyModuleInstance(depModuleFunc)
-              )
-            )
-          : of(undefined);
-
-        this.features.set(
+      if (!this.featureInstances.has(featureName)) {
+        this.featureInstances.set(
           featureName,
-          depsResolve.pipe(
-            switchMap((deps) =>
-              this.resolveFeatureModule(featureConfig, deps, featureName)
+          this.featureModules.resolveFeature(featureName).pipe(
+            map((moduleRef) =>
+              this.createFeatureInstance(moduleRef, featureName)
             ),
             shareReplay()
           )
         );
       }
 
-      return this.features.get(featureName);
+      return this.featureInstances.get(featureName);
     });
   }
 
   /**
-   * Initialize feature module by returning feature instance
+   * Create feature instance from feature's moduleRef
    */
-  private resolveFeatureModule(
-    featureConfig: FeatureModuleConfig,
-    dependencyModuleRefs: NgModuleRef<any>[] = [],
-    feature: string
-  ): Observable<FeatureInstance> {
-    return this.lazyModules
-      .resolveModuleInstance(
-        featureConfig?.module,
-        feature,
-        dependencyModuleRefs
-      )
-      .pipe(
-        map((moduleRef: NgModuleRef<any>) => {
-          const featureInstance: FeatureInstance = {
-            ...featureConfig,
-            moduleRef,
-            dependencyModuleRefs,
-            componentsMappings: {},
-          };
+  private createFeatureInstance(moduleRef, feature: string): FeatureInstance {
+    const featureConfig = this.featureModulesConfig[feature];
 
-          // resolve configuration for feature module
-          const resolvedConfiguration = this.resolveFeatureConfiguration(
-            moduleRef.injector
-          );
+    const featureInstance: FeatureInstance = {
+      moduleRef,
+      componentsMappings: {},
+    };
 
-          // extract cms components configuration from feature config
-          for (const componentType of featureInstance.cmsComponents) {
-            featureInstance.componentsMappings[componentType] =
-              resolvedConfiguration.cmsComponents?.[componentType] ?? {};
-          }
-          return featureInstance;
-        })
-      );
+    // resolve configuration for feature module
+    const resolvedConfiguration = this.resolveFeatureConfiguration(
+      moduleRef.injector
+    );
+
+    // extract cms components configuration from feature config
+    for (const componentType of featureConfig.cmsComponents) {
+      featureInstance.componentsMappings[componentType] =
+        resolvedConfiguration.cmsComponents?.[componentType] ?? {};
+    }
+    return featureInstance;
   }
 
   /**
@@ -213,12 +176,5 @@ export class FeatureModulesService implements OnDestroy {
       ...(featureDefaultConfigChunks ?? []),
       ...(featureConfigChunks ?? [])
     ) as CmsConfig;
-  }
-
-  ngOnDestroy(): void {
-    // clean up all initialized features
-    merge(...Array.from(this.features.values())).subscribe((featureInstance) =>
-      featureInstance.moduleRef?.destroy()
-    );
   }
 }
