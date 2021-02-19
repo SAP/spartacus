@@ -1,0 +1,25 @@
+{
+  "name": "deploy-action",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc index.ts"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@actions/cache": "^1.0.5",
+    "@actions/core": "^1.2.6",
+    "@actions/exec": "^1.0.4",
+    "@actions/github": "^4.0.0",
+    "@actions/glob": "^0.1.1",
+    "@actions/io": "^1.0.2",
+    "diff-lines": "^1.1.1",
+    "normalize-newline": "^3.0.0",
+    "@types/node": "^12.11.1"
+  },
+  "devDependencies": {
+    "typescript": "^4.1.3"
+  }
+}

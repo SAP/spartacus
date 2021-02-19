@@ -2,6 +2,8 @@
 set -o errexit
 set -o nounset
 
+echo "--> Who am I: `whoami`"
+
 APP="upp-cli"
 
 echo "-----"
