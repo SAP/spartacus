@@ -5,6 +5,7 @@
   "retries": {
     "runMode": 2
   },
+  "videoUploadOnPasses": false,
   "env": {
     "CLIENT_ID": "mobile_android",
     "CLIENT_SECRET": "secret",
