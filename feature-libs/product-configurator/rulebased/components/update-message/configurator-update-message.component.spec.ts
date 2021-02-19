@@ -1,5 +1,11 @@
 import { Component, Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -105,7 +111,7 @@ describe('ConfigurationUpdateMessageComponent', () => {
     );
   });
 
-  it('should show update banner if pending changes is true', (done) => {
+  it('should show update banner if pending changes is true', fakeAsync(() => {
     hasPendingChanges = true;
     isConfigurationLoading = false;
     fixture.detectChanges();
@@ -114,20 +120,17 @@ describe('ConfigurationUpdateMessageComponent', () => {
     expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
       0
     );
-
     //Should appear after a bit
-    setTimeout(() => {
-      fixture.detectChanges();
-      expect(
-        htmlElem.querySelectorAll('div.cx-update-msg.visible').length
-      ).toBe(1);
+    tick(2000);
 
-      expect(htmlElem.querySelectorAll('div').length).toBe(1);
-      done();
-    }, 2000);
-  });
+    fixture.detectChanges();
+    expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
+      1
+    );
+    expect(htmlElem.querySelectorAll('div').length).toBe(1);
+  }));
 
-  it('should show update banner if loading is true', (done) => {
+  it('should show update banner if loading is true', fakeAsync(() => {
     hasPendingChanges = false;
     isConfigurationLoading = true;
     fixture.detectChanges();
@@ -138,18 +141,17 @@ describe('ConfigurationUpdateMessageComponent', () => {
     );
 
     //Should appear after a bit
-    setTimeout(() => {
-      fixture.detectChanges();
-      expect(
-        htmlElem.querySelectorAll('div.cx-update-msg.visible').length
-      ).toBe(1);
+    tick(2000);
 
-      expect(htmlElem.querySelectorAll('div').length).toBe(1);
-      done();
-    }, 2000);
-  });
+    fixture.detectChanges();
+    expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
+      1
+    );
 
-  it('should show update banner if loading and pending changes are true', (done) => {
+    expect(htmlElem.querySelectorAll('div').length).toBe(1);
+  }));
+
+  it('should show update banner if loading and pending changes are true', fakeAsync(() => {
     hasPendingChanges = true;
     isConfigurationLoading = true;
     fixture.detectChanges();
@@ -160,18 +162,17 @@ describe('ConfigurationUpdateMessageComponent', () => {
     );
 
     //Should appear after a bit
-    setTimeout(() => {
-      fixture.detectChanges();
-      expect(
-        htmlElem.querySelectorAll('div.cx-update-msg.visible').length
-      ).toBe(1);
+    tick(2000);
 
-      expect(htmlElem.querySelectorAll('div').length).toBe(1);
-      done();
-    }, 2000);
-  });
+    fixture.detectChanges();
+    expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
+      1
+    );
 
-  it('should consider the configured timeout', (done) => {
+    expect(htmlElem.querySelectorAll('div').length).toBe(1);
+  }));
+
+  it('should consider the configured timeout', fakeAsync(() => {
     hasPendingChanges = true;
     isConfigurationLoading = true;
     waitingTime = 100;
@@ -183,14 +184,13 @@ describe('ConfigurationUpdateMessageComponent', () => {
     );
 
     //Should appear after a bit
-    setTimeout(() => {
-      fixture.detectChanges();
-      expect(
-        htmlElem.querySelectorAll('div.cx-update-msg.visible').length
-      ).toBe(1);
+    tick(2000);
 
-      expect(htmlElem.querySelectorAll('div').length).toBe(1);
-      done();
-    }, 2000);
-  });
+    fixture.detectChanges();
+    expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
+      1
+    );
+
+    expect(htmlElem.querySelectorAll('div').length).toBe(1);
+  }));
 });
