@@ -252,7 +252,7 @@ export function insertHtmlComment(
   );
 
   resultingElements
-    .map((node: Element) => node.sourceSpan.start.line)
+    .map((node: Node) => node.sourceSpan.start.line)
     .forEach((line, i) => {
       const split = content.split('\n');
       split.splice(line + i, 0, comment);
@@ -1215,19 +1215,20 @@ export function getMetadataProperty(
   propertyName: string
 ): ts.PropertyAssignment {
   const properties = (metadata as ts.ObjectLiteralExpression).properties;
-  const property = properties
-    .filter((prop) => prop.kind === ts.SyntaxKind.PropertyAssignment)
-    .filter((prop: ts.PropertyAssignment) => {
-      const name = prop.name;
-      switch (name.kind) {
-        case ts.SyntaxKind.Identifier:
-          return (name as ts.Identifier).getText() === propertyName;
-        case ts.SyntaxKind.StringLiteral:
-          return (name as ts.StringLiteral).text === propertyName;
-      }
-
+  const property = properties.filter((prop) => {
+    if (!ts.isPropertyAssignment(prop)) {
       return false;
-    })[0];
+    }
+    const name = prop.name;
+    switch (name.kind) {
+      case ts.SyntaxKind.Identifier:
+        return (name as ts.Identifier).getText() === propertyName;
+      case ts.SyntaxKind.StringLiteral:
+        return (name as ts.StringLiteral).text === propertyName;
+    }
+
+    return false;
+  })[0];
 
   return property as ts.PropertyAssignment;
 }
