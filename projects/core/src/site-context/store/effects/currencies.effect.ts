@@ -44,9 +44,9 @@ export class CurrenciesEffects {
   @Effect()
   persist$: Observable<void> = this.actions$.pipe(
     ofType(SiteContextActions.SET_ACTIVE_CURRENCY),
-    tap((action: SiteContextActions.SetActiveCurrency) => {
+    tap((_action: SiteContextActions.SetActiveCurrency) => {
       if (this.winRef.sessionStorage) {
-        this.winRef.sessionStorage.setItem('currency', action.payload);
+        // this.winRef.sessionStorage.setItem('currency', action.payload);
       }
     }),
     switchMapTo(NEVER)
