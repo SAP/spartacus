@@ -10,7 +10,7 @@ import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../core/model/configurator.model';
-import { VARIANT_CONFIGURATOR_ADD_TO_CART_SERIALIZER } from '../variant';
+import { CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER } from './converters/cpq-configurator-occ.converters';
 
 @Injectable({ providedIn: 'root' })
 export class CpqConfiguratorOccService {
@@ -30,7 +30,7 @@ export class CpqConfiguratorOccService {
 
     const occAddToCartParameters = this.converterService.convert(
       parameters,
-      VARIANT_CONFIGURATOR_ADD_TO_CART_SERIALIZER
+      CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER
     );
 
     return this.http
