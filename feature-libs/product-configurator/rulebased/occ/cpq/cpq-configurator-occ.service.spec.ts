@@ -5,18 +5,33 @@ import {
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
+  CartModification,
   CART_MODIFICATION_NORMALIZER,
   ConverterService,
   OccEndpointsService,
 } from '@spartacus/core';
 import { Configurator } from '../../core/model/configurator.model';
 import { productConfiguration } from '../../shared/testing/configurator-test-data';
+import { VARIANT_CONFIGURATOR_ADD_TO_CART_SERIALIZER } from '../variant/variant-configurator-occ.converters';
 import { CpqConfiguratorOccService } from './cpq-configurator-occ.service';
 
 describe('CpqConfigurationOccService', () => {
   const configId = '1234-56-7890';
   const userId = 'Anony';
   const documentId = '82736353';
+  const addToCartResponse: CartModification = {
+    quantityAdded: 1,
+    entry: { entryNumber: 3 },
+    statusCode: '201',
+  };
+  const addToCartParams: Configurator.AddToCartParameters = {
+    productCode: 'Product',
+    quantity: 1,
+    configId: configId,
+    owner: productConfiguration.owner,
+    userId: userId,
+    cartId: documentId,
+  };
 
   class MockOccEndpointsService {
     getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
@@ -57,31 +72,28 @@ describe('CpqConfigurationOccService', () => {
 
     spyOn(converterService, 'convert').and.callThrough();
     spyOn(occEnpointsService, 'getUrl').and.callThrough();
+    spyOn(converterService, 'pipeable').and.callThrough();
   });
 
   afterEach(() => {
     httpMock.verify();
   });
 
-  it('should call addToCart endpoint', (done) => {
-    spyOn(converterService, 'pipeable').and.callThrough();
-    const params: Configurator.AddToCartParameters = {
-      productCode: 'Product',
-      quantity: 1,
-      configId: configId,
-      owner: productConfiguration.owner,
-      userId: userId,
-      cartId: documentId,
-    };
-    serviceUnderTest.addToCart(params).subscribe();
-    done();
+  it('should call addToCart endpoint', () => {
+    serviceUnderTest.addToCart(addToCartParams).subscribe((response) => {
+      expect(response).toBe(addToCartResponse);
+    });
+    expect(converterService.convert).toHaveBeenCalledWith(
+      addToCartParams,
+      VARIANT_CONFIGURATOR_ADD_TO_CART_SERIALIZER
+    );
 
     const mockReq = httpMock.expectOne((req) => {
       return req.method === 'POST' && req.url === 'addCpqConfigurationToCart';
     });
-
-    expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
+    mockReq.flush(addToCartResponse);
+
     expect(converterService.pipeable).toHaveBeenCalledWith(
       CART_MODIFICATION_NORMALIZER
     );

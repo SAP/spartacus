@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   CartModification,
@@ -31,12 +31,10 @@ export class CpqConfiguratorOccService {
       VARIANT_CONFIGURATOR_ADD_TO_CART_SERIALIZER
     );
 
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-
     return this.http
-      .post<CartModification>(url, occAddToCartParameters, { headers })
+      .post<CartModification>(url, occAddToCartParameters, {
+        headers: { 'Content-Type': 'application/json' },
+      })
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 }
