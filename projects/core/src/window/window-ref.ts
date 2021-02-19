@@ -1,18 +1,14 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '@spartacus/core';
 import { fromEvent, Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, startWith } from 'rxjs/operators';
-import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '../util/ssr.tokens';
-/**
- * Provides access to the window and document in a save way for both SSR and CRS.
- *
- * The document that is resolved during SSR will also be
- */
+
 @Injectable({
   providedIn: 'root',
 })
 export class WindowRef {
-  readonly document: Document;
+  readonly _document: Document;
 
   // TODO(#11133): Make platformId required in 4.0
   /**
@@ -26,21 +22,7 @@ export class WindowRef {
   ) {
     // it's a workaround to have document property properly typed
     // see: https://github.com/angular/angular/issues/15640
-    this.document = this.resolveDocument(document);
-  }
-
-  /**
-   * Resolves the document and provides the href and origin in case they're undefined.
-   * This is useful in SSR, where those values are lacking.
-   */
-  protected resolveDocument(document: Document): Document {
-    if (!document.location) {
-      document.location = {
-        href: this.serverRequestUrl,
-        origin: this.serverRequestOrigin,
-      } as any;
-    }
-    return document;
+    this._document = document;
   }
 
   /**
@@ -61,6 +43,30 @@ export class WindowRef {
   get nativeWindow(): Window | undefined {
     // TODO(#11133): Consider throwing in SSR
     return this.isBrowser() ? window : undefined;
+  }
+
+  /**
+   * Returns a reference to the document contained in the window or mimics the document when
+   * the process runs outside the browser.
+   *
+   * The later is useful, when the process runs in SSR and the document is lacking location properties
+   * such as href and origin. These are constructed by leveraging the _injected_ `SERVER_REQUEST_URL`
+   * and `SERVER_REQUEST_ORIGIN`.
+   *
+   * Please be aware that in SSR the document is still lacking the full fletched document object.
+   */
+  get document(): Document {
+    if (!this.isBrowser()) {
+      return {
+        ...this._document,
+        location: {
+          href: this.serverRequestUrl,
+          origin: this.serverRequestOrigin,
+        },
+      } as Document;
+    } else {
+      return this._document;
+    }
   }
 
   /**
