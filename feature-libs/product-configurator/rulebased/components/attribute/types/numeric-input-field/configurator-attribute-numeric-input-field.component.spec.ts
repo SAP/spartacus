@@ -24,14 +24,14 @@ class MockTranslateUrlPipe implements PipeTransform {
   selector: '[cxFocus]',
 })
 export class MockFocusDirective {
-  @Input('cxFocus') protected config;
+  @Input('cxFocus') protected config: string;
 }
 
 function checkForValidationMessage(
   component: ConfiguratorAttributeNumericInputFieldComponent,
   fixture: ComponentFixture<ConfiguratorAttributeNumericInputFieldComponent>,
   htmlElem: HTMLElement,
-  expectedMessages
+  expectedMessages: any
 ) {
   component.attributeInputForm.markAsDirty();
 
@@ -46,7 +46,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   const userInput = '345.00';
   let fixture: ComponentFixture<ConfiguratorAttributeNumericInputFieldComponent>;
   let mockLanguageService;
-  let locale = 'en';
+  const locale = 'en';
   let htmlElem: HTMLElement;
 
   beforeEach(
@@ -158,7 +158,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   });
 
   it('should not set control value in case the model attribute does not carry a value', () => {
-    component.attribute.userInput = null;
+    component.attribute.userInput = undefined;
     component.ngOnInit();
     expect(component.attributeInputForm.value).toBe('');
   });
