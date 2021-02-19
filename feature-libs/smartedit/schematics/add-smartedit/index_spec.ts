@@ -195,7 +195,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
 
     it('should just append smartedit feature without duplicating the featureModules config', () => {
       const appModule = appTree.readContent(appModulePath);
-      expect(appModule.match(/featureModules:/g).length).toEqual(1);
+      expect(appModule.match(/featureModules:/g)?.length).toEqual(1);
       expect(appModule).toContain(`smartEdit: {`);
     });
   });
