@@ -14,8 +14,24 @@
   "dependencies": {
     "tslib": "^2.0.0"
   },
-  "peerDependencies": {},
+  "peerDependencies": {
+    "@angular-devkit/schematics": "^10.1.0",
+    "@angular/common": "^10.1.0",
+    "@angular/core": "^10.1.0",
+    "@schematics/angular": "^10.1.0",
+    "@angular/router": "^10.1.0",
+    "@spartacus/core": "3.1.0-next.0",
+    "@spartacus/storefront": "3.1.0-next.0",
+    "bootstrap": "^4.3.1",
+    "rxjs": "^6.6.0"
+  },
+  "scripts": {
+    "bulk-pricing:build:schematics": "yarn bulk-pricing:clean:schematics && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
+    "bulk-pricing:clean:schematics": "../../node_modules/.bin/rimraf \"bulk-pricing/schematics/**/*.js\" \"bulk-pricing/schematics/**/*.js.map\" \"bulk-pricing/schematics/**/*.d.ts\"",
+    "bulk-pricing:test:schematics": "yarn --cwd ../../projects/schematics/ run clean && yarn bulk-pricing:clean:schematics && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
+  },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "schematics": "./collection.json"
 }

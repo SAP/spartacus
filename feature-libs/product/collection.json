@@ -1,0 +1,11 @@
+{
+  "$schema": "../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "add-product-bulk-pricing": {
+      "description": "Add product base bulk-pricing module.",
+      "factory": "./bulk-pricing/schematics/add-bulk-pricing/index#addBulkPricingFeatures",
+      "schema": "./bulk-pricing/schematics/add-bulk-pricing/schema.json",
+      "aliases": ["bulk-pricing"]
+    }
+  }
+}
