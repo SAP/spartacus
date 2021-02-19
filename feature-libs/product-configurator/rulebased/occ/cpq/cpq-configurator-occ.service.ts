@@ -6,7 +6,9 @@ import {
   ConverterService,
   OccEndpointsService,
 } from '@spartacus/core';
+import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Configurator } from '../../core/model/configurator.model';
 import { VARIANT_CONFIGURATOR_ADD_TO_CART_SERIALIZER } from '../variant';
 
@@ -36,5 +38,24 @@ export class CpqConfiguratorOccService {
         headers: { 'Content-Type': 'application/json' },
       })
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
+  }
+
+  readConfigurationForCartEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
+  ): Observable<string> {
+    const url = this.occEndpointsService.getUrl(
+      'readCpqConfigurationForCartEntry',
+      {
+        userId: parameters.userId,
+        cartId: parameters.cartId,
+        cartEntryNumber: parameters.cartEntryNumber,
+      }
+    );
+
+    return this.http.get<{ configId: string }>(url).pipe(
+      map((response) => {
+        return response.configId;
+      })
+    );
   }
 }

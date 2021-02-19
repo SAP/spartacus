@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CartModification } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { RulebasedConfiguratorAdapter } from '../core/connectors/rulebased-configurator.adapter';
 import { Configurator } from '../core/model/configurator.model';
 import { CpqConfiguratorOccService } from '../occ/cpq/cpq-configurator-occ.service';
@@ -65,8 +65,19 @@ export class CpqConfiguratorRestAdapter
     return this.cpqOccService.addToCart(parameters);
   }
 
-  readConfigurationForCartEntry(): Observable<Configurator.Configuration> {
-    return undefined;
+  readConfigurationForCartEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
+  ): Observable<Configurator.Configuration> {
+    return this.cpqOccService.readConfigurationForCartEntry(parameters).pipe(
+      switchMap((configId) => {
+        return this.cpqRestService.readConfiguration(configId).pipe(
+          map((configResonse) => {
+            configResonse.owner = parameters.owner;
+            return configResonse;
+          })
+        );
+      })
+    );
   }
 
   updateConfigurationForCartEntry(): Observable<CartModification> {

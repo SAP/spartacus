@@ -9,6 +9,9 @@ export function defaultOccCpqConfiguratorConfigFactory(): OccConfig {
 
           addCpqConfigurationToCart:
             'users/${userId}/carts/${cartId}/entries/cpqconfigurator',
+
+          readCpqConfigurationForCartEntry:
+            'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/cpqconfigurator',
         },
       },
     },
