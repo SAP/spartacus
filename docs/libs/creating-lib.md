@@ -154,7 +154,6 @@ Use the following template:
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
     "forceConsistentCasingInFileNames": true,
-    "strict": true,
     "target": "es2015",
     "module": "es2020",
     "moduleResolution": "node",
