@@ -90,6 +90,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       numTotalLength: 10,
       negativeAllowed: false,
     };
+    component.language = locale;
     fixture.detectChanges();
     htmlElem = fixture.nativeElement;
   });
@@ -115,7 +116,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   });
 
   it('should display no validation issue if input is fine, an unknown locale was requested, and we fall back to en locale', () => {
-    locale = 'Unkonwn';
+    component.language = 'unknown locale';
     component.ngOnInit();
     checkForValidationMessage(component, fixture, htmlElem, 0);
   });
