@@ -21,10 +21,6 @@ export class StoreDataService {
    * Use constructor(private winRef: WindowRef) {} instead
    */
   // TODO(#11093): Remove deprecated constructors
-  constructor(
-    // tslint:disable-next-line: unified-signatures
-    winRef: WindowRef
-  );
   constructor(protected winRef?: WindowRef) {}
 
   /**
