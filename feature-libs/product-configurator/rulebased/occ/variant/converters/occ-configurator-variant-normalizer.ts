@@ -26,12 +26,11 @@ export class OccConfiguratorVariantNormalizer
       groups: [],
       flatGroups: [],
     };
-    const groups = source.groups;
-    if (groups) {
-      groups.forEach((group) =>
-        this.convertGroup(group, resultTarget.groups, resultTarget.flatGroups)
-      );
-    }
+
+    source.groups?.forEach((group) =>
+      this.convertGroup(group, resultTarget.groups, resultTarget.flatGroups)
+    );
+
     return resultTarget;
   }
 
