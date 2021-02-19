@@ -27,7 +27,7 @@ export class ConfiguratorRouterExtractorService {
       filter((routingData) => routingData.nextState === undefined),
       map((routingData) => {
         const owner = this.createOwnerFromRouterState(routingData);
-
+        const semanticRoute = routingData.state?.semanticRoute;
         const routerData: ConfiguratorRouter.Data = {
           owner: owner,
           isOwnerCartEntry:
@@ -36,11 +36,11 @@ export class ConfiguratorRouterExtractorService {
           resolveIssues:
             routingData.state.queryParams?.resolveIssues === 'true',
           forceReload: routingData.state?.queryParams?.forceReload === 'true',
-          pageType: routingData.state.semanticRoute.includes(
-            this.ROUTE_FRAGMENT_OVERVIEW
-          )
-            ? ConfiguratorRouter.PageType.OVERVIEW
-            : ConfiguratorRouter.PageType.CONFIGURATION,
+          pageType:
+            semanticRoute &&
+            semanticRoute.includes(this.ROUTE_FRAGMENT_OVERVIEW)
+              ? ConfiguratorRouter.PageType.OVERVIEW
+              : ConfiguratorRouter.PageType.CONFIGURATION,
         };
 
         return routerData;
@@ -62,10 +62,13 @@ export class ConfiguratorRouterExtractorService {
       owner.type = CommonConfigurator.OwnerType.PRODUCT;
       owner.id = params.rootProduct;
     }
-    const configuratorType = this.getConfiguratorTypeFromSemanticRoute(
-      routerState.state.semanticRoute
-    );
-    owner.configuratorType = configuratorType;
+    const semanticRoute = routerState.state?.semanticRoute;
+    if (semanticRoute) {
+      const configuratorType = this.getConfiguratorTypeFromSemanticRoute(
+        semanticRoute
+      );
+      owner.configuratorType = configuratorType;
+    }
     this.configUtilsService.setOwnerKey(owner);
     return owner;
   }
@@ -80,12 +83,12 @@ export class ConfiguratorRouterExtractorService {
   protected getConfiguratorTypeFromSemanticRoute(
     semanticRoute: string
   ): string {
-    let configuratorType: string;
     if (semanticRoute.startsWith(this.ROUTE_FRAGMENT_OVERVIEW)) {
-      configuratorType = semanticRoute.split(this.ROUTE_FRAGMENT_OVERVIEW)[1];
+      return semanticRoute.split(this.ROUTE_FRAGMENT_OVERVIEW)[1];
     } else if (semanticRoute.startsWith(this.ROUTE_FRAGMENT_CONFIGURE)) {
-      configuratorType = semanticRoute.split(this.ROUTE_FRAGMENT_CONFIGURE)[1];
+      return semanticRoute.split(this.ROUTE_FRAGMENT_CONFIGURE)[1];
+    } else {
+      throw new Error('Not able to detemine configurator type');
     }
-    return configuratorType;
   }
 }
