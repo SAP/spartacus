@@ -5,8 +5,8 @@ import { CurrentProductService } from '../current-product.service';
 import { tap, filter, distinctUntilChanged } from 'rxjs/operators';
 
 /**
- * @deprecated since 3.1
- * Use feature-library @spartacus/product/variants instead
+ * @deprecated since 3.2
+ * Use feature-library @spartacus/product/variants/components instead
  */
 @Component({
   selector: 'cx-product-variants',

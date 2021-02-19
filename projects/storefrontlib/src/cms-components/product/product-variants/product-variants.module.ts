@@ -16,8 +16,8 @@ import { ProductVariantGuard } from './guards/product-variant.guard';
 import { VariantStyleIconsComponent } from './variant-style-icons/variant-style-icons.component';
 
 /**
- * @deprecated since 3.1
- * Use feature-library @spartacus/product/variants instead
+ * @deprecated since 3.2
+ * Use feature-library @spartacus/product/variants/components instead
  */
 @NgModule({
   imports: [

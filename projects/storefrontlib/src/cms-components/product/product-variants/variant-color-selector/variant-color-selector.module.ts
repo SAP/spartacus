@@ -5,8 +5,8 @@ import { VariantColorSelectorComponent } from './variant-color-selector.componen
 import { RouterModule } from '@angular/router';
 
 /**
- * @deprecated since 3.1
- * Use feature-library @spartacus/product/variants instead
+ * @deprecated since 3.2
+ * Use feature-library @spartacus/product/variants/components instead
  */
 @NgModule({
   imports: [CommonModule, RouterModule, UrlModule, I18nModule],

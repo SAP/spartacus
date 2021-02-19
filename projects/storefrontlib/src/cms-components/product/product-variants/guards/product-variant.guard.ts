@@ -16,8 +16,8 @@ import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 
 /**
- * @deprecated since 3.1
- * Use feature-library @spartacus/product/variants instead
+ * @deprecated since 3.2
+ * Use feature-library @spartacus/product/variants/core instead
  */
 @Injectable({
   providedIn: 'root',
