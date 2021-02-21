@@ -12,6 +12,7 @@
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2020", "dom"],
     "strictPropertyInitialization": false,
+    "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "stripInternal": true,
@@ -92,6 +93,9 @@
       ],
       "@spartacus/qualtrics": ["feature-libs/qualtrics/public_api"],
       "@spartacus/qualtrics/root": ["feature-libs/qualtrics/root/public_api"],
+      "@spartacus/smartedit/core": ["feature-libs/smartedit/core/public_api"],
+      "@spartacus/smartedit": ["feature-libs/smartedit/public_api"],
+      "@spartacus/smartedit/root": ["feature-libs/smartedit/root/public_api"],
       "@spartacus/storefinder/assets": [
         "feature-libs/storefinder/assets/public_api"
       ],
