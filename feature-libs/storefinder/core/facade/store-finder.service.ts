@@ -119,7 +119,8 @@ export class StoreFinderService implements OnDestroy {
     if (useMyLocation && this.winRef.nativeWindow) {
       this.clearWatchGeolocation(new StoreFinderActions.FindStoresOnHold());
       this.geolocationWatchId = this.winRef.nativeWindow.navigator.geolocation.watchPosition(
-        (pos: GeolocationPosition) => {
+        // TODO: Replace to GeolocationPosition when updating to new TS version
+        (pos: Position) => {
           const position: GeoPoint = {
             longitude: pos.coords.longitude,
             latitude: pos.coords.latitude,
