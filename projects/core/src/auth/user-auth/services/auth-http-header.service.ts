@@ -58,13 +58,12 @@ export class AuthHttpHeaderService {
     return url.includes(this.occEndpoints.getBaseEndpoint() + '/cms/');
   }
 
-  protected getAuthorizationHeader(request: HttpRequest<any>): string {
-    const rawValue = request.headers.get('Authorization');
-    return rawValue;
+  protected getAuthorizationHeader(request: HttpRequest<any>): string | null {
+    return request.headers.get('Authorization');
   }
 
   protected createAuthorizationHeader(): { Authorization: string } | {} {
-    let token;
+    let token: AuthToken | undefined;
     this.authStorageService
       .getToken()
       .subscribe((tok) => (token = tok))
@@ -87,7 +86,7 @@ export class AuthHttpHeaderService {
   ): Observable<HttpEvent<AuthToken> | never> {
     const isCMSRequest = this.isCMSUrl(request.urlWithParams);
     return this.handleExpiredToken(!isCMSRequest).pipe(
-      switchMap((token: AuthToken) => {
+      switchMap((token: AuthToken | undefined) => {
         const req = this.createNewRequestWithNewToken(request, token);
         if (req) {
           return next.handle(req);
@@ -151,14 +150,13 @@ export class AuthHttpHeaderService {
     token: AuthToken | undefined
   ): HttpRequest<any> | void {
     if (token) {
-      request = request.clone({
+      return request.clone({
         setHeaders: {
           Authorization: `${token.token_type || 'Bearer'} ${
             token.access_token
           }`,
         },
       });
-      return request;
     }
   }
 }
