@@ -1,9 +1,6 @@
+import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { Action, select, Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
-import { StoreFinderActions } from '../store/actions/index';
-import { StoreFinderSelectors } from '../store/selectors/index';
-import { StateWithStoreFinder } from '../store/store-finder-state';
 import {
   GeoPoint,
   GlobalMessageService,
@@ -12,15 +9,18 @@ import {
   SearchConfig,
   WindowRef,
 } from '@spartacus/core';
-import { StoreEntities } from '../model';
+import { Observable, Subscription } from 'rxjs';
 import { filter, map, withLatestFrom } from 'rxjs/operators';
-import { isPlatformBrowser } from '@angular/common';
+import { StoreEntities } from '../model';
+import { StoreFinderActions } from '../store/actions/index';
+import { StoreFinderSelectors } from '../store/selectors/index';
+import { StateWithStoreFinder } from '../store/store-finder-state';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StoreFinderService implements OnDestroy {
-  private geolocationWatchId: number = null;
+  private geolocationWatchId: number | null = null;
   protected subscription = new Subscription();
 
   constructor(
@@ -119,7 +119,7 @@ export class StoreFinderService implements OnDestroy {
     if (useMyLocation && this.winRef.nativeWindow) {
       this.clearWatchGeolocation(new StoreFinderActions.FindStoresOnHold());
       this.geolocationWatchId = this.winRef.nativeWindow.navigator.geolocation.watchPosition(
-        (pos: Position) => {
+        (pos: GeolocationPosition) => {
           const position: GeoPoint = {
             longitude: pos.coords.longitude,
             latitude: pos.coords.latitude,
@@ -175,7 +175,7 @@ export class StoreFinderService implements OnDestroy {
 
   private clearWatchGeolocation(callbackAction: Action) {
     if (this.geolocationWatchId !== null) {
-      this.winRef.nativeWindow.navigator.geolocation.clearWatch(
+      this.winRef.nativeWindow?.navigator.geolocation.clearWatch(
         this.geolocationWatchId
       );
       this.geolocationWatchId = null;

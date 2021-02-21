@@ -36,7 +36,7 @@ export class OAuthLibWrapperService {
         this.authConfigService.getBaseUrl(),
       redirectUri:
         this.authConfigService.getOAuthLibConfig()?.redirectUri ?? !isSSR
-          ? this.winRef.nativeWindow.location.origin
+          ? this.winRef.nativeWindow!.location.origin
           : '',
       ...this.authConfigService.getOAuthLibConfig(),
     });
@@ -67,7 +67,7 @@ export class OAuthLibWrapperService {
   /**
    * Revoke access tokens and clear tokens in lib state.
    */
-  revokeAndLogout(): Promise<any> {
+  revokeAndLogout(): Promise<void> {
     return new Promise((resolve) => {
       this.oAuthService
         .revokeTokenAndLogout()

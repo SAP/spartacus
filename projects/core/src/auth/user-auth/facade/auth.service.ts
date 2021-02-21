@@ -76,7 +76,7 @@ export class AuthService {
    * Revokes tokens and clears state for logged user (tokens, userId).
    * To perform logout it is best to use `logout` method. Use this method with caution.
    */
-  coreLogout(): Promise<any> {
+  coreLogout(): Promise<void> {
     this.userIdService.clearUserId();
     return new Promise((resolve) => {
       this.oAuthLibWrapperService.revokeAndLogout().finally(() => {
