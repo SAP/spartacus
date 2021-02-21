@@ -4,5 +4,5 @@
   "compilerOptions": {
     "strict": false
   },
-  "exclude": ["node_modules/@types/jest", "node_modules/@types/jasmine"]
+  "exclude": ["./node_modules/@types/jest", "./node_modules/@types/jasmine"]
 }
