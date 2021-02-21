@@ -3,5 +3,6 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "strict": false
-  }
+  },
+  "exclude": ["node_modules/@types/jest", "node_modules/@types/jasmine"]
 }
