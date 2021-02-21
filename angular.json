@@ -53,6 +53,10 @@
               {
                 "input": "projects/storefrontapp/src/styles/lib-qualtrics.scss",
                 "bundleName": "qualtrics"
+              },
+              {
+                "input": "projects/storefrontapp/src/styles/lib-cart.scss",
+                "bundleName": "cart"
               }
             ],
             "stylePreprocessorOptions": {
@@ -720,6 +724,44 @@
             "tsConfig": [
               "feature-libs/smartedit/tsconfig.lib.json",
               "feature-libs/smartedit/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "cart": {
+      "projectType": "library",
+      "root": "feature-libs/cart",
+      "sourceRoot": "feature-libs/cart",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "feature-libs/cart/tsconfig.lib.json",
+            "project": "feature-libs/cart/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "feature-libs/cart/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "feature-libs/cart/test.ts",
+            "tsConfig": "feature-libs/cart/tsconfig.spec.json",
+            "karmaConfig": "feature-libs/cart/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "feature-libs/cart/tsconfig.lib.json",
+              "feature-libs/cart/tsconfig.spec.json"
             ],
             "exclude": ["**/node_modules/**"]
           }
