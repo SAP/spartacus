@@ -5,7 +5,6 @@ import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
-import { InterceptorUtil } from '../../../occ/utils/interceptor-util';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
 import { AuthToken } from '../models/auth-token.model';
@@ -139,6 +138,9 @@ export class AuthHttpHeaderService {
       filter(
         (token: AuthToken) => oldToken.access_token !== token.access_token
       ),
+      // When the `handleExpiredRefreshToken` will be invoked
+      // then token will be revoked and the token received here won't be new, but emptied (properties will be removed one by one).
+      // eg. { access_token: 'abc', refresh_token: 'def' } -> { refresh_token: 'def' } -> {}
       map((token: AuthToken) => (token.access_token ? token : undefined)),
       take(1)
     );
@@ -156,10 +158,6 @@ export class AuthHttpHeaderService {
           }`,
         },
       });
-      return request;
-    } else if (this.isCMSUrl(request.urlWithParams)) {
-      // Only for CMS requests we can repeat it without an access_token
-      request = InterceptorUtil.removeHeader('Authorization', request);
       return request;
     }
   }
