@@ -8,3 +8,4 @@ export * from './layout.module';
 export * from './loading/index';
 export * from './main/main.module';
 export * from './main/storefront.component';
+export * from './theme/index';

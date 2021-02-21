@@ -1,5 +1,6 @@
 export * from './config/site-context-config';
 export * from './connectors/index';
+export * from './events/index';
 export * from './facade/index';
 export * from './providers/index';
 export * from './site-context.module';
