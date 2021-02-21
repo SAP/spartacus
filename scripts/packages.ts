@@ -62,7 +62,6 @@ const packageJsonPaths = [
   path.join(__dirname, '..', 'feature-libs', 'smartedit', 'package.json'),
   path.join(__dirname, '..', 'feature-libs', 'tracking', 'package.json'),
   path.join(__dirname, '..', 'feature-libs', 'qualtrics', 'package.json'),
-  path.join(__dirname, '..', 'feature-libs', 'personalization', 'package.json'),
   path.join(__dirname, '..', 'integration-libs', 'cdc', 'package.json'),
 ];
 
