@@ -6,11 +6,11 @@ export function defaultOccCpqConfiguratorConfigFactory(): OccConfig {
       occ: {
         endpoints: {
           getCpqAccessData: 'users/current/access/cpqconfigurator',
-
           addCpqConfigurationToCart:
             'users/${userId}/carts/${cartId}/entries/cpqconfigurator',
-
           readCpqConfigurationForCartEntry:
+            'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/cpqconfigurator',
+          updateCpqConfigurationForCartEntry:
             'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/cpqconfigurator',
         },
       },

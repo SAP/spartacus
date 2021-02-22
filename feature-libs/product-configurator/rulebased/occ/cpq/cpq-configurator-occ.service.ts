@@ -10,6 +10,7 @@ import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../core/model/configurator.model';
+import { VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER } from '../variant/variant-configurator-occ.converters';
 import { CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER } from './converters/cpq-configurator-occ.converters';
 
 @Injectable({ providedIn: 'root' })
@@ -35,6 +36,28 @@ export class CpqConfiguratorOccService {
 
     return this.http
       .post<CartModification>(url, occAddToCartParameters)
+      .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
+  }
+
+  updateCartEntry(
+    parameters: Configurator.UpdateConfigurationForCartEntryParameters
+  ): Observable<CartModification> {
+    const url = this.occEndpointsService.getUrl(
+      'updateCpqConfigurationForCartEntry',
+      {
+        userId: parameters.userId,
+        cartId: parameters.cartId,
+        cartEntryNumber: parameters.cartEntryNumber,
+      }
+    );
+
+    const occUpdateCartEntryParameters = this.converterService.convert(
+      parameters,
+      VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER
+    );
+
+    return this.http
+      .put<CartModification>(url, occUpdateCartEntryParameters)
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 
