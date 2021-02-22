@@ -12,6 +12,8 @@
         "createDefaultProgram": true
       },
       "rules": {
+        "@typescript-eslint/member-ordering": "off",
+        "@typescript-eslint/ban-types": "off",
         "@angular-eslint/use-lifecycle-interface": "error",
         "@angular-eslint/component-selector": [
           "error",
