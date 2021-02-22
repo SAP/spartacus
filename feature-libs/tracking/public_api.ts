@@ -1,4 +1,4 @@
 /*
  * Public API Surface of tracking
  */
-export {};
+export * from '@spartacus/tracking/personalization';

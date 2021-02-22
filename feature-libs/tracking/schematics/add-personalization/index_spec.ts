@@ -93,25 +93,25 @@ describe('Spartacus Personalization schematics: ng-add', () => {
         const packageJson = appTree.readContent('/package.json');
         const packageObj = JSON.parse(packageJson);
         const depPackageList = Object.keys(packageObj.dependencies);
-        expect(depPackageList.includes('@spartacus/personalization')).toBe(
-          true
-        );
+        expect(
+          depPackageList.includes('@spartacus/tracking/personalization')
+        ).toBe(true);
       });
 
       it('should import appropriate modules', async () => {
         const appModule = appTree.readContent(appModulePath);
         expect(appModule).toContain(
-          `import { PersonalizationRootModule } from '@spartacus/personalization/root';`
+          `import { PersonalizationRootModule } from '@spartacus/tracking/personalization/root';`
         );
         expect(appModule).toContain(
-          `import { PersonalizationModule } from '@spartacus/personalization';`
+          `import { PersonalizationModule } from '@spartacus/tracking/personalization';`
         );
       });
 
       it('should not contain lazy loading syntax', async () => {
         const appModule = appTree.readContent(appModulePath);
         expect(appModule).not.toContain(
-          `import('@spartacus/personalization').then(`
+          `import('@spartacus/tracking/personalization').then(`
         );
       });
     });
@@ -126,17 +126,17 @@ describe('Spartacus Personalization schematics: ng-add', () => {
       it('should import PersonalizationRootModule and contain the lazy loading syntax', async () => {
         const appModule = appTree.readContent(appModulePath);
         expect(appModule).toContain(
-          `import { PersonalizationRootModule } from '@spartacus/personalization/root';`
+          `import { PersonalizationRootModule } from '@spartacus/tracking/personalization/root';`
         );
         expect(appModule).toContain(
-          `import('@spartacus/personalization').then(`
+          `import('@spartacus/tracking/personalization').then(`
         );
       });
 
       it('should not contain the PersonalizationModule import', () => {
         const appModule = appTree.readContent(appModulePath);
         expect(appModule).not.toContain(
-          `import { PersonalizationModule } from '@spartacus/personalization';`
+          `import { PersonalizationModule } from '@spartacus/tracking/personalization';`
         );
       });
     });

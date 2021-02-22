@@ -5,12 +5,18 @@ import {
   provideConfig,
 } from '@spartacus/core';
 import { NavigationEvent } from '@spartacus/storefront';
+import { PersonalizationRootModule } from '@spartacus/tracking/personalization/root';
 import { AepModule } from '@spartacus/tracking/tms/aep';
 import { BaseTmsModule, TmsConfig } from '@spartacus/tracking/tms/core';
 import { GtmModule } from '@spartacus/tracking/tms/gtm';
 
 @NgModule({
-  imports: [BaseTmsModule.forRoot(), GtmModule, AepModule],
+  imports: [
+    BaseTmsModule.forRoot(),
+    GtmModule,
+    AepModule,
+    PersonalizationRootModule,
+  ],
   providers: [
     provideConfig({
       tagManager: {
