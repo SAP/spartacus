@@ -5,7 +5,7 @@ import {
   ContentSlotData,
   Page,
 } from '@spartacus/core';
-import { PersonalizationConfig } from '@spartacus/personalization/root';
+import { PersonalizationConfig } from '@spartacus/tracking/personalization/root';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { PersonalizationContext } from '../model/personalization-context.model';
