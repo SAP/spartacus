@@ -5,14 +5,15 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RulebasedConfiguratorAdapter } from '../core/connectors/rulebased-configurator.adapter';
 import { Configurator } from '../core/model/configurator.model';
+import { CpqConfiguratorOccService } from '../occ/cpq/cpq-configurator-occ.service';
 import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
 
 @Injectable()
 export class CpqConfiguratorRestAdapter
   implements RulebasedConfiguratorAdapter {
   constructor(
-    protected cpqAcpqConfiguratorRestService: CpqConfiguratorRestService,
-    protected cpqService: CpqConfiguratorRestService
+    protected cpqRestService: CpqConfiguratorRestService,
+    protected cpqOccService: CpqConfiguratorOccService
   ) {}
 
   getConfiguratorType(): string {
@@ -22,14 +23,12 @@ export class CpqConfiguratorRestAdapter
   createConfiguration(
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
-    return this.cpqAcpqConfiguratorRestService
-      .createConfiguration(owner.id)
-      .pipe(
-        map((configResonse) => {
-          configResonse.owner = owner;
-          return configResonse;
-        })
-      );
+    return this.cpqRestService.createConfiguration(owner.id).pipe(
+      map((configResonse) => {
+        configResonse.owner = owner;
+        return configResonse;
+      })
+    );
   }
 
   readConfiguration(
@@ -37,14 +36,12 @@ export class CpqConfiguratorRestAdapter
     groupId: string,
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
-    return this.cpqAcpqConfiguratorRestService
-      .readConfiguration(configId, groupId)
-      .pipe(
-        map((configResponse) => {
-          configResponse.owner = owner;
-          return configResponse;
-        })
-      );
+    return this.cpqRestService.readConfiguration(configId, groupId).pipe(
+      map((configResponse) => {
+        configResponse.owner = owner;
+        return configResponse;
+      })
+    );
   }
 
   updateConfiguration(
@@ -52,20 +49,20 @@ export class CpqConfiguratorRestAdapter
   ): Observable<Configurator.Configuration> {
     const updateMethod =
       configuration.updateType === Configurator.UpdateType.VALUE_QUANTITY
-        ? this.cpqAcpqConfiguratorRestService.updateValueQuantity
-        : this.cpqAcpqConfiguratorRestService.updateAttribute;
-    return updateMethod
-      .call(this.cpqAcpqConfiguratorRestService, configuration)
-      .pipe(
-        map((configResonse: Configurator.Configuration) => {
-          configResonse.owner = configuration.owner;
-          return configResonse;
-        })
-      );
+        ? this.cpqRestService.updateValueQuantity
+        : this.cpqRestService.updateAttribute;
+    return updateMethod.call(this.cpqRestService, configuration).pipe(
+      map((configResonse: Configurator.Configuration) => {
+        configResonse.owner = configuration.owner;
+        return configResonse;
+      })
+    );
   }
 
-  addToCart(): Observable<CartModification> {
-    return undefined;
+  addToCart(
+    parameters: Configurator.AddToCartParameters
+  ): Observable<CartModification> {
+    return this.cpqOccService.addToCart(parameters);
   }
 
   readConfigurationForCartEntry(): Observable<Configurator.Configuration> {
@@ -89,8 +86,6 @@ export class CpqConfiguratorRestAdapter
   getConfigurationOverview(
     configId: string
   ): Observable<Configurator.Overview> {
-    return this.cpqAcpqConfiguratorRestService.readConfigurationOverview(
-      configId
-    );
+    return this.cpqRestService.readConfigurationOverview(configId);
   }
 }
