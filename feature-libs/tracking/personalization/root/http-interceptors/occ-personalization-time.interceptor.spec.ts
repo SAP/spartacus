@@ -111,7 +111,7 @@ describe('OccPersonalizationTimeInterceptor with personalization enabled', () =>
   ));
 });
 
-describe('OccPersonalizationIdInterceptor with personalization disabled', () => {
+describe('OccPersonalizationTimeInterceptor with personalization disabled', () => {
   let httpMock: HttpTestingController;
   let winRef: WindowRef;
 
@@ -162,9 +162,7 @@ describe('OccPersonalizationIdInterceptor with personalization disabled', () => 
       expect(perHeader).toBeNull();
       mockReq.flush('someData');
 
-      expect(
-        winRef.localStorage.getItem('personalization-time')
-      ).toBeUndefined();
+      expect(winRef.localStorage.getItem('personalization-time')).toBeFalsy();
     }
   ));
 });

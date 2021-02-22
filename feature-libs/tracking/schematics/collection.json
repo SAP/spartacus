@@ -2,9 +2,9 @@
   "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
   "schematics": {
     "ng-add": {
-      "factory": "./add-personalization/index#addPersonalizationFeatures",
+      "factory": "./add-tracking/index#addPersonalizationFeatures",
       "description": "Add and configure Spartacus' personalization features",
-      "schema": "./add-personalization/schema.json",
+      "schema": "./add-tracking/schema.json",
       "private": true,
       "hidden": true,
       "aliases": ["install"]
