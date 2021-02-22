@@ -23,7 +23,11 @@ echo "Installing upp cli"
 unzip -o ${APP}.zip -d ${APP}
 cd ${APP}
 npm install
-npm run install-cli
+
+# TODO workaround for npm-force-resolutions installation bug
+sed -i '/preinstall/d' package.json
+npx npm-force-resolutions
+npm install -g
 
 cd ..
 
