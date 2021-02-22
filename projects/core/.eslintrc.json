@@ -1,16 +1,8 @@
 {
   "extends": "../../.eslintrc.json",
-  "ignorePatterns": ["!**/*"],
   "overrides": [
     {
       "files": ["*.ts"],
-      "parserOptions": {
-        "project": [
-          "projects/core/tsconfig.lib.json",
-          "projects/core/tsconfig.spec.json"
-        ],
-        "createDefaultProgram": true
-      },
       "rules": {
         "@typescript-eslint/ban-types": "off",
         "jsdoc/newline-after-description": "off",

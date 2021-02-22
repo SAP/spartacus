@@ -1,16 +1,9 @@
 {
   "extends": "../../.eslintrc.json",
-  "ignorePatterns": ["!**/*"],
+  "ignorePatterns": ["schematics/**/*.d.ts"],
   "overrides": [
     {
       "files": ["*.ts"],
-      "parserOptions": {
-        "project": [
-          "feature-libs/smartedit/tsconfig.lib.json",
-          "feature-libs/smartedit/tsconfig.spec.json"
-        ],
-        "createDefaultProgram": true
-      },
       "rules": {
         "arrow-body-style": "off",
         "@typescript-eslint/member-ordering": "off",

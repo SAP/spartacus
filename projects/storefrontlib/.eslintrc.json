@@ -1,16 +1,8 @@
 {
   "extends": "../../.eslintrc.json",
-  "ignorePatterns": ["!**/*"],
   "overrides": [
     {
       "files": ["*.ts"],
-      "parserOptions": {
-        "project": [
-          "projects/storefrontlib/tsconfig.lib.json",
-          "projects/storefrontlib/tsconfig.spec.json"
-        ],
-        "createDefaultProgram": true
-      },
       "rules": {
         "@typescript-eslint/no-namespace": "off",
         "jsdoc/no-types": "off",

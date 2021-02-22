@@ -1,16 +1,9 @@
 {
   "extends": "../../.eslintrc.json",
-  "ignorePatterns": ["!**/*"],
+  "ignorePatterns": ["schematics/**/*.d.ts"],
   "overrides": [
     {
       "files": ["*.ts"],
-      "parserOptions": {
-        "project": [
-          "feature-libs/product-configurator/tsconfig.lib.json",
-          "feature-libs/product-configurator/tsconfig.spec.json"
-        ],
-        "createDefaultProgram": true
-      },
       "rules": {
         "@typescript-eslint/consistent-type-assertions": "off",
         "@typescript-eslint/no-namespace": "off",

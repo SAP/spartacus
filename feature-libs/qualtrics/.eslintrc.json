@@ -1,16 +1,9 @@
 {
   "extends": "../../.eslintrc.json",
-  "ignorePatterns": ["!**/*"],
+  "ignorePatterns": ["schematics/**/*.d.ts"],
   "overrides": [
     {
       "files": ["*.ts"],
-      "parserOptions": {
-        "project": [
-          "feature-libs/qualtrics/tsconfig.lib.json",
-          "feature-libs/qualtrics/tsconfig.spec.json"
-        ],
-        "createDefaultProgram": true
-      },
       "rules": {
         "@typescript-eslint/member-ordering": "off",
         "@typescript-eslint/ban-types": "off",

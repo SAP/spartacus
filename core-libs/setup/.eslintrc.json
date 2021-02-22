@@ -1,16 +1,8 @@
 {
   "extends": "../../.eslintrc.json",
-  "ignorePatterns": ["!**/*"],
   "overrides": [
     {
       "files": ["*.ts"],
-      "parserOptions": {
-        "project": [
-          "core-libs/setup/tsconfig.lib.json",
-          "core-libs/setup/tsconfig.spec.json"
-        ],
-        "createDefaultProgram": true
-      },
       "rules": {
         "no-shadow": "off",
         "@typescript-eslint/ban-types": "off",

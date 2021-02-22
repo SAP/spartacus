@@ -1,16 +1,8 @@
 {
   "extends": "../../.eslintrc.json",
-  "ignorePatterns": ["!**/*"],
   "overrides": [
     {
       "files": ["*.ts"],
-      "parserOptions": {
-        "project": [
-          "feature-libs/tracking/tsconfig.lib.json",
-          "feature-libs/tracking/tsconfig.spec.json"
-        ],
-        "createDefaultProgram": true
-      },
       "rules": {
         "@typescript-eslint/member-ordering": "off",
         "@typescript-eslint/ban-types": "off",
