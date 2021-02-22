@@ -1,6 +1,6 @@
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize]
 name: Hosting service
 jobs:
   hostingServiceDeploy:
@@ -12,6 +12,7 @@ jobs:
       - name: Deployment bot
         uses: ./.github/hs-deploy-action
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GHT_USER: ${{ secrets.GHT_USER}}
           GHT_TOKEN: ${{ secrets.GHT_TOKEN}}
           UPP_TENANT: ${{ secrets.UPP_TENANT}}
