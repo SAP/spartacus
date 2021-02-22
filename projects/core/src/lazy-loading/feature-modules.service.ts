@@ -1,6 +1,6 @@
-import { Injectable, isDevMode, NgModuleRef } from '@angular/core';
+import { Injectable, NgModuleRef } from '@angular/core';
 import { LazyModulesService } from './lazy-modules.service';
-import { defer, EMPTY, forkJoin, Observable, of } from 'rxjs';
+import { defer, forkJoin, Observable, of, throwError } from 'rxjs';
 import { shareReplay, switchMap } from 'rxjs/operators';
 import { CmsConfig } from '../cms/config/cms-config';
 
@@ -36,12 +36,9 @@ export class FeatureModulesService {
     return defer(() => {
       if (!this.features.has(featureName)) {
         if (!this.isConfigured(featureName)) {
-          if (isDevMode()) {
-            throw new Error(
-              'No module defined for Feature Module ' + featureName
-            );
-          }
-          return EMPTY;
+          return throwError(
+            new Error('No module defined for Feature Module ' + featureName)
+          );
         }
 
         const featureConfig = this.cmsConfig.featureModules?.[featureName];
