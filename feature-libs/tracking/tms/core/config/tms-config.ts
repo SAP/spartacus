@@ -35,6 +35,10 @@ export abstract class TmsConfig {
    */
   tagManager?: {
     /**
+     * Google Analytics
+     */
+    ga?: TmsCollectorConfig;
+    /**
      * Google Tag Manager
      */
     gtm?: TmsCollectorConfig;

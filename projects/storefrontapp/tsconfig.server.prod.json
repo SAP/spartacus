@@ -70,6 +70,7 @@
       "@spartacus/tracking": ["../../dist/tracking"],
       "@spartacus/tracking/tms/aep": ["../../dist/tracking/tms/aep"],
       "@spartacus/tracking/tms/core": ["../../dist/tracking/tms/core"],
+      "@spartacus/tracking/tms/ga": ["../../dist/tracking/tms/ga"],
       "@spartacus/tracking/tms/gtm": ["../../dist/tracking/tms/gtm"],
       "@spartacus/tracking/tms": ["../../dist/tracking/tms"],
       "@spartacus/cdc": ["../../dist/cdc"],

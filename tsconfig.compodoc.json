@@ -125,6 +125,9 @@
       "@spartacus/tracking/tms/core": [
         "feature-libs/tracking/tms/core/public_api"
       ],
+      "@spartacus/tracking/tms/ga": [
+        "feature-libs/tracking/tms/ga/public_api"
+      ],
       "@spartacus/tracking/tms/gtm": [
         "feature-libs/tracking/tms/gtm/public_api"
       ],

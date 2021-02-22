@@ -7,13 +7,17 @@ import {
 import { NavigationEvent } from '@spartacus/storefront';
 import { AepModule } from '@spartacus/tracking/tms/aep';
 import { BaseTmsModule, TmsConfig } from '@spartacus/tracking/tms/core';
+import { GaModule } from '@spartacus/tracking/tms/ga';
 import { GtmModule } from '@spartacus/tracking/tms/gtm';
 
 @NgModule({
-  imports: [BaseTmsModule.forRoot(), GtmModule, AepModule],
+  imports: [BaseTmsModule.forRoot(), GaModule, GtmModule, AepModule],
   providers: [
     provideConfig({
       tagManager: {
+        ga: {
+          events: [NavigationEvent],
+        },
         gtm: {
           events: [NavigationEvent, CartAddEntrySuccessEvent],
         },
