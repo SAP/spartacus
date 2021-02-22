@@ -12,6 +12,15 @@
         "createDefaultProgram": true
       },
       "rules": {
+        "@typescript-eslint/no-empty-interface": "off",
+        "object-shorthand": "off",
+        "arrow-body-style": "off",
+        "@typescript-eslint/member-ordering": "off",
+        "@typescript-eslint/consistent-type-assertions": "off",
+        "@typescript-eslint/ban-types": "off",
+        "no-shadow": "off",
+        "prefer-const": "warn",
+        "one-var": "off",
         "@angular-eslint/use-lifecycle-interface": "error",
         "@angular-eslint/component-selector": [
           "error",
@@ -46,7 +55,9 @@
     },
     {
       "files": ["*.html"],
-      "rules": {}
+      "rules": {
+        "@angular-eslint/template/no-negated-async": "off"
+      }
     }
   ]
 }
