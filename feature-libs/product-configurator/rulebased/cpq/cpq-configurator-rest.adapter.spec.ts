@@ -11,6 +11,8 @@ import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
 
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';
+const userId = 'Anony';
+const documentId = '82736353';
 
 const productConfiguration: Configurator.Configuration = {
   configId: configId,
@@ -31,18 +33,28 @@ const inputForUpdateConfiguration: Configurator.Configuration = {
 };
 
 const addToCartParams: Configurator.AddToCartParameters = {
-  productCode: 'Product',
+  productCode: productCode,
   quantity: 1,
   configId: configId,
   owner: productConfiguration.owner,
-  userId: 'user',
-  cartId: 'cart123',
+  userId: userId,
+  cartId: documentId,
 };
 
 const addToCartResponse: CartModification = {
   quantityAdded: 1,
   entry: { entryNumber: 3 },
   statusCode: '201',
+};
+
+const readConfigCartParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
+  userId: userId,
+  cartId: documentId,
+  cartEntryNumber: '3',
+  owner: {
+    type: CommonConfigurator.OwnerType.PRODUCT,
+    id: productCode,
+  },
 };
 
 const asSpy = (f) => <jasmine.Spy>f;
@@ -188,5 +200,20 @@ describe('CpqConfiguratorRestAdapter', () => {
       expect(response).toEqual(addToCartResponse);
       expect(mockedOccService.addToCart).toHaveBeenCalledWith(addToCartParams);
     });
+  });
+
+  it('should delegate readConfigurationForCartEntry to both OCC and Rest service', () => {
+    adapterUnderTest
+      .readConfigurationForCartEntry(readConfigCartParams)
+      .subscribe((response) => {
+        expect(response).toBe(productConfiguration);
+        expect(response.owner).toBe(readConfigCartParams.owner);
+        expect(mockedOccService.getConfigIdForCartEntry).toHaveBeenCalledWith(
+          readConfigCartParams
+        );
+        expect(mockedRestService.readConfiguration).toHaveBeenCalledWith(
+          configId
+        );
+      });
   });
 });
