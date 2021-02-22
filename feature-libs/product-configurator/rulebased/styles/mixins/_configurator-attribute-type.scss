@@ -9,7 +9,7 @@
   margin-inline-start: 17px;
 
   @include forVersion(3.1) {
-    padding-inline-end: 17px;
+    padding-inline-end: 0px;
     margin-inline-end: 17px;
   }
 }

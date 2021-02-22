@@ -1,5 +1,8 @@
 @import '~@spartacus/styles/scss/core';
 
+// TODO: don't commit this line:
+$useLatestStyles: true;
+
 @import './common/index';
 @import './rulebased/index';
 @import './textfield/index';
