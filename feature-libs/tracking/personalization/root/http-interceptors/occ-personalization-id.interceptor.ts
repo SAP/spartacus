@@ -16,7 +16,7 @@ const PERSONALIZATION_ID_KEY = 'personalization-id';
 
 @Injectable({ providedIn: 'root' })
 export class OccPersonalizationIdInterceptor implements HttpInterceptor {
-  private personalizationId: string;
+  private personalizationId?: string | null;
   private requestHeader: string;
   private enabled = false;
 
@@ -33,10 +33,10 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
 
       if (this.enabled) {
         this.requestHeader = this.config.personalization.httpHeaderName.id.toLowerCase();
-        this.personalizationId = this.winRef.localStorage.getItem(
+        this.personalizationId = this.winRef.localStorage?.getItem(
           PERSONALIZATION_ID_KEY
         );
-      } else if (this.winRef.localStorage.getItem(PERSONALIZATION_ID_KEY)) {
+      } else if (this.winRef.localStorage?.getItem(PERSONALIZATION_ID_KEY)) {
         this.winRef.localStorage.removeItem(PERSONALIZATION_ID_KEY);
       }
     }
@@ -68,10 +68,12 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
             const receivedId = event.headers.get(this.requestHeader);
             if (this.personalizationId !== receivedId) {
               this.personalizationId = receivedId;
-              this.winRef.localStorage.setItem(
-                PERSONALIZATION_ID_KEY,
-                this.personalizationId
-              );
+              if (this.personalizationId) {
+                this.winRef.localStorage?.setItem(
+                  PERSONALIZATION_ID_KEY,
+                  this.personalizationId
+                );
+              }
             }
           }
         }

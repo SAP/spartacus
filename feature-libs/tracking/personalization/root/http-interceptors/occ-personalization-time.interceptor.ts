@@ -16,7 +16,7 @@ const PERSONALIZATION_TIME_KEY = 'personalization-time';
 
 @Injectable({ providedIn: 'root' })
 export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
-  private timestamp: string;
+  private timestamp?: string | null;
   private requestHeader: string;
   private enabled = false;
 
@@ -33,10 +33,10 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
 
       if (this.enabled) {
         this.requestHeader = this.config.personalization.httpHeaderName.timestamp.toLowerCase();
-        this.timestamp = this.winRef.localStorage.getItem(
+        this.timestamp = this.winRef.localStorage?.getItem(
           PERSONALIZATION_TIME_KEY
         );
-      } else if (this.winRef.localStorage.getItem(PERSONALIZATION_TIME_KEY)) {
+      } else if (this.winRef.localStorage?.getItem(PERSONALIZATION_TIME_KEY)) {
         this.winRef.localStorage.removeItem(PERSONALIZATION_TIME_KEY);
       }
     }
@@ -68,10 +68,12 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
             const receivedTimestamp = event.headers.get(this.requestHeader);
             if (this.timestamp !== receivedTimestamp) {
               this.timestamp = receivedTimestamp;
-              this.winRef.localStorage.setItem(
-                PERSONALIZATION_TIME_KEY,
-                this.timestamp
-              );
+              if (this.timestamp) {
+                this.winRef.localStorage?.setItem(
+                  PERSONALIZATION_TIME_KEY,
+                  this.timestamp
+                );
+              }
             }
           }
         }
