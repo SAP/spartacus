@@ -19,6 +19,7 @@ SPARTACUS_PROJECTS=(
         "core-libs/setup"
         "feature-libs/organization"
         "feature-libs/storefinder"
+        "feature-libs/smartedit"
         "feature-libs/product-configurator"
         "feature-libs/qualtrics"
         )

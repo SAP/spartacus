@@ -34,7 +34,7 @@ class MockTranslateUrlPipe implements PipeTransform {
   selector: '[cxFocus]',
 })
 export class MockFocusDirective {
-  @Input('cxFocus') protected config;
+  @Input('cxFocus') protected config: string;
 }
 
 const DEBOUNCE_TIME =
@@ -44,7 +44,7 @@ function checkForValidationMessage(
   component: ConfiguratorAttributeNumericInputFieldComponent,
   fixture: ComponentFixture<ConfiguratorAttributeNumericInputFieldComponent>,
   htmlElem: HTMLElement,
-  expectedMessages
+  expectedMessages: any
 ) {
   component.attributeInputForm.markAsDirty();
 
@@ -59,7 +59,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   const userInput = '345.00';
   let fixture: ComponentFixture<ConfiguratorAttributeNumericInputFieldComponent>;
   let mockLanguageService;
-  let locale = 'en';
+  const locale = 'en';
   let htmlElem: HTMLElement;
 
   beforeEach(
@@ -107,6 +107,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       numTotalLength: 10,
       negativeAllowed: false,
     };
+    component.language = locale;
     fixture.detectChanges();
     htmlElem = fixture.nativeElement;
     spyOn(component.inputChange, 'emit');
@@ -133,7 +134,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   });
 
   it('should display no validation issue if input is fine, an unknown locale was requested, and we fall back to en locale', () => {
-    locale = 'Unkonwn';
+    component.language = 'unknown locale';
     component.ngOnInit();
     checkForValidationMessage(component, fixture, htmlElem, 0);
   });
@@ -175,7 +176,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   });
 
   it('should not set control value in case the model attribute does not carry a value', () => {
-    component.attribute.userInput = null;
+    component.attribute.userInput = undefined;
     component.ngOnInit();
     expect(component.attributeInputForm.value).toBe('');
   });
