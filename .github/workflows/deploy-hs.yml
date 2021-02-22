@@ -4,24 +4,17 @@ on:
 name: Hosting service
 jobs:
   hostingServiceDeploy:
+    name: Deployment bot
     environment: dev
-    name: Deployment
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v2
-      - name: Change global node permissions
-        run: sudo chown -R $USER /usr/local/lib/node_modules && sudo chown -R $USER /usr/local/bin
-      - name: Setup UPP CLI
-        run: ./ci-scripts/upp-cli-setup.sh
+      - uses: actions/checkout@v2
+      - name: Deployment bot
+        uses: ./github/deploy-hs
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GHT_USER: ${{ secrets.GHT_USER}}
           GHT_TOKEN: ${{ secrets.GHT_TOKEN}}
           UPP_TENANT: ${{ secrets.UPP_TENANT}}
           UPP_CLIENT: ${{ secrets.UPP_CLIENT}}
           UPP_SECRET: ${{ secrets.UPP_SECRET}}
-      - name: Build Spartacus
-        run: yarn install && yarn build:libs && yarn build
-      - name: Deploy Spartacus
-        run: ./ci-scripts/deploy-hs.js
+      

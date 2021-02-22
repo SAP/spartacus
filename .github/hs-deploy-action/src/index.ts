@@ -18,7 +18,7 @@ async function run() {
 
   const baseBranch = pr.base.ref;
 
-  console.log(`Here we are. Base branch ${baseBranch}`);
+  console.log(`All good. Base branch ${baseBranch}`);
 }
 
 run();
