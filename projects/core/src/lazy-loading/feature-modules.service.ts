@@ -46,18 +46,9 @@ export class FeatureModulesService {
 
         const featureConfig = this.cmsConfig.featureModules?.[featureName];
 
-        // resolve dependencies first (if any)
-        const depsResolve = featureConfig.dependencies?.length
-          ? forkJoin(
-              featureConfig.dependencies.map((depModuleFunc) =>
-                this.lazyModules.resolveDependencyModuleInstance(depModuleFunc)
-              )
-            )
-          : of(undefined);
-
         this.features.set(
           featureName,
-          depsResolve.pipe(
+          this.resolveDependencies(featureConfig.dependencies).pipe(
             switchMap((deps) =>
               this.lazyModules.resolveModuleInstance(
                 featureConfig?.module,
@@ -72,5 +63,22 @@ export class FeatureModulesService {
 
       return this.features.get(featureName);
     });
+  }
+
+  protected resolveDependencies(
+    dependencies: any[]
+  ): Observable<NgModuleRef<any>[] | undefined> {
+    return dependencies?.length
+      ? forkJoin(
+          dependencies.map((dependency) => {
+            if (typeof dependency === 'string') {
+              // dependency is a feature, referenced by a feature name
+              return this.resolveFeature(dependency);
+            }
+            // resolve dependency from a module function
+            return this.lazyModules.resolveDependencyModuleInstance(dependency);
+          })
+        )
+      : of(undefined);
   }
 }

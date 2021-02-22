@@ -33,7 +33,7 @@ interface FeatureInstance extends FeatureModuleConfig {
  */
 @Injectable({
   providedIn: 'root',
-  useExisting: CmsFeaturesService
+  useExisting: CmsFeaturesService,
 })
 export class FeatureModulesService implements OnDestroy {
   // feature modules configuration
@@ -132,9 +132,15 @@ export class FeatureModulesService implements OnDestroy {
         // resolve dependencies first (if any)
         const depsResolve = featureConfig.dependencies?.length
           ? forkJoin(
-              featureConfig.dependencies.map((depModuleFunc) =>
-                this.lazyModules.resolveDependencyModuleInstance(depModuleFunc)
-              )
+              featureConfig.dependencies.map((depModuleFunc) => {
+                return typeof depModuleFunc === 'string'
+                  ? this.resolveFeature(depModuleFunc).pipe(
+                      map((feature) => feature.moduleRef)
+                    )
+                  : this.lazyModules.resolveDependencyModuleInstance(
+                      depModuleFunc
+                    );
+              })
             )
           : of(undefined);
 
