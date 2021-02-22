@@ -40,56 +40,61 @@ describe('ExplainDisableMessagesComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('disabledEdit', () => {
-    it('should display disabledEdit message when edit button is disabled', () => {
-      current$.next({ active: false });
-      component.displayMessageConfig = { disabledEdit: true };
+  describe('default', () => {
+    beforeEach(() => {
       component.ngOnInit();
+    });
+    it('should display disabledEdit message when edit is disabled', () => {
+      current$.next({ active: false });
       fixture.detectChanges();
       const element = fixture.debugElement.query(By.css('section > ul'))
         .nativeElement;
-      expect(element.innerText).toContain('.messages.disabledEdit');
+      expect(element.innerText).toContain('orgUnit.messages.disabledEdit');
     });
 
     it('should not display disabledEdit message when edit button is enabled', () => {
       current$.next({ active: true });
       fixture.detectChanges();
-      console.log(fixture.debugElement.query(By.css('section')));
-      expect(fixture.debugElement.query(By.css('section'))).toBeNull();
+      const element = fixture.debugElement.query(By.css('section > ul'))
+        .nativeElement;
+      expect(element.innerText).not.toContain('orgUnit.messages.disabledEdit');
     });
-  });
 
-  describe('disabledEdit', () => {
-    it('should display disabledEdit message when edit button is disabled', () => {
-      current$.next({ active: false });
-      component.displayMessageConfig = { disabledEdit: true };
-      component.ngOnInit();
+    it('should display disabledEdit and disabledEnable messages when enable is disabled', () => {
+      current$.next({ active: false, orgUnit: { active: false } });
       fixture.detectChanges();
       const element = fixture.debugElement.query(By.css('section > ul'))
         .nativeElement;
-      expect(element.innerText).toContain('.messages.disabledEdit');
+      expect(element.innerText).toContain('orgUnit.messages.disabledEdit');
+      expect(element.innerText).toContain('orgUnit.messages.disabledEnable');
     });
 
-    it('should not display disabledEdit message when edit button is enabled', () => {
-      current$.next({ active: true });
-      fixture.detectChanges();
-      console.log(fixture.debugElement.query(By.css('section')));
-      expect(fixture.debugElement.query(By.css('section'))).toBeNull();
-    });
-  });
-
-  describe('disabledEnable', () => {
-    it('should display disabledEnable message when enable button is disabled', () => {
-      current$.next({ orgUnit: { active: false } });
-      fixture.detectChanges();
-      const element = fixture.debugElement.query(By.css('section > ul'))
-        .nativeElement;
-      expect(element.innerText).toContain('disabledEnable');
-    });
-
-    it('should not display disabledEnable message when enable button is enabled', () => {
+    it('should not display disabledEdit and disabledEnable messages when enable and edit is enabled', () => {
       current$.next({ active: true, orgUnit: { active: true } });
+      fixture.detectChanges();
       expect(fixture.debugElement.query(By.css('section'))).toBeNull();
+    });
+
+    it('should use the root provided from the parent component', () => {
+      component.i18nRoot = 'myRoot';
+      current$.next({ active: true });
+      fixture.detectChanges();
+      const element = fixture.debugElement.query(By.css('section > ul'))
+        .nativeElement;
+      expect(element.innerText).toContain('myRoot');
+    });
+
+    it('should display disabledDisable message if it is a root unit', () => {
+      const mockItem = {
+        uid: 'test',
+        name: 'test',
+        parentOrgUnit: 'test',
+      };
+      current$.next(mockItem as any);
+      fixture.detectChanges();
+      const element = fixture.debugElement.query(By.css('section > ul'))
+        .nativeElement;
+      expect(element.innerText).toContain('orgUnit.messages.disabledDisable');
     });
 
     it('should not display disabledEnable message if it is a root unit', () => {
@@ -98,11 +103,63 @@ describe('ExplainDisableMessagesComponent', () => {
       fixture.detectChanges();
       const element = fixture.debugElement.query(By.css('section > ul'))
         .nativeElement;
-      expect(element.innerText).not.toContain('disabledEnable');
+      expect(element.innerText).not.toContain(
+        'orgUnit.messages.disabledEnable'
+      );
+    });
+  });
+
+  describe('disabledEdit', () => {
+    beforeEach(() => {
+      component.displayMessageConfig = { disabledEdit: true };
+      component.ngOnInit();
+    });
+    it('should display disabledEdit message when edit button is disabled', () => {
+      current$.next({ active: false });
+      fixture.detectChanges();
+      const element = fixture.debugElement.query(By.css('section > ul'))
+        .nativeElement;
+      expect(element.innerText).toContain('orgUnit.messages.disabledEdit');
+    });
+
+    it('should not display disabledEdit message when edit button is enabled', () => {
+      current$.next({ active: true });
+      fixture.detectChanges();
+      const element = fixture.debugElement.query(By.css('section > ul'))
+        .nativeElement;
+      expect(element.innerText).not.toContain('orgUnit.messages.disabledEdit');
+    });
+  });
+
+  describe('disabledEnable', () => {
+    beforeEach(() => {
+      component.displayMessageConfig = { disabledEnable: true };
+      component.ngOnInit();
+    });
+    it('should display disabledEnable message when enable button is disabled', () => {
+      current$.next({ orgUnit: { active: false } });
+      fixture.detectChanges();
+      const element = fixture.debugElement.query(By.css('section > ul'))
+        .nativeElement;
+      expect(element.innerText).toContain('orgUnit.messages.disabledEnable');
+    });
+
+    it('should not display disabledEnable message when enable button is enabled', () => {
+      current$.next({ orgUnit: { active: true } });
+      fixture.detectChanges();
+      const element = fixture.debugElement.query(By.css('section > ul'))
+        .nativeElement;
+      expect(element.innerText).not.toContain(
+        'orgUnit.messages.disabledEnable'
+      );
     });
   });
 
   describe('disabledCreate', () => {
+    beforeEach(() => {
+      component.displayMessageConfig = { disabledCreate: true };
+      component.ngOnInit();
+    });
     it('should display disabledCreate message when create button is disabled', () => {
       current$.next({ active: false });
       component.displayMessageConfig = {
@@ -113,7 +170,7 @@ describe('ExplainDisableMessagesComponent', () => {
       fixture.detectChanges();
       const element = fixture.debugElement.query(By.css('section > ul'))
         .nativeElement;
-      expect(element.innerText).toContain('disabledCreate');
+      expect(element.innerText).toContain('orgUnit.messages.disabledCreate');
     });
 
     it('should not display disabledCreate message when create button is enabled', () => {
@@ -125,6 +182,10 @@ describe('ExplainDisableMessagesComponent', () => {
   });
 
   describe('disabledDisable', () => {
+    beforeEach(() => {
+      component.displayMessageConfig = { disabledDisable: true };
+      component.ngOnInit();
+    });
     it('should display disabledDisable message when disable button is disabled', () => {
       const mockItem = {
         uid: 'test',
@@ -135,17 +196,17 @@ describe('ExplainDisableMessagesComponent', () => {
       fixture.detectChanges();
       const element = fixture.debugElement.query(By.css('section > ul'))
         .nativeElement;
-      expect(element.innerText).toContain('disabledDisable');
+      expect(element.innerText).toContain('orgUnit.messages.disabledDisable');
     });
-  });
 
-  describe('i18root', () => {
-    it('asdasds', () => {
-      component.i18nRoot = 'myRoot';
+    it('should not display disabledDisable message when disable button is enabled', () => {
+      current$.next({});
       fixture.detectChanges();
-      // const element = fixture.debugElement.query(By.css('section > ul'))
-      //   .nativeElement;
-      expect(element.innerText).toContain('myRoot.messages.disabledDisable');
+      const element = fixture.debugElement.query(By.css('section > ul'))
+        .nativeElement;
+      expect(element.innerText).not.toContain(
+        'orgUnit.messages.disabledDisable'
+      );
     });
   });
 });
