@@ -1,5 +1,6 @@
 import * as github from '@actions/github';
 import * as exec from '@actions/exec';
+import { build } from './functions';
 
 async function run() {
   const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
@@ -24,12 +25,8 @@ async function run() {
   //run sh to get CLI and prep
   await exec.exec('sh', ['./.github/hs-deploy-action/upp-cli-setup.sh']);
 
-  //build libs and app
-  await exec.exec('yarn', ['install']);
-  await exec.exec('yarn', ['build:libs']);
-  await exec.exec('yarn', ['build']);
+  build();
 
-  // run ts file to deploy
   // add comment to PR
 }
 
