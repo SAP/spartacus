@@ -1,4 +1,5 @@
 import * as github from '@actions/github';
+import * as exec from '@actions/exec';
 
 async function run() {
   const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
@@ -16,9 +17,15 @@ async function run() {
     );
   }
 
-  const baseBranch = pr.base.ref;
+  const baseBranch = pr.head.ref;
 
   console.log(`All good. Base branch ${baseBranch}`);
+
+  //run sh to get CLI and prep
+  await exec.exec('sh', ['./.github/hs-deploy-action/upp-cli-setup.sh']);
+
+  // run ts file to deploy
+  // add comment to PR
 }
 
 run();
