@@ -59,7 +59,7 @@ export class NavigationUIComponent implements OnDestroy {
     private router: Router,
     private renderer: Renderer2,
     private elemRef: ElementRef,
-    protected hamburgerMenuService: HamburgerMenuService
+    protected hamburgerMenuService?: HamburgerMenuService
   ) {
     this.subscriptions.add(
       this.router.events
@@ -150,8 +150,10 @@ export class NavigationUIComponent implements OnDestroy {
   }
 
   close() {
-    this.clear();
-    this.hamburgerMenuService.toggle(true);
+    if (this.hamburgerMenuService) {
+      this.clear();
+      this.hamburgerMenuService.toggle(true);
+    }
   }
 
   private alignWrapperToRightIfStickOut(node: HTMLElement) {
