@@ -17,6 +17,7 @@ import { Config } from '../../config/config-tokens';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { I18nConfig } from '../../i18n/config/i18n-config';
 import { SiteContextConfig } from '../../site-context/config/site-context-config';
+import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { SERVER_REQUEST_URL } from '../../util/ssr.tokens';
 import { OccLoadedConfig } from './occ-loaded-config';
 import { OccLoadedConfigConverter } from './occ-loaded-config-converter';
@@ -38,7 +39,9 @@ export class OccConfigLoaderService {
 
     @Optional()
     @Inject(SERVER_REQUEST_URL)
-    protected serverRequestUrl?: string
+    protected serverRequestUrl?: string,
+    //protected siteConnector?: SiteConnector,
+    protected baseSiteService?: BaseSiteService //protected store?: Store<StateWithSiteContext>
   ) {}
 
   private get currentUrl(): string {
@@ -84,13 +87,27 @@ export class OccConfigLoaderService {
    * Loads the external config from backend
    */
   protected load(): Observable<OccLoadedConfig> {
-    return this.sitesConfigLoader
-      .load()
-      .pipe(
-        map((baseSites) =>
-          this.converter.fromOccBaseSites(baseSites, this.currentUrl)
-        )
+    /*if (this.baseSiteService) {
+      return this.baseSiteService.getAll().pipe(
+        map((baseSites) => {
+          console.log(
+            '--',
+            this.converter.fromOccBaseSites(baseSites, this.currentUrl)
+          );
+          return this.converter.fromOccBaseSites(baseSites, this.currentUrl);
+        })
       );
+    } else {*/
+    return this.sitesConfigLoader.load().pipe(
+      map((baseSites) => {
+        console.log(
+          '++',
+          this.converter.fromOccBaseSites(baseSites, this.currentUrl)
+        );
+        return this.converter.fromOccBaseSites(baseSites, this.currentUrl);
+      })
+    );
+    // }
   }
 
   /**

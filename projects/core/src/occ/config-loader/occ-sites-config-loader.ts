@@ -6,6 +6,9 @@ import { BaseSite } from '../../model/misc.model';
 import { OccConfig } from '../config/occ-config';
 import { Occ } from '../occ-models/occ.models';
 
+/**
+ * @deprecated
+ */
 @Injectable({ providedIn: 'root' })
 export class OccSitesConfigLoader {
   constructor(protected config: OccConfig, protected http: HttpClient) {}
@@ -31,6 +34,9 @@ export class OccSitesConfigLoader {
     return `${this.baseEndpoint}${this.endpoint}`;
   }
 
+  /**
+   * @deprecated
+   */
   load(): Observable<BaseSite[]> {
     if (!this.config || !this.config.backend || !this.config.backend.occ) {
       return throwError(new Error(`Missing config for OCC backend!`));
