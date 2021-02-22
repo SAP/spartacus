@@ -12,6 +12,11 @@
         "createDefaultProgram": true
       },
       "rules": {
+        "@typescript-eslint/ban-types": "off",
+        "@typescript-eslint/consistent-type-assertions": "off",
+        "arrow-body-style": "off",
+        "no-shadow": "off",
+        "@typescript-eslint/member-ordering": "off",
         "@angular-eslint/use-lifecycle-interface": "error",
         "@angular-eslint/component-selector": [
           "error",
