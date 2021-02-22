@@ -10,8 +10,8 @@ import {
   ConverterService,
   OccEndpointsService,
 } from '@spartacus/core';
+import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../core/model/configurator.model';
-import { productConfiguration } from '../../shared/testing/configurator-test-data';
 import { CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER } from './converters/cpq-configurator-occ.converters';
 import { CpqConfiguratorOccService } from './cpq-configurator-occ.service';
 
@@ -19,18 +19,31 @@ describe('CpqConfigurationOccService', () => {
   const configId = '1234-56-7890';
   const userId = 'Anony';
   const documentId = '82736353';
+  const productCode = 'Product';
   const addToCartResponse: CartModification = {
     quantityAdded: 1,
     entry: { entryNumber: 3 },
     statusCode: '201',
   };
   const addToCartParams: Configurator.AddToCartParameters = {
-    productCode: 'Product',
+    productCode: productCode,
     quantity: 1,
     configId: configId,
-    owner: productConfiguration.owner,
+    owner: {
+      type: CommonConfigurator.OwnerType.PRODUCT,
+      id: productCode,
+    },
     userId: userId,
     cartId: documentId,
+  };
+  const readConfigCartParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
+    userId: userId,
+    cartId: documentId,
+    cartEntryNumber: '3',
+    owner: {
+      type: CommonConfigurator.OwnerType.PRODUCT,
+      id: productCode,
+    },
   };
 
   class MockOccEndpointsService {
@@ -91,11 +104,42 @@ describe('CpqConfigurationOccService', () => {
     const mockReq = httpMock.expectOne((req) => {
       return req.method === 'POST' && req.url === 'addCpqConfigurationToCart';
     });
-    expect(mockReq.request.responseType).toEqual('json');
     mockReq.flush(addToCartResponse);
 
     expect(converterService.pipeable).toHaveBeenCalledWith(
       CART_MODIFICATION_NORMALIZER
+    );
+
+    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      'addCpqConfigurationToCart',
+      {
+        userId: userId,
+        cartId: documentId,
+      }
+    );
+  });
+
+  it('should call readCpqConfigurationForCartEntry endpoint', () => {
+    serviceUnderTest
+      .getConfigIdForCartEntry(readConfigCartParams)
+      .subscribe((response) => {
+        expect(response).toBe(configId);
+      });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'GET' && req.url === 'readCpqConfigurationForCartEntry'
+      );
+    });
+    mockReq.flush({ configId: configId });
+
+    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      'readCpqConfigurationForCartEntry',
+      {
+        userId: userId,
+        cartId: documentId,
+        cartEntryNumber: '3',
+      }
     );
   });
 });

@@ -68,7 +68,7 @@ export class CpqConfiguratorRestAdapter
   readConfigurationForCartEntry(
     parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
   ): Observable<Configurator.Configuration> {
-    return this.cpqOccService.readConfigurationForCartEntry(parameters).pipe(
+    return this.cpqOccService.getConfigIdForCartEntry(parameters).pipe(
       switchMap((configId) => {
         return this.cpqRestService.readConfiguration(configId).pipe(
           map((configResonse) => {

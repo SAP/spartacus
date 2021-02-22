@@ -60,7 +60,10 @@ describe('CpqConfiguratorRestAdapter', () => {
       'updateValueQuantity',
       'readConfigurationOverview',
     ]);
-    mockedOccService = jasmine.createSpyObj('mockedOccService', ['addToCart']);
+    mockedOccService = jasmine.createSpyObj('mockedOccService', [
+      'addToCart',
+      'getConfigIdForCartEntry',
+    ]);
 
     asSpy(mockedRestService.createConfiguration).and.callFake(() => {
       return of(productConfiguration);
@@ -81,6 +84,9 @@ describe('CpqConfiguratorRestAdapter', () => {
     });
     asSpy(mockedOccService.addToCart).and.callFake(() => {
       return of(addToCartResponse);
+    });
+    asSpy(mockedOccService.getConfigIdForCartEntry).and.callFake(() => {
+      return of(productConfiguration.configId);
     });
 
     TestBed.configureTestingModule({

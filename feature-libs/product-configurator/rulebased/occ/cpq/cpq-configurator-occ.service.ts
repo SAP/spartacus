@@ -34,13 +34,11 @@ export class CpqConfiguratorOccService {
     );
 
     return this.http
-      .post<CartModification>(url, occAddToCartParameters, {
-        headers: { 'Content-Type': 'application/json' },
-      })
+      .post<CartModification>(url, occAddToCartParameters)
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 
-  readConfigurationForCartEntry(
+  getConfigIdForCartEntry(
     parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
   ): Observable<string> {
     const url = this.occEndpointsService.getUrl(
