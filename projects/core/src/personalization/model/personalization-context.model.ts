@@ -1,5 +1,5 @@
 /**
- * @deprecated since 3.2, use personalization lib instead
+ * @deprecated since 3.2, use tracking/personalization instead
  */
 export interface PersonalizationAction {
   action_name: string;
@@ -11,7 +11,7 @@ export interface PersonalizationAction {
 }
 
 /**
- * @deprecated since 3.2, use personalization lib instead
+ * @deprecated since 3.2, use tracking/personalization instead
  */
 export interface PersonalizationContext {
   actions: PersonalizationAction[];

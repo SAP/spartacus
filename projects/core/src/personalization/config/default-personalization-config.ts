@@ -1,7 +1,7 @@
 import { PersonalizationConfig } from './personalization-config';
 
 /**
- * @deprecated since 3.2, use personalization lib instead
+ * @deprecated since 3.2, use tracking/personalization instead
  */
 export const defaultPersonalizationConfig: PersonalizationConfig = {
   personalization: {
