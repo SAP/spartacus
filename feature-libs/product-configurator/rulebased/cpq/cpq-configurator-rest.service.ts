@@ -146,7 +146,10 @@ export class CpqConfiguratorRestService {
     );
     return this.callUpdateAttribute(updateAttribute).pipe(
       switchMap(() => {
-        return this.callConfigurationDisplay(configuration.configId).pipe(
+        return this.callConfigurationDisplay(
+          configuration.configId,
+          updateAttribute.tabId
+        ).pipe(
           this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER),
           map((resultConfiguration) => {
             return {
@@ -172,7 +175,10 @@ export class CpqConfiguratorRestService {
     );
     return this.callUpdateValue(updateValue).pipe(
       switchMap(() => {
-        return this.callConfigurationDisplay(configuration.configId).pipe(
+        return this.callConfigurationDisplay(
+          configuration.configId,
+          updateValue.tabId
+        ).pipe(
           this.converterService.pipeable(CPQ_CONFIGURATOR_NORMALIZER),
           map((resultConfiguration) => {
             return {

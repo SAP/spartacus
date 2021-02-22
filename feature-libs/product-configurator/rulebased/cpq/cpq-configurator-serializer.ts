@@ -29,6 +29,7 @@ export class CpqConfiguratorSerializer
       configurationId: configId,
       standardAttributeCode: attribute.attrCode.toString(),
       changeAttributeValue: { quantity: attribute.quantity },
+      tabId: attribute.groupId,
     };
     return updateAttribute;
   }
@@ -47,6 +48,7 @@ export class CpqConfiguratorSerializer
       configurationId: configurationId,
       standardAttributeCode: attribute.attrCode.toString(),
       changeAttributeValue: {},
+      tabId: attribute.groupId,
     };
 
     if (

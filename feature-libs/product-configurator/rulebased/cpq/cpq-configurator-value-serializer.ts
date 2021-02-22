@@ -33,6 +33,7 @@ export class CpqConfiguratorValueSerializer
       standardAttributeCode: attribute.attrCode.toString(),
       attributeValueId: value.valueCode,
       quantity: value.quantity,
+      tabId: attribute.groupId,
     };
 
     return updateAttribute;
