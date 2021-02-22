@@ -22,6 +22,16 @@ import { GtmModule } from '@spartacus/tracking/tms/gtm';
         },
       },
     } as TmsConfig),
+    provideConfig({
+      featureModules: {
+        personalization: {
+          module: () =>
+            import('@spartacus/tracking/personalization').then(
+              (m) => m.PersonalizationModule
+            ),
+        },
+      },
+    }),
   ],
 })
 export class TrackingFeatureModule {}
