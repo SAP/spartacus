@@ -126,7 +126,9 @@ export class CpqConfiguratorNormalizer
       attrCode: sourceAttribute.stdAttrCode,
       name: sourceAttribute.pA_ID.toString(),
       description: sourceAttribute.description,
-      label: sourceAttribute.label,
+      label: sourceAttribute.label
+        ? sourceAttribute.label
+        : sourceAttribute.name,
       required: sourceAttribute.required,
       isLineItem: sourceAttribute.isLineItem,
       uiType: this.convertAttributeType(sourceAttribute),
@@ -303,7 +305,11 @@ export class CpqConfiguratorNormalizer
       }
 
       case Cpq.DisplayAs.INPUT: {
-        uiType = Configurator.UiType.STRING;
+        if (sourceAttribute?.dataType === Cpq.DataType.INPUT_STRING) {
+          uiType = Configurator.UiType.STRING;
+        } else {
+          uiType = Configurator.UiType.NOT_IMPLEMENTED;
+        }
         break;
       }
 
