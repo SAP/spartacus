@@ -260,6 +260,20 @@ describe('CpqConfiguratorSerializer', () => {
     verifyUpdateAttributeUserInput(updateAttributeNumeric);
   });
 
+  it('should convert user input attribute type with empty input correctly', () => {
+    const attributeWithEmptyUserInput: Configurator.Attribute = {
+      ...attributeString,
+      userInput: '',
+    };
+    const updateAttributeWithEmptyUserInput: Cpq.UpdateAttribute = cpqConfiguratorSerializer.convertAttribute(
+      attributeWithEmptyUserInput,
+      configId
+    );
+    expect(
+      updateAttributeWithEmptyUserInput.changeAttributeValue.userInput
+    ).toBe(' ');
+  });
+
   it('should process single selected value correctly', () => {
     const processedValue: string = cpqConfiguratorSerializer.processSelectedSingleValue(
       selectedSingleValue

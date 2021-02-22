@@ -78,12 +78,15 @@ export class CpqConfiguratorOverviewNormalizer
     const ovValues: Configurator.AttributeOverview[] = [];
     switch (attr.displayAs) {
       case Cpq.DisplayAs.INPUT:
-        if (attr.userInput && attr.userInput.length > 0) {
-          ovValues.push(this.extractOvValueUserInput(attr, currency));
+        if (attr?.dataType === Cpq.DataType.INPUT_STRING) {
+          if (attr.userInput && attr.userInput.length > 0) {
+            ovValues.push(this.extractOvValueUserInput(attr, currency));
+          }
+        } else {
+          ovValues.push({ attribute: undefined, value: 'NOT_IMPLEMENTED' });
         }
         break;
       case Cpq.DisplayAs.RADIO_BUTTON:
-      case Cpq.DisplayAs.READ_ONLY:
       case Cpq.DisplayAs.DROPDOWN:
         const selectedValue = attr.values?.find(
           (val) => val.selected && val.paV_ID !== NO_OPTION_SELECTED

@@ -322,7 +322,7 @@ export interface OccEndpoints {
    */
   getCpqAccessData?: string;
   /**
-   * Endpoint to add Cpq configuration to cart
+   * Endpoint to add a cpq configuration to the current cart
    *
    * @member {string}
    */
