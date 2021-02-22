@@ -1,4 +1,4 @@
 feature-libs/smartedit/assets/webApplicationInjector.js
-projects/schematics/**/*.js
+**/schematics/**/*.js
 **/*.md
 **/*.yml
