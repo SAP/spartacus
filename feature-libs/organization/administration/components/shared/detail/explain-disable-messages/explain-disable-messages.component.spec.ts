@@ -75,13 +75,13 @@ describe('ExplainDisableMessagesComponent', () => {
       expect(fixture.debugElement.query(By.css('section'))).toBeNull();
     });
 
-    it('should use the root provided from the parent component', () => {
+    it('should use the i18n root provided from the parent component', () => {
       component.i18nRoot = 'myRoot';
       current$.next({ active: true });
       fixture.detectChanges();
       const element = fixture.debugElement.query(By.css('section > ul'))
         .nativeElement;
-      expect(element.innerText).toContain('myRoot');
+      expect(element.innerText).toContain('myRoot.messages.disabledEnable');
     });
 
     it('should display disabledDisable message if it is a root unit', () => {
