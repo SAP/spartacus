@@ -12,7 +12,20 @@
         "createDefaultProgram": true
       },
       "rules": {
+        "@typescript-eslint/no-namespace": "off",
+        "jsdoc/no-types": "off",
+        "no-shadow": "off",
+        "@typescript-eslint/member-ordering": "off",
+        "@typescript-eslint/consistent-type-assertions": "off",
+        "@angular-eslint/no-input-rename": "off",
+        "@typescript-eslint/ban-types": "off",
+        "arrow-body-style": "off",
+        "object-shorthand": "off",
+        "curly": "off",
+        "prefer-const": "warn",
+        "@typescript-eslint/no-unused-expressions": "off",
         "@angular-eslint/use-lifecycle-interface": "error",
+        "jsdoc/newline-after-description": "off",
         "@angular-eslint/component-selector": [
           "error",
           {
@@ -45,7 +58,9 @@
     },
     {
       "files": ["*.html"],
-      "rules": {}
+      "rules": {
+        "@angular-eslint/template/no-negated-async": "off"
+      }
     }
   ]
 }
