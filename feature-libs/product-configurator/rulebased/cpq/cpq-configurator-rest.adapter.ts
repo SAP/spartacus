@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CartModification } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { RulebasedConfiguratorAdapter } from '../core/connectors/rulebased-configurator.adapter';
 import { Configurator } from '../core/model/configurator.model';
@@ -23,6 +23,9 @@ export class CpqConfiguratorRestAdapter
   createConfiguration(
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
+    if (!owner.id) {
+      return throwError('No product code provided');
+    }
     return this.cpqRestService.createConfiguration(owner.id).pipe(
       map((configResonse) => {
         configResonse.owner = owner;

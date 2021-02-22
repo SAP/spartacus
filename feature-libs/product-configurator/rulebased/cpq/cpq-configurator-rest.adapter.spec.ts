@@ -36,7 +36,7 @@ const addToCartParams: Configurator.AddToCartParameters = {
   productCode: productCode,
   quantity: 1,
   configId: configId,
-  owner: productConfiguration.owner,
+  owner: owner,
   userId: userId,
   cartId: documentId,
 };
@@ -51,13 +51,10 @@ const readConfigCartParams: CommonConfigurator.ReadConfigurationFromCartEntryPar
   userId: userId,
   cartId: documentId,
   cartEntryNumber: '3',
-  owner: {
-    type: CommonConfigurator.OwnerType.PRODUCT,
-    id: productCode,
-  },
+  owner: owner,
 };
 
-const asSpy = (f) => <jasmine.Spy>f;
+const asSpy = (f: any) => <jasmine.Spy>f;
 
 describe('CpqConfiguratorRestAdapter', () => {
   let adapterUnderTest: CpqConfiguratorRestAdapter;
@@ -136,6 +133,15 @@ describe('CpqConfiguratorRestAdapter', () => {
         productCode
       );
     });
+  });
+
+  it('should handle missing product code during create configuration', () => {
+    adapterUnderTest.createConfiguration({}).subscribe(
+      () => {},
+      (error) => {
+        expect(error).toBeDefined();
+      }
+    );
   });
 
   it('should delegate read configuration to rest service and map owner', () => {
