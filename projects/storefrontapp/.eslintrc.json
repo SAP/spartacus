@@ -12,6 +12,8 @@
         "createDefaultProgram": true
       },
       "rules": {
+        "@typescript-eslint/ban-types": "off",
+        "@angular-eslint/component-selector": "off",
         "@angular-eslint/use-lifecycle-interface": "error",
         "@typescript-eslint/consistent-type-definitions": "off",
         "@typescript-eslint/dot-notation": "off",

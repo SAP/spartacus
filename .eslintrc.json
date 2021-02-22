@@ -14,6 +14,10 @@
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
+        "prefer-arrow/prefer-arrow-functions": "off",
+        "@typescript-eslint/naming-convention": "off",
+        "space-before-function-paren": "off",
+        "no-var": "off",
         "@typescript-eslint/consistent-type-definitions": "off",
         "@typescript-eslint/dot-notation": "off",
         "@typescript-eslint/explicit-member-accessibility": [
@@ -24,6 +28,7 @@
         ],
         "id-blacklist": "off",
         "id-match": "off",
+        "max-len": "off",
         "linebreak-style": ["error", "unix"],
         "no-underscore-dangle": "off"
       }
