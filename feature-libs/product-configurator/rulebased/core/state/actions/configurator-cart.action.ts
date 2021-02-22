@@ -1,6 +1,9 @@
 import { Action } from '@ngrx/store';
 import { MULTI_CART_DATA, StateUtils } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
+} from '@spartacus/product-configurator/common';
 import { Configurator } from '../../model/configurator.model';
 import { CONFIGURATOR_DATA } from '../configurator-state';
 
@@ -31,14 +34,20 @@ export class ReadCartEntryConfiguration extends StateUtils.EntityLoadAction {
   constructor(
     public payload: CommonConfigurator.ReadConfigurationFromCartEntryParameters
   ) {
-    super(CONFIGURATOR_DATA, payload.owner.key);
+    super(
+      CONFIGURATOR_DATA,
+      CommonConfiguratorUtilsService.checkString(payload?.owner?.key)
+    );
   }
 }
 
 export class ReadCartEntryConfigurationSuccess extends StateUtils.EntitySuccessAction {
   readonly type = READ_CART_ENTRY_CONFIGURATION_SUCCESS;
   constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATOR_DATA, payload.owner.key);
+    super(
+      CONFIGURATOR_DATA,
+      CommonConfiguratorUtilsService.checkString(payload?.owner?.key)
+    );
   }
 }
 
@@ -54,14 +63,20 @@ export class ReadOrderEntryConfiguration extends StateUtils.EntityLoadAction {
   constructor(
     public payload: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
   ) {
-    super(CONFIGURATOR_DATA, payload.owner.key);
+    super(
+      CONFIGURATOR_DATA,
+      CommonConfiguratorUtilsService.checkString(payload?.owner?.key)
+    );
   }
 }
 
 export class ReadOrderEntryConfigurationSuccess extends StateUtils.EntitySuccessAction {
   readonly type = READ_ORDER_ENTRY_CONFIGURATION_SUCCESS;
   constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATOR_DATA, payload.owner.key);
+    super(
+      CONFIGURATOR_DATA,
+      CommonConfiguratorUtilsService.checkString(payload?.owner?.key)
+    );
   }
 }
 
@@ -84,7 +99,10 @@ export class UpdateCartEntry extends StateUtils.EntityProcessesIncrementAction {
   constructor(
     public payload: Configurator.UpdateConfigurationForCartEntryParameters
   ) {
-    super(MULTI_CART_DATA, payload.cartId);
+    super(
+      MULTI_CART_DATA,
+      CommonConfiguratorUtilsService.checkString(payload?.cartId)
+    );
   }
 }
 
@@ -102,7 +120,12 @@ export class SetNextOwnerCartEntry extends StateUtils.EntitySuccessAction {
       cartEntryNo: string;
     }
   ) {
-    super(CONFIGURATOR_DATA, payload.configuration.owner.key);
+    super(
+      CONFIGURATOR_DATA,
+      CommonConfiguratorUtilsService.checkString(
+        payload?.configuration?.owner?.key
+      )
+    );
   }
 }
 

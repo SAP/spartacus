@@ -135,14 +135,17 @@ describe('ConfiguratorCartService', () => {
     OWNER_CART_ENTRY = {
       id: '3',
       type: CommonConfigurator.OwnerType.CART_ENTRY,
+      key: 'cartEntry/3',
     };
     OWNER_ORDER_ENTRY = {
       id: configuratorUtils.getComposedOwnerId(ORDER_ID, ORDER_ENTRY_NUMBER),
       type: CommonConfigurator.OwnerType.ORDER_ENTRY,
+      key: 'orderEntry/1000+3',
     };
     OWNER_PRODUCT = {
       id: PRODUCT_CODE,
       type: CommonConfigurator.OwnerType.PRODUCT,
+      key: 'product/' + PRODUCT_CODE,
     };
   });
 
