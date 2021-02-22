@@ -12,6 +12,7 @@ import {
 } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../core/model/configurator.model';
+import { VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER } from '../variant/variant-configurator-occ.converters';
 import { CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER } from './converters/cpq-configurator-occ.converters';
 import { CpqConfiguratorOccService } from './cpq-configurator-occ.service';
 
@@ -20,7 +21,7 @@ describe('CpqConfigurationOccService', () => {
   const userId = 'Anony';
   const documentId = '82736353';
   const productCode = 'Product';
-  const addToCartResponse: CartModification = {
+  const cartResponse: CartModification = {
     quantityAdded: 1,
     entry: { entryNumber: 3 },
     statusCode: '201',
@@ -35,6 +36,14 @@ describe('CpqConfigurationOccService', () => {
     },
     userId: userId,
     cartId: documentId,
+  };
+  const updateCartParams: Configurator.UpdateConfigurationForCartEntryParameters = {
+    userId: userId,
+    cartId: documentId,
+    cartEntryNumber: '3',
+    configuration: {
+      configId: configId,
+    },
   };
   const readConfigCartParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
     userId: userId,
@@ -94,7 +103,7 @@ describe('CpqConfigurationOccService', () => {
 
   it('should call addToCart endpoint', () => {
     serviceUnderTest.addToCart(addToCartParams).subscribe((response) => {
-      expect(response).toBe(addToCartResponse);
+      expect(response).toBe(cartResponse);
     });
     expect(converterService.convert).toHaveBeenCalledWith(
       addToCartParams,
@@ -104,7 +113,7 @@ describe('CpqConfigurationOccService', () => {
     const mockReq = httpMock.expectOne((req) => {
       return req.method === 'POST' && req.url === 'addCpqConfigurationToCart';
     });
-    mockReq.flush(addToCartResponse);
+    mockReq.flush(cartResponse);
 
     expect(converterService.pipeable).toHaveBeenCalledWith(
       CART_MODIFICATION_NORMALIZER
@@ -135,6 +144,36 @@ describe('CpqConfigurationOccService', () => {
 
     expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
       'readCpqConfigurationForCartEntry',
+      {
+        userId: userId,
+        cartId: documentId,
+        cartEntryNumber: '3',
+      }
+    );
+  });
+
+  it('should call upateCart endpoint', () => {
+    serviceUnderTest.updateCartEntry(updateCartParams).subscribe((response) => {
+      expect(response).toBe(cartResponse);
+    });
+    expect(converterService.convert).toHaveBeenCalledWith(
+      updateCartParams,
+      VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER
+    );
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'PUT' && req.url === 'updateCpqConfigurationForCartEntry'
+      );
+    });
+    mockReq.flush(cartResponse);
+
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      CART_MODIFICATION_NORMALIZER
+    );
+
+    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      'updateCpqConfigurationForCartEntry',
       {
         userId: userId,
         cartId: documentId,

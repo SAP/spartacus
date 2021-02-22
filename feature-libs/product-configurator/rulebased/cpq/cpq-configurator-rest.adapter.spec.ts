@@ -41,7 +41,16 @@ const addToCartParams: Configurator.AddToCartParameters = {
   cartId: documentId,
 };
 
-const addToCartResponse: CartModification = {
+const updateCartParams: Configurator.UpdateConfigurationForCartEntryParameters = {
+  userId: userId,
+  cartId: documentId,
+  cartEntryNumber: '3',
+  configuration: {
+    configId: configId,
+  },
+};
+
+const cartResponse: CartModification = {
   quantityAdded: 1,
   entry: { entryNumber: 3 },
   statusCode: '201',
@@ -72,6 +81,7 @@ describe('CpqConfiguratorRestAdapter', () => {
     mockedOccService = jasmine.createSpyObj('mockedOccService', [
       'addToCart',
       'getConfigIdForCartEntry',
+      'updateCartEntry',
     ]);
 
     asSpy(mockedRestService.createConfiguration).and.callFake(() => {
@@ -92,10 +102,13 @@ describe('CpqConfiguratorRestAdapter', () => {
       return of(productConfiguration);
     });
     asSpy(mockedOccService.addToCart).and.callFake(() => {
-      return of(addToCartResponse);
+      return of(cartResponse);
     });
     asSpy(mockedOccService.getConfigIdForCartEntry).and.callFake(() => {
       return of(productConfiguration.configId);
+    });
+    asSpy(mockedOccService.updateCartEntry).and.callFake(() => {
+      return of(cartResponse);
     });
 
     TestBed.configureTestingModule({
@@ -203,7 +216,7 @@ describe('CpqConfiguratorRestAdapter', () => {
 
   it('should delegate addToCart to OCC service', () => {
     adapterUnderTest.addToCart(addToCartParams).subscribe((response) => {
-      expect(response).toEqual(addToCartResponse);
+      expect(response).toEqual(cartResponse);
       expect(mockedOccService.addToCart).toHaveBeenCalledWith(addToCartParams);
     });
   });
@@ -219,6 +232,17 @@ describe('CpqConfiguratorRestAdapter', () => {
         );
         expect(mockedRestService.readConfiguration).toHaveBeenCalledWith(
           configId
+        );
+      });
+  });
+
+  it('should delegate updateCart to OCC service', () => {
+    adapterUnderTest
+      .updateConfigurationForCartEntry(updateCartParams)
+      .subscribe((response) => {
+        expect(response).toEqual(cartResponse);
+        expect(mockedOccService.updateCartEntry).toHaveBeenCalledWith(
+          updateCartParams
         );
       });
   });
