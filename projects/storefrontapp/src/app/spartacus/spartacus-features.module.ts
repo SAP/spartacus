@@ -12,7 +12,6 @@ import {
   PersonalizationModule,
   ProductModule,
   ProductOccModule,
-  SmartEditModule,
   UserModule,
   UserOccModule,
 } from '@spartacus/core';
@@ -83,6 +82,7 @@ import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
+import { SmartEditFeatureModule } from './features/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking-feature.module';
 import { VariantsFeatureModule } from './features/variants-feature.module';
@@ -186,8 +186,6 @@ if (environment.cds) {
     ReplenishmentOrderDetailsModule,
     ReplenishmentOrderConfirmationModule,
 
-    // SmartEdit
-    SmartEditModule.forRoot(),
     // Personalization
     PersonalizationModule.forRoot(),
 
@@ -213,6 +211,7 @@ if (environment.cds) {
 
     StorefinderFeatureModule,
     QualtricsFeatureModule,
+    SmartEditFeatureModule,
     VariantsFeatureModule,
     ...featureModules,
   ],
