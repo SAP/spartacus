@@ -36,7 +36,7 @@ assignees: ''
 
     Once finished, run `./run.sh start` to start the apps and check that they are working. You can also go to each app directory and run it with `yarn build`, `start`, `build:ssr`, etc.
 
-- [ ] Run all e2e tests on this latest build (Pro tip: run mobile, regression, smoke scripts in parallel to get all the results faster, after that retry failed tests in open mode)
+- [ ] Run all e2e tests on this latest build (Pro tip: run mobile, regression scripts in parallel to get all the results faster, after that retry failed tests in open mode)
 
 ---
 
@@ -82,6 +82,9 @@ To keep track of spartacussampledata releases, we keep a `latest` branch on each
     - [ ] `npm run release:setup:with-changelog` (needed since `3.0.0-next.1`)
     - [ ] `npm run release:organization:with-changelog` (needed since `3.0.0-next.1`)
     - [ ] `npm run release:storefinder:with-changelog` (needed since `3.0.0-rc.0`)
+    - [ ] `npm run release:tracking:with-changelog` (needed since `3.2.0-next.0`)
+    - [ ] `npm run release:qualtrics:with-changelog` (needed since `3.1.0-next.0`)
+    - [ ] `npm run release:product-configurator:with-changelog` (needed since `3.1.0-next.0`)
     - [ ] `npm run release:cdc:with-changelog` (since 2.1.0-next.0 - publish under `0.<packages-version>.0` eg. `0.201.0-next.0` for first `2.1.0-next.0` release)
       - [ ] before the script set the spartacus peerDependencies manually (as we publish it under 0.201.0-next.0 version)
 - [ ] Check that the release notes are populated on github (if they are not, update them)

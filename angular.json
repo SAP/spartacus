@@ -26,7 +26,11 @@
               "projects/storefrontapp/src/favicon.ico",
               "projects/storefrontapp/src/assets",
               "projects/storefrontapp/src/manifest.json",
-              "projects/storefrontapp/src/webApplicationInjector.js"
+              {
+                "glob": "**/*",
+                "input": "feature-libs/smartedit/assets",
+                "output": "assets/"
+              }
             ],
             "extractCss": true,
             "styles": [
@@ -39,8 +43,16 @@
                 "bundleName": "organization"
               },
               {
+                "input": "projects/storefrontapp/src/styles/lib-product-configurator.scss",
+                "bundleName": "product-configurator"
+              },
+              {
                 "input": "projects/storefrontapp/src/styles/lib-storefinder.scss",
                 "bundleName": "storefinder"
+              },
+              {
+                "input": "projects/storefrontapp/src/styles/lib-qualtrics.scss",
+                "bundleName": "qualtrics"
               }
             ],
             "stylePreprocessorOptions": {
@@ -95,12 +107,6 @@
             }
           }
         },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "storefrontapp:build"
-          }
-        },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -113,7 +119,12 @@
             "assets": [
               "projects/storefrontapp/src/favicon.ico",
               "projects/storefrontapp/src/assets",
-              "projects/storefrontapp/src/manifest.json"
+              "projects/storefrontapp/src/manifest.json",
+              {
+                "glob": "**/*",
+                "input": "feature-libs/smartedit/assets",
+                "output": "assets/"
+              }
             ],
             "codeCoverageExclude": ["dist/**/*"]
           }
@@ -253,44 +264,6 @@
             "tsConfig": [
               "projects/core/tsconfig.lib.json",
               "projects/core/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        }
-      }
-    },
-    "vendor": {
-      "root": "projects/vendor",
-      "sourceRoot": "projects/vendor/src",
-      "projectType": "library",
-      "prefix": "cx",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "tsConfig": "projects/vendor/tsconfig.lib.json",
-            "project": "projects/vendor/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/vendor/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/vendor/src/test.ts",
-            "tsConfig": "projects/vendor/tsconfig.spec.json",
-            "karmaConfig": "projects/vendor/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/vendor/tsconfig.lib.json",
-              "projects/vendor/tsconfig.spec.json"
             ],
             "exclude": ["**/node_modules/**"]
           }
@@ -487,6 +460,44 @@
         }
       }
     },
+    "product-configurator": {
+      "projectType": "library",
+      "root": "feature-libs/product-configurator",
+      "sourceRoot": "feature-libs/product-configurator",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "feature-libs/product-configurator/tsconfig.lib.json",
+            "project": "feature-libs/product-configurator/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "feature-libs/product-configurator/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "feature-libs/product-configurator/test.ts",
+            "tsConfig": "feature-libs/product-configurator/tsconfig.spec.json",
+            "karmaConfig": "feature-libs/product-configurator/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "feature-libs/product-configurator/tsconfig.lib.json",
+              "feature-libs/product-configurator/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
     "cdc": {
       "projectType": "library",
       "root": "integration-libs/cdc",
@@ -595,6 +606,120 @@
             "tsConfig": [
               "feature-libs/storefinder/tsconfig.lib.json",
               "feature-libs/storefinder/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "qualtrics": {
+      "projectType": "library",
+      "root": "feature-libs/qualtrics",
+      "sourceRoot": "feature-libs/qualtrics",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "feature-libs/qualtrics/tsconfig.lib.json",
+            "project": "feature-libs/qualtrics/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "feature-libs/qualtrics/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "feature-libs/qualtrics/test.ts",
+            "tsConfig": "feature-libs/qualtrics/tsconfig.spec.json",
+            "karmaConfig": "feature-libs/qualtrics/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "feature-libs/qualtrics/tsconfig.lib.json",
+              "feature-libs/qualtrics/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "tracking": {
+      "projectType": "library",
+      "root": "feature-libs/tracking",
+      "sourceRoot": "feature-libs/tracking/src",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "feature-libs/tracking/tsconfig.lib.json",
+            "project": "feature-libs/tracking/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "feature-libs/tracking/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "feature-libs/tracking/test.ts",
+            "tsConfig": "feature-libs/tracking/tsconfig.spec.json",
+            "karmaConfig": "feature-libs/tracking/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "feature-libs/tracking/tsconfig.lib.json",
+              "feature-libs/tracking/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "smartedit": {
+      "projectType": "library",
+      "root": "feature-libs/smartedit",
+      "sourceRoot": "feature-libs/smartedit/src",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "feature-libs/smartedit/tsconfig.lib.json",
+            "project": "feature-libs/smartedit/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "feature-libs/smartedit/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "feature-libs/smartedit/test.ts",
+            "tsConfig": "feature-libs/smartedit/tsconfig.spec.json",
+            "karmaConfig": "feature-libs/smartedit/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "feature-libs/smartedit/tsconfig.lib.json",
+              "feature-libs/smartedit/tsconfig.spec.json"
             ],
             "exclude": ["**/node_modules/**"]
           }

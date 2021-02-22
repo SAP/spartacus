@@ -14,7 +14,6 @@ export const userConfig: MyCompanyConfig = {
   objectType: 'users',
   entityIdField: 'customerId',
   preserveCookies: true,
-  canDisable: true,
   rows: [
     {
       label: 'Name',
@@ -36,7 +35,6 @@ export const userConfig: MyCompanyConfig = {
       updateValue: 'Mrs.',
       showInTable: false,
     },
-
     {
       label: 'First name',
       variableName: 'firstName',
@@ -81,7 +79,7 @@ export const userConfig: MyCompanyConfig = {
     {
       label: 'Roles',
       variableName: 'roles',
-      formLabel: 'Roles',
+      inputType: INPUT_TYPE.CHECKBOX,
       createValue: 'Customer',
       updateValue: 'Manager',
       showInTable: true,
@@ -115,7 +113,7 @@ export const userConfig: MyCompanyConfig = {
     {
       name: 'Approvers',
       baseUrl: `/approvers`,
-      apiEndpoint: '**/approvers**',
+      apiEndpoint: '**/orgCustomers**',
       entityIdField: 'customerId',
       objectType: 'users',
       manageAssignments: true,
@@ -138,5 +136,12 @@ export const userConfig: MyCompanyConfig = {
       manageAssignments: true,
     },
   ],
-  features: [MY_COMPANY_FEATURE.USER_PASSWORD],
+  features: [
+    MY_COMPANY_FEATURE.CREATE,
+    MY_COMPANY_FEATURE.DISABLE,
+    MY_COMPANY_FEATURE.UPDATE,
+    MY_COMPANY_FEATURE.LIST,
+    MY_COMPANY_FEATURE.ASSIGNMENTS,
+    MY_COMPANY_FEATURE.USER_PASSWORD,
+  ],
 };

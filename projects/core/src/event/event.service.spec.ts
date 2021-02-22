@@ -1,18 +1,43 @@
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject, of, Subject, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { FeatureConfigService } from '../features-config/services/feature-config.service';
+import { CxEvent } from './cx-event';
 import { EventService } from './event.service';
 
-class EventA {
+class EventA extends CxEvent {
   a: number;
   constructor(a: number) {
+    super();
     this.a = a;
   }
 }
 
-class EventB {
+class EventB extends CxEvent {
   b: number;
   constructor(b: number) {
+    super();
     this.b = b;
+  }
+}
+
+abstract class CartEvent {
+  value: number;
+}
+class AddToCartSuccessEvent extends CartEvent {
+  constructor(public value: number) {
+    super();
+  }
+}
+class AddToCartFailEvent extends CartEvent {
+  constructor(public value: number) {
+    super();
+  }
+}
+
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isLevel(_version: string): boolean {
+    return true;
   }
 }
 
@@ -21,7 +46,14 @@ describe('EventService', () => {
   let sub: Subscription;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
+      ],
+    });
     service = TestBed.inject(EventService);
   });
 
@@ -64,6 +96,17 @@ describe('EventService', () => {
     service.dispatch(new EventA(3));
 
     expect(results).toEqual([new EventA(2), new EventA(3)]);
+  });
+
+  it('should create an event before dispatching', () => {
+    let result: EventA;
+    sub = service
+      .get(EventA)
+      .pipe(take(1))
+      .subscribe((e) => (result = e));
+    service.dispatch({ a: 1 }, EventA);
+
+    expect(result).toEqual(new EventA(1));
   });
 
   it('should allow for manual unregistering', () => {
@@ -127,5 +170,19 @@ describe('EventService', () => {
     sub = service.get(EventA).subscribe((e) => results.push(e.a));
 
     expect(results).toEqual([1, 1]);
+  });
+
+  it('should register the parent class', () => {
+    service.register(AddToCartSuccessEvent, of(new AddToCartSuccessEvent(1)));
+    service.register(AddToCartFailEvent, of(new AddToCartFailEvent(2)));
+
+    const results: number[] = [];
+    sub = service
+      .get(CartEvent)
+      .subscribe((result) => results.push(result.value));
+
+    expect(results.length).toEqual(2);
+    expect(results[0]).toEqual(1);
+    expect(results[1]).toEqual(2);
   });
 });

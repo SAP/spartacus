@@ -17,7 +17,6 @@ export const ANGULAR_FORMS = '@angular/forms';
 export const ANGULAR_ROUTER = '@angular/router';
 export const ANGULAR_HTTP = '@angular/common/http';
 
-export const ANGULAR_LOCALIZE = '@angular/localize';
 export const RXJS = 'rxjs';
 export const ANGULAR_COMMON = '@angular/common';
 export const ANGULAR_PLATFORM_BROWSER = '@angular/platform-browser';
@@ -36,6 +35,11 @@ export const NGRX_STORE = '@ngrx/store';
 export const NGRX_EFFECTS = '@ngrx/effects';
 
 export const NGUNIVERSAL_EXPRESS_ENGINE = '@nguniversal/express-engine';
+
+export const SPARTACUS_ORGANIZATION_ADMINISTRATION_CORE =
+  '@spartacus/organization/administration/core';
+export const SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS =
+  '@spartacus/organization/administration/components';
 /***** Imports end *****/
 
 /***** Classes start *****/
@@ -48,6 +52,7 @@ export const COMPILER = 'Compiler';
 export const STORE = 'Store';
 
 export const ACTIONS = 'Actions';
+export const ACTION_SUBJECT = 'ActionsSubject';
 
 export const FORM_BUILDER = 'FormBuilder';
 export const JSONLD_PRODUCT_REVIEW_BUILDER = 'JsonLdProductReviewBuilder';
@@ -303,6 +308,7 @@ export const MULTI_CART_STATE_PERSISTENCE_SERVICE =
   'MultiCartStatePersistenceService';
 export const LANGUAGE_SERVICE = 'LanguageService';
 export const CURRENCY_SERVICE = 'CurrencyService';
+export const SEARCH_BOX_SERVICE = 'SearchboxService';
 
 export const ASM_AUTH_SERVICE = 'AsmAuthService';
 
@@ -319,6 +325,19 @@ export const ANONYMOUS_CONSENT_TEMPLATES_CONNECTOR =
 export const VIEW_COMPONENT = 'ViewComponent';
 export const SPLIT_VIEW_COMPONENT = 'SplitViewComponent';
 export const OCC_CMS_COMPONENT_ADAPTER = 'OccCmsComponentAdapter';
+export const CURRENT_UNIT_SERVICE = 'CurrentUnitService';
+export const UNIT_CHILDREN_COMPONENT = 'UnitChildrenComponent';
+export const UNIT_COST_CENTER_LIST_COMPONENT = 'UnitCostCenterListComponent';
+export const UNIT_USER_LIST_COMPONENT = 'UnitUserListComponent';
+
+export const CART_PAGE_EVENT_BUILDER = 'CartPageEventBuilder';
+export const HOME_PAGE_EVENT_BUILDER = 'HomePageEventBuilder';
+export const PRODUCT_PAGE_EVENT_BUILDER = 'ProductPageEventBuilder';
+export const PAGE_EVENT_BUILDER = 'PageEventBuilder';
+export const CONTEXT = 'context';
+export const SEMANTIC_ROUTE = 'semanticRoute';
+export const URL = 'url';
+export const PARAMS = 'params';
 
 /***** Classes end *****/
 
@@ -487,6 +506,9 @@ export const LAYOUT_CONFIG = 'LayoutConfig';
 
 export const TOKEN_REVOCATION_HEADER = 'TOKEN_REVOCATION_HEADER';
 export const SPLIT_VIEW_DEACTIVATE_GUARD = 'SplitViewDeactivateGuard';
+
+export const QUALTRICS_EMBEDDED_FEEDBACK_SCSS_FILE_NAME =
+  'qualtrics-embedded-feedback.scss';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
@@ -626,6 +648,12 @@ export const SPARTACUS_STOREFINDER_ASSETS = `${SPARTACUS_STOREFINDER}/assets`;
 export const STOREFINDER_TRANSLATIONS = 'storeFinderTranslations';
 export const STOREFINDER_TRANSLATION_CHUNKS_CONFIG =
   'storeFinderTranslationChunksConfig';
+
+export const QUALTRICS_MODULE = 'QualtricsModule';
+export const QUALTRICS_FEATURE_NAME = 'qualtrics';
+export const QUALTRICS_ROOT_MODULE = 'QualtricsRootModule';
+export const SPARTACUS_QUALTRICS = '@spartacus/qualtrics';
+export const SPARTACUS_QUALTRICS_ROOT = `${SPARTACUS_QUALTRICS}/root`;
 
 export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
 

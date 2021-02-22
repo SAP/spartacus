@@ -1,3 +1,4 @@
+import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from './window-ref';
 
@@ -9,23 +10,82 @@ describe('WindowRef service', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should expose window as natiweWindow', () => {
-    const service: WindowRef = TestBed.inject(WindowRef);
-    expect(service.nativeWindow).toEqual(window);
+  describe('in server', () => {
+    let service: WindowRef;
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [{ provide: PLATFORM_ID, useValue: 'server' }],
+      });
+      service = TestBed.inject(WindowRef);
+    });
+
+    it('isBrowser should return false', () => {
+      expect(service.isBrowser()).toEqual(false);
+    });
+
+    it('nativeWindow should be undefined', () => {
+      expect(service.nativeWindow).toEqual(undefined);
+    });
+
+    it('sessionStorage should be undefined', () => {
+      expect(service.sessionStorage).toEqual(undefined);
+    });
+
+    it('localStorage should be undefined', () => {
+      expect(service.localStorage).toEqual(undefined);
+    });
+
+    it('should expose document', () => {
+      expect(service.document).toEqual(document);
+    });
   });
 
-  it('should expose document', () => {
-    const service: WindowRef = TestBed.inject(WindowRef);
-    expect(service.document).toEqual(document);
+  describe('in browser', () => {
+    let service: WindowRef;
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [{ provide: PLATFORM_ID, useValue: 'browser' }],
+      });
+      service = TestBed.inject(WindowRef);
+    });
+
+    it('isBrowser should return true', () => {
+      expect(service.isBrowser()).toEqual(true);
+    });
+
+    it('should expose window as nativeWindow', () => {
+      expect(service.nativeWindow).toEqual(window);
+    });
+
+    it('should expose document', () => {
+      expect(service.document).toEqual(document);
+    });
+
+    it('should expose sessionStorage', () => {
+      expect(service.sessionStorage).toEqual(sessionStorage);
+    });
+
+    it('should expose document', () => {
+      expect(service.localStorage).toEqual(localStorage);
+    });
   });
 
-  it('should expose sessionStorage', () => {
-    const service: WindowRef = TestBed.inject(WindowRef);
-    expect(service.sessionStorage).toEqual(sessionStorage);
-  });
+  describe('when platform is not defined', () => {
+    let service: WindowRef;
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [{ provide: PLATFORM_ID, useValue: undefined }],
+      });
+      service = TestBed.inject(WindowRef);
+    });
 
-  it('should expose document', () => {
-    const service: WindowRef = TestBed.inject(WindowRef);
-    expect(service.localStorage).toEqual(localStorage);
+    it('isBrowser should return true when window exists', () => {
+      expect(window).toBeDefined();
+      expect(service.isBrowser()).toEqual(true);
+    });
+
+    it('should expose window as nativeWindow', () => {
+      expect(service.nativeWindow).toEqual(window);
+    });
   });
 });
