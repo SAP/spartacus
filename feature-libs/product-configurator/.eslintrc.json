@@ -12,6 +12,16 @@
         "createDefaultProgram": true
       },
       "rules": {
+        "@typescript-eslint/consistent-type-assertions": "off",
+        "@typescript-eslint/no-namespace": "off",
+        "arrow-body-style": "off",
+        "object-shorthand": "off",
+        "@typescript-eslint/ban-types": "off",
+        "jsdoc/newline-after-description": "off",
+        "@typescript-eslint/member-ordering": "off",
+        "@typescript-eslint/no-inferrable-types": "off",
+        "jsdoc/no-types": "off",
+        "no-shadow": "off",
         "@angular-eslint/use-lifecycle-interface": "error",
         "@angular-eslint/component-selector": [
           "error",
@@ -45,7 +55,9 @@
     },
     {
       "files": ["*.html"],
-      "rules": {}
+      "rules": {
+        "@angular-eslint/template/no-negated-async": "off"
+      }
     }
   ]
 }
