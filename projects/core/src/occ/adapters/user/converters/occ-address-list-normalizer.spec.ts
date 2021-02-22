@@ -45,8 +45,7 @@ describe('OccAddressListNormalizer', () => {
 
   describe('convert', () => {
     it('convert Occ.B2BAddressList to EntitiesModel<B2BAddress>', () => {
-      let target: EntitiesModel<Address>;
-      target = service.convert(source);
+      const target: EntitiesModel<Address> = service.convert(source);
 
       expect(target.values.length).toEqual(source.addresses.length);
     });

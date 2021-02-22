@@ -18,6 +18,7 @@
         "@typescript-eslint/naming-convention": "off",
         "space-before-function-paren": "off",
         "no-var": "off",
+        "@typescript-eslint/quotes": "off",
         "@typescript-eslint/consistent-type-definitions": "off",
         "@typescript-eslint/dot-notation": "off",
         "@typescript-eslint/explicit-member-accessibility": [
