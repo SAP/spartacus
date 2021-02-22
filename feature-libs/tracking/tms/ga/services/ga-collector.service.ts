@@ -7,7 +7,7 @@ import {
 } from '@spartacus/tracking/tms/core';
 
 /**
- * Default Google Tag Manager collector.
+ * Default Google Analytics collector.
  */
 @Injectable({ providedIn: 'root' })
 export class GaCollectorService implements TmsCollector {
