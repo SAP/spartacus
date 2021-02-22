@@ -25,6 +25,7 @@ async function run() {
   await exec.exec('sh', ['./.github/hs-deploy-action/upp-cli-setup.sh']);
 
   //build libs and app
+  await exec.exec('yarn', ['install']);
   await exec.exec('yarn', ['build:libs']);
   await exec.exec('yarn', ['build']);
 
