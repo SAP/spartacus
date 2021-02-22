@@ -1,9 +1,13 @@
 FROM node:12
 
-RUN cp package.json yarn.lock / \
-&& yarn \
-&& cp src/*.ts / \
-&& cp tsconfig.json / \
-&& yarn build
+COPY package.json / 
+COPY yarn.lock /
+
+RUN yarn
+
+COPY src/*.ts /
+COPY tsconfig.json /
+
+RUN ["yarn", "build"]
 
 ENTRYPOINT ["node", "/index.js"]
