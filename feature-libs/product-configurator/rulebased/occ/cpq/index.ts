@@ -1,2 +1,3 @@
+export * from './converters/index';
 export * from './cpq-configurator-occ.module';
-export { defaultOccCpqConfiguratorConfigFactory as ɵdefaultOccCpqConfiguratorConfigFactory } from './default-occ-cpq-configurator-config';
+export * from './cpq-configurator-occ.service';
