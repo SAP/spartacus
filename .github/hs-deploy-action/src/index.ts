@@ -22,7 +22,7 @@ async function run() {
   console.log(`All good. Base branch ${baseBranch}`);
 
   //run sh to get CLI and prep
-  await exec.exec('sh', ['./.github/hs-deploy-action/upp-cli-setup.sh']);
+  await exec.exec('sudo sh', ['./.github/hs-deploy-action/upp-cli-setup.sh']);
 
   // run ts file to deploy
   // add comment to PR
