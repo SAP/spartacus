@@ -7,7 +7,7 @@ import { OccConfig } from '../config/occ-config';
 import { Occ } from '../occ-models/occ.models';
 
 /**
- * @deprecated
+ * @deprecated since 3.2, use SiteConnector instead
  */
 @Injectable({ providedIn: 'root' })
 export class OccSitesConfigLoader {
@@ -35,7 +35,7 @@ export class OccSitesConfigLoader {
   }
 
   /**
-   * @deprecated
+   * @deprecated since 3.2, use SiteConnector's getBaseSites() instead
    */
   load(): Observable<BaseSite[]> {
     if (!this.config || !this.config.backend || !this.config.backend.occ) {

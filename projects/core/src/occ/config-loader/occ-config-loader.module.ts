@@ -5,6 +5,12 @@ import {
 } from '../../config/config-initializer/config-initializer';
 import { SiteContextConfig } from '../../site-context/config/site-context-config';
 import { BASE_SITE_CONTEXT_ID } from '../../site-context/providers/context-ids';
+import {
+  I18N_CONFIG_CONVERTER,
+  SITE_CONTEXT_CONFIG_CONVERTER,
+} from './converters';
+import { I18nConfigConverter } from './converters/i18n-config-converter';
+import { SiteContextConfigConverter } from './converters/site-context-config-converter';
 import { OccConfigLoaderService } from './occ-config-loader.service';
 
 /**
@@ -39,6 +45,16 @@ export class OccConfigLoaderModule {
           provide: CONFIG_INITIALIZER,
           useFactory: initConfig,
           deps: [OccConfigLoaderService, SiteContextConfig],
+          multi: true,
+        },
+        {
+          provide: SITE_CONTEXT_CONFIG_CONVERTER,
+          useExisting: SiteContextConfigConverter,
+          multi: true,
+        },
+        {
+          provide: I18N_CONFIG_CONVERTER,
+          useExisting: I18nConfigConverter,
           multi: true,
         },
       ],
