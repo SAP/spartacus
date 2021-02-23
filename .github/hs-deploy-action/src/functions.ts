@@ -46,6 +46,7 @@ export async function deploy(github: any, octoKit: any) {
 }
 
 export async function addComment(context: any, octoKit: any, comment: String) {
+  console.log('--> Context: ' + JSON.stringify(context));
   const COMMENT_HEADER = '## Hosting service deployment';
   const issueNumber = context.payload.pull_request.number;
   const owner = context.payload.repository.owner.login;
