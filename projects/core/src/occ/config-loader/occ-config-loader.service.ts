@@ -12,7 +12,7 @@ import {
   TransferState,
 } from '@angular/platform-browser';
 import { Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { Config } from '../../config/config-tokens';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { I18nConfig } from '../../i18n/config/i18n-config';
@@ -40,8 +40,7 @@ export class OccConfigLoaderService {
     @Optional()
     @Inject(SERVER_REQUEST_URL)
     protected serverRequestUrl?: string,
-    //protected siteConnector?: SiteConnector,
-    protected baseSiteService?: BaseSiteService //protected store?: Store<StateWithSiteContext>
+    protected baseSiteService?: BaseSiteService
   ) {}
 
   private get currentUrl(): string {
@@ -67,7 +66,8 @@ export class OccConfigLoaderService {
         tap((externalConfig) => this.transfer(externalConfig)),
         map((externalConfig) =>
           deepMerge({}, ...this.getConfigChunks(externalConfig))
-        )
+        ),
+        take(1)
       )
       .toPromise();
   }
@@ -88,25 +88,21 @@ export class OccConfigLoaderService {
    */
   protected load(): Observable<OccLoadedConfig> {
     if (this.baseSiteService) {
-      return this.baseSiteService.getAll().pipe(
-        map((baseSites) => {
-          console.log(
-            '--',
+      return this.baseSiteService
+        .getAll()
+        .pipe(
+          map((baseSites) =>
             this.converter.fromOccBaseSites(baseSites, this.currentUrl)
-          );
-          return this.converter.fromOccBaseSites(baseSites, this.currentUrl);
-        })
-      );
+          )
+        );
     } else {
-      return this.sitesConfigLoader.load().pipe(
-        map((baseSites) => {
-          console.log(
-            '++',
+      return this.sitesConfigLoader
+        .load()
+        .pipe(
+          map((baseSites) =>
             this.converter.fromOccBaseSites(baseSites, this.currentUrl)
-          );
-          return this.converter.fromOccBaseSites(baseSites, this.currentUrl);
-        })
-      );
+          )
+        );
     }
   }
 

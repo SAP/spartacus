@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { FeatureModulesService } from '../../../lazy-loading/feature-modules.service';
 import { Country, CountryType, Region } from '../../../model/address.model';
 import { BaseSite, Currency, Language } from '../../../model/misc.model';
 import {
@@ -21,7 +22,8 @@ export class OccSiteAdapter implements SiteAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
-    protected converterService: ConverterService
+    protected converterService: ConverterService,
+    protected featureModules: FeatureModulesService
   ) {}
 
   loadLanguages(): Observable<Language[]> {
@@ -81,7 +83,13 @@ export class OccSiteAdapter implements SiteAdapter {
 
     return this.http
       .get<{ baseSites: BaseSite[] }>(
-        this.occEndpointsService.buildUrl('baseSites', {}, { baseSite: false })
+        this.occEndpointsService.buildUrl(
+          this.featureModules.isConfigured('smartEdit')
+            ? 'baseSitesWithPreviewCodes'
+            : 'baseSites',
+          {},
+          { baseSite: false }
+        )
       )
       .pipe(
         map((siteList) => {
@@ -93,7 +101,13 @@ export class OccSiteAdapter implements SiteAdapter {
   loadBaseSites(): Observable<BaseSite[]> {
     return this.http
       .get<{ baseSites: BaseSite[] }>(
-        this.occEndpointsService.buildUrl('baseSites', {}, { baseSite: false })
+        this.occEndpointsService.buildUrl(
+          this.featureModules.isConfigured('smartEdit')
+            ? 'baseSitesWithPreviewCodes'
+            : 'baseSites',
+          {},
+          { baseSite: false }
+        )
       )
       .pipe(
         map((baseSiteList) => baseSiteList.baseSites),
