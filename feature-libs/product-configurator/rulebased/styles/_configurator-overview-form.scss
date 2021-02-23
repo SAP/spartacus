@@ -50,21 +50,23 @@
         padding-inline-start: 20px;
         padding-inline-end: 20px;
 
-        @include media-breakpoint-up(md) {
-          &:not(.bundle) {
+        &.general {
+          @include media-breakpoint-up(md) {
             &:not(:first-of-type) {
               .cx-attribute-label {
                 visibility: hidden;
               }
             }
           }
-        }
 
-        @include media-breakpoint-down(sm) {
-          &:not(.bundle) {
-            &:not(:last-of-type) {
+          @include media-breakpoint-down(sm) {
+            .cx-attribute-label {
+              display: none;
+            }
+
+            &.last-value-pair {
               .cx-attribute-label {
-                display: none;
+                display: inline;
               }
             }
           }
@@ -88,6 +90,14 @@
           &.bundle {
             .cx-attribute-label {
               visibility: visible;
+            }
+          }
+
+          @include media-breakpoint-up(md) {
+            &.general {
+              .cx-attribute-label {
+                visibility: visible;
+              }
             }
           }
         }

@@ -247,6 +247,105 @@ describe('ConfigurationOverviewFormComponent', () => {
       expect(result).toBe(true);
     });
   });
+
+  describe('getStyleClass', () => {
+    it('should return certain style classes for general attribute type', () => {
+      initialize();
+      const attributes: Configurator.AttributeOverview[] = [
+        {
+          attribute: 'C1',
+          value: 'V1',
+          type: Configurator.AttributeOverviewType.GENERAL,
+        },
+        {
+          attribute: 'C1',
+          value: 'V2',
+          type: Configurator.AttributeOverviewType.GENERAL,
+        },
+        {
+          attribute: 'C1',
+          value: 'V3',
+          type: Configurator.AttributeOverviewType.GENERAL,
+        },
+        {
+          attribute: 'C1',
+          value: 'V4',
+        },
+      ];
+
+      let result = component.getStyleClass(attributes, 0);
+      expect(result.includes('general')).toBe(true);
+      expect(result.includes('bundle')).toBe(false);
+      expect(result.includes('margin')).toBe(true);
+      expect(result.includes('last-value-pair')).toBe(false);
+
+      result = component.getStyleClass(attributes, 1);
+      expect(result.includes('general')).toBe(true);
+      expect(result.includes('bundle')).toBe(false);
+      expect(result.includes('margin')).toBe(false);
+      expect(result.includes('last-value-pair')).toBe(false);
+
+      result = component.getStyleClass(attributes, 2);
+      expect(result.includes('general')).toBe(true);
+      expect(result.includes('bundle')).toBe(false);
+      expect(result.includes('margin')).toBe(false);
+      expect(result.includes('last-value-pair')).toBe(false);
+
+      result = component.getStyleClass(attributes, 3);
+      expect(result.includes('general')).toBe(false);
+      expect(result.includes('bundle')).toBe(false);
+      expect(result.includes('margin')).toBe(false);
+      expect(result.includes('last-value-pair')).toBe(true);
+    });
+
+    it('should return certain style classes for bundle attribute type', () => {
+      initialize();
+      const attributes: Configurator.AttributeOverview[] = [
+        {
+          attribute: 'C1',
+          value: 'V1',
+          type: Configurator.AttributeOverviewType.BUNDLE,
+        },
+        {
+          attribute: 'C1',
+          value: 'V2',
+          type: Configurator.AttributeOverviewType.BUNDLE,
+        },
+        {
+          attribute: 'C1',
+          value: 'V3',
+          type: Configurator.AttributeOverviewType.BUNDLE,
+        },
+        {
+          attribute: 'C1',
+          value: 'V4',
+        },
+      ];
+
+      let result = component.getStyleClass(attributes, 0);
+      expect(result.includes('bundle')).toBe(true);
+      expect(result.includes('general')).toBe(false);
+      expect(result.includes('margin')).toBe(true);
+      expect(result.includes('last-value-pair')).toBe(false);
+
+      result = component.getStyleClass(attributes, 1);
+      expect(result.includes('bundle')).toBe(true);
+      expect(result.includes('general')).toBe(false);
+      expect(result.includes('margin')).toBe(false);
+      expect(result.includes('last-value-pair')).toBe(false);
+
+      result = component.getStyleClass(attributes, 2);
+      expect(result.includes('bundle')).toBe(true);
+      expect(result.includes('general')).toBe(false);
+      expect(result.includes('margin')).toBe(false);
+
+      result = component.getStyleClass(attributes, 3);
+      expect(result.includes('bundle')).toBe(false);
+      expect(result.includes('general')).toBe(false);
+      expect(result.includes('margin')).toBe(false);
+      expect(result.includes('last-value-pair')).toBe(true);
+    });
+  });
 });
 
 describe('ConfigurationOverviewFormComponent with forceReload', () => {

@@ -91,4 +91,40 @@ export class ConfiguratorOverviewFormComponent {
     }
     return false;
   }
+
+  /**
+   * Retrieves the styling for the corresponding element.
+   *
+   * @param {Configurator.AttributeOverview[]} attributes - Attribute array
+   * @param {number} index - Index of the attribute in the array
+   * @return {string} - corresponding style class
+   */
+  getStyleClass(
+    attributes: Configurator.AttributeOverview[],
+    index: number
+  ): string {
+    let styleClass = '';
+
+    switch (attributes[index]?.type) {
+      case this.attributeOverviewType.BUNDLE:
+        styleClass += 'bundle';
+        break;
+      case this.attributeOverviewType.GENERAL:
+        styleClass += 'general';
+        break;
+    }
+
+    if (index === 0 || !this.isSameAttribute(attributes, index)) {
+      styleClass += ' margin';
+    }
+
+    if (
+      !this.isSameAttribute(attributes, index + 1) &&
+      !styleClass.includes('bundle')
+    ) {
+      styleClass += ' last-value-pair';
+    }
+
+    return styleClass;
+  }
 }
