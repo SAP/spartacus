@@ -15,7 +15,7 @@ export async function deploy(branch: String) {
   await exec.exec('ls', ['-la']);
 
   //TODO get git branch suffix to generate the SHA
-  const bundleId = `spartacus-pr-${prNumber}`;
+  const bundleId = `spartacus-feature-spa${prNumber}`;
   const command = `upp application deploy -b ${bundleId} -t spartacus -s ./dist/storefrontapp -e stage`;
 
   const exp = /https\:\/\/\w+\.cloudfront\.net/;
