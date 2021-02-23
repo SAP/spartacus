@@ -502,6 +502,7 @@ export const productConfigurationWithConflicts: Configurator.Configuration = {
   owner: {
     id: PRODUCT_CODE,
     type: CommonConfigurator.OwnerType.PRODUCT,
+    key: CommonConfigurator.OwnerType.PRODUCT + '/' + PRODUCT_CODE,
   },
   interactionState: {
     currentGroup: GROUP_ID_2,
