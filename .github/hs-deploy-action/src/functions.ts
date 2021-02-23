@@ -62,7 +62,7 @@ export async function addComment(context: any, octoKit: any, comment: String) {
 
   const botComment = comments.data.filter(
     (comment: any) =>
-      !comment.body.includes(COMMENT_HEADER) &&
+      comment.body.includes(COMMENT_HEADER) &&
       comment.user.login === 'github-actions[bot]'
   );
 
