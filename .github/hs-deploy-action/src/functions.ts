@@ -31,11 +31,6 @@ export async function deploy(github: any, octoKit: any) {
       addComment(context, octoKit, body);
     }
     output += data.toString();
-    //INFO - Deployment done. You can access the application at https://ddr1pf6lomx90.cloudfront.net [Request id:3660df82-55fa-4c60-9017-15b22e344196]
-  });
-
-  process.on('close', () => {
-    console.log('--> Process done. Output ommitted for now');
   });
 
   process.on('exit', (code) => {
@@ -46,7 +41,6 @@ export async function deploy(github: any, octoKit: any) {
 }
 
 export async function addComment(context: any, octoKit: any, comment: String) {
-  console.log('--> Context: ' + JSON.stringify(context));
   const COMMENT_HEADER = '## Hosting service deployment';
   const issueNumber = context.payload.pull_request.number;
   const owner = context.payload.repository.owner.login;

@@ -2,8 +2,6 @@
 set -o errexit
 set -o nounset
 
-echo "--> Who am I: `whoami`"
-
 APP="upp-cli"
 
 echo "-----"
@@ -19,7 +17,6 @@ fi
 
 echo "-----"
 echo "Installing upp cli (dependencies)"
-
 unzip -o ${APP}.zip -d ${APP}
 cd ${APP}
 npm install
@@ -42,8 +39,7 @@ upp config -z -t ${UPP_TENANT} -c ${UPP_CLIENT} -s ${UPP_SECRET} -r us10 -i 3 -a
 
 echo "-----"
 echo "Installing angular CLI"
-
 npm install -g @angular/cli@~10.1.0
 
 echo "-----"
-echo "UPP CLI installed and setup. Installing angular CLI"
+echo "UPP CLI installed and ready."
