@@ -19,6 +19,7 @@ async function run() {
   }
 
   const branch = pr.head.ref;
+  const octoKit = github.getOctokit(GITHUB_TOKEN);
 
   console.log(`Starting Hosting service deployment of PR branch ${branch}`);
 
@@ -27,9 +28,9 @@ async function run() {
 
   // await build();
 
-  // await deploy(github);
+  // await deploy(github, octoKit);
 
-  await addComment(github, github.getOctokit(GITHUB_TOKEN), 'Sample comment');
+  await addComment(github, octoKit, 'Sample comment');
 }
 
 run();

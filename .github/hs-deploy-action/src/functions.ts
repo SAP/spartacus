@@ -8,7 +8,7 @@ export async function build() {
   await exec.exec('yarn', ['build']);
 }
 
-export async function deploy(github: any) {
+export async function deploy(github: any, octoKit: any) {
   const context = github.context;
   const branch = context.payload.pull_request.head.ref;
 
@@ -30,7 +30,7 @@ export async function deploy(github: any) {
     if (match && match.length > 0) {
       const body = `Deployment done to [match](${match})`;
       console.log(`--> ${body}`);
-      addComment(github, body);
+      addComment(github, octoKit, body);
     }
     output += data.toString();
     //INFO - Deployment done. You can access the application at https://ddr1pf6lomx90.cloudfront.net [Request id:3660df82-55fa-4c60-9017-15b22e344196]
