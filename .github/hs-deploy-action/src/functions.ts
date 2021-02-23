@@ -67,12 +67,15 @@ export async function addComment(context: any, octoKit: any, body: String) {
   );
 
   if (botComment && botComment.length) {
+    console.log(`--> About to delete comment ${botComment}`);
     await octoKit.issues.deleteComment({
       comment_id: botComment[0].id,
       owner,
       repo,
     });
   }
+
+  console.log(`--> About to insert comment ${comment}`);
   await octoKit.issues.createComment({
     issue_number: issueNumber,
     owner,
