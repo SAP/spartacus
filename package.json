@@ -157,6 +157,7 @@
     "enquirer": "^2.3.6",
     "env-cmd": "^10.1.0",
     "eslint": "^7.6.0",
+    "eslint-plugin-deprecation": "^1.2.0",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-jsdoc": "30.7.6",
     "eslint-plugin-prefer-arrow": "1.2.2",

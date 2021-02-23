@@ -12,7 +12,9 @@
         "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
+      "plugins": ["deprecation"],
       "rules": {
+        "deprecation/deprecation": "warn",
         "prefer-arrow/prefer-arrow-functions": "off",
         "@typescript-eslint/naming-convention": "off",
         "space-before-function-paren": "off",
