@@ -1,15 +1,15 @@
-<ng-container *ngIf="savedCarts$ as savedCarts">
+<ng-container *ngIf="savedCarts$ | async as savedCarts">
   <div class="container">
     <div class="cx-saved-cart-list-header">
       <h3>
         {{
           'savedCartList.savedCarts'
-            | cxTranslate: { count: savedCarts.carts.length }
+            | cxTranslate: { count: savedCarts.values.length }
         }}
       </h3>
     </div>
 
-    <ng-container *ngIf="savedCarts.carts.length > 0; else noSavedCarts">
+    <ng-container *ngIf="savedCarts.values.length > 0; else noSavedCarts">
       <table class="table cx-saved-cart-list-table">
         <thead class="cx-saved-cart-list-thead-mobile">
           <th scope="col">
@@ -30,8 +30,8 @@
         </thead>
         <tbody>
           <tr
-            *ngFor="let savedCart of savedCarts.carts"
-            (click)="goToSavedCartDetails($event, savedCart)"
+            *ngFor="let savedCart of savedCarts.values"
+            (click)="goToSavedCartDetails(savedCart)"
           >
             <td class="cx-saved-cart-list-cart-name">
               <div class="d-md-none cx-saved-cart-list-label">
