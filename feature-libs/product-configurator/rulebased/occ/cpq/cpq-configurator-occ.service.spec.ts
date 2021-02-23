@@ -12,8 +12,10 @@ import {
 } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../core/model/configurator.model';
-import { VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER } from '../variant/variant-configurator-occ.converters';
-import { CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER } from './converters/cpq-configurator-occ.converters';
+import {
+  CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
+  CPQ_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
+} from './converters/cpq-configurator-occ.converters';
 import { CpqConfiguratorOccService } from './cpq-configurator-occ.service';
 
 describe('CpqConfigurationOccService', () => {
@@ -158,7 +160,7 @@ describe('CpqConfigurationOccService', () => {
     });
     expect(converterService.convert).toHaveBeenCalledWith(
       updateCartParams,
-      VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER
+      CPQ_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER
     );
 
     const mockReq = httpMock.expectOne((req) => {
