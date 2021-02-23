@@ -121,77 +121,104 @@ describe('ExplainDisableMessagesComponent', () => {
 
   describe('displayMessageConfig', () => {
     const displayMessageConfigTrue = [
-      { disabledEdit: [{ active: false }, { disabledEdit: true }] },
       {
-        disabledEnable: [
-          { orgUnit: { active: false } },
-          { disabledEnable: true },
+        key: 'disabledEdit',
+        currentValue: { active: false, orgUnit: { active: true } },
+        displayMessageConfig: { disabledEdit: true },
+        expectedValue: ['orgUnit.messages.disabledEdit'],
+      },
+      {
+        key: 'disabledEnable',
+        currentValue: { orgUnit: { active: false } },
+        displayMessageConfig: { disabledEnable: true },
+        expectedValue: [
+          'orgUnit.messages.disabledEdit',
+          'orgUnit.messages.disabledEnable',
         ],
       },
       {
-        disabledCreate: [
-          { active: false },
-          {
-            disabledCreate: true,
-          },
-        ],
+        key: 'disabledCreate',
+        currentValue: { active: false },
+        displayMessageConfig: {
+          disabledEdit: false,
+          disabledEnable: false,
+          disabledCreate: true,
+        },
+        expectedValue: ['orgUnit.messages.disabledCreate'],
       },
       {
-        disabledDisable: [
-          {
-            uid: 'test',
-            name: 'test',
-            parentOrgUnit: 'test',
-          },
-          { disabledDisable: true },
-        ],
+        key: 'disabledDisable',
+        currentValue: {
+          uid: 'test',
+          name: 'test',
+          parentOrgUnit: 'test',
+          active: true,
+        },
+        displayMessageConfig: {
+          disabledDisable: true,
+        },
+        expectedValue: ['orgUnit.messages.disabledDisable'],
       },
     ];
-
     const displayMessageConfigFalse = [
-      { disabledEdit: [{ active: true }, { disabledEdit: true }] },
       {
-        disabledEnable: [
-          { orgUnit: { active: true } },
-          { disabledEnable: true },
+        key: 'disabledEdit',
+        currentValue: { active: true, orgUnit: { active: true } },
+        displayMessageConfig: { disabledEdit: true },
+        expectedValue: ['orgUnit.messages.disabledEdit'],
+      },
+      {
+        key: 'disabledEnable',
+        currentValue: { orgUnit: { active: true } },
+        displayMessageConfig: { disabledEnable: true },
+        expectedValue: [
+          'orgUnit.messages.disabledEdit',
+          'orgUnit.messages.disabledEnable',
         ],
       },
       {
-        disabledCreate: [
-          { active: true },
-          {
-            disabledCreate: true,
-          },
-        ],
+        key: 'disabledCreate',
+        currentValue: { active: true },
+        displayMessageConfig: {
+          disabledEdit: false,
+          disabledEnable: false,
+          disabledCreate: true,
+        },
+        expectedValue: ['orgUnit.messages.disabledCreate'],
       },
-      { disabledDisable: [{}, { disabledDisable: true }] },
+      {
+        key: 'disabledDisable',
+        currentValue: { active: true, parentOrgUnit: 'test' },
+        displayMessageConfig: {
+          disabledDisable: true,
+        },
+        expectedValue: ['orgUnit.messages.disabledDisable'],
+      },
     ];
 
     displayMessageConfigTrue.forEach((action) => {
-      const key = Object.keys(action)[0];
-      const value = Object.values(action)[0];
-      it(`should display ${key} message when ${key} is disabled`, () => {
-        component.displayMessageConfig = value[1];
+      it(`should display ${action.key} message when ${action.key} is enabled`, () => {
+        component.displayMessageConfig = action.displayMessageConfig;
         component.ngOnInit();
-        current$.next(value[0]);
+        current$.next(action.currentValue);
         fixture.detectChanges();
-        const element = fixture.debugElement.query(By.css('section > ul'))
-          .nativeElement;
-        expect(element.innerText).toContain(`orgUnit.messages.${key}`);
+        const element = fixture.debugElement
+          .queryAll(By.css('section > ul > li'))
+          .map((el) => el.nativeNode.innerText);
+        expect(element).toEqual(action.expectedValue);
       });
     });
 
     displayMessageConfigFalse.forEach((action) => {
-      const key = Object.keys(action)[0];
-      const value = Object.values(action)[0];
-      it(`should not display ${key} message when ${key} is disabled`, () => {
-        component.displayMessageConfig = value[1];
+      it(`should not display ${action.key} message when ${action.key} is disabled`, () => {
+        component.displayMessageConfig = action.displayMessageConfig;
         component.ngOnInit();
-        current$.next(value[0]);
+        current$.next(action.currentValue);
         fixture.detectChanges();
-        const element = fixture.debugElement.query(By.css('section > ul'))
-          .nativeElement;
-        expect(element.innerText).not.toContain(`orgUnit.messages.${key}`);
+        const element = fixture.debugElement
+          .queryAll(By.css('section > ul > li'))
+          .map((el) => el.nativeNode.innerText);
+        expect(element).not.toEqual(action.expectedValue);
       });
     });
   });
