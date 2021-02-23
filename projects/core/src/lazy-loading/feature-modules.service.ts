@@ -41,14 +41,16 @@ export class FeatureModulesService {
           );
         }
 
-        const featureConfig = this.cmsConfig.featureModules[featureName];
+        // tslint:disable-next-line:no-non-null-assertion
+        const featureConfig = this.cmsConfig.featureModules![featureName];
 
         this.features.set(
           featureName,
           this.resolveDependencies(featureConfig.dependencies).pipe(
             switchMap((deps) =>
               this.lazyModules.resolveModuleInstance(
-                featureConfig.module,
+                // tslint:disable-next-line:no-non-null-assertion
+                featureConfig.module!,
                 featureName,
                 deps
               )

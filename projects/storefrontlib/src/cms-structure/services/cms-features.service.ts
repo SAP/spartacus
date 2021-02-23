@@ -50,19 +50,21 @@ export class CmsFeaturesService {
   }
 
   private initFeatureMap(): void {
-    this.configInitializer.getStable('featureModules').subscribe((config) => {
-      this.featureModulesConfig = config.featureModules ?? {};
+    this.configInitializer
+      .getStable('featureModules')
+      .subscribe((config: CmsConfig) => {
+        this.featureModulesConfig = config.featureModules ?? {};
 
-      for (const [featureName, featureConfig] of Object.entries(
-        this.featureModulesConfig
-      )) {
-        if (featureConfig?.module && featureConfig?.cmsComponents?.length) {
-          for (const component of featureConfig.cmsComponents) {
-            this.componentFeatureMap.set(component, featureName);
+        for (const [featureName, featureConfig] of Object.entries(
+          this.featureModulesConfig
+        )) {
+          if (featureConfig?.module && featureConfig?.cmsComponents?.length) {
+            for (const component of featureConfig.cmsComponents) {
+              this.componentFeatureMap.set(component, featureName);
+            }
           }
         }
-      }
-    });
+      });
   }
 
   /**
@@ -148,7 +150,8 @@ export class CmsFeaturesService {
     moduleRef: NgModuleRef<any>,
     feature: string
   ): FeatureInstance {
-    const featureConfig = this.featureModulesConfig[feature];
+    // tslint:disable-next-line:no-non-null-assertion
+    const featureConfig = this.featureModulesConfig![feature];
 
     const featureInstance: FeatureInstance = {
       moduleRef,
@@ -161,8 +164,9 @@ export class CmsFeaturesService {
     );
 
     // extract cms components configuration from feature config
-    for (const componentType of featureConfig.cmsComponents) {
-      featureInstance.componentsMappings[componentType] =
+    for (const componentType of featureConfig.cmsComponents ?? []) {
+      // tslint:disable-next-line:no-non-null-assertion
+      featureInstance.componentsMappings![componentType] =
         resolvedConfiguration.cmsComponents?.[componentType] ?? {};
     }
     return featureInstance;
