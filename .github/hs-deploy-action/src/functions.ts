@@ -47,14 +47,14 @@ export async function deploy(github: any) {
   });
 }
 
-export async function addComment(ghClient: any, body: String) {
+export async function addComment(context: any, octoKit: any, body: String) {
   const COMMENT_HEADER = '## Hosting service deployment';
-  const issueNumber = ghClient.context.payload.pull_request.number;
-  const owner = ghClient.context.payload.repository.owner.login;
-  const repo = ghClient.context.payload.repository.name;
+  const issueNumber = context.payload.pull_request.number;
+  const owner = context.payload.repository.owner.login;
+  const repo = context.payload.repository.name;
   const comment = `${COMMENT_HEADER}\n${body}`;
 
-  const comments = await ghClient.issues.listComments({
+  const comments = await octoKit.issues.listComments({
     issue_number: issueNumber,
     owner,
     repo,
@@ -67,13 +67,13 @@ export async function addComment(ghClient: any, body: String) {
   );
 
   if (botComment && botComment.length) {
-    await ghClient.issues.deleteComment({
+    await octoKit.issues.deleteComment({
       comment_id: botComment[0].id,
       owner,
       repo,
     });
   }
-  await ghClient.issues.createComment({
+  await octoKit.issues.createComment({
     issue_number: issueNumber,
     owner,
     repo,

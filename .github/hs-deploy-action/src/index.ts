@@ -29,7 +29,7 @@ async function run() {
 
   // await deploy(github);
 
-  await addComment(github, 'Sample comment');
+  await addComment(github, github.getOctokit(GITHUB_TOKEN), 'Sample comment');
 }
 
 run();
