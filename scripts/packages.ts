@@ -1,4 +1,3 @@
-// tslint:disable-next-line:no-implicit-dependencies
 import { JsonObject } from '@angular-devkit/core';
 import * as path from 'path';
 
