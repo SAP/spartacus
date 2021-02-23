@@ -165,16 +165,11 @@ describe('ExplainDisableMessagesComponent', () => {
         key: 'disabledEdit',
         currentValue: { active: true, orgUnit: { active: true } },
         displayMessageConfig: { disabledEdit: true },
-        expectedValue: ['orgUnit.messages.disabledEdit'],
       },
       {
         key: 'disabledEnable',
-        currentValue: { orgUnit: { active: true } },
+        currentValue: { active: true, orgUnit: { active: true } },
         displayMessageConfig: { disabledEnable: true },
-        expectedValue: [
-          'orgUnit.messages.disabledEdit',
-          'orgUnit.messages.disabledEnable',
-        ],
       },
       {
         key: 'disabledCreate',
@@ -184,15 +179,13 @@ describe('ExplainDisableMessagesComponent', () => {
           disabledEnable: false,
           disabledCreate: true,
         },
-        expectedValue: ['orgUnit.messages.disabledCreate'],
       },
       {
         key: 'disabledDisable',
-        currentValue: { active: true, parentOrgUnit: 'test' },
+        currentValue: { active: true, orgUnit: { active: true } },
         displayMessageConfig: {
           disabledDisable: true,
         },
-        expectedValue: ['orgUnit.messages.disabledDisable'],
       },
     ];
 
@@ -205,7 +198,7 @@ describe('ExplainDisableMessagesComponent', () => {
         const values = fixture.debugElement
           .queryAll(By.css('section > ul > li'))
           .map((el) => el.nativeNode.innerText);
-        expect(element).toEqual(action.expectedValue);
+        expect(values).toEqual(action.expectedValue);
       });
     });
 
@@ -215,10 +208,10 @@ describe('ExplainDisableMessagesComponent', () => {
         component.ngOnInit();
         current$.next(action.currentValue);
         fixture.detectChanges();
-        const element = fixture.debugElement
+        const values = fixture.debugElement
           .queryAll(By.css('section > ul > li'))
           .map((el) => el.nativeNode.innerText);
-        expect(element).not.toEqual(action.expectedValue);
+        expect(values).toEqual([]);
       });
     });
   });
