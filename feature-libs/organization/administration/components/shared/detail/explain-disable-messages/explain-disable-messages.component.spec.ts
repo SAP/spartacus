@@ -202,7 +202,7 @@ describe('ExplainDisableMessagesComponent', () => {
         component.ngOnInit();
         current$.next(action.currentValue);
         fixture.detectChanges();
-        const element = fixture.debugElement
+        const values = fixture.debugElement
           .queryAll(By.css('section > ul > li'))
           .map((el) => el.nativeNode.innerText);
         expect(element).toEqual(action.expectedValue);
