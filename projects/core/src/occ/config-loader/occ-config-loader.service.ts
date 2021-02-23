@@ -87,7 +87,7 @@ export class OccConfigLoaderService {
    * Loads the external config from backend
    */
   protected load(): Observable<OccLoadedConfig> {
-    /*if (this.baseSiteService) {
+    if (this.baseSiteService) {
       return this.baseSiteService.getAll().pipe(
         map((baseSites) => {
           console.log(
@@ -97,17 +97,17 @@ export class OccConfigLoaderService {
           return this.converter.fromOccBaseSites(baseSites, this.currentUrl);
         })
       );
-    } else {*/
-    return this.sitesConfigLoader.load().pipe(
-      map((baseSites) => {
-        console.log(
-          '++',
-          this.converter.fromOccBaseSites(baseSites, this.currentUrl)
-        );
-        return this.converter.fromOccBaseSites(baseSites, this.currentUrl);
-      })
-    );
-    // }
+    } else {
+      return this.sitesConfigLoader.load().pipe(
+        map((baseSites) => {
+          console.log(
+            '++',
+            this.converter.fromOccBaseSites(baseSites, this.currentUrl)
+          );
+          return this.converter.fromOccBaseSites(baseSites, this.currentUrl);
+        })
+      );
+    }
   }
 
   /**
