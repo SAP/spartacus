@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PointOfService } from '@spartacus/core';
+import { PointOfService, WindowRef } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +15,13 @@ export class StoreDataService {
     5: 'Fri',
     6: 'Sat',
   };
+
+  /**
+   * @deprecated since version 3.1
+   * Use constructor(private winRef: WindowRef) {} instead
+   */
+  // TODO(#11093): Remove deprecated constructors
+  constructor(protected winRef?: WindowRef) {}
 
   /**
    * Returns store latitude
@@ -79,17 +86,20 @@ export class StoreDataService {
    */
   protected getSchedule(location: PointOfService, date: Date): any {
     const weekday = this.weekDays[date.getDay()];
+    const language = this.winRef?.sessionStorage?.getItem('language');
     return location.openingHours.weekDayOpeningList.find(
       (weekDayOpeningListItem) =>
-        weekDayOpeningListItem.weekDay ===
-          date.toLocaleString(window.sessionStorage.language, {
-            weekday: 'short',
-          }) ||
-        weekDayOpeningListItem.weekDay ===
-          date.toLocaleString(window.sessionStorage.language, {
-            weekday: 'long',
-          }) ||
-        weekDayOpeningListItem.weekDay === weekday
+        Boolean(language)
+          ? weekDayOpeningListItem.weekDay ===
+              date.toLocaleString(language as string, {
+                weekday: 'short',
+              }) ||
+            weekDayOpeningListItem.weekDay ===
+              date.toLocaleString(language as string, {
+                weekday: 'long',
+              }) ||
+            weekDayOpeningListItem.weekDay === weekday
+          : weekDayOpeningListItem.weekDay === weekday
     );
   }
 }
