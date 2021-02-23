@@ -28,6 +28,9 @@ const input: Cpq.Configuration = {
   incompleteAttributes: ['Camera Body'],
   numberOfConflicts: 2,
   tabs: [tab, { id: 2 }],
+  currencyISOCode: 'USD',
+  currencySign: '$',
+  responder: { totalPrice: '$3333.33', baseProductPrice: '1000' },
 };
 
 const singleSelectionValues: Cpq.Value[] = [
@@ -141,6 +144,19 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
 
   it('should calculate total number of issues', () => {
     expect(serviceUnderTest.convert(input).totalNumberOfIssues).toBe(3);
+  });
+
+  it('should prepare price summary', () => {
+    expect(
+      serviceUnderTest.convert(input).priceSummary?.currentTotal?.formattedValue
+    ).toBe('$3,333.33');
+    expect(
+      serviceUnderTest.convert(input).priceSummary?.basePrice?.formattedValue
+    ).toBe('$1,000.00');
+    expect(
+      serviceUnderTest.convert(input).priceSummary?.selectedOptions
+        ?.formattedValue
+    ).toBe('$2,333.33');
   });
 
   it('should convert tabs to groups ignoring empty one', () => {

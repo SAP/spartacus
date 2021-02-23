@@ -195,4 +195,48 @@ export class CpqConfiguratorUtilitiesService {
     }
     return dataType;
   }
+
+  preparePriceSummary(
+    cpqConfiguration: Cpq.Configuration
+  ): Configurator.PriceSummary {
+    const priceSummary: Configurator.PriceSummary = {};
+    if (cpqConfiguration.currencyISOCode) {
+      const currency: string = cpqConfiguration.currencyISOCode;
+      if (
+        cpqConfiguration?.responder?.totalPrice &&
+        cpqConfiguration?.currencySign
+      ) {
+        const currencySign: string = cpqConfiguration?.currencySign;
+        const totalPriceAsString: string = cpqConfiguration.responder.totalPrice.replace(
+          currencySign,
+          ''
+        );
+        const totalPrice: Configurator.PriceDetails = {
+          currencyIso: currency,
+          value: parseFloat(totalPriceAsString),
+        };
+        this.formatPrice(totalPrice);
+        priceSummary.currentTotal = totalPrice;
+      }
+      if (cpqConfiguration?.responder?.baseProductPrice) {
+        const basePriceAsString: string =
+          cpqConfiguration.responder.baseProductPrice;
+        const basePrice: Configurator.PriceDetails = {
+          currencyIso: currency,
+          value: parseFloat(basePriceAsString),
+        };
+        this.formatPrice(basePrice);
+        priceSummary.basePrice = basePrice;
+      }
+      if (priceSummary.currentTotal?.value && priceSummary.basePrice?.value) {
+        const selectedOptionsPrice: Configurator.PriceDetails = {
+          currencyIso: currency,
+          value: priceSummary.currentTotal.value - priceSummary.basePrice.value,
+        };
+        this.formatPrice(selectedOptionsPrice);
+        priceSummary.selectedOptions = selectedOptionsPrice;
+      }
+    }
+    return priceSummary;
+  }
 }

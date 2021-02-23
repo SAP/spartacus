@@ -28,8 +28,19 @@ export namespace Cpq {
     conflictMessages?: string[];
     numberOfConflicts?: number;
     currencyISOCode?: string;
+    currencySign?: string;
+    responder?: Cpq.Responder;
     tabs?: Tab[];
     attributes?: Attribute[]; // attributes of current selected tab
+  }
+
+  /**
+   *
+   * An interface representing the CPQ configuration responder.
+   */
+  export interface Responder {
+    totalPrice?: string;
+    baseProductPrice?: string;
   }
 
   /**

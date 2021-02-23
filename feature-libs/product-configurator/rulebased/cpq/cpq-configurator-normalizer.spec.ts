@@ -129,6 +129,9 @@ const cpqConfiguration: Cpq.Configuration = {
   numberOfConflicts: 0,
   tabs: [cpqTab, cpqTab2],
   attributes: [cpqAttribute],
+  currencyISOCode: 'USD',
+  currencySign: '$',
+  responder: { totalPrice: '$3333.33', baseProductPrice: '1000' },
 };
 
 const cpqConfigurationIncompleteInconsistent: Cpq.Configuration = {
@@ -195,6 +198,11 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(result.groups[0].attributes.length).toBe(1);
     expect(result.groups[1].id).toBe(cpqGroupId2.toString());
     expect(result.groups[1].attributes.length).toBe(0);
+    expect(result.priceSummary?.currentTotal?.formattedValue).toBe('$3,333.33');
+    expect(result.priceSummary?.basePrice?.formattedValue).toBe('$1,000.00');
+    expect(result.priceSummary?.selectedOptions?.formattedValue).toBe(
+      '$2,333.33'
+    );
   });
 
   it('should convert an incomplete inconsistent configuration', () => {
