@@ -21,18 +21,18 @@ jobs:
     name: "E2E tests for B2C, 1st job"
     env: STAGE_NAME=spa-ci-regression
     <<: *defaults
-  - script:
-    name: "E2E tests for B2C, 2st job"
-    env: STAGE_NAME=spa-ci-regression
-    <<: *defaults
-  - script:
-    name: "E2E tests for B2C, 3rd job"
-    env: STAGE_NAME=spa-ci-regression
-    <<: *defaults
-  - script:
-    name: "E2E tests for B2C, 4th job"
-    env: STAGE_NAME=spa-ci-regression
-    <<: *defaults
+  # - script:
+  #   name: "E2E tests for B2C, 2st job"
+  #   env: STAGE_NAME=spa-ci-regression
+  #   <<: *defaults
+  # - script:
+  #   name: "E2E tests for B2C, 3rd job"
+  #   env: STAGE_NAME=spa-ci-regression
+  #   <<: *defaults
+  # - script:
+  #   name: "E2E tests for B2C, 4th job"
+  #   env: STAGE_NAME=spa-ci-regression
+  #   <<: *defaults
 addons:
   chrome: stable
   sonarcloud:
