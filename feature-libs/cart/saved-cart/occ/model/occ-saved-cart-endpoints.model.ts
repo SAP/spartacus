@@ -7,6 +7,12 @@ declare module '@spartacus/core' {
      *
      * * @member {string}
      */
+    savedCarts?: string | OccEndpoint;
+    /**
+     * Endpoint to save a cart
+     *
+     * * @member {string}
+     */
     saveCart?: string | OccEndpoint;
     /**
      * Endpoint to get specific saved cart

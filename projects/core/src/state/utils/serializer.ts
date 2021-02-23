@@ -1,4 +1,4 @@
-import { ListModel, EntitiesModel } from '../../model/index';
+import { EntitiesModel, ListModel } from '../../model/index';
 import { SearchConfig } from '../../product/model/search-config';
 import { EntityListState } from './entity-list-state';
 import { EntityLoaderState } from './entity-loader/entity-loader-state';
@@ -31,7 +31,9 @@ export function denormalizeCustomB2BSearch<T>(
 ): LoaderState<EntitiesModel<T>> {
   const serializedList: any = entityLoaderStateSelector(
     list,
-    params ? serializeSearchConfig(params, id) : id ?? ALL
+    // TODO: will change later as mentioned in the action
+    params ? serializeSearchConfig(params, id) : 'holdForNow' ?? ALL
+    // params ? serializeSearchConfig(params, id) : id ?? ALL
   );
   if (!serializedList.value || !serializedList.value.ids) {
     return serializedList;
