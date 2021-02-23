@@ -22,6 +22,9 @@ import { SiteContext } from './site-context.interface';
 export class CurrencyService implements SiteContext<Currency> {
   private sessionStorage: Storage;
 
+  /**
+   * @deprecated @since 3.2, WindowRef will no longer need to be provided
+   */
   constructor(
     protected store: Store<StateWithSiteContext>,
     winRef: WindowRef,
@@ -74,6 +77,9 @@ export class CurrencyService implements SiteContext<Currency> {
    * Initials the active currency. The active currency is either given
    * by the last visit (stored in session storage) or by the
    * default session currency of the store.
+   */
+  /**
+   * @deprecated @since 3.2, we'll use the SiteContextPersistenceService to load and store the currency context
    */
   initialize(): void {
     let value;
