@@ -11,6 +11,8 @@ import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
 
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';
+const userId = 'Anony';
+const documentId = '82736353';
 
 const productConfiguration: Configurator.Configuration = {
   configId: configId,
@@ -31,12 +33,12 @@ const inputForUpdateConfiguration: Configurator.Configuration = {
 };
 
 const addToCartParams: Configurator.AddToCartParameters = {
-  productCode: 'Product',
+  productCode: productCode,
   quantity: 1,
   configId: configId,
-  owner: productConfiguration.owner,
-  userId: 'user',
-  cartId: 'cart123',
+  owner: owner,
+  userId: userId,
+  cartId: documentId,
 };
 
 const addToCartResponse: CartModification = {
@@ -45,7 +47,14 @@ const addToCartResponse: CartModification = {
   statusCode: '201',
 };
 
-const asSpy = (f) => <jasmine.Spy>f;
+const readConfigCartParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
+  userId: userId,
+  cartId: documentId,
+  cartEntryNumber: '3',
+  owner: owner,
+};
+
+const asSpy = (f: any) => <jasmine.Spy>f;
 
 describe('CpqConfiguratorRestAdapter', () => {
   let adapterUnderTest: CpqConfiguratorRestAdapter;
@@ -60,7 +69,10 @@ describe('CpqConfiguratorRestAdapter', () => {
       'updateValueQuantity',
       'readConfigurationOverview',
     ]);
-    mockedOccService = jasmine.createSpyObj('mockedOccService', ['addToCart']);
+    mockedOccService = jasmine.createSpyObj('mockedOccService', [
+      'addToCart',
+      'getConfigIdForCartEntry',
+    ]);
 
     asSpy(mockedRestService.createConfiguration).and.callFake(() => {
       return of(productConfiguration);
@@ -81,6 +93,9 @@ describe('CpqConfiguratorRestAdapter', () => {
     });
     asSpy(mockedOccService.addToCart).and.callFake(() => {
       return of(addToCartResponse);
+    });
+    asSpy(mockedOccService.getConfigIdForCartEntry).and.callFake(() => {
+      return of(productConfiguration.configId);
     });
 
     TestBed.configureTestingModule({
@@ -118,6 +133,15 @@ describe('CpqConfiguratorRestAdapter', () => {
         productCode
       );
     });
+  });
+
+  it('should handle missing product code during create configuration', () => {
+    adapterUnderTest.createConfiguration({}).subscribe(
+      () => {},
+      (error) => {
+        expect(error).toBeDefined();
+      }
+    );
   });
 
   it('should delegate read configuration to rest service and map owner', () => {
@@ -182,5 +206,20 @@ describe('CpqConfiguratorRestAdapter', () => {
       expect(response).toEqual(addToCartResponse);
       expect(mockedOccService.addToCart).toHaveBeenCalledWith(addToCartParams);
     });
+  });
+
+  it('should delegate readConfigurationForCartEntry to both OCC and Rest service', () => {
+    adapterUnderTest
+      .readConfigurationForCartEntry(readConfigCartParams)
+      .subscribe((response) => {
+        expect(response).toBe(productConfiguration);
+        expect(response.owner).toBe(readConfigCartParams.owner);
+        expect(mockedOccService.getConfigIdForCartEntry).toHaveBeenCalledWith(
+          readConfigCartParams
+        );
+        expect(mockedRestService.readConfiguration).toHaveBeenCalledWith(
+          configId
+        );
+      });
   });
 });
