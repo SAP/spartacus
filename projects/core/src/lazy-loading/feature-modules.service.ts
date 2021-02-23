@@ -41,14 +41,14 @@ export class FeatureModulesService {
           );
         }
 
-        const featureConfig = this.cmsConfig.featureModules?.[featureName];
+        const featureConfig = this.cmsConfig.featureModules[featureName];
 
         this.features.set(
           featureName,
           this.resolveDependencies(featureConfig.dependencies).pipe(
             switchMap((deps) =>
               this.lazyModules.resolveModuleInstance(
-                featureConfig?.module,
+                featureConfig.module,
                 featureName,
                 deps
               )
@@ -63,7 +63,7 @@ export class FeatureModulesService {
   }
 
   protected resolveDependencies(
-    dependencies: any[]
+    dependencies: any[] = []
   ): Observable<NgModuleRef<any>[] | undefined> {
     return dependencies?.length
       ? forkJoin(

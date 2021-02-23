@@ -10,7 +10,7 @@ import {
   FeatureModuleConfig,
   FeatureModulesService,
 } from '@spartacus/core';
-import { defer, Observable } from 'rxjs';
+import { defer, Observable, of } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
 interface FeatureInstance extends FeatureModuleConfig {
@@ -76,12 +76,18 @@ export class CmsFeaturesService {
   /**
    * Return full CmsComponent mapping defined in feature module
    */
-  getCmsMapping(componentType: string): Observable<CmsComponentMapping> {
+  getCmsMapping(
+    componentType: string
+  ): Observable<CmsComponentMapping | undefined> {
     const feature = this.componentFeatureMap.get(componentType);
+
+    if (!feature) {
+      return of(undefined);
+    }
 
     return this.resolveFeatureInstance(feature).pipe(
       map(
-        (featureInstance) => featureInstance.componentsMappings[componentType]
+        (featureInstance) => featureInstance.componentsMappings?.[componentType]
       )
     );
   }
@@ -93,6 +99,11 @@ export class CmsFeaturesService {
    */
   getModule(componentType: string): NgModuleRef<any> | undefined {
     const feature = this.componentFeatureMap.get(componentType);
+
+    if (!feature) {
+      return undefined;
+    }
+
     let module;
 
     // we are returning injectors only for already resolved features
@@ -133,7 +144,10 @@ export class CmsFeaturesService {
   /**
    * Create feature instance from feature's moduleRef
    */
-  private createFeatureInstance(moduleRef, feature: string): FeatureInstance {
+  private createFeatureInstance(
+    moduleRef: NgModuleRef<any>,
+    feature: string
+  ): FeatureInstance {
     const featureConfig = this.featureModulesConfig[feature];
 
     const featureInstance: FeatureInstance = {
