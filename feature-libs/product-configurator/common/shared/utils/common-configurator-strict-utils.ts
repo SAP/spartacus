@@ -1,5 +1,5 @@
 /**
- * Checks if a string input is defined,  and returns it then.
+ * Checks if a string input is defined and returns it in this case.
  * Throws exception if undefined
  *
  * @param input
