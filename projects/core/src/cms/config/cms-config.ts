@@ -95,9 +95,9 @@ export interface FeatureModuleConfig {
    */
   module?: () => Promise<any>;
   /**
-   * Lazy resolved dependency modules
+   * Lazy resolved dependency modules or features referenced by name
    */
-  dependencies?: (() => Promise<any>)[];
+  dependencies?: ((() => Promise<any>) | string)[];
   /**
    * Cms components covered by this feature
    */
