@@ -1,6 +1,6 @@
 import * as github from '@actions/github';
 import * as exec from '@actions/exec';
-import { build, deploy } from './functions';
+import { addComment, build, deploy } from './functions';
 
 async function run() {
   const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
@@ -23,11 +23,13 @@ async function run() {
   console.log(`Starting Hosting service deployment of PR branch ${branch}`);
 
   //run sh to get CLI and prep
-  await exec.exec('sh', ['./.github/hs-deploy-action/upp-cli-setup.sh']);
+  // await exec.exec('sh', ['./.github/hs-deploy-action/upp-cli-setup.sh']);
 
-  await build();
+  // await build();
 
-  await deploy(github);
+  // await deploy(github);
+
+  await addComment(github, 'Sample comment');
 }
 
 run();
