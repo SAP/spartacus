@@ -27,8 +27,7 @@ async function run() {
 
   await build();
 
-  await deploy(branch);
-  // add comment to PR
+  await deploy(github);
 }
 
 run();
