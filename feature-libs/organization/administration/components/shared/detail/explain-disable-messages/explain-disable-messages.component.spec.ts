@@ -14,7 +14,7 @@ class MockItemService {
   current$ = current$.asObservable();
 }
 
-fdescribe('ExplainDisableMessagesComponent', () => {
+describe('ExplainDisableMessagesComponent', () => {
   let component: ExplainDisableMessagesComponent<BaseItem>;
   let fixture: ComponentFixture<ExplainDisableMessagesComponent<BaseItem>>;
   beforeEach(() => {
