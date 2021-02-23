@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 import { MULTI_CART_DATA, StateUtils } from '@spartacus/core';
 import {
   CommonConfigurator,
-  CommonConfiguratorUtilsService,
+  StrictUtils,
 } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../model/configurator.model';
 import { CONFIGURATOR_DATA } from '../configurator-state';
@@ -36,7 +36,7 @@ export class ReadCartEntryConfiguration extends StateUtils.EntityLoadAction {
   ) {
     super(
       CONFIGURATOR_DATA,
-      CommonConfiguratorUtilsService.checkString(payload?.owner?.key)
+      StrictUtils.ensureStringDefined(payload?.owner?.key)
     );
   }
 }
@@ -46,7 +46,7 @@ export class ReadCartEntryConfigurationSuccess extends StateUtils.EntitySuccessA
   constructor(public payload: Configurator.Configuration) {
     super(
       CONFIGURATOR_DATA,
-      CommonConfiguratorUtilsService.checkString(payload?.owner?.key)
+      StrictUtils.ensureStringDefined(payload?.owner?.key)
     );
   }
 }
@@ -65,7 +65,7 @@ export class ReadOrderEntryConfiguration extends StateUtils.EntityLoadAction {
   ) {
     super(
       CONFIGURATOR_DATA,
-      CommonConfiguratorUtilsService.checkString(payload?.owner?.key)
+      StrictUtils.ensureStringDefined(payload?.owner?.key)
     );
   }
 }
@@ -75,7 +75,7 @@ export class ReadOrderEntryConfigurationSuccess extends StateUtils.EntitySuccess
   constructor(public payload: Configurator.Configuration) {
     super(
       CONFIGURATOR_DATA,
-      CommonConfiguratorUtilsService.checkString(payload?.owner?.key)
+      StrictUtils.ensureStringDefined(payload?.owner?.key)
     );
   }
 }
@@ -99,10 +99,7 @@ export class UpdateCartEntry extends StateUtils.EntityProcessesIncrementAction {
   constructor(
     public payload: Configurator.UpdateConfigurationForCartEntryParameters
   ) {
-    super(
-      MULTI_CART_DATA,
-      CommonConfiguratorUtilsService.checkString(payload?.cartId)
-    );
+    super(MULTI_CART_DATA, StrictUtils.ensureStringDefined(payload?.cartId));
   }
 }
 
@@ -122,9 +119,7 @@ export class SetNextOwnerCartEntry extends StateUtils.EntitySuccessAction {
   ) {
     super(
       CONFIGURATOR_DATA,
-      CommonConfiguratorUtilsService.checkString(
-        payload?.configuration?.owner?.key
-      )
+      StrictUtils.ensureStringDefined(payload?.configuration?.owner?.key)
     );
   }
 }
