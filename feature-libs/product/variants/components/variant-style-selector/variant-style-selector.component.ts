@@ -38,18 +38,18 @@ export class VariantStyleSelectorComponent {
   ): string {
     const qualifier = variantOptionQualifiers.find((item) => item.image);
     return qualifier
-      ? `${this.config.backend.occ.baseUrl}${qualifier.image.url}`
+      ? `${this.config?.backend?.occ?.baseUrl}${qualifier.image?.url}`
       : '';
   }
 
-  changeStyle(code: string): void {
+  changeStyle(code: string): null {
     if (code) {
       this.productService
         .get(code, ProductScope.LIST)
         .pipe(
           // below call might looks redundant but in fact this data is going to be loaded anyways
           // we're just calling it earlier and storing
-          filter(Boolean),
+          filter((p) => !!p),
           take(1)
         )
         .subscribe((product: Product) => {

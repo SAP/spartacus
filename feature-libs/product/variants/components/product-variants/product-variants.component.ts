@@ -12,16 +12,16 @@ import { tap, filter, distinctUntilChanged } from 'rxjs/operators';
 export class ProductVariantsComponent implements OnInit {
   constructor(private currentProductService: CurrentProductService) {}
 
-  variants: BaseOption[] = [];
+  variants: { [key: string]: BaseOption } = {};
   variantType = VariantType;
-  product$: Observable<Product>;
+  product$: Observable<Product | null>;
 
   ngOnInit(): void {
     this.product$ = this.currentProductService.getProduct().pipe(
-      filter((product) => !!(product && product.baseOptions)),
+      filter((product: Product | null) => !!(product && product.baseOptions)),
       distinctUntilChanged(),
-      tap((product) => {
-        product.baseOptions.forEach((option) => {
+      tap((product: Product | null) => {
+        product?.baseOptions?.forEach((option: BaseOption) => {
           if (option && option.variantType) {
             this.variants[option.variantType] = option;
           }

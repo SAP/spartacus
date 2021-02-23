@@ -34,24 +34,27 @@ export class ProductVariantsGuard implements CanActivate {
     }
 
     return this.productService.get(productCode, ProductScope.VARIANTS).pipe(
-      filter(Boolean),
       switchMap((product: Product) => {
-        if (!product.purchasable) {
+        if (product && !product.purchasable) {
           const variant = this.findVariant(product.variantOptions);
-          // below call might looks redundant but in fact this data is going to be loaded anyways
-          // we're just calling it earlier and storing
-          return this.productService.get(variant.code, ProductScope.LIST).pipe(
-            filter(Boolean),
-            take(1),
-            map((_product: Product) => {
-              return this.router.createUrlTree(
-                this.semanticPathService.transform({
-                  cxRoute: 'product',
-                  params: _product,
+          if (variant && variant.code) {
+            return this.productService
+              .get(variant.code, ProductScope.LIST)
+              .pipe(
+                filter((p) => Boolean(p)),
+                take(1),
+                map((_product: Product) => {
+                  return this.router.createUrlTree(
+                    this.semanticPathService.transform({
+                      cxRoute: 'product',
+                      params: _product,
+                    })
+                  );
                 })
               );
-            })
-          );
+          } else {
+            return of(true);
+          }
         } else {
           return of(true);
         }
@@ -59,10 +62,16 @@ export class ProductVariantsGuard implements CanActivate {
     );
   }
 
-  findVariant(variants: VariantOption[]): VariantOption {
-    const results: VariantOption[] = variants.filter((variant) => {
-      return variant.stock && variant.stock.stockLevel ? variant : false;
-    });
-    return !results.length && variants.length ? variants[0] : results[0];
+  findVariant(
+    variants: VariantOption[] | undefined
+  ): VariantOption | undefined {
+    if (!variants) {
+      return;
+    } else {
+      const results: VariantOption[] = variants.filter((variant) => {
+        return variant.stock && variant.stock.stockLevel ? variant : false;
+      });
+      return !results.length && variants.length ? variants[0] : results[0];
+    }
   }
 }

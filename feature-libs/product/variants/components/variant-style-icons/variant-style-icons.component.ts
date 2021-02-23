@@ -27,10 +27,11 @@ export class VariantStyleIconsComponent implements OnInit {
   variantNames: { [key: string]: string } = {};
 
   ngOnInit() {
-    this.variants.forEach((variant) => {
-      this.variantNames[variant.code] = this.getVariantName(
-        variant.variantOptionQualifiers
-      );
+    this.variants?.forEach((variant) => {
+      if (variant.code && variant.variantOptionQualifiers) {
+        this.variantNames[variant.code] =
+          this.getVariantName(variant.variantOptionQualifiers) || '';
+      }
     });
   }
 
@@ -41,13 +42,13 @@ export class VariantStyleIconsComponent implements OnInit {
       (item) => item.qualifier === VariantQualifier.THUMBNAIL
     );
     return thumbnail
-      ? `${this.config.backend.occ.baseUrl}${thumbnail.image.url}`
+      ? `${this.config?.backend?.occ?.baseUrl}${thumbnail.image?.url}`
       : '';
   }
 
   private getVariantName(
     variantOptionQualifiers: VariantOptionQualifier[]
-  ): string {
+  ): string | undefined {
     const rollupProperty = variantOptionQualifiers.find(
       (item) => item.qualifier === VariantQualifier.ROLLUP_PROPERTY
     );

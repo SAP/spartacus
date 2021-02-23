@@ -21,7 +21,7 @@ export class VariantColorSelectorComponent {
   @Input()
   variants: BaseOption;
 
-  changeColor(code: string, name: string): void {
+  changeColor(code: string, name: string): null {
     if (code) {
       this.routingService.go({
         cxRoute: 'product',
