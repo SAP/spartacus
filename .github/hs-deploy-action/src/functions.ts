@@ -1,6 +1,5 @@
 import * as child_process from 'child_process';
 import * as exec from '@actions/exec';
-import * as crypto from 'node/crypto';
 
 export async function build() {
   //build libs and app
@@ -9,13 +8,15 @@ export async function build() {
   await exec.exec('yarn', ['build']);
 }
 
-export async function deploy() {
+export async function deploy(branch: String) {
+  console.log(`--> Deploying branch ${branch}`);
+  const prNumber = branch.substring('feature/GH-'.length, branch.length);
+  await exec.exec('pwd');
+  await exec.exec('ls', ['-la']);
+
   //TODO get git branch suffix to generate the SHA
-  const bundleId = crypto
-    .createHmac('sha1', '10679')
-    .digest('hex')
-    .substring(0, 32);
-  const command = `upp application deploy -b ${bundleId} -s ./dist/storefrontapp -e stage`;
+  const bundleId = `spartacus-pr-${prNumber}`;
+  const command = `upp application deploy -b ${bundleId} -t spartacus -s ./dist/storefrontapp -e stage`;
 
   const exp = /https\:\/\/\w+\.cloudfront\.net/;
   let output = '';

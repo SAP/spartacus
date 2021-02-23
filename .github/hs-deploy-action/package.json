@@ -16,8 +16,7 @@
     "@actions/glob": "^0.1.1",
     "@actions/io": "^1.0.2",
     "diff-lines": "^1.1.1",
-    "normalize-newline": "^3.0.0",
-    "@types/node": "^12.11.1"
+    "normalize-newline": "^3.0.0"
   },
   "devDependencies": {
     "typescript": "^4.1.3"
