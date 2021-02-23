@@ -30,7 +30,7 @@ async function run() {
 
   // await deploy(github, octoKit);
 
-  await addComment(context, octoKit, 'Sample comment');
+  await addComment(context, octoKit, 'Sample comment what just happened');
 }
 
 run();
