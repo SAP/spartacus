@@ -203,7 +203,7 @@ export class ProductPageMetaResolver
             cxRoute: 'product',
             params: { code: product.baseProduct },
           });
-          return this.basePageMetaResolver?.resolveCanonicalUrl(undefined, url);
+          return this.basePageMetaResolver?.resolveCanonicalUrl(url);
         }
         return this.basePageMetaResolver?.resolveCanonicalUrl();
       })
