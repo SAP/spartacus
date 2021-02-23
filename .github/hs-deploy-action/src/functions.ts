@@ -47,12 +47,12 @@ export async function deploy(github: any, octoKit: any) {
   });
 }
 
-export async function addComment(context: any, octoKit: any, body: String) {
+export async function addComment(context: any, octoKit: any, comment: String) {
   const COMMENT_HEADER = '## Hosting service deployment';
   const issueNumber = context.payload.pull_request.number;
   const owner = context.payload.repository.owner.login;
   const repo = context.payload.repository.name;
-  const comment = `${COMMENT_HEADER}\n${body}`;
+  const body = `${COMMENT_HEADER}\n${comment}`;
 
   const comments = await octoKit.issues.listComments({
     issue_number: issueNumber,
@@ -75,11 +75,11 @@ export async function addComment(context: any, octoKit: any, body: String) {
     });
   }
 
-  console.log(`--> About to insert comment ${comment}`);
+  console.log(`--> About to insert comment ${body} for issue ${issueNumber}`);
   await octoKit.issues.createComment({
     issue_number: issueNumber,
     owner,
     repo,
-    comment,
+    body,
   });
 }
