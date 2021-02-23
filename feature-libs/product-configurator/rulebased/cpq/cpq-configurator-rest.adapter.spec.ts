@@ -110,6 +110,9 @@ describe('CpqConfiguratorRestAdapter', () => {
     asSpy(mockedOccService.updateCartEntry).and.callFake(() => {
       return of(cartResponse);
     });
+    asSpy(mockedOccService.getConfigIdForCartEntry).and.callFake(() => {
+      return of(productConfiguration.configId);
+    });
 
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],

@@ -47,6 +47,7 @@ describe('CpqConfigurationOccService', () => {
       configId: configId,
     },
   };
+
   const readConfigCartParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
     userId: userId,
     cartId: documentId,
