@@ -18,13 +18,19 @@ if [ ! -s ${APP}.zip ]; then
 fi
 
 echo "-----"
-echo "Installing upp cli"
+echo "Installing upp cli (dependencies)"
 
 unzip -o ${APP}.zip -d ${APP}
 cd ${APP}
 npm install
+
+echo "-----"
+echo "Installing upp cli (npm-force-resolutions)"
 sed -i '/preinstall/d' package.json
 npx npm-force-resolutions
+
+echo "-----"
+echo "Installing upp cli (util)"
 npm install -g
 
 cd ..
