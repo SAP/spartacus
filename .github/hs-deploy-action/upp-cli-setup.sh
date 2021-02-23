@@ -23,9 +23,9 @@ echo "Installing upp cli"
 unzip -o ${APP}.zip -d ${APP}
 cd ${APP}
 npm install
-chmod -R 777 /github/home/.npm
-chmod -R 777 .
-npm run install-cli
+sed -i '/preinstall/d' package.json
+npx npm-force-resolutions
+npm install -g
 
 cd ..
 
