@@ -5,14 +5,8 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  NodeDependency,
-  NodeDependencyType,
-} from '@schematics/angular/utility/dependencies';
-import {
   addLibraryFeature,
-  addPackageJsonDependencies,
   getAppModule,
-  getSpartacusSchematicsVersion,
   installPackageJsonDependencies,
   readPackageJson,
   validateSpartacusInstallation,
@@ -35,12 +29,10 @@ export function addVariantsFeatures(options: SpartacusVariantsOptions): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
-
     const appModulePath = getAppModule(tree, options.project);
 
     return chain([
       addVariantsFeature(appModulePath, options),
-      addVariantsPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);
   };
@@ -70,16 +62,4 @@ function addVariantsFeature(
       importStyle: SPARTACUS_VARIANTS,
     },
   });
-}
-
-function addVariantsPackageJsonDependencies(packageJson: any): Rule {
-  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-  const dependencies: NodeDependency[] = [
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_VARIANTS,
-    },
-  ];
-  return addPackageJsonDependencies(dependencies, packageJson);
 }

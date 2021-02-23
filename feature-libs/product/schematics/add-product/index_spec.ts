@@ -111,7 +111,7 @@ describe('Spartacus Product schematics: ng-add', () => {
 
     it('should just append the product features without duplicating the featureModules config', () => {
       const appModule = appTree.readContent(appModulePath);
-      expect(appModule.match(/featureModules:/g).length).toEqual(1);
+      expect(appModule.match(/featureModules:/g)?.length).toEqual(1);
       expect(appModule).toContain(`variants: {`);
     });
   });

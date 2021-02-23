@@ -221,7 +221,7 @@ describe('Spartacus Variants schematics: ng-add', () => {
 
     it('should just append variants feature without duplicating the featureModules config', () => {
       const appModule = appTree.readContent(appModulePath);
-      expect(appModule.match(/featureModules:/g).length).toEqual(1);
+      expect(appModule.match(/featureModules:/g)?.length).toEqual(1);
       expect(appModule).toContain(`variants: {`);
     });
   });

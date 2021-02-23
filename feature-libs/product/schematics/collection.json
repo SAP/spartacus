@@ -9,10 +9,9 @@
       "hidden": true,
       "aliases": ["install"]
     },
-    "ng-variants": {
+    "add-variants": {
       "factory": "./add-variants/index#addVariantsFeatures",
       "description": "Add product base variants features",
-      "schema": "./add-variants/schema.json",
       "aliases": ["variants"]
     }
   }
