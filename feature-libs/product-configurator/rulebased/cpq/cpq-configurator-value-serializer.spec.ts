@@ -8,6 +8,7 @@ const configId = '1';
 const attrCode = 222;
 const attributeName = '9999';
 const valueCode = 'abc';
+const groupIdOfChangedAttribute = '1';
 
 const configuration: Configurator.Configuration = {
   configId: configId,
@@ -18,6 +19,7 @@ const configuration: Configurator.Configuration = {
           attrCode: attrCode,
           name: attributeName,
           values: [{ valueCode: valueCode, quantity: 5 }],
+          groupId: groupIdOfChangedAttribute,
         },
       ],
     },
@@ -45,5 +47,6 @@ describe('CpqConfiguratorValueSerializer', () => {
     expect(updateValue.standardAttributeCode).toBe(attrCode.toString());
     expect(updateValue.attributeValueId).toBe(valueCode);
     expect(updateValue.quantity).toBe(5);
+    expect(updateValue.tabId).toBe(groupIdOfChangedAttribute);
   });
 });

@@ -90,6 +90,7 @@ export namespace Cpq {
     configurationId: string;
     standardAttributeCode: string;
     changeAttributeValue: ChangeAttributeValue;
+    tabId: string;
   }
 
   /**
@@ -110,6 +111,7 @@ export namespace Cpq {
     standardAttributeCode: string;
     attributeValueId: string;
     quantity: number;
+    tabId: string;
   }
 
   /**
