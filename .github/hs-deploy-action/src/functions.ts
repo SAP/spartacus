@@ -10,7 +10,7 @@ export async function build() {
 
 export async function deploy(github: any) {
   const context = github.context;
-  const branch = context.pull_request.head.ref;
+  const branch = context.payload.pull_request.head.ref;
 
   console.log(`--> Deploying branch ${branch}`);
   const prNumber = branch.substring('feature/GH-'.length, branch.length);
