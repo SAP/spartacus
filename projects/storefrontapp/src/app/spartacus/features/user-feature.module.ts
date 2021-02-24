@@ -8,12 +8,14 @@ import {
   userProfileTranslations,
   userTranslationChunksConfig,
 } from '@spartacus/user/profile/assets';
-import { UserProfileRootModule } from '@spartacus/user/profile/root';
-import { UserAccountModule } from '@spartacus/user/account';
+import {
+  USER_PROFILE_FEATURE,
+  UserProfileRootModule,
+} from '@spartacus/user/profile/root';
 
 @NgModule({
   declarations: [],
-  imports: [UserAccountRootModule, UserProfileRootModule, UserAccountModule],
+  imports: [UserAccountRootModule, UserProfileRootModule],
   providers: [
     provideConfig({
       featureModules: {
@@ -21,7 +23,7 @@ import { UserAccountModule } from '@spartacus/user/account';
           module: () =>
             import('@spartacus/user/account').then((m) => m.UserAccountModule),
         },
-        userProfile: {
+        [USER_PROFILE_FEATURE]: {
           module: () =>
             import('@spartacus/user/profile').then((m) => m.UserProfileModule),
         },
