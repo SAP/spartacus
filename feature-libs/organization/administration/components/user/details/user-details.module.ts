@@ -6,7 +6,7 @@ import { ItemExistsModule } from '../../shared/item-exists.module';
 import { CardModule } from '../../shared/card/card.module';
 import { ToggleStatusModule } from '../../shared/detail/toggle-status-action/toggle-status.module';
 import { UserDetailsComponent } from './user-details.component';
-import { ExplainDisableInfoModule } from '../../shared/detail/explain-disable-info/explain-disable-info.module';
+import { DisableInfoModule } from '../../shared/detail/disable-info/disable-info.module';
 
 @NgModule({
   imports: [
@@ -17,7 +17,7 @@ import { ExplainDisableInfoModule } from '../../shared/detail/explain-disable-in
     I18nModule,
     ToggleStatusModule,
     ItemExistsModule,
-    ExplainDisableInfoModule,
+    DisableInfoModule,
   ],
   declarations: [UserDetailsComponent],
   exports: [UserDetailsComponent],

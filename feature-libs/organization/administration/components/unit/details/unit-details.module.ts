@@ -7,7 +7,7 @@ import { CardModule } from '../../shared/card/card.module';
 import { ToggleStatusModule } from '../../shared/detail/toggle-status-action/toggle-status.module';
 import { UnitDetailsComponent } from './unit-details.component';
 import { IconModule } from '@spartacus/storefront';
-import { ExplainDisableInfoModule } from '../../shared/detail/explain-disable-info/explain-disable-info.module';
+import { DisableInfoModule } from '../../shared/detail/disable-info/disable-info.module';
 
 @NgModule({
   imports: [
@@ -19,7 +19,7 @@ import { ExplainDisableInfoModule } from '../../shared/detail/explain-disable-in
     ToggleStatusModule,
     ItemExistsModule,
     IconModule,
-    ExplainDisableInfoModule,
+    DisableInfoModule,
   ],
   declarations: [UnitDetailsComponent],
   exports: [UnitDetailsComponent],

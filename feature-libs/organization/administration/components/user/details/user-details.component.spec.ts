@@ -13,7 +13,7 @@ import { MessageService } from '../../shared/message/services/message.service';
 import { ItemExistsDirective } from '../../shared/item-exists.directive';
 import { UserDetailsComponent } from './user-details.component';
 import createSpy = jasmine.createSpy;
-import { ExplainDisableInfoModule } from '../../shared';
+import { DisableInfoModule } from '../../shared';
 
 const mockCode = 'c1';
 
@@ -46,7 +46,7 @@ describe('UserDetailsComponent', () => {
         CardTestingModule,
         MessageTestingModule,
         ToggleStatusModule,
-        ExplainDisableInfoModule,
+        DisableInfoModule,
       ],
       declarations: [UserDetailsComponent, ItemExistsDirective],
       providers: [{ provide: ItemService, useClass: MockUserItemService }],

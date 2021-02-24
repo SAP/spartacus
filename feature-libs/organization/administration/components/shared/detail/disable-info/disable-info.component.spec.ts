@@ -7,7 +7,8 @@ import { BehaviorSubject } from 'rxjs';
 import { ItemService } from '../../item.service';
 import { BaseItem } from '../../organization.model';
 
-import { ExplainDisableInfoComponent } from './explain-disable-info.component';
+import { DisableInfoComponent } from './disable-info.component';
+import { DisableInfoService } from './disable-info.service';
 
 const current$ = new BehaviorSubject({});
 class MockItemService {
@@ -180,21 +181,22 @@ const i18nRootScenario = {
 };
 
 describe('ExplainDisableInfoComponent', () => {
-  let component: ExplainDisableInfoComponent<BaseItem>;
-  let fixture: ComponentFixture<ExplainDisableInfoComponent<BaseItem>>;
+  let component: DisableInfoComponent<BaseItem>;
+  let fixture: ComponentFixture<DisableInfoComponent<BaseItem>>;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule, I18nTestingModule, IconModule],
-      declarations: [ExplainDisableInfoComponent],
+      declarations: [DisableInfoComponent],
       providers: [
         {
           provide: ItemService,
           useClass: MockItemService,
         },
+        DisableInfoService,
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ExplainDisableInfoComponent);
+    fixture = TestBed.createComponent(DisableInfoComponent);
     component = fixture.componentInstance;
     component.i18nRoot = 'orgUnit';
   });
@@ -204,7 +206,7 @@ describe('ExplainDisableInfoComponent', () => {
     currentValue,
     expectedValue,
   }) {
-    component.displayMessageConfig = displayMessageConfig;
+    component.displayInfoConfig = displayMessageConfig;
     component.ngOnInit();
     current$.next(currentValue);
     fixture.detectChanges();

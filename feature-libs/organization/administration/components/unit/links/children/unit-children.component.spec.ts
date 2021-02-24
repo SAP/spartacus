@@ -3,7 +3,7 @@ import { I18nTestingModule } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of } from 'rxjs';
 import { ItemService } from '../../../shared';
-import { ExplainDisableInfoModule } from '../../../shared/detail/explain-disable-info/explain-disable-info.module';
+import { DisableInfoModule } from '../../../shared/detail/disable-info/disable-info.module';
 import { SubListTestingModule } from '../../../shared/sub-list/sub-list.testing.module';
 import { CurrentUnitService } from '../../services/current-unit.service';
 import { UnitChildrenComponent } from './unit-children.component';
@@ -27,7 +27,7 @@ describe('UnitChildrenComponent', () => {
         SubListTestingModule,
         UrlTestingModule,
         I18nTestingModule,
-        ExplainDisableInfoModule,
+        DisableInfoModule,
       ],
       providers: [
         {
