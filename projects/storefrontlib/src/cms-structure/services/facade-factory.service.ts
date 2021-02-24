@@ -72,9 +72,13 @@ export class FacadeFactoryService {
     this.facades.set(facade, resolver$);
   }
 
-  protected call(facade: AbstractType<any>, method: string): Observable<any> {
+  protected call(
+    facade: AbstractType<any>,
+    method: string,
+    args: unknown[]
+  ): Observable<any> {
     const callResult$ = this.facades.get(facade).pipe(
-      map((service) => service[method]()),
+      map((service) => service[method](...args)),
       publishReplay()
     );
     (callResult$ as ConnectableObservable<any>).connect();
@@ -100,7 +104,7 @@ export class FacadeFactoryService {
 
     const result: any = {};
     (methods ?? []).forEach((method) => {
-      result[method] = () => this.call(facade, method as string);
+      result[method] = (...args) => this.call(facade, method as string, args);
     });
     (properties ?? []).forEach((property) => {
       result[property] = this.get(facade, property as string);
