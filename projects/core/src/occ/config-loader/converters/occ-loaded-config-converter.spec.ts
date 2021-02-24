@@ -4,10 +4,10 @@ import {
   CURRENCY_CONTEXT_ID,
   LANGUAGE_CONTEXT_ID,
   THEME_CONTEXT_ID,
-} from '../../site-context';
-import { Occ } from '../occ-models';
-import { JavaRegExpConverter } from './java-reg-exp-converter';
-import { OccLoadedConfig } from './occ-loaded-config';
+} from '../../../site-context';
+import { Occ } from '../../occ-models';
+import { JavaRegExpConverter } from '../java-reg-exp-converter';
+import { OccLoadedConfig } from '../occ-loaded-config';
 import { OccLoadedConfigConverter } from './occ-loaded-config-converter';
 
 describe(`OccLoadedConfigConverter`, () => {

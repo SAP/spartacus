@@ -1,21 +1,54 @@
 import { Injectable } from '@angular/core';
-import { I18nConfig } from '../../i18n';
-import { BaseSite } from '../../model/misc.model';
-import { SiteContextConfig } from '../../site-context/config/site-context-config';
+import { I18nConfig } from '../../../i18n';
+import { BaseSite } from '../../../model/misc.model';
+import { SiteContextConfig } from '../../../site-context/config/site-context-config';
 import {
   BASE_SITE_CONTEXT_ID,
   CURRENCY_CONTEXT_ID,
   LANGUAGE_CONTEXT_ID,
   THEME_CONTEXT_ID,
-} from '../../site-context/providers/context-ids';
-import { Occ } from '../occ-models/occ.models';
+} from '../../../site-context/providers/context-ids';
+import { Converter } from '../../../util/converter.service';
+import { Occ } from '../../occ-models/occ.models';
+import { OccLoadedConfig } from '../occ-loaded-config';
 import { JavaRegExpConverter } from './java-reg-exp-converter';
-import { OccLoadedConfig } from './occ-loaded-config';
 
 @Injectable({ providedIn: 'root' })
-export class OccLoadedConfigConverter {
+export class OccLoadedConfigConverter
+  implements Converter<BaseSite, OccLoadedConfig> {
+  // TODO: remove javaRegExpConverter from constructor in 4.0
   constructor(private javaRegExpConverter: JavaRegExpConverter) {}
 
+  convert(source: BaseSite, target?: OccLoadedConfig): OccLoadedConfig {
+    // Although `stores` property is an array, typically there is only one store.
+    // So we return the first store from the list.
+    const baseStore = source.stores && source.stores[0];
+    if (!baseStore) {
+      throw this.getError(
+        `Current base site (${source.uid}) doesn't have any base store.`
+      );
+    }
+
+    target = {
+      baseSite: source.uid,
+      languages: this.getIsoCodes(
+        baseStore.languages,
+        source.defaultLanguage || baseStore.defaultLanguage
+      ),
+      currencies: this.getIsoCodes(
+        baseStore.currencies,
+        baseStore.defaultCurrency
+      ),
+      urlParameters: this.getUrlParams(source.urlEncodingAttributes),
+      theme: source.theme,
+    };
+
+    return target;
+  }
+
+  /**
+   * @deprecated since 3.2, use function convert(source, target?) instead
+   */
   fromOccBaseSites(baseSites: BaseSite[], currentUrl: string): OccLoadedConfig {
     const baseSite = baseSites.find((site) =>
       this.isCurrentBaseSite(site, currentUrl)
@@ -49,6 +82,9 @@ export class OccLoadedConfigConverter {
     };
   }
 
+  /**
+   * @deprecated since 3.2, use SiteContextConfigConverter instead
+   */
   toSiteContextConfig({
     baseSite,
     languages,
@@ -68,10 +104,16 @@ export class OccLoadedConfigConverter {
     return result;
   }
 
+  /**
+   * @deprecated since 3.2, use I18nConfigConverter instead
+   */
   toI18nConfig({ languages }: OccLoadedConfig): I18nConfig {
     return { i18n: { fallbackLang: languages[0] } };
   }
 
+  /**
+   * @deprecated since 3.2, it is moved into OccConfigLoaderService
+   */
   private isCurrentBaseSite(site: Occ.BaseSite, currentUrl: string): boolean {
     const index = (site.urlPatterns || []).findIndex((javaRegexp) => {
       const jsRegexp = this.javaRegExpConverter.toJsRegExp(javaRegexp);

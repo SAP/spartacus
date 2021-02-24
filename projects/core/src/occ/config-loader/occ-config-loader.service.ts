@@ -12,15 +12,23 @@ import {
   TransferState,
 } from '@angular/platform-browser';
 import { Observable, of } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { filter, map, take, tap } from 'rxjs/operators';
 import { Config } from '../../config/config-tokens';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { I18nConfig } from '../../i18n/config/i18n-config';
+import { BaseSite } from '../../model/misc.model';
 import { SiteContextConfig } from '../../site-context/config/site-context-config';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
+import { ConverterService } from '../../util/converter.service';
 import { SERVER_REQUEST_URL } from '../../util/ssr.tokens';
+import {
+  I18N_CONFIG_CONVERTER,
+  OCC_LOADED_CONFIG_CONVERTER,
+  SITE_CONTEXT_CONFIG_CONVERTER,
+} from './converters';
+import { JavaRegExpConverter } from './converters/java-reg-exp-converter';
+import { OccLoadedConfigConverter } from './converters/occ-loaded-config-converter';
 import { OccLoadedConfig } from './occ-loaded-config';
-import { OccLoadedConfigConverter } from './occ-loaded-config-converter';
 import { OccSitesConfigLoader } from './occ-sites-config-loader';
 
 export const EXTERNAL_CONFIG_TRANSFER_ID: StateKey<string> = makeStateKey<
@@ -29,6 +37,7 @@ export const EXTERNAL_CONFIG_TRANSFER_ID: StateKey<string> = makeStateKey<
 
 @Injectable({ providedIn: 'root' })
 export class OccConfigLoaderService {
+  // TODO: remove sitesConfigLoader and converter in 4.0
   constructor(
     @Inject(PLATFORM_ID) protected platform: any,
     @Inject(DOCUMENT) protected document: any,
@@ -40,7 +49,9 @@ export class OccConfigLoaderService {
     @Optional()
     @Inject(SERVER_REQUEST_URL)
     protected serverRequestUrl?: string,
-    protected baseSiteService?: BaseSiteService
+    protected baseSiteService?: BaseSiteService,
+    protected converterService?: ConverterService,
+    protected javaRegExpConverter?: JavaRegExpConverter
   ) {}
 
   private get currentUrl(): string {
@@ -87,23 +98,23 @@ export class OccConfigLoaderService {
    * Loads the external config from backend
    */
   protected load(): Observable<OccLoadedConfig> {
-    if (this.baseSiteService) {
-      return this.baseSiteService
-        .getAll()
-        .pipe(
-          map((baseSites) =>
-            this.converter.fromOccBaseSites(baseSites, this.currentUrl)
-          )
-        );
-    } else {
-      return this.sitesConfigLoader
-        .load()
-        .pipe(
-          map((baseSites) =>
-            this.converter.fromOccBaseSites(baseSites, this.currentUrl)
-          )
-        );
-    }
+    return (this.baseSiteService
+      ? this.baseSiteService.getAll()
+      : this.sitesConfigLoader.load()
+    ).pipe(
+      map((baseSites) =>
+        baseSites.find((site) => this.isCurrentBaseSite(site))
+      ),
+      filter((baseSite) => {
+        if (!baseSite) {
+          throw new Error(
+            `Error: Cannot get base site config! Current url (${this.currentUrl}) doesn't match with any of url patterns of any base site.`
+          );
+        }
+        return Boolean(baseSite);
+      }),
+      this.converterService.pipeable(OCC_LOADED_CONFIG_CONVERTER)
+    );
   }
 
   /**
@@ -133,10 +144,17 @@ export class OccConfigLoaderService {
   protected getConfigChunks(
     externalConfig: OccLoadedConfig
   ): (I18nConfig | SiteContextConfig)[] {
-    const chunks: any[] = [this.converter.toSiteContextConfig(externalConfig)];
+    const chunks: any[] = [
+      this.converterService.convert(
+        externalConfig,
+        SITE_CONTEXT_CONFIG_CONVERTER
+      ),
+    ];
 
     if (this.shouldReturnI18nChunk()) {
-      chunks.push(this.converter.toI18nConfig(externalConfig));
+      chunks.push(
+        this.converterService.convert(externalConfig, I18N_CONFIG_CONVERTER)
+      );
     }
 
     return chunks;
@@ -155,5 +173,17 @@ export class OccConfigLoaderService {
       );
     }
     return !fallbackLangExists;
+  }
+
+  private isCurrentBaseSite(site: BaseSite): boolean {
+    const index = (site.urlPatterns || []).findIndex((javaRegexp) => {
+      const jsRegexp = this.javaRegExpConverter.toJsRegExp(javaRegexp);
+      if (jsRegexp) {
+        const result = jsRegexp.test(this.currentUrl);
+        return result;
+      }
+    });
+
+    return index !== -1;
   }
 }
