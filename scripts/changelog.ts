@@ -85,6 +85,7 @@ export default async function run(
     '@spartacus/qualtrics': 'feature-libs/qualtrics',
     '@spartacus/cdc': 'integration-libs/cdc',
     '@spartacus/setup': 'core-libs/setup',
+    '@spartacus/cart': 'feature-libs/cart',
   };
 
   const duplexUtil = through(function (chunk, _, callback) {
@@ -328,6 +329,10 @@ if (typeof config.to === 'undefined') {
     case 'setup':
     case '@spartacus/setup':
       config.library = '@spartacus/setup';
+      break;
+    case 'cart':
+    case '@spartacus/cart':
+      config.library = '@spartacus/cart';
       break;
     default:
       config.library = undefined;
