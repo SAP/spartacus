@@ -16,6 +16,7 @@ const userInput = '123';
 const expectedValueIdsMulti = 'ValueCode1,ValueCode3,';
 const expectedValueIdsMultiNoSelection = ',';
 const expectedProcessedSingleValueNoValue = ',';
+const firstGroupId = '1';
 
 const firstAttribute: Configurator.Attribute = {
   attrCode: attrCodeFirst,
@@ -23,6 +24,7 @@ const firstAttribute: Configurator.Attribute = {
   uiType: Configurator.UiType.RADIOBUTTON,
   selectedSingleValue: selectedSingleValue,
   quantity: 5,
+  groupId: firstGroupId,
 };
 
 const attributeRB: Configurator.Attribute = {
@@ -322,6 +324,7 @@ describe('CpqConfiguratorSerializer', () => {
       selectedSingleValue
     );
     expect(updateAttribute.changeAttributeValue.userInput).toBeUndefined();
+    expect(updateAttribute.tabId).toBe(firstGroupId);
   });
 
   it('should convert quantity changes', () => {
@@ -332,5 +335,6 @@ describe('CpqConfiguratorSerializer', () => {
     expect(updateValues.changeAttributeValue.quantity).toBe(5);
     expect(updateValues.changeAttributeValue.attributeValueIds).toBeUndefined();
     expect(updateValues.changeAttributeValue.userInput).toBeUndefined();
+    expect(updateValues.tabId).toBe(firstGroupId);
   });
 });
