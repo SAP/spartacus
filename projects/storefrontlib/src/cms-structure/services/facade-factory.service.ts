@@ -13,8 +13,7 @@ import {
   shareReplay,
   switchMap,
 } from 'rxjs/operators';
-import { FeatureModulesService } from './feature-modules.service';
-import { CmsConfig } from '@spartacus/core';
+import { CmsConfig, FeatureModulesService } from '@spartacus/core';
 
 export interface FacadeDescriptor<T> {
   facade: AbstractType<T>;
@@ -54,14 +53,14 @@ export class FacadeFactoryService {
 
     return this.featureModules.resolveFeature(featureToLoad).pipe(
       debounceTime(0),
-      map((featureInstance) => featureInstance.moduleRef.injector),
+      map((moduleRef) => moduleRef.injector),
       map((injector) => injector.get(facadeClass))
     );
   }
 
   protected findConfiguredFeature(feature: string | string[]): string {
     for (const feat of [].concat(feature)) {
-      if (this.cmsConfig.featureModules?.[feat]?.module) {
+      if (this.featureModules.isConfigured(feat)) {
         return feat;
       }
     }

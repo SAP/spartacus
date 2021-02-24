@@ -13,14 +13,14 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private auth: AuthService,
-    private userService: UserAccountFacade
+    private userAccount: UserAccountFacade
   ) {}
 
   ngOnInit(): void {
     this.user$ = this.auth.isUserLoggedIn().pipe(
       switchMap((isUserLoggedIn) => {
         if (isUserLoggedIn) {
-          return this.userService.get();
+          return this.userAccount.get();
         } else {
           return of(undefined);
         }

@@ -3,6 +3,7 @@ import { provideDefaultConfigFactory } from '@spartacus/core';
 import { PageLayoutModule } from '@spartacus/storefront';
 import { USER_ACCOUNT_FEATURE } from './feature-name';
 
+// TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultUserAccountComponentsConfig() {
   const config = {
     featureModules: {
