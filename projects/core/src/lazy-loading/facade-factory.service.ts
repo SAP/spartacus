@@ -13,35 +13,59 @@ import {
   shareReplay,
   switchMap,
 } from 'rxjs/operators';
-import { CmsConfig, FeatureModulesService } from '@spartacus/core';
+import { FeatureModulesService } from './feature-modules.service';
+import { CmsConfig } from '../cms/config/cms-config';
 
 export interface FacadeDescriptor<T> {
+  /**
+   * Facade class
+   */
   facade: AbstractType<T>;
+  /**
+   * Feature name or names that should be used to resolve facade
+   */
   feature: string | string[];
+  /**
+   * Methods of the facade that will be proxied from lazy loaded services.
+   *
+   * All methods should either return an Observable or void. Any return type that
+   * is not an Observable will be ignored.
+   */
   methods?: (keyof T)[];
+  /**
+   * Properties of the facade that will be proxied from lazy loaded services.
+   *
+   * Only Observable properties are supported.
+   */
   properties?: (keyof T)[];
   /**
-   * Feature should have to be initialized with an async delay in mind.
+   * Denotes that feature should have to be initialized with an async delay.
    * Required to make lazy NgRx store feature ready.
    */
   async?: boolean;
 }
 
+/**
+ * Service that can create proxy facade, which is a service that will expose
+ * methods and properties from a facade implemented in the lazy loaded module.
+ *
+ * Returned proxy facade will lazy load the feature and facade implementation
+ * at first method call or when first property observable will be subscribed.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class FacadeFactoryService {
-  protected facades = new Map<any, Observable<any>>();
-
   constructor(
     protected featureModules: FeatureModulesService,
     protected cmsConfig: CmsConfig,
     protected injector: Injector
   ) {}
 
-  protected getFacade<T>(
+  protected getResolver<T>(
     feature: string | string[],
-    facadeClass: AbstractType<T>
+    facadeClass: AbstractType<T>,
+    async = false
   ): Observable<T> {
     const featureToLoad = this.findConfiguredFeature(feature);
 
@@ -51,10 +75,15 @@ export class FacadeFactoryService {
       );
     }
 
-    return this.featureModules.resolveFeature(featureToLoad).pipe(
-      debounceTime(0),
+    let featureModule$ = this.featureModules.resolveFeature(featureToLoad);
+    if (async) {
+      featureModule$ = featureModule$.pipe(debounceTime(0));
+    }
+
+    return featureModule$.pipe(
       map((moduleRef) => moduleRef.injector),
-      map((injector) => injector.get(facadeClass))
+      map((injector) => injector.get(facadeClass)),
+      shareReplay()
     );
   }
 
@@ -66,17 +95,23 @@ export class FacadeFactoryService {
     }
   }
 
-  protected define(facade: AbstractType<any>, feature: string | string[]) {
-    const resolver$ = this.getFacade(feature, facade).pipe(shareReplay());
-    this.facades.set(facade, resolver$);
-  }
-
+  /**
+   * Calls a method on a facade
+   *
+   * Method should either return an observable or void. Any other return type
+   * than observable is ignored.
+   *
+   * @param resolver$
+   * @param method
+   * @param args
+   * @protected
+   */
   protected call(
-    facade: AbstractType<any>,
+    resolver$: Observable<any>,
     method: string,
     args: unknown[]
-  ): Observable<any> {
-    const callResult$ = this.facades.get(facade).pipe(
+  ): Observable<unknown> {
+    const callResult$ = resolver$.pipe(
       map((service) => service[method](...args)),
       publishReplay()
     );
@@ -92,28 +127,53 @@ export class FacadeFactoryService {
     );
   }
 
-  protected get(facade: AbstractType<any>, property: string): Observable<any> {
-    return this.facades
-      .get(facade)
-      .pipe(switchMap((service) => service[property]));
+  /**
+   * Get the property value from the facade
+   *
+   * Property has to be an aobservable
+   *
+   * @param resolver$
+   * @param property
+   * @protected
+   */
+  protected get(
+    resolver$: Observable<any>,
+    property: string
+  ): Observable<unknown> {
+    return resolver$.pipe(switchMap((service) => service[property]));
   }
 
-  create<T>({ facade, feature, methods, properties }: FacadeDescriptor<T>): T {
-    console.log('creating the facade', facade);
-    this.define(facade, feature);
+  create<T>({
+    facade,
+    feature,
+    methods,
+    properties,
+    async,
+  }: FacadeDescriptor<T>): T {
+    const resolver$ = this.getResolver(feature, facade, async);
 
-    const result: any = {};
+    const result: any = new (class extends (facade as any) {})();
     (methods ?? []).forEach((method) => {
-      result[method] = (...args) => this.call(facade, method as string, args);
+      result[method] = (...args) =>
+        this.call(resolver$, method as string, args);
     });
     (properties ?? []).forEach((property) => {
-      result[property] = this.get(facade, property as string);
+      result[property] = this.get(resolver$, property as string);
     });
 
     return result;
   }
 }
 
+/**
+ * Factory that will create proxy facade, which is a service that will expose
+ * methods and properties from a facade implemented in the lazy loaded module.
+ *
+ * Returned proxy facade will lazy load the feature and facade implementation
+ * at first method call or when first property observable will be subscribed.
+ *
+ * @param descriptor
+ */
 export function facadeFactory<T>(descriptor: FacadeDescriptor<T>): T {
   return inject(FacadeFactoryService).create(descriptor);
 }
