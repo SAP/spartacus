@@ -1,6 +1,7 @@
 import * as configuration from '../../helpers/product-configuration';
 import * as configurationOverview from '../../helpers/product-configuration-overview';
 import * as productSearch from '../../helpers/product-search';
+import * as cart from '../../helpers/cart';
 
 const POWERTOOLS = 'powertools-spa';
 const EMAIL = 'cpq03@sap.com';
@@ -28,6 +29,11 @@ const VAL_COF_CUPS_500 = '8842';
 const ATTR_COF_MODE = '2933';
 /** Starbucks Mode*/
 const VAL_COF_MODE = '8845';
+
+/** CONF_COFFEEMACHINE_3000_GEN_OPT*/
+const GRP_COF_GEN_OPT = 'CONF_COFFEEMACHINE_3000_GEN_OPT';
+/** CONF_COFFEEMACHINE_3000_DESIGN*/
+const GRP_COF_DESIGN = 'CONF_COFFEEMACHINE_3000_DESIGN';
 
 /***************************** */
 /** Configurable Camera Bundle */
@@ -412,6 +418,39 @@ context('CPQ Configuration', () => {
         configurationOverview.checkAttrPriceDisplayed(line.price, idx);
         configurationOverview.checkAttrType(line.type, idx);
       });
+    });
+  });
+
+  describe.only('Add to the cart then read and update the cart configuration', () => {
+    it('should be able to add a configuration directly to the cart, navigate from the cart back to the configuration and update it', () => {
+      configuration.goToPDPage(POWERTOOLS, PROD_CODE_COF);
+      configuration.clickOnAddToCartBtnOnPD();
+      configuration.clickOnViewCartBtnOnPD();
+      cart.verifyCartNotEmpty();
+      //We assume only one product is in the cart
+      configuration.clickOnEditConfigurationLink(0);
+
+      configuration.checkAttributeDisplayed(ATTR_COF_CUPS, RADGRP);
+      configuration.selectAttribute(ATTR_COF_CUPS, RADGRP, VAL_COF_CUPS_300);
+      configuration.checkValueSelected(RADGRP, ATTR_COF_CUPS, VAL_COF_CUPS_300);
+      configuration.selectAttribute(ATTR_COF_CUPS, RADGRP, VAL_COF_CUPS_500);
+      configuration.checkValueSelected(RADGRP, ATTR_COF_CUPS, VAL_COF_CUPS_500);
+      configuration.clickAddToCartBtn();
+
+      configurationOverview.checkConfigOverviewPageDisplayed();
+      configurationOverview.checkGroupHeaderDisplayed(GRP_COF_GEN_OPT, 0);
+      configurationOverview.checkAttrDisplayed(
+        'COFFEE_MACHINE_CUPS_DAY',
+        '500-1000 Cups per Day',
+        0
+      );
+      configurationOverview.checkGroupHeaderDisplayed(GRP_COF_DESIGN, 1);
+      configurationOverview.clickContinueToCartBtnOnOP();
+      configuration.checkGlobalMessageNotDisplayed();
+
+      cart.verifyCartNotEmpty();
+      configuration.clickOnRemoveLink(0);
+      configuration.checkCartEmpty();
     });
   });
 });

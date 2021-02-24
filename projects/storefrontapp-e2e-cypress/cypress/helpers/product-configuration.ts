@@ -177,6 +177,28 @@ export function clickOnEditConfigurationLink(cartItemIndex: number): void {
 }
 
 /**
+ * Clicks on the 'Remove' link in cart for a certain cart item to remove a cart item.
+ *
+ * @param {number} cartItemIndex - Index of cart item
+ */
+export function clickOnRemoveLink(cartItemIndex: number): void {
+  cy.get('cx-cart-item-list .cx-item-list-row')
+    .eq(cartItemIndex)
+    .find('.cx-remove-btn')
+    .within(() => {
+      cy.get('button:contains("Remove")').click();
+    });
+}
+
+/**
+ * Verifies whether the mini-cart displays zero cart items.
+ */
+export function checkCartEmpty() {
+  cy.get('cx-paragraph h2').contains('Your shopping cart is empty');
+  cy.get('cx-mini-cart .count').contains('0');
+}
+
+/**
  * Verifies whether the corresponding value ID is focused.
  *
  * @param {string} attributeName - Attribute name
