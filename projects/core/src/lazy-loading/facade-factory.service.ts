@@ -73,7 +73,7 @@ export class FacadeFactoryService {
     );
   }
 
-  protected findConfiguredFeature(feature: string | string[]): string {
+  protected findConfiguredFeature(feature: string | string[]): string | undefined {
     for (const feat of [].concat(feature)) {
       if (this.featureModules.isConfigured(feat)) {
         return feat;
