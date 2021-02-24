@@ -6,7 +6,7 @@ import {
   LibraryOptions as SpartacusVariantsOptions,
   SpartacusOptions,
 } from '@spartacus/schematics';
-import { CLI_VARIANTS_FEATURE, SPARTACUS_VARIANTS } from './../constants';
+import { CLI_VARIANTS_FEATURE } from './../constants';
 import * as path from 'path';
 
 const collectionPath = path.join(__dirname, '../collection.json');
@@ -85,11 +85,6 @@ describe('Spartacus Variants schematics: ng-add', () => {
           .toPromise();
       });
 
-      it('should install @spartacus/product/variants library', () => {
-        const packageJson = appTree.readContent('package.json');
-        expect(packageJson).toContain(SPARTACUS_VARIANTS);
-      });
-
       it('should add style import to /src/styles/spartacus/product.scss', async () => {
         const content = appTree.readContent(
           '/src/styles/spartacus/product.scss'
@@ -132,7 +127,7 @@ describe('Spartacus Variants schematics: ng-add', () => {
         const packageJson = appTree.readContent('/package.json');
         const packageObj = JSON.parse(packageJson);
         const depPackageList = Object.keys(packageObj.dependencies);
-        expect(depPackageList.includes('@spartacus/product/variants')).toBe(
+        expect(depPackageList.includes('@spartacus/product')).toBe(
           true
         );
       });
