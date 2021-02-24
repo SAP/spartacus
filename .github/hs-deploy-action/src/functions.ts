@@ -13,9 +13,8 @@ export async function deploy(github: any, octoKit: any) {
   const branch = context.payload.pull_request.head.ref;
 
   console.log(`--> Deploying branch ${branch}`);
-  const prNumber = branch.substring('feature/GH-'.length, branch.length);
 
-  const bundleId = `spartacus-feature-spa${prNumber}`;
+  const bundleId = getBundleId(branch);
   const command = `upp application deploy -b ${bundleId} -t spartacus -s ./dist/storefrontapp -e stage`;
 
   const exp = /https\:\/\/\w+\.cloudfront\.net/;
@@ -74,4 +73,21 @@ async function addComment(context: any, octoKit: any, comment: String) {
     repo,
     body,
   });
+}
+
+function getBundleId(branch: String) {
+  let acc = '';
+  const regex = /(\-\d)/;
+  branch
+    .replace(/\//g, '-s')
+    .replace(/\./g, '-d')
+    .split(regex)
+    .forEach((s: String) => {
+      if (s.match(regex)) {
+        acc += s.substring(0, 1) + 'i' + s.substring(1, 2);
+      } else {
+        acc += s;
+      }
+    });
+  return acc;
 }
