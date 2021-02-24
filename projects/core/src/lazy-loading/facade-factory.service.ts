@@ -14,7 +14,6 @@ import {
   switchMap,
 } from 'rxjs/operators';
 import { FeatureModulesService } from './feature-modules.service';
-import { CmsConfig } from '../cms/config/cms-config';
 
 export interface FacadeDescriptor<T> {
   /**
@@ -58,7 +57,6 @@ export interface FacadeDescriptor<T> {
 export class FacadeFactoryService {
   constructor(
     protected featureModules: FeatureModulesService,
-    protected cmsConfig: CmsConfig,
     protected injector: Injector
   ) {}
 
