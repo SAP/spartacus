@@ -7,7 +7,7 @@ import {
   throwError,
 } from 'rxjs';
 import {
-  debounceTime,
+  delay,
   map,
   publishReplay,
   shareReplay,
@@ -73,16 +73,14 @@ export class FacadeFactoryService {
       );
     }
 
-    let featureModule$ = this.featureModules.resolveFeature(featureToLoad);
-    if (async) {
-      featureModule$ = featureModule$.pipe(debounceTime(0));
-    }
-
-    return featureModule$.pipe(
+    let facadeService$ = this.featureModules.resolveFeature(featureToLoad).pipe(
       map((moduleRef) => moduleRef.injector),
-      map((injector) => injector.get(facadeClass)),
-      shareReplay()
+      map((injector) => injector.get(facadeClass))
     );
+    if (async) {
+      facadeService$ = facadeService$.pipe(delay(0));
+    }
+    return facadeService$.pipe(shareReplay());
   }
 
   protected findConfiguredFeature(feature: string | string[]): string {
