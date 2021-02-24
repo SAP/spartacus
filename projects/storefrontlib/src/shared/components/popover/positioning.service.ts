@@ -138,7 +138,7 @@ export class PositioningService {
   }
 
   /*
-    Return false if the element to position is outside the viewport
+    Return false if the element to position is outside the viewport.
   */
   protected _positionElements(
     hostElement: HTMLElement,
@@ -257,7 +257,7 @@ export class PositioningService {
 
     let hasAuto = placementVals.findIndex((val) => val === 'auto');
     if (hasAuto >= 0) {
-      this.allowedPlacements.forEach(function (obj) {
+      this.allowedPlacements.forEach((obj) => {
         if (placementVals.find((val) => val.search('^' + obj) !== -1) == null) {
           placementVals.splice(hasAuto++, 1, obj as PopoverPosition);
         }
