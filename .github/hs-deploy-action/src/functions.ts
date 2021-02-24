@@ -1,4 +1,3 @@
-import * as child_process from 'child_process';
 import * as exec from '@actions/exec';
 
 export async function build() {
@@ -20,25 +19,24 @@ export async function deploy(github: any, octoKit: any) {
   const exp = /https\:\/\/\w+\.cloudfront\.net/;
   let output = '';
 
-  const process = child_process.exec(command);
-
-  process.stdout?.on('data', (data) => {
-    const line = data.toString();
-    const match = line.match(exp);
-    if (match && match.length > 0) {
-      const body = `:rocket: Spartacus deployed to [${match}](${match})`;
-      console.log(body);
-      addComment(context, octoKit, body);
+  const options:any = {};
+  options.listeners = {
+    stdout: (data: Buffer) => {
+      const line = data.toString();
+      const match = line.match(exp);
+      if (match && match.length > 0) {
+        const body = `:rocket: Spartacus deployed to [${match}](${match})`;
+        console.log(body);
+        addComment(context, octoKit, body);
+      }
+      output += data.toString();
+    },
+    stderr: (data: Buffer) => {
+      console.log(`upp deploy exited with error:  ${data.toString()}`);
     }
-    output += data.toString();
-  });
+  };
 
-  process.on('exit', (code) => {
-    if (code !== 0) {
-      console.log(`upp deploy exited with code ${code}`);
-    }
-  });
-}
+await exec.exec(command, options);
 
 async function addComment(context: any, octoKit: any, comment: String) {
   const COMMENT_HEADER = '## Hosting service deployment';
@@ -76,7 +74,7 @@ async function addComment(context: any, octoKit: any, comment: String) {
 }
 
 function getBundleId(branch: String) {
-  let acc = '';
+  let bundleId = '';
   const regex = /(\-\d)/;
   branch
     .replace(/\//g, '-s')
@@ -84,10 +82,11 @@ function getBundleId(branch: String) {
     .split(regex)
     .forEach((s: String) => {
       if (s.match(regex)) {
-        acc += s.substring(0, 1) + 'i' + s.substring(1, 2);
+        bundleId += s.substring(0, 1) + 'i' + s.substring(1, 2);
       } else {
-        acc += s;
+        bundleId += s;
       }
     });
-  return acc;
+  console.log(`--> Generated bundle ID: ${bundleId}`);
+  return bundleId;
 }
