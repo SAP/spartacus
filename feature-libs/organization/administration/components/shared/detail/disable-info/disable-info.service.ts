@@ -7,15 +7,13 @@ import { BaseItem } from '../../organization.model';
 })
 export class DisableInfoService<T extends BaseItem> {
   isItemDisabled(item: T): boolean {
-    return !item?.active;
+    return item?.active === false;
   }
 
   isParentDisabled(item: T): boolean {
     return (
-      (item.orgUnit || (item as any).unit || (item as any).parentOrgUnit) &&
-      !(item.orgUnit || (item as any).unit || (item as any).parentOrgUnit)
-        ?.active &&
-      !this.isRootUnit(item)
+      (item.orgUnit || (item as any).unit || (item as any).parentOrgUnit)
+        ?.active === false && !this.isRootUnit(item)
     );
   }
 
