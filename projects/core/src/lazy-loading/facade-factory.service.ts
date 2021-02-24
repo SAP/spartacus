@@ -1,18 +1,6 @@
 import { AbstractType, inject, Injectable, Injector } from '@angular/core';
-import {
-  ConnectableObservable,
-  EMPTY,
-  isObservable,
-  Observable,
-  throwError,
-} from 'rxjs';
-import {
-  debounceTime,
-  map,
-  publishReplay,
-  shareReplay,
-  switchMap,
-} from 'rxjs/operators';
+import { ConnectableObservable, EMPTY, isObservable, Observable, throwError } from 'rxjs';
+import { delay, map, publishReplay, shareReplay, switchMap } from 'rxjs/operators';
 import { FeatureModulesService } from './feature-modules.service';
 
 export interface FacadeDescriptor<T> {
@@ -73,14 +61,14 @@ export class FacadeFactoryService {
       );
     }
 
-    let featureModule$ = this.featureModules.resolveFeature(featureToLoad);
-    if (async) {
-      featureModule$ = featureModule$.pipe(debounceTime(0));
-    }
-
-    return featureModule$.pipe(
+    let facadeService$ = this.featureModules.resolveFeature(featureToLoad).pipe(
       map((moduleRef) => moduleRef.injector),
       map((injector) => injector.get(facadeClass)),
+    );
+    if (async) {
+      facadeService$ = facadeService$.pipe(delay(0));
+    }
+    return facadeService$.pipe(
       shareReplay()
     );
   }
