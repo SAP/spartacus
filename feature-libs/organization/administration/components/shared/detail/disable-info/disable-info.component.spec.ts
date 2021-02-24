@@ -36,7 +36,7 @@ const defaultConfigScenarios = [
   },
   {
     key:
-      "display disabledEdit and disabledEnable message when item and item's parent are disabled",
+      "display disabledEnable and disabledEdit message when item and item's parent are disabled",
     currentValue: { active: false, orgUnit: { active: false } },
     displayMessageConfig: {},
     expectedValue: ['orgUnit.info.disabledEdit', 'orgUnit.info.disabledEnable'],
@@ -75,10 +75,10 @@ const configEnabledScenarios = [
     expectedValue: ['orgUnit.info.disabledEnable'],
   },
   {
-    key: 'disabledEdit and disabledEnable',
+    key: 'disabledEnable and disabledEdit',
     currentValue: { active: false, orgUnit: { active: false } },
     displayMessageConfig: { disabledEdit: true, disabledEnable: true },
-    expectedValue: ['orgUnit.info.disabledEdit', 'orgUnit.info.disabledEnable'],
+    expectedValue: ['orgUnit.info.disabledEnable', 'orgUnit.info.disabledEdit'],
   },
   {
     key: 'disabledCreate',
@@ -119,7 +119,7 @@ const configDisabledScenarios = [
     expectedValue: [],
   },
   {
-    key: 'disabledEdit and disabledEnable',
+    key: 'disabledEnable and disabledEdit',
     currentValue: { active: false, orgUnit: { active: false } },
     displayMessageConfig: { disabledEdit: false, disabledEnable: false },
     expectedValue: [],
@@ -177,7 +177,7 @@ const unusedMessagesScenarios = [
 const i18nRootScenario = {
   currentValue: { active: false, orgUnit: { active: false } },
   displayMessageConfig: {},
-  expectedValue: ['myRoot.info.disabledEdit', 'myRoot.info.disabledEnable'],
+  expectedValue: ['myRoot.info.disabledEnable', 'myRoot.info.disabledEdit'],
 };
 
 describe('ExplainDisableInfoComponent', () => {

@@ -10,14 +10,14 @@
   >
     <cx-icon [type]="iconTypes.INFO"></cx-icon>
     <ul>
+      <li *ngIf="displayDisabledEnable(item)">
+        {{ i18nRoot + '.info.disabledEnable' | cxTranslate }}
+      </li>
       <li *ngIf="displayDisabledCreate(item)">
         {{ i18nRoot + '.info.disabledCreate' | cxTranslate }}
       </li>
       <li *ngIf="displayDisabledEdit(item)">
         {{ i18nRoot + '.info.disabledEdit' | cxTranslate }}
-      </li>
-      <li *ngIf="displayDisabledEnable(item)">
-        {{ i18nRoot + '.info.disabledEnable' | cxTranslate }}
       </li>
       <li *ngIf="displayDisabledDisable(item)">
         {{ i18nRoot + '.info.disabledDisable' | cxTranslate }}
