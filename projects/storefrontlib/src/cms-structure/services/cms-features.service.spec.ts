@@ -1,16 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-
-import { FeatureModulesService } from './feature-modules.service';
+import { CmsFeaturesService } from './cms-features.service';
 import {
   CmsConfig,
-  ConfigInitializerService,
-  EventService,
-  ModuleInitializedEvent,
+  FeatureModulesService,
+  provideConfig,
   provideDefaultConfig,
 } from '@spartacus/core';
 import { InjectionToken, NgModule } from '@angular/core';
-import { take } from 'rxjs/operators';
-import { of } from 'rxjs';
 
 const mockCmsConfig: CmsConfig = {
   featureModules: {
@@ -25,13 +21,6 @@ const mockCmsConfig: CmsConfig = {
     },
   },
 };
-
-class MockConfigInitializerService
-  implements Partial<ConfigInitializerService> {
-  getStable() {
-    return of(mockCmsConfig);
-  }
-}
 
 const feature1CmsConfig: CmsConfig = {
   cmsComponents: {
@@ -65,20 +54,16 @@ class MockFeature1Module {}
 })
 class MockDependencyModule {}
 
-describe('FeatureModulesService', () => {
-  let service: FeatureModulesService;
+describe('CmsFeaturesService', () => {
+  let service: CmsFeaturesService;
+  let featureModules: FeatureModulesService;
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      providers: [
-        {
-          provide: ConfigInitializerService,
-          useClass: MockConfigInitializerService,
-        },
-        FeatureModulesService,
-      ],
+      providers: [provideConfig(mockCmsConfig)],
     });
-    service = TestBed.inject(FeatureModulesService);
+    service = TestBed.inject(CmsFeaturesService);
+    featureModules = TestBed.inject(FeatureModulesService);
   });
 
   it('should be created', () => {
@@ -103,19 +88,10 @@ describe('FeatureModulesService', () => {
       });
     });
 
-    it('should emit module initialized event', (done) => {
-      const eventService = TestBed.inject(EventService);
-      let moduleEvent;
-      eventService
-        .get(ModuleInitializedEvent)
-        .pipe(take(1))
-        .subscribe((event) => (moduleEvent = event));
-
+    it('should call FeatureModulesService.resolveFeature', (done) => {
+      spyOn(featureModules, 'resolveFeature').and.callThrough();
       service.getCmsMapping('component1').subscribe(() => {
-        expect(moduleEvent.feature).toEqual('feature1');
-        expect(
-          moduleEvent.moduleRef.instance instanceof MockFeature1Module
-        ).toBeTruthy();
+        expect(featureModules.resolveFeature).toHaveBeenCalledWith('feature1');
         done();
       });
     });
