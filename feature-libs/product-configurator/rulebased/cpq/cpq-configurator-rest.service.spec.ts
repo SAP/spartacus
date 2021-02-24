@@ -20,6 +20,7 @@ import { Cpq } from './cpq.models';
 
 const productCode = 'CONF_LAPTOP';
 const tabId = '2';
+const tabIdUpdatedAttribute = '1';
 const configId = '1234-56-7890';
 
 const configCreatedResponse: Cpq.ConfigurationCreatedResponseData = {
@@ -92,12 +93,14 @@ const updateAttribute: Cpq.UpdateAttribute = {
   changeAttributeValue: {
     attributeValueIds: attrValueId,
   },
+  tabId: tabIdUpdatedAttribute,
 };
 const updateValue: Cpq.UpdateValue = {
   configurationId: configId,
   standardAttributeCode: attrCode,
   attributeValueId: attrValueId,
   quantity: 5,
+  tabId: tabIdUpdatedAttribute,
 };
 
 describe('CpqConfiguratorRestService', () => {
@@ -280,7 +283,7 @@ describe('CpqConfiguratorRestService', () => {
       );
     });
     mockReq.flush(configUpdateResponse);
-    mockDisplayConfig();
+    mockDisplayConfigWithTabId(tabIdUpdatedAttribute);
   });
 
   it('should call serializer, update value quantity and call normalizer', () => {
@@ -306,7 +309,7 @@ describe('CpqConfiguratorRestService', () => {
       );
     });
     mockReq.flush(configUpdateResponse);
-    mockDisplayConfig();
+    mockDisplayConfigWithTabId(tabIdUpdatedAttribute);
   });
 
   function mockDisplayConfig(response?: Cpq.Configuration) {
