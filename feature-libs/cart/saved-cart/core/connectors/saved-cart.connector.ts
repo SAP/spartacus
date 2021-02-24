@@ -12,9 +12,4 @@ export class SavedCartConnector {
   getList(userId: string): Observable<EntitiesModel<Cart>> {
     return this.adapter.loadList(userId);
   }
-
-  // test
-  // getList(userId: string): Observable<CartList> {
-  //   return this.adapter.loadList(userId);
-  // }
 }

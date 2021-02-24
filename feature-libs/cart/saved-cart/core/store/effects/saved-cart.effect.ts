@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import {
   Cart,
+  CartActions,
   EntitiesModel,
   normalizeHttpError,
-  StateUtils,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -16,7 +16,7 @@ import { SavedCartActions } from '../actions/index';
 export class SavedCartEffects {
   @Effect()
   loadSavedCarts$: Observable<
-    | SavedCartActions.LoadSavedCartSuccess
+    | CartActions.LoadSavedCartsSuccess
     | SavedCartActions.LoadSavedCartsSuccess
     | SavedCartActions.LoadSavedCartsFail
   > = this.actions$.pipe(
@@ -25,16 +25,8 @@ export class SavedCartEffects {
     switchMap(({ userId }) => {
       return this.savedCartConnector.getList(userId).pipe(
         switchMap((savedCarts: EntitiesModel<Cart>) => {
-          const { values, page } = StateUtils.normalizeListPage(
-            savedCarts,
-            'code'
-          );
-
           return [
-            new SavedCartActions.LoadSavedCartSuccess(values),
-            new SavedCartActions.LoadSavedCartsSuccess({
-              page,
-            }),
+            new CartActions.LoadSavedCartsSuccess({ cart: savedCarts.values }),
           ];
         }),
 

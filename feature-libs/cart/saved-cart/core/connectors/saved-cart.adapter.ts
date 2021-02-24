@@ -6,7 +6,4 @@ export abstract class SavedCartAdapter {
    * Abstract method used to load a list of saved carts
    */
   abstract loadList(userId: string): Observable<EntitiesModel<Cart>>;
-
-  // test
-  // abstract loadList(userId: string): Observable<CartList>;
 }

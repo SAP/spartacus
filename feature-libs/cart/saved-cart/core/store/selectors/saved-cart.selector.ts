@@ -37,6 +37,5 @@ export const getSavedCartList = (): MemoizedSelector<
   StateUtils.LoaderState<EntitiesModel<Cart>>
 > =>
   createSelector(getSavedCartState, (state: SavedCartManagement) => {
-    console.log('what is state', state);
     return StateUtils.denormalizeSearch<Cart>(state);
   });

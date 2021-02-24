@@ -3,13 +3,12 @@
     <div class="cx-saved-cart-list-header">
       <h3>
         {{
-          'savedCartList.savedCarts'
-            | cxTranslate: { count: savedCarts.values.length }
+          'savedCartList.savedCarts' | cxTranslate: { count: savedCarts.length }
         }}
       </h3>
     </div>
 
-    <ng-container *ngIf="savedCarts.values.length > 0; else noSavedCarts">
+    <ng-container *ngIf="savedCarts.length > 0; else noSavedCarts">
       <table class="table cx-saved-cart-list-table">
         <thead class="cx-saved-cart-list-thead-mobile">
           <th scope="col">
@@ -30,7 +29,7 @@
         </thead>
         <tbody>
           <tr
-            *ngFor="let savedCart of savedCarts.values"
+            *ngFor="let savedCart of savedCarts"
             (click)="goToSavedCartDetails(savedCart)"
           >
             <td class="cx-saved-cart-list-cart-name">

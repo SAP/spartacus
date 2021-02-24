@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Cart } from '../../../model/cart.model';
+import { OCC_SAVED_CART_ID } from '../../../occ/utils/occ-constants';
 import {
   EntityFailAction,
   EntityLoadAction,
@@ -148,6 +149,29 @@ export class LoadCartSuccess extends EntitySuccessAction {
   }
 }
 
+// TODO: explain the each vs the all (drawbacks and such)
+export const LOAD_SAVED_CART_SUCCESS =
+  '[Saved Cart] Load SavedCarts Data Success';
+
+export class LoadSavedCartSuccess extends EntitySuccessAction {
+  readonly type = LOAD_SAVED_CART_SUCCESS;
+  constructor(public payload: Cart[]) {
+    super(
+      MULTI_CART_DATA,
+      payload.map((cart) => cart?.code)
+    );
+  }
+}
+
+export const LOAD_SAVED_CARTS_SUCCESS =
+  '[Saved Cart] Load SavedCarts Data Success';
+export class LoadSavedCartsSuccess extends EntitySuccessAction {
+  readonly type = LOAD_SAVED_CARTS_SUCCESS;
+  constructor(public payload: { cart: Cart[] }) {
+    super(MULTI_CART_DATA, OCC_SAVED_CART_ID);
+  }
+}
+
 interface MergeCartPayload {
   cartId: string;
   userId: string;
@@ -224,6 +248,8 @@ export type CartAction =
   | LoadCart
   | LoadCartFail
   | LoadCartSuccess
+  | LoadSavedCartSuccess
+  | LoadSavedCartsSuccess
   | MergeCart
   | MergeCartSuccess
   | ResetCartDetails

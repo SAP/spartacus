@@ -2,23 +2,25 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   Cart,
-  EntitiesModel,
+  MultiCartSelectors,
+  MultiCartService,
+  OCC_SAVED_CART_ID,
   StateUtils,
-  StateWithProcess,
+  StateWithMultiCart,
   UserIdService,
 } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, tap } from 'rxjs/operators';
 import { SavedCartActions } from '../store/actions/index';
-import { SavedCartSelectors } from '../store/selectors/index';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SavedCartService {
   constructor(
-    protected store: Store<any | StateWithProcess<void>>,
-    protected userIdService: UserIdService
+    protected store: Store<StateWithMultiCart>,
+    protected userIdService: UserIdService,
+    protected multiCartService: MultiCartService
   ) {}
 
   loadSavedCarts(): void {
@@ -32,26 +34,25 @@ export class SavedCartService {
     );
   }
 
-  getList(): Observable<EntitiesModel<Cart>> {
-    return this.getSavedCartList().pipe(
+  getList(): Observable<Cart | undefined> {
+    return this.multiCartService.getCartEntity(OCC_SAVED_CART_ID).pipe(
       observeOn(queueScheduler),
-      tap((state: StateUtils.LoaderState<EntitiesModel<Cart>>) => {
+      tap((state: StateUtils.ProcessesLoaderState<Cart>) => {
         if (!(state.loading || state.success || state.error)) {
           this.loadSavedCarts();
         }
       }),
       filter(
-        (state: StateUtils.LoaderState<EntitiesModel<Cart>>) =>
+        (state: StateUtils.ProcessesLoaderState<Cart>) =>
           state.success || state.error
       ),
-      map((result) => {
-        console.log('why', result);
-        return result.value;
-      })
+      map((result) => result.value)
     );
   }
 
-  getSavedCartList(): Observable<StateUtils.LoaderState<EntitiesModel<Cart>>> {
-    return this.store.select(SavedCartSelectors.getSavedCartList());
+  getSavedCartList(): Observable<Cart[]> {
+    return this.store
+      .select(MultiCartSelectors.getCartValueList)
+      .pipe(map((carts) => carts.filter((cart) => cart?.saveTime)));
   }
 }
