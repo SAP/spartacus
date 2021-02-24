@@ -3,7 +3,7 @@
     *ngIf="
       isItemDisabled(item) ||
       isParentDisabled(item) ||
-      isRootUnit(item) ||
+      (isRootUnit(item) && displayMessageConfig.disabledDisable) ||
       forceDisplay
     "
   >
@@ -18,7 +18,7 @@
       <li *ngIf="isParentDisabled(item)">
         {{ i18nRoot + '.messages.disabledEnable' | cxTranslate }}
       </li>
-      <li *ngIf="isRootUnit(item)">
+      <li *ngIf="isRootUnit(item) && displayMessageConfig?.disabledDisable">
         {{ i18nRoot + '.messages.disabledDisable' | cxTranslate }}
       </li>
       <ng-content></ng-content>

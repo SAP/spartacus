@@ -65,7 +65,6 @@ export class ExplainDisableMessagesComponent<T extends BaseItem>
 
   isRootUnit(item: B2BUnit): boolean {
     return (
-      this.displayMessageConfig.disabledDisable &&
       item?.uid &&
       item?.name &&
       !(item as any)?.orgUnit &&
