@@ -7,6 +7,7 @@ APP="upp-cli"
 echo "-----"
 echo "Downloading upp cli zip"
 
+# TODO pull fron NPM once the CLI is published. For now, we can only get it from github releases
 curl -u ${GHT_USER}:${GHT_TOKEN} -L -H "Accept: application/octet-stream" \
     "https://github.tools.sap/api/v3/repos/cx-commerce/upscale-partner-platform-cli/releases/assets/7203" -o ${APP}.zip
 
@@ -20,15 +21,12 @@ echo "Installing upp cli (dependencies)"
 unzip -o ${APP}.zip -d ${APP}
 cd ${APP}
 npm install
+chmod -R 777 /github/home/.npm
+chmod -R 777 .
 
 echo "-----"
-echo "Installing upp cli (npm-force-resolutions)"
-sed -i '/preinstall/d' package.json
-npx npm-force-resolutions
-
-echo "-----"
-echo "Installing upp cli (util)"
-npm install -g
+echo "Installing UPP CLI"
+npm run install-cli
 
 cd ..
 
