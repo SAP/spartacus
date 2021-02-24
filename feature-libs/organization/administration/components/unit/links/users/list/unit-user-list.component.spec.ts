@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
-  ExplainDisableMessagesModule,
+  ExplainDisableInfoModule,
   ItemService,
 } from 'feature-libs/organization/administration/components/shared';
 import { SubListTestingModule } from 'feature-libs/organization/administration/components/shared/sub-list/sub-list.testing.module';
@@ -29,7 +29,7 @@ describe('UnitUserListComponent', () => {
         SubListTestingModule,
         UrlTestingModule,
         I18nTestingModule,
-        ExplainDisableMessagesModule,
+        ExplainDisableInfoModule,
       ],
       providers: [
         {

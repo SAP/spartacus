@@ -39,6 +39,8 @@ export const orgBudget = {
     confirmDisabled: 'Budget {{ item.name }} disabled successfully',
     update: 'Budget {{ item.name }} updated successfully',
     create: 'Budget {{ item.name }} created successfully',
+  },
+  info: {
     disabledEdit: 'Enable the budget to allow editing.',
     disabledEnable: 'Unit must be enabled before this budget may be enabled.',
   },

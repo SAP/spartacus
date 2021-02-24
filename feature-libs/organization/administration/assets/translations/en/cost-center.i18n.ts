@@ -22,6 +22,8 @@ export const orgCostCenter = {
     confirmDisabled: 'Cost Center {{ item.name }} disabled successfully',
     update: 'Cost Center {{ item.name }} updated successfully',
     create: 'Cost Center {{ item.name }} created successfully',
+  },
+  info: {
     disabledEdit: 'Enable the cost center to allow editing.',
     disabledEnable:
       'Unit must be enabled before this cost center may be enabled.',

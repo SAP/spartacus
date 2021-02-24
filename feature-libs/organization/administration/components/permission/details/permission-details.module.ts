@@ -6,7 +6,7 @@ import { ItemExistsModule } from '../../shared/item-exists.module';
 import { CardModule } from '../../shared/card/card.module';
 import { ToggleStatusModule } from '../../shared/detail/toggle-status-action/toggle-status.module';
 import { PermissionDetailsComponent } from './permission-details.component';
-import { ExplainDisableMessagesModule } from '../../shared/detail/explain-disable-messages/explain-disable-messages.module';
+import { ExplainDisableInfoModule } from '../../shared/detail/explain-disable-info/explain-disable-info.module';
 
 @NgModule({
   imports: [
@@ -17,7 +17,7 @@ import { ExplainDisableMessagesModule } from '../../shared/detail/explain-disabl
     I18nModule,
     ToggleStatusModule,
     ItemExistsModule,
-    ExplainDisableMessagesModule,
+    ExplainDisableInfoModule,
   ],
   declarations: [PermissionDetailsComponent],
   exports: [PermissionDetailsComponent],

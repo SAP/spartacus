@@ -11,16 +11,16 @@
     <cx-icon [type]="iconTypes.INFO"></cx-icon>
     <ul>
       <li *ngIf="displayDisabledCreate(item)">
-        {{ i18nRoot + '.messages.disabledCreate' | cxTranslate }}
+        {{ i18nRoot + '.info.disabledCreate' | cxTranslate }}
       </li>
       <li *ngIf="displayDisabledEdit(item)">
-        {{ i18nRoot + '.messages.disabledEdit' | cxTranslate }}
+        {{ i18nRoot + '.info.disabledEdit' | cxTranslate }}
       </li>
       <li *ngIf="displayDisabledEnable(item)">
-        {{ i18nRoot + '.messages.disabledEnable' | cxTranslate }}
+        {{ i18nRoot + '.info.disabledEnable' | cxTranslate }}
       </li>
       <li *ngIf="displayDisabledDisable(item)">
-        {{ i18nRoot + '.messages.disabledDisable' | cxTranslate }}
+        {{ i18nRoot + '.info.disabledDisable' | cxTranslate }}
       </li>
       <ng-content></ng-content>
     </ul>

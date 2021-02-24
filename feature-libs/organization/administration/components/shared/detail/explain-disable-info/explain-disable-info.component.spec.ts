@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ItemService } from '../../item.service';
 import { BaseItem } from '../../organization.model';
 
-import { ExplainDisableMessagesComponent } from './explain-disable-messages.component';
+import { ExplainDisableInfoComponent } from './explain-disable-info.component';
 
 const current$ = new BehaviorSubject({});
 class MockItemService {
@@ -188,13 +188,13 @@ const i18nRootScenario = {
   ],
 };
 
-describe('ExplainDisableMessagesComponent', () => {
-  let component: ExplainDisableMessagesComponent<BaseItem>;
-  let fixture: ComponentFixture<ExplainDisableMessagesComponent<BaseItem>>;
+describe('ExplainDisableInfoComponent', () => {
+  let component: ExplainDisableInfoComponent<BaseItem>;
+  let fixture: ComponentFixture<ExplainDisableInfoComponent<BaseItem>>;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule, I18nTestingModule, IconModule],
-      declarations: [ExplainDisableMessagesComponent],
+      declarations: [ExplainDisableInfoComponent],
       providers: [
         {
           provide: ItemService,
@@ -203,7 +203,7 @@ describe('ExplainDisableMessagesComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ExplainDisableMessagesComponent);
+    fixture = TestBed.createComponent(ExplainDisableInfoComponent);
     component = fixture.componentInstance;
     component.i18nRoot = 'orgUnit';
   });

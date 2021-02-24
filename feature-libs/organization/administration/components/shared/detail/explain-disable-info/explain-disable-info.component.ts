@@ -6,12 +6,11 @@ import { BaseItem } from '../../organization.model';
 import { B2BUnit } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-org-explain-disable-messages',
-  templateUrl: './explain-disable-messages.component.html',
+  selector: 'cx-org-explain-disable-info',
+  templateUrl: './explain-disable-info.component.html',
   host: { class: 'content-wrapper' },
 })
-export class ExplainDisableMessagesComponent<T extends BaseItem>
-  implements OnInit {
+export class ExplainDisableInfoComponent<T extends BaseItem> implements OnInit {
   /**
    * The localization of messages is based on the i18n root. Messages are
    * concatenated to the root, such as:
