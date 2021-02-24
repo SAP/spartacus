@@ -78,6 +78,7 @@ function getBundleId(branch: String) {
   let bundleId = '';
   const regex = /(\-\d)/;
   branch
+    .toLowerCase()
     .replace(/\//g, '-s')
     .replace(/\./g, '-d')
     .split(regex)
