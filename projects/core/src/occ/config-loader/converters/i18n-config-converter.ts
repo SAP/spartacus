@@ -9,7 +9,7 @@ import { OccLoadedConfig } from '../occ-loaded-config';
 export class I18nConfigConverter
   implements Converter<OccLoadedConfig, I18nConfig> {
   convert(source: OccLoadedConfig, target?: I18nConfig): I18nConfig {
-    target = { i18n: { fallbackLang: source.languages[0] } };
+    target = { i18n: { fallbackLang: source.languages?.[0] } };
     return target;
   }
 }

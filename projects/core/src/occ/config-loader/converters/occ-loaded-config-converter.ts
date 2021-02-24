@@ -41,7 +41,7 @@ export class OccLoadedConfigConverter
       ),
       urlParameters: this.getUrlParams(source.urlEncodingAttributes),
       theme: source.theme,
-    };
+    } as OccLoadedConfig;
 
     return target;
   }
@@ -100,7 +100,7 @@ export class OccLoadedConfigConverter
         [CURRENCY_CONTEXT_ID]: currencies,
         [THEME_CONTEXT_ID]: [theme],
       },
-    };
+    } as SiteContextConfig;
     return result;
   }
 
@@ -108,11 +108,11 @@ export class OccLoadedConfigConverter
    * @deprecated since 3.2, use I18nConfigConverter instead
    */
   toI18nConfig({ languages }: OccLoadedConfig): I18nConfig {
-    return { i18n: { fallbackLang: languages[0] } };
+    return { i18n: { fallbackLang: languages?.[0] } };
   }
 
   /**
-   * @deprecated since 3.2, it is moved into OccConfigLoaderService
+   * TODO: remove this function in 4.0
    */
   private isCurrentBaseSite(site: Occ.BaseSite, currentUrl: string): boolean {
     const index = (site.urlPatterns || []).findIndex((javaRegexp) => {
@@ -131,7 +131,7 @@ export class OccLoadedConfigConverter
    *
    * It maps the string "storefront" (used in OCC) to the "baseSite" (used in Spartacus)
    */
-  private getUrlParams(params: string[]): string[] {
+  private getUrlParams(params: string[] | undefined): string[] {
     const STOREFRONT_PARAM = 'storefront';
 
     return (params || []).map((param) =>
@@ -143,14 +143,16 @@ export class OccLoadedConfigConverter
    * Returns iso codes in a array, where the first element is the default iso code.
    */
   private getIsoCodes(
-    elements: { isocode?: string }[],
-    defaultElement: { isocode?: string }
+    elements: { isocode?: string }[] | undefined,
+    defaultElement: { isocode?: string } | undefined
   ) {
-    const result = this.moveToFirst(
-      elements,
-      (el) => el.isocode === defaultElement.isocode
-    ).map((el) => el.isocode);
-    return result;
+    if (elements && defaultElement) {
+      const result = this.moveToFirst(
+        elements,
+        (el) => el.isocode === defaultElement.isocode
+      ).map((el) => el.isocode);
+      return result;
+    }
   }
 
   /**

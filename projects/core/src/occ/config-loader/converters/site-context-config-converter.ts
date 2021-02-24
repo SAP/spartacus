@@ -26,7 +26,7 @@ export class SiteContextConfigConverter
         [CURRENCY_CONTEXT_ID]: source.currencies,
         [THEME_CONTEXT_ID]: [source.theme],
       },
-    };
+    } as SiteContextConfig;
 
     return target;
   }

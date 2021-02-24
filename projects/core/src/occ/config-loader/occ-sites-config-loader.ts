@@ -16,18 +16,18 @@ export class OccSitesConfigLoader {
   protected readonly endpoint =
     'basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies(isocode),defaultCurrency(isocode),languages(isocode),defaultLanguage(isocode)),theme)';
 
-  private getPrefix(): string {
+  private getPrefix(): string | undefined {
     if (
       Boolean(this.config.backend?.occ?.prefix) &&
       !this.config.backend?.occ?.prefix?.startsWith('/')
     ) {
-      return '/' + this.config.backend.occ.prefix;
+      return '/' + this.config.backend?.occ?.prefix;
     }
-    return this.config.backend.occ.prefix;
+    return this.config.backend?.occ?.prefix;
   }
 
   private get baseEndpoint(): string {
-    return (this.config.backend.occ.baseUrl || '') + this.getPrefix();
+    return (this.config.backend?.occ?.baseUrl || '') + this.getPrefix();
   }
 
   private get url(): string {
@@ -37,7 +37,7 @@ export class OccSitesConfigLoader {
   /**
    * @deprecated since 3.2, use SiteConnector's getBaseSites() instead
    */
-  load(): Observable<BaseSite[]> {
+  load(): Observable<BaseSite[] | undefined> {
     if (!this.config || !this.config.backend || !this.config.backend.occ) {
       return throwError(new Error(`Missing config for OCC backend!`));
     }
