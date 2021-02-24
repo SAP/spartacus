@@ -19,7 +19,7 @@ export async function deploy(github: any, octoKit: any) {
   const exp = /https\:\/\/\w+\.cloudfront\.net/;
   let output = '';
 
-  const options:any = {};
+  const options: any = {};
   options.listeners = {
     stdout: (data: Buffer) => {
       const line = data.toString();
@@ -33,10 +33,11 @@ export async function deploy(github: any, octoKit: any) {
     },
     stderr: (data: Buffer) => {
       console.log(`upp deploy exited with error:  ${data.toString()}`);
-    }
+    },
   };
 
-await exec.exec(command, options);
+  await exec.exec(command, options);
+}
 
 async function addComment(context: any, octoKit: any, comment: String) {
   const COMMENT_HEADER = '## Hosting service deployment';
