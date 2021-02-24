@@ -50,20 +50,38 @@ export class ExplainDisableMessagesComponent<T extends BaseItem>
     };
   }
 
-  isItemDisabled(item: T): boolean {
-    return !item?.active;
-  }
-
-  isParentDisabled(item: T): boolean {
+  displayDisabledCreate(item: T) {
     return (
-      this.displayMessageConfig.disabledEnable &&
-      !(item.orgUnit || (item as any).unit || (item as any).parentOrgUnit)
-        ?.active &&
-      !this.isRootUnit(item)
+      this.displayMessageConfig?.disabledCreate && this.isItemDisabled(item)
     );
   }
 
-  isRootUnit(item: B2BUnit): boolean {
+  displayDisabledEdit(item: T) {
+    return this.displayMessageConfig?.disabledEdit && this.isItemDisabled(item);
+  }
+
+  displayDisabledEnable(item: T) {
+    return (
+      this.displayMessageConfig?.disabledEnable && this.isParentDisabled(item)
+    );
+  }
+
+  displayDisabledDisable(item: T) {
+    return this.displayMessageConfig?.disabledDisable && this.isRootUnit(item);
+  }
+
+  protected isItemDisabled(item: T): boolean {
+    return !item?.active;
+  }
+
+  protected isParentDisabled(item: T): boolean {
+    return (
+      !(item.orgUnit || (item as any).unit || (item as any).parentOrgUnit)
+        ?.active && !this.isRootUnit(item)
+    );
+  }
+
+  protected isRootUnit(item: B2BUnit): boolean {
     return (
       item?.uid &&
       item?.name &&

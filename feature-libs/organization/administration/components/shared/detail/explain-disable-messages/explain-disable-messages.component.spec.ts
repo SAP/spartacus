@@ -28,6 +28,12 @@ const defaultConfigScenarios = [
     expectedValue: [],
   },
   {
+    key: "display disabledEnable message when item's parent is disabled",
+    currentValue: { active: true, orgUnit: { active: false } },
+    displayMessageConfig: {},
+    expectedValue: ['orgUnit.messages.disabledEnable'],
+  },
+  {
     key:
       "display disabledEdit and disabledEnable message when item and item's parent are disabled",
     currentValue: { active: false, orgUnit: { active: false } },

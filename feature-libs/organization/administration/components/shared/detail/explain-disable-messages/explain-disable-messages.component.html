@@ -1,24 +1,25 @@
 <ng-container *ngIf="current$ | async as item">
   <section
     *ngIf="
-      isItemDisabled(item) ||
-      isParentDisabled(item) ||
-      (isRootUnit(item) && displayMessageConfig.disabledDisable) ||
+      displayDisabledCreate(item) ||
+      displayDisabledEdit(item) ||
+      displayDisabledEnable(item) ||
+      displayDisabledDisable(item) ||
       forceDisplay
     "
   >
     <cx-icon [type]="iconTypes.INFO"></cx-icon>
     <ul>
-      <li *ngIf="isItemDisabled(item) && displayMessageConfig?.disabledCreate">
+      <li *ngIf="displayDisabledCreate(item)">
         {{ i18nRoot + '.messages.disabledCreate' | cxTranslate }}
       </li>
-      <li *ngIf="isItemDisabled(item) && displayMessageConfig?.disabledEdit">
+      <li *ngIf="displayDisabledEdit(item)">
         {{ i18nRoot + '.messages.disabledEdit' | cxTranslate }}
       </li>
-      <li *ngIf="isParentDisabled(item)">
+      <li *ngIf="displayDisabledEnable(item)">
         {{ i18nRoot + '.messages.disabledEnable' | cxTranslate }}
       </li>
-      <li *ngIf="isRootUnit(item) && displayMessageConfig?.disabledDisable">
+      <li *ngIf="displayDisabledDisable(item)">
         {{ i18nRoot + '.messages.disabledDisable' | cxTranslate }}
       </li>
       <ng-content></ng-content>
