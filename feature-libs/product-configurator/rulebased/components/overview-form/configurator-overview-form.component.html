@@ -8,7 +8,7 @@
         <div
           *ngFor="let attributeOverview of group.attributes; let i = index"
           class="cx-attribute-value-pair"
-          [ngClass]="getStyleClass(group.attributes, i)"
+          [ngClass]="getStyleClasses(group.attributes, i)"
         >
           <ng-container [ngSwitch]="attributeOverview?.type">
             <ng-container *ngSwitchCase="attributeOverviewType.GENERAL">

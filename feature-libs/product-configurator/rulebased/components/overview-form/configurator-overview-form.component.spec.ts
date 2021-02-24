@@ -248,7 +248,7 @@ describe('ConfigurationOverviewFormComponent', () => {
     });
   });
 
-  describe('getStyleClass', () => {
+  describe('getStyleClasses', () => {
     it('should return certain style classes for general attribute type', () => {
       initialize();
       const attributes: Configurator.AttributeOverview[] = [
@@ -273,25 +273,25 @@ describe('ConfigurationOverviewFormComponent', () => {
         },
       ];
 
-      let result = component.getStyleClass(attributes, 0);
+      let result = component.getStyleClasses(attributes, 0);
       expect(result.includes('general')).toBe(true);
       expect(result.includes('bundle')).toBe(false);
       expect(result.includes('margin')).toBe(true);
       expect(result.includes('last-value-pair')).toBe(false);
 
-      result = component.getStyleClass(attributes, 1);
+      result = component.getStyleClasses(attributes, 1);
       expect(result.includes('general')).toBe(true);
       expect(result.includes('bundle')).toBe(false);
       expect(result.includes('margin')).toBe(false);
       expect(result.includes('last-value-pair')).toBe(false);
 
-      result = component.getStyleClass(attributes, 2);
+      result = component.getStyleClasses(attributes, 2);
       expect(result.includes('general')).toBe(true);
       expect(result.includes('bundle')).toBe(false);
       expect(result.includes('margin')).toBe(false);
       expect(result.includes('last-value-pair')).toBe(false);
 
-      result = component.getStyleClass(attributes, 3);
+      result = component.getStyleClasses(attributes, 3);
       expect(result.includes('general')).toBe(false);
       expect(result.includes('bundle')).toBe(false);
       expect(result.includes('margin')).toBe(false);
@@ -322,24 +322,24 @@ describe('ConfigurationOverviewFormComponent', () => {
         },
       ];
 
-      let result = component.getStyleClass(attributes, 0);
+      let result = component.getStyleClasses(attributes, 0);
       expect(result.includes('bundle')).toBe(true);
       expect(result.includes('general')).toBe(false);
       expect(result.includes('margin')).toBe(true);
       expect(result.includes('last-value-pair')).toBe(false);
 
-      result = component.getStyleClass(attributes, 1);
+      result = component.getStyleClasses(attributes, 1);
       expect(result.includes('bundle')).toBe(true);
       expect(result.includes('general')).toBe(false);
       expect(result.includes('margin')).toBe(false);
       expect(result.includes('last-value-pair')).toBe(false);
 
-      result = component.getStyleClass(attributes, 2);
+      result = component.getStyleClasses(attributes, 2);
       expect(result.includes('bundle')).toBe(true);
       expect(result.includes('general')).toBe(false);
       expect(result.includes('margin')).toBe(false);
 
-      result = component.getStyleClass(attributes, 3);
+      result = component.getStyleClasses(attributes, 3);
       expect(result.includes('bundle')).toBe(false);
       expect(result.includes('general')).toBe(false);
       expect(result.includes('margin')).toBe(false);

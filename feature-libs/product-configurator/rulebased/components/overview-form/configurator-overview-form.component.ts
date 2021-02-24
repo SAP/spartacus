@@ -99,7 +99,7 @@ export class ConfiguratorOverviewFormComponent {
    * @param {number} index - Index of the attribute in the array
    * @return {string} - corresponding style class
    */
-  getStyleClass(
+  getStyleClasses(
     attributes: Configurator.AttributeOverview[],
     index: number
   ): string {
