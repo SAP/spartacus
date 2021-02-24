@@ -291,11 +291,9 @@ export class ExpressCheckoutService {
   }
 
   /**
-   * @deprecated since version 3.2 with saved carts
-   * We will use ClearCheckoutService with a public method to clear the checkout state instead of creating protected methods in different places
+   * @deprecated since version 3.2
+   * Use ClearCheckoutService to clear the checkout state
    */
-  // (#11253): Add ClearCheckoutService with public method to clear checkout state
-
   protected resetCheckoutProcesses() {
     this.checkoutDeliveryService.resetSetDeliveryAddressProcess();
     this.checkoutPaymentService.resetSetPaymentDetailsProcess();

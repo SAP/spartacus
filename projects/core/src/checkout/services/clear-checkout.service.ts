@@ -12,7 +12,7 @@ export class ClearCheckoutService {
   ) {}
 
   /**
-   * We can use it globally to clear checkout store state
+   * Use it to clear checkout state
    */
   resetCheckoutProcesses(): void {
     this.checkoutDeliveryService.resetSetDeliveryAddressProcess();
