@@ -10,7 +10,7 @@ $cx-popover-arrow-width: 1rem !default;
 $cx-popover-arrow-height: 0.5rem !default;
 $cx-popover-arrow-color: $cx-popover-background !default;
 
-$cx-popover-z-index: 1000 !default;
+$cx-popover-z-index: 10 !default;
 $cx-popover-box-shadow-color: rgba(0, 0, 0, 0.1) !default;
 
 %cx-popover {
@@ -135,7 +135,7 @@ $cx-popover-box-shadow-color: rgba(0, 0, 0, 0.1) !default;
   &.top > .arrow,
   &.bottom > .arrow {
     left: 50%;
-    margin-left: -$cx-popover-arrow-width/ 2;
+    margin-left: -$cx-popover-arrow-width / 2;
   }
 
   &.top-left > .arrow,
@@ -164,5 +164,11 @@ $cx-popover-box-shadow-color: rgba(0, 0, 0, 0.1) !default;
   &.right-bottom > .arrow {
     top: auto;
     bottom: 0.7em;
+  }
+
+  opacity: 0;
+  &.opened {
+    opacity: 1;
+    transition: opacity 0.4s;
   }
 }

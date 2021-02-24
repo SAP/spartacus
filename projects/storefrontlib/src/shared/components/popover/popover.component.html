@@ -1,5 +1,7 @@
 <div class="arrow"></div>
-<ng-container *ngIf="isTemplate">
-  <ng-container *ngTemplateOutlet="content"></ng-container>
-</ng-container>
-<span *ngIf="!isTemplate">{{ content }}</span>
+<div class="popover-body" [cxFocus]="focusConfig">
+  <ng-container *ngIf="isTemplate">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </ng-container>
+  <span *ngIf="!isTemplate">{{ content }}</span>
+</div>

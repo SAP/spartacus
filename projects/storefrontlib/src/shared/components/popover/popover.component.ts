@@ -1,5 +1,5 @@
 import {
-  AfterViewInit,
+  AfterViewChecked,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -15,13 +15,14 @@ import { WindowRef } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { PopoverPosition } from './popover.model';
 import { PositioningService } from './positioning.service';
+import { FocusConfig } from '../../../layout';
 
 @Component({
   selector: 'cx-popover',
   templateUrl: './popover.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PopoverComponent implements OnInit, AfterViewInit, OnDestroy {
+export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
   /**
    * String or template to be rendered inside popover wrapper component.
    */
@@ -66,7 +67,7 @@ export class PopoverComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /**
    * After popover component is initialized position needs to be changing dynamically
-   * in case if any viewport changes happen.
+   * in case if any viewport changes happened.
    */
   resizeSub: Subscription;
 
@@ -76,25 +77,42 @@ export class PopoverComponent implements OnInit, AfterViewInit, OnDestroy {
   popoverClass: PopoverPosition;
 
   /**
+   * Configuration for a11y improvements.
+   */
+  focusConfig: FocusConfig;
+
+  /**
    * Binding class name property.
    */
   @HostBinding('className') baseClass: string;
 
-  ngOnInit(): void {
-    this.isTemplate = this.content instanceof TemplateRef;
-    this.baseClass = this.customClass;
+  /**
+   * Method uses positioning service calculation and based on that
+   * updates class name for popover component instance.
+   */
+  positionPopover() {
+    this.popoverClass = this.positioningService.positionElements(
+      this.triggerElement.nativeElement,
+      this.popoverInstance.location.nativeElement,
+      this.position,
+      this.appendToBody
+    );
+
+    this.changeDetectionRef.markForCheck();
+    this.baseClass = `${this.customClass} ${this.popoverClass} opened`;
   }
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
+    this.isTemplate = this.content instanceof TemplateRef;
+    this.baseClass = `${this.customClass}`;
+
     this.resizeSub = this.winRef.resize$.subscribe(() => {
-      this.popoverClass = this.positioningService.positionElements(
-        this.triggerElement.nativeElement,
-        this.popoverInstance.location.nativeElement,
-        this.position,
-        this.appendToBody
-      );
-      this.baseClass = `${this.customClass} ${this.popoverClass}`;
+      this.positionPopover();
     });
+  }
+
+  ngAfterViewChecked(): void {
+    this.positionPopover();
   }
 
   ngOnDestroy(): void {

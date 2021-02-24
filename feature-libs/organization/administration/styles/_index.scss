@@ -33,12 +33,16 @@ html[dir='rtl'] cx-org-list {
   --list-bg-pos: 25px;
 }
 
-.popover-details {
-  > .property {
-    > label {
-      font-weight: bold;
-      margin-bottom: 0;
+.my-company-popover {
+  min-width: 200px;
+  max-width: 200px;
+  .popover-details {
+    > .property {
+      > label {
+        font-weight: bold;
+        margin-bottom: 0;
+      }
+      margin-bottom: $label-margin-bottom;
     }
-    margin-bottom: $label-margin-bottom;
   }
 }

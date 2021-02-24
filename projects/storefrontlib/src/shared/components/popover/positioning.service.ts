@@ -6,6 +6,8 @@ import { PopoverPosition, PopoverPositionArray } from './popover.model';
   providedIn: 'root',
 })
 export class PositioningService {
+  constructor(protected winRef: WindowRef) {}
+
   protected get allowedPlacements(): Array<PopoverPositionArray> {
     return [
       'top',
@@ -30,8 +32,6 @@ export class PositioningService {
   protected get window(): Window {
     return this.winRef.nativeWindow;
   }
-
-  constructor(protected winRef: WindowRef) {}
 
   protected getAllStyles(element: HTMLElement) {
     return this.window?.getComputedStyle(element);
@@ -116,7 +116,7 @@ export class PositioningService {
       left: this.window?.pageXOffset - document.documentElement.clientLeft,
     };
 
-    let elOffset = {
+    const elOffset = {
       height: elBcr.height || element.offsetHeight,
       width: elBcr.width || element.offsetWidth,
       top: elBcr.top + viewportOffset.top,
@@ -217,8 +217,6 @@ export class PositioningService {
         break;
     }
 
-    /// The translate3d/gpu acceleration render a blurry text on chrome, the next line is commented until a browser fix
-    // targetElement.style.transform = `translate3d(${Math.round(leftPosition)}px, ${Math.floor(topPosition)}px, 0px)`;
     targetElement.style.transform = `translate(${Math.round(
       leftPosition
     )}px, ${Math.round(topPosition)}px)`;
@@ -274,7 +272,7 @@ export class PositioningService {
     appendToBody?: boolean,
     baseClass?: string
   ): PopoverPosition | null {
-    let placementVals: Array<PopoverPosition> = Array.isArray(placement)
+    const placementVals: Array<PopoverPosition> = Array.isArray(placement)
       ? placement
       : (placement.split(this.placementSeparator) as Array<PopoverPosition>);
 
@@ -297,19 +295,15 @@ export class PositioningService {
       });
     }
 
-    // coordinates where to position
-
-    // Required for transform:
     const style = targetElement.style;
     style.position = 'absolute';
     style.top = '0';
     style.left = '0';
-    style['will-change'] = 'transform';
 
     let testPlacement: PopoverPosition | null = null;
     let isInViewport = false;
     for (testPlacement of placementVals) {
-      let addedClasses = this.addClassesToTarget(
+      const addedClasses = this.addClassesToTarget(
         testPlacement,
         baseClass,
         classList

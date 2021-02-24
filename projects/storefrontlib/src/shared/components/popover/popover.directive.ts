@@ -12,12 +12,14 @@ import {
   Output,
   EventEmitter,
   Inject,
-  OnInit,
+  HostListener,
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
+import { FocusConfig } from '../../../layout';
 import { PopoverComponent } from './popover.component';
 import { PopoverPosition } from './popover.model';
 import { PositioningService } from './positioning.service';
+import { PopoverService } from './popover.service';
 
 /**
  * Directive to bind popover with any DOM element.
@@ -25,7 +27,7 @@ import { PositioningService } from './positioning.service';
 @Directive({
   selector: '[cxPopover]',
 })
-export class PopoverDirective implements OnInit {
+export class PopoverDirective {
   /**
    * Template or string to be rendered inside popover wrapper component.
    */
@@ -77,18 +79,50 @@ export class PopoverDirective implements OnInit {
   popoverContainer: ComponentRef<PopoverComponent>;
 
   /**
+   * Configuration for a11y improvements.
+   */
+  focusConfig: FocusConfig;
+
+  /**
+   * Callback used to unlisten click event when is not necessary anymore.
+   */
+  clickEventUnlistener: () => void;
+
+  /**
    * Callback used to unlisten keydown event when is not necessary anymore.
    */
-  keydownEventUnlistner: () => void;
+  keydownEventUnlistener: () => void;
+
+  /**
+   * Listen events fired on element binded to popover directive.
+   *
+   * Based on event type some a11y improvements can be made.
+   * For example if popover was opened by `space` or `enter` key
+   * dedicated `FocusConfig` can be set to autofocus first
+   * focusable element in popover container.
+   */
+  @HostListener('keydown.enter', ['$event'])
+  @HostListener('click', ['$event'])
+  handleOpen(event: MouseEvent | KeyboardEvent): void {
+    this.toggle(event);
+  }
 
   /**
    * Method performs open action for popover component.
    */
-  open() {
+  open(event: MouseEvent | KeyboardEvent) {
     if (!this.disablePopover) {
+      this.isOpen = true;
+      this.focusConfig = this.popoverService.getFocusConfig(
+        event,
+        this.appendToBody
+      );
+
       this.renderPopover();
       this.openPopover.emit();
-      this.changeDetectorRef.markForCheck();
+
+      this.triggerClickEvent();
+      this.triggerEscKeydownEvent();
     }
   }
 
@@ -96,9 +130,21 @@ export class PopoverDirective implements OnInit {
    * Method performs close action for popover component.
    */
   close() {
+    this.isOpen = false;
     this.viewContainer.clear();
     this.closePopover.emit();
-    this.keydownEventUnlistner();
+
+    this.clickEventUnlistener();
+    this.keydownEventUnlistener();
+  }
+
+  /**
+   * Method performs toggle action for popover component.
+   */
+  toggle(event: MouseEvent | KeyboardEvent) {
+    if (event && event.target === this.element.nativeElement && !this.isOpen)
+      this.open(event);
+    else if (this.isOpen) this.close();
   }
 
   /**
@@ -117,56 +163,59 @@ export class PopoverDirective implements OnInit {
       this.popoverContainer.instance.popoverInstance = this.popoverContainer;
       this.popoverContainer.instance.position = this.placement;
       this.popoverContainer.instance.customClass = this.customClass;
+      this.popoverContainer.instance.focusConfig = this.focusConfig;
+      this.popoverContainer.instance.appendToBody = this.appendToBody;
+
       if (this.appendToBody) {
-        this.popoverContainer.instance.appendToBody = this.appendToBody;
         this.renderer.appendChild(
           this.document.body,
           this.popoverContainer.location.nativeElement
         );
       }
+
+      this.popoverContainer.changeDetectorRef.detectChanges();
     }
-    this.triggerEscKeydownEvent();
   }
 
   /**
    * Method uses `Renderer2` service to listen every click event.
-   * If binded to directive element was clicked popover changes the state.
+   *
+   * Registered only when popover state was set to open and checks if element
+   * outside popover component was clicked.
+   *
+   * If so directive performs `close()` action and fire unlistener for such event.
    */
   triggerClickEvent() {
-    this.renderer.listen(this.winRef.nativeWindow, 'click', (e: Event) => {
-      if (e.target === this.element.nativeElement && !this.isOpen) {
-        this.isOpen = true;
-        this.open();
-      } else {
-        if (this.isOpen) {
-          this.isOpen = false;
-          this.close();
-        }
-      }
-    });
-  }
-
-  /**
-   * Method uses `Renderer2` service to listen every keydown event.
-   * If 'Escape' key was clicked popover component performs close action.
-   */
-  triggerEscKeydownEvent() {
-    this.keydownEventUnlistner = this.renderer.listen(
+    this.clickEventUnlistener = this.renderer.listen(
       this.winRef.nativeWindow,
-      'keydown',
-      (e: KeyboardEvent) => {
-        if (e.code === 'Escape') {
-          if (this.isOpen) {
-            this.isOpen = false;
-            this.close();
-          }
-        }
+      'click',
+      (event: Event) => {
+        if (event && event.target !== this.element.nativeElement) this.close();
       }
     );
   }
 
-  ngOnInit(): void {
-    this.triggerClickEvent();
+  /**
+   * Method uses `Renderer2` service to listen every click event.
+   *
+   * Registered only when popover state was set to open and checks if `escape`
+   * key was pressed.
+   *
+   * If so directive performs `close()` action and fire unlistener for such event.
+   */
+  triggerEscKeydownEvent() {
+    this.keydownEventUnlistener = this.renderer.listen(
+      this.winRef.nativeWindow,
+      'keydown.escape',
+      (event: KeyboardEvent) => {
+        if (event) {
+          this.close();
+          if (this.focusConfig && this.appendToBody) {
+            this.element.nativeElement.focus();
+          }
+        }
+      }
+    );
   }
 
   constructor(
@@ -176,7 +225,9 @@ export class PopoverDirective implements OnInit {
     protected renderer: Renderer2,
     protected changeDetectorRef: ChangeDetectorRef,
     protected positioningService: PositioningService,
+    protected popoverService: PopoverService,
     protected winRef: WindowRef,
+
     @Inject(DOCUMENT) protected document: any
   ) {}
 }
