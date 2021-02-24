@@ -10,7 +10,6 @@ export class PopoverService {
    * based on which event popover was triggered.
    */
   getFocusConfig(event: Event, appendToBody: boolean): any | null {
-    console.log(event, appendToBody);
     let config: FocusConfig = null;
 
     if (event instanceof KeyboardEvent) {
