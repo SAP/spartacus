@@ -68,6 +68,11 @@ export class PopoverDirective {
   @Output() closePopover?: EventEmitter<void> = new EventEmitter();
 
   /**
+   * Flag indicates if popover should be re-positioned on scroll event.
+   */
+  @Input() positionOnScroll?: boolean;
+
+  /**
    * Flag used to inform about current state of popover component.
    * Popover is closed by default, so value is set to false.
    */
@@ -165,6 +170,7 @@ export class PopoverDirective {
       this.popoverContainer.instance.customClass = this.customClass;
       this.popoverContainer.instance.focusConfig = this.focusConfig;
       this.popoverContainer.instance.appendToBody = this.appendToBody;
+      this.popoverContainer.instance.positionOnScroll = this.positionOnScroll;
 
       if (this.appendToBody) {
         this.renderer.appendChild(

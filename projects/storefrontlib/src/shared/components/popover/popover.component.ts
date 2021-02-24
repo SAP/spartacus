@@ -9,6 +9,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Renderer2,
   TemplateRef,
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
@@ -82,9 +83,32 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
   focusConfig: FocusConfig;
 
   /**
+   * Flag indicates if popover should be re-positioned on scroll event.
+   */
+  positionOnScroll?: boolean;
+
+  /**
+   * Scroll event unlistener.
+   */
+  scrollEventUnlistener: () => void;
+
+  /**
    * Binding class name property.
    */
   @HostBinding('className') baseClass: string;
+
+  /**
+   * Method uses `Renderer2` service to listen window scroll event.
+   *
+   * Registered only if property `positionOnScroll` is set to `true`.
+   */
+  triggerScrollEvent() {
+    this.scrollEventUnlistener = this.renderer.listen(
+      this.winRef.nativeWindow,
+      'scroll',
+      () => this.positionPopover()
+    );
+  }
 
   /**
    * Method uses positioning service calculation and based on that
@@ -109,6 +133,10 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.resizeSub = this.winRef.resize$.subscribe(() => {
       this.positionPopover();
     });
+
+    if (this.positionOnScroll) {
+      this.triggerScrollEvent();
+    }
   }
 
   ngAfterViewChecked(): void {
@@ -119,11 +147,16 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (this.resizeSub) {
       this.resizeSub.unsubscribe();
     }
+
+    if (this.scrollEventUnlistener) {
+      this.scrollEventUnlistener();
+    }
   }
 
   constructor(
     protected positioningService: PositioningService,
     protected winRef: WindowRef,
-    protected changeDetectionRef: ChangeDetectorRef
+    protected changeDetectionRef: ChangeDetectorRef,
+    protected renderer: Renderer2
   ) {}
 }
