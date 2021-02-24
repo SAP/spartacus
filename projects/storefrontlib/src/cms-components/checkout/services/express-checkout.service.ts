@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { combineLatest, of, Observable } from 'rxjs';
 import { filter, map, switchMap, tap, debounceTime } from 'rxjs/operators';
 
@@ -11,6 +11,7 @@ import {
   DeliveryMode,
   CheckoutPaymentService,
   StateUtils,
+  ClearCheckoutService,
 } from '@spartacus/core';
 import { CheckoutConfigService } from './checkout-config.service';
 import { CheckoutDetailsService } from './checkout-details.service';
@@ -29,7 +30,8 @@ export class ExpressCheckoutService {
     protected checkoutDeliveryService: CheckoutDeliveryService,
     protected checkoutPaymentService: CheckoutPaymentService,
     protected checkoutDetailsService: CheckoutDetailsService,
-    protected checkoutConfigService: CheckoutConfigService
+    protected checkoutConfigService: CheckoutConfigService,
+    @Optional() protected clearCheckoutService?: ClearCheckoutService
   ) {
     this.setShippingAddress();
     this.setDeliveryMode();
@@ -288,6 +290,12 @@ export class ExpressCheckoutService {
     );
   }
 
+  /**
+   * @deprecated since version 3.2 with saved carts
+   * We will use ClearCheckoutService with a public method to clear the checkout state instead of creating protected methods in different places
+   */
+  // (#11253): Add ClearCheckoutService with public method to clear checkout state
+
   protected resetCheckoutProcesses() {
     this.checkoutDeliveryService.resetSetDeliveryAddressProcess();
     this.checkoutPaymentService.resetSetPaymentDetailsProcess();
@@ -295,7 +303,11 @@ export class ExpressCheckoutService {
   }
 
   public trySetDefaultCheckoutDetails(): Observable<boolean> {
-    this.resetCheckoutProcesses();
+    if (this.clearCheckoutService) {
+      this.clearCheckoutService.resetCheckoutProcesses();
+    } else {
+      this.resetCheckoutProcesses();
+    }
     return combineLatest([this.deliveryModeSet$, this.paymentMethodSet$]).pipe(
       map(([deliveryModeSet, paymentMethodSet]) =>
         Boolean(deliveryModeSet && paymentMethodSet)
