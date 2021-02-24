@@ -24,6 +24,7 @@ export const cart = {
     discount: 'You saved:',
     salesTax: 'Sales Tax:',
     grossTax: 'The order total does not include tax of',
+    grossIncludeTax: 'The order total includes tax of',
     total: 'Total:',
     toBeDetermined: 'TBD',
   },
