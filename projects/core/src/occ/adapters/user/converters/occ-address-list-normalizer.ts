@@ -20,13 +20,12 @@ export class OccAddressListNormalizer
     target?: EntitiesModel<Address>
   ): EntitiesModel<Address> {
     if (target === undefined) {
-      target = {
-        ...(source as any),
-        values: source.addresses.map((address) => ({
-          ...this.converter.convert(address, ADDRESS_NORMALIZER),
-        })),
-      };
+      target = { ...(source as any) };
     }
+    target.values = source.addresses.map((address) => ({
+      ...this.converter.convert(address, ADDRESS_NORMALIZER),
+    }));
+
     return target;
   }
 }
