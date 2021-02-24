@@ -35,15 +35,15 @@ export class SeoMetaService implements OnDestroy {
     this.canonicalUrl = meta.canonicalUrl;
   }
 
-  protected set title(title: string) {
+  protected set title(title: string | undefined) {
     this.ngTitle.setTitle(title || '');
   }
 
-  protected set description(value: string) {
-    this.addTag({ name: 'description', content: value });
+  protected set description(value: string | undefined) {
+    this.addTag({ name: 'description', content: value || '' });
   }
 
-  protected set image(imageUrl: string) {
+  protected set image(imageUrl: string | undefined) {
     if (imageUrl) {
       this.addTag({ name: 'og:image', content: imageUrl });
     }
@@ -61,8 +61,8 @@ export class SeoMetaService implements OnDestroy {
    * If the canonical url already exists the link is removed. This is quite
    * unlikely though, since canonical links are (typically) only added in SSR.
    */
-  protected set canonicalUrl(url: string) {
-    this.pageMetaLinkService.addCanonicalLink(url);
+  protected set canonicalUrl(url: string | undefined) {
+    this.pageMetaLinkService?.setCanonicalLink(url);
   }
 
   protected addTag(meta: MetaDefinition) {

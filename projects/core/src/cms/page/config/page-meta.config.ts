@@ -12,9 +12,7 @@ export abstract class PageMetaConfig {
 export interface PageMetaResolversConfig {
   resolvers?: PageMetaResolverConfig[];
 
-  options?: {
-    canonicalUrl?: CanonicalUrlOptions;
-  };
+  canonicalUrl?: CanonicalUrlOptions;
 
   /**
    * Enables resolvers in dev mode regardless of the CSR configuration. This

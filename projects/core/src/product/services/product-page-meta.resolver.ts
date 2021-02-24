@@ -12,6 +12,7 @@ import {
   PageRobotsResolver,
   PageTitleResolver,
 } from '../../cms/page/page.resolvers';
+import { PageLinkFactory } from '../../cms/page/routing/page-link.factory';
 import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
 import { Category, Product } from '../../model/product.model';
@@ -45,7 +46,7 @@ export class ProductPageMetaResolver
     map((state) => state.state.params['productCode']),
     filter((code) => !!code),
     switchMap((code) => this.productService.get(code, ProductScope.DETAILS)),
-    filter(Boolean)
+    filter((p) => Boolean(p))
   );
 
   /**
@@ -68,7 +69,8 @@ export class ProductPageMetaResolver
     protected routingService: RoutingService,
     protected productService: ProductService,
     protected translation: TranslationService,
-    protected basePageMetaResolver?: BasePageMetaResolver
+    protected basePageMetaResolver?: BasePageMetaResolver,
+    protected pageLinkFactory?: PageLinkFactory
   ) {
     super();
     this.pageType = PageType.PRODUCT_PAGE;
@@ -137,7 +139,7 @@ export class ProductPageMetaResolver
           breadcrumbs.push({
             label: name || code,
             link: url,
-          });
+          } as BreadcrumbMeta);
         }
         return breadcrumbs;
       })
@@ -150,19 +152,13 @@ export class ProductPageMetaResolver
    */
   resolveImage(): Observable<string> {
     return this.product$.pipe(
-      map((product) =>
-        (<any>product.images?.PRIMARY)?.zoom?.url
-          ? (<any>product.images.PRIMARY).zoom.url
-          : null
-      )
+      map((product) => (<any>product.images?.PRIMARY)?.zoom?.url ?? null)
     );
   }
 
   protected resolveFirstCategory(product: Product): string {
-    let firstCategory: Category;
-    if (product.categories?.length > 0) {
-      firstCategory = product.categories[0];
-    }
+    const firstCategory: Category | undefined = product?.categories?.[0];
+
     return firstCategory
       ? ` | ${firstCategory.name || firstCategory.code}`
       : '';
@@ -198,14 +194,12 @@ export class ProductPageMetaResolver
   resolveCanonicalUrl(): Observable<string> {
     return this.product$.pipe(
       switchMap((product) => {
-        if (product.baseProduct) {
-          const url = this.routingService.getUrl({
-            cxRoute: 'product',
-            params: { code: product.baseProduct },
-          });
-          return this.basePageMetaResolver?.resolveCanonicalUrl(url);
-        }
-        return this.basePageMetaResolver?.resolveCanonicalUrl();
+        const code = product.baseProduct ?? product.code;
+        const url = this.routingService.getUrl({
+          cxRoute: 'product',
+          params: { code },
+        });
+        return this.pageLinkFactory?.resolveCanonicalUrl({}, url);
       })
     );
   }

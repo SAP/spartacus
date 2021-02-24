@@ -1,5 +1,5 @@
 import { Injectable, Optional } from '@angular/core';
-import { combineLatest, defer, Observable } from 'rxjs';
+import { combineLatest, defer, Observable, of } from 'rxjs';
 import { filter, map, shareReplay } from 'rxjs/operators';
 import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
@@ -86,10 +86,12 @@ export class ContentPageMetaResolver
    * the page title
    */
   // TODO(#10467): drop the title$ property
-  protected title$: Observable<string> = this.cms$.pipe(map((p) => p.title));
+  protected title$: Observable<string | undefined> = this.cms$.pipe(
+    map((p) => p.title)
+  );
 
   // TODO(#10467): resolve the title from the `BasePageMetaResolver.resolveTitle()` only
-  resolveTitle(): Observable<string> {
+  resolveTitle(): Observable<string | undefined> {
     return this.basePageMetaResolver
       ? this.basePageMetaResolver.resolveTitle()
       : this.title$;
@@ -100,7 +102,7 @@ export class ContentPageMetaResolver
    * Resolves a single breadcrumb item to the home page for each `ContentPage`.
    * The home page label is resolved from the translation service.
    */
-  resolveBreadcrumbs(): Observable<BreadcrumbMeta[]> {
+  resolveBreadcrumbs(): Observable<BreadcrumbMeta[] | undefined> {
     return this.basePageMetaResolver
       ? this.basePageMetaResolver.resolveBreadcrumbs()
       : this.breadcrumbs$;
@@ -113,13 +115,13 @@ export class ContentPageMetaResolver
    */
   // TODO(#10467) drop the 3.1 note.
   resolveRobots(): Observable<PageRobotsMeta[]> {
-    return this.basePageMetaResolver?.resolveRobots();
+    return this.basePageMetaResolver?.resolveRobots() ?? of();
   }
 
   /**
    * @override resolves the canonical page for the content page.
    */
-  resolveCanonicalUrl(): Observable<string> {
-    return this.basePageMetaResolver?.resolveCanonicalUrl();
+  resolveCanonicalUrl(): Observable<string | undefined> {
+    return this.basePageMetaResolver?.resolveCanonicalUrl() ?? of();
   }
 }

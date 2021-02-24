@@ -1,28 +1,26 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '@spartacus/core';
+import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
 import { fromEvent, Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, startWith } from 'rxjs/operators';
+import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '../util/ssr.tokens';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WindowRef {
-  readonly _document: Document;
+  readonly document: Document;
 
   // TODO(#11133): Make platformId required in 4.0
   /**
-   * @deprecated since 3.2. Provide PLATFORM_ID as a second constructor parameter
+   * @deprecated since 3.2. Provide PLATFORM_ID, serverRequestUrl and serverRequestOrigin as constructor parameters
    */
   constructor(
     @Inject(DOCUMENT) document: Document,
     @Inject(PLATFORM_ID) protected platformId?: Object,
-    @Inject(SERVER_REQUEST_URL) protected serverRequestUrl?: string,
-    @Inject(SERVER_REQUEST_ORIGIN) protected serverRequestOrigin?: string
+    @Optional() @Inject(SERVER_REQUEST_URL) protected serverUrl?: string,
+    @Optional() @Inject(SERVER_REQUEST_ORIGIN) protected serverOrigin?: string
   ) {
-    // it's a workaround to have document property properly typed
-    // see: https://github.com/angular/angular/issues/15640
-    this._document = document;
+    this.document = document;
   }
 
   /**
@@ -46,30 +44,6 @@ export class WindowRef {
   }
 
   /**
-   * Returns a reference to the document contained in the window or mimics the document when
-   * the process runs outside the browser.
-   *
-   * The later is useful, when the process runs in SSR and the document is lacking location properties
-   * such as href and origin. These are constructed by leveraging the _injected_ `SERVER_REQUEST_URL`
-   * and `SERVER_REQUEST_ORIGIN`.
-   *
-   * Please be aware that in SSR the document is still lacking the full fletched document object.
-   */
-  get document(): Document {
-    if (!this.isBrowser()) {
-      return {
-        ...this._document,
-        location: {
-          href: this.serverRequestUrl,
-          origin: this.serverRequestOrigin,
-        },
-      } as Document;
-    } else {
-      return this._document;
-    }
-  }
-
-  /**
    * Exposes global `sessionStorage` object. In SSR when `sessionStorage` is not available it returns `undefined`.
    * To detect if you can safely use `sessionStorage` use `isBrowser` to check execution platform.
    */
@@ -83,6 +57,21 @@ export class WindowRef {
    */
   get localStorage(): Storage | undefined {
     return this.nativeWindow ? this.nativeWindow.localStorage : undefined;
+  }
+
+  /**
+   * Returns the window/document location, unless it's not available in the process (i.e. SSR).
+   * When there's no access to the location object, we mimic the location partially, by resolving
+   * the request url (`serverRequestUrl`) and origin (`serverRequestOrigin`) from the injector.
+   *
+   */
+  get location(): Partial<Location> {
+    return !this.isBrowser()
+      ? this.document.location
+      : {
+          href: this.serverUrl || '',
+          origin: this.serverOrigin || '',
+        };
   }
 
   /**

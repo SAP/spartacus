@@ -17,7 +17,7 @@ class MockPageMetaService {
 }
 
 class MockPageMetaLinkService implements Partial<PageMetaLinkService> {
-  addCanonicalLink(): void {}
+  setCanonicalLink(): void {}
 }
 
 describe('SeoTitleService', () => {

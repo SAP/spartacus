@@ -15,11 +15,6 @@ export const defaultPageMetaConfig: PageMetaConfig = {
         property: 'breadcrumbs',
         method: 'resolveBreadcrumbs',
       },
-      {
-        property: 'canonicalUrl',
-        method: 'resolveCanonicalUrl',
-        disabledInCsr: true,
-      },
       // @TODO (#10467) disable (`disabledInCsr`) description, image and robots resolvers to optimize resolving logic
       {
         property: 'description',
@@ -33,14 +28,18 @@ export const defaultPageMetaConfig: PageMetaConfig = {
         property: 'robots',
         method: 'resolveRobots',
       },
+      // enable with next major to avoid a current breaking change
+      // {
+      //   property: 'canonicalUrl',
+      //   method: 'resolveCanonicalUrl',
+      //   disabledInCsr: true,
+      // },
     ],
-    options: {
-      canonicalUrl: {
-        forceHttps: true,
-        forceWww: true,
-        removeQueryParams: true,
-        forceTrailingSlash: true,
-      },
+    canonicalUrl: {
+      forceHttps: true,
+      forceWww: true,
+      removeQueryParams: true,
+      forceTrailingSlash: true,
     },
   },
 };

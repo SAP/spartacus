@@ -22,7 +22,7 @@ describe('PageMetaLinkService', () => {
   });
 
   it('should add canonical link', () => {
-    service.addCanonicalLink(pageUrl);
+    service.setCanonicalLink(pageUrl);
     const linkElement: HTMLLinkElement = winRef.document.getElementById(
       'cxCanonical'
     ) as HTMLLinkElement;
@@ -30,8 +30,8 @@ describe('PageMetaLinkService', () => {
   });
 
   it('should update existing canonical link', () => {
-    service.addCanonicalLink('https://www.myurl.com/first/');
-    service.addCanonicalLink('https://www.myurl.com/2nd/');
+    service.setCanonicalLink('https://www.myurl.com/first/');
+    service.setCanonicalLink('https://www.myurl.com/2nd/');
     const linkElement: HTMLLinkElement = winRef.document.getElementById(
       'cxCanonical'
     ) as HTMLLinkElement;
@@ -39,8 +39,8 @@ describe('PageMetaLinkService', () => {
   });
 
   it('should remove existing canonical link', () => {
-    service.addCanonicalLink(pageUrl);
-    service.addCanonicalLink(undefined);
+    service.setCanonicalLink(pageUrl);
+    service.setCanonicalLink(undefined);
     const linkElement: HTMLLinkElement = winRef.document.getElementById(
       'cxCanonical'
     ) as HTMLLinkElement;

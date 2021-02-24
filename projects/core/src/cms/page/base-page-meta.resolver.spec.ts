@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
+import { Router, RouterEvent } from '@angular/router';
+import { Observable, of, ReplaySubject } from 'rxjs';
 import { BasePageMetaResolver, CmsService, Page } from '..';
 import { I18nTestingModule, TranslationService } from '../../i18n';
 import { PageType } from '../../model/cms.model';
-import { WindowRef } from '../../window/window-ref';
 import { PageMetaService } from '../facade';
 import { BreadcrumbMeta, PageRobotsMeta } from '../model/page.model';
-import { PageMetaConfig } from './config/page-meta.config';
+import { PageLinkFactory } from './routing/page-link.factory';
 import { RoutingPageMetaResolver } from './routing/routing-page-meta.resolver';
 
 const mockContentPage: Page = {
@@ -23,7 +23,7 @@ class MockCmsService implements Partial<CmsService> {
 }
 
 class MockTranslationService implements Partial<TranslationService> {
-  translate(key) {
+  translate(key: string) {
     return of(key);
   }
 }
@@ -33,17 +33,14 @@ class MockRoutingPageMetaResolver implements Partial<RoutingPageMetaResolver> {
     return of([]);
   }
 }
-class MockWindowRef implements Partial<WindowRef> {
-  document = {
-    location: {
-      href: 'http://storefront.com/page?query=abc&pageSize=10&page=1',
-    },
-  } as Document;
-}
+
+class MockPageLinkFactory {}
 
 describe('BasePageMetaResolver', () => {
   let service: BasePageMetaResolver;
   let routingPageMetaResolver: RoutingPageMetaResolver;
+  let routerEventRelaySubject: ReplaySubject<RouterEvent>;
+  let routerMock: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -60,29 +57,23 @@ describe('BasePageMetaResolver', () => {
           useClass: MockRoutingPageMetaResolver,
         },
         {
-          provide: PageMetaConfig,
-          useValue: {
-            pageMeta: {
-              options: {
-                canonicalUrl: {
-                  forceHttps: true,
-                  forceTrailingSlash: true,
-                  forceWww: true,
-                  removeQueryParams: true,
-                },
-              },
-            },
-          } as PageMetaConfig,
+          provide: Router,
+          useValue: routerMock,
         },
         {
-          provide: WindowRef,
-          useClass: MockWindowRef,
+          provide: PageLinkFactory,
+          useClass: MockPageLinkFactory,
         },
       ],
     });
 
     service = TestBed.inject(BasePageMetaResolver);
     routingPageMetaResolver = TestBed.inject(RoutingPageMetaResolver);
+
+    routerEventRelaySubject = new ReplaySubject<RouterEvent>(1);
+    routerMock = {
+      events: routerEventRelaySubject.asObservable(),
+    } as Router;
   });
 
   it('should inject service', () => {
@@ -90,7 +81,7 @@ describe('BasePageMetaResolver', () => {
   });
 
   it(`should resolve 'Page title' for resolveTitle()`, () => {
-    let result: string;
+    let result: string | undefined;
 
     service
       .resolveTitle()
@@ -103,20 +94,20 @@ describe('BasePageMetaResolver', () => {
   });
 
   it('should resolve the home breadcrumb for resolveBreadcrumbs()', () => {
-    let result: BreadcrumbMeta[];
+    let result: BreadcrumbMeta[] | undefined;
     service
       .resolveBreadcrumbs()
       .subscribe((meta) => {
         result = meta;
       })
       .unsubscribe();
-    expect(result.length).toEqual(1);
-    expect(result[0].label).toEqual('common.home');
-    expect(result[0].link).toEqual('/');
+    expect(result?.length).toEqual(1);
+    expect(result?.[0]?.label).toEqual('common.home');
+    expect(result?.[0]?.link).toEqual('/');
   });
 
   it('should breadcrumbs for Angular child routes', () => {
-    let result: BreadcrumbMeta[];
+    let result: BreadcrumbMeta[] | undefined;
 
     spyOn(routingPageMetaResolver, 'resolveBreadcrumbs').and.returnValue(
       of([{ label: 'child route breadcrumb', link: '/child' }])
@@ -127,16 +118,16 @@ describe('BasePageMetaResolver', () => {
         result = meta;
       })
       .unsubscribe();
-    expect(result.length).toEqual(2);
-    expect(result[0]).toEqual({ label: 'common.home', link: '/' });
-    expect(result[1]).toEqual({
+    expect(result?.length).toEqual(2);
+    expect(result?.[0]).toEqual({ label: 'common.home', link: '/' });
+    expect(result?.[1]).toEqual({
       label: 'child route breadcrumb',
       link: '/child',
     });
   });
 
   it(`should resolve robots for page data`, () => {
-    let result: PageRobotsMeta[];
+    let result: PageRobotsMeta[] | undefined;
     service
       .resolveRobots()
       .subscribe((meta) => {
@@ -148,152 +139,7 @@ describe('BasePageMetaResolver', () => {
     expect(result).toContain(PageRobotsMeta.INDEX);
   });
 
-  describe('canonical Url', () => {
-    it(`should resolve defaults`, () => {
-      let result: string;
-      service
-        .resolveCanonicalUrl()
-        .subscribe((meta) => {
-          result = meta;
-        })
-        .unsubscribe();
-      expect(result).toEqual('https://www.storefront.com/page/');
-    });
-
-    it(`should use custom url`, () => {
-      let result: string;
-      service
-        .resolveCanonicalUrl(undefined, 'http://test.com/xyz')
-        .subscribe((meta) => {
-          result = meta;
-        })
-        .unsubscribe();
-      expect(result).toContain('https://www.test.com/xyz/');
-    });
-
-    it(`should contain https`, () => {
-      let result: string;
-      service
-        .resolveCanonicalUrl({ forceHttps: true })
-        .subscribe((meta) => {
-          result = meta;
-        })
-        .unsubscribe();
-      expect(result).toContain('https://');
-    });
-
-    it(`should stick to http`, () => {
-      let result: string;
-      service
-        .resolveCanonicalUrl({ forceHttps: false })
-        .subscribe((meta) => {
-          result = meta;
-        })
-        .unsubscribe();
-      expect(result).toContain('http://');
-    });
-
-    it(`should add www`, () => {
-      let result: string;
-      service
-        .resolveCanonicalUrl({ forceWww: true })
-        .subscribe((meta) => {
-          result = meta;
-        })
-        .unsubscribe();
-      expect(result).toContain('https://www.');
-    });
-
-    it(`should not add www`, () => {
-      let result: string;
-      service
-        .resolveCanonicalUrl({ forceWww: false })
-        .subscribe((meta) => {
-          result = meta;
-        })
-        .unsubscribe();
-      expect(result).not.toContain('www.');
-    });
-
-    it(`should add trailing slash`, () => {
-      let result: string;
-      service
-        .resolveCanonicalUrl({
-          forceTrailingSlash: true,
-          removeQueryParams: true,
-        })
-        .subscribe((meta) => {
-          result = meta;
-        })
-        .unsubscribe();
-      expect(result).toContain('https://www.storefront.com/page/');
-    });
-
-    it(`should not add trailing slash`, () => {
-      let result: string;
-      service
-        .resolveCanonicalUrl({
-          forceTrailingSlash: false,
-          removeQueryParams: true,
-        })
-        .subscribe((meta) => {
-          result = meta;
-        })
-        .unsubscribe();
-      expect(result).toEqual('https://www.storefront.com/page');
-    });
-
-    it(`should not add trailing slash after query parameters`, () => {
-      let result: string;
-      service
-        .resolveCanonicalUrl({
-          forceTrailingSlash: true,
-          removeQueryParams: false,
-        })
-        .subscribe((meta) => {
-          result = meta;
-        })
-        .unsubscribe();
-      expect(result).toEqual(
-        'https://www.storefront.com/page?query=abc&pageSize=10&page=1'
-      );
-    });
-
-    it(`should remove all parameters`, () => {
-      let result: string;
-      service
-        .resolveCanonicalUrl({ removeQueryParams: true })
-        .subscribe((meta) => {
-          result = meta;
-        })
-        .unsubscribe();
-      expect(result).toEqual('https://www.storefront.com/page/');
-    });
-
-    it(`should remove specific parameters`, () => {
-      let result: string;
-      service
-        .resolveCanonicalUrl({ removeQueryParams: ['pageSize'] })
-        .subscribe((meta) => {
-          result = meta;
-        })
-        .unsubscribe();
-      expect(result).toEqual(
-        'https://www.storefront.com/page?query=abc&page=1'
-      );
-    });
-
-    it(`should keep all parameters`, () => {
-      let result: string;
-      service
-        .resolveCanonicalUrl({ removeQueryParams: false })
-        .subscribe((meta) => {
-          result = meta;
-        })
-        .unsubscribe();
-      expect(result).toEqual(
-        'https://www.storefront.com/page?query=abc&pageSize=10&page=1'
-      );
-    });
+  it(`should resolve canonical url`, () => {
+    // TODO:
   });
 });

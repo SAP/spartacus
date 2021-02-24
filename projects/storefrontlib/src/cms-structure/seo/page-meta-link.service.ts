@@ -16,30 +16,26 @@ export class PageMetaLinkService {
    * If an id is provided, the link will be updated.
    * If no url is provided, the link element will be deleted.
    */
-  addCanonicalLink(url: string): void {
-    const elId = 'cxCanonical';
-    if (elId && !url) {
-      this.removeLink(elId);
+  setCanonicalLink(url: string | undefined): void {
+    let link: HTMLLinkElement = document.querySelector(
+      'link[rel="canonical"]'
+    ) as HTMLLinkElement;
+
+    if (!url) {
+      // Removing the link is an edge case, but useful if the canonical url
+      // is created in CSR while developing/testing.
+      link?.remove();
       return;
     }
 
-    if (!this.winRef.document?.getElementById(elId)) {
-      const link = this.renderer.createElement('link');
+    if (!link) {
+      link = this.renderer.createElement('link');
       link.rel = 'canonical';
-      link.id = elId;
       link.href = url;
       this.renderer.appendChild(this.winRef.document.head, link);
     } else {
-      this.winRef.document?.getElementById(elId).setAttribute('href', url);
+      link?.setAttribute('href', url);
     }
-  }
-
-  /**
-   * Removing the link is an edge case, but useful if the canonical url
-   * is created in CSR while developing/testing.
-   */
-  protected removeLink(elId: string) {
-    this.winRef.document?.getElementById(elId)?.remove();
   }
 
   protected get renderer(): Renderer2 {
