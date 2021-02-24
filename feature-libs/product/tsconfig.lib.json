@@ -7,6 +7,7 @@
     "moduleResolution": "node",
     "declaration": true,
     "sourceMap": true,
+    "strict": false,
     "inlineSources": true,
     "experimentalDecorators": true,
     "importHelpers": true,

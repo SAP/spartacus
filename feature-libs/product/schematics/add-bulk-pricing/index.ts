@@ -5,18 +5,15 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  NodeDependency,
-  NodeDependencyType,
-} from '@schematics/angular/utility/dependencies';
-import {
   addLibraryFeature,
-  addPackageJsonDependencies,
   getAppModule,
-  getSpartacusSchematicsVersion,
   installPackageJsonDependencies,
   readPackageJson,
   validateSpartacusInstallation,
   LibraryOptions as SpartacusBulkPricingOptions,
+} from '@spartacus/schematics';
+
+import {
   PRODUCT_SCSS_FILE_NAME,
   BULK_PRICING_FEATURE_NAME,
   BULK_PRICING_MODULE,
@@ -26,18 +23,18 @@ import {
   SPARTACUS_BULK_PRICING_ASSETS,
   BULK_PRICING_TRANSLATION_CHUNKS_CONFIG,
   BULK_PRICING_TRANSLATIONS,
-} from '@spartacus/schematics';
+} from '../constants';
 
-export function addBulkPricingFeatures(options: SpartacusBulkPricingOptions): Rule {
+export function addBulkPricingFeatures(
+  options: SpartacusBulkPricingOptions
+): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
-
     const appModulePath = getAppModule(tree, options.project);
 
     return chain([
       addBulkPricingFeature(appModulePath, options),
-      addBulkPricingPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);
   };
@@ -67,16 +64,4 @@ function addBulkPricingFeature(
       importStyle: SPARTACUS_BULK_PRICING,
     },
   });
-}
-
-function addBulkPricingPackageJsonDependencies(packageJson: any): Rule {
-  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-  const dependencies: NodeDependency[] = [
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_BULK_PRICING,
-    },
-  ];
-  return addPackageJsonDependencies(dependencies, packageJson);
 }

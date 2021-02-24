@@ -5,8 +5,8 @@ import {
 import {
   LibraryOptions as SpartacusBulkPricingOptions,
   SpartacusOptions,
-  SPARTACUS_BULK_PRICING,
 } from '@spartacus/schematics';
+import { CLI_BULK_PRICING_FEATURE } from '../constants';
 import * as path from 'path';
 
 const collectionPath = path.join(__dirname, '../collection.json');
@@ -35,7 +35,7 @@ describe('Spartacus BulkPricing schematics: ng-add', () => {
   const defaultOptions: SpartacusBulkPricingOptions = {
     project: 'schematics-test',
     lazy: true,
-    features: [],
+    features: [CLI_BULK_PRICING_FEATURE],
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {
@@ -48,8 +48,8 @@ describe('Spartacus BulkPricing schematics: ng-add', () => {
       '../../projects/schematics/src/collection.json'
     );
     schematicRunner.registerCollection(
-      '@spartacus/organization',
-      '../../feature-libs/organization/schematics/collection.json'
+      '@spartacus/product',
+      '../../feature-libs/product/schematics/collection.json'
     );
 
     appTree = await schematicRunner
@@ -83,11 +83,6 @@ describe('Spartacus BulkPricing schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync('ng-add', defaultOptions, appTree)
           .toPromise();
-      });
-
-      it('should install @spartacus/product/bulk-pricing library', () => {
-        const packageJson = appTree.readContent('package.json');
-        expect(packageJson).toContain(SPARTACUS_BULK_PRICING);
       });
 
       it('should add style import to /src/styles/spartacus/product.scss', async () => {
@@ -128,13 +123,11 @@ describe('Spartacus BulkPricing schematics: ng-add', () => {
           .toPromise();
       });
 
-      it('should add bulk-pricing deps', async () => {
+      it('should add bulkPricing deps', async () => {
         const packageJson = appTree.readContent('/package.json');
         const packageObj = JSON.parse(packageJson);
         const depPackageList = Object.keys(packageObj.dependencies);
-        expect(depPackageList.includes('@spartacus/product/bulk-pricing')).toBe(
-          true
-        );
+        expect(depPackageList.includes('@spartacus/product')).toBe(true);
       });
 
       it('should import appropriate modules', async () => {
@@ -199,7 +192,9 @@ describe('Spartacus BulkPricing schematics: ng-add', () => {
       it('should provideConfig', async () => {
         const appModule = appTree.readContent(appModulePath);
         expect(appModule).toContain(`resources: bulkPricingTranslations,`);
-        expect(appModule).toContain(`chunks: bulkPricingTranslationChunksConfig,`);
+        expect(appModule).toContain(
+          `chunks: bulkPricingTranslationChunksConfig,`
+        );
       });
     });
   });
@@ -208,7 +203,7 @@ describe('Spartacus BulkPricing schematics: ng-add', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
         .runExternalSchematicAsync(
-          '@spartacus/organization',
+          '@spartacus/product',
           'ng-add',
           { ...spartacusDefaultOptions, name: 'schematics-test' },
           appTree
@@ -221,7 +216,7 @@ describe('Spartacus BulkPricing schematics: ng-add', () => {
 
     it('should just append bulkPricing feature without duplicating the featureModules config', () => {
       const appModule = appTree.readContent(appModulePath);
-      expect(appModule.match(/featureModules:/g).length).toEqual(1);
+      expect(appModule.match(/featureModules:/g)?.length).toEqual(1);
       expect(appModule).toContain(`bulkPricing: {`);
     });
   });

@@ -656,18 +656,6 @@ export const SPARTACUS_QUALTRICS = '@spartacus/qualtrics';
 export const SPARTACUS_QUALTRICS_ROOT = `${SPARTACUS_QUALTRICS}/root`;
 
 export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
-
-export const BULK_PRICING_MODULE = 'BulkPricingModule';
-export const BULK_PRICING_FEATURE_NAME = 'bulkPricing';
-export const BULK_PRICING_ROOT_MODULE = 'BulkPricingRootModule';
-export const SPARTACUS_BULK_PRICING = '@spartacus/product/bulk-pricing';
-export const SPARTACUS_BULK_PRICING_ROOT = `${SPARTACUS_BULK_PRICING}/root`;
-export const PRODUCT_SCSS_FILE_NAME = 'product.scss';
-export const SPARTACUS_BULK_PRICING_ASSETS = `${SPARTACUS_BULK_PRICING}/assets`;
-export const BULK_PRICING_TRANSLATIONS = 'bulkPricingTranslations';
-export const BULK_PRICING_TRANSLATION_CHUNKS_CONFIG =
-  'bulkPricingTranslationChunksConfig';
-
 /***** APIs end *****/
 
 /***** Storefinder start *****/
@@ -678,4 +666,3 @@ export const CSS_V2_DOCS_URL =
 export const CSS_V3_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-3/';
 /***** Storefinder end *****/
-
