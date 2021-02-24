@@ -13,4 +13,11 @@ export namespace OccCpqConfigurator {
   export interface AddToCartProductData {
     code?: string;
   }
+
+  export interface UpdateConfigurationForCartEntryParameters {
+    userId?: string;
+    cartId?: string;
+    configId: string;
+    entryNumber: string;
+  }
 }
