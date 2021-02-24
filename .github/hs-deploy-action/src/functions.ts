@@ -36,7 +36,7 @@ export async function deploy(github: any, octoKit: any) {
     },
   };
 
-  await exec.exec(command, options);
+  await exec.exec(command, [], options);
 }
 
 async function addComment(context: any, octoKit: any, comment: String) {

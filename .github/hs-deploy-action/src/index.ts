@@ -26,7 +26,7 @@ async function run() {
   //run sh to get CLI and prep
   await exec.exec('sh', ['./.github/hs-deploy-action/upp-cli-setup.sh']);
 
-  await build();
+  // await build();
 
   await deploy(github, octoKit);
 
