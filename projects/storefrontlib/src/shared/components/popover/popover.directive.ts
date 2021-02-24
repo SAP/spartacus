@@ -227,7 +227,6 @@ export class PopoverDirective {
     protected positioningService: PositioningService,
     protected popoverService: PopoverService,
     protected winRef: WindowRef,
-
     @Inject(DOCUMENT) protected document: any
   ) {}
 }

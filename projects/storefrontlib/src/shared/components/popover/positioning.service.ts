@@ -235,26 +235,6 @@ export class PositioningService {
     );
   }
 
-  protected addClassesToTarget(
-    targetPlacement: PopoverPosition,
-    baseClass,
-    classList
-  ): Array<string> {
-    const [primary, secondary] = targetPlacement.split('-');
-    const classes: string[] = [];
-    if (baseClass) {
-      classes.push(`${baseClass}-${primary}`);
-      if (secondary) {
-        classes.push(`${baseClass}-${primary}-${secondary}`);
-      }
-
-      classes.forEach((classname) => {
-        classList.add(classname);
-      });
-    }
-    return classes;
-  }
-
   /*
    * Accept the placement array and applies the appropriate placement dependent on the viewport.
    * Returns the applied placement.
@@ -269,23 +249,12 @@ export class PositioningService {
     hostElement: HTMLElement,
     targetElement: HTMLElement,
     placement: string | PopoverPosition | PopoverPositionArray,
-    appendToBody?: boolean,
-    baseClass?: string
+    appendToBody?: boolean
   ): PopoverPosition | null {
     const placementVals: Array<PopoverPosition> = Array.isArray(placement)
       ? placement
       : (placement.split(this.placementSeparator) as Array<PopoverPosition>);
 
-    const classList = targetElement.classList;
-
-    // Remove old placement classes to avoid issues
-    if (baseClass) {
-      this.allowedPlacements.forEach((placementToRemove) => {
-        classList.remove(`${baseClass}-${placementToRemove}`);
-      });
-    }
-
-    // replace auto placement with other placements
     let hasAuto = placementVals.findIndex((val) => val === 'auto');
     if (hasAuto >= 0) {
       this.allowedPlacements.forEach(function (obj) {
@@ -303,12 +272,6 @@ export class PositioningService {
     let testPlacement: PopoverPosition | null = null;
     let isInViewport = false;
     for (testPlacement of placementVals) {
-      const addedClasses = this.addClassesToTarget(
-        testPlacement,
-        baseClass,
-        classList
-      );
-
       if (
         this._positionElements(
           hostElement,
@@ -320,19 +283,9 @@ export class PositioningService {
         isInViewport = true;
         break;
       }
-
-      // Remove the baseClasses for further calculation
-      if (baseClass) {
-        addedClasses.forEach((classname) => {
-          classList.remove(classname);
-        });
-      }
     }
 
     if (!isInViewport) {
-      // If nothing match, the first placement is the default one
-      testPlacement = placementVals[0];
-      this.addClassesToTarget(testPlacement, baseClass, classList);
       this._positionElements(
         hostElement,
         targetElement,
