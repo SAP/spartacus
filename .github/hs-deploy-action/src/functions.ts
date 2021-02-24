@@ -74,7 +74,7 @@ async function addComment(context: any, octoKit: any, comment: string) {
   });
 }
 
-function getBundleId(branch: string) {
+export function getBundleId(branch: string) {
   let bundleId = '';
   const regex = /(\-\d)/;
   branch

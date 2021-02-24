@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install CLI
-        run: ./.github/hs-deploy-action/upp-cli-setup.sh
+        uses: ./.github/hs-undeploy-action
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GHT_USER: ${{ secrets.GHT_USER}}
@@ -18,6 +18,4 @@ jobs:
           UPP_TENANT: ${{ secrets.UPP_TENANT}}
           UPP_CLIENT: ${{ secrets.UPP_CLIENT}}
           UPP_SECRET: ${{ secrets.UPP_SECRET}}
-      - name: Undeploy pull request
-        run: ./.github/hs-deploy-action/undeploy-hs.sh
       
