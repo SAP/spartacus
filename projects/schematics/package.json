@@ -44,8 +44,10 @@
       "@spartacus/organization",
       "@spartacus/product",
       "@spartacus/storefinder",
+      "@spartacus/smartedit",
       "@spartacus/qualtrics",
       "@spartacus/cdc",
+      "@spartacus/tracking",
       "@spartacus/setup"
     ]
   },
