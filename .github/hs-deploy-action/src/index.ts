@@ -29,6 +29,8 @@ async function run() {
   await build();
 
   await deploy(github, octoKit);
+
+  console.log('Hosting service deployment done');
 }
 
 run();

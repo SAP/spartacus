@@ -28,6 +28,7 @@ export async function deploy(github: any, octoKit: any) {
     const match = line.match(exp);
     if (match && match.length > 0) {
       const body = `:rocket: Spartacus deployed to [${match}](${match})`;
+      console.log(body);
       addComment(context, octoKit, body);
     }
     output += data.toString();
@@ -40,7 +41,7 @@ export async function deploy(github: any, octoKit: any) {
   });
 }
 
-export async function addComment(context: any, octoKit: any, comment: String) {
+async function addComment(context: any, octoKit: any, comment: String) {
   const COMMENT_HEADER = '## Hosting service deployment';
   const issueNumber = context.payload.pull_request.number;
   const owner = context.payload.repository.owner.login;
