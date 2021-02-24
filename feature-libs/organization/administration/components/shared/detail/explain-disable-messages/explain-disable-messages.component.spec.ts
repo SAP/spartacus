@@ -107,15 +107,16 @@ describe('ExplainDisableMessagesComponent', () => {
     });
 
     it('should not display disabledEnable message if it is a root unit', () => {
-      current$.next({ orgUnit: { active: false } });
-      spyOn(component, 'isRootUnit').and.returnValue(true);
+      current$.next({
+        uid: 'test',
+        name: 'test',
+        parentOrgUnit: 'test',
+      });
       fixture.detectChanges();
       const element = fixture.debugElement.queryAll(
         By.css('section > ul > li')
-      )[1].nativeElement;
-      expect(element.innerText).not.toContain(
-        'orgUnit.messages.disabledEnable'
-      );
+      )[0].nativeElement;
+      expect(element.innerText).not.toEqual('orgUnit.messages.disabledEnable');
     });
   });
 
