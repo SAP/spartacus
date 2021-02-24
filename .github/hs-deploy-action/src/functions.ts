@@ -39,7 +39,7 @@ export async function deploy(github: any, octoKit: any) {
   await exec.exec(command, [], options);
 }
 
-async function addComment(context: any, octoKit: any, comment: String) {
+async function addComment(context: any, octoKit: any, comment: string) {
   const COMMENT_HEADER = '## Hosting service deployment';
   const issueNumber = context.payload.pull_request.number;
   const owner = context.payload.repository.owner.login;
@@ -74,15 +74,16 @@ async function addComment(context: any, octoKit: any, comment: String) {
   });
 }
 
-function getBundleId(branch: String) {
+function getBundleId(branch: string) {
   let bundleId = '';
   const regex = /(\-\d)/;
   branch
     .toLowerCase()
     .replace(/\//g, '-s')
     .replace(/\./g, '-d')
+    .replace(/_/g, '-')
     .split(regex)
-    .forEach((s: String) => {
+    .forEach((s: string) => {
       if (s.match(regex)) {
         bundleId += s.substring(0, 1) + 'i' + s.substring(1, 2);
       } else {
