@@ -328,6 +328,10 @@ export interface OccEndpoints {
    */
   addCpqConfigurationToCart?: string;
   /**
+   * Endpoint for updating a cpq configuration attached to the given cart entry
+   */
+  updateCpqConfigurationForCartEntry?: string;
+  /**
    * Endpoint for reading a CPQ configuration attached to the given cart entry
    */
   readCpqConfigurationForCartEntry?: string;
