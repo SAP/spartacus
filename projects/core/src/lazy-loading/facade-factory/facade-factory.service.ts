@@ -1,36 +1,20 @@
-import { AbstractType, inject, Injectable, Injector } from '@angular/core';
-import { ConnectableObservable, EMPTY, isObservable, Observable, throwError } from 'rxjs';
-import { delay, map, publishReplay, shareReplay, switchMap } from 'rxjs/operators';
-import { FeatureModulesService } from './feature-modules.service';
-
-export interface FacadeDescriptor<T> {
-  /**
-   * Facade class
-   */
-  facade: AbstractType<T>;
-  /**
-   * Feature name or names that should be used to resolve facade
-   */
-  feature: string | string[];
-  /**
-   * Methods of the facade that will be proxied from lazy loaded services.
-   *
-   * All methods should either return an Observable or void. Any return type that
-   * is not an Observable will be ignored.
-   */
-  methods?: (keyof T)[];
-  /**
-   * Properties of the facade that will be proxied from lazy loaded services.
-   *
-   * Only Observable properties are supported.
-   */
-  properties?: (keyof T)[];
-  /**
-   * Denotes that feature should have to be initialized with an async delay.
-   * Required to make lazy NgRx store feature ready.
-   */
-  async?: boolean;
-}
+import { AbstractType, Injectable, Injector } from '@angular/core';
+import {
+  ConnectableObservable,
+  EMPTY,
+  isObservable,
+  Observable,
+  throwError,
+} from 'rxjs';
+import {
+  delay,
+  map,
+  publishReplay,
+  shareReplay,
+  switchMap,
+} from 'rxjs/operators';
+import { FeatureModulesService } from '../feature-modules.service';
+import { FacadeDescriptor } from './facade-descriptor';
 
 /**
  * Service that can create proxy facade, which is a service that will expose
@@ -63,17 +47,17 @@ export class FacadeFactoryService {
 
     let facadeService$ = this.featureModules.resolveFeature(featureToLoad).pipe(
       map((moduleRef) => moduleRef.injector),
-      map((injector) => injector.get(facadeClass)),
+      map((injector) => injector.get(facadeClass))
     );
     if (async) {
       facadeService$ = facadeService$.pipe(delay(0));
     }
-    return facadeService$.pipe(
-      shareReplay()
-    );
+    return facadeService$.pipe(shareReplay());
   }
 
-  protected findConfiguredFeature(feature: string | string[]): string | undefined {
+  protected findConfiguredFeature(
+    feature: string | string[]
+  ): string | undefined {
     for (const feat of [].concat(feature)) {
       if (this.featureModules.isConfigured(feat)) {
         return feat;
@@ -149,17 +133,4 @@ export class FacadeFactoryService {
 
     return result;
   }
-}
-
-/**
- * Factory that will create proxy facade, which is a service that will expose
- * methods and properties from a facade implemented in the lazy loaded module.
- *
- * Returned proxy facade will lazy load the feature and facade implementation
- * at first method call or when first property observable will be subscribed.
- *
- * @param descriptor
- */
-export function facadeFactory<T>(descriptor: FacadeDescriptor<T>): T {
-  return inject(FacadeFactoryService).create(descriptor);
 }

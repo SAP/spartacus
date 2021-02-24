@@ -4,11 +4,7 @@ import {
   TestBed,
   tick,
 } from '@angular/core/testing';
-import {
-  FacadeDescriptor,
-  facadeFactory,
-  FacadeFactoryService,
-} from './facade-factory.service';
+import { FacadeFactoryService } from './facade-factory.service';
 import {
   BehaviorSubject,
   isObservable,
@@ -17,20 +13,14 @@ import {
   Subscription,
 } from 'rxjs';
 import { Injectable, NgModule } from '@angular/core';
-import {
-  EventService,
-} from '../event/event.service';
-import {
-  FeatureModulesService,
-} from './feature-modules.service';
-import {
-  getLastValueSync,
-} from '../util/rxjs/get-last-value-sync';
-import {
-  ModuleInitializedEvent,
-} from './events/module-initialized-event';
-import { CmsConfig } from '../cms/config/cms-config';
+import { EventService } from '../../event/event.service';
+import { FeatureModulesService } from '../feature-modules.service';
+import { getLastValueSync } from '../../util/rxjs/get-last-value-sync';
+import { ModuleInitializedEvent } from '../events/module-initialized-event';
+import { CmsConfig } from '../../cms/config/cms-config';
 import { take } from 'rxjs/operators';
+import { facadeFactory } from './facade-factory';
+import { FacadeDescriptor } from './facade-descriptor';
 
 @Injectable({
   providedIn: 'root',
@@ -209,14 +199,6 @@ describe('FacadeFactoryService', () => {
         const result = await facade.testProperty.toPromise();
         expect(result).toEqual(333);
       });
-    });
-  });
-
-  describe('facadeFactory', () => {
-    it('should call FacadeFactoryService.create', () => {
-      spyOn(service, 'create').and.callThrough();
-      TestBed.inject(TestFacade);
-      expect(service.create).toHaveBeenCalledWith(testFacadeDescriptor as any);
     });
   });
 });
