@@ -20,7 +20,7 @@ $cx-popover-box-shadow-color: rgba(0, 0, 0, 0.1) !default;
   z-index: $cx-popover-z-index;
   display: block;
   max-width: $cx-popover-max-width;
-  font-size: 0.875rem;
+  font-size: $cx-popover-font-size;
   word-wrap: break-word;
   background-color: $cx-popover-background;
   background-clip: padding-box;
