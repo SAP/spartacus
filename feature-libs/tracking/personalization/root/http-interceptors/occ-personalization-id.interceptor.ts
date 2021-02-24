@@ -1,4 +1,3 @@
-import { isPlatformBrowser } from '@angular/common';
 import {
   HttpEvent,
   HttpHandler,
@@ -6,7 +5,7 @@ import {
   HttpRequest,
   HttpResponse,
 } from '@angular/common/http';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { OccEndpointsService, WindowRef } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -23,10 +22,9 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
   constructor(
     private config: PersonalizationConfig,
     private occEndpoints: OccEndpointsService,
-    private winRef: WindowRef,
-    @Inject(PLATFORM_ID) private platform: any
+    private winRef: WindowRef
   ) {
-    if (isPlatformBrowser(this.platform)) {
+    if (this.winRef.isBrowser()) {
       this.enabled =
         (this.winRef.localStorage && this.config.personalization.enabled) ||
         false;

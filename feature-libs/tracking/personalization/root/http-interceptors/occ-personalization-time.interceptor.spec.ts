@@ -32,6 +32,9 @@ const MockWindowRef = {
       }
     },
   },
+  isBrowser(): boolean {
+    return true;
+  },
 };
 const endpoint = '/test';
 class OccEndpointsServiceMock {

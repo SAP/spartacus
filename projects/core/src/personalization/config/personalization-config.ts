@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Config } from '../../config/config-tokens';
 
 /**
- * @deprecated since 3.2, use tracking/personalization instead
+ * @deprecated since 3.2, use @spartacus/tracking/personalization instead
  */
 @Injectable({
   providedIn: 'root',

@@ -4,7 +4,7 @@ import { defaultPersonalizationConfig } from './config/default-personalization-c
 import { interceptors } from './http-interceptors/index';
 
 /**
- * @deprecated since 3.2, use tracking/personalization instead
+ * @deprecated since 3.2, use @spartacus/tracking/personalization instead
  */
 @NgModule({})
 export class PersonalizationModule {
