@@ -36,8 +36,4 @@ echo "Configuring cli"
 upp config -z -t ${UPP_TENANT} -c ${UPP_CLIENT} -s ${UPP_SECRET} -r us10 -i 3 -a us10.stage.upp.upscalecommerce.com
 
 echo "-----"
-echo "Installing angular CLI"
-npm install -g @angular/cli@~10.1.0
-
-echo "-----"
 echo "UPP CLI installed and ready."
