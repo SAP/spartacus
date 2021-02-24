@@ -35,6 +35,10 @@ describe('ClearCheckoutService', () => {
     service = TestBed.inject(ClearCheckoutService);
     checkoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
     checkoutPaymentService = TestBed.inject(CheckoutPaymentService);
+
+    spyOn(checkoutDeliveryService, 'resetSetDeliveryAddressProcess');
+    spyOn(checkoutDeliveryService, 'resetSetDeliveryModeProcess');
+    spyOn(checkoutPaymentService, 'resetSetPaymentDetailsProcess');
   });
 
   it('should be created', () => {
@@ -42,36 +46,23 @@ describe('ClearCheckoutService', () => {
   });
 
   describe('should reset checkout', () => {
-    service.resetCheckoutProcesses();
+    beforeEach(() => {
+      service.resetCheckoutProcesses();
+    });
 
     it('delivery address process', () => {
-      spyOn(
-        checkoutDeliveryService,
-        'resetSetDeliveryAddressProcess'
-      ).and.callThrough();
-
       expect(
         checkoutDeliveryService.resetSetDeliveryAddressProcess
       ).toHaveBeenCalled();
     });
 
     it('delivery mode process', () => {
-      spyOn(
-        checkoutDeliveryService,
-        'resetSetDeliveryModeProcess'
-      ).and.callThrough();
-
       expect(
         checkoutDeliveryService.resetSetDeliveryModeProcess
       ).toHaveBeenCalled();
     });
 
     it('payment details process', () => {
-      spyOn(
-        checkoutPaymentService,
-        'resetSetPaymentDetailsProcess'
-      ).and.callThrough();
-
       expect(
         checkoutPaymentService.resetSetPaymentDetailsProcess
       ).toHaveBeenCalled();
