@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { StateUtils } from '@spartacus/core';
+import { facadeFactory, StateUtils } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
 import { Title, UserSignUp } from '../model/user-profile.model';
-import { facadeFactory } from '@spartacus/storefront';
 import { USER_PROFILE_FEATURE } from '../feature-name';
 
 export function UserRegisterFacadeFactory() {

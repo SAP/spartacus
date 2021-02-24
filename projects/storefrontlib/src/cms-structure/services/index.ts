@@ -4,4 +4,3 @@ export * from './cms-components.service';
 export * from './feature-modules.service';
 export * from './cms-features.service';
 export * from './cms-routes.service';
-export * from './facade-factory.service';

@@ -99,6 +99,7 @@ export class FacadeFactoryService {
   }
 
   create<T>({ facade, feature, methods, properties }: FacadeDescriptor<T>): T {
+    console.log('creating the facade', facade);
     this.define(facade, feature);
 
     const result: any = {};
