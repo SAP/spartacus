@@ -39,11 +39,21 @@ export class DisableInfoComponent<T extends BaseItem> implements OnInit {
    */
   current$: Observable<T> = this.itemService.current$;
 
+  iconTypes = ICON_TYPE;
+
   constructor(
     protected itemService: ItemService<T>,
     protected disableInfoService: DisableInfoService<T>
   ) {}
-  iconTypes = ICON_TYPE;
+
+  protected get defaultInfoConfig() {
+    return {
+      disabledCreate: false,
+      disabledEdit: true,
+      disabledEnable: true,
+      disabledDisable: true,
+    };
+  }
 
   ngOnInit() {
     this.displayInfoConfig = {
@@ -78,14 +88,5 @@ export class DisableInfoComponent<T extends BaseItem> implements OnInit {
       this.displayInfoConfig?.disabledDisable &&
       this.disableInfoService.isRootUnit(item)
     );
-  }
-
-  protected get defaultInfoConfig() {
-    return {
-      disabledCreate: false,
-      disabledEdit: true,
-      disabledEnable: true,
-      disabledDisable: true,
-    };
   }
 }
