@@ -73,11 +73,8 @@ export class CartBundleConnector {
    * @param entryGroupNumber
    * Each entry group in a cart has a specific entry group number. Entry group numbers are integers starting at one. They are defined in ascending order.
    *
-   * @param productCode
-   * Product code.
-   *
-   * @param quantity
-   * Quantity of the product added to cart.
+   * @param entry
+   * Request body parameter that contains details such as the product code (product.code) and the quantity of product (quantity).
    */
   public bundleAddEntry(
     userId: string,

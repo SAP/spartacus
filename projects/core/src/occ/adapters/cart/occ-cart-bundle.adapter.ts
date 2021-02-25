@@ -26,14 +26,8 @@ export class OccCartBundleAdapter implements CartBundleAdapter {
    * @param cartId
    * Cart code for logged in user, cart guid for anonymous user, ‘current’ for the last modified cart.
    *
-   * @param productCode
-   * Product code.
-   *
-   * @param quantity
-   * Quantity of the product added to cart.
-   *
-   * @param templateId
-   * Id of a template to create a bundle.
+   * @param bundleStarter
+   * Mandatory data required to start a bundle. This includes the templateId of the bundle, the productCode, and the quantity of the product itself.
    */
   public bundleStart(
     userId: string,
@@ -109,11 +103,8 @@ export class OccCartBundleAdapter implements CartBundleAdapter {
    * @param entryGroupNumber
    * Each entry group in a cart has a specific entry group number. Entry group numbers are integers starting at one. They are defined in ascending order.
    *
-   * @param productCode
-   * Product code.
-   *
-   * @param quantity
-   * Quantity of the product added to cart.
+   * @param entry
+   * Request body parameter that contains details such as the product code (product.code) and the quantity of product (quantity).
    */
   public bundleAddEntry(
     userId: string,

@@ -12,6 +12,7 @@ import { UserService } from '../../user/facade/user.service';
 import { CartConfigService } from '../services/cart-config.service';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartService } from './multi-cart.service';
+import { BundleStarter } from '../../model';
 
 @Injectable({
   providedIn: 'root',
@@ -179,7 +180,7 @@ export class SelectiveCartService {
     return this.cartConfigService.isSelectiveCartEnabled();
   }
 
-  private isEmpty(cart: Cart): boolean {
+  private isEmpty(cart: Cart | undefined): boolean {
     return (
       !cart || (typeof cart === 'object' && Object.keys(cart).length === 0)
     );
@@ -197,7 +198,7 @@ export class SelectiveCartService {
     return typeof userId !== 'undefined' && userId !== OCC_USER_ID_ANONYMOUS;
   }
 
-  startBundle(productCode: string, quantity: number, templateId: string): void {
+  startBundle(bundleStarter: BundleStarter): void {
     let loadAttempted = false;
     this.cartSelector$
       .pipe(
@@ -216,9 +217,7 @@ export class SelectiveCartService {
         this.multiCartService.startBundle(
           this.cartId,
           this.userId,
-          productCode,
-          quantity,
-          templateId
+          bundleStarter
         );
       });
   }
