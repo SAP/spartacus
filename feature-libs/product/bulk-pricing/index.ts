@@ -1,4 +1,3 @@
 export * from './bulk-pricing.module';
-export * from './components/bulk-pricing-table/index';
-export * from './occ/index';
+// Compilation error, occurs when this line is omitted.
 export * from './core/model/index';
