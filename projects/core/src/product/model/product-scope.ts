@@ -3,5 +3,4 @@ export enum ProductScope {
   DETAILS = 'details',
   ATTRIBUTES = 'attributes',
   VARIANTS = 'variants',
-  BULK_PRICES = 'bulkPrices',
 }

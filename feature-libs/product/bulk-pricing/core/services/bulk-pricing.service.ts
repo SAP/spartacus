@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Price, Product, ProductScope, ProductService } from '@spartacus/core';
+import { Price, Product, ProductService, ProductScope } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { BulkPrice } from '../model/bulk-price.model';
