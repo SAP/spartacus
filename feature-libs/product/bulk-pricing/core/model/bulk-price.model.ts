@@ -2,9 +2,9 @@ export interface BulkPrice {
   currencyIso?: string;
   formattedValue?: string;
   maxQuantity?: number;
-  minQuantity: number;
+  minQuantity?: number;
   priceType?: string;
-  value: number;
+  value?: number;
   formattedDiscount?: string;
   discount?: number;
 }

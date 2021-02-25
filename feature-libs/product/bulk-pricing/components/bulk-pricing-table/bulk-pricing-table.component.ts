@@ -12,7 +12,7 @@ import { switchMap } from 'rxjs/operators';
 export class BulkPricingTableComponent implements OnInit {
   protected readonly PRODUCT_KEY = 'productCode';
 
-  priceTiers$: Observable<BulkPrice[]>;
+  priceTiers$: Observable<BulkPrice[] | undefined>;
 
   constructor(
     protected routingService: RoutingService,
@@ -33,7 +33,7 @@ export class BulkPricingTableComponent implements OnInit {
     return formattedQuantityRange;
   }
 
-  getPrices(): Observable<BulkPrice[]> {
+  getPrices(): Observable<BulkPrice[] | undefined> {
     return this.routingService.getRouterState().pipe(
       switchMap((state) => {
         const productCode = state.state.params[this.PRODUCT_KEY];

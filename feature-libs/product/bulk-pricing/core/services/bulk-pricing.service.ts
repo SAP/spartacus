@@ -12,7 +12,7 @@ export class BulkPricingService {
 
   constructor(protected productService: ProductService) {}
 
-  getBulkPrices(productCode: string): Observable<BulkPrice[]> {
+  getBulkPrices(productCode: string): Observable<BulkPrice[] | undefined> {
     return this.productService.get(productCode, this.PRODUCT_SCOPE).pipe(
       switchMap((productPriceScope) => {
         return of(this.convert(productPriceScope));
@@ -20,14 +20,14 @@ export class BulkPricingService {
     );
   }
 
-  protected convert(productPriceScope: Product): BulkPrice[] {
-    let bulkPrices = [];
+  protected convert(productPriceScope: Product): BulkPrice[] | undefined {
+    let bulkPrices: BulkPrice[] | undefined = [];
 
     if (productPriceScope) {
-      const basePrice = productPriceScope.price?.value;
-      const volumePrices = productPriceScope.volumePrices;
+      const basePrice: number | undefined = productPriceScope.price?.value;
+      const volumePrices: Price[] | undefined = productPriceScope.volumePrices;
 
-      bulkPrices = volumePrices.map((volumePrice) =>
+      bulkPrices = volumePrices?.map((volumePrice) =>
         this.parsePrice(volumePrice, basePrice)
       );
     }
@@ -35,7 +35,10 @@ export class BulkPricingService {
     return bulkPrices;
   }
 
-  protected parsePrice(priceTier: Price, basePrice: number): BulkPrice {
+  protected parsePrice(
+    priceTier: Price,
+    basePrice: number | undefined
+  ): BulkPrice {
     const bulkPriceTemplate: BulkPrice = {
       currencyIso: priceTier.currencyIso,
       formattedValue: priceTier.formattedValue,
@@ -52,16 +55,18 @@ export class BulkPricingService {
 
   protected calculateDiscount(
     bulkPriceTemplate: BulkPrice,
-    basePrice: number
+    basePrice: number | undefined
   ): BulkPrice {
     const bulkPrice = Object.assign({}, bulkPriceTemplate);
 
-    const tierPrice = bulkPriceTemplate.value;
-    const discount = Math.round(100.0 - (tierPrice / basePrice) * 100);
+    const tierPrice: number | undefined = bulkPriceTemplate.value;
 
-    const formatted = discount === 0 ? `${discount}%` : `-${discount}%`;
-    bulkPrice.formattedDiscount = formatted;
-    bulkPrice.discount = discount;
+    if (tierPrice && basePrice) {
+      const discount = Math.round(100.0 - (tierPrice / basePrice) * 100);
+      const formatted = discount === 0 ? `${discount}%` : `-${discount}%`;
+      bulkPrice.formattedDiscount = formatted;
+      bulkPrice.discount = discount;
+    }
 
     return bulkPrice;
   }
