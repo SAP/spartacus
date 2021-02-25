@@ -56,7 +56,8 @@ export default async function run(
       newVersion.version
     );
     fromToken =
-      previousVersion && args.to.split(newVersion).join(previousVersion);
+      previousVersion &&
+      args.to.split(newVersion.version).join(previousVersion);
   } catch (err) {
     // package not found - assuming first release
     fromToken = '';
