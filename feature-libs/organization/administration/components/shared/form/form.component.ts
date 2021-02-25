@@ -52,6 +52,10 @@ export class FormComponent<T> implements OnInit, OnDestroy {
     })
   );
 
+  /**
+   * @deprecated since 3.2
+   * use form.disabled instead
+   */
   disabled$ = this.form$.pipe(
     switchMap((form) => form.statusChanges),
     map((status) => status === DISABLED_STATUS)
