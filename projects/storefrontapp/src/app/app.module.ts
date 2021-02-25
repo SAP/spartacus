@@ -65,7 +65,7 @@ if (!environment.production) {
       },
 
       features: {
-        level: '2.1',
+        level: '3.1',
       },
     }),
 
@@ -76,13 +76,13 @@ if (!environment.production) {
         resources: configuratorTranslations,
       },
       featureModules: {
-        rulebased: {
+        productConfiguratorRulebased: {
           module: () =>
             import('@spartacus/product-configurator/rulebased').then(
               (m) => m.RulebasedConfiguratorModule
             ),
         },
-        textfield: {
+        productConfiguratorTextfield: {
           module: () =>
             import('@spartacus/product-configurator/textfield').then(
               (m) => m.TextfieldConfiguratorModule
