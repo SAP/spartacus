@@ -1,19 +1,27 @@
+import {
+  Breadcrumb,
+  Facet,
+  SearchState,
+  SpellingSuggestion,
+} from 'projects/core/src/model';
+import { BundleStarter } from 'projects/core/src/model/bundle.model';
+import { OrderEntry } from 'projects/core/src/model/order.model';
 import { Product } from 'projects/core/src/model/product.model';
+import { Pagination, Sort } from 'projects/core/src/model/unused.model';
+import { SearchConfig } from 'projects/core/src/product/model/search-config';
 import {
   EntityProcessesDecrementAction,
   EntityProcessesIncrementAction,
 } from 'projects/core/src/state/utils/entity-processes-loader/entity-processes-loader.action';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
-export const CREATE_BUNDLE = '[Cart] Create Bundle';
-export const CREATE_BUNDLE_SUCCESS = '[Cart] Create Bundle Success';
-export const CREATE_BUNDLE_FAIL = '[Cart] Create Bundle Fail';
-export const GET_BUNDLES = '[Cart] Get Bundles';
-export const GET_BUNDLES_SUCCESS = '[Cart] Get Bundles Success';
-export const GET_BUNDLES_FAIL = '[Cart] Get Bundles Fail';
-export const UPDATE_BUNDLE = '[Cart] Update Bundle';
-export const UPDATE_BUNDLE_SUCCESS = '[Cart] Update Bundle Success';
-export const UPDATE_BUNDLE_FAIL = '[Cart] Update Bundle Fail';
+export const START_BUNDLE = '[Cart] Start Bundle';
+export const START_BUNDLE_SUCCESS = '[Cart] Start Bundle Success';
+export const START_BUNDLE_FAIL = '[Cart] Start Bundle Fail';
+export const ADD_PRODUCT_TO_BUNDLE = '[Cart] Add Product To Bundle';
+export const ADD_PRODUCT_TO_BUNDLE_SUCCESS =
+  '[Cart] Add Product To Bundle Success';
+export const ADD_PRODUCT_TO_BUNDLE_FAIL = '[Cart] Add Product To Bundle Fail';
 export const REMOVE_BUNDLE = '[Cart] Remove Bundle';
 export const REMOVE_BUNDLE_SUCCESS = '[Cart] Remove Bundle Success';
 export const REMOVE_BUNDLE_FAIL = '[Cart] Remove Bundle Fail';
@@ -23,32 +31,29 @@ export const GET_BUNDLE_ALLOWED_PRODUCTS_SUCCESS =
 export const GET_BUNDLE_ALLOWED_PRODUCTS_FAIL =
   '[Cart] Get Bundle Allowed Products Fail';
 
-export class CreateBundle extends EntityProcessesIncrementAction {
-  readonly type = CREATE_BUNDLE;
+export class StartBundle extends EntityProcessesIncrementAction {
+  readonly type = START_BUNDLE;
   constructor(
     public payload: {
       cartId: string;
       userId: string;
-      productCode: string;
-      quantity: number;
-      templateId: string;
+      bundleStarter: BundleStarter;
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
-export class CreateBundleSuccess extends EntityProcessesDecrementAction {
-  readonly type = CREATE_BUNDLE_SUCCESS;
+export class StartBundleSuccess extends EntityProcessesDecrementAction {
+  readonly type = START_BUNDLE_SUCCESS;
   constructor(
     public payload: {
       userId: string;
       cartId: string;
-      // productCode: string;
-      // quantity: number;
-      // deliveryModeChanged: boolean;
-      // entry: OrderEntry;
-      // quantityAdded: number;
+      deliveryModeChanged: boolean;
+      entry: OrderEntry;
+      quantity: number;
+      quantityAdded: number;
       statusCode: string;
       statusMessage: string;
     }
@@ -57,14 +62,13 @@ export class CreateBundleSuccess extends EntityProcessesDecrementAction {
   }
 }
 
-export class CreateBundleFail extends EntityProcessesDecrementAction {
-  readonly type = CREATE_BUNDLE_FAIL;
+export class StartBundleFail extends EntityProcessesDecrementAction {
+  readonly type = START_BUNDLE_FAIL;
   constructor(
     public payload: {
       userId: string;
       cartId: string;
-      productCode: string;
-      quantity: number;
+      bundleStarter: BundleStarter;
       error: any;
     }
   ) {
@@ -72,29 +76,37 @@ export class CreateBundleFail extends EntityProcessesDecrementAction {
   }
 }
 
-export class GetBundles extends EntityProcessesIncrementAction {
-  readonly type = GET_BUNDLES;
+export class GetBundleAllowedProducts extends EntityProcessesIncrementAction {
+  readonly type = GET_BUNDLE_ALLOWED_PRODUCTS;
   constructor(
     public payload: {
       cartId: string;
       userId: string;
+      entryGroupNumber: number;
+      searchConfig: SearchConfig;
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
-export class GetBundlesSuccess extends EntityProcessesDecrementAction {
-  readonly type = GET_BUNDLES_SUCCESS;
+export class GetBundleAllowedProductsSuccess extends EntityProcessesDecrementAction {
+  readonly type = GET_BUNDLE_ALLOWED_PRODUCTS_SUCCESS;
   constructor(
     public payload: {
       userId: string;
       cartId: string;
-      // productCode: string;
-      // quantity: number;
-      // deliveryModeChanged: boolean;
-      // entry: OrderEntry;
-      // quantityAdded: number;
+      entryGroupNumber: number;
+      breadcrumbs: Breadcrumb[];
+      categoryCode: string;
+      currentQuery: SearchState;
+      facets: Facet[];
+      freeTextSearch: string;
+      keywordRedirectUrl: string;
+      pagination: Pagination;
+      products: Product[];
+      sorts: Sort[];
+      spellingSuggestion: SpellingSuggestion[];
       statusCode: string;
       statusMessage: string;
     }
@@ -103,14 +115,61 @@ export class GetBundlesSuccess extends EntityProcessesDecrementAction {
   }
 }
 
-export class GetBundlesFail extends EntityProcessesDecrementAction {
-  readonly type = GET_BUNDLES_FAIL;
+export class GetBundleAllowedProductsFail extends EntityProcessesDecrementAction {
+  readonly type = GET_BUNDLE_ALLOWED_PRODUCTS_FAIL;
+  constructor(
+    public payload: {
+      cartId: string;
+      userId: string;
+      entryGroupNumber: number;
+      searchConfig: SearchConfig;
+      error: any;
+    }
+  ) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
+}
+
+export class AddProductToBundle extends EntityProcessesIncrementAction {
+  readonly type = ADD_PRODUCT_TO_BUNDLE;
   constructor(
     public payload: {
       userId: string;
       cartId: string;
-      // productCode: string;
-      // quantity: number;
+      entry: OrderEntry;
+      entryGroupNumber: number;
+    }
+  ) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
+}
+
+export class AddProductToBundleSuccess extends EntityProcessesDecrementAction {
+  readonly type = ADD_PRODUCT_TO_BUNDLE_SUCCESS;
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+      deliveryModeChanged: boolean;
+      entry: OrderEntry;
+      quantity: number;
+      quantityAdded: number;
+      statusCode: string;
+      statusMessage: string;
+    }
+  ) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
+}
+
+export class AddProductToBundleFail extends EntityProcessesDecrementAction {
+  readonly type = ADD_PRODUCT_TO_BUNDLE_FAIL;
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+      entry: OrderEntry;
+      entryGroupNumber: number;
       error: any;
     }
   ) {
@@ -150,113 +209,16 @@ export class RemoveBundleFail extends EntityProcessesDecrementAction {
   }
 }
 
-export class UpdateBundle extends EntityProcessesIncrementAction {
-  readonly type = UPDATE_BUNDLE;
-  constructor(
-    public payload: {
-      userId: string;
-      cartId: string;
-      entryGroupNumber: number;
-      product: Product;
-      quantity: number;
-    }
-  ) {
-    super(MULTI_CART_DATA, payload.cartId);
-  }
-}
-
-export class UpdateBundleSuccess extends EntityProcessesDecrementAction {
-  readonly type = UPDATE_BUNDLE_SUCCESS;
-  constructor(
-    public payload: {
-      userId: string;
-      cartId: string;
-      entryGroupNumber: number;
-      product: Product;
-      quantity: number;
-      statusCode: string;
-      statusMessage: string;
-    }
-  ) {
-    super(MULTI_CART_DATA, payload.cartId);
-  }
-}
-
-export class UpdateBundleFail extends EntityProcessesDecrementAction {
-  readonly type = UPDATE_BUNDLE_FAIL;
-  constructor(
-    public payload: {
-      error: any;
-      userId: string;
-      cartId: string;
-      entryGroupNumber: number;
-      product: Product;
-      quantity: number;
-    }
-  ) {
-    super(MULTI_CART_DATA, payload.cartId);
-  }
-}
-
-export class GetBundleAllowedProducts extends EntityProcessesIncrementAction {
-  readonly type = GET_BUNDLE_ALLOWED_PRODUCTS;
-  constructor(
-    public payload: {
-      cartId: string;
-      userId: string;
-      entryGroupNumber: number;
-    }
-  ) {
-    super(MULTI_CART_DATA, payload.cartId);
-  }
-}
-
-export class GetBundleAllowedProductsSuccess extends EntityProcessesDecrementAction {
-  readonly type = GET_BUNDLE_ALLOWED_PRODUCTS_SUCCESS;
-  constructor(
-    public payload: {
-      userId: string;
-      cartId: string;
-      entryGroupNumber: number;
-      // productCode: string;
-      // quantity: number;
-      // deliveryModeChanged: boolean;
-      // entry: OrderEntry;
-      // quantityAdded: number;
-      statusCode: string;
-      statusMessage: string;
-    }
-  ) {
-    super(MULTI_CART_DATA, payload.cartId);
-  }
-}
-
-export class GetBundleAllowedProductsFail extends EntityProcessesDecrementAction {
-  readonly type = GET_BUNDLE_ALLOWED_PRODUCTS_FAIL;
-  constructor(
-    public payload: {
-      userId: string;
-      cartId: string;
-      entryGroupNumber: number;
-      // productCode: string;
-      // quantity: number;
-      error: any;
-    }
-  ) {
-    super(MULTI_CART_DATA, payload.cartId);
-  }
-}
-
 export type CartBundleAction =
-  | CreateBundle
-  | CreateBundleSuccess
-  | CreateBundleFail
-  | UpdateBundle
-  | UpdateBundleSuccess
-  | UpdateBundleFail
-  | RemoveBundle
-  | RemoveBundleSuccess
-  | RemoveBundleFail
+  | StartBundle
+  | StartBundleSuccess
+  | StartBundleFail
   | GetBundleAllowedProducts
   | GetBundleAllowedProductsSuccess
-  | GetBundleAllowedProductsFail;
+  | GetBundleAllowedProductsFail
+  | AddProductToBundle
+  | AddProductToBundleSuccess
+  | AddProductToBundleFail
+  | RemoveBundle
+  | RemoveBundleSuccess
+  | RemoveBundleFail;

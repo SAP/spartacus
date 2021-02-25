@@ -2,8 +2,9 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { CartModification } from '../../../model/cart.model';
 import { CartBundleAdapter } from './cart-bundle.adapter';
-import { Product } from 'projects/core/src/model/product.model';
 import { SearchConfig } from 'projects/core/src/product/model/search-config';
+import { OrderEntry } from 'projects/core/src/model/order.model';
+import { BundleStarter } from 'projects/core/src/model/bundle.model';
 
 @Injectable({
   providedIn: 'root',
@@ -20,29 +21,15 @@ export class CartBundleConnector {
    * @param cartId
    * Cart identifier: cart code for logged in user, cart guid for anonymous user, ‘current’ for the last modified cart.
    *
-   * @param productCode
-   * Product code.
-   *
-   * @param quantity
-   * Quantity of the product added to cart.
-   *
-   * @param templateId
-   * Id of a template to create a bundle.
+   * @param bundleStarter
+   * Mandatory data required to start a bundle. This includes the templateId of the bundle, the productCode, and the quantity of the product itself.
    */
   public bundleStart(
     userId: string,
     cartId: string,
-    productCode: string,
-    quantity: number,
-    templateId: string
+    bundleStarter: BundleStarter
   ): Observable<CartModification> {
-    return this.adapter.bundleStart(
-      userId,
-      cartId,
-      productCode,
-      quantity,
-      templateId
-    );
+    return this.adapter.bundleStart(userId, cartId, bundleStarter);
   }
 
   /**
@@ -96,16 +83,9 @@ export class CartBundleConnector {
     userId: string,
     cartId: string,
     entryGroupNumber: number,
-    product: Product,
-    quantity: number
+    entry: OrderEntry
   ): Observable<CartModification> {
-    return this.adapter.bundleAddEntry(
-      userId,
-      cartId,
-      entryGroupNumber,
-      product,
-      quantity
-    );
+    return this.adapter.bundleAddEntry(userId, cartId, entryGroupNumber, entry);
   }
 
   /**

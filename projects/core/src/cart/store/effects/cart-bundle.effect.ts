@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { withdrawOn } from 'projects/core/src/util';
 import { from, Observable } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
 import { CartModification } from '../../../model/cart.model';
@@ -18,32 +19,68 @@ export class CartBundleEffects {
 
   @Effect()
   startBundle$: Observable<
-    | CartActions.CreateBundleSuccess
-    | CartActions.CreateBundleFail
+    | CartActions.StartBundleSuccess
+    | CartActions.StartBundleFail
     | CartActions.LoadCart
   > = this.actions$.pipe(
-    ofType(CartActions.CREATE_BUNDLE),
-    map((action: CartActions.CreateBundle) => action.payload),
+    ofType(CartActions.START_BUNDLE),
+    map((action: CartActions.StartBundle) => action.payload),
     concatMap((payload) => {
       return this.cartBundleConnector
-        .start(
+        .bundleStart(payload.userId, payload.cartId, payload.bundleStarter)
+        .pipe(
+          map(
+            (cartModification: CartModification) =>
+              new CartActions.StartBundleSuccess({
+                ...payload,
+                ...(cartModification as Required<CartModification>),
+              })
+          ),
+          catchError((error) =>
+            from([
+              new CartActions.StartBundleFail({
+                ...payload,
+                error: error,
+              }),
+              new CartActions.LoadCart({
+                cartId: payload.cartId,
+                userId: payload.userId,
+              }),
+            ])
+          )
+        );
+    }),
+    withdrawOn(this.contextChange$)
+  );
+
+  @Effect()
+  getBundleAllowedProducts$: Observable<
+    | CartActions.GetBundleAllowedProductsSuccess
+    | CartActions.GetBundleAllowedProductsFail
+    | CartActions.LoadCart
+  > = this.actions$.pipe(
+    ofType(CartActions.GET_BUNDLE_ALLOWED_PRODUCTS),
+    map((action: CartActions.GetBundleAllowedProducts) => action.payload),
+    concatMap((payload) => {
+      return this.cartBundleConnector
+        .bundleAllowedProductsSearch(
           payload.userId,
           payload.cartId,
-          payload.productCode,
-          payload.quantity,
-          payload.templateId
+          payload.entryGroupNumber,
+          payload.searchConfig
         )
         .pipe(
           map(
             (cartModification: CartModification) =>
-              new CartActions.CreateBundleSuccess({
+              // TODO: Type should not be cast to "any"
+              new CartActions.GetBundleAllowedProductsSuccess(<any>{
                 ...payload,
                 ...(cartModification as Required<CartModification>),
               })
           ),
           catchError((error) =>
             from([
-              new CartActions.CreateBundleFail({
+              new CartActions.GetBundleAllowedProductsFail({
                 ...payload,
                 error: error,
               }),
@@ -54,32 +91,36 @@ export class CartBundleEffects {
             ])
           )
         );
-    })
-    // withdrawOn(this.contextChange$)
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
-  getBundles$: Observable<
-    | CartActions.GetBundlesSuccess
-    | CartActions.GetBundlesFail
+  addProductToBundle$: Observable<
+    | CartActions.AddProductToBundleSuccess
+    | CartActions.AddProductToBundleFail
     | CartActions.LoadCart
   > = this.actions$.pipe(
-    ofType(CartActions.GET_BUNDLES),
-    map((action: CartActions.GetBundles) => action.payload),
-    concatMap((payload) => {
-      return this.cartBundleConnector
-        .getAll(payload.userId, payload.cartId)
+    ofType(CartActions.ADD_PRODUCT_TO_BUNDLE),
+    map((action: CartActions.AddProductToBundle) => action.payload),
+    concatMap((payload) =>
+      this.cartBundleConnector
+        .bundleAddEntry(
+          payload.userId,
+          payload.cartId,
+          payload.entryGroupNumber,
+          payload.entry
+        )
         .pipe(
-          map(
-            (cartModification: CartModification) =>
-              new CartActions.GetBundlesSuccess({
-                ...payload,
-                ...(cartModification as Required<CartModification>),
-              })
-          ),
+          map((cartModification: CartModification) => {
+            return new CartActions.AddProductToBundleSuccess({
+              ...payload,
+              ...(cartModification as Required<CartModification>),
+            });
+          }),
           catchError((error) =>
             from([
-              new CartActions.GetBundlesFail({
+              new CartActions.AddProductToBundleFail({
                 ...payload,
                 error: error,
               }),
@@ -89,9 +130,9 @@ export class CartBundleEffects {
               }),
             ])
           )
-        );
-    })
-    // withdrawOn(this.contextChange$)
+        )
+    ),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -104,7 +145,7 @@ export class CartBundleEffects {
     map((action: CartActions.RemoveBundle) => action.payload),
     concatMap((payload) =>
       this.cartBundleConnector
-        .remove(payload.userId, payload.cartId, payload.entryGroupNumber)
+        .bundleDelete(payload.userId, payload.cartId, payload.entryGroupNumber)
         .pipe(
           map(() => {
             return new CartActions.RemoveBundleSuccess({
@@ -124,89 +165,8 @@ export class CartBundleEffects {
             ])
           )
         )
-    )
-    // withdrawOn(this.contextChange$)
-  );
-
-  @Effect()
-  updateBundle$: Observable<
-    | CartActions.UpdateBundleSuccess
-    | CartActions.UpdateBundleFail
-    | CartActions.LoadCart
-  > = this.actions$.pipe(
-    ofType(CartActions.UPDATE_BUNDLE),
-    map((action: CartActions.UpdateBundle) => action.payload),
-    concatMap((payload) =>
-      this.cartBundleConnector
-        .update(
-          payload.userId,
-          payload.cartId,
-          payload.entryGroupNumber,
-          payload.product,
-          payload.quantity
-        )
-        .pipe(
-          map((cartModification: CartModification) => {
-            return new CartActions.UpdateBundleSuccess({
-              ...payload,
-              ...(cartModification as Required<CartModification>),
-            });
-          }),
-          catchError((error) =>
-            from([
-              new CartActions.UpdateBundleFail({
-                ...payload,
-                error: error,
-              }),
-              new CartActions.LoadCart({
-                cartId: payload.cartId,
-                userId: payload.userId,
-              }),
-            ])
-          )
-        )
-    )
-    // withdrawOn(this.contextChange$)
-  );
-
-  @Effect()
-  getBundleAllowedProducts$: Observable<
-    | CartActions.GetBundleAllowedProductsSuccess
-    | CartActions.GetBundleAllowedProductsFail
-    | CartActions.LoadCart
-  > = this.actions$.pipe(
-    ofType(CartActions.GET_BUNDLE_ALLOWED_PRODUCTS),
-    map((action: CartActions.GetBundleAllowedProducts) => action.payload),
-    concatMap((payload) => {
-      return this.cartBundleConnector
-        .getBundleAllowedProducts(
-          payload.userId,
-          payload.cartId,
-          payload.entryGroupNumber
-        )
-        .pipe(
-          map(
-            (cartModification: CartModification) =>
-              new CartActions.GetBundleAllowedProductsSuccess({
-                ...payload,
-                ...(cartModification as Required<CartModification>),
-              })
-          ),
-          catchError((error) =>
-            from([
-              new CartActions.GetBundleAllowedProductsFail({
-                ...payload,
-                error: error,
-              }),
-              new CartActions.LoadCart({
-                cartId: payload.cartId,
-                userId: payload.userId,
-              }),
-            ])
-          )
-        );
-    })
-    // withdrawOn(this.contextChange$)
+    ),
+    withdrawOn(this.contextChange$)
   );
 
   constructor(

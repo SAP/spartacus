@@ -53,9 +53,9 @@ export function cartEntitiesReducer(
     case CartActions.SET_TEMP_CART:
       return action.payload.cart;
     case CartActions.GET_BUNDLE_ALLOWED_PRODUCTS_SUCCESS:
-      console.log(action);
       return {
         ...state,
+        // TODO: Allowed products needs to be allocated to specific entrygroup
         ...{
           entryGroups: [
             ...state.entryGroups,
