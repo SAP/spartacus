@@ -23,7 +23,9 @@ async function run() {
   const branch = pr.head.ref;
   const octoKit = github.getOctokit(GITHUB_TOKEN);
 
-  console.log(`Starting Hosting service deployment of PR branch ${branch}`);
+  console.log(
+    `Starting Hosting service deployment of PR branch ${branch}. Deployment: ${context.deployment}`
+  );
 
   //run sh to get CLI and prep
   await exec.exec('sh', ['./.github/hs-deploy-action/upp-cli-setup.sh']);
