@@ -6,7 +6,7 @@ import { CART_MODIFICATION_NORMALIZER } from '../../../cart/connectors/entry/con
 import { CartModification } from '../../../model/cart.model';
 import { ConverterService } from '../../../util/converter.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { Product } from 'projects/core/src/model';
+import { BundleStarter, OrderEntry } from 'projects/core/src/model';
 import { SearchConfig } from '../../../product/model/search-config';
 
 @Injectable()
@@ -38,14 +38,10 @@ export class OccCartBundleAdapter implements CartBundleAdapter {
   public bundleStart(
     userId: string,
     cartId: string,
-    productCode: string,
-    quantity: number,
-    templateId: string
+    bundleStarter: BundleStarter
   ): Observable<CartModification> {
     const toAdd = JSON.stringify({
-      productCode: productCode,
-      quantity: quantity,
-      templateId: templateId,
+      bundleStarter: bundleStarter,
     });
 
     const headers = new HttpHeaders({
@@ -123,12 +119,10 @@ export class OccCartBundleAdapter implements CartBundleAdapter {
     userId: string,
     cartId: string,
     entryGroupNumber: number,
-    product: Product,
-    quantity: number
+    entry: OrderEntry
   ): Observable<CartModification> {
     const toAdd = JSON.stringify({
-      product: product,
-      quantity: quantity,
+      entry: entry,
     });
 
     const headers = new HttpHeaders({

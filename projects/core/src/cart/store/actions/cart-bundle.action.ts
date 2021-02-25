@@ -83,7 +83,7 @@ export class GetBundleAllowedProducts extends EntityProcessesIncrementAction {
       cartId: string;
       userId: string;
       entryGroupNumber: number;
-      searchConfig: SearchConfig;
+      searchConfig: SearchConfig | undefined;
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);

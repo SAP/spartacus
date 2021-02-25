@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { EMPTY, Observable, timer } from 'rxjs';
-import { Product } from '../../model';
+import { BundleStarter } from '../../model';
 import { Cart, EntryGroup } from '../../model/cart.model';
 import { debounce, distinctUntilChanged, map } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/index';
@@ -10,6 +10,7 @@ import { ProcessesLoaderState } from '../../state/utils/processes-loader/process
 import { CartActions } from '../store/actions/index';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartSelectors } from '../store/selectors/index';
+import { SearchConfig } from '../../product/model/search-config';
 
 @Injectable({
   providedIn: 'root',
@@ -181,12 +182,12 @@ export class MultiCartService {
   getLastEntry(
     cartId: string,
     productCode: string
-  ): Observable<OrderEntry | null> {
+  ): Observable<OrderEntry | null | undefined> {
     return this.store.pipe(
       select(MultiCartSelectors.getCartEntriesSelectorFactory(cartId)),
       map((entries) => {
         const filteredEntries = entries.filter(
-          (entry) => entry.product.code === productCode
+          (entry) => entry.product?.code === productCode
         );
         return filteredEntries
           ? filteredEntries[filteredEntries.length - 1]
@@ -343,20 +344,12 @@ export class MultiCartService {
    * @param quantity
    * @param templateId
    */
-  startBundle(
-    cartId: string,
-    userId: string,
-    productCode: string,
-    quantity: number,
-    templateId: string
-  ) {
+  startBundle(cartId: string, userId: string, bundleStarter: BundleStarter) {
     this.store.dispatch(
-      new CartActions.CreateBundle({
+      new CartActions.StartBundle({
         cartId,
         userId,
-        productCode,
-        quantity,
-        templateId,
+        bundleStarter,
       })
     );
   }
@@ -371,13 +364,15 @@ export class MultiCartService {
   getBundleAllowedProducts(
     cartId: string,
     userId: string,
-    entryGroupNumber: number
+    entryGroupNumber: number,
+    searchConfig?: SearchConfig
   ) {
     this.store.dispatch(
       new CartActions.GetBundleAllowedProducts({
         cartId,
         userId,
         entryGroupNumber,
+        searchConfig,
       })
     );
   }
@@ -412,16 +407,14 @@ export class MultiCartService {
     cartId: string,
     userId: string,
     entryGroupNumber: number,
-    product: Product,
-    quantity: number
+    entry: OrderEntry
   ) {
     this.store.dispatch(
-      new CartActions.UpdateBundle({
+      new CartActions.AddProductToBundle({
         cartId,
         userId,
         entryGroupNumber,
-        product,
-        quantity,
+        entry,
       })
     );
   }
