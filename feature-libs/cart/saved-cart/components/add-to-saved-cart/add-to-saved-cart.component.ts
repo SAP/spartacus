@@ -28,7 +28,7 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
 
   @ViewChild('element') element: ElementRef;
 
-  private subscription = new Subscription();
+  protected subscription = new Subscription();
 
   constructor(
     protected activeCartService: ActiveCartService,
@@ -64,7 +64,7 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
     }
   }
 
-  private openDialog(
+  protected openDialog(
     openElement?: ElementRef,
     vcr?: ViewContainerRef,
     data?: any
@@ -80,7 +80,7 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
         component,
         this.launchDialogService.dialogClose,
       ]).pipe(
-        filter(([, close]) => close && close !== undefined),
+        filter(([, close]) => close !== undefined),
         tap(([comp]) => {
           openElement?.nativeElement.focus();
           this.launchDialogService.clear(LAUNCH_CALLER.ADD_TO_SAVED_CART);
