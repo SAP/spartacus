@@ -83,8 +83,10 @@ export class CpqConfiguratorRestAdapter
     );
   }
 
-  updateConfigurationForCartEntry(): Observable<CartModification> {
-    return undefined;
+  updateConfigurationForCartEntry(
+    parameters: Configurator.UpdateConfigurationForCartEntryParameters
+  ): Observable<CartModification> {
+    return this.cpqOccService.updateCartEntry(parameters);
   }
 
   readConfigurationForOrderEntry(): Observable<Configurator.Configuration> {

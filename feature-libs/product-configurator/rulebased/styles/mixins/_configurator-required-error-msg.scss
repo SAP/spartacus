@@ -3,8 +3,10 @@
     color: var(--cx-color-danger);
     font-size: 14px;
 
-    cx-icon {
-      padding-inline-end: 5px;
+    @include forVersion(3.1) {
+      cx-icon {
+        padding-inline-end: 5px;
+      }
     }
   }
 }

@@ -1,12 +1,6 @@
 import { Location } from '@angular/common';
-import { Injectable, NgModuleRef } from '@angular/core';
-import {
-  CmsConfig,
-  ConfigInitializerService,
-  LazyModulesService,
-} from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { map, shareReplay, switchMap } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { FeatureModulesService } from '@spartacus/core';
 import { SmartEditConfig } from '../config/smart-edit-config';
 
 /**
@@ -23,34 +17,21 @@ export class SmartEditLauncherService {
     return this._cmsTicketId;
   }
 
-  private smartEditModuleInstance$: Observable<
-    NgModuleRef<any> | undefined
-  > = this.configInitializer.getStable('featureModules').pipe(
-    map((config: CmsConfig) => config.featureModules ?? {}),
-    switchMap((featureModulesConfig) =>
-      featureModulesConfig['smartEdit']?.module
-        ? this.lazyModule.resolveModuleInstance(
-            featureModulesConfig['smartEdit']?.module,
-            'smartEdit'
-          )
-        : of(undefined)
-    ),
-    shareReplay()
-  );
-
   constructor(
     protected config: SmartEditConfig,
     protected location: Location,
-    protected lazyModule: LazyModulesService,
-    protected configInitializer: ConfigInitializerService
+    protected featureModules: FeatureModulesService
   ) {}
 
   /**
    * Lazy loads modules when Spartacus launced inside Smart Edit
    */
   load(): void {
-    if (this.isLaunchedInSmartEdit()) {
-      this.smartEditModuleInstance$.subscribe();
+    if (
+      this.isLaunchedInSmartEdit() &&
+      this.featureModules.isConfigured('smartEdit')
+    ) {
+      this.featureModules.resolveFeature('smartEdit').subscribe();
     }
   }
 
