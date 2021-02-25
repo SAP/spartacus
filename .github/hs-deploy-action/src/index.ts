@@ -28,15 +28,16 @@ async function run() {
   console.log(`Starting Hosting service deployment of PR branch ${branch}`);
 
   //run sh to get CLI and prep
-//   await exec.exec('sh', ['./.github/hs-deploy-action/upp-cli-setup.sh']);
+  //   await exec.exec('sh', ['./.github/hs-deploy-action/upp-cli-setup.sh']);
 
-//   if (UPP_ACTION === 'deploy') {
-//     await build();
-//     await deploy(github, octoKit);
-//     console.log('--> Hosting service deployment done');
-//   } else if (UPP_ACTION === 'undeploy') {
-//     await undeploy(branch);
-//   }
-// }
+  //   if (UPP_ACTION === 'deploy') {
+  //     await build();
+  //     await deploy(github, octoKit);
+  //     console.log('--> Hosting service deployment done');
+  //   } else if (UPP_ACTION === 'undeploy') {
+  //     await undeploy(branch);
+  //   }
+  // }
+}
 
 run();
