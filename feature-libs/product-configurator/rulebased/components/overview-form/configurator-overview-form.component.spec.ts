@@ -249,97 +249,88 @@ describe('ConfigurationOverviewFormComponent', () => {
   });
 
   describe('getStyleClasses', () => {
-    it('should return certain style classes for general attribute type', () => {
-      initialize();
-      const attributes: Configurator.AttributeOverview[] = [
-        {
-          attribute: 'C1',
-          value: 'V1',
-          type: Configurator.AttributeOverviewType.GENERAL,
-        },
-        {
-          attribute: 'C1',
-          value: 'V2',
-          type: Configurator.AttributeOverviewType.GENERAL,
-        },
-        {
-          attribute: 'C1',
-          value: 'V3',
-          type: Configurator.AttributeOverviewType.GENERAL,
-        },
-        {
-          attribute: 'C1',
-          value: 'V4',
-        },
-      ];
+    const generalAttributes: Configurator.AttributeOverview[] = [
+      {
+        attribute: 'C1',
+        value: 'V1',
+        type: Configurator.AttributeOverviewType.GENERAL,
+      },
+      {
+        attribute: 'C1',
+        value: 'V2',
+        type: Configurator.AttributeOverviewType.GENERAL,
+      },
+      {
+        attribute: 'C1',
+        value: 'V4',
+      },
+    ];
 
-      let result = component.getStyleClasses(attributes, 0);
+    const bundleAttribute: Configurator.AttributeOverview[] = [
+      {
+        attribute: 'C1',
+        value: 'V1',
+        type: Configurator.AttributeOverviewType.BUNDLE,
+      },
+      {
+        attribute: 'C1',
+        value: 'V2',
+        type: Configurator.AttributeOverviewType.BUNDLE,
+      },
+      {
+        attribute: 'C1',
+        value: 'V4',
+      },
+    ];
+
+    it('should return general and margin classes for general attribute type', () => {
+      initialize();
+      const result = component.getStyleClasses(generalAttributes, 0);
       expect(result.includes('general')).toBe(true);
       expect(result.includes('bundle')).toBe(false);
       expect(result.includes('margin')).toBe(true);
       expect(result.includes('last-value-pair')).toBe(false);
+    });
 
-      result = component.getStyleClasses(attributes, 1);
+    it('should return only general class for general attribute type', () => {
+      initialize();
+      const result = component.getStyleClasses(generalAttributes, 1);
       expect(result.includes('general')).toBe(true);
       expect(result.includes('bundle')).toBe(false);
       expect(result.includes('margin')).toBe(false);
       expect(result.includes('last-value-pair')).toBe(false);
+    });
 
-      result = component.getStyleClasses(attributes, 2);
-      expect(result.includes('general')).toBe(true);
-      expect(result.includes('bundle')).toBe(false);
-      expect(result.includes('margin')).toBe(false);
-      expect(result.includes('last-value-pair')).toBe(false);
-
-      result = component.getStyleClasses(attributes, 3);
+    it('should return only last-value-pair class for general attribute type', () => {
+      initialize();
+      const result = component.getStyleClasses(generalAttributes, 2);
       expect(result.includes('general')).toBe(false);
       expect(result.includes('bundle')).toBe(false);
       expect(result.includes('margin')).toBe(false);
       expect(result.includes('last-value-pair')).toBe(true);
     });
 
-    it('should return certain style classes for bundle attribute type', () => {
+    it('should return bundle and margin classes for bundle attribute type', () => {
       initialize();
-      const attributes: Configurator.AttributeOverview[] = [
-        {
-          attribute: 'C1',
-          value: 'V1',
-          type: Configurator.AttributeOverviewType.BUNDLE,
-        },
-        {
-          attribute: 'C1',
-          value: 'V2',
-          type: Configurator.AttributeOverviewType.BUNDLE,
-        },
-        {
-          attribute: 'C1',
-          value: 'V3',
-          type: Configurator.AttributeOverviewType.BUNDLE,
-        },
-        {
-          attribute: 'C1',
-          value: 'V4',
-        },
-      ];
-
-      let result = component.getStyleClasses(attributes, 0);
+      const result = component.getStyleClasses(bundleAttribute, 0);
       expect(result.includes('bundle')).toBe(true);
       expect(result.includes('general')).toBe(false);
       expect(result.includes('margin')).toBe(true);
       expect(result.includes('last-value-pair')).toBe(false);
+    });
 
-      result = component.getStyleClasses(attributes, 1);
+    it('should return only bundle class for bundle attribute type', () => {
+      initialize();
+      const result = component.getStyleClasses(bundleAttribute, 1);
       expect(result.includes('bundle')).toBe(true);
       expect(result.includes('general')).toBe(false);
       expect(result.includes('margin')).toBe(false);
       expect(result.includes('last-value-pair')).toBe(false);
+    });
 
-      result = component.getStyleClasses(attributes, 2);
-      expect(result.includes('bundle')).toBe(true);
-      expect(result.includes('general')).toBe(false);
-      expect(result.includes('margin')).toBe(false);
-
-      result = component.getStyleClasses(attributes, 3);
+    it('should return only last-value-pair class for bundle attribute type', () => {
+      initialize();
+      const result = component.getStyleClasses(bundleAttribute, 2);
       expect(result.includes('bundle')).toBe(false);
       expect(result.includes('general')).toBe(false);
       expect(result.includes('margin')).toBe(false);
