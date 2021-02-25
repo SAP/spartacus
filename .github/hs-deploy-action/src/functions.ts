@@ -7,39 +7,13 @@ export async function build() {
   await exec.exec('yarn', ['build']);
 }
 
-export async function deploy(github: any, octoKit: any) {
-  const context = github.context;
-  const branch = context.payload.pull_request.head.ref;
-
-  console.log(`--> Deploying branch ${branch}`);
-
-  const bundleId = getBundleId(branch);
-  const command = `upp application deploy -b ${bundleId} -t spartacus -s ./dist/storefrontapp -e stage`;
-
-  const exp = /https\:\/\/\w+\.cloudfront\.net/;
-  let output = '';
-
-  const options: any = {};
-  options.listeners = {
-    stdout: (data: Buffer) => {
-      const line = data.toString();
-      const match = line.match(exp);
-      if (match && match.length > 0) {
-        const body = `:rocket: Spartacus deployed to [${match}](${match})`;
-        console.log(body);
-        addComment(context, octoKit, body);
-      }
-      output += data.toString();
-    },
-    stderr: (data: Buffer) => {
-      console.log(`upp deploy exited with error:  ${data.toString()}`);
-    },
-  };
-
-  await exec.exec(command, [], options);
-}
-
-async function addComment(context: any, octoKit: any, comment: string) {
+/**
+ * Adds hosting service deployment URL as a comment to the corresponding github pull request
+ * @param context Github context
+ * @param octoKit Github octokit object
+ * @param comment Comment body
+ */
+export async function addComment(context: any, octoKit: any, comment: string) {
   const COMMENT_HEADER = '## Hosting service deployment';
   const issueNumber = context.payload.pull_request.number;
   const owner = context.payload.repository.owner.login;
@@ -74,6 +48,11 @@ async function addComment(context: any, octoKit: any, comment: string) {
   });
 }
 
+/**
+ * Generates a UPP valid bundle Id based on the branch name
+ * replaces slashes with -s and other chars with -d
+ * @param branch Branch name
+ */
 export function getBundleId(branch: string) {
   let bundleId = '';
   const regex = /(\-\d)/;
