@@ -25,7 +25,6 @@ export class SavedCartListComponent {
   ) {}
 
   goToSavedCartDetails(cart: Cart): void {
-    console.log('cart', cart);
     this.routing.go({
       cxRoute: 'savedCartsDetails',
       params: { savedCartId: cart?.code },
