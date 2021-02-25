@@ -20,7 +20,7 @@ async function run() {
     );
   }
 
-  console.log(JSON.stringify(context.payload));
+  console.log('Payload: ' + JSON.stringify(context.payload));
 }
 
 run();
