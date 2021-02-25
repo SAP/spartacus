@@ -49,14 +49,14 @@ export default async function run(
   let fromToken: string;
   try {
     const packageVersions = await versionsHelper.fetchPackageVersions(
-      args.library
+      args.library!
     );
     const previousVersion = versionsHelper.extractPreviousVersionForChangelog(
       packageVersions,
-      newVersion.version
+      newVersion?.version!
     );
-    fromToken =
-      previousVersion && args.to.split(newVersion).join(previousVersion);
+    fromToken = (previousVersion &&
+      args.to.split(newVersion?.version!).join(previousVersion)) as string;
   } catch (err) {
     // package not found - assuming first release
     fromToken = '';
@@ -68,7 +68,7 @@ export default async function run(
     ''
   ).trim();
 
-  const libraryPaths = {
+  const libraryPaths: Record<string, string> = {
     '@spartacus/storefront': 'projects/storefrontlib',
     '@spartacus/core': 'projects/core',
     '@spartacus/styles': 'projects/storefrontstyles',
@@ -80,12 +80,19 @@ export default async function run(
     '@spartacus/product': 'feature-libs/product',
     '@spartacus/product-configurator': 'feature-libs/product-configurator',
     '@spartacus/storefinder': 'feature-libs/storefinder',
+    '@spartacus/smartedit': 'feature-libs/smartedit',
+    '@spartacus/tracking': 'feature-libs/tracking',
     '@spartacus/qualtrics': 'feature-libs/qualtrics',
     '@spartacus/cdc': 'integration-libs/cdc',
     '@spartacus/setup': 'core-libs/setup',
   };
 
-  const duplexUtil = through(function (chunk, _, callback) {
+  const duplexUtil = through(function (
+    this: NodeJS.ReadStream,
+    chunk: unknown,
+    _: unknown,
+    callback: () => {}
+  ) {
     this.push(chunk);
     callback();
   });
@@ -311,9 +318,17 @@ if (typeof config.to === 'undefined') {
     case '@spartacus/storefinder':
       config.library = '@spartacus/storefinder';
       break;
+    case 'tracking':
+    case '@spartacus/tracking':
+      config.library = '@spartacus/tracking';
+      break;
     case 'qualtrics':
     case '@spartacus/qualtrics':
       config.library = '@spartacus/qualtrics';
+      break;
+    case 'smartedit':
+    case '@spartacus/smartedit':
+      config.library = '@spartacus/smartedit';
       break;
     case 'setup':
     case '@spartacus/setup':

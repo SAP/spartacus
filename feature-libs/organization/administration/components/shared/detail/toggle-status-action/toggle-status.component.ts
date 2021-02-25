@@ -92,8 +92,10 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   isDisabled(item: T): boolean {
     return (
       this.disabled ??
+      //* TODO: 4.0: Use this.disableInfoService.isParentDisabled(item) instead
       !(item.orgUnit || (item as any).unit || (item as any).parentOrgUnit)
         ?.active
+      //*
     );
   }
 
