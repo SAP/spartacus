@@ -1,11 +1,11 @@
 import * as github from '@actions/github';
-import * as exec from '@actions/exec';
-import { build } from './functions';
-import { deploy, undeploy } from './deploy';
+// import * as exec from '@actions/exec';
+// import { build } from './functions';
+// import { deploy, undeploy } from './deploy';
 
 async function run() {
   const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-  const UPP_ACTION = process.env.UPP_ACTION;
+  // const UPP_ACTION = process.env.UPP_ACTION;
 
   if (!GITHUB_TOKEN) {
     throw new Error('Github token missing in action');
@@ -21,11 +21,11 @@ async function run() {
   }
 
   const branch = pr.head.ref;
-  const octoKit = github.getOctokit(GITHUB_TOKEN);
+  // const octoKit = github.getOctokit(GITHUB_TOKEN);
 
   console.log('Payload: ' + JSON.stringify(context.payload));
 
-  console.log(`Starting Hosting service deployment of PR branch ${branch}`);
+  // console.log(`Starting Hosting service deployment of PR branch ${branch}`);
 
   //run sh to get CLI and prep
   //   await exec.exec('sh', ['./.github/hs-deploy-action/upp-cli-setup.sh']);
