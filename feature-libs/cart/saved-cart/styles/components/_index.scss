@@ -1,7 +1,9 @@
-@import './saved-cart-form';
 @import './add-to-saved-cart';
+@import './saved-cart-form';
+@import './saved-cart-list';
 
-$saved-carts-components-whitelist: cx-add-to-saved-cart cx-saved-cart-form !default;
+$saved-carts-components-whitelist: cx-add-to-saved-cart cx-saved-cart-form
+  cx-saved-cart-list !default;
 
 $skipComponentStyles: () !default;
 

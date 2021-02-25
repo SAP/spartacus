@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Cart } from '@spartacus/core';
 import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { SavedCartService } from '../../core/services/saved-cart.service';
 
 @Component({
   selector: 'cx-saved-cart-form',
@@ -22,7 +23,10 @@ export class SavedCartFormComponent implements OnInit {
     this.build();
   }
 
-  constructor(protected launchDialogService: LaunchDialogService) {}
+  constructor(
+    protected savedCartService: SavedCartService,
+    protected launchDialogService: LaunchDialogService
+  ) {}
 
   get descriptionsCharacterLeft(): number {
     return (
@@ -31,8 +35,12 @@ export class SavedCartFormComponent implements OnInit {
     );
   }
 
-  saveCart(): void {
-    // TO DO
+  saveCart(cartCode: string): void {
+    const cartId = cartCode;
+    const cartDescription = this.form.get('description')?.value;
+    const cartName = this.form.get('name')?.value;
+
+    this.savedCartService.saveCart(cartId, cartDescription, cartName);
   }
 
   dismissModal(): void {
