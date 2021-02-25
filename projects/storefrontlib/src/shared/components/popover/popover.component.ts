@@ -118,7 +118,7 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.popoverClass = this.positioningService.positionElements(
       this.triggerElement.nativeElement,
       this.popoverInstance.location.nativeElement,
-      this.position,
+      this.position || 'auto',
       this.appendToBody
     );
 

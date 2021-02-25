@@ -9,8 +9,8 @@ export class PopoverService {
    * For a11y improvements method returns different `FocusConfig`
    * based on which event popover was triggered.
    */
-  getFocusConfig(event: Event, appendToBody: boolean): any | null {
-    let config: FocusConfig = null;
+  getFocusConfig(event: Event, appendToBody: boolean): FocusConfig {
+    let config = {};
 
     if (event instanceof KeyboardEvent) {
       if ((event.code === 'Enter' || event.code === 'Space') && appendToBody) {

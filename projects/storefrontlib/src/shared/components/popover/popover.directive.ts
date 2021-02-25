@@ -58,6 +58,11 @@ export class PopoverDirective {
   @Input() appendToBody?: boolean;
 
   /**
+   * Flag indicates if popover should be re-positioned on scroll event.
+   */
+  @Input() positionOnScroll?: boolean;
+
+  /**
    * An event emitted when the popover is opened.
    */
   @Output() openPopover?: EventEmitter<void> = new EventEmitter();
@@ -66,11 +71,6 @@ export class PopoverDirective {
    * An event emitted when the popover is closed.
    */
   @Output() closePopover?: EventEmitter<void> = new EventEmitter();
-
-  /**
-   * Flag indicates if popover should be re-positioned on scroll event.
-   */
-  @Input() positionOnScroll?: boolean;
 
   /**
    * Flag used to inform about current state of popover component.
@@ -120,11 +120,12 @@ export class PopoverDirective {
       this.isOpen = true;
       this.focusConfig = this.popoverService.getFocusConfig(
         event,
-        this.appendToBody
+        this.appendToBody || false
       );
 
       this.renderPopover();
-      this.openPopover.emit();
+
+      if (this.openPopover) this.openPopover.emit();
 
       this.triggerClickEvent();
       this.triggerEscKeydownEvent();
@@ -137,7 +138,8 @@ export class PopoverDirective {
   close() {
     this.isOpen = false;
     this.viewContainer.clear();
-    this.closePopover.emit();
+
+    if (this.closePopover) this.closePopover.emit();
 
     this.clickEventUnlistener();
     this.keydownEventUnlistener();
@@ -202,7 +204,7 @@ export class PopoverDirective {
   }
 
   /**
-   * Method uses `Renderer2` service to listen every click event.
+   * Method uses `Renderer2` service to listen every escape keydown event.
    *
    * Registered only when popover state was set to open and checks if `escape`
    * key was pressed.

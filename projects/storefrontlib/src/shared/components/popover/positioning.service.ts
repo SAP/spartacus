@@ -29,20 +29,24 @@ export class PositioningService {
     return /\s+/;
   }
 
-  protected get window(): Window {
+  protected get window(): Window | undefined {
     return this.winRef.nativeWindow;
   }
 
-  protected getAllStyles(element: HTMLElement) {
+  protected getAllStyles(
+    element: HTMLElement
+  ): CSSStyleDeclaration | undefined {
     return this.window?.getComputedStyle(element);
   }
 
-  protected getStyle(element: HTMLElement, prop: string): string {
-    return this.getAllStyles(element)[prop];
+  protected getPositionStyleProperty(element: HTMLElement): string | undefined {
+    const styles = this.getAllStyles(element);
+
+    if (styles) return styles['position'] || undefined;
   }
 
   protected isStaticPositioned(element: HTMLElement): boolean {
-    return (this.getStyle(element, 'position') || 'static') === 'static';
+    return (this.getPositionStyleProperty(element) || 'static') === 'static';
   }
 
   protected offsetParent(element: HTMLElement): HTMLElement {
@@ -71,7 +75,7 @@ export class PositioningService {
       right: 0,
     };
 
-    if (this.getStyle(element, 'position') === 'fixed') {
+    if (this.getPositionStyleProperty(element) === 'fixed') {
       elPosition = element.getBoundingClientRect();
       elPosition = {
         top: elPosition.top,
@@ -112,8 +116,14 @@ export class PositioningService {
   protected offset(element: HTMLElement, round = true): ClientRect {
     const elBcr = element.getBoundingClientRect();
     const viewportOffset = {
-      top: this.window?.pageYOffset - document.documentElement.clientTop,
-      left: this.window?.pageXOffset - document.documentElement.clientLeft,
+      top:
+        (this.window &&
+          this.window.pageYOffset - document.documentElement.clientTop) ||
+        0,
+      left:
+        (this.window &&
+          this.window.pageXOffset - document.documentElement.clientLeft) ||
+        0,
     };
 
     const elOffset = {
@@ -156,83 +166,87 @@ export class PositioningService {
       : this.position(hostElement, false);
     const targetElStyles = this.getAllStyles(targetElement);
 
-    const marginTop = parseFloat(targetElStyles.marginTop);
-    const marginBottom = parseFloat(targetElStyles.marginBottom);
-    const marginLeft = parseFloat(targetElStyles.marginLeft);
-    const marginRight = parseFloat(targetElStyles.marginRight);
+    if (targetElStyles) {
+      const marginTop = parseFloat(targetElStyles.marginTop);
+      const marginBottom = parseFloat(targetElStyles.marginBottom);
+      const marginLeft = parseFloat(targetElStyles.marginLeft);
+      const marginRight = parseFloat(targetElStyles.marginRight);
 
-    let topPosition = 0;
-    let leftPosition = 0;
+      let topPosition = 0;
+      let leftPosition = 0;
 
-    switch (placementPrimary) {
-      case 'top':
-        topPosition =
-          hostElPosition.top -
-          (targetElement.offsetHeight + marginTop + marginBottom);
-        break;
-      case 'bottom':
-        topPosition = hostElPosition.top + hostElPosition.height;
-        break;
-      case 'left':
-        leftPosition =
-          hostElPosition.left -
-          (targetElement.offsetWidth + marginLeft + marginRight);
-        break;
-      case 'right':
-        leftPosition = hostElPosition.left + hostElPosition.width;
-        break;
-    }
-
-    switch (placementSecondary) {
-      case 'top':
-        topPosition = hostElPosition.top;
-        break;
-      case 'bottom':
-        topPosition =
-          hostElPosition.top +
-          hostElPosition.height -
-          targetElement.offsetHeight;
-        break;
-      case 'left':
-        leftPosition = hostElPosition.left;
-        break;
-      case 'right':
-        leftPosition =
-          hostElPosition.left +
-          hostElPosition.width -
-          targetElement.offsetWidth;
-        break;
-      case 'center':
-        if (placementPrimary === 'top' || placementPrimary === 'bottom') {
+      switch (placementPrimary) {
+        case 'top':
+          topPosition =
+            hostElPosition.top -
+            (targetElement.offsetHeight + marginTop + marginBottom);
+          break;
+        case 'bottom':
+          topPosition = hostElPosition.top + hostElPosition.height;
+          break;
+        case 'left':
           leftPosition =
-            hostElPosition.left +
-            hostElPosition.width / 2 -
-            targetElement.offsetWidth / 2;
-        } else {
+            hostElPosition.left -
+            (targetElement.offsetWidth + marginLeft + marginRight);
+          break;
+        case 'right':
+          leftPosition = hostElPosition.left + hostElPosition.width;
+          break;
+      }
+
+      switch (placementSecondary) {
+        case 'top':
+          topPosition = hostElPosition.top;
+          break;
+        case 'bottom':
           topPosition =
             hostElPosition.top +
-            hostElPosition.height / 2 -
-            targetElement.offsetHeight / 2;
-        }
-        break;
+            hostElPosition.height -
+            targetElement.offsetHeight;
+          break;
+        case 'left':
+          leftPosition = hostElPosition.left;
+          break;
+        case 'right':
+          leftPosition =
+            hostElPosition.left +
+            hostElPosition.width -
+            targetElement.offsetWidth;
+          break;
+        case 'center':
+          if (placementPrimary === 'top' || placementPrimary === 'bottom') {
+            leftPosition =
+              hostElPosition.left +
+              hostElPosition.width / 2 -
+              targetElement.offsetWidth / 2;
+          } else {
+            topPosition =
+              hostElPosition.top +
+              hostElPosition.height / 2 -
+              targetElement.offsetHeight / 2;
+          }
+          break;
+      }
+
+      targetElement.style.transform = `translate(${Math.round(
+        leftPosition
+      )}px, ${Math.round(topPosition)}px)`;
+
+      // Check if the targetElement is inside the viewport
+      const targetElBCR = targetElement.getBoundingClientRect();
+      const html = document.documentElement;
+      const windowHeight = this.window?.innerHeight || html.clientHeight;
+      const windowWidth = this.window?.innerWidth || html.clientWidth;
+
+      return (
+        targetElBCR.left >= 0 &&
+        targetElBCR.top >= 0 &&
+        targetElBCR.right <= windowWidth &&
+        targetElBCR.bottom <= windowHeight
+      );
     }
 
-    targetElement.style.transform = `translate(${Math.round(
-      leftPosition
-    )}px, ${Math.round(topPosition)}px)`;
-
-    // Check if the targetElement is inside the viewport
-    const targetElBCR = targetElement.getBoundingClientRect();
-    const html = document.documentElement;
-    const windowHeight = this.window?.innerHeight || html.clientHeight;
-    const windowWidth = this.window?.innerWidth || html.clientWidth;
-
-    return (
-      targetElBCR.left >= 0 &&
-      targetElBCR.top >= 0 &&
-      targetElBCR.right <= windowWidth &&
-      targetElBCR.bottom <= windowHeight
-    );
+    return false;
   }
 
   /*
@@ -250,7 +264,7 @@ export class PositioningService {
     targetElement: HTMLElement,
     placement: string | PopoverPosition | PopoverPositionArray,
     appendToBody?: boolean
-  ): PopoverPosition | null {
+  ): PopoverPosition {
     const placementVals: Array<PopoverPosition> = Array.isArray(placement)
       ? placement
       : (placement.split(this.placementSeparator) as Array<PopoverPosition>);
@@ -269,7 +283,7 @@ export class PositioningService {
     style.top = '0';
     style.left = '0';
 
-    let testPlacement: PopoverPosition | null = null;
+    let testPlacement: PopoverPosition = 'auto';
     let isInViewport = false;
     for (testPlacement of placementVals) {
       if (
