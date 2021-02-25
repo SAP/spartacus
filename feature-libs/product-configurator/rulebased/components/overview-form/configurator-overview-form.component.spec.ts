@@ -301,7 +301,7 @@ describe('ConfigurationOverviewFormComponent', () => {
       expect(result.includes('last-value-pair')).toBe(false);
     });
 
-    it('should return only last-value-pair class', () => {
+    it('should return only last-value-pair class for general attribute type', () => {
       initialize();
       const result = component.getStyleClasses(generalAttributes, 2);
       expect(result.includes('general')).toBe(false);
@@ -328,9 +328,9 @@ describe('ConfigurationOverviewFormComponent', () => {
       expect(result.includes('last-value-pair')).toBe(false);
     });
 
-    it('should return only last-value-pair class', () => {
+    it('should return only last-value-pair class for bundle attribute type', () => {
       initialize();
-      const result = component.getStyleClasses(bundleAttribute, 3);
+      const result = component.getStyleClasses(bundleAttribute, 2);
       expect(result.includes('bundle')).toBe(false);
       expect(result.includes('general')).toBe(false);
       expect(result.includes('margin')).toBe(false);
