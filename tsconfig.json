@@ -17,6 +17,7 @@
       "dom"
     ],
     "strictPropertyInitialization": false,
+    "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "stripInternal": true,
@@ -92,6 +93,15 @@
       "@spartacus/qualtrics/root": [
         "feature-libs/qualtrics/root/public_api"
       ],
+      "@spartacus/smartedit/core": [
+        "feature-libs/smartedit/core/public_api"
+      ],
+      "@spartacus/smartedit": [
+        "feature-libs/smartedit/public_api"
+      ],
+      "@spartacus/smartedit/root": [
+        "feature-libs/smartedit/root/public_api"
+      ],
       "@spartacus/storefinder/assets": [
         "feature-libs/storefinder/assets/public_api"
       ],
@@ -109,6 +119,21 @@
       ],
       "@spartacus/storefinder/root": [
         "feature-libs/storefinder/root/public_api"
+      ],
+      "@spartacus/tracking": [
+        "feature-libs/tracking/public_api"
+      ],
+      "@spartacus/tracking/tms/aep": [
+        "feature-libs/tracking/tms/aep/public_api"
+      ],
+      "@spartacus/tracking/tms/core": [
+        "feature-libs/tracking/tms/core/public_api"
+      ],
+      "@spartacus/tracking/tms/gtm": [
+        "feature-libs/tracking/tms/gtm/public_api"
+      ],
+      "@spartacus/tracking/tms": [
+        "feature-libs/tracking/tms/public_api"
       ],
       "@spartacus/cdc": [
         "integration-libs/cdc/public_api"
