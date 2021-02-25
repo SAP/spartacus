@@ -57,9 +57,14 @@ export class CardComponent<T extends BaseItem> {
   }
 
   protected refreshMessages(item: T) {
-    if (item?.code !== this.itemKey) {
+    if (
+      this.itemKey !== undefined &&
+      item?.code !== this.itemKey &&
+      (item as any).uid !== this.itemKey &&
+      (item as any).customerId !== this.itemKey
+    ) {
       this.messageService.clear();
     }
-    this.itemKey = item?.code;
+    this.itemKey = item?.code ?? (item as any).uid ?? (item as any).customerId;
   }
 }
