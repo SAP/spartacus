@@ -361,4 +361,83 @@ describe('CpqConfiguratorUtilitiesService', () => {
       Configurator.DataType.NOT_IMPLEMENTED
     );
   });
+
+  it('should prepare price summary', () => {
+    const cpqConfiguration: Cpq.Configuration = {
+      productSystemId: 'productSystemId',
+      currencyISOCode: 'USD',
+      currencySign: '$',
+      responder: { totalPrice: '$3333.33', baseProductPrice: '1000.00' },
+    };
+    const expectedPriceSummary: Configurator.PriceSummary = {
+      basePrice: {
+        currencyIso: 'USD',
+        formattedValue: '$1,000.00',
+        value: 1000,
+      },
+      currentTotal: {
+        currencyIso: 'USD',
+        formattedValue: '$3,333.33',
+        value: 3333.33,
+      },
+      selectedOptions: {
+        currencyIso: 'USD',
+        formattedValue: '$2,333.33',
+        value: 2333.33,
+      },
+    };
+    expect(
+      cpqConfiguratorUtilitiesService.preparePriceSummary(cpqConfiguration)
+    ).toEqual(expectedPriceSummary);
+  });
+
+  it('should prepare price summary when no base price exists', () => {
+    const cpqConfiguration: Cpq.Configuration = {
+      productSystemId: 'productSystemId',
+      currencyISOCode: 'USD',
+      currencySign: '$',
+      responder: { totalPrice: '$3333.33' },
+    };
+    const expectedPriceSummary: Configurator.PriceSummary = {
+      currentTotal: {
+        currencyIso: 'USD',
+        formattedValue: '$3,333.33',
+        value: 3333.33,
+      },
+    };
+    expect(
+      cpqConfiguratorUtilitiesService.preparePriceSummary(cpqConfiguration)
+    ).toEqual(expectedPriceSummary);
+  });
+
+  it('should prepare price summary when no total price exists', () => {
+    const cpqConfiguration: Cpq.Configuration = {
+      productSystemId: 'productSystemId',
+      currencyISOCode: 'USD',
+      currencySign: '$',
+      responder: { baseProductPrice: '1000.00' },
+    };
+    const expectedPriceSummary: Configurator.PriceSummary = {
+      basePrice: {
+        currencyIso: 'USD',
+        formattedValue: '$1,000.00',
+        value: 1000,
+      },
+    };
+    expect(
+      cpqConfiguratorUtilitiesService.preparePriceSummary(cpqConfiguration)
+    ).toEqual(expectedPriceSummary);
+  });
+
+  it('should prepare price summary when no currency ISO code exists', () => {
+    const cpqConfiguration: Cpq.Configuration = {
+      productSystemId: 'productSystemId',
+      currencySign: '$',
+      responder: { totalPrice: '$3333.33', baseProductPrice: '1000.00' },
+    };
+    const expectedPriceSummary: Configurator.PriceSummary = {};
+    expect(
+      cpqConfiguratorUtilitiesService.preparePriceSummary(cpqConfiguration)
+    ).toEqual(expectedPriceSummary);
+  });
 });

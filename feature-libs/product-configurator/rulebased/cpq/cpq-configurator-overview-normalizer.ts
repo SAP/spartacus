@@ -22,6 +22,7 @@ export class CpqConfiguratorOverviewNormalizer
     const resultTarget: Configurator.Overview = {
       ...target,
       productCode: source.productSystemId,
+      priceSummary: this.cpqUtilitiesService.preparePriceSummary(source),
       groups: source.tabs
         ?.flatMap((tab) => this.convertTab(tab, source.currencyISOCode))
         .filter((tab) => tab.attributes.length > 0),

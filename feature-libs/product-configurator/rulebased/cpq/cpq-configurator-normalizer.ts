@@ -30,6 +30,7 @@ export class CpqConfiguratorNormalizer
       totalNumberOfIssues:
         source.incompleteAttributes.length + source.numberOfConflicts,
       productCode: source.productSystemId,
+      priceSummary: this.cpqUtilitiesService.preparePriceSummary(source),
       groups: [],
       flatGroups: [],
     };
@@ -52,6 +53,7 @@ export class CpqConfiguratorNormalizer
         resultTarget.flatGroups
       );
     }
+
     return resultTarget;
   }
 
