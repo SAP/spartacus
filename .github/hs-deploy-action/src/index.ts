@@ -24,7 +24,7 @@ async function run() {
   const octoKit = github.getOctokit(GITHUB_TOKEN);
 
   console.log(
-    `Starting Hosting service deployment of PR branch ${branch}. Deployment: ${context.deployment}`
+    `Starting Hosting service deployment of PR branch ${branch}. Deployment: ${context.payload.deployment}`
   );
 
   //run sh to get CLI and prep
