@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install CLI
-        uses: ./.github/hs-undeploy-action
+      - name: Undeploy app
+        uses: ./.github/hs-deploy-action/undeploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GHT_USER: ${{ secrets.GHT_USER}}
