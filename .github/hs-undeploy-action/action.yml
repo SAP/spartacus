@@ -1,5 +1,0 @@
-name: 'Hosting Service Undeployment'
-description: 'Hosting service undeployment bot'
-runs:
-  using: 'docker'
-  image: 'Dockerfile'
