@@ -5,6 +5,7 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, CountryType } from '@spartacus/core';
+import { FeatureModulesService } from '../../../lazy-loading/feature-modules.service';
 import {
   BASE_SITE_NORMALIZER,
   COUNTRY_NORMALIZER,
@@ -58,27 +59,31 @@ class MockOccEndpointsService implements Partial<OccEndpointsService> {
   }
 }
 
+class MockFeatureModulesService {
+  isConfigured = () => false;
+}
+
 describe('OccSiteAdapter', () => {
   let occSiteAdapter: OccSiteAdapter;
   let converterService: ConverterService;
   let httpMock: HttpTestingController;
   let occEndpointsService: OccEndpointsService;
+  let featureModulesService: FeatureModulesService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         OccSiteAdapter,
-        {
-          provide: OccEndpointsService,
-          useClass: MockOccEndpointsService,
-        },
+        { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+        { provide: FeatureModulesService, useClass: MockFeatureModulesService },
       ],
     });
     occSiteAdapter = TestBed.inject(OccSiteAdapter);
     httpMock = TestBed.inject(HttpTestingController);
     converterService = TestBed.inject(ConverterService);
     occEndpointsService = TestBed.inject(OccEndpointsService);
+    featureModulesService = TestBed.inject(FeatureModulesService);
     spyOn(converterService, 'pipeableMany').and.callThrough();
     spyOn(occEndpointsService, 'getUrl').and.callThrough();
     spyOn(occEndpointsService, 'buildUrl').and.callThrough();
@@ -242,16 +247,8 @@ describe('OccSiteAdapter', () => {
   });
 
   describe('load the active base site data', () => {
-    const baseSite1 = {
-      uid: 'test-site',
-      defaultPreviewCategoryCode: 'test category code',
-      defaultPreviewProductCode: 'test product code',
-    };
-    const baseSite2 = {
-      uid: 'some-other-site',
-      defaultPreviewCategoryCode: 'test category code',
-      defaultPreviewProductCode: 'test product code',
-    };
+    const baseSite1 = { uid: 'test-site' };
+    const baseSite2 = { uid: 'some-other-site' };
     const siteList = [baseSite1, baseSite2];
 
     it('should retrieve the active base site', () => {
@@ -260,7 +257,7 @@ describe('OccSiteAdapter', () => {
       });
       const mockReq: TestRequest = httpMock.expectOne({
         method: 'GET',
-        url: 'baseSites',
+        url: 'baseSitesForConfig',
       });
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -274,7 +271,7 @@ describe('OccSiteAdapter', () => {
       });
       const mockReq: TestRequest = httpMock.expectOne({
         method: 'GET',
-        url: 'baseSites',
+        url: 'baseSitesForConfig',
       });
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -285,36 +282,44 @@ describe('OccSiteAdapter', () => {
 
   describe('load all base sites data', () => {
     it('should retrieve all base sites', () => {
-      const baseSites = [
-        {
-          uid: 'test-site',
-          defaultPreviewCategoryCode: 'test category code',
-          defaultPreviewProductCode: 'test product code',
-        },
-      ];
-
+      const baseSites = [{ uid: 'test-site' }];
       occSiteAdapter.loadBaseSites().subscribe((result) => {
         expect(result).toEqual(baseSites);
       });
       const mockReq: TestRequest = httpMock.expectOne({
         method: 'GET',
-        url: 'baseSites',
+        url: 'baseSitesForConfig',
       });
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
-        'baseSites',
+        'baseSitesForConfig',
         {},
         { baseSite: false }
       );
+      mockReq.flush({ baseSites: baseSites });
+    });
+
+    it('should load all base sites with default preview codes', () => {
+      spyOn(featureModulesService, 'isConfigured').and.returnValue(true);
+
+      const baseSites = [{ uid: 'test-site' }];
+      occSiteAdapter.loadBaseSites().subscribe((result) => {
+        expect(result).toEqual(baseSites);
+      });
+      const mockReq: TestRequest = httpMock.expectOne({
+        method: 'GET',
+        url:
+          'baseSitesForConfig?fields=DEFAULT,baseSites(defaultPreviewCatalogId,defaultPreviewCategoryCode,defaultPreviewProductCode)',
+      });
       mockReq.flush({ baseSites: baseSites });
     });
   });
 
   it('should use converter', () => {
     occSiteAdapter.loadBaseSites().subscribe();
-    httpMock.expectOne('baseSites').flush({});
+    httpMock.expectOne('baseSitesForConfig').flush({});
     expect(converterService.pipeableMany).toHaveBeenCalledWith(
       BASE_SITE_NORMALIZER
     );

@@ -18,8 +18,8 @@ describe('SiteContextConfigConverter', () => {
     context: {
       urlParameters: ['baseSite', 'language', 'currency'],
       ['baseSite']: ['test-site'],
-      ['languages']: ['en', 'ja', 'de', 'zh'],
-      ['currencies']: ['USD', 'JPY'],
+      ['language']: ['en', 'ja', 'de', 'zh'],
+      ['currency']: ['USD', 'JPY'],
       ['theme']: ['sparta'],
     },
   };

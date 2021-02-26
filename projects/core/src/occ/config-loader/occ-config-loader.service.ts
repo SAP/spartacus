@@ -38,6 +38,8 @@ export const EXTERNAL_CONFIG_TRANSFER_ID: StateKey<string> = makeStateKey<
 @Injectable({ providedIn: 'root' })
 export class OccConfigLoaderService {
   // TODO: remove sitesConfigLoader and converter in 4.0
+  // baseSiteService, converterService and javaRegExpConverter are not
+  // optional in 4.0
   constructor(
     @Inject(PLATFORM_ID) protected platform: any,
     @Inject(DOCUMENT) protected document: any,
@@ -54,7 +56,7 @@ export class OccConfigLoaderService {
     protected javaRegExpConverter?: JavaRegExpConverter
   ) {}
 
-  private get currentUrl(): string {
+  private get currentUrl(): string | undefined {
     if (isPlatformBrowser(this.platform)) {
       return this.document.location.href;
     }
@@ -98,29 +100,36 @@ export class OccConfigLoaderService {
    * Loads the external config from backend
    */
   protected load(): Observable<OccLoadedConfig> {
-    return (this.baseSiteService
-      ? this.baseSiteService.getAll()
-      : this.sitesConfigLoader.load()
-    ).pipe(
-      map((baseSites) =>
-        baseSites.find((site) => this.isCurrentBaseSite(site))
-      ),
-      filter((baseSite) => {
-        if (!baseSite) {
-          throw new Error(
-            `Error: Cannot get base site config! Current url (${this.currentUrl}) doesn't match with any of url patterns of any base site.`
-          );
-        }
-        return Boolean(baseSite);
-      }),
-      this.converterService.pipeable(OCC_LOADED_CONFIG_CONVERTER)
-    );
+    if (this.baseSiteService && this.converterService) {
+      return this.baseSiteService.getAll().pipe(
+        map((baseSites) =>
+          baseSites?.find((site) => this.isCurrentBaseSite(site))
+        ),
+        filter((baseSite: any) => {
+          if (!baseSite) {
+            throw new Error(
+              `Error: Cannot get base site config! Current url (${this.currentUrl}) doesn't match any of url patterns of any base sites.`
+            );
+          }
+          return Boolean(baseSite);
+        }),
+        this.converterService.pipeable(OCC_LOADED_CONFIG_CONVERTER)
+      );
+    } else {
+      return this.sitesConfigLoader
+        .load()
+        .pipe(
+          map((baseSites) =>
+            this.converter.fromOccBaseSites(baseSites, this.currentUrl || '')
+          )
+        );
+    }
   }
 
   /**
    * Tries to rehydrate external config in the browser from SSR
    */
-  protected rehydrate(): OccLoadedConfig {
+  protected rehydrate(): OccLoadedConfig | undefined {
     if (this.transferState && isPlatformBrowser(this.platform)) {
       return this.transferState.get(EXTERNAL_CONFIG_TRANSFER_ID, undefined);
     }
@@ -145,15 +154,19 @@ export class OccConfigLoaderService {
     externalConfig: OccLoadedConfig
   ): (I18nConfig | SiteContextConfig)[] {
     const chunks: any[] = [
-      this.converterService.convert(
-        externalConfig,
-        SITE_CONTEXT_CONFIG_CONVERTER
-      ),
+      this.converterService
+        ? this.converterService.convert(
+            externalConfig,
+            SITE_CONTEXT_CONFIG_CONVERTER
+          )
+        : this.converter.toSiteContextConfig(externalConfig),
     ];
 
     if (this.shouldReturnI18nChunk()) {
       chunks.push(
-        this.converterService.convert(externalConfig, I18N_CONFIG_CONVERTER)
+        this.converterService
+          ? this.converterService.convert(externalConfig, I18N_CONFIG_CONVERTER)
+          : this.converter.toI18nConfig(externalConfig)
       );
     }
 
@@ -177,10 +190,9 @@ export class OccConfigLoaderService {
 
   private isCurrentBaseSite(site: BaseSite): boolean {
     const index = (site.urlPatterns || []).findIndex((javaRegexp) => {
-      const jsRegexp = this.javaRegExpConverter.toJsRegExp(javaRegexp);
+      const jsRegexp = this.javaRegExpConverter?.toJsRegExp(javaRegexp);
       if (jsRegexp) {
-        const result = jsRegexp.test(this.currentUrl);
-        return result;
+        return jsRegexp.test(this.currentUrl || '');
       }
     });
 

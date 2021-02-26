@@ -439,11 +439,11 @@ export interface OccEndpoints {
    */
   baseSites?: string | OccEndpoint;
   /**
-   * Endpoint for getting all base sites with default preview codes for smartedit
+   * Endpoint for getting all base sites for the site context configuration
    *
    * @member {string}
    */
-  baseSitesWithPreviewCodes?: string | OccEndpoint;
+  baseSitesForConfig?: string | OccEndpoint;
   /** Endpoint to returns active cost centers
    *
    * @member {string}

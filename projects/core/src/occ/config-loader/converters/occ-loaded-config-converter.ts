@@ -49,8 +49,11 @@ export class OccLoadedConfigConverter
   /**
    * @deprecated since 3.2, use function convert(source, target?) instead
    */
-  fromOccBaseSites(baseSites: BaseSite[], currentUrl: string): OccLoadedConfig {
-    const baseSite = baseSites.find((site) =>
+  fromOccBaseSites(
+    baseSites: BaseSite[] | undefined,
+    currentUrl: string
+  ): OccLoadedConfig {
+    const baseSite = baseSites?.find((site) =>
       this.isCurrentBaseSite(site, currentUrl)
     );
     if (!baseSite) {

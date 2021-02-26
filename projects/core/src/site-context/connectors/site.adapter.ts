@@ -26,7 +26,7 @@ export abstract class SiteAdapter {
   /**
    * Abstract method used to get base site data based on siteUid.
    */
-  abstract loadBaseSite(siteUid?: string): Observable<BaseSite>;
+  abstract loadBaseSite(siteUid?: string): Observable<BaseSite | undefined>;
 
   /**
    * Abstract method used to get all base sites data.

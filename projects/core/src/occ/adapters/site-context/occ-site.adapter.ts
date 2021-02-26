@@ -17,13 +17,16 @@ import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
+const BASE_SITE_DEFAULT_PREVIEW_PROPERTIES =
+  'baseSites(defaultPreviewCatalogId,defaultPreviewCategoryCode,defaultPreviewProductCode)';
+
 @Injectable()
 export class OccSiteAdapter implements SiteAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
     protected converterService: ConverterService,
-    protected featureModules: FeatureModulesService
+    protected featureModules?: FeatureModulesService
   ) {}
 
   loadLanguages(): Observable<Language[]> {
@@ -74,7 +77,7 @@ export class OccSiteAdapter implements SiteAdapter {
    * There is no OCC API to load one site based on Uid.
    * So, we have to load all sites, and find the one from the list.
    */
-  loadBaseSite(siteUid?: string): Observable<BaseSite> {
+  loadBaseSite(siteUid?: string): Observable<BaseSite | undefined> {
     if (!siteUid) {
       const baseUrl = this.occEndpointsService.getBaseEndpoint();
       const urlSplits = baseUrl.split('/');
@@ -82,15 +85,7 @@ export class OccSiteAdapter implements SiteAdapter {
     }
 
     return this.http
-      .get<{ baseSites: BaseSite[] }>(
-        this.occEndpointsService.buildUrl(
-          this.featureModules.isConfigured('smartEdit')
-            ? 'baseSitesWithPreviewCodes'
-            : 'baseSites',
-          {},
-          { baseSite: false }
-        )
-      )
+      .get<{ baseSites: BaseSite[] }>(this.getBaseSitesUrl())
       .pipe(
         map((siteList) => {
           return siteList.baseSites.find((site) => site.uid === siteUid);
@@ -100,18 +95,36 @@ export class OccSiteAdapter implements SiteAdapter {
 
   loadBaseSites(): Observable<BaseSite[]> {
     return this.http
-      .get<{ baseSites: BaseSite[] }>(
-        this.occEndpointsService.buildUrl(
-          this.featureModules.isConfigured('smartEdit')
-            ? 'baseSitesWithPreviewCodes'
-            : 'baseSites',
-          {},
-          { baseSite: false }
-        )
-      )
+      .get<{ baseSites: BaseSite[] }>(this.getBaseSitesUrl())
       .pipe(
         map((baseSiteList) => baseSiteList.baseSites),
         this.converterService.pipeableMany(BASE_SITE_NORMALIZER)
       );
+  }
+
+  private getBaseSitesUrl(): string {
+    let url: string;
+
+    if (this.featureModules) {
+      url = this.occEndpointsService.buildUrl(
+        'baseSitesForConfig',
+        {},
+        { baseSite: false }
+      );
+      // if there is smartedit feature module, default preview codes needs to be loaded as well
+      if (this.featureModules.isConfigured('smartEdit')) {
+        url = url.includes('?fields=')
+          ? `${url},${BASE_SITE_DEFAULT_PREVIEW_PROPERTIES}`
+          : `${url}?fields=DEFAULT,${BASE_SITE_DEFAULT_PREVIEW_PROPERTIES}`;
+      }
+    } else {
+      url = this.occEndpointsService.buildUrl(
+        'baseSites',
+        {},
+        { baseSite: false }
+      );
+    }
+
+    return url;
   }
 }
