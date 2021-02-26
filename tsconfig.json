@@ -71,6 +71,9 @@
       "@spartacus/product/bulk-pricing/root": [
         "feature-libs/product/bulk-pricing/root/public_api"
       ],
+      "@spartacus/product/bulk-pricing/core": [
+        "feature-libs/product/bulk-pricing/core/public_api"
+      ],
       "@spartacus/product/configurators/common": [
         "feature-libs/product/configurators/common/public_api"
       ],
