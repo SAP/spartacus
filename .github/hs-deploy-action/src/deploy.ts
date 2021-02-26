@@ -1,4 +1,5 @@
 import * as exec from '@actions/exec';
+import { ExecOptions } from '@actions/exec';
 import { addComment, getBundleId } from './functions';
 
 /**
@@ -17,7 +18,7 @@ export async function deploy(github: any, octoKit: any) {
 
   const exp = /https\:\/\/\w+\.cloudfront\.net/;
 
-  const options: any = {};
+  const options: ExecOptions = {};
   options.listeners = {
     stdout: (data: Buffer) => {
       const line = data.toString();
@@ -42,9 +43,11 @@ export async function deploy(github: any, octoKit: any) {
  */
 export async function undeploy(branch: any) {
   const bundleId = getBundleId(branch);
-  const command = `upp application undeploy --noprompt -b ${bundleId} -e stage`;
+  const command = `upp application undeploy -b ${bundleId} -e stage`;
 
-  const options: any = {};
+  const options: ExecOptions = {
+    input: Buffer.from('confirm\n'),
+  };
   options.listeners = {
     stdout: (data: Buffer) => {
       console.log(data.toString());
