@@ -42,7 +42,7 @@
         "../../dist/product/bulk-pricing/root"
       ],
       "@spartacus/product/bulk-pricing/core": [
-        "feature-libs/product/bulk-pricing/core/public_api"
+        "../../feature-libs/product/bulk-pricing/core/public_api"
       ],
       "@spartacus/product/configurators/common": [
         "../../dist/product/configurators/common"
