@@ -2,9 +2,9 @@ import { Observable } from 'rxjs';
 
 export abstract class SavedCartAdapter {
   /**
-   * Abstract method used to saved cart
+   * Abstract method used to save a cart or update a saved cart
    */
-  abstract create(
+  abstract saveCart(
     userId: string,
     cartId: string,
     cartDescription: string,

@@ -8,12 +8,12 @@ import { SavedCartAdapter } from './saved-cart.adapter';
 export class SavedCartConnector {
   constructor(protected adapter: SavedCartAdapter) {}
 
-  create(
+  saveCart(
     userId: string,
     cartId: string,
     cartDescription: string,
     cartName: string
   ): Observable<void> {
-    return this.adapter.create(userId, cartId, cartDescription, cartName);
+    return this.adapter.saveCart(userId, cartId, cartDescription, cartName);
   }
 }

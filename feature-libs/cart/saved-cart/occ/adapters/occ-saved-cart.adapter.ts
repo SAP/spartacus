@@ -12,7 +12,7 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
     protected converter: ConverterService
   ) {}
 
-  create(
+  saveCart(
     userId: string,
     cartId: string,
     cartDescription: string,

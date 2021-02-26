@@ -18,15 +18,15 @@ export class SavedCartFormComponent implements OnInit {
   descriptionMaxLength: number = 500;
   nameMaxLength: number = 50;
 
-  ngOnInit(): void {
-    this.cart$ = this.launchDialogService.data$;
-    this.build();
-  }
-
   constructor(
     protected savedCartService: SavedCartService,
     protected launchDialogService: LaunchDialogService
   ) {}
+
+  ngOnInit(): void {
+    this.cart$ = this.launchDialogService.data$;
+    this.build();
+  }
 
   get descriptionsCharacterLeft(): number {
     return (
@@ -47,7 +47,7 @@ export class SavedCartFormComponent implements OnInit {
     this.close('Cancel click');
   }
 
-  protected build() {
+  protected build(): void {
     this.form = new FormGroup({
       name: new FormControl('', [
         Validators.required,
