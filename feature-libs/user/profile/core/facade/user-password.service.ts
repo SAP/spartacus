@@ -44,7 +44,8 @@ export class UserPasswordService implements UserPasswordFacade {
         tap((user) =>
           this.store.dispatch(
             new UserProfileActions.UpdatePassword({
-              uid: user.uid,
+              // tslint:disable-next-line:no-non-null-assertion
+              uid: user.uid!,
               oldPassword,
               newPassword,
             })
@@ -53,7 +54,7 @@ export class UserPasswordService implements UserPasswordFacade {
       )
       .subscribe();
 
-    return this.store.pipe(
+    return (this.store as Store<StateWithProcess<User>>).pipe(
       select(
         ProcessSelectors.getProcessStateFactory(UPDATE_PASSWORD_PROCESS_ID)
       )
@@ -76,7 +77,9 @@ export class UserPasswordService implements UserPasswordFacade {
    * Return whether user's password is successfully reset
    */
   isPasswordReset(): Observable<boolean> {
-    return this.store.pipe(select(UserProfileSelectors.getResetPassword));
+    return (this.store as Store<StateWithUserProfile>).pipe(
+      select(UserProfileSelectors.getResetPassword)
+    );
   }
 
   /*

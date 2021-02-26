@@ -37,7 +37,8 @@ export class UserEmailService implements UserEmailFacade {
         tap((user) =>
           this.store.dispatch(
             new UserProfileActions.UpdateEmailAction({
-              uid: user.uid,
+              // tslint:disable-next-line:no-non-null-assertion
+              uid: user.uid!,
               password,
               newUid,
             })

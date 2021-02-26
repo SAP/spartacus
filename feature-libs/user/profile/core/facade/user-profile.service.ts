@@ -8,14 +8,13 @@ import {
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
 import { switchMap, take, tap } from 'rxjs/operators';
-import { Title } from '@spartacus/user/profile/root';
+import { Title, UserProfileFacade } from '@spartacus/user/profile/root';
 import { UserProfileActions, UserProfileSelectors } from '../store/index';
 import {
   CLOSE_USER_PROCESS_ID,
   StateWithUserProfile,
   UPDATE_USER_PROFILE_PROCESS_ID,
 } from '../store/user-profile.state';
-import { UserProfileFacade } from '@spartacus/user/profile/root';
 
 @Injectable()
 export class UserProfileService implements UserProfileFacade {
@@ -39,7 +38,11 @@ export class UserProfileService implements UserProfileFacade {
         take(1),
         tap((user) =>
           this.store.dispatch(
-            new UserProfileActions.UpdateUserProfile({ uid: user.uid, details })
+            new UserProfileActions.UpdateUserProfile({
+              // tslint:disable-next-line:no-non-null-assertion
+              uid: user.uid!,
+              details,
+            })
           )
         )
       )
@@ -54,7 +57,8 @@ export class UserProfileService implements UserProfileFacade {
   close(): Observable<StateUtils.LoaderState<User>> {
     return this.get().pipe(
       tap((user) =>
-        this.store.dispatch(new UserProfileActions.RemoveUser(user.uid))
+        // tslint:disable-next-line:no-non-null-assertion
+        this.store.dispatch(new UserProfileActions.RemoveUser(user.uid!))
       ),
       switchMap(() => this.process(CLOSE_USER_PROCESS_ID))
     );
@@ -64,7 +68,7 @@ export class UserProfileService implements UserProfileFacade {
    * Returns titles that can be used for the user profiles.
    */
   getTitles(): Observable<Title[]> {
-    return this.store.pipe(
+    return (this.store as Store<StateWithUserProfile>).pipe(
       select(UserProfileSelectors.getAllTitles),
       tap((titles: Title[]) => {
         if (Object.keys(titles).length === 0) {
@@ -81,8 +85,8 @@ export class UserProfileService implements UserProfileFacade {
     this.store.dispatch(new UserProfileActions.LoadTitles());
   }
 
-  private process(processId): Observable<StateUtils.LoaderState<User>> {
-    return this.store.pipe(
+  private process(processId: string): Observable<StateUtils.LoaderState<User>> {
+    return (this.store as Store<StateWithProcess<User>>).pipe(
       select(ProcessSelectors.getProcessStateFactory(processId))
     );
   }

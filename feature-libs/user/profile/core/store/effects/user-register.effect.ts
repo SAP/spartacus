@@ -34,7 +34,8 @@ export class UserRegisterEffects {
     mergeMap(({ guid, password }) =>
       this.userConnector.registerGuest(guid, password).pipe(
         switchMap((user) => {
-          this.authService.loginWithCredentials(user.uid, password);
+          // tslint:disable-next-line:no-non-null-assertion
+          this.authService.loginWithCredentials(user.uid!, password);
           return [new UserProfileActions.RegisterGuestSuccess()];
         }),
         catchError((error) =>

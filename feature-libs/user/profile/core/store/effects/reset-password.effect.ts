@@ -37,7 +37,7 @@ export class ResetPasswordEffects {
             new UserProfileActions.ResetPasswordFail(normalizeHttpError(error)),
           ];
           if (error?.error?.errors) {
-            error.error.errors.forEach((err) => {
+            error.error.errors.forEach((err: any) => {
               if (err.message) {
                 actions.push(
                   new GlobalMessageActions.AddMessage({

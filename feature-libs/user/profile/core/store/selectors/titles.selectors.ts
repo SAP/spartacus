@@ -30,7 +30,7 @@ export const getAllTitles: MemoizedSelector<
 
 export const titleSelectorFactory = (
   code: string
-): MemoizedSelector<StateWithUserProfile, Title> =>
+): MemoizedSelector<StateWithUserProfile, Title | null> =>
   createSelector(getTitlesEntities, (entities) =>
     Object.keys(entities).length !== 0 ? entities[code] : null
   );

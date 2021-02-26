@@ -14,15 +14,12 @@ import {
   UserSignUp,
 } from '@spartacus/user/profile/root';
 import { UserProfileActions } from '../store/actions/index';
-import {
-  REGISTER_USER_PROCESS_ID,
-  StateWithUserProfile,
-} from '../store/user-profile.state';
+import { REGISTER_USER_PROCESS_ID } from '../store/user-profile.state';
 
 @Injectable()
 export class UserRegisterService implements UserRegisterFacade {
   constructor(
-    protected store: Store<StateWithUserProfile | StateWithProcess<User>>,
+    protected store: Store<StateWithProcess<User>>,
     protected userProfile: UserProfileFacade
   ) {}
 
