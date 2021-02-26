@@ -9,7 +9,6 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { PopoverModule } from 'projects/storefrontlib/src/shared/components/popover/popover.module';
 import { FormErrorsModule } from '../../../shared/index';
 import { LoginFormComponent } from './login-form.component';
 
@@ -22,7 +21,6 @@ import { LoginFormComponent } from './login-form.component';
     UrlModule,
     I18nModule,
     FormErrorsModule,
-    PopoverModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
