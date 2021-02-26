@@ -24,7 +24,7 @@ import { filter, map, take, tap } from 'rxjs/operators';
 })
 export class AddToSavedCartComponent implements OnInit, OnDestroy {
   cart$: Observable<Cart>;
-  loggedIn = false;
+  protected loggedIn = false;
 
   @ViewChild('element') element: ElementRef;
 
@@ -38,7 +38,7 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
     protected vcr: ViewContainerRef
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.cart$ = combineLatest([
       this.activeCartService.getActive(),
       this.authService.isUserLoggedIn(),

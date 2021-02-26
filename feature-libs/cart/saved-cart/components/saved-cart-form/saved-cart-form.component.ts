@@ -39,7 +39,7 @@ export class SavedCartFormComponent implements OnInit {
     this.close('Cancel click');
   }
 
-  protected build() {
+  protected build(): void {
     this.form = new FormGroup({
       name: new FormControl('', [
         Validators.required,
