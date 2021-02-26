@@ -66,12 +66,15 @@ export class UnitListService extends ListService<B2BUnitTreeNode> {
       depthLevel,
       // tmp, should be normalized
       uid: unit.id,
+      children: [...unit.children].sort((unitA, unitB) =>
+        unitA.name.localeCompare(unitB.name)
+      ),
     };
 
     values.push(node);
     pagination.totalResults++;
 
-    unit.children.forEach((childUnit) => {
+    node.children.forEach((childUnit) => {
       const childList = this.convertListItem(
         childUnit,
         depthLevel + 1,

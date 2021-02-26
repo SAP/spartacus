@@ -1,6 +1,7 @@
 import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { TransferState } from '@angular/platform-browser';
+import { Config } from '@spartacus/core';
 import { of } from 'rxjs';
 import { I18nConfig } from '../../i18n';
 import { BaseSite } from '../../model/misc.model';
@@ -10,7 +11,6 @@ import { OccConfigLoaderService } from './occ-config-loader.service';
 import { OccLoadedConfig } from './occ-loaded-config';
 import { OccLoadedConfigConverter } from './occ-loaded-config-converter';
 import { OccSitesConfigLoader } from './occ-sites-config-loader';
-import { Config } from '@spartacus/core';
 
 describe(`OccConfigLoaderService`, () => {
   let service: OccConfigLoaderService;
@@ -33,8 +33,10 @@ describe(`OccConfigLoaderService`, () => {
     config: I18nConfig | SiteContextConfig;
   }) {
     mockBaseSites = [];
-    mockExternalConfig = { baseSite: 'test' };
-    mockSiteContextConfig = { context: { baseSite: ['testSite'] } };
+    mockExternalConfig = { baseSite: 'test', theme: 'test-theme' };
+    mockSiteContextConfig = {
+      context: { baseSite: ['testSite'], theme: ['test-theme'] },
+    };
     mockI18nConfig = { i18n: { fallbackLang: 'testLang' } };
 
     const mockOccSitesConfigLoader = {
@@ -88,7 +90,9 @@ describe(`OccConfigLoaderService`, () => {
         let rehydratedExternalConfig;
 
         beforeEach(() => {
-          rehydratedExternalConfig = { test: 'rehydrated' };
+          rehydratedExternalConfig = {
+            test: 'rehydrated',
+          };
           spyOn(transferState, 'get').and.returnValue(rehydratedExternalConfig);
         });
 
@@ -107,7 +111,7 @@ describe(`OccConfigLoaderService`, () => {
             undefined
           );
           expect(result).toEqual({
-            context: { baseSite: ['testSite'] },
+            context: { baseSite: ['testSite'], theme: ['test-theme'] },
             i18n: { fallbackLang: 'testLang' },
           });
         });
@@ -139,7 +143,7 @@ describe(`OccConfigLoaderService`, () => {
             document.location.href
           );
           expect(result).toEqual({
-            context: { baseSite: ['testSite'] },
+            context: { baseSite: ['testSite'], theme: ['test-theme'] },
             i18n: { fallbackLang: 'testLang' },
           });
         });
@@ -168,7 +172,7 @@ describe(`OccConfigLoaderService`, () => {
           mockServerRequestUrl
         );
         expect(result).toEqual({
-          context: { baseSite: ['testSite'] },
+          context: { baseSite: ['testSite'], theme: ['test-theme'] },
           i18n: { fallbackLang: 'testLang' },
         });
       });
@@ -195,7 +199,7 @@ describe(`OccConfigLoaderService`, () => {
         const result = await service.loadConfig();
 
         expect(result).toEqual({
-          context: { baseSite: ['testSite'] },
+          context: { baseSite: ['testSite'], theme: ['test-theme'] },
         });
       });
     });

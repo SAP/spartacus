@@ -33,8 +33,7 @@ describe('FindStores Selectors', () => {
       let result;
       store
         .pipe(select(StoreFinderSelectors.getFindStoresEntities))
-        .subscribe((value) => (result = value));
-
+        .subscribe((value) => (result = value.findStoresEntities));
       store.dispatch(new StoreFinderActions.FindStores({ queryText: 'test' }));
       store.dispatch(new StoreFinderActions.FindStoresSuccess(searchResult));
 
@@ -52,6 +51,23 @@ describe('FindStores Selectors', () => {
       expect(result).toEqual(false);
 
       store.dispatch(new StoreFinderActions.FindStores({ queryText: '' }));
+
+      expect(result).toEqual(true);
+    });
+  });
+
+  describe('getStoresSuccess', () => {
+    it('should return isLoaded flag', () => {
+      let result: boolean;
+      store
+        .pipe(select(StoreFinderSelectors.getStoresSuccess))
+        .subscribe((value) => (result = value));
+
+      expect(result).toEqual(false);
+
+      store.dispatch(
+        new StoreFinderActions.FindStoresSuccess({ queryText: '' })
+      );
 
       expect(result).toEqual(true);
     });

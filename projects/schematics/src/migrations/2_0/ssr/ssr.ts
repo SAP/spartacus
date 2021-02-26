@@ -225,34 +225,36 @@ export function removeMapLoaderModule(): Rule {
       appServerModuleSourceFile,
       'NgModule',
       ANGULAR_CORE
-    ).forEach((metadata: ts.ObjectLiteralExpression) => {
-      const matchingProperties = getMetadataField(metadata, 'imports');
+    ).forEach((metadata: ts.Node) => {
+      if (ts.isObjectLiteralExpression(metadata)) {
+        const matchingProperties = getMetadataField(metadata, 'imports');
 
-      if (!matchingProperties) {
-        return;
-      }
+        if (!matchingProperties) {
+          return;
+        }
 
-      const assignment = matchingProperties[0] as ts.PropertyAssignment;
-      if (!ts.isArrayLiteralExpression(assignment.initializer)) {
-        return;
-      }
+        const assignment = matchingProperties[0] as ts.PropertyAssignment;
+        if (!ts.isArrayLiteralExpression(assignment.initializer)) {
+          return;
+        }
 
-      const arrayLiteral = assignment.initializer;
-      const newImports = arrayLiteral.elements.filter(
-        (n) => !(ts.isIdentifier(n) && n.text === 'ModuleMapLoaderModule')
-      );
-
-      if (arrayLiteral.elements.length !== newImports.length) {
-        const newImportsText = printer.printNode(
-          ts.EmitHint.Unspecified,
-          ts.updateArrayLiteral(arrayLiteral, newImports),
-          appServerModuleSourceFile
+        const arrayLiteral = assignment.initializer;
+        const newImports = arrayLiteral.elements.filter(
+          (n) => !(ts.isIdentifier(n) && n.text === 'ModuleMapLoaderModule')
         );
 
-        const index = arrayLiteral.getStart();
-        const length = arrayLiteral.getWidth();
+        if (arrayLiteral.elements.length !== newImports.length) {
+          const newImportsText = printer.printNode(
+            ts.EmitHint.Unspecified,
+            ts.updateArrayLiteral(arrayLiteral, newImports),
+            appServerModuleSourceFile
+          );
 
-        recorder.remove(index, length).insertLeft(index, newImportsText);
+          const index = arrayLiteral.getStart();
+          const length = arrayLiteral.getWidth();
+
+          recorder.remove(index, length).insertLeft(index, newImportsText);
+        }
       }
     });
 

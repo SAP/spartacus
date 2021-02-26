@@ -19,7 +19,7 @@ import {
   Title,
 } from '@spartacus/core';
 import { CustomFormValidators, sortTitles } from '@spartacus/storefront';
-import { UserRegisterService, UserSignUp } from '@spartacus/user/profile/core';
+import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 
@@ -65,7 +65,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   );
 
   constructor(
-    protected userRegisterService: UserRegisterService,
+    protected userRegister: UserRegisterFacade,
     protected globalMessageService: GlobalMessageService,
     protected fb: FormBuilder,
     protected router: RoutingService,
@@ -75,8 +75,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.titles$ = this.userRegisterService.getTitles().pipe(
-      map((titles) => {
+    this.titles$ = this.userRegister.getTitles().pipe(
+      map((titles: Title[]) => {
         return titles.sort(sortTitles);
       })
     );
@@ -104,7 +104,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
         })
     );
 
-    const { registerConsent } = this.anonymousConsentsConfig?.anonymousConsents;
+    const registerConsent =
+      this.anonymousConsentsConfig?.anonymousConsents?.registerConsent ?? '';
 
     this.anonymousConsent$ = combineLatest([
       this.anonymousConsentsService.getConsent(registerConsent),
@@ -113,13 +114,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
       map(([consent, template]: [AnonymousConsent, ConsentTemplate]) => {
         return {
           consent,
-          template: template ? template.description : '',
+          template: template?.description ? template.description : '',
         };
       })
     );
 
     this.subscription.add(
-      this.registerForm.get('newsletter').valueChanges.subscribe(() => {
+      // tslint:disable-next-line:no-non-null-assertion
+      this.registerForm.get('newsletter')!.valueChanges.subscribe(() => {
         this.toggleAnonymousConsent();
       })
     );
@@ -135,12 +137,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   registerUser(): void {
     this.subscription.add(
-      this.userRegisterService
+      this.userRegister
         .register(this.collectDataFromRegisterForm(this.registerForm.value))
         .pipe(
           tap((state) => {
-            this.isLoading$.next(state.loading);
-            this.onRegisterUserSuccess(state.success);
+            this.isLoading$.next(!!state.loading);
+            this.onRegisterUserSuccess(!!state.success);
           })
         )
         .subscribe()
@@ -168,10 +170,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   private isConsentRequired(): boolean {
-    const {
-      requiredConsents,
-      registerConsent,
-    } = this.anonymousConsentsConfig?.anonymousConsents;
+    const requiredConsents = this.anonymousConsentsConfig?.anonymousConsents
+      ?.requiredConsents;
+    const registerConsent = this.anonymousConsentsConfig?.anonymousConsents
+      ?.registerConsent;
 
     if (requiredConsents && registerConsent) {
       return requiredConsents.includes(registerConsent);
@@ -196,12 +198,16 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   toggleAnonymousConsent(): void {
-    const { registerConsent } = this.anonymousConsentsConfig.anonymousConsents;
+    const registerConsent = this.anonymousConsentsConfig?.anonymousConsents
+      ?.registerConsent;
 
-    if (Boolean(this.registerForm.get('newsletter').value)) {
-      this.anonymousConsentsService.giveConsent(registerConsent);
-    } else {
-      this.anonymousConsentsService.withdrawConsent(registerConsent);
+    if (registerConsent) {
+      // tslint:disable-next-line:no-non-null-assertion
+      if (Boolean(this.registerForm.get('newsletter')!.value)) {
+        this.anonymousConsentsService.giveConsent(registerConsent);
+      } else {
+        this.anonymousConsentsService.withdrawConsent(registerConsent);
+      }
     }
   }
 

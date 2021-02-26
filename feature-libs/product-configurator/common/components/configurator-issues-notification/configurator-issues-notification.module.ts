@@ -2,8 +2,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import {
-  CartItemComponentOutlets,
+  CartOutlets,
   IconModule,
+  OutletPosition,
   provideOutlet,
 } from '@spartacus/storefront';
 import { ConfigureCartEntryModule } from '../configure-cart-entry/configure-cart-entry.module';
@@ -20,7 +21,8 @@ import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-n
   declarations: [ConfiguratorIssuesNotificationComponent],
   providers: [
     provideOutlet({
-      id: CartItemComponentOutlets.START,
+      id: CartOutlets.ITEM,
+      position: OutletPosition.BEFORE,
       component: ConfiguratorIssuesNotificationComponent,
     }),
   ],

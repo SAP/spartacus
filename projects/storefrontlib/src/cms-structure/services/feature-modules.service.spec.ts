@@ -75,6 +75,7 @@ describe('FeatureModulesService', () => {
           provide: ConfigInitializerService,
           useClass: MockConfigInitializerService,
         },
+        FeatureModulesService,
       ],
     });
     service = TestBed.inject(FeatureModulesService);

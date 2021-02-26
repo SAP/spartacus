@@ -8,15 +8,18 @@ import {
 } from '@spartacus/core';
 import { StoreFinderStoreComponent } from './store-finder-store.component';
 import { ICON_TYPE, SpinnerModule } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { StoreFinderService } from '@spartacus/storefinder/core';
+import createSpy = jasmine.createSpy;
 
-const mockStoreFinderService = {
-  getStoresLoading: jasmine.createSpy(),
-  getFindStoresEntities: jasmine.createSpy().and.returnValue(of(Observable)),
-  viewStoreById: jasmine.createSpy().and.returnValue(of(Observable)),
-};
+class MockStoreFinderService implements Partial<StoreFinderService> {
+  getStoresLoading = createSpy('getStoresLoading');
+  getFindStoresEntities = createSpy('getFindStoresEntities').and.returnValue(
+    of()
+  );
+  viewStoreById = createSpy('viewStoreById');
+}
 
 @Component({
   selector: 'cx-icon',
@@ -62,7 +65,7 @@ describe('StoreFinderStoreComponent', () => {
           { provide: RoutingService, useValue: { go: jasmine.createSpy() } },
           {
             provide: StoreFinderService,
-            useValue: mockStoreFinderService,
+            useClass: MockStoreFinderService,
           },
           {
             provide: ActivatedRoute,

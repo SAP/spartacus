@@ -1,5 +1,5 @@
 import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
-import { User } from '@spartacus/user/account/core';
+import { User } from '@spartacus/user/account/root';
 import { UPDATE_USER_PROFILE_PROCESS_ID } from '../user-profile.state';
 
 export const UPDATE_USER_PROFILE = '[User] Update User Details';

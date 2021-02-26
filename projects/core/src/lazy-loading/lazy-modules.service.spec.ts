@@ -1,14 +1,13 @@
+import { NgModule, NgModuleRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-
-import { LazyModulesService } from './lazy-modules.service';
-import { NgModule } from '@angular/core';
 import {
   createFrom,
   EventService,
   ModuleInitializedEvent,
 } from '@spartacus/core';
+import { Observable, zip } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
-import { zip } from 'rxjs';
+import { LazyModulesService } from './lazy-modules.service';
 
 @NgModule({})
 class MockLazyModule {}
@@ -96,6 +95,48 @@ describe('LazyModulesService', () => {
         expect(module1).toBe(module2);
         done();
       });
+    });
+  });
+
+  describe('runModuleInitializersForModule', () => {
+    it('should run init functions provided by dependency injection and return module ref.', (done) => {
+      const initFuncion: () => {} = jasmine.createSpy('initFuncion');
+      const mockInjector = jasmine.createSpyObj('mockInjector', ['get']);
+      mockInjector.get.and.returnValue([initFuncion]);
+      const mockModuleRef = {
+        injector: mockInjector,
+      } as NgModuleRef<any>;
+
+      const result$: Observable<NgModuleRef<
+        any
+      >> = service.runModuleInitializersForModule(mockModuleRef);
+
+      expect(initFuncion).toHaveBeenCalled();
+      result$.subscribe((result) => {
+        expect(result).toBe(mockModuleRef);
+        done();
+      });
+    });
+  });
+
+  describe('runModuleInitializerFunctions', () => {
+    it('should deal gracefully with falsy values and empty array', () => {
+      expect(service.runModuleInitializerFunctions(undefined)).toEqual([]);
+      expect(service.runModuleInitializerFunctions(null)).toEqual([]);
+      expect(service.runModuleInitializerFunctions([])).toEqual([]);
+    });
+    it('should execute all the functions passed as an argument and return promises.', () => {
+      const promiseResult = new Promise((resolve) => {
+        resolve(123);
+      });
+      const f1: () => {} = jasmine.createSpy().and.returnValue('');
+      const f2: () => {} = jasmine.createSpy().and.returnValue('');
+      const f3: () => {} = jasmine.createSpy().and.returnValue(promiseResult);
+      const result = service.runModuleInitializerFunctions([f1, f2, f3]);
+      expect(result.length).toEqual(1);
+      expect(f1).toHaveBeenCalled();
+      expect(f2).toHaveBeenCalled();
+      expect(f3).toHaveBeenCalled();
     });
   });
 

@@ -1,7 +1,10 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
+  Inject,
   Injectable,
   isDevMode,
   OnDestroy,
+  PLATFORM_ID,
   Renderer2,
   RendererFactory2,
 } from '@angular/core';
@@ -10,6 +13,10 @@ import { EMPTY, fromEvent, Observable, of, Subscription } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 export const QUALTRICS_EVENT_NAME = 'qsi_js_loaded';
+
+interface QualtricsWindow extends Window {
+  QSI?: any;
+}
 
 /**
  * Service to integration Qualtrics.
@@ -38,9 +45,10 @@ export class QualtricsLoaderService implements OnDestroy {
   /**
    * QSI load event that happens when the QSI JS file is loaded.
    */
-  private qsiLoaded$: Observable<any> = this.winRef?.nativeWindow
-    ? fromEvent(this.winRef.nativeWindow, QUALTRICS_EVENT_NAME)
-    : of();
+  private qsiLoaded$: Observable<any> =
+    isPlatformBrowser(this.platformId) && this.window
+      ? fromEvent(this.window, QUALTRICS_EVENT_NAME)
+      : of();
 
   /**
    * Emits the Qualtrics Site Intercept (QSI) JavaScript API whenever available.
@@ -50,16 +58,19 @@ export class QualtricsLoaderService implements OnDestroy {
    */
   protected qsi$: Observable<any> = this.qsiLoaded$.pipe(
     switchMap(() => this.isDataLoaded()),
-    map((dataLoaded) =>
-      dataLoaded ? this.winRef?.nativeWindow['QSI'] : EMPTY
-    ),
-    filter((api) => Boolean(api)),
-    tap((qsi) => (this.qsiApi = qsi))
+    map((dataLoaded: boolean) => (dataLoaded ? this.window?.QSI : EMPTY)),
+    filter((qsi: any) => Boolean(qsi)),
+    tap((qsi: any) => (this.qsiApi = qsi))
   );
+
+  get window(): QualtricsWindow | undefined {
+    return this.winRef.nativeWindow;
+  }
 
   constructor(
     protected winRef: WindowRef,
-    protected rendererFactory: RendererFactory2
+    protected rendererFactory: RendererFactory2,
+    @Inject(PLATFORM_ID) protected platformId: any
   ) {
     this.initialize();
   }
@@ -94,7 +105,7 @@ export class QualtricsLoaderService implements OnDestroy {
    * Qualtrics specific event (`qsi_js_loaded`). As soon as this events happens,
    * we run the API.
    */
-  protected initialize() {
+  protected initialize(): void {
     this.subscription.add(this.qsi$.subscribe(() => this.run()));
   }
 
@@ -136,7 +147,7 @@ export class QualtricsLoaderService implements OnDestroy {
     return this.rendererFactory.createRenderer(null, null);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }
 }

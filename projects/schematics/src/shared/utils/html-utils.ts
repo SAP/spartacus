@@ -2,6 +2,7 @@ import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import {
   DefaultTreeDocument,
   DefaultTreeElement,
+  DefaultTreeNode,
   parse as parseHtml,
 } from 'parse5';
 
@@ -93,9 +94,9 @@ function getElementByTagName(
  */
 /** Determines the indentation of child elements for the given Parse5 element. */
 function getChildElementIndentation(element: DefaultTreeElement) {
-  const childElement = element.childNodes.find(
-    (node: DefaultTreeElement) => node['tagName']
-  ) as DefaultTreeElement | null;
+  const childElement = element.childNodes.find((node: DefaultTreeNode) => {
+    return !!(node as any).tagName;
+  }) as DefaultTreeElement | null;
 
   if (
     (childElement && !childElement.sourceCodeLocation) ||

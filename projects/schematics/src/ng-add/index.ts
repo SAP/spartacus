@@ -1,13 +1,11 @@
 import {
   chain,
-  externalSchematic,
   noop,
   Rule,
   schematic,
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
-import { ANGULAR_LOCALIZE } from '../shared/constants';
 
 export default function (options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
@@ -21,7 +19,6 @@ export default function (options: any): Rule {
       enableSSR && JSON.parse(options.ssr)
         ? schematic('add-ssr', options)
         : noop(),
-      externalSchematic(ANGULAR_LOCALIZE, 'ng-add', options),
     ])(host, context);
   };
 }

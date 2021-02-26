@@ -12,7 +12,6 @@ import {
   PersonalizationModule,
   ProductModule,
   ProductOccModule,
-  SmartEditModule,
   UserOccModule,
 } from '@spartacus/core';
 import {
@@ -31,12 +30,14 @@ import {
   ConsentManagementModule,
   FooterNavigationModule,
   HamburgerMenuModule,
+  HomePageEventModule,
   JsonLdBuilderModule,
   LinkModule,
   LoginRouteModule,
   LogoutModule,
   MyCouponsModule,
   MyInterestsModule,
+  NavigationEventModule,
   NavigationModule,
   NotificationPreferenceModule,
   OrderCancellationModule,
@@ -75,7 +76,9 @@ import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
+import { SmartEditFeatureModule } from './features/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder-feature.module';
+import { TrackingFeatureModule } from './features/tracking-feature.module';
 import { UserFeatureModule } from './features/user-feature.module';
 
 const featureModules = [];
@@ -171,8 +174,6 @@ if (environment.cds) {
     ReplenishmentOrderDetailsModule,
     ReplenishmentOrderConfirmationModule,
 
-    // SmartEdit
-    SmartEditModule.forRoot(),
     // Personalization
     PersonalizationModule.forRoot(),
 
@@ -182,10 +183,13 @@ if (environment.cds) {
     AsmModule,
 
     // Page Events
+    NavigationEventModule,
+    HomePageEventModule,
     CartPageEventModule,
     PageEventModule,
     ProductPageEventModule,
 
+    TrackingFeatureModule,
     /************************* Opt-in features *************************/
 
     ExternalRoutesModule.forRoot(), // to opt-in explicitly, is added by default schematics
@@ -195,6 +199,7 @@ if (environment.cds) {
     UserFeatureModule,
     StorefinderFeatureModule,
     QualtricsFeatureModule,
+    SmartEditFeatureModule,
     ...featureModules,
   ],
 })

@@ -1,11 +1,17 @@
 import { NgModule } from '@angular/core';
 import { provideConfig } from '@spartacus/core';
-import { UserAccountRootModule } from '@spartacus/user/account/root';
+import {
+  USER_ACCOUNT_FEATURE,
+  UserAccountRootModule,
+} from '@spartacus/user/account/root';
 import {
   userProfileTranslations,
   userTranslationChunksConfig,
 } from '@spartacus/user/profile/assets';
-import { UserProfileRootModule } from '@spartacus/user/profile/root';
+import {
+  USER_PROFILE_FEATURE,
+  UserProfileRootModule,
+} from '@spartacus/user/profile/root';
 
 @NgModule({
   declarations: [],
@@ -13,11 +19,11 @@ import { UserProfileRootModule } from '@spartacus/user/profile/root';
   providers: [
     provideConfig({
       featureModules: {
-        userDetails: {
+        [USER_ACCOUNT_FEATURE]: {
           module: () =>
             import('@spartacus/user/account').then((m) => m.UserAccountModule),
         },
-        userProfile: {
+        [USER_PROFILE_FEATURE]: {
           module: () =>
             import('@spartacus/user/profile').then((m) => m.UserProfileModule),
         },

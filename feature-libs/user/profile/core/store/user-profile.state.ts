@@ -1,4 +1,5 @@
-import { ConsignmentTracking, Country, Region, Title } from '@spartacus/core';
+import { ConsignmentTracking, Country, Region } from '@spartacus/core';
+import { Title } from '@spartacus/user/profile/root';
 
 export const USER_PROFILE_FEATURE = 'userProfile';
 

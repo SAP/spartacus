@@ -4,7 +4,7 @@ import { AuthService, normalizeHttpError } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { UserProfileConnector } from '../../connectors/user-profile.connector';
-import { UserSignUp } from '../../model/user-profile.model';
+import { UserSignUp } from '@spartacus/user/profile/root';
 import { UserProfileActions } from '../actions/index';
 
 @Injectable()
@@ -34,7 +34,8 @@ export class UserRegisterEffects {
     mergeMap(({ guid, password }) =>
       this.userConnector.registerGuest(guid, password).pipe(
         switchMap((user) => {
-          this.authService.loginWithCredentials(user.uid, password);
+          // tslint:disable-next-line:no-non-null-assertion
+          this.authService.loginWithCredentials(user.uid!, password);
           return [new UserProfileActions.RegisterGuestSuccess()];
         }),
         catchError((error) =>

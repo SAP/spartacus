@@ -7,7 +7,7 @@ import { OccUserProfileAdapter } from './adapters/occ-user-profile.adapter';
 @NgModule({
   providers: [
     provideDefaultConfig(defaultOccUserProfileConfig),
-    { provide: UserProfileAdapter, useExisting: OccUserProfileAdapter },
+    { provide: UserProfileAdapter, useClass: OccUserProfileAdapter },
   ],
 })
 export class UserProfileOccModule {}

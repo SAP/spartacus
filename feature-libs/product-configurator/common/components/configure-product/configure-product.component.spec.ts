@@ -5,7 +5,6 @@ import { I18nTestingModule, Product } from '@spartacus/core';
 import {
   CurrentProductService,
   ProductListItemContext,
-  ProductListItemContextOwner,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorProductScope } from '../../core/model/configurator-product-scope';
@@ -19,11 +18,25 @@ const mockProduct: Product = {
   configurable: true,
   configuratorType: configuratorType,
 };
+const mockProductNotConfigurable: Product = {
+  configurable: false,
+};
 
-class MockCurrentProductService {
+class MockCurrentProductService implements Partial<CurrentProductService> {
   getProduct(): Observable<Product> {
     return of(mockProduct);
   }
+}
+
+class MockCurrentProductServiceReturnsNull
+  implements Partial<CurrentProductService> {
+  getProduct(): Observable<Product> {
+    return of(null);
+  }
+}
+
+class MockProductListItemContext implements Partial<ProductListItemContext> {
+  product$ = of(mockProduct);
 }
 
 @Pipe({
@@ -35,12 +48,25 @@ class MockUrlPipe implements PipeTransform {
 
 let component: ConfigureProductComponent;
 let currentProductService: CurrentProductService;
-let productListItemContext: ProductListItemContext;
 let fixture: ComponentFixture<ConfigureProductComponent>;
 let htmlElem: HTMLElement;
 
-function setupWithCurrentProductService(useCurrentProductServiceOnly: boolean) {
-  if (useCurrentProductServiceOnly) {
+function setupWithCurrentProductService(
+  useCurrentProductServiceOnly: boolean,
+  currenProductServiceReturnsNull: boolean = false
+) {
+  if (useCurrentProductServiceOnly && currenProductServiceReturnsNull) {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule, RouterTestingModule],
+      declarations: [ConfigureProductComponent, MockUrlPipe],
+      providers: [
+        {
+          provide: CurrentProductService,
+          useClass: MockCurrentProductServiceReturnsNull,
+        },
+      ],
+    }).compileComponents();
+  } else if (useCurrentProductServiceOnly) {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, RouterTestingModule],
       declarations: [ConfigureProductComponent, MockUrlPipe],
@@ -58,7 +84,7 @@ function setupWithCurrentProductService(useCurrentProductServiceOnly: boolean) {
       providers: [
         {
           provide: ProductListItemContext,
-          useClass: ProductListItemContextOwner,
+          useClass: MockProductListItemContext,
         },
         {
           provide: CurrentProductService,
@@ -66,14 +92,6 @@ function setupWithCurrentProductService(useCurrentProductServiceOnly: boolean) {
         },
       ],
     }).compileComponents();
-    productListItemContext = TestBed.inject(
-      ProductListItemContext as Type<ProductListItemContext>
-    );
-    if (productListItemContext) {
-      (productListItemContext as ProductListItemContextOwner).setProduct(
-        mockProduct
-      );
-    }
   }
 
   currentProductService = TestBed.inject(
@@ -124,6 +142,14 @@ describe('ConfigureProductComponent', () => {
     setupWithCurrentProductService(true);
     component.product$.subscribe((product) => {
       expect(product).toBe(mockProduct);
+      done();
+    });
+  });
+
+  it('should emit non-configurable dummy in case it was launched with product service which emits null', (done) => {
+    setupWithCurrentProductService(true, true);
+    component.product$.subscribe((product) => {
+      expect(product).toEqual(mockProductNotConfigurable);
       done();
     });
   });

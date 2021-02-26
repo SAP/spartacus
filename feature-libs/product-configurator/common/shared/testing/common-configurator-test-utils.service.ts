@@ -11,7 +11,7 @@ export class CommonConfiguratorTestUtilsService {
    * @param querySelector - Query selector
    */
   static expectElementPresent(
-    expect,
+    expect: any,
     htmlElement: Element,
     querySelector: string
   ) {
@@ -33,14 +33,13 @@ export class CommonConfiguratorTestUtilsService {
    * @param expectedText - Expected text
    */
   static expectElementToContainText(
-    expect,
+    expect: any,
     htmlElement: Element,
     querySelector: string,
     expectedText: string
   ) {
-    expect(htmlElement.querySelector(querySelector).textContent.trim()).toBe(
-      expectedText
-    );
+    const text = htmlElement.querySelector(querySelector)?.textContent;
+    expect(text ? text.trim() : '').toBe(expectedText);
   }
 
   /**
@@ -51,7 +50,7 @@ export class CommonConfiguratorTestUtilsService {
    * @param querySelector - Query selector
    */
   static expectElementNotPresent(
-    expect,
+    expect: any,
     htmlElement: Element,
     querySelector: string
   ) {

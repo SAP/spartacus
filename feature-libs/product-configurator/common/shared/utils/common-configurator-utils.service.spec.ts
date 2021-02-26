@@ -1,6 +1,12 @@
 import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { Cart, OCC_USER_ID_ANONYMOUS, OrderEntry } from '@spartacus/core';
+import {
+  Cart,
+  OCC_USER_ID_ANONYMOUS,
+  OrderEntry,
+  UserIdService,
+} from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
 import { OrderEntryStatus } from './../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from './common-configurator-utils.service';
@@ -12,8 +18,9 @@ let owner: CommonConfigurator.Owner = null;
 
 const CART_CODE = '0000009336';
 const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
+const NAMED_USER = 'NAMED_USER';
 
-const cart: Cart = {
+const cartAnonymous: Cart = {
   code: CART_CODE,
   guid: CART_GUID,
   user: { uid: OCC_USER_ID_ANONYMOUS },
@@ -21,12 +28,25 @@ const cart: Cart = {
 
 let cartItem: OrderEntry;
 
+class MockUserIdService {
+  getUserId(): Observable<string> {
+    return of(NAMED_USER);
+  }
+}
+
 describe('CommonConfiguratorUtilsService', () => {
   let classUnderTest: CommonConfiguratorUtilsService;
 
   beforeEach(
     waitForAsync(() => {
-      TestBed.configureTestingModule({}).compileComponents();
+      TestBed.configureTestingModule({
+        providers: [
+          {
+            provide: UserIdService,
+            useClass: MockUserIdService,
+          },
+        ],
+      }).compileComponents();
     })
   );
   beforeEach(() => {
@@ -108,7 +128,7 @@ describe('CommonConfiguratorUtilsService', () => {
 
   describe('getCartId', () => {
     it('should return cart guid if user is anonymous', () => {
-      expect(classUnderTest.getCartId(cart)).toBe(CART_GUID);
+      expect(classUnderTest.getCartId(cartAnonymous)).toBe(CART_GUID);
     });
 
     it('should return cart code if user is not anonymous', () => {
@@ -119,11 +139,10 @@ describe('CommonConfiguratorUtilsService', () => {
       };
       expect(classUnderTest.getCartId(namedCart)).toBe(CART_CODE);
     });
-  });
 
-  describe('getUserId', () => {
-    it('should return anonymous user id if user is anonymous', () => {
-      expect(classUnderTest.getUserId(cart)).toBe(OCC_USER_ID_ANONYMOUS);
+    it('throw error if cart Id cannot be found', () => {
+      const incompleteCart: Cart = {};
+      expect(() => classUnderTest.getCartId(incompleteCart)).toThrowError();
     });
   });
 

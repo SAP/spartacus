@@ -1,4 +1,4 @@
-import { User } from '@spartacus/core';
+import { User } from '@spartacus/user/account/root';
 
 export const UPDATE_USER_ACCOUNT_PROCESS_ID = 'updateUserAccount';
 

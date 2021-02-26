@@ -19,6 +19,8 @@ export function app() {
     ? 'index.original.html'
     : 'index';
 
+  server.set('trust proxy', 'loopback');
+
   server.engine(
     'html',
     ngExpressEngine({

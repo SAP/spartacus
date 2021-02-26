@@ -5,7 +5,7 @@ import { UserProfileOccModule } from '@spartacus/user/profile/occ';
 
 @NgModule({
   imports: [
-    UserProfileCoreModule.forRoot(),
+    UserProfileCoreModule,
     UserProfileOccModule,
     UserProfileComponentsModule,
   ],

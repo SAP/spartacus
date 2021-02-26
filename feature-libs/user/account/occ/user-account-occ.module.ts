@@ -7,7 +7,7 @@ import { OccUserAccountAdapter } from './adapters/occ-user-account.adapter';
 @NgModule({
   providers: [
     provideDefaultConfig(defaultOccUserAccountConfig),
-    { provide: UserAccountAdapter, useExisting: OccUserAccountAdapter },
+    { provide: UserAccountAdapter, useClass: OccUserAccountAdapter },
   ],
 })
 export class UserAccountOccModule {}

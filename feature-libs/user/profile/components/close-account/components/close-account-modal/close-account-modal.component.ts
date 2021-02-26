@@ -1,57 +1,38 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
   TranslationService,
-  UserService,
 } from '@spartacus/core';
 import { ICON_TYPE, ModalService } from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { filter, first, take } from 'rxjs/operators';
+import { UserProfileFacade } from '../../../../root';
 
 @Component({
   selector: 'cx-close-account-modal',
   templateUrl: './close-account-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CloseAccountModalComponent implements OnInit, OnDestroy {
+export class CloseAccountModalComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
-  private subscription = new Subscription();
   isLoggedIn$: Observable<boolean>;
-  isLoading$: Observable<boolean>;
+  isLoading$ = new BehaviorSubject(false);
 
   constructor(
     protected modalService: ModalService,
-    private userService: UserService,
     private authService: AuthService,
     private globalMessageService: GlobalMessageService,
     private routingService: RoutingService,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private userProfile: UserProfileFacade
   ) {}
 
   ngOnInit() {
     this.isLoggedIn$ = this.authService.isUserLoggedIn();
-    this.userService.resetRemoveUserProcessState();
-    this.subscription.add(
-      this.userService
-        .getRemoveUserResultSuccess()
-        .subscribe((success) => this.onSuccess(success))
-    );
-
-    this.subscription.add(
-      this.userService
-        .getRemoveUserResultError()
-        .subscribe((error) => this.onError(error))
-    );
-    this.isLoading$ = this.userService.getRemoveUserResultLoading();
   }
 
   onSuccess(success: boolean): void {
@@ -87,12 +68,21 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
   }
 
   closeAccount() {
-    this.userService.remove();
-  }
-
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.isLoading$.next(true);
+    this.userProfile
+      .close()
+      .pipe(
+        filter((state) => !!state?.success || !!state?.error),
+        take(1)
+      )
+      .subscribe((state) => {
+        this.isLoading$.next(false);
+        if (state.success) {
+          this.onSuccess(true);
+        }
+        if (state.error) {
+          this.onError(true);
+        }
+      });
   }
 }

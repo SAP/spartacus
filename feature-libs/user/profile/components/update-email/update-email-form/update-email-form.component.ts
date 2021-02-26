@@ -31,8 +31,10 @@ export class UpdateEmailFormComponent {
 
   onSubmit(): void {
     if (this.updateEmailForm.valid) {
-      const newUid = this.updateEmailForm.get('confirmEmail').value;
-      const password = this.updateEmailForm.get('password').value;
+      // tslint:disable-next-line:no-non-null-assertion
+      const newUid = this.updateEmailForm.get('confirmEmail')!.value;
+      // tslint:disable-next-line:no-non-null-assertion
+      const password = this.updateEmailForm.get('password')!.value;
 
       this.saveEmail.emit({ newUid, password });
     } else {

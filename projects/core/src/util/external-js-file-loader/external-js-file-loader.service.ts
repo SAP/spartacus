@@ -1,6 +1,9 @@
 import { DOCUMENT, isPlatformServer } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 
+/**
+ * @deprecated since 3.2, use ScriptLoader instead
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -11,6 +14,8 @@ export class ExternalJsFileLoader {
   ) {}
 
   /**
+   * @deprecated since 3.2, use ScriptLoader.embedScript(embedOptions) instead
+   *
    * Loads a javascript from an external URL. Loading is skipped during SSR.
    * @param src URL for the script to be loaded
    * @param params additional parameters to be attached to the given URL

@@ -6,6 +6,7 @@ import {
   OCC_USER_ID_CURRENT,
   StateUtils,
   StateWithMultiCart,
+  UserIdService,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -25,7 +26,8 @@ export class ConfiguratorCartService {
     protected store: Store<StateWithConfigurator>,
     protected activeCartService: ActiveCartService,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    protected checkoutService: CheckoutService
+    protected checkoutService: CheckoutService,
+    protected userIdService: UserIdService
   ) {}
 
   /**
@@ -56,21 +58,24 @@ export class ConfiguratorCartService {
             .requireLoadedCart()
             .pipe(take(1))
             .subscribe((cartState) => {
-              const readFromCartEntryParameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-                userId: this.commonConfigUtilsService.getUserId(
-                  cartState.value
-                ),
-                cartId: this.commonConfigUtilsService.getCartId(
-                  cartState.value
-                ),
-                cartEntryNumber: owner.id,
-                owner: owner,
-              };
-              this.store.dispatch(
-                new ConfiguratorActions.ReadCartEntryConfiguration(
-                  readFromCartEntryParameters
-                )
-              );
+              this.userIdService
+                .getUserId()
+                .pipe(take(1))
+                .subscribe((userId) => {
+                  const readFromCartEntryParameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
+                    userId: userId,
+                    cartId: this.commonConfigUtilsService.getCartId(
+                      cartState.value
+                    ),
+                    cartEntryNumber: owner.id,
+                    owner: owner,
+                  };
+                  this.store.dispatch(
+                    new ConfiguratorActions.ReadCartEntryConfiguration(
+                      readFromCartEntryParameters
+                    )
+                  );
+                });
             });
         }
       }),
@@ -80,7 +85,6 @@ export class ConfiguratorCartService {
       map((configurationState) => configurationState.value)
     );
   }
-
   /**
    * Reads a configuratiom that is attached to an order entry, dispatching the respective action
    * @param owner Configuration owner
@@ -136,17 +140,22 @@ export class ConfiguratorCartService {
       .requireLoadedCart()
       .pipe(take(1))
       .subscribe((cartState) => {
-        const addToCartParameters: Configurator.AddToCartParameters = {
-          userId: this.commonConfigUtilsService.getUserId(cartState.value),
-          cartId: this.commonConfigUtilsService.getCartId(cartState.value),
-          productCode: productCode,
-          quantity: 1,
-          configId: configId,
-          owner: owner,
-        };
-        this.store.dispatch(
-          new ConfiguratorActions.AddToCart(addToCartParameters)
-        );
+        this.userIdService
+          .getUserId()
+          .pipe(take(1))
+          .subscribe((userId) => {
+            const addToCartParameters: Configurator.AddToCartParameters = {
+              userId: userId,
+              cartId: this.commonConfigUtilsService.getCartId(cartState.value),
+              productCode: productCode,
+              quantity: 1,
+              configId: configId,
+              owner: owner,
+            };
+            this.store.dispatch(
+              new ConfiguratorActions.AddToCart(addToCartParameters)
+            );
+          });
       });
   }
 
@@ -162,17 +171,21 @@ export class ConfiguratorCartService {
       .requireLoadedCart()
       .pipe(take(1))
       .subscribe((cartState) => {
-        const cartId = this.commonConfigUtilsService.getCartId(cartState.value);
-        const parameters: Configurator.UpdateConfigurationForCartEntryParameters = {
-          userId: this.commonConfigUtilsService.getUserId(cartState.value),
-          cartId: cartId,
-          cartEntryNumber: configuration.owner.id,
-          configuration: configuration,
-        };
+        this.userIdService
+          .getUserId()
+          .pipe(take(1))
+          .subscribe((userId) => {
+            const parameters: Configurator.UpdateConfigurationForCartEntryParameters = {
+              userId: userId,
+              cartId: this.commonConfigUtilsService.getCartId(cartState.value),
+              cartEntryNumber: configuration.owner.id,
+              configuration: configuration,
+            };
 
-        this.store.dispatch(
-          new ConfiguratorActions.UpdateCartEntry(parameters)
-        );
+            this.store.dispatch(
+              new ConfiguratorActions.UpdateCartEntry(parameters)
+            );
+          });
       });
   }
   /**

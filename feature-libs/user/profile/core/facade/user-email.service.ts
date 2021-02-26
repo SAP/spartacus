@@ -5,14 +5,16 @@ import {
   StateUtils,
   StateWithProcess,
 } from '@spartacus/core';
-import { User } from '@spartacus/user/account/core';
+import { User } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { UserProfileActions } from '../store/actions/index';
 import { UPDATE_EMAIL_PROCESS_ID } from '../store/user-profile.state';
 import { UserProfileService } from './user-profile.service';
-@Injectable({ providedIn: 'root' })
-export class UserEmailService {
+import { UserEmailFacade } from '@spartacus/user/profile/root';
+
+@Injectable()
+export class UserEmailService implements UserEmailFacade {
   constructor(
     protected store: Store<StateWithProcess<User>>,
     protected userProfileService: UserProfileService
@@ -35,7 +37,8 @@ export class UserEmailService {
         tap((user) =>
           this.store.dispatch(
             new UserProfileActions.UpdateEmailAction({
-              uid: user.uid,
+              // tslint:disable-next-line:no-non-null-assertion
+              uid: user.uid!,
               password,
               newUid,
             })

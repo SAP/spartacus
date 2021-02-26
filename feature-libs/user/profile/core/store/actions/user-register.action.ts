@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
-import { UserSignUp } from '../../model/user-profile.model';
+import { UserSignUp } from '@spartacus/user/profile/root';
 import {
   CLOSE_USER_PROCESS_ID,
   REGISTER_USER_PROCESS_ID,

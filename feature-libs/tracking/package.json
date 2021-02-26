@@ -1,0 +1,28 @@
+{
+  "name": "@spartacus/tracking",
+  "version": "3.0.0",
+  "description": "Spartacus tracking and personalization library",
+  "keywords": [
+    "spartacus",
+    "framework",
+    "storefront",
+    "tracking",
+    "tms",
+    "adobe launch",
+    "gtm"
+  ],
+  "homepage": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/tracking",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "peerDependencies": {
+    "@angular/core": "^10.1.0",
+    "@spartacus/core": "3.1.0-next.0",
+    "rxjs": "^6.6.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

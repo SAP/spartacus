@@ -9,6 +9,7 @@ import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   StateUtils,
+  UserIdService,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -83,6 +84,12 @@ class MockCheckoutService {
   }
 }
 
+class MockUserIdService {
+  getUserId(): Observable<string> {
+    return of(OCC_USER_ID_ANONYMOUS);
+  }
+}
+
 describe('ConfiguratorCartService', () => {
   let serviceUnderTest: ConfiguratorCartService;
   let store: Store<StateWithConfigurator>;
@@ -108,6 +115,10 @@ describe('ConfiguratorCartService', () => {
           {
             provide: CheckoutService,
             useClass: MockCheckoutService,
+          },
+          {
+            provide: UserIdService,
+            useClass: MockUserIdService,
           },
         ],
       }).compileComponents();

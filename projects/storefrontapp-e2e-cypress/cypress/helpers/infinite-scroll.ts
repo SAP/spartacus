@@ -121,7 +121,7 @@ export function verifySortingResetsList() {
 }
 
 export function verifyFilterResetsList() {
-  clickFacet('Brand', '');
+  clickFacet('Brand');
 
   cy.wait('@gridQuery').then(() => {
     assertDefaultNumberOfProducts('list');

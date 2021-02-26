@@ -5,9 +5,9 @@ import {
   GlobalMessageType,
   RoutingService,
 } from '@spartacus/core';
-import { UserEmailService } from '@spartacus/user/profile/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { UserEmailFacade } from '@spartacus/user/profile/root';
 
 @Component({
   selector: 'cx-update-email',
@@ -17,7 +17,7 @@ export class UpdateEmailComponent implements OnDestroy {
   constructor(
     private routingService: RoutingService,
     private globalMessageService: GlobalMessageService,
-    private userEmailService: UserEmailService,
+    private userEmail: UserEmailFacade,
     private authService: AuthService
   ) {}
 
@@ -32,12 +32,12 @@ export class UpdateEmailComponent implements OnDestroy {
   onSubmit({ newUid, password }: { newUid: string; password: string }): void {
     this.newUid = newUid;
     this.subscription.add(
-      this.userEmailService
+      this.userEmail
         .update(password, newUid)
         .pipe(
           tap((state) => {
-            this.isLoading$.next(state.loading);
-            this.onSuccess(state.success);
+            this.isLoading$.next(!!state.loading);
+            this.onSuccess(!!state.success);
           })
         )
         .subscribe()
@@ -55,7 +55,7 @@ export class UpdateEmailComponent implements OnDestroy {
       );
       // TODO(#9638): Use logout route when it will support passing redirect url
       await this.authService.coreLogout();
-      this.routingService.go({ cxRoute: 'login' }, null, {
+      this.routingService.go({ cxRoute: 'login' }, undefined, {
         state: {
           newUid: this.newUid,
         },

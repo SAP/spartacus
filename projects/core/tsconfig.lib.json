@@ -10,6 +10,7 @@
     "inlineSources": true,
     "experimentalDecorators": true,
     "importHelpers": true,
+    "strict": false, // TODO: Fix strict errors and remove this option
     "types": [],
     "lib": ["esnext", "dom"]
   },

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthConfigService, OAuthFlow, RoutingService } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
-import { UserPasswordService } from '@spartacus/user/profile/core';
+import { UserPasswordFacade } from '@spartacus/user/profile/root';
 @Component({
   selector: 'cx-forgot-password',
   templateUrl: './forgot-password.component.html',
@@ -12,7 +12,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   constructor(
     protected fb: FormBuilder,
-    protected userPasswordService: UserPasswordService,
+    protected userPassword: UserPasswordFacade,
     protected routingService: RoutingService,
     protected authConfigService: AuthConfigService
   ) {}
@@ -28,7 +28,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   requestForgotPasswordEmail() {
     if (this.forgotPasswordForm.valid) {
-      this.userPasswordService.requestForgotPasswordEmail(
+      this.userPassword.requestForgotPasswordEmail(
         this.forgotPasswordForm.value.userEmail
       );
       if (

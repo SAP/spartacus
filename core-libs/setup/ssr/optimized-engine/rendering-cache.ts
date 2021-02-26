@@ -25,7 +25,7 @@ export class RenderingCache {
     if (this.options?.ttl) {
       entry.time = Date.now();
     }
-    if (this.options.cacheSize) {
+    if (this.options?.cacheSize) {
       this.renders.delete(key);
       if (this.renders.size >= this.options.cacheSize) {
         this.renders.delete(this.renders.keys().next().value);
@@ -34,7 +34,7 @@ export class RenderingCache {
     this.renders.set(key, entry);
   }
 
-  get(key: string): RenderingEntry {
+  get(key: string): RenderingEntry | undefined {
     return this.renders.get(key);
   }
 

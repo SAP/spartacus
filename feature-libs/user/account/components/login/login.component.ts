@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService, UserService } from '@spartacus/core';
-import { User } from '@spartacus/user/account/core';
+import { AuthService } from '@spartacus/core';
+import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
@@ -9,15 +9,18 @@ import { switchMap } from 'rxjs/operators';
   templateUrl: './login.component.html',
 })
 export class LoginComponent implements OnInit {
-  user$: Observable<User>;
+  user$: Observable<User | undefined>;
 
-  constructor(private auth: AuthService, private userService: UserService) {}
+  constructor(
+    private auth: AuthService,
+    private userAccount: UserAccountFacade
+  ) {}
 
   ngOnInit(): void {
     this.user$ = this.auth.isUserLoggedIn().pipe(
       switchMap((isUserLoggedIn) => {
         if (isUserLoggedIn) {
-          return this.userService.get();
+          return this.userAccount.get();
         } else {
           return of(undefined);
         }

@@ -51,6 +51,7 @@ export interface FeatureConfig {
     importPath: string;
   };
   styles?: StylingConfig;
+  assets?: AssetsConfig;
 }
 
 export interface Module {
@@ -69,6 +70,12 @@ export interface StylingConfig {
   importStyle: string;
 }
 
+export interface AssetsConfig {
+  input: string;
+  output?: string;
+  glob: string;
+}
+
 export function shouldAddFeature(features: string[], feature: string): boolean {
   return features.includes(feature);
 }
@@ -81,6 +88,7 @@ export function addLibraryFeature<T extends LibraryOptions>(
   return chain([
     handleFeature(appModulePath, options, config),
     config.styles ? addLibraryStyles(config.styles) : noop(),
+    config.assets ? addLibraryAssets(config.assets) : noop(),
   ]);
 }
 
@@ -342,6 +350,68 @@ function provideI18NConfig(
   }
 
   return changes;
+}
+
+function addLibraryAssets(assetsConfig: AssetsConfig): Rule {
+  return (tree: Tree) => {
+    const { path, workspace: angularJson } = getWorkspace(tree);
+    const defaultProject = getDefaultProjectNameFromWorkspace(tree);
+    const architect = angularJson.projects[defaultProject].architect;
+
+    // `build` architect section
+    const architectBuild = architect?.build;
+    const buildOptions = {
+      ...architectBuild?.options,
+      assets: [
+        ...(architectBuild?.options?.assets
+          ? architectBuild?.options?.assets
+          : []),
+        {
+          glob: assetsConfig.glob,
+          input: './node_modules/@spartacus/' + assetsConfig.input,
+          output: assetsConfig.output || 'assets/',
+        },
+      ],
+    };
+
+    // `test` architect section
+    const architectTest = architect?.test;
+    const testOptions = {
+      ...architectTest?.options,
+      assets: [
+        ...(architectTest?.options?.assets
+          ? architectTest?.options?.assets
+          : []),
+        {
+          glob: assetsConfig.glob,
+          input: './node_modules/@spartacus/' + assetsConfig.input,
+          output: assetsConfig.output || 'assets/',
+        },
+      ],
+    };
+
+    const updatedAngularJson = {
+      ...angularJson,
+      projects: {
+        ...angularJson.projects,
+        [defaultProject]: {
+          ...angularJson.projects[defaultProject],
+          architect: {
+            ...architect,
+            build: {
+              ...architectBuild,
+              options: buildOptions,
+            },
+            test: {
+              ...architectTest,
+              options: testOptions,
+            },
+          },
+        },
+      },
+    };
+    tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
+  };
 }
 
 function addLibraryStyles(stylingConfig: StylingConfig): Rule {

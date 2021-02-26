@@ -15,7 +15,6 @@ import {
 } from '@schematics/angular/utility/dependencies';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import {
-  ANGULAR_LOCALIZE,
   ANGULAR_OAUTH2_OIDC,
   B2C_STOREFRONT_MODULE,
   DEFAULT_ANGULAR_OAUTH2_OIDC_VERSION,
@@ -319,11 +318,6 @@ export function addSpartacus(options: SpartacusOptions): Rule {
         type: NodeDependencyType.Default,
         version: angularVersion,
         name: '@angular/service-worker',
-      },
-      {
-        type: NodeDependencyType.Default,
-        version: angularVersion,
-        name: ANGULAR_LOCALIZE,
       },
       {
         type: NodeDependencyType.Default,

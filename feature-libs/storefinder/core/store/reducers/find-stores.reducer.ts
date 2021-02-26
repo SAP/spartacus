@@ -5,7 +5,7 @@ export const initialState: FindStoresState = {
   findStoresEntities: {},
 };
 
-export function reducer(
+export function findStoresReducer(
   state = initialState,
   action: StoreFinderActions.FindStoresAction
 ): FindStoresState {

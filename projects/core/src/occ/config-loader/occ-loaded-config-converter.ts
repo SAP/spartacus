@@ -6,6 +6,7 @@ import {
   BASE_SITE_CONTEXT_ID,
   CURRENCY_CONTEXT_ID,
   LANGUAGE_CONTEXT_ID,
+  THEME_CONTEXT_ID,
 } from '../../site-context/providers/context-ids';
 import { Occ } from '../occ-models/occ.models';
 import { JavaRegExpConverter } from './java-reg-exp-converter';
@@ -44,6 +45,7 @@ export class OccLoadedConfigConverter {
         baseStore.defaultCurrency
       ),
       urlParameters: this.getUrlParams(baseSite.urlEncodingAttributes),
+      theme: baseSite.theme,
     };
   }
 
@@ -52,6 +54,7 @@ export class OccLoadedConfigConverter {
     languages,
     currencies,
     urlParameters: urlEncodingAttributes,
+    theme,
   }: OccLoadedConfig): SiteContextConfig {
     const result = {
       context: {
@@ -59,6 +62,7 @@ export class OccLoadedConfigConverter {
         [BASE_SITE_CONTEXT_ID]: [baseSite],
         [LANGUAGE_CONTEXT_ID]: languages,
         [CURRENCY_CONTEXT_ID]: currencies,
+        [THEME_CONTEXT_ID]: [theme],
       },
     };
     return result;

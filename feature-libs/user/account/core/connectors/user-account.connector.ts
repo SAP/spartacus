@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User } from '../model/user.model';
+import { User } from '@spartacus/user/account/root';
 import { UserAccountAdapter } from './user-account.adapter';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class UserAccountConnector {
   constructor(protected adapter: UserAccountAdapter) {}
 

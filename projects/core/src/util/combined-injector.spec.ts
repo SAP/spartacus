@@ -64,7 +64,8 @@ const thirdInjector = Injector.create({
 describe('CombinedInjector', () => {
   let injector: CombinedInjector;
   beforeEach(() => {
-    injector = new CombinedInjector(mainInjector, [
+    injector = new CombinedInjector(rootInjector, [
+      mainInjector,
       secondInjector,
       thirdInjector,
     ]);

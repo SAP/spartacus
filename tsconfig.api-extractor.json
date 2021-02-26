@@ -1,0 +1,7 @@
+{
+  //TODO: Remove file and reference to it when everything is adjusted to strict mode
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "strict": false
+  }
+}

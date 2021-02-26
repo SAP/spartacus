@@ -20,13 +20,11 @@ export class OccUserListNormalizer
     target?: EntitiesModel<B2BUser>
   ): EntitiesModel<B2BUser> {
     if (target === undefined) {
-      target = {
-        ...(source as any),
-        values: source.users.map((b2bUser) => ({
-          ...this.converter.convert(b2bUser, B2B_USER_NORMALIZER),
-        })),
-      };
+      target = { ...(source as any) };
     }
+    target.values = source.users.map((b2bUser) => ({
+      ...this.converter.convert(b2bUser, B2B_USER_NORMALIZER),
+    }));
     return target;
   }
 }

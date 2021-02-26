@@ -1,0 +1,30 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../out-tsc/lib",
+    "forceConsistentCasingInFileNames": true,
+    "target": "es2015",
+    "module": "es2020",
+    "moduleResolution": "node",
+    "declaration": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "types": [],
+    "lib": ["dom", "esnext"],
+    "paths": {
+      "@spartacus/core": ["dist/core"]
+    }
+  },
+  "angularCompilerOptions": {
+    "skipTemplateCodegen": true,
+    "strictMetadataEmit": true,
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true,
+    "enableResourceInlining": true,
+    "strictTemplates": true,
+    "strictInputAccessModifiers": true
+  },
+  "exclude": ["./test.ts", "**/*.spec.ts"]
+}

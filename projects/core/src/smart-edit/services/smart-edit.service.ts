@@ -9,6 +9,9 @@ import { RoutingService } from '../../routing/facade/routing.service';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { WindowRef } from '../../window/window-ref';
 
+/**
+ * @deprecated since 3.2, use smartedit lib instead
+ */
 @Injectable({
   providedIn: 'root',
 })

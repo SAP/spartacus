@@ -1,6 +1,5 @@
+import { Compiler, Injector, NgModule } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-
-import { ConfigurationService } from './configuration.service';
 import {
   Config,
   createFrom,
@@ -9,8 +8,8 @@ import {
   provideConfig,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { Compiler, Injector, NgModule } from '@angular/core';
 import { take } from 'rxjs/operators';
+import { ConfigurationService } from './configuration.service';
 
 @NgModule({
   providers: [

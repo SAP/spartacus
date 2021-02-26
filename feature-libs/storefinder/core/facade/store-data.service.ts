@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PointOfService } from '@spartacus/core';
+import { PointOfService, WindowRef } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
@@ -17,11 +17,18 @@ export class StoreDataService {
   };
 
   /**
+   * @deprecated since version 3.1
+   * Use constructor(private winRef: WindowRef) {} instead
+   */
+  // TODO(#11093): Remove deprecated constructors
+  constructor(protected winRef?: WindowRef) {}
+
+  /**
    * Returns store latitude
    * @param location store location
    */
   getStoreLatitude(location: PointOfService): number {
-    return location.geoPoint.latitude;
+    return location?.geoPoint?.latitude;
   }
 
   /**
@@ -29,7 +36,7 @@ export class StoreDataService {
    * @param location store location
    */
   getStoreLongitude(location: PointOfService): number {
-    return location.geoPoint.longitude;
+    return location?.geoPoint?.longitude;
   }
 
   /**
@@ -79,8 +86,20 @@ export class StoreDataService {
    */
   protected getSchedule(location: PointOfService, date: Date): any {
     const weekday = this.weekDays[date.getDay()];
+    const language = this.winRef?.sessionStorage?.getItem('language');
     return location.openingHours.weekDayOpeningList.find(
-      (weekDayOpeningListItem) => weekDayOpeningListItem.weekDay === weekday
+      (weekDayOpeningListItem) =>
+        Boolean(language)
+          ? weekDayOpeningListItem.weekDay ===
+              date.toLocaleString(language as string, {
+                weekday: 'short',
+              }) ||
+            weekDayOpeningListItem.weekDay ===
+              date.toLocaleString(language as string, {
+                weekday: 'long',
+              }) ||
+            weekDayOpeningListItem.weekDay === weekday
+          : weekDayOpeningListItem.weekDay === weekday
     );
   }
 }
