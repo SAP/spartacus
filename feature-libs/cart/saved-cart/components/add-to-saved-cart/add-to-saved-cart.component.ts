@@ -24,11 +24,11 @@ import { filter, map, take, tap } from 'rxjs/operators';
 })
 export class AddToSavedCartComponent implements OnInit, OnDestroy {
   cart$: Observable<Cart>;
-  loggedIn = false;
+  protected loggedIn = false;
 
   @ViewChild('element') element: ElementRef;
 
-  private subscription = new Subscription();
+  protected subscription = new Subscription();
 
   constructor(
     protected activeCartService: ActiveCartService,
@@ -38,7 +38,7 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
     protected vcr: ViewContainerRef
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.cart$ = combineLatest([
       this.activeCartService.getActive(),
       this.authService.isUserLoggedIn(),
@@ -64,7 +64,7 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
     }
   }
 
-  private openDialog(
+  protected openDialog(
     openElement?: ElementRef,
     vcr?: ViewContainerRef,
     data?: any
@@ -80,7 +80,7 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
         component,
         this.launchDialogService.dialogClose,
       ]).pipe(
-        filter(([, close]) => close && close !== undefined),
+        filter(([, close]) => close !== undefined),
         tap(([comp]) => {
           openElement?.nativeElement.focus();
           this.launchDialogService.clear(LAUNCH_CALLER.ADD_TO_SAVED_CART);

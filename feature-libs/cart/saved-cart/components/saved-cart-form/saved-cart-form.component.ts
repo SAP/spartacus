@@ -18,7 +18,7 @@ export class SavedCartFormComponent implements OnInit {
   descriptionMaxLength: number = 500;
   nameMaxLength: number = 50;
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.cart$ = this.launchDialogService.data$;
     this.build();
   }
