@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ProductService } from '@spartacus/core';
-import { Observable } from 'rxjs/internal/Observable';
-import { of } from 'rxjs/internal/observable/of';
+import { Observable } from 'rxjs';
+import { of } from 'rxjs';
 
 import { BulkPricingService } from './bulk-pricing.service';
 const mockProductCode = '2221933';
