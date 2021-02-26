@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
@@ -20,20 +20,47 @@ import {
   UPDATE_EMAIL_PROCESS_ID,
   UPDATE_PASSWORD_PROCESS_ID,
   UPDATE_USER_DETAILS_PROCESS_ID,
+  USER_FEATURE,
 } from '../store/user-state';
+import { FeatureModulesService } from '../../lazy-loading/feature-modules.service';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
   constructor(
+    store: Store<StateWithUser | StateWithProcess<void>>,
+    userIdService: UserIdService,
+    // tslint:disable-next-line:unified-signatures
+    featureModules: FeatureModulesService
+  );
+  /**
+   * @deprecated since 3.2
+   *
+   * @param store
+   * @param userIdService
+   */
+  constructor(
+    store: Store<StateWithUser | StateWithProcess<void>>,
+    userIdService: UserIdService
+  );
+
+  constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
-    protected userIdService: UserIdService
-  ) {}
+    protected userIdService: UserIdService,
+    protected featureModules?: FeatureModulesService
+  ) {
+    // If we are using new, lazy loaded user account library, we want to initialize it
+    if (this.featureModules.isConfigured('userAccount')) {
+      this.featureModules.resolveFeature('userAccount').subscribe();
+    }
+  }
 
   /**
    * Returns a user.
    */
   get(): Observable<User> {
     return this.store.pipe(
+      // workaround for using lazy loaded user/account library
+      filter((state) => state[USER_FEATURE]),
       select(UsersSelectors.getDetails),
       tap((details) => {
         if (Object.keys(details).length === 0) {
@@ -189,6 +216,8 @@ export class UserService {
    */
   getTitles(): Observable<Title[]> {
     return this.store.pipe(
+      // workaround for using lazy loaded user/account library
+      filter((state) => state[USER_FEATURE]),
       select(UsersSelectors.getAllTitles),
       tap((titles: Title[]) => {
         if (Object.keys(titles).length === 0) {
@@ -214,7 +243,11 @@ export class UserService {
    * from `@spartacus/user` package.
    */
   isPasswordReset(): Observable<boolean> {
-    return this.store.pipe(select(UsersSelectors.getResetPassword));
+    return this.store.pipe(
+      // workaround for using lazy loaded user/account library
+      filter((state) => state[USER_FEATURE]),
+      select(UsersSelectors.getResetPassword)
+    );
   }
 
   /**
