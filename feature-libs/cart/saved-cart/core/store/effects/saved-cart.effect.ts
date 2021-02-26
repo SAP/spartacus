@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import {
   CartActions,
-  CheckoutActions,
   GlobalMessageService,
   GlobalMessageType,
   normalizeHttpError,
   OCC_USER_ID_ANONYMOUS,
 } from '@spartacus/core';
+import { ClearCheckoutService } from 'projects/core/src/checkout/services/clear-checkout.service';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, switchMap } from 'rxjs/operators';
 import { SavedCartConnector } from '../../connectors/saved-cart.connector';
@@ -21,9 +21,6 @@ export class SavedCartEffects {
     | SavedCartActions.SaveCartSuccess
     | SavedCartActions.SaveCartFail
     | CartActions.ClearCartState
-    | CheckoutActions.ResetSetDeliveryAddressProcess
-    | CheckoutActions.ResetSetPaymentDetailsProcess
-    | CheckoutActions.ResetSetDeliveryModeProcess
   > = this.actions$.pipe(
     ofType(SavedCartActions.SAVE_CART),
     map((action: SavedCartActions.SaveCart) => action.payload),
@@ -37,12 +34,10 @@ export class SavedCartEffects {
               'savedCartCartPage.messages.cartSaved',
               cart
             );
+            this.clearCheckoutService.resetCheckoutProcesses();
             return [
               new SavedCartActions.SaveCartSuccess({}),
               new CartActions.ClearCartState(),
-              new CheckoutActions.ResetSetDeliveryAddressProcess(),
-              new CheckoutActions.ResetSetPaymentDetailsProcess(),
-              new CheckoutActions.ResetSetDeliveryModeProcess(),
             ];
           }),
           catchError((error: HttpErrorResponse) =>
@@ -59,7 +54,8 @@ export class SavedCartEffects {
   constructor(
     private actions$: Actions,
     private savedCartConnector: SavedCartConnector,
-    private globalMessageService: GlobalMessageService
+    private globalMessageService: GlobalMessageService,
+    private clearCheckoutService: ClearCheckoutService
   ) {}
 
   private showSaveCartMessage(text: string, cart: any) {
