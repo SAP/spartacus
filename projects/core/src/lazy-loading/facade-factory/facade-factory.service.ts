@@ -113,7 +113,7 @@ export class FacadeFactoryService {
     return resolver$.pipe(switchMap((service) => service[property]));
   }
 
-  create<T>({
+  create<T extends object>({
     facade,
     feature,
     methods,
