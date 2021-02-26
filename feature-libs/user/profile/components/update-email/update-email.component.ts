@@ -36,8 +36,8 @@ export class UpdateEmailComponent implements OnDestroy {
         .update(password, newUid)
         .pipe(
           tap((state) => {
-            this.isLoading$.next(state.loading);
-            this.onSuccess(state.success);
+            this.isLoading$.next(!!state.loading);
+            this.onSuccess(!!state.success);
           })
         )
         .subscribe()
@@ -55,7 +55,7 @@ export class UpdateEmailComponent implements OnDestroy {
       );
       // TODO(#9638): Use logout route when it will support passing redirect url
       await this.authService.coreLogout();
-      this.routingService.go({ cxRoute: 'login' }, null, {
+      this.routingService.go({ cxRoute: 'login' }, undefined, {
         state: {
           newUid: this.newUid,
         },

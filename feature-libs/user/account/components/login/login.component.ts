@@ -9,7 +9,7 @@ import { switchMap } from 'rxjs/operators';
   templateUrl: './login.component.html',
 })
 export class LoginComponent implements OnInit {
-  user$: Observable<User>;
+  user$: Observable<User | undefined>;
 
   constructor(
     private auth: AuthService,

@@ -51,8 +51,8 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
         .update(userUpdates)
         .pipe(
           tap((state) => {
-            this.isLoading$.next(state.loading);
-            this.onSuccess(state.success);
+            this.isLoading$.next(!!state.loading);
+            this.onSuccess(!!state.success);
           })
         )
         .subscribe()

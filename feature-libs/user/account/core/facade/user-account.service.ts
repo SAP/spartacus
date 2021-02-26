@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { StateWithProcess, UserIdService } from '@spartacus/core';
+import { UserIdService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
@@ -11,7 +11,7 @@ import { StateWithUserAccount } from '../store/user-account.state';
 @Injectable()
 export class UserAccountService implements UserAccountFacade {
   constructor(
-    protected store: Store<StateWithUserAccount | StateWithProcess<void>>,
+    protected store: Store<StateWithUserAccount>,
     protected userIdService: UserIdService
   ) {}
 
