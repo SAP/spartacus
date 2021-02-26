@@ -14,7 +14,6 @@ import { SubListComponent } from './sub-list.component';
     CardModule,
     TableModule,
     PaginationModule,
-
     MessageModule,
   ],
   declarations: [SubListComponent, AssignCellComponent],
