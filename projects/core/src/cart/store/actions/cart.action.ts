@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
 import { Cart } from '../../../model/cart.model';
-import { OCC_SAVED_CART_ID } from '../../../occ/utils/occ-constants';
 import {
   EntityFailAction,
   EntityLoadAction,
@@ -21,6 +20,8 @@ export const CREATE_CART_SUCCESS = '[Cart] Create Cart Success';
 export const LOAD_CART = '[Cart] Load Cart';
 export const LOAD_CART_FAIL = '[Cart] Load Cart Fail';
 export const LOAD_CART_SUCCESS = '[Cart] Load Cart Success';
+
+export const LOAD_CARTS_SUCCESS = '[Cart] Load Carts Success';
 
 export const ADD_EMAIL_TO_CART = '[Cart] Add Email to Cart';
 export const ADD_EMAIL_TO_CART_FAIL = '[Cart] Add Email to Cart Fail';
@@ -149,26 +150,13 @@ export class LoadCartSuccess extends EntitySuccessAction {
   }
 }
 
-// TODO: explain the each vs the all (drawbacks and such)
-export const LOAD_SAVED_CART_SUCCESS =
-  '[Saved Cart] Load SavedCarts Data Success';
-
-export class LoadSavedCartSuccess extends EntitySuccessAction {
-  readonly type = LOAD_SAVED_CART_SUCCESS;
+export class LoadCartsSuccess extends EntitySuccessAction {
+  readonly type = LOAD_CARTS_SUCCESS;
   constructor(public payload: Cart[]) {
     super(
       MULTI_CART_DATA,
       payload.map((cart) => cart?.code)
     );
-  }
-}
-
-export const LOAD_SAVED_CARTS_SUCCESS =
-  '[Saved Cart] Load SavedCarts Data Success';
-export class LoadSavedCartsSuccess extends EntitySuccessAction {
-  readonly type = LOAD_SAVED_CARTS_SUCCESS;
-  constructor(public payload: { cart: Cart[] }) {
-    super(MULTI_CART_DATA, OCC_SAVED_CART_ID);
   }
 }
 
@@ -248,8 +236,7 @@ export type CartAction =
   | LoadCart
   | LoadCartFail
   | LoadCartSuccess
-  | LoadSavedCartSuccess
-  | LoadSavedCartsSuccess
+  | LoadCartsSuccess
   | MergeCart
   | MergeCartSuccess
   | ResetCartDetails

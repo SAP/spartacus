@@ -4,12 +4,11 @@ import {
   Cart,
   CART_NORMALIZER,
   ConverterService,
-  EntitiesModel,
   Occ,
   OccEndpointsService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { SAVED_CARTS_NORMALIZER } from '../../core/connectors/converters';
+import { pluck } from 'rxjs/operators';
 import { SavedCartAdapter } from '../../core/connectors/saved-cart.adapter';
 
 @Injectable()
@@ -20,16 +19,16 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
     protected converter: ConverterService
   ) {}
 
-  loadList(userId: string): Observable<EntitiesModel<Cart>> {
+  loadList(userId: string): Observable<Cart[]> {
     return this.http
       .get<Occ.CartList>(this.getSavedCartListEndpoint(userId))
-      .pipe(this.converter.pipeable(SAVED_CARTS_NORMALIZER));
+      .pipe(pluck('carts'), this.converter.pipeableMany(CART_NORMALIZER));
   }
 
   restoreSavedCart(userId: string, cartId: string): Observable<Cart> {
     return this.http
       .patch<Occ.Cart>(this.getRestoreSavedCartEndpoint(userId, cartId), cartId)
-      .pipe(this.converter.pipeable(CART_NORMALIZER));
+      .pipe(pluck('savedCartData'), this.converter.pipeable(CART_NORMALIZER));
   }
 
   protected getSavedCartListEndpoint(userId: string): string {

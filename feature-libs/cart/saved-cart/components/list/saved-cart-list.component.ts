@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { Cart, RoutingService, TranslationService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { SavedCartService } from '../../core/services/saved-cart.service';
@@ -8,8 +13,8 @@ import { SavedCartService } from '../../core/services/saved-cart.service';
   templateUrl: './saved-cart-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SavedCartListComponent implements OnInit {
-  savedCarts$: Observable<Cart> = this.savedCartService.getList();
+export class SavedCartListComponent implements OnInit, OnDestroy {
+  savedCarts$: Observable<Cart[]> = this.savedCartService.getList();
 
   constructor(
     protected routing: RoutingService,
@@ -31,5 +36,9 @@ export class SavedCartListComponent implements OnInit {
   restoreSavedCart(event: Event, cartId: string): void {
     this.savedCartService.restoreSavedCart(cartId);
     event.stopPropagation();
+  }
+
+  ngOnDestroy(): void {
+    this.savedCartService.clearSavedCarts();
   }
 }

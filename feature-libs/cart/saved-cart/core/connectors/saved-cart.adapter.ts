@@ -1,4 +1,4 @@
-import { Cart, EntitiesModel } from '@spartacus/core';
+import { Cart } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 export abstract class SavedCartAdapter {
@@ -6,7 +6,7 @@ export abstract class SavedCartAdapter {
    *
    * Abstract method used to load a list of saved carts
    */
-  abstract loadList(userId: string): Observable<EntitiesModel<Cart>>;
+  abstract loadList(userId: string): Observable<Cart[]>;
 
   /**
    *

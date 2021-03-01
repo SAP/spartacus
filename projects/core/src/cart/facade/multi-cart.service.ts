@@ -5,7 +5,6 @@ import { debounce, distinctUntilChanged, map } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/index';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
-import { EntityProcessesLoaderState } from '../../state/utils/entity-processes-loader/entity-processes-loader-state';
 import { ProcessesLoaderState } from '../../state/utils/processes-loader/processes-loader-state';
 import { CartActions } from '../store/actions/index';
 import { StateWithMultiCart } from '../store/multi-cart-state';
@@ -29,13 +28,6 @@ export class MultiCartService {
     return this.store.pipe(
       select(MultiCartSelectors.getCartSelectorFactory(cartId))
     );
-  }
-
-  /**
-   * Returns all carts from store as an observable
-   */
-  getCarts(): Observable<EntityProcessesLoaderState<Cart>> {
-    return this.store.pipe(select(MultiCartSelectors.getMultiCartEntities));
   }
 
   /**

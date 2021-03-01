@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Cart, EntitiesModel } from '@spartacus/core';
+import { Cart } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { SavedCartAdapter } from './saved-cart.adapter';
 
@@ -9,7 +9,7 @@ import { SavedCartAdapter } from './saved-cart.adapter';
 export class SavedCartConnector {
   constructor(protected adapter: SavedCartAdapter) {}
 
-  getList(userId: string): Observable<EntitiesModel<Cart>> {
+  getList(userId: string): Observable<Cart[]> {
     return this.adapter.loadList(userId);
   }
 

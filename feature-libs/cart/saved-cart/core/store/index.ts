@@ -1,5 +1,6 @@
 export * from './actions/index';
 export * from './effects/index';
-export * from './reducers/index';
 export * from './saved-cart-state';
-export * from './selectors/index';
+
+// TODO: remove (need to verify if we can just drop this) in regards to no selectors folder
+// export * from './selectors/index';
