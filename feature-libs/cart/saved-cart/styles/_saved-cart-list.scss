@@ -78,7 +78,10 @@ cx-saved-cart-list {
     }
 
     .cx-saved-cart-list-make-cart-active {
-      text-transform: uppercase;
+      .cx-saved-cart-make-active {
+        text-transform: uppercase;
+        text-decoration: underline;
+      }
     }
 
     .cx-saved-cart-list-cart-description {

@@ -16,9 +16,7 @@ import { SavedCartActions } from '../actions/index';
 export class SavedCartEffects {
   @Effect()
   loadSavedCarts$: Observable<
-    | CartActions.LoadSavedCartsSuccess
-    | SavedCartActions.LoadSavedCartsSuccess
-    | SavedCartActions.LoadSavedCartsFail
+    CartActions.LoadSavedCartsSuccess | SavedCartActions.LoadSavedCartsFail
   > = this.actions$.pipe(
     ofType(SavedCartActions.LOAD_SAVED_CARTS),
     map((action: SavedCartActions.LoadSavedCarts) => action.payload),
@@ -36,6 +34,35 @@ export class SavedCartEffects {
       );
     })
   );
+
+  @Effect()
+  restoreSavedCart$: Observable<
+    | SavedCartActions.RestoreSavedCartFail
+    | SavedCartActions.RestoreSavedCartSuccess
+    | CartActions.SetActiveCartId
+    | SavedCartActions.LoadSavedCarts
+  > = this.actions$.pipe(
+    ofType(SavedCartActions.RESTORE_SAVED_CART),
+    map((action: SavedCartActions.RestoreSavedCart) => action.payload),
+    switchMap(({ userId, cartId }) => {
+      return this.savedCartConnector.restoreSavedCart(userId, cartId).pipe(
+        switchMap((_savedCarts: Cart) => {
+          return [
+            new CartActions.SetActiveCartId(cartId),
+            new SavedCartActions.LoadSavedCarts({ userId }),
+            new SavedCartActions.RestoreSavedCartSuccess(),
+          ];
+        }),
+
+        catchError((error: HttpErrorResponse) =>
+          of(
+            new SavedCartActions.RestoreSavedCartFail(normalizeHttpError(error))
+          )
+        )
+      );
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private savedCartConnector: SavedCartConnector

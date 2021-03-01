@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   Cart,
+  CART_NORMALIZER,
   ConverterService,
   EntitiesModel,
   Occ,
@@ -21,11 +22,24 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
 
   loadList(userId: string): Observable<EntitiesModel<Cart>> {
     return this.http
-      .get<Occ.CartList>(this.getSavedCartList(userId))
+      .get<Occ.CartList>(this.getSavedCartListEndpoint(userId))
       .pipe(this.converter.pipeable(SAVED_CARTS_NORMALIZER));
   }
 
-  protected getSavedCartList(userId: string): string {
+  restoreSavedCart(userId: string, cartId: string): Observable<Cart> {
+    return this.http
+      .patch<Occ.Cart>(this.getRestoreSavedCartEndpoint(userId, cartId), cartId)
+      .pipe(this.converter.pipeable(CART_NORMALIZER));
+  }
+
+  protected getSavedCartListEndpoint(userId: string): string {
     return this.occEndpoints.getUrl('savedCarts', { userId });
+  }
+
+  protected getRestoreSavedCartEndpoint(
+    userId: string,
+    cartId: string
+  ): string {
+    return this.occEndpoints.getUrl('restoreSavedCart', { userId, cartId });
   }
 }

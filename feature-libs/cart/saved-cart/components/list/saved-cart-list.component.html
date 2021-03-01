@@ -8,7 +8,7 @@
       </h3>
     </div>
 
-    <ng-container *ngIf="savedCarts.length > 0; else noSavedCarts">
+    <ng-container *ngIf="savedCarts.length; else noSavedCarts">
       <table class="table cx-saved-cart-list-table">
         <thead class="cx-saved-cart-list-thead-mobile">
           <th scope="col">
@@ -128,17 +128,12 @@
             </td>
             <td class="cx-saved-cart-list-make-cart-active">
               <div class="d-md-none cx-saved-cart-list-label"></div>
-              <a
-                [routerLink]="
-                  {
-                    cxRoute: 'savedCartsDetails',
-                    params: { savedCartId: savedCart?.code }
-                  } | cxUrl
-                "
-                class="cx-saved-cart-list-value"
+              <button
+                class="link cx-action-link cx-saved-cart-make-active"
+                (click)="restoreSavedCart($event, savedCart?.code)"
               >
-                {{ 'savedCartList.makeCartActive' | cxTranslate }}</a
-              >
+                {{ 'savedCartList.makeCartActive' | cxTranslate }}
+              </button>
             </td>
           </tr>
         </tbody>

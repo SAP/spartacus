@@ -55,4 +55,15 @@ export class SavedCartService {
       .select(MultiCartSelectors.getCartValueList)
       .pipe(map((carts) => carts.filter((cart) => cart?.saveTime)));
   }
+
+  restoreSavedCart(cartId: string): void {
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
+        return this.store.dispatch(
+          new SavedCartActions.RestoreSavedCart({ userId, cartId })
+        );
+      },
+      () => {}
+    );
+  }
 }

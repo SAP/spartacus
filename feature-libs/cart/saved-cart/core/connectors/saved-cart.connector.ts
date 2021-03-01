@@ -12,4 +12,8 @@ export class SavedCartConnector {
   getList(userId: string): Observable<EntitiesModel<Cart>> {
     return this.adapter.loadList(userId);
   }
+
+  restoreSavedCart(userId: string, cartId: string): Observable<Cart> {
+    return this.adapter.restoreSavedCart(userId, cartId);
+  }
 }
