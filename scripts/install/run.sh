@@ -109,7 +109,7 @@ function add_spartacus_ssr {
 }
 
 function add_spartacus_ssr_pwa {
-    ( cd ${INSTALLATION_DIR}/${1} && cd ssr-pwa && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa && ng add @spartacus/storefinder@${SPARTACUS_VERSION} --interactive false
+    ( cd ${INSTALLATION_DIR}/${1} && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa && ng add @spartacus/storefinder@${SPARTACUS_VERSION} --interactive false
     add_b2b
     if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
         ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false
@@ -194,7 +194,7 @@ function install_from_sources {
     ( cd ${CLONE_DIR}/dist/storefinder && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 
     printh "Creating product-configurator npm package"
-    ( cd ${CLONE_DIR}/dist/product-configurator && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )    
+    ( cd ${CLONE_DIR}/dist/product-configurator && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 
     create_apps
 

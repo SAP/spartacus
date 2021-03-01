@@ -184,7 +184,7 @@ Use the following template:
 
 - run `yarn config:update` script to update `compilerOptions.path` property in tsconfig files
 - `tsconfig.lib.prod.json` - save to re-format it. Make sure that Ivy is off (for the time being, this will change in the future)
-- `tslint.json` - change from `lib` to `cx` in the `directive-selector` and `component-selector`
+- `tslint.json` - remove
 - the rest of the generated files should be removed
 
 ### Additional changes to existing files
