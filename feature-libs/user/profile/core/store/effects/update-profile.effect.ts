@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { normalizeHttpError } from '@spartacus/core';
+import { EventService, normalizeHttpError } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { catchError, concatMap, map } from 'rxjs/operators';
+import { catchError, concatMap, map, tap } from 'rxjs/operators';
 import { UserProfileConnector } from '../../connectors/user-profile.connector';
 import { UserProfileActions } from '../actions/index';
+import { UserAccountChangedEvent } from '@spartacus/user/account/events';
 
 @Injectable()
 export class UpdateProfileEffects {
@@ -20,6 +21,12 @@ export class UpdateProfileEffects {
         map(
           () => new UserProfileActions.UpdateUserProfileSuccess(payload.details)
         ),
+        tap(() => {
+          this.eventService.dispatch(
+            { user: payload.details },
+            UserAccountChangedEvent
+          );
+        }),
         catchError((error) =>
           of(
             new UserProfileActions.UpdateUserProfileFail(
@@ -33,6 +40,7 @@ export class UpdateProfileEffects {
 
   constructor(
     private actions$: Actions,
-    private userProfileConnector: UserProfileConnector
+    private userProfileConnector: UserProfileConnector,
+    private eventService: EventService
   ) {}
 }
