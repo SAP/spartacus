@@ -8,6 +8,7 @@ import { BaseMessageComponent } from '../base-message.component';
 import { MessageData } from '../message.model';
 import { MessageService } from '../services/message.service';
 import { ConfirmationMessageData } from './confirmation-message.model';
+import { Translatable } from '@spartacus/core';
 
 /**
  * Renders a confirmation message and cancel/confirm button in the message component.
@@ -18,6 +19,13 @@ import { ConfirmationMessageData } from './confirmation-message.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmationMessageComponent extends BaseMessageComponent {
+  cancelText: Translatable = {
+    key: 'organization.confirmation.cancel',
+  };
+  confirmText: Translatable = {
+    key: 'organization.confirmation.confirm',
+  };
+
   constructor(
     protected data: MessageData<ConfirmationMessageData>,
     @Inject(PLATFORM_ID) protected platformId: any,
@@ -26,6 +34,11 @@ export class ConfirmationMessageComponent extends BaseMessageComponent {
     super(data, platformId);
   }
 
+  ngOnInit() {
+    super.ngOnInit();
+    this.cancelText = this.messageData.cancel ?? this.cancelText;
+    this.confirmText = this.messageData.confirm ?? this.confirmText;
+  }
   /**
    * Emits a confirmation event to the data events.
    *

@@ -17,6 +17,7 @@ export abstract class BaseMessageComponent implements OnInit {
   @HostBinding('class.terminated') terminated = false;
 
   message: Translatable;
+  messageTitle?: Translatable;
 
   /**
    * Icon used to display next to the message.
@@ -30,6 +31,7 @@ export abstract class BaseMessageComponent implements OnInit {
 
   ngOnInit() {
     this.message = this.messageData.message ?? {};
+    this.messageTitle = this.messageData.messageTitle;
     this.type = this.resolveType();
     this.messageIcon = this.messageData.messageIcon;
 

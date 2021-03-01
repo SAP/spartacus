@@ -67,6 +67,13 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
             key: this.i18nRoot + '.messages.deactivate',
             params: { item },
           },
+          messageTitle: {
+            key: this.i18nRoot + '.messages.deactivateTitle',
+            params: { item },
+          },
+          confirm: {
+            key: 'organization.confirmation.disable',
+          },
           component: ConfirmationMessageComponent,
         });
 
