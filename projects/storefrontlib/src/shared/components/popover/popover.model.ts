@@ -17,3 +17,12 @@ export type PopoverPositionArray =
   | PopoverPosition
   | Array<PopoverPosition>
   | string;
+
+export enum PopoverEvent {
+  INSIDE_CLICK = 'insideClick',
+  OUTSIDE_CLICK = 'outsideClick',
+  ESCAPE_KEYDOWN = 'escapeKeydown',
+  CLOSE_BUTTON_CLICK = 'closeButtonClick',
+  CLOSE_BUTTON_KEYDOWN = 'closeButtonKeydown',
+  ROUTE_CHANGE = 'routeChange',
+}

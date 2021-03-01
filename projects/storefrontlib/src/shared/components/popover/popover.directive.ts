@@ -1,4 +1,3 @@
-import { DOCUMENT } from '@angular/common';
 import {
   Directive,
   ElementRef,
@@ -11,13 +10,12 @@ import {
   ChangeDetectorRef,
   Output,
   EventEmitter,
-  Inject,
   HostListener,
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { FocusConfig } from '../../../layout';
+import { FocusConfig } from '../../../layout/a11y';
 import { PopoverComponent } from './popover.component';
-import { PopoverPosition } from './popover.model';
+import { PopoverEvent, PopoverPosition } from './popover.model';
 import { PositioningService } from './positioning.service';
 import { PopoverService } from './popover.service';
 
@@ -89,16 +87,6 @@ export class PopoverDirective {
   focusConfig: FocusConfig;
 
   /**
-   * Callback used to unlisten click event when is not necessary anymore.
-   */
-  clickEventUnlistener: () => void;
-
-  /**
-   * Callback used to unlisten keydown event when is not necessary anymore.
-   */
-  keydownEventUnlistener: () => void;
-
-  /**
    * Listen events fired on element binded to popover directive.
    *
    * Based on event type some a11y improvements can be made.
@@ -106,10 +94,11 @@ export class PopoverDirective {
    * dedicated `FocusConfig` can be set to autofocus first
    * focusable element in popover container.
    */
-  @HostListener('keydown.enter', ['$event'])
+
   @HostListener('click', ['$event'])
+  @HostListener('keydown.enter', ['$event'])
   handleOpen(event: MouseEvent | KeyboardEvent): void {
-    this.toggle(event);
+    if (event.target === this.element.nativeElement) this.toggle(event);
   }
 
   /**
@@ -126,9 +115,6 @@ export class PopoverDirective {
       this.renderPopover();
 
       if (this.openPopover) this.openPopover.emit();
-
-      this.triggerClickEvent();
-      this.triggerEscKeydownEvent();
     }
   }
 
@@ -140,9 +126,6 @@ export class PopoverDirective {
     this.viewContainer.clear();
 
     if (this.closePopover) this.closePopover.emit();
-
-    this.clickEventUnlistener();
-    this.keydownEventUnlistener();
   }
 
   /**
@@ -152,6 +135,30 @@ export class PopoverDirective {
     if (event && event.target === this.element.nativeElement && !this.isOpen)
       this.open(event);
     else if (this.isOpen) this.close();
+  }
+
+  /**
+   * Method subscribes for events emitted by popover component
+   * and based on event performs specific action.
+   */
+  handlePopoverEvents() {
+    this.popoverContainer.instance.eventSubject.subscribe(
+      (event: PopoverEvent) => {
+        if (event !== PopoverEvent.INSIDE_CLICK) this.close();
+        if (
+          event === PopoverEvent.ESCAPE_KEYDOWN ||
+          event === PopoverEvent.CLOSE_BUTTON_KEYDOWN
+        ) {
+          setTimeout(() =>
+            this.popoverService.setFocusOnElement(
+              this.element,
+              this.focusConfig,
+              this.appendToBody
+            )
+          );
+        }
+      }
+    );
   }
 
   /**
@@ -176,54 +183,15 @@ export class PopoverDirective {
 
       if (this.appendToBody) {
         this.renderer.appendChild(
-          this.document.body,
+          this.winRef.document.body,
           this.popoverContainer.location.nativeElement
         );
       }
 
       this.popoverContainer.changeDetectorRef.detectChanges();
+
+      setTimeout(() => this.handlePopoverEvents());
     }
-  }
-
-  /**
-   * Method uses `Renderer2` service to listen every click event.
-   *
-   * Registered only when popover state was set to open and checks if element
-   * outside popover component was clicked.
-   *
-   * If so directive performs `close()` action and fire unlistener for such event.
-   */
-  triggerClickEvent() {
-    this.clickEventUnlistener = this.renderer.listen(
-      this.winRef.nativeWindow,
-      'click',
-      (event: Event) => {
-        if (event && event.target !== this.element.nativeElement) this.close();
-      }
-    );
-  }
-
-  /**
-   * Method uses `Renderer2` service to listen every escape keydown event.
-   *
-   * Registered only when popover state was set to open and checks if `escape`
-   * key was pressed.
-   *
-   * If so directive performs `close()` action and fire unlistener for such event.
-   */
-  triggerEscKeydownEvent() {
-    this.keydownEventUnlistener = this.renderer.listen(
-      this.winRef.nativeWindow,
-      'keydown.escape',
-      (event: KeyboardEvent) => {
-        if (event) {
-          this.close();
-          if (this.focusConfig && this.appendToBody) {
-            this.element.nativeElement.focus();
-          }
-        }
-      }
-    );
   }
 
   constructor(
@@ -234,7 +202,6 @@ export class PopoverDirective {
     protected changeDetectorRef: ChangeDetectorRef,
     protected positioningService: PositioningService,
     protected popoverService: PopoverService,
-    protected winRef: WindowRef,
-    @Inject(DOCUMENT) protected document: any
+    protected winRef: WindowRef
   ) {}
 }

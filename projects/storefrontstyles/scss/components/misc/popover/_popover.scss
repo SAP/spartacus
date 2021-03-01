@@ -186,4 +186,8 @@
     opacity: 1;
     transition: opacity 0.4s;
   }
+
+  .popover-body > .close {
+    font-size: 1rem;
+  }
 }

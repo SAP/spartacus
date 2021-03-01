@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { FocusConfig } from '../../../layout';
+import { ElementRef, Injectable } from '@angular/core';
+import { FocusConfig } from '../../../layout/a11y';
 
 @Injectable({
   providedIn: 'root',
@@ -24,5 +24,15 @@ export class PopoverService {
     }
 
     return config;
+  }
+
+  setFocusOnElement(
+    element: ElementRef,
+    focusConfig: FocusConfig,
+    appendToBody?: boolean
+  ) {
+    if (focusConfig && appendToBody) {
+      element.nativeElement.focus();
+    }
   }
 }
