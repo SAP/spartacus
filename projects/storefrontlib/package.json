@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/storefront",
-  "version": "3.1.0-next.0",
+  "version": "3.2.0-next.0",
   "keywords": [
     "spartacus",
     "storefront",
@@ -24,7 +24,7 @@
     "@ngrx/effects": "^10.0.0",
     "@ngrx/router-store": "^10.0.0",
     "@ngrx/store": "^10.0.0",
-    "@spartacus/core": "3.1.0-next.0",
+    "@spartacus/core": "3.2.0-next.0",
     "ngx-infinite-scroll": "^8.0.0",
     "rxjs": "^6.6.0"
   },

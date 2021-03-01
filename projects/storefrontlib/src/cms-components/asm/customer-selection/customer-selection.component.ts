@@ -23,7 +23,7 @@ import { debounceTime } from 'rxjs/operators';
   templateUrl: './customer-selection.component.html',
   styleUrls: ['./customer-selection.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  // tslint:disable-next-line:no-host-metadata-property
+  // eslint-disable-next-line @angular-eslint/no-host-metadata-property
   host: {
     '(document:click)': 'onDocumentClick($event)',
   },
