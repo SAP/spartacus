@@ -8,7 +8,7 @@ import { KeyboardFocusService } from './services/keyboard-focus.service';
 })
 export class FocusDirective extends LockFocusDirective {
   protected defaultConfig: FocusConfig = {};
-  // tslint:disable-next-line: no-input-rename
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('cxFocus') protected config: FocusConfig = {};
 
   constructor(
