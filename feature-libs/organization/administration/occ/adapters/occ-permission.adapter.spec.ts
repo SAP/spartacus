@@ -7,6 +7,7 @@ import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import {
   PERMISSIONS_NORMALIZER,
   PERMISSION_NORMALIZER,
+  PERMISSION_SERIALIZER,
 } from '@spartacus/organization/administration/core';
 import { OccPermissionAdapter } from './occ-permission.adapter';
 
@@ -21,7 +22,7 @@ const permission = {
 
 class MockOccEndpointsService {
   getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
-    // tslint:disable-next-line:no-shadowed-variable
+    // eslint-disable-next-line no-shadow
     (url, { orderApprovalPermissionCode }) =>
       url === 'permission' ? url + orderApprovalPermissionCode : url
   );
@@ -47,6 +48,7 @@ describe('OccPermissionAdapter', () => {
     service = TestBed.inject(OccPermissionAdapter);
     httpMock = TestBed.inject(HttpTestingController);
     spyOn(converterService, 'pipeable').and.callThrough();
+    spyOn(converterService, 'convert').and.callThrough();
   });
 
   afterEach(() => {
@@ -92,6 +94,10 @@ describe('OccPermissionAdapter', () => {
   describe('create permission', () => {
     it('should create permission', () => {
       service.create(userId, permission).subscribe();
+      expect(converterService.convert).toHaveBeenCalledWith(
+        permission,
+        PERMISSION_SERIALIZER
+      );
       const mockReq = httpMock.expectOne(
         (req) =>
           req.method === 'POST' &&
@@ -112,6 +118,11 @@ describe('OccPermissionAdapter', () => {
       service
         .update(userId, orderApprovalPermissionCode, permission)
         .subscribe();
+      expect(converterService.convert).toHaveBeenCalledWith(
+        permission,
+        PERMISSION_SERIALIZER
+      );
+
       const mockReq = httpMock.expectOne(
         (req) =>
           req.method === 'PATCH' &&
