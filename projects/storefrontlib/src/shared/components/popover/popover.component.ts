@@ -78,7 +78,7 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   /**
    * After popover component is initialized popover should be closed in case
-   * if current route has been change.
+   * if current route has been changed.
    */
   routeChangeSub: Subscription;
 
