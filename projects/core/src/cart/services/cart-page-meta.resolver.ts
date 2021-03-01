@@ -34,7 +34,7 @@ export class CartPageMetaResolver
    */
   // TODO(#10467): Remove deprecated constructors
   constructor(cms: CmsService);
-  // tslint:disable-next-line: unified-signatures
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
   constructor(cms: CmsService, basePageMetaResolver?: BasePageMetaResolver);
   constructor(
     protected cms: CmsService,

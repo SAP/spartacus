@@ -23,10 +23,10 @@ export const defaultOccProductConfig: OccConfig = {
         //   'products/${productCode}/references?fields=DEFAULT,references(target(images(FULL)))&referenceType=${referenceType}',
         productReferences:
           'products/${productCode}/references?fields=DEFAULT,references(target(images(FULL)))',
-        // tslint:disable:max-line-length
+        /* eslint-disable max-len */
         productSearch:
           'products/search?fields=products(code,name,summary,configurable,configuratorType,price(FULL),images(DEFAULT),stock(FULL),averageRating,variantOptions),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT),freeTextSearch,currentQuery',
-        // tslint:enable
+        /* eslint-enable */
         productSuggestions: 'products/suggestions',
       },
     },
