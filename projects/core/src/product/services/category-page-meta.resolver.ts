@@ -57,7 +57,7 @@ export class CategoryPageMetaResolver
     productSearchService: ProductSearchService,
     cmsService: CmsService,
     translation: TranslationService,
-    // tslint:disable-next-line: unified-signatures
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     basePageMetaResolver?: BasePageMetaResolver
   );
   constructor(
