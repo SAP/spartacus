@@ -108,6 +108,9 @@
       "@spartacus/user/account/core": [
         "../../feature-libs/user/account/core/public_api"
       ],
+      "@spartacus/user/account/events": [
+        "../../feature-libs/user/account/events/public_api"
+      ],
       "@spartacus/user/account": ["../../feature-libs/user/account/public_api"],
       "@spartacus/user/account/occ": [
         "../../feature-libs/user/account/occ/public_api"

@@ -77,6 +77,7 @@
         "../../dist/user/account/components"
       ],
       "@spartacus/user/account/core": ["../../dist/user/account/core"],
+      "@spartacus/user/account/events": ["../../dist/user/account/events"],
       "@spartacus/user/account": ["../../dist/user/account"],
       "@spartacus/user/account/occ": ["../../dist/user/account/occ"],
       "@spartacus/user/account/root": ["../../dist/user/account/root"],
