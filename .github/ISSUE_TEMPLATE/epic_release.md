@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-The following is a checklist for new epics or features acceptance for Spartacus, based on [our Definition of Done](https://sap.github.io/spartacus-docs/definition-of-done/)
+The following is a checklist for new epics or features acceptance for Spartacus, based on [our Definition of Done document](https://sap.github.io/spartacus-docs/definition-of-done/)
 
 ## General
 
@@ -23,8 +23,8 @@ The following is a checklist for new epics or features acceptance for Spartacus,
 ## Audits/reviews
 
 - [ ] Architecture review of the epic (with @tobi-or-not-tobi)
-- [ ] Security and threat modeling audit/review with the Security team (main contact is @giancorderoortiz)
-- [ ] Accessibility audit/review (main contact is @developpeurweb)
+- [ ] Security and threat modeling audit/review from the Security team
+- [ ] Accessibility audit/review from the UX team
 
 ## New Library
 
