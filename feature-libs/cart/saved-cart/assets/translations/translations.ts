@@ -7,5 +7,11 @@ export const savedCartTranslations: TranslationResources = {
 
 // expose all translation chunk mapping for savedCart feature
 export const savedCartTranslationChunksConfig: TranslationChunksConfig = {
-  savedCart: ['savedCartDetails', 'savedCartList', 'savedCartCartPage'],
+  savedCart: [
+    'savedCartDetails',
+    'savedCartList',
+    'savedCartCartPage',
+    'savedCartDialog',
+    'addToSavedCart',
+  ],
 };
