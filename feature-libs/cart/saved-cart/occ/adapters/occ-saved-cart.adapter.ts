@@ -43,8 +43,6 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
     saveCartName: string,
     saveCartDescription: string
   ): Observable<Cart> {
-    console.log('ada', saveCartName);
-    console.log('ada 2', saveCartDescription);
     return this.http
       .patch<Occ.Cart>(
         this.getSaveCartEndpoint(
