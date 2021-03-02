@@ -22,8 +22,11 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { SAVED_CART_LIST_PROCESS_ID } from '../store';
 import { SavedCartActions } from '../store/actions/index';
+import {
+  SAVED_CART_LIST_PROCESS_ID,
+  SAVED_CART_SAVE_CART_PROCESS_ID,
+} from '../store/saved-cart-state';
 
 @Injectable({
   providedIn: 'root',
@@ -167,7 +170,9 @@ export class SavedCartService {
   getSaveCartProcessLoading(): Observable<boolean> {
     return this.store.pipe(
       select(
-        ProcessSelectors.getProcessLoadingFactory(SAVED_CART_LIST_PROCESS_ID)
+        ProcessSelectors.getProcessLoadingFactory(
+          SAVED_CART_SAVE_CART_PROCESS_ID
+        )
       )
     );
   }
@@ -175,7 +180,9 @@ export class SavedCartService {
   getSaveCartProcessSuccess(): Observable<boolean> {
     return this.store.pipe(
       select(
-        ProcessSelectors.getProcessSuccessFactory(SAVED_CART_LIST_PROCESS_ID)
+        ProcessSelectors.getProcessSuccessFactory(
+          SAVED_CART_SAVE_CART_PROCESS_ID
+        )
       )
     );
   }
@@ -183,7 +190,7 @@ export class SavedCartService {
   getSaveCartProcessError(): Observable<boolean> {
     return this.store.pipe(
       select(
-        ProcessSelectors.getProcessErrorFactory(SAVED_CART_LIST_PROCESS_ID)
+        ProcessSelectors.getProcessErrorFactory(SAVED_CART_SAVE_CART_PROCESS_ID)
       )
     );
   }
