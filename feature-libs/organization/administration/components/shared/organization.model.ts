@@ -35,8 +35,12 @@ export type BaseItem = {
   selected?: boolean;
   // tmp alternative "key"
   customerId?: string;
+  uid?: string;
   id?: string;
 
   active?: boolean;
+  // tmp alternative "orgUnit"
   orgUnit?: any;
+  parentOrgUnit?: any;
+  unit?: any;
 };
