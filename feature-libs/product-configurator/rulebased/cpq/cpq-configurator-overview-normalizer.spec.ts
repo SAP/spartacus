@@ -12,6 +12,7 @@ const attr: Cpq.Attribute = {
   name: ATTR_NAME,
   stdAttrCode: 11,
   pA_ID: 111,
+  values: [],
 };
 
 const GRP_DESCR = 'description of tab';
@@ -19,7 +20,7 @@ const GENERAL_GRP_DESCR = 'General';
 const tab: Cpq.Tab = {
   id: 1,
   displayName: GRP_DESCR,
-  attributes: [attr, { stdAttrCode: 12, pA_ID: 122 }],
+  attributes: [attr, { stdAttrCode: 12, pA_ID: 122, values: [] }],
 };
 
 const PRODUCT_CODE = 'PCODE';
@@ -210,6 +211,22 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
 
   it('should map attribute type BUNDLE', () => {
     attr.values = singleSelectionProductValues;
+    expect(
+      serviceUnderTest['convertAttribute'](attr, CURRENCY)[0].type
+    ).toEqual(Configurator.AttributeOverviewType.BUNDLE);
+  });
+
+  it('should map attribute type BUNDLE in mix case', () => {
+    const mixedValues: Cpq.Value[] = [
+      {
+        paV_ID: 1,
+        valueDisplay: 'first value',
+        productSystemId: 'productSystemId',
+        selected: false,
+      },
+      { paV_ID: 2, valueDisplay: 'second value', selected: true },
+    ];
+    attr.values = mixedValues;
     expect(
       serviceUnderTest['convertAttribute'](attr, CURRENCY)[0].type
     ).toEqual(Configurator.AttributeOverviewType.BUNDLE);

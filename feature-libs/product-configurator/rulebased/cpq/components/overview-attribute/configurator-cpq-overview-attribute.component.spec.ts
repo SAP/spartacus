@@ -33,6 +33,9 @@ const mockProduct: Product = {
     },
   },
 };
+
+const noCommerceProduct = { images: {}, noLink: true };
+
 const product$: BehaviorSubject<Product> = new BehaviorSubject(null);
 
 class MockProductService {
@@ -83,13 +86,13 @@ describe('ConfiguratorCPQOverviewAttributeComponent', () => {
   });
 
   describe('product', () => {
-    it('should not exist without product code', (done: DoneFn) => {
+    it('should use dummy product if no product code exists', (done: DoneFn) => {
       product$.next(null);
 
       fixture.detectChanges();
 
       component.product$.pipe(take(1)).subscribe((product: Product) => {
-        expect(product).toBeNull();
+        expect(product).toEqual(noCommerceProduct);
 
         done();
       });

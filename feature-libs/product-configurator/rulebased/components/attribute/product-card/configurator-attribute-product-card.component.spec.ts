@@ -83,7 +83,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     images: Configurator.Image[],
     quantity: number,
     selected: boolean,
-    valueCode: string,
+    productSystemId: string,
     valueDisplay: string
   ): Configurator.Value => {
     const value: Configurator.Value = {
@@ -91,7 +91,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       images,
       quantity,
       selected,
-      valueCode,
+      productSystemId,
       valueDisplay,
     };
     return value;

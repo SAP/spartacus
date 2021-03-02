@@ -96,7 +96,7 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
 
   transformToProductType(value: Configurator.Value): ProductExtended {
     return {
-      code: value?.valueCode,
+      code: value?.productSystemId,
       description: value?.description,
       images: {},
       name: value?.valueDisplay,

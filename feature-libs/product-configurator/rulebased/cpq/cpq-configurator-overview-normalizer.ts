@@ -59,13 +59,15 @@ export class CpqConfiguratorOverviewNormalizer
     attr: Cpq.Attribute,
     currency: string
   ): Configurator.AttributeOverview[] {
+    const attributeOverviewType: Configurator.AttributeOverviewType =
+      attr?.values && this.cpqUtilitiesService.hasAnyProducts(attr?.values)
+        ? Configurator.AttributeOverviewType.BUNDLE
+        : Configurator.AttributeOverviewType.GENERAL;
     const ovAttr: Configurator.AttributeOverview[] = [];
     this.convertAttributeValue(attr, currency).forEach((ovValue, index) => {
       ovAttr.push({
         ...ovValue,
-        type: ovValue.productCode
-          ? Configurator.AttributeOverviewType.BUNDLE
-          : Configurator.AttributeOverviewType.GENERAL,
+        type: attributeOverviewType,
       });
       ovAttr[index].attribute = attr.name;
     });
