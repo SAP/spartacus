@@ -17,7 +17,6 @@ export function getSourceRoot(
   options: { project?: string | undefined; path?: string | undefined } = {}
 ): string {
   const workspace = getWorkspace(host).workspace;
-
   if (!options.project) {
     options.project = getDefaultProjectNameFromWorkspace(host);
   }

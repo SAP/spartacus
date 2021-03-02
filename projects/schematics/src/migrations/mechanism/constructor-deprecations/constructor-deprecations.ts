@@ -21,9 +21,14 @@ export function migrateConstructorDeprecation(
   context.logger.info('Checking constructor deprecations...');
 
   const project = getSourceRoot(tree, {});
+  // console.log(`PROJECT: ${project}ENDPROJECT`); // src
+
   const sourceFiles = getAllTsSourceFiles(tree, project);
+  console.log(`SF: ${sourceFiles}ESF`);
+  
   for (const originalSource of sourceFiles) {
     const sourcePath = originalSource.fileName;
+    console.log(sourcePath); // /src/index.ts
 
     for (const constructorDeprecation of constructorDeprecations) {
       if (

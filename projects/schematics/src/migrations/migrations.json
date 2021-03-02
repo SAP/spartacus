@@ -85,6 +85,11 @@
       "version": "3.0.0",
       "factory": "./3_0/ssr/ssr#migrate",
       "description": "Migrate ssr to the new setup"
+    },
+    "migration-v4-rename-symbol-01": {
+      "version": "4.0.0",
+      "factory": "./4_0/rename-symbol/rename-symbol#migrate",
+      "description": "Rename symbols for feature libs extracted from core and storefrontlib"
     }
   }
 }
