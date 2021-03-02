@@ -1,24 +1,38 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ImageGroup, Product, ProductService } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Configurator } from '../../../core/model/index';
 import { ConfiguratorPriceComponentOptions } from '../../../components/price/configurator-price.component';
+import { map } from 'rxjs/operators';
+
+interface ProductExtended extends Product {
+  noLink?: boolean;
+}
 
 @Component({
   selector: 'cx-configurator-cpq-overview-attribute',
   templateUrl: './configurator-cpq-overview-attribute.component.html',
 })
 export class ConfiguratorCPQOverviewAttributeComponent implements OnInit {
-  product$: Observable<Product>;
+  product$: Observable<ProductExtended>;
 
   @Input() attributeOverview: Configurator.AttributeOverview;
 
   constructor(protected productService: ProductService) {}
 
   ngOnInit() {
-    this.product$ = this.productService.get(
-      this.attributeOverview?.productCode
-    );
+    const noCommerceProduct: ProductExtended = { images: {}, noLink: true };
+    if (this.attributeOverview?.productCode) {
+      this.product$ = this.productService
+        .get(this.attributeOverview?.productCode)
+        .pipe(
+          map((respProduct) => {
+            return respProduct ? respProduct : noCommerceProduct;
+          })
+        );
+    } else {
+      this.product$ = of(noCommerceProduct);
+    }
   }
 
   /**

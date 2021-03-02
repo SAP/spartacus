@@ -239,4 +239,13 @@ export class CpqConfiguratorUtilitiesService {
     }
     return priceSummary;
   }
+
+  /**
+   * Verifies whether at least one value of a CPQ Attribute has an assigned product
+   * @param attributeValues CPQ Attribute values
+   * @returns true, if at least one value of a CPQ Attribute has an assigned product
+   */
+  hasAnyProducts(attributeValues: Cpq.Value[]): boolean {
+    return attributeValues.some((value: Cpq.Value) => value?.productSystemId);
+  }
 }

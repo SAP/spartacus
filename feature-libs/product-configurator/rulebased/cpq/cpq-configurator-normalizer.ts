@@ -259,9 +259,12 @@ export class CpqConfiguratorNormalizer
 
   convertAttributeType(sourceAttribute: Cpq.Attribute): Configurator.UiType {
     const displayAs: Cpq.DisplayAs = sourceAttribute.displayAs;
-    const displayAsProduct: boolean = this.hasAnyProducts(
-      sourceAttribute?.values
-    );
+
+    const displayAsProduct: boolean =
+      sourceAttribute?.values &&
+      this.cpqUtilitiesService.hasAnyProducts(sourceAttribute?.values)
+        ? true
+        : false;
     const isEnabled: boolean = sourceAttribute.isEnabled;
 
     if (
@@ -363,10 +366,6 @@ export class CpqConfiguratorNormalizer
         break;
       }
     }
-  }
-
-  protected hasAnyProducts(attributeValues: Cpq.Value[]): boolean {
-    return attributeValues.some((value: Cpq.Value) => value?.productSystemId);
   }
 
   protected hasValueToBeIgnored(
