@@ -40,7 +40,7 @@ export class TabParagraphContainerComponent
     componentData: CmsComponentData<CMSTabParagraphContainer>,
     cmsService: CmsService,
     winRef?: WindowRef,
-    // tslint:disable-next-line:unified-signatures
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     breakpointService?: BreakpointService
   );
   /**
