@@ -3,13 +3,12 @@
     <div class="cx-saved-cart-list-header">
       <h3>
         {{
-          'savedCartList.savedCarts'
-            | cxTranslate: { count: savedCarts.values.length }
+          'savedCartList.savedCarts' | cxTranslate: { count: savedCarts.length }
         }}
       </h3>
     </div>
 
-    <ng-container *ngIf="savedCarts.values.length; else noSavedCarts">
+    <ng-container *ngIf="savedCarts?.length; else noSavedCarts">
       <table class="table cx-saved-cart-list-table">
         <thead class="cx-saved-cart-list-thead-mobile">
           <th scope="col">
@@ -30,7 +29,7 @@
         </thead>
         <tbody>
           <tr
-            *ngFor="let savedCart of savedCarts.values"
+            *ngFor="let savedCart of savedCarts"
             (click)="goToSavedCartDetails(savedCart)"
           >
             <td class="cx-saved-cart-list-cart-name">
@@ -129,17 +128,12 @@
             </td>
             <td class="cx-saved-cart-list-make-cart-active">
               <div class="d-md-none cx-saved-cart-list-label"></div>
-              <a
-                [routerLink]="
-                  {
-                    cxRoute: 'savedCartsDetails',
-                    params: { savedCartId: savedCart?.code }
-                  } | cxUrl
-                "
-                class="cx-saved-cart-list-value"
+              <button
+                class="link cx-action-link cx-saved-cart-make-active"
+                (click)="restoreSavedCart($event, savedCart?.code)"
               >
-                {{ 'savedCartList.makeCartActive' | cxTranslate }}</a
-              >
+                {{ 'savedCartList.makeCartActive' | cxTranslate }}
+              </button>
             </td>
           </tr>
         </tbody>
