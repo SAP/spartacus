@@ -18,6 +18,38 @@ import { SavedCartActions } from '../actions/index';
 @Injectable()
 export class SavedCartEffects {
   @Effect()
+  loadSavedCart$: Observable<
+    | CartActions.LoadCartSuccess
+    | SavedCartActions.LoadSavedCartFail
+    | SavedCartActions.LoadSavedCartSuccess
+  > = this.actions$.pipe(
+    ofType(SavedCartActions.LOAD_SAVED_CART),
+    map((action: SavedCartActions.LoadSavedCart) => action.payload),
+    switchMap(({ userId, cartId }) =>
+      this.savedCartConnector.get(userId, cartId).pipe(
+        switchMap((savedCart: Cart) => {
+          return [
+            new CartActions.LoadCartSuccess({
+              userId,
+              cartId,
+              cart: savedCart,
+            }),
+            new SavedCartActions.LoadSavedCartSuccess({ cartId }),
+          ];
+        }),
+        catchError((error: HttpErrorResponse) =>
+          of(
+            new SavedCartActions.LoadSavedCartFail({
+              cartId,
+              error: normalizeHttpError(error),
+            })
+          )
+        )
+      )
+    )
+  );
+
+  @Effect()
   loadSavedCarts$: Observable<
     | CartActions.LoadCartsSuccess
     | SavedCartActions.LoadSavedCartsFail
@@ -92,6 +124,53 @@ export class SavedCartEffects {
         )
       );
     })
+  );
+
+  @Effect()
+  saveCart$: Observable<
+    | SavedCartActions.SaveCartFail
+    | SavedCartActions.SaveCartSuccess
+    | SavedCartActions.SaveCart
+    | CartActions.LoadCartSuccess
+  > = this.actions$.pipe(
+    ofType(SavedCartActions.SAVE_CART),
+    map((action: SavedCartActions.SaveCart) => action.payload),
+    switchMap(
+      ({ userId, cartId, saveCartName, saveCartDescription, extraData }) => {
+        return this.savedCartConnector
+          .saveCart(userId, cartId, saveCartName, saveCartDescription)
+          .pipe(
+            switchMap((savedCart: Cart) => {
+              if (extraData?.edit) {
+                return [
+                  new CartActions.LoadCartSuccess({
+                    userId,
+                    cartId,
+                    cart: savedCart,
+                  }),
+                  new SavedCartActions.SaveCartSuccess(),
+                ];
+              } else {
+                // TODO: Michal to put logic for saving his cart from cart page
+                // remove snippet below
+                // might be the same thing, therefore can remove the extra data
+                // will think more about it
+                return [
+                  new CartActions.LoadCartSuccess({
+                    userId,
+                    cartId,
+                    cart: savedCart,
+                  }),
+                  new SavedCartActions.SaveCartSuccess(),
+                ];
+              }
+            }),
+            catchError((error: HttpErrorResponse) =>
+              of(new SavedCartActions.SaveCartFail(normalizeHttpError(error)))
+            )
+          );
+      }
+    )
   );
 
   constructor(

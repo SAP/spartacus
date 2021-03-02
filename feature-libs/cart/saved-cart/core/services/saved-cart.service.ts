@@ -11,17 +11,22 @@ import {
   UserIdService,
   UserService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, queueScheduler } from 'rxjs';
 import {
   distinctUntilChanged,
+  filter,
   map,
+  observeOn,
   pluck,
   shareReplay,
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { SAVED_CART_LIST_PROCESS_ID } from '../store';
 import { SavedCartActions } from '../store/actions/index';
+import {
+  SAVED_CART_LIST_PROCESS_ID,
+  SAVED_CART_SAVE_CART_PROCESS_ID,
+} from '../store/saved-cart-state';
 
 @Injectable({
   providedIn: 'root',
@@ -33,6 +38,36 @@ export class SavedCartService {
     protected userService: UserService,
     protected multiCartService: MultiCartService
   ) {}
+
+  loadSavedCart(cartId: string): void {
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
+        return this.store.dispatch(
+          new SavedCartActions.LoadSavedCart({ userId, cartId })
+        );
+      },
+      () => {}
+    );
+  }
+
+  get(cartId: string): Observable<Cart> {
+    return this.getSavedCart(cartId).pipe(
+      observeOn(queueScheduler),
+      tap((state) => {
+        if (!(state.loading || state.success || state.error)) {
+          this.loadSavedCart(cartId);
+        }
+      }),
+      filter((state) => state.success || state.error),
+      map((state) => state.value)
+    );
+  }
+
+  getSavedCart(
+    cartId: string
+  ): Observable<StateUtils.ProcessesLoaderState<Cart>> {
+    return this.multiCartService.getCartEntity(cartId);
+  }
 
   loadSavedCarts(): void {
     this.userIdService.takeUserId(true).subscribe(
@@ -93,6 +128,70 @@ export class SavedCartService {
         );
       },
       () => {}
+    );
+  }
+
+  deleteSavedCart(cartId: string): void {
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
+        return this.multiCartService.deleteCart(cartId, userId);
+      },
+      () => {}
+    );
+  }
+
+  saveCart({
+    cartId,
+    saveCartName,
+    saveCartDescription,
+    extraData,
+  }: {
+    cartId: string;
+    saveCartName?: string;
+    saveCartDescription?: string;
+    extraData?: { edit: boolean };
+  }): void {
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
+        return this.store.dispatch(
+          new SavedCartActions.SaveCart({
+            userId,
+            cartId,
+            saveCartName,
+            saveCartDescription,
+            extraData,
+          })
+        );
+      },
+      () => {}
+    );
+  }
+
+  getSaveCartProcessLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(
+        ProcessSelectors.getProcessLoadingFactory(
+          SAVED_CART_SAVE_CART_PROCESS_ID
+        )
+      )
+    );
+  }
+
+  getSaveCartProcessSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(
+        ProcessSelectors.getProcessSuccessFactory(
+          SAVED_CART_SAVE_CART_PROCESS_ID
+        )
+      )
+    );
+  }
+
+  getSaveCartProcessError(): Observable<boolean> {
+    return this.store.pipe(
+      select(
+        ProcessSelectors.getProcessErrorFactory(SAVED_CART_SAVE_CART_PROCESS_ID)
+      )
     );
   }
 }
