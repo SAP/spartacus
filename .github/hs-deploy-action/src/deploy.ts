@@ -21,13 +21,13 @@ export async function deploy(github: any, octoKit: any) {
 
   const options: ExecOptions = {};
   options.listeners = {
-    stdout: (data: Buffer) => {
+    stdout: async (data: Buffer) => {
       const line = data.toString();
 
       if (line.includes(ERROR)) {
-        const body =
-          ':exclamation: Spartacus deployment failed. Check job logs for details.)';
-        addComment(context, octoKit, body);
+        const body = `:exclamation: Spartacus deployment failed (${line}). Check job logs for details.)`;
+        console.log(`--> ${body}`);
+        await addComment(context, octoKit, body);
 
         process.exitCode = 1;
         process.exit();
@@ -36,7 +36,8 @@ export async function deploy(github: any, octoKit: any) {
       const match = line.match(exp);
       if (match && match.length > 0) {
         const body = `:rocket: Spartacus deployed to [${match}](${match})`;
-        addComment(context, octoKit, body);
+        console.log(`--> ${body}`);
+        await addComment(context, octoKit, body);
       }
     },
     stderr: (data: Buffer) => {
