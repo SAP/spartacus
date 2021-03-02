@@ -4,6 +4,7 @@ set -o pipefail
 
 echo "CX_BASE_URL=${CX_BASE_URL}"
 echo "CYPRESS_API_URL=${CYPRESS_API_URL}"
+echo "TEST_VAR=${TEST_VAR}"
 exit 0
 
 POSITIONAL=()

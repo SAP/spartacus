@@ -6,6 +6,7 @@ echo "-----"
 
 echo "CX_BASE_URL=${CX_BASE_URL}"
 echo "CYPRESS_API_URL=${CYPRESS_API_URL}"
+echo "g=${TEST_VAR}"
 exit 0
 
 
