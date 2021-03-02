@@ -122,6 +122,53 @@ export class SavedCartEffects {
     })
   );
 
+  @Effect()
+  saveCart$: Observable<
+    | SavedCartActions.SaveCartFail
+    | SavedCartActions.SaveCartSuccess
+    | SavedCartActions.SaveCart
+    | CartActions.LoadCartSuccess
+  > = this.actions$.pipe(
+    ofType(SavedCartActions.SAVE_CART),
+    map((action: SavedCartActions.SaveCart) => action.payload),
+    switchMap(
+      ({ userId, cartId, saveCartName, saveCartDescription, extraData }) => {
+        return this.savedCartConnector
+          .saveCart(userId, cartId, saveCartName, saveCartDescription)
+          .pipe(
+            switchMap((savedCart: Cart) => {
+              if (extraData?.edit) {
+                return [
+                  new CartActions.LoadCartSuccess({
+                    userId,
+                    cartId,
+                    cart: savedCart,
+                  }),
+                  new SavedCartActions.SaveCartSuccess(),
+                ];
+              } else {
+                // TODO: Michal to put logic for saving his cart from cart page
+                // remove snippet below
+                // might be the same thing, therefore can remove the extra data
+                // will think more about it
+                return [
+                  new CartActions.LoadCartSuccess({
+                    userId,
+                    cartId,
+                    cart: savedCart,
+                  }),
+                  new SavedCartActions.SaveCartSuccess(),
+                ];
+              }
+            }),
+            catchError((error: HttpErrorResponse) =>
+              of(new SavedCartActions.SaveCartFail(normalizeHttpError(error)))
+            )
+          );
+      }
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private savedCartConnector: SavedCartConnector,

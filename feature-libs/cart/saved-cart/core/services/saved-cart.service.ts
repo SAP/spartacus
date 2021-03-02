@@ -131,9 +131,60 @@ export class SavedCartService {
   deleteSavedCart(cartId: string): void {
     this.userIdService.takeUserId(true).subscribe(
       (userId) => {
-        this.multiCartService.deleteCart(cartId, userId);
+        return this.multiCartService.deleteCart(cartId, userId);
       },
       () => {}
+    );
+  }
+
+  saveCart({
+    cartId,
+    saveCartName,
+    saveCartDescription,
+    extraData,
+  }: {
+    cartId: string;
+    saveCartName?: string;
+    saveCartDescription?: string;
+    extraData?: { edit: boolean };
+  }): void {
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
+        return this.store.dispatch(
+          new SavedCartActions.SaveCart({
+            userId,
+            cartId,
+            saveCartName,
+            saveCartDescription,
+            extraData,
+          })
+        );
+      },
+      () => {}
+    );
+  }
+
+  getSaveCartProcessLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(
+        ProcessSelectors.getProcessLoadingFactory(SAVED_CART_LIST_PROCESS_ID)
+      )
+    );
+  }
+
+  getSaveCartProcessSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(
+        ProcessSelectors.getProcessSuccessFactory(SAVED_CART_LIST_PROCESS_ID)
+      )
+    );
+  }
+
+  getSaveCartProcessError(): Observable<boolean> {
+    return this.store.pipe(
+      select(
+        ProcessSelectors.getProcessErrorFactory(SAVED_CART_LIST_PROCESS_ID)
+      )
     );
   }
 }

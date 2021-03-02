@@ -37,6 +37,27 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
       .pipe(pluck('savedCartData'), this.converter.pipeable(CART_NORMALIZER));
   }
 
+  saveCart(
+    userId: string,
+    cartId: string,
+    saveCartName: string,
+    saveCartDescription: string
+  ): Observable<Cart> {
+    console.log('ada', saveCartName);
+    console.log('ada 2', saveCartDescription);
+    return this.http
+      .patch<Occ.Cart>(
+        this.getSaveCartEndpoint(
+          userId,
+          cartId,
+          saveCartName,
+          saveCartDescription
+        ),
+        cartId
+      )
+      .pipe(pluck('savedCartData'), this.converter.pipeable(CART_NORMALIZER));
+  }
+
   protected getSavedCartEndpoint(userId: string, cartId: string): string {
     return this.occEndpoints.getUrl('savedCart', { userId, cartId });
   }
@@ -50,5 +71,19 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
     cartId: string
   ): string {
     return this.occEndpoints.getUrl('restoreSavedCart', { userId, cartId });
+  }
+
+  protected getSaveCartEndpoint(
+    userId: string,
+    cartId: string,
+    saveCartName: string,
+    saveCartDescription: string
+  ): string {
+    return this.occEndpoints.getUrl('saveCart', {
+      userId,
+      cartId,
+      saveCartName,
+      saveCartDescription,
+    });
   }
 }

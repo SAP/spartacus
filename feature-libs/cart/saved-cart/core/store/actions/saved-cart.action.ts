@@ -2,6 +2,7 @@ import { MULTI_CART_DATA, PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import {
   SAVED_CART_LIST_PROCESS_ID,
   SAVED_CART_RESTORE_CART_PROCESS_ID,
+  SAVED_CART_SAVE_CART_PROCESS_ID,
 } from '../saved-cart-state';
 
 export const LOAD_SAVED_CART = '[Saved Cart] Load Saved Cart';
@@ -17,6 +18,10 @@ export const RESTORE_SAVED_CART = '[Saved Cart] Restore Saved Cart';
 export const RESTORE_SAVED_CART_SUCCESS =
   '[Saved Cart] Restore Saved Cart Success';
 export const RESTORE_SAVED_CART_FAIL = '[Saved Cart] Restore Saved Cart Fail';
+
+export const SAVE_CART = '[Saved Cart] Save Cart';
+export const SAVE_CART_SUCCESS = '[Saved Cart] Save Cart Success';
+export const SAVE_CART_FAIL = '[Saved Cart] Save Cart Fail';
 
 export class LoadSavedCart extends StateUtils.EntityLoadAction {
   readonly type = LOAD_SAVED_CART;
@@ -102,6 +107,37 @@ export class RestoreSavedCartFail extends StateUtils.EntityFailAction {
   }
 }
 
+export class SaveCart extends StateUtils.EntityLoadAction {
+  readonly type = SAVE_CART;
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+      saveCartName?: string;
+      saveCartDescription?: string;
+      extraData?: {
+        edit: boolean;
+      };
+    }
+  ) {
+    super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID);
+  }
+}
+
+export class SaveCartSuccess extends StateUtils.EntitySuccessAction {
+  readonly type = SAVE_CART_SUCCESS;
+  constructor() {
+    super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID);
+  }
+}
+
+export class SaveCartFail extends StateUtils.EntityFailAction {
+  readonly type = SAVE_CART_FAIL;
+  constructor(public payload: any) {
+    super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID, payload);
+  }
+}
+
 export type SavedCartActions =
   | LoadSavedCart
   | LoadSavedCartSuccess
@@ -112,4 +148,7 @@ export type SavedCartActions =
   | ClearSavedCarts
   | RestoreSavedCart
   | RestoreSavedCartSuccess
-  | RestoreSavedCartFail;
+  | RestoreSavedCartFail
+  | SaveCart
+  | SaveCartSuccess
+  | SaveCartFail;
