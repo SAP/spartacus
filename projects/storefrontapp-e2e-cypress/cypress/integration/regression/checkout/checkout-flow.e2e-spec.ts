@@ -19,9 +19,6 @@ context('Checkout flow', () => {
       checkout.fillPaymentFormWithCheapProduct();
       checkout.placeOrderWithCheapProduct();
       checkout.verifyOrderConfirmationPageWithCheapProduct();
-      cy.waitForOrderToBePlacedRequest();
-      checkout.viewOrderHistoryWithCheapProduct();
-      checkout.signOut();
     });
   });
 });
