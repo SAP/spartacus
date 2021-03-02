@@ -29,8 +29,8 @@ export class SavedCartEffects {
       this.savedCartConnector.getList(userId).pipe(
         switchMap((savedCarts: Cart[]) => {
           return [
-            new SavedCartActions.LoadSavedCartsSuccess(),
             new CartActions.LoadCartsSuccess(savedCarts),
+            new SavedCartActions.LoadSavedCartsSuccess(),
           ];
         }),
         catchError((error: HttpErrorResponse) =>
@@ -44,7 +44,7 @@ export class SavedCartEffects {
   restoreSavedCart$: Observable<
     | SavedCartActions.RestoreSavedCartFail
     | SavedCartActions.RestoreSavedCartSuccess
-    | CartActions.LoadCart
+    | CartActions.LoadCartSuccess
     | CartActions.SetActiveCartId
     | SavedCartActions.LoadSavedCarts
   > = this.actions$.pipe(
@@ -76,7 +76,11 @@ export class SavedCartEffects {
 
           return [
             new CartActions.SetActiveCartId(cartId),
-            new CartActions.LoadCart({ userId, cartId: savedCart?.code }),
+            new CartActions.LoadCartSuccess({
+              userId,
+              cartId,
+              cart: savedCart,
+            }),
             new SavedCartActions.LoadSavedCarts({ userId }),
             new SavedCartActions.RestoreSavedCartSuccess(),
           ];
