@@ -2,6 +2,10 @@
 set -e
 set -o pipefail
 
+echo "CX_BASE_URL=${CX_BASE_URL}"
+echo "CYPRESS_API_URL=${CYPRESS_API_URL}"
+exit 0
+
 POSITIONAL=()
 
 readonly help_display="Usage: $0 [ command_options ] [ param ]
