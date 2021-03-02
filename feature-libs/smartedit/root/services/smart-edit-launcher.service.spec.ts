@@ -1,11 +1,10 @@
 import { Location } from '@angular/common';
-import { NgModule } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ConfigInitializerService, LazyModulesService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { defaultSmartEditConfig } from '../config/default-smart-edit-config';
 import { SmartEditConfig } from '../config/smart-edit-config';
 import { SmartEditLauncherService } from './smart-edit-launcher.service';
+import { FeatureModulesService } from '@spartacus/core';
 
 class MockLocation {
   path() {
@@ -13,49 +12,28 @@ class MockLocation {
   }
 }
 
-class MockConfigInitializerService
-  implements Partial<ConfigInitializerService> {
-  getStable() {
-    return of({
-      featureModules: {
-        smartEdit: {
-          module: () => async () => MockLazySmartEditModule,
-        },
-      },
-    });
-  }
+class MockFeatureModulesService implements Partial<FeatureModulesService> {
+  isConfigured = () => true;
+  resolveFeature = () => of(undefined);
 }
-
-class MockLazyModule {
-  resolveModuleInstance() {
-    return of();
-  }
-}
-
-@NgModule({})
-class MockLazySmartEditModule {}
 
 describe('SmartEditLauncherService', () => {
   let smartEditLauncherService: SmartEditLauncherService;
   let location: Location;
-  let lazyModule: LazyModulesService;
+  let featureModules: FeatureModulesService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         { provide: Location, useClass: MockLocation },
         { provide: SmartEditConfig, useValue: defaultSmartEditConfig },
-        {
-          provide: ConfigInitializerService,
-          useClass: MockConfigInitializerService,
-        },
-        { provide: LazyModulesService, useClass: MockLazyModule },
+        { provide: FeatureModulesService, useClass: MockFeatureModulesService },
       ],
     });
 
     smartEditLauncherService = TestBed.inject(SmartEditLauncherService);
     location = TestBed.inject(Location);
-    lazyModule = TestBed.inject(LazyModulesService);
+    featureModules = TestBed.inject(FeatureModulesService);
   });
 
   it('should be created', () => {
@@ -91,10 +69,10 @@ describe('SmartEditLauncherService', () => {
       spyOn(location, 'path').and.returnValue(
         '/any/cx-preview?cmsTicketId=test-cms-ticket-id'
       );
-      spyOn(lazyModule, 'resolveModuleInstance').and.callThrough();
+      spyOn(featureModules, 'resolveFeature').and.callThrough();
 
       smartEditLauncherService.load();
-      expect(lazyModule.resolveModuleInstance).toHaveBeenCalled();
+      expect(featureModules.resolveFeature).toHaveBeenCalledWith('smartEdit');
     });
   });
 });

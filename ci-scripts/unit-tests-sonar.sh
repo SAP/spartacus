@@ -138,4 +138,3 @@ if [[ $1 == '-h' ]]; then
     -Dsonar.host.url=https://sonarcloud.io \
     -Dsonar.login=$SONAR_TOKEN
 fi
-

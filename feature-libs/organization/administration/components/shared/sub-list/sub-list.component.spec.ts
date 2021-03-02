@@ -30,7 +30,7 @@ const mockEmptyList: EntitiesModel<any> = {
 };
 
 @Component({
-  // tslint:disable-next-line: component-selector
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'cx-table',
   template: '',
 })
