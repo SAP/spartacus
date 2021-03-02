@@ -1,16 +1,27 @@
 import { TestBed } from '@angular/core/testing';
-import { LoginEvent } from '@spartacus/core';
+import { LoginEvent, ScriptLoader } from '@spartacus/core';
 import { TmsCollectorConfig, WindowObject } from '@spartacus/tracking/tms/core';
 import { GtmCollectorService } from './gtm-collector.service';
 
-const config: TmsCollectorConfig = {};
+class MockScriptLoader implements Partial<ScriptLoader> {
+  embedScript(_options: object): void {}
+}
+
+const scriptName = 'xxx.js?id=xxx';
+const config: TmsCollectorConfig = {
+  script: { url: scriptName },
+};
 
 describe('GtmCollectorService', () => {
   let service: GtmCollectorService;
+  let scriptLoader: ScriptLoader;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [{ provide: ScriptLoader, useClass: MockScriptLoader }],
+    });
     service = TestBed.inject(GtmCollectorService);
+    scriptLoader = TestBed.inject(ScriptLoader);
   });
 
   it('should be created', () => {
@@ -22,7 +33,24 @@ describe('GtmCollectorService', () => {
       const windowObject = {} as WindowObject;
       expect(windowObject.dataLayer).toBeFalsy();
       service.init(config, windowObject);
-      expect(windowObject.dataLayer).toEqual([]);
+      expect(windowObject.dataLayer).toBeTruthy();
+    });
+
+    it('should push the default gtm.js event', () => {
+      const windowObject = {} as WindowObject;
+      service.init(config, windowObject);
+      expect(windowObject.dataLayer.length).toEqual(1);
+      expect(windowObject.dataLayer[0].event).toEqual('gtm.js');
+    });
+
+    it('should embed the script tag', () => {
+      spyOn(scriptLoader, 'embedScript').and.stub();
+      const windowObject = {} as WindowObject;
+      service.init(config, windowObject);
+      expect(scriptLoader.embedScript).toHaveBeenCalledTimes(1);
+      expect(scriptLoader.embedScript).toHaveBeenCalledWith({
+        src: `${scriptName}&l=dataLayer`,
+      });
     });
   });
 
@@ -34,7 +62,8 @@ describe('GtmCollectorService', () => {
       service.init(config, windowObject);
       service.pushEvent(config, windowObject, event);
 
-      expect(windowObject.dataLayer).toEqual([event]);
+      expect(windowObject.dataLayer.length).toEqual(2);
+      expect(windowObject.dataLayer[1]).toEqual(event);
     });
   });
 });
