@@ -42,7 +42,7 @@ export class StoreFinderService implements OnDestroy {
     winRef: WindowRef,
     globalMessageService: GlobalMessageService,
     routingService: RoutingService,
-    // tslint:disable-next-line: unified-signatures
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     platformId: any
   );
 
