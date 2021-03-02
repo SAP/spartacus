@@ -17,11 +17,18 @@ export async function deploy(github: any, octoKit: any) {
   const command = `upp application deploy -b ${bundleId} -t spartacus -s ./dist/storefrontapp -e stage`;
 
   const exp = /https\:\/\/\w+\.cloudfront\.net/;
+  const ERROR = 'Response code: 500';
 
   const options: ExecOptions = {};
   options.listeners = {
     stdout: (data: Buffer) => {
       const line = data.toString();
+
+      if (line.includes(ERROR)) {
+        process.exitCode = 1;
+        process.exit();
+      }
+
       const match = line.match(exp);
       if (match && match.length > 0) {
         const body = `:rocket: Spartacus deployed to [${match}](${match})`;
