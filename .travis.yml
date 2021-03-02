@@ -6,7 +6,7 @@ cache: yarn
 git:
   depth: false
 env:
-  - TEST_VAR=http://111.111.111.111:9002
+  TEST_VAR=http://111.111.111.111:9002
 branches:
   only:
     - develop
@@ -23,19 +23,15 @@ jobs:
     name: E2E regression tests for B2B
   - script:
     name: "E2E tests for B2C, 1st job"
-    env: STAGE_NAME=spa-ci-regression
     <<: *defaults
   - script:
     name: "E2E tests for B2C, 2st job"
-    env: STAGE_NAME=spa-ci-regression
     <<: *defaults
   - script:
     name: "E2E tests for B2C, 3rd job"
-    env: STAGE_NAME=spa-ci-regression
     <<: *defaults
   - script:
     name: "E2E tests for B2C, 4th job"
-    env: STAGE_NAME=spa-ci-regression
     <<: *defaults
 addons:
   chrome: stable
