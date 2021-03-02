@@ -4,7 +4,7 @@ import { generateMail, randomString } from '../../../helpers/user';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
 
-const CLOSE_ACCOUNT = '/my-account/close-account';
+const CLOSE_ACCOUNT_URL = '/my-account/close-account';
 
 describe('My Account - Close Account', () => {
   viewportContext(['mobile', 'desktop'], () => {
@@ -14,44 +14,47 @@ describe('My Account - Close Account', () => {
       })
     );
 
-    describe('close account test for anonymous user', () => {
-      it('should redirect to login page for anonymous user', () => {
-        cy.visit(CLOSE_ACCOUNT);
+    describe('Anonymous user', () => {
+      it('should redirect to login page', () => {
+        cy.visit(CLOSE_ACCOUNT_URL);
         cy.location('pathname').should('contain', '/login');
       });
     });
 
-    describe('close account test for logged in user', () => {
+    describe('Logged in user', () => {
       before(() => {
         standardUser.registrationData.email = generateMail(
           randomString(),
           true
         );
         cy.requireLoggedIn(standardUser);
-        cy.reload();
         cy.visit('/');
       });
 
       beforeEach(() => {
         cy.restoreLocalStorage();
+      });
+
+      it('should cancel and go back to the homepage', () => {
         cy.selectUserMenuOption({
           option: 'Close Account',
         });
-      });
 
-      it('should be able to cancel and go back to home', () => {
         cy.get('cx-close-account a').click({ force: true });
         cy.location('pathname').should('contain', '/');
       });
 
-      it('should be able to close account', () => {
-        cy.server();
-        cy.route(
+      it('should close account', () => {
+        cy.selectUserMenuOption({
+          option: 'Close Account',
+        });
+
+        cy.intercept(
           'DELETE',
           `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/users/*`
         ).as('deleteQuery');
 
-        cy.location('pathname').should('contain', CLOSE_ACCOUNT);
+        cy.location('pathname').should('contain', CLOSE_ACCOUNT_URL);
 
         cy.get('cx-close-account button').click({ force: true });
 
@@ -59,7 +62,7 @@ describe('My Account - Close Account', () => {
           'cx-close-account-modal .cx-btn-group button:first-of-type'
         ).click();
 
-        cy.wait('@deleteQuery').its('status').should('eq', 200);
+        cy.wait('@deleteQuery');
 
         cy.location('pathname').should('contain', '/');
 
@@ -68,13 +71,7 @@ describe('My Account - Close Account', () => {
           .should('contain', 'Account closed with success');
       });
 
-      afterEach(() => {
-        cy.saveLocalStorage();
-      });
-    });
-
-    describe('verify user is disabled and cannot login', () => {
-      it('should not be able to login with a closed account', () => {
+      it('should not login with a closed account credentials', () => {
         cy.visit('/login');
         login(
           standardUser.registrationData.email,
@@ -83,6 +80,10 @@ describe('My Account - Close Account', () => {
 
         cy.location('pathname').should('contain', '/login');
         alerts.getErrorAlert().should('contain', 'User is disabled');
+      });
+
+      afterEach(() => {
+        cy.saveLocalStorage();
       });
     });
   });
