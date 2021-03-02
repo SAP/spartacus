@@ -7,7 +7,12 @@ import {
   SpartacusOptions,
 } from '@spartacus/schematics';
 import * as path from 'path';
-import { SPARTACUS_VARIANTS_ROOT, CLI_VARIANTS_FEATURE } from '../constants';
+import {
+  SPARTACUS_BULK_PRICING_ROOT,
+  CLI_BULK_PRICING_FEATURE,
+  SPARTACUS_VARIANTS_ROOT,
+  CLI_VARIANTS_FEATURE,
+} from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const appModulePath = 'src/app/app.module.ts';
@@ -35,7 +40,7 @@ describe('Spartacus Product schematics: ng-add', () => {
   const defaultOptions: SpartacusProductOptions = {
     project: 'schematics-test',
     lazy: true,
-    features: [CLI_VARIANTS_FEATURE],
+    features: [CLI_BULK_PRICING_FEATURE, CLI_VARIANTS_FEATURE],
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {
@@ -88,6 +93,11 @@ describe('Spartacus Product schematics: ng-add', () => {
         .toPromise();
     });
 
+    it('should not install bulkPricing feature', () => {
+      const appModule = appTree.readContent(appModulePath);
+      expect(appModule).not.toContain(SPARTACUS_BULK_PRICING_ROOT);
+    });
+
     it('should not install variants feature', () => {
       const appModule = appTree.readContent(appModulePath);
       expect(appModule).not.toContain(SPARTACUS_VARIANTS_ROOT);
@@ -112,6 +122,7 @@ describe('Spartacus Product schematics: ng-add', () => {
     it('should just append the product features without duplicating the featureModules config', () => {
       const appModule = appTree.readContent(appModulePath);
       expect(appModule.match(/featureModules:/g)?.length).toEqual(1);
+      expect(appModule).toContain(`bulkPricing: {`);
       expect(appModule).toContain(`variants: {`);
     });
   });

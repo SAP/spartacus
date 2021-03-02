@@ -127,9 +127,7 @@ describe('Spartacus Variants schematics: ng-add', () => {
         const packageJson = appTree.readContent('/package.json');
         const packageObj = JSON.parse(packageJson);
         const depPackageList = Object.keys(packageObj.dependencies);
-        expect(depPackageList.includes('@spartacus/product')).toBe(
-          true
-        );
+        expect(depPackageList.includes('@spartacus/product')).toBe(true);
       });
 
       it('should import appropriate modules', async () => {

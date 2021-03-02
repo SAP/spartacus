@@ -14,9 +14,13 @@ import {
   addPackageJsonDependencies,
   getSpartacusSchematicsVersion,
 } from '@spartacus/schematics';
-import { CLI_VARIANTS_FEATURE, SPARTACUS_PRODUCT } from '../constants';
-
 import { addVariantsFeatures } from '../add-variants';
+import {
+  CLI_BULK_PRICING_FEATURE,
+  SPARTACUS_PRODUCT,
+  CLI_VARIANTS_FEATURE,
+} from '../constants';
+import { addBulkPricingFeatures } from '../add-bulk-pricing';
 import {
   NodeDependency,
   NodeDependencyType,
@@ -28,16 +32,19 @@ export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     return chain([
+      shouldAddFeature(options.features, CLI_BULK_PRICING_FEATURE)
+        ? addBulkPricingFeatures(options)
+        : noop(),
       shouldAddFeature(options.features, CLI_VARIANTS_FEATURE)
         ? addVariantsFeatures(options)
         : noop(),
-      addVariantsPackageJsonDependencies(packageJson),
+      addProductPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);
   };
 }
 
-function addVariantsPackageJsonDependencies(packageJson: any): Rule {
+function addProductPackageJsonDependencies(packageJson: any): Rule {
   const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
   const dependencies: NodeDependency[] = [
     {

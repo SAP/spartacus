@@ -9,7 +9,7 @@ module.exports = {
 
   collectCoverage: false,
   coverageReporters: ['json', 'lcov', 'text', 'clover'],
-  coverageDirectory: '<rootDir>/../../coverage/product/variants/schematics',
+  coverageDirectory: '<rootDir>/../../coverage/product/schematics',
   coverageThreshold: {
     global: {
       branches: 70,
