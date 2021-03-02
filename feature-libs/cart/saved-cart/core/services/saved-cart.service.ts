@@ -3,7 +3,7 @@ import { select, Store } from '@ngrx/store';
 import {
   Cart,
   getWishlistName,
-  MultiCartSelectors,
+  MultiCartService,
   ProcessSelectors,
   StateUtils,
   StateWithMultiCart,
@@ -30,7 +30,8 @@ export class SavedCartService {
   constructor(
     protected store: Store<StateWithMultiCart | StateWithProcess<void>>,
     protected userIdService: UserIdService,
-    protected userService: UserService
+    protected userService: UserService,
+    protected multiCartService: MultiCartService
   ) {}
 
   loadSavedCarts(): void {
@@ -59,7 +60,7 @@ export class SavedCartService {
 
   getSavedCartList(): Observable<Cart[]> {
     return combineLatest([
-      this.store.select(MultiCartSelectors.getCartValueList),
+      this.multiCartService.getCarts(),
       this.userService.get(),
     ]).pipe(
       distinctUntilChanged(),

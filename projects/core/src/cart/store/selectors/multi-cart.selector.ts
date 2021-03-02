@@ -104,7 +104,7 @@ export const getWishListId: MemoizedSelector<
   (state: MultiCartState) => state.wishList
 );
 
-export const getCartValueList: MemoizedSelector<
+export const getCartsSelectorFactory: MemoizedSelector<
   StateWithMultiCart,
   Cart[]
 > = createSelector(
