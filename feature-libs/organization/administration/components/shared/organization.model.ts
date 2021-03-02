@@ -1,3 +1,5 @@
+import { B2BUnit } from '@spartacus/core';
+
 export enum OrganizationTableType {
   BUDGET = 'orgBudget',
   BUDGET_ASSIGNED_COST_CENTERS = 'orgBudgetAssignedCostCenters',
@@ -40,7 +42,7 @@ export type BaseItem = {
 
   active?: boolean;
   // tmp alternative "orgUnit"
-  orgUnit?: any;
-  parentOrgUnit?: any;
-  unit?: any;
+  orgUnit?: B2BUnit;
+  parentOrgUnit?: B2BUnit;
+  unit?: B2BUnit;
 };
