@@ -64,7 +64,7 @@ export class OrganizationPageMetaResolver
     translation: TranslationService,
     semanticPath: SemanticPathService,
     routingService: RoutingService,
-    // tslint:disable-next-line: unified-signatures
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     basePageMetaResolver?: BasePageMetaResolver
   );
   constructor(

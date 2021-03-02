@@ -31,6 +31,15 @@ export class MultiCartService {
   }
 
   /**
+   * Returns a list of carts from store as an observable
+   *
+   * @param cartId
+   */
+  getCarts(): Observable<Cart[]> {
+    return this.store.pipe(select(MultiCartSelectors.getCartsSelectorFactory));
+  }
+
+  /**
    * Returns cart entity from store (cart with loading, error, success flags) as an observable
    *
    * @param cartId

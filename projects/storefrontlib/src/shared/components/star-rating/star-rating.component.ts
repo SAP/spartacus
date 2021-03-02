@@ -43,7 +43,7 @@ export class StarRatingComponent {
   /**
    * Emits the given rating when the user clicks on a star.
    */
-  // tslint:disable-next-line:no-output-native
+  // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() change = new EventEmitter<number>();
 
   setRate(value: number): void {

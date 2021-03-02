@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Cart } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { SavedCartAdapter } from './saved-cart.adapter';
 
@@ -11,9 +12,14 @@ export class SavedCartConnector {
   saveCart(
     userId: string,
     cartId: string,
-    cartDescription: string,
-    cartName: string
-  ): Observable<void> {
-    return this.adapter.saveCart(userId, cartId, cartDescription, cartName);
+    saveCartName?: string,
+    saveCartDescription?: string
+  ): Observable<Cart> {
+    return this.adapter.saveCart(
+      userId,
+      cartId,
+      saveCartName,
+      saveCartDescription
+    );
   }
 }

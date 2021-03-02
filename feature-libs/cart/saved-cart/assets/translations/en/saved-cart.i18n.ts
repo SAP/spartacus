@@ -11,6 +11,10 @@ export const savedCartList = {
   actions: 'Actions',
   makeCartActive: 'Make cart active',
   notFound: 'No Saved Carts Found',
+  swapCartNoActiveCart:
+    'Existing cart is activated by {{cartName}} successfully.',
+  swapCartWithActiveCart:
+    'Existing cart is activated by {{cartName}} successfully. Your previous items were saved in a cart {{previousCartName}}.',
 };
 
 export const savedCartCartPage = {
