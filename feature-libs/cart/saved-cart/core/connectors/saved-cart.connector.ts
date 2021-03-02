@@ -9,6 +9,10 @@ import { SavedCartAdapter } from './saved-cart.adapter';
 export class SavedCartConnector {
   constructor(protected adapter: SavedCartAdapter) {}
 
+  get(userId: string, cartId: string): Observable<Cart> {
+    return this.adapter.load(userId, cartId);
+  }
+
   getList(userId: string): Observable<Cart[]> {
     return this.adapter.loadList(userId);
   }

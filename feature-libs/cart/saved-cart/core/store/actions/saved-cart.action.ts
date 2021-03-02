@@ -1,8 +1,12 @@
-import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
+import { MULTI_CART_DATA, PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import {
   SAVED_CART_LIST_PROCESS_ID,
   SAVED_CART_RESTORE_CART_PROCESS_ID,
 } from '../saved-cart-state';
+
+export const LOAD_SAVED_CART = '[Saved Cart] Load Saved Cart';
+export const LOAD_SAVED_CART_SUCCESS = '[Saved Cart] Load Saved Cart Success';
+export const LOAD_SAVED_CART_FAIL = '[Saved Cart] Load Saved Cart Fail';
 
 export const LOAD_SAVED_CARTS = '[Saved Cart] Load Saved Carts';
 export const LOAD_SAVED_CARTS_SUCCESS = '[Saved Cart] Load Saved Carts Success';
@@ -13,6 +17,32 @@ export const RESTORE_SAVED_CART = '[Saved Cart] Restore Saved Cart';
 export const RESTORE_SAVED_CART_SUCCESS =
   '[Saved Cart] Restore Saved Cart Success';
 export const RESTORE_SAVED_CART_FAIL = '[Saved Cart] Restore Saved Cart Fail';
+
+export class LoadSavedCart extends StateUtils.EntityLoadAction {
+  readonly type = LOAD_SAVED_CART;
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+    }
+  ) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
+}
+
+export class LoadSavedCartSuccess extends StateUtils.EntitySuccessAction {
+  readonly type = LOAD_SAVED_CART_SUCCESS;
+  constructor(public payload: { cartId: string }) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
+}
+
+export class LoadSavedCartFail extends StateUtils.EntityFailAction {
+  readonly type = LOAD_SAVED_CART_FAIL;
+  constructor(public payload: { cartId: string; error: any }) {
+    super(MULTI_CART_DATA, payload.cartId, payload?.error);
+  }
+}
 
 export class LoadSavedCarts extends StateUtils.EntityLoadAction {
   readonly type = LOAD_SAVED_CARTS;
@@ -73,6 +103,9 @@ export class RestoreSavedCartFail extends StateUtils.EntityFailAction {
 }
 
 export type SavedCartActions =
+  | LoadSavedCart
+  | LoadSavedCartSuccess
+  | LoadSavedCartFail
   | LoadSavedCarts
   | LoadSavedCartsSuccess
   | LoadSavedCartsFail

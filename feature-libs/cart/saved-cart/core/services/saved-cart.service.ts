@@ -11,10 +11,12 @@ import {
   UserIdService,
   UserService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, queueScheduler } from 'rxjs';
 import {
   distinctUntilChanged,
+  filter,
   map,
+  observeOn,
   pluck,
   shareReplay,
   tap,
@@ -33,6 +35,36 @@ export class SavedCartService {
     protected userService: UserService,
     protected multiCartService: MultiCartService
   ) {}
+
+  loadSavedCart(cartId: string): void {
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
+        return this.store.dispatch(
+          new SavedCartActions.LoadSavedCart({ userId, cartId })
+        );
+      },
+      () => {}
+    );
+  }
+
+  get(cartId: string): Observable<Cart> {
+    return this.getSavedCart(cartId).pipe(
+      observeOn(queueScheduler),
+      tap((state) => {
+        if (!(state.loading || state.success || state.error)) {
+          this.loadSavedCart(cartId);
+        }
+      }),
+      filter((state) => state.success || state.error),
+      map((state) => state.value)
+    );
+  }
+
+  getSavedCart(
+    cartId: string
+  ): Observable<StateUtils.ProcessesLoaderState<Cart>> {
+    return this.multiCartService.getCartEntity(cartId);
+  }
 
   loadSavedCarts(): void {
     this.userIdService.takeUserId(true).subscribe(
@@ -91,6 +123,15 @@ export class SavedCartService {
         return this.store.dispatch(
           new SavedCartActions.RestoreSavedCart({ userId, cartId })
         );
+      },
+      () => {}
+    );
+  }
+
+  deleteSavedCart(cartId: string): void {
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
+        this.multiCartService.deleteCart(cartId, userId);
       },
       () => {}
     );

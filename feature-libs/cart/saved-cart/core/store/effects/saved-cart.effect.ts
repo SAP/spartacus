@@ -18,6 +18,38 @@ import { SavedCartActions } from '../actions/index';
 @Injectable()
 export class SavedCartEffects {
   @Effect()
+  loadSavedCart$: Observable<
+    | CartActions.LoadCartSuccess
+    | SavedCartActions.LoadSavedCartFail
+    | SavedCartActions.LoadSavedCartSuccess
+  > = this.actions$.pipe(
+    ofType(SavedCartActions.LOAD_SAVED_CART),
+    map((action: SavedCartActions.LoadSavedCart) => action.payload),
+    switchMap(({ userId, cartId }) =>
+      this.savedCartConnector.get(userId, cartId).pipe(
+        switchMap((savedCart: Cart) => {
+          return [
+            new CartActions.LoadCartSuccess({
+              userId,
+              cartId,
+              cart: savedCart,
+            }),
+            new SavedCartActions.LoadSavedCartSuccess({ cartId }),
+          ];
+        }),
+        catchError((error: HttpErrorResponse) =>
+          of(
+            new SavedCartActions.LoadSavedCartFail({
+              cartId,
+              error: normalizeHttpError(error),
+            })
+          )
+        )
+      )
+    )
+  );
+
+  @Effect()
   loadSavedCarts$: Observable<
     | CartActions.LoadCartsSuccess
     | SavedCartActions.LoadSavedCartsFail
