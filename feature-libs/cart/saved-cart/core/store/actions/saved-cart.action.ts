@@ -60,7 +60,7 @@ export class RestoreSavedCart extends StateUtils.EntityLoadAction {
 
 export class RestoreSavedCartSuccess extends StateUtils.EntitySuccessAction {
   readonly type = RESTORE_SAVED_CART_SUCCESS;
-  constructor(public payload?: any) {
+  constructor() {
     super(PROCESS_FEATURE, SAVED_CART_RESTORE_CART_PROCESS_ID);
   }
 }
