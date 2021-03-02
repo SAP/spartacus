@@ -22,15 +22,28 @@ export const ELECTRONICS_CURRENCY = 'USD';
 
 export const ELECTRONICS_DEFAULT_DELIVERY_MODE = 'deliveryMode-standard-net';
 
+export function waitForPage(page: string, alias: string): string {
+  // homepage is not explicitly being asked as it's driven by the backend.
+  const endpoint = page === 'homepage' ? `*` : `*${page}*`;
+  cy.server();
+  cy.route(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/cms/pages${endpoint}`
+  ).as(alias);
+  return alias;
+}
+
 export function visitHomePage(queryStringParams?: string) {
-  const homePage = waitForPage('homepage', 'getHomePage');
+  const homePageAlias = waitForPage('homepage', 'getHomePage');
 
   if (queryStringParams) {
     cy.visit(`/?${queryStringParams}`);
   } else {
     cy.visit('/');
   }
-  cy.wait(`@${homePage}`).its('status').should('eq', 200);
+  cy.wait(`@${homePageAlias}`);
 }
 
 export function signOut() {
@@ -409,17 +422,4 @@ export function viewOrderHistoryWithCheapProduct(
     .first()
     .find('.cx-order-history-total .cx-order-history-value')
     .should('contain', cartData.totalAndShipping);
-}
-
-export function waitForPage(page: string, alias: string): string {
-  // homepage is not explicitly being asked as it's driven by the backend.
-  const endpoint = page === 'homepage' ? `*` : `*${page}*`;
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/cms/pages${endpoint}`
-  ).as(alias);
-  return alias;
 }
