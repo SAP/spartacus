@@ -27,7 +27,7 @@ export class ProductListItemComponent implements OnChanges {
   @Input() product: any;
 
   // TODO(#10946): make ProductListItemContextSource a required dependency
-  // tslint:disable-next-line: unified-signatures
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
   constructor(productListItemContextSource: ProductListItemContextSource);
   /**
    * @deprecated since 3.1
