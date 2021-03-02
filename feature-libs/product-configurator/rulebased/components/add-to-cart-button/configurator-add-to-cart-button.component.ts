@@ -140,7 +140,6 @@ export class ConfiguratorAddToCartButtonComponent {
    * just a cart navigation or a browser back navigation
    * @param {Configurator.Configuration} configuration - Configuration
    * @param {ConfiguratorRouter.Data} routerData - Reflects the current router state
-
    */
   onAddToCart(
     configuration: Configurator.Configuration,

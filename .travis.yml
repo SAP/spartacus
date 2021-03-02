@@ -13,10 +13,10 @@ branches:
 defaults: &defaults
   script: "export CYPRESS_CONFIG=cypress.ci.json && ./ci-scripts/e2e-cypress.sh"
 jobs:
-  - script: "./ci-scripts/unit-tests-sonar.sh"
-    name: "Unit tests"
-  - script: "./ci-scripts/validate-lint.sh sonar"
-    name: "Validation checks / Sonar"
+  - script: "./ci-scripts/unit-tests-sonar.sh sonar"
+    name: "Unit tests / Sonar"
+  - script: "./ci-scripts/validate-lint.sh"
+    name: "Validation checks"
   - script: "export CYPRESS_CONFIG=cypress.ci.b2b.json &&  export SPA_ENV='ci,b2b' && ./ci-scripts/e2e-cypress.sh -s b2b"
     name: E2E regression tests for B2B
   - script:
