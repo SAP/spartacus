@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CxEvent } from '@spartacus/core';
+import { CxEvent, ScriptLoader } from '@spartacus/core';
 import {
   TmsCollector,
   TmsCollectorConfig,
@@ -11,12 +11,17 @@ import {
  */
 @Injectable({ providedIn: 'root' })
 export class AepCollectorService implements TmsCollector {
+  constructor(protected scriptLoader: ScriptLoader) {}
   /**
    * If the `TmsCollectorConfig.dataLayerProperty` is not specified, it uses the default `digitalData`
    */
   init(config: TmsCollectorConfig, windowObject: WindowObject): void {
     const dataLayerProperty = config.dataLayerProperty ?? 'digitalData';
     windowObject[dataLayerProperty] = windowObject[dataLayerProperty] ?? {};
+
+    if (config.script) {
+      this.scriptLoader.embedScript({ src: config.script.url });
+    }
   }
 
   pushEvent<T extends CxEvent>(
