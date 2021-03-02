@@ -32,7 +32,7 @@ export class SavedCartFormComponent implements OnInit {
   }
 
   saveCart(): void {
-    // TO DO
+    // TODO: ?
   }
 
   dismissModal(): void {
