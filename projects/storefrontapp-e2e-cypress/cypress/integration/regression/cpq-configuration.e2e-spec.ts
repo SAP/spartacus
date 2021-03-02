@@ -421,7 +421,7 @@ context('CPQ Configuration', () => {
     });
   });
 
-  describe.only('Add to the cart then read and update the cart configuration', () => {
+  describe('Add to the cart then read and update the cart configuration', () => {
     it('should be able to add a configuration directly to the cart, navigate from the cart back to the configuration and update it', () => {
       configuration.goToPDPage(POWERTOOLS, PROD_CODE_COF);
       configuration.clickOnAddToCartBtnOnPD();
