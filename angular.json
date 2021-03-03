@@ -57,10 +57,6 @@
               {
                 "input": "projects/storefrontapp/src/styles/lib-qualtrics.scss",
                 "bundleName": "qualtrics"
-              },
-              {
-                "input": "projects/storefrontapp/src/styles/lib-product.scss",
-                "bundleName": "product"
               }
             ],
             "stylePreprocessorOptions": {

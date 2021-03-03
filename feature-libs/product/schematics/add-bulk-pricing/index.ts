@@ -14,7 +14,6 @@ import {
 } from '@spartacus/schematics';
 
 import {
-  PRODUCT_SCSS_FILE_NAME,
   BULK_PRICING_FEATURE_NAME,
   BULK_PRICING_MODULE,
   BULK_PRICING_ROOT_MODULE,
@@ -58,10 +57,6 @@ function addBulkPricingFeature(
       resources: BULK_PRICING_TRANSLATIONS,
       chunks: BULK_PRICING_TRANSLATION_CHUNKS_CONFIG,
       importPath: SPARTACUS_BULK_PRICING_ASSETS,
-    },
-    styles: {
-      scssFileName: PRODUCT_SCSS_FILE_NAME,
-      importStyle: SPARTACUS_BULK_PRICING,
     },
   });
 }

@@ -14,7 +14,6 @@ import {
 } from '@spartacus/schematics';
 
 import {
-  PRODUCT_SCSS_FILE_NAME,
   VARIANTS_FEATURE_NAME,
   VARIANTS_MODULE,
   VARIANTS_ROOT_MODULE,
@@ -56,10 +55,6 @@ function addVariantsFeature(
       resources: VARIANTS_TRANSLATIONS,
       chunks: VARIANTS_TRANSLATION_CHUNKS_CONFIG,
       importPath: SPARTACUS_VARIANTS_ASSETS,
-    },
-    styles: {
-      scssFileName: PRODUCT_SCSS_FILE_NAME,
-      importStyle: SPARTACUS_VARIANTS,
     },
   });
 }
