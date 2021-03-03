@@ -1,35 +1,29 @@
 import {
-  retrieveTokenAndLogin,
   checkoutAsPersistentUserTest,
+  retrieveTokenAndLogin,
 } from '../../../helpers/checkout-as-persistent-user';
 import * as login from '../../../helpers/login';
+import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('Checkout - As a Persistent User', () => {
-  before(() =>
-    cy.window().then((win) => {
-      win.sessionStorage.clear();
-    })
-  );
+  viewportContext(['mobile', 'desktop'], () => {
+    before(() =>
+      cy.window().then((win) => {
+        win.sessionStorage.clear();
+      })
+    );
 
-  describe('checkout test as a persistent user', () => {
-    before(() => {
-      retrieveTokenAndLogin();
-      cy.reload();
-      cy.visit('/');
-    });
+    describe('Checkout test as a persistent user', () => {
+      before(() => {
+        retrieveTokenAndLogin();
+        cy.visit('/');
+      });
 
-    beforeEach(() => {
-      cy.restoreLocalStorage();
-    });
+      checkoutAsPersistentUserTest();
 
-    checkoutAsPersistentUserTest();
-
-    afterEach(() => {
-      cy.saveLocalStorage();
-    });
-
-    after(() => {
-      login.signOutUser();
+      after(() => {
+        login.signOutUser();
+      });
     });
   });
 });

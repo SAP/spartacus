@@ -66,15 +66,15 @@ export function addShippingAddress() {
     body: {
       defaultAddress: false,
       titleCode: 'mr',
-      firstName: 'Test',
-      lastName: 'User',
+      firstName: 'Cypress',
+      lastName: 'Customer',
       line1: '999 de Maisonneuve',
       line2: '',
-      town: 'Montreal',
-      region: { isocode: 'US-AK' },
+      town: 'California',
+      region: { isocode: 'US-CA' },
       country: { isocode: 'US' },
-      postalCode: 'H4B3L4',
-      phone: '',
+      postalCode: '90015',
+      phone: '917-000-0000',
     },
   }).then((response) => {
     expect(response.status).to.eq(201);
@@ -321,51 +321,18 @@ export function deletePaymentCard() {
 }
 
 export function checkoutAsPersistentUserTest() {
-  it('should login successfully', () => {
+  it('Should perform checkout', () => {
     loginSuccessfully();
-  });
-
-  it('should add a shipping address', () => {
     addShippingAddress();
-  });
-
-  it('should go to product page from category page', () => {
     goToProductPageFromCategory();
-  });
-
-  it('should add product to cart', () => {
     addProductToCart();
-  });
-
-  it('should get cartId and add a payment method', () => {
     addPaymentMethod();
-  });
-
-  it('should proceed to checkout and select shipping address', () => {
     selectShippingAddress();
-  });
-
-  it('should choose delivery', () => {
     selectDeliveryMethod();
-  });
-
-  it('should select payment method', () => {
     selectPaymentMethod();
-  });
-
-  it('should review and place order', () => {
     verifyAndPlaceOrder();
-  });
-
-  it('should display summary page', () => {
     displaySummaryPage();
-  });
-
-  it('should delete shipping address', () => {
     deleteShippingAddress();
-  });
-
-  it('should delete payment card', () => {
     deletePaymentCard();
   });
 }
