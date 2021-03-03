@@ -26,6 +26,20 @@ export function updateProfile() {
   );
 }
 
+export function validateUpdateProfileForm(
+  title: string,
+  firstName: string,
+  lastName: string
+) {
+  cy.get('cx-update-profile-form').within(() => {
+    cy.get('[formcontrolname="titleCode"]')
+      .find(':selected')
+      .should('have.value', title);
+    cy.get('[formcontrolname="firstName"]').should('have.value', firstName);
+    cy.get('[formcontrolname="lastName"]').should('have.value', lastName);
+  });
+}
+
 export function verifyUpdatedProfile() {
   // check where the user's details updated in the previous test
   cy.get('cx-update-profile-form').within(() => {
