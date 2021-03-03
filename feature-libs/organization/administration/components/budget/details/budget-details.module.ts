@@ -6,6 +6,8 @@ import { ItemExistsModule } from '../../shared/item-exists.module';
 import { CardModule } from '../../shared/card/card.module';
 import { ToggleStatusModule } from '../../shared/detail/toggle-status-action/toggle-status.module';
 import { BudgetDetailsComponent } from './budget-details.component';
+import { IconModule } from '@spartacus/storefront';
+import { DisableInfoModule } from '../../shared/detail/disable-info/disable-info.module';
 
 @NgModule({
   imports: [
@@ -16,6 +18,8 @@ import { BudgetDetailsComponent } from './budget-details.component';
     I18nModule,
     ToggleStatusModule,
     ItemExistsModule,
+    IconModule,
+    DisableInfoModule,
   ],
   declarations: [BudgetDetailsComponent],
 })

@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
-import { Subject, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { filter, first, take } from 'rxjs/operators';
 import { ItemService } from '../../item.service';
 import { ConfirmationMessageComponent } from '../../message/confirmation/confirmation-message.component';
@@ -41,12 +41,12 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   /**
    * resolves the current item.
    */
-  current$ = this.itemService.current$;
+  current$: Observable<T> = this.itemService.current$;
 
   /**
    * resolves if the user is currently in the edit form.
    */
-  isInEditMode$ = this.itemService.isInEditMode$;
+  isInEditMode$: Observable<boolean> = this.itemService.isInEditMode$;
 
   protected subscription = new Subscription();
   protected confirmation: Subject<ConfirmationMessageData>;
@@ -92,8 +92,9 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   isDisabled(item: T): boolean {
     return (
       this.disabled ??
-      !(item.orgUnit || (item as any).unit || (item as any).parentOrgUnit)
-        ?.active
+      //* TODO: 4.0: Use this.disableInfoService.isParentDisabled(item) instead
+      !(item.orgUnit || item.unit || item.parentOrgUnit)?.active
+      //*
     );
   }
 

@@ -1,18 +1,17 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
-import { of } from 'rxjs/internal/observable/of';
-import { Subject } from 'rxjs/internal/Subject';
+import { GlobalMessageType } from '@spartacus/core';
+import { of, Subject } from 'rxjs';
 import { ItemExistsDirective } from './item-exists.directive';
 import { ItemService } from './item.service';
 import { MessageService } from './message/services/message.service';
-import { GlobalMessageType } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
 
 const mockCode = 'mc1';
 
 @Component({
-  // tslint:disable-next-line: component-selector
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'cx-host',
   template: `<div [cxOrgItemExists]>TEST</div>`,
 })

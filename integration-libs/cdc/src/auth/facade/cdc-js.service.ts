@@ -9,13 +9,13 @@ import {
 import {
   AuthService,
   BaseSiteService,
-  ExternalJsFileLoader,
   LanguageService,
+  ScriptLoader,
   User,
   UserService,
   WindowRef,
 } from '@spartacus/core';
-import { combineLatest, ReplaySubject, Subscription } from 'rxjs';
+import { combineLatest, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CdcConfig } from '../../config/cdc-config';
 import { CdcAuthService } from './cdc-auth.service';
@@ -32,7 +32,7 @@ export class CdcJsService implements OnDestroy {
     protected cdcConfig: CdcConfig,
     protected baseSiteService: BaseSiteService,
     protected languageService: LanguageService,
-    protected externalJsFileLoader: ExternalJsFileLoader,
+    protected scriptLoader: ScriptLoader,
     protected winRef: WindowRef,
     protected cdcAuth: CdcAuthService,
     protected auth: AuthService,
@@ -51,14 +51,14 @@ export class CdcJsService implements OnDestroy {
   /**
    * Returns observable with the information if CDC script is loaded.
    */
-  didLoad() {
+  didLoad(): Observable<boolean> {
     return this.loaded$.asObservable();
   }
 
   /**
    * Returns observable with the information if CDC script failed to load.
    */
-  didScriptFailToLoad() {
+  didScriptFailToLoad(): Observable<boolean> {
     return this.errorLoading$.asObservable();
   }
 
@@ -80,17 +80,18 @@ export class CdcJsService implements OnDestroy {
             );
             if (scriptForBaseSite) {
               const javascriptUrl = `${scriptForBaseSite}&lang=${language}`;
-              this.externalJsFileLoader.load(
-                javascriptUrl,
-                undefined,
-                () => {
+              this.scriptLoader.embedScript({
+                src: javascriptUrl,
+                params: undefined,
+                attributes: { type: 'text/javascript' },
+                callback: () => {
                   this.registerEventListeners(baseSite);
                   this.loaded$.next(true);
                 },
-                () => {
+                errorCallback: () => {
                   this.errorLoading$.next(true);
-                }
-              );
+                },
+              });
               this.winRef.nativeWindow['__gigyaConf'] = { include: 'id_token' };
             }
           })

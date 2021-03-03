@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../out-tsc/spec",
+    "strict": false,
+    "types": ["jasmine", "node"],
+    "module": "es2020"
+  },
+  "files": ["test.ts"],
+  "include": ["**/*.spec.ts", "**/*.d.ts"]
+}

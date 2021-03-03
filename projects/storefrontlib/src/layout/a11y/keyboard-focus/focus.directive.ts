@@ -15,7 +15,7 @@ import { KeyboardFocusService } from './services/keyboard-focus.service';
 })
 export class FocusDirective extends LockFocusDirective implements OnChanges {
   protected defaultConfig: FocusConfig = {};
-  // tslint:disable-next-line: no-input-rename
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('cxFocus') protected config: FocusConfig = {};
 
   constructor(

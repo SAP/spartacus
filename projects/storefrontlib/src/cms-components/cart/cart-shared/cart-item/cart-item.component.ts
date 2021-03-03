@@ -1,4 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  Optional,
+  SimpleChanges,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import {
   OrderEntry,
@@ -7,6 +14,10 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
+import { ICON_TYPE } from '../../../misc/icon/icon.model';
+import { CartOutlets } from '../../cart-outlets.model';
+import { CartItemContextSource } from './model/cart-item-context-source.model';
+import { CartItemContext } from './model/cart-item-context.model';
 
 /**
  * @deprecated since 3.0 - use `OrderEntry` instead
@@ -18,6 +29,8 @@ export interface Item {
   basePrice?: any;
   totalPrice?: any;
   updateable?: boolean;
+  statusSummaryList?: any[];
+  configurationInfos?: any[];
 }
 
 export interface CartItemComponentOptions {
@@ -28,8 +41,12 @@ export interface CartItemComponentOptions {
 @Component({
   selector: 'cx-cart-item',
   templateUrl: './cart-item.component.html',
+  providers: [
+    CartItemContextSource,
+    { provide: CartItemContext, useExisting: CartItemContextSource },
+  ],
 })
-export class CartItemComponent implements OnInit {
+export class CartItemComponent implements OnInit, OnChanges {
   @Input() compact = false;
   @Input() item: OrderEntry;
   @Input() readonly = false;
@@ -44,14 +61,53 @@ export class CartItemComponent implements OnInit {
   };
 
   appliedProductPromotions$: Observable<PromotionResult[]>;
+  iconTypes = ICON_TYPE;
+  readonly CartOutlets = CartOutlets;
 
-  constructor(protected promotionService: PromotionService) {}
+  // TODO(#10946): make CartItemContextSource a required dependency
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  constructor(
+    promotionService: PromotionService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    cartItemContextSource: CartItemContextSource
+  );
+  /**
+   * @deprecated since 3.1
+   */
+  constructor(promotionService: PromotionService);
+  constructor(
+    protected promotionService: PromotionService,
+    @Optional() protected cartItemContextSource?: CartItemContextSource
+  ) {}
 
   ngOnInit() {
     this.appliedProductPromotions$ = this.promotionService.getProductPromotionForEntry(
       this.item,
       this.promotionLocation
     );
+  }
+
+  ngOnChanges(changes?: SimpleChanges) {
+    if (changes?.compact) {
+      this.cartItemContextSource?.compact$.next(this.compact);
+    }
+    if (changes?.readonly) {
+      this.cartItemContextSource?.readonly$.next(this.readonly);
+    }
+    if (changes?.item) {
+      this.cartItemContextSource?.item$.next(this.item);
+    }
+    if (changes?.quantityControl) {
+      this.cartItemContextSource?.quantityControl$.next(this.quantityControl);
+    }
+    if (changes?.promotionLocation) {
+      this.cartItemContextSource?.promotionLocation$.next(
+        this.promotionLocation
+      );
+    }
+    if (changes?.options) {
+      this.cartItemContextSource?.options$.next(this.options);
+    }
   }
 
   isProductOutOfStock(product: any) {

@@ -7,6 +7,9 @@ import { CardModule } from '../../shared/card/card.module';
 import { ToggleStatusModule } from '../../shared/detail/toggle-status-action/toggle-status.module';
 import { UnitDetailsComponent } from './unit-details.component';
 import { KeyboardFocusModule } from '@spartacus/storefront';
+import { IconModule } from '@spartacus/storefront';
+import { DisableInfoModule } from '../../shared/detail/disable-info/disable-info.module';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -17,6 +20,8 @@ import { KeyboardFocusModule } from '@spartacus/storefront';
     ToggleStatusModule,
     ItemExistsModule,
     KeyboardFocusModule,
+    IconModule,
+    DisableInfoModule
   ],
   declarations: [UnitDetailsComponent],
   exports: [UnitDetailsComponent],

@@ -5,6 +5,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ViewComponent } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ItemService } from '../item.service';
 import { MessageService } from '../message/services/message.service';
@@ -24,7 +25,7 @@ export class CardComponent<T extends BaseItem> {
 
   protected itemKey;
 
-  item$ = this.itemService.current$.pipe(
+  item$: Observable<T> = this.itemService.current$.pipe(
     tap((item) => this.refreshMessages(item))
   );
 
@@ -56,9 +57,14 @@ export class CardComponent<T extends BaseItem> {
   }
 
   protected refreshMessages(item: T) {
-    if (item?.code !== this.itemKey) {
+    if (
+      this.itemKey !== undefined &&
+      item?.code !== this.itemKey &&
+      item.uid !== this.itemKey &&
+      item.customerId !== this.itemKey
+    ) {
       this.messageService.clear();
     }
-    this.itemKey = item?.code;
+    this.itemKey = item?.code ?? item.uid ?? item.customerId;
   }
 }

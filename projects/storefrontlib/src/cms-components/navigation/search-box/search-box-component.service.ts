@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  EventService,
   ProductSearchPage,
   RoutingService,
   SearchboxService,
@@ -8,6 +9,10 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
+import {
+  SearchBoxProductSelectedEvent,
+  SearchBoxSuggestionSelectedEvent,
+} from './search-box.events';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
 
 const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';
@@ -17,10 +22,30 @@ const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';
 })
 export class SearchBoxComponentService {
   constructor(
+    searchService: SearchboxService,
+    routingService: RoutingService,
+    translationService: TranslationService,
+    winRef: WindowRef
+  );
+  /**
+   * @deprecated since version 3.1
+   * Use constructor(searchService: SearchboxService, routingService: RoutingService, translationService: TranslationService, winRef: WindowRef, eventService?: EventService) instead
+   */
+  // TODO(#10988): Remove deprecated constructors
+  constructor(
+    searchService: SearchboxService,
+    routingService: RoutingService,
+    translationService: TranslationService,
+    winRef: WindowRef,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    eventService?: EventService
+  );
+  constructor(
     public searchService: SearchboxService,
     protected routingService: RoutingService,
     protected translationService: TranslationService,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
+    protected eventService?: EventService
   ) {}
 
   /**
@@ -98,6 +123,45 @@ export class SearchBoxComponentService {
       add
         ? this.winRef.document.body.classList.add(className)
         : this.winRef.document.body.classList.remove(className);
+    }
+  }
+
+  /**
+   * Dispatches a searchbox event for product selected
+   *
+   * @param eventData data for the "SearchBoxProductSelectedEvent"
+   */
+  dispatchProductSelectedEvent(eventData: SearchBoxProductSelectedEvent): void {
+    // TODO(#10988): for 4.0 remove "eventService" check
+    if (this.eventService) {
+      this.eventService.dispatch<SearchBoxProductSelectedEvent>(
+        {
+          freeText: eventData.freeText,
+          productCode: eventData.productCode,
+        },
+        SearchBoxProductSelectedEvent
+      );
+    }
+  }
+
+  /**
+   * Dispatches a searchbox event for suggestion selected
+   *
+   * @param eventData data for the "SearchBoxSuggestionSelectedEvent"
+   */
+  dispatchSuggestionSelectedEvent(
+    eventData: SearchBoxSuggestionSelectedEvent
+  ): void {
+    // TODO(#10988): for 4.0 remove "eventService" check
+    if (this.eventService) {
+      this.eventService.dispatch<SearchBoxSuggestionSelectedEvent>(
+        {
+          freeText: eventData.freeText,
+          selectedSuggestion: eventData.selectedSuggestion,
+          searchSuggestions: eventData.searchSuggestions,
+        },
+        SearchBoxSuggestionSelectedEvent
+      );
     }
   }
 

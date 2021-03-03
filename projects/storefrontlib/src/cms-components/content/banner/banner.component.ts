@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { CmsBannerComponent } from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
@@ -11,7 +12,7 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
 export class BannerComponent {
   @HostBinding('class') styleClasses: string;
 
-  data$ = this.component.data$.pipe(
+  data$: Observable<CmsBannerComponent> = this.component.data$.pipe(
     tap((data) => (this.styleClasses = data.styleClasses))
   );
 
