@@ -45,4 +45,7 @@ html[dir='rtl'] cx-org-list {
       margin-bottom: $label-margin-bottom;
     }
   }
+  .value {
+    font-size: $font-size-base * 0.75;
+  }
 }
