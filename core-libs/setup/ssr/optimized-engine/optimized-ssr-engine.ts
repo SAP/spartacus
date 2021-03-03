@@ -97,7 +97,7 @@ export class OptimizedSsrEngine {
     const key = this.getRenderingKey(request);
 
     if (this.renderingCache.isReady(key)) {
-      // tslint:disable-next-line:no-non-null-assertion
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const cached = this.renderingCache.get(key)!;
       callback(cached.err, cached.html);
 
