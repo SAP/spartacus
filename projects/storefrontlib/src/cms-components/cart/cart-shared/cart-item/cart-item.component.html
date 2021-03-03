@@ -137,26 +137,29 @@
         *ngIf="(!readonly || options.isSaveForLater) && item.updateable"
         class="cx-actions col-12"
       >
-        <ng-container *ngIf="!isProductOutOfStock(item.product)">
-          <ng-container
-            *ngTemplateOutlet="
-              options.optionalBtn;
-              context: {
-                $implicit: { loading: quantityControl.disabled, item: item }
-              }
-            "
-          ></ng-container>
-        </ng-container>
+        <!-- Item Actions Outlet -->
+        <ng-template [cxOutlet]="CartOutlets.ITEM_ACTIONS">
+          <ng-container *ngIf="!isProductOutOfStock(item.product)">
+            <ng-container
+              *ngTemplateOutlet="
+                options.optionalBtn;
+                context: {
+                  $implicit: { loading: quantityControl.disabled, item: item }
+                }
+              "
+            ></ng-container>
+          </ng-container>
 
-        <div class="col-md-3 cx-remove-btn">
-          <button
-            class="link cx-action-link"
-            [disabled]="quantityControl.disabled"
-            (click)="removeItem()"
-          >
-            {{ 'common.remove' | cxTranslate }}
-          </button>
-        </div>
+          <div class="col-md-3 cx-remove-btn">
+            <button
+              class="link cx-action-link"
+              [disabled]="quantityControl.disabled"
+              (click)="removeItem()"
+            >
+              {{ 'common.remove' | cxTranslate }}
+            </button>
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>
