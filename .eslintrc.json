@@ -31,7 +31,6 @@
         "@typescript-eslint/member-ordering": "off",
         "arrow-body-style": "off",
         "object-shorthand": "off",
-        "one-var": "off",
         "@typescript-eslint/prefer-for-of": "off",
         "jsdoc/no-types": "off",
         "no-fallthrough": "off",
