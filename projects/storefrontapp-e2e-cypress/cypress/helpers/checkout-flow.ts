@@ -23,6 +23,7 @@ export const ELECTRONICS_CURRENCY = 'USD';
 export const ELECTRONICS_DEFAULT_DELIVERY_MODE = 'deliveryMode-standard-net';
 
 export function waitForPage(page: string, alias: string): string {
+  // TODO cy.intercept() doesn't work here (* is greedy, so all other expressions match it first.)
   // homepage is not explicitly being asked as it's driven by the backend.
   const endpoint = page === 'homepage' ? `*` : `*${page}*`;
   cy.server();
@@ -52,10 +53,21 @@ export function signOut() {
   });
 }
 
+function log(message: string) {
+  const logName = 'CheckoutLog';
+  Cypress.log({
+    name: logName,
+    displayName: logName,
+    message: [`🛒 ${message}`],
+  });
+}
+
 export function registerUser(
   giveRegistrationConsent: boolean = false,
   sampleUser: SampleUser = user
 ) {
+  log(`Registering user ${user.email}`);
+
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.findByText(/Sign in \/ Register/i).click();
   cy.wait(`@${loginPage}`);
@@ -109,7 +121,7 @@ export function addProductToCart() {
 }
 
 export function loginUser(sampleUser: SampleUser = user) {
-  // Verify the user is prompted to login
+  log(`Logging in user: ${user.email}`);
   login(sampleUser.email, sampleUser.password);
 }
 

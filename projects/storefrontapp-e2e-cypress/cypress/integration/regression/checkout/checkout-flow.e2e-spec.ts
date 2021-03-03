@@ -11,22 +11,22 @@ context('Checkout flow', () => {
     beforeEach(() => {
       cy.window().then((win) => {
         win.sessionStorage.clear();
-        checkout.visitHomePage();
       });
     });
 
     it('should perform checkout', () => {
       const user = getSampleUser();
+      checkout.visitHomePage();
       cy.onMobile(() => {
         clickHamburger();
       });
       checkout.registerUser(false, user);
       checkout.goToCheapProductDetailsPage();
       checkout.addCheapProductToCartAndLogin(user);
-      checkout.fillAddressFormWithCheapProduct();
+      checkout.fillAddressFormWithCheapProduct(user);
       checkout.verifyDeliveryMethod();
-      checkout.fillPaymentFormWithCheapProduct();
-      checkout.placeOrderWithCheapProduct();
+      checkout.fillPaymentFormWithCheapProduct(user);
+      checkout.placeOrderWithCheapProduct(user);
       checkout.verifyOrderConfirmationPageWithCheapProduct(user);
     });
   });
