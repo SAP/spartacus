@@ -1,0 +1,12 @@
+<ng-container *ngIf="savedCart$ | async as cart">
+  <div class="cx-saved-cart-restore-btns row">
+    <div class="col-xs-12 col-md-5 col-lg-4">
+      <button
+        class="btn btn-block btn-action"
+        (click)="restoreSavedCart(cart?.code)"
+      >
+        {{ 'savedCartList.makeCartActive' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</ng-container>

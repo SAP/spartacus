@@ -1,0 +1,14 @@
+<!-- TODO: Speaking to Marcin for best approach as the wrapper is tightly coupled to selective cart and active cart
+    I provided solutions and will fix once I get it
+-->
+<ng-container *ngIf="savedCart$ | async as cart">
+  <div *ngIf="cart?.totalItems" class="cart-details-wrapper">
+    <cx-cart-item-list
+      [items]="cart.entries"
+      [cartIsLoading]="!(cartLoaded$ | async)"
+      [options]="{
+        isSaveForLater: false
+      }"
+    ></cx-cart-item-list>
+  </div>
+</ng-container>
