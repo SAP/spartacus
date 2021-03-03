@@ -5,8 +5,6 @@ node_js:
 cache: yarn
 git:
   depth: false
-# env:
-#   TEST_VAR=http://111.111.111.111:9002 TEST_VAR_2=http://222.222.222.222:9002
 branches:
   only:
     - develop

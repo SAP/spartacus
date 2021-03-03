@@ -4,13 +4,6 @@ set -o pipefail
 
 echo "-----"
 
-echo "CX_BASE_URL=${CX_BASE_URL}"
-echo "CYPRESS_API_URL=${CYPRESS_API_URL}"
-echo "TEST_VAR=${TEST_VAR}"
-echo "TEST_VAR2=${TEST_VAR2}"
-exit 0
-
-
 echo "Running unit tests and code coverage for cds"
 exec 5>&1
 output=$(ng test cds --watch=false --sourceMap --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
