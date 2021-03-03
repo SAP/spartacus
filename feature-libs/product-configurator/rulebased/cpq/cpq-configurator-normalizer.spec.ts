@@ -984,20 +984,28 @@ describe('CpqConfiguratorNormalizer', () => {
     );
     expect(mappedConfiguration.errorMessages.length).toBe(6);
 
-    checkMessagePresent(mappedConfiguration, INCOMPLETE_MSG);
-    checkMessagePresent(mappedConfiguration, INCOMPLETE_ATTR_1);
-    checkMessagePresent(mappedConfiguration, INCOMPLETE_ATTR_2);
-    checkMessagePresent(mappedConfiguration, ERROR_MSG);
-    checkMessagePresent(mappedConfiguration, INVALID_MSG);
-    checkMessagePresent(mappedConfiguration, CONFLICT_MSG);
+    checkMessagePresent(mappedConfiguration.errorMessages, INCOMPLETE_MSG);
+    checkMessagePresent(mappedConfiguration.errorMessages, INCOMPLETE_ATTR_1);
+    checkMessagePresent(mappedConfiguration.errorMessages, INCOMPLETE_ATTR_2);
+    checkMessagePresent(mappedConfiguration.errorMessages, ERROR_MSG);
+    checkMessagePresent(mappedConfiguration.errorMessages, INVALID_MSG);
+    checkMessagePresent(mappedConfiguration.errorMessages, CONFLICT_MSG);
+  });
+
+  it('should map warning message from failed validations', () => {
+    const mappedConfiguration = cpqConfiguratorNormalizer.convert(
+      cpqConfigurationIncompleteInconsistent
+    );
+    expect(mappedConfiguration.warningMessages.length).toBe(1);
+    checkMessagePresent(mappedConfiguration.warningMessages, VALIDATION_MSG);
   });
 
   function checkMessagePresent(
-    mappedConfiguration: Configurator.Configuration,
+    messages: Observable<string>[],
     expectedMsg: string
   ) {
     let found: boolean = false;
-    mappedConfiguration.errorMessages.forEach((msgObs) => {
+    messages.forEach((msgObs) => {
       msgObs.subscribe((msg) => {
         found = found || msg.includes(expectedMsg);
       });
