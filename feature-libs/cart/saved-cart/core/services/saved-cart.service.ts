@@ -25,6 +25,7 @@ import {
 import { SavedCartActions } from '../store/actions/index';
 import {
   SAVED_CART_LIST_PROCESS_ID,
+  SAVED_CART_RESTORE_CART_PROCESS_ID,
   SAVED_CART_SAVE_CART_PROCESS_ID,
 } from '../store/saved-cart-state';
 
@@ -67,6 +68,10 @@ export class SavedCartService {
     cartId: string
   ): Observable<StateUtils.ProcessesLoaderState<Cart>> {
     return this.multiCartService.getCartEntity(cartId);
+  }
+
+  isStable(cartId: string): Observable<boolean> {
+    return this.multiCartService.isStable(cartId);
   }
 
   loadSavedCarts(): void {
@@ -128,6 +133,40 @@ export class SavedCartService {
         );
       },
       () => {}
+    );
+  }
+
+  clearRestoreSavedCart(): void {
+    this.store.dispatch(new SavedCartActions.ClearRestoreSavedCart());
+  }
+
+  getRestoreSavedCartProcessLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(
+        ProcessSelectors.getProcessLoadingFactory(
+          SAVED_CART_RESTORE_CART_PROCESS_ID
+        )
+      )
+    );
+  }
+
+  getRestoreSavedCartProcessSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(
+        ProcessSelectors.getProcessSuccessFactory(
+          SAVED_CART_RESTORE_CART_PROCESS_ID
+        )
+      )
+    );
+  }
+
+  getRestoreSavedCartProcessError(): Observable<boolean> {
+    return this.store.pipe(
+      select(
+        ProcessSelectors.getProcessErrorFactory(
+          SAVED_CART_RESTORE_CART_PROCESS_ID
+        )
+      )
     );
   }
 
