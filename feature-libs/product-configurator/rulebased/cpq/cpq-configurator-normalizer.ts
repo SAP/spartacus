@@ -4,7 +4,7 @@ import { Configurator } from './../core/model/configurator.model';
 import { Cpq } from './cpq.models';
 import { CpqConfiguratorUtilitiesService } from './cpq-configurator-utilities.service';
 import { take } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 
 @Injectable()
@@ -64,9 +64,17 @@ export class CpqConfiguratorNormalizer
     source.incompleteAttributes.forEach((attr) => {
       arrayAttr.push(this.translation.translate("configurator.header.incomplete", {attribute: attr}));
     })
-    console.log(source);  
+    const addToArray = (msg: string): void => {
+      arrayAttr.push(of(msg));
+    };
+    source.errorMessages.forEach(addToArray)
+    source.incompleteMessages.forEach(addToArray)
+    source.conflictMessages.forEach(addToArray)
+    source.invalidMessages.forEach(addToArray) 
     return arrayAttr;
   }
+
+
 
   convertGroup(
     source: Cpq.Tab,
