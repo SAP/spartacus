@@ -19,8 +19,8 @@
   "dependencies": {
     "@angular/pwa": "^0.1001.0",
     "@nguniversal/express-engine": "^10.1.0",
-    "tslib": "^2.0.0",
-    "ts-morph": "^9.1.0"
+    "ts-morph": "^9.1.0",
+    "tslib": "^2.0.0"
   },
   "peerDependencies": {
     "@angular-devkit/core": "^10.1.0",
