@@ -21,7 +21,7 @@ import { DisableInfoModule } from '../../shared/detail/disable-info/disable-info
     ItemExistsModule,
     KeyboardFocusModule,
     IconModule,
-    DisableInfoModule
+    DisableInfoModule,
   ],
   declarations: [UnitDetailsComponent],
   exports: [UnitDetailsComponent],
