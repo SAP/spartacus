@@ -5,7 +5,7 @@ import glob from 'glob';
 import path from 'path';
 import semver from 'semver';
 
-let currentVersion;
+let currentVersion: semver.SemVer | null;
 
 function startVerdaccio(): ChildProcess {
   console.log('Starting verdaccio');
@@ -35,7 +35,8 @@ function publishLibs() {
   }
 
   // Bump version to publish
-  semver.inc(currentVersion, 'patch');
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  semver.inc(currentVersion!, 'patch');
   // Packages released from it's source directory
   const files = [
     'projects/storefrontstyles/package.json',
@@ -46,14 +47,18 @@ function publishLibs() {
   [...files, ...distFiles].forEach((packagePath) => {
     // Update version in package
     const content = JSON.parse(fs.readFileSync(packagePath, 'utf-8'));
-    content.version = currentVersion.version;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    content.version = currentVersion!.version;
     fs.writeFileSync(packagePath, JSON.stringify(content, undefined, 2));
 
     // Publish package
     const dir = path.dirname(packagePath);
     console.log(`\nPublishing ${content.name}`);
     execSync(
-      `yarn publish --cwd ${dir} --new-version ${currentVersion.version} --registry=http://localhost:4873/ --no-git-tag-version`,
+      `yarn publish --cwd ${dir} --new-version ${
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        currentVersion!.version
+      } --registry=http://localhost:4873/ --no-git-tag-version`,
       { stdio: 'inherit' }
     );
   });
