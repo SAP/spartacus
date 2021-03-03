@@ -248,7 +248,8 @@ describe('Spartacus product configurator schematics: ng-add', () => {
     it('should just append productconfig feature without duplicating the featureModules config', () => {
       const appModule = appTree.readContent(appModulePath);
       expect(appModule.match(/featureModules:/g)?.length).toEqual(1);
-      expect(appModule).toContain(`rulebased: {`);
+      expect(appModule).toContain(`productConfiguratorRulebased: {`);
+      expect(appModule).toContain(`productConfiguratorTextfield: {`);
     });
   });
 });
