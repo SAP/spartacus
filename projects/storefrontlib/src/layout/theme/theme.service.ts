@@ -1,10 +1,14 @@
+import { DOCUMENT } from '@angular/common';
 import {
   ComponentRef,
+  Inject,
   Injectable,
   Renderer2,
   RendererFactory2,
 } from '@angular/core';
 import { SiteContextConfig, THEME_CONTEXT_ID } from '@spartacus/core';
+
+const THEME_LINK_ID = 'cx-theme';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
@@ -14,7 +18,8 @@ export class ThemeService {
 
   constructor(
     protected config: SiteContextConfig,
-    protected rendererFactory: RendererFactory2
+    protected rendererFactory: RendererFactory2,
+    @Inject(DOCUMENT) protected document: Document
   ) {}
 
   /**
@@ -27,7 +32,7 @@ export class ThemeService {
     // Theme value is a string. It is put in the generic multi-value
     // property of the SiteContextConfig. So the array's first item
     // is the theme value.
-    this.setTheme(this.config.context[THEME_CONTEXT_ID]?.[0]);
+    this.setTheme(this.config.context?.[THEME_CONTEXT_ID]?.[0] as string);
   }
 
   setTheme(theme: string): void {
@@ -38,6 +43,25 @@ export class ThemeService {
       // add the new theme
       this.renderer.addClass(element, theme);
       this.existingTheme = theme;
+
+      this.loadTheme(`${theme}.css`);
+    }
+  }
+
+  private loadTheme(filename: string) {
+    const themeLink = this.document.getElementById(
+      THEME_LINK_ID
+    ) as HTMLLinkElement;
+
+    if (themeLink) {
+      themeLink.href = filename;
+    } else {
+      const linkEl = this.renderer.createElement('link');
+      linkEl.id = THEME_LINK_ID;
+      linkEl.rel = 'stylesheet';
+      linkEl.type = 'text/css';
+      linkEl.href = filename;
+      this.renderer.appendChild(this.document.head, linkEl);
     }
   }
 }
