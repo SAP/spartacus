@@ -13,7 +13,7 @@ import {
   HostListener,
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { FocusConfig } from '../../../layout/a11y';
+import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
 import { PopoverComponent } from './popover.component';
 import { PopoverEvent, PopoverPosition } from './popover.model';
 import { PositioningService } from './positioning.service';

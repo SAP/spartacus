@@ -1,5 +1,5 @@
 import { ElementRef, Injectable } from '@angular/core';
-import { FocusConfig } from '../../../layout/a11y';
+import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
 
 @Injectable({
   providedIn: 'root',

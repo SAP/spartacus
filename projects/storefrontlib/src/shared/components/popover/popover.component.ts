@@ -19,8 +19,8 @@ import { WindowRef } from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
 import { PopoverEvent, PopoverPosition } from './popover.model';
 import { PositioningService } from './positioning.service';
-import { FocusConfig } from '../../../layout';
-import { ICON_TYPE } from '../../../cms-components/misc/icon';
+import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
+import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 
 @Component({
   selector: 'cx-popover',
