@@ -79,6 +79,10 @@ export class ConfiguratorGroupMenuComponent {
 
   iconTypes = ICON_TYPE;
 
+  ERROR = ' ERROR';
+  COMPLETE = ' COMPLETE';
+  WARNING = ' WARNING';
+
   constructor(
     protected configCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
@@ -245,5 +249,45 @@ export class ConfiguratorGroupMenuComponent {
    */
   isConflictGroupType(groupType: Configurator.GroupType): boolean {
     return this.configuratorGroupsService.isConflictGroupType(groupType);
+  }
+
+  /**
+   * Returns group-status style classes dependent on completeness, conflicts, visited status and configurator type.
+   *
+   * @param {Configurator.Group} group - Current group
+   * @param {Configurator.Configuration} configuration - Configuration
+   * @return {Observable<boolean>} - true if visited and not a conflict group
+   */
+  getGroupStatusStyles(
+    group: Configurator.Group,
+    configuration: Configurator.Configuration
+  ): Observable<string> {
+    return this.isGroupVisited(group, configuration).pipe(
+      switchMap((isVisited) => {
+        const CLOUDCPQ_CONFIGURATOR_TYPE = 'CLOUDCPQCONFIGURATOR';
+        let groupStatusStyle: string = 'cx-menu-item';
+        if (
+          configuration.owner?.configuratorType !==
+            CLOUDCPQ_CONFIGURATOR_TYPE &&
+          !group.consistent
+        ) {
+          groupStatusStyle = groupStatusStyle + this.WARNING;
+        }
+        if (
+          configuration.owner?.configuratorType !==
+            CLOUDCPQ_CONFIGURATOR_TYPE &&
+          group.complete &&
+          group.consistent &&
+          isVisited
+        ) {
+          groupStatusStyle = groupStatusStyle + this.COMPLETE;
+        }
+        if (!group.complete && isVisited) {
+          groupStatusStyle = groupStatusStyle + this.ERROR;
+        }
+        return of(groupStatusStyle);
+      }),
+      take(1)
+    );
   }
 }
