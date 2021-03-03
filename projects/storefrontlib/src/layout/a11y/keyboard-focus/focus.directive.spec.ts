@@ -4,15 +4,6 @@ import { By } from '@angular/platform-browser';
 import { FocusDirective } from './focus.directive';
 import { KeyboardFocusService } from './services';
 
-/*
-  After cxFocus is enhanced with refreshFocus feature, an element will be focused twice when the page is displayed for the FIRST time: 
-  1. in ngOnChanges hook
-  2. in ngAfterViewInit hook
-  
-  Once the page is rendered, all subsequent operations will only cause element to be focused once in ngOnChanges, because ngAfterViewInit then will not be triggered any more.  
-*/
-const ELEMENT_FOCUSED_TIME = 2;
-
 @Component({
   selector: 'cx-host',
   template: ` <div
@@ -21,8 +12,8 @@ const ELEMENT_FOCUSED_TIME = 2;
   ></div>`,
 })
 class MockComponent {
-  modelA = 'A';
-  modelB = 'B';
+  modelA = '';
+  modelB = '';
 }
 
 class MockKeyboardFocusService {
@@ -79,7 +70,7 @@ describe('FocusDirective', () => {
     expect(document.activeElement.id).toEqual('a');
   });
 
-  it('should only refresh focus with change on configured attribute', () => {
+  it('should refresh focus with change on configured attribute', () => {
     const el: HTMLElement = fixture.debugElement.query(By.css('#a'))
       .nativeElement;
 
@@ -87,17 +78,23 @@ describe('FocusDirective', () => {
       keyboardFocusService,
       'findFirstFocusable'
     ).and.returnValue(el);
-    fixture.detectChanges();
-
-    expect(document.activeElement.id).toEqual('a');
-    expect(spiedFirstFocusable).toHaveBeenCalledTimes(ELEMENT_FOCUSED_TIME);
-
-    component.modelB = '1';
-    fixture.detectChanges();
-    expect(spiedFirstFocusable).toHaveBeenCalledTimes(ELEMENT_FOCUSED_TIME);
 
     component.modelA = '1';
     fixture.detectChanges();
-    expect(spiedFirstFocusable).toHaveBeenCalledTimes(ELEMENT_FOCUSED_TIME + 1);
+
+    expect(document.activeElement.id).toEqual('a');
+    expect(spiedFirstFocusable).toHaveBeenCalled();
+  });
+
+  it('should NOT refresh focus with change on non-configured attribute', () => {
+    // to trigger ngAfterViewInit hook manually
+    fixture.detectChanges();
+
+    let spiedFirstFocusable = spyOn(keyboardFocusService, 'findFirstFocusable');
+
+    component.modelB = '1';
+    fixture.detectChanges();
+
+    expect(spiedFirstFocusable).not.toHaveBeenCalled();
   });
 });
