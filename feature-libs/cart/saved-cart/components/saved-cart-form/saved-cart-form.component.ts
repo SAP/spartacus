@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Cart } from '@spartacus/core';
 import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { SavedCartService } from '../../core/services/saved-cart.service';
 
 @Component({
@@ -18,14 +19,20 @@ export class SavedCartFormComponent implements OnInit {
   descriptionMaxLength: number = 500;
   nameMaxLength: number = 50;
 
+  protected isEdition = false;
+
   constructor(
     protected savedCartService: SavedCartService,
     protected launchDialogService: LaunchDialogService
   ) {}
 
   ngOnInit(): void {
-    this.cart$ = this.launchDialogService.data$;
     this.build();
+    this.cart$ = this.launchDialogService.data$.pipe(
+      tap((cart: Cart) => {
+        this.fillForm(cart);
+      })
+    );
   }
 
   get descriptionsCharacterLeft(): number {
@@ -37,14 +44,32 @@ export class SavedCartFormComponent implements OnInit {
 
   saveCart(cartCode: string): void {
     const cartId = cartCode;
-    const cartDescription = this.form.get('description')?.value;
-    const cartName = this.form.get('name')?.value;
+    const saveCartDescription = this.form.get('description')?.value;
+    const saveCartName = this.form.get('name')?.value;
+    const extraData = {
+      edit: this.isEdition,
+    };
 
-    this.savedCartService.saveCart(cartId, cartDescription, cartName);
+    this.savedCartService.saveCart({
+      cartId,
+      saveCartName,
+      saveCartDescription,
+      extraData,
+    });
   }
 
   dismissModal(): void {
     this.close('Cancel click');
+  }
+
+  protected fillForm(cart: Cart): void {
+    // Cart name is required to save cart
+    if (cart.name) {
+      this.form.get('name')?.setValue(cart.name);
+      this.form.get('description')?.setValue(cart.description);
+
+      this.isEdition = true;
+    }
   }
 
   protected build(): void {

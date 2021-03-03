@@ -60,6 +60,20 @@
       "@spartacus/product-configurator/textfield/root": [
         "dist/product-configurator/textfield/root"
       ],
+      "@spartacus/product/bulk-pricing/assets": [
+        "dist/product/bulk-pricing/assets"
+      ],
+      "@spartacus/product/bulk-pricing/components": [
+        "dist/product/bulk-pricing/components"
+      ],
+      "@spartacus/product/bulk-pricing/core": [
+        "dist/product/bulk-pricing/core"
+      ],
+      "@spartacus/product/bulk-pricing": ["dist/product/bulk-pricing"],
+      "@spartacus/product/bulk-pricing/occ": ["dist/product/bulk-pricing/occ"],
+      "@spartacus/product/bulk-pricing/root": [
+        "dist/product/bulk-pricing/root"
+      ],
       "@spartacus/product": ["dist/product"],
       "@spartacus/qualtrics/components": ["dist/qualtrics/components"],
       "@spartacus/qualtrics": ["dist/qualtrics"],

@@ -19,6 +19,24 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
     protected converter: ConverterService
   ) {}
 
+  load(userId: string, cartId: string): Observable<Cart> {
+    return this.http
+      .get<Occ.Cart>(this.getSavedCartEndpoint(userId, cartId))
+      .pipe(pluck('savedCartData'), this.converter.pipeable(CART_NORMALIZER));
+  }
+
+  loadList(userId: string): Observable<Cart[]> {
+    return this.http
+      .get<Occ.CartList>(this.getSavedCartListEndpoint(userId))
+      .pipe(pluck('carts'), this.converter.pipeableMany(CART_NORMALIZER));
+  }
+
+  restoreSavedCart(userId: string, cartId: string): Observable<Cart> {
+    return this.http
+      .patch<Occ.Cart>(this.getRestoreSavedCartEndpoint(userId, cartId), cartId)
+      .pipe(pluck('savedCartData'), this.converter.pipeable(CART_NORMALIZER));
+  }
+
   saveCart(
     userId: string,
     cartId: string,
@@ -50,5 +68,20 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
       saveCartName,
       saveCartDescription,
     });
+  }
+
+  protected getSavedCartEndpoint(userId: string, cartId: string): string {
+    return this.occEndpoints.getUrl('savedCart', { userId, cartId });
+  }
+
+  protected getSavedCartListEndpoint(userId: string): string {
+    return this.occEndpoints.getUrl('savedCarts', { userId });
+  }
+
+  protected getRestoreSavedCartEndpoint(
+    userId: string,
+    cartId: string
+  ): string {
+    return this.occEndpoints.getUrl('restoreSavedCart', { userId, cartId });
   }
 }
