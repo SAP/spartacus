@@ -18,12 +18,9 @@ export const defaultOccCartConfig: OccConfig = {
         deleteCart: 'users/${userId}/carts/${cartId}',
         cartVoucher: 'users/${userId}/carts/${cartId}/vouchers',
         saveCart: 'users/${userId}/carts/${cartId}/save',
-        bundleStart: 'users/${userId}/carts/${cartId}/bundles?fields=DEFAULT',
-        bundleAllowedProductsSearch:
-          'users/${userId}/carts/${cartId}/entrygroups/${entryGroupId}/allowedProductsSearch',
-        bundleAddEntry:
+        addToEntryGroup:
           'users/${userId}/carts/${cartId}/entrygroups/${entryGroupNumber}',
-        bundleDelete:
+        deleteEntryGroup:
           'users/${userId}/carts/${cartId}/entrygroups/${entryGroupNumber}',
         // TODO: startCheckout: ''
         // tslint:enable

@@ -80,18 +80,3 @@ export function wishListReducer(
   }
   return state;
 }
-
-export function cartBundlesReducer(
-  state = cartEntitiesInitialState,
-  action: LoaderAction
-): Cart {
-  switch (action.type) {
-    case CartActions.LOAD_CART_SUCCESS:
-    case CartActions.CREATE_CART_SUCCESS:
-    case CartActions.CREATE_WISH_LIST_SUCCESS:
-    case CartActions.LOAD_WISH_LIST_SUCCESS:
-    case CartActions.SET_TEMP_CART:
-      return action.payload.cart;
-  }
-  return state;
-}

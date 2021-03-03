@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { CartActions } from '@spartacus/core';
+import { BundleConnector } from 'feature-libs/bundle/core/connectors/bundle.connector';
 import { withdrawOn } from 'projects/core/src/util';
 import { from, Observable } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
-import { CartModification } from '../../../model/cart.model';
-import { SiteContextActions } from '../../../site-context/store/actions/index';
-import { CartBundleConnector } from '../../connectors/bundle/index';
-import { CartActions } from '../actions/index';
+import { CartModification } from '../../../../projects/core/src/model/cart.model';
+import { SiteContextActions } from '../../../../projects/core/src/site-context/store/actions/index';
+import { BundleActions } from '../actions';
 
 @Injectable()
-export class CartBundleEffects {
+export class BundleEffects {
   private contextChange$ = this.actions$.pipe(
     ofType(
       SiteContextActions.CURRENCY_CHANGE,
@@ -19,14 +20,14 @@ export class CartBundleEffects {
 
   @Effect()
   startBundle$: Observable<
-    | CartActions.StartBundleSuccess
-    | CartActions.StartBundleFail
+    | BundleActions.StartBundleSuccess
+    | BundleActions.StartBundleFail
     | CartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CartActions.START_BUNDLE),
     map((action: CartActions.StartBundle) => action.payload),
     concatMap((payload) => {
-      return this.cartBundleConnector
+      return this.bundleConnector
         .bundleStart(payload.userId, payload.cartId, payload.bundleStarter)
         .pipe(
           map(
@@ -62,7 +63,7 @@ export class CartBundleEffects {
     ofType(CartActions.GET_BUNDLE_ALLOWED_PRODUCTS),
     map((action: CartActions.GetBundleAllowedProducts) => action.payload),
     concatMap((payload) => {
-      return this.cartBundleConnector
+      return this.bundleConnector
         .bundleAllowedProductsSearch(
           payload.userId,
           payload.cartId,
@@ -95,82 +96,8 @@ export class CartBundleEffects {
     withdrawOn(this.contextChange$)
   );
 
-  @Effect()
-  addProductToBundle$: Observable<
-    | CartActions.AddProductToBundleSuccess
-    | CartActions.AddProductToBundleFail
-    | CartActions.LoadCart
-  > = this.actions$.pipe(
-    ofType(CartActions.ADD_PRODUCT_TO_BUNDLE),
-    map((action: CartActions.AddProductToBundle) => action.payload),
-    concatMap((payload) =>
-      this.cartBundleConnector
-        .bundleAddEntry(
-          payload.userId,
-          payload.cartId,
-          payload.entryGroupNumber,
-          payload.entry
-        )
-        .pipe(
-          map((cartModification: CartModification) => {
-            return new CartActions.AddProductToBundleSuccess({
-              ...payload,
-              ...(cartModification as Required<CartModification>),
-            });
-          }),
-          catchError((error) =>
-            from([
-              new CartActions.AddProductToBundleFail({
-                ...payload,
-                error: error,
-              }),
-              new CartActions.LoadCart({
-                cartId: payload.cartId,
-                userId: payload.userId,
-              }),
-            ])
-          )
-        )
-    ),
-    withdrawOn(this.contextChange$)
-  );
-
-  @Effect()
-  removeBundle$: Observable<
-    | CartActions.RemoveBundleSuccess
-    | CartActions.RemoveBundleFail
-    | CartActions.LoadCart
-  > = this.actions$.pipe(
-    ofType(CartActions.REMOVE_BUNDLE),
-    map((action: CartActions.RemoveBundle) => action.payload),
-    concatMap((payload) =>
-      this.cartBundleConnector
-        .bundleDelete(payload.userId, payload.cartId, payload.entryGroupNumber)
-        .pipe(
-          map(() => {
-            return new CartActions.RemoveBundleSuccess({
-              ...payload,
-            });
-          }),
-          catchError((error) =>
-            from([
-              new CartActions.RemoveBundleFail({
-                ...payload,
-                error: error,
-              }),
-              new CartActions.LoadCart({
-                cartId: payload.cartId,
-                userId: payload.userId,
-              }),
-            ])
-          )
-        )
-    ),
-    withdrawOn(this.contextChange$)
-  );
-
   constructor(
     private actions$: Actions,
-    private cartBundleConnector: CartBundleConnector
+    private bundleConnector: BundleConnector
   ) {}
 }
