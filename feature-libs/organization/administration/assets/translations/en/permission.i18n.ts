@@ -30,7 +30,9 @@ export const orgPurchaseLimit = {
   byUnitName: 'Sort by unit',
 
   messages: {
-    deactivate: 'Are you sure you want to disable this purchase limit?',
+    deactivateTitle: 'Disable this purchase limit?',
+    deactivate:
+      'Disabled purchase limits can no longer be assigned to a user or user group. Current assignments will have no effect.',
     confirmEnabled: 'Purchase Limit {{ item.code }} enabled successfully',
     confirmDisabled: 'Purchase Limit {{ item.code }} disabled successfully',
     update: 'Purchase Limit {{ item.code }} updated successfully',

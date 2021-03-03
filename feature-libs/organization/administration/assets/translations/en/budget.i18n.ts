@@ -34,7 +34,9 @@ export const orgBudget = {
   },
 
   messages: {
-    deactivate: 'Are you sure you want to disable this budget?',
+    deactivateTitle: 'Disable this budget?',
+    deactivate:
+      'Disabled budgets no longer apply to the cost centers they are assigned to. Ensure that the associated cost center has at least one budget.',
     confirmEnabled: 'Budget {{ item.name }} enabled successfully',
     confirmDisabled: 'Budget {{ item.name }} disabled successfully',
     update: 'Budget {{ item.name }} updated successfully',

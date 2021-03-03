@@ -41,7 +41,9 @@ export const orgUser = {
   },
 
   messages: {
-    deactivate: 'Are you sure you want to disable this user?',
+    deactivateTitle: 'Disable this user?',
+    deactivate:
+      'Disabled users cannot log onto the storefront and place orders.',
     confirmEnabled:
       'User {{item.firstName}} {{item.lastName}} enabled successfully',
     confirmDisabled:

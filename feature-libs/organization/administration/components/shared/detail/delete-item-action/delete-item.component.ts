@@ -63,6 +63,10 @@ export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
           key: this.i18nRoot + '.messages.delete',
           params: { item },
         },
+        messageTitle: {
+          key: this.i18nRoot + '.messages.deleteTitle',
+          params: { item },
+        },
         component: ConfirmationMessageComponent,
       });
 
