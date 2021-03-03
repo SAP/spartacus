@@ -1,11 +1,11 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
-import { CpqConfiguratorNormalizer } from './cpq-configurator-normalizer';
-import { Cpq } from './cpq.models';
-import { Configurator } from './../core/model/configurator.model';
-import { CpqConfiguratorUtilitiesService } from './cpq-configurator-utilities.service';
 import { LanguageService, TranslationService } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { Configurator } from './../core/model/configurator.model';
+import { CpqConfiguratorNormalizer } from './cpq-configurator-normalizer';
+import { CpqConfiguratorUtilitiesService } from './cpq-configurator-utilities.service';
+import { Cpq } from './cpq.models';
 
 const cpqProductSystemId = 'PRODUCT_SYSTEM_ID';
 
@@ -117,7 +117,7 @@ const cpqTab2: Cpq.Tab = {
   isIncomplete: false,
   isSelected: false,
 };
-const TEST_ATTR_NAME = "testattr";
+const TEST_ATTR_NAME = 'testattr';
 
 const cpqConfiguration: Cpq.Configuration = {
   productSystemId: cpqProductSystemId,
@@ -135,19 +135,25 @@ const cpqConfiguration: Cpq.Configuration = {
   responder: { totalPrice: '$3333.33', baseProductPrice: '1000' },
 };
 
+const ERROR_MSG = 'This is an error message';
+const CONFLICT_MSG = 'conflict message';
+const VALIDATION_MSG = 'this is a failed validation';
+const INVALID_MSG = 'This is an invalid message';
+const INCOMPLETE_ATTR_1 = 'Attribute1';
+const INCOMPLETE_ATTR_2 = 'Attribute2';
+const INCOMPLETE_MSG = 'incomplete message';
 const cpqConfigurationIncompleteInconsistent: Cpq.Configuration = {
   productSystemId: cpqProductSystemId,
-  incompleteMessages: ['incomplete message'],
-  incompleteAttributes: ['Attribute1', 'Attribute2'],
-  invalidMessages: [],
-  failedValidations: [],
-  errorMessages: [],
-  conflictMessages: ['conflict message'],
+  incompleteMessages: [INCOMPLETE_MSG],
+  incompleteAttributes: [INCOMPLETE_ATTR_1, INCOMPLETE_ATTR_2],
+  invalidMessages: [INVALID_MSG],
+  failedValidations: [VALIDATION_MSG],
+  errorMessages: [ERROR_MSG],
+  conflictMessages: [CONFLICT_MSG],
   numberOfConflicts: 1,
   tabs: [],
   attributes: [],
 };
-
 
 const cpqConfigurationIncompleteConsistent: Cpq.Configuration = {
   productSystemId: cpqProductSystemId,
@@ -169,17 +175,16 @@ class MockLanguageService {
 }
 
 class MockTranslationService {
-  translate(key:string, options:any): Observable<string> {
-    if(key.endsWith("incomplete")){
-      return of(TEST_MESSAGE+options.attribute);
-    }else{
+  translate(key: string, options: any): Observable<string> {
+    if (key.endsWith('incomplete')) {
+      return of(TEST_MESSAGE + options.attribute);
+    } else {
       return of('General');
     }
-    
   }
 }
 
-const TEST_MESSAGE = "This is test test message for attribute ";
+const TEST_MESSAGE = 'This is test test message for attribute ';
 
 describe('CpqConfiguratorNormalizer', () => {
   let cpqConfiguratorNormalizer: CpqConfiguratorNormalizer;
@@ -938,7 +943,7 @@ describe('CpqConfiguratorNormalizer', () => {
     ).toBe(false);
   });
 
-  it('should determine the "real" value for required DDLB as not "to be ignored" when another "real" value already selected', () =>{
+  it('should determine the "real" value for required DDLB as not "to be ignored" when another "real" value already selected', () => {
     const cpqValueA: Cpq.Value = { paV_ID: 2, selected: false };
     const cpqValueB: Cpq.Value = { paV_ID: 1, selected: true };
     const cpqAttr: Cpq.Attribute = {
@@ -953,20 +958,53 @@ describe('CpqConfiguratorNormalizer', () => {
     ).toBe(false);
   });
 
-  it("should create message for incomplete attribute", () => {
-    const messageObs = cpqConfiguratorNormalizer.generateErrorMessages(cpqConfigurationIncompleteConsistent);
+  it('should create message for incomplete attribute', () => {
+    const messageObs = cpqConfiguratorNormalizer.generateErrorMessages(
+      cpqConfigurationIncompleteConsistent
+    );
     expect(messageObs.length).toBe(1);
-    messageObs[0].subscribe((message)=>{
+    messageObs[0].subscribe((message) => {
       expect(message).toContain(TEST_ATTR_NAME);
     });
   });
 
-  it("should create proper error message for incomplete attribute", () => {
-    const messageObs = cpqConfiguratorNormalizer.generateErrorMessages(cpqConfigurationIncompleteConsistent);
+  it('should create proper error message for incomplete attribute', () => {
+    const messageObs = cpqConfiguratorNormalizer.generateErrorMessages(
+      cpqConfigurationIncompleteConsistent
+    );
     expect(messageObs.length).toBe(1);
-    messageObs[0].subscribe((message)=>{
+    messageObs[0].subscribe((message) => {
       expect(message).toContain(TEST_MESSAGE);
     });
   });
 
+  it('should map error message from conflict, errror and invalid messages and incomplete attributes', () => {
+    const mappedConfiguration = cpqConfiguratorNormalizer.convert(
+      cpqConfigurationIncompleteInconsistent
+    );
+    expect(mappedConfiguration.errorMessages.length).toBe(6);
+
+    checkMessagePresent(mappedConfiguration, INCOMPLETE_MSG);
+    checkMessagePresent(mappedConfiguration, INCOMPLETE_ATTR_1);
+    checkMessagePresent(mappedConfiguration, INCOMPLETE_ATTR_2);
+    checkMessagePresent(mappedConfiguration, ERROR_MSG);
+    checkMessagePresent(mappedConfiguration, INVALID_MSG);
+    checkMessagePresent(mappedConfiguration, CONFLICT_MSG);
+  });
+
+  function checkMessagePresent(
+    mappedConfiguration: Configurator.Configuration,
+    expectedMsg: string
+  ) {
+    let found: boolean = false;
+    mappedConfiguration.errorMessages.forEach((msgObs) => {
+      msgObs.subscribe((msg) => {
+        found = found || msg.includes(expectedMsg);
+      });
+    });
+    // mock uses of to emit obs immediately, hance all subscriptions are processed before this line
+    expect(found).toBeTruthy(
+      `message '${expectedMsg}' not found in message list`
+    );
+  }
 });
