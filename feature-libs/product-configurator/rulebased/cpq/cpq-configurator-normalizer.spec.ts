@@ -117,6 +117,7 @@ const cpqTab2: Cpq.Tab = {
   isIncomplete: false,
   isSelected: false,
 };
+const TEST_ATTR_NAME = "testattr";
 
 const cpqConfiguration: Cpq.Configuration = {
   productSystemId: cpqProductSystemId,
@@ -147,6 +148,20 @@ const cpqConfigurationIncompleteInconsistent: Cpq.Configuration = {
   attributes: [],
 };
 
+
+const cpqConfigurationIncompleteConsistent: Cpq.Configuration = {
+  productSystemId: cpqProductSystemId,
+  incompleteMessages: [],
+  incompleteAttributes: [TEST_ATTR_NAME],
+  invalidMessages: [],
+  failedValidations: [],
+  errorMessages: [],
+  conflictMessages: [],
+  numberOfConflicts: 0,
+  tabs: [],
+  attributes: [],
+};
+
 class MockLanguageService {
   getActive(): Observable<string> {
     return of('en-US');
@@ -154,10 +169,17 @@ class MockLanguageService {
 }
 
 class MockTranslationService {
-  translate(): Observable<string> {
-    return of('General');
+  translate(key:string, options:any): Observable<string> {
+    if(key.endsWith("incomplete")){
+      return of(TEST_MESSAGE+options.attribute);
+    }else{
+      return of('General');
+    }
+    
   }
 }
+
+const TEST_MESSAGE = "This is test test message for attribute ";
 
 describe('CpqConfiguratorNormalizer', () => {
   let cpqConfiguratorNormalizer: CpqConfiguratorNormalizer;
@@ -916,7 +938,7 @@ describe('CpqConfiguratorNormalizer', () => {
     ).toBe(false);
   });
 
-  it('should determine the "real" value for required DDLB as not "to be ignored" when another "real" value already selected', () => {
+  it('should determine the "real" value for required DDLB as not "to be ignored" when another "real" value already selected', () =>{
     const cpqValueA: Cpq.Value = { paV_ID: 2, selected: false };
     const cpqValueB: Cpq.Value = { paV_ID: 1, selected: true };
     const cpqAttr: Cpq.Attribute = {
@@ -930,4 +952,21 @@ describe('CpqConfiguratorNormalizer', () => {
       cpqConfiguratorNormalizer['hasValueToBeIgnored'](cpqAttr, cpqValueA)
     ).toBe(false);
   });
+
+  it("should create message for incomplete attribute", () => {
+    const messageObs = cpqConfiguratorNormalizer.generateErrorMessages(cpqConfigurationIncompleteConsistent);
+    expect(messageObs.length).toBe(1);
+    messageObs[0].subscribe((message)=>{
+      expect(message).toContain(TEST_ATTR_NAME);
+    });
+  });
+
+  it("should create proper error message for incomplete attribute", () => {
+    const messageObs = cpqConfiguratorNormalizer.generateErrorMessages(cpqConfigurationIncompleteConsistent);
+    expect(messageObs.length).toBe(1);
+    messageObs[0].subscribe((message)=>{
+      expect(message).toContain(TEST_MESSAGE);
+    });
+  });
+
 });

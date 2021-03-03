@@ -4,6 +4,8 @@ import { Configurator } from './../core/model/configurator.model';
 import { Cpq } from './cpq.models';
 import { CpqConfiguratorUtilitiesService } from './cpq-configurator-utilities.service';
 import { take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+
 
 @Injectable()
 export class CpqConfiguratorNormalizer
@@ -33,6 +35,7 @@ export class CpqConfiguratorNormalizer
       priceSummary: this.cpqUtilitiesService.preparePriceSummary(source),
       groups: [],
       flatGroups: [],
+      errorMessages:  this.generateErrorMessages(source),
     };
     source.tabs.forEach((tab) =>
       this.convertGroup(
@@ -55,6 +58,14 @@ export class CpqConfiguratorNormalizer
     }
 
     return resultTarget;
+  }
+  generateErrorMessages(source: Cpq.Configuration): Observable<string>[] {
+    const arrayAttr: Observable<string>[] = [];
+    source.incompleteAttributes.forEach((attr) => {
+      arrayAttr.push(this.translation.translate("configurator.header.incomplete", {attribute: attr}));
+    })
+    console.log(source);  
+    return arrayAttr;
   }
 
   convertGroup(
