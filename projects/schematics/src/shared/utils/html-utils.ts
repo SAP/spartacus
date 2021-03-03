@@ -2,6 +2,7 @@ import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import {
   DefaultTreeDocument,
   DefaultTreeElement,
+  DefaultTreeNode,
   parse as parseHtml,
 } from 'parse5';
 
@@ -44,7 +45,7 @@ export function appendHtmlElementToHead(
 
   // We always have access to the source code location here because the `getHeadTagElement`
   // function explicitly has the `sourceCodeLocationInfo` option enabled.
-  // tslint:disable-next-line: no-non-null-assertion
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const endTagOffset = headTag.sourceCodeLocation!.endTag.startOffset;
   const indentationOffset = getChildElementIndentation(headTag);
   const insertion = `${' '.repeat(indentationOffset)}${elementHtml}`;
@@ -93,9 +94,9 @@ function getElementByTagName(
  */
 /** Determines the indentation of child elements for the given Parse5 element. */
 function getChildElementIndentation(element: DefaultTreeElement) {
-  const childElement = element.childNodes.find(
-    (node: DefaultTreeElement) => node['tagName']
-  ) as DefaultTreeElement | null;
+  const childElement = element.childNodes.find((node: DefaultTreeNode) => {
+    return !!(node as any).tagName;
+  }) as DefaultTreeElement | null;
 
   if (
     (childElement && !childElement.sourceCodeLocation) ||
@@ -110,11 +111,11 @@ function getChildElementIndentation(element: DefaultTreeElement) {
   const startColumns = childElement
     ? // In case there are child elements inside of the element, we assume that their
       // indentation is also applicable for other child elements.
-      // tslint:disable-next-line: no-non-null-assertion
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       childElement.sourceCodeLocation!.startCol
     : // In case there is no child element, we just assume that child elements should be indented
       // by two spaces.
-      // tslint:disable-next-line: no-non-null-assertion
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       element.sourceCodeLocation!.startCol + 2;
 
   // Since Parse5 does not set the `startCol` properties as zero-based, we need to subtract
