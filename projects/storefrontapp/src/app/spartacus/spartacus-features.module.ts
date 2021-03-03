@@ -9,7 +9,6 @@ import {
   CheckoutOccModule,
   CostCenterOccModule,
   ExternalRoutesModule,
-  PersonalizationModule,
   ProductModule,
   ProductOccModule,
   UserModule,
@@ -192,9 +191,6 @@ if (environment.cds) {
     ReplenishmentOrderDetailsModule,
     ReplenishmentOrderConfirmationModule,
 
-    // Personalization
-    PersonalizationModule.forRoot(),
-
     // Asm Core
     AsmOccModule,
     // Asm UI
@@ -207,7 +203,6 @@ if (environment.cds) {
     PageEventModule,
     ProductPageEventModule,
 
-    TrackingFeatureModule,
     /************************* Opt-in features *************************/
 
     ExternalRoutesModule.forRoot(), // to opt-in explicitly, is added by default schematics
@@ -218,6 +213,7 @@ if (environment.cds) {
     StorefinderFeatureModule,
     QualtricsFeatureModule,
     SmartEditFeatureModule,
+    TrackingFeatureModule,
     ...featureModules,
   ],
 })

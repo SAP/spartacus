@@ -137,6 +137,15 @@
       "@spartacus/tracking": [
         "feature-libs/tracking/public_api"
       ],
+      "@spartacus/tracking/personalization/core": [
+        "feature-libs/tracking/personalization/core/public_api"
+      ],
+      "@spartacus/tracking/personalization": [
+        "feature-libs/tracking/personalization/public_api"
+      ],
+      "@spartacus/tracking/personalization/root": [
+        "feature-libs/tracking/personalization/root/public_api"
+      ],
       "@spartacus/tracking/tms/aep": [
         "feature-libs/tracking/tms/aep/public_api"
       ],
