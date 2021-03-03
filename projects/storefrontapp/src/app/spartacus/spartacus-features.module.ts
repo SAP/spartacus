@@ -15,6 +15,7 @@ import {
   UserModule,
   UserOccModule,
 } from '@spartacus/core';
+
 import {
   AddressBookModule,
   AnonymousConsentManagementBannerModule,
@@ -76,13 +77,18 @@ import {
   UserComponentModule,
   WishListModule,
 } from '@spartacus/storefront';
-import { environment } from '../../environments/environment';
+
 import { AdministrationFeatureModule } from './features/administration-feature.module';
+import { environment } from '../../environments/environment';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
+<<<<<<< HEAD
 import { SavedCartFeatureModule } from './features/saved-cart-feature.module';
+=======
+import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
+>>>>>>> origin/develop
 import { SmartEditFeatureModule } from './features/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking-feature.module';
@@ -93,7 +99,11 @@ if (environment.b2b) {
   featureModules.push(
     AdministrationFeatureModule,
     OrderApprovalFeatureModule,
+<<<<<<< HEAD
     SavedCartFeatureModule
+=======
+    BulkPricingFeatureModule
+>>>>>>> origin/develop
   );
 }
 if (environment.cdc) {
