@@ -1,5 +1,8 @@
 %cx-configurator-show-more {
   &:not(:empty) {
+    font-size: 14px;
+    line-height: 1.2;
+
     button {
       background-color: transparent;
       border: none;
