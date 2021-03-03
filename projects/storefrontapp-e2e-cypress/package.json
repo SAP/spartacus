@@ -5,13 +5,14 @@
   "author": "SAP, Spartacus team",
   "license": "Apache-2.0",
   "scripts": {
-    "cy:open": "cypress open",
-    "cy:run": "cypress run",
-    "cy:run:ci": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2005,b2c,all,parallel\" --parallel --group B2C --ci-build-id $TRAVIS_BUILD_ID --spec \"cypress/integration/!(vendor|b2b)/**/*.e2e-spec.ts\"",
-    "cy:run:ci:b2b": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2005,b2b,all\" --group B2B --ci-build-id $TRAVIS_BUILD_ID --spec \"cypress/integration/b2b/**/*.e2e-spec.ts\"",
-    "cy:run:ci:cds": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2005,b2c,all-cds\" --spec \"cypress/integration/!(vendor|b2b)/**/*.e2e-spec.ts,cypress/integration/vendor/cds/**/*.e2e-spec.ts\"",
-    "cy:run:ci:flaky": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2005,b2c,parallel,flaky\" --parallel --group flaky --spec \"cypress/integration/!(vendor|b2b)/**/*.flaky-e2e-spec.ts\"",
-    "cy:run:product-configuration": "cypress run --spec \"cypress/integration/**/*-configuration*.*e2e-spec.ts\""
+    "run:with:env": "env-cmd -r ../../.env-cmdrc --no-override -e dev,$SPA_ENV",
+    "cy:open": "yarn run:with:env cypress open",
+    "cy:run": "yarn run:with:env cypress run",
+    "cy:run:ci": "yarn run:with:env cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2005,b2c,all,parallel\" --parallel --group B2C --ci-build-id $TRAVIS_BUILD_ID --spec \"cypress/integration/!(vendor|b2b)/**/*.e2e-spec.ts\"",
+    "cy:run:ci:b2b": "yarn run:with:env cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2005,b2b,all\" --group B2B --ci-build-id $TRAVIS_BUILD_ID --spec \"cypress/integration/b2b/**/*.e2e-spec.ts\"",
+    "cy:run:ci:cds": "yarn run:with:env cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2005,b2c,all-cds\" --spec \"cypress/integration/!(vendor|b2b)/**/*.e2e-spec.ts,cypress/integration/vendor/cds/**/*.e2e-spec.ts\"",
+    "cy:run:ci:flaky": "yarn run:with:env cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2005,b2c,parallel,flaky\" --parallel --group flaky --spec \"cypress/integration/!(vendor|b2b)/**/*.flaky-e2e-spec.ts\"",
+    "cy:run:product-configuration": "yarn run:with:env cypress run --spec \"cypress/integration/**/*-configuration*.*e2e-spec.ts\""
   },
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^5.5.0",

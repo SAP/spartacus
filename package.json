@@ -7,7 +7,7 @@
     "node": ">=12 <16"
   },
   "scripts": {
-    "build": "env-cmd --no-override -e dev,b2c,$SPA_ENV ng build storefrontapp --prod",
+    "build": "yarn run:with:env ng build storefrontapp --prod",
     "build:assets": "yarn --cwd ./projects/assets build",
     "build:cdc": "ng build cdc --prod",
     "build:cds": "ng build cds --prod",
@@ -37,8 +37,8 @@
     "lint:styles": "stylelint \"{projects,feature-libs}/**/*.scss\"",
     "prettier": "prettier --config ./.prettierrc --list-different \"{projects,feature-libs,core-libs,integration-libs}/**/*{.ts,.js,.json,.scss,.html}\"",
     "prettier:fix": "prettier --config ./.prettierrc --list-different \"{projects,feature-libs,core-libs,integration-libs}/**/*{.ts,.js,.json,.scss,.html}\" --write",
-    "start": "env-cmd --no-override -e dev,b2c,$SPA_ENV ng serve",
-    "start:prod": "env-cmd --no-override -e dev,b2c,$SPA_ENV ng serve --prod",
+    "start": "yarn run:with:env ng serve",
+    "start:prod": "yarn run:with:env ng serve --prod",
     "start:pwa": "cd ./dist/storefrontapp/ && http-server --silent --proxy http://localhost:4200? -p 4200",
     "test": "ng test",
     "test:libs": "concurrently \"ng test core --code-coverage\" \"ng test storefrontlib --code-coverage\" \"ng test organization --code-coverage\" \"ng test storefinder --code-coverage\" \"ng test smartedit --code-coverage\" \"ng test qualtrics --code-coverage\" \"ng test product --code-coverage\" \"ng test product-configurator --code-coverage\" \"ng test cdc --code-coverage\" \"ng test setup --code-coverage\"",
@@ -66,6 +66,7 @@
     "release:product-configurator:with-changelog": "cd feature-libs/product-configurator && release-it && cd ../..",
     "release:qualtrics:with-changelog": "cd feature-libs/qualtrics && release-it && cd ../..",
     "release:tracking:with-changelog": "cd feature-libs/tracking && release-it && cd ../..",
+    "run:with:env" : "env-cmd --no-override -e dev,b2c,$SPA_ENV",
     "prerender:cds": "cross-env SPARTACUS_CDS=true ng run storefrontapp:prerender",
     "publish:docs": "gh-pages -d documentation -m \"Compodocs updates\"",
     "test:cds:lib": "ng test cds --code-coverage",
