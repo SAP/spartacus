@@ -8,8 +8,9 @@ import {
 import { Cart, TranslationService } from '@spartacus/core';
 import {
   Card,
-  LaunchDialogService,
+  ICON_TYPE,
   LAUNCH_CALLER,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { SavedCartService } from 'feature-libs/cart/saved-cart/core/services/saved-cart.service';
 import { Observable, combineLatest, Subscription } from 'rxjs';
@@ -21,6 +22,7 @@ import { SavedCartDetailService } from '../saved-cart-detail.service';
   templateUrl: './saved-cart-detail-overview.component.html',
 })
 export class SavedCartDetailOverviewComponent implements OnDestroy {
+  iconTypes = ICON_TYPE;
   savedCart$: Observable<Cart> = this.savedCartDetailService.getCartDetails();
 
   @ViewChild('element') element: ElementRef;
