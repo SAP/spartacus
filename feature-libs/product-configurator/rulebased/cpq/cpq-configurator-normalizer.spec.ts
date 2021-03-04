@@ -958,35 +958,20 @@ describe('CpqConfiguratorNormalizer', () => {
     ).toBe(false);
   });
 
-  it('should create message for incomplete attribute', () => {
+  it('should create no error message for incomplete attribute', () => {
     const messageObs = cpqConfiguratorNormalizer.generateErrorMessages(
       cpqConfigurationIncompleteConsistent
     );
-    expect(messageObs.length).toBe(1);
-    messageObs[0].subscribe((message) => {
-      expect(message).toContain(TEST_ATTR_NAME);
-    });
-  });
-
-  it('should create proper error message for incomplete attribute', () => {
-    const messageObs = cpqConfiguratorNormalizer.generateErrorMessages(
-      cpqConfigurationIncompleteConsistent
-    );
-    expect(messageObs.length).toBe(1);
-    messageObs[0].subscribe((message) => {
-      expect(message).toContain(TEST_MESSAGE);
-    });
+    expect(messageObs.length).toBe(0);
   });
 
   it('should map error message from conflict, errror and invalid messages and incomplete attributes', () => {
     const mappedConfiguration = cpqConfiguratorNormalizer.convert(
       cpqConfigurationIncompleteInconsistent
     );
-    expect(mappedConfiguration.errorMessages.length).toBe(6);
+    expect(mappedConfiguration.errorMessages.length).toBe(4);
 
     checkMessagePresent(mappedConfiguration.errorMessages, INCOMPLETE_MSG);
-    checkMessagePresent(mappedConfiguration.errorMessages, INCOMPLETE_ATTR_1);
-    checkMessagePresent(mappedConfiguration.errorMessages, INCOMPLETE_ATTR_2);
     checkMessagePresent(mappedConfiguration.errorMessages, ERROR_MSG);
     checkMessagePresent(mappedConfiguration.errorMessages, INVALID_MSG);
     checkMessagePresent(mappedConfiguration.errorMessages, CONFLICT_MSG);

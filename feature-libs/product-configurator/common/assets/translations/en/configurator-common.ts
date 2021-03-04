@@ -11,7 +11,6 @@ export const configurator = {
       updateMessage: 'The configuration is being updated in the background',
       showMore: 'show more',
       showLess: 'show less',
-      incomplete: 'Attribute {{attribute}} is incomplete'
     },
     tabBar: {
       configuration: 'Configuration',
