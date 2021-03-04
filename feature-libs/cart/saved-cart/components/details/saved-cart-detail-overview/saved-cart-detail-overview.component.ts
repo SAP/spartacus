@@ -96,6 +96,7 @@ export class SavedCartDetailOverviewComponent {
 
   editCart(cartId: string): void {
     // TODO: requires Michal's generic dialog form
+    // do not forget
 
     this.savedCartService.saveCart({
       cartId,
