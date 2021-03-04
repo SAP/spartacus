@@ -7,14 +7,14 @@ import {
   SampleCartProduct,
   SampleProduct,
   SampleUser,
-  user,
+  user
 } from '../sample-data/checkout-flow';
 import { login, register } from './auth-forms';
 import {
   AddressData,
   fillPaymentDetails,
   fillShippingAddress,
-  PaymentDetails,
+  PaymentDetails
 } from './checkout-forms';
 
 export const ELECTRONICS_BASESITE = 'electronics-spa';
@@ -66,7 +66,7 @@ export function registerUser(
   giveRegistrationConsent: boolean = false,
   sampleUser: SampleUser = user
 ) {
-  log(`Registering user ${user.email}`);
+  log(`Registering user ${sampleUser.email}`);
 
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.findByText(/Sign in \/ Register/i).click();

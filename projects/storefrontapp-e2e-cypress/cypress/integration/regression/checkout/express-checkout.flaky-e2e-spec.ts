@@ -1,12 +1,22 @@
 import { CheckoutConfig } from '@spartacus/storefront';
 import * as checkout from '../../../helpers/checkout-flow';
 import { viewportContext } from '../../../helpers/viewport-context';
+import { getSampleUser } from '../../../sample-data/checkout-flow';
 
 context('Express checkout', () => {
-  viewportContext(['mobile'], () => {
+  viewportContext(['mobile', 'desktop'], () => {
+    let user;
+
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.cxConfig({ checkout: { express: true } } as CheckoutConfig);
+      user = getSampleUser();
+      Cypress.log({
+        name: 'expressCheckoutLog',
+        displayName: 'expressCheckoutLog',
+        message: [`Creating/setting test user: ${user.email}`],
+      });
+
       checkout.visitHomePage();
     });
 
@@ -23,9 +33,9 @@ context('Express checkout', () => {
         cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
       });
 
-      checkout.registerUser();
+      checkout.registerUser(false, user);
       checkout.goToCheapProductDetailsPage();
-      checkout.addCheapProductToCartAndLogin();
+      checkout.addCheapProductToCartAndLogin(user);
 
       cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
     });
