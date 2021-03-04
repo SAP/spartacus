@@ -3,7 +3,8 @@ import { SavedCartAdapter } from './saved-cart.adapter';
 import { SavedCartConnector } from './saved-cart.connector';
 
 describe('SavedCartConnector', () => {
-  let connector: SavedCartConnector;
+  // TODO: to work on unit test
+  // let connector: SavedCartConnector;
   let adapter: SavedCartAdapter;
 
   beforeEach(() => {
@@ -11,7 +12,7 @@ describe('SavedCartConnector', () => {
       providers: [SavedCartConnector],
     });
 
-    connector = TestBed.inject(SavedCartConnector);
+    // connector = TestBed.inject(SavedCartConnector);
     adapter = TestBed.inject(SavedCartAdapter);
   });
 

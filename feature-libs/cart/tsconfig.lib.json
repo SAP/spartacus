@@ -7,7 +7,7 @@
     "moduleResolution": "node",
     "declaration": true,
     "sourceMap": true,
-    "strict": true,
+    "strict": false, // TODO: Fix strict errors and remove this option
     "inlineSources": true,
     "experimentalDecorators": true,
     "importHelpers": true,

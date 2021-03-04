@@ -5,7 +5,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { Cart, RoutingService, TranslationService } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { SavedCartService } from '../../core/services/saved-cart.service';
 
 @Component({
@@ -14,6 +14,8 @@ import { SavedCartService } from '../../core/services/saved-cart.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SavedCartListComponent implements OnInit, OnDestroy {
+  private subscription = new Subscription();
+
   savedCarts$: Observable<Cart[]> = this.savedCartService.getList();
 
   constructor(
@@ -24,6 +26,12 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.savedCartService.loadSavedCarts();
+
+    this.subscription.add(
+      this.savedCartService
+        .getRestoreSavedCartProcessSuccess()
+        .subscribe((success) => this.onSuccess(success))
+    );
   }
 
   goToSavedCartDetails(cart: Cart): void {
@@ -38,7 +46,14 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
     event.stopPropagation();
   }
 
+  onSuccess(success: boolean): void {
+    if (success) {
+      this.savedCartService.clearRestoreSavedCart();
+    }
+  }
+
   ngOnDestroy(): void {
     this.savedCartService.clearSavedCarts();
+    this.subscription?.unsubscribe();
   }
 }

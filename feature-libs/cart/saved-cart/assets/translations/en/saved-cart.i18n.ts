@@ -1,4 +1,15 @@
-export const savedCartDetails = {};
+export const savedCartDetails = {
+  cartName: 'Name',
+  cartDescription: 'Description',
+  cartId: 'ID',
+  dateSaved: 'Date Saved',
+  items: 'Items',
+  quantity: 'Quantity',
+  total: 'Total',
+  edit: 'Edit',
+  remove: 'Remove',
+  addSelectedItems: 'Add selected items',
+};
 
 export const savedCartList = {
   savedCarts: 'Saved Carts ({{count}})',
