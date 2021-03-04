@@ -48,6 +48,12 @@ cx-saved-cart-detail-overview {
           @include type('4');
           font-weight: bold;
         }
+        .cx-edit-card-container {
+          display: flex;
+          .cx-edit-actions {
+            padding: 20px;
+          }
+        }
       }
 
       .cx-action-link {

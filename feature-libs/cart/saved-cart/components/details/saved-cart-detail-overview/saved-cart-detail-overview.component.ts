@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Cart, TranslationService } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
+import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { SavedCartService } from 'feature-libs/cart/saved-cart/core/services/saved-cart.service';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -11,6 +11,7 @@ import { SavedCartDetailService } from '../saved-cart-detail.service';
   templateUrl: './saved-cart-detail-overview.component.html',
 })
 export class SavedCartDetailOverviewComponent {
+  iconTypes = ICON_TYPE;
   savedCart$: Observable<Cart> = this.savedCartDetailService.getCartDetails();
 
   constructor(
@@ -95,6 +96,7 @@ export class SavedCartDetailOverviewComponent {
 
   editCart(cartId: string): void {
     // TODO: requires Michal's generic dialog form
+    // do not forget
 
     this.savedCartService.saveCart({
       cartId,
@@ -102,13 +104,6 @@ export class SavedCartDetailOverviewComponent {
       saveCartDescription: 'hello from the other side',
       extraData: { edit: true },
     });
-  }
-
-  deleteCart(cartId: string): void {
-    //  TODO: asked Marcin if I can make changes to the cart actions
-    // question is catered towards deprecations
-    // main question is that I want to add the loader state mechanism to it
-    this.savedCartService.deleteSavedCart(cartId);
   }
 
   private getDate(givenDate: Date): string {
