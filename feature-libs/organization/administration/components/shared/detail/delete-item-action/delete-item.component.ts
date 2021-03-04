@@ -65,6 +65,7 @@ export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
   constructor(
     itemService: ItemService<T>,
     messageService: MessageService<ConfirmationMessageData>,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     featureConfigService: FeatureConfigService
   );
 

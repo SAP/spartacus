@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Inject,
+  OnInit,
   PLATFORM_ID,
 } from '@angular/core';
 import { BaseMessageComponent } from '../base-message.component';
@@ -18,7 +19,9 @@ import { Translatable } from '@spartacus/core';
   templateUrl: './confirmation-message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfirmationMessageComponent extends BaseMessageComponent {
+export class ConfirmationMessageComponent
+  extends BaseMessageComponent
+  implements OnInit {
   cancelText: Translatable = {
     key: 'organization.confirmation.cancel',
   };
