@@ -10,6 +10,7 @@ export const savedCartDetails = {
   deleteSavedCart: 'Delete Saved Cart',
   addSelectedItems: 'Add selected items',
   deleteCartSuccess: 'Cart Deleted Successfully',
+  editCartSuccess: 'Cart Edited Successfully',
 };
 
 export const savedCartList = {

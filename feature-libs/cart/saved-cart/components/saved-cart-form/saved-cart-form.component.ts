@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Cart } from '@spartacus/core';
 import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { SavedCartService } from '../../core/services/saved-cart.service';
+import { SavedCartFormService } from './saved-cart-form.service';
 
 @Component({
   selector: 'cx-saved-cart-form',
@@ -13,22 +14,19 @@ import { SavedCartService } from '../../core/services/saved-cart.service';
 })
 export class SavedCartFormComponent implements OnInit {
   cart$: Observable<Cart>;
-  form: FormGroup;
+  form: FormGroup = this.savedCartFormService.getForm();
   iconTypes = ICON_TYPE;
   isLoading$: Observable<boolean>;
-
-  descriptionMaxLength: number = 500;
-  nameMaxLength: number = 50;
 
   protected isEdition = false;
 
   constructor(
+    public savedCartFormService: SavedCartFormService,
     protected savedCartService: SavedCartService,
     protected launchDialogService: LaunchDialogService
   ) {}
 
   ngOnInit(): void {
-    this.build();
     this.cart$ = this.launchDialogService.data$.pipe(
       tap((cart: Cart) => {
         this.fillForm(cart);
@@ -39,7 +37,7 @@ export class SavedCartFormComponent implements OnInit {
 
   get descriptionsCharacterLeft(): number {
     return (
-      this.descriptionMaxLength -
+      this.savedCartFormService.descriptionMaxLength -
       (this.form.get('description')?.value?.length || 0)
     );
   }
@@ -66,26 +64,9 @@ export class SavedCartFormComponent implements OnInit {
 
   protected fillForm(cart: Cart): void {
     if (cart.saveTime) {
-      const cartName = cart.name || '';
-      const cartDescription = cart.description || '';
-
-      this.form.get('name')?.setValue(cartName);
-      this.form.get('description')?.setValue(cartDescription);
-
+      this.form = this.savedCartFormService.getForm(cart);
       this.isEdition = true;
     }
-  }
-
-  protected build(): void {
-    this.form = new FormGroup({
-      name: new FormControl('', [
-        Validators.required,
-        Validators.maxLength(this.nameMaxLength),
-      ]),
-      description: new FormControl('', [
-        Validators.maxLength(this.descriptionMaxLength),
-      ]),
-    });
   }
 
   protected close(reason: string): void {

@@ -32,9 +32,9 @@
               'savedCartDialog.savedCartName' | cxTranslate
             }}</span>
             <input
-              [maxLength]="nameMaxLength"
               class="form-control"
               formControlName="name"
+              maxLength="50"
               required
               type="text"
             />
@@ -53,9 +53,9 @@
               </span></span
             >
             <textarea
-              [maxLength]="descriptionMaxLength"
               class="form-control"
               formControlName="description"
+              [maxLength]="savedCartFormService.descriptionMaxLength"
               rows="5"
             ></textarea>
             <cx-form-errors

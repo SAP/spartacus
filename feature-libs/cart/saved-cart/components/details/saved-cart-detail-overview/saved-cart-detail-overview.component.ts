@@ -2,10 +2,16 @@ import {
   Component,
   ElementRef,
   OnDestroy,
+  OnInit,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { Cart, TranslationService } from '@spartacus/core';
+import {
+  Cart,
+  GlobalMessageService,
+  GlobalMessageType,
+  TranslationService,
+} from '@spartacus/core';
 import {
   Card,
   ICON_TYPE,
@@ -21,7 +27,7 @@ import { SavedCartDetailService } from '../saved-cart-detail.service';
   selector: 'cx-saved-cart-detail-overview',
   templateUrl: './saved-cart-detail-overview.component.html',
 })
-export class SavedCartDetailOverviewComponent implements OnDestroy {
+export class SavedCartDetailOverviewComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
   savedCart$: Observable<Cart> = this.savedCartDetailService.getCartDetails();
 
@@ -30,12 +36,21 @@ export class SavedCartDetailOverviewComponent implements OnDestroy {
   protected subscription = new Subscription();
 
   constructor(
+    protected globalMessageService: GlobalMessageService,
     protected launchDialogService: LaunchDialogService,
     protected savedCartDetailService: SavedCartDetailService,
     protected savedCartService: SavedCartService,
     protected translation: TranslationService,
     protected vcr: ViewContainerRef
   ) {}
+
+  ngOnInit(): void {
+    this.subscription.add(
+      this.savedCartService
+        .getSaveCartProcessSuccess()
+        .subscribe((success) => this.onSuccess(success))
+    );
+  }
 
   ngOnDestroy(): void {
     this.launchDialogService.clear(LAUNCH_CALLER.ADD_TO_SAVED_CART);
@@ -129,6 +144,19 @@ export class SavedCartDetailOverviewComponent implements OnDestroy {
     // question is catered towards deprecations
     // main question is that I want to add the loader state mechanism to it
     this.savedCartService.deleteSavedCart(cartId);
+  }
+
+  protected onSuccess(success: boolean): void {
+    if (success) {
+      this.savedCartService.removeSaveCartEntityProcess();
+      this.launchDialogService.closeDialog('Cart edited');
+      this.globalMessageService.add(
+        {
+          key: 'savedCartDetails.editCartSuccess',
+        },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    }
   }
 
   protected openDialog(
