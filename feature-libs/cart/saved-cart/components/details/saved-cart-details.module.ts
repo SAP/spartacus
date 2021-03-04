@@ -47,13 +47,11 @@ import { SavedCartDetailOverviewComponent } from './saved-cart-detail-overview/s
   ],
   declarations: [
     SavedCartDetailOverviewComponent,
-
     SavedCartDetailActionComponent,
     SavedCartDetailItemsComponent,
   ],
   exports: [
     SavedCartDetailOverviewComponent,
-
     SavedCartDetailActionComponent,
     SavedCartDetailItemsComponent,
   ],
