@@ -22,7 +22,8 @@ describe('UnitListComponent', () => {
   let component: UnitListComponent;
   let unitTreeService: UnitTreeService;
   let fixture: ComponentFixture<UnitListComponent>;
-  let expandAll: HTMLElement, collapseAll: HTMLElement;
+  let expandAll: HTMLElement;
+  let collapseAll: HTMLElement;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, UrlTestingModule],
