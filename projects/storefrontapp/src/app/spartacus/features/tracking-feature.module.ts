@@ -16,12 +16,9 @@ import { GtmModule } from '@spartacus/tracking/tms/gtm';
       tagManager: {
         gtm: {
           events: [NavigationEvent, CartAddEntrySuccessEvent],
-          gtmId: 'GTM-NFCR3XV',
         },
         aep: {
           events: [NavigationEvent, CartRemoveEntrySuccessEvent],
-          scriptUrl:
-            '//assets.adobedtm.com/ccc66c06b30b/3d6ad0fe69f4/launch-2243563c1764-development.min.js',
         },
       },
     } as TmsConfig),

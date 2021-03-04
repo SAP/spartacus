@@ -10,7 +10,6 @@ declare module '@spartacus/tracking/tms/core' {
 export const defaultGoogleTagManagerConfig: TmsConfig = {
   tagManager: {
     gtm: {
-      debug: true,
       collector: GtmCollectorService,
     },
   },

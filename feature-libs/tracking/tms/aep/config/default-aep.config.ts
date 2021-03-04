@@ -10,7 +10,6 @@ declare module '@spartacus/tracking/tms/core' {
 export const defaultAdobeExperiencePlatformConfig: TmsConfig = {
   tagManager: {
     aep: {
-      debug: true,
       collector: AepCollectorService,
     },
   },
