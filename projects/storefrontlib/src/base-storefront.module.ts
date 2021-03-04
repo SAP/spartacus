@@ -13,9 +13,9 @@ import { KeyboardFocusModule } from './layout/a11y/keyboard-focus/keyboard-focus
 import { SkipLinkModule } from './layout/a11y/skip-link/skip-link.module';
 import { LayoutModule } from './layout/layout.module';
 import { MediaModule } from './shared/components/media/media.module';
+import { StorefrontComponentModule } from './layout/main/storefront-component.module';
 
 @NgModule({
-  declarations: [],
   imports: [
     BaseCoreModule.forRoot(),
     RouterModule,
@@ -32,7 +32,8 @@ import { MediaModule } from './shared/components/media/media.module';
     RoutingModule.forRoot(),
     MediaModule.forRoot(),
     OutletModule.forRoot(),
+    StorefrontComponentModule,
   ],
-  exports: [LayoutModule],
+  exports: [LayoutModule, StorefrontComponentModule],
 })
 export class BaseStorefrontModule {}
