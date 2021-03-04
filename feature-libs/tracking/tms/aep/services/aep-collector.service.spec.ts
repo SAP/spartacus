@@ -9,7 +9,7 @@ class MockScriptLoader implements Partial<ScriptLoader> {
 
 const scriptName = 'xxx.js';
 const config: TmsCollectorConfig = {
-  script: { url: scriptName },
+  scriptUrl: 'xxx',
 };
 
 describe('AepCollectorService', () => {
