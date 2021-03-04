@@ -7,10 +7,15 @@ import { waitForPage } from '../../../helpers/checkout-flow';
 import * as loginHelper from '../../../helpers/login';
 import { validateUpdateProfileForm } from '../../../helpers/update-profile';
 import { viewportContext } from '../../../helpers/viewport-context';
-import { cheapProduct, user } from '../../../sample-data/checkout-flow';
+import {
+  cheapProduct,
+  getSampleUser,
+} from '../../../sample-data/checkout-flow';
 context('Checkout as guest', () => {
-  viewportContext(['mobile'], () => {
+  let user;
+  viewportContext(['mobile', 'desktop'], () => {
     before(() => {
+      user = getSampleUser();
       cy.window().then((win) => win.sessionStorage.clear());
     });
 
@@ -24,7 +29,7 @@ context('Checkout as guest', () => {
 
       cy.get('.register').findByText(/Guest Checkout/i);
 
-      guestCheckout.loginAsGuest();
+      guestCheckout.loginAsGuest(user);
 
       checkout.fillAddressFormWithCheapProduct();
       checkout.verifyDeliveryMethod();
@@ -68,7 +73,7 @@ context('Checkout as guest', () => {
       checkout.goToCheapProductDetailsPage();
       checkout.addCheapProductToCartAndProceedToCheckout();
 
-      guestCheckout.loginAsGuest();
+      guestCheckout.loginAsGuest(user);
 
       checkout.fillAddressFormWithCheapProduct();
 
