@@ -18,7 +18,7 @@ import {
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
-import * as ts from 'typescript';
+import ts from 'typescript';
 import {
   ANGULAR_CORE,
   ANGULAR_OAUTH2_OIDC,
@@ -343,25 +343,35 @@ export function addSpartacus(options: SpartacusOptions): Rule {
 
     return chain([
       addPackageJsonDependencies(dependencies),
-      ensureModuleExists('app-routing', 'app', 'app', options.project),
+      ensureModuleExists({
+        name: 'app-routing',
+        path: 'app',
+        module: 'app',
+        project: options.project,
+      }),
       setupRouterModule(options.project),
       setupStoreModules(options.project),
-      ensureModuleExists('spartacus', 'app/spartacus', 'app', options.project),
+      ensureModuleExists({
+        name: 'spartacus',
+        path: 'app/spartacus',
+        module: 'app',
+        project: options.project,
+      }),
       // add base storefront module
       // add base storefront to declarations
-      ensureModuleExists(
-        'spartacus-features',
-        'app/spartacus',
-        'spartacus',
-        options.project
-      ),
+      ensureModuleExists({
+        name: 'spartacus-features',
+        path: 'app/spartacus',
+        module: 'spartacus',
+        project: options.project,
+      }),
       // add all the features modules
-      ensureModuleExists(
-        'spartacus-configuration',
-        'app/spartacus',
-        'spartacus',
-        options.project
-      ),
+      ensureModuleExists({
+        name: 'spartacus-configuration',
+        path: 'app/spartacus',
+        module: 'spartacus',
+        project: options.project,
+      }),
       // add the configuration
       updateAppModule(options),
       installStyles(options),
@@ -372,15 +382,17 @@ export function addSpartacus(options: SpartacusOptions): Rule {
   };
 }
 
-function ensureModuleExists(
-  name: string,
-  path: string,
-  module: string,
-  project: string
-): Rule {
+function ensureModuleExists(options: {
+  name: string;
+  path: string;
+  module: string;
+  project: string;
+}): Rule {
   return (host: Tree) => {
-    const modulePath = `${getSourceRoot(host, { project: project })}/${path}`;
-    const filePath = `${modulePath}/${name}.module.ts`;
+    const modulePath = `${getSourceRoot(host, { project: options.project })}/${
+      options.path
+    }`;
+    const filePath = `${modulePath}/${options.name}.module.ts`;
     if (host.exists(filePath)) {
       const module = getTsSourceFile(host, filePath);
       const metadata = getDecoratorMetadata(
@@ -395,11 +407,11 @@ function ensureModuleExists(
     }
 
     return externalSchematic(ANGULAR_SCHEMATICS, 'module', {
-      name: name,
+      name: options.name,
       flat: true,
       commonModule: false,
       path: modulePath,
-      module: module,
+      module: options.module,
     });
   };
 }
