@@ -12,6 +12,8 @@ import { OccCartVoucherAdapter } from './occ-cart-voucher.adapter';
 import { OccCartAdapter } from './occ-cart.adapter';
 import { OccSaveCartAdapter } from './occ-save-cart.adapter';
 import { provideDefaultConfig } from '../../../config/config-providers';
+import { OccCartEntryGroupAdapter } from './occ-cart-entry-group.adapter';
+import { CartEntryGroupAdapter } from '../../../cart/connectors/entry-group/cart-entry-group.adapter';
 
 @NgModule({
   imports: [CommonModule],
@@ -29,6 +31,10 @@ import { provideDefaultConfig } from '../../../config/config-providers';
     {
       provide: CartEntryAdapter,
       useClass: OccCartEntryAdapter,
+    },
+    {
+      provide: CartEntryGroupAdapter,
+      useClass: OccCartEntryGroupAdapter,
     },
     {
       provide: CartVoucherAdapter,

@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { CartActions } from '@spartacus/core';
+import {
+  CartActions,
+  CartModification,
+  SiteContextActions,
+  withdrawOn,
+} from '@spartacus/core';
 import { BundleConnector } from 'feature-libs/bundle/core/connectors/bundle.connector';
-import { withdrawOn } from 'projects/core/src/util';
 import { from, Observable } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
-import { CartModification } from '../../../../projects/core/src/model/cart.model';
-import { SiteContextActions } from '../../../../projects/core/src/site-context/store/actions/index';
 import { BundleActions } from '../actions';
 
 @Injectable()
@@ -24,22 +26,22 @@ export class BundleEffects {
     | BundleActions.StartBundleFail
     | CartActions.LoadCart
   > = this.actions$.pipe(
-    ofType(CartActions.START_BUNDLE),
-    map((action: CartActions.StartBundle) => action.payload),
+    ofType(BundleActions.START_BUNDLE),
+    map((action: BundleActions.StartBundle) => action.payload),
     concatMap((payload) => {
       return this.bundleConnector
         .bundleStart(payload.userId, payload.cartId, payload.bundleStarter)
         .pipe(
           map(
             (cartModification: CartModification) =>
-              new CartActions.StartBundleSuccess({
+              new BundleActions.StartBundleSuccess({
                 ...payload,
                 ...(cartModification as Required<CartModification>),
               })
           ),
           catchError((error) =>
             from([
-              new CartActions.StartBundleFail({
+              new BundleActions.StartBundleFail({
                 ...payload,
                 error: error,
               }),
@@ -56,12 +58,12 @@ export class BundleEffects {
 
   @Effect()
   getBundleAllowedProducts$: Observable<
-    | CartActions.GetBundleAllowedProductsSuccess
-    | CartActions.GetBundleAllowedProductsFail
+    | BundleActions.GetBundleAllowedProductsSuccess
+    | BundleActions.GetBundleAllowedProductsFail
     | CartActions.LoadCart
   > = this.actions$.pipe(
-    ofType(CartActions.GET_BUNDLE_ALLOWED_PRODUCTS),
-    map((action: CartActions.GetBundleAllowedProducts) => action.payload),
+    ofType(BundleActions.GET_BUNDLE_ALLOWED_PRODUCTS),
+    map((action: BundleActions.GetBundleAllowedProducts) => action.payload),
     concatMap((payload) => {
       return this.bundleConnector
         .bundleAllowedProductsSearch(
@@ -74,14 +76,14 @@ export class BundleEffects {
           map(
             (cartModification: CartModification) =>
               // TODO: Type should not be cast to "any"
-              new CartActions.GetBundleAllowedProductsSuccess(<any>{
+              new BundleActions.GetBundleAllowedProductsSuccess(<any>{
                 ...payload,
                 ...(cartModification as Required<CartModification>),
               })
           ),
           catchError((error) =>
             from([
-              new CartActions.GetBundleAllowedProductsFail({
+              new BundleActions.GetBundleAllowedProductsFail({
                 ...payload,
                 error: error,
               }),
