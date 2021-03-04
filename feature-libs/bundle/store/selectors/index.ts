@@ -1,2 +1,2 @@
-import * as StoreFinderSelectors from './store-finder-group.selectors';
-export { StoreFinderSelectors };
+import * as BundleSelectors from './bundle-group.selectors';
+export { BundleSelectors };

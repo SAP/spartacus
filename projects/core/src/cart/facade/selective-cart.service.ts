@@ -12,7 +12,6 @@ import { UserService } from '../../user/facade/user.service';
 import { CartConfigService } from '../services/cart-config.service';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartService } from './multi-cart.service';
-import { BundleStarter } from '../../model';
 
 @Injectable({
   providedIn: 'root',
@@ -196,29 +195,5 @@ export class SelectiveCartService {
 
   private isLoggedIn(userId: string): boolean {
     return typeof userId !== 'undefined' && userId !== OCC_USER_ID_ANONYMOUS;
-  }
-
-  startBundle(bundleStarter: BundleStarter): void {
-    let loadAttempted = false;
-    this.cartSelector$
-      .pipe(
-        filter(() => !loadAttempted),
-        switchMap((cartState) => {
-          if (this.isEmpty(cartState.value) && !cartState.loading) {
-            loadAttempted = true;
-            this.load();
-          }
-          return of(cartState);
-        }),
-        filter((cartState) => !this.isEmpty(cartState.value)),
-        take(1)
-      )
-      .subscribe(() => {
-        this.multiCartService.startBundle(
-          this.cartId,
-          this.userId,
-          bundleStarter
-        );
-      });
   }
 }

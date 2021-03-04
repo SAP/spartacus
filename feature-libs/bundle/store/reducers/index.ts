@@ -1,48 +1,23 @@
-import {
-  Action,
-  ActionReducer,
-  ActionReducerMap,
-  MetaReducer,
-} from '@ngrx/store';
+import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 
 import { InjectionToken, Provider } from '@angular/core';
-import { StoresState, STORE_FINDER_DATA } from '../store-finder-state';
-import { SiteContextActions, StateUtils } from '@spartacus/core';
-import { StoreFinderActions } from '../actions';
-import { findStoresReducer } from './find-stores.reducer';
-import { viewAllStoresReducer } from './view-all-stores.reducer';
+import { BundleState, BUNDLE_DATA } from '../bundle-state';
+import { StateUtils } from '@spartacus/core';
+import { bundleReducer } from './bundle.reducer';
 
-export function getReducers(): ActionReducerMap<StoresState> {
+export function getReducers(): ActionReducerMap<BundleState> {
   return {
-    findStores: StateUtils.loaderReducer(STORE_FINDER_DATA, findStoresReducer),
-    viewAllStores: StateUtils.loaderReducer(
-      STORE_FINDER_DATA,
-      viewAllStoresReducer
-    ),
+    findStores: StateUtils.loaderReducer(BUNDLE_DATA, bundleReducer),
   };
 }
 
 export const reducerToken: InjectionToken<ActionReducerMap<
-  StoresState
->> = new InjectionToken<ActionReducerMap<StoresState>>('StoreFinderReducers');
+  BundleState
+>> = new InjectionToken<ActionReducerMap<BundleState>>('BundleReducers');
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
   useFactory: getReducers,
 };
 
-export function clearStoreFinderState(
-  reducer: ActionReducer<StoresState, Action>
-): ActionReducer<StoresState, Action> {
-  return function (state, action) {
-    if (action.type === SiteContextActions.LANGUAGE_CHANGE) {
-      state = undefined;
-    }
-    if (action.type === StoreFinderActions.CLEAR_STORE_FINDER_DATA) {
-      state = undefined;
-    }
-    return reducer(state, action);
-  };
-}
-
-export const metaReducers: MetaReducer<any>[] = [clearStoreFinderState];
+export const metaReducers: MetaReducer<any>[] = [];

@@ -26,7 +26,6 @@ import { Cart, EntryGroup } from '../../model/cart.model';
 import { UserIdService } from '../../auth/index';
 import { User } from '../../model/misc.model';
 import { OrderEntry } from '../../model/order.model';
-import { Product } from '../../model/product.model';
 import {
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
@@ -535,52 +534,14 @@ export class ActiveCartService implements OnDestroy {
   }
 
   /**
-   * Start bundle
-   *
-   * @param productCode
-   * @param quantity
-   * @param templateId
-   */
-  startBundle(productCode: string, quantity: number, templateId: string) {
-    this.requireLoadedCart().subscribe((cartState) => {
-      this.userIdService.takeUserId().subscribe((userId) => {
-        this.multiCartService.startBundle(
-          getCartIdByUserId(cartState.value, userId),
-          userId,
-          productCode,
-          quantity,
-          templateId
-        );
-      });
-    });
-  }
-
-  /**
-   * Get allowed Bundle Products
-   *
-   * @param entryGroupNumber
-   */
-  getBundleAllowedProducts(entryGroupNumber: number) {
-    this.requireLoadedCart().subscribe((cartState) => {
-      this.userIdService.takeUserId().subscribe((userId) => {
-        this.multiCartService.getBundleAllowedProducts(
-          getCartIdByUserId(cartState.value, userId),
-          userId,
-          entryGroupNumber
-        );
-      });
-    });
-  }
-
-  /**
    * Remove bundle
    *
    * @param entryGroupNumber
    */
-  removeBundle(entryGroupNumber: number) {
+  deleteEntryGroup(entryGroupNumber: number) {
     this.requireLoadedCart().subscribe((cartState) => {
       this.userIdService.takeUserId().subscribe((userId) => {
-        this.multiCartService.removeBundle(
+        this.multiCartService.deleteEntryGroup(
           getCartIdByUserId(cartState.value, userId),
           userId,
           entryGroupNumber
@@ -593,17 +554,16 @@ export class ActiveCartService implements OnDestroy {
    * Add Product to bundle
    *
    * @param entryGroupNumber
-   * @param product
+   * @param entry
    */
-  addProductToBundle(entryGroupNumber: number, product: Product) {
+  addToEntryGroup(entryGroupNumber: number, entry: OrderEntry) {
     this.requireLoadedCart().subscribe((cartState) => {
       this.userIdService.takeUserId().subscribe((userId) => {
-        this.multiCartService.addProductToBundle(
+        this.multiCartService.addToEntryGroup(
           getCartIdByUserId(cartState.value, userId),
           userId,
           entryGroupNumber,
-          product,
-          1
+          entry
         );
       });
     });

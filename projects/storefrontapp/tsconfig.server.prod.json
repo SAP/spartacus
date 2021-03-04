@@ -5,6 +5,9 @@
     "paths": {
       "@spartacus/setup": ["../../dist/setup"],
       "@spartacus/setup/ssr": ["../../dist/setup/ssr"],
+      "@spartacus/bundle/core": ["../../dist/bundle/core/public_api"],
+      "@spartacus/bundle": ["../../dist/bundle/public_api"],
+      "@spartacus/bundle/occ": ["../../dist/bundle/occ/public_api"],
       "@spartacus/organization/administration/assets": [
         "../../dist/organization/administration/assets"
       ],

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { EMPTY, Observable, timer } from 'rxjs';
-import { BundleStarter } from '../../model';
 import { Cart, EntryGroup } from '../../model/cart.model';
 import { debounce, distinctUntilChanged, map } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/index';
@@ -10,7 +9,6 @@ import { ProcessesLoaderState } from '../../state/utils/processes-loader/process
 import { CartActions } from '../store/actions/index';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartSelectors } from '../store/selectors/index';
-import { SearchConfig } from '../../product/model/search-config';
 
 @Injectable({
   providedIn: 'root',
@@ -336,57 +334,15 @@ export class MultiCartService {
   }
 
   /**
-   * Start bundle
-   *
-   * @param cartId
-   * @param userId
-   * @param productCode
-   * @param quantity
-   * @param templateId
-   */
-  startBundle(cartId: string, userId: string, bundleStarter: BundleStarter) {
-    this.store.dispatch(
-      new CartActions.StartBundle({
-        cartId,
-        userId,
-        bundleStarter,
-      })
-    );
-  }
-
-  /**
-   * Start bundle
-   *
-   * @param cartId
-   * @param userId
-   * @param entryGroupNumber
-   */
-  getBundleAllowedProducts(
-    cartId: string,
-    userId: string,
-    entryGroupNumber: number,
-    searchConfig?: SearchConfig
-  ) {
-    this.store.dispatch(
-      new CartActions.GetBundleAllowedProducts({
-        cartId,
-        userId,
-        entryGroupNumber,
-        searchConfig,
-      })
-    );
-  }
-
-  /**
    * Remove bundle
    *
    * @param cartId
    * @param userId
    * @param entryGroupNumber
    */
-  removeBundle(cartId: string, userId: string, entryGroupNumber: number) {
+  deleteEntryGroup(cartId: string, userId: string, entryGroupNumber: number) {
     this.store.dispatch(
-      new CartActions.RemoveBundle({
+      new CartActions.DeleteEntryGroup({
         cartId,
         userId,
         entryGroupNumber,
@@ -403,14 +359,14 @@ export class MultiCartService {
    * @param product
    * @param quantity
    */
-  addProductToBundle(
+  addToEntryGroup(
     cartId: string,
     userId: string,
     entryGroupNumber: number,
     entry: OrderEntry
   ) {
     this.store.dispatch(
-      new CartActions.AddProductToBundle({
+      new CartActions.AddToEntryGroup({
         cartId,
         userId,
         entryGroupNumber,
