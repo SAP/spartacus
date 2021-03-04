@@ -19,8 +19,8 @@ export class AepCollectorService implements TmsCollector {
     const dataLayerProperty = config.dataLayerProperty ?? 'digitalData';
     windowObject[dataLayerProperty] = windowObject[dataLayerProperty] ?? {};
 
-    if (config.script) {
-      this.scriptLoader.embedScript({ src: config.script.url });
+    if (config.scriptUrl) {
+      this.scriptLoader.embedScript({ src: config.scriptUrl });
     }
   }
 

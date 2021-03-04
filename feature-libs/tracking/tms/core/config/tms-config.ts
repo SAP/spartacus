@@ -8,13 +8,6 @@ import { TmsCollector } from '../model/tms.model';
 export interface TmsCollectorConfig {
   /** Should be enabled in development mode only */
   debug?: boolean;
-  /** Script tag embedding options */
-  script?: {
-    /**
-     * The URL to the script
-     */
-    url: string;
-  };
   /**
    * The name for the data layer object.
    */
