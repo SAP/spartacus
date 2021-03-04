@@ -11,7 +11,7 @@ const userId = 'xxx@xxx.xxx';
 const cartId = '00000000';
 const error = 'anError';
 
-fdescribe('SavedCart Actions', () => {
+describe('SavedCart Actions', () => {
   describe('LoadSavedCart Actions', () => {
     describe('LoadSavedCart', () => {
       it('should create the action', () => {
