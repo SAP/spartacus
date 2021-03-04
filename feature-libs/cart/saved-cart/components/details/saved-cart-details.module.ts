@@ -12,7 +12,6 @@ import {
   AddToCartModule,
   CardModule,
   CartSharedModule,
-  IconModule,
   MediaModule,
 } from '@spartacus/storefront';
 import { SavedCartDetailActionComponent } from './saved-cart-detail-action/saved-cart-detail-action.component';
@@ -28,7 +27,6 @@ import { SavedCartDetailOverviewComponent } from './saved-cart-detail-overview/s
     RouterModule,
     CardModule,
     MediaModule,
-    IconModule,
     AddToCartModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {

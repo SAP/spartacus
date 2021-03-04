@@ -39,7 +39,8 @@ export class SavedCartDetailActionComponent implements OnInit, OnDestroy {
 
   deleteSavedCart(cartId: string): void {
     // TODO: replace logic and use the DeleteCartEvents when they're available.
-
+    //  2- requires generic dialog form from Michal
+    // do note the things from the overview will be removed and fix in the overview component issue
     this.savedCartService.deleteSavedCart(cartId);
     this.routingService.go({ cxRoute: 'savedCartDetails' });
     this.globalMessageService.add(
