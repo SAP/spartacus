@@ -18,7 +18,7 @@ import { StorefrontConfig } from '../storefront-config';
 import { StorefrontFoundationModule } from './storefront-foundation.module';
 
 /**
- * @deprecated since 3.1, see https://sap.github.io/spartacus-docs/getting-started/reference-app-structure
+ * @deprecated since 3.1, see https://sap.github.io/spartacus-docs/reference-app-structure
  */
 @NgModule({
   imports: [
