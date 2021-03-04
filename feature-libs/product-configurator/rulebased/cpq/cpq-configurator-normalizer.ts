@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Converter, TranslationService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Configurator } from './../core/model/configurator.model';
 import { CpqConfiguratorUtilitiesService } from './cpq-configurator-utilities.service';
@@ -59,24 +58,20 @@ export class CpqConfiguratorNormalizer
 
     return resultTarget;
   }
-  addToArray(messages: string[], arrayMsg: Observable<string>[]) {
-    messages.forEach((validation) => {
-      arrayMsg.push(of(validation));
-    });
-  }
-  generateWarningMessages(source: Cpq.Configuration): Observable<string>[] {
-    const arrayMsg: Observable<string>[] = [];
-    this.addToArray(source.failedValidations, arrayMsg);
-    return arrayMsg;
+
+  generateWarningMessages(source: Cpq.Configuration): string[] {
+    let errorMsgs: string[] = [];
+    errorMsgs = errorMsgs.concat(source.failedValidations);
+    return errorMsgs;
   }
 
-  generateErrorMessages(source: Cpq.Configuration): Observable<string>[] {
-    const arrayAttr: Observable<string>[] = [];
-    this.addToArray(source.errorMessages, arrayAttr);
-    this.addToArray(source.incompleteMessages, arrayAttr);
-    this.addToArray(source.conflictMessages, arrayAttr);
-    this.addToArray(source.invalidMessages, arrayAttr);
-    return arrayAttr;
+  generateErrorMessages(source: Cpq.Configuration): string[] {
+    let warningMsgs: string[] = [];
+    warningMsgs = warningMsgs.concat(source.errorMessages);
+    warningMsgs = warningMsgs.concat(source.incompleteMessages);
+    warningMsgs = warningMsgs.concat(source.conflictMessages);
+    warningMsgs = warningMsgs.concat(source.invalidMessages);
+    return warningMsgs;
   }
 
   convertGroup(

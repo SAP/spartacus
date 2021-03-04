@@ -985,19 +985,9 @@ describe('CpqConfiguratorNormalizer', () => {
     checkMessagePresent(mappedConfiguration.warningMessages, VALIDATION_MSG);
   });
 
-  function checkMessagePresent(
-    messages: Observable<string>[],
-    expectedMsg: string
-  ) {
-    let found: boolean = false;
-    messages.forEach((msgObs) => {
-      msgObs.subscribe((msg) => {
-        found = found || msg.includes(expectedMsg);
-      });
-    });
-    // mock uses of to emit obs immediately, hance all subscriptions are processed before this line
-    expect(found).toBeTruthy(
-      `message '${expectedMsg}' not found in message list`
+  function checkMessagePresent(messages: string[], expectedMsg: string) {
+    expect(messages.includes(expectedMsg)).toBeTruthy(
+      `message '${expectedMsg}' not found in message list '${messages}'`
     );
   }
 });
