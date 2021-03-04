@@ -67,7 +67,7 @@ export class AddedToCartDialogComponent implements OnInit {
         map((entry) => this.getFormControl(entry)),
         switchMap(() =>
           this.form.valueChanges.pipe(
-            // tslint:disable-next-line:deprecation
+            // eslint-disable-next-line import/no-deprecated
             startWith(null),
             tap((valueChange) => {
               if (valueChange) {
