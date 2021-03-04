@@ -1,8 +1,5 @@
 import { PersonalizationConfig } from './personalization-config';
 
-/**
- * @deprecated since 3.2, use @spartacus/tracking/personalization instead
- */
 export const defaultPersonalizationConfig: PersonalizationConfig = {
   personalization: {
     enabled: false,
