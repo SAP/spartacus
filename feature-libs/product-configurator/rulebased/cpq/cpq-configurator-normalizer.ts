@@ -4,6 +4,8 @@ import { Configurator } from './../core/model/configurator.model';
 import { Cpq } from './cpq.models';
 import { CpqConfiguratorUtilitiesService } from './cpq-configurator-utilities.service';
 import { take } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+
 
 @Injectable()
 export class CpqConfiguratorNormalizer
@@ -33,6 +35,8 @@ export class CpqConfiguratorNormalizer
       priceSummary: this.cpqUtilitiesService.preparePriceSummary(source),
       groups: [],
       flatGroups: [],
+      errorMessages:  this.generateErrorMessages(source),
+      warningMessages: this.generateWarningMessages(source),
     };
     source.tabs.forEach((tab) =>
       this.convertGroup(
@@ -56,6 +60,31 @@ export class CpqConfiguratorNormalizer
 
     return resultTarget;
   }
+   addToArray(messages: string[], arrayMsg: Observable<string>[]) {
+    messages.forEach((validation) => {
+      arrayMsg.push(of(validation));
+    });
+  }
+  generateWarningMessages(source: Cpq.Configuration): Observable<string>[] {
+    const arrayMsg: Observable<string>[] = [];
+    this.addToArray(source.failedValidations, arrayMsg);
+    return arrayMsg; 
+  }
+ 
+
+  generateErrorMessages(source: Cpq.Configuration): Observable<string>[] {
+    const arrayAttr: Observable<string>[] = [];
+    source.incompleteAttributes.forEach((attr) => {
+      arrayAttr.push(this.translation.translate("configurator.header.incomplete", {attribute: attr}));
+    })
+    this.addToArray(source.errorMessages, arrayAttr);
+    this.addToArray(source.incompleteMessages, arrayAttr);
+    this.addToArray(source.conflictMessages, arrayAttr);
+    this.addToArray(source.invalidMessages, arrayAttr); 
+    return arrayAttr;
+  }
+
+
 
   convertGroup(
     source: Cpq.Tab,

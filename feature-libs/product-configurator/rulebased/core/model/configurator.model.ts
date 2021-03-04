@@ -1,4 +1,5 @@
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { Observable } from 'rxjs';
 
 export namespace Configurator {
   export interface Attribute {
@@ -67,6 +68,9 @@ export namespace Configurator {
     isCartEntryUpdateRequired?: boolean;
     interactionState?: InteractionState;
     updateType?: UpdateType;
+    errorMessages?: Observable<string>[];
+    warningMessages?: Observable<string>[];
+    
   }
 
   export interface InteractionState {
