@@ -27,7 +27,7 @@ import { PageEventModule } from '../events/page/page-event.module';
 import { ProductPageEventModule } from '../events/product/product-page-event.module';
 
 /**
- * @deprecated since 3.1, see https://sap.github.io/spartacus-docs/getting-started/reference-app-structure
+ * @deprecated since 3.1, see https://sap.github.io/spartacus-docs/reference-app-structure
  */
 @NgModule({
   imports: [
