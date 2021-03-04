@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { LoginEvent, ScriptLoader } from '@spartacus/core';
 import { TmsCollectorConfig, WindowObject } from '@spartacus/tracking/tms/core';
+import '../config/default-aep.config';
 import { AepCollectorService } from './aep-collector.service';
 
 class MockScriptLoader implements Partial<ScriptLoader> {
@@ -9,7 +10,7 @@ class MockScriptLoader implements Partial<ScriptLoader> {
 
 const scriptName = 'xxx.js';
 const config: TmsCollectorConfig = {
-  scriptUrl: 'xxx',
+  scriptUrl: 'xxx.js',
 };
 
 describe('AepCollectorService', () => {

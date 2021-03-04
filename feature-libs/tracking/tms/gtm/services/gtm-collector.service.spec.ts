@@ -1,27 +1,34 @@
 import { TestBed } from '@angular/core/testing';
-import { LoginEvent, ScriptLoader } from '@spartacus/core';
+import { LoginEvent, WindowRef } from '@spartacus/core';
 import { TmsCollectorConfig, WindowObject } from '@spartacus/tracking/tms/core';
+import '../config/default-gtm.config';
 import { GtmCollectorService } from './gtm-collector.service';
 
-class MockScriptLoader implements Partial<ScriptLoader> {
-  embedScript(_options: object): void {}
-}
-
-const scriptName = 'xxx.js?id=xxx';
 const config: TmsCollectorConfig = {
-  script: { url: scriptName },
+  gtmId: 'xxx',
 };
+
+class MockWinRef {
+  document = {
+    getElementsByTagName(): object[] {
+      return [{}];
+    },
+    createElement(): object {
+      return {};
+    },
+  };
+}
 
 describe('GtmCollectorService', () => {
   let service: GtmCollectorService;
-  let scriptLoader: ScriptLoader;
+  let winRef: WindowRef;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: ScriptLoader, useClass: MockScriptLoader }],
+      providers: [{ provide: WindowRef, useClass: MockWinRef }],
     });
     service = TestBed.inject(GtmCollectorService);
-    scriptLoader = TestBed.inject(ScriptLoader);
+    winRef = TestBed.inject(WindowRef);
   });
 
   it('should be created', () => {
@@ -44,13 +51,16 @@ describe('GtmCollectorService', () => {
     });
 
     it('should embed the script tag', () => {
-      spyOn(scriptLoader, 'embedScript').and.stub();
+      spyOn(winRef.document, 'getElementsByTagName').and.callThrough();
+      spyOn(winRef.document, 'createElement').and.callThrough();
       const windowObject = {} as WindowObject;
+
       service.init(config, windowObject);
-      expect(scriptLoader.embedScript).toHaveBeenCalledTimes(1);
-      expect(scriptLoader.embedScript).toHaveBeenCalledWith({
-        src: `${scriptName}&l=dataLayer`,
-      });
+
+      expect(winRef.document.getElementsByTagName).toHaveBeenCalledWith(
+        'script'
+      );
+      expect(winRef.document.createElement).toHaveBeenCalledWith('script');
     });
   });
 
