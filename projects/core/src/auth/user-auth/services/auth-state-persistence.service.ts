@@ -46,6 +46,7 @@ export class AuthStatePersistenceService implements OnDestroy {
         key: this.key,
         state$: this.getAuthState(),
         onRead: (state) => this.onRead(state),
+        ignoreConsent: true,
       })
     );
   }

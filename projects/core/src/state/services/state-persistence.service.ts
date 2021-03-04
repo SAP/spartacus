@@ -1,19 +1,31 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, Subscription } from 'rxjs';
+import { combineLatest, iif, Observable, of, Subscription } from 'rxjs';
 import { map, tap, withLatestFrom } from 'rxjs/operators';
 import { StorageSyncType } from '../../state/config/state-config';
 import {
   getStorage,
   persistToStorage,
   readFromStorage,
+  removeFromStorage,
 } from '../../state/reducers/storage-sync.reducer';
+import { ConsentService } from '../../user/facade/consent.service';
 import { WindowRef } from '../../window/window-ref';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StatePersistenceService {
-  constructor(protected winRef: WindowRef) {}
+  /**
+   * @deprecated since 3.3, Use constructor with WindowRef and ConsentService
+   */
+  // TODO (): Handle deprecation
+  constructor(winRef: WindowRef);
+  // tslint:disable-next-line: unified-signatures
+  constructor(winRef: WindowRef, consentService?: ConsentService);
+  constructor(
+    protected winRef: WindowRef,
+    protected consentService?: ConsentService
+  ) {}
 
   /**
    * Helper to synchronize state to more persistent storage (localStorage, sessionStorage).
@@ -41,12 +53,14 @@ export class StatePersistenceService {
     context$ = of(''),
     storageType = StorageSyncType.LOCAL_STORAGE,
     onRead = () => {},
+    ignoreConsent = false,
   }: {
     key: string;
     state$: Observable<T>;
     context$?: Observable<string | Array<string>>;
     storageType?: StorageSyncType;
     onRead?: (stateFromStorage: T) => void;
+    ignoreConsent?: boolean;
   }): Subscription {
     const storage = getStorage(storageType, this.winRef);
 
@@ -67,14 +81,45 @@ export class StatePersistenceService {
         .subscribe()
     );
 
+    // TODO (): Remove null check for consentService
+    const stream$: Observable<T | [boolean, T]> = iif(
+      () => ignoreConsent || !Boolean(this.consentService),
+      state$,
+      combineLatest([
+        (this.consentService as ConsentService).checkConsentGivenByTemplateId(
+          'STORE_USER_INFORMATION'
+        ),
+        state$,
+      ])
+    );
+
     subscriptions.add(
-      state$.pipe(withLatestFrom(context$)).subscribe(([state, context]) => {
-        persistToStorage(
-          this.generateKeyWithContext(context, key),
-          state,
-          storage
-        );
-      })
+      stream$
+        .pipe(withLatestFrom(context$))
+        .subscribe(
+          ([state, context]: [T | [Boolean, T], string | string[]]) => {
+            if (Array.isArray(state)) {
+              if (state[0]) {
+                persistToStorage(
+                  this.generateKeyWithContext(context, key),
+                  state[1],
+                  storage
+                );
+              } else {
+                removeFromStorage(
+                  this.generateKeyWithContext(context, key),
+                  storage
+                );
+              }
+            } else {
+              persistToStorage(
+                this.generateKeyWithContext(context, key),
+                state,
+                storage
+              );
+            }
+          }
+        )
     );
 
     return subscriptions;

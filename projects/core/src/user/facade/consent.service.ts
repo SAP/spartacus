@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { merge, Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
-import { AnonymousConsentsService } from '../../anonymous-consents/index';
+import { AnonymousConsentsService } from '../../anonymous-consents/facade/anonymous-consents.service';
 import { AnonymousConsent, Consent } from '../../model/index';
 import { UserConsentService } from './user-consent.service';
 

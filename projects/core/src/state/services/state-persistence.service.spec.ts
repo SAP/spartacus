@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { contextServiceMapProvider } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
+import { contextServiceMapProvider } from '../../site-context/providers/context-service-map';
 import { SiteContextParamsService } from '../../site-context/services/site-context-params.service';
+import { ConsentService } from '../../user/facade/consent.service';
 import { WindowRef } from '../../window/window-ref';
 import { StorageSyncType } from '../config/state-config';
 import { StatePersistenceService } from './state-persistence.service';
@@ -34,8 +35,13 @@ const winRef = {
   },
 } as WindowRef;
 
+class MockConsentService implements Partial<ConsentService> {
+  checkConsentGivenByTemplateId = () => of(true);
+}
+
 describe('StatePersistenceService', () => {
   let service: StatePersistenceService;
+  let consentService: ConsentService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -44,10 +50,12 @@ describe('StatePersistenceService', () => {
         SiteContextParamsService,
         StatePersistenceService,
         { provide: WindowRef, useValue: winRef },
+        { provide: ConsentService, useClass: MockConsentService },
       ],
     });
 
     service = TestBed.inject(StatePersistenceService);
+    consentService = TestBed.inject(ConsentService);
 
     spyOn(sessionStorageMock, 'setItem').and.stub();
     spyOn(localStorageMock, 'setItem').and.stub();
@@ -164,6 +172,44 @@ describe('StatePersistenceService', () => {
 
       expect(localStorageMock.getItem).toHaveBeenCalledTimes(2);
       expect(stateFromStorage).toEqual(5);
+    });
+
+    it('should call removeItem if consents are false', () => {
+      spyOn(localStorageMock, 'removeItem');
+      spyOn(consentService, 'checkConsentGivenByTemplateId').and.returnValue(
+        of(false)
+      );
+
+      const state = new Subject<number>();
+
+      service.syncWithStorage({ key: 'test', state$: state.asObservable() });
+
+      state.next(5);
+
+      expect(localStorageMock.removeItem).toHaveBeenCalledWith(
+        'spartacus⚿⚿test'
+      );
+    });
+
+    it('should call ignore consents if ignoreConsent is true', () => {
+      spyOn(localStorageMock, 'removeItem');
+      spyOn(consentService, 'checkConsentGivenByTemplateId').and.returnValue(
+        of(false)
+      );
+
+      const state = new Subject<number>();
+
+      service.syncWithStorage({
+        key: 'test',
+        state$: state.asObservable(),
+        ignoreConsent: true,
+      });
+
+      state.next(5);
+      expect(localStorageMock.setItem).toHaveBeenCalledWith(
+        'spartacus⚿⚿test',
+        '5'
+      );
     });
   });
 
