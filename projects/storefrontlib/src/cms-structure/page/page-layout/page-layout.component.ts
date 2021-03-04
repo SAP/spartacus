@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { ThemeService } from '../../../layout/theme/theme.service';
 import { PageLayoutService } from './page-layout.service';
 
 @Component({
@@ -32,5 +33,12 @@ export class PageLayoutComponent {
     distinctUntilChanged()
   );
 
-  constructor(protected pageLayoutService: PageLayoutService) {}
+  readonly themeLoaded$:
+    | Observable<boolean>
+    | undefined = this.themeService?.isLoaded();
+
+  constructor(
+    protected pageLayoutService: PageLayoutService,
+    protected themeService?: ThemeService
+  ) {}
 }

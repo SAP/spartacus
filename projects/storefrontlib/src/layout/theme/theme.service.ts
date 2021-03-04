@@ -7,14 +7,18 @@ import {
   RendererFactory2,
 } from '@angular/core';
 import { SiteContextConfig, THEME_CONTEXT_ID } from '@spartacus/core';
+import { Observable, ReplaySubject } from 'rxjs';
 
 const THEME_LINK_ID = 'cx-theme';
+const DEFAULT_THEME = 'sparta';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
   protected rootComponent: ComponentRef<any>;
   protected renderer: Renderer2;
   protected existingTheme: string;
+
+  protected loaded$ = new ReplaySubject<boolean>(1);
 
   constructor(
     protected config: SiteContextConfig,
@@ -32,36 +36,44 @@ export class ThemeService {
     // Theme value is a string. It is put in the generic multi-value
     // property of the SiteContextConfig. So the array's first item
     // is the theme value.
-    this.setTheme(this.config.context?.[THEME_CONTEXT_ID]?.[0] as string);
+    let theme = this.config.context?.[THEME_CONTEXT_ID]?.[0];
+    if (!theme) {
+      theme = DEFAULT_THEME;
+    }
+    this.setTheme(theme);
+  }
+
+  isLoaded(): Observable<boolean> {
+    return this.loaded$.asObservable();
   }
 
   setTheme(theme: string): void {
-    if (theme) {
-      const element = this.rootComponent.location.nativeElement;
-      // remove the old theme
-      this.renderer.removeClass(element, this.existingTheme);
-      // add the new theme
-      this.renderer.addClass(element, theme);
-      this.existingTheme = theme;
+    const element = this.rootComponent.location.nativeElement;
+    // remove the old theme
+    this.renderer.removeClass(element, this.existingTheme);
+    // add the new theme
+    this.renderer.addClass(element, theme);
+    this.existingTheme = theme;
 
-      this.loadTheme(`${theme}.css`);
-    }
+    // load theme css
+    this.loadTheme(`${theme}.css`);
   }
 
-  private loadTheme(filename: string) {
-    const themeLink = this.document.getElementById(
+  private loadTheme(filename: string): void {
+    let themeLink = this.document.getElementById(
       THEME_LINK_ID
     ) as HTMLLinkElement;
 
     if (themeLink) {
       themeLink.href = filename;
     } else {
-      const linkEl = this.renderer.createElement('link');
-      linkEl.id = THEME_LINK_ID;
-      linkEl.rel = 'stylesheet';
-      linkEl.type = 'text/css';
-      linkEl.href = filename;
-      this.renderer.appendChild(this.document.head, linkEl);
+      themeLink = this.renderer.createElement('link');
+      themeLink.id = THEME_LINK_ID;
+      themeLink.rel = 'stylesheet';
+      themeLink.type = 'text/css';
+      themeLink.href = filename;
+      this.renderer.appendChild(this.document.head, themeLink);
     }
+    themeLink.onload = () => this.loaded$.next(true);
   }
 }
