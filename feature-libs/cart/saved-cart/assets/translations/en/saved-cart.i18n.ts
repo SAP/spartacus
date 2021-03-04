@@ -6,11 +6,11 @@ export const savedCartDetails = {
   items: 'Items',
   quantity: 'Quantity',
   total: 'Total',
-  edit: 'Edit',
-  remove: 'Remove',
+  editSavedCart: 'Edit Saved Cart',
   deleteSavedCart: 'Delete Saved Cart',
   addSelectedItems: 'Add selected items',
   deleteCartSuccess: 'Cart Deleted Successfully',
+  emptyCartItems: 'Empty Cart Items',
 };
 
 export const savedCartList = {

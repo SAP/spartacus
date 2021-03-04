@@ -1,17 +1,29 @@
-<ng-continer *ngIf="cart$ | async as cart">
+<ng-container *ngIf="cart">
   <form [formGroup]="form" class="cx-saved-cart-form-container">
     <!-- Modal Header -->
     <div class="cx-saved-cart-form-header">
-      <h3 class="cx-saved-cart-form-title">
-        {{ 'savedCartDialog.saveForLater' | cxTranslate }}
-      </h3>
+      <ng-container [ngSwitch]="layoutOption">
+        <h3 class="cx-saved-cart-form-title">
+          <ng-container *ngSwitchCase="savedCartFormType.EDIT">
+            {{ 'savedCartDetails.editSavedCart' | cxTranslate }}
+          </ng-container>
+          <ng-container *ngSwitchCase="savedCartFormType.DELETE">
+            {{ 'savedCartDetails.deleteSavedCart' | cxTranslate }}
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            {{ 'savedCartDialog.saveForLater' | cxTranslate }}
+          </ng-container>
+        </h3>
+      </ng-container>
 
-      <p class="cx-saved-cart-form-subtitle">
-        {{ 'savedCartDialog.itemsSavedForLater' | cxTranslate }}
-      </p>
+      <ng-container *ngIf="!layoutOption">
+        <p class="cx-saved-cart-form-subtitle">
+          {{ 'savedCartDialog.itemsSavedForLater' | cxTranslate }}
+        </p>
+      </ng-container>
 
       <button
-        (click)="dismissModal()"
+        (click)="close('Close Save Cart Dialog')"
         aria-label="Close"
         class="cx-saved-cart-form-close close"
         type="button"
@@ -74,7 +86,7 @@
     <!-- Modal Footer -->
     <div class="cx-saved-cart-form-footer">
       <button
-        (click)="dismissModal()"
+        (click)="close('Close Save Cart Dialog')"
         aria-label="Close"
         class="mr-2 btn btn-outline-primary"
         type="button"
@@ -91,4 +103,4 @@
       </button>
     </div>
   </form>
-</ng-continer>
+</ng-container>

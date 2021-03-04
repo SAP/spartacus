@@ -13,9 +13,9 @@ import {
   Cart,
   RoutingService,
 } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, map, take, tap } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
+import { SavedCartFormLaunchDialogService } from '../saved-cart-form-dialog/saved-cart-form-launch-dialog.service';
 
 @Component({
   selector: 'cx-add-to-saved-cart',
@@ -23,18 +23,18 @@ import { filter, map, take, tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddToSavedCartComponent implements OnInit, OnDestroy {
-  cart$: Observable<Cart>;
+  protected subscription = new Subscription();
   protected loggedIn = false;
 
   @ViewChild('element') element: ElementRef;
 
-  protected subscription = new Subscription();
+  cart$: Observable<Cart>;
 
   constructor(
     protected activeCartService: ActiveCartService,
     protected authService: AuthService,
-    protected launchDialogService: LaunchDialogService,
     protected routingService: RoutingService,
+    protected savedCartFormLaunchDialogService: SavedCartFormLaunchDialogService,
     protected vcr: ViewContainerRef
   ) {}
 
@@ -43,51 +43,32 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
       this.activeCartService.getActive(),
       this.authService.isUserLoggedIn(),
     ]).pipe(
-      tap(([, loggedIn]) => (this.loggedIn = loggedIn)),
-      map(([cartLoaded]) => cartLoaded)
+      tap(([_, loggedIn]) => (this.loggedIn = loggedIn)),
+      map(([activeCart]) => activeCart)
     );
-  }
-
-  ngOnDestroy(): void {
-    this.launchDialogService.clear(LAUNCH_CALLER.ADD_TO_SAVED_CART);
   }
 
   saveCart(cart: Cart): void {
     if (this.loggedIn) {
-      const dialog = this.openDialog(this.element, this.vcr, cart);
-
-      if (dialog) {
-        this.subscription.add(dialog.pipe(take(1)).subscribe());
-      }
+      this.openDialog(cart);
     } else {
       this.routingService.go({ cxRoute: 'login' });
     }
   }
 
-  protected openDialog(
-    openElement?: ElementRef,
-    vcr?: ViewContainerRef,
-    data?: any
-  ): Observable<any> | undefined {
-    const component = this.launchDialogService.launch(
-      LAUNCH_CALLER.ADD_TO_SAVED_CART,
-      vcr,
-      data
+  openDialog(cart: Cart) {
+    const dialog = this.savedCartFormLaunchDialogService.openDialog(
+      this.element,
+      this.vcr,
+      { cart }
     );
 
-    if (component) {
-      return combineLatest([
-        component,
-        this.launchDialogService.dialogClose,
-      ]).pipe(
-        filter(([, close]) => close !== undefined),
-        tap(([comp]) => {
-          openElement?.nativeElement.focus();
-          this.launchDialogService.clear(LAUNCH_CALLER.ADD_TO_SAVED_CART);
-          comp.destroy();
-        }),
-        map(([comp]) => comp)
-      );
+    if (dialog) {
+      this.subscription.add(dialog.pipe(take(1)).subscribe());
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }

@@ -1,12 +1,21 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import {
   Cart,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
 } from '@spartacus/core';
-import { SavedCartService } from 'feature-libs/cart/saved-cart/core/services/saved-cart.service';
 import { Observable, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { SavedCartService } from '../../../core/services/saved-cart.service';
+import { SavedCartFormLaunchDialogService } from '../../saved-cart-form-dialog/saved-cart-form-launch-dialog.service';
 import { SavedCartDetailService } from '../saved-cart-detail.service';
 
 @Component({
@@ -16,13 +25,16 @@ import { SavedCartDetailService } from '../saved-cart-detail.service';
 export class SavedCartDetailActionComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
+  @ViewChild('element') element: ElementRef;
   savedCart$: Observable<Cart> = this.savedCartDetailService.getCartDetails();
 
   constructor(
     protected savedCartDetailService: SavedCartDetailService,
     protected savedCartService: SavedCartService,
     protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected savedCartFormLaunchDialogService: SavedCartFormLaunchDialogService,
+    protected vcr: ViewContainerRef
   ) {}
 
   ngOnInit(): void {
@@ -55,6 +67,18 @@ export class SavedCartDetailActionComponent implements OnInit, OnDestroy {
     if (success) {
       this.routingService.go({ cxRoute: 'savedCarts' });
       this.savedCartService.clearRestoreSavedCart();
+    }
+  }
+
+  openDialog(cart: Cart): void {
+    const dialog = this.savedCartFormLaunchDialogService.openDialog(
+      this.element,
+      this.vcr,
+      { cart, layoutOption: 'delete' }
+    );
+
+    if (dialog) {
+      this.subscription.add(dialog.pipe(take(1)).subscribe());
     }
   }
 

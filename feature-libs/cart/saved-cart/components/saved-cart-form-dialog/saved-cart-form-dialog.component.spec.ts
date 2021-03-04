@@ -1,23 +1,23 @@
 import { CommonModule } from '@angular/common';
-import { I18nTestingModule } from '@spartacus/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SavedCartFormComponent } from './saved-cart-form.component';
+import { I18nTestingModule } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
+import { SavedCartFormDialogComponent } from './saved-cart-form-dialog.component';
 
 class MockModalService {
   dismissActiveModal(): void {}
 }
 
-describe('SavedCartFormComponent', () => {
-  let component: SavedCartFormComponent;
-  let fixture: ComponentFixture<SavedCartFormComponent>;
+describe('SavedCartFormDialogComponent', () => {
+  let component: SavedCartFormDialogComponent;
+  let fixture: ComponentFixture<SavedCartFormDialogComponent>;
 
   let mockModalService: MockModalService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule, I18nTestingModule],
-      declarations: [SavedCartFormComponent],
+      declarations: [SavedCartFormDialogComponent],
       providers: [
         {
           provide: ModalService,
@@ -28,7 +28,7 @@ describe('SavedCartFormComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SavedCartFormComponent);
+    fixture = TestBed.createComponent(SavedCartFormDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
