@@ -98,12 +98,32 @@ describe('PopoverComponent', () => {
     fixture.detectChanges();
   });
 
+  it('should emit `closeButtonKeydown` event', () => {
+    component.eventSubject.pipe(take(1)).subscribe((event: PopoverEvent) => {
+      expect(event).toBe(PopoverEvent.CLOSE_BUTTON_KEYDOWN);
+    });
+
+    fixture.debugElement
+      .query(By.css('button.close'))
+      .triggerEventHandler('keydown.enter', null);
+    fixture.detectChanges();
+  });
+
   it('should emit `outsideClick` event', () => {
     component.eventSubject.pipe(take(1)).subscribe((event: PopoverEvent) => {
       expect(event).toBe(PopoverEvent.OUTSIDE_CLICK);
     });
 
     document.body.click();
+    fixture.detectChanges();
+  });
+
+  it('should emit `escapeKeydown` event', () => {
+    component.eventSubject.pipe(take(1)).subscribe((event: PopoverEvent) => {
+      expect(event).toBe(PopoverEvent.ESCAPE_KEYDOWN);
+    });
+
+    fixture.debugElement.triggerEventHandler('keydown.escape', null);
     fixture.detectChanges();
   });
 });
