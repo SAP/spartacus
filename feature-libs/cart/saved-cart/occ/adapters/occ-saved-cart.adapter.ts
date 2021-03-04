@@ -40,7 +40,7 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
   saveCart(
     userId: string,
     cartId: string,
-    saveCartName?: string,
+    saveCartName: string,
     saveCartDescription?: string
   ): Observable<Cart> {
     return this.http

@@ -11,11 +11,14 @@ import {
   ActiveCartService,
   AuthService,
   Cart,
+  GlobalMessageService,
+  GlobalMessageType,
   RoutingService,
 } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
+import { SavedCartService } from '../../core/services/saved-cart.service';
 
 @Component({
   selector: 'cx-add-to-saved-cart',
@@ -33,8 +36,10 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
   constructor(
     protected activeCartService: ActiveCartService,
     protected authService: AuthService,
+    protected globalMessageService: GlobalMessageService,
     protected launchDialogService: LaunchDialogService,
     protected routingService: RoutingService,
+    protected savedCartService: SavedCartService,
     protected vcr: ViewContainerRef
   ) {}
 
@@ -46,10 +51,18 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
       tap(([, loggedIn]) => (this.loggedIn = loggedIn)),
       map(([cartLoaded]) => cartLoaded)
     );
+
+    this.subscription.add(
+      this.savedCartService
+        .getSaveCartProcessState()
+        .pipe(filter((state) => state.success))
+        .subscribe((state) => this.onSuccess(state.value?.cart))
+    );
   }
 
   ngOnDestroy(): void {
     this.launchDialogService.clear(LAUNCH_CALLER.ADD_TO_SAVED_CART);
+    this.subscription?.unsubscribe();
   }
 
   saveCart(cart: Cart): void {
@@ -62,6 +75,11 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
     } else {
       this.routingService.go({ cxRoute: 'login' });
     }
+  }
+
+  protected onSuccess(cart: Cart): void {
+    this.showSaveCartMessage('savedCartCartPage.messages.cartSaved', cart);
+    this.savedCartService.removeSaveCartEntityProcess();
   }
 
   protected openDialog(
@@ -89,5 +107,13 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
         map(([comp]) => comp)
       );
     }
+  }
+
+  protected showSaveCartMessage(text: string, cart: any) {
+    this.globalMessageService.add(
+      { key: text, params: { cartName: cart.name } },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION,
+      5000
+    );
   }
 }

@@ -1,4 +1,9 @@
-import { MULTI_CART_DATA, PROCESS_FEATURE, StateUtils } from '@spartacus/core';
+import {
+  Cart,
+  MULTI_CART_DATA,
+  PROCESS_FEATURE,
+  StateUtils,
+} from '@spartacus/core';
 import {
   SAVED_CART_LIST_PROCESS_ID,
   SAVED_CART_RESTORE_CART_PROCESS_ID,
@@ -22,6 +27,9 @@ export const RESTORE_SAVED_CART_FAIL = '[Saved Cart] Restore Saved Cart Fail';
 export const SAVE_CART = '[Saved Cart] Save Cart';
 export const SAVE_CART_SUCCESS = '[Saved Cart] Save Cart Success';
 export const SAVE_CART_FAIL = '[Saved Cart] Save Cart Fail';
+
+export const REMOVE_SAVE_CART_ENTITY_PROCESS =
+  '[Remove entity] Remove Save Cart Entity Process';
 
 export class LoadSavedCart extends StateUtils.EntityLoadAction {
   readonly type = LOAD_SAVED_CART;
@@ -113,7 +121,7 @@ export class SaveCart extends StateUtils.EntityLoadAction {
     public payload: {
       userId: string;
       cartId: string;
-      saveCartName?: string;
+      saveCartName: string;
       saveCartDescription?: string;
       extraData?: {
         edit: boolean;
@@ -126,7 +134,11 @@ export class SaveCart extends StateUtils.EntityLoadAction {
 
 export class SaveCartSuccess extends StateUtils.EntitySuccessAction {
   readonly type = SAVE_CART_SUCCESS;
-  constructor() {
+  constructor(
+    public payload: {
+      cart: Cart;
+    }
+  ) {
     super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID);
   }
 }
@@ -135,6 +147,13 @@ export class SaveCartFail extends StateUtils.EntityFailAction {
   readonly type = SAVE_CART_FAIL;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID, payload);
+  }
+}
+
+export class RemoveSaveCartEntityProcess extends StateUtils.EntityRemoveAction {
+  readonly type = REMOVE_SAVE_CART_ENTITY_PROCESS;
+  constructor() {
+    super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID);
   }
 }
 
@@ -151,4 +170,5 @@ export type SavedCartActions =
   | RestoreSavedCartFail
   | SaveCart
   | SaveCartSuccess
-  | SaveCartFail;
+  | SaveCartFail
+  | RemoveSaveCartEntityProcess;

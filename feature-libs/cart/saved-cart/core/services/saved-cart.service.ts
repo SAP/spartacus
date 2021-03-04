@@ -147,7 +147,7 @@ export class SavedCartService {
     extraData,
   }: {
     cartId: string;
-    saveCartName?: string;
+    saveCartName: string;
     saveCartDescription?: string;
     extraData?: { edit: boolean };
   }): void {
@@ -165,6 +165,10 @@ export class SavedCartService {
       },
       () => {}
     );
+  }
+
+  removeSaveCartEntityProcess(): void {
+    this.store.dispatch(new SavedCartActions.RemoveSaveCartEntityProcess());
   }
 
   getSaveCartProcessLoading(): Observable<boolean> {
@@ -191,6 +195,14 @@ export class SavedCartService {
     return this.store.pipe(
       select(
         ProcessSelectors.getProcessErrorFactory(SAVED_CART_SAVE_CART_PROCESS_ID)
+      )
+    );
+  }
+
+  getSaveCartProcessState(): Observable<any> {
+    return this.store.pipe(
+      select(
+        ProcessSelectors.getProcessStateFactory(SAVED_CART_SAVE_CART_PROCESS_ID)
       )
     );
   }

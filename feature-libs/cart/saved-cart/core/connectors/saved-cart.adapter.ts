@@ -24,7 +24,7 @@ export abstract class SavedCartAdapter {
   abstract saveCart(
     userId: string,
     cartId: string,
-    saveCartName?: string,
+    saveCartName: string,
     saveCartDescription?: string
   ): Observable<Cart>;
 }
