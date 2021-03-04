@@ -59,7 +59,7 @@ context('Checkout as guest', () => {
           phone: '',
           address: user.address,
         },
-        'US-CT'
+        'US-CA'
       );
     });
 
