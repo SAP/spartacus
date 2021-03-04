@@ -102,16 +102,21 @@
             >
               {{ 'configurator.button.select' | cxTranslate }}
             </button>
-
             <ng-template #deselect>
-              <button
-                *ngIf="!productCardOptions?.preventAction"
-                class="btn btn-action"
-                (click)="onHandleDeselect()"
-                [disabled]="loading$ | async"
+              <ng-container
+                *ngIf="
+                  isValueCodeDefined(productCardOptions?.product?.valueCode)
+                "
               >
-                {{ 'configurator.button.deselect' | cxTranslate }}
-              </button>
+                <button
+                  *ngIf="!productCardOptions?.preventAction"
+                  class="btn btn-action"
+                  (click)="onHandleDeselect()"
+                  [disabled]="loading$ | async"
+                >
+                  {{ 'configurator.button.deselect' | cxTranslate }}
+                </button>
+              </ng-container>
             </ng-template>
           </ng-template>
         </div>

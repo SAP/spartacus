@@ -69,6 +69,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
   let component: ConfiguratorAttributeProductCardComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeProductCardComponent>;
   let htmlElem: HTMLElement;
+  let value: Configurator.Value;
 
   const createImage = (url: string, altText: string): Configurator.Image => {
     const image: Configurator.Image = {
@@ -79,6 +80,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
   };
 
   const createValue = (
+    valueCode: string,
     description: string,
     images: Configurator.Image[],
     quantity: number,
@@ -87,6 +89,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     valueDisplay: string
   ): Configurator.Value => {
     const value: Configurator.Value = {
+      valueCode,
       description,
       images,
       quantity,
@@ -136,7 +139,8 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
 
-    const value: Configurator.Value = createValue(
+    value = createValue(
+      '888',
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       [createImage('url', 'alt')],
       1,
@@ -450,6 +454,57 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         expect,
         htmlElem,
         'cx-configurator-price'
+      );
+    });
+  });
+
+  describe('isValueCodeDefined', () => {
+    it('should return true when value code equals zero', () => {
+      expect(component.isValueCodeDefined('0')).toBe(false);
+    });
+
+    it('should return true when value code is null', () => {
+      expect(component.isValueCodeDefined(null)).toBe(false);
+    });
+
+    it('should return true when value code is undefined', () => {
+      expect(component.isValueCodeDefined(undefined)).toBe(false);
+    });
+
+    it('should return true when value code is defined', () => {
+      expect(component.isValueCodeDefined('888')).toBe(true);
+    });
+  });
+
+  describe('if "No Option Selected" is selected / not selected for not required single-selection-bundle', () => {
+    it('should not show "Deselect" button', () => {
+      value.valueCode = '0';
+      component.productCardOptions.product.selected = true;
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'button.btn'
+      );
+    });
+
+    it('should show "Select" button', () => {
+      value.valueCode = '0';
+      component.productCardOptions.product.selected = false;
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'button.btn'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'button.btn',
+        'configurator.button.select'
       );
     });
   });
