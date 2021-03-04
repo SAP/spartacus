@@ -21,7 +21,8 @@ export const orgUnit = {
 
   messages: {
     deactivateTitle: 'Disable this unit?',
-    deactivate:
+    deactivate: 'Are you sure you want to disable this unit?',
+    deactivateBody:
       "Disabling a unit has wide-ranging affects on your commerce organization. ALL the unit's child units, users, budgets, and cost centers will also disabled.",
     confirmEnabled: 'Unit {{item.name}} enabled successfully',
     confirmDisabled: 'Unit {{item.name}} disabled successfully',
