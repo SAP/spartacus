@@ -49,6 +49,7 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
   onSuccess(success: boolean): void {
     if (success) {
       this.savedCartService.clearRestoreSavedCart();
+      this.savedCartService.removeSaveCartEntityProcess();
     }
   }
 

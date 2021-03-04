@@ -12,9 +12,10 @@ import { SavedCartService } from '../../core/services/saved-cart.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SavedCartFormComponent implements OnInit {
+  cart$: Observable<Cart>;
   form: FormGroup;
   iconTypes = ICON_TYPE;
-  cart$: Observable<Cart>;
+  isLoading$: Observable<boolean>;
 
   descriptionMaxLength: number = 500;
   nameMaxLength: number = 50;
@@ -33,6 +34,7 @@ export class SavedCartFormComponent implements OnInit {
         this.fillForm(cart);
       })
     );
+    this.isLoading$ = this.savedCartService.getSaveCartProcessLoading();
   }
 
   get descriptionsCharacterLeft(): number {
@@ -63,10 +65,12 @@ export class SavedCartFormComponent implements OnInit {
   }
 
   protected fillForm(cart: Cart): void {
-    // Cart name is required to save cart
-    if (cart.name) {
-      this.form.get('name')?.setValue(cart.name);
-      this.form.get('description')?.setValue(cart.description);
+    if (cart.saveTime) {
+      const cartName = cart.name || '';
+      const cartDescription = cart.description || '';
+
+      this.form.get('name')?.setValue(cartName);
+      this.form.get('description')?.setValue(cartDescription);
 
       this.isEdition = true;
     }

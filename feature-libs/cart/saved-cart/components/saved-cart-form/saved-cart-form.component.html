@@ -12,6 +12,7 @@
 
       <button
         (click)="dismissModal()"
+        [disabled]="isLoading$ | async"
         aria-label="Close"
         class="cx-saved-cart-form-close close"
         type="button"
@@ -75,6 +76,7 @@
     <div class="cx-saved-cart-form-footer">
       <button
         (click)="dismissModal()"
+        [disabled]="isLoading$ | async"
         aria-label="Close"
         class="mr-2 btn btn-outline-primary"
         type="button"
@@ -83,6 +85,7 @@
       </button>
       <button
         (click)="saveCart(cart.code)"
+        [disabled]="isLoading$ | async"
         aria-label="Save"
         class="ml-2 btn btn-primary"
         type="button"

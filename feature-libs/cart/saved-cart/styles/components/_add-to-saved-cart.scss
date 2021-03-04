@@ -2,7 +2,7 @@
   .cx-add-to-saved-cart-container {
     display: flex;
     justify-content: center;
-    margin-top: 3rem;
+    margin-top: 2rem;
 
     @include media-breakpoint-up(sm) {
       justify-content: flex-end;

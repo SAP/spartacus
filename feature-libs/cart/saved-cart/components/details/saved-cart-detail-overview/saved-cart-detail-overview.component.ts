@@ -1,23 +1,44 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { Cart, TranslationService } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
+import {
+  Card,
+  LaunchDialogService,
+  LAUNCH_CALLER,
+} from '@spartacus/storefront';
 import { SavedCartService } from 'feature-libs/cart/saved-cart/core/services/saved-cart.service';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { Observable, combineLatest, Subscription } from 'rxjs';
+import { filter, map, take, tap } from 'rxjs/operators';
 import { SavedCartDetailService } from '../saved-cart-detail.service';
 
 @Component({
   selector: 'cx-saved-cart-detail-overview',
   templateUrl: './saved-cart-detail-overview.component.html',
 })
-export class SavedCartDetailOverviewComponent {
+export class SavedCartDetailOverviewComponent implements OnDestroy {
   savedCart$: Observable<Cart> = this.savedCartDetailService.getCartDetails();
 
+  @ViewChild('element') element: ElementRef;
+
+  protected subscription = new Subscription();
+
   constructor(
+    protected launchDialogService: LaunchDialogService,
     protected savedCartDetailService: SavedCartDetailService,
     protected savedCartService: SavedCartService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected vcr: ViewContainerRef
   ) {}
+
+  ngOnDestroy(): void {
+    this.launchDialogService.clear(LAUNCH_CALLER.ADD_TO_SAVED_CART);
+    this.subscription?.unsubscribe();
+  }
 
   getCartName(cartName: string): Observable<Card> {
     return this.translation.translate('savedCartDetails.cartName').pipe(
@@ -93,15 +114,12 @@ export class SavedCartDetailOverviewComponent {
     );
   }
 
-  editCart(cartId: string): void {
-    // TODO: requires Michal's generic dialog form
+  editCart(cart: Cart): void {
+    const dialog = this.openDialog(this.element, this.vcr, cart);
 
-    this.savedCartService.saveCart({
-      cartId,
-      saveCartName: 'it works no worries',
-      saveCartDescription: 'hello from the other side',
-      extraData: { edit: true },
-    });
+    if (dialog) {
+      this.subscription.add(dialog.pipe(take(1)).subscribe());
+    }
   }
 
   deleteCart(cartId: string): void {
@@ -109,6 +127,33 @@ export class SavedCartDetailOverviewComponent {
     // question is catered towards deprecations
     // main question is that I want to add the loader state mechanism to it
     this.savedCartService.deleteSavedCart(cartId);
+  }
+
+  protected openDialog(
+    openElement?: ElementRef,
+    vcr?: ViewContainerRef,
+    data?: any
+  ): Observable<any> | undefined {
+    const component = this.launchDialogService.launch(
+      LAUNCH_CALLER.ADD_TO_SAVED_CART,
+      vcr,
+      data
+    );
+
+    if (component) {
+      return combineLatest([
+        component,
+        this.launchDialogService.dialogClose,
+      ]).pipe(
+        filter(([, close]) => close !== undefined),
+        tap(([comp]) => {
+          openElement?.nativeElement.focus();
+          this.launchDialogService.clear(LAUNCH_CALLER.ADD_TO_SAVED_CART);
+          comp.destroy();
+        }),
+        map(([comp]) => comp)
+      );
+    }
   }
 
   private getDate(givenDate: Date): string {

@@ -26,7 +26,7 @@
         ></cx-card>
       </div>
       <div class="cx-summary-card">
-        <button class="link cx-action-link" (click)="editCart(cart?.code)">
+        <button #element (click)="editCart(cart)" class="link cx-action-link">
           {{ 'savedCartDetails.edit' | cxTranslate }}
         </button>
 
