@@ -80,17 +80,17 @@ echo "Running schematics unit tests and code coverage for storefinder library"
 exec 5>&1
 output=$(yarn --cwd feature-libs/storefinder run test:schematics --coverage=true | tee /dev/fd/5)
 
-echo "Running unit tests and code coverage for asm library"
+echo "Running unit tests and code coverage for smartedit library"
 exec 5>&1
-output=$(ng test asm --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
+output=$(ng test smartedit --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
 coverage=$(echo $output | grep -i "does not meet global threshold" || true)
 if [[ -n "$coverage" ]]; then
     echo "Error: Tests did not meet coverage expectations"
     exit 1
 fi
-echo "Running schematics unit tests and code coverage for asm library"
+echo "Running schematics unit tests and code coverage for smartedit library"
 exec 5>&1
-output=$(yarn --cwd feature-libs/asm run test:schematics --coverage=true | tee /dev/fd/5)
+output=$(yarn --cwd feature-libs/smartedit run test:schematics --coverage=true | tee /dev/fd/5)
 
 echo "Running unit tests and code coverage for qualtrics library"
 exec 5>&1
@@ -104,9 +104,30 @@ echo "Running schematics unit tests and code coverage for qualtrics library"
 exec 5>&1
 output=$(yarn --cwd feature-libs/qualtrics run test:schematics --coverage=true | tee /dev/fd/5)
 
+echo "Running unit tests and code coverage for asm library"
+exec 5>&1
+output=$(ng test asm --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
+coverage=$(echo $output | grep -i "does not meet global threshold" || true)
+if [[ -n "$coverage" ]]; then
+    echo "Error: Tests did not meet coverage expectations"
+    exit 1
+fi
+echo "Running schematics unit tests and code coverage for asm library"
+exec 5>&1
+output=$(yarn --cwd feature-libs/asm run test:schematics --coverage=true | tee /dev/fd/5)
+
 echo "Running unit tests and code coverage for setup"
 exec 5>&1
 output=$(ng test setup --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
+coverage=$(echo $output | grep -i "does not meet global threshold" || true)
+if [[ -n "$coverage" ]]; then
+    echo "Error: Tests did not meet coverage expectations"
+    exit 1
+fi
+
+echo "Running unit tests and code coverage for tracking"
+exec 5>&1
+output=$(ng test tracking --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
 coverage=$(echo $output | grep -i "does not meet global threshold" || true)
 if [[ -n "$coverage" ]]; then
     echo "Error: Tests did not meet coverage expectations"
@@ -129,4 +150,3 @@ if [[ $1 == '-h' ]]; then
     -Dsonar.host.url=https://sonarcloud.io \
     -Dsonar.login=$SONAR_TOKEN
 fi
-

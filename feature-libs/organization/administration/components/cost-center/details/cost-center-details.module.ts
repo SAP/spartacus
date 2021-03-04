@@ -6,6 +6,7 @@ import { ItemExistsModule } from '../../shared/item-exists.module';
 import { CardModule } from '../../shared/card/card.module';
 import { ToggleStatusModule } from '../../shared/detail/toggle-status-action/toggle-status.module';
 import { CostCenterDetailsComponent } from './cost-center-details.component';
+import { DisableInfoModule } from '../../shared/detail/disable-info/disable-info.module';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { CostCenterDetailsComponent } from './cost-center-details.component';
     I18nModule,
     ToggleStatusModule,
     ItemExistsModule,
+    DisableInfoModule,
   ],
   declarations: [CostCenterDetailsComponent],
   exports: [CostCenterDetailsComponent],

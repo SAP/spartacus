@@ -76,12 +76,18 @@ export class LazyModulesService implements OnDestroy {
     feature?: string,
     dependencyModuleRefs: NgModuleRef<any>[] = []
   ): Observable<NgModuleRef<any>> {
-    const parentInjector = dependencyModuleRefs.length
-      ? new CombinedInjector(
-          this.injector,
-          dependencyModuleRefs.map((moduleRef) => moduleRef.injector)
-        )
-      : this.injector;
+    let parentInjector: Injector;
+
+    if (!dependencyModuleRefs.length) {
+      parentInjector = this.injector;
+    } else if (dependencyModuleRefs.length === 1) {
+      parentInjector = dependencyModuleRefs[0].injector;
+    } else {
+      parentInjector = new CombinedInjector(
+        this.injector,
+        dependencyModuleRefs.map((moduleRef) => moduleRef.injector)
+      );
+    }
 
     return this.resolveModuleFactory(moduleFunc).pipe(
       map(([moduleFactory]) => moduleFactory.create(parentInjector)),
@@ -137,7 +143,6 @@ export class LazyModulesService implements OnDestroy {
    *
    * @returns {Observable<NgModuleRef<any>>}
    */
-
   public runModuleInitializersForModule(
     moduleRef: NgModuleRef<any>
   ): Observable<NgModuleRef<any>> {
@@ -164,6 +169,7 @@ export class LazyModulesService implements OnDestroy {
       return of(moduleRef);
     }
   }
+
   /**
    * This function accepts an array of functions and runs them all. For each function that returns a promise,
    * the resulting promise is stored in an array of promises.  That array of promises is returned.

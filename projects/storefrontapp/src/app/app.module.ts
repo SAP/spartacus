@@ -76,13 +76,13 @@ if (!environment.production) {
         resources: configuratorTranslations,
       },
       featureModules: {
-        rulebased: {
+        productConfiguratorRulebased: {
           module: () =>
             import('@spartacus/product-configurator/rulebased').then(
               (m) => m.RulebasedConfiguratorModule
             ),
         },
-        textfield: {
+        productConfiguratorTextfield: {
           module: () =>
             import('@spartacus/product-configurator/textfield').then(
               (m) => m.TextfieldConfiguratorModule

@@ -4,7 +4,7 @@ import {
   createBuilder,
 } from '@angular-devkit/architect';
 import { JsonObject, logging } from '@angular-devkit/core';
-import { NgPackagrBuilderOptions } from '@angular-devkit/build-ng-packagr';
+import { NgPackagrBuilderOptions } from '@angular-devkit/build-angular';
 import { from, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { promises as fs } from 'fs';

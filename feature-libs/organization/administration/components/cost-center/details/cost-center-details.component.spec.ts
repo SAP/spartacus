@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { CostCenter, I18nTestingModule } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of, Subject } from 'rxjs';
+import { DisableInfoModule } from '../../shared';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { ToggleStatusModule } from '../../shared/detail/toggle-status-action/toggle-status.module';
 import { ItemService } from '../../shared/item.service';
@@ -43,6 +44,7 @@ describe('CostCenterDetailsComponent', () => {
         CardTestingModule,
         MessageTestingModule,
         ToggleStatusModule,
+        DisableInfoModule,
       ],
       declarations: [CostCenterDetailsComponent],
       providers: [{ provide: ItemService, useClass: MockItemService }],

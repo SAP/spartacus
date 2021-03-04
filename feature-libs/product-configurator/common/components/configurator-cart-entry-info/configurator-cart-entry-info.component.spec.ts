@@ -160,6 +160,16 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
         const entry: OrderEntry = { configurationInfos: [{ status: 'NONE' }] };
         expect(component.hasStatus(entry)).toBe(false);
       });
+
+      it('should be false if no configuration infos are present', () => {
+        const entry: OrderEntry = {};
+        expect(component.hasStatus(entry)).toBe(false);
+      });
+
+      it('should be false if configuration infos are emptry', () => {
+        const entry: OrderEntry = { configurationInfos: [] };
+        expect(component.hasStatus(entry)).toBe(false);
+      });
     });
   });
 });
