@@ -1,5 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Cart, RoutingService } from '@spartacus/core';
+import {
+  Cart,
+  GlobalMessageService,
+  GlobalMessageType,
+  RoutingService,
+} from '@spartacus/core';
 import { SavedCartService } from 'feature-libs/cart/saved-cart/core/services/saved-cart.service';
 import { Observable, Subscription } from 'rxjs';
 import { SavedCartDetailService } from '../saved-cart-detail.service';
@@ -16,7 +21,8 @@ export class SavedCartDetailActionComponent implements OnInit, OnDestroy {
   constructor(
     protected savedCartDetailService: SavedCartDetailService,
     protected savedCartService: SavedCartService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit(): void {
@@ -29,6 +35,19 @@ export class SavedCartDetailActionComponent implements OnInit, OnDestroy {
 
   restoreSavedCart(cartId: string): void {
     this.savedCartService.restoreSavedCart(cartId);
+  }
+
+  deleteSavedCart(cartId: string): void {
+    // TODO: replace logic and use the DeleteCartEvents when they're available.
+
+    this.savedCartService.deleteSavedCart(cartId);
+    this.routingService.go({ cxRoute: 'savedCartDetails' });
+    this.globalMessageService.add(
+      {
+        key: 'savedCartDetails.deleteCartSuccess',
+      },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   }
 
   onSuccess(success: boolean): void {
