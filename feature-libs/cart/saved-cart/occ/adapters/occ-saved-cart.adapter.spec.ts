@@ -1,10 +1,4 @@
-// import {
-//   HttpClientTestingModule,
-//   HttpTestingController,
-// } from '@angular/common/http/testing';
-// import { TestBed } from '@angular/core/testing';
-// import { ConverterService, OccEndpointsService } from '@spartacus/core';
-// import { OccSavedCartAdapter } from './occ-saved-cart.adapter';
+// TODO: unit test
 
 // import {
 //   HttpClientTestingModule,

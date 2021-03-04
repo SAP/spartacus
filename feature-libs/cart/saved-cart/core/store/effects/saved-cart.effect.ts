@@ -164,11 +164,11 @@ export class SavedCartEffects {
                 this.clearCheckoutService.resetCheckoutProcesses();
 
                 return [
-                  // new CartActions.LoadCartSuccess({
-                  //   userId,
-                  //   cartId,
-                  //   cart: savedCart,
-                  // }),
+                  new CartActions.LoadCartSuccess({
+                    userId,
+                    cartId,
+                    cart: savedCart,
+                  }),
                   new CartActions.ClearCartState(),
                   new SavedCartActions.SaveCartSuccess({ cart: savedCart }),
                 ];
@@ -184,9 +184,9 @@ export class SavedCartEffects {
 
   constructor(
     private actions$: Actions,
-    private savedCartConnector: SavedCartConnector,
     private activeCartService: ActiveCartService,
+    private clearCheckoutService: ClearCheckoutService,
     private globalMessageService: GlobalMessageService,
-    private clearCheckoutService: ClearCheckoutService
+    private savedCartConnector: SavedCartConnector
   ) {}
 }
