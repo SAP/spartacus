@@ -6,7 +6,7 @@ import { AnonymousConsentsDialogModule } from '../../shared/components/anonymous
 import { StorefrontComponentModule } from './storefront-component.module';
 
 /**
- * @deprecated since 3.1, see https://sap.github.io/spartacus-docs/getting-started/reference-app-structure
+ * @deprecated since 3.1, see https://sap.github.io/spartacus-docs/reference-app-structure
  */
 @NgModule({
   imports: [
