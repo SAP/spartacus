@@ -17,16 +17,27 @@ export async function deploy(github: any, octoKit: any) {
   const command = `upp application deploy -b ${bundleId} -t spartacus -s ./dist/storefrontapp -e stage`;
 
   const exp = /https\:\/\/\w+\.cloudfront\.net/;
+  const ERROR = 'Response code: 500';
 
   const options: ExecOptions = {};
   options.listeners = {
-    stdout: (data: Buffer) => {
+    stdout: async (data: Buffer) => {
       const line = data.toString();
+
+      if (line.includes(ERROR)) {
+        const body = `:exclamation: Spartacus deployment failed (${line}). Check job logs for details.)`;
+        console.log(`--> ${body}`);
+        await addComment(context, octoKit, body);
+
+        process.exitCode = 1;
+        process.exit();
+      }
+
       const match = line.match(exp);
       if (match && match.length > 0) {
         const body = `:rocket: Spartacus deployed to [${match}](${match})`;
-        console.log(body);
-        addComment(context, octoKit, body);
+        console.log(`--> ${body}`);
+        await addComment(context, octoKit, body);
       }
     },
     stderr: (data: Buffer) => {
