@@ -1,5 +1,5 @@
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { Observable } from 'rxjs';
+
 
 export namespace Configurator {
   export interface Attribute {
