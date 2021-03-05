@@ -16,6 +16,8 @@ export interface SyncedAuthState {
   redirectUrl?: string;
 }
 
+export const AUTH_PERSISTENCE_KEY = 'key';
+
 /**
  * Responsible for saving the authorization data (userId, token, redirectUrl) in browser storage.
  */
@@ -35,7 +37,7 @@ export class AuthStatePersistenceService implements OnDestroy {
   /**
    * Identifier used for storage key.
    */
-  protected key = 'auth';
+  protected key = AUTH_PERSISTENCE_KEY;
 
   /**
    * Initializes the synchronization between state and browser storage.

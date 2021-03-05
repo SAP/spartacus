@@ -3,6 +3,7 @@ import { combineLatest, iif, Observable, of, Subscription } from 'rxjs';
 import { map, tap, withLatestFrom } from 'rxjs/operators';
 import { StorageSyncType } from '../../state/config/state-config';
 import {
+  generateKeyWithContext,
   getStorage,
   persistToStorage,
   readFromStorage,
@@ -152,10 +153,11 @@ export class StatePersistenceService {
     ) as T;
   }
 
+  // TODO (): Remove and use global function instead
   protected generateKeyWithContext(
     context: string | Array<string>,
     key: string
   ): string {
-    return `spartacus⚿${[].concat(context).join('⚿')}⚿${key}`;
+    return generateKeyWithContext(context, key);
   }
 }

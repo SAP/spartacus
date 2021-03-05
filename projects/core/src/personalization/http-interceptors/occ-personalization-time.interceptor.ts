@@ -1,4 +1,4 @@
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import {
   HttpEvent,
   HttpHandler,
@@ -6,13 +6,13 @@ import {
   HttpRequest,
   HttpResponse,
 } from '@angular/common/http';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
-import { PersonalizationConfig } from '../config/personalization-config';
+import { StaticPersistenceService } from '../../util/static-persistence.service';
 import { WindowRef } from '../../window/window-ref';
-import { isPlatformBrowser } from '@angular/common';
+import { PersonalizationConfig } from '../config/personalization-config';
 
 const PERSONALIZATION_TIME_KEY = 'personalization-time';
 
@@ -26,7 +26,8 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
     private config: PersonalizationConfig,
     private occEndpoints: OccEndpointsService,
     private winRef: WindowRef,
-    @Inject(PLATFORM_ID) private platform: any
+    @Inject(PLATFORM_ID) private platform: any,
+    protected persistenceService: StaticPersistenceService
   ) {
     if (isPlatformBrowser(this.platform)) {
       this.enabled =
@@ -35,11 +36,13 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
 
       if (this.enabled) {
         this.requestHeader = this.config.personalization.httpHeaderName.timestamp.toLowerCase();
-        this.timestamp = this.winRef.localStorage.getItem(
+        this.timestamp = this.persistenceService.readFromStorage(
           PERSONALIZATION_TIME_KEY
-        );
-      } else if (this.winRef.localStorage.getItem(PERSONALIZATION_TIME_KEY)) {
-        this.winRef.localStorage.removeItem(PERSONALIZATION_TIME_KEY);
+        ) as string;
+      } else if (
+        this.persistenceService.readFromStorage(PERSONALIZATION_TIME_KEY)
+      ) {
+        this.persistenceService.removeFromStorage(PERSONALIZATION_TIME_KEY);
       }
     }
   }
@@ -70,7 +73,11 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
             const receivedTimestamp = event.headers.get(this.requestHeader);
             if (this.timestamp !== receivedTimestamp) {
               this.timestamp = receivedTimestamp;
-              this.winRef.localStorage.setItem(
+              // this.winRef.localStorage.setItem(
+              //   PERSONALIZATION_TIME_KEY,
+              //   this.timestamp
+              // );
+              this.persistenceService.persistToStorage(
                 PERSONALIZATION_TIME_KEY,
                 this.timestamp
               );

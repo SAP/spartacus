@@ -159,3 +159,10 @@ export function removeFromStorage(key: string, storage: Storage): void {
     storage.removeItem(key);
   }
 }
+
+export function generateKeyWithContext(
+  context: string | Array<string>,
+  key: string
+): string {
+  return `spartacus⚿${[].concat(context).join('⚿')}⚿${key}`;
+}
