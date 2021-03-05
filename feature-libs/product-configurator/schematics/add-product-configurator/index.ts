@@ -25,8 +25,10 @@ export const SPARTACUS_PRODUCT_CONFIGURATOR = '@spartacus/product-configurator';
 const PRODUCT_CONFIGURATOR_SCSS_FILE_NAME = 'product-configurator.scss';
 const PRODUCT_CONFIGURATOR_RULEBASED_MODULE = 'RulebasedConfiguratorModule';
 const PRODUCT_CONFIGURATOR_TEXTFIELD_MODULE = 'TextfieldConfiguratorModule';
-const PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_NAME = 'rulebased';
-const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME = 'textfield';
+const PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_NAME =
+  'productConfiguratorRulebased';
+const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME =
+  'productConfiguratorTextfield';
 
 const PRODUCT_CONFIGURATOR_RULEBASED_ROOT_MODULE =
   'RulebasedConfiguratorRootModule';

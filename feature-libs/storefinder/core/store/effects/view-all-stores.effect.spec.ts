@@ -7,7 +7,7 @@ import { StoreFinderConnector } from '../../connectors/store-finder.connector';
 import { StoreFinderActions } from '../actions/index';
 import * as fromEffects from './view-all-stores.effect';
 import createSpy = jasmine.createSpy;
-import { OccConfig } from '@spartacus/core';
+import { OccConfig, SiteContextActions } from '@spartacus/core';
 import { StoreCount } from '../../model/store-finder.model';
 
 const mockOccModuleConfig: OccConfig = {
@@ -59,6 +59,42 @@ describe('ViewAllStores Effects', () => {
       const expected = cold('-b', { b: completion });
 
       expect(effects.viewAllStores$).toBeObservable(expected);
+    });
+    it('should return search result on clear store finder data', () => {
+      const action = new StoreFinderActions.ClearStoreFinderData();
+      const completion = new StoreFinderActions.ViewAllStoresSuccess(
+        storesCountResult
+      );
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.viewAllStores$).toBeObservable(expected);
+    });
+  });
+  describe('clearStoreFinderData$', () => {
+    it('should clear store finder data on language change', () => {
+      const action = new SiteContextActions.LanguageChange({
+        previous: 'previous',
+        current: 'current',
+      });
+      const completion = new StoreFinderActions.ClearStoreFinderData();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.clearStoreFinderData$).toBeObservable(expected);
+    });
+    it('should clear store finder data on currency change', () => {
+      const action = new SiteContextActions.CurrencyChange({
+        previous: 'previous',
+        current: 'current',
+      });
+      const completion = new StoreFinderActions.ClearStoreFinderData();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.clearStoreFinderData$).toBeObservable(expected);
     });
   });
 });

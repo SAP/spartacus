@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { B2BUnit } from '@spartacus/core';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
 import { ItemService } from '../../shared/item.service';
@@ -25,4 +26,5 @@ export class UnitDetailsComponent {
   isInEditMode$ = this.itemService.isInEditMode$;
 
   constructor(protected itemService: ItemService<B2BUnit>) {}
+  iconTypes = ICON_TYPE;
 }

@@ -80,7 +80,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     searchBoxComponentService: SearchBoxComponentService,
     componentData: CmsComponentData<CmsSearchBoxComponent>,
     winRef: WindowRef,
-    // tslint:disable-next-line: unified-signatures
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     routingService: RoutingService
   );
 

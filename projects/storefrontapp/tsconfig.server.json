@@ -57,6 +57,24 @@
       "@spartacus/product-configurator/textfield/root": [
         "../../feature-libs/product-configurator/textfield/root/public_api"
       ],
+      "@spartacus/product/bulk-pricing/assets": [
+        "../../feature-libs/product/bulk-pricing/assets/public_api"
+      ],
+      "@spartacus/product/bulk-pricing/components": [
+        "../../feature-libs/product/bulk-pricing/components/public_api"
+      ],
+      "@spartacus/product/bulk-pricing/core": [
+        "../../feature-libs/product/bulk-pricing/core/public_api"
+      ],
+      "@spartacus/product/bulk-pricing": [
+        "../../feature-libs/product/bulk-pricing/public_api"
+      ],
+      "@spartacus/product/bulk-pricing/occ": [
+        "../../feature-libs/product/bulk-pricing/occ/public_api"
+      ],
+      "@spartacus/product/bulk-pricing/root": [
+        "../../feature-libs/product/bulk-pricing/root/public_api"
+      ],
       "@spartacus/product": ["../../feature-libs/product/public_api"],
       "@spartacus/qualtrics/components": [
         "../../feature-libs/qualtrics/components/public_api"
@@ -64,6 +82,13 @@
       "@spartacus/qualtrics": ["../../feature-libs/qualtrics/public_api"],
       "@spartacus/qualtrics/root": [
         "../../feature-libs/qualtrics/root/public_api"
+      ],
+      "@spartacus/smartedit/core": [
+        "../../feature-libs/smartedit/core/public_api"
+      ],
+      "@spartacus/smartedit": ["../../feature-libs/smartedit/public_api"],
+      "@spartacus/smartedit/root": [
+        "../../feature-libs/smartedit/root/public_api"
       ],
       "@spartacus/storefinder/assets": [
         "../../feature-libs/storefinder/assets/public_api"
@@ -81,6 +106,26 @@
       "@spartacus/storefinder/root": [
         "../../feature-libs/storefinder/root/public_api"
       ],
+      "@spartacus/tracking": ["../../feature-libs/tracking/public_api"],
+      "@spartacus/tracking/personalization/core": [
+        "../../feature-libs/tracking/personalization/core/public_api"
+      ],
+      "@spartacus/tracking/personalization": [
+        "../../feature-libs/tracking/personalization/public_api"
+      ],
+      "@spartacus/tracking/personalization/root": [
+        "../../feature-libs/tracking/personalization/root/public_api"
+      ],
+      "@spartacus/tracking/tms/aep": [
+        "../../feature-libs/tracking/tms/aep/public_api"
+      ],
+      "@spartacus/tracking/tms/core": [
+        "../../feature-libs/tracking/tms/core/public_api"
+      ],
+      "@spartacus/tracking/tms/gtm": [
+        "../../feature-libs/tracking/tms/gtm/public_api"
+      ],
+      "@spartacus/tracking/tms": ["../../feature-libs/tracking/tms/public_api"],
       "@spartacus/cdc": ["../../integration-libs/cdc/public_api"],
       "@spartacus/cds": ["../../integration-libs/cds/public_api"],
       "@spartacus/assets": ["../../projects/assets/src/public_api"],
