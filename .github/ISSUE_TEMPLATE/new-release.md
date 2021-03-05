@@ -17,7 +17,7 @@ assignees: ''
 - [ ] Build app on this branch using installation script; prepare the `scripts/install/config.sh` file as below:
 
     ```bash
-    BACKEND_URL="https://spartacus-dev0.eastus.cloudapp.azure.com:9002"
+    BACKEND_URL="https://20.83.184.244:9002"
     BRANCH='release/x.y.z'
     SPARTACUS_VERSION='x.y.z'
     ```
