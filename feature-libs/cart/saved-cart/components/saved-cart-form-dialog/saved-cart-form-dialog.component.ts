@@ -6,7 +6,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import {
   Cart,
   GlobalMessageService,
@@ -18,9 +18,10 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { SavedCartFormType } from '../../core/model/saved-cart.model';
 import { SavedCartService } from '../../core/services/saved-cart.service';
+import { SavedCartFormService } from './saved-cart-form.service';
 
 @Component({
   selector: 'cx-saved-cart-form-dialog',
@@ -35,6 +36,8 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
   cart: Cart;
   layoutOption: string;
+
+  isLoading$: Observable<boolean>;
 
   descriptionMaxLength: number = 500;
   nameMaxLength: number = 50;
@@ -55,20 +58,22 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    protected launchDialogService: LaunchDialogService,
     protected el: ElementRef,
-    protected savedCartService: SavedCartService,
+    protected globalMessageService: GlobalMessageService,
+    protected launchDialogService: LaunchDialogService,
     protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService
+    protected savedCartFormService: SavedCartFormService,
+    protected savedCartService: SavedCartService
   ) {}
 
   ngOnInit(): void {
-    this.build();
+    this.isLoading$ = this.savedCartService.getSaveCartProcessLoading();
 
     this.subscription.add(
       this.launchDialogService.data$.subscribe((data) => {
         this.cart = data.cart;
         this.layoutOption = data.layoutOption;
+        this.build();
       })
     );
 
@@ -145,15 +150,17 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
   }
 
   protected build(): void {
-    this.form = new FormGroup({
-      name: new FormControl('', [
-        Validators.required,
-        Validators.maxLength(this.nameMaxLength),
-      ]),
-      description: new FormControl('', [
-        Validators.maxLength(this.descriptionMaxLength),
-      ]),
-    });
+    let cart = null;
+
+    if (this.cart.saveTime) {
+      cart = this.cart;
+    }
+
+    this.form = this.savedCartFormService.getForm(
+      this.nameMaxLength,
+      this.descriptionMaxLength,
+      cart
+    );
   }
 
   ngOnDestroy(): void {

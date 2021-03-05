@@ -23,6 +23,7 @@
 
         <button
           (click)="close('Close Save Cart Dialog')"
+          [disabled]="isLoading$ | async"
           aria-label="Close"
           class="cx-saved-cart-form-close close"
           type="button"
@@ -94,6 +95,7 @@
           </div>
 
           <div class="cx-saved-cart-form-footer">
+            <!-- TODO disable button during loading state -->
             <button
               (click)="close('Close Save Cart Dialog')"
               aria-label="Close"
@@ -102,6 +104,7 @@
             >
               {{ 'savedCartDialog.cancel' | cxTranslate }}
             </button>
+            <!-- TODO disable button during loading state -->
             <button
               (click)="deleteCart(cart.code)"
               aria-label="Save"
@@ -169,6 +172,7 @@
           <div class="cx-saved-cart-form-footer">
             <button
               (click)="close('Close Save Cart Dialog')"
+              [disabled]="isLoading$ | async"
               aria-label="Close"
               class="mr-2 btn btn-action"
               type="button"
@@ -177,6 +181,7 @@
             </button>
             <button
               (click)="saveOrEditCart(cart?.code)"
+              [disabled]="isLoading$ | async"
               aria-label="Save"
               class="ml-2 btn btn-primary"
               type="button"
