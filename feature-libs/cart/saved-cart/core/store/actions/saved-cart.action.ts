@@ -23,6 +23,7 @@ export const CLEAR_RESTORE_SAVED_CART = '[Saved Cart] Clear Restore Saved Cart';
 export const SAVE_CART = '[Saved Cart] Save Cart';
 export const SAVE_CART_SUCCESS = '[Saved Cart] Save Cart Success';
 export const SAVE_CART_FAIL = '[Saved Cart] Save Cart Fail';
+export const CLEAR_SAVE_CART = '[Saved Cart] Clear Save Cart';
 
 export class LoadSavedCart extends StateUtils.EntityLoadAction {
   readonly type = LOAD_SAVED_CART;
@@ -146,6 +147,13 @@ export class SaveCartFail extends StateUtils.EntityFailAction {
   }
 }
 
+export class ClearSaveCart extends StateUtils.EntityLoaderResetAction {
+  readonly type = CLEAR_SAVE_CART;
+  constructor() {
+    super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID);
+  }
+}
+
 export type SavedCartActions =
   | LoadSavedCart
   | LoadSavedCartSuccess
@@ -160,4 +168,5 @@ export type SavedCartActions =
   | ClearRestoreSavedCart
   | SaveCart
   | SaveCartSuccess
-  | SaveCartFail;
+  | SaveCartFail
+  | ClearSaveCart;

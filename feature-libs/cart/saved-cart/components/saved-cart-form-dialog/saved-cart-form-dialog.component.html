@@ -1,0 +1,192 @@
+<ng-container *ngIf="cart">
+  <div
+    [cxFocus]="focusConfig"
+    (esc)="close('Escape clicked')"
+    class="cx-saved-cart-form-dialog"
+  >
+    <form [formGroup]="form" class="cx-saved-cart-form-container">
+      <!-- Modal Header -->
+      <div class="cx-saved-cart-form-header">
+        <ng-container [ngSwitch]="layoutOption">
+          <h3 class="cx-saved-cart-form-title">
+            <ng-container *ngSwitchCase="savedCartFormType.EDIT">
+              {{ 'savedCartDialog.editSavedCart' | cxTranslate }}
+            </ng-container>
+            <ng-container *ngSwitchCase="savedCartFormType.DELETE">
+              {{ 'savedCartDialog.deleteSavedCart' | cxTranslate }}
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+              {{ 'savedCartDialog.saveForLater' | cxTranslate }}
+            </ng-container>
+          </h3>
+        </ng-container>
+
+        <button
+          (click)="close('Close Save Cart Dialog')"
+          aria-label="Close"
+          class="cx-saved-cart-form-close close"
+          type="button"
+        >
+          <span aria-hidden="true">
+            <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+          </span>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="cx-saved-cart-form-body">
+        <!-- start DELETE form -->
+        <ng-container
+          *ngIf="
+            layoutOption === savedCartFormType.DELETE;
+            else saveAndEditCart
+          "
+        >
+          <p class="cx-saved-cart-form-subtitle">
+            {{ 'savedCartDialog.followingCartDelete' | cxTranslate }}
+          </p>
+
+          <div class="cx-saved-cart-form-row">
+            <div class="cx-saved-cart-values-container">
+              <div class="cx-saved-cart-label">
+                {{ 'savedCartDialog.name' | cxTranslate }}
+              </div>
+              <div class="cx-saved-cart-value">
+                {{ cart?.name }}
+              </div>
+            </div>
+
+            <div class="cx-saved-cart-values-container">
+              <div class="cx-saved-cart-label">
+                {{ 'savedCartDialog.id' | cxTranslate }}
+              </div>
+              <div class="cx-saved-cart-value">
+                {{ cart?.code }}
+              </div>
+            </div>
+
+            <div class="cx-saved-cart-values-container">
+              <div class="cx-saved-cart-label">
+                {{ 'savedCartDialog.description' | cxTranslate }}
+              </div>
+              <div class="cx-saved-cart-value">
+                {{ cart?.description }}
+              </div>
+            </div>
+
+            <div class="cx-saved-cart-values-container">
+              <div class="cx-saved-cart-label">
+                {{ 'savedCartDialog.quantity' | cxTranslate }}
+              </div>
+              <div class="cx-saved-cart-value">
+                {{ cart?.totalItems }}
+              </div>
+            </div>
+
+            <div class="cx-saved-cart-values-container">
+              <div class="cx-saved-cart-label">
+                {{ 'savedCartDialog.total' | cxTranslate }}
+              </div>
+              <div class="cx-saved-cart-value">
+                {{ cart?.totalPriceWithTax?.formattedValue }}
+              </div>
+            </div>
+          </div>
+
+          <div class="cx-saved-cart-form-footer">
+            <button
+              (click)="close('Close Save Cart Dialog')"
+              aria-label="Close"
+              class="mr-2 btn btn-action"
+              type="button"
+            >
+              {{ 'savedCartDialog.cancel' | cxTranslate }}
+            </button>
+            <button
+              (click)="deleteCart(cart.code)"
+              aria-label="Save"
+              class="ml-2 btn btn-primary"
+              type="button"
+            >
+              {{ 'savedCartDialog.delete' | cxTranslate }}
+            </button>
+          </div>
+        </ng-container>
+        <!-- end DELETE form -->
+
+        <!-- start SAVE and EDIT form -->
+        <ng-template #saveAndEditCart>
+          <ng-container *ngIf="!layoutOption">
+            <p class="cx-saved-cart-form-subtitle">
+              {{ 'savedCartDialog.itemsSavedForLater' | cxTranslate }}
+            </p>
+          </ng-container>
+
+          <div class="cx-saved-cart-form-row">
+            <ng-container>
+              <label>
+                <span class="cx-saved-carts-label label-content">{{
+                  'savedCartDialog.savedCartName' | cxTranslate
+                }}</span>
+                <input
+                  [maxLength]="nameMaxLength"
+                  class="form-control"
+                  formControlName="name"
+                  required
+                  type="text"
+                />
+                <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+              </label>
+            </ng-container>
+          </div>
+
+          <div class="cx-saved-cart-form-row">
+            <label>
+              <span class="cx-saved-carts-label label-content"
+                >{{ 'savedCartDialog.savedCartDescription' | cxTranslate }}
+                <span class="cx-saved-carts-label-optional">
+                  ({{ 'savedCartDialog.optional' | cxTranslate }})
+                </span></span
+              >
+              <textarea
+                [maxLength]="descriptionMaxLength"
+                class="form-control"
+                formControlName="description"
+                rows="5"
+              ></textarea>
+              <cx-form-errors
+                [control]="form.get('description')"
+              ></cx-form-errors>
+
+              <p class="cx-saved-carts-input-hint">
+                {{
+                  'savedCartDialog.charactersLeft'
+                    | cxTranslate: { count: descriptionsCharacterLeft }
+                }}
+              </p>
+            </label>
+          </div>
+          <div class="cx-saved-cart-form-footer">
+            <button
+              (click)="close('Close Save Cart Dialog')"
+              aria-label="Close"
+              class="mr-2 btn btn-action"
+              type="button"
+            >
+              {{ 'savedCartDialog.cancel' | cxTranslate }}
+            </button>
+            <button
+              (click)="saveOrEditCart(cart?.code)"
+              aria-label="Save"
+              class="ml-2 btn btn-primary"
+              type="button"
+            >
+              {{ 'savedCartDialog.save' | cxTranslate }}
+            </button>
+          </div>
+        </ng-template>
+        <!-- end SAVE and EDIT form -->
+      </div>
+    </form>
+  </div>
+</ng-container>

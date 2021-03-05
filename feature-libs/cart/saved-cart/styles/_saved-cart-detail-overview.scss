@@ -48,11 +48,19 @@ cx-saved-cart-detail-overview {
           @include type('4');
           font-weight: bold;
         }
-        .cx-edit-card-container {
+        .cx-edit-container {
           display: flex;
-          .cx-edit-actions {
-            padding: 20px;
+          justify-content: space-between;
+
+          .cx-edit-cart {
+            height: 100%;
+            margin: 1.5rem;
           }
+        }
+
+        .cx-card-description {
+          max-width: 100%;
+          word-break: break-word;
         }
       }
 

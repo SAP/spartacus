@@ -206,6 +206,10 @@ export class SavedCartService {
     );
   }
 
+  clearSaveCart(): void {
+    this.store.dispatch(new SavedCartActions.ClearSaveCart());
+  }
+
   getSaveCartProcessLoading(): Observable<boolean> {
     return this.store.pipe(
       select(

@@ -49,11 +49,13 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
   onSuccess(success: boolean): void {
     if (success) {
       this.savedCartService.clearRestoreSavedCart();
+      this.savedCartService.clearSaveCart();
     }
   }
 
   ngOnDestroy(): void {
     this.savedCartService.clearSavedCarts();
+    this.savedCartService.clearSaveCart();
     this.subscription?.unsubscribe();
   }
 }

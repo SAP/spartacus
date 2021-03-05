@@ -4,17 +4,17 @@ import { provideConfig } from '@spartacus/core';
 import { AddToSavedCartModule } from './add-to-saved-cart/add-to-saved-cart.module';
 import { SavedCartDetailsModule } from './details/saved-cart-details.module';
 import { SavedCartListModule } from './list/saved-cart-list.module';
-import { savedCartFormConfig } from './saved-cart-form/saved-cart-form.config';
-import { SavedCartFormModule } from './saved-cart-form/saved-cart-form.module';
+import { defaultSavedCartFormLayoutConfig } from './saved-cart-form-dialog/default-saved-cart-form-layout.config';
+import { SavedCartFormDialogModule } from './saved-cart-form-dialog/saved-cart-form-dialog.module';
 
 @NgModule({
   imports: [
     RouterModule,
     AddToSavedCartModule,
-    SavedCartFormModule,
+    SavedCartFormDialogModule,
     SavedCartListModule,
     SavedCartDetailsModule,
   ],
-  providers: [provideConfig(savedCartFormConfig)],
+  providers: [provideConfig(defaultSavedCartFormLayoutConfig)],
 })
 export class SavedCartComponentsModule {}

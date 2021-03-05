@@ -8,6 +8,7 @@ import {
   ClearCheckoutService,
   GlobalMessageService,
   GlobalMessageType,
+  MultiCartService,
   normalizeHttpError,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -76,17 +77,26 @@ export class SavedCartEffects {
   restoreSavedCart$: Observable<
     | SavedCartActions.RestoreSavedCartFail
     | SavedCartActions.RestoreSavedCartSuccess
+    | SavedCartActions.LoadSavedCarts
+    | SavedCartActions.SaveCart
     | CartActions.LoadCartSuccess
     | CartActions.SetActiveCartId
-    | SavedCartActions.LoadSavedCarts
   > = this.actions$.pipe(
     ofType(SavedCartActions.RESTORE_SAVED_CART),
     map((action: SavedCartActions.RestoreSavedCart) => action.payload),
     withLatestFrom(this.activeCartService.getActiveCartId()),
     switchMap(([{ userId, cartId }, activeCartId]) => {
+      const actions: any[] = [];
+
       if (Boolean(activeCartId)) {
-        // TODO: save cart functionality
-        //  from #9190
+        actions.push(
+          new SavedCartActions.SaveCart({
+            userId,
+            cartId: activeCartId,
+            saveCartName: activeCartId,
+            extraData: { edit: true },
+          })
+        );
       }
 
       return this.savedCartConnector.restoreSavedCart(userId, cartId).pipe(
@@ -107,6 +117,7 @@ export class SavedCartEffects {
           );
 
           return [
+            ...actions,
             new CartActions.SetActiveCartId(cartId),
             new CartActions.LoadCartSuccess({
               userId,
@@ -151,10 +162,12 @@ export class SavedCartEffects {
                   new SavedCartActions.SaveCartSuccess(),
                 ];
               } else {
-                // TODO: Michal to put logic for saving his cart from cart page
-                // remove snippet below
-                // might be the same thing, therefore can remove the extra data
-                // will think more about it
+                this.clearCheckoutService.resetCheckoutProcesses();
+                this.multiCartService.createCart({
+                  userId,
+                  extraData: { active: true },
+                });
+
                 return [
                   new CartActions.LoadCartSuccess({
                     userId,
@@ -178,6 +191,7 @@ export class SavedCartEffects {
     private savedCartConnector: SavedCartConnector,
     private activeCartService: ActiveCartService,
     private globalMessageService: GlobalMessageService,
-    private clearCheckoutService: ClearCheckoutService
+    private clearCheckoutService: ClearCheckoutService,
+    private multiCartService: MultiCartService
   ) {}
 }
