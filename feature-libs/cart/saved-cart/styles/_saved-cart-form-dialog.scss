@@ -22,6 +22,22 @@ cx-saved-cart-form-dialog {
         .cx-saved-cart-form-row {
           margin-bottom: 1.5rem;
 
+          .cx-saved-cart-values-container {
+            display: flex;
+
+            @include media-breakpoint-up(sm) {
+              padding-inline-start: 3rem;
+            }
+
+            .cx-saved-cart-label {
+              min-width: 140px;
+            }
+
+            .cx-saved-cart-value {
+              font-weight: bold;
+            }
+          }
+
           .cx-saved-carts-label {
             font-weight: bold;
           }

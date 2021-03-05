@@ -6,12 +6,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import {
-  Cart,
-  GlobalMessageService,
-  GlobalMessageType,
-  RoutingService,
-} from '@spartacus/core';
+import { Cart, GlobalMessageService, RoutingService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { SavedCartService } from '../../../core/services/saved-cart.service';
@@ -47,20 +42,6 @@ export class SavedCartDetailActionComponent implements OnInit, OnDestroy {
 
   restoreSavedCart(cartId: string): void {
     this.savedCartService.restoreSavedCart(cartId);
-  }
-
-  deleteSavedCart(cartId: string): void {
-    // TODO: replace logic and use the DeleteCartEvents when they're available.
-    //  2- requires generic dialog form from Michal
-    // do note the things from the overview will be removed and fix in the overview component issue
-    this.savedCartService.deleteSavedCart(cartId);
-    this.routingService.go({ cxRoute: 'savedCartDetails' });
-    this.globalMessageService.add(
-      {
-        key: 'savedCartDetails.deleteCartSuccess',
-      },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
   }
 
   onSuccess(success: boolean): void {

@@ -57,6 +57,11 @@ cx-saved-cart-detail-overview {
             margin: 1.5rem;
           }
         }
+
+        .cx-card-description {
+          max-width: 100%;
+          word-break: break-word;
+        }
       }
 
       .cx-action-link {

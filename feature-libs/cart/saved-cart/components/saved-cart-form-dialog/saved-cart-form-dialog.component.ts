@@ -3,10 +3,16 @@ import {
   Component,
   ElementRef,
   HostListener,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Cart } from '@spartacus/core';
+import {
+  Cart,
+  GlobalMessageService,
+  GlobalMessageType,
+  RoutingService,
+} from '@spartacus/core';
 import {
   FocusConfig,
   ICON_TYPE,
@@ -14,13 +20,14 @@ import {
 } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { SavedCartFormType } from '../../core/model/saved-cart.model';
+import { SavedCartService } from '../../core/services/saved-cart.service';
 
 @Component({
   selector: 'cx-saved-cart-form-dialog',
   templateUrl: './saved-cart-form-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SavedCartFormDialogComponent implements OnInit {
+export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   savedCartFormType = SavedCartFormType;
@@ -49,17 +56,27 @@ export class SavedCartFormDialogComponent implements OnInit {
 
   constructor(
     protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef
+    protected el: ElementRef,
+    protected savedCartService: SavedCartService,
+    protected routingService: RoutingService,
+    protected globalMessageService: GlobalMessageService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.build();
+
     this.subscription.add(
       this.launchDialogService.data$.subscribe((data) => {
         this.cart = data.cart;
         this.layoutOption = data.layoutOption;
       })
     );
-    this.build();
+
+    this.subscription.add(
+      this.savedCartService
+        .getSaveCartProcessSuccess()
+        .subscribe((success) => this.onSuccess(success, SavedCartFormType.EDIT))
+    );
   }
 
   get descriptionsCharacterLeft(): number {
@@ -69,8 +86,60 @@ export class SavedCartFormDialogComponent implements OnInit {
     );
   }
 
-  saveCart(): void {
-    // TODO: ?
+  saveOrEditCart(cartId: string): void {
+    this.savedCartService.saveCart({
+      cartId,
+      saveCartName: this.form.get('name')?.value,
+      saveCartDescription: this.form.get('description')?.value,
+      extraData: !this.layoutOption ? { edit: false } : { edit: true },
+    });
+  }
+
+  deleteCart(cartId: string): void {
+    // TODO: replace logic and use the DeleteCartEvents when they're available.
+    // race condition (thinking of a fix)
+    this.savedCartService.deleteSavedCart(cartId);
+    this.routingService.go({ cxRoute: 'savedCartDetails' });
+    this.globalMessageService.add(
+      {
+        key: 'savedCartDialog.deleteCartSuccess',
+      },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+  }
+
+  close(reason: string): void {
+    this.launchDialogService.closeDialog(reason);
+  }
+
+  onSuccess(success: boolean, saveCartAction: string): void {
+    if (success) {
+      switch (saveCartAction) {
+        case SavedCartFormType.DELETE: {
+          // when events become available
+          break;
+        }
+
+        default: {
+          this.close('Succesfully saved cart');
+          this.savedCartService.clearSaveCart();
+
+          this.globalMessageService.add(
+            {
+              key: !this.layoutOption
+                ? 'savedCartCartPage.messages.cartSaved'
+                : 'savedCartDialog.editCartSuccess',
+              params: {
+                cartName: this.cart?.code,
+              },
+            },
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
+
+          break;
+        }
+      }
+    }
   }
 
   protected build(): void {
@@ -85,7 +154,7 @@ export class SavedCartFormDialogComponent implements OnInit {
     });
   }
 
-  close(reason: string): void {
-    this.launchDialogService.closeDialog(reason);
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }

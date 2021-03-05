@@ -9,7 +9,6 @@ export const savedCartDetails = {
   editSavedCart: 'Edit Saved Cart',
   deleteSavedCart: 'Delete Saved Cart',
   addSelectedItems: 'Add selected items',
-  deleteCartSuccess: 'Cart Deleted Successfully',
   emptyCartItems: 'Empty Cart Items',
 };
 
@@ -46,6 +45,17 @@ export const savedCartDialog = {
   charactersLeft: 'characters left: {{count}}',
   cancel: 'Cancel',
   save: 'Save',
+  followingCartDelete: 'Following saved cart will be deleted',
+  delete: 'Delete',
+  deleteCartSuccess: 'Cart Deleted Successfully',
+  editCartSuccess: 'Cart Edited Successfully',
+  editSavedCart: 'Edit Saved Cart',
+  deleteSavedCart: 'Delete Saved Cart',
+  name: 'Name',
+  id: 'ID',
+  description: 'Description',
+  quantity: 'QTY',
+  total: 'Total',
 };
 
 export const addToSavedCart = {
