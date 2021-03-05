@@ -1,25 +1,25 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+// import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SavedCartDetailActionComponent } from './saved-cart-detail-action.component';
+// import { SavedCartDetailActionComponent } from './saved-cart-detail-action.component';
 
-describe('SavedCartDetailActionComponent', () => {
-  let component: SavedCartDetailActionComponent;
-  let fixture: ComponentFixture<SavedCartDetailActionComponent>;
+// describe('SavedCartDetailActionComponent', () => {
+//   let component: SavedCartDetailActionComponent;
+//   let fixture: ComponentFixture<SavedCartDetailActionComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ SavedCartDetailActionComponent ]
-    })
-    .compileComponents();
-  });
+//   beforeEach(async () => {
+//     await TestBed.configureTestingModule({
+//       declarations: [ SavedCartDetailActionComponent ]
+//     })
+//     .compileComponents();
+//   });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(SavedCartDetailActionComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//   beforeEach(() => {
+//     fixture = TestBed.createComponent(SavedCartDetailActionComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });
