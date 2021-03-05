@@ -105,7 +105,7 @@ function createStorefrontConfig(options: SpartacusOptions): string {
 }
 
 function updateAppModule(options: SpartacusOptions): Rule {
-  return (host: Tree, context: SchematicContext) => {
+  return (host: Tree, context: SchematicContext): Tree => {
     context.logger.debug('Updating main module');
 
     // find app module
@@ -146,7 +146,7 @@ function updateAppModule(options: SpartacusOptions): Rule {
 }
 
 function installStyles(options: SpartacusOptions): Rule {
-  return (host: Tree) => {
+  return (host: Tree): void => {
     const project = getProjectFromWorkspace(host, options);
     const rootStyles = getProjectTargets(project)?.build?.options?.styles?.[0];
     const styleFilePath =
@@ -209,7 +209,7 @@ function updateMainComponent(
   project: experimental.workspace.WorkspaceProject,
   options: SpartacusOptions
 ): Rule {
-  return (host: Tree, _context: SchematicContext) => {
+  return (host: Tree, _context: SchematicContext): Tree | void => {
     const filePath = project.sourceRoot + '/app/app.component.html';
     const buffer = host.read(filePath);
 
@@ -241,7 +241,7 @@ function updateMainComponent(
 }
 
 function updateIndexFile(tree: Tree, options: SpartacusOptions): Rule {
-  return (host: Tree) => {
+  return (host: Tree): Tree => {
     const projectIndexHtmlPath = getIndexHtmlPath(tree);
     const baseUrl = options.baseUrl || 'OCC_BACKEND_BASE_URL_VALUE';
 
@@ -388,7 +388,7 @@ function ensureModuleExists(options: {
   module: string;
   project: string;
 }): Rule {
-  return (host: Tree) => {
+  return (host: Tree): Rule => {
     const modulePath = `${getSourceRoot(host, { project: options.project })}/${
       options.path
     }`;
