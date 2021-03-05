@@ -41,3 +41,6 @@ If the new feature requires new or updated sample data for a specific Commerce b
 - [ ] Sample data has been added to the sampledata repo and merged to the next version to be released
 - [ ] New sample data has been loaded and tested on a dev server
 - [ ] New sample data has been loaded and tested in our CI server
+
+## Documentation
+- [ ] Documentation input is provided for it to be published on the doc site.
