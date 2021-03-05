@@ -363,8 +363,8 @@ function addLibraryAssets(assetsConfig: AssetsConfig): Rule {
     const buildOptions = {
       ...architectBuild?.options,
       assets: [
-        ...(architectBuild?.options?.assets
-          ? architectBuild?.options?.assets
+        ...((architectBuild?.options as any)?.assets
+          ? (architectBuild?.options as any)?.assets
           : []),
         {
           glob: assetsConfig.glob,
@@ -438,8 +438,8 @@ function addLibraryStyles(stylingConfig: StylingConfig): Rule {
     const buildOptions = {
       ...architectBuild?.options,
       styles: [
-        ...(architectBuild?.options?.styles
-          ? architectBuild?.options?.styles
+        ...((architectBuild?.options as any)?.styles
+          ? (architectBuild?.options as any)?.styles
           : []),
         libraryScssPath,
       ],
@@ -493,7 +493,7 @@ export function addPackageJsonDependencies(
   dependencies: NodeDependency[],
   packageJson?: any
 ): Rule {
-  return (tree: Tree, context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext): Tree => {
     dependencies.forEach((dependency) => {
       if (
         !packageJson ||
