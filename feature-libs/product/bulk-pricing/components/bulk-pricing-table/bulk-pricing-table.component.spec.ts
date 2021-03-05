@@ -1,9 +1,11 @@
+import { CommonModule } from '@angular/common';
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BulkPrice } from '../../core/model/bulk-price.model';
 
 import { BulkPricingTableComponent } from './bulk-pricing-table.component';
 
-import { RoutingService } from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { BulkPricingService } from '../../core/services/bulk-pricing.service';
 import { Observable, of } from 'rxjs';
 
@@ -103,6 +105,7 @@ describe('BulkPricingTableComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [CommonModule, I18nTestingModule],
       declarations: [BulkPricingTableComponent],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
