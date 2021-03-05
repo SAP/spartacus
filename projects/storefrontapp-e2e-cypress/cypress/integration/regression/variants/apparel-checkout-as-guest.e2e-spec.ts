@@ -2,6 +2,7 @@ import { assertAddressForm } from '../../../helpers/address-book';
 import { login } from '../../../helpers/auth-forms';
 import * as guestCheckout from '../../../helpers/checkout-as-guest';
 import * as checkout from '../../../helpers/checkout-flow';
+import * as loginHelper from '../../../helpers/login';
 import { validateUpdateProfileForm } from '../../../helpers/update-profile';
 import {
   addMutipleProductWithoutVariantToCart,
@@ -16,16 +17,18 @@ import { viewportContext } from '../../../helpers/viewport-context';
 import {
   cartWithSingleVariantProduct,
   cartWithTotalVariantProduct,
+  getApparelCheckoutUser,
   products,
   variantProduct,
-  variantUser,
 } from '../../../sample-data/apparel-checkout-flow';
 
 context('Apparel - checkout as guest', () => {
-  viewportContext(['mobile'], () => {
+  let variantUser;
+  viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       Cypress.env('BASE_SITE', APPAREL_BASESITE);
+      variantUser = getApparelCheckoutUser();
     });
 
     beforeEach(() => {
@@ -153,6 +156,7 @@ context('Apparel - checkout as guest', () => {
         .within(() => {
           cy.get('cx-item-counter input').should('have.value', '1');
         });
+      loginHelper.signOutUser();
     });
   });
 });
