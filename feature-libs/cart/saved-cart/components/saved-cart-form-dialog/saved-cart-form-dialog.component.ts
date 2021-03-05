@@ -98,7 +98,6 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
   deleteCart(cartId: string): void {
     // TODO: replace logic and use the DeleteCartEvents when they're available.
     // race condition (thinking of a fix)
-    this.savedCartService.deleteSavedCart(cartId);
     this.routingService.go({ cxRoute: 'savedCarts' });
     this.globalMessageService.add(
       {
@@ -106,6 +105,8 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
       },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
+    this.savedCartService.deleteSavedCart(cartId);
+    this.close('Succesfully deleted a saved cart');
   }
 
   close(reason: string): void {
