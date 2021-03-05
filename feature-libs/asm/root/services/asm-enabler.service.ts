@@ -78,10 +78,14 @@ export class AsmEnablerService {
    * Evaluates local storage where we persist the usage of ASM.
    */
   protected isUsedBefore(): boolean {
-    return (
-      this.winRef.localStorage &&
-      this.winRef.localStorage.getItem(ASM_ENABLED_LOCAL_STORAGE_KEY) === 'true'
-    );
+    if (this.winRef.localStorage) {
+      return (
+        this.winRef.localStorage.getItem(ASM_ENABLED_LOCAL_STORAGE_KEY) ===
+        'true'
+      );
+    } else {
+      return false;
+    }
   }
 
   /**
