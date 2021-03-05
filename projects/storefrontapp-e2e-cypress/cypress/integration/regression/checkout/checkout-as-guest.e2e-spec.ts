@@ -82,9 +82,8 @@ context('Checkout as guest', () => {
         'getShippingPage'
       );
 
-      cy.onMobile(() => {
-        cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
-      });
+      checkout.clickHamburger();
+
       const loginPage = waitForPage('/login', 'getLoginPage');
       cy.findByText(/Sign in \/ Register/i).click();
       cy.wait(`@${loginPage}`).its('status').should('eq', 200);

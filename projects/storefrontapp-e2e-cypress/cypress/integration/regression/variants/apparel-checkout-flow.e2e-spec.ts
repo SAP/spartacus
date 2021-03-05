@@ -30,9 +30,8 @@ context('Apparel - checkout flow', () => {
 
     it('should perform checkout with a registered user', () => {
       checkout.visitHomePage();
-      cy.onMobile(() => {
-        cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
-      });
+
+      checkout.clickHamburger();
 
       checkout.registerUser(false, variantUser);
       checkout.goToCheapProductDetailsPage(products[0]);

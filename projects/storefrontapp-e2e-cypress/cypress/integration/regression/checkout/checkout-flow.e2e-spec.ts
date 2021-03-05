@@ -2,10 +2,6 @@ import * as checkout from '../../../helpers/checkout-flow';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 
-function clickHamburger() {
-  cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
-}
-
 context('Checkout flow', () => {
   viewportContext(['mobile', 'desktop'], () => {
     beforeEach(() => {
@@ -18,7 +14,7 @@ context('Checkout flow', () => {
       const user = getSampleUser();
       checkout.visitHomePage();
       cy.onMobile(() => {
-        clickHamburger();
+        checkout.clickHamburger();
       });
       checkout.registerUser(false, user);
       checkout.goToCheapProductDetailsPage();

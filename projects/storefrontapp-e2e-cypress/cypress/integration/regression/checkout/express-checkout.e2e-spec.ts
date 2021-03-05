@@ -29,9 +29,7 @@ context('Express checkout', () => {
     });
 
     it('should go to first step of checkout when there is no default address/payment', () => {
-      cy.onMobile(() => {
-        cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
-      });
+      checkout.clickHamburger();
 
       checkout.registerUser(false, user);
       checkout.goToCheapProductDetailsPage();

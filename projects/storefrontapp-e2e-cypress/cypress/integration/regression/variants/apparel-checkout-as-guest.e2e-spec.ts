@@ -134,9 +134,7 @@ context('Apparel - checkout as guest', () => {
         'getShippingPage'
       );
 
-      cy.onMobile(() => {
-        cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
-      });
+      checkout.clickHamburger();
 
       const loginPage = checkout.waitForPage('/login', 'getLoginPage');
       cy.findByText(/Sign in \/ Register/i).click();

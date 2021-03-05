@@ -7,14 +7,14 @@ import {
   SampleCartProduct,
   SampleProduct,
   SampleUser,
-  user,
+  user
 } from '../sample-data/checkout-flow';
 import { login, register } from './auth-forms';
 import {
   AddressData,
   fillPaymentDetails,
   fillShippingAddress,
-  PaymentDetails,
+  PaymentDetails
 } from './checkout-forms';
 
 export const ELECTRONICS_BASESITE = 'electronics-spa';
@@ -22,6 +22,21 @@ export const ELECTRONICS_CURRENCY = 'USD';
 
 export const ELECTRONICS_DEFAULT_DELIVERY_MODE = 'deliveryMode-standard-net';
 
+/**
+ * Clicks the main menu (on mobile only)
+ */
+export function clickHamburger() {
+  cy.onMobile(() => {
+    cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
+  });
+}
+
+/**
+ * Creates a routing alias for a given page
+ * @param page Suffix of the url (page) to wait for
+ * @param alias Name of the routing alias to obtain
+ * @returns a Routing alias
+ */
 export function waitForPage(page: string, alias: string): string {
   // TODO cy.intercept() doesn't work here (* is greedy, so all other expressions match it first.)
   // homepage is not explicitly being asked as it's driven by the backend.
@@ -36,6 +51,10 @@ export function waitForPage(page: string, alias: string): string {
   return alias;
 }
 
+/**
+ * Visits the homepage and waits for corresponding xhr call
+ * @param queryStringParams Query string params
+ */
 export function visitHomePage(queryStringParams?: string) {
   const homePageAlias = waitForPage('homepage', 'getHomePage');
 
