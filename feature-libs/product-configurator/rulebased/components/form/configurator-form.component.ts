@@ -35,6 +35,9 @@ export class ConfiguratorFormComponent implements OnInit {
     }),
     tap((configuration) => {
       this.publishUiMessages(configuration);
+    }),
+    tap((configuration) => {
+      this.publishUiMessagesWarning(configuration);
     })
   );
   currentGroup$: Observable<
@@ -62,6 +65,12 @@ export class ConfiguratorFormComponent implements OnInit {
   publishUiMessages(configuration: Configurator.Configuration) {
     configuration.errorMessages?.forEach((msg) => {
       this.messageService.add(msg, GlobalMessageType.MSG_TYPE_ERROR, 2000);
+    });
+  }
+
+  publishUiMessagesWarning(configuration: Configurator.Configuration) {
+    configuration.warningMessages?.forEach((msg) => {
+      this.messageService.add(msg, GlobalMessageType.MSG_TYPE_WARNING, 2000);
     });
   }
 

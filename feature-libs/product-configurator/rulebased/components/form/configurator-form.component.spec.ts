@@ -80,6 +80,7 @@ const configWithError: Configurator.Configuration = {
   owner: owner,
   groups: groups,
   errorMessages: ['error1', 'error2'],
+  warningMessages: ['warning1', 'warning2', 'warning3'],
 };
 
 @Component({
@@ -437,6 +438,27 @@ describe('ConfigurationFormComponent', () => {
     expect(mockedMessageService.add).toHaveBeenCalledWith(
       'error2',
       GlobalMessageType.MSG_TYPE_ERROR,
+      2000
+    );
+  });
+  it('should publish warning messages as warning', () => {
+    const fixture = TestBed.createComponent(ConfiguratorFormComponent);
+    const component = fixture.componentInstance;
+    component.publishUiMessagesWarning(configWithError);
+    expect(mockedMessageService.add).toHaveBeenCalledTimes(3);
+    expect(mockedMessageService.add).toHaveBeenCalledWith(
+      'warning1',
+      GlobalMessageType.MSG_TYPE_WARNING,
+      2000
+    );
+    expect(mockedMessageService.add).toHaveBeenCalledWith(
+      'warning2',
+      GlobalMessageType.MSG_TYPE_WARNING,
+      2000
+    );
+    expect(mockedMessageService.add).toHaveBeenCalledWith(
+      'warning3',
+      GlobalMessageType.MSG_TYPE_WARNING,
       2000
     );
   });
