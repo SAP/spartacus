@@ -12,8 +12,8 @@ export class DisableInfoService<T extends BaseItem> {
 
   isParentDisabled(item: T): boolean {
     return (
-      (item.orgUnit || (item as any).unit || (item as any).parentOrgUnit)
-        ?.active === false && !this.isRootUnit(item)
+      (item.orgUnit || item.unit || item.parentOrgUnit)?.active === false &&
+      !this.isRootUnit(item)
     );
   }
 
@@ -21,8 +21,8 @@ export class DisableInfoService<T extends BaseItem> {
     return (
       item?.uid &&
       item?.name &&
-      !(item as any)?.orgUnit &&
-      !(item as any)?.unit &&
+      !(item as T)?.orgUnit &&
+      !(item as T)?.unit &&
       (!item?.parentOrgUnit || item?.uid === item?.parentOrgUnit)
     );
   }
