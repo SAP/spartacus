@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Converter, TranslationService } from '@spartacus/core';
-import { Configurator } from './../core/model/configurator.model';
-import { Cpq } from './cpq.models';
-import { CpqConfiguratorUtilitiesService } from './cpq-configurator-utilities.service';
 import { take } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { Configurator } from './../core/model/configurator.model';
+import { CpqConfiguratorUtilitiesService } from './cpq-configurator-utilities.service';
+import { Cpq } from './cpq.models';
 
 @Injectable()
 export class CpqConfiguratorNormalizer
@@ -99,6 +98,21 @@ export class CpqConfiguratorNormalizer
     this.addToArray(source.conflictMessages, arrayAttr);
     this.addToArray(source.invalidMessages, arrayAttr);
     return arrayAttr;
+  }
+
+  generateWarningMessages(source: Cpq.Configuration): string[] {
+    let errorMsgs: string[] = [];
+    errorMsgs = errorMsgs.concat(source.failedValidations);
+    return errorMsgs;
+  }
+
+  generateErrorMessages(source: Cpq.Configuration): string[] {
+    let warningMsgs: string[] = [];
+    warningMsgs = warningMsgs.concat(source.errorMessages);
+    warningMsgs = warningMsgs.concat(source.incompleteMessages);
+    warningMsgs = warningMsgs.concat(source.conflictMessages);
+    warningMsgs = warningMsgs.concat(source.invalidMessages);
+    return warningMsgs;
   }
 
   convertGroup(

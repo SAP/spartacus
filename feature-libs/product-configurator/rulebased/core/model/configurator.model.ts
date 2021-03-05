@@ -68,9 +68,8 @@ export namespace Configurator {
     isCartEntryUpdateRequired?: boolean;
     interactionState?: InteractionState;
     updateType?: UpdateType;
-    errorMessages?: Observable<string>[];
-    warningMessages?: Observable<string>[];
-    
+    errorMessages?: string[];
+    warningMessages?: string[];
   }
 
   export interface InteractionState {

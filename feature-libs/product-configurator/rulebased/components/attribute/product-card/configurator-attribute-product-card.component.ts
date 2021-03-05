@@ -162,4 +162,14 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
       disableQuantityActions: disableQuantityActions,
     };
   }
+
+  /**
+   * Verifies whether the value code is defined.
+   *
+   * @param {string} valueCode - Value code
+   * @return {boolean} - 'true' if the value code is defined, otherwise 'false'
+   */
+  isValueCodeDefined(valueCode: string): boolean {
+    return valueCode && valueCode !== '0' ? true : false;
+  }
 }
