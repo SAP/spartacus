@@ -4,6 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
+  GlobalMessageService,
+  GlobalMessageType,
   I18nTestingModule,
   LanguageService,
   RoutingService,
@@ -68,6 +70,16 @@ const configRead2: Configurator.Configuration = {
   productCode: PRODUCT_CODE,
   owner: owner,
   groups: groups,
+};
+
+const configWithError: Configurator.Configuration = {
+  configId: 'a',
+  consistent: false,
+  complete: true,
+  productCode: PRODUCT_CODE,
+  owner: owner,
+  groups: groups,
+  errorMessages: ['error1', 'error2'],
 };
 
 @Component({
@@ -160,17 +172,22 @@ function checkCurrentGroupObs(
     })
   );
 }
+
 describe('ConfigurationFormComponent', () => {
   let configuratorCommonsService;
   let configuratorUtils: CommonConfiguratorUtilsService;
   let configurationCommonsService: ConfiguratorCommonsService;
   let configuratorGroupsService: ConfiguratorGroupsService;
   let mockLanguageService;
+  let mockedMessageService: GlobalMessageService;
   beforeEach(async(() => {
+    mockedMessageService = jasmine.createSpyObj('messageService', ['add']);
+
     mockLanguageService = {
       getAll: () => of([]),
       getActive: jasmine.createSpy().and.returnValue(of('en')),
     };
+
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
       declarations: [
@@ -202,6 +219,10 @@ describe('ConfigurationFormComponent', () => {
         {
           provide: ConfiguratorGroupsService,
           useClass: MockConfiguratorGroupsService,
+        },
+        {
+          provide: GlobalMessageService,
+          useValue: mockedMessageService,
         },
         { provide: LanguageService, useValue: mockLanguageService },
       ],
@@ -401,5 +422,20 @@ describe('ConfigurationFormComponent', () => {
     });
 
     expect(configurationCommonsService.updateConfiguration).toHaveBeenCalled();
+  });
+
+  it('should publish error messages as error', () => {
+    const fixture = TestBed.createComponent(ConfiguratorFormComponent);
+    const component = fixture.componentInstance;
+    component.publishUiMessages(configWithError);
+    expect(mockedMessageService.add).toHaveBeenCalledTimes(2);
+    expect(mockedMessageService.add).toHaveBeenCalledWith(
+      'error1',
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+    expect(mockedMessageService.add).toHaveBeenCalledWith(
+      'error2',
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
   });
 });

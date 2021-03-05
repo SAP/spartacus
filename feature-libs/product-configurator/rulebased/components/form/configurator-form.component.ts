@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { LanguageService } from '@spartacus/core';
+import { GlobalMessageService, LanguageService } from '@spartacus/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { filter, switchMap, take } from 'rxjs/operators';
+import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -28,6 +28,9 @@ export class ConfiguratorFormComponent implements OnInit {
       return this.configuratorCommonsService.getOrCreateConfiguration(
         routerData.owner
       );
+    }),
+    tap((configuration) => {
+      this.publishUiMessages(configuration);
     })
   );
   currentGroup$: Observable<
@@ -48,8 +51,13 @@ export class ConfiguratorFormComponent implements OnInit {
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected languageService: LanguageService
+    protected languageService: LanguageService,
+    protected messageService: GlobalMessageService
   ) {}
+
+  publishUiMessages(configuration: Configurator.Configuration) {
+    console.log('current errors: ' + configuration.errorMessages);
+  }
 
   ngOnInit(): void {
     this.configRouterExtractorService
