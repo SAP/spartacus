@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { VariantsRootModule } from '@spartacus/product/variants';
+import { VariantsRootModule } from '@spartacus/product/variants/root';
 import { provideConfig } from '@spartacus/core';
 import {
   variantsTranslationChunksConfig,

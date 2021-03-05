@@ -6,10 +6,30 @@ import {
   UrlCommands,
   Product,
   ProductService,
+  VariantQualifier,
 } from '@spartacus/core';
 import { VariantSizeSelectorComponent } from './variant-size-selector.component';
 import { NavigationExtras } from '@angular/router';
 import { Observable, of } from 'rxjs';
+
+const mockProduct = {
+  code: 'p1',
+  name: 'product 1',
+};
+
+const mockQualifiers = [
+  {
+    value: 'p1555',
+    image: {
+      url: 'http://test1-thumbnail.com',
+    },
+    qualifier: VariantQualifier.SIZE,
+  },
+  {
+    value: '555',
+    qualifier: VariantQualifier.STYLE,
+  },
+];
 
 class MockRoutingService {
   go(
@@ -21,12 +41,13 @@ class MockRoutingService {
 
 class MockProductService {
   get(): Observable<Product> {
-    return of();
+    return of(mockProduct);
   }
 }
 describe('VariantSizeSelectorComponent', () => {
   let component: VariantSizeSelectorComponent;
   let fixture: ComponentFixture<VariantSizeSelectorComponent>;
+  let routingService: RoutingService;
 
   beforeEach(
     waitForAsync(() => {
@@ -41,6 +62,7 @@ describe('VariantSizeSelectorComponent', () => {
           },
         ],
       }).compileComponents();
+      routingService = TestBed.inject(RoutingService);
     })
   );
 
@@ -60,5 +82,19 @@ describe('VariantSizeSelectorComponent', () => {
     component.changeSize('code');
 
     expect(component.changeSize).toHaveBeenCalledWith('code');
+  });
+
+  it('should go to product given code', () => {
+    spyOn(routingService, 'go').and.callThrough();
+    component.changeSize('p1');
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'product',
+      params: mockProduct,
+    });
+  });
+
+  it('should find variant with proper qualifier', () => {
+    const result = component.getVariantOptionValue(mockQualifiers);
+    expect(result).toEqual(mockQualifiers[0].value);
   });
 });
