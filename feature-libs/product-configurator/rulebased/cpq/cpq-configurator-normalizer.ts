@@ -6,7 +6,6 @@ import { CpqConfiguratorUtilitiesService } from './cpq-configurator-utilities.se
 import { take } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
-
 @Injectable()
 export class CpqConfiguratorNormalizer
   implements Converter<Cpq.Configuration, Configurator.Configuration> {
@@ -29,13 +28,17 @@ export class CpqConfiguratorNormalizer
         source.failedValidations.length === 0 &&
         source.errorMessages.length === 0 &&
         source.conflictMessages.length === 0,
-      totalNumberOfIssues:
-        source.incompleteAttributes.length + source.numberOfConflicts,
-      productCode: source.productSystemId,
+      totalNumberOfIssues: this.generateTotaltotalNumberOfIssues(source),
+      /*source.incompleteAttributes.length +
+        source.numberOfConflicts +
+        source.incompleteAttributes.length +
+        source.failedValidations.length +
+        source.errorMessages.length*/ productCode:
+        source.productSystemId,
       priceSummary: this.cpqUtilitiesService.preparePriceSummary(source),
       groups: [],
       flatGroups: [],
-      errorMessages:  this.generateErrorMessages(source),
+      errorMessages: this.generateErrorMessages(source),
       warningMessages: this.generateWarningMessages(source),
     };
     source.tabs.forEach((tab) =>
@@ -60,7 +63,18 @@ export class CpqConfiguratorNormalizer
 
     return resultTarget;
   }
-   addToArray(messages: string[], arrayMsg: Observable<string>[]) {
+  
+  generateTotaltotalNumberOfIssues(source: Cpq.Configuration): number {
+    let numberOfIssues: number =
+      //source.numberOfConflicts +
+      source.incompleteAttributes.length +
+      source.incompleteMessages.length +
+      source.invalidMessages.length +
+      source.failedValidations.length +
+      source.errorMessages.length;
+    return numberOfIssues;
+  }
+  addToArray(messages: string[], arrayMsg: Observable<string>[]) {
     messages.forEach((validation) => {
       arrayMsg.push(of(validation));
     });
@@ -68,23 +82,24 @@ export class CpqConfiguratorNormalizer
   generateWarningMessages(source: Cpq.Configuration): Observable<string>[] {
     const arrayMsg: Observable<string>[] = [];
     this.addToArray(source.failedValidations, arrayMsg);
-    return arrayMsg; 
+    return arrayMsg;
   }
- 
 
   generateErrorMessages(source: Cpq.Configuration): Observable<string>[] {
     const arrayAttr: Observable<string>[] = [];
     source.incompleteAttributes.forEach((attr) => {
-      arrayAttr.push(this.translation.translate("configurator.header.incomplete", {attribute: attr}));
-    })
+      arrayAttr.push(
+        this.translation.translate('configurator.header.incomplete', {
+          attribute: attr,
+        })
+      );
+    });
     this.addToArray(source.errorMessages, arrayAttr);
     this.addToArray(source.incompleteMessages, arrayAttr);
     this.addToArray(source.conflictMessages, arrayAttr);
-    this.addToArray(source.invalidMessages, arrayAttr); 
+    this.addToArray(source.invalidMessages, arrayAttr);
     return arrayAttr;
   }
-
-
 
   convertGroup(
     source: Cpq.Tab,

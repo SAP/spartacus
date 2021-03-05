@@ -239,7 +239,7 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(result.productCode).toBe(cpqProductSystemId);
     expect(result.complete).toBe(false);
     expect(result.consistent).toBe(false);
-    expect(result.totalNumberOfIssues).toBe(3);
+    expect(result.totalNumberOfIssues).toBe(6);
   });
 
   it('should convert values', () => {
@@ -1015,4 +1015,10 @@ describe('CpqConfiguratorNormalizer', () => {
       `message '${expectedMsg}' not found in message list`
     );
   }
+  it('should show the right number of issues', () => {
+    const mappedConfiguration = cpqConfiguratorNormalizer.convert(
+      cpqConfigurationIncompleteInconsistent
+    );
+    expect(mappedConfiguration.totalNumberOfIssues).toBe(6);
+  });
 });
