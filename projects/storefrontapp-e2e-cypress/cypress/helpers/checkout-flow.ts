@@ -7,14 +7,14 @@ import {
   SampleCartProduct,
   SampleProduct,
   SampleUser,
-  user
+  user,
 } from '../sample-data/checkout-flow';
 import { login, register } from './auth-forms';
 import {
   AddressData,
   fillPaymentDetails,
   fillShippingAddress,
-  PaymentDetails
+  PaymentDetails,
 } from './checkout-forms';
 
 export const ELECTRONICS_BASESITE = 'electronics-spa';
@@ -72,21 +72,10 @@ export function signOut() {
   });
 }
 
-function log(message: string) {
-  const logName = 'CheckoutLog';
-  Cypress.log({
-    name: logName,
-    displayName: logName,
-    message: [`🛒 ${message}`],
-  });
-}
-
 export function registerUser(
   giveRegistrationConsent: boolean = false,
   sampleUser: SampleUser = user
 ) {
-  log(`Registering user ${sampleUser.email}`);
-
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.findByText(/Sign in \/ Register/i).click();
   cy.wait(`@${loginPage}`);
@@ -140,7 +129,6 @@ export function addProductToCart() {
 }
 
 export function loginUser(sampleUser: SampleUser = user) {
-  log(`Logging in user: ${user.email}`);
   login(sampleUser.email, sampleUser.password);
 }
 
@@ -156,6 +144,7 @@ export function fillAddressForm(shippingAddressData: AddressData = user) {
 export function verifyDeliveryMethod(
   deliveryMode: string = ELECTRONICS_DEFAULT_DELIVERY_MODE
 ) {
+  cy.log('🛒 Selecting delivery method');
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get(`#${deliveryMode}`).should('be.checked');
   const paymentPage = waitForPage(
@@ -315,6 +304,8 @@ export function fillAddressFormWithCheapProduct(
   shippingAddressData: AddressData = user,
   cartData: SampleCartProduct = cartWithCheapProduct
 ) {
+  cy.log('🛒 Filling shipping address form');
+
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
@@ -333,6 +324,7 @@ export function fillPaymentFormWithCheapProduct(
   billingAddress?: AddressData,
   cartData: SampleCartProduct = cartWithCheapProduct
 ) {
+  cy.log('🛒 Filling payment method form');
   cy.get('.cx-checkout-title').should('contain', 'Payment');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
@@ -347,6 +339,7 @@ export function placeOrderWithCheapProduct(
   cartData: SampleCartProduct = cartWithCheapProduct,
   currency: string = 'USD'
 ) {
+  cy.log('🛒 Placing order');
   verifyReviewOrderPage();
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Ship To')

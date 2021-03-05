@@ -13,9 +13,9 @@ context('Checkout flow', () => {
     it('should perform checkout', () => {
       const user = getSampleUser();
       checkout.visitHomePage();
-      cy.onMobile(() => {
-        checkout.clickHamburger();
-      });
+
+      checkout.clickHamburger();
+
       checkout.registerUser(false, user);
       checkout.goToCheapProductDetailsPage();
       checkout.addCheapProductToCartAndLogin(user);
