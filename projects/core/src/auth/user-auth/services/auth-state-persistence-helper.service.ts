@@ -3,16 +3,16 @@ import { StaticPersistenceService } from 'projects/core/src/util';
 import { SyncedAuthState } from './auth-state-persistence.service';
 
 @Injectable({ providedIn: 'root' })
-export class AuthStatePersistenceHelperService {
+export class BaseAuthStatePersistenceService {
   constructor(protected staticPersistenceService: StaticPersistenceService) {}
 
-  public key = 'auth';
+  protected key = 'auth';
 
   /**
    * Reads synchronously state from storage and returns it.
    */
   protected readStateFromStorage(): SyncedAuthState {
-    return this.staticPersistenceService.readFromStorage<SyncedAuthState>({
+    return this.staticPersistenceService.readStateFromStorage<SyncedAuthState>({
       key: this.key,
     }) as SyncedAuthState;
   }

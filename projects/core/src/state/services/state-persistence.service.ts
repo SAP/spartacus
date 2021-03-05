@@ -3,19 +3,19 @@ import { combineLatest, iif, Observable, of, Subscription } from 'rxjs';
 import { map, tap, withLatestFrom } from 'rxjs/operators';
 import { StorageSyncType } from '../../state/config/state-config';
 import {
-  generateKeyWithContext,
   getStorage,
   persistToStorage,
   readFromStorage,
   removeFromStorage,
 } from '../../state/reducers/storage-sync.reducer';
 import { ConsentService } from '../../user/facade/consent.service';
+import { StaticPersistenceService } from '../../util/static-persistence.service';
 import { WindowRef } from '../../window/window-ref';
 
 @Injectable({
   providedIn: 'root',
 })
-export class StatePersistenceService {
+export class StatePersistenceService extends StaticPersistenceService {
   /**
    * @deprecated since 3.3.0, Use constructor with WindowRef and ConsentService
    */
@@ -26,7 +26,9 @@ export class StatePersistenceService {
   constructor(
     protected winRef: WindowRef,
     protected consentService?: ConsentService
-  ) {}
+  ) {
+    super(winRef);
+  }
 
   /**
    * Helper to synchronize state to more persistent storage (localStorage, sessionStorage).
@@ -136,28 +138,28 @@ export class StatePersistenceService {
    *
    * @returns State from the storage
    */
-  readStateFromStorage<T>({
-    key,
-    context = '',
-    storageType = StorageSyncType.LOCAL_STORAGE,
-  }: {
-    key: string;
-    context?: string | Array<string>;
-    storageType?: StorageSyncType;
-  }): T {
-    const storage = getStorage(storageType, this.winRef);
+  // readStateFromStorage<T>({
+  //   key,
+  //   context = '',
+  //   storageType = StorageSyncType.LOCAL_STORAGE,
+  // }: {
+  //   key: string;
+  //   context?: string | Array<string>;
+  //   storageType?: StorageSyncType;
+  // }): T {
+  //   const storage = getStorage(storageType, this.winRef);
 
-    return readFromStorage(
-      storage,
-      this.generateKeyWithContext(context, key)
-    ) as T;
-  }
+  //   return readFromStorage(
+  //     storage,
+  //     this.generateKeyWithContext(context, key)
+  //   ) as T;
+  // }
 
   // TODO (): Remove and use global function instead
-  protected generateKeyWithContext(
-    context: string | Array<string>,
-    key: string
-  ): string {
-    return generateKeyWithContext(context, key);
-  }
+  // protected generateKeyWithContext(
+  //   context: string | Array<string>,
+  //   key: string
+  // ): string {
+  //   return generateKeyWithContext(context, key);
+  // }
 }

@@ -10,7 +10,6 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
-import { StaticPersistenceService } from '../../util/static-persistence.service';
 import { WindowRef } from '../../window/window-ref';
 import { PersonalizationConfig } from '../config/personalization-config';
 
@@ -26,8 +25,7 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
     private config: PersonalizationConfig,
     private occEndpoints: OccEndpointsService,
     private winRef: WindowRef,
-    @Inject(PLATFORM_ID) private platform: any,
-    protected persistenceService: StaticPersistenceService
+    @Inject(PLATFORM_ID) private platform: any
   ) {
     if (isPlatformBrowser(this.platform)) {
       this.enabled =
@@ -36,15 +34,11 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
 
       if (this.enabled) {
         this.requestHeader = this.config.personalization.httpHeaderName.id.toLowerCase();
-        this.personalizationId = this.persistenceService.readFromStorage({
-          key: PERSONALIZATION_ID_KEY,
-        }) as string;
-      } else if (
-        this.persistenceService.readFromStorage({ key: PERSONALIZATION_ID_KEY })
-      ) {
-        this.persistenceService.removeFromStorage({
-          key: PERSONALIZATION_ID_KEY,
-        });
+        this.personalizationId = this.winRef.localStorage.getItem(
+          PERSONALIZATION_ID_KEY
+        );
+      } else if (this.winRef.localStorage.getItem(PERSONALIZATION_ID_KEY)) {
+        this.winRef.localStorage.removeItem(PERSONALIZATION_ID_KEY);
       }
     }
   }
@@ -75,10 +69,10 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
             const receivedId = event.headers.get(this.requestHeader);
             if (this.personalizationId !== receivedId) {
               this.personalizationId = receivedId;
-              this.persistenceService.persistToStorage({
-                key: PERSONALIZATION_ID_KEY,
-                state: this.personalizationId,
-              });
+              this.winRef.localStorage.setItem(
+                PERSONALIZATION_ID_KEY,
+                this.personalizationId
+              );
             }
           }
         }

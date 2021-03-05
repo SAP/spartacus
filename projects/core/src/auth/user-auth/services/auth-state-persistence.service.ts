@@ -2,10 +2,11 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { StatePersistenceService } from '../../../state/services/state-persistence.service';
+import { StaticPersistenceService } from '../../../util/static-persistence.service';
 import { UserIdService } from '../facade/user-id.service';
 import { AuthToken } from '../models/auth-token.model';
 import { AuthRedirectStorageService } from './auth-redirect-storage.service';
-import { AuthStatePersistenceHelperService } from './auth-state-persistence-helper.service';
+import { BaseAuthStatePersistenceService } from './auth-state-persistence-helper.service';
 import { AuthStorageService } from './auth-storage.service';
 
 /**
@@ -17,29 +18,32 @@ export interface SyncedAuthState {
   redirectUrl?: string;
 }
 
-export const AUTH_PERSISTENCE_KEY = 'auth';
-
 /**
  * Responsible for saving the authorization data (userId, token, redirectUrl) in browser storage.
  */
 @Injectable({
   providedIn: 'root',
 })
-export class AuthStatePersistenceService implements OnDestroy {
+export class AuthStatePersistenceService
+  extends BaseAuthStatePersistenceService
+  implements OnDestroy {
   protected subscription = new Subscription();
 
   constructor(
+    protected staticPersistenceService: StaticPersistenceService,
     protected statePersistenceService: StatePersistenceService,
     protected userIdService: UserIdService,
     protected authStorageService: AuthStorageService,
-    protected authRedirectStorageService: AuthRedirectStorageService,
-    protected authStatePersistenceHelper: AuthStatePersistenceHelperService
-  ) {}
+    protected authRedirectStorageService: AuthRedirectStorageService
+  ) {
+    super(staticPersistenceService);
+  }
 
   /**
    * Identifier used for storage key.
    */
-  protected key = this.authStatePersistenceHelper.key;
+  // TODO (): Remove attribute
+  // protected key = this.;
 
   /**
    * Initializes the synchronization between state and browser storage.
@@ -50,7 +54,6 @@ export class AuthStatePersistenceService implements OnDestroy {
         key: this.key,
         state$: this.getAuthState(),
         onRead: (state) => this.onRead(state),
-        ignoreConsent: true,
       })
     );
   }
@@ -108,11 +111,11 @@ export class AuthStatePersistenceService implements OnDestroy {
    * Reads synchronously state from storage and returns it.
    */
   // TODO (): Remove function
-  protected readStateFromStorage() {
-    return this.statePersistenceService.readStateFromStorage<SyncedAuthState>({
-      key: this.key,
-    });
-  }
+  // protected readStateFromStorage() {
+  //   return this.statePersistenceService.readStateFromStorage<SyncedAuthState>({
+  //     key: this.key,
+  //   });
+  // }
 
   /**
    * @deprecated @since - 3.3.0 Use method of the same name from AuthStatePersistenceHelper
@@ -121,9 +124,9 @@ export class AuthStatePersistenceService implements OnDestroy {
    * For most cases `isUserLoggedIn` from the `AuthService` should be used instead of this.
    */
   // TODO (): Remove function
-  public isUserLoggedIn(): boolean {
-    return this.authStatePersistenceHelper.isUserLoggedIn();
-  }
+  // public isUserLoggedIn(): boolean {
+  //   return this.authStatePersistenceHelper.isUserLoggedIn();
+  // }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
