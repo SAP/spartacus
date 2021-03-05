@@ -179,9 +179,6 @@
       "@spartacus/product/variants/components": [
         "feature-libs/product/variants/components/public_api"
       ],
-      "@spartacus/product/variants/core": [
-        "feature-libs/product/variants/core/public_api"
-      ],
       "@spartacus/product/variants/occ": [
         "feature-libs/product/variants/occ/public_api"
       ],

@@ -9,3 +9,4 @@ export * from './variant-style-icons/variant-style-icons.module';
 export * from './variant-style-icons/variant-style-icons.component';
 export * from './variant-style-selector/variant-style-selector.module';
 export * from './variant-style-selector/variant-style-selector.component';
+export * from './guards/index';

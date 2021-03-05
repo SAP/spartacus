@@ -5,8 +5,8 @@ import { VariantSizeSelectorModule } from './variant-size-selector/variant-size-
 import { VariantStyleIconsModule } from './variant-style-icons/variant-style-icons.module';
 import { VariantStyleSelectorModule } from './variant-style-selector/variant-style-selector.module';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
-import { ProductVariantsGuard } from '@spartacus/product/variants/core';
 import { ProductVariantsComponent } from './product-variants/product-variants.component';
+import { ProductVariantsGuard } from './guards/product-variants.guard';
 
 @NgModule({
   imports: [

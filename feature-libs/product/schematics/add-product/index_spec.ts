@@ -126,4 +126,35 @@ describe('Spartacus Product schematics: ng-add', () => {
       expect(appModule).toContain(`variants: {`);
     });
   });
+
+  describe('styling', () => {
+    beforeEach(async () => {
+      appTree = await schematicRunner
+        .runSchematicAsync('ng-add', defaultOptions, appTree)
+        .toPromise();
+    });
+
+    it('should add style import to /src/styles/spartacus/product.scss', async () => {
+      const content = appTree.readContent('/src/styles/spartacus/product.scss');
+      expect(content).toEqual(`@import "@spartacus/product";`);
+    });
+
+    it('should add update angular.json with spartacus/product.scss', async () => {
+      const content = appTree.readContent('/angular.json');
+      const angularJson = JSON.parse(content);
+      const buildStyles: string[] =
+        angularJson.projects['schematics-test'].architect.build.options.styles;
+      expect(buildStyles).toEqual([
+        'src/styles.scss',
+        'src/styles/spartacus/product.scss',
+      ]);
+
+      const testStyles: string[] =
+        angularJson.projects['schematics-test'].architect.test.options.styles;
+      expect(testStyles).toEqual([
+        'src/styles.scss',
+        'src/styles/spartacus/product.scss',
+      ]);
+    });
+  });
 });

@@ -94,7 +94,6 @@
       "@spartacus/product/variants/components": [
         "dist/product/variants/components"
       ],
-      "@spartacus/product/variants/core": ["dist/product/variants/core"],
       "@spartacus/product/variants/occ": ["dist/product/variants/occ"],
       "@spartacus/product/variants/root": ["dist/product/variants/root"]
     }
