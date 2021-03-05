@@ -17,7 +17,7 @@ import { StaticPersistenceService } from './static-persistence.service';
 })
 export class StatePersistenceService extends StaticPersistenceService {
   /**
-   * @deprecated since 3.3.0, Use constructor with WindowRef and ConsentService
+   * @deprecated since 3.3, Use constructor with WindowRef and ConsentService
    */
   // TODO (): Handle deprecation
   constructor(winRef: WindowRef);

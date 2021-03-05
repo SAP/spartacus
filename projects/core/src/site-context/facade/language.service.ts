@@ -23,7 +23,7 @@ export class LanguageService implements SiteContext<Language> {
   private sessionStorage: Storage;
 
   /**
-   * @deprecated @since 3.2, WindowRef will no longer need to be provided
+   * @deprecated @since 3.3, WindowRef will no longer need to be provided
    */
   constructor(
     protected store: Store<StateWithSiteContext>,
@@ -79,7 +79,7 @@ export class LanguageService implements SiteContext<Language> {
    * default session language of the store.
    */
   /**
-   * @deprecated @since 3.2, we'll use the SiteContextPersistenceService to load and store the language context
+   * @deprecated @since 3.3, we'll use the SiteContextPersistenceService to load and store the language context
    */
   initialize(): void {
     let value;

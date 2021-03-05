@@ -106,8 +106,6 @@ export class AuthStatePersistenceService
   }
 
   /**
-   * @deprecated @since - 3.3.0 Use method of the same name from AuthStatePersistenceHelper
-   *
    * Reads synchronously state from storage and returns it.
    */
   // TODO (): Remove function
@@ -118,8 +116,6 @@ export class AuthStatePersistenceService
   // }
 
   /**
-   * @deprecated @since - 3.3.0 Use method of the same name from AuthStatePersistenceHelper
-   *
    * Check synchronously in browser storage if user is logged in (required by transfer state reducer).
    * For most cases `isUserLoggedIn` from the `AuthService` should be used instead of this.
    */

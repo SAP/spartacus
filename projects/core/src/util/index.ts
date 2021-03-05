@@ -1,4 +1,3 @@
-export * from '../state/services/static-persistence.service';
 export * from './applicable';
 export * from './converter.service';
 export * from './create-from';
