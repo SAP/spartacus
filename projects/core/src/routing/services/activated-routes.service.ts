@@ -17,7 +17,7 @@ export class ActivatedRoutesService {
     ActivatedRouteSnapshot[]
   > = this.router.events.pipe(
     filter((event) => event instanceof NavigationEnd),
-    // tslint:disable-next-line: deprecation https://github.com/ReactiveX/rxjs/issues/4772
+    // eslint-disable-next-line import/no-deprecated
     startWith(undefined), // emit value for consumer who subscribed lately after NavigationEnd event
     map(() => {
       let route = this.router.routerState.snapshot.root;

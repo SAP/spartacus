@@ -1,8 +1,8 @@
 import { Injectable, NgModuleRef } from '@angular/core';
-import { LazyModulesService } from './lazy-modules.service';
 import { defer, forkJoin, Observable, of, throwError } from 'rxjs';
 import { shareReplay, switchMap } from 'rxjs/operators';
 import { CmsConfig } from '../cms/config/cms-config';
+import { LazyModulesService } from './lazy-modules.service';
 
 @Injectable({
   providedIn: 'root',
@@ -41,7 +41,7 @@ export class FeatureModulesService {
           );
         }
 
-        // tslint:disable-next-line:no-non-null-assertion
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const featureConfig = this.cmsConfig.featureModules![featureName];
 
         this.features.set(
@@ -49,7 +49,7 @@ export class FeatureModulesService {
           this.resolveDependencies(featureConfig.dependencies).pipe(
             switchMap((deps) =>
               this.lazyModules.resolveModuleInstance(
-                // tslint:disable-next-line:no-non-null-assertion
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 featureConfig.module!,
                 featureName,
                 deps

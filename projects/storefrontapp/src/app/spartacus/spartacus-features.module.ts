@@ -9,12 +9,12 @@ import {
   CheckoutOccModule,
   CostCenterOccModule,
   ExternalRoutesModule,
-  PersonalizationModule,
   ProductModule,
   ProductOccModule,
   UserModule,
   UserOccModule,
 } from '@spartacus/core';
+
 import {
   AddressBookModule,
   AnonymousConsentManagementBannerModule,
@@ -76,13 +76,15 @@ import {
   UserComponentModule,
   WishListModule,
 } from '@spartacus/storefront';
-import { environment } from '../../environments/environment';
+
 import { AdministrationFeatureModule } from './features/administration-feature.module';
 import { BundleFeatureModule } from './features/bundle-feature.module';
+import { environment } from '../../environments/environment';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
+import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking-feature.module';
@@ -90,7 +92,11 @@ import { TrackingFeatureModule } from './features/tracking-feature.module';
 const featureModules = [];
 
 if (environment.b2b) {
-  featureModules.push(AdministrationFeatureModule, OrderApprovalFeatureModule);
+  featureModules.push(
+    AdministrationFeatureModule,
+    OrderApprovalFeatureModule,
+    BulkPricingFeatureModule
+  );
 }
 if (environment.cdc) {
   featureModules.push(CdcFeatureModule);
@@ -186,9 +192,6 @@ if (environment.cds) {
     ReplenishmentOrderDetailsModule,
     ReplenishmentOrderConfirmationModule,
 
-    // Personalization
-    PersonalizationModule.forRoot(),
-
     // Asm Core
     AsmOccModule,
     // Asm UI
@@ -201,7 +204,6 @@ if (environment.cds) {
     PageEventModule,
     ProductPageEventModule,
 
-    TrackingFeatureModule,
     /************************* Opt-in features *************************/
 
     ExternalRoutesModule.forRoot(), // to opt-in explicitly, is added by default schematics
@@ -213,6 +215,7 @@ if (environment.cds) {
     QualtricsFeatureModule,
     SmartEditFeatureModule,
     BundleFeatureModule,
+    TrackingFeatureModule,
     ...featureModules,
   ],
 })

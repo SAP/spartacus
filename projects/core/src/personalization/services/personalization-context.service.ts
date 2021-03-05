@@ -8,6 +8,9 @@ import { Page } from '../../cms/model/page.model';
 import { PersonalizationConfig } from '../config/personalization-config';
 import { PersonalizationContext } from '../model/personalization-context.model';
 
+/**
+ * @deprecated since 3.2, use @spartacus/tracking/personalization instead
+ */
 @Injectable({
   providedIn: 'root',
 })

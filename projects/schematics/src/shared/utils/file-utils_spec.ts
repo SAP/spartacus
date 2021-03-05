@@ -968,6 +968,7 @@ describe('File utils', () => {
       };
 
       const nodes = getSourceNodes(source);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const constructorNode = findConstructor(nodes)!;
       const changes = removeInjectImports(
         source,
@@ -1000,6 +1001,7 @@ describe('File utils', () => {
       };
 
       const nodes = getSourceNodes(source);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const constructorNode = findConstructor(nodes)!;
       const changes = removeInjectImports(
         source,
@@ -1022,6 +1024,7 @@ describe('File utils', () => {
         true
       );
       const nodes = getSourceNodes(source);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const constructorNode = findConstructor(nodes)!;
       expect(shouldRemoveDecorator(constructorNode, 'Inject')).toEqual(true);
     });
@@ -1034,6 +1037,7 @@ describe('File utils', () => {
         true
       );
       const nodes = getSourceNodes(source);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const constructorNode = findConstructor(nodes)!;
       const res = shouldRemoveDecorator(constructorNode, 'Inject');
       expect(res).toEqual(false);

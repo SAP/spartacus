@@ -17,7 +17,7 @@ assignees: ''
 - [ ] Build app on this branch using installation script; prepare the `scripts/install/config.sh` file as below:
 
     ```bash
-    BACKEND_URL="https://spartacus-dev0.eastus.cloudapp.azure.com:9002"
+    BACKEND_URL="https://20.83.184.244:9002"
     BRANCH='release/x.y.z'
     SPARTACUS_VERSION='x.y.z'
     ```
@@ -83,6 +83,7 @@ To keep track of spartacussampledata releases, we keep a `latest` branch on each
     - [ ] `npm run release:organization:with-changelog` (needed since `3.0.0-next.1`)
     - [ ] `npm run release:storefinder:with-changelog` (needed since `3.0.0-rc.0`)
     - [ ] `npm run release:tracking:with-changelog` (needed since `3.2.0-next.0`)
+    - [ ] `npm run release:smartedit:with-changelog` (needed since `3.2.0-next.0`)
     - [ ] `npm run release:qualtrics:with-changelog` (needed since `3.1.0-next.0`)
     - [ ] `npm run release:product-configurator:with-changelog` (needed since `3.1.0-next.0`)
     - [ ] `npm run release:cdc:with-changelog` (since 2.1.0-next.0 - publish under `0.<packages-version>.0` eg. `0.201.0-next.0` for first `2.1.0-next.0` release)

@@ -4,7 +4,7 @@ export const defaultOccCartConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        // tslint:disable:max-line-length
+        /* eslint-disable max-len */
         carts:
           'users/${userId}/carts?fields=carts(DEFAULT,potentialProductPromotions,appliedProductPromotions,potentialOrderPromotions,appliedOrderPromotions,entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue,value),updateable),totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(value,formattedValue),subTotal(formattedValue),deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue, value),pickupItemsQuantity,net,appliedVouchers,productDiscounts(formattedValue),saveTime,user,name,entryGroups(entries,DEFAULT))',
         cart:
@@ -23,7 +23,7 @@ export const defaultOccCartConfig: OccConfig = {
         deleteEntryGroup:
           'users/${userId}/carts/${cartId}/entrygroups/${entryGroupNumber}',
         // TODO: startCheckout: ''
-        // tslint:enable
+        /* eslint-enable */
       },
     },
   },
