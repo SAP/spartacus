@@ -63,20 +63,16 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
   ) {}
 
   publishUiMessages(configuration: Configurator.Configuration) {
-    configuration?.errorMessages?.forEach((msg) => {
+    configuration.errorMessages?.forEach((msg) => {
       this.messageService.add(msg, GlobalMessageType.MSG_TYPE_ERROR, 2000);
     });
-  }
-
-  publishUiMessagesWarning(configuration: Configurator.Configuration) {
-    configuration?.warningMessages?.forEach((msg) => {
+    configuration.warningMessages?.forEach((msg) => {
       this.messageService.add(msg, GlobalMessageType.MSG_TYPE_WARNING, 2000);
     });
   }
 
   ngOnInit(): void {
     this.msgSubscription = this.configuration$?.subscribe((configuration) => {
-      this.publishUiMessagesWarning(configuration);
       this.publishUiMessages(configuration);
     });
 

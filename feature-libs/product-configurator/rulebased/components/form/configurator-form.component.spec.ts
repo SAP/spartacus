@@ -80,6 +80,15 @@ const configWithError: Configurator.Configuration = {
   owner: owner,
   groups: groups,
   errorMessages: ['error1', 'error2'],
+};
+
+const configWithWarning: Configurator.Configuration = {
+  configId: 'a',
+  consistent: false,
+  complete: true,
+  productCode: PRODUCT_CODE,
+  owner: owner,
+  groups: groups,
   warningMessages: ['warning1', 'warning2', 'warning3'],
 };
 
@@ -432,7 +441,7 @@ describe('ConfigurationFormComponent', () => {
   });
 
   it('should publish warning messages as warning', () => {
-    createComponent().publishUiMessagesWarning(configWithError);
+    createComponent().publishUiMessages(configWithWarning);
     expect(mockedMessageService.add).toHaveBeenCalledTimes(3);
     expect(mockedMessageService.add).toHaveBeenCalledWith(
       'warning1',
@@ -457,11 +466,11 @@ describe('ConfigurationFormComponent', () => {
     component.configuration$ = configSubject;
     component.ngOnInit();
     configSubject.next(configWithError);
-    expect(mockedMessageService.add).toHaveBeenCalledTimes(5);
+    expect(mockedMessageService.add).toHaveBeenCalledTimes(2);
     configSubject.next(configRead);
+    expect(mockedMessageService.add).toHaveBeenCalledTimes(2);
+    configSubject.next(configWithWarning);
     expect(mockedMessageService.add).toHaveBeenCalledTimes(5);
-    configSubject.next(configWithError);
-    expect(mockedMessageService.add).toHaveBeenCalledTimes(10);
   });
 
   it('should not publish messages after destroy', () => {
