@@ -74,21 +74,11 @@ const configRead2: Configurator.Configuration = {
 
 const configWithError: Configurator.Configuration = {
   configId: 'a',
-  consistent: false,
-  complete: true,
-  productCode: PRODUCT_CODE,
-  owner: owner,
-  groups: groups,
   errorMessages: ['error1', 'error2'],
 };
 
 const configWithWarning: Configurator.Configuration = {
   configId: 'a',
-  consistent: false,
-  complete: true,
-  productCode: PRODUCT_CODE,
-  owner: owner,
-  groups: groups,
   warningMessages: ['warning1', 'warning2', 'warning3'],
 };
 
