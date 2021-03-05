@@ -27,8 +27,7 @@ export class CpqConfiguratorNormalizer
         source.failedValidations.length === 0 &&
         source.errorMessages.length === 0 &&
         source.conflictMessages.length === 0,
-      totalNumberOfIssues:
-        source.incompleteAttributes.length + source.numberOfConflicts,
+      totalNumberOfIssues: this.generateTotaltotalNumberOfIssues(source),
       productCode: source.productSystemId,
       priceSummary: this.cpqUtilitiesService.preparePriceSummary(source),
       groups: [],
@@ -57,6 +56,16 @@ export class CpqConfiguratorNormalizer
     }
 
     return resultTarget;
+  }
+
+  generateTotaltotalNumberOfIssues(source: Cpq.Configuration): number {
+    let numberOfIssues: number =
+      source.incompleteAttributes.length +
+      source.incompleteMessages.length +
+      source.invalidMessages.length +
+      source.failedValidations.length +
+      source.errorMessages.length;
+    return numberOfIssues;
   }
 
   generateWarningMessages(source: Cpq.Configuration): string[] {
