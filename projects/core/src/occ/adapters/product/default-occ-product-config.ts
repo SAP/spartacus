@@ -16,6 +16,7 @@ export const defaultOccProductConfig: OccConfig = {
           variants:
             'products/${productCode}?fields=name,purchasable,baseOptions(DEFAULT),baseProduct,variantOptions(DEFAULT),variantType',
         },
+
         productReviews: 'products/${productCode}/reviews',
         // Uncomment this when occ gets configured
         // productReferences:
