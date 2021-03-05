@@ -2,19 +2,19 @@ import { Identifier, ts } from 'ts-morph';
 
 export function isImportedFrom(node: Identifier, importPath: string): boolean {
   let result = false;
+
   const definitions = node.getDefinitions();
-  definitions.forEach((def) => {
+  for (const def of definitions) {
     const node = def.getDeclarationNode();
-    if (node) {
-      const declaration = node.getFirstAncestorByKind(
-        ts.SyntaxKind.ImportDeclaration
-      );
-      if (declaration) {
-        if (declaration.getModuleSpecifier().getText().includes(importPath)) {
-          result = true;
-        }
-      }
+
+    const declaration = node?.getFirstAncestorByKind(
+      ts.SyntaxKind.ImportDeclaration
+    );
+    if (declaration?.getModuleSpecifier().getText().includes(importPath)) {
+      result = true;
+      break;
     }
-  });
+  }
+
   return result;
 }
