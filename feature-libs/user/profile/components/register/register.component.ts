@@ -21,7 +21,7 @@ import {
 import { CustomFormValidators, sortTitles } from '@spartacus/storefront';
 import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-register',
@@ -136,17 +136,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   registerUser(): void {
-    this.subscription.add(
-      this.userRegister
-        .register(this.collectDataFromRegisterForm(this.registerForm.value))
-        .pipe(
-          tap((state) => {
-            this.isLoading$.next(!!state.loading);
-            this.onRegisterUserSuccess(!!state.success);
-          })
-        )
-        .subscribe()
-    );
+    this.isLoading$.next(true);
+    this.userRegister
+      .register(this.collectDataFromRegisterForm(this.registerForm.value))
+      .subscribe({
+        next: () => this.onRegisterUserSuccess(true),
+        complete: () => this.isLoading$.next(false),
+      });
   }
 
   titleSelected(title: Title): void {

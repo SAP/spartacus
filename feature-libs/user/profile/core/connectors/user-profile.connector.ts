@@ -8,7 +8,7 @@ import { UserProfileAdapter } from './user-profile.adapter';
 export class UserProfileConnector {
   constructor(protected userProfileAdapter: UserProfileAdapter) {}
 
-  update(username: string, user: User): Observable<{}> {
+  update(username: string, user: User): Observable<unknown> {
     return this.userProfileAdapter.update(username, user);
   }
 
@@ -20,11 +20,11 @@ export class UserProfileConnector {
     return this.userProfileAdapter.registerGuest(guid, password);
   }
 
-  requestForgotPasswordEmail(userEmailAddress: string): Observable<{}> {
+  requestForgotPasswordEmail(userEmailAddress: string): Observable<unknown> {
     return this.userProfileAdapter.requestForgotPasswordEmail(userEmailAddress);
   }
 
-  resetPassword(token: string, newPassword: string): Observable<{}> {
+  resetPassword(token: string, newPassword: string): Observable<unknown> {
     return this.userProfileAdapter.resetPassword(token, newPassword);
   }
 
@@ -32,7 +32,7 @@ export class UserProfileConnector {
     userId: string,
     currentPassword: string,
     newUserId: string
-  ): Observable<{}> {
+  ): Observable<unknown> {
     return this.userProfileAdapter.updateEmail(
       userId,
       currentPassword,
@@ -44,7 +44,7 @@ export class UserProfileConnector {
     userId: string,
     oldPassword: string,
     newPassword: string
-  ): Observable<{}> {
+  ): Observable<unknown> {
     return this.userProfileAdapter.updatePassword(
       userId,
       oldPassword,
@@ -52,7 +52,7 @@ export class UserProfileConnector {
     );
   }
 
-  remove(userId: string): Observable<{}> {
+  remove(userId: string): Observable<unknown> {
     return this.userProfileAdapter.close(userId);
   }
 

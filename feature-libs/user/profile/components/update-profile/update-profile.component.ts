@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -6,18 +6,15 @@ import {
 } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
 import { Title, UserProfileFacade } from '@spartacus/user/profile/root';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-update-profile',
   templateUrl: './update-profile.component.html',
 })
-export class UpdateProfileComponent implements OnInit, OnDestroy {
-  private subscription = new Subscription();
-
-  titles$: Observable<Title[]>;
-  user$: Observable<User>;
+export class UpdateProfileComponent {
+  titles$: Observable<Title[]> = this.userProfile.getTitles();
+  user$: Observable<User> = this.userProfile.get();
   isLoading$ = new BehaviorSubject(false);
 
   constructor(
@@ -26,19 +23,12 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
     private globalMessageService: GlobalMessageService
   ) {}
 
-  ngOnInit(): void {
-    this.user$ = this.userProfile.get();
-    this.titles$ = this.userProfile.getTitles();
-  }
-
-  onSuccess(success: boolean): void {
-    if (success) {
-      this.globalMessageService.add(
-        { key: 'updateProfileForm.profileUpdateSuccess' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
-      this.routingService.go({ cxRoute: 'home' });
-    }
+  onSuccess(): void {
+    this.globalMessageService.add(
+      { key: 'updateProfileForm.profileUpdateSuccess' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+    this.routingService.go({ cxRoute: 'home' });
   }
 
   onCancel(): void {
@@ -46,20 +36,11 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
   }
 
   onSubmit({ userUpdates }: { userUpdates: User }): void {
-    this.subscription.add(
-      this.userProfile
-        .update(userUpdates)
-        .pipe(
-          tap((state) => {
-            this.isLoading$.next(!!state.loading);
-            this.onSuccess(!!state.success);
-          })
-        )
-        .subscribe()
-    );
-  }
+    this.isLoading$.next(true);
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.userProfile.update(userUpdates).subscribe({
+      next: () => this.onSuccess(),
+      complete: () => this.isLoading$.next(false),
+    });
   }
 }

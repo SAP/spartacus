@@ -27,7 +27,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     protected converter: ConverterService
   ) {}
 
-  update(userId: string, user: User): Observable<{}> {
+  update(userId: string, user: User): Observable<unknown> {
     const url = this.occEndpoints.getUrl('user', { userId });
     user = this.converter.convert(user, USER_PROFILE_SERIALIZER);
     return this.http.patch(url, user);
@@ -62,7 +62,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
       .pipe(this.converter.pipeable(USER_PROFILE_NORMALIZER));
   }
 
-  requestForgotPasswordEmail(userEmailAddress: string): Observable<{}> {
+  requestForgotPasswordEmail(userEmailAddress: string): Observable<unknown> {
     const url = this.occEndpoints.getUrl('userForgotPassword');
     const httpParams: HttpParams = new HttpParams().set(
       'userId',
@@ -75,7 +75,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     return this.http.post(url, httpParams, { headers });
   }
 
-  resetPassword(token: string, newPassword: string): Observable<{}> {
+  resetPassword(token: string, newPassword: string): Observable<unknown> {
     const url = this.occEndpoints.getUrl('userResetPassword');
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     userId: string,
     currentPassword: string,
     newUserId: string
-  ): Observable<{}> {
+  ): Observable<unknown> {
     const url = this.occEndpoints.getUrl('userUpdateLoginId', { userId });
     const httpParams: HttpParams = new HttpParams()
       .set('password', currentPassword)
@@ -104,7 +104,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     userId: string,
     oldPassword: string,
     newPassword: string
-  ): Observable<{}> {
+  ): Observable<unknown> {
     const url = this.occEndpoints.getUrl('userUpdatePassword', { userId });
     const httpParams: HttpParams = new HttpParams()
       .set('old', oldPassword)
@@ -115,7 +115,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     return this.http.put(url, httpParams, { headers });
   }
 
-  close(userId: string): Observable<{}> {
+  close(userId: string): Observable<unknown> {
     const url = this.occEndpoints.getUrl('user', { userId });
     return this.http.delete<User>(url);
   }

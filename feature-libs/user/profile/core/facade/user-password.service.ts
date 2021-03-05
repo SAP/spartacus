@@ -1,27 +1,28 @@
 import { Injectable } from '@angular/core';
-import { select, Store } from '@ngrx/store';
 import {
-  ProcessSelectors,
-  StateUtils,
-  StateWithProcess,
+  GlobalMessageService,
+  GlobalMessageType,
+  normalizeHttpError,
 } from '@spartacus/core';
-import { User } from '@spartacus/user/account/root';
-import { Observable } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
-import { UserProfileActions } from '../store/actions/index';
-import { UserProfileSelectors } from '../store/selectors/index';
+import { ConnectableObservable, Observable, throwError } from 'rxjs';
 import {
-  StateWithUserProfile,
-  UPDATE_PASSWORD_PROCESS_ID,
-} from '../store/user-profile.state';
+  catchError,
+  publishReplay,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { UserProfileService } from './user-profile.service';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
+import { UserProfileConnector } from '../connectors/user-profile.connector';
 
 @Injectable()
 export class UserPasswordService implements UserPasswordFacade {
   constructor(
-    protected store: Store<StateWithUserProfile | StateWithProcess<User>>,
-    protected userProfileService: UserProfileService
+    protected userProfileService: UserProfileService,
+    private userAccountConnector: UserProfileConnector,
+    protected globalMessage: GlobalMessageService,
+    private userProfileConnector: UserProfileConnector
   ) {}
 
   /**
@@ -33,32 +34,19 @@ export class UserPasswordService implements UserPasswordFacade {
    * @param oldPassword the current password that will be changed
    * @param newPassword the new password
    */
-  update(
-    oldPassword: string,
-    newPassword: string
-  ): Observable<StateUtils.LoaderState<User>> {
-    this.userProfileService
-      .get()
-      .pipe(
-        take(1),
-        tap((user) =>
-          this.store.dispatch(
-            new UserProfileActions.UpdatePassword({
-              // tslint:disable-next-line:no-non-null-assertion
-              uid: user.uid!,
-              oldPassword,
-              newPassword,
-            })
-          )
-        )
-      )
-      .subscribe();
-
-    return (this.store as Store<StateWithProcess<User>>).pipe(
-      select(
-        ProcessSelectors.getProcessStateFactory(UPDATE_PASSWORD_PROCESS_ID)
-      )
-    );
+  update(oldPassword: string, newPassword: string): Observable<unknown> {
+    const update$ = this.userProfileService.get().pipe(
+      take(1),
+      switchMap((user) =>
+        this.userAccountConnector
+          // tslint:disable-next-line:no-non-null-assertion
+          .updatePassword(user.uid!, oldPassword, newPassword)
+          .pipe(catchError((error) => throwError(normalizeHttpError(error))))
+      ),
+      publishReplay()
+    ) as ConnectableObservable<unknown>;
+    update$.connect();
+    return update$;
   }
 
   /**
@@ -67,27 +55,52 @@ export class UserPasswordService implements UserPasswordFacade {
    * @param token
    * @param password
    */
-  reset(token: string, password: string): void {
-    this.store.dispatch(
-      new UserProfileActions.ResetPassword({ token, password })
-    );
-  }
-
-  /**
-   * Return whether user's password is successfully reset
-   */
-  isPasswordReset(): Observable<boolean> {
-    return (this.store as Store<StateWithUserProfile>).pipe(
-      select(UserProfileSelectors.getResetPassword)
-    );
+  reset(token: string, password: string): Observable<unknown> {
+    const resetPassword$ = this.userAccountConnector
+      .resetPassword(token, password)
+      .pipe(
+        tap(() => {
+          this.globalMessage.add(
+            { key: 'forgottenPassword.passwordResetSuccess' },
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
+        }),
+        catchError((error) => {
+          if (error?.error?.errors) {
+            error.error.errors.forEach((err: any) => {
+              if (err.message) {
+                this.globalMessage.add(
+                  { raw: err.message },
+                  GlobalMessageType.MSG_TYPE_ERROR
+                );
+              }
+            });
+          }
+          return throwError(normalizeHttpError(error));
+        }),
+        publishReplay()
+      ) as ConnectableObservable<unknown>;
+    resetPassword$.connect();
+    return resetPassword$;
   }
 
   /*
    * Request an email to reset a forgotten password.
    */
-  requestForgotPasswordEmail(email: string): void {
-    this.store.dispatch(
-      new UserProfileActions.ForgotPasswordEmailRequest(email)
-    );
+  requestForgotPasswordEmail(email: string): Observable<unknown> {
+    const requestForgotPasswordEmail$ = this.userProfileConnector
+      .requestForgotPasswordEmail(email)
+      .pipe(
+        tap(() => {
+          this.globalMessage.add(
+            { key: 'forgottenPassword.passwordResetEmailSent' },
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
+        }),
+        catchError((error) => throwError(normalizeHttpError(error))),
+        publishReplay()
+      ) as ConnectableObservable<unknown>;
+    requestForgotPasswordEmail$.connect();
+    return requestForgotPasswordEmail$;
   }
 }

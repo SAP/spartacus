@@ -41,21 +41,15 @@ export class ResetPasswordFormComponent implements OnInit, OnDestroy {
         .getRouterState()
         .subscribe((state) => (this.token = state.state.queryParams['token']))
     );
-
-    this.subscription.add(
-      this.userPassword.isPasswordReset().subscribe((reset) => {
-        if (reset) {
-          this.routingService.go({ cxRoute: 'login' });
-        }
-      })
-    );
   }
 
   resetPassword() {
     if (this.resetPasswordForm.valid) {
       // tslint:disable-next-line:no-non-null-assertion
       const password = this.resetPasswordForm.get('password')!.value;
-      this.userPassword.reset(this.token, password);
+      this.userPassword.reset(this.token, password).subscribe({
+        next: () => this.routingService.go({ cxRoute: 'login' }),
+      });
     } else {
       this.resetPasswordForm.markAllAsTouched();
     }

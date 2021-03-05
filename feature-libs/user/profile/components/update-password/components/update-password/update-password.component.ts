@@ -1,20 +1,17 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
 } from '@spartacus/core';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
-import { BehaviorSubject, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'cx-update-password',
   templateUrl: './update-password.component.html',
 })
-export class UpdatePasswordComponent implements OnDestroy {
-  private subscription = new Subscription();
-
+export class UpdatePasswordComponent {
   isLoading$ = new BehaviorSubject(false);
 
   constructor(
@@ -23,14 +20,12 @@ export class UpdatePasswordComponent implements OnDestroy {
     private globalMessageService: GlobalMessageService
   ) {}
 
-  onSuccess(success: boolean): void {
-    if (success) {
-      this.globalMessageService.add(
-        { key: 'updatePasswordForm.passwordUpdateSuccess' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
-      this.routingService.go({ cxRoute: 'home' });
-    }
+  onSuccess(): void {
+    this.globalMessageService.add(
+      { key: 'updatePasswordForm.passwordUpdateSuccess' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+    this.routingService.go({ cxRoute: 'home' });
   }
 
   onCancel(): void {
@@ -44,20 +39,9 @@ export class UpdatePasswordComponent implements OnDestroy {
     oldPassword: string;
     newPassword: string;
   }): void {
-    this.subscription.add(
-      this.userPassword
-        .update(oldPassword, newPassword)
-        .pipe(
-          tap((state) => {
-            this.isLoading$.next(!!state.loading);
-            this.onSuccess(!!state.success);
-          })
-        )
-        .subscribe()
-    );
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.userPassword.update(oldPassword, newPassword).subscribe({
+      next: () => this.onSuccess(),
+      complete: () => this.isLoading$.next(false),
+    });
   }
 }

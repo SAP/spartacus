@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { facadeFactory, StateUtils } from '@spartacus/core';
+import { facadeFactory } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
 import { Title, UserSignUp } from '../model/user-profile.model';
@@ -10,7 +10,6 @@ export function UserRegisterFacadeFactory() {
     facade: UserRegisterFacade,
     feature: USER_PROFILE_FEATURE,
     methods: ['register', 'registerGuest', 'getTitles'],
-    async: true,
   });
 }
 
@@ -24,7 +23,7 @@ export abstract class UserRegisterFacade {
    *
    * @param submitFormData as UserRegisterFormData
    */
-  abstract register(user: UserSignUp): Observable<StateUtils.LoaderState<User>>;
+  abstract register(user: UserSignUp): Observable<User>;
 
   /**
    * Register a new user from guest.
@@ -32,7 +31,7 @@ export abstract class UserRegisterFacade {
    * @param guid
    * @param password
    */
-  abstract registerGuest(guid: string, password: string): void;
+  abstract registerGuest(guid: string, password: string): Observable<User>;
 
   /**
    * Returns titles that can be used for the user profiles.

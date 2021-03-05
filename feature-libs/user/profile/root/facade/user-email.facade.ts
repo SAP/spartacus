@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { facadeFactory, StateUtils } from '@spartacus/core';
-import { User } from '@spartacus/user/account/root';
+import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { USER_PROFILE_FEATURE } from '../feature-name';
 
@@ -9,7 +8,6 @@ export function UserEmailFacadeFactory() {
     facade: UserEmailFacade,
     feature: USER_PROFILE_FEATURE,
     methods: ['update'],
-    async: true,
   });
 }
 
@@ -24,8 +22,5 @@ export abstract class UserEmailFacade {
    * @param password to users password to confirm the users
    * @param newUid the new proposed email address.
    */
-  abstract update(
-    password: string,
-    newUid: string
-  ): Observable<StateUtils.LoaderState<User>>;
+  abstract update(password: string, newUid: string): Observable<unknown>;
 }

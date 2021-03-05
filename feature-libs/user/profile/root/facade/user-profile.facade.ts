@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { facadeFactory, StateUtils } from '@spartacus/core';
+import { facadeFactory } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
 import { Title } from '../model/user-profile.model';
@@ -10,7 +10,6 @@ export function UserProfileFacadeFactory() {
     facade: UserProfileFacade,
     feature: USER_PROFILE_FEATURE,
     methods: ['get', 'update', 'close', 'getTitles'],
-    async: true,
   });
 }
 
@@ -26,12 +25,12 @@ export abstract class UserProfileFacade {
    *
    * @param details User details to be updated.
    */
-  abstract update(details: User): Observable<StateUtils.LoaderState<User>>;
+  abstract update(details: User): Observable<User>;
 
   /**
    * Closes the user account.
    */
-  abstract close(): Observable<StateUtils.LoaderState<User>>;
+  abstract close(): Observable<unknown>;
 
   /**
    * Returns titles that can be used for the user profiles.

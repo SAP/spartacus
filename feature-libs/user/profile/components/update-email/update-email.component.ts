@@ -1,19 +1,18 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
 } from '@spartacus/core';
-import { BehaviorSubject, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 import { UserEmailFacade } from '@spartacus/user/profile/root';
 
 @Component({
   selector: 'cx-update-email',
   templateUrl: './update-email.component.html',
 })
-export class UpdateEmailComponent implements OnDestroy {
+export class UpdateEmailComponent {
   constructor(
     private routingService: RoutingService,
     private globalMessageService: GlobalMessageService,
@@ -21,7 +20,6 @@ export class UpdateEmailComponent implements OnDestroy {
     private authService: AuthService
   ) {}
 
-  private subscription = new Subscription();
   private newUid: string;
   isLoading$ = new BehaviorSubject(false);
 
@@ -31,39 +29,27 @@ export class UpdateEmailComponent implements OnDestroy {
 
   onSubmit({ newUid, password }: { newUid: string; password: string }): void {
     this.newUid = newUid;
-    this.subscription.add(
-      this.userEmail
-        .update(password, newUid)
-        .pipe(
-          tap((state) => {
-            this.isLoading$.next(!!state.loading);
-            this.onSuccess(!!state.success);
-          })
-        )
-        .subscribe()
+
+    this.userEmail.update(password, newUid).subscribe({
+      next: () => this.onSuccess(),
+      complete: () => this.isLoading$.next(false),
+    });
+  }
+
+  async onSuccess(): Promise<void> {
+    this.globalMessageService.add(
+      {
+        key: 'updateEmailForm.emailUpdateSuccess',
+        params: { newUid: this.newUid },
+      },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
-  }
-
-  async onSuccess(success: boolean): Promise<void> {
-    if (success) {
-      this.globalMessageService.add(
-        {
-          key: 'updateEmailForm.emailUpdateSuccess',
-          params: { newUid: this.newUid },
-        },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
-      // TODO(#9638): Use logout route when it will support passing redirect url
-      await this.authService.coreLogout();
-      this.routingService.go({ cxRoute: 'login' }, undefined, {
-        state: {
-          newUid: this.newUid,
-        },
-      });
-    }
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+    // TODO(#9638): Use logout route when it will support passing redirect url
+    await this.authService.coreLogout();
+    this.routingService.go({ cxRoute: 'login' }, undefined, {
+      state: {
+        newUid: this.newUid,
+      },
+    });
   }
 }

@@ -8,13 +8,7 @@ export function UserPasswordFacadeFactory() {
   return facadeFactory({
     facade: UserPasswordFacade,
     feature: USER_PROFILE_FEATURE,
-    methods: [
-      'update',
-      'reset',
-      'isPasswordReset',
-      'requestForgotPasswordEmail',
-    ],
-    async: true,
+    methods: ['update', 'reset', 'requestForgotPasswordEmail'],
   });
 }
 
@@ -43,15 +37,10 @@ export abstract class UserPasswordFacade {
    * @param token
    * @param password
    */
-  abstract reset(token: string, password: string): void;
-
-  /**
-   * Return whether user's password is successfully reset
-   */
-  abstract isPasswordReset(): Observable<boolean>;
+  abstract reset(token: string, password: string): Observable<unknown>;
 
   /*
    * Request an email to reset a forgotten password.
    */
-  abstract requestForgotPasswordEmail(email: string): void;
+  abstract requestForgotPasswordEmail(email: string): Observable<unknown>;
 }

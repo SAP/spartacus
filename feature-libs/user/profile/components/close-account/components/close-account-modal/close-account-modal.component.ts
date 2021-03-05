@@ -8,8 +8,8 @@ import {
 } from '@spartacus/core';
 import { ICON_TYPE, ModalService } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, first, take } from 'rxjs/operators';
-import { UserProfileFacade } from '../../../../root';
+import { first } from 'rxjs/operators';
+import { UserProfileFacade } from '@spartacus/user/profile/root';
 
 @Component({
   selector: 'cx-close-account-modal',
@@ -35,32 +35,28 @@ export class CloseAccountModalComponent implements OnInit {
     this.isLoggedIn$ = this.authService.isUserLoggedIn();
   }
 
-  onSuccess(success: boolean): void {
-    if (success) {
-      this.dismissModal();
-      this.translationService
-        .translate('closeAccount.accountClosedSuccessfully')
-        .pipe(first())
-        .subscribe((text) => {
-          this.globalMessageService.add(
-            text,
-            GlobalMessageType.MSG_TYPE_CONFIRMATION
-          );
-        });
-      this.routingService.go({ cxRoute: 'home' });
-    }
+  onSuccess(): void {
+    this.dismissModal();
+    this.translationService
+      .translate('closeAccount.accountClosedSuccessfully')
+      .pipe(first())
+      .subscribe((text) => {
+        this.globalMessageService.add(
+          text,
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
+      });
+    this.routingService.go({ cxRoute: 'home' });
   }
 
-  onError(error: boolean): void {
-    if (error) {
-      this.dismissModal();
-      this.translationService
-        .translate('closeAccount.accountClosedFailure')
-        .pipe(first())
-        .subscribe((text) => {
-          this.globalMessageService.add(text, GlobalMessageType.MSG_TYPE_ERROR);
-        });
-    }
+  onError(): void {
+    this.dismissModal();
+    this.translationService
+      .translate('closeAccount.accountClosedFailure')
+      .pipe(first())
+      .subscribe((text) => {
+        this.globalMessageService.add(text, GlobalMessageType.MSG_TYPE_ERROR);
+      });
   }
 
   dismissModal(reason?: any): void {
@@ -69,20 +65,15 @@ export class CloseAccountModalComponent implements OnInit {
 
   closeAccount() {
     this.isLoading$.next(true);
-    this.userProfile
-      .close()
-      .pipe(
-        filter((state) => !!state?.success || !!state?.error),
-        take(1)
-      )
-      .subscribe((state) => {
-        this.isLoading$.next(false);
-        if (state.success) {
-          this.onSuccess(true);
-        }
-        if (state.error) {
-          this.onError(true);
-        }
-      });
+    this.userProfile.close().subscribe({
+      next: () => {
+        this.onSuccess();
+        this.isLoading$.next(false)
+      },
+      error: () => {
+        this.onError();
+        this.isLoading$.next(false)
+      },
+    });
   }
 }
