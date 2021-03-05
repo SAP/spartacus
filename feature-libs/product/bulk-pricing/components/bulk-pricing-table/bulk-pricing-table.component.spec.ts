@@ -115,6 +115,7 @@ describe('BulkPricingTableComponent', () => {
     fixture = TestBed.createComponent(BulkPricingTableComponent);
     component = fixture.componentInstance;
     bulkPricingService = TestBed.inject(BulkPricingService);
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -143,7 +144,7 @@ describe('BulkPricingTableComponent', () => {
 
   describe('getPrices', () => {
     it('should call getBulkPrices with a right parameter', () => {
-      spyOn(bulkPricingService, 'getBulkPrices');
+      spyOn(bulkPricingService, 'getBulkPrices').and.callThrough();
 
       component
         .getPrices()
