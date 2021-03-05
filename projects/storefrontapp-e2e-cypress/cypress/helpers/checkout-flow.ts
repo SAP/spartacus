@@ -7,14 +7,14 @@ import {
   SampleCartProduct,
   SampleProduct,
   SampleUser,
-  user
+  user,
 } from '../sample-data/checkout-flow';
 import { login, register } from './auth-forms';
 import {
   AddressData,
   fillPaymentDetails,
   fillShippingAddress,
-  PaymentDetails
+  PaymentDetails,
 } from './checkout-forms';
 
 export const ELECTRONICS_BASESITE = 'electronics-spa';

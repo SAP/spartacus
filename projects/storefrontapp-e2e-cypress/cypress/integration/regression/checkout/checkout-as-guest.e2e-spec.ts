@@ -23,7 +23,7 @@ context('Checkout as guest', () => {
       cy.cxConfig({ checkout: { guest: true } } as CheckoutConfig);
     });
 
-    it('should perform checkout as guest and create an account after', () => {
+    it('should perform checkout as guest and create a user account', () => {
       checkout.goToCheapProductDetailsPage();
       checkout.addCheapProductToCartAndProceedToCheckout();
 
