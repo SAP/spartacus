@@ -130,7 +130,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
                 ? 'savedCartCartPage.messages.cartSaved'
                 : 'savedCartDialog.editCartSuccess',
               params: {
-                cartName: this.cart?.code,
+                cartName: this.form.get('name')?.value || this.cart?.code,
               },
             },
             GlobalMessageType.MSG_TYPE_CONFIRMATION
