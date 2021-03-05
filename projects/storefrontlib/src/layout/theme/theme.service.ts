@@ -10,7 +10,6 @@ import { SiteContextConfig, THEME_CONTEXT_ID } from '@spartacus/core';
 import { Observable, ReplaySubject } from 'rxjs';
 
 const THEME_LINK_ID = 'cx-theme';
-const DEFAULT_THEME = 'sparta';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
@@ -37,10 +36,9 @@ export class ThemeService {
     // property of the SiteContextConfig. So the array's first item
     // is the theme value.
     let theme = this.config.context?.[THEME_CONTEXT_ID]?.[0];
-    if (!theme) {
-      theme = DEFAULT_THEME;
+    if (theme) {
+      this.setTheme(theme);
     }
-    this.setTheme(theme);
   }
 
   isLoaded(): Observable<boolean> {
