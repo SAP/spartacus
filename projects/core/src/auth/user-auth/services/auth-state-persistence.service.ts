@@ -5,6 +5,7 @@ import { StatePersistenceService } from '../../../state/services/state-persisten
 import { UserIdService } from '../facade/user-id.service';
 import { AuthToken } from '../models/auth-token.model';
 import { AuthRedirectStorageService } from './auth-redirect-storage.service';
+import { AuthStatePersistenceHelperService } from './auth-state-persistence-helper.service';
 import { AuthStorageService } from './auth-storage.service';
 
 /**
@@ -16,7 +17,7 @@ export interface SyncedAuthState {
   redirectUrl?: string;
 }
 
-export const AUTH_PERSISTENCE_KEY = 'key';
+export const AUTH_PERSISTENCE_KEY = 'auth';
 
 /**
  * Responsible for saving the authorization data (userId, token, redirectUrl) in browser storage.
@@ -31,13 +32,14 @@ export class AuthStatePersistenceService implements OnDestroy {
     protected statePersistenceService: StatePersistenceService,
     protected userIdService: UserIdService,
     protected authStorageService: AuthStorageService,
-    protected authRedirectStorageService: AuthRedirectStorageService
+    protected authRedirectStorageService: AuthRedirectStorageService,
+    protected authStatePersistenceHelper: AuthStatePersistenceHelperService
   ) {}
 
   /**
    * Identifier used for storage key.
    */
-  protected key = AUTH_PERSISTENCE_KEY;
+  protected key = this.authStatePersistenceHelper.key;
 
   /**
    * Initializes the synchronization between state and browser storage.
@@ -101,8 +103,11 @@ export class AuthStatePersistenceService implements OnDestroy {
   }
 
   /**
+   * @deprecated @since - 3.3.0 Use method of the same name from AuthStatePersistenceHelper
+   *
    * Reads synchronously state from storage and returns it.
    */
+  // TODO (): Remove function
   protected readStateFromStorage() {
     return this.statePersistenceService.readStateFromStorage<SyncedAuthState>({
       key: this.key,
@@ -110,11 +115,14 @@ export class AuthStatePersistenceService implements OnDestroy {
   }
 
   /**
+   * @deprecated @since - 3.3.0 Use method of the same name from AuthStatePersistenceHelper
+   *
    * Check synchronously in browser storage if user is logged in (required by transfer state reducer).
    * For most cases `isUserLoggedIn` from the `AuthService` should be used instead of this.
    */
+  // TODO (): Remove function
   public isUserLoggedIn(): boolean {
-    return Boolean(this.readStateFromStorage()?.token?.access_token);
+    return this.authStatePersistenceHelper.isUserLoggedIn();
   }
 
   ngOnDestroy(): void {

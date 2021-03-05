@@ -36,13 +36,15 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
 
       if (this.enabled) {
         this.requestHeader = this.config.personalization.httpHeaderName.id.toLowerCase();
-        this.personalizationId = this.persistenceService.readFromStorage(
-          PERSONALIZATION_ID_KEY
-        ) as string;
+        this.personalizationId = this.persistenceService.readFromStorage({
+          key: PERSONALIZATION_ID_KEY,
+        }) as string;
       } else if (
-        this.persistenceService.readFromStorage(PERSONALIZATION_ID_KEY)
+        this.persistenceService.readFromStorage({ key: PERSONALIZATION_ID_KEY })
       ) {
-        this.persistenceService.removeFromStorage(PERSONALIZATION_ID_KEY);
+        this.persistenceService.removeFromStorage({
+          key: PERSONALIZATION_ID_KEY,
+        });
       }
     }
   }
@@ -73,14 +75,10 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
             const receivedId = event.headers.get(this.requestHeader);
             if (this.personalizationId !== receivedId) {
               this.personalizationId = receivedId;
-              // this.winRef.localStorage.setItem(
-              //   PERSONALIZATION_ID_KEY,
-              //   this.personalizationId
-              // );
-              this.persistenceService.persistToStorage(
-                PERSONALIZATION_ID_KEY,
-                this.personalizationId
-              );
+              this.persistenceService.persistToStorage({
+                key: PERSONALIZATION_ID_KEY,
+                state: this.personalizationId,
+              });
             }
           }
         }

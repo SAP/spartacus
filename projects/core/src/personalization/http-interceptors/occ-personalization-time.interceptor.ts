@@ -36,13 +36,17 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
 
       if (this.enabled) {
         this.requestHeader = this.config.personalization.httpHeaderName.timestamp.toLowerCase();
-        this.timestamp = this.persistenceService.readFromStorage(
-          PERSONALIZATION_TIME_KEY
-        ) as string;
+        this.timestamp = this.persistenceService.readFromStorage({
+          key: PERSONALIZATION_TIME_KEY,
+        }) as string;
       } else if (
-        this.persistenceService.readFromStorage(PERSONALIZATION_TIME_KEY)
+        this.persistenceService.readFromStorage({
+          key: PERSONALIZATION_TIME_KEY,
+        })
       ) {
-        this.persistenceService.removeFromStorage(PERSONALIZATION_TIME_KEY);
+        this.persistenceService.removeFromStorage({
+          key: PERSONALIZATION_TIME_KEY,
+        });
       }
     }
   }
@@ -73,14 +77,10 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
             const receivedTimestamp = event.headers.get(this.requestHeader);
             if (this.timestamp !== receivedTimestamp) {
               this.timestamp = receivedTimestamp;
-              // this.winRef.localStorage.setItem(
-              //   PERSONALIZATION_TIME_KEY,
-              //   this.timestamp
-              // );
-              this.persistenceService.persistToStorage(
-                PERSONALIZATION_TIME_KEY,
-                this.timestamp
-              );
+              this.persistenceService.persistToStorage({
+                key: PERSONALIZATION_TIME_KEY,
+                state: this.timestamp,
+              });
             }
           }
         }

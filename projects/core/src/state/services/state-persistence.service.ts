@@ -17,7 +17,7 @@ import { WindowRef } from '../../window/window-ref';
 })
 export class StatePersistenceService {
   /**
-   * @deprecated since 3.3, Use constructor with WindowRef and ConsentService
+   * @deprecated since 3.3.0, Use constructor with WindowRef and ConsentService
    */
   // TODO (): Handle deprecation
   constructor(winRef: WindowRef);

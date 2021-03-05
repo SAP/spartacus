@@ -8,12 +8,17 @@ import { WindowRef } from '../window/window-ref';
 export class StaticPersistenceService {
   constructor(protected winRef: WindowRef) {}
 
-  persistToStorage<T>(
-    key: string,
-    state: T,
-    context: string | Array<string> = '',
-    storageType = StorageSyncType.LOCAL_STORAGE
-  ): void {
+  persistToStorage<T>({
+    key,
+    state,
+    context = '',
+    storageType = StorageSyncType.LOCAL_STORAGE,
+  }: {
+    key: string;
+    state: T;
+    context?: string | Array<string>;
+    storageType?: StorageSyncType;
+  }): void {
     const storage = storageSyncUtils.getStorage(storageType, this.winRef);
 
     storageSyncUtils.persistToStorage(
@@ -23,11 +28,15 @@ export class StaticPersistenceService {
     );
   }
 
-  readFromStorage<T>(
-    key: string,
+  readFromStorage<T>({
+    key,
     context = '',
-    storageType = StorageSyncType.LOCAL_STORAGE
-  ): T | undefined | string {
+    storageType = StorageSyncType.LOCAL_STORAGE,
+  }: {
+    key: string;
+    context?: string | Array<string>;
+    storageType?: StorageSyncType;
+  }): T | undefined | string {
     const storage = storageSyncUtils.getStorage(storageType, this.winRef);
 
     const storageValue = storage.getItem(generateKeyWithContext(context, key));
@@ -41,11 +50,15 @@ export class StaticPersistenceService {
     return storageValue;
   }
 
-  removeFromStorage(
-    key: string,
+  removeFromStorage({
+    key,
     context = '',
-    storageType = StorageSyncType.LOCAL_STORAGE
-  ): void {
+    storageType = StorageSyncType.LOCAL_STORAGE,
+  }: {
+    key: string;
+    context?: string | Array<string>;
+    storageType?: StorageSyncType;
+  }): void {
     const storage = storageSyncUtils.getStorage(storageType, this.winRef);
 
     if (Boolean(storage)) {

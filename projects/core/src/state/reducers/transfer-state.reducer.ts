@@ -5,12 +5,8 @@ import {
   TransferState,
 } from '@angular/platform-browser';
 import { INIT } from '@ngrx/store';
-import {
-  AUTH_PERSISTENCE_KEY,
-  SyncedAuthState,
-} from '../../auth/user-auth/services/auth-state-persistence.service';
+import { AuthStatePersistenceHelperService } from '../../auth/user-auth/services/auth-state-persistence-helper.service';
 import { deepMerge } from '../../config/utils/deep-merge';
-import { StaticPersistenceService } from '../../util/static-persistence.service';
 import { StateConfig, StateTransferType } from '../config/state-config';
 import { filterKeysByType, getStateSlice } from '../utils/get-state-slice';
 
@@ -20,18 +16,14 @@ export function getTransferStateReducer(
   platformId,
   transferState?: TransferState,
   config?: StateConfig,
-  persistenceService?: StaticPersistenceService
+  persistenceService?: AuthStatePersistenceHelperService
 ) {
   if (transferState && config?.state?.ssrTransfer?.keys) {
     if (isPlatformBrowser(platformId)) {
       return getBrowserTransferStateReducer(
         transferState,
         config.state.ssrTransfer.keys,
-        Boolean(
-          (persistenceService?.readFromStorage<SyncedAuthState>(
-            AUTH_PERSISTENCE_KEY
-          ) as SyncedAuthState)?.token?.access_token
-        )
+        Boolean(persistenceService?.isUserLoggedIn())
       );
     } else if (isPlatformServer(platformId)) {
       return getServerTransferStateReducer(
