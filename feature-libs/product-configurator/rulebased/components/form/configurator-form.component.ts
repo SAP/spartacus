@@ -1,5 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { GlobalMessageService, LanguageService } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  LanguageService,
+} from '@spartacus/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
@@ -56,7 +60,9 @@ export class ConfiguratorFormComponent implements OnInit {
   ) {}
 
   publishUiMessages(configuration: Configurator.Configuration) {
-    console.log('current errors: ' + configuration.errorMessages);
+    configuration.errorMessages?.forEach((msg) => {
+      this.messageService.add(msg, GlobalMessageType.MSG_TYPE_ERROR, 2000);
+    });
   }
 
   ngOnInit(): void {

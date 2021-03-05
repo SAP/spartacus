@@ -431,11 +431,13 @@ describe('ConfigurationFormComponent', () => {
     expect(mockedMessageService.add).toHaveBeenCalledTimes(2);
     expect(mockedMessageService.add).toHaveBeenCalledWith(
       'error1',
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
+      2000
     );
     expect(mockedMessageService.add).toHaveBeenCalledWith(
       'error2',
-      GlobalMessageType.MSG_TYPE_ERROR
+      GlobalMessageType.MSG_TYPE_ERROR,
+      2000
     );
   });
 });
