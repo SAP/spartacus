@@ -37,7 +37,10 @@
       <div class="cx-saved-cart-form-body">
         <!-- start DELETE form -->
         <ng-container
-          *ngIf="layoutOption === savedCartFormType.DELETE; else saveAndEdiCart"
+          *ngIf="
+            layoutOption === savedCartFormType.DELETE;
+            else saveAndEditCart
+          "
         >
           <p class="cx-saved-cart-form-subtitle">
             {{ 'savedCartDialog.followingCartDelete' | cxTranslate }}
@@ -112,7 +115,7 @@
         <!-- end DELETE form -->
 
         <!-- start SAVE and EDIT form -->
-        <ng-template #saveAndEdiCart>
+        <ng-template #saveAndEditCart>
           <ng-container *ngIf="!layoutOption">
             <p class="cx-saved-cart-form-subtitle">
               {{ 'savedCartDialog.itemsSavedForLater' | cxTranslate }}
