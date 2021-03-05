@@ -1,14 +1,14 @@
 import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
 import { CallExpression, Node, SourceFile, ts } from 'ts-morph';
+import { ANGULAR_CORE, NGRX_EFFECTS, NGRX_STORE } from '../shared/constants';
 import { isImportedFrom } from '../shared/utils/import-utils';
 import { createProgram } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 
 /** Migration that ensures that we have correct RouterModule.forRoot set */
 export function setupStoreModules(project: string): Rule {
-  return (tree: Tree) => {
+  return (tree: Tree): Tree => {
     const { buildPaths } = getProjectTsConfigPaths(tree, project);
-    const basePath = process.cwd();
 
     if (!buildPaths.length) {
       throw new SchematicsException(
@@ -16,6 +16,7 @@ export function setupStoreModules(project: string): Rule {
       );
     }
 
+    const basePath = process.cwd();
     for (const tsconfigPath of buildPaths) {
       configureStoreModules(tree, tsconfigPath, basePath);
     }
@@ -27,7 +28,7 @@ function configureStoreModules(
   tree: Tree,
   tsconfigPath: string,
   basePath: string
-) {
+): void {
   const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
   appSourceFiles.forEach((sourceFile) => {
@@ -51,7 +52,7 @@ function addStoreModuleImport(
       if (
         Node.isIdentifier(expression) &&
         expression.getText() === 'NgModule' &&
-        isImportedFrom(expression, '@angular/core')
+        isImportedFrom(expression, ANGULAR_CORE)
       ) {
         const args = node.getArguments();
         if (args.length > 0) {
@@ -64,7 +65,7 @@ function addStoreModuleImport(
               );
               if (initializer) {
                 sourceFile.addImportDeclaration({
-                  moduleSpecifier: '@ngrx/store',
+                  moduleSpecifier: NGRX_STORE,
                   namedImports: ['StoreModule'],
                 });
                 storeNode = initializer.addElement(`StoreModule.forRoot({})`);
@@ -92,7 +93,7 @@ function addEffectsModuleImport(
       if (
         Node.isIdentifier(expression) &&
         expression.getText() === 'NgModule' &&
-        isImportedFrom(expression, '@angular/core')
+        isImportedFrom(expression, ANGULAR_CORE)
       ) {
         const args = node.getArguments();
         if (args.length > 0) {
@@ -105,7 +106,7 @@ function addEffectsModuleImport(
               );
               if (initializer) {
                 sourceFile.addImportDeclaration({
-                  moduleSpecifier: '@ngrx/effects',
+                  moduleSpecifier: NGRX_EFFECTS,
                   namedImports: ['EffectsModule'],
                 });
                 effectsNode = initializer.addElement(

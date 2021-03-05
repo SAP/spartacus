@@ -1,12 +1,13 @@
 import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
 import { CallExpression, Node, SourceFile, ts } from 'ts-morph';
+import { ANGULAR_CORE, ANGULAR_ROUTER } from '../shared/constants';
 import { isImportedFrom } from '../shared/utils/import-utils';
 import { createProgram } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 
 /** Migration that ensures that we have correct RouterModule.forRoot set */
 export function setupRouterModule(project: string): Rule {
-  return (tree: Tree) => {
+  return (tree: Tree): Tree => {
     const { buildPaths } = getProjectTsConfigPaths(tree, project);
     const basePath = process.cwd();
 
@@ -27,7 +28,7 @@ function configureRouterModule(
   tree: Tree,
   tsconfigPath: string,
   basePath: string
-) {
+): void {
   const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
   appSourceFiles.forEach((sourceFile) => {
@@ -54,7 +55,7 @@ function getRouterModule(sourceFile: SourceFile): CallExpression | undefined {
         if (
           Node.isIdentifier(exp) &&
           exp.getText() === 'RouterModule' &&
-          isImportedFrom(exp, '@angular/router') &&
+          isImportedFrom(exp, ANGULAR_ROUTER) &&
           expression.getName() === 'forRoot'
         ) {
           const assignment = node.getFirstAncestorByKind(
@@ -71,7 +72,7 @@ function getRouterModule(sourceFile: SourceFile): CallExpression | undefined {
                 if (
                   Node.isIdentifier(exp) &&
                   exp.getText() === 'NgModule' &&
-                  isImportedFrom(exp, '@angular/core')
+                  isImportedFrom(exp, ANGULAR_CORE)
                 ) {
                   routerNode = node;
                 }
@@ -103,7 +104,7 @@ function addRouterModuleImport(
       if (
         Node.isIdentifier(expression) &&
         expression.getText() === 'NgModule' &&
-        isImportedFrom(expression, '@angular/core')
+        isImportedFrom(expression, ANGULAR_CORE)
       ) {
         const args = node.getArguments();
         if (args.length > 0) {
@@ -116,7 +117,7 @@ function addRouterModuleImport(
               );
               if (initializer) {
                 sourceFile.addImportDeclaration({
-                  moduleSpecifier: '@angular/router',
+                  moduleSpecifier: ANGULAR_ROUTER,
                   namedImports: ['RouterModule'],
                 });
                 routerNode = initializer.addElement(`RouterModule.forRoot([])`);
