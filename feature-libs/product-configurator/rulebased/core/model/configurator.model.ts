@@ -1,6 +1,5 @@
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 
-
 export namespace Configurator {
   export interface Attribute {
     attrCode?: number;
