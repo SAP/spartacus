@@ -35,139 +35,117 @@ context('Apparel - checkout as guest', () => {
     cy.saveLocalStorage();
   });
 
-  describe('when adding a single variant product to cart and completing checkout.', () => {
-    it('should go to product page add the variant style of the product from category page', () => {
-      checkout.goToCheapProductDetailsPage(products[0]);
-      addVariantOfSameProductToCart();
+  it('should perform checkout as guest, create an account and verify guest data', () => {
+    checkout.goToCheapProductDetailsPage(products[0]);
+    addVariantOfSameProductToCart();
 
-      visitProductWithoutVariantPage();
-      addMutipleProductWithoutVariantToCart();
+    visitProductWithoutVariantPage();
+    addMutipleProductWithoutVariantToCart();
 
-      checkout.goToCheapProductDetailsPage(products[0]);
-      checkout.addCheapProductToCartAndProceedToCheckout(variantProduct);
+    checkout.goToCheapProductDetailsPage(products[0]);
+    checkout.addCheapProductToCartAndProceedToCheckout(variantProduct);
 
-      guestCheckout.loginAsGuest(variantUser);
+    guestCheckout.loginAsGuest(variantUser);
 
-      checkout.fillAddressFormWithCheapProduct(
-        variantUser,
-        cartWithTotalVariantProduct
-      );
+    checkout.fillAddressFormWithCheapProduct(
+      variantUser,
+      cartWithTotalVariantProduct
+    );
 
-      checkout.verifyDeliveryMethod(APPAREL_DEFAULT_DELIVERY_MODE);
+    checkout.verifyDeliveryMethod(APPAREL_DEFAULT_DELIVERY_MODE);
 
-      checkout.fillPaymentFormWithCheapProduct(
-        variantUser,
-        undefined,
-        cartWithTotalVariantProduct
-      );
+    checkout.fillPaymentFormWithCheapProduct(
+      variantUser,
+      undefined,
+      cartWithTotalVariantProduct
+    );
 
-      checkout.placeOrderWithCheapProduct(
-        variantUser,
-        cartWithTotalVariantProduct,
-        APPAREL_CURRENCY
-      );
+    checkout.placeOrderWithCheapProduct(
+      variantUser,
+      cartWithTotalVariantProduct,
+      APPAREL_CURRENCY
+    );
 
-      checkout.verifyOrderConfirmationPageWithCheapProduct(
-        variantUser,
-        variantProduct,
-        cartWithTotalVariantProduct,
-        true
-      );
+    checkout.verifyOrderConfirmationPageWithCheapProduct(
+      variantUser,
+      variantProduct,
+      cartWithTotalVariantProduct,
+      true
+    );
+    guestCheckout.createAccountFromGuest(variantUser.password);
+
+    cy.selectUserMenuOption({
+      option: 'Personal Details',
     });
+
+    cy.selectUserMenuOption({
+      option: 'Address Book',
+    });
+
+    assertAddressForm(
+      {
+        firstName: variantUser.firstName,
+        lastName: variantUser.lastName,
+        phone: '',
+        address: variantUser.address,
+      },
+      'GB'
+    );
+
+    cy.selectUserMenuOption({
+      option: 'Payment Details',
+    });
+
+    cy.get('.cx-payment .cx-body').then(() => {
+      cy.get('cx-card').should('exist');
+    });
+
+    cy.selectUserMenuOption({
+      option: 'Personal Details',
+    });
+
+    validateUpdateProfileForm(
+      'mr',
+      variantUser.firstName,
+      variantUser.lastName
+    );
+    checkout.signOut();
   });
 
-  describe('Create account', () => {
-    it('should create an account', () => {
-      guestCheckout.createAccountFromGuest(variantUser.password);
-    });
-  });
+  it('should keep guest cart content and restart checkout', () => {
+    cy.clearLocalStorage();
+    checkout.goToCheapProductDetailsPage(products[0]);
+    checkout.addCheapProductToCartAndProceedToCheckout(variantProduct);
 
-  describe('Guest account', () => {
-    it('should be able to check order in order history', () => {
-      // hack: visit other page to trigger store -> local storage sync
-      cy.selectUserMenuOption({
-        option: 'Personal Details',
+    guestCheckout.loginAsGuest(variantUser);
+
+    checkout.fillAddressFormWithCheapProduct(
+      variantUser,
+      cartWithSingleVariantProduct
+    );
+
+    const shippingPage = checkout.waitForPage(
+      '/checkout/shipping-address',
+      'getShippingPage'
+    );
+
+    const loginPage = checkout.waitForPage('/login', 'getLoginPage');
+    cy.findByText(/Sign in \/ Register/i).click();
+    cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+
+    login(variantUser.email, variantUser.password);
+    cy.wait(`@${shippingPage}`).its('status').should('eq', 200);
+
+    cy.get('cx-mini-cart .count').contains('1');
+
+    const cartPage = checkout.waitForPage('/cart', 'getCartPage');
+    cy.get('cx-mini-cart').click();
+    cy.wait(`@${cartPage}`).its('status').should('eq', 200);
+
+    cy.get('cx-cart-item-list')
+      .contains('cx-cart-item', variantProduct.code)
+      .within(() => {
+        cy.get('cx-item-counter input').should('have.value', '1');
       });
-      cy.waitForOrderToBePlacedRequest(APPAREL_BASESITE, APPAREL_CURRENCY);
-      checkout.viewOrderHistoryWithCheapProduct(cartWithTotalVariantProduct);
-    });
-
-    it('should show address in Address Book', () => {
-      cy.selectUserMenuOption({
-        option: 'Address Book',
-      });
-
-      assertAddressForm(
-        {
-          firstName: variantUser.firstName,
-          lastName: variantUser.lastName,
-          phone: '',
-          address: variantUser.address,
-        },
-        'GB'
-      );
-    });
-
-    it('should show payment in Payment Methods', () => {
-      cy.selectUserMenuOption({
-        option: 'Payment Details',
-      });
-
-      cy.get('.cx-payment .cx-body').then(() => {
-        cy.get('cx-card').should('exist');
-      });
-    });
-
-    it('should show personal details in Personal Details', () => {
-      cy.selectUserMenuOption({
-        option: 'Personal Details',
-      });
-
-      validateUpdateProfileForm(
-        'mr',
-        variantUser.firstName,
-        variantUser.lastName
-      );
-      checkout.signOut();
-    });
-  });
-
-  describe('Guest cart merge', () => {
-    it('should keep guest cart content and restart checkout', () => {
-      cy.clearLocalStorage();
-      checkout.goToCheapProductDetailsPage(products[0]);
-      checkout.addCheapProductToCartAndProceedToCheckout(variantProduct);
-
-      guestCheckout.loginAsGuest(variantUser);
-
-      checkout.fillAddressFormWithCheapProduct(
-        variantUser,
-        cartWithSingleVariantProduct
-      );
-
-      const shippingPage = checkout.waitForPage(
-        '/checkout/shipping-address',
-        'getShippingPage'
-      );
-
-      const loginPage = checkout.waitForPage('/login', 'getLoginPage');
-      cy.findByText(/Sign in \/ Register/i).click();
-      cy.wait(`@${loginPage}`).its('status').should('eq', 200);
-
-      login(variantUser.email, variantUser.password);
-      cy.wait(`@${shippingPage}`).its('status').should('eq', 200);
-
-      cy.get('cx-mini-cart .count').contains('1');
-
-      const cartPage = checkout.waitForPage('/cart', 'getCartPage');
-      cy.get('cx-mini-cart').click();
-      cy.wait(`@${cartPage}`).its('status').should('eq', 200);
-
-      cy.get('cx-cart-item-list')
-        .contains('cx-cart-item', variantProduct.code)
-        .within(() => {
-          cy.get('cx-item-counter input').should('have.value', '1');
-        });
-    });
   });
 });

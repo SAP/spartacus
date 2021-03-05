@@ -6,9 +6,9 @@ export const variantUser: SampleUser = getApparelCheckoutUser();
 export function getApparelCheckoutUser() {
   return {
     firstName: 'Cypress',
-    lastName: 'Apparel test user',
-    fullName: 'Cypress Apparel test user',
-    password: 'Password123.',
+    lastName: 'Customer',
+    fullName: 'Cypress Customer',
+    password: 'Pw4all.',
     email: generateMail(randomString(), true),
     phone: '44 7911 123456',
     address: {
