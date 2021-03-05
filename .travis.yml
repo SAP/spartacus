@@ -11,7 +11,7 @@ branches:
     - "/^epic\\/.*$/"
     - "/^release\\/.*$/"
 defaults: &defaults
-  script: "export CYPRESS_CONFIG=cypress.ci.json && ./ci-scripts/e2e-cypress.sh"
+  script: "export CYPRESS_CONFIG=cypress.ci.json &&  export SPA_ENV='ci,b2c' && ./ci-scripts/e2e-cypress.sh"
 jobs:
   - script: "./ci-scripts/unit-tests-sonar.sh sonar"
     name: "Unit tests / Sonar"
@@ -21,19 +21,15 @@ jobs:
     name: E2E regression tests for B2B
   - script:
     name: "E2E tests for B2C, 1st job"
-    env: STAGE_NAME=spa-ci-regression
     <<: *defaults
   - script:
     name: "E2E tests for B2C, 2st job"
-    env: STAGE_NAME=spa-ci-regression
     <<: *defaults
   - script:
     name: "E2E tests for B2C, 3rd job"
-    env: STAGE_NAME=spa-ci-regression
     <<: *defaults
   - script:
     name: "E2E tests for B2C, 4th job"
-    env: STAGE_NAME=spa-ci-regression
     <<: *defaults
 addons:
   chrome: stable
