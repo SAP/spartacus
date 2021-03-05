@@ -1,152 +1,161 @@
 <ng-container *ngIf="savedCarts$ | async as savedCarts">
-  <div class="container">
-    <div class="cx-saved-cart-list-header">
-      <h3>
-        {{
-          'savedCartList.savedCarts' | cxTranslate: { count: savedCarts.length }
-        }}
-      </h3>
+  <div *ngIf="isLoading$ | async; else savedCartListContainer">
+    <div class="cx-spinner">
+      <cx-spinner></cx-spinner>
     </div>
-
-    <ng-container *ngIf="savedCarts?.length; else noSavedCarts">
-      <table class="table cx-saved-cart-list-table">
-        <thead class="cx-saved-cart-list-thead-mobile">
-          <th scope="col">
-            {{ 'savedCartList.cartName' | cxTranslate }}
-          </th>
-          <th scope="col">{{ 'savedCartList.cartId' | cxTranslate }}</th>
-          <th scope="col">{{ 'savedCartList.dateSaved' | cxTranslate }}</th>
-          <th scope="col">
-            {{ 'savedCartList.cartDescription' | cxTranslate }}
-          </th>
-          <th scope="col">
-            {{ 'savedCartList.quantity' | cxTranslate }}
-          </th>
-          <th scope="col">{{ 'savedCartList.total' | cxTranslate }}</th>
-          <th scope="col">
-            {{ 'savedCartList.actions' | cxTranslate }}
-          </th>
-        </thead>
-        <tbody>
-          <tr
-            *ngFor="let savedCart of savedCarts"
-            (click)="goToSavedCartDetails(savedCart)"
-          >
-            <td class="cx-saved-cart-list-cart-name">
-              <div class="d-md-none cx-saved-cart-list-label">
-                {{ 'savedCartList.cartName' | cxTranslate }}
-              </div>
-              <a
-                [routerLink]="
-                  {
-                    cxRoute: 'savedCartsDetails',
-                    params: { savedCartId: savedCart?.code }
-                  } | cxUrl
-                "
-                class="cx-saved-cart-list-value"
-              >
-                {{ savedCart?.name }}</a
-              >
-            </td>
-            <td class="cx-saved-cart-list-cart-id">
-              <div class="d-md-none cx-saved-cart-list-label">
-                {{ 'savedCartList.cartId' | cxTranslate }}
-              </div>
-              <a
-                [routerLink]="
-                  {
-                    cxRoute: 'savedCartsDetails',
-                    params: { savedCartId: savedCart?.code }
-                  } | cxUrl
-                "
-                class="cx-saved-cart-list-value"
-                >{{ savedCart?.code }}</a
-              >
-            </td>
-            <td class="cx-saved-cart-list-date-saved">
-              <div class="d-md-none cx-saved-cart-list-label">
-                {{ 'savedCartList.dateSaved' | cxTranslate }}
-              </div>
-              <a
-                [routerLink]="
-                  {
-                    cxRoute: 'savedCartsDetails',
-                    params: { savedCartId: savedCart?.code }
-                  } | cxUrl
-                "
-                class="cx-saved-cart-list-value"
-                >{{ savedCart?.saveTime | cxDate: 'longDate' }}</a
-              >
-            </td>
-            <td class="cx-saved-cart-list-cart-description">
-              <div class="d-md-none cx-saved-cart-list-label">
-                {{ 'savedCartList.cartDescription' | cxTranslate }}
-              </div>
-              <a
-                [routerLink]="
-                  {
-                    cxRoute: 'savedCartsDetails',
-                    params: { savedCartId: savedCart?.code }
-                  } | cxUrl
-                "
-                class="cx-saved-cart-list-value"
-                >{{ savedCart?.description }}</a
-              >
-            </td>
-
-            <td class="cx-saved-cart-list-quantity">
-              <div class="d-md-none cx-saved-cart-list-label">
-                {{ 'savedCartList.quantity' | cxTranslate }}
-              </div>
-              <a
-                [routerLink]="
-                  {
-                    cxRoute: 'savedCartsDetails',
-                    params: { savedCartId: savedCart?.code }
-                  } | cxUrl
-                "
-                class="cx-saved-cart-list-value"
-              >
-                {{ savedCart?.totalItems }}</a
-              >
-            </td>
-            <td class="cx-saved-cart-list-total">
-              <div class="d-md-none cx-saved-cart-list-label">
-                {{ 'savedCartList.total' | cxTranslate }}
-              </div>
-              <a
-                [routerLink]="
-                  {
-                    cxRoute: 'savedCartsDetails',
-                    params: { savedCartId: savedCart?.code }
-                  } | cxUrl
-                "
-                class="cx-saved-cart-list-value"
-              >
-                {{ savedCart?.totalPrice?.formattedValue }}</a
-              >
-            </td>
-            <td class="cx-saved-cart-list-make-cart-active">
-              <div class="d-md-none cx-saved-cart-list-label"></div>
-              <button
-                class="link cx-action-link cx-saved-cart-make-active"
-                (click)="restoreSavedCart($event, savedCart?.code)"
-              >
-                {{ 'savedCartList.makeCartActive' | cxTranslate }}
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </ng-container>
-
-    <!-- NO SAVED CART CONTAINER -->
-    <ng-template #noSavedCarts>
-      <div class="cx-saved-cart-list-no-saved-carts row">
-        <div class="col-sm-12 col-md-6 col-lg-4">
-          <div>{{ 'savedCartList.notFound' | cxTranslate }}</div>
-        </div>
-      </div>
-    </ng-template>
   </div>
+
+  <ng-template #savedCartListContainer>
+    <div class="container">
+      <div class="cx-saved-cart-list-header">
+        <h3>
+          {{
+            'savedCartList.savedCarts'
+              | cxTranslate: { count: savedCarts.length }
+          }}
+        </h3>
+      </div>
+
+      <ng-container *ngIf="savedCarts?.length; else noSavedCarts">
+        <table class="table cx-saved-cart-list-table">
+          <thead class="cx-saved-cart-list-thead-mobile">
+            <th scope="col">
+              {{ 'savedCartList.cartName' | cxTranslate }}
+            </th>
+            <th scope="col">{{ 'savedCartList.cartId' | cxTranslate }}</th>
+            <th scope="col">{{ 'savedCartList.dateSaved' | cxTranslate }}</th>
+            <th scope="col">
+              {{ 'savedCartList.cartDescription' | cxTranslate }}
+            </th>
+            <th scope="col">
+              {{ 'savedCartList.quantity' | cxTranslate }}
+            </th>
+            <th scope="col">{{ 'savedCartList.total' | cxTranslate }}</th>
+            <th scope="col">
+              {{ 'savedCartList.actions' | cxTranslate }}
+            </th>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let savedCart of savedCarts"
+              (click)="goToSavedCartDetails(savedCart)"
+            >
+              <td class="cx-saved-cart-list-cart-name">
+                <div class="d-md-none cx-saved-cart-list-label">
+                  {{ 'savedCartList.cartName' | cxTranslate }}
+                </div>
+                <a
+                  [routerLink]="
+                    {
+                      cxRoute: 'savedCartsDetails',
+                      params: { savedCartId: savedCart?.code }
+                    } | cxUrl
+                  "
+                  class="cx-saved-cart-list-value"
+                >
+                  {{ savedCart?.name }}</a
+                >
+              </td>
+              <td class="cx-saved-cart-list-cart-id">
+                <div class="d-md-none cx-saved-cart-list-label">
+                  {{ 'savedCartList.cartId' | cxTranslate }}
+                </div>
+                <a
+                  [routerLink]="
+                    {
+                      cxRoute: 'savedCartsDetails',
+                      params: { savedCartId: savedCart?.code }
+                    } | cxUrl
+                  "
+                  class="cx-saved-cart-list-value"
+                  >{{ savedCart?.code }}</a
+                >
+              </td>
+              <td class="cx-saved-cart-list-date-saved">
+                <div class="d-md-none cx-saved-cart-list-label">
+                  {{ 'savedCartList.dateSaved' | cxTranslate }}
+                </div>
+                <a
+                  [routerLink]="
+                    {
+                      cxRoute: 'savedCartsDetails',
+                      params: { savedCartId: savedCart?.code }
+                    } | cxUrl
+                  "
+                  class="cx-saved-cart-list-value"
+                  >{{ savedCart?.saveTime | cxDate: 'longDate' }}</a
+                >
+              </td>
+              <td class="cx-saved-cart-list-cart-description">
+                <div class="d-md-none cx-saved-cart-list-label">
+                  {{ 'savedCartList.cartDescription' | cxTranslate }}
+                </div>
+                <a
+                  [routerLink]="
+                    {
+                      cxRoute: 'savedCartsDetails',
+                      params: { savedCartId: savedCart?.code }
+                    } | cxUrl
+                  "
+                  class="cx-saved-cart-list-value"
+                  >{{ savedCart?.description }}</a
+                >
+              </td>
+
+              <td class="cx-saved-cart-list-quantity">
+                <div class="d-md-none cx-saved-cart-list-label">
+                  {{ 'savedCartList.quantity' | cxTranslate }}
+                </div>
+                <a
+                  [routerLink]="
+                    {
+                      cxRoute: 'savedCartsDetails',
+                      params: { savedCartId: savedCart?.code }
+                    } | cxUrl
+                  "
+                  class="cx-saved-cart-list-value"
+                >
+                  {{ savedCart?.totalItems }}</a
+                >
+              </td>
+              <td class="cx-saved-cart-list-total">
+                <div class="d-md-none cx-saved-cart-list-label">
+                  {{ 'savedCartList.total' | cxTranslate }}
+                </div>
+                <a
+                  [routerLink]="
+                    {
+                      cxRoute: 'savedCartsDetails',
+                      params: { savedCartId: savedCart?.code }
+                    } | cxUrl
+                  "
+                  class="cx-saved-cart-list-value"
+                >
+                  {{ savedCart?.totalPrice?.formattedValue }}</a
+                >
+              </td>
+              <td class="cx-saved-cart-list-make-cart-active">
+                <div class="d-md-none cx-saved-cart-list-label"></div>
+                <button
+                  class="link cx-action-link cx-saved-cart-make-active"
+                  (click)="restoreSavedCart($event, savedCart?.code)"
+                >
+                  {{ 'savedCartList.makeCartActive' | cxTranslate }}
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-container>
+
+      <!-- NO SAVED CART CONTAINER -->
+      <ng-template #noSavedCarts>
+        <div class="cx-saved-cart-list-no-saved-carts row">
+          <div class="col-sm-12 col-md-6 col-lg-4">
+            <div>{{ 'savedCartList.notFound' | cxTranslate }}</div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </ng-template>
 </ng-container>
