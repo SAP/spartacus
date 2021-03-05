@@ -33,8 +33,15 @@
 //   go(): void {}
 // }
 
-// class MockSavedCartFormLaunchDialogService {
-//   openDialog(_openElement?: ElementRef, _vcr?: ViewContainerRef, _data?: any) {}
+// class MockSavedCartFormLaunchDialogService
+//   implements Partial<SavedCartFormLaunchDialogService> {
+//   openDialog(
+//     _openElement?: ElementRef,
+//     _vcr?: ViewContainerRef,
+//     _data?: any
+//   ): Observable<any> {
+//     return of();
+//   }
 // }
 
 // describe('AddToSavedCartComponent', () => {

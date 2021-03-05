@@ -14,9 +14,13 @@ class TestContainerComponent {
   constructor(public vcr: ViewContainerRef) {}
 }
 
-class MockLaunchDialogService {
-  launch() {}
-  clear() {}
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  launch(
+    _caller: LAUNCH_CALLER | string,
+    _vcr?: ViewContainerRef,
+    _data?: any
+  ): void {}
+  clear(_caller: LAUNCH_CALLER | string) {}
   get dialogClose() {
     return of('close');
   }
