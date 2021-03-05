@@ -1,3 +1,4 @@
+export * from '../state/services/static-persistence.service';
 export * from './applicable';
 export * from './converter.service';
 export * from './create-from';
@@ -9,5 +10,4 @@ export * from './regex-pattern';
 export * from './rxjs/index';
 export * from './script-loader.service';
 export * from './ssr.tokens';
-export * from './static-persistence.service';
 export * from './time-utils';

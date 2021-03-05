@@ -9,8 +9,8 @@ import {
   removeFromStorage,
 } from '../../state/reducers/storage-sync.reducer';
 import { ConsentService } from '../../user/facade/consent.service';
-import { StaticPersistenceService } from '../../util/static-persistence.service';
 import { WindowRef } from '../../window/window-ref';
+import { StaticPersistenceService } from './static-persistence.service';
 
 @Injectable({
   providedIn: 'root',

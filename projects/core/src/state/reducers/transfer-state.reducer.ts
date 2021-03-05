@@ -5,7 +5,7 @@ import {
   TransferState,
 } from '@angular/platform-browser';
 import { INIT } from '@ngrx/store';
-import { BaseAuthStatePersistenceService } from '../../auth/user-auth/services/auth-state-persistence-helper.service';
+import { BaseAuthStatePersistenceService } from '../../auth/user-auth/services/base-auth-state-persistence.service';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { StateConfig, StateTransferType } from '../config/state-config';
 import { filterKeysByType, getStateSlice } from '../utils/get-state-slice';

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { StorageSyncType } from '../state/config/state-config';
-import * as storageSyncUtils from '../state/reducers/storage-sync.reducer';
-import { WindowRef } from '../window/window-ref';
+import { WindowRef } from '../../window/window-ref';
+import { StorageSyncType } from '../config/state-config';
+import * as storageSyncUtils from '../reducers/storage-sync.reducer';
 
 @Injectable({ providedIn: 'root' })
 export class StaticPersistenceService {
