@@ -84,15 +84,12 @@ const mockBulkPrices = [
 ];
 
 class MockRoutingService implements Partial<RoutingService> {
-  go() {}
   getRouterState(): Observable<any> {
     return of(mockState);
   }
 }
 
 class MockBulkPricingService implements Partial<BulkPricingService> {
-  PRODUCT_SCOPE = 'bulkPrices';
-
   getBulkPrices(): Observable<BulkPrice[]> {
     return of(mockBulkPrices);
   }
