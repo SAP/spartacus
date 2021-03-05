@@ -40,7 +40,7 @@ describe('SavedCartFormDialogComponent', () => {
   it('should dismiss modal on dismissModal call', () => {
     spyOn(mockModalService, 'dismissActiveModal').and.callThrough();
 
-    component.dismissModal();
+    // component.dismissModal();
 
     expect(mockModalService.dismissActiveModal).toHaveBeenCalled();
   });
