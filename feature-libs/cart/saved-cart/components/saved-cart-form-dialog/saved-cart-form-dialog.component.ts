@@ -1,7 +1,17 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Cart } from '@spartacus/core';
-import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
+import {
+  FocusConfig,
+  ICON_TYPE,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { SavedCartFormType } from '../../core/model/saved-cart.model';
 
@@ -22,7 +32,25 @@ export class SavedCartFormDialogComponent implements OnInit {
   descriptionMaxLength: number = 500;
   nameMaxLength: number = 50;
 
-  constructor(protected launchDialogService: LaunchDialogService) {}
+  focusConfig: FocusConfig = {
+    trap: true,
+    block: true,
+    autofocus: 'button',
+    focusOnEscape: true,
+  };
+
+  @HostListener('click', ['$event'])
+  handleClick(event: UIEvent): void {
+    // Close on click outside the dialog window
+    if ((event.target as any).tagName === this.el.nativeElement.tagName) {
+      this.close('Cross click');
+    }
+  }
+
+  constructor(
+    protected launchDialogService: LaunchDialogService,
+    protected el: ElementRef
+  ) {}
 
   ngOnInit() {
     this.subscription.add(

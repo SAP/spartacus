@@ -6,7 +6,7 @@ export const defaultSavedCartFormLayoutConfig: LayoutConfig = {
     ADD_TO_SAVED_CART: {
       inline: true,
       component: SavedCartFormDialogComponent,
-      dialogType: DIALOG_TYPE.POPOVER_CENTER_BACKDROP,
+      dialogType: DIALOG_TYPE.DIALOG,
     },
   },
 };
