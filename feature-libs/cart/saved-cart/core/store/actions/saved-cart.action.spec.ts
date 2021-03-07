@@ -1,13 +1,13 @@
-import { PROCESS_FEATURE, StateUtils, MULTI_CART_DATA } from '@spartacus/core';
-import { SavedCartActions } from './index';
+import { MULTI_CART_DATA, PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import {
   SAVED_CART_LIST_PROCESS_ID,
   SAVED_CART_RESTORE_CART_PROCESS_ID,
   SAVED_CART_SAVE_CART_PROCESS_ID,
 } from '../saved-cart-state';
+import { SavedCartActions } from './index';
 
 //mock data
-const userId = 'xxx@xxx.xxx';
+const userId = 'test@testing.com';
 const cartId = '00000000';
 const error = 'anError';
 
@@ -56,6 +56,7 @@ describe('SavedCart Actions', () => {
       });
     });
   });
+
   describe('LoadSavedCarts Actions', () => {
     describe('LoadSavedCarts', () => {
       it('should create the action', () => {
@@ -119,6 +120,7 @@ describe('SavedCart Actions', () => {
       });
     });
   });
+
   describe('RestoreSavedCart Actions', () => {
     describe('RestoreSavedCart', () => {
       it('should create the action', () => {
@@ -183,6 +185,7 @@ describe('SavedCart Actions', () => {
       });
     });
   });
+
   describe('SaveCart Actions', () => {
     describe('SaveCart', () => {
       it('should create the action', () => {
@@ -216,7 +219,6 @@ describe('SavedCart Actions', () => {
         });
       });
     });
-
     describe('SaveCartFail', () => {
       it('should create the action', () => {
         const action = new SavedCartActions.SaveCartFail({
@@ -231,6 +233,19 @@ describe('SavedCart Actions', () => {
             PROCESS_FEATURE,
             SAVED_CART_SAVE_CART_PROCESS_ID,
             { cartId, error }
+          ),
+        });
+      });
+    });
+    describe('ClearSaveCart', () => {
+      it('should create the action', () => {
+        const action = new SavedCartActions.ClearSaveCart();
+
+        expect({ ...action }).toEqual({
+          type: SavedCartActions.CLEAR_SAVE_CART,
+          meta: StateUtils.entityResetMeta(
+            PROCESS_FEATURE,
+            SAVED_CART_SAVE_CART_PROCESS_ID
           ),
         });
       });
