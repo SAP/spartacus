@@ -1,22 +1,36 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { Cart, TranslationService } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
-import { SavedCartService } from 'feature-libs/cart/saved-cart/core/services/saved-cart.service';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { Card, ICON_TYPE } from '@spartacus/storefront';
+import { Observable, Subscription } from 'rxjs';
+import { filter, map, take } from 'rxjs/operators';
+import { SavedCartService } from '../../../core/services/saved-cart.service';
+import { SavedCartFormLaunchDialogService } from '../../saved-cart-form-dialog/saved-cart-form-launch-dialog.service';
 import { SavedCartDetailService } from '../saved-cart-detail.service';
 
 @Component({
   selector: 'cx-saved-cart-detail-overview',
   templateUrl: './saved-cart-detail-overview.component.html',
 })
-export class SavedCartDetailOverviewComponent {
+export class SavedCartDetailOverviewComponent implements OnDestroy {
+  private subscription = new Subscription();
+
+  @ViewChild('element') element: ElementRef;
+
+  iconTypes = ICON_TYPE;
   savedCart$: Observable<Cart> = this.savedCartDetailService.getCartDetails();
 
   constructor(
     protected savedCartDetailService: SavedCartDetailService,
     protected savedCartService: SavedCartService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected savedCartFormLaunchDialogService: SavedCartFormLaunchDialogService,
+    protected vcr: ViewContainerRef
   ) {}
 
   getCartName(cartName: string): Observable<Card> {
@@ -93,22 +107,16 @@ export class SavedCartDetailOverviewComponent {
     );
   }
 
-  editCart(cartId: string): void {
-    // TODO: requires Michal's generic dialog form
+  openDialog(cart: Cart): void {
+    const dialog = this.savedCartFormLaunchDialogService.openDialog(
+      this.element,
+      this.vcr,
+      { cart, layoutOption: 'edit' }
+    );
 
-    this.savedCartService.saveCart({
-      cartId,
-      saveCartName: 'it works no worries',
-      saveCartDescription: 'hello from the other side',
-      extraData: { edit: true },
-    });
-  }
-
-  deleteCart(cartId: string): void {
-    //  TODO: asked Marcin if I can make changes to the cart actions
-    // question is catered towards deprecations
-    // main question is that I want to add the loader state mechanism to it
-    this.savedCartService.deleteSavedCart(cartId);
+    if (dialog) {
+      this.subscription.add(dialog.pipe(take(1)).subscribe());
+    }
   }
 
   private getDate(givenDate: Date): string {
@@ -119,5 +127,9 @@ export class SavedCartDetailOverviewComponent {
     const year = date[3];
 
     return month + ' ' + day + ' ' + year;
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }
