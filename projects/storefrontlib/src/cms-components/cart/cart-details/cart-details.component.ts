@@ -67,12 +67,4 @@ export class CartDetailsComponent implements OnInit {
     );
   }
 
-  saveForLater(item: OrderEntry) {
-    if (this.loggedIn) {
-      this.activeCartService.removeEntry(item);
-      this.selectiveCartService.addEntry(item.product.code, item.quantity);
-    } else {
-      this.routingService.go({ cxRoute: 'login' });
-    }
-  }
 }

@@ -34,7 +34,11 @@ export interface Item {
 }
 
 export interface CartItemComponentOptions {
-  isSaveForLater?: boolean;
+  isSaveForLater?: boolean;  
+  
+  /**
+  * @deprecated since 3.2 //TODO: check if version is correct
+  */
   optionalBtn?: any;
 }
 
@@ -55,9 +59,6 @@ export class CartItemComponent implements OnInit, OnChanges {
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   // TODO: evaluate whether this is generic enough
-  /**
-   * @deprecated since 3.2 //TODO: check if version is correct
-   */
   @Input() options: CartItemComponentOptions = {
     isSaveForLater: false,
     optionalBtn: null,

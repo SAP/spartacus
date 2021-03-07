@@ -10,6 +10,7 @@ import { CartTotalsModule } from './cart-totals/cart-totals.module';
 import { MiniCartModule } from './mini-cart/mini-cart.module';
 import { AddToWishListModule } from './add-to-wishlist/add-to-wish-list.module';
 import { SaveForLaterModule } from './save-for-later/save-for-later.module';
+import { SaveForLaterActionModule } from './save-for-later-action/save-for-later-action.module';
 @NgModule({
   imports: [
     NgbModule,
@@ -17,6 +18,7 @@ import { SaveForLaterModule } from './save-for-later/save-for-later.module';
     CartTotalsModule,
     CartSharedModule,
     SaveForLaterModule,
+    SaveForLaterActionModule,
   ],
   exports: [
     AddToWishListModule,
@@ -27,6 +29,7 @@ import { SaveForLaterModule } from './save-for-later/save-for-later.module';
     MiniCartModule,
     CartModule,
     SaveForLaterModule,
+    SaveForLaterActionModule,
   ],
   declarations: [],
   providers: [

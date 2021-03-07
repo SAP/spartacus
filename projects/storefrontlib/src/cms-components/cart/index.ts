@@ -16,3 +16,5 @@ export * from './mini-cart/mini-cart.component';
 export * from './mini-cart/mini-cart.module';
 export * from './save-for-later/save-for-later.component';
 export * from './save-for-later/save-for-later.module';
+export * from './save-for-later-action/save-for-later-action.component';
+export * from './save-for-later-action/save-for-later-action.module';
