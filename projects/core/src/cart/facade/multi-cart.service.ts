@@ -33,7 +33,6 @@ export class MultiCartService {
   /**
    * Returns a list of carts from store as an observable
    *
-   * @param cartId
    */
   getCarts(): Observable<Cart[]> {
     return this.store.pipe(select(MultiCartSelectors.getCartsSelectorFactory));
