@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SavedCartListComponent } from './saved-cart-list.component';
 
-describe('SavedCartListComponent', () => {
+xdescribe('SavedCartListComponent', () => {
   let component: SavedCartListComponent;
   let fixture: ComponentFixture<SavedCartListComponent>;
 

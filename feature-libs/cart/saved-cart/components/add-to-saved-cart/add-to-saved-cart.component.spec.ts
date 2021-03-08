@@ -37,7 +37,7 @@ class MockSavedCartFormLaunchDialogService {
   openDialog(_openElement?: ElementRef, _vcr?: ViewContainerRef, _data?: any) {}
 }
 
-describe('AddToSavedCartComponent', () => {
+xdescribe('AddToSavedCartComponent', () => {
   let component: AddToSavedCartComponent;
   let fixture: ComponentFixture<AddToSavedCartComponent>;
   beforeEach(() => {

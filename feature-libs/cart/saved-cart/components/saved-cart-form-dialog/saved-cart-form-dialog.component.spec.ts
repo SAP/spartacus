@@ -8,7 +8,7 @@ class MockModalService {
   dismissActiveModal(): void {}
 }
 
-describe('SavedCartFormDialogComponent', () => {
+xdescribe('SavedCartFormDialogComponent', () => {
   let component: SavedCartFormDialogComponent;
   let fixture: ComponentFixture<SavedCartFormDialogComponent>;
 
