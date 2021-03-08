@@ -26,7 +26,6 @@ import {
   OCC_LOADED_CONFIG_CONVERTER,
   SITE_CONTEXT_CONFIG_CONVERTER,
 } from './converters';
-import { JavaRegExpConverter } from './converters/java-reg-exp-converter';
 import { OccLoadedConfigConverter } from './converters/occ-loaded-config-converter';
 import { OccLoadedConfig } from './occ-loaded-config';
 import { OccSitesConfigLoader } from './occ-sites-config-loader';
@@ -52,8 +51,7 @@ export class OccConfigLoaderService {
     @Inject(SERVER_REQUEST_URL)
     protected serverRequestUrl?: string,
     protected baseSiteService?: BaseSiteService,
-    protected converterService?: ConverterService,
-    protected javaRegExpConverter?: JavaRegExpConverter
+    protected converterService?: ConverterService
   ) {}
 
   private get currentUrl(): string | undefined {
@@ -189,8 +187,7 @@ export class OccConfigLoaderService {
   }
 
   private isCurrentBaseSite(site: BaseSite): boolean {
-    const index = (site.urlPatterns || []).findIndex((javaRegexp) => {
-      const jsRegexp = this.javaRegExpConverter?.toJsRegExp(javaRegexp);
+    const index = (site.urlPatterns || []).findIndex((jsRegexp: any) => {
       if (jsRegexp) {
         return jsRegexp.test(this.currentUrl || '');
       }

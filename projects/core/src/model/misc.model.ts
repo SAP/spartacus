@@ -112,8 +112,10 @@ export interface BaseSite {
   theme?: string;
   uid?: string;
   stores?: BaseStore[];
-  urlPatterns?: string[];
+  // TODO: remove string[] in 4.0
+  urlPatterns?: string[] | (RegExp | null)[];
   urlEncodingAttributes?: string[];
+  baseStore?: BaseStore;
 }
 
 export interface UserSignUp {

@@ -9,9 +9,9 @@ import {
   THEME_CONTEXT_ID,
 } from '../../../site-context/providers/context-ids';
 import { Converter } from '../../../util/converter.service';
+import { JavaRegExpConverter } from '../../adapters/site-context/converters/java-reg-exp-converter';
 import { Occ } from '../../occ-models/occ.models';
 import { OccLoadedConfig } from '../occ-loaded-config';
-import { JavaRegExpConverter } from './java-reg-exp-converter';
 
 @Injectable({ providedIn: 'root' })
 export class OccLoadedConfigConverter
@@ -20,9 +20,7 @@ export class OccLoadedConfigConverter
   constructor(private javaRegExpConverter: JavaRegExpConverter) {}
 
   convert(source: BaseSite, target?: OccLoadedConfig): OccLoadedConfig {
-    // Although `stores` property is an array, typically there is only one store.
-    // So we return the first store from the list.
-    const baseStore = source.stores && source.stores[0];
+    const baseStore = source.baseStore;
     if (!baseStore) {
       throw this.getError(
         `Current base site (${source.uid}) doesn't have any base store.`
@@ -53,7 +51,7 @@ export class OccLoadedConfigConverter
     baseSites: BaseSite[] | undefined,
     currentUrl: string
   ): OccLoadedConfig {
-    const baseSite = baseSites?.find((site) =>
+    const baseSite = baseSites?.find((site: any) =>
       this.isCurrentBaseSite(site, currentUrl)
     );
     if (!baseSite) {
@@ -115,6 +113,7 @@ export class OccLoadedConfigConverter
   }
 
   /**
+   * @deprecated since 3.2, this function is moved to OccConfigLoaderService
    * TODO: remove this function in 4.0
    */
   private isCurrentBaseSite(site: Occ.BaseSite, currentUrl: string): boolean {

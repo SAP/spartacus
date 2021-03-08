@@ -14,7 +14,6 @@ import {
   OCC_LOADED_CONFIG_CONVERTER,
   SITE_CONTEXT_CONFIG_CONVERTER,
 } from './converters';
-import { JavaRegExpConverter } from './converters/java-reg-exp-converter';
 import { OccConfigLoaderService } from './occ-config-loader.service';
 import { OccLoadedConfig } from './occ-loaded-config';
 import { OccSitesConfigLoader } from './occ-sites-config-loader';
@@ -80,12 +79,6 @@ describe(`OccConfigLoaderService`, () => {
         { provide: SERVER_REQUEST_URL, useValue: mockServerRequestUrl },
         { provide: PLATFORM_ID, useValue: platform },
         { provide: Config, useValue: config },
-        {
-          provide: JavaRegExpConverter,
-          useValue: {
-            toJsRegExp: jasmine.createSpy().and.callFake((x) => new RegExp(x)),
-          },
-        },
       ],
     });
 
