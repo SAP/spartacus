@@ -70,9 +70,7 @@ describe('SavedCartFormDialogComponent', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(SavedCartFormDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -81,4 +79,6 @@ describe('SavedCartFormDialogComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  // TODO: michal to add unit tests
 });

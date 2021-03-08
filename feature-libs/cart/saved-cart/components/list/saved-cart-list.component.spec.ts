@@ -1,7 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Cart } from '@spartacus/core';
-import { I18nTestingModule } from 'projects/core/src/i18n/testing/i18n-testing.module';
-import { RoutingService } from 'projects/core/src/routing';
+import { Cart, I18nTestingModule, RoutingService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { SavedCartService } from '../../core/services/saved-cart.service';
 import { SavedCartListComponent } from './saved-cart-list.component';
@@ -29,7 +27,7 @@ describe('SavedCartListComponent', () => {
   let component: SavedCartListComponent;
   let fixture: ComponentFixture<SavedCartListComponent>;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [SavedCartListComponent],
@@ -38,9 +36,7 @@ describe('SavedCartListComponent', () => {
         { provide: RoutingService, useClass: MockRoutingService },
       ],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(SavedCartListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -1,10 +1,7 @@
 import { Component, ComponentRef, ViewContainerRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { of } from 'rxjs';
-import {
-  LaunchDialogService,
-  LAUNCH_CALLER,
-} from 'projects/storefrontlib/src/layout';
 import { SavedCartFormLaunchDialogService } from './saved-cart-form-launch-dialog.service';
 
 @Component({

@@ -1,10 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
 import { Cart } from '@spartacus/core';
-import { SavedCartService } from 'feature-libs/cart/saved-cart/core/services/saved-cart.service';
 import { Observable, of } from 'rxjs';
+import { SavedCartService } from '../../../core/services/saved-cart.service';
 import { SavedCartDetailService } from '../saved-cart-detail.service';
-
 import { SavedCartDetailItemsComponent } from './saved-cart-detail-items.component';
 
 class MockSavedCartDetailService implements Partial<SavedCartDetailService> {
@@ -26,7 +25,7 @@ describe('SavedCartDetailItemsComponent', () => {
   let component: SavedCartDetailItemsComponent;
   let fixture: ComponentFixture<SavedCartDetailItemsComponent>;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       declarations: [SavedCartDetailItemsComponent],
@@ -41,9 +40,7 @@ describe('SavedCartDetailItemsComponent', () => {
         },
       ],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(SavedCartDetailItemsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

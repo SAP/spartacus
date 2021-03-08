@@ -7,8 +7,8 @@ import {
   RoutingService,
   Translatable,
 } from '@spartacus/core';
-import { SavedCartService } from 'feature-libs/cart/saved-cart/core/services/saved-cart.service';
 import { Observable, of } from 'rxjs';
+import { SavedCartService } from '../../../core/services/saved-cart.service';
 import { SavedCartFormLaunchDialogService } from '../../saved-cart-form-dialog/saved-cart-form-launch-dialog.service';
 import { SavedCartDetailService } from '../saved-cart-detail.service';
 import { SavedCartDetailActionComponent } from './saved-cart-detail-action.component';
@@ -55,7 +55,7 @@ describe('SavedCartDetailActionComponent', () => {
   let component: SavedCartDetailActionComponent;
   let fixture: ComponentFixture<SavedCartDetailActionComponent>;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SavedCartDetailActionComponent],
       providers: [
@@ -81,9 +81,7 @@ describe('SavedCartDetailActionComponent', () => {
         },
       ],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(SavedCartDetailActionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
