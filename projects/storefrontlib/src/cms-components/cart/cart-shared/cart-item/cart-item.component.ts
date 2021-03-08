@@ -34,11 +34,11 @@ export interface Item {
 }
 
 export interface CartItemComponentOptions {
-  isSaveForLater?: boolean;  
-  
+  isSaveForLater?: boolean;
+
   /**
-  * @deprecated since 3.2 //TODO: check if version is correct
-  */
+   * @deprecated since 3.2 //TODO: check if version is correct
+   */
   optionalBtn?: any;
 }
 
