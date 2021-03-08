@@ -66,7 +66,7 @@ export class WindowRef {
    *
    */
   get location(): Partial<Location> {
-    return !this.isBrowser()
+    return this.isBrowser()
       ? this.document.location
       : {
           href: this.serverUrl || '',
