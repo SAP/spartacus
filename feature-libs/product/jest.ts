@@ -1,5 +1,5 @@
 // uncomment when we switch the whole lib to jest
-/**
+/*
 Object.defineProperty(window, 'CSS', { value: null });
 Object.defineProperty(window, 'getComputedStyle', {
   value: () => {
