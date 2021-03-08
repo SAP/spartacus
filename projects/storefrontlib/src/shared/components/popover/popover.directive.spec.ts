@@ -17,12 +17,22 @@ import { PopoverModule } from './popover.module';
       [customClass]="'test-class'"
       [placement]="'top'"
       [appendToBody]="true"
+      (openPopover)="open()"
+      (closePopover)="close()"
     >
       Popover
     </button>
   `,
 })
-class PopoverTestComponent {}
+class PopoverTestComponent {
+  open() {
+    return 'Opened';
+  }
+
+  close() {
+    return 'Closed';
+  }
+}
 
 describe('PopoverDirective', () => {
   let component: PopoverTestComponent;
@@ -117,5 +127,22 @@ describe('PopoverDirective', () => {
 
     getPopoverOpener().nativeElement.click();
     expect(document.body.lastChild).toBe(getPopoverComponent().nativeElement);
+  });
+
+  it('should call passed method on popover `open` event', () => {
+    const spy = spyOn(component, 'open');
+    fixture.detectChanges();
+
+    getPopoverOpener().nativeElement.click();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call passed method on popover `close` event', () => {
+    getPopoverOpener().nativeElement.click();
+    const spy = spyOn(component, 'close');
+    fixture.detectChanges();
+
+    getPopoverOpener().nativeElement.click();
+    expect(spy).toHaveBeenCalled();
   });
 });
