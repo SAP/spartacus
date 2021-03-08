@@ -14,7 +14,10 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
-
+/**
+ * Guard that will redirect to purchasable variant of product, if the navigation
+ * is for the non-purchasable one
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -24,7 +27,6 @@ export class ProductVariantsGuard implements CanActivate {
     protected semanticPathService: SemanticPathService,
     protected router: Router
   ) {}
-
   canActivate(
     activatedRoute: ActivatedRouteSnapshot
   ): Observable<boolean | UrlTree> {
@@ -32,39 +34,48 @@ export class ProductVariantsGuard implements CanActivate {
     if (!productCode) {
       return of(true);
     }
-
     return this.productService.get(productCode, ProductScope.VARIANTS).pipe(
       filter((p) => !!p),
       switchMap((product: Product) => {
-        if (!product.purchasable && product.variantOptions) {
-          const variant = this.findVariant(product.variantOptions);
-          // below call might looks redundant but in fact this data is going to be loaded anyways
-          // we're just calling it earlier and storing
-
-          // eslint-disable-next-line
-          return this.productService.get(variant.code!, ProductScope.LIST).pipe(
-            filter((p) => !!p),
-            take(1),
-            map((_product: Product) => {
-              return this.router.createUrlTree(
-                this.semanticPathService.transform({
-                  cxRoute: 'product',
-                  params: _product,
+        if (!product.purchasable) {
+          const purchasableCode = this.findPurchasableProductCode(product);
+          if (purchasableCode) {
+            return this.productService
+              .get(purchasableCode, ProductScope.LIST)
+              .pipe(
+                filter((p) => !!p),
+                take(1),
+                map((_product: Product) => {
+                  return this.router.createUrlTree(
+                    this.semanticPathService.transform({
+                      cxRoute: 'product',
+                      params: _product,
+                    })
+                  );
                 })
               );
-            })
-          );
-        } else {
-          return of(true);
+          }
         }
+        return of(true);
       })
     );
   }
-
-  findVariant(variants: VariantOption[]): VariantOption {
-    const results: VariantOption[] = variants.filter((variant) => {
-      return variant.stock && variant.stock.stockLevel ? variant : false;
-    });
-    return !results.length && variants.length ? variants[0] : results[0];
+  /**
+   * Finds a purchasable product code looking at variant options, if any
+   *
+   * @param product
+   */
+  protected findPurchasableProductCode(product: Product): string | undefined {
+    if (product.variantOptions?.length) {
+      const results: VariantOption[] = product.variantOptions.filter(
+        (variant) => {
+          return variant.stock && variant.stock.stockLevel ? variant : false;
+        }
+      );
+      return results && results.length
+        ? results[0]?.code
+        : product.variantOptions[0]?.code;
+    }
+    return undefined;
   }
 }
