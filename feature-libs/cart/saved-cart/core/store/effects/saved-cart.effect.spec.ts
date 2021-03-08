@@ -12,7 +12,7 @@ import {
   MultiCartService,
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { SavedCartConnector } from '../../connectors/saved-cart.connector';
 import { SavedCartActions } from '../actions/index';
 import * as fromEffects from './saved-cart.effect';
@@ -41,8 +41,9 @@ class MockSavedCartConnector implements Partial<SavedCartConnector> {
   saveCart = createSpy().and.returnValue(of(mockSavedCarts[0]));
 }
 
+const activeCartId$ = new BehaviorSubject<string>(mockActiveCartId);
 class MockActiveCartService implements Partial<ActiveCartService> {
-  getActiveCartId = createSpy().and.returnValue(of(mockActiveCartId));
+  getActiveCartId = () => activeCartId$.asObservable();
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
@@ -200,51 +201,51 @@ describe('SavedCart Effects', () => {
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     });
-    // TODO: verify why spy is not being overriden...
-    // it('should restore a saved cart and make it active', () => {
-    //   activeCartService.getActiveCartId = createSpy().and.returnValue(of(''));
 
-    //   const action = new SavedCartActions.RestoreSavedCart({
-    //     userId: mockUserId,
-    //     cartId: mockCartId,
-    //   });
+    it('should restore a saved cart and make it active', () => {
+      activeCartId$.next('');
 
-    //   const completion1 = new CartActions.SetActiveCartId(mockCartId);
-    //   const completion2 = new CartActions.LoadCartSuccess({
-    //     userId: mockUserId,
-    //     cartId: mockCartId,
-    //     cart: mockSavedCarts[0],
-    //   });
-    //   const completion3 = new SavedCartActions.LoadSavedCarts({
-    //     userId: mockUserId,
-    //   });
-    //   const completion4 = new SavedCartActions.RestoreSavedCartSuccess();
+      const action = new SavedCartActions.RestoreSavedCart({
+        userId: mockUserId,
+        cartId: mockCartId,
+      });
 
-    //   actions$ = hot('-a', { a: action });
-    //   const expected = cold('-(bcde)', {
-    //     b: completion1,
-    //     c: completion2,
-    //     d: completion3,
-    //     e: completion4,
-    //   });
+      const completion1 = new CartActions.SetActiveCartId(mockCartId);
+      const completion2 = new CartActions.LoadCartSuccess({
+        userId: mockUserId,
+        cartId: mockCartId,
+        cart: mockSavedCarts[0],
+      });
+      const completion3 = new SavedCartActions.LoadSavedCarts({
+        userId: mockUserId,
+      });
+      const completion4 = new SavedCartActions.RestoreSavedCartSuccess();
 
-    //   expect(effects.restoreSavedCart$).toBeObservable(expected);
-    //   expect(connector.restoreSavedCart).toHaveBeenCalledWith(
-    //     mockUserId,
-    //     mockCartId
-    //   );
-    //   expect(clearCheckoutService.resetCheckoutProcesses).toHaveBeenCalled();
-    //   expect(globalMessageService.add).toHaveBeenCalledWith(
-    //     {
-    //       key: 'savedCartList.swapCartNoActiveCart',
-    //       params: {
-    //         cartName: mockCartId,
-    //         previousCartName: '',
-    //       },
-    //     },
-    //     GlobalMessageType.MSG_TYPE_CONFIRMATION
-    //   );
-    // });
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bcde)', {
+        b: completion1,
+        c: completion2,
+        d: completion3,
+        e: completion4,
+      });
+
+      expect(effects.restoreSavedCart$).toBeObservable(expected);
+      expect(connector.restoreSavedCart).toHaveBeenCalledWith(
+        mockUserId,
+        mockCartId
+      );
+      expect(clearCheckoutService.resetCheckoutProcesses).toHaveBeenCalled();
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'savedCartList.swapCartNoActiveCart',
+          params: {
+            cartName: mockCartId,
+            previousCartName: '',
+          },
+        },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    });
   });
 
   describe('saveCart$', () => {
