@@ -69,6 +69,7 @@ export const COMPONENT_FACTORY_RESOLVER = 'ComponentFactoryResolver';
 
 export const HTTP_CLIENT = 'HttpClient';
 
+export const BASE_STOREFRONT_MODULE = 'BaseStorefrontModule';
 export const STOREFRONT_MODULE = 'StorefrontModule';
 export const B2C_STOREFRONT_MODULE = 'B2cStorefrontModule';
 export const B2B_STOREFRONT_MODULE = 'B2bStorefrontModule';

@@ -2,27 +2,20 @@ import { experimental } from '@angular-devkit/core';
 import { italic, red } from '@angular-devkit/core/src/terminal';
 import {
   chain,
-  externalSchematic,
   noop,
   Rule,
   SchematicContext,
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
-import {
-  getDecoratorMetadata,
-  isImported,
-} from '@schematics/angular/utility/ast-utils';
+import { isImported } from '@schematics/angular/utility/ast-utils';
 import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
-import ts from 'typescript';
 import {
-  ANGULAR_CORE,
   ANGULAR_OAUTH2_OIDC,
-  ANGULAR_SCHEMATICS,
   B2C_STOREFRONT_MODULE,
   DEFAULT_ANGULAR_OAUTH2_OIDC_VERSION,
   DEFAULT_NGRX_VERSION,
@@ -41,6 +34,7 @@ import {
   addImport,
   addToModuleImportsAndCommitChanges,
 } from '../shared/utils/module-file-utils';
+import { ensureModuleExists } from '../shared/utils/new-module-utils';
 import {
   getAngularVersion,
   getSpartacusCurrentFeatureLevel,
@@ -50,10 +44,10 @@ import { parseCSV } from '../shared/utils/transform-utils';
 import {
   getProjectFromWorkspace,
   getProjectTargets,
-  getSourceRoot,
 } from '../shared/utils/workspace-utils';
 import { setupRouterModule } from './router';
 import { Schema as SpartacusOptions } from './schema';
+import { setupSpartacusModule } from './spartacus';
 import { setupStoreModules } from './store';
 
 function prepareSiteContextConfig(options: SpartacusOptions): string {
@@ -351,27 +345,28 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       }),
       setupRouterModule(options.project),
       setupStoreModules(options.project),
+
       ensureModuleExists({
         name: 'spartacus',
         path: 'app/spartacus',
         module: 'app',
         project: options.project,
       }),
-      // add base storefront module
-      // add base storefront to declarations
+      setupSpartacusModule(options.project),
       ensureModuleExists({
         name: 'spartacus-features',
         path: 'app/spartacus',
         module: 'spartacus',
         project: options.project,
       }),
-      // add all the features modules
       ensureModuleExists({
         name: 'spartacus-configuration',
         path: 'app/spartacus',
         module: 'spartacus',
         project: options.project,
       }),
+      // add base storefront to declarations
+
       // add the configuration
       updateAppModule(options),
       installStyles(options),
@@ -379,39 +374,5 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       options.useMetaTags ? updateIndexFile(tree, options) : noop(),
       installPackageJsonDependencies(),
     ])(tree, context);
-  };
-}
-
-function ensureModuleExists(options: {
-  name: string;
-  path: string;
-  module: string;
-  project: string;
-}): Rule {
-  return (host: Tree): Rule => {
-    const modulePath = `${getSourceRoot(host, { project: options.project })}/${
-      options.path
-    }`;
-    const filePath = `${modulePath}/${options.name}.module.ts`;
-    if (host.exists(filePath)) {
-      const module = getTsSourceFile(host, filePath);
-      const metadata = getDecoratorMetadata(
-        module,
-        'NgModule',
-        ANGULAR_CORE
-      )[0] as ts.ObjectLiteralExpression;
-
-      if (metadata) {
-        return noop();
-      }
-    }
-
-    return externalSchematic(ANGULAR_SCHEMATICS, 'module', {
-      name: options.name,
-      flat: true,
-      commonModule: false,
-      path: modulePath,
-      module: options.module,
-    });
   };
 }

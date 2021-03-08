@@ -1,11 +1,11 @@
 import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
-import { NGRX_EFFECTS, NGRX_STORE } from '../shared/constants';
+import { BASE_STOREFRONT_MODULE, SPARTACUS_STOREFRONTLIB } from '../shared';
 import { addModuleImport } from '../shared/utils/new-module-utils';
 import { createProgram } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 
-/** Migration that ensures that we have correct RouterModule.forRoot set */
-export function setupStoreModules(project: string): Rule {
+/** Migration which ensures the spartacus is being correctly set up */
+export function setupSpartacusModule(project: string): Rule {
   return (tree: Tree): Tree => {
     const { buildPaths } = getProjectTsConfigPaths(tree, project);
 
@@ -17,33 +17,30 @@ export function setupStoreModules(project: string): Rule {
 
     const basePath = process.cwd();
     for (const tsconfigPath of buildPaths) {
-      configureStoreModules(tree, tsconfigPath, basePath);
+      configureSpartacusModules(tree, tsconfigPath, basePath);
     }
     return tree;
   };
 }
 
-function configureStoreModules(
+function configureSpartacusModules(
   tree: Tree,
   tsconfigPath: string,
   basePath: string
 ): void {
   const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
-  appSourceFiles.forEach((sourceFile) => {
-    if (sourceFile.getFilePath().includes('app.module.ts')) {
+  for (const sourceFile of appSourceFiles) {
+    if (sourceFile.getFilePath().includes('spartacus.module.ts')) {
       addModuleImport(sourceFile, {
-        moduleSpecifier: NGRX_STORE,
-        namedImports: ['StoreModule'],
-        importContent: `StoreModule.forRoot({})`,
-      });
-      addModuleImport(sourceFile, {
-        moduleSpecifier: NGRX_EFFECTS,
-        namedImports: ['EffectsModule'],
-        importContent: `EffectsModule.forRoot([])`,
+        moduleSpecifier: SPARTACUS_STOREFRONTLIB,
+        namedImports: [BASE_STOREFRONT_MODULE],
+        importContent: BASE_STOREFRONT_MODULE,
       });
       sourceFile.organizeImports();
       sourceFile.saveSync();
+
+      break;
     }
-  });
+  }
 }
