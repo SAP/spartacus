@@ -5,8 +5,8 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
-import 'projects/core/src/cart/bundle/node_modules/zone.js/dist/zone';
-import 'projects/core/src/cart/bundle/node_modules/zone.js/dist/zone-testing';
+import 'zone.js/dist/zone';
+import 'zone.js/dist/zone-testing';
 
 declare const require: {
   context(
