@@ -60,18 +60,32 @@ export class WindowRef {
   }
 
   /**
-   * Returns the window/document location, unless it's not available in the process (i.e. SSR).
-   * When there's no access to the location object, we mimic the location partially, by resolving
-   * the request url (`serverRequestUrl`) and origin (`serverRequestOrigin`) from the injector.
+   * Returns the window/document location, unless it's not available (i.e. SSR).
    *
+   * When there's no access to the location object, we mimic the location partially, by resolving
+   * the request url (`SERVER_REQUEST_URL`) and origin (`SERVER_REQUEST_ORIGIN`) from the injector.
+   * These values are injected in the server implementation so that we can resolve some of the location
+   * values when we do server side rendering.
    */
   get location(): Partial<Location> {
-    return this.isBrowser()
-      ? this.document.location
-      : {
-          href: this.serverUrl || '',
-          origin: this.serverOrigin || '',
-        };
+    if (this.isBrowser()) {
+      return this.document.location;
+    } else {
+      if (!this.serverUrl) {
+        throw new Error(
+          'Cannot resolve the href as the SERVER_REQUEST_URL is undefined'
+        );
+      }
+      if (!this.serverOrigin) {
+        throw new Error(
+          'Cannot resolve the origin as the SERVER_REQUEST_ORIGIN is undefined'
+        );
+      }
+      return {
+        href: this.serverUrl,
+        origin: this.serverOrigin,
+      };
+    }
   }
 
   /**
