@@ -5,8 +5,8 @@ import * as loginHelper from '../helpers/login';
 import * as profile from '../helpers/update-profile';
 import { login } from './auth-forms';
 import { getErrorAlert } from './global-message';
-import {fillShippingAddress} from "./checkout-forms";
-import {newAddress} from "../helpers/address-book";
+import { fillShippingAddress } from './checkout-forms';
+import { newAddress } from '../helpers/address-book';
 
 let customer: any;
 

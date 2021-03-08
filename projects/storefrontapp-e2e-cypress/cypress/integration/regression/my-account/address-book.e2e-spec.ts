@@ -1,8 +1,14 @@
-import { assertAddressForm, createNewAddress,editedAddress, newAddress, verifyNewAddress,} from '../../../helpers/address-book';
+import {
+  assertAddressForm,
+  createNewAddress,
+  editedAddress,
+  newAddress,
+  verifyNewAddress,
+} from '../../../helpers/address-book';
 import * as login from '../../../helpers/login';
-import {viewportContext} from "../../../helpers/viewport-context";
-import * as alerts from "../../../helpers/global-message";
-import {fillShippingAddress} from "../../../helpers/checkout-forms";
+import { viewportContext } from '../../../helpers/viewport-context';
+import * as alerts from '../../../helpers/global-message';
+import { fillShippingAddress } from '../../../helpers/checkout-forms';
 
 describe('My Account - Address Book', () => {
   viewportContext(['mobile', 'desktop'], () => {
@@ -50,7 +56,9 @@ describe('My Account - Address Book', () => {
           cy.get('[formcontrolname="firstName"]')
             .clear()
             .type(editedAddress.firstName);
-          cy.get('[formcontrolname="lastName"]').clear().type(editedAddress.lastName);
+          cy.get('[formcontrolname="lastName"]')
+            .clear()
+            .type(editedAddress.lastName);
           cy.get('[formcontrolname="phone"]').clear().type(editedAddress.phone);
 
           cy.get('button.btn-primary').click();

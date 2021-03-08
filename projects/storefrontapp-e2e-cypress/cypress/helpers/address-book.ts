@@ -44,4 +44,3 @@ export function verifyNewAddress() {
   cy.get('cx-card').should('have.length', 1);
   assertAddressForm(newAddress);
 }
-
