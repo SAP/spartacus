@@ -124,6 +124,10 @@
       >
         {{ 'addToCart.outOfStock' | cxTranslate }}
       </div>
+
+      <!-- Item Inline Outlet -->
+      <ng-template [cxOutlet]="CartOutlets.ITEM_INLINE"> </ng-template>
+
       <!-- Promotion -->
 
       <ng-container
