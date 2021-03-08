@@ -94,6 +94,6 @@ export class SearchPageMetaResolver
    * the all query parameters are removed and https and www are added explicitly.
    */
   resolveCanonicalUrl(): Observable<string> {
-    return this.basePageMetaResolver?.resolveCanonicalUrl();
+    return this.basePageMetaResolver?.resolveCanonicalUrl() ?? of();
   }
 }
