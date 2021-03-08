@@ -193,14 +193,30 @@ export class ProductPageMetaResolver
    */
   resolveCanonicalUrl(): Observable<string> {
     return this.product$.pipe(
-      switchMap((product) => {
-        const code = product.baseProduct ?? product.code;
+      switchMap((product) => this.findBaseProduct(product)),
+      map((product) => {
         const url = this.routingService.getFullUrl({
           cxRoute: 'product',
-          params: { code },
+          params: product,
         });
-        return this.pageLinkFactory?.resolveCanonicalUrl({}, url);
+        // TODO (#10467): remove optional pageLinkFactory and undefined assertion when we pageLinkFactory becomes default
+        return this.pageLinkFactory?.resolveCanonicalUrl({}, url) ?? '';
       })
     );
+  }
+
+  /**
+   * Resolves the base product whenever the given product is a variant product.
+   *
+   * Since product variants can be multi-layered, we recursively try to find the base product
+   * this might be too opinionated for your business though.
+   */
+  protected findBaseProduct(product: Product): Observable<Product> {
+    if (product.baseProduct) {
+      return this.productService
+        .get(product.baseProduct, ProductScope.LIST)
+        .pipe(switchMap((product) => this.findBaseProduct(product)));
+    }
+    return of(product);
   }
 }

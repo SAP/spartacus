@@ -242,10 +242,16 @@ describe('ProductPageMetaResolver', () => {
   });
 
   it('should resolve canonical url for product variant', async () => {
-    spyOn(productService, 'get').and.returnValue(of(MockProductVariant));
+    spyOn(productService, 'get').and.returnValues(
+      of(MockProductVariant),
+      of({
+        code: 'base_1234',
+      })
+    );
     spyOn(routingService, 'getFullUrl').and.returnValue(
       'https://store.com/product/base_1234'
     );
+
     spyOn(pageLinkFactory, 'resolveCanonicalUrl').and.callThrough();
     service.resolveCanonicalUrl().subscribe().unsubscribe();
 
@@ -256,6 +262,34 @@ describe('ProductPageMetaResolver', () => {
     expect(pageLinkFactory.resolveCanonicalUrl).toHaveBeenCalledWith(
       {},
       'https://store.com/product/base_1234'
+    );
+  });
+
+  it('should resolve canonical url for multi-leveled variant', async () => {
+    spyOn(productService, 'get').and.returnValues(
+      of(MockProductVariant),
+      of({
+        code: 'base_1234',
+        baseProduct: 'super_base_1234',
+      }),
+      of({
+        code: 'super_base_1234',
+      })
+    );
+    spyOn(routingService, 'getFullUrl').and.returnValue(
+      'https://store.com/product/super_base_1234'
+    );
+
+    spyOn(pageLinkFactory, 'resolveCanonicalUrl').and.callThrough();
+    service.resolveCanonicalUrl().subscribe().unsubscribe();
+
+    expect(routingService.getFullUrl).toHaveBeenCalledWith({
+      cxRoute: 'product',
+      params: { code: 'super_base_1234' },
+    });
+    expect(pageLinkFactory.resolveCanonicalUrl).toHaveBeenCalledWith(
+      {},
+      'https://store.com/product/super_base_1234'
     );
   });
 });
