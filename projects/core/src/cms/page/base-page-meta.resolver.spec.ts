@@ -145,7 +145,7 @@ describe('BasePageMetaResolver', () => {
   it(`should resolve canonical url`, () => {
     spyOn(pageLinkFactory, 'resolveCanonicalUrl');
     service.resolveCanonicalUrl('my-shop.com').subscribe().unsubscribe();
-    expect(pageLinkFactory.resolveCanonicalUrl).toHaveBeenCalledWith(
+    expect(pageLinkFactory.getCanonicalUrl).toHaveBeenCalledWith(
       undefined,
       'my-shop.com'
     );

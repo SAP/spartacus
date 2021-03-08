@@ -89,7 +89,7 @@ class MockBasePageMetaResolver {
 }
 
 class MockPageLinkFactory implements Partial<PageLinkFactory> {
-  resolveCanonicalUrl(_options?: CanonicalUrlOptions, url?: string): string {
+  getCanonicalUrl(_options?: CanonicalUrlOptions, url?: string): string {
     return url ?? '';
   }
 }
@@ -235,7 +235,7 @@ describe('ProductPageMetaResolver', () => {
 
     spyOn(pageLinkFactory, 'resolveCanonicalUrl').and.callThrough();
     service.resolveCanonicalUrl().subscribe().unsubscribe();
-    expect(pageLinkFactory.resolveCanonicalUrl).toHaveBeenCalledWith(
+    expect(pageLinkFactory.getCanonicalUrl).toHaveBeenCalledWith(
       {},
       'https://store.com/product/123'
     );
@@ -259,7 +259,7 @@ describe('ProductPageMetaResolver', () => {
       cxRoute: 'product',
       params: { code: 'base_1234' },
     });
-    expect(pageLinkFactory.resolveCanonicalUrl).toHaveBeenCalledWith(
+    expect(pageLinkFactory.getCanonicalUrl).toHaveBeenCalledWith(
       {},
       'https://store.com/product/base_1234'
     );
@@ -287,7 +287,7 @@ describe('ProductPageMetaResolver', () => {
       cxRoute: 'product',
       params: { code: 'super_base_1234' },
     });
-    expect(pageLinkFactory.resolveCanonicalUrl).toHaveBeenCalledWith(
+    expect(pageLinkFactory.getCanonicalUrl).toHaveBeenCalledWith(
       {},
       'https://store.com/product/super_base_1234'
     );

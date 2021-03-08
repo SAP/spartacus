@@ -13,12 +13,12 @@ export class PageLinkFactory {
   ) {}
 
   /**
-   * Resolves the canonical for the page.
+   * Returns the canonical for the page.
    *
    * The canonical url is created by the help of the default `CanonicalUrlOptions` from
    * the pageMeta options. The options can be further adjusted by the options argument.
    */
-  resolveCanonicalUrl(options?: CanonicalUrlOptions, url?: string): string {
+  getCanonicalUrl(options?: CanonicalUrlOptions, url?: string): string {
     const config: CanonicalUrlOptions = {
       ...this.pageMetaConfig?.pageMeta?.canonicalUrl,
       ...options,

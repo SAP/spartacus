@@ -200,7 +200,7 @@ export class ProductPageMetaResolver
           params: product,
         });
         // TODO (#10467): remove optional pageLinkFactory and undefined assertion when we pageLinkFactory becomes default
-        return this.pageLinkFactory?.resolveCanonicalUrl({}, url) ?? '';
+        return this.pageLinkFactory?.getCanonicalUrl({}, url) ?? '';
       })
     );
   }

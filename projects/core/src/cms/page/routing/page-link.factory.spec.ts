@@ -40,13 +40,13 @@ describe('PageLinkFactory', () => {
 
   describe('canonical Url', () => {
     it(`should build canonical URL for window location`, () => {
-      expect(service.resolveCanonicalUrl()).toEqual(
+      expect(service.getCanonicalUrl()).toEqual(
         'https://www.storefront.com/search/'
       );
     });
 
     it(`should build canonical URL for custom URL`, () => {
-      expect(service.resolveCanonicalUrl({}, 'http://test.com/xyz')).toEqual(
+      expect(service.getCanonicalUrl({}, 'http://test.com/xyz')).toEqual(
         'https://www.test.com/xyz/'
       );
     });
@@ -54,24 +54,18 @@ describe('PageLinkFactory', () => {
     describe('forceWww', () => {
       it(`should add https`, () => {
         expect(
-          service.resolveCanonicalUrl(
-            { forceHttps: true },
-            'http://test.com/xyz'
-          )
+          service.getCanonicalUrl({ forceHttps: true }, 'http://test.com/xyz')
         ).toEqual('https://www.test.com/xyz/');
       });
 
       it(`should not add https`, () => {
         expect(
-          service.resolveCanonicalUrl(
-            { forceHttps: false },
-            'http://test.com/xyz'
-          )
+          service.getCanonicalUrl({ forceHttps: false }, 'http://test.com/xyz')
         ).toEqual('http://www.test.com/xyz/');
       });
 
       it(`should not replace www. in redirects`, () => {
-        const canonical = service.resolveCanonicalUrl(
+        const canonical = service.getCanonicalUrl(
           { forceHttps: true, removeQueryParams: false, forceWww: false },
           'http://test.com/xyz?redirect=http://redirect.com'
         );
@@ -83,21 +77,18 @@ describe('PageLinkFactory', () => {
     describe('forceWww', () => {
       it(`should add www. subdomain`, () => {
         expect(
-          service.resolveCanonicalUrl({ forceWww: true }, 'http://test.com/xyz')
+          service.getCanonicalUrl({ forceWww: true }, 'http://test.com/xyz')
         ).toContain('www.');
       });
 
       it(`should not add www. subdomain`, () => {
         expect(
-          service.resolveCanonicalUrl(
-            { forceWww: false },
-            'http://test.com/xyz'
-          )
+          service.getCanonicalUrl({ forceWww: false }, 'http://test.com/xyz')
         ).not.toContain('www.');
       });
 
       it(`should not add www. subdomain to redirects`, () => {
-        const canonical = service.resolveCanonicalUrl(
+        const canonical = service.getCanonicalUrl(
           { forceWww: true, removeQueryParams: false, forceHttps: false },
           'http://test.com/xyz?redirect=http://redirect.com'
         );
@@ -108,7 +99,7 @@ describe('PageLinkFactory', () => {
 
     describe('forceTrailingSlash', () => {
       it(`should add trailing slash`, () => {
-        const canonical = service.resolveCanonicalUrl(
+        const canonical = service.getCanonicalUrl(
           {
             forceTrailingSlash: true,
           },
@@ -118,7 +109,7 @@ describe('PageLinkFactory', () => {
       });
 
       it(`should not add trailing slash`, () => {
-        const canonical = service.resolveCanonicalUrl(
+        const canonical = service.getCanonicalUrl(
           {
             forceTrailingSlash: true,
             removeQueryParams: false,
@@ -129,7 +120,7 @@ describe('PageLinkFactory', () => {
       });
 
       it(`should not add trailing slash after leading question mark`, () => {
-        const canonical = service.resolveCanonicalUrl(
+        const canonical = service.getCanonicalUrl(
           {
             forceTrailingSlash: true,
             removeQueryParams: false,
@@ -140,7 +131,7 @@ describe('PageLinkFactory', () => {
       });
 
       it(`should add trailing slash when params are removed`, () => {
-        const canonical = service.resolveCanonicalUrl(
+        const canonical = service.getCanonicalUrl(
           {
             forceTrailingSlash: true,
             removeQueryParams: true,
@@ -151,7 +142,7 @@ describe('PageLinkFactory', () => {
       });
 
       it(`should add trailing slash`, () => {
-        const canonical = service.resolveCanonicalUrl(
+        const canonical = service.getCanonicalUrl(
           {
             forceTrailingSlash: true,
           },
@@ -161,7 +152,7 @@ describe('PageLinkFactory', () => {
       });
 
       it(`should not add trailing slash`, () => {
-        const canonical = service.resolveCanonicalUrl(
+        const canonical = service.getCanonicalUrl(
           {
             forceTrailingSlash: false,
           },
@@ -171,7 +162,7 @@ describe('PageLinkFactory', () => {
       });
 
       it(`should add trailing slash to redirects`, () => {
-        const canonical = service.resolveCanonicalUrl(
+        const canonical = service.getCanonicalUrl(
           { forceWww: true, removeQueryParams: false, forceHttps: false },
           'http://test.com/xyz?redirect=http://redirect.com'
         );
@@ -182,7 +173,7 @@ describe('PageLinkFactory', () => {
 
     describe('removeQueryParams', () => {
       it(`should remove parameters`, () => {
-        const canonical = service.resolveCanonicalUrl(
+        const canonical = service.getCanonicalUrl(
           { removeQueryParams: true, forceTrailingSlash: false },
           'https://www.test.com/search?query=foo&pageSize=10&page=1'
         );
@@ -190,7 +181,7 @@ describe('PageLinkFactory', () => {
       });
 
       it(`should not remove parameters`, () => {
-        const canonical = service.resolveCanonicalUrl(
+        const canonical = service.getCanonicalUrl(
           { removeQueryParams: false },
           'https://www.test.com/search?query=foo&pageSize=10&page=1'
         );
@@ -200,7 +191,7 @@ describe('PageLinkFactory', () => {
       });
 
       it(`should remove specific parameters`, () => {
-        const canonical = service.resolveCanonicalUrl(
+        const canonical = service.getCanonicalUrl(
           { removeQueryParams: ['pageSize'] },
           'https://www.test.com/search?query=foo&pageSize=10&page=1'
         );

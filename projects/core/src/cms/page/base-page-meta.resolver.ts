@@ -88,7 +88,7 @@ export class BasePageMetaResolver
           startWith(null),
           map(() =>
             // tslint:disable-next-line: no-non-null-assertion
-            this.pageLinkFactory!.resolveCanonicalUrl(options, url)
+            this.pageLinkFactory!.getCanonicalUrl(options, url)
           )
         )
       : of();
