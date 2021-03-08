@@ -37,8 +37,7 @@ export const EXTERNAL_CONFIG_TRANSFER_ID: StateKey<string> = makeStateKey<
 @Injectable({ providedIn: 'root' })
 export class OccConfigLoaderService {
   // TODO: remove sitesConfigLoader and converter in 4.0
-  // baseSiteService, converterService and javaRegExpConverter are not
-  // optional in 4.0
+  // baseSiteService and converterService are not optional in 4.0
   constructor(
     @Inject(PLATFORM_ID) protected platform: any,
     @Inject(DOCUMENT) protected document: any,
