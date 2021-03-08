@@ -9,7 +9,7 @@ import {
   ClearCheckoutService,
   GlobalMessageService,
   GlobalMessageType,
-  MultiCartService
+  MultiCartService,
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { BehaviorSubject, Observable, of } from 'rxjs';
