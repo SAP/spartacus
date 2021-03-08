@@ -149,7 +149,7 @@ describe('PageLinkFactory', () => {
         expect(canonical).toEqual('https://www.storefront.com/page/');
       });
 
-      it(`should add trailing slash`, () => {
+      it(`should not add trailing slash`, () => {
         const canonical = service.resolveCanonicalUrl(
           {
             forceTrailingSlash: false,
