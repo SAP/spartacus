@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SavedCartListComponent } from './saved-cart-list.component';
-import { Cart, RoutingService, TranslationService } from '@spartacus/core';
+import { Cart, RoutingService, TranslationService, I18nTestingModule } from '@spartacus/core';
 import { SavedCartService } from '../../core/services/saved-cart.service';
 import { By } from '@angular/platform-browser';
 import { Observable, of } from 'rxjs';
@@ -11,14 +11,8 @@ class MockTranslationService {
   }
 }
 
-class MockRoutingService {
-  getParams() {
-    return of();
-  }
-
-  getRouterState() {
-    return of();
-  }
+class MockRoutingService implements Partial<RoutingService> {
+  go(): void {}
 }
 
 const mockCart1: Cart = {
@@ -43,32 +37,35 @@ const mockCart2: Cart = {
 }
 const mockCarts: Cart[] = [mockCart1, mockCart2];
 
-class MockSavedCarts{
-  getList(): Observable<Cart[]>{
-    return of(mockCarts);
-  }
-
-  loadSavedCarts(): void {}
-
-  getRestoreSavedCartProcessSuccess(): Observable<boolean> {
-    return of(true);
-  }
+class MockSavedCartService implements Partial<SavedCartService> {
+    deleteSavedCart(_cartId: string): void {}
+    clearRestoreSavedCart(): void {}
+    loadSavedCarts(): void {}
+    clearSaveCart(): void {}
+    clearSavedCarts(): void {}
+    getList(): Observable<Cart[]> {
+      return of(mockCarts);
+    }
+    restoreSavedCart(_cartId: string): void {}
+    getRestoreSavedCartProcessSuccess(): Observable<boolean> {
+      return of();
+    }
 }
-
 
 fdescribe('SavedCartListComponent', () => {
   let component: SavedCartListComponent;
   let fixture: ComponentFixture<SavedCartListComponent>;
-  let savedCartService: SavedCartService | MockSavedCarts;
+  let savedCartService: SavedCartService | MockSavedCartService;
   //let routingService: RoutingService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       declarations: [SavedCartListComponent],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: TranslationService, useClass: MockTranslationService },
-        { provide: SavedCartService, useClass: MockSavedCarts },
+        { provide: SavedCartService, useClass: MockSavedCartService },
       ],
     }).compileComponents();
   });
