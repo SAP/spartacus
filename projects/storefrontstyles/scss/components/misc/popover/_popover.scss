@@ -1,7 +1,7 @@
 :root {
   --cx-popover-font-size: 0.875rem;
   --cx-popover-background: var(--cx-color-inverse);
-  --cx-popover-max-width: 280px;
+  --cx-popover-min-width: 140px;
   --cx-popover-border-width: 1px;
   --cx-popover-border-color: var(--cx-color-light);
   --cx-popover-border-radius: 5px;
@@ -18,7 +18,7 @@
   left: 0;
   z-index: var(--cx-popover-z-index);
   display: block;
-  max-width: var(--cx-popover-max-width);
+  min-width: var(--cx-popover-min-width);
   font-size: var(--cx-popover-font-size);
   word-wrap: break-word;
   background-color: var(--cx-popover-background);
