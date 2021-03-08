@@ -34,13 +34,20 @@ class MockRoutingPageMetaResolver implements Partial<RoutingPageMetaResolver> {
   }
 }
 
-class MockPageLinkFactory {}
+class MockPageLinkFactory {
+  resolveCanonicalUrl() {}
+}
 
 describe('BasePageMetaResolver', () => {
   let service: BasePageMetaResolver;
   let routingPageMetaResolver: RoutingPageMetaResolver;
   let routerEventRelaySubject: ReplaySubject<RouterEvent>;
   let routerMock: Router;
+  routerEventRelaySubject = new ReplaySubject<RouterEvent>(1);
+  routerMock = {
+    events: routerEventRelaySubject.asObservable(),
+  } as Router;
+  let pageLinkFactory: PageLinkFactory;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -69,11 +76,7 @@ describe('BasePageMetaResolver', () => {
 
     service = TestBed.inject(BasePageMetaResolver);
     routingPageMetaResolver = TestBed.inject(RoutingPageMetaResolver);
-
-    routerEventRelaySubject = new ReplaySubject<RouterEvent>(1);
-    routerMock = {
-      events: routerEventRelaySubject.asObservable(),
-    } as Router;
+    pageLinkFactory = TestBed.inject(PageLinkFactory);
   });
 
   it('should inject service', () => {
@@ -140,6 +143,11 @@ describe('BasePageMetaResolver', () => {
   });
 
   it(`should resolve canonical url`, () => {
-    // TODO:
+    spyOn(pageLinkFactory, 'resolveCanonicalUrl');
+    service.resolveCanonicalUrl('my-shop.com').subscribe().unsubscribe();
+    expect(pageLinkFactory.resolveCanonicalUrl).toHaveBeenCalledWith(
+      undefined,
+      'my-shop.com'
+    );
   });
 });
