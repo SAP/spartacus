@@ -34,7 +34,7 @@ class MockRoutingPageMetaResolver implements Partial<RoutingPageMetaResolver> {
   }
 }
 
-class MockPageLinkFactory {
+class MockPageLinkService {
   getCanonicalUrl() {}
 }
 
@@ -69,7 +69,7 @@ describe('BasePageMetaResolver', () => {
         },
         {
           provide: PageLinkService,
-          useClass: MockPageLinkFactory,
+          useClass: MockPageLinkService,
         },
       ],
     });

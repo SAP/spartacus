@@ -70,7 +70,7 @@ export class ProductPageMetaResolver
     protected productService: ProductService,
     protected translation: TranslationService,
     protected basePageMetaResolver?: BasePageMetaResolver,
-    protected pageLinkFactory?: PageLinkService
+    protected pageLinkService?: PageLinkService
   ) {
     super();
     this.pageType = PageType.PRODUCT_PAGE;
@@ -199,8 +199,8 @@ export class ProductPageMetaResolver
           cxRoute: 'product',
           params: product,
         });
-        // TODO (#10467): remove optional pageLinkFactory and undefined assertion when we pageLinkFactory becomes default
-        return this.pageLinkFactory?.getCanonicalUrl({}, url) ?? '';
+        // TODO (#10467): remove optional pageLinkService and undefined assertion when we pageLinkService becomes default
+        return this.pageLinkService?.getCanonicalUrl({}, url) ?? '';
       })
     );
   }

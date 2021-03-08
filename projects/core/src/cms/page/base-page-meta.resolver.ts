@@ -29,7 +29,7 @@ export class BasePageMetaResolver
     protected translation: TranslationService,
     protected routingPageMetaResolver: RoutingPageMetaResolver,
     protected router?: Router,
-    protected pageLinkFactory?: PageLinkService
+    protected pageLinkService?: PageLinkService
   ) {}
 
   /**
@@ -82,13 +82,13 @@ export class BasePageMetaResolver
     url?: string,
     options?: CanonicalUrlOptions
   ): Observable<string> {
-    return this.router && this.pageLinkFactory
+    return this.router && this.pageLinkService
       ? this.router.events.pipe(
           filter((ev) => ev instanceof NavigationEnd),
           startWith(null),
           map(() =>
             // tslint:disable-next-line: no-non-null-assertion
-            this.pageLinkFactory!.getCanonicalUrl(options, url)
+            this.pageLinkService!.getCanonicalUrl(options, url)
           )
         )
       : of();
