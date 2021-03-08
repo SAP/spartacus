@@ -47,7 +47,7 @@ export class PageLinkFactory {
     }
 
     if (config.forceTrailingSlash) {
-      url = url.replace(/^([^\?]+[^\/]$)$/i, '$1/');
+      url = url.replace(/^([^\?]+[^\/\?]$)$/i, '$1/');
     }
 
     return url;

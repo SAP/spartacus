@@ -128,6 +128,17 @@ describe('PageLinkFactory', () => {
         expect(canonical).toEqual('https://www.storefront.com?foo=bar');
       });
 
+      it(`should not add trailing slash after leading question mark`, () => {
+        const canonical = service.resolveCanonicalUrl(
+          {
+            forceTrailingSlash: true,
+            removeQueryParams: false,
+          },
+          'https://www.storefront.com?'
+        );
+        expect(canonical).toEqual('https://www.storefront.com?');
+      });
+
       it(`should add trailing slash when params are removed`, () => {
         const canonical = service.resolveCanonicalUrl(
           {
