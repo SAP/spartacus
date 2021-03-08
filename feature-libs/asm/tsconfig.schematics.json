@@ -15,6 +15,7 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strictNullChecks": true,
+    "strict": false,
     "target": "es6",
     "types": ["jest", "node"],
     "resolveJsonModule": true,
