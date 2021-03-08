@@ -23,6 +23,11 @@ export const orgCostCenter = {
     update: 'Cost Center {{ item.name }} updated successfully',
     create: 'Cost Center {{ item.name }} created successfully',
   },
+  info: {
+    disabledEdit: 'Enable the cost center to allow editing.',
+    disabledEnable:
+      'Unit must be enabled before this cost center may be enabled.',
+  },
 
   details: {
     title: 'Cost Center Details',

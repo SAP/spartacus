@@ -7,7 +7,6 @@ import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-// tslint:disable:max-line-length
 describe('Spartacus Schematics: add-pwa', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 

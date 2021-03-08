@@ -231,6 +231,7 @@
     padding-inline-start: calc((var(--cx-depth-level) + 1) * 20px);
     button.tree-item-toggle {
       margin-inline-start: -40px;
+      min-width: 40px;
     }
   }
 
