@@ -1,5 +1,6 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { StoreModule } from '@ngrx/store';
 import {
   ActiveCartService,
   AuthService,
@@ -37,25 +38,24 @@ class MockSavedCartFormLaunchDialogService {
   openDialog(_openElement?: ElementRef, _vcr?: ViewContainerRef, _data?: any) {}
 }
 
-xdescribe('AddToSavedCartComponent', () => {
+describe('AddToSavedCartComponent', () => {
   let component: AddToSavedCartComponent;
   let fixture: ComponentFixture<AddToSavedCartComponent>;
+
   beforeEach(() => {
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [AddToSavedCartComponent],
-        imports: [I18nTestingModule],
-        providers: [
-          { provide: ActiveCartService, useClass: MockActiveCartService },
-          { provide: AuthService, useClass: MockAuthService },
-          { provide: RoutingService, useClass: MockRoutingService },
-          {
-            provide: SavedCartFormLaunchDialogService,
-            useClass: MockSavedCartFormLaunchDialogService,
-          },
-        ],
-      }).compileComponents();
-    });
+    TestBed.configureTestingModule({
+      imports: [StoreModule.forRoot({}), I18nTestingModule],
+      declarations: [AddToSavedCartComponent],
+      providers: [
+        { provide: ActiveCartService, useClass: MockActiveCartService },
+        { provide: AuthService, useClass: MockAuthService },
+        { provide: RoutingService, useClass: MockRoutingService },
+        {
+          provide: SavedCartFormLaunchDialogService,
+          useClass: MockSavedCartFormLaunchDialogService,
+        },
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

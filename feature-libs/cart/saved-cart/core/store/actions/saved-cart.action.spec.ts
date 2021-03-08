@@ -221,17 +221,16 @@ describe('SavedCart Actions', () => {
     describe('SaveCartFail', () => {
       it('should create the action', () => {
         const action = new SavedCartActions.SaveCartFail({
-          cartId: mockCartId,
           error,
         });
 
         expect({ ...action }).toEqual({
           type: SavedCartActions.SAVE_CART_FAIL,
-          payload: { cartId: mockCartId, error },
+          payload: { error },
           meta: StateUtils.entityFailMeta(
             PROCESS_FEATURE,
             SAVED_CART_SAVE_CART_PROCESS_ID,
-            { cartId: mockCartId, error }
+            { error }
           ),
         });
       });
