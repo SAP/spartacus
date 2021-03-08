@@ -1,8 +1,8 @@
-<div *ngIf="selectiveCartEnabled" class="col-md-3 col-lg-3 col-xl-3 cx-sfl-btn">
+<div *ngIf="selectiveCartEnabled" class="cx-sfl-btn">
   <button
     class="link cx-action-link"
-    [disabled]="(cartItemContext?.quantityControl$ | async).disabled"
-    (click)="saveForLater(cartItemContext.item)"
+    [disabled]="(cartItemContext?.quantityControl$ | async)?.disabled"
+    (click)="saveForLater(cartItemContext?.item$)"
     type="button"
   >
     {{ 'saveForLaterItems.saveForLater' | cxTranslate }}

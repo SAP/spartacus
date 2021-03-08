@@ -1,0 +1,16 @@
+%cx-save-for-later-action {
+  position: relative;
+  width: 100%;
+  padding-inline-end: 15px;
+  padding-inline-start: 15px;
+
+  @media (min-width: 768px) {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+
+  .cx-sfl-btn {
+    text-align: end;
+    padding-inline-end: 0;
+  }
+}

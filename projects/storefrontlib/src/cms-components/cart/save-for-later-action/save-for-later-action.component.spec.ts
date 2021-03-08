@@ -1,4 +1,5 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -11,7 +12,8 @@ import {
   RoutingService,
   SelectiveCartService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, ReplaySubject } from 'rxjs';
+import { CartItemContext } from '../cart-shared/cart-item/model/cart-item-context.model';
 import { SaveForLaterActionComponent } from './save-for-later-action.component';
 
 class MockActiveCartService {
@@ -29,10 +31,17 @@ class MockActiveCartService {
   }
 }
 
+class MockCartItemContext implements Partial<CartItemContext> {
+  item$ = new ReplaySubject<OrderEntry>(1);
+  readonly$ = new ReplaySubject<boolean>(1);
+  quantityControl$ = new ReplaySubject<FormControl>(1);
+}
+
 describe('SaveForLaterActionComponent', () => {
   let component: SaveForLaterActionComponent;
   let fixture: ComponentFixture<SaveForLaterActionComponent>;
   let activeCartService: ActiveCartService;
+  let mockCartItemContext: MockCartItemContext;
 
   const mockSelectiveCartService = jasmine.createSpyObj(
     'SelectiveCartService',
@@ -43,6 +52,7 @@ describe('SaveForLaterActionComponent', () => {
       'getEntries',
       'addEntry',
       'isEnabled',
+      'isStable',
     ]
   );
 
@@ -55,14 +65,8 @@ describe('SaveForLaterActionComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          RouterTestingModule,
-          I18nTestingModule,
-          FeaturesConfigModule,
-        ],
-        declarations: [
-            SaveForLaterActionComponent,
-        ],
+        imports: [RouterTestingModule, I18nTestingModule, FeaturesConfigModule],
+        declarations: [SaveForLaterActionComponent],
         providers: [
           { provide: SelectiveCartService, useValue: mockSelectiveCartService },
           { provide: AuthService, useValue: mockAuthService },
@@ -71,6 +75,7 @@ describe('SaveForLaterActionComponent', () => {
             provide: ActiveCartService,
             useClass: MockActiveCartService,
           },
+          { provide: CartItemContext, useClass: MockCartItemContext },
         ],
       }).compileComponents();
 
@@ -82,6 +87,7 @@ describe('SaveForLaterActionComponent', () => {
     fixture = TestBed.createComponent(SaveForLaterActionComponent);
     component = fixture.componentInstance;
     activeCartService = TestBed.inject(ActiveCartService);
+    mockCartItemContext = TestBed.inject(CartItemContext) as any;
   });
 
   it('should create save for later action component', () => {
@@ -97,12 +103,9 @@ describe('SaveForLaterActionComponent', () => {
     };
     mockAuthService.isUserLoggedIn.and.returnValue(of(true));
     mockSelectiveCartService.addEntry.and.callThrough();
-    mockSelectiveCartService.getLoaded.and.returnValue(of(true));
     spyOn(activeCartService, 'removeEntry').and.callThrough();
-    spyOn(activeCartService, 'getEntries').and.callThrough();
-    spyOn(activeCartService, 'isStable').and.returnValue(of(true));
     fixture.detectChanges();
-    component.saveForLater(mockItem);
+    component.saveForLater(of(mockItem));
     expect(activeCartService.removeEntry).toHaveBeenCalledWith(mockItem);
     expect(mockSelectiveCartService.addEntry).toHaveBeenCalledWith(
       mockItem.product.code,
@@ -118,13 +121,13 @@ describe('SaveForLaterActionComponent', () => {
       },
     };
     mockAuthService.isUserLoggedIn.and.returnValue(of(false));
-    component.saveForLater(mockItem);
+    component.saveForLater(of(mockItem));
     fixture.detectChanges();
     expect(mockRoutingService.go).toHaveBeenCalled();
   });
 
   it('should not show save for later when selective cart is disabled', () => {
-    mockSelectiveCartService.isEnabled.and.returnValue(of(false));
+    mockSelectiveCartService.isEnabled.and.returnValue(false);
     fixture.detectChanges();
     const el = fixture.debugElement.query(By.css('button'));
     expect(el).toBe(null);
@@ -136,4 +139,13 @@ describe('SaveForLaterActionComponent', () => {
     expect(el).toBeDefined();
   });
 
+  it('should not enable save for later when qty control is disabled', () => {
+    const quantityControl = new FormControl();
+    quantityControl.disable();
+    mockCartItemContext.quantityControl$.next(quantityControl);
+
+    fixture.detectChanges();
+    const el = fixture.debugElement.query(By.css('button'));
+    expect(el).toBeDefined();
+  });
 });

@@ -6,8 +6,8 @@ import {
   RoutingService,
   SelectiveCartService,
 } from '@spartacus/core';
-import { combineLatest, Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { CartItemContext } from '../cart-shared/cart-item/model/cart-item-context.model';
 
 @Component({
@@ -15,7 +15,6 @@ import { CartItemContext } from '../cart-shared/cart-item/model/cart-item-contex
   templateUrl: './save-for-later-action.component.html',
 })
 export class SaveForLaterActionComponent implements OnInit {
-  cartLoaded$: Observable<boolean>;
   loggedIn = false;
   selectiveCartEnabled: boolean;
 
@@ -24,34 +23,26 @@ export class SaveForLaterActionComponent implements OnInit {
     protected selectiveCartService: SelectiveCartService,
     protected authService: AuthService,
     protected routingService: RoutingService,
-    protected cartItemContext?: CartItemContext
+    public cartItemContext?: CartItemContext
   ) {}
 
   ngOnInit() {
     this.selectiveCartEnabled = this.selectiveCartService.isEnabled();
 
-    this.cartLoaded$ = combineLatest([
-      this.activeCartService.isStable(),
-      this.selectiveCartEnabled
-        ? this.selectiveCartService.isStable()
-        : of(false),
-      this.authService.isUserLoggedIn(),
-    ]).pipe(
-      tap(([, , loggedIn]) => (this.loggedIn = loggedIn)),
-      map(([cartLoaded, sflLoaded, loggedIn]) =>
-        loggedIn && this.selectiveCartEnabled
-          ? cartLoaded && sflLoaded
-          : cartLoaded
-      )
-    );
+    this.authService
+      .isUserLoggedIn()
+      .pipe(take(1))
+      .subscribe((loggedIn) => (this.loggedIn = loggedIn));
   }
 
-  saveForLater(item: OrderEntry) {
+  saveForLater(item$: Observable<OrderEntry>) {
     if (this.loggedIn) {
-      if(item?.product?.code && item?.quantity){
-        this.activeCartService.removeEntry(item);
-        this.selectiveCartService.addEntry(item.product.code, item.quantity);
-      }
+      item$.pipe(take(1)).subscribe((item) => {
+        if (item?.product?.code && item?.quantity) {
+          this.activeCartService.removeEntry(item);
+          this.selectiveCartService.addEntry(item.product.code, item.quantity);
+        }
+      });
     } else {
       this.routingService.go({ cxRoute: 'login' });
     }

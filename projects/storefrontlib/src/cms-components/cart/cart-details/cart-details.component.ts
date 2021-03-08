@@ -10,7 +10,7 @@ import {
   SelectiveCartService,
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { PromotionService } from '../../../shared/services/promotion/promotion.service';
 
 @Component({
@@ -22,7 +22,6 @@ export class CartDetailsComponent implements OnInit {
   cart$: Observable<Cart>;
   entries$: Observable<OrderEntry[]>;
   cartLoaded$: Observable<boolean>;
-  loggedIn = false;
   orderPromotions$: Observable<PromotionResult[]>;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
   promotions$: Observable<PromotionResult[]>;
@@ -54,7 +53,6 @@ export class CartDetailsComponent implements OnInit {
         : of(false),
       this.authService.isUserLoggedIn(),
     ]).pipe(
-      tap(([, , loggedIn]) => (this.loggedIn = loggedIn)),
       map(([cartLoaded, sflLoaded, loggedIn]) =>
         loggedIn && this.selectiveCartEnabled
           ? cartLoaded && sflLoaded
@@ -66,5 +64,4 @@ export class CartDetailsComponent implements OnInit {
       this.promotionLocation
     );
   }
-
 }
