@@ -11,7 +11,7 @@ class MockScriptLoader implements Partial<ScriptLoader> {
 
 const scriptName = 'xxx.js';
 const config: AepCollectorConfig = {
-  scriptUrl: 'xxx.js',
+  scriptUrl: scriptName,
 };
 
 describe('AepCollectorService', () => {
