@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { LoginEvent, WindowRef } from '@spartacus/core';
-import { TmsCollectorConfig, WindowObject } from '@spartacus/tracking/tms/core';
+import { WindowObject } from '@spartacus/tracking/tms/core';
 import '../config/default-gtm.config';
+import { GtmCollectorConfig } from '../config/default-gtm.config';
 import { GtmCollectorService } from './gtm-collector.service';
 
-const config: TmsCollectorConfig = {
+const config: GtmCollectorConfig = {
   gtmId: 'xxx',
 };
 

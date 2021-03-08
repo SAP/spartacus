@@ -5,6 +5,7 @@ import {
   TmsCollectorConfig,
   WindowObject,
 } from '@spartacus/tracking/tms/core';
+import { GtmCollectorConfig } from '../config/default-gtm.config';
 
 /**
  * Default Google Tag Manager collector.
@@ -15,7 +16,7 @@ export class GtmCollectorService implements TmsCollector {
   /**
    * If the `TmsCollectorConfig.dataLayerProperty` is not specified, it uses the default `dataLayer`
    */
-  init(config: TmsCollectorConfig, windowObject: WindowObject): void {
+  init(config: GtmCollectorConfig, windowObject: WindowObject): void {
     const dataLayerProperty = config.dataLayerProperty ?? 'dataLayer';
     windowObject[dataLayerProperty] = windowObject[dataLayerProperty] ?? [];
 

@@ -5,6 +5,7 @@ import {
   TmsCollectorConfig,
   WindowObject,
 } from '@spartacus/tracking/tms/core';
+import { AepCollectorConfig } from '../config/default-aep.config';
 
 /**
  * Default Adobe Experience Platform collector.
@@ -15,7 +16,7 @@ export class AepCollectorService implements TmsCollector {
   /**
    * If the `TmsCollectorConfig.dataLayerProperty` is not specified, it uses the default `digitalData`
    */
-  init(config: TmsCollectorConfig, windowObject: WindowObject): void {
+  init(config: AepCollectorConfig, windowObject: WindowObject): void {
     const dataLayerProperty = config.dataLayerProperty ?? 'digitalData';
     windowObject[dataLayerProperty] = windowObject[dataLayerProperty] ?? {};
 
