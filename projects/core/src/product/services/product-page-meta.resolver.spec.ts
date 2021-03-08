@@ -5,7 +5,7 @@ import {
   CanonicalUrlOptions,
   PageRobotsMeta,
 } from '../../cms';
-import { PageLinkFactory } from '../../cms/page/routing/page-link.factory';
+import { PageLinkService } from '../../cms/page/routing/page-link.service';
 import { I18nTestingModule, TranslationService } from '../../i18n';
 import { Product } from '../../model';
 import { RoutingService } from '../../routing';
@@ -88,7 +88,7 @@ class MockBasePageMetaResolver {
   }
 }
 
-class MockPageLinkFactory implements Partial<PageLinkFactory> {
+class MockPageLinkFactory implements Partial<PageLinkService> {
   getCanonicalUrl(_options?: CanonicalUrlOptions, url?: string): string {
     return url ?? '';
   }
@@ -98,7 +98,7 @@ describe('ProductPageMetaResolver', () => {
   let service: ProductPageMetaResolver;
   let productService: ProductService;
   let routingService: RoutingService;
-  let pageLinkFactory: PageLinkFactory;
+  let pageLinkFactory: PageLinkService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -113,7 +113,7 @@ describe('ProductPageMetaResolver', () => {
           useClass: MockBasePageMetaResolver,
         },
         {
-          provide: PageLinkFactory,
+          provide: PageLinkService,
           useClass: MockPageLinkFactory,
         },
       ],
@@ -122,7 +122,7 @@ describe('ProductPageMetaResolver', () => {
     service = TestBed.inject(ProductPageMetaResolver);
     productService = TestBed.inject(ProductService);
     routingService = TestBed.inject(RoutingService);
-    pageLinkFactory = TestBed.inject(PageLinkFactory);
+    pageLinkFactory = TestBed.inject(PageLinkService);
   });
 
   it('should be created', () => {
@@ -228,12 +228,12 @@ describe('ProductPageMetaResolver', () => {
     expect(result).not.toContain(PageRobotsMeta.NOFOLLOW);
   });
 
-  it('should resolve canonical url from the PageLinkFactory.resolveCanonicalUrl()', async () => {
+  it('should resolve canonical url from the PageLinkFactory.getCanonicalUrl()', async () => {
     spyOn(routingService, 'getFullUrl').and.returnValue(
       'https://store.com/product/123'
     );
 
-    spyOn(pageLinkFactory, 'resolveCanonicalUrl').and.callThrough();
+    spyOn(pageLinkFactory, 'getCanonicalUrl').and.callThrough();
     service.resolveCanonicalUrl().subscribe().unsubscribe();
     expect(pageLinkFactory.getCanonicalUrl).toHaveBeenCalledWith(
       {},
@@ -252,7 +252,7 @@ describe('ProductPageMetaResolver', () => {
       'https://store.com/product/base_1234'
     );
 
-    spyOn(pageLinkFactory, 'resolveCanonicalUrl').and.callThrough();
+    spyOn(pageLinkFactory, 'getCanonicalUrl').and.callThrough();
     service.resolveCanonicalUrl().subscribe().unsubscribe();
 
     expect(routingService.getFullUrl).toHaveBeenCalledWith({
@@ -280,7 +280,7 @@ describe('ProductPageMetaResolver', () => {
       'https://store.com/product/super_base_1234'
     );
 
-    spyOn(pageLinkFactory, 'resolveCanonicalUrl').and.callThrough();
+    spyOn(pageLinkFactory, 'getCanonicalUrl').and.callThrough();
     service.resolveCanonicalUrl().subscribe().unsubscribe();
 
     expect(routingService.getFullUrl).toHaveBeenCalledWith({

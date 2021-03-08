@@ -12,7 +12,7 @@ import {
   PageRobotsResolver,
   PageTitleResolver,
 } from '../../cms/page/page.resolvers';
-import { PageLinkFactory } from '../../cms/page/routing/page-link.factory';
+import { PageLinkService } from '../../cms/page/routing/page-link.service';
 import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
 import { Category, Product } from '../../model/product.model';
@@ -70,7 +70,7 @@ export class ProductPageMetaResolver
     protected productService: ProductService,
     protected translation: TranslationService,
     protected basePageMetaResolver?: BasePageMetaResolver,
-    protected pageLinkFactory?: PageLinkFactory
+    protected pageLinkFactory?: PageLinkService
   ) {
     super();
     this.pageType = PageType.PRODUCT_PAGE;

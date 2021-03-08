@@ -6,7 +6,7 @@ import {
 } from '../config/page-meta.config';
 
 @Injectable({ providedIn: 'root' })
-export class PageLinkFactory {
+export class PageLinkService {
   constructor(
     protected pageMetaConfig: PageMetaConfig,
     protected winRef: WindowRef

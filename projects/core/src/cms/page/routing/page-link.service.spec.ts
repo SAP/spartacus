@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '../../../window/window-ref';
 import { PageMetaConfig } from '../config/page-meta.config';
-import { PageLinkFactory } from './page-link.factory';
+import { PageLinkService } from './page-link.service';
 
 class MockWindowRef implements Partial<WindowRef> {
   location = {
@@ -9,8 +9,8 @@ class MockWindowRef implements Partial<WindowRef> {
   };
 }
 
-describe('PageLinkFactory', () => {
-  let service: PageLinkFactory;
+describe('PageLinkService', () => {
+  let service: PageLinkService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -35,7 +35,7 @@ describe('PageLinkFactory', () => {
       ],
     });
 
-    service = TestBed.inject(PageLinkFactory);
+    service = TestBed.inject(PageLinkService);
   });
 
   describe('canonical Url', () => {

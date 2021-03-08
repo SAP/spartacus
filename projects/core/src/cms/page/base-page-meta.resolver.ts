@@ -12,7 +12,7 @@ import {
   PageRobotsResolver,
   PageTitleResolver,
 } from './page.resolvers';
-import { PageLinkFactory } from './routing/page-link.factory';
+import { PageLinkService } from './routing/page-link.service';
 import { RoutingPageMetaResolver } from './routing/routing-page-meta.resolver';
 
 @Injectable({
@@ -29,7 +29,7 @@ export class BasePageMetaResolver
     protected translation: TranslationService,
     protected routingPageMetaResolver: RoutingPageMetaResolver,
     protected router?: Router,
-    protected pageLinkFactory?: PageLinkFactory
+    protected pageLinkFactory?: PageLinkService
   ) {}
 
   /**

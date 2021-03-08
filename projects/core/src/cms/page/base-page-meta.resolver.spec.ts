@@ -6,7 +6,7 @@ import { I18nTestingModule, TranslationService } from '../../i18n';
 import { PageType } from '../../model/cms.model';
 import { PageMetaService } from '../facade';
 import { BreadcrumbMeta, PageRobotsMeta } from '../model/page.model';
-import { PageLinkFactory } from './routing/page-link.factory';
+import { PageLinkService } from './routing/page-link.service';
 import { RoutingPageMetaResolver } from './routing/routing-page-meta.resolver';
 
 const mockContentPage: Page = {
@@ -35,7 +35,7 @@ class MockRoutingPageMetaResolver implements Partial<RoutingPageMetaResolver> {
 }
 
 class MockPageLinkFactory {
-  resolveCanonicalUrl() {}
+  getCanonicalUrl() {}
 }
 
 describe('BasePageMetaResolver', () => {
@@ -47,7 +47,7 @@ describe('BasePageMetaResolver', () => {
   routerMock = {
     events: routerEventRelaySubject.asObservable(),
   } as Router;
-  let pageLinkFactory: PageLinkFactory;
+  let pageLinkService: PageLinkService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -68,7 +68,7 @@ describe('BasePageMetaResolver', () => {
           useValue: routerMock,
         },
         {
-          provide: PageLinkFactory,
+          provide: PageLinkService,
           useClass: MockPageLinkFactory,
         },
       ],
@@ -76,7 +76,7 @@ describe('BasePageMetaResolver', () => {
 
     service = TestBed.inject(BasePageMetaResolver);
     routingPageMetaResolver = TestBed.inject(RoutingPageMetaResolver);
-    pageLinkFactory = TestBed.inject(PageLinkFactory);
+    pageLinkService = TestBed.inject(PageLinkService);
   });
 
   it('should inject service', () => {
@@ -143,9 +143,9 @@ describe('BasePageMetaResolver', () => {
   });
 
   it(`should resolve canonical url`, () => {
-    spyOn(pageLinkFactory, 'resolveCanonicalUrl');
+    spyOn(pageLinkService, 'getCanonicalUrl');
     service.resolveCanonicalUrl('my-shop.com').subscribe().unsubscribe();
-    expect(pageLinkFactory.getCanonicalUrl).toHaveBeenCalledWith(
+    expect(pageLinkService.getCanonicalUrl).toHaveBeenCalledWith(
       undefined,
       'my-shop.com'
     );
