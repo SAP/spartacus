@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { provideConfig } from '@spartacus/core';
-import { BundleRootModule } from '@spartacus/bundle/root';
+import { BundleRootModule } from 'projects/core/src/cart/bundle/root/public_api';
 
 @NgModule({
   imports: [BundleRootModule],
@@ -8,7 +8,10 @@ import { BundleRootModule } from '@spartacus/bundle/root';
     provideConfig({
       featureModules: {
         bundle: {
-          module: () => import('@spartacus/bundle').then((m) => m.BundleModule),
+          module: () =>
+            import('projects/core/src/cart/bundle/public_api').then(
+              (m) => m.BundleModule
+            ),
         },
       },
     }),

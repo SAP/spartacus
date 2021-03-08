@@ -12,7 +12,7 @@ import {
 import { StoreEntities } from '../model';
 import { map } from 'rxjs/operators';
 import { BundleActions } from '../store';
-import { BundleStarter } from '@spartacus/bundle/core';
+import { BundleStarter } from 'projects/core/src/cart/bundle/core/public_api';
 
 @Injectable({
   providedIn: 'root',

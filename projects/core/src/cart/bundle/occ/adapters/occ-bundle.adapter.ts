@@ -8,7 +8,10 @@ import {
   OccEndpointsService,
   SearchConfig,
 } from '@spartacus/core';
-import { BundleAdapter, BundleStarter } from '@spartacus/bundle/core';
+import {
+  BundleAdapter,
+  BundleStarter,
+} from 'projects/core/src/cart/bundle/core/public_api';
 
 @Injectable()
 export class OccBundleAdapter implements BundleAdapter {

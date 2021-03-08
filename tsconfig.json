@@ -21,10 +21,14 @@
     "paths": {
       "@spartacus/setup": ["core-libs/setup/public_api"],
       "@spartacus/setup/ssr": ["core-libs/setup/ssr/public_api"],
-      "@spartacus/bundle/core": ["feature-libs/bundle/core/public_api"],
-      "@spartacus/bundle": ["feature-libs/bundle/public_api"],
-      "@spartacus/bundle/occ": ["feature-libs/bundle/occ/public_api"],
-      "@spartacus/bundle/root": ["feature-libs/bundle/root/public_api"],
+      "@spartacus/bundle/core": [
+        "projects/core/src/cart/bundle/core/public_api"
+      ],
+      "@spartacus/bundle": ["projects/core/src/cart/bundle/public_api"],
+      "@spartacus/bundle/occ": ["projects/core/src/cart/bundle/occ/public_api"],
+      "@spartacus/bundle/root": [
+        "projects/core/src/cart/bundle/root/public_api"
+      ],
       "@spartacus/organization/administration/assets": [
         "feature-libs/organization/administration/assets/public_api"
       ],

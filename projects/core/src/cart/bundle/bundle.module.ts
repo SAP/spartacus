@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { BundleCoreModule } from '@spartacus/bundle/core';
-import { BundleOccModule } from '@spartacus/bundle/occ';
+import { BundleCoreModule } from './core/public_api';
+import { BundleOccModule } from './occ/public_api';
 
 @NgModule({
   imports: [BundleCoreModule, BundleOccModule],

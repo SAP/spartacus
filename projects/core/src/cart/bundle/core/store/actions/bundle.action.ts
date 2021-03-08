@@ -4,7 +4,7 @@ import {
   SearchState,
   SpellingSuggestion,
 } from 'projects/core/src/model';
-import { BundleStarter } from 'feature-libs/bundle/core/model/bundle.model';
+import { BundleStarter } from 'projects/core/src/cart/bundle/core/model/bundle.model';
 import { OrderEntry } from 'projects/core/src/model/order.model';
 import { Product } from 'projects/core/src/model/product.model';
 import { Pagination, Sort } from 'projects/core/src/model/unused.model';
@@ -13,7 +13,7 @@ import {
   EntityProcessesDecrementAction,
   EntityProcessesIncrementAction,
 } from 'projects/core/src/state/utils/entity-processes-loader/entity-processes-loader.action';
-import { MULTI_CART_DATA } from '../../../../projects/core/src/cart/store/multi-cart-state';
+import { MULTI_CART_DATA } from '../../../store/multi-cart-state';
 
 export const START_BUNDLE = '[Cart] Start Bundle';
 export const START_BUNDLE_SUCCESS = '[Cart] Start Bundle Success';

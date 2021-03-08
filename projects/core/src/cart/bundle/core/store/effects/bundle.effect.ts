@@ -6,7 +6,7 @@ import {
   SiteContextActions,
   withdrawOn,
 } from '@spartacus/core';
-import { BundleConnector } from 'feature-libs/bundle/core/connectors/bundle.connector';
+import { BundleConnector } from 'projects/core/src/cart/bundle/core/connectors/bundle.connector';
 import { from, Observable } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
 import { BundleActions } from '../actions';

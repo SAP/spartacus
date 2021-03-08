@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { CartModification } from '@spartacus/core';
 import { SearchConfig } from 'projects/core/src/product/model/search-config';
-import { BundleStarter } from 'feature-libs/bundle/core/model/bundle.model';
+import { BundleStarter } from 'projects/core/src/cart/bundle/core/model/bundle.model';
 import { BundleAdapter } from './bundle.adapter';
 
 @Injectable({
