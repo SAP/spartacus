@@ -17,7 +17,7 @@ export class PageMetaLinkService {
    * If no url is provided, the link element will be deleted.
    */
   setCanonicalLink(url: string | undefined): void {
-    let link: HTMLLinkElement = document.querySelector(
+    let link: HTMLLinkElement = this.winRef.document.querySelector(
       'link[rel="canonical"]'
     ) as HTMLLinkElement;
 
