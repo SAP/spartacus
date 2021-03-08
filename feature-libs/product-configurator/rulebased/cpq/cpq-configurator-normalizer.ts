@@ -69,18 +69,18 @@ export class CpqConfiguratorNormalizer
   }
 
   generateWarningMessages(source: Cpq.Configuration): string[] {
-    let errorMsgs: string[] = [];
-    errorMsgs = errorMsgs.concat(source.failedValidations);
-    return errorMsgs;
+    let warnMsgs: string[] = [];
+    warnMsgs = warnMsgs.concat(source.failedValidations);
+    return warnMsgs;
   }
 
   generateErrorMessages(source: Cpq.Configuration): string[] {
-    let warningMsgs: string[] = [];
-    warningMsgs = warningMsgs.concat(source.errorMessages);
-    warningMsgs = warningMsgs.concat(source.incompleteMessages);
-    warningMsgs = warningMsgs.concat(source.conflictMessages);
-    warningMsgs = warningMsgs.concat(source.invalidMessages);
-    return warningMsgs;
+    let errorMsgs: string[] = [];
+    errorMsgs = errorMsgs.concat(source.errorMessages);
+    errorMsgs = errorMsgs.concat(source.incompleteMessages);
+    errorMsgs = errorMsgs.concat(source.conflictMessages);
+    errorMsgs = errorMsgs.concat(source.invalidMessages);
+    return errorMsgs;
   }
 
   convertGroup(
