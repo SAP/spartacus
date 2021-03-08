@@ -27,7 +27,7 @@ export class BasePageMetaResolver
   constructor(
     protected cmsService: CmsService,
     protected translation: TranslationService,
-    protected routingPageMetaResolver?: RoutingPageMetaResolver,
+    protected routingPageMetaResolver: RoutingPageMetaResolver,
     protected router?: Router,
     protected pageLinkFactory?: PageLinkFactory
   ) {}

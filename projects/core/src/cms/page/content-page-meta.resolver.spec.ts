@@ -60,6 +60,7 @@ class MockBasePageMetaResolver implements Partial<BasePageMetaResolver> {
 
 describe('ContentPageMetaResolver', () => {
   let service: ContentPageMetaResolver;
+  let basePageMetaResolver: BasePageMetaResolver;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -83,6 +84,7 @@ describe('ContentPageMetaResolver', () => {
     });
 
     service = TestBed.inject(ContentPageMetaResolver);
+    basePageMetaResolver = TestBed.inject(BasePageMetaResolver);
   });
 
   it('should inject service', () => {
@@ -92,7 +94,9 @@ describe('ContentPageMetaResolver', () => {
   it(`should resolve 'Page title' for resolveTitle()`, () => {
     let result: string | undefined;
 
-    spyOn(service, 'resolveTitle').and.returnValue(of('Page title'));
+    spyOn(basePageMetaResolver, 'resolveTitle').and.returnValue(
+      of('Page title')
+    );
 
     service
       .resolveTitle()
@@ -107,7 +111,7 @@ describe('ContentPageMetaResolver', () => {
   it('should resolve the home breadcrumb for resolveBreadcrumbs()', () => {
     let result: BreadcrumbMeta[] | undefined;
 
-    spyOn(service, 'resolveBreadcrumbs').and.returnValue(
+    spyOn(basePageMetaResolver, 'resolveBreadcrumbs').and.returnValue(
       of([{ label: 'common.home', link: '/' } as BreadcrumbMeta])
     );
 
@@ -125,7 +129,7 @@ describe('ContentPageMetaResolver', () => {
   it('should breadcrumbs for Angular child routes', () => {
     let result: BreadcrumbMeta[] | undefined;
 
-    spyOn(service, 'resolveBreadcrumbs').and.returnValue(
+    spyOn(basePageMetaResolver, 'resolveBreadcrumbs').and.returnValue(
       of([
         { label: 'common.home', link: '/' },
         { label: 'child route breadcrumb', link: '/child' },
@@ -149,7 +153,7 @@ describe('ContentPageMetaResolver', () => {
   it(`should resolve robots for page data`, () => {
     let result: PageRobotsMeta[] | undefined;
 
-    spyOn(service, 'resolveRobots').and.returnValue(
+    spyOn(basePageMetaResolver, 'resolveRobots').and.returnValue(
       of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX] as PageRobotsMeta[])
     );
 
@@ -167,7 +171,7 @@ describe('ContentPageMetaResolver', () => {
   it('should resolve the canonical url', () => {
     let result: string | undefined;
 
-    spyOn(service, 'resolveCanonicalUrl').and.returnValue(
+    spyOn(basePageMetaResolver, 'resolveCanonicalUrl').and.returnValue(
       of('https://www.myshop.com/')
     );
 
