@@ -9,7 +9,6 @@ import { Cart, TranslationService } from '@spartacus/core';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
-import { SavedCartService } from '../../../core/services/saved-cart.service';
 import { SavedCartFormLaunchDialogService } from '../../saved-cart-form-dialog/saved-cart-form-launch-dialog.service';
 import { SavedCartDetailService } from '../saved-cart-detail.service';
 
@@ -27,7 +26,6 @@ export class SavedCartDetailOverviewComponent implements OnDestroy {
 
   constructor(
     protected savedCartDetailService: SavedCartDetailService,
-    protected savedCartService: SavedCartService,
     protected translation: TranslationService,
     protected savedCartFormLaunchDialogService: SavedCartFormLaunchDialogService,
     protected vcr: ViewContainerRef

@@ -62,8 +62,6 @@ describe('SavedCart Effects', () => {
   let connector: SavedCartConnector;
   let effects: fromEffects.SavedCartEffects;
   let actions$: Observable<Action>;
-  //   TODO: related to line 202
-  //   let activeCartService: ActiveCartService;
   let globalMessageService: GlobalMessageService;
   let clearCheckoutService: ClearCheckoutService;
   let multiCartService: MultiCartService;
@@ -97,10 +95,9 @@ describe('SavedCart Effects', () => {
       ],
     });
 
-    connector = TestBed.inject(SavedCartConnector);
+    activeCartId$.next(mockActiveCartId);
     effects = TestBed.inject(fromEffects.SavedCartEffects);
-    // TODO: related to line 202
-    // activeCartService = TestBed.inject(ActiveCartService);
+    connector = TestBed.inject(SavedCartConnector);
     globalMessageService = TestBed.inject(GlobalMessageService);
     clearCheckoutService = TestBed.inject(ClearCheckoutService);
     multiCartService = TestBed.inject(MultiCartService);
@@ -151,8 +148,7 @@ describe('SavedCart Effects', () => {
     });
   });
 
-  xdescribe('restoreSavedCart$', () => {
-    // TODO this test is failing
+  describe('restoreSavedCart$', () => {
     it('should restore a saved cart and make it active and save current active cart', () => {
       const action = new SavedCartActions.RestoreSavedCart({
         userId: mockUserId,
