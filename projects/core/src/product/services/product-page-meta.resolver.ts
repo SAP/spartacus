@@ -195,7 +195,7 @@ export class ProductPageMetaResolver
     return this.product$.pipe(
       switchMap((product) => {
         const code = product.baseProduct ?? product.code;
-        const url = this.routingService.getUrl({
+        const url = this.routingService.getFullUrl({
           cxRoute: 'product',
           params: { code },
         });

@@ -22,7 +22,7 @@ class MockRoutingService implements Partial<RoutingService> {
       },
     });
   }
-  getUrl(): string {
+  getFullUrl(): string {
     return '';
   }
 }
@@ -229,7 +229,7 @@ describe('ProductPageMetaResolver', () => {
   });
 
   it('should resolve canonical url from the PageLinkFactory.resolveCanonicalUrl()', async () => {
-    spyOn(routingService, 'getUrl').and.returnValue(
+    spyOn(routingService, 'getFullUrl').and.returnValue(
       'https://store.com/product/123'
     );
 
@@ -243,13 +243,13 @@ describe('ProductPageMetaResolver', () => {
 
   it('should resolve canonical url for product variant', async () => {
     spyOn(productService, 'get').and.returnValue(of(MockProductVariant));
-    spyOn(routingService, 'getUrl').and.returnValue(
+    spyOn(routingService, 'getFullUrl').and.returnValue(
       'https://store.com/product/base_1234'
     );
     spyOn(pageLinkFactory, 'resolveCanonicalUrl').and.callThrough();
     service.resolveCanonicalUrl().subscribe().unsubscribe();
 
-    expect(routingService.getUrl).toHaveBeenCalledWith({
+    expect(routingService.getFullUrl).toHaveBeenCalledWith({
       cxRoute: 'product',
       params: { code: 'base_1234' },
     });

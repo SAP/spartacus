@@ -86,13 +86,37 @@ describe('RoutingService', () => {
   });
 
   describe('getUrl', () => {
-    it('should resolve the absolute url from the urlCommands', () => {
+    it('should resolve the relative url from the urlCommands', () => {
       spyOn(urlService, 'transform').and.returnValue(['product', '123']);
       const url = service.getUrl({
         cxRoute: 'product',
         params: { code: '123' },
       });
+      expect(url).toEqual('/product/123');
+    });
 
+    it('should resolve the relative url from the urlCommands and NavigationExtras', () => {
+      spyOn(urlService, 'transform').and.returnValue([
+        'category',
+        'SLR_CAMERAS',
+      ]);
+
+      const queryParams = { sortBy: 'price-desc' };
+      const url = service.getUrl(
+        { cxRoute: 'category', params: { code: 'SLR_CAMERAS' } },
+        { queryParams }
+      );
+      expect(url).toEqual('/category/SLR_CAMERAS?sortBy=price-desc');
+    });
+  });
+
+  describe('getFullUrl', () => {
+    it('should resolve the absolute url from the urlCommands', () => {
+      spyOn(urlService, 'transform').and.returnValue(['product', '123']);
+      const url = service.getFullUrl({
+        cxRoute: 'product',
+        params: { code: '123' },
+      });
       expect(url).toEqual('http://localhost:9876/product/123');
     });
   });

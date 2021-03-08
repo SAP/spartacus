@@ -82,25 +82,38 @@ export class RoutingService {
   }
 
   /**
-   * Resolves the absolute url for the given `UrlCommands`.
+   * Resolves the relative url for the given `UrlCommands` and `NavigationExtras`.
    *
-   * The absolute URL uses the origin of the current location.
+   * The absolute url can be resolved using `getFullUrl()`.
    */
-  getUrl(commands: UrlCommands): string {
+  getUrl(commands: UrlCommands, extras?: NavigationExtras): string {
     // TODO(#10467): Remove the warning as soon as the router becomes mandatory
     if (!this.router) {
       console.warn('No router injected to create the url tree');
-      return;
+      return '';
     }
-    let url = this.winRef.document.location.origin;
-    const relativeUrl = this.router.serializeUrl(
-      this.router.createUrlTree(this.semanticPathService.transform(commands))
+    let url = this.router.serializeUrl(
+      this.router.createUrlTree(
+        this.semanticPathService.transform(commands),
+        extras
+      )
     );
-    if (!relativeUrl.startsWith('/')) {
-      url += '/';
+    if (!url.startsWith('/')) {
+      url = `/${url}`;
     }
-    url += relativeUrl;
     return url;
+  }
+
+  /**
+   * Returns the absolute url for the given `UrlCommands` and `NavigationExtras`.
+   *
+   * The absolute url uses the origin of the current location.
+   */
+  getFullUrl(commands: UrlCommands, extras?: NavigationExtras) {
+    return `${this.winRef.document.location.origin}${this.getUrl(
+      commands,
+      extras
+    )}`;
   }
 
   /**
