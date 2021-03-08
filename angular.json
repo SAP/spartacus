@@ -755,13 +755,12 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "feature-libs/asm/tsconfig.lib.json",
-              "feature-libs/asm/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
+            "lintFilePatterns": [
+              "feature-libs/asm/**/*.ts",
+              "feature-libs/asm/**/*.html"
+            ]
           }
         }
       }
