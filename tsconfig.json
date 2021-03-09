@@ -73,19 +73,19 @@
       ],
       "@spartacus/product-configurator/common/assets": [
         "feature-libs/product-configurator/common/assets/public_api"
-      ], 
+      ],
       "@spartacus/product-configurator/textfield": [
         "feature-libs/product-configurator/textfield/public_api"
       ],
       "@spartacus/product-configurator/textfield/root": [
         "feature-libs/product-configurator/textfield/root/public_api"
-      ],      
+      ],
       "@spartacus/product-configurator/rulebased": [
         "feature-libs/product-configurator/rulebased/public_api"
-      ],      
+      ],
       "@spartacus/product-configurator/rulebased/root": [
         "feature-libs/product-configurator/rulebased/root/public_api"
-      ],       
+      ],
       "@spartacus/storefinder/assets": [
         "feature-libs/storefinder/assets/public_api"
       ],
@@ -150,24 +150,6 @@
       ],
       "@spartacus/product/multi-d/root": [
         "feature-libs/product/multi-d/root/public_api"
-      ],
-      "@spartacus/product/variants": [
-        "feature-libs/product/variants/public_api"
-      ],
-      "@spartacus/product/variants/assets": [
-        "feature-libs/product/variants/assets/public_api"
-      ],
-      "@spartacus/product/variants/components": [
-        "feature-libs/product/variants/components/public_api"
-      ],
-      "@spartacus/product/variants/core": [
-        "feature-libs/product/variants/core/public_api"
-      ],
-      "@spartacus/product/variants/occ": [
-        "feature-libs/product/variants/occ/public_api"
-      ],
-      "@spartacus/product/variants/root": [
-        "feature-libs/product/variants/root/public_api"
       ]
     }
   },

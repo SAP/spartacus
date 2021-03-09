@@ -78,17 +78,7 @@
       ],
       "@spartacus/product/multi-d/core": ["../../dist/product/multi-d/core"],
       "@spartacus/product/multi-d/occ": ["../../dist/product/multi-d/occ"],
-      "@spartacus/product/multi-d/root": ["../../dist/product/multi-d/root"],
-      "@spartacus/product/variants": ["../../dist/product/variants"],
-      "@spartacus/product/variants/assets": [
-        "../../dist/product/variants/assets"
-      ],
-      "@spartacus/product/variants/components": [
-        "../../dist/product/variants/components"
-      ],
-      "@spartacus/product/variants/core": ["../../dist/product/variants/core"],
-      "@spartacus/product/variants/occ": ["../../dist/product/variants/occ"],
-      "@spartacus/product/variants/root": ["../../dist/product/variants/root"]
+      "@spartacus/product/multi-d/root": ["../../dist/product/multi-d/root"]
     }
   }
 }
