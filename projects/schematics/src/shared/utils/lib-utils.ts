@@ -414,7 +414,7 @@ function addLibraryAssets(assetsConfig: AssetsConfig): Rule {
   };
 }
 
-function addLibraryStyles(stylingConfig: StylingConfig): Rule {
+export function addLibraryStyles(stylingConfig: StylingConfig): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const libraryScssPath = `${getSourceRoot(tree)}/styles/spartacus/${
       stylingConfig.scssFileName
