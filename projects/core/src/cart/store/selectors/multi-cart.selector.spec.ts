@@ -29,6 +29,28 @@ describe('Multi Cart selectors', () => {
     user: { uid: 'test' },
   };
 
+  const testCart2: Cart = {
+    code: 'xxx-x',
+    guid: 'xxx',
+    totalItems: 0,
+    entries: [
+      { entryNumber: 0, product: { code: '1234' } },
+      { entryNumber: 1, product: { code: '01234' } },
+      { entryNumber: 2, product: { code: '3234' } },
+    ],
+    totalPrice: {
+      currencyIso: 'USD',
+      value: 0,
+    },
+    totalPriceWithTax: {
+      currencyIso: 'USD',
+      value: 0,
+    },
+    user: { uid: 'test' },
+  };
+
+  const mockCarts = [testCart, testCart2];
+
   function loadCart() {
     store.dispatch(
       new CartActions.LoadCartSuccess({
@@ -40,6 +62,10 @@ describe('Multi Cart selectors', () => {
         cartId: testCart.code,
       })
     );
+  }
+
+  function loadCarts() {
+    store.dispatch(new CartActions.LoadCartsSuccess(mockCarts));
   }
 
   beforeEach(() => {
@@ -241,6 +267,22 @@ describe('Multi Cart selectors', () => {
       loadCart();
 
       expect(result).toEqual(testCart.entries[0]);
+    });
+  });
+
+  describe('getCartsSelectorFactory', () => {
+    it('should return list of cart for entry', () => {
+      let result;
+      store
+        .pipe(select(MultiCartSelectors.getCartsSelectorFactory))
+        .subscribe((value) => (result = value));
+
+      const isEmpty = result == undefined || result.length == 0;
+      expect(isEmpty).toBeTruthy();
+
+      loadCarts();
+
+      expect(result.length).toEqual(2);
     });
   });
 

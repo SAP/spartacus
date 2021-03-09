@@ -12,6 +12,8 @@ const testCart: Cart = {
   savedBy: { name: 'user', uid: 'userId' },
 };
 
+const testCarts = [testCart];
+
 describe('Multi Cart reducer', () => {
   describe('activeCartReducer', () => {
     describe('LOAD_CART_SUCCESS action', () => {
@@ -219,6 +221,16 @@ describe('Multi Cart reducer', () => {
         const action = new CartActions.LoadCartSuccess(payload);
         const state = fromMultiCart.cartEntitiesReducer(initialState, action);
         expect(state).toEqual(payload.cart);
+      });
+    });
+
+    describe('LOAD_CARTS_SUCCESS action', () => {
+      it('should set cart in state', () => {
+        const initialState = {};        
+        const payload = testCarts;
+        const action = new CartActions.LoadCartsSuccess(testCarts);
+        const state = fromMultiCart.cartEntitiesReducer(initialState, action);
+        expect(state[0].code).toEqual('xxx');
       });
     });
 
