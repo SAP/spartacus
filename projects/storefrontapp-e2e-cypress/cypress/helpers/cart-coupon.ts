@@ -1,7 +1,7 @@
 import { user } from '../sample-data/checkout-flow';
 import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 
-export const productCode1 = '1225694';
+export const productCode1 = '300938';
 export const couponCode1 = 'CouponForCart';
 export const productCode2 = '493683';
 export const couponCode2 = 'CouponForProduct';
@@ -12,6 +12,12 @@ export const giftProductCode = '443175';
 export const productCode4 = '1934793';
 export const myCouponCode1 = 'springfestival';
 export const myCouponCode2 = 'midautumn';
+
+export function visitProductPage(productCode: string) {
+  registerProductDetailsRoute(productCode);
+  cy.visit(`/product/${productCode}`);
+  cy.wait('@product_details');
+}
 
 export function addProductToCart(productCode: string) {
   cy.get('cx-add-to-cart')
@@ -156,12 +162,19 @@ export function verifyOrderHistory(orderData: any, couponCode?: string) {
     console.log(JSON.stringify(xhr.response.body));
     const subtotal = xhr.response.body.subTotal.formattedValue;
     const orderDiscount = xhr.response.body.totalDiscounts.formattedValue;
-    getCouponItemOrderSummary(couponCode).should('exist');
-    cy.get('.cx-summary-partials > .cx-summary-row').should('have.length', 5);
-    cy.get('.cx-summary-partials').within(() => {
-      cy.get('.cx-summary-amount').should('contain', subtotal);
-      cy.get(':nth-child(5)').should('contain', `You saved: ${orderDiscount}`);
-    });
+    if (couponCode) {
+      getCouponItemOrderSummary(couponCode).should('exist');
+      cy.get('.cx-summary-partials > .cx-summary-row').should('have.length', 5);
+      cy.get('.cx-summary-partials').within(() => {
+        cy.get('.cx-summary-amount').should('contain', subtotal);
+        cy.get(':nth-child(5)').should(
+          'contain',
+          `You saved: ${orderDiscount}`
+        );
+      });
+    } else {
+      verifyNoCouponInOrderHistory();
+    }
   });
 }
 
@@ -245,10 +258,10 @@ export function verifyCouponInOrderHistory(
 }
 
 export function verifyNoCouponInOrderHistory() {
-  cy.get('cx-order-summary > cx-applied-coupons').should('not.exist');
+  cy.get('cx-order-summary > cx-applied-coupons').should('not.be.visible');
   cy.get('.cx-summary-partials > .cx-summary-row').should('have.length', 4);
   cy.get('.cx-summary-partials').within(() => {
-    cy.get(':nth-child(5)').should('not.contain', 'You saved');
+    cy.get(':nth-child(5)').should('not.exist');
   });
 }
 
@@ -281,7 +294,6 @@ export function navigateToOrderHistoryPage(orderData: any, couponCode: string) {
       .click();
   });
   cy.wait('@order_details').then((xhr) => {
-    console.log(JSON.stringify(xhr.response.body));
     const subtotal = xhr.response.body.subTotal.formattedValue;
     const orderDiscount = xhr.response.body.totalDiscounts.formattedValue;
     getCouponItemOrderSummary(couponCode).should('exist');
