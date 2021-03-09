@@ -106,5 +106,5 @@ function getRequestUrl(req: Request): string {
 }
 
 function getRequestOrigin(req: Request): string {
-  return req.protocol + '://' + req.get('host');
+  return req.protocol + '://' + req.hostname;
 }

@@ -23,24 +23,26 @@ function delete_dir {
 }
 
 function cmd_clean {
-    printh "Cleaning Spartacus installation workspace"
+    printh "Cleaning old spartacus installation workspace"
 
-    delete_dir $BASE_DIR
+    delete_dir ${BASE_DIR}
     delete_dir storage
 
     yarn cache clean
 }
 
-function pre_install {
+function prepare_install {
     VERDACCIO_PID=`lsof -nP -i4TCP:4873 | grep LISTEN | tr -s ' ' | cut -d ' ' -f 2`
     if [[ -n ${VERDACCIO_PID} ]]; then
-        echo "It seems Verdaccio is already running on PID: ${VERDACCIO_PID}. Killing it."
-        kill $VERDACCIO_PID
+        echo "It seems Verdaccio is already running with PID: ${VERDACCIO_PID}. Killing it."
+        kill ${VERDACCIO_PID}
     fi
 
     npm config set @spartacus:registry https://registry.npmjs.org/
 
     cmd_clean
+
+    printh "Installing packages for Spartacus pre-installation"
 
     npm i -g verdaccio
     npm i -g serve
@@ -55,105 +57,94 @@ function pre_install {
 function clone_repo {
     printh "Cloning Spartacus installation repo."
 
-    echo "Cloning from ${SPARTACUS_REPO_URL}"
+    echo "Cloning from ${SPARTACUS_REPO_URL}. Currently in `pwd`"
+    ls -l ${BASE_DIR}
 
     git clone -b ${BRANCH} ${SPARTACUS_REPO_URL} ${CLONE_DIR} --depth 1
 }
 
 function update_projects_versions {
     projects=$@
-    if [[ "$SPARTACUS_VERSION" == "next" ]] || [[ "$SPARTACUS_VERSION" == "latest" ]]; then
+    if [[ "${SPARTACUS_VERSION}" == "next" ]] || [[ "${SPARTACUS_VERSION}" == "latest" ]]; then
         SPARTACUS_VERSION="999.999.999"
     fi
-    for i in $projects
+    for i in ${projects}
         do
             (cd "${CLONE_DIR}/${i}" && pwd && sed -i -E 's/"version": "[^"]+/"version": "'"${SPARTACUS_VERSION}"'/g' package.json);
         done
 }
 
-function npm_install {
-    pre_install
+function install_from_npm {
+    prepare_install
 
     create_apps
 }
 
-function create_app {
-    ( cd ${INSTALLATION_DIR} && ng new $1 --style=scss --routing=false)
+function create_shell_app {
+    ( cd ${INSTALLATION_DIR} && ng new ${1} --style=scss --routing=false)
 }
 
-function create_csr {
-    create_app csr
-}
-
-function create_ssr {
-    create_app ssr
-}
-
-function create_ssr_pwa {
-    create_app ssr-pwa
+function add_b2b {
+    if [ "${ADD_B2B_LIBS}" = true ] ; then
+        ng add @spartacus/organization@${SPARTACUS_VERSION} --interactive false
+    fi
 }
 
 function add_spartacus_csr {
-    ( cd ${INSTALLATION_DIR} && cd csr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} && ng add @spartacus/storefinder@${SPARTACUS_VERSION} --interactive false
-        if [ "$ADD_B2B_LIBS" = true ] ; then
-            ng add @spartacus/organization@${SPARTACUS_VERSION} --interactive false
-        fi
-        if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
-            ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false
-        fi        
+    ( cd ${INSTALLATION_DIR}/${1} && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} && ng add @spartacus/storefinder@${SPARTACUS_VERSION} --interactive false
+    add_b2b
+    if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
+        ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false
+    fi
     )
 }
 
 function add_spartacus_ssr {
-    ( cd ${INSTALLATION_DIR} && cd ssr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr && ng add @spartacus/storefinder@${SPARTACUS_VERSION} --interactive false
-        if [ "$ADD_B2B_LIBS" = true ] ; then
-            ng add @spartacus/organization@${SPARTACUS_VERSION} --interactive false
-        fi
-        if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
-            ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false
-        fi           
+    ( cd ${INSTALLATION_DIR}/${1} && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr && ng add @spartacus/storefinder@${SPARTACUS_VERSION} --interactive false
+    add_b2b
+    if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
+        ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false
+    fi
     )
 }
 
 function add_spartacus_ssr_pwa {
-    ( cd ${INSTALLATION_DIR} && cd ssr-pwa && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa && ng add @spartacus/storefinder@${SPARTACUS_VERSION} --interactive false
-        if [ "$ADD_B2B_LIBS" = true ] ; then
-            ng add @spartacus/organization@${SPARTACUS_VERSION} --interactive false
-        fi
-        if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
-            ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false
-        fi           
+    ( cd ${INSTALLATION_DIR}/${1} && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa && ng add @spartacus/storefinder@${SPARTACUS_VERSION} --interactive false
+    add_b2b
+    if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
+        ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false
+    fi
     )
 }
 
 function create_apps {
-    if [ -z "$CSR_PORT" ]; then
-        echo "Skipping csr app install"
+    if [ -z "${CSR_PORT}" ]; then
+        echo "Skipping csr app install (no port defined)"
     else
         printh "Installing csr app"
-        create_csr
-        add_spartacus_csr
+        create_shell_app ${CSR_APP_NAME}
+        add_spartacus_csr ${CSR_APP_NAME}
     fi
-    if [ -z "$SSR_PORT" ]; then
-        echo "Skipping ssr app install"
+    if [ -z "${SSR_PORT}" ]; then
+        echo "Skipping ssr app install (no port defined)"
     else
         printh "Installing ssr app"
-        create_ssr
-        add_spartacus_ssr
+        create_shell_app ${SSR_APP_NAME}
+        add_spartacus_ssr ${SSR_APP_NAME}
     fi
-    if [ -z "$SSR_PWA_PORT" ]; then
-        echo "Skipping ssr with pwa app install"
+    if [ -z "${SSR_PWA_PORT}" ]; then
+        echo "Skipping ssr with pwa app install (no port defined)"
     else
         printh "Installing ssr app (with pwa support)"
-        create_ssr_pwa
-        add_spartacus_ssr_pwa
+        create_shell_app ${SSR_PWA_APP_NAME}
+        add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME}
     fi
 }
 
-function local_install {
+function install_from_sources {
     printh "Installing with local @spartacus/*@${SPARTACUS_VERSION}"
 
-    pre_install
+    prepare_install
 
     npm set @spartacus:registry http://localhost:4873/
 
@@ -203,7 +194,7 @@ function local_install {
     ( cd ${CLONE_DIR}/dist/storefinder && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 
     printh "Creating product-configurator npm package"
-    ( cd ${CLONE_DIR}/dist/product-configurator && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )    
+    ( cd ${CLONE_DIR}/dist/product-configurator && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 
     create_apps
 
@@ -215,74 +206,74 @@ function local_install {
     echo "Finished: npm @spartacus:registry set back to https://registry.npmjs.org/"
 }
 
-function prestart_csr {
-    if [ -z "$CSR_PORT" ]; then
-        echo "Skipping prestart csr script"
+function build_csr {
+    if [ -z "${CSR_PORT}" ]; then
+        echo "Skipping csr app build (No port defined)"
     else
-        printh "Prestart setup for csr app"
-        ( cd ${INSTALLATION_DIR}/csr && yarn build --prod )
+        printh "Building csr app"
+        ( cd ${INSTALLATION_DIR}/${CSR_APP_NAME} && yarn build --prod )
     fi
 }
 
-function prestart_ssr {
-    if [ -z "$SSR_PORT" ]; then
-        echo "Skipping prestart ssr script"
+function build_ssr {
+    if [ -z "${SSR_PORT}" ]; then
+        echo "Skipping ssr app build (No port defined)"
     else
-        printh "Prestart setup for ssr app"
-        ( cd ${INSTALLATION_DIR}/ssr && yarn build && yarn build:ssr )
+        printh "Building ssr app"
+        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && yarn build && yarn build:ssr )
     fi
 }
 
-function prestart_ssr_pwa {
-    if [ -z "$SSR_PWA_PORT" ]; then
-        echo "Skipping prestart ssr script (with pwa support)"
+function build_ssr_pwa {
+    if [ -z "${SSR_PWA_PORT}" ]; then
+        echo "Skipping ssr with PWA app build (No port defined)"
     else
-        printh "Prestart setup for ssr app (with pwa support)"
-        ( cd ${INSTALLATION_DIR}/ssr-pwa && yarn build && yarn build:ssr )
+        printh "Building ssr app with PWA"
+        ( cd ${INSTALLATION_DIR}/${SSR_PWA_APP_NAME} && yarn build && yarn build:ssr )
     fi
 }
 
 function start_csr_unix {
-    if [ -z "$CSR_PORT" ]; then
-        echo "Skipping csr app start"
+    if [ -z "${CSR_PORT}" ]; then
+        echo "Skipping csr app start (no port defined)"
     else
-        prestart_csr
+        build_csr
         printh "Starting csr app"
-        pm2 start --name "csr-${CSR_PORT}" serve -- ${INSTALLATION_DIR}/csr/dist/csr/ --single -p ${CSR_PORT}
+        pm2 start --name "${CSR_APP_NAME}-${CSR_PORT}" serve -- ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/${CSR_APP_NAME}/ --single -p ${CSR_PORT}
     fi
 }
 
 function start_ssr_unix {
-     if [ -z "$SSR_PORT" ]; then
-        echo "Skipping ssr app start"
+     if [ -z "${SSR_PORT}" ]; then
+        echo "Skipping ssr app start (no port defined)"
     else
-        prestart_ssr
+        build_ssr
         printh "Starting ssr app"
-        ( cd ${INSTALLATION_DIR}/ssr && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "ssr-${SSR_PORT}" dist/ssr/server/main.js )
+        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/main.js )
     fi
 }
 
 function start_ssr_pwa_unix {
-     if [ -z "$SSR_PWA_PORT" ]; then
-        echo "Skipping ssr (with pwa support) app start"
+     if [ -z "${SSR_PWA_PORT}" ]; then
+        echo "Skipping ssr (with pwa support) app start (no port defined)"
     else
-        prestart_ssr_pwa
+        build_ssr_pwa
         printh "Starting ssr app (with pwa support)"
-        ( cd ${INSTALLATION_DIR}/ssr-pwa && export PORT=${SSR_PWA_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "ssr-pwa-${SSR_PWA_PORT}" dist/ssr/server/main.js )
+        ( cd ${INSTALLATION_DIR}/${SSR_PWA_APP_NAME} && export PORT=${SSR_PWA_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "${SSR_PWA_APP_NAME}-${SSR_PWA_PORT}" dist/${SSR_PWA_APP_NAME}/server/main.js )
     fi
 }
 
 function start_windows_apps {
-    prestart_csr
-    concurrently "serve ${INSTALLATION_DIR}/csr/dist/csr --single -p ${CSR_PORT}" --names "csr"
+    build_csr
+    concurrently "serve ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/csr --single -p ${CSR_PORT}" --names "${CSR_APP_NAME}-{CSR_PORT}}"
 }
 
 function start_apps {
-    if [[ "$OSTYPE" == "cygwin" ]]; then
+    if [[ "${OSTYPE}" == "cygwin" ]]; then
         start_windows_apps
-    elif [[ "$OSTYPE" == "msys" ]]; then
+    elif [[ "${OSTYPE}" == "msys" ]]; then
         start_windows_apps
-    elif [[ "$OSTYPE" == "win32" ]]; then
+    elif [[ "${OSTYPE}" == "win32" ]]; then
         start_windows_apps
     else
         start_csr_unix
@@ -292,17 +283,17 @@ function start_apps {
 }
 
 function stop_apps {
-    pm2 stop "csr-${CSR_PORT}"
-    pm2 stop "ssr-${SSR_PORT}"
-    pm2 stop "ssr-pwa-${SSR_PORT}"
+    pm2 stop "${CSR_APP_NAME}-${CSR_PORT}"
+    pm2 stop "${SSR_APP_NAME}-${SSR_PORT}"
+    pm2 stop "${SSR_PWA_APP_NAME}-${SSR_PORT}"
 }
 
 function run_e2e_tests {
     printh "Running e2e tests on app"
-    pushd $E2E_TEST_DIR > /dev/null
+    pushd ${E2E_TEST_DIR} > /dev/null
     yarn
     popd > /dev/null
-    pushd $CLONE_DIR > /dev/null
+    pushd ${CLONE_DIR} > /dev/null
     yarn e2e:cy:run
     popd > /dev/null
 }
@@ -310,43 +301,65 @@ function run_e2e_tests {
 function cmd_help {
     echo "Usage: run [command]"
     echo "Available commands are:"
-    echo " install"
-    echo " install_npm"
+    echo " install (from sources)"
+    echo " install_npm (from latest npm packages)"
     echo " start"
     echo " stop"
     echo " e2e"
     echo " help"
 }
 
-if [ -z "$1" ]; then
+if [ -z "${1}" ]; then
     cmd_help
     exit 1
 fi
 
-readonly commands="$1"
+readonly commands="${1}"
 
 echo "Loading configs from ./config.default.sh"
-    . ./config.default.sh
+. ./config.default.sh
+
 if [ -f "./config.sh" ]; then
-    echo "Loading configs from ./config.sh"
+    echo "Custom config file ./config.sh found. Loading configurations (overriding vars from the default config)."
     . ./config.sh
 fi
 
-# top directory for the installation output (must be outside of the project)
-if [ -z $BASE_DIR ]; then
-    BASE_DIR="../../../spartacus-${SPARTACUS_VERSION}"
+if [[ -z ${SPARTACUS_VERSION} ]]; then
+    SPARTACUS_VERSION="latest"
 fi
-CLONE_DIR="$BASE_DIR/$CLONE_DIR"
-INSTALLATION_DIR="$BASE_DIR/$INSTALLATION_DIR"
-E2E_TEST_DIR="$BASE_DIR/$E2E_TEST_DIR"
 
-for current_command in $(echo "$commands" | tr "+" "\n"); do
+if [[ -z ${BRANCH} ]]; then
+    BRANCH="develop"
+fi
 
-    case "$current_command" in
+if [[ -z ${CSR_APP_NAME} ]]; then
+    CSR_APP_NAME="csr"
+fi
+
+if [[ -z ${SSR_APP_NAME} ]]; then
+    SSR_APP_NAME="ssr"
+fi
+
+if [[ -z ${SSR_PWA_APP_NAME} ]]; then
+    SSR_PWA_APP_NAME="ssr-pwa"
+fi
+
+# top directory for the installation (must be outside of the main project)
+if [ -z ${BASE_DIR} ]; then
+    BASE_DIR="../../../spartacus-${SPARTACUS_VERSION}"
+    echo "Setting base directory to ${BASE_DIR}"
+fi
+CLONE_DIR="${BASE_DIR}/${CLONE_DIR}"
+INSTALLATION_DIR="${BASE_DIR}/${INSTALLATION_DIR}"
+E2E_TEST_DIR="${BASE_DIR}/${E2E_TEST_DIR}"
+
+for current_command in $(echo "${commands}" | tr "+" "\n"); do
+
+    case "${current_command}" in
         'install' )
-            local_install;;
+            install_from_sources;;
         'install_npm' )
-            npm_install;;
+            install_from_npm;;
         'start' )
             start_apps;;
         'stop' )
@@ -356,7 +369,7 @@ for current_command in $(echo "$commands" | tr "+" "\n"); do
         'e2e' )
             run_e2e_tests;;
         * )
-            echo "Error: unknown command $current_command"
+            echo "Error: unknown command ${current_command}"
             cmd_help
             exit 1;;
     esac

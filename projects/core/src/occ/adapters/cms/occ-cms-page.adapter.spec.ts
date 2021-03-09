@@ -148,8 +148,8 @@ describe('OccCmsPageAdapter', () => {
     it('should get cms page by pageId if there is no PageType', () => {
       spyOn(endpointsService, 'getUrl');
       service.load(contextWithoutType);
-      expect(endpointsService.getUrl).toHaveBeenCalledWith('page', undefined, {
-        code: contextWithoutType.id,
+      expect(endpointsService.getUrl).toHaveBeenCalledWith('page', {
+        id: contextWithoutType.id,
       });
     });
   });

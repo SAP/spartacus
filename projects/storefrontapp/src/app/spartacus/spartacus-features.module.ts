@@ -1,5 +1,21 @@
 import { NgModule } from '@angular/core';
 import {
+  AnonymousConsentsModule,
+  AsmOccModule,
+  AuthModule,
+  CartModule,
+  CartOccModule,
+  CheckoutModule,
+  CheckoutOccModule,
+  CostCenterOccModule,
+  ExternalRoutesModule,
+  ProductModule,
+  ProductOccModule,
+  UserModule,
+  UserOccModule,
+} from '@spartacus/core';
+
+import {
   AddressBookModule,
   AnonymousConsentManagementBannerModule,
   AnonymousConsentsDialogModule,
@@ -17,10 +33,12 @@ import {
   FooterNavigationModule,
   ForgotPasswordModule,
   HamburgerMenuModule,
+  HomePageEventModule,
   JsonLdBuilderModule,
   LinkModule,
   MyCouponsModule,
   MyInterestsModule,
+  NavigationEventModule,
   NavigationModule,
   NotificationPreferenceModule,
   OrderCancellationModule,
@@ -58,35 +76,27 @@ import {
   UserComponentModule,
   WishListModule,
 } from '@spartacus/storefront';
-import {
-  AnonymousConsentsModule,
-  AsmOccModule,
-  AuthModule,
-  CartModule,
-  CartOccModule,
-  CheckoutModule,
-  CheckoutOccModule,
-  CostCenterOccModule,
-  ExternalRoutesModule,
-  PersonalizationModule,
-  ProductModule,
-  ProductOccModule,
-  SmartEditModule,
-  UserModule,
-  UserOccModule,
-} from '@spartacus/core';
-import { StorefinderFeatureModule } from './features/storefinder-feature.module';
+
 import { AdministrationFeatureModule } from './features/administration-feature.module';
-import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { environment } from '../../environments/environment';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
+import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
+import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
+import { SmartEditFeatureModule } from './features/smartedit-feature.module';
+import { StorefinderFeatureModule } from './features/storefinder-feature.module';
+import { TrackingFeatureModule } from './features/tracking-feature.module';
+import { VariantsFeatureModule } from './features/variants-feature.module';
 
 const featureModules = [];
 
 if (environment.b2b) {
-  featureModules.push(AdministrationFeatureModule, OrderApprovalFeatureModule);
+  featureModules.push(
+    AdministrationFeatureModule,
+    OrderApprovalFeatureModule,
+    BulkPricingFeatureModule
+  );
 }
 if (environment.cdc) {
   featureModules.push(CdcFeatureModule);
@@ -182,17 +192,14 @@ if (environment.cds) {
     ReplenishmentOrderDetailsModule,
     ReplenishmentOrderConfirmationModule,
 
-    // SmartEdit
-    SmartEditModule.forRoot(),
-    // Personalization
-    PersonalizationModule.forRoot(),
-
     // Asm Core
     AsmOccModule,
     // Asm UI
     AsmModule,
 
     // Page Events
+    NavigationEventModule,
+    HomePageEventModule,
     CartPageEventModule,
     PageEventModule,
     ProductPageEventModule,
@@ -206,6 +213,9 @@ if (environment.cds) {
 
     StorefinderFeatureModule,
     QualtricsFeatureModule,
+    SmartEditFeatureModule,
+    TrackingFeatureModule,
+    VariantsFeatureModule,
     ...featureModules,
   ],
 })

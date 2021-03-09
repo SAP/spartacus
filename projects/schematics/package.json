@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/schematics",
-  "version": "3.1.0-next.0",
+  "version": "3.2.0-next.1",
   "description": "Spartacus schematics",
   "keywords": [
     "spartacus",
@@ -17,7 +17,6 @@
     "test": "yarn clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
-    "@angular/localize": "^10.1.0",
     "@angular/pwa": "^0.1001.0",
     "@nguniversal/express-engine": "^10.1.0",
     "tslib": "^2.0.0"
@@ -28,7 +27,6 @@
     "@angular/compiler": "^10.1.0",
     "@schematics/angular": "^10.1.0",
     "parse5": "^6.0.1",
-    "rxjs": "^6.6.0",
     "typescript": "~4.0.2"
   },
   "ng-add": {
@@ -46,8 +44,10 @@
       "@spartacus/organization",
       "@spartacus/product",
       "@spartacus/storefinder",
+      "@spartacus/smartedit",
       "@spartacus/qualtrics",
       "@spartacus/cdc",
+      "@spartacus/tracking",
       "@spartacus/setup"
     ]
   },

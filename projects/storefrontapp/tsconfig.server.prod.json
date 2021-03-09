@@ -52,10 +52,29 @@
       "@spartacus/product-configurator/textfield/root": [
         "../../dist/product-configurator/textfield/root"
       ],
+      "@spartacus/product/bulk-pricing/assets": [
+        "../../dist/product/bulk-pricing/assets"
+      ],
+      "@spartacus/product/bulk-pricing/components": [
+        "../../dist/product/bulk-pricing/components"
+      ],
+      "@spartacus/product/bulk-pricing/core": [
+        "../../dist/product/bulk-pricing/core"
+      ],
+      "@spartacus/product/bulk-pricing": ["../../dist/product/bulk-pricing"],
+      "@spartacus/product/bulk-pricing/occ": [
+        "../../dist/product/bulk-pricing/occ"
+      ],
+      "@spartacus/product/bulk-pricing/root": [
+        "../../dist/product/bulk-pricing/root"
+      ],
       "@spartacus/product": ["../../dist/product"],
       "@spartacus/qualtrics/components": ["../../dist/qualtrics/components"],
       "@spartacus/qualtrics": ["../../dist/qualtrics"],
       "@spartacus/qualtrics/root": ["../../dist/qualtrics/root"],
+      "@spartacus/smartedit/core": ["../../dist/smartedit/core"],
+      "@spartacus/smartedit": ["../../dist/smartedit"],
+      "@spartacus/smartedit/root": ["../../dist/smartedit/root"],
       "@spartacus/storefinder/assets": ["../../dist/storefinder/assets"],
       "@spartacus/storefinder/components": [
         "../../dist/storefinder/components"
@@ -64,14 +83,35 @@
       "@spartacus/storefinder": ["../../dist/storefinder"],
       "@spartacus/storefinder/occ": ["../../dist/storefinder/occ"],
       "@spartacus/storefinder/root": ["../../dist/storefinder/root"],
+      "@spartacus/tracking": ["../../dist/tracking"],
+      "@spartacus/tracking/personalization/core": [
+        "../../dist/tracking/personalization/core"
+      ],
+      "@spartacus/tracking/personalization": [
+        "../../dist/tracking/personalization"
+      ],
+      "@spartacus/tracking/personalization/root": [
+        "../../dist/tracking/personalization/root"
+      ],
+      "@spartacus/tracking/tms/aep": ["../../dist/tracking/tms/aep"],
+      "@spartacus/tracking/tms/core": ["../../dist/tracking/tms/core"],
+      "@spartacus/tracking/tms/gtm": ["../../dist/tracking/tms/gtm"],
+      "@spartacus/tracking/tms": ["../../dist/tracking/tms"],
       "@spartacus/cdc": ["../../dist/cdc"],
       "@spartacus/cds": ["../../dist/cds"],
       "@spartacus/assets": ["../../dist/assets"],
       "@spartacus/core": ["../../dist/core"],
       "@spartacus/incubator": ["../../dist/incubator"],
       "@spartacus/storefront": ["../../dist/storefrontlib"],
-      "@spartacus/vendor": ["../../dist/vendor"],
-
+      "@spartacus/product/variants": ["../../dist/product/variants"],
+      "@spartacus/product/variants/assets": [
+        "../../dist/product/variants/assets"
+      ],
+      "@spartacus/product/variants/components": [
+        "../../dist/product/variants/components"
+      ],
+      "@spartacus/product/variants/occ": ["../../dist/product/variants/occ"],
+      "@spartacus/product/variants/root": ["../../dist/product/variants/root"],
       "@spartacus/product/multi-d": ["../../dist/product/multi-d"],
       "@spartacus/product/multi-d/components": [
         "../../dist/product/multi-d/components"

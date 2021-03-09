@@ -4,6 +4,7 @@ import {
   Address,
   ADDRESS_LIST_NORMALIZER,
   ADDRESS_NORMALIZER,
+  ADDRESS_SERIALIZER,
   B2BApprovalProcess,
   B2BUnit,
   B2BUser,
@@ -19,6 +20,7 @@ import {
   B2BUNIT_NODE_LIST_NORMALIZER,
   B2BUNIT_NODE_NORMALIZER,
   B2BUNIT_NORMALIZER,
+  B2BUNIT_SERIALIZER,
   B2B_USERS_NORMALIZER,
   OrgUnitAdapter,
 } from '@spartacus/organization/administration/core';
@@ -49,6 +51,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     orgUnitId: string,
     orgUnit: B2BUnit
   ): Observable<B2BUnit> {
+    orgUnit = this.converter.convert(orgUnit, B2BUNIT_SERIALIZER);
     return this.http
       .patch<Occ.B2BUnit>(this.getOrgUnitEndpoint(userId, orgUnitId), orgUnit)
       .pipe(this.converter.pipeable(B2BUNIT_NORMALIZER));
@@ -145,6 +148,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     orgUnitId: string,
     address: Address
   ): Observable<Address> {
+    address = this.converter.convert(address, ADDRESS_SERIALIZER);
     return this.http
       .post<Occ.Address>(this.getAddressesEndpoint(userId, orgUnitId), address)
       .pipe(this.converter.pipeable(ADDRESS_NORMALIZER));
@@ -156,6 +160,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     addressId: string,
     address: Address
   ): Observable<Address> {
+    address = this.converter.convert(address, ADDRESS_SERIALIZER);
     return this.http
       .patch<Occ.Address>(
         this.getAddressEndpoint(userId, orgUnitId, addressId),

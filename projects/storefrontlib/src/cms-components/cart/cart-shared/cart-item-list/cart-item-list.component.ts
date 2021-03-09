@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartService,
   ConsignmentEntry,
+  FeatureConfigService,
   OrderEntry,
   PromotionLocation,
   SelectiveCartService,
@@ -27,12 +28,11 @@ export class CartItemListComponent {
   };
 
   private _items: OrderEntry[] = [];
-  form: FormGroup;
+  form: FormGroup = this.featureConfigService?.isLevel('3.1')
+    ? new FormGroup({})
+    : undefined;
 
   @Input('items')
-  // TODO: currently we're getting a new array of items if the cart changes.
-  // pretty annoying as it forces a repaint on the screen,
-  // which is noticable in the UI.
   set items(items: OrderEntry[]) {
     this.resolveItems(items);
     this.createForm();
@@ -55,7 +55,8 @@ export class CartItemListComponent {
 
   constructor(
     protected activeCartService: ActiveCartService,
-    protected selectiveCartService: SelectiveCartService
+    protected selectiveCartService: SelectiveCartService,
+    public featureConfigService?: FeatureConfigService
   ) {}
 
   /**
@@ -78,12 +79,26 @@ export class CartItemListComponent {
         return entry;
       });
     } else {
-      this._items = items;
+      // We'd like to avoid the unnecessary re-renders of unchanged cart items after the data reload.
+      // OCC cart entries don't have any unique identifier that we could use in Angular `trackBy`.
+      // So we update each array element to the new object only when it's any different to the previous one.
+      if (this.featureConfigService?.isLevel('3.1')) {
+        for (let i = 0; i < items.length; i++) {
+          if (JSON.stringify(this._items?.[i]) !== JSON.stringify(items[i])) {
+            this._items[i] = items[i];
+          }
+        }
+      } else {
+        this._items = items;
+      }
     }
   }
 
   private createForm(): void {
-    this.form = new FormGroup({});
+    if (!this.featureConfigService?.isLevel('3.1')) {
+      this.form = new FormGroup({});
+    }
+
     this._items.forEach((item) => {
       const controlName = this.getControlName(item);
       const group = new FormGroup({
@@ -112,7 +127,7 @@ export class CartItemListComponent {
 
   getControl(item: OrderEntry): Observable<FormGroup> {
     return this.form.get(this.getControlName(item)).valueChanges.pipe(
-      // tslint:disable-next-line:deprecation
+      // eslint-disable-next-line import/no-deprecated
       startWith(null),
       map((value) => {
         if (value && this.selectiveCartService && this.options.isSaveForLater) {

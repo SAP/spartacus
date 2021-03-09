@@ -46,7 +46,7 @@ class MockCmsService {
 }
 
 class MockDynamicAttributeService {
-  addDynamicAttributes() {}
+  addAttributesToSlot() {}
 }
 
 @Component({
@@ -340,20 +340,18 @@ describe('PageSlotComponent', () => {
 
   describe('SmartEdit integration', () => {
     it('should add page slot contract', () => {
-      spyOn(dynamicAttributeService, 'addDynamicAttributes').and.callThrough();
+      spyOn(dynamicAttributeService, 'addAttributesToSlot').and.callThrough();
 
       fixture.detectChanges();
 
       const native = fixture.debugElement.nativeElement;
-      expect(dynamicAttributeService.addDynamicAttributes).toHaveBeenCalledWith(
+      expect(dynamicAttributeService.addAttributesToSlot).toHaveBeenCalledWith(
         native,
         renderer,
         {
-          slotData: {
-            properties: {
-              smartedit: {
-                test: 'test',
-              },
+          properties: {
+            smartedit: {
+              test: 'test',
             },
           },
         }

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { ActiveCartService } from '@spartacus/core';
+import { ActiveCartService, UserIdService } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { filter, map, switchMapTo, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../state/actions/index';
 import { StateWithConfigurationTextfield } from '../state/configuration-textfield-state';
@@ -19,7 +19,8 @@ export class ConfiguratorTextfieldService {
   constructor(
     protected store: Store<StateWithConfigurationTextfield>,
     protected activeCartService: ActiveCartService,
-    protected configuratorUtils: CommonConfiguratorUtilsService
+    protected configuratorUtils: CommonConfiguratorUtilsService,
+    protected userIdService: UserIdService
   ) {}
 
   /**
@@ -92,16 +93,21 @@ export class ConfiguratorTextfieldService {
       .requireLoadedCart()
       .pipe(take(1))
       .subscribe((cartState) => {
-        const addToCartParameters: ConfiguratorTextfield.AddToCartParameters = {
-          userId: this.configuratorUtils.getUserId(cartState.value),
-          cartId: this.configuratorUtils.getCartId(cartState.value),
-          productCode: productCode,
-          configuration: configuration,
-          quantity: 1,
-        };
-        this.store.dispatch(
-          new ConfiguratorTextfieldActions.AddToCart(addToCartParameters)
-        );
+        this.userIdService
+          .getUserId()
+          .pipe(take(1))
+          .subscribe((userId) => {
+            const addToCartParameters: ConfiguratorTextfield.AddToCartParameters = {
+              userId: userId,
+              cartId: this.configuratorUtils.getCartId(cartState.value),
+              productCode: productCode,
+              configuration: configuration,
+              quantity: 1,
+            };
+            this.store.dispatch(
+              new ConfiguratorTextfieldActions.AddToCart(addToCartParameters)
+            );
+          });
       });
   }
 
@@ -119,17 +125,22 @@ export class ConfiguratorTextfieldService {
       .requireLoadedCart()
       .pipe(take(1))
       .subscribe((cartState) => {
-        const updateCartParameters: ConfiguratorTextfield.UpdateCartEntryParameters = {
-          userId: this.configuratorUtils.getUserId(cartState.value),
-          cartId: this.configuratorUtils.getCartId(cartState.value),
-          cartEntryNumber: cartEntryNumber,
-          configuration: configuration,
-        };
-        this.store.dispatch(
-          new ConfiguratorTextfieldActions.UpdateCartEntryConfiguration(
-            updateCartParameters
-          )
-        );
+        this.userIdService
+          .getUserId()
+          .pipe(take(1))
+          .subscribe((userId) => {
+            const updateCartParameters: ConfiguratorTextfield.UpdateCartEntryParameters = {
+              userId: userId,
+              cartId: this.configuratorUtils.getCartId(cartState.value),
+              cartEntryNumber: cartEntryNumber,
+              configuration: configuration,
+            };
+            this.store.dispatch(
+              new ConfiguratorTextfieldActions.UpdateCartEntryConfiguration(
+                updateCartParameters
+              )
+            );
+          });
       });
   }
 
@@ -144,25 +155,37 @@ export class ConfiguratorTextfieldService {
     owner: CommonConfigurator.Owner
   ): Observable<ConfiguratorTextfield.Configuration> {
     return this.activeCartService.requireLoadedCart().pipe(
-      map((cartState) => ({
-        userId: this.configuratorUtils.getUserId(cartState.value),
-        cartId: this.configuratorUtils.getCartId(cartState.value),
-        cartEntryNumber: owner.id,
-        owner: owner,
-      })),
-      tap((readFromCartEntryParameters) =>
-        this.store.dispatch(
-          new ConfiguratorTextfieldActions.ReadCartEntryConfiguration(
-            readFromCartEntryParameters
+      switchMap((cartState) =>
+        this.userIdService
+          .getUserId()
+          .pipe(
+            take(1),
+            map((userId) => ({ cartState, userId: userId }))
           )
-        )
-      ),
-      switchMapTo(
-        this.store.pipe(
-          select(ConfiguratorTextFieldSelectors.getConfigurationContent)
-        )
-      ),
-      filter((configuration) => !this.isConfigurationInitial(configuration))
+          .pipe(
+            map((cont) => ({
+              userId: cont.userId,
+              cartId: this.configuratorUtils.getCartId(cont.cartState.value),
+              cartEntryNumber: owner.id,
+              owner: owner,
+            })),
+            tap((readFromCartEntryParameters) =>
+              this.store.dispatch(
+                new ConfiguratorTextfieldActions.ReadCartEntryConfiguration(
+                  readFromCartEntryParameters
+                )
+              )
+            ),
+            switchMapTo(
+              this.store.pipe(
+                select(ConfiguratorTextFieldSelectors.getConfigurationContent)
+              )
+            ),
+            filter(
+              (configuration) => !this.isConfigurationInitial(configuration)
+            )
+          )
+      )
     );
   }
 
