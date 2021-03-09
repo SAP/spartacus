@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Converter, TranslationService } from '@spartacus/core';
+import { take } from 'rxjs/operators';
 import { Configurator } from '../core/model/configurator.model';
 import { CpqConfiguratorUtilitiesService } from './cpq-configurator-utilities.service';
 import { Cpq } from './cpq.models';
-import { take } from 'rxjs/operators';
 
 const NO_OPTION_SELECTED = 0;
 
@@ -152,6 +152,12 @@ export class CpqConfiguratorOverviewNormalizer
   }
 
   protected calculateTotalNumberOfIssues(source: Cpq.Configuration): number {
-    return source.incompleteAttributes.length + source.numberOfConflicts;
+    let numberOfIssues: number =
+      source.incompleteAttributes?.length +
+      source.incompleteMessages?.length +
+      source.invalidMessages?.length +
+      source.failedValidations?.length +
+      source.errorMessages?.length;
+    return numberOfIssues;
   }
 }

@@ -121,12 +121,7 @@ const TEST_ATTR_NAME = 'testattr';
 
 const cpqConfiguration: Cpq.Configuration = {
   productSystemId: cpqProductSystemId,
-  incompleteMessages: [],
   incompleteAttributes: [],
-  invalidMessages: [],
-  failedValidations: [],
-  errorMessages: [],
-  conflictMessages: [],
   numberOfConflicts: 0,
   tabs: [cpqTab, cpqTab2],
   attributes: [cpqAttribute],
@@ -143,7 +138,7 @@ const INCOMPLETE_ATTR_1 = 'Attribute1';
 const INCOMPLETE_ATTR_2 = 'Attribute2';
 const INCOMPLETE_MSG = 'incomplete message';
 const cpqConfigurationIncompleteInconsistent: Cpq.Configuration = {
-  productSystemId: cpqProductSystemId,
+  ...cpqConfiguration,
   incompleteMessages: [INCOMPLETE_MSG],
   incompleteAttributes: [INCOMPLETE_ATTR_1, INCOMPLETE_ATTR_2],
   invalidMessages: [INVALID_MSG],
@@ -151,21 +146,12 @@ const cpqConfigurationIncompleteInconsistent: Cpq.Configuration = {
   errorMessages: [ERROR_MSG],
   conflictMessages: [CONFLICT_MSG],
   numberOfConflicts: 1,
-  tabs: [],
-  attributes: [],
 };
 
 const cpqConfigurationIncompleteConsistent: Cpq.Configuration = {
-  productSystemId: cpqProductSystemId,
-  incompleteMessages: [],
+  ...cpqConfiguration,
   incompleteAttributes: [TEST_ATTR_NAME],
-  invalidMessages: [],
-  failedValidations: [],
-  errorMessages: [],
-  conflictMessages: [],
   numberOfConflicts: 0,
-  tabs: [],
-  attributes: [],
 };
 
 class MockLanguageService {

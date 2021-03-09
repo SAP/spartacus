@@ -60,11 +60,11 @@ export class CpqConfiguratorNormalizer
 
   generateTotaltotalNumberOfIssues(source: Cpq.Configuration): number {
     let numberOfIssues: number =
-      source.incompleteAttributes.length +
-      source.incompleteMessages.length +
-      source.invalidMessages.length +
-      source.failedValidations.length +
-      source.errorMessages.length;
+      source.incompleteAttributes?.length +
+      source.incompleteMessages?.length +
+      source.invalidMessages?.length +
+      source.failedValidations?.length +
+      source.errorMessages?.length;
     return numberOfIssues;
   }
 
