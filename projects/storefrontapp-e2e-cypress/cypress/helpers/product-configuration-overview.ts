@@ -83,7 +83,7 @@ export function checkNotificationBannerOnOP(
   numberOfIssues?: number
 ): void {
   const resolveIssuesText =
-    ' must be resolved before checkout.  Resolve Issues';
+    ' issues must be resolved before checkout.  Resolve Issues';
   element
     .get('.cx-error-msg')
     .first()

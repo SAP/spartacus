@@ -9,6 +9,7 @@ import {
 } from './checkout-forms';
 import { navigation } from './navigation';
 import Chainable = Cypress.Chainable;
+import * as globalMessage from './global-message';
 
 const shippingAddressData: AddressData = user;
 const billingAddress: AddressData = user;
@@ -570,7 +571,12 @@ export function selectAttribute(
     case 'checkBoxListProduct':
       const btnLoc = `#${valueId} .cx-product-card-action button`;
       cy.get(btnLoc).then((el) => cy.log(`text before click: '${el.text()}'`));
-      cy.get(btnLoc).click({ force: true });
+      cy.get(btnLoc)
+        .click({ force: true })
+        .then(() => {
+          checkUpdatingMessageNotDisplayed();
+          checkValueSelected(uiType, attributeName, valueName);
+        });
       break;
     default:
       throw new AssertionError({
@@ -1325,4 +1331,24 @@ export function login(email: string, password: string, name: string): void {
  */
 export function waitForProductCardsLoad(expectedLength: number) {
   cy.get('.cx-product-card').should('have.length', expectedLength);
+}
+/**
+ * Check for global error message to be shown
+ */
+export function checkGlobalErrorMessageShown() {
+  globalMessage.getErrorAlert().should('be.visible');
+}
+
+/**
+ * Check for global warning message to be shown
+ */
+export function checkWarningMessageShown() {
+  globalMessage.getAlert().should('be.visible');
+}
+
+/**
+ * Close global error messages
+ */
+export function closeErrorMessages() {
+  cy.get('.alert-danger .close').click({ multiple: true });
 }
