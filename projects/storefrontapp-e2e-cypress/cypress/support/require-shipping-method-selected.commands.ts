@@ -4,20 +4,21 @@ declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Make sure you have shipping method selected. Returns shipping method object.
+       * Selects a default shipping method for the current cart of the current user.
+       * Returns shipping method object.
        *
        * @memberof Cypress.Chainable
        *
        * @example
         ```
-        cy.requireShippingMethodSelected(auth);
+        cy.requireShippingMethodSelected(token);
         ```
        */
-      requireShippingMethodSelected: (auth: {}) => Cypress.Chainable<{}>;
+      requireShippingMethodSelected: (token: {}) => Cypress.Chainable<{}>;
     }
   }
 }
-Cypress.Commands.add('requireShippingMethodSelected', (auth) => {
+Cypress.Commands.add('requireShippingMethodSelected', (token) => {
   function setShippingMethod() {
     return cy.request({
       method: 'PUT',
@@ -30,11 +31,10 @@ Cypress.Commands.add('requireShippingMethodSelected', (auth) => {
       }`,
       form: false,
       headers: {
-        Authorization: `bearer ${auth.access_token}`,
+        Authorization: `bearer ${token.access_token}`,
       },
     });
   }
 
-  cy.server();
   setShippingMethod().then((resp) => cy.wrap(resp));
 });

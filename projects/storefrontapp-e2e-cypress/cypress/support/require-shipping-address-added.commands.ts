@@ -4,24 +4,29 @@ declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Make sure you have shipping address added. Returns address object.
+       * Adds a shipping address to the current cart of the current user
+       * Returns address object.
        *
        * @memberof Cypress.Chainable
        *
        * @example
         ```
-        cy.requireShippingAddressAdded(auth, address);
+        cy.requireShippingAddressAdded(token, address);
         ```
        */
       requireShippingAddressAdded: (
         address: {},
-        auth: {}
+        token: {}
       ) => Cypress.Chainable<{}>;
     }
   }
 }
 
-Cypress.Commands.add('requireShippingAddressAdded', (address, auth) => {
+Cypress.Commands.add('requireShippingAddressAdded', (address, token) => {
+  Cypress.log({
+    displayName: 'requireShippingAddressAdded',
+    message: [`Adding shipping address with token ${token.access_token}`],
+  });
   // format the request body
   const _address = {
     ...address,
@@ -48,11 +53,10 @@ Cypress.Commands.add('requireShippingAddressAdded', (address, auth) => {
       body: _address,
       form: false,
       headers: {
-        Authorization: `bearer ${auth.access_token}`,
+        Authorization: `bearer ${token.access_token}`,
       },
     });
   }
 
-  cy.server();
   addAddress().then((resp) => cy.wrap(resp));
 });

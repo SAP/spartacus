@@ -4,26 +4,20 @@ describe('Cart Coupon', () => {
   beforeEach(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     cy.requireLoggedIn();
-    cy.visit('/');
+
+    // Go to PDP directly and wait for product details
+    cartCoupon.registerProductDetailsRoute(cartCoupon.productCode1);
+    cy.visit(`/product/${cartCoupon.productCode1}`);
+    cy.wait('@product_details');
   });
 
-  it('should show the promotion for cart, discount in price and success message when applied a coupon with cart total action successfully.', () => {
-    const stateAuth = JSON.parse(localStorage.getItem('spartacus-local-data'))
-      .auth;
+  it.only('should show the promotion for cart, discount in price and success message when applied a coupon with cart total action successfully.', () => {
+    const stateAuth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
+    //TODO products can be added to cart asynchronously
     cartCoupon.addProductToCart(cartCoupon.productCode1);
     cartCoupon.applyCoupon(cartCoupon.couponCode1);
-    cartCoupon.verifyCouponAndPromotion(
-      cartCoupon.couponCode1,
-      '$104.12',
-      '$10'
-    );
-    cartCoupon.placeOrder(stateAuth).then((orderData) => {
-      cartCoupon.verifyOrderHistory(
-        orderData,
-        cartCoupon.couponCode1,
-        '$104.12',
-        '$10'
-      );
+    cartCoupon.placeOrder(stateAuth.token).then((orderData) => {
+      cartCoupon.verifyOrderHistory(orderData, cartCoupon.couponCode1);
     });
   });
 

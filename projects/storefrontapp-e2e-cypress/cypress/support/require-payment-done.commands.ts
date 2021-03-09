@@ -4,7 +4,8 @@ declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Make sure you have payment done. Returns payment object.
+       * Adds a payment method to the current cart of the current user.
+       * Returns payment method object.
        *
        * @memberof Cypress.Chainable
        *
@@ -13,11 +14,11 @@ declare global {
         cy.requirePaymentDone(auth);
         ```
        */
-      requirePaymentDone: (auth: {}) => Cypress.Chainable<{}>;
+      requirePaymentDone: (token: {}) => Cypress.Chainable<{}>;
     }
   }
 }
-Cypress.Commands.add('requirePaymentDone', (auth) => {
+Cypress.Commands.add('requirePaymentDone', (token) => {
   function getResponseUrl() {
     return cy.request({
       method: 'GET',
@@ -28,7 +29,7 @@ Cypress.Commands.add('requirePaymentDone', (auth) => {
       )}/users/current/carts/current/payment/sop/request?responseUrl=sampleUrl`,
       form: false,
       headers: {
-        Authorization: `bearer ${auth.access_token}`,
+        Authorization: `bearer ${token.access_token}`,
       },
     });
   }
@@ -41,7 +42,7 @@ Cypress.Commands.add('requirePaymentDone', (auth) => {
       body: data,
       form: true,
       headers: {
-        Authorization: `bearer ${auth.access_token}`,
+        Authorization: `bearer ${token.access_token}`,
       },
     });
   }
@@ -66,7 +67,7 @@ Cypress.Commands.add('requirePaymentDone', (auth) => {
       body: data,
       form: true,
       headers: {
-        Authorization: `bearer ${auth.access_token}`,
+        Authorization: `bearer ${token.access_token}`,
       },
     });
   }
@@ -88,8 +89,6 @@ Cypress.Commands.add('requirePaymentDone', (auth) => {
     data.card_cvNumber = user.payment.cvv;
     return data;
   }
-
-  cy.server();
 
   getResponseUrl().then((resp) => {
     doVerification(convertToMap(resp.body.parameters.entry)).then((respV) => {
