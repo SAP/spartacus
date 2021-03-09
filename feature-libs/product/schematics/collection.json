@@ -13,6 +13,11 @@
       "factory": "./add-bulk-pricing/index#addBulkPricingFeatures",
       "description": "Add product base bulk pricing features",
       "aliases": ["bulkPricing"]
+    },
+    "add-variants": {
+      "factory": "./add-variants/index#addVariantsFeatures",
+      "description": "Add product base variants features",
+      "aliases": ["variants"]
     }
   }
 }
