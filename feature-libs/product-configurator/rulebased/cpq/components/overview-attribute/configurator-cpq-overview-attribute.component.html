@@ -1,11 +1,7 @@
 <ng-container *ngIf="product$ | async as product">
   <div class="cx-value-container">
-    <div
-      class="cx-thumbnail"
-      [ngClass]="{ empty: !getProductPrimaryImage(product) }"
-    >
+    <div class="cx-thumbnail">
       <cx-media
-        *ngIf="getProductPrimaryImage(product)"
         [container]="getProductPrimaryImage(product)"
         format="product"
       ></cx-media>
